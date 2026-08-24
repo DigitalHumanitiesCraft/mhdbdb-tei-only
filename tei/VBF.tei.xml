@@ -148,6 +148,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 6 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -2607,7 +2608,7 @@
         <supplied>
           <w xml:id="VBF_119102820_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
         </supplied>
-        <w xml:id="VBF_119102820_3">minne</w>
+        <w xml:id="VBF_119102820_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
         <w xml:id="VBF_119102820_4" lemmaRef="lexicon.xml#lemma_152" pos="ADV" ana="lexicon.xml#lemma_152_sense_187" corresp="variants.xml#type_378">also</w>
         <w xml:id="VBF_119102820_5" lemmaRef="lexicon.xml#lemma_7075" pos="ADJ ADV" ana="lexicon.xml#lemma_7075_sense_11459" corresp="variants.xml#type_25008">vil</w>
         <pc xml:id="VBF_119102820_6" join="left">,</pc>
@@ -5759,7 +5760,7 @@
         <w xml:id="VBF_119106450_1">guote</w>
         <w xml:id="VBF_119106450_2" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
         <w xml:id="VBF_119106450_3" lemmaRef="lexicon.xml#lemma_7469" pos="ADJ IPA" ana="lexicon.xml#lemma_7469_sense_12152" corresp="variants.xml#type_65332">welich</w>
-        <w xml:id="VBF_119106450_4">minne</w>
+        <w xml:id="VBF_119106450_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
       </l>
       <l n="646">
         <w xml:id="VBF_119106460_0" pos="">-</w>
@@ -6051,7 +6052,7 @@
       </l>
       <l n="680">
         <w xml:id="VBF_119106800_0">ir</w>
-        <w xml:id="VBF_119106800_1">minne</w>
+        <w xml:id="VBF_119106800_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
         <w xml:id="VBF_119106800_2">an</w>
         <w xml:id="VBF_119106800_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3504">dem</w>
         <w xml:id="VBF_119106800_4" lemmaRef="lexicon.xml#lemma_634" pos="NOM" corresp="variants.xml#type_1898">bette</w>
@@ -6141,7 +6142,7 @@
         <w xml:id="VBF_119106900_0" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
         <w xml:id="VBF_119106900_1">er</w>
         <w xml:id="VBF_119106900_2">sich</w>
-        <w xml:id="VBF_119106900_3">minne</w>
+        <w xml:id="VBF_119106900_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
         <w xml:id="VBF_119106900_4" lemmaRef="lexicon.xml#lemma_5423" pos="VRB" corresp="variants.xml#type_18904">gesat</w>
         <pc xml:id="VBF_119106900_5" join="left">,</pc>
       </l>
@@ -7655,7 +7656,7 @@
         <w xml:id="VBF_119108800_2">in</w>
         <w xml:id="VBF_119108800_3">furht</w>
         <w xml:id="VBF_119108800_4" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
-        <w xml:id="VBF_119108800_5">minne</w>
+        <w xml:id="VBF_119108800_5" lemmaRef="lexicon.xml#lemma_4133" pos="VRB" corresp="variants.xml#type_38651">minne</w>
         <pc xml:id="VBF_119108800_6" join="left">.</pc>
       </l>
       <l n="881">
@@ -7664,7 +7665,7 @@
         <supplied>
           <w xml:id="VBF_119108810_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
         </supplied>
-        <w xml:id="VBF_119108810_3">minne</w>
+        <w xml:id="VBF_119108810_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
         <w xml:id="VBF_119108810_4" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
         <w xml:id="VBF_119108810_5" lemmaRef="lexicon.xml#lemma_7075" pos="ADJ ADV" ana="lexicon.xml#lemma_7075_sense_11459" corresp="variants.xml#type_25008">vil</w>
         <pc xml:id="VBF_119108810_6" join="left">,</pc>

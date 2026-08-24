@@ -130,6 +130,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 4 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -250,7 +251,7 @@
           <w xml:id="DRE_14_1" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
           <w xml:id="DRE_14_2">ir</w>
           <w xml:id="DRE_14_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="DRE_14_4">minne</w>
+          <w xml:id="DRE_14_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="DRE_14_5" lemmaRef="lexicon.xml#lemma_4649" pos="VRB" corresp="variants.xml#type_36110">pflag</w>
           <pc xml:id="DRE_14_6" join="left">;</pc>
         </l>
@@ -1436,7 +1437,7 @@
           <w xml:id="DRE_148_1">im</w>
           <w xml:id="DRE_148_2">wirt</w>
           <w xml:id="DRE_148_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="DRE_148_4">minne</w>
+          <w xml:id="DRE_148_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="DRE_148_5" lemmaRef="lexicon.xml#lemma_7894" pos="NOM" corresp="variants.xml#type_28645">zol</w>
           <pc xml:id="DRE_148_6" join="left">.</pc>
         </l>
@@ -2076,7 +2077,7 @@
           <w xml:id="DRE_226_0" lemmaRef="lexicon.xml#lemma_1095" pos="PRP" ana="lexicon.xml#lemma_1095_sense_1739" corresp="variants.xml#type_3390">darzuo</w>
           <w xml:id="DRE_226_1" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
           <w xml:id="DRE_226_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="DRE_226_3">minne</w>
+          <w xml:id="DRE_226_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="DRE_226_4">spil</w>
           <pc xml:id="DRE_226_5" join="left">.</pc>
         </l>
@@ -4028,7 +4029,7 @@
           <w xml:id="DRE_448_0" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
           <w xml:id="DRE_448_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
           <w xml:id="DRE_448_2" lemmaRef="lexicon.xml#lemma_3373" pos="ADJ" corresp="variants.xml#type_11593">cluogen</w>
-          <w xml:id="DRE_448_3">minne</w>
+          <w xml:id="DRE_448_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="DRE_448_4">spil</w>
         </l>
         <l n="449">

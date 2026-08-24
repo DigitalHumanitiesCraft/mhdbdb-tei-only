@@ -142,6 +142,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 43 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/). 17 weitere Tokens der Form minne blieben bewusst unannotiert (Review).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -183,7 +184,7 @@
               <pc xml:id="MML_10104_5" join="left">.</pc>
             </l>
             <l n="5">
-              <w xml:id="MML_10105_0">minne</w>
+              <w xml:id="MML_10105_0" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="MML_10105_1">sol</w>
               <w xml:id="MML_10105_2">sin</w>
               <w xml:id="MML_10105_3" lemmaRef="lexicon.xml#lemma_6471" pos="ADJ ADV PRP" ana="lexicon.xml#lemma_6471_sense_10240" corresp="variants.xml#type_41740">undir</w>
@@ -261,7 +262,7 @@
               <w xml:id="MML_10112_0" lemmaRef="lexicon.xml#lemma_150" pos="ADV" corresp="variants.xml#type_372">alsam</w>
               <w xml:id="MML_10112_1" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
               <w xml:id="MML_10112_2">werde</w>
-              <w xml:id="MML_10112_3">minne</w>
+              <w xml:id="MML_10112_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="MML_10112_4">ir</w>
               <w xml:id="MML_10112_5" lemmaRef="lexicon.xml#lemma_7246" pos="NOM" ana="lexicon.xml#lemma_7246_sense_15237" corresp="variants.xml#type_254235">frundis</w>
               <w xml:id="MML_10112_6" lemmaRef="lexicon.xml#lemma_704" pos="NOM" corresp="variants.xml#type_2162">bilde</w>
@@ -288,13 +289,13 @@
               <w xml:id="MML_10114_8" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18956">ist</w>
               <w xml:id="MML_10114_9" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
               <w xml:id="MML_10114_10">werde</w>
-              <w xml:id="MML_10114_11">minne</w>
+              <w xml:id="MML_10114_11" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="MML_10114_12" lemmaRef="lexicon.xml#lemma_1912" pos="ADJ" ana="lexicon.xml#lemma_1912_sense_2937" corresp="variants.xml#type_6464">ganz</w>
               <pc xml:id="MML_10114_13" join="left">.</pc>
             </l>
             <l n="15">
               <hi rend="initial">
-                <w xml:id="MML_10115_0">minne</w>
+                <w xml:id="MML_10115_0" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               </hi>
               <w xml:id="MML_10115_1">leidit</w>
               <w xml:id="MML_10115_2" lemmaRef="lexicon.xml#lemma_6471" pos="ADJ ADV PRP" ana="lexicon.xml#lemma_6471_sense_10240" corresp="variants.xml#type_41740">undir</w>
@@ -307,7 +308,7 @@
             </l>
             <l n="16">
               <w xml:id="MML_10116_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-              <w xml:id="MML_10116_1">minne</w>
+              <w xml:id="MML_10116_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="MML_10116_2" lemmaRef="lexicon.xml#lemma_6171" pos="VRB" corresp="variants.xml#type_95105">dreit</w>
             </l>
             <l n="17">
@@ -338,7 +339,7 @@
               <pc xml:id="MML_10119_14" join="left">.</pc>
             </l>
             <l n="20">
-              <w xml:id="MML_10120_0">minne</w>
+              <w xml:id="MML_10120_0" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="MML_10120_1" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18956">ist</w>
               <w xml:id="MML_10120_2">ein</w>
               <w xml:id="MML_10120_3">er</w>
@@ -395,7 +396,7 @@
             <l n="5">
               <w xml:id="MML_10205_0" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
               <w xml:id="MML_10205_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-              <w xml:id="MML_10205_2">minne</w>
+              <w xml:id="MML_10205_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="MML_10205_3" lemmaRef="lexicon.xml#lemma_4360" pos="VRB" ana="lexicon.xml#lemma_4360_sense_6814" corresp="variants.xml#type_360172">genidirt</w>
               <w xml:id="MML_10205_4">wart</w>
               <pc xml:id="MML_10205_5" join="left">,</pc>
@@ -435,7 +436,7 @@
             <l n="9">
               <w xml:id="MML_10209_0">unde</w>
               <w xml:id="MML_10209_1" lemmaRef="lexicon.xml#lemma_6743" pos="ADJ" corresp="variants.xml#type_254483">falshir</w>
-              <w xml:id="MML_10209_2">minne</w>
+              <w xml:id="MML_10209_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="MML_10209_3" lemmaRef="lexicon.xml#lemma_6482" pos="NOM PRP" corresp="variants.xml#type_254484">undirsheit</w>
               <pc xml:id="MML_10209_4" join="left">,</pc>
             </l>
@@ -461,7 +462,7 @@
               <w xml:id="MML_10211_2" lemmaRef="lexicon.xml#lemma_2688" pos="VRB" corresp="variants.xml#type_254485">hebin</w>
               <w xml:id="MML_10211_3">an</w>
               <w xml:id="MML_10211_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-              <w xml:id="MML_10211_5">minne</w>
+              <w xml:id="MML_10211_5" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="MML_10211_6" lemmaRef="lexicon.xml#lemma_6631" pos="ADJ NEG" corresp="variants.xml#type_254486">unstetir</w>
               <w xml:id="MML_10211_7">muot</w>
               <pc xml:id="MML_10211_8" join="left">.</pc>
@@ -469,7 +470,7 @@
             <l n="12">
               <w xml:id="MML_10212_0">hei</w>
               <pc xml:id="MML_10212_1" join="left">,</pc>
-              <w xml:id="MML_10212_2">minne</w>
+              <w xml:id="MML_10212_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="MML_10212_3">unde</w>
               <w xml:id="MML_10212_4" lemmaRef="lexicon.xml#lemma_7536" pos="ADJ ADV" ana="lexicon.xml#lemma_7536_sense_12303" corresp="variants.xml#type_45844">wiblich</w>
               <w xml:id="MML_10212_5" lemmaRef="lexicon.xml#lemma_5226" pos="NOM" corresp="variants.xml#type_105290">shin</w>
@@ -509,7 +510,7 @@
               <w xml:id="MML_10215_3" lemmaRef="lexicon.xml#lemma_4432" pos="ADV CNJ" ana="lexicon.xml#lemma_4432_sense_6912" corresp="variants.xml#type_15444">nuo</w>
               <w xml:id="MML_10215_4" lemmaRef="lexicon.xml#lemma_3567" pos="VRB" corresp="variants.xml#type_12435">lat</w>
               <w xml:id="MML_10215_5" lemmaRef="lexicon.xml#lemma_6743" pos="NOM ADJ" corresp="variants.xml#type_254491">falshe</w>
-              <w xml:id="MML_10215_6">minne</w>
+              <w xml:id="MML_10215_6" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <pc xml:id="MML_10215_7" join="left">,</pc>
               <w xml:id="MML_10215_8" lemmaRef="lexicon.xml#lemma_8032" pos="ART VRB VEX" ana="lexicon.xml#lemma_8032_sense_22045" corresp="variants.xml#type_29005">deist</w>
               <w xml:id="MML_10215_9">min</w>
@@ -623,7 +624,7 @@
                 <w xml:id="MML_10306_0" lemmaRef="lexicon.xml#lemma_460" pos="ADJ ADV" ana="lexicon.xml#lemma_460_sense_641" corresp="variants.xml#type_188718">behende</w>
               </hi>
               <w xml:id="MML_10306_1" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18956">ist</w>
-              <w xml:id="MML_10306_2">minne</w>
+              <w xml:id="MML_10306_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="MML_10306_3">unde</w>
               <w xml:id="MML_10306_4" lemmaRef="lexicon.xml#lemma_4377" pos="ADJ ADV NEG" ana="lexicon.xml#lemma_4377_sense_6838" corresp="variants.xml#type_15286">niht</w>
               <w xml:id="MML_10306_5" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_196209">zuo</w>
@@ -662,7 +663,7 @@
               <w xml:id="MML_10310_5" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
               <w xml:id="MML_10310_6" lemmaRef="lexicon.xml#lemma_1517" pos="PRO" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_135955">ien</w>
               <w xml:id="MML_10310_7" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-              <w xml:id="MML_10310_8">minne</w>
+              <w xml:id="MML_10310_8" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="MML_10310_9" lemmaRef="lexicon.xml#lemma_3022" pos="NOM ADJ" ana="lexicon.xml#lemma_3022_sense_4827" corresp="variants.xml#type_10356">iht</w>
               <w xml:id="MML_10310_10">duo</w>
               <w xml:id="MML_10310_11" lemmaRef="lexicon.xml#lemma_457" pos="VRB" corresp="variants.xml#type_1293">behaft</w>
@@ -893,7 +894,7 @@
             <l n="11">
               <w xml:id="MML_10411_0" lemmaRef="lexicon.xml#lemma_6973" pos="VRB" ana="lexicon.xml#lemma_6973_sense_11244" corresp="variants.xml#type_254646">verstil</w>
               <w xml:id="MML_10411_1" lemmaRef="lexicon.xml#lemma_6615" pos="NOM ADJ ADV NEG" corresp="variants.xml#type_23207">unrehte</w>
-              <w xml:id="MML_10411_2">minne</w>
+              <w xml:id="MML_10411_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <pc xml:id="MML_10411_3" join="left">,</pc>
               <w xml:id="MML_10411_4">wa</w>
               <w xml:id="MML_10411_5">man</w>
@@ -942,7 +943,7 @@
               <w xml:id="MML_10415_0" lemmaRef="lexicon.xml#lemma_1258" pos="PRP" ana="lexicon.xml#lemma_1258_sense_1977" corresp="variants.xml#type_4044">durch</w>
               <w xml:id="MML_10415_1" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
               <w xml:id="MML_10415_2">ware</w>
-              <w xml:id="MML_10415_3">minne</w>
+              <w xml:id="MML_10415_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="MML_10415_4">gab</w>
               <w xml:id="MML_10415_5">in</w>
               <w xml:id="MML_10415_6" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
@@ -990,7 +991,7 @@
               <pc xml:id="MML_10419_16" join="left">.</pc>
             </l>
             <l n="20">
-              <w xml:id="MML_10420_0">minne</w>
+              <w xml:id="MML_10420_0" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <pc xml:id="MML_10420_1" join="left">,</pc>
               <w xml:id="MML_10420_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
               <w xml:id="MML_10420_3" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3255">da</w>
@@ -1103,7 +1104,7 @@
               <w xml:id="MML_10510_8" lemmaRef="lexicon.xml#lemma_3004" pos="ADV" ana="lexicon.xml#lemma_3004_sense_4808" corresp="variants.xml#type_10247">ie</w>
               <w xml:id="MML_10510_9" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
               <w xml:id="MML_10510_10" lemmaRef="lexicon.xml#lemma_1288" pos="ADJ NUM" corresp="variants.xml#type_4192">erste</w>
-              <w xml:id="MML_10510_11">minne</w>
+              <w xml:id="MML_10510_11" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="MML_10510_12" lemmaRef="lexicon.xml#lemma_1511" pos="VRB" corresp="variants.xml#type_4990">enzunt</w>
             </l>
             <l n="11">
@@ -1174,7 +1175,7 @@
               <pc xml:id="MML_10515_5" join="left">,</pc>
               <w xml:id="MML_10515_6" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3505">deme</w>
               <w xml:id="MML_10515_7" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-              <w xml:id="MML_10515_8">minne</w>
+              <w xml:id="MML_10515_8" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="MML_10515_9">e</w>
               <w xml:id="MML_10515_10">was</w>
               <w xml:id="MML_10515_11">bekant</w>
@@ -1186,7 +1187,7 @@
             </l>
             <l n="17">
               <w xml:id="MML_10517_0">ware</w>
-              <w xml:id="MML_10517_1">minne</w>
+              <w xml:id="MML_10517_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="MML_10517_2">in</w>
               <w xml:id="MML_10517_3">bant</w>
             </l>
@@ -1216,7 +1217,7 @@
               <w xml:id="MML_10520_0" lemmaRef="lexicon.xml#lemma_5366" pos="VRB" ana="lexicon.xml#lemma_5366_sense_8382" corresp="variants.xml#type_18716">seht</w>
               <pc xml:id="MML_10520_1" join="left">,</pc>
               <w xml:id="MML_10520_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-              <w xml:id="MML_10520_3">minne</w>
+              <w xml:id="MML_10520_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="MML_10520_4" lemmaRef="lexicon.xml#lemma_7173" pos="VRB" corresp="variants.xml#type_254529">folgit</w>
               <w xml:id="MML_10520_5">nach</w>
               <pc xml:id="MML_10520_6" join="left">,</pc>
@@ -1270,7 +1271,7 @@
               <w xml:id="MML_10605_3" lemmaRef="lexicon.xml#lemma_4524" pos="NOM" ana="lexicon.xml#lemma_4524_sense_7061" corresp="variants.xml#type_228708">augin</w>
               <w xml:id="MML_10605_4" lemmaRef="lexicon.xml#lemma_3330" pos="ADJ" corresp="variants.xml#type_11367">clar</w>
               <w xml:id="MML_10605_5">in</w>
-              <w xml:id="MML_10605_6">minne</w>
+              <w xml:id="MML_10605_6" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="MML_10605_7">warin</w>
               <pc xml:id="MML_10605_8" join="left">,</pc>
               <w xml:id="MML_10605_9" lemmaRef="lexicon.xml#lemma_5038" pos="ADV" ana="lexicon.xml#lemma_5038_sense_7835" corresp="variants.xml#type_17447">sa</w>
@@ -1422,7 +1423,7 @@
               <w xml:id="MML_10620_1" lemmaRef="lexicon.xml#lemma_37346" pos="NOM ADJ" ana="lexicon.xml#lemma_37346_sense_58253" corresp="variants.xml#type_195216">hohfart</w>
               <pc xml:id="MML_10620_2" join="left">,</pc>
               <w xml:id="MML_10620_3" lemmaRef="lexicon.xml#lemma_4133" pos="VRB" corresp="variants.xml#type_14424">minnet</w>
-              <w xml:id="MML_10620_4">minne</w>
+              <w xml:id="MML_10620_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <pc xml:id="MML_10620_5" join="left">,</pc>
               <w xml:id="MML_10620_6" lemmaRef="lexicon.xml#lemma_5038" pos="ADV" ana="lexicon.xml#lemma_5038_sense_7835" corresp="variants.xml#type_17447">sa</w>
               <w xml:id="MML_10620_7">wierd</w>
@@ -1471,7 +1472,7 @@
               <w xml:id="MML_10705_4" lemmaRef="lexicon.xml#lemma_3472" pos="NAM" ana="lexicon.xml#lemma_3472_sense_5499" corresp="variants.xml#type_11991">crist</w>
               <w xml:id="MML_10705_5" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
               <w xml:id="MML_10705_6" lemmaRef="lexicon.xml#lemma_5867" pos="NOM" ana="lexicon.xml#lemma_5867_sense_9294" corresp="variants.xml#type_41294">sunde</w>
-              <w xml:id="MML_10705_7">minne</w>
+              <w xml:id="MML_10705_7" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="MML_10705_8">widir</w>
               <w xml:id="MML_10705_9" lemmaRef="lexicon.xml#lemma_7431" pos="NOM" corresp="variants.xml#type_43725">wegin</w>
               <pc xml:id="MML_10705_10" join="left">.</pc>
@@ -1546,7 +1547,7 @@
               <w xml:id="MML_10712_5" lemmaRef="lexicon.xml#lemma_5385" pos="ADJ" ana="lexicon.xml#lemma_5385_sense_8406" corresp="variants.xml#type_41841">selbin</w>
               <w xml:id="MML_10712_6" lemmaRef="lexicon.xml#lemma_1913" pos="ADJ ADV" ana="lexicon.xml#lemma_1913_sense_2938" corresp="variants.xml#type_6476">gar</w>
               <w xml:id="MML_10712_7" lemmaRef="lexicon.xml#lemma_6330" pos="ADV PRP" ana="lexicon.xml#lemma_6330_sense_9973" corresp="variants.xml#type_22478">uf</w>
-              <w xml:id="MML_10712_8">minne</w>
+              <w xml:id="MML_10712_8" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="MML_10712_9">list</w>
             </l>
             <l n="13">
@@ -1599,7 +1600,7 @@
               <w xml:id="MML_10718_0">wan</w>
               <w xml:id="MML_10718_1">ir</w>
               <w xml:id="MML_10718_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-              <w xml:id="MML_10718_3">minne</w>
+              <w xml:id="MML_10718_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="MML_10718_4">was</w>
               <w xml:id="MML_10718_5" lemmaRef="lexicon.xml#lemma_616" pos="VRB" corresp="variants.xml#type_252399">bedagt</w>
             </l>
@@ -1624,7 +1625,7 @@
               <w xml:id="MML_10720_5">kunde</w>
               <w xml:id="MML_10720_6">sin</w>
               <w xml:id="MML_10720_7" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
-              <w xml:id="MML_10720_8">minne</w>
+              <w xml:id="MML_10720_8" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="MML_10720_9" lemmaRef="lexicon.xml#lemma_4649" pos="VRB" corresp="variants.xml#type_126459">plegin</w>
               <pc xml:id="MML_10720_10" join="left">.</pc>
             </l>
@@ -1662,7 +1663,7 @@
             </l>
             <l n="4">
               <w xml:id="MML_10804_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-              <w xml:id="MML_10804_1">minne</w>
+              <w xml:id="MML_10804_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="MML_10804_2" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_56322">det</w>
               <w xml:id="MML_10804_3" lemmaRef="lexicon.xml#lemma_1242" pos="PRO" ana="lexicon.xml#lemma_1242_sense_1958" corresp="variants.xml#type_3956">dich</w>
               <pc xml:id="MML_10804_4" join="left">,</pc>
@@ -1798,7 +1799,7 @@
               <supplied>
                 <w xml:id="MML_11304_3">im</w>
               </supplied>
-              <w xml:id="MML_11304_4">minne</w>
+              <w xml:id="MML_11304_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="MML_11304_5">bant</w>
             </l>
             <l n="5">
@@ -1853,7 +1854,7 @@
             <l n="9">
               <w xml:id="MML_11309_0" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
               <w xml:id="MML_11309_1" lemmaRef="lexicon.xml#lemma_4840" pos="ADJ" corresp="variants.xml#type_137200">rehtir</w>
-              <w xml:id="MML_11309_2">minne</w>
+              <w xml:id="MML_11309_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="MML_11309_3">wart</w>
               <w xml:id="MML_11309_4" lemmaRef="lexicon.xml#lemma_46390" pos="VRB" ana="lexicon.xml#lemma_46390_sense_72810" corresp="variants.xml#type_254702">zuordrant</w>
               <pc xml:id="MML_11309_5" join="left">.</pc>
@@ -1885,7 +1886,7 @@
             <l n="12">
               <w xml:id="MML_11312_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
               <w xml:id="MML_11312_1" lemmaRef="lexicon.xml#lemma_2465" pos="NOM" ana="lexicon.xml#lemma_2465_sense_3951" corresp="variants.xml#type_113307">godis</w>
-              <w xml:id="MML_11312_2">minne</w>
+              <w xml:id="MML_11312_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="MML_11312_3">mahte</w>
               <w xml:id="MML_11312_4" lemmaRef="lexicon.xml#lemma_1517" pos="PRO" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_135955">ien</w>
               <w xml:id="MML_11312_5" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
@@ -1912,7 +1913,7 @@
               <w xml:id="MML_11314_6" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
               <w xml:id="MML_11314_7" lemmaRef="lexicon.xml#lemma_5153" pos="VRB" corresp="variants.xml#type_223701">shuof</w>
               <w xml:id="MML_11314_8" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-              <w xml:id="MML_11314_9">minne</w>
+              <w xml:id="MML_11314_9" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="MML_11314_10" lemmaRef="lexicon.xml#lemma_6342" pos="ADV PRP" ana="lexicon.xml#lemma_6342_sense_9997" corresp="variants.xml#type_22503">uz</w>
               <w xml:id="MML_11314_11" lemmaRef="lexicon.xml#lemma_4082" pos="NOM" corresp="variants.xml#type_248934">menshin</w>
               <w xml:id="MML_11314_12">munt</w>
@@ -1956,7 +1957,7 @@
               <w xml:id="MML_11319_7" lemmaRef="lexicon.xml#lemma_148" pos="CNJ" ana="lexicon.xml#lemma_148_sense_183" corresp="variants.xml#type_369">als</w>
               <w xml:id="MML_11319_8">duo</w>
               <w xml:id="MML_11319_9" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
-              <w xml:id="MML_11319_10">minne</w>
+              <w xml:id="MML_11319_10" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="MML_11319_11" lemmaRef="lexicon.xml#lemma_74230" pos="ADJ" ana="lexicon.xml#lemma_74230_sense_112363" corresp="variants.xml#type_358022">werndin</w>
               <w xml:id="MML_11319_12">pris</w>
               <pc xml:id="MML_11319_13" join="left">.</pc>
@@ -2176,7 +2177,7 @@
               <w xml:id="MML_11419_3">siech</w>
               <pc xml:id="MML_11419_4" join="left">,</pc>
               <w xml:id="MML_11419_5" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-              <w xml:id="MML_11419_6">minne</w>
+              <w xml:id="MML_11419_6" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="MML_11419_7">mahte</w>
               <w xml:id="MML_11419_8" lemmaRef="lexicon.xml#lemma_1517" pos="PRO" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_135955">ien</w>
               <w xml:id="MML_11419_9" lemmaRef="lexicon.xml#lemma_35" pos="ADV CNJ" ana="lexicon.xml#lemma_35_sense_48" corresp="variants.xml#type_41731">abir</w>
@@ -2196,7 +2197,7 @@
               <w xml:id="MML_11420_6">an</w>
               <w xml:id="MML_11420_7" lemmaRef="lexicon.xml#lemma_5917" pos="ADV" ana="lexicon.xml#lemma_5917_sense_9370" corresp="variants.xml#type_20858">sus</w>
               <w xml:id="MML_11420_8" lemmaRef="lexicon.xml#lemma_67833" pos="ADJ" ana="lexicon.xml#lemma_67833_sense_105162" corresp="variants.xml#type_342063">getane</w>
-              <w xml:id="MML_11420_9">minne</w>
+              <w xml:id="MML_11420_9" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="MML_11420_10">sich</w>
               <pc xml:id="MML_11420_11" join="left">.</pc>
             </l>
@@ -2327,7 +2328,7 @@
               <w xml:id="MML_11512_5" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_56322">det</w>
               <w xml:id="MML_11512_6" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
               <w xml:id="MML_11512_7">ware</w>
-              <w xml:id="MML_11512_8">minne</w>
+              <w xml:id="MML_11512_8" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="MML_11512_9" lemmaRef="lexicon.xml#lemma_7226" pos="ADJ ADV" corresp="variants.xml#type_45578">fri</w>
             </l>
             <l n="13">
@@ -2338,7 +2339,7 @@
             <l n="14">
               <w xml:id="MML_11514_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
               <w xml:id="MML_11514_1">reine</w>
-              <w xml:id="MML_11514_2">minne</w>
+              <w xml:id="MML_11514_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="MML_11514_3" lemmaRef="lexicon.xml#lemma_3656" pos="VRB" ana="lexicon.xml#lemma_3656_sense_5771" corresp="variants.xml#type_12695">lerte</w>
               <w xml:id="MML_11514_4" lemmaRef="lexicon.xml#lemma_1242" pos="PRO" ana="lexicon.xml#lemma_1242_sense_1958" corresp="variants.xml#type_3956">dich</w>
               <pc xml:id="MML_11514_5" join="left">,</pc>
@@ -2395,7 +2396,7 @@
               <pc xml:id="MML_11519_6" join="left">,</pc>
               <w xml:id="MML_11519_7" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3505">deme</w>
               <w xml:id="MML_11519_8" lemmaRef="lexicon.xml#lemma_4840" pos="ADJ" corresp="variants.xml#type_137200">rehtir</w>
-              <w xml:id="MML_11519_9">minne</w>
+              <w xml:id="MML_11519_9" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="MML_11519_10" lemmaRef="lexicon.xml#lemma_4365" pos="ADV NEG" ana="lexicon.xml#lemma_4365_sense_6822" corresp="variants.xml#type_15230">nie</w>
               <w xml:id="MML_11519_11" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_196209">zuo</w>
               <w xml:id="MML_11519_12" lemmaRef="lexicon.xml#lemma_4923" pos="VRB" corresp="variants.xml#type_53066">ran</w>
@@ -2412,7 +2413,7 @@
               <w xml:id="MML_11520_7" lemmaRef="lexicon.xml#lemma_5038" pos="ADV" ana="lexicon.xml#lemma_5038_sense_7835" corresp="variants.xml#type_17447">sa</w>
               <w xml:id="MML_11520_8">wirt</w>
               <w xml:id="MML_11520_9" lemmaRef="lexicon.xml#lemma_56117" pos="PRO" ana="lexicon.xml#lemma_56117_sense_90961" corresp="variants.xml#type_305363">uch</w>
-              <w xml:id="MML_11520_10">minne</w>
+              <w xml:id="MML_11520_10" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="MML_11520_11" lemmaRef="lexicon.xml#lemma_2110" pos="NOM" corresp="variants.xml#type_44036">gnade</w>
               <w xml:id="MML_11520_12">bereit</w>
               <pc xml:id="MML_11520_13" join="left">.</pc>
@@ -2459,7 +2460,7 @@
               <w xml:id="MML_11605_0">waz</w>
               <w xml:id="MML_11605_1" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
               <w xml:id="MML_11605_2" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_82313">stede</w>
-              <w xml:id="MML_11605_3">minne</w>
+              <w xml:id="MML_11605_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="MML_11605_4">si</w>
               <pc xml:id="MML_11605_5" join="left">,</pc>
               <w xml:id="MML_11605_6">wer</w>
@@ -2532,7 +2533,7 @@
               </hi>
               <pc xml:id="MML_11611_2" join="left">,</pc>
               <w xml:id="MML_11611_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-              <w xml:id="MML_11611_4">minne</w>
+              <w xml:id="MML_11611_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="MML_11611_5" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18956">ist</w>
               <w xml:id="MML_11611_6" lemmaRef="lexicon.xml#lemma_207" pos="ADV" ana="lexicon.xml#lemma_207_sense_259" corresp="variants.xml#type_55905">andirs</w>
               <w xml:id="MML_11611_7" lemmaRef="lexicon.xml#lemma_4377" pos="ADJ ADV NEG" ana="lexicon.xml#lemma_4377_sense_6838" corresp="variants.xml#type_15286">niht</w>
@@ -2587,7 +2588,7 @@
               <w xml:id="MML_11615_0">wer</w>
               <w xml:id="MML_11615_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
               <w xml:id="MML_11615_2">warin</w>
-              <w xml:id="MML_11615_3">minne</w>
+              <w xml:id="MML_11615_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="MML_11615_4" lemmaRef="lexicon.xml#lemma_4649" pos="VRB" corresp="variants.xml#type_126459">plegin</w>
               <w xml:id="MML_11615_5">wil</w>
               <pc xml:id="MML_11615_6" join="left">,</pc>
@@ -2766,7 +2767,7 @@
               </hi>
               <w xml:id="MML_11711_1">was</w>
               <w xml:id="MML_11711_2" lemmaRef="lexicon.xml#lemma_4840" pos="ADJ" corresp="variants.xml#type_137200">rehtir</w>
-              <w xml:id="MML_11711_3">minne</w>
+              <w xml:id="MML_11711_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="MML_11711_4">shrei</w>
               <pc xml:id="MML_11711_5" join="left">,</pc>
               <w xml:id="MML_11711_6" lemmaRef="lexicon.xml#lemma_7075" pos="ADJ ADV" ana="lexicon.xml#lemma_7075_sense_11459" corresp="variants.xml#type_25008">vil</w>
@@ -2834,7 +2835,7 @@
               <w xml:id="MML_11718_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
               <w xml:id="MML_11718_1" lemmaRef="lexicon.xml#lemma_1517" pos="PRO" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_135955">ien</w>
               <w xml:id="MML_11718_2" lemmaRef="lexicon.xml#lemma_1258" pos="PRP" ana="lexicon.xml#lemma_1258_sense_1977" corresp="variants.xml#type_4044">durch</w>
-              <w xml:id="MML_11718_3">minne</w>
+              <w xml:id="MML_11718_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="MML_11718_4" lemmaRef="lexicon.xml#lemma_4377" pos="ADJ ADV NEG" ana="lexicon.xml#lemma_4377_sense_6838" corresp="variants.xml#type_15286">niht</w>
               <w xml:id="MML_11718_5" lemmaRef="lexicon.xml#lemma_6840" pos="VRB" ana="lexicon.xml#lemma_6840_sense_10906" corresp="variants.xml#type_23989">verdroz</w>
               <pc xml:id="MML_11718_6" join="left">.</pc>

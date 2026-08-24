@@ -130,6 +130,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 5 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/). 1 weitere Tokens der Form minne blieben bewusst unannotiert (Review).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -5028,7 +5029,7 @@
                   <w xml:id="MSG_10605080_2">in</w>
                 </supplied>
                 <w xml:id="MSG_10605080_3" lemmaRef="lexicon.xml#lemma_5713" pos="ADJ" corresp="variants.xml#type_46305">steter</w>
-                <w xml:id="MSG_10605080_4">minne</w>
+                <w xml:id="MSG_10605080_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
                 <w xml:id="MSG_10605080_5" lemmaRef="lexicon.xml#lemma_4479" pos="ADV" ana="lexicon.xml#lemma_4479_sense_6994" corresp="variants.xml#type_15572">oft</w>
                 <pc xml:id="MSG_10605080_6" join="left">.</pc>
               </l>
@@ -11963,7 +11964,7 @@
                   </hi>
                 <w xml:id="MSG_11607010_1" lemmaRef="lexicon.xml#lemma_6713" pos="NOM" corresp="variants.xml#type_147521">ursprung</w>
                 <w xml:id="MSG_11607010_2" lemmaRef="lexicon.xml#lemma_4848" pos="ADJ GRA" corresp="variants.xml#type_101178">rainer</w>
-                <w xml:id="MSG_11607010_3">minne</w>
+                <w xml:id="MSG_11607010_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               </l>
               <l n="2">
                 <w xml:id="MSG_11607020_0" lemmaRef="lexicon.xml#lemma_868" pos="VRB" corresp="variants.xml#type_85481">pring</w>
@@ -25118,7 +25119,7 @@
               <l n="8">
                 <w xml:id="MSG_13902080_0" lemmaRef="lexicon.xml#lemma_4312" pos="NOM" corresp="variants.xml#type_15012">nar</w>
                 <w xml:id="MSG_13902080_1" lemmaRef="lexicon.xml#lemma_2467" pos="ADJ" ana="lexicon.xml#lemma_2467_sense_3953" corresp="variants.xml#type_109433">götleicher</w>
-                <w xml:id="MSG_13902080_2">minne</w>
+                <w xml:id="MSG_13902080_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
                 <pc xml:id="MSG_13902080_3" join="left">.</pc>
               </l>
             </lg>
@@ -25546,7 +25547,7 @@
                 <w xml:id="MSG_13909080_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3504">dem</w>
                 <w xml:id="MSG_13909080_1" lemmaRef="lexicon.xml#lemma_10651" pos="ADV" corresp="variants.xml#type_83871">pis</w>
                 <w xml:id="MSG_13909080_2" lemmaRef="lexicon.xml#lemma_4848" pos="ADJ GRA" corresp="variants.xml#type_101178">rainer</w>
-                <w xml:id="MSG_13909080_3">minne</w>
+                <w xml:id="MSG_13909080_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
                 <pc xml:id="MSG_13909080_4" join="left">.</pc>
               </l>
             </lg>
@@ -37890,7 +37891,7 @@
                 <w xml:id="MSG_31605040_1">du</w>
                 <w xml:id="MSG_31605040_2" lemmaRef="lexicon.xml#lemma_900" pos="NOM" ana="lexicon.xml#lemma_900_sense_1478" corresp="variants.xml#type_128899">pronn</w>
                 <w xml:id="MSG_31605040_3" lemmaRef="lexicon.xml#lemma_5864" pos="ADJ" corresp="variants.xml#type_189631">suzsser</w>
-                <w xml:id="MSG_31605040_4">minne</w>
+                <w xml:id="MSG_31605040_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               </l>
               <l n="5">
                 <w xml:id="MSG_31605050_0" lemmaRef="lexicon.xml#lemma_6301" pos="VRB" ana="lexicon.xml#lemma_6301_sense_9929" corresp="variants.xml#type_43090">thu</w>

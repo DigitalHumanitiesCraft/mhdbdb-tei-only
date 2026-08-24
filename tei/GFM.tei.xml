@@ -139,6 +139,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 4 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -714,7 +715,7 @@
         <w xml:id="GFM_21100640_1" lemmaRef="lexicon.xml#lemma_7643" pos="PRO" ana="lexicon.xml#lemma_7643_sense_12530" corresp="variants.xml#type_27633">uns</w>
         <w xml:id="GFM_21100640_2" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
         <w xml:id="GFM_21100640_3" lemmaRef="lexicon.xml#lemma_1517" pos="POS" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_5024">siner</w>
-        <w xml:id="GFM_21100640_4">minne</w>
+        <w xml:id="GFM_21100640_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
       </l>
       <l n="65">
         <supplied>
@@ -1500,7 +1501,7 @@
         <w xml:id="GFM_21101600_0" lemmaRef="lexicon.xml#lemma_4266" pos="NOM" corresp="variants.xml#type_42031">muter</w>
         <w xml:id="GFM_21101600_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
         <w xml:id="GFM_21101600_2" lemmaRef="lexicon.xml#lemma_7505" pos="VRB" corresp="variants.xml#type_273652">warn</w>
-        <w xml:id="GFM_21101600_3">minne</w>
+        <w xml:id="GFM_21101600_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
         <pc xml:id="GFM_21101600_4" join="left">,</pc>
       </l>
       <l n="161">
@@ -2514,7 +2515,7 @@
         <w xml:id="GFM_21102790_1" lemmaRef="lexicon.xml#lemma_7643" pos="PRO" ana="lexicon.xml#lemma_7643_sense_12530" corresp="variants.xml#type_27633">uns</w>
         <w xml:id="GFM_21102790_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
         <w xml:id="GFM_21102790_3" lemmaRef="lexicon.xml#lemma_7505" pos="VRB" corresp="variants.xml#type_273652">warn</w>
-        <w xml:id="GFM_21102790_4">minne</w>
+        <w xml:id="GFM_21102790_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
         <pc xml:id="GFM_21102790_5" join="left">,</pc>
       </l>
       <l n="280">
@@ -3377,7 +3378,7 @@
         <w xml:id="GFM_21103800_2">liebe</w>
         <w xml:id="GFM_21103800_3" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22828">unt</w>
         <w xml:id="GFM_21103800_4" lemmaRef="lexicon.xml#lemma_1258" pos="PRP" ana="lexicon.xml#lemma_1258_sense_1977" corresp="variants.xml#type_4044">durch</w>
-        <w xml:id="GFM_21103800_5">minne</w>
+        <w xml:id="GFM_21103800_5" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
         <pc xml:id="GFM_21103800_6" join="left">,</pc>
       </l>
       <l n="381">

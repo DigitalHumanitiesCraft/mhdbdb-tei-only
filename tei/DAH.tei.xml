@@ -156,6 +156,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 4 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -5191,7 +5192,7 @@
           <w xml:id="DAH_6420_4" lemmaRef="lexicon.xml#lemma_6771" pos="NOM" corresp="variants.xml#type_23704">vater</w>
         </l>
         <l n="643">
-          <w xml:id="DAH_6430_0">minne</w>
+          <w xml:id="DAH_6430_0" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="DAH_6430_1" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
           <w xml:id="DAH_6430_2">êre</w>
           <w xml:id="DAH_6430_3" lemmaRef="lexicon.xml#lemma_703" pos="NOM VRB" corresp="variants.xml#type_2136">biete</w>
@@ -6547,7 +6548,7 @@
         </l>
         <l n="801">
           <w xml:id="DAH_8010_0" lemmaRef="lexicon.xml#lemma_56117" pos="POS" ana="lexicon.xml#lemma_56117_sense_90961" corresp="variants.xml#type_305107">iuwer</w>
-          <w xml:id="DAH_8010_1">minne</w>
+          <w xml:id="DAH_8010_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="DAH_8010_2" lemmaRef="lexicon.xml#lemma_3022" pos="NOM ADJ" ana="lexicon.xml#lemma_3022_sense_4827" corresp="variants.xml#type_10356">iht</w>
           <w xml:id="DAH_8010_3" lemmaRef="lexicon.xml#lemma_6604" pos="NOM NEG" ana="lexicon.xml#lemma_6604_sense_10484" corresp="variants.xml#type_23177">unminne</w>
           <pc xml:id="DAH_8010_4" join="left">.</pc>
@@ -6619,7 +6620,7 @@
         <l n="811">
           <w xml:id="DAH_8110_0" lemmaRef="lexicon.xml#lemma_152" pos="ADV" ana="lexicon.xml#lemma_152_sense_187" corresp="variants.xml#type_379">alsô</w>
           <w xml:id="DAH_8110_1" lemmaRef="lexicon.xml#lemma_2534" pos="ADJ" corresp="variants.xml#type_8468">grôze</w>
-          <w xml:id="DAH_8110_2">minne</w>
+          <w xml:id="DAH_8110_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
         </l>
         <l n="812">
           <w xml:id="DAH_8120_0" lemmaRef="lexicon.xml#lemma_148" pos="CNJ" ana="lexicon.xml#lemma_148_sense_183" corresp="variants.xml#type_369">als</w>
@@ -7166,7 +7167,7 @@
           <w xml:id="DAH_8790_0" lemmaRef="lexicon.xml#lemma_1258" pos="PRP" ana="lexicon.xml#lemma_1258_sense_1977" corresp="variants.xml#type_4044">durch</w>
           <w xml:id="DAH_8790_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
           <w xml:id="DAH_8790_2" lemmaRef="lexicon.xml#lemma_3313" pos="NOM" ana="lexicon.xml#lemma_3313_sense_5196" corresp="variants.xml#type_11309">kindes</w>
-          <w xml:id="DAH_8790_3">minne</w>
+          <w xml:id="DAH_8790_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
         </l>
         <l n="880">
           <w xml:id="DAH_8800_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>

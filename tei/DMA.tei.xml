@@ -154,6 +154,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 6 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -513,7 +514,7 @@
             <w xml:id="DMA_1290440_0">haben</w>
             <w xml:id="DMA_1290440_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
             <w xml:id="DMA_1290440_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_26001">vrowen</w>
-            <w xml:id="DMA_1290440_3">minne</w>
+            <w xml:id="DMA_1290440_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           </l>
           <l n="45">
             <w xml:id="DMA_1290450_0" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
@@ -1145,7 +1146,7 @@
           </l>
           <l n="124">
             <w xml:id="DMA_1291240_0">ir</w>
-            <w xml:id="DMA_1291240_1">minne</w>
+            <w xml:id="DMA_1291240_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="DMA_1291240_2">sint</w>
             <w xml:id="DMA_1291240_3" lemmaRef="lexicon.xml#lemma_7075" pos="ADJ ADV" ana="lexicon.xml#lemma_7075_sense_11459" corresp="variants.xml#type_25008">vil</w>
             <w xml:id="DMA_1291240_4">gut</w>
@@ -1167,7 +1168,7 @@
             <w xml:id="DMA_1291270_1">sint</w>
             <w xml:id="DMA_1291270_2">gut</w>
             <w xml:id="DMA_1291270_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="DMA_1291270_4">minne</w>
+            <w xml:id="DMA_1291270_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <pc xml:id="DMA_1291270_5" join="left">.</pc>
           </l>
           <l n="128">
@@ -1214,7 +1215,7 @@
             <w xml:id="DMA_1291330_0" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
             <w xml:id="DMA_1291330_1">muz</w>
             <w xml:id="DMA_1291330_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="DMA_1291330_3">minne</w>
+            <w xml:id="DMA_1291330_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="DMA_1291330_4" lemmaRef="lexicon.xml#lemma_7807" pos="VRB" corresp="variants.xml#type_28276">zergan</w>
             <pc xml:id="DMA_1291330_5" join="left">.</pc>
           </l>
@@ -1490,7 +1491,7 @@
             <w xml:id="DMA_1291690_0" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
             <w xml:id="DMA_1291690_1">sint</w>
             <w xml:id="DMA_1291690_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="DMA_1291690_3">minne</w>
+            <w xml:id="DMA_1291690_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="DMA_1291690_4" lemmaRef="lexicon.xml#lemma_7075" pos="ADJ ADV" ana="lexicon.xml#lemma_7075_sense_11459" corresp="variants.xml#type_25008">vil</w>
             <w xml:id="DMA_1291690_5" lemmaRef="lexicon.xml#lemma_2573" pos="NOM ADJ ADV" corresp="variants.xml#type_79818">gût</w>
           </l>
@@ -1535,7 +1536,7 @@
             <w xml:id="DMA_1291750_1">sint</w>
             <w xml:id="DMA_1291750_2">gut</w>
             <w xml:id="DMA_1291750_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="DMA_1291750_4">minne</w>
+            <w xml:id="DMA_1291750_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <pc xml:id="DMA_1291750_5" join="left">.</pc>
           </l>
           <l n="176">

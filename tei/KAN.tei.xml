@@ -139,6 +139,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 25 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/). 12 weitere Tokens der Form minne blieben bewusst unannotiert (Review).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -4441,7 +4442,7 @@
               <pc xml:id="KAN_60200800_9" join="left">.</pc>
             </l>
             <l n="9">
-              <w xml:id="KAN_60200900_0">minne</w>
+              <w xml:id="KAN_60200900_0" lemmaRef="lexicon.xml#lemma_4133" pos="VRB" corresp="variants.xml#type_38651">minne</w>
               <w xml:id="KAN_60200900_1">ein</w>
               <w xml:id="KAN_60200900_2" lemmaRef="lexicon.xml#lemma_7534" pos="NOM" corresp="variants.xml#type_27265">wîp</w>
               <w xml:id="KAN_60200900_3">in</w>
@@ -4489,7 +4490,7 @@
               <w xml:id="KAN_60300300_3" lemmaRef="lexicon.xml#lemma_4848" pos="ADJ" corresp="variants.xml#type_16674">reines</w>
               <w xml:id="KAN_60300300_4" lemmaRef="lexicon.xml#lemma_7534" pos="NOM" corresp="variants.xml#type_27264">wîbes</w>
               <w xml:id="KAN_60300300_5" lemmaRef="lexicon.xml#lemma_5864" pos="ADJ" corresp="variants.xml#type_20683">süeziu</w>
-              <w xml:id="KAN_60300300_6">minne</w>
+              <w xml:id="KAN_60300300_6" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <pc xml:id="KAN_60300300_7" join="left">,</pc>
             </l>
             <l n="4">
@@ -4728,7 +4729,7 @@
               <w xml:id="KAN_70200700_2" lemmaRef="lexicon.xml#lemma_2327" pos="ADJ ADV" ana="lexicon.xml#lemma_2327_sense_3725" corresp="variants.xml#type_82577">gewalteclich</w>
             </l>
             <l n="8">
-              <w xml:id="KAN_70200800_0">minne</w>
+              <w xml:id="KAN_70200800_0" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="KAN_70200800_1" lemmaRef="lexicon.xml#lemma_38694" pos="ADV VRB" ana="lexicon.xml#lemma_38694_sense_60346" corresp="variants.xml#type_203358">widerniuwen</w>
               <pc xml:id="KAN_70200800_2" join="left">.</pc>
             </l>
@@ -4739,7 +4740,7 @@
               <w xml:id="KAN_70200900_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
               <w xml:id="KAN_70200900_4" lemmaRef="lexicon.xml#lemma_5917" pos="ADV" ana="lexicon.xml#lemma_5917_sense_9370" corresp="variants.xml#type_20858">sus</w>
               <w xml:id="KAN_70200900_5">in</w>
-              <w xml:id="KAN_70200900_6">minne</w>
+              <w xml:id="KAN_70200900_6" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="KAN_70200900_7" lemmaRef="lexicon.xml#lemma_7433" pos="VRB" corresp="variants.xml#type_26791">wecket</w>
               <pc xml:id="KAN_70200900_8" join="left">,</pc>
             </l>
@@ -5032,7 +5033,7 @@
               <hi rend="initial">
                 <w xml:id="KAN_80300100_0" lemmaRef="lexicon.xml#lemma_7534" pos="NOM" corresp="variants.xml#type_27264">wîbes</w>
               </hi>
-              <w xml:id="KAN_80300100_1">minne</w>
+              <w xml:id="KAN_80300100_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="KAN_80300100_2" lemmaRef="lexicon.xml#lemma_6245" pos="NOM VRB" ana="lexicon.xml#lemma_6245_sense_9846" corresp="variants.xml#type_22058">trûren</w>
               <w xml:id="KAN_80300100_3" lemmaRef="lexicon.xml#lemma_3456" pos="VRB" corresp="variants.xml#type_11933">krenket</w>
               <pc xml:id="KAN_80300100_4" join="left">,</pc>
@@ -5260,7 +5261,7 @@
               </hi>
               <w xml:id="KAN_90300100_1" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
               <w xml:id="KAN_90300100_2" lemmaRef="lexicon.xml#lemma_7534" pos="NOM" corresp="variants.xml#type_27264">wîbes</w>
-              <w xml:id="KAN_90300100_3">minne</w>
+              <w xml:id="KAN_90300100_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             </l>
             <l n="2">
               <w xml:id="KAN_90300200_0" lemmaRef="lexicon.xml#lemma_3957" pos="NOM" corresp="variants.xml#type_13803">mannen</w>
@@ -5465,7 +5466,7 @@
               <w xml:id="KAN_100200700_0" lemmaRef="lexicon.xml#lemma_3719" pos="VRB" corresp="variants.xml#type_103957">löschet</w>
               <w xml:id="KAN_100200700_1" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
               <w xml:id="KAN_100200700_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-              <w xml:id="KAN_100200700_3">minne</w>
+              <w xml:id="KAN_100200700_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="KAN_100200700_4" lemmaRef="lexicon.xml#lemma_3541" pos="NOM" corresp="variants.xml#type_12313">kunst</w>
             </l>
             <l n="8">
@@ -6416,7 +6417,7 @@
               <w xml:id="KAN_130200200_2">meit</w>
             </l>
             <l n="3">
-              <w xml:id="KAN_130200300_0">minne</w>
+              <w xml:id="KAN_130200300_0" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="KAN_130200300_1" lemmaRef="lexicon.xml#lemma_6171" pos="VRB" corresp="variants.xml#type_21771">treit</w>
             </l>
             <l n="4">
@@ -6915,7 +6916,7 @@
               <w xml:id="KAN_140300700_6">sinne</w>
             </l>
             <l n="8">
-              <w xml:id="KAN_140300800_0">minne</w>
+              <w xml:id="KAN_140300800_0" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <caesura/>
               <w xml:id="KAN_140300800_1" lemmaRef="lexicon.xml#lemma_3656" pos="VRB" ana="lexicon.xml#lemma_3656_sense_5771" corresp="variants.xml#type_12684">lêren</w>
               <w xml:id="KAN_140300800_2">hôhen</w>
@@ -7138,7 +7139,7 @@
             <l n="3">
               <w xml:id="KAN_150300300_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
               <w xml:id="KAN_150300300_1">liep</w>
-              <w xml:id="KAN_150300300_2">minne</w>
+              <w xml:id="KAN_150300300_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="KAN_150300300_3" lemmaRef="lexicon.xml#lemma_1710" pos="VRB" ana="lexicon.xml#lemma_1710_sense_2689" corresp="variants.xml#type_5838">erzeiget</w>
               <pc xml:id="KAN_150300300_4" join="left">,</pc>
             </l>
@@ -8326,7 +8327,7 @@
               <w xml:id="KAN_160801000_3" lemmaRef="lexicon.xml#lemma_4797" pos="NOM ADJ" corresp="variants.xml#type_177394">ræze</w>
               <w xml:id="KAN_160801000_4">ir</w>
               <w xml:id="KAN_160801000_5" lemmaRef="lexicon.xml#lemma_106" pos="ADJ" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_261">aller</w>
-              <w xml:id="KAN_160801000_6">minne</w>
+              <w xml:id="KAN_160801000_6" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <pc xml:id="KAN_160801000_7" join="left">,</pc>
             </l>
             <l n="11">
@@ -10345,7 +10346,7 @@
             </l>
             <l n="6">
               <w xml:id="KAN_170100601_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-              <w xml:id="KAN_170100601_1">minne</w>
+              <w xml:id="KAN_170100601_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="KAN_170100601_2" lemmaRef="lexicon.xml#lemma_4377" pos="ADJ ADV NEG" ana="lexicon.xml#lemma_4377_sense_6838" corresp="variants.xml#type_15286">niht</w>
               <w xml:id="KAN_170100601_3" lemmaRef="lexicon.xml#lemma_1585" pos="VRB" corresp="variants.xml#type_5322">erkennet</w>
               <pc xml:id="KAN_170100601_4" join="left">?</pc>
@@ -10378,7 +10379,7 @@
             </l>
             <l n="10">
               <w xml:id="KAN_170101001_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-              <w xml:id="KAN_170101001_1">minne</w>
+              <w xml:id="KAN_170101001_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="KAN_170101001_2">in</w>
               <w xml:id="KAN_170101001_3" lemmaRef="lexicon.xml#lemma_5176" pos="NOM" ana="lexicon.xml#lemma_5176_sense_8047" corresp="variants.xml#type_17960">schanden</w>
               <w xml:id="KAN_170101001_4" lemmaRef="lexicon.xml#lemma_4331" pos="VRB" ana="lexicon.xml#lemma_4331_sense_6775" corresp="variants.xml#type_15118">nennet</w>
@@ -10446,7 +10447,7 @@
               <w xml:id="KAN_170200701_0" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
               <w xml:id="KAN_170200701_1">lob</w>
               <w xml:id="KAN_170200701_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-              <w xml:id="KAN_170200701_3">minne</w>
+              <w xml:id="KAN_170200701_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="KAN_170200701_4" lemmaRef="lexicon.xml#lemma_11552" pos="ADJ PRP" ana="lexicon.xml#lemma_11552_sense_18385" corresp="variants.xml#type_42229">zaller</w>
               <w xml:id="KAN_170200701_5">stunt</w>
               <pc xml:id="KAN_170200701_6" join="left">.</pc>
@@ -10458,7 +10459,7 @@
               <w xml:id="KAN_170200801_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
               <w xml:id="KAN_170200801_2" lemmaRef="lexicon.xml#lemma_6301" pos="NOM VRB" ana="lexicon.xml#lemma_6301_sense_9929" corresp="variants.xml#type_22319">tet</w>
               <w xml:id="KAN_170200801_3" lemmaRef="lexicon.xml#lemma_7643" pos="PRO" ana="lexicon.xml#lemma_7643_sense_12530" corresp="variants.xml#type_27633">uns</w>
-              <w xml:id="KAN_170200801_4">minne</w>
+              <w xml:id="KAN_170200801_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="KAN_170200801_5">kunt</w>
               <pc xml:id="KAN_170200801_6" join="left">.</pc>
             </l>
@@ -10471,7 +10472,7 @@
             </l>
             <l n="10">
               <w xml:id="KAN_170201001_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-              <w xml:id="KAN_170201001_1">minne</w>
+              <w xml:id="KAN_170201001_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="KAN_170201001_2" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19597">sô</w>
               <w xml:id="KAN_170201001_3">wil</w>
               <w xml:id="KAN_170201001_4">krenken</w>
@@ -10486,7 +10487,7 @@
               <w xml:id="KAN_170300101_1" lemmaRef="lexicon.xml#lemma_5076" pos="NAM" ana="lexicon.xml#lemma_5076_sense_7907" corresp="variants.xml#type_17598">salomôn</w>
               <pc xml:id="KAN_170300101_2" join="left">,</pc>
               <w xml:id="KAN_170300101_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-              <w xml:id="KAN_170300101_4">minne</w>
+              <w xml:id="KAN_170300101_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="KAN_170300101_5" lemmaRef="lexicon.xml#lemma_4649" pos="VRB" corresp="variants.xml#type_16006">pflac</w>
               <pc xml:id="KAN_170300101_6" join="left">,</pc>
             </l>
@@ -10504,7 +10505,7 @@
               <w xml:id="KAN_170300301_2" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
               <w xml:id="KAN_170300301_3">êr</w>
               <w xml:id="KAN_170300301_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-              <w xml:id="KAN_170300301_5">minne</w>
+              <w xml:id="KAN_170300301_5" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="KAN_170300301_6" lemmaRef="lexicon.xml#lemma_5521" pos="NOM" corresp="variants.xml#type_19308">slac</w>
               <pc xml:id="KAN_170300301_7" join="left">,</pc>
             </l>
@@ -10513,14 +10514,14 @@
               <w xml:id="KAN_170300401_1" lemmaRef="lexicon.xml#lemma_7505" pos="VRB" corresp="variants.xml#type_273619">wære</w>
               <w xml:id="KAN_170300401_2" lemmaRef="lexicon.xml#lemma_1546" pos="VRB" ana="lexicon.xml#lemma_1546_sense_2398" corresp="variants.xml#type_5168">erdâht</w>
               <w xml:id="KAN_170300401_3" lemmaRef="lexicon.xml#lemma_4365" pos="ADV NEG" ana="lexicon.xml#lemma_4365_sense_6822" corresp="variants.xml#type_15230">nie</w>
-              <w xml:id="KAN_170300401_4">minne</w>
+              <w xml:id="KAN_170300401_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <pc xml:id="KAN_170300401_5" join="left">.</pc>
             </l>
             <l n="5">
               <w xml:id="KAN_170300501_0" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
               <w xml:id="KAN_170300501_1">wil</w>
               <w xml:id="KAN_170300501_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-              <w xml:id="KAN_170300501_3">minne</w>
+              <w xml:id="KAN_170300501_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="KAN_170300501_4" lemmaRef="lexicon.xml#lemma_678" pos="PRP" ana="lexicon.xml#lemma_678_sense_1096" corresp="variants.xml#type_2056">bî</w>
               <w xml:id="KAN_170300501_5" lemmaRef="lexicon.xml#lemma_2245" pos="VRB" corresp="variants.xml#type_7586">gestân</w>
               <pc xml:id="KAN_170300501_6" join="left">:</pc>
@@ -10555,7 +10556,7 @@
             </l>
             <l n="9">
               <w xml:id="KAN_170300901_0">swer</w>
-              <w xml:id="KAN_170300901_1">minne</w>
+              <w xml:id="KAN_170300901_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="KAN_170300901_2" lemmaRef="lexicon.xml#lemma_3456" pos="VRB" corresp="variants.xml#type_11934">krenkt</w>
               <w xml:id="KAN_170300901_3" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
               <w xml:id="KAN_170300901_4" lemmaRef="lexicon.xml#lemma_272" pos="ADJ" ana="lexicon.xml#lemma_272_sense_352" corresp="variants.xml#type_759">argem</w>
@@ -10692,7 +10693,7 @@
               <w xml:id="KAN_170500301_2" lemmaRef="lexicon.xml#lemma_1185" pos="CNJ" ana="lexicon.xml#lemma_1185_sense_1872" corresp="variants.xml#type_3758">doch</w>
               <w xml:id="KAN_170500301_3" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
               <w xml:id="KAN_170500301_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-              <w xml:id="KAN_170500301_5">minne</w>
+              <w xml:id="KAN_170500301_5" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="KAN_170500301_6">hie</w>
               <pc xml:id="KAN_170500301_7" join="left">;</pc>
             </l>
@@ -10700,7 +10701,7 @@
               <w xml:id="KAN_170500401_0" lemmaRef="lexicon.xml#lemma_1055" pos="ADV" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3258">dar</w>
               <w xml:id="KAN_170500401_1" lemmaRef="lexicon.xml#lemma_6422" pos="ADV PRP" corresp="variants.xml#type_22720">umbe</w>
               <w xml:id="KAN_170500401_2" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
-              <w xml:id="KAN_170500401_3">minne</w>
+              <w xml:id="KAN_170500401_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="KAN_170500401_4">prîse</w>
               <pc xml:id="KAN_170500401_5" join="left">.</pc>
             </l>
@@ -10725,7 +10726,7 @@
             </l>
             <l n="7">
               <w xml:id="KAN_170500701_0">swer</w>
-              <w xml:id="KAN_170500701_1">minne</w>
+              <w xml:id="KAN_170500701_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="KAN_170500701_2" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18956">ist</w>
               <w xml:id="KAN_170500701_3" lemmaRef="lexicon.xml#lemma_7048" pos="NOM ADV" ana="lexicon.xml#lemma_7048_sense_11428" corresp="variants.xml#type_24912">vînt</w>
               <pc xml:id="KAN_170500701_4" join="left">,</pc>
@@ -10902,7 +10903,7 @@
             <w xml:id="KAN_180001401_0" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
             <w xml:id="KAN_180001401_1" lemmaRef="lexicon.xml#lemma_7643" pos="PRO" ana="lexicon.xml#lemma_7643_sense_12530" corresp="variants.xml#type_27647">wir</w>
             <w xml:id="KAN_180001401_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="KAN_180001401_3">minne</w>
+            <w xml:id="KAN_180001401_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="KAN_180001401_4">an</w>
             <w xml:id="KAN_180001401_5">in</w>
             <w xml:id="KAN_180001401_6" lemmaRef="lexicon.xml#lemma_7075" pos="ADJ ADV" ana="lexicon.xml#lemma_7075_sense_11459" corresp="variants.xml#type_25008">vil</w>

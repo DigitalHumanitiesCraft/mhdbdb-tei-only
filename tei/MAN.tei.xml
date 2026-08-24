@@ -138,6 +138,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 3 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -4709,7 +4710,7 @@
           <w xml:id="MAN_598_1" lemmaRef="lexicon.xml#lemma_4070" pos="VRB" corresp="variants.xml#type_162768">melt</w>
           <w xml:id="MAN_598_2">er</w>
           <w xml:id="MAN_598_3" lemmaRef="lexicon.xml#lemma_6743" pos="ADJ" corresp="variants.xml#type_23582">valscher</w>
-          <w xml:id="MAN_598_4">minne</w>
+          <w xml:id="MAN_598_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="MAN_598_5" lemmaRef="lexicon.xml#lemma_3439" pos="ADJ ADV" corresp="variants.xml#type_11866">kranc</w>
           <pc xml:id="MAN_598_6" join="left">.</pc>
         </l>
@@ -4731,7 +4732,7 @@
         <l n="601">
           <w xml:id="MAN_601_0">nach</w>
           <w xml:id="MAN_601_1" lemmaRef="lexicon.xml#lemma_6743" pos="ADJ" corresp="variants.xml#type_23582">valscher</w>
-          <w xml:id="MAN_601_2">minne</w>
+          <w xml:id="MAN_601_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="MAN_601_3" lemmaRef="lexicon.xml#lemma_2362" pos="VRB" corresp="variants.xml#type_7991">gezaeme</w>
         </l>
         <l n="602">
@@ -4756,7 +4757,7 @@
           <w xml:id="MAN_605_0" lemmaRef="lexicon.xml#lemma_6631" pos="NOM ADJ NEG" corresp="variants.xml#type_23261">unstaete</w>
           <w xml:id="MAN_605_1">an</w>
           <w xml:id="MAN_605_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="MAN_605_3">minne</w>
+          <w xml:id="MAN_605_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <pc xml:id="MAN_605_4" join="left">,</pc>
         </l>
         <l n="606">

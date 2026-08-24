@@ -134,6 +134,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 3 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -2532,7 +2533,7 @@
             <w xml:id="RVS_2880_2" lemmaRef="lexicon.xml#lemma_1258" pos="PRP" ana="lexicon.xml#lemma_1258_sense_1977" corresp="variants.xml#type_4044">durch</w>
             <w xml:id="RVS_2880_3" lemmaRef="lexicon.xml#lemma_5235" pos="NOM VRB" corresp="variants.xml#type_85477">schoß</w>
             <w xml:id="RVS_2880_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-            <w xml:id="RVS_2880_5">minne</w>
+            <w xml:id="RVS_2880_5" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="RVS_2880_6">brant</w>
             <pc xml:id="RVS_2880_7" join="left">.</pc>
           </l>
@@ -3781,7 +3782,7 @@
             <w xml:id="RVS_4260_2" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
             <w xml:id="RVS_4260_3" lemmaRef="lexicon.xml#lemma_6194" pos="VRB" corresp="variants.xml#type_70994">trib</w>
             <w xml:id="RVS_4260_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-            <w xml:id="RVS_4260_5">minne</w>
+            <w xml:id="RVS_4260_5" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="RVS_4260_6" lemmaRef="lexicon.xml#lemma_305" pos="NOM" corresp="variants.xml#type_848">art</w>
             <pc xml:id="RVS_4260_7" join="left">,</pc>
           </l>
@@ -5014,7 +5015,7 @@
             <w xml:id="RVS_5620_0" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
             <w xml:id="RVS_5620_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
             <w xml:id="RVS_5620_2" lemmaRef="lexicon.xml#lemma_5864" pos="ADJ" corresp="variants.xml#type_117394">suessen</w>
-            <w xml:id="RVS_5620_3">minne</w>
+            <w xml:id="RVS_5620_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="RVS_5620_4">spil</w>
           </l>
           <l n="563">

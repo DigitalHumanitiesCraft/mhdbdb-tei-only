@@ -128,6 +128,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 4 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -1308,7 +1309,7 @@
         <w xml:id="VHG_11101390_1" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18956">ist</w>
         <w xml:id="VHG_11101390_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
         <w xml:id="VHG_11101390_3">ware</w>
-        <w xml:id="VHG_11101390_4">minne</w>
+        <w xml:id="VHG_11101390_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
         <pc xml:id="VHG_11101390_5" join="left">;</pc>
       </l>
       <l n="140">
@@ -2244,7 +2245,7 @@
         <w xml:id="VHG_11102510_3" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22828">unt</w>
         <w xml:id="VHG_11102510_4" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
         <w xml:id="VHG_11102510_5" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-        <w xml:id="VHG_11102510_6">minne</w>
+        <w xml:id="VHG_11102510_6" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
       </l>
       <l n="252">
         <w xml:id="VHG_11102520_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22828">unt</w>
@@ -5368,7 +5369,7 @@
         <w xml:id="VHG_11106030_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
         <w xml:id="VHG_11106030_1" lemmaRef="lexicon.xml#lemma_1242" pos="PRO" ana="lexicon.xml#lemma_1242_sense_1958" corresp="variants.xml#type_3956">dich</w>
         <w xml:id="VHG_11106030_2" lemmaRef="lexicon.xml#lemma_2465" pos="NOM" ana="lexicon.xml#lemma_2465_sense_3951" corresp="variants.xml#type_8256">gotes</w>
-        <w xml:id="VHG_11106030_3">minne</w>
+        <w xml:id="VHG_11106030_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
         <w xml:id="VHG_11106030_4" lemmaRef="lexicon.xml#lemma_1844" pos="VRB" corresp="variants.xml#type_6299">ge</w>
         <w xml:id="VHG_11106030_5" lemmaRef="lexicon.xml#lemma_3067" pos="VRB" corresp="variants.xml#type_10518">irren</w>
         <w xml:id="VHG_11106030_6" lemmaRef="lexicon.xml#lemma_4240" pos="VRB VEM" corresp="variants.xml#type_14785">mugen</w>
@@ -5941,7 +5942,7 @@
         <w xml:id="VHG_11106680_0" lemmaRef="lexicon.xml#lemma_8385" pos="PRO VRB" corresp="variants.xml#type_29803">hastu</w>
         <w xml:id="VHG_11106680_1" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
         <w xml:id="VHG_11106680_2" lemmaRef="lexicon.xml#lemma_7505" pos="VRB" corresp="variants.xml#type_273652">warn</w>
-        <w xml:id="VHG_11106680_3">minne</w>
+        <w xml:id="VHG_11106680_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
         <pc xml:id="VHG_11106680_4" join="left">;</pc>
       </l>
       <l n="669">

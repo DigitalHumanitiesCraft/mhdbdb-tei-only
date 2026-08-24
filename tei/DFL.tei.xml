@@ -133,6 +133,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 10 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/). 6 weitere Tokens der Form minne blieben bewusst unannotiert (Review).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -1077,7 +1078,7 @@
           <w xml:id="DFL_1170_1" lemmaRef="lexicon.xml#lemma_4830" pos="VRB" ana="lexicon.xml#lemma_4830_sense_7483" corresp="variants.xml#type_16605">redten</w>
           <w xml:id="DFL_1170_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
           <w xml:id="DFL_1170_3" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
-          <w xml:id="DFL_1170_4">minne</w>
+          <w xml:id="DFL_1170_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
         </l>
         <l n="118">
           <w xml:id="DFL_1180_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
@@ -1468,7 +1469,7 @@
         </l>
         <l n="169">
           <w xml:id="DFL_1690_0" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
-          <w xml:id="DFL_1690_1">minne</w>
+          <w xml:id="DFL_1690_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="DFL_1690_2" lemmaRef="lexicon.xml#lemma_7505" pos="VRB" corresp="variants.xml#type_273598">waere</w>
           <w xml:id="DFL_1690_3" lemmaRef="lexicon.xml#lemma_4331" pos="VRB" ana="lexicon.xml#lemma_4331_sense_6775" corresp="variants.xml#type_15098">genant</w>
           <pc xml:id="DFL_1690_4" join="left">.</pc>
@@ -2191,7 +2192,7 @@
           <w xml:id="DFL_2550_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25992">vrouwen</w>
           <w xml:id="DFL_2550_2" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
           <w xml:id="DFL_2550_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
-          <w xml:id="DFL_2550_4">minne</w>
+          <w xml:id="DFL_2550_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <pc xml:id="DFL_2550_5" join="left">,</pc>
         </l>
         <l n="256">
@@ -2204,7 +2205,7 @@
         </l>
         <l n="257">
           <w xml:id="DFL_2570_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="DFL_2570_1">minne</w>
+          <w xml:id="DFL_2570_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="DFL_2570_2" lemmaRef="lexicon.xml#lemma_152" pos="ADV" ana="lexicon.xml#lemma_152_sense_187" corresp="variants.xml#type_379">alsô</w>
           <w xml:id="DFL_2570_3" lemmaRef="lexicon.xml#lemma_2573" pos="ADJ" corresp="variants.xml#type_8636">guoten</w>
           <w xml:id="DFL_2570_4">vlîz</w>
@@ -2241,7 +2242,7 @@
         <l n="262">
           <w xml:id="DFL_2620_0" lemmaRef="lexicon.xml#lemma_5941" pos="PRO IPA" ana="lexicon.xml#lemma_5941_sense_9416" corresp="variants.xml#type_20940">swaz</w>
           <w xml:id="DFL_2620_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="DFL_2620_2">minne</w>
+          <w xml:id="DFL_2620_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="DFL_2620_3" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_28131">ze</w>
           <w xml:id="DFL_2620_4" lemmaRef="lexicon.xml#lemma_1146" pos="NOM" corresp="variants.xml#type_3609">dienste</w>
           <w xml:id="DFL_2620_5" lemmaRef="lexicon.xml#lemma_6279" pos="VRB" ana="lexicon.xml#lemma_6279_sense_9899" corresp="variants.xml#type_22195">tohte</w>
@@ -2259,7 +2260,7 @@
         </l>
         <l n="264">
           <w xml:id="DFL_2640_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="DFL_2640_1">minne</w>
+          <w xml:id="DFL_2640_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="DFL_2640_2" lemmaRef="lexicon.xml#lemma_1145" pos="VRB" corresp="variants.xml#type_3599">diente</w>
           <w xml:id="DFL_2640_3" lemmaRef="lexicon.xml#lemma_1517" pos="PRO" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_4999">er</w>
           <w xml:id="DFL_2640_4" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3256">dâ</w>
@@ -13984,7 +13985,7 @@
         <l n="1722">
           <w xml:id="DFL_17220_0" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
           <w xml:id="DFL_17220_1" lemmaRef="lexicon.xml#lemma_3767" pos="ADJ GRA" ana="lexicon.xml#lemma_3767_sense_5957" corresp="variants.xml#type_40308">lieplîcher</w>
-          <w xml:id="DFL_17220_2">minne</w>
+          <w xml:id="DFL_17220_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
         </l>
         <l n="1723">
           <w xml:id="DFL_17230_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
@@ -15312,7 +15313,7 @@
           <w xml:id="DFL_18900_2" lemmaRef="lexicon.xml#lemma_4523" pos="CNJ" ana="lexicon.xml#lemma_4523_sense_7060" corresp="variants.xml#type_15677">ouch</w>
           <w xml:id="DFL_18900_3" lemmaRef="lexicon.xml#lemma_4281" pos="ADJ ADV" corresp="variants.xml#type_14882">nâch</w>
           <w xml:id="DFL_18900_4" lemmaRef="lexicon.xml#lemma_4729" pos="NOM" corresp="variants.xml#type_16249">prîses</w>
-          <w xml:id="DFL_18900_5">minne</w>
+          <w xml:id="DFL_18900_5" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <pc xml:id="DFL_18900_6" join="left">.</pc>
         </l>
         <l n="1891">
@@ -19026,7 +19027,7 @@
         <l n="2350">
           <w xml:id="DFL_23500_0" lemmaRef="lexicon.xml#lemma_4281" pos="ADJ ADV" corresp="variants.xml#type_14882">nâch</w>
           <w xml:id="DFL_23500_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="DFL_23500_2">minne</w>
+          <w xml:id="DFL_23500_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="DFL_23500_3">prîse</w>
           <pc xml:id="DFL_23500_4" join="left">,</pc>
         </l>
@@ -38802,7 +38803,7 @@
           <w xml:id="DFL_48050_1" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10237">mir</w>
           <w xml:id="DFL_48050_2" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
           <w xml:id="DFL_48050_3" lemmaRef="lexicon.xml#lemma_2573" pos="ADJ" corresp="variants.xml#type_8637">guoter</w>
-          <w xml:id="DFL_48050_4">minne</w>
+          <w xml:id="DFL_48050_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <pc xml:id="DFL_48050_5" join="left">.</pc>
         </l>
         <l n="4806">

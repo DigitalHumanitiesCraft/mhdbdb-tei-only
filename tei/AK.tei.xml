@@ -131,6 +131,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 2 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -57310,7 +57311,7 @@
           <w xml:id="AK_52248_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
           <w xml:id="AK_52248_3" lemmaRef="lexicon.xml#lemma_7338" pos="ADJ" ana="lexicon.xml#lemma_7338_sense_11895" corresp="variants.xml#type_287014">wâren</w>
           <w xml:id="AK_52248_4" lemmaRef="lexicon.xml#lemma_2465" pos="NOM" ana="lexicon.xml#lemma_2465_sense_3951" corresp="variants.xml#type_8256">gotes</w>
-          <w xml:id="AK_52248_5">minne</w>
+          <w xml:id="AK_52248_5" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
         </l>
         <l n="52249">
           <w xml:id="AK_52249_0" lemmaRef="lexicon.xml#lemma_199" pos="PRP" ana="lexicon.xml#lemma_199_sense_248" corresp="variants.xml#type_522">an</w>
@@ -59787,7 +59788,7 @@
           <pc xml:id="AK_52583_1" join="left">,</pc>
           <w xml:id="AK_52583_2" lemmaRef="lexicon.xml#lemma_2684" pos="NOM" corresp="variants.xml#type_9039">herre</w>
           <pc xml:id="AK_52583_3" join="left">,</pc>
-          <w xml:id="AK_52583_4">minne</w>
+          <w xml:id="AK_52583_4" lemmaRef="lexicon.xml#lemma_4133" pos="VRB" corresp="variants.xml#type_38651">minne</w>
           <pc xml:id="AK_52583_5" join="left">.</pc>
           <pc xml:id="AK_52583_6" join="left">&gt;</pc>
         </l>

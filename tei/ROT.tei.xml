@@ -156,6 +156,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 3 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -11813,7 +11814,7 @@
           <w xml:id="ROT_13010_1" lemmaRef="lexicon.xml#lemma_568" pos="VRB" ana="lexicon.xml#lemma_568_sense_839" corresp="variants.xml#type_365829">beschinete</w>
           <w xml:id="ROT_13010_2">men</w>
           <w xml:id="ROT_13010_3" lemmaRef="lexicon.xml#lemma_2534" pos="ADJ" corresp="variants.xml#type_8497">groze</w>
-          <w xml:id="ROT_13010_4">minne</w>
+          <w xml:id="ROT_13010_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <pc xml:id="ROT_13010_5" join="left">.</pc>
         </l>
         <l n="1302">
@@ -17974,7 +17975,7 @@
           </hi>
           <w xml:id="ROT_19470_1" lemmaRef="lexicon.xml#lemma_1385" pos="VRB" ana="lexicon.xml#lemma_1385_sense_2133" corresp="variants.xml#type_365948">imbutit</w>
           <w xml:id="ROT_19470_2">holde</w>
-          <w xml:id="ROT_19470_3">minne</w>
+          <w xml:id="ROT_19470_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <pc xml:id="ROT_19470_4" join="left">.</pc>
         </l>
         <l n="1948">
@@ -45142,7 +45143,7 @@
           </hi>
           <w xml:id="ROT_48160_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
           <w xml:id="ROT_48160_2" lemmaRef="lexicon.xml#lemma_3507" pos="NOM" ana="lexicon.xml#lemma_3507_sense_5555" corresp="variants.xml#type_64538">koningis</w>
-          <w xml:id="ROT_48160_3">minne</w>
+          <w xml:id="ROT_48160_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <pc xml:id="ROT_48160_4" join="left">.</pc>
         </l>
         <l n="4817">

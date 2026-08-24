@@ -133,6 +133,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 3 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -5258,7 +5259,7 @@
             <w xml:id="SLG_6090_1" lemmaRef="lexicon.xml#lemma_1710" pos="VRB" ana="lexicon.xml#lemma_1710_sense_2689" corresp="variants.xml#type_5835">erzeige</w>
             <w xml:id="SLG_6090_2" lemmaRef="lexicon.xml#lemma_1242" pos="PRO" ana="lexicon.xml#lemma_1242_sense_1958" corresp="variants.xml#type_3963">dir</w>
             <w xml:id="SLG_6090_3" lemmaRef="lexicon.xml#lemma_3315" pos="ADJ ADV" ana="lexicon.xml#lemma_3315_sense_5198" corresp="variants.xml#type_11316">kintlîche</w>
-            <w xml:id="SLG_6090_4">minne</w>
+            <w xml:id="SLG_6090_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <pc xml:id="SLG_6090_5" join="left">.</pc>
           </l>
           <l n="610">
@@ -7520,7 +7521,7 @@
           <l n="872">
             <w xml:id="SLG_8720_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
             <w xml:id="SLG_8720_1" lemmaRef="lexicon.xml#lemma_3315" pos="ADJ" ana="lexicon.xml#lemma_3315_sense_5198" corresp="variants.xml#type_69289">kintlichen</w>
-            <w xml:id="SLG_8720_2">minne</w>
+            <w xml:id="SLG_8720_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           </l>
           <l n="873">
             <w xml:id="SLG_8730_0" lemmaRef="lexicon.xml#lemma_1072" pos="VRB" ana="lexicon.xml#lemma_1072_sense_1715" corresp="variants.xml#type_3317">dankte</w>
@@ -7784,7 +7785,7 @@
           <l n="904">
             <w xml:id="SLG_9040_0" lemmaRef="lexicon.xml#lemma_678" pos="PRP" ana="lexicon.xml#lemma_678_sense_1096" corresp="variants.xml#type_2056">bî</w>
             <w xml:id="SLG_9040_1">ir</w>
-            <w xml:id="SLG_9040_2">minne</w>
+            <w xml:id="SLG_9040_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="SLG_9040_3" lemmaRef="lexicon.xml#lemma_368" pos="NOM" corresp="variants.xml#type_1006">banne</w>
             <pc xml:id="SLG_9040_4" join="left">.</pc>
             <pc xml:id="SLG_9040_5" join="left">&gt;</pc>

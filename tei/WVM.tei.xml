@@ -128,6 +128,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 3 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -209,7 +210,7 @@
             <w xml:id="WVM_101007000_3" lemmaRef="lexicon.xml#lemma_3917" pos="VRB" corresp="variants.xml#type_13688">machet</w>
             <w xml:id="WVM_101007000_4" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10226">mich</w>
             <w xml:id="WVM_101007000_5">ir</w>
-            <w xml:id="WVM_101007000_6">minne</w>
+            <w xml:id="WVM_101007000_6" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="WVM_101007000_7">wîs</w>
             <pc xml:id="WVM_101007000_8" join="left">.</pc>
           </l>
@@ -342,7 +343,7 @@
           <l n="8">
             <w xml:id="WVM_201008000_0" lemmaRef="lexicon.xml#lemma_1258" pos="PRP" ana="lexicon.xml#lemma_1258_sense_1977" corresp="variants.xml#type_4044">durch</w>
             <w xml:id="WVM_201008000_1" lemmaRef="lexicon.xml#lemma_4840" pos="NOM ADJ" corresp="variants.xml#type_16638">rehte</w>
-            <w xml:id="WVM_201008000_2">minne</w>
+            <w xml:id="WVM_201008000_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="WVM_201008000_3" lemmaRef="lexicon.xml#lemma_687" pos="VRB" ana="lexicon.xml#lemma_687_sense_1105" corresp="variants.xml#type_115402">beite</w>
             <w xml:id="WVM_201008000_4">ein</w>
             <w xml:id="WVM_201008000_5" lemmaRef="lexicon.xml#lemma_3884" pos="ADJ ADV" ana="lexicon.xml#lemma_3884_sense_6133" corresp="variants.xml#type_13571">lützel</w>
@@ -422,7 +423,7 @@
             <w xml:id="WVM_202008000_3" lemmaRef="lexicon.xml#lemma_3917" pos="VRB" corresp="variants.xml#type_13688">machet</w>
             <w xml:id="WVM_202008000_4" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10237">mir</w>
             <w xml:id="WVM_202008000_5">ir</w>
-            <w xml:id="WVM_202008000_6">minne</w>
+            <w xml:id="WVM_202008000_6" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="WVM_202008000_7" lemmaRef="lexicon.xml#lemma_5709" pos="NOM ADJ" ana="lexicon.xml#lemma_5709_sense_8946" corresp="variants.xml#type_20038">spuot</w>
             <pc xml:id="WVM_202008000_8" join="left">!</pc>
           </l>

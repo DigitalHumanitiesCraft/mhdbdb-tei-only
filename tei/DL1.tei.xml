@@ -175,6 +175,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 1 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -1476,7 +1477,7 @@
               </hi>
             <w xml:id="DL1_1080000001010_1" lemmaRef="lexicon.xml#lemma_2708" pos="NOM ADJ" ana="lexicon.xml#lemma_2708_sense_4365" corresp="variants.xml#type_9131">heiligen</w>
             <w xml:id="DL1_1080000001010_2" lemmaRef="lexicon.xml#lemma_2044" pos="NOM" corresp="variants.xml#type_6895">geistes</w>
-            <w xml:id="DL1_1080000001010_3">minne</w>
+            <w xml:id="DL1_1080000001010_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <lb n="2"/>
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="DL1_1080000001020_0" lemmaRef="lexicon.xml#lemma_5755" pos="VRB" corresp="variants.xml#type_133894">gesterke</w>

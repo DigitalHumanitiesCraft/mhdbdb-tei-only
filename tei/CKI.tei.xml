@@ -126,6 +126,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 10 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/). 2 weitere Tokens der Form minne blieben bewusst unannotiert (Review).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -283,7 +284,7 @@
               <l n="8">
                 <w xml:id="CKI_102008000_0">swer</w>
                 <w xml:id="CKI_102008000_1" lemmaRef="lexicon.xml#lemma_678" pos="PRP" ana="lexicon.xml#lemma_678_sense_1096" corresp="variants.xml#type_2056">bî</w>
-                <w xml:id="CKI_102008000_2">minne</w>
+                <w xml:id="CKI_102008000_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
                 <w xml:id="CKI_102008000_3" lemmaRef="lexicon.xml#lemma_2803" pos="NOM ADJ" ana="lexicon.xml#lemma_2803_sense_4519" corresp="variants.xml#type_48214">herzeliebe</w>
                 <w xml:id="CKI_102008000_4" lemmaRef="lexicon.xml#lemma_1438" pos="VRB" ana="lexicon.xml#lemma_1438_sense_2219" corresp="variants.xml#type_69149">enpfunde</w>
                 <pc xml:id="CKI_102008000_5" join="left">!</pc>
@@ -329,7 +330,7 @@
                 <w xml:id="CKI_103004000_2">sî</w>
                 <w xml:id="CKI_103004000_3" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19597">sô</w>
                 <w xml:id="CKI_103004000_4" lemmaRef="lexicon.xml#lemma_2800" pos="ADJ ADV" ana="lexicon.xml#lemma_2800_sense_4516" corresp="variants.xml#type_39692">herzeclîche</w>
-                <w xml:id="CKI_103004000_5">minne</w>
+                <w xml:id="CKI_103004000_5" lemmaRef="lexicon.xml#lemma_4133" pos="VRB" corresp="variants.xml#type_38651">minne</w>
                 <pc xml:id="CKI_103004000_6" join="left">,</pc>
               </l>
               <l n="5">
@@ -365,7 +366,7 @@
                 <w xml:id="CKI_103008000_0" lemmaRef="lexicon.xml#lemma_7338" pos="ADJ" corresp="variants.xml#type_26438">wâriu</w>
                 <w xml:id="CKI_103008000_1">liebe</w>
                 <w xml:id="CKI_103008000_2" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18956">ist</w>
-                <w xml:id="CKI_103008000_3">minne</w>
+                <w xml:id="CKI_103008000_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
                 <w xml:id="CKI_103008000_4">ein</w>
                 <w xml:id="CKI_103008000_5" lemmaRef="lexicon.xml#lemma_6369" pos="PRP VRB" ana="lexicon.xml#lemma_6369_sense_10042" corresp="variants.xml#type_22578">übergulde</w>
                 <pc xml:id="CKI_103008000_6" join="left">.</pc>
@@ -718,7 +719,7 @@
                 </hi>
                 <w xml:id="CKI_204001000_1" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
                 <w xml:id="CKI_204001000_2">ir</w>
-                <w xml:id="CKI_204001000_3">minne</w>
+                <w xml:id="CKI_204001000_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
                 <w xml:id="CKI_204001000_4">ger</w>
                 <pc xml:id="CKI_204001000_5" join="left">,</pc>
               </l>
@@ -727,7 +728,7 @@
                 <w xml:id="CKI_204002000_1" lemmaRef="lexicon.xml#lemma_7211" pos="VRB" ana="lexicon.xml#lemma_7211_sense_11684" corresp="variants.xml#type_39811">frâgt</w>
                 <w xml:id="CKI_204002000_2">sî</w>
                 <w xml:id="CKI_204002000_3">waz</w>
-                <w xml:id="CKI_204002000_4">minne</w>
+                <w xml:id="CKI_204002000_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
                 <w xml:id="CKI_204002000_5">sî</w>
                 <pc xml:id="CKI_204002000_6" join="left">:</pc>
               </l>
@@ -813,7 +814,7 @@
               <l n="2">
                 <w xml:id="CKI_205002000_0">ob</w>
                 <w xml:id="CKI_205002000_1">si</w>
-                <w xml:id="CKI_205002000_2">minne</w>
+                <w xml:id="CKI_205002000_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
                 <w xml:id="CKI_205002000_3" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10226">mich</w>
                 <w xml:id="CKI_205002000_4">gewer</w>
                 <pc xml:id="CKI_205002000_5" join="left">,</pc>
@@ -850,7 +851,7 @@
                 <w xml:id="CKI_205006000_2" lemmaRef="lexicon.xml#lemma_4133" pos="VRB" corresp="variants.xml#type_14423">minnent</w>
                 <w xml:id="CKI_205006000_3" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
                 <w xml:id="CKI_205006000_4">sint</w>
-                <w xml:id="CKI_205006000_5">minne</w>
+                <w xml:id="CKI_205006000_5" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
                 <w xml:id="CKI_205006000_6">wert</w>
                 <pc xml:id="CKI_205006000_7" join="left">.</pc>
               </l>
@@ -975,7 +976,7 @@
                 <w xml:id="CKI_302002000_2" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
                 <caesura/>
                 <w xml:id="CKI_302002000_3" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
-                <w xml:id="CKI_302002000_4">minne</w>
+                <w xml:id="CKI_302002000_4" lemmaRef="lexicon.xml#lemma_4133" pos="VRB" corresp="variants.xml#type_38651">minne</w>
                 <w xml:id="CKI_302002000_5" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10226">mich</w>
                 <w xml:id="CKI_302002000_6" lemmaRef="lexicon.xml#lemma_119" pos="ADJ ADV" ana="lexicon.xml#lemma_119_sense_153" corresp="variants.xml#type_299">aleine</w>
                 <pc xml:id="CKI_302002000_7" join="left">,</pc>
@@ -1197,7 +1198,7 @@
                 <pc xml:id="CKI_403003000_7" join="left">,</pc>
               </l>
               <l n="4">
-                <w xml:id="CKI_403004000_0">minne</w>
+                <w xml:id="CKI_403004000_0" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
                 <w xml:id="CKI_403004000_1" lemmaRef="lexicon.xml#lemma_8052" pos="ART VEX" ana="lexicon.xml#lemma_8052_sense_22047" corresp="variants.xml#type_29037">diust</w>
                 <w xml:id="CKI_403004000_2">an</w>
                 <w xml:id="CKI_403004000_3" lemmaRef="lexicon.xml#lemma_7252" pos="NOM" ana="lexicon.xml#lemma_7252_sense_11755" corresp="variants.xml#type_25885">fröiden</w>
@@ -1230,7 +1231,7 @@
                 <w xml:id="CKI_403007000_1">du</w>
                 <w xml:id="CKI_403007000_2" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18951">bist</w>
                 <w xml:id="CKI_403007000_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-                <w xml:id="CKI_403007000_4">minne</w>
+                <w xml:id="CKI_403007000_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
                 <w xml:id="CKI_403007000_5">ein</w>
                 <w xml:id="CKI_403007000_6" lemmaRef="lexicon.xml#lemma_64649" pos="ADJ" ana="lexicon.xml#lemma_64649_sense_101503" corresp="variants.xml#type_333020">blüender</w>
                 <w xml:id="CKI_403007000_7" lemmaRef="lexicon.xml#lemma_5722" pos="NOM" corresp="variants.xml#type_20123">stam</w>

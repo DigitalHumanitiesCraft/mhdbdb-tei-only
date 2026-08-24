@@ -134,6 +134,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 6 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -1904,7 +1905,7 @@
         </l>
         <l n="212">
           <w xml:id="VZS_2120_0" lemmaRef="lexicon.xml#lemma_56117" pos="POS" ana="lexicon.xml#lemma_56117_sense_90961" corresp="variants.xml#type_304940">iur</w>
-          <w xml:id="VZS_2120_1">minne</w>
+          <w xml:id="VZS_2120_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="VZS_2120_2">kan</w>
           <w xml:id="VZS_2120_3" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10226">mich</w>
           <w xml:id="VZS_2120_4">twingen</w>
@@ -2094,7 +2095,7 @@
           <w xml:id="VZS_2350_1">si</w>
           <w xml:id="VZS_2350_2">gevie</w>
           <w xml:id="VZS_2350_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="VZS_2350_4">minne</w>
+          <w xml:id="VZS_2350_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="VZS_2350_5">bant</w>
           <pc xml:id="VZS_2350_6" join="left">.</pc>
         </l>
@@ -2177,7 +2178,7 @@
           <w xml:id="VZS_2460_1" lemmaRef="lexicon.xml#lemma_6327" pos="NOM VRB" corresp="variants.xml#type_22457">twanc</w>
           <w xml:id="VZS_2460_2">si</w>
           <w xml:id="VZS_2460_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="VZS_2460_4">minne</w>
+          <w xml:id="VZS_2460_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="VZS_2460_5">bant</w>
           <pc xml:id="VZS_2460_6" join="left">,</pc>
         </l>
@@ -2217,7 +2218,7 @@
           <w xml:id="VZS_2510_0" lemmaRef="lexicon.xml#lemma_6422" pos="ADV PRP" corresp="variants.xml#type_22719">umb</w>
           <w xml:id="VZS_2510_1" lemmaRef="lexicon.xml#lemma_1169" pos="DET" ana="lexicon.xml#lemma_1169_sense_1850" corresp="variants.xml#type_3686">dirre</w>
           <w xml:id="VZS_2510_2" lemmaRef="lexicon.xml#lemma_3926" pos="NOM" corresp="variants.xml#type_13726">maget</w>
-          <w xml:id="VZS_2510_3">minne</w>
+          <w xml:id="VZS_2510_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="VZS_2510_4" lemmaRef="lexicon.xml#lemma_1961" pos="VRB" ana="lexicon.xml#lemma_1961_sense_3008" corresp="variants.xml#type_6623">geben</w>
           <pc xml:id="VZS_2510_5" join="left">!</pc>
         </l>
@@ -2233,7 +2234,7 @@
           <w xml:id="VZS_2530_0" lemmaRef="lexicon.xml#lemma_1762" pos="PRO" ana="lexicon.xml#lemma_1762_sense_2752" corresp="variants.xml#type_6021">ez</w>
           <w xml:id="VZS_2530_1">sint</w>
           <w xml:id="VZS_2530_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="VZS_2530_3">minne</w>
+          <w xml:id="VZS_2530_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="VZS_2530_4" lemmaRef="lexicon.xml#lemma_7782" pos="NOM ADJ ADV" corresp="variants.xml#type_28160">zeichen</w>
           <pc xml:id="VZS_2530_5" join="left">,</pc>
         </l>
@@ -3369,7 +3370,7 @@
         <l n="388">
           <w xml:id="VZS_3880_0" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
           <w xml:id="VZS_3880_1">ir</w>
-          <w xml:id="VZS_3880_2">minne</w>
+          <w xml:id="VZS_3880_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="VZS_3880_3">vil</w>
           <w xml:id="VZS_3880_4" lemmaRef="lexicon.xml#lemma_2573" pos="NOM ADJ ADV" corresp="variants.xml#type_8633">guot</w>
           <pc xml:id="VZS_3880_5" join="left">.</pc>

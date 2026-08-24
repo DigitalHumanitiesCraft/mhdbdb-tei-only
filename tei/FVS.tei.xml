@@ -128,6 +128,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 6 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/). 1 weitere Tokens der Form minne blieben bewusst unannotiert (Review).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -7048,7 +7049,7 @@
           </l>
           <l n="6">
             <w xml:id="FVS_4606_0">swer</w>
-            <w xml:id="FVS_4606_1">minne</w>
+            <w xml:id="FVS_4606_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="FVS_4606_2" lemmaRef="lexicon.xml#lemma_4649" pos="VRB" corresp="variants.xml#type_42011">pfligt</w>
             <w xml:id="FVS_4606_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
             <w xml:id="FVS_4606_4" lemmaRef="lexicon.xml#lemma_3758" pos="VRB" ana="lexicon.xml#lemma_3758_sense_5948" corresp="variants.xml#type_13076">liuget</w>
@@ -7078,7 +7079,7 @@
             <w xml:id="FVS_4608_0">lüge</w>
             <w xml:id="FVS_4608_1" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18956">ist</w>
             <w xml:id="FVS_4608_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-            <w xml:id="FVS_4608_3">minne</w>
+            <w xml:id="FVS_4608_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="FVS_4608_4">site</w>
             <pc xml:id="FVS_4608_5" join="left">.</pc>
           </l>
@@ -7518,7 +7519,7 @@
             <w xml:id="FVS_4906_6" lemmaRef="lexicon.xml#lemma_8324" pos="NEG VRB" corresp="variants.xml#type_29713">enzimt</w>
             <w xml:id="FVS_4906_7" lemmaRef="lexicon.xml#lemma_678" pos="PRP" ana="lexicon.xml#lemma_678_sense_1096" corresp="variants.xml#type_2055">bi</w>
             <w xml:id="FVS_4906_8" lemmaRef="lexicon.xml#lemma_4848" pos="ADJ GRA" corresp="variants.xml#type_16673">reiner</w>
-            <w xml:id="FVS_4906_9">minne</w>
+            <w xml:id="FVS_4906_9" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="FVS_4906_10" lemmaRef="lexicon.xml#lemma_7677" pos="NOM ADV" ana="lexicon.xml#lemma_7677_sense_12586" corresp="variants.xml#type_27811">wol</w>
             <pc xml:id="FVS_4906_11" join="left">:</pc>
           </l>
@@ -7559,7 +7560,7 @@
             <w xml:id="FVS_4910_1" lemmaRef="lexicon.xml#lemma_5385" pos="ADJ" ana="lexicon.xml#lemma_5385_sense_8406" corresp="variants.xml#type_18766">selbe</w>
             <w xml:id="FVS_4910_2">sol</w>
             <w xml:id="FVS_4910_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
-            <w xml:id="FVS_4910_4">minne</w>
+            <w xml:id="FVS_4910_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="FVS_4910_5" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
             <w xml:id="FVS_4910_6" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
             <w xml:id="FVS_4910_7" lemmaRef="lexicon.xml#lemma_6604" pos="NOM NEG" ana="lexicon.xml#lemma_6604_sense_10484" corresp="variants.xml#type_23177">unminne</w>
@@ -7589,7 +7590,7 @@
           <l n="12">
             <w xml:id="FVS_4912_0" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
             <w xml:id="FVS_4912_1" lemmaRef="lexicon.xml#lemma_504" pos="VRB" ana="lexicon.xml#lemma_504_sense_722" corresp="variants.xml#type_65209">blibet</w>
-            <w xml:id="FVS_4912_2">minne</w>
+            <w xml:id="FVS_4912_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="FVS_4912_3">tugenden</w>
             <w xml:id="FVS_4912_4" lemmaRef="lexicon.xml#lemma_7163" pos="ADJ ADV" corresp="variants.xml#type_25418">vol</w>
             <w xml:id="FVS_4912_5" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
@@ -9309,7 +9310,7 @@
           <l n="6">
             <w xml:id="FVS_6206_0">in</w>
             <w xml:id="FVS_6206_1" lemmaRef="lexicon.xml#lemma_4131" pos="ADJ GRA" ana="lexicon.xml#lemma_4131_sense_6488" corresp="variants.xml#type_40951">minniclicher</w>
-            <w xml:id="FVS_6206_2">minne</w>
+            <w xml:id="FVS_6206_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <pc xml:id="FVS_6206_3" join="left">,</pc>
           </l>
           <l n="7">

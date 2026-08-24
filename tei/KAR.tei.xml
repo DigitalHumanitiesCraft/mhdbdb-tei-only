@@ -130,6 +130,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 10 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -1917,7 +1918,7 @@
           <pc xml:id="KAR_223_2" join="left">,</pc>
           <w xml:id="KAR_223_3">ob</w>
           <w xml:id="KAR_223_4" lemmaRef="lexicon.xml#lemma_1517" pos="POS" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_5014">sîner</w>
-          <w xml:id="KAR_223_5">minne</w>
+          <w xml:id="KAR_223_5" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
         </l>
         <l n="224">
           <w xml:id="KAR_224_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
@@ -9267,7 +9268,7 @@
         <l n="1179">
           <w xml:id="KAR_1179_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
           <w xml:id="KAR_1179_1" lemmaRef="lexicon.xml#lemma_1401" pos="ADJ ADV NEG" corresp="variants.xml#type_88809">endelôse</w>
-          <w xml:id="KAR_1179_2">minne</w>
+          <w xml:id="KAR_1179_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <pc xml:id="KAR_1179_3" join="left">,</pc>
         </l>
         <l n="1180">
@@ -10055,7 +10056,7 @@
           <pc xml:id="KAR_1281_3" join="left">,</pc>
         </l>
         <l n="1282">
-          <w xml:id="KAR_1282_0">minne</w>
+          <w xml:id="KAR_1282_0" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="KAR_1282_1" lemmaRef="lexicon.xml#lemma_5051" pos="NOM" ana="lexicon.xml#lemma_5051_sense_7869" corresp="variants.xml#type_17477">saelde</w>
           <w xml:id="KAR_1282_2" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
           <w xml:id="KAR_1282_3" lemmaRef="lexicon.xml#lemma_1282" pos="NOM" ana="lexicon.xml#lemma_1282_sense_2011" corresp="variants.xml#type_4145">êre</w>
@@ -33324,7 +33325,7 @@
           <w xml:id="KAR_4173_0">ir</w>
           <w xml:id="KAR_4173_1" lemmaRef="lexicon.xml#lemma_6215" pos="NOM ADJ" corresp="variants.xml#type_21953">triwe</w>
           <w xml:id="KAR_4173_2">ir</w>
-          <w xml:id="KAR_4173_3">minne</w>
+          <w xml:id="KAR_4173_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="KAR_4173_4">ir</w>
           <w xml:id="KAR_4173_5" lemmaRef="lexicon.xml#lemma_7927" pos="NOM PRP" corresp="variants.xml#type_28792">zuoversiht</w>
           <pc xml:id="KAR_4173_6" join="left">,</pc>
@@ -47062,7 +47063,7 @@
           <w xml:id="KAR_5889_1" lemmaRef="lexicon.xml#lemma_2075" pos="NOM VRB" corresp="variants.xml#type_6998">geloube</w>
           <w xml:id="KAR_5889_2" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
           <w xml:id="KAR_5889_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
-          <w xml:id="KAR_5889_4">minne</w>
+          <w xml:id="KAR_5889_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
         </l>
         <l n="5890">
           <w xml:id="KAR_5890_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
@@ -49075,7 +49076,7 @@
           <w xml:id="KAR_6146_1" lemmaRef="lexicon.xml#lemma_2598" pos="VRB VEX" corresp="variants.xml#type_8768">hete</w>
           <w xml:id="KAR_6146_2">ir</w>
           <w xml:id="KAR_6146_3" lemmaRef="lexicon.xml#lemma_2534" pos="ADJ" corresp="variants.xml#type_8468">grôze</w>
-          <w xml:id="KAR_6146_4">minne</w>
+          <w xml:id="KAR_6146_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <pc xml:id="KAR_6146_5" join="left">,</pc>
         </l>
         <l n="6147">
@@ -59844,7 +59845,7 @@
           <w xml:id="KAR_7486_1" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
           <w xml:id="KAR_7486_2" lemmaRef="lexicon.xml#lemma_7075" pos="ADJ ADV" ana="lexicon.xml#lemma_7075_sense_11459" corresp="variants.xml#type_25008">vil</w>
           <w xml:id="KAR_7486_3" lemmaRef="lexicon.xml#lemma_2534" pos="ADJ" corresp="variants.xml#type_8475">grôziu</w>
-          <w xml:id="KAR_7486_4">minne</w>
+          <w xml:id="KAR_7486_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <pc xml:id="KAR_7486_5" join="left">,</pc>
         </l>
         <l n="7487">
@@ -74497,7 +74498,7 @@
           <w xml:id="KAR_9296_1" lemmaRef="lexicon.xml#lemma_870" pos="VRB" ana="lexicon.xml#lemma_870_sense_1431" corresp="variants.xml#type_100391">brunnen</w>
           <w xml:id="KAR_9296_2" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
           <w xml:id="KAR_9296_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="KAR_9296_4">minne</w>
+          <w xml:id="KAR_9296_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <pc xml:id="KAR_9296_5" join="left">,</pc>
         </l>
         <l n="9297">
@@ -86096,7 +86097,7 @@
           <w xml:id="KAR_10758_0">in</w>
           <w xml:id="KAR_10758_1" lemmaRef="lexicon.xml#lemma_6171" pos="VRB" corresp="variants.xml#type_21777">truogen</w>
           <w xml:id="KAR_10758_2" lemmaRef="lexicon.xml#lemma_2534" pos="ADJ" corresp="variants.xml#type_8468">grôze</w>
-          <w xml:id="KAR_10758_3">minne</w>
+          <w xml:id="KAR_10758_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
         </l>
         <l n="10759">
           <w xml:id="KAR_10759_0" lemmaRef="lexicon.xml#lemma_106" pos="ADJ" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_258">alle</w>
@@ -86631,7 +86632,7 @@
         </l>
         <l n="10827">
           <w xml:id="KAR_10827_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="KAR_10827_1">minne</w>
+          <w xml:id="KAR_10827_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="KAR_10827_2" lemmaRef="lexicon.xml#lemma_5226" pos="NOM" corresp="variants.xml#type_18156">schîn</w>
           <w xml:id="KAR_10827_3" lemmaRef="lexicon.xml#lemma_6301" pos="NOM VRB" ana="lexicon.xml#lemma_6301_sense_9929" corresp="variants.xml#type_22313">taete</w>
           <pc xml:id="KAR_10827_4" join="left">,</pc>
