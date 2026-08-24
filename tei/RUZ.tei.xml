@@ -140,6 +140,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 4 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -988,7 +989,7 @@
           <w xml:id="RUZ_950_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
           <w xml:id="RUZ_950_1">het</w>
           <w xml:id="RUZ_950_2">hie</w>
-          <w xml:id="RUZ_950_3">minne</w>
+          <w xml:id="RUZ_950_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="RUZ_950_4" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
           <w xml:id="RUZ_950_5" lemmaRef="lexicon.xml#lemma_2089" pos="NOM ADJ ADV" corresp="variants.xml#type_7066">gemach</w>
         </l>
@@ -1174,7 +1175,7 @@
           <w xml:id="RUZ_1130_0">er</w>
           <w xml:id="RUZ_1130_1" lemmaRef="lexicon.xml#lemma_5608" pos="VRB VEM" corresp="variants.xml#type_19661">solte</w>
           <w xml:id="RUZ_1130_2">han</w>
-          <w xml:id="RUZ_1130_3">minne</w>
+          <w xml:id="RUZ_1130_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="RUZ_1130_4" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
           <w xml:id="RUZ_1130_5" lemmaRef="lexicon.xml#lemma_2089" pos="NOM ADJ ADV" corresp="variants.xml#type_7066">gemach</w>
           <pc xml:id="RUZ_1130_6" join="left">.</pc>
@@ -2892,7 +2893,7 @@
           <w xml:id="RUZ_3040_0">im</w>
           <w xml:id="RUZ_3040_1" lemmaRef="lexicon.xml#lemma_7505" pos="VRB" corresp="variants.xml#type_273624">wæren</w>
           <w xml:id="RUZ_3040_2">dine</w>
-          <w xml:id="RUZ_3040_3">minne</w>
+          <w xml:id="RUZ_3040_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
         </l>
         <l n="305">
           <w xml:id="RUZ_3050_0" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_28131">ze</w>
@@ -3030,7 +3031,7 @@
         <l n="321">
           <w xml:id="RUZ_3210_0">waz</w>
           <w xml:id="RUZ_3210_1" lemmaRef="lexicon.xml#lemma_2714" pos="ADJ ADV" corresp="variants.xml#type_9159">heimliche</w>
-          <w xml:id="RUZ_3210_2">minne</w>
+          <w xml:id="RUZ_3210_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <supplied>
             <w xml:id="RUZ_3210_3" lemmaRef="lexicon.xml#lemma_2885" pos="VRB" corresp="variants.xml#type_9845">hoeret</w>
           </supplied>

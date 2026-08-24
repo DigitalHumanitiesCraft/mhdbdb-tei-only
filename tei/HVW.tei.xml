@@ -127,6 +127,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 2 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -615,7 +616,7 @@
         <l n="5">
           <w xml:id="HVW_10700500_0" lemmaRef="lexicon.xml#lemma_4330" pos="VRB" corresp="variants.xml#type_15091">nim</w>
           <w xml:id="HVW_10700500_1" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="HVW_10700500_2">minne</w>
+          <w xml:id="HVW_10700500_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="HVW_10700500_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
           <w xml:id="HVW_10700500_4">gefüege</w>
           <w xml:id="HVW_10700500_5">sî</w>
@@ -635,7 +636,7 @@
         <l n="7">
           <w xml:id="HVW_10700700_0" lemmaRef="lexicon.xml#lemma_1242" pos="PRO" ana="lexicon.xml#lemma_1242_sense_1958" corresp="variants.xml#type_3963">dir</w>
           <w xml:id="HVW_10700700_1" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18956">ist</w>
-          <w xml:id="HVW_10700700_2">minne</w>
+          <w xml:id="HVW_10700700_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="HVW_10700700_3" lemmaRef="lexicon.xml#lemma_675" pos="ADJ ADV GRA" ana="lexicon.xml#lemma_675_sense_1090" corresp="variants.xml#type_2041">bezzer</w>
           <w xml:id="HVW_10700700_4" lemmaRef="lexicon.xml#lemma_1073" pos="ADV" ana="lexicon.xml#lemma_1073_sense_1716" corresp="variants.xml#type_3323">danne</w>
           <w xml:id="HVW_10700700_5" lemmaRef="lexicon.xml#lemma_4840" pos="NOM ADJ ADV" corresp="variants.xml#type_16637">reht</w>

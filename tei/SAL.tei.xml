@@ -178,6 +178,7 @@
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben,
         Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND-
         und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 4 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -8880,7 +8881,7 @@
         </l>
         <l n="5">
           <w xml:id="SAL_181050_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="SAL_181050_1">minne</w>
+          <w xml:id="SAL_181050_1" lemmaRef="lexicon.xml#lemma_4133" pos="VRB" corresp="variants.xml#type_38651">minne</w>
           <w xml:id="SAL_181050_2" lemmaRef="lexicon.xml#lemma_1517" pos="PRO" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_4999">er</w>
           <w xml:id="SAL_181050_3" lemmaRef="lexicon.xml#lemma_152" pos="ADV" ana="lexicon.xml#lemma_152_sense_187" corresp="variants.xml#type_378">also</w>
           <w xml:id="SAL_181050_4">gerne</w>
@@ -20533,7 +20534,7 @@
           <pc xml:id="SAL_413010_2" join="left">:</pc>
           <pc xml:id="SAL_413010_3" join="right">&lt;</pc>
           <w xml:id="SAL_413010_4" lemmaRef="lexicon.xml#lemma_1242" pos="POS" ana="lexicon.xml#lemma_1242_sense_1958" corresp="variants.xml#type_3960">diner</w>
-          <w xml:id="SAL_413010_5">minne</w>
+          <w xml:id="SAL_413010_5" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="SAL_413010_6">enger</w>
           <w xml:id="SAL_413010_7" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
           <w xml:id="SAL_413010_8" lemmaRef="lexicon.xml#lemma_4377" pos="ADJ ADV NEG" ana="lexicon.xml#lemma_4377_sense_6838" corresp="variants.xml#type_158951">nit</w>
@@ -38577,7 +38578,7 @@
           <w xml:id="SAL_776030_2" lemmaRef="lexicon.xml#lemma_1073" pos="ADV" ana="lexicon.xml#lemma_1073_sense_1716" corresp="variants.xml#type_3320">dan</w>
           <w xml:id="SAL_776030_3" lemmaRef="lexicon.xml#lemma_7194" pos="ADV PRP" ana="lexicon.xml#lemma_7194_sense_11657" corresp="variants.xml#type_25545">vor</w>
           <w xml:id="SAL_776030_4" lemmaRef="lexicon.xml#lemma_7221" pos="NOM ADJ ADV" corresp="variants.xml#type_25676">fremde</w>
-          <w xml:id="SAL_776030_5">minne</w>
+          <w xml:id="SAL_776030_5" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <pc xml:id="SAL_776030_6" join="left">.</pc>
           <pc xml:id="SAL_776030_7" join="left">&gt;</pc>
         </l>
@@ -38995,7 +38996,7 @@
           <w xml:id="SAL_783050_1" lemmaRef="lexicon.xml#lemma_4523" pos="CNJ" ana="lexicon.xml#lemma_4523_sense_7060" corresp="variants.xml#type_61484">auch</w>
           <w xml:id="SAL_783050_2" lemmaRef="lexicon.xml#lemma_8699" pos="PRO NEG" ana="lexicon.xml#lemma_8699_sense_64115" corresp="variants.xml#type_30234">sine</w>
           <w xml:id="SAL_783050_3">werde</w>
-          <w xml:id="SAL_783050_4">minne</w>
+          <w xml:id="SAL_783050_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
         </l>
         <l n="6">
           <w xml:id="SAL_783060_0" lemmaRef="lexicon.xml#lemma_2465" pos="NOM" ana="lexicon.xml#lemma_2465_sense_3951" corresp="variants.xml#type_44792">gottes</w>

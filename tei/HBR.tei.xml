@@ -132,6 +132,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 3 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -8353,7 +8354,7 @@
           <w xml:id="HBR_100100_3">ir</w>
           <w xml:id="HBR_100100_4" lemmaRef="lexicon.xml#lemma_863" pos="NOM" ana="lexicon.xml#lemma_863_sense_1418" corresp="variants.xml#type_2708">brieve</w>
           <w xml:id="HBR_100100_5" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
-          <w xml:id="HBR_100100_6">minne</w>
+          <w xml:id="HBR_100100_6" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <pc xml:id="HBR_100100_7" join="left">:</pc>
         </l>
         <l n="1002">
@@ -11343,7 +11344,7 @@
         </l>
         <l n="1368">
           <w xml:id="HBR_136800_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
-          <w xml:id="HBR_136800_1">minne</w>
+          <w xml:id="HBR_136800_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="HBR_136800_2" lemmaRef="lexicon.xml#lemma_1242" pos="PRO" ana="lexicon.xml#lemma_1242_sense_1958" corresp="variants.xml#type_3963">dir</w>
           <w xml:id="HBR_136800_3">wirt</w>
           <w xml:id="HBR_136800_4" lemmaRef="lexicon.xml#lemma_5858" pos="NOM ADJ ADV" corresp="variants.xml#type_49668">sûwer</w>
@@ -14581,7 +14582,7 @@
           <w xml:id="HBR_176900_1" lemmaRef="lexicon.xml#lemma_1961" pos="VRB" ana="lexicon.xml#lemma_1961_sense_3008" corresp="variants.xml#type_6623">geben</w>
           <w xml:id="HBR_176900_2">in</w>
           <w xml:id="HBR_176900_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="HBR_176900_4">minne</w>
+          <w xml:id="HBR_176900_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
         </l>
         <l n="1770">
           <w xml:id="HBR_177000_0" lemmaRef="lexicon.xml#lemma_1258" pos="PRP" ana="lexicon.xml#lemma_1258_sense_1977" corresp="variants.xml#type_4044">durch</w>

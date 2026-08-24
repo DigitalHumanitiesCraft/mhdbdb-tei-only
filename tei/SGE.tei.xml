@@ -138,6 +138,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 2 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -3743,7 +3744,7 @@
           <w xml:id="SGE_414_2" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
           <w xml:id="SGE_414_3">ir</w>
           <w xml:id="SGE_414_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="SGE_414_5">minne</w>
+          <w xml:id="SGE_414_5" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="SGE_414_6">spil</w>
         </l>
         <l n="415">
@@ -3879,7 +3880,7 @@
           <w xml:id="SGE_430_1" lemmaRef="lexicon.xml#lemma_4377" pos="ADJ ADV NEG" ana="lexicon.xml#lemma_4377_sense_6838" corresp="variants.xml#type_158951">nit</w>
           <w xml:id="SGE_430_2" lemmaRef="lexicon.xml#lemma_5903" pos="VRB" corresp="variants.xml#type_20818">suoch</w>
           <w xml:id="SGE_430_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="SGE_430_4">minne</w>
+          <w xml:id="SGE_430_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="SGE_430_5" lemmaRef="lexicon.xml#lemma_3568" pos="NOM" ana="lexicon.xml#lemma_3568_sense_5657" corresp="variants.xml#type_198278">lab</w>
           <pc xml:id="SGE_430_6" join="left">,</pc>
         </l>

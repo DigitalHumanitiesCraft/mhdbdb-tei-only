@@ -164,6 +164,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 2 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -866,7 +867,7 @@
             <w xml:id="DGK_1630820_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
             <w xml:id="DGK_1630820_1" lemmaRef="lexicon.xml#lemma_7677" pos="NOM ADV" ana="lexicon.xml#lemma_7677_sense_12586" corresp="variants.xml#type_27811">wol</w>
             <w xml:id="DGK_1630820_2">ir</w>
-            <w xml:id="DGK_1630820_3">minne</w>
+            <w xml:id="DGK_1630820_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="DGK_1630820_4">were</w>
             <w xml:id="DGK_1630820_5">wert</w>
             <pc xml:id="DGK_1630820_6" join="left">,</pc>
@@ -972,7 +973,7 @@
           <l n="95">
             <w xml:id="DGK_1630950_0">swer</w>
             <w xml:id="DGK_1630950_1">ir</w>
-            <w xml:id="DGK_1630950_2">minne</w>
+            <w xml:id="DGK_1630950_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="DGK_1630950_3">kan</w>
             <w xml:id="DGK_1630950_4" lemmaRef="lexicon.xml#lemma_477" pos="VRB" corresp="variants.xml#type_1367">bejagen</w>
             <pc xml:id="DGK_1630950_5" join="left">,</pc>

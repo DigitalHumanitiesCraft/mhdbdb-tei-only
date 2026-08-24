@@ -140,6 +140,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 5 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -538,7 +539,7 @@
             <w xml:id="RDL_470_1">wan</w>
             <w xml:id="RDL_470_2" lemmaRef="lexicon.xml#lemma_6422" pos="ADV PRP" corresp="variants.xml#type_22719">umb</w>
             <w xml:id="RDL_470_3">ir</w>
-            <w xml:id="RDL_470_4">minne</w>
+            <w xml:id="RDL_470_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <pc xml:id="RDL_470_5" join="left">:</pc>
           </l>
           <l n="48">
@@ -764,7 +765,7 @@
             <w xml:id="RDL_750_3" lemmaRef="lexicon.xml#lemma_3767" pos="ADJ ADV" ana="lexicon.xml#lemma_3767_sense_5957" corresp="variants.xml#type_13127">lieplich</w>
             <w xml:id="RDL_750_4" lemmaRef="lexicon.xml#lemma_6422" pos="ADV PRP" corresp="variants.xml#type_22719">umb</w>
             <w xml:id="RDL_750_5">ir</w>
-            <w xml:id="RDL_750_6">minne</w>
+            <w xml:id="RDL_750_6" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <pc xml:id="RDL_750_7" join="left">.</pc>
           </l>
           <l n="76">
@@ -2884,7 +2885,7 @@
             <w xml:id="RDL_3210_0">an</w>
             <w xml:id="RDL_3210_1" lemmaRef="lexicon.xml#lemma_2348" pos="VRB" corresp="variants.xml#type_7940">gewunnen</w>
             <w xml:id="RDL_3210_2" lemmaRef="lexicon.xml#lemma_3001" pos="POS" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10219">mîne</w>
-            <w xml:id="RDL_3210_3">minne</w>
+            <w xml:id="RDL_3210_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <pc xml:id="RDL_3210_4" join="left">,</pc>
           </l>
           <l n="322">
@@ -3838,7 +3839,7 @@
             <w xml:id="RDL_4250_1" lemmaRef="lexicon.xml#lemma_5677" pos="VRB" corresp="variants.xml#type_19896">spilen</w>
             <w xml:id="RDL_4250_2" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
             <w xml:id="RDL_4250_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-            <w xml:id="RDL_4250_4">minne</w>
+            <w xml:id="RDL_4250_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <pc xml:id="RDL_4250_5" join="left">.</pc>
           </l>
           <l n="426">
@@ -3972,7 +3973,7 @@
           </l>
           <l n="440">
             <w xml:id="RDL_4400_0" lemmaRef="lexicon.xml#lemma_1169" pos="DET" ana="lexicon.xml#lemma_1169_sense_1850" corresp="variants.xml#type_3692">diser</w>
-            <w xml:id="RDL_4400_1">minne</w>
+            <w xml:id="RDL_4400_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="RDL_4400_2" lemmaRef="lexicon.xml#lemma_6194" pos="VRB" corresp="variants.xml#type_21865">trîben</w>
             <pc xml:id="RDL_4400_3" join="left">.</pc>
           </l>

@@ -140,6 +140,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 4 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -2152,7 +2153,7 @@
           <w xml:id="HUG_30080_0">diner</w>
           <w xml:id="HUG_30080_1" lemmaRef="lexicon.xml#lemma_6215" pos="NOM ADJ" corresp="variants.xml#type_101417">trew</w>
           <w xml:id="HUG_30080_2" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4316">ain</w>
-          <w xml:id="HUG_30080_3">minne</w>
+          <w xml:id="HUG_30080_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="HUG_30080_4" lemmaRef="lexicon.xml#lemma_3768" pos="NOM" ana="lexicon.xml#lemma_3768_sense_5958" corresp="variants.xml#type_193453">liedli</w>
           <w xml:id="HUG_30080_5" lemmaRef="lexicon.xml#lemma_6083" pos="VRB" corresp="variants.xml#type_46764">tichten</w>
           <pc xml:id="HUG_30080_6" join="left">.</pc>
@@ -11931,7 +11932,7 @@
           <w xml:id="HUG_150670_0">in</w>
           <w xml:id="HUG_150670_1" lemmaRef="lexicon.xml#lemma_37311" pos="VRB" ana="lexicon.xml#lemma_37311_sense_58209" corresp="variants.xml#type_194786">schmácht</w>
           <w xml:id="HUG_150670_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="HUG_150670_3">minne</w>
+          <w xml:id="HUG_150670_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="HUG_150670_4">zunder</w>
           <pc xml:id="HUG_150670_5" join="left">.</pc>
         </l>
@@ -41445,7 +41446,7 @@
         <l n="31">
           <w xml:id="HUG_380310_0" lemmaRef="lexicon.xml#lemma_14689" pos="PRP VRB" ana="lexicon.xml#lemma_14689_sense_24264" corresp="variants.xml#type_196149">angezundt</w>
           <w xml:id="HUG_380310_1" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
-          <w xml:id="HUG_380310_2">minne</w>
+          <w xml:id="HUG_380310_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="HUG_380310_3">zunden</w>
           <pc xml:id="HUG_380310_4" join="left">.</pc>
         </l>
@@ -41698,7 +41699,7 @@
           <w xml:id="HUG_380600_1" lemmaRef="lexicon.xml#lemma_10330" pos="NOM" corresp="variants.xml#type_36488">lust</w>
           <w xml:id="HUG_380600_2" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18956">ist</w>
           <w xml:id="HUG_380600_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="HUG_380600_4">minne</w>
+          <w xml:id="HUG_380600_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="HUG_380600_5">zunder</w>
           <pc xml:id="HUG_380600_6" join="left">&gt;</pc>
           <pc xml:id="HUG_380600_7" join="left">.</pc>

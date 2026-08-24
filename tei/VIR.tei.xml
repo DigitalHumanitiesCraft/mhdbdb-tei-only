@@ -134,6 +134,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 12 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/). 4 weitere Tokens der Form minne blieben bewusst unannotiert (Review).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -48659,7 +48660,7 @@
           <w xml:id="VIR_44210_2" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
           <w xml:id="VIR_44210_3" lemmaRef="lexicon.xml#lemma_1242" pos="PRO" ana="lexicon.xml#lemma_1242_sense_1958" corresp="variants.xml#type_3963">dir</w>
           <w xml:id="VIR_44210_4" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
-          <w xml:id="VIR_44210_5">minne</w>
+          <w xml:id="VIR_44210_5" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <pc xml:id="VIR_44210_6" join="left">.</pc>
         </l>
         <l n="11">
@@ -64757,7 +64758,7 @@
         </l>
         <l n="7">
           <w xml:id="VIR_58907_0" lemmaRef="lexicon.xml#lemma_2731" pos="VRB" corresp="variants.xml#type_9213">hiest</w>
-          <w xml:id="VIR_58907_1">minne</w>
+          <w xml:id="VIR_58907_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="VIR_58907_2" lemmaRef="lexicon.xml#lemma_4415" pos="ADV NEG CNJ" corresp="variants.xml#type_15400">noch</w>
           <w xml:id="VIR_58907_3" lemmaRef="lexicon.xml#lemma_14219" pos="NOM" ana="lexicon.xml#lemma_14219_sense_23558" corresp="variants.xml#type_56726">schâchzabelspil</w>
         </l>
@@ -87623,7 +87624,7 @@
           <w xml:id="VIR_79610_1" lemmaRef="lexicon.xml#lemma_4523" pos="CNJ" ana="lexicon.xml#lemma_4523_sense_7060" corresp="variants.xml#type_15677">ouch</w>
           <w xml:id="VIR_79610_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
           <w xml:id="VIR_79610_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25992">vrouwen</w>
-          <w xml:id="VIR_79610_4">minne</w>
+          <w xml:id="VIR_79610_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <pc xml:id="VIR_79610_5" join="left">,</pc>
         </l>
         <l n="11">
@@ -90899,7 +90900,7 @@
           <w xml:id="VIR_82706_1" lemmaRef="lexicon.xml#lemma_4523" pos="CNJ" ana="lexicon.xml#lemma_4523_sense_7060" corresp="variants.xml#type_15677">ouch</w>
           <w xml:id="VIR_82706_2" lemmaRef="lexicon.xml#lemma_1258" pos="PRP" ana="lexicon.xml#lemma_1258_sense_1977" corresp="variants.xml#type_4044">durch</w>
           <w xml:id="VIR_82706_3" lemmaRef="lexicon.xml#lemma_4840" pos="NOM ADJ" corresp="variants.xml#type_16638">rehte</w>
-          <w xml:id="VIR_82706_4">minne</w>
+          <w xml:id="VIR_82706_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <pc xml:id="VIR_82706_5" join="left">:</pc>
         </l>
         <l n="7">
@@ -102472,7 +102473,7 @@
           <w xml:id="VIR_93310_1" lemmaRef="lexicon.xml#lemma_3567" pos="VRB" corresp="variants.xml#type_12427">lâzent</w>
           <w xml:id="VIR_93310_2" lemmaRef="lexicon.xml#lemma_1242" pos="PRO" ana="lexicon.xml#lemma_1242_sense_1958" corresp="variants.xml#type_3956">dich</w>
           <w xml:id="VIR_93310_3" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
-          <w xml:id="VIR_93310_4">minne</w>
+          <w xml:id="VIR_93310_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <pc xml:id="VIR_93310_5" join="left">.</pc>
         </l>
         <l n="11">
@@ -106574,7 +106575,7 @@
           <w xml:id="VIR_97211_1" lemmaRef="lexicon.xml#lemma_4524" pos="NOM" ana="lexicon.xml#lemma_4524_sense_7061" corresp="variants.xml#type_15680">ougen</w>
           <w xml:id="VIR_97211_2">in</w>
           <w xml:id="VIR_97211_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="VIR_97211_4">minne</w>
+          <w xml:id="VIR_97211_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="VIR_97211_5" lemmaRef="lexicon.xml#lemma_2544" pos="NOM" corresp="variants.xml#type_8543">grunt</w>
           <pc xml:id="VIR_97211_6" join="left">.</pc>
         </l>
@@ -106625,7 +106626,7 @@
           <w xml:id="VIR_97304_1" lemmaRef="lexicon.xml#lemma_709" pos="VRB" corresp="variants.xml#type_2189">bindet</w>
           <w xml:id="VIR_97304_2">in</w>
           <w xml:id="VIR_97304_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="VIR_97304_4">minne</w>
+          <w xml:id="VIR_97304_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="VIR_97304_5">kloben</w>
         </l>
         <l n="5">
@@ -109029,7 +109030,7 @@
           <w xml:id="VIR_99511_0" lemmaRef="lexicon.xml#lemma_5693" pos="VRB" ana="lexicon.xml#lemma_5693_sense_8912" corresp="variants.xml#type_19952">sprâchen</w>
           <w xml:id="VIR_99511_1" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
           <w xml:id="VIR_99511_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="VIR_99511_3">minne</w>
+          <w xml:id="VIR_99511_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="VIR_99511_4">danc</w>
           <pc xml:id="VIR_99511_5" join="left">:</pc>
         </l>
@@ -109472,7 +109473,7 @@
         <l n="3">
           <w xml:id="VIR_100003_0">in</w>
           <w xml:id="VIR_100003_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="VIR_100003_2">minne</w>
+          <w xml:id="VIR_100003_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="VIR_100003_3" lemmaRef="lexicon.xml#lemma_2440" pos="NOM" ana="lexicon.xml#lemma_2440_sense_3923" corresp="variants.xml#type_8195">glüete</w>
           <pc xml:id="VIR_100003_4" join="left">.</pc>
         </l>
@@ -109656,7 +109657,7 @@
         <l n="13">
           <w xml:id="VIR_100113_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
           <w xml:id="VIR_100113_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25992">vrouwen</w>
-          <w xml:id="VIR_100113_2">minne</w>
+          <w xml:id="VIR_100113_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="VIR_100113_3" lemmaRef="lexicon.xml#lemma_9101" pos="ADJ" ana="lexicon.xml#lemma_9101_sense_13609" corresp="variants.xml#type_83926">wolgetân</w>
           <pc xml:id="VIR_100113_4" join="left">.</pc>
         </l>
@@ -112090,7 +112091,7 @@
           <w xml:id="VIR_102406_1" lemmaRef="lexicon.xml#lemma_3567" pos="VRB" corresp="variants.xml#type_12425">lâze</w>
           <w xml:id="VIR_102406_2" lemmaRef="lexicon.xml#lemma_56117" pos="PRO" ana="lexicon.xml#lemma_56117_sense_90961" corresp="variants.xml#type_304933">iuch</w>
           <w xml:id="VIR_102406_3" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
-          <w xml:id="VIR_102406_4">minne</w>
+          <w xml:id="VIR_102406_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <pc xml:id="VIR_102406_5" join="left">&gt;</pc>
         </l>
         <l n="7">
@@ -112246,7 +112247,7 @@
           <w xml:id="VIR_102512_0" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
           <w xml:id="VIR_102512_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
           <w xml:id="VIR_102512_2">edelen</w>
-          <w xml:id="VIR_102512_3">minne</w>
+          <w xml:id="VIR_102512_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="VIR_102512_4" lemmaRef="lexicon.xml#lemma_2573" pos="NOM ADJ ADV" corresp="variants.xml#type_8633">guot</w>
           <pc xml:id="VIR_102512_5" join="left">,</pc>
         </l>

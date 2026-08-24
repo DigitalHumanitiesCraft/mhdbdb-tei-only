@@ -124,6 +124,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 68 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/). 10 weitere Tokens der Form minne blieben bewusst unannotiert (Review).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -302,7 +303,7 @@
           <w xml:id="TAN_220_1" lemmaRef="lexicon.xml#lemma_7489" pos="VRB VEX" corresp="variants.xml#type_49215">wart</w>
           <w xml:id="TAN_220_2" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
           <w xml:id="TAN_220_3" lemmaRef="lexicon.xml#lemma_4840" pos="ADJ" corresp="variants.xml#type_16642">rehter</w>
-          <w xml:id="TAN_220_4">minne</w>
+          <w xml:id="TAN_220_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
         </l>
         <l n="23">
           <w xml:id="TAN_230_0" lemmaRef="lexicon.xml#lemma_490" pos="VRB" corresp="variants.xml#type_1426">bekumbert</w>
@@ -1769,7 +1770,7 @@
         <l n="212">
           <w xml:id="TAN_2120_0" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
           <w xml:id="TAN_2120_1" lemmaRef="lexicon.xml#lemma_3767" pos="ADJ GRA" ana="lexicon.xml#lemma_3767_sense_5957" corresp="variants.xml#type_40308">lieplîcher</w>
-          <w xml:id="TAN_2120_2">minne</w>
+          <w xml:id="TAN_2120_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
         </l>
         <l n="213">
           <w xml:id="TAN_2130_0" lemmaRef="lexicon.xml#lemma_4840" pos="NOM ADJ ADV" corresp="variants.xml#type_16637">reht</w>
@@ -4500,7 +4501,7 @@
           <w xml:id="TAN_5650_5" lemmaRef="lexicon.xml#lemma_2174" pos="NOM VRB" ana="lexicon.xml#lemma_2174_sense_3404" corresp="variants.xml#type_7364">ger</w>
         </l>
         <l n="566">
-          <w xml:id="TAN_5660_0">minne</w>
+          <w xml:id="TAN_5660_0" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <pc xml:id="TAN_5660_1" join="left">,</pc>
           <w xml:id="TAN_5660_2" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19597">sô</w>
           <w xml:id="TAN_5660_3" lemmaRef="lexicon.xml#lemma_8034" pos="ART PRO" ana="lexicon.xml#lemma_8034_sense_1741" corresp="variants.xml#type_29008">deich</w>
@@ -4716,7 +4717,7 @@
           <w xml:id="TAN_5910_0" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18956">ist</w>
           <w xml:id="TAN_5910_1" lemmaRef="lexicon.xml#lemma_7677" pos="NOM ADV" ana="lexicon.xml#lemma_7677_sense_12586" corresp="variants.xml#type_27811">wol</w>
           <w xml:id="TAN_5910_2" lemmaRef="lexicon.xml#lemma_7194" pos="ADV PRP" ana="lexicon.xml#lemma_7194_sense_11657" corresp="variants.xml#type_25545">vor</w>
-          <w xml:id="TAN_5910_3">minne</w>
+          <w xml:id="TAN_5910_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="TAN_5910_4" lemmaRef="lexicon.xml#lemma_11225" pos="NOM" corresp="variants.xml#type_40362">gewerfte</w>
           <w xml:id="TAN_5910_5" lemmaRef="lexicon.xml#lemma_7226" pos="ADJ ADV" corresp="variants.xml#type_25739">vrî</w>
           <pc xml:id="TAN_5910_6" join="left">.</pc>
@@ -4810,7 +4811,7 @@
           <w xml:id="TAN_6010_2">ir</w>
           <w xml:id="TAN_6010_3" lemmaRef="lexicon.xml#lemma_6422" pos="ADV PRP" corresp="variants.xml#type_22719">umb</w>
           <w xml:id="TAN_6010_4">ir</w>
-          <w xml:id="TAN_6010_5">minne</w>
+          <w xml:id="TAN_6010_5" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="TAN_6010_6">solt</w>
           <pc xml:id="TAN_6010_7" join="left">:</pc>
         </l>
@@ -5426,7 +5427,7 @@
           <w xml:id="TAN_6760_2">si</w>
           <w xml:id="TAN_6760_3" lemmaRef="lexicon.xml#lemma_6422" pos="ADV PRP" corresp="variants.xml#type_22720">umbe</w>
           <w xml:id="TAN_6760_4">ir</w>
-          <w xml:id="TAN_6760_5">minne</w>
+          <w xml:id="TAN_6760_5" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
         </l>
         <l n="677">
           <w xml:id="TAN_6770_0" lemmaRef="lexicon.xml#lemma_4377" pos="ADJ ADV NEG" ana="lexicon.xml#lemma_4377_sense_6838" corresp="variants.xml#type_15286">niht</w>
@@ -5638,7 +5639,7 @@
           <w xml:id="TAN_7010_1" lemmaRef="lexicon.xml#lemma_106" pos="ADJ ADV" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_256">al</w>
           <w xml:id="TAN_7010_2">hie</w>
           <w xml:id="TAN_7010_3">ir</w>
-          <w xml:id="TAN_7010_4">minne</w>
+          <w xml:id="TAN_7010_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="TAN_7010_5" lemmaRef="lexicon.xml#lemma_2174" pos="NOM VRB" ana="lexicon.xml#lemma_2174_sense_3404" corresp="variants.xml#type_7364">ger</w>
         </l>
         <l n="702">
@@ -5722,7 +5723,7 @@
           <w xml:id="TAN_7120_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22828">unt</w>
           <w xml:id="TAN_7120_1">si</w>
           <w xml:id="TAN_7120_2" lemmaRef="lexicon.xml#lemma_4281" pos="ADJ ADV" corresp="variants.xml#type_14882">nâch</w>
-          <w xml:id="TAN_7120_3">minne</w>
+          <w xml:id="TAN_7120_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="TAN_7120_4" lemmaRef="lexicon.xml#lemma_1146" pos="NOM" corresp="variants.xml#type_3608">dienst</w>
           <w xml:id="TAN_7120_5" lemmaRef="lexicon.xml#lemma_6831" pos="VRB" ana="lexicon.xml#lemma_6831_sense_10888" corresp="variants.xml#type_23934">verdaget</w>
           <pc xml:id="TAN_7120_6" join="left">.</pc>
@@ -5882,7 +5883,7 @@
           <w xml:id="TAN_7320_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22828">unt</w>
           <w xml:id="TAN_7320_1" lemmaRef="lexicon.xml#lemma_1242" pos="PRO" ana="lexicon.xml#lemma_1242_sense_1958" corresp="variants.xml#type_3956">dich</w>
           <w xml:id="TAN_7320_2">ir</w>
-          <w xml:id="TAN_7320_3">minne</w>
+          <w xml:id="TAN_7320_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="TAN_7320_4" lemmaRef="lexicon.xml#lemma_1913" pos="ADJ ADV" ana="lexicon.xml#lemma_1913_sense_2938" corresp="variants.xml#type_6476">gar</w>
           <w xml:id="TAN_7320_5" lemmaRef="lexicon.xml#lemma_658" pos="VRB" corresp="variants.xml#type_40377">bewegest</w>
           <pc xml:id="TAN_7320_6" join="left">.</pc>
@@ -6207,7 +6208,7 @@
           <w xml:id="TAN_7730_0" lemmaRef="lexicon.xml#lemma_4281" pos="ADJ ADV" corresp="variants.xml#type_14882">nâch</w>
           <w xml:id="TAN_7730_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
           <w xml:id="TAN_7730_2" lemmaRef="lexicon.xml#lemma_3926" pos="NOM" corresp="variants.xml#type_13735">meide</w>
-          <w xml:id="TAN_7730_3">minne</w>
+          <w xml:id="TAN_7730_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <pc xml:id="TAN_7730_4" join="left">.</pc>
         </l>
         <l n="774">
@@ -6309,7 +6310,7 @@
         <l n="786">
           <w xml:id="TAN_7860_0" lemmaRef="lexicon.xml#lemma_1258" pos="PRP" ana="lexicon.xml#lemma_1258_sense_1977" corresp="variants.xml#type_4044">durch</w>
           <w xml:id="TAN_7860_1">ir</w>
-          <w xml:id="TAN_7860_2">minne</w>
+          <w xml:id="TAN_7860_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="TAN_7860_3" lemmaRef="lexicon.xml#lemma_7473" pos="VRB VEM" corresp="variants.xml#type_26927">wolde</w>
           <w xml:id="TAN_7860_4" lemmaRef="lexicon.xml#lemma_1961" pos="VRB" ana="lexicon.xml#lemma_1961_sense_3008" corresp="variants.xml#type_6623">geben</w>
         </l>
@@ -6333,7 +6334,7 @@
           <w xml:id="TAN_7900_1" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
           <w xml:id="TAN_7900_2" lemmaRef="lexicon.xml#lemma_4281" pos="ADJ ADV" corresp="variants.xml#type_14882">nâch</w>
           <w xml:id="TAN_7900_3">ir</w>
-          <w xml:id="TAN_7900_4">minne</w>
+          <w xml:id="TAN_7900_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
         </l>
         <l n="791">
           <w xml:id="TAN_7910_0">solt</w>
@@ -6371,7 +6372,7 @@
         <l n="795">
           <w xml:id="TAN_7950_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
           <w xml:id="TAN_7950_1" lemmaRef="lexicon.xml#lemma_2326" pos="ADJ ADV" ana="lexicon.xml#lemma_2326_sense_3724" corresp="variants.xml#type_7863">gewaltic</w>
-          <w xml:id="TAN_7950_2">minne</w>
+          <w xml:id="TAN_7950_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <pc xml:id="TAN_7950_3" join="left">,</pc>
         </l>
         <l n="796">
@@ -6564,7 +6565,7 @@
         <l n="821">
           <w xml:id="TAN_8210_0" lemmaRef="lexicon.xml#lemma_7385" pos="ADV CNJ" ana="lexicon.xml#lemma_7385_sense_11998" corresp="variants.xml#type_26640">wan</w>
           <w xml:id="TAN_8210_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="TAN_8210_2">minne</w>
+          <w xml:id="TAN_8210_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="TAN_8210_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
           <w xml:id="TAN_8210_4">ir</w>
           <w xml:id="TAN_8210_5" lemmaRef="lexicon.xml#lemma_4065" pos="NOM" ana="lexicon.xml#lemma_4065_sense_6388" corresp="variants.xml#type_14181">meisterschaft</w>
@@ -6846,7 +6847,7 @@
           <w xml:id="TAN_8540_0" lemmaRef="lexicon.xml#lemma_7489" pos="VRB VEX" corresp="variants.xml#type_27062">würde</w>
           <w xml:id="TAN_8540_1">ir</w>
           <w xml:id="TAN_8540_2" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
-          <w xml:id="TAN_8540_3">minne</w>
+          <w xml:id="TAN_8540_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="TAN_8540_4" lemmaRef="lexicon.xml#lemma_152" pos="ADV" ana="lexicon.xml#lemma_152_sense_187" corresp="variants.xml#type_379">alsô</w>
           <w xml:id="TAN_8540_5" lemmaRef="lexicon.xml#lemma_7427" pos="NOM ADJ INJ" ana="lexicon.xml#lemma_7427_sense_12078" corresp="variants.xml#type_26764">wê</w>
           <pc xml:id="TAN_8540_6" join="left">,</pc>
@@ -7178,7 +7179,7 @@
           <w xml:id="TAN_8940_1" lemmaRef="lexicon.xml#lemma_1517" pos="PRO" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_4999">er</w>
           <w xml:id="TAN_8940_2" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
           <w xml:id="TAN_8940_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="TAN_8940_4">minne</w>
+          <w xml:id="TAN_8940_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="TAN_8940_5" lemmaRef="lexicon.xml#lemma_4920" pos="VRB" corresp="variants.xml#type_16995">ranc</w>
         </l>
         <l n="895">
@@ -7195,7 +7196,7 @@
           <w xml:id="TAN_8960_2" lemmaRef="lexicon.xml#lemma_1517" pos="PRO" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_4999">er</w>
           <w xml:id="TAN_8960_3" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
           <w xml:id="TAN_8960_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="TAN_8960_5">minne</w>
+          <w xml:id="TAN_8960_5" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
         </l>
         <l n="897">
           <w xml:id="TAN_8970_0" lemmaRef="lexicon.xml#lemma_7075" pos="ADJ ADV" ana="lexicon.xml#lemma_7075_sense_11459" corresp="variants.xml#type_25008">vil</w>
@@ -7259,7 +7260,7 @@
         <l n="905">
           <w xml:id="TAN_9050_0" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
           <w xml:id="TAN_9050_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="TAN_9050_2">minne</w>
+          <w xml:id="TAN_9050_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="TAN_9050_3">schulde</w>
           <w xml:id="TAN_9050_4" lemmaRef="lexicon.xml#lemma_6171" pos="VRB" corresp="variants.xml#type_21775">truoc</w>
           <pc xml:id="TAN_9050_5" join="left">.</pc>
@@ -7327,7 +7328,7 @@
           <w xml:id="TAN_9140_2" lemmaRef="lexicon.xml#lemma_1517" pos="PRO" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_4999">er</w>
           <w xml:id="TAN_9140_3" lemmaRef="lexicon.xml#lemma_4281" pos="ADJ ADV" corresp="variants.xml#type_14882">nâch</w>
           <w xml:id="TAN_9140_4">ir</w>
-          <w xml:id="TAN_9140_5">minne</w>
+          <w xml:id="TAN_9140_5" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="TAN_9140_6">nôt</w>
         </l>
         <l n="915">
@@ -7513,7 +7514,7 @@
         </l>
         <l n="938">
           <w xml:id="TAN_9380_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="TAN_9380_1">minne</w>
+          <w xml:id="TAN_9380_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="TAN_9380_2" lemmaRef="lexicon.xml#lemma_4238" pos="VRB VEM" corresp="variants.xml#type_14734">muost</w>
           <w xml:id="TAN_9380_3">si</w>
           <w xml:id="TAN_9380_4" lemmaRef="lexicon.xml#lemma_5460" pos="NOM" ana="lexicon.xml#lemma_5460_sense_8513" corresp="variants.xml#type_19086">siges</w>
@@ -7574,7 +7575,7 @@
           <w xml:id="TAN_9460_1">si</w>
           <w xml:id="TAN_9460_2" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19597">sô</w>
           <w xml:id="TAN_9460_3" lemmaRef="lexicon.xml#lemma_2534" pos="ADJ" corresp="variants.xml#type_8468">grôze</w>
-          <w xml:id="TAN_9460_4">minne</w>
+          <w xml:id="TAN_9460_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
         </l>
         <l n="947">
           <w xml:id="TAN_9470_0">gên</w>
@@ -7623,7 +7624,7 @@
         <l n="953">
           <w xml:id="TAN_9530_0" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
           <w xml:id="TAN_9530_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="TAN_9530_2">minne</w>
+          <w xml:id="TAN_9530_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="TAN_9530_3" lemmaRef="lexicon.xml#lemma_152" pos="ADV" ana="lexicon.xml#lemma_152_sense_187" corresp="variants.xml#type_379">alsô</w>
           <w xml:id="TAN_9530_4">sêre</w>
           <pc xml:id="TAN_9530_5" join="left">,</pc>
@@ -7653,7 +7654,7 @@
           <w xml:id="TAN_9570_1" lemmaRef="lexicon.xml#lemma_6327" pos="NOM VRB" corresp="variants.xml#type_22457">twanc</w>
           <w xml:id="TAN_9570_2">sie</w>
           <w xml:id="TAN_9570_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="TAN_9570_4">minne</w>
+          <w xml:id="TAN_9570_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="TAN_9570_5" lemmaRef="lexicon.xml#lemma_3437" pos="NOM" corresp="variants.xml#type_11854">kraft</w>
           <pc xml:id="TAN_9570_6" join="left">.</pc>
         </l>
@@ -7874,7 +7875,7 @@
           <w xml:id="TAN_9860_0" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
           <w xml:id="TAN_9860_1">sie</w>
           <w xml:id="TAN_9860_2" lemmaRef="lexicon.xml#lemma_2795" pos="NOM" corresp="variants.xml#type_9460">herzen</w>
-          <w xml:id="TAN_9860_3">minne</w>
+          <w xml:id="TAN_9860_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
         </l>
         <l n="987">
           <w xml:id="TAN_9870_0" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4319">ein</w>
@@ -8272,7 +8273,7 @@
           <w xml:id="TAN_10350_0" lemmaRef="lexicon.xml#lemma_1180" pos="ADV" ana="lexicon.xml#lemma_1180_sense_1864" corresp="variants.xml#type_3739">dô</w>
           <w xml:id="TAN_10350_1">sie</w>
           <w xml:id="TAN_10350_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
-          <w xml:id="TAN_10350_3">minne</w>
+          <w xml:id="TAN_10350_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="TAN_10350_4" lemmaRef="lexicon.xml#lemma_6410" pos="PRP VRB" corresp="variants.xml#type_22666">überwant</w>
           <pc xml:id="TAN_10350_5" join="left">,</pc>
         </l>
@@ -8386,7 +8387,7 @@
           <w xml:id="TAN_10500_1" lemmaRef="lexicon.xml#lemma_640" pos="NOM VRB" ana="lexicon.xml#lemma_640_sense_1012" corresp="variants.xml#type_1912">betwanc</w>
           <w xml:id="TAN_10500_2">in</w>
           <w xml:id="TAN_10500_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="TAN_10500_4">minne</w>
+          <w xml:id="TAN_10500_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="TAN_10500_5">nôt</w>
           <pc xml:id="TAN_10500_6" join="left">,</pc>
         </l>
@@ -8418,7 +8419,7 @@
         <l n="1054">
           <w xml:id="TAN_10540_0" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
           <w xml:id="TAN_10540_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="TAN_10540_2">minne</w>
+          <w xml:id="TAN_10540_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="TAN_10540_3" lemmaRef="lexicon.xml#lemma_3655" pos="NOM" ana="lexicon.xml#lemma_3655_sense_5768" corresp="variants.xml#type_12674">lêre</w>
         </l>
         <l n="1055">
@@ -9476,7 +9477,7 @@
           <w xml:id="TAN_11810_2" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
           <w xml:id="TAN_11810_3" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10226">mich</w>
           <w xml:id="TAN_11810_4">ir</w>
-          <w xml:id="TAN_11810_5">minne</w>
+          <w xml:id="TAN_11810_5" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
         </l>
         <l n="1182">
           <w xml:id="TAN_11820_0" lemmaRef="lexicon.xml#lemma_3456" pos="VRB" corresp="variants.xml#type_11933">krenket</w>
@@ -9499,7 +9500,7 @@
           <w xml:id="TAN_11840_2" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
           <w xml:id="TAN_11840_3" lemmaRef="lexicon.xml#lemma_4281" pos="ADJ ADV" corresp="variants.xml#type_14882">nâch</w>
           <w xml:id="TAN_11840_4">ir</w>
-          <w xml:id="TAN_11840_5">minne</w>
+          <w xml:id="TAN_11840_5" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="TAN_11840_6" lemmaRef="lexicon.xml#lemma_6118" pos="NOM ADJ" ana="lexicon.xml#lemma_6118_sense_9650" corresp="variants.xml#type_21558">tôt</w>
           <pc xml:id="TAN_11840_7" join="left">.</pc>
         </l>
@@ -9517,7 +9518,7 @@
           <w xml:id="TAN_11860_2" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18948">bin</w>
           <w xml:id="TAN_11860_3" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
           <w xml:id="TAN_11860_4">ir</w>
-          <w xml:id="TAN_11860_5">minne</w>
+          <w xml:id="TAN_11860_5" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="TAN_11860_6" lemmaRef="lexicon.xml#lemma_7729" pos="ADJ" ana="lexicon.xml#lemma_7729_sense_12665" corresp="variants.xml#type_28005">wunt</w>
           <pc xml:id="TAN_11860_7" join="left">,</pc>
         </l>
@@ -9761,7 +9762,7 @@
           <w xml:id="TAN_12150_0" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
           <w xml:id="TAN_12150_1" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10237">mir</w>
           <w xml:id="TAN_12150_2" lemmaRef="lexicon.xml#lemma_56117" pos="POS" ana="lexicon.xml#lemma_56117_sense_90961" corresp="variants.xml#type_305239">iwer</w>
-          <w xml:id="TAN_12150_3">minne</w>
+          <w xml:id="TAN_12150_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
         </l>
         <l n="1216">
           <w xml:id="TAN_12160_0" lemmaRef="lexicon.xml#lemma_3456" pos="VRB" corresp="variants.xml#type_11933">krenket</w>
@@ -10624,7 +10625,7 @@
           <w xml:id="TAN_13130_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_26000">vrowe</w>
           <pc xml:id="TAN_13130_2" join="left">,</pc>
           <w xml:id="TAN_13130_3" lemmaRef="lexicon.xml#lemma_56117" pos="POS" ana="lexicon.xml#lemma_56117_sense_90961" corresp="variants.xml#type_305239">iwer</w>
-          <w xml:id="TAN_13130_4">minne</w>
+          <w xml:id="TAN_13130_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
         </l>
         <l n="1314">
           <w xml:id="TAN_13140_0" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10237">mir</w>
@@ -10698,7 +10699,7 @@
         <l n="1321">
           <w xml:id="TAN_13210_0" lemmaRef="lexicon.xml#lemma_4281" pos="ADJ ADV" corresp="variants.xml#type_14882">nâch</w>
           <w xml:id="TAN_13210_1" lemmaRef="lexicon.xml#lemma_3001" pos="POS" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10222">mîner</w>
-          <w xml:id="TAN_13210_2">minne</w>
+          <w xml:id="TAN_13210_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="TAN_13210_3" lemmaRef="lexicon.xml#lemma_4377" pos="ADJ ADV NEG" ana="lexicon.xml#lemma_4377_sense_6838" corresp="variants.xml#type_15286">niht</w>
           <w xml:id="TAN_13210_4">enger</w>
           <pc xml:id="TAN_13210_5" join="left">,</pc>
@@ -11175,7 +11176,7 @@
           <w xml:id="TAN_13750_0" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
           <w xml:id="TAN_13750_1" lemmaRef="lexicon.xml#lemma_1242" pos="PRO" ana="lexicon.xml#lemma_1242_sense_1958" corresp="variants.xml#type_3967">dû</w>
           <w xml:id="TAN_13750_2" lemmaRef="lexicon.xml#lemma_3001" pos="POS" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10222">mîner</w>
-          <w xml:id="TAN_13750_3">minne</w>
+          <w xml:id="TAN_13750_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="TAN_13750_4" lemmaRef="lexicon.xml#lemma_30771" pos="NEG VRB" ana="lexicon.xml#lemma_30771_sense_48193" corresp="variants.xml#type_158347">enberst</w>
         </l>
         <l n="1376">
@@ -11471,7 +11472,7 @@
           <w xml:id="TAN_14120_3" lemmaRef="lexicon.xml#lemma_496" pos="VRB" corresp="variants.xml#type_1439">belangen</w>
         </l>
         <l n="1413">
-          <w xml:id="TAN_14130_0">minne</w>
+          <w xml:id="TAN_14130_0" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="TAN_14130_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
           <w xml:id="TAN_14130_2">sie</w>
           <w xml:id="TAN_14130_3" lemmaRef="lexicon.xml#lemma_4649" pos="VRB" corresp="variants.xml#type_16004">pflâgen</w>
@@ -14871,7 +14872,7 @@
         <l n="1832">
           <w xml:id="TAN_18320_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22828">unt</w>
           <w xml:id="TAN_18320_1">ir</w>
-          <w xml:id="TAN_18320_2">minne</w>
+          <w xml:id="TAN_18320_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="TAN_18320_3" lemmaRef="lexicon.xml#lemma_5445" pos="PRO" ana="lexicon.xml#lemma_5445_sense_8495" corresp="variants.xml#type_19017">sich</w>
           <w xml:id="TAN_18320_4" lemmaRef="lexicon.xml#lemma_658" pos="VRB" corresp="variants.xml#type_1985">bewaege</w>
           <pc xml:id="TAN_18320_5" join="left">.</pc>
@@ -16832,7 +16833,7 @@
         </l>
         <l n="2077">
           <w xml:id="TAN_20770_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="TAN_20770_1">minne</w>
+          <w xml:id="TAN_20770_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="TAN_20770_2" lemmaRef="lexicon.xml#lemma_75078" pos="ADJ" ana="lexicon.xml#lemma_75078_sense_113232" corresp="variants.xml#type_359358">gernde</w>
           <w xml:id="TAN_20770_3" lemmaRef="lexicon.xml#lemma_6067" pos="NAM" ana="lexicon.xml#lemma_6067_sense_9592" corresp="variants.xml#type_21351">tesereiz</w>
         </l>
@@ -16888,7 +16889,7 @@
           <w xml:id="TAN_20840_1" lemmaRef="lexicon.xml#lemma_3273" pos="ADJ NEG" ana="lexicon.xml#lemma_3273_sense_5143" corresp="variants.xml#type_11181">keiner</w>
           <w xml:id="TAN_20840_2" lemmaRef="lexicon.xml#lemma_1258" pos="PRP" ana="lexicon.xml#lemma_1258_sense_1977" corresp="variants.xml#type_4044">durch</w>
           <w xml:id="TAN_20840_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="TAN_20840_4">minne</w>
+          <w xml:id="TAN_20840_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="TAN_20840_5">lôn</w>
         </l>
         <l n="2085">
@@ -16967,7 +16968,7 @@
           <w xml:id="TAN_20940_2" lemmaRef="lexicon.xml#lemma_3004" pos="ADV" ana="lexicon.xml#lemma_3004_sense_4808" corresp="variants.xml#type_10247">ie</w>
           <w xml:id="TAN_20940_3" lemmaRef="lexicon.xml#lemma_4281" pos="ADJ ADV" corresp="variants.xml#type_14882">nâch</w>
           <w xml:id="TAN_20940_4">ir</w>
-          <w xml:id="TAN_20940_5">minne</w>
+          <w xml:id="TAN_20940_5" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="TAN_20940_6" lemmaRef="lexicon.xml#lemma_4920" pos="VRB" corresp="variants.xml#type_16995">ranc</w>
         </l>
         <l n="2095">
@@ -19290,7 +19291,7 @@
           <w xml:id="TAN_23920_0" lemmaRef="lexicon.xml#lemma_4389" pos="ADV CNJ" ana="lexicon.xml#lemma_4389_sense_6850" corresp="variants.xml#type_15325">niwan</w>
           <w xml:id="TAN_23920_1" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
           <w xml:id="TAN_23920_2" lemmaRef="lexicon.xml#lemma_3001" pos="POS" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10222">mîner</w>
-          <w xml:id="TAN_23920_3">minne</w>
+          <w xml:id="TAN_23920_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <pc xml:id="TAN_23920_4" join="left">.</pc>
           <pc xml:id="TAN_23920_5" join="left">&gt;</pc>
         </l>
@@ -21588,7 +21589,7 @@
           <w xml:id="TAN_26710_1" lemmaRef="lexicon.xml#lemma_2795" pos="NOM" corresp="variants.xml#type_9454">herze</w>
           <w xml:id="TAN_26710_2" lemmaRef="lexicon.xml#lemma_4523" pos="CNJ" ana="lexicon.xml#lemma_4523_sense_7060" corresp="variants.xml#type_15677">ouch</w>
           <w xml:id="TAN_26710_3" lemmaRef="lexicon.xml#lemma_4281" pos="ADJ ADV" corresp="variants.xml#type_14882">nâch</w>
-          <w xml:id="TAN_26710_4">minne</w>
+          <w xml:id="TAN_26710_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="TAN_26710_5" lemmaRef="lexicon.xml#lemma_4920" pos="VRB" corresp="variants.xml#type_16995">ranc</w>
           <pc xml:id="TAN_26710_6" join="left">.</pc>
         </l>
@@ -23857,7 +23858,7 @@
           <w xml:id="TAN_29520_0">ob</w>
           <w xml:id="TAN_29520_1" lemmaRef="lexicon.xml#lemma_3008" pos="PRO" ana="lexicon.xml#lemma_3008_sense_4812" corresp="variants.xml#type_10279">iemen</w>
           <w xml:id="TAN_29520_2" lemmaRef="lexicon.xml#lemma_3001" pos="POS" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10222">mîner</w>
-          <w xml:id="TAN_29520_3">minne</w>
+          <w xml:id="TAN_29520_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="TAN_29520_4">gerte</w>
           <pc xml:id="TAN_29520_5" join="left">,</pc>
         </l>
@@ -23907,7 +23908,7 @@
         </l>
         <l n="2958">
           <w xml:id="TAN_29580_0" lemmaRef="lexicon.xml#lemma_3001" pos="POS" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10222">mîner</w>
-          <w xml:id="TAN_29580_1">minne</w>
+          <w xml:id="TAN_29580_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="TAN_29580_2" lemmaRef="lexicon.xml#lemma_4365" pos="ADV NEG" ana="lexicon.xml#lemma_4365_sense_6822" corresp="variants.xml#type_15230">nie</w>
           <w xml:id="TAN_29580_3" lemmaRef="lexicon.xml#lemma_2174" pos="VRB" ana="lexicon.xml#lemma_2174_sense_3404" corresp="variants.xml#type_7362">gegert</w>
         </l>
@@ -26662,7 +26663,7 @@
           <w xml:id="TAN_33000_0">ob</w>
           <w xml:id="TAN_33000_1" lemmaRef="lexicon.xml#lemma_1517" pos="PRO" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_4999">er</w>
           <w xml:id="TAN_33000_2">ir</w>
-          <w xml:id="TAN_33000_3">minne</w>
+          <w xml:id="TAN_33000_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="TAN_33000_4" lemmaRef="lexicon.xml#lemma_2598" pos="VRB VEX" corresp="variants.xml#type_8723">hât</w>
           <w xml:id="TAN_33000_5" lemmaRef="lexicon.xml#lemma_2174" pos="VRB" ana="lexicon.xml#lemma_2174_sense_3404" corresp="variants.xml#type_7362">gegert</w>
           <pc xml:id="TAN_33000_6" join="left">,</pc>
@@ -26743,7 +26744,7 @@
           <w xml:id="TAN_33100_2">si</w>
           <w xml:id="TAN_33100_3" lemmaRef="lexicon.xml#lemma_6422" pos="ADV PRP" corresp="variants.xml#type_22720">umbe</w>
           <w xml:id="TAN_33100_4">ir</w>
-          <w xml:id="TAN_33100_5">minne</w>
+          <w xml:id="TAN_33100_5" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="TAN_33100_6">bat</w>
           <pc xml:id="TAN_33100_7" join="left">:</pc>
         </l>
@@ -29826,7 +29827,7 @@
         <l n="3686">
           <w xml:id="TAN_36860_0" lemmaRef="lexicon.xml#lemma_4281" pos="ADJ ADV" corresp="variants.xml#type_14882">nâch</w>
           <w xml:id="TAN_36860_1">ir</w>
-          <w xml:id="TAN_36860_2">minne</w>
+          <w xml:id="TAN_36860_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="TAN_36860_3" lemmaRef="lexicon.xml#lemma_4365" pos="ADV NEG" ana="lexicon.xml#lemma_4365_sense_6822" corresp="variants.xml#type_15230">nie</w>
           <w xml:id="TAN_36860_4" lemmaRef="lexicon.xml#lemma_2174" pos="VRB" ana="lexicon.xml#lemma_2174_sense_3404" corresp="variants.xml#type_7362">gegert</w>
           <pc xml:id="TAN_36860_5" join="left">.</pc>
@@ -33785,7 +33786,7 @@
         <l n="4175">
           <w xml:id="TAN_41750_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25989">vrou</w>
           <w xml:id="TAN_41750_1" lemmaRef="lexicon.xml#lemma_11226" pos="NAM" ana="lexicon.xml#lemma_11226_sense_17939" corresp="variants.xml#type_40371">flordibeln</w>
-          <w xml:id="TAN_41750_2">minne</w>
+          <w xml:id="TAN_41750_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
         </l>
         <l n="4176">
           <w xml:id="TAN_41760_0" lemmaRef="lexicon.xml#lemma_2598" pos="VRB VEX" corresp="variants.xml#type_8767">het</w>
@@ -65626,7 +65627,7 @@
         </l>
         <l n="8310">
           <w xml:id="TAN_83100_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="TAN_83100_1">minne</w>
+          <w xml:id="TAN_83100_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="TAN_83100_2" lemmaRef="lexicon.xml#lemma_6342" pos="ADV PRP" ana="lexicon.xml#lemma_6342_sense_9997" corresp="variants.xml#type_22500">ûz</w>
           <w xml:id="TAN_83100_3" lemmaRef="lexicon.xml#lemma_1517" pos="POS" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_5012">sînem</w>
           <w xml:id="TAN_83100_4" lemmaRef="lexicon.xml#lemma_2795" pos="NOM" corresp="variants.xml#type_9454">herze</w>
@@ -66192,7 +66193,7 @@
           <w xml:id="TAN_83800_1" lemmaRef="lexicon.xml#lemma_4886" pos="NOM" ana="lexicon.xml#lemma_4886_sense_7584" corresp="variants.xml#type_16870">ritter</w>
           <w xml:id="TAN_83800_2" lemmaRef="lexicon.xml#lemma_1258" pos="PRP" ana="lexicon.xml#lemma_1258_sense_1977" corresp="variants.xml#type_4044">durch</w>
           <w xml:id="TAN_83800_3">ir</w>
-          <w xml:id="TAN_83800_4">minne</w>
+          <w xml:id="TAN_83800_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="TAN_83800_5">solt</w>
         </l>
         <l n="8381">
@@ -66223,7 +66224,7 @@
         </l>
         <l n="8384">
           <w xml:id="TAN_83840_0">ir</w>
-          <w xml:id="TAN_83840_1">minne</w>
+          <w xml:id="TAN_83840_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="TAN_83840_2" lemmaRef="lexicon.xml#lemma_2598" pos="VRB VEX" corresp="variants.xml#type_8768">hete</w>
           <w xml:id="TAN_83840_3" lemmaRef="lexicon.xml#lemma_1517" pos="PRO" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_32780">im</w>
           <w xml:id="TAN_83840_4" lemmaRef="lexicon.xml#lemma_515" pos="VRB" ana="lexicon.xml#lemma_515_sense_740" corresp="variants.xml#type_1506">benomen</w>
@@ -84157,7 +84158,7 @@
           <w xml:id="TAN_105470_1" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
           <w xml:id="TAN_105470_2" lemmaRef="lexicon.xml#lemma_4281" pos="ADJ ADV" corresp="variants.xml#type_14882">nâch</w>
           <w xml:id="TAN_105470_3">ir</w>
-          <w xml:id="TAN_105470_4">minne</w>
+          <w xml:id="TAN_105470_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
         </l>
         <l n="10548">
           <w xml:id="TAN_105480_0" lemmaRef="lexicon.xml#lemma_1145" pos="VRB" corresp="variants.xml#type_3599">diente</w>
@@ -84236,7 +84237,7 @@
         <l n="10557">
           <w xml:id="TAN_105570_0" lemmaRef="lexicon.xml#lemma_1258" pos="PRP" ana="lexicon.xml#lemma_1258_sense_1977" corresp="variants.xml#type_4044">durch</w>
           <w xml:id="TAN_105570_1">ir</w>
-          <w xml:id="TAN_105570_2">minne</w>
+          <w xml:id="TAN_105570_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="TAN_105570_3" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
           <w xml:id="TAN_105570_4" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10226">mich</w>
           <w xml:id="TAN_105570_5" lemmaRef="lexicon.xml#lemma_658" pos="VRB" corresp="variants.xml#type_1984">bewac</w>
@@ -91236,7 +91237,7 @@
           <w xml:id="TAN_114130_2" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
           <w xml:id="TAN_114130_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
           <w xml:id="TAN_114130_4" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
-          <w xml:id="TAN_114130_5">minne</w>
+          <w xml:id="TAN_114130_5" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <pc xml:id="TAN_114130_6" join="left">.</pc>
           <pc xml:id="TAN_114130_7" join="left">&gt;</pc>
         </l>
@@ -95702,7 +95703,7 @@
           <w xml:id="TAN_119790_0" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
           <w xml:id="TAN_119790_1" lemmaRef="lexicon.xml#lemma_1169" pos="DET" ana="lexicon.xml#lemma_1169_sense_1850" corresp="variants.xml#type_3686">dirre</w>
           <w xml:id="TAN_119790_2" lemmaRef="lexicon.xml#lemma_3926" pos="NOM" corresp="variants.xml#type_13735">meide</w>
-          <w xml:id="TAN_119790_3">minne</w>
+          <w xml:id="TAN_119790_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <pc xml:id="TAN_119790_4" join="left">.</pc>
         </l>
         <l n="11980">
@@ -96012,7 +96013,7 @@
           <w xml:id="TAN_120140_1">in</w>
           <w xml:id="TAN_120140_2" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
           <w xml:id="TAN_120140_3">ir</w>
-          <w xml:id="TAN_120140_4">minne</w>
+          <w xml:id="TAN_120140_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
         </l>
         <l n="12015">
           <w xml:id="TAN_120150_0" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19597">sô</w>
@@ -96377,7 +96378,7 @@
           <w xml:id="TAN_120590_0" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4323">einer</w>
           <w xml:id="TAN_120590_1" lemmaRef="lexicon.xml#lemma_204" pos="NOM ADJ" ana="lexicon.xml#lemma_204_sense_256" corresp="variants.xml#type_542">andern</w>
           <w xml:id="TAN_120590_2" lemmaRef="lexicon.xml#lemma_3926" pos="NOM" corresp="variants.xml#type_13735">meide</w>
-          <w xml:id="TAN_120590_3">minne</w>
+          <w xml:id="TAN_120590_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
         </l>
         <l n="12060">
           <w xml:id="TAN_120600_0" lemmaRef="lexicon.xml#lemma_2598" pos="VRB VEX" corresp="variants.xml#type_8723">hât</w>
@@ -97355,7 +97356,7 @@
           <w xml:id="TAN_121800_1">meine</w>
           <w xml:id="TAN_121800_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
           <w xml:id="TAN_121800_3" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
-          <w xml:id="TAN_121800_4">minne</w>
+          <w xml:id="TAN_121800_4" lemmaRef="lexicon.xml#lemma_4133" pos="VRB" corresp="variants.xml#type_38651">minne</w>
         </l>
         <l n="12181">
           <w xml:id="TAN_121810_0" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
@@ -103043,7 +103044,7 @@
           <w xml:id="TAN_128780_1" lemmaRef="lexicon.xml#lemma_4523" pos="CNJ" ana="lexicon.xml#lemma_4523_sense_7060" corresp="variants.xml#type_15677">ouch</w>
           <w xml:id="TAN_128780_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
           <w xml:id="TAN_128780_3" lemmaRef="lexicon.xml#lemma_5810" pos="NOM ADJ" corresp="variants.xml#type_20449">strenge</w>
-          <w xml:id="TAN_128780_4">minne</w>
+          <w xml:id="TAN_128780_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
         </l>
         <l n="12879">
           <w xml:id="TAN_128790_0" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
@@ -103199,7 +103200,7 @@
           <w xml:id="TAN_128980_0" lemmaRef="lexicon.xml#lemma_6657" pos="ADJ ADV NEG" corresp="variants.xml#type_23310">unversunnen</w>
           <w xml:id="TAN_128980_1" lemmaRef="lexicon.xml#lemma_4281" pos="ADJ ADV" corresp="variants.xml#type_14882">nâch</w>
           <w xml:id="TAN_128980_2">ir</w>
-          <w xml:id="TAN_128980_3">minne</w>
+          <w xml:id="TAN_128980_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <pc xml:id="TAN_128980_4" join="left">.</pc>
         </l>
         <l n="12899">
@@ -103266,7 +103267,7 @@
         </l>
         <l n="12907">
           <w xml:id="TAN_129070_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
-          <w xml:id="TAN_129070_1">minne</w>
+          <w xml:id="TAN_129070_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="TAN_129070_2" lemmaRef="lexicon.xml#lemma_7667" pos="NOM" ana="lexicon.xml#lemma_7667_sense_12573" corresp="variants.xml#type_27748">witze</w>
           <w xml:id="TAN_129070_3" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
           <w xml:id="TAN_129070_4" lemmaRef="lexicon.xml#lemma_1517" pos="PRO" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_32780">im</w>
@@ -103824,7 +103825,7 @@
           <w xml:id="TAN_129780_1" lemmaRef="lexicon.xml#lemma_6327" pos="NOM VRB" corresp="variants.xml#type_22457">twanc</w>
           <w xml:id="TAN_129780_2">in</w>
           <w xml:id="TAN_129780_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
-          <w xml:id="TAN_129780_4">minne</w>
+          <w xml:id="TAN_129780_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <pc xml:id="TAN_129780_5" join="left">.</pc>
         </l>
         <l n="12979">
@@ -103896,7 +103897,7 @@
         <l n="12988">
           <w xml:id="TAN_129880_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
           <w xml:id="TAN_129880_1" lemmaRef="lexicon.xml#lemma_5810" pos="NOM ADJ" corresp="variants.xml#type_20449">strenge</w>
-          <w xml:id="TAN_129880_2">minne</w>
+          <w xml:id="TAN_129880_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="TAN_129880_3">in</w>
           <w xml:id="TAN_129880_4" lemmaRef="lexicon.xml#lemma_3656" pos="VRB" ana="lexicon.xml#lemma_3656_sense_5771" corresp="variants.xml#type_12688">lêrte</w>
           <w xml:id="TAN_129880_5" lemmaRef="lexicon.xml#lemma_4664" pos="NOM" corresp="variants.xml#type_16075">pîn</w>
@@ -108763,7 +108764,7 @@
         <l n="13593">
           <w xml:id="TAN_135930_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
           <w xml:id="TAN_135930_1" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
-          <w xml:id="TAN_135930_2">minne</w>
+          <w xml:id="TAN_135930_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="TAN_135930_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
           <w xml:id="TAN_135930_4" lemmaRef="lexicon.xml#lemma_640" pos="NOM VRB" ana="lexicon.xml#lemma_640_sense_1012" corresp="variants.xml#type_1912">betwanc</w>
         </l>
@@ -113834,7 +113835,7 @@
           <w xml:id="TAN_142150_2">in</w>
           <w xml:id="TAN_142150_3">habe</w>
           <w xml:id="TAN_142150_4" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
-          <w xml:id="TAN_142150_5">minne</w>
+          <w xml:id="TAN_142150_5" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
         </l>
         <l n="14216">
           <w xml:id="TAN_142160_0" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
@@ -114236,7 +114237,7 @@
         <l n="14265">
           <w xml:id="TAN_142650_0" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
           <w xml:id="TAN_142650_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="TAN_142650_2">minne</w>
+          <w xml:id="TAN_142650_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="TAN_142650_3">schulden</w>
         </l>
         <l n="14266">
@@ -132540,7 +132541,7 @@
           <w xml:id="TAN_164880_2" lemmaRef="lexicon.xml#lemma_3004" pos="ADV" ana="lexicon.xml#lemma_3004_sense_4808" corresp="variants.xml#type_10247">ie</w>
           <w xml:id="TAN_164880_3" lemmaRef="lexicon.xml#lemma_4281" pos="ADJ ADV" corresp="variants.xml#type_14882">nâch</w>
           <w xml:id="TAN_164880_4">ir</w>
-          <w xml:id="TAN_164880_5">minne</w>
+          <w xml:id="TAN_164880_5" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="TAN_164880_6" lemmaRef="lexicon.xml#lemma_4920" pos="VRB" corresp="variants.xml#type_16995">ranc</w>
         </l>
         <l n="16489">
@@ -133860,7 +133861,7 @@
           <w xml:id="TAN_166520_2" lemmaRef="lexicon.xml#lemma_199" pos="PRP" ana="lexicon.xml#lemma_199_sense_248" corresp="variants.xml#type_522">an</w>
           <w xml:id="TAN_166520_3">ir</w>
           <w xml:id="TAN_166520_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="TAN_166520_5">minne</w>
+          <w xml:id="TAN_166520_5" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="TAN_166520_6" lemmaRef="lexicon.xml#lemma_3437" pos="NOM" corresp="variants.xml#type_11854">kraft</w>
           <pc xml:id="TAN_166520_7" join="left">.</pc>
         </l>
@@ -146178,7 +146179,7 @@
           <w xml:id="TAN_182160_2" lemmaRef="lexicon.xml#lemma_204" pos="ADJ" ana="lexicon.xml#lemma_204_sense_256" corresp="variants.xml#type_537">ander</w>
           <w xml:id="TAN_182160_3" lemmaRef="lexicon.xml#lemma_5196" pos="VRB" corresp="variants.xml#type_18066">schieden</w>
           <w xml:id="TAN_182160_4" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
-          <w xml:id="TAN_182160_5">minne</w>
+          <w xml:id="TAN_182160_5" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <pc xml:id="TAN_182160_6" join="left">,</pc>
         </l>
         <l n="18217">

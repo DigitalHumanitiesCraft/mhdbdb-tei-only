@@ -128,6 +128,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 16 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/). 6 weitere Tokens der Form minne blieben bewusst unannotiert (Review).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -821,7 +822,7 @@
           <pc xml:id="SUS_302020_2" join="left">,</pc>
           <w xml:id="SUS_302020_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
           <w xml:id="SUS_302020_4" lemmaRef="lexicon.xml#lemma_7646" pos="ADJ" ana="lexicon.xml#lemma_7646_sense_12533" corresp="variants.xml#type_63810">werdeclicher</w>
-          <w xml:id="SUS_302020_5">minne</w>
+          <w xml:id="SUS_302020_5" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="SUS_302020_6">gern</w>
           <pc xml:id="SUS_302020_7" join="left">,</pc>
         </l>
@@ -964,14 +965,14 @@
           <pc xml:id="SUS_304010_4" join="left">,</pc>
         </l>
         <l n="2">
-          <w xml:id="SUS_304020_0">minne</w>
+          <w xml:id="SUS_304020_0" lemmaRef="lexicon.xml#lemma_4133" pos="VRB" corresp="variants.xml#type_38651">minne</w>
           <w xml:id="SUS_304020_1" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10226">mich</w>
           <pc xml:id="SUS_304020_2" join="left">,</pc>
           <w xml:id="SUS_304020_3" lemmaRef="lexicon.xml#lemma_5434" pos="ADV PRP CNJ" ana="lexicon.xml#lemma_5434_sense_8481" corresp="variants.xml#type_18992">sît</w>
           <w xml:id="SUS_304020_4" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
           <w xml:id="SUS_304020_5" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
           <w xml:id="SUS_304020_6" lemmaRef="lexicon.xml#lemma_2795" pos="NOM" corresp="variants.xml#type_9460">herzen</w>
-          <w xml:id="SUS_304020_7">minne</w>
+          <w xml:id="SUS_304020_7" lemmaRef="lexicon.xml#lemma_4133" pos="VRB" corresp="variants.xml#type_38651">minne</w>
           <w xml:id="SUS_304020_8" lemmaRef="lexicon.xml#lemma_1242" pos="PRO" ana="lexicon.xml#lemma_1242_sense_1958" corresp="variants.xml#type_3956">dich</w>
           <pc xml:id="SUS_304020_9" join="left">.</pc>
         </l>
@@ -981,7 +982,7 @@
           </hi>
           <pc xml:id="SUS_304030_1" join="right">(</pc>
           <w xml:id="SUS_304030_2" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
-          <w xml:id="SUS_304030_3">minne</w>
+          <w xml:id="SUS_304030_3" lemmaRef="lexicon.xml#lemma_4133" pos="VRB" corresp="variants.xml#type_38651">minne</w>
           <w xml:id="SUS_304030_4" lemmaRef="lexicon.xml#lemma_1242" pos="POS" ana="lexicon.xml#lemma_1242_sense_1958" corresp="variants.xml#type_3949">dîne</w>
           <w xml:id="SUS_304030_5">sinne</w>
           <pc xml:id="SUS_304030_6" join="left">)</pc>
@@ -993,7 +994,7 @@
           <w xml:id="SUS_304040_3">du</w>
           <w xml:id="SUS_304040_4" lemmaRef="lexicon.xml#lemma_1073" pos="ADV" ana="lexicon.xml#lemma_1073_sense_1716" corresp="variants.xml#type_3323">danne</w>
           <w xml:id="SUS_304040_5" lemmaRef="lexicon.xml#lemma_1242" pos="POS" ana="lexicon.xml#lemma_1242_sense_1958" corresp="variants.xml#type_3949">dîne</w>
-          <w xml:id="SUS_304040_6">minne</w>
+          <w xml:id="SUS_304040_6" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="SUS_304040_7">an</w>
           <w xml:id="SUS_304040_8" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10226">mich</w>
         </l>
@@ -1013,7 +1014,7 @@
           <w xml:id="SUS_304060_1" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18956">ist</w>
           <w xml:id="SUS_304060_2">minne</w>
           <w xml:id="SUS_304060_3">ir</w>
-          <w xml:id="SUS_304060_4">minne</w>
+          <w xml:id="SUS_304060_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="SUS_304060_5" lemmaRef="lexicon.xml#lemma_11684" pos="ADJ ADV NEG" ana="lexicon.xml#lemma_11684_sense_80456" corresp="variants.xml#type_217095">umminneclich</w>
           <pc xml:id="SUS_304060_6" join="left">,</pc>
         </l>
@@ -2238,7 +2239,7 @@
         <l n="4">
           <w xml:id="SUS_702040_0" lemmaRef="lexicon.xml#lemma_5918" pos="CNJ IPA" ana="lexicon.xml#lemma_5918_sense_9371" corresp="variants.xml#type_31264">swa</w>
           <w xml:id="SUS_702040_1" lemmaRef="lexicon.xml#lemma_4131" pos="ADJ GRA" ana="lexicon.xml#lemma_4131_sense_6488" corresp="variants.xml#type_14404">minneclicher</w>
-          <w xml:id="SUS_702040_2">minne</w>
+          <w xml:id="SUS_702040_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="SUS_702040_3">kus</w>
           <w xml:id="SUS_702040_4" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
           <w xml:id="SUS_702040_5" lemmaRef="lexicon.xml#lemma_3767" pos="ADJ ADV" ana="lexicon.xml#lemma_3767_sense_5957" corresp="variants.xml#type_13125">lieplîch</w>
@@ -2379,7 +2380,7 @@
         <l n="2">
           <w xml:id="SUS_704020_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
           <w xml:id="SUS_704020_1" lemmaRef="lexicon.xml#lemma_7500" pos="ADJ" corresp="variants.xml#type_27158">werdiu</w>
-          <w xml:id="SUS_704020_2">minne</w>
+          <w xml:id="SUS_704020_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="SUS_704020_3" lemmaRef="lexicon.xml#lemma_7282" pos="VRB" corresp="variants.xml#type_26141">vüegen</w>
           <w xml:id="SUS_704020_4">kan</w>
           <pc xml:id="SUS_704020_5" join="left">,</pc>
@@ -4022,7 +4023,7 @@
             <w xml:id="SUS_1201010_1">swer</w>
           </hi>
           <w xml:id="SUS_1201010_2" lemmaRef="lexicon.xml#lemma_4131" pos="ADJ ADV" ana="lexicon.xml#lemma_4131_sense_6488" corresp="variants.xml#type_40949">minnecliche</w>
-          <w xml:id="SUS_1201010_3">minne</w>
+          <w xml:id="SUS_1201010_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
         </l>
         <l n="2">
           <w xml:id="SUS_1201020_0" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
@@ -4160,7 +4161,7 @@
           <pc xml:id="SUS_1202050_3" join="left">,</pc>
           <w xml:id="SUS_1202050_4" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
           <w xml:id="SUS_1202050_5" lemmaRef="lexicon.xml#lemma_1242" pos="POS" ana="lexicon.xml#lemma_1242_sense_1958" corresp="variants.xml#type_3948">dîn</w>
-          <w xml:id="SUS_1202050_6">minne</w>
+          <w xml:id="SUS_1202050_6" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="SUS_1202050_7" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10226">mich</w>
         </l>
         <l n="6">
@@ -4453,7 +4454,7 @@
             <w xml:id="SUS_1205040_0" lemmaRef="lexicon.xml#lemma_1495" pos="VRB" corresp="variants.xml#type_4941">entwenken</w>
           </hi>
           <w xml:id="SUS_1205040_1" lemmaRef="lexicon.xml#lemma_5713" pos="ADJ" corresp="variants.xml#type_103395">stæter</w>
-          <w xml:id="SUS_1205040_2">minne</w>
+          <w xml:id="SUS_1205040_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <pc xml:id="SUS_1205040_3" join="left">,</pc>
         </l>
         <l n="5">
@@ -6550,7 +6551,7 @@
           <w xml:id="SUS_2002010_1" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
           <w xml:id="SUS_2002010_2">werde</w>
           <w xml:id="SUS_2002010_3" lemmaRef="lexicon.xml#lemma_4131" pos="ADJ GRA" ana="lexicon.xml#lemma_4131_sense_6488" corresp="variants.xml#type_14404">minneclicher</w>
-          <w xml:id="SUS_2002010_4">minne</w>
+          <w xml:id="SUS_2002010_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="SUS_2002010_5" lemmaRef="lexicon.xml#lemma_1961" pos="VRB" ana="lexicon.xml#lemma_1961_sense_3008" corresp="variants.xml#type_6638">gît</w>
         </l>
         <l n="2">
@@ -6560,7 +6561,7 @@
           <w xml:id="SUS_2002020_3">si</w>
           <w xml:id="SUS_2002020_4" lemmaRef="lexicon.xml#lemma_4281" pos="ADJ ADV" corresp="variants.xml#type_14882">nâch</w>
           <w xml:id="SUS_2002020_5">ir</w>
-          <w xml:id="SUS_2002020_6">minne</w>
+          <w xml:id="SUS_2002020_6" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="SUS_2002020_7">kan</w>
           <w xml:id="SUS_2002020_8" lemmaRef="lexicon.xml#lemma_4133" pos="VRB" corresp="variants.xml#type_14418">geminnen</w>
           <pc xml:id="SUS_2002020_9" join="left">!</pc>
@@ -9390,7 +9391,7 @@
           <w xml:id="SUS_2801090_1" lemmaRef="lexicon.xml#lemma_2739" pos="VRB" ana="lexicon.xml#lemma_2739_sense_4421" corresp="variants.xml#type_9275">hilfet</w>
           <w xml:id="SUS_2801090_2" lemmaRef="lexicon.xml#lemma_4523" pos="CNJ" ana="lexicon.xml#lemma_4523_sense_7060" corresp="variants.xml#type_15676">och</w>
           <w xml:id="SUS_2801090_3" lemmaRef="lexicon.xml#lemma_75049" pos="ADJ" ana="lexicon.xml#lemma_75049_sense_113203" corresp="variants.xml#type_359302">gebeitiu</w>
-          <w xml:id="SUS_2801090_4">minne</w>
+          <w xml:id="SUS_2801090_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <pc xml:id="SUS_2801090_5" join="left">,</pc>
         </l>
         <l n="10">
@@ -12222,7 +12223,7 @@
           <w xml:id="SUS_3601040_3" lemmaRef="lexicon.xml#lemma_6835" pos="VRB" corresp="variants.xml#type_23963">verderbet</w>
           <w xml:id="SUS_3601040_4" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10226">mich</w>
           <w xml:id="SUS_3601040_5" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
-          <w xml:id="SUS_3601040_6">minne</w>
+          <w xml:id="SUS_3601040_6" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <pc xml:id="SUS_3601040_7" join="left">.</pc>
         </l>
         <l n="5">
@@ -12618,7 +12619,7 @@
           <w xml:id="SUS_3605040_1">ir</w>
           <w xml:id="SUS_3605040_2" lemmaRef="lexicon.xml#lemma_453" pos="VRB" corresp="variants.xml#type_1271">behalden</w>
           <w xml:id="SUS_3605040_3" lemmaRef="lexicon.xml#lemma_2465" pos="NOM" ana="lexicon.xml#lemma_2465_sense_3951" corresp="variants.xml#type_44792">gottes</w>
-          <w xml:id="SUS_3605040_4">minne</w>
+          <w xml:id="SUS_3605040_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <pc xml:id="SUS_3605040_5" join="left">.</pc>
         </l>
         <l n="5">

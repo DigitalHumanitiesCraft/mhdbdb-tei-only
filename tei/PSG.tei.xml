@@ -134,6 +134,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 65 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/). 1 weitere Tokens der Form minne blieben bewusst unannotiert (Review).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -1226,7 +1227,7 @@
             <w xml:id="PSG_7401110_1" lemmaRef="lexicon.xml#lemma_1230" pos="NUM" ana="lexicon.xml#lemma_1230_sense_1938" corresp="variants.xml#type_3899">dritte</w>
             <w xml:id="PSG_7401110_2">ain</w>
             <w xml:id="PSG_7401110_3" lemmaRef="lexicon.xml#lemma_4390" pos="ADJ ADV" ana="lexicon.xml#lemma_4390_sense_6851" corresp="variants.xml#type_93747">newe</w>
-            <w xml:id="PSG_7401110_4">minne</w>
+            <w xml:id="PSG_7401110_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="PSG_7401110_5" lemmaRef="lexicon.xml#lemma_7276" pos="VRB" corresp="variants.xml#type_26075">frumt</w>
             <pc xml:id="PSG_7401110_6" join="left">,</pc>
           </l>
@@ -4911,7 +4912,7 @@
             <w xml:id="PSG_8304800_1">hast</w>
             <w xml:id="PSG_8304800_2">du</w>
             <w xml:id="PSG_8304800_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-            <w xml:id="PSG_8304800_4">minne</w>
+            <w xml:id="PSG_8304800_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="PSG_8304800_5" lemmaRef="lexicon.xml#lemma_2164" pos="NOM" corresp="variants.xml#type_7330">geriht</w>
           </l>
           <l n="481">
@@ -4955,7 +4956,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="PSG_8304850_0" lemmaRef="lexicon.xml#lemma_1242" pos="POS" ana="lexicon.xml#lemma_1242_sense_1958" corresp="variants.xml#type_67142">dein</w>
               </hi>
-            <w xml:id="PSG_8304850_1">minne</w>
+            <w xml:id="PSG_8304850_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="PSG_8304850_2" lemmaRef="lexicon.xml#lemma_5288" pos="NOM" ana="lexicon.xml#lemma_5288_sense_8243" corresp="variants.xml#type_18412">schol</w>
             <w xml:id="PSG_8304850_3" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_43065">czu</w>
             <w xml:id="PSG_8304850_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
@@ -5600,7 +5601,7 @@
                 <w xml:id="PSG_8405470_0" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_58795">aine</w>
               </hi>
             <w xml:id="PSG_8405470_1" lemmaRef="lexicon.xml#lemma_4390" pos="ADJ ADV" ana="lexicon.xml#lemma_4390_sense_6851" corresp="variants.xml#type_102483">new</w>
-            <w xml:id="PSG_8405470_2">minne</w>
+            <w xml:id="PSG_8405470_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="PSG_8405470_3" lemmaRef="lexicon.xml#lemma_485" pos="VRB" corresp="variants.xml#type_317822">weklibet</w>
           </l>
           <l n="548">
@@ -5926,7 +5927,7 @@
                 <w xml:id="PSG_8505810_0">di</w>
               </hi>
             <w xml:id="PSG_8505810_1" lemmaRef="lexicon.xml#lemma_5385" pos="ADJ" ana="lexicon.xml#lemma_5385_sense_8406" corresp="variants.xml#type_18765">selb</w>
-            <w xml:id="PSG_8505810_2">minne</w>
+            <w xml:id="PSG_8505810_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="PSG_8505810_3" lemmaRef="lexicon.xml#lemma_1961" pos="VRB" ana="lexicon.xml#lemma_1961_sense_3008" corresp="variants.xml#type_6643">gibt</w>
             <w xml:id="PSG_8505810_4">ir</w>
             <w xml:id="PSG_8505810_5" lemmaRef="lexicon.xml#lemma_4034" pos="ADJ ADV GRA" ana="lexicon.xml#lemma_4034_sense_6338" corresp="variants.xml#type_14076">mê</w>
@@ -6038,7 +6039,7 @@
                 <w xml:id="PSG_8505920_0">er</w>
               </hi>
             <w xml:id="PSG_8505920_1" lemmaRef="lexicon.xml#lemma_4238" pos="VRB VEM" corresp="variants.xml#type_116871">muzze</w>
-            <w xml:id="PSG_8505920_2">minne</w>
+            <w xml:id="PSG_8505920_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="PSG_8505920_3" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_43065">czu</w>
             <w xml:id="PSG_8505920_4">im</w>
             <w xml:id="PSG_8505920_5" lemmaRef="lexicon.xml#lemma_6171" pos="VRB" corresp="variants.xml#type_21757">tragen</w>
@@ -6735,7 +6736,7 @@
                 <w xml:id="PSG_8706640_0" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
               </hi>
             <w xml:id="PSG_8706640_1" lemmaRef="lexicon.xml#lemma_54088" pos="ADJ ADV" ana="lexicon.xml#lemma_54088_sense_87984" corresp="variants.xml#type_317874">dimutig</w>
-            <w xml:id="PSG_8706640_2">minne</w>
+            <w xml:id="PSG_8706640_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="PSG_8706640_3" lemmaRef="lexicon.xml#lemma_1710" pos="VRB" ana="lexicon.xml#lemma_1710_sense_2689" corresp="variants.xml#type_147315">erczaiget</w>
           </l>
           <l n="665">
@@ -6803,7 +6804,7 @@
               </hi>
             <w xml:id="PSG_8706710_1" lemmaRef="lexicon.xml#lemma_1242" pos="PRO" ana="lexicon.xml#lemma_1242_sense_1958" corresp="variants.xml#type_3956">dich</w>
             <w xml:id="PSG_8706710_2" lemmaRef="lexicon.xml#lemma_2465" pos="NOM" ana="lexicon.xml#lemma_2465_sense_3951" corresp="variants.xml#type_8257">gotez</w>
-            <w xml:id="PSG_8706710_3">minne</w>
+            <w xml:id="PSG_8706710_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           </l>
           <l n="672">
             <hi rend="initial upper_case_first_letter">
@@ -7456,7 +7457,7 @@
             <w xml:id="PSG_8907370_1" lemmaRef="lexicon.xml#lemma_7108" pos="NOM" corresp="variants.xml#type_151899">fewr</w>
             <w xml:id="PSG_8907370_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
             <w xml:id="PSG_8907370_3" lemmaRef="lexicon.xml#lemma_5864" pos="ADJ" corresp="variants.xml#type_106259">suzzen</w>
-            <w xml:id="PSG_8907370_4">minne</w>
+            <w xml:id="PSG_8907370_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <pc xml:id="PSG_8907370_5" join="left">,</pc>
           </l>
           <l n="738">
@@ -7575,7 +7576,7 @@
               </hi>
             <w xml:id="PSG_8907500_1" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
             <w xml:id="PSG_8907500_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-            <w xml:id="PSG_8907500_3">minne</w>
+            <w xml:id="PSG_8907500_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           </l>
           <l n="751">
             <hi rend="initial upper_case_first_letter">
@@ -7583,7 +7584,7 @@
               </hi>
             <w xml:id="PSG_8907510_1">in</w>
             <w xml:id="PSG_8907510_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-            <w xml:id="PSG_8907510_3">minne</w>
+            <w xml:id="PSG_8907510_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="PSG_8907510_4" lemmaRef="lexicon.xml#lemma_936" pos="NOM" ana="lexicon.xml#lemma_936_sense_1564" corresp="variants.xml#type_289550">puche</w>
             <w xml:id="PSG_8907510_5" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20060">stêt</w>
           </l>
@@ -7640,7 +7641,7 @@
             <w xml:id="PSG_8907560_2" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18956">ist</w>
             <w xml:id="PSG_8907560_3" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
             <w xml:id="PSG_8907560_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-            <w xml:id="PSG_8907560_5">minne</w>
+            <w xml:id="PSG_8907560_5" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="PSG_8907560_6">chum</w>
             <pc xml:id="PSG_8907560_7" join="left">,</pc>
           </l>
@@ -8454,7 +8455,7 @@
             <w xml:id="PSG_9108370_1" lemmaRef="lexicon.xml#lemma_5349" pos="NOM" ana="lexicon.xml#lemma_5349_sense_8359" corresp="variants.xml#type_18605">sêl</w>
             <w xml:id="PSG_9108370_2" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
             <w xml:id="PSG_9108370_3" lemmaRef="lexicon.xml#lemma_2465" pos="NOM" ana="lexicon.xml#lemma_2465_sense_3951" corresp="variants.xml#type_8257">gotez</w>
-            <w xml:id="PSG_9108370_4">minne</w>
+            <w xml:id="PSG_9108370_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           </l>
           <l n="838">
             <hi rend="initial upper_case_first_letter">
@@ -8724,7 +8725,7 @@
               </hi>
             <w xml:id="PSG_9208640_1">in</w>
             <w xml:id="PSG_9208640_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-            <w xml:id="PSG_9208640_3">minne</w>
+            <w xml:id="PSG_9208640_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="PSG_9208640_4" lemmaRef="lexicon.xml#lemma_936" pos="NOM" ana="lexicon.xml#lemma_936_sense_1564" corresp="variants.xml#type_129149">puch</w>
             <pc xml:id="PSG_9208640_5" join="left">:</pc>
           </l>
@@ -9186,7 +9187,7 @@
               </hi>
             <w xml:id="PSG_9309090_1" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18956">ist</w>
             <w xml:id="PSG_9309090_2">in</w>
-            <w xml:id="PSG_9309090_3">minne</w>
+            <w xml:id="PSG_9309090_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="PSG_9309090_4" lemmaRef="lexicon.xml#lemma_14994" pos="VRB" ana="lexicon.xml#lemma_14994_sense_24691" corresp="variants.xml#type_318022">czeflozzen</w>
             <pc xml:id="PSG_9309090_5" join="left">:</pc>
           </l>
@@ -9475,7 +9476,7 @@
               </hi>
             <w xml:id="PSG_9409380_1">in</w>
             <w xml:id="PSG_9409380_2">di</w>
-            <w xml:id="PSG_9409380_3">minne</w>
+            <w xml:id="PSG_9409380_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="PSG_9409380_4" lemmaRef="lexicon.xml#lemma_5412" pos="VRB" corresp="variants.xml#type_18880">gesenket</w>
           </l>
           <l n="939">
@@ -9540,7 +9541,7 @@
               </hi>
             <w xml:id="PSG_9409450_1">main</w>
             <w xml:id="PSG_9409450_2" lemmaRef="lexicon.xml#lemma_2465" pos="NOM" ana="lexicon.xml#lemma_2465_sense_3951" corresp="variants.xml#type_8257">gotez</w>
-            <w xml:id="PSG_9409450_3">minne</w>
+            <w xml:id="PSG_9409450_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <pc xml:id="PSG_9409450_4" join="left">,</pc>
           </l>
           <l n="946">
@@ -10922,7 +10923,7 @@
               </hi>
             <w xml:id="PSG_9710860_1">in</w>
             <w xml:id="PSG_9710860_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-            <w xml:id="PSG_9710860_3">minne</w>
+            <w xml:id="PSG_9710860_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="PSG_9710860_4" lemmaRef="lexicon.xml#lemma_936" pos="NOM" ana="lexicon.xml#lemma_936_sense_1564" corresp="variants.xml#type_129149">puch</w>
             <pc xml:id="PSG_9710860_5" join="left">:</pc>
           </l>
@@ -11520,7 +11521,7 @@
               </hi>
             <w xml:id="PSG_9911440_1">in</w>
             <w xml:id="PSG_9911440_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-            <w xml:id="PSG_9911440_3">minne</w>
+            <w xml:id="PSG_9911440_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="PSG_9911440_4" lemmaRef="lexicon.xml#lemma_936" pos="NOM" ana="lexicon.xml#lemma_936_sense_1564" corresp="variants.xml#type_129149">puch</w>
             <w xml:id="PSG_9911440_5" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20060">stêt</w>
             <pc xml:id="PSG_9911440_6" join="left">:</pc>
@@ -12122,7 +12123,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="PSG_10012030_0">ain</w>
               </hi>
-            <w xml:id="PSG_10012030_1">minne</w>
+            <w xml:id="PSG_10012030_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <pc xml:id="PSG_10012030_2" join="left">,</pc>
             <w xml:id="PSG_10012030_3">ain</w>
             <w xml:id="PSG_10012030_4">gir</w>
@@ -12462,7 +12463,7 @@
                 <w xml:id="PSG_10112380_0">in</w>
               </hi>
             <w xml:id="PSG_10112380_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-            <w xml:id="PSG_10112380_2">minne</w>
+            <w xml:id="PSG_10112380_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="PSG_10112380_3" lemmaRef="lexicon.xml#lemma_936" pos="NOM" ana="lexicon.xml#lemma_936_sense_1564" corresp="variants.xml#type_129149">puch</w>
             <w xml:id="PSG_10112380_4" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
             <w xml:id="PSG_10112380_5" lemmaRef="lexicon.xml#lemma_7699" pos="NOM" ana="lexicon.xml#lemma_7699_sense_12619" corresp="variants.xml#type_27860">wort</w>
@@ -13781,7 +13782,7 @@
                 <w xml:id="PSG_10413720_0" lemmaRef="lexicon.xml#lemma_7643" pos="POS" ana="lexicon.xml#lemma_7643_sense_12530" corresp="variants.xml#type_27645">unsers</w>
               </hi>
             <w xml:id="PSG_10413720_1">herren</w>
-            <w xml:id="PSG_10413720_2">minne</w>
+            <w xml:id="PSG_10413720_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="PSG_10413720_3" lemmaRef="lexicon.xml#lemma_1435" pos="VRB" corresp="variants.xml#type_318313">enpfur</w>
             <pc xml:id="PSG_10413720_4" join="left">;</pc>
           </l>
@@ -13812,7 +13813,7 @@
               </hi>
             <w xml:id="PSG_10413750_1">in</w>
             <w xml:id="PSG_10413750_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-            <w xml:id="PSG_10413750_3">minne</w>
+            <w xml:id="PSG_10413750_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="PSG_10413750_4" lemmaRef="lexicon.xml#lemma_936" pos="NOM" ana="lexicon.xml#lemma_936_sense_1564" corresp="variants.xml#type_129149">puch</w>
             <w xml:id="PSG_10413750_5">sprach</w>
             <pc xml:id="PSG_10413750_6" join="left">,</pc>
@@ -14343,7 +14344,7 @@
                 <w xml:id="PSG_10614270_0" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
               </hi>
             <w xml:id="PSG_10614270_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-            <w xml:id="PSG_10614270_2">minne</w>
+            <w xml:id="PSG_10614270_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="PSG_10614270_3" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
             <w xml:id="PSG_10614270_4" lemmaRef="lexicon.xml#lemma_2866" pos="ADJ ADV" corresp="variants.xml#type_46672">hoh</w>
             <w xml:id="PSG_10614270_5">gepot</w>
@@ -14420,7 +14421,7 @@
             <pc xml:id="PSG_10614340_1" join="left">,</pc>
             <w xml:id="PSG_10614340_2" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
             <w xml:id="PSG_10614340_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-            <w xml:id="PSG_10614340_4">minne</w>
+            <w xml:id="PSG_10614340_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="PSG_10614340_5">wirt</w>
             <w xml:id="PSG_10614340_6" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
             <w xml:id="PSG_10614340_7">vil</w>
@@ -14432,7 +14433,7 @@
             <w xml:id="PSG_10614350_1" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
             <w xml:id="PSG_10614350_2">di</w>
             <w xml:id="PSG_10614350_3" lemmaRef="lexicon.xml#lemma_5349" pos="NOM" ana="lexicon.xml#lemma_5349_sense_8359" corresp="variants.xml#type_18605">sêl</w>
-            <w xml:id="PSG_10614350_4">minne</w>
+            <w xml:id="PSG_10614350_4" lemmaRef="lexicon.xml#lemma_4133" pos="VRB" corresp="variants.xml#type_38651">minne</w>
             <pc xml:id="PSG_10614350_5" join="left">,</pc>
           </l>
           <l n="1436">
@@ -14446,7 +14447,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="PSG_10614370_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
               </hi>
-            <w xml:id="PSG_10614370_1">minne</w>
+            <w xml:id="PSG_10614370_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="PSG_10614370_2">in</w>
             <w xml:id="PSG_10614370_3" lemmaRef="lexicon.xml#lemma_1735" pos="ADJ" ana="lexicon.xml#lemma_1735_sense_2724" corresp="variants.xml#type_105617">etleicher</w>
             <w xml:id="PSG_10614370_4">aht</w>
@@ -14688,7 +14689,7 @@
             <w xml:id="PSG_10614620_1" lemmaRef="lexicon.xml#lemma_504" pos="VRB" ana="lexicon.xml#lemma_504_sense_722" corresp="variants.xml#type_117902">beleibet</w>
             <w xml:id="PSG_10614620_2">hie</w>
             <w xml:id="PSG_10614620_3">di</w>
-            <w xml:id="PSG_10614620_4">minne</w>
+            <w xml:id="PSG_10614620_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           </l>
           <l n="1463">
             <hi rend="initial upper_case_first_letter">
@@ -14780,7 +14781,7 @@
                 <w xml:id="PSG_10714720_0" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
               </hi>
             <w xml:id="PSG_10714720_1">irr</w>
-            <w xml:id="PSG_10714720_2">minne</w>
+            <w xml:id="PSG_10714720_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="PSG_10714720_3" lemmaRef="lexicon.xml#lemma_5449" pos="ADJ ADV" ana="lexicon.xml#lemma_5449_sense_8499" corresp="variants.xml#type_99620">sicherleich</w>
             <pc xml:id="PSG_10714720_4" join="left">.</pc>
           </l>
@@ -14791,7 +14792,7 @@
             <w xml:id="PSG_10714730_1">wann</w>
             <w xml:id="PSG_10714730_2" lemmaRef="lexicon.xml#lemma_2465" pos="NOM" ana="lexicon.xml#lemma_2465_sense_3951" corresp="variants.xml#type_8253">got</w>
             <w xml:id="PSG_10714730_3">di</w>
-            <w xml:id="PSG_10714730_4">minne</w>
+            <w xml:id="PSG_10714730_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="PSG_10714730_5" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18956">ist</w>
             <pc xml:id="PSG_10714730_6" join="left">,</pc>
           </l>
@@ -15674,7 +15675,7 @@
                 <w xml:id="PSG_10915620_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3512">dez</w>
               </hi>
             <w xml:id="PSG_10915620_1" lemmaRef="lexicon.xml#lemma_5864" pos="ADJ" corresp="variants.xml#type_318367">suzzew</w>
-            <w xml:id="PSG_10915620_2">minne</w>
+            <w xml:id="PSG_10915620_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="PSG_10915620_3">ain</w>
             <w xml:id="PSG_10915620_4" lemmaRef="lexicon.xml#lemma_40" pos="NOM" ana="lexicon.xml#lemma_40_sense_53" corresp="variants.xml#type_318368">abgrund</w>
             <w xml:id="PSG_10915620_5" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18956">ist</w>
@@ -15767,7 +15768,7 @@
                 <w xml:id="PSG_10915720_0" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
               </hi>
             <w xml:id="PSG_10915720_1" lemmaRef="lexicon.xml#lemma_2534" pos="NOM ADJ" corresp="variants.xml#type_101500">grozz</w>
-            <w xml:id="PSG_10915720_2">minne</w>
+            <w xml:id="PSG_10915720_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="PSG_10915720_3" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_43065">czu</w>
             <w xml:id="PSG_10915720_4">im</w>
             <w xml:id="PSG_10915720_5" lemmaRef="lexicon.xml#lemma_6171" pos="VRB" corresp="variants.xml#type_21767">tregest</w>
@@ -15911,7 +15912,7 @@
               </hi>
             <w xml:id="PSG_10915860_1" lemmaRef="lexicon.xml#lemma_2795" pos="NOM" corresp="variants.xml#type_85457">hercz</w>
             <w xml:id="PSG_10915860_2">solich</w>
-            <w xml:id="PSG_10915860_3">minne</w>
+            <w xml:id="PSG_10915860_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="PSG_10915860_4" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_43065">czu</w>
             <w xml:id="PSG_10915860_5">im</w>
             <w xml:id="PSG_10915860_6" lemmaRef="lexicon.xml#lemma_6171" pos="VRB" corresp="variants.xml#type_46156">trait</w>
@@ -16005,7 +16006,7 @@
             <w xml:id="PSG_11015950_1" lemmaRef="lexicon.xml#lemma_4240" pos="VRB VEM" corresp="variants.xml#type_149938">mah</w>
             <w xml:id="PSG_11015950_2">du</w>
             <w xml:id="PSG_11015950_3" lemmaRef="lexicon.xml#lemma_1073" pos="ADV" ana="lexicon.xml#lemma_1073_sense_1716" corresp="variants.xml#type_3322">dann</w>
-            <w xml:id="PSG_11015950_4">minne</w>
+            <w xml:id="PSG_11015950_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="PSG_11015950_5">haben</w>
           </l>
           <l n="1596">
@@ -16087,7 +16088,7 @@
                 <w xml:id="PSG_11016040_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
               </hi>
             <w xml:id="PSG_11016040_1" lemmaRef="lexicon.xml#lemma_1242" pos="POS" ana="lexicon.xml#lemma_1242_sense_1958" corresp="variants.xml#type_67142">dein</w>
-            <w xml:id="PSG_11016040_2">minne</w>
+            <w xml:id="PSG_11016040_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="PSG_11016040_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3512">dez</w>
             <w xml:id="PSG_11016040_4" lemmaRef="lexicon.xml#lemma_4377" pos="ADJ ADV NEG" ana="lexicon.xml#lemma_4377_sense_6838" corresp="variants.xml#type_15286">niht</w>
             <w xml:id="PSG_11016040_5">bevilt</w>
@@ -16100,7 +16101,7 @@
             <w xml:id="PSG_11016050_1" lemmaRef="lexicon.xml#lemma_6301" pos="VRB" ana="lexicon.xml#lemma_6301_sense_9929" corresp="variants.xml#type_22331">tuot</w>
             <w xml:id="PSG_11016050_2" lemmaRef="lexicon.xml#lemma_106" pos="ADJ ADV" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_264">allez</w>
             <w xml:id="PSG_11016050_3" lemmaRef="lexicon.xml#lemma_1242" pos="POS" ana="lexicon.xml#lemma_1242_sense_1958" corresp="variants.xml#type_67142">dein</w>
-            <w xml:id="PSG_11016050_4">minne</w>
+            <w xml:id="PSG_11016050_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="PSG_11016050_5" lemmaRef="lexicon.xml#lemma_2534" pos="ADJ" corresp="variants.xml#type_8467">grôz</w>
           </l>
           <l n="1606">
@@ -16142,7 +16143,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="PSG_11016090_0">sein</w>
               </hi>
-            <w xml:id="PSG_11016090_1">minne</w>
+            <w xml:id="PSG_11016090_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="PSG_11016090_2">het</w>
             <w xml:id="PSG_11016090_3" lemmaRef="lexicon.xml#lemma_7643" pos="PRO" ana="lexicon.xml#lemma_7643_sense_12530" corresp="variants.xml#type_27633">uns</w>
             <w xml:id="PSG_11016090_4" lemmaRef="lexicon.xml#lemma_584" pos="VRB" corresp="variants.xml#type_1749">beslozzen</w>
@@ -16169,7 +16170,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="PSG_11016120_0">sein</w>
               </hi>
-            <w xml:id="PSG_11016120_1">minne</w>
+            <w xml:id="PSG_11016120_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="PSG_11016120_2" lemmaRef="lexicon.xml#lemma_6855" pos="VRB" ana="lexicon.xml#lemma_6855_sense_10949" corresp="variants.xml#type_24072">vergaz</w>
             <w xml:id="PSG_11016120_3" lemmaRef="lexicon.xml#lemma_7643" pos="POS" ana="lexicon.xml#lemma_7643_sense_12530" corresp="variants.xml#type_27634">unser</w>
             <w xml:id="PSG_11016120_4" lemmaRef="lexicon.xml#lemma_4365" pos="ADV NEG" ana="lexicon.xml#lemma_4365_sense_6822" corresp="variants.xml#type_15230">nie</w>
@@ -16179,7 +16180,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="PSG_11016130_0">sein</w>
               </hi>
-            <w xml:id="PSG_11016130_1">minne</w>
+            <w xml:id="PSG_11016130_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="PSG_11016130_2" lemmaRef="lexicon.xml#lemma_6342" pos="ADV PRP" ana="lexicon.xml#lemma_6342_sense_9997" corresp="variants.xml#type_101185">auz</w>
             <w xml:id="PSG_11016130_3" lemmaRef="lexicon.xml#lemma_4377" pos="ADJ ADV NEG" ana="lexicon.xml#lemma_4377_sense_6838" corresp="variants.xml#type_15287">nihte</w>
             <w xml:id="PSG_11016130_4" lemmaRef="lexicon.xml#lemma_7643" pos="PRO" ana="lexicon.xml#lemma_7643_sense_12530" corresp="variants.xml#type_27633">uns</w>
@@ -16189,7 +16190,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="PSG_11016140_0">sein</w>
               </hi>
-            <w xml:id="PSG_11016140_1">minne</w>
+            <w xml:id="PSG_11016140_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="PSG_11016140_2" lemmaRef="lexicon.xml#lemma_7643" pos="PRO" ana="lexicon.xml#lemma_7643_sense_12530" corresp="variants.xml#type_27633">uns</w>
             <w xml:id="PSG_11016140_3">mant</w>
             <w xml:id="PSG_11016140_4" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
@@ -16209,7 +16210,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="PSG_11016160_0">sein</w>
               </hi>
-            <w xml:id="PSG_11016160_1">minne</w>
+            <w xml:id="PSG_11016160_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="PSG_11016160_2" lemmaRef="lexicon.xml#lemma_3962" pos="ADJ" ana="lexicon.xml#lemma_3962_sense_6245" corresp="variants.xml#type_13829">manich</w>
             <w xml:id="PSG_11016160_3" lemmaRef="lexicon.xml#lemma_2795" pos="NOM" corresp="variants.xml#type_87356">hercze</w>
             <w xml:id="PSG_11016160_4" lemmaRef="lexicon.xml#lemma_1511" pos="VRB" corresp="variants.xml#type_105771">enczunt</w>
@@ -16230,7 +16231,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="PSG_11016180_0">sein</w>
               </hi>
-            <w xml:id="PSG_11016180_1">minne</w>
+            <w xml:id="PSG_11016180_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="PSG_11016180_2">vil</w>
             <w xml:id="PSG_11016180_3" lemmaRef="lexicon.xml#lemma_2534" pos="ADJ" corresp="variants.xml#type_214280">grôzzer</w>
             <w xml:id="PSG_11016180_4" lemmaRef="lexicon.xml#lemma_5867" pos="NOM" ana="lexicon.xml#lemma_5867_sense_9294" corresp="variants.xml#type_41294">sunde</w>
@@ -16241,7 +16242,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="PSG_11016190_0">sein</w>
               </hi>
-            <w xml:id="PSG_11016190_1">minne</w>
+            <w xml:id="PSG_11016190_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="PSG_11016190_2" lemmaRef="lexicon.xml#lemma_2278" pos="ADJ" ana="lexicon.xml#lemma_2278_sense_3637" corresp="variants.xml#type_107619">getrewe</w>
             <pc xml:id="PSG_11016190_3" join="left">,</pc>
             <w xml:id="PSG_11016190_4" lemmaRef="lexicon.xml#lemma_5864" pos="NOM ADJ ADV" corresp="variants.xml#type_115163">suzze</w>
@@ -16264,7 +16265,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="PSG_11016210_0">sein</w>
               </hi>
-            <w xml:id="PSG_11016210_1">minne</w>
+            <w xml:id="PSG_11016210_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="PSG_11016210_2" lemmaRef="lexicon.xml#lemma_6083" pos="VRB" corresp="variants.xml#type_21402">tiht</w>
             <w xml:id="PSG_11016210_3" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
             <w xml:id="PSG_11016210_4">wunder</w>
@@ -16410,7 +16411,7 @@
                 <w xml:id="PSG_11116350_0">sein</w>
               </hi>
             <w xml:id="PSG_11116350_1" lemmaRef="lexicon.xml#lemma_5864" pos="ADJ" corresp="variants.xml#type_318367">suzzew</w>
-            <w xml:id="PSG_11116350_2">minne</w>
+            <w xml:id="PSG_11116350_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="PSG_11116350_3" lemmaRef="lexicon.xml#lemma_7643" pos="PRO" ana="lexicon.xml#lemma_7643_sense_12530" corresp="variants.xml#type_27633">uns</w>
             <w xml:id="PSG_11116350_4" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
             <w xml:id="PSG_11116350_5" lemmaRef="lexicon.xml#lemma_1701" pos="VRB" ana="lexicon.xml#lemma_1701_sense_2675" corresp="variants.xml#type_117841">erwarb</w>
@@ -16431,7 +16432,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="PSG_11116370_0">sein</w>
               </hi>
-            <w xml:id="PSG_11116370_1">minne</w>
+            <w xml:id="PSG_11116370_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="PSG_11116370_2" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
             <w xml:id="PSG_11116370_3" lemmaRef="lexicon.xml#lemma_2795" pos="NOM" corresp="variants.xml#type_85457">hercz</w>
             <w xml:id="PSG_11116370_4">sein</w>
@@ -16471,7 +16472,7 @@
                 <w xml:id="PSG_11116410_0" lemmaRef="lexicon.xml#lemma_6342" pos="ADV PRP" ana="lexicon.xml#lemma_6342_sense_9997" corresp="variants.xml#type_101185">auz</w>
               </hi>
             <w xml:id="PSG_11116410_1">seiner</w>
-            <w xml:id="PSG_11116410_2">minne</w>
+            <w xml:id="PSG_11116410_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="PSG_11116410_3" lemmaRef="lexicon.xml#lemma_2440" pos="NOM" ana="lexicon.xml#lemma_2440_sense_3923" corresp="variants.xml#type_8197">gluote</w>
           </l>
           <l n="1642">
@@ -16568,7 +16569,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="PSG_11116510_0">sein</w>
               </hi>
-            <w xml:id="PSG_11116510_1">minne</w>
+            <w xml:id="PSG_11116510_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="PSG_11116510_2" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
             <w xml:id="PSG_11116510_3">wunder</w>
             <w xml:id="PSG_11116510_4">im</w>
@@ -16609,7 +16610,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="PSG_11116550_0">sein</w>
               </hi>
-            <w xml:id="PSG_11116550_1">minne</w>
+            <w xml:id="PSG_11116550_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="PSG_11116550_2" lemmaRef="lexicon.xml#lemma_2598" pos="VRB VEX" corresp="variants.xml#type_8758">hat</w>
             <w xml:id="PSG_11116550_3" lemmaRef="lexicon.xml#lemma_4913" pos="VRB" corresp="variants.xml#type_16969">gerihtet</w>
             <pc xml:id="PSG_11116550_4" join="left">,</pc>
@@ -16701,7 +16702,7 @@
                 <w xml:id="PSG_11116650_0">waz</w>
               </hi>
             <w xml:id="PSG_11116650_1">er</w>
-            <w xml:id="PSG_11116650_2">minne</w>
+            <w xml:id="PSG_11116650_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="PSG_11116650_3" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
             <w xml:id="PSG_11116650_4" lemmaRef="lexicon.xml#lemma_11692" pos="NOM" ana="lexicon.xml#lemma_11692_sense_18539" corresp="variants.xml#type_317811">parmchait</w>
           </l>
@@ -16741,7 +16742,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="PSG_11116690_0">sein</w>
               </hi>
-            <w xml:id="PSG_11116690_1">minne</w>
+            <w xml:id="PSG_11116690_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="PSG_11116690_2" lemmaRef="lexicon.xml#lemma_3656" pos="VRB" ana="lexicon.xml#lemma_3656_sense_5771" corresp="variants.xml#type_12694">lert</w>
             <w xml:id="PSG_11116690_3" lemmaRef="lexicon.xml#lemma_7643" pos="PRO" ana="lexicon.xml#lemma_7643_sense_12530" corresp="variants.xml#type_27633">uns</w>
             <w xml:id="PSG_11116690_4">in</w>
@@ -16761,7 +16762,7 @@
                 <w xml:id="PSG_11116710_0">in</w>
               </hi>
             <w xml:id="PSG_11116710_1">seiner</w>
-            <w xml:id="PSG_11116710_2">minne</w>
+            <w xml:id="PSG_11116710_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="PSG_11116710_3" lemmaRef="lexicon.xml#lemma_4368" pos="ADV" ana="lexicon.xml#lemma_4368_sense_6825" corresp="variants.xml#type_15249">nimmer</w>
             <w xml:id="PSG_11116710_4" lemmaRef="lexicon.xml#lemma_3538" pos="VRB VEM" corresp="variants.xml#type_46333">chan</w>
             <pc xml:id="PSG_11116710_5" join="left">,</pc>
@@ -16772,7 +16773,7 @@
               </hi>
             <w xml:id="PSG_11116720_1" lemmaRef="lexicon.xml#lemma_4238" pos="VRB VEM" corresp="variants.xml#type_116871">muzze</w>
             <w xml:id="PSG_11116720_2" lemmaRef="lexicon.xml#lemma_4523" pos="CNJ" ana="lexicon.xml#lemma_4523_sense_7060" corresp="variants.xml#type_61484">auch</w>
-            <w xml:id="PSG_11116720_3">minne</w>
+            <w xml:id="PSG_11116720_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="PSG_11116720_4" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_31260">zu</w>
             <w xml:id="PSG_11116720_5">im</w>
             <w xml:id="PSG_11116720_6" lemmaRef="lexicon.xml#lemma_2598" pos="VRB VEX" corresp="variants.xml#type_8717">hân</w>
@@ -16809,9 +16810,9 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="PSG_11216760_0">sein</w>
               </hi>
-            <w xml:id="PSG_11216760_1">minne</w>
+            <w xml:id="PSG_11216760_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="PSG_11216760_2" lemmaRef="lexicon.xml#lemma_7643" pos="POS" ana="lexicon.xml#lemma_7643_sense_12530" corresp="variants.xml#type_27634">unser</w>
-            <w xml:id="PSG_11216760_3">minne</w>
+            <w xml:id="PSG_11216760_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <pc xml:id="PSG_11216760_4" join="left">.</pc>
           </l>
           <l n="1677">
@@ -16877,7 +16878,7 @@
             <w xml:id="PSG_11216820_2" lemmaRef="lexicon.xml#lemma_2465" pos="NOM" ana="lexicon.xml#lemma_2465_sense_3951" corresp="variants.xml#type_8253">got</w>
             <w xml:id="PSG_11216820_3" lemmaRef="lexicon.xml#lemma_7194" pos="ADV PRP" ana="lexicon.xml#lemma_7194_sense_11657" corresp="variants.xml#type_25545">vor</w>
             <w xml:id="PSG_11216820_4" lemmaRef="lexicon.xml#lemma_4377" pos="ADJ ADV NEG" ana="lexicon.xml#lemma_4377_sense_6838" corresp="variants.xml#type_15286">niht</w>
-            <w xml:id="PSG_11216820_5">minne</w>
+            <w xml:id="PSG_11216820_5" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="PSG_11216820_6">trueg</w>
             <pc xml:id="PSG_11216820_7" join="left">.</pc>
           </l>
@@ -16885,7 +16886,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="PSG_11216830_0">sein</w>
               </hi>
-            <w xml:id="PSG_11216830_1">minne</w>
+            <w xml:id="PSG_11216830_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="PSG_11216830_2" lemmaRef="lexicon.xml#lemma_2598" pos="VRB VEX" corresp="variants.xml#type_8723">hât</w>
             <w xml:id="PSG_11216830_3" lemmaRef="lexicon.xml#lemma_7643" pos="PRO" ana="lexicon.xml#lemma_7643_sense_12530" corresp="variants.xml#type_27633">uns</w>
             <w xml:id="PSG_11216830_4">ir</w>
@@ -17289,7 +17290,7 @@
               </hi>
             <w xml:id="PSG_11317240_1" lemmaRef="lexicon.xml#lemma_434" pos="VRB" ana="lexicon.xml#lemma_434_sense_591" corresp="variants.xml#type_121496">bedench</w>
             <w xml:id="PSG_11317240_2" lemmaRef="lexicon.xml#lemma_1169" pos="DET" ana="lexicon.xml#lemma_1169_sense_1850" corresp="variants.xml#type_3688">dise</w>
-            <w xml:id="PSG_11317240_3">minne</w>
+            <w xml:id="PSG_11317240_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="PSG_11317240_4">pant</w>
           </l>
           <l n="1725">
@@ -17322,7 +17323,7 @@
           </l>
           <l n="1728">
             <hi rend="initial upper_case_first_letter">
-                <w xml:id="PSG_11317280_0">minne</w>
+                <w xml:id="PSG_11317280_0" lemmaRef="lexicon.xml#lemma_4133" pos="VRB" corresp="variants.xml#type_38651">minne</w>
               </hi>
             <w xml:id="PSG_11317280_1">in</w>
             <w xml:id="PSG_11317280_2" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
@@ -17403,7 +17404,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="PSG_11317350_0">wann</w>
               </hi>
-            <w xml:id="PSG_11317350_1">minne</w>
+            <w xml:id="PSG_11317350_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="PSG_11317350_2">ain</w>
             <w xml:id="PSG_11317350_3">solich</w>
             <w xml:id="PSG_11317350_4" lemmaRef="lexicon.xml#lemma_7360" pos="VRB" corresp="variants.xml#type_26565">wahsen</w>
@@ -17441,7 +17442,7 @@
           </l>
           <l n="1739">
             <hi rend="initial upper_case_first_letter">
-                <w xml:id="PSG_11317390_0">minne</w>
+                <w xml:id="PSG_11317390_0" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               </hi>
             <w xml:id="PSG_11317390_1" lemmaRef="lexicon.xml#lemma_3917" pos="VRB" corresp="variants.xml#type_13688">machet</w>
             <w xml:id="PSG_11317390_2" lemmaRef="lexicon.xml#lemma_5864" pos="NOM ADJ ADV" corresp="variants.xml#type_115163">suzze</w>
@@ -18300,7 +18301,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="PSG_11518220_0" lemmaRef="lexicon.xml#lemma_2465" pos="NOM" ana="lexicon.xml#lemma_2465_sense_3951" corresp="variants.xml#type_8257">gotez</w>
               </hi>
-            <w xml:id="PSG_11518220_1">minne</w>
+            <w xml:id="PSG_11518220_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="PSG_11518220_2" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18956">ist</w>
             <w xml:id="PSG_11518220_3" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
             <w xml:id="PSG_11518220_4">zart</w>
@@ -20022,7 +20023,7 @@
           </l>
           <l n="1997">
             <hi rend="initial upper_case_first_letter">
-                <w xml:id="PSG_11919970_0">minne</w>
+                <w xml:id="PSG_11919970_0" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               </hi>
             <w xml:id="PSG_11919970_1" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18956">ist</w>
             <w xml:id="PSG_11919970_2" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3255">da</w>
@@ -20222,7 +20223,7 @@
               </hi>
             <w xml:id="PSG_12020170_1" lemmaRef="lexicon.xml#lemma_2708" pos="NOM ADJ" ana="lexicon.xml#lemma_2708_sense_4365" corresp="variants.xml#type_45267">hailigen</w>
             <w xml:id="PSG_12020170_2" lemmaRef="lexicon.xml#lemma_2044" pos="NOM" corresp="variants.xml#type_145307">gaistes</w>
-            <w xml:id="PSG_12020170_3">minne</w>
+            <w xml:id="PSG_12020170_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           </l>
           <l n="2018">
             <hi rend="initial upper_case_first_letter">
@@ -21425,7 +21426,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="PSG_12321400_0" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18956">ist</w>
               </hi>
-            <w xml:id="PSG_12321400_1">minne</w>
+            <w xml:id="PSG_12321400_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <pc xml:id="PSG_12321400_2" join="left">,</pc>
             <w xml:id="PSG_12321400_3" lemmaRef="lexicon.xml#lemma_7252" pos="NOM" ana="lexicon.xml#lemma_7252_sense_11755" corresp="variants.xml#type_25882">freude</w>
             <pc xml:id="PSG_12321400_4" join="left">,</pc>

@@ -131,6 +131,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 16 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/). 28 weitere Tokens der Form minne blieben bewusst unannotiert (Review).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -7864,7 +7865,7 @@
             </hi>
             <w xml:id="MNB_3006690_1">wa</w>
             <w xml:id="MNB_3006690_2" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
-            <w xml:id="MNB_3006690_3">minne</w>
+            <w xml:id="MNB_3006690_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="MNB_3006690_4">werde</w>
             <w xml:id="MNB_3006690_5" lemmaRef="lexicon.xml#lemma_1964" pos="VRB" corresp="variants.xml#type_6656">geborn</w>
             <pc xml:id="MNB_3006690_6" join="left">.</pc>
@@ -8282,7 +8283,7 @@
             <hi rend="initial">
               <w xml:id="MNB_3007100_0">waz</w>
             </hi>
-            <w xml:id="MNB_3007100_1">minne</w>
+            <w xml:id="MNB_3007100_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="MNB_3007100_2">sy</w>
             <w xml:id="MNB_3007100_3">oder</w>
             <w xml:id="MNB_3007100_4">waz</w>
@@ -9239,7 +9240,7 @@
           </l>
           <l n="800">
             <hi rend="initial">
-              <w xml:id="MNB_3008000_0">minne</w>
+              <w xml:id="MNB_3008000_0" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             </hi>
             <w xml:id="MNB_3008000_1" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
             <w xml:id="MNB_3008000_2" lemmaRef="lexicon.xml#lemma_5349" pos="NOM" ana="lexicon.xml#lemma_5349_sense_8359" corresp="variants.xml#type_18609">sele</w>
@@ -10754,7 +10755,7 @@
             </hi>
             <w xml:id="MNB_3009460_1" lemmaRef="lexicon.xml#lemma_5349" pos="NOM" ana="lexicon.xml#lemma_5349_sense_8359" corresp="variants.xml#type_18609">sele</w>
             <w xml:id="MNB_3009460_2">an</w>
-            <w xml:id="MNB_3009460_3">minne</w>
+            <w xml:id="MNB_3009460_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="MNB_3009460_4" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18956">ist</w>
             <w xml:id="MNB_3009460_5" lemmaRef="lexicon.xml#lemma_11816" pos="NOM" ana="lexicon.xml#lemma_11816_sense_18691" corresp="variants.xml#type_321150">haßes</w>
             <w xml:id="MNB_3009460_6">vol</w>
@@ -10793,7 +10794,7 @@
           </l>
           <l n="950">
             <hi rend="initial">
-              <w xml:id="MNB_3009500_0">minne</w>
+              <w xml:id="MNB_3009500_0" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             </hi>
             <w xml:id="MNB_3009500_1" lemmaRef="lexicon.xml#lemma_3656" pos="VRB" ana="lexicon.xml#lemma_3656_sense_5771" corresp="variants.xml#type_12692">leret</w>
             <w xml:id="MNB_3009500_2" lemmaRef="lexicon.xml#lemma_6280" pos="NOM" corresp="variants.xml#type_22203">tugent</w>
@@ -10806,7 +10807,7 @@
             <hi rend="initial">
               <w xml:id="MNB_3009510_0">an</w>
             </hi>
-            <w xml:id="MNB_3009510_1">minne</w>
+            <w xml:id="MNB_3009510_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="MNB_3009510_2" lemmaRef="lexicon.xml#lemma_3715" pos="VRB" ana="lexicon.xml#lemma_3715_sense_5880" corresp="variants.xml#type_12903">lernet</w>
             <w xml:id="MNB_3009510_3" lemmaRef="lexicon.xml#lemma_4366" pos="ADJ PRO NEG" ana="lexicon.xml#lemma_4366_sense_6823" corresp="variants.xml#type_43637">nymant</w>
             <w xml:id="MNB_3009510_4" lemmaRef="lexicon.xml#lemma_3541" pos="NOM" corresp="variants.xml#type_12313">kunst</w>
@@ -10816,7 +10817,7 @@
             <hi rend="initial">
               <w xml:id="MNB_3009520_0">an</w>
             </hi>
-            <w xml:id="MNB_3009520_1">minne</w>
+            <w xml:id="MNB_3009520_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="MNB_3009520_2" lemmaRef="lexicon.xml#lemma_2348" pos="VRB" corresp="variants.xml#type_7935">gewinnet</w>
             <w xml:id="MNB_3009520_3" lemmaRef="lexicon.xml#lemma_4366" pos="ADJ PRO NEG" ana="lexicon.xml#lemma_4366_sense_6823" corresp="variants.xml#type_55870">niman</w>
             <w xml:id="MNB_3009520_4" lemmaRef="lexicon.xml#lemma_2571" pos="NOM" ana="lexicon.xml#lemma_2571_sense_4117" corresp="variants.xml#type_8621">gunst</w>
@@ -11015,7 +11016,7 @@
           </l>
           <l n="972">
             <hi rend="initial">
-              <w xml:id="MNB_3009720_0">minne</w>
+              <w xml:id="MNB_3009720_0" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             </hi>
             <w xml:id="MNB_3009720_1" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
             <w xml:id="MNB_3009720_2">rein</w>
@@ -11057,7 +11058,7 @@
             <hi rend="initial">
               <w xml:id="MNB_3009760_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
             </hi>
-            <w xml:id="MNB_3009760_1">minne</w>
+            <w xml:id="MNB_3009760_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="MNB_3009760_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
             <w xml:id="MNB_3009760_3" lemmaRef="lexicon.xml#lemma_2174" pos="VRB" corresp="variants.xml#type_7383">gert</w>
             <w xml:id="MNB_3009760_4">irem</w>
@@ -11207,7 +11208,7 @@
             <w xml:id="MNB_3009900_1" lemmaRef="lexicon.xml#lemma_5693" pos="VRB" ana="lexicon.xml#lemma_5693_sense_8912" corresp="variants.xml#type_46015">sprichst</w>
             <w xml:id="MNB_3009900_2" lemmaRef="lexicon.xml#lemma_152" pos="ADV" ana="lexicon.xml#lemma_152_sense_187" corresp="variants.xml#type_378">also</w>
             <pc xml:id="MNB_3009900_3" join="left">:</pc>
-            <w xml:id="MNB_3009900_4">minne</w>
+            <w xml:id="MNB_3009900_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="MNB_3009900_5" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
             <w xml:id="MNB_3009900_6">sy</w>
           </l>
@@ -11604,7 +11605,7 @@
           </l>
           <l n="1030">
             <hi rend="initial">
-              <w xml:id="MNB_3010300_0">minne</w>
+              <w xml:id="MNB_3010300_0" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             </hi>
             <w xml:id="MNB_3010300_1" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18956">ist</w>
             <w xml:id="MNB_3010300_2" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
@@ -15517,7 +15518,7 @@
             </hi>
             <w xml:id="MNB_3014040_1" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
             <w xml:id="MNB_3014040_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="MNB_3014040_3">minne</w>
+            <w xml:id="MNB_3014040_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="MNB_3014040_4" lemmaRef="lexicon.xml#lemma_119" pos="ADJ ADV" ana="lexicon.xml#lemma_119_sense_153" corresp="variants.xml#type_40303">allein</w>
             <w xml:id="MNB_3014040_5">lest</w>
             <pc xml:id="MNB_3014040_6" join="left">?</pc>
@@ -15839,7 +15840,7 @@
             </hi>
             <w xml:id="MNB_3014360_1">waz</w>
             <w xml:id="MNB_3014360_2">min</w>
-            <w xml:id="MNB_3014360_3">minne</w>
+            <w xml:id="MNB_3014360_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="MNB_3014360_4" lemmaRef="lexicon.xml#lemma_1077" pos="ADV CNJ" ana="lexicon.xml#lemma_1077_sense_1720" corresp="variants.xml#type_3330">dannoch</w>
             <w xml:id="MNB_3014360_5" lemmaRef="lexicon.xml#lemma_5921" pos="ADJ" corresp="variants.xml#type_20865">swach</w>
           </l>
@@ -16596,7 +16597,7 @@
             </hi>
             <w xml:id="MNB_3015060_1">din</w>
             <w xml:id="MNB_3015060_2" lemmaRef="lexicon.xml#lemma_5864" pos="NOM ADJ ADV" corresp="variants.xml#type_96278">suße</w>
-            <w xml:id="MNB_3015060_3">minne</w>
+            <w xml:id="MNB_3015060_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="MNB_3015060_4">du</w>
             <w xml:id="MNB_3015060_5" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10226">mich</w>
             <w xml:id="MNB_3015060_6" lemmaRef="lexicon.xml#lemma_7372" pos="VRB" corresp="variants.xml#type_337320">walk</w>
@@ -33015,7 +33016,7 @@
           </l>
           <l n="3115">
             <hi rend="initial">
-              <w xml:id="MNB_3031150_0">minne</w>
+              <w xml:id="MNB_3031150_0" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             </hi>
             <w xml:id="MNB_3031150_1" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_31260">zu</w>
             <w xml:id="MNB_3031150_2">mynnen</w>
@@ -40572,7 +40573,7 @@
             <w xml:id="MNB_3038620_2">wirt</w>
             <w xml:id="MNB_3038620_3" lemmaRef="lexicon.xml#lemma_155" pos="NOM ADJ" ana="lexicon.xml#lemma_155_sense_190" corresp="variants.xml#type_400">alt</w>
             <w xml:id="MNB_3038620_4" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
-            <w xml:id="MNB_3038620_5">minne</w>
+            <w xml:id="MNB_3038620_5" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="MNB_3038620_6" lemmaRef="lexicon.xml#lemma_6215" pos="NOM ADJ" corresp="variants.xml#type_42722">truwen</w>
             <pc xml:id="MNB_3038620_7" join="left">,</pc>
           </l>

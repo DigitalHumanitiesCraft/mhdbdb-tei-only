@@ -137,6 +137,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 2 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -1582,7 +1583,7 @@
             <w xml:id="WVP_204003000_1" lemmaRef="lexicon.xml#lemma_5153" pos="VRB" corresp="variants.xml#type_17859">schuof</w>
             <w xml:id="WVP_204003000_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
             <w xml:id="WVP_204003000_3">werde</w>
-            <w xml:id="WVP_204003000_4">minne</w>
+            <w xml:id="WVP_204003000_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           </l>
           <l n="4">
             <w xml:id="WVP_204004000_0" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
@@ -1619,7 +1620,7 @@
             <w xml:id="WVP_204008000_0" lemmaRef="lexicon.xml#lemma_6301" pos="NOM VRB" ana="lexicon.xml#lemma_6301_sense_9929" corresp="variants.xml#type_22319">tet</w>
             <w xml:id="WVP_204008000_1">kunt</w>
             <w xml:id="WVP_204008000_2">ir</w>
-            <w xml:id="WVP_204008000_3">minne</w>
+            <w xml:id="WVP_204008000_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             <w xml:id="WVP_204008000_4">gir</w>
             <pc xml:id="WVP_204008000_5" join="left">,</pc>
           </l>

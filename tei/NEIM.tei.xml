@@ -149,6 +149,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 8 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -3460,7 +3461,7 @@
               <w xml:id="NEIM_507040_2" lemmaRef="lexicon.xml#lemma_1913" pos="ADJ ADV" ana="lexicon.xml#lemma_1913_sense_2938" corresp="variants.xml#type_6476">gar</w>
               <w xml:id="NEIM_507040_3" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
               <w xml:id="NEIM_507040_4" lemmaRef="lexicon.xml#lemma_2795" pos="NOM" corresp="variants.xml#type_9460">herzen</w>
-              <w xml:id="NEIM_507040_5">minne</w>
+              <w xml:id="NEIM_507040_5" lemmaRef="lexicon.xml#lemma_4133" pos="VRB" corresp="variants.xml#type_38651">minne</w>
             </l>
             <l n="5">
               <w xml:id="NEIM_507050_0" lemmaRef="lexicon.xml#lemma_7194" pos="ADV PRP" ana="lexicon.xml#lemma_7194_sense_11657" corresp="variants.xml#type_25545">vor</w>
@@ -3684,7 +3685,7 @@
             <l n="2">
               <w xml:id="NEIM_602020_0" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
               <w xml:id="NEIM_602020_1">ir</w>
-              <w xml:id="NEIM_602020_2">minne</w>
+              <w xml:id="NEIM_602020_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="NEIM_602020_3" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10226">mich</w>
               <w xml:id="NEIM_602020_4" lemmaRef="lexicon.xml#lemma_2598" pos="VRB VEX" corresp="variants.xml#type_8758">hat</w>
             </l>
@@ -4370,7 +4371,7 @@
             </l>
             <l n="2">
               <w xml:id="NEIM_704020_0" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
-              <w xml:id="NEIM_704020_1">minne</w>
+              <w xml:id="NEIM_704020_1" lemmaRef="lexicon.xml#lemma_4133" pos="VRB" corresp="variants.xml#type_38651">minne</w>
               <w xml:id="NEIM_704020_2">einen</w>
               <w xml:id="NEIM_704020_3" lemmaRef="lexicon.xml#lemma_5788" pos="ADJ" corresp="variants.xml#type_20374">stolzen</w>
               <w xml:id="NEIM_704020_4" lemmaRef="lexicon.xml#lemma_4886" pos="NOM" ana="lexicon.xml#lemma_4886_sense_7584" corresp="variants.xml#type_16866">riter</w>
@@ -8353,7 +8354,7 @@
             </l>
             <l n="6">
               <w xml:id="NEIM_1306060_0" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
-              <w xml:id="NEIM_1306060_1">minne</w>
+              <w xml:id="NEIM_1306060_1" lemmaRef="lexicon.xml#lemma_4133" pos="VRB" corresp="variants.xml#type_38651">minne</w>
               <w xml:id="NEIM_1306060_2">in</w>
               <pc xml:id="NEIM_1306060_3" join="left">,</pc>
               <w xml:id="NEIM_1306060_4">dast</w>
@@ -11374,7 +11375,7 @@
               <w xml:id="NEIM_2102020_8" lemmaRef="lexicon.xml#lemma_4649" pos="VRB" corresp="variants.xml#type_16017">pfliget</w>
               <w xml:id="NEIM_2102020_9" lemmaRef="lexicon.xml#lemma_4377" pos="ADJ ADV NEG" ana="lexicon.xml#lemma_4377_sense_6838" corresp="variants.xml#type_15286">niht</w>
               <w xml:id="NEIM_2102020_10">steter</w>
-              <w xml:id="NEIM_2102020_11">minne</w>
+              <w xml:id="NEIM_2102020_11" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <pc xml:id="NEIM_2102020_12" join="left">.</pc>
               <pc xml:id="NEIM_2102020_13" join="left">&gt;</pc>
             </l>
@@ -11403,7 +11404,7 @@
             <l n="5">
               <w xml:id="NEIM_2102050_0">nach</w>
               <w xml:id="NEIM_2102050_1" lemmaRef="lexicon.xml#lemma_1517" pos="POS" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_5024">siner</w>
-              <w xml:id="NEIM_2102050_2">minne</w>
+              <w xml:id="NEIM_2102050_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="NEIM_2102050_3" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
               <w xml:id="NEIM_2102050_4">bin</w>
               <w xml:id="NEIM_2102050_5" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
@@ -12407,7 +12408,7 @@
               <w xml:id="NEIM_2501080_3" lemmaRef="lexicon.xml#lemma_1701" pos="VRB" ana="lexicon.xml#lemma_1701_sense_2675" corresp="variants.xml#type_5798">erwirbe</w>
               <w xml:id="NEIM_2501080_4" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
               <w xml:id="NEIM_2501080_5">sine</w>
-              <w xml:id="NEIM_2501080_6">minne</w>
+              <w xml:id="NEIM_2501080_6" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <pc xml:id="NEIM_2501080_7" join="left">,</pc>
             </l>
             <l n="9">
@@ -12588,7 +12589,7 @@
               <w xml:id="NEIM_2503070_2">wil</w>
               <w xml:id="NEIM_2503070_3" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
               <w xml:id="NEIM_2503070_4">ir</w>
-              <w xml:id="NEIM_2503070_5">minne</w>
+              <w xml:id="NEIM_2503070_5" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="NEIM_2503070_6">gerne</w>
               <w xml:id="NEIM_2503070_7">varen</w>
               <pc xml:id="NEIM_2503070_8" join="left">.</pc>

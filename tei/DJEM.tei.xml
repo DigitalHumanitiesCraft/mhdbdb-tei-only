@@ -135,6 +135,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 4 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/). 4 weitere Tokens der Form minne blieben bewusst unannotiert (Review).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -2403,7 +2404,7 @@
               <w xml:id="DJEM_11410_5" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
               <w xml:id="DJEM_11410_6" lemmaRef="lexicon.xml#lemma_5868" pos="VRB" ana="lexicon.xml#lemma_5868_sense_9295" corresp="variants.xml#type_98454">sunte</w>
               <w xml:id="DJEM_11410_7" lemmaRef="lexicon.xml#lemma_6213" pos="VRB" corresp="variants.xml#type_267192">gertrute</w>
-              <w xml:id="DJEM_11410_8">minne</w>
+              <w xml:id="DJEM_11410_8" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <pc xml:id="DJEM_11410_9" join="left">.</pc>
             </l>
             <l n="11">
@@ -16073,7 +16074,7 @@
               <w xml:id="DJEM_160701_2">an</w>
               <w xml:id="DJEM_160701_3" lemmaRef="lexicon.xml#lemma_3001" pos="POS" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10231">minem</w>
               <w xml:id="DJEM_160701_4" lemmaRef="lexicon.xml#lemma_2795" pos="NOM" corresp="variants.xml#type_9460">herzen</w>
-              <w xml:id="DJEM_160701_5">minne</w>
+              <w xml:id="DJEM_160701_5" lemmaRef="lexicon.xml#lemma_4133" pos="VRB" corresp="variants.xml#type_38651">minne</w>
               <pc xml:id="DJEM_160701_6" join="left">,</pc>
             </l>
             <l n="2">
@@ -17705,7 +17706,7 @@
               <w xml:id="DJEM_170604_17" lemmaRef="lexicon.xml#lemma_2465" pos="NOM" ana="lexicon.xml#lemma_2465_sense_3951" corresp="variants.xml#type_8253">got</w>
               <w xml:id="DJEM_170604_18">vorchte</w>
               <w xml:id="DJEM_170604_19">unde</w>
-              <w xml:id="DJEM_170604_20">minne</w>
+              <w xml:id="DJEM_170604_20" lemmaRef="lexicon.xml#lemma_4133" pos="VRB" corresp="variants.xml#type_38651">minne</w>
               <pc xml:id="DJEM_170604_21" join="left">,</pc>
             </l>
             <l n="5">
@@ -17743,7 +17744,7 @@
               <w xml:id="DJEM_170606_8" lemmaRef="lexicon.xml#lemma_5176" pos="NOM" ana="lexicon.xml#lemma_5176_sense_8047" corresp="variants.xml#type_17959">schande</w>
               <w xml:id="DJEM_170606_9" lemmaRef="lexicon.xml#lemma_7129" pos="VRB" ana="lexicon.xml#lemma_7129_sense_11558" corresp="variants.xml#type_102862">vlie</w>
               <w xml:id="DJEM_170606_10">unde</w>
-              <w xml:id="DJEM_170606_11">minne</w>
+              <w xml:id="DJEM_170606_11" lemmaRef="lexicon.xml#lemma_4133" pos="VRB" corresp="variants.xml#type_38651">minne</w>
               <w xml:id="DJEM_170606_12">ere</w>
               <pc xml:id="DJEM_170606_13" join="left">.</pc>
             </l>

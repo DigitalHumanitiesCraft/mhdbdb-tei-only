@@ -124,6 +124,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 5 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -1268,7 +1269,7 @@
           <w xml:id="SES_112050_1" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18951">bist</w>
           <w xml:id="SES_112050_2">in</w>
           <w xml:id="SES_112050_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="SES_112050_4">minne</w>
+          <w xml:id="SES_112050_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="SES_112050_5" lemmaRef="lexicon.xml#lemma_13939" pos="NOM" ana="lexicon.xml#lemma_13939_sense_23014" corresp="variants.xml#type_55281">smitten</w>
         </l>
         <l n="6">
@@ -1664,7 +1665,7 @@
           <w xml:id="SES_116050_2">buoche</w>
           <w xml:id="SES_116050_3" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
           <w xml:id="SES_116050_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="SES_116050_5">minne</w>
+          <w xml:id="SES_116050_5" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <pc xml:id="SES_116050_6" join="left">,</pc>
         </l>
         <l n="6">
@@ -1823,7 +1824,7 @@
         </l>
         <l n="12">
           <w xml:id="SES_117120_0" lemmaRef="lexicon.xml#lemma_1242" pos="POS" ana="lexicon.xml#lemma_1242_sense_1958" corresp="variants.xml#type_3952">dîner</w>
-          <w xml:id="SES_117120_1">minne</w>
+          <w xml:id="SES_117120_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="SES_117120_2" lemmaRef="lexicon.xml#lemma_11198" pos="ADJ" ana="lexicon.xml#lemma_11198_sense_17910" corresp="variants.xml#type_40248">wunnevar</w>
           <pc xml:id="SES_117120_3" join="left">.</pc>
         </l>
@@ -2043,7 +2044,7 @@
           <w xml:id="SES_120010_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
           <w xml:id="SES_120010_2" lemmaRef="lexicon.xml#lemma_7075" pos="ADJ ADV" ana="lexicon.xml#lemma_7075_sense_11459" corresp="variants.xml#type_25008">vil</w>
           <w xml:id="SES_120010_3">schoenen</w>
-          <w xml:id="SES_120010_4">minne</w>
+          <w xml:id="SES_120010_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <pc xml:id="SES_120010_5" join="left">,</pc>
         </l>
         <l n="2">
@@ -2064,7 +2065,7 @@
           <w xml:id="SES_120040_0">in</w>
           <w xml:id="SES_120040_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
           <w xml:id="SES_120040_2" lemmaRef="lexicon.xml#lemma_7505" pos="VRB" corresp="variants.xml#type_273621">wâren</w>
-          <w xml:id="SES_120040_3">minne</w>
+          <w xml:id="SES_120040_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="SES_120040_4" lemmaRef="lexicon.xml#lemma_2440" pos="NOM" ana="lexicon.xml#lemma_2440_sense_3923" corresp="variants.xml#type_8196">gluot</w>
           <pc xml:id="SES_120040_5" join="left">,</pc>
         </l>

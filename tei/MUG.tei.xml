@@ -136,6 +136,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 3 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -1609,7 +1610,7 @@
             </l>
             <l n="44">
               <w xml:id="MUG_1010544_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-              <w xml:id="MUG_1010544_1">minne</w>
+              <w xml:id="MUG_1010544_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="MUG_1010544_2" lemmaRef="lexicon.xml#lemma_4065" pos="NOM" ana="lexicon.xml#lemma_4065_sense_6388" corresp="variants.xml#type_14182">meisterschefte</w>
             </l>
             <l n="45">
@@ -2084,7 +2085,7 @@
               <w xml:id="MUG_1020302_3" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19597">sô</w>
               <w xml:id="MUG_1020302_4" lemmaRef="lexicon.xml#lemma_4281" pos="ADJ ADV" corresp="variants.xml#type_14882">nâch</w>
               <w xml:id="MUG_1020302_5">ir</w>
-              <w xml:id="MUG_1020302_6">minne</w>
+              <w xml:id="MUG_1020302_6" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="MUG_1020302_7" lemmaRef="lexicon.xml#lemma_4920" pos="VRB" corresp="variants.xml#type_16991">geranc</w>
               <pc xml:id="MUG_1020302_8" join="left">.</pc>
             </l>
@@ -3527,7 +3528,7 @@
               <w xml:id="MUG_2010502_1" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
               <w xml:id="MUG_2010502_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
               <w xml:id="MUG_2010502_3" lemmaRef="lexicon.xml#lemma_2573" pos="ADJ" corresp="variants.xml#type_8636">guoten</w>
-              <w xml:id="MUG_2010502_4">minne</w>
+              <w xml:id="MUG_2010502_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
             </l>
             <l n="3">
               <w xml:id="MUG_2010503_0" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>

@@ -128,6 +128,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 2 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -144,7 +145,7 @@
           <w xml:id="VWI_10100100_2" lemmaRef="lexicon.xml#lemma_2819" pos="ADV" ana="lexicon.xml#lemma_2819_sense_4535" corresp="variants.xml#type_9549">hînte</w>
           <w xml:id="VWI_10100100_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
           <w xml:id="VWI_10100100_4" lemmaRef="lexicon.xml#lemma_61757" pos="ADJ" ana="lexicon.xml#lemma_61757_sense_98192" corresp="variants.xml#type_324110">verholner</w>
-          <w xml:id="VWI_10100100_5">minne</w>
+          <w xml:id="VWI_10100100_5" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="VWI_10100100_6" lemmaRef="lexicon.xml#lemma_2598" pos="VRB VEX" corresp="variants.xml#type_8723">hât</w>
           <w xml:id="VWI_10100100_7" lemmaRef="lexicon.xml#lemma_4649" pos="VRB" corresp="variants.xml#type_16001">gepflegen</w>
           <pc xml:id="VWI_10100100_8" join="left">,</pc>
@@ -694,7 +695,7 @@
         <l n="3">
           <w xml:id="VWI_30100300_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
           <w xml:id="VWI_30100300_1" lemmaRef="lexicon.xml#lemma_6158" pos="ADJ GRA" ana="lexicon.xml#lemma_6158_sense_9711" corresp="variants.xml#type_36116">tougenlicher</w>
-          <w xml:id="VWI_30100300_2">minne</w>
+          <w xml:id="VWI_30100300_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="VWI_30100300_3" lemmaRef="lexicon.xml#lemma_4649" pos="VRB" corresp="variants.xml#type_16011">pflegen</w>
           <pc xml:id="VWI_30100300_4" join="left">:</pc>
         </l>

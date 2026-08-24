@@ -125,6 +125,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 3 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -471,7 +472,7 @@
           <w xml:id="VDK_100401000_3" lemmaRef="lexicon.xml#lemma_8384" pos="PRO VRB VEX" corresp="variants.xml#type_53176">hânz</w>
           <w xml:id="VDK_100401000_4" lemmaRef="lexicon.xml#lemma_4377" pos="ADJ ADV NEG" ana="lexicon.xml#lemma_4377_sense_6838" corresp="variants.xml#type_15286">niht</w>
           <w xml:id="VDK_100401000_5" lemmaRef="lexicon.xml#lemma_7292" pos="PRP" ana="lexicon.xml#lemma_7292_sense_11824" corresp="variants.xml#type_26224">für</w>
-          <w xml:id="VDK_100401000_6">minne</w>
+          <w xml:id="VDK_100401000_6" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <pc xml:id="VDK_100401000_7" join="left">:</pc>
         </l>
         <l n="11">
@@ -549,7 +550,7 @@
           <w xml:id="VDK_100500800_3" lemmaRef="lexicon.xml#lemma_1701" pos="VRB" ana="lexicon.xml#lemma_1701_sense_2675" corresp="variants.xml#type_5798">erwirbe</w>
           <w xml:id="VDK_100500800_4" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
           <w xml:id="VDK_100500800_5" lemmaRef="lexicon.xml#lemma_1517" pos="POS" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_5011">sîne</w>
-          <w xml:id="VDK_100500800_6">minne</w>
+          <w xml:id="VDK_100500800_6" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <pc xml:id="VDK_100500800_7" join="left">,</pc>
         </l>
         <l n="9">
@@ -1545,7 +1546,7 @@
           <w xml:id="VDK_400300700_0" lemmaRef="lexicon.xml#lemma_6888" pos="VRB" corresp="variants.xml#type_24241">verloren</w>
           <w xml:id="VDK_400300700_1" lemmaRef="lexicon.xml#lemma_6422" pos="ADV PRP" corresp="variants.xml#type_22720">umbe</w>
           <w xml:id="VDK_400300700_2">ir</w>
-          <w xml:id="VDK_400300700_3">minne</w>
+          <w xml:id="VDK_400300700_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <pc xml:id="VDK_400300700_4" join="left">:</pc>
         </l>
         <l n="8">

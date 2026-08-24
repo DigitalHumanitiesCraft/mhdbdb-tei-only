@@ -148,6 +148,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 17 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -1793,7 +1794,7 @@
           <w xml:id="BRZ_2530700_0" lemmaRef="lexicon.xml#lemma_1164" pos="NOM" corresp="variants.xml#type_47392">dinch</w>
           <pc xml:id="BRZ_2530700_1" join="left">,</pc>
           <w xml:id="BRZ_2530700_2" lemmaRef="lexicon.xml#lemma_35" pos="ADV CNJ" ana="lexicon.xml#lemma_35_sense_48" corresp="variants.xml#type_98">aber</w>
-          <w xml:id="BRZ_2530700_3">minne</w>
+          <w xml:id="BRZ_2530700_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="BRZ_2530700_4" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_38749">vnd</w>
           <w xml:id="BRZ_2530700_5" lemmaRef="lexicon.xml#lemma_9389" pos="NOM" ana="lexicon.xml#lemma_9389_sense_15345" corresp="variants.xml#type_137622">gedvlticheit</w>
           <w xml:id="BRZ_2530700_6" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_38749">vnd</w>
@@ -3812,7 +3813,7 @@
           <w xml:id="BRZ_3571280_0">vorhte</w>
           <w xml:id="BRZ_3571280_1" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_38749">vnd</w>
           <w xml:id="BRZ_3571280_2" lemmaRef="lexicon.xml#lemma_6615" pos="ADJ NEG" corresp="variants.xml#type_137240">vnrehtiv</w>
-          <w xml:id="BRZ_3571280_3">minne</w>
+          <w xml:id="BRZ_3571280_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <pc xml:id="BRZ_3571280_4" join="left">.</pc>
         </p>
       </div>
@@ -4161,10 +4162,10 @@
           <pc xml:id="BRZ_4580290_3" join="left">,</pc>
           <w xml:id="BRZ_4580290_4">waz</w>
           <w xml:id="BRZ_4580290_5" lemmaRef="lexicon.xml#lemma_2046" pos="NOM ADJ" ana="lexicon.xml#lemma_2046_sense_3162" corresp="variants.xml#type_92083">geistlicher</w>
-          <w xml:id="BRZ_4580290_6">minne</w>
+          <w xml:id="BRZ_4580290_6" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="BRZ_4580290_7" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_28131">ze</w>
           <w xml:id="BRZ_4580290_8" lemmaRef="lexicon.xml#lemma_56608" pos="ADJ" ana="lexicon.xml#lemma_56608_sense_91544" corresp="variants.xml#type_306758">vleischlicher</w>
-          <w xml:id="BRZ_4580290_9">minne</w>
+          <w xml:id="BRZ_4580290_9" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <lb n="30"/>
           <w xml:id="BRZ_4580300_0" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18956">ist</w>
           <w xml:id="BRZ_4580300_1" lemmaRef="lexicon.xml#lemma_7489" pos="VRB VEX" corresp="variants.xml#type_27060">worden</w>
@@ -4969,7 +4970,7 @@
           <w xml:id="BRZ_4600950_0" lemmaRef="lexicon.xml#lemma_4133" pos="VRB" corresp="variants.xml#type_14423">minnent</w>
           <w xml:id="BRZ_4600950_1" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
           <w xml:id="BRZ_4600950_2" lemmaRef="lexicon.xml#lemma_106" pos="ADJ" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_261">aller</w>
-          <w xml:id="BRZ_4600950_3">minne</w>
+          <w xml:id="BRZ_4600950_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <pc xml:id="BRZ_4600950_4" join="left">,</pc>
           <w xml:id="BRZ_4600950_5" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3567">di</w>
           <w xml:id="BRZ_4600950_6" lemmaRef="lexicon.xml#lemma_4238" pos="VRB VEM" corresp="variants.xml#type_137672">mvzzen</w>
@@ -5888,7 +5889,7 @@
           <w xml:id="BRZ_5630680_0" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
           <w xml:id="BRZ_5630680_1" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18956">ist</w>
           <w xml:id="BRZ_5630680_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_66912">div</w>
-          <w xml:id="BRZ_5630680_3">minne</w>
+          <w xml:id="BRZ_5630680_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <pc xml:id="BRZ_5630680_4" join="left">.</pc>
           <w xml:id="BRZ_5630680_5">din</w>
           <w xml:id="BRZ_5630680_6" lemmaRef="lexicon.xml#lemma_5349" pos="NOM" ana="lexicon.xml#lemma_5349_sense_8359" corresp="variants.xml#type_18608">sel</w>
@@ -5904,7 +5905,7 @@
           <w xml:id="BRZ_5630690_4">nach</w>
           <w xml:id="BRZ_5630690_5" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
           <w xml:id="BRZ_5630690_6" lemmaRef="lexicon.xml#lemma_4461" pos="ADJ GRA" corresp="variants.xml#type_39330">obersten</w>
-          <w xml:id="BRZ_5630690_7">minne</w>
+          <w xml:id="BRZ_5630690_7" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="BRZ_5630690_8" lemmaRef="lexicon.xml#lemma_5153" pos="VRB" corresp="variants.xml#type_17839">geschaffen</w>
           <lb n="70"/>
           <w xml:id="BRZ_5630700_0" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18956">ist</w>
@@ -5928,7 +5929,7 @@
           <w xml:id="BRZ_5630710_4" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
           <w xml:id="BRZ_5630710_5" lemmaRef="lexicon.xml#lemma_6301" pos="VRB" ana="lexicon.xml#lemma_6301_sense_9929" corresp="variants.xml#type_98641">tvo</w>
           <w xml:id="BRZ_5630710_6" lemmaRef="lexicon.xml#lemma_1242" pos="POS" ana="lexicon.xml#lemma_1242_sense_1958" corresp="variants.xml#type_3960">diner</w>
-          <w xml:id="BRZ_5630710_7">minne</w>
+          <w xml:id="BRZ_5630710_7" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="BRZ_5630710_8" lemmaRef="lexicon.xml#lemma_148" pos="CNJ" ana="lexicon.xml#lemma_148_sense_183" corresp="variants.xml#type_369">als</w>
           <w xml:id="BRZ_5630710_9">man</w>
           <lb n="72"/>
@@ -5967,7 +5968,7 @@
           <w xml:id="BRZ_5630740_2" lemmaRef="lexicon.xml#lemma_4523" pos="CNJ" ana="lexicon.xml#lemma_4523_sense_7060" corresp="variants.xml#type_61484">auch</w>
           <w xml:id="BRZ_5630740_3" lemmaRef="lexicon.xml#lemma_1242" pos="PRO" ana="lexicon.xml#lemma_1242_sense_1958" corresp="variants.xml#type_98623">dv</w>
           <w xml:id="BRZ_5630740_4" lemmaRef="lexicon.xml#lemma_1242" pos="POS" ana="lexicon.xml#lemma_1242_sense_1958" corresp="variants.xml#type_3960">diner</w>
-          <w xml:id="BRZ_5630740_5">minne</w>
+          <w xml:id="BRZ_5630740_5" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <pc xml:id="BRZ_5630740_6" join="left">:</pc>
           <w xml:id="BRZ_5630740_7" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
           <w xml:id="BRZ_5630740_8">si</w>
@@ -6020,7 +6021,7 @@
           <w xml:id="BRZ_5630780_6">last</w>
           <w xml:id="BRZ_5630780_7" lemmaRef="lexicon.xml#lemma_1242" pos="PRO" ana="lexicon.xml#lemma_1242_sense_1958" corresp="variants.xml#type_98623">dv</w>
           <w xml:id="BRZ_5630780_8">din</w>
-          <w xml:id="BRZ_5630780_9">minne</w>
+          <w xml:id="BRZ_5630780_9" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="BRZ_5630780_10">sich</w>
           <lb n="79"/>
           <w xml:id="BRZ_5630790_0" lemmaRef="lexicon.xml#lemma_4369" pos="ADV NEG" ana="lexicon.xml#lemma_4369_sense_13755" corresp="variants.xml#type_30928">nindert</w>
@@ -6112,7 +6113,7 @@
           <lb n="2"/>
           <w xml:id="BRZ_6630020_0" lemmaRef="lexicon.xml#lemma_6194" pos="VRB" corresp="variants.xml#type_101224">treiben</w>
           <w xml:id="BRZ_6630020_1">sin</w>
-          <w xml:id="BRZ_6630020_2">minne</w>
+          <w xml:id="BRZ_6630020_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="BRZ_6630020_3" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_86282">zv</w>
           <pc xml:id="BRZ_6630020_4" join="left">,</pc>
           <w xml:id="BRZ_6630020_5" lemmaRef="lexicon.xml#lemma_7643" pos="PRO" ana="lexicon.xml#lemma_7643_sense_12530" corresp="variants.xml#type_27647">wir</w>
@@ -6142,7 +6143,7 @@
           <w xml:id="BRZ_6630040_6">sin</w>
           <w xml:id="BRZ_6630040_7" lemmaRef="lexicon.xml#lemma_35" pos="ADV CNJ" ana="lexicon.xml#lemma_35_sense_48" corresp="variants.xml#type_98">aber</w>
           <w xml:id="BRZ_6630040_8" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="BRZ_6630040_9">minne</w>
+          <w xml:id="BRZ_6630040_9" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <pc xml:id="BRZ_6630040_10" join="left">,</pc>
           <lb n="5"/>
           <w xml:id="BRZ_6630050_0" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
@@ -7277,7 +7278,7 @@
           <w xml:id="BRZ_6660980_11" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
           <lb n="99"/>
           <w xml:id="BRZ_6660990_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="BRZ_6660990_1">minne</w>
+          <w xml:id="BRZ_6660990_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="BRZ_6660990_2" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
           <w xml:id="BRZ_6660990_3" lemmaRef="lexicon.xml#lemma_106" pos="ADJ" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_260">allen</w>
           <w xml:id="BRZ_6660990_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
@@ -7683,7 +7684,7 @@
           <pc xml:id="BRZ_6671310_4" join="left">,</pc>
           <w xml:id="BRZ_6671310_5">nach</w>
           <w xml:id="BRZ_6671310_6" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="BRZ_6671310_7">minne</w>
+          <w xml:id="BRZ_6671310_7" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <pc xml:id="BRZ_6671310_8" join="left">,</pc>
           <w xml:id="BRZ_6671310_9">nach</w>
           <w xml:id="BRZ_6671310_10" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
@@ -8636,7 +8637,7 @@
           <pc xml:id="BRZ_7690670_3" join="left">,</pc>
           <w xml:id="BRZ_7690670_4" lemmaRef="lexicon.xml#lemma_6301" pos="VRB" ana="lexicon.xml#lemma_6301_sense_9929" corresp="variants.xml#type_98641">tvo</w>
           <w xml:id="BRZ_7690670_5" lemmaRef="lexicon.xml#lemma_1242" pos="POS" ana="lexicon.xml#lemma_1242_sense_1958" corresp="variants.xml#type_3960">diner</w>
-          <w xml:id="BRZ_7690670_6">minne</w>
+          <w xml:id="BRZ_7690670_6" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="BRZ_7690670_7" lemmaRef="lexicon.xml#lemma_148" pos="CNJ" ana="lexicon.xml#lemma_148_sense_183" corresp="variants.xml#type_369">als</w>
           <w xml:id="BRZ_7690670_8">man</w>
           <w xml:id="BRZ_7690670_9" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3504">dem</w>
@@ -8663,7 +8664,7 @@
           <w xml:id="BRZ_7690690_3" lemmaRef="lexicon.xml#lemma_25322" pos="ADJ NEG" corresp="variants.xml#type_138155">vngeordentes</w>
           <w xml:id="BRZ_7690690_4">an</w>
           <w xml:id="BRZ_7690690_5" lemmaRef="lexicon.xml#lemma_1242" pos="POS" ana="lexicon.xml#lemma_1242_sense_1958" corresp="variants.xml#type_3960">diner</w>
-          <w xml:id="BRZ_7690690_6">minne</w>
+          <w xml:id="BRZ_7690690_6" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <lb n="70"/>
           <w xml:id="BRZ_7690700_0">si</w>
           <pc xml:id="BRZ_7690700_1" join="left">,</pc>
@@ -9461,7 +9462,7 @@
           <lb n="60"/>
           <w xml:id="BRZ_8710600_0" lemmaRef="lexicon.xml#lemma_1533" pos="VRB" corresp="variants.xml#type_5126">erbot</w>
           <w xml:id="BRZ_8710600_1" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_38749">vnd</w>
-          <w xml:id="BRZ_8710600_2">minne</w>
+          <w xml:id="BRZ_8710600_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <pc xml:id="BRZ_8710600_3" join="left">,</pc>
           <w xml:id="BRZ_8710600_4" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
           <w xml:id="BRZ_8710600_5" lemmaRef="lexicon.xml#lemma_7643" pos="PRO" ana="lexicon.xml#lemma_7643_sense_12530" corresp="variants.xml#type_27647">wir</w>

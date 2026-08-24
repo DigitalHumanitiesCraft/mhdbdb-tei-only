@@ -141,6 +141,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 1 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -2714,7 +2715,7 @@
           <w xml:id="RBE_2970_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
           <w xml:id="RBE_2970_3" lemmaRef="lexicon.xml#lemma_5864" pos="NOM ADJ ADV" corresp="variants.xml#type_178515">siesse</w>
           <w xml:id="RBE_2970_4">ir</w>
-          <w xml:id="RBE_2970_5">minne</w>
+          <w xml:id="RBE_2970_5" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="RBE_2970_6" lemmaRef="lexicon.xml#lemma_3437" pos="NOM" corresp="variants.xml#type_65186">krafft</w>
         </l>
         <l n="298">

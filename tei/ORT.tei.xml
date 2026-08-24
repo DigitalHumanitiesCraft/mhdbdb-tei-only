@@ -154,6 +154,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 5 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -3373,7 +3374,7 @@
               <w xml:id="ORT_5940_2" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
               <w xml:id="ORT_5940_3">in</w>
               <w xml:id="ORT_5940_4" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-              <w xml:id="ORT_5940_5">minne</w>
+              <w xml:id="ORT_5940_5" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="ORT_5940_6" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
               <w xml:id="ORT_5940_7" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
               <w xml:id="ORT_5940_8" lemmaRef="lexicon.xml#lemma_3926" pos="NOM" corresp="variants.xml#type_13735">meide</w>
@@ -3973,7 +3974,7 @@
               <w xml:id="ORT_6930_1" lemmaRef="lexicon.xml#lemma_2598" pos="VRB VEX" corresp="variants.xml#type_8767">het</w>
               <w xml:id="ORT_6930_2" lemmaRef="lexicon.xml#lemma_4523" pos="CNJ" ana="lexicon.xml#lemma_4523_sense_7060" corresp="variants.xml#type_15677">ouch</w>
               <w xml:id="ORT_6930_3">ir</w>
-              <w xml:id="ORT_6930_4">minne</w>
+              <w xml:id="ORT_6930_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="ORT_6930_5" lemmaRef="lexicon.xml#lemma_7075" pos="ADJ ADV" ana="lexicon.xml#lemma_7075_sense_11459" corresp="variants.xml#type_25008">vil</w>
               <w xml:id="ORT_6930_6" lemmaRef="lexicon.xml#lemma_4281" pos="ADJ ADV" corresp="variants.xml#type_14882">nâch</w>
               <w xml:id="ORT_6930_7" lemmaRef="lexicon.xml#lemma_515" pos="VRB" ana="lexicon.xml#lemma_515_sense_740" corresp="variants.xml#type_52616">benommen</w>
@@ -6310,7 +6311,7 @@
               <w xml:id="ORT_11130_2" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
               <w xml:id="ORT_11130_3" lemmaRef="lexicon.xml#lemma_1242" pos="PRO" ana="lexicon.xml#lemma_1242_sense_1958" corresp="variants.xml#type_3963">dir</w>
               <w xml:id="ORT_11130_4" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_28131">ze</w>
-              <w xml:id="ORT_11130_5">minne</w>
+              <w xml:id="ORT_11130_5" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="ORT_11130_6" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4319">ein</w>
               <w xml:id="ORT_11130_7" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19597">sô</w>
               <w xml:id="ORT_11130_8" lemmaRef="lexicon.xml#lemma_2573" pos="NOM ADJ ADV" corresp="variants.xml#type_8634">guote</w>
@@ -23564,7 +23565,7 @@
               <w xml:id="ORT_41540_2" lemmaRef="lexicon.xml#lemma_10303" pos="PRO VRB" corresp="variants.xml#type_83634">tuots</w>
               <w xml:id="ORT_41540_3">ir</w>
               <w xml:id="ORT_41540_4">holde</w>
-              <w xml:id="ORT_41540_5">minne</w>
+              <w xml:id="ORT_41540_5" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="ORT_41540_6" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
               <w xml:id="ORT_41540_7">sant</w>
               <w xml:id="ORT_41540_8" lemmaRef="lexicon.xml#lemma_1242" pos="PRO" ana="lexicon.xml#lemma_1242_sense_1958" corresp="variants.xml#type_3963">dir</w>
@@ -28717,7 +28718,7 @@
               <w xml:id="ORT_50710_2" lemmaRef="lexicon.xml#lemma_1385" pos="VRB" ana="lexicon.xml#lemma_1385_sense_2133" corresp="variants.xml#type_4508">enboten</w>
               <w xml:id="ORT_50710_3" lemmaRef="lexicon.xml#lemma_7643" pos="PRO" ana="lexicon.xml#lemma_7643_sense_12530" corresp="variants.xml#type_27633">uns</w>
               <w xml:id="ORT_50710_4" lemmaRef="lexicon.xml#lemma_468" pos="ADJ" ana="lexicon.xml#lemma_468_sense_655" corresp="variants.xml#type_1338">beiden</w>
-              <w xml:id="ORT_50710_5">minne</w>
+              <w xml:id="ORT_50710_5" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
               <w xml:id="ORT_50710_6" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
               <w xml:id="ORT_50710_7" lemmaRef="lexicon.xml#lemma_7249" pos="NOM" ana="lexicon.xml#lemma_7249_sense_11751" corresp="variants.xml#type_25862">friuntschaft</w>
               <pc xml:id="ORT_50710_8" join="left">:</pc>

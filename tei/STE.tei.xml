@@ -127,6 +127,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 11 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -989,7 +990,7 @@
           </hi>
           <w xml:id="STE_302050_1" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10226">mich</w>
           <w xml:id="STE_302050_2">ir</w>
-          <w xml:id="STE_302050_3">minne</w>
+          <w xml:id="STE_302050_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="STE_302050_4" lemmaRef="lexicon.xml#lemma_2598" pos="VRB VEX" corresp="variants.xml#type_8723">hât</w>
           <w xml:id="STE_302050_5" lemmaRef="lexicon.xml#lemma_52430" pos="VRB" ana="lexicon.xml#lemma_52430_sense_85487" corresp="variants.xml#type_291985">versêret</w>
           <pc xml:id="STE_302050_6" join="left">:</pc>
@@ -1617,7 +1618,7 @@
             <w xml:id="STE_501010_0">swer</w>
           </hi>
           <w xml:id="STE_501010_1" lemmaRef="lexicon.xml#lemma_6158" pos="ADJ ADV" ana="lexicon.xml#lemma_6158_sense_9711" corresp="variants.xml#type_21705">tougenliche</w>
-          <w xml:id="STE_501010_2">minne</w>
+          <w xml:id="STE_501010_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="STE_501010_3" lemmaRef="lexicon.xml#lemma_2598" pos="VRB VEX" corresp="variants.xml#type_8723">hât</w>
           <pc xml:id="STE_501010_4" join="left">,</pc>
         </l>
@@ -2137,7 +2138,7 @@
         <l n="10">
           <w xml:id="STE_701100_0">swer</w>
           <w xml:id="STE_701100_1" lemmaRef="lexicon.xml#lemma_61757" pos="ADJ" ana="lexicon.xml#lemma_61757_sense_98192" corresp="variants.xml#type_324108">verholne</w>
-          <w xml:id="STE_701100_2">minne</w>
+          <w xml:id="STE_701100_2" lemmaRef="lexicon.xml#lemma_4133" pos="VRB" corresp="variants.xml#type_38651">minne</w>
           <pc xml:id="STE_701100_3" join="left">,</pc>
           <w xml:id="STE_701100_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
           <w xml:id="STE_701100_5" lemmaRef="lexicon.xml#lemma_2942" pos="VRB" corresp="variants.xml#type_10018">hüete</w>
@@ -2223,7 +2224,7 @@
         <l n="10">
           <w xml:id="STE_702100_0">swer</w>
           <w xml:id="STE_702100_1" lemmaRef="lexicon.xml#lemma_61757" pos="ADJ" ana="lexicon.xml#lemma_61757_sense_98192" corresp="variants.xml#type_324108">verholne</w>
-          <w xml:id="STE_702100_2">minne</w>
+          <w xml:id="STE_702100_2" lemmaRef="lexicon.xml#lemma_4133" pos="VRB" corresp="variants.xml#type_38651">minne</w>
           <pc xml:id="STE_702100_3" join="left">,</pc>
           <w xml:id="STE_702100_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
           <w xml:id="STE_702100_5" lemmaRef="lexicon.xml#lemma_2942" pos="VRB" corresp="variants.xml#type_10018">hüete</w>
@@ -2308,7 +2309,7 @@
         <l n="10">
           <w xml:id="STE_703100_0">swer</w>
           <w xml:id="STE_703100_1" lemmaRef="lexicon.xml#lemma_61757" pos="ADJ" ana="lexicon.xml#lemma_61757_sense_98192" corresp="variants.xml#type_324108">verholne</w>
-          <w xml:id="STE_703100_2">minne</w>
+          <w xml:id="STE_703100_2" lemmaRef="lexicon.xml#lemma_4133" pos="VRB" corresp="variants.xml#type_38651">minne</w>
           <pc xml:id="STE_703100_3" join="left">,</pc>
           <w xml:id="STE_703100_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
           <w xml:id="STE_703100_5" lemmaRef="lexicon.xml#lemma_2942" pos="VRB" corresp="variants.xml#type_10018">hüete</w>
@@ -2400,7 +2401,7 @@
         <l n="10">
           <w xml:id="STE_704100_0">swer</w>
           <w xml:id="STE_704100_1" lemmaRef="lexicon.xml#lemma_61757" pos="ADJ" ana="lexicon.xml#lemma_61757_sense_98192" corresp="variants.xml#type_324108">verholne</w>
-          <w xml:id="STE_704100_2">minne</w>
+          <w xml:id="STE_704100_2" lemmaRef="lexicon.xml#lemma_4133" pos="VRB" corresp="variants.xml#type_38651">minne</w>
           <pc xml:id="STE_704100_3" join="left">,</pc>
           <w xml:id="STE_704100_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
           <w xml:id="STE_704100_5" lemmaRef="lexicon.xml#lemma_2942" pos="VRB" corresp="variants.xml#type_10018">hüete</w>
@@ -2487,7 +2488,7 @@
         <l n="10">
           <w xml:id="STE_705100_0">swer</w>
           <w xml:id="STE_705100_1" lemmaRef="lexicon.xml#lemma_61757" pos="ADJ" ana="lexicon.xml#lemma_61757_sense_98192" corresp="variants.xml#type_324108">verholne</w>
-          <w xml:id="STE_705100_2">minne</w>
+          <w xml:id="STE_705100_2" lemmaRef="lexicon.xml#lemma_4133" pos="VRB" corresp="variants.xml#type_38651">minne</w>
           <pc xml:id="STE_705100_3" join="left">,</pc>
           <w xml:id="STE_705100_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
           <w xml:id="STE_705100_5" lemmaRef="lexicon.xml#lemma_2942" pos="VRB" corresp="variants.xml#type_10018">hüete</w>
@@ -2727,7 +2728,7 @@
           <w xml:id="STE_901060_0" lemmaRef="lexicon.xml#lemma_4281" pos="ADJ ADV" corresp="variants.xml#type_14883">nâh</w>
           <w xml:id="STE_901060_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
           <w xml:id="STE_901060_2">lieben</w>
-          <w xml:id="STE_901060_3">minne</w>
+          <w xml:id="STE_901060_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="STE_901060_4" lemmaRef="lexicon.xml#lemma_4238" pos="VRB VEM" corresp="variants.xml#type_14740">muoz</w>
           <w xml:id="STE_901060_5" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
           <w xml:id="STE_901060_6">sorgen</w>
@@ -2748,7 +2749,7 @@
         <l n="9">
           <w xml:id="STE_901090_0" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
           <w xml:id="STE_901090_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="STE_901090_2">minne</w>
+          <w xml:id="STE_901090_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="STE_901090_3">fiure</w>
           <pc xml:id="STE_901090_4" join="left">.</pc>
         </l>
@@ -2989,7 +2990,7 @@
           <w xml:id="STE_903100_1" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10226">mich</w>
           <w xml:id="STE_903100_2">an</w>
           <w xml:id="STE_903100_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="STE_903100_4">minne</w>
+          <w xml:id="STE_903100_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="STE_903100_5">tor</w>
         </l>
         <l n="11">
@@ -4649,7 +4650,7 @@
         <l n="3">
           <w xml:id="STE_1402030_0" lemmaRef="lexicon.xml#lemma_4281" pos="ADJ ADV" corresp="variants.xml#type_14883">nâh</w>
           <w xml:id="STE_1402030_1">ir</w>
-          <w xml:id="STE_1402030_2">minne</w>
+          <w xml:id="STE_1402030_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <caesura/>
           <w xml:id="STE_1402030_3" lemmaRef="lexicon.xml#lemma_2598" pos="VRB VEX" corresp="variants.xml#type_8717">hân</w>
           <w xml:id="STE_1402030_4" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
