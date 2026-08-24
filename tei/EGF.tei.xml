@@ -143,6 +143,7 @@
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 1 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 2 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -2609,7 +2610,7 @@
         <w xml:id="EGF_118102730_4" lemmaRef="lexicon.xml#lemma_7608" pos="ADV IPA" ana="lexicon.xml#lemma_7608_sense_12462" corresp="variants.xml#type_27506">wie</w>
         <w xml:id="EGF_118102730_5">ir</w>
         <w xml:id="EGF_118102730_6" lemmaRef="lexicon.xml#lemma_1164" pos="NOM" corresp="variants.xml#type_47392">dinch</w>
-        <w xml:id="EGF_118102730_7">stat</w>
+        <w xml:id="EGF_118102730_7" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
         <pc xml:id="EGF_118102730_8" join="left">.</pc>
       </l>
       <l n="274">
@@ -2655,7 +2656,7 @@
         <w xml:id="EGF_118102780_2">si</w>
         <w xml:id="EGF_118102780_3">an</w>
         <w xml:id="EGF_118102780_4">min</w>
-        <w xml:id="EGF_118102780_5">stat</w>
+        <w xml:id="EGF_118102780_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         <pc xml:id="EGF_118102780_6" join="left">.</pc>
       </l>
       <l n="279">

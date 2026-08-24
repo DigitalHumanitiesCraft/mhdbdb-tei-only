@@ -144,6 +144,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 1 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -613,7 +614,7 @@
         <w xml:id="WUB_50100520_1">sin</w>
         <w xml:id="WUB_50100520_2" lemmaRef="lexicon.xml#lemma_2108" pos="ADJ" ana="lexicon.xml#lemma_2108_sense_3266" corresp="variants.xml#type_55890">gemute</w>
         <w xml:id="WUB_50100520_3" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
-        <w xml:id="WUB_50100520_4">stat</w>
+        <w xml:id="WUB_50100520_4" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
         <pc xml:id="WUB_50100520_5" join="left">,</pc>
       </l>
       <l n="53">

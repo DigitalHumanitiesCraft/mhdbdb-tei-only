@@ -121,6 +121,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 2 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -1289,7 +1290,7 @@
           <w xml:id="ARB_18210_1" lemmaRef="lexicon.xml#lemma_6422" pos="ADV PRP" corresp="variants.xml#type_22719">umb</w>
           <w xml:id="ARB_18210_2">var</w>
           <w xml:id="ARB_18210_3">dy</w>
-          <w xml:id="ARB_18210_4">stat</w>
+          <w xml:id="ARB_18210_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="ARB_18210_5">al</w>
           <w xml:id="ARB_18210_6" lemmaRef="lexicon.xml#lemma_44708" pos="ADV" corresp="variants.xml#type_279287">ummentum</w>
           <w xml:id="ARB_18210_7" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
@@ -1950,7 +1951,7 @@
             <hi rend="initial">
               <w xml:id="ARB_19290_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
             </hi>
-            <w xml:id="ARB_19290_1">stat</w>
+            <w xml:id="ARB_19290_1" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
             <w xml:id="ARB_19290_2">sol</w>
             <w xml:id="ARB_19290_3">man</w>
             <w xml:id="ARB_19290_4" lemmaRef="lexicon.xml#lemma_853" pos="VRB" corresp="variants.xml#type_120862">prennen</w>

@@ -144,6 +144,7 @@
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 14 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 4 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -1566,7 +1567,7 @@
           <w xml:id="HEI_1750_2" lemmaRef="lexicon.xml#lemma_6761" pos="VRB" corresp="variants.xml#type_23650">varn</w>
           <w xml:id="HEI_1750_3">an</w>
           <w xml:id="HEI_1750_4" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="HEI_1750_5">stat</w>
+          <w xml:id="HEI_1750_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="HEI_1750_6" join="left">,</pc>
         </l>
         <l n="176">
@@ -4758,7 +4759,7 @@
           <w xml:id="HEI_5660_2">an</w>
           <w xml:id="HEI_5660_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
           <w xml:id="HEI_5660_4" lemmaRef="lexicon.xml#lemma_5385" pos="ADJ" ana="lexicon.xml#lemma_5385_sense_8406" corresp="variants.xml#type_18769">selben</w>
-          <w xml:id="HEI_5660_5">stat</w>
+          <w xml:id="HEI_5660_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         </l>
         <l n="567">
           <w xml:id="HEI_5670_0" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
@@ -6134,7 +6135,7 @@
           <w xml:id="HEI_7280_2" lemmaRef="lexicon.xml#lemma_5693" pos="VRB" ana="lexicon.xml#lemma_5693_sense_8912" corresp="variants.xml#type_19957">sprach</w>
           <w xml:id="HEI_7280_3">an</w>
           <w xml:id="HEI_7280_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="HEI_7280_5">stat</w>
+          <w xml:id="HEI_7280_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="HEI_7280_6" join="left">:</pc>
         </l>
         <l n="729">
@@ -9870,7 +9871,7 @@
           <w xml:id="HEI_11610_2" lemmaRef="lexicon.xml#lemma_1419" pos="VRB" corresp="variants.xml#type_4635">engolten</w>
           <w xml:id="HEI_11610_3">an</w>
           <w xml:id="HEI_11610_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="HEI_11610_5">stat</w>
+          <w xml:id="HEI_11610_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="HEI_11610_6" join="left">,</pc>
         </l>
         <l n="1162">

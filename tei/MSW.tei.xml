@@ -124,6 +124,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 6 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/). 1 weitere Tokens der Form stat blieben bewusst unannotiert (Review).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -6433,7 +6434,7 @@
               <w xml:id="MSW_1501140_4" lemmaRef="lexicon.xml#lemma_4840" pos="NOM ADJ ADV" corresp="variants.xml#type_42728">recht</w>
               <w xml:id="MSW_1501140_5" lemmaRef="lexicon.xml#lemma_7677" pos="NOM ADV" ana="lexicon.xml#lemma_7677_sense_12586" corresp="variants.xml#type_27811">wol</w>
               <w xml:id="MSW_1501140_6">an</w>
-              <w xml:id="MSW_1501140_7">stat</w>
+              <w xml:id="MSW_1501140_7" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
               <pc xml:id="MSW_1501140_8" join="left">.</pc>
             </l>
           </lg>
@@ -6573,7 +6574,7 @@
               <w xml:id="MSW_1502140_4" lemmaRef="lexicon.xml#lemma_4840" pos="NOM ADJ ADV" corresp="variants.xml#type_42728">recht</w>
               <w xml:id="MSW_1502140_5" lemmaRef="lexicon.xml#lemma_7677" pos="NOM ADV" ana="lexicon.xml#lemma_7677_sense_12586" corresp="variants.xml#type_27811">wol</w>
               <w xml:id="MSW_1502140_6">an</w>
-              <w xml:id="MSW_1502140_7">stat</w>
+              <w xml:id="MSW_1502140_7" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
               <pc xml:id="MSW_1502140_8" join="left">.</pc>
               <pc xml:id="MSW_1502140_9" join="left">)</pc>
             </l>
@@ -13124,7 +13125,7 @@
               <w xml:id="MSW_3301020_2" lemmaRef="lexicon.xml#lemma_1145" pos="VRB" corresp="variants.xml#type_3604">gedient</w>
               <w xml:id="MSW_3301020_3" lemmaRef="lexicon.xml#lemma_6330" pos="ADV PRP" ana="lexicon.xml#lemma_6330_sense_9973" corresp="variants.xml#type_41213">auf</w>
               <w xml:id="MSW_3301020_4" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4323">einer</w>
-              <w xml:id="MSW_3301020_5">stat</w>
+              <w xml:id="MSW_3301020_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
               <pc xml:id="MSW_3301020_6" join="left">,</pc>
             </l>
             <l n="3">
@@ -19481,7 +19482,7 @@
             </l>
             <l n="5">
               <w xml:id="MSW_5301050_0" lemmaRef="lexicon.xml#lemma_1093" pos="ADV" ana="lexicon.xml#lemma_1093_sense_1737" corresp="variants.xml#type_3387">darunder</w>
-              <w xml:id="MSW_5301050_1">stat</w>
+              <w xml:id="MSW_5301050_1" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
               <w xml:id="MSW_5301050_2">ein</w>
               <w xml:id="MSW_5301050_3" lemmaRef="lexicon.xml#lemma_774" pos="NOM" ana="lexicon.xml#lemma_774_sense_1254" corresp="variants.xml#type_102378">plüemlein</w>
               <w xml:id="MSW_5301050_4" lemmaRef="lexicon.xml#lemma_732" pos="ADJ" ana="lexicon.xml#lemma_732_sense_1198" corresp="variants.xml#type_2275">bla</w>
@@ -19578,7 +19579,7 @@
             </l>
             <l n="3">
               <w xml:id="MSW_5302030_0" lemmaRef="lexicon.xml#lemma_1093" pos="ADV" ana="lexicon.xml#lemma_1093_sense_1737" corresp="variants.xml#type_3387">darunder</w>
-              <w xml:id="MSW_5302030_1">stat</w>
+              <w xml:id="MSW_5302030_1" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
               <w xml:id="MSW_5302030_2">ein</w>
               <w xml:id="MSW_5302030_3" lemmaRef="lexicon.xml#lemma_774" pos="NOM" ana="lexicon.xml#lemma_774_sense_1254" corresp="variants.xml#type_102374">blüemlein</w>
               <w xml:id="MSW_5302030_4" lemmaRef="lexicon.xml#lemma_1785" pos="ADJ ADV" ana="lexicon.xml#lemma_1785_sense_2775" corresp="variants.xml#type_67120">fein</w>
@@ -21158,7 +21159,7 @@
               <w xml:id="MSW_5706070_2">sich</w>
               <w xml:id="MSW_5706070_3">was</w>
               <w xml:id="MSW_5706070_4" lemmaRef="lexicon.xml#lemma_6356" pos="NOM ADJ ADV" ana="lexicon.xml#lemma_6356_sense_10016" corresp="variants.xml#type_22542">übel</w>
-              <w xml:id="MSW_5706070_5">stat</w>
+              <w xml:id="MSW_5706070_5" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
             </l>
             <l n="8">
               <w xml:id="MSW_5706080_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>

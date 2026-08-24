@@ -139,6 +139,7 @@
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 1 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 2 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -1430,7 +1431,7 @@
           <w xml:id="JUN_1390_1" lemmaRef="lexicon.xml#lemma_7194" pos="ADV PRP" ana="lexicon.xml#lemma_7194_sense_11657" corresp="variants.xml#type_25545">vor</w>
           <w xml:id="JUN_1390_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3504">dem</w>
           <w xml:id="JUN_1390_3" lemmaRef="lexicon.xml#lemma_6093" pos="NOM" ana="lexicon.xml#lemma_6093_sense_9619" corresp="variants.xml#type_21424">tisch</w>
-          <w xml:id="JUN_1390_4">stat</w>
+          <w xml:id="JUN_1390_4" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
           <pc xml:id="JUN_1390_5" join="left">,</pc>
         </l>
         <l n="140">
@@ -8603,7 +8604,7 @@
           <w xml:id="JUN_9350_1" lemmaRef="lexicon.xml#lemma_7225" pos="ADJ ADV" ana="lexicon.xml#lemma_7225_sense_11710" corresp="variants.xml#type_160537">vrevelich</w>
           <w xml:id="JUN_9350_2" lemmaRef="lexicon.xml#lemma_7194" pos="ADV PRP" ana="lexicon.xml#lemma_7194_sense_11657" corresp="variants.xml#type_25545">vor</w>
           <w xml:id="JUN_9350_3" lemmaRef="lexicon.xml#lemma_2465" pos="NOM" ana="lexicon.xml#lemma_2465_sense_3951" corresp="variants.xml#type_8254">gote</w>
-          <w xml:id="JUN_9350_4">stat</w>
+          <w xml:id="JUN_9350_4" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
         </l>
         <l n="936">
           <w xml:id="JUN_9360_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>

@@ -1,0 +1,22 @@
+{
+  "serie": "#369 Serie 2 (stat)",
+  "lemmas": {
+    "lemma_5732": "stat (NOM): Staette, Stelle, Ort, Stadt",
+    "lemma_5710": "stan/sten (VRB): stehen"
+  },
+  "pos": ["NOM", "VRB"],
+  "corresp": {
+    "stat|lemma_5732": "type_20161",
+    "stat|lemma_5710": "type_20050",
+    "stât|lemma_5710": "type_20048"
+  },
+  "kein_typ_bedeutet_review": true,
+  "revisiondesc": {
+    "datum": "2026-08-24",
+    "titel": "#369 Serie 2 (stat)",
+    "form": "stat",
+    "ziele": "stat NOM bzw. stan/sten VRB",
+    "log": "ingest/pos-disambig/369-stat/"
+  },
+  "kommentar_corresp": "Bestand aus authority-files/variants.xml, gemessen 2026-08-24 mit survey-homograph.py. Das vierte theoretisch moegliche Paar (stât|lemma_5732) fehlt absichtlich: es ist im Korpus genau einmal belegt (SKT_502140_4, type_218598), und dieser eine Beleg ist ein Fehltag ('mîn gedanc an ir vil hôhe stât' ist das Verb). Ein NOM-Verdict auf der Zirkumflex-Schreibung findet deshalb keinen Typ und geht in den Review, statt einen fragwuerdigen Typ zu verbreiten."
+}

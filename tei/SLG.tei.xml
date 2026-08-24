@@ -134,6 +134,7 @@
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 3 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 2 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -3852,7 +3853,7 @@
             <w xml:id="SLG_4370_2" lemmaRef="lexicon.xml#lemma_1436" pos="VRB" corresp="variants.xml#type_4727">enphangen</w>
             <w xml:id="SLG_4370_3">in</w>
             <w xml:id="SLG_4370_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-            <w xml:id="SLG_4370_5">stat</w>
+            <w xml:id="SLG_4370_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
             <pc xml:id="SLG_4370_6" join="left">,</pc>
           </l>
           <l n="438">
@@ -4131,7 +4132,7 @@
             <w xml:id="SLG_4710_2">sîn</w>
             <w xml:id="SLG_4710_3">wirt</w>
             <w xml:id="SLG_4710_4" lemmaRef="lexicon.xml#lemma_675" pos="ADJ ADV GRA" ana="lexicon.xml#lemma_675_sense_1090" corresp="variants.xml#type_2041">bezzer</w>
-            <w xml:id="SLG_4710_5">stat</w>
+            <w xml:id="SLG_4710_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
             <pc xml:id="SLG_4710_6" join="left">.</pc>
             <pc xml:id="SLG_4710_7" join="left">&gt;</pc>
           </l>

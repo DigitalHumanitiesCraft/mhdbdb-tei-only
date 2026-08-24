@@ -176,6 +176,7 @@
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 1 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 29 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -1324,7 +1325,7 @@
           <w xml:id="DL1_1079000001140_1" lemmaRef="lexicon.xml#lemma_1762" pos="PRO" ana="lexicon.xml#lemma_1762_sense_2752" corresp="variants.xml#type_6021">ez</w>
           <w xml:id="DL1_1079000001140_2" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3256">dâ</w>
           <w xml:id="DL1_1079000001140_3" lemmaRef="lexicon.xml#lemma_5309" pos="VRB" corresp="variants.xml#type_18468">geschriben</w>
-          <w xml:id="DL1_1079000001140_4">stât</w>
+          <w xml:id="DL1_1079000001140_4" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20048">stât</w>
           <pc xml:id="DL1_1079000001140_5" join="left">,</pc>
           <lb n="15"/>
           <hi rend="initial upper_case_first_letter">
@@ -1541,7 +1542,7 @@
             <w xml:id="DL1_1080000001060_8">an</w>
             <w xml:id="DL1_1080000001060_9" lemmaRef="lexicon.xml#lemma_1169" pos="DET" ana="lexicon.xml#lemma_1169_sense_1850" corresp="variants.xml#type_3689">disem</w>
             <w xml:id="DL1_1080000001060_10">buoche</w>
-            <w xml:id="DL1_1080000001060_11">stât</w>
+            <w xml:id="DL1_1080000001060_11" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20048">stât</w>
             <pc xml:id="DL1_1080000001060_12" join="left">,</pc>
             <lb n="7"/>
             <w xml:id="DL1_1080000001070_0" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
@@ -2409,7 +2410,7 @@
               <w xml:id="DL1_1083005011130_13" lemmaRef="lexicon.xml#lemma_5438" pos="NUM" ana="lexicon.xml#lemma_5438_sense_8487" corresp="variants.xml#type_19001">sibende</w>
               <lb n="14"/>
               <w xml:id="DL1_1083005011140_0" lemmaRef="lexicon.xml#lemma_7494" pos="NOM" ana="lexicon.xml#lemma_7494_sense_12223" corresp="variants.xml#type_27111">werlte</w>
-              <w xml:id="DL1_1083005011140_1">stât</w>
+              <w xml:id="DL1_1083005011140_1" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20048">stât</w>
               <w xml:id="DL1_1083005011140_2">alse</w>
               <w xml:id="DL1_1083005011140_3" lemmaRef="lexicon.xml#lemma_3595" pos="ADJ ADV" corresp="variants.xml#type_12536">lange</w>
               <w xml:id="DL1_1083005011140_4">alse</w>
@@ -2814,7 +2815,7 @@
               <w xml:id="DL1_1085006011010_11">dem</w>
               <lb n="2"/>
               <w xml:id="DL1_1085006011020_0" lemmaRef="lexicon.xml#lemma_5438" pos="NUM" ana="lexicon.xml#lemma_5438_sense_8487" corresp="variants.xml#type_19002">sibenden</w>
-              <w xml:id="DL1_1085006011020_1">stât</w>
+              <w xml:id="DL1_1085006011020_1" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20048">stât</w>
               <w xml:id="DL1_1085006011020_2">ein</w>
               <w xml:id="DL1_1085006011020_3" lemmaRef="lexicon.xml#lemma_4302" pos="NOM" corresp="variants.xml#type_14975">nagel</w>
               <w xml:id="DL1_1085006011020_4" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
@@ -3714,7 +3715,7 @@
               <w xml:id="DL1_1088011031100_4" lemmaRef="lexicon.xml#lemma_3830" pos="VRB" corresp="variants.xml#type_13382">lobet</w>
               <w xml:id="DL1_1088011031100_5">an</w>
               <w xml:id="DL1_1088011031100_6" lemmaRef="lexicon.xml#lemma_1517" pos="POS" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_5014">sîner</w>
-              <w xml:id="DL1_1088011031100_7">stat</w>
+              <w xml:id="DL1_1088011031100_7" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
               <pc xml:id="DL1_1088011031100_8" join="left">,</pc>
               <w xml:id="DL1_1088011031100_9" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3256">dâ</w>
               <w xml:id="DL1_1088011031100_10">sol</w>
@@ -4919,7 +4920,7 @@
               <w xml:id="DL1_1092019021140_6">sun</w>
               <w xml:id="DL1_1092019021140_7">an</w>
               <w xml:id="DL1_1092019021140_8" lemmaRef="lexicon.xml#lemma_1517" pos="POS" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_5011">sîne</w>
-              <w xml:id="DL1_1092019021140_9">stat</w>
+              <w xml:id="DL1_1092019021140_9" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
               <pc xml:id="DL1_1092019021140_10" join="left">,</pc>
               <w xml:id="DL1_1092019021140_11">unde</w>
               <w xml:id="DL1_1092019021140_12">sol</w>
@@ -6031,7 +6032,7 @@
               <w xml:id="DL1_1098024021080_11" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_43144">vrauwen</w>
               <lb n="9"/>
               <w xml:id="DL1_1098024021090_0" lemmaRef="lexicon.xml#lemma_7650" pos="ADJ ADV GRA" ana="lexicon.xml#lemma_7650_sense_12543" corresp="variants.xml#type_27704">wirser</w>
-              <w xml:id="DL1_1098024021090_1">stât</w>
+              <w xml:id="DL1_1098024021090_1" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20048">stât</w>
               <pc xml:id="DL1_1098024021090_2" join="left">,</pc>
               <w xml:id="DL1_1098024021090_3" lemmaRef="lexicon.xml#lemma_5608" pos="VRB VEM" corresp="variants.xml#type_19680">sullen</w>
               <w xml:id="DL1_1098024021090_4">si</w>
@@ -9335,7 +9336,7 @@
               <pc xml:id="DL1_1110032031130_1" join="left">,</pc>
               <w xml:id="DL1_1110032031130_2">ze</w>
               <w xml:id="DL1_1110032031130_3" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4323">einer</w>
-              <w xml:id="DL1_1110032031130_4">stat</w>
+              <w xml:id="DL1_1110032031130_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
               <w xml:id="DL1_1110032031130_5" lemmaRef="lexicon.xml#lemma_2731" pos="VRB" corresp="variants.xml#type_9207">heizet</w>
               <hi rend="upper_case_first_letter">
                 <w xml:id="DL1_1110032031130_6" lemmaRef="lexicon.xml#lemma_27568" pos="NAM" ana="lexicon.xml#lemma_27568_sense_43759" corresp="variants.xml#type_134681">ingelnheim</w>
@@ -10229,7 +10230,7 @@
               <w xml:id="DL1_1114036011100_9">man</w>
               <w xml:id="DL1_1114036011100_10">im</w>
               <w xml:id="DL1_1114036011100_11" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-              <w xml:id="DL1_1114036011100_12">stat</w>
+              <w xml:id="DL1_1114036011100_12" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
               <lb n="11"/>
               <w xml:id="DL1_1114036011110_0" lemmaRef="lexicon.xml#lemma_3049" pos="NOM" corresp="variants.xml#type_10430">insigel</w>
               <w xml:id="DL1_1114036011110_1" lemmaRef="lexicon.xml#lemma_1961" pos="VRB" ana="lexicon.xml#lemma_1961_sense_3008" corresp="variants.xml#type_6623">geben</w>
@@ -13575,7 +13576,7 @@
               <w xml:id="DL1_1127055021010_3" lemmaRef="lexicon.xml#lemma_1762" pos="PRO" ana="lexicon.xml#lemma_1762_sense_2752" corresp="variants.xml#type_6021">ez</w>
               <w xml:id="DL1_1127055021010_4">in</w>
               <w xml:id="DL1_1127055021010_5" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4323">einer</w>
-              <w xml:id="DL1_1127055021010_6">stat</w>
+              <w xml:id="DL1_1127055021010_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
               <pc xml:id="DL1_1127055021010_7" join="left">,</pc>
               <w xml:id="DL1_1127055021010_8" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
               <w xml:id="DL1_1127055021010_9">stete</w>
@@ -13897,7 +13898,7 @@
               <w xml:id="DL1_1128056021100_1" lemmaRef="lexicon.xml#lemma_1762" pos="PRO" ana="lexicon.xml#lemma_1762_sense_2752" corresp="variants.xml#type_6021">ez</w>
               <w xml:id="DL1_1128056021100_2">in</w>
               <w xml:id="DL1_1128056021100_3" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4323">einer</w>
-              <w xml:id="DL1_1128056021100_4">stat</w>
+              <w xml:id="DL1_1128056021100_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
               <pc xml:id="DL1_1128056021100_5" join="left">,</pc>
               <w xml:id="DL1_1128056021100_6" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19597">sô</w>
               <w xml:id="DL1_1128056021100_7">mac</w>
@@ -13984,7 +13985,7 @@
               <w xml:id="DL1_1128056031150_14">an</w>
               <w xml:id="DL1_1128056031150_15" lemmaRef="lexicon.xml#lemma_1517" pos="POS" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_5011">sîne</w>
               <lb n="16"/>
-              <w xml:id="DL1_1128056031160_0">stat</w>
+              <w xml:id="DL1_1128056031160_0" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
               <w xml:id="DL1_1128056031160_1" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20044">stân</w>
               <pc xml:id="DL1_1128056031160_2" join="left">.</pc>
             </p>
@@ -14346,7 +14347,7 @@
               <pc xml:id="DL1_1129057011210_10" join="left">.</pc>
               <w xml:id="DL1_1129057011210_11">ditz</w>
               <lb n="22"/>
-              <w xml:id="DL1_1129057011220_0">stât</w>
+              <w xml:id="DL1_1129057011220_0" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20048">stât</w>
               <w xml:id="DL1_1129057011220_1" lemmaRef="lexicon.xml#lemma_20520" pos="ADV" ana="lexicon.xml#lemma_20520_sense_34008" corresp="variants.xml#type_90430">hinze</w>
               <w xml:id="DL1_1129057011220_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
               <w xml:id="DL1_1129057011220_3" lemmaRef="lexicon.xml#lemma_22513" pos="NOM" ana="lexicon.xml#lemma_22513_sense_36609" corresp="variants.xml#type_134751">phleger</w>
@@ -14647,7 +14648,7 @@
               <w xml:id="DL1_1130058011180_5">er</w>
               <w xml:id="DL1_1130058011180_6">an</w>
               <w xml:id="DL1_1130058011180_7" lemmaRef="lexicon.xml#lemma_1517" pos="POS" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_5014">sîner</w>
-              <w xml:id="DL1_1130058011180_8">stat</w>
+              <w xml:id="DL1_1130058011180_8" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
               <pc xml:id="DL1_1130058011180_9" join="left">.</pc>
             </p>
             <p n="21">
@@ -15209,7 +15210,7 @@
                   <w xml:id="DL1_1132059061190_0">diu</w>
                 </hi>
               <w xml:id="DL1_1132059061190_1">wal</w>
-              <w xml:id="DL1_1132059061190_2">stât</w>
+              <w xml:id="DL1_1132059061190_2" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20048">stât</w>
               <w xml:id="DL1_1132059061190_3">an</w>
               <w xml:id="DL1_1132059061190_4">dem</w>
               <w xml:id="DL1_1132059061190_5" lemmaRef="lexicon.xml#lemma_24644" pos="NOM" ana="lexicon.xml#lemma_24644_sense_39624" corresp="variants.xml#type_133947">kläger</w>
@@ -17383,7 +17384,7 @@
               <w xml:id="DL1_1141071031010_1" lemmaRef="lexicon.xml#lemma_4911" pos="NOM" ana="lexicon.xml#lemma_4911_sense_7629" corresp="variants.xml#type_16966">rihter</w>
               <w xml:id="DL1_1141071031010_2">an</w>
               <w xml:id="DL1_1141071031010_3" lemmaRef="lexicon.xml#lemma_1517" pos="POS" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_5011">sîne</w>
-              <w xml:id="DL1_1141071031010_4">stat</w>
+              <w xml:id="DL1_1141071031010_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
               <pc xml:id="DL1_1141071031010_5" join="left">,</pc>
               <w xml:id="DL1_1141071031010_6">dem</w>
               <w xml:id="DL1_1141071031010_7" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18956">ist</w>
@@ -17877,7 +17878,7 @@
               <hi rend="upper_case_first_letter">
                 <w xml:id="DL1_1143071101140_8" lemmaRef="lexicon.xml#lemma_1169" pos="DET" ana="lexicon.xml#lemma_1169_sense_1850" corresp="variants.xml#type_3696">ditz</w>
               </hi>
-              <w xml:id="DL1_1143071101140_9">stât</w>
+              <w xml:id="DL1_1143071101140_9" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20048">stât</w>
               <w xml:id="DL1_1143071101140_10">an</w>
               <w xml:id="DL1_1143071101140_11" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
               <w xml:id="DL1_1143071101140_12" lemmaRef="lexicon.xml#lemma_3604" pos="NOM" ana="lexicon.xml#lemma_3604_sense_5708" corresp="variants.xml#type_12560">landes</w>
@@ -18130,7 +18131,7 @@
                 <w xml:id="DL1_1144072001170_4" lemmaRef="lexicon.xml#lemma_1169" pos="DET" ana="lexicon.xml#lemma_1169_sense_1850" corresp="variants.xml#type_3693">disiu</w>
               </hi>
               <w xml:id="DL1_1144072001170_5">buoze</w>
-              <w xml:id="DL1_1144072001170_6">stât</w>
+              <w xml:id="DL1_1144072001170_6" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20048">stât</w>
               <w xml:id="DL1_1144072001170_7" lemmaRef="lexicon.xml#lemma_4281" pos="ADJ ADV" corresp="variants.xml#type_14882">nâch</w>
               <w xml:id="DL1_1144072001170_8" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
               <w xml:id="DL1_1144072001170_9" lemmaRef="lexicon.xml#lemma_3806" pos="NOM" corresp="variants.xml#type_13265">liute</w>
@@ -21242,7 +21243,7 @@
                   <w xml:id="DL1_1155080031030_0">in</w>
                 </hi>
               <w xml:id="DL1_1155080031030_1" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4323">einer</w>
-              <w xml:id="DL1_1155080031030_2">stat</w>
+              <w xml:id="DL1_1155080031030_2" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
               <w xml:id="DL1_1155080031030_3">was</w>
               <w xml:id="DL1_1155080031030_4">ein</w>
               <w xml:id="DL1_1155080031030_5">man</w>
@@ -21707,7 +21708,7 @@
               <w xml:id="DL1_1156080031280_1">wil</w>
               <w xml:id="DL1_1156080031280_2">in</w>
               <w xml:id="DL1_1156080031280_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-              <w xml:id="DL1_1156080031280_4">stat</w>
+              <w xml:id="DL1_1156080031280_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
               <w xml:id="DL1_1156080031280_5" lemmaRef="lexicon.xml#lemma_1844" pos="VRB" corresp="variants.xml#type_6290">gân</w>
               <pc xml:id="DL1_1156080031280_6" join="left">.</pc>
               <lb n="29"/>
@@ -22397,7 +22398,7 @@
                   <w xml:id="DL1_1159080031070_0">in</w>
                 </hi>
               <w xml:id="DL1_1159080031070_1" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-              <w xml:id="DL1_1159080031070_2">stat</w>
+              <w xml:id="DL1_1159080031070_2" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
               <w xml:id="DL1_1159080031070_3" lemmaRef="lexicon.xml#lemma_1844" pos="VRB" corresp="variants.xml#type_6317">giengen</w>
               <w xml:id="DL1_1159080031070_4">si</w>
               <w xml:id="DL1_1159080031070_5" lemmaRef="lexicon.xml#lemma_5038" pos="ADV INJ" ana="lexicon.xml#lemma_5038_sense_7835" corresp="variants.xml#type_17448">sâ</w>
@@ -25982,7 +25983,7 @@
               <w xml:id="DL1_1175088081180_1" lemmaRef="lexicon.xml#lemma_7929" pos="ADJ NUM" ana="lexicon.xml#lemma_7929_sense_13005" corresp="variants.xml#type_28798">zwei</w>
               <pc xml:id="DL1_1175088081180_2" join="left">,</pc>
               <w xml:id="DL1_1175088081180_3" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
-              <w xml:id="DL1_1175088081180_4">stât</w>
+              <w xml:id="DL1_1175088081180_4" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20048">stât</w>
               <w xml:id="DL1_1175088081180_5">an</w>
               <w xml:id="DL1_1175088081180_6">ir</w>
               <lb n="19"/>
@@ -27870,7 +27871,7 @@
               <hi rend="upper_case_first_letter">
                 <w xml:id="DL1_1184091041110_3" lemmaRef="lexicon.xml#lemma_15835" pos="NAM" ana="lexicon.xml#lemma_15835_sense_26095" corresp="variants.xml#type_112108">galilea</w>
               </hi>
-              <w xml:id="DL1_1184091041110_4">stât</w>
+              <w xml:id="DL1_1184091041110_4" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20048">stât</w>
               <w xml:id="DL1_1184091041110_5" lemmaRef="lexicon.xml#lemma_1109" pos="ADJ NEG" ana="lexicon.xml#lemma_1109_sense_1759" corresp="variants.xml#type_3442">dehein</w>
               <w xml:id="DL1_1184091041110_6" lemmaRef="lexicon.xml#lemma_4739" pos="NOM" ana="lexicon.xml#lemma_4739_sense_7334" corresp="variants.xml#type_16289">prophête</w>
               <w xml:id="DL1_1184091041110_7">mêr</w>
@@ -30257,7 +30258,7 @@
               <w xml:id="DL1_1192102031060_0">sol</w>
               <w xml:id="DL1_1192102031060_1">an</w>
               <w xml:id="DL1_1192102031060_2" lemmaRef="lexicon.xml#lemma_1109" pos="ADJ NEG" ana="lexicon.xml#lemma_1109_sense_1759" corresp="variants.xml#type_3446">deheiner</w>
-              <w xml:id="DL1_1192102031060_3">stat</w>
+              <w xml:id="DL1_1192102031060_3" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
               <w xml:id="DL1_1192102031060_4">dem</w>
               <w xml:id="DL1_1192102031060_5" lemmaRef="lexicon.xml#lemma_4911" pos="NOM" ana="lexicon.xml#lemma_4911_sense_7629" corresp="variants.xml#type_16966">rihter</w>
               <w xml:id="DL1_1192102031060_6" lemmaRef="lexicon.xml#lemma_2866" pos="ADJ ADV GRA" corresp="variants.xml#type_9667">hôher</w>
@@ -31419,7 +31420,7 @@
               <w xml:id="DL1_1196106011190_7" lemmaRef="lexicon.xml#lemma_1762" pos="PRO" ana="lexicon.xml#lemma_1762_sense_2752" corresp="variants.xml#type_6021">ez</w>
               <w xml:id="DL1_1196106011190_8">in</w>
               <w xml:id="DL1_1196106011190_9" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4323">einer</w>
-              <w xml:id="DL1_1196106011190_10">stat</w>
+              <w xml:id="DL1_1196106011190_10" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
               <pc xml:id="DL1_1196106011190_11" join="left">,</pc>
               <w xml:id="DL1_1196106011190_12" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19597">sô</w>
               <w xml:id="DL1_1196106011190_13" lemmaRef="lexicon.xml#lemma_4240" pos="VRB VEM" corresp="variants.xml#type_14785">mugen</w>
@@ -32940,7 +32941,7 @@
             <w xml:id="DL1_2116039022200_5" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
             <lb n="21"/>
             <w xml:id="DL1_2116039022210_0">diu</w>
-            <w xml:id="DL1_2116039022210_1">stat</w>
+            <w xml:id="DL1_2116039022210_1" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
             <w xml:id="DL1_2116039022210_2" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18956">ist</w>
             <pc xml:id="DL1_2116039022210_3" join="left">;</pc>
             <w xml:id="DL1_2116039022210_4" lemmaRef="lexicon.xml#lemma_1961" pos="VRB" ana="lexicon.xml#lemma_1961_sense_3008" corresp="variants.xml#type_6642">gibet</w>
@@ -33476,7 +33477,7 @@
             <w xml:id="DL1_2171088022160_7">sol</w>
             <lb n="17"/>
             <w xml:id="DL1_2171088022170_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="DL1_2171088022170_1">stat</w>
+            <w xml:id="DL1_2171088022170_1" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
             <w xml:id="DL1_2171088022170_2" lemmaRef="lexicon.xml#lemma_4331" pos="NOM VRB" ana="lexicon.xml#lemma_4331_sense_6775" corresp="variants.xml#type_15114">nennen</w>
             <pc xml:id="DL1_2171088022170_3" join="left">.</pc>
             <hi rend="upper_case_first_letter">
@@ -34153,7 +34154,7 @@
             <w xml:id="DL1_2176088082010_2" lemmaRef="lexicon.xml#lemma_2559" pos="VRB" corresp="variants.xml#type_8578">gürten</w>
             <pc xml:id="DL1_2176088082010_3" join="left">;</pc>
             <w xml:id="DL1_2176088082010_4" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
-            <w xml:id="DL1_2176088082010_5">stât</w>
+            <w xml:id="DL1_2176088082010_5" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20048">stât</w>
             <w xml:id="DL1_2176088082010_6">an</w>
             <lb n="2"/>
             <w xml:id="DL1_2176088082020_0">ir</w>
@@ -35050,7 +35051,7 @@
             <lb n="18"/>
             <w xml:id="DL1_2192103012180_0">an</w>
             <w xml:id="DL1_2192103012180_1" lemmaRef="lexicon.xml#lemma_1517" pos="POS" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_5014">sîner</w>
-            <w xml:id="DL1_2192103012180_2">stat</w>
+            <w xml:id="DL1_2192103012180_2" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
             <pc xml:id="DL1_2192103012180_3" join="left">,</pc>
             <w xml:id="DL1_2192103012180_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
             <w xml:id="DL1_2192103012180_5" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>

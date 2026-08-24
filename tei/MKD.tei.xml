@@ -149,6 +149,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 1 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -780,7 +781,7 @@
         <w xml:id="MKD_103100710_2" lemmaRef="lexicon.xml#lemma_9137" pos="ART PRP" ana="lexicon.xml#lemma_9137_sense_12736" corresp="variants.xml#type_69109">zun</w>
         <w xml:id="MKD_103100710_3">an</w>
         <w xml:id="MKD_103100710_4" lemmaRef="lexicon.xml#lemma_3962" pos="ADJ" ana="lexicon.xml#lemma_3962_sense_6245" corresp="variants.xml#type_13825">manger</w>
-        <w xml:id="MKD_103100710_5">stat</w>
+        <w xml:id="MKD_103100710_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         <pc xml:id="MKD_103100710_6" join="left">;</pc>
       </l>
       <l n="72">

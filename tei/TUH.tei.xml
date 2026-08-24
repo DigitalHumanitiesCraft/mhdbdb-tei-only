@@ -143,6 +143,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 3 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -641,7 +642,7 @@
       <l n="58">
         <w xml:id="TUH_134100580_0">an</w>
         <w xml:id="TUH_134100580_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_26001">vrowen</w>
-        <w xml:id="TUH_134100580_2">stat</w>
+        <w xml:id="TUH_134100580_2" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         <w xml:id="TUH_134100580_3" lemmaRef="lexicon.xml#lemma_7075" pos="ADJ ADV" ana="lexicon.xml#lemma_7075_sense_11459" corresp="variants.xml#type_25008">vil</w>
         <w xml:id="TUH_134100580_4" lemmaRef="lexicon.xml#lemma_4840" pos="NOM ADJ" corresp="variants.xml#type_16638">rehte</w>
       </l>
@@ -1312,7 +1313,7 @@
         <w xml:id="TUH_134101360_2" lemmaRef="lexicon.xml#lemma_4377" pos="ADJ ADV NEG" ana="lexicon.xml#lemma_4377_sense_6838" corresp="variants.xml#type_15286">niht</w>
         <w xml:id="TUH_134101360_3">an</w>
         <w xml:id="TUH_134101360_4" lemmaRef="lexicon.xml#lemma_7665" pos="NOM" ana="lexicon.xml#lemma_7665_sense_12571" corresp="variants.xml#type_27746">witwen</w>
-        <w xml:id="TUH_134101360_5">stat</w>
+        <w xml:id="TUH_134101360_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         <w xml:id="TUH_134101360_6" lemmaRef="lexicon.xml#lemma_7004" pos="VRB" corresp="variants.xml#type_97209">ververt</w>
       </l>
       <l n="137">
@@ -1616,7 +1617,7 @@
         <w xml:id="TUH_134101680_4">an</w>
         <w xml:id="TUH_134101680_5">ir</w>
         <w xml:id="TUH_134101680_6">leben</w>
-        <w xml:id="TUH_134101680_7">stat</w>
+        <w xml:id="TUH_134101680_7" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
         <pc xml:id="TUH_134101680_8" join="left">,</pc>
       </l>
       <l n="169">

@@ -137,6 +137,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 8 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -424,7 +425,7 @@
           <w xml:id="ASG_33_0" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3397">das</w>
           <w xml:id="ASG_33_1" lemmaRef="lexicon.xml#lemma_868" pos="VRB" corresp="variants.xml#type_2749">pringet</w>
           <w xml:id="ASG_33_2">irer</w>
-          <w xml:id="ASG_33_3">stat</w>
+          <w xml:id="ASG_33_3" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="ASG_33_4" lemmaRef="lexicon.xml#lemma_4377" pos="ADJ ADV NEG" ana="lexicon.xml#lemma_4377_sense_6838" corresp="variants.xml#type_158951">nit</w>
           <w xml:id="ASG_33_5" lemmaRef="lexicon.xml#lemma_2573" pos="NOM ADJ ADV" corresp="variants.xml#type_8633">guot</w>
           <pc xml:id="ASG_33_6" join="left">,</pc>
@@ -812,7 +813,7 @@
         </l>
         <l n="77">
           <w xml:id="ASG_77_0" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_44957">ainer</w>
-          <w xml:id="ASG_77_1">stat</w>
+          <w xml:id="ASG_77_1" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="ASG_77_2" lemmaRef="lexicon.xml#lemma_4435" pos="NOM ADJ" ana="lexicon.xml#lemma_4435_sense_6915" corresp="variants.xml#type_15454">nutz</w>
           <w xml:id="ASG_77_3" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
           <w xml:id="ASG_77_4">fromen</w>
@@ -856,7 +857,7 @@
           <w xml:id="ASG_82_2" lemmaRef="lexicon.xml#lemma_4435" pos="NOM ADJ" ana="lexicon.xml#lemma_4435_sense_6915" corresp="variants.xml#type_15454">nutz</w>
           <w xml:id="ASG_82_3" lemmaRef="lexicon.xml#lemma_7194" pos="ADV PRP" ana="lexicon.xml#lemma_7194_sense_11657" corresp="variants.xml#type_25545">vor</w>
           <w xml:id="ASG_82_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="ASG_82_5">stat</w>
+          <w xml:id="ASG_82_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="ASG_82_6" lemmaRef="lexicon.xml#lemma_4435" pos="NOM ADJ" ana="lexicon.xml#lemma_4435_sense_6915" corresp="variants.xml#type_15454">nutz</w>
           <w xml:id="ASG_82_7" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_31260">zu</w>
           <w xml:id="ASG_82_8" lemmaRef="lexicon.xml#lemma_5903" pos="VRB" corresp="variants.xml#type_20820">suochen</w>
@@ -1218,7 +1219,7 @@
           <w xml:id="ASG_122_3">hassen</w>
           <w xml:id="ASG_122_4">an</w>
           <w xml:id="ASG_122_5" lemmaRef="lexicon.xml#lemma_106" pos="ADJ" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_261">aller</w>
-          <w xml:id="ASG_122_6">stat</w>
+          <w xml:id="ASG_122_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="ASG_122_7" join="left">.</pc>
         </l>
         <l n="123">
@@ -1433,7 +1434,7 @@
           <w xml:id="ASG_146_3">sein</w>
           <w xml:id="ASG_146_4">an</w>
           <w xml:id="ASG_146_5" lemmaRef="lexicon.xml#lemma_3273" pos="ADJ NEG" ana="lexicon.xml#lemma_3273_sense_5143" corresp="variants.xml#type_44898">kainer</w>
-          <w xml:id="ASG_146_6">stat</w>
+          <w xml:id="ASG_146_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="ASG_146_7" join="left">.</pc>
         </l>
         <l n="147">
@@ -1553,7 +1554,7 @@
           <w xml:id="ASG_159_2" lemmaRef="lexicon.xml#lemma_35330" pos="NOM" ana="lexicon.xml#lemma_35330_sense_54964" corresp="variants.xml#type_183089">regierung</w>
           <pc xml:id="ASG_159_3" join="left">,</pc>
           <w xml:id="ASG_159_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="ASG_159_5">stat</w>
+          <w xml:id="ASG_159_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="ASG_159_6" lemmaRef="lexicon.xml#lemma_7645" pos="NOM" ana="lexicon.xml#lemma_7645_sense_12532" corresp="variants.xml#type_158903">wirdigkait</w>
         </l>
         <l n="160">
@@ -2133,7 +2134,7 @@
         <l n="224">
           <w xml:id="ASG_224_0" lemmaRef="lexicon.xml#lemma_1056" pos="ADV" ana="lexicon.xml#lemma_1056_sense_1690" corresp="variants.xml#type_3265">davon</w>
           <w xml:id="ASG_224_1" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4316">ain</w>
-          <w xml:id="ASG_224_2">stat</w>
+          <w xml:id="ASG_224_2" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="ASG_224_3" lemmaRef="lexicon.xml#lemma_4435" pos="NOM ADJ" ana="lexicon.xml#lemma_4435_sense_6915" corresp="variants.xml#type_15454">nutz</w>
           <w xml:id="ASG_224_4" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
           <w xml:id="ASG_224_5">ere</w>
@@ -2431,7 +2432,7 @@
           <w xml:id="ASG_259_2" lemmaRef="lexicon.xml#lemma_35336" pos="NAM" ana="lexicon.xml#lemma_35336_sense_54980" corresp="variants.xml#type_183156">auln</w>
           <w xml:id="ASG_259_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
           <w xml:id="ASG_259_4" lemmaRef="lexicon.xml#lemma_4872" pos="NOM ADJ" corresp="variants.xml#type_107812">reichs</w>
-          <w xml:id="ASG_259_5">stat</w>
+          <w xml:id="ASG_259_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="ASG_259_6" join="left">,</pc>
         </l>
         <l n="260">

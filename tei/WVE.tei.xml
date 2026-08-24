@@ -133,6 +133,7 @@
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 8 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 4 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -888,7 +889,7 @@
           <w xml:id="WVE_84_2" lemmaRef="lexicon.xml#lemma_106" pos="ADJ" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_258">alle</w>
           <w xml:id="WVE_84_3" lemmaRef="lexicon.xml#lemma_6280" pos="NOM" corresp="variants.xml#type_22203">tugent</w>
           <w xml:id="WVE_84_4" lemmaRef="lexicon.xml#lemma_4432" pos="ADV CNJ" ana="lexicon.xml#lemma_4432_sense_6912" corresp="variants.xml#type_15441">nu</w>
-          <w xml:id="WVE_84_5">stat</w>
+          <w xml:id="WVE_84_5" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
           <pc xml:id="WVE_84_6" join="left">:</pc>
         </l>
         <l n="85">
@@ -3679,7 +3680,7 @@
           <w xml:id="WVE_404_2">im</w>
           <w xml:id="WVE_404_3" lemmaRef="lexicon.xml#lemma_7677" pos="NOM ADV" ana="lexicon.xml#lemma_7677_sense_12586" corresp="variants.xml#type_27811">wol</w>
           <w xml:id="WVE_404_4" lemmaRef="lexicon.xml#lemma_917" pos="VRB" corresp="variants.xml#type_190499">gebuete</w>
-          <w xml:id="WVE_404_5">stat</w>
+          <w xml:id="WVE_404_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="WVE_404_6" join="left">.</pc>
         </l>
         <l n="405">
@@ -7395,7 +7396,7 @@
           <w xml:id="WVE_817_2">mac</w>
           <w xml:id="WVE_817_3">an</w>
           <w xml:id="WVE_817_4" lemmaRef="lexicon.xml#lemma_1517" pos="POS" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_5024">siner</w>
-          <w xml:id="WVE_817_5">stat</w>
+          <w xml:id="WVE_817_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="WVE_817_6" lemmaRef="lexicon.xml#lemma_7677" pos="NOM ADV" ana="lexicon.xml#lemma_7677_sense_12586" corresp="variants.xml#type_27811">wol</w>
           <w xml:id="WVE_817_7" lemmaRef="lexicon.xml#lemma_504" pos="VRB" ana="lexicon.xml#lemma_504_sense_722" corresp="variants.xml#type_1474">bliben</w>
           <pc xml:id="WVE_817_8" join="left">&gt;</pc>
@@ -7841,7 +7842,7 @@
           <w xml:id="WVE_866_1" lemmaRef="lexicon.xml#lemma_3006" pos="ADJ" ana="lexicon.xml#lemma_3006_sense_15705" corresp="variants.xml#type_39041">igelich</w>
           <w xml:id="WVE_866_2">an</w>
           <w xml:id="WVE_866_3">sine</w>
-          <w xml:id="WVE_866_4">stat</w>
+          <w xml:id="WVE_866_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="WVE_866_5" join="left">,</pc>
         </l>
         <l n="867">

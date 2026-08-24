@@ -140,6 +140,7 @@
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 17 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/). 10 weitere Tokens der Form minne blieben bewusst unannotiert (Review).</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 11 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -568,7 +569,7 @@
               </l>
               <l n="5">
                 <w xml:id="DJUM_110305_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-                <w xml:id="DJUM_110305_1">stat</w>
+                <w xml:id="DJUM_110305_1" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
                 <pc xml:id="DJUM_110305_2" join="left">,</pc>
                 <w xml:id="DJUM_110305_3">ob</w>
                 <w xml:id="DJUM_110305_4">sie</w>
@@ -630,7 +631,7 @@
               </l>
               <l n="11">
                 <w xml:id="DJUM_110311_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-                <w xml:id="DJUM_110311_1">stat</w>
+                <w xml:id="DJUM_110311_1" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
                 <w xml:id="DJUM_110311_2" lemmaRef="lexicon.xml#lemma_6835" pos="VRB" corresp="variants.xml#type_23957">verdarp</w>
                 <pc xml:id="DJUM_110311_3" join="left">,</pc>
                 <w xml:id="DJUM_110311_4">ir</w>
@@ -682,7 +683,7 @@
               <l n="15">
                 <w xml:id="DJUM_110315_0">an</w>
                 <w xml:id="DJUM_110315_1" lemmaRef="lexicon.xml#lemma_3273" pos="ADJ NEG" ana="lexicon.xml#lemma_3273_sense_5143" corresp="variants.xml#type_11181">keiner</w>
-                <w xml:id="DJUM_110315_2">stat</w>
+                <w xml:id="DJUM_110315_2" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
               </l>
               <l n="16">
                 <w xml:id="DJUM_110316_0" lemmaRef="lexicon.xml#lemma_2465" pos="NOM" ana="lexicon.xml#lemma_2465_sense_3951" corresp="variants.xml#type_8253">got</w>
@@ -4141,7 +4142,7 @@
                 <w xml:id="DJUM_112215_0">zer</w>
                 <w xml:id="DJUM_112215_1">hohen</w>
                 <supplied>
-                  <w xml:id="DJUM_112215_2">stat</w>
+                  <w xml:id="DJUM_112215_2" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
                 </supplied>
                 <pc xml:id="DJUM_112215_3" join="left">,</pc>
               </l>
@@ -5796,7 +5797,7 @@
                 </hi>
                 <w xml:id="DJUM_150101_1">in</w>
                 <w xml:id="DJUM_150101_2">blute</w>
-                <w xml:id="DJUM_150101_3">stat</w>
+                <w xml:id="DJUM_150101_3" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
                 <pc xml:id="DJUM_150101_4" join="left">,</pc>
               </l>
               <l n="2">
@@ -12591,7 +12592,7 @@
                 <w xml:id="DJUM_213413_3">müt</w>
                 <w xml:id="DJUM_213413_4">noch</w>
                 <w xml:id="DJUM_213413_5" lemmaRef="lexicon.xml#lemma_5488" pos="VRB" ana="lexicon.xml#lemma_5488_sense_8552" corresp="variants.xml#type_19163">singen</w>
-                <w xml:id="DJUM_213413_6">stat</w>
+                <w xml:id="DJUM_213413_6" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
               </l>
               <l n="14">
                 <w xml:id="DJUM_213414_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
@@ -13969,7 +13970,7 @@
                 <w xml:id="DJUM_214113_1" lemmaRef="lexicon.xml#lemma_6093" pos="NOM" ana="lexicon.xml#lemma_6093_sense_9619" corresp="variants.xml#type_21424">tisch</w>
                 <w xml:id="DJUM_214113_2" lemmaRef="lexicon.xml#lemma_1913" pos="ADJ ADV" ana="lexicon.xml#lemma_1913_sense_2938" corresp="variants.xml#type_6476">gar</w>
                 <w xml:id="DJUM_214113_3" lemmaRef="lexicon.xml#lemma_290" pos="ADJ ADV" ana="lexicon.xml#lemma_290_sense_377" corresp="variants.xml#type_34811">armeclichen</w>
-                <w xml:id="DJUM_214113_4">stat</w>
+                <w xml:id="DJUM_214113_4" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
                 <pc xml:id="DJUM_214113_5" join="left">,</pc>
               </l>
               <l n="14">
@@ -16582,7 +16583,7 @@
               <l n="2">
                 <w xml:id="DJUM_215502_0">min</w>
                 <w xml:id="DJUM_215502_1">leben</w>
-                <w xml:id="DJUM_215502_2">stat</w>
+                <w xml:id="DJUM_215502_2" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
               </l>
               <l n="3">
                 <w xml:id="DJUM_215503_0">an</w>
@@ -18802,7 +18803,7 @@
               <l n="8">
                 <w xml:id="DJUM_216608_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3512">dez</w>
                 <w xml:id="DJUM_216608_1" lemmaRef="lexicon.xml#lemma_4086" pos="NOM" ana="lexicon.xml#lemma_4086_sense_6421" corresp="variants.xml#type_14246">meres</w>
-                <w xml:id="DJUM_216608_2">stat</w>
+                <w xml:id="DJUM_216608_2" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
               </l>
               <l n="9">
                 <w xml:id="DJUM_216609_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
@@ -19541,7 +19542,7 @@
                 <w xml:id="DJUM_217006_2">in</w>
                 <w xml:id="DJUM_217006_3" lemmaRef="lexicon.xml#lemma_4840" pos="ADJ" corresp="variants.xml#type_44607">rechter</w>
                 <w xml:id="DJUM_217006_4" lemmaRef="lexicon.xml#lemma_770" pos="VRB" ana="lexicon.xml#lemma_770_sense_1250" corresp="variants.xml#type_65886">bluede</w>
-                <w xml:id="DJUM_217006_5">stat</w>
+                <w xml:id="DJUM_217006_5" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
                 <pc xml:id="DJUM_217006_6" join="left">,</pc>
                 <caesura/>
                 <w xml:id="DJUM_217006_7" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
@@ -19664,7 +19665,7 @@
                 <w xml:id="DJUM_217018_4" lemmaRef="lexicon.xml#lemma_7360" pos="VRB" corresp="variants.xml#type_266678">wuechß</w>
                 <caesura/>
                 <w xml:id="DJUM_217018_5" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
-                <w xml:id="DJUM_217018_6">stat</w>
+                <w xml:id="DJUM_217018_6" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
                 <w xml:id="DJUM_217018_7">noch</w>
                 <w xml:id="DJUM_217018_8" lemmaRef="lexicon.xml#lemma_5280" pos="NOM ADJ ADV" ana="lexicon.xml#lemma_5280_sense_8229" corresp="variants.xml#type_31441">schon</w>
                 <w xml:id="DJUM_217018_9" lemmaRef="lexicon.xml#lemma_15281" pos="VRB" corresp="variants.xml#type_266679">entsproßen</w>

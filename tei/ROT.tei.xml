@@ -157,6 +157,7 @@
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 3 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 29 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -4174,7 +4175,7 @@
           <w xml:id="ROT_4580_0" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_31260">zu</w>
           <w xml:id="ROT_4580_1" lemmaRef="lexicon.xml#lemma_10963" pos="NAM" ana="lexicon.xml#lemma_10963_sense_17541" corresp="variants.xml#type_62996">constonopole</w>
           <w xml:id="ROT_4580_2">inde</w>
-          <w xml:id="ROT_4580_3">stat</w>
+          <w xml:id="ROT_4580_3" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="ROT_4580_4" join="left">.</pc>
         </l>
         <l n="459">
@@ -10505,7 +10506,7 @@
           <w xml:id="ROT_11690_2" lemmaRef="lexicon.xml#lemma_7194" pos="ADV PRP" ana="lexicon.xml#lemma_7194_sense_11657" corresp="variants.xml#type_25545">vor</w>
           <w xml:id="ROT_11690_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3505">deme</w>
           <w xml:id="ROT_11690_4" lemmaRef="lexicon.xml#lemma_6093" pos="NOM" ana="lexicon.xml#lemma_6093_sense_9619" corresp="variants.xml#type_95510">dische</w>
-          <w xml:id="ROT_11690_5">stat</w>
+          <w xml:id="ROT_11690_5" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
           <pc xml:id="ROT_11690_6" join="left">.</pc>
         </l>
         <l n="1170">
@@ -11855,7 +11856,7 @@
           </hi>
           <w xml:id="ROT_13050_1" lemmaRef="lexicon.xml#lemma_106" pos="ADJ" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_258">alle</w>
           <w xml:id="ROT_13050_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="ROT_13050_3">stat</w>
+          <w xml:id="ROT_13050_3" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="ROT_13050_4" join="left">.</pc>
         </l>
         <l n="1306">
@@ -12688,7 +12689,7 @@
           <w xml:id="ROT_13930_1" lemmaRef="lexicon.xml#lemma_767" pos="ADJ ADV" ana="lexicon.xml#lemma_767_sense_1247" corresp="variants.xml#type_145851">bloliche</w>
           <w xml:id="ROT_13930_2">in</w>
           <w xml:id="ROT_13930_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="ROT_13930_4">stat</w>
+          <w xml:id="ROT_13930_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="ROT_13930_5" join="left">.</pc>
         </l>
         <l n="1394">
@@ -13160,7 +13161,7 @@
           </hi>
           <w xml:id="ROT_14420_1">man</w>
           <w xml:id="ROT_14420_2">inder</w>
-          <w xml:id="ROT_14420_3">stat</w>
+          <w xml:id="ROT_14420_3" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="ROT_14420_4" lemmaRef="lexicon.xml#lemma_7081" pos="VRB" corresp="variants.xml#type_25039">vinde</w>
           <pc xml:id="ROT_14420_5" join="left">.</pc>
         </l>
@@ -13545,7 +13546,7 @@
           <w xml:id="ROT_14810_2">in</w>
           <w xml:id="ROT_14810_3" lemmaRef="lexicon.xml#lemma_7194" pos="ADV PRP" ana="lexicon.xml#lemma_7194_sense_11657" corresp="variants.xml#type_25545">vor</w>
           <w xml:id="ROT_14810_4">inde</w>
-          <w xml:id="ROT_14810_5">stat</w>
+          <w xml:id="ROT_14810_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="ROT_14810_6" join="left">.</pc>
         </l>
         <l n="1482">
@@ -14592,7 +14593,7 @@
           </hi>
           <w xml:id="ROT_15910_1" lemmaRef="lexicon.xml#lemma_2684" pos="NOM" corresp="variants.xml#type_9040">herren</w>
           <w xml:id="ROT_15910_2" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4320">eine</w>
-          <w xml:id="ROT_15910_3">stat</w>
+          <w xml:id="ROT_15910_3" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="ROT_15910_4" join="left">.</pc>
         </l>
         <l n="1592">
@@ -14869,7 +14870,7 @@
           <w xml:id="ROT_16210_3">man</w>
           <w xml:id="ROT_16210_4" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10237">mir</w>
           <w xml:id="ROT_16210_5" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="ROT_16210_6">stat</w>
+          <w xml:id="ROT_16210_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="ROT_16210_7" join="left">.</pc>
         </l>
         <l n="1622">
@@ -23502,7 +23503,7 @@
           </hi>
           <w xml:id="ROT_25250_1">in</w>
           <w xml:id="ROT_25250_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="ROT_25250_3">stat</w>
+          <w xml:id="ROT_25250_3" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="ROT_25250_4" join="left">.</pc>
         </l>
         <l n="2526">
@@ -26610,7 +26611,7 @@
           <w xml:id="ROT_28560_1" lemmaRef="lexicon.xml#lemma_7473" pos="VRB VEM" corresp="variants.xml#type_209235">uvil</w>
           <w xml:id="ROT_28560_2" lemmaRef="lexicon.xml#lemma_7845" pos="VRB" corresp="variants.xml#type_366149">zevorin</w>
           <w xml:id="ROT_28560_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="ROT_28560_4">stat</w>
+          <w xml:id="ROT_28560_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="ROT_28560_5" join="left">.</pc>
         </l>
         <l n="2857">
@@ -26824,7 +26825,7 @@
           <w xml:id="ROT_28780_1" lemmaRef="lexicon.xml#lemma_1159" pos="NAM" ana="lexicon.xml#lemma_1159_sense_1828" corresp="variants.xml#type_57061">dietheriche</w>
           <w xml:id="ROT_28780_2" lemmaRef="lexicon.xml#lemma_6342" pos="ADV PRP" ana="lexicon.xml#lemma_6342_sense_9997" corresp="variants.xml#type_56282">vz</w>
           <w xml:id="ROT_28780_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="ROT_28780_4">stat</w>
+          <w xml:id="ROT_28780_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="ROT_28780_5" join="left">.</pc>
         </l>
         <l n="2879">
@@ -27818,7 +27819,7 @@
           <w xml:id="ROT_29830_1" lemmaRef="lexicon.xml#lemma_10963" pos="NAM" ana="lexicon.xml#lemma_10963_sense_17541" corresp="variants.xml#type_62993">constantinopolin</w>
           <w xml:id="ROT_29830_2">in</w>
           <w xml:id="ROT_29830_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="ROT_29830_4">stat</w>
+          <w xml:id="ROT_29830_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         </l>
         <l n="2984">
           <hi rend="initial">
@@ -28141,7 +28142,7 @@
             <w xml:id="ROT_30170_0" lemmaRef="lexicon.xml#lemma_6342" pos="ADV PRP" ana="lexicon.xml#lemma_6342_sense_9997" corresp="variants.xml#type_56282">vz</w>
           </hi>
           <w xml:id="ROT_30170_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="ROT_30170_2">stat</w>
+          <w xml:id="ROT_30170_2" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="ROT_30170_3">mere</w>
           <pc xml:id="ROT_30170_4" join="left">.</pc>
         </l>
@@ -30112,7 +30113,7 @@
           <w xml:id="ROT_32190_1">war</w>
           <w xml:id="ROT_32190_2" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
           <w xml:id="ROT_32190_3" lemmaRef="lexicon.xml#lemma_7534" pos="NOM" corresp="variants.xml#type_42495">wif</w>
-          <w xml:id="ROT_32190_4">stat</w>
+          <w xml:id="ROT_32190_4" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
           <pc xml:id="ROT_32190_5" join="left">.</pc>
         </l>
         <l n="3220">
@@ -30153,7 +30154,7 @@
           <w xml:id="ROT_32230_3">sie</w>
           <w xml:id="ROT_32230_4" lemmaRef="lexicon.xml#lemma_199" pos="PRP" ana="lexicon.xml#lemma_199_sense_248" corresp="variants.xml#type_522">an</w>
           <w xml:id="ROT_32230_5" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
-          <w xml:id="ROT_32230_6">stat</w>
+          <w xml:id="ROT_32230_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="ROT_32230_7" join="left">.</pc>
         </l>
         <l n="3224">
@@ -32223,7 +32224,7 @@
             <w xml:id="ROT_34390_0" lemmaRef="lexicon.xml#lemma_6342" pos="ADV PRP" ana="lexicon.xml#lemma_6342_sense_9997" corresp="variants.xml#type_22503">uz</w>
           </hi>
           <w xml:id="ROT_34390_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="ROT_34390_2">stat</w>
+          <w xml:id="ROT_34390_2" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="ROT_34390_3" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_196205">zo</w>
           <w xml:id="ROT_34390_4" lemmaRef="lexicon.xml#lemma_9525" pos="NAM" ana="lexicon.xml#lemma_9525_sense_15463" corresp="variants.xml#type_99002">meylan</w>
           <pc xml:id="ROT_34390_5" join="left">.</pc>
@@ -32476,7 +32477,7 @@
           <w xml:id="ROT_34640_0" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_28131">ze</w>
           <w xml:id="ROT_34640_1" lemmaRef="lexicon.xml#lemma_30352" pos="NAM" ana="lexicon.xml#lemma_30352_sense_47528" corresp="variants.xml#type_154490">bare</w>
           <w xml:id="ROT_34640_2">inder</w>
-          <w xml:id="ROT_34640_3">stat</w>
+          <w xml:id="ROT_34640_3" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="ROT_34640_4" join="left">.</pc>
         </l>
         <l n="3465">
@@ -34103,7 +34104,7 @@
           <w xml:id="ROT_36370_2" lemmaRef="lexicon.xml#lemma_4359" pos="ADJ ADV" corresp="variants.xml#type_15215">nider</w>
           <w xml:id="ROT_36370_3" lemmaRef="lexicon.xml#lemma_2739" pos="VRB" ana="lexicon.xml#lemma_2739_sense_4421" corresp="variants.xml#type_9250">half</w>
           <w xml:id="ROT_36370_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="ROT_36370_5">stat</w>
+          <w xml:id="ROT_36370_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="ROT_36370_6" join="left">.</pc>
         </l>
         <l n="3638">
@@ -35708,7 +35709,7 @@
           </hi>
           <w xml:id="ROT_38090_1" lemmaRef="lexicon.xml#lemma_10963" pos="NAM" ana="lexicon.xml#lemma_10963_sense_17541" corresp="variants.xml#type_62992">constantinopole</w>
           <w xml:id="ROT_38090_2">inder</w>
-          <w xml:id="ROT_38090_3">stat</w>
+          <w xml:id="ROT_38090_3" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         </l>
         <l n="3810">
           <hi rend="initial">
@@ -35738,7 +35739,7 @@
           <hi rend="initial">
             <w xml:id="ROT_38130_0" lemmaRef="lexicon.xml#lemma_1055" pos="ADV" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3258">dar</w>
           </hi>
-          <w xml:id="ROT_38130_1">stat</w>
+          <w xml:id="ROT_38130_1" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
           <w xml:id="ROT_38130_2" lemmaRef="lexicon.xml#lemma_19320" pos="NAM" ana="lexicon.xml#lemma_19320_sense_32267" corresp="variants.xml#type_85410">rotheres</w>
           <w xml:id="ROT_38130_3" lemmaRef="lexicon.xml#lemma_7534" pos="NOM" corresp="variants.xml#type_42495">wif</w>
         </l>
@@ -35863,7 +35864,7 @@
           </hi>
           <w xml:id="ROT_38270_1" lemmaRef="lexicon.xml#lemma_1844" pos="VRB" corresp="variants.xml#type_6314">gienc</w>
           <w xml:id="ROT_38270_2">inde</w>
-          <w xml:id="ROT_38270_3">stat</w>
+          <w xml:id="ROT_38270_3" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="ROT_38270_4" join="left">.</pc>
         </l>
         <l n="3828">
@@ -37376,7 +37377,7 @@
           <w xml:id="ROT_39890_1" lemmaRef="lexicon.xml#lemma_7783" pos="VRB" corresp="variants.xml#type_323692">zeichenede</w>
           <w xml:id="ROT_39890_2" lemmaRef="lexicon.xml#lemma_4840" pos="NOM ADJ" corresp="variants.xml#type_16636">rechte</w>
           <w xml:id="ROT_39890_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="ROT_39890_4">stat</w>
+          <w xml:id="ROT_39890_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="ROT_39890_5" join="left">.</pc>
         </l>
         <l n="3990">
@@ -37758,7 +37759,7 @@
           <w xml:id="ROT_40330_1">her</w>
           <w xml:id="ROT_40330_2">hie</w>
           <w xml:id="ROT_40330_3" lemmaRef="lexicon.xml#lemma_709" pos="VRB" corresp="variants.xml#type_2195">gebunden</w>
-          <w xml:id="ROT_40330_4">stat</w>
+          <w xml:id="ROT_40330_4" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
           <pc xml:id="ROT_40330_5" join="left">.</pc>
         </l>
         <l n="4034">
@@ -37804,7 +37805,7 @@
           <w xml:id="ROT_40380_1" lemmaRef="lexicon.xml#lemma_1145" pos="VRB" corresp="variants.xml#type_106736">dieneten</w>
           <w xml:id="ROT_40380_2">in</w>
           <w xml:id="ROT_40380_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="ROT_40380_4">stat</w>
+          <w xml:id="ROT_40380_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="ROT_40380_5" join="left">.</pc>
         </l>
         <l n="4039">
@@ -37902,7 +37903,7 @@
           <hi rend="initial">
             <w xml:id="ROT_40490_0" lemmaRef="lexicon.xml#lemma_4432" pos="ADV CNJ" ana="lexicon.xml#lemma_4432_sense_6912" corresp="variants.xml#type_15441">nu</w>
           </hi>
-          <w xml:id="ROT_40490_1">stat</w>
+          <w xml:id="ROT_40490_1" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
           <w xml:id="ROT_40490_2">her</w>
           <w xml:id="ROT_40490_3">gevangin</w>
           <pc xml:id="ROT_40490_4" join="left">.</pc>
@@ -38269,7 +38270,7 @@
           <w xml:id="ROT_40880_2">in</w>
           <w xml:id="ROT_40880_3" lemmaRef="lexicon.xml#lemma_6342" pos="ADV PRP" ana="lexicon.xml#lemma_6342_sense_9997" corresp="variants.xml#type_56282">vz</w>
           <w xml:id="ROT_40880_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="ROT_40880_5">stat</w>
+          <w xml:id="ROT_40880_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="ROT_40880_6" join="left">.</pc>
         </l>
         <l n="4089">
@@ -38357,7 +38358,7 @@
           <w xml:id="ROT_40970_2">in</w>
           <w xml:id="ROT_40970_3" lemmaRef="lexicon.xml#lemma_6342" pos="ADV PRP" ana="lexicon.xml#lemma_6342_sense_9997" corresp="variants.xml#type_56282">vz</w>
           <w xml:id="ROT_40970_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="ROT_40970_5">stat</w>
+          <w xml:id="ROT_40970_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="ROT_40970_6">na</w>
           <pc xml:id="ROT_40970_7" join="left">.</pc>
         </l>
@@ -40697,7 +40698,7 @@
           <w xml:id="ROT_43440_2" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
           <w xml:id="ROT_43440_3" lemmaRef="lexicon.xml#lemma_1169" pos="DET" ana="lexicon.xml#lemma_1169_sense_1850" corresp="variants.xml#type_3688">dise</w>
           <w xml:id="ROT_43440_4" lemmaRef="lexicon.xml#lemma_7494" pos="NOM" ana="lexicon.xml#lemma_7494_sense_12223" corresp="variants.xml#type_68316">werelt</w>
-          <w xml:id="ROT_43440_5">stat</w>
+          <w xml:id="ROT_43440_5" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
           <pc xml:id="ROT_43440_6" join="left">.</pc>
         </l>
         <l n="4345">
@@ -47948,7 +47949,7 @@
           <hi rend="initial">
             <w xml:id="ROT_51190_0" lemmaRef="lexicon.xml#lemma_1762" pos="PRO" ana="lexicon.xml#lemma_1762_sense_2752" corresp="variants.xml#type_65544">iz</w>
           </hi>
-          <w xml:id="ROT_51190_1">stat</w>
+          <w xml:id="ROT_51190_1" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
           <w xml:id="ROT_51190_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
           <w xml:id="ROT_51190_3">gotin</w>
           <w xml:id="ROT_51190_4" lemmaRef="lexicon.xml#lemma_3377" pos="NOM" ana="lexicon.xml#lemma_3377_sense_5319" corresp="variants.xml#type_89427">knectin</w>

@@ -144,6 +144,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 6 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -348,7 +349,7 @@
         <w xml:id="ESL_70100240_1">er</w>
         <w xml:id="ESL_70100240_2">ein</w>
         <w xml:id="ESL_70100240_3" lemmaRef="lexicon.xml#lemma_2534" pos="ADJ" corresp="variants.xml#type_47339">grozze</w>
-        <w xml:id="ESL_70100240_4">stat</w>
+        <w xml:id="ESL_70100240_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         <w xml:id="ESL_70100240_5" lemmaRef="lexicon.xml#lemma_7081" pos="VRB" corresp="variants.xml#type_25036">vant</w>
       </l>
       <l n="25">
@@ -790,7 +791,7 @@
         <w xml:id="ESL_70100770_2" lemmaRef="lexicon.xml#lemma_3400" pos="VRB" ana="lexicon.xml#lemma_3400_sense_5361" corresp="variants.xml#type_45971">chom</w>
         <w xml:id="ESL_70100770_3">in</w>
         <w xml:id="ESL_70100770_4" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-        <w xml:id="ESL_70100770_5">stat</w>
+        <w xml:id="ESL_70100770_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         <pc xml:id="ESL_70100770_6" join="left">,</pc>
       </l>
       <l n="78">
@@ -900,7 +901,7 @@
       <l n="92">
         <w xml:id="ESL_70100920_0">in</w>
         <w xml:id="ESL_70100920_1" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-        <w xml:id="ESL_70100920_2">stat</w>
+        <w xml:id="ESL_70100920_2" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         <w xml:id="ESL_70100920_3" lemmaRef="lexicon.xml#lemma_26436" pos="ADV PRP" ana="lexicon.xml#lemma_26436_sense_42148" corresp="variants.xml#type_171745">zemersten</w>
       </l>
       <l n="93">
@@ -999,7 +1000,7 @@
       <l n="105">
         <w xml:id="ESL_70101050_0">in</w>
         <w xml:id="ESL_70101050_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-        <w xml:id="ESL_70101050_2">stat</w>
+        <w xml:id="ESL_70101050_2" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         <w xml:id="ESL_70101050_3" lemmaRef="lexicon.xml#lemma_7075" pos="ADJ ADV" ana="lexicon.xml#lemma_7075_sense_11459" corresp="variants.xml#type_25008">vil</w>
         <w xml:id="ESL_70101050_4" lemmaRef="lexicon.xml#lemma_5234" pos="ADJ ADV" corresp="variants.xml#type_18205">schire</w>
       </l>
@@ -1077,7 +1078,7 @@
         <supplied>
           <w xml:id="ESL_70101140_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
         </supplied>
-        <w xml:id="ESL_70101140_5">stat</w>
+        <w xml:id="ESL_70101140_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         <pc xml:id="ESL_70101140_6" join="left">,</pc>
       </l>
       <l n="115">
@@ -1247,7 +1248,7 @@
         <w xml:id="ESL_70101350_2">in</w>
         <w xml:id="ESL_70101350_3">in</w>
         <w xml:id="ESL_70101350_4" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-        <w xml:id="ESL_70101350_5">stat</w>
+        <w xml:id="ESL_70101350_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         <w xml:id="ESL_70101350_6" lemmaRef="lexicon.xml#lemma_2837" pos="ADV" corresp="variants.xml#type_9597">hin</w>
         <pc xml:id="ESL_70101350_7" join="left">.</pc>
       </l>

@@ -141,6 +141,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 2 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -693,7 +694,7 @@
           <w xml:id="EAL_73_1">eine</w>
           <w xml:id="EAL_73_2" lemmaRef="lexicon.xml#lemma_7677" pos="NOM ADV" ana="lexicon.xml#lemma_7677_sense_12586" corresp="variants.xml#type_27811">wol</w>
           <w xml:id="EAL_73_3" lemmaRef="lexicon.xml#lemma_65501" pos="ADJ" ana="lexicon.xml#lemma_65501_sense_102522" corresp="variants.xml#type_335806">gezierte</w>
-          <w xml:id="EAL_73_4">stat</w>
+          <w xml:id="EAL_73_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="EAL_73_5" join="left">.</pc>
         </l>
         <l n="74">
@@ -1063,7 +1064,7 @@
           <w xml:id="EAL_123_3">was</w>
           <w xml:id="EAL_123_4">an</w>
           <w xml:id="EAL_123_5">ir</w>
-          <w xml:id="EAL_123_6">stat</w>
+          <w xml:id="EAL_123_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="EAL_123_7" join="left">,</pc>
         </l>
         <l n="124">

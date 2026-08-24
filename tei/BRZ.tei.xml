@@ -149,6 +149,7 @@
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 17 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 7 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -637,7 +638,7 @@
           <lb n="39"/>
           <w xml:id="BRZ_1500390_0">an</w>
           <w xml:id="BRZ_1500390_1">ein</w>
-          <w xml:id="BRZ_1500390_2">stat</w>
+          <w xml:id="BRZ_1500390_2" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="BRZ_1500390_3" join="left">.</pc>
           <lb n="40"/>
           <hi rend="initial">
@@ -2068,7 +2069,7 @@
           <w xml:id="BRZ_2530920_4">an</w>
           <w xml:id="BRZ_2530920_5" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
           <w xml:id="BRZ_2530920_6" lemmaRef="lexicon.xml#lemma_3164" pos="ADJ GRA" ana="lexicon.xml#lemma_3164_sense_5002" corresp="variants.xml#type_134047">ivngisten</w>
-          <w xml:id="BRZ_2530920_7">stat</w>
+          <w xml:id="BRZ_2530920_7" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="BRZ_2530920_8" join="left">&gt;</pc>
           <pc xml:id="BRZ_2530920_9" join="left">,</pc>
           <w xml:id="BRZ_2530920_10">er</w>
@@ -2093,7 +2094,7 @@
           <lb n="94"/>
           <w xml:id="BRZ_2530940_0" lemmaRef="lexicon.xml#lemma_106" pos="ADJ" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_261">aller</w>
           <w xml:id="BRZ_2530940_1" lemmaRef="lexicon.xml#lemma_3164" pos="ADJ GRA" ana="lexicon.xml#lemma_3164_sense_5002" corresp="variants.xml#type_80894">ivngesten</w>
-          <w xml:id="BRZ_2530940_2">stat</w>
+          <w xml:id="BRZ_2530940_2" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="BRZ_2530940_3" join="left">.</pc>
           <pc xml:id="BRZ_2530940_4" join="left">&gt;</pc>
           <w xml:id="BRZ_2530940_5">sant</w>
@@ -2105,7 +2106,7 @@
           <lb n="95"/>
           <w xml:id="BRZ_2530950_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
           <w xml:id="BRZ_2530950_1" lemmaRef="lexicon.xml#lemma_3164" pos="ADJ GRA" ana="lexicon.xml#lemma_3164_sense_5002" corresp="variants.xml#type_80894">ivngesten</w>
-          <w xml:id="BRZ_2530950_2">stat</w>
+          <w xml:id="BRZ_2530950_2" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="BRZ_2530950_3" join="left">:</pc>
           <w xml:id="BRZ_2530950_4" lemmaRef="lexicon.xml#lemma_1180" pos="ADV" ana="lexicon.xml#lemma_1180_sense_1864" corresp="variants.xml#type_3738">do</w>
           <w xml:id="BRZ_2530950_5" lemmaRef="lexicon.xml#lemma_1762" pos="PRO" ana="lexicon.xml#lemma_1762_sense_2752" corresp="variants.xml#type_6021">ez</w>
@@ -2134,7 +2135,7 @@
           <pc xml:id="BRZ_2530970_2" join="left">:</pc>
           <pc xml:id="BRZ_2530970_3" join="right">&lt;</pc>
           <w xml:id="BRZ_2530970_4" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_66912">div</w>
-          <w xml:id="BRZ_2530970_5">stat</w>
+          <w xml:id="BRZ_2530970_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="BRZ_2530970_6" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_38749">vnd</w>
           <w xml:id="BRZ_2530970_7" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_66912">div</w>
           <w xml:id="BRZ_2530970_8" lemmaRef="lexicon.xml#lemma_1282" pos="NOM" ana="lexicon.xml#lemma_1282_sense_2011" corresp="variants.xml#type_75179">ere</w>
@@ -2149,7 +2150,7 @@
           <pc xml:id="BRZ_2530980_2" join="left">,</pc>
           <w xml:id="BRZ_2530980_3" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_38749">vnd</w>
           <w xml:id="BRZ_2530980_4" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_66912">div</w>
-          <w xml:id="BRZ_2530980_5">stat</w>
+          <w xml:id="BRZ_2530980_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="BRZ_2530980_6" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_38749">vnd</w>
           <w xml:id="BRZ_2530980_7" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_66912">div</w>
           <w xml:id="BRZ_2530980_8">er</w>
@@ -9084,7 +9085,7 @@
           <w xml:id="BRZ_8700290_6">sin</w>
           <w xml:id="BRZ_8700290_7">an</w>
           <w xml:id="BRZ_8700290_8" lemmaRef="lexicon.xml#lemma_2465" pos="NOM" ana="lexicon.xml#lemma_2465_sense_3951" corresp="variants.xml#type_8256">gotes</w>
-          <w xml:id="BRZ_8700290_9">stat</w>
+          <w xml:id="BRZ_8700290_9" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="BRZ_8700290_10" join="left">,</pc>
           <w xml:id="BRZ_8700290_11" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_38749">vnd</w>
           <w xml:id="BRZ_8700290_12" lemmaRef="lexicon.xml#lemma_5941" pos="PRO IPA" ana="lexicon.xml#lemma_5941_sense_9416" corresp="variants.xml#type_20940">swaz</w>

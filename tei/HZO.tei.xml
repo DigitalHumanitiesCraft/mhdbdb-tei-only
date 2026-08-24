@@ -148,6 +148,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 1 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -345,7 +346,7 @@
             <w xml:id="HZO_1930200_2" lemmaRef="lexicon.xml#lemma_5669" pos="NOM" ana="lexicon.xml#lemma_5669_sense_8870" corresp="variants.xml#type_19868">spise</w>
             <w xml:id="HZO_1930200_3">an</w>
             <w xml:id="HZO_1930200_4">eine</w>
-            <w xml:id="HZO_1930200_5">stat</w>
+            <w xml:id="HZO_1930200_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           </l>
           <l n="21">
             <w xml:id="HZO_1930210_0" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>

@@ -155,6 +155,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 1 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -198,7 +199,7 @@
             <w xml:id="KMR_400020_2" lemmaRef="lexicon.xml#lemma_7494" pos="NOM" ana="lexicon.xml#lemma_7494_sense_12223" corresp="variants.xml#type_27110">werlt</w>
             <w xml:id="KMR_400020_3">an</w>
             <w xml:id="KMR_400020_4" lemmaRef="lexicon.xml#lemma_3273" pos="ADJ NEG" ana="lexicon.xml#lemma_3273_sense_5143" corresp="variants.xml#type_11181">keiner</w>
-            <w xml:id="KMR_400020_5">stat</w>
+            <w xml:id="KMR_400020_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           </l>
           <l n="3">
             <w xml:id="KMR_400030_0" lemmaRef="lexicon.xml#lemma_152" pos="ADV" ana="lexicon.xml#lemma_152_sense_187" corresp="variants.xml#type_378">also</w>

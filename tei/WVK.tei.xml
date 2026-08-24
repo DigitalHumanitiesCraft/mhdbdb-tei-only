@@ -128,6 +128,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 2 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -628,7 +629,7 @@
             <w xml:id="WVK_204004000_3" lemmaRef="lexicon.xml#lemma_5961" pos="PRO IPA" ana="lexicon.xml#lemma_5961_sense_9448" corresp="variants.xml#type_21018">swes</w>
             <w xml:id="WVK_204004000_4">muot</w>
             <w xml:id="WVK_204004000_5" lemmaRef="lexicon.xml#lemma_152" pos="ADV" ana="lexicon.xml#lemma_152_sense_187" corresp="variants.xml#type_379">alsô</w>
-            <w xml:id="WVK_204004000_6">stât</w>
+            <w xml:id="WVK_204004000_6" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20048">stât</w>
             <pc xml:id="WVK_204004000_7" join="left">.</pc>
           </l>
           <l n="5">
@@ -730,7 +731,7 @@
             <w xml:id="WVK_206004000_0" lemmaRef="lexicon.xml#lemma_5918" pos="CNJ IPA" ana="lexicon.xml#lemma_5918_sense_9371" corresp="variants.xml#type_20860">swâ</w>
             <w xml:id="WVK_206004000_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
             <w xml:id="WVK_206004000_2" lemmaRef="lexicon.xml#lemma_6356" pos="NOM ADJ ADV" ana="lexicon.xml#lemma_6356_sense_10016" corresp="variants.xml#type_22542">übel</w>
-            <w xml:id="WVK_206004000_3">stat</w>
+            <w xml:id="WVK_206004000_3" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
             <w xml:id="WVK_206004000_4">geschiht</w>
             <pc xml:id="WVK_206004000_5" join="left">.</pc>
           </l>

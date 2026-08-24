@@ -139,6 +139,7 @@
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 6 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 9 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -520,7 +521,7 @@
           <w xml:id="ESB_126_1" lemmaRef="lexicon.xml#lemma_9598" pos="NOM" ana="lexicon.xml#lemma_9598_sense_15581" corresp="variants.xml#type_33443">begin</w>
           <w xml:id="ESB_126_2">in</w>
           <w xml:id="ESB_126_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="ESB_126_4">stat</w>
+          <w xml:id="ESB_126_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="ESB_126_5" join="left">:</pc>
           <w xml:id="ESB_126_6" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3255">da</w>
           <w xml:id="ESB_126_7" lemmaRef="lexicon.xml#lemma_7489" pos="VRB VEX" corresp="variants.xml#type_27046">ward</w>
@@ -1690,7 +1691,7 @@
           <w xml:id="ESB_334_7">an</w>
           <w xml:id="ESB_334_8" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
           <w xml:id="ESB_334_9" lemmaRef="lexicon.xml#lemma_5385" pos="ADJ" ana="lexicon.xml#lemma_5385_sense_8406" corresp="variants.xml#type_18769">selben</w>
-          <w xml:id="ESB_334_10">stat</w>
+          <w xml:id="ESB_334_10" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="ESB_334_11" join="left">,</pc>
           <w xml:id="ESB_334_12" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3255">da</w>
         
@@ -5563,7 +5564,7 @@
           <w xml:id="ESB_1027_1" lemmaRef="lexicon.xml#lemma_3400" pos="VRB" ana="lexicon.xml#lemma_3400_sense_5361" corresp="variants.xml#type_11701">kom</w>
           <w xml:id="ESB_1027_2">an</w>
           <w xml:id="ESB_1027_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="ESB_1027_4">stat</w>
+          <w xml:id="ESB_1027_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="ESB_1027_5" join="left">,</pc>
           <w xml:id="ESB_1027_6" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3255">da</w>
           <w xml:id="ESB_1027_7" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
@@ -9272,12 +9273,12 @@
         
         <lb n="27"/>
           <w xml:id="ESB_1627_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="ESB_1627_1">stat</w>
+          <w xml:id="ESB_1627_1" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="ESB_1627_2" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3255">da</w>
           <w xml:id="ESB_1627_3" lemmaRef="lexicon.xml#lemma_4432" pos="ADV CNJ" ana="lexicon.xml#lemma_4432_sense_6912" corresp="variants.xml#type_15441">nu</w>
           <w xml:id="ESB_1627_4" lemmaRef="lexicon.xml#lemma_6471" pos="ADJ ADV PRP" ana="lexicon.xml#lemma_6471_sense_10240" corresp="variants.xml#type_22836">under</w>
           <w xml:id="ESB_1627_5" lemmaRef="lexicon.xml#lemma_3495" pos="NOM" ana="lexicon.xml#lemma_3495_sense_5542" corresp="variants.xml#type_12081">kuchen</w>
-          <w xml:id="ESB_1627_6">stat</w>
+          <w xml:id="ESB_1627_6" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
           <pc xml:id="ESB_1627_7" join="left">.</pc>
           <w xml:id="ESB_1627_8" lemmaRef="lexicon.xml#lemma_1180" pos="ADV" ana="lexicon.xml#lemma_1180_sense_1864" corresp="variants.xml#type_3738">do</w>
           <w xml:id="ESB_1627_9">stund</w>
@@ -9378,7 +9379,7 @@
           <w xml:id="ESB_1633_10" lemmaRef="lexicon.xml#lemma_204" pos="ADJ" ana="lexicon.xml#lemma_204_sense_256" corresp="variants.xml#type_537">ander</w>
           <w xml:id="ESB_1633_11">an</w>
           <w xml:id="ESB_1633_12">sein</w>
-          <w xml:id="ESB_1633_13">stat</w>
+          <w xml:id="ESB_1633_13" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="ESB_1633_14" join="left">.</pc>
           <w xml:id="ESB_1633_15">da</w>
         
@@ -9841,7 +9842,7 @@
         
         <lb n="28"/>
           <w xml:id="ESB_1728_0" lemmaRef="lexicon.xml#lemma_6819" pos="VRB" ana="lexicon.xml#lemma_6819_sense_10869" corresp="variants.xml#type_23896">verboten</w>
-          <w xml:id="ESB_1728_1">stat</w>
+          <w xml:id="ESB_1728_1" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="ESB_1728_2" lemmaRef="lexicon.xml#lemma_4368" pos="ADV" ana="lexicon.xml#lemma_4368_sense_6825" corresp="variants.xml#type_15249">nimmer</w>
           <w xml:id="ESB_1728_3" lemmaRef="lexicon.xml#lemma_7805" pos="VRB" corresp="variants.xml#type_28242">zebrach</w>
           <pc xml:id="ESB_1728_4" join="left">,</pc>
@@ -16466,7 +16467,7 @@
           <w xml:id="ESB_2905_1">an</w>
           <w xml:id="ESB_2905_2">ein</w>
           <w xml:id="ESB_2905_3" lemmaRef="lexicon.xml#lemma_7713" pos="ADJ ADV" corresp="variants.xml#type_35950">wunnecliche</w>
-          <w xml:id="ESB_2905_4">stat</w>
+          <w xml:id="ESB_2905_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="ESB_2905_5" join="left">.</pc>
           <w xml:id="ESB_2905_6" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3255">da</w>
           <w xml:id="ESB_2905_7">waz</w>
@@ -23255,7 +23256,7 @@
           <w xml:id="ESB_4113_3">stund</w>
           <w xml:id="ESB_4113_4">an</w>
           <w xml:id="ESB_4113_5" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="ESB_4113_6">stat</w>
+          <w xml:id="ESB_4113_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="ESB_4113_7" lemmaRef="lexicon.xml#lemma_1180" pos="ADV" ana="lexicon.xml#lemma_1180_sense_1864" corresp="variants.xml#type_3738">do</w>
           <w xml:id="ESB_4113_8">er</w>
           <w xml:id="ESB_4113_9" lemmaRef="lexicon.xml#lemma_447" pos="VRB" ana="lexicon.xml#lemma_447_sense_613" corresp="variants.xml#type_1239">begraben</w>

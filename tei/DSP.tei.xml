@@ -162,6 +162,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 5 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -388,7 +389,7 @@
             <w xml:id="DSP_820210_2">ob</w>
             <w xml:id="DSP_820210_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3504">dem</w>
             <w xml:id="DSP_820210_4">alter</w>
-            <w xml:id="DSP_820210_5">stat</w>
+            <w xml:id="DSP_820210_5" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
             <pc xml:id="DSP_820210_6" join="left">,</pc>
           </l>
           <l n="22">
@@ -599,7 +600,7 @@
             <w xml:id="DSP_820450_2">in</w>
             <w xml:id="DSP_820450_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
             <w xml:id="DSP_820450_4" lemmaRef="lexicon.xml#lemma_5899" pos="NOM" ana="lexicon.xml#lemma_5899_sense_9342" corresp="variants.xml#type_20799">sunnen</w>
-            <w xml:id="DSP_820450_5">stat</w>
+            <w xml:id="DSP_820450_5" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
             <pc xml:id="DSP_820450_6" join="left">,</pc>
           </l>
           <l n="46">
@@ -1001,7 +1002,7 @@
             <w xml:id="DSP_820920_3" lemmaRef="lexicon.xml#lemma_7529" pos="NOM" ana="lexicon.xml#lemma_7529_sense_12293" corresp="variants.xml#type_27248">wile</w>
             <w xml:id="DSP_820920_4" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
             <w xml:id="DSP_820920_5" lemmaRef="lexicon.xml#lemma_7494" pos="NOM" ana="lexicon.xml#lemma_7494_sense_12223" corresp="variants.xml#type_27110">werlt</w>
-            <w xml:id="DSP_820920_6">stat</w>
+            <w xml:id="DSP_820920_6" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
             <pc xml:id="DSP_820920_7" join="left">:</pc>
           </l>
           <l n="93">
@@ -1171,7 +1172,7 @@
             <w xml:id="DSP_821110_0">wa</w>
             <w xml:id="DSP_821110_1">ein</w>
             <w xml:id="DSP_821110_2" lemmaRef="lexicon.xml#lemma_10925" pos="NOM" ana="lexicon.xml#lemma_10925_sense_17469" corresp="variants.xml#type_86147">prediger</w>
-            <w xml:id="DSP_821110_3">stat</w>
+            <w xml:id="DSP_821110_3" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
           </l>
           <l n="112">
             <w xml:id="DSP_821120_0" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3255">da</w>
@@ -1313,7 +1314,7 @@
             <w xml:id="DSP_821270_1" lemmaRef="lexicon.xml#lemma_3962" pos="ADJ" ana="lexicon.xml#lemma_3962_sense_6245" corresp="variants.xml#type_48669">manick</w>
             <w xml:id="DSP_821270_2" lemmaRef="lexicon.xml#lemma_2534" pos="ADJ" corresp="variants.xml#type_8496">groz</w>
             <w xml:id="DSP_821270_3" lemmaRef="lexicon.xml#lemma_1973" pos="NOM" ana="lexicon.xml#lemma_1973_sense_3031" corresp="variants.xml#type_6691">gebirge</w>
-            <w xml:id="DSP_821270_4">stat</w>
+            <w xml:id="DSP_821270_4" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
           </l>
           <l n="128">
             <w xml:id="DSP_821280_0" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>

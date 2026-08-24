@@ -132,6 +132,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 11 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/). 1 weitere Tokens der Form stat blieben bewusst unannotiert (Review).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -716,7 +717,7 @@
           <w xml:id="TUN_4900_3" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_38749">vnd</w>
           <w xml:id="TUN_4900_4" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
           <w xml:id="TUN_4900_5" lemmaRef="lexicon.xml#lemma_1912" pos="ADJ" ana="lexicon.xml#lemma_1912_sense_2937" corresp="variants.xml#type_46430">gantz</w>
-          <w xml:id="TUN_4900_6">stat</w>
+          <w xml:id="TUN_4900_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="TUN_4900_7" lemmaRef="lexicon.xml#lemma_5941" pos="PRO IPA" ana="lexicon.xml#lemma_5941_sense_9416" corresp="variants.xml#type_221883">wz</w>
           <w xml:id="TUN_4900_8" lemmaRef="lexicon.xml#lemma_490" pos="VRB" corresp="variants.xml#type_189585">bekomert</w>
           <lb n="50"/>
@@ -1144,7 +1145,7 @@
           <w xml:id="TUN_8400_4" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
           <w xml:id="TUN_8400_5">in</w>
           <w xml:id="TUN_8400_6" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="TUN_8400_7">stat</w>
+          <w xml:id="TUN_8400_7" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="TUN_8400_8" lemmaRef="lexicon.xml#lemma_7505" pos="VRB" corresp="variants.xml#type_273713">woren</w>
           <hi rend="upper_case">
             <w xml:id="TUN_8400_9">/</w>
@@ -2154,7 +2155,7 @@
           <w xml:id="TUN_16406_4" lemmaRef="lexicon.xml#lemma_148" pos="CNJ" ana="lexicon.xml#lemma_148_sense_183" corresp="variants.xml#type_369">als</w>
           <w xml:id="TUN_16406_5" lemmaRef="lexicon.xml#lemma_19940" pos="ADV" ana="lexicon.xml#lemma_19940_sense_33257" corresp="variants.xml#type_87901">hernach</w>
           <w xml:id="TUN_16406_6" lemmaRef="lexicon.xml#lemma_5309" pos="VRB" corresp="variants.xml#type_18468">geschriben</w>
-          <w xml:id="TUN_16406_7">stat</w>
+          <w xml:id="TUN_16406_7" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
         </head>
         <p>
           <lb n="167"/>
@@ -6907,7 +6908,7 @@
           <w xml:id="TUN_55700_6" lemmaRef="lexicon.xml#lemma_3400" pos="VRB" ana="lexicon.xml#lemma_3400_sense_5361" corresp="variants.xml#type_106072">kommen</w>
           <w xml:id="TUN_55700_7">an</w>
           <w xml:id="TUN_55700_8">ein</w>
-          <w xml:id="TUN_55700_9">stat</w>
+          <w xml:id="TUN_55700_9" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="TUN_55700_10">do</w>
           <w xml:id="TUN_55700_11" lemmaRef="lexicon.xml#lemma_5366" pos="VRB" ana="lexicon.xml#lemma_5366_sense_8382" corresp="variants.xml#type_67320">sahe</w>
           <lb n="558"/>
@@ -8838,7 +8839,7 @@
           <w xml:id="TUN_71300_6" lemmaRef="lexicon.xml#lemma_3400" pos="VRB" ana="lexicon.xml#lemma_3400_sense_5361" corresp="variants.xml#type_11703">komen</w>
           <w xml:id="TUN_71300_7">an</w>
           <w xml:id="TUN_71300_8">ein</w>
-          <w xml:id="TUN_71300_9">stat</w>
+          <w xml:id="TUN_71300_9" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="TUN_71300_10">do</w>
           <lb n="714"/>
           <w xml:id="TUN_71400_0">was</w>
@@ -9219,7 +9220,7 @@
           <w xml:id="TUN_74500_1" lemmaRef="lexicon.xml#lemma_1571" pos="VRB" corresp="variants.xml#type_5262">erheben</w>
           <w xml:id="TUN_74500_2" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
           <w xml:id="TUN_74500_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="TUN_74500_4">stat</w>
+          <w xml:id="TUN_74500_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="TUN_74500_5">do</w>
           <w xml:id="TUN_74500_6" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
           <w xml:id="TUN_74500_7">stund</w>
@@ -11035,7 +11036,7 @@
           <w xml:id="TUN_88900_2">er</w>
           <w xml:id="TUN_88900_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
           <w xml:id="TUN_88900_4">erst</w>
-          <w xml:id="TUN_88900_5">stat</w>
+          <w xml:id="TUN_88900_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="TUN_88900_6" lemmaRef="lexicon.xml#lemma_6471" pos="ADJ ADV PRP" ana="lexicon.xml#lemma_6471_sense_10240" corresp="variants.xml#type_45574">vnder</w>
           <w xml:id="TUN_88900_7" lemmaRef="lexicon.xml#lemma_106" pos="ADJ" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_260">allen</w>
           <w xml:id="TUN_88900_8">steten</w>
@@ -13668,7 +13669,7 @@
           <w xml:id="TUN_110700_5">stund</w>
           <w xml:id="TUN_110700_6">an</w>
           <w xml:id="TUN_110700_7" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="TUN_110700_8">stat</w>
+          <w xml:id="TUN_110700_8" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="TUN_110700_9" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
           <w xml:id="TUN_110700_10" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10237">mir</w>
           <w xml:id="TUN_110700_11" lemmaRef="lexicon.xml#lemma_7677" pos="NOM ADV" ana="lexicon.xml#lemma_7677_sense_12586" corresp="variants.xml#type_27811">wol</w>
@@ -15205,7 +15206,7 @@
           <w xml:id="TUN_123800_1">wan</w>
           <w xml:id="TUN_123800_2">an</w>
           <w xml:id="TUN_123800_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="TUN_123800_4">stat</w>
+          <w xml:id="TUN_123800_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="TUN_123800_5" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3255">da</w>
           <w xml:id="TUN_123800_6" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
           <w xml:id="TUN_123800_7" lemmaRef="lexicon.xml#lemma_1411" pos="NOM" corresp="variants.xml#type_4608">engel</w>
@@ -15309,7 +15310,7 @@
           <w xml:id="TUN_124600_3">an</w>
           <w xml:id="TUN_124600_4" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_80400">dye</w>
           <w xml:id="TUN_124600_5" lemmaRef="lexicon.xml#lemma_5385" pos="ADJ" ana="lexicon.xml#lemma_5385_sense_8406" corresp="variants.xml#type_18769">selben</w>
-          <w xml:id="TUN_124600_6">stat</w>
+          <w xml:id="TUN_124600_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <hi rend="upper_case">
             <w xml:id="TUN_124600_7">/</w>
           </hi>
@@ -15706,7 +15707,7 @@
           <w xml:id="TUN_128000_5" lemmaRef="lexicon.xml#lemma_14931" pos="NOM" corresp="variants.xml#type_132330">sessel</w>
           <w xml:id="TUN_128000_6">oder</w>
           <w xml:id="TUN_128000_7" lemmaRef="lexicon.xml#lemma_7409" pos="CNJ IPA" ana="lexicon.xml#lemma_7409_sense_25378" corresp="variants.xml#type_32506">warumb</w>
-          <w xml:id="TUN_128000_8">stat</w>
+          <w xml:id="TUN_128000_8" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
           <w xml:id="TUN_128000_9">er</w>
           <w xml:id="TUN_128000_10" lemmaRef="lexicon.xml#lemma_3668" pos="ADJ ADV" corresp="variants.xml#type_45820">ledig</w>
           <lb n="1281"/>

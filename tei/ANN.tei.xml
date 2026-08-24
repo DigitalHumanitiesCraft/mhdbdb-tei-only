@@ -134,6 +134,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 2 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -1118,7 +1119,7 @@
             <w xml:id="ANN_7070_1" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
             <w xml:id="ANN_7070_2" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
             <w xml:id="ANN_7070_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
-            <w xml:id="ANN_7070_4">stat</w>
+            <w xml:id="ANN_7070_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
             <w xml:id="ANN_7070_5" lemmaRef="lexicon.xml#lemma_1125" pos="ADV GRA" ana="lexicon.xml#lemma_1125_sense_1776" corresp="variants.xml#type_113341">desti</w>
             <w xml:id="ANN_7070_6" lemmaRef="lexicon.xml#lemma_2682" pos="ADJ GRA" corresp="variants.xml#type_81741">hêror</w>
             <w xml:id="ANN_7070_7" lemmaRef="lexicon.xml#lemma_1256" pos="VRB" ana="lexicon.xml#lemma_1256_sense_1975" corresp="variants.xml#type_4015">diuhte</w>
@@ -5476,7 +5477,7 @@
             <w xml:id="ANN_37150_5">sîn</w>
             <w xml:id="ANN_37150_6" lemmaRef="lexicon.xml#lemma_7075" pos="ADJ ADV" ana="lexicon.xml#lemma_7075_sense_11459" corresp="variants.xml#type_113473">vili</w>
             <w xml:id="ANN_37150_7" lemmaRef="lexicon.xml#lemma_3765" pos="NOM ADJ" ana="lexicon.xml#lemma_3765_sense_5955" corresp="variants.xml#type_47435">liebi</w>
-            <w xml:id="ANN_37150_8">stat</w>
+            <w xml:id="ANN_37150_8" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
             <pc xml:id="ANN_37150_9" join="left">,</pc>
           </l>
           <l n="16">

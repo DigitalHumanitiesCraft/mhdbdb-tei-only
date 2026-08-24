@@ -129,6 +129,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 3 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -600,7 +601,7 @@
           <w xml:id="HUB3_4090_7" lemmaRef="lexicon.xml#lemma_4523" pos="CNJ" ana="lexicon.xml#lemma_4523_sense_7060" corresp="variants.xml#type_61484">auch</w>
           <w xml:id="HUB3_4090_8">an</w>
           <w xml:id="HUB3_4090_9">dy</w>
-          <w xml:id="HUB3_4090_10">stat</w>
+          <w xml:id="HUB3_4090_10" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="HUB3_4090_11" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_38749">vnd</w>
           <w xml:id="HUB3_4090_12" lemmaRef="lexicon.xml#lemma_5454" pos="POS PRO" ana="lexicon.xml#lemma_5454_sense_8506" corresp="variants.xml#type_133384">sew</w>
           <w xml:id="HUB3_4090_13">dy</w>
@@ -2468,7 +2469,7 @@
           <w xml:id="HUB3_23050_9" lemmaRef="lexicon.xml#lemma_6687" pos="PRP" corresp="variants.xml#type_104709">vnczt</w>
           <w xml:id="HUB3_23050_10">an</w>
           <w xml:id="HUB3_23050_11">dy</w>
-          <w xml:id="HUB3_23050_12">stat</w>
+          <w xml:id="HUB3_23050_12" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="HUB3_23050_13" join="left">.</pc>
           <lb n="6"/>
           <w xml:id="HUB3_23060_0" lemmaRef="lexicon.xml#lemma_1087" pos="ADV" corresp="variants.xml#type_41888">darnach</w>
@@ -3469,7 +3470,7 @@
           <w xml:id="HUB3_33010_8" lemmaRef="lexicon.xml#lemma_7628" pos="NOM" ana="lexicon.xml#lemma_7628_sense_12502" corresp="variants.xml#type_220046">wilprat</w>
           <w xml:id="HUB3_33010_9">an</w>
           <w xml:id="HUB3_33010_10">dy</w>
-          <w xml:id="HUB3_33010_11">stat</w>
+          <w xml:id="HUB3_33010_11" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="HUB3_33010_12" join="left">.</pc>
           <lb n="2"/>
           <w xml:id="HUB3_33020_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_38749">vnd</w>

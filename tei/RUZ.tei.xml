@@ -141,6 +141,7 @@
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 4 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 2 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -553,7 +554,7 @@
           <w xml:id="RUZ_480_2" lemmaRef="lexicon.xml#lemma_2100" pos="ADJ ADV" corresp="variants.xml#type_7098">gemeinlich</w>
           <w xml:id="RUZ_480_3">al</w>
           <w xml:id="RUZ_480_4" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
-          <w xml:id="RUZ_480_5">stat</w>
+          <w xml:id="RUZ_480_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="RUZ_480_6" join="left">,</pc>
         </l>
         <l n="49">
@@ -1736,7 +1737,7 @@
           <w xml:id="RUZ_1730_1" lemmaRef="lexicon.xml#lemma_7075" pos="ADJ ADV" ana="lexicon.xml#lemma_7075_sense_11459" corresp="variants.xml#type_25008">vil</w>
           <w xml:id="RUZ_1730_2" lemmaRef="lexicon.xml#lemma_2534" pos="ADJ" corresp="variants.xml#type_8500">grozer</w>
           <w xml:id="RUZ_1730_3" lemmaRef="lexicon.xml#lemma_7906" pos="NOM" ana="lexicon.xml#lemma_7906_sense_12965" corresp="variants.xml#type_28718">zuber</w>
-          <w xml:id="RUZ_1730_4">stat</w>
+          <w xml:id="RUZ_1730_4" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
           <pc xml:id="RUZ_1730_5" join="left">,</pc>
         </l>
         <l n="174">

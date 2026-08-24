@@ -141,6 +141,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 2 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -1033,7 +1034,7 @@
             <w xml:id="EB2_1522050_8">eren</w>
             <w xml:id="EB2_1522050_9">an</w>
             <w xml:id="EB2_1522050_10" lemmaRef="lexicon.xml#lemma_106" pos="ADJ" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_261">aller</w>
-            <w xml:id="EB2_1522050_11">stat</w>
+            <w xml:id="EB2_1522050_11" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
             <pc xml:id="EB2_1522050_12" join="left">.</pc>
           
           <lb n="6"/>
@@ -1475,7 +1476,7 @@
             <w xml:id="EB2_1532080_4" lemmaRef="lexicon.xml#lemma_3806" pos="NOM" corresp="variants.xml#type_151919">leüten</w>
             <w xml:id="EB2_1532080_5" lemmaRef="lexicon.xml#lemma_7194" pos="ADV PRP" ana="lexicon.xml#lemma_7194_sense_11657" corresp="variants.xml#type_25545">vor</w>
             <w xml:id="EB2_1532080_6" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-            <w xml:id="EB2_1532080_7">stat</w>
+            <w xml:id="EB2_1532080_7" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
             <w xml:id="EB2_1532080_8" lemmaRef="lexicon.xml#lemma_6226" pos="NAM" ana="lexicon.xml#lemma_6226_sense_9822" corresp="variants.xml#type_250972">troÿa</w>
             <pc xml:id="EB2_1532080_9" join="left">.</pc>
             <w xml:id="EB2_1532080_10" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3255">da</w>

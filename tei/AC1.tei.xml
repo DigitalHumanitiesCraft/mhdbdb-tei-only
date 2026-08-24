@@ -132,6 +132,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 3 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -248,7 +249,7 @@
           <w xml:id="AC1_1080_0" lemmaRef="lexicon.xml#lemma_22931" pos="ADV" ana="lexicon.xml#lemma_22931_sense_37241" corresp="variants.xml#type_117473">gröblich</w>
           <w xml:id="AC1_1080_1" pos="PRP">an</w>
           <w xml:id="AC1_1080_2" lemmaRef="lexicon.xml#lemma_106" pos="ADJ" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_261">aller</w>
-          <w xml:id="AC1_1080_3" pos="NOM">stat</w>
+          <w xml:id="AC1_1080_3" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="AC1_1080_4" join="left">!</pc>
           <w xml:id="AC1_1080_5" lemmaRef="lexicon.xml#lemma_2830" pos="NOM" ana="lexicon.xml#lemma_2830_sense_90142" corresp="variants.xml#type_9575">himel</w>
           <pc xml:id="AC1_1080_6" join="left">,</pc>
@@ -1008,7 +1009,7 @@
           <w xml:id="AC1_4050_2" lemmaRef="lexicon.xml#lemma_1331" pos="DET" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4323">einer</w>
           <w xml:id="AC1_4050_3" lemmaRef="lexicon.xml#lemma_6768" pos="ADJ" corresp="variants.xml#type_64685">festen</w>
           <w xml:id="AC1_4050_4" lemmaRef="lexicon.xml#lemma_2879" pos="ADJ" ana="lexicon.xml#lemma_2879_sense_4618" corresp="variants.xml#type_9797">hübschen</w>
-          <w xml:id="AC1_4050_5" pos="NOM">stat</w>
+          <w xml:id="AC1_4050_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="AC1_4050_6" lemmaRef="lexicon.xml#lemma_6330" pos="PRP" ana="lexicon.xml#lemma_6330_sense_9973" corresp="variants.xml#type_41213">auf</w>
           <w xml:id="AC1_4050_7" lemmaRef="lexicon.xml#lemma_1331" pos="DET" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4321">einem</w>
           <w xml:id="AC1_4050_8" lemmaRef="lexicon.xml#lemma_521" pos="NOM" ana="lexicon.xml#lemma_521_sense_757" corresp="variants.xml#type_53240">berg</w>
@@ -10315,7 +10316,7 @@
           <w xml:id="AC1_28030_6" lemmaRef="lexicon.xml#lemma_1097" pos="SCNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3397">das</w>
           <w xml:id="AC1_28030_7" pos="PRO">man</w>
           <w xml:id="AC1_28030_8" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
-          <w xml:id="AC1_28030_9" pos="NOM">stat</w>
+          <w xml:id="AC1_28030_9" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="AC1_28030_10" pos="VRB">haben</w>
           <w xml:id="AC1_28030_11" lemmaRef="lexicon.xml#lemma_4240" pos="VEM" corresp="variants.xml#type_14776">müge</w>
           <pc xml:id="AC1_28030_12" join="left">.</pc>

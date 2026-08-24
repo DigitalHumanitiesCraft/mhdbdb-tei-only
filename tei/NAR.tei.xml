@@ -151,6 +151,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 43 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/). 1 weitere Tokens der Form stat blieben bewusst unannotiert (Review).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -965,7 +966,7 @@
             <w xml:id="NAR_6500_2">sy</w>
             <w xml:id="NAR_6500_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
             <w xml:id="NAR_6500_4" lemmaRef="lexicon.xml#lemma_12120" pos="NOM" ana="lexicon.xml#lemma_12120_sense_19179" corresp="variants.xml#type_57411">narren</w>
-            <w xml:id="NAR_6500_5">stat</w>
+            <w xml:id="NAR_6500_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
             <hi rend="upper_case">
               <w xml:id="NAR_6500_6" pos="">/</w>
             </hi>
@@ -3879,7 +3880,7 @@
             <hi rend="initial">
               <w xml:id="NAR_502200_0" lemmaRef="lexicon.xml#lemma_1762" pos="PRO" ana="lexicon.xml#lemma_1762_sense_2752" corresp="variants.xml#type_95536">eß</w>
             </hi>
-            <w xml:id="NAR_502200_1">stat</w>
+            <w xml:id="NAR_502200_1" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
             <w xml:id="NAR_502200_2" lemmaRef="lexicon.xml#lemma_1517" pos="PRO" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_32892">jm</w>
             <w xml:id="NAR_502200_3" lemmaRef="lexicon.xml#lemma_31174" pos="ADJ ADV" corresp="variants.xml#type_261555">dapferlichen</w>
             <w xml:id="NAR_502200_4">an</w>
@@ -6175,7 +6176,7 @@
             <w xml:id="NAR_901100_3" lemmaRef="lexicon.xml#lemma_7505" pos="NOM VRB" corresp="variants.xml#type_27174">wesen</w>
             <w xml:id="NAR_901100_4" lemmaRef="lexicon.xml#lemma_7677" pos="NOM ADV" ana="lexicon.xml#lemma_7677_sense_12586" corresp="variants.xml#type_27811">wol</w>
             <w xml:id="NAR_901100_5">an</w>
-            <w xml:id="NAR_901100_6">stat</w>
+            <w xml:id="NAR_901100_6" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
           </l>
           <l n="12">
             <hi rend="initial">
@@ -6700,7 +6701,7 @@
             <w xml:id="NAR_1001900_2" lemmaRef="lexicon.xml#lemma_1517" pos="PRO" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_32892">jm</w>
             <w xml:id="NAR_1001900_3" lemmaRef="lexicon.xml#lemma_2219" pos="NOM" ana="lexicon.xml#lemma_2219_sense_3525" corresp="variants.xml#type_259802">gsatz</w>
             <w xml:id="NAR_1001900_4" lemmaRef="lexicon.xml#lemma_5309" pos="VRB" corresp="variants.xml#type_18468">geschriben</w>
-            <w xml:id="NAR_1001900_5">stat</w>
+            <w xml:id="NAR_1001900_5" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
           </l>
           <l n="20">
             <hi rend="initial">
@@ -6819,7 +6820,7 @@
             <w xml:id="NAR_1003000_2" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18956">ist</w>
             <w xml:id="NAR_1003000_3">in</w>
             <w xml:id="NAR_1003000_4" lemmaRef="lexicon.xml#lemma_106" pos="ADJ" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_259">allem</w>
-            <w xml:id="NAR_1003000_5">stat</w>
+            <w xml:id="NAR_1003000_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           </l>
           <l n="31">
             <hi rend="initial">
@@ -8032,7 +8033,7 @@
               <w xml:id="NAR_1302000_0">myn</w>
             </hi>
             <w xml:id="NAR_1302000_1">suon</w>
-            <w xml:id="NAR_1302000_2">stat</w>
+            <w xml:id="NAR_1302000_2" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
             <w xml:id="NAR_1302000_3" lemmaRef="lexicon.xml#lemma_4299" pos="ADJ" ana="lexicon.xml#lemma_4299_sense_6720" corresp="variants.xml#type_100955">nackt</w>
             <w xml:id="NAR_1302000_4" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_38749">vnd</w>
             <w xml:id="NAR_1302000_5" lemmaRef="lexicon.xml#lemma_763" pos="ADJ ADV" corresp="variants.xml#type_64648">bloß</w>
@@ -8064,7 +8065,7 @@
             <w xml:id="NAR_1302200_5" lemmaRef="lexicon.xml#lemma_4377" pos="ADJ ADV NEG" ana="lexicon.xml#lemma_4377_sense_6838" corresp="variants.xml#type_158951">nit</w>
             <w xml:id="NAR_1302200_6">lang</w>
             <w xml:id="NAR_1302200_7">sie</w>
-            <w xml:id="NAR_1302200_8">stat</w>
+            <w xml:id="NAR_1302200_8" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
           </l>
           <l n="23">
             <hi rend="initial">
@@ -9274,7 +9275,7 @@
             <w xml:id="NAR_1402800_1" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
             <w xml:id="NAR_1402800_2" lemmaRef="lexicon.xml#lemma_3705" pos="NOM" corresp="variants.xml#type_70170">leng</w>
             <w xml:id="NAR_1402800_3" lemmaRef="lexicon.xml#lemma_4377" pos="ADJ ADV NEG" ana="lexicon.xml#lemma_4377_sense_6838" corresp="variants.xml#type_158951">nit</w>
-            <w xml:id="NAR_1402800_4">stat</w>
+            <w xml:id="NAR_1402800_4" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
           </l>
           <l n="29">
             <hi rend="initial">
@@ -11273,7 +11274,7 @@
             <w xml:id="NAR_1701800_1" lemmaRef="lexicon.xml#lemma_7529" pos="NOM" ana="lexicon.xml#lemma_7529_sense_12293" corresp="variants.xml#type_27248">wile</w>
             <w xml:id="NAR_1701800_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
             <w xml:id="NAR_1701800_3">arm</w>
-            <w xml:id="NAR_1701800_4">stat</w>
+            <w xml:id="NAR_1701800_4" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
             <w xml:id="NAR_1701800_5" lemmaRef="lexicon.xml#lemma_7194" pos="ADV PRP" ana="lexicon.xml#lemma_7194_sense_11657" corresp="variants.xml#type_25545">vor</w>
             <w xml:id="NAR_1701800_6" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
             <w xml:id="NAR_1701800_7" lemmaRef="lexicon.xml#lemma_6272" pos="NOM" ana="lexicon.xml#lemma_6272_sense_9891" corresp="variants.xml#type_22175">türen</w>
@@ -12195,7 +12196,7 @@
             <w xml:id="NAR_1901900_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
             <w xml:id="NAR_1901900_3" lemmaRef="lexicon.xml#lemma_7924" pos="NOM" corresp="variants.xml#type_60785">zung</w>
             <w xml:id="NAR_1901900_4" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
-            <w xml:id="NAR_1901900_5">stat</w>
+            <w xml:id="NAR_1901900_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
             <w xml:id="NAR_1901900_6" lemmaRef="lexicon.xml#lemma_4377" pos="ADJ ADV NEG" ana="lexicon.xml#lemma_4377_sense_6838" corresp="variants.xml#type_158951">nit</w>
             <w xml:id="NAR_1901900_7" lemmaRef="lexicon.xml#lemma_1844" pos="VRB" corresp="variants.xml#type_44952">gon</w>
             <hi rend="upper_case">
@@ -13684,7 +13685,7 @@
             <w xml:id="NAR_2100800_3">an</w>
             <w xml:id="NAR_2100800_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3504">dem</w>
             <w xml:id="NAR_2100800_5" lemmaRef="lexicon.xml#lemma_7440" pos="NOM" ana="lexicon.xml#lemma_7440_sense_12104" corresp="variants.xml#type_259779">wægscheid</w>
-            <w xml:id="NAR_2100800_6">stat</w>
+            <w xml:id="NAR_2100800_6" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
           </l>
           <l n="9">
             <hi rend="initial">
@@ -13757,7 +13758,7 @@
             <hi rend="initial">
               <w xml:id="NAR_2101400_0">es</w>
             </hi>
-            <w xml:id="NAR_2101400_1">stat</w>
+            <w xml:id="NAR_2101400_1" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
             <w xml:id="NAR_2101400_2">eym</w>
             <w xml:id="NAR_2101400_3" lemmaRef="lexicon.xml#lemma_12182" pos="NOM" ana="lexicon.xml#lemma_12182_sense_19271" corresp="variants.xml#type_118774">lerer</w>
             <w xml:id="NAR_2101400_4" lemmaRef="lexicon.xml#lemma_6356" pos="NOM ADJ ADV" ana="lexicon.xml#lemma_6356_sense_10016" corresp="variants.xml#type_77487">vbel</w>
@@ -13791,7 +13792,7 @@
             <w xml:id="NAR_2101700_2" lemmaRef="lexicon.xml#lemma_204" pos="ADJ" ana="lexicon.xml#lemma_204_sense_256" corresp="variants.xml#type_537">ander</w>
             <w xml:id="NAR_2101700_3" lemmaRef="lexicon.xml#lemma_3806" pos="NOM" corresp="variants.xml#type_95133">lüt</w>
             <w xml:id="NAR_2101700_4">an</w>
-            <w xml:id="NAR_2101700_5">stat</w>
+            <w xml:id="NAR_2101700_5" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
             <hi rend="upper_case">
               <w xml:id="NAR_2101700_6" pos="">/</w>
             </hi>
@@ -16136,7 +16137,7 @@
             <w xml:id="NAR_2602300_2" lemmaRef="lexicon.xml#lemma_3028" pos="PRP" corresp="variants.xml#type_43043">jn</w>
             <w xml:id="NAR_2602300_3">eym</w>
             <w xml:id="NAR_2602300_4" lemmaRef="lexicon.xml#lemma_7505" pos="NOM VRB" corresp="variants.xml#type_27174">wesen</w>
-            <w xml:id="NAR_2602300_5">stat</w>
+            <w xml:id="NAR_2602300_5" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
           </l>
           <l n="24">
             <hi rend="initial">
@@ -16368,7 +16369,7 @@
             <hi rend="upper_case">
               <w xml:id="NAR_2604100_6" pos="">/</w>
             </hi>
-            <w xml:id="NAR_2604100_7">stat</w>
+            <w xml:id="NAR_2604100_7" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
             <hi rend="upper_case">
               <w xml:id="NAR_2604100_8" pos="">/</w>
             </hi>
@@ -21329,7 +21330,7 @@
             <hi rend="upper_case">
               <w xml:id="NAR_3403540_2" pos="">/</w>
             </hi>
-            <w xml:id="NAR_3403540_3">stat</w>
+            <w xml:id="NAR_3403540_3" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
             <w xml:id="NAR_3403540_4" lemmaRef="lexicon.xml#lemma_7677" pos="NOM ADV" ana="lexicon.xml#lemma_7677_sense_12586" corresp="variants.xml#type_27811">wol</w>
             <w xml:id="NAR_3403540_5" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_196209">zuo</w>
             <w xml:id="NAR_3403540_6">eym</w>
@@ -24974,7 +24975,7 @@
               <w xml:id="NAR_4103000_0" lemmaRef="lexicon.xml#lemma_1073" pos="ADV" ana="lexicon.xml#lemma_1073_sense_1716" corresp="variants.xml#type_3322">dann</w>
             </hi>
             <w xml:id="NAR_4103000_1">es</w>
-            <w xml:id="NAR_4103000_2">stat</w>
+            <w xml:id="NAR_4103000_2" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
             <w xml:id="NAR_4103000_3" lemmaRef="lexicon.xml#lemma_4377" pos="ADJ ADV NEG" ana="lexicon.xml#lemma_4377_sense_6838" corresp="variants.xml#type_158951">nit</w>
             <w xml:id="NAR_4103000_4" lemmaRef="lexicon.xml#lemma_3028" pos="PRP" corresp="variants.xml#type_43043">jn</w>
             <w xml:id="NAR_4103000_5" lemmaRef="lexicon.xml#lemma_7643" pos="POS" ana="lexicon.xml#lemma_7643_sense_12530" corresp="variants.xml#type_104322">vnserm</w>
@@ -26351,7 +26352,7 @@
             <w xml:id="NAR_4403400_2" lemmaRef="lexicon.xml#lemma_2465" pos="NOM" ana="lexicon.xml#lemma_2465_sense_3951" corresp="variants.xml#type_44792">gottes</w>
             <w xml:id="NAR_4403400_3" lemmaRef="lexicon.xml#lemma_10957" pos="NOM" ana="lexicon.xml#lemma_10957_sense_17534" corresp="variants.xml#type_260614">heylikeit</w>
             <w xml:id="NAR_4403400_4" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_196209">zuo</w>
-            <w xml:id="NAR_4403400_5">stat</w>
+            <w xml:id="NAR_4403400_5" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
           </l>
           <l n="35">
             <hi rend="initial">
@@ -26811,7 +26812,7 @@
             <w xml:id="NAR_4503400_2" lemmaRef="lexicon.xml#lemma_2975" pos="ADV PRP" corresp="variants.xml#type_45571">jnn</w>
             <w xml:id="NAR_4503400_3">eym</w>
             <w xml:id="NAR_4503400_4" lemmaRef="lexicon.xml#lemma_5611" pos="ADJ ADV" ana="lexicon.xml#lemma_5611_sense_8775" corresp="variants.xml#type_260635">soerglichen</w>
-            <w xml:id="NAR_4503400_5">stat</w>
+            <w xml:id="NAR_4503400_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           </l>
           <l n="35">
             <hi rend="initial">
@@ -27101,7 +27102,7 @@
             <w xml:id="NAR_4601900_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
             <w xml:id="NAR_4601900_4" lemmaRef="lexicon.xml#lemma_2975" pos="ADV PRP" corresp="variants.xml#type_45571">jnn</w>
             <w xml:id="NAR_4601900_5" lemmaRef="lexicon.xml#lemma_7542" pos="NOM" corresp="variants.xml#type_259734">wißheyt</w>
-            <w xml:id="NAR_4601900_6">stat</w>
+            <w xml:id="NAR_4601900_6" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
           </l>
           <l n="20">
             <hi rend="initial">
@@ -27368,7 +27369,7 @@
             <hi rend="upper_case">
               <w xml:id="NAR_4604200_2" pos="">/</w>
             </hi>
-            <w xml:id="NAR_4604200_3">stat</w>
+            <w xml:id="NAR_4604200_3" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
             <w xml:id="NAR_4604200_4">eym</w>
             <w xml:id="NAR_4604200_5">wisen</w>
             <w xml:id="NAR_4604200_6" lemmaRef="lexicon.xml#lemma_7677" pos="NOM ADV" ana="lexicon.xml#lemma_7677_sense_12586" corresp="variants.xml#type_27811">wol</w>
@@ -28540,7 +28541,7 @@
               <w xml:id="NAR_4800600_0" lemmaRef="lexicon.xml#lemma_3273" pos="ADJ NEG" ana="lexicon.xml#lemma_3273_sense_5143" corresp="variants.xml#type_93459">keyn</w>
             </hi>
             <w xml:id="NAR_4800600_1" lemmaRef="lexicon.xml#lemma_22859" pos="NOM" ana="lexicon.xml#lemma_22859_sense_37151" corresp="variants.xml#type_104996">hantwerck</w>
-            <w xml:id="NAR_4800600_2">stat</w>
+            <w xml:id="NAR_4800600_2" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
             <w xml:id="NAR_4800600_3">me</w>
             <w xml:id="NAR_4800600_4" lemmaRef="lexicon.xml#lemma_2975" pos="ADV PRP" corresp="variants.xml#type_45571">jnn</w>
             <w xml:id="NAR_4800600_5" lemmaRef="lexicon.xml#lemma_1517" pos="POS" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_93063">sym</w>
@@ -31314,7 +31315,7 @@
             <w xml:id="NAR_5203100_3" lemmaRef="lexicon.xml#lemma_2975" pos="ADV PRP" corresp="variants.xml#type_45571">jnn</w>
             <w xml:id="NAR_5203100_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3504">dem</w>
             <w xml:id="NAR_5203100_5" lemmaRef="lexicon.xml#lemma_1280" pos="ADJ ADV" ana="lexicon.xml#lemma_1280_sense_2009" corresp="variants.xml#type_118275">eelichen</w>
-            <w xml:id="NAR_5203100_6">stat</w>
+            <w xml:id="NAR_5203100_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
             <hi rend="upper_case">
               <w xml:id="NAR_5203100_7" pos="">/</w>
             </hi>
@@ -31404,7 +31405,7 @@
             </hi>
             <w xml:id="NAR_5203530_5" lemmaRef="lexicon.xml#lemma_3028" pos="PRP" corresp="variants.xml#type_43043">jn</w>
             <w xml:id="NAR_5203530_6" lemmaRef="lexicon.xml#lemma_106" pos="ADJ" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_259">allem</w>
-            <w xml:id="NAR_5203530_7">stat</w>
+            <w xml:id="NAR_5203530_7" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           </l>
           <l n="35">
             <hi rend="initial">
@@ -34554,7 +34555,7 @@
             <w xml:id="NAR_5704200_4">es</w>
             <w xml:id="NAR_5704200_5" lemmaRef="lexicon.xml#lemma_119" pos="ADJ ADV" ana="lexicon.xml#lemma_119_sense_153" corresp="variants.xml#type_93462">alleyn</w>
             <w xml:id="NAR_5704200_6" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_196209">zuo</w>
-            <w xml:id="NAR_5704200_7">stat</w>
+            <w xml:id="NAR_5704200_7" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
             <pc xml:id="NAR_5704200_8" join="left">)</pc>
           </l>
           <l n="43">
@@ -35092,7 +35093,7 @@
             </hi>
             <w xml:id="NAR_5709000_1" lemmaRef="lexicon.xml#lemma_7608" pos="ADV IPA" ana="lexicon.xml#lemma_7608_sense_12462" corresp="variants.xml#type_27506">wie</w>
             <w xml:id="NAR_5709000_2">sie</w>
-            <w xml:id="NAR_5709000_3">stat</w>
+            <w xml:id="NAR_5709000_3" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
             <hi rend="upper_case">
               <w xml:id="NAR_5709000_4" pos="">/</w>
             </hi>
@@ -39957,7 +39958,7 @@
             <w xml:id="NAR_6502200_2">menschen</w>
             <w xml:id="NAR_6502200_3" lemmaRef="lexicon.xml#lemma_4377" pos="ADJ ADV NEG" ana="lexicon.xml#lemma_4377_sense_6838" corresp="variants.xml#type_158951">nit</w>
             <w xml:id="NAR_6502200_4" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_196209">zuo</w>
-            <w xml:id="NAR_6502200_5">stat</w>
+            <w xml:id="NAR_6502200_5" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
           </l>
           <l n="23">
             <hi rend="initial">
@@ -44150,7 +44151,7 @@
             <w xml:id="NAR_6801800_2">gern</w>
             <w xml:id="NAR_6801800_3" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_237810">byn</w>
             <w xml:id="NAR_6801800_4">wisen</w>
-            <w xml:id="NAR_6801800_5">stat</w>
+            <w xml:id="NAR_6801800_5" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
           </l>
           <l n="19">
             <hi rend="initial">
@@ -50164,7 +50165,7 @@
             <w xml:id="NAR_7606400_1" lemmaRef="lexicon.xml#lemma_119" pos="ADJ ADV" ana="lexicon.xml#lemma_119_sense_153" corresp="variants.xml#type_93462">alleyn</w>
             <w xml:id="NAR_7606400_2" lemmaRef="lexicon.xml#lemma_678" pos="PRP" ana="lexicon.xml#lemma_678_sense_1096" corresp="variants.xml#type_44499">by</w>
             <w xml:id="NAR_7606400_3" lemmaRef="lexicon.xml#lemma_6280" pos="NOM" corresp="variants.xml#type_22203">tugent</w>
-            <w xml:id="NAR_7606400_4">stat</w>
+            <w xml:id="NAR_7606400_4" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
           </l>
           <l n="65">
             <hi rend="initial">
@@ -50235,7 +50236,7 @@
             <hi rend="initial">
               <w xml:id="NAR_7607000_0">do</w>
             </hi>
-            <w xml:id="NAR_7607000_1">stat</w>
+            <w xml:id="NAR_7607000_1" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
             <w xml:id="NAR_7607000_2">sin</w>
             <w xml:id="NAR_7607000_3" lemmaRef="lexicon.xml#lemma_4840" pos="NOM ADJ ADV" corresp="variants.xml#type_42728">recht</w>
             <w xml:id="NAR_7607000_4" lemmaRef="lexicon.xml#lemma_5309" pos="VRB" corresp="variants.xml#type_18468">geschriben</w>
@@ -50460,7 +50461,7 @@
               <w xml:id="NAR_7608800_5" pos="">/</w>
             </hi>
             <w xml:id="NAR_7608800_6" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_38749">vnd</w>
-            <w xml:id="NAR_7608800_7">stat</w>
+            <w xml:id="NAR_7608800_7" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
           </l>
           <l n="89">
             <hi rend="initial">
@@ -51037,7 +51038,7 @@
             <w xml:id="NAR_7703700_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
             <w xml:id="NAR_7703700_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25987">frowen</w>
             <w xml:id="NAR_7703700_4" lemmaRef="lexicon.xml#lemma_4377" pos="ADJ ADV NEG" ana="lexicon.xml#lemma_4377_sense_6838" corresp="variants.xml#type_158951">nit</w>
-            <w xml:id="NAR_7703700_5">stat</w>
+            <w xml:id="NAR_7703700_5" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
             <w xml:id="NAR_7703700_6" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_196209">zuo</w>
           </l>
           <l n="38">
@@ -53887,7 +53888,7 @@
             </hi>
             <w xml:id="NAR_8106200_1" lemmaRef="lexicon.xml#lemma_12120" pos="NOM" ana="lexicon.xml#lemma_12120_sense_19179" corresp="variants.xml#type_57411">narren</w>
             <w xml:id="NAR_8106200_2" lemmaRef="lexicon.xml#lemma_5236" pos="NOM" corresp="variants.xml#type_95634">schiff</w>
-            <w xml:id="NAR_8106200_3">stat</w>
+            <w xml:id="NAR_8106200_3" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
             <w xml:id="NAR_8106200_4" lemmaRef="lexicon.xml#lemma_106" pos="ADJ ADV" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_257">all</w>
             <w xml:id="NAR_8106200_5">jr</w>
             <w xml:id="NAR_8106200_6" lemmaRef="lexicon.xml#lemma_11120" pos="NOM" ana="lexicon.xml#lemma_11120_sense_17789" corresp="variants.xml#type_263470">bgær</w>
@@ -56388,7 +56389,7 @@
             <w xml:id="NAR_8401300_3" lemmaRef="lexicon.xml#lemma_7338" pos="ADJ ADV" ana="lexicon.xml#lemma_7338_sense_11895" corresp="variants.xml#type_64432">wor</w>
             <w xml:id="NAR_8401300_4">eyn</w>
             <w xml:id="NAR_8401300_5" lemmaRef="lexicon.xml#lemma_5611" pos="ADJ ADV" ana="lexicon.xml#lemma_5611_sense_8775" corresp="variants.xml#type_261394">soerglich</w>
-            <w xml:id="NAR_8401300_6">stat</w>
+            <w xml:id="NAR_8401300_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           </l>
           <l n="14">
             <hi rend="initial">
@@ -65466,7 +65467,7 @@
             <w xml:id="NAR_9602100_4" lemmaRef="lexicon.xml#lemma_13181" pos="ADJ" ana="lexicon.xml#lemma_13181_sense_20858" corresp="variants.xml#type_109530">yedem</w>
             <w xml:id="NAR_9602100_5" lemmaRef="lexicon.xml#lemma_7677" pos="NOM ADV" ana="lexicon.xml#lemma_7677_sense_12586" corresp="variants.xml#type_27811">wol</w>
             <w xml:id="NAR_9602100_6">an</w>
-            <w xml:id="NAR_9602100_7">stat</w>
+            <w xml:id="NAR_9602100_7" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
           </l>
           <l n="22">
             <hi rend="initial">
@@ -66056,7 +66057,7 @@
             </hi>
             <w xml:id="NAR_9703100_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
             <w xml:id="NAR_9703100_4" lemmaRef="lexicon.xml#lemma_3726" pos="NOM" ana="lexicon.xml#lemma_3726_sense_5901" corresp="variants.xml#type_260962">loew</w>
-            <w xml:id="NAR_9703100_5">stat</w>
+            <w xml:id="NAR_9703100_5" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
             <w xml:id="NAR_9703100_6" lemmaRef="lexicon.xml#lemma_7194" pos="ADV PRP" ana="lexicon.xml#lemma_7194_sense_11657" corresp="variants.xml#type_25545">vor</w>
             <w xml:id="NAR_9703100_7" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
             <w xml:id="NAR_9703100_8" lemmaRef="lexicon.xml#lemma_6272" pos="NOM" ana="lexicon.xml#lemma_6272_sense_9891" corresp="variants.xml#type_260573">thür</w>
@@ -68158,7 +68159,7 @@
             <w xml:id="NAR_9913500_1">es</w>
             <w xml:id="NAR_9913500_2" lemmaRef="lexicon.xml#lemma_21400" pos="ADV PRP" ana="lexicon.xml#lemma_21400_sense_35113" corresp="variants.xml#type_259957">bynander</w>
             <w xml:id="NAR_9913500_3" lemmaRef="lexicon.xml#lemma_5089" pos="VRB" corresp="variants.xml#type_264594">gsamlet</w>
-            <w xml:id="NAR_9913500_4">stat</w>
+            <w xml:id="NAR_9913500_4" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
           </l>
           <l n="136">
             <hi rend="initial">
@@ -68756,7 +68757,7 @@
             </hi>
             <w xml:id="NAR_9918500_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
             <w xml:id="NAR_9918500_3" lemmaRef="lexicon.xml#lemma_55" pos="NOM" ana="lexicon.xml#lemma_55_sense_69" corresp="variants.xml#type_108652">axt</w>
-            <w xml:id="NAR_9918500_4">stat</w>
+            <w xml:id="NAR_9918500_4" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
             <w xml:id="NAR_9918500_5">an</w>
             <w xml:id="NAR_9918500_6" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3504">dem</w>
             <w xml:id="NAR_9918500_7" lemmaRef="lexicon.xml#lemma_820" pos="NOM" corresp="variants.xml#type_2570">boum</w>
@@ -70972,7 +70973,7 @@
               <w xml:id="NAR_10208200_0" lemmaRef="lexicon.xml#lemma_3273" pos="ADJ NEG" ana="lexicon.xml#lemma_3273_sense_5143" corresp="variants.xml#type_93459">keyn</w>
             </hi>
             <w xml:id="NAR_10208200_1" lemmaRef="lexicon.xml#lemma_45203" pos="NOM" ana="lexicon.xml#lemma_45203_sense_70494" corresp="variants.xml#type_260439">kouffmanschatz</w>
-            <w xml:id="NAR_10208200_2">stat</w>
+            <w xml:id="NAR_10208200_2" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
             <w xml:id="NAR_10208200_3" lemmaRef="lexicon.xml#lemma_2975" pos="ADV PRP" corresp="variants.xml#type_45571">jnn</w>
             <w xml:id="NAR_10208200_4" lemmaRef="lexicon.xml#lemma_1517" pos="POS" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_93063">sym</w>
             <w xml:id="NAR_10208200_5" lemmaRef="lexicon.xml#lemma_7500" pos="NOM ADJ ADV" corresp="variants.xml#type_68036">werdt</w>
@@ -72254,7 +72255,7 @@
             </hi>
             <w xml:id="NAR_10309600_4" lemmaRef="lexicon.xml#lemma_7643" pos="POS" ana="lexicon.xml#lemma_7643_sense_12530" corresp="variants.xml#type_45600">vnser</w>
             <w xml:id="NAR_10309600_5" lemmaRef="lexicon.xml#lemma_2075" pos="VRB" corresp="variants.xml#type_104897">gloub</w>
-            <w xml:id="NAR_10309600_6">stat</w>
+            <w xml:id="NAR_10309600_6" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
             <w xml:id="NAR_10309600_7" lemmaRef="lexicon.xml#lemma_1913" pos="ADJ ADV" ana="lexicon.xml#lemma_1913_sense_2938" corresp="variants.xml#type_6476">gar</w>
           </l>
           <l n="97">
@@ -73811,7 +73812,7 @@
             <w xml:id="NAR_10500400_2" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_196209">zuo</w>
             <w xml:id="NAR_10500400_3" lemmaRef="lexicon.xml#lemma_7496" pos="VRB" corresp="variants.xml#type_264530">woeren</w>
             <w xml:id="NAR_10500400_4" lemmaRef="lexicon.xml#lemma_6471" pos="ADJ ADV PRP" ana="lexicon.xml#lemma_6471_sense_10240" corresp="variants.xml#type_45574">vnder</w>
-            <w xml:id="NAR_10500400_5">stat</w>
+            <w xml:id="NAR_10500400_5" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
           </l>
           <l n="5">
             <hi rend="initial">
@@ -81609,7 +81610,7 @@
               <w xml:id="NAR_11200900_0">ir</w>
             </hi>
             <w xml:id="NAR_11200900_1" lemmaRef="lexicon.xml#lemma_29404" pos="NOM" corresp="variants.xml#type_146628">anschlag</w>
-            <w xml:id="NAR_11200900_2">stat</w>
+            <w xml:id="NAR_11200900_2" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
             <w xml:id="NAR_11200900_3" lemmaRef="lexicon.xml#lemma_6330" pos="ADV PRP" ana="lexicon.xml#lemma_6330_sense_9973" corresp="variants.xml#type_43290">vff</w>
             <w xml:id="NAR_11200900_4" lemmaRef="lexicon.xml#lemma_37788" pos="ADJ" corresp="variants.xml#type_265187">hælem</w>
             <w xml:id="NAR_11200900_5" lemmaRef="lexicon.xml#lemma_2979" pos="NOM" ana="lexicon.xml#lemma_2979_sense_4782" corresp="variants.xml#type_255147">yß</w>
@@ -83556,7 +83557,7 @@
             <w xml:id="NAR_11306300_3" lemmaRef="lexicon.xml#lemma_7048" pos="NOM" ana="lexicon.xml#lemma_7048_sense_11428" corresp="variants.xml#type_93037">fynden</w>
             <w xml:id="NAR_11306300_4" lemmaRef="lexicon.xml#lemma_4377" pos="ADJ ADV NEG" ana="lexicon.xml#lemma_4377_sense_6838" corresp="variants.xml#type_158951">nit</w>
             <w xml:id="NAR_11306300_5" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="NAR_11306300_6">stat</w>
+            <w xml:id="NAR_11306300_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           </l>
           <l n="64">
             <hi rend="initial">

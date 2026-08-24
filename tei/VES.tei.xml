@@ -149,6 +149,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 1 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -1721,7 +1722,7 @@
         <w xml:id="VES_127101800_2">an</w>
         <w xml:id="VES_127101800_3" lemmaRef="lexicon.xml#lemma_1517" pos="POS" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_5022">sinem</w>
         <w xml:id="VES_127101800_4" lemmaRef="lexicon.xml#lemma_3738" pos="NOM" ana="lexicon.xml#lemma_3738_sense_5924" corresp="variants.xml#type_13016">libe</w>
-        <w xml:id="VES_127101800_5">stat</w>
+        <w xml:id="VES_127101800_5" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
         <pc xml:id="VES_127101800_6" join="left">,</pc>
       </l>
       <l n="181">

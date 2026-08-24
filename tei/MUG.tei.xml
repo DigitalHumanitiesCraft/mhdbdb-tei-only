@@ -137,6 +137,7 @@
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 3 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 1 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -3971,7 +3972,7 @@
               <w xml:id="MUG_2020606_3" lemmaRef="lexicon.xml#lemma_2107" pos="NOM" ana="lexicon.xml#lemma_2107_sense_3265" corresp="variants.xml#type_78335">gemvete</w>
               <w xml:id="MUG_2020606_4" lemmaRef="lexicon.xml#lemma_152" pos="ADV" ana="lexicon.xml#lemma_152_sense_187" corresp="variants.xml#type_377">alse</w>
               <w xml:id="MUG_2020606_5" lemmaRef="lexicon.xml#lemma_5351" pos="ADV" ana="lexicon.xml#lemma_5351_sense_8362" corresp="variants.xml#type_18618">sere</w>
-              <w xml:id="MUG_2020606_6">stat</w>
+              <w xml:id="MUG_2020606_6" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
               <pc xml:id="MUG_2020606_7" join="left">.</pc>
             </l>
             <l n="7">

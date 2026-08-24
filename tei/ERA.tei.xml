@@ -147,6 +147,7 @@
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 1 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 3 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -200,7 +201,7 @@
         <w xml:id="ERA_86100060_3">an</w>
         <w xml:id="ERA_86100060_4">sinen</w>
         <w xml:id="ERA_86100060_5" lemmaRef="lexicon.xml#lemma_5427" pos="NOM" ana="lexicon.xml#lemma_5427_sense_8473" corresp="variants.xml#type_120216">seiden</w>
-        <w xml:id="ERA_86100060_6">stat</w>
+        <w xml:id="ERA_86100060_6" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
         <pc xml:id="ERA_86100060_7" join="left">.</pc>
       </l>
       <l n="7">
@@ -361,7 +362,7 @@
         <w xml:id="ERA_86100240_1">ir</w>
         <w xml:id="ERA_86100240_2" lemmaRef="lexicon.xml#lemma_2108" pos="ADJ" ana="lexicon.xml#lemma_2108_sense_3266" corresp="variants.xml#type_7117">gemuote</w>
         <w xml:id="ERA_86100240_3" lemmaRef="lexicon.xml#lemma_152" pos="ADV" ana="lexicon.xml#lemma_152_sense_187" corresp="variants.xml#type_378">also</w>
-        <w xml:id="ERA_86100240_4">stat</w>
+        <w xml:id="ERA_86100240_4" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
         <pc xml:id="ERA_86100240_5" join="left">,</pc>
       </l>
       <l n="25">
@@ -651,7 +652,7 @@
         <pc xml:id="ERA_86100600_3" join="left">,</pc>
         <w xml:id="ERA_86100600_4" lemmaRef="lexicon.xml#lemma_1117" pos="CNJ" ana="lexicon.xml#lemma_1117_sense_1768" corresp="variants.xml#type_3500">denne</w>
         <w xml:id="ERA_86100600_5" lemmaRef="lexicon.xml#lemma_1762" pos="PRO" ana="lexicon.xml#lemma_1762_sense_2752" corresp="variants.xml#type_6021">ez</w>
-        <w xml:id="ERA_86100600_6">stat</w>
+        <w xml:id="ERA_86100600_6" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
         <pc xml:id="ERA_86100600_7" join="left">,</pc>
       </l>
       <l n="61">

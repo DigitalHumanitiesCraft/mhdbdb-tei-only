@@ -155,6 +155,7 @@
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 6 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 3 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -385,7 +386,7 @@
           </l>
           <l n="27">
             <w xml:id="DMA_1290270_0" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
-            <w xml:id="DMA_1290270_1">stat</w>
+            <w xml:id="DMA_1290270_1" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
             <w xml:id="DMA_1290270_2" lemmaRef="lexicon.xml#lemma_7677" pos="NOM ADV" ana="lexicon.xml#lemma_7677_sense_12586" corresp="variants.xml#type_27811">wol</w>
             <w xml:id="DMA_1290270_3">sin</w>
             <w xml:id="DMA_1290270_4" lemmaRef="lexicon.xml#lemma_1282" pos="NOM" ana="lexicon.xml#lemma_1282_sense_2011" corresp="variants.xml#type_75179">ere</w>
@@ -555,7 +556,7 @@
           </l>
           <l n="50">
             <w xml:id="DMA_1290500_0" lemmaRef="lexicon.xml#lemma_1517" pos="PRO" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_32780">im</w>
-            <w xml:id="DMA_1290500_1">stat</w>
+            <w xml:id="DMA_1290500_1" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
             <w xml:id="DMA_1290500_2" lemmaRef="lexicon.xml#lemma_7677" pos="NOM ADV" ana="lexicon.xml#lemma_7677_sense_12586" corresp="variants.xml#type_27811">wol</w>
             <w xml:id="DMA_1290500_3">sin</w>
             <w xml:id="DMA_1290500_4">gewant</w>
@@ -1241,7 +1242,7 @@
             <w xml:id="DMA_1291360_2">ir</w>
             <w xml:id="DMA_1291360_3" lemmaRef="lexicon.xml#lemma_2787" pos="ADJ ADV" corresp="variants.xml#type_9417">harte</w>
             <w xml:id="DMA_1291360_4" lemmaRef="lexicon.xml#lemma_7677" pos="NOM ADV" ana="lexicon.xml#lemma_7677_sense_12586" corresp="variants.xml#type_27811">wol</w>
-            <w xml:id="DMA_1291360_5">stat</w>
+            <w xml:id="DMA_1291360_5" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
           </l>
           <l n="137">
             <w xml:id="DMA_1291370_0" lemmaRef="lexicon.xml#lemma_5933" pos="ADV CNJ IPA" ana="lexicon.xml#lemma_5933_sense_9403" corresp="variants.xml#type_20919">swenne</w>

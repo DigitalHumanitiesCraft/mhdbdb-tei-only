@@ -149,6 +149,7 @@
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 6 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 4 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -403,7 +404,7 @@
         <w xml:id="VBF_119100290_2" lemmaRef="lexicon.xml#lemma_6422" pos="ADV PRP" corresp="variants.xml#type_22720">umbe</w>
         <w xml:id="VBF_119100290_3" lemmaRef="lexicon.xml#lemma_6356" pos="NOM ADJ" ana="lexicon.xml#lemma_6356_sense_10016" corresp="variants.xml#type_135605">ubeliu</w>
         <w xml:id="VBF_119100290_4" lemmaRef="lexicon.xml#lemma_7534" pos="NOM" corresp="variants.xml#type_27269">wip</w>
-        <w xml:id="VBF_119100290_5">stat</w>
+        <w xml:id="VBF_119100290_5" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
         <pc xml:id="VBF_119100290_6" join="left">,</pc>
       </l>
       <l n="30">
@@ -1542,7 +1543,7 @@
         <w xml:id="VBF_119101600_0">an</w>
         <w xml:id="VBF_119101600_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
         <w xml:id="VBF_119101600_2" lemmaRef="lexicon.xml#lemma_3957" pos="NOM" corresp="variants.xml#type_13804">mannes</w>
-        <w xml:id="VBF_119101600_3">stat</w>
+        <w xml:id="VBF_119101600_3" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         <w xml:id="VBF_119101600_4" lemmaRef="lexicon.xml#lemma_15558" pos="NOM PRP" corresp="variants.xml#type_71134">zeheile</w>
         <w xml:id="VBF_119101600_5" lemmaRef="lexicon.xml#lemma_2598" pos="VRB VEX" corresp="variants.xml#type_8758">hat</w>
         <pc xml:id="VBF_119101600_6" join="left">.</pc>
@@ -1916,7 +1917,7 @@
       </l>
       <l n="203">
         <w xml:id="VBF_119102030_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
-        <w xml:id="VBF_119102030_1">stat</w>
+        <w xml:id="VBF_119102030_1" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         <w xml:id="VBF_119102030_2" lemmaRef="lexicon.xml#lemma_3917" pos="VRB" corresp="variants.xml#type_13688">machet</w>
         <w xml:id="VBF_119102030_3">mangen</w>
         <w xml:id="VBF_119102030_4" lemmaRef="lexicon.xml#lemma_1152" pos="NOM" ana="lexicon.xml#lemma_1152_sense_73804" corresp="variants.xml#type_3641">diep</w>
@@ -6135,7 +6136,7 @@
         <w xml:id="VBF_119106890_1" lemmaRef="lexicon.xml#lemma_6301" pos="VRB" ana="lexicon.xml#lemma_6301_sense_9929" corresp="variants.xml#type_42452">tut</w>
         <w xml:id="VBF_119106890_2" lemmaRef="lexicon.xml#lemma_1517" pos="PRO" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_32780">im</w>
         <w xml:id="VBF_119106890_3" lemmaRef="lexicon.xml#lemma_1739" pos="ADV" ana="lexicon.xml#lemma_1739_sense_2729" corresp="variants.xml#type_68238">ettewenne</w>
-        <w xml:id="VBF_119106890_4">stat</w>
+        <w xml:id="VBF_119106890_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
         <pc xml:id="VBF_119106890_5" join="left">,</pc>
       </l>
       <l n="690">

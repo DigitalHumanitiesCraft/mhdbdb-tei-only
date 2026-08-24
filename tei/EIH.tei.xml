@@ -153,6 +153,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 5 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -2416,7 +2417,7 @@
           <w xml:id="EIH_28800_2">sy</w>
           <w xml:id="EIH_28800_3" lemmaRef="lexicon.xml#lemma_199" pos="PRP" ana="lexicon.xml#lemma_199_sense_248" corresp="variants.xml#type_522">an</w>
           <w xml:id="EIH_28800_4" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4316">ain</w>
-          <w xml:id="EIH_28800_5">stat</w>
+          <w xml:id="EIH_28800_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="EIH_28800_6" lemmaRef="lexicon.xml#lemma_2837" pos="ADV" corresp="variants.xml#type_9597">hin</w>
           <pc xml:id="EIH_28800_7" join="left">,</pc>
         </l>
@@ -5193,7 +5194,7 @@
           <w xml:id="EIH_34620_2" lemmaRef="lexicon.xml#lemma_7540" pos="VRB" corresp="variants.xml#type_45422">wyset</w>
           <w xml:id="EIH_34620_3" lemmaRef="lexicon.xml#lemma_199" pos="PRP" ana="lexicon.xml#lemma_199_sense_248" corresp="variants.xml#type_522">an</w>
           <w xml:id="EIH_34620_4" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="EIH_34620_5">stat</w>
+          <w xml:id="EIH_34620_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="EIH_34620_6" join="left">,</pc>
         </l>
         <l n="3463">
@@ -9717,7 +9718,7 @@
           <w xml:id="EIH_73560_5">solt</w>
           <w xml:id="EIH_73560_6">in</w>
           <w xml:id="EIH_73560_7" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="EIH_73560_8">stat</w>
+          <w xml:id="EIH_73560_8" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="EIH_73560_9" lemmaRef="lexicon.xml#lemma_1844" pos="VRB" corresp="variants.xml#type_44952">gon</w>
         </l>
         <l n="7357">
@@ -9914,7 +9915,7 @@
           </hi>
           <w xml:id="EIH_73770_1">in</w>
           <w xml:id="EIH_73770_2" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_44957">ainer</w>
-          <w xml:id="EIH_73770_3">stat</w>
+          <w xml:id="EIH_73770_3" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <pc xml:id="EIH_73770_4" join="left">.</pc>
         </l>
         <l n="7378">
@@ -9949,7 +9950,7 @@
           <hi rend="initial">
             <w xml:id="EIH_73810_0" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4316">ain</w>
           </hi>
-          <w xml:id="EIH_73810_1">stat</w>
+          <w xml:id="EIH_73810_1" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="EIH_73810_2" lemmaRef="lexicon.xml#lemma_4840" pos="NOM ADJ ADV" corresp="variants.xml#type_42728">recht</w>
           <w xml:id="EIH_73810_3" lemmaRef="lexicon.xml#lemma_152" pos="ADV" ana="lexicon.xml#lemma_152_sense_187" corresp="variants.xml#type_378">also</w>
           <w xml:id="EIH_73810_4" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>

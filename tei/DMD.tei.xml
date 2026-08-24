@@ -170,6 +170,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 2 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -757,7 +758,7 @@
             <w xml:id="DMD_890620_3">fur</w>
             <w xml:id="DMD_890620_4" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
             <w xml:id="DMD_890620_5">tor</w>
-            <w xml:id="DMD_890620_6">stat</w>
+            <w xml:id="DMD_890620_6" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
           </l>
           <l n="63">
             <w xml:id="DMD_890630_0" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
@@ -812,7 +813,7 @@
             <w xml:id="DMD_890690_2" lemmaRef="lexicon.xml#lemma_7907" pos="NOM" corresp="variants.xml#type_28720">zune</w>
             <w xml:id="DMD_890690_3">an</w>
             <w xml:id="DMD_890690_4" lemmaRef="lexicon.xml#lemma_3962" pos="ADJ" ana="lexicon.xml#lemma_3962_sense_6245" corresp="variants.xml#type_13825">manger</w>
-            <w xml:id="DMD_890690_5">stat</w>
+            <w xml:id="DMD_890690_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
             <pc xml:id="DMD_890690_6" join="left">.</pc>
           </l>
           <l n="70">
