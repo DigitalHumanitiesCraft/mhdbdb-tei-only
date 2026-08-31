@@ -1,27 +1,34 @@
 # Masterplan: Autonome Issue-Abarbeitungs-Session
 
 **Erstellt:** 2026-07-03 (Audit-Session, Fable 5); mehrere Vorgänger-Sessions sind gelaufen und gemergt.
-**Zuletzt gelaufen:** 2026-08-31 (Opus 5, #315 + #367 + #235 Punkt 3). Session-Inhalte in §1, §3, §4, §5, §6 stehen gelassen, weil sie zum ersten Mal einen Sonderfall dokumentieren, den die nächste Session brauchen wird: eine Kickoff-Freigabe, die den Merge nach `main` ausnahmsweise einschließt. Ergebnis in §7, Git-History = Archiv.
+**Zuletzt gelaufen:** 2026-08-31, zweimal am selben Tag. Vormittags #315 + #367 + #235 Punkt 3, nachmittags #369 + #255 + #370 (beide Opus 5). Der Nachmittagslauf steht hier; der Vormittagslauf ist in der Git-History. Session-Inhalte in §1, §3, §4, §5, §6 stehen gelassen, weil die Kickoff-Freigabe zum Merge nach `main` sich als tragfähig erwiesen hat und die nächste Session sie wieder brauchen wird. Ergebnis in §7.
 **§2.1 zuletzt gewachsen:** 2026-07-31, Regeln 28 bis 32 (Branch-Basis, Worktree pro Session, Worktree-Abbau, die `git checkout --`-Falle beim Mutationstesten, der Umfang des Em-Dash-Gates); Regeln 22 bis 26 am 2026-07-30 aus einer interaktiven Session (#236-Merge mit vier Review-Runden, #251). Keine Playbook-Sessions, aber dieselben Fehlerklassen.
 **§2.1 zuletzt geschrumpft:** 2026-08-05, erstmals, von 32 auf 26 Regeln. Die vier zur Ergebnisquelle eines Testlaufs (6, 16, 26, 27) sind eine geworden, weil `npm test` das Verdikt seither selbst bildet; die drei generischen Git- und Shell-Fallen (8, 9, 31) sind in die persistente Memory umgezogen. Sechs leere Nummern, alle im Kopf von §2.1 begründet. Das Wachstum dieser Liste ist ein Wert, ihr Umfang eine Last, und der Ausweg ist beides zugleich: was ein Skript deterministisch prüfen kann, gehört nicht in eine Merkregel.
-**Status:** BEFÜLLT mit dem Stand vom 2026-08-31. §1, §3, §4, §5 und §6 beschreiben die gelaufene Session und sind vor dem nächsten Kickoff zu überschreiben; jeder von ihnen sagt in seinem ersten Absatz selbst, was hineingehört.
+**Status:** BEFÜLLT mit dem Stand vom 2026-08-31 (Nachmittagslauf). §1, §3, §4, §5 und §6 beschreiben die gelaufene Session und sind vor dem nächsten Kickoff zu überschreiben; jeder von ihnen sagt in seinem ersten Absatz selbst, was hineingehört.
 **Typ:** Playbook (wiederverwendbares Session-Verfahren, dauerhaft). Der session-spezifische Teil (§1, §3, §4, §5, §6) wird pro Session neu befüllt; der Betriebsvertrag (§2), die Verifikations-Handwerksregeln (§2.1) und das Ergebnis der letzten Session (§7) sind der bleibende Teil.
 
 ---
 
 ## 1. Ausgangslage (Stand 2026-08-31, vor der nächsten Session überschreiben)
 
-**Was sich geändert hat:** Julia Hintersteiner und KZW haben am 25. und 26.08. drei Fragen beantwortet, die je ein Ticket blockierten. Alle drei Tickets waren damit von `auto:blocked` frei, ohne dass sich am Code etwas geändert hätte. Das ist der Normalfall dieser Sessions: die Arbeit war nie technisch blockiert.
+**Was sich geändert hat:** nichts, was von außen kam. Diese Session lief am
+selben Tag wie ihre Vorgängerin und hat deren Nachlauf aufgeräumt, statt auf neue
+Antworten zu warten. Das ist der andere Normalfall dieser Sessions: ein Ticket,
+dessen Serie gemergt ist, dessen Thread aber nichts davon weiß, und ein
+Messauftrag, der seit einem Monat als Umsetzungsauftrag missverstanden wird.
 
-**Die drei Antworten und was sie freigaben:**
+**Die drei Ausgangslagen:**
 
-| Ticket | Antwort | Von wem, wann |
+| Ticket | Lage am Kickoff | Was daraus folgte |
 |---|---|---|
-| #315 Punkt 2 | Die Auszeichnung `role="lead-editor"` bezeichnet die Rolle im Editionsprozess, nicht den Status des Textes; der Beitrag bleibt im `respStmt` verzeichnet, nur die Rollenbezeichnung fällt | Julia Hintersteiner, 26.08. |
-| #367 | Die 40 Belege der Fügung *der/die wâren minne* sind das Adjektiv, nicht das Verb; zwei neue Variantentypen sind genehmigt | KZW, 25.08. |
-| #235 Punkt 3 | Das Breve auf `w` und `n` ist böhmische Schreibkonvention, kein Umlautzeichen (ADR-017); die `o`/`u`-Kandidaten dürfen als eine Klasse laufen | Julia Hintersteiner, 26.08. |
+| #369 | Serie am 24.08. über #372 und #373 gemergt, Ticket trägt **null Kommentare** | ein Statuskommentar mit neu gemessenen Zahlen, kein Code |
+| #255 | KZW hat am 30.07. eine **Liste** bestellt, nicht eine Umsetzung | ein Messwerkzeug plus Tabelle, die Schalterfrage geht unbeantwortet zurück |
+| #370 | 46.890 von 52.097 Tokens mechanisch heilbar, drei Vorabmessungen verlangt | Punkt 1 und 4 umgesetzt, Punkt 2 bleibt kuratorisch offen |
 
-**Bestand am Kickoff-Tag:** 59 offene Issues, davon 46 `auto:blocked`, 7 `auto:checkin`, 5 `auto:pair`, 0 `auto:full` (#44 ist als evergreen von den Achsen ausgenommen). Ein Backlog, der zu drei Vierteln auf Menschen wartet, ist kein Umsetzungsrückstand, und eine Session, die ihn nicht senken kann, hat trotzdem nichts falsch gemacht.
+**Der Unterschied zwischen einem gemergten `Closes` und einer Abnahme ist die
+ganze Welle 1.** #369 war technisch seit einer Woche fertig und trotzdem für
+jeden Leser des Tickets unsichtbar erledigt. Wer nur auf offene Issues schaut,
+sieht Rückstand, wo Wartestand ist.
 
 Hier gehört hinein: was sich seit der letzten Session geändert hat, welche Entscheidungen von Menschen inzwischen vorliegen, und welche Issues diese Session anfasst.
 
@@ -104,17 +111,32 @@ Diese Regeln haben in der Praxis Fehler gefangen, die alle Gates passiert hatten
 
 ## 3. Wellenplan (Stand 2026-08-31, vor der nächsten Session überschreiben)
 
-Drei Wellen, drei PRs, **strikt nacheinander statt gestapelt**, weil alle drei `tei/WZB.tei.xml` anfassen und zwei davon dieselbe abgeleitete Schicht. Kein Meta-PR: der JOURNAL-Eintrag für alle drei Wellen lief in der letzten Welle mit, nach derselben Überlegung wie am 2026-08-07.
+Vier Wellen, zwei PRs, **in aufsteigender Kosten- und Risikoordnung**. Die
+Reihenfolge war im Kickoff vorgegeben und hat sich bewährt: die billigste Welle
+schreibt keinen Code, die teuerste fasst 46.890 Tokens an, und wer bei Welle 1
+stolpert, hat noch nichts angefasst.
 
 | Welle | Ticket | PR | Ergebnis |
 |---|---|---|---|
-| 1 | #315 | #374 | `role="lead-editor"` aus der WZB entfernt, Doku von vier auf fünf Sigel; abgeleitete Schicht nachweislich unberührt, kein Bump |
-| 2 | #367 | #377 | 40 Belege vom Verb aufs Adjektiv umannotiert, zwei neue Variantentypen; Korpus 4.2.5, Authority 1.9.2 |
-| 3 | #235 Punkt 3 | #379 | 66 von 289 Breve-Tokens mechanisch nachannotiert, 223 als Review dokumentiert; Korpus 4.2.6, Authority unverändert |
+| 0 | Vorflug | kein PR | beide Regel-28-Zählungen 0, `check-index-versions.py` grün, alle drei Tickets **mit Kommentaren** gelesen |
+| 1 | #369 | kein PR | Statuskommentar mit neu gemessenen Zahlen; Ticket bleibt offen |
+| 2 | #255 | #380 | `parallel-witness-bias.py`, jede §H-Zählregel mit und ohne Parallelblöcke, zwei Szenarien; kein Datum, kein Index |
+| 3 | #370 Punkt 1+4 | #382 | 46.890 `@corresp` nachgetragen, Ratsche im Cross-Ref-Audit; **kein Index ändert sich**, obwohl `variants.xml` es tut |
+| 4 | #28 | kein PR | Kostenschätzung auf 200-Lemma-Stichprobe, Ergebnis im #44-Bericht |
 
-**Was die Reihenfolge tatsächlich erzwungen hat, war nicht der Konflikt, sondern die Behauptung.** Welle 1 sagt „diese Änderung erreicht die Indexe nicht", Welle 2 und 3 sagen „diese schon, und zwar genau so". Wären sie gestapelt gelaufen, hätte keine der drei Aussagen mehr isoliert belegt werden können.
+**Eine Welle ohne PR ist eine vollwertige Welle.** Zwei der vier haben nichts
+committet und trotzdem geliefert: Welle 1 einen Kommentar, der einen
+Ticketzustand richtigstellt, Welle 4 eine Zahl, die ein Ticket aus dem
+Kostenargument herausnimmt. Ein Wellenplan, der nur PRs zählt, plant diese Arbeit
+nicht ein.
 
-Muster: Welle 0 ist der Vorflug (beide Zählungen aus Regel 28 müssen 0 sein, `origin/main...HEAD` und `origin/main..main`; `python scripts/audit/check-index-versions.py`; die im Playbook genannten Fundorte aufsuchen und bestätigen; `testing/tests/` nach einschlägigen bestehenden Specs durchsehen; **kein voller `npm test` als Hintergrund-Baseline**). Danach eine Welle je PR, jede mit eigener Verifikation. Die letzte Welle ist der Meta-PR.
+**Die drei Vorabmessungen in Welle 3 waren Stoppbedingungen, keine Vorarbeit.**
+Der Kickoff hat sie ausgeschrieben („Steigt sie, wird nicht geschrieben"), und
+jede hätte die Welle beendet. Alle drei gingen gut aus, aber das war vorher nicht
+bekannt, und genau deshalb waren sie etwas wert. Eine Messung, deren Ergebnis den
+Ablauf nicht ändern kann, ist Dekoration.
+
+Muster: Welle 0 ist der Vorflug (beide Zählungen aus Regel 28 müssen 0 sein, `origin/main...HEAD` und `origin/main..main`; `python scripts/audit/check-index-versions.py`; die im Playbook genannten Fundorte aufsuchen und bestätigen; `testing/tests/` nach einschlägigen bestehenden Specs durchsehen; **kein voller `npm test` als Hintergrund-Baseline**). Danach eine Welle je **Arbeitspaket**, jede mit eigener Verifikation; wo ein Arbeitspaket Code oder Daten ändert, ist es je ein PR. Bis zum 31.08. stand hier „eine Welle je PR", und der Nachmittagslauf desselben Tages hat gezeigt, warum das zu eng ist: zwei seiner vier Wellen haben nichts committet und trotzdem geliefert, einen Statuskommentar und eine Kostenschätzung. Gibt es einen Meta-PR, ist er die letzte Welle.
 
 Bei Datei-Überschneidungen zwischen den Wellen den späteren Branch auf den früheren stacken und die Merge-Reihenfolge in den PR-Body schreiben. Der Meta-PR berührt fast immer `JOURNAL.md` und `ROADMAP.md` und kollidiert damit mit jedem PR, der Doku anfasst.
 
@@ -122,13 +144,23 @@ Bei Datei-Überschneidungen zwischen den Wellen den späteren Branch auf den fr�
 
 ## 4. Nicht anfassen (Stand 2026-08-31, vor der nächsten Session überschreiben)
 
-Alle 46 `auto:blocked`-Tickets, ohne Ausnahme. Ausdrücklich benannt wurden fünf, weil sie nach leichtem Einstieg aussehen:
+Alle `auto:blocked`-Tickets, ohne Ausnahme. Vier Fallen wurden ausdrücklich
+benannt, und drei davon lagen diesmal direkt im Weg:
 
-- **#216** (minne, Serie 1) und **#371** (`stat`, 51 Belege für ein drittes Lemma): sehen wie Fortsetzungen der gerade gemergten Serien aus, warten aber auf eine editorische Entscheidung von KZW.
-- **#370** (52.097 WZB-Tokens mit `lemmaRef` ohne `corresp`): liegt genau im Weg von Welle 3 und ist trotzdem tabu. Welle 3 hat deshalb bewusst kein `corresp` geschrieben, statt das Ticket nebenbei anzufangen.
-- **#28** (KWIC-Grenzfälle) und **#255** (Frauenlob-Folgefrage): beide schon einmal wiedereröffnet worden.
+- **#378** (first-wins-Kollisionen im Variantenverzeichnis): Welle 3 hat darauf
+  **gemessen** und nichts daran repariert. Das war die schärfste Vorgabe des
+  Kickoffs, weil die Versuchung groß ist: das Skript hatte die Abbildung ohnehin
+  gebaut.
+- **#115** (dangling lexicon-IDs): tauchte in Welle 4 als Nebenbefund wieder auf
+  (35 IDs, 66 Belege). Nicht angefasst, kein neues Ticket.
+- **#370 Punkt 2**: liegt im selben PR wie Punkt 1 und bleibt trotzdem liegen,
+  weil neue Variantentypen seit #216 genehmigungspflichtig sind. Die 484 offenen
+  Paare sind als CSV im Repo abgelegt, statt sie zu entscheiden.
+- **#28**: nur die Kostenschätzung, kein LLM-Batch und kein Wörterbuch-Crawl.
 
-Dazu kam die Falle in der Gegenrichtung: **#378** entstand während Welle 2 als Nebenbefund und ist sofort `auto:blocked`/`wait:kzw` gelabelt worden, statt ihn anzufangen.
+Dazu die Grenze in der Gegenrichtung: die zwei Befunde aus dem #377-Bot-Kommentar
+(siehe §7) wurden **gelesen und nicht behoben**, weil sie außerhalb des Auftrags
+liegen und eine Parallelsession die Meldung übernommen hatte.
 
 Die Liste wird aus §1 abgeleitet und nennt alle Issues, die diese Session NICHT berührt, gruppiert nach Grund: Review-Gate (Ping ist draußen), menschen-blockiert, future/trigger/extern, Ingest. Dazu gehört jedes Mal:
 
@@ -140,11 +172,26 @@ Die Liste wird aus §1 abgeleitet und nennt alle Issues, die diese Session NICHT
 
 ## 5. Getroffene Entscheidungen (Stand 2026-08-31, vor der nächsten Session überschreiben)
 
-1. **Ein PR je Issue**, Merge-Reihenfolge 1, 2, 3. Begründung in §3.
-2. **Der Merge nach `main` war ausnahmsweise freigegeben**, für genau diese drei PRs, jeden einzeln, und an vier Bedingungen gebunden: `npm test` gelaufen und die VERDICT-Zeile unverändert im PR, `fable-reviewer`-Runde abgeschlossen und jeder übernommene Befund nachgemessen, CI grün (auf den Daten-PRs besonders `data-integrity.yml`), und `Closes #N` nur für das, was wirklich vollständig fertig ist. **Direkte Pushes auf `main` und jeder Force-Push dorthin blieben tabu.** Das ist die erste Session mit dieser Konstruktion, und sie hat gehalten, weil die Bedingungen prüfbar formuliert waren und nicht als Vertrauensfrage.
-3. **Punkt 1 von #235 vor Punkt 3**, damit der Matcher auf gesplitteten Tokens arbeitet. Stellte sich als gegenstandslos heraus: Julia hatte Punkt 1 am 26.08. bereits erledigt.
-4. **Neue Variantentypen prägen statt bestehende umhängen** (#367). Eine bestehende Nummer hinge sonst an zwei Lemmata, und `extract-variants.py` schlüge sie der häufigeren Seite zu, also weiter dem Verb.
-5. **Ein neues Issue war freigegeben** (die #367-Ausweitung), weitere nur oberhalb der Regel-16-Schwelle. Geworden sind es drei: #375 (die freigegebene), #376 und #378, beide mit einer Entscheidung, die eine Session nicht treffen darf.
+1. **Reihenfolge nach Kosten und Risiko**, nicht nach Ticketnummer: erst der
+   Kommentar, dann die Messung, dann der Datenlauf. Begründung in §3.
+2. **Der Merge nach `main` war wieder freigegeben**, für genau die zwei
+   Session-PRs, jeden einzeln, an denselben vier Bedingungen wie am Vormittag:
+   `npm test` gelaufen und die VERDICT-Zeile unverändert im PR,
+   `fable-reviewer`-Runde abgeschlossen und jeder übernommene Befund
+   nachgemessen, CI grün (auf dem Daten-PR besonders `data-integrity.yml`), und
+   `Closes #N` nur für wirklich Fertiges. **Direkte Pushes auf `main` und jeder
+   Force-Push dorthin blieben tabu.** Zweite Session mit dieser Konstruktion, und
+   sie hat wieder gehalten. Der Grund ist derselbe: die Bedingungen sind prüfbar
+   formuliert, nicht als Vertrauensfrage.
+3. **Kein `Closes` auf keinem der drei Tickets.** Alle drei bleiben offen, weil
+   bei allen dreien noch ein Mensch entscheiden muss. Das war Vorgabe, nicht
+   Vorsicht der Session.
+4. **Die Schalterfrage in #255 geht unbeantwortet zurück**, unterlegt mit Zahlen.
+   Eine Session, die eine bestellte Messung in eine Empfehlung verwandelt, liefert
+   etwas anderes als das Bestellte.
+5. **Keine neuen Issues freigegeben**, nur oberhalb der Regel-16-Schwelle.
+   Geworden sind es null: der einzige Kandidat (35 dangling Lemma-IDs) fiel unter
+   das bestehende #115.
 
 Hier gehören die Vorab-Festlegungen von chsteiner hinein: Reihenfolge der Wellen, Richtungsentscheidungen bei mehreren vertretbaren Umsetzungen, und was ausdrücklich draußen bleibt. Jede mit einem Satz Begründung, damit die Session sie nicht neu verhandelt.
 
@@ -152,14 +199,27 @@ Hier gehören die Vorab-Festlegungen von chsteiner hinein: Reihenfolge der Welle
 
 ## 6. Kickoff-Prompt (Stand 2026-08-31, vor der nächsten Session überschreiben)
 
-**Die Bausteine stehen in [`KICKOFF-VORLAGE.md`](KICKOFF-VORLAGE.md)**, inklusive des Betriebsvertrags, der wörtlich in den Prompt kopiert wird. Was der Kickoff vom 31.08. in die Platzhalter gesetzt hat:
+**Die Bausteine stehen in [`KICKOFF-VORLAGE.md`](KICKOFF-VORLAGE.md)**,
+inklusive des Betriebsvertrags, der wörtlich in den Prompt kopiert wird. Was der
+Kickoff des Nachmittagslaufs vom 31.08. in die Platzhalter gesetzt hat:
 
-1. **Autorisierung:** `claude/*`-Branches und PR-Erstellung wie immer, dazu ausnahmsweise der Merge der drei Session-PRs unter den vier Bedingungen aus §5. Punkt 1 von §2 („`main` ist tabu") ist damit für diese Session teilweise ausgesetzt gewesen, und der Kickoff hat das ausdrücklich gesagt, statt es dem Schluss zu überlassen. **Wenn eine künftige Session dieselbe Freigabe bekommt, gehört sie genauso explizit in den Prompt**, samt der Bedingungen: eine Freigabe, die man sich aus dem Umfang erschließen muss, ist keine.
-2. **Umfang:** drei Wellen, ein PR je Ticket, der JOURNAL-Eintrag in der letzten Welle.
-3. **Weiche `npm test`:** volle Suite, ausdrücklich freigegeben, so oft wie nötig. Seit dem 24.08. ist das ohnehin die stehende Regel, der Satz stand trotzdem im Prompt.
-4. **Notationsfallen:** Token-IDs sehen aus wie Versnummern (`WZB_5ra_14_3`), die Zeichenfolge Backslash-`u0020` stand im Korpus literal da und war keine aufzulösende Escape-Sequenz, und `lemma_7338` (das Adjektiv) ist nicht `lemma_7505` (das Verb).
+1. **Autorisierung:** `claude/*`-Branches und PR-Erstellung, dazu der Merge der
+   **zwei** Session-PRs unter den vier Bedingungen aus §5, dazu je ein
+   Statuskommentar auf #369, #255 und #370. Die Kommentarrechte waren **je Ticket
+   aufgezählt**, und das hat sich als die richtige Schärfe erwiesen: Welle 4
+   (#28) hatte keinen Kommentarslot, also ist ihr Ergebnis in den #44-Bericht
+   gegangen statt ins Ticket. Wer eine optionale Welle vorsieht, sollte
+   mitentscheiden, wo ihr Ergebnis landen darf.
+2. **Umfang:** vier Wellen, zwei davon ohne PR, der JOURNAL-Eintrag in Welle 3.
+3. **Weiche `npm test`:** volle Suite freigegeben, aber **ausdrücklich kein
+   Volllauf als Hintergrund-Baseline in Welle 0**. Der Satz hat Zeit gespart und
+   nichts gekostet: die Baseline wäre in beiden PRs ohnehin neu gelaufen.
+4. **Stoppbedingungen statt Vorarbeiten:** die drei Vorabmessungen in Welle 3
+   waren mit ihrer Abbruchbedingung formuliert („Steigt sie, wird nicht
+   geschrieben"), nicht als Checkliste. Das ist der Unterschied zwischen einer
+   Messung und einem Ritual.
 5. **Verifikations-Handwerk aus §2.1** in Kurzform, mit der Mutations-Regel.
-6. **Nicht anfassen** mit den fünf ausdrücklich benannten Fallen aus §4.
+6. **Nicht anfassen** mit den vier Fallen aus §4, #378 an erster Stelle.
 
 Was die alte Fassung dieses Abschnitts an dieser Stelle sagte, gilt unverändert weiter:
 
@@ -174,21 +234,56 @@ Was die alte Fassung dieses Abschnitts an dieser Stelle sagte, gilt unverändert
 
 ## 7. Session-Ergebnis (Anhang, Stand 2026-08-31)
 
-Drei PRs, drei Tickets, zwei davon geschlossen. Kein Meta-PR: der JOURNAL-Eintrag für alle drei Wellen lief in Welle 3 mit, aus demselben Grund wie am 2026-08-07.
+Zwei PRs, drei Tickets, **keines geschlossen**, und das ist kein Rückstand,
+sondern die Vorgabe: bei allen dreien entscheidet als Nächstes ein Mensch.
 
 | Ergebnis | Issue | Inhalt |
 |----|-------|--------|
-| PR #374, geschlossen | #315 | `role="lead-editor"` aus der WZB entfernt, Doku an vier Stellen von vier auf fünf Sigel. Die abgeleitete Schicht ist nachweislich unberührt: `lead-editor`, `Hintersteiner` und `respStmt` kommen in keiner der vier `data/*.json.gz` und in keiner der 2.742 API-Dateien vor, der Neubau ist byte-identisch, kein Bump |
-| PR #377, geschlossen | #367 | 40 Belege der Fügung *der/die wâren minne* vom Verb aufs Adjektiv umannotiert (`lemma_7505` auf `lemma_7338`), zwei neu geprägte Variantentypen. Korpus 4.2.5, Authority 1.9.2 |
-| PR #379, Ticket bleibt offen | #235 | Punkt 3: 66 von 289 Breve-Tokens mechanisch nachannotiert, 223 als Review dokumentiert. Punkt 1 und 2 waren erledigt, ohne dass das Ticket es wusste. Korpus 4.2.6, Authority unverändert |
-| neu angelegt | #375, #376, #378 | Je eine Entscheidung, die eine autonome Session nicht treffen darf; alle drei `auto:blocked`/`wait:kzw` |
+| kein PR | #369 | Statuskommentar mit neu gemessenen Zahlen. Die Serie war am 24.08. gemergt, das Ticket trug null Kommentare |
+| PR #380, gemergt | #255 | `parallel-witness-bias.py`: jede §H-Zählregel mit und ohne Parallelblöcke, zwei Szenarien, mit Paritätsprüfung gegen den Index und zwei Kontrollzahlen. Kein Datum, kein Index |
+| PR #382, gemergt | #370 | Punkt 1 (46.890 `@corresp`) und Punkt 4 (Ratsche je Sigle im Cross-Ref-Audit). Punkt 2 bleibt kuratorisch offen, 484 Paare als CSV im Repo |
+| kein PR | #28 | Kostenschätzung auf 200-Lemma-Stichprobe, Ergebnis im #44-Bericht |
+| neu angelegt | keines | der einzige Kandidat fiel unter das bestehende #115 |
 
-**Fünf Dinge, die die nächste Session wissen sollte:**
+**Sechs Dinge, die die nächste Session wissen sollte:**
 
-1. **Ein Diff, der zeichenweise stimmt, ist keine Messung.** Das Edit-Werkzeug hat beim ersten WZB-Edit 17 fremde reine LF-Zeilen still auf CRLF vereinheitlicht; die Diff-Hunks sahen exakt richtig aus. Sichtbar wurde es nur beim Byte-Vergleich. Bei jeder Datei mit gemischten Zeilenenden gehört das Zählerpaar (CRLF, LF) vor und nach der Änderung ins Protokoll, und die Änderung selbst läuft über exakte Byte-Ersetzung mit `newline=""` bei Lesen **und** Schreiben. `tei/WZB.tei.xml` ist die einzige CRLF-Datei im Korpus (1 von 667) und damit der einzige Ort, an dem das überhaupt auffällt.
-2. **Und die Kontrollzahl aus Welle 1 hat denselben Fehler in Welle 3 gefangen**, ohne dass jemand nach ihm gesucht hätte: `revisiondesc-homograph.py` schrieb seinen Eintrag mit hartem `"\n"`. Der Wert dieser Zähler liegt nicht im ersten Fund, sondern in den späteren.
-3. **Ein Fix an einem Skript kann den nächsten Fehler erst scharf machen.** Nachdem die Einfügung das Zeilenende der Umgebung nahm, fand die Löschregex für den eigenen Alteintrag ihn nicht mehr (`</change>\n` gegen einen CRLF-terminierten Eintrag), während der Kopf-Check darüber ihn sehr wohl sah: ein zweiter `--apply`-Lauf hätte den Eintrag verdoppelt. Gefunden hat das der lokale Review, kein Gate. **Nach einer Änderung am Zeilenende-Verhalten alle Stellen suchen, die Zeilenenden in einer Regex literal nennen.**
-4. **`git checkout -- <datei>` stellt aus dem Index her, nicht aus dem Stand davor.** In einer Session mit mehreren Commits auf demselben Branch heißt das: der Rückbau vor einem Neulauf muss `git checkout origin/main -- <datei>` sein, sonst läuft das Skript auf dem bereits geänderten Bestand und meldet plausibel aussehenden Unsinn (hier: 223 statt 289 Kandidaten). Steht als Regel 31 in der Memory und ist trotzdem wieder passiert.
-5. **`npm test` nie durch eine Pipe.** Ein `| tail -25` puffert die gesamte Ausgabe bis zum Ende und macht den Reporter unlesbar; der Lauf musste abgebrochen und wiederholt werden. Die VERDICT-Zeile ist das Ergebnis, und sie kommt nur unverpipet.
+1. **Ein roter CI-Review-Haken ist kein Befund, aber auch kein Beweis, dass keiner
+   drinsteht.** Vier Läufe, alle im Job-Log gemessen: #368 kein Diff und nichts
+   geliefert, #379 Diff berechnet und trotzdem echter `error_max_turns` ohne
+   Befund, **#377 und #382 fertige Reviews** (`subtype: success`,
+   `is_error: false`), die die Action verworfen hat, weil sie 59 und 56 Züge
+   gegen ein `--max-turns` von 50 gebraucht hatten. Zwei von vier waren gar nicht
+   gescheitert. Das Limit steht seit `6fbf7e002` auf 100.
+2. **Und der teure Fall zeigt, was das kostet.** Der Bot-Kommentar auf #377 trug
+   zwei sauber gemessene Befunde; neun Minuten später wurde der rote Haken als
+   Plattformgrenze abgetan und der PR ungelesen gemergt. Beide Befunde stehen
+   unverändert auf `main`. **Den Kommentar öffnen, immer**, auch wenn der Check
+   rot ist und die Hausregel sagt, das sei erwartbar.
+3. **Zwei Sessions haben unabhängig demselben API-Feld geglaubt.**
+   `gh api .../pulls/377 -q .changed_files` gibt 0, `gh pr view 377 --json files`
+   gibt 34. Für die anderen drei PRs stimmen beide überein. Wer behaupten will,
+   GitHub habe den Diff nicht berechnet, liest den `<changed_files>`-Block im
+   Job-Log oder nimmt `--json files`.
+4. **Was ein Filter nicht zeigt, ist nicht abwesend.** Ich hatte behauptet, der
+   `changed_files`-Block auf #382 sei leer, weil mein `grep` die Dateizeilen
+   zwischen den Tags nicht treffen konnte und Öffnungs- plus Schlusszeile
+   untereinander stehenblieben. Eine Abwesenheitsbehauptung braucht eine Abfrage,
+   die Anwesenheit **zeigen könnte**.
+5. **Ein Bump gehört zum Artefakt, nicht zur Quelle.** Die erste Fassung von PR
+   #382 bumpte den Authority-Index, weil `variants.xml` sich geändert hatte. Der
+   Index selbst war identisch, weil er nur normalisierte Formen trägt. **Kein Gate
+   hätte das gefangen:** `check-index-version-bump.py` prüft nur die
+   Gegenrichtung, `data-integrity.yml` hätte den gebumpten Index anstandslos
+   nachgebaut. Gefunden hat es die lokale Review.
+6. **Ein Provenienz-Log ohne seinen Erzeuger ist nur so weit reproduzierbar wie
+   das Vertrauen in seine Zahlen.** Das Laufskript lag im Scratchpad, während die
+   vier WZB-Vorgängerläufe ihres unter `scripts/ingest/wzb/` committet haben.
+   Nachgeholt, und beim Neuerzeugen aus der committeten Fassung fiel auf, dass
+   eine Spalte still bei 8 Werten gekappt war: `hebt`/`type_9058` las sich als 8
+   Belegsigel, es sind 82, das Maximum liegt bei 644. **Eine gekappte Liste ohne
+   Kappungsmarke ist eine falsche Zahl, nicht nur eine unvollständige.**
 
-**Was aus der Session vom 2026-08-07 weiter gilt:** ein Worktree hat kein `node_modules`, ohne Junction auf den Hauptbaum läuft `npm test` gar nicht erst an, und beim Abräumen kommt zuerst `rmdir` auf die Junction (Regel 30, Punkt 2), sonst nimmt das rekursive Entfernen das Original mit.
+**Was aus früheren Sessions weiter gilt:** ein Worktree hat kein `node_modules`,
+ohne Junction auf den Hauptbaum läuft `npm test` gar nicht erst an, und beim
+Abräumen kommt zuerst `rmdir` auf die Junction (Regel 30, Punkt 2), sonst nimmt
+das rekursive Entfernen das Original mit.
