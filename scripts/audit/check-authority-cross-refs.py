@@ -27,7 +27,9 @@ artifact and should not be committed.
 Usage:
     python scripts/audit/check-authority-cross-refs.py                    # Report
     python scripts/audit/check-authority-cross-refs.py --check            # CI-Gate
-    python scripts/audit/check-authority-cross-refs.py --update-baseline  # Ratsche nachziehen
+    python scripts/audit/check-authority-cross-refs.py --update-baseline  # beide Ratschen
+    python scripts/audit/check-authority-cross-refs.py --update-baseline=lexicon   # nur #152
+    python scripts/audit/check-authority-cross-refs.py --update-baseline=corresp   # nur #370
 
 The committed scripts/audit/lexicon-baseline.json pins the tolerated dangling
 lexicon-ID set (#152 ratchet); --check fails on any id outside it.
@@ -114,15 +116,21 @@ def count_missing_corresp(tree):
     Textinhalt. Dieselbe Grundgesamtheit, die auch build-corpus-index.py und
     extract-variants.py lesen, damit die Zahl mit den dortigen vergleichbar
     bleibt.
+
+    Reihenfolge der drei Bedingungen: beide Attributabfragen zuerst, der
+    Textjoin zuletzt. Es ist eine Konjunktion, das Ergebnis also identisch,
+    aber itertext() laeuft damit nur noch fuer die wenigen Kandidaten statt
+    fuer jedes der Millionen bereits verknuepften Tokens.
     """
     n = 0
     for w in tree.iter(f'{TEI_NS}w'):
         if not w.get('lemmaRef'):
             continue
+        if w.get('corresp'):
+            continue
         if not ''.join(w.itertext()).strip():
             continue
-        if not w.get('corresp'):
-            n += 1
+        n += 1
     return n
 
 
@@ -224,7 +232,25 @@ def iter_refs(elem):
 
 def main():
     check = '--check' in sys.argv
-    update_baseline = '--update-baseline' in sys.argv
+    # Zwei Ratschen, zwei Anlaesse. Die #152-Ratsche wird nur nach einer
+    # KZW-Entscheidung nachgezogen, die #370-Ratsche dagegen rein mechanisch,
+    # sobald ein PR @corresp heilt. Beide am selben nackten Flag haengen zu
+    # lassen hiesse: wer die #370-Ratsche nachzieht, nimmt still auch neue
+    # dangling lexicon-IDs in die Baseline auf, und genau das soll die
+    # #152-Ratsche verhindern. Deshalb nennen die beiden Warntexte unten den
+    # jeweiligen Bereich. Das nackte Flag bleibt "beides", damit die in #152
+    # dokumentierte Aufrufform weiter gilt.
+    update_scope = None
+    for arg in sys.argv[1:]:
+        if arg == '--update-baseline':
+            update_scope = 'all'
+        elif arg.startswith('--update-baseline='):
+            update_scope = arg.split('=', 1)[1]
+    if update_scope not in (None, 'all', 'lexicon', 'corresp'):
+        print(f'Unbekannter Bereich "{update_scope}". '
+              f'Erlaubt: --update-baseline[=lexicon|corresp|all]')
+        return 1
+    update_baseline = update_scope is not None
     if not TEI_DIR.exists() or not AUTHORITY_DIR.exists():
         print('Error: run from repo root (tei/ and authority-files/ required)')
         return 1
@@ -414,14 +440,16 @@ def main():
         print(f'  {sigle:8} {n:>10,}')
 
     if update_baseline:
-        write_baseline(current_lex_ids)
-        write_corresp_baseline(corresp_now)
-        print(f'\nBaseline geschrieben: {LEXICON_BASELINE_FILE} '
-              f'({len(current_lex_ids)} tolerierte IDs). Diff reviewen und '
-              f'committen — Aufnahme NEUER IDs ist eine KZW-Entscheidung (#152).')
-        print(f'Baseline geschrieben: {CORRESP_BASELINE_FILE} '
-              f'({sum(corresp_now.values()):,} Tokens in {len(corresp_now)} '
-              f'Sigeln, #370).')
+        if update_scope in ('all', 'lexicon'):
+            write_baseline(current_lex_ids)
+            print(f'\nBaseline geschrieben: {LEXICON_BASELINE_FILE} '
+                  f'({len(current_lex_ids)} tolerierte IDs). Diff reviewen und '
+                  f'committen — Aufnahme NEUER IDs ist eine KZW-Entscheidung (#152).')
+        if update_scope in ('all', 'corresp'):
+            write_corresp_baseline(corresp_now)
+            print(f'Baseline geschrieben: {CORRESP_BASELINE_FILE} '
+                  f'({sum(corresp_now.values()):,} Tokens in {len(corresp_now)} '
+                  f'Sigeln, #370).')
         return 0
 
     if check:
@@ -487,14 +515,16 @@ def main():
                   f'{len(gefallen)} Sigel tragen weniger Tokens ohne @corresp als '
                   f'die Baseline ({zeilen}). Ratsche nachziehen: '
                   f'"python scripts/audit/check-authority-cross-refs.py '
-                  f'--update-baseline" ausfuehren und die Datei mitcommitten.')
+                  f'--update-baseline=corresp" ausfuehren und die Datei '
+                  f'mitcommitten. Der Bereich ist Absicht: das nackte Flag '
+                  f'schriebe auch lexicon-baseline.json neu (#152).')
         if stale_ids:
             print(f'::warning file=scripts/audit/lexicon-baseline.json::'
                   f'{len(stale_ids)} Baseline-IDs sind nicht mehr dangling '
                   f'(Backfill/Korpus-Korrektur gelandet). Ratsche nachziehen: '
                   f'"python scripts/audit/check-authority-cross-refs.py '
-                  f'--update-baseline" ausfuehren und die geschrumpfte Datei '
-                  f'mitcommitten (#152).')
+                  f'--update-baseline=lexicon" ausfuehren und die geschrumpfte '
+                  f'Datei mitcommitten (#152).')
     return 0
 
 
