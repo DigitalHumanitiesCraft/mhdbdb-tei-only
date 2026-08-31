@@ -1012,3 +1012,10 @@ The remaining tools carry no derived figure. Checked, not assumed: percentages t
 If any of them grows a normalized, weighted or otherwise derived figure, it belongs in H.5.
 
 **Open dependency:** #255 asks whether parallel witnesses should count as independent texts in these evaluations. All four rules above currently count a witness like any other text. Whatever #255 decides changes H.1 (`corpusWordTotal`, `corpusMatches`), H.2 (`counts`), H.4 (`verseCount`) and every base in H.5, and this section is where it has to be written down.
+
+The size of the effect is now measured per tool by `scripts/audit/parallel-witness-bias.py`, which recomputes every rule above with and without the tokens inside a `<div type="parallel">`. Two results bear on any future decision and are recorded here because they constrain it:
+
+1. **`<div type="parallel">` carries two incompatible meanings, separated only by `@n`.** Where `@n` is a manuscript or work name (`Jenaer Liederhandschrift`, `Codex Manesse`, `Augsburger Sachsenspiegel`), the text *consists* of those blocks: in BRW and DL1, 100 % of indexed tokens sit inside one, so a filter that drops them deletes the text rather than de-biasing it. Where `@n` is a running number, the block hangs beside a base text, which is the case #255 describes. Any implementation has to separate the two before it touches a single counting rule. The script reports the classification together with the raw `@n` values, so the heuristic stays checkable instead of merely acting.
+2. **A change in one text's tokens moves keyness in unrelated texts**, because `corpusWordTotal` and `corpusMatches` are corpus-wide. Dropping only the numbered blocks (0.126 % of the corpus) shifts 45 keyness values in *other* texts across a significance band; the largest shift outside the affected texts is 7.6, i.e. below the 10.83 threshold the UI marks. Dropping every parallel block (0.441 %) raises that to 168 band changes elsewhere and removes two texts from the table entirely.
+
+Measured 2026-08-31 against corpus index 4.2.6 and authority index 1.9.2. The numbers age with the data; rerun the script rather than quoting this paragraph.
