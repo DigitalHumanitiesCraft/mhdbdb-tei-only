@@ -538,11 +538,24 @@ def report_scope(scope, scans, index, texts_by_id, normalized, args):
     print('  0, misst nicht die Naht nichts, sondern das Skript.')
     print('  "Tokenpaare" zaehlt nur Paare, bei denen mindestens eine Seite im')
     print('  herausgerechneten Bereich liegt.')
-    if summe['naht'] == summe['naht_szenario']:
-        print('  Heute fallen die beiden Nahtspalten in jeder Zeile zusammen. Das')
-        print('  ist keine Redundanz, sondern ein Datenbefund: der einzige Text')
-        print('  mit beiden Klassen ist DL2, und der ist Prosa ohne Verspaare.')
-        print('  Sobald ein Vers-Text gemischte Bloecke traegt, gehen sie auseinander.')
+    # Warum die beiden Nahtspalten zusammenfallen, hat je Szenario einen
+    # ANDEREN Grund, und nur einer davon ist ein Datenbefund.
+    if scope == 'all':
+        print('  Die beiden Nahtspalten fallen hier zwangslaeufig zusammen, nicht')
+        print('  zufaellig: eine Naht hat zwei verschiedene Bloecke, hoechstens')
+        print('  einer davon kann der Basistext sein, und in diesem Szenario')
+        print('  faellt jeder Nicht-Basis-Block. Die Gleichheit gilt fuer jede')
+        print('  denkbare Datenlage und ist keine Aussage ueber das Korpus.')
+    elif summe['naht'] == summe['naht_szenario']:
+        print('  Hier waere ein Unterschied moeglich, und dass keiner da ist, ist')
+        print('  ein Datenbefund: der einzige Text mit beiden Klassen ist DL2, und')
+        print('  der ist Prosa ohne Verspaare. Sobald ein VERS-Text gemischte')
+        print('  Bloecke traegt, gehen die Spalten auseinander.')
+    print('  Grenze der Spalte "im Szenario": sie zaehlt brutto, nicht netto.')
+    print('  Faellt ein Block ZWISCHEN zwei ueberlebenden Bloecken heraus, ruecken')
+    print('  deren Raender zusammen und es entsteht eine NEUE Naht. Heute kann')
+    print('  das nicht vorkommen (der einzige gemischte Text hat 0 lineEnds), die')
+    print('  Spalte ist also derzeit auch netto richtig.')
 
     # ------------------------------------------------------- H.5
     print()
