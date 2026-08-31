@@ -10,15 +10,17 @@ Tickets, und fuer heute 52.163 und 1.733. Die Differenz sind die 66 Tokens des
 #235-Batches, der bewusst kein @corresp gesetzt hat.
 
 SCHREIBWEISE, und das ist hier kein Detail:
-tei/WZB.tei.xml ist die einzige CRLF-Datei im Korpus und mischt 235.974 CRLF
-mit 17 reinen LF-Zeilen. Deshalb exakte Byte-Ersetzung auf dem gelesenen Text,
+tei/WZB.tei.xml ist die einzige CRLF-Datei im Korpus und mischt CRLF mit 17
+reinen LF-Zeilen. Vor diesem Lauf waren es 235.974 CRLF, danach 235.975: die
+eine neue Zeile ist der revisionDesc-Eintrag, die 17 LF bleiben unberuehrt.
+Deshalb exakte Byte-Ersetzung auf dem gelesenen Text,
 newline='' bei Lesen UND Schreiben, und keine Serialisierung ueber lxml. lxml
 wird nur zum FINDEN der Ziel-Tokens benutzt, nie zum Schreiben. Das Zaehlerpaar
 wird vor und nach dem Lauf ausgegeben.
 
 Aufruf:
-    python apply-370-corresp.py            # Trockenlauf, schreibt nichts
-    python apply-370-corresp.py --apply    # schreibt tei/WZB.tei.xml
+    python scripts/ingest/wzb/wzb-corresp-apply.py            # Trockenlauf
+    python scripts/ingest/wzb/wzb-corresp-apply.py --apply    # schreibt WZB
 """
 import re
 import sys
