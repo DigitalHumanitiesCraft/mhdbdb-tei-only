@@ -117,8 +117,13 @@ def main() -> int:
         wr.writerows(faelle)
 
     print("Faelle 'w?ren' + minne unter %s: %d" % (LEMMA_VRB, len(faelle)))
+    # split("_", 1)[0], nicht rsplit("_", 2)[0]: siehe sigle() in
+    # extract-cases-by-id.py. Hier steuert die Ableitung nur diese
+    # Diagnosezeile und keine Dateiauswahl, im schlechtesten Fall stuende also
+    # WZB_1ra statt WZB in einer Ausgabe. Trotzdem mitgezogen, damit die
+    # Fehlerklasse nicht an einer dritten Stelle liegen bleibt.
     print("  Siglen:", dict(sorted(Counter(
-        x["xml_id"].rsplit("_", 2)[0] for x in faelle).items())))
+        x["xml_id"].split("_", 1)[0] for x in faelle).items())))
     print("  Schreibungen:", dict(Counter(x["form"].lower() for x in faelle)))
     print("  geschrieben:", ziel)
     print()
