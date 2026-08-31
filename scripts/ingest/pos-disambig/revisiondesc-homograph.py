@@ -6,6 +6,12 @@ Verallgemeinerung von revisiondesc-216-minne.py (Serie 1). Was dort als
 Konstante im Code stand (Datum, Markertext, Wortlaut des Eintrags), kommt hier
 aus dem Block "revisiondesc" der config.json der Serie.
 
+Der Wortlaut selbst ist seit #367 ueberschreibbar: setzt der Block einen
+Schluessel "vorlage", wird der statt VORLAGE genommen. Die Voreinstellung
+beschreibt eine Erstannotation aus einem LLM-Batch, und das ist keine Formalie,
+sondern eine Aussage, die in 300 Korpus-Headern stehenbleibt. Eine Serie, die
+etwas anderes tut, sagt etwas anderes.
+
 Getragen wird je Datei genau ein <change> mit den Zahlen DIESER Datei
 (annotiert / zurueckgehalten). Muster: der #189-Eintrag in GWTK.tei.xml.
 
@@ -34,6 +40,11 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parents[3]
 TEI_DIR = REPO / "tei"
 
+# Voreinstellung fuer eine Erstannotation aus einem LLM-Batch (Serien #216,
+# #369). Eine Serie, auf die das nicht zutrifft, setzt "vorlage" im
+# revisiondesc-Block ihrer config.json: #367 etwa ist eine Umannotation bereits
+# annotierter Tokens auf eine Einzelentscheidung von KZW hin, und "LLM-Batch"
+# waere dort eine falsche Angabe im Korpus selbst. Platzhalter sind dieselben.
 VORLAGE = (
     '<change when="{datum}" who="#editor">{titel}: {n_annot} '
     "homographie-ambige Tokens der Form {form} kontext-disambiguiert und neu "
@@ -67,6 +78,14 @@ def main() -> int:
              if k not in rd]
     if fehlt:
         sys.exit("FEHLER: revisiondesc fehlt: %s" % ", ".join(fehlt))
+
+    vorlage = rd.get("vorlage", VORLAGE)
+    # Eine eigene Vorlage muss dieselben Platzhalter tragen, sonst schlaegt
+    # format() erst mitten im Lauf fehl, wenn schon Dateien geschrieben sind.
+    for platzhalter in ("{datum}", "{titel}", "{n_annot}", "{log}"):
+        if platzhalter not in vorlage:
+            sys.exit("FEHLER: revisiondesc.vorlage ohne Platzhalter %s"
+                     % platzhalter)
 
     eigene_zeile_re = re.compile(
         r"[ \t]*<change [^>]*>" + re.escape(rd["titel"]) + r":.*?</change>\n")
@@ -108,9 +127,13 @@ def main() -> int:
             einrueckung = m_close.group(1) + "  "
 
         n_rev = review.get(fname, 0)
-        eintrag = VORLAGE.format(
+        # {n_wort} traegt den Numerus, damit ein Eintrag ueber genau ein Token
+        # nicht "1 Tokens" sagt. Die Voreinstellung nutzt den Platzhalter nicht
+        # (str.format ignoriert ueberzaehlige Argumente), eigene Vorlagen koennen.
+        eintrag = vorlage.format(
             datum=rd["datum"], titel=rd["titel"], form=rd["form"],
             ziele=rd["ziele"], log=rd["log"], n_annot=annot[fname],
+            n_wort="Token" if annot[fname] == 1 else "Tokens",
             review_satz=(REVIEW_SATZ.format(n_review=n_rev, form=rd["form"])
                          if n_rev else ""))
         neu = (text[:m_close.start()] + einrueckung + eintrag + "\n"

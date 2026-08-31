@@ -1,0 +1,25 @@
+{
+  "serie": "#367 (waeren als Adjektiv)",
+  "art": "Umannotation bestehender Tokens, keine Erstannotation",
+  "quell_lemma": "lemma_7505",
+  "quell_pos": "VRB",
+  "ziel_lemma": "lemma_7338",
+  "ziel_pos": "ADJ",
+  "corresp_neu": {
+    "wâren": "type_287014",
+    "wæren": "type_372363",
+    "woren": "type_372364"
+  },
+  "neue_typen": ["type_372363", "type_372364"],
+  "revisiondesc": {
+    "datum": "2026-08-31",
+    "titel": "#367 (wâren als Adjektiv)",
+    "form": "wâren",
+    "ziele": "lemma_7505 wesen (VRB) auf lemma_7338 wâr (ADJ)",
+    "log": "ingest/pos-disambig/367-waeren/",
+    "vorlage": "<change when=\"{datum}\" who=\"#editor\">{titel}: {n_annot} {n_wort} der Fügung „der/die {form} minne“ von {ziele} umannotiert (lemmaRef, pos und corresp; philologische Einzelentscheidung von K. Zeppezauer-Wachauer vom 2026-08-25, kein LLM-Batch; Provenienz-Log: {log}).</change>"
+  },
+  "kommentar_lemma": "lemma_7338 (wâr, ADJ) steht in lexicon.xml und traegt korpusweit bereits 3.489 Tokens, davon 135 in der Form wâren. Kein Lexikon-Backfill noetig (CONTRACTS F.3).",
+  "kommentar_corresp": "wâren hat unter lemma_7338 den Bestandstyp type_287014 (135 Belege, gemessen 2026-08-31). wæren und woren sind unter lemma_7338 nicht belegt und bekommen je eine neue Nummer oberhalb der hoechsten vergebenen (372362, gemessen im Korpus und in variants.xml uebereinstimmend). Bestehende Nummern werden ausdruecklich NICHT umgehaengt: type_273624 und type_273713 bleiben beim Verb, sonst haengt dieselbe Nummer an zwei Lemmata und extract-variants.py schlaegt sie der haeufigeren Seite zu (KZW, #367, 2026-08-25).",
+  "kommentar_ana": "Keines der 40 Tokens traegt heute ein @ana, gemessen. Die Sense-Frage, die in #189, #198, #216 und #369 kuratorisch zurueckgestellt werden musste, stellt sich hier nicht."
+}
