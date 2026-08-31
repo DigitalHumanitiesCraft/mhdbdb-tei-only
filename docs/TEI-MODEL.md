@@ -111,7 +111,7 @@ Attribution of the people who worked on the MHDBDB runs centrally through `autho
 |-------------|-----------------|--------|
 | collective team attribution | `<titleStmt>/<respStmt>` | `<orgName ref="contributors.xml#mhdbdb-team">` |
 | founders + coordinator (always the same, all 667 files) | `<publicationStmt>/<authority>` | `<persName role="founder\|coordinator" ref="contributors.xml#contrib_00X">` |
-| prominent lead editor (only for TKR/TKA/VTC/JT) | second `<titleStmt>/<respStmt>` | `<name role="lead-editor" ref="contributors.xml#contrib_00X">` |
+| prominent lead editor (only for JT/PUC/TKA/TKR/VTC) | second `<titleStmt>/<respStmt>` | `<name role="lead-editor" ref="contributors.xml#contrib_00X">` |
 
 **Example (ABG after the 2026-04-14 migration):**
 
@@ -141,7 +141,7 @@ Attribution of the people who worked on the MHDBDB runs centrally through `autho
 </publicationStmt>
 ```
 
-**Additional pattern for lead editors** (currently TKR/TKA/VTC with Brom, JT with Woesner):
+**Additional pattern for lead editors** (currently TKR/TKA/VTC/PUC with Brom, JT with Woesner):
 
 ```xml
 <titleStmt>
@@ -929,7 +929,7 @@ These three building blocks are identical in all 667 existing files and were set
 
 **Do not write the full contributor list into the header.** The 50+ editors who historically worked on the existing texts live in `contributors.xml` and are covered by the collective `mhdbdb-team` reference. The header stays lean.
 
-**Specific lead editors in a new ingest:** if a new text has one or more lead editors in today's sense (as Brom has for TKR/TKA/VTC or Woesner for JT), then:
+**Specific lead editors in a new ingest:** if a new text has one or more lead editors in today's sense (as Brom has for TKR/TKA/VTC/PUC or Woesner for JT), then:
 
 1. create a new `<person xml:id="contrib_NNN">` with `@role="lead-editor"` in `contributors.xml` (IDs continue from the last one assigned).
 2. add a second `<respStmt>` next to the collective one in the new corpus header:
