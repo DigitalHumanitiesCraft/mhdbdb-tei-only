@@ -59,6 +59,24 @@ def norm(s):
     return unicodedata.normalize("NFC", s or "").strip()
 
 
+def sigle(xid):
+    """Sigle einer Token-ID: alles vor dem ERSTEN Unterstrich.
+
+    Nicht von hinten abschneiden. Bis zum 2026-08-31 stand hier
+    rsplit("_", 2)[0], was genau zwei Unterstriche voraussetzt. Die WZB hat
+    mehr (WZB_1ra_2_1 ergab WZB_1ra), damit wurde tei/WZB.tei.xml
+    uebersprungen und das Skript meldete, die ID sei nicht im Korpus: das
+    Gegenteil des Sachverhalts, und ausgerechnet fuer den groessten aktiven
+    Ingest. Gemessen am 2026-08-31: 149.165 <w>-IDs mit drei und mehr
+    Unterstrichen, davon 149.130 mit genau drei und 35 mit vier
+    (etwa WZB_56va_1_0_1), alle in WZB.tei.xml. Keine der 667 Korpusdateien
+    traegt einen Unterstrich im Namen, und bis zu zwei Unterstrichen liefern
+    beide Ableitungen dasselbe. Die Ableitung von vorn ist damit fuer jede
+    Sigle korrekt und fuer die uebrigen 666 Texte aequivalent zur alten.
+    """
+    return xid.split("_", 1)[0]
+
+
 def vers_text(el, mark_id=None):
     if el is None:
         return ""
@@ -89,7 +107,7 @@ def main() -> int:
         kategorie[xid] = kat.strip()
 
     # Nur die Dateien parsen, deren Sigle in der Liste vorkommt.
-    siglen = {x.rsplit("_", 2)[0] for x in reihenfolge}
+    siglen = {sigle(x) for x in reihenfolge}
     gefunden = {}
     for fp in corpus_files():
         if fp.name.split(".")[0] not in siglen:
@@ -141,7 +159,7 @@ def main() -> int:
 
     print("Faelle: %d, alle im Korpus belegt" % len(reihenfolge))
     print("  Siglen:", dict(sorted(Counter(
-        x.rsplit("_", 2)[0] for x in reihenfolge).items())))
+        sigle(x) for x in reihenfolge).items())))
     print("  Schreibungen:", dict(Counter(gefunden[x]["form"] for x in reihenfolge)))
     print("  Ist-lemmaRef:", dict(Counter(gefunden[x]["ist_lemmaRef"] for x in reihenfolge)))
     print("  Ist-pos:", dict(Counter(gefunden[x]["ist_pos"] for x in reihenfolge)))
