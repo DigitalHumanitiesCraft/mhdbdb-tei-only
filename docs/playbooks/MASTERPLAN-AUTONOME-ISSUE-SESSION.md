@@ -225,7 +225,7 @@ Kickoff des Nachmittagslaufs vom 31.08. in die Platzhalter gesetzt hat:
 Was die alte Fassung dieses Abschnitts an dieser Stelle sagte, gilt unverändert weiter:
 
 1. **Autorisierung:** `claude/*`-Branches und PR-Erstellung, `main` bleibt tabu.
-2. **Umfang:** die Wellen aus §3, geschnitten nach §2 Punkt 4 (je ein Arbeitspaket; ein PR nur, wo Code oder Daten geändert werden). **Welle 0 als Vorflug ausschreiben**, und wenn es keinen Meta-PR gibt, im Kickoff sagen, in welcher Welle der JOURNAL-Eintrag mitläuft.
+2. **Umfang:** die Wellen aus §3, geschnitten nach §2 Punkt 4. **Welle 0 als Vorflug ausschreiben**, und wenn es keinen Meta-PR gibt, im Kickoff sagen, in welcher Welle der JOURNAL-Eintrag mitläuft.
 3. **Weiche `npm test`:** ob die volle Suite freigegeben ist oder nur gezielte Läufe. Ohne diesen Satz hat die Session keinen Weg, die stehende Konvention „Tests nie ungefragt" aufzulösen, und darf zugleich nicht nachfragen. Bis zum 2026-08-05 fehlte er hier, während §2 den Volllauf vor dem Push verlangte.
 4. **Notationsfallen**, falls welche im Spiel sind (etwa Befund-Nummern in einem Issue-Body, die wie Issue-Nummern aussehen).
 5. **Das Verifikations-Handwerk aus §2.1** in Kurzform, mindestens die Mutations-Regel.
