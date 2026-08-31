@@ -46,11 +46,12 @@ Hier gehört hinein: was sich seit der letzten Session geändert hat, welche Ent
 
 **Der gemeinsame Teil steht in [`BETRIEBSVERTRAG.md`](BETRIEBSVERTRAG.md)** und wird beim Kickoff in den Prompt kopiert, nicht verlinkt (siehe [`KICKOFF-VORLAGE.md`](KICKOFF-VORLAGE.md)). Bis zum 2026-08-05 stand er hier und in zwei weiteren Playbooks gleichzeitig, und Kopien driften.
 
-Was diese Session zusätzlich oder abweichend bindet:
+Was eine autonome Issue-Session darüber hinaus bindet. Dieser Abschnitt gilt für jede von ihnen und wird nicht pro Session überschrieben (siehe Kopf); eine Abweichung im Einzelfall gehört in den Kickoff, nicht hierher:
 
 1. **`main` ist tabu.** Kein Merge, kein Push. Alle Ergebnisse sind PRs, die chsteiner reviewt und mergt. Die Kickoff-Freigabe gilt nur für `claude/*`-Branches und das Erstellen von PRs.
 2. **Konfliktmanagement ohne Merges:** PRs starten von `main`; bei Datei-Überschneidung wird der spätere Branch auf den früheren gestackt und der PR-Body sagt „nach PR X mergen". Wenn das Playbook „gestackt" sagt, muss der Branch das auch sein.
 3. **Verifikation gezielt pro Welle** (`npm test -- <spec-fragment>`), nicht die volle Suite nebenher. Ein gefilterter Lauf sagt TEILLAUF und belegt damit keine Vollständigkeit; vor dem Push eines Code-PRs ist der Volllauf trotzdem fällig.
+4. **Wellenschnitt: Welle 0 ist der Vorflug, danach eine Welle je Arbeitspaket.** Der Vorflug prüft beide Zählungen aus Regel 28 auf 0 (`origin/main...HEAD` und `origin/main..main`), lässt `python scripts/audit/check-index-versions.py` laufen, sucht die im Playbook genannten Fundorte auf und bestätigt sie, sieht `testing/tests/` nach einschlägigen bestehenden Specs durch, und macht **keinen vollen `npm test` als Hintergrund-Baseline**. Danach eine Welle je **Arbeitspaket**, jede mit eigener Verifikation; wo ein Arbeitspaket Code oder Daten ändert, ist es je ein PR. Bis zum 2026-08-31 stand hier „eine Welle je PR", und der Nachmittagslauf desselben Tages hat gezeigt, warum das zu eng ist: zwei seiner vier Wellen haben nichts committet und trotzdem geliefert, einen Statuskommentar und eine Kostenschätzung. **Gibt es einen Meta-PR, ist er die letzte Welle.** Bis zum 2026-08-31 war er Pflicht; beide bisherigen Läufe mussten sein Fehlen im Dokument begründen, obwohl der JOURNAL-Eintrag in einer Sachwelle gut aufgehoben war. Diese Begründungspflicht entfällt, die Angabe nicht: **wo der JOURNAL-Eintrag gelandet ist, sagt §7**, sonst weiß es nach dem Überschreiben von §3 und §6 niemand mehr.
 
 ### 2.1 Verifikations-Handwerk (stabiler Kern, aus mehreren Sessions destilliert)
 
@@ -136,7 +137,7 @@ jede hätte die Welle beendet. Alle drei gingen gut aus, aber das war vorher nic
 bekannt, und genau deshalb waren sie etwas wert. Eine Messung, deren Ergebnis den
 Ablauf nicht ändern kann, ist Dekoration.
 
-Muster: Welle 0 ist der Vorflug (beide Zählungen aus Regel 28 müssen 0 sein, `origin/main...HEAD` und `origin/main..main`; `python scripts/audit/check-index-versions.py`; die im Playbook genannten Fundorte aufsuchen und bestätigen; `testing/tests/` nach einschlägigen bestehenden Specs durchsehen; **kein voller `npm test` als Hintergrund-Baseline**). Danach eine Welle je **Arbeitspaket**, jede mit eigener Verifikation; wo ein Arbeitspaket Code oder Daten ändert, ist es je ein PR. Bis zum 31.08. stand hier „eine Welle je PR", und der Nachmittagslauf desselben Tages hat gezeigt, warum das zu eng ist: zwei seiner vier Wellen haben nichts committet und trotzdem geliefert, einen Statuskommentar und eine Kostenschätzung. Gibt es einen Meta-PR, ist er die letzte Welle.
+Das Muster, nach dem geschnitten wird, steht seit dem 2026-08-31 in **§2 Punkt 4** und bleibt beim Überschreiben dieses Abschnitts stehen. Hier steht nur, wie diese eine Session es ausgefüllt hat.
 
 Bei Datei-Überschneidungen zwischen den Wellen den späteren Branch auf den früheren stacken und die Merge-Reihenfolge in den PR-Body schreiben. Der Meta-PR berührt fast immer `JOURNAL.md` und `ROADMAP.md` und kollidiert damit mit jedem PR, der Doku anfasst.
 
@@ -224,7 +225,7 @@ Kickoff des Nachmittagslaufs vom 31.08. in die Platzhalter gesetzt hat:
 Was die alte Fassung dieses Abschnitts an dieser Stelle sagte, gilt unverändert weiter:
 
 1. **Autorisierung:** `claude/*`-Branches und PR-Erstellung, `main` bleibt tabu.
-2. **Umfang:** die Wellen aus §3, je eine pro PR, letzte Welle ist der Meta-PR. **Welle 0 als Vorflug ausschreiben.**
+2. **Umfang:** die Wellen aus §3, geschnitten nach §2 Punkt 4 (je ein Arbeitspaket; ein PR nur, wo Code oder Daten geändert werden). **Welle 0 als Vorflug ausschreiben**, und wenn es keinen Meta-PR gibt, im Kickoff sagen, in welcher Welle der JOURNAL-Eintrag mitläuft.
 3. **Weiche `npm test`:** ob die volle Suite freigegeben ist oder nur gezielte Läufe. Ohne diesen Satz hat die Session keinen Weg, die stehende Konvention „Tests nie ungefragt" aufzulösen, und darf zugleich nicht nachfragen. Bis zum 2026-08-05 fehlte er hier, während §2 den Volllauf vor dem Push verlangte.
 4. **Notationsfallen**, falls welche im Spiel sind (etwa Befund-Nummern in einem Issue-Body, die wie Issue-Nummern aussehen).
 5. **Das Verifikations-Handwerk aus §2.1** in Kurzform, mindestens die Mutations-Regel.
@@ -244,6 +245,11 @@ sondern die Vorgabe: bei allen dreien entscheidet als Nächstes ein Mensch.
 | PR #382, gemergt | #370 | Punkt 1 (46.890 `@corresp`) und Punkt 4 (Ratsche je Sigle im Cross-Ref-Audit). Punkt 2 bleibt kuratorisch offen, 484 Paare als CSV im Repo |
 | kein PR | #28 | Kostenschätzung auf 200-Lemma-Stichprobe, Ergebnis im #44-Bericht |
 | neu angelegt | keines | der einzige Kandidat fiel unter das bestehende #115 |
+
+**Kein Meta-PR.** Der JOURNAL-Eintrag zum 2026-08-31 ist in Welle 3 mitgelaufen und
+liegt in PR #382 (`15369d58c`); die ROADMAP war nicht betroffen. Das ist die Angabe,
+die §2 Punkt 4 an dieser Stelle verlangt: ohne sie steht nach dem Überschreiben von
+§3 und §6 nirgends mehr, wo der Eintrag hin ist.
 
 **Sechs Dinge, die die nächste Session wissen sollte:**
 
