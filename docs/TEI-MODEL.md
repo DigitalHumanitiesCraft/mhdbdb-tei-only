@@ -112,6 +112,9 @@ Attribution of the people who worked on the MHDBDB runs centrally through `autho
 | collective team attribution | `<titleStmt>/<respStmt>` | `<orgName ref="contributors.xml#mhdbdb-team">` |
 | founders + coordinator (always the same, all 667 files) | `<publicationStmt>/<authority>` | `<persName role="founder\|coordinator" ref="contributors.xml#contrib_00X">` |
 | prominent lead editor (only for JT/PUC/TKA/TKR/VTC) | second `<titleStmt>/<respStmt>` | `<name role="lead-editor" ref="contributors.xml#contrib_00X">` |
+| a named contribution that is *not* a lead editorship (only WZB) | second `<titleStmt>/<respStmt>` | `<name ref="contributors.xml#contrib_00X">`, no `@role` |
+
+The last row is corpus-wide unique and deliberate, not an omission (#315): WZB names Julia Hintersteiner for lemmatisation, POS annotation and sense disambiguation. Her entry in `contributors.xml` keeps `role="lead-editor"`, because that describes her role in the editorial process; the header does not repeat it, because `@role` there would state the status of the *text*. She decided this herself as the WZB editor on 2026-08-26.
 
 **Example (ABG after the 2026-04-14 migration):**
 
