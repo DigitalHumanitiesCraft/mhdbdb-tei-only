@@ -62,6 +62,18 @@ Issue-Playbooks: Zahlen in Doku und Kommentaren altern mit den Daten).
   Naht            zwei im Index benachbarte Verse (lineEnds[k], lineEnds[k+1])
                   bzw. zwei Positionen im Abstand <= 10, deren Bloecke
                   verschieden sind.
+  "im Szenario"   die Teilmenge der Naehte, die das jeweilige Szenario
+                  tatsaechlich beseitigt: mindestens einer der beiden Bloecke
+                  wird herausgerechnet. Eine Naht zwischen zwei Bloecken, die
+                  beide stehenbleiben, bleibt bestehen.
+  <l>             die ROHE Zahl der <l>-Elemente im <body>. Sie taucht in
+                  keiner Werkzeugzahl auf und steht nur als Strukturangabe da.
+  Verse H.2a      len(lineEnds), also nur <l> mit mindestens einem indexierten
+                  Wort. DIESE Groesse benutzen H.4 und die Spalte "Verspaare".
+                  Die beiden gehen auseinander: BRW hat 1.316 <l>, aber 1.314
+                  lineEnds. §H.2a nennt genau diese Verwechslung "the main
+                  source of misreading", deshalb stehen hier beide Spalten
+                  nebeneinander statt einer mehrdeutigen namens "Verse".
   "ohne"          dieselbe Kennzahl, gerechnet ueber die Basis-Tokens allein.
 
 Der Positionslauf wird gegen text.wordCount und len(text.lineEnds) aus dem
@@ -275,6 +287,17 @@ def length_matched_ttr(text, target_len, seeds=(255, 1, 2, 3, 4)):
     return sum(werte) / len(werte)
 
 
+def block_faellt(key, blocks, scope):
+    """Rechnet DIESES Szenario diesen Block heraus?
+
+    None ist der Basistext und bleibt immer stehen. Im Szenario "all" faellt
+    jeder parallel-Block, im Szenario "zaehler" nur die Klasse ZAEHLER: ein
+    HANDSCHRIFT-Block bleibt dort Block, und eine Naht an ihm bleibt bestehen.
+    """
+    return (key is not None
+            and (scope == 'all' or blocks[key]['klasse'] == 'ZAEHLER'))
+
+
 def excluded_positions(scan, scope):
     """Die Positionen, die das Szenario herausrechnet."""
     if scope == 'all':
@@ -424,16 +447,23 @@ def report_scope(scope, scans, index, texts_by_id, normalized, args):
     print('  Fehlerklasse: nicht Doppelzaehlung, sondern eine Verbindung ueber')
     print('  die Grenze zweier Fassungen desselben Verses hinweg.')
     print()
-    print(f'{"Sigle":<7}{"Verspaare":>11}{"ueber Naht":>12}{"davon reimen":>14}'
-          f'{"Reimquote sonst":>17}{"Tokenpaare <= " + str(args.proximity):>19}')
-    summe = {'paare': 0, 'naht': 0, 'reim': 0, 'prox': 0,
+    print(f'{"Sigle":<7}{"Verspaare":>11}{"Naht ges.":>11}{"im Szenario":>13}'
+          f'{"davon reimen":>14}{"Reimquote sonst":>17}'
+          f'{"Tokenpaare <= " + str(args.proximity):>19}')
+    summe = {'paare': 0, 'naht': 0, 'naht_szenario': 0, 'reim': 0, 'prox': 0,
              'innen': 0, 'innen_reim': 0}
     per_text = {}
-    for sigle, scan in sorted(scans.items()):
+    # Nur die betroffenen Texte. Der Abschnitt stand bis 2026-08-31 ausserhalb
+    # jeder Szenario-Bedingung und druckte deshalb in BEIDEN Szenarien dieselbe
+    # Tabelle, im Szenario "zaehler" samt Zeilen fuer BRW und DL1, die vier
+    # Zeilen weiter oben als nicht betroffen ausgewiesen sind.
+    for sigle in sorted(betroffen):
+        scan = scans[sigle]
+        parset = par_positions[sigle]
         lb = scan['line_block']
         le = scan['line_ends']
+        blocks = scan['blocks']
         paare = max(0, len(le) - 1)
-        naht = sum(1 for k in range(paare) if lb[k] != lb[k + 1])
         # Wie viele der Nahtpaare meldet das Reim-Woerterbuch tatsaechlich als
         # Reim? Nur die zaehlen als falsche Ausgabe. Partnerseite ueber
         # words[pos] wie in H.3.
@@ -445,6 +475,8 @@ def report_scope(scope, scans, index, texts_by_id, normalized, args):
         # muessen.
         t = texts_by_id[sigle]
         words = t['words']
+        naht = 0
+        naht_szenario = 0
         reim = 0
         innen = 0
         innen_reim = 0
@@ -452,8 +484,15 @@ def report_scope(scope, scans, index, texts_by_id, normalized, args):
             a = normalized.get(words[le[k]], '')
             b = normalized.get(words[le[k + 1]], '')
             if lb[k] != lb[k + 1]:
-                if rhymes_with(a, b):
-                    reim += 1
+                naht += 1
+                # Eine Naht verschwindet nur, wenn das Szenario mindestens
+                # einen ihrer beiden Bloecke herausrechnet. Liegt sie zwischen
+                # zwei Bloecken, die beide bleiben, bleibt auch sie.
+                if (block_faellt(lb[k], blocks, scope)
+                        or block_faellt(lb[k + 1], blocks, scope)):
+                    naht_szenario += 1
+                    if rhymes_with(a, b):
+                        reim += 1
             else:
                 innen += 1
                 if rhymes_with(a, b):
@@ -464,31 +503,46 @@ def report_scope(scope, scans, index, texts_by_id, normalized, args):
         for i in range(n):
             bi = bo[i]
             for j in range(i + 1, min(n, i + args.proximity + 1)):
-                if bo[j] != bi:
+                if bo[j] != bi and (i in parset or j in parset):
                     prox += 1
         quote = f'{innen_reim / innen * 100:.1f}%' if innen else 'n/a'
-        print(f'{sigle:<7}{paare:>11,}{naht:>12,}{reim:>14,}{quote:>17}'
-              f'{prox:>19,}')
-        per_text[sigle] = {'verspaare': paare, 'naht': naht, 'reim': reim,
+        print(f'{sigle:<7}{paare:>11,}{naht:>11,}{naht_szenario:>13,}'
+              f'{reim:>14,}{quote:>17}{prox:>19,}')
+        per_text[sigle] = {'verspaare': paare, 'naht': naht,
+                           'naht_szenario': naht_szenario, 'reim': reim,
                            'prox': prox}
         summe['paare'] += paare
         summe['naht'] += naht
+        summe['naht_szenario'] += naht_szenario
         summe['reim'] += reim
         summe['prox'] += prox
         summe['innen'] += innen
         summe['innen_reim'] += innen_reim
     quote = (f'{summe["innen_reim"] / summe["innen"] * 100:.1f}%'
              if summe['innen'] else 'n/a')
-    print(f'{"Summe":<7}{summe["paare"]:>11,}{summe["naht"]:>12,}'
-          f'{summe["reim"]:>14,}{quote:>17}{summe["prox"]:>19,}')
+    print(f'{"Summe":<7}{summe["paare"]:>11,}{summe["naht"]:>11,}'
+          f'{summe["naht_szenario"]:>13,}{summe["reim"]:>14,}{quote:>17}'
+          f'{summe["prox"]:>19,}')
     print()
-    print('  "ueber Naht" sind benachbarte lineEnds-Eintraege aus verschiedenen')
-    print('  Bloecken, "davon reimen" die Teilmenge, die H.3 auch wirklich als')
-    print('  Reimpaar ausgibt. Nur diese Zahl ist eine falsche Ausgabe, die')
-    print('  erste ist ihre Obergrenze.')
+    print('  "Naht ges." sind benachbarte lineEnds-Eintraege aus verschiedenen')
+    print('  Bloecken, je Text unabhaengig vom Szenario; die Summenzeile laeuft')
+    print('  ueber die gezeigten, also die betroffenen Texte. "im Szenario" ist die')
+    print('  Teilmenge, die dieses Szenario tatsaechlich beseitigen wuerde:')
+    print('  eine Naht faellt nur, wenn mindestens einer ihrer beiden Bloecke')
+    print('  herausgerechnet wird. Das ist die Zahl, nach der #255 fragt.')
+    print('  "davon reimen" ist davon wiederum die Teilmenge, die H.3 auch')
+    print('  wirklich als Reimpaar ausgibt. Nur sie ist eine falsche Ausgabe,')
+    print('  die beiden Spalten links sind ihre Obergrenzen.')
     print('  "Reimquote sonst" ist dieselbe Rechnung auf den Verspaaren')
     print('  INNERHALB eines Blocks. Sie ist die Kontrollzahl: liegt sie bei')
     print('  0, misst nicht die Naht nichts, sondern das Skript.')
+    print('  "Tokenpaare" zaehlt nur Paare, bei denen mindestens eine Seite im')
+    print('  herausgerechneten Bereich liegt.')
+    if summe['naht'] == summe['naht_szenario']:
+        print('  Heute fallen die beiden Nahtspalten in jeder Zeile zusammen. Das')
+        print('  ist keine Redundanz, sondern ein Datenbefund: der einzige Text')
+        print('  mit beiden Klassen ist DL2, und der ist Prosa ohne Verspaare.')
+        print('  Sobald ein Vers-Text gemischte Bloecke traegt, gehen sie auseinander.')
 
     # ------------------------------------------------------- H.5
     print()
@@ -623,8 +677,8 @@ def main():
     print('1. STRUKTUR: wo die Parallelueberlieferung liegt und was sie bedeutet')
     print('-' * 78)
     print()
-    print(f'{"Sigle":<7}{"divs":>5}{"Klasse":>26}{"Tokens":>9}{"davon par.":>11}'
-          f'{"Anteil":>9}{"Verse":>8}{"par.":>7}')
+    print(f'{"Sigle":<7}{"divs":>5}{"Klasse":>22}{"Tokens":>9}{"davon par.":>11}'
+          f'{"Anteil":>8}{"<l>":>7}{"par.":>6}{"Verse H.2a":>12}')
     rows = {}
     for sigle, scan in sorted(scans.items()):
         par_tokens = sum(1 for b in scan['block_of'] if b is not None)
@@ -632,14 +686,16 @@ def main():
         klassen = sorted({b['klasse'] for b in scan['blocks'].values()})
         klasse = '+'.join(klassen) if klassen else '-'
         share = par_tokens / total * 100 if total else 0.0
-        print(f'{sigle:<7}{len(scan["blocks"]):>5}{klasse:>26}{total:>9,}'
-              f'{par_tokens:>11,}{share:>8.1f}%{scan["lines_total"]:>8,}'
-              f'{scan["lines_par"]:>7,}')
+        print(f'{sigle:<7}{len(scan["blocks"]):>5}{klasse:>22}{total:>9,}'
+              f'{par_tokens:>11,}{share:>7.1f}%{scan["lines_total"]:>7,}'
+              f'{scan["lines_par"]:>6,}{len(scan["line_ends"]):>12,}')
         rows[sigle] = {
             'sigle': sigle, 'divs': len(scan['blocks']), 'klasse': klasse,
             'tokens': total, 'tokens_parallel': par_tokens,
-            'anteil_prozent': round(share, 2), 'verse': scan['lines_total'],
-            'verse_parallel': scan['lines_par'],
+            'anteil_prozent': round(share, 2),
+            'l_elemente': scan['lines_total'],
+            'l_elemente_parallel': scan['lines_par'],
+            'verse_h2a': len(scan['line_ends']),
         }
 
     print()
@@ -667,7 +723,8 @@ def main():
                 for k, v in values.items():
                     rows[sigle][f'{k}__{scope}' if not k.endswith(scope) else k] = v
         fields = ['sigle', 'divs', 'klasse', 'tokens', 'tokens_parallel',
-                  'anteil_prozent', 'verse', 'verse_parallel']
+                  'anteil_prozent', 'l_elemente', 'l_elemente_parallel',
+                  'verse_h2a']
         extra = sorted({k for r in rows.values() for k in r} - set(fields))
         fields += extra
         with out.open('w', encoding='utf-8-sig', newline='') as fh:
