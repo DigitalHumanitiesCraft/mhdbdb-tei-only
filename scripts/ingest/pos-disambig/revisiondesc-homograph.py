@@ -87,8 +87,13 @@ def main() -> int:
             sys.exit("FEHLER: revisiondesc.vorlage ohne Platzhalter %s"
                      % platzhalter)
 
+    # \r?\n, nicht \n: seit die Einfuegung unten das Zeilenende der Umgebung
+    # nimmt, terminiert der eigene Eintrag in der CRLF-Datei WZB mit \r\n. Eine
+    # Regex auf \n faende ihn nie, der Kopf-Check darueber schon, und ein
+    # zweiter --apply-Lauf haenge einen zweiten Eintrag an statt zu ersetzen
+    # (gemessen 2026-08-31: subn 0 gegen WZB, 1 gegen die LF-Datei ABG).
     eigene_zeile_re = re.compile(
-        r"[ \t]*<change [^>]*>" + re.escape(rd["titel"]) + r":.*?</change>\n")
+        r"[ \t]*<change [^>]*>" + re.escape(rd["titel"]) + r":.*?</change>\r?\n")
 
     annot = Counter()
     review = Counter()

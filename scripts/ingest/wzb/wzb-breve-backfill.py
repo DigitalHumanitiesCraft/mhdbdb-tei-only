@@ -168,6 +168,11 @@ def main() -> int:
             pos_liste = lemma_pos.get(lemma, ([], ""))[0]
             if len(pos_liste) == 1:
                 aktion, grund, pos = "ANNOTATE", "", pos_liste[0]
+            elif not pos_liste:
+                # Kam im Bestand nicht vor (alle 98 haben mindestens zwei
+                # Wortarten), waere unter 'pos-mehrdeutig' aber falsch
+                # etikettiert: das Lemma hat keine, nicht mehrere.
+                aktion, grund = "REVIEW", "pos-fehlt"
             else:
                 aktion, grund = "REVIEW", "pos-mehrdeutig"
         stats[aktion] += 1
