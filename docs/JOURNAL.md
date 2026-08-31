@@ -553,6 +553,30 @@ Daraus folgt die eigentliche Regel in ADR-019: die beiden Schwellen sind nicht z
 
 **Phase:** Betrieb, `claude/369-stat-serie2`. Schema-Stichprobe 9/10 (der eine Fail ist ADP aus der 30er-Baseline), Cross-Ref-Audit und `validate-indices.py` grün, Playwright 310/310.
 
+---
+
+## 2026-08-31 – Drei entblockte Tickets, und zweimal war die Messvorschrift das Byte
+
+**Summary:** Julia Hintersteiner und KZW haben am 25./26.08. drei Fragen beantwortet, die je ein Ticket blockierten. Daraus drei PRs in einer Session: #374 nimmt `role="lead-editor"` aus der WZB und bringt die Doku von vier auf fünf Sigel, #377 annotiert 40 Belege der Fügung *der/die wâren minne* vom Verb aufs Adjektiv um (Korpus-Index 4.2.4 auf 4.2.5, Authority 1.9.1 auf 1.9.2), #235 Punkt 3 annotiert 66 von 289 Breve-Tokens der WZB mechanisch nach (Korpus-Index 4.2.5 auf 4.2.6, Authority unverändert). Damit ist auch die Frage beantwortet, die der Eintrag vom 02.08. offen ließ: die Auszeichnung bezeichnete Julias Rolle im Editionsprozess, nicht den Status des Textes, ihr Beitrag bleibt im `respStmt` verzeichnet und nur die Rollenbezeichnung fällt.
+
+**Ein Diff, der zeichenweise stimmt, ist keine Messung.** Der erste WZB-Edit lief über das Edit-Werkzeug und sah im `git diff` genau so aus wie beabsichtigt: eine Zeile, ein entferntes Attribut. Tatsächlich hatte er 17 fremde reine LF-Zeilen still auf CRLF vereinheitlicht. Die WZB ist die einzige Datei im Korpus mit CRLF (gemessen: 1 von 667) und mischt darin 235.973 CRLF- mit 17 LF-Zeilen, die aus Julias Token-Split `f3dcf2a86` stammen. Sichtbar wurde das erst beim Byte-Vergleich gegen `origin/main`; die Diff-Hunks selbst waren zeichengleich. Alle drei Wellen haben ihre WZB-Änderungen danach über exakte Byte-Ersetzung mit `newline=""` beim Lesen **und** Schreiben ausgeführt und die beiden Zähler vorher und nachher protokolliert.
+
+**Und derselbe Fehler kam ein zweites Mal, weil die Prüfung jetzt dastand.** `revisiondesc-homograph.py` hängt seinen `<change>`-Eintrag mit einem harten `"\n"` an. In den 666 reinen LF-Dateien fällt das nicht auf, in der WZB stieg die Zahl der reinen LF-Zeilen von 17 auf 18. Das Skript nimmt das Zeilenende jetzt aus der Umgebung. Der Punkt ist nicht der Fix, sondern dass die Kontrollzahl aus Welle 1 den Fehler in Welle 3 abgefangen hat, ohne dass jemand nach ihm gesucht hätte.
+
+**Zweimal Skript reparieren und Daten neu erzeugen, nicht nachbessern.** Die Regel aus #236 wurde in Welle 3 zweimal gebraucht: einmal, weil dem Backfill-Skript die Spalte `file` fehlte, die `revisiondesc-homograph.py` als Schnittstelle liest, einmal wegen des Zeilenendes. Beide Male ging `tei/WZB.tei.xml` zurück auf `HEAD` und die ganze Kette neu, beide Male reproduzierte sie 66 ANNOTATE und 223 REVIEW identisch. Das ist der Reproduzierbarkeitsbeleg, den die Idempotenz allein nicht liefert.
+
+**Die 66 sind mechanisch, und die 223 sind es genau deshalb nicht.** Annotiert wurde nur, wo die MHG-normalisierte Schreibung in `variants.xml` genau ein Lemma trifft und dieses Lemma genau eine Wortart hat: kein LLM, keine Kontextentscheidung, 46 NOM, 18 VRB, 1 ADJ, 1 NUM. Zurückgehalten sind 112 ohne Treffer im Lexikon (`ŏpfeltragendes`, `gevŏggeln`, `bŏvme`), 98 mit mehrdeutiger Wortart am Ziel-Lemma (`bŏse` führt auf `lemma_788` mit ADJ, ADV, GRA und NOM) und 13 mit mehreren Ziel-Lemmata. Die 98 sind ein Arbeitspaket nach dem Muster #216/#369 und bleiben in #235 stehen. Kein `corresp`: alle eindeutig auflösenden Kandidaten brauchten unter ihrem Ziel-Lemma eine neu geprägte Typnummer (113 distinkte Form-Lemma-Paare), und neue Typen sind genehmigungspflichtig. Die 66 landen damit in derselben Lage wie die 52.097 anderen WZB-Tokens aus #370.
+
+**Der Nebenbefund war größer als das Ticket.** Bei der Sondierung für #367 fiel auf, dass die Varianten-Map beim Aufbau nach first-wins entscheidet: trägt dieselbe Schreibform Typen unter zwei Lemmata, gewinnt das zuerst gelesene, nicht das häufigere. Roh sind 1.893 Formen betroffen, für Nutzerinnen sichtbar 1.272, weil Stufe 1 der Lemma-Auflösung den Rest vorher abfängt. Die rohe Zahl allein hätte den Befund dramatischer aussehen lassen, als er ist, die kleine allein hätte den Umfang verdeckt. Beide stehen in #378, mit ihrer jeweiligen Messvorschrift. Eine Zweitmeinung nannte an derselben Stelle 2.065 und 1.331; übernommen wurde nichts davon, gemessen und in das Ticket geschrieben ist die eigene Zahl samt Zählweise, und dass die Differenz offen ist, steht dabei.
+
+**Der Review-Bot der CI ist auf Daten-PRs weiter unbrauchbar, jetzt zum zweiten Mal belegt.** Auf #377 meldete die GitHub-API `changed_files: 0`, die Plattform hatte den Diff also gar nicht berechnet: dieselbe Lage wie bei #368, ausgelöst vom 40 MB großen `corpus-index.json.gz`. Kein Rerun, kein Aufsplitten des PR, stattdessen ein Kommentar am PR, damit der rote Haken nicht als Befund gelesen wird.
+
+**Punkt 1 und 2 von #235 waren längst erledigt, ohne dass das Ticket es wusste.** Die 17 Tokens, die statt eines Leerzeichens die Zeichenfolge Backslash-`u0020` trugen, hat Julia am 26.08. mit `f3dcf2a86` gesplittet, die 20 kaputten Harsch-URLs sind seit PR #238 vom 29.07. repariert (gemessen: 41 Fundstellen in 25 Dateien, alle mit ASCII-Tilde). Ein Ticket, das drei Punkte bündelt, altert an jedem einzeln.
+
+**Phase:** Betrieb. PRs #374, #377 und der Breve-PR; neue Tickets #375, #376, #378. #235 bleibt offen wegen der 223 Review-Fälle.
+
+---
+
 ## 2026-08-14 – #59: die Erklärung durfte nicht vor den Daten kommen
 
 **Summary:** Lindas Umstellung vom 11.08. auf acht Instanztypen mit sechs Markern ist im Naming-Explorer umgesetzt; die Ansicht kannte bis dahin nur `#` und eckige Klammern und erklärte beide als dasselbe. Gemergt als PR #365, zusammen mit Lindas Datenstand v0.2.1-beta (Quell-Commit `4766065c`, 10.502 Records). Nachtrag vom 18.08., rekonstruiert aus dem PR-Text und dem Bericht an Linda in #59; die Session selbst hatte keinen Journal-Eintrag hinterlassen.
