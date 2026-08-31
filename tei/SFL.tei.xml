@@ -152,6 +152,7 @@
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 23 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 78 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
+      <change when="2026-08-31" who="#editor">#367 (wâren als Adjektiv): 6 Tokens der Fügung „der/die wâren minne“ von lemma_7505 wesen (VRB) auf lemma_7338 wâr (ADJ) umannotiert (lemmaRef, pos und corresp; philologische Einzelentscheidung von K. Zeppezauer-Wachauer vom 2026-08-25, kein LLM-Batch; Provenienz-Log: ingest/pos-disambig/367-waeren/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -843,7 +844,7 @@
           <w xml:id="SFL_890_2" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
           <w xml:id="SFL_890_3">in</w>
           <w xml:id="SFL_890_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="SFL_890_5" lemmaRef="lexicon.xml#lemma_7505" pos="VRB" corresp="variants.xml#type_273621">wâren</w>
+          <w xml:id="SFL_890_5" lemmaRef="lexicon.xml#lemma_7338" pos="ADJ" corresp="variants.xml#type_287014">wâren</w>
           <w xml:id="SFL_890_6" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
         </l>
         <l n="90">
@@ -6075,7 +6076,7 @@
         <l n="735">
           <w xml:id="SFL_7350_0">in</w>
           <w xml:id="SFL_7350_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="SFL_7350_2" lemmaRef="lexicon.xml#lemma_7505" pos="VRB" corresp="variants.xml#type_273621">wâren</w>
+          <w xml:id="SFL_7350_2" lemmaRef="lexicon.xml#lemma_7338" pos="ADJ" corresp="variants.xml#type_287014">wâren</w>
           <w xml:id="SFL_7350_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <pc xml:id="SFL_7350_4" join="left">.</pc>
         </l>
@@ -13221,7 +13222,7 @@
         <l n="1615">
           <w xml:id="SFL_16150_0">in</w>
           <w xml:id="SFL_16150_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="SFL_16150_2" lemmaRef="lexicon.xml#lemma_7505" pos="VRB" corresp="variants.xml#type_273621">wâren</w>
+          <w xml:id="SFL_16150_2" lemmaRef="lexicon.xml#lemma_7338" pos="ADJ" corresp="variants.xml#type_287014">wâren</w>
           <w xml:id="SFL_16150_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <w xml:id="SFL_16150_4" lemmaRef="lexicon.xml#lemma_853" pos="VRB" corresp="variants.xml#type_2671">bran</w>
           <pc xml:id="SFL_16150_5" join="left">.</pc>
@@ -15867,7 +15868,7 @@
           <w xml:id="SFL_19370_1" lemmaRef="lexicon.xml#lemma_2743" pos="VRB" corresp="variants.xml#type_34390">gehullen</w>
           <w xml:id="SFL_19370_2">in</w>
           <w xml:id="SFL_19370_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="SFL_19370_4" lemmaRef="lexicon.xml#lemma_7505" pos="VRB" corresp="variants.xml#type_273621">wâren</w>
+          <w xml:id="SFL_19370_4" lemmaRef="lexicon.xml#lemma_7338" pos="ADJ" corresp="variants.xml#type_287014">wâren</w>
           <w xml:id="SFL_19370_5" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
         </l>
         <l n="1938">
@@ -26066,7 +26067,7 @@
           <w xml:id="SFL_31910_0" lemmaRef="lexicon.xml#lemma_2031" pos="NOM ADJ ADV" corresp="variants.xml#type_6864">gehôrsam</w>
           <w xml:id="SFL_31910_1">in</w>
           <w xml:id="SFL_31910_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="SFL_31910_3" lemmaRef="lexicon.xml#lemma_7505" pos="VRB" corresp="variants.xml#type_273621">wâren</w>
+          <w xml:id="SFL_31910_3" lemmaRef="lexicon.xml#lemma_7338" pos="ADJ" corresp="variants.xml#type_287014">wâren</w>
           <w xml:id="SFL_31910_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <pc xml:id="SFL_31910_5" join="left">,</pc>
         </l>
@@ -26731,7 +26732,7 @@
           <w xml:id="SFL_32740_0" lemmaRef="lexicon.xml#lemma_7489" pos="VRB VEX" corresp="variants.xml#type_27068">wurden</w>
           <w xml:id="SFL_32740_1" lemmaRef="lexicon.xml#lemma_2041" pos="VRB" corresp="variants.xml#type_63406">ginnert</w>
           <w xml:id="SFL_32740_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="SFL_32740_3" lemmaRef="lexicon.xml#lemma_7505" pos="VRB" corresp="variants.xml#type_273621">wâren</w>
+          <w xml:id="SFL_32740_3" lemmaRef="lexicon.xml#lemma_7338" pos="ADJ" corresp="variants.xml#type_287014">wâren</w>
           <w xml:id="SFL_32740_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
           <pc xml:id="SFL_32740_5" join="left">!</pc>
         </l>
