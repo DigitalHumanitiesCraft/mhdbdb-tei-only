@@ -57,6 +57,7 @@ scripts/
 │   ├── doc-count-audit.py       # Zählungen aus den Daten gegen die Doku prüfen
 │   ├── drop-negative-variant-corresp.py # tote @corresp aus <w> entfernen (#115)
 │   ├── measure-stage3-resolution.py # Wirkung von Stufe 3 der Lemma-Auflösung (#224)
+│   ├── parallel-witness-bias.py # Verzerrung je Werkzeug durch Parallelüberlieferung (#255)
 │   ├── quantify-unannotated-tokens.py # unannotierte Wortformen korpusweit zählen (#189)
 │   ├── review-rounds.py         # Review-Runden pro gemergtem PR, mit Baseline vom 02.08.
 │   ├── survey-concept-distribution.py # Concepts für die Begriffs-Verteilung (#47)
