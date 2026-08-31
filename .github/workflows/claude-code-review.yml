@@ -57,7 +57,18 @@ jobs:
           plugin_marketplaces: "https://github.com/anthropics/claude-code.git"
           plugins: "code-review@claude-code-plugins"
           prompt: "/code-review:code-review ${{ github.repository }}/pull/${{ github.event.pull_request.number }}"
+          # --max-turns: am 2026-08-31 von 50 auf 100 gehoben. Auf PR #382
+          # (Daten-PR, 10 Dateien, darunter eine 26-MB-Korpusdatei) hat der Bot
+          # sein Review vollstaendig abgeschlossen (`"subtype": "success"` im
+          # Job-Log, alle vier Checklistenpunkte, vier Befunde, drei davon nach
+          # Nachmessung uebernommen) und der Job scheiterte trotzdem: „Claude
+          # reported a successful result after 56 turns, exceeding the
+          # configured maximum of 50". Der rote Haken war also ein Budget-, kein
+          # Verarbeitungsfehler, und ein fertiges Review ging als Fehlschlag
+          # durch. Ein Limit bindet nur, wo es ueberschritten wird: normale PRs
+          # bleiben weit darunter und werden davon nicht langsamer. 100 statt 60
+          # deshalb, weil #368 mit 531 Dateien deutlich groesser war als #382.
           claude_args: |
             --model opus
-            --max-turns 50
+            --max-turns 100
             --append-system-prompt "Dieser PR hat wahrscheinlich schon Review-Runden hinter sich. Lies zuerst die bestehenden Kommentare (gh pr view <nr> --comments) und melde nichts erneut, was dort bereits steht und behandelt wurde: weder als Wiederholung noch als Neuformulierung. Zähle die vorhandenen Review-Kommentare; ab der dritten Runde meldest du nur noch Befunde mit Verhaltenswirkung. Eine leere Befundliste ist ein gültiges und erwünschtes Ergebnis. Behauptungen in Kommentaren, Doku und PR-Body meldest du nur, wenn du die Abweichung selbst gemessen hast, und nennst das Kommando dazu."
