@@ -1,15 +1,27 @@
 # Masterplan: Autonome Issue-Abarbeitungs-Session
 
 **Erstellt:** 2026-07-03 (Audit-Session, Fable 5); mehrere Vorgänger-Sessions sind gelaufen und gemergt.
-**Zuletzt gelaufen:** 2026-08-07 (Opus 5, #58 + #68 + #194 + #225). Session-Inhalte geleert; Ergebnis in §7, Git-History = Archiv.
+**Zuletzt gelaufen:** 2026-08-31 (Opus 5, #315 + #367 + #235 Punkt 3). Session-Inhalte in §1, §3, §4, §5, §6 stehen gelassen, weil sie zum ersten Mal einen Sonderfall dokumentieren, den die nächste Session brauchen wird: eine Kickoff-Freigabe, die den Merge nach `main` ausnahmsweise einschließt. Ergebnis in §7, Git-History = Archiv.
 **§2.1 zuletzt gewachsen:** 2026-07-31, Regeln 28 bis 32 (Branch-Basis, Worktree pro Session, Worktree-Abbau, die `git checkout --`-Falle beim Mutationstesten, der Umfang des Em-Dash-Gates); Regeln 22 bis 26 am 2026-07-30 aus einer interaktiven Session (#236-Merge mit vier Review-Runden, #251). Keine Playbook-Sessions, aber dieselben Fehlerklassen.
 **§2.1 zuletzt geschrumpft:** 2026-08-05, erstmals, von 32 auf 26 Regeln. Die vier zur Ergebnisquelle eines Testlaufs (6, 16, 26, 27) sind eine geworden, weil `npm test` das Verdikt seither selbst bildet; die drei generischen Git- und Shell-Fallen (8, 9, 31) sind in die persistente Memory umgezogen. Sechs leere Nummern, alle im Kopf von §2.1 begründet. Das Wachstum dieser Liste ist ein Wert, ihr Umfang eine Last, und der Ausweg ist beides zugleich: was ein Skript deterministisch prüfen kann, gehört nicht in eine Merkregel.
-**Status:** WARTET AUF BEFÜLLUNG. §1, §3, §4, §5 und §6 sind leer und müssen vor dem nächsten Kickoff neu geschrieben werden; jeder von ihnen sagt selbst, was hineingehört.
+**Status:** BEFÜLLT mit dem Stand vom 2026-08-31. §1, §3, §4, §5 und §6 beschreiben die gelaufene Session und sind vor dem nächsten Kickoff zu überschreiben; jeder von ihnen sagt in seinem ersten Absatz selbst, was hineingehört.
 **Typ:** Playbook (wiederverwendbares Session-Verfahren, dauerhaft). Der session-spezifische Teil (§1, §3, §4, §5, §6) wird pro Session neu befüllt; der Betriebsvertrag (§2), die Verifikations-Handwerksregeln (§2.1) und das Ergebnis der letzten Session (§7) sind der bleibende Teil.
 
 ---
 
-## 1. Ausgangslage (leer, vor der nächsten Session befüllen)
+## 1. Ausgangslage (Stand 2026-08-31, vor der nächsten Session überschreiben)
+
+**Was sich geändert hat:** Julia Hintersteiner und KZW haben am 25. und 26.08. drei Fragen beantwortet, die je ein Ticket blockierten. Alle drei Tickets waren damit von `auto:blocked` frei, ohne dass sich am Code etwas geändert hätte. Das ist der Normalfall dieser Sessions: die Arbeit war nie technisch blockiert.
+
+**Die drei Antworten und was sie freigaben:**
+
+| Ticket | Antwort | Von wem, wann |
+|---|---|---|
+| #315 Punkt 2 | Die Auszeichnung `role="lead-editor"` bezeichnet die Rolle im Editionsprozess, nicht den Status des Textes; der Beitrag bleibt im `respStmt` verzeichnet, nur die Rollenbezeichnung fällt | Julia Hintersteiner, 26.08. |
+| #367 | Die 40 Belege der Fügung *der/die wâren minne* sind das Adjektiv, nicht das Verb; zwei neue Variantentypen sind genehmigt | KZW, 25.08. |
+| #235 Punkt 3 | Das Breve auf `w` und `n` ist böhmische Schreibkonvention, kein Umlautzeichen (ADR-017); die `o`/`u`-Kandidaten dürfen als eine Klasse laufen | Julia Hintersteiner, 26.08. |
+
+**Bestand am Kickoff-Tag:** 59 offene Issues, davon 46 `auto:blocked`, 7 `auto:checkin`, 5 `auto:pair`, 0 `auto:full` (#44 ist als evergreen von den Achsen ausgenommen). Ein Backlog, der zu drei Vierteln auf Menschen wartet, ist kein Umsetzungsrückstand, und eine Session, die ihn nicht senken kann, hat trotzdem nichts falsch gemacht.
 
 Hier gehört hinein: was sich seit der letzten Session geändert hat, welche Entscheidungen von Menschen inzwischen vorliegen, und welche Issues diese Session anfasst.
 
@@ -90,7 +102,17 @@ Diese Regeln haben in der Praxis Fehler gefangen, die alle Gates passiert hatten
 
 ---
 
-## 3. Wellenplan (leer, vor der nächsten Session befüllen)
+## 3. Wellenplan (Stand 2026-08-31, vor der nächsten Session überschreiben)
+
+Drei Wellen, drei PRs, **strikt nacheinander statt gestapelt**, weil alle drei `tei/WZB.tei.xml` anfassen und zwei davon dieselbe abgeleitete Schicht. Kein Meta-PR: der JOURNAL-Eintrag für alle drei Wellen lief in der letzten Welle mit, nach derselben Überlegung wie am 2026-08-07.
+
+| Welle | Ticket | PR | Ergebnis |
+|---|---|---|---|
+| 1 | #315 | #374 | `role="lead-editor"` aus der WZB entfernt, Doku von vier auf fünf Sigel; abgeleitete Schicht nachweislich unberührt, kein Bump |
+| 2 | #367 | #377 | 40 Belege vom Verb aufs Adjektiv umannotiert, zwei neue Variantentypen; Korpus 4.2.5, Authority 1.9.2 |
+| 3 | #235 Punkt 3 | #379 | 66 von 289 Breve-Tokens mechanisch nachannotiert, 223 als Review dokumentiert; Korpus 4.2.6, Authority unverändert |
+
+**Was die Reihenfolge tatsächlich erzwungen hat, war nicht der Konflikt, sondern die Behauptung.** Welle 1 sagt „diese Änderung erreicht die Indexe nicht", Welle 2 und 3 sagen „diese schon, und zwar genau so". Wären sie gestapelt gelaufen, hätte keine der drei Aussagen mehr isoliert belegt werden können.
 
 Muster: Welle 0 ist der Vorflug (beide Zählungen aus Regel 28 müssen 0 sein, `origin/main...HEAD` und `origin/main..main`; `python scripts/audit/check-index-versions.py`; die im Playbook genannten Fundorte aufsuchen und bestätigen; `testing/tests/` nach einschlägigen bestehenden Specs durchsehen; **kein voller `npm test` als Hintergrund-Baseline**). Danach eine Welle je PR, jede mit eigener Verifikation. Die letzte Welle ist der Meta-PR.
 
@@ -98,7 +120,15 @@ Bei Datei-Überschneidungen zwischen den Wellen den späteren Branch auf den fr�
 
 ---
 
-## 4. Nicht anfassen (leer, vor der nächsten Session befüllen)
+## 4. Nicht anfassen (Stand 2026-08-31, vor der nächsten Session überschreiben)
+
+Alle 46 `auto:blocked`-Tickets, ohne Ausnahme. Ausdrücklich benannt wurden fünf, weil sie nach leichtem Einstieg aussehen:
+
+- **#216** (minne, Serie 1) und **#371** (`stat`, 51 Belege für ein drittes Lemma): sehen wie Fortsetzungen der gerade gemergten Serien aus, warten aber auf eine editorische Entscheidung von KZW.
+- **#370** (52.097 WZB-Tokens mit `lemmaRef` ohne `corresp`): liegt genau im Weg von Welle 3 und ist trotzdem tabu. Welle 3 hat deshalb bewusst kein `corresp` geschrieben, statt das Ticket nebenbei anzufangen.
+- **#28** (KWIC-Grenzfälle) und **#255** (Frauenlob-Folgefrage): beide schon einmal wiedereröffnet worden.
+
+Dazu kam die Falle in der Gegenrichtung: **#378** entstand während Welle 2 als Nebenbefund und ist sofort `auto:blocked`/`wait:kzw` gelabelt worden, statt ihn anzufangen.
 
 Die Liste wird aus §1 abgeleitet und nennt alle Issues, die diese Session NICHT berührt, gruppiert nach Grund: Review-Gate (Ping ist draußen), menschen-blockiert, future/trigger/extern, Ingest. Dazu gehört jedes Mal:
 
@@ -108,15 +138,30 @@ Die Liste wird aus §1 abgeleitet und nennt alle Issues, die diese Session NICHT
 
 ---
 
-## 5. Getroffene Entscheidungen (leer, vor der nächsten Session befüllen)
+## 5. Getroffene Entscheidungen (Stand 2026-08-31, vor der nächsten Session überschreiben)
+
+1. **Ein PR je Issue**, Merge-Reihenfolge 1, 2, 3. Begründung in §3.
+2. **Der Merge nach `main` war ausnahmsweise freigegeben**, für genau diese drei PRs, jeden einzeln, und an vier Bedingungen gebunden: `npm test` gelaufen und die VERDICT-Zeile unverändert im PR, `fable-reviewer`-Runde abgeschlossen und jeder übernommene Befund nachgemessen, CI grün (auf den Daten-PRs besonders `data-integrity.yml`), und `Closes #N` nur für das, was wirklich vollständig fertig ist. **Direkte Pushes auf `main` und jeder Force-Push dorthin blieben tabu.** Das ist die erste Session mit dieser Konstruktion, und sie hat gehalten, weil die Bedingungen prüfbar formuliert waren und nicht als Vertrauensfrage.
+3. **Punkt 1 von #235 vor Punkt 3**, damit der Matcher auf gesplitteten Tokens arbeitet. Stellte sich als gegenstandslos heraus: Julia hatte Punkt 1 am 26.08. bereits erledigt.
+4. **Neue Variantentypen prägen statt bestehende umhängen** (#367). Eine bestehende Nummer hinge sonst an zwei Lemmata, und `extract-variants.py` schlüge sie der häufigeren Seite zu, also weiter dem Verb.
+5. **Ein neues Issue war freigegeben** (die #367-Ausweitung), weitere nur oberhalb der Regel-16-Schwelle. Geworden sind es drei: #375 (die freigegebene), #376 und #378, beide mit einer Entscheidung, die eine Session nicht treffen darf.
 
 Hier gehören die Vorab-Festlegungen von chsteiner hinein: Reihenfolge der Wellen, Richtungsentscheidungen bei mehreren vertretbaren Umsetzungen, und was ausdrücklich draußen bleibt. Jede mit einem Satz Begründung, damit die Session sie nicht neu verhandelt.
 
 ---
 
-## 6. Kickoff-Prompt (leer, vor der nächsten Session befüllen)
+## 6. Kickoff-Prompt (Stand 2026-08-31, vor der nächsten Session überschreiben)
 
-**Die Bausteine stehen in [`KICKOFF-VORLAGE.md`](KICKOFF-VORLAGE.md)**, inklusive des Betriebsvertrags, der wörtlich in den Prompt kopiert wird. Hier steht nur, was diese Session in die Platzhalter einsetzt:
+**Die Bausteine stehen in [`KICKOFF-VORLAGE.md`](KICKOFF-VORLAGE.md)**, inklusive des Betriebsvertrags, der wörtlich in den Prompt kopiert wird. Was der Kickoff vom 31.08. in die Platzhalter gesetzt hat:
+
+1. **Autorisierung:** `claude/*`-Branches und PR-Erstellung wie immer, dazu ausnahmsweise der Merge der drei Session-PRs unter den vier Bedingungen aus §5. Punkt 1 von §2 („`main` ist tabu") ist damit für diese Session teilweise ausgesetzt gewesen, und der Kickoff hat das ausdrücklich gesagt, statt es dem Schluss zu überlassen. **Wenn eine künftige Session dieselbe Freigabe bekommt, gehört sie genauso explizit in den Prompt**, samt der Bedingungen: eine Freigabe, die man sich aus dem Umfang erschließen muss, ist keine.
+2. **Umfang:** drei Wellen, ein PR je Ticket, der JOURNAL-Eintrag in der letzten Welle.
+3. **Weiche `npm test`:** volle Suite, ausdrücklich freigegeben, so oft wie nötig. Seit dem 24.08. ist das ohnehin die stehende Regel, der Satz stand trotzdem im Prompt.
+4. **Notationsfallen:** Token-IDs sehen aus wie Versnummern (`WZB_5ra_14_3`), die Zeichenfolge Backslash-`u0020` stand im Korpus literal da und war keine aufzulösende Escape-Sequenz, und `lemma_7338` (das Adjektiv) ist nicht `lemma_7505` (das Verb).
+5. **Verifikations-Handwerk aus §2.1** in Kurzform, mit der Mutations-Regel.
+6. **Nicht anfassen** mit den fünf ausdrücklich benannten Fallen aus §4.
+
+Was die alte Fassung dieses Abschnitts an dieser Stelle sagte, gilt unverändert weiter:
 
 1. **Autorisierung:** `claude/*`-Branches und PR-Erstellung, `main` bleibt tabu.
 2. **Umfang:** die Wellen aus §3, je eine pro PR, letzte Welle ist der Meta-PR. **Welle 0 als Vorflug ausschreiben.**
@@ -127,39 +172,23 @@ Hier gehören die Vorab-Festlegungen von chsteiner hinein: Reihenfolge der Welle
 
 ---
 
-## 7. Session-Ergebnis (Anhang, Stand 2026-08-07)
+## 7. Session-Ergebnis (Anhang, Stand 2026-08-31)
 
-Ein Code-PR, kein Meta-PR: ROADMAP und JOURNAL sind im selben PR mitgelaufen, weil sie
-dieselbe Sache beschreiben und ein zweiter PR nur die Kollision erzeugt hätte, vor der
-§3 warnt. Drei Issues angefasst, eines geschlossen.
+Drei PRs, drei Tickets, zwei davon geschlossen. Kein Meta-PR: der JOURNAL-Eintrag für alle drei Wellen lief in Welle 3 mit, aus demselben Grund wie am 2026-08-07.
 
 | Ergebnis | Issue | Inhalt |
 |----|-------|--------|
-| PR | #58 | Knopf „Belege suchen" im Lemmata-Explorer, dahinter der Routen-Parameter `ids`, der die Auflösung auf eine feste Lemma-ID festnagelt. Neue Spec mit 12 Tests, CONTRACTS §C.1.1, sechs weitere Doku-Stellen |
-| geschlossen | #68 | Der Beitragsleitfaden war seit dem 29.05. vollständig, nur hatte es niemand gegen die Gliederung und KZWs MUSS-Katalog geprüft. 11 von 11 Punkten belegt, Abschlusskommentar mit Zeilennummern |
-| umgelabelt | #194 | `auto:full` war falsch: der eigene Body bindet die Umsetzung an #193, und #193 ist nicht gebaut. Jetzt `auto:checkin` |
-| Messung + Umlabelung | #225 | Burch hat die Wörterbuchnetz-Verlinkung umgestellt (auf drei Wegen nachgeprüft). Seine Gegenbitte ist ein eigenes Arbeitspaket, mit Zahlen im Ticket. `auto:blocked`/`wait:extern` aufgehoben |
+| PR #374, geschlossen | #315 | `role="lead-editor"` aus der WZB entfernt, Doku an vier Stellen von vier auf fünf Sigel. Die abgeleitete Schicht ist nachweislich unberührt: `lead-editor`, `Hintersteiner` und `respStmt` kommen in keiner der vier `data/*.json.gz` und in keiner der 2.742 API-Dateien vor, der Neubau ist byte-identisch, kein Bump |
+| PR #377, geschlossen | #367 | 40 Belege der Fügung *der/die wâren minne* vom Verb aufs Adjektiv umannotiert (`lemma_7505` auf `lemma_7338`), zwei neu geprägte Variantentypen. Korpus 4.2.5, Authority 1.9.2 |
+| PR #379, Ticket bleibt offen | #235 | Punkt 3: 66 von 289 Breve-Tokens mechanisch nachannotiert, 223 als Review dokumentiert. Punkt 1 und 2 waren erledigt, ohne dass das Ticket es wusste. Korpus 4.2.6, Authority unverändert |
+| neu angelegt | #375, #376, #378 | Je eine Entscheidung, die eine autonome Session nicht treffen darf; alle drei `auto:blocked`/`wait:kzw` |
 
-**Vier Dinge, die die nächste Session wissen sollte:**
+**Fünf Dinge, die die nächste Session wissen sollte:**
 
-1. **Der teuerste Fehler kam von mir und wurde von einem Gegenprüfer gefunden, nicht von
-   einem Gate.** Die neue Zeiger-Map wurde in `executeSearch()` über `this` gelesen, obwohl
-   das `close()` zwei Zeilen vorher sie über `reset()` leert. Alle Gates wären grün
-   geblieben, und die Wirkung war unsichtbar: die Übergabe wäre still auf die Schreibform
-   zurückgefallen, was für 97,7 Prozent der Lemmata dasselbe Ergebnis liefert. Genau
-   davor warnte der bestehende Kommentar an `searchTerms` zwei Zeilen darüber. **Lehre:
-   wo ein Kommentar erklärt, warum etwas kopiert wird, ist das nächste Feld daneben der
-   erste Verdächtige.**
-2. **Zwei Doku-Aussagen waren nicht veraltet, sondern falsch.** `FEATURES.md` führte eine
-   „Action: Search lemma in corpus" für den Lemmata-Explorer, die es nie gab; erst dieser
-   PR macht sie wahr. `CONTRACTS.md` §C behauptete „exactly 3 stages" ohne Ausnahme. Beim
-   Doku-Nachzug lohnt es sich, die Zeilen zu lesen, die man gar nicht ändern wollte.
-3. **Ein Worktree hat kein `node_modules`.** Ohne Junction auf den Hauptbaum läuft
-   `npm test` gar nicht erst an. Anlegen mit `New-Item -ItemType Junction`, und beim
-   Abräumen zuerst `rmdir` auf die Junction (Regel 30, Punkt 2), sonst löscht ein
-   rekursives Entfernen das Original.
-4. **Parallele Agenten haben sich hier gerechnet, und zwar als Gegenprüfung, nicht als
-   Zuarbeit.** Vier unabhängige Stränge, danach zwei adversarische Prüfungen auf die zwei
-   riskantesten Ergebnisse. Der eine blockierende Befund und die eine Zeitbombe in der
-   Spec (fest verdrahtete Zeugentexte, die der nächste Ingest rot gemacht hätte) kamen
-   beide aus der Gegenprüfungsphase, nicht aus der Recherchephase.
+1. **Ein Diff, der zeichenweise stimmt, ist keine Messung.** Das Edit-Werkzeug hat beim ersten WZB-Edit 17 fremde reine LF-Zeilen still auf CRLF vereinheitlicht; die Diff-Hunks sahen exakt richtig aus. Sichtbar wurde es nur beim Byte-Vergleich. Bei jeder Datei mit gemischten Zeilenenden gehört das Zählerpaar (CRLF, LF) vor und nach der Änderung ins Protokoll, und die Änderung selbst läuft über exakte Byte-Ersetzung mit `newline=""` bei Lesen **und** Schreiben. `tei/WZB.tei.xml` ist die einzige CRLF-Datei im Korpus (1 von 667) und damit der einzige Ort, an dem das überhaupt auffällt.
+2. **Und die Kontrollzahl aus Welle 1 hat denselben Fehler in Welle 3 gefangen**, ohne dass jemand nach ihm gesucht hätte: `revisiondesc-homograph.py` schrieb seinen Eintrag mit hartem `"\n"`. Der Wert dieser Zähler liegt nicht im ersten Fund, sondern in den späteren.
+3. **Ein Fix an einem Skript kann den nächsten Fehler erst scharf machen.** Nachdem die Einfügung das Zeilenende der Umgebung nahm, fand die Löschregex für den eigenen Alteintrag ihn nicht mehr (`</change>\n` gegen einen CRLF-terminierten Eintrag), während der Kopf-Check darüber ihn sehr wohl sah: ein zweiter `--apply`-Lauf hätte den Eintrag verdoppelt. Gefunden hat das der lokale Review, kein Gate. **Nach einer Änderung am Zeilenende-Verhalten alle Stellen suchen, die Zeilenenden in einer Regex literal nennen.**
+4. **`git checkout -- <datei>` stellt aus dem Index her, nicht aus dem Stand davor.** In einer Session mit mehreren Commits auf demselben Branch heißt das: der Rückbau vor einem Neulauf muss `git checkout origin/main -- <datei>` sein, sonst läuft das Skript auf dem bereits geänderten Bestand und meldet plausibel aussehenden Unsinn (hier: 223 statt 289 Kandidaten). Steht als Regel 31 in der Memory und ist trotzdem wieder passiert.
+5. **`npm test` nie durch eine Pipe.** Ein `| tail -25` puffert die gesamte Ausgabe bis zum Ende und macht den Reporter unlesbar; der Lauf musste abgebrochen und wiederholt werden. Die VERDICT-Zeile ist das Ergebnis, und sie kommt nur unverpipet.
+
+**Was aus der Session vom 2026-08-07 weiter gilt:** ein Worktree hat kein `node_modules`, ohne Junction auf den Hauptbaum läuft `npm test` gar nicht erst an, und beim Abräumen kommt zuerst `rmdir` auf die Junction (Regel 30, Punkt 2), sonst nimmt das rekursive Entfernen das Original mit.
