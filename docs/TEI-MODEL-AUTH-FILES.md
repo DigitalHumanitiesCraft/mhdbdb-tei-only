@@ -437,7 +437,7 @@ TEI Ch. 13 (Names/People) + Ch. 3 (Organizations). Central register of all perso
       </person>
       <person xml:id="contrib_004" role="lead-editor">
         <persName xml:lang="de">Vlastimil Brom</persName>
-        <note xml:lang="de">Haupteditor für TKR, TKA, VTC.</note>
+        <note xml:lang="de">Haupteditor für TKR, TKA, VTC, PUC.</note>
       </person>
       <!-- further contrib_NNN ... -->
     </listPerson>
