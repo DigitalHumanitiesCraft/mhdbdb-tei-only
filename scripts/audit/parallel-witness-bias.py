@@ -16,9 +16,7 @@ welche gemeint ist, steht nur im @n:
 
   Klasse HANDSCHRIFT  @n ist ein Handschriften- oder Werkname
                       ("Jenaer Liederhandschrift", "Codex Manesse").
-                      Der Text BESTEHT aus diesen Zeugen, es gibt keinen
-                      Basiszeugen daneben. In BRW und DL1 liegen 100 % der
-                      indexierten Tokens in solchen divs.
+                      Der div benennt einen Zeugen.
 
   Klasse ZAEHLER      @n ist eine laufende Nummer (1, 2, 3).
                       Der div haengt neben einem Basistext, meist als
@@ -26,9 +24,16 @@ welche gemeint ist, steht nur im @n:
                       beschreibt.
 
 Ein Filter "Tokens in parallel-divs nicht mitzaehlen" wuerde BRW und DL1
-vollstaendig aus dem Korpus loeschen. Die Unterscheidung ist deshalb keine
-Feinheit des Berichts, sondern die Vorbedingung jeder Umsetzung, und sie
-gehoert vor jede Werkzeugentscheidung.
+vollstaendig aus dem Korpus loeschen: dort liegen 100 % der indexierten Tokens
+in solchen divs, der Text BESTEHT aus seinen Zeugen.
+
+ABER: die @n-Klasse ist nicht der Diskriminator dafuer, und sie dafuer zu
+halten ist die Falle. DL2 traegt drei benannte Bloecke mit zusammen 204 von
+3.936 Tokens (5,2 %) neben einem Basistext, dort sind die benannten Bloecke
+also genau der #255-Fall. Die beiden Achsen sind unabhaengig. Ob Herausrechnen
+einen Text entzerrt oder ausloescht, entscheidet der ANTEIL des Textes in
+parallel-divs, nicht der Inhalt von @n. Eine Umsetzung gatet am Anteil und
+liest @n nur, um zu sagen, was ein Block ist. Der Bericht weist beides aus.
 
 Deshalb rechnet das Skript beide Szenarien, und der Unterschied zwischen ihnen
 ist der eigentliche Befund:
@@ -414,7 +419,7 @@ def report_scope(scope, scans, index, texts_by_id, normalized, args):
     # ------------------------------------------------------- Die Naht
     print()
     print('-' * 78)
-    print(f'DIE NAHT: Reim-Woerterbuch (H.3) und Naehesuche (§C.2.2)')
+    print('DIE NAHT: Reim-Woerterbuch (H.3) und Naehesuche (Paragraph C.2.2)')
     print('-' * 78)
     print('  Fehlerklasse: nicht Doppelzaehlung, sondern eine Verbindung ueber')
     print('  die Grenze zweier Fassungen desselben Verses hinweg.')
@@ -534,7 +539,7 @@ def report_scope(scope, scans, index, texts_by_id, normalized, args):
     print('  aus dem vollen Text (Mittel ueber 5 feste Seeds). Liegt "TTR ohne"')
     print('  auf diesem Wert, ist die Aenderung ein Laengenartefakt und keine')
     print('  Entzerrung: die TTR steigt, wenn ein Text kuerzer wird, aus')
-    print('  rechnerischen und nicht aus stilistischen Gruenden (§H.5 Punkt 1).')
+    print('  rechnerischen und nicht aus stilistischen Gruenden (H.5 Punkt 1).')
     print('  wordCount ohne = 0 heisst, der Text besteht vollstaendig aus')
     print('  Parallelueberlieferung und faellt aus jeder Auswertung heraus.')
     return ergebnis
@@ -585,6 +590,20 @@ def main():
 
     # Paritaetspruefung gegen den gebauten Index. Ohne sie misst das Skript
     # womoeglich eine andere Grundgesamtheit, als die Werkzeuge lesen.
+    #
+    # Fuer wordCount ist der Vergleich der Summen beweiskraeftig und nicht nur
+    # plausibel: der Filter des Index ist eine echte Teilmenge des Filters hier,
+    # jeder vom Index gezaehlte Token wird also auch hier gezaehlt. Damit gilt
+    # an jedem Praefix "hier >= Index", und Gleichheit der Summen erzwingt
+    # identische Tokenmengen und damit identische Positionen. Kompensierende
+    # Fehler um +1 und -1 sind so konstruktiv ausgeschlossen.
+    #
+    # Fuer lineEnds gilt das NICHT: verglichen wird nur die Laenge. Bei
+    # geschachtelten <l> koennten gleich viele Eintraege mit verschiedenen
+    # Werten entstehen, weil der Index einen Frame-Stack fuehrt und das
+    # in_line-Flag hier nur einen. Gemessen am 2026-08-31: 0 geschachtelte <l>
+    # in allen sieben Dateien mit parallel-divs, die Werte sind heute also
+    # identisch. Latent, kein gegenwaertiger Fehler.
     for sigle, scan in sorted(scans.items()):
         t = texts_by_id.get(sigle)
         if t is None:
