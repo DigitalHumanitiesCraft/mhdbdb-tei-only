@@ -95,6 +95,32 @@ def main() -> int:
     eigene_zeile_re = re.compile(
         r"[ \t]*<change [^>]*>" + re.escape(rd["titel"]) + r":.*?</change>\r?\n")
 
+    # Der Platzhalter-Check oben sichert, DASS {titel} in der Vorlage vorkommt,
+    # nicht WO. Die Wiedererkennung verlangt aber eine Form: der Titel steht
+    # unmittelbar hinter dem oeffnenden <change ...>, ein Doppelpunkt folgt, und
+    # der ganze Eintrag steht auf einer Zeile (die Regex hat kein DOTALL). Eine
+    # Vorlage, die den Titel woanders unterbringt oder umbricht, kommt durch den
+    # Platzhalter-Check, und dann greift beim zweiten --apply-Lauf der Kopf-Check
+    # weiter unten (der Titel steht ja im Kopf), subn entfernt nichts, und der
+    # Eintrag wird ein zweites Mal angehaengt, in jeder betroffenen Datei. Das
+    # ist derselbe Fehlermodus, gegen den die Pruefung geschrieben wurde, nur
+    # eine Ebene tiefer, und er landet in Korpus-Headern.
+    #
+    # Beide Auspraegungen pruefen: der review_satz ist optional und koennte
+    # seinerseits umbrechen. Die Zahlen sind hier ohne Belang, geprueft wird die
+    # Form.
+    for review_probe in ("", REVIEW_SATZ.format(n_review=1, form=rd["form"])):
+        probe = vorlage.format(
+            datum=rd["datum"], titel=rd["titel"], form=rd["form"],
+            ziele=rd["ziele"], log=rd["log"], n_annot=1, n_wort="Token",
+            review_satz=review_probe)
+        if not eigene_zeile_re.fullmatch(probe + "\n"):
+            sys.exit("FEHLER: revisiondesc.vorlage ergibt keinen Eintrag, den "
+                     "das Skript spaeter wiedererkennt. Erwartet wird eine "
+                     "einzelne Zeile der Form <change ...>%s: ...</change>; "
+                     "ein zweiter --apply-Lauf wuerde sonst anhaengen statt zu "
+                     "ersetzen. Erzeugt wurde:\n%s" % (rd["titel"], probe))
+
     annot = Counter()
     review = Counter()
     with open(pfad(args.diff_liste), encoding="utf-8-sig", newline="") as f:
