@@ -257,13 +257,18 @@ die §2 Punkt 4 an dieser Stelle verlangt: ohne sie steht nach dem Überschreibe
    drinsteht.** Vier Läufe, alle im Job-Log gemessen: #368 kein Diff und nichts
    geliefert, #379 Diff berechnet und trotzdem echter `error_max_turns` ohne
    Befund, **#377 und #382 fertige Reviews** (`subtype: success`,
-   `is_error: false`), die die Action verworfen hat, weil sie 59 und 56 Züge
-   gegen ein `--max-turns` von 50 gebraucht hatten. Zwei von vier waren gar nicht
-   gescheitert. Das Limit steht seit `6fbf7e002` auf 100.
+   `is_error: false`), deren Haken die Action nur rot gemacht hat, weil sie 59 und
+   56 Züge gegen ein `--max-turns` von 50 gebraucht hatten. Zwei von vier waren gar
+   nicht gescheitert. **Und es geht dabei nichts verloren:** der Kommentar wird rund
+   anderthalb Minuten nach dem Start gepostet und überlebt den Fehlschlag um zehn
+   Minuten. Verworfen wird die grüne Bewertung, nie das Review. Das Limit steht seit
+   `6fbf7e002` auf 100, und einen Schalter, der das `throw` abstellt, gibt es nicht
+   (geprüft am gepinnten `v1`); die Suche danach kann sich die nächste Session sparen.
 2. **Und der teure Fall zeigt, was das kostet.** Der Bot-Kommentar auf #377 trug
    zwei sauber gemessene Befunde; neun Minuten später wurde der rote Haken als
-   Plattformgrenze abgetan und der PR ungelesen gemergt. Beide Befunde stehen
-   unverändert auf `main`. **Den Kommentar öffnen, immer**, auch wenn der Check
+   Plattformgrenze abgetan und der PR ungelesen gemergt. Aufgefallen ist das erst
+   einen halben Tag später, als jemand die Regel selbst nachmaß; behoben sind beide
+   seit PR #384 (`efb6fc0eb`). **Den Kommentar öffnen, immer**, auch wenn der Check
    rot ist und die Hausregel sagt, das sei erwartbar.
 3. **Zwei Sessions haben unabhängig demselben API-Feld geglaubt.**
    `gh api .../pulls/377 -q .changed_files` gibt 0, `gh pr view 377 --json files`
