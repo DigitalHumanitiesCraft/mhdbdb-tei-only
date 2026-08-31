@@ -84,6 +84,10 @@ data/audit/
 # Ausnahme: die #152-Ratschen-Baseline ist KEIN disposable Report, sie ist
 # die committete Referenzmenge des CI-Gates (check-authority-cross-refs.py)
 !scripts/audit/lexicon-baseline.json
+# Dasselbe fuer die #370-Ratsche im selben Gate: lemmatisierte Tokens ohne
+# @corresp je Sigle. Ein Anstieg heisst, ein Ingest hat die
+# Variantenverknuepfung ausgelassen.
+!scripts/audit/corresp-coverage-baseline.json
 scripts/audit/*-REPORT.md
 scripts/audit/lexicon-backfill-*.md
 scripts/audit/lexicon-backfill-*.xml

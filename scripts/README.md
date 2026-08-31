@@ -62,6 +62,7 @@ scripts/
 │   ├── survey-concept-distribution.py # Concepts für die Begriffs-Verteilung (#47)
 │   ├── validate-corpus.py       # Zwei-Stufen-Schema-Validierung
 │   ├── lexicon-baseline.json    # committete Referenzmenge des #152-Gates, per !-Regel vom *.json-Ignore ausgenommen
+│   ├── corresp-coverage-baseline.json # lemmatisierte Tokens ohne @corresp je Sigle, Ratsche im selben Gate (#370)
 │   └── TEXT_DATA_TABLE.xlsx     # Legacy-Linecode-Mapping
 │
 ├── sync/                        # Externe Daten / Korpus → TEI/Authority

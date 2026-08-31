@@ -58,6 +58,7 @@ if sys.stdout.encoding and sys.stdout.encoding.lower() not in ('utf-8', 'utf8'):
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', line_buffering=True)
 
 XML_NS = '{http://www.w3.org/XML/1998/namespace}'
+TEI_NS = '{http://www.tei-c.org/ns/1.0}'
 
 # Reference-bearing attributes to scan, in priority order.
 REF_ATTRS = ('lemmaRef', 'ana', 'corresp', 'ref', 'target')
@@ -82,6 +83,72 @@ SENSE_RE = re.compile(r'^lemma_\d+_sense_\d+$')
 # Sinkt der Ist-Stand (Backfill gelandet), --update-baseline ausfuehren und
 # die geschrumpfte Datei mitcommitten, damit die Ratsche nachzieht.
 LEXICON_BASELINE_FILE = SCRIPT_DIR / 'lexicon-baseline.json'
+
+# CI-Baseline fuer lemmatisierte Tokens OHNE @corresp (#370 Punkt 4).
+#
+# Warum das ueberhaupt ein Gate braucht: ein <w> mit @lemmaRef und ohne
+# @corresp ist voellig zulaessig, es ist keine haengende Referenz, und genau
+# deshalb hat das Audit oben es nie gesehen. Es prueft VORHANDENE Referenzen,
+# und ein fehlendes Attribut ist keine. Die WZB ist so mit 52.163 unsichtbaren
+# Tokens durch alle Gates gelaufen (#370): sie sind sauber lemmatisiert, aber
+# fuer variants.xml und damit fuer Stufe 2 der Lemma-Aufloesung nicht da.
+#
+# Das Gate ist eine Ratsche je Sigle: steigt die Zahl irgendwo, wird es rot.
+# Ein sprunghafter Anstieg ist ein Ingest-Fehler, ein Rueckgang ist Heilung.
+#
+# ZU SEINER GRENZE, und die ist derselbe Einwand wie oben bei den lexicon-IDs:
+# das hier IST ein Zaehler-Gate und laesst deshalb kompensierende Drift
+# innerhalb einer Sigle durch (+5 neue, -5 geheilte im selben PR bleiben
+# gruen). Die Mengen-Variante waere hier unverhaeltnismaessig: sie muesste
+# zehntausende Token-IDs committen, und anders als bei einer dangling ID ist
+# die einzelne Token-ID kein Befund, sondern nur die Summe. Die Sigle ist die
+# Granularitaet, auf der der Fehler real auftritt, naemlich als Ingest, der
+# eine Phase auslaesst.
+CORRESP_BASELINE_FILE = SCRIPT_DIR / 'corresp-coverage-baseline.json'
+
+
+def count_missing_corresp(tree):
+    """Indexierte <w> ohne @corresp in einem Korpusbaum.
+
+    "Indexiert" wie in CONTRACTS §B: nicht-leeres @lemmaRef und nicht-leerer
+    Textinhalt. Dieselbe Grundgesamtheit, die auch build-corpus-index.py und
+    extract-variants.py lesen, damit die Zahl mit den dortigen vergleichbar
+    bleibt.
+    """
+    n = 0
+    for w in tree.iter(f'{TEI_NS}w'):
+        if not w.get('lemmaRef'):
+            continue
+        if not ''.join(w.itertext()).strip():
+            continue
+        if not w.get('corresp'):
+            n += 1
+    return n
+
+
+def load_corresp_baseline():
+    """Sigle -> tolerierte Zahl lemmatisierter Tokens ohne @corresp."""
+    if not CORRESP_BASELINE_FILE.exists():
+        sys.exit(f'::error file=scripts/audit/corresp-coverage-baseline.json::'
+                 f'Baseline-Datei fehlt ({CORRESP_BASELINE_FILE}). Einmalig mit '
+                 f'"python scripts/audit/check-authority-cross-refs.py '
+                 f'--update-baseline" erzeugen und committen (#370).')
+    data = json.loads(CORRESP_BASELINE_FILE.read_text(encoding='utf-8'))
+    return data['per_sigle']
+
+
+def write_corresp_baseline(per_sigle):
+    payload = {
+        'comment': ('Lemmatisierte Tokens ohne @corresp je Sigle (#370-Ratsche). '
+                    'Ein Anstieg ist ein Ingest-Fehler und wird rot; ein '
+                    'Rueckgang ist Heilung und will nachgezogen werden. Nur via '
+                    'check-authority-cross-refs.py --update-baseline aendern.'),
+        'updated': date.today().isoformat(),
+        'total': sum(per_sigle.values()),
+        'per_sigle': dict(sorted(per_sigle.items())),
+    }
+    CORRESP_BASELINE_FILE.write_text(
+        json.dumps(payload, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')
 
 
 def load_baseline():
@@ -176,12 +243,14 @@ def main():
     distinct = defaultdict(lambda: {'count': 0, 'sigles': set()})  # (tf, frag) -> ...
     per_sigle = defaultdict(lambda: {'unresolved': 0, 'ids': Counter(), 'by_target': Counter()})
     missing_target_files = Counter()          # referenced .xml that we do not have
+    missing_corresp = {}                      # sigle -> indexierte <w> ohne @corresp (#370)
 
     for i, fp in enumerate(base_files):
         if (i + 1) % 100 == 0:
             print(f'  {i + 1}/{len(base_files)}...', flush=True)
         sigle = sigle_of(fp)
         tree = etree.parse(str(fp))
+        missing_corresp[sigle] = count_missing_corresp(tree)
         for elem in tree.iter():
             if not isinstance(elem.tag, str):
                 continue
@@ -335,11 +404,24 @@ def main():
     current_lex_ids = {frag for tf, frag, cnt, sigles in distinct_pairs
                        if tf == 'lexicon.xml'}
 
+    # #370: lemmatisierte Tokens ohne @corresp, je Sigle. Keine haengende
+    # Referenz, deshalb oben unsichtbar, siehe Kommentar an CORRESP_BASELINE_FILE.
+    corresp_now = {s: n for s, n in missing_corresp.items() if n}
+    print(f'\nLemmatisierte Tokens ohne @corresp: '
+          f'{sum(corresp_now.values()):,} in {len(corresp_now)} von '
+          f'{len(base_files)} Dateien')
+    for sigle, n in sorted(corresp_now.items(), key=lambda x: -x[1])[:8]:
+        print(f'  {sigle:8} {n:>10,}')
+
     if update_baseline:
         write_baseline(current_lex_ids)
+        write_corresp_baseline(corresp_now)
         print(f'\nBaseline geschrieben: {LEXICON_BASELINE_FILE} '
               f'({len(current_lex_ids)} tolerierte IDs). Diff reviewen und '
               f'committen — Aufnahme NEUER IDs ist eine KZW-Entscheidung (#152).')
+        print(f'Baseline geschrieben: {CORRESP_BASELINE_FILE} '
+              f'({sum(corresp_now.values()):,} Tokens in {len(corresp_now)} '
+              f'Sigeln, #370).')
         return 0
 
     if check:
@@ -372,9 +454,40 @@ def main():
                   f'(KZW-Entscheidung, reviewbarer Datei-Diff). Details: '
                   f'scripts/audit/authority-cross-refs-audit.json -> lexicon_corpses.')
             return 1
+        # #370-Ratsche: je Sigle darf die Zahl fallen, nie steigen.
+        corresp_baseline = load_corresp_baseline()
+        gestiegen = {s: (corresp_baseline.get(s, 0), n)
+                     for s, n in corresp_now.items()
+                     if n > corresp_baseline.get(s, 0)}
+        if gestiegen:
+            zeilen = ', '.join(f'{s} {alt:,} auf {neu:,}'
+                               for s, (alt, neu) in sorted(gestiegen.items()))
+            print(f'\n::error file=scripts/audit/corresp-coverage-baseline.json::'
+                  f'CI CHECK FAILED: in {len(gestiegen)} Sigel(n) sind mehr '
+                  f'lemmatisierte Tokens ohne @corresp als in der Baseline '
+                  f'({zeilen}). Das ist zulaessige Auszeichnung, aber ein '
+                  f'Anstieg heisst, dass ein Ingest die Variantenverknuepfung '
+                  f'ausgelassen hat: die Tokens sind fuer variants.xml und '
+                  f'damit fuer Stufe 2 der Lemma-Aufloesung unsichtbar (#370). '
+                  f'Entweder @corresp nachtragen oder den Anstieg bewusst und '
+                  f'begruendet via --update-baseline aufnehmen.')
+            return 1
+        gefallen = {s: (alt, corresp_now.get(s, 0))
+                    for s, alt in corresp_baseline.items()
+                    if corresp_now.get(s, 0) < alt}
         print(f'\nCI CHECK OK: variants/persons/works/concepts/genres/names = 0 unresolved. '
               f'lexicon.xml = {lex_refs:,} refs / {len(current_lex_ids):,} distinct ids, '
-              f'alle innerhalb der Baseline ({len(baseline):,} tolerierte IDs, #44/#115/#152).')
+              f'alle innerhalb der Baseline ({len(baseline):,} tolerierte IDs, #44/#115/#152). '
+              f'Tokens ohne @corresp = {sum(corresp_now.values()):,}, keine Sigle ueber '
+              f'ihrer Baseline (#370).')
+        if gefallen:
+            zeilen = ', '.join(f'{s} {alt:,} auf {neu:,}'
+                               for s, (alt, neu) in sorted(gefallen.items()))
+            print(f'::warning file=scripts/audit/corresp-coverage-baseline.json::'
+                  f'{len(gefallen)} Sigel tragen weniger Tokens ohne @corresp als '
+                  f'die Baseline ({zeilen}). Ratsche nachziehen: '
+                  f'"python scripts/audit/check-authority-cross-refs.py '
+                  f'--update-baseline" ausfuehren und die Datei mitcommitten.')
         if stale_ids:
             print(f'::warning file=scripts/audit/lexicon-baseline.json::'
                   f'{len(stale_ids)} Baseline-IDs sind nicht mehr dangling '
