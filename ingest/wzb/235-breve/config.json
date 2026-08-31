@@ -1,0 +1,15 @@
+{
+  "serie": "#235 Punkt 3 (Breve-Backfill WZB)",
+  "art": "Erstannotation bisher unannotierter Tokens, rein mechanisch aufgeloest",
+  "revisiondesc": {
+    "datum": "2026-08-31",
+    "titel": "#235 Punkt 3 (Breve-Backfill)",
+    "form": "o/u-Breve",
+    "ziele": "lemmaRef und pos",
+    "log": "ingest/wzb/235-breve/",
+    "vorlage": "<change when=\"{datum}\" who=\"#editor\">{titel}: {n_annot} bisher unannotierte {n_wort} mit Breve auf o oder u nachannotiert (lemmaRef und pos; die normalisierte Schreibung trifft in variants.xml genau ein Lemma und dieses genau eine Wortart, kein LLM und keine Kontextentscheidung). 223 weitere Breve-Tokens blieben unannotiert und liegen als Review vor. Kein corresp: jede Schreibung bräuchte einen neu geprägten Variantentyp, siehe #370. Provenienz-Log: {log}.</change>"
+  },
+  "kommentar_freigabe": "Der Lauf war editorisch blockiert, nicht technisch: ADR-016 liess offen, ob das Breve auf w und n ueberhaupt ein Umlautzeichen ist. Julia Hintersteiner hat das am 2026-08-26 als WZB-Editorin beantwortet (boehmische Schreibkonvention, ADR-017, umgesetzt in f3dcf2a86). Damit duerfen die o/u-Kandidaten als eine Klasse laufen.",
+  "kommentar_corresp": "Bewusst kein corresp. Alle 164 eindeutig aufloesenden Kandidaten braeuchten unter ihrem Ziel-Lemma eine NEU gepraegte Typnummer (113 distinkte Form-Lemma-Paare, gemessen 2026-08-31; keine der rohen Schreibungen traegt heute einen Typ unter ihrem Ziel-Lemma). Neue Typen zu praegen war bisher immer genehmigungspflichtig: #216 und #369 haben es verweigert, #367 hat fuer zwei Nummern KZWs Zustimmung eingeholt. Die annotierten Tokens landen damit in derselben Lage wie die 52.097 anderen WZB-Tokens mit lemmaRef ohne corresp, die als #370 ein eigenes Ticket haben.",
+  "kommentar_rueckhalt": "Von 289 Kandidaten sind 66 annotiert. Zurueckgehalten: 112 ohne Treffer in variants.xml (Lexikonluecken wie ŏpfeltragendes, gevŏggeln, bŏvme), 98 mit mehrdeutiger Wortart am Ziel-Lemma (bŏse fuehrt auf lemma_788 mit ADJ, ADV, GRA und NOM), 13 mit mehreren Ziel-Lemmata (trŏste, hŭte, wŭste). Die 98 sind ein eigenes Arbeitspaket nach dem Muster #216/#369."
+}

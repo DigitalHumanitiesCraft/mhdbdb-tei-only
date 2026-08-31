@@ -136,7 +136,12 @@ def main() -> int:
             n_wort="Token" if annot[fname] == 1 else "Tokens",
             review_satz=(REVIEW_SATZ.format(n_review=n_rev, form=rd["form"])
                          if n_rev else ""))
-        neu = (text[:m_close.start()] + einrueckung + eintrag + "\n"
+        # Zeilenende der Einfuegung aus der Umgebung nehmen, nicht "\n" setzen:
+        # WZB.tei.xml ist eine CRLF-Datei, eine hart gesetzte LF-Zeile mischt
+        # sich still hinein (gemessen 2026-08-31: 17 -> 18 reine LF-Zeilen).
+        # Bei den reinen LF-Dateien aendert das nichts.
+        zeilenende = "\r\n" if text[:m_close.start()].rstrip(" \t").endswith("\r\n") else "\n"
+        neu = (text[:m_close.start()] + einrueckung + eintrag + zeilenende
                + text[m_close.start():])
         stat["ergaenzt"] += 1
         if args.apply:
