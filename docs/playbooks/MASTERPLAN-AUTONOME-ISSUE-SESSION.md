@@ -2,7 +2,7 @@
 
 **Erstellt:** 2026-07-03 (Audit-Session, Fable 5); mehrere Vorgänger-Sessions sind gelaufen und gemergt.
 **Zuletzt gelaufen:** 2026-08-31, zweimal am selben Tag (vormittags #315 + #367 + #235 Punkt 3, nachmittags #369 + #255 + #370, beide Opus 5). Deren Ergebnis steht unverändert in §7 und bleibt dort, bis der Lauf vom 2026-09-01 es ersetzt.
-**Aktuell geplant:** 2026-09-01, serieller Wellenlauf über #216 Punkt 3, #28, #259 und #235. §1, §3, §4, §5 und §6 sind darauf gesetzt. Der Wortlaut des Kickoffs liegt seit diesem Lauf getrackt unter [`kickoffs/`](kickoffs/), siehe §6.
+**Aktuell:** 2026-09-01, serieller Wellenlauf über #216 Punkt 3, #28, #259 und #235. **Nach Welle 1 pausiert**, Fortsetzung in der Woche ab dem 07.09.; der Wiederaufnahmepunkt steht in §7 und im Zwischenstand auf #44. §1, §3, §4, §5 und §6 beschreiben diesen Lauf und bleiben bis zu seinem Abschluss stehen. Der Wortlaut des Kickoffs liegt seit diesem Lauf getrackt unter [`kickoffs/`](kickoffs/), siehe §6.
 **§2.1 zuletzt gewachsen:** 2026-07-31, Regeln 28 bis 32 (Branch-Basis, Worktree pro Session, Worktree-Abbau, die `git checkout --`-Falle beim Mutationstesten, der Umfang des Em-Dash-Gates); Regeln 22 bis 26 am 2026-07-30 aus einer interaktiven Session (#236-Merge mit vier Review-Runden, #251). Keine Playbook-Sessions, aber dieselben Fehlerklassen.
 **§2.1 zuletzt geschrumpft:** 2026-08-05, erstmals, von 32 auf 26 Regeln. Die vier zur Ergebnisquelle eines Testlaufs (6, 16, 26, 27) sind eine geworden, weil `npm test` das Verdikt seither selbst bildet; die drei generischen Git- und Shell-Fallen (8, 9, 31) sind in die persistente Memory umgezogen. Sechs leere Nummern, alle im Kopf von §2.1 begründet. Das Wachstum dieser Liste ist ein Wert, ihr Umfang eine Last, und der Ausweg ist beides zugleich: was ein Skript deterministisch prüfen kann, gehört nicht in eine Merkregel.
 **Status:** BEFÜLLT mit dem Plan für den 2026-09-01. §1, §3, §4, §5 und §6 beschreiben diesen Lauf und sind vor dem übernächsten Kickoff zu überschreiben; jeder von ihnen sagt in seinem ersten Absatz selbst, was hineingehört. §7 trägt noch das Ergebnis vom 2026-08-31 und wird am Ende des Laufs ersetzt.
@@ -277,7 +277,19 @@ Was die alte Fassung dieses Abschnitts an dieser Stelle sagte, gilt unverändert
 
 ---
 
-## 7. Session-Ergebnis (Anhang, Stand 2026-08-31)
+## 7. Session-Ergebnis (Anhang)
+
+### Der Lauf vom 2026-09-01 ist pausiert, nicht abgeschlossen
+
+Angehalten nach Welle 1, weil das Fable-Kontingent zur Neige ging und `fable-reviewer` vor dem ersten Push jedes PR-Zweigs Pflicht ist: Welle 1 war die einzige Welle ohne PR, ein Schnitt dort verbraucht keine Review-Runde. Die Wellen 2 bis 5 sind nicht angefangen.
+
+**Der Wiederaufnahmepunkt steht im Zwischenstand auf #44** ([`issuecomment-5492094055`](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/44#issuecomment-5492094055)), mit Zweig, Commit, Worktree-Pfad, dem Ergebnis von Welle 1 samt Messvorschrift, fünf Fallen für die nächste Session und drei offenen Fragen an einen Menschen. Er ist die maßgebliche Quelle; hier steht nur der Zeiger darauf.
+
+Kurzfassung: Zweig `claude/28-gleis1-begriffssystem` auf `f93d4a1a6`, auf `origin` und **ungereviewt**, Worktree `mhdbdb-w0901` bleibt stehen, nächster Schritt ist Welle 2. Zwei Aufträge für Welle 5 sind unterwegs dazugekommen und im Zwischenstand festgehalten (Agent-Memory-Absatz in Regel 30, Umstellung der Worktree-Platzierung über drei Dateien).
+
+**Der JOURNAL-Eintrag zum 01.09. ist geschrieben** (Koordinationsseite, direkt auf `main`, kein Meta-PR). Das ist die Angabe, die §2 Punkt 4 an dieser Stelle verlangt. Der Meta-PR der Welle 5 fällt damit für den JOURNAL-Teil weg; die zwei Playbook-Aufträge bleiben für ihn übrig.
+
+### Der letzte abgeschlossene Lauf, Stand 2026-08-31
 
 Zwei PRs, drei Tickets, **keines geschlossen**, und das ist kein Rückstand,
 sondern die Vorgabe: bei allen dreien entscheidet als Nächstes ein Mensch.
