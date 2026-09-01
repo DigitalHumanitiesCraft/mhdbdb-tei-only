@@ -53,7 +53,7 @@ Der Grund ist gemessen: der letzte Lauf hat den Worktree per `git worktree add` 
 
 Danach in deinem Worktree: `git fetch origin`, dann `git checkout claude/28-gleis1-begriffssystem`, dann die Basismessung aus Regel 28. **`node_modules` als Junction auf den Hauptbaum setzen**, unter `.claude/worktrees/` zeigt sie auf `../../../node_modules`; ohne sie läuft `run-tests.js` gar nicht erst an.
 
-Ist `.claude/worktrees/` zu diesem Zeitpunkt noch nicht in der `.gitignore`, steht dein Worktree als ungetrackt im Hauptbaum. Das ist erwartbar und einer der Aufträge für Welle 5 unten; du stagst ihn nicht.
+`.claude/worktrees/` **steht seit `2adc52fc5` in der `.gitignore`**, dein Worktree taucht im Hauptbaum also gar nicht erst als ungetrackt auf. Hier ist nichts zu tun und nichts zu stagen. Der Gegenpunkt gilt weiter: `.claude/agent-memory/` **ist** getrackt, und was der `fable-reviewer` dort im Worktree ablegt, geht beim Abräumen verloren, wenn es niemand herüberholt. Regel 30 stellt diesen Schritt inzwischen vor die fünf Abbauschritte.
 
 ---
 
@@ -83,7 +83,7 @@ Unverändert aus dem Auftrag vom 01.09. (`kickoffs/2026-09-01-issue-lauf.md` §5
 | 4 | #235 Rest | ja | die 98 Breve-Fälle mit mehrdeutiger Wortart, voller Data-Change-Lifecycle |
 | 5 | Meta | offen | nur noch dein JOURNAL-Eintrag; die zwei Playbook-Aufträge sind erledigt, siehe §7 |
 
-**Der JOURNAL-Eintrag zum 01.09. ist schon geschrieben** (Koordinationsseite, `ef4a45e0e`). Für deinen eigenen Lauf schreibst du einen neuen; er gehört in den Meta-PR der Welle 5.
+**Der JOURNAL-Eintrag zum 01.09. ist schon geschrieben** (Koordinationsseite, `ef4a45e0e`). Für deinen eigenen Lauf schreibst du einen neuen. Wo er hingeht, entscheidest du zu Beginn und nicht unterwegs: eigener Meta-PR als Welle 5, oder mit dem letzten Sach-PR. Beides ist recht, siehe §7 letzter Absatz.
 
 Stoppbedingungen, je Sachwelle eine, unverändert: Welle 3 endet mit der Zahl statt mit einer Befundliste, wenn die Trefferquote nach den Normalisierungsregeln zu dünn ist; Welle 4 endet, sobald ein Token eine neue Typnummer bräuchte.
 
