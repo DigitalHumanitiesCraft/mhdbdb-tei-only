@@ -39,7 +39,7 @@ chsteiner gibt dich am TT.MM.2026 frei für:
 
 - **Durch:** Welle 0 (Vorflug) und Welle 1 (#216 Punkt 3, nur gemessen, Ergebnis als Kommentar auf #216). Beides wird **nicht wiederholt**, aber die Gates aus Welle 0 laufen im Vorflug erneut, weil `main` sich bewegt hat.
 - **Der Stand liegt auf `origin`:** Zweig `claude/28-gleis1-begriffssystem`, Commit `f93d4a1a6`, ein einziger Commit mit `scripts/audit/measure-216-vrouwe-minne.py` (337 Zeilen). **Er ist ungereviewt**, es gab nie einen PR und nie einen `fable-reviewer`-Lauf. Gepusht hat ihn die Koordination als Ausnahme, damit die Arbeit die Pause überlebt.
-- **Offen:** Wellen 2, 3, 4, 5. Von Welle 3 ist die Stoppbedingung am 01.09. vorab vermessen worden, siehe §6; die Wellen 2 und 4 sind unvorbereitet.
+- **Offen:** Wellen 2, 3, 4, 5. **Die Wellen 2 und 3 sind am 01.09. vorab vermessen worden**, siehe §6; Welle 4 ist unvorbereitet. Die Messungen sind Erkundung und liegen als Kommentare an den Tickets, nicht als Skripte im Repositorium: die produktionsreifen Skripte entstehen in deinen PRs und gehen dort mit Review ein.
 
 **Der alte Worktree ist entbehrlich und du benutzt ihn nicht.** `mhdbdb-w0901` hielt beim Anhalten nichts, was nicht auf `origin` liegt (Status leer, kein Stash, HEAD identisch). Falls er noch existiert, lässt du ihn in Ruhe oder räumst ihn nach Regel 30 ab, Junction zuerst.
 
@@ -78,7 +78,7 @@ Unverändert aus dem Auftrag vom 01.09. (`kickoffs/2026-09-01-issue-lauf.md` §5
 | Welle | Ticket | PR | Was daraus wird |
 |---|---|---|---|
 | 0 | Vorflug | kein PR | beide Regel-28-Zählungen, `check-index-versions.py`, `build-issue-matrix.py --check`, die vier Tickets **mit Kommentaren** neu lesen (seit dem 01.09. kann sich etwas geändert haben) |
-| 2 | #28 Gleis 1 | ja | Kandidatenmenge über das Begriffssystem. Das Welle-1-Skript `measure-216-vrouwe-minne.py` liegt schon auf dem Zweig und geht in diesem PR mit, mit einem Satz dazu im Body |
+| 2 | #28 Gleis 1 | ja | Kandidatenmenge über das Begriffssystem, vorab vermessen (siehe unten). Das Welle-1-Skript `measure-216-vrouwe-minne.py` liegt schon auf dem Zweig und geht in diesem PR mit, mit einem Satz dazu im Body |
 | 3 | #259 | ja | Findebuch-Verweisgraph gegen unsere dreistufige Auflösung, Befundliste aus 477 Fällen, nichts korrigiert. Stoppbedingung ist vorab geprüft und erfüllt, siehe unten |
 | 4 | #235 Rest | ja | die 98 Breve-Fälle mit mehrdeutiger Wortart, voller Data-Change-Lifecycle |
 | 5 | Meta | offen | nur noch dein JOURNAL-Eintrag; die zwei Playbook-Aufträge sind erledigt, siehe §7 |
@@ -88,6 +88,14 @@ Unverändert aus dem Auftrag vom 01.09. (`kickoffs/2026-09-01-issue-lauf.md` §5
 Stoppbedingungen, je Sachwelle eine, unverändert: Welle 3 endet mit der Zahl statt mit einer Befundliste, wenn die Trefferquote nach den Normalisierungsregeln zu dünn ist; Welle 4 endet, sobald ein Token eine neue Typnummer bräuchte.
 
 **Zu Welle 3, zwei Dinge, die den letzten Lauf sonst gekostet hätten:** der Trierer Dump liegt unter `temp/woerterbuchnetz2015/FindeB/P5/` im **Hauptbaum**, nicht in deinem Worktree, weil `temp/` gitignoriert ist; lies ihn von dort. Und Zeile 2 jeder Datei deklariert eine externe TEI-DTD auf tei-c.org, also `no_network=True` und kein `load_dtd`, sonst hängt der Lauf am Netz. Die Lizenzregel hat Vorrang vor jedem Ergebnis: nichts aus dem Dump geht ins Repositorium, in einen Commit, einen Issue-Kommentar oder an einen externen Dienst. Aggregierte Zahlen über unsere eigenen Daten sind davon nicht betroffen, Wortformen aus dem Dump schon.
+
+**Welle 2 ist vorab vermessen** (Koordination, 01.09., [Kommentar auf #28](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/28#issuecomment-5494178173)). Kurz:
+
+- **Die Kandidatenmenge steht:** 17 Sprachkonzepte unter `concept_23123000`, daran 6.219 Lemmata und 225.505 Korpusbelege. Gebaut über `@lemmaRef`, nie über Zeichenketten in `lexicon.xml`, wie es der Kommentar vom 10.08. verlangt.
+- **Sortiere die Menge nicht nach Belegzahl.** Oben steht das Rauschen: `niht` trägt das Konzept „Lateinisch" und allein 36,0 % der Tokenmenge. Der Grund ist, dass `concept_23123000` unter „Kommunikation/Sprache" hängt und ein Bedeutungsfeld ist, das in der Praxis auch für Herkunft benutzt wird.
+- **Die Grenze liegt bei 501 Belegen, aber sie ist keine Schwelle zum Wegwerfen.** Die 25 Lemmata darüber tragen 77,5 % der Nicht-Namen-Tokens und enthalten sowohl Rauschen (`niht`, `in`, `I`) als auch echte Lehnwörter (`bischof`, `engel`, `klâr`). Sieh sie einzeln durch, das ist eine Viertelstunde. Darunter liegen 3.338 Lemmata mit 35.785 Belegen, und die sind über alle Belegklassen hinweg sauber.
+- **Eigennamen sind eine eigene Menge** (2.675 Lemmata, 66.622 Tokens) und auffällig verlässlich zugeordnet. Ob sie unter „Fremdsprachigkeit" fallen, ist eine Frage an KZW und keine, die du entscheidest.
+- **Nur 4 der 6.219 Lemmata tragen ausschließlich Sprachkonzepte.** Ein Filter über die Konzeptdichte hilft also nicht, das ist geprüft.
 
 **Welle 3 ist vorab vermessen** (Koordination, 01.09., [Kommentar auf #259](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/259#issuecomment-5493488964)). Was du dadurch nicht mehr selbst herausfinden musst, aber vor der Verwendung einmal nachmisst, weil auch das eine Behauptung ist:
 
