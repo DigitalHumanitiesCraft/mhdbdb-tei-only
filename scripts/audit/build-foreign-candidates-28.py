@@ -57,7 +57,7 @@ Streuung ist die Zahl der Korpusdateien mit mindestens einem Beleg.
 Usage:
     python scripts/audit/build-foreign-candidates-28.py
     python scripts/audit/build-foreign-candidates-28.py --top 25
-    python scripts/audit/build-foreign-candidates-28.py --csv ingest/foreign-lang/28-gleis1/kandidaten.csv
+    python scripts/audit/build-foreign-candidates-28.py --csv ingest/foreign-lang/28-gleis1-kandidaten.csv
 """
 import argparse
 import csv
@@ -114,11 +114,24 @@ def parse_xml(path):
 
 
 def language_concepts():
-    """Die Sprachkategorien unter ROOT_CONCEPT, transitiv, mit deutschem Namen.
+    """ROOT_CONCEPT und seine Nachfahren, transitiv, mit deutschem Namen.
 
     Der Begriffsbaum steht in <ptr type="broader">, nicht in der Element-
     Verschachtelung: alle <category> sind Geschwister. Wer hier ueber
     getparent() geht, bekommt eine leere Menge.
+
+    **Die Wurzel gehoert dazu.** Der Phasenplan definiert die Menge als die
+    Lemmata, deren Senses auf den concept_23123000-*Subtree* zeigen, und ein
+    Subtree enthaelt seine Wurzel. 31 Lemmata haengen direkt an ihr, 27 davon
+    ohne jeden Treffer in einer der 17 benannten Sprachkategorien, und es sind
+    genau die, die Gleis 1 sucht: englisch, welsch, rotwalsch, tolmetze,
+    enwelsch, bardes. Wer nur die echten Nachfahren nimmt, verliert sie
+    lautlos.
+
+    Der Graph ist kein Baum: 51 Kategorien tragen mehr als ein <ptr
+    type="broader">, und concept_12050000 zeigt auf sich selbst. Beides ist
+    hier folgenlos, aber nur wegen der visited-Menge; ohne sie laeuft die
+    Schleife nicht zurueck.
     """
     tree = parse_xml(CONCEPTS_XML)
     children = defaultdict(list)
@@ -142,7 +155,7 @@ def language_concepts():
                     children[parent].append(cid)
 
     out = {}
-    stack = list(children.get(ROOT_CONCEPT, []))
+    stack = [ROOT_CONCEPT]
     while stack:
         cid = stack.pop()
         if cid in out:
@@ -235,18 +248,24 @@ def print_report(concepts, candidates, tokens, texts, total_with_ref, n_files,
 
     print('#28 Gleis 1: Kandidatenmenge aus dem Begriffssystem')
     print('=' * 62)
-    print('Wurzel        : %s' % ROOT_CONCEPT)
-    print('Kategorien    : %d' % len(concepts))
+    root_name = concepts.get(ROOT_CONCEPT, ROOT_CONCEPT)
+    print('Wurzel        : %s (%s)' % (ROOT_CONCEPT, root_name))
+    print('Kategorien    : %d benannte Sprachen plus die Wurzel selbst'
+          % (len(concepts) - 1))
     print('Korpusdateien : %d' % n_files)
     print()
 
-    print('-- Sprachkategorien (Lemmata je Kategorie, Mehrfachzuordnung moeglich) --')
+    print('-- Kategorien (Lemmata je Kategorie, Mehrfachzuordnung moeglich) --')
     per_concept = Counter()
     for c in candidates.values():
         for lang in c['languages']:
             per_concept[lang] += 1
     for lang, n in sorted(per_concept.items(), key=lambda kv: (-kv[1], kv[0])):
-        print('  %-22s %6d' % (lang, n))
+        # Die Wurzel ist keine Sprache, sondern die unspezifische Zuordnung
+        # "irgendeine Einzelsprache". Sie steht in derselben Spalte und darf
+        # nicht wie Lateinisch oder Arabisch gelesen werden.
+        mark = '  (Wurzel, keine Einzelsprache)' if lang == root_name else ''
+        print('  %-22s %6d%s' % (lang, n, mark))
     print()
 
     print('-- Menge --')

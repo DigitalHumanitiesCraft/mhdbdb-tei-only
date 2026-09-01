@@ -62,25 +62,29 @@ Skript [`scripts/audit/build-foreign-candidates-28.py`](../../scripts/audit/buil
 
 | Messung | Wert |
 |---|---:|
-| Sprachkategorien unter `concept_23123000` | 17 |
-| Lemmata mit mindestens einem Sprachkonzept | 6.219 von 43.879 (14,17 %) |
-| davon im Korpus unbelegt | 221 |
-| Tokens über `@lemmaRef` | 225.505 von 7.546.243 (2,99 %) |
+| Kategorien unter `concept_23123000` | 17 benannte Sprachen plus die Wurzel |
+| Lemmata mit mindestens einem Sprachkonzept | 6.246 von 43.879 (14,23 %) |
+| davon im Korpus unbelegt | 222 |
+| Tokens über `@lemmaRef` | 227.652 von 7.546.243 (3,02 %) |
 | Eigennamen (belegt) | 2.636 Lemmata, 66.634 Tokens |
-| ohne Eigennamen (belegt) | 3.362 Lemmata, 158.871 Tokens |
-| davon ab 501 Belegen | 25 Lemmata, 123.098 Tokens (77,5 %) |
-| davon darunter | 3.337 Lemmata, 35.773 Tokens |
+| ohne Eigennamen (belegt) | 3.388 Lemmata, 161.018 Tokens |
+| davon ab 501 Belegen | 26 Lemmata, 124.369 Tokens (77,2 % der Nicht-Namen-Tokens) |
+| davon darunter | 3.362 Lemmata, 36.649 Tokens |
 | Lemmata, die ausschließlich Sprachkonzepte tragen | 4 |
 
-Drei Befunde, die den Zuschnitt der Phase bestimmen:
+Vier Befunde, die den Zuschnitt der Phase bestimmen:
 
-**Der Entscheidungsraum für Schicht B sinkt um Faktor 13**, von 43.879 auf 3.337 plus 25 zur Handprüfung. Gleis 1 ersetzt Gleis 2 damit nicht, aber es verkleinert dessen Aufgabe erheblich.
+**Der Entscheidungsraum für Schicht B sinkt um knapp Faktor 13**, von 43.879 auf 3.362 plus 26 zur Handprüfung (43.879 / 3.388 = 12,95). Gleis 1 ersetzt Gleis 2 damit nicht, aber es verkleinert dessen Aufgabe erheblich.
 
-**Nach Belegzahl sortiert steht das Rauschen oben, und ein Frequenz-Cutoff wäre trotzdem falsch.** `niht` trägt „Lateinisch" und allein 36,0 % der Tokenmenge; in derselben obersten Klasse stehen `bischof` (3.035), `klâr` (2.530) und `engel` (2.165), alles echte Lehnwörter. Der Grund liegt im Baum: `concept_23123000` hängt unter `concept_23120000` („Kommunikation/Sprache") und ist ein **Bedeutungs-, kein Herkunftsfeld**. Die frühere Annahme in diesem Dokument, es handle sich zunächst um Lemmata, die Sprachen *bezeichnen* (`latîn`, `kriechisch`), greift zu kurz: die Kategorie trägt beides und dazu Fälle, die keines von beidem sind. Die 25 gehören einzeln angesehen, nicht pauschal verworfen.
+**Die Wurzel gehört in die Menge, und sie war der teuerste Einzelfehler dieser Phase.** Ein Subtree enthält seine Wurzel: 31 Lemmata hängen mit einem Sense direkt an `concept_23123000`, 27 davon ohne jeden Treffer in einer der 17 benannten Sprachkategorien. Es sind genau die, die Gleis 1 sucht (`englisch`, `welsch`, `enwelsch`, `rotwalsch`, `tolmetze`, `bardes`), und ein Lauf, der nur die echten Nachfahren nimmt, verliert sie lautlos. Sichtbar wird die Zuordnung im Report als eigene Zeile „Einzelsprachen"; sie ist die unspezifische Angabe „irgendeine Einzelsprache" und darf nicht wie `Lateinisch` gelesen werden.
 
-**Ein Filter über die Konzeptdichte hilft nicht.** Nur 4 der 6.219 Lemmata tragen ausschließlich Sprachkonzepte; die Masse trägt drei bis acht, von denen eines ein Sprachkonzept ist.
+**Nach Belegzahl sortiert steht das Rauschen oben, und ein Frequenz-Cutoff wäre trotzdem falsch.** `niht` trägt „Lateinisch" und allein 35,6 % der Tokenmenge; in derselben obersten Klasse stehen `bischof` (3.035), `klâr` (2.530) und `engel` (2.165), alles echte Lehnwörter, dazu über die Wurzel `zunge` (1.271). Der Grund liegt im Baum: `concept_23123000` hängt unter `concept_23120000` („Kommunikation/Sprache") und ist ein **Bedeutungs-, kein Herkunftsfeld**. Die frühere Annahme in diesem Dokument, es handle sich zunächst um Lemmata, die Sprachen *bezeichnen* (`latîn`, `kriechisch`), greift zu kurz: die Kategorie trägt beides und dazu Fälle, die keines von beidem sind. Die 26 gehören einzeln angesehen, nicht pauschal verworfen.
 
-Zur Zählweise, weil sie das Ergebnis verschiebt: **ein Lemma gilt als Eigenname, wenn `NAM` in `posAll` steht, nicht wenn `pos == "NAM"` ist.** `pos` ist laut Authority-Index-Changelog 1.6.0 der *Erstwert* der Wortartenliste und nicht die Hauptlesart, und `posAll` ist praktisch alphabetisch sortiert (10.169 von 10.171 mehrdeutigen Lemmata). Das `pos`-Kriterium zählt deshalb `lemma_3141` („Joie de la Court", `pos=ART`, `posAll=ART NAM PRP`, 12 Belege) zu den Nicht-Namen. Es ist der einzige belegte Fall im Kandidatenkreis, in dem die beiden Kriterien auseinandergehen, und er erklärt die Differenz zur Vorabmessung vom 01.09. vollständig (dort 2.675 / 66.622 gegen 2.636 / 66.634; die Vorabmessung zählte zudem die unbelegten Lemmata mit).
+**Ein Filter über die Konzeptdichte hilft nicht.** Nur 4 der 6.246 Lemmata tragen ausschließlich Sprachkonzepte; die Masse trägt drei bis acht, von denen eines ein Sprachkonzept ist.
+
+Zur Zählweise der Eigennamen, weil sie das Ergebnis verschiebt: **ein Lemma gilt als Eigenname, wenn `NAM` in `posAll` steht, nicht wenn `pos == "NAM"` ist.** `pos` ist laut Authority-Index-Changelog 1.6.0 der *Erstwert* der Wortartenliste und nicht die Hauptlesart, und `posAll` ist praktisch alphabetisch sortiert (10.169 von 10.171 mehrdeutigen Lemmata). Im Kandidatenkreis urteilen die beiden Kriterien bei genau **zwei** Lemmata verschieden, beide mit `pos=ART`, weil `ART` alphabetisch vor `NAM` steht: `lemma_3141` („Joie de la Court", 12 Belege) und `lemma_46979` („li Granz", unbelegt).
+
+Gegen die Vorabmessung vom 01.09. (2.675 Lemmata, 66.622 Tokens) gerechnet: die **Token**-Differenz von 12 erklärt `lemma_3141` allein, die **Lemma**-Differenz braucht beide Fälle und die unbelegten dazu, denn die Vorabmessung zählte über alle Kandidaten statt nur über die belegten (2.675 + 2 − 41 unbelegte Namen = 2.636). Die Zahlen sind trotz der geänderten Kandidatenmenge vergleichbar: unter den 27 Lemmata, die erst mit der Wurzel hinzukommen, ist kein einziger Eigenname.
 
 ## Phase 2: Kuratierung (M, Mensch im Loop)
 
