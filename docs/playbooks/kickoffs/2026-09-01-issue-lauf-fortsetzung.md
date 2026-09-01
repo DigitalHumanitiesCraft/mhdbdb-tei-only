@@ -1,6 +1,4 @@
-> **Noch nicht abgeschickt.** Diese Datei ist der vorbereitete Auftrag für die Fortsetzung des am 01.09.2026 nach Welle 1 pausierten Laufs, geschrieben am 01.09. von der Koordination. Beim Abschicken wird sie auf `JJJJ-MM-TT-issue-lauf-fortsetzung.md` umbenannt und trägt dann den Protokollvermerk der anderen Dateien in diesem Ordner. Bis dahin darf sie gepflegt werden; danach nicht mehr.
->
-> **Eine Lücke ist absichtlich offen:** unter §2 steht ein Platzhalter statt des Betriebsvertrags. Er wird am Tag des Abschickens frisch aus `../BETRIEBSVERTRAG.md` kopiert. Eine heute eingefügte Kopie wäre in einer Woche eine zweite Fassung, die sich für das Original ausgibt, und genau dagegen wurde der Vertrag aus den Playbooks herausgelöst.
+> **Abgeschickt am 2026-09-01 an die Spur `mhdbdb-wellen-2345`.** Protokoll, ab jetzt nicht mehr ändern. Der Betriebsvertrag in §2 ist die wörtliche Kopie von `../BETRIEBSVERTRAG.md` im Stand `2adc52fc5`, eingefügt am Tag des Abschickens.
 
 # Kickoff: Fortsetzung des Issue-Laufs vom 2026-09-01
 
@@ -10,9 +8,7 @@ Serieller Wellenlauf, eine Session. Wellen 2 bis 5 des Laufs vom 01.09.; Welle 0
 
 ## 1. Autorisierung
 
-*(chsteiner setzt Datum und bestätigt oder streicht die Merge-Freigabe, bevor er das abschickt.)*
-
-chsteiner gibt dich am TT.MM.2026 frei für:
+chsteiner gibt dich am 01.09.2026 frei für:
 
 - **Commits und Pushes auf `claude/*`-Branches** und das Erstellen von Pull Requests.
 - **Den Merge der Session-PRs nach `main`**, jeden einzeln, unter den vier Bedingungen in §5 Punkt 2.
@@ -27,7 +23,51 @@ chsteiner gibt dich am TT.MM.2026 frei für:
 
 ## 2. Betriebsvertrag
 
-<!-- HIER DEN VOLLSTÄNDIGEN INHALT VON docs/playbooks/BETRIEBSVERTRAG.md WÖRTLICH EINFÜGEN, Stand am Tag des Abschickens. Nicht verlinken. -->
+Wörtliche Kopie von `docs/playbooks/BETRIEBSVERTRAG.md`, Stand `2adc52fc5` vom 01.09.2026. Einzige Abweichung vom Original: die Überschriften stehen eine Ebene tiefer (`###` statt `##`), damit sie nicht mit den Paragrafen dieses Auftrags verwechselt werden. Die **Regelnummern 1 bis 17 sind die des Vertrags**; wenn dieser Auftrag „Vertragsregel 16" sagt, meint er die hier.
+
+---
+
+### Betriebsvertrag der autonomen Sessions
+
+Der Teil des Vertrags, der für **alle** autonomen Sessions gleich lautet. Die drei Playbooks (`MASTERPLAN-AUTONOME-ISSUE-SESSION.md`, `MASTERPLAN-AUTONOME-MERGE-SESSION.md`, `MASTERPLAN-AUTONOME-CAREARBEIT-SESSION.md`) verweisen hierher und führen nur noch ihre eigenen Abweichungen und Weichen auf.
+
+**Warum diese Datei existiert:** bis zum 2026-08-05 stand jede dieser Regeln in zwei oder drei Playbooks gleichzeitig. Das Verbot von `git add -A` etwa an vier Stellen, und das Merge-Playbook schrieb den Vertrag ab, obwohl es im selben Satz sagte, er sei „unverändert aus dem Issue-Session-Vertrag". Kopien driften: derselbe Mechanismus hatte dazu geführt, dass ein Playbook zur Ergebnisquelle eines Testlaufs das Gegenteil dessen anwies, was ein anderes als gemessenen Fehlschlag dokumentierte.
+
+**Dieser Vertrag autorisiert nichts.** Er beschreibt, was gilt, *nachdem* ein Kickoff-Prompt eine Session eröffnet hat. Ohne Kickoff läuft keine Session, und die Vorlage dafür steht in `KICKOFF-VORLAGE.md`. Weil der Kickoff die Regeln mitbringt, sind sie zur Laufzeit im Kontext, ohne dass jemand eine zweite Datei öffnen muss.
+
+#### 1. Was ohne ausdrückliche Freigabe tabu bleibt
+
+1. **Kein Push nach `main`.** Die Ausnahme ist die Merge-Session, deren Kickoff die Merge-Autorisierung ausdrücklich enthält; auch sie merged nur, sie pusht nicht direkt. Alle anderen Ergebnisse sind PRs, die chsteiner reviewt.
+2. **Kein Force-Push nach `main`,** in keiner Session, unter keinen Umständen. Auf `claude/*`-Branches ist `--force-with-lease` nach einem Rebase dagegen Standard.
+3. **Issues werden nie von der Session geschlossen,** nur per `Closes #N` im PR-Body beim Merge. **#44 bekommt nie einen Close-Trailer**, es ist die permanente Triage-Matrix.
+4. **Keine Kontaktaufnahme mit Externen** (Linda, Alan, Carina, Silvan, Burch, Brom). Entwürfe für sie landen als Text im Issue.
+
+#### 2. Wie committet und gestaged wird
+
+5. **Nur benannte Dateien stagen, nie `git add -A` oder `git add .`.** Parallele Sessions teilen den Arbeitsbaum und damit den Index: ein pauschales Staging sammelt fremde Arbeit ein. Commit `8b5d0e6ac` hat auf diesem Weg Router-Dateien in einen unbeteiligten Commit gezogen.
+6. **Jede Session in ihrem eigenen Worktree**, angelegt beim Start mit `claude --bg --name <name> --worktree <name>` und damit unter `.claude/worktrees/`. Der Hauptordner bleibt Referenz und wird nicht als Arbeitsplatz benutzt. Nicht von Hand daneben legen: ein Worktree außerhalb von `.claude/worktrees/` verlangt eine interaktive Freigabe, die keine `allow`-Regel abstellen kann, und hat am 2026-09-01 eine unbeaufsichtigte Session eine Stunde stillstehen lassen. Begründung und Messung in §2.1 Regel 29 des Issue-Playbooks. Abbau nach dem Merge, im selben Zug: §2.1 Regel 30, das ist kein Einzeiler, und der erste Schritt darin rettet das Agent-Memory.
+7. **Die Branch-Basis wird gemessen, nicht am Namen abgelesen**, und zwar vor dem ersten eigenen Commit: `git rev-list --count "origin/main...HEAD"` und `git rev-list --count "origin/main..main"` müssen beide 0 sein. Details und die Fehlergeschichte dazu in §2.1 Regel 28.
+
+#### 3. Wie kommuniziert wird
+
+8. **Höchstens ein sachlicher Statuskommentar pro Issue.** Etablierte Ausnahme: der KZW-UI-Ping nach dem Live-Gang, der zur Abnahme gehört.
+9. **Nicht fragen, nicht warten.** Alles Nötige liegt im Repo und in den Issue-Threads (`gh issue view N --json comments`). Nur nachweislich Unbeschaffbares wird im Abschlussreport dokumentiert übersprungen.
+10. **Stil:** keine Emoji-Icons (Heroicons inline SVG ist der einzige Icon-Stil), keine Em-Dashes in Prosa, echte Umlaute statt ASCII-Ersatz. Die Sprachregel nach Zielgruppe steht in `CLAUDE.md`.
+
+#### 4. Was vor jedem Push passiert
+
+11. **Fable-Review vor dem ersten Push jedes PRs**, mit dem `fable-reviewer` (nicht dem `fable-advisor`, der ist der Berater für offene Entwurfsfragen). Mitgeben: Branch, Basis, Ziel in einem Satz, Nummer der Review-Runde, ab Runde 2 die Vorrunden-Befunde. Was der Reviewer lokal findet, kostet null CI-Runden.
+12. **Jeder Befund wird nachgemessen, bevor er übernommen wird**, auch der eines Reviewers und auch der eines Bots. Er ist selbst eine Behauptung, und eine ungeprüfte Korrektur einer ungeprüften Zahl ist schlimmer als die ursprüngliche, weil sie glaubwürdiger aussieht.
+13. **Ab Review-Runde 3 wird nur noch auf Verhaltensbefunde reagiert.** Formulierungsfragen werden durch Kürzen erledigt, nicht durch Diskussion.
+14. **Verifikation:** `npm test` aus dem Repo-Root, nie `npx playwright test`. Die VERDICT-Zeile ist das Ergebnis und gehört unverändert in den PR (§2.1 Regel 6). Bei UI zusätzlich Chrome-Verifikation mit realen Belegen, bei HTML-Änderungen `python scripts/build-pages.py --check`, bei neuen Utility-Klassen `npm run build:css`.
+15. **Daten vor Schema**, und bei jeder Änderung in `tei/` oder `authority-files/` der Data-Change-Lifecycle aus `docs/DATA-MODEL.md`.
+
+#### 5. Was in Tickets wandert und was nicht
+
+16. **Fixes direkt umsetzen.** Ein Issue entsteht nur, wenn eine **Entscheidung** nötig ist, die die Session nicht treffen darf, wenn ein **Mensch** gebraucht wird, oder wenn es ein **eigenes Arbeitspaket** ist (Ingest, Korpusänderung, mehr als ein halber Tag). Alles andere wird sofort behoben oder verworfen.
+17. **Geshippte, aber bewusst offene Issues nicht anfassen.** Sie warten auf eine Abnahme durch KZW oder Julia; ein `Closes #N` ist keine Abnahme.
+
+---
 
 **Zusatz, der beim letzten Mal gefehlt hat und der bleibt:** das Testfenster ist maschinenweit exklusiv. `testing/playwright.config.js` verdrahtet Port 8080 dreifach und setzt `reuseExistingServer`, `scripts/run-tests.js` bricht mit Exit 2 ab, wenn dort ein fremder Baum antwortet, und wertet auch ein bloßes Zeitüberschreiten als fremd. Ein solcher Abbruch ist kein Fehlschlag deiner Arbeit, sondern ein besetzter Port: melden, nicht in einer Schleife wiederholen.
 
@@ -41,17 +81,29 @@ chsteiner gibt dich am TT.MM.2026 frei für:
 - **Der Stand liegt auf `origin`:** Zweig `claude/28-gleis1-begriffssystem`, Commit `f93d4a1a6`, ein einziger Commit mit `scripts/audit/measure-216-vrouwe-minne.py` (337 Zeilen). **Er ist ungereviewt**, es gab nie einen PR und nie einen `fable-reviewer`-Lauf. Gepusht hat ihn die Koordination als Ausnahme, damit die Arbeit die Pause überlebt.
 - **Offen:** Wellen 2, 3, 4, 5. **Die Wellen 2 und 3 sind am 01.09. vorab vermessen worden**, siehe §6; Welle 4 ist unvorbereitet. Die Messungen sind Erkundung und liegen als Kommentare an den Tickets, nicht als Skripte im Repositorium: die produktionsreifen Skripte entstehen in deinen PRs und gehen dort mit Review ein.
 
-**Der alte Worktree ist entbehrlich und du benutzt ihn nicht.** `mhdbdb-w0901` hielt beim Anhalten nichts, was nicht auf `origin` liegt (Status leer, kein Stash, HEAD identisch). Falls er noch existiert, lässt du ihn in Ruhe oder räumst ihn nach Regel 30 ab, Junction zuerst.
+**Der alte Worktree ist weg, du legst keinen daneben an.** `mhdbdb-w0901` ist am 01.09. von der Koordination abgeräumt worden, nach den vier Prüfungen: Status leer, ignorierte Arbeit nur `node_modules/` und `scripts/__pycache__/` (beides regenerierbar), kein Stash, und der einzige Commit `f93d4a1a6` liegt auf `origin/claude/28-gleis1-begriffssystem`. `git worktree list` führt seither nur noch den Hauptbaum.
+
+**Die alte Spur ist ebenfalls weg**, und zwar spurloser als die Abnahmeliste es vorsieht: sie steht **gar nicht mehr** in `claude agents --json`, obwohl eine bloß beendete Session dort gelistet bliebe. Ein Abschlussbericht von ihr kommt also nicht mehr. Was sie erarbeitet hat, steht vollständig in diesem Auftrag und in den Kommentaren an den Tickets; ihr Transkript liegt noch, falls du etwas nachschlagen musst.
+
+**Ein Vorflug-Befund, damit du ihn nicht suchst:** `build-issue-matrix.py --check` war heute rot und ist es nicht mehr. Ursache war eine einzige Zelle, das `updatedAt` von #28, das durch den Messkommentar der Koordination von `2026-08-10` auf `2026-09-01` gesprungen war. Die Koordination hat `--apply` laufen lassen, nachdem sie den Unterschied gediffed hatte, und das Gate ist grün (59 gelistet, 60 geprüft). **Der Body von #44 ist damit heute schon einmal geschrieben worden**; das ist kein Statuskommentar im Sinne von Vertragsregel 8 und verbraucht deinen nicht.
 
 ---
 
-## 4. Der Worktree, und warum diesmal anders
+## 4. Dein Worktree steht schon
 
-**Nimm `claude --bg --name <name> --worktree <name>`.** Claude Code legt den Worktree dann selbst unter `.claude/worktrees/` an und startet dich darin.
+Die Koordination hat dich mit `claude --bg --name mhdbdb-wellen-2345 --worktree mhdbdb-wellen-2345` gestartet. Der Grund für diese Form ist gemessen: der letzte Lauf hat den Worktree per `git worktree add` **neben** das Repositorium gelegt und ist beim `EnterWorktree`-Aufruf rund eine Stunde in einer Freigabe stehengeblieben. Ein Ziel außerhalb von `.claude/worktrees/` verlangt seit v2.1.206 eine interaktive Bestätigung, die **keine** `allow`-Regel abstellen kann. Für eine unbeaufsichtigte Session ist das ein Stillstand.
 
-Der Grund ist gemessen: der letzte Lauf hat den Worktree per `git worktree add` **neben** das Repositorium gelegt und ist beim `EnterWorktree`-Aufruf rund eine Stunde in einer Freigabe stehengeblieben. Ein Ziel außerhalb von `.claude/worktrees/` verlangt seit v2.1.206 eine interaktive Bestätigung, und die lässt sich durch **keine** `allow`-Regel abstellen; die Dokumentation sagt das ausdrücklich, nur `bypassPermissions` überspringt sie. Für eine unbeaufsichtigte Session ist das ein Stillstand.
+Dein Baum liegt also unter `C:/Users/chstn/Desktop/data/DHCraft/Projekte/Git/mhdbdb-tei-only/.claude/worktrees/mhdbdb-wellen-2345`, ist vollständig ausgecheckt und stand beim Start auf `2014bc436`.
 
-Danach in deinem Worktree: `git fetch origin`, dann `git checkout claude/28-gleis1-begriffssystem`, dann die Basismessung aus Regel 28. **`node_modules` als Junction auf den Hauptbaum setzen**, unter `.claude/worktrees/` zeigt sie auf `../../../node_modules`; ohne sie läuft `run-tests.js` gar nicht erst an.
+**Vier Dinge daran sind gemessen und weichen von dem ab, was die Playbooks beschreiben. Sie kosten dich je einen Handgriff, und der letzte kostet dich sonst den Abbau:**
+
+1. **Miss als Allererstes dein eigenes Arbeitsverzeichnis.** `claude agents --json` führte deine Session unmittelbar nach dem Start mit `cwd` auf dem **Hauptbaum**, nicht auf deinem Worktree. Ob das ein Anzeigeartefakt des Startprozesses ist oder dein tatsächliches Verzeichnis, konnte die Koordination von außen nicht entscheiden. Gib `pwd` ein. Steht dort der Worktree, ist alles gut und du sagst es im ersten Meldepunkt. Steht dort der Hauptbaum, **arbeitest du trotzdem weiter**, aber ab dann mit `git -C <worktree>` und ausschließlich absoluten Pfaden, und du sagst es ebenfalls im ersten Meldepunkt. In keinem der beiden Fälle startest du dich neu.
+
+2. **Dein Zweig heißt `worktree-mhdbdb-wellen-2345`**, nicht `claude/...`. Das legt `--worktree` so an. Wechsle mit `git fetch origin`, dann `git checkout claude/28-gleis1-begriffssystem`. **Der Zweig `worktree-mhdbdb-wellen-2345` bleibt danach als Leiche liegen**: er enthält nichts, was nicht auf `main` steht, und gehört beim Abräumen mit `git branch -D` weg. Er steht in keiner Regel 30, deshalb steht er hier.
+
+3. **`node_modules` als Junction auf den Hauptbaum setzen.** Von `.claude/worktrees/<name>/` aus zeigt sie auf `../../../node_modules`. Ohne sie läuft `run-tests.js` gar nicht erst an. Danach die Basismessung aus Regel 28.
+
+4. **Dein Worktree ist `locked`, und Regel 30 weiß das nicht.** `git worktree list --porcelain` meldet für ihn `locked initializing`. Ein `--worktree`-Baum trägt diese Sperre von Haus aus, und `git worktree remove` **verweigert einen gesperrten Baum**. Beim Abräumen kommt deshalb ein Schritt vor die fünf aus Regel 30, direkt nach dem Retten des Agent-Memory: `git worktree unlock <pfad>`. Ob die Sperre bis dahin von selbst verfällt (der Grund lautet `initializing`, was nach einem Startzustand klingt), ist **nicht gemessen**; sieh vor dem Abbau einmal nach, statt es anzunehmen. Und wenn du es weißt, schreib es in den Abschlussbericht: Regel 30 gehört danach ergänzt, und die Koordination trägt es nach.
 
 `.claude/worktrees/` **steht seit `2adc52fc5` in der `.gitignore`**, dein Worktree taucht im Hauptbaum also gar nicht erst als ungetrackt auf. Hier ist nichts zu tun und nichts zu stagen. Der Gegenpunkt gilt weiter: `.claude/agent-memory/` **ist** getrackt, und was der `fable-reviewer` dort im Worktree ablegt, geht beim Abräumen verloren, wenn es niemand herüberholt. Regel 30 stellt diesen Schritt inzwischen vor die fünf Abbauschritte.
 
@@ -142,3 +194,19 @@ Vom Verifikations-Handwerk aus §2.1 tragen hier vier Regeln besonders: Mutation
 Der JOURNAL-Eintrag ist der letzte Commit, davor `origin/main` holen. Der Abschlussbericht geht als Kommentar auf **#44** und nennt je Welle das Ergebnis, die Messvorschrift zu jeder Zahl, und ausdrücklich, was **nicht** erledigt wurde und warum. Labels der angefassten Tickets in derselben Session nachziehen. Worktree und Zweig nach dem Merge im selben Zug abräumen, Junction zuerst, danach `ls -d ../<praefix>*` ohne Filter auf Verzeichnisse.
 
 **Unbeschaffbarer Input führt zum dokumentierten Überspringen, nicht zum Warten und nicht zum Nachfragen.**
+
+---
+
+## 11. Meldepunkte an die Koordination
+
+Antworte immer an das `from` dieser Nachricht, nie an einen Namen aus einem Text. Fünf Meldungen, kurz, je zwei bis fünf Zeilen. Sie ersetzen den Abschlussbericht nicht.
+
+1. **Nach dem Vorflug.** Das Ergebnis von `pwd` aus §4 Punkt 1, beide Regel-28-Zählungen, der Stand der Gates. Wenn etwas davon nicht stimmt, hier und nicht später.
+2. **Vor jedem `fable-reviewer`-Lauf** eine Zeile: welcher PR, welche Runde. Und **nach jedem Lauf** eine Zeile: wie viele Befunde, wie viele nach dem Nachmessen übernommen.
+3. **Nach jedem Merge nach `main`** eine Zeile mit dem Commit und der VERDICT-Zeile.
+4. **Bei jeder Blockade sofort**, auch mitten in der Arbeit. Eine Freigabe, die dich anhält, ein besetzter Testport, ein Gate, das du nicht grün bekommst. Melden statt umleiten: du reichst nichts an eine andere Session weiter, Berechtigungen gelten je Session.
+5. **Wenn du eine Welle überspringst oder eine Stoppbedingung greift**, mit der Zahl, die es entschieden hat.
+
+Punkt 2 ist der, der sonst fehlt: die Koordination führt eine Liste offener Prüfungen und darf nichts als fertig verbuchen, solange eine Runde darauf noch läuft. Ohne deine Meldung ist das eine Liste, deren Einträge niemand kennt.
+
+**Der `fable-reviewer` läuft seit heute auf Fable 5.1** (`model: claude-fable-5-1` in seiner Frontmatter, nachgesehen). Das ist die Deklaration, kein Beweis: dein erster Lauf ist der erste echte. Löst die Modell-ID nicht auf, ist das ein Fall für Meldepunkt 4 und keiner, den du durch Ausweichen auf den `fable-advisor` löst.
