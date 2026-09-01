@@ -154,6 +154,12 @@ Der Grund ist die Zahl der Sach-PRs: drei, die alle `docs/JOURNAL.md` anfassen
 wollten, würden sich gegenseitig blockieren. Das ist die Angabe, die §2 Punkt 4
 verlangt.
 
+**Stand nach der Pause: Welle 1 ist gelaufen, die Wellen 2 bis 4 stehen aus, und
+von Welle 5 ist nur noch der JOURNAL-Eintrag der Spur offen.** Die zwei
+Playbook-Aufträge, die unterwegs für den Meta-PR dazugekommen waren, sind
+erledigt (§7). Maßgeblich für die Fortsetzung ist
+`kickoffs/FORTSETZUNG-issue-lauf-0901.md`, nicht diese Tabelle.
+
 **Jede Sachwelle hat eine Stoppbedingung, keine Checkliste.** Welle 1 endet,
 sobald die Umsetzung ein neues Lemma oder einen neuen Variantentyp prägen müsste;
 Welle 3, wenn die Trefferquote nach den Normalisierungsregeln zu dünn für eine
@@ -297,9 +303,9 @@ Angehalten nach Welle 1, weil das Fable-Kontingent zur Neige ging und `fable-rev
 
 **Der Wiederaufnahmepunkt steht im Zwischenstand auf #44** ([`issuecomment-5492094055`](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/44#issuecomment-5492094055)), mit Zweig, Commit, Worktree-Pfad, dem Ergebnis von Welle 1 samt Messvorschrift, fünf Fallen für die nächste Session und drei offenen Fragen an einen Menschen. Er ist die maßgebliche Quelle; hier steht nur der Zeiger darauf.
 
-Kurzfassung: Zweig `claude/28-gleis1-begriffssystem` auf `f93d4a1a6`, auf `origin` und **ungereviewt**, Worktree `mhdbdb-w0901` bleibt stehen, nächster Schritt ist Welle 2. Zwei Aufträge für Welle 5 sind unterwegs dazugekommen und im Zwischenstand festgehalten (Agent-Memory-Absatz in Regel 30, Umstellung der Worktree-Platzierung über drei Dateien).
+Kurzfassung: Zweig `claude/28-gleis1-begriffssystem` auf `f93d4a1a6`, auf `origin` und **ungereviewt**, Worktree `mhdbdb-w0901` bleibt stehen, nächster Schritt ist Welle 2. Zwei Aufträge für Welle 5 sind unterwegs dazugekommen (Agent-Memory-Absatz in Regel 30, Umstellung der Worktree-Platzierung über drei Dateien) und noch am selben Tag von der Koordination erledigt worden, direkt auf `main` mit `2adc52fc5`, ohne PR und ohne `fable-reviewer`: Doku plus eine `.gitignore`-Zeile fallen unter die Freistellung in `CLAUDE.md`, und der Sinn des Vorziehens war, das knappe Fable-Kontingent für Welle 2 unangetastet zu lassen.
 
-**Der JOURNAL-Eintrag zum 01.09. ist geschrieben** (Koordinationsseite, direkt auf `main`, kein Meta-PR). Das ist die Angabe, die §2 Punkt 4 an dieser Stelle verlangt. Der Meta-PR der Welle 5 fällt damit für den JOURNAL-Teil weg; die zwei Playbook-Aufträge bleiben für ihn übrig.
+**Der JOURNAL-Eintrag zum 01.09. ist geschrieben** (Koordinationsseite, direkt auf `main`, kein Meta-PR). Das ist die Angabe, die §2 Punkt 4 an dieser Stelle verlangt. Der Meta-PR der Welle 5 fällt damit für den JOURNAL-Teil weg, und mit `2adc52fc5` auch für die zwei Playbook-Aufträge. Offen ist von Welle 5 nur noch der JOURNAL-Eintrag der Spur-Session über ihre eigenen Wellen.
 
 ### Der letzte abgeschlossene Lauf, Stand 2026-08-31
 
