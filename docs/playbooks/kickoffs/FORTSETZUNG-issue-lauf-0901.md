@@ -39,7 +39,7 @@ chsteiner gibt dich am TT.MM.2026 frei für:
 
 - **Durch:** Welle 0 (Vorflug) und Welle 1 (#216 Punkt 3, nur gemessen, Ergebnis als Kommentar auf #216). Beides wird **nicht wiederholt**, aber die Gates aus Welle 0 laufen im Vorflug erneut, weil `main` sich bewegt hat.
 - **Der Stand liegt auf `origin`:** Zweig `claude/28-gleis1-begriffssystem`, Commit `f93d4a1a6`, ein einziger Commit mit `scripts/audit/measure-216-vrouwe-minne.py` (337 Zeilen). **Er ist ungereviewt**, es gab nie einen PR und nie einen `fable-reviewer`-Lauf. Gepusht hat ihn die Koordination als Ausnahme, damit die Arbeit die Pause überlebt.
-- **Offen:** Wellen 2, 3, 4, 5. Nichts davon ist vorbereitet.
+- **Offen:** Wellen 2, 3, 4, 5. Von Welle 3 ist die Stoppbedingung am 01.09. vorab vermessen worden, siehe §6; die Wellen 2 und 4 sind unvorbereitet.
 
 **Der alte Worktree ist entbehrlich und du benutzt ihn nicht.** `mhdbdb-w0901` hielt beim Anhalten nichts, was nicht auf `origin` liegt (Status leer, kein Stash, HEAD identisch). Falls er noch existiert, lässt du ihn in Ruhe oder räumst ihn nach Regel 30 ab, Junction zuerst.
 
@@ -79,7 +79,7 @@ Unverändert aus dem Auftrag vom 01.09. (`kickoffs/2026-09-01-issue-lauf.md` §5
 |---|---|---|---|
 | 0 | Vorflug | kein PR | beide Regel-28-Zählungen, `check-index-versions.py`, `build-issue-matrix.py --check`, die vier Tickets **mit Kommentaren** neu lesen (seit dem 01.09. kann sich etwas geändert haben) |
 | 2 | #28 Gleis 1 | ja | Kandidatenmenge über das Begriffssystem. Das Welle-1-Skript `measure-216-vrouwe-minne.py` liegt schon auf dem Zweig und geht in diesem PR mit, mit einem Satz dazu im Body |
-| 3 | #259 | ja | Findebuch-Verweisgraph gegen unsere dreistufige Auflösung, Befundliste, nichts korrigiert |
+| 3 | #259 | ja | Findebuch-Verweisgraph gegen unsere dreistufige Auflösung, Befundliste aus 477 Fällen, nichts korrigiert. Stoppbedingung ist vorab geprüft und erfüllt, siehe unten |
 | 4 | #235 Rest | ja | die 98 Breve-Fälle mit mehrdeutiger Wortart, voller Data-Change-Lifecycle |
 | 5 | Meta | offen | nur noch dein JOURNAL-Eintrag; die zwei Playbook-Aufträge sind erledigt, siehe §7 |
 
@@ -87,7 +87,15 @@ Unverändert aus dem Auftrag vom 01.09. (`kickoffs/2026-09-01-issue-lauf.md` §5
 
 Stoppbedingungen, je Sachwelle eine, unverändert: Welle 3 endet mit der Zahl statt mit einer Befundliste, wenn die Trefferquote nach den Normalisierungsregeln zu dünn ist; Welle 4 endet, sobald ein Token eine neue Typnummer bräuchte.
 
-**Zu Welle 3, zwei Dinge, die den letzten Lauf sonst gekostet hätten:** der Trierer Dump liegt unter `temp/woerterbuchnetz2015/FindeB/P5/` im **Hauptbaum**, nicht in deinem Worktree, weil `temp/` gitignoriert ist; lies ihn von dort. Und Zeile 2 jeder Datei deklariert eine externe TEI-DTD auf tei-c.org, also `no_network=True` und kein `load_dtd`, sonst hängt der Lauf am Netz. Die Lizenzregel hat Vorrang vor jedem Ergebnis: nichts aus dem Dump geht ins Repositorium, in einen Commit, einen Issue-Kommentar oder an einen externen Dienst.
+**Zu Welle 3, zwei Dinge, die den letzten Lauf sonst gekostet hätten:** der Trierer Dump liegt unter `temp/woerterbuchnetz2015/FindeB/P5/` im **Hauptbaum**, nicht in deinem Worktree, weil `temp/` gitignoriert ist; lies ihn von dort. Und Zeile 2 jeder Datei deklariert eine externe TEI-DTD auf tei-c.org, also `no_network=True` und kein `load_dtd`, sonst hängt der Lauf am Netz. Die Lizenzregel hat Vorrang vor jedem Ergebnis: nichts aus dem Dump geht ins Repositorium, in einen Commit, einen Issue-Kommentar oder an einen externen Dienst. Aggregierte Zahlen über unsere eigenen Daten sind davon nicht betroffen, Wortformen aus dem Dump schon.
+
+**Welle 3 ist vorab vermessen** (Koordination, 01.09., [Kommentar auf #259](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/259#issuecomment-5493488964)). Was du dadurch nicht mehr selbst herausfinden musst, aber vor der Verwendung einmal nachmisst, weil auch das eine Behauptung ist:
+
+- **Die Stoppbedingung ist erfüllt, Welle 3 läuft.** Der Prüfdatensatz sind 8.610 Paare Schreibform → Lemma, davon 5.500 mit einem Lemma, das wir führen. Die Befundliste entsteht aus **477 Fällen**, in denen beide Seiten etwas behaupten, nicht aus Zehntausenden.
+- **Der Body von #259 ist am 01.09. richtiggestellt worden**, drei Zahlen und eine übertragene Warnung. Lies ihn in der neuen Fassung, nicht aus dem Gedächtnis.
+- **Die im Body genannte Normalisierungsfalle greift beim Findebuch nicht**: `ʒ` kommt dort null mal vor. Die Regeln kosten nichts, also nimm sie mit, aber rechne nicht mit einem Effekt.
+- **Von `woerterbuchnetz2015` liegen nur die 22 Findebuch-Dateien vor**, die Lexer-Lemmaliste nicht. Die Referenzzahlen im Body sind deshalb nicht gegenzuprüfen. Das ist kein Grund zu warten: der Findebuch-Abgleich braucht sie nicht.
+- **`effort:` steht seit dem 01.09. auf `medium`**, nachgezogen auf die Aufwandsangabe im Body, die immer schon „Mittel" sagte.
 
 ---
 
