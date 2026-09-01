@@ -49,12 +49,38 @@ Damit ist „abba“ ein fertiger Testfall für Phase 1 Punkt 4 (Schicht-A-Kandi
 
 ## Phase 1: Kandidaten-Generierung (M, dreigleisig, unabhängig parallelisierbar)
 
-**Vorbedingung:** Lemma-Lookup reparieren. Die Recherche zu den Beispielfällen fand `blâmensier`, `missa` und `Messias` nicht, obwohl sie im Lexikon stehen (KZW-Befund 08.07.). Vor Phase 1 klären, ob das an Normalisierung, Suchpfad oder Datenzugriff liegt, sonst zieht sich der Fehler durch die gesamte Kandidatenmenge.
+**Vorbedingung: erledigt am 2026-08-10, nicht durch einen Fix, sondern durch eine Regel.** Die Recherche zu den Beispielfällen fand `blâmensier`, `missa` und `Messias` nicht, obwohl sie im Lexikon stehen (KZW-Befund 08.07.). Es war kein Bug: alle drei stehen in NFC im Authority-Index und sind auf Anhieb auffindbar. Gesucht worden war nach der **Oberflächenform** des Tokens, und die kommt in `lexicon.xml` nicht vor (`blamensir` null mal, `blamensier` null mal). **Die Kandidatenmenge wird deshalb nie über eine Zeichenkettensuche in `lexicon.xml` gebildet, sondern ausschließlich über `@lemmaRef` am Token bzw. über `variants.xml`.** Das gilt für alle drei Gleise.
 
-1. **Begriffssystem:** Lemmata, deren senses auf den `concept_23123000`-Subtree zeigen (Einzelsprachen). Achtung: das sind zunächst Lemmata, die Sprachen BEZEICHNEN (latîn, kriechisch). Liste als Quelle A mit eigener Herkunfts-Markierung.
+1. **Begriffssystem:** Lemmata, deren senses auf den `concept_23123000`-Subtree zeigen (Einzelsprachen). Liste als Quelle A mit eigener Herkunfts-Markierung. **Gebaut am 2026-09-01**, siehe „Gleis 1: gebaut" unten.
 2. **LLM-Klassifikation (Schicht B):** Batch über alle Lemmata (Form + Bedeutungen/Konzepte als Kontext). Output: (lemma_id, Quellsprache, Konfidenz, Begründung). Kein Integrationsurteil. Doppellauf für Konfidenz-Kalibrierung.
 3. **Wörterbuch-Crawl (Schicht B):** Lexer/MWB via Wörterbuchnetz-API (Pattern #73), Etymologie-Abschnitte nach Sprach-Markern (mlat., afrz., hebr., …) parsen; Quelle C. Diese Quelle ist zugleich die Kontrollinstanz für die LLM-Zuschreibungen.
 4. **Schicht-A-Kandidaten separat:** Korpus-Scan nach Passagen mit mehreren aufeinanderfolgenden Token ohne mhd. Flexion bzw. ohne Lemma-Anbindung, plus die Drei-Punkte-Prüfung auf FACH-Token. Ergebnis ist eine Belegliste, keine Lemma-Liste.
+
+### Gleis 1: gebaut (2026-09-01)
+
+Skript [`scripts/audit/build-foreign-candidates-28.py`](../../scripts/audit/build-foreign-candidates-28.py), Liste in [`ingest/foreign-lang/28-gleis1-kandidaten.csv`](../../ingest/foreign-lang/28-gleis1-kandidaten.csv). Read-only, ein Lauf erzeugt alle Zahlen unten, Laufzeit rund zweieinhalb Minuten.
+
+| Messung | Wert |
+|---|---:|
+| Sprachkategorien unter `concept_23123000` | 17 |
+| Lemmata mit mindestens einem Sprachkonzept | 6.219 von 43.879 (14,17 %) |
+| davon im Korpus unbelegt | 221 |
+| Tokens über `@lemmaRef` | 225.505 von 7.546.243 (2,99 %) |
+| Eigennamen (belegt) | 2.636 Lemmata, 66.634 Tokens |
+| ohne Eigennamen (belegt) | 3.362 Lemmata, 158.871 Tokens |
+| davon ab 501 Belegen | 25 Lemmata, 123.098 Tokens (77,5 %) |
+| davon darunter | 3.337 Lemmata, 35.773 Tokens |
+| Lemmata, die ausschließlich Sprachkonzepte tragen | 4 |
+
+Drei Befunde, die den Zuschnitt der Phase bestimmen:
+
+**Der Entscheidungsraum für Schicht B sinkt um Faktor 13**, von 43.879 auf 3.337 plus 25 zur Handprüfung. Gleis 1 ersetzt Gleis 2 damit nicht, aber es verkleinert dessen Aufgabe erheblich.
+
+**Nach Belegzahl sortiert steht das Rauschen oben, und ein Frequenz-Cutoff wäre trotzdem falsch.** `niht` trägt „Lateinisch" und allein 36,0 % der Tokenmenge; in derselben obersten Klasse stehen `bischof` (3.035), `klâr` (2.530) und `engel` (2.165), alles echte Lehnwörter. Der Grund liegt im Baum: `concept_23123000` hängt unter `concept_23120000` („Kommunikation/Sprache") und ist ein **Bedeutungs-, kein Herkunftsfeld**. Die frühere Annahme in diesem Dokument, es handle sich zunächst um Lemmata, die Sprachen *bezeichnen* (`latîn`, `kriechisch`), greift zu kurz: die Kategorie trägt beides und dazu Fälle, die keines von beidem sind. Die 25 gehören einzeln angesehen, nicht pauschal verworfen.
+
+**Ein Filter über die Konzeptdichte hilft nicht.** Nur 4 der 6.219 Lemmata tragen ausschließlich Sprachkonzepte; die Masse trägt drei bis acht, von denen eines ein Sprachkonzept ist.
+
+Zur Zählweise, weil sie das Ergebnis verschiebt: **ein Lemma gilt als Eigenname, wenn `NAM` in `posAll` steht, nicht wenn `pos == "NAM"` ist.** `pos` ist laut Authority-Index-Changelog 1.6.0 der *Erstwert* der Wortartenliste und nicht die Hauptlesart, und `posAll` ist praktisch alphabetisch sortiert (10.169 von 10.171 mehrdeutigen Lemmata). Das `pos`-Kriterium zählt deshalb `lemma_3141` („Joie de la Court", `pos=ART`, `posAll=ART NAM PRP`, 12 Belege) zu den Nicht-Namen. Es ist der einzige belegte Fall im Kandidatenkreis, in dem die beiden Kriterien auseinandergehen, und er erklärt die Differenz zur Vorabmessung vom 01.09. vollständig (dort 2.675 / 66.622 gegen 2.636 / 66.634; die Vorabmessung zählte zudem die unbelegten Lemmata mit).
 
 ## Phase 2: Kuratierung (M, Mensch im Loop)
 
