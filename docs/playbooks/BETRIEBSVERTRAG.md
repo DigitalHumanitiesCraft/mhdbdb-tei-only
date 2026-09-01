@@ -16,7 +16,7 @@ Der Teil des Vertrags, der für **alle** autonomen Sessions gleich lautet. Die d
 ## 2. Wie committet und gestaged wird
 
 5. **Nur benannte Dateien stagen, nie `git add -A` oder `git add .`.** Parallele Sessions teilen den Arbeitsbaum und damit den Index: ein pauschales Staging sammelt fremde Arbeit ein. Commit `8b5d0e6ac` hat auf diesem Weg Router-Dateien in einen unbeteiligten Commit gezogen.
-6. **Jede Session in ihrem eigenen Worktree**, angelegt mit `git worktree add -b <branch> <pfad> origin/main`. Der Hauptordner bleibt Referenz und wird nicht als Arbeitsplatz benutzt. Abbau nach dem Merge, im selben Zug: siehe §2.1 Regel 30 des Issue-Playbooks, das ist kein Einzeiler.
+6. **Jede Session in ihrem eigenen Worktree**, angelegt beim Start mit `claude --bg --name <name> --worktree <name>` und damit unter `.claude/worktrees/`. Der Hauptordner bleibt Referenz und wird nicht als Arbeitsplatz benutzt. Nicht von Hand daneben legen: ein Worktree außerhalb von `.claude/worktrees/` verlangt eine interaktive Freigabe, die keine `allow`-Regel abstellen kann, und hat am 2026-09-01 eine unbeaufsichtigte Session eine Stunde stillstehen lassen. Begründung und Messung in §2.1 Regel 29 des Issue-Playbooks. Abbau nach dem Merge, im selben Zug: §2.1 Regel 30, das ist kein Einzeiler, und der erste Schritt darin rettet das Agent-Memory.
 7. **Die Branch-Basis wird gemessen, nicht am Namen abgelesen**, und zwar vor dem ersten eigenen Commit: `git rev-list --count "origin/main...HEAD"` und `git rev-list --count "origin/main..main"` müssen beide 0 sein. Details und die Fehlergeschichte dazu in §2.1 Regel 28.
 
 ## 3. Wie kommuniziert wird

@@ -81,7 +81,7 @@ Unverändert aus dem Auftrag vom 01.09. (`kickoffs/2026-09-01-issue-lauf.md` §5
 | 2 | #28 Gleis 1 | ja | Kandidatenmenge über das Begriffssystem. Das Welle-1-Skript `measure-216-vrouwe-minne.py` liegt schon auf dem Zweig und geht in diesem PR mit, mit einem Satz dazu im Body |
 | 3 | #259 | ja | Findebuch-Verweisgraph gegen unsere dreistufige Auflösung, Befundliste, nichts korrigiert |
 | 4 | #235 Rest | ja | die 98 Breve-Fälle mit mehrdeutiger Wortart, voller Data-Change-Lifecycle |
-| 5 | Meta | ja | die zwei Playbook-Aufträge aus §7, plus JOURNAL falls nötig |
+| 5 | Meta | offen | nur noch dein JOURNAL-Eintrag; die zwei Playbook-Aufträge sind erledigt, siehe §7 |
 
 **Der JOURNAL-Eintrag zum 01.09. ist schon geschrieben** (Koordinationsseite, `ef4a45e0e`). Für deinen eigenen Lauf schreibst du einen neuen; er gehört in den Meta-PR der Welle 5.
 
@@ -91,14 +91,17 @@ Stoppbedingungen, je Sachwelle eine, unverändert: Welle 3 endet mit der Zahl st
 
 ---
 
-## 7. Die zwei Aufträge für Welle 5
+## 7. Die zwei Aufträge für Welle 5 sind erledigt
 
-Beide sind im Lauf vom 01.09. dazugekommen und **nicht** umgesetzt. Der Wortlaut steht im #44-Zwischenstand unter „Zwei Aufträge für Welle 5".
+**Erledigt am 01.09.2026 von der Koordination, direkt auf `main`, ohne PR und ohne `fable-reviewer`.** Grund: es ist Doku plus eine `.gitignore`-Zeile, und dafür sagt `CLAUDE.md`, kleine Doku-Änderungen gehen ohne Branch und Review; ein Gate oder Test kann daran nichts fangen. Das restliche Fable-Kontingent bleibt damit für die Wellen 2 bis 4.
 
-1. **Agent-Memory-Absatz** in `MASTERPLAN-AUTONOME-ISSUE-SESSION.md` §2.1 Regel 30, unmittelbar vor „Reihenfolge, die trägt:". Die Nummerierung der fünf Schritte darf sich nicht verschieben, es gibt Verweise auf „Regel 30, Punkt 2".
-2. **Umstellung der Worktree-Platzierung**, drei Dateien, die zueinander passen müssen: `.gitignore` bekommt `.claude/worktrees/`, Regel 29 stellt auf `--worktree` beim Start um, und `BETRIEBSVERTRAG.md` Regel 6 wird mitgezogen, weil sie den alten Befehl nennt.
+Was dadurch schon gilt, wenn du startest:
 
-Zur Begründung „die 260-Zeichen-Grenze bindet hier nicht" gibt es Zahlen, aber sie sind von der letzten Session **nicht** nachgemessen worden und stehen deshalb nicht im Zwischenstand. Miss selbst: getrackte Pfadlängen über `git ls-files`, und für `node_modules` die volle Pfadlänge der tiefsten Datei minus die Länge der Repo-Wurzel.
+1. **`.gitignore` enthält `.claude/worktrees/`.** Dein Worktree steht also nicht als ungetrackt im Hauptbaum. `.claude/agent-memory/` bleibt ausdrücklich getrackt, das steht als Kommentar daneben.
+2. **§2.1 Regel 29 verlangt `--worktree` beim Start**, mit der Messung (180 gegen 260) und dem eigentlichen Grund (die Freigabe, die keine Regel abstellt). `BETRIEBSVERTRAG.md` Regel 6 ist mitgezogen, die beiden widersprechen sich nicht.
+3. **§2.1 Regel 30 hat den Agent-Memory-Schritt** vor der nummerierten Liste; die Nummerierung der fünf Schritte ist unverändert.
+
+**Für Welle 5 bleibt damit nur noch der JOURNAL-Eintrag deines eigenen Laufs.** Ob er einen Meta-PR braucht oder in den letzten Sach-PR mitgeht, entscheidest du zu Beginn und nicht unterwegs; sag es in §7 des Masterplans, sonst weiß es nach dem Überschreiben von §3 und §6 niemand mehr.
 
 ---
 

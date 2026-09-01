@@ -20,6 +20,11 @@ proposals/
 # Claude Code local settings (machine-specific permissions)
 .claude/settings.local.json
 
+# Session-Worktrees (seit 2026-09-01 unter .claude/worktrees/, siehe
+# docs/playbooks/MASTERPLAN-AUTONOME-ISSUE-SESSION.md Paragraf 2.1 Regel 29).
+# NICHT .claude/agent-memory/: das ist bewusst getrackt, siehe das README dort.
+.claude/worktrees/
+
 # IDE and editor files
 # .vscode/
 .vscode/*
