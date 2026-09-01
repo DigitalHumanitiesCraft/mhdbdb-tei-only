@@ -86,7 +86,7 @@ Vier Befunde, die den Zuschnitt der Phase bestimmen:
 
 Beide sind eigene Messungen an denselben Quellen, nicht Ausgaben des Skripts, und beide gehören in die Planung von Phase 2.
 
-**Das Korpus disambiguiert Senses, und Phase 2 kann das nutzen.** `@lemmaRef` zeigt auf das Lemma, aber die Tokens tragen daneben ein `@ana` auf den Sense (`lexicon.xml#lemma_1979_sense_31536`). Über die Kandidatenmenge gemessen: **210.262 der 227.652 Tokens (92,4 %) tragen ein `@ana`**, und 5.784 der 6.246 Lemmata haben mindestens eines.
+**Das Korpus disambiguiert Senses, und Phase 2 kann das nutzen.** `@lemmaRef` zeigt auf das Lemma, aber die Tokens tragen daneben ein `@ana` auf den Sense (`lexicon.xml#lemma_1979_sense_31536`). Das ist nichts Neues, sondern in [TEI-MODEL.md §4.1](../TEI-MODEL.md) normativ beschrieben, samt Migrationsgeschichte (`@meaningRef` zu `@ana`, 667 von 667 Dateien, rund 5,9 Millionen Vorkommen). Neu ist nur, was es für diese Kandidatenmenge hergibt. Über sie gemessen: **210.262 der 227.652 Tokens (92,4 %) tragen ein `@ana`**, und 5.784 der 6.246 Lemmata haben mindestens eines.
 
 **Für diese Menge trennt das Signal allerdings selten**, und das ist der Grund, es hier hinzuschreiben statt es später zu entdecken: die 6.246 Kandidaten tragen zusammen nur 6.996 Senses, sind also fast durchweg einsinnig, und **6.872 dieser Senses (98,2 %) tragen selbst ein Sprachkonzept**. Entsprechend zeigen 209.832 der disambiguierten Tokens auf einen Sprach-Sense und nur **430** auf einen anderen. Diese 430 sind aber genau die Stellen, an denen der Bestand einer Zuordnung ausdrücklich widerspricht, und damit das schärfste maschinelle Ausschlusskriterium, das Gleis 1 hat.
 
