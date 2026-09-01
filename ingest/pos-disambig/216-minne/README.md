@@ -31,9 +31,25 @@ Kandidaten-Lemmata, gegen `variants.xml` und `lexicon.xml` erhoben:
 Beide angewendeten Paare haben Bestands-Typen; **dieser Batch prägt keine neuen
 variants-Typen**, das Skript bricht ab, falls doch einer fehlte.
 
-**326 der 6.982 Tokens tragen bereits ein `@pos` ohne Lemma** (Altannotation in ADP 183,
-FLG 128 und ABG 15: 288 NOM, 22 VRB, 16 NAM). Dieses `@pos` ging als Vorinformation in den Prompt
+**326 der 6.982 Tokens tragen bereits ein `@pos` ohne Lemma** (ADP 183, FLG 128 und
+ABG 15: 288 NOM, 22 VRB, 16 NAM). Dieses `@pos` ging als Vorinformation in den Prompt
 (`pos_prior`), band das Urteil aber nicht.
+
+**Woher dieses `@pos` stammt, richtiggestellt am 31.08.2026.** Hier stand
+„Altannotation", also eine Übernahme aus der alten MHDBDB. Das trifft nicht zu. Im
+ersten TEI-Stand (`378aadbbf`) trägt keines dieser Tokens ein `@pos`; das Attribut
+kommt aus `82c90dd85` („Merge 9 disamb files into base", #32). Messvorschrift je
+Sigle, `git show <rev>:tei/<sigle>.tei.xml` durch
+`grep -cE '<w [^>]*pos="[A-Z]+"[^>]*>[Mm][iíîy]nn[eè]?<'`: ADP 0 vor dem Merge und 192
+danach, ABG 0 und 15, FLG 2 und 130. Die zwei FLG-Treffer von vorher sind
+vollannotiert (`lemmaRef`, `ana`, `corresp`) und gehören damit nicht zu dieser Menge.
+Kein Token dieser Menge trug also vor dem Merge ein `@pos`.
+
+Den Anstoß gab KZW im Thread von #216 (Kommentar vom 28.08.2026) anhand der 16
+NAM-Fälle; dass es für alle 326 gilt, ist hier nachgemessen und geht über ihren Befund
+hinaus. Für das Verfahren dieses Batches ändert das nichts, `pos_prior` war ohnehin nur
+Vorinformation. Es ändert die Herkunftsangabe: was hier als gewachsener Altbestand
+auftrat, ist eine Entscheidung aus der eigenen Migration.
 
 ## Anwendungsregel
 
@@ -61,7 +77,7 @@ gleiche Regel wie in #189 und #198.
 
 **1. Die Personifikation ist der große Posten, nicht der Randfall.** Das Issue nannte die
 „Frau Minne"-Frage als Vorab-Check; gemessen sind es **982 Kandidaten** statt der 16, die
-aus der Altannotation bekannt waren. In einzelnen allegorischen Texten trifft es die
+schon ein `pos="NAM"` trugen (zu deren Herkunft siehe oben). In einzelnen allegorischen Texten trifft es die
 Mehrheit der Belege eines Bündels. Alle 982 sind zurückgehalten. Ob die Personifikation
 ein eigenes NAM-Lemma bekommt oder als `lemma_4130` mit `pos="NAM"` geführt wird, ist eine
 philologische Entscheidung und liegt bei KZW; sie ist die Voraussetzung dafür, diese Menge
