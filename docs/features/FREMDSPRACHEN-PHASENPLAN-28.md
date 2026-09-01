@@ -58,7 +58,7 @@ Damit ist „abba“ ein fertiger Testfall für Phase 1 Punkt 4 (Schicht-A-Kandi
 
 ### Gleis 1: gebaut (2026-09-01)
 
-Skript [`scripts/audit/build-foreign-candidates-28.py`](../../scripts/audit/build-foreign-candidates-28.py), Liste in [`ingest/foreign-lang/28-gleis1-kandidaten.csv`](../../ingest/foreign-lang/28-gleis1-kandidaten.csv). Read-only, ein Lauf erzeugt alle Zahlen unten, Laufzeit rund zweieinhalb Minuten.
+Skript [`scripts/audit/build-foreign-candidates-28.py`](../../scripts/audit/build-foreign-candidates-28.py), Liste in [`ingest/foreign-lang/28-gleis1-kandidaten.csv`](../../ingest/foreign-lang/28-gleis1-kandidaten.csv). Read-only, ein Lauf erzeugt die Tabelle, Laufzeit rund zwei Minuten. Die Werte in der Prosa darunter (die 27, die 41 unbelegten Namen, 10.169 von 10.171, 35,6 %, 12,95 und die Vergleichszahlen der Vorabmessung) sind Nebenrechnungen an denselben Quellen und kommen nicht aus dem Lauf.
 
 | Messung | Wert |
 |---|---:|
@@ -82,7 +82,28 @@ Vier Befunde, die den Zuschnitt der Phase bestimmen:
 
 **Ein Filter über die Konzeptdichte hilft nicht.** Nur 4 der 6.246 Lemmata tragen ausschließlich Sprachkonzepte; die Masse trägt drei bis acht, von denen eines ein Sprachkonzept ist.
 
-Zur Zählweise der Eigennamen, weil sie das Ergebnis verschiebt: **ein Lemma gilt als Eigenname, wenn `NAM` in `posAll` steht, nicht wenn `pos == "NAM"` ist.** `pos` ist laut Authority-Index-Changelog 1.6.0 der *Erstwert* der Wortartenliste und nicht die Hauptlesart, und `posAll` ist praktisch alphabetisch sortiert (10.169 von 10.171 mehrdeutigen Lemmata). Im Kandidatenkreis urteilen die beiden Kriterien bei genau **zwei** Lemmata verschieden, beide mit `pos=ART`, weil `ART` alphabetisch vor `NAM` steht: `lemma_3141` („Joie de la Court", 12 Belege) und `lemma_46979` („li Granz", unbelegt).
+### Zwei Nachträge, gemessen nach der zweiten Review-Runde
+
+Beide sind eigene Messungen an denselben Quellen, nicht Ausgaben des Skripts, und beide gehören in die Planung von Phase 2.
+
+**Das Korpus disambiguiert Senses, und Phase 2 kann das nutzen.** `@lemmaRef` zeigt auf das Lemma, aber die Tokens tragen daneben ein `@ana` auf den Sense (`lexicon.xml#lemma_1979_sense_31536`). Über die Kandidatenmenge gemessen: **210.262 der 227.652 Tokens (92,4 %) tragen ein `@ana`**, und 5.784 der 6.246 Lemmata haben mindestens eines.
+
+**Für diese Menge trennt das Signal allerdings selten**, und das ist der Grund, es hier hinzuschreiben statt es später zu entdecken: die 6.246 Kandidaten tragen zusammen nur 6.996 Senses, sind also fast durchweg einsinnig, und **6.872 dieser Senses (98,2 %) tragen selbst ein Sprachkonzept**. Entsprechend zeigen 209.832 der disambiguierten Tokens auf einen Sprach-Sense und nur **430** auf einen anderen. Diese 430 sind aber genau die Stellen, an denen der Bestand einer Zuordnung ausdrücklich widerspricht, und damit das schärfste maschinelle Ausschlusskriterium, das Gleis 1 hat.
+
+**Die `gebrechen`-Familie ist der Fall, an dem das sichtbar wird, und eine Frage an KZW.** `gebrechen` (`lemma_1979`, 341 Belege in 101 Texten), `engebrechen` und `gebrechenhaft` tragen das Sprachkonzept nur an ihrem vierten von vier Senses, gemeinsam mit `concept_23121000` („Mündliche Kommunikation"); ihre übrigen Senses sitzen auf Mangel und auf Charaktereigenschaften. `lexicon.xml` führt zu keinem der drei Einträge ein `<def>` oder ein `<note>`, aus dem Lexikon ist die Lesart also nicht zu klären. Aus dem Korpus schon: von den **40 sense-disambiguierten Tokens der drei Lemmata zeigt genau eines auf einen Sprach-Sense**, `JT_30921000_5`, und es liest sich
+
+> secureiz wol kunde hie beidenthalp **gebrechen**
+> die rede von ir munde .
+
+also als Abbrechen der Rede, nicht als gebrochene Sprachbeherrschung. Ob der vierte Sense überhaupt auf Fremdsprachigkeit zielt oder nur auf das Stocken des Sprechens, entscheidet KZW; die drei sind bis dahin weder Kandidaten noch Rauschen, sondern eine offene Frage. **Damit stehen von den 27 Wurzel-Lemmata 24 klar im Thema und 3 offen**, statt aller 27 im einen oder anderen Lager.
+
+Ein Hinweis der Koordination dazu, **unbelegt und ausdrücklich als Vermutung geführt**: für Schicht A (Code-Switching im Text) könnten die 24 der bessere Einstieg sein als die lateinischen Zitatwörter, weil dort, wo `tolmetze` oder `welsch` steht, der Sprachwechsel das Thema des Textes ist und nicht sein Nebenprodukt. Gemessen ist das nicht.
+
+*Messvorschrift der Nachträge: `@ana` je `<w>` im `<body>` der 667 Dateien, Sense-Ids whitespace-getrennt und token-genau; Sprach-Sense heißt, dass die `conceptIds` des Sense in `api/lemmata/index.json` mindestens ein Konzept der Hülle enthalten. `<def>` und `<note>` je `<entry>` in `authority-files/lexicon.xml`.*
+
+### Zählweise der Eigennamen
+
+Sie verschiebt das Ergebnis, deshalb steht sie hier: **ein Lemma gilt als Eigenname, wenn `NAM` in `posAll` steht, nicht wenn `pos == "NAM"` ist.** `pos` ist laut Authority-Index-Changelog 1.6.0 der *Erstwert* der Wortartenliste und nicht die Hauptlesart, und `posAll` ist praktisch alphabetisch sortiert (10.169 von 10.171 mehrdeutigen Lemmata). Im Kandidatenkreis urteilen die beiden Kriterien bei genau **zwei** Lemmata verschieden, beide mit `pos=ART`, weil `ART` alphabetisch vor `NAM` steht: `lemma_3141` („Joie de la Court", 12 Belege) und `lemma_46979` („li Granz", unbelegt).
 
 Gegen die Vorabmessung vom 01.09. (2.675 Lemmata, 66.622 Tokens) gerechnet: die **Token**-Differenz von 12 erklärt `lemma_3141` allein, die **Lemma**-Differenz braucht beide Fälle und die unbelegten dazu, denn die Vorabmessung zählte über alle Kandidaten statt nur über die belegten (2.675 + 2 − 41 unbelegte Namen = 2.636). Die Zahlen sind trotz der geänderten Kandidatenmenge vergleichbar: unter den 27 Lemmata, die erst mit der Wurzel hinzukommen, ist kein einziger Eigenname.
 
