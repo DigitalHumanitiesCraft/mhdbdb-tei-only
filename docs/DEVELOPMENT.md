@@ -338,7 +338,7 @@ Two kinds are mixed here, and the difference is the important one: **gates** hav
 
 ### Skipped Tests (Issue #43 – resolved)
 
-No tests are currently skipped (0 skipped project-wide). 25 tests were disabled before commit `259bc505a` (2026-02-24, „88 passing, 0 skipped"), and they did not all sit in one file: measured against `259bc505a^`, 9 of them were in `main-site.spec.js` and 4 in `tei-caching.spec.js` (both under `test.describe.skip`), and those 13 are the ones that were **reactivated**. The remaining 12 were **deleted** rather than revived: 5 in `visual-mobile-test.spec.js` (one `test.skip` per viewport) and the rest in the five obsolete debug specs the same commit removed. #43 is settled with that.
+No tests are currently skipped (0 skipped project-wide). 25 tests were disabled before commit `259bc505a` (2026-02-24, „88 passing, 0 skipped"), and they did not all sit in one file: measured against `259bc505a^`, 9 of them were in `main-site.spec.js` and 4 in `tei-caching.spec.js` (both under `test.describe.skip`), and those 13 are the ones that were **reactivated**. The remaining 12 were **deleted** rather than revived: 5 in `visual-mobile-test.spec.js` (one `test.skip` per viewport, and that file itself stayed), 3 in `modal-debug.spec.js` and 4 in `modal-simple.spec.js` (both under `test.describe.skip`, both files removed). The commit deleted five debug specs in all, but only those two carried skips: `check-console`, `corpus-debug` and `playground-quick-test` were **active** tests when they were removed. #43 is settled with that.
 
 ### Manual Testing Checklist
 

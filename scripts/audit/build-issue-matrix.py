@@ -186,9 +186,29 @@ def gh(args):
     return res.stdout
 
 
+def issue_liste(state, felder, limit):
+    """`gh issue list` mit einer Obergrenze, die sich meldet, wenn sie greift.
+
+    `--limit` ist eine Obergrenze, keine Seitengroesse: `gh` paginiert intern
+    und schneidet bei N still ab, mit Exit 0. Eine Abfrage, die genau N Zeilen
+    liefert, ist deshalb nicht als vollstaendig zu lesen, und ein Gate auf einer
+    abgeschnittenen Liste beruhigt, ohne zu decken: es meldet einfach nichts
+    mehr. Darum hier Abbruch statt Warnung. Er kostet einmal eine Zeile im
+    Skript und ist die einzige Stelle, an der die Saettigung ueberhaupt
+    sichtbar wird.
+    """
+    roh = json.loads(gh(['issue', 'list', '--state', state,
+                         '--limit', str(limit), '--json', felder]))
+    if len(roh) >= limit:
+        abbruch(f'gh issue list --state {state} hat das Limit von {limit} '
+                f'ausgeschoepft ({len(roh)} Eintraege). Die Liste ist '
+                f'moeglicherweise abgeschnitten, und jede Auswertung darauf '
+                f'waere still unvollstaendig. Limit in issue_liste() erhoehen.')
+    return roh
+
+
 def hole_issues():
-    roh = json.loads(gh(['issue', 'list', '--state', 'open', '--limit', '300',
-                         '--json', 'number,title,labels,createdAt,comments']))
+    roh = issue_liste('open', 'number,title,labels,createdAt,comments', 300)
     for i in roh:
         i['labels'] = sorted(l['name'] for l in i['labels'])
         i['still_seit'] = letzte_wortmeldung(i)
@@ -273,18 +293,16 @@ def hole_geschlossene():
     daher jede PR-Nummer, und die ROADMAP fuehrt eine Merge-Tabelle, deren
     erste Spalte aus PR-Nummern besteht. Beim ersten Lauf hat genau das die
     gemergten #245 und #246 gemeldet."""
-    roh = json.loads(gh(['issue', 'list', '--state', 'closed', '--limit', '500',
-                         '--json', 'number']))
-    return {i['number'] for i in roh}
+    return {i['number'] for i in issue_liste('closed', 'number', 1000)}
 
 
 def pruefe_roadmap(geschlossene):
     """Geschlossene Issues finden, die in docs/ROADMAP.md noch als Eintrag stehen.
 
-    Anlass (Health-Check 02.09.): fuenf Eintraege kuendigten Arbeit oder eine
-    Antwort an, obwohl die Issues geschlossen waren, und vier davon waren es
-    schon, als die Datei zuletzt bearbeitet wurde. Eine Ermahnung reicht dagegen
-    erkennbar nicht.
+    Anlass (Health-Check 02.09.): sechs Eintraege kuendigten Arbeit oder eine
+    Antwort an, obwohl die Issues geschlossen waren, und fuenf davon waren es
+    schon, als die Datei zuletzt bearbeitet wurde (07.08.). Eine Ermahnung reicht
+    dagegen erkennbar nicht.
 
     Erkannt wird NUR eine Nummer in der ersten Spalte einer Tabellenzeile, also
     der Eintrag selbst. Das ist gemessen und nicht geschaetzt: gegen den Stand
@@ -296,8 +314,13 @@ def pruefe_roadmap(geschlossene):
     beachtet. Auch Aufzaehlungszeilen mitzunehmen kostet schon einen Fehlalarm
     (#187 steht als datierter Rueckblick da, nicht als offener Punkt).
 
-    Der Preis dieser Enge ist ein blinder Fleck: ein Eintrag, der spaeter als
-    Aufzaehlung statt als Tabellenzeile geschrieben wird, faellt heraus.
+    Der Preis dieser Enge sind zwei blinde Flecke, beide bewusst: ein Eintrag,
+    der spaeter als Aufzaehlung statt als Tabellenzeile geschrieben wird, faellt
+    heraus, und eine fehlende ROADMAP.md liefert eine leere Trefferliste, die
+    von 'nichts zu melden' nicht zu unterscheiden ist. Der zweite ist der
+    harmlosere, weil das Fehlen der Datei in diesem Repo selbst auffaellt; der
+    dritte moegliche, eine abgeschnittene Issue-Liste, ist in issue_liste()
+    geschlossen und nicht hier.
 
     Warnung, kein Fehler: ein geschlossenes Issue in der ROADMAP ist ein
     Pflegerueckstand und kein kaputter Build.

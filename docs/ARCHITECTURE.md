@@ -469,7 +469,7 @@ Corpus and authority data were never stored here. The playground reads them thro
 - ✅ Lemma variant resolution
 - ✅ Cross-reference integrity
 - ✅ Search functionality
-- ✅ Main site features (of the 25 tests disabled until #43, `259bc505a` reactivated 13 and deleted the other 12 along with their specs; the inventory of all specs is in [DEVELOPMENT.md → Test File Inventory](DEVELOPMENT.md))
+- ✅ Main site features (of the 25 tests disabled until #43, `259bc505a` reactivated 13 and deleted the other 12, 7 of them along with their spec file and 5 without; the breakdown and the inventory of all specs are in [DEVELOPMENT.md → Test File Inventory](DEVELOPMENT.md))
 
 **Running tests:**
 ```bash

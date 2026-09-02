@@ -99,7 +99,7 @@ The earlier figure in this section, 7,406,168 (79.8 %), was an audit value from 
 
 The dominance of `ART` (over 1 million) and the low `DET` value (53k) show that the ART to DET migration still concerns the bulk of the stock. The most frequent compound values are `ADJ ADV` (304,069), `ART CNJ` (271,352) and `VRB VEX` (206,440).
 
-Against the previous table (the 2026-04 audit) eight tags are unchanged to the token, `DIG` fell by 722 (the margin numerals removed in #138) and the rest moved by less than a tenth of a percent.
+Against the previous table (the 2026-04 audit) 12 of the 21 tags are unchanged to the token and 9 moved. Two of those nine are worth naming: `DIG` fell by 722, which is the margin numerals removed in #138, and `NOM` rose by 11,483, **+0.761 %**, which is the WZB ingest and not noise. The other seven moved by less than a tenth of a percent (`VRB` +1,356 is the largest of them at +0.088 %).
 
 > **Reproduction.** Count only `<w>` **inside `<body>`**, split the value at spaces, drop empty segments. That is the boundary `build-corpus-index.py` counts on (CONTRACTS §B), and the project's Python/JS parity rule hangs on it.
 >

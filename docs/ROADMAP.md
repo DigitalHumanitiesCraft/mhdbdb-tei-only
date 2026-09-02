@@ -67,10 +67,13 @@ Both are the same type of error: the ROADMAP describes the state of a document i
 `wait:*` labels, by `scripts/audit/build-issue-matrix.py`. Read it there.
 
 Until 2026-09-02 the same list stood here a second time, hand-maintained, 15 rows.
-It had drifted, as an ungenerated copy of a generated list does: five of its entries
-named issues that were closed, and four of those five were already closed on the day
-the file was last edited. This is the failure mode #316 removed on 2026-08-02 for the
-table „Recently Completed", and the ping table was simply left behind in that cleanup.
+It had drifted, as an ungenerated copy of a generated list does: two of its rows named
+issues that had been closed for weeks, #129 since 2026-07-10 and #224 since 2026-08-06,
+both of them already closed when the file was last edited on 2026-08-07. Four further
+dead rows stood elsewhere in the file (#140, #172 and #106 closed before that edit,
+#111 two days after it), and they were cleaned up in the same pass. This is the failure
+mode #316 removed on 2026-08-02 for the table „Recently Completed", and the ping table
+was simply left behind in that cleanup.
 
 One row does not fit into #44 and therefore stays here, because it has no issue to
 carry a label:
