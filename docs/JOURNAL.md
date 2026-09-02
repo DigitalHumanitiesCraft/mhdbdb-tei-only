@@ -147,7 +147,7 @@ Beim Nachmessen der Verszahl kamen 1.358.973 `<l>` heraus, in der Doku standen 1
 ### Was offen bleibt
 
 - **#315 Punkt 2:** im Korpus tragen sechs Dateien `role="lead-editor"` (JT, PUC, TKA, TKR, VTC, WZB), die Doku nennt an drei Stellen vier, fünf und sechs. Ob WZB dazugehört, ist eine fachliche Frage an KZW und Julia.
-- **#316:** die Sprachmischung in den Docs und der Feature-Katalog in INDEX.md, der FEATURES.md nacherzählt. Dazu neu: das Umleitungsziel ROADMAP → Recently Completed ist selbst nicht frisch (jüngster Eintrag 08.07.). Das Freshness-Problem ist verschoben, nicht gelöst. *(Vorwärtsverweis, nachgetragen vom Health-Check am 02.09.: die Tabelle „Recently Completed" ist einen Tag später mit #316 ganz entfernt worden, siehe den Eintrag vom 03.08.)*
+- **#316:** die Sprachmischung in den Docs und der Feature-Katalog in INDEX.md, der FEATURES.md nacherzählt. Dazu neu: das Umleitungsziel ROADMAP → Recently Completed ist selbst nicht frisch (jüngster Eintrag 08.07.). Das Freshness-Problem ist verschoben, nicht gelöst. *(Nachtrag vom Health-Check am 02.09.: die Tabelle „Recently Completed" ist noch am selben Tag ganz entfernt worden, `ce55dde0a`.)*
 
 **Phase:** Betrieb. PRs #330, #332, #333, #334, #335, #336.
 

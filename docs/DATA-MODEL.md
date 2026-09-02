@@ -533,7 +533,7 @@ Build properties: deterministic on the #125 principle (no timestamps, compact JS
 | | names.xml | `.//tei:ptr[contains(@target,"concepts.xml#")]` | Concept cross-references |
 | | variants.xml | `.//tei:entry` (TEI namespace hard-coded) | Variant groups |
 | | | `.//tei:form` | Orthographic forms per lemma |
-| `sync/extract-variants.py` | tei/*.tei.xml | `tei:w` with `@lemmaRef` + `@corresp`, via `iter()` over the **whole document** | Regenerates `variants.xml` from the corpus. Note the scope: `build-corpus-index.py` restricts itself to `<body>`, this one does not. Identical over the current data (all 9,431,294 `<w>` sit in `<body>`) |
+| `sync/extract-variants.py` | tei/*.tei.xml | `tei:w` with `@lemmaRef` + `@corresp`, via `iter()` over the **whole document** | Regenerates `variants.xml` from the corpus. Note the scope: `build-corpus-index.py` restricts itself to `<body>`, this one does not. Identical over the current data: measured 2026-09-02, all 9,431,311 `<w>` sit in `<body>`, and no file has a single one outside it. It is the equivalence that matters here, not the count, so re-measure both sides rather than trusting the number |
 | | variants.xml | `tei:entry` + `./tei:form` | Diff against the previous state before writing |
 | `build-corpus-index.py` | tei/*.tei.xml | `//tei:idno[@type="sigle"]/text()` | Sigle (fallback: filename without `.tei.xml`) |
 | | | `//tei:titleStmt/tei:title` → `itertext()` + whitespace collapse | Title. **Not** `/text()`: that is the reading #228 removed, six titles carried a line break into `api/texts/*.json` |

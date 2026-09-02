@@ -66,39 +66,45 @@ Besides that there are scattered non-canonical leftovers from the migration (`-`
 
 ## 4. Distribution in the corpus
 
-`@pos` is set on 7,406,168 `<w>` elements (79.8 % of all `<w>`; for the date and the method see [TEI-MODEL.md §10](TEI-MODEL.md)). The table below counts **atomic tag occurrences**: compound values are split at the spaces, so a token `pos="ADJ ADV"` counts once under `ADJ` and once under `ADV`. The sum therefore exceeds the number of tokens.
+**Measured 2026-09-02** over all 667 corpus files: `@pos` carries a non-empty value on **7,581,206** of the 9,431,311 `<w>` elements, **80.4 %**. The table below counts **atomic tag occurrences**: compound values are split at the spaces, so a token `pos="ADJ ADV"` counts once under `ADJ` and once under `ADV`. The sum therefore exceeds the number of tokens; here it is 10,019,248.
+
+**Two numbers that are both right, so state which one you mean.** 14,941 `<w>` carry a `@pos` attribute whose value is empty (`pos=""`). Counting the attribute's presence gives 7,596,147, counting non-empty values gives 7,581,206, and the difference is exactly those 14,941. This table is built on the non-empty count, because an empty value contributes no tag to it. (The empty attributes are a corpus observation, not a documented policy; nothing here says whether they should be removed.)
+
+The earlier figure in this section, 7,406,168 (79.8 %), was an audit value from 2026-04 measured over **666** files, before the WZB ingest. It also cited "TEI-MODEL.md §10" for its date and method, where no `@pos` row has ever stood: that framing lives in [TEI-MODEL.md §4.1](TEI-MODEL.md#41-attributes), which states the 666-file basis explicitly.
 
 | Tag | Occurrences (atomic) | Status |
 |-----|-------------------:|--------|
-| VRB | 1,535,938 | 19 set |
-| NOM | 1,508,545 | 19 set |
-| ADV | 1,362,350 | 19 set |
+| VRB | 1,537,294 | 19 set |
+| NOM | 1,520,028 | 19 set |
+| ADV | 1,362,356 | 19 set |
 | **ART** | 1,064,439 | legacy → DET |
-| ADJ | 1,029,930 | 19 set |
+| ADJ | 1,030,127 | 19 set |
 | CNJ | 943,199 | 19 set (the bulk still to be differentiated into CCNJ/SCNJ) |
-| PRP | 659,793 | 19 set |
+| PRP | 659,800 | 19 set |
 | PRO | 658,741 | 19 set |
-| VEX | 223,294 | 19 set |
+| VEX | 223,279 | 19 set |
 | NEG | 204,786 | 19 set |
 | NAM | 194,319 | 19 set |
 | POS | 150,663 | 19 set |
-| VEM | 133,057 | 19 set |
-| NUM | 116,966 | 19 set |
+| VEM | 133,064 | 19 set |
+| NUM | 116,967 | 19 set |
 | **GRA** | 60,278 | legacy → ADJ |
 | IPA | 59,061 | 19 set |
 | DET | 53,443 | 19 set |
 | INJ | 22,071 | 19 set |
 | CCNJ | 13,805 | 19 set |
 | SCNJ | 7,371 | 19 set |
-| DIG | 4,783 | 19 set |
-| `-`, KOKOM, FM, PTK, X, SCJN | < 100 in total | leftovers → normalization |
+| DIG | 4,061 | 19 set |
+| `-` 47, KOKOM 39, FM 5, PTK 3, SCJN 1, X 1 | 96 in total | leftovers → normalization |
 
-The dominance of `ART` (over 1 million) and the low `DET` value (53k) show that the ART to DET migration still concerns the bulk of the stock. The most frequent compound values are `ADJ ADV` (304,069), `ART CNJ` (271,352) and `VRB VEX` (206,261).
+The dominance of `ART` (over 1 million) and the low `DET` value (53k) show that the ART to DET migration still concerns the bulk of the stock. The most frequent compound values are `ADJ ADV` (304,069), `ART CNJ` (271,352) and `VRB VEX` (206,440).
 
-> **Reproduction:** the atomic distribution across the corpus:
-> ```bash
-> grep -rhoE 'pos="[^"]*"' tei/ | sed 's/pos="//;s/"$//' | tr ' ' '\n' | sed '/^$/d' | sort | uniq -c | sort -rn
-> ```
+Against the previous table (the 2026-04 audit) eight tags are unchanged to the token, `DIG` fell by 722 (the margin numerals removed in #138) and the rest moved by less than a tenth of a percent.
+
+> **Reproduction.** Count only `<w>` **inside `<body>`**, split the value at spaces, drop empty segments. That is the boundary `build-corpus-index.py` counts on (CONTRACTS §B), and the project's Python/JS parity rule hangs on it.
+>
+> The one-liner given here previously was `grep -rhoE 'pos="[^"]*"' tei/ | …`, which takes every `@pos` in the document, on any element and inside or outside `<body>`. Measured 2026-09-02, both rules return **the same** numbers, tag for tag, because today no `@pos` sits outside `<body>` and none sits on an element other than `<w>`. That is a property of the current data, not of the rules, so prefer the narrow one: it stays correct if an ingest ever annotates a header.
+>
 > The numbers are a snapshot and shift as disambiguation proceeds and new texts come in.
 
 ## 5. Disambiguation

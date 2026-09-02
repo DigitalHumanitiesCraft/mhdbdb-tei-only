@@ -288,7 +288,7 @@ TEI P5 requires in `<monogr>`: `(author|editor)*, title+, editor*, (idno|imprint
 - line breaks as `<lb/>` (line beginning) with `@n`
 - chapters/sections as `<div type="chapter">` with `<head>`
 - `<l>` is reserved for verse texts, `<lb/>` for prose line breaks
-- 18 prose texts in the existing corpus are being migrated (`<l>` → `<lb/>`), see [Section 8.1](#81-l-vs-lb-in-prose-migration)
+- the 18 prose texts of the existing corpus have been migrated (`<l>` → `<lb/>`, phase C2; re-measured 2026-09-02), see [Section 8.1](#81-l-vs-lb-in-prose-migration)
 
 ### 3.3 Recipe texts (cookbooks, medical texts)
 
@@ -713,7 +713,7 @@ TEI P5 defines `<l>` as "a single line of **verse**" and uses the redefinition o
 
 The #143 heuristic named 17 candidates. Two of them (APO, HMT) stand in the table above and are converted; the other 15 (ALX, DIO, FB, FP, GWTK, MR1, MR2, PSG, PTS, RUD, TKA, TKR, WH, WLE, WRB) were checked on their content (rhyme sample 18-36%, word density) and are verse composition, so `<l>` stays correct there. (This figure said 17 until 2026-08-02, that is the size of the candidate list instead of the size of the remainder; the list of sigles was always 15 long. HH did not come out of that heuristic.)
 
-**To be migrated (`<l>` → `<lb/>`):** 18 files
+**Migrated (`<l>` → `<lb/>`), phase C2:** these 18 files. The heading said „to be migrated" until 2026-09-02, which had been wrong since phase C2 and contradicted §10, where the same migration is listed twice as done. Re-measured 2026-09-02: none of the 18 carries a single `<l>` any more, every one of them carries `<lb>` (PL1 22,667, PL2 21,992, PL3 14,146 and so on down to REG with 14). Control value alongside, so an empty result cannot pass as a finding: the verse epic PZ still has 24,812 `<l>` and no `<lb>`.
 
 | Sigle | Title | Group |
 |-------|-------|--------|
@@ -958,7 +958,8 @@ These three building blocks are identical in all 667 existing files and were set
 - [CONTRACTS.md](CONTRACTS.md) -- cross-system contracts (position counting, normalization)
 - [DATA-MODEL.md](DATA-MODEL.md) -- authority file schemas, index structure
 - [ARCHITECTURE.md](ARCHITECTURE.md) -- technical components, data flow
-- `.gemini/skills/pos-disambiguator/SKILL.md` -- POS tagset definition and disambiguation rules
+- [POS-TAGSET.md](POS-TAGSET.md) -- the canonical `@pos` reference (tag table, compound rules, legacy mapping, corpus distribution). This is the citable source of truth, see §5
+- `.gemini/skills/pos-disambiguator/SKILL.md` -- the operational disambiguation workflow as an agent skill. It documented the tagset too until POS-TAGSET.md was split out on 2026-06-17; for the tagset itself use that file
 - `schema/examples/corpus.example.tei.xml` -- maximal corpus example (validated against tei_all.rng)
 - `schema/examples/authority-*.example.xml` -- authority file examples (validated against tei_all.rng + mhdbdb-authority.rnc)
 - `schema/tei_all.rng` -- TEI P5 4.11.0 RELAX NG schema (committed in the repo, no download needed)

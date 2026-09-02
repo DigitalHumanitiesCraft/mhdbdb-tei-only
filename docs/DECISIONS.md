@@ -262,7 +262,7 @@ Implement dual expiration policy in IndexedDB:
 **Mitigations:**
 - Version increment in build scripts forces refetch
 - Clear documentation for cache invalidation
-- Future: Add "Clear cache" button in UI
+- ~~Future: Add "Clear cache" button in UI~~ **Shipped.** Measured 2026-09-02: `initClearSiteData` in `assets/js/site-chrome.js` wires a clear-site-data button that is present in six delivered pages (index, korpus, woerterbuch, hilfe-daten, lemma, playground) and covered by `testing/tests/site-chrome.spec.js`. The line stood here as a plan long after it was one
 
 ---
 
@@ -386,7 +386,7 @@ Implement client-only architecture with GitHub Pages hosting:
 
 **Negative:**
 - Limited to browser memory (~2GB typical)
-- Large initial download (~43 MB indexes: 3 MB authority + 40 MB corpus, gzipped)
+- Large initial download (both indexes gzipped; for the current sizes and the budget they are measured against see [ADR-019](#adr-019-the-index-budget-warns-instead-of-failing-and-its-two-thresholds-pull-a-split-in-opposite-directions), which is the one place that carries the figures with a measuring rule)
 - No real-time updates (requires rebuild)
 - Cannot perform server-side joins
 - Search performance depends on client device
