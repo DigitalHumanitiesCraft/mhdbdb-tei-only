@@ -1,0 +1,20 @@
+{
+  "serie": "#235 Punkt 3, Rest (98 Breve-Tokens mit mehrdeutiger Wortart)",
+  "art": "Erstannotation bisher unannotierter Tokens, Wortart am Vers entschieden",
+  "vorlauf": "ingest/wzb/235-breve/ (PR #379, 66 mechanisch annotiert, 223 zurueckgehalten)",
+  "quelle": "ingest/wzb/235-breve/review-faelle.csv, review_grund == pos-mehrdeutig",
+  "entscheidungstafel": "scripts/ingest/wzb/wzb-breve-wortart.py, Konstante ENTSCHEIDUNGEN",
+  "pos": ["ADJ", "ADV", "NOM", "PRP", "VEM", "VEX", "VRB"],
+  "konfidenzregel": "annotiert wird nur bei hoch, Regel wie in #369",
+  "revisiondesc": {
+    "datum": "2026-09-02",
+    "titel": "#235 Punkt 3 (Rest)",
+    "form": "o/u-Breve, Wortart mehrdeutig",
+    "ziele": "lemmaRef und pos",
+    "log": "ingest/pos-disambig/235-breve-wortart/"
+  },
+  "kommentar_gra": "GRA wird nie geschrieben, obwohl NEUN der 29 Ziel-Lemmata den Tag in posAll fuehren (groz, hoch, boese, schoene, suesse, bloede, toerlich, lobelich, vor). POS-TAGSET.md 3 fuehrt ihn als aufgegeben (Steigerung und Superlativ sind ADJ), 6.3 Invariante (d) verbietet ihn im Ausgang eines Batches. Die Steigerungsformen der Menge (bŏsten, hŏchste, hŏhsten, schŏnste, grŏsseren, hŏher) bekommen ADJ oder NOM; grŏsseren und hŏher sind Komparative, nicht Superlative.",
+  "kommentar_corresp": "Bewusst kein corresp und kein ana, unveraendert die Begruendung des Vorlaufs: jede Schreibung braeuchte unter ihrem Ziel-Lemma eine neu gepraegte Typnummer, und neue Typen sind genehmigungspflichtig (#216 und #369 haben es verweigert, #367 hat fuer zwei Nummern KZWs Zustimmung eingeholt). Die Sense-Zuordnung ist kuratorisch.",
+  "kommentar_rueckhalt": "9 von 98 bleiben liegen. 5 wegen mittlerer Konfidenz, mit benannter Gegenlesart. 4, weil nicht die Wortart offen ist, sondern das Ziel-Lemma nicht passt: grŏsen ist das Verb und grôz fuehrt kein VRB, das Verblemma lemma_2535 grôzen VRB gibt es aber (13 Belege in 11 Texten; keine seiner neun Variantenformen normalisiert auf groesen, deshalb hat der Matcher es nicht gefunden), hŏrde ist der Hort und nicht das Hoeren (lemma_2908), und zweimal ist tŏch gar kein Wort, sondern die Haelfte eines durch einen Blattmarker zerrissenen tŏchter (lemma_6135). Die erzeugenden Zeilen in variants.xml sind fuer sich richtig (hoerde und toech sind Praeterita) und nur fuer diese Tokens falsch.",
+  "kommentar_messung": "Drei Entscheidungsklassen sind am Bestand gemessen statt geraten. Erstens: sieben der acht ADJ/NOM-Lemmata (ohne roete, dessen NOM-Belege die Messung ueberdecken wuerden: mit ihm 201 Belege, ohne ihn 69) hatten vor diesem Lauf 60 aufgeloeste NOM-Belege, alle ausserhalb der WZB, alle sechzig einzeln angesehen. Zwei sind es nicht (AC3_22210_11 attributiv, ADP_3500500_2 getrennt geschriebenes hôchzît, beide im Review gefunden); die uebrigen zerfallen in echte Substantivierungen (gut unde bose, vf das aller hoechste, under dien boesen) und -i-Abstrakta unter dem Adjektivlemma (grössin, schoeni, brodi). Zweitens: umbe vor sus/sust steht in den 5 aufgeloesten Faellen 5 mal PRP und 0 mal ADV, bei 107 unaufgeloesten. Drittens: vor steht bei Nominalphrase rechts 738 zu 6 als PRP und sonst 158 zu 105 als ADV."
+}

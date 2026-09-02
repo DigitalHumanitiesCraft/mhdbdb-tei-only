@@ -57,6 +57,17 @@ Die drei **kanonischen** Skripte (`auto-match`, `pos-assign`, `sense-assign`) ze
 
 Siehe [docs/DATA-MODEL.md → Ingest procedure](../../../docs/DATA-MODEL.md#ingest-procedure-taking-in-new-texts) für das normative Phasenmuster. Die historische WZB-Detail-Doku (inkl. pre-registriertem Phase-3-Evaluationsprotokoll) liegt in der Git-History unter `docs/features/034-wenzelsbibel-annotation.md` (#34, gelöscht per Temporal-Artifacts-Konvention).
 
+## Nachträge nach der Erstaufnahme
+
+Die drei Phasen oben sind die Erstaufnahme von 2026-04. Was später an der WZB gearbeitet
+wurde, hängt nicht mehr an der Pipeline, sondern an einzelnen Tickets, und steht deshalb
+hier statt in den Phasentabellen.
+
+| Skript | Zweck |
+|--------|-------|
+| `wzb-breve-backfill.py` | #235 Punkt 3: Tokens mit o/u-Breve nachannotieren, soweit `variants.xml` genau ein Lemma mit genau einer Wortart trifft; alles andere in ein Review-Artefakt |
+| `wzb-breve-wortart.py` | #235 Punkt 3, Rest: die 98 zurückgehaltenen Fälle mit mehrdeutiger Wortart, entschieden am Vers nach einer offenliegenden Tafel im Skript |
+
 ## Endzustand WZB (2026-04-15)
 
 - 149.148 `<w>`-Tokens
