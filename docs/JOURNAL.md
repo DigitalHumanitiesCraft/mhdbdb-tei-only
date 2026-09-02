@@ -772,3 +772,78 @@ Koordinationsseite, Abschluss des Wellenlaufs. Vier PRs gemergt (#386, #388, #38
 **Ein Beinahe-Fehler, der nicht gezählt wird, aber hierher gehört, weil eine Regel ihn abgefangen hat:** der Entwurf des Abschlusskommentars für #385 enthielt den Satz „Der Freeze ist aufgehoben". Der Body desselben Tickets sagt „Eine koordinierende Session kann den Freeze nicht aufheben", von mir am Vortag geschrieben. Gefangen hat es die Regel, zu einer Entscheidungsfrage den bisherigen Stand daneben zu legen, nicht die eigene Aufmerksamkeit. Es ist der erste Fall in diesem Lauf, in dem eine Vorkehrung einen Fehler **vor** dem Schaden abfing, statt ihn hinterher zu zählen. Nebenbefund: der Abschnitt „Abarbeitung" in #385 verlangt, dass jeder Wunsch **vor** dem Aufheben des Freeze eingearbeitet ist, aber alle sechs betreffen eingefrorene Dateien und können erst danach eingearbeitet werden. Die Reihenfolge ist nicht erfüllbar; das entscheidet chsteiner.
 
 **Phase:** Abnahme abgeschlossen. Vier Zweige gelöscht, Worktree-Verwaltungseintrag entfernt, Agent-Memory nachweislich identisch im Hauptbaum, kein Stash, keine unversionierte Arbeit. Offen an chsteiner: die sechs Eingaben in #385 und der Freeze selbst.
+
+## 2026-09-02 (Nachlauf) – Zwei Befunde haben einander widerlegt, und der Test war für die falsche Sache gebaut
+
+Fortsetzung nach der Kontingentpause, Koordinationsseite. Der Wellenlauf war
+abgenommen, gearbeitet wurde nur noch an der Begleitung des Health-Checks.
+Beide Fehler dieses Abschnitts sind in derselben halben Stunde passiert, und
+der zweite ist beim Aufräumen des ersten aufgefallen.
+
+**Rot, zum zehnten Mal: eine ungemessene Annahme, die eine Entscheidung
+gestützt hat.** Vorgelegt wurde chsteiner die Entscheidung, die Werkzeugzahl
+ganz aus den Hilfeseiten zu nehmen, mit der Begründung, die Aufzählung daneben
+trage die Aussage ohnehin und sei immer aktuell. Aufgeschlagen war dafür
+nichts. Die Spur meldete daraufhin, die Aufzählung lasse den Pferde-Explorer
+aus, und korrigierte sich eine Stunde später selbst: er steht sehr wohl in der
+Seite, in Abschnitt 7 „Experimentelle Forschungsdaten"
+(`hilfe-playground.html:621`, Karte in 646), nur nicht in der einen Liste in
+Zeile 196. Ihr eigener Fehler war ein Grep auf eine CSS-Klasse, die Abschnitt 7
+nicht benutzt, also wörtlich „ein leerer Abruf ist kein Nullbefund".
+
+**Die Zeile bleibt trotzdem stehen, und zwar in umformulierter Fassung.** Sie
+zählt den Fehlermodus, nicht den Ausgang: die Annahme war zum Zeitpunkt der
+Entscheidung durch nichts belegt, und dass sie sich beim Nachsehen
+größtenteils als richtig erweist, macht sie nicht zu einer Messung. Wer sie
+streicht, weil es gutgegangen ist, macht den Zähler unfalsifizierbar, und genau
+das soll er nicht sein. Richtige Fassung: sie traf für die Seite zu und für die
+Liste in Zeile 196 nicht.
+
+**Rot, zum elften Mal, und diese ist die unangenehmste des Laufs: ein
+Positivtest, der die falsche Sache geprüft hat.** Gemeldet wurden vier
+Abweichungen zwischen TEI-Headern und `works.xml` (LAU wikidata, TRO zweimal,
+WZB wikidata), ausdrücklich als „selbst gemessen, mit Positivtest". Der Test
+existierte und prüft die **Normalisierung**, also dass eine nackte ID und eine
+volle URL auf denselben Wert fallen. Was er nicht prüft, ist die **Zuordnung**.
+Beim Aufmachen der Stellen bleiben von den vieren zwei übrig.
+
+**Ein Test, der die falsche Sache prüft, macht eine ungeprüfte Zahl nicht
+geprüft, er verkleidet sie.** Das ist der Unterschied zu den bisherigen roten
+Zeilen dieses Laufs: dort fehlte die Messung, hier stand eine daneben und hat
+die Lücke zugedeckt. Für den Empfänger ist das schlechter als gar keine Angabe,
+weil das Prädikat ihn davon abhält, nachzurechnen. Aufgefallen ist es nur, weil
+`works.xml` aus einem anderen Anlass offen war.
+
+**Das Projektwissen dahinter, und es ist der brauchbare Teil:** der TEI-Header
+führt Identifier an zwei verschiedenen Orten, und sie beschreiben verschiedene
+Gegenstände.
+
+| Ort | Gegenstand | Beispiel PZ |
+|---|---|---|
+| `fileDesc/sourceDesc/msDesc/msIdentifier` | das **Werk** | wikidata `Q1247232`, GND `4108542-5` |
+| `profileDesc/particDesc/listPerson/person` | eine **Figur oder Person** im Text | wikidata `Q18821`, GND `118634933` |
+
+Wer die beiden nicht trennt, misst Werk gegen Person und bekommt Konflikte, die
+keine sind. Gemessen am 02.09.2026 mit PZ als Kontrollfall. Was nach der
+Trennung übrigbleibt: **TRO** hat zwei echte Konflikte im `msIdentifier`
+(handschriftencensus 929 gegen 212, GND 1181164893 gegen 4285313-8), und
+**WZB** trägt dort außer der Sigle überhaupt keinen Identifier, während
+`works.xml` vier führt. Das ist keine Abweichung, sondern eine Lücke, und sie
+passt zu dem Befund der Spur, dass derselbe Header in seinem `<projectDesc>`
+falsche Zahlen über sich selbst angibt.
+
+**Ein Befund über das Verfahren, der nicht dieses Repositorium betrifft:**
+`~/.claude/CLAUDE.md` wurde am 02.09. von drei Parteien an einem Abend
+geändert, und keine hat es von den anderen erfahren. Ein gleichzeitiger Lauf in
+`claude-code-setup` hatte die Datei ab 18:17:51 eingefroren, die Änderung von
+hier fiel um 18:42 hinein. Folgenlos blieb es nur, weil keine der vier dortigen
+Spuren `sed` benutzt hat, die geänderte Zeile also nichts steuerte. Der Grund
+ist strukturell: **der Freeze stand in einem Ticket eines Repositoriums, die
+Datei liegt in keinem.** Ein Ticket bindet nur, wer es liest, und diese Datei
+liest jede Session der Maschine, während das Ticket keine liest. Der Vorschlag
+dazu (eine Freeze-Zeile in der Datei selbst, gesetzt vor dem ersten Kickoff)
+liegt bei der dortigen Koordination und ist unerprobt.
+
+**Phase:** Health-Check läuft weiter auf `claude/health-check-0902`. Offen an
+chsteiner: #390 umsetzen lassen, die vier nie erbetenen `wait:extern`-Antworten
+(#147, #263, #86, #141), die zwei unklaren der 18 zerrissenen Wörter.
