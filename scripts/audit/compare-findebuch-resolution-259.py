@@ -48,9 +48,16 @@ nichts.
 **Teil 2 ist die Gegenmenge und der eigentliche Test:** die Schreibform ist
 bei uns *kein* Lemma, das Findebuch-Lemma aber schon. Dort laeuft die
 Aufloesung in Stufe 2 oder 3 und kann gegen ein unabhaengiges Urteil geprueft
-werden. Diese Menge ist rund zehnmal so gross wie Teil 1, und sie ist die,
+werden. Diese Menge ist gut fuenfmal so gross wie Teil 1, und sie ist die,
 in der die Fehlerklasse aus #224 (Praefix-Fallback) ueberhaupt auftreten
 kann. Das Skript weist beide getrennt aus.
+
+**Kategorie A in Teil 1 ist kein Befund ueber die Aufloesung**, sondern die
+Identitaetsmenge: bei Stufe 1 ist unser Ergebnis by_norm[Schreibform], und da
+jedes Lemma genau eine Normalform hat, schneidet sich das mit
+by_norm[Findebuch-Lemma] genau dann, wenn beide auf denselben String
+normalisieren. Sie zaehlt also, wie oft Trierer Schreibform und Trierer Lemma
+nach unserer Normalisierung zusammenfallen.
 
 ## Normalisierung
 
@@ -60,15 +67,26 @@ kommen davor drei Zusatzregeln (ezh zu z, e-Trema zu e, Bindestrich raus).
 **Sie retten hier sehr wohl etwas, anders als die Vorabmessung vom 01.09.
 schliesst.** Deren Fazit lautet, die Regeln "kosten nur nichts und retten hier
 auch nichts". Gemessen ueber --ohne-trier-regeln: die Paare, deren
-Findebuch-Lemma wir fuehren, steigen von 5.081 auf 5.494, und die Faelle, in
-denen beide Seiten etwas behaupten, von 424 auf 465. Das sind 41 Faelle oder
-knapp ein Zehntel der Befundmenge.
+Findebuch-Lemma wir fuehren, steigen von 3.139 auf 3.421, und die Faelle, in
+denen beide Seiten etwas behaupten, von 482 auf 536.
 
 Richtig an der Vorabmessung ist der Teil ueber das ezh: es kommt in den
-Findebuch-Lemmaformen null mal vor, waehrend es in der Lexer-Lemmaliste 5.705
-mal steht. Die Wirkung kommt vollstaendig vom e-Trema, das in 11 Prozent der
-Findebuch-Formen steht. Die Vorabmessung hatte das mit "34,3 auf 37,4 Prozent"
-selbst gemessen und im Fazit trotzdem verneint.
+Findebuch-Lemmaformen null mal vor. Die Wirkung kommt vom e-Trema, das in
+11 Prozent der Formen steht, und von den Akuten. Die Vorabmessung hatte den
+Effekt mit "34,3 auf 37,4 Prozent" selbst gemessen und im Fazit trotzdem
+verneint.
+
+Die Akut-Regeln stehen hier auch aus einem zweiten Grund: **mit ihnen und roh
+gezaehlt reproduziert dieses Skript die 5.500 und 477 der Vorabmessung auf die
+Stelle** (auf der alten, noch unbereinigten Formenmenge, siehe form_text).
+Ohne sie waren es 5.494 und 475, und die Differenz von 2 sah lange nach einem
+unaufklaerbaren Rest aus.
+
+Die Angabe der Vorprueferung, das ezh komme in der Lexer-Lemmaliste 5.705 mal
+vor, ist hier **nicht nachgeprueft**: die Datei liegt nicht auf der Maschine
+(von woerterbuchnetz2015 sind nur die 22 Findebuch-Dateien da), und der
+Ticket-Body fuehrt sie selbst unter "nicht nachpruefbar, solange die Datei
+fehlt".
 
 Die Regeln gehoeren ausdruecklich **nicht** in assets/js/lib/text-normalizer.js:
 das ist unsere Korpus-Normalisierung und darf sich nicht an einer externen
@@ -114,8 +132,10 @@ DEFAULT_OUT = PROJECT_ROOT / 'temp' / '259-findebuch-befunde.csv'
 # (dieselbe Auflage traegt scripts/audit/measure-stage3-resolution.py).
 MIN_LEMMA_PREFIX_LENGTH = 3
 
-# Zusatzregeln fuer die Trierer Schreibung, vor unserer Normalisierung.
-TRIER_CHARS = {'ʒ': 'z', 'ë': 'e'}
+# Zusatzregeln fuer die Trierer Schreibung, vor unserer Normalisierung. Die
+# Akute stehen dabei, weil sie die Zahlen der Vorabmessung erklaeren: mit ihnen
+# und roh gezaehlt ergeben sich exakt deren 5.500 und 477.
+TRIER_CHARS = {'ʒ': 'z', 'ë': 'e', 'é': 'e', 'á': 'a', 'í': 'i', 'ó': 'o', 'ú': 'u'}
 
 
 def trier_normalize(s, apply_rules=True):
@@ -126,19 +146,52 @@ def trier_normalize(s, apply_rules=True):
     return normalize_mhg(s)
 
 
+def form_text(form):
+    """Der Text einer <form>, **ohne** den <gram>-Teilbaum.
+
+    Hier steckt die teuerste Falle des Dumps. Ein blosses itertext() ist fuer
+    <form type="lemma"> richtig: dort steht das <ref> mit dem Verweisgraph im
+    Element, und sein Text ist die Schreibung selbst (23.434 mit ref-Kind,
+    11.394 ohne, keine abweichenden Texte). Fuer <form type="sublemma"> ist es
+    falsch: 3.462 der 8.610 tragen ein <gram>-Kind mit dem Wortartkuerzel, und
+    in 2.705 davon ist das Kuerzel der **ganze** Inhalt, es gibt dort gar keine
+    Schreibform.
+
+    itertext() macht daraus "Schreibform Leerzeichen Kuerzel" oder nur das
+    Kuerzel. Solche Zeichenketten koennen weder in unseren Lemmata noch im
+    Variantenwoerterbuch stehen, treffen aber ueber die Stufe-3-Richtung
+    "Eingabe beginnt mit Lemma" trotzdem und landen als Fehltreffer in der
+    Auswertung. Gemessen: mit itertext() tragen 1.039 der 8.610 Paare ein
+    Leerzeichen und 3.498 einen Punkt, und 2.465 der Teil-2-Paare (49,7 %)
+    waren so verunreinigt.
+
+    Der <gram>-Teilbaum wird deshalb uebersprungen, seine Tails aber nicht:
+    der Text nach dem Kuerzel gehoert zur Form.
+    """
+    parts = [form.text or '']
+    for child in form:
+        if child.tag != 'gram':
+            parts.append(''.join(child.itertext()))
+        parts.append(child.tail or '')
+    return ' '.join(''.join(parts).split())
+
+
 def parse_dump(dump_dir):
     """Die Paare Schreibform -> Lemma aus den Findebuch-Dateien.
 
-    Je <entry> das erste <form type="lemma"> gegen alle <form type="sublemma">.
-    Text jeweils ueber itertext(), damit Auszeichnung innerhalb der Form nicht
-    verlorengeht (das <ref> mit dem Verweisgraph steht im <form> drin).
+    Je <entry> das erste <form type="lemma"> gegen alle <form type="sublemma">,
+    Text jeweils ueber form_text(). Sublemmata, von denen nach Abzug des
+    <gram> nichts uebrigbleibt, sind keine Schreibformen und fallen raus.
     """
     parser = etree.XMLParser(no_network=True, load_dtd=False, resolve_entities=False)
     pairs = []
+    mehrwort = []
     entries = 0
     lemma_forms = 0
     reflemma = 0
     with_ref = 0
+    sub_total = 0
+    sub_gram_only = 0
     files = sorted(dump_dir.glob('*.xml'))
     for fp in files:
         root = etree.parse(str(fp), parser).getroot()
@@ -148,23 +201,34 @@ def parse_dump(dump_dir):
             subs = []
             for form in entry.iter('form'):
                 t = form.get('type')
-                txt = ' '.join(''.join(form.itertext()).split())
                 if t == 'lemma':
                     lemma_forms += 1
                     if lemma is None:
-                        lemma = txt
+                        lemma = form_text(form)
                         ref = form.find('.//ref')
                         if ref is not None and ref.get('target'):
                             with_ref += 1
                 elif t == 'reflemma':
                     reflemma += 1
-                elif t == 'sublemma' and txt:
+                elif t == 'sublemma':
+                    sub_total += 1
+                    txt = form_text(form)
+                    # Nach Abzug des <gram> bleibt bei 2.705 Formen nichts als
+                    # der Trennstrich nach dem <lb/>. Das sind keine
+                    # Schreibformen, sondern Wortartangaben zum Lemma selbst.
+                    if not txt.strip(' -.'):
+                        sub_gram_only += 1
+                        continue
                     subs.append(txt)
             if lemma:
                 for s in subs:
-                    pairs.append((s, lemma))
+                    # Mehrwortformen koennen in keiner unserer drei Stufen
+                    # treffen (wir lemmatisieren einzelne <w>) und wuerden
+                    # sonst die Kategorie "kennen wir nicht" aufblaehen.
+                    (mehrwort if ' ' in s else pairs).append((s, lemma))
     stats = {'dateien': len(files), 'entries': entries, 'lemma_forms': lemma_forms,
-             'reflemma': reflemma, 'with_ref': with_ref}
+             'reflemma': reflemma, 'with_ref': with_ref, 'sub_total': sub_total,
+             'sub_gram_only': sub_gram_only, 'mehrwort': len(mehrwort)}
     return pairs, stats
 
 
@@ -240,6 +304,10 @@ def main():
     print('  <form type="lemma">        : %d' % stats['lemma_forms'])
     print('  davon mit ref/@target      : %d' % stats['with_ref'])
     print('  <form type="reflemma">     : %d' % stats['reflemma'])
+    print('  <form type="sublemma">     : %d' % stats['sub_total'])
+    print('  davon nur <gram>, keine Form: %d (ausgeschlossen)' % stats['sub_gram_only'])
+    print('  davon Mehrwortformen        : %d (ausgeschlossen, koennen in keiner'
+          ' Stufe treffen)' % stats['mehrwort'])
     print('  Paare Schreibform -> Lemma : %d' % len(pairs))
     print('  Trierer Zusatzregeln       : %s' % ('an' if apply_rules else 'aus'))
     print()
@@ -267,11 +335,14 @@ def main():
         (both if nf in by_norm else other).append((nf, nl, form, lemma))
 
     print('-- Der Ertrag --')
-    print('  Paare, deren Findebuch-Lemma wir fuehren : %d (%.1f %%)'
+    print('  Paare, deren Findebuch-Lemma wir fuehren : %d roh (%.1f %%)'
           % (lemma_known, 100.0 * lemma_known / len(pairs)))
-    print('  Teil 1, Schreibform bei uns selbst Lemma : %d (roh %d)'
-          % (len(both), roh_both))
-    print('  Teil 2, Schreibform bei uns kein Lemma   : %d' % len(other))
+    print('  Teil 1, Schreibform bei uns selbst Lemma : %d roh, %d dedupliziert'
+          % (roh_both, len(both)))
+    print('  Teil 2, Schreibform bei uns kein Lemma   : %d roh, %d dedupliziert'
+          % (lemma_known - roh_both, len(other)))
+    print('  (dedupliziert wird auf dem normalisierten Paar: dieselbe Zuordnung'
+          ' zweimal ist ein Befund, nicht zwei)')
     print()
 
     kat = Counter()
@@ -282,8 +353,14 @@ def main():
         v = variants.get(nf)
         stimmt_ueberein = bool(set(ids) & set(ziel_ids))
 
+        # Kategorie A ist per Konstruktion die Identitaetsmenge und kein Befund
+        # ueber die Aufloesung: bei Stufe 1 ist ids = by_norm[nf], und da jedes
+        # Lemma genau eine Normalform hat, schneidet sich das mit by_norm[nl]
+        # genau dann, wenn nf == nl ist. Sie misst also, wie oft Schreibform und
+        # Findebuch-Lemma auf denselben String normalisieren, nicht, wie oft wir
+        # richtig liegen.
         if stufe == 1 and stimmt_ueberein:
-            k = 'A gleiches Ziel'
+            k = 'A Schreibform und Lemma normalisieren gleich'
         elif stufe == 1 and v and v in ziel_ids:
             k = 'B Stufe 1 verdeckt Stufe 2'
         elif stufe == 1 and v:
