@@ -135,12 +135,28 @@ zurückgeführt, 13 Belege in 11 Texten. Gefunden hat den Fehler der Review. Mei
 war über die normalisierte Form *groezen* gelaufen, während `grôzen` auf *grozen*
 normalisiert: die Abfrage konnte die Anwesenheit gar nicht darstellen.
 
-**Warum der Matcher es nicht finden konnte, ist strukturell und kein Datenfehler.** Die
-flektierte Adjektivform *ist* der Verbinfinitiv. `grozen` trägt im Korpus **1.223 Tokens**
-mit `@lemmaRef` auf `lemma_2534` und `@pos="ADJ"` (*mit grôzen êren*, *der grôzen
-geschiht*), und `variants.xml` hält je Normalform genau ein Ziel. Also zeigen *grozen*,
-*groezen* und *groesen* alle auf `lemma_2534`, und jedes Nachschlagen, das nur
-`variants.xml` liest, landet zwangsläufig dort.
+**Warum der Matcher es nicht finden konnte: eine Lücke im Variantenbestand.** `lemma_2535`
+führt in `variants.xml` genau neun Formen (*grozte, grozet, grozten, grossen, grôzte,
+grôzet, grôssen, grozzet, grosset*), und **keine davon normalisiert auf `groesen`**. Genau
+darauf normalisiert aber das Token `grŏsen`, und `groesen` ist unter `lemma_2534` belegt
+(Form *grösen*, `type_289948`). Für diesen Schlüssel stand das Verblemma also gar nicht zur
+Wahl; es hat nichts verloren.
+
+**Wie dünn die Zuordnung ist, sagt die Zählung:** die Normalform `groesen` hat im ganzen
+Korpus **2** Tokens, eines davon ist das WZB-Token selbst. `variants.xml` ist
+korpusabgeleitet, der Eintrag `grösen → lemma_2534` steht dort also auf einem einzigen
+Beleg. Zählvorschrift: alle `<w>` im `<body>` der 667 Dateien, deren MHG-normalisierte
+Oberflächenform `groesen` ist.
+
+**Ein zweiter Entwurf dieser Begründung stand kurzzeitig hier und war falsch**, gefunden vom
+CI-Review-Bot in Runde 1. Er sagte, `variants.xml` halte je Normalform genau ein Ziel und
+die 1.223-fach belegte Adjektivform habe deshalb gegen die 13 Verbbelege gewonnen. Die
+Einwertigkeit stimmt und trifft dieses Lemmapaar sogar wirklich, aber an einer anderen Form:
+*grossen* steht unter beiden (`type_59047` unter `lemma_2534`, `type_117361` unter
+`lemma_2535`). Die 1.223 Tokens waren an der Normalform `grozen` gemessen, das Token
+normalisiert auf `groesen`. **Eine Messung am einen Schlüssel als Erklärung für den anderen
+ausgegeben:** derselbe Fehler wie die Abwesenheitsabfrage zwei Absätze weiter oben, nur eine
+Runde später.
 
 Die dreistufige Auflösung des Frontends ist davon **nicht** betroffen: für die Eingabe
 *grôzen* trifft schon Stufe 1 auf `lemma_2535`, Stufe 2 kommt gar nicht dran. Betroffen

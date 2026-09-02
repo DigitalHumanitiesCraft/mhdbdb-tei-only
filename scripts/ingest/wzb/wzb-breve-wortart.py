@@ -97,7 +97,7 @@ Entscheidung und keine Wortartwahl; sie gehoert zu KZW. Alle neun stehen mit
 Fundstelle und Vorschlag in review-faelle.csv.
 
 Fuer alle drei Faelle, in denen ein anderes Lemma richtig waere, gibt es dieses
-Lemma bereits (lemma_2535 groezen, lemma_2908 hort, lemma_6135 tohter). Der
+Lemma bereits (lemma_2535 grôzen, lemma_2908 hort, lemma_6135 tohter). Der
 Matcher hat sie nicht gefunden, weil keine ihrer Variantenformen auf die
 Breve-Schreibung normalisiert. Die Zuordnung, die er stattdessen gefunden hat,
 ist jedes Mal fuer sich richtig und nur fuer dieses Token falsch: hoerde ist ein
@@ -285,13 +285,21 @@ RUECKHALT = {
         "(lemma_2534) fuehrt ADJ ADV GRA NOM und kein VRB. Das Verblemma gibt "
         "es: lemma_2535 grôzen VRB, morphologisch auf lemma_2534 "
         "zurueckgefuehrt, 13 Belege in 11 Texten. Der Matcher hat es trotzdem "
-        "nicht finden koennen, und der Grund ist strukturell und kein "
-        "Datenfehler: die flektierte Adjektivform IST der Verbinfinitiv. "
-        "'grozen' traegt im Korpus 1.223 Tokens mit lemmaRef auf lemma_2534 "
-        "und pos ADJ ('mit grôzen êren'), und variants.xml haelt je Normalform "
-        "genau ein Ziel. Also zeigen grozen, groezen und groesen alle auf "
-        "lemma_2534, und ein Nachschlagen, das nur variants.xml liest, landet "
-        "zwangslaeufig dort. Die dreistufige Aufloesung des Frontends ist "
+        "nicht finden koennen, und der Grund ist eine Luecke im "
+        "Variantenbestand: lemma_2535 fuehrt in variants.xml genau neun Formen "
+        "(grozte grozet grozten grossen grôzte grôzet grôssen grozzet "
+        "grosset), und keine davon normalisiert auf 'groesen'. Genau darauf "
+        "normalisiert aber das Token 'grŏsen', und 'groesen' ist unter "
+        "lemma_2534 belegt (Form 'grösen', type_289948). Fuer diesen "
+        "Schluessel stand das Verblemma also gar nicht zur Wahl. Die "
+        "Zuordnung ist dabei duenn: die Normalform 'groesen' hat im ganzen "
+        "Korpus 2 Tokens, eines davon ist dieses hier, der Eintrag steht also "
+        "auf einem einzigen Beleg. Dass "
+        "variants.xml je Normalform nur ein Ziel haelt, trifft dieses "
+        "Lemmapaar durchaus, aber an einer anderen Form: 'grossen' steht unter "
+        "beiden (type_59047 unter lemma_2534, type_117361 unter lemma_2535). "
+        "Fuer 'groesen' erklaert es nichts. Die dreistufige Aufloesung des "
+        "Frontends ist "
         "nicht betroffen: fuer die Eingabe 'grôzen' trifft schon Stufe 1 auf "
         "lemma_2535, Stufe 2 kommt gar nicht dran. Das ist genau Kategorie C "
         "der #259-Messung, 'eigenes Lemma, variants zeigt anderswohin'. KZW "
@@ -338,6 +346,24 @@ CHANGE_VORLAGE = (
 def pfad(p):
     p = Path(p)
     return p if p.is_absolute() else REPO / p
+
+
+def repo_relativ(p):
+    """Pfad fuer den revisionDesc-Eintrag: immer repo-relativ, immer Slashes.
+
+    Ohne diese Umrechnung landet ein absolutes --out-dir woertlich im
+    Korpusheader. Beim ersten Lauf war die Vorgabe relativ und der Eintrag
+    richtig, beim Wiederholungslauf absolut, und erst der Vergleich der
+    beiden Laeufe hat es gezeigt. Ein Pfad, der in eine Datei geschrieben
+    wird, darf nicht davon abhaengen, wie der Aufruf getippt wurde.
+    """
+    p = pfad(p).resolve()
+    try:
+        return p.relative_to(REPO.resolve()).as_posix()
+    except ValueError:
+        sys.exit("FEHLER: --out-dir %s liegt ausserhalb des Repositoriums; "
+                 "der revisionDesc-Eintrag braucht einen repo-relativen "
+                 "Pfad." % p)
 
 
 def nfc(s):
@@ -488,7 +514,7 @@ def main() -> int:
     n_konf = sum(1 for z in zeilen if z["review_grund"].startswith("konfidenz-"))
     change = CHANGE_VORLAGE.format(datum="2026-09-02", n=geschrieben, r=n_review,
                                    k=n_konf, z=n_review - n_konf,
-                                   log=args.out_dir)
+                                   log=repo_relativ(args.out_dir))
     if change in text:
         sys.exit("FEHLER: der revisionDesc-Eintrag steht schon in der Datei.")
     # Hinter den letzten vorhandenen <change> haengen und dessen Einrueckung

@@ -14,9 +14,16 @@ Review-Runde 1 zu `scripts/ingest/wzb/wzb-breve-wortart.py` am 2026-09-02 (Zweig
   tun es nicht: die Namen stehen im WZB-TEI gar nicht. Vor einem Befund "Bezugsnomen
   fehlt im Kontext" die Rohdatei um die xml:id herum lesen.
 - Laufende Kolumnentitel und Buchzahlen (IOSUE, EXO, DUS, NUM, ERI, DEUTRO, NOMIUS,
-  GENE, SIS, XXVIII) stehen in der WZB als unannotierte `<w>` im Textfluss (922 nur A-Z
-  von 6.836 unannotierten, Stand nach dem Lauf). Sie zerreissen Woerter in zwei
-  Scheintoken (22 Folgen unann/CAPS+/unann, 18 davon echte Woerter).
+  GENE, SIS, XXVIII) stehen in der WZB als unannotierte `<w>` im Textfluss. Vier
+  Zaehlvorschriften, alle vier ueber die geparsten <w> ohne @lemmaRef gemessen, alle
+  vier richtig: `t.upper() == t` und mind. ein Buchstabe 928 (das ist die Zahl im Log),
+  dito und rein alphabetisch 927 (Differenz: `W` plus weicher Trennstrich), kein Zeichen
+  mit `islower()` 926 (Differenz zu 928: `IICAPᵐ` und `ᵐ`, U+1D50 gilt Python als
+  Kleinbuchstabe), nur A-Z 922. Der CI-Bot hat in #389 gemeldet, die 922 sei `\p{Lu}+`
+  und A-Z ergebe 919; beides stammt aus `rg -c`, und das zaehlt Zeilen mit Treffer, nicht
+  Tokens. Zeilenzaehlung taugt hier nicht, weil mehrere <w> in einer Zeile stehen
+  koennen. Sie zerreissen Woerter in zwei Scheintoken (22 Folgen unann/CAPS+/unann,
+  18 davon echte Woerter).
 - `vor` (lemma_7194) PRP/ADV nach Wortart rechts: die Zahlen 738:6 und 158:105 sind nur
   reproduzierbar mit NP-Start = {DET, ADJ, NOM, NAM, PRO, POS, NUM}; der Legacy-Tag ART
   (51 PRP, 2 ADV) faellt in "sonst". Multi-pos-Tokens (Leerzeichen im @pos) zaehlen als
