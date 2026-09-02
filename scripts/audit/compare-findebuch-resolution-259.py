@@ -48,9 +48,9 @@ nichts.
 **Teil 2 ist die Gegenmenge und der eigentliche Test:** die Schreibform ist
 bei uns *kein* Lemma, das Findebuch-Lemma aber schon. Dort laeuft die
 Aufloesung in Stufe 2 oder 3 und kann gegen ein unabhaengiges Urteil geprueft
-werden. Diese Menge ist gut fuenfmal so gross wie Teil 1, und sie ist die,
-in der die Fehlerklasse aus #224 (Praefix-Fallback) ueberhaupt auftreten
-kann. Das Skript weist beide getrennt aus.
+werden. Diese Menge ist gut fuenfmal so gross wie Teil 1 (2.781 gegen 543),
+und sie ist die, in der die Fehlerklasse aus #224 (Praefix-Fallback)
+ueberhaupt auftreten kann. Das Skript weist beide getrennt aus.
 
 **Kategorie A in Teil 1 ist kein Befund ueber die Aufloesung**, sondern die
 Identitaetsmenge: bei Stufe 1 ist unser Ergebnis by_norm[Schreibform], und da
@@ -62,13 +62,14 @@ nach unserer Normalisierung zusammenfallen.
 ## Normalisierung
 
 Unsere Seite ueber scripts/mhg_normalizer.normalize_mhg. Auf die Trierer Seite
-kommen davor drei Zusatzregeln (ezh zu z, e-Trema zu e, Bindestrich raus).
+kommen davor acht Zusatzregeln: ezh zu z, e-Trema zu e, die funf Akute zu
+ihren Grundvokalen, und der Bindestrich raus.
 
 **Sie retten hier sehr wohl etwas, anders als die Vorabmessung vom 01.09.
 schliesst.** Deren Fazit lautet, die Regeln "kosten nur nichts und retten hier
 auch nichts". Gemessen ueber --ohne-trier-regeln: die Paare, deren
-Findebuch-Lemma wir fuehren, steigen von 3.139 auf 3.421, und die Faelle, in
-denen beide Seiten etwas behaupten, von 482 auf 536.
+Findebuch-Lemma wir fuehren, steigen von 3.151 auf 3.434, und die Faelle, in
+denen beide Seiten etwas behaupten, von 489 auf 543 (dedupliziert).
 
 Richtig an der Vorabmessung ist der Teil ueber das ezh: es kommt in den
 Findebuch-Lemmaformen null mal vor. Die Wirkung kommt vom e-Trema, das in
@@ -146,8 +147,17 @@ def trier_normalize(s, apply_rules=True):
     return normalize_mhg(s)
 
 
+# Kindelemente einer <form>, die keine Schreibung tragen. In sublemma sind es
+# die einzigen beiden: <gram> das Wortartkuerzel, <hi> einen Abkuerzungsmarker
+# (alle 39 Vorkommen sehen maskiert aus wie "a.a." oder "(aa.)", jedes endet
+# auf einen Punkt). <form type="lemma"> traegt ueberhaupt nur <ref>-Kinder,
+# dort kann das Ueberspringen also nichts kaputtmachen: gemessen 0 Lemmaformen,
+# die sich dadurch aendern.
+KEIN_FORMTEXT = {'gram', 'hi'}
+
+
 def form_text(form):
-    """Der Text einer <form>, **ohne** den <gram>-Teilbaum.
+    """Der Text einer <form>, **ohne** die Teilbaeume aus KEIN_FORMTEXT.
 
     Hier steckt die teuerste Falle des Dumps. Ein blosses itertext() ist fuer
     <form type="lemma"> richtig: dort steht das <ref> mit dem Verweisgraph im
@@ -162,15 +172,15 @@ def form_text(form):
     Variantenwoerterbuch stehen, treffen aber ueber die Stufe-3-Richtung
     "Eingabe beginnt mit Lemma" trotzdem und landen als Fehltreffer in der
     Auswertung. Gemessen: mit itertext() tragen 1.039 der 8.610 Paare ein
-    Leerzeichen und 3.498 einen Punkt, und 2.465 der Teil-2-Paare (49,7 %)
-    waren so verunreinigt.
+    Leerzeichen und 3.498 einen Punkt, und **2.465 der deduplizierten
+    Teil-2-Paare (49,7 %) hingen an einem Sublemma mit <gram>-Kind**.
 
-    Der <gram>-Teilbaum wird deshalb uebersprungen, seine Tails aber nicht:
-    der Text nach dem Kuerzel gehoert zur Form.
+    Die Teilbaeume werden uebersprungen, ihre Tails aber nicht: der Text nach
+    dem Kuerzel gehoert zur Form.
     """
     parts = [form.text or '']
     for child in form:
-        if child.tag != 'gram':
+        if child.tag not in KEIN_FORMTEXT:
             parts.append(''.join(child.itertext()))
         parts.append(child.tail or '')
     return ' '.join(''.join(parts).split())
@@ -213,9 +223,15 @@ def parse_dump(dump_dir):
                 elif t == 'sublemma':
                     sub_total += 1
                     txt = form_text(form)
-                    # Nach Abzug des <gram> bleibt bei 2.705 Formen nichts als
-                    # der Trennstrich nach dem <lb/>. Das sind keine
-                    # Schreibformen, sondern Wortartangaben zum Lemma selbst.
+                    # Nach Abzug des <gram> liefert form_text() bei 2.705
+                    # Formen den Leerstring: das Kuerzel war der ganze Inhalt.
+                    # Das sind keine Schreibformen, sondern Wortartangaben zum
+                    # Lemma selbst. Der Trennstrich, den man hier vermutet,
+                    # steht nicht in der Form, sondern im Tail des
+                    # vorangehenden <lb/> im <entry>; nur 1 der 8.610
+                    # Sublemmata hat ueberhaupt ein <lb>-Kind. Das strip()
+                    # faengt auf diesen Daten entsprechend nichts und steht
+                    # nur als Gurt fuer einen anderen Dumpstand.
                     if not txt.strip(' -.'):
                         sub_gram_only += 1
                         continue
@@ -283,7 +299,7 @@ def main():
     ap.add_argument('--out', type=Path, default=DEFAULT_OUT,
                     help='Befundliste als CSV. Vorgabe temp/, gitignoriert. NICHT committen.')
     ap.add_argument('--ohne-trier-regeln', action='store_true',
-                    help='Die drei Zusatzregeln weglassen, um ihre Wirkung zu messen')
+                    help='Die acht Zusatzregeln weglassen, um ihre Wirkung zu messen')
     args = ap.parse_args()
 
     if not args.dump.is_dir():
