@@ -166,7 +166,7 @@ The reading view converts TEI XML elements to HTML. Source: `extractAndFormatBod
 - Drop the legacy `MHDBDB_Playground` database (`dropLegacyPlaygroundDatabase()`, #314). The playground's only contact with IndexedDB is this deletion, never an initialization: the indexes live in the shared `CorpusLoader`
 - Load authority index (~3 MB)
 - Initialize data managers (authority, TEI)
-- Set up modular UI components (23 modules; 25 before #314 removed `file-display.js` and `progress.js`)
+- Set up modular UI components (24 modules; 25 before #314 removed `file-display.js` and `progress.js`, 23 until #193 added `horses-explorer.js`)
 
 ### Data Layer
 
@@ -202,7 +202,7 @@ playground/js/ui/
 │   ├── concept-explorer.js
 │   ├── genre-explorer.js
 │   └── name-explorer.js
-├── tei/               # TEI text analysis (13 files: router + modal + 11 analysis modules)
+├── tei/               # TEI text analysis (14 files: router + modal + 12 analysis modules)
 │   ├── tei-ui.js                  # Router/entry point, not an analysis tool
 │   ├── multi-lemma-search.js      # Modal outlier (DESIGN.md §Multi-Lemma, documented as such)
 │   ├── word-frequency.js          # Word frequency analysis (#88, R1)
@@ -215,7 +215,8 @@ playground/js/ui/
 │   ├── rhyme-dictionary.js        # Rhyme dictionary over lineEnds[] (#106, minimal variant)
 │   ├── hapax-legomena.js          # Corpus-wide hapax legomena (#196)
 │   ├── verse-ending-profile.js    # Verse-ending profile, top-N verse-final lemmata + rhyme pressure (#106, items 2/3)
-│   └── naming-explorer.js         # Extended character naming, curated for 4 works (#59, Beta)
+│   ├── naming-explorer.js         # Extended character naming, curated for 4 works (#59, Beta)
+│   └── horses-explorer.js         # Arthurian horses, curated for 5 works (#193, Beta)
 └── search/
     └── SearchHelpers.js
 ```
@@ -278,6 +279,7 @@ Each explorer follows consistent pattern:
 | Hapaxlegomena | `#hapax-legomena` | Lemmata unique across the corpus, with location and dictionary lookup (#196) |
 | Versendings-Profil | `#verse-ending-profile` | Top-N verse-final lemmata per scope, with a "Reim-Druck" column (#106 items 2 and 3) |
 | Erweiterte Figurenbezeichnungen | `#naming` | Curated proper names, antonomasias and epithets per character in 4 works (#59, beta) |
+| Arthurische Pferde | `#horses` | Curated horse attestations in 5 works, with event filter and `?verseId=` reader deep link (#193, beta) |
 
 **Parameters:**
 
@@ -467,7 +469,7 @@ Corpus and authority data were never stored here. The playground reads them thro
 - ✅ Lemma variant resolution
 - ✅ Cross-reference integrity
 - ✅ Search functionality
-- ⚠️ Main site features (skipped)
+- ✅ Main site features (the 25 tests disabled until #43 were reactivated in `259bc505a`; the inventory of all specs is in [DEVELOPMENT.md → Test File Inventory](DEVELOPMENT.md))
 
 **Running tests:**
 ```bash

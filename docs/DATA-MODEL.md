@@ -166,7 +166,7 @@ Notes: Multiple sigles per work (editions). GND/Wikidata may be full URLs or bar
 | genres.xml | `genre_{hex}` | – (but many broader pointers, polyhierarchical) |
 | names.xml | `name_{numeric}` | `exactMatch`, `closeMatch` → `concepts.xml#...` |
 
-#### variants.xml (~16 MB, 256,760 variant forms)
+#### variants.xml (~16 MB, 256,761 variant forms)
 
 ```xml
 <TEI><text><body><div type="orthographicVariants">

@@ -95,7 +95,7 @@ python scripts/build-authority-index.py
 
 # Build corpus index
 python scripts/build-corpus-index.py
-# Output: data/corpus-index.json.gz (~40 MB, v4.1.x)
+# Output: data/corpus-index.json.gz (~42 MB; current version in TEI-MODEL.md §11)
 
 # Validate indices
 python scripts/validate-indices.py
@@ -357,10 +357,10 @@ Before deploying:
 
 - **main:** Production-ready code, stable releases
 - **Feature branches:** `feature/your-feature-name`
-- **Historical branches:**
-  - `pre-main-site` - Old XML parsing architecture (archived)
-  - `initial-data-wrangling` - RDF/Relational DB → TEI transformation (archived)
-  - `feature/wenzelsbibel-ingest` - Wenzelsbibel text ingest (Issue #34, active)
+- **Historical branches:** measured against `git branch -r` on 2026-09-02, only one of these still exists
+  - `initial-data-wrangling` - RDF/Relational DB → TEI transformation (archived, still on `origin`)
+  - `pre-main-site` - Old XML parsing architecture (deleted)
+  - `feature/wenzelsbibel-ingest` - Wenzelsbibel text ingest (Issue #34); the branch is gone, the WZB work has been on `main` since the 2026-05-08 ingest
 
 ### Development Workflow
 
@@ -392,11 +392,15 @@ Co-Authored-By: Claude <noreply@anthropic.com>"
 # 6. Push (ONLY AFTER USER APPROVAL)
 git push -u origin feature/your-feature-name
 
-# 7. Merge to main
-git checkout main
-git merge feature/your-feature-name
-git push origin main
+# 7. Merge via pull request, never locally.
+# `main` is branch-protected (measured 2026-09-02: the API reports protected=true),
+# so `git push origin main` is rejected. Open the PR, let the gates in
+# data-integrity.yml and no-cdn-check.yml run, and merge from there:
+gh pr create --fill
+gh pr merge --squash
 ```
+
+Small documentation changes are the exception and go straight to `main`, see CLAUDE.md → Git Rules.
 
 ### Commit Guidelines
 
