@@ -310,6 +310,18 @@ def main():
 
     apply_rules = not args.ohne_trier_regeln
     pairs, stats = parse_dump(args.dump)
+    if not pairs:
+        # Eine Verzeichnisebene zu hoch (FindeB statt FindeB/P5) ist ein
+        # Verzeichnis und kommt am is_dir-Guard vorbei; ohne diese Zeile faellt
+        # der Lauf erst in der Prozentrechnung des Ertragsblocks mit einem
+        # ZeroDivisionError um. Die beiden spaeteren Leergurte bleiben trotzdem
+        # noetig: sie fangen einen anderen Fall, naemlich Paare, von denen wir
+        # kein einziges Lemma fuehren.
+        print('FEHLER: in %s steht kein einziges Paar Schreibform -> Lemma.'
+              % args.dump, file=sys.stderr)
+        print('Erwartet werden die 22 P5-Dateien des Findebuchs; '
+              'die Vorgabe endet auf FindeB/P5.', file=sys.stderr)
+        return 2
     lemmata, variants, by_norm = load_ours()
 
     print('#259: Findebuch-Verweisgraph gegen unsere dreistufige Aufloesung')
