@@ -4,7 +4,7 @@
   <teiHeader>
     <fileDesc>
       <titleStmt>
-        <title xml:lang="de">Frauenbuch</title>
+        <title xml:lang="de">Frauendienst</title>
         <author ref="#person_5">Ulrich von Liechtenstein</author>
         <respStmt>
           <resp>digitale Zusammenführung, Annotation und semantische Klassifikation</resp>
@@ -50,10 +50,10 @@
         <msDesc>
           <msIdentifier corresp="works.xml#work_6">
             <idno type="sigle">FDS</idno>
-            <idno type="handschriftencensus">763</idno>
-            <idno type="GND">7611035-7</idno>
-            <idno type="wikidata">Q1451637</idno>
-            <msName xml:lang="de">Frauenbuch</msName>
+            <idno type="handschriftencensus">386</idno>
+            <idno type="GND">4558793-0</idno>
+            <idno type="wikidata">Q1451651</idno>
+            <msName xml:lang="de">Frauendienst</msName>
           </msIdentifier>
           <additional>
             <listBibl>
@@ -166,6 +166,7 @@
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 54 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/). 13 weitere Tokens der Form minne blieben bewusst unannotiert (Review).</change>
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 156 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
+      <change when="2026-08-31" who="#editor">Werktitel korrigiert: titleStmt/title und msName trugen "Frauenbuch" (= work_7), die Datei referenziert aber works.xml#work_6 = "Frauendienst". Ebenso die drei Werk-Identifier im selben msIdentifier: handschriftencensus 763, GND 7611035-7 und wikidata Q1451637 gehören zu work_7; work_6 trägt 386, 4558793-0 und Q1451651. Befund von Klaus Schmidt (30.08.2026), korpusweit gegen works.xml geprüft; betroffen waren FD, FDS, FH, FLD, FP.</change>
     </revisionDesc>
   </teiHeader>
   <text>
