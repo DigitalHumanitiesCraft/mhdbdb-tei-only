@@ -118,7 +118,7 @@ def scan_min_for(key: str) -> int:
 # eine spaeter doch eingesetzte Zahl sofort gegatet ist.
 INTENTIONALLY_SILENT = {
     ('README.md', 'entry_points'):
-        'nennt sechs Explorer und zwoelf Werkzeuge einzeln, nie die Summe',
+        'nennt Explorer, Werkzeuge und kuratierte Datensaetze einzeln, nie die Summe',
     ('docs/ARCHITECTURE.md', 'entry_points'):
         'nennt die Werkzeuge einzeln in der Routing-Tabelle, nie als Summe',
     ('docs/ARCHITECTURE.md', 'tei_tools'):
@@ -152,6 +152,14 @@ INTENTIONALLY_SILENT = {
     # der Eintraege.
     ('docs/DATA-MODEL.md', 'variants_entries'):
         'nennt von variants.xml nur die Formenzahl, nie die Zahl der Eintraege',
+    # Health-Check 02.09.: die Werkzeugzahl ist aus der Hilfeseite ganz
+    # herausgenommen worden (Entscheidung chsteiner). Grund ist nicht, dass
+    # sie dort falsch war, sondern dass sie dort niemand nachzieht: die Seite
+    # nannte "zwoelf" an vier Stellen, waehrend es dreizehn Module waren, seit
+    # der Pferde-Explorer am 08.08. dazukam. Die Aufzaehlungen daneben tragen
+    # die Aussage und veralten nicht still.
+    ('hilfe-playground.html', 'tei_tools'):
+        'nennt die Werkzeuge seit 02.09. namentlich, nie als Summe',
 }
 
 
@@ -159,9 +167,15 @@ INTENTIONALLY_SILENT = {
 # naechsten Werkzeug-Zuwachs hier pflegen, nicht in Zaehl-Magie suchen.
 NON_TOOL_MODULES = {'tei-ui.js'}                 # Router, kein Werkzeug
 MODAL_MODULES = {'multi-lemma-search.js'}        # folgt dem DESIGN-Pattern nicht
-PRE_DESCRIBED_TOOLS = {                          # in hilfe-playground vorab
-    'multi-lemma-search.js',                     # beschrieben; §5 zaehlt den
-    'verse-position-search.js',                  # Rest als "weitere Werkzeuge"
+# Kuratierte Fremddatensaetze. Sie liegen im selben Verzeichnis und folgen dem
+# DESIGN-Pattern, sind aber keine Analysewerkzeuge ueber dem Korpus, sondern
+# Forschungsdaten Dritter. Mit #194 haben sie im Playground die eigene Rubrik
+# "Experimentelle Forschungsdaten" bekommen, und FEATURES.md zaehlt sie seither
+# getrennt. Diese Lesart gilt seit dem Health-Check vom 02.09. ueberall:
+# "N Analysewerkzeuge plus zwei kuratierte Forschungsdatensaetze".
+CURATED_DATASET_MODULES = {
+    'naming-explorer.js',                        # #59, Linda Beutel-Thurow
+    'horses-explorer.js',                        # #193, Luise Borek
 }
 
 
@@ -171,30 +185,35 @@ def collect_code_counts() -> dict:
 
     Ableitungen folgen den Doku-Konventionen:
     - TEI-Werkzeuge = Module in playground/js/ui/tei/ minus NON_TOOL_MODULES
-      (multi-lemma-search.js zaehlt als Werkzeug Nr. 1)
-    - Pattern-Module (DESIGN.md) = Werkzeuge minus MODAL_MODULES
+      minus CURATED_DATASET_MODULES (multi-lemma-search.js zaehlt als
+      Werkzeug Nr. 1). Die kuratierten Fremddatensaetze stehen daneben als
+      eigener Count, siehe die Begruendung an CURATED_DATASET_MODULES.
+    - Kuratierte Forschungsdatensaetze = CURATED_DATASET_MODULES
+    - Pattern-Module (DESIGN.md) = alle Module minus Router minus
+      MODAL_MODULES. Hier zaehlen die kuratierten Datensaetze MIT, weil die
+      Frage eine andere ist: sie folgen dem DESIGN-Pattern sehr wohl.
     - Authority-Explorer = die sechs show*Btn-Buttons der Authority-Sidebar
-    - Entry Points = Explorer + Werkzeuge
-    - "weitere Werkzeuge" (hilfe-playground §5) = Werkzeuge minus
-      PRE_DESCRIBED_TOOLS
+    - Entry Points = Explorer + Werkzeuge + kuratierte Datensaetze, also
+      alles, was in der Sidebar anklickbar ist
     - UI-Module = alle .js unter playground/js/ui/ (Gesamtzahl des
       Modulbaums in ARCHITECTURE.md §UI Layer, #276)"""
     counts = {}
     counts['ui_modules'] = len(glob.glob('playground/js/ui/**/*.js', recursive=True))
     module_names = {Path(m).name for m in glob.glob('playground/js/ui/tei/*.js')}
-    known = NON_TOOL_MODULES | MODAL_MODULES | PRE_DESCRIBED_TOOLS
+    known = NON_TOOL_MODULES | MODAL_MODULES | CURATED_DATASET_MODULES
     missing = known - module_names
     if missing:
         sys.exit(f'FEHLER: Ausnahme-Mengen nennen nicht existierende Module: {sorted(missing)} '
-                 f'— NON_TOOL_MODULES/MODAL_MODULES/PRE_DESCRIBED_TOOLS pflegen.')
-    tools_set = module_names - NON_TOOL_MODULES
-    counts['tei_tools'] = len(tools_set)
-    counts['pattern_modules'] = len(tools_set - MODAL_MODULES)
-    counts['tei_tools_weitere'] = len(tools_set - PRE_DESCRIBED_TOOLS)
+                 f'— NON_TOOL_MODULES/MODAL_MODULES/CURATED_DATASET_MODULES pflegen.')
+    non_router = module_names - NON_TOOL_MODULES
+    counts['tei_tools'] = len(non_router - CURATED_DATASET_MODULES)
+    counts['curated_datasets'] = len(CURATED_DATASET_MODULES)
+    counts['pattern_modules'] = len(non_router - MODAL_MODULES)
     html = Path('playground/index.html').read_text(encoding='utf-8')
     counts['authority_explorers'] = len(re.findall(
         r'id="show(?:Authors|Works|Lemmata|Concepts|Genres|Names)Btn"', html))
-    counts['entry_points'] = counts['authority_explorers'] + counts['tei_tools']
+    counts['entry_points'] = (counts['authority_explorers'] + counts['tei_tools']
+                              + counts['curated_datasets'])
     return counts
 
 
@@ -301,7 +320,7 @@ DOC_TARGETS = [
 CODE_LABELS = [
     ('Playground — UI-Module gesamt (js/ui/)', 'ui_modules'),
     ('Playground — TEI-Analyse-Werkzeuge', 'tei_tools'),
-    ('Playground — davon "weitere" (hilfe §5)', 'tei_tools_weitere'),
+    ('Playground — kuratierte Forschungsdatensaetze', 'curated_datasets'),
     ('Playground — Pattern-Module (DESIGN)', 'pattern_modules'),
     ('Playground — Authority-Explorer', 'authority_explorers'),
     ('Playground — Search Entry Points', 'entry_points'),
@@ -321,7 +340,7 @@ CODE_DOC_TARGETS = [
     # #276 Luecke 1: DECISIONS.md wurde von keinem der beiden Scans beruehrt.
     # ADR-002 haelt die Modulzahl (historisch markiert, siehe oben).
     ('docs/DECISIONS.md', ['ui_modules']),
-    ('hilfe-playground.html', ['tei_tools', 'tei_tools_weitere', 'authority_explorers']),
+    ('hilfe-playground.html', ['tei_tools', 'authority_explorers']),
     # playground/readme.md mit #356. Die Datei fuehrte bis dahin genau EINES
     # der zwoelf TEI-Werkzeuge auf und nannte an dritter Stelle "11 search
     # types"; der Katalog ist jetzt ein Verweis auf FEATURES.md, die beiden
@@ -342,7 +361,7 @@ NUMBER_WORDS = {
 
 CODE_ANCHORS = {
     'tei_tools': r'(?:TEI-Analyse-?[Ww]erkzeuge|TEI-Analysewerkzeuge|(?:TEI[- ])?analysis tools|Analyse-Werkzeuge|Werkzeuge)',
-    'tei_tools_weitere': r'weitere\s+Werkzeuge',
+    'curated_datasets': r'kuratierte[nr]?\s+Forschungsdatens(?:ae|ä)tze|curated\s+(?:external\s+)?datasets',
     # Beide Sprachen: die Docs stellen auf Englisch um (#316), DESIGN.md
     # traegt den Count noch deutsch. Ohne die englische Variante ging die
     # Bindung in ARCHITECTURE.md still verloren, als "die elf Analyse-Module"

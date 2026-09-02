@@ -353,7 +353,7 @@ All playground views are bookmarkable and shareable via hash-based URLs.
 
 ### Search Normalization
 
-Consistent search behavior across all 18 entry points via Middle High German character normalization.
+Consistent search behavior across all 19 entry points via Middle High German character normalization (measured 2026-09-02: 6 authority explorers, 11 analysis tools, 2 curated datasets).
 
 **Normalization rules:**
 - Long vowels: â→a, ê→e, î→i, ô→o, û→u

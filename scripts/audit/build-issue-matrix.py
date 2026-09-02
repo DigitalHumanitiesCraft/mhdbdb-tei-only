@@ -106,8 +106,10 @@ import argparse
 import contextlib
 import io
 import json
+import re
 import subprocess
 import sys
+from pathlib import Path
 
 if sys.stdout.encoding and sys.stdout.encoding.lower() not in ('utf-8', 'utf8'):
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', line_buffering=True)
@@ -259,6 +261,57 @@ def pruefe(issues):
         if unbekannt:
             fehler.append(f'#{nr}: unbekanntes wait-Label: {", ".join(unbekannt)}')
     return fehler
+
+
+ROADMAP = 'docs/ROADMAP.md'
+
+
+def hole_geschlossene():
+    """Die Nummern der geschlossenen Issues. Bewusst nicht 'alles, was nicht
+    offen ist': Issues und PRs teilen sich bei GitHub den Nummernraum, und
+    `gh issue list` liefert keine PRs. Gegen 'nicht offen' zu pruefen meldet
+    daher jede PR-Nummer, und die ROADMAP fuehrt eine Merge-Tabelle, deren
+    erste Spalte aus PR-Nummern besteht. Beim ersten Lauf hat genau das die
+    gemergten #245 und #246 gemeldet."""
+    roh = json.loads(gh(['issue', 'list', '--state', 'closed', '--limit', '500',
+                         '--json', 'number']))
+    return {i['number'] for i in roh}
+
+
+def pruefe_roadmap(geschlossene):
+    """Geschlossene Issues finden, die in docs/ROADMAP.md noch als Eintrag stehen.
+
+    Anlass (Health-Check 02.09.): fuenf Eintraege kuendigten Arbeit oder eine
+    Antwort an, obwohl die Issues geschlossen waren, und vier davon waren es
+    schon, als die Datei zuletzt bearbeitet wurde. Eine Ermahnung reicht dagegen
+    erkennbar nicht.
+
+    Erkannt wird NUR eine Nummer in der ersten Spalte einer Tabellenzeile, also
+    der Eintrag selbst. Das ist gemessen und nicht geschaetzt: gegen den Stand
+    vor den Korrekturen des 02.09. meldet diese Variante 6 Zeilen, und alle
+    sechs sind echt (#106, #111, #129, #140, #172, #224); gegen den Stand danach
+    meldet sie 0. Jede `#N` im Dokument zu pruefen haette 45 gemeldet, weil die
+    Datei PR-Nummern und Rueckblicke auf erledigte Arbeit im Fliesstext fuehrt.
+    Ein Gate, das beim ersten Lauf 45 Zeilen meldet, wird abgeschaltet statt
+    beachtet. Auch Aufzaehlungszeilen mitzunehmen kostet schon einen Fehlalarm
+    (#187 steht als datierter Rueckblick da, nicht als offener Punkt).
+
+    Der Preis dieser Enge ist ein blinder Fleck: ein Eintrag, der spaeter als
+    Aufzaehlung statt als Tabellenzeile geschrieben wird, faellt heraus.
+
+    Warnung, kein Fehler: ein geschlossenes Issue in der ROADMAP ist ein
+    Pflegerueckstand und kein kaputter Build.
+    """
+    pfad = Path(ROADMAP)
+    if not pfad.exists():
+        return []
+    treffer = []
+    for zeile_nr, zeile in enumerate(
+            pfad.read_text(encoding='utf-8').splitlines(), start=1):
+        m = re.match(r'\|\s*#(\d+)\s*\|', zeile)
+        if m and int(m.group(1)) in geschlossene:
+            treffer.append((zeile_nr, int(m.group(1))))
+    return treffer
 
 
 def entschaerfe(titel):
@@ -630,6 +683,12 @@ def main():
     fehler = pruefe(issues)
     for f in fehler:
         print(f'::error title=Label-Luecke::{f}', file=sys.stderr)
+
+    for zeile_nr, nr in pruefe_roadmap(hole_geschlossene()):
+        print(f'::warning file={ROADMAP},line={zeile_nr}::#{nr} steht in '
+              f'{ROADMAP} als Eintrag, ist aber nicht mehr offen. Zeile '
+              f'streichen oder mit dem neuen Stand weiterfuehren.',
+              file=sys.stderr)
 
     block = baue(issues)
 
