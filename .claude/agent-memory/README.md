@@ -24,6 +24,12 @@ Lesen. Es sind Fehler, die hier schon passiert sind, meist mitsamt dem Kommando,
 
 Wer ohne Claude Code arbeitet, braucht hier nichts. Diese Dateien sind kein Vertrag, keine Konvention und keine Anleitung für Menschen, und sie gehören nicht zu den 15 promptotyping-Dokumenten. Verbindlich bleibt, was in `CLAUDE.md`, `docs/` und den Playbooks steht.
 
+## Kein Em-Dash in der Indexzeile
+
+Das vom Harness vorgegebene Format lautet `- [Titel](datei.md) — Aufhänger` und benutzt dafür einen Em-Dash (U+2014). In diesem Repositorium ist der in `.md` verboten, und `scripts/audit/check-no-em-dash.py` prüft in Markdown die Zeilen, die ein PR **hinzufügt**. Ein Agent, der hier Memory ablegt, bringt das Gate also zu Fall, ohne etwas falsch gemacht zu haben. Schreib die Indexzeile stattdessen mit Doppelpunkt: `- [Titel](datei.md): Aufhänger`. Der Index wird von Agenten gelesen und nicht maschinell geparst, die Trennung leistet das Zeichen so gut wie das andere.
+
+Aufgetreten am 01.09.2026: der `fable-reviewer` hat in Welle 2 Memory abgelegt, die Spur hat es beim Retten aus dem Worktree in `c8a4ad1d0` übernommen und musste den Em-Dash von Hand entfernen, sonst wäre das Gate rot geworden. Das ist kein Einzelfall, sondern trifft jeden Agentenlauf, der hier schreibt, denn das Format kommt nicht aus diesem Repositorium.
+
 ## Bei einem Merge-Konflikt in `MEMORY.md`
 
 Beide Seiten stehen lassen. Das ist eine Wissensdatei und kein Zustand.

@@ -149,6 +149,8 @@ Stoppbedingungen, je Sachwelle eine, unverändert: Welle 3 endet mit der Zahl st
 - **Eigennamen sind eine eigene Menge** (2.675 Lemmata, 66.622 Tokens) und auffällig verlässlich zugeordnet. Ob sie unter „Fremdsprachigkeit" fallen, ist eine Frage an KZW und keine, die du entscheidest.
 - **Nur 4 der 6.219 Lemmata tragen ausschließlich Sprachkonzepte.** Ein Filter über die Konzeptdichte hilft also nicht, das ist geprüft.
 
+> **Nachtrag vom 01.09.2026, nach dem Abschicken.** Die beiden Zahlen im ersten Punkt sind zu niedrig: richtig sind **6.246 Lemmata** und **227.652 Korpusbelege** bei **18** Kategorien, nicht 6.219 und 225.505 bei 17. Der Grund ist ein Fehler in der Vorabmessung der Koordination, die transitive Hülle sammelte nur die Kinder von `concept_23123000` und nicht die Wurzel selbst. Die 27 fehlenden Lemmata sind inhaltlich die interessantesten des ganzen Gleises (`welsch`, `tolmetze`, `diutunge`, `ûzleger` und so weiter). Richtigstellung mit Messvorschrift als Kommentar auf #28, `issuecomment-5500152903`. Alles Übrige im Block gilt unverändert.
+
 **Welle 3 ist vorab vermessen** (Koordination, 01.09., [Kommentar auf #259](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/259#issuecomment-5493488964)). Was du dadurch nicht mehr selbst herausfinden musst, aber vor der Verwendung einmal nachmisst, weil auch das eine Behauptung ist:
 
 - **Die Stoppbedingung ist erfüllt, Welle 3 läuft.** Der Prüfdatensatz sind 8.610 Paare Schreibform → Lemma, davon 5.500 mit einem Lemma, das wir führen. Die Befundliste entsteht aus **477 Fällen**, in denen beide Seiten etwas behaupten, nicht aus Zehntausenden.
@@ -156,6 +158,14 @@ Stoppbedingungen, je Sachwelle eine, unverändert: Welle 3 endet mit der Zahl st
 - **Die im Body genannte Normalisierungsfalle greift beim Findebuch nicht**: `ʒ` kommt dort null mal vor. Die Regeln kosten nichts, also nimm sie mit, aber rechne nicht mit einem Effekt.
 - **Von `woerterbuchnetz2015` liegen nur die 22 Findebuch-Dateien vor**, die Lexer-Lemmaliste nicht. Die Referenzzahlen im Body sind deshalb nicht gegenzuprüfen. Das ist kein Grund zu warten: der Findebuch-Abgleich braucht sie nicht.
 - **`effort:` steht seit dem 01.09. auf `medium`**, nachgezogen auf die Aufwandsangabe im Body, die immer schon „Mittel" sagte.
+
+> **Nachtrag vom 02.09.2026: zwei Aussagen dieses Abschnitts sind falsch, beide von der Spur beim Bau des Skripts gefunden und von der Koordination nachgemessen** (Messvorschrift im Kommentar auf #259 vom 02.09.).
+>
+> Erstens „rechne nicht mit einem Effekt" über die Trierer Zusatzregeln. Sie tragen: mit ihnen steigen die Paare mit bekanntem Findebuch-Lemma von 5.081 auf 5.494 und die Befundmenge von 424 auf 465, also um 41 Fälle. Richtig bleibt nur der Teilsatz über das `ʒ`, das dort null mal vorkommt; die Wirkung kommt vom e-Trema in 11 % der Formen.
+>
+> Zweitens und schwerer wiegend: die 477 (gemessen 475 roh, 465 dedupliziert) sind **nicht** die Befundliste, sondern nur deren erster Teil, und sie können die Frage des Tickets nicht beantworten. Das Auswahlkriterium „die Schreibform ist bei uns selbst ein Lemma" ist genau die Bedingung, unter der Stufe 1 trifft; die Menge löst deshalb zu 100 % auf Stufe 1 auf, und die Fehlerklasse aus #224, wegen der #259 existiert, kann in ihr gar nicht auftreten. Die Gegenmenge (Schreibform bei uns kein Lemma, Findebuch-Lemma schon) ist rund zehnmal so groß, und nur dort laufen Stufe 2 und 3.
+>
+> Beide Fehler sind folgenlos geblieben, weil die Klausel in §9 danebenstand: „auch das ist eine Behauptung, miss nach". Die Spur hat gegen die ausdrückliche Anweisung gemessen und sie damit widerlegt. **Zwei von zwei vorab vermessenen Wellen trugen einen Fehler, den erst der Neubau durch die Spur fand**, und in beiden Fällen war diese Klausel das, was ihn fand.
 
 ---
 
