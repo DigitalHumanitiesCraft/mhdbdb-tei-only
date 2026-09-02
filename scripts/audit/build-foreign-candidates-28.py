@@ -136,10 +136,12 @@ def language_concepts():
     tree = parse_xml(CONCEPTS_XML)
     children = defaultdict(list)
     names = {}
+    known = set()
     for cat in tree.iter('%scategory' % TEI):
         cid = cat.get(XMLID)
         if not cid:
             continue
+        known.add(cid)
         desc = cat.find('%scatDesc' % TEI)
         if desc is None:
             continue
@@ -153,6 +155,17 @@ def language_concepts():
                 parent = (ptr.get('target') or '').lstrip('#')
                 if parent:
                     children[parent].append(cid)
+
+    # Die Wurzel muss als <category> tatsaechlich vorkommen, und das wird hier
+    # geprueft statt an der Rueckgabe. Seit die Huelle bei der Wurzel selbst
+    # startet, ist die Rueckgabe naemlich nie leer: die Schleife unten setzt
+    # out[ROOT_CONCEPT] auch dann, wenn names sie nicht kennt, und faellt auf
+    # die Id als Namen zurueck. Ein "if not concepts" beim Aufrufer waere damit
+    # toter Code, und ein umbenanntes Wurzelkonzept schriebe lautlos eine CSV
+    # mit nur der Kopfzeile und Exit 0. Genau die leere Menge, die der
+    # Docstring oben als Falle beschreibt.
+    if ROOT_CONCEPT not in known:
+        return {}
 
     out = {}
     stack = [ROOT_CONCEPT]
@@ -346,7 +359,11 @@ def main():
 
     concepts = language_concepts()
     if not concepts:
-        print('Keine Sprachkategorien unter %s gefunden.' % ROOT_CONCEPT, file=sys.stderr)
+        print('FEHLER: %s kommt in %s nicht als <category> vor.'
+              % (ROOT_CONCEPT, CONCEPTS_XML.name), file=sys.stderr)
+        print('Umbenannt oder entfernt? Ohne die Wurzel gibt es keine Kandidatenmenge,'
+              ' und eine leere Liste waere hier kein Befund, sondern ein Ausfall.',
+              file=sys.stderr)
         return 1
     candidates, n_lemmata_total = candidate_lemmata(concepts)
     tokens, texts, total_with_ref, n_files = corpus_counts(candidates)
