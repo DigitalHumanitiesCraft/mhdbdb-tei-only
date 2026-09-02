@@ -49,12 +49,63 @@ Damit ist „abba“ ein fertiger Testfall für Phase 1 Punkt 4 (Schicht-A-Kandi
 
 ## Phase 1: Kandidaten-Generierung (M, dreigleisig, unabhängig parallelisierbar)
 
-**Vorbedingung:** Lemma-Lookup reparieren. Die Recherche zu den Beispielfällen fand `blâmensier`, `missa` und `Messias` nicht, obwohl sie im Lexikon stehen (KZW-Befund 08.07.). Vor Phase 1 klären, ob das an Normalisierung, Suchpfad oder Datenzugriff liegt, sonst zieht sich der Fehler durch die gesamte Kandidatenmenge.
+**Vorbedingung: erledigt am 2026-08-10, nicht durch einen Fix, sondern durch eine Regel.** Die Recherche zu den Beispielfällen fand `blâmensier`, `missa` und `Messias` nicht, obwohl sie im Lexikon stehen (KZW-Befund 08.07.). Es war kein Bug: alle drei stehen in NFC im Authority-Index und sind auf Anhieb auffindbar. Gesucht worden war nach der **Oberflächenform** des Tokens, und die kommt in `lexicon.xml` nicht vor (`blamensir` null mal, `blamensier` null mal). **Die Kandidatenmenge wird deshalb nie über eine Zeichenkettensuche in `lexicon.xml` gebildet, sondern ausschließlich über `@lemmaRef` am Token bzw. über `variants.xml`.** Das gilt für alle drei Gleise.
 
-1. **Begriffssystem:** Lemmata, deren senses auf den `concept_23123000`-Subtree zeigen (Einzelsprachen). Achtung: das sind zunächst Lemmata, die Sprachen BEZEICHNEN (latîn, kriechisch). Liste als Quelle A mit eigener Herkunfts-Markierung.
+1. **Begriffssystem:** Lemmata, deren senses auf den `concept_23123000`-Subtree zeigen (Einzelsprachen). Liste als Quelle A mit eigener Herkunfts-Markierung. **Gebaut am 2026-09-01**, siehe „Gleis 1: gebaut" unten.
 2. **LLM-Klassifikation (Schicht B):** Batch über alle Lemmata (Form + Bedeutungen/Konzepte als Kontext). Output: (lemma_id, Quellsprache, Konfidenz, Begründung). Kein Integrationsurteil. Doppellauf für Konfidenz-Kalibrierung.
 3. **Wörterbuch-Crawl (Schicht B):** Lexer/MWB via Wörterbuchnetz-API (Pattern #73), Etymologie-Abschnitte nach Sprach-Markern (mlat., afrz., hebr., …) parsen; Quelle C. Diese Quelle ist zugleich die Kontrollinstanz für die LLM-Zuschreibungen.
 4. **Schicht-A-Kandidaten separat:** Korpus-Scan nach Passagen mit mehreren aufeinanderfolgenden Token ohne mhd. Flexion bzw. ohne Lemma-Anbindung, plus die Drei-Punkte-Prüfung auf FACH-Token. Ergebnis ist eine Belegliste, keine Lemma-Liste.
+
+### Gleis 1: gebaut (2026-09-01)
+
+Skript [`scripts/audit/build-foreign-candidates-28.py`](../../scripts/audit/build-foreign-candidates-28.py), Liste in [`ingest/foreign-lang/28-gleis1-kandidaten.csv`](../../ingest/foreign-lang/28-gleis1-kandidaten.csv). Read-only, ein Lauf erzeugt die Tabelle, Laufzeit rund zwei Minuten. Die Werte in der Prosa darunter (die 27, die 41 unbelegten Namen, 10.169 von 10.171, 35,6 %, 12,95 und die Vergleichszahlen der Vorabmessung) sind Nebenrechnungen an denselben Quellen und kommen nicht aus dem Lauf.
+
+| Messung | Wert |
+|---|---:|
+| Kategorien unter `concept_23123000` | 17 benannte Sprachen plus die Wurzel |
+| Lemmata mit mindestens einem Sprachkonzept | 6.246 von 43.879 (14,23 %) |
+| davon im Korpus unbelegt | 222 |
+| Tokens über `@lemmaRef` | 227.652 von 7.546.243 (3,02 %) |
+| Eigennamen (belegt) | 2.636 Lemmata, 66.634 Tokens |
+| ohne Eigennamen (belegt) | 3.388 Lemmata, 161.018 Tokens |
+| davon ab 501 Belegen | 26 Lemmata, 124.369 Tokens (77,2 % der Nicht-Namen-Tokens) |
+| davon darunter | 3.362 Lemmata, 36.649 Tokens |
+| Lemmata, die ausschließlich Sprachkonzepte tragen | 4 |
+
+Vier Befunde, die den Zuschnitt der Phase bestimmen:
+
+**Der Entscheidungsraum für Schicht B sinkt um knapp Faktor 13**, von 43.879 auf 3.362 plus 26 zur Handprüfung (43.879 / 3.388 = 12,95). Gleis 1 ersetzt Gleis 2 damit nicht, aber es verkleinert dessen Aufgabe erheblich.
+
+**Die Wurzel gehört in die Menge, und sie war der teuerste Einzelfehler dieser Phase.** Ein Subtree enthält seine Wurzel: 31 Lemmata hängen mit einem Sense direkt an `concept_23123000`, 27 davon ohne jeden Treffer in einer der 17 benannten Sprachkategorien. Es sind genau die, die Gleis 1 sucht (`englisch`, `welsch`, `enwelsch`, `rotwalsch`, `tolmetze`, `bardes`), und ein Lauf, der nur die echten Nachfahren nimmt, verliert sie lautlos. Sichtbar wird die Zuordnung im Report als eigene Zeile „Einzelsprachen"; sie ist die unspezifische Angabe „irgendeine Einzelsprache" und darf nicht wie `Lateinisch` gelesen werden.
+
+**Nach Belegzahl sortiert steht das Rauschen oben, und ein Frequenz-Cutoff wäre trotzdem falsch.** `niht` trägt „Lateinisch" und allein 35,6 % der Tokenmenge; in derselben obersten Klasse stehen `bischof` (3.035), `klâr` (2.530) und `engel` (2.165), alles echte Lehnwörter, dazu über die Wurzel `zunge` (1.271). Der Grund liegt im Baum: `concept_23123000` hängt unter `concept_23120000` („Kommunikation/Sprache") und ist ein **Bedeutungs-, kein Herkunftsfeld**. Die frühere Annahme in diesem Dokument, es handle sich zunächst um Lemmata, die Sprachen *bezeichnen* (`latîn`, `kriechisch`), greift zu kurz: die Kategorie trägt beides und dazu Fälle, die keines von beidem sind. Die 26 gehören einzeln angesehen, nicht pauschal verworfen.
+
+**Ein Filter über die Konzeptdichte hilft nicht.** Nur 4 der 6.246 Lemmata tragen ausschließlich Sprachkonzepte; die Masse trägt drei bis acht, von denen eines ein Sprachkonzept ist.
+
+### Zwei Nachträge, gemessen nach der zweiten Review-Runde
+
+Beide sind eigene Messungen an denselben Quellen, nicht Ausgaben des Skripts, und beide gehören in die Planung von Phase 2.
+
+**Das Korpus disambiguiert Senses, und Phase 2 kann das nutzen.** `@lemmaRef` zeigt auf das Lemma, aber die Tokens tragen daneben ein `@ana` auf den Sense (`lexicon.xml#lemma_1979_sense_31536`). Das ist nichts Neues, sondern in [TEI-MODEL.md §4.1](../TEI-MODEL.md) normativ beschrieben, samt Migrationsgeschichte (`@meaningRef` zu `@ana`, 667 von 667 Dateien, rund 5,9 Millionen Vorkommen). Neu ist nur, was es für diese Kandidatenmenge hergibt. Über sie gemessen: **210.262 der 227.652 Tokens (92,4 %) tragen ein `@ana`**, und 5.784 der 6.246 Lemmata haben mindestens eines.
+
+**Für diese Menge trennt das Signal allerdings selten**, und das ist der Grund, es hier hinzuschreiben statt es später zu entdecken: die 6.246 Kandidaten tragen zusammen nur 6.996 Senses, sind also fast durchweg einsinnig, und **6.872 dieser Senses (98,2 %) tragen selbst ein Sprachkonzept**. Entsprechend zeigen 209.832 der disambiguierten Tokens auf einen Sprach-Sense und nur **430** auf einen anderen. Diese 430 sind aber genau die Stellen, an denen der Bestand einer Zuordnung ausdrücklich widerspricht, und damit das schärfste maschinelle Ausschlusskriterium, das Gleis 1 hat.
+
+**Die `gebrechen`-Familie ist der Fall, an dem das sichtbar wird, und eine Frage an KZW.** `gebrechen` (`lemma_1979`, 341 Belege in 101 Texten), `engebrechen` und `gebrechenhaft` tragen das Sprachkonzept nur an ihrem vierten von vier Senses, gemeinsam mit `concept_23121000` („Mündliche Kommunikation"); ihre übrigen Senses sitzen auf Mangel und auf Charaktereigenschaften. `lexicon.xml` führt zu keinem der drei Einträge ein `<def>` oder ein `<note>`, aus dem Lexikon ist die Lesart also nicht zu klären. Aus dem Korpus schon: von den **40 sense-disambiguierten Tokens der drei Lemmata zeigt genau eines auf einen Sprach-Sense**, `JT_30921000_5`, und es liest sich
+
+> secureiz wol kunde hie beidenthalp **gebrechen**
+> die rede von ir munde .
+
+also als Abbrechen der Rede, nicht als gebrochene Sprachbeherrschung. Ob der vierte Sense überhaupt auf Fremdsprachigkeit zielt oder nur auf das Stocken des Sprechens, entscheidet KZW; die drei sind bis dahin weder Kandidaten noch Rauschen, sondern eine offene Frage. **Damit stehen von den 27 Wurzel-Lemmata 24 klar im Thema und 3 offen**, statt aller 27 im einen oder anderen Lager.
+
+Ein Hinweis der Koordination dazu, **unbelegt und ausdrücklich als Vermutung geführt**: für Schicht A (Code-Switching im Text) könnten die 24 der bessere Einstieg sein als die lateinischen Zitatwörter, weil dort, wo `tolmetze` oder `welsch` steht, der Sprachwechsel das Thema des Textes ist und nicht sein Nebenprodukt. Gemessen ist das nicht.
+
+*Messvorschrift der Nachträge: `@ana` je `<w>` im `<body>` der 667 Dateien, Sense-Ids whitespace-getrennt und token-genau; Sprach-Sense heißt, dass die `conceptIds` des Sense in `api/lemmata/index.json` mindestens ein Konzept der Hülle enthalten. `<def>` und `<note>` je `<entry>` in `authority-files/lexicon.xml`.*
+
+### Zählweise der Eigennamen
+
+Sie verschiebt das Ergebnis, deshalb steht sie hier: **ein Lemma gilt als Eigenname, wenn `NAM` in `posAll` steht, nicht wenn `pos == "NAM"` ist.** `pos` ist laut Authority-Index-Changelog 1.6.0 der *Erstwert* der Wortartenliste und nicht die Hauptlesart, und `posAll` ist praktisch alphabetisch sortiert (10.169 von 10.171 mehrdeutigen Lemmata). Im Kandidatenkreis urteilen die beiden Kriterien bei genau **zwei** Lemmata verschieden, beide mit `pos=ART`, weil `ART` alphabetisch vor `NAM` steht: `lemma_3141` („Joie de la Court", 12 Belege) und `lemma_46979` („li Granz", unbelegt).
+
+Gegen die Vorabmessung vom 01.09. (2.675 Lemmata, 66.622 Tokens) gerechnet: die **Token**-Differenz von 12 erklärt `lemma_3141` allein, die **Lemma**-Differenz braucht beide Fälle und die unbelegten dazu, denn die Vorabmessung zählte über alle Kandidaten statt nur über die belegten (2.675 + 2 − 41 unbelegte Namen = 2.636). Die Zahlen sind trotz der geänderten Kandidatenmenge vergleichbar: unter den 27 Lemmata, die erst mit der Wurzel hinzukommen, ist kein einziger Eigenname.
 
 ## Phase 2: Kuratierung (M, Mensch im Loop)
 

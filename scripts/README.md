@@ -37,6 +37,7 @@ scripts/
 ├── audit/                       # Korpus- & Authority-Analyse, CI-Gates
 │   ├── audit-tei-corpus.py      # Element/Attribut-Inventar des Korpus
 │   ├── audit-authority-files.py # Struktur-Audit der Authority Files (authority→authority)
+│   ├── build-foreign-candidates-28.py # Kandidatenmenge Fremdsprachigkeit aus dem Begriffssystem (#28)
 │   ├── build-issue-matrix.py    # Triage-Matrix #44 aus den Issue-Labels bauen (#44)
 │   ├── check-authority-cross-refs.py # Korpus→Authority Cross-Ref-Integrität (#44/#115)
 │   ├── check-author-refs.py     # titleStmt/author gegen persons.xml (#228)
@@ -56,6 +57,7 @@ scripts/
 │   ├── coverage-bias-check.py   # Coverage-Bias der pro-1000-Raten (#309)
 │   ├── doc-count-audit.py       # Zählungen aus den Daten gegen die Doku prüfen
 │   ├── drop-negative-variant-corresp.py # tote @corresp aus <w> entfernen (#115)
+│   ├── measure-216-vrouwe-minne.py # Groesse der vrouwe-Luecke vor minne messen (#216/#387)
 │   ├── measure-stage3-resolution.py # Wirkung von Stufe 3 der Lemma-Auflösung (#224)
 │   ├── parallel-witness-bias.py # Verzerrung je Werkzeug durch Parallelüberlieferung (#255)
 │   ├── quantify-unannotated-tokens.py # unannotierte Wortformen korpusweit zählen (#189)
