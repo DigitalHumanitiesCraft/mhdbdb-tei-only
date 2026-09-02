@@ -262,7 +262,7 @@ Implement dual expiration policy in IndexedDB:
 **Mitigations:**
 - Version increment in build scripts forces refetch
 - Clear documentation for cache invalidation
-- ~~Future: Add "Clear cache" button in UI~~ **Shipped.** Measured 2026-09-02: `initClearSiteData` in `assets/js/site-chrome.js` wires a clear-site-data button that sits in the build-injected footer (`includes/_footer.html`) and therefore in **every** delivered page, 14 of them by a search for `id="clearSiteDataBtn"` across the repository, plus the include itself as the source. It is covered by `testing/tests/site-chrome.spec.js`. The line stood here as a plan long after it was one
+- ~~Future: Add "Clear cache" button in UI~~ **Shipped.** Measured 2026-09-02: `initClearSiteData` in `assets/js/site-chrome.js` wires a clear-site-data button that sits in the build-injected footer (`includes/_footer.html`) and therefore in every page that carries the shared chrome: **14** by a search for `id="clearSiteDataBtn"`, plus the include itself as the source. Of the 16 pages the site delivers, `api/index.html` and `404.html` are the two without it, by decision rather than by drift (`build-pages.py` gives them analytics only, see `MATOMO_PAGES`). It is covered by `testing/tests/site-chrome.spec.js`. The line stood here as a plan long after it was one
 
 ---
 
