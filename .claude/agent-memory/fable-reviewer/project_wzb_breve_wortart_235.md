@@ -20,10 +20,21 @@ Review-Runde 1 zu `scripts/ingest/wzb/wzb-breve-wortart.py` am 2026-09-02 (Zweig
   dito und rein alphabetisch 927 (Differenz: `W` plus weicher Trennstrich), kein Zeichen
   mit `islower()` 926 (Differenz zu 928: `IICAPᵐ` und `ᵐ`, U+1D50 gilt Python als
   Kleinbuchstabe), nur A-Z 922. Der CI-Bot hat in #389 gemeldet, die 922 sei `\p{Lu}+`
-  und A-Z ergebe 919; beides stammt aus `rg -c`, und das zaehlt Zeilen mit Treffer, nicht
-  Tokens. Zeilenzaehlung taugt hier nicht, weil mehrere <w> in einer Zeile stehen
-  koennen. Sie zerreissen Woerter in zwei Scheintoken (22 Folgen unann/CAPS+/unann,
-  18 davon echte Woerter).
+  und A-Z ergebe 919, gemessen mit `rg -c '<w xml:id="[^"]*">[A-Z]+</w>'`. Das ist keine
+  Zeilenfalle: `rg -c` und `rg -o | wc -l` liefern in der WZB dasselbe (919/919, 922/922),
+  und 0 von 235.993 Zeilen tragen mehr als ein `<w>`. Die Differenz ist das Muster: es
+  laesst nur `<w>` mit xml:id als einzigem Attribut zu, und drei A-Z-Tokens ohne @lemmaRef
+  tragen `pos="DIG"` (XU, UIII, XU). Dass `\p{Lu}+` per rg auch 922 ergibt, ist Zufall
+  (919 plus Γ, Ⱡ, OꝚ). Die Kolumnentitel zerreissen Woerter in zwei Scheintoken (22 Folgen
+  unann/CAPS+/unann, 18 davon echte Woerter).
+- `variants.xml` haelt NICHT je Normalform genau ein Ziel: 4.972 von 234.243 Normalformen
+  (MHG-normalisiert ueber alle `<form>`) zeigen auf mehr als ein Lemma, `grossen` auf drei
+  (lemma_2534, lemma_2535, lemma_31392 gros). Der Backfill-Matcher legt solche Faelle als
+  `lemma-mehrdeutig` in den Review, er waehlt nicht. Jede "Einwertigkeit"-Behauptung ueber
+  variants.xml ist damit Klasse B.
+- `grozen` mit lemmaRef lemma_2534 und pos ADJ: 1.209 Tokens (lxml, itertext, NFC,
+  mhg_normalizer), egal ob body-only oder ganze Datei. Die 1.223 aus PR #389 hat keine
+  Vorschrift, die sie reproduziert.
 - `vor` (lemma_7194) PRP/ADV nach Wortart rechts: die Zahlen 738:6 und 158:105 sind nur
   reproduzierbar mit NP-Start = {DET, ADJ, NOM, NAM, PRO, POS, NUM}; der Legacy-Tag ART
   (51 PRP, 2 ADV) faellt in "sonst". Multi-pos-Tokens (Leerzeichen im @pos) zaehlen als

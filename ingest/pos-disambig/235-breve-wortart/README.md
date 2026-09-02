@@ -149,14 +149,21 @@ Beleg. Zählvorschrift: alle `<w>` im `<body>` der 667 Dateien, deren MHG-normal
 Oberflächenform `groesen` ist.
 
 **Ein zweiter Entwurf dieser Begründung stand kurzzeitig hier und war falsch**, gefunden vom
-CI-Review-Bot in Runde 1. Er sagte, `variants.xml` halte je Normalform genau ein Ziel und
-die 1.223-fach belegte Adjektivform habe deshalb gegen die 13 Verbbelege gewonnen. Die
-Einwertigkeit stimmt und trifft dieses Lemmapaar sogar wirklich, aber an einer anderen Form:
-*grossen* steht unter beiden (`type_59047` unter `lemma_2534`, `type_117361` unter
-`lemma_2535`). Die 1.223 Tokens waren an der Normalform `grozen` gemessen, das Token
-normalisiert auf `groesen`. **Eine Messung am einen Schlüssel als Erklärung für den anderen
-ausgegeben:** derselbe Fehler wie die Abwesenheitsabfrage zwei Absätze weiter oben, nur eine
-Runde später.
+CI-Review-Bot. Er sagte, `variants.xml` halte je Normalform genau ein Ziel, und die häufigere
+Adjektivform habe deshalb gegen die 13 Verbbelege gewonnen. Die Belegzahl darin war an der
+Normalform `grozen` gemessen, das Token normalisiert aber auf `groesen`. **Eine Messung am
+einen Schlüssel als Erklärung für den anderen ausgegeben:** derselbe Fehler wie die
+Abwesenheitsabfrage zwei Absätze weiter oben, nur eine Runde später.
+
+**Und die Prämisse dieses Entwurfs war ebenfalls falsch, gefunden von der lokalen
+Review-Runde 2 und hier nachgemessen: `variants.xml` ist nicht einwertig.** 4.972 der 234.243
+MHG-normalisierten Formen zeigen auf mehr als ein Lemma; *grossen* zeigt sogar auf drei
+(`lemma_2534`, `lemma_2535`, `lemma_31392` *gros*). Einwertig ist erst die daraus **gebaute**
+Karte im Authority-Index: `data/authority-index.json.gz` führt unter `variants` zu jeder
+Normalform genau einen String. Der Backfill-Matcher wählt in solchen Fällen nicht, sondern
+legt sie als `lemma-mehrdeutig` in den Review (`scripts/ingest/wzb/wzb-breve-backfill.py`).
+Für `groesen` ist das ohne Folgen, dort steht auch in der XML nur ein Ziel. Wer über
+`variants.xml` argumentiert, muss also sagen, ob er die Quelle oder die gebaute Karte meint.
 
 Die dreistufige Auflösung des Frontends ist davon **nicht** betroffen: für die Eingabe
 *grôzen* trifft schon Stufe 1 auf `lemma_2535`, Stufe 2 kommt gar nicht dran. Betroffen
