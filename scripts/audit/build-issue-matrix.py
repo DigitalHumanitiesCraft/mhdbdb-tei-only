@@ -314,20 +314,29 @@ def pruefe_roadmap(geschlossene):
     beachtet. Auch Aufzaehlungszeilen mitzunehmen kostet schon einen Fehlalarm
     (#187 steht als datierter Rueckblick da, nicht als offener Punkt).
 
-    Der Preis dieser Enge sind zwei blinde Flecke, beide bewusst: ein Eintrag,
-    der spaeter als Aufzaehlung statt als Tabellenzeile geschrieben wird, faellt
-    heraus, und eine fehlende ROADMAP.md liefert eine leere Trefferliste, die
-    von 'nichts zu melden' nicht zu unterscheiden ist. Der zweite ist der
-    harmlosere, weil das Fehlen der Datei in diesem Repo selbst auffaellt; der
-    dritte moegliche, eine abgeschnittene Issue-Liste, ist in issue_liste()
-    geschlossen und nicht hier.
+    Der Preis dieser Enge ist ein blinder Fleck: ein Eintrag, der spaeter als
+    Aufzaehlung statt als Tabellenzeile geschrieben wird, faellt heraus. Die
+    beiden anderen sind geschlossen: eine abgeschnittene Issue-Liste faengt
+    issue_liste() ab, und eine fehlende ROADMAP.md wirft hier.
+
+    Der Wurf statt einer leeren Trefferliste ist die Lehre aus dem ersten Tag
+    dieses Gates. Es stand hier ein stilles `return []`, mit der Begruendung,
+    das Fehlen der Datei falle in diesem Repositorium selbst auf. Im einzigen
+    automatischen Aufrufer fiel es nicht auf: issue-matrix.yml checkte
+    `scripts/audit` sparse aus, docs/ROADMAP.md war nie vorhanden, und das Gate
+    meldete taeglich gruen, ohne je eine Zeile gelesen zu haben. Damit war es
+    genau das, wogegen es gebaut wurde: konfiguriert, gruen, prueft nichts.
+    Gefunden hat es der CI-Review-Bot auf PR #396 am 02.09.2026; drei lokale
+    Reviewrunden hatten den Zweig gesehen und die Checkout-Konfiguration nicht
+    aufgemacht.
 
     Warnung, kein Fehler: ein geschlossenes Issue in der ROADMAP ist ein
-    Pflegerueckstand und kein kaputter Build.
+    Pflegerueckstand und kein kaputter Build. Das gilt auch fuer den Ausfall
+    dieser Pruefung selbst, siehe main().
     """
     pfad = Path(ROADMAP)
     if not pfad.exists():
-        return []
+        raise FileNotFoundError(pfad)
     treffer = []
     for zeile_nr, zeile in enumerate(
             pfad.read_text(encoding='utf-8').splitlines(), start=1):
@@ -707,7 +716,27 @@ def main():
     for f in fehler:
         print(f'::error title=Label-Luecke::{f}', file=sys.stderr)
 
-    for zeile_nr, nr in pruefe_roadmap(hole_geschlossene()):
+    # Beide Ausfaelle dieser Pruefung sind Warnungen und duerfen den Hauptzweck
+    # nicht abbrechen: das Schreiben des Bodys haengt an den OFFENEN Issues und
+    # ist von der ROADMAP unabhaengig. SystemExit faengt den Saettigungs-Abbruch
+    # aus issue_liste(), der sonst vor baue() greifen wuerde, obwohl er nur die
+    # geschlossenen betrifft (CI-Review-Bot, PR #396).
+    try:
+        roadmap_treffer = pruefe_roadmap(hole_geschlossene())
+    except FileNotFoundError:
+        roadmap_treffer = []
+        print(f'::warning::{ROADMAP} ist im Arbeitsverzeichnis nicht '
+              f'vorhanden, die ROADMAP-Pruefung ist ausgefallen. Im Workflow '
+              f'gehoert die Datei in die sparse-checkout-Liste.',
+              file=sys.stderr)
+    except SystemExit:
+        roadmap_treffer = []
+        print('::warning::Die Liste der geschlossenen Issues ist an ihrem '
+              'Limit angekommen, die ROADMAP-Pruefung ist ausgefallen. Limit '
+              'in hole_geschlossene() erhoehen. Der Body wird trotzdem '
+              'geschrieben.', file=sys.stderr)
+
+    for zeile_nr, nr in roadmap_treffer:
         print(f'::warning file={ROADMAP},line={zeile_nr}::#{nr} steht in '
               f'{ROADMAP} als Eintrag, ist aber nicht mehr offen. Zeile '
               f'streichen oder mit dem neuen Stand weiterfuehren.',

@@ -106,7 +106,22 @@ closed when the file was last edited.
 | #63 | update of the concept system | scope and policy (KZW) |
 | #93 | moving the text series typology (from marketext.at to a MHDBDB subpage): SKOS data from the `textseries` repository, tree visualization; dysfunctional `dhplus` URIs to clean up | visualization plus a comparison against the authority files |
 | #109 | FWF single project (deep corpus analysis, NER pipeline, phonetic rhyme analysis, visualizations): proposal by KZW, small budget, max. 50 % external funds | a scope note for the proposal text |
-| index size and a splitting strategy | the budget question of #111 is **decided and gated**: [ADR-019](DECISIONS.md) sets 50 MB gz / 200 MB raw for the corpus index, `scripts/audit/check-index-budget.py` measures it in `data-integrity.yml`, and the issue is closed. Measured 2026-09-02: 42.23 MB gz, **84 percent** of the budget, 7.77 MB of headroom | no field is pre-selected. ADR-019 fixes only the rule for choosing: the breached axis names the field (gz → `texts[].lemmata`, raw → `texts[].words`). The next trigger is a feature, not a date: #27 and #109 breach the budget in every combination of their estimates |
+
+**Index size and a splitting strategy** stands here without an issue number, and
+that is deliberate: the budget question of #111 is **decided and gated**, and the
+issue is closed. [ADR-019](DECISIONS.md) sets 50 MB gz / 200 MB raw for the corpus
+index, `scripts/audit/check-index-budget.py` measures it in `data-integrity.yml`.
+Measured 2026-09-02: 42.23 MB gz, **84 percent** of the budget, 7.77 MB of
+headroom. No field is pre-selected. ADR-019 fixes only the rule for choosing: the
+breached axis names the field (gz → `texts[].lemmata`, raw → `texts[].words`). The
+next trigger is a feature, not a date: #27 and #109 breach the budget in every
+combination of their estimates.
+
+It sits outside the table for the same reason as the paragraph above: a row in a
+table whose first column is `#` has to carry a number, and this point no longer
+does. Writing prose into that column instead would leave `pruefe_roadmap()`
+structurally blind to the row, and a gate that a text edit can switch off is worse
+than a formatting inconsistency.
 
 #106 (verse boundary features) left this table on 2026-09-02, closed.
 

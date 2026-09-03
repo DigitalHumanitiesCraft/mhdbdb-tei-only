@@ -117,6 +117,21 @@ def scan_min_for(key: str) -> int:
 # das Gegenteil sind: eine Entscheidung. Das Target bleibt konfiguriert, damit
 # eine spaeter doch eingesetzte Zahl sofort gegatet ist.
 INTENTIONALLY_SILENT = {
+    # Die beiden folgenden sind ein Sonderfall und keine Feststellung
+    # "ohne Zahl": beide Dateien FUEHREN die Zahl, sie ist nur nicht
+    # scanbar. NUMBER_WORDS beginnt bewusst bei fuenf, weil "zwei Gruende"
+    # und "three steps" in Prosa staendig vorkommen und jede kleinere
+    # Zahl Fehlalarme erzeugen wuerde. curated_datasets ist mit dem Wert 2
+    # der einzige Count unterhalb dieser Grenze, und beide Dateien
+    # schreiben ihn als Wort ("zwei kuratierte Forschungsdatensaetze",
+    # "two curated research datasets") statt als Ziffer. docs/FEATURES.md
+    # schreibt "2 curated datasets" und ist deshalb gebunden und wirksam.
+    # Wer NUMBER_WORDS eines Tages nach unten oeffnet, misst vorher die
+    # Fehlalarme und streicht dann diese beiden Eintraege.
+    ('README.md', 'curated_datasets'):
+        'schreibt die Zahl als Wort "zwei"; NUMBER_WORDS beginnt bei fuenf',
+    ('playground/readme.md', 'curated_datasets'):
+        'schreibt die Zahl als Wort "two"; NUMBER_WORDS beginnt bei fuenf',
     ('README.md', 'entry_points'):
         'nennt Explorer, Werkzeuge und kuratierte Datensaetze einzeln, nie die Summe',
     ('docs/ARCHITECTURE.md', 'entry_points'):
@@ -331,9 +346,17 @@ CODE_LABELS = [
 # Ziffer ("all 18 entry points") — der numerische Scan oben greift dafuer
 # nicht (Untergrenze 100). Eigener Wortzahl-Scan mit engen Ankern.
 CODE_DOC_TARGETS = [
-    ('README.md', ['tei_tools', 'authority_explorers', 'entry_points']),
+    # curated_datasets war seit #392 berechnet, stand in CODE_LABELS und in
+    # CODE_ANCHORS und war an keine einzige Datei gebunden. Damit lief weder
+    # find_stale_wordcounts noch check_anchor_coverage je darueber, der Anker
+    # war tote Konfiguration, und die Meldung "keine Ankerluecke" stimmte nur
+    # deshalb, weil das Paar gar nicht konfiguriert war (CI-Review-Bot auf
+    # PR #396, 02.09.2026). Gebunden an die drei Dateien, die die Zahl
+    # tatsaechlich fuehren.
+    ('README.md', ['tei_tools', 'authority_explorers', 'entry_points',
+                   'curated_datasets']),
     ('docs/INDEX.md', ['tei_tools', 'entry_points']),
-    ('docs/FEATURES.md', ['tei_tools', 'entry_points']),
+    ('docs/FEATURES.md', ['tei_tools', 'entry_points', 'curated_datasets']),
     ('docs/ARCHITECTURE.md', ['tei_tools', 'pattern_modules', 'entry_points',
                               'ui_modules']),
     ('docs/DESIGN.md', ['pattern_modules']),
@@ -345,7 +368,8 @@ CODE_DOC_TARGETS = [
     # der zwoelf TEI-Werkzeuge auf und nannte an dritter Stelle "11 search
     # types"; der Katalog ist jetzt ein Verweis auf FEATURES.md, die beiden
     # Summen bleiben und werden deshalb hier gebunden.
-    ('playground/readme.md', ['tei_tools', 'authority_explorers']),
+    ('playground/readme.md', ['tei_tools', 'authority_explorers',
+                              'curated_datasets']),
 ]
 
 NUMBER_WORDS = {
@@ -361,7 +385,17 @@ NUMBER_WORDS = {
 
 CODE_ANCHORS = {
     'tei_tools': r'(?:TEI-Analyse-?[Ww]erkzeuge|TEI-Analysewerkzeuge|(?:TEI[- ])?analysis tools|Analyse-Werkzeuge|Werkzeuge)',
-    'curated_datasets': r'kuratierte[nr]?\s+Forschungsdatens(?:ae|ä)tze|curated\s+(?:external\s+)?datasets',
+    # 'research' muss mit: playground/readme.md schreibt 'two curated
+    # research datasets', und ohne diese Alternative war der Anker dort
+    # blind, sobald die Bindung oben ihn ueberhaupt erst benutzte.
+    # Geklammert, und das ist nicht kosmetisch: ANCHOR_SEP wird dem
+    # Muster vorangestellt, und eine Alternation auf oberster Ebene
+    # ergibt (SEP + A) | B. Der zweite Zweig verlaere damit den
+    # Separator und muesste unmittelbar hinter der Zahl stehen, was
+    # '2 curated datasets' nie erfuellt. Dieser Anker war als einziger
+    # der sechs ungeklammert und fiel nicht auf, solange er an keine
+    # Datei gebunden war.
+    'curated_datasets': r'(?:kuratierte[nr]?\s+Forschungsdatens(?:ae|ä)tze|curated\s+(?:external\s+|research\s+)?datasets)',
     # Beide Sprachen: die Docs stellen auf Englisch um (#316), DESIGN.md
     # traegt den Count noch deutsch. Ohne die englische Variante ging die
     # Bindung in ARCHITECTURE.md still verloren, als "die elf Analyse-Module"
