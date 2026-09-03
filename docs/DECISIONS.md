@@ -262,7 +262,7 @@ Implement dual expiration policy in IndexedDB:
 **Mitigations:**
 - Version increment in build scripts forces refetch
 - Clear documentation for cache invalidation
-- Future: Add "Clear cache" button in UI
+- ~~Future: Add "Clear cache" button in UI~~ **Shipped.** Measured 2026-09-02: `initClearSiteData` in `assets/js/site-chrome.js` wires a clear-site-data button that sits in the build-injected footer (`includes/_footer.html`) and therefore in every page that carries the shared chrome: **14** by a search for `id="clearSiteDataBtn"`, plus the include itself as the source. Of the 16 pages the site delivers, `api/index.html` and `404.html` are the two without it, by decision rather than by drift (`build-pages.py` gives them analytics only, see `MATOMO_PAGES`). It is covered by `testing/tests/site-chrome.spec.js`. The line stood here as a plan long after it was one
 
 ---
 
@@ -386,7 +386,7 @@ Implement client-only architecture with GitHub Pages hosting:
 
 **Negative:**
 - Limited to browser memory (~2GB typical)
-- Large initial download (~43 MB indexes: 3 MB authority + 40 MB corpus, gzipped)
+- Large initial download (both indexes gzipped; for the current sizes and the budget they are measured against see [ADR-019](#adr-019-the-index-budget-warns-instead-of-failing-and-its-two-thresholds-pull-a-split-in-opposite-directions), which is the one place that carries the figures with a measuring rule)
 - No real-time updates (requires rebuild)
 - Cannot perform server-side joins
 - Search performance depends on client device

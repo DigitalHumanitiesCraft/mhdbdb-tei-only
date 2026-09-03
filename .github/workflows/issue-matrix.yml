@@ -33,12 +33,18 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Checkout
-        # Nur das Skript wird gebraucht, nicht das TEI-Korpus: ein voller
-        # Checkout zoege das 667-Dateien-Korpus und die Indexe fuer nichts
-        # mit herunter.
+        # Nur das Skript und die eine gepruefte Datei, nicht das TEI-Korpus:
+        # ein voller Checkout zoege das 667-Dateien-Korpus und die Indexe fuer
+        # nichts mit herunter. docs/ROADMAP.md muss mit, seit pruefe_roadmap()
+        # sie liest: ohne sie lief das Gate hier dauerhaft ins Leere und meldete
+        # gruen (gefunden vom CI-Review-Bot auf PR #396, 02.09.2026). Wer diese
+        # Liste kuerzt, schaltet die Pruefung ab, ohne dass es auffaellt; das
+        # Skript warnt seit demselben Tag sichtbar, wenn die Datei fehlt.
         uses: actions/checkout@v6
         with:
-          sparse-checkout: scripts/audit
+          sparse-checkout: |
+            scripts/audit
+            docs/ROADMAP.md
           sparse-checkout-cone-mode: false
 
       - name: Set up Python

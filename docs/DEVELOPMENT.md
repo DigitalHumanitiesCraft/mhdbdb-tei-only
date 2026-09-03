@@ -95,7 +95,7 @@ python scripts/build-authority-index.py
 
 # Build corpus index
 python scripts/build-corpus-index.py
-# Output: data/corpus-index.json.gz (~40 MB, v4.1.x)
+# Output: data/corpus-index.json.gz (~42 MB; current version in TEI-MODEL.md §11)
 
 # Validate indices
 python scripts/validate-indices.py
@@ -338,7 +338,7 @@ Two kinds are mixed here, and the difference is the important one: **gates** hav
 
 ### Skipped Tests (Issue #43 – resolved)
 
-No tests are currently skipped (0 skipped project-wide). The 25 tests formerly disabled in `main-site.spec.js` (phase 7 and phase 0 refactoring) were reactivated or replaced in commit `259bc505a` (2026-02-24, „88 passing, 0 skipped"); #43 is settled with that.
+No tests are currently skipped (0 skipped project-wide). 25 tests were disabled before commit `259bc505a` (2026-02-24, „88 passing, 0 skipped"), and they did not all sit in one file: measured against `259bc505a^`, 9 of them were in `main-site.spec.js` and 4 in `tei-caching.spec.js` (both under `test.describe.skip`), and those 13 are the ones that were **reactivated**. The remaining 12 were **deleted** rather than revived: 5 in `visual-mobile-test.spec.js` (one `test.skip` per viewport, and that file itself stayed), 3 in `modal-debug.spec.js` and 4 in `modal-simple.spec.js` (both under `test.describe.skip`, both files removed). The commit deleted five debug specs in all, but only those two carried skips: `check-console`, `corpus-debug` and `playground-quick-test` were **active** tests when they were removed. #43 is settled with that.
 
 ### Manual Testing Checklist
 
@@ -357,10 +357,10 @@ Before deploying:
 
 - **main:** Production-ready code, stable releases
 - **Feature branches:** `feature/your-feature-name`
-- **Historical branches:**
-  - `pre-main-site` - Old XML parsing architecture (archived)
-  - `initial-data-wrangling` - RDF/Relational DB → TEI transformation (archived)
-  - `feature/wenzelsbibel-ingest` - Wenzelsbibel text ingest (Issue #34, active)
+- **Historical branches:** measured against `git branch -r` on 2026-09-02, only one of these still exists
+  - `initial-data-wrangling` - RDF/Relational DB → TEI transformation (archived, still on `origin`)
+  - `pre-main-site` - Old XML parsing architecture (deleted)
+  - `feature/wenzelsbibel-ingest` - Wenzelsbibel text ingest (Issue #34); the branch is gone, the WZB work has been on `main` since the 2026-05-08 ingest
 
 ### Development Workflow
 
@@ -392,11 +392,20 @@ Co-Authored-By: Claude <noreply@anthropic.com>"
 # 6. Push (ONLY AFTER USER APPROVAL)
 git push -u origin feature/your-feature-name
 
-# 7. Merge to main
-git checkout main
-git merge feature/your-feature-name
-git push origin main
+# 7. Merge via pull request. This is a convention, not a lock:
+# measured 2026-09-02, the ruleset on `main` carries exactly two rules,
+# `deletion` and `non_fast_forward`. There is no required review and no
+# required status check, so a fast-forward `git push origin main` DOES go
+# through. What the ruleset prevents is deleting the branch and rewriting
+# its history, which means „never force push to main" from CLAUDE.md is one
+# of the few rules here that is technically enforced rather than agreed.
+# Open the PR anyway, so the gates in data-integrity.yml and
+# no-cdn-check.yml get to run before the merge:
+gh pr create --fill
+gh pr merge --squash
 ```
+
+Small documentation changes are the exception and go straight to `main`, see CLAUDE.md → Git Rules.
 
 ### Commit Guidelines
 

@@ -106,8 +106,10 @@ import argparse
 import contextlib
 import io
 import json
+import re
 import subprocess
 import sys
+from pathlib import Path
 
 if sys.stdout.encoding and sys.stdout.encoding.lower() not in ('utf-8', 'utf8'):
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', line_buffering=True)
@@ -172,6 +174,23 @@ def abbruch(meldung):
     sys.exit(2)
 
 
+class ListeGesaettigt(RuntimeError):
+    """Eine Issue-Liste hat ihr Limit ausgeschoepft und ist moeglicherweise
+    abgeschnitten.
+
+    Eigene Ausnahme und kein abbruch(), weil der Aufrufer entscheiden muss:
+    bei den OFFENEN Issues ist eine abgeschnittene Liste ein Abbruchgrund,
+    der Body haengt an ihnen. Bei den geschlossenen betrifft sie nur die
+    ROADMAP-Pruefung, und die ist ausdruecklich Warnung und kein Fehler.
+
+    Der Umweg ueber abbruch() hat genau diese Unterscheidung gekostet: er
+    endet in sys.exit(2), und gh() tut das bei einem Rate Limit oder einem
+    abgelaufenen Token auch. Ein `except SystemExit` haette den einen Fall
+    nicht vom anderen trennen koennen und einen echten gh-Ausfall als
+    "Limit erhoehen" gemeldet, bei gruenem Job (CI-Review-Bot, PR #396).
+    """
+
+
 def gh(args):
     """`gh` aufrufen und stdout zurueckgeben, sonst mit Exit 2 aussteigen."""
     try:
@@ -184,9 +203,36 @@ def gh(args):
     return res.stdout
 
 
+def issue_liste(state, felder, limit):
+    """`gh issue list` mit einer Obergrenze, die sich meldet, wenn sie greift.
+
+    `--limit` ist eine Obergrenze, keine Seitengroesse: `gh` paginiert intern
+    und schneidet bei N still ab, mit Exit 0. Eine Abfrage, die genau N Zeilen
+    liefert, ist deshalb nicht als vollstaendig zu lesen, und ein Gate auf einer
+    abgeschnittenen Liste beruhigt, ohne zu decken: es meldet einfach nichts
+    mehr. Darum hier Abbruch statt Warnung. Er kostet einmal eine Zeile im
+    Skript und ist die einzige Stelle, an der die Saettigung ueberhaupt
+    sichtbar wird.
+    """
+    roh = json.loads(gh(['issue', 'list', '--state', state,
+                         '--limit', str(limit), '--json', felder]))
+    if len(roh) >= limit:
+        raise ListeGesaettigt(
+            f'gh issue list --state {state} hat das Limit von {limit} '
+            f'ausgeschoepft ({len(roh)} Eintraege). Die Liste ist '
+            f'moeglicherweise abgeschnitten, und jede Auswertung darauf '
+            f'waere still unvollstaendig. Limit in issue_liste() erhoehen.')
+    return roh
+
+
 def hole_issues():
-    roh = json.loads(gh(['issue', 'list', '--state', 'open', '--limit', '300',
-                         '--json', 'number,title,labels,createdAt,comments']))
+    # Hier bleibt die Saettigung ein Abbruch: der Body von #44 wird aus diesen
+    # Issues gebaut, und eine abgeschnittene Liste hiesse ein stiller
+    # Teil-Body. Bei den geschlossenen entscheidet main() anders, siehe dort.
+    try:
+        roh = issue_liste('open', 'number,title,labels,createdAt,comments', 300)
+    except ListeGesaettigt as exc:
+        abbruch(str(exc))
     for i in roh:
         i['labels'] = sorted(l['name'] for l in i['labels'])
         i['still_seit'] = letzte_wortmeldung(i)
@@ -259,6 +305,69 @@ def pruefe(issues):
         if unbekannt:
             fehler.append(f'#{nr}: unbekanntes wait-Label: {", ".join(unbekannt)}')
     return fehler
+
+
+ROADMAP = 'docs/ROADMAP.md'
+
+
+def hole_geschlossene():
+    """Die Nummern der geschlossenen Issues. Bewusst nicht 'alles, was nicht
+    offen ist': Issues und PRs teilen sich bei GitHub den Nummernraum, und
+    `gh issue list` liefert keine PRs. Gegen 'nicht offen' zu pruefen meldet
+    daher jede PR-Nummer, und die ROADMAP fuehrt eine Merge-Tabelle, deren
+    erste Spalte aus PR-Nummern besteht. Beim ersten Lauf hat genau das die
+    gemergten #245 und #246 gemeldet."""
+    return {i['number'] for i in issue_liste('closed', 'number', 1000)}
+
+
+def pruefe_roadmap(geschlossene):
+    """Geschlossene Issues finden, die in docs/ROADMAP.md noch als Eintrag stehen.
+
+    Anlass (Health-Check 02.09.): sechs Eintraege kuendigten Arbeit oder eine
+    Antwort an, obwohl die Issues geschlossen waren, und fuenf davon waren es
+    schon, als die Datei zuletzt bearbeitet wurde (07.08.). Eine Ermahnung reicht
+    dagegen erkennbar nicht.
+
+    Erkannt wird NUR eine Nummer in der ersten Spalte einer Tabellenzeile, also
+    der Eintrag selbst. Das ist gemessen und nicht geschaetzt: gegen den Stand
+    vor den Korrekturen des 02.09. meldet diese Variante 6 Zeilen, und alle
+    sechs sind echt (#106, #111, #129, #140, #172, #224); gegen den Stand danach
+    meldet sie 0. Jede `#N` im Dokument zu pruefen haette 45 gemeldet, weil die
+    Datei PR-Nummern und Rueckblicke auf erledigte Arbeit im Fliesstext fuehrt.
+    Ein Gate, das beim ersten Lauf 45 Zeilen meldet, wird abgeschaltet statt
+    beachtet. Auch Aufzaehlungszeilen mitzunehmen kostet schon einen Fehlalarm
+    (#187 steht als datierter Rueckblick da, nicht als offener Punkt).
+
+    Der Preis dieser Enge ist ein blinder Fleck: ein Eintrag, der spaeter als
+    Aufzaehlung statt als Tabellenzeile geschrieben wird, faellt heraus. Die
+    beiden anderen sind geschlossen: eine abgeschnittene Issue-Liste faengt
+    issue_liste() ab, und eine fehlende ROADMAP.md wirft hier.
+
+    Der Wurf statt einer leeren Trefferliste ist die Lehre aus dem ersten Tag
+    dieses Gates. Es stand hier ein stilles `return []`, mit der Begruendung,
+    das Fehlen der Datei falle in diesem Repositorium selbst auf. Im einzigen
+    automatischen Aufrufer fiel es nicht auf: issue-matrix.yml checkte
+    `scripts/audit` sparse aus, docs/ROADMAP.md war nie vorhanden, und das Gate
+    meldete taeglich gruen, ohne je eine Zeile gelesen zu haben. Damit war es
+    genau das, wogegen es gebaut wurde: konfiguriert, gruen, prueft nichts.
+    Gefunden hat es der CI-Review-Bot auf PR #396 am 02.09.2026; drei lokale
+    Reviewrunden hatten den Zweig gesehen und die Checkout-Konfiguration nicht
+    aufgemacht.
+
+    Warnung, kein Fehler: ein geschlossenes Issue in der ROADMAP ist ein
+    Pflegerueckstand und kein kaputter Build. Das gilt auch fuer den Ausfall
+    dieser Pruefung selbst, siehe main().
+    """
+    pfad = Path(ROADMAP)
+    if not pfad.exists():
+        raise FileNotFoundError(pfad)
+    treffer = []
+    for zeile_nr, zeile in enumerate(
+            pfad.read_text(encoding='utf-8').splitlines(), start=1):
+        m = re.match(r'\|\s*#(\d+)\s*\|', zeile)
+        if m and int(m.group(1)) in geschlossene:
+            treffer.append((zeile_nr, int(m.group(1))))
+    return treffer
 
 
 def entschaerfe(titel):
@@ -630,6 +739,31 @@ def main():
     fehler = pruefe(issues)
     for f in fehler:
         print(f'::error title=Label-Luecke::{f}', file=sys.stderr)
+
+    # Beide Ausfaelle dieser Pruefung sind Warnungen und duerfen den Hauptzweck
+    # nicht abbrechen: das Schreiben des Bodys haengt an den OFFENEN Issues und
+    # ist von der ROADMAP unabhaengig. Eng gefangen wird nur ListeGesaettigt:
+    # ein echter gh-Ausfall (Rate Limit, abgelaufenes Token) soll weiterhin mit
+    # Exit 2 rot werden, statt als "Limit erhoehen" durchzugehen.
+    try:
+        roadmap_treffer = pruefe_roadmap(hole_geschlossene())
+    except FileNotFoundError:
+        roadmap_treffer = []
+        print(f'::warning::{ROADMAP} ist im Arbeitsverzeichnis nicht '
+              f'vorhanden, die ROADMAP-Pruefung ist ausgefallen. Im Workflow '
+              f'gehoert die Datei in die sparse-checkout-Liste.',
+              file=sys.stderr)
+    except ListeGesaettigt as exc:
+        roadmap_treffer = []
+        print(f'::warning::Die ROADMAP-Pruefung ist ausgefallen: {exc} Der '
+              f'Body wird trotzdem geschrieben, er haengt an den offenen '
+              f'Issues.', file=sys.stderr)
+
+    for zeile_nr, nr in roadmap_treffer:
+        print(f'::warning file={ROADMAP},line={zeile_nr}::#{nr} steht in '
+              f'{ROADMAP} als Eintrag, ist aber nicht mehr offen. Zeile '
+              f'streichen oder mit dem neuen Stand weiterfuehren.',
+              file=sys.stderr)
 
     block = baue(issues)
 

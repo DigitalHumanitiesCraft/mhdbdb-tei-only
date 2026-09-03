@@ -62,39 +62,43 @@ Both are the same type of error: the ROADMAP describes the state of a document i
 
 ## Next: pings to people (after the merges)
 
-| # | What | Who's needed |
-|---|------|-------------|
-| #115 | cross-ref phase 2, 196 lemmata to be handled curatorially (A 125 / B 36 / C 35) | KZW |
-| #129 | KWIC citations: built and live since June, the review is still pending | KZW |
-| #138 | the div/lg wrappers are still waiting for review. The render policy question about the DIG stanza counters (Julia, 2026-07-17) was answered by KZW on 2026-07-28 („take them all out of this text") and is done for HUG: 814 numerals removed in PR #243, HUG now stands at 0. What is open is the corpus-wide run, and it has to key on the xml:id block rather than on `@pos`, because 108 of HUG's 814 numerals carried no `@pos` at all. Baseline after #243: 4,077 `w[@pos="DIG"]` in 79 texts, in reality more | KZW |
-| #228 | new: the editorial apparatus in `<note n=…>` is lemmatized as text (400 tokens in 165 notes across 16 texts, not counting the GWTK notes with whole verse blocks; corpus-wide 587 notes with 2,458 tokens). Remove the annotation? | KZW |
-| #239 | on 2026-07-29 KZW asked for a fresh explanation („I have lost the thread"); answered on 2026-07-30 with measured group counts (input „wein": 67 word-final, 149 word-initial, 191 word-medial, 50 of them attested word formations). Two questions remain: is `winter` acceptable in the word-initial group (the positional definition demands it), and should the filter „only attested word formations" be on by default? Recommendation: off, because the lexicon records components for only 61.9 percent of the lemmata | KZW |
-| #250 | on 2026-07-29 KZW decided both points (an expandable section suffices, a synthetic label only where it can be checked cleanly). A third point was added and quantified on 2026-07-30: since the FR3 nesting, 19 of 127 sections lose their verse counting anchor and the visible 1 wanders to the parallel witness. All three points are implemented and live: PR #257 (reader), PR #261 (the three Frauenlob headers), `2fb20ad64` (counting anchor). Only acceptance is pending, including KZW's confirmation that point 2 was solved differently from her proposal | KZW |
-| #252 | on 2026-07-29 KZW decided: genuine omissions should be `<gap/>`, while `<caesura/>` stays reserved for the deliberate caesura within a verse line. That makes the migration of 971 places in 21 texts workable (a data block, Data-Change-Lifecycle) | KZW's answer is in |
-| #255 | new on 2026-07-30: do witness variants count as independent text in frequency, keyness and hapax? Three decision questions in the issue, and the technical implementation hangs on the first alone | KZW |
-| #169 | new on 2026-07-29: the three released findings are implemented (PR #245), acceptance is pending. Hit counts for proximity searches with 3+ lemmata go down, which is intended and dated in the JOURNAL | KZW |
-| #224 | the fix is merged and live; what remains open is the breve question for the base characters `w`, `n`, `y`, `z` (64 lemmatized tokens) | Julia |
-| #59 | naming question for the specialists (a draft of the Alexander workaround has been in the issue since 2026-07-12, team approval before pinging Linda). The table view of #114 is off this list: Linda accepted it on 2026-07-13 and the issue was closed on 2026-08-05 | Linda (via the team) |
-| #92 | ARITHMETIC: metadata questions open since 2026-05-16; the escaping blocker is merged (#185), stage 1 takes ~1 to 2 h after that | Carina (via KZW) |
-| #147 | Weingrüße: license, sigle, genre, attributions, stage 0 | Silvan (via KZW) |
-| #86 | accessibility: the contact block is live (barrierefreiheit.html, #179); close after the text is approved | Alan van Beek |
-| (no issue) | putting Brom and Nieser in touch: Brom asked about own or fine-tuned language models on MHDBDB data, ParzivAI is the nearest answer and interesting for both sides. State of play in [RESEARCH.md → Downstream Reuse and Related Projects](RESEARCH.md#downstream-reuse-and-related-projects) | chsteiner (to Vlastimil Brom and Florian Nieser) |
+**Who is waiting on whom is generated daily into the body of
+[#44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/44)**, from the
+`wait:*` labels, by `scripts/audit/build-issue-matrix.py`. Read it there.
+
+Until 2026-09-02 the same list stood here a second time, hand-maintained, 15 rows.
+It had drifted, as an ungenerated copy of a generated list does: two of its rows named
+issues that had been closed for weeks, #129 since 2026-07-10 and #224 since 2026-08-06,
+both of them already closed when the file was last edited on 2026-08-07. Four further
+dead rows stood elsewhere in the file (#140, #172 and #106 closed before that edit,
+#111 two days after it), and they were cleaned up in the same pass. This is the failure
+mode #316 removed on 2026-08-02 for the table „Recently Completed", and the ping table
+was simply left behind in that cleanup.
+
+One row does not fit into #44 and therefore stays here, because it has no issue to
+carry a label:
+
+- **Putting Brom and Nieser in touch** (chsteiner, to Vlastimil Brom and Florian
+  Nieser). Brom asked about own or fine-tuned language models on MHDBDB data;
+  ParzivAI is the nearest answer and interesting for both sides. State of play in
+  [RESEARCH.md → Downstream Reuse and Related Projects](RESEARCH.md#downstream-reuse-and-related-projects)
 
 ## Needs clarification: the decision cluster (chsteiner)
 
 | # | What | Key question |
 |---|------|-------------|
-| #140 | human-readable documentation | the cleanup is implemented (PR #215, 2026-07-12); both detail questions from the acceptance of 2026-07-27 are settled (the DRAFT header removed from TEI-MODEL.md, PR #230; „Woesner" spelled uniformly repo-wide, no variant „Wösner"/„Wosner" in the stock, no change needed). What remains open is acceptance by KZW |
 | #169 | search semantics (audit 3/6) | all four points implemented (the point numbers are audit findings, not issue numbers): point 45, the 3-stage drift, in PR #227 (ADR-016), points 15/48/51 on 2026-07-29 after KZW's approval of 2026-07-28. What remains open is acceptance. The break in the numbers for proximity searches with 3+ lemmata is in the JOURNAL of 2026-07-29 |
-| #172 | test suite policy (audit 6/6) | the 45 % passRate floor is gone with #326: the assertion sat in `testing/tests/playground.spec.js` and went away together with the tests on the deleted test page. What remains are the corpus-dependent magic numbers |
 | #18 | multi-lemma plus PoS search | the POS policy (#27/#181) is merged and it can be specified; it needs POS data in the corpus index |
+
+Two rows left this table on 2026-09-02 because their issues are closed: **#140**
+(human-readable documentation) and **#172** (test suite policy). Both were already
+closed when the file was last edited.
 
 ## Future: needs design, or waiting for a trigger
 
 | # | What | Key question |
 |---|------|-------------|
 | #141 | Borte ingest: task 0 (the borte.md metadata template) is delivered in the issue | KZW's prioritization (after #139) |
-| #106 | verse boundary features: the minimal variant shipped on 2026-07-02, rolling backlog | original tokens and phonetics go to #109 |
 | #28 | foreign language annotation: the data phase plan is merged (`docs/features/FREMDSPRACHEN-PHASENPLAN-28.md`, the lemma level leads) | implement phases 0 to 4 in the next data slot |
 | #139 | ingest the CoReMA corpus | trigger and capacity |
 | #118 | language stages from authority data | policy plus an architecture decision |
@@ -102,7 +106,24 @@ Both are the same type of error: the ROADMAP describes the state of a document i
 | #63 | update of the concept system | scope and policy (KZW) |
 | #93 | moving the text series typology (from marketext.at to a MHDBDB subpage): SKOS data from the `textseries` repository, tree visualization; dysfunctional `dhplus` URIs to clean up | visualization plus a comparison against the authority files |
 | #109 | FWF single project (deep corpus analysis, NER pipeline, phonetic rhyme analysis, visualizations): proposal by KZW, small budget, max. 50 % external funds | a scope note for the proposal text |
-| #111 | soft cap on index size and a modular splitting strategy | trigger at >50 MB gz (today ~40); options A modular / B brotli / C binary; no decision until the threshold is reached |
+
+**Index size and a splitting strategy** stands here without an issue number, and
+that is deliberate: the budget question of #111 is **decided and gated**, and the
+issue is closed. [ADR-019](DECISIONS.md) sets 50 MB gz / 200 MB raw for the corpus
+index, `scripts/audit/check-index-budget.py` measures it in `data-integrity.yml`.
+Measured 2026-09-02: 42.23 MB gz, **84 percent** of the budget, 7.77 MB of
+headroom. No field is pre-selected. ADR-019 fixes only the rule for choosing: the
+breached axis names the field (gz → `texts[].lemmata`, raw → `texts[].words`). The
+next trigger is a feature, not a date: #27 and #109 breach the budget in every
+combination of their estimates.
+
+It sits outside the table for the same reason as the paragraph above: a row in a
+table whose first column is `#` has to carry a number, and this point no longer
+does. Writing prose into that column instead would leave `pruefe_roadmap()`
+structurally blind to the row, and a gate that a text edit can switch off is worse
+than a formatting inconsistency.
+
+#106 (verse boundary features) left this table on 2026-09-02, closed.
 
 ## What is finished lives in the JOURNAL
 

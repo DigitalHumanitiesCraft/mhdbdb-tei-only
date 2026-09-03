@@ -37,7 +37,7 @@ Visual and interaction patterns for the MHDBDB TEI Repository. Complements [ARCH
 
 ### Multi-Lemma Highlight Palette
 
-**Authoritative source: `tei-text-reader.js` constructor (lines 24-31)**
+**Authoritative source: `this.lemmaColors` in the `TEITextReader` constructor (`assets/js/rendering/tei-text-reader.js`).** Search for the property name, not a line number: the anchor stated here used to be „lines 24-31" and had drifted to 47-53 by 2026-09-02.
 
 These colors are used by the reading view for multi-lemma highlighting:
 
@@ -52,11 +52,12 @@ These colors are used by the reading view for multi-lemma highlighting:
 **Color assignment:** `colors[idx % 5]` – sequential, wraps after 5 lemmas.
 
 **Also defined in:**
-- `korpus.css` (Z. 637-691) – `.multi-lemma-{lemmaId}` classes, hardcoded per lemma ID (879=red, 7532=green, 1816=blue, 26713=pink, 712=orange) plus a `[class*="multi-lemma-"]` purple fallback
-- `playground/css/style.css` – duplicate of the korpus.css `.multi-lemma-*` block (verbatim)
+- `playground/css/style.css` – `.multi-lemma-{lemmaId}` classes, hardcoded per lemma ID (879=red, 7532=green, 1816=blue, 26713=pink, 712=orange) plus a `[class*="multi-lemma-"]` purple fallback. Measured 2026-09-02: 6 such selectors, and this is the only file that carries them
 - `ui-helpers.js` `LEMMA_COLORS` – playground proximity search
 
 **Note:** The CSS `.multi-lemma-*` classes are lemma-ID-keyed (not index-keyed like the JS `colors[idx % 5]` palette) and are applied to playground proximity result cards. The reading view does not use them – it applies the JS inline styles from `tei-text-reader.js`.
+
+This document listed the same block as duplicated into `korpus.css` until 2026-09-02. It is not: `6a9849314` (2026-07-13) removed it from there and left a comment in its place saying so, and a count against `korpus.css` returns 0. The reading view had never used those classes, which is what the note above already said.
 
 Single `<mark>` highlight (single-lemma mode): `#fbbf24` bg / `#78350f` text.
 
@@ -111,7 +112,7 @@ text-sm font-semibold uppercase tracking-wider text-slate-500
 
 All icons inherit color via `currentColor`.
 
-**Reference**: `assets/js/app.js:213-226` (document-text, book-open examples).
+**Reference**: the `teiBtn` and `readBtn` icons in `assets/js/app.js` (document-text and book-open). Search for the button variable, not a line number: the anchor stated here used to be „213-226" and had drifted to 350/357 by 2026-09-02.
 
 **Exception**: Filled mini-icons in playground corpus stats use `viewBox="0 0 20 20"` with `fill="currentColor"` at `w-3 h-3`.
 
@@ -158,7 +159,7 @@ Checkbox accent: `accent-color: #3b75d8`.
 
 ## Playground TEI-Analysis Module Pattern
 
-Eleven analysis modules under `playground/js/ui/tei/` share a consistent structure (the router `tei-ui.js` and the modal controller `multi-lemma-search.js` do not follow the pattern). Anyone adding a new analysis tool should follow it: modules that deviate for no visible reason make the playground feel inconsistent and break conventions the router and the sidebar buttons build on.
+Twelve analysis modules under `playground/js/ui/tei/` share a consistent structure (the router `tei-ui.js` and the modal controller `multi-lemma-search.js` do not follow the pattern). Anyone adding a new analysis tool should follow it: modules that deviate for no visible reason make the playground feel inconsistent and break conventions the router and the sidebar buttons build on.
 
 **Canonical examples:** `lemma-distribution.js` (#90), `verse-position-search.js` (#47.3), `concept-distribution.js` (#47 R2 + #113 autocomplete), `text-comparison.js` (#108), `cooccurrence-ranking.js` (#107), `rhyme-dictionary.js` (#106), `naming-explorer.js` (#59, deviation: its own lazily fetched index `data/naming-index.json.gz` instead of a corpus thunk).
 
@@ -562,6 +563,6 @@ Source: `assets/css/korpus.css` (post-#17 reader-view styling). Element-to-class
 
 ## Known Inconsistencies
 
-- Multi-lemma highlight CSS duplicated in `korpus.css` and `playground/css/style.css` (+ JS array in `ui-helpers.js`)
+- Multi-lemma highlight colors live in two places: the `.multi-lemma-*` CSS in `playground/css/style.css` and the JS array `LEMMA_COLORS` in `ui-helpers.js`. (The third copy, in `korpus.css`, is gone since `6a9849314`.)
 - Lemma page uses inline `<style>` instead of a dedicated CSS file
 - `#3b75d8` hardcoded in some places instead of using `--accent-primary` or `brand-500`
