@@ -368,8 +368,13 @@ CODE_DOC_TARGETS = [
     # der zwoelf TEI-Werkzeuge auf und nannte an dritter Stelle "11 search
     # types"; der Katalog ist jetzt ein Verweis auf FEATURES.md, die beiden
     # Summen bleiben und werden deshalb hier gebunden.
+    # ui_modules mit #396: die Datei nannte 23 Module, gemessen 24 seit
+    # #193 horses-explorer.js dazugekommen ist, und war als einzige
+    # Datei mit dieser Zahl nicht gebunden. Der Anker greift hier ohne
+    # Umweg: '24 Module' ist zweistellig, steht unmittelbar hinter der
+    # Zahl, und kein Skip faengt die Zeile ab.
     ('playground/readme.md', ['tei_tools', 'authority_explorers',
-                              'curated_datasets']),
+                              'curated_datasets', 'ui_modules']),
 ]
 
 NUMBER_WORDS = {

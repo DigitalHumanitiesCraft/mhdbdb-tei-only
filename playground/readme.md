@@ -121,7 +121,7 @@ The suite is repo-wide, not per sub-app: `npm test` from the repository root, an
 
 - **`SearchHelpers.js`** (`playground/js/ui/search/`) - wiederverwendbare Suchmuster, exportiert `SearchPatterns`
 
-*Die vier Namen `AuthorityExplorers.js`, `TEIExplorer.js`, `XPathInterface.js` und `MultiLemmaSearch.js` standen bis Juli 2026 hier und benennen keine Datei im Repo. Der aktuelle Modulbaum steht in [ARCHITECTURE.md](../docs/ARCHITECTURE.md) (23 Module unter `playground/js/ui/`). Ein fünfter Eintrag, `UICore.js`, ist mit #314 weggefallen, weil er genau die beiden gelöschten Module benannte.*
+*Die vier Namen `AuthorityExplorers.js`, `TEIExplorer.js`, `XPathInterface.js` und `MultiLemmaSearch.js` standen bis Juli 2026 hier und benennen keine Datei im Repo. Der aktuelle Modulbaum steht in [ARCHITECTURE.md](../docs/ARCHITECTURE.md) (24 Module unter `playground/js/ui/`). Ein fünfter Eintrag, `UICore.js`, ist mit #314 weggefallen, weil er genau die beiden gelöschten Module benannte.*
 
 ### Utilities
 
