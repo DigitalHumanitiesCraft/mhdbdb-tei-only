@@ -174,6 +174,23 @@ def abbruch(meldung):
     sys.exit(2)
 
 
+class ListeGesaettigt(RuntimeError):
+    """Eine Issue-Liste hat ihr Limit ausgeschoepft und ist moeglicherweise
+    abgeschnitten.
+
+    Eigene Ausnahme und kein abbruch(), weil der Aufrufer entscheiden muss:
+    bei den OFFENEN Issues ist eine abgeschnittene Liste ein Abbruchgrund,
+    der Body haengt an ihnen. Bei den geschlossenen betrifft sie nur die
+    ROADMAP-Pruefung, und die ist ausdruecklich Warnung und kein Fehler.
+
+    Der Umweg ueber abbruch() hat genau diese Unterscheidung gekostet: er
+    endet in sys.exit(2), und gh() tut das bei einem Rate Limit oder einem
+    abgelaufenen Token auch. Ein `except SystemExit` haette den einen Fall
+    nicht vom anderen trennen koennen und einen echten gh-Ausfall als
+    "Limit erhoehen" gemeldet, bei gruenem Job (CI-Review-Bot, PR #396).
+    """
+
+
 def gh(args):
     """`gh` aufrufen und stdout zurueckgeben, sonst mit Exit 2 aussteigen."""
     try:
@@ -200,15 +217,22 @@ def issue_liste(state, felder, limit):
     roh = json.loads(gh(['issue', 'list', '--state', state,
                          '--limit', str(limit), '--json', felder]))
     if len(roh) >= limit:
-        abbruch(f'gh issue list --state {state} hat das Limit von {limit} '
-                f'ausgeschoepft ({len(roh)} Eintraege). Die Liste ist '
-                f'moeglicherweise abgeschnitten, und jede Auswertung darauf '
-                f'waere still unvollstaendig. Limit in issue_liste() erhoehen.')
+        raise ListeGesaettigt(
+            f'gh issue list --state {state} hat das Limit von {limit} '
+            f'ausgeschoepft ({len(roh)} Eintraege). Die Liste ist '
+            f'moeglicherweise abgeschnitten, und jede Auswertung darauf '
+            f'waere still unvollstaendig. Limit in issue_liste() erhoehen.')
     return roh
 
 
 def hole_issues():
-    roh = issue_liste('open', 'number,title,labels,createdAt,comments', 300)
+    # Hier bleibt die Saettigung ein Abbruch: der Body von #44 wird aus diesen
+    # Issues gebaut, und eine abgeschnittene Liste hiesse ein stiller
+    # Teil-Body. Bei den geschlossenen entscheidet main() anders, siehe dort.
+    try:
+        roh = issue_liste('open', 'number,title,labels,createdAt,comments', 300)
+    except ListeGesaettigt as exc:
+        abbruch(str(exc))
     for i in roh:
         i['labels'] = sorted(l['name'] for l in i['labels'])
         i['still_seit'] = letzte_wortmeldung(i)
@@ -718,9 +742,9 @@ def main():
 
     # Beide Ausfaelle dieser Pruefung sind Warnungen und duerfen den Hauptzweck
     # nicht abbrechen: das Schreiben des Bodys haengt an den OFFENEN Issues und
-    # ist von der ROADMAP unabhaengig. SystemExit faengt den Saettigungs-Abbruch
-    # aus issue_liste(), der sonst vor baue() greifen wuerde, obwohl er nur die
-    # geschlossenen betrifft (CI-Review-Bot, PR #396).
+    # ist von der ROADMAP unabhaengig. Eng gefangen wird nur ListeGesaettigt:
+    # ein echter gh-Ausfall (Rate Limit, abgelaufenes Token) soll weiterhin mit
+    # Exit 2 rot werden, statt als "Limit erhoehen" durchzugehen.
     try:
         roadmap_treffer = pruefe_roadmap(hole_geschlossene())
     except FileNotFoundError:
@@ -729,12 +753,11 @@ def main():
               f'vorhanden, die ROADMAP-Pruefung ist ausgefallen. Im Workflow '
               f'gehoert die Datei in die sparse-checkout-Liste.',
               file=sys.stderr)
-    except SystemExit:
+    except ListeGesaettigt as exc:
         roadmap_treffer = []
-        print('::warning::Die Liste der geschlossenen Issues ist an ihrem '
-              'Limit angekommen, die ROADMAP-Pruefung ist ausgefallen. Limit '
-              'in hole_geschlossene() erhoehen. Der Body wird trotzdem '
-              'geschrieben.', file=sys.stderr)
+        print(f'::warning::Die ROADMAP-Pruefung ist ausgefallen: {exc} Der '
+              f'Body wird trotzdem geschrieben, er haengt an den offenen '
+              f'Issues.', file=sys.stderr)
 
     for zeile_nr, nr in roadmap_treffer:
         print(f'::warning file={ROADMAP},line={zeile_nr}::#{nr} steht in '
