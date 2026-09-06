@@ -125,6 +125,15 @@ Rebuilt on 2026-08-05, from 28 labels down to 16. The scheme is built **for agen
 
 **Half of #44 is generated.** `scripts/audit/build-issue-matrix.py` writes the quick stats, the ping list and one table per autonomy level between the `MATRIX` markers in the issue body; `issue-matrix.yml` runs it daily. Everything outside the markers is hand-written and carries a date, not a truth. The same run checks the axes: a ticket without `auto:*` turns the run red **and** gets named in the body itself, because it falls out of every table while the headline count still includes it.
 
+**Read the comments, never only the body. Always** (chsteiner, 2026-09-06). In this project the body of an issue is where the question was *first* asked, and the thread is where it was answered, narrowed, measured and often turned around. A session that reads only the body is not underinformed, it is misinformed, and it will redo work that is already merged or ask for a decision that has already been made. Measured on the tickets open on 2026-09-06:
+
+- **#216** carries the whole work package in its 12 comments. The body describes 6,982 unannotated `minne` tokens and does not contain the word *vrouwe*. That the next step is 155 `vrouwe` tokens, that KZW decided the five ambiguous ones on 2026-09-01, that the personification is to become its own NAM lemma rather than `lemma_4130` with `pos="NAM"`, that the remainder was split off into #387: none of it is in the body.
+- **#392, #393, #394** each say „zu entscheiden" in the body while their comments say the work is implemented and merged. Acting on those bodies means redoing #396.
+- **#390** asks three coding questions of @wachauer in its body. Its single comment answers all three and adds the measurement that the answers rest on.
+- **#28** has a body from 2025-11 and a correction chain in the comments in which the author twice withdraws his own earlier finding, including one measurement that was short by 27 lemmata.
+
+The cheap version of this rule: `issue_read` with `method: "get_comments"` on every ticket you touch, and page through when there are more than a handful. The body is the oldest text in the ticket, and in an active project the oldest text is the least likely to be true.
+
 Rules that keep the matrix from rotting, which is what happened to the old labels:
 
 - **Never start an `auto:blocked` issue "anyway".** Several of them have their material sitting outside the repo entirely.
