@@ -19,11 +19,28 @@ Antwort vom 01.09. gilt der Anrede vor minne und nicht den uebrigen Belegen).
 Ein Fall ist ein <w> im <body>, das
 
   1. KEIN @lemmaRef traegt,
-  2. formal vrouwe ist, und
+  2. formal vrouwe ist,
   3. dessen normalisierte Schreibung im gesamten Korpus nur ein einziges
-     Lemma traegt, naemlich lemma_7260 (vrouwe), das genau eine Wortart fuehrt.
+     Lemma traegt, naemlich lemma_7260 (vrouwe), das genau eine Wortart fuehrt,
+  4. und dessen Schreibung dafuer genug Zeugen hat (MIN_BELEGE, siehe unten).
 
-Punkt 3 ist die Stelle, an der dieses Skript strenger ist als eine
+**Punkt 4 ist teuer erkauft und der eigentliche Grund, warum dieses Skript
+nicht bloss eine Kopie des Vorgaengers ist.** Punkt 3 allein laesst eine Form
+durch, die im Korpus genau EINMAL annotiert ist: eine Menge mit einem Element
+ist trivial eindeutig. Gemessen am 06.09.2026 gab es genau so einen Fall.
+Die Schreibung fvrn kommt im Korpus zweimal vor. Einmal annotiert, in RF:
+"fvrn hersante schande was niht kleine", also die Anrede vor dem Namen der
+Woelfin Hersant, korrekt lemma_7260. Und einmal unannotiert, in NLA:
+"wie si ze der hohzit fvrn", und das ist das Verb. Punkt 3 allein haette das
+Verb zur Frau gemacht, mit lemmaRef, pos und corresp, und die Begruendung
+"kommt im Korpus nur unter lemma_7260 vor" waere dabei formal wahr gewesen.
+
+Belegzahlen der sieben in Frage kommenden Schreibungen, am 06.09.2026 gemessen
+(annotiert als lemma_7260 gegen unannotierte Kandidaten): fraw 434/546,
+frow 254/330, vrowen 2.217/68, frovwe 215/1, vrov 59/2, frov 6/1, fvrn 1/1.
+Der Abstand zwischen 6 und 1 ist die Stelle, an der die Aussage kippt.
+
+Punkt 3 ist ausserdem die Stelle, an der dieses Skript strenger ist als eine
 Kandidatenabfrage im Variantenwoerterbuch. Beide Quellen sagen ueber diesen
 Bestand dasselbe, aber sie sind nicht dasselbe: variants.xml ist korpus-
 abgeleitet und kann hinter dem Korpus herhinken. Gemessen wird deshalb am
@@ -75,6 +92,27 @@ XML_ID = "{http://www.w3.org/XML/1998/namespace}id"
 
 LEMMA_VROUWE = "lemma_7260"
 VARIANTS = REPO / "authority-files" / "variants.xml"
+
+# Wie viele annotierte Belege eine Schreibung braucht, damit "im Korpus
+# eindeutig" eine Aussage ist und keine Trivialitaet. Zwei waeren die
+# logische Untergrenze (mit einem Zeugen ist jede Menge einwertig); dass hier
+# 5 steht, ist eine Ermessensentscheidung mit Messung dahinter: der Abstand
+# in den Belegzahlen liegt zwischen 6 (frov) und 1 (fvrn), und in dieser
+# Luecke laesst sich die Schwelle setzen, ohne einen Fall zu erzwingen.
+# Schreibungen darunter werden nicht verworfen, sondern gelesen: sie landen
+# in offene-faelle.csv mit dem Grund, und wer sie einzeln geprueft hat, traegt
+# sie in GEPRUEFT ein.
+MIN_BELEGE = 5
+
+# Schreibungen unterhalb von MIN_BELEGE, die von Hand gelesen und bestaetigt
+# wurden. Als Schreibung und nicht als xml:id, weil hier nicht der Einzelfall
+# entschieden wird, sondern ob die Schreibung ueberhaupt die Anrede sein kann.
+GEPRUEFT = {
+    # 6 Belege, alle in FLG/FLG1 und alle die Anrede vor einem Titel:
+    # "frov kuenegin" neben "frovwe kuenegin" im selben Text. Gelesen am
+    # 06.09.2026.
+    "frov",
+}
 
 PROSA_FENSTER = 15
 BLOCK_LOCAL = {"p", "head", "div", "lg", "body"}
@@ -130,8 +168,13 @@ def typen_am_lemma():
 
 
 def sammle_formen_lemmata(dateien):
-    """Je normalisierter Oberflaechenform die Menge ALLER Lemmata am Bestand."""
+    """Je normalisierter Form die Lemmata UND die Zahl der lemma_7260-Belege.
+
+    Die Zahl wird gebraucht, weil Eindeutigkeit ohne Belegbasis nichts sagt
+    (siehe MIN_BELEGE und den Fall fvrn im Modul-Docstring).
+    """
     form2lemmata = defaultdict(set)
+    belege = Counter()
     for fp in dateien:
         root = etree.parse(str(fp)).getroot()
         for w in root.iter(W_TAG):
@@ -140,9 +183,12 @@ def sammle_formen_lemmata(dateien):
                 continue
             txt = token_text(w)
             if txt:
-                form2lemmata[normalize_mhg(txt)] |= ids
+                nf = normalize_mhg(txt)
+                form2lemmata[nf] |= ids
+                if LEMMA_VROUWE in ids:
+                    belege[nf] += 1
         root.clear()
-    return form2lemmata
+    return form2lemmata, belege
 
 
 def main():
@@ -157,7 +203,7 @@ def main():
     dateien = list(corpus_files())
     print("Korpusdateien: %d" % len(dateien))
 
-    form2lemmata = sammle_formen_lemmata(dateien)
+    form2lemmata, belege = sammle_formen_lemmata(dateien)
     inventar = {f for f, ls in form2lemmata.items() if LEMMA_VROUWE in ls}
     eindeutig = {f for f in inventar if form2lemmata[f] == {LEMMA_VROUWE}}
     print("Formeninventar lemma_7260: %d Formen, davon %d ausschliesslich"
@@ -190,6 +236,9 @@ def main():
             if nf not in eindeutig:
                 grund = "mehrdeutig: auch %s" % ", ".join(
                     sorted(form2lemmata[nf] - {LEMMA_VROUWE}))
+            elif belege[nf] < MIN_BELEGE and nf not in GEPRUEFT:
+                grund = ("Belegbasis zu duenn: %d annotierte Belege, "
+                         "Schwelle %d" % (belege[nf], MIN_BELEGE))
             elif txt[i] not in typen:
                 grund = "kein Variantentyp unter %s fuer die Rohform" % LEMMA_VROUWE
 
