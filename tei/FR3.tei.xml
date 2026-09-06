@@ -161,6 +161,7 @@
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 38 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/). 20 weitere Tokens der Form minne blieben bewusst unannotiert (Review).</change>
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 54 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/). 1 weitere Tokens der Form stat blieben bewusst unannotiert (Review).</change>
       <change when="2026-08-31" who="#editor">#367 (wâren als Adjektiv): 1 Token der Fügung „der/die wâren minne“ von lemma_7505 wesen (VRB) auf lemma_7338 wâr (ADJ) umannotiert (lemmaRef, pos und corresp; philologische Einzelentscheidung von K. Zeppezauer-Wachauer vom 2026-08-25, kein LLM-Batch; Provenienz-Log: ingest/pos-disambig/367-waeren/).</change>
+      <change when="2026-09-06" who="#editor">#216 Punkt 3 (vrouwe vor minne): 2 Tokens der Anredeform vrouwe unmittelbar vor minne erstmals annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260)). Kein LLM-Lauf; Verfahren, Herkunft der einzelnen Entscheidungen und zurueckgehaltene Faelle im Provenienz-Log: ingest/pos-disambig/216-vrouwe155/.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -74827,7 +74828,7 @@
                 <w xml:id="FR3_111207030350_4" lemmaRef="lexicon.xml#lemma_1990" pos="NOM" ana="lexicon.xml#lemma_1990_sense_3060" corresp="variants.xml#type_44733">gedanck</w>
                 <pc xml:id="FR3_111207030350_5" join="left">,</pc>
                 <caesura/>
-                <w xml:id="FR3_111207030350_6">fraw</w>
+                <w xml:id="FR3_111207030350_6" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
                 <w xml:id="FR3_111207030350_7">minne</w>
                 <pc xml:id="FR3_111207030350_8" join="left">,</pc>
               </l>
@@ -76106,7 +76107,7 @@
                 <caesura/>
                 <w xml:id="FR3_111209050730_5" lemmaRef="lexicon.xml#lemma_4533" pos="INJ" ana="lexicon.xml#lemma_4533_sense_7071" corresp="variants.xml#type_67780">owe</w>
                 <pc xml:id="FR3_111209050730_6" join="left">,</pc>
-                <w xml:id="FR3_111209050730_7">fraw</w>
+                <w xml:id="FR3_111209050730_7" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
                 <w xml:id="FR3_111209050730_8">minne</w>
                 <pc xml:id="FR3_111209050730_9" join="left">!</pc>
               </l>

@@ -31,11 +31,21 @@ min/mine draussen.
 
 **"Unmittelbar" heisst: in der <w>-Folge des <body>, nicht unter den direkten
 Kindern der Verszeile.** Das ist der Punkt, an dem sich diese Messung von der
-in #216 protokollierten unterscheidet, und der Unterschied ist gross: von den
-155 gefundenen Paaren enthalten 115 mindestens ein <w>, das in einem <hi>
-steht statt direkt in seinem <l>. Ein Durchlauf ueber die direkten Kinder
-findet nur 40 davon. Das Skript weist beide Zaehlweisen aus, damit die
-Differenz sichtbar bleibt statt erklaert werden zu muessen.
+in #216 protokollierten unterscheidet, und der Unterschied ist gross: **am
+01.09.2026 gemessen** enthielten 115 der damals 155 gefundenen Paare
+mindestens ein <w>, das in einem <hi> steht statt direkt in seinem <l>. Ein
+Durchlauf ueber die direkten Kinder fand nur 40 davon. Das Skript weist beide
+Zaehlweisen aus, damit die Differenz sichtbar bleibt statt erklaert werden zu
+muessen.
+
+**Die Zahl 155 ist ein historischer Stand und nicht mehr das, was ein Lauf
+heute ausgibt.** Der Batch ingest/pos-disambig/216-vrouwe155/ hat am
+06.09.2026 152 dieser Tokens annotiert; sie tragen jetzt lemma_7260 und fallen
+damit aus Frage 1 und Frage 2 heraus, die beide auf "ohne @lemmaRef" prueft.
+Ein Lauf gegen den heutigen Korpus findet noch 3 Paare, naemlich die drei
+RVBR-Tokens der Schreibung frô, fuer die es unter lemma_7260 keinen
+Variantentyp gibt. Das ist kein Defekt der Messung, sondern ihr Zweck: sie
+misst eine Luecke, und die Luecke ist kleiner geworden.
 
 Usage:
     python scripts/audit/measure-216-vrouwe-minne.py [--top 25]
