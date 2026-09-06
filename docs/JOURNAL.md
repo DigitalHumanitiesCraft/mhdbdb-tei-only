@@ -882,3 +882,122 @@ Für die erste Ausprägung ist die Folgerung im Gate umgesetzt: der neue Sättig
 **Was gut lief, damit die Liste nicht kippt:** die Algorithmen und XPaths halten zeilengenau, die Invariante aus `CONTRACTS.md` §H.2a stimmt exakt (`sum(text.wordCount)` = 7.546.332 = unabhängiger Korpusscan), die dokumentierten 396 offenen Cross-Refs über 109 IDs stimmen auf den Ref genau, und die Frage, ob der IndexedDB-Invalidierungsmechanismus ohne den Code auffindbar ist, ist mit Ja zu beantworten: `CONTRACTS.md` §E führt ihn samt der 30-Tage-Folge eines vergessenen Bumps.
 
 **Phase:** Health-Check abgeschlossen, `claude/health-check-0902` als PR offen. Offen an chsteiner: #395 (die WZB-Selbstauskunft im Header, ein reines Korpusticket, das dieser Lauf nicht anfassen durfte) und die Frage, ob ein fehlender Agententyp künftig ein Halt sein soll statt eines Weiter. Geschrieben steht bisher nur der Fall „die Session darf keine Agenten starten"; der Fall „der Typ ist nicht da" ist heute zweimal eingetreten und wurde ohne geschriebene Grundlage als Halt behandelt.
+
+---
+
+## 2026-09-06 – Eindeutigkeit über einer Menge mit einem Element, und ein Alarm, der nur eine andere Zähleinheit war
+
+Cloud-Umgebung, volles Fable-Kontingent, chsteiner eine Woche nicht am Laptop.
+Zuschnitt entsprechend: alles, was ohne seine Entscheidung auskommt, wird
+gemacht; alles Übrige wird bis zur Entscheidungsreife vorbereitet und liegen
+gelassen. Ergebnis in Zahlen: **1.455 Tokens neu annotiert** über drei Läufe,
+kein neues Lemma und kein neuer Variantentyp geprägt, Korpus-Index 4.2.8 auf
+4.2.11.
+
+| Lauf | Fälle | annotiert | zurückgehalten |
+|---|--:|--:|--:|
+| #216 Punkt 3 (`vrouwe` vor `minne`) | 155 | 152 | 3 |
+| #387 mechanischer Teil | 948 | 948 | 0 |
+| #387 Kern (`fro`, kontextpflichtig) | 390 | 355 | 35 |
+
+Der dritte Lauf ist der einzige, der Fable gebraucht hat: 61 Bündel, eines je
+Sigel, nach POS-TAGSET §6.3. Die anderen beiden sind mechanisch entschieden und
+hätten kein Modell gebraucht.
+
+**Rot: Eindeutigkeit über einer Menge mit einem Element ist keine
+Eindeutigkeit.** Der #387-Extraktor sammelt je normalisierter Schreibform alle
+Lemmata, die im Korpus daran hängen, und annotiert, wo diese Menge einelementig
+ist. Das ist richtig gedacht und war trotzdem beinahe ein falsches Tag:
+`NLA_72101_5`, „wie si ze der hohzit **fvrn**", ist das Verb *varn*. Die
+Schreibung `fvrn` hat korpusweit **genau einen** annotierten Beleg
+(`RF_118100_0`, „fvrn hersante", zu Recht `lemma_7260`), und eine
+einelementige Menge ist trivial eindeutig. Das Skript hätte das Verb zur Frau
+gemacht, mit einer Begründung, die **wörtlich wahr** gewesen wäre: „alle Belege
+dieser Schreibung hängen an `lemma_7260`". Behoben mit `MIN_BELEGE = 5` plus
+einer namentlichen Ausnahmeliste. Die allgemeine Form der Lehre: ein Prädikat
+über einer Menge braucht eine Untergrenze für deren Größe, sonst misst es die
+Stichprobe statt den Gegenstand, und der Fehler versteckt sich hinter einem
+Satz, der stimmt.
+
+**Rot: eine Zahl in der falschen Einheit macht eine verbuchte Altlast zu einem
+frischen Alarm.** Gemeldet wurde chsteiner „ein echter Befund, und größer als
+erwartet: 330 Korpus-Tokens verweisen mit `@ana` auf einen Sense, den weder der
+Index noch das Lexikon kennt". Die 330 stimmen. Was fehlte, war die
+Zähleinheit, in der die Ratsche arbeitet: **74 distinkte Sense-IDs, und alle 74
+stehen seit dem 02.07.2026 in `scripts/audit/lexicon-baseline.json`.**
+`check-authority-cross-refs.py` scannt `@ana` ausdrücklich (`REF_ATTRS`) und
+druckt die Zeile selbst: „74 sense-ids (330 refs)", Gate grün, `CI CHECK OK`.
+Es war nie ein Befund, sondern dieselbe #152-Sache in einer anderen Einheit.
+Der Fehlermodus ist derselbe, vor dem der eigene #28-Kommentar desselben Tages
+warnt (224 `zunge`-Widersprüche auf drei Senses), nur diesmal in eigener Sache.
+**Wer eine Zahl gegen eine Ratsche hält, hält sie in deren Einheit, sonst hält
+er sie gegen nichts.**
+
+**Der Ertrag von #28 Phase 2 ist nicht die Liste, sondern ihre Reichweite.**
+Der Phasenplan empfiehlt, mit den 430 `@ana`-Widersprüchen anzufangen „statt
+mit einer Frequenzschwelle". Gemessen sind das keine Alternativen: **22 der 26
+belegstärksten Nicht-Namen tragen keinen einzigen Widerspruch**, das sind
+119.101 der 124.369 Tokens (95,8 %). `niht` ist der Fall, an dem es sichtbar
+wird: 81.088 Belege, alle mit `@ana`, **jedes einzelne auf den Sprach-Sense**.
+Das schärfste maschinelle Kriterium der Menge kann ihren größten
+Falschpositiven nicht entfernen, weil die Annotation dort die Quelle des
+Problems ist und nicht sein Korrektiv. Umgekehrt liegen 184 der 424
+Widersprüche auf 15 Lemmata außerhalb der 26. Beide Listen sind zu lesen.
+Nebenbei fällt die `gebrechen`-Frage quantitativ zu: 37 + 1 + 1 = 39
+Widersprüche plus `JT_30921000_5` ergeben die 40 sense-disambiguierten Tokens,
+die #28 nennt, unabhängig gemessen mit einem anderen Skript.
+
+Die 430 des Plans sind übrigens 424 plus 6: sechs Tokens tragen ein `@ana` auf
+einen Sense, den der Lemma-Index nicht führt. Ein Verweis ins Leere
+widerspricht nichts, er sagt gar nichts, deshalb steht er jetzt als eigene
+Zeile.
+
+**Ein Befund des CI-Bots, der die Sorte war, für die er da ist.** `next_token`
+im `fro`-Extraktor nahm das nächste `<w>` in Dokumentordnung des ganzen
+`<body>` und überschritt damit die Verszeile. Unabhängig nachgemessen: bei
+**116 der 374 Versfälle (31 %)** steht das Zieltoken am Versende, das Feld trug
+dort also das erste Wort der Folgezeile, und `prompt.md` stellt genau dieses
+Feld an die erste Stelle. Aus dem Lauf ist daraus nachweislich kein falsches
+Tag geworden (von den zwölf Anrede-Urteilen stehen neun im Vers, keines am
+Versende, drei sind Prosa), aber das Skript bleibt liegen und die 35
+zurückgehaltenen Fälle laufen noch einmal hindurch. `cases.json` wurde
+**bewusst nicht** neu geschrieben: die Datei ist das Protokoll dessen, was die
+61 Agenten gesehen haben, und nicht das, was sie hätten sehen sollen.
+
+**Zur Regel, die chsteiner mitten im Lauf viermal geschickt hat** („immer die
+Kommentare lesen in den Issues, nicht nur den Body"): sie steht jetzt in
+`CLAUDE.md` unter „Issue Labels", mit vier gemessenen Fällen statt einer
+Ermahnung. Der schärfste ist #216: die 12 Kommentare tragen das ganze
+Arbeitspaket, und der Body enthält das Wort *vrouwe* nicht ein einziges Mal.
+In `BETRIEBSVERTRAG.md` ist sie ein Unterpunkt von Regel 9 geworden und
+ausdrücklich **keine** neue nummerierte Regel: `CLAUDE.md` zitiert „Regel 11"
+bei der Nummer, und ein Einschub hätte sie stillschweigend verschoben.
+
+**Umgebungswissen für die nächste Cloud-Session, alles gemessen:**
+
+- **Tests brauchen `CI=1`.** Ohne die Variable fährt Playwright 6 Worker auf 4
+  Kernen gegen einen 42-MB-Index: 7 Fehler und 9 Flaky. Mit 2 Workern genau
+  ein Fehler, und der ist echt und umgebungsbedingt: `lemma page loads
+  Wörterbuchnetz entries via API` ruft `api.woerterbuchnetz.de`, was der
+  Egress-Proxy mit 403 auf CONNECT abweist. Auf `origin/main` fällt derselbe
+  Test identisch aus.
+- **Die Authority-Datenbanken sind hier nicht erreichbar** (d-nb.info,
+  lobid.org, handschriftencensus.de). Die TRO-Identifier-Frage aus #395 ist in
+  dieser Umgebung deshalb nicht zu klären. `WebSearch` geht und bestätigt
+  indirekt, dass handschriftencensus 212 der Trojanerkrieg ist, also
+  `works.xml` recht hat und die 929 im Header falsch ist. **Das Korpus wurde
+  darauf trotzdem nicht geändert**: eine indirekte Bestätigung ist keine
+  Quelle.
+- **`data-integrity.yml` läuft nur auf `pull_request`**, nicht auf einen Push
+  auf einen Branch. Ein Datenzweig ohne PR hat also kein Gate über sich. Das
+  war der ausschlaggebende Grund, PR #398 früh zu öffnen statt am Ende.
+- Chromium ist als Build 1194 installiert, das Projekt pinnt 1193 (Symlink
+  genügt), und `python3` ist 3.11, während die Skripte 3.13 brauchen
+  (`Path.read_text(newline=)`). Immer `python3.13` aufrufen.
+
+**Phase:** PR #398 offen, sechs Bot-Runden, die letzte vollständige ohne
+Befund. Offen an chsteiner, alles drei eine Entscheidung und nichts davon
+recherchierbar: der Variantentyp für die Zirkumflex-Schreibung unter
+`lemma_7260` (blockiert dieselben 3 KZW-entschiedenen Tokens jetzt zum zweiten
+Mal), die 35 zurückgehaltenen `fro`-Fälle, und ob TEI-Header die
+`works.xml`-Identifier weiter duplizieren sollen.
