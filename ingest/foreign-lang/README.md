@@ -40,9 +40,9 @@ das Gleis 1 hat, und ihre Kleinheit ist ihr Vorzug.** Gemessen am 06.09.2026
 | `@ana` auf einen dem Lemma-Index unbekannten Sense | 6 |
 
 424 Belege sind lesbar, 209.832 sind es nicht. Sie verteilen sich auf nur 19
-Lemmata und konzentrieren sich stark: `zunge` 224, `nase` 100, die
-`gebrechen` 37 (mit `gebrechenhaft` und `engebrechen` 39), `mël` 17,
-`klâr` 13. Bei `zunge` ist der Mechanismus
+Lemmata und konzentrieren sich stark: `zunge` 224, `nase` 100, `gebrechen`
+37 (mit `gebrechenhaft` und `engebrechen` zusammen 39), `mël` 17, `klâr` 13.
+Bei `zunge` ist der Mechanismus
 mit bloßem Auge zu sehen: das Lemma trägt das Sprachkonzept, weil es „Sprache"
 heißen kann, und in mehr als zweihundert Belegen sagt die Sense-Annotation
 selbst, dass das Organ gemeint ist („sine zunge schouwen").
@@ -53,6 +53,43 @@ Lemma-Index nicht kennt (dreimal `soldân`, je einmal `Moab`, `kölnisch`,
 `liber`). Der Plan zählte sie zu den Widersprüchen; hier stehen sie als eigene
 Zeile, denn ein Verweis ins Leere widerspricht nichts, er sagt gar nichts.
 424 plus 6 ergibt die 430.
+
+**Die Widerspruchsliste ersetzt die Handpruefung aber nicht, sie ist fast
+disjunkt von ihr.** Der Phasenplan empfiehlt, mit den Widerspruechen
+anzufangen „statt mit einer Frequenzschwelle", und das liest sich wie eine
+Alternative. Gemessen ist es keine: **22 der 26 belegstaerksten Nicht-Namen
+tragen keinen einzigen Widerspruch**, und das sind 119.101 der 124.369 Tokens,
+also 95,8 %.
+
+| Lemma | Belege | `@ana` auf Sprach-Sense | Widerspruch | kein `@ana` |
+|---|--:|--:|--:|--:|
+| `niht` | 81.088 | 81.088 | **0** | 0 |
+| `in` | 11.986 | 10.772 | 0 | 1.214 |
+| `I` | 4.033 | 4.033 | 0 | 0 |
+| `bischof` | 3.035 | 3.035 | 0 | 0 |
+| `schrîben` | 3.007 | 295 | 0 | 2.712 |
+| `klâr` | 2.530 | 284 | 13 | 2.233 |
+| `engel` | 2.165 | 1.723 | 0 | 442 |
+| `name` | 1.367 | 1.367 | 0 | 0 |
+
+`niht` ist der Fall, an dem das sichtbar wird: alle 81.088 Belege tragen ein
+`@ana`, und jedes einzelne zeigt auf den Sense mit dem Sprachkonzept. Der
+annotierte Bestand widerspricht der Zuordnung dort nicht, er bestaetigt sie.
+Das Kriterium kann den groessten Falschpositiven der Menge deshalb nicht
+entfernen: die Annotation ist hier die Quelle des Problems und nicht sein
+Korrektiv.
+
+Umgekehrt liegen 184 der 424 Widersprueche auf 15 Lemmata, die gar nicht zu
+den 26 gehoeren (`nase` 100, `gebrechen` 37, `mël` 17, `Agrippa` 6, `mate` 5,
+`diuten` 4, dann einstellig bis `Exidiaces` 1); nur 240 fallen auf vier der 26
+(`zunge` 224, `klâr` 13, `missa` 2, `mort` 1). Beide Listen sind also zu
+lesen, und keine nimmt der anderen Arbeit ab.
+
+Fuer die `gebrechen`-Frage aus dem Thread faellt dabei eine Bestaetigung ab:
+`gebrechen` 37 plus `gebrechenhaft` 1 plus `engebrechen` 1 sind 39
+Widersprueche, und mit dem einen Sprach-Beleg `JT_30921000_5` ergibt das die
+40 sense-disambiguierten Tokens, die der Thread nennt. Unabhaengig gemessen,
+anderes Skript, gleiche Zahl.
 
 ## Wie die Liste zu lesen ist
 
