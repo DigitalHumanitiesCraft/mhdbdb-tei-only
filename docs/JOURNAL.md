@@ -1097,9 +1097,19 @@ danebengeschrieben; die Fälle, in denen das getan wurde, sind die, die kein Bot
 mehr angefasst hat.
 
 **Rot, und der Beleg dafür stammt aus diesem Absatz selbst: die Pfadfilter
-eines `pull_request`-Triggers schützen einen Push nicht.** Drei
+eines `pull_request`-Triggers schützen einen Push nicht.** **16**
 `data-integrity`-Läufe sind von meinen eigenen Pushes abgebrochen worden,
 darunter der allererste, der das neue Gate vollständig ausgeführt hätte.
+Die Zahl stand hier zuerst als „zwei", dann als „drei", und beide Male war sie
+aus dem geschätzt, was mir gerade aufgefallen war. Gemessen über die
+Laufhistorie des Branches:
+
+    25 abgeschlossene data-integrity-Laeufe auf diesem Branch
+    16 davon cancelled, 9 success
+
+Alle Pushes auf diesen Branch stammen aus dieser Session, also gehen alle 16
+auf sie zurück, verteilt über den ganzen Tag von 09:03 bis 17:42. Das war
+mithin kein Ausrutscher am Ende, sondern die Arbeitsweise des Tages.
 `cancel-in-progress` gilt in diesem Workflow für `pull_request`. Beim dritten
 Mal hatte ich vorher nachgesehen und mich freigesprochen: der Commit fasst nur
 `docs/JOURNAL.md` und `ingest/**` an, beide stehen nicht in den Pfadfiltern,
@@ -1118,8 +1128,14 @@ gegen den einzelnen Push. PR #398 fasst `tei/`, `authority-files/`, `data/` und
 gleichgültig was er enthält. Für einen `push`-Trigger gilt das nicht, und daher
 kam mein Irrtum.
 
-Der Inhalt der Lehre bleibt: **wer ein neues Gate einbaut, wartet dessen ersten
-vollständigen Lauf ab, bevor er weiterschiebt.** Neu ist, dass der Umweg
+Der Inhalt der Lehre bleibt und wird durch die 16 eher schärfer: **wer ein
+neues Gate einbaut, wartet dessen ersten vollständigen Lauf ab, bevor er
+weiterschiebt.** Dazu gehört, die Prüfung „ist der Lauf durch" wörtlich zu
+nehmen: am 06.09. um 17:50 standen drei der vier Checks auf `success` und
+`validate` auf `in_progress`, und der Push ging trotzdem raus, weil die drei
+grünen gelesen wurden und der eine laufende nicht. **Ein Check, der noch läuft,
+ist kein grüner Check**, und drei von vier ist bei einem `cancel-in-progress`
+genau so viel wert wie null. Neu ist, dass der Umweg
 „dieser Commit fasst ja nichts Gefiltertes an" auf einem Daten-PR nicht
 existiert. Und die Form des Fehlers ist wieder dieselbe: eine Aussage über eine
 Menge (was löst den Workflow aus) aus der Kenntnis eines Teils davon (die
