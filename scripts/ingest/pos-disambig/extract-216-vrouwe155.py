@@ -5,11 +5,13 @@
 Anders als die Serien #216/minne, #369/stat und #367 braucht dieser Batch
 KEINEN LLM-Lauf. Die Menge ist durch zwei Dinge vollstaendig bestimmt:
 
-  * 150 Faelle sind mechanisch. Ihre Schreibung kommt im Variantenwoerterbuch
-    nur unter einem einzigen Lemma vor, naemlich lemma_7260 (vrouwe, NOM).
-  * 5 Faelle sind mehrdeutig (die Schreibungen fro und frô stehen auch bei
-    lemma_7250, vrô "froh"). Sie sind von @wachauer am 01.09.2026 in #216
-    entschieden: "Jedesmal Frau Minne", also ebenfalls lemma_7260.
+  * 150 Faelle sind mechanisch. Ihre normalisierte Schreibung traegt im
+    gesamten Korpus nur ein einziges Lemma, naemlich lemma_7260 (vrouwe, NOM),
+    und das traegt genau eine Wortart. Es gibt nichts zu entscheiden.
+  * 5 Faelle sind mehrdeutig: ihre Schreibung traegt im Korpus noch ein
+    zweites Lemma (fro steht auch bei lemma_7250, vrô "froh"). Sie sind von
+    @wachauer am 01.09.2026 in #216 entschieden: "Jedesmal Frau Minne", also
+    ebenfalls lemma_7260.
 
 Das Skript schreibt daher cases.json UND actions.json in einem Lauf. Die
 actions.json traegt fuer jeden Fall, woher sein Verdict kommt (Feld "herkunft":
@@ -66,7 +68,7 @@ import json
 import re
 import sys
 import unicodedata
-from collections import Counter
+from collections import Counter, defaultdict
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[3]
@@ -82,7 +84,6 @@ L_TAG = "{" + TEI_NS + "}l"
 XML_ID = "{http://www.w3.org/XML/1998/namespace}id"
 
 LEMMA_VROUWE = "lemma_7260"
-LEMMA_VRO = "lemma_7250"
 MINNE_RE = re.compile(r"^m[iíîy]nn[eè]?$")
 
 # Entscheidung von @wachauer in #216 am 01.09.2026 ("Jedesmal Frau Minne"),
@@ -129,26 +130,39 @@ def render(tokens, mark=None):
     return " ".join(teile)
 
 
-def sammle_inventar(dateien):
-    """Normalisierte Oberflaechenformen von lemma_7260 und lemma_7250.
+def sammle_formen_lemmata(dateien):
+    """Je normalisierter Oberflaechenform die Menge der Lemmata am Bestand.
 
-    Parst den Korpus ein zweites Mal, statt die Baeume des ersten Laufs zu
-    halten. 667 geparste Dokumente gleichzeitig im Speicher sprengen den
+    **Es wird ueber ALLE Lemmata gesammelt, nicht nur ueber die beiden, die
+    hier interessieren.** Eine fruehere Fassung fuehrte zwei getrennte
+    Inventare (lemma_7260 und lemma_7250) und nannte eine Form mechanisch,
+    sobald sie im ersten stand und im zweiten nicht. Die Begruendung, die sie
+    dazuschrieb, lautete aber "die Schreibung kommt im Korpus nur unter
+    lemma_7260 vor", und das ist eine Aussage ueber alle Lemmata. Auf dem
+    Bestand vom 06.09.2026 stimmten beide ueberein (gemessen: fraw 434, frovwe
+    215, frow 254, vrou 568 Tokens, ausnahmslos lemma_7260; fro dagegen 2.474
+    unter lemma_7250 und 11 unter lemma_7260). Die engere Pruefung haette eine
+    Form, die sich mit einem DRITTEN Lemma ueberschneidet, trotzdem still als
+    mechanisch durchgelassen. Jetzt prueft das Skript, was es behauptet.
+
+    Parst den Korpus in einem Durchlauf und haelt nur die Zuordnung, nicht die
+    Baeume. 667 geparste Dokumente gleichzeitig im Speicher sprengen den
     Arbeitsspeicher einer ueblichen Maschine (gemessen: der Prozess wird ohne
-    Meldung getoetet). Der zweite Lauf kostet ein paar Minuten und nichts sonst.
+    Meldung getoetet); die Zuordnung selbst ist klein (Groessenordnung 200.000
+    Formen mit je wenigen Lemmata).
     """
-    inv = {LEMMA_VROUWE: set(), LEMMA_VRO: set()}
+    form2lemmata = defaultdict(set)
     for fp in dateien:
         root = etree.parse(str(fp)).getroot()
         for w in root.iter(W_TAG):
             ids = lemma_ids(w)
-            for lid in (LEMMA_VROUWE, LEMMA_VRO):
-                if lid in ids:
-                    txt = token_text(w)
-                    if txt:
-                        inv[lid].add(normalize_mhg(txt))
+            if not ids:
+                continue
+            txt = token_text(w)
+            if txt:
+                form2lemmata[normalize_mhg(txt)] |= ids
         root.clear()
-    return inv
+    return form2lemmata
 
 
 def main():
@@ -163,13 +177,17 @@ def main():
     dateien = list(corpus_files())
     print("Korpusdateien: %d" % len(dateien))
 
-    # Zwei Durchlaeufe ueber den Korpus: erst das Inventar, dann die Paare.
-    # Ein Durchlauf ginge nicht, das Inventar muss vollstaendig sein, bevor der
-    # erste Fall geprueft wird.
-    inv = sammle_inventar(dateien)
-    print("Formeninventar lemma_7260: %d Formen" % len(inv[LEMMA_VROUWE]))
-    print("Formeninventar lemma_7250: %d Formen" % len(inv[LEMMA_VRO]))
-    print("Schnittmenge: %s" % sorted(inv[LEMMA_VROUWE] & inv[LEMMA_VRO]))
+    # Zwei Durchlaeufe ueber den Korpus: erst die Zuordnung Form zu Lemmata,
+    # dann die Paare. Ein Durchlauf ginge nicht, die Zuordnung muss
+    # vollstaendig sein, bevor der erste Fall geprueft wird.
+    form2lemmata = sammle_formen_lemmata(dateien)
+    inventar = {f for f, ls in form2lemmata.items() if LEMMA_VROUWE in ls}
+    eindeutig = {f for f in inventar if form2lemmata[f] == {LEMMA_VROUWE}}
+    print("Formeninventar lemma_7260: %d Formen" % len(inventar))
+    print("  davon ausschliesslich lemma_7260: %d" % len(eindeutig))
+    print("  davon mit weiteren Lemmata: %s"
+          % sorted((f, sorted(form2lemmata[f] - {LEMMA_VROUWE}))
+                   for f in inventar - eindeutig))
 
     faelle, aktionen = [], []
     formen = Counter()
@@ -184,14 +202,14 @@ def main():
             vor, nach = ws[i], ws[i + 1]
             if vor.get("lemmaRef"):
                 continue
-            if normalize_mhg(txt[i]) not in inv[LEMMA_VROUWE]:
+            if normalize_mhg(txt[i]) not in inventar:
                 continue
             if not MINNE_RE.match(txt[i + 1]):
                 continue
 
             xid = vor.get(XML_ID)
             norm_form = normalize_mhg(txt[i])
-            mehrdeutig = norm_form in inv[LEMMA_VRO]
+            mehrdeutig = norm_form not in eindeutig
 
             vers = verse_of(vor)
             fall = {
