@@ -865,7 +865,7 @@ Earlier errors (all fixed by migration):
 | File | Entries | Validation |
 |-------|----------|-------------|
 | lexicon.xml | 43,879 lemmata (+4 WZB 2026-05-08, +125 #115 stubs 2026-07-02) | tei_all ✓ · mhdbdb-authority ✓ |
-| variants.xml | 42,627 variant entries (256,761 forms) | tei_all ✓ · mhdbdb-authority ✓ |
+| variants.xml | 42,627 variant entries (256,762 forms) | tei_all ✓ · mhdbdb-authority ✓ |
 | persons.xml | 211 persons | tei_all ✓ · mhdbdb-authority ✓ |
 | works.xml | 584 works (+1 work_WZB) | tei_all ✓ · mhdbdb-authority ✓ |
 | concepts.xml | 567 categories | tei_all ✓ · mhdbdb-authority ✓ |
