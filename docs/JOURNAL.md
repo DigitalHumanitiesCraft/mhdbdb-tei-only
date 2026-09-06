@@ -1236,3 +1236,106 @@ im selben Zug unterlaufen hat: drei Checks auf `success` und einer auf
 **Phase:** PR #398 grün, Bot-Runden 16 bis 19 ohne Befund. Die zehn Vorgänge
 bleiben `auto:blocked`/`wait:kzw`: auch wo die Frage kleiner geworden ist, ist
 sie eine Entscheidung.
+
+---
+
+## 2026-09-06 (Nacht) – Elf weitere Vorgänge, und der Rückstand ist zu einem Drittel gar keiner
+
+Fortsetzung des Durchgangs durch die blockierten Tickets. Zusammen mit den zehn
+vom Abend sind es **21 Vorgänge** (#364, #378, #308, #363, #366, #375, #267,
+#252, #228, #358, #115, #371, #189, #369, #370, #250, #251, #169, #239, #118,
+#271). Nichts an Korpus oder Authority geändert.
+
+**Sieben davon sind faktisch erledigt und warten nur auf Abnahme:** #358
+(Willehalm gegliedert), #250 (alle drei Punkte, Punkt 3 über
+`isInNestedParallel`), #251 (beide Punkte, der Fokusverlust unbemerkt
+miterledigt), #169 (die drei ausdrücklich offengelassenen Nebenbefunde sind
+alle drei entfernt), #239, #308 Punkt 1, #252. Das ist ein Drittel des
+Rückstands, der als offen geführt wird, ohne es zu sein.
+
+**Die Diagnose vom Abend war zu freundlich.** Sie lautete: die Prämisse eines
+blockierten Tickets altert, weil niemand ein wartendes Ticket nachmisst. Nach
+elf weiteren Fällen ist das genauer zu fassen:
+
+- Bei **#252** war die Prämisse schon **am Tag ihrer Niederschrift falsch**. Der
+  Kommentar vom 31.07. hält fest, für keinen betroffenen Text liege eine
+  Linecode-Quelle vor; die 306 Dateien von #248 kamen am **30.07.**, belegt an
+  drei Stellen (`docs/LINECODE.md:176`, `sources/README.md:11`,
+  `sources/INVENTAR-ARCHIV.md:20`), zwei davon ausserhalb des JOURNAL.
+- Bei **#169** hat dieselbe Person die angekündigte Aufräumrunde gemacht und den
+  Vermerk nicht nachgezogen.
+- Bei **#251** führte der eigene Statuskommentar einen Punkt als offen, der im
+  selben Zug miterledigt worden war.
+
+**Der Rückstand ist also nicht liegengeblieben, er ist nur nicht abgeschrieben
+worden.** Das ist ein anderes Problem und braucht ein anderes Mittel: nicht
+mehr Arbeit, sondern eine Abschlusskontrolle.
+
+### Fünf Abhängigkeiten, die in keinem Ticket standen
+
+Das ist der eigentliche Ertrag, weil er die Reihenfolge festlegt:
+
+1. **#364 erledigt 64 % von #115.** Die 109 Baseline-IDs sind 35 Lemma-IDs plus
+   35 Senses **derselben** 35 Lemmata plus 39 Senses an vorhandenen Lemmata.
+   Schnittmenge 35, in keiner Richtung ein Rest.
+2. **#371 löst die Blockade in #369.** Dort steht, für das Ufer gebe es keine
+   geübte Zuordnung. `lemma_5732` trägt aber selbst einen Gewässer-Sense
+   (`_sense_9002`), und `stat` ist dort als `type_20161` längst belegt: kein
+   neues Lemma, kein neuer Typ.
+3. **#370 hängt für 23 Paare an #378.** Ein neuer Variantentyp setzt sich unter
+   first-wins nur bei kleinerer Lemmanummer durch. Für 23 der 41 irreführenden
+   Paare (299 Tokens) wäre eine Freigabe **wirkungslos**: die Daten entstünden,
+   und die Suche benutzte sie nie.
+4. **#363 und #366 müssen dieselbe Frage gemeinsam beantworten.** `hawssen
+   platern` (MBS5) und `haueßenn plossenn` (KDO) sind dieselbe Konstruktion.
+5. **#189 und #118 teilen sich 16 Texte.** Die Virgel `/`, in #189 ein
+   Kodierungsfehler (7.912 Tokens als `<w>` statt `<pc>`), ist in #118 der
+   einzige brauchbare Indikator: sie trifft **alle neun** Texte des Augsburger
+   Drucks von 1476 und nennt sieben weitere derselben Machart. Wer sie in #189
+   heilt, nimmt in #118 den Marker weg.
+
+### Zwei Funde, die über das Vorbereiten hinausgehen
+
+**#118 hat keine Datengrundlage.** Die Entscheidungsvorlage nennt als
+erstrangige Quellen Header-Datierungen und `works.xml`. Gemessen: **0 von 667**
+Headern tragen `origDate` oder `creation`, und in `works.xml` haben **9 von
+584** Werken eine mittelalterliche Jahreszahl, alle neun `<imprint>` 1476,
+derselbe Druck. Die Schwellenregel hat im Repositorium keinen Eingabewert. Das
+Vorhaben ist zuerst ein Beschaffungsprojekt, und das gehört vor die vier
+Fragen.
+
+**#271 hat ein zweites Namenregister.** Der Vorgang fragt, ob weitere
+existieren, und hält fest, das sei nicht geprüft. Über alle 305 Linecode-Dateien
+mit einem Formkriterium gesucht: genau zwei erfüllen es. `tann.txt` (774
+Einträge) gehört nicht zu TAN, sondern mit **695 von 774 (89 %)** zu **TKR**,
+„Di tutsch kronik von Behem lant". Beide Texte sind böhmische Geschichtswerke
+und haben denselben Auszeichnungsstand: 0 `nameRef`, 0 `<placeName>`, 6
+`<persName>` nur im Header, 1 `<name>`. Das Material ist damit 1.242
+Namenformen zu zwei Texten statt 468 zu einem.
+
+### Rot: vier eigene Fehler, drei davon selbst gefunden
+
+- **`stat` auf 0 gemeldet, gemessen sind 95.** Ich hatte die Frequenzliste auf
+  die 400 häufigsten Formen gekürzt und danach mit `dict.get(form, 0)` gefragt.
+  **Ein fehlender Schlüssel wurde so zu einer Messung.** Aufgefallen, weil #369
+  im Kommentar 95 zurückgehaltene Fälle dokumentiert.
+- **„Seit dem 18.08." war die Wurzel eines flachen Klons.** `git log -S` zeigte
+  auf `2c23520`, 4.183 Dateien, 17,5 Mio. Zeilen, `.git/shallow` zeigt darauf.
+  Aus dieser Historie ist kein Zugangsdatum ablesbar. Die richtige Antwort stand
+  zwei Bildschirmseiten weiter oben in derselben Datei.
+- **467 statt 468 Registereinträge**, weil die BOM der Datei die erste Zeile
+  nicht auf mein Zeilenmuster passen liess. Das Ticket hatte recht.
+- **Nach `componentSelection` gegriffen**, dem Namen aus dem *Vorschlag*, und
+  daraus geschlossen, der Umbau sei nicht gemacht. Er heisst `componentPicked`.
+  Ein Grep nach dem vorgeschlagenen Namen prüft, ob jemand den Vorschlag
+  wörtlich umgesetzt hat, nicht ob das Problem gelöst ist.
+
+Die ersten drei sind dieselbe Familie wie die sechs Bot-Befunde vom Nachmittag,
+nur in neuen Kostümen: ein Default, der als Messung gelesen wird; ein
+Artefakt der Werkzeugkette, das als Datum gelesen wird; ein Parserdetail, das
+als Bestand gelesen wird. **Jedes Mal hat eine Kette aus Werkzeug und Annahme
+eine Zahl geliefert, und ich habe die Zahl genommen statt die Kette.**
+
+**Phase:** PR #398 grün, Bot-Runden 16 bis 21 ohne Befund. Alle 21 Vorgänge
+bleiben `auto:blocked`: auch wo nur noch eine Abnahme aussteht, ist sie eine
+Entscheidung.
