@@ -132,6 +132,7 @@
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 165 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
       <change when="2026-09-06" who="#editor">#387 (fro): 42 homographie-ambige Tokens der Form fro kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260) bzw. vrô ADJ/ADV (lemma_7250); LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/387-fro/). 10 weitere Tokens der Form fro blieben bewusst unannotiert (Review).</change>
       <change when="2026-09-06" who="#editor">#216 Punkt 3, Nachtrag: 3 Tokens der Anredeform frô unmittelbar vor minne annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260)); fuer diese Schreibung war unter dem Ziel-Lemma kein Variantentyp vorhanden, type_372365 ist dafuer neu gepraegt. Entscheidung @wachauer 01.09.2026, Verfahren und Herkunft im Provenienz-Log: ingest/pos-disambig/216-fro3/.</change>
+      <change when="2026-09-06" who="#editor">#387 Nachlauf (fro: ADJ gegen ADV): 3 Tokens der Schreibung fro in der Wortart bestimmt (lemmaRef/pos/corresp zu vrô ADJ (lemma_7250)). Zweiter Durchgang ueber die im ersten Lauf wegen mittlerer Konfidenz zurueckgehaltenen Belege, mit feststehendem Lemma und einem am Bestand gemessenen Prior; Verfahren, Regeln und zurueckgehaltene Faelle im Provenienz-Log: ingest/pos-disambig/387-fro-adjadv/. 4 weitere Tokens der Form fro blieben bewusst unannotiert (Review).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -96685,7 +96686,7 @@
         </l>
         <l n="12657">
           <w xml:id="RVBR_12657_0" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
-          <w xml:id="RVBR_12657_1">frô</w>
+          <w xml:id="RVBR_12657_1" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_25866">frô</w>
           <w xml:id="RVBR_12657_2" lemmaRef="lexicon.xml#lemma_7241" pos="ADJ" corresp="variants.xml#type_25793">frisch</w>
           <w xml:id="RVBR_12657_3" lemmaRef="lexicon.xml#lemma_3009" pos="ADV" ana="lexicon.xml#lemma_3009_sense_4813" corresp="variants.xml#type_10283">iemer</w>
           <w xml:id="RVBR_12657_4" lemmaRef="lexicon.xml#lemma_4034" pos="ADJ ADV GRA" ana="lexicon.xml#lemma_4034_sense_6338" corresp="variants.xml#type_14076">mê</w>
@@ -179352,7 +179353,7 @@
           <w xml:id="RVBR_23584_1" lemmaRef="lexicon.xml#lemma_7252" pos="NOM" ana="lexicon.xml#lemma_7252_sense_11755" corresp="variants.xml#type_25888">fröuden</w>
           <w xml:id="RVBR_23584_2" lemmaRef="lexicon.xml#lemma_7257" pos="ADJ ADV" ana="lexicon.xml#lemma_7257_sense_11760" corresp="variants.xml#type_25965">froelich</w>
           <w xml:id="RVBR_23584_3">unde</w>
-          <w xml:id="RVBR_23584_4">frô</w>
+          <w xml:id="RVBR_23584_4" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_25866">frô</w>
           <pc xml:id="RVBR_23584_5" join="left">,</pc>
         </l>
         <l n="23585">
@@ -191315,7 +191316,7 @@
           <w xml:id="RVBR_25139_3" lemmaRef="lexicon.xml#lemma_3659" pos="VRB" ana="lexicon.xml#lemma_3659_sense_5776" corresp="variants.xml#type_12731">lepten</w>
         </l>
         <l n="25140">
-          <w xml:id="RVBR_25140_0">frô</w>
+          <w xml:id="RVBR_25140_0" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_25866">frô</w>
           <w xml:id="RVBR_25140_1" lemmaRef="lexicon.xml#lemma_1913" pos="ADJ ADV" ana="lexicon.xml#lemma_1913_sense_2938" corresp="variants.xml#type_6476">gar</w>
           <w xml:id="RVBR_25140_2">sunder</w>
           <w xml:id="RVBR_25140_3" lemmaRef="lexicon.xml#lemma_11816" pos="NOM" ana="lexicon.xml#lemma_11816_sense_18691" corresp="variants.xml#type_44113">hazzes</w>
