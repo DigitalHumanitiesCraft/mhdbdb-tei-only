@@ -1,7 +1,16 @@
 # Batch-Log: #216 Punkt 3, vrouwe vor minne (die kleine Menge)
 
-Provenienz-Log nach POS-TAGSET.md §6.3.5. Vierter Batch unter `ingest/pos-disambig/`,
-und der erste **ohne** Disambiguierungslauf.
+Provenienz-Log nach POS-TAGSET.md §6.3.5, Muster: `369-stat/`.
+
+Ohne Ordnungszahl, anders als die bisherigen Logs dieser Reihe. Sie ist vergeben und
+lässt sich nicht ohne Nachzählen fortschreiben: `198-habe-nom` heißt „erster",
+`189-gwtk-rot-junc` „zweiter", `216-minne` „dritter", `369-stat` „vierter",
+`235-breve-wortart` „siebter", und `367-waeren` wie `375-waeren-ausweitung` führen gar
+kein Log. Der Ordnername trägt dieselbe Auskunft und altert nicht.
+
+**Der erste Batch dieser Reihe ohne LLM-Lauf.** Mechanisch annotiert worden ist schon
+einmal, im Vorlauf zu #235 (PR #379, 66 Breve-Tokens der WZB, dasselbe Kriterium), aber
+dessen Artefakte liegen unter `ingest/wzb/235-breve/` und führen kein Batch-Log.
 
 ## Rahmen
 
@@ -41,14 +50,17 @@ erste ohne `@lemmaRef` und formal *vrouwe*, das zweite passend auf
 **Das Formeninventar wird am Bestand erhoben, nicht geraten.** „Formal
 *vrouwe*" ist die Menge der MHG-normalisierten Oberflächenformen aller `<w>`
 mit `lemma_7260`; Lemma-Ids token-genau verglichen (CONTRACTS.md §B.1). Am
-06.09.2026 gemessen: 141 Formen für `lemma_7260`, 38 für `lemma_7250`
-(*vrô* „froh"), Schnittmenge `fra` und `fro`.
+06.09.2026 gemessen: **141 Formen**, davon 132 ausschließlich unter
+`lemma_7260` und 9 mit einem weiteren Lemma.
 
 **„Unmittelbar" heißt: in der `<w>`-Folge des `<body>`.** Nicht unter den
 direkten Kindern der Verszeile. 115 der 155 Paare enthalten mindestens ein
 `<w>`, das in einem `<hi>` steckt; ein Durchlauf über die direkten Kinder
 findet nur 40 der 155. Beide Zählweisen weist
-`scripts/audit/measure-216-vrouwe-minne.py` aus.
+`scripts/audit/measure-216-vrouwe-minne.py` aus. **Diese beiden Zahlen gelten
+für den Stand vor dem Batch.** Danach findet dieselbe Messung 3 Paare, weil
+152 der Vorgänger jetzt ein `@lemmaRef` tragen und aus der Bedingung
+herausfallen.
 
 Ergebnis: **155 Tokens in 6 Schreibungen und 11 Sigeln.**
 
@@ -68,10 +80,18 @@ gefahren, weil dort eine Kontextentscheidung nötig war. Hier ist sie es nicht,
 und zwar aus zwei Gründen, die das Skript getrennt hält (Feld `herkunft` in
 `actions.json`):
 
-- **150 Tokens, `herkunft: mechanisch`.** Ihre Schreibung kommt im
-  Variantenwörterbuch nur unter `lemma_7260` vor, und `lemma_7260` trägt genau
-  eine Wortart (`NOM`). Es gibt nichts zu entscheiden. Dasselbe Kriterium wie
-  in PR #379 und #382.
+- **150 Tokens, `herkunft: mechanisch`.** Ihre normalisierte Schreibung trägt
+  **im gesamten Korpus** nur ein einziges Lemma, nämlich `lemma_7260`, und das
+  trägt genau eine Wortart (`NOM`). Es gibt nichts zu entscheiden. Dasselbe
+  Kriterium wie in PR #379 und #382.
+
+  Gemessen wird am Korpus und nicht am Variantenwörterbuch. Beide Quellen sagen
+  hier dasselbe, aber sie sind nicht dasselbe, und das Skript prüft die
+  Korpusseite. Von den 141 Formen des `lemma_7260`-Inventars tragen 9 noch ein
+  weiteres Lemma: `fra` und `fro` das Adjektiv `lemma_7250`, sechs weitere
+  (`fraewen`, `froew`, `froewen`, `vraewe`, `vroewe`, `vroewen`) das Verb
+  `lemma_7256` (*vröuwen*), und `vron` das `lemma_7251`. Keine dieser neun außer
+  `fro` kommt unter den 155 vor.
 - **5 Tokens, `herkunft: wachauer-2026-09-01`.** Sie tragen die zwischen
   *vrouwe* und *vrô* mehrdeutige Schreibung `fro` beziehungsweise `frô`.
   @wachauer sind genau diese fünf Belege im Volltext vorgelegt worden, seine
@@ -150,6 +170,21 @@ steht im Markup, nicht im Zeichenbestand. Wer sie als Evidenz für die
 Personifikation heranziehen will, muss `@rend` lesen; eine Prüfung auf den
 ersten Buchstaben findet null Fälle. @wachauer hat `@rend` am 01.09. als Indiz
 zugelassen, sobald *vrouwe* und *minne* zusammenstehen.
+
+## Eine Nebenwirkung, die sonst als Rätsel wiederkäme
+
+Der Positionszähler trägt auch `lineEnds[]`, und daran hängen die Reimwerkzeuge
+(CONTRACTS.md §H.2a, §H.3, §H.4). Über die zehn Dateien vor und nach dem Batch
+gemessen: **2 Verse tauchen neu in `lineEnds[]` auf** (beide in MR1; sie
+enthielten vorher kein einziges annotiertes Token), und bei **19 Versen zeigt
+der Eintrag auf ein anderes Token**. Die 2 neuen Einträge verschieben alle
+nachfolgenden Indizes in MR1, an denen die Reim-Nachbarschaft entlangläuft.
+
+Das ist kein Defekt, der Index wird konsistent neu gebaut, und die Korrektur
+geht in die richtige Richtung: die Verse waren vorher unsichtbar. Wer aber
+Reimzahlen aus MR1 mit einem älteren Lauf vergleicht, findet eine Differenz,
+die nicht am Reimwerkzeug liegt. Der Befund stammt aus der lokalen
+Review-Runde zu diesem Batch.
 
 ## Data-Change-Lifecycle
 

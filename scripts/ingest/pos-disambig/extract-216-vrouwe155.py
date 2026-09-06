@@ -138,12 +138,17 @@ def sammle_formen_lemmata(dateien):
     Inventare (lemma_7260 und lemma_7250) und nannte eine Form mechanisch,
     sobald sie im ersten stand und im zweiten nicht. Die Begruendung, die sie
     dazuschrieb, lautete aber "die Schreibung kommt im Korpus nur unter
-    lemma_7260 vor", und das ist eine Aussage ueber alle Lemmata. Auf dem
-    Bestand vom 06.09.2026 stimmten beide ueberein (gemessen: fraw 434, frovwe
-    215, frow 254, vrou 568 Tokens, ausnahmslos lemma_7260; fro dagegen 2.474
-    unter lemma_7250 und 11 unter lemma_7260). Die engere Pruefung haette eine
-    Form, die sich mit einem DRITTEN Lemma ueberschneidet, trotzdem still als
-    mechanisch durchgelassen. Jetzt prueft das Skript, was es behauptet.
+    lemma_7260 vor", und das ist eine Aussage ueber alle Lemmata. Beide
+    stimmten ueberein, vor wie nach dem Batch. Gemessen NACH dem Batch (also
+    nicht in dem Stand, in dem dieses Skript laeuft): fraw 434, frovwe 215,
+    frow 254, vrou 568 Tokens, ausnahmslos lemma_7260, waehrend fro sich teilt,
+    2.474 unter lemma_7250 gegen 11 unter lemma_7260. Vor dem Batch lauten
+    dieselben Zahlen 384, 214, 157, 566 und fro 2.474 gegen 9; die qualitative
+    Aussage haelt in beiden Staenden. Die engere Pruefung haette eine Form, die
+    sich mit einem DRITTEN Lemma ueberschneidet, trotzdem still als mechanisch
+    durchgelassen: von den 141 Formen des Inventars tragen 9 ein weiteres
+    Lemma, und nur zwei davon sind lemma_7250. Jetzt prueft das Skript, was es
+    behauptet.
 
     Parst den Korpus in einem Durchlauf und haelt nur die Zuordnung, nicht die
     Baeume. 667 geparste Dokumente gleichzeitig im Speicher sprengen den
@@ -248,6 +253,20 @@ def main():
                     "FEHLER: %s traegt die mehrdeutige Form %r, steht aber nicht "
                     "in der Entscheidungsliste vom 01.09.2026. Ein solcher Fall "
                     "darf nicht mechanisch entschieden werden." % (xid, txt[i])
+                )
+            # Die Begruendung unten benennt vrô als den Konkurrenten, die
+            # Bedingung oben prueft dagegen auf JEDES weitere Lemma. Solange
+            # beides zusammenfaellt, ist der Text richtig; sobald eine Form mit
+            # einem dritten Lemma dazukaeme, stuende eine falsche Begruendung im
+            # Log, und das ist genau die Klasse Fehler, gegen die diese Fassung
+            # gebaut wurde. Also lieber abbrechen als sie schreiben.
+            if mehrdeutig and form2lemmata[norm_form] - {LEMMA_VROUWE} != {"lemma_7250"}:
+                sys.exit(
+                    "FEHLER: %s traegt die Form %r, die neben lemma_7260 nicht "
+                    "nur lemma_7250 traegt, sondern %s. Die Begruendung dieses "
+                    "Skripts nennt vrô als einzigen Konkurrenten und waere hier "
+                    "falsch." % (xid, txt[i],
+                                 sorted(form2lemmata[norm_form] - {LEMMA_VROUWE}))
                 )
             aktionen.append({
                 "xml_id": xid,
