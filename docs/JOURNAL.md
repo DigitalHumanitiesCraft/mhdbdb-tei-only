@@ -1305,13 +1305,23 @@ Vorhaben ist zuerst ein Beschaffungsprojekt, und das gehört vor die vier
 Fragen.
 
 **#271 hat ein zweites Namenregister.** Der Vorgang fragt, ob weitere
-existieren, und hält fest, das sei nicht geprüft. Über alle 305 Linecode-Dateien
-mit einem Formkriterium gesucht: genau zwei erfüllen es. `tann.txt` (774
-Einträge) gehört nicht zu TAN, sondern mit **695 von 774 (89 %)** zu **TKR**,
-„Di tutsch kronik von Behem lant". Beide Texte sind böhmische Geschichtswerke
-und haben denselben Auszeichnungsstand: 0 `nameRef`, 0 `<placeName>`, 6
-`<persName>` nur im Header, 1 `<name>`. Das Material ist damit 1.242
+existieren, und hält fest, das sei nicht geprüft. Über die 305 `.txt`-Dateien
+unter `sources/linecode/` mit einem Formkriterium gesucht (die 306. ist eine
+RTF, auf die ein zeilenweises Kriterium nicht passt): genau zwei erfüllen es.
+`tann.txt` (774 Einträge) gehört nicht zu TAN, sondern mit **695 von 774
+(89 %)** zu **TKR**, „Di tutsch kronik von Behem lant". Beide Texte sind
+böhmische Geschichtswerke, und in beiden steht die **gesamte Namenauszeichnung
+im Header, im Textkörper keine einzige** (VTC letzter Treffer Zeile 141 bei
+Headerende 151, TKR 121 bei 131): 0 `nameRef`, 0 `<placeName>`, je 6
+`<persName>`, dazu 1 `<name>` in VTC und 2 in TKR. Das Material ist damit 1.242
 Namenformen zu zwei Texten statt 468 zu einem.
+
+Die erste Fassung dieses Absatzes nannte den Auszeichnungsstand „identisch" und
+für beide Texte 1 `<name>`. Das Suchmuster war `'<name '` mit Leerzeichen und
+übersah `<name>` ohne Attribute; TKR hat zwei. Gefunden hat es der CI-Review-Bot
+in Runde 22, nachgemessen ist es hier. Die tragende Aussage (das Register ist
+die einzige Stelle, an der die Namen erschlossen sind) hängt an der Verteilung
+Header gegen Textkörper und nicht an der Symmetrie der Zahlen.
 
 ### Rot: vier eigene Fehler, drei davon selbst gefunden
 
