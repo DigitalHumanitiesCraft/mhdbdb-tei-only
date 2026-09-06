@@ -13,14 +13,28 @@ philologische Frage „Anrede *vrouwe* oder Adjektiv *vrô*" ist in keinem
 einzigen offen.
 
 Die Rechnung über die 35 zurückgehaltenen Fälle des ersten Laufs schliesst
-damit vollständig: **3** liegen auf `lemma_7260` (*vrouwe*), sind von KZW am
-01.09. entschieden und am 06.09. mit dem neu geprägten `type_372365`
-geschrieben; **2** sind Substantivierungen und damit eine kuratorische Frage
-(NOM), die hier nicht gestellt wird; die verbleibenden **30** sind dieser Lauf.
-Eine frühere Fassung dieses Absatzes nannte 31 von 31. Gemessen sind es 30:
-`cases.json` führt 30 Einträge, alle 30 stehen in `../387-fro/review-faelle.csv`,
-und von den dortigen 32 Fällen mit `lemma_7250` sind genau die beiden
-Substantivierungen (`FR1_13058020_4`, `FR2_419020_7`) nicht dabei.
+damit vollständig. Massgeblich ist `review_grund` in
+`../387-fro/review-faelle.csv`:
+
+| `review_grund` | Fälle | Lemma | wohin |
+|---|--:|---|---|
+| `confidence` | 31 | `lemma_7250` | 30 in diesen Lauf, 1 an KZW |
+| `kein-typ` | 3 | `lemma_7260` | am 06.09. mit `type_372365` geschrieben |
+| `verdict-klasse` | 1 | `lemma_7250` | an KZW |
+| **Summe** | **35** | | |
+
+Die beiden an KZW sind die Substantivierungen `FR1_13058020_4` (aus
+`confidence`) und `FR2_419020_7` (aus `verdict-klasse`): dieselbe
+philologische Frage, aus zwei verschiedenen Gründen zurückgehalten. NOM ist
+eine kuratorische Entscheidung und in diesem Lauf gar nicht wählbar.
+
+Eine frühere Fassung dieses Absatzes nannte **31 von 31**. Diese Zahl ist über
+der `confidence`-Menge richtig, und der CI-Review-Bot hat sie in Runde 11 auch
+so nachgemessen. Der Satz spricht aber über die Fälle **dieses Laufs**, und das
+sind 30: `grep ';REVIEW;confidence;' ../387-fro/diff-liste.csv` liefert 31,
+`cases.json` führt 30, die Differenz ist `FR1_13058020_4`. Zwei richtige Zahlen
+über zwei verschiedene Mengen, und der Fehler lag darin, die eine mit dem
+Bezugswort der anderen hinzuschreiben.
 
 Offen ist nur ADJ gegen ADV, und das ist **K4** nach
 [POS-TAGSET §4](../../../docs/POS-TAGSET.md) („compound resolution `ADJ ADV`"),

@@ -1081,8 +1081,13 @@ Befund 1 (der billigste Check hinter dem teuersten, obwohl der Workflow-Kopf
 „billig nach teuer" ausschreibt), Runde 14 Befund 2 (die offengelegte Grenze
 nannte `docs/**` und `*.html`, aber nicht `playground/**`), Runde 15 (dieselbe
 Grenze nannte dann drei Herkünfte als eine, und die genannte Abhilfe deckte nur
-eine davon). Und nachträglich derselbe Fehler im Nachlauf-README: „31 von 31",
-gemessen sind es 30, weil die zwei Substantivierungen nicht mitlaufen.
+eine davon). Und nachträglich derselbe Fehler im Nachlauf-README: „31 von 31"
+über einer Menge, die 30 Elemente hat. Die 31 ist dabei nicht falsch, sie zählt
+die `confidence`-Fälle des ersten Laufs, und der Bot hat sie in Runde 11 selbst
+so nachgemessen; nur spricht der Satz über die Fälle des zweiten Laufs, und das
+sind 30. **Zwei richtige Zahlen über zwei verschiedene Mengen**, hingeschrieben
+mit dem Bezugswort der falschen. Genau die Sorte, die eine Nachmessung
+bestätigt, statt sie zu finden.
 **Jedesmal eine Aussage über eine Menge, geschrieben aus der Kenntnis eines
 Teils davon.** Das ist dieselbe Form wie die 330 `@ana`-Tokens vom Vormittag,
 nur ohne Zähleinheit als Ausrede. Die Gegenmaßnahme ist keine Regel, sondern
