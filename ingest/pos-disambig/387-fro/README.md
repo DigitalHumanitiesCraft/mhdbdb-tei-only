@@ -127,6 +127,30 @@ Eintrag meldet ein Trockenlauf 356 Annotationen und keinen Grund
 `verdict-klasse`, mit ihm 355 und einen. Ein Config ohne den Eintrag verhält
 sich damit nachweislich wie vorher.
 
+## Ein Defekt im Extraktor, gefunden nach dem Lauf
+
+Der CI-Review-Bot hat auf PR #398 gemeldet, dass das Feld `next_token` die
+Verszeile überschreitet: es nahm das nächste `<w>` in der Dokumentordnung des
+ganzen `<body>`, nicht das nächste Wort derselben Zeile. Unabhängig
+nachgemessen und bestätigt: bei **116 der 374 Versfälle (31 %)** steht das
+Zieltoken am Versende, das Feld trug dort also das erste Wort der Folgezeile.
+Das wiegt, weil `prompt.md` dieses Feld unter „Was zuerst zu prüfen ist" an
+die erste Stelle stellt.
+
+**Ein falsches Tag ist daraus nicht geworden, und das ist gemessen.** Alle
+zwölf Anrede-Urteile stehen mitten im Vers, keines am Versende. Dazu war
+`next_verse` in keinem der 116 Fälle leer, das Modell konnte also immer sehen,
+dass das Wort eine Zeile weiter steht.
+
+Das Skript ist korrigiert: `next_token` steht nur noch, wenn das folgende
+`<w>` denselben `<l>`-Vorfahren hat, in Prosa denselben Block. Am Versende ist
+das Feld jetzt leer, und das ist die richtigere Angabe.
+
+**Die committete `cases.json` bleibt unverändert.** Sie ist das Protokoll
+dessen, was die 61 Agenten tatsächlich gesehen haben, und darf nicht
+nachträglich zu etwas anderem gemacht werden. Wer die 35 zurückgehaltenen
+Fälle erneut extrahiert, bekommt das korrigierte Feld.
+
 ## Qualitätssicherung
 
 - **Vollständigkeit maschinell geprüft:** 61 Verdict-Dateien gegen 61 Bündel,

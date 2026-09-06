@@ -29,9 +29,12 @@ Ziel-Lemma den Tag fuehrt. Dieselbe Regel wie im Breve-Lauf zu #235.
 cases.json in der Form, die apply-homograph.py erwartet, plus ein
 Kontextfenster: im Vers der Zielvers mit Vorgaenger- und Folgevers, in Prosa
 ein Fenster von +-15 Tokens innerhalb des Blockelements. Zusaetzlich das
-unmittelbar folgende Token als eigenes Feld: die Anrede steht typischerweise
-vor einem Titel oder Namen ("fro minne", "frov kuenegin"), und das ist das
-staerkste Einzelsignal, das ohne Lektuere zu haben ist.
+unmittelbar folgende Token als eigenes Feld, **begrenzt auf dieselbe Verszeile
+beziehungsweise dasselbe Blockelement**: die Anrede steht typischerweise vor
+einem Titel oder Namen ("fro minne", "frov kuenegin"), und das ist das
+staerkste Einzelsignal, das ohne Lektuere zu haben ist. Steht das Zieltoken am
+Versende, ist das Feld leer, denn das naechste Wort im Text steht dann eine
+Zeile weiter und ist gerade nicht das, wovon der Prompt spricht.
 
 Ausserdem @rend des Elternelements. @wachauer hat am 01.09.2026 in #216
 festgehalten, dass rend="upper_case_first_letter" nicht zwingend die
@@ -106,6 +109,34 @@ def render(tokens, mark=None):
     return " ".join(teile)
 
 
+def naechstes_im_selben_container(ws, idx, vers):
+    """Das folgende <w>, aber nur wenn es in derselben Einheit steht.
+
+    **Ohne diese Grenze ueberschreitet das Feld die Verszeile**, und das ist
+    kein Randfall: gemessen an den 390 Faellen dieses Batches steht bei 116 der
+    374 Versfaelle (31 %) das Zieltoken am Versende, das Feld truege dort also
+    das erste Wort der Folgezeile. Der Prompt stellt next_token unter "Was
+    zuerst zu pruefen ist" an die erste Stelle und begruendet es damit, dass
+    die Anrede unmittelbar vor dem Angeredeten steht. Ein Wort aus der
+    naechsten Zeile ist genau das nicht.
+
+    Befund des CI-Review-Bots auf PR #398, hier unabhaengig nachgemessen: die
+    116 stimmen, und im Lauf vom 06.09.2026 ist daraus nachweislich kein
+    falsches Tag geworden, weil alle zwoelf Anrede-Urteile mitten im Vers
+    stehen und keines am Versende. Die leere Zeichenkette ist am Versende die
+    richtigere Angabe als ein Wort, das gar nicht daneben steht.
+
+    Im Versmodus ist die Einheit das <l>, in Prosa das Blockelement.
+    """
+    if idx + 1 >= len(ws):
+        return ""
+    nach = ws[idx + 1]
+    if vers is not None:
+        return token_text(nach) if vers_von(nach) is vers else ""
+    eigen, fremd = block_von(ws[idx]), block_von(nach)
+    return token_text(nach) if eigen is not None and fremd is eigen else ""
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--out-dir", required=True)
@@ -142,7 +173,7 @@ def main():
                 "sigle": fp.name.split(".")[0],
                 "pos_prior": w.get("pos") or "",
                 "rend": (eltern.get("rend") or "") if eltern is not None else "",
-                "next_token": token_text(ws[idx + 1]) if idx + 1 < len(ws) else "",
+                "next_token": naechstes_im_selben_container(ws, idx, vers),
             }
             if vers is not None:
                 nach = list(vers.itersiblings(L_TAG))
