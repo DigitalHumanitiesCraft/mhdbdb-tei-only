@@ -991,6 +991,11 @@ bei der Nummer, und ein Einschub hätte sie stillschweigend verschoben.
 - **`data-integrity.yml` läuft nur auf `pull_request`**, nicht auf einen Push
   auf einen Branch. Ein Datenzweig ohne PR hat also kein Gate über sich. Das
   war der ausschlaggebende Grund, PR #398 früh zu öffnen statt am Ende.
+  **Kehrseite, am Nachmittag desselben Tages gemessen:** sobald der PR offen
+  ist, lösen die Pfadfilter für **jeden** Push aus, auch für einen reinen
+  Doku-Commit, weil `paths` bei `pull_request` gegen den gesamten PR-Diff
+  gehalten wird und nicht gegen den Push. Zusammen mit `cancel-in-progress`
+  heisst das: jeder Push bricht den laufenden Gate-Lauf ab.
 - Chromium ist als Build 1194 installiert, das Projekt pinnt 1193 (Symlink
   genügt), und `python3` ist 3.11, während die Skripte 3.13 brauchen
   (`Path.read_text(newline=)`). Immer `python3.13` aufrufen.
@@ -1086,13 +1091,36 @@ steht die Zählung?* Wo die Antwort ein Kommando ist, gehört das Kommando
 danebengeschrieben; die Fälle, in denen das getan wurde, sind die, die kein Bot
 mehr angefasst hat.
 
-Nebenbei ein Verfahrensfehler mit eigener Lehre: zwei `data-integrity`-Läufe
-sind von meinen eigenen Pushes abgebrochen worden, darunter der allererste, der
-das neue Gate überhaupt vollständig ausgeführt hätte. `cancel-in-progress` gilt
-in diesem Workflow für `pull_request`. **Wer ein neues Gate einbaut, wartet
-dessen ersten vollständigen Lauf ab, bevor er weiterschiebt** – sonst gibt es
-kein Log, in dem man nachsehen könnte, und die Verifikation verschiebt sich um
-eine Runde.
+**Rot, und der Beleg dafür stammt aus diesem Absatz selbst: die Pfadfilter
+eines `pull_request`-Triggers schützen einen Push nicht.** Drei
+`data-integrity`-Läufe sind von meinen eigenen Pushes abgebrochen worden,
+darunter der allererste, der das neue Gate vollständig ausgeführt hätte.
+`cancel-in-progress` gilt in diesem Workflow für `pull_request`. Beim dritten
+Mal hatte ich vorher nachgesehen und mich freigesprochen: der Commit fasst nur
+`docs/JOURNAL.md` und `ingest/**` an, beide stehen nicht in den Pfadfiltern,
+also könne kein Lauf starten und keiner abgebrochen werden. **Gemessen ist das
+Gegenteil**, und zwar an genau diesem Push:
+
+    git show --name-only 032d859   -->  docs/JOURNAL.md
+                                        ingest/pos-disambig/387-fro-adjadv/README.md
+    Lauf 34043618289 auf 032d859   -->  gestartet
+    Lauf 34043424099 auf f37254e   -->  cancelled
+
+Die Erklärung ist die dokumentierte Auswertungsregel und nicht die Messung: bei
+`pull_request` werden die `paths` gegen den **gesamten** PR-Diff gehalten, nicht
+gegen den einzelnen Push. PR #398 fasst `tei/`, `authority-files/`, `data/` und
+`scripts/audit/` an, also löst **jeder** Push auf diesen PR den Workflow aus,
+gleichgültig was er enthält. Für einen `push`-Trigger gilt das nicht, und daher
+kam mein Irrtum.
+
+Der Inhalt der Lehre bleibt: **wer ein neues Gate einbaut, wartet dessen ersten
+vollständigen Lauf ab, bevor er weiterschiebt.** Neu ist, dass der Umweg
+„dieser Commit fasst ja nichts Gefiltertes an" auf einem Daten-PR nicht
+existiert. Und die Form des Fehlers ist wieder dieselbe: eine Aussage über eine
+Menge (was löst den Workflow aus) aus der Kenntnis eines Teils davon (die
+Filterliste), geschrieben ohne die Regel, nach der sie ausgewertet wird. Der
+vorstehende Absatz zählt sechs solche Fälle; dieser hier ist der siebte, und er
+ist entstanden, während ich den sechsten aufschrieb.
 
 **Phase:** PR #398 offen. Bei chsteiner liegen nur noch Dinge, die diese
 Umgebung nicht lösen kann: die 13 `fro`-Fälle für KZW (#387), die
