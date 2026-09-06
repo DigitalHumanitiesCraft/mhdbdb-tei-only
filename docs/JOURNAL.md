@@ -1148,3 +1148,89 @@ Umgebung nicht lösen kann: die 13 `fro`-Fälle für KZW (#387), die
 TRO-Identifier-Frage (#395, Authority-Datenbanken hier nicht erreichbar), und
 ob `playground/js/ui/**` in die Pfadfilter soll. #390 wartet bewusst auf den
 Merge.
+
+---
+
+## 2026-09-06 (Abend) – Zehn blockierte Tickets entscheidungsreif, und drei ihrer Prämissen waren abgelaufen
+
+Auftrag von chsteiner nach den beiden Entscheidungen am Nachmittag: die Woche
+für das Entscheidungsreif-Machen der blockierten Tickets nutzen, weil kein
+`auto:full` und kein `auto:brief` mehr offen ist. Zehn Vorgänge bearbeitet
+(#364, #378, #308, #363, #366, #375, #267, #252, #228, #358), jeder mit einer
+Messung statt einer Zusammenfassung. Nichts an Korpus oder Authority geändert.
+
+**Der Ertrag steckt nicht in der Zusammenfassung, sondern im Nachmessen. Drei
+von zehn Tickets hatten Prämissen, die nicht mehr galten**, und alle drei in
+dieselbe Richtung: die Lage war besser als das Ticket dachte.
+
+- **#358** war erledigt. Das Ticket beschreibt, dass dem Willehalm die
+  Dreißiger-Gliederung fehlt. Gemessen: 467 `<div type="chapter" n>`, alle
+  14.002 `<l>` darunter, auf `main`. Umgestellt am 09.08.
+- **#308** Punkt 1 löst sich auf. Das Ticket fragt, ob für den „Schweizer
+  Anonymus" ein Personeneintrag angelegt oder auf `person_anonym` umgebogen
+  werden soll. Beides unnötig: `person_1772` existiert mit GND, und `works.xml`
+  verweist für genau dieses Werk schon korrekt darauf. Nur der TEI-Header zeigt
+  auf eine ID, die es nie gab.
+- **#252** ist beantwortbar geworden. Der Kommentar vom 31.07. hält fest, eine
+  Gegenprüfung sei unmöglich, weil für keinen betroffenen Text eine
+  Linecode-Quelle vorliegt. Seit dem 18.08. liegen 306 davon im Repo (#248),
+  darunter der größte betroffene Text. Damit ist die Frage, die den Vorgang
+  blockiert, an der Quelle entschieden: **OVG hat 135 leere `<l>` im TEI und
+  135 Zeilen mit `...` in der Vorlage, Bijektion in beide Richtungen.** Über
+  alle prüfbaren Texte 290 von 324 auflösbar, davon **jeder einzelne** ein
+  Auslassungsmarker, kein Gegenbeleg.
+
+**Die Lehre daraus ist eine Betriebsregel, keine Einsicht:** die Prämisse eines
+blockierten Tickets altert, während das Ticket wartet, und sie altert
+unbeobachtet, weil niemand ein wartendes Ticket nachmisst. Drei von zehn, und
+in jedem Fall hätte die Person, die es abarbeitet, Arbeit gemacht, die schon
+getan war, oder eine Entscheidung getroffen, die sich erübrigt hatte. **Vor der
+Vorlage steht die Nachmessung, nicht die Zusammenfassung.**
+
+**Rot: ich habe bei #358 gemessen, bevor ich den Kommentar gelesen habe.** Der
+Kommentar vom 09.08. sagt im ersten Satz, dass der Willehalm umgestellt und
+live ist. Ich hatte den Body gelesen, korpusweit gemessen, mich über den Fund
+gefreut und erst danach die Kommentare geöffnet. Das ist genau die Regel, die
+chsteiner in dieser Session viermal geschickt hat und die seit heute in
+`CLAUDE.md` steht, und ich habe sie an dem Tag gebrochen, an dem sie
+aufgeschrieben wurde. Der Schaden war nur Zeit; der Fund war schon dokumentiert.
+
+**Und schlimmer: derselbe Kommentar beschreibt den Messfehler, den ich dann
+gemacht habe.** Er hält fest, ein erster Lauf habe 48 Werke gemeldet, weil nur
+`div[@n]` als Vorfahr geprüft wurde, während die Strophentexte ihre Nummer am
+`lg[@n]` tragen. Mein Lauf prüfte ebenfalls nur `div[@n]` und meldete 146
+Werke. Der Kommentar enthielt die Korrektur, bevor ich den Fehler machte.
+
+**Rot: beinahe Textverlust gemeldet, der keiner war.** Beim #252-Abgleich fielen
+fünf RVBR-Stellen auf, an denen die Vorlage einen echten Vers trägt und das TEI
+eine leere Zeile. Vor dem Absenden in beiden Dateien nachgesehen: der Vers steht
+eine Zeile weiter. RVBR nummeriert die `xml:id` fortlaufend statt nach
+Linecode-Zeile, der Versatz war meiner. Die Meldung wäre ein Alarm über
+Datenverlust in einem publizierten Korpus gewesen.
+
+**Was die zehn Vorgänge jetzt brauchen**, ist durchweg weniger als vorher:
+
+| Vorgang | vorher | nachher |
+|---|---|---|
+| #364 | 21 Einzelfälle philologisch entscheiden | 24 Einträge mechanisch, 11 Entscheidungen |
+| #366 | sieben Lemmata von Grund auf finden | sechs Vorschläge bestätigen, einer offen |
+| #228 | neun Zweifelsfälle einzeln | acht als ein Paket, zwei getrennt |
+| #252 | eine Frage über 838 Stellen Unterschied | an der Quelle beantwortet |
+| #308 | vier Punkte | eine Frage (zwei Namensformen) |
+| #358 | „prüfen, ob weitere Werke betroffen" | elf Werke, keines mechanisch entscheidbar |
+
+**Ein Nebenfund, der in keinem Ticket stand:** `haueßenn` in KDO sitzt auf
+`lemma_2670` *hase*, dem Säugetier, in einem Rezept über Hausenblase. Dritte
+Handschrift, derselbe Fehlertyp wie #363, Einzelfall (unter `lemma_2670` ist es
+die einzige `hau-`artige Form, ein Token korpusweit).
+
+**Zur Zahl der abgebrochenen CI-Läufe**, die im Eintrag darüber erst „zwei",
+dann „drei" hiess: gemessen **16 von 25** abgeschlossenen `data-integrity`-Läufen
+auf diesem Branch, verteilt über den ganzen Tag. Beide früheren Angaben waren
+geschätzt aus dem, was mir aufgefallen war. Dazu der Lesefehler, der die Lehre
+im selben Zug unterlaufen hat: drei Checks auf `success` und einer auf
+`in_progress` sind bei `cancel-in-progress` null grüne Checks.
+
+**Phase:** PR #398 grün, Bot-Runden 16 bis 19 ohne Befund. Die zehn Vorgänge
+bleiben `auto:blocked`/`wait:kzw`: auch wo die Frage kleiner geworden ist, ist
+sie eine Entscheidung.
