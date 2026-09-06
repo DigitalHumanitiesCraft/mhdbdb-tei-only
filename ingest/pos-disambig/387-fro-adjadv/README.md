@@ -105,7 +105,7 @@ Rechnung schliesst damit: 14 `high` und 16 `medium` nach dem ersten Durchgang,
 Eine frühere Fassung dieses Absatzes nannte an beiden Stellen nur die
 GWTK-Zahlen (fünf nachgefragt, vier auf `high`) und liess den FR3-Fall aus,
 wodurch 16 minus 4 auf 12 statt auf die gemessenen 11 führte. Gemeldet vom
-CI-Review-Bot auf PR #398, Runde 11, hier nachgemessen. Kein Tag haengt daran:
+CI-Review-Bot auf PR #398, Runde 11, hier nachgemessen. Kein Tag hängt daran:
 geschrieben sind in beiden Lesarten dieselben 19.
 
 ## Was zurückgehalten ist und wo es liegt
