@@ -115,8 +115,16 @@ MIN_BELEGE = 5
 # widersprach dem Kommentar zwei Zeilen weiter oben, der frov ausdruecklich
 # als die Obergrenze der Luecke nennt. Kein Tag haengt daran: frov war ueber
 # die Schwelle annotiert und bleibt es. Befund des CI-Review-Bots auf PR #398
-# als Randnotiz gemeldet, hier nachgemessen (6 Belege vor dem Batch, 7
-# danach).
+# als Randnotiz gemeldet, hier am Vorzustand nachgemessen:
+#
+#     git grep -h -oP '<w [^>]*lemmaRef="[^"]+"[^>]*>frov</w>' origin/main \
+#         -- 'tei/*.tei.xml' | wc -l          -->  6   (alle lemma_7260)
+#
+# 6 >= MIN_BELEGE, die erste Haelfte der Bedingung ist also falsch und die
+# zweite wird nie ausgewertet. Ein Gegenlauf des Extraktors kann das nicht
+# zeigen: er laeuft gegen den heutigen Korpus, in dem die 948 Tokens bereits
+# annotiert sind, und liefert deshalb null Kandidaten. Die Zahl oben ist der
+# Beleg, nicht der Lauf.
 #
 # Die Handlesung selbst bleibt trotzdem verwertbar und steht deshalb hier:
 # die 6 frov-Belege stehen alle in FLG/FLG1 und alle als Anrede vor einem
