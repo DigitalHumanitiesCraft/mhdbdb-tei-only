@@ -215,7 +215,8 @@ def main():
     typen = typen_am_lemma()
 
     faelle, aktionen, offen = [], [], []
-    formen_ok, formen_offen, ohne_typ = Counter(), Counter(), Counter()
+    formen_ok = Counter()
+    offen_je_grund = defaultdict(Counter)
     for fp in dateien:
         root = etree.parse(str(fp)).getroot()
         body = root.find(".//{%s}body" % TEI_NS)
@@ -237,8 +238,10 @@ def main():
                 grund = "mehrdeutig: auch %s" % ", ".join(
                     sorted(form2lemmata[nf] - {LEMMA_VROUWE}))
             elif belege[nf] < MIN_BELEGE and nf not in GEPRUEFT:
-                grund = ("Belegbasis zu duenn: %d annotierte Belege, "
-                         "Schwelle %d" % (belege[nf], MIN_BELEGE))
+                grund = ("Belegbasis zu duenn: %d annotierte Beleg%s, "
+                         "Schwelle %d" % (belege[nf],
+                                          "" if belege[nf] == 1 else "e",
+                                          MIN_BELEGE))
             elif txt[i] not in typen:
                 grund = "kein Variantentyp unter %s fuer die Rohform" % LEMMA_VROUWE
 
@@ -265,8 +268,7 @@ def main():
                               "pos_prior": w.get("pos") or "",
                               "grund": grund, "vers": vers_n,
                               "kontext": kontext})
-                (ohne_typ if grund.startswith("kein Variantentyp")
-                 else formen_offen)[txt[i]] += 1
+                offen_je_grund[grund.split(":")[0]][txt[i]] += 1
                 continue
 
             faelle.append({"file": fp.name, "xml_id": xid, "form": txt[i],
@@ -314,8 +316,9 @@ def main():
     print("  je Schreibung:", dict(formen_ok.most_common()))
     print("  Kontextmodus:", dict(Counter(f["context_mode"] for f in faelle)))
     print("\nZurueckgestellt: %d Tokens" % len(offen))
-    print("  mehrdeutige Schreibung:", dict(formen_offen.most_common()))
-    print("  ohne Variantentyp     :", dict(ohne_typ.most_common()))
+    for kopf in sorted(offen_je_grund):
+        print("  %-24s %s" % (kopf + ":",
+                              dict(offen_je_grund[kopf].most_common())))
     print("\ncorresp fuer die config.json:")
     print(json.dumps(corresp, ensure_ascii=False, indent=2))
     print("\ngeschrieben:", out)

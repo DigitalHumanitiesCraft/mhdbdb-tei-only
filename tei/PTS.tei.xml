@@ -146,6 +146,7 @@
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 4 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/). 11 weitere Tokens der Form minne blieben bewusst unannotiert (Review).</change>
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 2 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
       <change when="2026-09-06" who="#editor">#216 Punkt 3 (vrouwe vor minne): 1 Token der Anredeform vrouwe unmittelbar vor minne erstmals annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260)). Kein LLM-Lauf; Verfahren, Herkunft der einzelnen Entscheidungen und zurueckgehaltene Faelle im Provenienz-Log: ingest/pos-disambig/216-vrouwe155/.</change>
+      <change when="2026-09-06" who="#editor">#387 (vrouwe, mechanischer Teil): 3 Tokens der Form vrouwe erstmals annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260)). Kein LLM-Lauf: annotiert wurde nur, wo die MHG-normalisierte Schreibung im gesamten Korpus ein einziges Lemma traegt, dieses genau eine Wortart fuehrt und die Schreibung dafuer genug Belege hat. Kontextpflichtige Faelle sind unangetastet geblieben (Provenienz-Log: ingest/pos-disambig/387-vrouwe/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -1037,7 +1038,7 @@
               </hi>
             <w xml:id="PTS_1310860_1" lemmaRef="lexicon.xml#lemma_2885" pos="VRB" corresp="variants.xml#type_45967">horet</w>
             <pc xml:id="PTS_1310860_2" join="left">,</pc>
-            <w xml:id="PTS_1310860_3">fraw</w>
+            <w xml:id="PTS_1310860_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <pc xml:id="PTS_1310860_4" join="left">,</pc>
             <w xml:id="PTS_1310860_5">di</w>
             <w xml:id="PTS_1310860_6">rede</w>
@@ -2565,7 +2566,7 @@
           </l>
           <l n="233">
             <hi rend="initial upper_case_first_letter">
-                <w xml:id="PTS_1352330_0">frow</w>
+                <w xml:id="PTS_1352330_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
               </hi>
             <hi rend="upper_case_first_letter">
               <w xml:id="PTS_1352330_1" lemmaRef="lexicon.xml#lemma_35124" pos="NOM" ana="lexicon.xml#lemma_35124_sense_54712" corresp="variants.xml#type_182196">fides</w>
@@ -5119,7 +5120,7 @@
             <pc xml:id="PTS_1414810_3" join="left">,</pc>
             <w xml:id="PTS_1414810_4" lemmaRef="lexicon.xml#lemma_5941" pos="PRO IPA" ana="lexicon.xml#lemma_5941_sense_9416" corresp="variants.xml#type_20940">swaz</w>
             <w xml:id="PTS_1414810_5">mein</w>
-            <w xml:id="PTS_1414810_6">fraw</w>
+            <w xml:id="PTS_1414810_6" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="PTS_1414810_7">wil</w>
             <pc xml:id="PTS_1414810_8" join="left">.</pc>
           </l>

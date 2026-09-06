@@ -1,0 +1,27 @@
+{
+  "serie": "#387 (vrouwe ohne Lemma, der mechanische Teil)",
+  "lemmas": {
+    "lemma_7260": "vrouwe (NOM): Herrin, Frau"
+  },
+  "pos": ["NOM"],
+  "corresp": {
+    "fraw|lemma_7260": "type_43131",
+    "frov|lemma_7260": "type_80906",
+    "frovwe|lemma_7260": "type_80904",
+    "frow|lemma_7260": "type_25985",
+    "vrov|lemma_7260": "type_73280",
+    "vrowen|lemma_7260": "type_26001"
+  },
+  "kein_typ_bedeutet_review": false,
+  "revisiondesc": {
+    "datum": "2026-09-06",
+    "titel": "#387 (vrouwe, mechanischer Teil)",
+    "form": "vrouwe",
+    "ziele": "vrouwe NOM (lemma_7260)",
+    "log": "ingest/pos-disambig/387-vrouwe/",
+    "vorlage": "<change when=\"{datum}\" who=\"#editor\">{titel}: {n_annot} {n_wort} der Form {form} erstmals annotiert (lemmaRef/pos/corresp zu {ziele}). Kein LLM-Lauf: annotiert wurde nur, wo die MHG-normalisierte Schreibung im gesamten Korpus ein einziges Lemma traegt, dieses genau eine Wortart fuehrt und die Schreibung dafuer genug Belege hat. Kontextpflichtige Faelle sind unangetastet geblieben (Provenienz-Log: {log}).{review_satz}</change>"
+  },
+  "kommentar_corresp": "Nicht von Hand geschrieben, sondern von extract-387-vrouwe.py aus authority-files/variants.xml erzeugt und von dort uebernommen (Lauf vom 06.09.2026). Sechs Schreibungen, alle mit Bestands-Typ unter lemma_7260.",
+  "kommentar_kein_typ": "kein_typ_bedeutet_review steht auf false, anders als in 216-vrouwe155. Dort war ein fehlender Typ ein erwarteter Ausgang und musste in den Review fuehren. Hier kann er nicht auftreten: der Extraktor prueft die Typverfuegbarkeit selbst und laesst einen Fall ohne Typ gar nicht erst in cases.json (der eine solche Fall, WZB_64ra_25_4 mit der Schreibung vrow̆e, steht in offene-faelle.csv). Ein fehlender Typ waere hier also ein Widerspruch zwischen Extraktor und Anwender und soll den Lauf abbrechen, nicht stillschweigend einen Review-Fall erzeugen.",
+  "kommentar_kein_llm": "Diese Serie hat keinen Disambiguierungslauf. actions.json entsteht deterministisch in extract-387-vrouwe.py. Die kontextpflichtigen Faelle, in denen die eigentliche Arbeit von #387 steckt (390 Tokens der Form fro, mehrdeutig zwischen vrouwe und vrô), sind ausdruecklich NICHT Teil dieses Batches: sie stehen in offene-faelle.csv und brauchen eine philologische Entscheidung."
+}

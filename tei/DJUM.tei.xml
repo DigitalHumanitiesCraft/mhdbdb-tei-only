@@ -141,6 +141,7 @@
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 17 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/). 10 weitere Tokens der Form minne blieben bewusst unannotiert (Review).</change>
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 11 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
+      <change when="2026-09-06" who="#editor">#387 (vrouwe, mechanischer Teil): 4 Tokens der Form vrouwe erstmals annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260)). Kein LLM-Lauf: annotiert wurde nur, wo die MHG-normalisierte Schreibung im gesamten Korpus ein einziges Lemma traegt, dieses genau eine Wortart fuehrt und die Schreibung dafuer genug Belege hat. Kontextpflichtige Faelle sind unangetastet geblieben (Provenienz-Log: ingest/pos-disambig/387-vrouwe/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -20196,7 +20197,7 @@
                 <hi rend="initial">
                   <w xml:id="DJUM_217313_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
                 </hi>
-                <w xml:id="DJUM_217313_1">fraw</w>
+                <w xml:id="DJUM_217313_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
                 <w xml:id="DJUM_217313_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
                 <w xml:id="DJUM_217313_3">sprach</w>
                 <pc xml:id="DJUM_217313_4" join="left">:</pc>
@@ -20319,7 +20320,7 @@
               </l>
               <l n="6">
                 <w xml:id="DJUM_217406_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-                <w xml:id="DJUM_217406_1">fraw</w>
+                <w xml:id="DJUM_217406_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
                 <w xml:id="DJUM_217406_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
                 <w xml:id="DJUM_217406_3">sprach</w>
                 <pc xml:id="DJUM_217406_4" join="left">:</pc>
@@ -20518,7 +20519,7 @@
                 <pc xml:id="DJUM_217505_7" join="left">,</pc>
                 <caesura/>
                 <w xml:id="DJUM_217505_8" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-                <w xml:id="DJUM_217505_9">fraw</w>
+                <w xml:id="DJUM_217505_9" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
                 <w xml:id="DJUM_217505_10" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
                 <w xml:id="DJUM_217505_11" lemmaRef="lexicon.xml#lemma_7897" pos="NOM" ana="lexicon.xml#lemma_7897_sense_12952" corresp="variants.xml#type_28660">zorne</w>
                 <w xml:id="DJUM_217505_12" lemmaRef="lexicon.xml#lemma_7459" pos="VRB" ana="lexicon.xml#lemma_7459_sense_12140" corresp="variants.xml#type_26877">weinte</w>
@@ -20793,7 +20794,7 @@
                 <pc xml:id="DJUM_227819_8" join="left">,</pc>
                 <w xml:id="DJUM_227819_9" lemmaRef="lexicon.xml#lemma_7489" pos="VRB VEX" corresp="variants.xml#type_219297">wuord</w>
                 <w xml:id="DJUM_227819_10" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10237">mir</w>
-                <w xml:id="DJUM_227819_11">fraw</w>
+                <w xml:id="DJUM_227819_11" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
                 <w xml:id="DJUM_227819_12" lemmaRef="lexicon.xml#lemma_5051" pos="NOM" ana="lexicon.xml#lemma_5051_sense_7869" corresp="variants.xml#type_45234">seld</w>
                 <w xml:id="DJUM_227819_13" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
                 <w xml:id="DJUM_227819_14">werde</w>

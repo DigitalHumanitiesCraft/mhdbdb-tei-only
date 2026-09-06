@@ -127,6 +127,7 @@
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 35 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 52 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
+      <change when="2026-09-06" who="#editor">#387 (vrouwe, mechanischer Teil): 68 Tokens der Form vrouwe erstmals annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260)). Kein LLM-Lauf: annotiert wurde nur, wo die MHG-normalisierte Schreibung im gesamten Korpus ein einziges Lemma traegt, dieses genau eine Wortart fuehrt und die Schreibung dafuer genug Belege hat. Kontextpflichtige Faelle sind unangetastet geblieben (Provenienz-Log: ingest/pos-disambig/387-vrouwe/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -12917,7 +12918,7 @@
               <w xml:id="NLA_26540_2">sich</w>
               <w xml:id="NLA_26540_3" lemmaRef="lexicon.xml#lemma_1410" pos="ADV PRP" ana="lexicon.xml#lemma_1410_sense_2177" corresp="variants.xml#type_4606">engegene</w>
               <w xml:id="NLA_26540_4" lemmaRef="lexicon.xml#lemma_106" pos="ADJ" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_258">alle</w>
-              <w xml:id="NLA_26540_5">vrowen</w>
+              <w xml:id="NLA_26540_5" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_26540_6">wider</w>
               <w xml:id="NLA_26540_7">strit</w>
             </l>
@@ -15761,7 +15762,7 @@
               <w xml:id="NLA_32630_2">an</w>
               <w xml:id="NLA_32630_3" lemmaRef="lexicon.xml#lemma_2348" pos="VRB" corresp="variants.xml#type_7932">gewinnen</w>
               <w xml:id="NLA_32630_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-              <w xml:id="NLA_32630_5">vrowen</w>
+              <w xml:id="NLA_32630_5" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_32630_6" lemmaRef="lexicon.xml#lemma_7677" pos="NOM ADV" ana="lexicon.xml#lemma_7677_sense_12586" corresp="variants.xml#type_27811">wol</w>
               <w xml:id="NLA_32630_7" lemmaRef="lexicon.xml#lemma_1964" pos="VRB" corresp="variants.xml#type_6656">geborn</w>
             </l>
@@ -25281,7 +25282,7 @@
               <w xml:id="NLA_52630_2">er</w>
               <w xml:id="NLA_52630_3" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
               <w xml:id="NLA_52630_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-              <w xml:id="NLA_52630_5">vrowen</w>
+              <w xml:id="NLA_52630_5" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_52630_6">schiet</w>
             </l>
             <l n="4">
@@ -25463,7 +25464,7 @@
             <l n="3">
               <w xml:id="NLA_53030_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
               <w xml:id="NLA_53030_1" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-              <w xml:id="NLA_53030_2">vrowen</w>
+              <w xml:id="NLA_53030_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_53030_3" lemmaRef="lexicon.xml#lemma_5608" pos="VRB VEM" corresp="variants.xml#type_19654">solden</w>
               <w xml:id="NLA_53030_4" lemmaRef="lexicon.xml#lemma_4885" pos="VRB" ana="lexicon.xml#lemma_4885_sense_7583" corresp="variants.xml#type_16850">riten</w>
               <w xml:id="NLA_53030_5" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_28131">ze</w>
@@ -26006,7 +26007,7 @@
               <w xml:id="NLA_54140_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
               <w xml:id="NLA_54140_5" lemmaRef="lexicon.xml#lemma_4182" pos="NOM" ana="lexicon.xml#lemma_4182_sense_6559" corresp="variants.xml#type_283703">moern</w>
               <w xml:id="NLA_54140_6" lemmaRef="lexicon.xml#lemma_3962" pos="ADJ" ana="lexicon.xml#lemma_3962_sense_6245" corresp="variants.xml#type_13831">manige</w>
-              <w xml:id="NLA_54140_7">vrowen</w>
+              <w xml:id="NLA_54140_7" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_54140_8" lemmaRef="lexicon.xml#lemma_9101" pos="ADJ" ana="lexicon.xml#lemma_9101_sense_13609" corresp="variants.xml#type_83925">wolgetan</w>
             </l>
           </lg>
@@ -26224,7 +26225,7 @@
             <l n="3">
               <w xml:id="NLA_54630_0" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
               <w xml:id="NLA_54630_1" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-              <w xml:id="NLA_54630_2">vrowen</w>
+              <w xml:id="NLA_54630_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_54630_3">beide</w>
               <w xml:id="NLA_54630_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
               <w xml:id="NLA_54630_5">bruote</w>
@@ -26388,7 +26389,7 @@
               <hi rend="initial upper_case_first_letter">
                   <w xml:id="NLA_55010_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
                 </hi>
-              <w xml:id="NLA_55010_1">vrowen</w>
+              <w xml:id="NLA_55010_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_55010_2" lemmaRef="lexicon.xml#lemma_5652" pos="VRB" ana="lexicon.xml#lemma_5652_sense_8846" corresp="variants.xml#type_19823">spehen</w>
               <w xml:id="NLA_55010_3" lemmaRef="lexicon.xml#lemma_3538" pos="VRB VEM" corresp="variants.xml#type_99469">chvnden</w>
               <w xml:id="NLA_55010_4" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_38749">vnd</w>
@@ -26650,7 +26651,7 @@
               <w xml:id="NLA_55530_1" lemmaRef="lexicon.xml#lemma_4886" pos="NOM" corresp="variants.xml#type_16866">riter</w>
               <w xml:id="NLA_55530_2" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_196209">zuo</w>
               <w xml:id="NLA_55530_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
-              <w xml:id="NLA_55530_4">vrowen</w>
+              <w xml:id="NLA_55530_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_55530_5" lemmaRef="lexicon.xml#lemma_6330" pos="ADV PRP" ana="lexicon.xml#lemma_6330_sense_9973" corresp="variants.xml#type_77506">vf</w>
               <w xml:id="NLA_55530_6" lemmaRef="lexicon.xml#lemma_2866" pos="ADJ ADV GRA" corresp="variants.xml#type_9700">hoher</w>
               <w xml:id="NLA_55530_7" lemmaRef="lexicon.xml#lemma_7252" pos="NOM" ana="lexicon.xml#lemma_7252_sense_11755" corresp="variants.xml#type_218714">vroden</w>
@@ -26712,7 +26713,7 @@
               <w xml:id="NLA_55640_4">vil</w>
               <w xml:id="NLA_55640_5" lemmaRef="lexicon.xml#lemma_3962" pos="ADJ" ana="lexicon.xml#lemma_3962_sense_6245" corresp="variants.xml#type_13834">maniger</w>
               <w xml:id="NLA_55640_6">schoenen</w>
-              <w xml:id="NLA_55640_7">vrowen</w>
+              <w xml:id="NLA_55640_7" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_55640_8">lip</w>
             </l>
           </lg>
@@ -26756,7 +26757,7 @@
               <w xml:id="NLA_55740_0" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3255">da</w>
               <w xml:id="NLA_55740_1">wart</w>
               <w xml:id="NLA_55740_2" lemmaRef="lexicon.xml#lemma_1145" pos="VRB" corresp="variants.xml#type_3604">gedient</w>
-              <w xml:id="NLA_55740_3">vrowen</w>
+              <w xml:id="NLA_55740_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_55740_4" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
               <w xml:id="NLA_55740_5" lemmaRef="lexicon.xml#lemma_2755" pos="NOM" ana="lexicon.xml#lemma_2755_sense_4446" corresp="variants.xml#type_9329">helde</w>
               <w xml:id="NLA_55740_6" lemmaRef="lexicon.xml#lemma_2866" pos="ADJ ADV" corresp="variants.xml#type_9673">hoch</w>
@@ -27798,7 +27799,7 @@
               <w xml:id="NLA_57910_4" lemmaRef="lexicon.xml#lemma_5105" pos="ADJ ADV GRA" corresp="variants.xml#type_17699">sanfter</w>
               <w xml:id="NLA_57910_5" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
               <w xml:id="NLA_57910_6">schoenen</w>
-              <w xml:id="NLA_57910_7">vrowen</w>
+              <w xml:id="NLA_57910_7" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_57910_8" lemmaRef="lexicon.xml#lemma_678" pos="PRP" ana="lexicon.xml#lemma_678_sense_1096" corresp="variants.xml#type_2055">bi</w>
             </l>
             <l n="2">
@@ -27988,7 +27989,7 @@
               <w xml:id="NLA_58310_5" lemmaRef="lexicon.xml#lemma_7608" pos="ADV IPA" ana="lexicon.xml#lemma_7608_sense_12462" corresp="variants.xml#type_27506">wie</w>
               <w xml:id="NLA_58310_6">er</w>
               <w xml:id="NLA_58310_7" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-              <w xml:id="NLA_58310_8">vrowen</w>
+              <w xml:id="NLA_58310_8" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_58310_9" lemmaRef="lexicon.xml#lemma_4649" pos="VRB" corresp="variants.xml#type_120701">pflach</w>
             </l>
             <l n="2">
@@ -28094,7 +28095,7 @@
               <w xml:id="NLA_58520_5" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3255">da</w>
               <w xml:id="NLA_58520_6">er</w>
               <w xml:id="NLA_58520_7" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-              <w xml:id="NLA_58520_8">vrowen</w>
+              <w xml:id="NLA_58520_8" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_58520_9">vant</w>
             </l>
             <l n="3">
@@ -28346,7 +28347,7 @@
               <w xml:id="NLA_59030_1" lemmaRef="lexicon.xml#lemma_3191" pos="NOM" ana="lexicon.xml#lemma_3191_sense_5033" corresp="variants.xml#type_41830">kamerere</w>
               <w xml:id="NLA_59030_2" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
               <w xml:id="NLA_59030_3" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4323">einer</w>
-              <w xml:id="NLA_59030_4">vrowen</w>
+              <w xml:id="NLA_59030_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_59030_5">hant</w>
             </l>
             <l n="4">
@@ -28433,7 +28434,7 @@
               <w xml:id="NLA_59220_4">er</w>
               <w xml:id="NLA_59220_5" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_196209">zuo</w>
               <w xml:id="NLA_59220_6" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-              <w xml:id="NLA_59220_7">vrowen</w>
+              <w xml:id="NLA_59220_7" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_59220_8" lemmaRef="lexicon.xml#lemma_1844" pos="VRB" corresp="variants.xml#type_6313">gie</w>
             </l>
             <l n="3">
@@ -29015,7 +29016,7 @@
             <l n="2">
               <w xml:id="NLA_60420_0" lemmaRef="lexicon.xml#lemma_3001" pos="POS" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10230">mine</w>
               <w xml:id="NLA_60420_1">lieben</w>
-              <w xml:id="NLA_60420_2">vrowen</w>
+              <w xml:id="NLA_60420_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_60420_3" lemmaRef="lexicon.xml#lemma_207" pos="ADV" ana="lexicon.xml#lemma_207_sense_259" corresp="variants.xml#type_556">anders</w>
               <w xml:id="NLA_60420_4">bin</w>
               <w xml:id="NLA_60420_5" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ ADV" ana="lexicon.xml#lemma_7250_sense_11752" corresp="variants.xml#type_25868">vro</w>
@@ -29124,7 +29125,7 @@
             <l n="3">
               <w xml:id="NLA_60630_0" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3255">da</w>
               <w xml:id="NLA_60630_1" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-              <w xml:id="NLA_60630_2">vrowen</w>
+              <w xml:id="NLA_60630_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_60630_3" lemmaRef="lexicon.xml#lemma_5608" pos="VRB VEM" corresp="variants.xml#type_19654">solden</w>
               <w xml:id="NLA_60630_4">gegen</w>
               <w xml:id="NLA_60630_5" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3504">dem</w>
@@ -29159,7 +29160,7 @@
             </l>
             <l n="2">
               <w xml:id="NLA_60720_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-              <w xml:id="NLA_60720_1">vrowen</w>
+              <w xml:id="NLA_60720_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_60720_2" lemmaRef="lexicon.xml#lemma_3015" pos="ADJ" ana="lexicon.xml#lemma_3015_sense_4819" corresp="variants.xml#type_154017">isliche</w>
               <w xml:id="NLA_60720_3" lemmaRef="lexicon.xml#lemma_7283" pos="VRB" corresp="variants.xml#type_26161">fuorte</w>
               <w xml:id="NLA_60720_4">ein</w>
@@ -30251,7 +30252,7 @@
               <w xml:id="NLA_63010_3">er</w>
               <w xml:id="NLA_63010_4" lemmaRef="lexicon.xml#lemma_678" pos="PRP" ana="lexicon.xml#lemma_678_sense_1096" corresp="variants.xml#type_2055">bi</w>
               <w xml:id="NLA_63010_5" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-              <w xml:id="NLA_63010_6">vrowen</w>
+              <w xml:id="NLA_63010_6" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_63010_7">lach</w>
             </l>
             <l n="2">
@@ -30283,7 +30284,7 @@
               <w xml:id="NLA_63040_3" lemmaRef="lexicon.xml#lemma_1436" pos="VRB" corresp="variants.xml#type_4727">enphangen</w>
               <w xml:id="NLA_63040_4" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
               <w xml:id="NLA_63040_5" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4323">einer</w>
-              <w xml:id="NLA_63040_6">vrowen</w>
+              <w xml:id="NLA_63040_6" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_63040_7" lemmaRef="lexicon.xml#lemma_9101" pos="ADJ" ana="lexicon.xml#lemma_9101_sense_13609" corresp="variants.xml#type_83925">wolgetan</w>
             </l>
           </lg>
@@ -30775,7 +30776,7 @@
               <w xml:id="NLA_64040_6" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
               <w xml:id="NLA_64040_7" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
               <w xml:id="NLA_64040_8">lieben</w>
-              <w xml:id="NLA_64040_9">vrowen</w>
+              <w xml:id="NLA_64040_9" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_64040_10">min</w>
             </l>
           </lg>
@@ -31044,7 +31045,7 @@
             <l n="2">
               <w xml:id="NLA_64620_0" lemmaRef="lexicon.xml#lemma_3926" pos="NOM" corresp="variants.xml#type_13735">meide</w>
               <w xml:id="NLA_64620_1" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_67482">vnde</w>
-              <w xml:id="NLA_64620_2">vrowen</w>
+              <w xml:id="NLA_64620_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_64620_3" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
               <w xml:id="NLA_64620_4">was</w>
               <w xml:id="NLA_64620_5">vil</w>
@@ -31750,7 +31751,7 @@
               <w xml:id="NLA_66130_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
               <w xml:id="NLA_66130_1" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
               <w xml:id="NLA_66130_2" lemmaRef="lexicon.xml#lemma_4872" pos="NOM ADJ" corresp="variants.xml#type_82372">riken</w>
-              <w xml:id="NLA_66130_3">vrowen</w>
+              <w xml:id="NLA_66130_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_66130_4">ob</w>
               <w xml:id="NLA_66130_5" lemmaRef="lexicon.xml#lemma_3604" pos="NOM" ana="lexicon.xml#lemma_3604_sense_5708" corresp="variants.xml#type_12559">landen</w>
               <w xml:id="NLA_66130_6" lemmaRef="lexicon.xml#lemma_7677" pos="NOM ADV" ana="lexicon.xml#lemma_7677_sense_12586" corresp="variants.xml#type_27811">wol</w>
@@ -32676,7 +32677,7 @@
               <w xml:id="NLA_68010_3" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_38749">vnd</w>
               <w xml:id="NLA_68010_4" lemmaRef="lexicon.xml#lemma_5941" pos="PRO IPA" ana="lexicon.xml#lemma_5941_sense_9416" corresp="variants.xml#type_20940">swaz</w>
               <w xml:id="NLA_68010_5">man</w>
-              <w xml:id="NLA_68010_6">vrowen</w>
+              <w xml:id="NLA_68010_6" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_68010_7" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3255">da</w>
               <w xml:id="NLA_68010_8">vant</w>
             </l>
@@ -32694,7 +32695,7 @@
             <l n="3">
               <w xml:id="NLA_68030_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
               <w xml:id="NLA_68030_1" lemmaRef="lexicon.xml#lemma_4131" pos="ADJ ADV" ana="lexicon.xml#lemma_4131_sense_6488" corresp="variants.xml#type_14403">minneclichen</w>
-              <w xml:id="NLA_68030_2">vrowen</w>
+              <w xml:id="NLA_68030_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_68030_3" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_38749">vnd</w>
               <w xml:id="NLA_68030_4" lemmaRef="lexicon.xml#lemma_3962" pos="ADJ" ana="lexicon.xml#lemma_3962_sense_6245" corresp="variants.xml#type_13832">manigem</w>
               <w xml:id="NLA_68030_5">küenen</w>
@@ -34095,7 +34096,7 @@
             <l n="2">
               <w xml:id="NLA_70920_0" lemmaRef="lexicon.xml#lemma_4886" pos="NOM" corresp="variants.xml#type_16873">rittern</w>
               <w xml:id="NLA_70920_1" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_38749">vnd</w>
-              <w xml:id="NLA_70920_2">vrowen</w>
+              <w xml:id="NLA_70920_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_70920_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
               <w xml:id="NLA_70920_4" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
               <w xml:id="NLA_70920_5">im</w>
@@ -35031,7 +35032,7 @@
               <w xml:id="NLA_72810_1" lemmaRef="lexicon.xml#lemma_3926" pos="NOM" corresp="variants.xml#type_13735">meide</w>
               <w xml:id="NLA_72810_2" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_38749">vnd</w>
               <w xml:id="NLA_72810_3">ir</w>
-              <w xml:id="NLA_72810_4">vrowen</w>
+              <w xml:id="NLA_72810_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_72810_5" lemmaRef="lexicon.xml#lemma_2731" pos="VRB" corresp="variants.xml#type_9214">hiez</w>
               <w xml:id="NLA_72810_6">si</w>
               <w xml:id="NLA_72810_7" lemmaRef="lexicon.xml#lemma_5042" pos="ADV" ana="lexicon.xml#lemma_5042_sense_7849" corresp="variants.xml#type_173453">sacehant</w>
@@ -35377,7 +35378,7 @@
               <w xml:id="NLA_73520_3" lemmaRef="lexicon.xml#lemma_5125" pos="NOM" ana="lexicon.xml#lemma_5125_sense_7973" corresp="variants.xml#type_17766">setel</w>
               <w xml:id="NLA_73520_4">lere</w>
               <w xml:id="NLA_73520_5" lemmaRef="lexicon.xml#lemma_3962" pos="ADJ" ana="lexicon.xml#lemma_3962_sense_6245" corresp="variants.xml#type_13834">maniger</w>
-              <w xml:id="NLA_73520_6">vrowen</w>
+              <w xml:id="NLA_73520_6" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_73520_7">lip</w>
             </l>
             <l n="3">
@@ -35477,7 +35478,7 @@
               <w xml:id="NLA_73730_1" lemmaRef="lexicon.xml#lemma_3523" pos="VRB" ana="lexicon.xml#lemma_3523_sense_5578" corresp="variants.xml#type_205974">kvssen</w>
               <w xml:id="NLA_73730_2" lemmaRef="lexicon.xml#lemma_4131" pos="ADJ ADV" ana="lexicon.xml#lemma_4131_sense_6488" corresp="variants.xml#type_14403">minneclichen</w>
               <w xml:id="NLA_73730_3" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
-              <w xml:id="NLA_73730_4">vrowen</w>
+              <w xml:id="NLA_73730_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_73730_5" lemmaRef="lexicon.xml#lemma_9101" pos="ADJ" ana="lexicon.xml#lemma_9101_sense_13609" corresp="variants.xml#type_83925">wolgetan</w>
             </l>
             <l n="4">
@@ -35668,7 +35669,7 @@
               <w xml:id="NLA_74130_2">vber</w>
               <w xml:id="NLA_74130_3" lemmaRef="lexicon.xml#lemma_5125" pos="NOM" ana="lexicon.xml#lemma_5125_sense_7973" corresp="variants.xml#type_50234">setele</w>
               <w xml:id="NLA_74130_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
-              <w xml:id="NLA_74130_5">vrowen</w>
+              <w xml:id="NLA_74130_5" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_74130_6" lemmaRef="lexicon.xml#lemma_9101" pos="ADJ" ana="lexicon.xml#lemma_9101_sense_13609" corresp="variants.xml#type_83925">wolgetan</w>
             </l>
             <l n="4">
@@ -35982,7 +35983,7 @@
               <w xml:id="NLA_74810_6" lemmaRef="lexicon.xml#lemma_4649" pos="VRB" corresp="variants.xml#type_16001">gepflegen</w>
             </l>
             <l n="2">
-              <w xml:id="NLA_74820_0">vrowen</w>
+              <w xml:id="NLA_74820_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_74820_1" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_67482">vnde</w>
               <w xml:id="NLA_74820_2" lemmaRef="lexicon.xml#lemma_3926" pos="NOM" corresp="variants.xml#type_13735">meide</w>
               <w xml:id="NLA_74820_3" lemmaRef="lexicon.xml#lemma_2731" pos="VRB" corresp="variants.xml#type_9214">hiez</w>
@@ -36272,7 +36273,7 @@
               <w xml:id="NLA_75430_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
               <w xml:id="NLA_75430_4">moere</w>
               <w xml:id="NLA_75430_5" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-              <w xml:id="NLA_75430_6">vrowen</w>
+              <w xml:id="NLA_75430_6" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_75430_7" lemmaRef="lexicon.xml#lemma_4885" pos="VRB" ana="lexicon.xml#lemma_4885_sense_7583" corresp="variants.xml#type_16850">riten</w>
               <w xml:id="NLA_75430_8" lemmaRef="lexicon.xml#lemma_1073" pos="ADV" ana="lexicon.xml#lemma_1073_sense_1716" corresp="variants.xml#type_3320">dan</w>
             </l>
@@ -37155,7 +37156,7 @@
               <w xml:id="NLA_77240_2">sich</w>
               <w xml:id="NLA_77240_3" lemmaRef="lexicon.xml#lemma_6471" pos="ADJ ADV PRP" ana="lexicon.xml#lemma_6471_sense_10240" corresp="variants.xml#type_45574">vnder</w>
               <w xml:id="NLA_77240_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
-              <w xml:id="NLA_77240_5">vrowen</w>
+              <w xml:id="NLA_77240_5" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_77240_6" lemmaRef="lexicon.xml#lemma_2534" pos="ADJ" corresp="variants.xml#type_8501">grozes</w>
               <w xml:id="NLA_77240_7" lemmaRef="lexicon.xml#lemma_4350" pos="NOM" corresp="variants.xml#type_36858">nides</w>
               <w xml:id="NLA_77240_8" lemmaRef="lexicon.xml#lemma_2141" pos="ADJ ADV" ana="lexicon.xml#lemma_2141_sense_3333" corresp="variants.xml#type_124589">genvch</w>
@@ -37185,7 +37186,7 @@
               <w xml:id="NLA_77320_4">scheiden</w>
               <w xml:id="NLA_77320_5" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
               <w xml:id="NLA_77320_6" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
-              <w xml:id="NLA_77320_7">vrowen</w>
+              <w xml:id="NLA_77320_7" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_77320_8">din</w>
             </l>
             <l n="3">
@@ -37896,7 +37897,7 @@
                 </hi>
               <w xml:id="NLA_78810_1" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_38749">vnd</w>
               <w xml:id="NLA_78810_2">ir</w>
-              <w xml:id="NLA_78810_3">vrowen</w>
+              <w xml:id="NLA_78810_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_78810_4" lemmaRef="lexicon.xml#lemma_1844" pos="VRB" corresp="variants.xml#type_6313">gie</w>
               <w xml:id="NLA_78810_5">fur</w>
               <w xml:id="NLA_78810_6" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
@@ -38082,7 +38083,7 @@
             </l>
             <l n="4">
               <w xml:id="NLA_79140_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-              <w xml:id="NLA_79140_1">vrowen</w>
+              <w xml:id="NLA_79140_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_79140_2">waren</w>
               <w xml:id="NLA_79140_3">beide</w>
               <w xml:id="NLA_79140_4">in</w>
@@ -38741,7 +38742,7 @@
                 </hi>
               <w xml:id="NLA_80510_1">sol</w>
               <w xml:id="NLA_80510_2" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
-              <w xml:id="NLA_80510_3">vrowen</w>
+              <w xml:id="NLA_80510_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_80510_4" lemmaRef="lexicon.xml#lemma_7861" pos="NOM VRB" corresp="variants.xml#type_28497">ziehen</w>
               <w xml:id="NLA_80510_5">sprach</w>
               <hi rend="upper_case_first_letter">
@@ -38823,7 +38824,7 @@
               </hi>
               <w xml:id="NLA_80640_5" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_196209">zuo</w>
               <w xml:id="NLA_80640_6" lemmaRef="lexicon.xml#lemma_1517" pos="POS" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_5024">siner</w>
-              <w xml:id="NLA_80640_7">vrowen</w>
+              <w xml:id="NLA_80640_7" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_80640_8" lemmaRef="lexicon.xml#lemma_2006" pos="VRB" ana="lexicon.xml#lemma_2006_sense_3098" corresp="variants.xml#type_36510">gegan</w>
             </l>
           </lg>
@@ -39001,7 +39002,7 @@
               <w xml:id="NLA_81030_4" lemmaRef="lexicon.xml#lemma_5004" pos="VRB" corresp="variants.xml#type_17305">gerüemet</w>
               <w xml:id="NLA_81030_5" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
               <w xml:id="NLA_81030_6">lieben</w>
-              <w xml:id="NLA_81030_7">vrowen</w>
+              <w xml:id="NLA_81030_7" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_81030_8">min</w>
             </l>
             <l n="4">
@@ -44699,7 +44700,7 @@
               <w xml:id="NLA_92840_3" lemmaRef="lexicon.xml#lemma_659" pos="VRB" ana="lexicon.xml#lemma_659_sense_1056" corresp="variants.xml#type_54548">beweinet</w>
               <w xml:id="NLA_92840_4" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
               <w xml:id="NLA_92840_5">schoenen</w>
-              <w xml:id="NLA_92840_6">vrowen</w>
+              <w xml:id="NLA_92840_6" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_92840_7" lemmaRef="lexicon.xml#lemma_2141" pos="ADJ ADV" ana="lexicon.xml#lemma_2141_sense_3333" corresp="variants.xml#type_91607">genuoch</w>
             </l>
           </lg>
@@ -48937,7 +48938,7 @@
               <w xml:id="NLA_101630_8">leit</w>
             </l>
             <l n="4">
-              <w xml:id="NLA_101640_0">vrowen</w>
+              <w xml:id="NLA_101640_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_101640_1" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_38749">vnd</w>
               <w xml:id="NLA_101640_2">meiden</w>
               <w xml:id="NLA_101640_3" lemmaRef="lexicon.xml#lemma_2731" pos="VRB" corresp="variants.xml#type_9214">hiez</w>
@@ -51789,7 +51790,7 @@
               <w xml:id="NLA_107530_2">er</w>
               <w xml:id="NLA_107530_3" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_196209">zuo</w>
               <w xml:id="NLA_107530_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-              <w xml:id="NLA_107530_5">vrowen</w>
+              <w xml:id="NLA_107530_5" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_107530_6" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
               <w xml:id="NLA_107530_7">sol</w>
               <w xml:id="NLA_107530_8">sin</w>
@@ -51931,7 +51932,7 @@
             </l>
             <l n="3">
               <w xml:id="NLA_107830_0" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
-              <w xml:id="NLA_107830_1">vrowen</w>
+              <w xml:id="NLA_107830_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_107830_2" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_38749">vnd</w>
               <w xml:id="NLA_107830_3" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
               <w xml:id="NLA_107830_4">meiden</w>
@@ -52258,7 +52259,7 @@
               <w xml:id="NLA_108440_1" lemmaRef="lexicon.xml#lemma_4330" pos="VRB" corresp="variants.xml#type_15090">nemt</w>
               <w xml:id="NLA_108440_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
               <w xml:id="NLA_108440_3" lemmaRef="lexicon.xml#lemma_5385" pos="ADJ" ana="lexicon.xml#lemma_5385_sense_8406" corresp="variants.xml#type_18769">selben</w>
-              <w xml:id="NLA_108440_4">vrowen</w>
+              <w xml:id="NLA_108440_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_108440_5" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
               <w xml:id="NLA_108440_6" lemmaRef="lexicon.xml#lemma_5729" pos="ADJ" corresp="variants.xml#type_20148">starke</w>
               <hi rend="upper_case_first_letter">
@@ -57730,7 +57731,7 @@
               <w xml:id="NLA_119710_4">geringet</w>
               <w xml:id="NLA_119710_5" lemmaRef="lexicon.xml#lemma_7677" pos="NOM ADV" ana="lexicon.xml#lemma_7677_sense_12586" corresp="variants.xml#type_27811">wol</w>
               <w xml:id="NLA_119710_6" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-              <w xml:id="NLA_119710_7">vrowen</w>
+              <w xml:id="NLA_119710_7" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_119710_8">muot</w>
             </l>
             <l n="2">
@@ -58906,7 +58907,7 @@
               <w xml:id="NLA_122040_1" lemmaRef="lexicon.xml#lemma_53872" pos="NOM" ana="lexicon.xml#lemma_53872_sense_87592" corresp="variants.xml#type_297520">gecierde</w>
               <w xml:id="NLA_122040_2">vil</w>
               <w xml:id="NLA_122040_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-              <w xml:id="NLA_122040_4">vrowen</w>
+              <w xml:id="NLA_122040_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_122040_5" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
               <w xml:id="NLA_122040_6">si</w>
               <w xml:id="NLA_122040_7" lemmaRef="lexicon.xml#lemma_9137" pos="ART PRP" ana="lexicon.xml#lemma_9137_sense_12736" corresp="variants.xml#type_121712">cer</w>
@@ -59589,7 +59590,7 @@
               <w xml:id="NLA_123430_1">man</w>
               <w xml:id="NLA_123430_2" lemmaRef="lexicon.xml#lemma_678" pos="PRP" ana="lexicon.xml#lemma_678_sense_1096" corresp="variants.xml#type_2055">bi</w>
               <w xml:id="NLA_123430_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-              <w xml:id="NLA_123430_4">vrowen</w>
+              <w xml:id="NLA_123430_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_123430_5">nahen</w>
               <w xml:id="NLA_123430_6" lemmaRef="lexicon.xml#lemma_6330" pos="ADV PRP" ana="lexicon.xml#lemma_6330_sense_9973" corresp="variants.xml#type_77506">vf</w>
               <w xml:id="NLA_123430_7" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
@@ -60232,7 +60233,7 @@
               <w xml:id="NLA_124740_4">prise</w>
               <w xml:id="NLA_124740_5" lemmaRef="lexicon.xml#lemma_7194" pos="ADV PRP" ana="lexicon.xml#lemma_7194_sense_11657" corresp="variants.xml#type_25545">vor</w>
               <w xml:id="NLA_124740_6" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
-              <w xml:id="NLA_124740_7">vrowen</w>
+              <w xml:id="NLA_124740_7" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_124740_8" lemmaRef="lexicon.xml#lemma_4885" pos="VRB" ana="lexicon.xml#lemma_4885_sense_7583" corresp="variants.xml#type_16830">geriten</w>
             </l>
           </lg>
@@ -61943,7 +61944,7 @@
               <w xml:id="NLA_128240_0" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
               <w xml:id="NLA_128240_1">si</w>
               <w xml:id="NLA_128240_2">ir</w>
-              <w xml:id="NLA_128240_3">vrowen</w>
+              <w xml:id="NLA_128240_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_128240_4" lemmaRef="lexicon.xml#lemma_5366" pos="VRB" ana="lexicon.xml#lemma_5366_sense_8382" corresp="variants.xml#type_18702">sahen</w>
               <w xml:id="NLA_128240_5" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3255">da</w>
               <w xml:id="NLA_128240_6" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
@@ -62019,7 +62020,7 @@
               <w xml:id="NLA_128420_3" lemmaRef="lexicon.xml#lemma_3507" pos="NOM" ana="lexicon.xml#lemma_3507_sense_5555" corresp="variants.xml#type_122227">kvnige</w>
               <w xml:id="NLA_128420_4">gein</w>
               <w xml:id="NLA_128420_5" lemmaRef="lexicon.xml#lemma_1517" pos="POS" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_5024">siner</w>
-              <w xml:id="NLA_128420_6">vrowen</w>
+              <w xml:id="NLA_128420_6" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_128420_7" lemmaRef="lexicon.xml#lemma_1073" pos="ADV" ana="lexicon.xml#lemma_1073_sense_1716" corresp="variants.xml#type_3320">dan</w>
             </l>
             <l n="3">
@@ -63589,7 +63590,7 @@
               <w xml:id="NLA_131640_1">waz</w>
               <w xml:id="NLA_131640_2">man</w>
               <w xml:id="NLA_131640_3" lemmaRef="lexicon.xml#lemma_5280" pos="ADJ ADV GRA" ana="lexicon.xml#lemma_5280_sense_8229" corresp="variants.xml#type_18376">schoener</w>
-              <w xml:id="NLA_131640_4">vrowen</w>
+              <w xml:id="NLA_131640_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_131640_5">in</w>
               <w xml:id="NLA_131640_6" lemmaRef="lexicon.xml#lemma_1517" pos="POS" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_5021">sime</w>
               <w xml:id="NLA_131640_7" lemmaRef="lexicon.xml#lemma_2720" pos="NOM" ana="lexicon.xml#lemma_2720_sense_4383" corresp="variants.xml#type_9177">heimuote</w>
@@ -70706,7 +70707,7 @@
               <w xml:id="NLA_146120_2">man</w>
               <w xml:id="NLA_146120_3">vil</w>
               <w xml:id="NLA_146120_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-              <w xml:id="NLA_146120_5">vrowen</w>
+              <w xml:id="NLA_146120_5" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_146120_6" lemmaRef="lexicon.xml#lemma_6243" pos="ADJ ADV" ana="lexicon.xml#lemma_6243_sense_9844" corresp="variants.xml#type_283945">trurichlichen</w>
               <w xml:id="NLA_146120_7">stan</w>
             </l>
@@ -77136,7 +77137,7 @@
               <w xml:id="NLA_159310_1" lemmaRef="lexicon.xml#lemma_3830" pos="VRB" corresp="variants.xml#type_13384">lobeten</w>
               <w xml:id="NLA_159310_2">do</w>
               <w xml:id="NLA_159310_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-              <w xml:id="NLA_159310_4">vrowen</w>
+              <w xml:id="NLA_159310_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_159310_5" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_38749">vnd</w>
               <w xml:id="NLA_159310_6">waren</w>
               <w xml:id="NLA_159310_7">sin</w>
@@ -77231,7 +77232,7 @@
               <w xml:id="NLA_159510_4" lemmaRef="lexicon.xml#lemma_5608" pos="VRB VEM" corresp="variants.xml#type_118415">svl</w>
               <w xml:id="NLA_159510_5" lemmaRef="lexicon.xml#lemma_7643" pos="PRO" ana="lexicon.xml#lemma_7643_sense_12530" corresp="variants.xml#type_27647">wir</w>
               <w xml:id="NLA_159510_6" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-              <w xml:id="NLA_159510_7">vrowen</w>
+              <w xml:id="NLA_159510_7" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_159510_8" lemmaRef="lexicon.xml#lemma_3567" pos="VRB" corresp="variants.xml#type_12434">lan</w>
             </l>
             <l n="2">
@@ -77536,7 +77537,7 @@
             </l>
             <l n="3">
               <w xml:id="NLA_160130_0" lemmaRef="lexicon.xml#lemma_4131" pos="ADJ ADV" ana="lexicon.xml#lemma_4131_sense_6488" corresp="variants.xml#type_40949">minnecliche</w>
-              <w xml:id="NLA_160130_1">vrowen</w>
+              <w xml:id="NLA_160130_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_160130_2" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_38749">vnd</w>
               <w xml:id="NLA_160130_3" lemmaRef="lexicon.xml#lemma_3962" pos="ADJ" ana="lexicon.xml#lemma_3962_sense_6245" corresp="variants.xml#type_13829">manich</w>
               <w xml:id="NLA_160130_4" lemmaRef="lexicon.xml#lemma_5280" pos="NOM ADJ ADV" ana="lexicon.xml#lemma_5280_sense_8229" corresp="variants.xml#type_18373">schoene</w>
@@ -77915,7 +77916,7 @@
               <w xml:id="NLA_160930_1" lemmaRef="lexicon.xml#lemma_3926" pos="NOM" corresp="variants.xml#type_13735">meide</w>
               <w xml:id="NLA_160930_2" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_38749">vnd</w>
               <w xml:id="NLA_160930_3">an</w>
-              <w xml:id="NLA_160930_4">vrowen</w>
+              <w xml:id="NLA_160930_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_160930_5" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
               <w xml:id="NLA_160930_6">saz</w>
               <w xml:id="NLA_160930_7" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3255">da</w>
@@ -80699,7 +80700,7 @@
               <w xml:id="NLA_166640_3" lemmaRef="lexicon.xml#lemma_3567" pos="VRB" corresp="variants.xml#type_12438">lazen</w>
               <w xml:id="NLA_166640_4">wizen</w>
               <w xml:id="NLA_166640_5" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-              <w xml:id="NLA_166640_6">vrowen</w>
+              <w xml:id="NLA_166640_6" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <hi rend="upper_case_first_letter">
                 <w xml:id="NLA_166640_7" lemmaRef="lexicon.xml#lemma_3466" pos="NAM" ana="lexicon.xml#lemma_3466_sense_5492" corresp="variants.xml#type_193878">krímhilt</w>
               </hi>
@@ -82438,7 +82439,7 @@
               <w xml:id="NLA_170210_1" lemmaRef="lexicon.xml#lemma_5693" pos="VRB" ana="lexicon.xml#lemma_5693_sense_8912" corresp="variants.xml#type_19958">sprachen</w>
               <w xml:id="NLA_170210_2" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_196209">zuo</w>
               <w xml:id="NLA_170210_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-              <w xml:id="NLA_170210_4">vrowen</w>
+              <w xml:id="NLA_170210_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_170210_5" lemmaRef="lexicon.xml#lemma_7608" pos="ADV IPA" ana="lexicon.xml#lemma_7608_sense_12462" corresp="variants.xml#type_27506">wie</w>
               <w xml:id="NLA_170210_6" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18956">ist</w>
               <w xml:id="NLA_170210_7" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
@@ -84014,7 +84015,7 @@
               <w xml:id="NLA_173440_0" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3255">da</w>
               <w xml:id="NLA_173440_1">vil</w>
               <w xml:id="NLA_173440_2" lemmaRef="lexicon.xml#lemma_3962" pos="ADJ" ana="lexicon.xml#lemma_3962_sense_6245" corresp="variants.xml#type_13834">maniger</w>
-              <w xml:id="NLA_173440_3">vrowen</w>
+              <w xml:id="NLA_173440_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_173440_4" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18956">ist</w>
               <w xml:id="NLA_173440_5" lemmaRef="lexicon.xml#lemma_2799" pos="NOM ADJ" ana="lexicon.xml#lemma_2799_sense_4515" corresp="variants.xml#type_9476">herzeleit</w>
               <w xml:id="NLA_173440_6" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
@@ -84454,7 +84455,7 @@
               <w xml:id="NLA_174340_0" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
               <w xml:id="NLA_174340_1">muozen</w>
               <w xml:id="NLA_174340_2" lemmaRef="lexicon.xml#lemma_1308" pos="NOM ADJ" ana="lexicon.xml#lemma_1308_sense_2042" corresp="variants.xml#type_4247">edele</w>
-              <w xml:id="NLA_174340_3">vrowen</w>
+              <w xml:id="NLA_174340_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_174340_4" lemmaRef="lexicon.xml#lemma_659" pos="VRB" ana="lexicon.xml#lemma_659_sense_1056" corresp="variants.xml#type_1994">beweinen</w>
               <w xml:id="NLA_174340_5" lemmaRef="lexicon.xml#lemma_2536" pos="ADJ ADV" corresp="variants.xml#type_114406">grozlichen</w>
               <w xml:id="NLA_174340_6">sit</w>
@@ -84687,7 +84688,7 @@
               <w xml:id="NLA_174830_0" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10237">mir</w>
               <w xml:id="NLA_174830_1" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_38749">vnd</w>
               <w xml:id="NLA_174830_2" lemmaRef="lexicon.xml#lemma_3001" pos="POS" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10233">miner</w>
-              <w xml:id="NLA_174830_3">vrowen</w>
+              <w xml:id="NLA_174830_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_174830_4">her</w>
               <w xml:id="NLA_174830_5">in</w>
               <w xml:id="NLA_174830_6" lemmaRef="lexicon.xml#lemma_1169" pos="DET" ana="lexicon.xml#lemma_1169_sense_1850" corresp="variants.xml#type_3697">ditze</w>
@@ -84938,7 +84939,7 @@
             </l>
             <l n="3">
               <w xml:id="NLA_175330_0" lemmaRef="lexicon.xml#lemma_3001" pos="POS" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10233">miner</w>
-              <w xml:id="NLA_175330_1">vrowen</w>
+              <w xml:id="NLA_175330_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_175330_2" lemmaRef="lexicon.xml#lemma_3905" pos="NOM" ana="lexicon.xml#lemma_3905_sense_6158" corresp="variants.xml#type_80024">mage</w>
               <w xml:id="NLA_175330_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
               <w xml:id="NLA_175330_4">eren</w>
@@ -86246,7 +86247,7 @@
               <w xml:id="NLA_178040_2" lemmaRef="lexicon.xml#lemma_7211" pos="VRB" ana="lexicon.xml#lemma_7211_sense_11684" corresp="variants.xml#type_25628">vragen</w>
               <w xml:id="NLA_178040_3">mere</w>
               <w xml:id="NLA_178040_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-              <w xml:id="NLA_178040_5">vrowen</w>
+              <w xml:id="NLA_178040_5" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <hi rend="upper_case_first_letter">
                 <w xml:id="NLA_178040_6" lemmaRef="lexicon.xml#lemma_3466" pos="NAM" ana="lexicon.xml#lemma_3466_sense_5492" corresp="variants.xml#type_11973">kriemhilde</w>
               </hi>
@@ -87524,7 +87525,7 @@
                 </hi>
               <w xml:id="NLA_180710_1" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
               <w xml:id="NLA_180710_2">ir</w>
-              <w xml:id="NLA_180710_3">vrowen</w>
+              <w xml:id="NLA_180710_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_180710_4">in</w>
               <w xml:id="NLA_180710_5" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_66912">div</w>
               <w xml:id="NLA_180710_6" lemmaRef="lexicon.xml#lemma_6808" pos="NOM" ana="lexicon.xml#lemma_6808_sense_10849" corresp="variants.xml#type_23843">venster</w>
@@ -88302,7 +88303,7 @@
               <w xml:id="NLA_182320_0" lemmaRef="lexicon.xml#lemma_3011" pos="ADV" ana="lexicon.xml#lemma_3011_sense_4815" corresp="variants.xml#type_10289">iener</w>
               <w xml:id="NLA_182320_1">trvt</w>
               <w xml:id="NLA_182320_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-              <w xml:id="NLA_182320_3">vrowen</w>
+              <w xml:id="NLA_182320_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_182320_4" lemmaRef="lexicon.xml#lemma_4238" pos="VRB VEM" corresp="variants.xml#type_14740">muoz</w>
               <w xml:id="NLA_182320_5">ein</w>
               <w xml:id="NLA_182320_6" lemmaRef="lexicon.xml#lemma_920" pos="VRB" corresp="variants.xml#type_208520">gepvoze</w>
@@ -88402,7 +88403,7 @@
             <l n="2">
               <w xml:id="NLA_182520_0">lat</w>
               <w xml:id="NLA_182520_1" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-              <w xml:id="NLA_182520_2">vrowen</w>
+              <w xml:id="NLA_182520_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_182520_3" lemmaRef="lexicon.xml#lemma_5295" pos="VRB" corresp="variants.xml#type_18436">schowen</w>
               <w xml:id="NLA_182520_4" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_38749">vnd</w>
               <w xml:id="NLA_182520_5" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
@@ -88450,7 +88451,7 @@
               <w xml:id="NLA_182620_1">wart</w>
               <w xml:id="NLA_182620_2">sit</w>
               <w xml:id="NLA_182620_3" lemmaRef="lexicon.xml#lemma_3962" pos="ADJ" ana="lexicon.xml#lemma_3962_sense_6245" corresp="variants.xml#type_13834">maniger</w>
-              <w xml:id="NLA_182620_4">vrowen</w>
+              <w xml:id="NLA_182620_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_182620_5" lemmaRef="lexicon.xml#lemma_2536" pos="ADJ ADV" corresp="variants.xml#type_114406">grozlichen</w>
               <w xml:id="NLA_182620_6">leit</w>
             </l>
@@ -97751,7 +97752,7 @@
             <l n="2">
               <w xml:id="NLA_201720_0" lemmaRef="lexicon.xml#lemma_3926" pos="NOM" corresp="variants.xml#type_13735">meide</w>
               <w xml:id="NLA_201720_1" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_38749">vnd</w>
-              <w xml:id="NLA_201720_2">vrowen</w>
+              <w xml:id="NLA_201720_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_26001">vrowen</w>
               <w xml:id="NLA_201720_3" lemmaRef="lexicon.xml#lemma_4777" pos="VRB" corresp="variants.xml#type_16427">quelten</w>
               <w xml:id="NLA_201720_4" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3255">da</w>
               <w xml:id="NLA_201720_5" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
