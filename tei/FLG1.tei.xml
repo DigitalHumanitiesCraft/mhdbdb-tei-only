@@ -136,6 +136,7 @@
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 213 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/). 64 weitere Tokens der Form minne blieben bewusst unannotiert (Review).</change>
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 80 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
       <change when="2026-09-06" who="#editor">#387 (vrouwe, mechanischer Teil): 2 Tokens der Form vrouwe erstmals annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260)). Kein LLM-Lauf: annotiert wurde nur, wo die MHG-normalisierte Schreibung im gesamten Korpus ein einziges Lemma traegt, dieses genau eine Wortart fuehrt und die Schreibung dafuer genug Belege hat. Kontextpflichtige Faelle sind unangetastet geblieben (Provenienz-Log: ingest/pos-disambig/387-vrouwe/).</change>
+      <change when="2026-09-06" who="#editor">#387 (fro): 3 homographie-ambige Tokens der Form fro kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260) bzw. vrô ADJ/ADV (lemma_7250); LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/387-fro/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -98898,7 +98899,7 @@
             
             <lb n="50"/>
               <hi rend="initial">
-                <w xml:id="FLG1_7295480500_0">fro</w>
+                <w xml:id="FLG1_7295480500_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_154744">fro</w>
               </hi>
               <w xml:id="FLG1_7295480500_1" lemmaRef="lexicon.xml#lemma_36016" pos="NOM" ana="lexicon.xml#lemma_36016_sense_56062" corresp="variants.xml#type_267312">diemuetekeit</w>
               <pc xml:id="FLG1_7295480500_2" join="left">,</pc>
@@ -99146,7 +99147,7 @@
             
             <lb n="66"/>
               <hi rend="initial">
-                <w xml:id="FLG1_7295480660_0">fro</w>
+                <w xml:id="FLG1_7295480660_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_154744">fro</w>
               </hi>
               <w xml:id="FLG1_7295480660_1" lemmaRef="lexicon.xml#lemma_10957" pos="NOM" ana="lexicon.xml#lemma_10957_sense_17534" corresp="variants.xml#type_200993">helikeit</w>
               <pc xml:id="FLG1_7295480660_2" join="left">,</pc>
@@ -99178,7 +99179,7 @@
             
             <lb n="68"/>
               <hi rend="initial">
-                <w xml:id="FLG1_7295480680_0">fro</w>
+                <w xml:id="FLG1_7295480680_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_154744">fro</w>
               </hi>
               <w xml:id="FLG1_7295480680_1" lemmaRef="lexicon.xml#lemma_12014" pos="NOM" ana="lexicon.xml#lemma_12014_sense_19023" corresp="variants.xml#type_274953">hoffunge</w>
               <pc xml:id="FLG1_7295480680_2" join="left">,</pc>

@@ -147,6 +147,7 @@
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 2 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
       <change when="2026-09-06" who="#editor">#216 Punkt 3 (vrouwe vor minne): 1 Token der Anredeform vrouwe unmittelbar vor minne erstmals annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260)). Kein LLM-Lauf; Verfahren, Herkunft der einzelnen Entscheidungen und zurueckgehaltene Faelle im Provenienz-Log: ingest/pos-disambig/216-vrouwe155/.</change>
       <change when="2026-09-06" who="#editor">#387 (vrouwe, mechanischer Teil): 3 Tokens der Form vrouwe erstmals annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260)). Kein LLM-Lauf: annotiert wurde nur, wo die MHG-normalisierte Schreibung im gesamten Korpus ein einziges Lemma traegt, dieses genau eine Wortart fuehrt und die Schreibung dafuer genug Belege hat. Kontextpflichtige Faelle sind unangetastet geblieben (Provenienz-Log: ingest/pos-disambig/387-vrouwe/).</change>
+      <change when="2026-09-06" who="#editor">#387 (fro): 1 homographie-ambige Tokens der Form fro kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260) bzw. vrô ADJ/ADV (lemma_7250); LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/387-fro/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -893,7 +894,7 @@
             <w xml:id="PTS_1310720_1" lemmaRef="lexicon.xml#lemma_6242" pos="ADJ" ana="lexicon.xml#lemma_6242_sense_9843" corresp="variants.xml#type_247395">traurige</w>
             <pc xml:id="PTS_1310720_2" join="left">,</pc>
             <w xml:id="PTS_1310720_3" lemmaRef="lexicon.xml#lemma_5387" pos="ADJ ADV" ana="lexicon.xml#lemma_5387_sense_8408" corresp="variants.xml#type_18773">selten</w>
-            <w xml:id="PTS_1310720_4">fro</w>
+            <w xml:id="PTS_1310720_4" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="PTS_1310720_5" join="left">;</pc>
           </l>
           <l n="73">

@@ -142,6 +142,7 @@
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 17 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/). 10 weitere Tokens der Form minne blieben bewusst unannotiert (Review).</change>
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 11 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
       <change when="2026-09-06" who="#editor">#387 (vrouwe, mechanischer Teil): 4 Tokens der Form vrouwe erstmals annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260)). Kein LLM-Lauf: annotiert wurde nur, wo die MHG-normalisierte Schreibung im gesamten Korpus ein einziges Lemma traegt, dieses genau eine Wortart fuehrt und die Schreibung dafuer genug Belege hat. Kontextpflichtige Faelle sind unangetastet geblieben (Provenienz-Log: ingest/pos-disambig/387-vrouwe/).</change>
+      <change when="2026-09-06" who="#editor">#387 (fro): 1 homographie-ambige Tokens der Form fro kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260) bzw. vrô ADJ/ADV (lemma_7250); LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/387-fro/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -4720,7 +4721,7 @@
                 <pc xml:id="DJUM_112517_3" join="right">&lt;</pc>
                 <w xml:id="DJUM_112517_4">in</w>
                 <w xml:id="DJUM_112517_5" lemmaRef="lexicon.xml#lemma_7918" pos="NOM" corresp="variants.xml#type_45890">zuchten</w>
-                <w xml:id="DJUM_112517_6">fro</w>
+                <w xml:id="DJUM_112517_6" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
                 <w xml:id="DJUM_112517_7" lemmaRef="lexicon.xml#lemma_504" pos="VRB" ana="lexicon.xml#lemma_504_sense_722" corresp="variants.xml#type_110283">belip</w>
                 <pc xml:id="DJUM_112517_8" join="left">&gt;</pc>
                 <pc xml:id="DJUM_112517_9" join="left">.</pc>

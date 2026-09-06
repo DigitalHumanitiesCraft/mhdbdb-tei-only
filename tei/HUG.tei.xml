@@ -143,6 +143,7 @@
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 4 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 1 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
       <change when="2026-09-06" who="#editor">#387 (vrouwe, mechanischer Teil): 27 Tokens der Form vrouwe erstmals annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260)). Kein LLM-Lauf: annotiert wurde nur, wo die MHG-normalisierte Schreibung im gesamten Korpus ein einziges Lemma traegt, dieses genau eine Wortart fuehrt und die Schreibung dafuer genug Belege hat. Kontextpflichtige Faelle sind unangetastet geblieben (Provenienz-Log: ingest/pos-disambig/387-vrouwe/).</change>
+      <change when="2026-09-06" who="#editor">#387 (fro): 9 homographie-ambige Tokens der Form fro kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260) bzw. vrô ADJ/ADV (lemma_7250); LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/387-fro/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -8207,7 +8208,7 @@
         <l n="29">
           <w xml:id="HUG_60290_0">mitt</w>
           <w xml:id="HUG_60290_1" lemmaRef="lexicon.xml#lemma_7620" pos="NOM" ana="lexicon.xml#lemma_7620_sense_12487" corresp="variants.xml#type_27551">willen</w>
-          <w xml:id="HUG_60290_2">fro</w>
+          <w xml:id="HUG_60290_2" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           <w xml:id="HUG_60290_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
           <w xml:id="HUG_60290_4">bin</w>
           <w xml:id="HUG_60290_5" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
@@ -8355,7 +8356,7 @@
         <l n="45">
           <w xml:id="HUG_60450_0">mitt</w>
           <w xml:id="HUG_60450_1" lemmaRef="lexicon.xml#lemma_7620" pos="NOM" ana="lexicon.xml#lemma_7620_sense_12487" corresp="variants.xml#type_194600">wíllen</w>
-          <w xml:id="HUG_60450_2">fro</w>
+          <w xml:id="HUG_60450_2" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           <w xml:id="HUG_60450_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
           <w xml:id="HUG_60450_4">bin</w>
           <w xml:id="HUG_60450_5" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
@@ -31154,7 +31155,7 @@
         <l n="1">
           <pc xml:id="HUG_290010_0" join="right">&lt;</pc>
           <hi rend="initial">
-            <w xml:id="HUG_290010_1">fro</w>
+            <w xml:id="HUG_290010_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_154744">fro</w>
           </hi>
           <w xml:id="HUG_290010_2">welt</w>
           <pc xml:id="HUG_290010_3" join="left">,</pc>
@@ -31908,7 +31909,7 @@
         <lg type="stanza" n="6">
         <l n="81">
           <pc xml:id="HUG_290810_0" join="right">&lt;</pc>
-          <w xml:id="HUG_290810_1">fro</w>
+          <w xml:id="HUG_290810_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_154744">fro</w>
           <w xml:id="HUG_290810_2">welt</w>
           <pc xml:id="HUG_290810_3" join="left">,</pc>
           <w xml:id="HUG_290810_4">wend</w>
@@ -42928,7 +42929,7 @@
           <w xml:id="HUG_390080_3" lemmaRef="lexicon.xml#lemma_7852" pos="ADV" ana="lexicon.xml#lemma_7852_sense_12871" corresp="variants.xml#type_45025">zwar</w>
           <w xml:id="HUG_390080_4">ín</w>
           <w xml:id="HUG_390080_5" lemmaRef="lexicon.xml#lemma_2795" pos="NOM" corresp="variants.xml#type_196287">herrtzen</w>
-          <w xml:id="HUG_390080_6">fro</w>
+          <w xml:id="HUG_390080_6" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           <pc xml:id="HUG_390080_7" join="left">,</pc>
         </l>
         <l n="9">
@@ -43305,7 +43306,7 @@
           <w xml:id="HUG_390490_4" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
           <w xml:id="HUG_390490_5" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
           <w xml:id="HUG_390490_6" lemmaRef="lexicon.xml#lemma_2795" pos="NOM" corresp="variants.xml#type_9452">hertzen</w>
-          <w xml:id="HUG_390490_7">fro</w>
+          <w xml:id="HUG_390490_7" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           <pc xml:id="HUG_390490_8" join="left">;</pc>
         </l>
         <l n="50">
@@ -43498,7 +43499,7 @@
           <w xml:id="HUG_390690_2">er</w>
           <w xml:id="HUG_390690_3">in</w>
           <w xml:id="HUG_390690_4" lemmaRef="lexicon.xml#lemma_2834" pos="NOM" ana="lexicon.xml#lemma_2834_sense_4553" corresp="variants.xml#type_196378">hiemelrych</w>
-          <w xml:id="HUG_390690_5">fro</w>
+          <w xml:id="HUG_390690_5" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           <pc xml:id="HUG_390690_6" join="left">.</pc>
         </l>
         <l n="70">
@@ -43661,7 +43662,7 @@
           <w xml:id="HUG_390860_3" lemmaRef="lexicon.xml#lemma_7852" pos="ADV" ana="lexicon.xml#lemma_7852_sense_12871" corresp="variants.xml#type_45025">zwar</w>
           <w xml:id="HUG_390860_4">ín</w>
           <w xml:id="HUG_390860_5" lemmaRef="lexicon.xml#lemma_2795" pos="NOM" corresp="variants.xml#type_9452">hertzen</w>
-          <w xml:id="HUG_390860_6">fro</w>
+          <w xml:id="HUG_390860_6" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
         </l>
         <l n="87">
           <w xml:id="HUG_390870_0" lemmaRef="lexicon.xml#lemma_2684" pos="NOM" corresp="variants.xml#type_9038">herr</w>
@@ -43982,7 +43983,7 @@
           <w xml:id="HUG_391190_4" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
           <w xml:id="HUG_391190_5">mach</w>
           <w xml:id="HUG_391190_6">síe</w>
-          <w xml:id="HUG_391190_7">fro</w>
+          <w xml:id="HUG_391190_7" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           <pc xml:id="HUG_391190_8" join="left">!</pc>
           <pc xml:id="HUG_391190_9" join="left">&gt;</pc>
         </l>

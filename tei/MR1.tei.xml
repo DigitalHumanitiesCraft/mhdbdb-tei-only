@@ -123,6 +123,7 @@
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 18 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
       <change when="2026-09-06" who="#editor">#216 Punkt 3 (vrouwe vor minne): 97 Tokens der Anredeform vrouwe unmittelbar vor minne erstmals annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260)). Kein LLM-Lauf; Verfahren, Herkunft der einzelnen Entscheidungen und zurueckgehaltene Faelle im Provenienz-Log: ingest/pos-disambig/216-vrouwe155/.</change>
       <change when="2026-09-06" who="#editor">#387 (vrouwe, mechanischer Teil): 245 Tokens der Form vrouwe erstmals annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260)). Kein LLM-Lauf: annotiert wurde nur, wo die MHG-normalisierte Schreibung im gesamten Korpus ein einziges Lemma traegt, dieses genau eine Wortart fuehrt und die Schreibung dafuer genug Belege hat. Kontextpflichtige Faelle sind unangetastet geblieben (Provenienz-Log: ingest/pos-disambig/387-vrouwe/).</change>
+      <change when="2026-09-06" who="#editor">#387 (fro): 7 homographie-ambige Tokens der Form fro kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260) bzw. vrô ADJ/ADV (lemma_7250); LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/387-fro/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -11030,7 +11031,7 @@
             <w xml:id="MR1_10221115800_1" lemmaRef="lexicon.xml#lemma_7918" pos="NOM" corresp="variants.xml#type_45667">züchten</w>
             <w xml:id="MR1_10221115800_2" lemmaRef="lexicon.xml#lemma_8715" pos="PRO VEM" corresp="variants.xml#type_30262">soltu</w>
             <w xml:id="MR1_10221115800_3" lemmaRef="lexicon.xml#lemma_7505" pos="NOM VRB" corresp="variants.xml#type_297860">weßen</w>
-            <w xml:id="MR1_10221115800_4">fro</w>
+            <w xml:id="MR1_10221115800_4" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           </l>
           <l n="1159">
             <w xml:id="MR1_10221115900_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
@@ -34955,7 +34956,7 @@
             <w xml:id="MR1_60972012100_1" lemmaRef="lexicon.xml#lemma_8305" pos="NEG VEX" corresp="variants.xml#type_159858">enwirst</w>
             <w xml:id="MR1_60972012100_2">du</w>
             <w xml:id="MR1_60972012100_3" lemmaRef="lexicon.xml#lemma_4368" pos="ADV" ana="lexicon.xml#lemma_4368_sense_6825" corresp="variants.xml#type_44353">nymmer</w>
-            <w xml:id="MR1_60972012100_4">fro</w>
+            <w xml:id="MR1_60972012100_4" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="MR1_60972012100_5" join="left">.</pc>
             <pc xml:id="MR1_60972012100_6" join="left">&gt;</pc>
           </l>
@@ -36002,7 +36003,7 @@
             <w xml:id="MR1_61002024900_2" lemmaRef="lexicon.xml#lemma_2217" pos="NOM" corresp="variants.xml#type_230560">geselleschafft</w>
             <w xml:id="MR1_61002024900_3">bin</w>
             <w xml:id="MR1_61002024900_4" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
-            <w xml:id="MR1_61002024900_5">fro</w>
+            <w xml:id="MR1_61002024900_5" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="MR1_61002024900_6" join="left">,</pc>
           </l>
           <l n="250">
@@ -36281,7 +36282,7 @@
             <w xml:id="MR1_61011028200_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_43132">frawe</w>
             <w xml:id="MR1_61011028200_3" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
             <w xml:id="MR1_61011028200_4" lemmaRef="lexicon.xml#lemma_3008" pos="PRO" ana="lexicon.xml#lemma_3008_sense_4812" corresp="variants.xml#type_96536">yman</w>
-            <w xml:id="MR1_61011028200_5">fro</w>
+            <w xml:id="MR1_61011028200_5" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="MR1_61011028200_6" join="left">,</pc>
           </l>
           <l n="283">
@@ -38425,7 +38426,7 @@
             <w xml:id="MR1_61062052100_2">kein</w>
             <w xml:id="MR1_61062052100_3" lemmaRef="lexicon.xml#lemma_2795" pos="NOM" corresp="variants.xml#type_87356">hercze</w>
             <w xml:id="MR1_61062052100_4" lemmaRef="lexicon.xml#lemma_4368" pos="ADV" ana="lexicon.xml#lemma_4368_sense_6825" corresp="variants.xml#type_44353">nymmer</w>
-            <w xml:id="MR1_61062052100_5">fro</w>
+            <w xml:id="MR1_61062052100_5" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="MR1_61062052100_6" join="left">.</pc>
             <pc xml:id="MR1_61062052100_7" join="left">&gt;</pc>
           </l>
@@ -42296,7 +42297,7 @@
             <w xml:id="MR1_71162039200_6" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
             <w xml:id="MR1_71162039200_7">nye</w>
             <w xml:id="MR1_71162039200_8" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
-            <w xml:id="MR1_71162039200_9">fro</w>
+            <w xml:id="MR1_71162039200_9" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           </l>
           <l n="393">
             <supplied>
@@ -50104,7 +50105,7 @@
             <w xml:id="MR1_91371013200_0">ir</w>
             <w xml:id="MR1_91371013200_1" lemmaRef="lexicon.xml#lemma_4240" pos="VRB VEM" corresp="variants.xml#type_14783">mügt</w>
             <w xml:id="MR1_91371013200_2">noch</w>
-            <w xml:id="MR1_91371013200_3">fro</w>
+            <w xml:id="MR1_91371013200_3" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <w xml:id="MR1_91371013200_4" lemmaRef="lexicon.xml#lemma_504" pos="VRB" ana="lexicon.xml#lemma_504_sense_722" corresp="variants.xml#type_1467">beliben</w>
             <pc xml:id="MR1_91371013200_5" join="left">,</pc>
           </l>

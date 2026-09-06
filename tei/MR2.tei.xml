@@ -123,6 +123,7 @@
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 15 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/). 1 weitere Tokens der Form stat blieben bewusst unannotiert (Review).</change>
       <change when="2026-09-06" who="#editor">#216 Punkt 3 (vrouwe vor minne): 1 Token der Anredeform vrouwe unmittelbar vor minne erstmals annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260)). Kein LLM-Lauf; Verfahren, Herkunft der einzelnen Entscheidungen und zurueckgehaltene Faelle im Provenienz-Log: ingest/pos-disambig/216-vrouwe155/.</change>
       <change when="2026-09-06" who="#editor">#387 (vrouwe, mechanischer Teil): 73 Tokens der Form vrouwe erstmals annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260)). Kein LLM-Lauf: annotiert wurde nur, wo die MHG-normalisierte Schreibung im gesamten Korpus ein einziges Lemma traegt, dieses genau eine Wortart fuehrt und die Schreibung dafuer genug Belege hat. Kontextpflichtige Faelle sind unangetastet geblieben (Provenienz-Log: ingest/pos-disambig/387-vrouwe/).</change>
+      <change when="2026-09-06" who="#editor">#387 (fro): 6 homographie-ambige Tokens der Form fro kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260) bzw. vrô ADJ/ADV (lemma_7250); LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/387-fro/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -5890,7 +5891,7 @@
           <w xml:id="MR2_6383200132100_1">bin</w>
           <w xml:id="MR2_6383200132100_2" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
           <w xml:id="MR2_6383200132100_3" lemmaRef="lexicon.xml#lemma_4377" pos="ADJ ADV NEG" ana="lexicon.xml#lemma_4377_sense_6838" corresp="variants.xml#type_15283">nicht</w>
-          <w xml:id="MR2_6383200132100_4">fro</w>
+          <w xml:id="MR2_6383200132100_4" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           <pc xml:id="MR2_6383200132100_5" join="left">;</pc>
         </l>
         <l n="133">
@@ -5999,7 +6000,7 @@
           <w xml:id="MR2_6383200146100_0" lemmaRef="lexicon.xml#lemma_5917" pos="ADV" ana="lexicon.xml#lemma_5917_sense_9370" corresp="variants.xml#type_20859">sust</w>
           <w xml:id="MR2_6383200146100_1" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18956">ist</w>
           <w xml:id="MR2_6383200146100_2">stet</w>
-          <w xml:id="MR2_6383200146100_3">fro</w>
+          <w xml:id="MR2_6383200146100_3" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           <w xml:id="MR2_6383200146100_4" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3397">das</w>
           <w xml:id="MR2_6383200146100_5" lemmaRef="lexicon.xml#lemma_2795" pos="NOM" corresp="variants.xml#type_85457">hercz</w>
           <w xml:id="MR2_6383200146100_6">myn</w>
@@ -13412,7 +13413,7 @@
           <w xml:id="MR2_10468200143100_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
           <w xml:id="MR2_10468200143100_3">dut</w>
           <w xml:id="MR2_10468200143100_4" lemmaRef="lexicon.xml#lemma_3917" pos="VRB" corresp="variants.xml#type_13685">machen</w>
-          <w xml:id="MR2_10468200143100_5">fro</w>
+          <w xml:id="MR2_10468200143100_5" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           <pc xml:id="MR2_10468200143100_6" join="left">,</pc>
         </l>
         <l n="144">
@@ -30683,7 +30684,7 @@
           <w xml:id="MR2_16129100085100_2" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10226">mich</w>
           <w xml:id="MR2_16129100085100_3" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4316">ain</w>
           <w xml:id="MR2_16129100085100_4" lemmaRef="lexicon.xml#lemma_3917" pos="VRB" corresp="variants.xml#type_13685">machen</w>
-          <w xml:id="MR2_16129100085100_5">fro</w>
+          <w xml:id="MR2_16129100085100_5" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           <pc xml:id="MR2_16129100085100_6" join="left">?</pc>
         </l>
         <l n="86">
@@ -31395,7 +31396,7 @@
           <w xml:id="MR2_16131100162100_1" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
           <w xml:id="MR2_16131100162100_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25987">frowen</w>
           <w xml:id="MR2_16131100162100_3">mecht</w>
-          <w xml:id="MR2_16131100162100_4">fro</w>
+          <w xml:id="MR2_16131100162100_4" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
         </l>
         <l n="163">
           <w xml:id="MR2_16131100163100_0" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_44803">ainr</w>
@@ -80015,7 +80016,7 @@
             <w xml:id="MR2_33288100195100_3">vil</w>
             <w xml:id="MR2_33288100195100_4" lemmaRef="lexicon.xml#lemma_4479" pos="ADV" ana="lexicon.xml#lemma_4479_sense_6994" corresp="variants.xml#type_114676">offt</w>
             <w xml:id="MR2_33288100195100_5">wirt</w>
-            <w xml:id="MR2_33288100195100_6">fro</w>
+            <w xml:id="MR2_33288100195100_6" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="MR2_33288100195100_7" join="left">!</pc>
           </l>
           <l n="196">

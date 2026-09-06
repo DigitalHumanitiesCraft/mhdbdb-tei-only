@@ -152,6 +152,7 @@
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 6 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/). 1 weitere Tokens der Form minne blieben bewusst unannotiert (Review).</change>
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 13 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
       <change when="2026-09-06" who="#editor">#387 (vrouwe, mechanischer Teil): 48 Tokens der Form vrouwe erstmals annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260)). Kein LLM-Lauf: annotiert wurde nur, wo die MHG-normalisierte Schreibung im gesamten Korpus ein einziges Lemma traegt, dieses genau eine Wortart fuehrt und die Schreibung dafuer genug Belege hat. Kontextpflichtige Faelle sind unangetastet geblieben (Provenienz-Log: ingest/pos-disambig/387-vrouwe/).</change>
+      <change when="2026-09-06" who="#editor">#387 (fro): 10 homographie-ambige Tokens der Form fro kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260) bzw. vrô ADJ/ADV (lemma_7250); LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/387-fro/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -63466,7 +63467,7 @@
               <w xml:id="NEIC_8906050_2" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
               <w xml:id="NEIC_8906050_3" lemmaRef="lexicon.xml#lemma_56117" pos="PRO" ana="lexicon.xml#lemma_56117_sense_90961" corresp="variants.xml#type_304773">euch</w>
               <w xml:id="NEIC_8906050_4">gern</w>
-              <w xml:id="NEIC_8906050_5">fro</w>
+              <w xml:id="NEIC_8906050_5" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
               <pc xml:id="NEIC_8906050_6" join="left">,</pc>
             </l>
             <l n="6">
@@ -71011,7 +71012,7 @@
             <l n="7">
               <w xml:id="NEIC_9508070_0" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
               <w xml:id="NEIC_9508070_1">was</w>
-              <w xml:id="NEIC_9508070_2">fro</w>
+              <w xml:id="NEIC_9508070_2" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
               <pc xml:id="NEIC_9508070_3" join="left">,</pc>
               <w xml:id="NEIC_9508070_4">mein</w>
               <w xml:id="NEIC_9508070_5" lemmaRef="lexicon.xml#lemma_2795" pos="NOM" corresp="variants.xml#type_85457">hercz</w>
@@ -76258,7 +76259,7 @@
               <w xml:id="NEIC_10106130_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
               <w xml:id="NEIC_10106130_1">bin</w>
               <w xml:id="NEIC_10106130_2" lemmaRef="lexicon.xml#lemma_1185" pos="CNJ" ana="lexicon.xml#lemma_1185_sense_1872" corresp="variants.xml#type_3758">doch</w>
-              <w xml:id="NEIC_10106130_3">fro</w>
+              <w xml:id="NEIC_10106130_3" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
               <w xml:id="NEIC_10106130_4">in</w>
               <w xml:id="NEIC_10106130_5" lemmaRef="lexicon.xml#lemma_2534" pos="ADJ" corresp="variants.xml#type_64946">grossem</w>
               <w xml:id="NEIC_10106130_6" lemmaRef="lexicon.xml#lemma_3001" pos="POS" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_93757">meinem</w>
@@ -78273,7 +78274,7 @@
             <l n="3">
               <w xml:id="NEIC_10401030_0" lemmaRef="lexicon.xml#lemma_7489" pos="VRB VEX" corresp="variants.xml#type_27066">wurd</w>
               <w xml:id="NEIC_10401030_1" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
-              <w xml:id="NEIC_10401030_2">fro</w>
+              <w xml:id="NEIC_10401030_2" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
               <w xml:id="NEIC_10401030_3" pos="">-</w>
               <pc xml:id="NEIC_10401030_4" join="left">,</pc>
             </l>
@@ -79034,7 +79035,7 @@
             <l n="8">
               <w xml:id="NEIC_10501080_0" lemmaRef="lexicon.xml#lemma_7643" pos="PRO" ana="lexicon.xml#lemma_7643_sense_12530" corresp="variants.xml#type_27647">wir</w>
               <w xml:id="NEIC_10501080_1" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3255">da</w>
-              <w xml:id="NEIC_10501080_2">fro</w>
+              <w xml:id="NEIC_10501080_2" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             </l>
             <l n="9">
               <w xml:id="NEIC_10501090_0" lemmaRef="lexicon.xml#lemma_678" pos="PRP" ana="lexicon.xml#lemma_678_sense_1096" corresp="variants.xml#type_38747">bey</w>
@@ -81616,7 +81617,7 @@
               <w xml:id="NEIC_10802070_5" lemmaRef="lexicon.xml#lemma_3009" pos="ADV" ana="lexicon.xml#lemma_3009_sense_4813" corresp="variants.xml#type_44665">ymmer</w>
               <w xml:id="NEIC_10802070_6">ein</w>
               <w xml:id="NEIC_10802070_7" lemmaRef="lexicon.xml#lemma_7529" pos="NOM ADV" ana="lexicon.xml#lemma_7529_sense_12293" corresp="variants.xml#type_101839">weill</w>
-              <w xml:id="NEIC_10802070_8">fro</w>
+              <w xml:id="NEIC_10802070_8" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
               <w xml:id="NEIC_10802070_9" lemmaRef="lexicon.xml#lemma_504" pos="VRB" ana="lexicon.xml#lemma_504_sense_722" corresp="variants.xml#type_1455">beleib</w>
               <pc xml:id="NEIC_10802070_10" join="left">,</pc>
             </l>
@@ -82420,7 +82421,7 @@
             <l n="3">
               <w xml:id="NEIC_10905030_0">pin</w>
               <w xml:id="NEIC_10905030_1" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
-              <w xml:id="NEIC_10905030_2">fro</w>
+              <w xml:id="NEIC_10905030_2" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
               <pc xml:id="NEIC_10905030_3" join="left">,</pc>
               <w xml:id="NEIC_10905030_4" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3397">das</w>
               <w xml:id="NEIC_10905030_5" lemmaRef="lexicon.xml#lemma_3400" pos="VRB" ana="lexicon.xml#lemma_3400_sense_5361" corresp="variants.xml#type_11723">kumpt</w>
@@ -87758,7 +87759,7 @@
               <w xml:id="NEIC_11702140_6" lemmaRef="lexicon.xml#lemma_7645" pos="NOM" ana="lexicon.xml#lemma_7645_sense_12532" corresp="variants.xml#type_158903">wirdigkait</w>
               <w xml:id="NEIC_11702140_7">pin</w>
               <w xml:id="NEIC_11702140_8" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
-              <w xml:id="NEIC_11702140_9">fro</w>
+              <w xml:id="NEIC_11702140_9" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
               <pc xml:id="NEIC_11702140_10" join="left">.</pc>
             </l>
           </lg>
@@ -96257,7 +96258,7 @@
               <w xml:id="NEIC_12308120_2" lemmaRef="lexicon.xml#lemma_2795" pos="NOM" corresp="variants.xml#type_85457">hercz</w>
               <w xml:id="NEIC_12308120_3" lemmaRef="lexicon.xml#lemma_4377" pos="ADJ ADV NEG" ana="lexicon.xml#lemma_4377_sense_6838" corresp="variants.xml#type_158951">nit</w>
               <w xml:id="NEIC_12308120_4" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
-              <w xml:id="NEIC_12308120_5">fro</w>
+              <w xml:id="NEIC_12308120_5" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
               <w xml:id="NEIC_12308120_6" lemmaRef="lexicon.xml#lemma_3917" pos="VRB" corresp="variants.xml#type_13685">machen</w>
             </l>
             <l n="13">
@@ -101570,7 +101571,7 @@
               <pc xml:id="NEIC_12710150_2" join="left">,</pc>
             </l>
             <l n="16">
-              <w xml:id="NEIC_12710160_0">fro</w>
+              <w xml:id="NEIC_12710160_0" lemmaRef="lexicon.xml#lemma_7250" pos="ADV" corresp="variants.xml#type_41787">fro</w>
               <w xml:id="NEIC_12710160_1" lemmaRef="lexicon.xml#lemma_5488" pos="VRB" ana="lexicon.xml#lemma_5488_sense_8552" corresp="variants.xml#type_278784">súng</w>
               <w xml:id="NEIC_12710160_2" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
             </l>

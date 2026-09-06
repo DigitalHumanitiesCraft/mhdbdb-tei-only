@@ -151,6 +151,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-09-06" who="#editor">#387 (fro): 1 homographie-ambige Tokens der Form fro kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260) bzw. vrô ADJ/ADV (lemma_7250); LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/387-fro/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -649,7 +650,7 @@
         <pc xml:id="VFA_56100590_4" join="left">,</pc>
         <w xml:id="VFA_56100590_5" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
         <w xml:id="VFA_56100590_6">was</w>
-        <w xml:id="VFA_56100590_7">fro</w>
+        <w xml:id="VFA_56100590_7" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
         <pc xml:id="VFA_56100590_8" join="left">.</pc>
       </l>
       <l n="60">

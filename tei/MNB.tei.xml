@@ -135,6 +135,7 @@
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 16 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
       <change when="2026-09-06" who="#editor">#216 Punkt 3 (vrouwe vor minne): 14 Tokens der Anredeform vrouwe unmittelbar vor minne erstmals annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260)). Kein LLM-Lauf; Verfahren, Herkunft der einzelnen Entscheidungen und zurueckgehaltene Faelle im Provenienz-Log: ingest/pos-disambig/216-vrouwe155/.</change>
       <change when="2026-09-06" who="#editor">#387 (vrouwe, mechanischer Teil): 42 Tokens der Form vrouwe erstmals annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260)). Kein LLM-Lauf: annotiert wurde nur, wo die MHG-normalisierte Schreibung im gesamten Korpus ein einziges Lemma traegt, dieses genau eine Wortart fuehrt und die Schreibung dafuer genug Belege hat. Kontextpflichtige Faelle sind unangetastet geblieben (Provenienz-Log: ingest/pos-disambig/387-vrouwe/).</change>
+      <change when="2026-09-06" who="#editor">#387 (fro): 3 homographie-ambige Tokens der Form fro kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260) bzw. vrô ADJ/ADV (lemma_7250); LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/387-fro/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -15047,7 +15048,7 @@
             <w xml:id="MNB_3013590_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
             <w xml:id="MNB_3013590_3" lemmaRef="lexicon.xml#lemma_3691" pos="NOM ADJ" corresp="variants.xml#type_64924">leydes</w>
             <w xml:id="MNB_3013590_4" lemmaRef="lexicon.xml#lemma_3917" pos="VRB" corresp="variants.xml#type_13685">machen</w>
-            <w xml:id="MNB_3013590_5">fro</w>
+            <w xml:id="MNB_3013590_5" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           </l>
           <l n="1360">
             <hi rend="initial">
@@ -31912,7 +31913,7 @@
             <w xml:id="MNB_3030090_4" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
             <w xml:id="MNB_3030090_5">kint</w>
             <w xml:id="MNB_3030090_6">wart</w>
-            <w xml:id="MNB_3030090_7">fro</w>
+            <w xml:id="MNB_3030090_7" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="MNB_3030090_8" join="left">.</pc>
           </l>
           <l n="3010">
@@ -46616,7 +46617,7 @@
             <w xml:id="MNB_3044320_3">waz</w>
             <w xml:id="MNB_3044320_4" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
             <w xml:id="MNB_3044320_5" lemmaRef="lexicon.xml#lemma_1136" pos="ADJ ADV" corresp="variants.xml#type_3556">dicke</w>
-            <w xml:id="MNB_3044320_6">fro</w>
+            <w xml:id="MNB_3044320_6" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           </l>
           <l n="4433">
             <hi rend="initial">

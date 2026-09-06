@@ -131,6 +131,7 @@
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 78 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/). 2 weitere Tokens der Form stat blieben bewusst unannotiert (Review).</change>
       <change when="2026-09-06" who="#editor">#216 Punkt 3 (vrouwe vor minne): 32 Tokens der Anredeform vrouwe unmittelbar vor minne erstmals annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260)). Kein LLM-Lauf; Verfahren, Herkunft der einzelnen Entscheidungen und zurueckgehaltene Faelle im Provenienz-Log: ingest/pos-disambig/216-vrouwe155/.</change>
       <change when="2026-09-06" who="#editor">#387 (vrouwe, mechanischer Teil): 101 Tokens der Form vrouwe erstmals annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260)). Kein LLM-Lauf: annotiert wurde nur, wo die MHG-normalisierte Schreibung im gesamten Korpus ein einziges Lemma traegt, dieses genau eine Wortart fuehrt und die Schreibung dafuer genug Belege hat. Kontextpflichtige Faelle sind unangetastet geblieben (Provenienz-Log: ingest/pos-disambig/387-vrouwe/).</change>
+      <change when="2026-09-06" who="#editor">#387 (fro): 2 homographie-ambige Tokens der Form fro kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260) bzw. vrô ADJ/ADV (lemma_7250); LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/387-fro/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -57743,7 +57744,7 @@
             <w xml:id="LZT_79270_0" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3397">das</w>
             <w xml:id="LZT_79270_1">er</w>
             <w xml:id="LZT_79270_2">wer</w>
-            <w xml:id="LZT_79270_3">fro</w>
+            <w xml:id="LZT_79270_3" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <w xml:id="LZT_79270_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
             <w xml:id="LZT_79270_5" lemmaRef="lexicon.xml#lemma_4264" pos="NOM" corresp="variants.xml#type_170823">muetes</w>
             <w xml:id="LZT_79270_6" lemmaRef="lexicon.xml#lemma_1258" pos="PRP" ana="lexicon.xml#lemma_1258_sense_1977" corresp="variants.xml#type_4044">durch</w>
@@ -76098,7 +76099,7 @@
             <w xml:id="LZT_104250_2">er</w>
             <w xml:id="LZT_104250_3" lemmaRef="lexicon.xml#lemma_4365" pos="ADV NEG" ana="lexicon.xml#lemma_4365_sense_6822" corresp="variants.xml#type_15230">nie</w>
             <w xml:id="LZT_104250_4" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
-            <w xml:id="LZT_104250_5">fro</w>
+            <w xml:id="LZT_104250_5" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <w xml:id="LZT_104250_6">in</w>
             <w xml:id="LZT_104250_7" lemmaRef="lexicon.xml#lemma_3962" pos="ADJ" ana="lexicon.xml#lemma_3962_sense_6245" corresp="variants.xml#type_79211">menigen</w>
             <w xml:id="LZT_104250_8" lemmaRef="lexicon.xml#lemma_3096" pos="NOM" ana="lexicon.xml#lemma_3096_sense_4919" corresp="variants.xml#type_10640">jaren</w>

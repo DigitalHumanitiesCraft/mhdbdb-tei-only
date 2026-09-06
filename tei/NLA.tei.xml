@@ -128,6 +128,7 @@
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 35 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 52 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
       <change when="2026-09-06" who="#editor">#387 (vrouwe, mechanischer Teil): 68 Tokens der Form vrouwe erstmals annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260)). Kein LLM-Lauf: annotiert wurde nur, wo die MHG-normalisierte Schreibung im gesamten Korpus ein einziges Lemma traegt, dieses genau eine Wortart fuehrt und die Schreibung dafuer genug Belege hat. Kontextpflichtige Faelle sind unangetastet geblieben (Provenienz-Log: ingest/pos-disambig/387-vrouwe/).</change>
+      <change when="2026-09-06" who="#editor">#387 (fro): 3 homographie-ambige Tokens der Form fro kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260) bzw. vrô ADJ/ADV (lemma_7250); LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/387-fro/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -874,7 +875,7 @@
             <w xml:id="NLA_1620_4">zer</w>
             <w xml:id="NLA_1620_5" lemmaRef="lexicon.xml#lemma_7494" pos="NOM" ana="lexicon.xml#lemma_7494_sense_12223" corresp="variants.xml#type_27109">werlde</w>
             <w xml:id="NLA_1620_6">werden</w>
-            <w xml:id="NLA_1620_7">fro</w>
+            <w xml:id="NLA_1620_7" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           </l>
           <l n="3">
             <w xml:id="NLA_1630_0" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
@@ -13312,7 +13313,7 @@
               <w xml:id="NLA_27420_3" lemmaRef="lexicon.xml#lemma_1683" pos="VRB" ana="lexicon.xml#lemma_1683_sense_2638" corresp="variants.xml#type_126021">erfvnden</w>
               <w xml:id="NLA_27420_4">warns</w>
               <w xml:id="NLA_27420_5" lemmaRef="lexicon.xml#lemma_2787" pos="ADJ ADV" corresp="variants.xml#type_9417">harte</w>
-              <w xml:id="NLA_27420_6">fro</w>
+              <w xml:id="NLA_27420_6" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             </l>
             <l n="3">
               <w xml:id="NLA_27430_0">ern</w>
@@ -16404,7 +16405,7 @@
               <w xml:id="NLA_34020_5">wer</w>
               <w xml:id="NLA_34020_6" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
               <w xml:id="NLA_34020_7" lemmaRef="lexicon.xml#lemma_2787" pos="ADJ ADV" corresp="variants.xml#type_9417">harte</w>
-              <w xml:id="NLA_34020_8">fro</w>
+              <w xml:id="NLA_34020_8" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             </l>
             <l n="3">
               <w xml:id="NLA_34030_0">waz</w>

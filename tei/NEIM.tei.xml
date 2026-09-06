@@ -151,6 +151,7 @@
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 8 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 9 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
+      <change when="2026-09-06" who="#editor">#387 (fro): 2 homographie-ambige Tokens der Form fro kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260) bzw. vrô ADJ/ADV (lemma_7250); LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/387-fro/). 1 weitere Tokens der Form fro blieben bewusst unannotiert (Review).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -5027,7 +5028,7 @@
             </l>
             <l n="2">
               <pc xml:id="NEIM_806020_0" join="right">&lt;</pc>
-              <w xml:id="NEIM_806020_1">fro</w>
+              <w xml:id="NEIM_806020_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_154744">fro</w>
               <w xml:id="NEIM_806020_2" lemmaRef="lexicon.xml#lemma_6135" pos="NOM" ana="lexicon.xml#lemma_6135_sense_9676" corresp="variants.xml#type_21634">tohter</w>
               <pc xml:id="NEIM_806020_3" join="left">,</pc>
               <w xml:id="NEIM_806020_4" lemmaRef="lexicon.xml#lemma_3567" pos="VRB" corresp="variants.xml#type_12420">lât</w>
@@ -12735,7 +12736,7 @@
               <w xml:id="NEIM_2505020_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
               <w xml:id="NEIM_2505020_1">was</w>
               <w xml:id="NEIM_2505020_2">si</w>
-              <w xml:id="NEIM_2505020_3">fro</w>
+              <w xml:id="NEIM_2505020_3" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
               <pc xml:id="NEIM_2505020_4" join="left">.</pc>
             </l>
             <l n="3">
