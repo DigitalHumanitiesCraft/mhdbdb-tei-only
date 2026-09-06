@@ -247,19 +247,38 @@ jobs:
       #
       #   (a) Ein PR, der nur Dokumentation anfasst, aendert die BEHAUPTETE
       #       Zahl und loest den Lauf nicht aus.
-      #   (b) Ein PR, der ein UI-Modul hinzufuegt, aendert die GEMESSENE
-      #       Zahl und loest den Lauf ebenfalls nicht aus. Sechs der
-      #       geprueften Groessen sind code-abgeleitet und stammen aus
-      #       playground/js/ui/ (CODE_LABELS in doc-count-audit.py:335,
-      #       ui_modules als glob ueber playground/js/ui/**/*.js).
+      #   (b) Ein PR am Playground aendert die GEMESSENE Zahl und loest den
+      #       Lauf ebenfalls nicht aus. Sechs Groessen sind code-abgeleitet
+      #       (CODE_LABELS, doc-count-audit.py:335), und sie stammen aus
+      #       DREI verschiedenen Orten:
+      #
+      #         ui_modules, tei_tools, pattern_modules
+      #             glob ueber playground/js/ui/                (:216, :217)
+      #         curated_datasets
+      #             len(CURATED_DATASET_MODULES), eine Konstante
+      #             in diesem Skript selbst                     (:225)
+      #         authority_explorers, entry_points
+      #             re.findall auf playground/index.html        (:227-231)
+      #
+      #       curated_datasets ist damit gedeckt: es aendert sich nur mit
+      #       scripts/audit/**, und das steht in den Filtern.
       #
       # In beiden Faellen faellt die Drift erst beim naechsten Datenlauf auf,
       # bei (b) also in einem PR, der damit nichts zu tun hat. Der Befund ist
-      # dann trotzdem echt, nur spaet und beim Falschen. Wer sofortige
-      # Erkennung will, nimmt playground/js/ui/** in die Pfadfilter auf; das
-      # kostet diesen 45-Minuten-Lauf bei jeder Playground-Aenderung und ist
-      # deshalb hier bewusst NICHT getan. docs/** aufzunehmen waere derselbe
-      # Handel bei jeder Doku-Aenderung.
+      # dann trotzdem echt, nur spaet und beim Falschen.
+      #
+      # Wer sofortige Erkennung will, braucht ZWEI Eintraege in den Filtern,
+      # playground/js/ui/** UND playground/index.html. Der zweite ist leicht
+      # zu uebersehen und deckt gerade den Fall, der ohne Codeaenderung
+      # eintritt: wer eine der sechs show*Btn-Ids in playground/index.html
+      # umbenennt, senkt authority_explorers und entry_points, ohne eine
+      # .js-Datei anzufassen. Beides kostet diesen 45-Minuten-Lauf bei jeder
+      # Playground-Aenderung und ist deshalb hier bewusst NICHT getan.
+      # docs/** aufzunehmen waere derselbe Handel bei jeder Doku-Aenderung.
+      #
+      # Nebenbei, weil es beim Nachmessen auffiel: playground/index.html
+      # steht auf BEIDEN Seiten dieses Gates, als gemessene Quelle (:227)
+      # und als Doku-Ziel fuer variants_normalized (:332).
       #
       # Der Fall vom 06.09. faellt unter keine der beiden Grenzen: er faengt
       # an einer Datenaenderung an und loest diesen Workflow immer aus.
