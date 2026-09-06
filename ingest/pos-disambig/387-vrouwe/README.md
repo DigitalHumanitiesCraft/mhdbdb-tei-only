@@ -108,7 +108,7 @@ git grep -c -P 'lemmaRef="[^"]*"[^>]*>frov</w>' origin/main -- 'tei/*.tei.xml'
 | `NBB_611_6` | *frov siglint* | Anrede vor Eigenname |
 | `NBB_3024_6` | *frov chrimhilt* | Anrede vor Eigenname |
 | `NBB_5871_1` | *frov prvnnhilt* | Anrede vor Eigenname |
-| `NBB_2622_6` | *vil manech frov vnd manech meit* | **keine Anrede**, blosses Appellativ |
+| `NBB_2622_6` | *vil manec frov vnd manech meit* | **keine Anrede**, blosses Appellativ |
 | `FLG_1041100_9` | *frov minne* | Anrede vor einer Personifikation |
 
 `frov` hat 6 Belege und liegt damit **über** der Schwelle von 5, nicht

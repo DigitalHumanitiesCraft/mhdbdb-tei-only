@@ -139,7 +139,7 @@ MIN_BELEGE = 5
 #   NBB_611_6   frov siglint     Anrede vor Eigenname
 #   NBB_3024_6  frov chrimhilt   Anrede vor Eigenname
 #   NBB_5871_1  frov prvnnhilt   Anrede vor Eigenname
-#   NBB_2622_6  "vil manech frov vnd manech meit"   KEINE Anrede, sondern
+#   NBB_2622_6  "vil manec frov vnd manech meit"   KEINE Anrede, sondern
 #                                das blosse Appellativ; lemma_7260 richtig
 #   FLG_1041100_9   frov minne   Anrede vor einem personifizierten Titel
 #
