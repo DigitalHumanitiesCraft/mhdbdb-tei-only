@@ -131,6 +131,7 @@
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 292 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/). 78 weitere Tokens der Form minne blieben bewusst unannotiert (Review).</change>
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 165 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
       <change when="2026-09-06" who="#editor">#387 (fro): 42 homographie-ambige Tokens der Form fro kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260) bzw. vrô ADJ/ADV (lemma_7250); LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/387-fro/). 10 weitere Tokens der Form fro blieben bewusst unannotiert (Review).</change>
+      <change when="2026-09-06" who="#editor">#216 Punkt 3, Nachtrag: 3 Tokens der Anredeform frô unmittelbar vor minne annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260)); fuer diese Schreibung war unter dem Ziel-Lemma kein Variantentyp vorhanden, type_372365 ist dafuer neu gepraegt. Entscheidung @wachauer 01.09.2026, Verfahren und Herkunft im Provenienz-Log: ingest/pos-disambig/216-fro3/.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -36722,7 +36723,7 @@
           <w xml:id="RVBR_4826_2">ir</w>
           <w xml:id="RVBR_4826_3" lemmaRef="lexicon.xml#lemma_4432" pos="ADV CNJ" ana="lexicon.xml#lemma_4432_sense_6912" corresp="variants.xml#type_15441">nu</w>
           <pc xml:id="RVBR_4826_4" join="left">,</pc>
-          <w xml:id="RVBR_4826_5">frô</w>
+          <w xml:id="RVBR_4826_5" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_372365">frô</w>
           <hi rend="upper_case_first_letter">
             <w xml:id="RVBR_4826_6">minne</w>
           </hi>
@@ -48193,7 +48194,7 @@
           <w xml:id="RVBR_6310_1" lemmaRef="lexicon.xml#lemma_5061" pos="VRB" ana="lexicon.xml#lemma_5061_sense_7886" corresp="variants.xml#type_17546">sagent</w>
           <w xml:id="RVBR_6310_2">an</w>
           <pc xml:id="RVBR_6310_3" join="left">,</pc>
-          <w xml:id="RVBR_6310_4">frô</w>
+          <w xml:id="RVBR_6310_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_372365">frô</w>
           <hi rend="upper_case_first_letter">
             <w xml:id="RVBR_6310_5">minne</w>
           </hi>
@@ -66497,7 +66498,7 @@
           <w xml:id="RVBR_8687_2">ir</w>
           <w xml:id="RVBR_8687_3" lemmaRef="lexicon.xml#lemma_4432" pos="ADV CNJ" ana="lexicon.xml#lemma_4432_sense_6912" corresp="variants.xml#type_15441">nu</w>
           <pc xml:id="RVBR_8687_4" join="left">,</pc>
-          <w xml:id="RVBR_8687_5">frô</w>
+          <w xml:id="RVBR_8687_5" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_372365">frô</w>
           <hi rend="upper_case_first_letter">
             <w xml:id="RVBR_8687_6">minne</w>
           </hi>
