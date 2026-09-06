@@ -107,12 +107,22 @@ MIN_BELEGE = 5
 # Schreibungen unterhalb von MIN_BELEGE, die von Hand gelesen und bestaetigt
 # wurden. Als Schreibung und nicht als xml:id, weil hier nicht der Einzelfall
 # entschieden wird, sondern ob die Schreibung ueberhaupt die Anrede sein kann.
-GEPRUEFT = {
-    # 6 Belege, alle in FLG/FLG1 und alle die Anrede vor einem Titel:
-    # "frov kuenegin" neben "frovwe kuenegin" im selben Text. Gelesen am
-    # 06.09.2026.
-    "frov",
-}
+#
+# Leer, und das ist der richtige Stand. Im Lauf vom 06.09.2026 stand hier
+# "frov", was ein Fehler war: frov hat 6 Belege und liegt damit ueber der
+# Schwelle, nicht darunter. Die Bedingung unten prueft GEPRUEFT erst, wenn
+# die Schwelle nicht greift, der Eintrag war also wirkungslos, und er
+# widersprach dem Kommentar zwei Zeilen weiter oben, der frov ausdruecklich
+# als die Obergrenze der Luecke nennt. Kein Tag haengt daran: frov war ueber
+# die Schwelle annotiert und bleibt es. Befund des CI-Review-Bots auf PR #398
+# als Randnotiz gemeldet, hier nachgemessen (6 Belege vor dem Batch, 7
+# danach).
+#
+# Die Handlesung selbst bleibt trotzdem verwertbar und steht deshalb hier:
+# die 6 frov-Belege stehen alle in FLG/FLG1 und alle als Anrede vor einem
+# Titel, "frov kuenegin" neben "frovwe kuenegin" im selben Text. Das
+# bestaetigt die Schwellenentscheidung, statt sie zu umgehen.
+GEPRUEFT = set()
 
 PROSA_FENSTER = 15
 BLOCK_LOCAL = {"p", "head", "div", "lg", "body"}
