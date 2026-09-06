@@ -91,14 +91,22 @@ Präfix `UNENTSCHIEDEN:` in der Begründung, werden also nie geschrieben und
 stehen in `review-faelle.csv` lesbar.
 
 **Zur Konfidenz wurde nachgefragt statt überstimmt.** Im ersten Durchgang
-standen 16 Fälle auf `medium`, fünf davon mit der Begründung, unsicher sei
+standen 16 Fälle auf `medium`, **sechs** davon mit der Begründung, unsicher sei
 nicht ADJ gegen ADV, sondern das Bezugswort, und alle Lesarten seien
-adjektivisch. Das ist ein Zweifel an einer anderen Frage als der gestellten;
-der Prompt war darin unscharf. Die betroffenen Läufe haben ihre Konfidenz auf
-Rückfrage selbst neu bewertet, statt dass sie hier umgeschrieben wurde. Vier
-gingen auf `high`, einer blieb bewusst `medium`
+adjektivisch (fünf in GWTK, einer in FR3). Das ist ein Zweifel an einer anderen
+Frage als der gestellten; der Prompt war darin unscharf. Die betroffenen Läufe
+haben ihre Konfidenz auf Rückfrage selbst neu bewertet, statt dass sie hier
+umgeschrieben wurde. **Fünf** gingen auf `high`, einer blieb bewusst `medium`
 (`GWTK_272211589800_5`: bei einem Verbum dicendi in Reimposition, *und saitte
-im gütte mere fro*, kommt die Art-und-Weise-Lesart tatsächlich in Betracht).
+im gütte mere fro*, kommt die Art-und-Weise-Lesart tatsächlich in Betracht). Die
+Rechnung schliesst damit: 14 `high` und 16 `medium` nach dem ersten Durchgang,
+19 und 11 danach, also plus fünf und minus fünf.
+
+Eine frühere Fassung dieses Absatzes nannte an beiden Stellen nur die
+GWTK-Zahlen (fünf nachgefragt, vier auf `high`) und liess den FR3-Fall aus,
+wodurch 16 minus 4 auf 12 statt auf die gemessenen 11 führte. Gemeldet vom
+CI-Review-Bot auf PR #398, Runde 11, hier nachgemessen. Kein Tag haengt daran:
+geschrieben sind in beiden Lesarten dieselben 19.
 
 ## Was zurückgehalten ist und wo es liegt
 
