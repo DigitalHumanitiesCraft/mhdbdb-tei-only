@@ -137,8 +137,10 @@ Zieltoken am Versende, das Feld trug dort also das erste Wort der Folgezeile.
 Das wiegt, weil `prompt.md` dieses Feld unter „Was zuerst zu prüfen ist" an
 die erste Stelle stellt.
 
-**Ein falsches Tag ist daraus nicht geworden, und das ist gemessen.** Alle
-zwölf Anrede-Urteile stehen mitten im Vers, keines am Versende. Dazu war
+**Ein falsches Tag ist daraus nicht geworden, und das ist gemessen.** Von den
+zwölf Anrede-Urteilen stehen neun im Vers, keines davon am Versende; die drei
+übrigen (FLG1) sind Prosa, wo die Grenze am Blockelement liegt und das Feld
+deshalb erhalten bleibt. Dazu war
 `next_verse` in keinem der 116 Fälle leer, das Modell konnte also immer sehen,
 dass das Wort eine Zeile weiter steht.
 

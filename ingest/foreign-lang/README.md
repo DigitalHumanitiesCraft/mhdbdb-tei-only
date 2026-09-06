@@ -41,7 +41,8 @@ das Gleis 1 hat, und ihre Kleinheit ist ihr Vorzug.** Gemessen am 06.09.2026
 
 424 Belege sind lesbar, 209.832 sind es nicht. Sie verteilen sich auf nur 19
 Lemmata und konzentrieren sich stark: `zunge` 224, `nase` 100, die
-`gebrechen`-Familie 37, `mël` 17, `klâr` 13. Bei `zunge` ist der Mechanismus
+`gebrechen` 37 (mit `gebrechenhaft` und `engebrechen` 39), `mël` 17,
+`klâr` 13. Bei `zunge` ist der Mechanismus
 mit bloßem Auge zu sehen: das Lemma trägt das Sprachkonzept, weil es „Sprache"
 heißen kann, und in mehr als zweihundert Belegen sagt die Sense-Annotation
 selbst, dass das Organ gemeint ist („sine zunge schouwen").

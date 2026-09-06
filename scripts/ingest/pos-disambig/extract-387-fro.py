@@ -122,9 +122,11 @@ def naechstes_im_selben_container(ws, idx, vers):
 
     Befund des CI-Review-Bots auf PR #398, hier unabhaengig nachgemessen: die
     116 stimmen, und im Lauf vom 06.09.2026 ist daraus nachweislich kein
-    falsches Tag geworden, weil alle zwoelf Anrede-Urteile mitten im Vers
-    stehen und keines am Versende. Die leere Zeichenkette ist am Versende die
-    richtigere Angabe als ein Wort, das gar nicht daneben steht.
+    falsches Tag geworden: von den zwoelf Anrede-Urteilen stehen neun im Vers,
+    keines davon am Versende, und die drei uebrigen sind Prosa (FLG1), wo die
+    Grenze am Blockelement liegt und das Feld erhalten bleibt. Die leere
+    Zeichenkette ist am Versende die richtigere Angabe als ein Wort, das gar
+    nicht daneben steht.
 
     Im Versmodus ist die Einheit das <l>, in Prosa das Blockelement.
     """
