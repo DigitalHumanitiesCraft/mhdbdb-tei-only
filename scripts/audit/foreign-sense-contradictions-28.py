@@ -115,7 +115,8 @@ def scan(kandidaten, sense_info):
     """Ein Durchlauf: Belege, Streuung und die widersprechenden @ana-Tokens."""
     tokens = Counter()
     texte = defaultdict(set)
-    ohne_ana = Counter()
+    kein_ana = Counter()      # gar kein @ana am Token
+    ana_unbekannt = Counter()  # @ana da, aber kein Sense davon im Index
     sprach_ana = Counter()
     gegen_ana = Counter()
     treffer = []
@@ -142,14 +143,17 @@ def scan(kandidaten, sense_info):
                 texte[lid].add(sigle)
                 ana = w.get('ana')
                 if not ana:
-                    ohne_ana[lid] += 1
+                    kein_ana[lid] += 1
                     continue
                 # Ein Token kann mehrere Senses tragen; sprachbezogen zaehlt,
                 # sobald einer davon ein Sprachkonzept fuehrt.
                 sids = [t.split('#')[-1] for t in ana.split()]
                 bekannt = [sense_info[s] for s in sids if s in sense_info]
                 if not bekannt:
-                    ohne_ana[lid] += 1
+                    # Das @ana zeigt auf einen Sense, den der Lemma-Index
+                    # nicht kennt. Kein Widerspruch und keine Zustimmung: das
+                    # Token sagt nichts, weil sein Verweis ins Leere geht.
+                    ana_unbekannt[lid] += 1
                     continue
                 if any(hat for _, hat in bekannt):
                     sprach_ana[lid] += 1
@@ -169,7 +173,8 @@ def scan(kandidaten, sense_info):
                         for j, t in enumerate(texts[lo:hi], start=lo) if t),
                 })
         baum.getroot().clear()
-    return tokens, texte, ohne_ana, sprach_ana, gegen_ana, treffer
+    return (tokens, texte, kein_ana, ana_unbekannt, sprach_ana,
+            gegen_ana, treffer)
 
 
 def main():
@@ -193,13 +198,19 @@ def main():
     print('Senses der Kandidaten: %d, davon mit Sprachkonzept: %d (%.1f %%)'
           % (len(eigene), mit_sprache, 100.0 * mit_sprache / len(eigene)))
 
-    tokens, texte, ohne_ana, sprach_ana, gegen_ana, treffer = scan(
-        kandidaten, sense_info)
+    (tokens, texte, kein_ana, ana_unbekannt, sprach_ana, gegen_ana,
+     treffer) = scan(kandidaten, sense_info)
     gesamt = sum(tokens.values())
     print('\nTokens ueber @lemmaRef: %d' % gesamt)
     print('  mit @ana auf einen Sprach-Sense : %d' % sum(sprach_ana.values()))
     print('  mit @ana, das WIDERSPRICHT      : %d' % sum(gegen_ana.values()))
-    print('  ohne verwertbares @ana          : %d' % sum(ohne_ana.values()))
+    print('  gar kein @ana                   : %d' % sum(kein_ana.values()))
+    print('  @ana auf einen dem Index unbekannten Sense: %d'
+          % sum(ana_unbekannt.values()))
+    if ana_unbekannt:
+        print('    betroffene Lemmata:',
+              dict(Counter({kandidaten[l]['lemma']: n
+                            for l, n in ana_unbekannt.items()}).most_common(10)))
 
     # Menge 1
     treffer.sort(key=lambda r: (-gegen_ana[r['lemma_id']], r['lemma_id'],
@@ -232,7 +243,8 @@ def main():
             'belege': n, 'texte': len(texte[lid]),
             'ana_sprache': sprach_ana[lid],
             'ana_widerspruch': gegen_ana[lid],
-            'ohne_ana': ohne_ana[lid],
+            'kein_ana': kein_ana[lid],
+            'ana_unbekannt': ana_unbekannt[lid],
             'urteil': '', 'begruendung': '',
         })
     p2 = out / '28-phase2-handpruefung.csv'

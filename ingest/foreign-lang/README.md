@@ -12,14 +12,46 @@ wird; geschrieben wird erst in Phase 3.
 | Datei | Inhalt |
 |---|---|
 | `28-gleis1-kandidaten.csv` | Quelle A aus Phase 1 Punkt 1: 6.246 Lemmata, deren Senses auf `concept_23123000` oder eine seiner 17 Sprachkategorien zeigen, mit Belegzahl, Streuung und Belegklasse |
+| `28-phase2-ana-widerspruch.csv` | Phase 2: **424 Belege**, deren `@ana` auf einen Sense ohne Sprachkonzept zeigt, mit Kontext. Dort sagt der annotierte Bestand ausdrücklich, dass hier nicht die sprachbezogene Lesart gemeint ist |
+| `28-phase2-handpruefung.csv` | Phase 2: die **26 belegstärksten Nicht-Namen** mit allem, was für ein Urteil nötig ist, plus zwei leeren Spalten `urteil` und `begruendung` |
 
 Erzeugt von
-[`scripts/audit/build-foreign-candidates-28.py`](../../scripts/audit/build-foreign-candidates-28.py),
+[`scripts/audit/build-foreign-candidates-28.py`](../../scripts/audit/build-foreign-candidates-28.py)
+und
+[`scripts/audit/foreign-sense-contradictions-28.py`](../../scripts/audit/foreign-sense-contradictions-28.py),
 reproduzierbar mit:
 
 ```bash
 python scripts/audit/build-foreign-candidates-28.py --csv ingest/foreign-lang/28-gleis1-kandidaten.csv
+python scripts/audit/foreign-sense-contradictions-28.py --out-dir ingest/foreign-lang
 ```
+
+## Womit Phase 2 anfangen sollte, und warum nicht mit einer Frequenzschwelle
+
+**Die Widerspruchsliste ist das schärfste rein maschinelle Ausschlusskriterium,
+das Gleis 1 hat, und ihre Kleinheit ist ihr Vorzug.** Gemessen am 06.09.2026
+über die 227.652 Tokens der Kandidatenmenge:
+
+| | Tokens |
+|---|---:|
+| `@ana` zeigt auf einen Sprach-Sense | 209.832 |
+| `@ana` **widerspricht** | **424** |
+| gar kein `@ana` | 17.390 |
+| `@ana` auf einen dem Lemma-Index unbekannten Sense | 6 |
+
+424 Belege sind lesbar, 209.832 sind es nicht. Sie verteilen sich auf nur 19
+Lemmata und konzentrieren sich stark: `zunge` 224, `nase` 100, die
+`gebrechen`-Familie 37, `mël` 17, `klâr` 13. Bei `zunge` ist der Mechanismus
+mit bloßem Auge zu sehen: das Lemma trägt das Sprachkonzept, weil es „Sprache"
+heißen kann, und in mehr als zweihundert Belegen sagt die Sense-Annotation
+selbst, dass das Organ gemeint ist („sine zunge schouwen").
+
+**Der Phasenplan nennt 430 statt 424, und die Differenz ist keine Drift,
+sondern eine Zählweise.** Sechs Tokens tragen ein `@ana`, dessen Sense der
+Lemma-Index nicht kennt (dreimal `soldân`, je einmal `Moab`, `kölnisch`,
+`liber`). Der Plan zählte sie zu den Widersprüchen; hier stehen sie als eigene
+Zeile, denn ein Verweis ins Leere widerspricht nichts, er sagt gar nichts.
+424 plus 6 ergibt die 430.
 
 ## Wie die Liste zu lesen ist
 
