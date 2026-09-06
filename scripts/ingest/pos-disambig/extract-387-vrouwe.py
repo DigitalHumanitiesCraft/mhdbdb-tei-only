@@ -126,10 +126,33 @@ MIN_BELEGE = 5
 # annotiert sind, und liefert deshalb null Kandidaten. Die Zahl oben ist der
 # Beleg, nicht der Lauf.
 #
-# Die Handlesung selbst bleibt trotzdem verwertbar und steht deshalb hier:
-# die 6 frov-Belege stehen alle in FLG/FLG1 und alle als Anrede vor einem
-# Titel, "frov kuenegin" neben "frovwe kuenegin" im selben Text. Das
-# bestaetigt die Schwellenentscheidung, statt sie zu umgehen.
+# Die Handlesung steht hier weiter, aber richtiggestellt. Die alte Fassung
+# lautete "die 6 frov-Belege stehen alle in FLG/FLG1 und alle als Anrede vor
+# einem Titel, frov kuenegin neben frovwe kuenegin im selben Text", und davon
+# stimmt fast nichts. Befund des CI-Review-Bots auf PR #398, Runde 7, hier
+# Stelle fuer Stelle nachgemessen. So sieht es wirklich aus:
+#
+#     git grep -c -P 'lemmaRef="[^"]*"[^>]*>frov</w>' origin/main \
+#         -- 'tei/*.tei.xml'      -->  FLG 1, NBB 5   (FLG1 gar nicht)
+#
+#   NBB_51_3    frov vote        Anrede vor Eigenname
+#   NBB_611_6   frov siglint     Anrede vor Eigenname
+#   NBB_3024_6  frov chrimhilt   Anrede vor Eigenname
+#   NBB_5871_1  frov prvnnhilt   Anrede vor Eigenname
+#   NBB_2622_6  "vil manech frov vnd manech meit"   KEINE Anrede, sondern
+#                                das blosse Appellativ; lemma_7260 richtig
+#   FLG_1041100_9   frov minne   Anrede vor einem personifizierten Titel
+#
+# Kein einziger der sechs ist "frov kuenegin". Diese Stelle ist
+# FLG_1041270_9, der EINZIGE unannotierte Kandidat, also gerade der Beleg,
+# den die Freigabe betreffen sollte, und nicht einer, der die Schwelle
+# traegt. Der Zusatz "neben frovwe kuenegin im selben Text" stimmt fuer sich
+# und stuetzt genau diesen einen Fall.
+#
+# Die Lehre ist nicht die Zahl, sondern dass lemma_7260 zwei Dinge fuehrt:
+# die Anrede und das schlichte Appellativ "Frau". Eine Menge, die "alle
+# Anrede" heisst, ist damit schon als Beschreibung falsch, auch wenn jedes
+# einzelne Tag stimmt.
 GEPRUEFT = set()
 
 PROSA_FENSTER = 15

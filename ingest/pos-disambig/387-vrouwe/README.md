@@ -86,10 +86,42 @@ gemessenen Lücke; zwei wäre die logische Untergrenze. Sie steht als
 `MIN_BELEGE` im Skript, mit dieser Begründung daneben.
 
 **Schreibungen unterhalb der Schwelle werden nicht verworfen, sondern
-gelesen.** `frov` (6 Belege) ist am 06.09. gelesen worden: beide Vorkommen
-stehen in FLG und FLG1 als Anrede vor einem Titel, „frov kúnegin" neben
-„frovwe kúnegin" im selben Text. Es steht deshalb als geprüft im Skript,
-namentlich und mit Begründung. `fvrn` steht dort nicht.
+gelesen**, und wer eine gelesen hat, trägt sie in `GEPRUEFT` ein. Die Menge
+ist zur Zeit **leer**, und das ist richtig: unterhalb der Schwelle liegt in
+diesem Lauf nur `fvrn`, und das ist gerade der Fall, der nicht freigegeben
+werden darf.
+
+**Hier stand bis zum 06.09. eine Freigabe für `frov`, und sie war in jedem
+Teil falsch.** Der Satz lautete, `frov` liege unterhalb der Schwelle und
+seine „beiden Vorkommen" stünden in FLG und FLG1 als Anrede vor einem Titel,
+„frov kúnegin" neben „frovwe kúnegin". Gemeldet vom CI-Review-Bot auf PR
+#398, Stelle für Stelle nachgemessen:
+
+```
+git grep -c -P 'lemmaRef="[^"]*"[^>]*>frov</w>' origin/main -- 'tei/*.tei.xml'
+  -->  FLG 1, NBB 5     (in FLG1 kommt die Schreibung gar nicht vor)
+```
+
+| Beleg | Kontext | |
+|---|---|---|
+| `NBB_51_3` | *frov vote* | Anrede vor Eigenname |
+| `NBB_611_6` | *frov siglint* | Anrede vor Eigenname |
+| `NBB_3024_6` | *frov chrimhilt* | Anrede vor Eigenname |
+| `NBB_5871_1` | *frov prvnnhilt* | Anrede vor Eigenname |
+| `NBB_2622_6` | *vil manech frov vnd manech meit* | **keine Anrede**, blosses Appellativ |
+| `FLG_1041100_9` | *frov minne* | Anrede vor einer Personifikation |
+
+`frov` hat 6 Belege und liegt damit **über** der Schwelle von 5, nicht
+darunter: die Tabelle direkt darüber sagt das, und der Absatz sagte das
+Gegenteil. Annotiert hat die 6 die Schwelle, nicht die Freigabe. Und keiner
+der sechs ist „frov kúnegin": diese Stelle ist `FLG_1041270_9`, der einzige
+**unannotierte** Kandidat, also gerade der Beleg, um den es bei einer
+Freigabe ginge.
+
+Die brauchbare Lehre steckt in der letzten Zeile der Tabelle: `lemma_7260`
+führt die Anrede **und** das schlichte Appellativ „Frau". Eine Menge, die
+„alle Anrede" heisst, ist deshalb schon als Beschreibung falsch, auch wenn
+jedes einzelne Tag stimmt.
 
 ## Ergebnis
 
