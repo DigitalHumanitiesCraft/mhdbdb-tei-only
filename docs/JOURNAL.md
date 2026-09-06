@@ -995,9 +995,107 @@ bei der Nummer, und ein Einschub hätte sie stillschweigend verschoben.
   genügt), und `python3` ist 3.11, während die Skripte 3.13 brauchen
   (`Path.read_text(newline=)`). Immer `python3.13` aufrufen.
 
-**Phase:** PR #398 offen, sechs Bot-Runden, die letzte vollständige ohne
-Befund. Offen an chsteiner, alles drei eine Entscheidung und nichts davon
-recherchierbar: der Variantentyp für die Zirkumflex-Schreibung unter
-`lemma_7260` (blockiert dieselben 3 KZW-entschiedenen Tokens jetzt zum zweiten
+**Zwischenstand am Mittag:** PR #398 offen, sechs Bot-Runden, die letzte
+vollständige ohne Befund. Offen an chsteiner, alles drei eine Entscheidung und
+nichts davon recherchierbar: der Variantentyp für die Zirkumflex-Schreibung
+unter `lemma_7260` (blockierte dieselben 3 KZW-entschiedenen Tokens zum zweiten
 Mal), die 35 zurückgehaltenen `fro`-Fälle, und ob TEI-Header die
-`works.xml`-Identifier weiter duplizieren sollen.
+`works.xml`-Identifier weiter duplizieren sollen. Alle drei sind am selben Tag
+entschieden worden, siehe den folgenden Eintrag.
+
+---
+
+## 2026-09-06 (Nachmittag) – Eine Zusage im Perfekt, und sechsmal derselbe Fehler in verschiedenen Kostümen
+
+Fortsetzung desselben Tages, nach den drei Entscheidungen von chsteiner: der
+#235-Präzedenzfall gilt, an KZW geht nur, was sie wirklich braucht, den Rest
+entscheidet Fable. Endstand **1.477 Tokens** (die 1.455 vom Vormittag plus 3
+plus 19), Korpus-Index 4.2.11 auf 4.2.13, Authority-Index 1.9.2 auf 1.9.3, und
+ein Skript, das es seit Monaten gab, hängt jetzt in der CI.
+
+**#216 ist abgeschlossen, und der Präzedenzfall kollidierte mit einer Ratsche.**
+Die 3 zurückgehaltenen `vrouwe`-Belege in RVBR sind geschrieben, damit steht
+Punkt 3 auf 155/155. Der Weg dahin ist der lehrreiche Teil: der #235-Fall
+erlaubt, für eine Zirkumflex-Schreibung ohne Typ einen Beleg **ohne**
+`@corresp` zu schreiben, und genau das hätte die #370-Ratsche rot gemacht, die
+für RVBR null Tokens ohne `@corresp` toleriert. Aufgefallen ist es mitten in
+der Umsetzung, nachdem die Freigabe schon vorlag. Ich hatte bereits einen
+`ohne_corresp`-Schlüssel in `apply-homograph.py` gebaut; er ist wieder draußen
+(`git checkout --`), weil ein Mechanismus, der die Ratsche still umgeht, nach
+genau dieser Entscheidung das Falscheste ist, was man bauen kann. Stattdessen
+neu gefragt und **`type_372365` geprägt**, der erste neue Variantentyp dieser
+Session (Maximum vorher `type_372364`). Kosten: `variants.xml` wächst um genau
+eine Form, 256.761 auf 256.762 – und diese Zahl steht an zehn Stellen im Repo,
+zwei davon auf ausgelieferten Seiten.
+
+**Der ADJ/ADV-Nachlauf, und was ein gemessener Prior wert ist.** Die 31 mittel-
+konfidenten Fälle des `fro`-Laufs waren sich beim Lemma alle einig; offen war
+nur ADJ gegen ADV, und das ist nach POS-TAGSET §4 ausdrücklich **K4**, also
+LLM-Aufgabe und keine kuratorische Frage. Das war der Grund, sie nicht an KZW
+zu geben. Der Prior hat dann die eigentliche Arbeit getan: über alle 667
+Dateien trägt auf `origin/main` **kein einziger** der 4.869 `lemma_7250`-Belege
+`ADV` allein. Von 14 ADV-Vorschlägen des ersten Durchgangs sind daraufhin 13
+gefallen. Geschrieben sind 19, zurückgehalten 11, und zusammen mit den zwei
+Substantivierungen gehen **13 Fälle an @wachauer**. Zwei Dinge liefen anders
+als sonst: `unentschieden` war ein erlaubtes Ergebnis (zwei Fälle, beide die
+verblose Antithese in Parallelüberlieferung), und bei sechs Fällen wurde die
+Konfidenz **nachgefragt statt überstimmt** – fünf gingen auf `high`, einer
+blieb bewusst `medium`. Der einzige ADV-Fall (`RVBR_6083_0`) ist gut begründet
+und steht trotzdem nicht im Batch: wäre er richtig, wäre er der erste
+`ADV`-Beleg von *vrô* im Korpus, und eine Entscheidung gegen den gesamten
+annotierten Bestand gehört nicht in einen maschinellen Lauf.
+
+**`doc-count-audit.py` hängt jetzt als Gate in `data-integrity.yml`.** Das
+Skript kennt seit Monaten ein `--check` mit Exit ungleich 0 bei Drift und lief
+in keinem Workflow. Was das kostet, hat der Tag vorgeführt: die alte 256.761
+blieb an zehn Stellen stehen, gefunden hat es der Review-Bot, nicht die CI. Der
+Ort ist `data-integrity.yml` und nicht `no-cdn-check.yml`, weil dort `lxml`
+ohnehin installiert ist; die Kosten sind sechs Sekunden gegen 45 Minuten
+Job-Timeout. **Die Grenze steht als Kommentar daneben und hat zwei Hälften, die
+verschieden wirken:** `docs/**` und `*.html` fehlen in den Pfadfiltern, dort
+ändert ein PR also die **behauptete** Zahl; `playground/**` fehlt ebenfalls, und
+dort ändert ein PR die **gemessene**. Ein PR, der ein UI-Modul hinzufügt, löst
+diesen Workflow nicht aus und macht den nächsten, unbeteiligten Daten-PR rot.
+Die Pfadfilter zu erweitern hieße, den 45-Minuten-Lauf bei jeder
+Playground-Änderung zu starten; das ist ein Handel über fremde Arbeit und
+deshalb bewusst nicht getroffen, sondern mit Preis daneben notiert.
+
+**Nachgesehen statt auf grün vertraut.** Nach der #397-Regel ist ein Gate, das
+grün wird, ohne etwas geprüft zu haben, genau die tote Wache. Also ins Job-Log
+von `101512379175` gesehen: der Schritt lief als Nummer 7 in vier Sekunden,
+druckte alle 19 gemessenen Größen (darunter `variants.xml — Formen | 256.762`,
+die Zahl, um die es ging), scannte Docs und ausgelieferte HTML-Seiten und
+meldete in der Anker-Selbstprüfung kein konfiguriertes Paar ohne Treffer. Vor
+der Korrektur wäre er rot gewesen.
+
+**Rot, und es ist der Befund des Tages: sechs Bot-Befunde, ein einziges
+Muster.** Runde 10 (die Variantenzahl an zehn Stellen), Runde 11 (die
+Konfidenz-Rechnung, die einen von zwei Läufen nannte), die Zusage „der Body ist
+mitkorrigiert", die geschrieben wurde, bevor sie ausgeführt war, Runde 14
+Befund 1 (der billigste Check hinter dem teuersten, obwohl der Workflow-Kopf
+„billig nach teuer" ausschreibt), Runde 14 Befund 2 (die offengelegte Grenze
+nannte `docs/**` und `*.html`, aber nicht `playground/**`), Runde 15 (dieselbe
+Grenze nannte dann drei Herkünfte als eine, und die genannte Abhilfe deckte nur
+eine davon). Und nachträglich derselbe Fehler im Nachlauf-README: „31 von 31",
+gemessen sind es 30, weil die zwei Substantivierungen nicht mitlaufen.
+**Jedesmal eine Aussage über eine Menge, geschrieben aus der Kenntnis eines
+Teils davon.** Das ist dieselbe Form wie die 330 `@ana`-Tokens vom Vormittag,
+nur ohne Zähleinheit als Ausrede. Die Gegenmaßnahme ist keine Regel, sondern
+eine Frage vor dem Schreiben: *woher weiß ich, dass das für alle gilt, und wo
+steht die Zählung?* Wo die Antwort ein Kommando ist, gehört das Kommando
+danebengeschrieben; die Fälle, in denen das getan wurde, sind die, die kein Bot
+mehr angefasst hat.
+
+Nebenbei ein Verfahrensfehler mit eigener Lehre: zwei `data-integrity`-Läufe
+sind von meinen eigenen Pushes abgebrochen worden, darunter der allererste, der
+das neue Gate überhaupt vollständig ausgeführt hätte. `cancel-in-progress` gilt
+in diesem Workflow für `pull_request`. **Wer ein neues Gate einbaut, wartet
+dessen ersten vollständigen Lauf ab, bevor er weiterschiebt** – sonst gibt es
+kein Log, in dem man nachsehen könnte, und die Verifikation verschiebt sich um
+eine Runde.
+
+**Phase:** PR #398 offen. Bei chsteiner liegen nur noch Dinge, die diese
+Umgebung nicht lösen kann: die 13 `fro`-Fälle für KZW (#387), die
+TRO-Identifier-Frage (#395, Authority-Datenbanken hier nicht erreichbar), und
+ob `playground/js/ui/**` in die Pfadfilter soll. #390 wartet bewusst auf den
+Merge.

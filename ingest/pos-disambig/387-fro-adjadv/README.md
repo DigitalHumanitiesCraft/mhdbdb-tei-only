@@ -8,9 +8,19 @@ Lauf vom 06.09.2026. Zweiter Durchgang über die Belege, die der `fro`-Lauf
 Der erste Lauf hatte zwei Entscheidungen je Beleg zu treffen, Lemma und
 Wortart, und musste laut Prompt auf höchstens `medium` gehen, sobald das Lemma
 klar war und die Wortart nicht. Genau diese Fälle liegen hier. Sie sind sich
-beim **Lemma alle einig**: 31 von 31 auf `lemma_7250` (*vrô* „froh"). Die
+beim **Lemma alle einig**: 30 von 30 auf `lemma_7250` (*vrô* „froh"). Die
 philologische Frage „Anrede *vrouwe* oder Adjektiv *vrô*" ist in keinem
 einzigen offen.
+
+Die Rechnung über die 35 zurückgehaltenen Fälle des ersten Laufs schliesst
+damit vollständig: **3** liegen auf `lemma_7260` (*vrouwe*), sind von KZW am
+01.09. entschieden und am 06.09. mit dem neu geprägten `type_372365`
+geschrieben; **2** sind Substantivierungen und damit eine kuratorische Frage
+(NOM), die hier nicht gestellt wird; die verbleibenden **30** sind dieser Lauf.
+Eine frühere Fassung dieses Absatzes nannte 31 von 31. Gemessen sind es 30:
+`cases.json` führt 30 Einträge, alle 30 stehen in `../387-fro/review-faelle.csv`,
+und von den dortigen 32 Fällen mit `lemma_7250` sind genau die beiden
+Substantivierungen (`FR1_13058020_4`, `FR2_419020_7`) nicht dabei.
 
 Offen ist nur ADJ gegen ADV, und das ist **K4** nach
 [POS-TAGSET §4](../../../docs/POS-TAGSET.md) („compound resolution `ADJ ADV`"),
