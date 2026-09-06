@@ -375,3 +375,32 @@ jobs:
 
       - name: Validate corpus and authority files (P2-13)
         run: python scripts/audit/validate-corpus.py --fail-fast
+
+      # Dokumentierte Zahlen gegen die Daten, die sie beschreiben.
+      #
+      # Warum hier und nicht in no-cdn-check.yml, wo die uebrigen Doku-Gates
+      # haengen: das Skript liest variants.xml und den Korpus und braucht
+      # dafuer lxml. no-cdn-check.yml ist stdlib-only und hat fuenf Minuten
+      # Timeout. Hier ist lxml ohnehin installiert, und der Lauf kostet
+      # sechs Sekunden (lokal gemessen 06.09.2026).
+      #
+      # Warum ueberhaupt: das Skript gibt es seit Monaten und lief in keinem
+      # Workflow. Am 06.09. hat der neu gepraegte type_372365 die
+      # Variantenzahl von 256.761 auf 256.762 gehoben, und die alte Zahl
+      # blieb an zehn Stellen stehen, zwei davon auf ausgelieferten Seiten
+      # (index.html und hilfe-daten.html, beide fuer Besucher sichtbar).
+      # Gefunden hat es der Review-Bot, nicht die CI. Der korrekte Stand
+      # davor kam nur zustande, weil #382 am 31.08. von Hand nachgezogen
+      # hatte.
+      #
+      # GRENZE, und sie gehoert dazu: die Pfadfilter dieses Workflows
+      # nennen weder docs/** noch *.html. Ein PR, der NUR Dokumentation
+      # anfasst und dabei eine falsche Zahl einsetzt, loest diesen Lauf
+      # nicht aus. Er faellt dann beim naechsten Datenlauf auf, weil das
+      # Gate jedes Mal alle konfigurierten Zahlen gegen alle Daten haelt,
+      # also verzoegert statt sofort. Die Alternative waere, docs/** in die
+      # Filter aufzunehmen, und damit liefe der 45-Minuten-Datenlauf bei
+      # jeder Doku-Aenderung. Der Fall, der am 06.09. eingetreten ist,
+      # loest diesen Workflow immer aus: er faengt an einer Datenaenderung.
+      - name: Dokumentierte Zahlen gegen die Daten (#382/#398)
+        run: python scripts/audit/doc-count-audit.py --check
