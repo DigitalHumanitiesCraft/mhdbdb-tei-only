@@ -1171,10 +1171,12 @@ dieselbe Richtung: die Lage war besser als das Ticket dachte.
   werden soll. Beides unnötig: `person_1772` existiert mit GND, und `works.xml`
   verweist für genau dieses Werk schon korrekt darauf. Nur der TEI-Header zeigt
   auf eine ID, die es nie gab.
-- **#252** ist beantwortbar geworden. Der Kommentar vom 31.07. hält fest, eine
-  Gegenprüfung sei unmöglich, weil für keinen betroffenen Text eine
-  Linecode-Quelle vorliegt. Seit dem 18.08. liegen 306 davon im Repo (#248),
-  darunter der größte betroffene Text. Damit ist die Frage, die den Vorgang
+- **#252** ist beantwortbar, und war es vermutlich schon damals. Der Kommentar
+  vom 31.07. hält fest, eine Gegenprüfung sei unmöglich, weil für keinen
+  betroffenen Text eine Linecode-Quelle vorliegt. Die 306 Dateien von #248 sind
+  laut der verdichteten Historie oben (Eintrag 2026-07-30) am **Tag davor** ins
+  Repo gekommen, darunter der größte betroffene Text. Die Feststellung war also
+  schon bei ihrer Niederschrift überholt. Damit ist die Frage, die den Vorgang
   blockiert, an der Quelle entschieden: **OVG hat 135 leere `<l>` im TEI und
   135 Zeilen mit `...` in der Vorlage, Bijektion in beide Richtungen.** Über
   alle prüfbaren Texte 290 von 324 auflösbar, davon **jeder einzelne** ein
