@@ -27,7 +27,7 @@ Der Teil des Vertrags, der für **alle** autonomen Sessions gleich lautet. Die d
 
 ## 4. Was vor jedem Push passiert
 
-11. **Fable-Review vor dem ersten Push jedes PRs**, mit dem `fable-reviewer` (nicht dem `fable-advisor`, der ist der Berater für offene Entwurfsfragen). Mitgeben: Branch, Basis, Ziel in einem Satz, Nummer der Review-Runde, ab Runde 2 die Vorrunden-Befunde. Was der Reviewer lokal findet, kostet null CI-Runden.
+11. **Fable-Review vor dem ersten Push jedes PRs**, mit dem `fable-reviewer` (nicht dem `fable-advisor`, der ist der Berater für offene Entwurfsfragen). Mitgeben: Branch, Basis, Ziel in einem Satz, Nummer der Review-Runde, ab Runde 2 die Vorrunden-Befunde. Bei einem Diff, der etwas repariert, zusätzlich die Frage: **was hat diese Änderung wahr gemacht, das vorher falsch sein konnte?** Stellt ein Fix eine Invariante her, verliert jede Prüfung ihren Gegenstand, die auf deren Gegenteil beruhte (#397). Was der Reviewer lokal findet, kostet null CI-Runden.
 12. **Jeder Befund wird nachgemessen, bevor er übernommen wird**, auch der eines Reviewers und auch der eines Bots. Er ist selbst eine Behauptung, und eine ungeprüfte Korrektur einer ungeprüften Zahl ist schlimmer als die ursprüngliche, weil sie glaubwürdiger aussieht.
 13. **Ab Review-Runde 3 wird nur noch auf Verhaltensbefunde reagiert.** Formulierungsfragen werden durch Kürzen erledigt, nicht durch Diskussion.
 14. **Verifikation:** `npm test` aus dem Repo-Root, nie `npx playwright test`. Die VERDICT-Zeile ist das Ergebnis und gehört unverändert in den PR (§2.1 Regel 6). Bei UI zusätzlich Chrome-Verifikation mit realen Belegen, bei HTML-Änderungen `python scripts/build-pages.py --check`, bei neuen Utility-Klassen `npm run build:css`.
