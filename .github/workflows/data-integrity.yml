@@ -11,6 +11,12 @@ name: Data Integrity
 #   1. Index-Versions-Konstanten: Build-Skripte und corpus-loader.js
 #      muessen dieselbe Version nennen, sonst greift die Cache-
 #      Invalidierung nicht (#47.3).
+#   1a. Dokumentierte Zahlen gegen die Daten (#382/#398): jede in der
+#      Doku und auf den ausgelieferten Seiten verankerte Zaehlung wird
+#      gegen den Bestand gehalten. Frueh, weil billig (sechs Sekunden)
+#      und ohne Abhaengigkeit von einem Vorgaenger. Zwei Grenzen stehen
+#      am Step selbst: die Pfadfilter nennen weder docs/** (behauptete
+#      Zahl) noch playground/** (gemessene Zahl).
 #   1b. Versions-Bump-Gate (#154): hat sich der dekomprimierte Inhalt
 #      von corpus-/authority-index gegenueber der Diff-Base geaendert,
 #      MUSS der version-String mitgebumpt sein — sonst invalidiert der
@@ -213,6 +219,71 @@ jobs:
 
       - name: Index version consistency (#47.3)
         run: python scripts/audit/check-index-versions.py
+
+      # Dokumentierte Zahlen gegen die Daten, die sie beschreiben.
+      #
+      # Position: frueh, weil billig. Sechs Sekunden lokal gemessen
+      # (06.09.2026), und der Schritt haengt an keinem Vorgaenger:
+      # doc-count-audit.py liest authority-files/*.xml, die Dateiliste aus
+      # corpus_files() (nicht den geparsten Korpus) und playground/js/ui/.
+      # Nach "Install dependencies" ist alles da. Der Workflow-Kopf schreibt
+      # "Steps von billig nach teuer (fail fast)" aus; eine falsche Zahl auf
+      # index.html darf nicht erst hinter der RelaxNG-Validierung auffallen.
+      #
+      # Warum hier und nicht in no-cdn-check.yml, wo die uebrigen Doku-Gates
+      # haengen: das Skript liest variants.xml und braucht dafuer lxml.
+      # no-cdn-check.yml ist stdlib-only und hat fuenf Minuten Timeout. Hier
+      # ist lxml ohnehin installiert.
+      #
+      # Warum ueberhaupt: das Skript gibt es seit Monaten und lief in keinem
+      # Workflow. Am 06.09. hat der neu gepraegte type_372365 die
+      # Variantenzahl von 256.761 auf 256.762 gehoben, und die alte Zahl
+      # blieb an zehn Stellen stehen, zwei davon auf ausgelieferten Seiten
+      # (index.html und hilfe-daten.html, beide fuer Besucher sichtbar).
+      # Gefunden hat es der Review-Bot, nicht die CI.
+      #
+      # GRENZEN, und es sind zwei. Die Pfadfilter dieses Workflows nennen
+      # weder docs/** noch *.html noch playground/**:
+      #
+      #   (a) Ein PR, der nur Dokumentation anfasst, aendert die BEHAUPTETE
+      #       Zahl und loest den Lauf nicht aus.
+      #   (b) Ein PR am Playground aendert die GEMESSENE Zahl und loest den
+      #       Lauf ebenfalls nicht aus. Sechs Groessen sind code-abgeleitet
+      #       (CODE_LABELS, doc-count-audit.py:335), und sie stammen aus
+      #       DREI verschiedenen Orten:
+      #
+      #         ui_modules, tei_tools, pattern_modules
+      #             glob ueber playground/js/ui/                (:216, :217)
+      #         curated_datasets
+      #             len(CURATED_DATASET_MODULES), eine Konstante
+      #             in diesem Skript selbst                     (:225)
+      #         authority_explorers, entry_points
+      #             re.findall auf playground/index.html        (:227-231)
+      #
+      #       curated_datasets ist damit gedeckt: es aendert sich nur mit
+      #       scripts/audit/**, und das steht in den Filtern.
+      #
+      # In beiden Faellen faellt die Drift erst beim naechsten Datenlauf auf,
+      # bei (b) also in einem PR, der damit nichts zu tun hat. Der Befund ist
+      # dann trotzdem echt, nur spaet und beim Falschen.
+      #
+      # Wer sofortige Erkennung will, braucht ZWEI Eintraege in den Filtern,
+      # playground/js/ui/** UND playground/index.html. Der zweite ist leicht
+      # zu uebersehen und deckt gerade den Fall, der ohne Codeaenderung
+      # eintritt: wer eine der sechs show*Btn-Ids in playground/index.html
+      # umbenennt, senkt authority_explorers und entry_points, ohne eine
+      # .js-Datei anzufassen. Beides kostet diesen 45-Minuten-Lauf bei jeder
+      # Playground-Aenderung und ist deshalb hier bewusst NICHT getan.
+      # docs/** aufzunehmen waere derselbe Handel bei jeder Doku-Aenderung.
+      #
+      # Nebenbei, weil es beim Nachmessen auffiel: playground/index.html
+      # steht auf BEIDEN Seiten dieses Gates, als gemessene Quelle (:227)
+      # und als Doku-Ziel fuer variants_normalized (:332).
+      #
+      # Der Fall vom 06.09. faellt unter keine der beiden Grenzen: er faengt
+      # an einer Datenaenderung an und loest diesen Workflow immer aus.
+      - name: Dokumentierte Zahlen gegen die Daten (#382/#398)
+        run: python scripts/audit/doc-count-audit.py --check
 
       - name: Index-Versions-Bump-Gate (#154)
         # MUSS vor dem Index-Rebuild (Step 6) laufen: der ueberschreibt

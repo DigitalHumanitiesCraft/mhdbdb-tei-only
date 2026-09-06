@@ -1,0 +1,23 @@
+{
+  "serie": "#216 Punkt 3, Nachtrag: die drei froe-Belege mit neu gepraegtem Variantentyp",
+  "lemmas": {
+    "lemma_7260": "vrouwe (NOM): Herrin, Frau; hier die Anrede vor minne"
+  },
+  "pos": ["NOM"],
+  "corresp": {
+    "frô|lemma_7260": "type_372365"
+  },
+  "kein_typ_bedeutet_review": true,
+  "kommentar_neuer_typ": "type_372365 ist in diesem Lauf NEU gepraegt, als erster Typ dieser Serie ueberhaupt. Naechste freie Nummer: das Maximum lag vor dem Lauf bei type_372364, in variants.xml und im Korpus gleichermassen, und 372365 kam nirgends vor. Genehmigung chsteiner 06.09.2026.",
+  "kommentar_warum_nicht_ohne_corresp": "Erste Ueberlegung war, die drei nach dem Muster von #235 ohne @corresp zu schreiben (JOURNAL 2026-08: dort 66 Tokens so behandelt, weil alle Kandidaten eine neue Nummer gebraucht haetten). Das faellt aus, weil es diese Praxis inzwischen einholt: seit #370 fuehrt check-authority-cross-refs.py eine zweite Ratsche ueber lemmatisierte Tokens OHNE @corresp, je Sigle, in corresp-coverage-baseline.json (Stand 02.09.2026, toleriert nur WZB 5.362 und EKL 2). RVBR steht dort nicht, toleriert also 0; drei Tokens ohne corresp haetten CI CHECK FAILED ergeben und haetten nur durch ein bewusstes Weiten der Ratsche gruen werden koennen. Genau diese Sorte Token ist der Grund fuer das Gate: die 52.163 WZB-Tokens aus #370 sind sauber lemmatisiert und trotzdem fuer Stufe 2 der Lemma-Aufloesung unsichtbar. Ein neuer Typ kostet eine Nummer in einem Raum, dessen Maximum bei 372364 liegt; die #235-Praxis haette denselben Schaden noch einmal erzeugt und das einzige Gate dagegen dauerhaft geoeffnet.",
+  "kommentar_warum_nicht_type_25866": "Die Zirkumflex-Schreibung frô ist in variants.xml als type_25866 gefuehrt, aber unter lemma_7250 (vrô 'froh'). Diesen Typ zu setzen waere falsch: ein type gehoert zu genau einem Lemma, und extract-variants.py schluege die Kollision der haeufigeren Seite zu, wodurch die Zuordnung still kippen koennte.",
+  "revisiondesc": {
+    "datum": "2026-09-06",
+    "titel": "#216 Punkt 3, Nachtrag",
+    "form": "frô",
+    "ziele": "vrouwe NOM (lemma_7260)",
+    "log": "ingest/pos-disambig/216-fro3/",
+    "vorlage": "<change when=\"{datum}\" who=\"#editor\">{titel}: {n_annot} {n_wort} der Anredeform {form} unmittelbar vor minne annotiert (lemmaRef/pos/corresp zu {ziele}); fuer diese Schreibung war unter dem Ziel-Lemma kein Variantentyp vorhanden, type_372365 ist dafuer neu gepraegt. Entscheidung @wachauer 01.09.2026, Verfahren und Herkunft im Provenienz-Log: {log}.{review_satz}</change>",
+    "kommentar_vorlage": "Der Eintrag nennt den neu gepraegten Typ ausdruecklich, weil eine neue Nummer in einem sonst abgeleiteten Bestand die einzige Stelle ist, an der dieser Lauf etwas erfindet. Kein LLM-Satz: die drei Faelle sind eine redaktionelle Entscheidung."
+  }
+}

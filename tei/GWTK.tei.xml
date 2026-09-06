@@ -131,6 +131,9 @@
       <change when="2026-07-12" who="#editor">#189 GWTK-Pilot: 257 homographie-ambige Tokens der Formen rott/rotten/rotte/roten und jungen/junger kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu rôt, rote, junc; LLM-Batch nach POS-TAGSET §6.3, Goldstandard-validiert; Provenienz-Log: ingest/pos-disambig/189-gwtk-rot-junc/). 21 ambige Fälle bewusst unannotiert belassen (Review).</change>
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 9 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/). 13 weitere Tokens der Form minne blieben bewusst unannotiert (Review).</change>
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 4 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
+      <change when="2026-09-06" who="#editor">#387 (vrouwe, mechanischer Teil): 102 Tokens der Form vrouwe erstmals annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260)). Kein LLM-Lauf: annotiert wurde nur, wo die MHG-normalisierte Schreibung im gesamten Korpus ein einziges Lemma traegt, dieses genau eine Wortart fuehrt und die Schreibung dafuer genug Belege hat. Kontextpflichtige Faelle sind unangetastet geblieben (Provenienz-Log: ingest/pos-disambig/387-vrouwe/).</change>
+      <change when="2026-09-06" who="#editor">#387 (fro): 101 homographie-ambige Tokens der Form fro kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260) bzw. vrô ADJ/ADV (lemma_7250); LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/387-fro/). 9 weitere Tokens der Form fro blieben bewusst unannotiert (Review).</change>
+      <change when="2026-09-06" who="#editor">#387 Nachlauf (fro: ADJ gegen ADV): 8 Tokens der Schreibung fro in der Wortart bestimmt (lemmaRef/pos/corresp zu vrô ADJ (lemma_7250)). Zweiter Durchgang ueber die im ersten Lauf wegen mittlerer Konfidenz zurueckgehaltenen Belege, mit feststehendem Lemma und einem am Bestand gemessenen Prior; Verfahren, Regeln und zurueckgehaltene Faelle im Provenienz-Log: ingest/pos-disambig/387-fro-adjadv/. 1 weitere Tokens der Form fro blieben bewusst unannotiert (Review).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -1717,7 +1720,7 @@
           </l>
           <l n="146">
             <hi rend="initial upper_case_first_letter">
-                <w xml:id="GWTK_3120014600_0">frow</w>
+                <w xml:id="GWTK_3120014600_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
               </hi>
             <w xml:id="GWTK_3120014600_1" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
             <w xml:id="GWTK_3120014600_2">lïbe</w>
@@ -1837,7 +1840,7 @@
             <w xml:id="GWTK_3210015600_2">in</w>
             <w xml:id="GWTK_3210015600_3" lemmaRef="lexicon.xml#lemma_2795" pos="NOM" corresp="variants.xml#type_9452">hertzen</w>
             <w xml:id="GWTK_3210015600_4">werde</w>
-            <w xml:id="GWTK_3210015600_5">frow</w>
+            <w xml:id="GWTK_3210015600_5" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <pc xml:id="GWTK_3210015600_6" join="left">!</pc>
           </l>
           <l n="157">
@@ -6374,7 +6377,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_10210058800_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_116606">dü</w>
               </hi>
-            <w xml:id="GWTK_10210058800_1">frow</w>
+            <w xml:id="GWTK_10210058800_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <w xml:id="GWTK_10210058800_2" lemmaRef="lexicon.xml#lemma_6342" pos="ADV PRP" ana="lexicon.xml#lemma_6342_sense_9997" corresp="variants.xml#type_129506">uss</w>
             <w xml:id="GWTK_10210058800_3" lemmaRef="lexicon.xml#lemma_4954" pos="ADJ" corresp="variants.xml#type_108970">rottem</w>
             <w xml:id="GWTK_10210058800_4" lemmaRef="lexicon.xml#lemma_4252" pos="NOM" corresp="variants.xml#type_14812">munde</w>
@@ -6421,7 +6424,7 @@
             <w xml:id="GWTK_10220059200_1">sprach</w>
             <pc xml:id="GWTK_10220059200_2" join="left">:</pc>
             <pc xml:id="GWTK_10220059200_3" join="right">&lt;</pc>
-            <w xml:id="GWTK_10220059200_4">frow</w>
+            <w xml:id="GWTK_10220059200_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <pc xml:id="GWTK_10220059200_5" join="left">,</pc>
             <supplied>
               <w xml:id="GWTK_10220059200_6">ob</w>
@@ -6780,7 +6783,7 @@
                 <w xml:id="GWTK_11210062700_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
               </hi>
             <w xml:id="GWTK_11210062700_1" lemmaRef="lexicon.xml#lemma_13181" pos="ADJ" ana="lexicon.xml#lemma_13181_sense_20858" corresp="variants.xml#type_191663">iede</w>
-            <w xml:id="GWTK_11210062700_2">frow</w>
+            <w xml:id="GWTK_11210062700_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <w xml:id="GWTK_11210062700_3">wider</w>
             <w xml:id="GWTK_11210062700_4">ir</w>
             <w xml:id="GWTK_11210062700_5" lemmaRef="lexicon.xml#lemma_188" pos="NOM" corresp="variants.xml#type_327355">amiss</w>
@@ -8887,7 +8890,7 @@
               </hi>
             <w xml:id="GWTK_15110083600_1">du</w>
             <pc xml:id="GWTK_15110083600_2" join="left">,</pc>
-            <w xml:id="GWTK_15110083600_3">frow</w>
+            <w xml:id="GWTK_15110083600_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <pc xml:id="GWTK_15110083600_4" join="left">,</pc>
             <w xml:id="GWTK_15110083600_5">vil</w>
             <w xml:id="GWTK_15110083600_6" lemmaRef="lexicon.xml#lemma_7677" pos="NOM ADV" ana="lexicon.xml#lemma_7677_sense_12586" corresp="variants.xml#type_27811">wol</w>
@@ -9147,7 +9150,7 @@
               </hi>
             <w xml:id="GWTK_15110085700_1" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
             <pc xml:id="GWTK_15110085700_2" join="left">,</pc>
-            <w xml:id="GWTK_15110085700_3">frow</w>
+            <w xml:id="GWTK_15110085700_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <pc xml:id="GWTK_15110085700_4" join="left">,</pc>
             <w xml:id="GWTK_15110085700_5">her</w>
             <w xml:id="GWTK_15110085700_6" lemmaRef="lexicon.xml#lemma_2296" pos="VRB" corresp="variants.xml#type_7751">gefarn</w>
@@ -9230,7 +9233,7 @@
             <w xml:id="GWTK_15210086500_1" lemmaRef="lexicon.xml#lemma_8700" pos="NOM PRO" ana="lexicon.xml#lemma_8700_sense_13698" corresp="variants.xml#type_30236">sines</w>
             <w xml:id="GWTK_15210086500_2" lemmaRef="lexicon.xml#lemma_2795" pos="NOM" corresp="variants.xml#type_9452">hertzen</w>
             <w xml:id="GWTK_15210086500_3">sinen</w>
-            <w xml:id="GWTK_15210086500_4">fro</w>
+            <w xml:id="GWTK_15210086500_4" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_15210086500_5" join="left">.</pc>
           </l>
           <l n="866">
@@ -9391,7 +9394,7 @@
             <w xml:id="GWTK_15210088200_1">werde</w>
             <w xml:id="GWTK_15210088200_2" lemmaRef="lexicon.xml#lemma_2795" pos="NOM" corresp="variants.xml#type_9452">hertzen</w>
             <w xml:id="GWTK_15210088200_3" lemmaRef="lexicon.xml#lemma_7505" pos="VRB" corresp="variants.xml#type_273625">warend</w>
-            <w xml:id="GWTK_15210088200_4">fro</w>
+            <w xml:id="GWTK_15210088200_4" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_15210088200_5" join="left">.</pc>
           </l>
           <l n="883">
@@ -13450,7 +13453,7 @@
             <w xml:id="GWTK_22210127900_2">ir</w>
             <w xml:id="GWTK_22210127900_3" lemmaRef="lexicon.xml#lemma_2795" pos="NOM" corresp="variants.xml#type_9451">hertze</w>
             <w xml:id="GWTK_22210127900_4" lemmaRef="lexicon.xml#lemma_6598" pos="NOM ADJ ADV NEG" corresp="variants.xml#type_59320">unmassen</w>
-            <w xml:id="GWTK_22210127900_5">frow</w>
+            <w xml:id="GWTK_22210127900_5" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <pc xml:id="GWTK_22210127900_6" join="left">.</pc>
           </l>
           <l n="1280">
@@ -18340,7 +18343,7 @@
             <w xml:id="GWTK_30210175600_2" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
             <w xml:id="GWTK_30210175600_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
             <w xml:id="GWTK_30210175600_4" lemmaRef="lexicon.xml#lemma_17742" pos="NOM" ana="lexicon.xml#lemma_17742_sense_30149" corresp="variants.xml#type_329261">hirtin</w>
-            <w xml:id="GWTK_30210175600_5">fro</w>
+            <w xml:id="GWTK_30210175600_5" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_30210175600_6" join="left">,</pc>
           </l>
           <l n="1757">
@@ -19334,7 +19337,7 @@
                 <w xml:id="GWTK_32110185100_1" lemmaRef="lexicon.xml#lemma_722" pos="VRB" corresp="variants.xml#type_329293">gebïttend</w>
               </hi>
             <pc xml:id="GWTK_32110185100_2" join="left">,</pc>
-            <w xml:id="GWTK_32110185100_3">frow</w>
+            <w xml:id="GWTK_32110185100_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <pc xml:id="GWTK_32110185100_4" join="left">,</pc>
             <w xml:id="GWTK_32110185100_5">waz</w>
             <w xml:id="GWTK_32110185100_6">ir</w>
@@ -20279,7 +20282,7 @@
                 <w xml:id="GWTK_34110193800_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
               </hi>
             <w xml:id="GWTK_34110193800_1" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18956">ist</w>
-            <w xml:id="GWTK_34110193800_2">frow</w>
+            <w xml:id="GWTK_34110193800_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
               <w xml:id="GWTK_34110193800_3" lemmaRef="lexicon.xml#lemma_12211" pos="NAM" ana="lexicon.xml#lemma_12211_sense_20647" corresp="variants.xml#type_329357">pallass</w>
             </hi>
@@ -20520,7 +20523,7 @@
             <w xml:id="GWTK_34110195800_1">din</w>
             <w xml:id="GWTK_34110195800_2">raines</w>
             <w xml:id="GWTK_34110195800_3" lemmaRef="lexicon.xml#lemma_2795" pos="NOM" corresp="variants.xml#type_9451">hertze</w>
-            <w xml:id="GWTK_34110195800_4">fro</w>
+            <w xml:id="GWTK_34110195800_4" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           </l>
           <l n="1959">
             <hi rend="initial upper_case_first_letter">
@@ -20696,7 +20699,7 @@
                 <w xml:id="GWTK_34220197600_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_116606">dü</w>
               </hi>
             <w xml:id="GWTK_34220197600_1" lemmaRef="lexicon.xml#lemma_7766" pos="ADJ ADV" corresp="variants.xml#type_157577">zartte</w>
-            <w xml:id="GWTK_34220197600_2">frow</w>
+            <w xml:id="GWTK_34220197600_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <w xml:id="GWTK_34220197600_3">vil</w>
             <w xml:id="GWTK_34220197600_4" lemmaRef="lexicon.xml#lemma_2232" pos="ADJ" ana="lexicon.xml#lemma_2232_sense_3550" corresp="variants.xml#type_329386">geschlachtt</w>
           </l>
@@ -20753,7 +20756,7 @@
           </l>
           <l n="1982">
             <hi rend="initial upper_case_first_letter">
-                <w xml:id="GWTK_34220198200_0">frow</w>
+                <w xml:id="GWTK_34220198200_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
               </hi>
             <pc xml:id="GWTK_34220198200_1" join="left">,</pc>
             <w xml:id="GWTK_34220198200_2" lemmaRef="lexicon.xml#lemma_3867" pos="NOM ADJ ADV" corresp="variants.xml#type_148487">lautt</w>
@@ -21303,7 +21306,7 @@
                 <w xml:id="GWTK_35220203400_0">mitt</w>
               </hi>
             <w xml:id="GWTK_35220203400_1" lemmaRef="lexicon.xml#lemma_11440" pos="ADJ" ana="lexicon.xml#lemma_11440_sense_18243" corresp="variants.xml#type_329420">lïchtenfarwen</w>
-            <w xml:id="GWTK_35220203400_2">fro</w>
+            <w xml:id="GWTK_35220203400_2" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           </l>
           <l n="2035">
             <hi rend="initial upper_case_first_letter">
@@ -22029,7 +22032,7 @@
           </l>
           <l n="2102">
             <hi rend="initial upper_case_first_letter">
-                <w xml:id="GWTK_36220210200_0">frow</w>
+                <w xml:id="GWTK_36220210200_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
               </hi>
             <hi rend="upper_case_first_letter">
               <w xml:id="GWTK_36220210200_1" lemmaRef="lexicon.xml#lemma_3165" pos="NAM" ana="lexicon.xml#lemma_3165_sense_5003" corresp="variants.xml#type_10876">juno</w>
@@ -22098,7 +22101,7 @@
             <w xml:id="GWTK_37110210700_1" lemmaRef="lexicon.xml#lemma_8305" pos="NEG VEX" corresp="variants.xml#type_121259">enwird</w>
             <w xml:id="GWTK_37110210700_2" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
             <w xml:id="GWTK_37110210700_3" lemmaRef="lexicon.xml#lemma_4368" pos="ADV" ana="lexicon.xml#lemma_4368_sense_6825" corresp="variants.xml#type_15246">niemer</w>
-            <w xml:id="GWTK_37110210700_4">frow</w>
+            <w xml:id="GWTK_37110210700_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <pc xml:id="GWTK_37110210700_5" join="left">.</pc>
             <pc xml:id="GWTK_37110210700_6" join="left">&gt;</pc>
           </l>
@@ -22842,7 +22845,7 @@
           </l>
           <l n="2178">
             <hi rend="initial upper_case_first_letter">
-                <w xml:id="GWTK_38110217800_0">frow</w>
+                <w xml:id="GWTK_38110217800_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
               </hi>
             <hi rend="upper_case_first_letter">
               <w xml:id="GWTK_38110217800_1" lemmaRef="lexicon.xml#lemma_6810" pos="NAM" ana="lexicon.xml#lemma_6810_sense_10851" corresp="variants.xml#type_23852">venus</w>
@@ -24935,7 +24938,7 @@
                 <w xml:id="GWTK_41210237900_0" lemmaRef="lexicon.xml#lemma_8385" pos="PRO VRB" corresp="variants.xml#type_179443">haustu</w>
               </hi>
             <pc xml:id="GWTK_41210237900_1" join="left">,</pc>
-            <w xml:id="GWTK_41210237900_2">frow</w>
+            <w xml:id="GWTK_41210237900_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <pc xml:id="GWTK_41210237900_3" join="left">,</pc>
             <w xml:id="GWTK_41210237900_4" lemmaRef="lexicon.xml#lemma_6920" pos="VRB" ana="lexicon.xml#lemma_6920_sense_11097" corresp="variants.xml#type_329787">verigeltt</w>
             <pc xml:id="GWTK_41210237900_5" join="left">.</pc>
@@ -26940,7 +26943,7 @@
             <w xml:id="GWTK_45110257400_1">waz</w>
             <w xml:id="GWTK_45110257400_2" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
             <w xml:id="GWTK_45110257400_3" lemmaRef="lexicon.xml#lemma_3035" pos="NOM" corresp="variants.xml#type_10386">ingesinde</w>
-            <w xml:id="GWTK_45110257400_4">fro</w>
+            <w xml:id="GWTK_45110257400_4" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_45110257400_5" join="left">,</pc>
           </l>
           <l n="2575">
@@ -28413,7 +28416,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_47220271300_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
               </hi>
-            <w xml:id="GWTK_47220271300_1">frow</w>
+            <w xml:id="GWTK_47220271300_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <w xml:id="GWTK_47220271300_2" lemmaRef="lexicon.xml#lemma_7283" pos="VRB" corresp="variants.xml#type_326615">fürtt</w>
             <w xml:id="GWTK_47220271300_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
             <w xml:id="GWTK_47220271300_4" lemmaRef="lexicon.xml#lemma_3157" pos="NOM" corresp="variants.xml#type_10830">jungen</w>
@@ -28994,7 +28997,7 @@
               </hi>
             <w xml:id="GWTK_48220276900_1" lemmaRef="lexicon.xml#lemma_1169" pos="DET" ana="lexicon.xml#lemma_1169_sense_1850" corresp="variants.xml#type_3687">dis</w>
             <w xml:id="GWTK_48220276900_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_116606">dü</w>
-            <w xml:id="GWTK_48220276900_3">frow</w>
+            <w xml:id="GWTK_48220276900_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <w xml:id="GWTK_48220276900_4">do</w>
             <w xml:id="GWTK_48220276900_5" lemmaRef="lexicon.xml#lemma_1438" pos="VRB" ana="lexicon.xml#lemma_1438_sense_2219" corresp="variants.xml#type_154616">enpfand</w>
           </l>
@@ -29906,7 +29909,7 @@
             <w xml:id="GWTK_50110285500_1" lemmaRef="lexicon.xml#lemma_5587" pos="ADJ ADV" corresp="variants.xml#type_46587">schnelle</w>
             <w xml:id="GWTK_50110285500_2">waz</w>
             <w xml:id="GWTK_50110285500_3" lemmaRef="lexicon.xml#lemma_7489" pos="VRB VEX" corresp="variants.xml#type_27060">worden</w>
-            <w xml:id="GWTK_50110285500_4">frow</w>
+            <w xml:id="GWTK_50110285500_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <pc xml:id="GWTK_50110285500_5" join="left">.</pc>
           </l>
           <l n="2856">
@@ -32028,7 +32031,7 @@
             <pc xml:id="GWTK_53220306200_2" join="right">&lt;</pc>
             <w xml:id="GWTK_53220306200_3">ir</w>
             <w xml:id="GWTK_53220306200_4" lemmaRef="lexicon.xml#lemma_4240" pos="VRB VEM" corresp="variants.xml#type_45673">möchten</w>
-            <w xml:id="GWTK_53220306200_5">fro</w>
+            <w xml:id="GWTK_53220306200_5" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           </l>
           <l n="3063">
             <hi rend="initial upper_case_first_letter">
@@ -32778,7 +32781,7 @@
             <w xml:id="GWTK_55110313500_1" lemmaRef="lexicon.xml#lemma_7489" pos="VRB VEX" corresp="variants.xml#type_27068">wurden</w>
             <w xml:id="GWTK_55110313500_2" lemmaRef="lexicon.xml#lemma_106" pos="ADJ" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_258">alle</w>
             <w xml:id="GWTK_55110313500_3" lemmaRef="lexicon.xml#lemma_4886" pos="NOM" corresp="variants.xml#type_16870">ritter</w>
-            <w xml:id="GWTK_55110313500_4">fro</w>
+            <w xml:id="GWTK_55110313500_4" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_55110313500_5" join="left">.</pc>
           </l>
           <l n="3136">
@@ -34031,7 +34034,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_57110326000_0">lïbe</w>
               </hi>
-            <w xml:id="GWTK_57110326000_1">frow</w>
+            <w xml:id="GWTK_57110326000_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <pc xml:id="GWTK_57110326000_2" join="left">,</pc>
             <w xml:id="GWTK_57110326000_3">nach</w>
             <supplied>
@@ -34381,7 +34384,7 @@
             <w xml:id="GWTK_57210329200_1">sy</w>
             <w xml:id="GWTK_57210329200_2" lemmaRef="lexicon.xml#lemma_106" pos="ADJ" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_258">alle</w>
             <w xml:id="GWTK_57210329200_3" lemmaRef="lexicon.xml#lemma_7489" pos="VRB VEX" corresp="variants.xml#type_27068">wurden</w>
-            <w xml:id="GWTK_57210329200_4">fro</w>
+            <w xml:id="GWTK_57210329200_4" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_57210329200_5" join="left">;</pc>
           </l>
           <l n="3293">
@@ -37146,7 +37149,7 @@
             <w xml:id="GWTK_62110356400_1" lemmaRef="lexicon.xml#lemma_2795" pos="NOM" corresp="variants.xml#type_9450">hertz</w>
             <w xml:id="GWTK_62110356400_2">wer</w>
             <w xml:id="GWTK_62110356400_3" lemmaRef="lexicon.xml#lemma_2349" pos="ADJ ADV" ana="lexicon.xml#lemma_2349_sense_3783" corresp="variants.xml#type_294406">gewesse</w>
-            <w xml:id="GWTK_62110356400_4">fro</w>
+            <w xml:id="GWTK_62110356400_4" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_62110356400_5" join="left">,</pc>
           </l>
           <l n="3565">
@@ -37607,7 +37610,7 @@
                 <w xml:id="GWTK_62220361100_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
               </hi>
             <w xml:id="GWTK_62220361100_1">sy</w>
-            <w xml:id="GWTK_62220361100_2">frow</w>
+            <w xml:id="GWTK_62220361100_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <w xml:id="GWTK_62220361100_3">unde</w>
             <w xml:id="GWTK_62220361100_4" lemmaRef="lexicon.xml#lemma_2040" pos="NOM ADJ" corresp="variants.xml#type_146681">gaill</w>
           </l>
@@ -38541,7 +38544,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_64110370600_0" lemmaRef="lexicon.xml#lemma_13181" pos="ADJ" ana="lexicon.xml#lemma_13181_sense_20858" corresp="variants.xml#type_239058">iedü</w>
               </hi>
-            <w xml:id="GWTK_64110370600_1">frow</w>
+            <w xml:id="GWTK_64110370600_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <w xml:id="GWTK_64110370600_2">sunder</w>
             <w xml:id="GWTK_64110370600_3">wan</w>
           </l>
@@ -39195,7 +39198,7 @@
             <w xml:id="GWTK_65110377000_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
             <w xml:id="GWTK_65110377000_2" lemmaRef="lexicon.xml#lemma_3313" pos="NOM" ana="lexicon.xml#lemma_3313_sense_5196" corresp="variants.xml#type_11309">kindes</w>
             <w xml:id="GWTK_65110377000_3">willen</w>
-            <w xml:id="GWTK_65110377000_4">frow</w>
+            <w xml:id="GWTK_65110377000_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <pc xml:id="GWTK_65110377000_5" join="left">.</pc>
           </l>
           <l n="3771">
@@ -39739,7 +39742,7 @@
               </hi>
             <w xml:id="GWTK_66110382300_1">bott</w>
             <w xml:id="GWTK_66110382300_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_116606">dü</w>
-            <w xml:id="GWTK_66110382300_3">frow</w>
+            <w xml:id="GWTK_66110382300_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <w xml:id="GWTK_66110382300_4" lemmaRef="lexicon.xml#lemma_106" pos="ADJ" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_260">allen</w>
             <w xml:id="GWTK_66110382300_5">sold</w>
           </l>
@@ -40664,7 +40667,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_67220392000_0" lemmaRef="lexicon.xml#lemma_3006" pos="ADJ" ana="lexicon.xml#lemma_3006_sense_15705" corresp="variants.xml#type_291932">iecklich</w>
               </hi>
-            <w xml:id="GWTK_67220392000_1">frow</w>
+            <w xml:id="GWTK_67220392000_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <w xml:id="GWTK_67220392000_2" lemmaRef="lexicon.xml#lemma_607" pos="ADJ ADV" corresp="variants.xml#type_74100">besunderlich</w>
           </l>
           <l n="3921">
@@ -41618,7 +41621,7 @@
               </hi>
             <w xml:id="GWTK_69210401500_1" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
             <w xml:id="GWTK_69210401500_2" lemmaRef="lexicon.xml#lemma_7505" pos="VRB" corresp="variants.xml#type_273625">warend</w>
-            <w xml:id="GWTK_69210401500_3">fro</w>
+            <w xml:id="GWTK_69210401500_3" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           </l>
           <l n="4016">
             <hi rend="initial upper_case_first_letter">
@@ -42518,7 +42521,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_71110410400_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
               </hi>
-            <w xml:id="GWTK_71110410400_1">frow</w>
+            <w xml:id="GWTK_71110410400_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <w xml:id="GWTK_71110410400_2">ze</w>
             <w xml:id="GWTK_71110410400_3" lemmaRef="lexicon.xml#lemma_6246" pos="NOM ADJ" corresp="variants.xml#type_304542">trutt</w>
             <w xml:id="GWTK_71110410400_4" lemmaRef="lexicon.xml#lemma_3004" pos="ADV" ana="lexicon.xml#lemma_3004_sense_4808" corresp="variants.xml#type_10247">ie</w>
@@ -42708,7 +42711,7 @@
             <pc xml:id="GWTK_71110412200_2" join="left">:</pc>
             <pc xml:id="GWTK_71110412200_3" join="right">&lt;</pc>
             <w xml:id="GWTK_71110412200_4" lemmaRef="lexicon.xml#lemma_3157" pos="NOM ADJ" corresp="variants.xml#type_10828">junge</w>
-            <w xml:id="GWTK_71110412200_5">frow</w>
+            <w xml:id="GWTK_71110412200_5" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <pc xml:id="GWTK_71110412200_6" join="left">,</pc>
             <hi rend="upper_case_first_letter">
               <w xml:id="GWTK_71110412200_7" lemmaRef="lexicon.xml#lemma_63808" pos="NAM" ana="lexicon.xml#lemma_63808_sense_100602" corresp="variants.xml#type_330584">ursyon</w>
@@ -43060,7 +43063,7 @@
               </hi>
             <w xml:id="GWTK_71210415600_2">bin</w>
             <pc xml:id="GWTK_71210415600_3" join="left">,</pc>
-            <w xml:id="GWTK_71210415600_4">frow</w>
+            <w xml:id="GWTK_71210415600_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <pc xml:id="GWTK_71210415600_5" join="left">,</pc>
             <w xml:id="GWTK_71210415600_6" lemmaRef="lexicon.xml#lemma_4377" pos="ADJ ADV NEG" ana="lexicon.xml#lemma_4377_sense_6838" corresp="variants.xml#type_131461">nitt</w>
             <w xml:id="GWTK_71210415600_7" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
@@ -43092,7 +43095,7 @@
               </hi>
             <w xml:id="GWTK_71210415900_1" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
             <pc xml:id="GWTK_71210415900_2" join="left">,</pc>
-            <w xml:id="GWTK_71210415900_3">frow</w>
+            <w xml:id="GWTK_71210415900_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <pc xml:id="GWTK_71210415900_4" join="left">,</pc>
             <w xml:id="GWTK_71210415900_5" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
             <w xml:id="GWTK_71210415900_6" lemmaRef="lexicon.xml#lemma_5292" pos="NAM" ana="lexicon.xml#lemma_5292_sense_8247" corresp="variants.xml#type_330560">schottan</w>
@@ -43538,7 +43541,7 @@
             <w xml:id="GWTK_72210420400_3" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3255">da</w>
             <w xml:id="GWTK_72210420400_4" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
             <w xml:id="GWTK_72210420400_5">ward</w>
-            <w xml:id="GWTK_72210420400_6">frow</w>
+            <w xml:id="GWTK_72210420400_6" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <pc xml:id="GWTK_72210420400_7" join="left">.</pc>
           </l>
           <l n="4205">
@@ -43609,7 +43612,7 @@
               </hi>
             <w xml:id="GWTK_72210421100_1" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
             <w xml:id="GWTK_72210421100_2" lemmaRef="lexicon.xml#lemma_7505" pos="VRB" corresp="variants.xml#type_273625">warend</w>
-            <w xml:id="GWTK_72210421100_3">fro</w>
+            <w xml:id="GWTK_72210421100_3" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_72210421100_4" join="left">,</pc>
           </l>
           <l n="4212">
@@ -43867,7 +43870,7 @@
                 <w xml:id="GWTK_73120423700_1">owe</w>
               </hi>
             <pc xml:id="GWTK_73120423700_2" join="left">,</pc>
-            <w xml:id="GWTK_73120423700_3">frow</w>
+            <w xml:id="GWTK_73120423700_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <w xml:id="GWTK_73120423700_4" lemmaRef="lexicon.xml#lemma_3275" pos="NOM" ana="lexicon.xml#lemma_3275_sense_5146" corresp="variants.xml#type_330522">kaysserin</w>
             <pc xml:id="GWTK_73120423700_5" join="left">,</pc>
           </l>
@@ -47402,7 +47405,7 @@
             <w xml:id="GWTK_79120458600_1">vil</w>
             <w xml:id="GWTK_79120458600_2" lemmaRef="lexicon.xml#lemma_3962" pos="ADJ" ana="lexicon.xml#lemma_3962_sense_6245" corresp="variants.xml#type_58990">menig</w>
             <w xml:id="GWTK_79120458600_3" lemmaRef="lexicon.xml#lemma_2795" pos="NOM" corresp="variants.xml#type_9451">hertze</w>
-            <w xml:id="GWTK_79120458600_4">fro</w>
+            <w xml:id="GWTK_79120458600_4" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           </l>
           <l n="4587">
             <hi rend="initial upper_case_first_letter">
@@ -47633,7 +47636,7 @@
                 <w xml:id="GWTK_79210460800_0" lemmaRef="lexicon.xml#lemma_1436" pos="VRB" corresp="variants.xml#type_4714">enpfieng</w>
               </hi>
             <w xml:id="GWTK_79210460800_1" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_116606">dü</w>
-            <w xml:id="GWTK_79210460800_2">frow</w>
+            <w xml:id="GWTK_79210460800_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <w xml:id="GWTK_79210460800_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
             <w xml:id="GWTK_79210460800_4" lemmaRef="lexicon.xml#lemma_4886" pos="NOM" corresp="variants.xml#type_16870">ritter</w>
             <pc xml:id="GWTK_79210460800_5" join="left">.</pc>
@@ -48658,7 +48661,7 @@
                 <w xml:id="GWTK_81120471000_0" lemmaRef="lexicon.xml#lemma_5974" pos="VRB" ana="lexicon.xml#lemma_5974_sense_9465" corresp="variants.xml#type_120041">schwig</w>
               </hi>
             <pc xml:id="GWTK_81120471000_1" join="left">,</pc>
-            <w xml:id="GWTK_81120471000_2">frow</w>
+            <w xml:id="GWTK_81120471000_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <w xml:id="GWTK_81120471000_3" lemmaRef="lexicon.xml#lemma_2573" pos="NOM ADJ" corresp="variants.xml#type_187248">gütt</w>
             <w xml:id="GWTK_81120471000_4" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
             <w xml:id="GWTK_81120471000_5" lemmaRef="lexicon.xml#lemma_6280" pos="NOM" corresp="variants.xml#type_22200">tugend</w>
@@ -50029,7 +50032,7 @@
             <w xml:id="GWTK_83210484300_1">sprach</w>
             <pc xml:id="GWTK_83210484300_2" join="left">:</pc>
             <pc xml:id="GWTK_83210484300_3" join="right">&lt;</pc>
-            <w xml:id="GWTK_83210484300_4">frow</w>
+            <w xml:id="GWTK_83210484300_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <w xml:id="GWTK_83210484300_5" lemmaRef="lexicon.xml#lemma_5864" pos="NOM ADJ ADV" corresp="variants.xml#type_161130">süsse</w>
             <pc xml:id="GWTK_83210484300_6" join="left">,</pc>
           </l>
@@ -50845,7 +50848,7 @@
             <w xml:id="GWTK_85110492700_1" lemmaRef="lexicon.xml#lemma_106" pos="ADJ ADV" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_257">all</w>
             <w xml:id="GWTK_85110492700_2" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_58795">aine</w>
             <w xml:id="GWTK_85110492700_3" lemmaRef="lexicon.xml#lemma_204" pos="NOM ADJ" ana="lexicon.xml#lemma_204_sense_256" corresp="variants.xml#type_545">andren</w>
-            <w xml:id="GWTK_85110492700_4">fro</w>
+            <w xml:id="GWTK_85110492700_4" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_85110492700_5" join="left">.</pc>
           </l>
           <l n="4928">
@@ -53588,7 +53591,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_89210520200_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
               </hi>
-            <w xml:id="GWTK_89210520200_1">frow</w>
+            <w xml:id="GWTK_89210520200_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
               <w xml:id="GWTK_89210520200_2" lemmaRef="lexicon.xml#lemma_3001" pos="POS" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10230">mine</w>
             </hi>
@@ -54487,7 +54490,7 @@
             <w xml:id="GWTK_91110529400_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
             <w xml:id="GWTK_91110529400_2" lemmaRef="lexicon.xml#lemma_1308" pos="NOM ADJ" ana="lexicon.xml#lemma_1308_sense_2042" corresp="variants.xml#type_4263">edlen</w>
             <w xml:id="GWTK_91110529400_3">rede</w>
-            <w xml:id="GWTK_91110529400_4">fro</w>
+            <w xml:id="GWTK_91110529400_4" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           </l>
           <l n="5295">
             <hi rend="initial upper_case_first_letter">
@@ -55428,7 +55431,7 @@
             <w xml:id="GWTK_92210538100_2">ward</w>
             <w xml:id="GWTK_92210538100_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
             <w xml:id="GWTK_92210538100_4">rede</w>
-            <w xml:id="GWTK_92210538100_5">fro</w>
+            <w xml:id="GWTK_92210538100_5" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_92210538100_6" join="left">.</pc>
           </l>
           <l n="5382">
@@ -55532,7 +55535,7 @@
             <w xml:id="GWTK_92210539100_1">waz</w>
             <w xml:id="GWTK_92210539100_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
             <w xml:id="GWTK_92210539100_3">mere</w>
-            <w xml:id="GWTK_92210539100_4">fro</w>
+            <w xml:id="GWTK_92210539100_4" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_92210539100_5" join="left">.</pc>
           </l>
           <l n="5392">
@@ -56157,7 +56160,7 @@
             <w xml:id="GWTK_93210545300_1">haiden</w>
             <w xml:id="GWTK_93210545300_2">ward</w>
             <w xml:id="GWTK_93210545300_3" lemmaRef="lexicon.xml#lemma_6598" pos="NOM ADJ ADV NEG" corresp="variants.xml#type_59320">unmassen</w>
-            <w xml:id="GWTK_93210545300_4">frow</w>
+            <w xml:id="GWTK_93210545300_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <pc xml:id="GWTK_93210545300_5" join="left">:</pc>
           </l>
           <l n="5454">
@@ -56651,7 +56654,7 @@
             <w xml:id="GWTK_94210550200_1" lemmaRef="lexicon.xml#lemma_57252" pos="NOM" ana="lexicon.xml#lemma_57252_sense_31453" corresp="variants.xml#type_308554">bütze</w>
             <w xml:id="GWTK_94210550200_2">im</w>
             <pc xml:id="GWTK_94210550200_3" join="left">,</pc>
-            <w xml:id="GWTK_94210550200_4">frow</w>
+            <w xml:id="GWTK_94210550200_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <pc xml:id="GWTK_94210550200_5" join="left">,</pc>
             <w xml:id="GWTK_94210550200_6" lemmaRef="lexicon.xml#lemma_5924" pos="NOM ADJ ADV" corresp="variants.xml#type_85821">schwere</w>
             <pc xml:id="GWTK_94210550200_7" join="left">;</pc>
@@ -58953,7 +58956,7 @@
           <l n="5731">
             <pc xml:id="GWTK_98120573100_0" join="right">&lt;</pc>
             <hi rend="initial upper_case_first_letter">
-                <w xml:id="GWTK_98120573100_1">frow</w>
+                <w xml:id="GWTK_98120573100_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
               </hi>
             <w xml:id="GWTK_98120573100_2" lemmaRef="lexicon.xml#lemma_4266" pos="NOM" corresp="variants.xml#type_150122">mütter</w>
             <pc xml:id="GWTK_98120573100_3" join="left">,</pc>
@@ -59410,7 +59413,7 @@
             <w xml:id="GWTK_99110577900_1" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
             <w xml:id="GWTK_99110577900_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
             <w xml:id="GWTK_99110577900_3" lemmaRef="lexicon.xml#lemma_5864" pos="ADJ" corresp="variants.xml#type_153908">süssen</w>
-            <w xml:id="GWTK_99110577900_4">fro</w>
+            <w xml:id="GWTK_99110577900_4" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           </l>
           <l n="5780">
             <hi rend="initial upper_case_first_letter">
@@ -61364,7 +61367,7 @@
             <w xml:id="GWTK_102210597900_1">waren</w>
             <w xml:id="GWTK_102210597900_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
             <w xml:id="GWTK_102210597900_3" lemmaRef="lexicon.xml#lemma_1978" pos="NOM" corresp="variants.xml#type_234184">gebottes</w>
-            <w xml:id="GWTK_102210597900_4">fro</w>
+            <w xml:id="GWTK_102210597900_4" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_102210597900_5" join="left">:</pc>
           </l>
           <l n="5980">
@@ -61886,7 +61889,7 @@
             <pc xml:id="GWTK_103210603100_2" join="left">:</pc>
             <pc xml:id="GWTK_103210603100_3" join="right">&lt;</pc>
             <w xml:id="GWTK_103210603100_4" lemmaRef="lexicon.xml#lemma_3157" pos="NOM ADJ" corresp="variants.xml#type_10828">junge</w>
-            <w xml:id="GWTK_103210603100_5">frow</w>
+            <w xml:id="GWTK_103210603100_5" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <pc xml:id="GWTK_103210603100_6" join="left">,</pc>
             <w xml:id="GWTK_103210603100_7" lemmaRef="lexicon.xml#lemma_5061" pos="VRB" ana="lexicon.xml#lemma_5061_sense_7886" corresp="variants.xml#type_178484">sagend</w>
             <w xml:id="GWTK_103210603100_8">an</w>
@@ -62193,7 +62196,7 @@
           <l n="6062">
             <pc xml:id="GWTK_104110606200_0" join="right">&lt;</pc>
             <hi rend="initial upper_case_first_letter">
-                <w xml:id="GWTK_104110606200_1">frow</w>
+                <w xml:id="GWTK_104110606200_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
               </hi>
             <w xml:id="GWTK_104110606200_2" lemmaRef="lexicon.xml#lemma_4266" pos="NOM" corresp="variants.xml#type_150122">mütter</w>
             <pc xml:id="GWTK_104110606200_3" join="left">,</pc>
@@ -64860,7 +64863,7 @@
             <w xml:id="GWTK_108210632100_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
             <w xml:id="GWTK_108210632100_2" lemmaRef="lexicon.xml#lemma_2224" pos="NOM" corresp="variants.xml#type_331432">gesichtte</w>
             <w xml:id="GWTK_108210632100_3" lemmaRef="lexicon.xml#lemma_1136" pos="ADJ ADV" corresp="variants.xml#type_55818">dike</w>
-            <w xml:id="GWTK_108210632100_4">fro</w>
+            <w xml:id="GWTK_108210632100_4" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_108210632100_5" join="left">.</pc>
           </l>
           <l n="6322">
@@ -65510,7 +65513,7 @@
             <w xml:id="GWTK_109210638100_1">rede</w>
             <w xml:id="GWTK_109210638100_2" lemmaRef="lexicon.xml#lemma_4365" pos="ADV NEG" ana="lexicon.xml#lemma_4365_sense_6822" corresp="variants.xml#type_15230">nie</w>
             <w xml:id="GWTK_109210638100_3" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
-            <w xml:id="GWTK_109210638100_4">fro</w>
+            <w xml:id="GWTK_109210638100_4" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_109210638100_5" join="left">.</pc>
           </l>
           <l n="6382">
@@ -65664,7 +65667,7 @@
             <w xml:id="GWTK_109210639700_1" lemmaRef="lexicon.xml#lemma_2225" pos="NOM" corresp="variants.xml#type_59682">gesind</w>
             <w xml:id="GWTK_109210639700_2">ward</w>
             <w xml:id="GWTK_109210639700_3" lemmaRef="lexicon.xml#lemma_106" pos="ADJ ADV" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_263">alles</w>
-            <w xml:id="GWTK_109210639700_4">fro</w>
+            <w xml:id="GWTK_109210639700_4" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           </l>
           <l n="6398">
             <hi rend="initial upper_case_first_letter">
@@ -70232,7 +70235,7 @@
             <w xml:id="GWTK_117210684700_2" lemmaRef="lexicon.xml#lemma_6342" pos="ADV PRP" ana="lexicon.xml#lemma_6342_sense_9997" corresp="variants.xml#type_129506">uss</w>
             <w xml:id="GWTK_117210684700_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
             <w xml:id="GWTK_117210684700_4" lemmaRef="lexicon.xml#lemma_3913" pos="NOM ADJ ADV" corresp="variants.xml#type_59399">massen</w>
-            <w xml:id="GWTK_117210684700_5">fro</w>
+            <w xml:id="GWTK_117210684700_5" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           </l>
           <l n="6848">
             <hi rend="initial upper_case_first_letter">
@@ -72393,7 +72396,7 @@
               </hi>
             <w xml:id="GWTK_120220706000_1" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
             <w xml:id="GWTK_120220706000_2">waren</w>
-            <w xml:id="GWTK_120220706000_3">frow</w>
+            <w xml:id="GWTK_120220706000_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
           </l>
           <l n="7061">
             <hi rend="initial upper_case_first_letter">
@@ -72436,7 +72439,7 @@
                 <w xml:id="GWTK_120220706500_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
               </hi>
             <w xml:id="GWTK_120220706500_1">ward</w>
-            <w xml:id="GWTK_120220706500_2">frow</w>
+            <w xml:id="GWTK_120220706500_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <w xml:id="GWTK_120220706500_3" lemmaRef="lexicon.xml#lemma_3962" pos="ADJ" ana="lexicon.xml#lemma_3962_sense_6245" corresp="variants.xml#type_13830">manig</w>
             <w xml:id="GWTK_120220706500_4" lemmaRef="lexicon.xml#lemma_7766" pos="ADJ" corresp="variants.xml#type_289957">zartter</w>
             <w xml:id="GWTK_120220706500_5">lib</w>
@@ -72631,7 +72634,7 @@
             <w xml:id="GWTK_121210708400_2" lemmaRef="lexicon.xml#lemma_3274" pos="NOM" corresp="variants.xml#type_330080">kaysser</w>
             <pc xml:id="GWTK_121210708400_3" join="left">.</pc>
             <w xml:id="GWTK_121210708400_4">vil</w>
-            <w xml:id="GWTK_121210708400_5">fro</w>
+            <w xml:id="GWTK_121210708400_5" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           </l>
           <l n="7085">
             <hi rend="initial upper_case_first_letter">
@@ -73079,7 +73082,7 @@
             <w xml:id="GWTK_122120713000_2" lemmaRef="lexicon.xml#lemma_3962" pos="ADJ" ana="lexicon.xml#lemma_3962_sense_6245" corresp="variants.xml#type_303705">mennig</w>
             <w xml:id="GWTK_122120713000_3" lemmaRef="lexicon.xml#lemma_4886" pos="NOM" corresp="variants.xml#type_16870">ritter</w>
             <pc xml:id="GWTK_122120713000_4" join="left">,</pc>
-            <w xml:id="GWTK_122120713000_5">frow</w>
+            <w xml:id="GWTK_122120713000_5" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <w xml:id="GWTK_122120713000_6" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
             <w xml:id="GWTK_122120713000_7" lemmaRef="lexicon.xml#lemma_3926" pos="NOM" corresp="variants.xml#type_329459">magtt</w>
           </l>
@@ -73386,7 +73389,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_122210716100_0" lemmaRef="lexicon.xml#lemma_3962" pos="ADJ" ana="lexicon.xml#lemma_3962_sense_6245" corresp="variants.xml#type_58990">menig</w>
               </hi>
-            <w xml:id="GWTK_122210716100_1">frow</w>
+            <w xml:id="GWTK_122210716100_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <w xml:id="GWTK_122210716100_2">ir</w>
             <w xml:id="GWTK_122210716100_3" lemmaRef="lexicon.xml#lemma_286" pos="NOM" corresp="variants.xml#type_101146">ärmlin</w>
             <w xml:id="GWTK_122210716100_4" lemmaRef="lexicon.xml#lemma_735" pos="ADJ" ana="lexicon.xml#lemma_735_sense_1204" corresp="variants.xml#type_68030">blank</w>
@@ -74182,7 +74185,7 @@
                 <w xml:id="GWTK_124120724600_1" lemmaRef="lexicon.xml#lemma_7625" pos="NOM ADJ INJ" ana="lexicon.xml#lemma_7625_sense_12494" corresp="variants.xml#type_27581">wilkomen</w>
               </hi>
             <w xml:id="GWTK_124120724600_2" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_83873">junck</w>
-            <w xml:id="GWTK_124120724600_3">frow</w>
+            <w xml:id="GWTK_124120724600_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <pc xml:id="GWTK_124120724600_4" join="left">,</pc>
             <pc xml:id="GWTK_124120724600_5" join="left">&gt;</pc>
             <w xml:id="GWTK_124120724600_6">sprach</w>
@@ -74487,7 +74490,7 @@
             <w xml:id="GWTK_124210727300_2">ward</w>
             <w xml:id="GWTK_124210727300_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
             <w xml:id="GWTK_124210727300_4">mere</w>
-            <w xml:id="GWTK_124210727300_5">frow</w>
+            <w xml:id="GWTK_124210727300_5" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <pc xml:id="GWTK_124210727300_6" join="left">.</pc>
           </l>
           <l n="7274">
@@ -74577,7 +74580,7 @@
             <pc xml:id="GWTK_124210728200_2" join="left">:</pc>
             <pc xml:id="GWTK_124210728200_3" join="right">&lt;</pc>
             <w xml:id="GWTK_124210728200_4" lemmaRef="lexicon.xml#lemma_6246" pos="NOM ADJ" corresp="variants.xml#type_304542">trutt</w>
-            <w xml:id="GWTK_124210728200_5">frow</w>
+            <w xml:id="GWTK_124210728200_5" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <w xml:id="GWTK_124210728200_6" lemmaRef="lexicon.xml#lemma_4131" pos="ADJ ADV" ana="lexicon.xml#lemma_4131_sense_6488" corresp="variants.xml#type_326467">minenklich</w>
             <pc xml:id="GWTK_124210728200_7" join="left">,</pc>
           </l>
@@ -74768,7 +74771,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_125120730100_0">ain</w>
               </hi>
-            <w xml:id="GWTK_125120730100_1">frow</w>
+            <w xml:id="GWTK_125120730100_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <w xml:id="GWTK_125120730100_2" lemmaRef="lexicon.xml#lemma_6359" pos="PRP" ana="lexicon.xml#lemma_6359_sense_10020" corresp="variants.xml#type_22554">über</w>
             <hi rend="upper_case_first_letter">
               <w xml:id="GWTK_125120730100_3" lemmaRef="lexicon.xml#lemma_3032" pos="NAM" ana="lexicon.xml#lemma_3032_sense_4838" corresp="variants.xml#type_331805">inda</w>
@@ -75255,7 +75258,7 @@
             <w xml:id="GWTK_126110734700_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
             <w xml:id="GWTK_126110734700_4">bin</w>
             <w xml:id="GWTK_126110734700_5" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
-            <w xml:id="GWTK_126110734700_6">fro</w>
+            <w xml:id="GWTK_126110734700_6" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_126110734700_7" join="left">.</pc>
           </l>
           <cb n="2" type="manuscript"/>
@@ -75364,7 +75367,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_126120735800_0">vil</w>
               </hi>
-            <w xml:id="GWTK_126120735800_1">fro</w>
+            <w xml:id="GWTK_126120735800_1" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <w xml:id="GWTK_126120735800_2" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
             <w xml:id="GWTK_126120735800_3">ir</w>
             <w xml:id="GWTK_126120735800_4" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_116606">dü</w>
@@ -76247,7 +76250,7 @@
             <w xml:id="GWTK_127210744000_3">waz</w>
             <w xml:id="GWTK_127210744000_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
             <w xml:id="GWTK_127210744000_5">mere</w>
-            <w xml:id="GWTK_127210744000_6">fro</w>
+            <w xml:id="GWTK_127210744000_6" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_127210744000_7" join="left">.</pc>
           </l>
           <l n="7441">
@@ -77540,7 +77543,7 @@
             <w xml:id="GWTK_129210756500_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
             <w xml:id="GWTK_129210756500_4">wer</w>
             <w xml:id="GWTK_129210756500_5" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
-            <w xml:id="GWTK_129210756500_6">frow</w>
+            <w xml:id="GWTK_129210756500_6" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <pc xml:id="GWTK_129210756500_7" join="left">.</pc>
           </l>
           <l n="7566">
@@ -79199,7 +79202,7 @@
             <w xml:id="GWTK_132210772800_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
             <w xml:id="GWTK_132210772800_3" lemmaRef="lexicon.xml#lemma_1308" pos="NOM ADJ" ana="lexicon.xml#lemma_1308_sense_2042" corresp="variants.xml#type_4263">edlen</w>
             <w xml:id="GWTK_132210772800_4" lemmaRef="lexicon.xml#lemma_1930" pos="NOM" corresp="variants.xml#type_6513">gaste</w>
-            <w xml:id="GWTK_132210772800_5">fro</w>
+            <w xml:id="GWTK_132210772800_5" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           </l>
           <l n="7729">
             <hi rend="initial upper_case_first_letter">
@@ -79578,7 +79581,7 @@
           </l>
           <l n="7764">
             <hi rend="initial upper_case_first_letter">
-                <w xml:id="GWTK_133120776400_0">frow</w>
+                <w xml:id="GWTK_133120776400_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
               </hi>
             <pc xml:id="GWTK_133120776400_1" join="left">,</pc>
             <w xml:id="GWTK_133120776400_2">ir</w>
@@ -80260,7 +80263,7 @@
               </hi>
             <w xml:id="GWTK_134120782800_1" lemmaRef="lexicon.xml#lemma_1374" pos="NOM ADJ" corresp="variants.xml#type_4442">ellende</w>
             <w xml:id="GWTK_134120782800_2" lemmaRef="lexicon.xml#lemma_4886" pos="NOM" corresp="variants.xml#type_16870">ritter</w>
-            <w xml:id="GWTK_134120782800_3">fro</w>
+            <w xml:id="GWTK_134120782800_3" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_134120782800_4" join="left">.</pc>
           </l>
           <l n="7829">
@@ -81052,7 +81055,7 @@
               </hi>
             <w xml:id="GWTK_135210790800_1" lemmaRef="lexicon.xml#lemma_1308" pos="ADJ" ana="lexicon.xml#lemma_1308_sense_2042" corresp="variants.xml#type_4246">edel</w>
             <w xml:id="GWTK_135210790800_2" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" corresp="variants.xml#type_71513">junk</w>
-            <w xml:id="GWTK_135210790800_3">frow</w>
+            <w xml:id="GWTK_135210790800_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <w xml:id="GWTK_135210790800_4" lemmaRef="lexicon.xml#lemma_6280" pos="NOM" corresp="variants.xml#type_22200">tugend</w>
             <w xml:id="GWTK_135210790800_5">rich</w>
           </l>
@@ -83047,7 +83050,7 @@
               </hi>
             <w xml:id="GWTK_139110810500_1" lemmaRef="lexicon.xml#lemma_2101" pos="ADJ ADV" corresp="variants.xml#type_146692">gemaitt</w>
             <w xml:id="GWTK_139110810500_2">unde</w>
-            <w xml:id="GWTK_139110810500_3">fro</w>
+            <w xml:id="GWTK_139110810500_3" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_139110810500_4" join="left">.</pc>
           </l>
           <l n="8106">
@@ -84589,7 +84592,7 @@
             <pc xml:id="GWTK_141210826000_2" join="left">:</pc>
             <pc xml:id="GWTK_141210826000_3" join="right">&lt;</pc>
             <w xml:id="GWTK_141210826000_4">min</w>
-            <w xml:id="GWTK_141210826000_5">frow</w>
+            <w xml:id="GWTK_141210826000_5" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <pc xml:id="GWTK_141210826000_6" join="left">,</pc>
             <w xml:id="GWTK_141210826000_7">sunder</w>
             <w xml:id="GWTK_141210826000_8" lemmaRef="lexicon.xml#lemma_4400" pos="NOM" corresp="variants.xml#type_95925">nott</w>
@@ -84715,7 +84718,7 @@
             <w xml:id="GWTK_141210827100_1">sprach</w>
             <pc xml:id="GWTK_141210827100_2" join="left">:</pc>
             <pc xml:id="GWTK_141210827100_3" join="right">&lt;</pc>
-            <w xml:id="GWTK_141210827100_4">frow</w>
+            <w xml:id="GWTK_141210827100_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <pc xml:id="GWTK_141210827100_5" join="left">,</pc>
             <w xml:id="GWTK_141210827100_6" lemmaRef="lexicon.xml#lemma_18939" pos="PRO CNJ" ana="lexicon.xml#lemma_18939_sense_8481" corresp="variants.xml#type_83508">sitt</w>
             <w xml:id="GWTK_141210827100_7" lemmaRef="lexicon.xml#lemma_2349" pos="ADJ ADV" ana="lexicon.xml#lemma_2349_sense_3783" corresp="variants.xml#type_44631">gewiss</w>
@@ -86839,7 +86842,7 @@
                 <w xml:id="GWTK_145120848500_0" lemmaRef="lexicon.xml#lemma_4290" pos="VRB" corresp="variants.xml#type_330130">nachett</w>
               </hi>
             <pc xml:id="GWTK_145120848500_1" join="left">,</pc>
-            <w xml:id="GWTK_145120848500_2">frow</w>
+            <w xml:id="GWTK_145120848500_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <pc xml:id="GWTK_145120848500_3" join="left">,</pc>
             <w xml:id="GWTK_145120848500_4">als</w>
             <w xml:id="GWTK_145120848500_5">es</w>
@@ -87287,7 +87290,7 @@
               </hi>
             <pc xml:id="GWTK_146120852700_1" join="left">:</pc>
             <pc xml:id="GWTK_146120852700_2" join="right">&lt;</pc>
-            <w xml:id="GWTK_146120852700_3">frow</w>
+            <w xml:id="GWTK_146120852700_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <pc xml:id="GWTK_146120852700_4" join="left">,</pc>
             <w xml:id="GWTK_146120852700_5" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
             <w xml:id="GWTK_146120852700_6">sy</w>
@@ -87394,7 +87397,7 @@
             <w xml:id="GWTK_146120853700_3">in</w>
             <w xml:id="GWTK_146120853700_4">dem</w>
             <w xml:id="GWTK_146120853700_5" lemmaRef="lexicon.xml#lemma_4264" pos="NOM" corresp="variants.xml#type_333663">mütte</w>
-            <w xml:id="GWTK_146120853700_6">fro</w>
+            <w xml:id="GWTK_146120853700_6" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_146120853700_7" join="left">.</pc>
             <pc xml:id="GWTK_146120853700_8" join="left">&gt;</pc>
           </l>
@@ -88377,7 +88380,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_147220863000_0">min</w>
               </hi>
-            <w xml:id="GWTK_147220863000_1">frow</w>
+            <w xml:id="GWTK_147220863000_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <w xml:id="GWTK_147220863000_2" lemmaRef="lexicon.xml#lemma_1479" pos="VRB" corresp="variants.xml#type_332221">entsitztt</w>
             <w xml:id="GWTK_147220863000_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
             <w xml:id="GWTK_147220863000_4" lemmaRef="lexicon.xml#lemma_6118" pos="NOM ADJ" ana="lexicon.xml#lemma_6118_sense_9650" corresp="variants.xml#type_21565">todes</w>
@@ -91514,7 +91517,7 @@
             <pc xml:id="GWTK_153210894400_3" join="left">,</pc>
             <w xml:id="GWTK_153210894400_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
             <w xml:id="GWTK_153210894400_5">er</w>
-            <w xml:id="GWTK_153210894400_6">fro</w>
+            <w xml:id="GWTK_153210894400_6" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           </l>
           <l n="8945">
             <hi rend="initial upper_case_first_letter">
@@ -93366,14 +93369,14 @@
             <w xml:id="GWTK_156110912800_2" lemmaRef="lexicon.xml#lemma_3962" pos="ADJ" ana="lexicon.xml#lemma_3962_sense_6245" corresp="variants.xml#type_58990">menig</w>
             <w xml:id="GWTK_156110912800_3" lemmaRef="lexicon.xml#lemma_1308" pos="ADJ" ana="lexicon.xml#lemma_1308_sense_2042" corresp="variants.xml#type_4246">edel</w>
             <w xml:id="GWTK_156110912800_4" lemmaRef="lexicon.xml#lemma_4886" pos="NOM" corresp="variants.xml#type_16870">ritter</w>
-            <w xml:id="GWTK_156110912800_5">fro</w>
+            <w xml:id="GWTK_156110912800_5" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_156110912800_6" join="left">.</pc>
           </l>
           <l n="9129">
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_156110912900_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_116606">dü</w>
               </hi>
-            <w xml:id="GWTK_156110912900_1">frow</w>
+            <w xml:id="GWTK_156110912900_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <w xml:id="GWTK_156110912900_2" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_32737">zü</w>
             <w xml:id="GWTK_156110912900_3">dem</w>
             <w xml:id="GWTK_156110912900_4" lemmaRef="lexicon.xml#lemma_7307" pos="NOM" ana="lexicon.xml#lemma_7307_sense_11843" corresp="variants.xml#type_26274">fürsten</w>
@@ -94054,7 +94057,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_157210919600_1" lemmaRef="lexicon.xml#lemma_6246" pos="NOM ADJ" corresp="variants.xml#type_304542">trutt</w>
               </hi>
-            <w xml:id="GWTK_157210919600_2">frow</w>
+            <w xml:id="GWTK_157210919600_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <pc xml:id="GWTK_157210919600_3" join="left">,</pc>
             <w xml:id="GWTK_157210919600_4" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
             <w xml:id="GWTK_157210919600_5" lemmaRef="lexicon.xml#lemma_56117" pos="POS" ana="lexicon.xml#lemma_56117_sense_90961" corresp="variants.xml#type_305414">üwer</w>
@@ -96945,7 +96948,7 @@
             <w xml:id="GWTK_162110948400_3" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
             <w xml:id="GWTK_162110948400_4" lemmaRef="lexicon.xml#lemma_56117" pos="POS" ana="lexicon.xml#lemma_56117_sense_90961" corresp="variants.xml#type_305414">üwer</w>
             <w xml:id="GWTK_162110948400_5" lemmaRef="lexicon.xml#lemma_2795" pos="NOM" corresp="variants.xml#type_9451">hertze</w>
-            <w xml:id="GWTK_162110948400_6">fro</w>
+            <w xml:id="GWTK_162110948400_6" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           </l>
           <l n="9485">
             <hi rend="initial upper_case_first_letter">
@@ -97460,7 +97463,7 @@
                 <w xml:id="GWTK_163110953600_0" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
               </hi>
             <w xml:id="GWTK_163110953600_1" lemmaRef="lexicon.xml#lemma_2795" pos="NOM" corresp="variants.xml#type_9452">hertzen</w>
-            <w xml:id="GWTK_163110953600_2">frow</w>
+            <w xml:id="GWTK_163110953600_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <w xml:id="GWTK_163110953600_3" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
             <w xml:id="GWTK_163110953600_4">ir</w>
             <w xml:id="GWTK_163110953600_5" lemmaRef="lexicon.xml#lemma_616" pos="VRB" corresp="variants.xml#type_327187">betagtt</w>
@@ -97953,7 +97956,7 @@
               </hi>
             <w xml:id="GWTK_164110958200_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
             <w xml:id="GWTK_164110958200_2" lemmaRef="lexicon.xml#lemma_260" pos="NOM VRB" ana="lexicon.xml#lemma_260_sense_328" corresp="variants.xml#type_152640">antwurtt</w>
-            <w xml:id="GWTK_164110958200_3">fro</w>
+            <w xml:id="GWTK_164110958200_3" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_164110958200_4" join="left">.</pc>
           </l>
           <l n="9583">
@@ -98907,7 +98910,7 @@
             <w xml:id="GWTK_165210968000_2" lemmaRef="lexicon.xml#lemma_56117" pos="POS" ana="lexicon.xml#lemma_56117_sense_90961" corresp="variants.xml#type_305414">üwer</w>
             <w xml:id="GWTK_165210968000_3" lemmaRef="lexicon.xml#lemma_2795" pos="NOM" corresp="variants.xml#type_9451">hertze</w>
             <w xml:id="GWTK_165210968000_4" lemmaRef="lexicon.xml#lemma_3009" pos="ADV" ana="lexicon.xml#lemma_3009_sense_4813" corresp="variants.xml#type_10283">iemer</w>
-            <w xml:id="GWTK_165210968000_5">frow</w>
+            <w xml:id="GWTK_165210968000_5" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
           </l>
           <l n="9681">
             <hi rend="initial upper_case_first_letter">
@@ -100005,7 +100008,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_167120978800_0" lemmaRef="lexicon.xml#lemma_7469" pos="ADJ IPA" ana="lexicon.xml#lemma_7469_sense_12152" corresp="variants.xml#type_34267">welche</w>
               </hi>
-            <w xml:id="GWTK_167120978800_1">frow</w>
+            <w xml:id="GWTK_167120978800_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <w xml:id="GWTK_167120978800_2">sich</w>
             <w xml:id="GWTK_167120978800_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
             <w xml:id="GWTK_167120978800_4" lemmaRef="lexicon.xml#lemma_6950" pos="VRB" corresp="variants.xml#type_24495">versinne</w>
@@ -102072,7 +102075,7 @@
             <w xml:id="GWTK_171110999800_3" lemmaRef="lexicon.xml#lemma_5196" pos="VRB" corresp="variants.xml#type_18064">schied</w>
             <w xml:id="GWTK_171110999800_4">er</w>
             <w xml:id="GWTK_171110999800_5" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22824">un</w>
-            <w xml:id="GWTK_171110999800_6">frow</w>
+            <w xml:id="GWTK_171110999800_6" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <pc xml:id="GWTK_171110999800_7" join="left">.</pc>
           </l>
           <l n="9999">
@@ -103099,7 +103102,7 @@
             <w xml:id="GWTK_172211010100_1">ires</w>
             <w xml:id="GWTK_172211010100_2" lemmaRef="lexicon.xml#lemma_3765" pos="ADJ" corresp="variants.xml#type_326418">lïben</w>
             <w xml:id="GWTK_172211010100_3" lemmaRef="lexicon.xml#lemma_1930" pos="NOM" corresp="variants.xml#type_6514">gastes</w>
-            <w xml:id="GWTK_172211010100_4">fro</w>
+            <w xml:id="GWTK_172211010100_4" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_172211010100_5" join="left">.</pc>
           </l>
           <l n="10102">
@@ -104594,7 +104597,7 @@
             <w xml:id="GWTK_175221024900_1" lemmaRef="lexicon.xml#lemma_3274" pos="NOM" corresp="variants.xml#type_330080">kaysser</w>
             <w xml:id="GWTK_175221024900_2" lemmaRef="lexicon.xml#lemma_1913" pos="ADJ ADV" ana="lexicon.xml#lemma_1913_sense_2938" corresp="variants.xml#type_6476">gar</w>
             <w xml:id="GWTK_175221024900_3" lemmaRef="lexicon.xml#lemma_6598" pos="NOM ADJ ADV NEG" corresp="variants.xml#type_59320">unmassen</w>
-            <w xml:id="GWTK_175221024900_4">fro</w>
+            <w xml:id="GWTK_175221024900_4" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           </l>
           <l n="10250">
             <hi rend="initial upper_case_first_letter">
@@ -105308,7 +105311,7 @@
               </hi>
             <w xml:id="GWTK_176221032000_1" lemmaRef="lexicon.xml#lemma_1308" pos="ADJ" ana="lexicon.xml#lemma_1308_sense_2042" corresp="variants.xml#type_4246">edel</w>
             <w xml:id="GWTK_176221032000_2" lemmaRef="lexicon.xml#lemma_7307" pos="NOM" ana="lexicon.xml#lemma_7307_sense_11843" corresp="variants.xml#type_26272">fürste</w>
-            <w xml:id="GWTK_176221032000_3">fro</w>
+            <w xml:id="GWTK_176221032000_3" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           </l>
           <l n="10321">
             <hi rend="initial upper_case_first_letter">
@@ -105411,7 +105414,7 @@
             <pc xml:id="GWTK_176221033000_1" join="left">.</pc>
             <w xml:id="GWTK_176221033000_2" lemmaRef="lexicon.xml#lemma_1913" pos="ADJ ADV" ana="lexicon.xml#lemma_1913_sense_2938" corresp="variants.xml#type_6476">gar</w>
             <w xml:id="GWTK_176221033000_3" lemmaRef="lexicon.xml#lemma_3040" pos="ADJ ADV" ana="lexicon.xml#lemma_3040_sense_4850" corresp="variants.xml#type_114865">inneklichen</w>
-            <w xml:id="GWTK_176221033000_4">fro</w>
+            <w xml:id="GWTK_176221033000_4" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           </l>
           <l n="10331">
             <hi rend="initial upper_case_first_letter">
@@ -106162,7 +106165,7 @@
               </hi>
             <w xml:id="GWTK_178111040400_1" lemmaRef="lexicon.xml#lemma_1308" pos="NOM ADJ" ana="lexicon.xml#lemma_1308_sense_2042" corresp="variants.xml#type_4263">edlen</w>
             <w xml:id="GWTK_178111040400_2" lemmaRef="lexicon.xml#lemma_1926" pos="NOM" ana="lexicon.xml#lemma_1926_sense_2951" corresp="variants.xml#type_6502">garzun</w>
-            <w xml:id="GWTK_178111040400_3">fro</w>
+            <w xml:id="GWTK_178111040400_3" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_178111040400_4" join="left">.</pc>
           </l>
           <l n="10405">
@@ -106713,7 +106716,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_179111046200_0" lemmaRef="lexicon.xml#lemma_6810" pos="NAM" ana="lexicon.xml#lemma_6810_sense_10851" corresp="variants.xml#type_23852">venus</w>
               </hi>
-            <w xml:id="GWTK_179111046200_1">frow</w>
+            <w xml:id="GWTK_179111046200_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <pc xml:id="GWTK_179111046200_2" join="left">,</pc>
             <w xml:id="GWTK_179111046200_3" lemmaRef="lexicon.xml#lemma_4432" pos="ADV CNJ" ana="lexicon.xml#lemma_4432_sense_6912" corresp="variants.xml#type_15443">nun</w>
             <w xml:id="GWTK_179111046200_4">gib</w>
@@ -109319,7 +109322,7 @@
             <w xml:id="GWTK_183211072500_1">irs</w>
             <w xml:id="GWTK_183211072500_2" lemmaRef="lexicon.xml#lemma_6771" pos="NOM" corresp="variants.xml#type_65356">vatters</w>
             <w xml:id="GWTK_183211072500_3" lemmaRef="lexicon.xml#lemma_5460" pos="NOM" ana="lexicon.xml#lemma_5460_sense_8513" corresp="variants.xml#type_19086">siges</w>
-            <w xml:id="GWTK_183211072500_4">fro</w>
+            <w xml:id="GWTK_183211072500_4" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_183211072500_5" join="left">.</pc>
           </l>
           <l n="10726">
@@ -109531,7 +109534,7 @@
               </hi>
             <w xml:id="GWTK_184111074700_1" lemmaRef="lexicon.xml#lemma_7226" pos="ADJ ADV" corresp="variants.xml#type_46204">fry</w>
             <w xml:id="GWTK_184111074700_2">unde</w>
-            <w xml:id="GWTK_184111074700_3">fro</w>
+            <w xml:id="GWTK_184111074700_3" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_184111074700_4" join="left">.</pc>
           </l>
           <l n="10748">
@@ -111052,7 +111055,7 @@
           </l>
           <l n="10896">
             <hi rend="initial upper_case_first_letter">
-                <w xml:id="GWTK_186211089600_0">frow</w>
+                <w xml:id="GWTK_186211089600_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
               </hi>
             <hi rend="upper_case_first_letter">
               <w xml:id="GWTK_186211089600_1" lemmaRef="lexicon.xml#lemma_6810" pos="NAM" ana="lexicon.xml#lemma_6810_sense_10851" corresp="variants.xml#type_329467">venuss</w>
@@ -113525,7 +113528,7 @@
             <w xml:id="GWTK_191111114000_1" lemmaRef="lexicon.xml#lemma_1073" pos="ADV" ana="lexicon.xml#lemma_1073_sense_1716" corresp="variants.xml#type_3322">dann</w>
             <w xml:id="GWTK_191111114000_2" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
             <w xml:id="GWTK_191111114000_3" lemmaRef="lexicon.xml#lemma_7505" pos="VRB" corresp="variants.xml#type_273625">warend</w>
-            <w xml:id="GWTK_191111114000_4">fro</w>
+            <w xml:id="GWTK_191111114000_4" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           </l>
           <l n="11141">
             <hi rend="initial upper_case_first_letter">
@@ -114412,7 +114415,7 @@
             <w xml:id="GWTK_192211123100_1">sprach</w>
             <pc xml:id="GWTK_192211123100_2" join="left">:</pc>
             <pc xml:id="GWTK_192211123100_3" join="right">&lt;</pc>
-            <w xml:id="GWTK_192211123100_4">frow</w>
+            <w xml:id="GWTK_192211123100_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <pc xml:id="GWTK_192211123100_5" join="left">,</pc>
             <w xml:id="GWTK_192211123100_6">es</w>
             <w xml:id="GWTK_192211123100_7" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18956">ist</w>
@@ -114479,7 +114482,7 @@
           </l>
           <l n="11238">
             <hi rend="initial upper_case_first_letter">
-                <w xml:id="GWTK_192211123800_0">frow</w>
+                <w xml:id="GWTK_192211123800_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
               </hi>
             <pc xml:id="GWTK_192211123800_1" join="left">,</pc>
             <w xml:id="GWTK_192211123800_2" lemmaRef="lexicon.xml#lemma_5857" pos="VRB" ana="lexicon.xml#lemma_5857_sense_9275" corresp="variants.xml#type_20643">sume</w>
@@ -115380,7 +115383,7 @@
           </l>
           <l n="11324">
             <hi rend="initial upper_case_first_letter">
-                <w xml:id="GWTK_194111132400_0">frow</w>
+                <w xml:id="GWTK_194111132400_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
               </hi>
             <hi rend="upper_case_first_letter">
               <w xml:id="GWTK_194111132400_1">selde</w>
@@ -117325,7 +117328,7 @@
             <w xml:id="GWTK_197211151700_2">in</w>
             <w xml:id="GWTK_197211151700_3">sinen</w>
             <w xml:id="GWTK_197211151700_4" lemmaRef="lexicon.xml#lemma_2787" pos="ADJ ADV" corresp="variants.xml#type_234267">hartte</w>
-            <w xml:id="GWTK_197211151700_5">fro</w>
+            <w xml:id="GWTK_197211151700_5" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           </l>
           <l n="11518">
             <hi rend="initial upper_case_first_letter">
@@ -118720,7 +118723,7 @@
           </l>
           <l n="11656">
             <hi rend="initial upper_case_first_letter">
-                <w xml:id="GWTK_199211165600_0">frow</w>
+                <w xml:id="GWTK_199211165600_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
               </hi>
             <w xml:id="GWTK_199211165600_1">raine</w>
             <pc xml:id="GWTK_199211165600_2" join="left">,</pc>
@@ -118856,7 +118859,7 @@
             <w xml:id="GWTK_200121166800_1">sprach</w>
             <pc xml:id="GWTK_200121166800_2" join="left">:</pc>
             <pc xml:id="GWTK_200121166800_3" join="right">&lt;</pc>
-            <w xml:id="GWTK_200121166800_4">frow</w>
+            <w xml:id="GWTK_200121166800_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <w xml:id="GWTK_200121166800_5" lemmaRef="lexicon.xml#lemma_4131" pos="ADJ ADV" ana="lexicon.xml#lemma_4131_sense_6488" corresp="variants.xml#type_329626">mineklich</w>
             <pc xml:id="GWTK_200121166800_6" join="left">,</pc>
           </l>
@@ -120662,7 +120665,7 @@
             <w xml:id="GWTK_203111184800_1">sy</w>
             <w xml:id="GWTK_203111184800_2" lemmaRef="lexicon.xml#lemma_7257" pos="ADJ ADV" ana="lexicon.xml#lemma_7257_sense_11760" corresp="variants.xml#type_46083">frölich</w>
             <w xml:id="GWTK_203111184800_3">unde</w>
-            <w xml:id="GWTK_203111184800_4">fro</w>
+            <w xml:id="GWTK_203111184800_4" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_203111184800_5" join="left">.</pc>
           </l>
           <l n="11849">
@@ -121704,7 +121707,7 @@
               </hi>
             <w xml:id="GWTK_204221195000_1" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
             <w xml:id="GWTK_204221195000_2" lemmaRef="lexicon.xml#lemma_7505" pos="VRB" corresp="variants.xml#type_273625">warend</w>
-            <w xml:id="GWTK_204221195000_3">fro</w>
+            <w xml:id="GWTK_204221195000_3" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           </l>
           <l n="11951">
             <supplied>
@@ -122781,7 +122784,7 @@
             <w xml:id="GWTK_206211205900_2">ward</w>
             <w xml:id="GWTK_206211205900_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
             <w xml:id="GWTK_206211205900_4" lemmaRef="lexicon.xml#lemma_3274" pos="NOM" corresp="variants.xml#type_330080">kaysser</w>
-            <w xml:id="GWTK_206211205900_5">frow</w>
+            <w xml:id="GWTK_206211205900_5" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <pc xml:id="GWTK_206211205900_6" join="left">.</pc>
           </l>
           <l n="12060">
@@ -124100,7 +124103,7 @@
             <w xml:id="GWTK_208211219300_2" lemmaRef="lexicon.xml#lemma_106" pos="ADJ ADV" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_257">all</w>
             <w xml:id="GWTK_208211219300_3">in</w>
             <w xml:id="GWTK_208211219300_4" lemmaRef="lexicon.xml#lemma_7918" pos="NOM" corresp="variants.xml#type_45667">züchten</w>
-            <w xml:id="GWTK_208211219300_5">fro</w>
+            <w xml:id="GWTK_208211219300_5" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           </l>
           <l n="12194">
             <hi rend="initial upper_case_first_letter">
@@ -124225,7 +124228,7 @@
             <w xml:id="GWTK_209111220600_1" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
             <w xml:id="GWTK_209111220600_2">waren</w>
             <w xml:id="GWTK_209111220600_3">schulden</w>
-            <w xml:id="GWTK_209111220600_4">fro</w>
+            <w xml:id="GWTK_209111220600_4" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_209111220600_5" join="left">.</pc>
           </l>
           <l n="12207">
@@ -127931,7 +127934,7 @@
             <w xml:id="GWTK_215121257500_3">in</w>
             <w xml:id="GWTK_215121257500_4">ierem</w>
             <w xml:id="GWTK_215121257500_5" lemmaRef="lexicon.xml#lemma_2795" pos="NOM" corresp="variants.xml#type_9452">hertzen</w>
-            <w xml:id="GWTK_215121257500_6">fro</w>
+            <w xml:id="GWTK_215121257500_6" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_215121257500_7" join="left">.</pc>
           </l>
           <pb n="215v" type="folio"/>
@@ -128279,7 +128282,7 @@
           </l>
           <l n="12608">
             <hi rend="initial upper_case_first_letter">
-                <w xml:id="GWTK_216111260800_0">frow</w>
+                <w xml:id="GWTK_216111260800_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
               </hi>
             <pc xml:id="GWTK_216111260800_1" join="left">,</pc>
             <w xml:id="GWTK_216111260800_2" lemmaRef="lexicon.xml#lemma_4432" pos="ADV CNJ" ana="lexicon.xml#lemma_4432_sense_6912" corresp="variants.xml#type_15443">nun</w>
@@ -128334,7 +128337,7 @@
           </l>
           <l n="12614">
             <hi rend="initial upper_case_first_letter">
-                <w xml:id="GWTK_216111261400_0">frow</w>
+                <w xml:id="GWTK_216111261400_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
               </hi>
             <pc xml:id="GWTK_216111261400_1" join="left">,</pc>
             <w xml:id="GWTK_216111261400_2">mitt</w>
@@ -128920,7 +128923,7 @@
             <w xml:id="GWTK_217111267000_1" lemmaRef="lexicon.xml#lemma_4240" pos="VRB VEM" corresp="variants.xml#type_45673">möchten</w>
             <w xml:id="GWTK_217111267000_2" lemmaRef="lexicon.xml#lemma_3009" pos="ADV" ana="lexicon.xml#lemma_3009_sense_4813" corresp="variants.xml#type_10283">iemer</w>
             <w xml:id="GWTK_217111267000_3" lemmaRef="lexicon.xml#lemma_2175" pos="ADV" corresp="variants.xml#type_173440">gernne</w>
-            <w xml:id="GWTK_217111267000_4">fro</w>
+            <w xml:id="GWTK_217111267000_4" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           </l>
           <l n="12671">
             <hi rend="initial upper_case_first_letter">
@@ -129673,7 +129676,7 @@
             <w xml:id="GWTK_218111274200_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
             <w xml:id="GWTK_218111274200_2" lemmaRef="lexicon.xml#lemma_3765" pos="ADJ" corresp="variants.xml#type_326418">lïben</w>
             <w xml:id="GWTK_218111274200_3" lemmaRef="lexicon.xml#lemma_1930" pos="NOM" corresp="variants.xml#type_6514">gastes</w>
-            <w xml:id="GWTK_218111274200_4">fro</w>
+            <w xml:id="GWTK_218111274200_4" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           </l>
           <cb n="2" type="manuscript"/>
           <l n="12743">
@@ -130075,7 +130078,7 @@
             <w xml:id="GWTK_219111278000_3" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
             <w xml:id="GWTK_219111278000_4">waz</w>
             <w xml:id="GWTK_219111278000_5">ir</w>
-            <w xml:id="GWTK_219111278000_6">fro</w>
+            <w xml:id="GWTK_219111278000_6" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_219111278000_7" join="left">,</pc>
           </l>
           <l n="12781">
@@ -131726,7 +131729,7 @@
               </hi>
             <w xml:id="GWTK_221221295200_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
             <w xml:id="GWTK_221221295200_2" lemmaRef="lexicon.xml#lemma_4527" pos="NOM" ana="lexicon.xml#lemma_4527_sense_7064" corresp="variants.xml#type_278360">ougenwaide</w>
-            <w xml:id="GWTK_221221295200_3">fro</w>
+            <w xml:id="GWTK_221221295200_3" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_221221295200_4" join="left">.</pc>
           </l>
           <l n="12953">
@@ -132835,7 +132838,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_223221306300_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
               </hi>
-            <w xml:id="GWTK_223221306300_1">frow</w>
+            <w xml:id="GWTK_223221306300_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <w xml:id="GWTK_223221306300_2">ze</w>
             <w xml:id="GWTK_223221306300_3" lemmaRef="lexicon.xml#lemma_6246" pos="NOM ADJ" corresp="variants.xml#type_327840">trütte</w>
             <w xml:id="GWTK_223221306300_4" lemmaRef="lexicon.xml#lemma_3004" pos="ADV" ana="lexicon.xml#lemma_3004_sense_4808" corresp="variants.xml#type_10247">ie</w>
@@ -134629,7 +134632,7 @@
             <w xml:id="GWTK_226221323800_1" lemmaRef="lexicon.xml#lemma_8700" pos="NOM PRO" ana="lexicon.xml#lemma_8700_sense_13698" corresp="variants.xml#type_30236">sines</w>
             <w xml:id="GWTK_226221323800_2" lemmaRef="lexicon.xml#lemma_2795" pos="NOM" corresp="variants.xml#type_9452">hertzen</w>
             <w xml:id="GWTK_226221323800_3" lemmaRef="lexicon.xml#lemma_2544" pos="NOM" corresp="variants.xml#type_8542">grunde</w>
-            <w xml:id="GWTK_226221323800_4">fro</w>
+            <w xml:id="GWTK_226221323800_4" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_226221323800_5" join="left">.</pc>
           </l>
           <l n="13239">
@@ -134884,7 +134887,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_227111326200_0" lemmaRef="lexicon.xml#lemma_2787" pos="ADJ ADV" corresp="variants.xml#type_234267">hartte</w>
               </hi>
-            <w xml:id="GWTK_227111326200_1">fro</w>
+            <w xml:id="GWTK_227111326200_1" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <w xml:id="GWTK_227111326200_2">in</w>
             <w xml:id="GWTK_227111326200_3">ierem</w>
             <w xml:id="GWTK_227111326200_4" lemmaRef="lexicon.xml#lemma_4264" pos="NOM" corresp="variants.xml#type_333663">mütte</w>
@@ -135615,7 +135618,7 @@
             <w xml:id="GWTK_228211333600_2">ir</w>
             <w xml:id="GWTK_228211333600_3" lemmaRef="lexicon.xml#lemma_106" pos="ADJ" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_261">aller</w>
             <w xml:id="GWTK_228211333600_4">sinne</w>
-            <w xml:id="GWTK_228211333600_5">fro</w>
+            <w xml:id="GWTK_228211333600_5" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           </l>
           <l n="13337">
             <hi rend="initial upper_case_first_letter">
@@ -139056,7 +139059,7 @@
               </hi>
             <w xml:id="GWTK_234211368300_1" lemmaRef="lexicon.xml#lemma_4238" pos="VRB VEM" corresp="variants.xml#type_46545">müste</w>
             <w xml:id="GWTK_234211368300_2">sy</w>
-            <w xml:id="GWTK_234211368300_3">frow</w>
+            <w xml:id="GWTK_234211368300_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <w xml:id="GWTK_234211368300_4">sin</w>
             <w xml:id="GWTK_234211368300_5" lemmaRef="lexicon.xml#lemma_1258" pos="PRP" ana="lexicon.xml#lemma_1258_sense_1977" corresp="variants.xml#type_4044">durch</w>
             <w xml:id="GWTK_234211368300_6" lemmaRef="lexicon.xml#lemma_4400" pos="NOM" corresp="variants.xml#type_95925">nott</w>
@@ -139087,7 +139090,7 @@
                 <w xml:id="GWTK_234211368600_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
               </hi>
             <w xml:id="GWTK_234211368600_1" lemmaRef="lexicon.xml#lemma_3604" pos="NOM" ana="lexicon.xml#lemma_3604_sense_5708" corresp="variants.xml#type_12560">landes</w>
-            <w xml:id="GWTK_234211368600_2">frow</w>
+            <w xml:id="GWTK_234211368600_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <w xml:id="GWTK_234211368600_3">minen</w>
             <w xml:id="GWTK_234211368600_4" lemmaRef="lexicon.xml#lemma_2065" pos="ADJ ADV" corresp="variants.xml#type_236851">klich</w>
             <pc xml:id="GWTK_234211368600_5" join="left">.</pc>
@@ -141394,7 +141397,7 @@
             <w xml:id="GWTK_238121391500_1">rede</w>
             <w xml:id="GWTK_238121391500_2">ward</w>
             <w xml:id="GWTK_238121391500_3" lemmaRef="lexicon.xml#lemma_6598" pos="NOM ADJ ADV NEG" corresp="variants.xml#type_59320">unmassen</w>
-            <w xml:id="GWTK_238121391500_4">fro</w>
+            <w xml:id="GWTK_238121391500_4" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           </l>
           <l n="13916">
             <hi rend="initial upper_case_first_letter">
@@ -143137,7 +143140,7 @@
             <w xml:id="GWTK_241121409000_2">waren</w>
             <w xml:id="GWTK_241121409000_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
             <w xml:id="GWTK_241121409000_4" lemmaRef="lexicon.xml#lemma_4786" pos="NOM" corresp="variants.xml#type_95361">rattes</w>
-            <w xml:id="GWTK_241121409000_5">fro</w>
+            <w xml:id="GWTK_241121409000_5" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_241121409000_6" join="left">.</pc>
           </l>
           <l n="14091">
@@ -144867,7 +144870,7 @@
           </l>
           <l n="14264">
             <hi rend="initial upper_case_first_letter">
-                <w xml:id="GWTK_244121426400_0">frow</w>
+                <w xml:id="GWTK_244121426400_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
               </hi>
             <w xml:id="GWTK_244121426400_1" lemmaRef="lexicon.xml#lemma_6330" pos="ADV PRP" ana="lexicon.xml#lemma_6330_sense_9973" corresp="variants.xml#type_43643">uff</w>
             <w xml:id="GWTK_244121426400_2" lemmaRef="lexicon.xml#lemma_846" pos="ADJ" corresp="variants.xml#type_162394">braitter</w>
@@ -146508,7 +146511,7 @@
             <w xml:id="GWTK_247111442400_2">in</w>
             <w xml:id="GWTK_247111442400_3" lemmaRef="lexicon.xml#lemma_4840" pos="ADJ" corresp="variants.xml#type_44607">rechter</w>
             <w xml:id="GWTK_247111442400_4" lemmaRef="lexicon.xml#lemma_3541" pos="NOM" corresp="variants.xml#type_40055">kunste</w>
-            <w xml:id="GWTK_247111442400_5">fro</w>
+            <w xml:id="GWTK_247111442400_5" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_247111442400_6" join="left">.</pc>
           </l>
           <l n="14425">
@@ -146589,7 +146592,7 @@
                 <w xml:id="GWTK_247121443300_0" lemmaRef="lexicon.xml#lemma_4432" pos="ADV CNJ" ana="lexicon.xml#lemma_4432_sense_6912" corresp="variants.xml#type_15443">nun</w>
               </hi>
             <w xml:id="GWTK_247121443300_1">wiss</w>
-            <w xml:id="GWTK_247121443300_2">frow</w>
+            <w xml:id="GWTK_247121443300_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <pc xml:id="GWTK_247121443300_3" join="left">,</pc>
             <w xml:id="GWTK_247121443300_4" lemmaRef="lexicon.xml#lemma_7307" pos="NOM" ana="lexicon.xml#lemma_7307_sense_11843" corresp="variants.xml#type_26272">fürste</w>
             <hi rend="upper_case_first_letter">
@@ -148335,7 +148338,7 @@
             <w xml:id="GWTK_250211461000_3">du</w>
             <w xml:id="GWTK_250211461000_4" lemmaRef="lexicon.xml#lemma_3917" pos="VRB" corresp="variants.xml#type_327607">machtt</w>
             <w xml:id="GWTK_250211461000_5">werden</w>
-            <w xml:id="GWTK_250211461000_6">fro</w>
+            <w xml:id="GWTK_250211461000_6" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           </l>
           <l n="14611">
             <hi rend="initial upper_case_first_letter">
@@ -150437,7 +150440,7 @@
             <w xml:id="GWTK_254111481700_1">sprach</w>
             <pc xml:id="GWTK_254111481700_2" join="left">:</pc>
             <pc xml:id="GWTK_254111481700_3" join="right">&lt;</pc>
-            <w xml:id="GWTK_254111481700_4">frow</w>
+            <w xml:id="GWTK_254111481700_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
               <w xml:id="GWTK_254111481700_5" lemmaRef="lexicon.xml#lemma_16342" pos="NAM" ana="lexicon.xml#lemma_16342_sense_28109" corresp="variants.xml#type_69714">medea</w>
             </hi>
@@ -150826,7 +150829,7 @@
             <pc xml:id="GWTK_254211485600_1" join="left">:</pc>
             <w xml:id="GWTK_254211485600_2">sy</w>
             <w xml:id="GWTK_254211485600_3">waren</w>
-            <w xml:id="GWTK_254211485600_4">fro</w>
+            <w xml:id="GWTK_254211485600_4" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           </l>
           <l n="14857">
             <hi rend="initial upper_case_first_letter">
@@ -150929,7 +150932,7 @@
               <w xml:id="GWTK_254211486500_2">er</w>
             </supplied>
             <w xml:id="GWTK_254211486500_3" lemmaRef="lexicon.xml#lemma_3040" pos="ADJ ADV" ana="lexicon.xml#lemma_3040_sense_4850" corresp="variants.xml#type_330923">innenklich</w>
-            <w xml:id="GWTK_254211486500_4">fro</w>
+            <w xml:id="GWTK_254211486500_4" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_254211486500_5" join="left">.</pc>
           </l>
           <l n="14866">
@@ -151063,7 +151066,7 @@
             <w xml:id="GWTK_255111487900_1">wunde</w>
             <w xml:id="GWTK_255111487900_2">waz</w>
             <w xml:id="GWTK_255111487900_3" lemmaRef="lexicon.xml#lemma_6598" pos="NOM ADJ ADV NEG" corresp="variants.xml#type_59320">unmassen</w>
-            <w xml:id="GWTK_255111487900_4">fro</w>
+            <w xml:id="GWTK_255111487900_4" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           </l>
           <l n="14880">
             <hi rend="initial upper_case_first_letter">
@@ -151961,7 +151964,7 @@
             <w xml:id="GWTK_256211497100_2">in</w>
             <w xml:id="GWTK_256211497100_3">ain</w>
             <w xml:id="GWTK_256211497100_4" lemmaRef="lexicon.xml#lemma_4059" pos="NOM" corresp="variants.xml#type_53004">maister</w>
-            <w xml:id="GWTK_256211497100_5">frow</w>
+            <w xml:id="GWTK_256211497100_5" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <pc xml:id="GWTK_256211497100_6" join="left">,</pc>
           </l>
           <l n="14972">
@@ -154759,7 +154762,7 @@
               </hi>
             <w xml:id="GWTK_261111525200_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
             <w xml:id="GWTK_261111525200_2" lemmaRef="lexicon.xml#lemma_4886" pos="NOM" corresp="variants.xml#type_16870">ritter</w>
-            <w xml:id="GWTK_261111525200_3">fro</w>
+            <w xml:id="GWTK_261111525200_3" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           </l>
           <pb n="261v" type="folio"/>
           <l n="15253">
@@ -155592,7 +155595,7 @@
               </hi>
             <w xml:id="GWTK_262221533200_1" lemmaRef="lexicon.xml#lemma_7621" pos="ADJ" ana="lexicon.xml#lemma_7621_sense_12490" corresp="variants.xml#type_33526">willigem</w>
             <w xml:id="GWTK_262221533200_2" lemmaRef="lexicon.xml#lemma_4264" pos="NOM" corresp="variants.xml#type_333663">mütte</w>
-            <w xml:id="GWTK_262221533200_3">fro</w>
+            <w xml:id="GWTK_262221533200_3" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           </l>
           <l n="15333">
             <hi rend="initial upper_case_first_letter">
@@ -155744,7 +155747,7 @@
             <w xml:id="GWTK_263111534800_1">künne</w>
             <w xml:id="GWTK_263111534800_2" lemmaRef="lexicon.xml#lemma_4886" pos="NOM" corresp="variants.xml#type_16870">ritter</w>
             <w xml:id="GWTK_263111534800_3">vil</w>
-            <w xml:id="GWTK_263111534800_4">fro</w>
+            <w xml:id="GWTK_263111534800_4" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_263111534800_5" join="left">.</pc>
           </l>
           <l n="15349">
@@ -156168,7 +156171,7 @@
                 <w xml:id="GWTK_263221539400_0" lemmaRef="lexicon.xml#lemma_106" pos="ADJ" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_258">alle</w>
               </hi>
             <w xml:id="GWTK_263221539400_1" lemmaRef="lexicon.xml#lemma_59889" pos="ADJ ADV NEG" ana="lexicon.xml#lemma_59889_sense_95906" corresp="variants.xml#type_330187">unmessenklichen</w>
-            <w xml:id="GWTK_263221539400_2">fro</w>
+            <w xml:id="GWTK_263221539400_2" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_263221539400_3" join="left">.</pc>
           </l>
           <l n="15395">
@@ -157642,7 +157645,7 @@
             <w xml:id="GWTK_266211554600_1" lemmaRef="lexicon.xml#lemma_8700" pos="NOM PRO" ana="lexicon.xml#lemma_8700_sense_13698" corresp="variants.xml#type_30236">sines</w>
             <w xml:id="GWTK_266211554600_2" lemmaRef="lexicon.xml#lemma_2795" pos="NOM" corresp="variants.xml#type_9452">hertzen</w>
             <w xml:id="GWTK_266211554600_3" lemmaRef="lexicon.xml#lemma_2544" pos="NOM" corresp="variants.xml#type_8542">grunde</w>
-            <w xml:id="GWTK_266211554600_4">fro</w>
+            <w xml:id="GWTK_266211554600_4" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_266211554600_5" join="left">.</pc>
           </l>
           <l n="15547">
@@ -157730,7 +157733,7 @@
             <w xml:id="GWTK_266211555500_4" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3255">da</w>
             <w xml:id="GWTK_266211555500_5" lemmaRef="lexicon.xml#lemma_8715" pos="PRO VEM" corresp="variants.xml#type_30262">soltu</w>
             <w xml:id="GWTK_266211555500_6" lemmaRef="lexicon.xml#lemma_7672" pos="VRB" corresp="variants.xml#type_27771">wessen</w>
-            <w xml:id="GWTK_266211555500_7">fro</w>
+            <w xml:id="GWTK_266211555500_7" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_266211555500_8" join="left">,</pc>
           </l>
           <l n="15556">
@@ -158381,7 +158384,7 @@
             <w xml:id="GWTK_267211562200_1">mitt</w>
             <w xml:id="GWTK_267211562200_2">sinen</w>
             <w xml:id="GWTK_267211562200_3">gesten</w>
-            <w xml:id="GWTK_267211562200_4">fro</w>
+            <w xml:id="GWTK_267211562200_4" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_267211562200_5" join="left">,</pc>
           </l>
           <l n="15623">
@@ -159268,7 +159271,7 @@
                 <w xml:id="GWTK_269121571000_0">sy</w>
               </hi>
             <w xml:id="GWTK_269121571000_1" lemmaRef="lexicon.xml#lemma_7489" pos="VRB VEX" corresp="variants.xml#type_27068">wurden</w>
-            <w xml:id="GWTK_269121571000_2">fro</w>
+            <w xml:id="GWTK_269121571000_2" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <w xml:id="GWTK_269121571000_3" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
             <w xml:id="GWTK_269121571000_4" lemmaRef="lexicon.xml#lemma_2101" pos="ADJ ADV" corresp="variants.xml#type_146692">gemaitt</w>
             <pc xml:id="GWTK_269121571000_5" join="left">.</pc>
@@ -162599,7 +162602,7 @@
             <w xml:id="GWTK_275121605200_1" lemmaRef="lexicon.xml#lemma_2706" pos="NOM ADJ" corresp="variants.xml#type_327476">hailles</w>
             <w xml:id="GWTK_275121605200_2">sy</w>
             <w xml:id="GWTK_275121605200_3" lemmaRef="lexicon.xml#lemma_2097" pos="NOM ADJ ADV" corresp="variants.xml#type_60639">gemaine</w>
-            <w xml:id="GWTK_275121605200_4">fro</w>
+            <w xml:id="GWTK_275121605200_4" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           </l>
           <l n="16053">
             <hi rend="initial upper_case_first_letter">
@@ -165410,7 +165413,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_280111633700_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_116606">dü</w>
               </hi>
-            <w xml:id="GWTK_280111633700_1">frow</w>
+            <w xml:id="GWTK_280111633700_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <w xml:id="GWTK_280111633700_2" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_32737">zü</w>
             <w xml:id="GWTK_280111633700_3">dem</w>
             <w xml:id="GWTK_280111633700_4" lemmaRef="lexicon.xml#lemma_7307" pos="NOM" ana="lexicon.xml#lemma_7307_sense_11843" corresp="variants.xml#type_26274">fürsten</w>
@@ -165739,7 +165742,7 @@
               </hi>
             <w xml:id="GWTK_280211637000_1" lemmaRef="lexicon.xml#lemma_7910" pos="ADJ ADV" ana="lexicon.xml#lemma_7910_sense_12973" corresp="variants.xml#type_111242">züchtig</w>
             <w xml:id="GWTK_280211637000_2">unde</w>
-            <w xml:id="GWTK_280211637000_3">fro</w>
+            <w xml:id="GWTK_280211637000_3" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           </l>
           <l n="16371">
             <hi rend="initial upper_case_first_letter">
@@ -167374,7 +167377,7 @@
             <w xml:id="GWTK_283221653100_1" lemmaRef="lexicon.xml#lemma_2755" pos="NOM" ana="lexicon.xml#lemma_2755_sense_4446" corresp="variants.xml#type_44536">held</w>
             <w xml:id="GWTK_283221653100_2">ward</w>
             <w xml:id="GWTK_283221653100_3" lemmaRef="lexicon.xml#lemma_3040" pos="ADJ ADV" ana="lexicon.xml#lemma_3040_sense_4850" corresp="variants.xml#type_268577">innenklichen</w>
-            <w xml:id="GWTK_283221653100_4">fro</w>
+            <w xml:id="GWTK_283221653100_4" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_283221653100_5" join="left">,</pc>
           </l>
           <l n="16532">
@@ -168798,7 +168801,7 @@
               </hi>
             <w xml:id="GWTK_286111667800_1" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
             <w xml:id="GWTK_286111667800_2" lemmaRef="lexicon.xml#lemma_2225" pos="NOM" corresp="variants.xml#type_7540">gesinde</w>
-            <w xml:id="GWTK_286111667800_3">fro</w>
+            <w xml:id="GWTK_286111667800_3" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_286111667800_4" join="left">.</pc>
           </l>
           <l n="16679">
@@ -169854,7 +169857,7 @@
           </l>
           <l n="16785">
             <hi rend="initial upper_case_first_letter">
-                <w xml:id="GWTK_287211678500_0">frow</w>
+                <w xml:id="GWTK_287211678500_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
               </hi>
             <w xml:id="GWTK_287211678500_1" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
             <w xml:id="GWTK_287211678500_2" lemmaRef="lexicon.xml#lemma_4886" pos="NOM" corresp="variants.xml#type_16870">ritter</w>
@@ -169914,7 +169917,7 @@
             <w xml:id="GWTK_288121679200_1">irem</w>
             <w xml:id="GWTK_288121679200_2" lemmaRef="lexicon.xml#lemma_3765" pos="ADJ" corresp="variants.xml#type_326418">lïben</w>
             <w xml:id="GWTK_288121679200_3">heren</w>
-            <w xml:id="GWTK_288121679200_4">fro</w>
+            <w xml:id="GWTK_288121679200_4" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_288121679200_5" join="left">.</pc>
           </l>
           <l n="16793">
@@ -170431,7 +170434,7 @@
             <w xml:id="GWTK_289111684600_2" lemmaRef="lexicon.xml#lemma_678" pos="PRP" ana="lexicon.xml#lemma_678_sense_1096" corresp="variants.xml#type_44499">by</w>
             <w xml:id="GWTK_289111684600_3">im</w>
             <w xml:id="GWTK_289111684600_4" lemmaRef="lexicon.xml#lemma_504" pos="VRB" ana="lexicon.xml#lemma_504_sense_722" corresp="variants.xml#type_1466">belibe</w>
-            <w xml:id="GWTK_289111684600_5">fro</w>
+            <w xml:id="GWTK_289111684600_5" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_289111684600_6" join="left">.</pc>
           </l>
           <l n="16847">
@@ -170486,7 +170489,7 @@
               </hi>
             <w xml:id="GWTK_289121685200_1" lemmaRef="lexicon.xml#lemma_2101" pos="ADJ ADV" corresp="variants.xml#type_146692">gemaitt</w>
             <w xml:id="GWTK_289121685200_2">unde</w>
-            <w xml:id="GWTK_289121685200_3">fro</w>
+            <w xml:id="GWTK_289121685200_3" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_289121685200_4" join="left">.</pc>
           </l>
           <l n="16853">
@@ -172136,7 +172139,7 @@
             <w xml:id="GWTK_292111702000_2" lemmaRef="lexicon.xml#lemma_7918" pos="NOM" corresp="variants.xml#type_45667">züchten</w>
             <w xml:id="GWTK_292111702000_3" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
             <w xml:id="GWTK_292111702000_4">waz</w>
-            <w xml:id="GWTK_292111702000_5">fro</w>
+            <w xml:id="GWTK_292111702000_5" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           </l>
           <l n="17021">
             <hi rend="initial upper_case_first_letter">
@@ -173055,7 +173058,7 @@
             <pc xml:id="GWTK_293211711200_5" join="left">,</pc>
             <w xml:id="GWTK_293211711200_6">du</w>
             <w xml:id="GWTK_293211711200_7">solt</w>
-            <w xml:id="GWTK_293211711200_8">fro</w>
+            <w xml:id="GWTK_293211711200_8" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           </l>
           <l n="17113">
             <hi rend="initial upper_case_first_letter">
@@ -175775,7 +175778,7 @@
             <w xml:id="GWTK_298111738400_1" lemmaRef="lexicon.xml#lemma_1517" pos="POS" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_5022">sinem</w>
             <w xml:id="GWTK_298111738400_2" lemmaRef="lexicon.xml#lemma_1699" pos="VRB" ana="lexicon.xml#lemma_1699_sense_2670" corresp="variants.xml#type_5776">erwelten</w>
             <w xml:id="GWTK_298111738400_3" lemmaRef="lexicon.xml#lemma_19035" pos="NOM" corresp="variants.xml#type_84273">kempfer</w>
-            <w xml:id="GWTK_298111738400_4">fro</w>
+            <w xml:id="GWTK_298111738400_4" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_298111738400_5" join="left">:</pc>
           </l>
           <l n="17385">
@@ -178607,7 +178610,7 @@
             <w xml:id="GWTK_303111767000_3" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
             <w xml:id="GWTK_303111767000_4" lemmaRef="lexicon.xml#lemma_3009" pos="ADV" ana="lexicon.xml#lemma_3009_sense_4813" corresp="variants.xml#type_10283">iemer</w>
             <w xml:id="GWTK_303111767000_5">werden</w>
-            <w xml:id="GWTK_303111767000_6">fro</w>
+            <w xml:id="GWTK_303111767000_6" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           </l>
           <l n="17671">
             <hi rend="initial upper_case_first_letter">
@@ -180083,7 +180086,7 @@
             <w xml:id="GWTK_305221781300_1" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
             <w xml:id="GWTK_305221781300_2" lemmaRef="lexicon.xml#lemma_1136" pos="ADJ ADV" corresp="variants.xml#type_58950">dik</w>
             <w xml:id="GWTK_305221781300_3" lemmaRef="lexicon.xml#lemma_7505" pos="VRB" corresp="variants.xml#type_273214">gewessen</w>
-            <w xml:id="GWTK_305221781300_4">fro</w>
+            <w xml:id="GWTK_305221781300_4" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_305221781300_5" join="left">.</pc>
           </l>
           <l n="17814">
@@ -182079,7 +182082,7 @@
             <w xml:id="GWTK_309111801300_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
             <w xml:id="GWTK_309111801300_3" lemmaRef="lexicon.xml#lemma_1308" pos="ADJ" ana="lexicon.xml#lemma_1308_sense_2042" corresp="variants.xml#type_4246">edel</w>
             <w xml:id="GWTK_309111801300_4" lemmaRef="lexicon.xml#lemma_7307" pos="NOM" ana="lexicon.xml#lemma_7307_sense_11843" corresp="variants.xml#type_26272">fürste</w>
-            <w xml:id="GWTK_309111801300_5">fro</w>
+            <w xml:id="GWTK_309111801300_5" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           </l>
           <l n="18014">
             <hi rend="initial upper_case_first_letter">
@@ -184125,7 +184128,7 @@
             <w xml:id="GWTK_312211821900_2">ward</w>
             <w xml:id="GWTK_312211821900_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
             <w xml:id="GWTK_312211821900_4" lemmaRef="lexicon.xml#lemma_1374" pos="ADJ" corresp="variants.xml#type_65971">ellend</w>
-            <w xml:id="GWTK_312211821900_5">fro</w>
+            <w xml:id="GWTK_312211821900_5" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           </l>
           <l n="18220">
             <hi rend="initial upper_case_first_letter">
@@ -189528,7 +189531,7 @@
           </l>
           <l n="18753">
             <hi rend="initial upper_case_first_letter">
-                <w xml:id="GWTK_321221875300_0">fro</w>
+                <w xml:id="GWTK_321221875300_0" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
               </hi>
             <w xml:id="GWTK_321221875300_1">als</w>
             <w xml:id="GWTK_321221875300_2" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
@@ -190001,7 +190004,7 @@
             <w xml:id="GWTK_322221880000_2" lemmaRef="lexicon.xml#lemma_204" pos="ADJ" ana="lexicon.xml#lemma_204_sense_256" corresp="variants.xml#type_537">ander</w>
             <pc xml:id="GWTK_322221880000_3" join="left">,</pc>
             <w xml:id="GWTK_322221880000_4" lemmaRef="lexicon.xml#lemma_2787" pos="ADJ ADV" corresp="variants.xml#type_234267">hartte</w>
-            <w xml:id="GWTK_322221880000_5">fro</w>
+            <w xml:id="GWTK_322221880000_5" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           </l>
           <l n="18801">
             <hi rend="initial upper_case_first_letter">
@@ -193603,7 +193606,7 @@
             <w xml:id="GWTK_329111916000_1">ires</w>
             <w xml:id="GWTK_329111916000_2" lemmaRef="lexicon.xml#lemma_2795" pos="NOM" corresp="variants.xml#type_9452">hertzen</w>
             <w xml:id="GWTK_329111916000_3" lemmaRef="lexicon.xml#lemma_2544" pos="NOM" corresp="variants.xml#type_8542">grunde</w>
-            <w xml:id="GWTK_329111916000_4">fro</w>
+            <w xml:id="GWTK_329111916000_4" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_329111916000_5" join="left">.</pc>
           </l>
           <l n="19161">
@@ -194779,7 +194782,7 @@
           </l>
           <l n="19280">
             <hi rend="initial upper_case_first_letter">
-                <w xml:id="GWTK_331111928000_0">frow</w>
+                <w xml:id="GWTK_331111928000_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
               </hi>
             <hi rend="upper_case_first_letter">
               <w xml:id="GWTK_331111928000_1" lemmaRef="lexicon.xml#lemma_3165" pos="NAM" ana="lexicon.xml#lemma_3165_sense_5003" corresp="variants.xml#type_335008">jonno</w>
@@ -194807,7 +194810,7 @@
             </hi>
             <pc xml:id="GWTK_331111928200_3" join="left">,</pc>
             <w xml:id="GWTK_331111928200_4" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="GWTK_331111928200_5">frow</w>
+            <w xml:id="GWTK_331111928200_5" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <w xml:id="GWTK_331111928200_6" lemmaRef="lexicon.xml#lemma_2101" pos="ADJ ADV" corresp="variants.xml#type_330558">gemeitt</w>
             <pc xml:id="GWTK_331111928200_7" join="left">,</pc>
           </l>
@@ -195649,7 +195652,7 @@
             <w xml:id="GWTK_332211936300_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
             <w xml:id="GWTK_332211936300_2" lemmaRef="lexicon.xml#lemma_1308" pos="NOM ADJ" ana="lexicon.xml#lemma_1308_sense_2042" corresp="variants.xml#type_4263">edlen</w>
             <w xml:id="GWTK_332211936300_3" lemmaRef="lexicon.xml#lemma_4886" pos="NOM" corresp="variants.xml#type_16870">ritter</w>
-            <w xml:id="GWTK_332211936300_4">fro</w>
+            <w xml:id="GWTK_332211936300_4" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           </l>
           <l n="19364">
             <hi rend="initial upper_case_first_letter">
@@ -195936,7 +195939,7 @@
             <hi rend="upper_case_first_letter">
               <w xml:id="GWTK_333121939200_5">troye</w>
             </hi>
-            <w xml:id="GWTK_333121939200_6">fro</w>
+            <w xml:id="GWTK_333121939200_6" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_333121939200_7" join="left">.</pc>
           </l>
           <l n="19393">
@@ -197334,7 +197337,7 @@
             <w xml:id="GWTK_335121953200_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
             <w xml:id="GWTK_335121953200_3" lemmaRef="lexicon.xml#lemma_6743" pos="NOM ADJ" corresp="variants.xml#type_68583">falsche</w>
             <w xml:id="GWTK_335121953200_4" lemmaRef="lexicon.xml#lemma_7307" pos="NOM" ana="lexicon.xml#lemma_7307_sense_11843" corresp="variants.xml#type_26272">fürste</w>
-            <w xml:id="GWTK_335121953200_5">fro</w>
+            <w xml:id="GWTK_335121953200_5" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_335121953200_6" join="left">.</pc>
           </l>
           <l n="19533">
@@ -198187,7 +198190,7 @@
             <w xml:id="GWTK_336211961300_2" lemmaRef="lexicon.xml#lemma_5385" pos="ADJ" ana="lexicon.xml#lemma_5385_sense_8406" corresp="variants.xml#type_18766">selbe</w>
             <w xml:id="GWTK_336211961300_3" lemmaRef="lexicon.xml#lemma_2026" pos="VRB" corresp="variants.xml#type_335103">gehiess</w>
             <w xml:id="GWTK_336211961300_4" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10237">mir</w>
-            <w xml:id="GWTK_336211961300_5">fro</w>
+            <w xml:id="GWTK_336211961300_5" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_154744">fro</w>
             <hi rend="upper_case_first_letter">
               <w xml:id="GWTK_336211961300_6" lemmaRef="lexicon.xml#lemma_12163" pos="NAM" ana="lexicon.xml#lemma_12163_sense_19241" corresp="variants.xml#type_333891">thedis</w>
             </hi>
@@ -201054,7 +201057,7 @@
                 <w xml:id="GWTK_341211988800_1" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18966">sind</w>
               </hi>
             <pc xml:id="GWTK_341211988800_2" join="left">,</pc>
-            <w xml:id="GWTK_341211988800_3">frow</w>
+            <w xml:id="GWTK_341211988800_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <pc xml:id="GWTK_341211988800_4" join="left">,</pc>
             <w xml:id="GWTK_341211988800_5">on</w>
             <w xml:id="GWTK_341211988800_6" lemmaRef="lexicon.xml#lemma_106" pos="ADJ" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_258">alle</w>
@@ -204376,7 +204379,7 @@
             <w xml:id="GWTK_347112021200_1" lemmaRef="lexicon.xml#lemma_3538" pos="VRB VEM" corresp="variants.xml#type_12292">künnen</w>
             <w xml:id="GWTK_347112021200_2" lemmaRef="lexicon.xml#lemma_4886" pos="NOM" corresp="variants.xml#type_16874">ritters</w>
             <w xml:id="GWTK_347112021200_3" lemmaRef="lexicon.xml#lemma_3537" pos="NOM" ana="lexicon.xml#lemma_3537_sense_5604" corresp="variants.xml#type_12278">künfte</w>
-            <w xml:id="GWTK_347112021200_4">frow</w>
+            <w xml:id="GWTK_347112021200_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
           </l>
           <l n="20213">
             <hi rend="initial upper_case_first_letter">
@@ -205289,7 +205292,7 @@
             <w xml:id="GWTK_348212029900_1">sprach</w>
             <pc xml:id="GWTK_348212029900_2" join="left">:</pc>
             <pc xml:id="GWTK_348212029900_3" join="right">&lt;</pc>
-            <w xml:id="GWTK_348212029900_4">frow</w>
+            <w xml:id="GWTK_348212029900_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <pc xml:id="GWTK_348212029900_5" join="left">,</pc>
             <w xml:id="GWTK_348212029900_6" lemmaRef="lexicon.xml#lemma_7608" pos="ADV IPA" ana="lexicon.xml#lemma_7608_sense_12462" corresp="variants.xml#type_27506">wie</w>
             <w xml:id="GWTK_348212029900_7" lemmaRef="lexicon.xml#lemma_3674" pos="VRB" corresp="variants.xml#type_272904">legg</w>
@@ -205396,7 +205399,7 @@
             <pc xml:id="GWTK_348212030900_2" join="left">:</pc>
             <pc xml:id="GWTK_348212030900_3" join="right">&lt;</pc>
             <w xml:id="GWTK_348212030900_4" lemmaRef="lexicon.xml#lemma_6246" pos="NOM ADJ" corresp="variants.xml#type_304542">trutt</w>
-            <w xml:id="GWTK_348212030900_5">frow</w>
+            <w xml:id="GWTK_348212030900_5" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <pc xml:id="GWTK_348212030900_6" join="left">,</pc>
             <w xml:id="GWTK_348212030900_7" lemmaRef="lexicon.xml#lemma_7608" pos="ADV IPA" ana="lexicon.xml#lemma_7608_sense_12462" corresp="variants.xml#type_27506">wie</w>
             <w xml:id="GWTK_348212030900_8" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
@@ -210352,7 +210355,7 @@
             <w xml:id="GWTK_357112079700_2">waz</w>
             <w xml:id="GWTK_357112079700_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
             <w xml:id="GWTK_357112079700_4" lemmaRef="lexicon.xml#lemma_5460" pos="NOM" ana="lexicon.xml#lemma_5460_sense_8513" corresp="variants.xml#type_19086">siges</w>
-            <w xml:id="GWTK_357112079700_5">fro</w>
+            <w xml:id="GWTK_357112079700_5" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_357112079700_6" join="left">.</pc>
           </l>
           <l n="20798">
@@ -210415,7 +210418,7 @@
               </hi>
             <w xml:id="GWTK_357112080300_1">schame</w>
             <w xml:id="GWTK_357112080300_2" lemmaRef="lexicon.xml#lemma_4365" pos="ADV NEG" ana="lexicon.xml#lemma_4365_sense_6822" corresp="variants.xml#type_15230">nie</w>
-            <w xml:id="GWTK_357112080300_3">frow</w>
+            <w xml:id="GWTK_357112080300_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <w xml:id="GWTK_357112080300_4">gewan</w>
           </l>
           <l n="20804">
@@ -212894,7 +212897,7 @@
               </hi>
             <w xml:id="GWTK_361212104600_1" lemmaRef="lexicon.xml#lemma_7536" pos="ADJ" ana="lexicon.xml#lemma_7536_sense_12303" corresp="variants.xml#type_331787">wipplichem</w>
             <w xml:id="GWTK_361212104600_2" lemmaRef="lexicon.xml#lemma_2795" pos="NOM" corresp="variants.xml#type_9452">hertzen</w>
-            <w xml:id="GWTK_361212104600_3">frow</w>
+            <w xml:id="GWTK_361212104600_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <pc xml:id="GWTK_361212104600_4" join="left">.</pc>
           </l>
           <l n="21047">
@@ -213420,7 +213423,7 @@
             <w xml:id="GWTK_362112109700_1">ward</w>
             <w xml:id="GWTK_362112109700_2">sy</w>
             <w xml:id="GWTK_362112109700_3" lemmaRef="lexicon.xml#lemma_3040" pos="ADJ ADV" ana="lexicon.xml#lemma_3040_sense_4850" corresp="variants.xml#type_268577">innenklichen</w>
-            <w xml:id="GWTK_362112109700_4">fro</w>
+            <w xml:id="GWTK_362112109700_4" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           </l>
           <l n="21098">
             <hi rend="initial upper_case_first_letter">
@@ -214903,7 +214906,7 @@
             <w xml:id="GWTK_364222124200_2">min</w>
             <w xml:id="GWTK_364222124200_3" lemmaRef="lexicon.xml#lemma_5404" pos="ADJ" corresp="variants.xml#type_18858">senftes</w>
             <w xml:id="GWTK_364222124200_4" lemmaRef="lexicon.xml#lemma_2795" pos="NOM" corresp="variants.xml#type_9451">hertze</w>
-            <w xml:id="GWTK_364222124200_5">fro</w>
+            <w xml:id="GWTK_364222124200_5" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_364222124200_6" join="left">.</pc>
           </l>
           <l n="21243">
@@ -219662,7 +219665,7 @@
             <w xml:id="GWTK_372122170200_1">ires</w>
             <w xml:id="GWTK_372122170200_2" lemmaRef="lexicon.xml#lemma_2795" pos="NOM" corresp="variants.xml#type_9452">hertzen</w>
             <w xml:id="GWTK_372122170200_3" lemmaRef="lexicon.xml#lemma_2544" pos="NOM" corresp="variants.xml#type_8542">grunde</w>
-            <w xml:id="GWTK_372122170200_4">fro</w>
+            <w xml:id="GWTK_372122170200_4" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_372122170200_5" join="left">.</pc>
           </l>
           <l n="21703">
@@ -219697,7 +219700,7 @@
             <w xml:id="GWTK_372122170600_1" lemmaRef="lexicon.xml#lemma_7505" pos="VRB" corresp="variants.xml#type_273625">warend</w>
             <w xml:id="GWTK_372122170600_2" lemmaRef="lexicon.xml#lemma_1517" pos="POS" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_5024">siner</w>
             <w xml:id="GWTK_372122170600_3" lemmaRef="lexicon.xml#lemma_3537" pos="NOM" ana="lexicon.xml#lemma_3537_sense_5604" corresp="variants.xml#type_12278">künfte</w>
-            <w xml:id="GWTK_372122170600_4">fro</w>
+            <w xml:id="GWTK_372122170600_4" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_372122170600_5" join="left">.</pc>
           </l>
           <l n="21707">
@@ -219771,7 +219774,7 @@
               </hi>
             <pc xml:id="GWTK_372212171300_2" join="left">,</pc>
             <w xml:id="GWTK_372212171300_3" lemmaRef="lexicon.xml#lemma_6246" pos="NOM ADJ" corresp="variants.xml#type_304542">trutt</w>
-            <w xml:id="GWTK_372212171300_4">frow</w>
+            <w xml:id="GWTK_372212171300_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <pc xml:id="GWTK_372212171300_5" join="left">,</pc>
             <w xml:id="GWTK_372212171300_6">waz</w>
             <w xml:id="GWTK_372212171300_7">ir</w>
@@ -222108,7 +222111,7 @@
             <w xml:id="GWTK_376122193600_3" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
             <w xml:id="GWTK_376122193600_4" lemmaRef="lexicon.xml#lemma_4368" pos="ADV" ana="lexicon.xml#lemma_4368_sense_6825" corresp="variants.xml#type_15246">niemer</w>
             <w xml:id="GWTK_376122193600_5" lemmaRef="lexicon.xml#lemma_3738" pos="NOM" ana="lexicon.xml#lemma_3738_sense_5924" corresp="variants.xml#type_13017">libes</w>
-            <w xml:id="GWTK_376122193600_6">fro</w>
+            <w xml:id="GWTK_376122193600_6" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_376122193600_7" join="left">.</pc>
           </l>
           <l n="21937">
@@ -223567,7 +223570,7 @@
                 <w xml:id="GWTK_378212207500_0">do</w>
               </hi>
             <w xml:id="GWTK_378212207500_1">in</w>
-            <w xml:id="GWTK_378212207500_2">frow</w>
+            <w xml:id="GWTK_378212207500_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <w xml:id="GWTK_378212207500_3" lemmaRef="lexicon.xml#lemma_65474" pos="NAM" ana="lexicon.xml#lemma_65474_sense_102469" corresp="variants.xml#type_335655">meiora</w>
           </l>
           <l n="22076">
@@ -224523,7 +224526,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_380122216600_0">an</w>
               </hi>
-            <w xml:id="GWTK_380122216600_1">frow</w>
+            <w xml:id="GWTK_380122216600_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
               <w xml:id="GWTK_380122216600_2" lemmaRef="lexicon.xml#lemma_65474" pos="NAM" ana="lexicon.xml#lemma_65474_sense_102469" corresp="variants.xml#type_335650">meierun</w>
             </hi>
@@ -224663,7 +224666,7 @@
           </l>
           <l n="22179">
             <hi rend="initial upper_case_first_letter">
-                <w xml:id="GWTK_380122217900_0">frow</w>
+                <w xml:id="GWTK_380122217900_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
               </hi>
             <hi rend="upper_case_first_letter">
               <w xml:id="GWTK_380122217900_1" lemmaRef="lexicon.xml#lemma_65473" pos="NAM" ana="lexicon.xml#lemma_65473_sense_102468" corresp="variants.xml#type_335645">fedra</w>
@@ -225831,7 +225834,7 @@
             <w xml:id="GWTK_382122228900_2">laide</w>
             <w xml:id="GWTK_382122228900_3">ward</w>
             <w xml:id="GWTK_382122228900_4">sy</w>
-            <w xml:id="GWTK_382122228900_5">fro</w>
+            <w xml:id="GWTK_382122228900_5" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_382122228900_6" join="left">,</pc>
           </l>
           <l n="22290">
@@ -226366,7 +226369,7 @@
                 <w xml:id="GWTK_383122234000_1" lemmaRef="lexicon.xml#lemma_3567" pos="VRB" corresp="variants.xml#type_178530">lond</w>
               </hi>
             <pc xml:id="GWTK_383122234000_2" join="left">,</pc>
-            <w xml:id="GWTK_383122234000_3">frow</w>
+            <w xml:id="GWTK_383122234000_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <pc xml:id="GWTK_383122234000_4" join="left">,</pc>
             <w xml:id="GWTK_383122234000_5" lemmaRef="lexicon.xml#lemma_6342" pos="ADV PRP" ana="lexicon.xml#lemma_6342_sense_9997" corresp="variants.xml#type_129506">uss</w>
             <w xml:id="GWTK_383122234000_6" lemmaRef="lexicon.xml#lemma_2795" pos="NOM" corresp="variants.xml#type_9452">hertzen</w>
@@ -227875,7 +227878,7 @@
             <w xml:id="GWTK_385212248300_2">waren</w>
             <w xml:id="GWTK_385212248300_3">ain</w>
             <w xml:id="GWTK_385212248300_4" lemmaRef="lexicon.xml#lemma_204" pos="NOM ADJ" ana="lexicon.xml#lemma_204_sense_256" corresp="variants.xml#type_545">andren</w>
-            <w xml:id="GWTK_385212248300_5">fro</w>
+            <w xml:id="GWTK_385212248300_5" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_385212248300_6" join="left">.</pc>
           </l>
           <l n="22484">
@@ -228125,7 +228128,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_386112250800_0">als</w>
               </hi>
-            <w xml:id="GWTK_386112250800_1">frow</w>
+            <w xml:id="GWTK_386112250800_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
               <w xml:id="GWTK_386112250800_2" lemmaRef="lexicon.xml#lemma_65474" pos="NAM" ana="lexicon.xml#lemma_65474_sense_102469" corresp="variants.xml#type_335650">meierun</w>
             </hi>
@@ -228145,7 +228148,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_386112251000_0">war</w>
               </hi>
-            <w xml:id="GWTK_386112251000_1">frow</w>
+            <w xml:id="GWTK_386112251000_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
               <w xml:id="GWTK_386112251000_2" lemmaRef="lexicon.xml#lemma_65474" pos="NAM" ana="lexicon.xml#lemma_65474_sense_102469" corresp="variants.xml#type_335650">meierun</w>
             </hi>
@@ -228166,7 +228169,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_386112251200_0">war</w>
               </hi>
-            <w xml:id="GWTK_386112251200_1">frow</w>
+            <w xml:id="GWTK_386112251200_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
               <w xml:id="GWTK_386112251200_2" lemmaRef="lexicon.xml#lemma_65473" pos="NAM" ana="lexicon.xml#lemma_65473_sense_102468" corresp="variants.xml#type_335645">fedra</w>
             </hi>
@@ -231129,7 +231132,7 @@
             <w xml:id="GWTK_391112279800_2">wird</w>
             <w xml:id="GWTK_391112279800_3" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
             <w xml:id="GWTK_391112279800_4" lemmaRef="lexicon.xml#lemma_4368" pos="ADV" ana="lexicon.xml#lemma_4368_sense_6825" corresp="variants.xml#type_15246">niemer</w>
-            <w xml:id="GWTK_391112279800_5">fro</w>
+            <w xml:id="GWTK_391112279800_5" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_391112279800_6" join="left">.</pc>
           </l>
           <l n="22799">
@@ -232219,7 +232222,7 @@
               <w xml:id="GWTK_392212290000_3" lemmaRef="lexicon.xml#lemma_14399" pos="ADJ" ana="lexicon.xml#lemma_14399_sense_23865" corresp="variants.xml#type_333575">troysche</w>
             </hi>
             <w xml:id="GWTK_392212290000_4" lemmaRef="lexicon.xml#lemma_7307" pos="NOM" ana="lexicon.xml#lemma_7307_sense_11843" corresp="variants.xml#type_26272">fürste</w>
-            <w xml:id="GWTK_392212290000_5">fro</w>
+            <w xml:id="GWTK_392212290000_5" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_392212290000_6" join="left">.</pc>
           </l>
           <l n="22901">
@@ -238533,7 +238536,7 @@
             <w xml:id="GWTK_403112351000_2" lemmaRef="lexicon.xml#lemma_106" pos="ADJ ADV" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_257">all</w>
             <w xml:id="GWTK_403112351000_3">ain</w>
             <w xml:id="GWTK_403112351000_4" lemmaRef="lexicon.xml#lemma_204" pos="NOM ADJ" ana="lexicon.xml#lemma_204_sense_256" corresp="variants.xml#type_545">andren</w>
-            <w xml:id="GWTK_403112351000_5">fro</w>
+            <w xml:id="GWTK_403112351000_5" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_403112351000_6" join="left">.</pc>
           </l>
           <l n="23511">
@@ -239589,7 +239592,7 @@
             <w xml:id="GWTK_405112361300_2">ward</w>
             <w xml:id="GWTK_405112361300_3" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
             <w xml:id="GWTK_405112361300_4" lemmaRef="lexicon.xml#lemma_152" pos="ADV" ana="lexicon.xml#lemma_152_sense_187" corresp="variants.xml#type_378">also</w>
-            <w xml:id="GWTK_405112361300_5">fro</w>
+            <w xml:id="GWTK_405112361300_5" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           </l>
           <l n="23614">
             <hi rend="initial upper_case_first_letter">
@@ -241404,7 +241407,7 @@
               </hi>
             <w xml:id="GWTK_408112378900_1" lemmaRef="lexicon.xml#lemma_7307" pos="NOM" ana="lexicon.xml#lemma_7307_sense_11843" corresp="variants.xml#type_26272">fürste</w>
             <w xml:id="GWTK_408112378900_2">waz</w>
-            <w xml:id="GWTK_408112378900_3">fro</w>
+            <w xml:id="GWTK_408112378900_3" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <w xml:id="GWTK_408112378900_4">unde</w>
             <w xml:id="GWTK_408112378900_5" lemmaRef="lexicon.xml#lemma_2040" pos="NOM ADJ" corresp="variants.xml#type_101141">gail</w>
           </l>
@@ -243490,7 +243493,7 @@
             <w xml:id="GWTK_411212399400_1" lemmaRef="lexicon.xml#lemma_5460" pos="NOM" ana="lexicon.xml#lemma_5460_sense_8513" corresp="variants.xml#type_19086">siges</w>
             <w xml:id="GWTK_411212399400_2" lemmaRef="lexicon.xml#lemma_7505" pos="VRB" corresp="variants.xml#type_273625">warend</w>
             <w xml:id="GWTK_411212399400_3" lemmaRef="lexicon.xml#lemma_106" pos="ADJ" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_258">alle</w>
-            <w xml:id="GWTK_411212399400_4">fro</w>
+            <w xml:id="GWTK_411212399400_4" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_411212399400_5" join="left">.</pc>
           </l>
           <l n="23995">
@@ -244460,7 +244463,7 @@
             <w xml:id="GWTK_413112409300_1">waz</w>
             <w xml:id="GWTK_413112409300_2">er</w>
             <w xml:id="GWTK_413112409300_3" lemmaRef="lexicon.xml#lemma_3040" pos="ADJ ADV" ana="lexicon.xml#lemma_3040_sense_4850" corresp="variants.xml#type_268577">innenklichen</w>
-            <w xml:id="GWTK_413112409300_4">fro</w>
+            <w xml:id="GWTK_413112409300_4" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_413112409300_5" join="left">.</pc>
           </l>
           <l n="24094">
@@ -248277,7 +248280,7 @@
           <l n="24472">
             <pc xml:id="GWTK_419212447200_0" join="right">&lt;</pc>
             <hi rend="initial upper_case_first_letter">
-                <w xml:id="GWTK_419212447200_1">frow</w>
+                <w xml:id="GWTK_419212447200_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
               </hi>
             <pc xml:id="GWTK_419212447200_2" join="left">,</pc>
             <w xml:id="GWTK_419212447200_3" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
@@ -248539,7 +248542,7 @@
             <w xml:id="GWTK_420122449600_2" lemmaRef="lexicon.xml#lemma_106" pos="ADJ" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_258">alle</w>
             <pc xml:id="GWTK_420122449600_3" join="left">,</pc>
             <w xml:id="GWTK_420122449600_4" lemmaRef="lexicon.xml#lemma_6246" pos="NOM ADJ" corresp="variants.xml#type_304542">trutt</w>
-            <w xml:id="GWTK_420122449600_5">frow</w>
+            <w xml:id="GWTK_420122449600_5" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <pc xml:id="GWTK_420122449600_6" join="left">,</pc>
             <w xml:id="GWTK_420122449600_7">din</w>
             <w xml:id="GWTK_420122449600_8" lemmaRef="lexicon.xml#lemma_4252" pos="NOM" corresp="variants.xml#type_45737">mund</w>
@@ -248768,7 +248771,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_420212451700_0" lemmaRef="lexicon.xml#lemma_6246" pos="NOM ADJ" corresp="variants.xml#type_304542">trutt</w>
               </hi>
-            <w xml:id="GWTK_420212451700_1">frow</w>
+            <w xml:id="GWTK_420212451700_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <pc xml:id="GWTK_420212451700_2" join="left">,</pc>
             <w xml:id="GWTK_420212451700_3" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
             <w xml:id="GWTK_420212451700_4">bin</w>
@@ -252509,7 +252512,7 @@
               </hi>
             <w xml:id="GWTK_426212488400_1" lemmaRef="lexicon.xml#lemma_6118" pos="NOM ADJ" ana="lexicon.xml#lemma_6118_sense_9650" corresp="variants.xml#type_21564">tode</w>
             <w xml:id="GWTK_426212488400_2" lemmaRef="lexicon.xml#lemma_6905" pos="VRB" corresp="variants.xml#type_24336">vernam</w>
-            <w xml:id="GWTK_426212488400_3">frow</w>
+            <w xml:id="GWTK_426212488400_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
               <w xml:id="GWTK_426212488400_4" lemmaRef="lexicon.xml#lemma_2736" pos="NAM" ana="lexicon.xml#lemma_2736_sense_4418" corresp="variants.xml#type_40323">helena</w>
             </hi>
@@ -252611,7 +252614,7 @@
                 <w xml:id="GWTK_426222489600_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
               </hi>
             <w xml:id="GWTK_426222489600_1">sin</w>
-            <w xml:id="GWTK_426222489600_2">frow</w>
+            <w xml:id="GWTK_426222489600_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <w xml:id="GWTK_426222489600_3">vil</w>
             <w xml:id="GWTK_426222489600_4" lemmaRef="lexicon.xml#lemma_7677" pos="NOM ADV" ana="lexicon.xml#lemma_7677_sense_12586" corresp="variants.xml#type_27811">wol</w>
             <w xml:id="GWTK_426222489600_5" lemmaRef="lexicon.xml#lemma_2246" pos="NOM ADJ" corresp="variants.xml#type_131481">gestaltt</w>
@@ -253388,7 +253391,7 @@
             <w xml:id="GWTK_428112497000_4">herre</w>
             <pc xml:id="GWTK_428112497000_5" join="left">,</pc>
             <w xml:id="GWTK_428112497000_6" lemmaRef="lexicon.xml#lemma_7505" pos="VRB" corresp="variants.xml#type_186257">wesend</w>
-            <w xml:id="GWTK_428112497000_7">fro</w>
+            <w xml:id="GWTK_428112497000_7" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_428112497000_8" join="left">,</pc>
           </l>
           <l n="24971">
@@ -254947,7 +254950,7 @@
             <w xml:id="GWTK_430212511600_1" lemmaRef="lexicon.xml#lemma_4366" pos="ADJ PRO NEG" ana="lexicon.xml#lemma_4366_sense_6823" corresp="variants.xml#type_15233">nieman</w>
             <w xml:id="GWTK_430212511600_2" lemmaRef="lexicon.xml#lemma_1273" pos="VRB VEM" corresp="variants.xml#type_4106">dorfte</w>
             <w xml:id="GWTK_430212511600_3" lemmaRef="lexicon.xml#lemma_7505" pos="NOM VRB" corresp="variants.xml#type_27174">wesen</w>
-            <w xml:id="GWTK_430212511600_4">fro</w>
+            <w xml:id="GWTK_430212511600_4" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="GWTK_430212511600_5" join="left">,</pc>
           </l>
           <l n="25117">

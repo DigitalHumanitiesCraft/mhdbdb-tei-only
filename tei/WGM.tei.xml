@@ -138,6 +138,7 @@
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 35 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/). 1 weitere Tokens der Form stat blieben bewusst unannotiert (Review).</change>
+      <change when="2026-09-06" who="#editor">#387 (vrouwe, mechanischer Teil): 3 Tokens der Form vrouwe erstmals annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260)). Kein LLM-Lauf: annotiert wurde nur, wo die MHG-normalisierte Schreibung im gesamten Korpus ein einziges Lemma traegt, dieses genau eine Wortart fuehrt und die Schreibung dafuer genug Belege hat. Kontextpflichtige Faelle sind unangetastet geblieben (Provenienz-Log: ingest/pos-disambig/387-vrouwe/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -23870,7 +23871,7 @@
             <w xml:id="WGM_23830_1" lemmaRef="lexicon.xml#lemma_5693" pos="VRB" ana="lexicon.xml#lemma_5693_sense_8912" corresp="variants.xml#type_19957">sprach</w>
             <pc xml:id="WGM_23830_2" join="left">:</pc>
             <pc xml:id="WGM_23830_3" join="right">&lt;</pc>
-            <w xml:id="WGM_23830_4">fraw</w>
+            <w xml:id="WGM_23830_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <pc xml:id="WGM_23830_5" join="left">,</pc>
             <w xml:id="WGM_23830_6" lemmaRef="lexicon.xml#lemma_504" pos="VRB" ana="lexicon.xml#lemma_504_sense_722" corresp="variants.xml#type_148652">beleybent</w>
             <w xml:id="WGM_23830_7" lemmaRef="lexicon.xml#lemma_4415" pos="ADV NEG CNJ" corresp="variants.xml#type_15400">noch</w>
@@ -27970,7 +27971,7 @@
             <w xml:id="WGM_28090_1" lemmaRef="lexicon.xml#lemma_5693" pos="VRB" ana="lexicon.xml#lemma_5693_sense_8912" corresp="variants.xml#type_19957">sprach</w>
             <pc xml:id="WGM_28090_2" join="left">:</pc>
             <pc xml:id="WGM_28090_3" join="right">&lt;</pc>
-            <w xml:id="WGM_28090_4">fraw</w>
+            <w xml:id="WGM_28090_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <pc xml:id="WGM_28090_5" join="left">,</pc>
             <w xml:id="WGM_28090_6">gehabt</w>
             <w xml:id="WGM_28090_7" lemmaRef="lexicon.xml#lemma_56117" pos="PRO" ana="lexicon.xml#lemma_56117_sense_90961" corresp="variants.xml#type_304773">euch</w>
@@ -30937,7 +30938,7 @@
             <w xml:id="WGM_31060_1" lemmaRef="lexicon.xml#lemma_5693" pos="VRB" ana="lexicon.xml#lemma_5693_sense_8912" corresp="variants.xml#type_19957">sprach</w>
             <pc xml:id="WGM_31060_2" join="left">:</pc>
             <pc xml:id="WGM_31060_3" join="right">&lt;</pc>
-            <w xml:id="WGM_31060_4">fraw</w>
+            <w xml:id="WGM_31060_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <pc xml:id="WGM_31060_5" join="left">,</pc>
             <w xml:id="WGM_31060_6" lemmaRef="lexicon.xml#lemma_1762" pos="PRO" ana="lexicon.xml#lemma_1762_sense_2752" corresp="variants.xml#type_6020">es</w>
             <w xml:id="WGM_31060_7" lemmaRef="lexicon.xml#lemma_1385" pos="VRB" ana="lexicon.xml#lemma_1385_sense_2133" corresp="variants.xml#type_169522">empeüt</w>

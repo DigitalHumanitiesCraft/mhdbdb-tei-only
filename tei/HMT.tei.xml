@@ -124,6 +124,7 @@
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 77 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
+      <change when="2026-09-06" who="#editor">#387 (fro): 4 homographie-ambige Tokens der Form fro kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260) bzw. vrô ADJ/ADV (lemma_7250); LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/387-fro/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -4599,7 +4600,7 @@
             <w xml:id="HMT_17100_4" lemmaRef="lexicon.xml#lemma_6135" pos="NOM" ana="lexicon.xml#lemma_6135_sense_9676" corresp="variants.xml#type_21634">tohter</w>
             <w xml:id="HMT_17100_5">waz</w>
             <w xml:id="HMT_17100_6" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3512">dez</w>
-            <w xml:id="HMT_17100_7">fro</w>
+            <w xml:id="HMT_17100_7" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="HMT_17100_8" join="left">,</pc>
             <w xml:id="HMT_17100_9" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
             <w xml:id="HMT_17100_10">clait</w>
@@ -5519,7 +5520,7 @@
             <w xml:id="HMT_19110_8" lemmaRef="lexicon.xml#lemma_16342" pos="NAM" ana="lexicon.xml#lemma_16342_sense_28109" corresp="variants.xml#type_69714">medea</w>
             <w xml:id="HMT_19110_9" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_28131">ze</w>
             <w xml:id="HMT_19110_10" lemmaRef="lexicon.xml#lemma_48083" pos="ADV" ana="lexicon.xml#lemma_48083_sense_75590" corresp="variants.xml#type_265274">mal</w>
-            <w xml:id="HMT_19110_11">fro</w>
+            <w xml:id="HMT_19110_11" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <w xml:id="HMT_19110_12" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
           <lb n="12"/>
             <w xml:id="HMT_19120_0" lemmaRef="lexicon.xml#lemma_260" pos="NOM VRB" ana="lexicon.xml#lemma_260_sense_328" corresp="variants.xml#type_144956">anttwurt</w>
@@ -8412,7 +8413,7 @@
             <w xml:id="HMT_25240_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
             <w xml:id="HMT_25240_4">waz</w>
             <w xml:id="HMT_25240_5" lemmaRef="lexicon.xml#lemma_7075" pos="ADJ ADV" ana="lexicon.xml#lemma_7075_sense_11459" corresp="variants.xml#type_25008">vil</w>
-            <w xml:id="HMT_25240_6">fro</w>
+            <w xml:id="HMT_25240_6" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="HMT_25240_7" join="left">,</pc>
             <w xml:id="HMT_25240_8" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
             <w xml:id="HMT_25240_9" lemmaRef="lexicon.xml#lemma_1844" pos="VRB" corresp="variants.xml#type_6315">gieng</w>
@@ -16649,7 +16650,7 @@
             <w xml:id="HMT_44160_12">küng</w>
             <w xml:id="HMT_44160_13" lemmaRef="lexicon.xml#lemma_20139" pos="NAM" ana="lexicon.xml#lemma_20139_sense_33577" corresp="variants.xml#type_88773">priamus</w>
           <lb n="17"/>
-            <w xml:id="HMT_44170_0">fro</w>
+            <w xml:id="HMT_44170_0" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="HMT_44170_1" join="left">,</pc>
             <w xml:id="HMT_44170_2" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
             <w xml:id="HMT_44170_3">stund</w>

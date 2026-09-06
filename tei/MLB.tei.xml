@@ -139,6 +139,8 @@
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 2 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 1 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
+      <change when="2026-09-06" who="#editor">#387 (vrouwe, mechanischer Teil): 1 Token der Form vrouwe erstmals annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260)). Kein LLM-Lauf: annotiert wurde nur, wo die MHG-normalisierte Schreibung im gesamten Korpus ein einziges Lemma traegt, dieses genau eine Wortart fuehrt und die Schreibung dafuer genug Belege hat. Kontextpflichtige Faelle sind unangetastet geblieben (Provenienz-Log: ingest/pos-disambig/387-vrouwe/).</change>
+      <change when="2026-09-06" who="#editor">#387 (fro): 2 homographie-ambige Tokens der Form fro kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260) bzw. vrô ADJ/ADV (lemma_7250); LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/387-fro/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -238,7 +240,7 @@
           <w xml:id="MLB_100_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
           <w xml:id="MLB_100_1">wer</w>
           <w xml:id="MLB_100_2" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
-          <w xml:id="MLB_100_3">fro</w>
+          <w xml:id="MLB_100_3" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           <pc xml:id="MLB_100_4" join="left">,</pc>
           <w xml:id="MLB_100_5" lemmaRef="lexicon.xml#lemma_6301" pos="NOM VRB" ana="lexicon.xml#lemma_6301_sense_9929" corresp="variants.xml#type_22319">tet</w>
           <w xml:id="MLB_100_6">er</w>
@@ -652,7 +654,7 @@
           <w xml:id="MLB_600_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
           <w xml:id="MLB_600_1">was</w>
           <w xml:id="MLB_600_2" lemmaRef="lexicon.xml#lemma_20043" pos="ADV" corresp="variants.xml#type_189942">ausdermosen</w>
-          <w xml:id="MLB_600_3">fro</w>
+          <w xml:id="MLB_600_3" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           <pc xml:id="MLB_600_4" join="left">.</pc>
         </l>
         <l n="61">
@@ -2917,7 +2919,7 @@
         </l>
         <l n="311">
           <w xml:id="MLB_3110_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-          <w xml:id="MLB_3110_1">fraw</w>
+          <w xml:id="MLB_3110_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
           <w xml:id="MLB_3110_2" lemmaRef="lexicon.xml#lemma_1517" pos="PRO" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_32780">im</w>
           <w xml:id="MLB_3110_3" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3255">da</w>
           <w xml:id="MLB_3110_4" lemmaRef="lexicon.xml#lemma_1410" pos="ADV PRP" ana="lexicon.xml#lemma_1410_sense_2177" corresp="variants.xml#type_4605">engegen</w>

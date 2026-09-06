@@ -1,0 +1,26 @@
+{
+  "serie": "#216 Punkt 3 (vrouwe vor minne, die kleine Menge)",
+  "lemmas": {
+    "lemma_7260": "vrouwe (NOM): Herrin, Frau; hier die Anrede vor minne"
+  },
+  "pos": ["NOM"],
+  "corresp": {
+    "fraw|lemma_7260": "type_43131",
+    "fro|lemma_7260": "type_154744",
+    "frovwe|lemma_7260": "type_80904",
+    "frow|lemma_7260": "type_25985",
+    "vrou|lemma_7260": "type_25989"
+  },
+  "kein_typ_bedeutet_review": true,
+  "revisiondesc": {
+    "datum": "2026-09-06",
+    "titel": "#216 Punkt 3 (vrouwe vor minne)",
+    "form": "vrouwe",
+    "ziele": "vrouwe NOM (lemma_7260)",
+    "log": "ingest/pos-disambig/216-vrouwe155/",
+    "vorlage": "<change when=\"{datum}\" who=\"#editor\">{titel}: {n_annot} {n_wort} der Anredeform {form} unmittelbar vor minne erstmals annotiert (lemmaRef/pos/corresp zu {ziele}). Kein LLM-Lauf; Verfahren, Herkunft der einzelnen Entscheidungen und zurueckgehaltene Faelle im Provenienz-Log: {log}.{review_satz}</change>",
+    "kommentar_vorlage": "Die Voreinstellung des Skripts beschreibt einen LLM-Batch nach POS-TAGSET §6.3, und das trifft hier nicht zu. Bewusst NICHT im Eintrag: der Satz, die Zuordnung sei mechanisch bestimmt. Er gilt fuer 150 der 152 annotierten Tokens, aber je ein Token in SHF und GVN traegt eine mehrdeutige Schreibung und beruht auf einer redaktionellen Entscheidung. Ein Eintrag steht je Datei, also wuerde der Satz in acht von zehn Headern stimmen und in zweien nicht. Ein Header, der fuer seine Datei etwas Falsches behauptet, ist schlechter als einer, der auf das Log zeigt."
+  },
+  "kommentar_corresp": "Bestand aus authority-files/variants.xml, gemessen am 06.09.2026 gegen 217a161. Fuenf der sechs Schreibungen der Menge haben einen Bestands-Typ unter lemma_7260. Die sechste, frô (3 Tokens in RVBR), hat KEINEN: die Zirkumflex-Schreibung ist in variants.xml nur unter lemma_7250 (vrô 'froh', type_25866) gefuehrt. Diesen Typ zu setzen waere falsch, ein type gehoert zu genau einem Lemma, und extract-variants.py meldete die Kollision. Einen neuen Typ zu praegen ist genehmigungspflichtig (#387). Die drei Faelle gehen deshalb als 'kein-typ' in den Review, obwohl ihr Verdict entschieden ist; sie stehen in review-faelle.csv und im README dieses Ordners.",
+  "kommentar_kein_llm": "Diese Serie hat keinen Disambiguierungslauf. actions.json entsteht deterministisch in extract-216-vrouwe155.py: 150 Faelle sind mechanisch (ihre normalisierte Schreibung kommt im Korpus nur unter lemma_7260 vor, und lemma_7260 traegt genau eine Wortart), die uebrigen 5 tragen eine zwischen vrouwe und vrô mehrdeutige Schreibung und sind von @wachauer am 01.09.2026 in #216 entschieden. Das Feld 'herkunft' in actions.json haelt beides auseinander."
+}

@@ -135,6 +135,7 @@
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 6 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
+      <change when="2026-09-06" who="#editor">#387 (fro): 4 homographie-ambige Tokens der Form fro kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260) bzw. vrô ADJ/ADV (lemma_7250); LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/387-fro/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -419,7 +420,7 @@
             <w xml:id="DIS_290_3">waren</w>
             <w xml:id="DIS_290_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
             <w xml:id="DIS_290_5">rede</w>
-            <w xml:id="DIS_290_6">fro</w>
+            <w xml:id="DIS_290_6" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           </l>
           <l n="30">
             <w xml:id="DIS_300_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
@@ -2381,7 +2382,7 @@
             <w xml:id="DIS_2390_2">waren</w>
             <w xml:id="DIS_2390_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
             <w xml:id="DIS_2390_4" lemmaRef="lexicon.xml#lemma_3474" pos="NOM ADJ" ana="lexicon.xml#lemma_3474_sense_5501" corresp="variants.xml#type_12000">kristen</w>
-            <w xml:id="DIS_2390_5">fro</w>
+            <w xml:id="DIS_2390_5" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="DIS_2390_6" join="left">.</pc>
           </l>
           <l n="240">
@@ -3077,7 +3078,7 @@
             <w xml:id="DIS_3130_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
             <w xml:id="DIS_3130_3" lemmaRef="lexicon.xml#lemma_5998" pos="NOM" ana="lexicon.xml#lemma_5998_sense_9501" corresp="variants.xml#type_40135">tagalt</w>
             <w xml:id="DIS_3130_4" lemmaRef="lexicon.xml#lemma_106" pos="ADJ" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_258">alle</w>
-            <w xml:id="DIS_3130_5">fro</w>
+            <w xml:id="DIS_3130_5" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="DIS_3130_6" join="left">.</pc>
           </l>
           <l n="314">
@@ -3820,7 +3821,7 @@
             <w xml:id="DIS_3910_2">waren</w>
             <w xml:id="DIS_3910_3">irs</w>
             <w xml:id="DIS_3910_4" lemmaRef="lexicon.xml#lemma_2082" pos="NOM" corresp="variants.xml#type_197020">glücks</w>
-            <w xml:id="DIS_3910_5">fro</w>
+            <w xml:id="DIS_3910_5" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <pc xml:id="DIS_3910_6" join="left">,</pc>
           </l>
           <l n="392">
