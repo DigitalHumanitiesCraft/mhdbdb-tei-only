@@ -1398,8 +1398,24 @@ TRO-Einträge tragen **denselben** `biblStruct`, Keller 1858, ohne die `xml:id`
 zeichengleich. Die Datei läuft über 49.857 `<l>` mit Nummern von 1 bis 49.861
 (vier Lücken: 24278, 42798, 49440, 49789) und enthält null `div`, null
 `milestone`, null `pb`: es gibt keine Grenze, an der ein Werk aufhörte und das
-andere anfinge. TRO ist die **einzige** der 583 Siglen mit zwei Einträgen in
-`works.xml` (584 `bibl` auf 583 Siglen), und dieses eine Mal ist es richtig so.
+andere anfinge. TRO ist die **einzige** der 668 Siglen mit zwei Einträgen in
+`works.xml` (584 `bibl`, 669 Sigle-Einträge, 668 verschiedene Siglen), und
+dieses eine Mal ist es richtig so.
+
+**Hier stand zuerst „584 `bibl` auf 583 Siglen", und der Fehler ist lehrreicher
+als die Korrektur.** Gefunden hat ihn der CI-Review-Bot, mit `grep` und ohne
+Python, das ihm in seinem Job gesperrt ist. Meine Messung hatte je `bibl` nur
+die **erste** Sigle gelesen (`find` statt `findall`), und 583 ist die Zahl der
+verschiedenen *ersten* Siglen: eine Größe, die nichts bedeutet. Der Bot hat den
+Widerspruch nicht an der Zahl selbst gesehen, sondern daran, dass sie mit einer
+anderen Angabe aus demselben PR unvereinbar ist: wenn 70 der 584 Werke mehr als
+eine Sigle tragen, kann es nicht 583 Siglen auf 584 `bibl` geben.
+
+**Der eigentliche Schrecken lag woanders und ist ausgeräumt.** Dieselbe
+Methode hätte eine Doppelsigle übersehen, die nicht an erster Stelle steht, und
+darauf steht die Reichweitenaussage des ganzen Sync-Fixes. Mit `findall` über
+alle Sigle-Einträge nachgemessen: TRO bleibt die einzige, die in zwei `bibl`
+vorkommt. Die Aussage hält, aber sie hielt bis zu dieser Messung aus Glück.
 
 **Zwei Zahlen, die ich zunächst hineingeschrieben hatte, stehen hier nicht
 mehr**, und der Vorgang gehört zum Eintrag. Aus einer Websuche stammte, Konrads
