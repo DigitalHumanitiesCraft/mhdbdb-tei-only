@@ -1500,3 +1500,93 @@ liegt im PR zu diesem Eintrag und wird mit dessen Merge geschlossen.
 `fable-reviewer` und `fable-advisor` liegen jetzt unter
 `.claude/agents/`, weil das eingecheckte Gedächtnis ohne Definition unbenutzbar
 war und Regel 11 in der Cloud-Session vom 06.09. nicht erfüllbar.
+
+---
+
+## 2026-09-07 (Nachmittag) – Dreimal derselbe Fehler, und zweimal war er der Fix des vorigen
+
+Fortsetzung derselben Session. #402 (Naming-Index-Pin auf `v0.2.2-beta`,
+Zitation an drei weiteren Stellen nachgezogen) und #400 (TRO) sind gemergt,
+danach #399 als PR #403. Der Eintrag hängt an dem, was #403 gekostet hat,
+nicht an dem, was es geliefert hat.
+
+**Die Prämisse des Tickets war abgelaufen, und das hat es von einer
+Korpusänderung zu einem Gate verkleinert.** #399 beschreibt systematische
+Drift: „nur 417 von 667 Dateien führen überhaupt einen Identifier außer der
+Sigle". Die 417 und die 250 stimmen, die Folgerung nicht: für alle 250 hat
+`works.xml` ebenfalls nichts. Gegenprobe über `@corresp`: `works.xml` liefert
+genau 355 handschriftencensus, 217 GND und 131 wikidata, deckungsgleich mit
+dem Header-Bestand. Nach #398 und #400 ist die Drift **null, 667 von 667**.
+Der Generator ist heute ein No-op, und der Wert der Arbeit liegt allein
+darin, dass es so bleibt. Kein Korpus- und kein Indexbestand angefasst, also
+auch kein Versions-Bump.
+
+**Der teure Teil war eine Kette aus drei Klasse-A-Befunden, von denen zwei
+erst durch den Fix des vorigen entstanden sind.**
+
+1. `--all` fiel still in den alten lxml-Pfad. Der löscht alle
+   Nicht-Sigle-`idno`, also auch die 19 `mwb-sigle`, die `works.xml` gar nicht
+   kennt (gemessen auf einer Korpuskopie: 19 Dateien vorher, 0 nachher). Fix:
+   `works` läuft immer über den chirurgischen Schreiber.
+2. Genau dieser Fix las `syncers_to_run` vor der Bindung. `--works`,
+   `--works --dry-run`, `--all` und `--all --dry-run` schrieben korrekt und
+   endeten dann im `UnboundLocalError` mit Exit 1. Die Abhilfezeile des Gates
+   nennt `--works`, und genau dieses Kommando lief in den Traceback. Fix: den
+   Block hinter die Berechnung schieben.
+3. Genau dieser Fix schob den Block zugleich **vor** den Stub-Guard. Damit
+   schrieb `--works --persons` erst das Korpus und fiel danach mit
+   „Refusing to report a misleading '0 updated' success" durch, während der
+   Guard genau das verhindern sollte. Auf `main` stand er vor jeder
+   Schreibarbeit. Fix: Reihenfolge wiederhergestellt.
+
+Dreimal hintereinander die #397-Frage auf demselben Code, und dreimal hat
+niemand sie von sich aus gestellt, sondern erst der nächste Reviewer. Das ist
+der eigentliche Ertrag des Tages: **die Frage einmal zu stellen genügt nicht,
+wenn der Fix selbst wieder ein Fix ist.** Sie gehört an jede Runde, nicht an
+den Diff.
+
+**Der CI-Bot fand zwei davon bei grünem Check.** In `CLAUDE.md` steht das
+Muster andersherum, mit vier Läufen belegt: roter Check, der kein Befund ist.
+Hier war es die Umkehrung, und die Ursache ist dieselbe Sorte Zufall. Das Gate
+in `data-integrity.yml` ruft `--check` auf, und dieser Zweig kehrt vor der
+defekten Stelle zurück; die kaputten Modi berührte kein Job. Die Regel bleibt
+also, sie gilt nur in beide Richtungen: **die Farbe des Checks ist keine
+Aussage über die Befunde, in keiner der beiden Richtungen.** Der Bot hat
+außerdem beide Male ohne Python gearbeitet (die Berechtigungsschicht lehnt
+`python3 <script>` ab) und den Blocker aus dem reinen Lesen des Kontrollflusses
+abgeleitet, mit der Ansage, worauf er sich stützt und was er nicht messen
+konnte.
+
+**Zwei Zahlen aus dem eigenen PR-Body zurückgezogen statt belegt.** „`--all
+--dry-run`: 0 Änderungen" stammte aus einer Messung vor Befund 1 und stimmte
+für den gepushten Stand nicht; der Bot hat genau das vermutet und es traf zu.
+Und die Aufschlüsselung „543 identisch, 119 nur Reihenfolge" widersprach der
+Messung der lokalen Runde (540/116/6/5). Die fünf inhaltlich abweichenden
+Dateien, auf die es ankommt, sind zweimal unabhängig gemessen und stehen; die
+Aufschlüsselung braucht niemand und ist deshalb gelöscht statt nachgemessen.
+Vier Reviewrunden, acht Befunde, und zwei der acht waren hausgemacht.
+
+**`mwb-sigle` ist gegen die Vorgabe im Ticket nicht migriert worden, und der
+Grund ist ein Modellbruch.** `works.xml` führt Identifier je Werk, das MWB
+vergibt seine Siglen je Handschriftenredaktion (`NibA`, `NibB`, `NibC`,
+`NibD` sind im Quellenverzeichnis vier Einträge). Fünf der 19 betroffenen
+Werke tragen mehr als eine Sigle; aus `works.xml` generiert bekämen **zehn
+Dateien eine fremde MWB-Sigle**, und alle zehn existieren. Beim Nachmessen für
+das Folgeticket kam der Fall dazu, der die Richtung umdreht: `FB` und `FH`
+tragen dieselbe MWB-Sigle `UvLFrd`, gehören aber zu zwei verschiedenen Werken.
+Die Zuordnung ist also in beiden Richtungen mehrdeutig, und eine Ablage je Werk
+kann keine der beiden abbilden. Als **#404** ausgelagert, `auto:pair`. Bis
+dahin bleibt der Typ header-eigen, festgeschrieben in `CONTRACTS.md` F.4.
+
+**Ein Test war seit jeher rot und niemandem aufgefallen.**
+`main-site.spec.js:50` hängte seinen Console-Listener erst nach `page.goto` an.
+Sonde: Listener vor `goto` findet „[MainSiteApp] Ready" als Logzeile 13 von 15,
+Listener danach findet **null** Zeilen überhaupt, weil `goto` erst nach 12,8 s
+auflöst und die Initialisierung dann durch ist. Mit `page.reload()` behoben,
+nicht übersprungen, plus Gegenprobe, dass der Test noch rot werden kann.
+
+**Phase:** #399 geschlossen, #404 neu. Offen und an Menschen hängend: KZWs 13
+zurückgehaltene `fro`-Fälle (#387), sieben Tickets, deren Code gemergt ist und
+die auf Abnahme warten, die Lizenzeinschätzung zu #262, die Burch-Mail für
+#225. Von 60 offenen Vorgängen sind 53 `auto:blocked` oder `auto:pair`; der
+Rückstand ist damit weniger ein Arbeits- als ein Entscheidungsrückstand.
