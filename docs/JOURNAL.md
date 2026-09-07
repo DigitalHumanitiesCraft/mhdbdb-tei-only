@@ -1599,11 +1599,12 @@ Aufräum- und Doku-Durchgang am Ende der Session. Alle sechs Gates liefen vorher
 grün, gefunden wurde trotzdem dreierlei, und die zwei interessanten Funde haben
 dieselbe Form: **ein Gate, das genau daneben greift.**
 
-**Der Workflow hatte seit dem Vormittag dreizehn Prüfungen, `DEVELOPMENT.md`
-beschrieb zwölf.** Die neue aus #399 fehlte, und mit ihr verschob sich die
-Nummerierung: die Zeile über die Diff-Basis verwies auf „checks 3 and 10", die
-seither 4 und 11 sind, und Prüfung 7 verwies auf „BEFORE check 8", die jetzt 9
-ist. **`check-doc-inventories.py` konnte das nicht finden, und zwar nicht aus
+**Der Workflow führte mehr Prüfungen, als `DEVELOPMENT.md` beschrieb.** Die neue
+aus #399 fehlte, und mit ihr verschob sich die Nummerierung: die Zeile über die
+Diff-Basis verwies auf „checks 3 and 10", Prüfung 7 auf „BEFORE check 8". Die
+Zahlen dieses ersten Durchgangs (dreizehn Prüfungen, 4 und 11, check 9) waren
+ein Zwischenstand und sind von Runde 2 weiter verschoben worden; **verbindlich
+ist die Endnummerierung unten.** **`check-doc-inventories.py` konnte das nicht finden, und zwar nicht aus
 Nachlässigkeit:** es deckt `scripts/audit/` und den Verzeichnisbaum von
 `scripts/README.md` ab. Der neue Gate-Aufruf ist beides nicht, er liegt in
 `scripts/sync/` und ist ein **Workflow-Schritt**, kein Skript-Eintrag. Zwischen
@@ -1655,8 +1656,11 @@ Schritt rot werden, den die Liste nicht führte und für den es unter „Debuggi
 failures" keinen Eintrag gab. Selbst nachgezählt statt die Zahl des Bots zu
 übernehmen: **16 Gate-Schritte, 15 Prüfungen** in der Zählweise der Doku, die
 `Regenerate` und `Fail if differs` zusammenfasst. Der Bot war bei 15/14, also um
-eins daneben; die Liste steht jetzt auf 15 und deckt sich Position für Position
-mit dem Workflow.
+eins daneben, und hat die Korrektur in seiner zweiten Runde selbst bestätigt.
+**Endstand:** 15 Prüfungen, Budget-Selbsttest und Budget als 5 und 6, Diff-Basis
+für 4 und 13, `variants.xml` vor Prüfung 11. Die Liste deckt sich damit Position
+für Position mit dem Workflow, gegengeprüft über einen Abgleich beider
+Reihenfolgen.
 
 Zweitens: die neu geschriebene ROADMAP widersprach sich selbst. Zeile 60 führte
 #216 im Präsens als „still ready to start" mit rund 7.000 Tokens, während der
