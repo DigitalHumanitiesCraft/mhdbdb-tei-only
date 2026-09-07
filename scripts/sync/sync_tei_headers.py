@@ -650,7 +650,8 @@ def pruefe_werk_identifier() -> int:
     das Korpus schrumpft dabei von 1.432,5 auf 1.430,6 MB, reine
     Einrueckung). Ein Gate auf dem Dateidiff waere dauerhaft rot.
 
-    Returns die Zahl der abweichenden Dateien (0 = alles synchron).
+    Returns die Zahl der beanstandeten Dateien (0 = alles synchron):
+    abweichende plus solche ohne lesbaren msIdentifier.
     """
     syncer = WorksSyncer(AUTHORITY_DIR / 'works.xml', TEI_DIR)
     nach_sigle = syncer.load_authority_data()
@@ -684,19 +685,30 @@ def pruefe_werk_identifier() -> int:
             abweichend.append((sigle, ist, soll))
 
     logger.info(f"[check] {geprueft} Dateien gegen works.xml geprueft")
-    if ohne_msid:
-        logger.warning(f"[check] ohne msIdentifier: {', '.join(ohne_msid)}")
 
-    if not abweichend:
+    if not abweichend and not ohne_msid:
         logger.info("[check] OK: Header und works.xml stimmen bei "
                     f"{', '.join(GESPIEGELTE_TYPEN)} ueberein")
         return 0
 
-    logger.error(f"[check] {len(abweichend)} Datei(en) weichen von works.xml ab:")
-    for sigle, ist, soll in abweichend:
-        logger.error(f"  {sigle}: Header {ist or '{}'} gegen works.xml {soll or '{}'}")
+    # Eine Datei ohne msIdentifier (oder eine, die lxml nicht parst) faellt
+    # hart durch und nicht als Warnung: works.xml fuehrt fuer sie Identifier,
+    # die im Header dann nirgends stehen, und genau diese Drift soll das Gate
+    # verhindern. Bis 07.09.2026 folgenlos, 667 von 667 Dateien haben einen
+    # msIdentifier. Der weiche Vorgaenger war ein Loch, das der CI-Review-Bot
+    # auf PR #403 gefunden hat: der ganze Block konnte verschwinden und das
+    # Gate blieb gruen.
+    if ohne_msid:
+        logger.error(f"[check] {len(ohne_msid)} Datei(en) ohne lesbaren "
+                     f"msIdentifier: {', '.join(ohne_msid)}")
+
+    if abweichend:
+        logger.error(f"[check] {len(abweichend)} Datei(en) weichen von works.xml ab:")
+        for sigle, ist, soll in abweichend:
+            logger.error(f"  {sigle}: Header {ist or '{}'} gegen works.xml {soll or '{}'}")
+
     logger.error("Beheben mit: python scripts/sync/sync_tei_headers.py --works")
-    return len(abweichend)
+    return len(abweichend) + len(ohne_msid)
 
 
 
@@ -762,23 +774,6 @@ Examples:
                          'sind deklarierte Stubs).')
         return 1 if pruefe_werk_identifier() else 0
 
-    # works laeuft IMMER ueber den chirurgischen Schreiber, auch unter --all.
-    # Der alte lxml-Pfad ist nur noch ueber das ausdrueckliche --bibl-struct
-    # erreichbar, und das ist kein Geschmacksunterschied: er loescht alle
-    # Nicht-Sigle-idno (Zeile 339, `idno[@type!="sigle"]`) und damit auch die
-    # 19 mwb-sigle, die works.xml nicht kennt und nie zurueckgeben kann.
-    # Gemessen am 07.09.2026 auf einer Korpuskopie: 19 Dateien mit mwb-sigle
-    # vorher, 0 nachher. --check faellt darauf nicht herein, weil es
-    # mwb-sigle bewusst nicht prueft. Ein --all, das still in diesen Pfad
-    # faellt, waere also ein Datenverlust ohne Warnung.
-    if (args.works or args.all) and not args.bibl_struct:
-        schreibe_werk_identifier(dry_run=args.dry_run)
-        logger.info("Hinweis: die listBibl wurde nicht angefasst (dafuer "
-                    "--bibl-struct, siehe dessen Hilfetext).")
-        syncers_to_run = [s for s in syncers_to_run if s != 'works']
-        if not syncers_to_run:
-            return 0
-    
     # Determine which syncers to run
     syncers_to_run = []
     
@@ -798,6 +793,27 @@ Examples:
         parser.print_help()
         logger.error("\nError: Must specify at least one authority file (--all, --works, etc.)")
         return 1
+
+    # works laeuft IMMER ueber den chirurgischen Schreiber, auch unter --all.
+    # Der alte lxml-Pfad ist nur noch ueber das ausdrueckliche --bibl-struct
+    # erreichbar, und das ist kein Geschmacksunterschied: er loescht alle
+    # Nicht-Sigle-idno (`idno[@type!="sigle"]` im WorksSyncer) und damit auch
+    # die 19 mwb-sigle, die works.xml nicht kennt und nie zurueckgeben kann.
+    # Gemessen am 07.09.2026 auf einer Korpuskopie: 19 Dateien mit mwb-sigle
+    # vorher, 0 nachher. --check faellt darauf nicht herein, weil es
+    # mwb-sigle bewusst nicht prueft. Ein --all, das still in diesen Pfad
+    # faellt, waere also ein Datenverlust ohne Warnung.
+    #
+    # Dieser Block steht bewusst NACH der Berechnung von syncers_to_run: er
+    # liest die Liste, und eine fruehere Stellung war ein UnboundLocalError
+    # (gefunden vom CI-Review-Bot auf PR #403).
+    if (args.works or args.all) and not args.bibl_struct:
+        schreibe_werk_identifier(dry_run=args.dry_run)
+        logger.info("Hinweis: die listBibl wurde nicht angefasst (dafuer "
+                    "--bibl-struct, siehe dessen Hilfetext).")
+        syncers_to_run = [s for s in syncers_to_run if s != 'works']
+        if not syncers_to_run:
+            return 0
 
     # Guard against the silent-stub trap: an explicit request for an
     # unimplemented syncer must fail loudly; --all just skips them with a note.

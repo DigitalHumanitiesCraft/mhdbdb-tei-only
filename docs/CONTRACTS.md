@@ -797,7 +797,7 @@ Any ingest pipeline that mints new lemma/sense IDs in the corpus MUST write them
 
 ### F.4 Work Identity: `works.xml` Leads, the TEI Header Mirrors
 
-**Contract:** For the identifier types `handschriftencensus`, `GND` and `wikidata`, `authority-files/works.xml` is the master and the `msIdentifier` of each TEI header is a mirror. The mirror is not maintained by hand: `scripts/sync/sync_tei_headers.py --works` writes it, `--check` gates it in `data-integrity.yml` (#399).
+**Contract:** For the identifier types `handschriftencensus`, `GND` and `wikidata`, `authority-files/works.xml` is the master and the `msIdentifier` of each TEI header is a mirror. The mirror is not maintained by hand: `scripts/sync/sync_tei_headers.py --works` writes it, `--check` gates it in `data-integrity.yml` (#399). The gate fails on a content difference and equally on a file whose `msIdentifier` is missing or unparsable: `works.xml` carries identifiers for it either way, so a vanished block is the same drift as a wrong value.
 
 **Why this is a mirror and not a reduction.** The header could carry only the sigle and resolve the rest through `@corresp`, and the surface does exactly that. It keeps the copy anyway, because this repository is called „The entire MHDBDB stored in TEI files only": a single downloaded `.tei.xml` has to stay citable on its own. Redundancy without a generator drifts, with one it does not; the same pattern already carries `variants.xml` (`extract-variants.py` plus a freshness step) and the injected nav and footer (`build-pages.py --check`).
 
