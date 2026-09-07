@@ -178,9 +178,19 @@ class WorksSyncer(AuthoritySyncer):
                 ...
             }
 
-        Nebenbei wird `self.work_id_to_work` gefuellt, dieselben Datensaetze
-        unter ihrer work_id. Eine Sigle identifiziert naemlich NICHT eindeutig
-        ein Werk: TRO traegt sowohl work_69 (Konrad von Wuerzburg,
+        Nebenbei wird `self.work_by_id_and_sigle` gefuellt, geschluesselt nach
+        (work_id, sigle). Beide Teile des Schluessels sind noetig: die work_id,
+        weil eine Sigle nicht eindeutig ein Werk identifiziert, und die Sigle,
+        weil `biblStructs` nach `@key = sigle` gefiltert ist und sich damit
+        innerhalb desselben Werks je Sigle unterscheidet. 70 der 584 Werke
+        tragen mehr als eine Sigle, und die Zahl der biblStruct weicht dort
+        tatsaechlich ab (work_205: DES2 hat 1, GSP hat 2; work_668: WG 1,
+        WGA 2, WGI 2). Eine Ablage allein nach work_id hielte den Datensatz
+        der zuletzt gelesenen Sigle und haenge einer Datei die Bibliographie
+        einer anderen an.
+
+        Warum es die zweite Ablage ueberhaupt braucht: TRO traegt sowohl
+        work_69 (Konrad von Wuerzburg,
         'Trojanerkrieg') als auch work_c7da236c-... (die anonyme
         'Trojanerkrieg'-Fortsetzung), weil die Datei tei/TRO.tei.xml beide
         Texte enthaelt (Ausgabe Keller 1858, Verse 1 bis 49861). Bei einer
@@ -193,7 +203,7 @@ class WorksSyncer(AuthoritySyncer):
         eine (TRO) weicht von der Sigle-Aufloesung ab.
         """
         sigle_to_work = {}
-        self.work_id_to_work = {}
+        self.work_by_id_and_sigle = {}
 
         tree = etree.parse(str(self.authority_file))
         root = tree.getroot()
@@ -254,7 +264,7 @@ class WorksSyncer(AuthoritySyncer):
                     )
 
                 sigle_to_work[sigle] = work_data
-                self.work_id_to_work[work_id] = work_data
+                self.work_by_id_and_sigle[(work_id, sigle)] = work_data
 
                 logger.debug(
                     f"Works: {sigle} → {work_id} "
@@ -294,14 +304,26 @@ class WorksSyncer(AuthoritySyncer):
         # Werk fuehren.
         corresp = ms_identifier.get('corresp') or ''
         corresp_work_id = corresp.split('#')[-1] if '#' in corresp else ''
-        by_id = getattr(self, 'work_id_to_work', {})
-        if corresp_work_id in by_id and corresp_work_id != data.get('work_id'):
-            logger.info(
-                f"[works] {sigle}: @corresp zeigt auf {corresp_work_id}, "
-                f"die Sigle-Aufloesung auf {data.get('work_id')}. "
-                f"Es gilt {corresp_work_id}."
-            )
-            data = by_id[corresp_work_id]
+        if corresp_work_id and corresp_work_id != data.get('work_id'):
+            # Direkter Zugriff, kein getattr mit Voreinstellung: fehlt das
+            # Attribut, ist load_authority_data nicht gelaufen, und dann soll
+            # das laut schreien statt stumm auf die Sigle zurueckzufallen
+            # (dieselbe Regel wie beim harten Abbruch weiter unten).
+            ziel = self.work_by_id_and_sigle.get((corresp_work_id, sigle))
+            if ziel is not None:
+                logger.info(
+                    f"[works] {sigle}: @corresp zeigt auf {corresp_work_id}, "
+                    f"die Sigle-Aufloesung auf {data.get('work_id')}. "
+                    f"Es gilt {corresp_work_id}."
+                )
+                data = ziel
+            else:
+                logger.warning(
+                    f"[works] {sigle}: @corresp zeigt auf {corresp_work_id}, "
+                    f"aber dieses Werk fuehrt die Sigle {sigle} nicht. "
+                    f"Es bleibt bei der Sigle-Aufloesung "
+                    f"({data.get('work_id')}); pruefe das @corresp."
+                )
 
         if not dry_run:
             # Remove existing external ID idno elements (but keep sigle idno)
