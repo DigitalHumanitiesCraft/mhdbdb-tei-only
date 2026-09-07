@@ -7,7 +7,7 @@ metadata:
 
 Review-Runde 1 zu e8cb256 (Zweig `claude/agents-setup-network-check-08f1ri`, #395 Punkt 3) am 2026-09-07.
 
-**Die Falle, die der Diff nicht zeigt:** `scripts/sync/sync_tei_headers.py` (`WorksSyncer.load_authority_data`, Zeile 181 bis 241) baut `sigle_to_work[sigle] = work_data` ohne Kollisionspruefung. `authority-files/works.xml` hat 584 `bibl` auf 583 Siglen; TRO ist die einzige Sigle mit zwei Eintraegen (`work_69` Konrad, hc 212 / GND 4285313-8 / Q66770444, und `work_c7da236c-...` Fortsetzung, hc 929 / GND 1181164893, kein Wikidata). Der zweite steht spaeter in der Datei und gewinnt: `d['TRO']['work_id'] == 'work_c7da236c-...'`. `update_tei_header` (Zeile 265 ff.) loescht alle Nicht-Sigle-`idno` im `msIdentifier` und schreibt hc/GND/wikidata aus dem Mapping neu; `@corresp` fasst es nicht an. Auf einer Kopie simuliert: ein Header mit 212 / 4285313-8 / Q66770444 wird zu 929 / 1181164893, Wikidata weg, corresp bleibt `work_69`. DATA-MODEL Authority-Checkliste Schritt 1 schreibt genau diesen Lauf fuer jede works.xml-Aenderung vor.
+**Die Falle, die der Diff nicht zeigt:** `scripts/sync/sync_tei_headers.py` (`WorksSyncer.load_authority_data`, Zeile 181 bis 241) baut `sigle_to_work[sigle] = work_data` ohne Kollisionspruefung. `authority-files/works.xml` hat 584 `bibl`, 669 Sigle-Eintraege und 668 verschiedene Siglen; TRO ist die einzige Sigle mit zwei Eintraegen (`work_69` Konrad, hc 212 / GND 4285313-8 / Q66770444, und `work_c7da236c-...` Fortsetzung, hc 929 / GND 1181164893, kein Wikidata). Der zweite steht spaeter in der Datei und gewinnt: `d['TRO']['work_id'] == 'work_c7da236c-...'`. `update_tei_header` (Zeile 265 ff.) loescht alle Nicht-Sigle-`idno` im `msIdentifier` und schreibt hc/GND/wikidata aus dem Mapping neu; `@corresp` fasst es nicht an. Auf einer Kopie simuliert: ein Header mit 212 / 4285313-8 / Q66770444 wird zu 929 / 1181164893, Wikidata weg, corresp bleibt `work_69`. DATA-MODEL Authority-Checkliste Schritt 1 schreibt genau diesen Lauf fuer jede works.xml-Aenderung vor.
 
 Kein Gate haelt Header-`idno` gegen works.xml: `check-authority-cross-refs.py` und `audit-tei-corpus.py` greppen weder `handschriftencensus` noch `msIdentifier` (gemessen). Der Reader (`tei-text-reader.js` ab Zeile 332) nimmt hc/GND/wikidata aus dem Work-Objekt des Authority-Index, nicht aus dem Header; Header-`idno` sind also nirgends nutzersichtbar und in keinem Build (`build-corpus-index.py` liest nur `idno[@type="sigle"]` und `msIdentifier/@corresp`, Zeile 94 und 130).
 
@@ -24,3 +24,24 @@ Reihenfolge-Konvention im `msIdentifier`, ueber alle 667 Dateien gemessen: sigle
 **Verfahren alt/neu-Lauf ohne Schreiben ins Repo:** `git show <alt>:scripts/sync/sync_tei_headers.py > scratch/old_sync.py`, dann beide Fassungen per `importlib.util.spec_from_file_location` laden (vorher `sys.path.insert(0, '<repo>/scripts')` fuer `corpus_files`) und `WorksSyncer(works_xml, tei_dir=<Kopie>)` mit Kopien von `tei/` im Scratchpad instanziieren. `diff -rq` der beiden Kopien liefert die Differenzmenge; der Vergleich gegen das Repo ist wegen `remove_blank_text` + `pretty_print` wertlos (667 Dateien differieren im Layout).
 
 **Runde 3 (0c9b8e5, 07.09.2026):** Schluessel (work_id, sigle), 669 Eintraege bei 668 Siglen. In-process-Gegenprobe alt/neu ueber 667 Dateien ohne Korpuskopie: beide Fassungen auf je einen frisch geparsten Baum anwenden und `etree.tostring(pretty_print=True)` vergleichen, 0 Differenzen; das spart die 1,4 GB Kopie. Der neue else-Zweig (corresp-Werk fuehrt die Sigle nicht) auf mutierter DES2-Kopie ausgefuehrt: warnt, schreibt Sigle-Aufloesung, laesst das falsche @corresp stehen, zaehlt als updated, Exit 0. Fehlt das Ablage-Attribut, faengt `_update_single_tei` den AttributeError als ERROR-Log pro Datei ab, kein Abbruch. Issue-Kommentare: api.github.com 403, die HTML-Seite meldet 0 Kommentare auch wenn welche existieren (clientseitig gerendert), also nicht messbar.
+
+**Runde 4 und 5, vom CI-Bot (07.09.2026):** die Zahl in diesem Eintrag stand
+zuerst auf "584 bibl auf 583 Siglen" und war falsch. Herkunft: je `bibl` wurde
+nur die ERSTE Sigle gelesen (`find` statt `findall`), 583 ist damit die Zahl der
+verschiedenen ersten Siglen und bedeutet nichts. Richtig sind 584 `bibl`, 669
+Sigle-Eintraege, 668 verschiedene Siglen. **Die Lehre ist nicht die Zahl:**
+dieselbe Methode haette eine Doppelsigle uebersehen, die nicht an erster Stelle
+steht, und genau darauf steht die Reichweitenaussage des Fixes. Mit `findall`
+nachgemessen bleibt TRO die einzige. Wer hier nach Siglen zaehlt, nimmt
+`findall` und pruefe die Zahl gegen eine zweite Groesse aus demselben Text: der
+Bot hat den Fehler nicht an der Zahl gesehen, sondern an ihrem Widerspruch zu
+den 70 Mehrfach-Siglen-Werken aus demselben PR.
+
+Zwei Messungen aus derselben Runde, damit sie niemand wiederholen muss:
+`update_tei_header` loescht in Abschnitt 2 alle `biblStruct` und schreibt
+`data['biblStructs']` neu; waere die Liste leer, bliebe `listBibl` leer,
+waehrend die Datei wegen Abschnitt 1 trotzdem geschrieben wird. Gemessen:
+**0 von 669 Paaren (work_id, sigle) haben eine leere biblStruct-Liste**, das
+Risiko ist heute rein hypothetisch. Und: eine Zahl in diesem Verzeichnis ist
+Eingabe fuer den naechsten Lauf, nicht Prosa. Ein Eintrag, der sich selbst
+widerspricht, liefert die Grundgesamtheit fuer die naechste Aussage.
