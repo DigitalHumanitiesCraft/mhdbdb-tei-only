@@ -53,6 +53,15 @@ test.describe('Main Site', () => {
             logs.push(msg.text());
         });
 
+        // Neu laden, NACHDEM der Listener haengt. Das beforeEach hat schon
+        // navigiert, und `page.goto` loest erst auf, wenn die Initialisierung
+        // durch ist: gemessen am 07.09.2026 loest goto nach 12,8 s auf und der
+        // Ladeschirm verschwindet 38 ms spaeter, "[MainSiteApp] Ready" ist
+        // Logzeile 13 von 15 und faellt damit vor das Anhaengen. Ohne dieses
+        // reload zeichnet der Listener NULL Zeilen auf und der Test ist rot,
+        // ohne dass an der Anwendung etwas fehlt.
+        await page.reload();
+
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
 
         // App logs "[MainSiteApp] Ready" when fully initialized
