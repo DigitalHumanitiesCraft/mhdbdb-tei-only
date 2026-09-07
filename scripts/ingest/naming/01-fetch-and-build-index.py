@@ -142,8 +142,8 @@ BEKANNTE_ANFANGSMARKER = {
 # stehen sie nur, damit die Pruefung sie nicht aus einem Satz herausparsen muss;
 # in den Index geht weiterhin ausschliesslich SOURCE_META, unveraendert im
 # Wortlaut, damit der Byte-Vergleich des Freshness-Gates gueltig bleibt.
-QUELL_VERSION = "v0.2.1-beta"
-QUELL_DOI = "10.5281/zenodo.21916576"
+QUELL_VERSION = "v0.2.2-beta"
+QUELL_DOI = "10.5281/zenodo.22248457"
 
 SOURCE_META = {
     "repo": "https://github.com/" + REPO,
