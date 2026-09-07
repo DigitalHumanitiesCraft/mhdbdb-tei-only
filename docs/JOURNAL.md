@@ -1590,3 +1590,91 @@ zurückgehaltene `fro`-Fälle (#387), sieben Tickets, deren Code gemergt ist und
 die auf Abnahme warten, die Lizenzeinschätzung zu #262, die Burch-Mail für
 #225. Von 60 offenen Vorgängen sind 53 `auto:blocked` oder `auto:pair`; der
 Rückstand ist damit weniger ein Arbeits- als ein Entscheidungsrückstand.
+
+---
+
+## 2026-09-07 (Aufräumlauf) – Zwei Doku-Stellen waren falsch, und beide lagen im toten Winkel eines Gates
+
+Aufräum- und Doku-Durchgang am Ende der Session. Alle sechs Gates liefen vorher
+grün, gefunden wurde trotzdem dreierlei, und die zwei interessanten Funde haben
+dieselbe Form: **ein Gate, das genau daneben greift.**
+
+**Der Workflow führte mehr Prüfungen, als `DEVELOPMENT.md` beschrieb.** Die neue
+aus #399 fehlte, und mit ihr verschob sich die Nummerierung: die Zeile über die
+Diff-Basis verwies auf „checks 3 and 10", Prüfung 7 auf „BEFORE check 8". Die
+Zahlen dieses ersten Durchgangs (dreizehn Prüfungen, 4 und 11, check 9) waren
+ein Zwischenstand und sind von Runde 2 weiter verschoben worden; **verbindlich
+ist die Endnummerierung unten.** **`check-doc-inventories.py` konnte das nicht finden, und zwar nicht aus
+Nachlässigkeit:** es deckt `scripts/audit/` und den Verzeichnisbaum von
+`scripts/README.md` ab. Der neue Gate-Aufruf ist beides nicht, er liegt in
+`scripts/sync/` und ist ein **Workflow-Schritt**, kein Skript-Eintrag. Zwischen
+den beiden Inventaren liegt genau diese Naht.
+
+**`docs/features/114-tabellenansicht-korpussuche.md` stand einen Monat zu lang.**
+#114 ist seit dem 05.08. geschlossen, und der JOURNAL-Eintrag von damals sagt
+den Auftrag selbst: „bei Close in Stable-Docs bereits destilliert → löschen".
+Vor dem Löschen gegengeprüft, dass das Wissen wirklich woanders steht: Keyness
+normativ in `CONTRACTS.md` §H.1, die Ansicht samt der Entscheidung „die
+Gesamtzeile wird bewusst nicht exportiert" in `FEATURES.md`. Beides da, Datei
+gelöscht, Git-History ist das Archiv.
+
+**Die ROADMAP beschrieb seit fünf Wochen den Stand von Anfang August.** Ihr
+Abschnitt „Now" führte Frauenlob, #58 und #251 als das Aktuelle, während
+seither #235, #369, #216, #387, #395 und #399 gelaufen sind. Neu geschrieben auf
+den Befund, der die Planung heute tatsächlich bestimmt und der beim Lesen aller
+62 offenen Vorgänge herausgekommen ist: **48 `auto:blocked`, 7 `auto:pair`, 6
+`auto:checkin`, plus #44.** 55 von 62 kann keine Session bewegen. Der Rückstand
+ist ein Entscheidungsrückstand.
+
+**Und ein zweiter toter Winkel, im selben Dokument.** Der Absatz zu #124 kündigte
+seit zwei Monaten offene Arbeit an („was offen bleibt, ist die Freigabe der DSB
+und der Dashboard-Zugang"), obwohl KZW das Ticket am 10.07. geschlossen hat.
+`pruefe_roadmap()` sieht das nicht, und sein eigener Docstring sagt warum: es
+prüft **nur** die erste Spalte einer Tabellenzeile, weil ein Gate, das jede `#N`
+im Fließtext prüft, beim ersten Lauf 45 Zeilen gemeldet hätte und dann
+abgeschaltet worden wäre. Die Enge ist bewusst gewählt und richtig; der Preis
+ist genau dieser Absatz. Er ist jetzt korrigiert, und die Notiz dazu steht
+daneben, damit der nächste Leser nicht denkt, das Gate habe versagt.
+
+Nebenbei geklärt, weil es an #255 hängt: der Matomo-Dashboard-Zugang ist keine
+Projektaufgabe, sondern eine Anfrage an die IT Services (Lesezugriff auf
+Site-ID 15). Ob die DSB-Eckdaten je beantwortet wurden, hält dieses
+Repositorium nicht fest.
+
+**Was sonst gemessen und in Ordnung war:** Indexversionen Code gegen
+`TEI-MODEL.md` §11 und `INDEX.md` deckungsgleich (4.2.13 / 1.9.3), kein
+Verweis auf einen heute geschlossenen Vorgang als offen, Arbeitsbaum sauber,
+kein offener PR, mein Branch beim Merge remote gelöscht.
+
+**Runde 2, vom CI-Review-Bot, und beide Befunde sind Restlücken derselben Sorte.**
+Erstens: die reparierte Prüfliste war immer noch unvollständig. Die beiden
+Budget-Schritte aus #111 fehlten, schon in der alten Zwölfer-Fassung. Das ist
+nicht bloß eine Zahl: der Budget-Schritt warnt zwar bei Überschreitung, wird
+aber rot, wenn die **Messung selbst** scheitert (`exit 2`, kein
+`continue-on-error` im Workflow, nachgesehen). Ein Lauf konnte also an einem
+Schritt rot werden, den die Liste nicht führte und für den es unter „Debugging
+failures" keinen Eintrag gab. Selbst nachgezählt statt die Zahl des Bots zu
+übernehmen: **16 Gate-Schritte, 15 Prüfungen** in der Zählweise der Doku, die
+`Regenerate` und `Fail if differs` zusammenfasst. Der Bot war bei 15/14, also um
+eins daneben, und hat die Korrektur in seiner zweiten Runde selbst bestätigt.
+**Endstand:** 15 Prüfungen, Budget-Selbsttest und Budget als 5 und 6, Diff-Basis
+für 4 und 13, `variants.xml` vor Prüfung 11. Die Liste deckt sich damit Position
+für Position mit dem Workflow, gegengeprüft über einen Abgleich beider
+Reihenfolgen.
+
+Zweitens: die neu geschriebene ROADMAP widersprach sich selbst. Zeile 60 führte
+#216 im Präsens als „still ready to start" mit rund 7.000 Tokens, während der
+neue „Now"-Abschnitt 78 Prozent und 1.547 nennt. Faktor 4,5, und zwar in einer
+Datei, die zwei Absätze weiter unten genau diesen Fehlertyp als Lehre
+formuliert. Ich hatte den Abschnitt „Now" ersetzt und den Rest der Datei nicht
+gegengelesen. Jetzt als datierter Rückblick markiert, wie die Nachbarabsätze.
+
+Beide Male greift kein Gate, und beim zweiten aus einem dritten Grund:
+`pruefe_roadmap()` sucht **geschlossene** Nummern in Tabellenzeilen, #216 ist
+offen und stand im Fließtext.
+
+**Phase:** Betrieb. Offen und beabsichtigt offen: #404 (Modellfrage mwb-sigle),
+#406 (KZW-Triage), #59 (nach Lindas Freigabe vom 02.09. vermutlich schließbar).
+Nicht von dieser Session: auf `origin/claude/235-315-wzb-tokens-lead-editor`
+liegt Julias Arbeit zu #198 Schritt 2 vom 21.08., nie gemergt, ohne PR; der
+Befund steht als Kommentar an #198.
