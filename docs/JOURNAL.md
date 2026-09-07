@@ -1645,6 +1645,30 @@ Repositorium nicht fest.
 Verweis auf einen heute geschlossenen Vorgang als offen, Arbeitsbaum sauber,
 kein offener PR, mein Branch beim Merge remote gelöscht.
 
+**Runde 2, vom CI-Review-Bot, und beide Befunde sind Restlücken derselben Sorte.**
+Erstens: die reparierte Prüfliste war immer noch unvollständig. Die beiden
+Budget-Schritte aus #111 fehlten, schon in der alten Zwölfer-Fassung. Das ist
+nicht bloß eine Zahl: der Budget-Schritt warnt zwar bei Überschreitung, wird
+aber rot, wenn die **Messung selbst** scheitert (`exit 2`, kein
+`continue-on-error` im Workflow, nachgesehen). Ein Lauf konnte also an einem
+Schritt rot werden, den die Liste nicht führte und für den es unter „Debugging
+failures" keinen Eintrag gab. Selbst nachgezählt statt die Zahl des Bots zu
+übernehmen: **16 Gate-Schritte, 15 Prüfungen** in der Zählweise der Doku, die
+`Regenerate` und `Fail if differs` zusammenfasst. Der Bot war bei 15/14, also um
+eins daneben; die Liste steht jetzt auf 15 und deckt sich Position für Position
+mit dem Workflow.
+
+Zweitens: die neu geschriebene ROADMAP widersprach sich selbst. Zeile 60 führte
+#216 im Präsens als „still ready to start" mit rund 7.000 Tokens, während der
+neue „Now"-Abschnitt 78 Prozent und 1.547 nennt. Faktor 4,5, und zwar in einer
+Datei, die zwei Absätze weiter unten genau diesen Fehlertyp als Lehre
+formuliert. Ich hatte den Abschnitt „Now" ersetzt und den Rest der Datei nicht
+gegengelesen. Jetzt als datierter Rückblick markiert, wie die Nachbarabsätze.
+
+Beide Male greift kein Gate, und beim zweiten aus einem dritten Grund:
+`pruefe_roadmap()` sucht **geschlossene** Nummern in Tabellenzeilen, #216 ist
+offen und stand im Fließtext.
+
 **Phase:** Betrieb. Offen und beabsichtigt offen: #404 (Modellfrage mwb-sigle),
 #406 (KZW-Triage), #59 (nach Lindas Freigabe vom 02.09. vermutlich schließbar).
 Nicht von dieser Session: auf `origin/claude/235-315-wzb-tokens-lead-editor`
