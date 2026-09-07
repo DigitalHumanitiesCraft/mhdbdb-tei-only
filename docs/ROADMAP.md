@@ -1,22 +1,46 @@
 # Roadmap
 
-Strategic priorities for the MHDBDB TEI Repository. Updated 2026-08-02.
+Strategic priorities for the MHDBDB TEI Repository. Updated 2026-09-07.
 
 See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/44) for the full triage matrix with per-issue status.
 
-## Now: Frauenlob is in, the question of how to count it is open
+## Now: the constraint is decisions, not capacity
 
-**#236 merged (2026-07-30, `115c3a01f`).** The layer of parallel transmission in FR3, lost during the legacy ingest, is reconstructed: 23 equally ranked tones merged into 10, 36 `<div type="parallel">`, 127 unique (tone, stanza) addresses, 1,563 of 9,595 verses recognizable as witness variants. On top of that, 42 Roman ordinal tokens were removed from the text flow and replaced by 24 `<head>`, the FR3 metadata was corrected to the 2000 supplement volume, and editorial interventions moved into `<editorialDecl>`. **Corpus index 4.2.0, authority index 1.6.5**, API rebuilt. The basis were the legacy ingest sources KZW released on 2026-07-29; they sit under `scripts/ingest/frauenlob/source/` and make the reconstruction reproducible rather than inferred.
+**Measured 2026-09-07 over all open issues: 62 open, of them 48 `auto:blocked`, 7
+`auto:pair`, 6 `auto:checkin` and the evergreen #44.** Fifty-five of sixty-two
+cannot be moved by a session at all, they need an answer from KZW, from Julia,
+from Linda or from Chris. That is the single most important fact for planning
+this project right now, and it is not a capacity problem: **the backlog is a
+decision backlog.** The number moves with every ticket opened or closed, so
+re-measure it rather than quoting this line.
 
-**The real follow-up question is new and sits with KZW: #255.** Addressable does not mean counted. Witness variants still count as independent text in word frequency, keyness, the hapax tool and the lemma distribution, and in the proximity search the versions of the same verse now stand directly one after another, which can produce self co-occurrences. The index knows no parallel feature. A decision is needed before any code is written.
+**The annotation series have arrived at their target values, and what is left of
+them are decisions.** `stat` (#369) applied 7,760 of 7,855 cases; the remaining
+95 are held back on purpose, and 51 of those wait on a lemma decision in #371
+that has shrunk to three sense choices at lemmata that already exist. `minne`
+(#216) is at 78 percent with 1,547 tokens left. The next content-word targets in
+line are `sere` (7,915), `not` (7,269), `nam` (6,709) and `leit` (6,550), and
+none of them should start while two series wait on editorial feedback.
 
-**#58 implemented (2026-08-07), option B of the three in the ticket.** The lemma explorer now carries a per-hit button „Belege suchen" that hands the lemma to the multi-lemma search in document mode. The point of it is not the button but the route parameter behind it: the hand-over carries the lemma **id**, not the written form. 477 normalization groups hold more than one lemma (993 of 43,879 entries), and a hand-over by written form would land on `matches[0]` there, that is, on a different lemma than the one the user clicked. Option A was not built on top: the corpus search is already reachable from the lemma page through the `?search=` deep link of #144, and a second route to the same surface is a second thing to keep in step. The issue stays open for KZW's acceptance.
+**Six tickets carry no work at all any more, only an acceptance:** #58, #169,
+#193, #239, #250 and #251 are built, merged and live, most of them since the end
+of July. #251 holds a shared four-step check path that covers #239 and #169 as
+well. They sit in the ping list of #44 as if they were work, and they are not.
 
-**#251 merged (`b8aa68472`) and live:** the selection in word-component mode now lives as a model on the explorer instead of as a DOM snapshot, with the counter as a live region, focus returned, hand-over in document order and six regression tests (26/26). Four review rounds; the most expensive finding was that the `aria-label` addition for homographs hung on the normalized form instead of the written one: 389 of the 477 normalization groups with several lemmata have differing spellings (measured 2026-08-07 with the canonical `normalize_mhg()`; the entry said 387 of 475 when it was written on 2026-07-29, and the difference is the normalizer, not the data: ADR-017 added the breve rules on 2026-08-06). The issue stays open for KZW's acceptance.
+**Redundancy in the TEI headers is generated rather than maintained since
+#399.** For `handschriftencensus`, `GND` and `wikidata` `works.xml` is the master
+and `sync_tei_headers.py --works --check` gates the mirror in `data-integrity.yml`;
+drift is zero at 667 of 667, so the generator is a no-op today and the point of
+it is that it stays one. The contract is [CONTRACTS §F.4](CONTRACTS.md#f4-work-identity-worksxml-leads-the-tei-header-mirrors).
+`mwb-sigle` stayed header-owned against the original intention, because the MWB
+assigns its sigles per manuscript redaction while `works.xml` knows identifiers
+per work only; the model question behind that is #404.
 
-**Learned from four review rounds on #253** (each brought exactly one real finding, in decreasing size): a `@target` reference pointed nowhere and would have stayed permanently invisible to the cross-ref audit; the `div/@type` table in TEI-MODEL.md was wrong in five of seven rows, mostly already before that PR; a `shift_indent` error indented 28 `</div>` two columns too deep, whereupon FR3 was regenerated from the source instead of patched; and a docstring still claimed 4.1.8. The craft rules drawn from it went into [MASTERPLAN-AUTONOME-ISSUE-SESSION §2.1](playbooks/MASTERPLAN-AUTONOME-ISSUE-SESSION.md) as rules 22 to 26; number 26 has since been absorbed into rule 6, and §2.1 explains in its preamble why the numbers stay put instead of being renumbered.
-
-**A CI change, tried and discarded:** `use_sticky_comment` (one comment per PR instead of one per run) was active for half a day and is out again. Together with `track_progress` the next run first overwrites the comment with its progress checklist, and earlier rounds then live only in the edit history, that is, only in the browser: through the API and `gh` they are unreachable. The reasoning sits in the workflow. The `synchronize` trigger stays, because the automatically triggered follow-up runs brought one real finding each on both of today's PRs. The auto-cancel on merge (since 2026-07-12) demonstrably works and needs no manual step.
+**What sorts the rest is #406**, a triage of KZW's share by how much a single
+decision releases. Its top entry is the sharpest illustration of the paragraph
+above: fifteen minutes of reading in #28 decide 77.2 percent of the non-name
+tokens of that workstream, and no machine can take it over, because the
+annotation confirms the questionable assignment instead of correcting it.
 
 ## Before that: search semantics decided and implemented
 
@@ -58,7 +82,9 @@ Became ready to start:
 
 Both are the same type of error: the ROADMAP describes the state of a document instead of the state of the project, as soon as an entry is not carried along after it is done.
 
-**#124 (prio-1)** is technically finished: cookieless Matomo has been deployed since 2026-06-17 (`includes/_matomo.html`, opt-out plus a data protection section in the legal notice, commit `7abbf7672`); what remains open is the data protection officer's sign-off on the legal basis and clarifying access to the dashboard.
+**#124 is closed** (2026-07-10, by KZW) and is listed here only because the paragraph that stood in its place presented it as an open priority for a month. Cookieless Matomo has been live since 2026-06-17 (`includes/_matomo.html`, opt-out plus a data protection section in the legal notice, commit `7abbf7672`), the site runs as **site-ID 15** in the central Salzburg Matomo at `webstatistics.sbg.ac.at`. Dashboard access is not a project task but a request to IT Services (read access for a PLUS account); the legal-basis details for the data protection text were suggested to be asked in the same message, and nothing in this repository records an answer. The Matomo dependency named in the side task of #255 is that request, not a blocked ticket.
+
+This paragraph is the blind spot the roadmap gate names in its own docstring: `pruefe_roadmap()` in `scripts/audit/build-issue-matrix.py` only sees a closed issue in the first column of a **table row**, deliberately, because checking every `#N` in the file would have reported 45 lines on its first run. An entry written as prose falls through, and this was one.
 
 ## Next: pings to people (after the merges)
 

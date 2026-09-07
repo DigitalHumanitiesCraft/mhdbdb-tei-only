@@ -1590,3 +1590,63 @@ zurückgehaltene `fro`-Fälle (#387), sieben Tickets, deren Code gemergt ist und
 die auf Abnahme warten, die Lizenzeinschätzung zu #262, die Burch-Mail für
 #225. Von 60 offenen Vorgängen sind 53 `auto:blocked` oder `auto:pair`; der
 Rückstand ist damit weniger ein Arbeits- als ein Entscheidungsrückstand.
+
+---
+
+## 2026-09-07 (Aufräumlauf) – Zwei Doku-Stellen waren falsch, und beide lagen im toten Winkel eines Gates
+
+Aufräum- und Doku-Durchgang am Ende der Session. Alle sechs Gates liefen vorher
+grün, gefunden wurde trotzdem dreierlei, und die zwei interessanten Funde haben
+dieselbe Form: **ein Gate, das genau daneben greift.**
+
+**Der Workflow hatte seit dem Vormittag dreizehn Prüfungen, `DEVELOPMENT.md`
+beschrieb zwölf.** Die neue aus #399 fehlte, und mit ihr verschob sich die
+Nummerierung: die Zeile über die Diff-Basis verwies auf „checks 3 and 10", die
+seither 4 und 11 sind, und Prüfung 7 verwies auf „BEFORE check 8", die jetzt 9
+ist. **`check-doc-inventories.py` konnte das nicht finden, und zwar nicht aus
+Nachlässigkeit:** es deckt `scripts/audit/` und den Verzeichnisbaum von
+`scripts/README.md` ab. Der neue Gate-Aufruf ist beides nicht, er liegt in
+`scripts/sync/` und ist ein **Workflow-Schritt**, kein Skript-Eintrag. Zwischen
+den beiden Inventaren liegt genau diese Naht.
+
+**`docs/features/114-tabellenansicht-korpussuche.md` stand einen Monat zu lang.**
+#114 ist seit dem 05.08. geschlossen, und der JOURNAL-Eintrag von damals sagt
+den Auftrag selbst: „bei Close in Stable-Docs bereits destilliert → löschen".
+Vor dem Löschen gegengeprüft, dass das Wissen wirklich woanders steht: Keyness
+normativ in `CONTRACTS.md` §H.1, die Ansicht samt der Entscheidung „die
+Gesamtzeile wird bewusst nicht exportiert" in `FEATURES.md`. Beides da, Datei
+gelöscht, Git-History ist das Archiv.
+
+**Die ROADMAP beschrieb seit fünf Wochen den Stand von Anfang August.** Ihr
+Abschnitt „Now" führte Frauenlob, #58 und #251 als das Aktuelle, während
+seither #235, #369, #216, #387, #395 und #399 gelaufen sind. Neu geschrieben auf
+den Befund, der die Planung heute tatsächlich bestimmt und der beim Lesen aller
+62 offenen Vorgänge herausgekommen ist: **48 `auto:blocked`, 7 `auto:pair`, 6
+`auto:checkin`, plus #44.** 55 von 62 kann keine Session bewegen. Der Rückstand
+ist ein Entscheidungsrückstand.
+
+**Und ein zweiter toter Winkel, im selben Dokument.** Der Absatz zu #124 kündigte
+seit zwei Monaten offene Arbeit an („was offen bleibt, ist die Freigabe der DSB
+und der Dashboard-Zugang"), obwohl KZW das Ticket am 10.07. geschlossen hat.
+`pruefe_roadmap()` sieht das nicht, und sein eigener Docstring sagt warum: es
+prüft **nur** die erste Spalte einer Tabellenzeile, weil ein Gate, das jede `#N`
+im Fließtext prüft, beim ersten Lauf 45 Zeilen gemeldet hätte und dann
+abgeschaltet worden wäre. Die Enge ist bewusst gewählt und richtig; der Preis
+ist genau dieser Absatz. Er ist jetzt korrigiert, und die Notiz dazu steht
+daneben, damit der nächste Leser nicht denkt, das Gate habe versagt.
+
+Nebenbei geklärt, weil es an #255 hängt: der Matomo-Dashboard-Zugang ist keine
+Projektaufgabe, sondern eine Anfrage an die IT Services (Lesezugriff auf
+Site-ID 15). Ob die DSB-Eckdaten je beantwortet wurden, hält dieses
+Repositorium nicht fest.
+
+**Was sonst gemessen und in Ordnung war:** Indexversionen Code gegen
+`TEI-MODEL.md` §11 und `INDEX.md` deckungsgleich (4.2.13 / 1.9.3), kein
+Verweis auf einen heute geschlossenen Vorgang als offen, Arbeitsbaum sauber,
+kein offener PR, mein Branch beim Merge remote gelöscht.
+
+**Phase:** Betrieb. Offen und beabsichtigt offen: #404 (Modellfrage mwb-sigle),
+#406 (KZW-Triage), #59 (nach Lindas Freigabe vom 02.09. vermutlich schließbar).
+Nicht von dieser Session: auf `origin/claude/235-315-wzb-tokens-lead-editor`
+liegt Julias Arbeit zu #198 Schritt 2 vom 21.08., nie gemergt, ohne PR; der
+Befund steht als Kommentar an #198.
