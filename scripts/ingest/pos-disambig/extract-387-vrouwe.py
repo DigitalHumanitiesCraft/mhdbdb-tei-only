@@ -1,0 +1,370 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""#387: die eindeutigen vrouwe-Tokens ohne @lemmaRef extrahieren.
+
+Schwesterskript zu extract-216-vrouwe155.py, mit derselben Bauart und einer
+engeren Menge. Dort ging es um die 155 Tokens unmittelbar vor einer
+minne-Form, hier um den Rest, den @wachauer am 01.09.2026 als eigenes Ticket
+verlangt hat.
+
+**Dieses Skript nimmt ausschliesslich die mechanisch bestimmten Faelle.** Die
+kontextpflichtigen bleiben liegen und werden nicht einmal als Fall
+ausgegeben, damit niemand sie versehentlich durch die Pipeline schiebt: sie
+sind die eigentliche Arbeit von #387 und brauchen eine philologische
+Entscheidung, die @wachauer ausdruecklich NICHT vorweggenommen hat (seine
+Antwort vom 01.09. gilt der Anrede vor minne und nicht den uebrigen Belegen).
+
+## Auswahlregel
+
+Ein Fall ist ein <w> im <body>, das
+
+  1. KEIN @lemmaRef traegt,
+  2. formal vrouwe ist,
+  3. dessen normalisierte Schreibung im gesamten Korpus nur ein einziges
+     Lemma traegt, naemlich lemma_7260 (vrouwe), das genau eine Wortart fuehrt,
+  4. und dessen Schreibung dafuer genug Zeugen hat (MIN_BELEGE, siehe unten).
+
+**Punkt 4 ist teuer erkauft und der eigentliche Grund, warum dieses Skript
+nicht bloss eine Kopie des Vorgaengers ist.** Punkt 3 allein laesst eine Form
+durch, die im Korpus genau EINMAL annotiert ist: eine Menge mit einem Element
+ist trivial eindeutig. Gemessen am 06.09.2026 gab es genau so einen Fall.
+Die Schreibung fvrn kommt im Korpus zweimal vor. Einmal annotiert, in RF:
+"fvrn hersante schande was niht kleine", also die Anrede vor dem Namen der
+Woelfin Hersant, korrekt lemma_7260. Und einmal unannotiert, in NLA:
+"wie si ze der hohzit fvrn", und das ist das Verb. Punkt 3 allein haette das
+Verb zur Frau gemacht, mit lemmaRef, pos und corresp, und die Begruendung
+"kommt im Korpus nur unter lemma_7260 vor" waere dabei formal wahr gewesen.
+
+Belegzahlen der sieben in Frage kommenden Schreibungen, am 06.09.2026 gemessen
+(annotiert als lemma_7260 gegen unannotierte Kandidaten): fraw 434/546,
+frow 254/330, vrowen 2.217/68, frovwe 215/1, vrov 59/2, frov 6/1, fvrn 1/1.
+Der Abstand zwischen 6 und 1 ist die Stelle, an der die Aussage kippt.
+
+Punkt 3 ist ausserdem die Stelle, an der dieses Skript strenger ist als eine
+Kandidatenabfrage im Variantenwoerterbuch. Beide Quellen sagen ueber diesen
+Bestand dasselbe, aber sie sind nicht dasselbe: variants.xml ist korpus-
+abgeleitet und kann hinter dem Korpus herhinken. Gemessen wird deshalb am
+Korpus, und die Menge der Lemmata je Form wird ueber ALLE Lemmata gebildet,
+nicht gegen eine Liste erwarteter Konkurrenten (die Lehre aus dem
+Vorgaengerskript, siehe dessen Docstring).
+
+**Formal vrouwe wird am Bestand erhoben, nicht geraten.** Es ist die Menge der
+MHG-normalisierten Oberflaechenformen aller <w> mit lemma_7260. Eine
+handgeschriebene Schreibungsliste waere hier nachweislich falsch: #216
+(Kommentar vom 31.08.2026) hat gemessen, dass eine Sechserliste aus HUGO nur
+214 von 633 Stellen deckt und die haeufigste Schreibung nicht enthaelt.
+
+## Was ausdruecklich NICHT hierher gehoert
+
+- Die mehrdeutigen Formen (Stand 06.09.2026: fro mit 390 Tokens, froewen mit
+  6, vroewe mit 1). Das Skript zaehlt sie und legt sie als offene-faelle.csv
+  ab, ohne cases.json-Eintrag.
+- Tokens, deren Rohform unter lemma_7260 keinen Variantentyp hat. Sie kaemen
+  sonst bei apply-homograph als "kein-typ" in den Review; das Skript meldet
+  sie vorher, damit die Zahl im Batch-Log steht statt im Rueckstand.
+
+Nur lesend am Korpus, deterministisch (corpus_files-Reihenfolge, Dokumentordnung).
+
+Usage:
+    python scripts/ingest/pos-disambig/extract-387-vrouwe.py \
+        --out-dir ingest/pos-disambig/387-vrouwe
+"""
+import argparse
+import csv
+import json
+import re
+import sys
+import unicodedata
+from collections import Counter, defaultdict
+from pathlib import Path
+
+REPO = Path(__file__).resolve().parents[3]
+sys.path.insert(0, str(REPO / "scripts"))
+from corpus_files import corpus_files  # noqa: E402
+from mhg_normalizer import normalize_mhg  # noqa: E402
+
+from lxml import etree  # noqa: E402
+
+TEI_NS = "http://www.tei-c.org/ns/1.0"
+W_TAG = "{" + TEI_NS + "}w"
+L_TAG = "{" + TEI_NS + "}l"
+XML_ID = "{http://www.w3.org/XML/1998/namespace}id"
+
+LEMMA_VROUWE = "lemma_7260"
+VARIANTS = REPO / "authority-files" / "variants.xml"
+
+# Wie viele annotierte Belege eine Schreibung braucht, damit "im Korpus
+# eindeutig" eine Aussage ist und keine Trivialitaet. Zwei waeren die
+# logische Untergrenze (mit einem Zeugen ist jede Menge einwertig); dass hier
+# 5 steht, ist eine Ermessensentscheidung mit Messung dahinter: der Abstand
+# in den Belegzahlen liegt zwischen 6 (frov) und 1 (fvrn), und in dieser
+# Luecke laesst sich die Schwelle setzen, ohne einen Fall zu erzwingen.
+# Schreibungen darunter werden nicht verworfen, sondern gelesen: sie landen
+# in offene-faelle.csv mit dem Grund, und wer sie einzeln geprueft hat, traegt
+# sie in GEPRUEFT ein.
+MIN_BELEGE = 5
+
+# Schreibungen unterhalb von MIN_BELEGE, die von Hand gelesen und bestaetigt
+# wurden. Als Schreibung und nicht als xml:id, weil hier nicht der Einzelfall
+# entschieden wird, sondern ob die Schreibung ueberhaupt die Anrede sein kann.
+#
+# Leer, und das ist der richtige Stand. Im Lauf vom 06.09.2026 stand hier
+# "frov", was ein Fehler war: frov hat 6 Belege und liegt damit ueber der
+# Schwelle, nicht darunter. Die Bedingung unten prueft GEPRUEFT erst, wenn
+# die Schwelle nicht greift, der Eintrag war also wirkungslos, und er
+# widersprach dem Kommentar zwei Zeilen weiter oben, der frov ausdruecklich
+# als die Obergrenze der Luecke nennt. Kein Tag haengt daran: frov war ueber
+# die Schwelle annotiert und bleibt es. Befund des CI-Review-Bots auf PR #398
+# als Randnotiz gemeldet, hier am Vorzustand nachgemessen:
+#
+#     git grep -h -oP '<w [^>]*lemmaRef="[^"]+"[^>]*>frov</w>' origin/main \
+#         -- 'tei/*.tei.xml' | wc -l          -->  6   (alle lemma_7260)
+#
+# 6 >= MIN_BELEGE, die erste Haelfte der Bedingung ist also falsch und die
+# zweite wird nie ausgewertet. Ein Gegenlauf des Extraktors kann das nicht
+# zeigen: er laeuft gegen den heutigen Korpus, in dem die 948 Tokens bereits
+# annotiert sind, und liefert deshalb null Kandidaten. Die Zahl oben ist der
+# Beleg, nicht der Lauf.
+#
+# Die Handlesung steht hier weiter, aber richtiggestellt. Die alte Fassung
+# lautete "die 6 frov-Belege stehen alle in FLG/FLG1 und alle als Anrede vor
+# einem Titel, frov kuenegin neben frovwe kuenegin im selben Text", und davon
+# stimmt fast nichts. Befund des CI-Review-Bots auf PR #398, Runde 7, hier
+# Stelle fuer Stelle nachgemessen. So sieht es wirklich aus:
+#
+#     git grep -c -P 'lemmaRef="[^"]*"[^>]*>frov</w>' origin/main \
+#         -- 'tei/*.tei.xml'      -->  FLG 1, NBB 5   (FLG1 gar nicht)
+#
+#   NBB_51_3    frov vote        Anrede vor Eigenname
+#   NBB_611_6   frov siglint     Anrede vor Eigenname
+#   NBB_3024_6  frov chrimhilt   Anrede vor Eigenname
+#   NBB_5871_1  frov prvnnhilt   Anrede vor Eigenname
+#   NBB_2622_6  "vil manec frov vnd manech meit"   KEINE Anrede, sondern
+#                                das blosse Appellativ; lemma_7260 richtig
+#   FLG_1041100_9   frov minne   Anrede vor einem personifizierten Titel
+#
+# Kein einziger der sechs ist "frov kuenegin". Diese Stelle ist
+# FLG_1041270_9, der EINZIGE unannotierte Kandidat, also gerade der Beleg,
+# den die Freigabe betreffen sollte, und nicht einer, der die Schwelle
+# traegt. Der Zusatz "neben frovwe kuenegin im selben Text" stimmt fuer sich
+# und stuetzt genau diesen einen Fall.
+#
+# Die Lehre ist nicht die Zahl, sondern dass lemma_7260 zwei Dinge fuehrt:
+# die Anrede und das schlichte Appellativ "Frau". Eine Menge, die "alle
+# Anrede" heisst, ist damit schon als Beschreibung falsch, auch wenn jedes
+# einzelne Tag stimmt.
+GEPRUEFT = set()
+
+PROSA_FENSTER = 15
+BLOCK_LOCAL = {"p", "head", "div", "lg", "body"}
+
+
+def norm(s):
+    return unicodedata.normalize("NFC", s or "").strip()
+
+
+def token_text(el):
+    return norm("".join(el.itertext()))
+
+
+def lemma_ids(el):
+    """Token-genaue Menge der Lemma-Ids eines @lemmaRef (CONTRACTS.md B.1)."""
+    return {v.split("#")[-1] for v in (el.get("lemmaRef") or "").split()}
+
+
+def vers_von(w):
+    for a in w.iterancestors():
+        if a.tag == L_TAG:
+            return a
+    return None
+
+
+def block_von(w):
+    for a in w.iterancestors():
+        if etree.QName(a).localname in BLOCK_LOCAL:
+            return a
+    return None
+
+
+def render(tokens, mark=None):
+    teile = []
+    for t in tokens:
+        txt = token_text(t)
+        if not txt:
+            continue
+        teile.append("**" + txt + "**" if t is mark else txt)
+    return " ".join(teile)
+
+
+def typen_am_lemma():
+    """Rohform -> type_id fuer alle <form> unter lemma_7260 in variants.xml."""
+    root = etree.parse(str(VARIANTS)).getroot()
+    treffer = {}
+    for e in root.findall(".//{%s}entry" % TEI_NS):
+        if (e.get("corresp") or "").split("#")[-1] != LEMMA_VROUWE:
+            continue
+        for f in e.findall("{%s}form" % TEI_NS):
+            treffer[(f.text or "").strip()] = f.get(XML_ID)
+    return treffer
+
+
+def sammle_formen_lemmata(dateien):
+    """Je normalisierter Form die Lemmata UND die Zahl der lemma_7260-Belege.
+
+    Die Zahl wird gebraucht, weil Eindeutigkeit ohne Belegbasis nichts sagt
+    (siehe MIN_BELEGE und den Fall fvrn im Modul-Docstring).
+    """
+    form2lemmata = defaultdict(set)
+    belege = Counter()
+    for fp in dateien:
+        root = etree.parse(str(fp)).getroot()
+        for w in root.iter(W_TAG):
+            ids = lemma_ids(w)
+            if not ids:
+                continue
+            txt = token_text(w)
+            if txt:
+                nf = normalize_mhg(txt)
+                form2lemmata[nf] |= ids
+                if LEMMA_VROUWE in ids:
+                    belege[nf] += 1
+        root.clear()
+    return form2lemmata, belege
+
+
+def main():
+    ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    ap.add_argument("--out-dir", required=True)
+    args = ap.parse_args()
+
+    out = Path(args.out_dir)
+    if not out.is_absolute():
+        out = REPO / out
+
+    dateien = list(corpus_files())
+    print("Korpusdateien: %d" % len(dateien))
+
+    form2lemmata, belege = sammle_formen_lemmata(dateien)
+    inventar = {f for f, ls in form2lemmata.items() if LEMMA_VROUWE in ls}
+    eindeutig = {f for f in inventar if form2lemmata[f] == {LEMMA_VROUWE}}
+    print("Formeninventar lemma_7260: %d Formen, davon %d ausschliesslich"
+          % (len(inventar), len(eindeutig)))
+    print("  mit weiteren Lemmata: %s"
+          % sorted((f, sorted(form2lemmata[f] - {LEMMA_VROUWE}))
+                   for f in inventar - eindeutig))
+
+    typen = typen_am_lemma()
+
+    faelle, aktionen, offen = [], [], []
+    formen_ok = Counter()
+    offen_je_grund = defaultdict(Counter)
+    for fp in dateien:
+        root = etree.parse(str(fp)).getroot()
+        body = root.find(".//{%s}body" % TEI_NS)
+        if body is None:
+            continue
+        ws = list(body.iter(W_TAG))
+        txt = [token_text(w) for w in ws]
+        for i, w in enumerate(ws):
+            if w.get("lemmaRef"):
+                continue
+            nf = normalize_mhg(txt[i])
+            if nf not in inventar:
+                continue
+            xid = w.get(XML_ID)
+            vers = vers_von(w)
+
+            grund = ""
+            if nf not in eindeutig:
+                grund = "mehrdeutig: auch %s" % ", ".join(
+                    sorted(form2lemmata[nf] - {LEMMA_VROUWE}))
+            elif belege[nf] < MIN_BELEGE and nf not in GEPRUEFT:
+                grund = ("Belegbasis zu duenn: %d annotierte Beleg%s, "
+                         "Schwelle %d" % (belege[nf],
+                                          "" if belege[nf] == 1 else "e",
+                                          MIN_BELEGE))
+            elif txt[i] not in typen:
+                grund = "kein Variantentyp unter %s fuer die Rohform" % LEMMA_VROUWE
+
+            prev_v = ziel_v = next_v = ""
+            if vers is not None:
+                geschw = list(vers.itersiblings(L_TAG))
+                vorher = list(vers.itersiblings(L_TAG, preceding=True))
+                prev_v = render(list(vorher[0].iter(W_TAG))) if vorher else ""
+                ziel_v = render(list(vers.iter(W_TAG)), mark=w)
+                next_v = render(list(geschw[0].iter(W_TAG))) if geschw else ""
+                kontext = " / ".join(x for x in (prev_v, ziel_v, next_v) if x)
+                modus, vers_n = "verse", (vers.get("n") or "")
+            else:
+                blk = block_von(w)
+                nachbarn = list(blk.iter(W_TAG)) if blk is not None else ws
+                j = nachbarn.index(w)
+                kontext = render(nachbarn[max(0, j - PROSA_FENSTER):
+                                          j + PROSA_FENSTER + 1], mark=w)
+                modus, vers_n = "prose", ""
+
+            if grund:
+                offen.append({"file": fp.name, "xml_id": xid, "form": txt[i],
+                              "sigle": fp.name.split(".")[0],
+                              "pos_prior": w.get("pos") or "",
+                              "grund": grund, "vers": vers_n,
+                              "kontext": kontext})
+                offen_je_grund[grund.split(":")[0]][txt[i]] += 1
+                continue
+
+            faelle.append({"file": fp.name, "xml_id": xid, "form": txt[i],
+                           "sigle": fp.name.split(".")[0],
+                           "pos_prior": w.get("pos") or "",
+                           "context_mode": modus, "verse_n": vers_n,
+                           "context": kontext,
+                           "prev_verse": prev_v, "verse": ziel_v,
+                           "next_verse": next_v})
+            aktionen.append({
+                "xml_id": xid, "lemma": LEMMA_VROUWE, "pos": "NOM",
+                "confidence": "high", "herkunft": "mechanisch",
+                "begruendung": (
+                    "Die MHG-normalisierte Schreibung traegt im gesamten Korpus "
+                    "nur lemma_7260, und lemma_7260 fuehrt genau eine Wortart "
+                    "(NOM). Keine Kontextentscheidung noetig."),
+            })
+            formen_ok[txt[i]] += 1
+
+    # Eine Wache gegen genau den Fehler, den das Vorgaengerskript hatte: die
+    # Begruendung oben behauptet Eindeutigkeit ueber ALLE Lemmata. Wenn diese
+    # Menge je einen mehrdeutigen Fall enthielte, stuende sie falsch im Log.
+    if any(normalize_mhg(f["form"]) not in eindeutig for f in faelle):
+        sys.exit("FEHLER: ein Fall der mechanischen Menge traegt eine "
+                 "mehrdeutige Schreibung. Das darf nicht vorkommen.")
+
+    out.mkdir(parents=True, exist_ok=True)
+    (out / "cases.json").write_text(
+        json.dumps(faelle, ensure_ascii=False, indent=1), encoding="utf-8")
+    (out / "actions.json").write_text(
+        json.dumps(aktionen, ensure_ascii=False, indent=1), encoding="utf-8")
+    if offen:
+        with open(out / "offene-faelle.csv", "w", encoding="utf-8-sig",
+                  newline="") as f:
+            wr = csv.DictWriter(f, fieldnames=list(offen[0].keys()),
+                                delimiter=";")
+            wr.writeheader()
+            wr.writerows(offen)
+
+    # Die corresp-Tabelle fuer die config.json aus dem Bestand, nicht von Hand.
+    corresp = {"%s|%s" % (form.lower(), LEMMA_VROUWE): typen[form]
+               for form in sorted(formen_ok)}
+    print("\nMechanisch: %d Tokens in %d Sigeln, %d Schreibungen"
+          % (len(faelle), len({f['sigle'] for f in faelle}), len(formen_ok)))
+    print("  je Schreibung:", dict(formen_ok.most_common()))
+    print("  Kontextmodus:", dict(Counter(f["context_mode"] for f in faelle)))
+    print("\nZurueckgestellt: %d Tokens" % len(offen))
+    for kopf in sorted(offen_je_grund):
+        print("  %-24s %s" % (kopf + ":",
+                              dict(offen_je_grund[kopf].most_common())))
+    print("\ncorresp fuer die config.json:")
+    print(json.dumps(corresp, ensure_ascii=False, indent=2))
+    print("\ngeschrieben:", out)
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

@@ -1,0 +1,25 @@
+{
+  "serie": "#387 (fro), kontextpflichtiger Teil",
+  "lemmas": {
+    "lemma_7260": "vrouwe (NOM): Herrin, Frau; hier die verkuerzte Anrede vor Titel oder Name",
+    "lemma_7250": "vrô (ADJ ADV GRA NOM): froh"
+  },
+  "pos": ["NOM", "ADJ", "ADV"],
+  "corresp": {
+    "fro|lemma_7250": "type_41787",
+    "frô|lemma_7250": "type_25866",
+    "fro|lemma_7260": "type_154744"
+  },
+  "kein_typ_bedeutet_review": true,
+  "review_verdicts": ["lemma_7250/NOM"],
+  "revisiondesc": {
+    "datum": "2026-09-06",
+    "titel": "#387 (fro)",
+    "form": "fro",
+    "ziele": "vrouwe NOM (lemma_7260) bzw. vrô ADJ/ADV (lemma_7250)",
+    "log": "ingest/pos-disambig/387-fro/"
+  },
+  "kommentar_corresp": "Aus authority-files/variants.xml, gemessen am 06.09.2026. Das vierte theoretisch moegliche Paar fehlt absichtlich: die Zirkumflex-Schreibung hat unter lemma_7260 keinen Typ, sie ist dort nur unter lemma_7250 gefuehrt. Ein Anrede-Verdict auf dieser Schreibung findet deshalb keinen Typ und geht in den Review, statt einen Typ zu verbreiten, der einem anderen Lemma gehoert. Das betrifft genau die drei RVBR-Belege, die schon in #216 aus demselben Grund liegengeblieben sind.",
+  "kommentar_review_verdicts": "lemma_7250/NOM, also das substantivierte 'froh', wird grundsaetzlich nicht angewendet, egal wie sicher das Modell ist. Es sind zwei Faelle, einer davon ohnehin medium. Substantivierung ist eine Aussage ueber die Wortart, die der Korpus nicht bestaetigen kann, und der eine hochkonfidente Fall steht in einer dichten Frauenlob-Fuegung ('ein swinendez fro'). Dieselbe Bauart wie die NAM-Regel von Serie 1, dort noch als feste Zeile im Skript.",
+  "kommentar_verfahren": "LLM-Disambiguierung nach POS-TAGSET Paragraf 6.3, ein Text je Lauf-Einheit (61 Buendel). Modell Claude Fable, prompt.md Version 1, unveraendert ueber alle Buendel. Angewendet wird nur confidence=high."
+}

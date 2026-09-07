@@ -129,6 +129,9 @@
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 78 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/). 2 weitere Tokens der Form stat blieben bewusst unannotiert (Review).</change>
+      <change when="2026-09-06" who="#editor">#216 Punkt 3 (vrouwe vor minne): 32 Tokens der Anredeform vrouwe unmittelbar vor minne erstmals annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260)). Kein LLM-Lauf; Verfahren, Herkunft der einzelnen Entscheidungen und zurueckgehaltene Faelle im Provenienz-Log: ingest/pos-disambig/216-vrouwe155/.</change>
+      <change when="2026-09-06" who="#editor">#387 (vrouwe, mechanischer Teil): 101 Tokens der Form vrouwe erstmals annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260)). Kein LLM-Lauf: annotiert wurde nur, wo die MHG-normalisierte Schreibung im gesamten Korpus ein einziges Lemma traegt, dieses genau eine Wortart fuehrt und die Schreibung dafuer genug Belege hat. Kontextpflichtige Faelle sind unangetastet geblieben (Provenienz-Log: ingest/pos-disambig/387-vrouwe/).</change>
+      <change when="2026-09-06" who="#editor">#387 (fro): 2 homographie-ambige Tokens der Form fro kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260) bzw. vrô ADJ/ADV (lemma_7250); LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/387-fro/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -589,7 +592,7 @@
           <l n="7">
             <w xml:id="LZT_770_0" lemmaRef="lexicon.xml#lemma_3087" pos="INJ" ana="lexicon.xml#lemma_3087_sense_4910" corresp="variants.xml#type_10584">ja</w>
             <w xml:id="LZT_770_1">ob</w>
-            <w xml:id="LZT_770_2">fraw</w>
+            <w xml:id="LZT_770_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_770_3" lemmaRef="lexicon.xml#lemma_5051" pos="NOM" ana="lexicon.xml#lemma_5051_sense_7869" corresp="variants.xml#type_235404">selld</w>
             <w xml:id="LZT_770_4" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10226">mich</w>
             <w xml:id="LZT_770_5" lemmaRef="lexicon.xml#lemma_7473" pos="VRB VEM" corresp="variants.xml#type_104911">wollte</w>
@@ -604,7 +607,7 @@
         <p>
           <l n="1">
             <hi rend="initial">
-              <w xml:id="LZT_810_0">fraw</w>
+              <w xml:id="LZT_810_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             </hi>
             <w xml:id="LZT_810_1">mynn</w>
             <pc xml:id="LZT_810_2" join="left">,</pc>
@@ -639,7 +642,7 @@
             <pc xml:id="LZT_840_6" join="left">.</pc>
           </l>
           <l n="5">
-            <w xml:id="LZT_850_0">fraw</w>
+            <w xml:id="LZT_850_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_850_1">er</w>
             <w xml:id="LZT_850_2" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
             <w xml:id="LZT_850_3">mynn</w>
@@ -829,7 +832,7 @@
           <l n="2">
             <w xml:id="LZT_1120_0" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
             <w xml:id="LZT_1120_1">wil</w>
-            <w xml:id="LZT_1120_2">fraw</w>
+            <w xml:id="LZT_1120_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_1120_3">mynn</w>
             <w xml:id="LZT_1120_4" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
             <w xml:id="LZT_1120_5" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
@@ -1339,7 +1342,7 @@
             <pc xml:id="LZT_1850_8" join="left">.</pc>
           </l>
           <l n="6">
-            <w xml:id="LZT_1860_0">fraw</w>
+            <w xml:id="LZT_1860_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_1860_1">mynn</w>
             <w xml:id="LZT_1860_2" lemmaRef="lexicon.xml#lemma_3112" pos="VRB" corresp="variants.xml#type_10705">jach</w>
             <pc xml:id="LZT_1860_3" join="left">:</pc>
@@ -1766,7 +1769,7 @@
             <pc xml:id="LZT_2460_6" join="left">.</pc>
           </l>
           <l n="7">
-            <w xml:id="LZT_2470_0">fraw</w>
+            <w xml:id="LZT_2470_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <hi rend="upper_case_first_letter">
               <w xml:id="LZT_2470_1" lemmaRef="lexicon.xml#lemma_5176" pos="NOM" ana="lexicon.xml#lemma_5176_sense_8047" corresp="variants.xml#type_235706">schannd</w>
             </hi>
@@ -1788,7 +1791,7 @@
               <w xml:id="LZT_2510_0" lemmaRef="lexicon.xml#lemma_6905" pos="VRB" corresp="variants.xml#type_235557">vernembt</w>
             </hi>
             <pc xml:id="LZT_2510_1" join="left">,</pc>
-            <w xml:id="LZT_2510_2">fraw</w>
+            <w xml:id="LZT_2510_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_2510_3">mynn</w>
             <w xml:id="LZT_2510_4" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
             <w xml:id="LZT_2510_5">ere</w>
@@ -1950,7 +1953,7 @@
             <pc xml:id="LZT_2730_7" join="left">,</pc>
           </l>
           <l n="4">
-            <w xml:id="LZT_2740_0">fraw</w>
+            <w xml:id="LZT_2740_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_2740_1">mynn</w>
             <pc xml:id="LZT_2740_2" join="left">,</pc>
             <w xml:id="LZT_2740_3">was</w>
@@ -2163,7 +2166,7 @@
           <l n="3">
             <w xml:id="LZT_3030_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
             <w xml:id="LZT_3030_1" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10237">mir</w>
-            <w xml:id="LZT_3030_2">fraw</w>
+            <w xml:id="LZT_3030_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_3030_3">mynn</w>
             <w xml:id="LZT_3030_4" lemmaRef="lexicon.xml#lemma_6301" pos="NOM VRB" ana="lexicon.xml#lemma_6301_sense_9929" corresp="variants.xml#type_22319">tet</w>
             <w xml:id="LZT_3030_5">weysen</w>
@@ -2805,7 +2808,7 @@
             <pc xml:id="LZT_4030_6" join="left">.</pc>
           </l>
           <l n="4">
-            <w xml:id="LZT_4040_0">fraw</w>
+            <w xml:id="LZT_4040_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_4040_1">mynne</w>
             <w xml:id="LZT_4040_2" lemmaRef="lexicon.xml#lemma_5693" pos="VRB" ana="lexicon.xml#lemma_5693_sense_8912" corresp="variants.xml#type_19957">sprach</w>
             <w xml:id="LZT_4040_3" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_31260">zu</w>
@@ -3031,7 +3034,7 @@
           <l n="5">
             <w xml:id="LZT_4350_0">nach</w>
             <w xml:id="LZT_4350_1">wunsch</w>
-            <w xml:id="LZT_4350_2">fraw</w>
+            <w xml:id="LZT_4350_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_4350_3" lemmaRef="lexicon.xml#lemma_5051" pos="NOM" ana="lexicon.xml#lemma_5051_sense_7869" corresp="variants.xml#type_235612">sällden</w>
             <w xml:id="LZT_4350_4" lemmaRef="lexicon.xml#lemma_5232" pos="VRB" corresp="variants.xml#type_129222">scheyben</w>
             <w xml:id="LZT_4350_5">im</w>
@@ -3775,7 +3778,7 @@
           </l>
           <l n="3">
             <w xml:id="LZT_5430_0">mein</w>
-            <w xml:id="LZT_5430_1">fraw</w>
+            <w xml:id="LZT_5430_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_5430_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
             <w xml:id="LZT_5430_3" lemmaRef="lexicon.xml#lemma_7388" pos="NOM" corresp="variants.xml#type_236865">wanndels</w>
             <w xml:id="LZT_5430_4" lemmaRef="lexicon.xml#lemma_7226" pos="NOM ADJ" corresp="variants.xml#type_83789">freye</w>
@@ -3898,7 +3901,7 @@
             </hi>
             <w xml:id="LZT_5610_1" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10237">mir</w>
             <w xml:id="LZT_5610_2">mein</w>
-            <w xml:id="LZT_5610_3">fraw</w>
+            <w xml:id="LZT_5610_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_5610_4" lemmaRef="lexicon.xml#lemma_15213" pos="VRB" corresp="variants.xml#type_235726">verprachte</w>
           </l>
           <l n="2">
@@ -4457,7 +4460,7 @@
             <pc xml:id="LZT_6430_4" join="left">.</pc>
           </l>
           <l n="4">
-            <w xml:id="LZT_6440_0">fraw</w>
+            <w xml:id="LZT_6440_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_6440_1">mynne</w>
             <w xml:id="LZT_6440_2" lemmaRef="lexicon.xml#lemma_5693" pos="VRB" ana="lexicon.xml#lemma_5693_sense_8912" corresp="variants.xml#type_19957">sprach</w>
             <pc xml:id="LZT_6440_3" join="left">:</pc>
@@ -4465,7 +4468,7 @@
             <w xml:id="LZT_6440_5" lemmaRef="lexicon.xml#lemma_7643" pos="PRO" ana="lexicon.xml#lemma_7643_sense_12530" corresp="variants.xml#type_27633">uns</w>
             <w xml:id="LZT_6440_6" lemmaRef="lexicon.xml#lemma_2598" pos="VRB VEX" corresp="variants.xml#type_8758">hat</w>
             <w xml:id="LZT_6440_7" lemmaRef="lexicon.xml#lemma_7677" pos="NOM ADV" ana="lexicon.xml#lemma_7677_sense_12586" corresp="variants.xml#type_27811">wol</w>
-            <w xml:id="LZT_6440_8">fraw</w>
+            <w xml:id="LZT_6440_8" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_6440_9" lemmaRef="lexicon.xml#lemma_15703" pos="NAM" ana="lexicon.xml#lemma_15703_sense_25910" corresp="variants.xml#type_235663">fortun</w>
           </l>
           <l n="5">
@@ -4711,7 +4714,7 @@
             </hi>
             <w xml:id="LZT_6810_1" lemmaRef="lexicon.xml#lemma_260" pos="NOM VRB" ana="lexicon.xml#lemma_260_sense_328" corresp="variants.xml#type_152636">antwurt</w>
             <w xml:id="LZT_6810_2">im</w>
-            <w xml:id="LZT_6810_3">fraw</w>
+            <w xml:id="LZT_6810_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_6810_4">ere</w>
           </l>
           <l n="2">
@@ -4784,7 +4787,7 @@
             </hi>
             <w xml:id="LZT_6910_2">war</w>
             <pc xml:id="LZT_6910_3" join="left">,</pc>
-            <w xml:id="LZT_6910_4">fraw</w>
+            <w xml:id="LZT_6910_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <pc xml:id="LZT_6910_5" join="left">,</pc>
             <w xml:id="LZT_6910_6" lemmaRef="lexicon.xml#lemma_4377" pos="ADJ ADV NEG" ana="lexicon.xml#lemma_4377_sense_6838" corresp="variants.xml#type_158951">nit</w>
             <w xml:id="LZT_6910_7" lemmaRef="lexicon.xml#lemma_6615" pos="NOM ADJ ADV NEG" corresp="variants.xml#type_45784">unrechte</w>
@@ -5042,7 +5045,7 @@
             <pc xml:id="LZT_7250_8" join="left">.</pc>
           </l>
           <l n="6">
-            <w xml:id="LZT_7260_0">fraw</w>
+            <w xml:id="LZT_7260_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <pc xml:id="LZT_7260_1" join="left">,</pc>
             <w xml:id="LZT_7260_2">wer</w>
             <w xml:id="LZT_7260_3">in</w>
@@ -5425,7 +5428,7 @@
             <w xml:id="LZT_7830_1" lemmaRef="lexicon.xml#lemma_2640" pos="NOM" ana="lexicon.xml#lemma_2640_sense_4250" corresp="variants.xml#type_235946">henndt</w>
             <w xml:id="LZT_7830_2">nam</w>
             <w xml:id="LZT_7830_3">sy</w>
-            <w xml:id="LZT_7830_4">fraw</w>
+            <w xml:id="LZT_7830_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_7830_5">mynne</w>
           </l>
           <l n="4">
@@ -5581,7 +5584,7 @@
           </l>
           <l n="6">
             <w xml:id="LZT_8060_0">mein</w>
-            <w xml:id="LZT_8060_1">fraw</w>
+            <w xml:id="LZT_8060_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_8060_2" lemmaRef="lexicon.xml#lemma_15703" pos="NAM" ana="lexicon.xml#lemma_15703_sense_25910" corresp="variants.xml#type_235707">fortunn</w>
             <w xml:id="LZT_8060_3" lemmaRef="lexicon.xml#lemma_5330" pos="VRB" corresp="variants.xml#type_184041">beschützt</w>
             <w xml:id="LZT_8060_4">in</w>
@@ -6219,7 +6222,7 @@
             <w xml:id="LZT_8960_0" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
             <w xml:id="LZT_8960_1" lemmaRef="lexicon.xml#lemma_56117" pos="PRO" ana="lexicon.xml#lemma_56117_sense_90961" corresp="variants.xml#type_304773">euch</w>
             <pc xml:id="LZT_8960_2" join="left">,</pc>
-            <w xml:id="LZT_8960_3">fraw</w>
+            <w xml:id="LZT_8960_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_8960_4">mynn</w>
             <w xml:id="LZT_8960_5" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
             <w xml:id="LZT_8960_6">ere</w>
@@ -6441,7 +6444,7 @@
             <pc xml:id="LZT_9250_8" join="left">.</pc>
           </l>
           <l n="6">
-            <w xml:id="LZT_9260_0">fraw</w>
+            <w xml:id="LZT_9260_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_9260_1">mynn</w>
             <w xml:id="LZT_9260_2" lemmaRef="lexicon.xml#lemma_3112" pos="VRB" corresp="variants.xml#type_10705">jach</w>
             <pc xml:id="LZT_9260_3" join="left">:</pc>
@@ -6544,7 +6547,7 @@
             <hi rend="initial">
               <w xml:id="LZT_9410_0">mein</w>
             </hi>
-            <w xml:id="LZT_9410_1">fraw</w>
+            <w xml:id="LZT_9410_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_9410_2">im</w>
             <w xml:id="LZT_9410_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
             <w xml:id="LZT_9410_4" lemmaRef="lexicon.xml#lemma_260" pos="NOM VRB" ana="lexicon.xml#lemma_260_sense_328" corresp="variants.xml#type_152638">antwurte</w>
@@ -6623,7 +6626,7 @@
             </hi>
             <w xml:id="LZT_9510_1">rot</w>
             <w xml:id="LZT_9510_2">mein</w>
-            <w xml:id="LZT_9510_3">fraw</w>
+            <w xml:id="LZT_9510_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_9510_4" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10226">mich</w>
             <w xml:id="LZT_9510_5" lemmaRef="lexicon.xml#lemma_3917" pos="VRB" corresp="variants.xml#type_13688">machet</w>
           </l>
@@ -6703,7 +6706,7 @@
             <pc xml:id="LZT_9610_4" join="left">,</pc>
             <w xml:id="LZT_9610_5" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
             <w xml:id="LZT_9610_6" lemmaRef="lexicon.xml#lemma_4830" pos="VRB" ana="lexicon.xml#lemma_4830_sense_7483" corresp="variants.xml#type_32545">rett</w>
-            <w xml:id="LZT_9610_7">fraw</w>
+            <w xml:id="LZT_9610_7" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_9610_8">ere</w>
             <pc xml:id="LZT_9610_9" join="left">,</pc>
           </l>
@@ -6748,7 +6751,7 @@
             <pc xml:id="LZT_9650_10" join="left">.</pc>
           </l>
           <l n="6">
-            <w xml:id="LZT_9660_0">fraw</w>
+            <w xml:id="LZT_9660_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_9660_1">mynn</w>
             <w xml:id="LZT_9660_2" lemmaRef="lexicon.xml#lemma_3112" pos="VRB" corresp="variants.xml#type_10705">jach</w>
             <pc xml:id="LZT_9660_3" join="left">:</pc>
@@ -7931,7 +7934,7 @@
             <w xml:id="LZT_11340_1" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3397">das</w>
             <w xml:id="LZT_11340_2" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
             <w xml:id="LZT_11340_3" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
-            <w xml:id="LZT_11340_4">fraw</w>
+            <w xml:id="LZT_11340_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_11340_5">mynn</w>
             <w xml:id="LZT_11340_6" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10226">mich</w>
             <w xml:id="LZT_11340_7" lemmaRef="lexicon.xml#lemma_4240" pos="VRB VEM" corresp="variants.xml#type_44517">möcht</w>
@@ -12488,7 +12491,7 @@
             <w xml:id="LZT_17560_0" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_31260">zu</w>
             <w xml:id="LZT_17560_1" lemmaRef="lexicon.xml#lemma_2640" pos="NOM" ana="lexicon.xml#lemma_2640_sense_4250" corresp="variants.xml#type_82474">handt</w>
             <w xml:id="LZT_17560_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="LZT_17560_3">fraw</w>
+            <w xml:id="LZT_17560_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_17560_4" lemmaRef="lexicon.xml#lemma_13571" pos="ADV PRP" ana="lexicon.xml#lemma_13571_sense_22353" corresp="variants.xml#type_237026">mitsambt</w>
             <w xml:id="LZT_17560_5" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3504">dem</w>
             <w xml:id="LZT_17560_6" lemmaRef="lexicon.xml#lemma_3313" pos="NOM" ana="lexicon.xml#lemma_3313_sense_5196" corresp="variants.xml#type_82868">kindt</w>
@@ -13401,7 +13404,7 @@
             <hi rend="initial">
               <w xml:id="LZT_18810_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
             </hi>
-            <w xml:id="LZT_18810_1">fraw</w>
+            <w xml:id="LZT_18810_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_18810_2">in</w>
             <w xml:id="LZT_18810_3" lemmaRef="lexicon.xml#lemma_1169" pos="DET" ana="lexicon.xml#lemma_1169_sense_1850" corresp="variants.xml#type_3689">disem</w>
             <w xml:id="LZT_18810_4">schrecken</w>
@@ -13472,7 +13475,7 @@
             <w xml:id="LZT_18910_1" lemmaRef="lexicon.xml#lemma_5693" pos="VRB" ana="lexicon.xml#lemma_5693_sense_8912" corresp="variants.xml#type_19957">sprach</w>
             <pc xml:id="LZT_18910_2" join="left">:</pc>
             <pc xml:id="LZT_18910_3" join="right">&lt;</pc>
-            <w xml:id="LZT_18910_4">fraw</w>
+            <w xml:id="LZT_18910_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <pc xml:id="LZT_18910_5" join="left">,</pc>
             <w xml:id="LZT_18910_6" lemmaRef="lexicon.xml#lemma_1169" pos="DET" ana="lexicon.xml#lemma_1169_sense_1850" corresp="variants.xml#type_3692">diser</w>
             <w xml:id="LZT_18910_7">dinge</w>
@@ -13971,7 +13974,7 @@
           </l>
           <l n="2">
             <w xml:id="LZT_19620_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="LZT_19620_1">fraw</w>
+            <w xml:id="LZT_19620_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_19620_2" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
             <w xml:id="LZT_19620_3">iren</w>
             <w xml:id="LZT_19620_4">kinden</w>
@@ -14497,7 +14500,7 @@
         <p>
           <l n="1">
             <hi rend="initial">
-              <w xml:id="LZT_20310_0">fraw</w>
+              <w xml:id="LZT_20310_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             </hi>
             <w xml:id="LZT_20310_1">mynn</w>
             <pc xml:id="LZT_20310_2" join="left">,</pc>
@@ -14568,7 +14571,7 @@
               <w xml:id="LZT_20410_0" lemmaRef="lexicon.xml#lemma_5061" pos="VRB" ana="lexicon.xml#lemma_5061_sense_7886" corresp="variants.xml#type_17556">sagt</w>
             </hi>
             <pc xml:id="LZT_20410_1" join="left">,</pc>
-            <w xml:id="LZT_20410_2">fraw</w>
+            <w xml:id="LZT_20410_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <pc xml:id="LZT_20410_3" join="left">,</pc>
             <w xml:id="LZT_20410_4" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10237">mir</w>
             <w xml:id="LZT_20410_5" lemmaRef="lexicon.xml#lemma_7293" pos="ADV" ana="lexicon.xml#lemma_7293_sense_11826" corresp="variants.xml#type_60371">fürbas</w>
@@ -14588,7 +14591,7 @@
             <w xml:id="LZT_20430_1" lemmaRef="lexicon.xml#lemma_5693" pos="VRB" ana="lexicon.xml#lemma_5693_sense_8912" corresp="variants.xml#type_19974">sprecht</w>
             <w xml:id="LZT_20430_2">ir</w>
             <w xml:id="LZT_20430_3" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
-            <w xml:id="LZT_20430_4">fraw</w>
+            <w xml:id="LZT_20430_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_20430_5">ere</w>
             <pc xml:id="LZT_20430_6" join="left">,</pc>
           </l>
@@ -14684,7 +14687,7 @@
             <w xml:id="LZT_20560_1" lemmaRef="lexicon.xml#lemma_56117" pos="POS" ana="lexicon.xml#lemma_56117_sense_90961" corresp="variants.xml#type_304815">ewr</w>
             <w xml:id="LZT_20560_2" lemmaRef="lexicon.xml#lemma_2242" pos="NOM" ana="lexicon.xml#lemma_2242_sense_3571" corresp="variants.xml#type_34697">gespile</w>
             <pc xml:id="LZT_20560_3" join="left">,</pc>
-            <w xml:id="LZT_20560_4">fraw</w>
+            <w xml:id="LZT_20560_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_20560_5" lemmaRef="lexicon.xml#lemma_15703" pos="NAM" ana="lexicon.xml#lemma_15703_sense_25910" corresp="variants.xml#type_235707">fortunn</w>
             <pc xml:id="LZT_20560_6" join="left">,</pc>
           </l>
@@ -14842,7 +14845,7 @@
             <w xml:id="LZT_20810_1">ir</w>
             <w xml:id="LZT_20810_2" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10237">mir</w>
             <pc xml:id="LZT_20810_3" join="left">,</pc>
-            <w xml:id="LZT_20810_4">fraw</w>
+            <w xml:id="LZT_20810_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <pc xml:id="LZT_20810_5" join="left">,</pc>
             <w xml:id="LZT_20810_6" lemmaRef="lexicon.xml#lemma_4432" pos="ADV CNJ" ana="lexicon.xml#lemma_4432_sense_6912" corresp="variants.xml#type_15441">nu</w>
             <w xml:id="LZT_20810_7" lemmaRef="lexicon.xml#lemma_5061" pos="VRB" ana="lexicon.xml#lemma_5061_sense_7886" corresp="variants.xml#type_17550">saget</w>
@@ -16699,7 +16702,7 @@
           <l n="6">
             <w xml:id="LZT_23360_0">alls</w>
             <w xml:id="LZT_23360_1" lemmaRef="lexicon.xml#lemma_1169" pos="DET" ana="lexicon.xml#lemma_1169_sense_1850" corresp="variants.xml#type_3688">dise</w>
-            <w xml:id="LZT_23360_2">fraw</w>
+            <w xml:id="LZT_23360_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_23360_3" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_31260">zu</w>
             <w xml:id="LZT_23360_4" lemmaRef="lexicon.xml#lemma_3620" pos="NAM" ana="lexicon.xml#lemma_3620_sense_5727" corresp="variants.xml#type_235994">lannzilet</w>
             <pc xml:id="LZT_23360_5" join="left">,</pc>
@@ -17375,7 +17378,7 @@
             <w xml:id="LZT_24320_5" lemmaRef="lexicon.xml#lemma_4330" pos="VRB" corresp="variants.xml#type_15066">genumen</w>
           </l>
           <l n="3">
-            <w xml:id="LZT_24330_0">fraw</w>
+            <w xml:id="LZT_24330_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_24330_1" lemmaRef="lexicon.xml#lemma_2404" pos="NAM" ana="lexicon.xml#lemma_2404_sense_3878" corresp="variants.xml#type_235708">ginoferen</w>
             <w xml:id="LZT_24330_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
             <w xml:id="LZT_24330_3" lemmaRef="lexicon.xml#lemma_3330" pos="NOM ADJ" corresp="variants.xml#type_11368">clare</w>
@@ -19176,7 +19179,7 @@
             <hi rend="initial">
               <w xml:id="LZT_26710_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
             </hi>
-            <w xml:id="LZT_26710_1">fraw</w>
+            <w xml:id="LZT_26710_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_26710_2" lemmaRef="lexicon.xml#lemma_5693" pos="VRB" ana="lexicon.xml#lemma_5693_sense_8912" corresp="variants.xml#type_19957">sprach</w>
             <pc xml:id="LZT_26710_3" join="left">:</pc>
             <pc xml:id="LZT_26710_4" join="right">&lt;</pc>
@@ -19858,7 +19861,7 @@
             <w xml:id="LZT_27650_0" lemmaRef="lexicon.xml#lemma_4432" pos="ADV CNJ" ana="lexicon.xml#lemma_4432_sense_6912" corresp="variants.xml#type_15441">nu</w>
             <w xml:id="LZT_27650_1" lemmaRef="lexicon.xml#lemma_2885" pos="VRB" corresp="variants.xml#type_45195">hört</w>
             <w xml:id="LZT_27650_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="LZT_27650_3">fraw</w>
+            <w xml:id="LZT_27650_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_27650_4" lemmaRef="lexicon.xml#lemma_9207" pos="ART PRP" ana="lexicon.xml#lemma_9207_sense_13740" corresp="variants.xml#type_280098">vomm</w>
             <w xml:id="LZT_27650_5" lemmaRef="lexicon.xml#lemma_21090" pos="NAM" ana="lexicon.xml#lemma_21090_sense_34628" corresp="variants.xml#type_93414">lack</w>
             <w xml:id="LZT_27650_6" lemmaRef="lexicon.xml#lemma_4523" pos="CNJ" ana="lexicon.xml#lemma_4523_sense_7060" corresp="variants.xml#type_61484">auch</w>
@@ -25115,7 +25118,7 @@
           </l>
           <l n="2">
             <w xml:id="LZT_34920_0">sein</w>
-            <w xml:id="LZT_34920_1">fraw</w>
+            <w xml:id="LZT_34920_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_34920_2" lemmaRef="lexicon.xml#lemma_1700" pos="VRB" corresp="variants.xml#type_280256">erwenndt</w>
             <w xml:id="LZT_34920_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
             <w xml:id="LZT_34920_4">schaden</w>
@@ -25604,7 +25607,7 @@
           </l>
           <l n="5">
             <w xml:id="LZT_35550_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="LZT_35550_1">fraw</w>
+            <w xml:id="LZT_35550_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_35550_2">sy</w>
             <w xml:id="LZT_35550_3" lemmaRef="lexicon.xml#lemma_1136" pos="ADJ ADV" corresp="variants.xml#type_3556">dicke</w>
             <w xml:id="LZT_35550_4" lemmaRef="lexicon.xml#lemma_7211" pos="VRB" ana="lexicon.xml#lemma_7211_sense_11684" corresp="variants.xml#type_51025">fragt</w>
@@ -25644,7 +25647,7 @@
               <w xml:id="LZT_35610_1">hort</w>
             </hi>
             <pc xml:id="LZT_35610_2" join="left">,</pc>
-            <w xml:id="LZT_35610_3">fraw</w>
+            <w xml:id="LZT_35610_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <pc xml:id="LZT_35610_4" join="left">,</pc>
             <w xml:id="LZT_35610_5">was</w>
             <w xml:id="LZT_35610_6" lemmaRef="lexicon.xml#lemma_3001" pos="POS" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_93757">meinem</w>
@@ -25743,7 +25746,7 @@
             <w xml:id="LZT_35740_2" lemmaRef="lexicon.xml#lemma_7929" pos="ADJ NUM" ana="lexicon.xml#lemma_7929_sense_13005" corresp="variants.xml#type_28804">zwen</w>
             <pc xml:id="LZT_35740_3" join="left">.</pc>
             <w xml:id="LZT_35740_4" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="LZT_35740_5">fraw</w>
+            <w xml:id="LZT_35740_5" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_35740_6" lemmaRef="lexicon.xml#lemma_5153" pos="VRB" corresp="variants.xml#type_120191">schuef</w>
             <w xml:id="LZT_35740_7" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
             <w xml:id="LZT_35740_8" lemmaRef="lexicon.xml#lemma_2101" pos="ADJ" corresp="variants.xml#type_166115">gemaiten</w>
@@ -26808,7 +26811,7 @@
             <hi rend="initial">
               <w xml:id="LZT_37210_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
             </hi>
-            <w xml:id="LZT_37210_1">fraw</w>
+            <w xml:id="LZT_37210_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_37210_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
             <w xml:id="LZT_37210_3" lemmaRef="lexicon.xml#lemma_3499" pos="ADJ" ana="lexicon.xml#lemma_3499_sense_5546" corresp="variants.xml#type_12094">küenen</w>
             <w xml:id="LZT_37210_4" lemmaRef="lexicon.xml#lemma_1106" pos="NOM" corresp="variants.xml#type_3427">degen</w>
@@ -30854,7 +30857,7 @@
             <pc xml:id="LZT_42820_4" join="left">;</pc>
           </l>
           <l n="3">
-            <w xml:id="LZT_42830_0">fraw</w>
+            <w xml:id="LZT_42830_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <hi rend="upper_case_first_letter">
               <w xml:id="LZT_42830_1">suene</w>
             </hi>
@@ -31301,7 +31304,7 @@
           <l n="5">
             <w xml:id="LZT_43450_0">do</w>
             <w xml:id="LZT_43450_1" lemmaRef="lexicon.xml#lemma_5867" pos="NOM" ana="lexicon.xml#lemma_5867_sense_9294" corresp="variants.xml#type_91111">suend</w>
-            <w xml:id="LZT_43450_2">fraw</w>
+            <w xml:id="LZT_43450_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_43450_3">mynn</w>
             <w xml:id="LZT_43450_4">ir</w>
             <w xml:id="LZT_43450_5" lemmaRef="lexicon.xml#lemma_106" pos="ADJ" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_261">aller</w>
@@ -31637,7 +31640,7 @@
             <w xml:id="LZT_43940_0" lemmaRef="lexicon.xml#lemma_3004" pos="ADV" ana="lexicon.xml#lemma_3004_sense_4808" corresp="variants.xml#type_44654">ye</w>
             <w xml:id="LZT_43940_1" lemmaRef="lexicon.xml#lemma_1185" pos="CNJ" ana="lexicon.xml#lemma_1185_sense_1872" corresp="variants.xml#type_3758">doch</w>
             <w xml:id="LZT_43940_2" lemmaRef="lexicon.xml#lemma_6978" pos="VRB" ana="lexicon.xml#lemma_6978_sense_11257" corresp="variants.xml#type_278715">versuent</w>
-            <w xml:id="LZT_43940_3">fraw</w>
+            <w xml:id="LZT_43940_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_43940_4">mynne</w>
             <w xml:id="LZT_43940_5" lemmaRef="lexicon.xml#lemma_1169" pos="DET" ana="lexicon.xml#lemma_1169_sense_1850" corresp="variants.xml#type_3691">disen</w>
             <w xml:id="LZT_43940_6" lemmaRef="lexicon.xml#lemma_11816" pos="NOM" ana="lexicon.xml#lemma_11816_sense_18691" corresp="variants.xml#type_132426">hass</w>
@@ -31792,7 +31795,7 @@
             <w xml:id="LZT_44120_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
             <w xml:id="LZT_44120_1" lemmaRef="lexicon.xml#lemma_4523" pos="CNJ" ana="lexicon.xml#lemma_4523_sense_7060" corresp="variants.xml#type_61484">auch</w>
             <w xml:id="LZT_44120_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="LZT_44120_3">fraw</w>
+            <w xml:id="LZT_44120_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_44120_4" lemmaRef="lexicon.xml#lemma_9197" pos="ART PRP" ana="lexicon.xml#lemma_9197_sense_23447" corresp="variants.xml#type_239437">peim</w>
             <w xml:id="LZT_44120_5" lemmaRef="lexicon.xml#lemma_21090" pos="NAM" ana="lexicon.xml#lemma_21090_sense_34628" corresp="variants.xml#type_93414">lack</w>
             <pc xml:id="LZT_44120_6" join="left">;</pc>
@@ -32305,7 +32308,7 @@
             <w xml:id="LZT_44840_2" lemmaRef="lexicon.xml#lemma_1258" pos="PRP" ana="lexicon.xml#lemma_1258_sense_1977" corresp="variants.xml#type_4044">durch</w>
             <w xml:id="LZT_44840_3">mynn</w>
             <w xml:id="LZT_44840_4" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="LZT_44840_5">fraw</w>
+            <w xml:id="LZT_44840_5" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_44840_6" lemmaRef="lexicon.xml#lemma_4365" pos="ADV NEG" ana="lexicon.xml#lemma_4365_sense_6822" corresp="variants.xml#type_15230">nie</w>
             <w xml:id="LZT_44840_7" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
             <w xml:id="LZT_44840_8" lemmaRef="lexicon.xml#lemma_6704" pos="NOM" corresp="variants.xml#type_280398">urtrutz</w>
@@ -32471,7 +32474,7 @@
             <w xml:id="LZT_45060_0">o</w>
             <w xml:id="LZT_45060_1" lemmaRef="lexicon.xml#lemma_7427" pos="NOM ADJ INJ" ana="lexicon.xml#lemma_7427_sense_12078" corresp="variants.xml#type_26763">we</w>
             <pc xml:id="LZT_45060_2" join="left">,</pc>
-            <w xml:id="LZT_45060_3">fraw</w>
+            <w xml:id="LZT_45060_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_45060_4">mynn</w>
             <pc xml:id="LZT_45060_5" join="left">,</pc>
             <w xml:id="LZT_45060_6" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
@@ -32551,7 +32554,7 @@
           <l n="6">
             <w xml:id="LZT_45160_0" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3397">das</w>
             <w xml:id="LZT_45160_1" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="LZT_45160_2">fraw</w>
+            <w xml:id="LZT_45160_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_45160_3" lemmaRef="lexicon.xml#lemma_4377" pos="ADJ ADV NEG" ana="lexicon.xml#lemma_4377_sense_6838" corresp="variants.xml#type_15283">nicht</w>
             <w xml:id="LZT_45160_4">do</w>
             <w xml:id="LZT_45160_5" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_31260">zu</w>
@@ -33040,7 +33043,7 @@
           </l>
           <l n="3">
             <w xml:id="LZT_45830_0">sein</w>
-            <w xml:id="LZT_45830_1">fraw</w>
+            <w xml:id="LZT_45830_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_45830_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
             <w xml:id="LZT_45830_3" lemmaRef="lexicon.xml#lemma_6282" pos="ADJ ADV" ana="lexicon.xml#lemma_6282_sense_9903" corresp="variants.xml#type_280414">tugentleiche</w>
           </l>
@@ -33172,7 +33175,7 @@
             <hi rend="initial">
               <w xml:id="LZT_46010_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
             </hi>
-            <w xml:id="LZT_46010_1">fraw</w>
+            <w xml:id="LZT_46010_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_46010_2" lemmaRef="lexicon.xml#lemma_5693" pos="VRB" ana="lexicon.xml#lemma_5693_sense_8912" corresp="variants.xml#type_19957">sprach</w>
             <w xml:id="LZT_46010_3" lemmaRef="lexicon.xml#lemma_6243" pos="ADJ ADV" ana="lexicon.xml#lemma_6243_sense_9844" corresp="variants.xml#type_280416">traurigkleichen</w>
             <pc xml:id="LZT_46010_4" join="left">:</pc>
@@ -33222,7 +33225,7 @@
           <l n="6">
             <pc xml:id="LZT_46060_0" join="right">&lt;</pc>
             <hi rend="initial">
-              <w xml:id="LZT_46060_1">fraw</w>
+              <w xml:id="LZT_46060_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             </hi>
             <pc xml:id="LZT_46060_2" join="left">,</pc>
             <w xml:id="LZT_46060_3" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3255">da</w>
@@ -33514,7 +33517,7 @@
             <w xml:id="LZT_46470_0" lemmaRef="lexicon.xml#lemma_5917" pos="ADV" ana="lexicon.xml#lemma_5917_sense_9370" corresp="variants.xml#type_45830">sunst</w>
             <w xml:id="LZT_46470_1">im</w>
             <w xml:id="LZT_46470_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="LZT_46470_3">fraw</w>
+            <w xml:id="LZT_46470_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_46470_4" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
             <w xml:id="LZT_46470_5" lemmaRef="lexicon.xml#lemma_4886" pos="NOM" ana="lexicon.xml#lemma_4886_sense_7584" corresp="variants.xml#type_16874">ritters</w>
             <w xml:id="LZT_46470_6">fuere</w>
@@ -33604,7 +33607,7 @@
           <l n="1">
             <pc xml:id="LZT_46610_0" join="right">&lt;</pc>
             <hi rend="initial">
-              <w xml:id="LZT_46610_1">fraw</w>
+              <w xml:id="LZT_46610_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             </hi>
             <pc xml:id="LZT_46610_2" join="left">,</pc>
             <w xml:id="LZT_46610_3">ir</w>
@@ -34068,7 +34071,7 @@
           </l>
           <l n="5">
             <w xml:id="LZT_47250_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="LZT_47250_1">fraw</w>
+            <w xml:id="LZT_47250_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_47250_2" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
             <w xml:id="LZT_47250_3">ir</w>
             <w xml:id="LZT_47250_4" lemmaRef="lexicon.xml#lemma_4010" pos="NOM" ana="lexicon.xml#lemma_4010_sense_6309" corresp="variants.xml#type_227772">masseney</w>
@@ -34667,7 +34670,7 @@
             <w xml:id="LZT_48060_0" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3397">das</w>
             <w xml:id="LZT_48060_1">es</w>
             <w xml:id="LZT_48060_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="LZT_48060_3">fraw</w>
+            <w xml:id="LZT_48060_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_48060_4">wär</w>
             <w xml:id="LZT_48060_5" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
             <w xml:id="LZT_48060_6" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3504">dem</w>
@@ -34787,7 +34790,7 @@
             <w xml:id="LZT_48240_1" lemmaRef="lexicon.xml#lemma_3112" pos="VRB" corresp="variants.xml#type_10705">jach</w>
             <pc xml:id="LZT_48240_2" join="left">:</pc>
             <pc xml:id="LZT_48240_3" join="right">&lt;</pc>
-            <w xml:id="LZT_48240_4">fraw</w>
+            <w xml:id="LZT_48240_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <pc xml:id="LZT_48240_5" join="left">,</pc>
             <w xml:id="LZT_48240_6" lemmaRef="lexicon.xml#lemma_6301" pos="VRB" ana="lexicon.xml#lemma_6301_sense_9929" corresp="variants.xml#type_101722">tuet</w>
             <w xml:id="LZT_48240_7" lemmaRef="lexicon.xml#lemma_56117" pos="POS" ana="lexicon.xml#lemma_56117_sense_90961" corresp="variants.xml#type_304801">ewer</w>
@@ -34982,7 +34985,7 @@
             <w xml:id="LZT_48510_2" lemmaRef="lexicon.xml#lemma_561" pos="VRB" ana="lexicon.xml#lemma_561_sense_825" corresp="variants.xml#type_59008">beschicht</w>
             <w xml:id="LZT_48510_3" lemmaRef="lexicon.xml#lemma_8989" pos="ADV" ana="lexicon.xml#lemma_8989_sense_13551" corresp="variants.xml#type_64660">fürwar</w>
             <pc xml:id="LZT_48510_4" join="left">,</pc>
-            <w xml:id="LZT_48510_5">fraw</w>
+            <w xml:id="LZT_48510_5" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <pc xml:id="LZT_48510_6" join="left">,</pc>
             <w xml:id="LZT_48510_7" lemmaRef="lexicon.xml#lemma_4368" pos="ADV" ana="lexicon.xml#lemma_4368_sense_6825" corresp="variants.xml#type_44353">nymmer</w>
             <pc xml:id="LZT_48510_8" join="left">,</pc>
@@ -35393,7 +35396,7 @@
             <w xml:id="LZT_49040_2" lemmaRef="lexicon.xml#lemma_735" pos="ADJ" ana="lexicon.xml#lemma_735_sense_1204" corresp="variants.xml#type_112910">plank</w>
             <pc xml:id="LZT_49040_3" join="left">.</pc>
             <w xml:id="LZT_49040_4" pos="">-</w>
-            <w xml:id="LZT_49040_5">fraw</w>
+            <w xml:id="LZT_49040_5" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_49040_6">mynn</w>
             <pc xml:id="LZT_49040_7" join="left">,</pc>
             <w xml:id="LZT_49040_8" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10237">mir</w>
@@ -35475,7 +35478,7 @@
             <pc xml:id="LZT_49140_10" join="left">,</pc>
           </l>
           <l n="5">
-            <w xml:id="LZT_49150_0">fraw</w>
+            <w xml:id="LZT_49150_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_49150_1">mynn</w>
             <pc xml:id="LZT_49150_2" join="left">,</pc>
             <w xml:id="LZT_49150_3" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3397">das</w>
@@ -35633,7 +35636,7 @@
             <pc xml:id="LZT_49350_7" join="left">.</pc>
           </l>
           <l n="6">
-            <w xml:id="LZT_49360_0">fraw</w>
+            <w xml:id="LZT_49360_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_49360_1">mynn</w>
             <pc xml:id="LZT_49360_2" join="left">,</pc>
             <w xml:id="LZT_49360_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
@@ -35663,7 +35666,7 @@
             <hi rend="initial">
               <w xml:id="LZT_49410_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
             </hi>
-            <w xml:id="LZT_49410_1">fraw</w>
+            <w xml:id="LZT_49410_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_49410_2" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_31260">zu</w>
             <w xml:id="LZT_49410_3" lemmaRef="lexicon.xml#lemma_3507" pos="NOM" ana="lexicon.xml#lemma_3507_sense_5555" corresp="variants.xml#type_12157">künig</w>
             <w xml:id="LZT_49410_4" lemmaRef="lexicon.xml#lemma_307" pos="NAM" ana="lexicon.xml#lemma_307_sense_401" corresp="variants.xml#type_207209">artause</w>
@@ -36034,7 +36037,7 @@
           </l>
           <l n="3">
             <w xml:id="LZT_49930_0" lemmaRef="lexicon.xml#lemma_7778" pos="ADV PRP" ana="lexicon.xml#lemma_7778_sense_12747" corresp="variants.xml#type_280477">zuhannd</w>
-            <w xml:id="LZT_49930_1">fraw</w>
+            <w xml:id="LZT_49930_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_49930_2">mynn</w>
             <w xml:id="LZT_49930_3" lemmaRef="lexicon.xml#lemma_1055" pos="ADV" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3258">dar</w>
             <w xml:id="LZT_49930_4" lemmaRef="lexicon.xml#lemma_1842" pos="VRB" ana="lexicon.xml#lemma_1842_sense_2844" corresp="variants.xml#type_95605">gachte</w>
@@ -36163,7 +36166,7 @@
             </hi>
             <w xml:id="LZT_50110_1" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10237">mir</w>
             <pc xml:id="LZT_50110_2" join="left">,</pc>
-            <w xml:id="LZT_50110_3">fraw</w>
+            <w xml:id="LZT_50110_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_50110_4">mynn</w>
             <pc xml:id="LZT_50110_5" join="left">,</pc>
             <w xml:id="LZT_50110_6" lemmaRef="lexicon.xml#lemma_7608" pos="ADV IPA" ana="lexicon.xml#lemma_7608_sense_12462" corresp="variants.xml#type_27506">wie</w>
@@ -36218,7 +36221,7 @@
             <w xml:id="LZT_50160_3" lemmaRef="lexicon.xml#lemma_4523" pos="CNJ" ana="lexicon.xml#lemma_4523_sense_7060" corresp="variants.xml#type_61484">auch</w>
             <w xml:id="LZT_50160_4">hie</w>
             <pc xml:id="LZT_50160_5" join="left">,</pc>
-            <w xml:id="LZT_50160_6">fraw</w>
+            <w xml:id="LZT_50160_6" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_50160_7">er</w>
             <pc xml:id="LZT_50160_8" join="left">,</pc>
           </l>
@@ -36830,7 +36833,7 @@
             <pc xml:id="LZT_50971_9" join="left">,</pc>
             <w xml:id="LZT_50971_10" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
             <w xml:id="LZT_50971_11" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="LZT_50971_12">fraw</w>
+            <w xml:id="LZT_50971_12" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_50971_13" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
           </l>
           <l n="7">
@@ -37463,7 +37466,7 @@
             <pc xml:id="LZT_51850_12" join="left">&gt;</pc>
           </l>
           <l n="6">
-            <w xml:id="LZT_51860_0">fraw</w>
+            <w xml:id="LZT_51860_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_51860_1">mynne</w>
             <w xml:id="LZT_51860_2" lemmaRef="lexicon.xml#lemma_116" pos="ADV" ana="lexicon.xml#lemma_116_sense_150" corresp="variants.xml#type_46421">aldo</w>
             <w xml:id="LZT_51860_3">ir</w>
@@ -37489,7 +37492,7 @@
         <p>
           <l n="1">
             <hi rend="initial">
-              <w xml:id="LZT_51910_0">fraw</w>
+              <w xml:id="LZT_51910_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             </hi>
             <w xml:id="LZT_51910_1">mynn</w>
             <pc xml:id="LZT_51910_2" join="left">,</pc>
@@ -37814,7 +37817,7 @@
             <w xml:id="LZT_52340_0">war</w>
             <w xml:id="LZT_52340_1" lemmaRef="lexicon.xml#lemma_1258" pos="PRP" ana="lexicon.xml#lemma_1258_sense_1977" corresp="variants.xml#type_4044">durch</w>
             <w xml:id="LZT_52340_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="LZT_52340_3">fraw</w>
+            <w xml:id="LZT_52340_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_52340_4" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_31260">zu</w>
             <w xml:id="LZT_52340_5" lemmaRef="lexicon.xml#lemma_4400" pos="NOM" corresp="variants.xml#type_122256">nöten</w>
             <w xml:id="LZT_52340_6" lemmaRef="lexicon.xml#lemma_3400" pos="VRB" ana="lexicon.xml#lemma_3400_sense_5361" corresp="variants.xml#type_11717">kumen</w>
@@ -38261,7 +38264,7 @@
           </l>
           <l n="6">
             <w xml:id="LZT_52860_0" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4316">ain</w>
-            <w xml:id="LZT_52860_1">fraw</w>
+            <w xml:id="LZT_52860_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_52860_2">was</w>
             <w xml:id="LZT_52860_3">in</w>
             <w xml:id="LZT_52860_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3504">dem</w>
@@ -40218,7 +40221,7 @@
             <w xml:id="LZT_55550_1" lemmaRef="lexicon.xml#lemma_5693" pos="VRB" ana="lexicon.xml#lemma_5693_sense_8912" corresp="variants.xml#type_19957">sprach</w>
             <pc xml:id="LZT_55550_2" join="left">:</pc>
             <pc xml:id="LZT_55550_3" join="right">&lt;</pc>
-            <w xml:id="LZT_55550_4">fraw</w>
+            <w xml:id="LZT_55550_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_55550_5" lemmaRef="lexicon.xml#lemma_3511" pos="NOM" ana="lexicon.xml#lemma_3511_sense_14129" corresp="variants.xml#type_12186">küniginne</w>
             <pc xml:id="LZT_55550_6" join="left">,</pc>
             <w xml:id="LZT_55550_7">was</w>
@@ -40633,7 +40636,7 @@
             <w xml:id="LZT_56060_0" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3397">das</w>
             <w xml:id="LZT_56060_1" lemmaRef="lexicon.xml#lemma_7672" pos="VRB" corresp="variants.xml#type_44918">wais</w>
             <w xml:id="LZT_56060_2">mein</w>
-            <w xml:id="LZT_56060_3">fraw</w>
+            <w xml:id="LZT_56060_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_56060_4" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_31260">zu</w>
             <w xml:id="LZT_56060_5" lemmaRef="lexicon.xml#lemma_3913" pos="NOM ADJ ADV" corresp="variants.xml#type_59399">massen</w>
             <w xml:id="LZT_56060_6" lemmaRef="lexicon.xml#lemma_7677" pos="NOM ADV" ana="lexicon.xml#lemma_7677_sense_12586" corresp="variants.xml#type_27811">wol</w>
@@ -40750,7 +40753,7 @@
           </l>
           <l n="3">
             <w xml:id="LZT_56230_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="LZT_56230_1">fraw</w>
+            <w xml:id="LZT_56230_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_56230_2" lemmaRef="lexicon.xml#lemma_5693" pos="VRB" ana="lexicon.xml#lemma_5693_sense_8912" corresp="variants.xml#type_19957">sprach</w>
             <w xml:id="LZT_56230_3">in</w>
             <w xml:id="LZT_56230_4">ir</w>
@@ -40813,7 +40816,7 @@
               <w xml:id="LZT_56310_0" lemmaRef="lexicon.xml#lemma_814" pos="NOM" ana="lexicon.xml#lemma_814_sense_1328" corresp="variants.xml#type_92331">poten</w>
             </hi>
             <w xml:id="LZT_56310_1" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="LZT_56310_2">fraw</w>
+            <w xml:id="LZT_56310_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_56310_3" lemmaRef="lexicon.xml#lemma_6301" pos="NOM VRB" ana="lexicon.xml#lemma_6301_sense_9929" corresp="variants.xml#type_22319">tet</w>
             <w xml:id="LZT_56310_4" lemmaRef="lexicon.xml#lemma_5396" pos="VRB" corresp="variants.xml#type_156082">sennden</w>
           </l>
@@ -41462,7 +41465,7 @@
             <pc xml:id="LZT_57240_3" join="left">.</pc>
             <w xml:id="LZT_57240_4">hie</w>
             <w xml:id="LZT_57240_5" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
-            <w xml:id="LZT_57240_6">fraw</w>
+            <w xml:id="LZT_57240_6" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_57240_7" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
             <w xml:id="LZT_57240_8" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3397">das</w>
             <w xml:id="LZT_57240_9" lemmaRef="lexicon.xml#lemma_3604" pos="NOM" ana="lexicon.xml#lemma_3604_sense_5708" corresp="variants.xml#type_93686">lanndt</w>
@@ -43735,7 +43738,7 @@
             <w xml:id="LZT_60340_1">redt</w>
             <w xml:id="LZT_60340_2" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_31260">zu</w>
             <w xml:id="LZT_60340_3" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10237">mir</w>
-            <w xml:id="LZT_60340_4">fraw</w>
+            <w xml:id="LZT_60340_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_60340_5">mynn</w>
             <w xml:id="LZT_60340_6" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
             <w xml:id="LZT_60340_7" lemmaRef="lexicon.xml#lemma_20" pos="NOM" ana="lexicon.xml#lemma_20_sense_30" corresp="variants.xml#type_235709">awentewr</w>
@@ -43779,7 +43782,7 @@
         <p>
           <l n="1">
             <hi rend="initial">
-              <w xml:id="LZT_60410_0">fraw</w>
+              <w xml:id="LZT_60410_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             </hi>
             <pc xml:id="LZT_60410_1" join="left">,</pc>
             <w xml:id="LZT_60410_2" lemmaRef="lexicon.xml#lemma_5460" pos="NOM" ana="lexicon.xml#lemma_5460_sense_8513" corresp="variants.xml#type_59512">sigs</w>
@@ -43832,7 +43835,7 @@
           <l n="6">
             <w xml:id="LZT_60460_0" lemmaRef="lexicon.xml#lemma_8989" pos="ADV" ana="lexicon.xml#lemma_8989_sense_13551" corresp="variants.xml#type_64660">fürwar</w>
             <pc xml:id="LZT_60460_1" join="left">,</pc>
-            <w xml:id="LZT_60460_2">fraw</w>
+            <w xml:id="LZT_60460_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <pc xml:id="LZT_60460_3" join="left">,</pc>
             <w xml:id="LZT_60460_4" lemmaRef="lexicon.xml#lemma_56117" pos="POS" ana="lexicon.xml#lemma_56117_sense_90961" corresp="variants.xml#type_304801">ewer</w>
             <w xml:id="LZT_60460_5" lemmaRef="lexicon.xml#lemma_10073" pos="NOM NEG" corresp="variants.xml#type_179559">ungenad</w>
@@ -44116,7 +44119,7 @@
           <l n="3">
             <w xml:id="LZT_60830_0" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4316">ain</w>
             <w xml:id="LZT_60830_1" lemmaRef="lexicon.xml#lemma_7459" pos="VRB" ana="lexicon.xml#lemma_7459_sense_12140" corresp="variants.xml#type_307917">waynde</w>
-            <w xml:id="LZT_60830_2">fraw</w>
+            <w xml:id="LZT_60830_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_60830_3">was</w>
             <w xml:id="LZT_60830_4" lemmaRef="lexicon.xml#lemma_3400" pos="VRB" ana="lexicon.xml#lemma_3400_sense_5361" corresp="variants.xml#type_11717">kumen</w>
             <pc xml:id="LZT_60830_5" join="left">,</pc>
@@ -44348,7 +44351,7 @@
             <pc xml:id="LZT_61140_1" join="left">,</pc>
             <w xml:id="LZT_61140_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
             <w xml:id="LZT_61140_3" lemmaRef="lexicon.xml#lemma_2598" pos="VRB VEX" corresp="variants.xml#type_8758">hat</w>
-            <w xml:id="LZT_61140_4">fraw</w>
+            <w xml:id="LZT_61140_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_61140_5" lemmaRef="lexicon.xml#lemma_5383" pos="NOM" ana="lexicon.xml#lemma_5383_sense_8404" corresp="variants.xml#type_367103">selide</w>
             <w xml:id="LZT_61140_6" lemmaRef="lexicon.xml#lemma_7677" pos="NOM ADV" ana="lexicon.xml#lemma_7677_sense_12586" corresp="variants.xml#type_27811">wol</w>
             <w xml:id="LZT_61140_7" lemmaRef="lexicon.xml#lemma_655" pos="VRB" corresp="variants.xml#type_1977">bewart</w>
@@ -44946,7 +44949,7 @@
             <w xml:id="LZT_62010_1" lemmaRef="lexicon.xml#lemma_5693" pos="VRB" ana="lexicon.xml#lemma_5693_sense_8912" corresp="variants.xml#type_19957">sprach</w>
             <pc xml:id="LZT_62010_2" join="left">:</pc>
             <pc xml:id="LZT_62010_3" join="right">&lt;</pc>
-            <w xml:id="LZT_62010_4">fraw</w>
+            <w xml:id="LZT_62010_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <pc xml:id="LZT_62010_5" join="left">,</pc>
             <w xml:id="LZT_62010_6" lemmaRef="lexicon.xml#lemma_3567" pos="VRB" corresp="variants.xml#type_12435">lat</w>
             <w xml:id="LZT_62010_7" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10226">mich</w>
@@ -45203,7 +45206,7 @@
             <w xml:id="LZT_62340_4" lemmaRef="lexicon.xml#lemma_5396" pos="VRB" corresp="variants.xml#type_18805">send</w>
             <w xml:id="LZT_62340_5" lemmaRef="lexicon.xml#lemma_56117" pos="PRO" ana="lexicon.xml#lemma_56117_sense_90961" corresp="variants.xml#type_304773">euch</w>
             <w xml:id="LZT_62340_6">mein</w>
-            <w xml:id="LZT_62340_7">fraw</w>
+            <w xml:id="LZT_62340_7" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_62340_8" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
             <w xml:id="LZT_62340_9" lemmaRef="lexicon.xml#lemma_6215" pos="NOM ADJ" corresp="variants.xml#type_93755">trewen</w>
             <w xml:id="LZT_62340_10">reich</w>
@@ -50613,7 +50616,7 @@
           </l>
           <l n="4">
             <hi rend="initial">
-              <w xml:id="LZT_69640_0">fraw</w>
+              <w xml:id="LZT_69640_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             </hi>
             <w xml:id="LZT_69640_1">mynn</w>
             <pc xml:id="LZT_69640_2" join="left">,</pc>
@@ -54535,7 +54538,7 @@
           </l>
           <l n="5">
             <w xml:id="LZT_74950_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="LZT_74950_1">fraw</w>
+            <w xml:id="LZT_74950_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_74950_2" lemmaRef="lexicon.xml#lemma_5693" pos="VRB" ana="lexicon.xml#lemma_5693_sense_8912" corresp="variants.xml#type_19957">sprach</w>
             <w xml:id="LZT_74950_3" lemmaRef="lexicon.xml#lemma_6342" pos="ADV PRP" ana="lexicon.xml#lemma_6342_sense_9997" corresp="variants.xml#type_84231">aus</w>
             <w xml:id="LZT_74950_4">ir</w>
@@ -55164,7 +55167,7 @@
             </hi>
             <w xml:id="LZT_75810_1" lemmaRef="lexicon.xml#lemma_2598" pos="VRB VEX" corresp="variants.xml#type_8758">hat</w>
             <w xml:id="LZT_75810_2" lemmaRef="lexicon.xml#lemma_4523" pos="CNJ" ana="lexicon.xml#lemma_4523_sense_7060" corresp="variants.xml#type_61484">auch</w>
-            <w xml:id="LZT_75810_3">fraw</w>
+            <w xml:id="LZT_75810_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_75810_4">fortunne</w>
           </l>
           <l n="2">
@@ -56386,7 +56389,7 @@
             <w xml:id="LZT_77450_1" lemmaRef="lexicon.xml#lemma_5693" pos="VRB" ana="lexicon.xml#lemma_5693_sense_8912" corresp="variants.xml#type_19958">sprachen</w>
             <pc xml:id="LZT_77450_2" join="left">:</pc>
             <pc xml:id="LZT_77450_3" join="right">&lt;</pc>
-            <w xml:id="LZT_77450_4">fraw</w>
+            <w xml:id="LZT_77450_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <pc xml:id="LZT_77450_5" join="left">,</pc>
             <w xml:id="LZT_77450_6">ir</w>
             <w xml:id="LZT_77450_7" lemmaRef="lexicon.xml#lemma_4238" pos="VRB VEM" corresp="variants.xml#type_235751">müesst</w>
@@ -56903,7 +56906,7 @@
             <w xml:id="LZT_78140_3" lemmaRef="lexicon.xml#lemma_4377" pos="ADJ ADV NEG" ana="lexicon.xml#lemma_4377_sense_6838" corresp="variants.xml#type_15283">nicht</w>
             <w xml:id="LZT_78140_4" lemmaRef="lexicon.xml#lemma_7505" pos="NOM VRB" corresp="variants.xml#type_27174">wesen</w>
             <pc xml:id="LZT_78140_5" join="left">,</pc>
-            <w xml:id="LZT_78140_6">fraw</w>
+            <w xml:id="LZT_78140_6" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <pc xml:id="LZT_78140_7" join="left">,</pc>
             <w xml:id="LZT_78140_8" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_31260">zu</w>
             <w xml:id="LZT_78140_9" lemmaRef="lexicon.xml#lemma_1169" pos="DET" ana="lexicon.xml#lemma_1169_sense_1850" corresp="variants.xml#type_3692">diser</w>
@@ -57741,7 +57744,7 @@
             <w xml:id="LZT_79270_0" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3397">das</w>
             <w xml:id="LZT_79270_1">er</w>
             <w xml:id="LZT_79270_2">wer</w>
-            <w xml:id="LZT_79270_3">fro</w>
+            <w xml:id="LZT_79270_3" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <w xml:id="LZT_79270_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
             <w xml:id="LZT_79270_5" lemmaRef="lexicon.xml#lemma_4264" pos="NOM" corresp="variants.xml#type_170823">muetes</w>
             <w xml:id="LZT_79270_6" lemmaRef="lexicon.xml#lemma_1258" pos="PRP" ana="lexicon.xml#lemma_1258_sense_1977" corresp="variants.xml#type_4044">durch</w>
@@ -57760,7 +57763,7 @@
             <w xml:id="LZT_79310_1" lemmaRef="lexicon.xml#lemma_3112" pos="VRB" corresp="variants.xml#type_10705">jach</w>
             <pc xml:id="LZT_79310_2" join="left">:</pc>
             <pc xml:id="LZT_79310_3" join="right">&lt;</pc>
-            <w xml:id="LZT_79310_4">fraw</w>
+            <w xml:id="LZT_79310_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <pc xml:id="LZT_79310_5" join="left">,</pc>
             <w xml:id="LZT_79310_6" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10237">mir</w>
             <w xml:id="LZT_79310_7" lemmaRef="lexicon.xml#lemma_1501" pos="VRB" ana="lexicon.xml#lemma_1501_sense_2331" corresp="variants.xml#type_4964">enwirret</w>
@@ -58324,7 +58327,7 @@
             <pc xml:id="LZT_80060_2" join="left">,</pc>
             <w xml:id="LZT_80060_3" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3397">das</w>
             <w xml:id="LZT_80060_4">er</w>
-            <w xml:id="LZT_80060_5">fraw</w>
+            <w xml:id="LZT_80060_5" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_80060_6" lemmaRef="lexicon.xml#lemma_2404" pos="NAM" ana="lexicon.xml#lemma_2404_sense_3878" corresp="variants.xml#type_209571">ginofer</w>
           </l>
           <l n="7">
@@ -58395,7 +58398,7 @@
             <pc xml:id="LZT_80160_3" join="right">&lt;</pc>
             <w xml:id="LZT_80160_4">hort</w>
             <pc xml:id="LZT_80160_5" join="left">,</pc>
-            <w xml:id="LZT_80160_6">fraw</w>
+            <w xml:id="LZT_80160_6" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <pc xml:id="LZT_80160_7" join="left">,</pc>
             <w xml:id="LZT_80160_8" lemmaRef="lexicon.xml#lemma_7608" pos="ADV IPA" ana="lexicon.xml#lemma_7608_sense_12462" corresp="variants.xml#type_27506">wie</w>
             <w xml:id="LZT_80160_9">es</w>
@@ -58422,7 +58425,7 @@
             <hi rend="initial">
               <w xml:id="LZT_80210_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
             </hi>
-            <w xml:id="LZT_80210_1">fraw</w>
+            <w xml:id="LZT_80210_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_80210_2" lemmaRef="lexicon.xml#lemma_4091" pos="VRB" ana="lexicon.xml#lemma_4091_sense_6427" corresp="variants.xml#type_38752">merkt</w>
             <w xml:id="LZT_80210_3">an</w>
             <w xml:id="LZT_80210_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3504">dem</w>
@@ -58717,7 +58720,7 @@
             <w xml:id="LZT_80560_0">do</w>
             <w xml:id="LZT_80560_1" lemmaRef="lexicon.xml#lemma_7695" pos="VRB" ana="lexicon.xml#lemma_7695_sense_12610" corresp="variants.xml#type_304498">wondt</w>
             <w xml:id="LZT_80560_2" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4316">ain</w>
-            <w xml:id="LZT_80560_3">fraw</w>
+            <w xml:id="LZT_80560_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_80560_4" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
             <w xml:id="LZT_80560_5" lemmaRef="lexicon.xml#lemma_202" pos="NOM PRP" corresp="variants.xml#type_132749">andacht</w>
             <w xml:id="LZT_80560_6">gros</w>
@@ -61822,7 +61825,7 @@
             <w xml:id="LZT_84730_3" lemmaRef="lexicon.xml#lemma_6722" pos="VRB" corresp="variants.xml#type_23471">gefangen</w>
           </l>
           <l n="4">
-            <w xml:id="LZT_84740_0">fraw</w>
+            <w xml:id="LZT_84740_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_84740_1" lemmaRef="lexicon.xml#lemma_2404" pos="NAM" ana="lexicon.xml#lemma_2404_sense_3878" corresp="variants.xml#type_209571">ginofer</w>
             <pc xml:id="LZT_84740_2" join="left">,</pc>
             <w xml:id="LZT_84740_3" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3397">das</w>
@@ -67567,7 +67570,7 @@
             <w xml:id="LZT_92530_1" lemmaRef="lexicon.xml#lemma_5366" pos="VRB" ana="lexicon.xml#lemma_5366_sense_8382" corresp="variants.xml#type_18715">sehet</w>
             <w xml:id="LZT_92530_2">her</w>
             <pc xml:id="LZT_92530_3" join="left">,</pc>
-            <w xml:id="LZT_92530_4">fraw</w>
+            <w xml:id="LZT_92530_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_92530_5">mynne</w>
             <pc xml:id="LZT_92530_6" join="left">,</pc>
           </l>
@@ -67824,7 +67827,7 @@
             <w xml:id="LZT_92860_1" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
             <w xml:id="LZT_92860_2" lemmaRef="lexicon.xml#lemma_7473" pos="VRB VEM" corresp="variants.xml#type_26936">wolt</w>
             <w xml:id="LZT_92860_3">im</w>
-            <w xml:id="LZT_92860_4">fraw</w>
+            <w xml:id="LZT_92860_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_92860_5">mynne</w>
           </l>
           <l n="7">
@@ -67863,7 +67866,7 @@
           <l n="3">
             <w xml:id="LZT_92930_0">alls</w>
             <w xml:id="LZT_92930_1">in</w>
-            <w xml:id="LZT_92930_2">fraw</w>
+            <w xml:id="LZT_92930_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_92930_3">mynne</w>
             <w xml:id="LZT_92930_4" lemmaRef="lexicon.xml#lemma_3656" pos="VRB" ana="lexicon.xml#lemma_3656_sense_5771" corresp="variants.xml#type_12692">leret</w>
             <pc xml:id="LZT_92930_5" join="left">,</pc>
@@ -70956,7 +70959,7 @@
             <w xml:id="LZT_97110_1" lemmaRef="lexicon.xml#lemma_5693" pos="VRB" ana="lexicon.xml#lemma_5693_sense_8912" corresp="variants.xml#type_19957">sprach</w>
             <pc xml:id="LZT_97110_2" join="left">:</pc>
             <pc xml:id="LZT_97110_3" join="right">&lt;</pc>
-            <w xml:id="LZT_97110_4">fraw</w>
+            <w xml:id="LZT_97110_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <pc xml:id="LZT_97110_5" join="left">,</pc>
             <w xml:id="LZT_97110_6" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10237">mir</w>
             <w xml:id="LZT_97110_7">gelaubet</w>
@@ -71028,7 +71031,7 @@
             </hi>
             <w xml:id="LZT_97210_1">in</w>
             <w xml:id="LZT_97210_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="LZT_97210_3">fraw</w>
+            <w xml:id="LZT_97210_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_97210_4">gund</w>
             <w xml:id="LZT_97210_5">neren</w>
           </l>
@@ -71054,7 +71057,7 @@
             <w xml:id="LZT_97240_4">alls</w>
             <w xml:id="LZT_97240_5" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3397">das</w>
             <w xml:id="LZT_97240_6" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="LZT_97240_7">fraw</w>
+            <w xml:id="LZT_97240_7" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_97240_8" lemmaRef="lexicon.xml#lemma_1971" pos="VRB" corresp="variants.xml#type_117807">gepot</w>
             <pc xml:id="LZT_97240_9" join="left">.</pc>
           </l>
@@ -71526,7 +71529,7 @@
             <w xml:id="LZT_97940_1" lemmaRef="lexicon.xml#lemma_6941" pos="VRB" corresp="variants.xml#type_308888">verschulldt</w>
             <w xml:id="LZT_97940_2" lemmaRef="lexicon.xml#lemma_13881" pos="PRO" ana="lexicon.xml#lemma_13881_sense_22941" corresp="variants.xml#type_55112">ichs</w>
             <pc xml:id="LZT_97940_3" join="left">,</pc>
-            <w xml:id="LZT_97940_4">fraw</w>
+            <w xml:id="LZT_97940_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <pc xml:id="LZT_97940_5" join="left">.</pc>
             <w xml:id="LZT_97940_6" lemmaRef="lexicon.xml#lemma_3567" pos="VRB" corresp="variants.xml#type_12435">lat</w>
             <w xml:id="LZT_97940_7" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10226">mich</w>
@@ -71647,7 +71650,7 @@
             <w xml:id="LZT_98070_5">kum</w>
             <w xml:id="LZT_98070_6" lemmaRef="lexicon.xml#lemma_56117" pos="PRO" ana="lexicon.xml#lemma_56117_sense_90961" corresp="variants.xml#type_304798">ew</w>
             <pc xml:id="LZT_98070_7" join="left">,</pc>
-            <w xml:id="LZT_98070_8">fraw</w>
+            <w xml:id="LZT_98070_8" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <pc xml:id="LZT_98070_9" join="left">,</pc>
             <w xml:id="LZT_98070_10" lemmaRef="lexicon.xml#lemma_106" pos="ADJ ADV" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_257">all</w>
             <w xml:id="LZT_98070_11" lemmaRef="lexicon.xml#lemma_16448" pos="ADJ ADV" ana="lexicon.xml#lemma_16448_sense_28275" corresp="variants.xml#type_168396">pallde</w>
@@ -75209,7 +75212,7 @@
             <pc xml:id="LZT_103030_6" join="left">:</pc>
           </l>
           <l n="4">
-            <w xml:id="LZT_103040_0">fraw</w>
+            <w xml:id="LZT_103040_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_103040_1" lemmaRef="lexicon.xml#lemma_2404" pos="NAM" ana="lexicon.xml#lemma_2404_sense_3878" corresp="variants.xml#type_209571">ginofer</w>
             <w xml:id="LZT_103040_2" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
             <w xml:id="LZT_103040_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
@@ -75253,7 +75256,7 @@
         <p>
           <l n="1">
             <hi rend="initial">
-              <w xml:id="LZT_103110_0">fraw</w>
+              <w xml:id="LZT_103110_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             </hi>
             <w xml:id="LZT_103110_1">minn</w>
             <pc xml:id="LZT_103110_2" join="left">,</pc>
@@ -75413,7 +75416,7 @@
           </l>
           <l n="2">
             <w xml:id="LZT_103320_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="LZT_103320_1">fraw</w>
+            <w xml:id="LZT_103320_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_103320_2" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
             <w xml:id="LZT_103320_3" lemmaRef="lexicon.xml#lemma_29609" pos="NAM" ana="lexicon.xml#lemma_29609_sense_46459" corresp="variants.xml#type_348927">moloand</w>
             <pc xml:id="LZT_103320_4" join="left">:</pc>
@@ -75421,7 +75424,7 @@
           <l n="3">
             <pc xml:id="LZT_103330_0" join="right">&lt;</pc>
             <hi rend="initial">
-              <w xml:id="LZT_103330_1">fraw</w>
+              <w xml:id="LZT_103330_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             </hi>
             <pc xml:id="LZT_103330_2" join="left">,</pc>
             <w xml:id="LZT_103330_3">ir</w>
@@ -75521,7 +75524,7 @@
           </l>
           <l n="5">
             <w xml:id="LZT_103450_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="LZT_103450_1">fraw</w>
+            <w xml:id="LZT_103450_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_103450_2" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
             <w xml:id="LZT_103450_3" lemmaRef="lexicon.xml#lemma_29609" pos="NAM" ana="lexicon.xml#lemma_29609_sense_46459" corresp="variants.xml#type_348927">moloand</w>
             <w xml:id="LZT_103450_4" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4316">ain</w>
@@ -76096,7 +76099,7 @@
             <w xml:id="LZT_104250_2">er</w>
             <w xml:id="LZT_104250_3" lemmaRef="lexicon.xml#lemma_4365" pos="ADV NEG" ana="lexicon.xml#lemma_4365_sense_6822" corresp="variants.xml#type_15230">nie</w>
             <w xml:id="LZT_104250_4" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
-            <w xml:id="LZT_104250_5">fro</w>
+            <w xml:id="LZT_104250_5" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
             <w xml:id="LZT_104250_6">in</w>
             <w xml:id="LZT_104250_7" lemmaRef="lexicon.xml#lemma_3962" pos="ADJ" ana="lexicon.xml#lemma_3962_sense_6245" corresp="variants.xml#type_79211">menigen</w>
             <w xml:id="LZT_104250_8" lemmaRef="lexicon.xml#lemma_3096" pos="NOM" ana="lexicon.xml#lemma_3096_sense_4919" corresp="variants.xml#type_10640">jaren</w>
@@ -78541,7 +78544,7 @@
             <w xml:id="LZT_107610_1" lemmaRef="lexicon.xml#lemma_5693" pos="VRB" ana="lexicon.xml#lemma_5693_sense_8912" corresp="variants.xml#type_19957">sprach</w>
             <pc xml:id="LZT_107610_2" join="left">:</pc>
             <pc xml:id="LZT_107610_3" join="right">&lt;</pc>
-            <w xml:id="LZT_107610_4">fraw</w>
+            <w xml:id="LZT_107610_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <pc xml:id="LZT_107610_5" join="left">,</pc>
             <w xml:id="LZT_107610_6">ir</w>
             <w xml:id="LZT_107610_7">solt</w>
@@ -78663,7 +78666,7 @@
             <w xml:id="LZT_107750_1" lemmaRef="lexicon.xml#lemma_5693" pos="VRB" ana="lexicon.xml#lemma_5693_sense_8912" corresp="variants.xml#type_19957">sprach</w>
             <pc xml:id="LZT_107750_2" join="left">:</pc>
             <pc xml:id="LZT_107750_3" join="right">&lt;</pc>
-            <w xml:id="LZT_107750_4">fraw</w>
+            <w xml:id="LZT_107750_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <pc xml:id="LZT_107750_5" join="left">,</pc>
             <w xml:id="LZT_107750_6">kund</w>
             <w xml:id="LZT_107750_7" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
@@ -78814,7 +78817,7 @@
           <l n="5">
             <pc xml:id="LZT_107950_0" join="right">&lt;</pc>
             <hi rend="initial">
-              <w xml:id="LZT_107950_1">fraw</w>
+              <w xml:id="LZT_107950_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             </hi>
             <pc xml:id="LZT_107950_2" join="left">,</pc>
             <w xml:id="LZT_107950_3" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
@@ -78831,7 +78834,7 @@
             <w xml:id="LZT_107960_0">ob</w>
             <w xml:id="LZT_107960_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
             <pc xml:id="LZT_107960_2" join="left">,</pc>
-            <w xml:id="LZT_107960_3">fraw</w>
+            <w xml:id="LZT_107960_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <pc xml:id="LZT_107960_4" join="left">,</pc>
             <w xml:id="LZT_107960_5" lemmaRef="lexicon.xml#lemma_56117" pos="POS" ana="lexicon.xml#lemma_56117_sense_90961" corresp="variants.xml#type_304815">ewr</w>
             <w xml:id="LZT_107960_6">wille</w>
@@ -78915,7 +78918,7 @@
           </l>
           <l n="7">
             <w xml:id="LZT_108070_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="LZT_108070_1">fraw</w>
+            <w xml:id="LZT_108070_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_108070_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
             <w xml:id="LZT_108070_3" lemmaRef="lexicon.xml#lemma_3604" pos="NOM" ana="lexicon.xml#lemma_3604_sense_5708" corresp="variants.xml#type_272599">lannds</w>
             <w xml:id="LZT_108070_4">in</w>
@@ -79172,7 +79175,7 @@
             <w xml:id="LZT_108420_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
             <w xml:id="LZT_108420_1">ir</w>
             <pc xml:id="LZT_108420_2" join="left">,</pc>
-            <w xml:id="LZT_108420_3">fraw</w>
+            <w xml:id="LZT_108420_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_108420_4">mynn</w>
             <pc xml:id="LZT_108420_5" join="left">,</pc>
             <w xml:id="LZT_108420_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_44606">stät</w>
@@ -79461,7 +79464,7 @@
             <pc xml:id="LZT_108810_4" join="left">,</pc>
           </l>
           <l n="2">
-            <w xml:id="LZT_108820_0">fraw</w>
+            <w xml:id="LZT_108820_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <pc xml:id="LZT_108820_1" join="left">,</pc>
             <w xml:id="LZT_108820_2" lemmaRef="lexicon.xml#lemma_56117" pos="POS" ana="lexicon.xml#lemma_56117_sense_90961" corresp="variants.xml#type_304815">ewr</w>
             <w xml:id="LZT_108820_3" lemmaRef="lexicon.xml#lemma_2110" pos="NOM" corresp="variants.xml#type_60481">genad</w>
@@ -79549,7 +79552,7 @@
             <w xml:id="LZT_108930_1" lemmaRef="lexicon.xml#lemma_5061" pos="VRB" ana="lexicon.xml#lemma_5061_sense_7886" corresp="variants.xml#type_17556">sagt</w>
             <w xml:id="LZT_108930_2" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10237">mir</w>
             <pc xml:id="LZT_108930_3" join="left">,</pc>
-            <w xml:id="LZT_108930_4">fraw</w>
+            <w xml:id="LZT_108930_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_108930_5" lemmaRef="lexicon.xml#lemma_7075" pos="ADJ ADV" ana="lexicon.xml#lemma_7075_sense_11459" corresp="variants.xml#type_25008">vil</w>
             <w xml:id="LZT_108930_6">here</w>
             <pc xml:id="LZT_108930_7" join="left">,</pc>
@@ -80254,7 +80257,7 @@
             <pc xml:id="LZT_109910_3" join="right">&lt;</pc>
             <w xml:id="LZT_109910_4">hort</w>
             <pc xml:id="LZT_109910_5" join="left">,</pc>
-            <w xml:id="LZT_109910_6">fraw</w>
+            <w xml:id="LZT_109910_6" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_109910_7" lemmaRef="lexicon.xml#lemma_7075" pos="ADJ ADV" ana="lexicon.xml#lemma_7075_sense_11459" corresp="variants.xml#type_25008">vil</w>
             <w xml:id="LZT_109910_8">here</w>
             <pc xml:id="LZT_109910_9" join="left">!</pc>
@@ -80338,7 +80341,7 @@
             <w xml:id="LZT_110020_1">sey</w>
             <w xml:id="LZT_110020_2" lemmaRef="lexicon.xml#lemma_56117" pos="PRO" ana="lexicon.xml#lemma_56117_sense_90961" corresp="variants.xml#type_304773">euch</w>
             <pc xml:id="LZT_110020_3" join="left">,</pc>
-            <w xml:id="LZT_110020_4">fraw</w>
+            <w xml:id="LZT_110020_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <pc xml:id="LZT_110020_5" join="left">,</pc>
             <w xml:id="LZT_110020_6" lemmaRef="lexicon.xml#lemma_5061" pos="VRB" ana="lexicon.xml#lemma_5061_sense_7886" corresp="variants.xml#type_17537">gesagt</w>
             <pc xml:id="LZT_110020_7" join="left">:</pc>
@@ -80540,7 +80543,7 @@
             <w xml:id="LZT_110260_0" lemmaRef="lexicon.xml#lemma_7608" pos="ADV IPA" ana="lexicon.xml#lemma_7608_sense_12462" corresp="variants.xml#type_27506">wie</w>
             <w xml:id="LZT_110260_1">in</w>
             <w xml:id="LZT_110260_2">sein</w>
-            <w xml:id="LZT_110260_3">fraw</w>
+            <w xml:id="LZT_110260_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_110260_4" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_31260">zu</w>
             <w xml:id="LZT_110260_5" lemmaRef="lexicon.xml#lemma_2886" pos="NOM" corresp="variants.xml#type_9856">hofe</w>
             <w xml:id="LZT_110260_6">fuert</w>
@@ -80568,7 +80571,7 @@
             </hi>
             <w xml:id="LZT_110310_2">ir</w>
             <pc xml:id="LZT_110310_3" join="left">,</pc>
-            <w xml:id="LZT_110310_4">fraw</w>
+            <w xml:id="LZT_110310_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <pc xml:id="LZT_110310_5" join="left">,</pc>
             <w xml:id="LZT_110310_6" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_44803">ainr</w>
             <w xml:id="LZT_110310_7" lemmaRef="lexicon.xml#lemma_7857" pos="NOM" ana="lexicon.xml#lemma_7857_sense_12879" corresp="variants.xml#type_82771">zeite</w>
@@ -80577,7 +80580,7 @@
           <l n="2">
             <w xml:id="LZT_110320_0" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3397">das</w>
             <w xml:id="LZT_110320_1" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="LZT_110320_2">fraw</w>
+            <w xml:id="LZT_110320_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_110320_3" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
             <w xml:id="LZT_110320_4" lemmaRef="lexicon.xml#lemma_25229" pos="NAM" ana="lexicon.xml#lemma_25229_sense_40453" corresp="variants.xml#type_120626">noaus</w>
           </l>
@@ -80798,7 +80801,7 @@
           </l>
           <l n="2">
             <w xml:id="LZT_110620_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="LZT_110620_1">fraw</w>
+            <w xml:id="LZT_110620_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_110620_2" lemmaRef="lexicon.xml#lemma_446" pos="VRB" ana="lexicon.xml#lemma_446_sense_612" corresp="variants.xml#type_1231">begunde</w>
             <w xml:id="LZT_110620_3" lemmaRef="lexicon.xml#lemma_3112" pos="VRB" corresp="variants.xml#type_10712">jehen</w>
             <pc xml:id="LZT_110620_4" join="left">,</pc>
@@ -80829,7 +80832,7 @@
             <pc xml:id="LZT_110650_0" join="right">&lt;</pc>
             <w xml:id="LZT_110650_1" lemmaRef="lexicon.xml#lemma_3087" pos="INJ" ana="lexicon.xml#lemma_3087_sense_4910" corresp="variants.xml#type_10584">ja</w>
             <pc xml:id="LZT_110650_2" join="left">,</pc>
-            <w xml:id="LZT_110650_3">fraw</w>
+            <w xml:id="LZT_110650_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <pc xml:id="LZT_110650_4" join="left">,</pc>
             <w xml:id="LZT_110650_5">zer</w>
             <w xml:id="LZT_110650_6" lemmaRef="lexicon.xml#lemma_20598" pos="NAM" ana="lexicon.xml#lemma_20598_sense_34112" corresp="variants.xml#type_369173">doloros</w>
@@ -80916,7 +80919,7 @@
             <w xml:id="LZT_110760_1">was</w>
             <w xml:id="LZT_110760_2" lemmaRef="lexicon.xml#lemma_1732" pos="CNJ" ana="lexicon.xml#lemma_1732_sense_2721" corresp="variants.xml#type_5898">et</w>
             <pc xml:id="LZT_110760_3" join="left">,</pc>
-            <w xml:id="LZT_110760_4">fraw</w>
+            <w xml:id="LZT_110760_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <pc xml:id="LZT_110760_5" join="left">,</pc>
             <w xml:id="LZT_110760_6" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3504">dem</w>
             <w xml:id="LZT_110760_7">in</w>
@@ -80944,7 +80947,7 @@
             <w xml:id="LZT_110810_1" lemmaRef="lexicon.xml#lemma_4238" pos="VRB VEM" corresp="variants.xml#type_235751">müesst</w>
             <w xml:id="LZT_110810_2" lemmaRef="lexicon.xml#lemma_1732" pos="CNJ" ana="lexicon.xml#lemma_1732_sense_2721" corresp="variants.xml#type_5898">et</w>
             <pc xml:id="LZT_110810_3" join="left">,</pc>
-            <w xml:id="LZT_110810_4">fraw</w>
+            <w xml:id="LZT_110810_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <pc xml:id="LZT_110810_5" join="left">,</pc>
             <w xml:id="LZT_110810_6" lemmaRef="lexicon.xml#lemma_1659" pos="VRB" ana="lexicon.xml#lemma_1659_sense_2590" corresp="variants.xml#type_5642">erstorben</w>
           </l>
@@ -80980,7 +80983,7 @@
             <w xml:id="LZT_110850_1">sey</w>
             <w xml:id="LZT_110850_2" lemmaRef="lexicon.xml#lemma_1732" pos="CNJ" ana="lexicon.xml#lemma_1732_sense_2721" corresp="variants.xml#type_5898">et</w>
             <pc xml:id="LZT_110850_3" join="left">,</pc>
-            <w xml:id="LZT_110850_4">fraw</w>
+            <w xml:id="LZT_110850_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <pc xml:id="LZT_110850_5" join="left">,</pc>
             <w xml:id="LZT_110850_6" lemmaRef="lexicon.xml#lemma_6330" pos="ADV PRP" ana="lexicon.xml#lemma_6330_sense_9973" corresp="variants.xml#type_41213">auf</w>
             <w xml:id="LZT_110850_7" lemmaRef="lexicon.xml#lemma_2110" pos="NOM" corresp="variants.xml#type_93145">gnad</w>
@@ -81141,7 +81144,7 @@
               <w xml:id="LZT_111060_1" lemmaRef="lexicon.xml#lemma_3087" pos="INJ" ana="lexicon.xml#lemma_3087_sense_4910" corresp="variants.xml#type_10584">ja</w>
             </hi>
             <pc xml:id="LZT_111060_2" join="left">,</pc>
-            <w xml:id="LZT_111060_3">fraw</w>
+            <w xml:id="LZT_111060_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <pc xml:id="LZT_111060_4" join="left">,</pc>
             <w xml:id="LZT_111060_5">alls</w>
             <w xml:id="LZT_111060_6" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
@@ -81243,7 +81246,7 @@
           <l n="1">
             <pc xml:id="LZT_111210_0" join="right">&lt;</pc>
             <hi rend="initial">
-              <w xml:id="LZT_111210_1">fraw</w>
+              <w xml:id="LZT_111210_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             </hi>
             <pc xml:id="LZT_111210_2" join="left">,</pc>
             <w xml:id="LZT_111210_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
@@ -81339,7 +81342,7 @@
           <l n="4">
             <w xml:id="LZT_111340_0" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3397">das</w>
             <w xml:id="LZT_111340_1">in</w>
-            <w xml:id="LZT_111340_2">fraw</w>
+            <w xml:id="LZT_111340_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_111340_3">wer</w>
             <w xml:id="LZT_111340_4" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
             <w xml:id="LZT_111340_5" lemmaRef="lexicon.xml#lemma_3732" pos="ADJ ADV" corresp="variants.xml#type_309253">leichtes</w>
@@ -81349,7 +81352,7 @@
           </l>
           <l n="5">
             <hi rend="initial">
-              <w xml:id="LZT_111350_0">fraw</w>
+              <w xml:id="LZT_111350_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             </hi>
             <w xml:id="LZT_111350_1">er</w>
             <pc xml:id="LZT_111350_2" join="left">,</pc>
@@ -81893,7 +81896,7 @@
           </l>
           <l n="2">
             <w xml:id="LZT_112120_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="LZT_112120_1">fraw</w>
+            <w xml:id="LZT_112120_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_112120_2" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
             <w xml:id="LZT_112120_3" lemmaRef="lexicon.xml#lemma_29609" pos="NAM" ana="lexicon.xml#lemma_29609_sense_46459" corresp="variants.xml#type_348929">moloandt</w>
             <pc xml:id="LZT_112120_4" join="left">.</pc>
@@ -81927,7 +81930,7 @@
             <pc xml:id="LZT_112150_7" join="left">.</pc>
           </l>
           <l n="6">
-            <w xml:id="LZT_112160_0">fraw</w>
+            <w xml:id="LZT_112160_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="LZT_112160_1">mynn</w>
             <w xml:id="LZT_112160_2" lemmaRef="lexicon.xml#lemma_5153" pos="VRB" corresp="variants.xml#type_120191">schuef</w>
             <pc xml:id="LZT_112160_3" join="left">,</pc>

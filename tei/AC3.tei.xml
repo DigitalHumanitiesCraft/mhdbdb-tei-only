@@ -147,6 +147,7 @@
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 3 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
+      <change when="2026-09-06" who="#editor">#387 (fro): 2 homographie-ambige Tokens der Form fro kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260) bzw. vrô ADJ/ADV (lemma_7250); LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/387-fro/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -846,7 +847,7 @@
           </hi>
           <lb n="4"/>
           <w xml:id="AC3_5040_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_38749">vnd</w>
-          <w xml:id="AC3_5040_1" pos="ADJ">fro</w>
+          <w xml:id="AC3_5040_1" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           <w xml:id="AC3_5040_2" pos="VRB">was</w>
           <w xml:id="AC3_5040_3" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
           <w xml:id="AC3_5040_4" lemmaRef="lexicon.xml#lemma_22934" pos="ADV" ana="lexicon.xml#lemma_22934_sense_37243" corresp="variants.xml#type_105262">vormals</w>
@@ -10476,7 +10477,7 @@
           <lb n="18"/>
           <w xml:id="AC3_30180_0" lemmaRef="lexicon.xml#lemma_3900" pos="ADJ" ana="lexicon.xml#lemma_3900_sense_6153" corresp="variants.xml#type_13616">lustsam</w>
           <pc xml:id="AC3_30180_1" join="left">,</pc>
-          <w xml:id="AC3_30180_2" pos="ADJ">fro</w>
+          <w xml:id="AC3_30180_2" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           <w xml:id="AC3_30180_3" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_38749">vnd</w>
           <w xml:id="AC3_30180_4" lemmaRef="lexicon.xml#lemma_9099" pos="ADJ" corresp="variants.xml#type_84005">wolgemut</w>
           <w xml:id="AC3_30180_5" lemmaRef="lexicon.xml#lemma_5432" pos="VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18956">ist</w>

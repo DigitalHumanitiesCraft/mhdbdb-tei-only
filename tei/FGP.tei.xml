@@ -141,6 +141,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-09-06" who="#editor">#387 (fro): 2 homographie-ambige Tokens der Form fro kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260) bzw. vrô ADJ/ADV (lemma_7250); LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/387-fro/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -1485,7 +1486,7 @@
           <w xml:id="FGP_1350_2">wer</w>
           <w xml:id="FGP_1350_3" lemmaRef="lexicon.xml#lemma_7898" pos="ADJ ADV" ana="lexicon.xml#lemma_7898_sense_12953" corresp="variants.xml#type_93440">zornig</w>
           <w xml:id="FGP_1350_4">oder</w>
-          <w xml:id="FGP_1350_5">fro</w>
+          <w xml:id="FGP_1350_5" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           <pc xml:id="FGP_1350_6" join="left">,</pc>
         </l>
         <l n="136">
@@ -2862,7 +2863,7 @@
           <w xml:id="FGP_2750_2">was</w>
           <w xml:id="FGP_2750_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
           <w xml:id="FGP_2750_4" lemmaRef="lexicon.xml#lemma_4786" pos="NOM" corresp="variants.xml#type_16452">rates</w>
-          <w xml:id="FGP_2750_5">fro</w>
+          <w xml:id="FGP_2750_5" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           <pc xml:id="FGP_2750_6" join="left">.</pc>
         </l>
         <l n="276">

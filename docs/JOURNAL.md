@@ -882,3 +882,470 @@ Für die erste Ausprägung ist die Folgerung im Gate umgesetzt: der neue Sättig
 **Was gut lief, damit die Liste nicht kippt:** die Algorithmen und XPaths halten zeilengenau, die Invariante aus `CONTRACTS.md` §H.2a stimmt exakt (`sum(text.wordCount)` = 7.546.332 = unabhängiger Korpusscan), die dokumentierten 396 offenen Cross-Refs über 109 IDs stimmen auf den Ref genau, und die Frage, ob der IndexedDB-Invalidierungsmechanismus ohne den Code auffindbar ist, ist mit Ja zu beantworten: `CONTRACTS.md` §E führt ihn samt der 30-Tage-Folge eines vergessenen Bumps.
 
 **Phase:** Health-Check abgeschlossen, `claude/health-check-0902` als PR offen. Offen an chsteiner: #395 (die WZB-Selbstauskunft im Header, ein reines Korpusticket, das dieser Lauf nicht anfassen durfte) und die Frage, ob ein fehlender Agententyp künftig ein Halt sein soll statt eines Weiter. Geschrieben steht bisher nur der Fall „die Session darf keine Agenten starten"; der Fall „der Typ ist nicht da" ist heute zweimal eingetreten und wurde ohne geschriebene Grundlage als Halt behandelt.
+
+---
+
+## 2026-09-06 – Eindeutigkeit über einer Menge mit einem Element, und ein Alarm, der nur eine andere Zähleinheit war
+
+Cloud-Umgebung, volles Fable-Kontingent, chsteiner eine Woche nicht am Laptop.
+Zuschnitt entsprechend: alles, was ohne seine Entscheidung auskommt, wird
+gemacht; alles Übrige wird bis zur Entscheidungsreife vorbereitet und liegen
+gelassen. Ergebnis in Zahlen: **1.455 Tokens neu annotiert** über drei Läufe,
+kein neues Lemma und kein neuer Variantentyp geprägt, Korpus-Index 4.2.8 auf
+4.2.11.
+
+| Lauf | Fälle | annotiert | zurückgehalten |
+|---|--:|--:|--:|
+| #216 Punkt 3 (`vrouwe` vor `minne`) | 155 | 152 | 3 |
+| #387 mechanischer Teil | 948 | 948 | 0 |
+| #387 Kern (`fro`, kontextpflichtig) | 390 | 355 | 35 |
+
+Der dritte Lauf ist der einzige, der Fable gebraucht hat: 61 Bündel, eines je
+Sigel, nach POS-TAGSET §6.3. Die anderen beiden sind mechanisch entschieden und
+hätten kein Modell gebraucht.
+
+**Rot: Eindeutigkeit über einer Menge mit einem Element ist keine
+Eindeutigkeit.** Der #387-Extraktor sammelt je normalisierter Schreibform alle
+Lemmata, die im Korpus daran hängen, und annotiert, wo diese Menge einelementig
+ist. Das ist richtig gedacht und war trotzdem beinahe ein falsches Tag:
+`NLA_72101_5`, „wie si ze der hohzit **fvrn**", ist das Verb *varn*. Die
+Schreibung `fvrn` hat korpusweit **genau einen** annotierten Beleg
+(`RF_118100_0`, „fvrn hersante", zu Recht `lemma_7260`), und eine
+einelementige Menge ist trivial eindeutig. Das Skript hätte das Verb zur Frau
+gemacht, mit einer Begründung, die **wörtlich wahr** gewesen wäre: „alle Belege
+dieser Schreibung hängen an `lemma_7260`". Behoben mit `MIN_BELEGE = 5` plus
+einer namentlichen Ausnahmeliste. Die allgemeine Form der Lehre: ein Prädikat
+über einer Menge braucht eine Untergrenze für deren Größe, sonst misst es die
+Stichprobe statt den Gegenstand, und der Fehler versteckt sich hinter einem
+Satz, der stimmt.
+
+**Rot: eine Zahl in der falschen Einheit macht eine verbuchte Altlast zu einem
+frischen Alarm.** Gemeldet wurde chsteiner „ein echter Befund, und größer als
+erwartet: 330 Korpus-Tokens verweisen mit `@ana` auf einen Sense, den weder der
+Index noch das Lexikon kennt". Die 330 stimmen. Was fehlte, war die
+Zähleinheit, in der die Ratsche arbeitet: **74 distinkte Sense-IDs, und alle 74
+stehen seit dem 02.07.2026 in `scripts/audit/lexicon-baseline.json`.**
+`check-authority-cross-refs.py` scannt `@ana` ausdrücklich (`REF_ATTRS`) und
+druckt die Zeile selbst: „74 sense-ids (330 refs)", Gate grün, `CI CHECK OK`.
+Es war nie ein Befund, sondern dieselbe #152-Sache in einer anderen Einheit.
+Der Fehlermodus ist derselbe, vor dem der eigene #28-Kommentar desselben Tages
+warnt (224 `zunge`-Widersprüche auf drei Senses), nur diesmal in eigener Sache.
+**Wer eine Zahl gegen eine Ratsche hält, hält sie in deren Einheit, sonst hält
+er sie gegen nichts.**
+
+**Der Ertrag von #28 Phase 2 ist nicht die Liste, sondern ihre Reichweite.**
+Der Phasenplan empfiehlt, mit den 430 `@ana`-Widersprüchen anzufangen „statt
+mit einer Frequenzschwelle". Gemessen sind das keine Alternativen: **22 der 26
+belegstärksten Nicht-Namen tragen keinen einzigen Widerspruch**, das sind
+119.101 der 124.369 Tokens (95,8 %). `niht` ist der Fall, an dem es sichtbar
+wird: 81.088 Belege, alle mit `@ana`, **jedes einzelne auf den Sprach-Sense**.
+Das schärfste maschinelle Kriterium der Menge kann ihren größten
+Falschpositiven nicht entfernen, weil die Annotation dort die Quelle des
+Problems ist und nicht sein Korrektiv. Umgekehrt liegen 184 der 424
+Widersprüche auf 15 Lemmata außerhalb der 26. Beide Listen sind zu lesen.
+Nebenbei fällt die `gebrechen`-Frage quantitativ zu: 37 + 1 + 1 = 39
+Widersprüche plus `JT_30921000_5` ergeben die 40 sense-disambiguierten Tokens,
+die #28 nennt, unabhängig gemessen mit einem anderen Skript.
+
+Die 430 des Plans sind übrigens 424 plus 6: sechs Tokens tragen ein `@ana` auf
+einen Sense, den der Lemma-Index nicht führt. Ein Verweis ins Leere
+widerspricht nichts, er sagt gar nichts, deshalb steht er jetzt als eigene
+Zeile.
+
+**Ein Befund des CI-Bots, der die Sorte war, für die er da ist.** `next_token`
+im `fro`-Extraktor nahm das nächste `<w>` in Dokumentordnung des ganzen
+`<body>` und überschritt damit die Verszeile. Unabhängig nachgemessen: bei
+**116 der 374 Versfälle (31 %)** steht das Zieltoken am Versende, das Feld trug
+dort also das erste Wort der Folgezeile, und `prompt.md` stellt genau dieses
+Feld an die erste Stelle. Aus dem Lauf ist daraus nachweislich kein falsches
+Tag geworden (von den zwölf Anrede-Urteilen stehen neun im Vers, keines am
+Versende, drei sind Prosa), aber das Skript bleibt liegen und die 35
+zurückgehaltenen Fälle laufen noch einmal hindurch. `cases.json` wurde
+**bewusst nicht** neu geschrieben: die Datei ist das Protokoll dessen, was die
+61 Agenten gesehen haben, und nicht das, was sie hätten sehen sollen.
+
+**Zur Regel, die chsteiner mitten im Lauf viermal geschickt hat** („immer die
+Kommentare lesen in den Issues, nicht nur den Body"): sie steht jetzt in
+`CLAUDE.md` unter „Issue Labels", mit vier gemessenen Fällen statt einer
+Ermahnung. Der schärfste ist #216: die 12 Kommentare tragen das ganze
+Arbeitspaket, und der Body enthält das Wort *vrouwe* nicht ein einziges Mal.
+In `BETRIEBSVERTRAG.md` ist sie ein Unterpunkt von Regel 9 geworden und
+ausdrücklich **keine** neue nummerierte Regel: `CLAUDE.md` zitiert „Regel 11"
+bei der Nummer, und ein Einschub hätte sie stillschweigend verschoben.
+
+**Umgebungswissen für die nächste Cloud-Session, alles gemessen:**
+
+- **Tests brauchen `CI=1`.** Ohne die Variable fährt Playwright 6 Worker auf 4
+  Kernen gegen einen 42-MB-Index: 7 Fehler und 9 Flaky. Mit 2 Workern genau
+  ein Fehler, und der ist echt und umgebungsbedingt: `lemma page loads
+  Wörterbuchnetz entries via API` ruft `api.woerterbuchnetz.de`, was der
+  Egress-Proxy mit 403 auf CONNECT abweist. Auf `origin/main` fällt derselbe
+  Test identisch aus.
+- **Die Authority-Datenbanken sind hier nicht erreichbar** (d-nb.info,
+  lobid.org, handschriftencensus.de). Die TRO-Identifier-Frage aus #395 ist in
+  dieser Umgebung deshalb nicht zu klären. `WebSearch` geht und bestätigt
+  indirekt, dass handschriftencensus 212 der Trojanerkrieg ist, also
+  `works.xml` recht hat und die 929 im Header falsch ist. **Das Korpus wurde
+  darauf trotzdem nicht geändert**: eine indirekte Bestätigung ist keine
+  Quelle.
+- **`data-integrity.yml` läuft nur auf `pull_request`**, nicht auf einen Push
+  auf einen Branch. Ein Datenzweig ohne PR hat also kein Gate über sich. Das
+  war der ausschlaggebende Grund, PR #398 früh zu öffnen statt am Ende.
+  **Kehrseite, am Nachmittag desselben Tages gemessen:** sobald der PR offen
+  ist, lösen die Pfadfilter für **jeden** Push aus, auch für einen reinen
+  Doku-Commit, weil `paths` bei `pull_request` gegen den gesamten PR-Diff
+  gehalten wird und nicht gegen den Push. Zusammen mit `cancel-in-progress`
+  heisst das: jeder Push bricht den laufenden Gate-Lauf ab.
+- Chromium ist als Build 1194 installiert, das Projekt pinnt 1193 (Symlink
+  genügt), und `python3` ist 3.11, während die Skripte 3.13 brauchen
+  (`Path.read_text(newline=)`). Immer `python3.13` aufrufen.
+
+**Zwischenstand am Mittag:** PR #398 offen, sechs Bot-Runden, die letzte
+vollständige ohne Befund. Offen an chsteiner, alles drei eine Entscheidung und
+nichts davon recherchierbar: der Variantentyp für die Zirkumflex-Schreibung
+unter `lemma_7260` (blockierte dieselben 3 KZW-entschiedenen Tokens zum zweiten
+Mal), die 35 zurückgehaltenen `fro`-Fälle, und ob TEI-Header die
+`works.xml`-Identifier weiter duplizieren sollen. Alle drei sind am selben Tag
+entschieden worden, siehe den folgenden Eintrag.
+
+---
+
+## 2026-09-06 (Nachmittag) – Eine Zusage im Perfekt, und sechsmal derselbe Fehler in verschiedenen Kostümen
+
+Fortsetzung desselben Tages, nach den drei Entscheidungen von chsteiner: der
+#235-Präzedenzfall gilt, an KZW geht nur, was sie wirklich braucht, den Rest
+entscheidet Fable. Endstand **1.477 Tokens** (die 1.455 vom Vormittag plus 3
+plus 19), Korpus-Index 4.2.11 auf 4.2.13, Authority-Index 1.9.2 auf 1.9.3, und
+ein Skript, das es seit Monaten gab, hängt jetzt in der CI.
+
+**#216 ist abgeschlossen, und der Präzedenzfall kollidierte mit einer Ratsche.**
+Die 3 zurückgehaltenen `vrouwe`-Belege in RVBR sind geschrieben, damit steht
+Punkt 3 auf 155/155. Der Weg dahin ist der lehrreiche Teil: der #235-Fall
+erlaubt, für eine Zirkumflex-Schreibung ohne Typ einen Beleg **ohne**
+`@corresp` zu schreiben, und genau das hätte die #370-Ratsche rot gemacht, die
+für RVBR null Tokens ohne `@corresp` toleriert. Aufgefallen ist es mitten in
+der Umsetzung, nachdem die Freigabe schon vorlag. Ich hatte bereits einen
+`ohne_corresp`-Schlüssel in `apply-homograph.py` gebaut; er ist wieder draußen
+(`git checkout --`), weil ein Mechanismus, der die Ratsche still umgeht, nach
+genau dieser Entscheidung das Falscheste ist, was man bauen kann. Stattdessen
+neu gefragt und **`type_372365` geprägt**, der erste neue Variantentyp dieser
+Session (Maximum vorher `type_372364`). Kosten: `variants.xml` wächst um genau
+eine Form, 256.761 auf 256.762 – und diese Zahl steht an zehn Stellen im Repo,
+zwei davon auf ausgelieferten Seiten.
+
+**Der ADJ/ADV-Nachlauf, und was ein gemessener Prior wert ist.** Die 31 mittel-
+konfidenten Fälle des `fro`-Laufs waren sich beim Lemma alle einig; offen war
+nur ADJ gegen ADV, und das ist nach POS-TAGSET §4 ausdrücklich **K4**, also
+LLM-Aufgabe und keine kuratorische Frage. Das war der Grund, sie nicht an KZW
+zu geben. Der Prior hat dann die eigentliche Arbeit getan: über alle 667
+Dateien trägt auf `origin/main` **kein einziger** der 4.869 `lemma_7250`-Belege
+`ADV` allein. Von 14 ADV-Vorschlägen des ersten Durchgangs sind daraufhin 13
+gefallen. Geschrieben sind 19, zurückgehalten 11, und zusammen mit den zwei
+Substantivierungen gehen **13 Fälle an @wachauer**. Zwei Dinge liefen anders
+als sonst: `unentschieden` war ein erlaubtes Ergebnis (zwei Fälle, beide die
+verblose Antithese in Parallelüberlieferung), und bei sechs Fällen wurde die
+Konfidenz **nachgefragt statt überstimmt** – fünf gingen auf `high`, einer
+blieb bewusst `medium`. Der einzige ADV-Fall (`RVBR_6083_0`) ist gut begründet
+und steht trotzdem nicht im Batch: wäre er richtig, wäre er der erste
+`ADV`-Beleg von *vrô* im Korpus, und eine Entscheidung gegen den gesamten
+annotierten Bestand gehört nicht in einen maschinellen Lauf.
+
+**`doc-count-audit.py` hängt jetzt als Gate in `data-integrity.yml`.** Das
+Skript kennt seit Monaten ein `--check` mit Exit ungleich 0 bei Drift und lief
+in keinem Workflow. Was das kostet, hat der Tag vorgeführt: die alte 256.761
+blieb an zehn Stellen stehen, gefunden hat es der Review-Bot, nicht die CI. Der
+Ort ist `data-integrity.yml` und nicht `no-cdn-check.yml`, weil dort `lxml`
+ohnehin installiert ist; die Kosten sind sechs Sekunden gegen 45 Minuten
+Job-Timeout. **Die Grenze steht als Kommentar daneben und hat zwei Hälften, die
+verschieden wirken:** `docs/**` und `*.html` fehlen in den Pfadfiltern, dort
+ändert ein PR also die **behauptete** Zahl; `playground/**` fehlt ebenfalls, und
+dort ändert ein PR die **gemessene**. Ein PR, der ein UI-Modul hinzufügt, löst
+diesen Workflow nicht aus und macht den nächsten, unbeteiligten Daten-PR rot.
+Die Pfadfilter zu erweitern hieße, den 45-Minuten-Lauf bei jeder
+Playground-Änderung zu starten; das ist ein Handel über fremde Arbeit und
+deshalb bewusst nicht getroffen, sondern mit Preis daneben notiert.
+
+**Nachgesehen statt auf grün vertraut.** Nach der #397-Regel ist ein Gate, das
+grün wird, ohne etwas geprüft zu haben, genau die tote Wache. Also ins Job-Log
+von `101512379175` gesehen: der Schritt lief als Nummer 7 in vier Sekunden,
+druckte alle 19 gemessenen Größen (darunter `variants.xml — Formen | 256.762`,
+die Zahl, um die es ging), scannte Docs und ausgelieferte HTML-Seiten und
+meldete in der Anker-Selbstprüfung kein konfiguriertes Paar ohne Treffer. Vor
+der Korrektur wäre er rot gewesen.
+
+**Rot, und es ist der Befund des Tages: sechs Bot-Befunde, ein einziges
+Muster.** Runde 10 (die Variantenzahl an zehn Stellen), Runde 11 (die
+Konfidenz-Rechnung, die einen von zwei Läufen nannte), die Zusage „der Body ist
+mitkorrigiert", die geschrieben wurde, bevor sie ausgeführt war, Runde 14
+Befund 1 (der billigste Check hinter dem teuersten, obwohl der Workflow-Kopf
+„billig nach teuer" ausschreibt), Runde 14 Befund 2 (die offengelegte Grenze
+nannte `docs/**` und `*.html`, aber nicht `playground/**`), Runde 15 (dieselbe
+Grenze nannte dann drei Herkünfte als eine, und die genannte Abhilfe deckte nur
+eine davon). Und nachträglich derselbe Fehler im Nachlauf-README: „31 von 31"
+über einer Menge, die 30 Elemente hat. Die 31 ist dabei nicht falsch, sie zählt
+die `confidence`-Fälle des ersten Laufs, und der Bot hat sie in Runde 11 selbst
+so nachgemessen; nur spricht der Satz über die Fälle des zweiten Laufs, und das
+sind 30. **Zwei richtige Zahlen über zwei verschiedene Mengen**, hingeschrieben
+mit dem Bezugswort der falschen. Genau die Sorte, die eine Nachmessung
+bestätigt, statt sie zu finden.
+**Jedesmal eine Aussage über eine Menge, geschrieben aus der Kenntnis eines
+Teils davon.** Das ist dieselbe Form wie die 330 `@ana`-Tokens vom Vormittag,
+nur ohne Zähleinheit als Ausrede. Die Gegenmaßnahme ist keine Regel, sondern
+eine Frage vor dem Schreiben: *woher weiß ich, dass das für alle gilt, und wo
+steht die Zählung?* Wo die Antwort ein Kommando ist, gehört das Kommando
+danebengeschrieben; die Fälle, in denen das getan wurde, sind die, die kein Bot
+mehr angefasst hat.
+
+**Rot, und der Beleg dafür stammt aus diesem Absatz selbst: die Pfadfilter
+eines `pull_request`-Triggers schützen einen Push nicht.** **16**
+`data-integrity`-Läufe sind von meinen eigenen Pushes abgebrochen worden,
+darunter der allererste, der das neue Gate vollständig ausgeführt hätte.
+Die Zahl stand hier zuerst als „zwei", dann als „drei", und beide Male war sie
+aus dem geschätzt, was mir gerade aufgefallen war. Gemessen über die
+Laufhistorie des Branches:
+
+    25 abgeschlossene data-integrity-Laeufe auf diesem Branch
+    16 davon cancelled, 9 success
+
+Alle Pushes auf diesen Branch stammen aus dieser Session, also gehen alle 16
+auf sie zurück, verteilt über den ganzen Tag von 09:03 bis 17:42. Das war
+mithin kein Ausrutscher am Ende, sondern die Arbeitsweise des Tages.
+`cancel-in-progress` gilt in diesem Workflow für `pull_request`. Beim dritten
+Mal hatte ich vorher nachgesehen und mich freigesprochen: der Commit fasst nur
+`docs/JOURNAL.md` und `ingest/**` an, beide stehen nicht in den Pfadfiltern,
+also könne kein Lauf starten und keiner abgebrochen werden. **Gemessen ist das
+Gegenteil**, und zwar an genau diesem Push:
+
+    git show --name-only 032d859   -->  docs/JOURNAL.md
+                                        ingest/pos-disambig/387-fro-adjadv/README.md
+    Lauf 34043618289 auf 032d859   -->  gestartet
+    Lauf 34043424099 auf f37254e   -->  cancelled
+
+Die Erklärung ist die dokumentierte Auswertungsregel und nicht die Messung: bei
+`pull_request` werden die `paths` gegen den **gesamten** PR-Diff gehalten, nicht
+gegen den einzelnen Push. PR #398 fasst `tei/`, `authority-files/`, `data/` und
+`scripts/audit/` an, also löst **jeder** Push auf diesen PR den Workflow aus,
+gleichgültig was er enthält. Für einen `push`-Trigger gilt das nicht, und daher
+kam mein Irrtum.
+
+Der Inhalt der Lehre bleibt und wird durch die 16 eher schärfer: **wer ein
+neues Gate einbaut, wartet dessen ersten vollständigen Lauf ab, bevor er
+weiterschiebt.** Dazu gehört, die Prüfung „ist der Lauf durch" wörtlich zu
+nehmen: am 06.09. um 17:50 standen drei der vier Checks auf `success` und
+`validate` auf `in_progress`, und der Push ging trotzdem raus, weil die drei
+grünen gelesen wurden und der eine laufende nicht. **Ein Check, der noch läuft,
+ist kein grüner Check**, und drei von vier ist bei einem `cancel-in-progress`
+genau so viel wert wie null. Neu ist, dass der Umweg
+„dieser Commit fasst ja nichts Gefiltertes an" auf einem Daten-PR nicht
+existiert. Und die Form des Fehlers ist wieder dieselbe: eine Aussage über eine
+Menge (was löst den Workflow aus) aus der Kenntnis eines Teils davon (die
+Filterliste), geschrieben ohne die Regel, nach der sie ausgewertet wird. Der
+vorstehende Absatz zählt sechs solche Fälle; dieser hier ist der siebte, und er
+ist entstanden, während ich den sechsten aufschrieb.
+
+**Phase:** PR #398 offen. Bei chsteiner liegen nur noch Dinge, die diese
+Umgebung nicht lösen kann: die 13 `fro`-Fälle für KZW (#387), die
+TRO-Identifier-Frage (#395, Authority-Datenbanken hier nicht erreichbar), und
+ob `playground/js/ui/**` in die Pfadfilter soll. #390 wartet bewusst auf den
+Merge.
+
+---
+
+## 2026-09-06 (Abend) – Zehn blockierte Tickets entscheidungsreif, und drei ihrer Prämissen waren abgelaufen
+
+Auftrag von chsteiner nach den beiden Entscheidungen am Nachmittag: die Woche
+für das Entscheidungsreif-Machen der blockierten Tickets nutzen, weil kein
+`auto:full` und kein `auto:brief` mehr offen ist. Zehn Vorgänge bearbeitet
+(#364, #378, #308, #363, #366, #375, #267, #252, #228, #358), jeder mit einer
+Messung statt einer Zusammenfassung. Nichts an Korpus oder Authority geändert.
+
+**Der Ertrag steckt nicht in der Zusammenfassung, sondern im Nachmessen. Drei
+von zehn Tickets hatten Prämissen, die nicht mehr galten**, und alle drei in
+dieselbe Richtung: die Lage war besser als das Ticket dachte.
+
+- **#358** war erledigt. Das Ticket beschreibt, dass dem Willehalm die
+  Dreißiger-Gliederung fehlt. Gemessen: 467 `<div type="chapter" n>`, alle
+  14.002 `<l>` darunter, auf `main`. Umgestellt am 09.08.
+- **#308** Punkt 1 löst sich auf. Das Ticket fragt, ob für den „Schweizer
+  Anonymus" ein Personeneintrag angelegt oder auf `person_anonym` umgebogen
+  werden soll. Beides unnötig: `person_1772` existiert mit GND, und `works.xml`
+  verweist für genau dieses Werk schon korrekt darauf. Nur der TEI-Header zeigt
+  auf eine ID, die es nie gab.
+- **#252** ist beantwortbar, und war es vermutlich schon damals. Der Kommentar
+  vom 31.07. hält fest, eine Gegenprüfung sei unmöglich, weil für keinen
+  betroffenen Text eine Linecode-Quelle vorliegt. Die 306 Dateien von #248 sind
+  laut der verdichteten Historie oben (Eintrag 2026-07-30) am **Tag davor** ins
+  Repo gekommen, darunter der größte betroffene Text. Die Feststellung war also
+  schon bei ihrer Niederschrift überholt. Damit ist die Frage, die den Vorgang
+  blockiert, an der Quelle entschieden: **OVG hat 135 leere `<l>` im TEI und
+  135 Zeilen mit `...` in der Vorlage, Bijektion in beide Richtungen.** Über
+  alle prüfbaren Texte 290 von 324 auflösbar, davon **jeder einzelne** ein
+  Auslassungsmarker, kein Gegenbeleg.
+
+**Die Lehre daraus ist eine Betriebsregel, keine Einsicht:** die Prämisse eines
+blockierten Tickets altert, während das Ticket wartet, und sie altert
+unbeobachtet, weil niemand ein wartendes Ticket nachmisst. Drei von zehn, und
+in jedem Fall hätte die Person, die es abarbeitet, Arbeit gemacht, die schon
+getan war, oder eine Entscheidung getroffen, die sich erübrigt hatte. **Vor der
+Vorlage steht die Nachmessung, nicht die Zusammenfassung.**
+
+**Rot: ich habe bei #358 gemessen, bevor ich den Kommentar gelesen habe.** Der
+Kommentar vom 09.08. sagt im ersten Satz, dass der Willehalm umgestellt und
+live ist. Ich hatte den Body gelesen, korpusweit gemessen, mich über den Fund
+gefreut und erst danach die Kommentare geöffnet. Das ist genau die Regel, die
+chsteiner in dieser Session viermal geschickt hat und die seit heute in
+`CLAUDE.md` steht, und ich habe sie an dem Tag gebrochen, an dem sie
+aufgeschrieben wurde. Der Schaden war nur Zeit; der Fund war schon dokumentiert.
+
+**Und schlimmer: derselbe Kommentar beschreibt den Messfehler, den ich dann
+gemacht habe.** Er hält fest, ein erster Lauf habe 48 Werke gemeldet, weil nur
+`div[@n]` als Vorfahr geprüft wurde, während die Strophentexte ihre Nummer am
+`lg[@n]` tragen. Mein Lauf prüfte ebenfalls nur `div[@n]` und meldete 146
+Werke. Der Kommentar enthielt die Korrektur, bevor ich den Fehler machte.
+
+**Rot: beinahe Textverlust gemeldet, der keiner war.** Beim #252-Abgleich fielen
+fünf RVBR-Stellen auf, an denen die Vorlage einen echten Vers trägt und das TEI
+eine leere Zeile. Vor dem Absenden in beiden Dateien nachgesehen: der Vers steht
+eine Zeile weiter. RVBR nummeriert die `xml:id` fortlaufend statt nach
+Linecode-Zeile, der Versatz war meiner. Die Meldung wäre ein Alarm über
+Datenverlust in einem publizierten Korpus gewesen.
+
+**Was die zehn Vorgänge jetzt brauchen**, ist durchweg weniger als vorher:
+
+| Vorgang | vorher | nachher |
+|---|---|---|
+| #364 | 21 Einzelfälle philologisch entscheiden | 24 Einträge mechanisch, 11 Entscheidungen |
+| #366 | sieben Lemmata von Grund auf finden | sechs Vorschläge bestätigen, einer offen |
+| #228 | neun Zweifelsfälle einzeln | acht als ein Paket, zwei getrennt |
+| #252 | eine Frage über 838 Stellen Unterschied | an der Quelle beantwortet |
+| #308 | vier Punkte | eine Frage (zwei Namensformen) |
+| #358 | „prüfen, ob weitere Werke betroffen" | elf Werke, keines mechanisch entscheidbar |
+
+**Ein Nebenfund, der in keinem Ticket stand:** `haueßenn` in KDO sitzt auf
+`lemma_2670` *hase*, dem Säugetier, in einem Rezept über Hausenblase. Dritte
+Handschrift, derselbe Fehlertyp wie #363, Einzelfall (unter `lemma_2670` ist es
+die einzige `hau-`artige Form, ein Token korpusweit).
+
+**Zur Zahl der abgebrochenen CI-Läufe**, die im Eintrag darüber erst „zwei",
+dann „drei" hiess: gemessen **16 von 25** abgeschlossenen `data-integrity`-Läufen
+auf diesem Branch, verteilt über den ganzen Tag. Beide früheren Angaben waren
+geschätzt aus dem, was mir aufgefallen war. Dazu der Lesefehler, der die Lehre
+im selben Zug unterlaufen hat: drei Checks auf `success` und einer auf
+`in_progress` sind bei `cancel-in-progress` null grüne Checks.
+
+**Phase:** PR #398 grün, Bot-Runden 16 bis 19 ohne Befund. Die zehn Vorgänge
+bleiben `auto:blocked`/`wait:kzw`: auch wo die Frage kleiner geworden ist, ist
+sie eine Entscheidung.
+
+---
+
+## 2026-09-06 (Nacht) – Elf weitere Vorgänge, und der Rückstand ist zu einem Drittel gar keiner
+
+Fortsetzung des Durchgangs durch die blockierten Tickets. Zusammen mit den zehn
+vom Abend sind es **21 Vorgänge** (#364, #378, #308, #363, #366, #375, #267,
+#252, #228, #358, #115, #371, #189, #369, #370, #250, #251, #169, #239, #118,
+#271). Nichts an Korpus oder Authority geändert.
+
+**Sieben davon sind faktisch erledigt und warten nur auf Abnahme:** #358
+(Willehalm gegliedert), #250 (alle drei Punkte, Punkt 3 über
+`isInNestedParallel`), #251 (beide Punkte, der Fokusverlust unbemerkt
+miterledigt), #169 (die drei ausdrücklich offengelassenen Nebenbefunde sind
+alle drei entfernt), #239, #308 Punkt 1, #252. Das ist ein Drittel des
+Rückstands, der als offen geführt wird, ohne es zu sein.
+
+**Die Diagnose vom Abend war zu freundlich.** Sie lautete: die Prämisse eines
+blockierten Tickets altert, weil niemand ein wartendes Ticket nachmisst. Nach
+elf weiteren Fällen ist das genauer zu fassen:
+
+- Bei **#252** war die Prämisse schon **am Tag ihrer Niederschrift falsch**. Der
+  Kommentar vom 31.07. hält fest, für keinen betroffenen Text liege eine
+  Linecode-Quelle vor; die 306 Dateien von #248 kamen am **30.07.**, belegt an
+  drei Stellen (`docs/LINECODE.md:176`, `sources/README.md:11`,
+  `sources/INVENTAR-ARCHIV.md:20`), zwei davon ausserhalb des JOURNAL.
+- Bei **#169** hat dieselbe Person die angekündigte Aufräumrunde gemacht und den
+  Vermerk nicht nachgezogen.
+- Bei **#251** führte der eigene Statuskommentar einen Punkt als offen, der im
+  selben Zug miterledigt worden war.
+
+**Der Rückstand ist also nicht liegengeblieben, er ist nur nicht abgeschrieben
+worden.** Das ist ein anderes Problem und braucht ein anderes Mittel: nicht
+mehr Arbeit, sondern eine Abschlusskontrolle.
+
+### Fünf Abhängigkeiten, die in keinem Ticket standen
+
+Das ist der eigentliche Ertrag, weil er die Reihenfolge festlegt:
+
+1. **#364 erledigt 64 % von #115.** Die 109 Baseline-IDs sind 35 Lemma-IDs plus
+   35 Senses **derselben** 35 Lemmata plus 39 Senses an vorhandenen Lemmata.
+   Schnittmenge 35, in keiner Richtung ein Rest.
+2. **#371 löst die Blockade in #369.** Dort steht, für das Ufer gebe es keine
+   geübte Zuordnung. `lemma_5732` trägt aber selbst einen Gewässer-Sense
+   (`_sense_9002`), und `stat` ist dort als `type_20161` längst belegt: kein
+   neues Lemma, kein neuer Typ.
+3. **#370 hängt für 23 Paare an #378.** Ein neuer Variantentyp setzt sich unter
+   first-wins nur bei kleinerer Lemmanummer durch. Für 23 der 41 irreführenden
+   Paare (299 Tokens) wäre eine Freigabe **wirkungslos**: die Daten entstünden,
+   und die Suche benutzte sie nie.
+4. **#363 und #366 müssen dieselbe Frage gemeinsam beantworten.** `hawssen
+   platern` (MBS5) und `haueßenn plossenn` (KDO) sind dieselbe Konstruktion.
+5. **#189 und #118 teilen sich 16 Texte.** Die Virgel `/`, in #189 ein
+   Kodierungsfehler (7.912 Tokens als `<w>` statt `<pc>`), ist in #118 der
+   einzige brauchbare Indikator: sie trifft **alle neun** Texte des Augsburger
+   Drucks von 1476 und nennt sieben weitere derselben Machart. Wer sie in #189
+   heilt, nimmt in #118 den Marker weg.
+
+### Zwei Funde, die über das Vorbereiten hinausgehen
+
+**#118 hat keine Datengrundlage.** Die Entscheidungsvorlage nennt als
+erstrangige Quellen Header-Datierungen und `works.xml`. Gemessen: **0 von 667**
+Headern tragen `origDate` oder `creation`, und in `works.xml` haben **9 von
+584** Werken eine mittelalterliche Jahreszahl, alle neun `<imprint>` 1476,
+derselbe Druck. Die Schwellenregel hat im Repositorium keinen Eingabewert. Das
+Vorhaben ist zuerst ein Beschaffungsprojekt, und das gehört vor die vier
+Fragen.
+
+**#271 hat ein zweites Namenregister.** Der Vorgang fragt, ob weitere
+existieren, und hält fest, das sei nicht geprüft. Über die 305 `.txt`-Dateien
+unter `sources/linecode/` mit einem Formkriterium gesucht (die 306. ist eine
+RTF, auf die ein zeilenweises Kriterium nicht passt): genau zwei erfüllen es.
+`tann.txt` (774 Einträge) gehört nicht zu TAN, sondern mit **695 von 774
+(89 %)** zu **TKR**, „Di tutsch kronik von Behem lant". Beide Texte sind
+böhmische Geschichtswerke, und in beiden steht die **gesamte Namenauszeichnung
+im Header, im Textkörper keine einzige** (VTC letzter Treffer Zeile 141 bei
+Headerende 151, TKR 121 bei 131): 0 `nameRef`, 0 `<placeName>`, je 6
+`<persName>`, dazu 1 `<name>` in VTC und 2 in TKR. Das Material ist damit 1.242
+Namenformen zu zwei Texten statt 468 zu einem.
+
+Die erste Fassung dieses Absatzes nannte den Auszeichnungsstand „identisch" und
+für beide Texte 1 `<name>`. Das Suchmuster war `'<name '` mit Leerzeichen und
+übersah `<name>` ohne Attribute; TKR hat zwei. Gefunden hat es der CI-Review-Bot
+in Runde 22, nachgemessen ist es hier. Die tragende Aussage (das Register ist
+die einzige Stelle, an der die Namen erschlossen sind) hängt an der Verteilung
+Header gegen Textkörper und nicht an der Symmetrie der Zahlen.
+
+### Rot: vier eigene Fehler, drei davon selbst gefunden
+
+- **`stat` auf 0 gemeldet, gemessen sind 95.** Ich hatte die Frequenzliste auf
+  die 400 häufigsten Formen gekürzt und danach mit `dict.get(form, 0)` gefragt.
+  **Ein fehlender Schlüssel wurde so zu einer Messung.** Aufgefallen, weil #369
+  im Kommentar 95 zurückgehaltene Fälle dokumentiert.
+- **„Seit dem 18.08." war die Wurzel eines flachen Klons.** `git log -S` zeigte
+  auf `2c23520`, 4.183 Dateien, 17,5 Mio. Zeilen, `.git/shallow` zeigt darauf.
+  Aus dieser Historie ist kein Zugangsdatum ablesbar. Die richtige Antwort stand
+  zwei Bildschirmseiten weiter oben in derselben Datei.
+- **467 statt 468 Registereinträge**, weil die BOM der Datei die erste Zeile
+  nicht auf mein Zeilenmuster passen liess. Das Ticket hatte recht.
+- **Nach `componentSelection` gegriffen**, dem Namen aus dem *Vorschlag*, und
+  daraus geschlossen, der Umbau sei nicht gemacht. Er heisst `componentPicked`.
+  Ein Grep nach dem vorgeschlagenen Namen prüft, ob jemand den Vorschlag
+  wörtlich umgesetzt hat, nicht ob das Problem gelöst ist.
+
+Die ersten drei sind dieselbe Familie wie die sechs Bot-Befunde vom Nachmittag,
+nur in neuen Kostümen: ein Default, der als Messung gelesen wird; ein
+Artefakt der Werkzeugkette, das als Datum gelesen wird; ein Parserdetail, das
+als Bestand gelesen wird. **Jedes Mal hat eine Kette aus Werkzeug und Annahme
+eine Zahl geliefert, und ich habe die Zahl genommen statt die Kette.**
+
+**Phase:** PR #398 grün, Bot-Runden 16 bis 21 ohne Befund. Alle 21 Vorgänge
+bleiben `auto:blocked`: auch wo nur noch eine Abnahme aussteht, ist sie eine
+Entscheidung.

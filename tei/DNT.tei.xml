@@ -144,6 +144,7 @@
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 2 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
+      <change when="2026-09-06" who="#editor">#387 (fro): 3 homographie-ambige Tokens der Form fro kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260) bzw. vrô ADJ/ADV (lemma_7250); LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/387-fro/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -1718,7 +1719,7 @@
           <w xml:id="DNT_1830_2">bin</w>
           <w xml:id="DNT_1830_3" lemmaRef="lexicon.xml#lemma_56117" pos="POS" ana="lexicon.xml#lemma_56117_sense_90961" corresp="variants.xml#type_304789">euwer</w>
           <w xml:id="DNT_1830_4" lemmaRef="lexicon.xml#lemma_9414" pos="NOM" ana="lexicon.xml#lemma_9414_sense_15370" corresp="variants.xml#type_198477">strauf</w>
-          <w xml:id="DNT_1830_5">fro</w>
+          <w xml:id="DNT_1830_5" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
         </l>
         <l n="184">
           <w xml:id="DNT_1840_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
@@ -2210,7 +2211,7 @@
           <w xml:id="DNT_2430_1" lemmaRef="lexicon.xml#lemma_4886" pos="NOM" ana="lexicon.xml#lemma_4886_sense_7584" corresp="variants.xml#type_16870">ritter</w>
           <w xml:id="DNT_2430_2">wart</w>
           <w xml:id="DNT_2430_3" lemmaRef="lexicon.xml#lemma_6598" pos="NOM ADJ ADV NEG" corresp="variants.xml#type_59320">unmassen</w>
-          <w xml:id="DNT_2430_4">fro</w>
+          <w xml:id="DNT_2430_4" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           <pc xml:id="DNT_2430_5" join="left">.</pc>
         </l>
         <l n="244">
@@ -2964,7 +2965,7 @@
           <w xml:id="DNT_3310_2">waren</w>
           <w xml:id="DNT_3310_3">sie</w>
           <w xml:id="DNT_3310_4" lemmaRef="lexicon.xml#lemma_106" pos="ADJ" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_258">alle</w>
-          <w xml:id="DNT_3310_5">fro</w>
+          <w xml:id="DNT_3310_5" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ" corresp="variants.xml#type_41787">fro</w>
           <pc xml:id="DNT_3310_6" join="left">.</pc>
         </l>
         <l n="332">

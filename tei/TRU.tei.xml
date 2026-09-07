@@ -154,6 +154,7 @@
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 38 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/). 9 weitere Tokens der Form minne blieben bewusst unannotiert (Review).</change>
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 18 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
       <change when="2026-08-31" who="#editor">#367 (wâren als Adjektiv): 2 Tokens der Fügung „der/die wâren minne“ von lemma_7505 wesen (VRB) auf lemma_7338 wâr (ADJ) umannotiert (lemmaRef, pos und corresp; philologische Einzelentscheidung von K. Zeppezauer-Wachauer vom 2026-08-25, kein LLM-Batch; Provenienz-Log: ingest/pos-disambig/367-waeren/).</change>
+      <change when="2026-09-06" who="#editor">#216 Punkt 3 (vrouwe vor minne): 2 Tokens der Anredeform vrouwe unmittelbar vor minne erstmals annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260)). Kein LLM-Lauf; Verfahren, Herkunft der einzelnen Entscheidungen und zurueckgehaltene Faelle im Provenienz-Log: ingest/pos-disambig/216-vrouwe155/.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -2188,7 +2189,7 @@
             <w xml:id="TRU_23500_0">hie</w>
             <w xml:id="TRU_23500_1" lemmaRef="lexicon.xml#lemma_7784" pos="VRB" ana="lexicon.xml#lemma_7784_sense_12759" corresp="variants.xml#type_28172">zeige</w>
             <w xml:id="TRU_23500_2" lemmaRef="lexicon.xml#lemma_35" pos="ADV CNJ" ana="lexicon.xml#lemma_35_sense_48" corresp="variants.xml#type_98">aber</w>
-            <w xml:id="TRU_23500_3">vrou</w>
+            <w xml:id="TRU_23500_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25989">vrou</w>
             <w xml:id="TRU_23500_4">minne</w>
           </l>
           <l n="236">
@@ -2277,7 +2278,7 @@
           <l n="247">
             <w xml:id="TRU_24700_0" lemmaRef="lexicon.xml#lemma_3659" pos="VRB" ana="lexicon.xml#lemma_3659_sense_5776" corresp="variants.xml#type_12723">lebet</w>
             <w xml:id="TRU_24700_1" lemmaRef="lexicon.xml#lemma_3004" pos="ADV" ana="lexicon.xml#lemma_3004_sense_4808" corresp="variants.xml#type_10247">ie</w>
-            <w xml:id="TRU_24700_2">vrou</w>
+            <w xml:id="TRU_24700_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25989">vrou</w>
             <w xml:id="TRU_24700_3">minne</w>
             <pc xml:id="TRU_24700_4" join="left">.</pc>
           </l>

@@ -142,6 +142,7 @@
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 2 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
+      <change when="2026-09-06" who="#editor">#387 (vrouwe, mechanischer Teil): 13 Tokens der Form vrouwe erstmals annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260)). Kein LLM-Lauf: annotiert wurde nur, wo die MHG-normalisierte Schreibung im gesamten Korpus ein einziges Lemma traegt, dieses genau eine Wortart fuehrt und die Schreibung dafuer genug Belege hat. Kontextpflichtige Faelle sind unangetastet geblieben (Provenienz-Log: ingest/pos-disambig/387-vrouwe/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -200,7 +201,7 @@
             <w xml:id="EB2_1502020_14">kein</w>
           
           <lb n="3"/>
-            <w xml:id="EB2_1502030_0">fraw</w>
+            <w xml:id="EB2_1502030_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="EB2_1502030_1" lemmaRef="lexicon.xml#lemma_7221" pos="ADJ ADV" corresp="variants.xml#type_44936">fremd</w>
             <w xml:id="EB2_1502030_2">mann</w>
             <w xml:id="EB2_1502030_3">in</w>
@@ -280,12 +281,12 @@
               <w xml:id="EB2_1502080_1">/</w>
             </hi>
             <w xml:id="EB2_1502080_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="EB2_1502080_3">fraw</w>
+            <w xml:id="EB2_1502080_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="EB2_1502080_4">sol</w>
             <w xml:id="EB2_1502080_5">sein</w>
             <w xml:id="EB2_1502080_6">ein</w>
             <w xml:id="EB2_1502080_7" lemmaRef="lexicon.xml#lemma_2326" pos="ADJ" ana="lexicon.xml#lemma_2326_sense_3724" corresp="variants.xml#type_34360">gewaltige</w>
-            <w xml:id="EB2_1502080_8">fraw</w>
+            <w xml:id="EB2_1502080_8" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="EB2_1502080_9" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
             <w xml:id="EB2_1502080_10" lemmaRef="lexicon.xml#lemma_45932" pos="NOM" ana="lexicon.xml#lemma_45932_sense_71861" corresp="variants.xml#type_252111">außgebung</w>
             <w xml:id="EB2_1502080_11" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
@@ -317,7 +318,7 @@
             <w xml:id="EB2_1502100_3" lemmaRef="lexicon.xml#lemma_30703" pos="ADV" ana="lexicon.xml#lemma_30703_sense_48076" corresp="variants.xml#type_157721">darumb</w>
             <w xml:id="EB2_1502100_4" lemmaRef="lexicon.xml#lemma_6837" pos="VRB" corresp="variants.xml#type_23977">verdient</w>
             <w xml:id="EB2_1502100_5" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_245487">dÿe</w>
-            <w xml:id="EB2_1502100_6">fraw</w>
+            <w xml:id="EB2_1502100_6" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="EB2_1502100_7">grosse</w>
             <w xml:id="EB2_1502100_8">lieb</w>
             <w xml:id="EB2_1502100_9" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
@@ -340,7 +341,7 @@
             </hi>
             <w xml:id="EB2_1502110_11">ob</w>
             <w xml:id="EB2_1502110_12" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_245487">dÿe</w>
-            <w xml:id="EB2_1502110_13">fraw</w>
+            <w xml:id="EB2_1502110_13" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
           
           <lb n="12"/>
             <w xml:id="EB2_1502120_0">ir</w>
@@ -472,7 +473,7 @@
             <w xml:id="EB2_1511090_5">sol</w>
             <w xml:id="EB2_1511090_6">sich</w>
             <w xml:id="EB2_1511090_7" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="EB2_1511090_8">fraw</w>
+            <w xml:id="EB2_1511090_8" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="EB2_1511090_9" lemmaRef="lexicon.xml#lemma_4377" pos="ADJ ADV NEG" ana="lexicon.xml#lemma_4377_sense_6838" corresp="variants.xml#type_158951">nit</w>
             <w xml:id="EB2_1511090_10" lemmaRef="lexicon.xml#lemma_2534" pos="ADJ GRA" corresp="variants.xml#type_44558">grösser</w>
             <w xml:id="EB2_1511090_11">sach</w>
@@ -637,7 +638,7 @@
             <w xml:id="EB2_1512050_3" lemmaRef="lexicon.xml#lemma_1056" pos="ADV" ana="lexicon.xml#lemma_1056_sense_1690" corresp="variants.xml#type_3265">davon</w>
             <w xml:id="EB2_1512050_4" lemmaRef="lexicon.xml#lemma_2348" pos="VRB" corresp="variants.xml#type_151415">gewynnet</w>
             <w xml:id="EB2_1512050_5" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="EB2_1512050_6">fraw</w>
+            <w xml:id="EB2_1512050_6" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="EB2_1512050_7">grossen</w>
             <w xml:id="EB2_1512050_8">danck</w>
           
@@ -1020,7 +1021,7 @@
             <w xml:id="EB2_1522040_9">sol</w>
             <w xml:id="EB2_1522040_10" lemmaRef="lexicon.xml#lemma_4523" pos="CNJ" ana="lexicon.xml#lemma_4523_sense_7060" corresp="variants.xml#type_61484">auch</w>
             <w xml:id="EB2_1522040_11" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="EB2_1522040_12">fraw</w>
+            <w xml:id="EB2_1522040_12" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
           
           <lb n="5"/>
             <w xml:id="EB2_1522050_0" lemmaRef="lexicon.xml#lemma_2849" pos="ADV" ana="lexicon.xml#lemma_2849_sense_4575" corresp="variants.xml#type_9625">hinwider</w>
@@ -1796,7 +1797,7 @@
             <w xml:id="EB2_1542020_8" lemmaRef="lexicon.xml#lemma_10983" pos="NAM" ana="lexicon.xml#lemma_10983_sense_17568" corresp="variants.xml#type_39201">aristotiles</w>
             <pc xml:id="EB2_1542020_9" join="left">.</pc>
             <w xml:id="EB2_1542020_10" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3397">das</w>
-            <w xml:id="EB2_1542020_11">fraw</w>
+            <w xml:id="EB2_1542020_11" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="EB2_1542020_12" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
             <w xml:id="EB2_1542020_13">man</w>
           
@@ -1852,7 +1853,7 @@
             <w xml:id="EB2_1542060_4" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3397">das</w>
             <w xml:id="EB2_1542060_5" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
             <w xml:id="EB2_1542060_6" lemmaRef="lexicon.xml#lemma_9506" pos="ADJ" ana="lexicon.xml#lemma_9506_sense_15445" corresp="variants.xml#type_106816">erber</w>
-            <w xml:id="EB2_1542060_7">fraw</w>
+            <w xml:id="EB2_1542060_7" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="EB2_1542060_8" lemmaRef="lexicon.xml#lemma_22211" pos="NAM" ana="lexicon.xml#lemma_22211_sense_36230" corresp="variants.xml#type_252144">naustica</w>
             <hi rend="upper_case">
               <w xml:id="EB2_1542060_9">/</w>
@@ -2114,7 +2115,7 @@
             <w xml:id="EB2_1551110_7" lemmaRef="lexicon.xml#lemma_152" pos="ADV" ana="lexicon.xml#lemma_152_sense_187" corresp="variants.xml#type_378">also</w>
             <w xml:id="EB2_1551110_8">sol</w>
             <w xml:id="EB2_1551110_9" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="EB2_1551110_10">fraw</w>
+            <w xml:id="EB2_1551110_10" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="EB2_1551110_11" lemmaRef="lexicon.xml#lemma_13911" pos="ADV" ana="lexicon.xml#lemma_13911_sense_22970" corresp="variants.xml#type_55159">herwider</w>
           
           <lb n="12"/>
@@ -2139,7 +2140,7 @@
           <lb n="13"/>
             <w xml:id="EB2_1551130_0">sol</w>
             <w xml:id="EB2_1551130_1" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-            <w xml:id="EB2_1551130_2">fraw</w>
+            <w xml:id="EB2_1551130_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="EB2_1551130_3" lemmaRef="lexicon.xml#lemma_27968" pos="ADJ ADV" corresp="variants.xml#type_242287">eintrechtig</w>
             <w xml:id="EB2_1551130_4">sein</w>
             <w xml:id="EB2_1551130_5" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
@@ -2202,7 +2203,7 @@
             <w xml:id="EB2_1552040_4" lemmaRef="lexicon.xml#lemma_4523" pos="CNJ" ana="lexicon.xml#lemma_4523_sense_7060" corresp="variants.xml#type_61484">auch</w>
             <w xml:id="EB2_1552040_5">sol</w>
             <w xml:id="EB2_1552040_6" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_245487">dÿe</w>
-            <w xml:id="EB2_1552040_7">fraw</w>
+            <w xml:id="EB2_1552040_7" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             <w xml:id="EB2_1552040_8" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
             <w xml:id="EB2_1552040_9" lemmaRef="lexicon.xml#lemma_3957" pos="NOM" corresp="variants.xml#type_13804">mannes</w>
             <w xml:id="EB2_1552040_10" lemmaRef="lexicon.xml#lemma_7246" pos="NOM" ana="lexicon.xml#lemma_7246_sense_15237" corresp="variants.xml#type_168670">freünden</w>

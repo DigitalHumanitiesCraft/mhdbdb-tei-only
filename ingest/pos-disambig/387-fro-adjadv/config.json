@@ -1,0 +1,21 @@
+{
+  "serie": "#387 Nachlauf: ADJ gegen ADV bei feststehendem Lemma",
+  "lemmas": {
+    "lemma_7250": "vrô (ADJ ADV GRA NOM): froh. In diesem Lauf steht das Lemma fest, entschieden ist nur die Wortart."
+  },
+  "pos": ["ADJ", "ADV"],
+  "corresp": {
+    "fro|lemma_7250": "type_41787",
+    "frô|lemma_7250": "type_25866"
+  },
+  "kein_typ_bedeutet_review": true,
+  "kommentar_unentschieden": "Zwei Faelle (FR1_5092110_2 und FR3_105218020300_2, beide die verblose Antithese 'gein trurec fro, gein sorgen lust') sind vom Lauf als unentschieden gemeldet. apply-homograph.py kennt keinen solchen pos-Wert; sie tragen deshalb in actions.json den Platzhalter ADJ mit confidence medium und dem Praefix UNENTSCHIEDEN in der Begruendung. Medium wird nie angewendet, geschrieben wird also nichts, und in review-faelle.csv steht der Grund lesbar.",
+  "revisiondesc": {
+    "datum": "2026-09-06",
+    "titel": "#387 Nachlauf (fro: ADJ gegen ADV)",
+    "form": "fro",
+    "ziele": "vrô ADJ (lemma_7250)",
+    "log": "ingest/pos-disambig/387-fro-adjadv/",
+    "vorlage": "<change when=\"{datum}\" who=\"#editor\">{titel}: {n_annot} {n_wort} der Schreibung {form} in der Wortart bestimmt (lemmaRef/pos/corresp zu {ziele}). Zweiter Durchgang ueber die im ersten Lauf wegen mittlerer Konfidenz zurueckgehaltenen Belege, mit feststehendem Lemma und einem am Bestand gemessenen Prior; Verfahren, Regeln und zurueckgehaltene Faelle im Provenienz-Log: {log}.{review_satz}</change>"
+  }
+}

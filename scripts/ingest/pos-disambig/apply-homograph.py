@@ -16,6 +16,12 @@ Extraktionszeit. Ein Replay setzt damit den Korpusstand vor dem Batch voraus.
 Zurueckgehalten wird (Reihenfolge fest, der erste zutreffende Grund gewinnt):
   confidence       das Verdict traegt nicht confidence=high
   prior-konflikt   ein bestehendes @pos widerspricht dem Verdict
+  verdict-klasse   das Paar aus Lemma und Wortart steht in review_verdicts der
+                   config. Fuer Klassen, die eine Serie grundsaetzlich nicht
+                   selbst entscheidet, egal wie sicher das Modell ist. Serie 1
+                   (#216) hatte diese Regel als feste Zeile im Skript, fuer die
+                   Personifikation ("alle NAM-Verdicts gehen ins Review"); hier
+                   ist sie eine Angabe der Serie statt einer des Werkzeugs.
   kein-typ         fuer (Schreibung, Lemma) gibt es keinen Variantentyp im
                    Bestand. Ob das abbricht oder in den Review fuehrt, sagt
                    kein_typ_bedeutet_review in der config: praegt eine Serie
@@ -64,6 +70,7 @@ def main() -> int:
     valid_pos = set(cfg["pos"])
     corresp = cfg["corresp"]
     kein_typ_review = cfg.get("kein_typ_bedeutet_review", False)
+    review_verdicts = set(cfg.get("review_verdicts", []))
 
     actions = {a["xml_id"]: a for a in
                json.loads(pfad(args.actions).read_text(encoding="utf-8"))}
@@ -109,6 +116,8 @@ def main() -> int:
                 aktion, grund = "REVIEW", "confidence"
             elif prior and prior != a["pos"]:
                 aktion, grund = "REVIEW", "prior-konflikt"
+            elif a["lemma"] + "/" + a["pos"] in review_verdicts:
+                aktion, grund = "REVIEW", "verdict-klasse"
             elif typ is None:
                 if not kein_typ_review:
                     sys.exit("FEHLER: %s: kein Bestands-Typ fuer %r" % (xid, schluessel))
