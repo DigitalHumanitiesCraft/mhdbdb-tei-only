@@ -1393,14 +1393,31 @@ innerhalb des Headers, nicht zwischen zwei Dateien, und ein Vergleich Header
 gegen `works.xml` konnte das nicht sehen, weil beide Werte in `works.xml`
 stehen.
 
-**Und die Datei enthält tatsächlich beide Werke.** 49.857 `<l>` mit Nummern von
-1 bis 49.861, vier Lücken. Konrads Text bricht nach 40.424 Versen ab, die
-anonyme Fortsetzung trägt 9.412 weitere, und an genau dieser Stelle läuft die
-Zählung in `tei/TRO.tei.xml` ohne jede Grenze durch: `40424 ûf der geblüemten
-heide .` / `40425 als dô die kriechen sâhen ,`. Die Quelle im Header, Keller
-1858, druckt beides, und der Handschriftencensus führt sie unter 212 wie unter
-929 als Ausgabe. TRO ist die **einzige** der 583 Siglen mit zwei Einträgen in
+**Und die Datei enthält beide Werke.** Das steht in `works.xml` selbst: beide
+TRO-Einträge tragen **denselben** `biblStruct`, Keller 1858, ohne die `xml:id`
+zeichengleich. Die Datei läuft über 49.857 `<l>` mit Nummern von 1 bis 49.861
+(vier Lücken: 24278, 42798, 49440, 49789) und enthält null `div`, null
+`milestone`, null `pb`: es gibt keine Grenze, an der ein Werk aufhörte und das
+andere anfinge. TRO ist die **einzige** der 583 Siglen mit zwei Einträgen in
 `works.xml` (584 `bibl` auf 583 Siglen), und dieses eine Mal ist es richtig so.
+
+**Zwei Zahlen, die ich zunächst hineingeschrieben hatte, stehen hier nicht
+mehr**, und der Vorgang gehört zum Eintrag. Aus einer Websuche stammte, Konrads
+Text breche nach 40.424 Versen ab und die Fortsetzung trage 9.412 weitere. Die
+Reviewrunde hat beides an HSC, lobid, Wikidata und Wikipedia gesucht und in
+keiner Quelle gefunden, und sie rechnen auch nicht auf: 40.424 + 9.412 = 49.836,
+die Datei endet bei 49.861, und oberhalb von 40424 liegen gemessen 9.434 Verse.
+Eine ungeprüfte Fremdzahl neben einer gemessenen sieht aus wie eine zweite
+Messung, und das ist genau der wiederkehrende Fehler dieses Projekts. Was
+bleibt, ist das Gemessene: bei `40424 ûf der geblüemten heide .` /
+`40425 als dô die kriechen sâhen ,` läuft die Zählung ohne Grenze durch.
+
+**Ebenfalls korrigiert:** der erste Entwurf behauptete, der Handschriftencensus
+führe Keller 1858 unter 212 wie unter 929 als Ausgabe. Für 929 ist das falsch,
+dort steht allein Thoelen/Häberlein 2015 (`grep -ci keller` auf der Seite: 0
+gegen 1 bei 212). Dass jene Ausgabe „Konrad von Würzburg 'Trojanerkrieg' und
+die anonym überlieferte Fortsetzung" heißt, also selbst beide Texte umfasst,
+bleibt richtig und war das eigentliche Argument.
 
 **Geändert:** der `msIdentifier` führt jetzt 212, `4285313-8` und zusätzlich
 `Q66770444`, das `works.xml` schon hatte und der Header nicht. Er stimmt damit
@@ -1408,9 +1425,43 @@ mit seinem eigenen `@corresp`, seinem `<author>` und seinem `<title>` überein.
 Die Fortsetzung bleibt über `works.xml` und die statische API auffindbar; sie
 zu verlieren war die Sorge, und sie tritt nicht ein.
 
+**Der Fix hätte sich selbst wieder aufgehoben, und gefunden hat das die
+Reviewrunde.** `scripts/sync/sync_tei_headers.py` baut seine Zuordnung nach
+Sigle (`sigle_to_work[sigle] = work_data`, ohne Kollisionsprüfung), löscht dann
+alle Nicht-Sigle-`idno` und schreibt sie neu. Bei der Doppelsigle TRO gewann der
+spätere Eintrag in Dokumentreihenfolge, also die Fortsetzung. Gemessen, indem
+alte und neue Skriptfassung gegen je eine Kopie des Korpus liefen: die alte
+schreibt 929 und `1181164893` zurück und entfernt `Q66770444` gleich mit.
+`docs/DATA-MODEL.md` schreibt diesen Lauf für **jede** `works.xml`-Änderung vor,
+der nächste Zotero-Eintrag hätte also gereicht.
+
+**Das ist die Antwort auf die #397-Frage, und sie kam nicht aus der Suche nach
+Prüfungen.** Ich hatte gefragt, welche *Prüfung* auf dem alten Zustand beruht,
+und keine gefunden, richtigerweise: es gibt kein Gate, das Header-`idno` gegen
+`works.xml` hält. Der Zerstörer war kein Prüfer, sondern ein **Schreiber**, und
+danach hatte ich nicht gesucht. Die Frage lautet also nicht nur „welche Prüfung
+verliert ihren Gegenstand", sondern „wer schreibt hier sonst noch, und woher
+nimmt der seine Wahrheit". Der Sync nahm sie aus der Annahme „eine Sigle
+identifiziert ein Werk", und die ist seit dem zweiten TRO-Eintrag falsch.
+
+**Behoben im selben Durchgang**, sonst wäre der Header-Fix wertlos: der Sync
+löst jetzt über das `@corresp` des Headers auf und fällt nur ersatzweise auf die
+Sigle zurück, plus eine Warnung bei jeder Doppelsigle. Beweisbar folgenlos für
+den Rest: 667 von 667 Korpusdateien tragen `@corresp`, alle 667 zeigen auf eine
+in `works.xml` definierte `work_id`, und genau eine weicht von der
+Sigle-Auflösung ab. Im Lauf beider Fassungen gegeneinander unterscheidet sich
+**eine** Datei, `tei/TRO.tei.xml`.
+
+Mitgenommen: die `xml:id` des `biblStruct` stand auf `TRO_TRO_TRO`, der Fassung
+aus dem Fortsetzungs-Eintrag, statt auf `TRO_TRO` aus `work_69`. Das ist der
+Fingerabdruck dafür, dass der Sync tatsächlich gelaufen ist und den falschen
+Eintrag gezogen hat. Beide `biblStruct` sind ohne die `xml:id` zeichengleich,
+und keine der beiden ids wird irgendwo referenziert (`grep` über js, py, html,
+json: null Treffer).
+
 **Kein Rebuild, und das ist gemessen statt aus der Routing-Tabelle abgelesen.**
-Die Tabelle in `docs/DATA-MODEL.md` nennt `<idno>` in keiner ihrer beiden
-Zeilen, der Fall ist dort also gar nicht entschieden. Gemessen: Korpus-Index
+Von den drei `tei/`-Zeilen der Tabelle in `docs/DATA-MODEL.md` nennt keine
+`<idno>`, der Fall ist dort also gar nicht entschieden. Gemessen: Korpus-Index
 byteidentisch, `extract-variants.py` meldet null Änderungen in allen vier
 Kategorien, `build-api.py` 2.742 Dateien unverändert, Authority-Index
 unverändert (er liest `works.xml`, nicht den Header). Schema-Validierung 1/1,
@@ -1428,7 +1479,8 @@ nicht. Drittens: die Zotero-Gruppe 5043625 ist öffentlich, `--offline` war nie
 wegen eines fehlenden Schlüssels nötig.
 
 **Phase:** #397 geschlossen (der Satz steht in `CLAUDE.md`, im
-Betriebsvertrag und seit heute in der eingecheckten Agentendefinition), #395
-geschlossen. `fable-reviewer` und `fable-advisor` liegen jetzt unter
+Betriebsvertrag und seit heute in der eingecheckten Agentendefinition). #395
+liegt im PR zu diesem Eintrag und wird mit dessen Merge geschlossen.
+`fable-reviewer` und `fable-advisor` liegen jetzt unter
 `.claude/agents/`, weil das eingecheckte Gedächtnis ohne Definition unbenutzbar
 war und Regel 11 in der Cloud-Session vom 06.09. nicht erfüllbar.

@@ -177,8 +177,23 @@ class WorksSyncer(AuthoritySyncer):
                 },
                 ...
             }
+
+        Nebenbei wird `self.work_id_to_work` gefuellt, dieselben Datensaetze
+        unter ihrer work_id. Eine Sigle identifiziert naemlich NICHT eindeutig
+        ein Werk: TRO traegt sowohl work_69 (Konrad von Wuerzburg,
+        'Trojanerkrieg') als auch work_c7da236c-... (die anonyme
+        'Trojanerkrieg'-Fortsetzung), weil die Datei tei/TRO.tei.xml beide
+        Texte enthaelt (Ausgabe Keller 1858, Verse 1 bis 49861). Bei einer
+        Doppel-Sigle gewann hier frueher der letzte Eintrag in
+        Dokumentreihenfolge, und der Sync schrieb TRO die Identifier der
+        Fortsetzung in den Header (#395). Eindeutig ist stattdessen das
+        @corresp am msIdentifier, siehe update_tei_header.
+        Gemessen am 07.09.2026: 667 von 667 Korpusdateien tragen @corresp,
+        alle 667 zeigen auf eine in works.xml definierte work_id, und genau
+        eine (TRO) weicht von der Sigle-Aufloesung ab.
         """
         sigle_to_work = {}
+        self.work_id_to_work = {}
 
         tree = etree.parse(str(self.authority_file))
         root = tree.getroot()
@@ -230,7 +245,16 @@ class WorksSyncer(AuthoritySyncer):
                     'biblStructs': biblstructs  # List of lxml Elements
                 }
 
+                if sigle in sigle_to_work:
+                    logger.warning(
+                        f"[works] Sigle {sigle} kommt in works.xml mehrfach vor "
+                        f"({sigle_to_work[sigle]['work_id']} und {work_id}). "
+                        f"Die Zuordnung ueber die Sigle ist hier mehrdeutig; "
+                        f"massgeblich ist das @corresp des jeweiligen Headers."
+                    )
+
                 sigle_to_work[sigle] = work_data
+                self.work_id_to_work[work_id] = work_data
 
                 logger.debug(
                     f"Works: {sigle} → {work_id} "
@@ -261,6 +285,23 @@ class WorksSyncer(AuthoritySyncer):
             return False
 
         ms_identifier = ms_identifier[0]
+
+        # Die Sigle ist nicht eindeutig (siehe load_authority_data), das
+        # @corresp ist es. Wo beide auf verschiedene Werke zeigen, gilt das
+        # @corresp: die Datei sagt selbst, welches Werk sie beschreibt, und
+        # ihr <author> und <title> stehen daneben. Fuer 666 der 667
+        # Korpusdateien aendert das nichts, weil dort beide Wege auf dasselbe
+        # Werk fuehren.
+        corresp = ms_identifier.get('corresp') or ''
+        corresp_work_id = corresp.split('#')[-1] if '#' in corresp else ''
+        by_id = getattr(self, 'work_id_to_work', {})
+        if corresp_work_id in by_id and corresp_work_id != data.get('work_id'):
+            logger.info(
+                f"[works] {sigle}: @corresp zeigt auf {corresp_work_id}, "
+                f"die Sigle-Aufloesung auf {data.get('work_id')}. "
+                f"Es gilt {corresp_work_id}."
+            )
+            data = by_id[corresp_work_id]
 
         if not dry_run:
             # Remove existing external ID idno elements (but keep sigle idno)
