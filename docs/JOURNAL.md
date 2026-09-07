@@ -1349,3 +1349,86 @@ eine Zahl geliefert, und ich habe die Zahl genommen statt die Kette.**
 **Phase:** PR #398 grün, Bot-Runden 16 bis 21 ohne Befund. Alle 21 Vorgänge
 bleiben `auto:blocked`: auch wo nur noch eine Abnahme aussteht, ist sie eine
 Entscheidung.
+
+---
+
+## 2026-09-07 – Beide TRO-Werte waren richtig, sie gehörten nur zu zwei verschiedenen Werken
+
+Erste Session mit vollem Netzzugang. Damit war die eine Frage lösbar, an der
+#395 seit dem 02.09. hing: Handschriftencensus 929 oder 212 im TRO-Header, und
+welche der beiden GND.
+
+**Der Zwischenstand war, dass `works.xml` recht hat und der Header unrecht.**
+Über eine Websuche war 212 als Konrads *Trojanerkrieg* indirekt bestätigt; das
+Korpus wurde bewusst nicht geändert, weil eine indirekte Bestätigung keine
+Quelle ist. An der Primärquelle sieht es anders aus, und zwar in beide
+Richtungen.
+
+| Kennung | Primärquelle | Gegenstand |
+|---|---|---|
+| HSC 212 | `handschriftencensus.de/werke/212` | Konrad von Würzburg: 'Trojanerkrieg' |
+| HSC 929 | `handschriftencensus.de/werke/929` | 'Trojanerkrieg'-Fortsetzung |
+| GND 4285313-8 | `lobid.org/gnd/4285313-8.json` | Werk „Trojanerkrieg", `firstAuthor` Konrad von Würzburg |
+| GND 1181164893 | `lobid.org/gnd/1181164893.json` | Werk „Trojanerkrieg-Fortsetzung", anonym, um und nach 1300 |
+
+**Zwei Vermutungen des Tickets sind damit widerlegt.** `1181164893` ist keine
+Personen-GND, wie die Form nahelegte, sondern eine Werk-GND. Und 929 ist keine
+Handschriftennummer, wie der Kommentar vom 06.09. für möglich hielt, sondern
+eine Werknummer. Beide Vermutungen waren aus der Form geschlossen, weil die
+Domains gesperrt waren, und beide waren falsch.
+
+**Der eigentliche Fund kam aber erst über die #397-Frage:** was hat diese
+Änderung wahr gemacht, das vorher falsch sein konnte? Ich habe deshalb nach
+Prüfungen gesucht, die auf dem alten Zustand beruhen, und dabei die 929 an
+einer Stelle gefunden, an der sie niemand vermutet hatte: **`works.xml` führt
+einen zweiten `bibl` mit derselben Sigle TRO**, `work_c7da236c-…`,
+„Trojanerkrieg-Fortsetzung", Autor Anonym, und genau dieser trägt 929 und
+`1181164893`.
+
+Damit war der Konflikt nie einer zwischen Header und `works.xml`. Der Header
+hatte seine Identifier aus dem **richtigen Repositorium, aber aus dem falschen
+der beiden Einträge** geholt, während sein eigenes
+`@corresp="works.xml#work_69"` auf Konrads Werk zeigt. Der Widerspruch saß
+innerhalb des Headers, nicht zwischen zwei Dateien, und ein Vergleich Header
+gegen `works.xml` konnte das nicht sehen, weil beide Werte in `works.xml`
+stehen.
+
+**Und die Datei enthält tatsächlich beide Werke.** 49.857 `<l>` mit Nummern von
+1 bis 49.861, vier Lücken. Konrads Text bricht nach 40.424 Versen ab, die
+anonyme Fortsetzung trägt 9.412 weitere, und an genau dieser Stelle läuft die
+Zählung in `tei/TRO.tei.xml` ohne jede Grenze durch: `40424 ûf der geblüemten
+heide .` / `40425 als dô die kriechen sâhen ,`. Die Quelle im Header, Keller
+1858, druckt beides, und der Handschriftencensus führt sie unter 212 wie unter
+929 als Ausgabe. TRO ist die **einzige** der 583 Siglen mit zwei Einträgen in
+`works.xml` (584 `bibl` auf 583 Siglen), und dieses eine Mal ist es richtig so.
+
+**Geändert:** der `msIdentifier` führt jetzt 212, `4285313-8` und zusätzlich
+`Q66770444`, das `works.xml` schon hatte und der Header nicht. Er stimmt damit
+mit seinem eigenen `@corresp`, seinem `<author>` und seinem `<title>` überein.
+Die Fortsetzung bleibt über `works.xml` und die statische API auffindbar; sie
+zu verlieren war die Sorge, und sie tritt nicht ein.
+
+**Kein Rebuild, und das ist gemessen statt aus der Routing-Tabelle abgelesen.**
+Die Tabelle in `docs/DATA-MODEL.md` nennt `<idno>` in keiner ihrer beiden
+Zeilen, der Fall ist dort also gar nicht entschieden. Gemessen: Korpus-Index
+byteidentisch, `extract-variants.py` meldet null Änderungen in allen vier
+Kategorien, `build-api.py` 2.742 Dateien unverändert, Authority-Index
+unverändert (er liest `works.xml`, nicht den Header). Schema-Validierung 1/1,
+Cross-Ref-Audit `CI CHECK OK`. Also auch kein Versions-Bump.
+
+**Umgebung, drei Messungen für die nächste Cloud-Session.** Der Playwright-Test
+`lemma page loads Wörterbuchnetz entries via API` bleibt rot, obwohl der
+Netzzugang da ist: per curl antworten alle fünf Wörterbücher mit 200, im
+Chromium des Tests scheitert **jeder** externe HTTPS-Host an
+`ERR_CONNECTION_RESET`, gegengeprüft mit `example.com`, `api.zotero.org` und
+`handschriftencensus.de`. Der Browser kommt an den Proxy nicht heran, das ist
+kein Befund über die Anwendung. Zweitens: Playwright startet
+`chromium_headless_shell-1193`, ein Symlink nur auf `chromium-1193` genügt
+nicht. Drittens: die Zotero-Gruppe 5043625 ist öffentlich, `--offline` war nie
+wegen eines fehlenden Schlüssels nötig.
+
+**Phase:** #397 geschlossen (der Satz steht in `CLAUDE.md`, im
+Betriebsvertrag und seit heute in der eingecheckten Agentendefinition), #395
+geschlossen. `fable-reviewer` und `fable-advisor` liegen jetzt unter
+`.claude/agents/`, weil das eingecheckte Gedächtnis ohne Definition unbenutzbar
+war und Regel 11 in der Cloud-Session vom 06.09. nicht erfüllbar.
