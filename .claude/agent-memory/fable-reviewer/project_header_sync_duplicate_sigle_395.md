@@ -69,3 +69,21 @@ works.xml, cwd = Scratch (TEI_DIR haengt an __file__, AUTHORITY_DIR ist
 relativ), Mutation mit `assert new != blk` absichern.
 MWB-Quellenverzeichnis: `https://www.mhdwb-online.de/quellenverzeichnis.php?buchstabe=N`
 fuehrt NibA, NibB, NibB_(B), NibC, NibD (WebFetch 07.09.2026).
+
+**Runde 2 zu #399 (07.09.2026, nach Bot-Fixes, ungestagt):** Der nach hinten
+verschobene Block (chirurgischer Schreiber NACH `syncers_to_run`) steht jetzt
+VOR dem Stub-Guard: `--works --persons` schreibt erst das Korpus und endet dann
+mit Exit 1 „Refusing …"; auf origin/main stand der Guard (Z. 563) vor der
+Syncer-Schleife (Z. 593), nichts wurde geschrieben. Muster: ein verschobener
+Block aendert die Reihenfolge zu BEIDEN Nachbarn, nicht nur zu dem, der den
+Fehler ausgeloest hat. Hartes Gate fuer `ohne_msid`: die Zeile „Beheben mit:
+--works" gilt dort nicht, der Schreiber ueberspringt Dateien ohne msIdentifier
+(`continue`, Exit 0), Gate bleibt rot. Unter `--all` druckt die alte Summe
+„Total files that would be updated: 0" direkt nach „[works] wuerde aendern: 1".
+Messwerte: Check 0,591 s; OVG 65.999.808 B (= 66,0 MB dezimal, 62,9 MiB);
+Korpus 1.432.472.114 -> 1.430.556.264 B nach lxml-Pfad (lab2-Kopie, 667
+geaendert, mwb-sigle 19 -> 0). Lab-Layout wie oben, `cp -r tei` passt bei
+9 GB frei; Vergleich der listBibl mit kanonischer (sortierte Kinder,
+whitespace-normalisiert) Form dauert Minuten, im Hintergrund starten.
+Der Zweig-Commit 5369b9aa3 (main-site.spec.js reload) haengt mit #399 nicht
+zusammen und ist nicht in main.

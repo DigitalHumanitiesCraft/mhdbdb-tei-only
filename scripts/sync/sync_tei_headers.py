@@ -513,7 +513,8 @@ GESPIEGELTE_TYPEN = ('handschriftencensus', 'GND', 'wikidata')
 def erster_msidentifier(tei_datei: Path):
     """Den msIdentifier einer TEI-Datei lesen, ohne die ganze Datei zu parsen.
 
-    Die Korpusdateien sind zusammen 1,4 GB, die groesste 63 MB; ein
+    Die Korpusdateien sind zusammen 1,4 GB, die groesste 66 MB (OVG,
+    65.999.808 Bytes, dezimal wie die uebrigen Zahlen hier); ein
     vollstaendiger Parse je Datei kostet fuer ein Gate zu viel. `iterparse`
     liefert das Element, sobald sein Endtag gelesen ist, und der
     msIdentifier steht im Header. Danach wird abgebrochen.
@@ -706,8 +707,18 @@ def pruefe_werk_identifier() -> int:
         logger.error(f"[check] {len(abweichend)} Datei(en) weichen von works.xml ab:")
         for sigle, ist, soll in abweichend:
             logger.error(f"  {sigle}: Header {ist or '{}'} gegen works.xml {soll or '{}'}")
+        logger.error("Beheben mit: python scripts/sync/sync_tei_headers.py --works")
 
-    logger.error("Beheben mit: python scripts/sync/sync_tei_headers.py --works")
+    # Zwei Klassen, zwei Auskuenfte. Der Generator kann einen fehlenden
+    # msIdentifier nicht wiederherstellen: schreibe_werk_identifier warnt bei
+    # genau diesen Dateien und ueberspringt sie. Eine gemeinsame Beheben-Zeile
+    # schickte die CI in eine Schleife (rot, Abhilfe laufen lassen, Exit 0,
+    # wieder rot). Auf PR #403 von beiden Reviewern unabhaengig gefunden.
+    if ohne_msid:
+        logger.error("Ein fehlender oder unparsebarer msIdentifier ist "
+                     "Handarbeit in der TEI-Datei; --works kann ihn nicht "
+                     "anlegen.")
+
     return len(abweichend) + len(ohne_msid)
 
 
@@ -794,27 +805,6 @@ Examples:
         logger.error("\nError: Must specify at least one authority file (--all, --works, etc.)")
         return 1
 
-    # works laeuft IMMER ueber den chirurgischen Schreiber, auch unter --all.
-    # Der alte lxml-Pfad ist nur noch ueber das ausdrueckliche --bibl-struct
-    # erreichbar, und das ist kein Geschmacksunterschied: er loescht alle
-    # Nicht-Sigle-idno (`idno[@type!="sigle"]` im WorksSyncer) und damit auch
-    # die 19 mwb-sigle, die works.xml nicht kennt und nie zurueckgeben kann.
-    # Gemessen am 07.09.2026 auf einer Korpuskopie: 19 Dateien mit mwb-sigle
-    # vorher, 0 nachher. --check faellt darauf nicht herein, weil es
-    # mwb-sigle bewusst nicht prueft. Ein --all, das still in diesen Pfad
-    # faellt, waere also ein Datenverlust ohne Warnung.
-    #
-    # Dieser Block steht bewusst NACH der Berechnung von syncers_to_run: er
-    # liest die Liste, und eine fruehere Stellung war ein UnboundLocalError
-    # (gefunden vom CI-Review-Bot auf PR #403).
-    if (args.works or args.all) and not args.bibl_struct:
-        schreibe_werk_identifier(dry_run=args.dry_run)
-        logger.info("Hinweis: die listBibl wurde nicht angefasst (dafuer "
-                    "--bibl-struct, siehe dessen Hilfetext).")
-        syncers_to_run = [s for s in syncers_to_run if s != 'works']
-        if not syncers_to_run:
-            return 0
-
     # Guard against the silent-stub trap: an explicit request for an
     # unimplemented syncer must fail loudly; --all just skips them with a note.
     unimplemented = [s for s in syncers_to_run if s not in IMPLEMENTED_SYNCERS]
@@ -832,6 +822,32 @@ Examples:
             "(declared stubs; nothing is synced for them)."
         )
         syncers_to_run = [s for s in syncers_to_run if s in IMPLEMENTED_SYNCERS]
+
+    # works laeuft IMMER ueber den chirurgischen Schreiber, auch unter --all.
+    # Der alte lxml-Pfad ist nur noch ueber das ausdrueckliche --bibl-struct
+    # erreichbar, und das ist kein Geschmacksunterschied: er loescht alle
+    # Nicht-Sigle-idno (`idno[@type!="sigle"]` im WorksSyncer) und damit auch
+    # die 19 mwb-sigle, die works.xml nicht kennt und nie zurueckgeben kann.
+    # Gemessen am 07.09.2026 auf einer Korpuskopie: 19 Dateien mit mwb-sigle
+    # vorher, 0 nachher. --check faellt darauf nicht herein, weil es
+    # mwb-sigle bewusst nicht prueft. Ein --all, das still in diesen Pfad
+    # faellt, waere also ein Datenverlust ohne Warnung.
+    #
+    # Die Stellung dieses Blocks ist zweimal erkauft worden. Er muss NACH der
+    # Berechnung von syncers_to_run stehen, sonst ist er ein
+    # UnboundLocalError, und NACH dem Stub-Guard, sonst schreibt
+    # `--works --persons` erst das Korpus und faellt danach durch, waehrend
+    # der Guard genau das verhindern sollte („Refusing to report a misleading
+    # '0 updated' success"). Beides auf PR #403 gefunden, das zweite von
+    # beiden Reviewern unabhaengig.
+    werke_geschrieben = 0
+    if (args.works or args.all) and not args.bibl_struct:
+        werke_geschrieben = schreibe_werk_identifier(dry_run=args.dry_run)
+        logger.info("Hinweis: die listBibl wurde nicht angefasst (dafuer "
+                    "--bibl-struct, siehe dessen Hilfetext).")
+        syncers_to_run = [s for s in syncers_to_run if s != 'works']
+        if not syncers_to_run:
+            return 0
     
     # Display mode
     if args.dry_run:
@@ -843,7 +859,17 @@ Examples:
     logger.info("")
     
     try:
-        total_updated = 0
+        # Seed, weil der chirurgische works-Lauf ausserhalb dieser Schleife
+        # steht: works ist zu diesem Zeitpunkt aus syncers_to_run entfernt.
+        # Ehrlich gesagt ist der Seed heute unerreichbar. IMPLEMENTED_SYNCERS
+        # ist {'works'}, nach dem Entfernen ist die Liste immer leer, und der
+        # Zweig darueber kehrt vorher mit 0 zurueck. Die Meldung "Total files
+        # updated: 0" bei geschriebenen Dateien, die beide Reviewer auf #403
+        # gemeldet haben, gab es in der Reihenfolge VOR dem Guard-Umzug; sie
+        # kann jetzt nicht mehr auftreten. Der Seed bleibt trotzdem stehen:
+        # sobald ein zweiter Syncer implementiert ist, laeuft die Schleife
+        # wieder, und dann waere die Summe ohne ihn falsch.
+        total_updated = werke_geschrieben
         total_skipped = 0
         
         # Run each syncer
