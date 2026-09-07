@@ -306,9 +306,11 @@ class WorksSyncer(AuthoritySyncer):
         corresp_work_id = corresp.split('#')[-1] if '#' in corresp else ''
         if corresp_work_id and corresp_work_id != data.get('work_id'):
             # Direkter Zugriff, kein getattr mit Voreinstellung: fehlt das
-            # Attribut, ist load_authority_data nicht gelaufen, und dann soll
-            # das laut schreien statt stumm auf die Sigle zurueckzufallen
-            # (dieselbe Regel wie beim harten Abbruch weiter unten).
+            # Attribut, ist load_authority_data nicht gelaufen, und der
+            # AttributeError landet als ERROR im Log von _update_single_tei.
+            # Ein getattr faenge das stumm auf und fiele auf die Sigle
+            # zurueck, also genau in den Fehlermodus, den dieser Zweig
+            # beseitigt.
             ziel = self.work_by_id_and_sigle.get((corresp_work_id, sigle))
             if ziel is not None:
                 logger.info(
@@ -318,6 +320,12 @@ class WorksSyncer(AuthoritySyncer):
                 )
                 data = ziel
             else:
+                # Warnen und bei der Sigle bleiben, nicht ueberspringen: eine
+                # frisch ingestete Datei traegt zunaechst ein Platzhalter-
+                # @corresp (die ARI-Vorlage schreibt work_TBD, siehe
+                # scripts/ingest/ari/01-convert-original-to-mhdbdb.py:93), und
+                # die soll trotzdem ihre Identifier bekommen. Heute trifft der
+                # Zweig auf keine der 667 Dateien zu.
                 logger.warning(
                     f"[works] {sigle}: @corresp zeigt auf {corresp_work_id}, "
                     f"aber dieses Werk fuehrt die Sigle {sigle} nicht. "
