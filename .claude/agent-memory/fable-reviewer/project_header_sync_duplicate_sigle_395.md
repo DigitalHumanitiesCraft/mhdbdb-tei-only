@@ -45,3 +45,45 @@ waehrend die Datei wegen Abschnitt 1 trotzdem geschrieben wird. Gemessen:
 Risiko ist heute rein hypothetisch. Und: eine Zahl in diesem Verzeichnis ist
 Eingabe fuer den naechsten Lauf, nicht Prosa. Ein Eintrag, der sich selbst
 widerspricht, liefert die Grundgesamtheit fuer die naechste Aussage.
+
+**Runde 1 zu #399 (chirurgischer Schreiber + `--check`, ungestagt, 07.09.2026):**
+Der alte lxml-Pfad (`update_tei_header`, `idno[@type!="sigle"]` loeschen) bleibt
+ueber `--works --bibl-struct` UND ueber `--all` erreichbar (main: `nur_works`
+ist bei `--all` False). Auf voller Korpuskopie gemessen: 52 s, alle 667
+Dateien neu serialisiert (1.432.472.114 -> 1.430.556.264 Bytes), **alle 19
+`mwb-sigle` geloescht** (0 von 667 danach), und die listBibl aus works.xml
+ueberschrieben. Die 127 listBibl-Abweichungen sind NICHT reine Reihenfolge:
+116 Reihenfolge, 6 zusaetzlich Whitespace im Text, 5 Inhalt (AK: biblScope +
+note nur im Header; WZB: 3 editor, 2 publisher, 4 note nur im Header; FR3:
+ref/@target; HZ, LUU: xml:id zwischen zwei biblStruct vertauscht). Der alte
+Pfad verliert also Header-Information, er sortiert nicht nur um.
+Der `--check` (iterparse bis msIdentifier, 0,6 s) prueft nur Inhalt der drei
+gespiegelten Typen; Reihenfolge, mwb-sigle, Dateien ohne msIdentifier und
+Dateien, die works.xml nicht kennt, faerben ihn nie rot (heute 667/667
+geprueft). Regex-Schreiber: Entfern-Muster verlangt `\n<indent><idno type="X">`
+exakt; idno mit Zusatzattribut oder auf der sigle-Zeile wird nicht entfernt,
+sondern dupliziert (Schema laesst am msIdentifier-idno nur @type zu, Zeile 114
+mhdbdb.rnc; heute 0 Vorkommen beider Faelle). Mutationsproben: Scratch-Layout
+mit scripts/corpus_files.py + scripts/sync/ + tei/<8 Dateien> + authority-files/
+works.xml, cwd = Scratch (TEI_DIR haengt an __file__, AUTHORITY_DIR ist
+relativ), Mutation mit `assert new != blk` absichern.
+MWB-Quellenverzeichnis: `https://www.mhdwb-online.de/quellenverzeichnis.php?buchstabe=N`
+fuehrt NibA, NibB, NibB_(B), NibC, NibD (WebFetch 07.09.2026).
+
+**Runde 2 zu #399 (07.09.2026, nach Bot-Fixes, ungestagt):** Der nach hinten
+verschobene Block (chirurgischer Schreiber NACH `syncers_to_run`) steht jetzt
+VOR dem Stub-Guard: `--works --persons` schreibt erst das Korpus und endet dann
+mit Exit 1 „Refusing …"; auf origin/main stand der Guard (Z. 563) vor der
+Syncer-Schleife (Z. 593), nichts wurde geschrieben. Muster: ein verschobener
+Block aendert die Reihenfolge zu BEIDEN Nachbarn, nicht nur zu dem, der den
+Fehler ausgeloest hat. Hartes Gate fuer `ohne_msid`: die Zeile „Beheben mit:
+--works" gilt dort nicht, der Schreiber ueberspringt Dateien ohne msIdentifier
+(`continue`, Exit 0), Gate bleibt rot. Unter `--all` druckt die alte Summe
+„Total files that would be updated: 0" direkt nach „[works] wuerde aendern: 1".
+Messwerte: Check 0,591 s; OVG 65.999.808 B (= 66,0 MB dezimal, 62,9 MiB);
+Korpus 1.432.472.114 -> 1.430.556.264 B nach lxml-Pfad (lab2-Kopie, 667
+geaendert, mwb-sigle 19 -> 0). Lab-Layout wie oben, `cp -r tei` passt bei
+9 GB frei; Vergleich der listBibl mit kanonischer (sortierte Kinder,
+whitespace-normalisiert) Form dauert Minuten, im Hintergrund starten.
+Der Zweig-Commit 5369b9aa3 (main-site.spec.js reload) haengt mit #399 nicht
+zusammen und ist nicht in main.

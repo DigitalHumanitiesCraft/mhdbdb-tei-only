@@ -285,6 +285,16 @@ jobs:
       - name: Dokumentierte Zahlen gegen die Daten (#382/#398)
         run: python scripts/audit/doc-count-audit.py --check
 
+      # Haelt den msIdentifier jeder Korpusdatei gegen works.xml (#399).
+      # Verglichen wird der INHALT der gespiegelten idno, nicht die
+      # Formatierung: ein "Sync laufen lassen und diffen" waere dauerhaft rot,
+      # weil der lxml-Schreibpfad jede Datei neu serialisiert (gemessen
+      # 07.09.2026: alle 667 geaendert, Korpus 1.432,5 -> 1.430,6 MB).
+      # Billig und offline: liest je Datei nur bis zum Ende des
+      # msIdentifier (iterparse), 0,6 s ueber alle 667.
+      - name: Werk-Identifier gegen works.xml (#399)
+        run: python scripts/sync/sync_tei_headers.py --works --check
+
       - name: Index-Versions-Bump-Gate (#154)
         # MUSS vor dem Index-Rebuild (Step 6) laufen: der ueberschreibt
         # data/*.json.gz im Working Tree.
