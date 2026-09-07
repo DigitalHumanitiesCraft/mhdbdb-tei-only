@@ -45,3 +45,27 @@ waehrend die Datei wegen Abschnitt 1 trotzdem geschrieben wird. Gemessen:
 Risiko ist heute rein hypothetisch. Und: eine Zahl in diesem Verzeichnis ist
 Eingabe fuer den naechsten Lauf, nicht Prosa. Ein Eintrag, der sich selbst
 widerspricht, liefert die Grundgesamtheit fuer die naechste Aussage.
+
+**Runde 1 zu #399 (chirurgischer Schreiber + `--check`, ungestagt, 07.09.2026):**
+Der alte lxml-Pfad (`update_tei_header`, `idno[@type!="sigle"]` loeschen) bleibt
+ueber `--works --bibl-struct` UND ueber `--all` erreichbar (main: `nur_works`
+ist bei `--all` False). Auf voller Korpuskopie gemessen: 52 s, alle 667
+Dateien neu serialisiert (1.432.472.114 -> 1.430.556.264 Bytes), **alle 19
+`mwb-sigle` geloescht** (0 von 667 danach), und die listBibl aus works.xml
+ueberschrieben. Die 127 listBibl-Abweichungen sind NICHT reine Reihenfolge:
+116 Reihenfolge, 6 zusaetzlich Whitespace im Text, 5 Inhalt (AK: biblScope +
+note nur im Header; WZB: 3 editor, 2 publisher, 4 note nur im Header; FR3:
+ref/@target; HZ, LUU: xml:id zwischen zwei biblStruct vertauscht). Der alte
+Pfad verliert also Header-Information, er sortiert nicht nur um.
+Der `--check` (iterparse bis msIdentifier, 0,6 s) prueft nur Inhalt der drei
+gespiegelten Typen; Reihenfolge, mwb-sigle, Dateien ohne msIdentifier und
+Dateien, die works.xml nicht kennt, faerben ihn nie rot (heute 667/667
+geprueft). Regex-Schreiber: Entfern-Muster verlangt `\n<indent><idno type="X">`
+exakt; idno mit Zusatzattribut oder auf der sigle-Zeile wird nicht entfernt,
+sondern dupliziert (Schema laesst am msIdentifier-idno nur @type zu, Zeile 114
+mhdbdb.rnc; heute 0 Vorkommen beider Faelle). Mutationsproben: Scratch-Layout
+mit scripts/corpus_files.py + scripts/sync/ + tei/<8 Dateien> + authority-files/
+works.xml, cwd = Scratch (TEI_DIR haengt an __file__, AUTHORITY_DIR ist
+relativ), Mutation mit `assert new != blk` absichern.
+MWB-Quellenverzeichnis: `https://www.mhdwb-online.de/quellenverzeichnis.php?buchstabe=N`
+fuehrt NibA, NibB, NibB_(B), NibC, NibD (WebFetch 07.09.2026).

@@ -35,6 +35,7 @@ After running:
 """
 
 import sys
+import re
 import argparse
 import logging
 from pathlib import Path
@@ -498,6 +499,206 @@ SYNCERS = {
 # of silently returning (0, 0), which reads as "ran fine, nothing to do".
 IMPLEMENTED_SYNCERS = {'works'}
 
+# Typen, die works.xml fuer das WERK fuehrt und die der Header spiegelt.
+# sigle und mwb-sigle stehen bewusst nicht dabei: die Sigle ist header-eigen
+# (works.xml fuehrt sie als Schluessel, nicht als Spiegel), und mwb-sigle ist
+# textzeugenspezifisch. Das MWB vergibt je Redaktion eine eigene Sigle
+# (NibA, NibB, NibC, NibD im Quellenverzeichnis), waehrend works.xml
+# Identifier nur je Werk kennt: work_18 traegt die vier Siglen NBB, NLA,
+# NLB und NLC, und nur NLC ist NibC. Aus works.xml generiert bekaeme NLA
+# die Sigle der C-Redaktion (#399, gemessen 07.09.2026).
+GESPIEGELTE_TYPEN = ('handschriftencensus', 'GND', 'wikidata')
+
+
+def erster_msidentifier(tei_datei: Path):
+    """Den msIdentifier einer TEI-Datei lesen, ohne die ganze Datei zu parsen.
+
+    Die Korpusdateien sind zusammen 1,4 GB, die groesste 63 MB; ein
+    vollstaendiger Parse je Datei kostet fuer ein Gate zu viel. `iterparse`
+    liefert das Element, sobald sein Endtag gelesen ist, und der
+    msIdentifier steht im Header. Danach wird abgebrochen.
+
+    Returns (corresp, {typ: erster Wert}) oder (None, None).
+    """
+    ziel = f'{{{TEI_NS_URI}}}msIdentifier'
+    try:
+        for _, el in etree.iterparse(str(tei_datei), events=('end',), tag=ziel):
+            werte = {}
+            for idno in el.findall(f'{{{TEI_NS_URI}}}idno'):
+                typ = idno.get('type')
+                # erster Wert gewinnt, wie im Schreibpfad: works.xml fuehrt
+                # fuer LAU zwei wikidata-IDs, und update_tei_header nimmt
+                # dort ebenfalls [0]. Ein Check auf die Menge waere hier
+                # dauerhaft rot, ohne dass etwas falsch ist.
+                if typ in GESPIEGELTE_TYPEN and typ not in werte and idno.text:
+                    werte[typ] = idno.text.strip()
+            return el.get('corresp'), werte
+    except etree.XMLSyntaxError as exc:
+        logger.error(f"{tei_datei.name}: nicht parsebar ({exc})")
+    return None, None
+
+
+MSID_BLOCK = re.compile(r'<msIdentifier\b[^>]*>.*?</msIdentifier>', re.S)
+
+
+def _idno_zeile(typ: str, wert: str, einzug: str, zeilenende: str) -> str:
+    return f'{einzug}<idno type="{typ}">{wert}</idno>{zeilenende}'
+
+
+def schreibe_werk_identifier(dry_run: bool = False) -> int:
+    """--works: die gespiegelten Identifier in den msIdentifier schreiben.
+
+    **Chirurgisch, nicht ueber lxml.** Der Weg ueber
+    `etree.parse(remove_blank_text=True)` plus `tree.write(pretty_print=True)`
+    setzt die Einrueckung der GANZEN Datei neu; gemessen am 07.09.2026 aendert
+    ein solcher Lauf alle 667 Korpusdateien und schrumpft das Korpus von
+    1.432,5 auf 1.430,6 MB, ohne dass sich inhaltlich etwas aendert. Ein Gate
+    darauf waere dauerhaft rot, und die Fehlermeldung von --check verwiese auf
+    ein Kommando, das mehr kaputtmacht als es repariert. Der alte Pfad
+    formatiert dabei nicht nur um: er loescht die 19 mwb-sigle und aendert
+    bei fuenf Dateien (AK, FR3, HZ, LUU, WZB) die Bibliographie inhaltlich. Dieselbe Begruendung
+    steht in scripts/audit/drop-negative-variant-corresp.py und
+    scripts/sync/build-wbnetz-lemma-list.py, die aus demselben Grund
+    zeilenweise arbeiten.
+
+    Angefasst wird ausschliesslich der msIdentifier-Block, und darin nur die
+    idno der Typen in GESPIEGELTE_TYPEN. sigle und mwb-sigle bleiben stehen,
+    ebenso msName, @corresp und alles ausserhalb des Blocks. Zeilenenden
+    bleiben erhalten (WZB ist eine CRLF-Datei).
+
+    Die listBibl wird NICHT angefasst, siehe --bibl-struct.
+    """
+    syncer = WorksSyncer(AUTHORITY_DIR / 'works.xml', TEI_DIR)
+    nach_sigle = syncer.load_authority_data()
+    nach_id_und_sigle = syncer.work_by_id_and_sigle
+
+    geaendert = 0
+    for tei_datei in corpus_files(TEI_DIR):
+        sigle = tei_datei.stem.replace('.tei', '')
+        text = tei_datei.read_text(encoding='utf-8', newline='')
+        treffer = MSID_BLOCK.search(text)
+        if not treffer:
+            logger.warning(f"[works] {sigle}: kein msIdentifier")
+            continue
+
+        block = treffer.group(0)
+        corresp_m = re.search(r'\bcorresp="([^"]*)"', block)
+        corresp = corresp_m.group(1) if corresp_m else ''
+        work_id = corresp.split('#')[-1] if '#' in corresp else ''
+        daten = nach_id_und_sigle.get((work_id, sigle)) or nach_sigle.get(sigle)
+        if daten is None:
+            continue
+
+        soll = [(typ, daten[feld]) for typ, feld in
+                (('handschriftencensus', 'handschriftencensus'),
+                 ('GND', 'gnd'), ('wikidata', 'wikidata')) if daten.get(feld)]
+
+        # Einzug und Zeilenende von der sigle-Zeile abschauen, damit das
+        # Ergebnis aussieht wie der Rest der Datei.
+        sigle_m = re.search(r'(\r?\n)([ \t]*)<idno type="sigle">', block)
+        zeilenende = sigle_m.group(1) if sigle_m else '\n'
+        einzug = sigle_m.group(2) if sigle_m else '            '
+
+        # bestehende gespiegelte idno entfernen, samt ihrer eigenen Zeile
+        # `<idno` mit beliebigen weiteren Attributen und auch ohne eigene
+        # Zeile treffen: sonst bliebe so ein Element stehen und bekaeme das
+        # neue danebengesetzt (zwei idno desselben Typs), was --check nicht
+        # bemerkt, weil dort der erste Wert gewinnt. Heute 0 von 667 Faellen,
+        # und schema/mhdbdb.rnc:114 laesst am msIdentifier-idno nur @type zu;
+        # die Luecke ist also latent und kostet zwei Zeichen.
+        typen = '|'.join(GESPIEGELTE_TYPEN)
+        neu_block = re.sub(
+            rf'(?:\r?\n[ \t]*)?<idno\b[^>]*\btype="(?:{typen})"[^>]*>[^<]*</idno>',
+            '', block)
+
+        # neue direkt nach der sigle einsetzen
+        if soll:
+            einsatz = ''.join(_idno_zeile(t, w, einzug, zeilenende)
+                              for t, w in soll)
+            sigle_ende = re.search(r'<idno type="sigle">[^<]*</idno>', neu_block)
+            if not sigle_ende:
+                logger.warning(f"[works] {sigle}: keine sigle im msIdentifier, "
+                               f"uebersprungen")
+                continue
+            pos = sigle_ende.end()
+            neu_block = (neu_block[:pos] + zeilenende
+                         + einsatz.rstrip(zeilenende) + neu_block[pos:])
+
+        if neu_block == block:
+            continue
+        geaendert += 1
+        if dry_run:
+            logger.info(f"[works] {sigle}: wuerde geaendert")
+            continue
+        tei_datei.write_text(text[:treffer.start()] + neu_block
+                             + text[treffer.end():],
+                             encoding='utf-8', newline='')
+        logger.info(f"[works] {sigle}: msIdentifier aktualisiert")
+
+    logger.info(f"[works] {'wuerde aendern' if dry_run else 'geaendert'}: "
+                f"{geaendert} Datei(en)")
+    return geaendert
+
+
+def pruefe_werk_identifier() -> int:
+    """--check: Header gegen works.xml halten, ohne irgendetwas zu schreiben.
+
+    Verglichen wird der INHALT, nicht die Formatierung. Das ist der
+    Unterschied zu einem "Sync laufen lassen und diffen": ein Lauf von
+    WorksSyncer serialisiert jede Datei ueber lxml neu und aendert damit
+    alle 667, ohne dass sich inhaltlich etwas aendert (gemessen 07.09.2026:
+    das Korpus schrumpft dabei von 1.432,5 auf 1.430,6 MB, reine
+    Einrueckung). Ein Gate auf dem Dateidiff waere dauerhaft rot.
+
+    Returns die Zahl der abweichenden Dateien (0 = alles synchron).
+    """
+    syncer = WorksSyncer(AUTHORITY_DIR / 'works.xml', TEI_DIR)
+    nach_sigle = syncer.load_authority_data()
+    nach_id_und_sigle = syncer.work_by_id_and_sigle
+
+    abweichend = []
+    ohne_msid = []
+    geprueft = 0
+
+    for tei_datei in corpus_files(TEI_DIR):
+        sigle = tei_datei.stem.replace('.tei', '')
+        corresp, ist = erster_msidentifier(tei_datei)
+        if ist is None:
+            ohne_msid.append(sigle)
+            continue
+
+        work_id = corresp.split('#')[-1] if corresp and '#' in corresp else ''
+        # dieselbe Aufloesung wie im Schreibpfad: @corresp schlaegt die Sigle
+        daten = nach_id_und_sigle.get((work_id, sigle)) or nach_sigle.get(sigle)
+        if daten is None:
+            continue
+        geprueft += 1
+
+        soll = {}
+        for typ, feld in (('handschriftencensus', 'handschriftencensus'),
+                          ('GND', 'gnd'), ('wikidata', 'wikidata')):
+            if daten.get(feld):
+                soll[typ] = daten[feld]
+
+        if ist != soll:
+            abweichend.append((sigle, ist, soll))
+
+    logger.info(f"[check] {geprueft} Dateien gegen works.xml geprueft")
+    if ohne_msid:
+        logger.warning(f"[check] ohne msIdentifier: {', '.join(ohne_msid)}")
+
+    if not abweichend:
+        logger.info("[check] OK: Header und works.xml stimmen bei "
+                    f"{', '.join(GESPIEGELTE_TYPEN)} ueberein")
+        return 0
+
+    logger.error(f"[check] {len(abweichend)} Datei(en) weichen von works.xml ab:")
+    for sigle, ist, soll in abweichend:
+        logger.error(f"  {sigle}: Header {ist or '{}'} gegen works.xml {soll or '{}'}")
+    logger.error("Beheben mit: python scripts/sync/sync_tei_headers.py --works")
+    return len(abweichend)
+
+
 
 def main():
     """Main execution"""
@@ -517,6 +718,9 @@ Examples:
   
   # Sync multiple specific files
   python scripts/sync/sync_tei_headers.py --works --persons
+
+  # Gate: Header gegen works.xml pruefen, ohne zu schreiben (#399)
+  python scripts/sync/sync_tei_headers.py --works --check
         """
     )
     
@@ -535,8 +739,45 @@ Examples:
     # Options
     parser.add_argument('--dry-run', action='store_true',
                        help='Show what would be changed without modifying files')
-    
+    parser.add_argument('--bibl-struct', action='store_true',
+                       help='Zusaetzlich die listBibl aus works.xml ziehen. '
+                            'ACHTUNG: dieser Weg laeuft ueber lxml und '
+                            'serialisiert jede Datei neu (gemessen: alle 667 '
+                            'geaendert, Korpus 1.432,5 -> 1.430,6 MB). Er '
+                            'LOESCHT dabei die 19 mwb-sigle und aendert bei '
+                            'AK, FR3, HZ, LUU und WZB die Bibliographie '
+                            'inhaltlich. Nur bewusst benutzen.')
+    parser.add_argument('--check', action='store_true',
+                       help='Gate (#399): Header gegen works.xml pruefen, nichts '
+                            'schreiben, Exit 1 bei Abweichung. Vergleicht Inhalte, '
+                            'nicht Formatierung. Nur fuer works.')
+
     args = parser.parse_args()
+
+    # --check ist ein eigener Modus und laeuft vor der Syncer-Auswahl: es
+    # schreibt nichts, braucht keinen Syncer-Lauf und gilt nur fuer works.
+    if args.check:
+        if args.persons or args.genres or args.concepts:
+            parser.error('--check gibt es nur fuer works (die uebrigen Syncer '
+                         'sind deklarierte Stubs).')
+        return 1 if pruefe_werk_identifier() else 0
+
+    # works laeuft IMMER ueber den chirurgischen Schreiber, auch unter --all.
+    # Der alte lxml-Pfad ist nur noch ueber das ausdrueckliche --bibl-struct
+    # erreichbar, und das ist kein Geschmacksunterschied: er loescht alle
+    # Nicht-Sigle-idno (Zeile 339, `idno[@type!="sigle"]`) und damit auch die
+    # 19 mwb-sigle, die works.xml nicht kennt und nie zurueckgeben kann.
+    # Gemessen am 07.09.2026 auf einer Korpuskopie: 19 Dateien mit mwb-sigle
+    # vorher, 0 nachher. --check faellt darauf nicht herein, weil es
+    # mwb-sigle bewusst nicht prueft. Ein --all, das still in diesen Pfad
+    # faellt, waere also ein Datenverlust ohne Warnung.
+    if (args.works or args.all) and not args.bibl_struct:
+        schreibe_werk_identifier(dry_run=args.dry_run)
+        logger.info("Hinweis: die listBibl wurde nicht angefasst (dafuer "
+                    "--bibl-struct, siehe dessen Hilfetext).")
+        syncers_to_run = [s for s in syncers_to_run if s != 'works']
+        if not syncers_to_run:
+            return 0
     
     # Determine which syncers to run
     syncers_to_run = []

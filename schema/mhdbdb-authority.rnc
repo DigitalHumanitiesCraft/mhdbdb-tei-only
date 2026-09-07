@@ -240,7 +240,11 @@ works.bibl = element bibl {
         attribute type { text }?,
         attribute ana { text }?,
         text
-    }+,                                 # required — 583/583 works have title
+    }+,                                 # required: 584/584 works have title
+    # Hier stand 583/583. Der Zaehler war um eins zu niedrig, weil er je
+    # bibl nur die erste Sigle las; works.xml hat 584 bibl mit 669
+    # Sigle-Eintraegen auf 668 verschiedenen Siglen (TRO steht doppelt,
+    # siehe #395). Gemessen 07.09.2026.
     element idno {
         attribute type { "sigle" | "handschriftencensus" | "GND" | "wikidata" },
         text

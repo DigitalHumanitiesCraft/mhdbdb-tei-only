@@ -795,6 +795,27 @@ Any ingest pipeline that mints new lemma/sense IDs in the corpus MUST write them
 
 **Master of record:** Since the migration (2025-07-22) this repository is the *sole* master for all 8 authority files; there is no Salzburg re-export and no live external source. See [TEI-MODEL-AUTH-FILES.md → Provenance](TEI-MODEL-AUTH-FILES.md#provenance-and-currency).
 
+### F.4 Work Identity: `works.xml` Leads, the TEI Header Mirrors
+
+**Contract:** For the identifier types `handschriftencensus`, `GND` and `wikidata`, `authority-files/works.xml` is the master and the `msIdentifier` of each TEI header is a mirror. The mirror is not maintained by hand: `scripts/sync/sync_tei_headers.py --works` writes it, `--check` gates it in `data-integrity.yml` (#399).
+
+**Why this is a mirror and not a reduction.** The header could carry only the sigle and resolve the rest through `@corresp`, and the surface does exactly that. It keeps the copy anyway, because this repository is called „The entire MHDBDB stored in TEI files only": a single downloaded `.tei.xml` has to stay citable on its own. Redundancy without a generator drifts, with one it does not; the same pattern already carries `variants.xml` (`extract-variants.py` plus a freshness step) and the injected nav and footer (`build-pages.py --check`).
+
+**Resolution is by `@corresp`, never by sigle.** A sigle does not identify a work uniquely: TRO carries both `work_69` (Konrad von Würzburg's *Trojanerkrieg*) and `work_c7da236c-…` (the anonymous continuation), because `tei/TRO.tei.xml` contains both texts. Measured 2026-09-07: 667 of 667 corpus files carry `@corresp` on the `msIdentifier`, all 667 resolve to a work defined in `works.xml`, and exactly one differs from what the sigle would yield. Keying by sigle silently wrote the continuation's identifiers into TRO's header (#395).
+
+**Two types stay header-owned and the generator never touches them:**
+
+- `sigle` is the key, not a mirrored value.
+- `mwb-sigle` is **per text witness, not per work**. The MWB assigns a separate sigle to each manuscript redaction (`NibA`, `NibB`, `NibC`, `NibD` in its Quellenverzeichnis), while `works.xml` only knows identifiers per work: `work_18` carries the four sigles NBB, NLA, NLB and NLC, and only NLC is `NibC`. Generated from `works.xml`, NLA would receive the sigle of the C redaction. The 19 values therefore stay in the header until the data model gains a level below the work.
+
+`callNumber` and `ISBN` are the converse case: `works.xml` carries them (680 and 135), and they stay out of the `msIdentifier` because they describe the edition, not the work. The edition is already in the header, in the `biblStruct` of the `listBibl`.
+
+**The writer edits text, not a parse tree.** `sync_tei_headers.py --works` replaces the mirrored `idno` inside the `msIdentifier` block by string replacement and leaves every other byte alone, including line endings (WZB is a CRLF file). Same reasoning as `scripts/audit/drop-negative-variant-corresp.py` and `scripts/sync/build-wbnetz-lemma-list.py`.
+
+The older route through `etree.parse(remove_blank_text=True)` plus `tree.write(pretty_print=True)` is reachable only as `--bibl-struct`, and that restriction is not about formatting. Measured 2026-09-07: one such run changes all 667 files and shrinks the corpus from 1,432.5 to 1,430.6 MB, **and it loses data**. It deletes every non-sigle `idno` (`idno[@type!="sigle"]`), so the 19 `mwb-sigle` are gone (19 files before, 0 after on a corpus copy) and `works.xml` cannot give them back, because it never had them. It also changes the bibliography semantically in five files (AK, FR3, HZ, LUU, WZB), where the header carries entries `works.xml` does not have. The `--check` gate does not notice any of this, because it deliberately does not check `mwb-sigle`.
+
+`--all` therefore routes `works` through the surgical writer as well. Until the review round of 2026-09-07 it fell into the old path silently, which would have deleted the 19 `mwb-sigle` with no gate saying a word: the invariant „the generator never touches `mwb-sigle`" held for the new path only, while the old one stood next to it looking like an option.
+
 ---
 
 ## G. Static JSON API Contract (#45)
