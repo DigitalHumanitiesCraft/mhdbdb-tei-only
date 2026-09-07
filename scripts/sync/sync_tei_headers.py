@@ -177,8 +177,33 @@ class WorksSyncer(AuthoritySyncer):
                 },
                 ...
             }
+
+        Nebenbei wird `self.work_by_id_and_sigle` gefuellt, geschluesselt nach
+        (work_id, sigle). Beide Teile des Schluessels sind noetig: die work_id,
+        weil eine Sigle nicht eindeutig ein Werk identifiziert, und die Sigle,
+        weil `biblStructs` nach `@key = sigle` gefiltert ist und sich damit
+        innerhalb desselben Werks je Sigle unterscheidet. 70 der 584 Werke
+        tragen mehr als eine Sigle, und die Zahl der biblStruct weicht dort
+        tatsaechlich ab (work_205: DES2 hat 1, GSP hat 2; work_668: WG 1,
+        WGA 2, WGI 2). Eine Ablage allein nach work_id hielte den Datensatz
+        der zuletzt gelesenen Sigle und haenge einer Datei die Bibliographie
+        einer anderen an.
+
+        Warum es die zweite Ablage ueberhaupt braucht: TRO traegt sowohl
+        work_69 (Konrad von Wuerzburg,
+        'Trojanerkrieg') als auch work_c7da236c-... (die anonyme
+        'Trojanerkrieg'-Fortsetzung), weil die Datei tei/TRO.tei.xml beide
+        Texte enthaelt (Ausgabe Keller 1858, Verse 1 bis 49861). Bei einer
+        Doppel-Sigle gewann hier frueher der letzte Eintrag in
+        Dokumentreihenfolge, und der Sync schrieb TRO die Identifier der
+        Fortsetzung in den Header (#395). Eindeutig ist stattdessen das
+        @corresp am msIdentifier, siehe update_tei_header.
+        Gemessen am 07.09.2026: 667 von 667 Korpusdateien tragen @corresp,
+        alle 667 zeigen auf eine in works.xml definierte work_id, und genau
+        eine (TRO) weicht von der Sigle-Aufloesung ab.
         """
         sigle_to_work = {}
+        self.work_by_id_and_sigle = {}
 
         tree = etree.parse(str(self.authority_file))
         root = tree.getroot()
@@ -230,7 +255,16 @@ class WorksSyncer(AuthoritySyncer):
                     'biblStructs': biblstructs  # List of lxml Elements
                 }
 
+                if sigle in sigle_to_work:
+                    logger.warning(
+                        f"[works] Sigle {sigle} kommt in works.xml mehrfach vor "
+                        f"({sigle_to_work[sigle]['work_id']} und {work_id}). "
+                        f"Die Zuordnung ueber die Sigle ist hier mehrdeutig; "
+                        f"massgeblich ist das @corresp des jeweiligen Headers."
+                    )
+
                 sigle_to_work[sigle] = work_data
+                self.work_by_id_and_sigle[(work_id, sigle)] = work_data
 
                 logger.debug(
                     f"Works: {sigle} → {work_id} "
@@ -261,6 +295,43 @@ class WorksSyncer(AuthoritySyncer):
             return False
 
         ms_identifier = ms_identifier[0]
+
+        # Die Sigle ist nicht eindeutig (siehe load_authority_data), das
+        # @corresp ist es. Wo beide auf verschiedene Werke zeigen, gilt das
+        # @corresp: die Datei sagt selbst, welches Werk sie beschreibt, und
+        # ihr <author> und <title> stehen daneben. Fuer 666 der 667
+        # Korpusdateien aendert das nichts, weil dort beide Wege auf dasselbe
+        # Werk fuehren.
+        corresp = ms_identifier.get('corresp') or ''
+        corresp_work_id = corresp.split('#')[-1] if '#' in corresp else ''
+        if corresp_work_id and corresp_work_id != data.get('work_id'):
+            # Direkter Zugriff, kein getattr mit Voreinstellung: fehlt das
+            # Attribut, ist load_authority_data nicht gelaufen, und der
+            # AttributeError landet als ERROR im Log von _update_single_tei.
+            # Ein getattr faenge das stumm auf und fiele auf die Sigle
+            # zurueck, also genau in den Fehlermodus, den dieser Zweig
+            # beseitigt.
+            ziel = self.work_by_id_and_sigle.get((corresp_work_id, sigle))
+            if ziel is not None:
+                logger.info(
+                    f"[works] {sigle}: @corresp zeigt auf {corresp_work_id}, "
+                    f"die Sigle-Aufloesung auf {data.get('work_id')}. "
+                    f"Es gilt {corresp_work_id}."
+                )
+                data = ziel
+            else:
+                # Warnen und bei der Sigle bleiben, nicht ueberspringen: eine
+                # frisch ingestete Datei traegt zunaechst ein Platzhalter-
+                # @corresp (die ARI-Vorlage schreibt work_TBD, siehe
+                # scripts/ingest/ari/01-convert-original-to-mhdbdb.py:93), und
+                # die soll trotzdem ihre Identifier bekommen. Heute trifft der
+                # Zweig auf keine der 667 Dateien zu.
+                logger.warning(
+                    f"[works] {sigle}: @corresp zeigt auf {corresp_work_id}, "
+                    f"aber dieses Werk fuehrt die Sigle {sigle} nicht. "
+                    f"Es bleibt bei der Sigle-Aufloesung "
+                    f"({data.get('work_id')}); pruefe das @corresp."
+                )
 
         if not dry_run:
             # Remove existing external ID idno elements (but keep sigle idno)
