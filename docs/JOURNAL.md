@@ -1673,6 +1673,57 @@ Beide Male greift kein Gate, und beim zweiten aus einem dritten Grund:
 `pruefe_roadmap()` sucht **geschlossene** Nummern in Tabellenzeilen, #216 ist
 offen und stand im Fließtext.
 
+**Nachtrag am 08.09.: der Restbefund des Bots war falsch, und beim Nachsehen lag
+daneben ein echter.** Der Bot hatte in Runde 3 angemerkt, die Inline-Kommentare
+in `data-integrity.yml` verwiesen auf „vor dem Index-Rebuild (Step 6)", während
+der Rebuild in der korrigierten Doku-Zählung Prüfung 11 sei. Er hat das
+ausdrücklich nicht als Befund gemeldet, sondern als Hinweis. **Beides ist
+trotzdem nachzumessen, und es hält nicht:** der Workflow führt im Kopfkommentar
+ein **eigenes** Schema (`0, 1, 1a, 1b, 1c, 2, 3, 4, 5, 6, 6b, 6c, 7, 8`), und
+darin ist Step 6 tatsächlich die Index-Freshness. Die beiden Zeilen stimmten.
+Wer den Hinweis übernommen hätte, hätte zwei richtige Zeilen „korrigiert" und die
+Datei mit sich selbst in Widerspruch gebracht.
+
+**Was beim Nachsehen wirklich fehlte, war meine eigene Auslassung aus #403:** der
+Kopfkommentar listet vierzehn Einträge und kennt den #399-Schritt nicht. Ich
+hatte ihn früh am 07.09. in den Workflow eingefügt, die Doku später nachgezogen
+und die Liste übersehen, die in der Datei selbst ganz oben steht und die jeder
+zuerst liest. Ergänzt als `1b`, die nachfolgenden Buchstaben um eins weiter
+(`1b` auf `1c`, `1c` auf `1d`), die beiden internen Verweise darauf mitgezogen.
+
+**Und die Ursache des falschen Hinweises ist selbst behebbar.** Zwei
+Nummernschemata für dieselben Schritte, ohne dass eines der beiden Dokumente das
+erwähnt, laden genau zu dieser Verwechslung ein. Beide sagen es jetzt: der
+Workflow-Kopf nennt das Schema der Doku samt der Zuordnung „Step 6 hier ist
+Prüfung 11 dort", `DEVELOPMENT.md` umgekehrt, und beide schließen mit derselben
+Anweisung, die Listen über die **Namen** zu vergleichen und nie über die Nummern.
+Die Buchstaben im Workflow-Schema sind dabei kein Schönheitsfehler, sondern der
+Grund, warum es überhaupt zwei gibt: ein später eingefügter Step zeigt dort seine
+Position, ohne die Ziffern darunter zu verschieben. Die Buchstaben verschiebt er
+sehr wohl, dieser hier hat `1b` auf `1c` und `1c` auf `1d` geschoben; stehen bleibt
+`2` bis `8`. Den zu starken Satz hat die lokale Reviewrunde gefunden, und zwar an
+allen drei Stellen, an denen ich ihn gleichlautend hingeschrieben hatte. Ebenso die
+Angabe `0,6 s` für das Gate: heute gemessen sind es 0,71 s reine Prüfzeit und 0,90
+bis 1,19 s Wanduhr. **Und die Suche danach war selbst fehlerhaft, zweimal auf
+verschiedene Weise.** Gemessen auf `origin/main` gab es **vier** Fundstellen, drei
+mit deutschem Komma (`data-integrity.yml`, `scripts/README.md`, das Agent-Memory zu
+#395) und eine mit Punkt (`DEVELOPMENT.md`, weil die Datei englisch ist). Ich hatte
+drei gefunden und dann behauptet, es seien fünf gewesen: die fünfte war die
+Kopfzeile `1b`, die dieser Lauf selbst geschrieben hat und die nie `0,6 s` trug.
+Eine Korrektur einer Zahl, die selbst eine falsche Zahl nennt.
+
+**Die beiden Auslassungen haben verschiedene Ursachen, und nur eine davon ist die
+naheliegende.** `DEVELOPMENT.md` fehlte am Dezimaltrenner: die Datei ist englisch
+und schreibt `0.6 s`. Das Agent-Memory dagegen schreibt das deutsche Komma und wäre
+gefunden worden, es fehlte am **Suchpfad**: mein grep lief über `.github/`, `docs/`
+und `scripts/` und damit nicht über `.claude/`. Die zweite ist die übertragbarere
+Lehre, weil `.claude/agent-memory/` inhaltliche Aussagen über dieses Projekt trägt
+und bei jeder Suche nach einer Behauptung mitgemeint ist. Beides gefunden hat der
+CI-Bot, die Zahl in Runde 2 und die erste Auslassung in Runde 1.
+
+Gegenprobe zum Eingriff: die 201 Nicht-Kommentar-Zeilen des Workflows sind vor
+und nach der Änderung identisch, das YAML parst, 20 Steps im Job.
+
 **Phase:** Betrieb. Offen und beabsichtigt offen: #404 (Modellfrage mwb-sigle),
 #406 (KZW-Triage), #59 (nach Lindas Freigabe vom 02.09. vermutlich schließbar).
 Nicht von dieser Session: auf `origin/claude/235-315-wzb-tokens-lead-editor`
