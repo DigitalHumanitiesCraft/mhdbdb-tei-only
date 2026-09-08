@@ -485,6 +485,12 @@ class TEITextReader {
      * Zahlen in .js-Kommentaren ab, und doc-count-audit.py hat auf diese
      * Markdown-Stelle keinen Anker; wer sie neu misst, zieht alle vier nach.
      *
+     * Und nicht nur die vier: an #358 hängt jede korpusweite div-Zahl im
+     * Repository. Der Nenner „5.143 typisierte divs" bei hasOwnHeading und
+     * in docs/FEATURES.md ist derselbe Fall und stand bis 2026-09-08 auf dem
+     * Vor-#358-Stand. Wer nach einem Korpuszuwachs eine dieser Zahlen prüft,
+     * sucht am besten nach der Bezugsgröße statt nach der Zahl.
+     *
      * Grenze der Regel: sie wirkt auf die PRÜFUNG, nicht auf die Render-
      * Reihenfolge. In FR3 steht jeder Parallelzeuge hinter den Zeilen seines
      * Basiszeugen, die sichtbare 1 fällt also auf den Basiszeugen. Läge ein
@@ -513,8 +519,13 @@ class TEITextReader {
      *
      * Gebraucht wird das gegen die Doppelung aus #236: seit dort jeder Ton ein
      * <head> mit GA-Nummer und Tonnamen trägt, stand „Lied 5" über
-     * „V. Langer Ton". Korpusweit betrifft das 1.097 der 4.676 typisierten divs
-     * in 35 Texten (scripts/audit/count-editorial-notes-and-div-heads.py, Teil B).
+     * „V. Langer Ton". Korpusweit betrifft das 1.097 der 5.143 typisierten divs
+     * in 35 Texten (scripts/audit/count-editorial-notes-and-div-heads.py,
+     * Teil B, Stand 2026-09-08). Der Nenner hing an derselben Tatsache wie
+     * die Verszählungs-Zahlen oben: er stand auf 4.676 und damit auf dem
+     * Stand vor #358, der dem Willehalm 467 typisierte divs gebracht hat
+     * (4.676 + 467 = 5.143). Zähler, Texte und Typaufschlüsselung sind davon
+     * unberührt, weil WH keinen einzigen <head> trägt.
      *
      * Das synthetische Label wird deshalb NICHT unterdrückt: in keinem dieser
      * 1.097 Fälle enthält der <head> die Nummer aus @n (AC1 hat n="1" und
