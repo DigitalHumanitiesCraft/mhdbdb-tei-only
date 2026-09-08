@@ -434,8 +434,9 @@ class TEITextReader {
         // wieder bei 1 beginnt: ohne (b) bekäme der Text 38 zusätzliche
         // Randeinsen, also genau das unruhige Randbild, das #127 beseitigt hat,
         // nur über <div> statt über <lg> hereingekommen.
-        // Korpusweit hält (b) 1.492 divs und verwirft 1.169 strophenlokale in
-        // 84 Texten, was 1.007 unmotivierte Randeinsen verhindert.
+        // Korpusweit hält (b) 1.959 divs und verwirft 1.169 strophenlokale in
+        // 84 Texten, was 1.007 unmotivierte Randeinsen verhindert
+        // (Stand 2026-09-08, Herleitung bei isInNestedParallel).
         return first === '1' && einsen === 1;
     }
 
@@ -457,12 +458,38 @@ class TEITextReader {
      *
      * Gemessen über alle 667 Texte mit
      * scripts/audit/count-verse-numbering-resets.py, das diese Regel seit
-     * #302 mitführt: qualifizierende divs 1.473 → 1.492, ausschließlich
-     * section-divs in FR3 (137 → 156), kein einziges div verliert seine
-     * Qualifikation. Sichtbare Randnummern 1.333 → 1.352 zusätzliche in
-     * denselben 49 Texten, die Differenz liegt vollständig in FR3
-     * (+117 → +136). DES2 und PKP haben ebenfalls verschachtelte
-     * parallel-divs und bleiben unverändert.
+     * #302 mitführt. Wirkung DIESER Regel, gemessen bei ihrer Einführung:
+     * qualifizierende divs 1.473 → 1.492, der Zuwachs ausschließlich
+     * section-divs in FR3 (qualifizierende section-divs korpusweit
+     * 137 → 156), kein einziges div verliert seine Qualifikation.
+     * Sichtbare Randnummern 1.333 → 1.352 zusätzliche in denselben 49
+     * Texten, die Differenz liegt vollständig in FR3 (+117 → +136). DES2
+     * und PKP haben ebenfalls verschachtelte parallel-divs und bleiben
+     * unverändert.
+     *
+     * Diese vier Vorher/Nachher-Paare beschreiben, was die Regel getan hat,
+     * und bleiben deshalb stehen. Die Nachher-Werte sind aber Zeitpunkt-
+     * angaben: heute liefert dasselbe Skript 1.959 qualifizierende divs und
+     * 1.818 zusätzliche Randnummern in 50 Texten. Die Differenz ist genau
+     * ein Text und keine Regression dieser Regel. Der Willehalm hat seine
+     * 467 div[@type="chapter"] erst mit #358 bekommen und ist dadurch in
+     * die Statistik eingetreten: 1.492 + 467 = 1.959, 1.352 + 466 = 1.818,
+     * 49 + 1 = 50, und ein Diff der Pro-Text-Liste gegen den Stand vor #358
+     * enthält genau eine Zeile (WH +466). Kein anderer Text hat sich
+     * bewegt, FR3 steht unverändert bei +136, die section-Zahl 156 gilt
+     * unverändert.
+     *
+     * Dieselben Zahlen stehen in drei weiteren Blöcken (oben bei
+     * divRestartsNumbering, unten beim Zählungs-Anker, dazu docs/FEATURES.md
+     * beim Stichwort „Verse numbering per counting range"). Kein Gate deckt
+     * Zahlen in .js-Kommentaren ab, und doc-count-audit.py hat auf diese
+     * Markdown-Stelle keinen Anker; wer sie neu misst, zieht alle vier nach.
+     *
+     * Und nicht nur die vier: an #358 hängt jede korpusweite div-Zahl im
+     * Repository. Der Nenner „5.143 typisierte divs" bei hasOwnHeading und
+     * in docs/FEATURES.md ist derselbe Fall und stand bis 2026-09-08 auf dem
+     * Vor-#358-Stand. Wer nach einem Korpuszuwachs eine dieser Zahlen prüft,
+     * sucht am besten nach der Bezugsgröße statt nach der Zahl.
      *
      * Grenze der Regel: sie wirkt auf die PRÜFUNG, nicht auf die Render-
      * Reihenfolge. In FR3 steht jeder Parallelzeuge hinter den Zeilen seines
@@ -492,8 +519,13 @@ class TEITextReader {
      *
      * Gebraucht wird das gegen die Doppelung aus #236: seit dort jeder Ton ein
      * <head> mit GA-Nummer und Tonnamen trägt, stand „Lied 5" über
-     * „V. Langer Ton". Korpusweit betrifft das 1.097 der 4.676 typisierten divs
-     * in 35 Texten (scripts/audit/count-editorial-notes-and-div-heads.py, Teil B).
+     * „V. Langer Ton". Korpusweit betrifft das 1.097 der 5.143 typisierten divs
+     * in 35 Texten (scripts/audit/count-editorial-notes-and-div-heads.py,
+     * Teil B, Stand 2026-09-08). Der Nenner hing an derselben Tatsache wie
+     * die Verszählungs-Zahlen oben: er stand auf 4.676 und damit auf dem
+     * Stand vor #358, der dem Willehalm 467 typisierte divs gebracht hat
+     * (4.676 + 467 = 5.143). Zähler, Texte und Typaufschlüsselung sind davon
+     * unberührt, weil WH keinen einzigen <head> trägt.
      *
      * Das synthetische Label wird deshalb NICHT unterdrückt: in keinem dieser
      * 1.097 Fälle enthält der <head> die Nummer aus @n (AC1 hat n="1" und
@@ -553,13 +585,14 @@ class TEITextReader {
                     // Ohne den Reset zeigt nur das erste Lied seine „1", alle
                     // folgenden setzen sichtbar erst bei 5 ein (#138, Julia 17.07.).
                     //
-                    // Reichweite: 1.492 divs in 137 Texten erfüllen das
-                    // Kriterium (897 chapter, 252 song, 159 ohne @type,
+                    // Reichweite: 1.959 divs in 138 Texten erfüllen das
+                    // Kriterium (1.364 chapter, 252 song, 159 ohne @type,
                     // 156 section, 21 parallel, 7 number); sichtbar werden
-                    // dadurch 1.352 zusätzliche Randnummern in 49 Texten. Größter
-                    // Fall ist PZ mit +826, dann FR3 +136, CHH +53, TKR +40,
-                    // HUG +39 (Stand 2026-07-31, nach #236 und der
-                    // Zeugentrennung aus #250). Texte
+                    // dadurch 1.818 zusätzliche Randnummern in 50 Texten. Größter
+                    // Fall ist PZ mit +826, dann WH +466, FR3 +136, CHH +53,
+                    // TKR +40, HUG +39 (Stand 2026-09-08, nach #236, der
+                    // Zeugentrennung aus #250 und dem Willehalm-Umbau aus
+                    // #358). Texte
                     // mit durchlaufender Zählung sind unberührt, weil dort nur
                     // der erste div bei n="1" beginnt.
                     //
