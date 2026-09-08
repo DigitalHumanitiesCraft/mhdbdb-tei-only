@@ -17,45 +17,41 @@ name: Data Integrity
 #      und ohne Abhaengigkeit von einem Vorgaenger. Zwei Grenzen stehen
 #      am Step selbst: die Pfadfilter nennen weder docs/** (behauptete
 #      Zahl) noch playground/** (gemessene Zahl).
-#   1b. Werk-Identifier gegen works.xml (#399): fuer handschriftencensus,
-#      GND und wikidata ist works.xml Master, der msIdentifier jedes
-#      TEI-Headers ist Spiegel. Verglichen wird INHALT, nicht
-#      Formatierung: ein Sync-und-diff wuerde alle 667 Dateien ueber
-#      lxml neu serialisieren und das Gate dauerhaft rot faerben. Rot
-#      auch bei fehlendem oder unparsebarem msIdentifier, mit eigener
-#      Meldung, weil --works einen fehlenden Block nicht anlegen kann.
-#      Frueh, weil billig (rund eine Sekunde ueber alle 667, gemessen
-#      08.09.2026) und ohne Vorgaenger-Abhaengigkeit.
+#   1b. Werk-Identifier gegen works.xml (#399): fuer
+#      handschriftencensus, GND und wikidata ist works.xml Master, der
+#      msIdentifier jedes TEI-Headers ist Spiegel. Verglichen wird
+#      INHALT, nicht Formatierung: ein Sync-und-diff wuerde alle 667
+#      Dateien ueber lxml neu serialisieren und das Gate dauerhaft rot
+#      faerben. Rot auch bei fehlendem oder unparsebarem msIdentifier,
+#      mit eigener Meldung, weil --works einen fehlenden Block nicht
+#      anlegen kann. Frueh, weil billig (rund eine Sekunde ueber alle
+#      667, gemessen 08.09.2026) und ohne Vorgaenger-Abhaengigkeit.
 #   1c. Versions-Bump-Gate (#154): hat sich der dekomprimierte Inhalt
 #      von corpus-/authority-index gegenueber der Diff-Base geaendert,
 #      MUSS der version-String mitgebumpt sein — sonst invalidiert der
-#      Dexie-Cache nicht und wiederkehrende Nutzer behalten bis zu
-#      30 Tage den alten Index. MUSS VOR Step 6 (Freshness Indexe)
-#      laufen (der Rebuild
-#      dort ueberschreibt data/*.json.gz im Working Tree).
+#      Dexie-Cache nicht und wiederkehrende Nutzer behalten bis zu 30
+#      Tage den alten Index. MUSS VOR Step 6 (Freshness Indexe) laufen:
+#      der Rebuild dort ueberschreibt data/*.json.gz im Working Tree.
 #   1d. Index-Budget (#111, ADR-019), mit vorgeschaltetem Selbsttest
 #      (--selftest) im eigenen Step: gz-Groesse fuer Leitung und Cache,
 #      unkomprimierte Groesse fuer den Speicher nach JSON.parse. WARNT
 #      nur und faerbt den Lauf nie rot; rot wird allein die gescheiterte
-#      Messung. Steht wie 1c vor Step 6 (Freshness Indexe), damit
-#      der committete Stand
-#      gemessen wird und nicht der frisch gebaute.
+#      Messung. Steht wie 1c vor Step 6 (Freshness Indexe), damit der
+#      committete Stand gemessen wird und nicht der frisch gebaute.
 #   2. RNC->RNG sync check (P2-14).
 #   3. TEI-P5-Versions-Pin fuer tei_all.rng.
 #   4. Freshness variants.xml: extract-variants.py --apply muss die
 #      committete Datei byte-identisch reproduzieren, sonst wurde nach
 #      einer Korpus-Aenderung die Regenerierung vergessen. MUSS als
 #      blockierender Step VOR Step 6 (Freshness Indexe) stehen: der
-#      Index-Vergleich kann
-#      variants-Drift prinzipiell nicht erkennen (der Rebuild nutzt
-#      dieselbe committete variants.xml und matcht). Nie auf advisory
-#      herunterstufen.
+#      Index-Vergleich kann variants-Drift prinzipiell nicht erkennen
+#      (der Rebuild nutzt dieselbe committete variants.xml und matcht).
+#      Nie auf advisory herunterstufen.
 #   5. Freshness API (#45): build-api.py muss das committete api/
 #      byte-identisch reproduzieren (plain JSON, kein gzip — daher
-#      reicht git diff). MUSS VOR Step 6 (Freshness Indexe) laufen:
-#      der Index-Rebuild
-#      dort laesst data/*.json.gz mit potenziell anderen gz-Bytes
-#      zurueck (je zlib-Build), was den build-api-Pre-flight
+#      reicht git diff). MUSS VOR Step 6 (Freshness Indexe) laufen: der
+#      Index-Rebuild dort laesst data/*.json.gz mit potenziell anderen
+#      gz-Bytes zurueck (je zlib-Build), was den build-api-Pre-flight
 #      ("data/ muss clean sein") grundlos ausloesen wuerde.
 #   6. Freshness Indexe (Rebuild-and-Compare): beide Indexe frisch
 #      bauen, DEKOMPRIMIERTEN Inhalt mit dem committeten Stand

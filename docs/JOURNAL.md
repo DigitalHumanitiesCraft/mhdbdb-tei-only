@@ -1704,8 +1704,13 @@ sehr wohl, dieser hier hat `1b` auf `1c` und `1c` auf `1d` geschoben; stehen ble
 `2` bis `8`. Den zu starken Satz hat die lokale Reviewrunde gefunden, und zwar an
 allen drei Stellen, an denen ich ihn gleichlautend hingeschrieben hatte. Ebenso die
 Angabe `0,6 s` für das Gate: heute gemessen sind es 0,71 s reine Prüfzeit und 0,90
-bis 1,19 s Wanduhr, die Scheingenauigkeit ist an allen drei Fundstellen durch eine
-datierte Messung ersetzt.
+bis 1,19 s Wanduhr. **Und die Suche danach war selbst fehlerhaft.** Ich hatte nach
+`0,6 s` mit deutschem Komma gesucht und drei Stellen gefunden; `DEVELOPMENT.md` ist
+englisch und schreibt `0.6 s`, das Agent-Memory zu #395 trug die Zahl ebenfalls.
+Es waren **fünf**, gefunden hat die vierte der CI-Bot mit einem grep über beide
+Schreibweisen. Die Lehre ist klein und wiederholbar: wer in einem Repositorium mit
+deutschen und englischen Dateien nach einer Zahl sucht, sucht nach beiden
+Dezimaltrennern, sonst findet er die Hälfte.
 
 Gegenprobe zum Eingriff: die 201 Nicht-Kommentar-Zeilen des Workflows sind vor
 und nach der Änderung identisch, das YAML parst, 20 Steps im Job.

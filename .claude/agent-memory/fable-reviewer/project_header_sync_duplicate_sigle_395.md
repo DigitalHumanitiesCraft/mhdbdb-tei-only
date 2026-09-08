@@ -57,7 +57,7 @@ ueberschrieben. Die 127 listBibl-Abweichungen sind NICHT reine Reihenfolge:
 note nur im Header; WZB: 3 editor, 2 publisher, 4 note nur im Header; FR3:
 ref/@target; HZ, LUU: xml:id zwischen zwei biblStruct vertauscht). Der alte
 Pfad verliert also Header-Information, er sortiert nicht nur um.
-Der `--check` (iterparse bis msIdentifier, 0,6 s) prueft nur Inhalt der drei
+Der `--check` (iterparse bis msIdentifier, rund eine Sekunde) prueft nur Inhalt der drei
 gespiegelten Typen; Reihenfolge, mwb-sigle, Dateien ohne msIdentifier und
 Dateien, die works.xml nicht kennt, faerben ihn nie rot (heute 667/667
 geprueft). Regex-Schreiber: Entfern-Muster verlangt `\n<indent><idno type="X">`
