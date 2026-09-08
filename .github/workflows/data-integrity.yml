@@ -7,7 +7,7 @@ name: Data Integrity
 #
 #   0. Diff-Base bestimmen (PR: erster Elternteil des Merge-Refs,
 #      Push: event.before) —
-#      Grundlage fuer Step 1b und die Change-Detection in Step 6c.
+#      Grundlage fuer Step 1c und die Change-Detection in Step 6c.
 #   1. Index-Versions-Konstanten: Build-Skripte und corpus-loader.js
 #      muessen dieselbe Version nennen, sonst greift die Cache-
 #      Invalidierung nicht (#47.3).
@@ -17,29 +17,43 @@ name: Data Integrity
 #      und ohne Abhaengigkeit von einem Vorgaenger. Zwei Grenzen stehen
 #      am Step selbst: die Pfadfilter nennen weder docs/** (behauptete
 #      Zahl) noch playground/** (gemessene Zahl).
-#   1b. Versions-Bump-Gate (#154): hat sich der dekomprimierte Inhalt
+#   1b. Werk-Identifier gegen works.xml (#399): fuer handschriftencensus,
+#      GND und wikidata ist works.xml Master, der msIdentifier jedes
+#      TEI-Headers ist Spiegel. Verglichen wird INHALT, nicht
+#      Formatierung: ein Sync-und-diff wuerde alle 667 Dateien ueber
+#      lxml neu serialisieren und das Gate dauerhaft rot faerben. Rot
+#      auch bei fehlendem oder unparsebarem msIdentifier, mit eigener
+#      Meldung, weil --works einen fehlenden Block nicht anlegen kann.
+#      Frueh, weil billig (rund eine Sekunde ueber alle 667, gemessen
+#      08.09.2026) und ohne Vorgaenger-Abhaengigkeit.
+#   1c. Versions-Bump-Gate (#154): hat sich der dekomprimierte Inhalt
 #      von corpus-/authority-index gegenueber der Diff-Base geaendert,
 #      MUSS der version-String mitgebumpt sein — sonst invalidiert der
 #      Dexie-Cache nicht und wiederkehrende Nutzer behalten bis zu
-#      30 Tage den alten Index. MUSS VOR Step 6 laufen (der Rebuild
+#      30 Tage den alten Index. MUSS VOR Step 6 (Freshness Indexe)
+#      laufen (der Rebuild
 #      dort ueberschreibt data/*.json.gz im Working Tree).
-#   1c. Index-Budget (#111, ADR-019): gz-Groesse fuer Leitung und Cache,
+#   1d. Index-Budget (#111, ADR-019), mit vorgeschaltetem Selbsttest
+#      (--selftest) im eigenen Step: gz-Groesse fuer Leitung und Cache,
 #      unkomprimierte Groesse fuer den Speicher nach JSON.parse. WARNT
 #      nur und faerbt den Lauf nie rot; rot wird allein die gescheiterte
-#      Messung. Steht wie 1b vor Step 6, damit der committete Stand
+#      Messung. Steht wie 1c vor Step 6 (Freshness Indexe), damit
+#      der committete Stand
 #      gemessen wird und nicht der frisch gebaute.
 #   2. RNC->RNG sync check (P2-14).
 #   3. TEI-P5-Versions-Pin fuer tei_all.rng.
 #   4. Freshness variants.xml: extract-variants.py --apply muss die
 #      committete Datei byte-identisch reproduzieren, sonst wurde nach
 #      einer Korpus-Aenderung die Regenerierung vergessen. MUSS als
-#      blockierender Step VOR Step 6 stehen: der Index-Vergleich kann
+#      blockierender Step VOR Step 6 (Freshness Indexe) stehen: der
+#      Index-Vergleich kann
 #      variants-Drift prinzipiell nicht erkennen (der Rebuild nutzt
 #      dieselbe committete variants.xml und matcht). Nie auf advisory
 #      herunterstufen.
 #   5. Freshness API (#45): build-api.py muss das committete api/
 #      byte-identisch reproduzieren (plain JSON, kein gzip — daher
-#      reicht git diff). MUSS VOR Step 6 laufen: der Index-Rebuild
+#      reicht git diff). MUSS VOR Step 6 (Freshness Indexe) laufen:
+#      der Index-Rebuild
 #      dort laesst data/*.json.gz mit potenziell anderen gz-Bytes
 #      zurueck (je zlib-Build), was den build-api-Pre-flight
 #      ("data/ muss clean sein") grundlos ausloesen wuerde.
@@ -69,6 +83,15 @@ name: Data Integrity
 #   8. Zweistufige RelaxNG-Validierung (P2-13): Stage 2
 #      (mhdbdb.rng / mhdbdb-authority.rng) ist das harte Gate;
 #      Stage-1-Baseline-Fails (#30) sind nur Warnungen.
+#
+# Die Nummerierung oben ist die dieser Datei und laeuft mit Buchstaben,
+# damit ein spaeter eingefuegter Step seine Position zeigt, ohne die
+# Ziffern darunter zu verschieben. Die Buchstaben verschiebt er sehr
+# wohl: #399 hat 1b auf 1c und 1c auf 1d geschoben. Stehen bleibt 2
+# bis 8. Sie entspricht NICHT der durchnummerierten Liste in
+# docs/DEVELOPMENT.md (dort 1 bis 15, ohne Buchstaben): dort ist der
+# Index-Rebuild Pruefung 11, hier Step 6. Wer zwischen beiden Dateien
+# springt, vergleicht Namen und nicht Nummern.
 #
 # Dependencies sind in requirements.txt gepinnt (CI und lokal dieselben
 # Versionen): eine neue lxml-Serialisierung wuerde sonst in Step 4 als
@@ -291,12 +314,13 @@ jobs:
       # weil der lxml-Schreibpfad jede Datei neu serialisiert (gemessen
       # 07.09.2026: alle 667 geaendert, Korpus 1.432,5 -> 1.430,6 MB).
       # Billig und offline: liest je Datei nur bis zum Ende des
-      # msIdentifier (iterparse), 0,6 s ueber alle 667.
+      # msIdentifier (iterparse), rund eine Sekunde ueber alle 667.
       - name: Werk-Identifier gegen works.xml (#399)
         run: python scripts/sync/sync_tei_headers.py --works --check
 
       - name: Index-Versions-Bump-Gate (#154)
-        # MUSS vor dem Index-Rebuild (Step 6) laufen: der ueberschreibt
+        # MUSS vor dem Index-Rebuild (Step 6 der Liste im Kopf) laufen:
+        # der ueberschreibt
         # data/*.json.gz im Working Tree.
         run: |
           if [ -z "${{ steps.base.outputs.sha }}" ]; then
@@ -305,7 +329,8 @@ jobs:
             python scripts/audit/check-index-version-bump.py --base "${{ steps.base.outputs.sha }}"
           fi
 
-      # Wie das Bump-Gate darueber vor dem Index-Rebuild (Step 6): der
+      # Wie das Bump-Gate darueber vor dem Index-Rebuild (Step 6 der
+      # Liste im Kopf): der
       # ueberschreibt data/*.json.gz im Working Tree. Gemessen werden soll
       # der committete Stand, also das, was ausgeliefert wird.
       - name: Index-Budget Selbsttest (#111)

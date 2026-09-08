@@ -242,6 +242,8 @@ Completeness against `testing/tests/` is gated by `scripts/audit/check-doc-inven
 **Workflow:** `.github/workflows/data-integrity.yml` (since #125 it consolidates the former `schema-validation.yml` + `index-version-check.yml`)
 **Triggers:** PRs + main pushes touching `schema/`, `tei/`, `authority-files/`, the three index `.json.gz` files (corpus/authority/naming), `api/**`, the build scripts (`build-*-index.py`, `build-api.py`, `mhg_normalizer.py`), `scripts/sync/`, `scripts/audit/`, `scripts/ingest/naming/`, `corpus-loader.js` or `requirements.txt`. Plus `workflow_dispatch`.
 
+**The workflow file carries a second numbering of its own, and the two do not correspond.** Its header comment runs `0, 1, 1a … 1d, 2 … 8`, with letters so that a step inserted later shows its position without renumbering the digits below it. Inserting one does shift the letters, as #399 shifted `1b` to `1c` and `1c` to `1d`; what stays put is `2` to `8`. What is check 11 here (freshness of the indexes) is Step 6 there. Compare the two lists by name, never by number.
+
 **Fifteen checks, cheap to expensive (fail fast);** beforehand a helper step determines the diff base (PR: first parent of the merge ref, `git rev-parse HEAD^1`; push: `event.before`) for checks 4 and 13:
 
 1. **Index version constants** (#47.3) – the build scripts and `corpus-loader.js` have to name the same versions, otherwise the IndexedDB cache invalidation does not fire. Locally: `python scripts/audit/check-index-versions.py`.
