@@ -316,8 +316,7 @@ jobs:
 
       - name: Index-Versions-Bump-Gate (#154)
         # MUSS vor dem Index-Rebuild (Step 6 der Liste im Kopf) laufen:
-        # der ueberschreibt
-        # data/*.json.gz im Working Tree.
+        # der ueberschreibt data/*.json.gz im Working Tree.
         run: |
           if [ -z "${{ steps.base.outputs.sha }}" ]; then
             echo "::notice title=Versions-Bump-Gate::Kein Diff-Base bestimmbar (workflow_dispatch/Force-Push) — Gate uebersprungen."
@@ -325,10 +324,10 @@ jobs:
             python scripts/audit/check-index-version-bump.py --base "${{ steps.base.outputs.sha }}"
           fi
 
-      # Wie das Bump-Gate darueber vor dem Index-Rebuild (Step 6 der
-      # Liste im Kopf): der
-      # ueberschreibt data/*.json.gz im Working Tree. Gemessen werden soll
-      # der committete Stand, also das, was ausgeliefert wird.
+      # Wie das Bump-Gate darueber vor dem Index-Rebuild (Step 6 der Liste
+      # im Kopf): der ueberschreibt data/*.json.gz im Working Tree.
+      # Gemessen werden soll der committete Stand, also das, was
+      # ausgeliefert wird.
       - name: Index-Budget Selbsttest (#111)
         # Dieses Gate wird auf absehbare Zeit nichts melden (Korpus-Index
         # heute bei 84 Prozent Auslastung). Ohne Selbsttest wuesste niemand,

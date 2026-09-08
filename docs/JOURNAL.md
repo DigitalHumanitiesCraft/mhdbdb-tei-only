@@ -1704,13 +1704,22 @@ sehr wohl, dieser hier hat `1b` auf `1c` und `1c` auf `1d` geschoben; stehen ble
 `2` bis `8`. Den zu starken Satz hat die lokale Reviewrunde gefunden, und zwar an
 allen drei Stellen, an denen ich ihn gleichlautend hingeschrieben hatte. Ebenso die
 Angabe `0,6 s` für das Gate: heute gemessen sind es 0,71 s reine Prüfzeit und 0,90
-bis 1,19 s Wanduhr. **Und die Suche danach war selbst fehlerhaft.** Ich hatte nach
-`0,6 s` mit deutschem Komma gesucht und drei Stellen gefunden; `DEVELOPMENT.md` ist
-englisch und schreibt `0.6 s`, das Agent-Memory zu #395 trug die Zahl ebenfalls.
-Es waren **fünf**, gefunden hat die vierte der CI-Bot mit einem grep über beide
-Schreibweisen. Die Lehre ist klein und wiederholbar: wer in einem Repositorium mit
-deutschen und englischen Dateien nach einer Zahl sucht, sucht nach beiden
-Dezimaltrennern, sonst findet er die Hälfte.
+bis 1,19 s Wanduhr. **Und die Suche danach war selbst fehlerhaft, zweimal auf
+verschiedene Weise.** Gemessen auf `origin/main` gab es **vier** Fundstellen, drei
+mit deutschem Komma (`data-integrity.yml`, `scripts/README.md`, das Agent-Memory zu
+#395) und eine mit Punkt (`DEVELOPMENT.md`, weil die Datei englisch ist). Ich hatte
+drei gefunden und dann behauptet, es seien fünf gewesen: die fünfte war die
+Kopfzeile `1b`, die dieser Lauf selbst geschrieben hat und die nie `0,6 s` trug.
+Eine Korrektur einer Zahl, die selbst eine falsche Zahl nennt.
+
+**Die beiden Auslassungen haben verschiedene Ursachen, und nur eine davon ist die
+naheliegende.** `DEVELOPMENT.md` fehlte am Dezimaltrenner: die Datei ist englisch
+und schreibt `0.6 s`. Das Agent-Memory dagegen schreibt das deutsche Komma und wäre
+gefunden worden, es fehlte am **Suchpfad**: mein grep lief über `.github/`, `docs/`
+und `scripts/` und damit nicht über `.claude/`. Die zweite ist die übertragbarere
+Lehre, weil `.claude/agent-memory/` inhaltliche Aussagen über dieses Projekt trägt
+und bei jeder Suche nach einer Behauptung mitgemeint ist. Beides gefunden hat der
+CI-Bot, die Zahl in Runde 2 und die erste Auslassung in Runde 1.
 
 Gegenprobe zum Eingriff: die 201 Nicht-Kommentar-Zeilen des Workflows sind vor
 und nach der Änderung identisch, das YAML parst, 20 Steps im Job.
