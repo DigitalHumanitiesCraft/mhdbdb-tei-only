@@ -68,6 +68,14 @@ export class LemmaExplorer {
      */
     this.componentPicked = new Set();
     this.lastComponentTerm = null;
+    // Aus statt undefined: der Default ist eine Entscheidung (@wachauer,
+    // 2026-09-08 in #239) und keine Nebenwirkung einer fehlenden Zuweisung.
+    // Angeschaltet sperrt er 16.713 der 43.879 Lemmata dauerhaft aus: sie
+    // führen im Lexikon keine Wortbestandteile und können ihn nie
+    // passieren. Dass gefiltert wird, sagt die Kopfzeile („davon N als
+    // belegte Wortbildung angezeigt") und die gesetzte Checkbox durchaus;
+    // was dabei fehlt, sieht man daran trotzdem nicht.
+    this.componentOnlyMorph = false;
   }
 
   showLemmata() {
@@ -641,6 +649,23 @@ export class LemmaExplorer {
     }
   }
 
+  /**
+   * Kopf der Wortbestandteil-Trefferliste.
+   *
+   * **Der Absatz „Der Scan vergleicht Zeichenfolgen, nicht Wortbildung ..."
+   * ist im Wortlaut abgenommen** (@wachauer, 2026-09-08 in #239: „lass das
+   * unbedingt drin"). Er ist für einen Hinweistext lang, und das ist sein
+   * Zweck: er nennt die Grenze des Verfahrens (Zeichenvergleich statt
+   * Wortbildung), das Gegenmittel (die Markierung „belegte Wortbildung")
+   * und die eine Bedienregel, an der sonst jeder scheitert (unflektiert
+   * eingeben). Nicht kürzen ohne neue Abnahme; als Codekommentar-Länge
+   * gelesen sieht er nach Aufräumbedarf aus, und genau davor steht dieser
+   * Absatz hier.
+   *
+   * Nicht dazu gehört der Hinweis darunter zur UND-Verknüpfung der
+   * Übergabe. Der ist nicht abgenommen und ändert sich mit #58, weil die
+   * Dokumentsuche dort Trefferzahlen je Lemma bekommt.
+   */
   buildComponentHeaderHTML(term, formen, quellen, gruppen, gefundenGesamt, belegteGesamt, angezeigt, formZaehler = new Map()) {
     const gesucht = formen.map((f) => `<code>${this.escapeText(f)}</code>`).join(", ");
 
