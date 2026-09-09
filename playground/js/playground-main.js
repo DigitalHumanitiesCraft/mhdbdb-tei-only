@@ -483,7 +483,7 @@ class MHDBDBPlayground {
                 return;
             }
 
-            const schluessel = `mhdbdb.playground.section.${panel}`;
+            const schluessel = `mhdbdb-playground-section-${panel}`;
             const anwenden = (offen) => {
                 inhalt.classList.toggle('hidden', !offen);
                 knopf.setAttribute('aria-expanded', String(offen));

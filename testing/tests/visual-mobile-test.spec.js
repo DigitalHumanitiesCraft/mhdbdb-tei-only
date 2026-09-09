@@ -32,6 +32,18 @@ for (const [device, viewport] of Object.entries(viewports)) {
             fullPage: true
         });
 
+        // #410: der Abschnitt "Authority Files durchsuchen" startet zugeklappt.
+        // Ohne dieses Aufklappen waere der isVisible()-Guard darunter in
+        // ALLEN fuenf Viewports falsch: der Screenshot-Block liefe nie mehr,
+        // und der Test bliebe trotzdem gruen. Der Guard soll pruefen, ob die
+        // Seitenspalte im jeweiligen Viewport ueberhaupt da ist, nicht ob ein
+        // Abschnitt zugeklappt ist, deshalb wird hier geoeffnet und nicht
+        // dort gelockert.
+        const authorityToggle = page.locator('#authorityQueriesToggle');
+        if (await authorityToggle.isVisible()) {
+            await authorityToggle.click();
+        }
+
         // Test authority search (Lemmata anzeigen)
         const lemmataBtn = page.locator('button:has-text("Lemmata anzeigen")');
         if (await lemmataBtn.isVisible()) {
