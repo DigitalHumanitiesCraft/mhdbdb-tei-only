@@ -444,8 +444,70 @@ class MHDBDBPlayground {
     // ==================== EVENT LISTENERS (UPDATED) ====================
     
     initializeEventListeners() {
+        this.setupSectionToggles();
         this.setupAuthorityQueries();
         this.setupTEIQueries();
+    }
+
+    /**
+     * Die beiden langen Abschnittslisten auf- und zuklappbar machen (#410).
+     *
+     * KZW am 2026-09-08: „Es steht sonst zu viel auf einmal da. Zumal die
+     * experimentellen Forschungsdaten ja erweitert werden auch noch."
+     * Betroffen sind genau die beiden Abschnitte aus ihren Screenshots, nicht
+     * die TEI-Textanalyse: die ist der Hauptzweck der Seite und bleibt offen.
+     *
+     * Zugeklappt ist der Auslieferungszustand, die eigene Wahl wiegt aber
+     * schwerer: wer einmal aufklappt, findet den Abschnitt beim naechsten
+     * Besuch offen vor. localStorage kann in privaten Fenstern und bei
+     * gesperrten Site-Daten werfen, deshalb steht jeder Zugriff in try/catch
+     * und der Ausfall bedeutet schlicht „zugeklappt".
+     *
+     * Der Umschalter ist ein <button> INNERHALB der <h3> und nicht die <h3>
+     * selbst: in der Ueberschrift steht daneben der Hilfe-Link, und ein <a>
+     * in einem <button> waere weder gueltiges HTML noch bedienbar (der Klick
+     * auf Hilfe wuerde mitklappen).
+     */
+    setupSectionToggles() {
+        const abschnitte = [
+            { toggle: 'experimentalToggle',    panel: 'experimentalPanel',    chevron: 'experimentalChevron' },
+            { toggle: 'authorityQueriesToggle', panel: 'authorityQueriesPanel', chevron: 'authorityQueriesChevron' }
+        ];
+
+        abschnitte.forEach(({ toggle, panel, chevron }) => {
+            const knopf = document.getElementById(toggle);
+            const inhalt = document.getElementById(panel);
+            const pfeil = document.getElementById(chevron);
+            if (!knopf || !inhalt) {
+                console.warn(`Missing section toggle: ${toggle}/${panel}`);
+                return;
+            }
+
+            const schluessel = `mhdbdb-playground-section-${panel}`;
+            const anwenden = (offen) => {
+                inhalt.classList.toggle('hidden', !offen);
+                knopf.setAttribute('aria-expanded', String(offen));
+                if (pfeil) pfeil.classList.toggle('rotate-180', offen);
+            };
+
+            let gemerkt = null;
+            try {
+                gemerkt = localStorage.getItem(schluessel);
+            } catch (e) {
+                // privates Fenster oder gesperrte Site-Daten: Default gilt
+            }
+            anwenden(gemerkt === 'offen');
+
+            knopf.addEventListener('click', () => {
+                const offen = inhalt.classList.contains('hidden');
+                anwenden(offen);
+                try {
+                    localStorage.setItem(schluessel, offen ? 'offen' : 'zu');
+                } catch (e) {
+                    // nicht speicherbar; die Sitzung selbst funktioniert weiter
+                }
+            });
+        });
     }
 
     setupAuthorityQueries() {

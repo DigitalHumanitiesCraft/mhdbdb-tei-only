@@ -32,27 +32,42 @@ for (const [device, viewport] of Object.entries(viewports)) {
             fullPage: true
         });
 
-        // Test authority search (Lemmata anzeigen)
-        const lemmataBtn = page.locator('button:has-text("Lemmata anzeigen")');
-        if (await lemmataBtn.isVisible()) {
-            await lemmataBtn.click();
-            await page.waitForTimeout(500);
+        // #410: der Abschnitt "Authority Files durchsuchen" startet zugeklappt,
+        // die sechs Knoepfe darunter sind also erst nach dem Aufklappen da.
+        await page.click('#authorityQueriesToggle');
+
+        // Der Lemmata-Block hier war schon vor #410 tot, und zwar seit
+        // mindestens dem 24.08.: der Locator suchte "Lemmata anzeigen", der
+        // Knopf heisst aber "Lemmata-Explorer" (0 Treffer im Markup, auch auf
+        // main). Der isVisible()-Guard war damit in allen fuenf Viewports
+        // falsch, die -lemmata-Screenshots wurden nie geschrieben, und der
+        // Test blieb gruen. Dritter Fall dieser Sorte in diesem Verzeichnis
+        // nach Audit #39 (cross-reference-test) und Audit #41 weiter unten in
+        // dieser Datei.
+        //
+        // Deshalb jetzt ueber die ID und ohne Guard: ein fehlender Knopf soll
+        // den Test rot machen und nicht still einen Block ueberspringen.
+        await page.click('#showLemmataBtn');
+        await page.waitForTimeout(500);
+
+        await page.screenshot({
+            path: resolve(__dirname, `../screenshots/playground-${device.toLowerCase()}-lemmata.png`),
+            fullPage: true
+        });
+
+        // Dieser Guard bleibt und ist keiner der toten: ob das Suchfeld im
+        // jeweiligen Viewport rendert, ist eine echte Frage. Der Playground
+        // ist auf mindestens 1200px ausgelegt, und der Test faehrt bewusst
+        // auch 375px an.
+        const lemmaSearch = page.locator('#lemmaSearch');
+        if (await lemmaSearch.isVisible()) {
+            await lemmaSearch.fill('got');
+            await page.waitForTimeout(1000);
 
             await page.screenshot({
-                path: resolve(__dirname, `../screenshots/playground-${device.toLowerCase()}-lemmata.png`),
+                path: resolve(__dirname, `../screenshots/playground-${device.toLowerCase()}-lemmata-results.png`),
                 fullPage: true
             });
-
-            const lemmaSearch = page.locator('#lemmaSearch');
-            if (await lemmaSearch.isVisible()) {
-                await lemmaSearch.fill('got');
-                await page.waitForTimeout(1000);
-
-                await page.screenshot({
-                    path: resolve(__dirname, `../screenshots/playground-${device.toLowerCase()}-lemmata-results.png`),
-                    fullPage: true
-                });
-            }
         }
     });
 }

@@ -337,14 +337,19 @@
                 <div class="space-y-4">
                     <div>
                         <h3 class="flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wide text-slate-500">
-                            Experimentelle Forschungsdaten
+                            <button type="button" id="experimentalToggle" aria-expanded="false" aria-controls="experimentalPanel"
+                                class="flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wide text-slate-500 transition hover:text-slate-800">
+                                Experimentelle Forschungsdaten
+                                <svg id="experimentalChevron" class="h-4 w-4 flex-shrink-0 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
                             <a href="../hilfe-playground.html#experimentelle-forschungsdaten" target="_blank" rel="noopener" class="help-icon" aria-label="Hilfe zu experimentellen Forschungsdaten" title="Hilfe zu experimentellen Forschungsdaten">
                                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                             </a>
                         </h3>
-                        <p class="mt-1 text-sm text-slate-500">Kuratierte Datensätze aus externen Forschungsprojekten, verknüpft mit dem MHDBDB-Korpus. Diese Sammlung wächst laufend.</p>
                     </div>
-                    <div class="grid gap-2">
+                    <div id="experimentalPanel" class="hidden space-y-4">
+                        <p class="text-sm text-slate-500">Kuratierte Datensätze aus externen Forschungsprojekten, verknüpft mit dem MHDBDB-Korpus. Diese Sammlung wächst laufend.</p>
+                        <div class="grid gap-2">
                         <button id="showNamingExplorerBtn" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 flex items-center gap-2.5">
                             <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"></path>
@@ -363,20 +368,26 @@
                                 <span class="text-xs font-normal text-slate-500 mt-0.5">346 Belegstellen aus 5 Werken nach L. Borek</span>
                             </span>
                         </button>
+                        </div>
                     </div>
                 </div>
 
                 <div class="space-y-4">
                     <div>
                         <h3 class="flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wide text-slate-500">
-                            Authority Files durchsuchen
+                            <button type="button" id="authorityQueriesToggle" aria-expanded="false" aria-controls="authorityQueriesPanel"
+                                class="flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wide text-slate-500 transition hover:text-slate-800">
+                                Authority Files durchsuchen
+                                <svg id="authorityQueriesChevron" class="h-4 w-4 flex-shrink-0 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
                             <a href="../hilfe-playground.html#authority-files" target="_blank" rel="noopener" class="help-icon" aria-label="Hilfe zu Authority Files" title="Hilfe zu Authority Files">
                                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                             </a>
                         </h3>
-                        <p class="mt-1 text-sm text-slate-500">Vordefinierte Recherchepfade für Personen, Werke, Begriffe und mehr.</p>
                     </div>
-                    <div class="grid gap-2">
+                    <div id="authorityQueriesPanel" class="hidden space-y-4">
+                        <p class="text-sm text-slate-500">Vordefinierte Recherchepfade für Personen, Werke, Begriffe und mehr.</p>
+                        <div class="grid gap-2">
                         <button id="showAuthorsBtn" disabled class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 disabled:cursor-not-allowed disabled:border-slate-100 disabled:bg-slate-50 disabled:text-slate-400">
                             <span class="flex flex-col items-start leading-tight">
                                 <span>Autor*innen anzeigen</span>
@@ -413,6 +424,7 @@
                                 <span class="text-xs font-normal text-slate-500 mt-0.5">Eigennamen mit semantischen Relationen</span>
                             </span>
                         </button>
+                        </div>
                     </div>
                 </div>
 
