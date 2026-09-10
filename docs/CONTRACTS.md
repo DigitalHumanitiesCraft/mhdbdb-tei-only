@@ -187,6 +187,37 @@ Three further latent drifts of the same class ("0 corpus cases today, armed by t
 
 All three (plus the consumer rule above) are pinned by `testing/tests/position-parity.spec.js` with the fixture `position-parity-170.tei.xml`.
 
+### Parity note – multi-word lemma units (#425)
+
+**A lemma can span several consecutive `<w>`.** All of them carry the same `@lemmaRef` and the same `@ana`, each keeps its own `@pos` and its own `@corresp`. From `tei/ER.tei.xml`:
+
+```xml
+<w xml:id="ER_800200_1" lemmaRef="…#lemma_3141" pos="NAM" ana="…#lemma_3141_sense_4974" corresp="…#type_30845">joie</w>
+<w xml:id="ER_800200_2" lemmaRef="…#lemma_3141" pos="PRP" ana="…#lemma_3141_sense_4974" corresp="…#type_10786">de</w>
+<w xml:id="ER_800200_3" lemmaRef="…#lemma_3141" pos="ART" ana="…#lemma_3141_sense_4974" corresp="…#type_30862">la</w>
+<w xml:id="ER_800200_4" lemmaRef="…#lemma_3141" pos="NAM" ana="…#lemma_3141_sense_4974" corresp="…#type_371959">curt</w>
+```
+
+`lemma_3141` is *Joie de la Court*. The same holds for `lemma_9250` *Schastel Marveile*, `lemma_9251` *Lît Marveile* and `lemma_20598` *Dolorose Garte*.
+
+**Consequence for the six rules above: none.** They count `<w>`, and each of these is a `<w>`. Nothing special happens at build or render time.
+
+**Consequence for anyone reading a lemma's token count: the token count is not the number of mentions.** Measured on 2026-09-10 for `lemma_9250`:
+
+```
+places with 2 tokens   14
+places with 1 token     2   (LGR writes schahtelmarveil as one word)
+tokens in total        30   for 16 mentions
+```
+
+So a frequency list, a keyness value or a lemma distribution overstates these lemmata by up to a factor of two. That is not a defect of the counting: the contract counts tokens, and there really are 30 of them. It is a defect of any reading that equates the two.
+
+**How to find them.** A compound lemma with `<etym type="morphological">` whose attested form equals one of its components exactly. Measured over `variants.xml`: of 67,913 attested forms at compound lemmata, **16** are a bare component, and four of those are the multi-word names above. This is a lower bound; a multi-word unit without a morphological decomposition in `lexicon.xml` would not show up.
+
+The same lemma can carry both spellings. `lemma_9250` appears as two tokens in `CRO`, `JT`, `MNB` and `PZ` and as one token in `LGR`.
+
+**Why this note exists.** In #363 a session claimed twice on one day that a multi-word unit would be "the first in the corpus" and argued against the philologically correct assignment on that basis. Both times a look at `variants.xml` would have settled it. The practice is years old and was documented nowhere.
+
 ### Example
 
 ```xml
