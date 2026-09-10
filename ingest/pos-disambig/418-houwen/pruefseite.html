@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>hawe: 13 Belege</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --ground:#ffffff; --ground-2:#f8fafc; --ground-3:#f1f5fd;
+  --ink:#1f2937; --ink-soft:#64748b; --ink-faint:#94a3b8;
+  --rule:#e2e8f0; --rule-strong:#cbd5e1;
+  --accent:#265cc4; --accent-hover:#1f4aa2; --accent-wash:#e2ebfa;
+  --mark:#fde68a; --mark-ink:#78350f;
+  --done:#0f766e; --done-wash:#ccfbf1;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --serif:"EB Garamond",Georgia,"Times New Roman",serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#0f172a; --ground-2:#152036; --ground-3:#1a2942;
+  --ink:#e6ecf5; --ink-soft:#9aa8bd; --ink-faint:#6b7a91;
+  --rule:#26344b; --rule-strong:#3a4a66;
+  --accent:#7ba3ee; --accent-hover:#a5c1f5; --accent-wash:#1d2d4d;
+  --mark:#7a5c14; --mark-ink:#ffe9a8;
+  --done:#5eead4; --done-wash:#123833;
+}}
+:root[data-theme="dark"]{
+  --ground:#0f172a; --ground-2:#152036; --ground-3:#1a2942;
+  --ink:#e6ecf5; --ink-soft:#9aa8bd; --ink-faint:#6b7a91;
+  --rule:#26344b; --rule-strong:#3a4a66;
+  --accent:#7ba3ee; --accent-hover:#a5c1f5; --accent-wash:#1d2d4d;
+  --mark:#7a5c14; --mark-ink:#ffe9a8;
+  --done:#5eead4; --done-wash:#123833;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:920px;margin:0 auto;padding-inline:24px;padding-block:0 72px}
+header.top{padding-block:36px 20px;border-bottom:1px solid var(--rule)}
+h1{font-family:var(--serif);font-size:2.35rem;line-height:1.15;font-weight:600;margin:0 0 6px;text-wrap:balance;letter-spacing:-.01em}
+h1 em{font-style:italic}
+.sub{color:var(--ink-soft);max-width:64ch;margin:0}
+.sub a{color:var(--accent)}
+.frage{margin-top:18px;padding:14px 16px;background:var(--ground-3);border-left:3px solid var(--accent);border-radius:0 6px 6px 0}
+.frage p{margin:0 0 6px}
+.frage p:last-child{margin:0}
+.bar{position:sticky;top:0;z-index:5;display:flex;flex-wrap:wrap;align-items:center;gap:14px;
+  padding-block:12px;margin-block:0 8px;background:var(--ground);border-bottom:1px solid var(--rule)}
+.fortschritt{font-variant-numeric:tabular-nums;font-weight:600;font-size:.9rem}
+.balken{flex:1 1 120px;min-width:100px;height:6px;border-radius:3px;background:var(--rule);overflow:hidden}
+.balken>i{display:block;height:100%;width:0;background:var(--done);transition:width .25s}
+button{font-family:inherit;font-size:.85rem;font-weight:600;border-radius:7px;border:1px solid transparent;padding:8px 14px;cursor:pointer;transition:background .15s,color .15s,border-color .15s}
+.btn-p{background:var(--accent);color:#fff}
+.btn-p:hover{background:var(--accent-hover)}
+.btn-s{background:transparent;color:var(--ink-soft);border-color:var(--rule-strong)}
+.btn-s:hover{color:var(--ink);border-color:var(--ink-faint)}
+button:focus-visible,input:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.liste{display:flex;flex-direction:column;gap:0}
+article{padding-block:26px;border-bottom:1px solid var(--rule)}
+article.fertig .kopf-nr{background:var(--done-wash);color:var(--done);border-color:transparent}
+.kopf{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;margin-bottom:12px}
+.kopf-nr{font-family:var(--mono);font-size:.72rem;font-weight:500;padding:2px 7px;border-radius:4px;border:1px solid var(--rule-strong);color:var(--ink-soft);flex:0 0 auto}
+.werk{font-weight:600}
+.gattung{color:var(--ink-soft);font-size:.85rem}
+.gattung::before{content:"· "}
+.zitat{font-family:var(--serif);font-size:1.3rem;line-height:1.62;margin:0 0 14px;max-width:66ch;color:var(--ink)}
+.zitat .vor,.zitat .nach{color:var(--ink-soft)}
+mark{background:var(--mark);color:var(--mark-ink);padding:1px 5px;border-radius:3px;font-weight:600}
+.tei{font-family:var(--mono);font-size:.74rem;color:var(--ink-faint);margin:0 0 16px;display:flex;flex-wrap:wrap;gap:4px 16px}
+.tei a{color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent-wash)}
+.tei a:hover{border-bottom-color:var(--accent)}
+fieldset{border:0;margin:0 0 10px;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+legend{font-size:.72rem;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-faint);padding:0 0 7px}
+.opt{position:relative}
+.opt input{position:absolute;opacity:0;width:0;height:0}
+.opt span{display:inline-block;padding:6px 12px;border:1px solid var(--rule-strong);border-radius:20px;font-size:.85rem;cursor:pointer;color:var(--ink-soft);background:var(--ground)}
+.opt span i{font-family:var(--mono);font-size:.7rem;font-style:normal;opacity:.65;margin-left:5px}
+.opt input:checked+span{background:var(--accent);border-color:var(--accent);color:#fff}
+.opt input:checked+span i{opacity:.8}
+.opt input:focus-visible+span{outline:2px solid var(--accent);outline-offset:2px}
+.notiz{width:100%;max-width:66ch;font-family:inherit;font-size:.9rem;color:var(--ink);background:var(--ground-2);
+  border:1px solid var(--rule);border-radius:7px;padding:8px 11px}
+.notiz::placeholder{color:var(--ink-faint)}
+.ausgabe{margin-top:32px;padding:20px;background:var(--ground-2);border:1px solid var(--rule);border-radius:10px}
+.ausgabe h2{font-family:var(--serif);font-size:1.5rem;margin:0 0 6px;font-weight:600}
+.ausgabe p{margin:0 0 14px;color:var(--ink-soft);font-size:.92rem;max-width:62ch}
+textarea{width:100%;min-height:190px;font-family:var(--mono);font-size:.76rem;line-height:1.5;color:var(--ink);
+  background:var(--ground);border:1px solid var(--rule);border-radius:7px;padding:12px;resize:vertical}
+.zeile{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:12px}
+.hinweis{font-size:.8rem;color:var(--ink-faint);margin-top:10px}
+footer{margin-top:36px;padding-top:18px;border-top:1px solid var(--rule);font-size:.8rem;color:var(--ink-faint)}
+footer code{font-family:var(--mono);font-size:.95em}
+@media(max-width:560px){h1{font-size:1.8rem}.zitat{font-size:1.12rem}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <h1><em>hawe</em>: dreizehn Belege, eine Frage</h1>
+  <p class="sub">Alle Tokens des Korpus mit <code>@corresp</code> auf <code>type_117159</code>. Zwölf hängen am Lemma <em>haben</em>, einer an <em>houwe</em>. Gehört zu <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/418" target="_blank" rel="noopener">Issue&nbsp;#418</a>.</p>
+  <div class="frage">
+    <p><strong>Die Frage je Beleg:</strong> Verbform zu <em>houwen</em> (hauen, schlagen, schneiden), Substantiv <em>houwe</em> (Haue, Hacke), oder doch eine Form von <em>haben</em>?</p>
+    <p>Das Skript <code>fix-198-restfaelle.py</code> nennt die zwölf pauschal „Imperative zu houwen". Das ist die Behauptung, die hier geprüft wird.</p>
+  </div>
+</header>
+
+<div class="bar">
+  <span class="fortschritt" id="stand">0 von 13 entschieden</span>
+  <span class="balken"><i id="balken"></i></span>
+  <button class="btn-s" id="reset" type="button">Alles zurücksetzen</button>
+  <button class="btn-p" id="zumExport" type="button">Zum Export</button>
+</div>
+
+<div class="liste" id="liste"></div>
+
+<section class="ausgabe" id="export">
+  <h2>Ergebnis zum Einfügen</h2>
+  <p>Kopieren und als Kommentar in #418 einfügen. Unentschiedene Belege stehen als <code>offen</code> drin, damit sichtbar bleibt, was noch fehlt.</p>
+  <div class="zeile">
+    <button class="btn-p" id="kopieren" type="button">In die Zwischenablage</button>
+    <button class="btn-s" id="neu" type="button">Neu erzeugen</button>
+    <span id="kopiert" class="hinweis" style="margin:0"></span>
+  </div>
+  <textarea id="md" spellcheck="false" aria-label="Ergebnis als Markdown"></textarea>
+</section>
+
+<footer>
+  Belege aus dem MHDBDB-Korpus, Stand <code>ecf65b667</code>. Kontext gekürzt auf 28 Wörter je Seite;
+  der Link „im Reader" öffnet die Stelle im vollen Text. Eingaben bleiben in diesem Browser gespeichert.
+</footer>
+</div>
+
+<script>
+const BELEGE = [
+ {
+  "sigle": "AC2",
+  "xid": "AC2_9100_9",
+  "form": "hawe",
+  "lemma": "lemma_2598",
+  "pos": "VRB",
+  "vers": "",
+  "links": "id=\"AC2_9090_7\" lemmaRef=\"lexicon.xml#lemma_3567\" pos=\"VRB\" corresp=\"variants.xml#type_169713\">lasz sten dein fluchen , sage nit von papenfels newe mere ,",
+  "rechts": "nit uber dich , so reren dir die spen <w xml:id=\"AC2_9110_7\" lemmaRef=\"lexicon.xml#lemma_4377\" pos=\"NEG\" ana=\"",
+  "werk": "Der Ackermann aus Böhmen",
+  "autor": "Johann von Tepl",
+  "gattung": "Streitgespräch"
+ },
+ {
+  "sigle": "AC2",
+  "xid": "AC2_25010_2",
+  "form": "hawe",
+  "lemma": "lemma_2598",
+  "pos": "VRB",
+  "vers": "",
+  "links": "d=\"AC2_24160_2\" join=\"left\">, die guten kreuter müssen verderben . ir gicht , ewr segensz",
+  "rechts": "fur sich . wie ist dann dem , das sie mer distel <w xml:id=\"AC2_25020_1\" lemmaRef=\"lexicon.xml#lemma_1073\" pos=\"ADV\" ana=\"lexicon.xm",
+  "werk": "Der Ackermann aus Böhmen",
+  "autor": "Johann von Tepl",
+  "gattung": "Streitgespräch"
+ },
+ {
+  "sigle": "AC3",
+  "xid": "AC3_17290_9",
+  "form": "hawe",
+  "lemma": "lemma_2598",
+  "pos": "VRB",
+  "vers": "",
+  "links": ", die guten kreuter mussen verderben . ir jecht , ewer sense",
+  "rechts": "vur sich . wie ist dann dem , das sie mer distel <w xml:id=\"AC3_17300_12\" lemmaRef=\"lexicon.xml#lemma_1073\" pos=\"CNJ\" ana=\"lexicon.xm",
+  "werk": "Der Ackermann aus Böhmen",
+  "autor": "Johann von Tepl",
+  "gattung": "Streitgespräch"
+ },
+ {
+  "sigle": "AC3",
+  "xid": "AC3_23010_1",
+  "form": "hawe",
+  "lemma": "lemma_2598",
+  "pos": "NOM",
+  "vers": "",
+  "links": "ET\" ana=\"lexicon.xml#lemma_4369_sense_13755\" corresp=\"variants.xml#type_15254\">ninder rachunge : gerochen muste es werden wider euch , vnd solte darvmb",
+  "rechts": "vnd schaufel noch eines gemuet werden ! der tot . <w xml:id=\"AC3_23011_3\" lemmaRef=\"lexicon.xml#lemma_1097\" pos=\"DET\" ana=\"lexicon.xml#lemma_1097_sense_1741\" corresp",
+  "werk": "Der Ackermann aus Böhmen",
+  "autor": "Johann von Tepl",
+  "gattung": "Streitgespräch"
+ },
+ {
+  "sigle": "CEFB",
+  "xid": "CEFB_71000210500_11",
+  "form": "hawe",
+  "lemma": "lemma_2598",
+  "pos": "VRB VEX",
+  "vers": "",
+  "links": "emmaRef=\"lexicon.xml#lemma_12104\" pos=\"VRB\" corresp=\"variants.xml#type_356372\">verzuck kurtz / streich lang nach / oder brichs mit dem feier oder kron",
+  "rechts": "etc . bleiben . leg dich in die ober huot oder <hi rend=\"upper_case_firs",
+  "werk": "Fechtbuch",
+  "autor": "Anonym",
+  "gattung": "Fechtlehre"
+ },
+ {
+  "sigle": "CEFB",
+  "xid": "CEFB_172000471600_10",
+  "form": "hawe",
+  "lemma": "lemma_2598",
+  "pos": "VRB VEX",
+  "vers": "",
+  "links": "xicon.xml#lemma_73033\" pos=\"NOM\" corresp=\"variants.xml#type_356153\">schweche als wann er dir oben zuohawet von seiner rechten achseln / so",
+  "rechts": "auch von deinr rechten / mit ihm zugleich / starck",
+  "werk": "Fechtbuch",
+  "autor": "Anonym",
+  "gattung": "Fechtlehre"
+ },
+ {
+  "sigle": "CEFB",
+  "xid": "CEFB_341000801500_7",
+  "form": "hawe",
+  "lemma": "lemma_2598",
+  "pos": "VRB VEX",
+  "vers": "",
+  "links": "type_3507\">der lincken seiten auß dem bucklier / fast übersich in sein schwerdt / vnd",
+  "rechts": "ihm dann von der lincken seitten zum haupt / vnd <w xml:id=\"CEFB_341000",
+  "werk": "Fechtbuch",
+  "autor": "Anonym",
+  "gattung": "Fechtlehre"
+ },
+ {
+  "sigle": "DES2",
+  "xid": "DES2_291281010_8",
+  "form": "hawe",
+  "lemma": "lemma_2598",
+  "pos": "VRB VEX",
+  "vers": "",
+  "links": "_129836\">hünern diß heyssen königs hüner nim iunge gebratenne hüner",
+  "rechts": "die an kleyne stücke nym frisch eyer vnd zcu slahe <w xml:id=\"DES2_291281020_6\" lemmaRef=\"lexicon.",
+  "werk": "Das Buch von guter Speise",
+  "autor": "Anonym",
+  "gattung": "Kochrezepte"
+ },
+ {
+  "sigle": "GAR",
+  "xid": "GAR_1530_5",
+  "form": "hawe",
+  "lemma": "lemma_2598",
+  "pos": "VRB VEX",
+  "vers": "153",
+  "links": "corresp=\"variants.xml#type_46314\">choemen . &gt; also sprach der werde man . &lt; war er mein vrawen",
+  "rechts": "getan , binamen , daz wil ich pesehen . vind <w xml:id=\"GAR_1550_1\" lemmaRef=\"lexicon.xml#lemma_3001\" pos",
+  "werk": "Garel vom blühenden Tal",
+  "autor": "Der Pleier",
+  "gattung": "Artusroman"
+ },
+ {
+  "sigle": "GAR",
+  "xid": "GAR_40930_3",
+  "form": "hawe",
+  "lemma": "lemma_2598",
+  "pos": "VRB VEX",
+  "vers": "4093",
+  "links": "40910_2\" lemmaRef=\"lexicon.xml#lemma_7193\" pos=\"PRP\" ana=\"lexicon.xml#lemma_7193_sense_11656\" corresp=\"variants.xml#type_25544\">von seiner manhait vil dicke grozzeu wunder sait , daz man in",
+  "rechts": "dester paz . doch wil ich wol gelauben , <w xml:id=\"GAR_40940_6\" lemmaRef=\"lexicon.xml#lemma_1097\" pos=\"ART CNJ\" ana=\"lexicon.xml#lemma_1097_sense_1741\" corresp=\"variants.xm",
+  "werk": "Garel vom blühenden Tal",
+  "autor": "Der Pleier",
+  "gattung": "Artusroman"
+ },
+ {
+  "sigle": "KFB",
+  "xid": "KFB_11812_4",
+  "form": "hawe",
+  "lemma": "lemma_2598",
+  "pos": "VRB VEX",
+  "vers": "",
+  "links": "exicon.xml#lemma_1119_sense_1770\" corresp=\"variants.xml#type_3507\">der linck ouer hewe mach bossen myt dem rechten voysz vnd",
+  "rechts": "myt der langen snyden durch ym deen koff ym <w xml:id=\"KFB_11813_2\" lemmaRef=\"lexicon.xml#lemma_20997\" pos=\"NOM\" corresp=\"variants.xml",
+  "werk": "Kölner Fechtbuch",
+  "autor": "Anonym",
+  "gattung": "Fechtlehre"
+ },
+ {
+  "sigle": "KFB",
+  "xid": "KFB_12820_9",
+  "form": "hawe",
+  "lemma": "lemma_2598",
+  "pos": "VRB VEX",
+  "vers": "",
+  "links": "> item eyn stuck heyst das relyn bruch den flogell",
+  "rechts": "iiij mayl an eym stuck item eyn bruch vuer den <w xml:id=\"KF",
+  "werk": "Kölner Fechtbuch",
+  "autor": "Anonym",
+  "gattung": "Fechtlehre"
+ },
+ {
+  "sigle": "MR2",
+  "xid": "MR2_12484100113100_4",
+  "form": "hawe",
+  "lemma": "lemma_2598",
+  "pos": "VRB VEX",
+  "vers": "113",
+  "links": "als ander gancz baum zwene . beuget er zum ersten",
+  "rechts": ", so ist er swacher stete unnd daug nit zu",
+  "werk": "Minnereden Band 2",
+  "autor": "Anonym",
+  "gattung": "Minnerede"
+ }
+];
+const OPTIONEN = [
+  {k:'houwen', t:'houwen (Verb)',    id:'lemma_2923'},
+  {k:'houwe',  t:'houwe (Subst.)',   id:'lemma_9644'},
+  {k:'haben',  t:'haben',            id:'lemma_2598'},
+  {k:'unklar', t:'unklar',           id:''}
+];
+const KEY = 'mhdbdb-418-hawe';
+let stand = {};
+try { stand = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) { stand = {}; }
+
+function sichern(){ try { localStorage.setItem(KEY, JSON.stringify(stand)); } catch (e) {} }
+function esc(s){ return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+function aufbauen(){
+  const liste = document.getElementById('liste');
+  liste.innerHTML = BELEGE.map((b, i) => {
+    const s = stand[b.xid] || {};
+    const optHtml = OPTIONEN.map(o => `
+      <label class="opt">
+        <input type="radio" name="w-${esc(b.xid)}" id="w-${esc(b.xid)}-${o.k}" value="${o.k}"
+               ${s.wahl === o.k ? 'checked' : ''}>
+        <span>${esc(o.t)}${o.id ? `<i>${o.id.replace('lemma_','')}</i>` : ''}</span>
+      </label>`).join('');
+    const vers = b.vers ? `v. ${esc(b.vers)}` : 'Prosa';
+    return `
+    <article id="a-${esc(b.xid)}" class="${s.wahl ? 'fertig' : ''}">
+      <div class="kopf">
+        <span class="kopf-nr">${String(i+1).padStart(2,'0')} · ${esc(b.sigle)}</span>
+        <span class="werk">${esc(b.werk)}</span>
+        <span class="gattung">${esc(b.gattung)}, ${esc(b.autor)}</span>
+      </div>
+      <p class="zitat"><span class="vor">${esc(b.links)}</span> <mark>${esc(b.form)}</mark> <span class="nach">${esc(b.rechts)}</span></p>
+      <p class="tei">
+        <span>${esc(b.xid)}</span>
+        <span>${vers}</span>
+        <span>lemmaRef: ${esc(b.lemma)}</span>
+        <span>pos: ${esc(b.pos) || '(keins)'}</span>
+        <a href="../../../korpus.html?textId=${esc(b.sigle)}&verseId=${esc(b.xid)}" target="_blank" rel="noopener">im Reader öffnen</a>
+      </p>
+      <fieldset>
+        <legend>Zuordnung</legend>
+        ${optHtml}
+      </fieldset>
+      <input class="notiz" type="text" id="n-${esc(b.xid)}" value="${esc(s.notiz || '')}"
+             placeholder="Notiz, optional (Begründung, Unsicherheit, Verweis)">
+    </article>`;
+  }).join('');
+
+  liste.addEventListener('change', e => {
+    if (e.target.type !== 'radio') return;
+    const xid = e.target.name.slice(2);
+    stand[xid] = Object.assign({}, stand[xid], { wahl: e.target.value });
+    document.getElementById('a-' + xid).classList.add('fertig');
+    sichern(); zaehlen(); erzeugen();
+  });
+  liste.addEventListener('input', e => {
+    if (!e.target.classList.contains('notiz')) return;
+    const xid = e.target.id.slice(2);
+    stand[xid] = Object.assign({}, stand[xid], { notiz: e.target.value });
+    sichern(); erzeugen();
+  });
+}
+
+function zaehlen(){
+  const n = BELEGE.filter(b => (stand[b.xid] || {}).wahl).length;
+  document.getElementById('stand').textContent = `${n} von ${BELEGE.length} entschieden`;
+  document.getElementById('balken').style.width = (n / BELEGE.length * 100) + '%';
+}
+
+function erzeugen(){
+  const label = k => (OPTIONEN.find(o => o.k === k) || {}).t || 'offen';
+  const zeilen = BELEGE.map(b => {
+    const s = stand[b.xid] || {};
+    return `| ${b.sigle} | \`${b.xid}\` | ${b.form} | ${s.wahl ? label(s.wahl) : '**offen**'} | ${(s.notiz || '').replace(/\|/g,'/') || '' } |`;
+  });
+  const offen = BELEGE.filter(b => !(stand[b.xid] || {}).wahl).length;
+  const kopf = [
+    '## Prüfung der 13 `hawe`-Belege (type_117159)',
+    '',
+    offen === 0
+      ? 'Alle 13 Belege entschieden.'
+      : `${BELEGE.length - offen} von ${BELEGE.length} entschieden, ${offen} noch offen.`,
+    '',
+    '| Sigle | Wort-ID | Form | Zuordnung | Notiz |',
+    '|---|---|---|---|---|'
+  ];
+  document.getElementById('md').value = kopf.concat(zeilen).join('\n');
+}
+
+document.getElementById('kopieren').addEventListener('click', async () => {
+  const ta = document.getElementById('md');
+  const melden = t => { document.getElementById('kopiert').textContent = t;
+                        setTimeout(() => document.getElementById('kopiert').textContent = '', 2600); };
+  try { await navigator.clipboard.writeText(ta.value); melden('Kopiert.'); }
+  catch (e) { ta.select(); melden('Markiert. Bitte mit Strg+C kopieren.'); }
+});
+document.getElementById('neu').addEventListener('click', erzeugen);
+document.getElementById('zumExport').addEventListener('click',
+  () => document.getElementById('export').scrollIntoView({behavior:'smooth', block:'start'}));
+document.getElementById('reset').addEventListener('click', () => {
+  if (!confirm('Alle Zuordnungen und Notizen dieser Seite verwerfen?')) return;
+  stand = {}; sichern(); aufbauen(); zaehlen(); erzeugen();
+});
+
+aufbauen(); zaehlen(); erzeugen();
+</script>
+</body>
+</html>
