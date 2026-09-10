@@ -60,7 +60,7 @@ Eight authority files – seven inhaltstragende controlled vocabularies (in the 
 
 All files use namespace `xmlns="http://www.tei-c.org/ns/1.0"`.
 
-#### lexicon.xml (~33 MB, 43,879 entries)
+#### lexicon.xml (~33 MB, 43,878 entries)
 
 ```xml
 <TEI><text><body><div type="lexicon">
@@ -166,7 +166,7 @@ Notes: Multiple sigles per work (editions). GND/Wikidata may be full URLs or bar
 | genres.xml | `genre_{hex}` | – (but many broader pointers, polyhierarchical) |
 | names.xml | `name_{numeric}` | `exactMatch`, `closeMatch` → `concepts.xml#...` |
 
-#### variants.xml (~16 MB, 256,762 variant forms)
+#### variants.xml (~16 MB, 256,772 variant forms)
 
 ```xml
 <TEI><text><body><div type="orthographicVariants">
@@ -280,7 +280,7 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
   variants: {
     "brot": "lemma_879",   // normalized form → lemma ID
     "brott": "lemma_879",
-    // ... 234,243 mappings (2026-07-28)
+    // ... 234,245 mappings (2026-09-10)
   },
 
   maps: {
@@ -490,7 +490,7 @@ Three core build scripts:
 Third derived layer beside the two indexes. Reads **only** the two pre-built indexes (`data/authority-index.json.gz` + `data/corpus-index.json.gz`), never the XML sources, and emits a static JSON API into `api/` (2,742 files, ~14 MB), served as plain files by GitHub Pages:
 
 - `api/index.json` – root manifest (collection counts, source index versions)
-- `api/lemmata/index.json` – full lemma records as one bundle (43,879 records, no individual files)
+- `api/lemmata/index.json` – full lemma records as one bundle (43,878 records, no individual files)
 - `api/<coll>/{id}.json` + `api/<coll>/index.json` (summary list) for persons, works, concepts, genres, names, texts (texts stripped of the heavy `words`/`lemmata`/`lineStarts`/`lineEnds` arrays)
 - every emitted file carries `"license": "CC BY-NC-SA 4.0"`; `persons.works` is normalized from comma-string to array
 
@@ -545,7 +545,7 @@ Build properties: deterministic on the #125 principle (no timestamps, compact JS
 
 #### Curated lexicon fields (#268, since authority index v1.7.0)
 
-The three productions marked „curated" (`etym[@type="borrowing"]`, `def`, `note[@type="comment"]`) are the only ones in the lexicon carrying editorial prose instead of classification. The build writes the corresponding index fields **only where they actually stand in the XML**: 43,879 lemmata entries with empty keys would inflate index and API for nothing. As of 2026-07-31 exactly one lemma is curated (`lemma_37818` „Abba"), so consumers have to treat the fields as optional, never as a promise per record. Normative: [CONTRACTS.md §G.3](CONTRACTS.md#g3-field-schemas). The `@resp` values land in the index unchanged as `contributors.xml#contrib_N`; the id can only be resolved through the XML file, because `contributors.xml` is deliberately not indexed.
+The three productions marked „curated" (`etym[@type="borrowing"]`, `def`, `note[@type="comment"]`) are the only ones in the lexicon carrying editorial prose instead of classification. The build writes the corresponding index fields **only where they actually stand in the XML**: 43,878 lemmata entries with empty keys would inflate index and API for nothing. As of 2026-07-31 exactly one lemma is curated (`lemma_37818` „Abba"), so consumers have to treat the fields as optional, never as a promise per record. Normative: [CONTRACTS.md §G.3](CONTRACTS.md#g3-field-schemas). The `@resp` values land in the index unchanged as `contributors.xml#contrib_N`; the id can only be resolved through the XML file, because `contributors.xml` is deliberately not indexed.
 
 #### Namespace Handling
 
@@ -800,7 +800,7 @@ To be settled per source in advance (example answers for ARI in `scripts/ingest/
 
 ### Phase 1: lemmatization
 
-**Before the algorithm, one thing it cannot do.** The auto-match works token by token: one `<w>`, one form, one lemma. Some lemmata span **several consecutive `<w>`** (multi-word names such as *Joie de la Court*, `lemma_3141`), and no per-token matcher will ever find those. They are assigned by hand, all tokens getting the same `@lemmaRef` and the same `@ana`, each keeping its own `@pos` and `@corresp`. The encoding is described in [TEI-MODEL.md sec. 4.1a](TEI-MODEL.md#41a-multi-word-lemma-units-425); do not invent a second one for a new text.
+**Before the algorithm, one thing it cannot do.** The auto-match works token by token: one `<w>`, one form, one lemma. Some lemmata span **several consecutive `<w>`** (multi-word names such as *Joie de la Court*, `lemma_3141`, and since #363 the common-noun compound *hûsenblâter*, `lemma_49714`), and no per-token matcher will ever find those. They are assigned by hand, all tokens getting the same `@lemmaRef` and the same `@ana`, each keeping its own `@pos` and `@corresp`. The encoding is described in [TEI-MODEL.md sec. 4.1a](TEI-MODEL.md#41a-multi-word-lemma-units-425); do not invent a second one for a new text.
 
 **1a auto-match** (canonical: `wzb-auto-match.py`), the algorithm:
 

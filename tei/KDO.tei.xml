@@ -139,6 +139,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-09-10" who="#editor">#363 Hausenblase: 3 Tokens der Konstruktion hûsenblâter (zusammen- und getrennt geschrieben) auf lemma_49714 hûsenblâter vereinheitlicht (lemmaRef/pos/ana/corresp; Mehrwort-Einheit nach TEI-MODEL.md §4.1a; editorische Entscheidung KZW in #363; Provenienz-Log: ingest/pos-disambig/363-hausenblase/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -929,7 +930,7 @@
           <lb n="1"/>
           <w xml:id="KDO_120090100_0" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
           <w xml:id="KDO_120090100_1" lemmaRef="lexicon.xml#lemma_4330" pos="VRB" corresp="variants.xml#type_15091">nim</w>
-          <w xml:id="KDO_120090100_2" lemmaRef="lexicon.xml#lemma_27031" pos="NOM" ana="lexicon.xml#lemma_27031_sense_42996" corresp="variants.xml#type_131175">haußenploßenn</w>
+          <w xml:id="KDO_120090100_2" lemmaRef="lexicon.xml#lemma_49714" pos="NOM" ana="lexicon.xml#lemma_49714_sense_78649" corresp="variants.xml#type_131175">haußenploßenn</w>
           <w xml:id="KDO_120090100_3" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
           <w xml:id="KDO_120090100_4" lemmaRef="lexicon.xml#lemma_5458" pos="VRB" ana="lexicon.xml#lemma_5458_sense_8511" corresp="variants.xml#type_131207">seydt</w>
           <w xml:id="KDO_120090100_5" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
@@ -1507,8 +1508,8 @@
           <lb n="1"/>
           <w xml:id="KDO_121170100_0" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
           <w xml:id="KDO_121170100_1" lemmaRef="lexicon.xml#lemma_4330" pos="VRB" corresp="variants.xml#type_15091">nim</w>
-          <w xml:id="KDO_121170100_2" lemmaRef="lexicon.xml#lemma_2670" pos="NOM" ana="lexicon.xml#lemma_2670_sense_4300" corresp="variants.xml#type_131170">haueßenn</w>
-          <w xml:id="KDO_121170100_3">plossenn</w>
+          <w xml:id="KDO_121170100_2" lemmaRef="lexicon.xml#lemma_49714" pos="NOM" ana="lexicon.xml#lemma_49714_sense_78649" corresp="variants.xml#type_131170">haueßenn</w>
+          <w xml:id="KDO_121170100_3" lemmaRef="lexicon.xml#lemma_49714" pos="NOM" ana="lexicon.xml#lemma_49714_sense_78649" corresp="variants.xml#type_372375">plossenn</w>
           <w xml:id="KDO_121170100_4" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
           <w xml:id="KDO_121170100_5" lemmaRef="lexicon.xml#lemma_12319" pos="VRB" ana="lexicon.xml#lemma_12319_sense_19443" corresp="variants.xml#type_131171">verseudtt</w>
           <w xml:id="KDO_121170100_6">inn</w>

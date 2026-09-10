@@ -326,10 +326,17 @@ DOC_TARGETS = [
     ('hilfe-daten.html', ['corpus_files', 'lexicon_entries',
                           'variants_forms', 'variants_normalized',
                           'contributors_persons']),
-    ('hilfe-korpussuche.html', ['variants_normalized']),
-    ('hilfe-playground.html', ['variants_normalized']),
+    # lexicon_entries stand bis 2026-09-10 nur bei index.html und
+    # hilfe-daten.html. Die drei Seiten darunter tragen die Lemma-Zahl
+    # ebenfalls, waren dafuer aber blind, und #363 hat genau das vorgefuehrt:
+    # der Sweep zog in playground/index.html die eine gegatete Zahl nach
+    # (234.243 in Zeile 477) und liess die ungegatete 369 Zeilen darueber
+    # stehen (43.879 in Zeile 108). Gefunden hat es der Review-Bot, nicht der
+    # Gate. Dieselbe Falle wie bei index.html 2026-07-28, eine Zeile darueber.
+    ('hilfe-korpussuche.html', ['lexicon_entries', 'variants_normalized']),
+    ('hilfe-playground.html', ['lexicon_entries', 'variants_normalized']),
     ('hilfe-daten-beitragen.html', ['variants_forms']),
-    ('playground/index.html', ['variants_normalized']),
+    ('playground/index.html', ['lexicon_entries', 'variants_normalized']),
 ]
 
 CODE_LABELS = [
@@ -469,7 +476,28 @@ NEAR_KEYWORDS = {
     # entries" fuehrt (Code-Bezeichner im Fliesstext); "records", weil
     # dieselbe Zahl dort als Groesse des API-Lemmata-Bundles auftaucht
     # ("43,879 records", ARCHITECTURE.md §Static JSON API).
-    'lexicon_entries': r'(?:[Ll]emmata|[Rr]ecords)',
+    # "Lexikoneintr[äa]ge" und "Lemma-Seiten" kamen mit #363 dazu, und zwar
+    # nicht als Bequemlichkeit: ohne sie sind zwei der drei an diesem Tag
+    # ergaenzten DOC_TARGETS-Bindungen wirkungslos, weil der Anker unmittelbar
+    # hinter der Zahl ansetzen muss und ANCHOR_SEP keinen Wortbestandteil
+    # zulaesst. playground/index.html:108 schreibt "43.878 Lexikoneintraege",
+    # hilfe-korpussuche.html:419 "43.878 Lemma-Seiten"; beide beginnen nicht
+    # mit "Lemmata". Alle drei tragen im Drift-Scan, je mit Mutationsprobe
+    # geprueft (Zahl auf 43.879 zurueckgesetzt, Gate rot mit Fundstelle, nach
+    # Ruecknahme gruen).
+    #
+    # hilfe-korpussuche.html hat dafuer ein Wort gekostet: die Zeile schrieb
+    # "allen rund 43.878 Lemma-Seiten", und der Rundungs-Skip weiter unten
+    # nahm die einzige Ankerbindung der Datei aus dem Scan. Der Anker allein
+    # haette den Zustand verschlechtert statt verbessert: anchor_binds_number
+    # bildet die Skip-Regeln bewusst nicht nach, das Paar haette also
+    # Abdeckung gemeldet und nichts geprueft, und ein Target, das Abdeckung
+    # meldet und schweigt, ist schwerer zu sehen als eines, das fehlt. Das
+    # "rund" stand ohnehin vor einer exakten Zahl und ist gestrichen. Ein Target ohne Anker-Treffer ist derselbe blinde Fleck
+    # wie ein fehlendes Target, nur schwerer zu sehen, und genau das haette
+    # die Erweiterung sonst gebaut. Kollisionsfrei zu variants_entries: dessen
+    # "Eintr[äa]ge" setzt hinter der Zahl nicht an, weil dort das L steht.
+    'lexicon_entries': r'(?:[Ll]emmata|[Rr]ecords|Lexikoneintr[äa]ge|Lemma-Seiten)',
     # Zweisprachig seit #316: DATA-MODEL.md schreibt die 584 seit der
     # Uebersetzung als "584 works". TEI-MODEL.md ist noch deutsch und haelt
     # die Form "Werke", beide Zielorte brauchen ihre Variante.

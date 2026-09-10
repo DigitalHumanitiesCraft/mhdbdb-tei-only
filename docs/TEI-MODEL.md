@@ -456,22 +456,25 @@ Corpus at the time of the audit (#32, 2026-04, before WZB): 9,282,982 `<w>` elem
 <w xml:id="ER_800200_4" lemmaRef="lexicon.xml#lemma_3141" pos="NAM" ana="lexicon.xml#lemma_3141_sense_4974" corresp="variants.xml#type_371959">curt</w>
 ```
 
-`lemma_3141` is *Joie de la Court*, the Erec place name. Known cases, measured on 2026-09-10:
+`lemma_3141` is *Joie de la Court*, the Erec place name. Known cases, measured on 2026-09-10 after #363:
 
 | Lemma | Headword | Tokens | Texts |
 |---|---|--:|--:|
 | `lemma_20598` | Dolorose Garte | 92 | 4 |
+| `lemma_49714` | hûsenblâter | 32 | 7 |
 | `lemma_9250` | Schastel Marveile | 30 | 6 |
 | `lemma_3141` | Joie de la Court | 12 | 4 |
 | `lemma_9251` | Lît Marveile | 4 | 3 |
 
-**The same lemma carries the split and the univerbated spelling.** `lemma_9250` appears as two tokens in `CRO`, `JT`, `MNB`, `PZ` and `RVBR`, and as one token in `LGR` (`schahtelmarveil`) and again in `RVBR` (`schahtelmarveile`, `RVBR_16665_1`). `RVBR` is the one text that carries both spellings by itself. Both are correct; the encoding follows the manuscript, not the lemma.
+**The class is not restricted to proper names.** Until #363 all four known cases were multi-word names, which made the pattern look like a naming convention. `lemma_49714` *hûsenblâter* (isinglass, the swim bladder of the sturgeon) is a common-noun compound, split across two `<w>` thirteen times, in eleven cookbook recipes. It entered the class by an editorial decision (KZW in #363: every spelling of this construction belongs to the fish bladder), not by a rule about names. Whether a construction is one lemma is decided philologically; the encoding then follows from this section.
+
+**The same lemma carries the split and the univerbated spelling.** `lemma_9250` appears as two tokens in `CRO`, `JT`, `MNB`, `PZ` and `RVBR`, and as one token in `LGR` (`schahtelmarveil`) and again in `RVBR` (`schahtelmarveile`, `RVBR_16665_1`). `RVBR` is the one text that carries both spellings by itself, and `lemma_49714` does the same in `KDO`, `MBS5` and `SUB1`. Both are correct; the encoding follows the manuscript, not the lemma.
 
 **The tokens of a unit need not be siblings.** `RVBR_8923_1` sits inside a `<hi rend="upper_case_first_letter">` and `RVBR_8923_2` does not. "Consecutive `<w>` with the same `@lemmaRef`" holds in document order; an XPath on `l/w` misses this case.
 
 **There is no wrapper element and none is planned.** The unit is expressed by the shared `@lemmaRef`, not by a `<seg>` or `<phr>` around the tokens. Anyone who wants the unit reads consecutive `<w>` with the same `@lemmaRef`.
 
-**Consequence for counting:** a mention of a split unit counts as several tokens. `lemma_9250` has 30 tokens for 16 mentions. The position-counting contract is untouched by this (see [CONTRACTS.md sec. B](CONTRACTS.md#b-position-counting-contract)), but a frequency list is not: it overstates these lemmata.
+**Consequence for counting:** a mention of a split unit counts as several tokens. `lemma_9250` has 30 tokens for 16 mentions, `lemma_49714` has 32 for 19. The position-counting contract is untouched by this (see [CONTRACTS.md sec. B](CONTRACTS.md#b-position-counting-contract)), but a frequency list is not: it overstates these lemmata.
 
 ### 4.2 `@xml:id` format
 
@@ -935,8 +938,8 @@ Earlier errors (all fixed by migration):
 
 | File | Entries | Validation |
 |-------|----------|-------------|
-| lexicon.xml | 43,879 lemmata (+4 WZB 2026-05-08, +125 #115 stubs 2026-07-02) | tei_all ✓ · mhdbdb-authority ✓ |
-| variants.xml | 42,627 variant entries (256,762 forms) | tei_all ✓ · mhdbdb-authority ✓ |
+| lexicon.xml | 43,878 lemmata (+4 WZB 2026-05-08, +125 #115 stubs 2026-07-02, -1 hasenblâse #363 2026-09-10) | tei_all ✓ · mhdbdb-authority ✓ |
+| variants.xml | 42,626 variant entries (256,772 forms) | tei_all ✓ · mhdbdb-authority ✓ |
 | persons.xml | 211 persons | tei_all ✓ · mhdbdb-authority ✓ |
 | works.xml | 584 works (+1 work_WZB) | tei_all ✓ · mhdbdb-authority ✓ |
 | concepts.xml | 567 categories | tei_all ✓ · mhdbdb-authority ✓ |
@@ -980,8 +983,8 @@ A consolidated list of all deliberately non-normalized islands of data and of th
 | this document | 1.0.0 | 2026-04-10 |
 | RELAX NG schema (`schema/mhdbdb.rnc`) | 1.0.0 | 2026-04-09 |
 | POS tagset | 1.0 (19 tags) | 2026-03 |
-| Corpus Index | 4.2.13 | 2026-09-06 |
-| Authority Index | 1.9.3 | 2026-09-06 |
+| Corpus Index | 4.2.14 | 2026-09-10 |
+| Authority Index | 1.9.4 | 2026-09-10 |
 | authority schema (`schema/mhdbdb-authority.rnc`) | 1.1.0 | 2026-07-30 |
 
 ---
