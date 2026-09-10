@@ -127,8 +127,8 @@ footer code{font-family:var(--mono);font-size:.95em}
 </section>
 
 <footer>
-  Belege aus dem MHDBDB-Korpus, Stand <code>ecf65b667</code>, samt Interpunktion des Korpus.
-  Kontext gekürzt auf 18 Wörter je Seite. Den Sprung an die Stelle beherrscht der Reader nur bei
+  Belege aus dem MHDBDB-Korpus, Stand <code>ecf65b667</code>, samt Interpunktion des Korpus, zusammengefügt nach <code>@join</code> wie im Reader.
+  Kontext gekürzt auf 18 Tokens je Seite, Interpunktion mitgezählt. Den Sprung an die Stelle beherrscht der Reader nur bei
   Verstexten: das sind hier GAR und MR2. Die fünf Prosatexte (AC2, AC3, CEFB, DES2, KFB) haben keine
   <code>&lt;l&gt;</code>-Elemente, dort öffnet der Link nur den Text.
   Eingaben bleiben in diesem Browser gespeichert.
@@ -147,6 +147,7 @@ const BELEGE = [
   "hat_l": false,
   "links": "infel wer wir nun gewaltig. lasz sten dein fluchen, sage nit von papenfels newe mere,",
   "rechts": "nit uber dich, so reren dir die spen nicht in die augen! des ackermans widerrede.",
+  "rechts_anschluss": "",
   "werk": "Der Ackermann aus Böhmen",
   "autor": "Johann von Tepl",
   "gattung": "Streitgespräch"
@@ -161,6 +162,7 @@ const BELEGE = [
   "hat_l": false,
   "links": "lasset sie stan. unkraut bleibt, die guten kreuter müssen verderben. ir gicht, ewr segensz",
   "rechts": "fur sich. wie ist dann dem, das sie mer distel dann gut plumen, mer meusz",
+  "rechts_anschluss": "",
   "werk": "Der Ackermann aus Böhmen",
   "autor": "Johann von Tepl",
   "gattung": "Streitgespräch"
@@ -175,6 +177,7 @@ const BELEGE = [
   "hat_l": false,
   "links": "lesset sie steen; vnkraut beleibet, die guten kreuter mussen verderben. ir jecht, ewer sense",
   "rechts": "vur sich. wie ist dann dem, das sie mer distel dann guter blumen, mer meuse",
+  "rechts_anschluss": "",
   "werk": "Der Ackermann aus Böhmen",
   "autor": "Johann von Tepl",
   "gattung": "Streitgespräch"
@@ -189,6 +192,7 @@ const BELEGE = [
   "hat_l": false,
   "links": "got hette in seiner almechtigkeit ninder rachunge: gerochen muste es werden wider euch, vnd solte darvmb",
   "rechts": "vnd schaufel noch eines gemuet werden! der tot. das xxii. capitel. ga! ga",
+  "rechts_anschluss": "",
   "werk": "Der Ackermann aus Böhmen",
   "autor": "Johann von Tepl",
   "gattung": "Streitgespräch"
@@ -203,6 +207,7 @@ const BELEGE = [
   "hat_l": false,
   "links": "den streych / vnd verzuck kurtz / streich lang nach / oder brichs mit dem feier oder kron",
   "rechts": "etc. bleiben. leg dich in die ober huot oder hochort / vnd haw mit der langen",
+  "rechts_anschluss": "",
   "werk": "Fechtbuch",
   "autor": "Anonym",
   "gattung": "Fechtlehre"
@@ -217,6 +222,7 @@ const BELEGE = [
   "hat_l": false,
   "links": "stercke / mutir gegen der schweche als wann er dir oben zuohawet von seiner rechten achseln / so",
   "rechts": "auch von deinr rechten / mit ihm zugleich / starck oben zum kopff / versetzt ers mit stercke",
+  "rechts_anschluss": "",
   "werk": "Fechtbuch",
   "autor": "Anonym",
   "gattung": "Fechtlehre"
@@ -231,6 +237,7 @@ const BELEGE = [
   "hat_l": false,
   "links": "wechselhaw. streich von der lincken seiten auß dem bucklier / fast übersich in sein schwerdt / vnd",
   "rechts": "ihm dann von der lincken seitten zum haupt / vnd wind bloß / vnd stoß ihm nach dem",
+  "rechts_anschluss": "",
   "werk": "Fechtbuch",
   "autor": "Anonym",
   "gattung": "Fechtlehre"
@@ -245,6 +252,7 @@ const BELEGE = [
   "hat_l": false,
   "links": "awgen oder was du wilt eyn speyß von iungen hünern diß heyssen königs hüner nim iunge gebratenne hüner",
   "rechts": "die an kleyne stücke nym frisch eyer vnd zcu slahe die vnd thu darunter gestossen ingewer vnd ein",
+  "rechts_anschluss": "",
   "werk": "Das Buch von guter Speise",
   "autor": "Anonym",
   "gattung": "Kochrezepte"
@@ -257,8 +265,9 @@ const BELEGE = [
   "pos": "VRB VEX",
   "vers": "153",
   "hat_l": true,
-  "links": "uenser laster her ist choemen. > also sprach der werde man. < war er mein vrawen",
+  "links": "uenser laster her ist choemen.> also sprach der werde man. <war er mein vrawen",
   "rechts": "getan, binamen, daz wil ich pesehen. vind ich den helt, mir muezz geschehen von",
+  "rechts_anschluss": "",
   "werk": "Garel vom blühenden Tal",
   "autor": "Der Pleier",
   "gattung": "Artusroman"
@@ -273,6 +282,7 @@ const BELEGE = [
   "hat_l": true,
   "links": "gern hoern wil, daz er von seiner manhait vil dicke grozzeu wunder sait, daz man in",
   "rechts": "dester paz. doch wil ich wol gelauben, daz sein ruemen ist gueten weiben lait. daz",
+  "rechts_anschluss": "",
   "werk": "Garel vom blühenden Tal",
   "autor": "Der Pleier",
   "gattung": "Artusroman"
@@ -287,6 +297,7 @@ const BELEGE = [
   "hat_l": false,
   "links": "dem lincken voysz des glichen yst auch der linck ouer hewe mach bossen myt dem rechten voysz vnd",
   "rechts": "myt der langen snyden durch ym deen koff ym stortz item hewe veder vmb durch ym den koff",
+  "rechts_anschluss": "",
   "werk": "Kölner Fechtbuch",
   "autor": "Anonym",
   "gattung": "Fechtlehre"
@@ -301,6 +312,7 @@ const BELEGE = [
   "hat_l": false,
   "links": "der verstellvoyß den bruch myt synnen wyltu pryß gewynnen item eyn stuck heyst das relyn bruch den flogell",
   "rechts": "iiij mayl an eym stuck item eyn bruch vuer den eynhorn alß du sychs das eyner den eynhorn",
+  "rechts_anschluss": "",
   "werk": "Kölner Fechtbuch",
   "autor": "Anonym",
   "gattung": "Fechtlehre"
@@ -315,6 +327,7 @@ const BELEGE = [
   "hat_l": true,
   "links": "wene. sin zwig mochten sin so gutt als ander gancz baum zwene. beuget er zum ersten",
   "rechts": ", so ist er swacher stete unnd daug nit zu dem bauwe, wan er zu allen orten",
+  "rechts_anschluss": "left",
   "werk": "Minnereden Band 2",
   "autor": "Anonym",
   "gattung": "Minnerede"
@@ -352,7 +365,7 @@ function aufbauen(){
         <span class="werk">${esc(b.werk)}</span>
         <span class="gattung">${esc(b.gattung)}, ${esc(b.autor)}</span>
       </div>
-      <p class="zitat"><span class="vor">${esc(b.links)}</span> <mark>${esc(b.form)}</mark> <span class="nach">${esc(b.rechts)}</span></p>
+      <p class="zitat"><span class="vor">${esc(b.links)}</span> <mark>${esc(b.form)}</mark>${b.rechts_anschluss === 'left' ? '' : ' '}<span class="nach">${esc(b.rechts)}</span></p>
       <p class="tei">
         <span>${esc(b.xid)}</span>
         <span>${vers}</span>

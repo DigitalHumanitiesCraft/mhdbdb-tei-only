@@ -14,7 +14,7 @@ setzt einen davon, `AC3_23010_1` („hawe vnd schaufel"), auf `lemma_9644` *houw
 
 Zu klären ist je Beleg, ob eine Verbform zu *houwen* (`lemma_2923`), das
 Substantiv *houwe* (`lemma_9644`) oder doch *haben* (`lemma_2598`) vorliegt.
-`scripts/ingest/pos-disambig/fix-198-restfaelle.py:19` aus jenem PR nennt die
+`scripts/ingest/pos-disambig/fix-198-restfaelle.py:20` aus jenem PR nennt die
 zwölf übrigen pauschal „Imperative zu *houwen*". Genau das ist zu prüfen: beim
 Erstellen dieser Charge sah mindestens `GAR_1530_5` („war er mein vrawen **hawe**
 getan") eher nach einer Form von *haben* aus.
@@ -41,7 +41,8 @@ der Link nur den Text. `?verse=` wäre kein Ersatz, weil sich `lb/@n` seitenweis
 wiederholt (AC2: 1.110 `<lb/>` mit 31 verschiedenen Werten).
 
 **Der Kontext trägt die Interpunktion des Korpus mit**, weil die `<pc>`-Elemente
-in Dokumentordnung mitgelesen werden. Für die Entscheidung Imperativ gegen
+in Dokumentordnung mitgelesen und nach ihrem `@join` angefügt werden, genau wie
+im Reader. Für die Entscheidung Imperativ gegen
 Konjunktiv ist die Satzgrenze oft das Ausschlaggebende. Die spitzen Klammern in
 `GAR_1530_5` sind Redezeichen des Korpus, kein Markup-Rest.
 
