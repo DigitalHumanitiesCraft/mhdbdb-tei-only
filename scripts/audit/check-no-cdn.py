@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """
 No-CDN-Gate: committete HTML-Seiten dürfen keine externen <script src>
-tragen — alle Runtime-Bibliotheken sind vendored (assets/vendor/,
-pako/dexie seit 2026-07, Prism seit #78).
+und keine externen <link> tragen, die einen Abruf ausloesen: alle
+Runtime-Bibliotheken sind vendored (assets/vendor/, pako/dexie seit
+2026-07, Prism seit #78), Schriften sind Systemschriften.
 
 Fängt doppelte, einfache und fehlende Quotes sowie protokoll-relative
 URLs (//cdn...). Gegenstück zum lokalen Playwright-Guard
@@ -14,7 +15,7 @@ Aufruf lag von Anfang an in no-cdn-check.yml, dem leichten Workflow ohne
 Index-Rebuild. Aufgefallen ist es, als docs/DEVELOPMENT.md eine Zeile für
 dieses Skript bekam, die aus dem Docstring gelesen wurde (#329).
 
-Exit 0 = sauber, Exit 1 = externe script-src gefunden.
+Exit 0 = sauber, Exit 1 = externe script-src oder link-href gefunden.
 """
 
 import io
@@ -53,6 +54,25 @@ EXTERNAL_SCRIPT_SRC = re.compile(
     r'<script[^>]+src\s*=\s*["\']?\s*(?:https?:)?//', re.IGNORECASE
 )
 
+# Das Gate prueft seit 2026-09-10 auch <link>. Vorher tat es das nicht, und
+# ingest/pos-disambig/418-houwen/pruefseite.html ist damit gruen durch die CI
+# gekommen, obwohl sie drei Schriftfamilien von fonts.googleapis.com lud: eine
+# Seite fuer eine externe Pruefung, die deren IP an einen Dritten gegeben
+# haette. Gefunden hat es der Review-Bot auf PR #422, nicht dieses Skript.
+#
+# Nicht jedes <link> loest einen Abruf aus. rel="canonical" und Verwandte sind
+# reine Angaben, zeigen naturgemaess auf eine absolute URL und sind deshalb
+# ausgenommen; alles andere (stylesheet, icon, preload, preconnect, manifest)
+# holt etwas und faellt unter das Verbot. Die Liste ist eine Ausnahmeliste und
+# keine Erlaubnisliste: ein rel, das hier nicht steht, gilt als abrufend.
+LINK_TAG = re.compile(r'<link\b[^>]*>', re.IGNORECASE)
+# Der Lookbehind vor href und rel ist kein Zierrat: ohne ihn matcht
+# data-rel="canonical" als rel und stellt ein externes <link> frei, und
+# href greift in data-href. Gefunden in Reviewrunde 4 zu PR #422.
+LINK_HREF = re.compile(r'(?<![\w-])href\s*=\s*["\']?\s*((?:https?:)?//[^"\'\s>]*)', re.IGNORECASE)
+LINK_REL = re.compile(r'(?<![\w-])rel\s*=\s*["\']?\s*([^"\'>]*)', re.IGNORECASE)
+RELS_OHNE_ABRUF = {'canonical', 'alternate', 'author', 'license', 'me', 'prev', 'next'}
+
 
 def html_files(root: Path):
     for path in root.rglob('*.html'):
@@ -72,13 +92,24 @@ def main() -> int:
             line = text.count('\n', 0, match.start()) + 1
             offenders.append(f'{path.relative_to(REPO)}:{line}: {match.group(0)}...')
 
+        for tag in LINK_TAG.finditer(text):
+            href = LINK_HREF.search(tag.group(0))
+            if not href:
+                continue
+            rel = LINK_REL.search(tag.group(0))
+            rels = set(rel.group(1).lower().split()) if rel else set()
+            if rels and rels <= RELS_OHNE_ABRUF:
+                continue
+            line = text.count('\n', 0, tag.start()) + 1
+            offenders.append(f'{path.relative_to(REPO)}:{line}: <link href={href.group(1)[:60]}...')
+
     if offenders:
-        print('❌ Externe <script src> gefunden (CDN-Verbot, vendored unter assets/vendor/):')
+        print('❌ Externe Ressourcen gefunden (CDN-Verbot, vendored unter assets/vendor/):')
         for o in offenders:
             print(f'   {o}')
         return 1
 
-    print('✅ No-CDN-Check: keine externen <script src> in committeten HTML-Seiten')
+    print('✅ No-CDN-Check: keine externen <script src> und <link href> in committeten HTML-Seiten')
     return 0
 
 
