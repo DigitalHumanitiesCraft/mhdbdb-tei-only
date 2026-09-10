@@ -476,7 +476,23 @@ NEAR_KEYWORDS = {
     # entries" fuehrt (Code-Bezeichner im Fliesstext); "records", weil
     # dieselbe Zahl dort als Groesse des API-Lemmata-Bundles auftaucht
     # ("43,879 records", ARCHITECTURE.md §Static JSON API).
-    'lexicon_entries': r'(?:[Ll]emmata|[Rr]ecords)',
+    # "Lexikoneintr[äa]ge" und "Lemma-Seiten" kamen mit #363 dazu, und zwar
+    # nicht als Bequemlichkeit: ohne sie sind zwei der drei an diesem Tag
+    # ergaenzten DOC_TARGETS-Bindungen wirkungslos, weil der Anker unmittelbar
+    # hinter der Zahl ansetzen muss und ANCHOR_SEP keinen Wortbestandteil
+    # zulaesst. playground/index.html:108 schreibt "43.878 Lexikoneintraege",
+    # hilfe-korpussuche.html:419 "43.878 Lemma-Seiten"; beide beginnen nicht
+    # mit "Lemmata". Beim Drift-Scan traegt davon nur playground/index.html
+    # (Probe: Zahl auf 43.879 zurueckgesetzt, Gate rot, nach Ruecknahme
+    # gruen). hilfe-korpussuche.html schreibt "rund 43.878 Lemma-Seiten", und
+    # der Rundungs-Skip weiter unten laesst die Zeile absichtlich stehen. Der
+    # Anker ist trotzdem richtig, weil er die Selbstpruefung ehrlich haelt:
+    # ohne ihn meldete sie das Paar als ungeprueft, obwohl die Datei die Zahl
+    # fuehrt. Ein Target ohne Anker-Treffer ist derselbe blinde Fleck
+    # wie ein fehlendes Target, nur schwerer zu sehen, und genau das haette
+    # die Erweiterung sonst gebaut. Kollisionsfrei zu variants_entries: dessen
+    # "Eintr[äa]ge" setzt hinter der Zahl nicht an, weil dort das L steht.
+    'lexicon_entries': r'(?:[Ll]emmata|[Rr]ecords|Lexikoneintr[äa]ge|Lemma-Seiten)',
     # Zweisprachig seit #316: DATA-MODEL.md schreibt die 584 seit der
     # Uebersetzung als "584 works". TEI-MODEL.md ist noch deutsch und haelt
     # die Form "Werke", beide Zielorte brauchen ihre Variante.
