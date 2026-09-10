@@ -938,8 +938,8 @@ Earlier errors (all fixed by migration):
 
 | File | Entries | Validation |
 |-------|----------|-------------|
-| lexicon.xml | 43,879 lemmata (+4 WZB 2026-05-08, +125 #115 stubs 2026-07-02) | tei_all ✓ · mhdbdb-authority ✓ |
-| variants.xml | 42,627 variant entries (256,762 forms) | tei_all ✓ · mhdbdb-authority ✓ |
+| lexicon.xml | 43,878 lemmata (+4 WZB 2026-05-08, +125 #115 stubs 2026-07-02, -1 hasenblâse #363 2026-09-10) | tei_all ✓ · mhdbdb-authority ✓ |
+| variants.xml | 42,626 variant entries (256,772 forms) | tei_all ✓ · mhdbdb-authority ✓ |
 | persons.xml | 211 persons | tei_all ✓ · mhdbdb-authority ✓ |
 | works.xml | 584 works (+1 work_WZB) | tei_all ✓ · mhdbdb-authority ✓ |
 | concepts.xml | 567 categories | tei_all ✓ · mhdbdb-authority ✓ |

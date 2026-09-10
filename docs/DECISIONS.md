@@ -1108,7 +1108,7 @@ Since 2026-07-30 three optional productions in `lexicon.xml` hold curated prose:
 
 The authority index transports the values (`origin.resp`, `senses[].definitionResp`, `senses[].commentResp`) and the API passes them on. Neither the lemma page nor the playground displays anything: `contributors.xml` is deliberately not part of the authority index, so the frontend cannot turn `contrib_003` into a name. The mandate therefore buys nothing a reader can see, which is the opposite of what it was written for.
 
-Measured against the built index (Authority Index v1.8.0, 2026-08-07): 43,879 lemmata, of which **1 carries `origin.resp`, 1 a `definitionResp` and 1 a `commentResp`**, all three on `lemma_37818` (`Abba`) and all three pointing at `contrib_003`. `contributors.xml` holds 52 persons and 2 organisations.
+Measured against the built index (Authority Index v1.9.4, 2026-09-10): 43,878 lemmata, of which **1 carries `origin.resp`, 1 a `definitionResp` and 1 a `commentResp`**, all three on `lemma_37818` (`Abba`) and all three pointing at `contrib_003`. `contributors.xml` holds 52 persons and 2 organisations.
 
 ### Options
 
