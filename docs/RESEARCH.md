@@ -191,6 +191,59 @@ An interactive chatbot answering questions on medieval history and on Middle Hig
 
 **Why this is relevant here:** Vlastimil Brom (lead editor of TKR/TKA/VTC/PUC, Masaryk University Brno) asked in recent correspondence about own or fine-tuned language models trained on MHDBDB data; he experiments with GHisBERT and dbmdz-bert-base-german-europeana himself and is looking for more professional approaches. ParzivAI is the closest existing answer, and an introduction between Brom and Nieser could be worthwhile for both sides. Tracked as a people task in [ROADMAP.md → Next: pings to people](ROADMAP.md#next-pings-to-people-after-the-merges).
 
+## Corpus Scope and Rights Basis
+
+Two questions decide whether a text can enter the corpus, and they are independent: **is it inside the period we cover**, and **may we publish it**. A text has to pass both.
+
+### Period: before 1600
+
+**Decided by @wachauer (project lead) on 2026-09-10 in [#263](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/263):**
+
+> Wir machen vor 1600 (nicht vor 1500). Die meisten interessanten Kochbuchhandschriften und weitere Gebrauchstexte fallen sonst raus.
+
+Early New High German is therefore **in scope**, not at the margin of it. The reason given is the material itself: the interesting cookery manuscripts and other practical texts (`Gebrauchstexte`) sit in the sixteenth century, and a 1500 boundary would cut nearly all of them.
+
+The boundary is the date of the **text**, not of its edition. Two anchors that are checkable in our own data:
+
+- `works.xml` cites the Narrenschiff "Nach der Erstausgabe (Basel 1494)". It has been in the corpus all along and was named by the project lead as the kind of text that belongs here.
+- The CoReMA cookery manuscripts (#139) define the lower end of the practical-text material.
+
+An earlier version of this rule, derived here from those two examples alone and put at "around 1500", was wrong and was withdrawn the same day. It is recorded because the derivation looked sound: two examples do not make a boundary, and where a scope question has a decision-maker, the boundary is asked for rather than inferred.
+
+Consequences for the ingest candidates in the tracker: the fifteen Gloning cookery and dietetics texts (#263) are almost all in scope rather than almost all out; the Trier text archive material and the RKE Digital corpus (#421) are medieval throughout and never touched the boundary. **Dating a candidate is still the first working step**, it just sorts out individual outliers now instead of halving the list.
+
+### Rights: what lets us publish an edition text
+
+The corpus contains texts from editions that are themselves protected. The basis on which they are made accessible was written up by the project lead in 2016 and is summarized here because it had lived in a file on one laptop until 2026-09-10 (#267).
+
+**Three provisions carry it:**
+
+| Provision | What it gives us |
+|---|---|
+| § 46 UrhG-AT, § 51 UrhG-DE | the large quotation (`Großzitat`): quoting a work in an independent scholarly work |
+| § 76b UrhG-AT | the related right in an edition runs **25 years** from publication. An edition older than that is unproblematic |
+| § 57 Abs. 2 UrhG-AT, § 63 Abs. 1 UrhG-DE | the condition attached to the quotation: the source must always be named |
+
+The 25-year figure is the operative one for day-to-day decisions:
+
+> Für die MHDBDB bedeutet dies nun nach meinem Verständnis: Editionen, deren Erstveröffentlichung mehr als 25 Jahre zurückliegt, sind gänzlich unproblematisch.
+
+The source-citation condition is met and visibly met: every text carries a full bibliographic entry in its `sourceDesc`, with editors, publisher, place, year and ISBN, and the reader shows it in the metadata panel.
+
+The underlying assumption about the `editio princeps` rests on: Melichar, Ferdinand: Copyright für Texte und Abbildungen: Rechtsfragen im Umfeld von (mediävistischen) Editionen. In: Wege zum Text: Überlegungen zur Verfügbarkeit mediävistischer Editionen im 21. Jahrhundert. Grazer Kolloquium 17.–19. September 2008. Hrsg. von Wernfried Hofmeister und Andrea Hofmeister-Winter. Tübingen: Niemeyer 2009, S. 133–138.
+
+**One rule on top of the law, and it is a project decision, not a legal necessity.** For the texts whose editions are still inside the 25 years, the MHDBDB does not generate printable PDFs: reading online is what the quotation right supports, replacing the purchase of the book is not something we make convenient. The legal basis says nothing about print versions; this restriction goes beyond it deliberately. What readers do with screenshots or copy and paste is outside our responsibility.
+
+The texts this applies to are marked in the TEI and listed in #267.
+
+### License compatibility when taking in outside material
+
+Our data are **CC BY-NC-SA 4.0** (`LICENSE-DATA`). That is a narrower license than it looks when material arrives from elsewhere. CC BY-SA 4.0, section 3(b) ShareAlike:
+
+> The Adapter's License You apply must be a Creative Commons license with the same License Elements, this version or later, or a BY-SA Compatible License.
+
+The License Elements of BY-SA are BY and SA; BY-NC-SA has BY, NC and SA, so they are not the same. **Material under CC BY-SA cannot simply be redistributed under our license**, and the compatible-licenses list the legal code points to currently returns 404. Where an otherwise welcome corpus is BY-SA (the case in #421), the way forward is an additional license from the rights holders, a dual license in the repository, or linking instead of integrating. That is a decision for the project lead, not a technical question.
+
 ## Limitations & Future Directions
 
 ### Current Limitations
@@ -215,7 +268,7 @@ An interactive chatbot answering questions on medieval history and on Middle Hig
 **Corpus expansion:**
 - Add more texts from medieval German tradition
 - Include additional text types (letters, documents, etc.)
-- Extend temporal range (Early New High German)
+- Work through the ingest candidates inside the period boundary (see Corpus Scope above; Early New High German up to 1600 is settled scope since 2026-09, not a future extension)
 
 **Enhanced functionality:**
 - Advanced visualizations (network graphs, timelines)

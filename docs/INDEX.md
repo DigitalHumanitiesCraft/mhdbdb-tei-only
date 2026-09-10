@@ -74,7 +74,7 @@ This knowledge base follows a hub-and-spoke architecture with INDEX.md as the ce
 | **[DESIGN.md](DESIGN.md)** | Visual patterns, color system, components, CSS architecture | Developers/Designers |
 | **[FEATURES.md](FEATURES.md)** | User-facing functionality descriptions | Users/Stakeholders |
 | **[DEVELOPMENT.md](DEVELOPMENT.md)** | Build commands, git workflow, deployment | New contributors |
-| **[RESEARCH.md](RESEARCH.md)** | Academic context, TEI/MHG standards | Researchers |
+| **[RESEARCH.md](RESEARCH.md)** | Academic context, TEI/MHG standards, corpus scope (period boundary) and the rights basis for edition texts | Researchers |
 | **[DECISIONS.md](DECISIONS.md)** | Architecture Decision Records (ADRs) | Architects |
 | **[CONTRACTS.md](CONTRACTS.md)** | Cross-language parity constraints, algorithm pseudocode, API contracts | Developers |
 | **[TEI-MODEL.md](TEI-MODEL.md)** | Normative TEI encoding (target model), actual-vs-target comparisons, validation baseline | Data engineers, Developers |

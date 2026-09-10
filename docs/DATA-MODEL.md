@@ -718,6 +718,15 @@ python scripts/build-api.py                       # static JSON API from the two
 
 **The scripts are not plug and play.** For every new text the three canonical scripts (`wzb-auto-match.py`, `wzb-pos-assign.py`, `wzb-sense-assign.py`) are copied into `scripts/ingest/<sigle>/` as a template; sigle constants, paths and text-specific heuristics (spelling conventions, language stage) are adapted. See [`scripts/ingest/wzb/README.md`](../scripts/ingest/wzb/README.md).
 
+### Before anything else: is the text in scope?
+
+Two gates, both outside this document's technical concern and both able to stop an ingest before it starts:
+
+- **Period.** The corpus covers texts written **before 1600**. Early New High German is included; anything markedly younger is not, whatever its quality. Decided 2026-09-10 (#263).
+- **Rights.** The edition has to be one we may publish from, and material arriving under an outside license has to be compatible with our CC BY-NC-SA 4.0. CC BY-SA is **not** compatible, which is a common surprise.
+
+Both are set out with their sources in [RESEARCH.md → Corpus Scope and Rights Basis](RESEARCH.md#corpus-scope-and-rights-basis). **Date the candidate first**: a text outside the period needs no rights clearance at all, so that is the cheaper order.
+
 ### Target state
 
 By the end every lexical `<w>` carries four attributes:
