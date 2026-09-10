@@ -465,7 +465,9 @@ Corpus at the time of the audit (#32, 2026-04, before WZB): 9,282,982 `<w>` elem
 | `lemma_3141` | Joie de la Court | 12 | 4 |
 | `lemma_9251` | Lît Marveile | 4 | 3 |
 
-**The same lemma carries the split and the univerbated spelling.** `lemma_9250` appears as two tokens in `CRO`, `JT`, `MNB` and `PZ`, and as one token in `LGR` (`schahtelmarveil`). Both are correct; the encoding follows the manuscript, not the lemma.
+**The same lemma carries the split and the univerbated spelling.** `lemma_9250` appears as two tokens in `CRO`, `JT`, `MNB`, `PZ` and `RVBR`, and as one token in `LGR` (`schahtelmarveil`) and again in `RVBR` (`schahtelmarveile`, `RVBR_16665_1`). `RVBR` is the one text that carries both spellings by itself. Both are correct; the encoding follows the manuscript, not the lemma.
+
+**The tokens of a unit need not be siblings.** `RVBR_8923_1` sits inside a `<hi rend="upper_case_first_letter">` and `RVBR_8923_2` does not. "Consecutive `<w>` with the same `@lemmaRef`" holds in document order; an XPath on `l/w` misses this case.
 
 **There is no wrapper element and none is planned.** The unit is expressed by the shared `@lemmaRef`, not by a `<seg>` or `<phr>` around the tokens. Anyone who wants the unit reads consecutive `<w>` with the same `@lemmaRef`.
 

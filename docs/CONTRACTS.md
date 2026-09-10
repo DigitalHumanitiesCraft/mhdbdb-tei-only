@@ -206,7 +206,7 @@ All three (plus the consumer rule above) are pinned by `testing/tests/position-p
 
 ```
 places with 2 tokens   14
-places with 1 token     2   (LGR writes schahtelmarveil as one word)
+places with 1 token     2   (LGR schahtelmarveil, RVBR schahtelmarveile)
 tokens in total        30   for 16 mentions
 ```
 
@@ -214,7 +214,7 @@ So a frequency list, a keyness value or a lemma distribution overstates these le
 
 **How to find them.** A compound lemma with `<etym type="morphological">` whose attested form equals one of its components exactly. Measured over `variants.xml`: of 67,913 attested forms at compound lemmata, **16** are a bare component, and four of those are the multi-word names above. This is a lower bound; a multi-word unit without a morphological decomposition in `lexicon.xml` would not show up.
 
-The same lemma can carry both spellings. `lemma_9250` appears as two tokens in `CRO`, `JT`, `MNB` and `PZ` and as one token in `LGR`.
+The same lemma can carry both spellings, and one text can carry both by itself: `lemma_9250` appears as two tokens in `CRO`, `JT`, `MNB`, `PZ` and `RVBR` and as one token in `LGR` and `RVBR`. Nor are the tokens of a unit necessarily siblings: `RVBR_8923_1` stands inside a `<hi>`, `RVBR_8923_2` does not, so "consecutive" means document order and an XPath on `l/w` misses the pair.
 
 **Why this note exists.** In #363 a session claimed twice on one day that a multi-word unit would be "the first in the corpus" and argued against the philologically correct assignment on that basis. Both times a look at `variants.xml` would have settled it. The practice is years old and was documented nowhere.
 

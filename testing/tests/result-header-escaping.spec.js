@@ -61,13 +61,18 @@ test.describe('#427: Ergebniskopf escapt die Sucheingabe', () => {
     // (lemma_7246) haette im Abstand 1 genau einen Treffer, wer also die ID an
     // eine Beschriftung "vriunt" anpasst, kippt den Test unbemerkt in den
     // Treffer-Zweig. Die Zusicherung selbst gilt in beiden Zweigen, die
-    // Absicht dieses zweiten Tests aber nicht.
+    // Absicht dieses zweiten Tests aber nicht. Deshalb nagelt die letzte
+    // Zusicherung den Zweig fest, statt nur davor zu warnen: '(0 Treffer)'
+    // steht ausschliesslich im Kopf von displayHinweis, der Treffer-Zweig
+    // schreibt dort '(max. N Woerter Abstand)' (Befund des Review-Bots auf
+    // PR #428).
     const hash = `#multi-lemma&lemmata=${encodeURIComponent(NUTZLAST)},arzat`
       + '&ids=286,308&mode=proximity&dist=1';
     await page.goto(PLAYGROUND + hash);
 
     const container = page.locator('#resultsContainer');
     await expect(container).toContainText('Kookkurrenz-Analyse', { timeout: 120000 });
+    await expect(container).toContainText('(0 Treffer)');
     await expect(container.locator('img')).toHaveCount(0);
     await expect(container).toContainText(NUTZLAST);
   });
