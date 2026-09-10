@@ -64,6 +64,7 @@ article.fertig .kopf-nr{background:var(--done-wash);color:var(--done);border-col
 .werk{font-weight:600}
 .gattung{color:var(--ink-soft);font-size:.85rem}
 .gattung::before{content:"· "}
+.vorentschieden{font-size:.72rem;font-weight:600;padding:2px 8px;border-radius:11px;background:var(--accent-wash);color:var(--accent);flex:0 0 auto}
 .zitat{font-family:var(--serif);font-size:1.3rem;line-height:1.62;margin:0 0 14px;max-width:66ch;color:var(--ink)}
 .zitat .vor,.zitat .nach{color:var(--ink-soft)}
 mark{background:var(--mark);color:var(--mark-ink);padding:1px 5px;border-radius:3px;font-weight:600}
@@ -98,10 +99,10 @@ footer code{font-family:var(--mono);font-size:.95em}
 <div class="wrap">
 <header class="top">
   <h1><em>hawe</em>: dreizehn Belege, eine Frage</h1>
-  <p class="sub">Alle Tokens des Korpus mit <code>@corresp</code> auf <code>type_117159</code>. Zwölf hängen am Lemma <em>haben</em>, einer an <em>houwe</em>. Gehört zu <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/418" target="_blank" rel="noopener">Issue&nbsp;#418</a>.</p>
+  <p class="sub">Alle Tokens des Korpus mit <code>@corresp</code> auf <code>type_117159</code>. Auf <code>main</code> hängen <strong>alle dreizehn</strong> am Lemma <em>haben</em>; der offene PR&nbsp;#416 setzt einen davon auf <em>houwe</em>. Gehört zu <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/418" target="_blank" rel="noopener">Issue&nbsp;#418</a>.</p>
   <div class="frage">
     <p><strong>Die Frage je Beleg:</strong> Verbform zu <em>houwen</em> (hauen, schlagen, schneiden), Substantiv <em>houwe</em> (Haue, Hacke), oder doch eine Form von <em>haben</em>?</p>
-    <p>Das Skript <code>fix-198-restfaelle.py</code> nennt die zwölf pauschal „Imperative zu houwen". Das ist die Behauptung, die hier geprüft wird.</p>
+    <p>Das Skript <code>fix-198-restfaelle.py</code> aus PR&nbsp;#416 nennt die zwölf übrigen pauschal „Imperative zu houwen". Das ist die Behauptung, die hier geprüft wird.</p>
   </div>
 </header>
 
@@ -126,8 +127,11 @@ footer code{font-family:var(--mono);font-size:.95em}
 </section>
 
 <footer>
-  Belege aus dem MHDBDB-Korpus, Stand <code>ecf65b667</code>. Kontext gekürzt auf 28 Wörter je Seite;
-  der Link „im Reader" öffnet die Stelle im vollen Text. Eingaben bleiben in diesem Browser gespeichert.
+  Belege aus dem MHDBDB-Korpus, Stand <code>ecf65b667</code>, samt Interpunktion des Korpus.
+  Kontext gekürzt auf 18 Wörter je Seite. Den Sprung an die Stelle beherrscht der Reader nur bei
+  Verstexten: das sind hier GAR und MR2. Die fünf Prosatexte (AC2, AC3, CEFB, DES2, KFB) haben keine
+  <code>&lt;l&gt;</code>-Elemente, dort öffnet der Link nur den Text.
+  Eingaben bleiben in diesem Browser gespeichert.
 </footer>
 </div>
 
@@ -140,8 +144,9 @@ const BELEGE = [
   "lemma": "lemma_2598",
   "pos": "VRB",
   "vers": "",
-  "links": "id=\"AC2_9090_7\" lemmaRef=\"lexicon.xml#lemma_3567\" pos=\"VRB\" corresp=\"variants.xml#type_169713\">lasz sten dein fluchen , sage nit von papenfels newe mere ,",
-  "rechts": "nit uber dich , so reren dir die spen <w xml:id=\"AC2_9110_7\" lemmaRef=\"lexicon.xml#lemma_4377\" pos=\"NEG\" ana=\"",
+  "hat_l": false,
+  "links": "infel wer wir nun gewaltig. lasz sten dein fluchen, sage nit von papenfels newe mere,",
+  "rechts": "nit uber dich, so reren dir die spen nicht in die augen! des ackermans widerrede.",
   "werk": "Der Ackermann aus Böhmen",
   "autor": "Johann von Tepl",
   "gattung": "Streitgespräch"
@@ -153,8 +158,9 @@ const BELEGE = [
   "lemma": "lemma_2598",
   "pos": "VRB",
   "vers": "",
-  "links": "d=\"AC2_24160_2\" join=\"left\">, die guten kreuter müssen verderben . ir gicht , ewr segensz",
-  "rechts": "fur sich . wie ist dann dem , das sie mer distel <w xml:id=\"AC2_25020_1\" lemmaRef=\"lexicon.xml#lemma_1073\" pos=\"ADV\" ana=\"lexicon.xm",
+  "hat_l": false,
+  "links": "lasset sie stan. unkraut bleibt, die guten kreuter müssen verderben. ir gicht, ewr segensz",
+  "rechts": "fur sich. wie ist dann dem, das sie mer distel dann gut plumen, mer meusz",
   "werk": "Der Ackermann aus Böhmen",
   "autor": "Johann von Tepl",
   "gattung": "Streitgespräch"
@@ -166,8 +172,9 @@ const BELEGE = [
   "lemma": "lemma_2598",
   "pos": "VRB",
   "vers": "",
-  "links": ", die guten kreuter mussen verderben . ir jecht , ewer sense",
-  "rechts": "vur sich . wie ist dann dem , das sie mer distel <w xml:id=\"AC3_17300_12\" lemmaRef=\"lexicon.xml#lemma_1073\" pos=\"CNJ\" ana=\"lexicon.xm",
+  "hat_l": false,
+  "links": "lesset sie steen; vnkraut beleibet, die guten kreuter mussen verderben. ir jecht, ewer sense",
+  "rechts": "vur sich. wie ist dann dem, das sie mer distel dann guter blumen, mer meuse",
   "werk": "Der Ackermann aus Böhmen",
   "autor": "Johann von Tepl",
   "gattung": "Streitgespräch"
@@ -179,8 +186,9 @@ const BELEGE = [
   "lemma": "lemma_2598",
   "pos": "NOM",
   "vers": "",
-  "links": "ET\" ana=\"lexicon.xml#lemma_4369_sense_13755\" corresp=\"variants.xml#type_15254\">ninder rachunge : gerochen muste es werden wider euch , vnd solte darvmb",
-  "rechts": "vnd schaufel noch eines gemuet werden ! der tot . <w xml:id=\"AC3_23011_3\" lemmaRef=\"lexicon.xml#lemma_1097\" pos=\"DET\" ana=\"lexicon.xml#lemma_1097_sense_1741\" corresp",
+  "hat_l": false,
+  "links": "got hette in seiner almechtigkeit ninder rachunge: gerochen muste es werden wider euch, vnd solte darvmb",
+  "rechts": "vnd schaufel noch eines gemuet werden! der tot. das xxii. capitel. ga! ga",
   "werk": "Der Ackermann aus Böhmen",
   "autor": "Johann von Tepl",
   "gattung": "Streitgespräch"
@@ -192,8 +200,9 @@ const BELEGE = [
   "lemma": "lemma_2598",
   "pos": "VRB VEX",
   "vers": "",
-  "links": "emmaRef=\"lexicon.xml#lemma_12104\" pos=\"VRB\" corresp=\"variants.xml#type_356372\">verzuck kurtz / streich lang nach / oder brichs mit dem feier oder kron",
-  "rechts": "etc . bleiben . leg dich in die ober huot oder <hi rend=\"upper_case_firs",
+  "hat_l": false,
+  "links": "den streych / vnd verzuck kurtz / streich lang nach / oder brichs mit dem feier oder kron",
+  "rechts": "etc. bleiben. leg dich in die ober huot oder hochort / vnd haw mit der langen",
   "werk": "Fechtbuch",
   "autor": "Anonym",
   "gattung": "Fechtlehre"
@@ -205,8 +214,9 @@ const BELEGE = [
   "lemma": "lemma_2598",
   "pos": "VRB VEX",
   "vers": "",
-  "links": "xicon.xml#lemma_73033\" pos=\"NOM\" corresp=\"variants.xml#type_356153\">schweche als wann er dir oben zuohawet von seiner rechten achseln / so",
-  "rechts": "auch von deinr rechten / mit ihm zugleich / starck",
+  "hat_l": false,
+  "links": "stercke / mutir gegen der schweche als wann er dir oben zuohawet von seiner rechten achseln / so",
+  "rechts": "auch von deinr rechten / mit ihm zugleich / starck oben zum kopff / versetzt ers mit stercke",
   "werk": "Fechtbuch",
   "autor": "Anonym",
   "gattung": "Fechtlehre"
@@ -218,8 +228,9 @@ const BELEGE = [
   "lemma": "lemma_2598",
   "pos": "VRB VEX",
   "vers": "",
-  "links": "type_3507\">der lincken seiten auß dem bucklier / fast übersich in sein schwerdt / vnd",
-  "rechts": "ihm dann von der lincken seitten zum haupt / vnd <w xml:id=\"CEFB_341000",
+  "hat_l": false,
+  "links": "wechselhaw. streich von der lincken seiten auß dem bucklier / fast übersich in sein schwerdt / vnd",
+  "rechts": "ihm dann von der lincken seitten zum haupt / vnd wind bloß / vnd stoß ihm nach dem",
   "werk": "Fechtbuch",
   "autor": "Anonym",
   "gattung": "Fechtlehre"
@@ -231,8 +242,9 @@ const BELEGE = [
   "lemma": "lemma_2598",
   "pos": "VRB VEX",
   "vers": "",
-  "links": "_129836\">hünern diß heyssen königs hüner nim iunge gebratenne hüner",
-  "rechts": "die an kleyne stücke nym frisch eyer vnd zcu slahe <w xml:id=\"DES2_291281020_6\" lemmaRef=\"lexicon.",
+  "hat_l": false,
+  "links": "awgen oder was du wilt eyn speyß von iungen hünern diß heyssen königs hüner nim iunge gebratenne hüner",
+  "rechts": "die an kleyne stücke nym frisch eyer vnd zcu slahe die vnd thu darunter gestossen ingewer vnd ein",
   "werk": "Das Buch von guter Speise",
   "autor": "Anonym",
   "gattung": "Kochrezepte"
@@ -244,8 +256,9 @@ const BELEGE = [
   "lemma": "lemma_2598",
   "pos": "VRB VEX",
   "vers": "153",
-  "links": "corresp=\"variants.xml#type_46314\">choemen . &gt; also sprach der werde man . &lt; war er mein vrawen",
-  "rechts": "getan , binamen , daz wil ich pesehen . vind <w xml:id=\"GAR_1550_1\" lemmaRef=\"lexicon.xml#lemma_3001\" pos",
+  "hat_l": true,
+  "links": "uenser laster her ist choemen. > also sprach der werde man. < war er mein vrawen",
+  "rechts": "getan, binamen, daz wil ich pesehen. vind ich den helt, mir muezz geschehen von",
   "werk": "Garel vom blühenden Tal",
   "autor": "Der Pleier",
   "gattung": "Artusroman"
@@ -257,8 +270,9 @@ const BELEGE = [
   "lemma": "lemma_2598",
   "pos": "VRB VEX",
   "vers": "4093",
-  "links": "40910_2\" lemmaRef=\"lexicon.xml#lemma_7193\" pos=\"PRP\" ana=\"lexicon.xml#lemma_7193_sense_11656\" corresp=\"variants.xml#type_25544\">von seiner manhait vil dicke grozzeu wunder sait , daz man in",
-  "rechts": "dester paz . doch wil ich wol gelauben , <w xml:id=\"GAR_40940_6\" lemmaRef=\"lexicon.xml#lemma_1097\" pos=\"ART CNJ\" ana=\"lexicon.xml#lemma_1097_sense_1741\" corresp=\"variants.xm",
+  "hat_l": true,
+  "links": "gern hoern wil, daz er von seiner manhait vil dicke grozzeu wunder sait, daz man in",
+  "rechts": "dester paz. doch wil ich wol gelauben, daz sein ruemen ist gueten weiben lait. daz",
   "werk": "Garel vom blühenden Tal",
   "autor": "Der Pleier",
   "gattung": "Artusroman"
@@ -270,8 +284,9 @@ const BELEGE = [
   "lemma": "lemma_2598",
   "pos": "VRB VEX",
   "vers": "",
-  "links": "exicon.xml#lemma_1119_sense_1770\" corresp=\"variants.xml#type_3507\">der linck ouer hewe mach bossen myt dem rechten voysz vnd",
-  "rechts": "myt der langen snyden durch ym deen koff ym <w xml:id=\"KFB_11813_2\" lemmaRef=\"lexicon.xml#lemma_20997\" pos=\"NOM\" corresp=\"variants.xml",
+  "hat_l": false,
+  "links": "dem lincken voysz des glichen yst auch der linck ouer hewe mach bossen myt dem rechten voysz vnd",
+  "rechts": "myt der langen snyden durch ym deen koff ym stortz item hewe veder vmb durch ym den koff",
   "werk": "Kölner Fechtbuch",
   "autor": "Anonym",
   "gattung": "Fechtlehre"
@@ -283,8 +298,9 @@ const BELEGE = [
   "lemma": "lemma_2598",
   "pos": "VRB VEX",
   "vers": "",
-  "links": "> item eyn stuck heyst das relyn bruch den flogell",
-  "rechts": "iiij mayl an eym stuck item eyn bruch vuer den <w xml:id=\"KF",
+  "hat_l": false,
+  "links": "der verstellvoyß den bruch myt synnen wyltu pryß gewynnen item eyn stuck heyst das relyn bruch den flogell",
+  "rechts": "iiij mayl an eym stuck item eyn bruch vuer den eynhorn alß du sychs das eyner den eynhorn",
   "werk": "Kölner Fechtbuch",
   "autor": "Anonym",
   "gattung": "Fechtlehre"
@@ -296,8 +312,9 @@ const BELEGE = [
   "lemma": "lemma_2598",
   "pos": "VRB VEX",
   "vers": "113",
-  "links": "als ander gancz baum zwene . beuget er zum ersten",
-  "rechts": ", so ist er swacher stete unnd daug nit zu",
+  "hat_l": true,
+  "links": "wene. sin zwig mochten sin so gutt als ander gancz baum zwene. beuget er zum ersten",
+  "rechts": ", so ist er swacher stete unnd daug nit zu dem bauwe, wan er zu allen orten",
   "werk": "Minnereden Band 2",
   "autor": "Anonym",
   "gattung": "Minnerede"
@@ -326,11 +343,12 @@ function aufbauen(){
                ${s.wahl === o.k ? 'checked' : ''}>
         <span>${esc(o.t)}${o.id ? `<i>${o.id.replace('lemma_','')}</i>` : ''}</span>
       </label>`).join('');
-    const vers = b.vers ? `v. ${esc(b.vers)}` : 'Prosa';
+    const vers = b.vers ? `v. ${esc(b.vers)}` : 'Prosa, kein Vers';
     return `
     <article id="a-${esc(b.xid)}" class="${s.wahl ? 'fertig' : ''}">
       <div class="kopf">
         <span class="kopf-nr">${String(i+1).padStart(2,'0')} · ${esc(b.sigle)}</span>
+        ${b.xid === 'AC3_23010_1' ? '<span class="vorentschieden">in PR #416 bereits auf houwe gesetzt</span>' : ''}
         <span class="werk">${esc(b.werk)}</span>
         <span class="gattung">${esc(b.gattung)}, ${esc(b.autor)}</span>
       </div>
@@ -340,7 +358,9 @@ function aufbauen(){
         <span>${vers}</span>
         <span>lemmaRef: ${esc(b.lemma)}</span>
         <span>pos: ${esc(b.pos) || '(keins)'}</span>
-        <a href="../../../korpus.html?textId=${esc(b.sigle)}&verseId=${esc(b.xid)}" target="_blank" rel="noopener">im Reader öffnen</a>
+        ${b.hat_l
+          ? `<a href="../../../korpus.html?textId=${esc(b.sigle)}&verseId=${esc(b.xid)}" target="_blank" rel="noopener">im Reader an die Stelle</a>`
+          : `<a href="../../../korpus.html?textId=${esc(b.sigle)}" target="_blank" rel="noopener">Text öffnen</a> <span title="Prosatext ohne &lt;l&gt;-Elemente, der Reader kann keinen Vers anspringen">(kein Verssprung)</span>`}
       </p>
       <fieldset>
         <legend>Zuordnung</legend>
@@ -351,6 +371,8 @@ function aufbauen(){
     </article>`;
   }).join('');
 
+  if (liste.dataset.verdrahtet) return;
+  liste.dataset.verdrahtet = '1';
   liste.addEventListener('change', e => {
     if (e.target.type !== 'radio') return;
     const xid = e.target.name.slice(2);
