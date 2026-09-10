@@ -482,13 +482,18 @@ NEAR_KEYWORDS = {
     # hinter der Zahl ansetzen muss und ANCHOR_SEP keinen Wortbestandteil
     # zulaesst. playground/index.html:108 schreibt "43.878 Lexikoneintraege",
     # hilfe-korpussuche.html:419 "43.878 Lemma-Seiten"; beide beginnen nicht
-    # mit "Lemmata". Beim Drift-Scan traegt davon nur playground/index.html
-    # (Probe: Zahl auf 43.879 zurueckgesetzt, Gate rot, nach Ruecknahme
-    # gruen). hilfe-korpussuche.html schreibt "rund 43.878 Lemma-Seiten", und
-    # der Rundungs-Skip weiter unten laesst die Zeile absichtlich stehen. Der
-    # Anker ist trotzdem richtig, weil er die Selbstpruefung ehrlich haelt:
-    # ohne ihn meldete sie das Paar als ungeprueft, obwohl die Datei die Zahl
-    # fuehrt. Ein Target ohne Anker-Treffer ist derselbe blinde Fleck
+    # mit "Lemmata". Alle drei tragen im Drift-Scan, je mit Mutationsprobe
+    # geprueft (Zahl auf 43.879 zurueckgesetzt, Gate rot mit Fundstelle, nach
+    # Ruecknahme gruen).
+    #
+    # hilfe-korpussuche.html hat dafuer ein Wort gekostet: die Zeile schrieb
+    # "allen rund 43.878 Lemma-Seiten", und der Rundungs-Skip weiter unten
+    # nahm die einzige Ankerbindung der Datei aus dem Scan. Der Anker allein
+    # haette den Zustand verschlechtert statt verbessert: anchor_binds_number
+    # bildet die Skip-Regeln bewusst nicht nach, das Paar haette also
+    # Abdeckung gemeldet und nichts geprueft, und ein Target, das Abdeckung
+    # meldet und schweigt, ist schwerer zu sehen als eines, das fehlt. Das
+    # "rund" stand ohnehin vor einer exakten Zahl und ist gestrichen. Ein Target ohne Anker-Treffer ist derselbe blinde Fleck
     # wie ein fehlendes Target, nur schwerer zu sehen, und genau das haette
     # die Erweiterung sonst gebaut. Kollisionsfrei zu variants_entries: dessen
     # "Eintr[äa]ge" setzt hinter der Zahl nicht an, weil dort das L steht.
