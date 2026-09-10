@@ -3,7 +3,7 @@
  * Handles TEI text analysis and word-level exploration with MHG normalization
  */
 
-import { displayResults, displayHinweis, displaySummaryResults } from '../core/ui-helpers.js';
+import { displayHinweis, displaySummaryResults } from '../core/ui-helpers.js';
 
 export class TEIExplorer {
     // Kein Konstruktor: bis #325/#327 nahm er teiData und authorityData
