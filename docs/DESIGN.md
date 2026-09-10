@@ -315,7 +315,7 @@ Do not hash-route: `korpus.html` is a separate site. Plain anchor tags with `tar
 
 ### Performance map against O(N) lookups (text-comparison lesson)
 
-`AuthorityFilesManager.findLemmaById()` is an `Array.find()` over 43,879 lexicon entries (`authorityData.lemmata` from the authority index), so O(N) per call. As long as a module needs the lookup only dozens of times (concept-distribution, lemma-distribution: 30-50 hits for the top-N display) that does not matter. As soon as an `enrichment` iterates over *thousands* of lemmata, the iterations multiply:
+`AuthorityFilesManager.findLemmaById()` is an `Array.find()` over 43,878 lexicon entries (`authorityData.lemmata` from the authority index), so O(N) per call. As long as a module needs the lookup only dozens of times (concept-distribution, lemma-distribution: 30-50 hits for the top-N display) that does not matter. As soon as an `enrichment` iterates over *thousands* of lemmata, the iterations multiply:
 
 ```
 text-comparison PZ vs JT, „Beide": 3,058 lookups × 43,754 ≈ 134 million iterations ≈ 5962ms

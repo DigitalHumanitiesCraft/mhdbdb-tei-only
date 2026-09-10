@@ -108,7 +108,7 @@ Full-text immersive reader with multi-lemma highlighting and rich metadata.
 
 ### Dictionary, the A–Z register (#117)
 
-A conventional dictionary entry page (`woerterbuch.html`) for all 43,879 lemma pages.
+A conventional dictionary entry page (`woerterbuch.html`) for all 43,878 lemma pages.
 
 **How it works:**
 - An A–Z index bar (plus `#` for numeric lemmata) with the entry count per letter as a tooltip
@@ -380,7 +380,7 @@ A section „Wörterbücher" with deep links into five Middle High German dictio
 Concept-based similarity section on each lemma page.
 
 **How it works:**
-- Scans all 43,879 lemmata for shared concept references (pre-built `sense.conceptIds` in the authority index, extracted at build time from `<sense>`/`<ptr target="concepts.xml#...">`)
+- Scans all 43,878 lemmata for shared concept references (pre-built `sense.conceptIds` in the authority index, extracted at build time from `<sense>`/`<ptr target="concepts.xml#...">`)
 - Ranks by concept overlap with the current lemma
 - Displays top 50 as clickable chip links
 - Performance: client-side full scan over all lemmata (sub-100 ms in practice)
@@ -396,7 +396,7 @@ Static JSON API under `/api/`, served directly by GitHub Pages – stable, citab
 **What it offers:**
 - Root manifest at [`api/index.json`](https://dhcraft.org/mhdbdb-tei-only/api/index.json) listing all collections with counts
 - Individual records (`api/persons/person_445.json`, `api/works/work_WZB.json`, ...) plus a summary `index.json` per collection (persons, works, concepts, genres, names, texts)
-- Lemmata as a single bundle (`api/lemmata/index.json`, 43,879 full records) instead of 43k individual files
+- Lemmata as a single bundle (`api/lemmata/index.json`, 43,878 full records) instead of 43k individual files
 - Every file carries its license (`CC BY-NC-SA 4.0`)
 
 **Documentation:** human-readable docs page at [`api/index.html`](https://dhcraft.org/mhdbdb-tei-only/api/index.html) (German), linked from `hilfe-daten.html`.

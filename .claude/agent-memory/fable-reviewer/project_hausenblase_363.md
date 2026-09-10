@@ -23,5 +23,28 @@ Kompositum = `<etym type="morphological">` mit >= 2 `<seg type="component">` (18
 ## Breite Korpussuche nach Zweitgliedern
 Erstglied `^h[a-zäöüßûâ]{0,4}[sßz]+e?n+$` + Folgetoken `^[pb]l[aoeäö]` findet neben den 13 Paaren nur *herzen blanc/bloet/bloedikeit/blendet/pleuwen*, *hosen blanc*, *hehsen bleib*; Komposita `^h...[sßz]+e?n+[pb]l` nur *herzenbluote* dazu. Menge vollstaendig.
 
-## Lemma-Anzahl in den Hilfeseiten
-`hilfe-daten.html` (5x) und `hilfe-korpussuche.html` (1x) tragen „43.879 Lemmata"; gesetzt in `4458686ab` (#368) im selben Commit wie `api/index.json count 43879`. Beim Loeschen eines Lemmas mitziehen, sonst Drift. Kein Gate dafuer.
+## Lemma-Anzahl: es gibt ein Gate, und es deckt nicht alles ab
+Korrigiert am 10.09.2026. Die erste Fassung dieser Notiz nannte nur
+`hilfe-daten.html` (5x) und `hilfe-korpussuche.html` (1x) und schloss mit
+„Kein Gate dafuer". Beides war falsch.
+
+Das Gate ist `scripts/audit/doc-count-audit.py --check`, aufgerufen in
+`data-integrity.yml` als Schritt „Dokumentierte Zahlen gegen die Daten"
+(#382/#398). Es ging neun Minuten nach dem Anlegen dieser Notiz rot, mit 25
+Treffern in 13 Dateien, und es steht VOR allen Datengates: was dahinter liegt
+(Bump-Gate, Freshness von variants.xml, API und Indexen, Cross-Refs,
+Schemavalidierung), laeuft bei rotem Doc-Count gar nicht erst.
+
+Es prueft je Datei nur die Schluessel aus `DOC_TARGETS`. Bis 10.09. stand
+`lexicon_entries` allein bei `index.html` und `hilfe-daten.html`; drei weitere
+ausgelieferte Seiten trugen die Zahl ungegatet. In `playground/index.html` hat
+das vorgefuehrt, was daraus folgt: der Sweep zog die gegatete 234.243 in Zeile
+477 nach und liess die ungegatete 43.879 in Zeile 108 stehen. Seit #363 fuehren
+`hilfe-korpussuche.html`, `hilfe-playground.html` und `playground/index.html`
+den Schluessel ebenfalls.
+
+Merksatz fuer die naechste Runde: bei einer geaenderten Zahl nicht die
+Fundstellen zaehlen, sondern `doc-count-audit.py` laufen lassen UND danach
+`grep -rn` ueber die alte Zahl, weil der Gate-Umfang selbst unvollstaendig sein
+kann. Vier Zahlen haengen an einer Lemma-Loeschung: `lexicon_entries`,
+`variants_forms`, `variants_entries`, `variants_normalized`.

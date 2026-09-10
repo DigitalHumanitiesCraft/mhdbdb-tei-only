@@ -326,10 +326,17 @@ DOC_TARGETS = [
     ('hilfe-daten.html', ['corpus_files', 'lexicon_entries',
                           'variants_forms', 'variants_normalized',
                           'contributors_persons']),
-    ('hilfe-korpussuche.html', ['variants_normalized']),
-    ('hilfe-playground.html', ['variants_normalized']),
+    # lexicon_entries stand bis 2026-09-10 nur bei index.html und
+    # hilfe-daten.html. Die drei Seiten darunter tragen die Lemma-Zahl
+    # ebenfalls, waren dafuer aber blind, und #363 hat genau das vorgefuehrt:
+    # der Sweep zog in playground/index.html die eine gegatete Zahl nach
+    # (234.243 in Zeile 477) und liess die ungegatete 369 Zeilen darueber
+    # stehen (43.879 in Zeile 108). Gefunden hat es der Review-Bot, nicht der
+    # Gate. Dieselbe Falle wie bei index.html 2026-07-28, eine Zeile darueber.
+    ('hilfe-korpussuche.html', ['lexicon_entries', 'variants_normalized']),
+    ('hilfe-playground.html', ['lexicon_entries', 'variants_normalized']),
     ('hilfe-daten-beitragen.html', ['variants_forms']),
-    ('playground/index.html', ['variants_normalized']),
+    ('playground/index.html', ['lexicon_entries', 'variants_normalized']),
 ]
 
 CODE_LABELS = [
