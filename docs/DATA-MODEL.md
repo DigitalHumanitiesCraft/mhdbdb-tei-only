@@ -800,7 +800,7 @@ To be settled per source in advance (example answers for ARI in `scripts/ingest/
 
 ### Phase 1: lemmatization
 
-**Before the algorithm, one thing it cannot do.** The auto-match works token by token: one `<w>`, one form, one lemma. Some lemmata span **several consecutive `<w>`** (multi-word names such as *Joie de la Court*, `lemma_3141`), and no per-token matcher will ever find those. They are assigned by hand, all tokens getting the same `@lemmaRef` and the same `@ana`, each keeping its own `@pos` and `@corresp`. The encoding is described in [TEI-MODEL.md sec. 4.1a](TEI-MODEL.md#41a-multi-word-lemma-units-425); do not invent a second one for a new text.
+**Before the algorithm, one thing it cannot do.** The auto-match works token by token: one `<w>`, one form, one lemma. Some lemmata span **several consecutive `<w>`** (multi-word names such as *Joie de la Court*, `lemma_3141`, and since #363 the common-noun compound *hûsenblâter*, `lemma_49714`), and no per-token matcher will ever find those. They are assigned by hand, all tokens getting the same `@lemmaRef` and the same `@ana`, each keeping its own `@pos` and `@corresp`. The encoding is described in [TEI-MODEL.md sec. 4.1a](TEI-MODEL.md#41a-multi-word-lemma-units-425); do not invent a second one for a new text.
 
 **1a auto-match** (canonical: `wzb-auto-match.py`), the algorithm:
 

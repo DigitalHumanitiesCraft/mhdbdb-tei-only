@@ -117,6 +117,7 @@
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 19 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
+      <change when="2026-09-10" who="#editor">#363 Hausenblase: 6 Tokens der Konstruktion hûsenblâter (zusammen- und getrennt geschrieben) auf lemma_49714 hûsenblâter vereinheitlicht (lemmaRef/pos/ana/corresp; Mehrwort-Einheit nach TEI-MODEL.md §4.1a; editorische Entscheidung KZW in #363; Provenienz-Log: ingest/pos-disambig/363-hausenblase/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -8403,8 +8404,8 @@
           <w xml:id="SUB1_61030_16" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
           <w xml:id="SUB1_61030_17" lemmaRef="lexicon.xml#lemma_8577" pos="PRO VRB" corresp="variants.xml#type_80081">muestu</w>
           <lb n="4"/>
-          <w xml:id="SUB1_61040_0" lemmaRef="lexicon.xml#lemma_2934" pos="VRB" corresp="variants.xml#type_163436">hausen</w>
-          <w xml:id="SUB1_61040_1" lemmaRef="lexicon.xml#lemma_737" pos="NOM" corresp="variants.xml#type_157201">pletter</w>
+          <w xml:id="SUB1_61040_0" lemmaRef="lexicon.xml#lemma_49714" pos="NOM" ana="lexicon.xml#lemma_49714_sense_78649" corresp="variants.xml#type_372367">hausen</w>
+          <w xml:id="SUB1_61040_1" lemmaRef="lexicon.xml#lemma_49714" pos="NOM" ana="lexicon.xml#lemma_49714_sense_78649" corresp="variants.xml#type_372374">pletter</w>
           <w xml:id="SUB1_61040_2">haben</w>
           <pc xml:id="SUB1_61040_3" join="left">.</pc>
           <w xml:id="SUB1_61040_4" lemmaRef="lexicon.xml#lemma_7385" pos="ADV CNJ" ana="lexicon.xml#lemma_7385_sense_11998" corresp="variants.xml#type_26646">wenn</w>

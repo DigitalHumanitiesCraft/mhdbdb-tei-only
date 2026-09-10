@@ -136,6 +136,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-09-10" who="#editor">#363 Hausenblase: 3 Tokens der Konstruktion hûsenblâter (zusammen- und getrennt geschrieben) auf lemma_49714 hûsenblâter vereinheitlicht (lemmaRef/pos/ana/corresp; Mehrwort-Einheit nach TEI-MODEL.md §4.1a; editorische Entscheidung KZW in #363; Provenienz-Log: ingest/pos-disambig/363-hausenblase/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -1599,9 +1600,9 @@
           <w xml:id="MBS5_2151412120_7" lemmaRef="lexicon.xml#lemma_8028" pos="ADV" ana="lexicon.xml#lemma_8028_sense_13094" corresp="variants.xml#type_28996">daran</w>
           <w xml:id="MBS5_2151412120_8" lemmaRef="lexicon.xml#lemma_6301" pos="VRB" ana="lexicon.xml#lemma_6301_sense_9929" corresp="variants.xml#type_43088">thun</w>
           <w xml:id="MBS5_2151412120_9">oder</w>
-          <w xml:id="MBS5_2151412120_10" lemmaRef="lexicon.xml#lemma_2730" pos="ADJ" corresp="variants.xml#type_272171">hawssen</w>
+          <w xml:id="MBS5_2151412120_10" lemmaRef="lexicon.xml#lemma_49714" pos="NOM" ana="lexicon.xml#lemma_49714_sense_78649" corresp="variants.xml#type_372369">hawssen</w>
           <lb n="13"/>
-          <w xml:id="MBS5_2151412130_0" lemmaRef="lexicon.xml#lemma_738" pos="NOM" corresp="variants.xml#type_271760">platern</w>
+          <w xml:id="MBS5_2151412130_0" lemmaRef="lexicon.xml#lemma_49714" pos="NOM" ana="lexicon.xml#lemma_49714_sense_78649" corresp="variants.xml#type_372372">platern</w>
           <w xml:id="MBS5_2151412130_1" lemmaRef="lexicon.xml#lemma_1055" pos="ADV" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3258">dar</w>
           <w xml:id="MBS5_2151412130_2">jnn</w>
           <w xml:id="MBS5_2151412130_3" lemmaRef="lexicon.xml#lemma_5458" pos="VRB" ana="lexicon.xml#lemma_5458_sense_8511" corresp="variants.xml#type_19061">sieden</w>
