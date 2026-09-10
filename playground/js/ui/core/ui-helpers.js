@@ -150,6 +150,37 @@ export function enableAuthorityQueries() {
 
 // ==================== RESULTS DISPLAY ====================
 
+/**
+ * HTML-Escape fuer Werte, die aus einer Nutzereingabe stammen.
+ *
+ * Modul-lokal statt aus assets/js/lib/escape.js importiert. DESIGN.md
+ * begruendet das fuer die TEI-Analyse-Module ("Escape helpers: per module,
+ * not imported"); diese Datei liegt in ui/core und nicht in ui/tei, folgt
+ * der Regel aber aus demselben Grund. Gemessen am 2026-09-10 halten 17
+ * Dateien im Playground eigene Kopien, escape.js importieren nur app.js und
+ * lemma-page.js.
+ *
+ * Gebraucht wird er wegen #427: die Ergebniskoepfe setzen den Suchbegriff
+ * roh ins innerHTML. Normalerweise ist das Selbst-XSS, weil eine Schreibform
+ * vor der Anzeige durch die Lemma-Aufloesung laeuft. Der Router hat aber
+ * einen Weg daran vorbei: traegt ein Term im Hash einen ids-Zeiger, nimmt
+ * resolveTerms die ID und prueft die Schreibform nie (multi-lemma-search.js).
+ * Ein geteilter Link fuehrt damit fremdes Markup in die Seite dessen, der
+ * ihn oeffnet.
+ */
+function escapeHtml(s) {
+  if (s == null) return '';
+  return String(s).replace(/[&<>"']/g, c => (
+    { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
+  ));
+}
+
+// Escapt wird der TITEL, nicht die Ergebnisfelder. meta und snippet bauen die
+// vier Authority-Explorer bewusst mit Markup (genre-explorer.js escapt seine
+// Werte selbst und setzt dann Auszeichnung darum); ein pauschales Escapen
+// wuerde deren Ausgabe zerstoeren. Der Titel dagegen ist ueberall reiner Text,
+// und er ist die Stelle, an der die Nutzereingabe ankommt.
+
 export function displayResults(title, results) {
   const container = document.getElementById('resultsContainer');
   if (!container) return;
@@ -157,7 +188,7 @@ export function displayResults(title, results) {
   if (!results || results.length === 0) {
     container.innerHTML = `
       <div class="rounded-2xl border border-dashed border-slate-200 bg-slate-50/70 p-6 text-center text-sm text-slate-500">
-        <p class="font-medium text-slate-600">${title}</p>
+        <p class="font-medium text-slate-600">${escapeHtml(title)}</p>
         <p class="mt-2 text-slate-500">Keine Ergebnisse gefunden.</p>
       </div>
     `;
@@ -177,7 +208,7 @@ export function displayResults(title, results) {
 
   container.innerHTML = `
     <div class="mb-4 flex items-center justify-between rounded-xl bg-slate-50/80 px-4 py-2 text-sm font-medium text-slate-600">
-      <span>${title}</span>
+      <span>${escapeHtml(title)}</span>
       <span class="text-sm uppercase tracking-wide text-slate-600">${results.length} Treffer</span>
     </div>
     <div class="space-y-3">
@@ -211,11 +242,11 @@ export function displayHinweis(titel, grund, rat) {
 
   container.innerHTML = `
     <div class="mb-4 rounded-xl bg-slate-50/80 px-4 py-2 text-sm font-medium text-slate-600">
-      <span>${titel}</span>
+      <span>${escapeHtml(titel)}</span>
     </div>
     <article class="result-item rounded-2xl border border-slate-200 bg-white/90 p-5 shadow-sm">
-      <header class="result-meta text-xs font-semibold uppercase tracking-wide text-brand-600">${grund}</header>
-      <p class="result-snippet mt-2 text-sm leading-relaxed text-slate-700">${rat}</p>
+      <header class="result-meta text-xs font-semibold uppercase tracking-wide text-brand-600">${escapeHtml(grund)}</header>
+      <p class="result-snippet mt-2 text-sm leading-relaxed text-slate-700">${escapeHtml(rat)}</p>
     </article>
   `;
 }
@@ -237,7 +268,7 @@ export function displaySummaryResults(title, summaryData, rawResults = null, lem
   if (!summaryData || summaryData.length === 0) {
     container.innerHTML = `
       <div class="rounded-2xl border border-dashed border-slate-200 bg-slate-50/70 p-6 text-center text-sm text-slate-500">
-        <p class="font-medium text-slate-600">${title}</p>
+        <p class="font-medium text-slate-600">${escapeHtml(title)}</p>
         <p class="mt-2 text-slate-500">Keine Ergebnisse gefunden.</p>
       </div>
     `;
@@ -249,7 +280,7 @@ export function displaySummaryResults(title, summaryData, rawResults = null, lem
 
   container.innerHTML = `
     <div class="mb-4 flex items-center justify-between rounded-xl bg-slate-50/80 px-4 py-2 text-sm font-medium text-slate-600">
-      <span>${title}</span>
+      <span>${escapeHtml(title)}</span>
       <span class="text-sm uppercase tracking-wide text-slate-600">${totalResults} Treffer · ${summaryData.length} Kontexte</span>
     </div>
     <div class="space-y-3">

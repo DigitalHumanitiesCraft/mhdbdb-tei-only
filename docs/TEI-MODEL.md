@@ -445,6 +445,34 @@ Corpus at the time of the audit (#32, 2026-04, before WZB): 9,282,982 `<w>` elem
 
 > **Important:** `@lemmaRef` has been a standard attribute of the class `att.linguistic` since TEI P5 3.3.0 and did **not** have to be migrated. `@meaningRef` and `@wordRef` **were** the validation blockers (not TEI standard attributes); they were migrated corpus-wide to `@ana` and `@corresp` respectively (phase B1/B2, completed, 0 remaining occurrences, 667/667 files with `@ana`).
 
+### 4.1a Multi-word lemma units (#425)
+
+**One lemma can span several consecutive `<w>`.** All of them carry the same `@lemmaRef` and the same `@ana`; each keeps its own `@pos` and its own `@corresp`, because part of speech and written form belong to the token, not to the unit.
+
+```xml
+<w xml:id="ER_800200_1" lemmaRef="lexicon.xml#lemma_3141" pos="NAM" ana="lexicon.xml#lemma_3141_sense_4974" corresp="variants.xml#type_30845">joie</w>
+<w xml:id="ER_800200_2" lemmaRef="lexicon.xml#lemma_3141" pos="PRP" ana="lexicon.xml#lemma_3141_sense_4974" corresp="variants.xml#type_10786">de</w>
+<w xml:id="ER_800200_3" lemmaRef="lexicon.xml#lemma_3141" pos="ART" ana="lexicon.xml#lemma_3141_sense_4974" corresp="variants.xml#type_30862">la</w>
+<w xml:id="ER_800200_4" lemmaRef="lexicon.xml#lemma_3141" pos="NAM" ana="lexicon.xml#lemma_3141_sense_4974" corresp="variants.xml#type_371959">curt</w>
+```
+
+`lemma_3141` is *Joie de la Court*, the Erec place name. Known cases, measured on 2026-09-10:
+
+| Lemma | Headword | Tokens | Texts |
+|---|---|--:|--:|
+| `lemma_20598` | Dolorose Garte | 92 | 4 |
+| `lemma_9250` | Schastel Marveile | 30 | 6 |
+| `lemma_3141` | Joie de la Court | 12 | 4 |
+| `lemma_9251` | Lît Marveile | 4 | 3 |
+
+**The same lemma carries the split and the univerbated spelling.** `lemma_9250` appears as two tokens in `CRO`, `JT`, `MNB`, `PZ` and `RVBR`, and as one token in `LGR` (`schahtelmarveil`) and again in `RVBR` (`schahtelmarveile`, `RVBR_16665_1`). `RVBR` is the one text that carries both spellings by itself. Both are correct; the encoding follows the manuscript, not the lemma.
+
+**The tokens of a unit need not be siblings.** `RVBR_8923_1` sits inside a `<hi rend="upper_case_first_letter">` and `RVBR_8923_2` does not. "Consecutive `<w>` with the same `@lemmaRef`" holds in document order; an XPath on `l/w` misses this case.
+
+**There is no wrapper element and none is planned.** The unit is expressed by the shared `@lemmaRef`, not by a `<seg>` or `<phr>` around the tokens. Anyone who wants the unit reads consecutive `<w>` with the same `@lemmaRef`.
+
+**Consequence for counting:** a mention of a split unit counts as several tokens. `lemma_9250` has 30 tokens for 16 mentions. The position-counting contract is untouched by this (see [CONTRACTS.md sec. B](CONTRACTS.md#b-position-counting-contract)), but a frequency list is not: it overstates these lemmata.
+
 ### 4.2 `@xml:id` format
 
 ```

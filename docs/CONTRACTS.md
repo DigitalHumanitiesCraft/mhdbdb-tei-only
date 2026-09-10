@@ -187,6 +187,39 @@ Three further latent drifts of the same class ("0 corpus cases today, armed by t
 
 All three (plus the consumer rule above) are pinned by `testing/tests/position-parity.spec.js` with the fixture `position-parity-170.tei.xml`.
 
+### Parity note – multi-word lemma units (#425)
+
+**A lemma can span several consecutive `<w>`.** All of them carry the same `@lemmaRef` and the same `@ana`, each keeps its own `@pos` and its own `@corresp`. From `tei/ER.tei.xml`:
+
+```xml
+<w xml:id="ER_800200_1" lemmaRef="…#lemma_3141" pos="NAM" ana="…#lemma_3141_sense_4974" corresp="…#type_30845">joie</w>
+<w xml:id="ER_800200_2" lemmaRef="…#lemma_3141" pos="PRP" ana="…#lemma_3141_sense_4974" corresp="…#type_10786">de</w>
+<w xml:id="ER_800200_3" lemmaRef="…#lemma_3141" pos="ART" ana="…#lemma_3141_sense_4974" corresp="…#type_30862">la</w>
+<w xml:id="ER_800200_4" lemmaRef="…#lemma_3141" pos="NAM" ana="…#lemma_3141_sense_4974" corresp="…#type_371959">curt</w>
+```
+
+`lemma_3141` is *Joie de la Court*. The same holds for `lemma_9250` *Schastel Marveile*, `lemma_9251` *Lît Marveile* and `lemma_20598` *Dolorose Garte*.
+
+**Consequence for the six rules above: none.** They count `<w>`, and each of these is a `<w>`. Nothing special happens at build or render time.
+
+**Consequence for anyone reading a lemma's token count: the token count is not the number of mentions.** Measured on 2026-09-10 for `lemma_9250`:
+
+```
+places with 2 tokens   14
+places with 1 token     2   (LGR schahtelmarveil, RVBR schahtelmarveile)
+tokens in total        30   for 16 mentions
+```
+
+So a frequency list, a keyness value or a lemma distribution overstates these lemmata by up to a factor of two. That is not a defect of the counting: the contract counts tokens, and there really are 30 of them. It is a defect of any reading that equates the two.
+
+**How to find them.** A compound lemma (an `<etym type="morphological">` with at least two `<seg type="component">`) whose attested form equals one of its components exactly. Measured over `variants.xml` on 2026-09-10: of **67,913** attested forms at compound lemmata, **8** are a bare component. Six of those eight rows belong to the four names above, `lemma_3141` contributing three of them (*joie*, *de*, *la*); the other two, `lemma_119` *ein* and `lemma_51511` *wegen*, are not multi-word units. It is a candidate list to be read, not a finder, and it is a lower bound twice over: a unit without a morphological decomposition in `lexicon.xml` does not show up, and neither does one whose attested spelling has drifted away from the component form, which in a Middle High German corpus is the normal case.
+
+(This paragraph said **16** from #425 until 2026-09-10. The figure was not reproducible under any reading of its own criterion; 67,913 was and is correct.)
+
+The same lemma can carry both spellings, and one text can carry both by itself: `lemma_9250` appears as two tokens in `CRO`, `JT`, `MNB`, `PZ` and `RVBR` and as one token in `LGR` and `RVBR`. Nor are the tokens of a unit necessarily siblings: `RVBR_8923_1` stands inside a `<hi>`, `RVBR_8923_2` does not, so "consecutive" means document order and an XPath on `l/w` misses the pair.
+
+**Why this note exists.** In #363 a session claimed twice on one day that a multi-word unit would be "the first in the corpus" and argued against the philologically correct assignment on that basis. Both times a look at `variants.xml` would have settled it. The practice is years old and was documented nowhere.
+
 ### Example
 
 ```xml
