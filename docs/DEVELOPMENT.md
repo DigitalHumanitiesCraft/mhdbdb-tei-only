@@ -233,6 +233,7 @@ Completeness against `testing/tests/` is gated by `scripts/audit/check-doc-inven
 | `position-parity.spec.js` | Cross-cutting | Python/JS word-position agreement, #131 (see [CONTRACTS.md](CONTRACTS.md#b-position-counting-contract)) |
 | `site-chrome.spec.js` | Cross-cutting | Build-injected nav/footer + mobile-menu (`build-pages.py`) |
 | `vendor.spec.js` | Cross-cutting | Runtime libraries come from `assets/vendor/`, no CDN dependency: no external `<script src>` and no external `<link>` that triggers a fetch (runtime counterpart to `no-cdn-check.yml`, same rules) |
+| `result-header-escaping.spec.js` | Cross-cutting | The playground result header escapes the search input: markup arriving through a shared `#multi-lemma&…&ids=…` link must not become an element (#427) |
 | `cross-reference-test.spec.js` | Data integrity | Authority/corpus cross-reference validity |
 | `corpus.spec.js` | Data integrity | Corpus index structure validation |
 | `visual-mobile-test.spec.js` | Visual | Responsive screenshots + touch target size across several viewports (iPhone SE 375px … desktop 1440px) |
