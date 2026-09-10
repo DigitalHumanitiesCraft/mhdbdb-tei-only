@@ -186,6 +186,40 @@ export function displayResults(title, results) {
   `;
 }
 
+/**
+ * Eine Meldung anzeigen, die kein Ergebnis ist.
+ *
+ * Existiert wegen #424: der Null-Treffer-Fall der Multi-Lemma- und der
+ * Nähe-Analyse hat seine Erklärung als einelementiges Ergebnis-Array durch
+ * displayResults geschickt. Das zählt, was es bekommt, und schrieb neben
+ * einen Titel mit "(0 Treffer)" ein Abzeichen mit "1 Treffer". Alan van Beek
+ * hat den Widerspruch im Testprotokoll zu #419 mit Screenshot gemeldet, in
+ * zwei aufeinanderfolgenden Testfällen.
+ *
+ * Der leere Zweig von displayResults kann das nicht auffangen: er rendert
+ * "Keine Ergebnisse gefunden." und lässt keinen Platz für den Grund. Genau
+ * den will man hier aber sagen, deshalb eine eigene Funktion statt eines
+ * Schalters. Eine Meldung hat keine Anzahl, also steht hier auch keine.
+ *
+ * @param {string} titel   Kopfzeile, in der die Trefferzahl bereits steht
+ * @param {string} grund   was passiert ist
+ * @param {string} rat     was man stattdessen versuchen kann
+ */
+export function displayHinweis(titel, grund, rat) {
+  const container = document.getElementById('resultsContainer');
+  if (!container) return;
+
+  container.innerHTML = `
+    <div class="mb-4 rounded-xl bg-slate-50/80 px-4 py-2 text-sm font-medium text-slate-600">
+      <span>${titel}</span>
+    </div>
+    <article class="result-item rounded-2xl border border-slate-200 bg-white/90 p-5 shadow-sm">
+      <header class="result-meta text-xs font-semibold uppercase tracking-wide text-brand-600">${grund}</header>
+      <p class="result-snippet mt-2 text-sm leading-relaxed text-slate-700">${rat}</p>
+    </article>
+  `;
+}
+
 // ==================== SUMMARY RESULTS DISPLAY ====================
 
 // Store raw results for lazy TEI loading

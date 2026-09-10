@@ -3,7 +3,7 @@
  * Handles TEI text analysis and word-level exploration with MHG normalization
  */
 
-import { displayResults, displaySummaryResults } from '../core/ui-helpers.js';
+import { displayResults, displayHinweis, displaySummaryResults } from '../core/ui-helpers.js';
 
 export class TEIExplorer {
     // Kein Konstruktor: bis #325/#327 nahm er teiData und authorityData
@@ -82,12 +82,10 @@ export class TEIExplorer {
     // ein return [].
     displayMultiLemmaResults(results, searchTerms) {
         if (results.length === 0) {
-            displayResults(
+            displayHinweis(
                 `Multi-Lemma-Suche: ${searchTerms.join(' + ')} (0 Treffer)`,
-                [{
-                    meta: 'Keine Treffer im gesamten Dokument',
-                    snippet: 'Versuchen Sie andere Suchbegriffe oder einen anderen Kontext'
-                }]
+                'Keine Treffer im gesamten Dokument',
+                'Versuchen Sie andere Suchbegriffe oder einen anderen Kontext'
             );
             return;
         }
@@ -160,16 +158,14 @@ export class TEIExplorer {
     displayCooccurrenceResults(results, searchTerms, maxDistance, searchedLemmaIds, opts = {}) {
         const verseMode = !!opts.verseMode;
         if (results.length === 0) {
-            displayResults(
+            displayHinweis(
                 `Kookkurrenz-Analyse: ${searchTerms.join(' + ')} (0 Treffer)`,
-                [{
-                    meta: verseMode
-                        ? 'Keine gemeinsamen Verse gefunden'
-                        : `Keine Treffer im Abstand von ${maxDistance} Wörtern`,
-                    snippet: verseMode
-                        ? 'Versuchen Sie die Nähe-Analyse oder andere Begriffe (Prosa-Texte haben keine Verse)'
-                        : 'Versuchen Sie einen größeren Abstand oder andere Begriffe'
-                }]
+                verseMode
+                    ? 'Keine gemeinsamen Verse gefunden'
+                    : `Keine Treffer im Abstand von ${maxDistance} Wörtern`,
+                verseMode
+                    ? 'Versuchen Sie die Nähe-Analyse oder andere Begriffe (Prosa-Texte haben keine Verse)'
+                    : 'Versuchen Sie einen größeren Abstand oder andere Begriffe'
             );
             return;
         }
