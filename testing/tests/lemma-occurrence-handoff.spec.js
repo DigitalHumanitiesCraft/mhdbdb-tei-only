@@ -287,7 +287,7 @@ test.describe('#58: zweite Renderstelle (showAllLemmata)', () => {
   test('auch die Listenansicht ohne Suche trägt den Knopf', async ({ page }) => {
     // showAllLemmata() ist über die UI nicht erreichbar: showLemmata()
     // verzweigt bei mehr als 500 Lemmata immer in die Suchansicht, und das
-    // Lexikon hat 43.879. Die Methode wird trotzdem gepflegt und muss den
+    // Lexikon hat 43.878. Die Methode wird trotzdem gepflegt und muss den
     // Knopf mitführen, sonst driften die beiden Renderstellen auseinander.
     // Deshalb hier der direkte Aufruf; geprüft wird das Ergebnis, nicht der
     // Aufruf.
