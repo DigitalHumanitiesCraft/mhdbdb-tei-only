@@ -1,5 +1,6 @@
 # No-CDN-Gate: committete HTML-Seiten dürfen keine externen <script src>
-# tragen — Runtime-Bibliotheken sind vendored (assets/vendor/, pako/dexie
+# und keine externen <link> tragen, die einen Abruf ausloesen. Runtime-
+# Bibliotheken sind vendored (assets/vendor/, pako/dexie
 # 2026-07, Prism #78). Eigener leichter Workflow statt data-integrity.yml,
 # damit HTML-Edits nicht den vollen Index-Rebuild triggern.
 #
@@ -138,7 +139,7 @@ jobs:
           echo "sha=$BASE" >> "$GITHUB_OUTPUT"
           echo "Diff-Base: ${BASE:-<keine>}"
 
-      - name: No external script src in committed HTML (stdlib only)
+      - name: No external script src or link href in committed HTML (stdlib only)
         run: python3 scripts/audit/check-no-cdn.py
 
       - name: Em-Dash-Gate Selbsttest (#140/#292)
