@@ -20,3 +20,13 @@
 - Typ-Id-Eindeutigkeit: Regex ueber `<w ...>`-Tags aller tei/*.xml, corresp -> set(lemmaRef):
   256.762 Typ-Ids, 0 mit >1 Lemma (Laufzeit unter 1 min). extract-variants.py:332 meldet, return 0 = kein Gate.
 - Zeilennummern in Skriptzitaten (`datei.py:N`) mit `git show <ref>:<pfad> | grep -n` pruefen: :19 war :20.
+- Runde 4 (10.09.2026, nach CI-Bot-Runde 3): Gate check-no-cdn.py um <link> erweitert. Messung ueber die
+  eigene Dateiliste des Skripts per importlib (`g.html_files(g.REPO)`: 20 Dateien, find liefert 22 ohne
+  tei/data/node_modules, Differenz = test-results). Vorher/nachher NICHT per git stash (Arbeitsbaum des
+  Aufrufers), sondern `git show HEAD:<pfad> | grep -c`. rg ueber das Repo ohne Verzeichnisausschluss haengt
+  >120 s (tei/ 1,4 GB), Dateiliste aus dem Skript ist der schnelle Weg.
+- LINK_REL `rel\s*=` hat keine Attributgrenze: `data-rel="canonical"` vor `rel` und `?rel=canonical` im
+  href eines <link> ohne rel werden als exempt gelesen (konstruiert, nicht blockierend); Fix waere
+  `(?<![\w-])rel\s*=`. HTML-Kommentare werden mitgeprueft (wie bei <script src>), &lt;link&gt; nicht.
+- 21 externe Hosts in HTML, 8 davon ausserhalb <a href> (meta og:url, <code>, svg xmlns, Matomo-Inline-JS
+  webstatistics.sbg.ac.at 17x); keiner in <link>. Auftrag sagte 18 und „alle in <a href>".
