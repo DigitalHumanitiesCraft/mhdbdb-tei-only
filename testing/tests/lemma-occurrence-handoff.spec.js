@@ -348,3 +348,85 @@ test.describe('Review-Fund zu #58: die Nähe-Distanz überlebt close() ebenfalls
     expect(await ausgewieseneDistanz(page, 25)).toBe('25');
   });
 });
+
+/**
+ * Die Zahl auf der Ergebniskarte der Dokumentsuche.
+ *
+ * Sie war bis heute `text.wordCount`, also die Tokenzahl des ganzen Textes:
+ * dieselbe Zahl für jedes Lemma desselben Textes, und über die Kopfzeile
+ * summiert zu Angaben wie „6.418.133 Treffer" für `arm`. Gemeldet von KZW am
+ * 2026-09-08 in #58 („11250 Arme (Körperteile) im CEFB kann nicht sein"),
+ * unabhängig getroffen von Alan van Beek in seinem Testprotokoll (#419).
+ *
+ * Entstanden ist der Fehler nicht durch eine falsche Rechnung, sondern durch
+ * eine Aufräumarbeit: #327 entfernte das `matchingWords`-Objekt, weil sein
+ * letzter Leser keinen Aufrufer mehr hatte, und die Anzeige fiel danach auf
+ * das einzige verbliebene Zahlenfeld zurück. Dieser Test prüft deshalb die
+ * Zahl selbst und nicht den Weg dorthin: er wäre auch dann rot geworden.
+ *
+ * Erwartungswerte kommen aus dem geladenen Index, nicht als Konstante, aus
+ * demselben Grund wie oben bei den Zeugenmengen.
+ */
+test.describe('#58: die Karte zeigt Belege, nicht die Länge des Textes', () => {
+  test('jede Kartenzahl ist die Belegzahl ihres Textes aus dem Korpus-Index', async ({ page }) => {
+    await page.goto(`${PLAYGROUND}#multi-lemma&lemmata=${FORM}&ids=${ID_KOERPERTEIL}&mode=document`);
+    await playgroundBereit(page);
+    await expect(page.locator('#resultsContainer'))
+      .toContainText(`Multi-Lemma-Suche: ${FORM}`, { timeout: 90000 });
+
+    const ausIndex = await page.evaluate((id) => {
+      const m = {};
+      for (const t of window.playground.corpusData.texts) {
+        const positionen = t.lemmata[`lemma_${id}`];
+        if (positionen) m[t.filename] = { belege: positionen.length, woerter: t.wordCount };
+      }
+      return m;
+    }, ID_KOERPERTEIL);
+
+    const karten = await page.locator('#resultsContainer .result-summary-static').evaluateAll(
+      els => els.map(el => ({
+        titel: el.querySelector('h4').textContent.trim(),
+        zahl: Number(el.querySelector('.summary-count').textContent.trim()),
+        vorschau: el.querySelector('.summary-preview').textContent.trim(),
+      }))
+    );
+
+    expect(karten.length, 'keine Ergebniskarten, der Test beweist nichts').toBeGreaterThan(0);
+
+    for (const karte of karten) {
+      const soll = ausIndex[karte.titel];
+      expect(soll, `Karte ${karte.titel} hat keine Entsprechung im Index`).toBeTruthy();
+      expect(karte.zahl, `Kartenzahl zu ${karte.titel}`).toBe(soll.belege);
+      expect(karte.vorschau, `Vorschau zu ${karte.titel}`).toMatch(/^\d+ Belege$|^1 Beleg$/);
+    }
+
+    // Ohne diese Zusicherung wäre der Test in einem Korpus, in dem Belegzahl
+    // und Wortzahl zufällig zusammenfallen, auch mit dem alten Fehler grün.
+    const unterscheidbar = karten.filter(
+      k => ausIndex[k.titel].belege !== ausIndex[k.titel].woerter
+    );
+    expect(
+      unterscheidbar.length,
+      'Belegzahl und Wortzahl fallen auf jeder Karte zusammen, der Test kann den Fehler nicht sehen'
+    ).toBeGreaterThan(0);
+  });
+
+  test('die Kopfzeile summiert die Belege der Karten', async ({ page }) => {
+    await page.goto(`${PLAYGROUND}#multi-lemma&lemmata=${FORM}&ids=${ID_KOERPERTEIL}&mode=document`);
+    await playgroundBereit(page);
+    await expect(page.locator('#resultsContainer'))
+      .toContainText(`Multi-Lemma-Suche: ${FORM}`, { timeout: 90000 });
+
+    const zahlen = await page.locator('#resultsContainer .summary-count').allTextContents();
+    const summe = zahlen.reduce((s, t) => s + Number(t.trim()), 0);
+
+    // Ohne /i geht der Abgleich ins Leere: die Kopfzeile trägt `uppercase`,
+    // und innerText liefert den gerenderten Text, also „157 TREFFER · 40
+    // KONTEXTE".
+    const kopf = await page.locator('#resultsContainer').innerText();
+    const treffer = kopf.match(/(\d+) Treffer · (\d+) Kontexte/i);
+    expect(treffer, 'Kopfzeile mit Treffer- und Kontextzahl nicht gefunden').toBeTruthy();
+    expect(Number(treffer[1]), 'Treffer im Kopf gegen die Summe der Karten').toBe(summe);
+    expect(Number(treffer[2]), 'Kontexte im Kopf gegen die Zahl der Karten').toBe(zahlen.length);
+  });
+});
