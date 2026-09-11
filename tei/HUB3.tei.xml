@@ -130,6 +130,7 @@
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 3 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
+      <change when="2026-09-10" who="#editor">#363 Hausenblase: 14 Tokens der Konstruktion hûsenblâter (zusammen- und getrennt geschrieben) auf lemma_49714 hûsenblâter vereinheitlicht (lemmaRef/pos/ana/corresp; Mehrwort-Einheit nach TEI-MODEL.md §4.1a; editorische Entscheidung KZW in #363; Provenienz-Log: ingest/pos-disambig/363-hausenblase/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -1256,9 +1257,9 @@
           <w xml:id="HUB3_11080_8" lemmaRef="lexicon.xml#lemma_1136" pos="ADJ ADV" corresp="variants.xml#type_3556">dicke</w>
           <w xml:id="HUB3_11080_9" lemmaRef="lexicon.xml#lemma_26828" pos="NOM" ana="lexicon.xml#lemma_26828_sense_42713" corresp="variants.xml#type_130861">mandelmilich</w>
           <w xml:id="HUB3_11080_10" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_38749">vnd</w>
-          <w xml:id="HUB3_11080_11" lemmaRef="lexicon.xml#lemma_2730" pos="ADJ" corresp="variants.xml#type_272171">hawssen</w>
+          <w xml:id="HUB3_11080_11" lemmaRef="lexicon.xml#lemma_49714" pos="NOM" ana="lexicon.xml#lemma_49714_sense_78649" corresp="variants.xml#type_372369">hawssen</w>
           <lb n="9"/>
-          <w xml:id="HUB3_11090_0" lemmaRef="lexicon.xml#lemma_737" pos="NOM" corresp="variants.xml#type_106683">pleter</w>
+          <w xml:id="HUB3_11090_0" lemmaRef="lexicon.xml#lemma_49714" pos="NOM" ana="lexicon.xml#lemma_49714_sense_78649" corresp="variants.xml#type_372373">pleter</w>
           <w xml:id="HUB3_11090_1" lemmaRef="lexicon.xml#lemma_1093" pos="ADV" ana="lexicon.xml#lemma_1093_sense_1737" corresp="variants.xml#type_84233">darvnder</w>
           <pc xml:id="HUB3_11090_2" join="left">,</pc>
           <w xml:id="HUB3_11090_3">dy</w>
@@ -6320,8 +6321,8 @@
           <w xml:id="HUB3_71010_7" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
           <w xml:id="HUB3_71010_8" lemmaRef="lexicon.xml#lemma_8577" pos="PRO VRB" corresp="variants.xml#type_80081">muestu</w>
           <w xml:id="HUB3_71010_9">haben</w>
-          <w xml:id="HUB3_71010_10">hawsen</w>
-          <w xml:id="HUB3_71010_11" lemmaRef="lexicon.xml#lemma_737" pos="NOM" corresp="variants.xml#type_272472">plotter</w>
+          <w xml:id="HUB3_71010_10" lemmaRef="lexicon.xml#lemma_49714" pos="NOM" ana="lexicon.xml#lemma_49714_sense_78649" corresp="variants.xml#type_372368">hawsen</w>
+          <w xml:id="HUB3_71010_11" lemmaRef="lexicon.xml#lemma_49714" pos="NOM" ana="lexicon.xml#lemma_49714_sense_78649" corresp="variants.xml#type_272472">plotter</w>
           <w xml:id="HUB3_71010_12" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_38749">vnd</w>
           <lb n="2"/>
           <w xml:id="HUB3_71020_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
@@ -6354,8 +6355,8 @@
           <w xml:id="HUB3_71030_12">j</w>
           <w xml:id="HUB3_71030_13">lot</w>
           <lb n="4"/>
-          <w xml:id="HUB3_71040_0">hawsen</w>
-          <w xml:id="HUB3_71040_1" lemmaRef="lexicon.xml#lemma_737" pos="NOM" corresp="variants.xml#type_272473">ploter</w>
+          <w xml:id="HUB3_71040_0" lemmaRef="lexicon.xml#lemma_49714" pos="NOM" ana="lexicon.xml#lemma_49714_sense_78649" corresp="variants.xml#type_372368">hawsen</w>
+          <w xml:id="HUB3_71040_1" lemmaRef="lexicon.xml#lemma_49714" pos="NOM" ana="lexicon.xml#lemma_49714_sense_78649" corresp="variants.xml#type_272473">ploter</w>
           <pc xml:id="HUB3_71040_2" join="left">,</pc>
           <w xml:id="HUB3_71040_3" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3397">das</w>
           <w xml:id="HUB3_71040_4" lemmaRef="lexicon.xml#lemma_5280" pos="NOM ADJ ADV" ana="lexicon.xml#lemma_5280_sense_8229" corresp="variants.xml#type_31441">schon</w>
@@ -6802,8 +6803,8 @@
           <w xml:id="HUB3_77020_7" lemmaRef="lexicon.xml#lemma_4330" pos="VRB" corresp="variants.xml#type_44507">nym</w>
           <w xml:id="HUB3_77020_8" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4316">ain</w>
           <w xml:id="HUB3_77020_9">lot</w>
-          <w xml:id="HUB3_77020_10">hawsen</w>
-          <w xml:id="HUB3_77020_11" lemmaRef="lexicon.xml#lemma_734" pos="NOM" corresp="variants.xml#type_153734">plater</w>
+          <w xml:id="HUB3_77020_10" lemmaRef="lexicon.xml#lemma_49714" pos="NOM" ana="lexicon.xml#lemma_49714_sense_78649" corresp="variants.xml#type_372368">hawsen</w>
+          <w xml:id="HUB3_77020_11" lemmaRef="lexicon.xml#lemma_49714" pos="NOM" ana="lexicon.xml#lemma_49714_sense_78649" corresp="variants.xml#type_372371">plater</w>
           <w xml:id="HUB3_77020_12" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_38749">vnd</w>
           <w xml:id="HUB3_77020_13" lemmaRef="lexicon.xml#lemma_5454" pos="POS PRO" ana="lexicon.xml#lemma_5454_sense_8506" corresp="variants.xml#type_133384">sew</w>
           <lb n="3"/>
@@ -6851,9 +6852,9 @@
           <w xml:id="HUB3_77050_9" lemmaRef="lexicon.xml#lemma_4123" pos="NOM" ana="lexicon.xml#lemma_4123_sense_6476" corresp="variants.xml#type_98989">milich</w>
           <w xml:id="HUB3_77050_10">an</w>
           <w xml:id="HUB3_77050_11">dy</w>
-          <w xml:id="HUB3_77050_12">hawsen</w>
+          <w xml:id="HUB3_77050_12" lemmaRef="lexicon.xml#lemma_49714" pos="NOM" ana="lexicon.xml#lemma_49714_sense_78649" corresp="variants.xml#type_372368">hawsen</w>
           <lb n="6"/>
-          <w xml:id="HUB3_77060_0" lemmaRef="lexicon.xml#lemma_737" pos="NOM" corresp="variants.xml#type_106683">pleter</w>
+          <w xml:id="HUB3_77060_0" lemmaRef="lexicon.xml#lemma_49714" pos="NOM" ana="lexicon.xml#lemma_49714_sense_78649" corresp="variants.xml#type_372373">pleter</w>
           <w xml:id="HUB3_77060_1" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_38749">vnd</w>
           <w xml:id="HUB3_77060_2" lemmaRef="lexicon.xml#lemma_8649" pos="PRO VRB" corresp="variants.xml#type_272489">rürs</w>
           <w xml:id="HUB3_77060_3" lemmaRef="lexicon.xml#lemma_1258" pos="PRP" ana="lexicon.xml#lemma_1258_sense_1977" corresp="variants.xml#type_129223">dürch</w>
@@ -6993,8 +6994,8 @@
           <lb n="3"/>
           <w xml:id="HUB3_78030_0">j</w>
           <w xml:id="HUB3_78030_1">lot</w>
-          <w xml:id="HUB3_78030_2" lemmaRef="lexicon.xml#lemma_2934" pos="VRB" ana="lexicon.xml#lemma_2934_sense_4710" corresp="variants.xml#type_163436">hausen</w>
-          <w xml:id="HUB3_78030_3" lemmaRef="lexicon.xml#lemma_737" pos="NOM" corresp="variants.xml#type_272473">ploter</w>
+          <w xml:id="HUB3_78030_2" lemmaRef="lexicon.xml#lemma_49714" pos="NOM" ana="lexicon.xml#lemma_49714_sense_78649" corresp="variants.xml#type_372367">hausen</w>
+          <w xml:id="HUB3_78030_3" lemmaRef="lexicon.xml#lemma_49714" pos="NOM" ana="lexicon.xml#lemma_49714_sense_78649" corresp="variants.xml#type_272473">ploter</w>
           <w xml:id="HUB3_78030_4" lemmaRef="lexicon.xml#lemma_1095" pos="PRP" ana="lexicon.xml#lemma_1095_sense_1739" corresp="variants.xml#type_154792">darczue</w>
           <pc xml:id="HUB3_78030_5" join="left">.</pc>
           <w xml:id="HUB3_78030_6" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_38749">vnd</w>
@@ -7060,8 +7061,8 @@
           <w xml:id="HUB3_79020_4" lemmaRef="lexicon.xml#lemma_5458" pos="VRB" ana="lexicon.xml#lemma_5458_sense_8511" corresp="variants.xml#type_269220">sewd</w>
           <w xml:id="HUB3_79020_5" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4316">ain</w>
           <w xml:id="HUB3_79020_6">lot</w>
-          <w xml:id="HUB3_79020_7">hawsen</w>
-          <w xml:id="HUB3_79020_8" lemmaRef="lexicon.xml#lemma_737" pos="NOM" corresp="variants.xml#type_272473">ploter</w>
+          <w xml:id="HUB3_79020_7" lemmaRef="lexicon.xml#lemma_49714" pos="NOM" ana="lexicon.xml#lemma_49714_sense_78649" corresp="variants.xml#type_372368">hawsen</w>
+          <w xml:id="HUB3_79020_8" lemmaRef="lexicon.xml#lemma_49714" pos="NOM" ana="lexicon.xml#lemma_49714_sense_78649" corresp="variants.xml#type_272473">ploter</w>
           <w xml:id="HUB3_79020_9" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_38749">vnd</w>
           <w xml:id="HUB3_79020_10" lemmaRef="lexicon.xml#lemma_4330" pos="VRB" corresp="variants.xml#type_44507">nym</w>
           <w xml:id="HUB3_79020_11" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3397">das</w>

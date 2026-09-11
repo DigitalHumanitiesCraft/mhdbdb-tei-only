@@ -16,8 +16,8 @@ Counterpart to `docs/TEI-MODEL.md` (corpus files).
 
 | File | Content | Entries | Size |
 |-------|--------|-----------|---------|
-| `lexicon.xml` | Lemmata with senses, POS, etymology | 43,879 | 33 MB |
-| `variants.xml` | Orthographic variants per lemma | 42,627 variant entries, 256,762 forms | 16 MB |
+| `lexicon.xml` | Lemmata with senses, POS, etymology | 43,878 | 33 MB |
+| `variants.xml` | Orthographic variants per lemma | 42,626 variant entries, 256,772 forms | 16 MB |
 | `persons.xml` | Authors/persons with authority data | 211 | 74 KB |
 | `works.xml` | Works with bibliography and genre | 584 | 1.4 MB |
 | `contributors.xml` | MHDBDB contributors (founders, coordination, editors) | 52 persons + 2 orgs | 15 KB |
@@ -52,7 +52,7 @@ Important for day-to-day operation (see [INDEX.md → Current Phase](INDEX.md#cu
 | `names.xml` | RDF→CSV→TEI snapshot | maintained by hand in-repo, decoupled from the corpus | low (0 corpus coupling) |
 | `contributors.xml` | born-digital (2026-04) | **maintained by hand** (no generator) | none |
 
-**Overall pattern:** all files are RDF-derived migration snapshots (2025-07-22), maintained **in-repo** since the migration: there is no external master left and no re-export source. Only `variants.xml` is corpus-derived and regenerable. `lexicon.xml` is repo master AND index of the corpus annotation: if a corpus `<w>` carries a `@lemmaRef`/`@ana` that is missing from lexicon.xml, the corpus leads and lexicon.xml has to be brought in line (see [CONTRACTS.md → Authority Source Rules](CONTRACTS.md#f-authority-source-rules)). New **sense meanings** are curatorial (the team assigns the concept), not automatically reconstructible from the corpus. `lexicon.xml` and `variants.xml` were stale until 2026-05; `variants.xml` has been regenerated (most recently 256,762 forms, 2026-09-06 with #216), `lexicon.xml` still has 396 ingest-caused dangling refs after the category A stub backfill (2026-07-02) (109 IDs, curatorial remainder B/C open, #115; cause in §6.1). The `_archived` generators write pre-#32 attributes (`@wordRef`/`@meaningRef`) on the corpus side and must never be run against the current corpus unchecked.
+**Overall pattern:** all files are RDF-derived migration snapshots (2025-07-22), maintained **in-repo** since the migration: there is no external master left and no re-export source. Only `variants.xml` is corpus-derived and regenerable. `lexicon.xml` is repo master AND index of the corpus annotation: if a corpus `<w>` carries a `@lemmaRef`/`@ana` that is missing from lexicon.xml, the corpus leads and lexicon.xml has to be brought in line (see [CONTRACTS.md → Authority Source Rules](CONTRACTS.md#f-authority-source-rules)). New **sense meanings** are curatorial (the team assigns the concept), not automatically reconstructible from the corpus. `lexicon.xml` and `variants.xml` were stale until 2026-05; `variants.xml` has been regenerated (most recently 256,772 forms, 2026-09-10 with #363), `lexicon.xml` still has 396 ingest-caused dangling refs after the category A stub backfill (2026-07-02) (109 IDs, curatorial remainder B/C open, #115; cause in §6.1). The `_archived` generators write pre-#32 attributes (`@wordRef`/`@meaningRef`) on the corpus side and must never be run against the current corpus unchecked.
 
 ---
 
@@ -216,7 +216,7 @@ The RDF migration brought classification only (POS, concept pointers, compound c
 
 **Order (RELAX NG, sequence without interleave):** inside `<entry>`, `<etym type="morphological">` comes before `<etym type="borrowing">`; inside `<sense>`, `<def>` comes before `<note type="comment">` before the `<ptr>` elements. Appending generation (`SubElement`, as in `scripts/ingest/wzb/wzb-add-lemma.py`) gets this right by itself; inserting by hand otherwise yields a stage-2 error whose message does not name the cause.
 
-**Index mapping:** `lemma.origin = {languages[{name, code}], attribution?, resp?}` plus `sense.definition` / `sense.comment` (and `definitionResp` / `commentResp`), each only where present in the lexicon: 43,879 lemmata with empty fields would inflate index and API for no gain. Authority index from v1.7.0 on.
+**Index mapping:** `lemma.origin = {languages[{name, code}], attribution?, resp?}` plus `sense.definition` / `sense.comment` (and `definitionResp` / `commentResp`), each only where present in the lexicon: 43,878 lemmata with empty fields would inflate index and API for no gain. Authority index from v1.7.0 on.
 
 **Current state:** 1 entry (`lemma_37818` Abba, 2026-07-30). The rest follows via #28 phase 2/3.
 

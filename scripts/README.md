@@ -24,6 +24,7 @@ scripts/
 ├── insert-lg-stanzas-138.py     # <lg type="stanza"> in HUG-Lieder einfügen (#138)
 ├── remove-stanza-numerals-138.py # Strophenziffern aus dem Verstext entfernen (#138)
 ├── insert-div-chapters-358.py   # Willehalm-Dreißiger: `<pb n>` zu `<div type="chapter" n>` (#358)
+├── migrate-caesura-to-gap-252.py # Ueberlieferungsluecken von '( caesura )' auf <gap/> (#252)
 │
 ├── ingest/                      # Korpus-Ingest je Vorhaben
 │   ├── ari/                     # ARITHMETIC, 6 Rechenbuch-Handschriften (#92)
@@ -50,7 +51,7 @@ scripts/
 │   ├── check-index-versions.py  # Index-Versions-Konstanten konsistent
 │   ├── check-lexicon-senses.py  # jeder <entry> in lexicon.xml hat mindestens einen <sense>
 │   ├── check-naming-index.py    # naming-index: Provenienz + Sigle-Existenz (#152)
-│   ├── check-no-cdn.py          # keine externen <script src> in committeten Seiten
+│   ├── check-no-cdn.py          # keine externen <script src> und <link href> in committeten Seiten
 │   ├── check-no-em-dash.py      # keine Em-Dashes in HTML/JS/CSS und in jeder .md; Markdown nur im Diff (#292)
 │   ├── check-release-version.py # Release-Version gegen CITATION.cff und .zenodo.json
 │   ├── classify-lexicon-backfill.py # Backfill-Lücken in lexicon.xml klassifizieren (#115)

@@ -96,7 +96,7 @@ Breves on the remaining base characters stay untouched: 23 further WZB tokens (y
 | `person_1332` Wachsmut von Mühlhausen | `wachsmut von mühlhausen` | `wachsmut von muehlhausen` |
 | `work_435` Lyrik von Hugo von Mühldorf | `lyrik von hugo von mühldorf` | `lyrik von hugo von muehldorf` |
 
-All three were unfindable through normalized search. All 43,879 lemma normalizations and all 234,244 variant mappings remain unchanged. Hence Authority Index v1.6.2. **234,244 is the state of v1.6.2, not today's** (today 234,243, see §C): with the HUG stanza numerals, #138 also removed the type `type_195524` „cxlvix", attested only there, measured against the blob before `87b6dc941`. The difference of one is therefore a real data step and not a typo in either line (#277).
+All three were unfindable through normalized search. All 43,879 lemma normalizations and all 234,244 variant mappings remain unchanged. Hence Authority Index v1.6.2. **234,244 is the state of v1.6.2, not today's** (today 234,245, see §C): with the HUG stanza numerals, #138 also removed the type `type_195524` „cxlvix", attested only there, measured against the blob before `87b6dc941`. The difference of one is therefore a real data step and not a typo in either line (#277).
 
 **Not affected:** the corpus index stores lemma ids and positions, not normalized text forms; `build-corpus-index.py` does import `normalize_mhg` but never calls it. For the corpus text itself the checkable statement is sharper than the sample originally noted here: **there is not a single combining diaeresis and no combining tilde inside `<w>` anywhere in the corpus.** The 1,339 diaereses in 566 of the 667 files all sit outside the annotated tokens, mostly in the `<note>` bibliography prose of the teiHeader (places of publication such as Tübingen, Zürich). Inside `<w>` there are 774 combining marks in total, of which 752 are WZB breves and 22 are exotics: 11 dot below, 8 macron, 3 U+035B (the abbreviation zigzag in `cetera͛`, `her͛re`).
 
@@ -186,6 +186,39 @@ Three further latent drifts of the same class ("0 corpus cases today, armed by t
 3. **Proximity-context enrichment (`playground/js/ui/core/ui-helpers.js`, `enrichFileResults`):** the fourth counting path mapped index positions back onto DOM words without the empty-`<w>` guard from #131 – one empty `<w lemmaRef/>` would shift every context window behind it. Now guarded identically.
 
 All three (plus the consumer rule above) are pinned by `testing/tests/position-parity.spec.js` with the fixture `position-parity-170.tei.xml`.
+
+### Parity note – multi-word lemma units (#425)
+
+**A lemma can span several consecutive `<w>`.** All of them carry the same `@lemmaRef` and the same `@ana`, each keeps its own `@pos` and its own `@corresp`. From `tei/ER.tei.xml`:
+
+```xml
+<w xml:id="ER_800200_1" lemmaRef="…#lemma_3141" pos="NAM" ana="…#lemma_3141_sense_4974" corresp="…#type_30845">joie</w>
+<w xml:id="ER_800200_2" lemmaRef="…#lemma_3141" pos="PRP" ana="…#lemma_3141_sense_4974" corresp="…#type_10786">de</w>
+<w xml:id="ER_800200_3" lemmaRef="…#lemma_3141" pos="ART" ana="…#lemma_3141_sense_4974" corresp="…#type_30862">la</w>
+<w xml:id="ER_800200_4" lemmaRef="…#lemma_3141" pos="NAM" ana="…#lemma_3141_sense_4974" corresp="…#type_371959">curt</w>
+```
+
+`lemma_3141` is *Joie de la Court*. The same holds for `lemma_9250` *Schastel Marveile*, `lemma_9251` *Lît Marveile*, `lemma_20598` *Dolorose Garte* and, since #363, `lemma_49714` *hûsenblâter*, which is a common noun and not a name.
+
+**Consequence for the six rules above: none.** They count `<w>`, and each of these is a `<w>`. Nothing special happens at build or render time.
+
+**Consequence for anyone reading a lemma's token count: the token count is not the number of mentions.** Measured on 2026-09-10 for `lemma_9250`:
+
+```
+places with 2 tokens   14
+places with 1 token     2   (LGR schahtelmarveil, RVBR schahtelmarveile)
+tokens in total        30   for 16 mentions
+```
+
+So a frequency list, a keyness value or a lemma distribution overstates these lemmata by up to a factor of two. That is not a defect of the counting: the contract counts tokens, and there really are 30 of them. It is a defect of any reading that equates the two.
+
+**How to find them.** A compound lemma (an `<etym type="morphological">` with at least two `<seg type="component">`) whose attested form equals one of its components exactly. Measured over `variants.xml` on 2026-09-10: of **67,913** attested forms at compound lemmata, **8** are a bare component. Six of those eight rows belong to the four proper names among the five listed above, `lemma_3141` contributing three of them (*joie*, *de*, *la*); the other two, `lemma_119` *ein* and `lemma_51511` *wegen*, are not multi-word units. It is a candidate list to be read, not a finder, and it is a lower bound twice over: a unit without a morphological decomposition in `lexicon.xml` does not show up, and neither does one whose attested spelling has drifted away from the component form, which in a Middle High German corpus is the normal case. `lemma_49714` is the proof of the second hole: its components are *hûse* and *blâtere*, its attested forms are *hausen*, *hawsen*, *blater*, *pleter* and so on, and not one of them is string-equal to a component, so this search does not find it at all. The reliable way is the one #363 took: search the corpus for the spelling, not the lexicon for the component. (After #363 the same measurement reads 67,927 forms and the same 8 rows.)
+
+(This paragraph said **16** from #425 until 2026-09-10. The figure was not reproducible under any reading of its own criterion; 67,913 was and is correct.)
+
+The same lemma can carry both spellings, and one text can carry both by itself: `lemma_9250` appears as two tokens in `CRO`, `JT`, `MNB`, `PZ` and `RVBR` and as one token in `LGR` and `RVBR`. `lemma_49714` likewise appears as two tokens thirteen times, in eleven recipes, and as one token in six. Nor are the tokens of a unit necessarily siblings: `RVBR_8923_1` stands inside a `<hi>`, `RVBR_8923_2` does not, so "consecutive" means document order and an XPath on `l/w` misses the pair.
+
+**Why this note exists.** In #363 a session claimed twice on one day that a multi-word unit would be "the first in the corpus" and argued against the philologically correct assignment on that basis. Both times a look at `variants.xml` would have settled it. The practice is years old and was documented nowhere.
 
 ### Example
 
@@ -332,8 +365,8 @@ User types: **brott**
 ### Variant Dictionary Structure
 
 - Flat map: `{ normalized_variant_form: lemma_id }`
-- 234,243 normalized entries (as of 2026-09-06; 256,762 raw forms in variants.xml, deduped first-occurrence-wins), extracted from `authority-files/variants.xml`
-- **Two numbers that have to stay different:** 256,762 is the count of raw forms in `variants.xml`, 234,243 the count of mappings in the runtime dictionary after deduplication. Whoever writes "variants dictionary" means the smaller one. Whoever reads 234,244 is reading the state before #138 (§A, step 0)
+- 234,245 normalized entries (as of 2026-09-10; 256,772 raw forms in variants.xml, deduped first-occurrence-wins), extracted from `authority-files/variants.xml`
+- **Two numbers that have to stay different:** 256,772 is the count of raw forms in `variants.xml`, 234,245 the count of mappings in the runtime dictionary after deduplication. Whoever writes "variants dictionary" means the smaller one. Whoever reads 234,244 is reading the state before #138 (§A, step 0)
 - **First occurrence wins** – if two lemmata claim the same variant form, only the first one stored (source: `parse_variants()` in `build-authority-index.py`, the `if normalized_variant not in variants` guard). Line anchors drift; look the function up by name
 - Keys are **normalized** forms (lowercase + MHG character mapping applied before storage)
 

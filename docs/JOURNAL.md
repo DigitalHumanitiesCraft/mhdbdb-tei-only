@@ -1732,22 +1732,123 @@ Befund steht als Kommentar an #198.
 
 ---
 
-## 2026-09-09 – #198 Schritt 2 nachgezogen: die philologische Entscheidung war eine Messfrage
+## 2026-09-10/11 (Nachtsitzung) – Ein gemeldetes Token waren neunzehn Belege, und die Versionsnummer war schon vergeben
 
-**Summary:** Schritt 2 von #198 ist auf `main` nachgezogen. Das `<pos>NOM</pos>` ist aus `lemma_2598` *haben* entfernt, die drei seit PR #205 zurückgehaltenen NOM-Tokens sind entschieden, und der Sense-Split, der hier seit Juli als die eine offene philologische Frage stand, findet nicht statt. Korpus-Index 4.2.14, Authority-Index 1.9.4. Die inhaltliche Arbeit ist Julias Commit `a1089cb6c` vom 21.08.2026, der 19 Tage ohne PR auf `origin/claude/235-315-wzb-tokens-lead-editor` lag; die Paragraphen unten stehen unverändert aus jenem Commit, weil die Messung, die sie tragen, unverändert gilt.
+Drei freigegebene Vorgänge, zwei PRs, gemergt: **#427** (Escaping der
+Ergebnisköpfe im Playground), **#425** (Mehrwort-Lemmata dokumentiert) in PR
+#428, **#363** (Hausenblase) in PR #429.
 
-**Die Frage war seit Juli als kuratorisch etikettiert und ließ sich messen.** „Welche der acht `<sense>` von *haben* sind nominal und gehören zu *habe*" klingt nach einer Lesart-Entscheidung. Schlüsselt man aber jeden Sense nach den `@pos` seiner Korpusbelege auf, ist die Antwort eindeutig: alle acht sind ausschließlich verbal belegt (5.129 / 1.963 / 303 / 217 / 130 / 75 / 11 Tokens, einer unbelegt). Der einzige NOM-Beleg im ganzen Feld war einer der drei Restfälle, und der ist verbal. Es gibt damit keinen Sense, der umziehen müsste. Der naheliegende Einwand erledigt sich beim Nachsehen mit: `sense_4170` trägt zwar dieselben Konzepte wie `lemma_2593_sense_4159` (*Objektbezogene Aktivität*, *Besitz*), aber das ist erwartbar und kein Fehler, weil das Verb ausdrückt, was das Nomen benennt. Konzeptgleichheit zwischen Verb und Verbalabstraktum ist kein Verschiebungsgrund.
+**Der Vorgang war sechsmal so groß wie seine Meldung.** #363 meldete ein Token,
+`hawssen` in MBS5 am Adjektiv *heiʒ*. Die Suche nach den Schreibformen statt nach
+der gemeldeten ID findet **19 Belege in 7 Sigeln, 32 Tokens**, und alle sieben
+Sigel sind Kochbücher. Von den 19 waren 5 richtig; die übrigen 14 hingen an
+sieben Lemmata, darunter das Verb *hûsen* „wohnen", der *hase* und die
+Mönchstonsur. Sieben Tokens trugen gar kein `@lemmaRef`. Die Bestätigung stand im
+eigenen Korpus: KBL4 schreibt „ovch ist die **husen blater** vnd all **fisch
+blatra** guot in sulcza", eine Apposition, keine Auslegung.
 
-**Die Reihenfolge ist nicht beliebig, und sie ist der eigentliche Inhalt des Schrittes.** Solange ein `<w>` unter `lemma_2598` ein `NOM` trägt, widerspräche ein Lexikon ohne `<pos>NOM</pos>` dem Korpus. Erst die drei Fälle, dann die eine Zeile: `AC3_23010_1` („hawe vnd schaufel", Gerätepaar als Satzsubjekt) auf `lemma_9644` *houwe*, `DA_8222_3` („daz er dehein habe gesehen / diu bezzer waere") auf `lemma_2593`, weil `dehein habe` eine saubere NP ist und das feminine `diu` mit *habe* kongruiert, `JT_6192000_1` verbal, weil Konjunktiv mit Akkusativobjekt. Gegenprobe danach: null NOM-Tokens unter dem Lemma.
+**Zweimal habe ich in diesem Vorgang behauptet, eine Mehrwort-Einheit wäre „die
+erste im Korpus", und damit gegen die philologisch richtige Zuordnung
+argumentiert.** Beide Male falsch, und beide Male hätte ein Blick in
+`variants.xml` gereicht: das Muster gibt es seit Jahren an `lemma_3141` *Joie de
+la Court*, `lemma_9250` *Schastel Marveile*, `lemma_9251` und `lemma_20598`, und
+`Schastel Marveile` trägt sogar dieselbe Doppelung aus getrennter und
+zusammengeschriebener Schreibung wie dieser Fall. Dokumentiert war es nirgends,
+was genau der Grund ist, warum es zweimal übersehen werden konnte. Daraus wurde
+#425, und `TEI-MODEL.md` §4.1a hält seit #363 auch fest, dass die Klasse nicht
+auf Eigennamen beschränkt ist.
 
-**Das entfernte `@ana` war der stillere Teil der Aufgabe.** PR #205 hatte den 25 umgehängten Tokens ihr `@ana` genommen und ausdrücklich für diesen Schritt aufgehoben. Ohne die Nacharbeit stünden 26 von 101 `lemma_2593`-Tokens ohne Sense, also schlechter als vor #205. Die alten Werte taugten dabei nicht als Vorlage, sie waren Teil des Fehlers: 24 der 25 zeigten auf den Hilfsverb-Sense mit den Konzepten *Zeit* und *Funktionswörter*. Gesetzt sind jetzt 25 auf `sense_4159` (Besitz, durchweg Bibelprosa vom Typ „alle seine habe vnd sein vich") und einer auf den einzigen Sense von `lemma_9644`. Drei bleiben bewusst leer, darunter `TKA_950041520_4` („von einer gar bosen habe", der Mord an Wenzel III.), das eine Handlungsweise meint, die kein Sense des Lemmas abdeckt. Lieber leer als falsch zugewiesen.
+**Die Typ-Entscheidung ist der technische Kern und war beinahe ein Datenschaden.**
+Ein `type_N` ist eine Schreibform *eines* Lemmas, und `extract-variants.py` löst
+ein mehrdeutiges Paar per Mehrheit auf. Wer den Bestands-Typ mitnimmt, nimmt
+fremde Tokens mit: `type_106683` *pleter* trägt 45 Tokens, 43 davon bleiben bei
+`lemma_737` *blat*. Das Skript entscheidet deshalb je Form am gescannten Korpus,
+5 umgehängt und 10 neu geprägt, und `extract-variants` bestätigt es von der
+anderen Seite mit **0 Typen an mehr als einem Lemma**.
 
-**Der sichtbare Ertrag ist ein einziger Eintrag von 43.879.** `lemma_2598` geht von `pos: "NOM"` / `posAll: [NOM, VEX, VRB]` auf `pos: "VEX"` / `posAll: [VEX, VRB]`. Genau das war der Befund im Ticket-Body von 2026-07-09: die Lemma-Seite führte für ein Verb ein Nomen als primäre Wortart. `variants.xml` bleibt unverändert, alle vier semantischen Zähler von `extract-variants.py` stehen auf 0.
+**Der teure Fehler war ein anderer: die Versionsnummer war schon vergeben.** #363
+ist mit Korpus 4.2.14 und Authority 1.9.4 gemergt worden, während der offene PR
+#416 genau diese beiden Nummern seit seinem Rebase vom 09.09. trug. Kosten, mit
+`git merge-tree` gemessen: acht Konfliktdateien in Julias PR, allesamt
+abgeleitete Schicht plus Versionsliterale, dazu Umnummerierung und ein
+vollständiger Rebuild auf fremdem Branch. Die Quelldaten mischen sich sauber.
+**Kein Gate deckt das ab, und beide waren auf beiden Seiten grün:**
+`check-index-versions.py` prüft Konsistenz *innerhalb* eines Arbeitsstands, das
+#154-Bump-Gate nur, *dass* gebumpt wurde. Regel steht jetzt im
+Data-Change-Lifecycle, Befund als Kommentar an #416.
 
-**Eine bewusste Nebenwirkung, die sich selbst zurücknimmt.** `AC3_23010_1` behält sein `@corresp` auf `type_117159` *hawe*, obwohl dieser Typ unter `lemma_2598` geführt wird: die Form IST *hawe*, und eine zweite type-id für dieselbe Oberfläche wäre ein Duplikat. `extract-variants.py` löst jede type-id per Mehrheit auf, meldet den Fall seither als den einen `type ids with >1 lemma` (12-mal `lemma_2598`, einmal `lemma_9644`) und kippt von selbst, sobald das *houwen*-Folgeticket die zwölf umhängt.
+**Die zweite Lehre ist eine über Zahlen an ausgelieferten Seiten.** Eine
+Lemma-Löschung verschiebt vier Zähler, und die stehen an 36 Stellen in 15
+Dateien, einschließlich des Stats-Blocks der Startseite. `doc-count-audit.py`
+läuft nur in `validate` und steht nicht in der Schrittfolge des Lifecycles, ist
+also erst in der CI rot geworden. Danach hat der Review-Bot zweimal nachgesetzt,
+und beide Male am selben Muster: meine Gate-Erweiterung war für zwei von drei
+Dateien wirkungslos, weil der Anker `Lemmata` „Lexikoneinträge" nicht trifft, und
+nach dem Ankerfix meldete eine Datei Abdeckung, ohne zu prüfen, weil „rund" vor
+einer exakten Zahl den Rundungs-Skip auslöst. **Ein Target, das Abdeckung meldet
+und schweigt, ist schlechter als eines, das fehlt.** Jede der drei Bindungen ist
+jetzt mit eigener Mutationsprobe belegt.
 
-**Das Nachziehen war der teure Teil, und der Grund ist die Nummernvergabe.** Zwischen dem 21.08. und heute liegen 65 Commits auf `main`. Der Commit trug Korpus-Index 4.2.3 und Authority-Index 1.9.1. Beide Nummern sind seither an andere Arbeit vergeben, 4.2.3 an die `stat`-Serie (#369), 1.9.1 an deren Nachlauf. Ein textueller Merge hätte zwei Changelog-Ketten ineinandergeschoben; richtig ist das Anhängen als 4.2.14 und 1.9.4. Die 24 `@ana`-Setzungen in der WZB kollidierten zusätzlich mit #370, das seit dem 21.08. 46.890 WZB-Tokens mit `@corresp` versehen hat: aufgelöst wurde zeilenweise als `main` **plus** dem `@ana` des Commits, nicht durch Übernahme einer der beiden Seiten. Die beiden Patch-Skripte des Commits sind bewusst nicht erneut gelaufen: sie prüfen die Altwerte vor dem Schreiben, sind nicht idempotent, und die Altwerte haben sich unter ihnen geändert.
+**Scorecard Doku-Check 2026-09-11** (Trigger: drei PRs an `docs/`). Flow der
+geänderten Abschnitte gelesen, drei Algorithmen gegen den Code (Positionszählung
+gegen `extract_word_data`, Drei-Stufen-Auflösung gegen `resolveLemmaIds` plus
+`lemma-resolve.js`, Auto-Match gegen `wzb-auto-match.py`): alle drei
+deckungsgleich. Vier XPaths der Build Script XPath Reference gegen
+`build-authority-index.py`, samt relativer Achsen: exakt. Alle Zähl-Gates grün.
+**Drei Befunde, behoben:** `POS-TAGSET.md` sagte als einzige Quelle der Wahrheit
+für `@pos` nichts zu Mehrwort-Einheiten, obwohl #363 dort 32 Tags vergeben hat
+(neuer §7: `@pos` bleibt Eigenschaft des Tokens, *Joie de la Court* liest
+`NAM PRP ART NAM`); die Glosse zu *hûsenblâter* warf die Blase mit dem daraus
+gewonnenen isinglass zusammen; „the four names above" stand hinter einer Liste
+von fünf. **Ein Befund offen, weil er eine Entscheidung braucht:**
+`scripts/README.md` sagt, ein issue-gebundenes Einmal-Skript wandere nach
+`_archived/`, sobald sein Issue geschlossen ist, die Praxis in
+`scripts/ingest/pos-disambig/` tut das nicht (`fix-367-waeren.py` liegt dort bei
+geschlossenem #367, und `fix-363-hausenblase.py` jetzt ebenso). Entweder die
+Regel gilt dort auch, oder sie ist auf die Wurzel einzugrenzen: als #430
+abgelegt, weil zwei nebeneinanderstehende Fassungen jede Session neu entscheiden
+lassen.
 
-**Die Lehre ist keine über Rebases, sondern eine über Zustellung.** Die Entscheidung war am 21.08. gefallen und gemessen; sie hat trotzdem 19 Tage lang nichts bewirkt, weil kein PR existierte, und #198 las sich in dieser Zeit weiter als eine offene Frage an Julia. Ein Commit ohne PR ist in diesem Repository kein Zwischenstand, sondern unsichtbar.
+**Phase:** Betrieb. Offen und auf Menschen wartend: #416 (zwei Antworten, dazu
+die Versionskollision), #252, #366 (jetzt acht Formen statt sieben, weil
+`KDO_121170100_3` erledigt ist und die beiden `hawsen`-Belege aus #363
+zurückkamen: sie sind der Fisch, nicht die Blase), #410, #419.
 
-**Phase:** Betrieb. 310 Tests grün gegen den rebasten Stand (0 unexpected, 0 flaky, 0 skipped), also dieselbe Zahl wie am 21.08. gegen die alte Basis. Die Gates aus `data-integrity.yml` lokal durchgelaufen: Index-Versionen konsistent an allen vier Stellen, Bump-Gate OK, Budget bei 84 Prozent, Werk-Identifier 667/667, Authority-Cross-Refs samt #370-Ratsche ohne Sigle über Baseline, Varianten-Freshness mit null Änderungen und die Korpus-Validierung bei 645/675 mit den 30 bekannten Stage-1-Fällen.
+## 2026-09-11 – #198 Schritt 2 zugestellt: die Entscheidung war eine Messfrage, das Problem war die Zustellung
+
+**Summary:** Schritt 2 von #198 ist auf `main`. Das `<pos>NOM</pos>` ist aus `lemma_2598` *haben* entfernt, die drei seit PR #205 zurueckgehaltenen NOM-Tokens sind entschieden, und der Sense-Split, der hier seit Juli als die eine offene philologische Frage stand, findet nicht statt. Korpus-Index 4.2.15, Authority-Index 1.9.5. Die inhaltliche Arbeit ist Julias Commit `a1089cb6c` vom 21.08.2026; die Messungen unten sind am 11.09. gegen den gemergten Stand neu gerechnet, drei Zahlen haben dabei nicht gehalten.
+
+**Die Frage war seit Juli als kuratorisch etikettiert und liess sich messen.** „Welche der acht `<sense>` von *haben* sind nominal und gehoeren zu *habe*" klingt nach einer Lesart-Entscheidung. Schluesselt man jeden Sense nach den `@pos` seiner Korpusbelege auf, ist die Antwort eindeutig: alle acht sind ausschliesslich verbal belegt. Es gibt damit keinen Sense, der umziehen muesste.
+
+**Die Reihenfolge ist der eigentliche Inhalt des Schrittes.** Solange ein `<w>` unter `lemma_2598` ein `NOM` traegt, widerspraeche ein Lexikon ohne `<pos>NOM</pos>` dem Korpus. Erst die drei Faelle, dann die eine Zeile: `AC3_23010_1` („hawe vnd schaufel", Geraetepaar als Satzsubjekt) auf `lemma_9644` *houwe*, `DA_8222_3` („daz er dehein habe gesehen / diu bezzer waere") auf `lemma_2593`, weil `dehein habe` eine saubere NP ist und das feminine `diu` mit *habe* kongruiert, `JT_6192000_1` verbal wegen Konjunktiv mit Akkusativobjekt. Gegenprobe danach: null NOM-Tokens unter dem Lemma.
+
+### Drei Zahlen aus dem urspruenglichen Text haben der Nachmessung nicht standgehalten
+
+Keine davon aendert das Ergebnis, alle drei sind nach der Hausregel „jede Zahl ist gemessen oder sie steht nicht drin" zu korrigieren.
+
+- **„26 von 101" waren 28 von 101.** Ohne die `@ana`-Nacharbeit stuenden 28 der 101 `lemma_2593`-Tokens ohne Sense. Die 26 zaehlt nur die von #198 betroffenen Tokens, der Nenner ist die volle Menge. Gemessen: auf `main` 27 von 100 ohne `@ana`, mit diesem Schritt 3 von 101.
+- **„dieselben Konzepte" ist eine Obermenge.** `lemma_2598_sense_4170` traegt `concept_21072000`, `concept_23308000` und `concept_31200000`, `lemma_2593_sense_4159` nur die ersten beiden. Das dritte Konzept ist genau das, was die Senses unterscheidet. Am Schluss aendert das nichts, es stuetzt ihn eher.
+- **„ein Eintrag von 43.879" sind 43.878.** Seit #363 ist `lemma_27031` *hasenblâse* geloescht.
+
+### Und eine Annahme, die KZWs Entscheidung widerlegt hat
+
+Der urspruengliche Text sagte, der Typ-Id-Konflikt „kippt von selbst, sobald das *houwen*-Folgeticket die zwoelf umhaengt". Das trifft nicht zu. `AC3_23010_1` behaelt sein `@corresp` auf `type_117159`, der Typ haengt damit an zwei Lemmata (12 mal `lemma_2598`, einmal `lemma_9644`), und das ist der erste Injektivitaetsverstoss im Korpus: auf `main` galt die Eindeutigkeit bei 256.762 von 256.762 Typ-Ids ausnahmslos.
+
+KZW hat die dreizehn Belege am 11.09. in #418 einzeln entschieden, und sie wandern **nicht** geschlossen: sieben zum Verb `lemma_2923` *houwen*, vier auf den bestehenden Sense von `lemma_9644`, zwei auf einen neuen Sense „Schlag" desselben Lemmas. Ob `type_117159` danach noch mehrdeutig ist, ist damit eine Folge dieser Zuordnung und keine Selbstverstaendlichkeit. Es wird nach der Umsetzung von #418 gemessen und dort festgehalten, nicht vorher behauptet.
+
+### Ein Zeilenende haette 236.000 Scheinaenderungen ins Korpus getragen
+
+Beim Nachtragen der vier `revisionDesc`-Eintraege hat mein eigenes Skript `tei/WZB.tei.xml` im Textmodus gelesen und geschrieben. Die Datei ist die **einzige** im Korpus mit CRLF, und der Schreibvorgang hat daraus stillschweigend LF gemacht: 235.980 Zeilen geaendert, in einem einzigen Hunk ueber die ganze Datei.
+
+Aufgefallen ist es nur an `git diff --stat`, das fuer WZB 471.961 Zeilen meldete, wo 25 zu erwarten waren. **Kein Gate und kein Test haette das gefangen:** die XML ist aequivalent, der Index baut byte-identisch aus beiden Fassungen (nachgemessen), und `.gitattributes` setzt fuer `*.xml` ausdruecklich `-text`, git normalisiert also bewusst nicht und meldet auch nichts. Die Datei traegt ausserdem 17 Zeilen, die schon vorher LF hatten, eine pauschale Rueckumwandlung waere also ebenfalls falsch gewesen; rekonstruiert wurde zeilenweise aus den Bytes von `main`.
+
+Die Lehre ist keine ueber Zeilenenden, sondern eine ueber Werkzeuge: wer eine Korpusdatei mit einem Texteditor-Skript anfasst, aendert mehr als die Zeile, die er meint. Fuer Eingriffe in `tei/` gilt Binaermodus oder `newline=''`, und die Gegenprobe ist die Zeilenzahl im Diff, nicht der Augenschein.
+
+### Die Nummernkollision, zum zweiten Mal in zwei Tagen
+
+Der Commit trug urspruenglich Korpus-Index 4.2.3 und Authority 1.9.1, nach dem Rebase vom 09.09. dann 4.2.14 und 1.9.4. Genau diese beiden Nummern hat in der Nacht auf den 11.09. der #363-Merge vergeben, waehrend dieser PR offen lag. Aufgeloest als 4.2.15 und 1.9.5, die abgeleitete Schicht neu gebaut statt zeilenweise gemerged.
+
+Das Gate `check-index-versions.py` hat dabei einen Fehler von mir gefangen, den ich sonst gepusht haette: `corpus-loader.js` fuehrt die Authority-Version in einer **zweiten** Zeile, und ich hatte nur die Korpus-Version hochgezogen. Das ist der Nutzen dieses Gates in einem Satz.
+
+**Die Lehre ist keine ueber Rebases, sondern eine ueber Zustellung.** Die Entscheidung war am 21.08. gefallen und gemessen; sie hat trotzdem 21 Tage lang nichts bewirkt, weil kein PR existierte, und #198 las sich in dieser Zeit weiter als eine offene Frage an Julia. Ein Commit ohne PR ist in diesem Repositorium kein Zwischenstand, sondern unsichtbar.
+

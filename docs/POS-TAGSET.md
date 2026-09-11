@@ -169,8 +169,17 @@ Why that order: K1 to K3 are context-free and shrink the problem space measurabl
 
 No pilot run, no corpus change, no token campaign within #27 (scope decision by chsteiner on 2026-07-03). This policy is the template from which future campaign issues (one per class) are set up. #18 (data migration) depends on K1 to K3.
 
+## 7. `@pos` inside a multi-word lemma unit
+
+A lemma can span several consecutive `<w>` (TEI-MODEL.md sec. 4.1a). There the shared thing is `@lemmaRef` and `@ana`; **`@pos` stays a property of the token and is tagged from the token's own word class**, never from the unit's. The unit as a whole has no tag, because there is no element to carry one.
+
+So in *Joie de la Court* (`lemma_3141`) the four tokens read `NAM PRP ART NAM`, not four times `NAM`: *de* is a preposition and *la* an article, whatever the unit is. And in the split spellings of `hûsenblâter` (`lemma_49714`, #363) both tokens are `NOM`, the first because a genitive of the fish name is a noun, not because the unit is one.
+
+This is not a new rule, it is the one the tagset already implies, and it was written down after #363 assigned 32 such tags without a sentence in this document to point at. Which tag is right per token follows sec. 1 to sec. 3 as for any other `<w>`.
+
 ## Cross-references
 
+- [TEI-MODEL.md §4.1a](TEI-MODEL.md#41a-multi-word-lemma-units-425) – how a multi-word lemma unit is encoded, and why `@pos` is per token
 - [TEI-MODEL.md §5](TEI-MODEL.md) – `@pos` in the normative TEI target model
 - [DATA-MODEL.md](DATA-MODEL.md) – `@pos` in the annotation data model and in the backfill pipeline
 - `.gemini/skills/pos-disambiguator/SKILL.md` – the operational disambiguation workflow and the linguistic rules for telling tags apart

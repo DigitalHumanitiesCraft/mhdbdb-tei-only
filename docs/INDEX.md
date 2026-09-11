@@ -74,7 +74,7 @@ This knowledge base follows a hub-and-spoke architecture with INDEX.md as the ce
 | **[DESIGN.md](DESIGN.md)** | Visual patterns, color system, components, CSS architecture | Developers/Designers |
 | **[FEATURES.md](FEATURES.md)** | User-facing functionality descriptions | Users/Stakeholders |
 | **[DEVELOPMENT.md](DEVELOPMENT.md)** | Build commands, git workflow, deployment | New contributors |
-| **[RESEARCH.md](RESEARCH.md)** | Academic context, TEI/MHG standards | Researchers |
+| **[RESEARCH.md](RESEARCH.md)** | Academic context, TEI/MHG standards, corpus scope (period boundary) and the rights basis for edition texts | Researchers |
 | **[DECISIONS.md](DECISIONS.md)** | Architecture Decision Records (ADRs) | Architects |
 | **[CONTRACTS.md](CONTRACTS.md)** | Cross-language parity constraints, algorithm pseudocode, API contracts | Developers |
 | **[TEI-MODEL.md](TEI-MODEL.md)** | Normative TEI encoding (target model), actual-vs-target comparisons, validation baseline | Data engineers, Developers |
@@ -108,7 +108,7 @@ Post-MVP and **in active operation**. Three things every session should know:
 - **Today:** an active project with ongoing data ingest (WZB/Wenzelsbibel, ARITHMETIC #92, more planned) and ongoing manual corpus corrections. Not frozen.
 - **Consequence:** every change in `tei/` or `authority-files/` must carry the derived layer with it (indexes, corpus-derived `variants.xml`). The **corpus leads**, `lexicon.xml` is an index and follows (see [CONTRACTS.md → Authority Source Rules](CONTRACTS.md#f-authority-source-rules)); otherwise it drifts silently. Binding step sequence: [DATA-MODEL.md → Data-Change-Lifecycle](DATA-MODEL.md#data-change-lifecycle).
 
-For the current index versions see [TEI-MODEL.md §11](TEI-MODEL.md#11-versioning) (as of 2026-09-09: Corpus Index v4.2.14, Authority Index v1.9.4).
+For the current index versions see [TEI-MODEL.md §11](TEI-MODEL.md#11-versioning) (as of 2026-09-11: Corpus Index v4.2.15, Authority Index v1.9.5).
 
 ### What was finished recently
 

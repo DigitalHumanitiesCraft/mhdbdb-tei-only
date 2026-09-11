@@ -647,6 +647,15 @@
   margin: 0 var(--space-1);
 }
 
+/* #252: Ueberlieferungsluecke. Gedaempft wie die Zaesur, aber mit
+   Hilfe-Cursor, weil der Grund im title steht. */
+.reading-body .gap {
+  display: inline;
+  color: var(--text-muted);
+  font-weight: 300;
+  cursor: help;
+}
+
 .reading-body .supplied {
   color: #6b7280;
   font-style: italic;

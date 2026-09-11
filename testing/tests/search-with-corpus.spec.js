@@ -17,6 +17,14 @@ test.describe('Search Functions with Pre-Built Corpus', () => {
         // Corpus now auto-loads — wait for file browser section to appear
         await page.waitForSelector('#fileBrowserSection', { state: 'visible', timeout: 60000 });
 
+        // #410: „Authority Files durchsuchen" wird seit 09/2026 zugeklappt
+        // ausgeliefert (KZW: „Es steht sonst zu viel auf einmal da").
+        // Die sechs Knoepfe darunter sind damit unsichtbar, und page.click()
+        // wartet auf Sichtbarkeit statt zu klicken. Der Schritt hier ist
+        // genau das, was eine Benutzerin jetzt auch tut.
+        await page.click('#authorityQueriesToggle');
+        await expect(page.locator('#authorityQueriesPanel')).toBeVisible();
+
         console.log('✅ Playground ready with full corpus loaded');
     });
 

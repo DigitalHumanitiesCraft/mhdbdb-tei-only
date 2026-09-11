@@ -4,8 +4,12 @@
 PR #205 hat 25 Tokens von lemma_2598 *haben* auf lemma_2593 *habe* umgehaengt und
 dabei ihr @ana entfernt, weil die Sense-Zuordnung am Sense-Review haengt
 (Issue-Kommentar vom 2026-07-10: "damit sie beim Sense-Split re-mappt werden
-koennen"). Ohne diesen Schritt stuenden 26 von 101 lemma_2593-Tokens ohne Sense,
+koennen"). Ohne diesen Schritt stuenden 28 von 101 lemma_2593-Tokens ohne Sense,
 also schlechter als vor #205.
+
+(Die Zahl stand hier zunaechst als "26 von 101". 26 zaehlt nur die von #198
+betroffenen Tokens, der Nenner ist die volle Menge. Gemessen am 2026-09-11:
+auf main 27 von 100 ohne @ana, mit diesem Schritt 3 von 101, ohne ihn 28.)
 
 Die alten Werte taugen dabei nicht als Vorlage, sie waren Teil des Fehlers:
 24 der 25 zeigten auf lemma_2598_sense_77622, den Hilfsverb-Sense mit den

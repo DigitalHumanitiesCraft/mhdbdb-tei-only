@@ -60,7 +60,7 @@ Eight authority files – seven inhaltstragende controlled vocabularies (in the 
 
 All files use namespace `xmlns="http://www.tei-c.org/ns/1.0"`.
 
-#### lexicon.xml (~33 MB, 43,879 entries)
+#### lexicon.xml (~33 MB, 43,878 entries)
 
 ```xml
 <TEI><text><body><div type="lexicon">
@@ -166,7 +166,7 @@ Notes: Multiple sigles per work (editions). GND/Wikidata may be full URLs or bar
 | genres.xml | `genre_{hex}` | – (but many broader pointers, polyhierarchical) |
 | names.xml | `name_{numeric}` | `exactMatch`, `closeMatch` → `concepts.xml#...` |
 
-#### variants.xml (~16 MB, 256,762 variant forms)
+#### variants.xml (~16 MB, 256,772 variant forms)
 
 ```xml
 <TEI><text><body><div type="orthographicVariants">
@@ -280,7 +280,7 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
   variants: {
     "brot": "lemma_879",   // normalized form → lemma ID
     "brott": "lemma_879",
-    // ... 234,243 mappings (2026-07-28)
+    // ... 234,245 mappings (2026-09-10)
   },
 
   maps: {
@@ -490,7 +490,7 @@ Three core build scripts:
 Third derived layer beside the two indexes. Reads **only** the two pre-built indexes (`data/authority-index.json.gz` + `data/corpus-index.json.gz`), never the XML sources, and emits a static JSON API into `api/` (2,742 files, ~14 MB), served as plain files by GitHub Pages:
 
 - `api/index.json` – root manifest (collection counts, source index versions)
-- `api/lemmata/index.json` – full lemma records as one bundle (43,879 records, no individual files)
+- `api/lemmata/index.json` – full lemma records as one bundle (43,878 records, no individual files)
 - `api/<coll>/{id}.json` + `api/<coll>/index.json` (summary list) for persons, works, concepts, genres, names, texts (texts stripped of the heavy `words`/`lemmata`/`lineStarts`/`lineEnds` arrays)
 - every emitted file carries `"license": "CC BY-NC-SA 4.0"`; `persons.works` is normalized from comma-string to array
 
@@ -545,7 +545,7 @@ Build properties: deterministic on the #125 principle (no timestamps, compact JS
 
 #### Curated lexicon fields (#268, since authority index v1.7.0)
 
-The three productions marked „curated" (`etym[@type="borrowing"]`, `def`, `note[@type="comment"]`) are the only ones in the lexicon carrying editorial prose instead of classification. The build writes the corresponding index fields **only where they actually stand in the XML**: 43,879 lemmata entries with empty keys would inflate index and API for nothing. As of 2026-07-31 exactly one lemma is curated (`lemma_37818` „Abba"), so consumers have to treat the fields as optional, never as a promise per record. Normative: [CONTRACTS.md §G.3](CONTRACTS.md#g3-field-schemas). The `@resp` values land in the index unchanged as `contributors.xml#contrib_N`; the id can only be resolved through the XML file, because `contributors.xml` is deliberately not indexed.
+The three productions marked „curated" (`etym[@type="borrowing"]`, `def`, `note[@type="comment"]`) are the only ones in the lexicon carrying editorial prose instead of classification. The build writes the corresponding index fields **only where they actually stand in the XML**: 43,878 lemmata entries with empty keys would inflate index and API for nothing. As of 2026-07-31 exactly one lemma is curated (`lemma_37818` „Abba"), so consumers have to treat the fields as optional, never as a promise per record. Normative: [CONTRACTS.md §G.3](CONTRACTS.md#g3-field-schemas). The `@resp` values land in the index unchanged as `contributors.xml#contrib_N`; the id can only be resolved through the XML file, because `contributors.xml` is deliberately not indexed.
 
 #### Namespace Handling
 
@@ -718,6 +718,15 @@ python scripts/build-api.py                       # static JSON API from the two
 
 **The scripts are not plug and play.** For every new text the three canonical scripts (`wzb-auto-match.py`, `wzb-pos-assign.py`, `wzb-sense-assign.py`) are copied into `scripts/ingest/<sigle>/` as a template; sigle constants, paths and text-specific heuristics (spelling conventions, language stage) are adapted. See [`scripts/ingest/wzb/README.md`](../scripts/ingest/wzb/README.md).
 
+### Before anything else: is the text in scope?
+
+Two gates, both outside this document's technical concern and both able to stop an ingest before it starts:
+
+- **Period.** The corpus covers texts written **before 1600**. Early New High German is included; anything markedly younger is not, whatever its quality. Decided 2026-09-10 (#263).
+- **Rights.** The edition has to be one we may publish from, and material arriving under an outside license has to be compatible with our CC BY-NC-SA 4.0. CC BY-SA is **not** compatible, which is a common surprise.
+
+Both are set out with their sources in [RESEARCH.md → Corpus Scope and Rights Basis](RESEARCH.md#corpus-scope-and-rights-basis). **Date the candidate first**: a text outside the period needs no rights clearance at all, so that is the cheaper order.
+
 ### Target state
 
 By the end every lexical `<w>` carries four attributes:
@@ -790,6 +799,8 @@ To be settled per source in advance (example answers for ARI in `scripts/ingest/
 | `<div>` hygiene | every `<div>` with an `@type` from the schema enum (`book`, `chapter`, `paratext`, `prologus`, `section`, …) |
 
 ### Phase 1: lemmatization
+
+**Before the algorithm, one thing it cannot do.** The auto-match works token by token: one `<w>`, one form, one lemma. Some lemmata span **several consecutive `<w>`** (multi-word names such as *Joie de la Court*, `lemma_3141`, and since #363 the common-noun compound *hûsenblâter*, `lemma_49714`), and no per-token matcher will ever find those. They are assigned by hand, all tokens getting the same `@lemmaRef` and the same `@ana`, each keeping its own `@pos` and `@corresp`. The encoding is described in [TEI-MODEL.md sec. 4.1a](TEI-MODEL.md#41a-multi-word-lemma-units-425); do not invent a second one for a new text.
 
 **1a auto-match** (canonical: `wzb-auto-match.py`), the algorithm:
 
@@ -896,6 +907,8 @@ The two checklists below describe the **maximum case**. Not every change needs e
 The version bump (corpus checklist step 3, authority checklist step 2) is dropped only in the rows without a rebuild. As soon as an index is rebuilt it is mandatory, because the browser invalidates its 30-day cache through the version number alone (#94). Since #154 `scripts/audit/check-index-version-bump.py` catches the forgotten bump: it compares the decompressed index content against the diff base and runs in `data-integrity.yml` deliberately **before** the rebuild step. Two gaps remain: without a determinable diff base (`workflow_dispatch`, a force push) the workflow skips the gate with a `notice`, and it does not cover the version statements in the documentation (TEI-MODEL.md §11, INDEX.md).
 
 The converse also holds: do not set a bump without a change of content. It forces every returning person to reload the index although nothing changed, and no CI notices.
+
+**A version number is a resource two open branches can claim at the same time, and nothing notices.** Before you bump, look at the open pull requests and take the next number above the highest one already claimed there. Neither gate covers this: `check-index-versions.py` checks that the four places agree **within one working state**, and the #154 bump gate checks only that a bump happened at all. Both are green on both sides of a collision. It happened on 2026-09-10: #363 was merged with corpus 4.2.14 and authority 1.9.4 while the open PR #416 had claimed exactly those two numbers in its rebase of 2026-09-09. Cost, measured with `git merge-tree`: eight conflicting files in the older PR, all of them the derived layer plus the version literals (`api/index.json`, `api/lemmata/index.json`, `corpus-loader.js`, both `data/*.json.gz`, `docs/INDEX.md`, `docs/TEI-MODEL.md`, both build scripts), and a renumber plus a full rebuild on someone else's branch. The source data merged cleanly, `lexicon.xml` included, because the two changes sat in different lemmata. The cheap version of the rule: `gh pr list` (or `list_pull_requests`) and one `grep` for `'version':` in the open heads, before the bump and not after.
 
 Individual times, measured on 2026-07-31 over 667 corpus files on a Windows laptop with 16 cores, using the default of 8 parallel processes set in #284: `build-corpus-index.py` 46 s, `extract-variants.py --apply` 23 s, `build-authority-index.py` 12 s, `build-api.py` 4 s. Sequentially (`--jobs 1`) it was 184 s, 97 s, 12 s and 4 s, so 297 s in total instead of 85 s. On machines with fewer cores the value lies in between, the default being `min(8, cpu_count)`. Orders of magnitude for planning, not a guarantee.
 

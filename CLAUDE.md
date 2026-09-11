@@ -113,6 +113,24 @@ Measured on 2026-08-02 across three PRs (#330, #332, #333): 27 findings in 18 re
 - **No full CI run for comment-only commits.**
 - **Issue threshold:** a finding becomes a ticket only if it needs a **decision** the agent may not take, needs a **human**, or is a **work package of its own** (ingest, corpus change, more than half a day). Everything else is fixed on the spot or dropped (#331 was filed and fixed by the same session an hour later).
 
+## Asking, and what has to happen before you ask
+
+**"Bei unsicheren Entscheidungen immer beim Mensch nachfragen, aber erst, nachdem alle seriösen Quelldaten (Normdaten, Lexika usw.) geprüft wurden."** (chsteiner relaying @wachauer, 2026-09-10, #28. She wrote it as a general rule, not as an answer to that ticket, which is why it stands here rather than there.)
+
+The sentence has two halves and both are load-bearing. Half one forbids writing an uncertain assignment into the data as if it were settled. Half two forbids spending a human's attention on something the sources would have answered: an "is this right?" that could have been a `grep` is not diligence, it is a delegation.
+
+**The case it was written for.** On 2026-09-10 this project's own session characterised the lemma `Alanya` as a Turkish toponym, from the headword alone. The corpus said otherwise, and it said so cheaply: the lemma has seven attestations, all in `WVO`, and six of them read "der kuenc von alanye". A land with a king, so Alanien, the Iranian people, not the town on the Turkish coast. One minute of looking at the attestations. **Both halves were broken in the same move**: the source data went unchecked, and nothing was asked. A one-text lemma is almost always story-world specific and almost never modern geography, and that alone should have stopped the guess.
+
+The practical form of the rule for a corpus or authority decision: put the **attestations with their context** in front of yourself, not the headword; check what the existing annotation already says; only then form a judgement; and what remains uncertain after that goes on a list for the human rather than into `lexicon.xml`. A run that writes 8,559 names from headwords alone makes the `Alanya` mistake 8,559 times and nobody sees it.
+
+The rule does not compete with the issue threshold below. That one says which findings become tickets; this one says what you owe before you put a question to a person at all.
+
+## Corpus scope, in one line
+
+**Texts written before 1600.** Early New High German is in, markedly younger material is out. Decided by @wachauer on 2026-09-10 (#263), and it replaces an earlier reading of "around 1500" that was derived from two examples and was too narrow.
+
+The rights side sits next to it and is separate: a text has to pass the period **and** the licence. Both, with their legal sources and the 25-year rule from § 76b UrhG-AT, are in `docs/RESEARCH.md` under Corpus Scope and Rights Basis; the ingest procedure in `docs/DATA-MODEL.md` names them as the gate before Stage 0. Date a candidate first, a text outside the period needs no rights clearance.
+
 ## Issue Labels
 
 Rebuilt on 2026-08-05, from 28 labels down to 16. The scheme is built **for agents**: the team barely uses labels, so they exist to tell a session what it is allowed to touch. Three orthogonal axes, **exactly one label per axis**, plus two flags. Full legend, per-issue reasoning and the ping list live in the body of **#44**.

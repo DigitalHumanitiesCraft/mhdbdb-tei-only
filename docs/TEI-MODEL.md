@@ -258,7 +258,7 @@ TEI P5 requires in `<monogr>`: `(author|editor)*, title+, editor*, (idno|imprint
 - stanzas as `<lg>` with `@n`. Allowed `@type` values: `stanza`
 - optional enclosing `<div>` for books/sections
 - for songs: `<div type="song">` > `<lg type="stanza">` > `<l>`
-- caesuras as `<caesura/>` inside `<l>` (optional, rare)
+- caesuras as `<caesura/>` inside `<l>` (optional; 51,986 in 225 files, see 6.5)
 
 **Current state:** most verse texts have `<l>` without an `<lg>` wrapper. The migration happens step by step (issue #30, stage 2).
 
@@ -444,6 +444,37 @@ The `<w>` element is the central unit of annotation. In the target model all its
 Corpus at the time of the audit (#32, 2026-04, before WZB): 9,282,982 `<w>` elements in 666 files; 20.4% without `@lemmaRef` (unannotated words, skipped by the corpus index, see CONTRACTS.md sec. B). Current state: 667 files, 9,431,294 `<w>`, of which 7,532,982 with `@lemmaRef` and 1,898,312 without (20.13%), measured 2026-07-31 with `scripts/audit/quantify-unannotated-tokens.py`. The figure 9,432,130 from 2026-06-10 (Code4Lib article, #142) predates the token removals from #138 and #236.
 
 > **Important:** `@lemmaRef` has been a standard attribute of the class `att.linguistic` since TEI P5 3.3.0 and did **not** have to be migrated. `@meaningRef` and `@wordRef` **were** the validation blockers (not TEI standard attributes); they were migrated corpus-wide to `@ana` and `@corresp` respectively (phase B1/B2, completed, 0 remaining occurrences, 667/667 files with `@ana`).
+
+### 4.1a Multi-word lemma units (#425)
+
+**One lemma can span several consecutive `<w>`.** All of them carry the same `@lemmaRef` and the same `@ana`; each keeps its own `@pos` and its own `@corresp`, because part of speech and written form belong to the token, not to the unit.
+
+```xml
+<w xml:id="ER_800200_1" lemmaRef="lexicon.xml#lemma_3141" pos="NAM" ana="lexicon.xml#lemma_3141_sense_4974" corresp="variants.xml#type_30845">joie</w>
+<w xml:id="ER_800200_2" lemmaRef="lexicon.xml#lemma_3141" pos="PRP" ana="lexicon.xml#lemma_3141_sense_4974" corresp="variants.xml#type_10786">de</w>
+<w xml:id="ER_800200_3" lemmaRef="lexicon.xml#lemma_3141" pos="ART" ana="lexicon.xml#lemma_3141_sense_4974" corresp="variants.xml#type_30862">la</w>
+<w xml:id="ER_800200_4" lemmaRef="lexicon.xml#lemma_3141" pos="NAM" ana="lexicon.xml#lemma_3141_sense_4974" corresp="variants.xml#type_371959">curt</w>
+```
+
+`lemma_3141` is *Joie de la Court*, the Erec place name. Known cases, measured on 2026-09-10 after #363:
+
+| Lemma | Headword | Tokens | Texts |
+|---|---|--:|--:|
+| `lemma_20598` | Dolorose Garte | 92 | 4 |
+| `lemma_49714` | hûsenblâter | 32 | 7 |
+| `lemma_9250` | Schastel Marveile | 30 | 6 |
+| `lemma_3141` | Joie de la Court | 12 | 4 |
+| `lemma_9251` | Lît Marveile | 4 | 3 |
+
+**The class is not restricted to proper names.** Until #363 all four known cases were multi-word names, which made the pattern look like a naming convention. `lemma_49714` *hûsenblâter* (the swim bladder of the sturgeon, the raw material of isinglass) is a common-noun compound, split across two `<w>` thirteen times, in eleven cookbook recipes. It entered the class by an editorial decision (KZW in #363: every spelling of this construction belongs to the fish bladder), not by a rule about names. Whether a construction is one lemma is decided philologically; the encoding then follows from this section.
+
+**The same lemma carries the split and the univerbated spelling.** `lemma_9250` appears as two tokens in `CRO`, `JT`, `MNB`, `PZ` and `RVBR`, and as one token in `LGR` (`schahtelmarveil`) and again in `RVBR` (`schahtelmarveile`, `RVBR_16665_1`). `RVBR` is the one text that carries both spellings by itself, and `lemma_49714` does the same in `KDO`, `MBS5` and `SUB1`. Both are correct; the encoding follows the manuscript, not the lemma.
+
+**The tokens of a unit need not be siblings.** `RVBR_8923_1` sits inside a `<hi rend="upper_case_first_letter">` and `RVBR_8923_2` does not. "Consecutive `<w>` with the same `@lemmaRef`" holds in document order; an XPath on `l/w` misses this case.
+
+**There is no wrapper element and none is planned.** The unit is expressed by the shared `@lemmaRef`, not by a `<seg>` or `<phr>` around the tokens. Anyone who wants the unit reads consecutive `<w>` with the same `@lemmaRef`.
+
+**Consequence for counting:** a mention of a split unit counts as several tokens. `lemma_9250` has 30 tokens for 16 mentions, `lemma_49714` has 32 for 19. The position-counting contract is untouched by this (see [CONTRACTS.md sec. B](CONTRACTS.md#b-position-counting-contract)), but a frequency list is not: it overstates these lemmata.
 
 ### 4.2 `@xml:id` format
 
@@ -650,7 +681,50 @@ Only for parts of the text supplied by the editor. Do not misuse it for recipe t
 <caesura/>
 ```
 
-Marks a caesura inside a line of verse (`<l>`). Rare (5 files in the existing data).
+Marks a **metrical** caesura inside a line of verse (`<l>`). Measured on 2026-09-10: 51,986 occurrences in 225 files, so not rare at all (an earlier version of this section said "5 files", which was low by a factor of 45).
+
+`<caesura/>` says nothing about missing text. For that, see 6.5a.
+
+### 6.5a Gap in the transmission
+
+```xml
+<l n="32"><gap reason="lost"/></l>
+```
+
+Marks text the edition could not supply. Measured on 2026-09-10: 1,094 occurrences in 103 files, all with `reason="lost"`.
+
+**These used to be encoded as punctuation plus caesura** and were migrated in #252:
+
+```xml
+<!-- before -->
+<l n="32">
+  <pc xml:id="…_0" join="right">(</pc>
+  <caesura xml:id="…_1"/>
+  <pc xml:id="…_2" join="left">)</pc>
+</l>
+```
+
+Two reasons for the change. `<caesura/>` denotes a metrical incision, not a missing passage, so the old encoding said the wrong thing; and a gap was only findable as a three-part serialization pattern, which made any analysis of transmission density impractical. The decision is KZW's, 2026-07-29, generalized to the whole set on 2026-09-10; the evidence is 290 of 324 cases resolving against a Linecode source carrying an omission marker, without a single counter-example.
+
+**What the migration deliberately did not touch**, because a mechanical rule cannot decide it:
+
+| Left as it is | Count | Why |
+|---|--:|---|
+| `<l>` with a caesura, no `<w>`, but real text | 12 in 8 files | `FDS` carries the editorial note "(folgen Lied 34 bis Lied 37)", `EIL`, `GWTK` and `FR1` carry unlemmatized wording. A rule of "no `<w>` means a gap" would have deleted it |
+| `<l>` with visible characters that are not the marker | 38 | 22 lines with speech marks only (`<` and `>`, which in `GWTK` and `BRF` are quotation marks, one of them with a full stop), 5 with a lone comma or colon, 8 with a single bracket, and 3 with the complete marker plus one extra character |
+| `( caesura )` **inside** a line, between words | 838 in 17 files | `FR1` 518, `FR3` 176, `MSG` 56, `BRW` 38, `NEIC` 22, `NEIR` 10, `NEIM` 5, `SKL` 3, `MML` 2, plus eight files with one each |
+| the same pattern in `<p>` prose | 5 in 3 files | `HUB2` 1, `PL1` 1, `SUB1` 3 |
+| `<l><hi><caesura/></hi></l>`, the caesura not a direct child | 2 in `MUG` | the migration looks at direct children only and does not see these. Whether the `<hi>` should go with them is a decision, not a script bug |
+
+The last three rows are probably the same phenomenon as the migrated set, but saying so is a philological claim about passages with text around them, not a mechanical one. **Open in #252.**
+
+The 8 single brackets form four pairs spanning several omitted verses (`SJH` lg179 n=6/7, `SUS` lg61 n=6/10, `SUS` lg127 n=7/8, `SVW` lg6 n=6/7); in `SUS` lg61 three now-migrated lines sit between them, so that omission is half encoded as gaps and half as a bracket. The 3 with marker plus one character are `NEIC` lg3 n=14 `< ( )`, `NEIR` lg5 n=6 `( ) ,` and `SJH` lg168 n=13 `( ) !`, which can be repaired by hand.
+
+The second row is the reason the criterion asks for the exact marker `( )` rather than for "brackets". An earlier version accepted angle brackets too and would have deleted the closing quotation mark of a speech in `GWTK` line 36, leaving the speech opened in line 35 unclosed.
+
+`<gap/>` carries no `xml:id` in `schema/mhdbdb.rnc`, and the 1,339 ids of the replaced elements were verified to be referenced nowhere (neither index, none of the 2,742 API files) before they were dropped.
+
+The reading view renders a gap as `[…]` with the reason in the tooltip (`tei-text-reader.js`). Without that the migration would have made gaps machine-findable and invisible to readers, which is the opposite of the intent.
 
 ### 6.6 Numbers
 
@@ -864,8 +938,8 @@ Earlier errors (all fixed by migration):
 
 | File | Entries | Validation |
 |-------|----------|-------------|
-| lexicon.xml | 43,879 lemmata (+4 WZB 2026-05-08, +125 #115 stubs 2026-07-02) | tei_all ✓ · mhdbdb-authority ✓ |
-| variants.xml | 42,627 variant entries (256,762 forms) | tei_all ✓ · mhdbdb-authority ✓ |
+| lexicon.xml | 43,878 lemmata (+4 WZB 2026-05-08, +125 #115 stubs 2026-07-02, -1 hasenblâse #363 2026-09-10) | tei_all ✓ · mhdbdb-authority ✓ |
+| variants.xml | 42,626 variant entries (256,772 forms) | tei_all ✓ · mhdbdb-authority ✓ |
 | persons.xml | 211 persons | tei_all ✓ · mhdbdb-authority ✓ |
 | works.xml | 584 works (+1 work_WZB) | tei_all ✓ · mhdbdb-authority ✓ |
 | concepts.xml | 567 categories | tei_all ✓ · mhdbdb-authority ✓ |
@@ -909,8 +983,8 @@ A consolidated list of all deliberately non-normalized islands of data and of th
 | this document | 1.0.0 | 2026-04-10 |
 | RELAX NG schema (`schema/mhdbdb.rnc`) | 1.0.0 | 2026-04-09 |
 | POS tagset | 1.0 (19 tags) | 2026-03 |
-| Corpus Index | 4.2.14 | 2026-09-09 |
-| Authority Index | 1.9.4 | 2026-09-09 |
+| Corpus Index | 4.2.15 | 2026-09-11 |
+| Authority Index | 1.9.5 | 2026-09-11 |
 | authority schema (`schema/mhdbdb-authority.rnc`) | 1.1.0 | 2026-07-30 |
 
 ---

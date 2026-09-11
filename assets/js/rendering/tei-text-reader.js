@@ -763,6 +763,21 @@ class TEITextReader {
                 }
                 case 'caesura':
                     return '<span class="caesura" title="Zäsur">||</span>';
+                // #252: Ueberlieferungsluecken standen bis zur Migration als
+                // "( caesura )" da, also als Klammerpaar um einen
+                // Zaesur-Strich. Nach der Migration auf <gap/> waere die Zeile
+                // ohne diesen Zweig LEER: die Luecke wuerde maschinell
+                // auffindbar und fuer Lesende unsichtbar, was das Gegenteil
+                // der Absicht ist. @reason und @extent stehen im Titel, wenn
+                // die Edition sie hergibt; heute traegt jede der 1.094
+                // Stellen reason="lost" und kein extent.
+                case 'gap': {
+                    const grund = el.getAttribute('reason') || '';
+                    const umfang = el.getAttribute('extent') || '';
+                    const titel = ['Überlieferungslücke', grund, umfang]
+                        .filter(Boolean).join(', ');
+                    return `<span class="gap" title="${this.escapeHtml(titel)}">[…]</span>`;
+                }
                 case 'supplied':
                     return `<span class="supplied" title="Editorische Ergänzung">[${children()}]</span>`;
                 case 'num':

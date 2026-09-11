@@ -93,6 +93,9 @@ test.describe('Playground Authority Index Loading', () => {
         await page.goto('http://localhost:8080/playground/');
         await page.waitForSelector('#statusText:has-text("Authority Files geladen")', { timeout: 15000 });
 
+        // #410: der Abschnitt ist zugeklappt ausgeliefert, erst aufklappen
+        await page.click('#authorityQueriesToggle');
+
         // Click "Lemmata anzeigen"
         await page.click('#showLemmataBtn');
 
