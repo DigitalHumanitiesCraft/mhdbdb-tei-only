@@ -177,10 +177,6 @@ test.describe('Issue #419: Umlaut-Faltung in der Begriffssuche', () => {
     await expect(page.locator('#conceptResults')).toContainText('Bäume', { timeout: 15000 });
   });
 
-  // Was die Faltung wahr gemacht hat: es gibt jetzt Treffer, die
-  // `matchesNormalized` nicht sieht. `findAlternativeMatch` war allein darauf
-  // gebaut und lieferte für sie keinen „auch: …"-Hinweis mehr, der Begriff
-  // stand also unerklärt in der Liste. Gemessen am 11.09.: 56 Begriffe.
   // `stufe` benutzt `foldDiacritics` direkt, nicht ueber `matchesFolded`, hat
   // also seinen eigenen Guard und braucht seinen eigenen Test. Ohne ihn gaebe
   // `startsWith('')` jedem der 567 Begriffe 50 Punkte, `resolveQuery` loeste
@@ -229,6 +225,10 @@ test.describe('Issue #419: Umlaut-Faltung in der Begriffssuche', () => {
     await expect(page.locator('#genreResults')).toContainText('Malmariée', { timeout: 15000 });
   });
 
+  // Was die Faltung wahr gemacht hat: es gibt jetzt Treffer, die
+  // `matchesNormalized` nicht sieht. `findAlternativeMatch` war allein darauf
+  // gebaut und lieferte für sie keinen „auch: …"-Hinweis mehr, der Begriff
+  // stand also unerklärt in der Liste. Gemessen am 11.09.: 56 Begriffe.
   test('Fold-Treffer über einen Alt-Term trägt seinen „auch"-Hinweis', async ({ page }) => {
     await page.goto('http://localhost:8080/playground/#concepts');
     await page.waitForSelector('#conceptSearch', { state: 'visible', timeout: 60000 });
