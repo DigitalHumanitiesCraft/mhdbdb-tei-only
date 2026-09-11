@@ -17,9 +17,16 @@ Zu @corresp bei AC3_23010_1: type_117159 *hawe* bleibt stehen, obwohl er heute
 unter lemma_2598 gefuehrt wird. Die Form IST *hawe*, eine zweite type-id fuer
 dieselbe Oberflaeche waere ein Duplikat. extract-variants.py ordnet jede type-id
 per Mehrheit genau einem Lemma zu; die Mehrheit liegt weiter bei lemma_2598,
-solange die uebrigen *hawe*-Belege (Imperative zu houwen) dort haengen. Das ist
-Gegenstand des houwen-Folgetickets und kippt dann von selbst. Der Lauf meldet
-den Fall als "type ids with >1 lemma".
+solange die uebrigen *hawe*-Belege dort haengen. Der Lauf meldet den Fall als
+"type ids with >1 lemma".
+
+NACHTRAG 2026-09-11: hier stand, der Fall sei "Gegenstand des houwen-
+Folgetickets und kippt dann von selbst". Das trifft nicht zu. Die zwoelf sind
+in #418 KEINE einheitlichen Imperative: sieben gehen zum Verb lemma_2923, vier
+auf den bestehenden Sense von lemma_9644, zwei auf einen neuen. Nach der
+Umsetzung haengt type_117159 also weiter an mehreren Lemmata, nur an anderen.
+Ob und wie der Verstoss aufgeloest wird, entscheidet sich in #418 und wird dort
+gemessen, nicht hier behauptet.
 
 Nur @lemmaRef/@pos/@corresp aendern sich; Token-Text, Reihenfolge und xml:id
 bleiben byte-identisch (Invariante POS-TAGSET.md §6.3.4).
