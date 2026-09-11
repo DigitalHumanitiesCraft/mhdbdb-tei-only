@@ -45,7 +45,7 @@ function escapeHtml(s) {
  * degrades to a slower match instead of a TypeError.
  */
 function findAlternativeMatch(person, searchTerm) {
-  if (TextNormalizer.matchesNormalized(person.preferredName || "", searchTerm)) {
+  if (personNameMatches(person.preferredName, searchTerm)) {
     return null;
   }
   const altNames = person.altNames || [];
@@ -60,9 +60,31 @@ function findAlternativeMatch(person, searchTerm) {
       altNormalized && altNormalized[i] !== undefined
         ? altNormalized[i]
         : TextNormalizer.normalizeMHG(altNames[i]);
-    if (normalized.includes(needle)) return altNames[i];
+    // Die Faltung laeuft auf der Rohform, nicht auf `altNormalized`: das
+    // Index-Feld ist mit normalizeMHG gebaut und traegt den Umlaut schon
+    // als Digraph, gefaltet ergaebe es "kuerenberg" statt "kurenberg".
+    if (normalized.includes(needle) || TextNormalizer.matchesFolded(altNames[i], searchTerm)) {
+      return altNames[i];
+    }
   }
   return null;
+}
+
+/**
+ * Beide Normalisierungsrichtungen fuer Personennamen (#419).
+ *
+ * Der Werke-Explorer vergleicht `work.author` ueber multiFieldNormalized und
+ * faltet damit seit #419. Dieselben 27 Namen mit Umlaut stehen zeichengleich
+ * in `persons.preferredName` (gemessen am 11.09. gegen den Authority-Index:
+ * Kuerenberg, Moench von Salzburg, Tuenger und 24 weitere). Ohne diese
+ * Funktion faende die Eingabe "kurenberg" die Werke und die Person daneben
+ * nicht, und das ist genau die Asymmetrie aus #419, eine Ebene hoeher.
+ */
+function personNameMatches(name, searchTerm) {
+  return (
+    TextNormalizer.matchesNormalized(name || "", searchTerm) ||
+    TextNormalizer.matchesFolded(name || "", searchTerm)
+  );
 }
 
 export class PersonExplorer {
@@ -126,7 +148,7 @@ export class PersonExplorer {
     // cannot match across the boundary between two forms.
     const matches = this.authorityData.persons.filter(
       (person) =>
-        TextNormalizer.matchesNormalized(person.preferredName || "", searchTerm) ||
+        personNameMatches(person.preferredName, searchTerm) ||
         findAlternativeMatch(person, searchTerm) !== null
     );
 

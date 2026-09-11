@@ -181,6 +181,35 @@ test.describe('Issue #419: Umlaut-Faltung in der Begriffssuche', () => {
   // `matchesNormalized` nicht sieht. `findAlternativeMatch` war allein darauf
   // gebaut und lieferte für sie keinen „auch: …"-Hinweis mehr, der Begriff
   // stand also unerklärt in der Liste. Gemessen am 11.09.: 56 Begriffe.
+  // Zweite Runde der Frage aus #397, diesmal vom CI-Bot gestellt: die Faltung
+  // hat wahr gemacht, dass `work.author` sie mitbekommt. Derselbe Name steht
+  // zeichengleich in persons.preferredName, wo sie bis #437 nicht ankam.
+  // Gemessen am 11.09.: 27 Autorennamen mit Umlaut stehen in beiden Mengen.
+  test('Personen-Explorer faltet wie der Werke-Explorer', async ({ page }) => {
+    await page.goto('http://localhost:8080/playground/#authors');
+    await page.waitForSelector('#authorSearch', { state: 'visible', timeout: 60000 });
+
+    await page.fill('#authorSearch', 'kurenberg');
+    await expect(page.locator('#authorResults')).toContainText('Kürenberg', { timeout: 15000 });
+
+    // Kontrollwert in die Gegenrichtung: die MHD-Normalisierung muss weiter
+    // greifen, sonst haette die Faltung sie verdraengt.
+    await page.fill('#authorSearch', '');
+    await page.fill('#authorSearch', 'kuerenberg');
+    await expect(page.locator('#authorResults')).toContainText('Kürenberg', { timeout: 15000 });
+  });
+
+  // Der Fold versprach in seinem @returns „diacritics removed" und hielt nur
+  // eine feste Zeichenliste. „Malmariée-Lied" ist der einzige Deskriptor in
+  // den vier Sammlungen, an dem das sichtbar wird (gemessen am 11.09.).
+  test('Fold erreicht auch Akzente ausserhalb der Umlautliste', async ({ page }) => {
+    await page.goto('http://localhost:8080/playground/#genres');
+    await page.waitForSelector('#genreSearch', { state: 'visible', timeout: 60000 });
+
+    await page.fill('#genreSearch', 'malmariee');
+    await expect(page.locator('#genreResults')).toContainText('Malmariée', { timeout: 15000 });
+  });
+
   test('Fold-Treffer über einen Alt-Term trägt seinen „auch"-Hinweis', async ({ page }) => {
     await page.goto('http://localhost:8080/playground/#concepts');
     await page.waitForSelector('#conceptSearch', { state: 'visible', timeout: 60000 });

@@ -123,7 +123,22 @@ export class TextNormalizer {
             // Ligatures keep the digraph: they are two letters, not an
             // accented one, and "ae" is what a user types for them.
             .replace(/æ/g, 'ae')
-            .replace(/œ/g, 'oe');
+            .replace(/œ/g, 'oe')
+            // Everything else that carries a mark, generically. The explicit
+            // rules above run first and are not redundant: they map to a
+            // digraph or to a chosen base letter, which decomposition cannot
+            // decide (ß has no combining mark at all, and æ is a letter of
+            // its own, not an accented a). What is left after them is the
+            // ordinary Latin-with-accent case, and dropping the mark is the
+            // right answer there. Without this the @returns above would be a
+            // promise the function does not keep: the genre `Malmariée-Lied`
+            // stayed unreachable through `malmariee`, which is exactly the
+            // kind of miss this function exists to prevent (found by the CI
+            // review on #437; it is the only such descriptor in the four
+            // authority sets, measured 2026-09-11).
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .normalize('NFC');
     }
 
     /**
