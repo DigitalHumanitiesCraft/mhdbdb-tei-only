@@ -194,18 +194,39 @@ export class TEIFilesManager {
             });
 
             if (containsAll) {
-                // Hier stand bis #327 ein matchingWords-Objekt (Trefferzahl je
-                // Lemma, eine Schleife über lemmaIds mit zwei Lookups pro
-                // Treffertext). Sein letzter Leser war formatMatchingWordsOrCounts
-                // in tei-ui.js, und der hatte selbst keinen Aufrufer mehr; mit
-                // dessen Löschung wurde das Feld rein schreibend. Angezeigt wird
-                // totalWords.
+                // Bis #327 stand hier ein matchingWords-Objekt mit der Trefferzahl
+                // je Lemma. Sein letzter Leser war formatMatchingWordsOrCounts in
+                // tei-ui.js, und der hatte selbst keinen Aufrufer mehr; mit dessen
+                // Löschung wurde das Feld rein schreibend und verschwand. Danach
+                // blieb nur totalWords übrig, und die Anzeige nahm es als Belegzahl:
+                // im CEFB standen für `arm` (lemma_286) 11.250 statt 3. Gemeldet
+                // von KZW am 2026-09-08 in #58. Die Zahl hing dabei gar nicht am
+                // gesuchten Lemma, sie war für jedes Lemma desselben Textes
+                // dieselbe.
+                //
+                // matchCount ist jetzt wieder die Belegzahl: text.lemmata[id] ist
+                // die Positionsliste des Lemmas in diesem Text, ihre Länge also die
+                // Zahl der Belege. Bei mehreren Lemmata werden die Listen summiert,
+                // denn die Dokumentsuche verlangt ohnehin, dass alle vorkommen.
+                //
+                // totalWords steht hier nicht mehr. Nach der Umstellung der Anzeige
+                // auf matchCount hätte es keinen Leser mehr gehabt, und genau dieser
+                // Zustand hat #58 erzeugt: ein rein schreibendes Feld, das beim
+                // nächsten Aufräumen als Anzeigequelle einsprang. Wer die Textlänge
+                // braucht, findet sie in corpusData.texts[*].wordCount.
+                let matchCount = 0;
+                lemmaIds.forEach(lemmaId => {
+                    const cleanId = lemmaId.toString().replace('lemma_', '');
+                    const positions = text.lemmata[`lemma_${cleanId}`] || text.lemmata[cleanId] || [];
+                    matchCount += positions.length;
+                });
+
                 results.push({
                     filename: text.filename,
                     title: text.title,
                     author: text.author || 'Unbekannt',
                     context: 'document',
-                    totalWords: text.wordCount
+                    matchCount
                 });
             }
         });

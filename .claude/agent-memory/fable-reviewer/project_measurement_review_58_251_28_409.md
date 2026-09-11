@@ -14,3 +14,33 @@
   2.677 ja = 2.636 belegt + 41 unbelegt; 2.675 = pos-Kriterium (ART vor NAM bei lemma_3141, lemma_46979).
 - gebrechen-Familie: Sense-4-Mengen identisch, aber Senses 1 bis 3 der Ableitungen sind identisch oder
   Teilmengen der gebrechen-Senses (engebrechen 3 von 4 identisch). engebrechen/gebrechenhaft je 1 Token.
+
+## Fix-Review #58 Belegzahl (11.09.2026, Branch claude/58-belegzahl-dokumentsuche)
+
+- **`arm` ist ein Homograph, und Vorher-Zahlen von der Live-Seite gehoeren zum Lemma, das dort wirklich
+  aufgeloest wurde.** Alte Kopfzeile = Summe `wordCount` der Treffertexte. 6.418.133 ist diese Summe fuer
+  lemma_285 (Adjektiv, 207 Texte); lemma_286 (Koerperteil, 40 Texte) ergibt 2.195.030. Auftrag und
+  Commit-Message hatten die 285-Zahl dem 286-Fall zugeschrieben. Messung: Python ueber corpus-index.json.gz,
+  Skript-Muster: alle Texte mit allen Ids, `sum(len(lemmata[...]))` und `sum(wordCount)`.
+- Korpus-Index v4.2.15: 513.673 Lemma-Schluessel in `texts[].lemmata`, alle mit `lemma_`-Praefix, 0 leere
+  Positionslisten. `containsAll` prueft Array-Truthiness, eine leere Liste zaehlte also als „vorhanden".
+- `docs/CONTRACTS.md` §C traegt die Objektform, die `searchDocumentUsingEnhancedIndex` pusht, samt Satz
+  „What the result card shows is …". Bei jeder Aenderung an diesem Objekt dort nachsehen.
+- **Alans Protokoll (#419) haengt als DOCX im Body und als PDF im Kommentar von wachauer (10.09.).**
+  Der 403 gilt nur fuer Cloud-Sessions; auf dem Laptop liefert `curl -sL` auf die user-attachments-URL
+  200 (DOCX 2,1 MB, PDF 5,7 MB). Thread-Text nennt die Dokumentsuche-Zahl nicht. KZW-Zitat „11250 Arme
+  (Koerperteile) im CEFB kann nicht sein" steht woertlich in #58 (wachauer, 2026-09-08 15:09 UTC).
+- **Runde 2 (11.09.): das PDF traegt die Bilder sehr wohl.** `fitz` zaehlt 15 eingebettete PNGs auf
+  21 Seiten, Seite 13 rendert den Reim-Screenshot mit „Mindest-Reimpaare 6". Die JOURNAL-Behauptung
+  „im PDF waren die Bildpositionen leer" ist eine Aussage ueber ein Lesewerkzeug, nicht ueber die Datei.
+  DOCX auswerten: `zipfile`, Text aus `word/document.xml` (`<w:t>`), Bilder `word/media/` (15), Zuordnung
+  Bild-zu-Absatz ueber `r:embed` + `word/_rels/document.xml.rels`. Alans Text: „Dokument" als ganzes
+  Wort genau 1x (unsere Fehlermeldung), seine Multi-Lemma-Laeufe sind Kookkurrenz (Bilder 1, 2, 11).
+- **Reimwoerterbuch in Python nachrechnen** (`lineEnds`, `words`, `lemmata`, Regel: 3-Letter-Suffix der
+  `normalized`-Form, 2 bei beiden <= 4): Filter „gottfried von strassburg" trifft GVS, MGS, TR
+  (Autor-Substring), brôt lemma_879: 7 Versenden, tôt lemma_6118 5 Paare, alle in TR. Deckt sich mit
+  dem Screenshot (7 / 3 Verstexte). `minCount` Default 1 (rhyme-dictionary.js:38).
+- `feedback_aussage_neben_ihrer_menge` (User-Memory) ist am 02.09. aus dem Health-Check entstanden
+  (fuenf Faelle), nicht aus dem TRO-Fall vom 07.09.; JOURNAL-Verweise auf „Anlass" der Lehre pruefen.
+- Teillauf einer Spec auf Windows: `node scripts/run-tests.js <spec>` mit Redirect in eine Scratch-Datei,
+  im Hintergrund; 15 Tests bei 13 `test(`-Aufrufen, weil einer in einer 3er-Schleife steht.
