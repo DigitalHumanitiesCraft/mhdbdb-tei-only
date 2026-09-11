@@ -107,14 +107,19 @@ export class ConceptDistribution {
     // 567 Begriffe samt ihrer Alt-Terme: genau ein Paar wird durch den Fold
     // gleich, „Vogel"/„Voegel" innerhalb von concept_14020000, also kein
     // Begriff ununterscheidbar von einem anderen. „baum" von 0 auf 4.
+    // `foldedNeedle` kann leer sein, obwohl `trimmed` es nicht ist: eine
+    // Eingabe aus lauter kombinierenden Zeichen wird von der Faltung restlos
+    // getilgt. Dann traefe `startsWith('')` jeden Begriff mit 50 Punkten, und
+    // die Verteilungsansicht rechnete eine vollstaendige Analyse fuer eine
+    // Anfrage ohne Inhalt. Der `if (!trimmed)`-Guard oben faengt das nicht.
     const foldedNeedle = TextNormalizer.foldDiacritics(trimmed);
     const stufe = (value, exakt, praefix, teil) => {
       if (!value) return 0;
       const roh = value.toLowerCase();
-      const gefaltet = TextNormalizer.foldDiacritics(value);
-      if (roh === needle || gefaltet === foldedNeedle) return exakt;
-      if (roh.startsWith(needle) || gefaltet.startsWith(foldedNeedle)) return praefix;
-      if (roh.includes(needle) || gefaltet.includes(foldedNeedle)) return teil;
+      const gefaltet = foldedNeedle ? TextNormalizer.foldDiacritics(value) : '';
+      if (roh === needle || (foldedNeedle && gefaltet === foldedNeedle)) return exakt;
+      if (roh.startsWith(needle) || (foldedNeedle && gefaltet.startsWith(foldedNeedle))) return praefix;
+      if (roh.includes(needle) || (foldedNeedle && gefaltet.includes(foldedNeedle))) return teil;
       return 0;
     };
 

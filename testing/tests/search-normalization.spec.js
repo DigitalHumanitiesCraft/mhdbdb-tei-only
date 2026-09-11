@@ -515,5 +515,40 @@ test.describe('Search Normalization Test Suite', () => {
 
             expect(result.performant).toBe(true);
         });
+
+        // #419/#437: foldDiacritics ist die Gegenrichtung zu normalizeMHG und
+        // endet mit einem generischen Zerlegungsdurchlauf. Der tilgt eine
+        // Eingabe, die nur aus kombinierenden Zeichen besteht, restlos, und
+        // `includes('')` ist true: ohne Guard traf ein solcher Begriff jeden
+        // Eintrag. Eine zu volle Trefferliste sieht nicht nach einem Fehler
+        // aus, deshalb steht der Fall hier als Test und nicht als Notiz.
+        test('14. foldDiacritics - Gegenrichtung, Akzente und der Leerfall', async () => {
+            const result = await page.evaluate(() => {
+                const akut = String.fromCharCode(0x301);
+                const T = window.TextNormalizer;
+                return {
+                    // Der Fall aus Alans Protokoll: Stamm ohne Umlaut findet
+                    // die Flexionsform mit Umlaut.
+                    baumFindetBaeume: T.matchesFolded('Bäume', 'baum'),
+                    // Die alte Richtung darf dadurch nicht verloren gehen.
+                    baeumeBleibt: T.matchesNormalized('Bäume', 'baeume'),
+                    // Akzent ausserhalb der deutschen Umlautmenge.
+                    malmariee: T.matchesFolded('Malmariée-Lied', 'malmariee'),
+                    // Der Leerfall, beide Seiten.
+                    faltungLeer: T.foldDiacritics(akut) === '',
+                    leerTrifftNichts: T.matchesFolded('Bäume', akut),
+                    // Kontrollwert: die MHD-Normalisierung hat den Fall nie
+                    // gehabt, sie tilgt kombinierende Zeichen nicht.
+                    normalizedTrifftAuchNicht: T.matchesNormalized('Bäume', akut)
+                };
+            });
+
+            expect(result.baumFindetBaeume).toBe(true);
+            expect(result.baeumeBleibt).toBe(true);
+            expect(result.malmariee).toBe(true);
+            expect(result.faltungLeer).toBe(true);
+            expect(result.leerTrifftNichts).toBe(false);
+            expect(result.normalizedTrifftAuchNicht).toBe(false);
+        });
     });
 });

@@ -152,7 +152,17 @@ export class TextNormalizer {
     static matchesFolded(text, searchTerm) {
         if (!text || !searchTerm) return false;
 
-        return this.foldDiacritics(text).includes(this.foldDiacritics(searchTerm));
+        // Der gefaltete Begriff kann leer sein, obwohl der rohe es nicht war:
+        // die Zerlegung oben tilgt eine Eingabe, die nur aus kombinierenden
+        // Zeichen besteht, restlos. `includes('')` ist nach Spezifikation
+        // true, also haette ein solcher Begriff JEDEN Eintrag getroffen, und
+        // eine zu volle Trefferliste sieht nicht nach einem Fehler aus.
+        // Gemessen: matchesFolded('Baeume', U+0301) war true, waehrend
+        // matchesNormalized dieselbe Eingabe korrekt mit false beantwortet.
+        const folded = this.foldDiacritics(searchTerm);
+        if (!folded) return false;
+
+        return this.foldDiacritics(text).includes(folded);
     }
 
     /**
