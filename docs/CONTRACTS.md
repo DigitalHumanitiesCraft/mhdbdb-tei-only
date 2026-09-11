@@ -577,7 +577,11 @@ function searchDocumentLevel(lemmaIds, corpusData):
             text.lemmata["lemma_" + cleanId] or text.lemmata[cleanId] exists)
 
         if containsAll:
-            results.push({filename, title, author, context: 'document', totalWords})
+            // matchCount is the evidence count: the length of each lemma's
+            // position list, summed over all searched lemmata (#58).
+            matchCount = sum over lemmaIds of
+                length(text.lemmata["lemma_" + cleanId] or text.lemmata[cleanId] or [])
+            results.push({filename, title, author, context: 'document', matchCount})
 
     return results
     // No dedup needed — each text can only appear once (checked via containsAll)
@@ -587,7 +591,7 @@ function searchDocumentLevel(lemmaIds, corpusData):
 
 **Note:** No dedup needed here because the intersection check (`every`) guarantees each text appears at most once.
 
-**Removed field (#327):** the pushed object used to carry a `matchingWords` map, the hit count per lemma, built in a loop over `lemmaIds` with two index lookups per matching text. Its last reader was `formatMatchingWordsOrCounts` in `tei-ui.js`, which had lost its own callers long before; when that method went, the field became write-only. What the result card shows is `totalWords`.
+**A field removed and a field restored (#327, then #58):** the pushed object used to carry a `matchingWords` map, the hit count per lemma, built in a loop over `lemmaIds` with two index lookups per matching text. Its last reader was `formatMatchingWordsOrCounts` in `tei-ui.js`, which had lost its own callers long before; when that method went, the field became write-only and was dropped. The card then fell back to the only number left, `totalWords`, and showed the token count of the whole text as the hit count: the same figure for every lemma in that text, and summed into the header (`arm` as an adjective, lemma_285, reported 6,418,133 across 207 texts where 820 is right). #58 restored the count as `matchCount` and removed `totalWords`, because after the change it would itself have had no reader left. That is the trap to avoid here: a write-only field on this object is what produced the bug the first time.
 
 ---
 

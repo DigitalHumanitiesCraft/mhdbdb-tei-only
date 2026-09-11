@@ -142,8 +142,9 @@ export class TEIExplorer {
     // Summiert die Belege, nicht die Wörter des Textes. Bis #58 stand hier
     // `result.totalWords`, also die Tokenzahl des ganzen Textes: dieselbe Zahl
     // für jedes Lemma, das in diesem Text vorkommt. Sie lief über
-    // displaySummaryResults auch in die Kopfzeile ein, wo `arm` 6.418.133
-    // Treffer meldete statt der Belege.
+    // displaySummaryResults auch in die Kopfzeile ein, wo `arm` als Adjektiv
+    // (lemma_285, 207 Texte) 6.418.133 Treffer meldete statt 820 Belegen und
+    // als Körperteil (lemma_286, 40 Texte) 2.195.030 statt 157.
     //
     // Kein `|| 1` als Rückfall: ein fehlendes matchCount wäre ein Fehler in
     // tei-manager.js, und eine erfundene 1 würde ihn genau so verdecken, wie

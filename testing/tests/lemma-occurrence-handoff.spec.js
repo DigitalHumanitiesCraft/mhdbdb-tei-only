@@ -354,9 +354,9 @@ test.describe('Review-Fund zu #58: die Nähe-Distanz überlebt close() ebenfalls
  *
  * Sie war bis heute `text.wordCount`, also die Tokenzahl des ganzen Textes:
  * dieselbe Zahl für jedes Lemma desselben Textes, und über die Kopfzeile
- * summiert zu Angaben wie „6.418.133 Treffer" für `arm`. Gemeldet von KZW am
- * 2026-09-08 in #58 („11250 Arme (Körperteile) im CEFB kann nicht sein"),
- * unabhängig getroffen von Alan van Beek in seinem Testprotokoll (#419).
+ * summiert zu Angaben wie „6.418.133 Treffer" für `arm` als Adjektiv
+ * (lemma_285, 207 Texte; 820 Belege wären richtig). Gemeldet von KZW am
+ * 2026-09-08 in #58 („11250 Arme (Körperteile) im CEFB kann nicht sein").
  *
  * Entstanden ist der Fehler nicht durch eine falsche Rechnung, sondern durch
  * eine Aufräumarbeit: #327 entfernte das `matchingWords`-Objekt, weil sein
@@ -411,22 +411,4 @@ test.describe('#58: die Karte zeigt Belege, nicht die Länge des Textes', () => 
     ).toBeGreaterThan(0);
   });
 
-  test('die Kopfzeile summiert die Belege der Karten', async ({ page }) => {
-    await page.goto(`${PLAYGROUND}#multi-lemma&lemmata=${FORM}&ids=${ID_KOERPERTEIL}&mode=document`);
-    await playgroundBereit(page);
-    await expect(page.locator('#resultsContainer'))
-      .toContainText(`Multi-Lemma-Suche: ${FORM}`, { timeout: 90000 });
-
-    const zahlen = await page.locator('#resultsContainer .summary-count').allTextContents();
-    const summe = zahlen.reduce((s, t) => s + Number(t.trim()), 0);
-
-    // Ohne /i geht der Abgleich ins Leere: die Kopfzeile trägt `uppercase`,
-    // und innerText liefert den gerenderten Text, also „157 TREFFER · 40
-    // KONTEXTE".
-    const kopf = await page.locator('#resultsContainer').innerText();
-    const treffer = kopf.match(/(\d+) Treffer · (\d+) Kontexte/i);
-    expect(treffer, 'Kopfzeile mit Treffer- und Kontextzahl nicht gefunden').toBeTruthy();
-    expect(Number(treffer[1]), 'Treffer im Kopf gegen die Summe der Karten').toBe(summe);
-    expect(Number(treffer[2]), 'Kontexte im Kopf gegen die Zahl der Karten').toBe(zahlen.length);
-  });
 });

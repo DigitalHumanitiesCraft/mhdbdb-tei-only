@@ -199,10 +199,10 @@ export class TEIFilesManager {
                 // tei-ui.js, und der hatte selbst keinen Aufrufer mehr; mit dessen
                 // Löschung wurde das Feld rein schreibend und verschwand. Danach
                 // blieb nur totalWords übrig, und die Anzeige nahm es als Belegzahl:
-                // im CEFB standen für `arm` 11.250 statt 3 (#58, gemeldet von KZW
-                // am 2026-09-08, unabhängig getroffen von Alan van Beek in #419).
-                // Die Zahl hing dabei gar nicht am gesuchten Lemma, sie war für
-                // jedes Lemma desselben Textes dieselbe.
+                // im CEFB standen für `arm` (lemma_286) 11.250 statt 3. Gemeldet
+                // von KZW am 2026-09-08 in #58. Die Zahl hing dabei gar nicht am
+                // gesuchten Lemma, sie war für jedes Lemma desselben Textes
+                // dieselbe.
                 //
                 // matchCount ist jetzt wieder die Belegzahl: text.lemmata[id] ist
                 // die Positionsliste des Lemmas in diesem Text, ihre Länge also die
