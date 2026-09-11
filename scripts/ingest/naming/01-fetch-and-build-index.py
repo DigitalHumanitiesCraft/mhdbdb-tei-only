@@ -533,7 +533,8 @@ def build_record(row, figure_name, aliases, deck_aliases):
         who, by = "self", None
         phrase = clean(row["Eigennennung"])
     elif filled(row.get("Bezeichnung")):
-        # Figurenrede ohne erfasste nennende Figur (3x im Iwein)
+        # Figurenrede ohne erfasste nennende Figur (2x im Iwein am Pin
+        # v0.2.2-beta; hier stand '3x', gemessen 2026-09-11 ueber den Index)
         who, by = "fig", None
         phrase = clean(row["Bezeichnung"])
     else:

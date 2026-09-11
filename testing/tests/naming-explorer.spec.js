@@ -295,6 +295,24 @@ test.describe('Naming Explorer (#59)', () => {
     expect(echtUeber).toBeGreaterThan(0);
   });
 
+  test('Term-Perspektive: ein Eigenname faellt in die Bezeichnungsspalte', async ({ page }) => {
+    // Schliesst eine Luecke, die der Review gefunden hat: die uebrigen Tests
+    // arbeiten mit helt, hêrre und got, und die sind allesamt Antonomasien.
+    // Eine Mutation BEZ_CATS = ['ant'], die Eigennamen und Decknamen aus der
+    // Bezeichnungsspalte wirft, waere ihnen deshalb entgangen. 'Ruolant' ist
+    // im Rolandslied ein reiner Eigenname (174 Nennungen auf eine Figur,
+    // gemessen 2026-09-11), also muss dort bez == Nennungen und epi == 0
+    // stehen.
+    await selectTerm(page, 'ROL', 'Ruolant');
+    const zeilen = page.locator('[data-ne-term]');
+    await expect(zeilen).toHaveCount(1);
+    const z = zahlen(await zeilen.first().locator('td').allTextContents());
+    const [, mentions, , , , , bez, epi] = z;
+    expect(mentions).toBe(174);
+    expect(bez).toBe(mentions);
+    expect(epi).toBe(0);
+  });
+
   test('Term-Perspektive: Kategorie-Tab schneidet auf Epitheta zu', async ({ page }) => {
     await selectTerm(page, 'IW', 'alt');
     const vorher = await page.locator('[data-ne-term] td:nth-child(2)').allTextContents();

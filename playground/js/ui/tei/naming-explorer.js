@@ -81,10 +81,10 @@ import { TextNormalizer } from '../../../../assets/js/lib/text-normalizer.js';
 import { getNavigationEpoch } from '../core/router.js';
 
 const DEFAULT_STATE = Object.freeze({
-  perspective: 'named',  // 'named' = benannte Figur | 'namer' = nennende Instanz
+  perspective: 'named',  // 'named' = benannte Figur | 'namer' = nennende Instanz | 'lemma' = Term
   workSigle: '',
-  subject: '',           // gewählte Figur bzw. gewählter Nenner (dessen Schlüssel)
-  speaker: '',           // nur 'named': '' | 'erz' | 'self' | 'fig' | 'fig:<key>'
+  subject: '',           // gewählte Figur, gewählter Nenner (Schlüssel) oder gewählter Term
+  speaker: '',           // 'named' und 'lemma': '' | 'erz' | 'self' | 'fig' | 'fig:<key>'
   target: '',            // nur 'namer': '' | Name der genannten Figur
   category: 'all',       // 'all' | einer der CATS
   nameFilter: ''
@@ -299,7 +299,8 @@ export class NamingExplorer {
         } else if (record.by) {
           entry = touch(namerKey(record.by), record.by);
         } else {
-          continue;  // Figurenrede ohne erfassten Nenner (3x im Iwein)
+          continue;  // Figurenrede ohne erfassten Nenner (2x im Iwein am Pin
+                     // v0.2.2-beta; hier stand '3x', gemessen 2026-09-11)
         }
         entry.figures.add(figure);
       }
@@ -335,8 +336,8 @@ export class NamingExplorer {
 
   /**
    * Records des gewählten Subjekts als [{figure, record}], Unterfilter bereits
-   * angewandt. In beiden Perspektiven dieselbe Form, damit computeTerms und
-   * die Tabelle nur einmal existieren.
+   * angewandt. In allen drei Perspektiven dieselbe Form, damit computeTerms
+   * und computeFigureRows auf derselben Eingabe arbeiten.
    */
   collectPairs(work) {
     const pairs = [];
@@ -451,13 +452,25 @@ export class NamingExplorer {
    * Term in mehreren Kategorien desselben Records, zaehlt er fuer `mentions`
    * trotzdem einmal. Die Spalten `bez` und `epi` zaehlen dagegen, in wie
    * vielen dieser Nennungen er in der jeweiligen Gruppe stand; ihre Summe
-   * darf `mentions` also uebersteigen, und sie tut es: je Werk tragen 23 bis
-   * 90 Terme beide Gruppen (gemessen 2026-09-11 ueber alle vier Werke).
+   * darf `mentions` also uebersteigen. Sie tut es selten: im ganzen Index
+   * fuehren genau DREI Records denselben Term in beiden Gruppen (IW `der` bei
+   * Graf vom Schwarzen Dorn V. 5629, ROL `der` bei Gott V. 7720, TRO `got`
+   * bei Jupiter V. 14383; ENE keinen). Nicht zu verwechseln mit den 23 bis 90
+   * Termen je Werk, die in VERSCHIEDENEN Records beide Gruppen tragen: fuer
+   * die gilt `bez + epi === mentions`. Der Unterschied ist der Grund, warum
+   * der Test auf TRO/`got` steht und nicht auf IW/`alt` (Reviewbefund B1).
    *
    * `share` bezieht sich auf die Summe der angezeigten Nennungen, nicht auf
-   * alle des Terms im Werk. Bei gesetztem Unterfilter ist das der Unterschied
-   * zwischen einer Spalte, die sich zu 100 summiert, und einer, die es nicht
-   * tut; die Bezugsgroesse steht im Kopf der Tabelle.
+   * alle des Terms im Werk; die Bezugsgroesse steht im Kopf der Tabelle. Das
+   * ist die Abweichung von Lindas Spezifikation, und sie betrifft nur den
+   * Sprecher-Unterfilter, den sie gar nicht hat: fuer den Kategorie-Tab ist
+   * ihr `total_mentions` ebenfalls das des Suchbereichs.
+   *
+   * Die Spalte summiert sich deshalb NICHT verlaesslich auf 100, und zwar aus
+   * einem zweiten Grund: gerundet wird je Zeile. ROL/`helt` summiert auf 98,
+   * `hêrre` auf 95, und Lindas eigene Referenzdatei tut fuer `helt` dasselbe.
+   * Von 433 Termen mit mindestens zwei Figuren treffen 247 exakt 100, die
+   * Spanne reicht von 89 bis 109 (Reviewbefund B2).
    */
   computeFigureRows(pairs, term) {
     const map = new Map();
@@ -473,11 +486,16 @@ export class NamingExplorer {
       // `who` ist eine geschlossene Dreiermenge, nicht per Stichprobe, sondern
       // per Bau: build_record im Index-Skript setzt 'fig', 'erz' oder 'self'
       // und gibt sonst None zurueck, der Record existiert dann gar nicht.
-      // Deshalb drei Spalten und kein vierter Eimer fuer Unzugeordnetes:
-      // Lindas defensives `unattributed` (#420) traegt in allen vier Werken
-      // null Records, und eine dauerhafte Null-Spalte laese sich wie eine
-      // Erhebungsluecke. Die Partition by_narrator + in_figure_speech +
-      // self_naming === mentions, die sie zusichert, gilt damit hier auch.
+      // Deshalb drei Spalten und kein vierter Eimer fuer Unzugeordnetes; die
+      // Partition by_narrator + in_figure_speech + self_naming === mentions,
+      // die Linda zusichert, gilt hier also auch.
+      //
+      // Sie gilt allerdings, weil unser Bau ihren Rueckfall AUFLOEST und nicht,
+      // weil es ihn nicht gaebe: der vierte elif in build_record faengt
+      // Figurenrede ohne erfasste nennende Figur und legt sie als 'fig' ab.
+      // Am Pin v0.2.2-beta sind das 2 Records, beide im Iwein; bei Linda
+      // stuenden sie als `unattributed`. Ein Pin-Bump auf v0.3.0-beta loest
+      // das von selbst, dort sind sie bereinigt (Reviewbefund B3).
       if (record.who === 'erz') row.erz += 1;
       else if (record.who === 'self') row.self += 1;
       else row.fig += 1;
