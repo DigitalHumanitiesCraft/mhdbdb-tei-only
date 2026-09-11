@@ -85,7 +85,8 @@ test.describe('Issue #106: Reim-Wörterbuch (Minimalvariante)', () => {
     // Genau das ist die Meldung, die den Filter verschwieg.
     await expect(container).not.toContainText('kein benachbartes Versende');
     // Die Kopfzeile darf die Gesamtmenge nicht mehr unterschlagen.
-    await expect(container).toContainText('0 von');
+    // Als Regex, nicht als Text: „0 von" als Substring traefe auch „10 von 20".
+    await expect(container).toContainText(/(^|[^0-9])0 von [0-9]/);
   });
 
   test('Unbekanntes Lemma zeigt Amber-Hinweis statt Ergebnis', async ({ page }) => {

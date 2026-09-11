@@ -104,7 +104,9 @@ export class ConceptDistribution {
     // Feld wird deshalb zweimal verglichen, einmal roh und einmal mit
     // gefalteten Diakritika; die Stufen bleiben dieselben, ein Fold-Treffer
     // ist also so viel wert wie ein roher. Gemessen am 11.09. ueber alle
-    // 567 Begriffe: keine neue Mehrdeutigkeit, „baum" von 0 auf 4 Treffer.
+    // 567 Begriffe samt ihrer Alt-Terme: genau ein Paar wird durch den Fold
+    // gleich, „Vogel"/„Voegel" innerhalb von concept_14020000, also kein
+    // Begriff ununterscheidbar von einem anderen. „baum" von 0 auf 4.
     const foldedNeedle = TextNormalizer.foldDiacritics(trimmed);
     const stufe = (value, exakt, praefix, teil) => {
       if (!value) return 0;

@@ -176,4 +176,21 @@ test.describe('Issue #419: Umlaut-Faltung in der Begriffssuche', () => {
     await page.fill('#conceptSearch', 'baeume');
     await expect(page.locator('#conceptResults')).toContainText('Bäume', { timeout: 15000 });
   });
+
+  // Was die Faltung wahr gemacht hat: es gibt jetzt Treffer, die
+  // `matchesNormalized` nicht sieht. `findAlternativeMatch` war allein darauf
+  // gebaut und lieferte für sie keinen „auch: …"-Hinweis mehr, der Begriff
+  // stand also unerklärt in der Liste. Gemessen am 11.09.: 56 Begriffe.
+  test('Fold-Treffer über einen Alt-Term trägt seinen „auch"-Hinweis', async ({ page }) => {
+    await page.goto('http://localhost:8080/playground/#concepts');
+    await page.waitForSelector('#conceptSearch', { state: 'visible', timeout: 60000 });
+
+    // „fruchte" trifft concept_13023100 „Obst" nur über altDE „Früchte",
+    // und nur über die Faltung: „fruchte" steht weder in „Obst" noch in
+    // „Fruit", und normalizeMHG macht aus „Früchte" „fruechte".
+    await page.fill('#conceptSearch', 'fruchte');
+    const ergebnisse = page.locator('#conceptResults');
+    await expect(ergebnisse).toContainText('Obst', { timeout: 15000 });
+    await expect(ergebnisse).toContainText('Früchte');
+  });
 });

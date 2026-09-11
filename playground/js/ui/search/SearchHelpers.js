@@ -278,10 +278,12 @@ export const SearchPatterns = {
    * genre, name and work explorers, whose fields are modern German and
    * English descriptors rather than Middle High German attestations, and
    * German umlaut alternation puts the umlaut in the inflected form while
-   * the user types the stem. Measured over all four authority sets on
-   * 2026-09-11: the fold creates no new ambiguity (no two descriptors that
-   * differ under normalizeMHG become equal), and "baum" goes from 0 to 4
-   * concepts.
+   * the user types the stem. Measured on 2026-09-11 over every field these
+   * four callers actually compare, alternative terms included (the index
+   * carries altDE on 263 of 567 concepts and 250 of 615 genres): exactly one
+   * pair becomes equal under the fold that differs under normalizeMHG, and it
+   * is "Vogel" / "Vögel" inside concept_14020000, so no entry becomes
+   * indistinguishable from another. "baum" goes from 0 to 4 concepts.
    */
   multiFieldNormalized: (items, searchTerm, fieldGetters) => {
     const matchedItems = new Set();

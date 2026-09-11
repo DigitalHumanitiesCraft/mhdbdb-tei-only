@@ -110,6 +110,16 @@ All three were unfindable through normalized search. All 43,879 lemma normalizat
 
 The comparison helpers exist only on the JS side (`TextNormalizer.matchesNormalized` / `.exactMatchNormalized` / `.startsWithNormalized`). The Python counterparts were removed because no build script ever called them (audit #107): Python code compares directly via `normalize_mhg(a) == normalize_mhg(b)` and so on. The hard parity contract applies to `normalize_mhg()` ↔ `TextNormalizer.normalizeMHG()`; anyone introducing a new Python comparison helper has to mirror the JS semantics 1:1 again (substring/exact/prefix over normalized strings).
 
+**`foldDiacritics` / `matchesFolded` are deliberately outside this contract** (#419). They live in the same file and look like siblings of the functions above, but they are the opposite operation and they have, and must keep, no Python counterpart.
+
+`normalizeMHG` **expands** a diacritic into a digraph (`ä` → `ae`), so that a user who types `baeume` reaches `Bäume`. `foldDiacritics` **collapses** it onto the base letter (`ä` → `a`), so that a user who types `baum` reaches `Bäume`. German umlaut alternation puts the umlaut in the inflected form (Baum/Bäume, Wald/Wälder, groß/größer) while the search box gets the stem, and under the expansion the stem is not even a prefix of the target. Both directions are needed and neither replaces the other.
+
+**Where the fold may be used:** the modern German and English descriptors of the authority files, that is the concept, genre, name and work explorers via `SearchPatterns.multiFieldNormalized`, plus `resolveQuery` in `concept-distribution.js`. **Where it may not:** anything that compares Middle High German attestations. `normalizeMHG` is the contract there, it is parity-tested against Python, and a fold applied to corpus forms would silently widen matches that §C's three-stage lemma resolution deliberately keeps narrow.
+
+Measured on 2026-09-11 over all four authority sets (567 concepts, 615 genres, 90 names, 584 works; 391 entries carry ä/ö/ü, counting capitals: Ämter, Ölproduktion and 10 more, and they are in scope because the fold lowercases first). The count runs over every field the four callers compare, **alternative terms included**: the index carries `altDE` on 263 of 567 concepts and 250 of 615 genres, and a probe that reads the field names off `items[0]` misses them, because the first concept has none.
+
+Result: **exactly one pair becomes equal under the fold that differs under `normalizeMHG`**, and it is `Vogel` / `Vögel` within `concept_14020000`. Both name the same concept, so no entry becomes indistinguishable from another and no resolution changes target. `baum` goes from 0 to 4 concepts.
+
 ---
 
 ## B. Position Counting Contract

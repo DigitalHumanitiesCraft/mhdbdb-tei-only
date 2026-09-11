@@ -210,14 +210,21 @@ export class ConceptExplorer {
  * as "auch: …" hint. Otherwise return null.
  */
 function findAlternativeMatch(concept, searchTerm) {
-  const primaryMatch =
-    TextNormalizer.matchesNormalized(concept.termDE || "", searchTerm) ||
-    TextNormalizer.matchesNormalized(concept.termEN || "", searchTerm);
-  if (primaryMatch) return null;
+  // Beide Normalisierungsrichtungen, genau wie in multiFieldNormalized (#419).
+  // Diese Funktion stand vorher allein auf matchesNormalized und war damit
+  // blind fuer die Treffer, die die Faltung neu erreichbar gemacht hat: der
+  // Begriff wurde gelistet, der „auch: …"-Hinweis blieb leer, und der Nutzer
+  // sah nicht, warum „fruchte" den Begriff „Obst" findet (ueber altDE
+  // „Fruechte"). Gemessen am 11.09.: 56 Begriffe waren so unerklaert.
+  const trifft = (text) =>
+    TextNormalizer.matchesNormalized(text || "", searchTerm) ||
+    TextNormalizer.matchesFolded(text || "", searchTerm);
+
+  if (trifft(concept.termDE) || trifft(concept.termEN)) return null;
 
   const altCandidates = [...(concept.altDE || []), ...(concept.altEN || [])];
   for (const alt of altCandidates) {
-    if (TextNormalizer.matchesNormalized(alt, searchTerm)) {
+    if (trifft(alt)) {
       return alt;
     }
   }
