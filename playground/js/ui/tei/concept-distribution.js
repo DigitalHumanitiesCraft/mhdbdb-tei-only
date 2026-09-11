@@ -116,7 +116,7 @@ export class ConceptDistribution {
     const stufe = (value, exakt, praefix, teil) => {
       if (!value) return 0;
       const roh = value.toLowerCase();
-      const gefaltet = foldedNeedle ? TextNormalizer.foldDiacritics(value) : '';
+      const gefaltet = TextNormalizer.foldDiacritics(value);
       if (roh === needle || (foldedNeedle && gefaltet === foldedNeedle)) return exakt;
       if (roh.startsWith(needle) || (foldedNeedle && gefaltet.startsWith(foldedNeedle))) return praefix;
       if (roh.includes(needle) || (foldedNeedle && gefaltet.includes(foldedNeedle))) return teil;

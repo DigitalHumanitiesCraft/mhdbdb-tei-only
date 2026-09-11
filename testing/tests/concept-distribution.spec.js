@@ -181,6 +181,25 @@ test.describe('Issue #419: Umlaut-Faltung in der Begriffssuche', () => {
   // `matchesNormalized` nicht sieht. `findAlternativeMatch` war allein darauf
   // gebaut und lieferte für sie keinen „auch: …"-Hinweis mehr, der Begriff
   // stand also unerklärt in der Liste. Gemessen am 11.09.: 56 Begriffe.
+  // `stufe` benutzt `foldDiacritics` direkt, nicht ueber `matchesFolded`, hat
+  // also seinen eigenen Guard und braucht seinen eigenen Test. Ohne ihn gaebe
+  // `startsWith('')` jedem der 567 Begriffe 50 Punkte, `resolveQuery` loeste
+  // auf, und die Verteilungsansicht rechnete eine vollstaendige Analyse fuer
+  // eine Anfrage ohne Inhalt.
+  test('Eingabe aus lauter kombinierenden Zeichen trifft keinen Begriff', async ({ page }) => {
+    await page.goto('http://localhost:8080/playground/#concept-distribution');
+    await page.waitForSelector('#cdSearchBtn', { state: 'visible', timeout: 60000 });
+
+    // Kontrollwert zuerst: das Dropdown fuellt sich ueberhaupt.
+    await page.fill('#cdQuery', 'baum');
+    await expect(page.locator('#cdAutocomplete')).toContainText('Bäume', { timeout: 15000 });
+
+    // Ein einzelner kombinierender Akut, U+0301. Roh nicht leer, gefaltet leer.
+    await page.fill('#cdQuery', '');
+    await page.fill('#cdQuery', String.fromCharCode(0x301));
+    await expect(page.locator('#cdAutocomplete')).toBeHidden({ timeout: 15000 });
+  });
+
   // Zweite Runde der Frage aus #397, diesmal vom CI-Bot gestellt: die Faltung
   // hat wahr gemacht, dass `work.author` sie mitbekommt. Derselbe Name steht
   // zeichengleich in persons.preferredName, wo sie bis #437 nicht ankam.
