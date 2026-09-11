@@ -1729,3 +1729,87 @@ und nach der Änderung identisch, das YAML parst, 20 Steps im Job.
 Nicht von dieser Session: auf `origin/claude/235-315-wzb-tokens-lead-editor`
 liegt Julias Arbeit zu #198 Schritt 2 vom 21.08., nie gemergt, ohne PR; der
 Befund steht als Kommentar an #198.
+
+---
+
+## 2026-09-10/11 (Nachtsitzung) – Ein gemeldetes Token waren neunzehn Belege, und die Versionsnummer war schon vergeben
+
+Drei freigegebene Vorgänge, zwei PRs, gemergt: **#427** (Escaping der
+Ergebnisköpfe im Playground), **#425** (Mehrwort-Lemmata dokumentiert) in PR
+#428, **#363** (Hausenblase) in PR #429.
+
+**Der Vorgang war sechsmal so groß wie seine Meldung.** #363 meldete ein Token,
+`hawssen` in MBS5 am Adjektiv *heiʒ*. Die Suche nach den Schreibformen statt nach
+der gemeldeten ID findet **19 Belege in 7 Sigeln, 32 Tokens**, und alle sieben
+Sigel sind Kochbücher. Von den 19 waren 5 richtig; die übrigen 14 hingen an
+sieben Lemmata, darunter das Verb *hûsen* „wohnen", der *hase* und die
+Mönchstonsur. Sieben Tokens trugen gar kein `@lemmaRef`. Die Bestätigung stand im
+eigenen Korpus: KBL4 schreibt „ovch ist die **husen blater** vnd all **fisch
+blatra** guot in sulcza", eine Apposition, keine Auslegung.
+
+**Zweimal habe ich in diesem Vorgang behauptet, eine Mehrwort-Einheit wäre „die
+erste im Korpus", und damit gegen die philologisch richtige Zuordnung
+argumentiert.** Beide Male falsch, und beide Male hätte ein Blick in
+`variants.xml` gereicht: das Muster gibt es seit Jahren an `lemma_3141` *Joie de
+la Court*, `lemma_9250` *Schastel Marveile*, `lemma_9251` und `lemma_20598`, und
+`Schastel Marveile` trägt sogar dieselbe Doppelung aus getrennter und
+zusammengeschriebener Schreibung wie dieser Fall. Dokumentiert war es nirgends,
+was genau der Grund ist, warum es zweimal übersehen werden konnte. Daraus wurde
+#425, und `TEI-MODEL.md` §4.1a hält seit #363 auch fest, dass die Klasse nicht
+auf Eigennamen beschränkt ist.
+
+**Die Typ-Entscheidung ist der technische Kern und war beinahe ein Datenschaden.**
+Ein `type_N` ist eine Schreibform *eines* Lemmas, und `extract-variants.py` löst
+ein mehrdeutiges Paar per Mehrheit auf. Wer den Bestands-Typ mitnimmt, nimmt
+fremde Tokens mit: `type_106683` *pleter* trägt 45 Tokens, 43 davon bleiben bei
+`lemma_737` *blat*. Das Skript entscheidet deshalb je Form am gescannten Korpus,
+5 umgehängt und 10 neu geprägt, und `extract-variants` bestätigt es von der
+anderen Seite mit **0 Typen an mehr als einem Lemma**.
+
+**Der teure Fehler war ein anderer: die Versionsnummer war schon vergeben.** #363
+ist mit Korpus 4.2.14 und Authority 1.9.4 gemergt worden, während der offene PR
+#416 genau diese beiden Nummern seit seinem Rebase vom 09.09. trug. Kosten, mit
+`git merge-tree` gemessen: acht Konfliktdateien in Julias PR, allesamt
+abgeleitete Schicht plus Versionsliterale, dazu Umnummerierung und ein
+vollständiger Rebuild auf fremdem Branch. Die Quelldaten mischen sich sauber.
+**Kein Gate deckt das ab, und beide waren auf beiden Seiten grün:**
+`check-index-versions.py` prüft Konsistenz *innerhalb* eines Arbeitsstands, das
+#154-Bump-Gate nur, *dass* gebumpt wurde. Regel steht jetzt im
+Data-Change-Lifecycle, Befund als Kommentar an #416.
+
+**Die zweite Lehre ist eine über Zahlen an ausgelieferten Seiten.** Eine
+Lemma-Löschung verschiebt vier Zähler, und die stehen an 36 Stellen in 15
+Dateien, einschließlich des Stats-Blocks der Startseite. `doc-count-audit.py`
+läuft nur in `validate` und steht nicht in der Schrittfolge des Lifecycles, ist
+also erst in der CI rot geworden. Danach hat der Review-Bot zweimal nachgesetzt,
+und beide Male am selben Muster: meine Gate-Erweiterung war für zwei von drei
+Dateien wirkungslos, weil der Anker `Lemmata` „Lexikoneinträge" nicht trifft, und
+nach dem Ankerfix meldete eine Datei Abdeckung, ohne zu prüfen, weil „rund" vor
+einer exakten Zahl den Rundungs-Skip auslöst. **Ein Target, das Abdeckung meldet
+und schweigt, ist schlechter als eines, das fehlt.** Jede der drei Bindungen ist
+jetzt mit eigener Mutationsprobe belegt.
+
+**Scorecard Doku-Check 2026-09-11** (Trigger: drei PRs an `docs/`). Flow der
+geänderten Abschnitte gelesen, drei Algorithmen gegen den Code (Positionszählung
+gegen `extract_word_data`, Drei-Stufen-Auflösung gegen `resolveLemmaIds` plus
+`lemma-resolve.js`, Auto-Match gegen `wzb-auto-match.py`): alle drei
+deckungsgleich. Vier XPaths der Build Script XPath Reference gegen
+`build-authority-index.py`, samt relativer Achsen: exakt. Alle Zähl-Gates grün.
+**Drei Befunde, behoben:** `POS-TAGSET.md` sagte als einzige Quelle der Wahrheit
+für `@pos` nichts zu Mehrwort-Einheiten, obwohl #363 dort 32 Tags vergeben hat
+(neuer §7: `@pos` bleibt Eigenschaft des Tokens, *Joie de la Court* liest
+`NAM PRP ART NAM`); die Glosse zu *hûsenblâter* warf die Blase mit dem daraus
+gewonnenen isinglass zusammen; „the four names above" stand hinter einer Liste
+von fünf. **Ein Befund offen, weil er eine Entscheidung braucht:**
+`scripts/README.md` sagt, ein issue-gebundenes Einmal-Skript wandere nach
+`_archived/`, sobald sein Issue geschlossen ist, die Praxis in
+`scripts/ingest/pos-disambig/` tut das nicht (`fix-367-waeren.py` liegt dort bei
+geschlossenem #367, und `fix-363-hausenblase.py` jetzt ebenso). Entweder die
+Regel gilt dort auch, oder sie ist auf die Wurzel einzugrenzen: als #430
+abgelegt, weil zwei nebeneinanderstehende Fassungen jede Session neu entscheiden
+lassen.
+
+**Phase:** Betrieb. Offen und auf Menschen wartend: #416 (zwei Antworten, dazu
+die Versionskollision), #252, #366 (jetzt acht Formen statt sieben, weil
+`KDO_121170100_3` erledigt ist und die beiden `hawsen`-Belege aus #363
+zurückkamen: sie sind der Fisch, nicht die Blase), #410, #419.
