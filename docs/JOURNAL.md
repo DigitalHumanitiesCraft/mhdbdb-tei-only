@@ -1813,3 +1813,42 @@ lassen.
 die Versionskollision), #252, #366 (jetzt acht Formen statt sieben, weil
 `KDO_121170100_3` erledigt ist und die beiden `hawsen`-Belege aus #363
 zurückkamen: sie sind der Fisch, nicht die Blase), #410, #419.
+
+## 2026-09-11 – #198 Schritt 2 zugestellt: die Entscheidung war eine Messfrage, das Problem war die Zustellung
+
+**Summary:** Schritt 2 von #198 ist auf `main`. Das `<pos>NOM</pos>` ist aus `lemma_2598` *haben* entfernt, die drei seit PR #205 zurueckgehaltenen NOM-Tokens sind entschieden, und der Sense-Split, der hier seit Juli als die eine offene philologische Frage stand, findet nicht statt. Korpus-Index 4.2.15, Authority-Index 1.9.5. Die inhaltliche Arbeit ist Julias Commit `a1089cb6c` vom 21.08.2026; die Messungen unten sind am 11.09. gegen den gemergten Stand neu gerechnet, drei Zahlen haben dabei nicht gehalten.
+
+**Die Frage war seit Juli als kuratorisch etikettiert und liess sich messen.** „Welche der acht `<sense>` von *haben* sind nominal und gehoeren zu *habe*" klingt nach einer Lesart-Entscheidung. Schluesselt man jeden Sense nach den `@pos` seiner Korpusbelege auf, ist die Antwort eindeutig: alle acht sind ausschliesslich verbal belegt. Es gibt damit keinen Sense, der umziehen muesste.
+
+**Die Reihenfolge ist der eigentliche Inhalt des Schrittes.** Solange ein `<w>` unter `lemma_2598` ein `NOM` traegt, widerspraeche ein Lexikon ohne `<pos>NOM</pos>` dem Korpus. Erst die drei Faelle, dann die eine Zeile: `AC3_23010_1` („hawe vnd schaufel", Geraetepaar als Satzsubjekt) auf `lemma_9644` *houwe*, `DA_8222_3` („daz er dehein habe gesehen / diu bezzer waere") auf `lemma_2593`, weil `dehein habe` eine saubere NP ist und das feminine `diu` mit *habe* kongruiert, `JT_6192000_1` verbal wegen Konjunktiv mit Akkusativobjekt. Gegenprobe danach: null NOM-Tokens unter dem Lemma.
+
+### Drei Zahlen aus dem urspruenglichen Text haben der Nachmessung nicht standgehalten
+
+Keine davon aendert das Ergebnis, alle drei sind nach der Hausregel „jede Zahl ist gemessen oder sie steht nicht drin" zu korrigieren.
+
+- **„26 von 101" waren 28 von 101.** Ohne die `@ana`-Nacharbeit stuenden 28 der 101 `lemma_2593`-Tokens ohne Sense. Die 26 zaehlt nur die von #198 betroffenen Tokens, der Nenner ist die volle Menge. Gemessen: auf `main` 27 von 100 ohne `@ana`, mit diesem Schritt 3 von 101.
+- **„dieselben Konzepte" ist eine Obermenge.** `lemma_2598_sense_4170` traegt `concept_21072000`, `concept_23308000` und `concept_31200000`, `lemma_2593_sense_4159` nur die ersten beiden. Das dritte Konzept ist genau das, was die Senses unterscheidet. Am Schluss aendert das nichts, es stuetzt ihn eher.
+- **„ein Eintrag von 43.879" sind 43.878.** Seit #363 ist `lemma_27031` *hasenblâse* geloescht.
+
+### Und eine Annahme, die KZWs Entscheidung widerlegt hat
+
+Der urspruengliche Text sagte, der Typ-Id-Konflikt „kippt von selbst, sobald das *houwen*-Folgeticket die zwoelf umhaengt". Das trifft nicht zu. `AC3_23010_1` behaelt sein `@corresp` auf `type_117159`, der Typ haengt damit an zwei Lemmata (12 mal `lemma_2598`, einmal `lemma_9644`), und das ist der erste Injektivitaetsverstoss im Korpus: auf `main` gilt die Eindeutigkeit bei **256.772 von 256.772** Typ-Ids ausnahmslos. (Die Zahl stand hier zunaechst als 256.762. Das war die Messung vom 10.09., vor den zehn Typen, die #363 gepraegt hat; fortgeschrieben statt neu gerechnet, gefunden von der Reviewrunde am 11.09.)
+
+KZW hat die dreizehn Belege am 11.09. in #418 einzeln entschieden, und sie wandern **nicht** geschlossen. Seine Tabelle nennt sechs Verbbelege, sechs zum Substantiv und einen unklaren; der unklare (`AC2_9100_9`) ist in derselben Diskussion als Verb aufgeloest worden, und zwei der Substantivbelege brauchen einen neuen Sense. Endstand also sieben zum Verb `lemma_2923` *houwen*, vier auf den bestehenden Sense von `lemma_9644`, zwei auf einen neuen Sense „Schlag" desselben Lemmas. Die Aufteilung sechs zu sechs zu eins ist KZWs, die Aufloesung auf sieben zu vier zu zwei unsere. Ob `type_117159` danach noch mehrdeutig ist, ist damit eine Folge dieser Zuordnung und keine Selbstverstaendlichkeit. Es wird nach der Umsetzung von #418 gemessen und dort festgehalten, nicht vorher behauptet.
+
+### Ein Zeilenende haette 236.000 Scheinaenderungen ins Korpus getragen
+
+Beim Nachtragen der vier `revisionDesc`-Eintraege hat mein eigenes Skript `tei/WZB.tei.xml` im Textmodus gelesen und geschrieben. Die Datei ist die **einzige** im Korpus mit CRLF, und der Schreibvorgang hat daraus stillschweigend LF gemacht: 235.980 Zeilen geaendert, in einem einzigen Hunk ueber die ganze Datei.
+
+Aufgefallen ist es nur an `git diff --stat`, das fuer WZB 471.961 Zeilen meldete, wo 25 zu erwarten waren. **Kein Gate und kein Test haette das gefangen:** die XML ist aequivalent, der Index baut byte-identisch aus beiden Fassungen (nachgemessen), und `.gitattributes` setzt fuer `*.xml` ausdruecklich `-text`, git normalisiert also bewusst nicht und meldet auch nichts. Die Datei traegt ausserdem 17 Zeilen, die schon vorher LF hatten, eine pauschale Rueckumwandlung waere also ebenfalls falsch gewesen; rekonstruiert wurde zeilenweise aus den Bytes von `main`.
+
+Die Lehre ist keine ueber Zeilenenden, sondern eine ueber Werkzeuge: wer eine Korpusdatei mit einem Texteditor-Skript anfasst, aendert mehr als die Zeile, die er meint. Fuer Eingriffe in `tei/` gilt Binaermodus oder `newline=''`, und die Gegenprobe ist die Zeilenzahl im Diff, nicht der Augenschein.
+
+### Die Nummernkollision, zum zweiten Mal in zwei Tagen
+
+Der Commit trug urspruenglich Korpus-Index 4.2.3 und Authority 1.9.1, nach dem Rebase vom 09.09. dann 4.2.14 und 1.9.4. Genau diese beiden Nummern hat in der Nacht auf den 11.09. der #363-Merge vergeben, waehrend dieser PR offen lag. Aufgeloest als 4.2.15 und 1.9.5, die abgeleitete Schicht neu gebaut statt zeilenweise gemerged.
+
+Das Gate `check-index-versions.py` hat dabei einen Fehler von mir gefangen, den ich sonst gepusht haette: `corpus-loader.js` fuehrt die Authority-Version in einer **zweiten** Zeile, und ich hatte nur die Korpus-Version hochgezogen. Das ist der Nutzen dieses Gates in einem Satz.
+
+**Die Lehre ist keine ueber Rebases, sondern eine ueber Zustellung.** Die Entscheidung war am 21.08. gefallen und gemessen; sie hat trotzdem 21 Tage lang nichts bewirkt, weil kein PR existierte, und #198 las sich in dieser Zeit weiter als eine offene Frage an Julia. Ein Commit ohne PR ist in diesem Repositorium kein Zwischenstand, sondern unsichtbar.
+
