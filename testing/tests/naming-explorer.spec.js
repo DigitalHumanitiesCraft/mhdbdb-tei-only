@@ -198,6 +198,154 @@ test.describe('Naming Explorer (#59)', () => {
     expect(new Set(badges.map(b => b.trim())).has('Antonomasie')).toBe(true);
   });
 
+  // --- Term-Perspektive (#420) -------------------------------------------
+  //
+  // Der Oracle dieser Gruppe ist NICHT unsere eigene Rechnung, sondern Lindas
+  // veroeffentlichter Datensatz figures_by_lemma_helt_naming_variants.json aus
+  // Naming-analysis v0.3.0-beta, zitiert in #420. Unser Index ist auf
+  // v0.2.2-beta gepinnt (source.commit 2f16f0ea); die Zahlen stimmen ueber
+  // beide Staende hinweg ueberein, was hier mitgeprueft wird. Wandert der Pin
+  // und aendert sich die Erhebung fuer ROL, gehen diese Tests rot, und das ist
+  // die richtige Reaktion: dann deckt sich unsere Ansicht nicht mehr mit ihrer.
+  const HELT_ROL = { nennungen: 78, figuren: 22, erz: 61 };
+  const RUOLANT = { mentions: 34, erz: 31, fig: 3, self: 0, bez: 34, epi: 0, share: 44 };
+
+  async function selectTerm(page, sigle, term) {
+    await page.click('[data-ne-persp="lemma"]');
+    await page.selectOption('#neWorkSelect', sigle);
+    await page.selectOption('#neFigureSelect', term);
+    await page.waitForSelector('[data-ne-term]', { state: 'visible', timeout: 5000 });
+  }
+
+  const zahlen = (texte) => texte.map(x => parseInt(x.replace(/[^\d]/g, ''), 10));
+
+  test('Term-Perspektive: helt im Rolandslied trifft Lindas veroeffentlichte Zahlen', async ({ page }) => {
+    await selectTerm(page, 'ROL', 'helt');
+
+    await expect(page.locator('#resultsContainer')).toContainText(
+      `benennt ${HELT_ROL.figuren} Figuren in ${HELT_ROL.nennungen} kuratierten Belegstellen`);
+    await expect(page.locator('[data-ne-heading]')).toHaveText('helt');
+
+    // Sortierung: meistgenannte Figur zuerst
+    const ersteZeile = page.locator('[data-ne-term]').first();
+    await expect(ersteZeile.locator('td').first()).toContainText('Ruolant');
+
+    const zellen = zahlen(await ersteZeile.locator('td').allTextContents());
+    // [Figur ist Text -> NaN, mentions, anteil, erz, fig, self, bez, epi]
+    expect(zellen.slice(1)).toEqual([
+      RUOLANT.mentions, RUOLANT.share, RUOLANT.erz, RUOLANT.fig,
+      RUOLANT.self, RUOLANT.bez, RUOLANT.epi
+    ]);
+
+    // Die Erzaehlerspalte ueber alle Zeilen summiert ergibt Lindas 61
+    const erzSpalte = zahlen(await page.locator('[data-ne-term] td:nth-child(4)').allTextContents());
+    expect(erzSpalte.reduce((a, b) => a + b, 0)).toBe(HELT_ROL.erz);
+    // und die Nennungen summieren sich auf die 78
+    const nennungen = zahlen(await page.locator('[data-ne-term] td:nth-child(2)').allTextContents());
+    expect(nennungen.reduce((a, b) => a + b, 0)).toBe(HELT_ROL.nennungen);
+    expect(nennungen.length).toBe(HELT_ROL.figuren);
+  });
+
+  test('Term-Perspektive: hêrre dreht das Bild zur Figurenrede', async ({ page }) => {
+    // Lindas zweites Beispiel aus #420, und der Grund fuer die Perspektive:
+    // dasselbe Material, gegenlaeufiges Bild. helt kommt ueberwiegend vom
+    // Erzaehler, hêrre ueberwiegend aus Figurenrede.
+    await selectTerm(page, 'ROL', 'hêrre');
+    const erz = zahlen(await page.locator('[data-ne-term] td:nth-child(4)').allTextContents())
+      .reduce((a, b) => a + b, 0);
+    const rede = zahlen(await page.locator('[data-ne-term] td:nth-child(5)').allTextContents())
+      .reduce((a, b) => a + b, 0);
+    expect(erz).toBe(55);
+    expect(rede).toBe(167);
+    expect(rede).toBeGreaterThan(erz);
+  });
+
+  test('Term-Perspektive: eine Zeile der Quelle ist EINE Nennung, auch in zwei Gruppen', async ({ page }) => {
+    // Lindas Zaehlregel und ihre Ueberlappungsregel aus #420 in einem Test,
+    // weil nur zusammen pruefbar: "Eine Zeile ist eine Nennung. Sie zaehlt
+    // einmal fuer ihre benannte Figur, auch wenn das Lemma in mehreren Spalten
+    // derselben Zeile steht." Und: "Eine Zeile, die es in beiden fuehrt, zaehlt
+    // in beiden — die Summe der zwei Werte kann also ueber mentions liegen."
+    //
+    // TRO + 'got' ist der Fall, an dem sich das UEBERHAUPT beobachten laesst:
+    // Jupiter traegt 17 Nennungen, davon 17 als Bezeichnung und 1 zusaetzlich
+    // als Epitheton. Wuerde die Ansicht je Kategorie zaehlen statt je Record,
+    // stuenden dort 18 Nennungen und bez+epi waere gleich mentions statt
+    // groesser. Eine Mutationsprobe am 2026-09-11 hat genau das gezeigt: mit
+    // 'alt' im Iwein (dem ersten Kandidaten) blieb der Test gruen, weil dort
+    // keine Zeile beide Gruppen ECHT ueberschreitet.
+    await selectTerm(page, 'TRO', 'got');
+    await expect(page.locator('#resultsContainer'))
+      .toContainText('benennt 11 Figuren in 133 kuratierten Belegstellen');
+
+    const zeilen = page.locator('[data-ne-term]');
+    const n = await zeilen.count();
+    let echtUeber = 0;
+    let summe = 0;
+    for (let i = 0; i < n; i++) {
+      const z = zahlen(await zeilen.nth(i).locator('td').allTextContents());
+      const [, mentions, , , , , bez, epi] = z;
+      summe += mentions;
+      expect(bez + epi).toBeGreaterThanOrEqual(mentions);
+      if (bez + epi > mentions) echtUeber += 1;
+    }
+    // Die Nennungen summieren sich auf die Kopfzahl: kein Record doppelt
+    expect(summe).toBe(133);
+    // und mindestens eine Zeile fuehrt denselben Record in beiden Gruppen
+    expect(echtUeber).toBeGreaterThan(0);
+  });
+
+  test('Term-Perspektive: Kategorie-Tab schneidet auf Epitheta zu', async ({ page }) => {
+    await selectTerm(page, 'IW', 'alt');
+    const vorher = await page.locator('[data-ne-term] td:nth-child(2)').allTextContents();
+    await page.click('[data-ne-cat="epi"]');
+    await page.waitForTimeout(100);
+    const zeilen = page.locator('[data-ne-term]');
+    const n = await zeilen.count();
+    expect(n).toBeGreaterThan(0);
+    for (let i = 0; i < n; i++) {
+      const z = zahlen(await zeilen.nth(i).locator('td').allTextContents());
+      // Im Epitheta-Zweig muss jede Zeile Epitheta fuehren
+      expect(z[7]).toBeGreaterThan(0);
+    }
+    const nachher = await page.locator('[data-ne-term] td:nth-child(2)').allTextContents();
+    expect(zahlen(nachher).reduce((a, b) => a + b, 0))
+      .toBeLessThan(zahlen(vorher).reduce((a, b) => a + b, 0));
+  });
+
+  test('Term-Perspektive: Unterfilter auf den Erzaehler grenzt ein', async ({ page }) => {
+    await selectTerm(page, 'ROL', 'helt');
+    await page.selectOption('#neSubFilter', 'erz');
+    await page.waitForTimeout(100);
+    const nennungen = zahlen(await page.locator('[data-ne-term] td:nth-child(2)').allTextContents());
+    expect(nennungen.reduce((a, b) => a + b, 0)).toBe(HELT_ROL.erz);
+    // Figurenrede- und Selbstnennungsspalte sind danach durchgehend leer
+    const rede = zahlen(await page.locator('[data-ne-term] td:nth-child(5)').allTextContents());
+    expect(rede.every(x => x === 0)).toBe(true);
+    await expect(page.locator('#resultsContainer'))
+      .toContainText(`in ${HELT_ROL.erz} von ${HELT_ROL.nennungen} kuratierten Belegstellen`);
+  });
+
+  test('Term-Perspektive: Belegstellen klappen je Figur auf', async ({ page }) => {
+    await selectTerm(page, 'ROL', 'helt');
+    await page.locator('[data-ne-term]').first().click();
+    const evidence = page.locator('tr.bg-slate-50\\/50').first();
+    await expect(evidence).toBeVisible();
+    await expect(evidence).toContainText('V. ');
+    await expect(evidence).toContainText('helt');
+    // ROL hat deckungsgleiche Verszaehlung, also Deep-Links in die Leseansicht
+    await expect(evidence.locator('a[href*="korpus.html?textId=ROL&verse="]').first()).toBeVisible();
+  });
+
+  test('Term-Perspektive: Werk ohne Auswahl nennt die Zahl der Terme', async ({ page }) => {
+    await page.click('[data-ne-persp="lemma"]');
+    await page.selectOption('#neWorkSelect', 'IW');
+    await expect(page.locator('#resultsContainer')).toContainText(/\d+ Terme in kuratierten Bezeichnungen/);
+    const optionen = await page.locator('#neFigureSelect option').allTextContents();
+    // Terme nach Belegzahl, mit der Zahl der Figuren als Zusatz
+    expect(optionen.some(o => /\(\d+ Belege, \d+ Figuren?\)/.test(o))).toBe(true);
+  });
+
   test('Perspektivwechsel setzt die Auswahl zurueck', async ({ page }) => {
     await selectIwein(page);
     await page.click('[data-ne-persp="namer"]');
