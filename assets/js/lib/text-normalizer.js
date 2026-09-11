@@ -84,6 +84,88 @@ export class TextNormalizer {
     }
 
     /**
+     * Fold diacritics onto their base letter: ä→a, ö→o, ü→u, ß→ss,
+     * plus the long vowels â→a and so on.
+     *
+     * This is NOT the MHG normalization above and does not replace it. The
+     * two answer opposite questions, and a German search box needs both:
+     *
+     * - normalizeMHG expands ä→ae, so that typing "baeume" finds "Bäume".
+     * - foldDiacritics collapses ä→a, so that typing "baum" finds "Bäume".
+     *
+     * The second direction is German umlaut alternation (Baum/Bäume,
+     * Wald/Wälder, groß/größer): the stem a user types carries no umlaut,
+     * the inflected descriptor does. Under ä→ae the stem is not even a
+     * prefix of the target, so the hit is unreachable (#419, Alan van
+     * Beek: "tree" found "Bäume" via termEN "Trees", "baum" found nothing).
+     *
+     * Intended for the modern German and English descriptors of the
+     * authority files (concepts, genres, names, work titles), not for
+     * Middle High German attestations: use normalizeMHG for those.
+     *
+     * @param {string} text - Text to fold
+     * @returns {string} Folded text (NFC, lowercase, diacritics removed)
+     */
+    static foldDiacritics(text) {
+        if (!text) return '';
+
+        return text
+            // Same reason as in normalizeMHG: a decomposed "ö" (o + U+0308)
+            // would not match the precomposed rules below.
+            .normalize('NFC')
+            .toLowerCase()
+            .replace(/[äâā]/g, 'a')
+            .replace(/[öôō]/g, 'o')
+            .replace(/[üûū]/g, 'u')
+            .replace(/[êē]/g, 'e')
+            .replace(/[îī]/g, 'i')
+            .replace(/ß/g, 'ss')
+            // Ligatures keep the digraph: they are two letters, not an
+            // accented one, and "ae" is what a user types for them.
+            .replace(/æ/g, 'ae')
+            .replace(/œ/g, 'oe')
+            // Everything else that carries a mark, generically. The explicit
+            // rules above run first and are not redundant: they map to a
+            // digraph or to a chosen base letter, which decomposition cannot
+            // decide (ß has no combining mark at all, and æ is a letter of
+            // its own, not an accented a). What is left after them is the
+            // ordinary Latin-with-accent case, and dropping the mark is the
+            // right answer there. Without this the @returns above would be a
+            // promise the function does not keep: the genre `Malmariée-Lied`
+            // stayed unreachable through `malmariee`, which is exactly the
+            // kind of miss this function exists to prevent (found by the CI
+            // review on #437; it is the only such descriptor in the four
+            // authority sets, measured 2026-09-11).
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .normalize('NFC');
+    }
+
+    /**
+     * Check if text contains search term after diacritic folding.
+     * Companion to matchesNormalized for authority-file descriptors,
+     * see foldDiacritics for why both are needed.
+     * @param {string} text - Text to search in
+     * @param {string} searchTerm - Term to search for
+     * @returns {boolean} True if folded text contains folded search term
+     */
+    static matchesFolded(text, searchTerm) {
+        if (!text || !searchTerm) return false;
+
+        // Der gefaltete Begriff kann leer sein, obwohl der rohe es nicht war:
+        // die Zerlegung oben tilgt eine Eingabe, die nur aus kombinierenden
+        // Zeichen besteht, restlos. `includes('')` ist nach Spezifikation
+        // true, also haette ein solcher Begriff JEDEN Eintrag getroffen, und
+        // eine zu volle Trefferliste sieht nicht nach einem Fehler aus.
+        // Gemessen: matchesFolded('Baeume', U+0301) war true, waehrend
+        // matchesNormalized dieselbe Eingabe korrekt mit false beantwortet.
+        const folded = this.foldDiacritics(searchTerm);
+        if (!folded) return false;
+
+        return this.foldDiacritics(text).includes(folded);
+    }
+
+    /**
      * Check if text contains search term (with normalization)
      * @param {string} text - Text to search in
      * @param {string} searchTerm - Term to search for

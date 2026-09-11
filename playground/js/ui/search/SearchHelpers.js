@@ -271,14 +271,31 @@ export const SearchPatterns = {
   /**
    * Multi-field search with MHG normalization
    * Searches across multiple fields, matching if ANY field contains the term
+   *
+   * Matches in both normalization directions (#419): normalizeMHG expands
+   * ae→ä so that "baeume" finds "Bäume", foldDiacritics collapses ä→a so
+   * that "baum" finds "Bäume". The only four callers are the concept,
+   * genre, name and work explorers, whose fields are modern German and
+   * English descriptors rather than Middle High German attestations, and
+   * German umlaut alternation puts the umlaut in the inflected form while
+   * the user types the stem. Measured on 2026-09-11 over every field these
+   * four callers actually compare, alternative terms included (the index
+   * carries altDE on 263 of 567 concepts and 250 of 615 genres): exactly one
+   * pair becomes equal under the fold that differs under normalizeMHG, and it
+   * is "Vogel" / "Vögel" inside concept_14020000, so no entry becomes
+   * indistinguishable from another. "baum" goes from 0 to 4 concepts.
    */
   multiFieldNormalized: (items, searchTerm, fieldGetters) => {
     const matchedItems = new Set();
 
     items.forEach((item) => {
-      const hasMatch = fieldGetters.some(
-        (getter) => getter(item) && TextNormalizer.matchesNormalized(getter(item), searchTerm)
-      );
+      const hasMatch = fieldGetters.some((getter) => {
+        const value = getter(item);
+        return value && (
+          TextNormalizer.matchesNormalized(value, searchTerm) ||
+          TextNormalizer.matchesFolded(value, searchTerm)
+        );
+      });
       if (hasMatch) {
         matchedItems.add(item);
       }
