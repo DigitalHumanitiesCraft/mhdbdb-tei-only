@@ -913,8 +913,16 @@ export class NamingExplorer {
     // Term alle Records, die ihn tragen. Ohne diese Fallunterscheidung laese
     // die Term-Perspektive `work.figures['helt']`, also undefined, und der
     // Filter stuende dauerhaft auf „Alle (0)".
+    //
+    // In der Term-Perspektive geht `category` mit ein, der Sprecher nicht.
+    // Die Tabelle darunter rechnet auf `sichtbar`, und das ist kategorie-
+    // geschnitten (renderLemmaBody); ohne denselben Schnitt nennt das Select
+    // ein „Alle (N)", das die Kopfzeile daneben nicht bestaetigt. Der
+    // Sprecher bleibt bewusst draussen: dieses Select setzt ihn selbst und
+    // muss seine Zahlen deshalb vor der eigenen Auswahl zeigen.
+    const filterCats = this.state.category === 'all' ? CATS : [this.state.category];
     const records = this.state.perspective === 'lemma'
-      ? Object.values(work.figures).flat().filter(r => this.recordTraegtTerm(r, this.state.subject, CATS))
+      ? Object.values(work.figures).flat().filter(r => this.recordTraegtTerm(r, this.state.subject, filterCats))
       : (work.figures[this.state.subject] || []);
     const tally = { erz: 0, self: 0, fig: 0 };
     const namers = new Map();  // key -> {variants, count}, gleiche Gruppierung

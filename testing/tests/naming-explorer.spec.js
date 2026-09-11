@@ -331,6 +331,29 @@ test.describe('Naming Explorer (#59)', () => {
       .toBeLessThan(zahlen(vorher).reduce((a, b) => a + b, 0));
   });
 
+  test('Term-Perspektive: Unterfilter zaehlt am Kategorie-Tab entlang, nicht daran vorbei', async ({ page }) => {
+    // Die Tabelle rechnet auf der kategoriegeschnittenen Menge. Zaehlte das
+    // Select daneben ueber alle vier Kategorien, stuenden zwei verschiedene
+    // Gesamtzahlen im selben Bild, und „Erzaehler (n)" verspraeche ein n, das
+    // nach der Auswahl nicht in der Tabelle steht (Befund des CI-Reviews
+    // auf PR #431).
+    await selectTerm(page, 'IW', 'alt');
+    await page.click('[data-ne-cat="epi"]');
+    await page.waitForTimeout(100);
+
+    const summe = zahlen(await page.locator('[data-ne-term] td:nth-child(2)').allTextContents())
+      .reduce((a, b) => a + b, 0);
+    const alle = await page.locator('#neSubFilter option[value=""]').textContent();
+    expect(zahlen([alle])[0]).toBe(summe);
+
+    // Und die Gegenprobe: der Schnitt greift ueberhaupt, das „Alle" ist also
+    // nicht bloss zufaellig gleich der ungeschnittenen Menge.
+    await page.click('[data-ne-cat="all"]');
+    await page.waitForTimeout(100);
+    const alleOhneSchnitt = await page.locator('#neSubFilter option[value=""]').textContent();
+    expect(zahlen([alleOhneSchnitt])[0]).toBeGreaterThan(summe);
+  });
+
   test('Term-Perspektive: Unterfilter auf den Erzaehler grenzt ein', async ({ page }) => {
     await selectTerm(page, 'ROL', 'helt');
     await page.selectOption('#neSubFilter', 'erz');
