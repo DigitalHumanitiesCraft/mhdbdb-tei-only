@@ -12,6 +12,7 @@
  */
 
 import { getNavigationEpoch } from '../core/router.js';
+import { TextNormalizer } from '../../../../assets/js/lib/text-normalizer.js';
 
 const DEFAULT_STATE = Object.freeze({
   query: '',
@@ -97,29 +98,44 @@ export class ConceptDistribution {
       if (direct) return { resolved: direct, candidates: [direct] };
     }
 
+    // #419 (Alan van Beek): "tree" fand „Bäume" ueber termEN „Trees",
+    // „baum" fand nichts, weil die deutsche Pluralform den Umlaut traegt
+    // und der eingetippte Stamm damit nicht einmal ihr Praefix ist. Jedes
+    // Feld wird deshalb zweimal verglichen, einmal roh und einmal mit
+    // gefalteten Diakritika; die Stufen bleiben dieselben, ein Fold-Treffer
+    // ist also so viel wert wie ein roher. Gemessen am 11.09. ueber alle
+    // 567 Begriffe: keine neue Mehrdeutigkeit, „baum" von 0 auf 4 Treffer.
+    const foldedNeedle = TextNormalizer.foldDiacritics(trimmed);
+    const stufe = (value, exakt, praefix, teil) => {
+      if (!value) return 0;
+      const roh = value.toLowerCase();
+      const gefaltet = TextNormalizer.foldDiacritics(value);
+      if (roh === needle || gefaltet === foldedNeedle) return exakt;
+      if (roh.startsWith(needle) || gefaltet.startsWith(foldedNeedle)) return praefix;
+      if (roh.includes(needle) || gefaltet.includes(foldedNeedle)) return teil;
+      return 0;
+    };
+
     const scored = [];
     for (const c of concepts) {
-      const de = (c.termDE || '').toLowerCase();
-      const en = (c.termEN || '').toLowerCase();
-      const norm = (c.normalized || '').toLowerCase();
-
-      let primaryScore = 0;
-      if (de === needle || en === needle || norm === needle) primaryScore = 100;
-      else if (de.startsWith(needle) || en.startsWith(needle) || norm.startsWith(needle)) primaryScore = 50;
-      else if (de.includes(needle) || en.includes(needle) || norm.includes(needle)) primaryScore = 10;
+      const primaryScore = Math.max(
+        stufe(c.termDE, 100, 50, 10),
+        stufe(c.termEN, 100, 50, 10),
+        stufe(c.normalized, 100, 50, 10)
+      );
 
       let altScore = 0;
       let matchedAlt = null;
+      // Nur `text`: die frueher mitgefuehrte `lower`-Form haette nach der
+      // Umstellung auf `stufe` keinen Leser mehr, und ein Feld ohne Leser
+      // ist genau das, was #327 zum Fehler in der Dokumentsuche gemacht hat.
       const altCandidates = [
-        ...(c.altDE || []).map(t => ({ text: t, lower: t.toLowerCase() })),
-        ...(c.altEN || []).map(t => ({ text: t, lower: t.toLowerCase() })),
-        ...(c.altNormalized || []).map(t => ({ text: t, lower: t.toLowerCase() })),
+        ...(c.altDE || []).map(t => ({ text: t })),
+        ...(c.altEN || []).map(t => ({ text: t })),
+        ...(c.altNormalized || []).map(t => ({ text: t })),
       ];
       for (const alt of altCandidates) {
-        let s = 0;
-        if (alt.lower === needle) s = 90;
-        else if (alt.lower.startsWith(needle)) s = 45;
-        else if (alt.lower.includes(needle)) s = 8;
+        const s = stufe(alt.text, 90, 45, 8);
         if (s > altScore) {
           altScore = s;
           // Prefer the human-readable form (DE/EN) for the hint, not normalized

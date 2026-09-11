@@ -84,6 +84,63 @@ export class TextNormalizer {
     }
 
     /**
+     * Fold diacritics onto their base letter: ä→a, ö→o, ü→u, ß→ss,
+     * plus the long vowels â→a and so on.
+     *
+     * This is NOT the MHG normalization above and does not replace it. The
+     * two answer opposite questions, and a German search box needs both:
+     *
+     * - normalizeMHG expands ä→ae, so that typing "baeume" finds "Bäume".
+     * - foldDiacritics collapses ä→a, so that typing "baum" finds "Bäume".
+     *
+     * The second direction is German umlaut alternation (Baum/Bäume,
+     * Wald/Wälder, groß/größer): the stem a user types carries no umlaut,
+     * the inflected descriptor does. Under ä→ae the stem is not even a
+     * prefix of the target, so the hit is unreachable (#419, Alan van
+     * Beek: "tree" found "Bäume" via termEN "Trees", "baum" found nothing).
+     *
+     * Intended for the modern German and English descriptors of the
+     * authority files (concepts, genres, names, work titles), not for
+     * Middle High German attestations: use normalizeMHG for those.
+     *
+     * @param {string} text - Text to fold
+     * @returns {string} Folded text (NFC, lowercase, diacritics removed)
+     */
+    static foldDiacritics(text) {
+        if (!text) return '';
+
+        return text
+            // Same reason as in normalizeMHG: a decomposed "ö" (o + U+0308)
+            // would not match the precomposed rules below.
+            .normalize('NFC')
+            .toLowerCase()
+            .replace(/[äâā]/g, 'a')
+            .replace(/[öôō]/g, 'o')
+            .replace(/[üûū]/g, 'u')
+            .replace(/[êē]/g, 'e')
+            .replace(/[îī]/g, 'i')
+            .replace(/ß/g, 'ss')
+            // Ligatures keep the digraph: they are two letters, not an
+            // accented one, and "ae" is what a user types for them.
+            .replace(/æ/g, 'ae')
+            .replace(/œ/g, 'oe');
+    }
+
+    /**
+     * Check if text contains search term after diacritic folding.
+     * Companion to matchesNormalized for authority-file descriptors,
+     * see foldDiacritics for why both are needed.
+     * @param {string} text - Text to search in
+     * @param {string} searchTerm - Term to search for
+     * @returns {boolean} True if folded text contains folded search term
+     */
+    static matchesFolded(text, searchTerm) {
+        if (!text || !searchTerm) return false;
+
+        return this.foldDiacritics(text).includes(this.foldDiacritics(searchTerm));
+    }
+
+    /**
      * Check if text contains search term (with normalization)
      * @param {string} text - Text to search in
      * @param {string} searchTerm - Term to search for

@@ -58,6 +58,36 @@ test.describe('Issue #106: Reim-Wörterbuch (Minimalvariante)', () => {
     await expect(page.locator('#resultsContainer')).toContainText('-uot');
   });
 
+  // #419 (Alan van Beek, Testfall 8): stand der Filter hoeher als der beste
+  // Partner, meldete das Werkzeug „kein benachbartes Versende mit
+  // uebereinstimmendem Reimklang" und verschwieg den selbst gesetzten Wert.
+  // Dieser Test faehrt beide Faelle nacheinander am selben Lemma, damit die
+  // Unterscheidung geprueft wird und nicht nur das Vorhandensein eines Textes.
+  test('Mindest-Reimpaare-Filter nennt sich in der Leermeldung', async ({ page }) => {
+    await page.fill('#rdQuery', 'gân');
+    await dismissAutocomplete(page);
+    await page.fill('#rdTextFilter', 'AGS');
+    await page.click('#rdSearchBtn');
+    await page.waitForSelector('#resultsContainer table tbody tr', { state: 'visible', timeout: 30000 });
+
+    // Vorbedingung: es GIBT Partner. Ohne sie pruefte der Rest nichts.
+    const partnerZeilen = await page.locator('#resultsContainer table tbody tr:not([data-rd-belege-row])').count();
+    expect(partnerZeilen).toBeGreaterThan(0);
+
+    // Filter ueber jeden moeglichen Partnerwert heben.
+    await page.fill('#rdMinCount', '9999');
+    await page.press('#rdMinCount', 'Enter');
+    await page.locator('#rdMinCount').blur();
+
+    const container = page.locator('#resultsContainer');
+    await expect(container).toContainText('Mindest-Reimpaare 9999', { timeout: 15000 });
+    await expect(container).toContainText('Häufigster Partner');
+    // Genau das ist die Meldung, die den Filter verschwieg.
+    await expect(container).not.toContainText('kein benachbartes Versende');
+    // Die Kopfzeile darf die Gesamtmenge nicht mehr unterschlagen.
+    await expect(container).toContainText('0 von');
+  });
+
   test('Unbekanntes Lemma zeigt Amber-Hinweis statt Ergebnis', async ({ page }) => {
     await page.fill('#rdQuery', 'xyzzyplugh');
     await dismissAutocomplete(page);

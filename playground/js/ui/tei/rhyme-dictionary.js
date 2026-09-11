@@ -403,6 +403,12 @@ export class RhymeDictionary {
     }
 
     const filtered = r.partners.filter(p => p.count >= this.state.minCount);
+    // #419 (Alan van Beek, Testfall 8): stand minCount hoeher als der beste
+    // Partner, meldete die Leerzeile "kein benachbartes Versende mit
+    // uebereinstimmendem Reimklang" und verschwieg den selbst gesetzten
+    // Filter. Der Befund war damit von einem echten Nullbefund nicht zu
+    // unterscheiden. Die beiden Faelle werden unten getrennt gemeldet.
+    const vomFilterUnterdrueckt = filtered.length === 0 && r.partners.length > 0;
     const visible = filtered.slice(0, MAX_VISIBLE_PARTNERS);
     // Referenz für den Belege-Toggle; Anzeige-Zähler zurücksetzen, weil
     // jedes Re-Render (Suche, Mindest-Reimpaare) die Belege-Boxen leert.
@@ -459,7 +465,7 @@ export class RhymeDictionary {
           </div>
           <div class="text-right text-xs text-slate-500">
             <div>${r.endOccurrences.toLocaleString('de-DE')} Vorkommen am Versende</div>
-            <div>${filtered.length.toLocaleString('de-DE')} Reimpartner-Lemmata</div>
+            <div>${filtered.length.toLocaleString('de-DE')}${filtered.length < r.partners.length ? ` von ${r.partners.length.toLocaleString('de-DE')}` : ''} Reimpartner-Lemmata</div>
             <div>${r.verseTextCount.toLocaleString('de-DE')} Verstexte gescannt</div>
           </div>
         </header>
@@ -478,7 +484,16 @@ export class RhymeDictionary {
             <tbody>${trs}</tbody>
           </table>
         </div>
-        ${filtered.length === 0 ? '<div class="rounded-xl border border-amber-200 bg-amber-50 p-3 text-xs text-amber-800">Vorkommen am Versende vorhanden, aber kein benachbartes Versende mit übereinstimmendem Reimklang. Kreuzreime (ABAB) und rein klangliche Reime entgehen der Minimalvariante.</div>' : ''}
+        ${vomFilterUnterdrueckt
+          ? `<div class="rounded-xl border border-amber-200 bg-amber-50 p-3 text-xs text-amber-800">
+               ${r.partners.length.toLocaleString('de-DE')} Reimpartner gefunden, aber keiner erreicht die eingestellten
+               <strong>Mindest-Reimpaare ${this.state.minCount}</strong>.
+               Häufigster Partner: <strong>${escapeHtml(r.partners[0].lemma || r.partners[0].lemmaId)}</strong>
+               mit ${r.partners[0].count.toLocaleString('de-DE')} Reimpaar${r.partners[0].count === 1 ? '' : 'en'}.
+               Stellen Sie den Filter auf ${r.partners[0].count} oder niedriger.
+             </div>`
+          : ''}
+        ${filtered.length === 0 && !vomFilterUnterdrueckt ? '<div class="rounded-xl border border-amber-200 bg-amber-50 p-3 text-xs text-amber-800">Vorkommen am Versende vorhanden, aber kein benachbartes Versende mit übereinstimmendem Reimklang. Kreuzreime (ABAB) und rein klangliche Reime entgehen der Minimalvariante.</div>' : ''}
         ${truncated ? `<div class="text-center text-xs text-slate-500">Zeige Top ${visible.length} von ${filtered.length.toLocaleString('de-DE')} Reimpartnern.</div>` : ''}
         <p class="text-xs text-slate-500">
           Heuristik: benachbarte Versenden (±1 Vers, Paarreim-Annahme) mit übereinstimmendem

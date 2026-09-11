@@ -135,3 +135,45 @@ test.describe('Concept Distribution Performance Lock', () => {
                     `weil keine Re-Aggregation noetig ist)`).toBeLessThan(150);
   });
 });
+
+/**
+ * #419 (Alan van Beek): die Begriffssuche war zwischen den Sprachen
+ * unsymmetrisch. „tree" fand concept_13020000 (termDE „Bäume", termEN
+ * „Trees"), weil der englische Plural den Stamm als Praefix enthaelt; „baum"
+ * fand nichts, weil der deutsche Plural den Umlaut traegt. Die MHD-
+ * Normalisierung half nicht, sie expandiert ä→ae und entfernt den Stamm noch
+ * weiter. Gepruefte Behebung: zusaetzlicher Vergleich mit gefalteten
+ * Diakritika (TextNormalizer.foldDiacritics).
+ */
+test.describe('Issue #419: Umlaut-Faltung in der Begriffssuche', () => {
+  test('„baum" und „tree" finden beide den Begriff „Bäume"', async ({ page }) => {
+    await page.goto('http://localhost:8080/playground/#concept-distribution');
+    await page.waitForSelector('#cdSearchBtn', { state: 'visible', timeout: 60000 });
+
+    // Die englische Seite war immer schon gruen: sie ist hier der Kontrollwert,
+    // ohne den der Test nicht zeigt, dass es um die Symmetrie geht.
+    await page.fill('#cdQuery', 'tree');
+    await expect(page.locator('#cdAutocomplete')).toContainText('Bäume', { timeout: 15000 });
+
+    await page.fill('#cdQuery', '');
+    await page.fill('#cdQuery', 'baum');
+    await expect(page.locator('#cdAutocomplete')).toContainText('Bäume', { timeout: 15000 });
+  });
+
+  test('Begriffs-Explorer teilt die Faltung (gemeinsamer Suchpfad)', async ({ page }) => {
+    // multiFieldNormalized ist der Suchpfad der vier Authority-Explorer; die
+    // Aenderung sitzt dort, nicht in der Begriffsverteilung, also wird sie
+    // auch dort geprueft.
+    await page.goto('http://localhost:8080/playground/#concepts');
+    await page.waitForSelector('#conceptSearch', { state: 'visible', timeout: 60000 });
+
+    await page.fill('#conceptSearch', 'baum');
+    await expect(page.locator('#conceptResults')).toContainText('Bäume', { timeout: 15000 });
+
+    // Gegenprobe, dass die alte Richtung nicht verloren ging: „baeume" muss
+    // weiter treffen (normalizeMHG), sonst haette die Faltung sie verdraengt.
+    await page.fill('#conceptSearch', '');
+    await page.fill('#conceptSearch', 'baeume');
+    await expect(page.locator('#conceptResults')).toContainText('Bäume', { timeout: 15000 });
+  });
+});
