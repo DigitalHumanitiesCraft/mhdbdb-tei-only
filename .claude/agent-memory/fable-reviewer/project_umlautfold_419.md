@@ -28,6 +28,14 @@ Kollisionen ueber ALLE verglichenen Felder (auch `normalized` und `alt*`) messen
 nicht nur termDE/termEN. Einziges Paar, das unter normalizeMHG verschieden und
 unter dem Fold gleich ist: Vögel/Vogel, beide in concept_14020000.
 
+**Runde 2 (11.09.):** Umlaut-Zaehlung haengt an der Feldmenge: 391 (termDE/termEN/title),
+414 (+ Begriffs-Alt-Terme), 446 (+ Werk author/sigle, die Getter des Werk-Explorers).
+„No resolution changes target" ist ueber 3.371 deskriptor-abgeleitete Anfragen
+falsch fuer 3 (mann, manner, maengel): Fold-Praefix auf Primaerfeld (50) schlaegt
+rohen Alt-Praefix (45). `run-tests.js --list` zaehlt Tests ohne Lauf (329/34).
+Zweig lag zur Reviewzeit nicht auf origin (`git branch -r`), „gepusht" im JOURNAL
+war damit falsch.
+
 **Why:** Der Auftrag lieferte drei Zahlen und eine Feldbehauptung, und alle vier
 kamen aus einer Sonde mit engerer Feldmenge als der Code.
 **How to apply:** Bei Suchpfad-Aenderungen die Feldmenge des Aufrufers (Getter)
