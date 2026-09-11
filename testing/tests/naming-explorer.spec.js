@@ -354,6 +354,35 @@ test.describe('Naming Explorer (#59)', () => {
     expect(zahlen([alleOhneSchnitt])[0]).toBeGreaterThan(summe);
   });
 
+  test('Term-Perspektive: gewaehlter Einzelnenner ueberlebt den Kategoriewechsel', async ({ page }) => {
+    // Die Optionsliste des Unterfilters darf nicht am Kategorieschnitt
+    // schrumpfen. Taete sie es, fiele ein gewaehlter Nenner heraus, das
+    // Select zeigte mangels `selected` wieder „Alle", `state.speaker` bliebe
+    // aber stehen, und weil der Wert dann schon `""` ist, loeste die Wahl von
+    // „Alle" kein change-Ereignis aus: der Zustand waere ueber das eigene
+    // Steuerelement nicht mehr zu raeumen (Befund des CI-Reviews, Runde 3).
+    // ENE/Eneas ist der haerteste Fall im Korpus: der Epitheta-Tab traegt
+    // zwei Zeilen und darin keinen einzigen Einzelnenner.
+    await selectTerm(page, 'ENE', 'Eneas');
+    await page.selectOption('#neSubFilter', 'fig:turnus');
+    await page.waitForTimeout(100);
+    expect(await page.locator('[data-ne-term]').count()).toBeGreaterThan(0);
+
+    await page.click('[data-ne-cat="epi"]');
+    await page.waitForTimeout(100);
+
+    // Die Auswahl steht noch, und sie steht ehrlich auf (0)
+    await expect(page.locator('#neSubFilter')).toHaveValue('fig:turnus');
+    const label = await page.locator('#neSubFilter option[value="fig:turnus"]').textContent();
+    expect(zahlen([label])[0]).toBe(0);
+
+    // Und der Weg heraus funktioniert: `value` aendert sich wirklich, das
+    // change-Ereignis feuert, die Tabelle fuellt sich wieder.
+    await page.selectOption('#neSubFilter', '');
+    await page.waitForTimeout(100);
+    expect(await page.locator('[data-ne-term]').count()).toBeGreaterThan(0);
+  });
+
   test('Term-Perspektive: Unterfilter auf den Erzaehler grenzt ein', async ({ page }) => {
     await selectTerm(page, 'ROL', 'helt');
     await page.selectOption('#neSubFilter', 'erz');

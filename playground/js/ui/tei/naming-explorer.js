@@ -921,19 +921,37 @@ export class NamingExplorer {
     // Sprecher bleibt bewusst draussen: dieses Select setzt ihn selbst und
     // muss seine Zahlen deshalb vor der eigenen Auswahl zeigen.
     const filterCats = this.state.category === 'all' ? CATS : [this.state.category];
-    const records = this.state.perspective === 'lemma'
-      ? Object.values(work.figures).flat().filter(r => this.recordTraegtTerm(r, this.state.subject, filterCats))
+    const alleRecords = this.state.perspective === 'lemma'
+      ? Object.values(work.figures).flat().filter(r => this.recordTraegtTerm(r, this.state.subject, CATS))
       : (work.figures[this.state.subject] || []);
-    const tally = { erz: 0, self: 0, fig: 0 };
+    const records = this.state.perspective === 'lemma'
+      ? alleRecords.filter(r => this.recordTraegtTerm(r, this.state.subject, filterCats))
+      : alleRecords;
+
+    // Die Optionsliste entsteht aus der UNgeschnittenen Menge, die Zaehler aus
+    // der geschnittenen. Andernfalls faellt ein gewaehlter Einzelnenner beim
+    // Tabwechsel aus der Liste, waehrend `state.speaker` stehen bleibt: das
+    // Select zeigt dann mangels `selected` seine erste Option „Alle", die
+    // Tabelle bleibt gefiltert und leer, und weil der Wert bereits `""` ist,
+    // loest die Wahl von „Alle" kein change-Ereignis aus. Der Zustand waere
+    // ueber das eigene Steuerelement nicht mehr zu raeumen. Ein Nenner mit
+    // (0) sagt dem Leser stattdessen genau das Richtige. In `named` sind die
+    // beiden Mengen dieselbe, dort aendert sich dadurch nichts.
     const namers = new Map();  // key -> {variants, count}, gleiche Gruppierung
-    for (const r of records) {   // wie in getNamers, damit die Beschriftung in
-      tally[r.who] = (tally[r.who] || 0) + 1;   // beiden Perspektiven gleich ist
-      if (r.who === 'fig' && r.by) {
-        const key = namerKey(r.by);
+    for (const r of alleRecords) {          // wie in getNamers, damit die
+      if (r.who === 'fig' && r.by) {        // Beschriftung in beiden
+        const key = namerKey(r.by);         // Perspektiven gleich ist
         if (!namers.has(key)) namers.set(key, { variants: new Map(), count: 0 });
         const n = namers.get(key);
-        n.count += 1;
         n.variants.set(r.by, (n.variants.get(r.by) || 0) + 1);
+      }
+    }
+    const tally = { erz: 0, self: 0, fig: 0 };
+    for (const r of records) {
+      tally[r.who] = (tally[r.who] || 0) + 1;
+      if (r.who === 'fig' && r.by) {
+        const n = namers.get(namerKey(r.by));
+        if (n) n.count += 1;
       }
     }
     const einzeln = [...namers.entries()]
