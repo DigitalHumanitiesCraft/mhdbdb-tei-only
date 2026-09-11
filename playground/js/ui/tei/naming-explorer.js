@@ -11,16 +11,26 @@
  * der Index ist klein (~110 KB gz) und ohne Cache entfällt der
  * Versions-Bump-Kanal, der bei corpus-/authority-index schiefgehen kann (#94).
  *
- * ## Zwei Perspektiven auf dieselben Records (Linda, #59-Kommentar 2026-07-29)
+ * ## Drei Perspektiven auf dieselben Records (Linda, #59-Kommentar
+ * 2026-07-29, dritte Perspektive auf ihren Wunsch in #420)
  *
- * Jeder Record trägt beides: WER benannt wird (die Figur, unter der er im
- * Index hängt) und WER benennt (`who` plus `by`). Bis 2026-08 war nur die
- * erste Richtung wählbar.
+ * Jeder Record trägt drei Angaben: WER benannt wird (die Figur, unter der er
+ * im Index hängt), WER benennt (`who` plus `by`) und WOMIT (die Terme in
+ * `eig`/`deck`/`ant`/`epi`). Jede der drei ist einmal Einstieg.
  *
  *   benannt   Figur wählen, darunter nach der nennenden Instanz filtern
  *             ("Wie wird Iwein genannt, und was davon sagt Lunete?")
  *   nennend   Nenner wählen, Terme nach genannter Figur gruppiert
  *             ("Welche Benennungen für wen findet Iwein im Iwein?")
+ *   Term      Term wählen, Figuren nach Belegzahl ("Welche Figuren heißen
+ *             helt, und wer nennt sie so?")
+ *
+ * Die dritte ist die Gegenrichtung zur ersten und über sie nicht zu bekommen,
+ * ohne alle Figuren des Werks einzeln durchzugehen: im Rolandslied fällt
+ * `helt` 78-mal auf 22 Figuren, `hêrre` 222-mal auf 23 — dasselbe Material,
+ * gegenläufiges Bild, weil `helt` zu 61 von 78 vom Erzähler kommt und `hêrre`
+ * zu 167 von 222 aus Figurenrede. Beide Zahlen sind Lindas Beispiele aus #420
+ * und gegen diesen Index nachgerechnet.
  *
  * Die zweite Perspektive nimmt drei Arten von Nenner zusammen, weil die Frage
  * sie zusammen meint: den Erzähler, die nennenden Figuren aus `by` und die
@@ -71,10 +81,10 @@ import { TextNormalizer } from '../../../../assets/js/lib/text-normalizer.js';
 import { getNavigationEpoch } from '../core/router.js';
 
 const DEFAULT_STATE = Object.freeze({
-  perspective: 'named',  // 'named' = benannte Figur | 'namer' = nennende Instanz
+  perspective: 'named',  // 'named' = benannte Figur | 'namer' = nennende Instanz | 'lemma' = Term
   workSigle: '',
-  subject: '',           // gewählte Figur bzw. gewählter Nenner (dessen Schlüssel)
-  speaker: '',           // nur 'named': '' | 'erz' | 'self' | 'fig' | 'fig:<key>'
+  subject: '',           // gewählte Figur, gewählter Nenner (Schlüssel) oder gewählter Term
+  speaker: '',           // 'named' und 'lemma': '' | 'erz' | 'self' | 'fig' | 'fig:<key>'
   target: '',            // nur 'namer': '' | Name der genannten Figur
   category: 'all',       // 'all' | einer der CATS
   nameFilter: ''
@@ -87,6 +97,14 @@ const DEFAULT_STATE = Object.freeze({
 // trägt derzeit genau einen Beleg (Alexander für Paris, TRO V. 20665) —
 // deshalb blenden Tabs und Kacheln sie aus, wo sie leer ist.
 const CATS = ['eig', 'deck', 'ant', 'epi'];
+
+// Die drei Kategorien, die aus Lindas Spalten "Bezeichnung 1-4" stammen; `epi`
+// kommt aus "Epitheta 1-5". Ihre Suchbereiche `naming_variants` und `epithets`
+// (#420) sind genau diese beiden Gruppen. Unsere Kategorien sind feiner: der
+// Bezeichnungs-Teil ist beim Bau noch in Eigenname, Deckname und Antonomasie
+// aufgeteilt (siehe Build-Skript, `classify`), deshalb filtert die Ansicht mit
+// vier Tabs statt mit ihren zwei Gruppen und kann beides.
+const BEZ_CATS = ['eig', 'deck', 'ant'];
 
 const CATEGORY_META = {
   eig:  { label: 'Eigenname',   plural: 'Eigennamen',   badge: 'border-brand-200 bg-brand-50 text-brand-700' },
@@ -221,6 +239,35 @@ export class NamingExplorer {
   }
 
   /**
+   * Terme des Werks als [{term, count, figures}], nach Belegzahl absteigend.
+   * Ein Record zählt für einen Term genau einmal, auch wenn der Term in
+   * mehreren Kategorien desselben Records steht (Lindas Zählregel in #420:
+   * „Eine Zeile ist EINE Nennung"). Ergebnis wird je Werk gecacht.
+   */
+  getTerms(work) {
+    if (!work) return [];
+    this._termCache = this._termCache || new Map();
+    if (this._termCache.has(work.sigle)) return this._termCache.get(work.sigle);
+    const map = new Map();
+    for (const [figure, records] of Object.entries(work.figures)) {
+      for (const record of records) {
+        const imRecord = new Set();
+        for (const cat of CATS) for (const term of (record[cat] || [])) imRecord.add(term);
+        for (const term of imRecord) {
+          if (!map.has(term)) map.set(term, { term, count: 0, figures: new Set() });
+          const eintrag = map.get(term);
+          eintrag.count += 1;
+          eintrag.figures.add(figure);
+        }
+      }
+    }
+    const terms = [...map.values()]
+      .sort((a, b) => b.count - a.count || a.term.localeCompare(b.term, 'de'));
+    this._termCache.set(work.sigle, terms);
+    return terms;
+  }
+
+  /**
    * Nenner des Werks als [{key, label, count, figures, variants}], nach
    * Belegzahl absteigend. Der Erzähler steht als eigener Eintrag darin,
    * Selbstnennungen zählen zum Nenner gleichen Namens (siehe Header).
@@ -252,7 +299,8 @@ export class NamingExplorer {
         } else if (record.by) {
           entry = touch(namerKey(record.by), record.by);
         } else {
-          continue;  // Figurenrede ohne erfassten Nenner (3x im Iwein)
+          continue;  // Figurenrede ohne erfassten Nenner (2x im Iwein am Pin
+                     // v0.2.2-beta; hier stand '3x', gemessen 2026-09-11)
         }
         entry.figures.add(figure);
       }
@@ -271,6 +319,12 @@ export class NamingExplorer {
 
   /** Auswahlliste der zweiten Selectbox, je nach Perspektive. */
   getSubjects(work) {
+    if (this.state.perspective === 'lemma') {
+      return this.getTerms(work).map(e => ({
+        value: e.term, label: e.term, count: e.count,
+        hint: `${e.figures.size} ${e.figures.size === 1 ? 'Figur' : 'Figuren'}`
+      }));
+    }
     if (this.state.perspective === 'namer') {
       return this.getNamers(work).map(n => ({
         value: n.key, label: n.label, count: n.count,
@@ -282,8 +336,8 @@ export class NamingExplorer {
 
   /**
    * Records des gewählten Subjekts als [{figure, record}], Unterfilter bereits
-   * angewandt. In beiden Perspektiven dieselbe Form, damit computeTerms und
-   * die Tabelle nur einmal existieren.
+   * angewandt. In allen drei Perspektiven dieselbe Form, damit computeTerms
+   * und computeFigureRows auf derselben Eingabe arbeiten.
    */
   collectPairs(work) {
     const pairs = [];
@@ -299,21 +353,48 @@ export class NamingExplorer {
       return pairs;
     }
 
-    const records = work.figures[this.state.subject] || [];
-    const speaker = this.state.speaker;
-    for (const record of records) {
-      if (speaker) {
-        if (speaker === 'erz' && record.who !== 'erz') continue;
-        if (speaker === 'self' && record.who !== 'self') continue;
-        if (speaker === 'fig' && record.who !== 'fig') continue;
-        if (speaker.startsWith('fig:')) {
-          if (record.who !== 'fig' || !record.by) continue;
-          if (namerKey(record.by) !== speaker.slice(4)) continue;
+    if (this.state.perspective === 'lemma') {
+      // Bewusst OHNE Kategoriefilter: `category` ist in allen drei
+      // Perspektiven ein Anzeigefilter, der erst in renderBody greift. Sonst
+      // stuenden in den Kategorie-Tabs Zahlen, die schon von der eigenen
+      // Auswahl beschnitten sind.
+      for (const [figure, records] of Object.entries(work.figures)) {
+        for (const record of records) {
+          if (!this.recordTraegtTerm(record, this.state.subject, CATS)) continue;
+          if (!this.passtZumSprecher(record)) continue;
+          pairs.push({ figure, record });
         }
       }
+      return pairs;
+    }
+
+    for (const record of (work.figures[this.state.subject] || [])) {
+      if (!this.passtZumSprecher(record)) continue;
       pairs.push({ figure: this.state.subject, record });
     }
     return pairs;
+  }
+
+  /** Steht `term` in einer der genannten Kategorien dieses Records? */
+  recordTraegtTerm(record, term, cats) {
+    return cats.some(cat => (record[cat] || []).includes(term));
+  }
+
+  /**
+   * Erfuellt der Record den Unterfilter `state.speaker`? Gilt fuer die
+   * Perspektiven `named` und `lemma`, die beide nach der nennenden Instanz
+   * filtern; `namer` hat den Sprecher schon in der Auswahl.
+   */
+  passtZumSprecher(record) {
+    const speaker = this.state.speaker;
+    if (!speaker) return true;
+    if (speaker === 'erz') return record.who === 'erz';
+    if (speaker === 'self') return record.who === 'self';
+    if (speaker === 'fig') return record.who === 'fig';
+    if (speaker.startsWith('fig:')) {
+      return record.who === 'fig' && !!record.by && namerKey(record.by) === speaker.slice(4);
+    }
+    return true;
   }
 
   /** Nenner-Schlüssel eines Records (Erzähler, Selbstnennung oder `by`). */
@@ -362,6 +443,76 @@ export class NamingExplorer {
       || a.term.localeCompare(b.term, 'de'));
   }
 
+  /**
+   * Term-Perspektive: eine Zeile je benannter Figur.
+   * [{key, figure, mentions, erz, fig, self, bez, epi, share, evidence}]
+   *
+   * Zaehlregel aus #420, und sie ist der Grund, warum das nicht computeTerms
+   * rueckwaerts ist: **eine Zeile der Quelle ist EINE Nennung.** Steht der
+   * Term in mehreren Kategorien desselben Records, zaehlt er fuer `mentions`
+   * trotzdem einmal. Die Spalten `bez` und `epi` zaehlen dagegen, in wie
+   * vielen dieser Nennungen er in der jeweiligen Gruppe stand; ihre Summe
+   * darf `mentions` also uebersteigen. Sie tut es selten: im ganzen Index
+   * fuehren genau DREI Records denselben Term in beiden Gruppen (IW `der` bei
+   * Graf vom Schwarzen Dorn V. 5629, ROL `der` bei Gott V. 7720, TRO `got`
+   * bei Jupiter V. 14383; ENE keinen). Nicht zu verwechseln mit den 23 bis 90
+   * Termen je Werk, die in VERSCHIEDENEN Records beide Gruppen tragen: fuer
+   * die gilt `bez + epi === mentions`. Der Unterschied ist der Grund, warum
+   * der Test auf TRO/`got` steht und nicht auf IW/`alt` (Reviewbefund B1).
+   *
+   * `share` bezieht sich auf die Summe der angezeigten Nennungen, nicht auf
+   * alle des Terms im Werk; die Bezugsgroesse steht im Kopf der Tabelle. Das
+   * ist die Abweichung von Lindas Spezifikation, und sie betrifft nur den
+   * Sprecher-Unterfilter, den sie gar nicht hat: fuer den Kategorie-Tab ist
+   * ihr `total_mentions` ebenfalls das des Suchbereichs.
+   *
+   * Die Spalte summiert sich deshalb NICHT verlaesslich auf 100, und zwar aus
+   * einem zweiten Grund: gerundet wird je Zeile. ROL/`helt` summiert auf 98,
+   * `hêrre` auf 95, und Lindas eigene Referenzdatei tut fuer `helt` dasselbe.
+   * Von 433 Termen mit mindestens zwei Figuren treffen 247 exakt 100, die
+   * Spanne reicht von 89 bis 109 (Reviewbefund B2).
+   */
+  computeFigureRows(pairs, term) {
+    const map = new Map();
+    for (const { figure, record } of pairs) {
+      if (!map.has(figure)) {
+        map.set(figure, {
+          key: `fig|${figure}`, figure, mentions: 0,
+          erz: 0, fig: 0, self: 0, bez: 0, epi: 0, evidence: []
+        });
+      }
+      const row = map.get(figure);
+      row.mentions += 1;
+      // `who` ist eine geschlossene Dreiermenge, nicht per Stichprobe, sondern
+      // per Bau: build_record im Index-Skript setzt 'fig', 'erz' oder 'self'
+      // und gibt sonst None zurueck, der Record existiert dann gar nicht.
+      // Deshalb drei Spalten und kein vierter Eimer fuer Unzugeordnetes; die
+      // Partition by_narrator + in_figure_speech + self_naming === mentions,
+      // die Linda zusichert, gilt hier also auch.
+      //
+      // Sie gilt allerdings, weil unser Bau ihren Rueckfall AUFLOEST und nicht,
+      // weil es ihn nicht gaebe: der vierte elif in build_record faengt
+      // Figurenrede ohne erfasste nennende Figur und legt sie als 'fig' ab.
+      // Am Pin v0.2.2-beta sind das 2 Records, beide im Iwein; bei Linda
+      // stuenden sie als `unattributed`. Ein Pin-Bump auf v0.3.0-beta loest
+      // das von selbst, dort sind sie bereinigt (Reviewbefund B3).
+      if (record.who === 'erz') row.erz += 1;
+      else if (record.who === 'self') row.self += 1;
+      else row.fig += 1;
+      if (this.recordTraegtTerm(record, term, BEZ_CATS)) row.bez += 1;
+      if ((record.epi || []).includes(term)) row.epi += 1;
+      row.evidence.push({ v: record.v, ph: record.ph, who: record.who, by: record.by });
+    }
+
+    const gesamt = pairs.length;
+    const rows = [...map.values()];
+    for (const row of rows) {
+      row.share = gesamt ? Math.round(row.mentions / gesamt * 100) : 0;
+      row.evidence.sort((a, b) => versZahl(a.v) - versZahl(b.v) || a.v.localeCompare(b.v, 'de'));
+    }
+    return rows.sort((a, b) => b.mentions - a.mentions || a.figure.localeCompare(b.figure, 'de'));
+  }
+
   render() {
     const container = document.getElementById('resultsContainer');
     if (!container) return;
@@ -391,7 +542,8 @@ export class NamingExplorer {
       // keine Figur ist (Linda, #59-Kommentar 2026-08-10). Dieselbe
       // Beschriftung trägt der Unterfilter der anderen Perspektive.
       { key: 'named', label: 'Benannte Figur',   hint: 'Wie wird eine Figur genannt?' },
-      { key: 'namer', label: 'Nennende Instanz', hint: 'Wen benennt eine Instanz wie?' }
+      { key: 'namer', label: 'Nennende Instanz', hint: 'Wen benennt eine Instanz wie?' },
+      { key: 'lemma', label: 'Term',             hint: 'Welche Figuren tragen einen Term, und wer nennt sie so?' }
     ];
     const buttons = modes.map(m => {
       const active = m.key === this.state.perspective;
@@ -416,6 +568,7 @@ export class NamingExplorer {
 
     const work = this.getWork(this.state.workSigle);
     const namerMode = this.state.perspective === 'namer';
+    const lemmaMode = this.state.perspective === 'lemma';
     const subjects = this.getSubjects(work);
     const subjectOptions = subjects.map(s => {
       const suffix = s.hint ? `, ${s.hint}` : '';
@@ -442,9 +595,9 @@ export class NamingExplorer {
             </select>
           </label>
           <label class="block">
-            <span class="text-xs font-medium text-slate-600">${namerMode ? 'Nennende Instanz (nach Belegzahl)' : 'Figur (nach Belegzahl)'}</span>
+            <span class="text-xs font-medium text-slate-600">${namerMode ? 'Nennende Instanz (nach Belegzahl)' : lemmaMode ? 'Term (nach Belegzahl)' : 'Figur (nach Belegzahl)'}</span>
             <select id="neFigureSelect" class="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm focus:border-brand-400 focus:outline-none"${work ? '' : ' disabled'}>
-              <option value="">${namerMode ? 'Nenner wählen ...' : 'Figur wählen ...'}</option>
+              <option value="">${namerMode ? 'Nenner wählen ...' : lemmaMode ? 'Term wählen ...' : 'Figur wählen ...'}</option>
               ${subjectOptions}
             </select>
           </label>
@@ -486,18 +639,26 @@ export class NamingExplorer {
   renderBody() {
     const work = this.getWork(this.state.workSigle);
     const namerMode = this.state.perspective === 'namer';
+    const lemmaMode = this.state.perspective === 'lemma';
     if (!work) {
       return '<div class="rounded-2xl border border-dashed border-slate-200 bg-white p-8 text-center text-sm text-slate-500">Bitte ein Werk auswählen.</div>';
     }
     if (!this.state.subject) {
-      const hint = namerMode
-        ? `${this.getNamers(work).length.toLocaleString('de-DE')} nennende Instanzen (Erzähler, Figurenrede, Selbstnennung). Bitte einen Nenner auswählen.`
-        : `${Object.keys(work.figures).length.toLocaleString('de-DE')} Figuren mit kuratierten Bezeichnungen. Bitte eine Figur auswählen.`;
+      let hint;
+      if (namerMode) {
+        hint = `${this.getNamers(work).length.toLocaleString('de-DE')} nennende Instanzen (Erzähler, Figurenrede, Selbstnennung). Bitte einen Nenner auswählen.`;
+      } else if (lemmaMode) {
+        hint = `${this.getTerms(work).length.toLocaleString('de-DE')} Terme in kuratierten Bezeichnungen. Bitte einen Term auswählen.`;
+      } else {
+        hint = `${Object.keys(work.figures).length.toLocaleString('de-DE')} Figuren mit kuratierten Bezeichnungen. Bitte eine Figur auswählen.`;
+      }
       return `<div class="rounded-2xl border border-dashed border-slate-200 bg-white p-8 text-center text-sm text-slate-500">${escapeHtml(work.bookName)}: ${hint}</div>`;
     }
-    if (!namerMode && !work.figures[this.state.subject]) {
+    if (!namerMode && !lemmaMode && !work.figures[this.state.subject]) {
       return '<div class="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">Die gewählte Figur wurde im Werk nicht gefunden.</div>';
     }
+
+    if (lemmaMode) return this.renderLemmaBody(work);
 
     const pairs = this.collectPairs(work);
     const terms = this.computeTerms(pairs, namerMode);
@@ -519,6 +680,133 @@ export class NamingExplorer {
     const table = this.renderTermTable(visible, namerMode);
 
     return summary + tabs + controls + table;
+  }
+
+  /**
+   * Term-Perspektive. Eigener Koerper statt eines dritten Zweigs in
+   * renderBody, weil hier Figuren die Zeilen sind und nicht Terme: die
+   * Kategorie-Tabs zaehlen Nennungen statt Terme, und die Tabelle hat andere
+   * Spalten. Werk, Auswahl und Unterfilter teilen sich alles Uebrige.
+   */
+  renderLemmaBody(work) {
+    const term = this.state.subject;
+    const pairs = this.collectPairs(work);
+
+    // Tab-Zahlen sind Nennungen je Kategorie, nicht Terme. `all` zaehlt jeden
+    // Record einmal, die vier Kategorien je fuer sich: ein Record mit dem Term
+    // als Antonomasie UND als Epitheton steht unter `all` einmal und unter
+    // `ant` wie `epi` je einmal, die Summe uebersteigt `all` also zu Recht.
+    const counts = { all: pairs.length };
+    for (const cat of CATS) {
+      counts[cat] = pairs.filter(p => (p.record[cat] || []).includes(term)).length;
+    }
+
+    const sichtbar = this.state.category === 'all'
+      ? pairs
+      : pairs.filter(p => (p.record[this.state.category] || []).includes(term));
+    const rows = this.computeFigureRows(sichtbar, term);
+
+    const gesamtImWerk = (this.getTerms(work).find(e => e.term === term) || { count: 0 }).count;
+    const summary = this.renderLemmaSummary(work, term, sichtbar.length, rows.length, gesamtImWerk);
+    const tabs = this.renderCategoryTabs(counts);
+    const controls = `
+      <div class="flex flex-wrap items-center gap-3 rounded-xl border border-slate-200 bg-slate-50/60 p-3 text-sm">
+        ${this.renderSubFilter(work)}
+        <span class="text-xs text-slate-500">${rows.length.toLocaleString('de-DE')} ${rows.length === 1 ? 'Figur' : 'Figuren'}</span>
+      </div>
+    `;
+    return summary + tabs + controls + this.renderFigureTable(rows, sichtbar.length);
+  }
+
+  renderLemmaSummary(work, term, angezeigt, figuren, gesamtImWerk) {
+    const teil = angezeigt.toLocaleString('de-DE');
+    const von = angezeigt !== gesamtImWerk ? ` von ${gesamtImWerk.toLocaleString('de-DE')}` : '';
+    return `
+      <div class="rounded-2xl border border-slate-200 bg-white p-4">
+        <div class="text-xs uppercase tracking-wide text-slate-500">${escapeHtml(work.sigle)} - ${escapeHtml(work.bookName)}</div>
+        <div data-ne-heading class="text-lg font-semibold text-slate-800">${escapeHtml(term)}</div>
+        <div class="text-xs text-slate-500">benennt ${figuren.toLocaleString('de-DE')} ${figuren === 1 ? 'Figur' : 'Figuren'} in ${teil}${von} kuratierten Belegstellen</div>
+      </div>
+    `;
+  }
+
+  renderFigureTable(rows, gesamt) {
+    if (rows.length === 0) {
+      return '<div class="rounded-2xl border border-dashed border-slate-200 bg-white p-6 text-center text-sm text-slate-500">Keine Figur trägt diesen Term in dieser Kategorie (mit aktuellem Unterfilter).</div>';
+    }
+    const zelle = (n) => n === 0
+      ? '<td class="px-3 py-1.5 text-right tabular-nums text-slate-300">0</td>'
+      : `<td class="px-3 py-1.5 text-right tabular-nums text-slate-600">${n.toLocaleString('de-DE')}</td>`;
+
+    const body = rows.map(r => {
+      const expanded = this.expandedTerms.has(r.key);
+      const chevron = expanded
+        ? '<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>'
+        : '<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>';
+      const mainRow = `
+        <tr class="border-b border-slate-100 hover:bg-slate-50 cursor-pointer" data-ne-term="${escapeAttr(r.key)}">
+          <td class="px-3 py-1.5">
+            <span class="inline-flex items-center gap-1.5 font-medium text-slate-800">${chevron}${escapeHtml(r.figure)}</span>
+          </td>
+          <td class="px-3 py-1.5 text-right tabular-nums font-medium text-slate-700">${r.mentions.toLocaleString('de-DE')}</td>
+          <td class="px-3 py-1.5 text-right tabular-nums text-slate-500">${r.share}&nbsp;%</td>
+          ${zelle(r.erz)}${zelle(r.fig)}${zelle(r.self)}
+          ${zelle(r.bez)}${zelle(r.epi)}
+        </tr>
+      `;
+      if (!expanded) return mainRow;
+      return mainRow + this.renderFigureEvidenceRow(r);
+    }).join('');
+
+    const bezug = gesamt.toLocaleString('de-DE');
+    return `
+      <div class="overflow-x-auto rounded-2xl border border-slate-200 bg-white">
+        <table class="w-full text-sm">
+          <thead class="bg-slate-50">
+            <tr>
+              <th class="px-3 py-2 text-left text-xs font-semibold text-slate-600">Benannte Figur</th>
+              <th class="px-3 py-2 text-right text-xs font-semibold text-slate-600">Nennungen</th>
+              <th class="px-3 py-2 text-right text-xs font-semibold text-slate-600" title="Anteil an den ${escapeAttr(bezug)} angezeigten Nennungen">Anteil</th>
+              <th class="px-3 py-2 text-right text-xs font-semibold text-slate-600" title="Nennungen durch den Erzähler">Erzähler</th>
+              <th class="px-3 py-2 text-right text-xs font-semibold text-slate-600" title="Nennungen in Figurenrede">Figurenrede</th>
+              <th class="px-3 py-2 text-right text-xs font-semibold text-slate-600" title="Die Figur nennt sich selbst so">Selbst</th>
+              <th class="px-3 py-2 text-right text-xs font-semibold text-slate-600" title="Nennungen, in denen der Term als Eigenname, Deckname oder Antonomasie steht">als Bez.</th>
+              <th class="px-3 py-2 text-right text-xs font-semibold text-slate-600" title="Nennungen, in denen der Term als Epitheton steht. Ein Record kann beides sein, deshalb kann die Summe der beiden letzten Spalten die Nennungen übersteigen">als Epith.</th>
+            </tr>
+          </thead>
+          <tbody>${body}</tbody>
+        </table>
+      </div>
+    `;
+  }
+
+  renderFigureEvidenceRow(r) {
+    const linkable = READER_LINK_SIGLES.has(this.state.workSigle);
+    const visible = r.evidence.slice(0, EVIDENCE_LIMIT);
+    const items = visible.map(e => {
+      let speaker;
+      if (e.who === 'fig') speaker = e.by ? `Figurenrede: ${escapeHtml(e.by)}` : 'Figurenrede';
+      else if (e.who === 'self') speaker = 'Selbstnennung';
+      else speaker = 'Erzähler';
+      const verse = (linkable && /^\d+$/.test(e.v))
+        ? `<a href="../korpus.html?textId=${encodeURIComponent(this.state.workSigle)}&verse=${encodeURIComponent(e.v)}" target="_blank" rel="noopener" class="text-brand-700 hover:underline" title="Vers ${escapeAttr(e.v)} in der Leseansicht öffnen">V. ${escapeHtml(e.v)}</a>`
+        : `<span title="Versangabe der Editionsgrundlage">V. ${escapeHtml(e.v)}</span>`;
+      return `
+        <div class="flex items-baseline gap-3 border-b border-slate-100 py-1 last:border-b-0">
+          <span class="w-16 flex-shrink-0 text-right font-mono text-xs text-slate-500">${verse}</span>
+          <span class="flex-1 text-slate-700">${escapeHtml(e.ph)}</span>
+          <span class="flex-shrink-0 text-xs text-slate-400">${speaker}</span>
+        </div>
+      `;
+    }).join('');
+    const truncated = r.evidence.length > EVIDENCE_LIMIT
+      ? `<div class="pt-1 text-center text-xs text-slate-400">Zeige ${EVIDENCE_LIMIT} von ${r.evidence.length.toLocaleString('de-DE')} Belegstellen.</div>`
+      : '';
+    return `
+      <tr class="border-b border-slate-100 bg-slate-50/50">
+        <td colspan="8" class="px-6 py-2 text-xs">${items}${truncated}</td>
+      </tr>
+    `;
   }
 
   renderSummary(work, pairs, terms) {
@@ -621,17 +909,49 @@ export class NamingExplorer {
       `;
     }
 
-    const records = work.figures[this.state.subject] || [];
-    const tally = { erz: 0, self: 0, fig: 0 };
+    // Bezugsmenge des Unterfilters: bei einer Figur ihre Records, bei einem
+    // Term alle Records, die ihn tragen. Ohne diese Fallunterscheidung laese
+    // die Term-Perspektive `work.figures['helt']`, also undefined, und der
+    // Filter stuende dauerhaft auf „Alle (0)".
+    //
+    // In der Term-Perspektive geht `category` mit ein, der Sprecher nicht.
+    // Die Tabelle darunter rechnet auf `sichtbar`, und das ist kategorie-
+    // geschnitten (renderLemmaBody); ohne denselben Schnitt nennt das Select
+    // ein „Alle (N)", das die Kopfzeile daneben nicht bestaetigt. Der
+    // Sprecher bleibt bewusst draussen: dieses Select setzt ihn selbst und
+    // muss seine Zahlen deshalb vor der eigenen Auswahl zeigen.
+    const filterCats = this.state.category === 'all' ? CATS : [this.state.category];
+    const alleRecords = this.state.perspective === 'lemma'
+      ? Object.values(work.figures).flat().filter(r => this.recordTraegtTerm(r, this.state.subject, CATS))
+      : (work.figures[this.state.subject] || []);
+    const records = this.state.perspective === 'lemma'
+      ? alleRecords.filter(r => this.recordTraegtTerm(r, this.state.subject, filterCats))
+      : alleRecords;
+
+    // Die Optionsliste entsteht aus der UNgeschnittenen Menge, die Zaehler aus
+    // der geschnittenen. Andernfalls faellt ein gewaehlter Einzelnenner beim
+    // Tabwechsel aus der Liste, waehrend `state.speaker` stehen bleibt: das
+    // Select zeigt dann mangels `selected` seine erste Option „Alle", die
+    // Tabelle bleibt gefiltert und leer, und weil der Wert bereits `""` ist,
+    // loest die Wahl von „Alle" kein change-Ereignis aus. Der Zustand waere
+    // ueber das eigene Steuerelement nicht mehr zu raeumen. Ein Nenner mit
+    // (0) sagt dem Leser stattdessen genau das Richtige. In `named` sind die
+    // beiden Mengen dieselbe, dort aendert sich dadurch nichts.
     const namers = new Map();  // key -> {variants, count}, gleiche Gruppierung
-    for (const r of records) {   // wie in getNamers, damit die Beschriftung in
-      tally[r.who] = (tally[r.who] || 0) + 1;   // beiden Perspektiven gleich ist
-      if (r.who === 'fig' && r.by) {
-        const key = namerKey(r.by);
+    for (const r of alleRecords) {          // wie in getNamers, damit die
+      if (r.who === 'fig' && r.by) {        // Beschriftung in beiden
+        const key = namerKey(r.by);         // Perspektiven gleich ist
         if (!namers.has(key)) namers.set(key, { variants: new Map(), count: 0 });
         const n = namers.get(key);
-        n.count += 1;
         n.variants.set(r.by, (n.variants.get(r.by) || 0) + 1);
+      }
+    }
+    const tally = { erz: 0, self: 0, fig: 0 };
+    for (const r of records) {
+      tally[r.who] = (tally[r.who] || 0) + 1;
+      if (r.who === 'fig' && r.by) {
+        const n = namers.get(namerKey(r.by));
+        if (n) n.count += 1;
       }
     }
     const einzeln = [...namers.entries()]
@@ -886,6 +1206,17 @@ export class NamingExplorer {
       });
     }
   }
+}
+
+/**
+ * Vers als Zahl fuer die Sortierung. Die Quelle fuehrt Dezimal-Verse (17.02 im
+ * Eneasroman ist die echte Editionszaehlung, nicht Vers 17 mit Nachkomma), und
+ * eine Zeichenkettensortierung stellte '100' vor '99'. Nicht parsebare Werte
+ * wandern ans Ende statt an den Anfang, wo sie eine NaN-Sortierung hinlegte.
+ */
+function versZahl(v) {
+  const n = Number.parseFloat(v);
+  return Number.isFinite(n) ? n : Number.POSITIVE_INFINITY;
 }
 
 function escapeHtml(s) {
