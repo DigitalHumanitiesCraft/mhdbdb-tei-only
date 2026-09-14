@@ -32,9 +32,9 @@ for (const [device, viewport] of Object.entries(viewports)) {
             fullPage: true
         });
 
-        // #410: der Abschnitt "Authority Files durchsuchen" startet zugeklappt,
-        // die sechs Knoepfe darunter sind also erst nach dem Aufklappen da.
-        await page.click('#authorityQueriesToggle');
+        // #410, zweite Runde: der Block heisst jetzt "Register & Indizes
+        // (Authority Files)" und wird aufgeklappt ausgeliefert. Das frueher
+        // noetige Oeffnen entfaellt; ein Klick wuerde jetzt zuklappen.
 
         // Der Lemmata-Block hier war schon vor #410 tot, und zwar seit
         // mindestens dem 24.08.: der Locator suchte "Lemmata anzeigen", der

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Hilfe zum Playground der Mittelhochdeutschen Begriffsdatenbank: Multi-Lemma- und Kookkurrenz-Suche, sechs Authority Files, die TEI-Analysewerkzeuge, typische Forschungsfragen.">
+    <meta name="description" content="Hilfe zum Playground der Mittelhochdeutschen Begriffsdatenbank: Multi-Lemma- und Kookkurrenz-Suche, Register und Indizes, die Korpusanalysen, typische Forschungsfragen.">
     <meta name="keywords" content="MHDBDB, Playground, Hilfe, Multi-Lemma-Suche, Kookkurrenz, Authority Files, TEI-Analyse, Forschung">
     <meta name="author" content="Universität Salzburg">
 
@@ -143,7 +143,7 @@
                 das Forschungswerkzeug der MHDBDB. Gedacht für mediävistische und
                 digital-humanistische Fragestellungen, die mit einer einfachen Einzelwort-Suche
                 nicht beantwortbar sind: Kookkurrenzen, mehrere Lemmata gleichzeitig, Zugriff auf
-                die sechs Authority Files.
+                die sechs Register.
             </p>
         </section>
 
@@ -155,10 +155,10 @@
                 <li><a href="#drei-spalten" class="text-brand-600 hover:text-brand-700 font-medium">2. Der Drei-Spalten-Aufbau</a></li>
                 <li><a href="#multi-lemma" class="text-brand-600 hover:text-brand-700 font-medium">3. Multi-Lemma-Suche</a></li>
                 <li><a href="#verse-position" class="text-brand-600 hover:text-brand-700 font-medium">4. Lemmasuche nach Versposition</a></li>
-                <li><a href="#weitere-werkzeuge" class="text-brand-600 hover:text-brand-700 font-medium">5. Weitere TEI-Analyse-Werkzeuge</a></li>
+                <li><a href="#weitere-werkzeuge" class="text-brand-600 hover:text-brand-700 font-medium">5. Weitere Korpusanalysen</a></li>
                 <li><a href="#forschungsfragen" class="text-brand-600 hover:text-brand-700 font-medium">6. Typische Forschungsfragen</a></li>
                 <li><a href="#experimentelle-forschungsdaten" class="text-brand-600 hover:text-brand-700 font-medium">7. Experimentelle Forschungsdaten</a></li>
-                <li><a href="#authority-files" class="text-brand-600 hover:text-brand-700 font-medium">8. Authority Files im Einsatz</a></li>
+                <li><a href="#authority-files" class="text-brand-600 hover:text-brand-700 font-medium">8. Register und Indizes im Einsatz</a></li>
                 <li><a href="#workflow" class="text-brand-600 hover:text-brand-700 font-medium">9. Vom Playground in die Leseansicht</a></li>
                 <li><a href="#weiter" class="text-brand-600 hover:text-brand-700 font-medium">10. Was Sie als Nächstes tun können</a></li>
             </ol>
@@ -172,10 +172,10 @@
                 erweitert die Korpussuche um drei Säulen: Erstens die <strong>Mehr-Lemma- und
                 Kookkurrenz-Suche</strong> – mehrere Lemmata gleichzeitig suchen und prüfen, wie
                 nahe sie im Text zusammenstehen. Zweitens die sechs durchsuchbaren
-                <strong>Authority Files</strong> – Autor*innen, Werke, das Wörterbuch, die
-                Begriffstaxonomie, Gattungen und Eigennamen. Drittens die
-                <strong>TEI-Analysewerkzeuge</strong> über dem vorgeladenen Korpus, von der
-                Wortfrequenz bis zum Reim-Wörterbuch.
+                <strong>Register &amp; Indizes</strong> – Autor*innen, Werke, das Wörterbuch, die
+                Begriffstaxonomie, Gattungen und Eigennamen; technisch sind das die Authority
+                Files. Drittens die <strong>Korpusanalysen</strong> über dem vorgeladenen
+                Korpus, von der Wortfrequenz bis zum Reim-Wörterbuch.
             </p>
             <p class="text-slate-700 leading-relaxed">
                 Die Oberfläche ist forschungsorientiert: etwas dichter, mit mehr Bedienelementen
@@ -193,7 +193,11 @@
             </p>
             <ol class="space-y-2 text-sm text-slate-700 mb-4 ml-4 list-decimal list-inside">
                 <li><strong>Korpus-Browser</strong> (links) – alle 667 Texte sind standardmäßig aktiv. Hier schränken Sie die Analyse auf bestimmte Werke, Autor*innen oder Gattungen ein.</li>
-                <li><strong>Abfragen</strong> (Mitte) – sechs Authority-File-Einstiegspunkte plus die TEI-Analysewerkzeuge: Multi-Lemma-Suche, Lemmasuche nach Versposition, Wortfrequenz-Analyse, Echte Hapaxlegomena, Text-Statistiken, Lemma-Verteilung, Begriffs-Verteilung, Textvergleich, Kookkurrenz-Ranking, Reim-Wörterbuch und Versendings-Profil. Dazu die experimentellen Forschungsdaten: Erweiterte Figurenbezeichnungen und Arthurische Pferde (beide Beta).</li>
+                <li><strong>Abfragen</strong> (Mitte) – vier Blöcke, von denen die oberen beiden offen stehen.
+                    <strong>Korpusanalysen</strong>: Sie bringen ein Wort oder einen Begriff mit (Multi-Lemma-Suche, Kookkurrenz-Ranking, Lemmasuche nach Versposition, Reim-Wörterbuch, Begriffs-Verteilung, Lemma-Verteilung).
+                    <strong>Register &amp; Indizes (Authority Files)</strong>: die sechs Nachschlagewerke zu Autor*innen, Werken, Wortschatz, Begriffen, Gattungen und Namen.
+                    <strong>Weitere Korpusanalysen</strong>: Sie bringen einen Text oder eine Autor*in mit (Echte Hapaxlegomena, Wortfrequenz-Analyse, Text-Statistiken, Versendings-Profil, Textvergleich).
+                    <strong>Experimentelle Forschungsdaten</strong>: Erweiterte Figurenbezeichnungen und Arthurische Pferde (beide Beta).</li>
                 <li><strong>Ergebnisse</strong> (rechts) – die Trefferliste zur aktuellen Abfrage, mit farbkodiertem Highlighting und Klick-Navigation in die Leseansicht.</li>
             </ol>
             <p class="text-slate-700 leading-relaxed">
@@ -350,14 +354,17 @@
 
         <!-- 5. Weitere TEI-Analyse-Werkzeuge -->
         <section id="weitere-werkzeuge" class="mb-12 scroll-mt-24">
-            <h2 class="text-2xl font-bold text-slate-900 mb-4">5. Weitere TEI-Analyse-Werkzeuge</h2>
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">5. Weitere Korpusanalysen</h2>
 
             <p class="text-slate-700 leading-relaxed mb-4">
-                Neben der Multi-Lemma-Suche und der Lemmasuche nach Versposition bietet der
-                Bereich <strong>TEI-Textanalyse</strong> weitere Werkzeuge über dem
-                vorgeladenen Korpus. Alle rechnen vollständig im Browser auf den vorgebauten
-                Indexen; wo es sinnvoll ist, führt ein Klick auf ein Ergebnis direkt in die
-                Leseansicht.
+                Die Werkzeuge dieses Abschnitts stehen in der Abfragespalte unter
+                <strong>Weitere Korpusanalysen</strong>, und der Unterschied zum Block
+                <strong>Korpusanalysen</strong> darüber ist kein Rang, sondern der Ausgangspunkt
+                Ihrer Frage: dort bringen Sie ein Wort oder einen Begriff mit, hier einen Text,
+                ein Werk oder eine Autor*in. Der Block ist zugeklappt ausgeliefert; ein Klick auf
+                die Überschrift öffnet ihn, und Ihre Wahl bleibt für den nächsten Besuch
+                erhalten. Alle rechnen vollständig im Browser auf den vorgebauten Indexen; wo es
+                sinnvoll ist, führt ein Klick auf ein Ergebnis direkt in die Leseansicht.
             </p>
 
             <div class="bg-white rounded-xl border border-slate-200 p-5 my-4">
@@ -677,7 +684,7 @@
 
         <!-- 8. Authority Files im Einsatz -->
         <section id="authority-files" class="mb-12 scroll-mt-24">
-            <h2 class="text-2xl font-bold text-slate-900 mb-4">8. Authority Files im Einsatz</h2>
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">8. Register und Indizes im Einsatz</h2>
 
             <p class="text-slate-700 leading-relaxed mb-4">
                 Sechs Authority-Ansichten öffnen je einen Einstiegspunkt in die kontrollierten
@@ -686,9 +693,10 @@
                 <a href="hilfe-daten.html#authority-files" class="text-brand-600 hover:text-brand-700 font-medium">Daten → Acht Authority Files</a>.
             </p>
             <p class="text-slate-700 leading-relaxed mb-4">
-                <strong>Wo Sie das finden:</strong> Die sechs Ansichten stehen unter „Authority Files durchsuchen". Der Block ist in der Abfragespalte
-                zugeklappt, damit nicht alles auf einmal dasteht. Ein Klick auf die
-                Überschrift öffnet ihn, und Ihre Wahl bleibt für den nächsten Besuch erhalten.
+                <strong>Wo Sie das finden:</strong> Die sechs Ansichten stehen unter „Register &amp; Indizes (Authority Files)". Der Block
+                steht in der Abfragespalte offen, weil er für die meisten Fragen der Einstieg
+                ist. Ein Klick auf die Überschrift klappt ihn zu, und Ihre Wahl bleibt für den
+                nächsten Besuch erhalten.
             </p>
 
             <ul class="space-y-3 text-sm text-slate-700 mb-4">
@@ -836,10 +844,10 @@
                     <li><a href="#drei-spalten" class="text-brand-600 hover:text-brand-700 font-medium">2. Drei-Spalten-Aufbau</a></li>
                     <li><a href="#multi-lemma" class="text-brand-600 hover:text-brand-700 font-medium">3. Multi-Lemma-Suche</a></li>
                     <li><a href="#verse-position" class="text-brand-600 hover:text-brand-700 font-medium">4. Versposition</a></li>
-                    <li><a href="#weitere-werkzeuge" class="text-brand-600 hover:text-brand-700 font-medium">5. Weitere Werkzeuge</a></li>
+                    <li><a href="#weitere-werkzeuge" class="text-brand-600 hover:text-brand-700 font-medium">5. Weitere Korpusanalysen</a></li>
                     <li><a href="#forschungsfragen" class="text-brand-600 hover:text-brand-700 font-medium">6. Forschungsfragen</a></li>
                     <li><a href="#experimentelle-forschungsdaten" class="text-brand-600 hover:text-brand-700 font-medium">7. Forschungsdaten</a></li>
-                    <li><a href="#authority-files" class="text-brand-600 hover:text-brand-700 font-medium">8. Authority Files</a></li>
+                    <li><a href="#authority-files" class="text-brand-600 hover:text-brand-700 font-medium">8. Register und Indizes</a></li>
                     <li><a href="#workflow" class="text-brand-600 hover:text-brand-700 font-medium">9. Zur Leseansicht</a></li>
                     <li><a href="#weiter" class="text-brand-600 hover:text-brand-700 font-medium">10. Was als Nächstes</a></li>
                 </ol>

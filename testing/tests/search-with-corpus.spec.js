@@ -17,12 +17,13 @@ test.describe('Search Functions with Pre-Built Corpus', () => {
         // Corpus now auto-loads — wait for file browser section to appear
         await page.waitForSelector('#fileBrowserSection', { state: 'visible', timeout: 60000 });
 
-        // #410: „Authority Files durchsuchen" wird seit 09/2026 zugeklappt
-        // ausgeliefert (KZW: „Es steht sonst zu viel auf einmal da").
-        // Die sechs Knoepfe darunter sind damit unsichtbar, und page.click()
-        // wartet auf Sichtbarkeit statt zu klicken. Der Schritt hier ist
-        // genau das, was eine Benutzerin jetzt auch tut.
-        await page.click('#authorityQueriesToggle');
+        // #410: der Block hiess „Authority Files durchsuchen" und war ein
+        // halbes Jahr zugeklappt (KZW: „Es steht sonst zu viel auf einmal
+        // da"). Seit der zweiten Runde heisst er „Register & Indizes
+        // (Authority Files)" und steht offen: die Menge wird nicht mehr
+        // durchs Zuklappen begrenzt, sondern durch die Aufteilung auf vier
+        // Bloecke, von denen zwei zu sind. Die sechs Knoepfe darunter sind
+        // damit ohne Zutun sichtbar.
         await expect(page.locator('#authorityQueriesPanel')).toBeVisible();
 
         console.log('✅ Playground ready with full corpus loaded');

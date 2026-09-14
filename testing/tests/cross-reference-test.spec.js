@@ -18,11 +18,12 @@ test.describe('Cross-Reference Functionality', () => {
         // Work→Author-Verknüpfung zeigt sich als "Autor*in:"-Angabe in Karte
         // und Details-Panel (Audit #39: der alte if-Zweig war unerreichbar,
         // der Test damit dauerhaft assertion-frei grün).
-        // #410: der Abschnitt "Authority Files durchsuchen" startet zugeklappt.
-        // Dieser Test adressiert den Knopf ueber seinen TEXT und nicht ueber
-        // die ID; genau deshalb hat ihn die ID-Suche beim Umbau nicht
-        // gefunden, und er lief als einziger rot.
-        await page.click('#authorityQueriesToggle');
+        // #410, zweite Runde: der Block heisst jetzt "Register & Indizes
+        // (Authority Files)" und ist ausgeliefert AUFGEklappt, weil die
+        // Registerzugaenge fuer die fachwissenschaftliche Nutzung der
+        // Einstieg sind. Das frueher noetige Aufklappen entfaellt deshalb;
+        // ein Klick auf den Umschalter wuerde den Block jetzt schliessen.
+        await expect(page.locator('#authorityQueriesPanel')).toBeVisible();
         await page.click('button:has-text("Werke anzeigen")');
         await page.waitForSelector('#workSearch', { timeout: 5000 });
         await page.fill('#workSearch', 'Iwein');

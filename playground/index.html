@@ -224,14 +224,19 @@
                 <div id="teiQueries" style="display: none;" class="space-y-4">
                     <div>
                         <h3 class="flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wide text-slate-500">
-                            TEI Textanalyse
-                            <a href="../hilfe-playground.html#multi-lemma" target="_blank" rel="noopener" class="help-icon" aria-label="Hilfe zur Multi-Lemma-Suche" title="Hilfe zur Multi-Lemma-Suche">
+                            <button type="button" id="corpusAnalysesToggle" aria-expanded="true" aria-controls="corpusAnalysesPanel"
+                                class="flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wide text-slate-500 transition hover:text-slate-800">
+                                Korpusanalysen
+                                <svg id="corpusAnalysesChevron" class="h-4 w-4 flex-shrink-0 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <a href="../hilfe-playground.html#multi-lemma" target="_blank" rel="noopener" class="help-icon" aria-label="Hilfe zu den Korpusanalysen" title="Hilfe zu den Korpusanalysen">
                                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                             </a>
                         </h3>
-                        <p class="mt-1 text-sm text-slate-500">Analysieren Sie Lemmata, ihre Verteilung und Frequenzen im Korpus.</p>
                     </div>
-                    <div class="grid gap-2">
+                    <div id="corpusAnalysesPanel" class="space-y-4">
+                        <p class="text-sm text-slate-500">Ausgangspunkt ist ein einzelnes Wort oder ein Begriff: Sie fragen, wo es im Korpus steht, womit es zusammen vorkommt, wie es reimt und wie es sich über die Texte verteilt.</p>
+                        <div class="grid gap-2">
                         <button id="findMultiLemmaBtn" class="w-full rounded-xl border border-brand-200 bg-brand-50 px-4 py-2 text-left text-sm font-medium text-brand-700 transition hover:border-brand-400 hover:bg-brand-100 flex items-center gap-2.5">
                             <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
@@ -239,78 +244,6 @@
                             <span class="flex flex-col items-start leading-tight">
                                 <span>Multi-Lemma-Suche</span>
                                 <span class="text-xs font-normal text-brand-600/80 mt-0.5">Sucht mehrere Lemmata gemeinsam</span>
-                            </span>
-                        </button>
-                        <button id="showRhymeDictionaryBtn" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 flex items-center gap-2.5">
-                            <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 9l10.5-3m0 6.553v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 11-.99-3.467l2.31-.66a2.25 2.25 0 001.632-2.163zm0 0V2.25L9 5.25v10.303m0 0v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 11-.99-3.467l2.31-.66A2.25 2.25 0 009 15.553z"></path>
-                            </svg>
-                            <span class="flex flex-col items-start leading-tight">
-                                <span>Reim-Wörterbuch</span>
-                                <span class="text-xs font-normal text-slate-500 mt-0.5">Reimpartner-Lemmata an benachbarten Versenden</span>
-                            </span>
-                        </button>
-                        <button id="showVerseEndingProfileBtn" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 flex items-center gap-2.5">
-                            <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M10 10h10M4 14h16M10 18h10"></path>
-                            </svg>
-                            <span class="flex flex-col items-start leading-tight">
-                                <span>Versendings-Profil</span>
-                                <span class="text-xs font-normal text-slate-500 mt-0.5">Top-Lemmata am Versende pro Korpus, Autor*in oder Text</span>
-                            </span>
-                        </button>
-                        <button id="showWordFrequencyBtn" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 flex items-center gap-2.5">
-                            <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-                            </svg>
-                            <span class="flex flex-col items-start leading-tight">
-                                <span>Wortfrequenz-Analyse</span>
-                                <span class="text-xs font-normal text-slate-500 mt-0.5">Zeigt die Vorkommenshäufigkeit an</span>
-                            </span>
-                        </button>
-                        <button id="showHapaxLegomenaBtn" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 flex items-center gap-2.5">
-                            <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-5.197-5.197M15.803 15.803A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607zM10.5 7.5v6m3-3h-6"></path>
-                            </svg>
-                            <span class="flex flex-col items-start leading-tight">
-                                <span>Echte Hapaxlegomena</span>
-                                <span class="text-xs font-normal text-slate-500 mt-0.5">Korpusweit einmalige Lemmata mit Fundort</span>
-                            </span>
-                        </button>
-                        <button id="showTextStatisticsBtn" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 flex items-center gap-2.5">
-                            <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2a4 4 0 00-4-4H3m6 6h6m-6 0V9a4 4 0 014-4h6m-10 12v4m6-16v16m0-16h2a4 4 0 014 4v8a4 4 0 01-4 4h-2"></path>
-                            </svg>
-                            <span class="flex flex-col items-start leading-tight">
-                                <span>Text-Statistiken</span>
-                                <span class="text-xs font-normal text-slate-500 mt-0.5">Annotierte Tokens, Lemma-Diversität, Hapax-Rate pro Text</span>
-                            </span>
-                        </button>
-                        <button id="showLemmaDistributionBtn" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 flex items-center gap-2.5">
-                            <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12h2l2 5 4-10 3 7 2-3h5"></path>
-                            </svg>
-                            <span class="flex flex-col items-start leading-tight">
-                                <span>Lemma-Verteilung</span>
-                                <span class="text-xs font-normal text-slate-500 mt-0.5">Visualisiert ein Lemma über alle Texte</span>
-                            </span>
-                        </button>
-                        <button id="showConceptDistributionBtn" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 flex items-center gap-2.5">
-                            <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.24 17 7.222c1.5 3 .388 5.61-1 6.778 0 0 4 1 3.657 4.657z M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z"></path>
-                            </svg>
-                            <span class="flex flex-col items-start leading-tight">
-                                <span>Begriffs-Verteilung</span>
-                                <span class="text-xs font-normal text-slate-500 mt-0.5">Visualisiert einen Begriff über alle Texte</span>
-                            </span>
-                        </button>
-                        <button id="showTextComparisonBtn" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 flex items-center gap-2.5">
-                            <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path>
-                            </svg>
-                            <span class="flex flex-col items-start leading-tight">
-                                <span>Textvergleich</span>
-                                <span class="text-xs font-normal text-slate-500 mt-0.5">Gemeinsame und exklusive Lemmata zweier Texte</span>
                             </span>
                         </button>
                         <button id="showCooccurrenceRankingBtn" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 flex items-center gap-2.5">
@@ -331,41 +264,31 @@
                                 <span class="text-xs font-normal text-slate-500 mt-0.5">Sucht Lemmata am Versanfang oder Versende</span>
                             </span>
                         </button>
-                    </div>
-                </div>
-
-                <div class="space-y-4">
-                    <div>
-                        <h3 class="flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wide text-slate-500">
-                            <button type="button" id="experimentalToggle" aria-expanded="false" aria-controls="experimentalPanel"
-                                class="flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wide text-slate-500 transition hover:text-slate-800">
-                                Experimentelle Forschungsdaten
-                                <svg id="experimentalChevron" class="h-4 w-4 flex-shrink-0 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                            </button>
-                            <a href="../hilfe-playground.html#experimentelle-forschungsdaten" target="_blank" rel="noopener" class="help-icon" aria-label="Hilfe zu experimentellen Forschungsdaten" title="Hilfe zu experimentellen Forschungsdaten">
-                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                            </a>
-                        </h3>
-                    </div>
-                    <div id="experimentalPanel" class="hidden space-y-4">
-                        <p class="text-sm text-slate-500">Kuratierte Datensätze aus externen Forschungsprojekten, verknüpft mit dem MHDBDB-Korpus. Diese Sammlung wächst laufend.</p>
-                        <div class="grid gap-2">
-                        <button id="showNamingExplorerBtn" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 flex items-center gap-2.5">
+                        <button id="showRhymeDictionaryBtn" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 flex items-center gap-2.5">
                             <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 9l10.5-3m0 6.553v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 11-.99-3.467l2.31-.66a2.25 2.25 0 001.632-2.163zm0 0V2.25L9 5.25v10.303m0 0v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 11-.99-3.467l2.31-.66A2.25 2.25 0 009 15.553z"></path>
                             </svg>
                             <span class="flex flex-col items-start leading-tight">
-                                <span>Erweiterte Figurenbezeichnungen <span class="text-[10px] font-semibold uppercase text-amber-700">Beta</span></span>
-                                <span class="text-xs font-normal text-slate-500 mt-0.5">rund 10.500 Belegstellen aus 4 Werken nach L. Beutel-Thurow</span>
+                                <span>Reim-Wörterbuch</span>
+                                <span class="text-xs font-normal text-slate-500 mt-0.5">Reimpartner-Lemmata an benachbarten Versenden</span>
                             </span>
                         </button>
-                        <button id="showHorsesExplorerBtn" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 flex items-center gap-2.5">
+                        <button id="showConceptDistributionBtn" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 flex items-center gap-2.5">
                             <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.24 17 7.222c1.5 3 .388 5.61-1 6.778 0 0 4 1 3.657 4.657z M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z"></path>
                             </svg>
                             <span class="flex flex-col items-start leading-tight">
-                                <span>Arthurische Pferde <span class="text-[10px] font-semibold uppercase text-amber-700">Beta</span></span>
-                                <span class="text-xs font-normal text-slate-500 mt-0.5">346 Belegstellen aus 5 Werken nach L. Borek</span>
+                                <span>Begriffs-Verteilung</span>
+                                <span class="text-xs font-normal text-slate-500 mt-0.5">Visualisiert einen Begriff über alle Texte</span>
+                            </span>
+                        </button>
+                        <button id="showLemmaDistributionBtn" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 flex items-center gap-2.5">
+                            <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12h2l2 5 4-10 3 7 2-3h5"></path>
+                            </svg>
+                            <span class="flex flex-col items-start leading-tight">
+                                <span>Lemma-Verteilung</span>
+                                <span class="text-xs font-normal text-slate-500 mt-0.5">Visualisiert ein Lemma über alle Texte</span>
                             </span>
                         </button>
                         </div>
@@ -375,18 +298,18 @@
                 <div class="space-y-4">
                     <div>
                         <h3 class="flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wide text-slate-500">
-                            <button type="button" id="authorityQueriesToggle" aria-expanded="false" aria-controls="authorityQueriesPanel"
+                            <button type="button" id="authorityQueriesToggle" aria-expanded="true" aria-controls="authorityQueriesPanel"
                                 class="flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wide text-slate-500 transition hover:text-slate-800">
-                                Authority Files durchsuchen
+                                Register &amp; Indizes (Authority Files)
                                 <svg id="authorityQueriesChevron" class="h-4 w-4 flex-shrink-0 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                             </button>
-                            <a href="../hilfe-playground.html#authority-files" target="_blank" rel="noopener" class="help-icon" aria-label="Hilfe zu Authority Files" title="Hilfe zu Authority Files">
+                            <a href="../hilfe-playground.html#authority-files" target="_blank" rel="noopener" class="help-icon" aria-label="Hilfe zu Registern und Indizes" title="Hilfe zu Registern und Indizes">
                                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                             </a>
                         </h3>
                     </div>
-                    <div id="authorityQueriesPanel" class="hidden space-y-4">
-                        <p class="text-sm text-slate-500">Vordefinierte Recherchepfade für Personen, Werke, Begriffe und mehr.</p>
+                    <div id="authorityQueriesPanel" class="space-y-4">
+                        <p class="text-sm text-slate-500">Die Register der Datenbank: Autor*innen, Werke, der Wortschatz, die Begriffssystematik, Gattungen und Namen. Jeder Eintrag führt zu seinen Belegstellen im Korpus.</p>
                         <div class="grid gap-2">
                         <button id="showAuthorsBtn" disabled class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 disabled:cursor-not-allowed disabled:border-slate-100 disabled:bg-slate-50 disabled:text-slate-400">
                             <span class="flex flex-col items-start leading-tight">
@@ -422,6 +345,109 @@
                             <span class="flex flex-col items-start leading-tight">
                                 <span>Namen anzeigen</span>
                                 <span class="text-xs font-normal text-slate-500 mt-0.5">Eigennamen mit semantischen Relationen</span>
+                            </span>
+                        </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="moreTeiQueries" style="display: none;" class="space-y-4">
+                    <div>
+                        <h3 class="flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wide text-slate-500">
+                            <button type="button" id="moreAnalysesToggle" aria-expanded="false" aria-controls="moreAnalysesPanel"
+                                class="flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wide text-slate-500 transition hover:text-slate-800">
+                                Weitere Korpusanalysen
+                                <svg id="moreAnalysesChevron" class="h-4 w-4 flex-shrink-0 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <a href="../hilfe-playground.html#weitere-werkzeuge" target="_blank" rel="noopener" class="help-icon" aria-label="Hilfe zu den weiteren Korpusanalysen" title="Hilfe zu den weiteren Korpusanalysen">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                            </a>
+                        </h3>
+                    </div>
+                    <div id="moreAnalysesPanel" class="hidden space-y-4">
+                        <p class="text-sm text-slate-500">Ausgangspunkt ist ein Text, ein Werk oder eine Autor*in: Sie fragen, was dessen Wortschatz auszeichnet, was nur dort einmal vorkommt und wie er sich gegen andere Texte verhält.</p>
+                        <div class="grid gap-2">
+                        <button id="showHapaxLegomenaBtn" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 flex items-center gap-2.5">
+                            <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-5.197-5.197M15.803 15.803A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607zM10.5 7.5v6m3-3h-6"></path>
+                            </svg>
+                            <span class="flex flex-col items-start leading-tight">
+                                <span>Echte Hapaxlegomena</span>
+                                <span class="text-xs font-normal text-slate-500 mt-0.5">Korpusweit einmalige Lemmata mit Fundort</span>
+                            </span>
+                        </button>
+                        <button id="showWordFrequencyBtn" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 flex items-center gap-2.5">
+                            <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                            </svg>
+                            <span class="flex flex-col items-start leading-tight">
+                                <span>Wortfrequenz-Analyse</span>
+                                <span class="text-xs font-normal text-slate-500 mt-0.5">Zeigt die Vorkommenshäufigkeit an</span>
+                            </span>
+                        </button>
+                        <button id="showTextStatisticsBtn" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 flex items-center gap-2.5">
+                            <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2a4 4 0 00-4-4H3m6 6h6m-6 0V9a4 4 0 014-4h6m-10 12v4m6-16v16m0-16h2a4 4 0 014 4v8a4 4 0 01-4 4h-2"></path>
+                            </svg>
+                            <span class="flex flex-col items-start leading-tight">
+                                <span>Text-Statistiken</span>
+                                <span class="text-xs font-normal text-slate-500 mt-0.5">Annotierte Tokens, Lemma-Diversität, Hapax-Rate pro Text</span>
+                            </span>
+                        </button>
+                        <button id="showVerseEndingProfileBtn" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 flex items-center gap-2.5">
+                            <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M10 10h10M4 14h16M10 18h10"></path>
+                            </svg>
+                            <span class="flex flex-col items-start leading-tight">
+                                <span>Versendings-Profil</span>
+                                <span class="text-xs font-normal text-slate-500 mt-0.5">Top-Lemmata am Versende pro Korpus, Autor*in oder Text</span>
+                            </span>
+                        </button>
+                        <button id="showTextComparisonBtn" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 flex items-center gap-2.5">
+                            <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path>
+                            </svg>
+                            <span class="flex flex-col items-start leading-tight">
+                                <span>Textvergleich</span>
+                                <span class="text-xs font-normal text-slate-500 mt-0.5">Gemeinsame und exklusive Lemmata zweier Texte</span>
+                            </span>
+                        </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <div>
+                        <h3 class="flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wide text-slate-500">
+                            <button type="button" id="experimentalToggle" aria-expanded="false" aria-controls="experimentalPanel"
+                                class="flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wide text-slate-500 transition hover:text-slate-800">
+                                Experimentelle Forschungsdaten
+                                <svg id="experimentalChevron" class="h-4 w-4 flex-shrink-0 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <a href="../hilfe-playground.html#experimentelle-forschungsdaten" target="_blank" rel="noopener" class="help-icon" aria-label="Hilfe zu experimentellen Forschungsdaten" title="Hilfe zu experimentellen Forschungsdaten">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                            </a>
+                        </h3>
+                    </div>
+                    <div id="experimentalPanel" class="hidden space-y-4">
+                        <p class="text-sm text-slate-500">Kuratierte Datensätze aus externen Forschungsprojekten, verknüpft mit dem MHDBDB-Korpus. Diese Sammlung wächst laufend.</p>
+                        <div class="grid gap-2">
+                        <button id="showNamingExplorerBtn" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 flex items-center gap-2.5">
+                            <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"></path>
+                            </svg>
+                            <span class="flex flex-col items-start leading-tight">
+                                <span>Erweiterte Figurenbezeichnungen <span class="text-[10px] font-semibold uppercase text-amber-700">Beta</span></span>
+                                <span class="text-xs font-normal text-slate-500 mt-0.5">rund 10.500 Belegstellen aus 4 Werken nach L. Beutel-Thurow</span>
+                            </span>
+                        </button>
+                        <button id="showHorsesExplorerBtn" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 flex items-center gap-2.5">
+                            <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75"></path>
+                            </svg>
+                            <span class="flex flex-col items-start leading-tight">
+                                <span>Arthurische Pferde <span class="text-[10px] font-semibold uppercase text-amber-700">Beta</span></span>
+                                <span class="text-xs font-normal text-slate-500 mt-0.5">346 Belegstellen aus 5 Werken nach L. Borek</span>
                             </span>
                         </button>
                         </div>

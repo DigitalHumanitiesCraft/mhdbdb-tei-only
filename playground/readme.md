@@ -86,8 +86,8 @@ Variant forms are extracted from the corpus and indexed in `variants.xml`:
    - The indexes are cached in IndexedDB for subsequent visits
 
 3. **Explore data:**
-   - Use "Authority Files durchsuchen" for metadata queries
-   - Use "TEI Textanalyse" for text-based searches
+   - Use "Register & Indizes (Authority Files)" for metadata queries
+   - Use "Korpusanalysen" when you start from a word or a concept, "Weitere Korpusanalysen" when you start from a text or an author (#410)
    - Try "Multi-Lemma-Suche" for co-occurrence analysis
 
 ### Development
