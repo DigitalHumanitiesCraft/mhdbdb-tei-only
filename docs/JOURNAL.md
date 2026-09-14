@@ -1888,8 +1888,8 @@ Grundmenge sind die offenen Vorgänge (`gh issue list --state open --limit 200`)
 | Menge | vor dem Lauf | nach dem Lauf |
 |---|--:|--:|
 | offene Vorgänge | 71 | 69 |
-| davon `auto:blocked` | 46 | 37 |
-| davon `wait:kzw` | 39 | 30 |
+| davon `auto:blocked` | 46 | 38 |
+| davon `wait:kzw` | 39 | 31 |
 | `wait:*` ohne `auto:blocked` | 0 | 0 |
 | `auto:blocked` ohne `wait:*` | 0 | 0 |
 
