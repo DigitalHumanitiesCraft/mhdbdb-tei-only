@@ -175,9 +175,9 @@
                 <strong>Register &amp; Indizes</strong> zum Durchsuchen: Autor*innen, Werke, das Wörterbuch, die
                 Begriffstaxonomie, Gattungen und Eigennamen; technisch sind das die Authority
                 Files. Drittens die <strong>Korpusanalysen</strong> über dem vorgeladenen
-                Korpus, von der Wortfrequenz bis zum Reim-Wörterbuch; in der Abfragespalte
-                stehen sie in zwei Blöcken nebeneinander, getrennt danach, ob Ihre Frage von
-                einem Wort oder von einem Text ausgeht.
+                Korpus, von der Wortfrequenz bis zum Reim-Wörterbuch. In der Abfragespalte
+                stehen sie in zwei Blöcken, dem obersten und einem weiter unten, getrennt
+                danach, ob Ihre Frage von einem Wort oder von einem Text ausgeht.
             </p>
             <p class="text-slate-700 leading-relaxed">
                 Die Oberfläche ist forschungsorientiert: etwas dichter, mit mehr Bedienelementen
@@ -392,6 +392,18 @@
                 </p>
             </div>
 
+            <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded-r-lg my-6">
+                <p class="text-sm text-slate-700">
+                    <strong>Kookkurrenz-Ranking vs. Nähe-Analyse:</strong> Beide drehen sich um
+                    Wortumgebungen, beantworten aber verschiedene Fragen. Das Kookkurrenz-Ranking
+                    geht von einem <em>einzigen</em> Lemma aus und rankt ungerichtet, welche anderen
+                    Lemmata in seiner Umgebung am häufigsten auftauchen – es entdeckt die Partner
+                    für Sie. Die Nähe-Analyse der Multi-Lemma-Suche (Abschnitt 3) setzt dagegen
+                    voraus, dass Sie die Lemmata bereits kennen, und prüft nur, an welchen Stellen
+                    sie nah zusammenstehen.
+                </p>
+            </div>
+
             <div class="bg-white rounded-xl border border-slate-200 p-5 my-4">
                 <h4 class="text-base font-semibold text-slate-900 mb-2">Reim-Wörterbuch</h4>
                 <p class="text-sm text-slate-700 leading-relaxed">
@@ -434,7 +446,7 @@
                 </p>
             </div>
 
-            <h3 class="text-lg font-semibold text-slate-900 mt-6 mb-2">Im Block „Weitere Korpusanalysen"</h3>
+            <h3 id="block-weitere-korpusanalysen" class="text-lg font-semibold text-slate-900 mt-6 mb-2 scroll-mt-24">Im Block „Weitere Korpusanalysen"</h3>
             <p class="text-slate-700 leading-relaxed mb-4">
                 Ausgangspunkt ist ein Text, ein Werk oder eine Autor*in: Sie fragen, was dessen
                 Wortschatz auszeichnet, was nur dort einmal vorkommt und wie er sich gegen
@@ -526,7 +538,7 @@
                 </p>
             </div>
 
-</section>
+        </section>
 
         <!-- 6. Typische Forschungsfragen -->
         <section id="forschungsfragen" class="mb-12 scroll-mt-24">
