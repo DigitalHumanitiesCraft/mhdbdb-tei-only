@@ -38,6 +38,15 @@ immer ein veralteter Spiegel:
                  0 von 671, aber ohne eigene Klasse waere er ein stilles Loch:
                  wer die preferred-Zeile loescht, faellt sonst nur aus der
                  Grundmenge und loest keine Meldung aus
+  spiegel-fehlt  eine Autoren-ID aus dem titleStmt hat keinen Eintrag im
+                 particDesc derselben Datei. Das ist die Untergrenze der
+                 Grundmenge, und sie kommt aus den Daten und nicht aus einer
+                 committeten Zahl: wer ein ganzes <person>-Element loescht,
+                 faellt in keine der Klassen darueber, weil die sich alle auf
+                 vorhandene Eintraege beziehen. Eine gezaehlte Menge kann ihr
+                 eigenes Schrumpfen nicht melden. Die eine Sigle, die heute
+                 ein leeres listPerson fuehrt, steht namentlich in LEERE_LISTPERSON,
+                 und das Skript meldet sie, sobald sie ueberfluessig wird
 
 Der Anlass: af2000a06 hat person_1249 auf "Jakob von Warte" gezogen und
 tei/SJW.tei.xml:121 stehen lassen, wodurch die Datei sich nach der Korrektur
@@ -71,6 +80,17 @@ from corpus_files import corpus_files  # noqa: E402
 
 NS = {'tei': 'http://www.tei-c.org/ns/1.0'}
 
+# Siglen mit leerem <listPerson/>, benannt statt gezaehlt. Gemessen am
+# 15.09.2026 ueber alle 667 Dateien: 672 titleStmt-Autoren mit @ref, kein
+# einziger ohne, 671 particDesc-Eintraege in 666 Dateien, und kein Eintrag ohne
+# zugehoerigen Autor. Die Differenz ist genau dieser eine Fall.
+LEERE_LISTPERSON = {
+    'VOR': 'Die Datei fuehrt als einzige ein leeres <listPerson/> (Zeile 134), '
+           'also particDesc ohne Person. Ob der Autor dort nachgetragen wird, '
+           'ist eine Modellfrage fuer KZW und hier bewusst nicht entschieden '
+           '(#228/#308).',
+}
+
 
 def preferred_names(root: Path) -> dict:
     tree = etree.parse(str(root / 'authority-files' / 'persons.xml'))
@@ -94,9 +114,11 @@ def main():
 
     leer, tot, praefix, abweichend, ohne_ref, ws = [], [], [], [], [], []
     spiegel, spiegel_tot, ohne_preferred, spiegel_geprueft = [], [], [], 0
+    spiegel_fehlt, ausnahme_ueberfluessig = [], []
     for path in corpus_files():
         sigle = path.name.replace('.tei.xml', '')
         tree = etree.parse(str(path))
+        corresp_ids, autor_ids = set(), set()
         for person in tree.xpath('//tei:particDesc/tei:listPerson/tei:person',
                                  namespaces=NS):
             # Adressiert wird ueber @corresp, nicht ueber die lokale xml:id:
@@ -104,6 +126,8 @@ def main():
             # einzige Fall, und das @corresp daneben loest korrekt auf.
             corresp = person.get('corresp') or ''
             pid = corresp.split('#')[-1]
+            if corresp:
+                corresp_ids.add(pid)
             names = person.xpath('./tei:persName[@type="preferred"]',
                                  namespaces=NS)
             if not names:
@@ -137,6 +161,7 @@ def main():
                 # eine stille Abweichung von der Konvention der uebrigen Texte.
                 praefix.append((sigle, raw))
             pid = raw.split('#')[-1]
+            autor_ids.add(pid)
             if pid not in pref:
                 tot.append((sigle, raw))
                 continue
@@ -144,6 +169,18 @@ def main():
                 leer.append((sigle, pid))
             elif text != pref[pid]:
                 abweichend.append((sigle, pid, text, pref[pid]))
+        # Die Erwartung kommt aus der Datei selbst, nicht aus einer Baseline:
+        # jeder Autor des titleStmt hat seinen Spiegel im particDesc. Ohne das
+        # faellt ein geloeschtes <person>-Element in keine Klasse, die
+        # Grundmenge sinkt still und --check bleibt gruen (CI-Review-Bot auf
+        # PR #438). Eine gezaehlte Menge kann ihr eigenes Schrumpfen nicht
+        # melden; eine Invariante braucht keine Zahl.
+        if sigle in LEERE_LISTPERSON:
+            if corresp_ids:
+                ausnahme_ueberfluessig.append(sigle)
+        else:
+            for pid in sorted(autor_ids - corresp_ids):
+                spiegel_fehlt.append((sigle, pid))
 
     print(f'Geprueft: {len(corpus_files())} Korpusdateien')
     print()
@@ -173,13 +210,26 @@ def main():
     print(f'  Spiegel ohne preferred-Zeile {len(ohne_preferred)}')
     for sigle, corresp in ohne_preferred:
         print(f'      {sigle:6} {corresp}')
+    print(f'  Autor ohne Spiegel           {len(spiegel_fehlt)}')
+    for sigle, pid in spiegel_fehlt:
+        print(f'      {sigle:6} {pid} steht im titleStmt, nicht im particDesc')
+    if ausnahme_ueberfluessig:
+        print()
+        print('  Veraltete Ausnahme, bitte aus LEERE_LISTPERSON entfernen:')
+        for sigle in ausnahme_ueberfluessig:
+            print(f'      {sigle:6} fuehrt inzwischen mindestens eine Person')
+    print()
+    for sigle, grund in sorted(LEERE_LISTPERSON.items()):
+        if sigle not in ausnahme_ueberfluessig:
+            print(f'  Leeres listPerson, bewusst: {sigle} - {grund}')
     print()
     print(f'  Text weicht vom preferred-Namen ab: {len(abweichend)}')
     print('      (kein Fehler an sich, aber jeder Fall ist eine Entscheidung)')
     for sigle, pid, text, name in abweichend:
         print(f'      {sigle:6} {pid:12} TEI {text!r} <-> persons.xml {name!r}')
 
-    if args.check and (leer or tot or spiegel or spiegel_tot or ohne_preferred):
+    if args.check and (leer or tot or spiegel or spiegel_tot or ohne_preferred
+                       or spiegel_fehlt):
         sys.exit(1)
 
 
