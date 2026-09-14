@@ -1199,3 +1199,91 @@ A second measured redundancy is worth recording for whoever implements a split: 
 - **A split would blind this gate.** It measures per file against a per-file threshold, so after a split every part would sit below its threshold while the total load was unchanged. Whoever implements a split converts the gate to summing over the parts in the same work package. This is the one hard dependency the gate has on this ADR.
 - **`totalLemmata` already exists and is unused.** `playground/js/playground-main.js:319-324` walks `Object.keys(text.lemmata)` across all 667 texts at first paint purely to render a count, holding 51.2 MB in the critical path for a display number, while the index already carries a top-level `totalLemmata` that nothing reads. Any lazy-loading scheme has to defeat this line first, so it is worth fixing before, and independently of, any split.
 - **#111 asked for ADR-015.** That number went to the authority source model in 05/2026, as the comment of 2026-08-05 already warned. This is ADR-019.
+
+---
+
+## ADR-020: a name denotes more than one entity, and that is a sense split, not a lemma split
+
+**Status:** Accepted (2026-09-14, KZW in [#357](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/357))
+**Context:** `lemma_3036` *Ingliart* carries three corpus attestations: two are Gâwân's horse in *Parzival*, one is a knight in a name catalogue in *Rennewart*. The issue asked whether the third needs a lemma of its own.
+
+### Problem
+
+The corpus had a name attached to two different referents of different kinds, a horse and a person, under one lemma and one sense (`sense_4843`). Two readings were on the table, and they pull in opposite directions:
+
+1. **Mint a new lemma** for the *Rennewart* attestation, following its neighbours in the same catalogue (`wimiligar` = `lemma_22280`, `rufter` = `lemma_22282`, `echerabant` = `lemma_22283`, each attested only there). That is what the issue proposed, explicitly as a guess.
+2. **Keep one lemma** and let it carry both referents.
+
+The question looks like it is about one word. It is not: whichever way it is answered becomes the rule for every name in the onomasticon, and the onomasticon is the part of the data that grows fastest through ingest.
+
+### Decision
+
+**One lemma, two senses.** In KZW's words:
+
+> Das braucht kein eigenes Lemma, aber es darf nicht nur einen Sense mit "Pferdenamen" haben, sondern auch einen zweiten mit Menschennamen. Das gilt für alle Namen. Dass ein Namen mehrere Entitäten bezeichnet, ist ja normal. Es gibt ja auch nicht nur einen "Ulrich" auf der Welt.
+
+Three things follow, and the third is the one that is easy to lose:
+
+- **A name that denotes several entities stays one lemma.** Homonymy across referents is the normal state of a name, not an annotation error, and it is not a reason to mint.
+- **The distinction lives in the sense layer.** Each referent class gets its own sense with its own `concepts.xml` assignment. A lemma with one sense and two kinds of referent is the defect, not the shared headword.
+- **A concept like "horse names" is a research affordance, not an ontological claim.** KZW is explicit that `concept_23221000` exists because horse naming is a field of study, not because horse names are a separate kind of name: „Dass wir einen eigenen Begriff mit Pferdenamen haben, ist halt unseren Usern geschuldet, weil das ein Forschungszweig ist." A curated concept of that sort therefore obliges the annotator to open the second sense rather than to pick one.
+
+### Consequences
+
+- **Disambiguation runs over names have to carry the sense question.** „Dann muss man eben zwei Bedeutungsfelder aufmachen und beim Disambiguieren aufpassen." A run that assigns `@lemmaRef` and leaves `@ana` to the existing single sense silently asserts the wrong referent class. This is the operational half of the decision and the half a script will skip.
+- **It does not settle §F.2.** Sense meanings stay curatorial: this ADR says a second sense is required, not what it means. The concept assignment is still the team's.
+- **It compounds with the `Alanya` lesson in CLAUDE.md.** There, a lemma was characterised from the headword alone and the attestations said otherwise. Here the attestations say two things at once, and the correct answer is to record both rather than to choose. Both cases have the same root: the headword is not the evidence.
+- **The open work in #357 is now mechanical in shape and curatorial in substance:** `lemma_3036` needs a second sense for the person reading, and `REN_242090_0` needs to point at it. The sense meaning is KZW's to assign.
+
+---
+
+## ADR-021: an ambiguous written form returns every candidate lemma, ranked by that form's own frequency
+
+**Status:** Accepted (2026-09-14, KZW in [#378](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/378)). **Decided, not implemented.**
+**Context:** stage 2 of lemma resolution (§C) maps a normalized written form to exactly one lemma, and picks that one by document order in `variants.xml`, which means by the smaller migration number.
+
+### Problem
+
+`build-authority-index.py` builds the variants dictionary first-wins:
+
+```python
+if normalized_variant not in variants:
+    variants[normalized_variant] = lemma_id
+```
+
+`variants.xml` is ordered by lemma number, so the winner is whichever lemma was numbered lower during the 2025 migration. That number says nothing about frequency, part of speech or fit.
+
+**Figures from #378, measured there on 2026-08-31 and reproduced independently on 2026-09-06**, over the then 234,243 normalized forms in the runtime dictionary: 4,972 are claimed by more than one lemma, and of those, 1,272 resolve to a lemma other than the most frequent one and are actually reachable by a user (stage 1 does not catch them first). They are quoted here with their origin rather than re-measured: the dictionary has since grown to **234,245** mappings (measured against Authority Index 1.9.6 on 2026-09-14), so the three counts above describe a slightly smaller set than today's.
+
+The affected forms are not marginal. Measured against the built index on 2026-09-14, with `minne` as a control value that has to be in the dictionary and is:
+
+| form | resolves to | which is | rather than |
+|---|---|---|---|
+| `des`, `dem` | `lemma_1097` | *daz*, ART | `lemma_1119` *der*, ART |
+| `hab` | `lemma_2593` | *habe*, NOM | the verb *haben* |
+| `gehabt` | `lemma_2020` | *gehaben*, VRB | the verb *haben* |
+| `ne` | `lemma_1404` | *Aeneas*, NAM | the negation particle |
+
+**The obvious repair does not work, and that is the load-bearing finding.** A stichprobe on 2026-09-06 rebuilt the list under a frequency tie-break and found that it fixes the head of the list and breaks other entries that are correct today: `pyn` is *pîn* and `denn` is *danne*, and both would be re-pointed. A Levenshtein proxy to tell the two groups apart fails in exactly the interesting direction, because inflection and ablaut push the frequent words away from their headword (`hab` is closer to `habe` than to `haben`, but belongs to `haben`). **There is no cheap feature in the present data that separates the 1,272 into "repaired" and "broken".**
+
+That is the argument against every single-answer rule, frequency included: a tie-break is a guess with a different bias, not an answer.
+
+### Decision
+
+> Ich würde hier Option 3 mit Vorschrift B kombinieren: Bei einer normalisierten Schreibform, die mehreren Lemmata zugeordnet ist, sollen alle Kandidaten erhalten und ausgegeben werden. Die Reihenfolge soll nach der Häufigkeit genau dieser normalisierten Form unter dem jeweiligen Lemma erfolgen (Vorschrift B), nicht nach der Gesamtfrequenz des Lemmas.
+
+Three parts, all binding:
+
+1. **Stage 2 returns every candidate lemma, not one.** The contract in §C changes: „Exactly 1 lemma ID" becomes „0..N, ranked". This is a change to the shape of the return value and reaches both consumers, the main site and the playground.
+2. **The ranking is Vorschrift B**, not A. Not „how frequent is this lemma overall" but „how often does *this* normalized form occur under it". The two were measured side by side in #378 and differ by 56 reachable cases; B is the one that answers the user's actual question.
+3. **The interface says so.** KZW asked for a visible note on such a hit, along the lines of „Diese Schreibform kann zu mehreren Lemmata gehören. Die Treffer sind danach sortiert, wie häufig diese Schreibform im Korpus beim jeweiligen Lemma belegt ist."
+
+**A gate is wanted independently of all this** and was asked for in the same breath: a comparison of the old against the new form-to-lemma map in the Data-Change-Lifecycle, so that a single re-annotation cannot silently flip a mapping. #367 showed it can: one token moved to `lemma_7338` gave that lemma the form `woren` against 111 verb attestations, because 7338 sorts before 7505.
+
+### Consequences
+
+- **This ADR records a decision that is not built.** It touches search semantics and the interface at once, and it is a work package of its own. Nothing in the code has changed. Anyone implementing it starts at `assets/js/search/search-engine.js`, `playground/js/data/authority-manager.js` and §C of CONTRACTS.md, and has to renarrate the "Exactly 1" row of the stage table.
+- **Callers that take `matches[0]` become a bug class.** §C already warns about this for stage 1 and the #163/#164 lesson; after this change it applies to stage 2 as well, and there are more of those callers than the contract lists.
+- **The 23 blocked cases in #370 unblock themselves.** Their measurement of 2026-09-06 found 23 pairs where minting a new variant type would be inert, because first-wins would keep sending the form to the older lemma. Under this decision the question disappears rather than being answered, and KZW says so in #370: „nicht nach der bisherigen first-wins-Logik entscheiden".
+- **The gate is separable, cheap, and has now been run by hand once.** The data change of 2026-09-14 (#308/#375/#432) minted `type_372376` and was therefore exactly the kind of change that can flip a mapping. Comparing the two built dictionaries, Authority Index 1.9.5 against 1.9.6: **0 forms added, 0 removed, 0 re-pointed**, out of 234,245 mappings on both sides. The check cost one comparison of two dicts, which is what #378 predicted. Whoever automates it should reach it in both directions: a mapping that flips has to turn it red, and an unchanged build has to leave it green.
+- **Two numbers stay different and will both be right.** §C already carries the warning for the raw-forms count against the dictionary count. After this change a third arrives: the number of forms that resolve, and the number of lemma candidates returned. They are not the same number.
