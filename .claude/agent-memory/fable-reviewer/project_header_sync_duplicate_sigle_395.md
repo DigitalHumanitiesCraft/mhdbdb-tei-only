@@ -136,3 +136,17 @@ persons.xml: 81 Personen mit alternative, 136 roh, Index 102 (dedup 34).
 Die Docstring-Zeile „Diesen Block schreibt kein Skript" ist zu stark: die
 ARI-Ingest-Vorlage (`ingest/ari/01-convert…:135-141`) emittiert ihn mit
 person_anonym; kein Sync-Skript pflegt ihn, das ist der haltbare Satz.
+
+**Runde 4 (2241f4b09, 15.09.2026), Untergrenze der Grundmenge:** Invariante
+titleStmt-Autor ⊆ particDesc-@corresp je Datei, Ausnahme `LEERE_LISTPERSON =
+{'VOR'}`. Gemessen: 672 @ref (alle `#N`), 671 @corresp (alle `persons.xml#N`),
+5 Zwei-Autoren-Dateien (BAX CR HOF RHB VDH), nur VOR mit leerem listPerson,
+0 Eintraege ohne Autor. **Falle: die Ausnahme ist per Sigle geschluesselt, nicht
+per Zustand.** Bekommt VOR eine falsche Person (Probe: 1249 statt 1772), meldet
+das Skript nur „Veraltete Ausnahme" ohne Exit-Code und prueft die Invariante
+fuer VOR gar nicht (exit 0). Das doc-count-audit-Muster (`silent-obsolet`) ist
+dort unschaedlich, weil der Anker trotzdem geprueft wird; hier schaltet die
+Ausnahme die Pruefung ab. Bei jeder benannten Ausnahme fragen: greift sie an
+der Bedingung oder am Namen? Acht Proben (Kontrolle, Block weg, VOR richtig,
+VOR falsch, Zwei-Autoren-Block weg, @corresp weg, preferred weg, listPerson
+geleert, toter @ref) laufen in-process in unter 5 s.
