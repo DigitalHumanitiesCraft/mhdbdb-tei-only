@@ -121,3 +121,18 @@ drei Stellen (CONTRACTS.md:892, DATA-MODEL.md:204, person-explorer.js:38 als
 `grep -l '"altNames"' api/persons/person_*.json | wc -l` (alt 80, neu 81).
 Exit-Code eines Audits nie hinter `| tail` messen: `$?` ist dann der von tail
 (so war „--check ALT: 0" erst falsch, direkt gemessen 1).
+
+**Runde 3 (14609c22b, 14.09.2026), Gate fuer den Spiegel:** `check-author-refs.py`
+prueft seit #308 particDesc (Klassen `spiegel`/`spiegel_tot`, Step 7b in
+data-integrity.yml). Mutationsprobe in-process statt 667-Dateien-Lauf: Modul per
+importlib laden, `car.corpus_files = lambda: [Kopie1, Kopie2]` setzen, `sys.argv`
+auf `--check`, `main()` in `redirect_stdout`, SystemExit fangen; sieben Proben
+in 2 s statt 7 x 80 s. Ergebnis: alte preferred-Form und toter @corresp werden
+gefangen, **eine geloeschte preferred-Zeile geht still durch** (`if not names:
+continue`, Entry zaehlt nicht einmal in `geprueft`), alternative-Formen im Header
+(545 in 292 Eintraegen) werden gar nicht verglichen. Laufzeit hier 82,5 s, im
+Auftrag 1 min 47 s; Step 1b (`sync_tei_headers.py --works --check`) 0,7 s.
+persons.xml: 81 Personen mit alternative, 136 roh, Index 102 (dedup 34).
+Die Docstring-Zeile „Diesen Block schreibt kein Skript" ist zu stark: die
+ARI-Ingest-Vorlage (`ingest/ari/01-convert…:135-141`) emittiert ihn mit
+person_anonym; kein Sync-Skript pflegt ihn, das ist der haltbare Satz.

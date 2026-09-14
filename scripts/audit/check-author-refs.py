@@ -32,13 +32,28 @@ Anders als der titleStmt ist das ein reiner Spiegel von persons.xml, adressiert
 ueber @corresp, und eine Abweichung ist deshalb nie eine Variante, sondern
 immer ein veralteter Spiegel:
 
-  spiegel     preferred-Form im particDesc != preferred-Form in persons.xml
+  spiegel        preferred-Form im particDesc != preferred-Form in persons.xml
+  spiegel-tot    @corresp zeigt auf eine ID, die es in persons.xml nicht gibt
+  ohne-preferred person-Eintrag ganz ohne persName[@type="preferred"]. Heute
+                 0 von 671, aber ohne eigene Klasse waere er ein stilles Loch:
+                 wer die preferred-Zeile loescht, faellt sonst nur aus der
+                 Grundmenge und loest keine Meldung aus
 
 Der Anlass: af2000a06 hat person_1249 auf "Jakob von Warte" gezogen und
 tei/SJW.tei.xml:121 stehen lassen, wodurch die Datei sich nach der Korrektur
-weiter widersprach. Diesen Block schreibt kein Skript und las bis dahin kein
-Gate; wirksam wird er nach aussen, bei jeder Nachnutzung, die den Header als
+weiter widersprach.
+
+Warum der Block altert: er entsteht beim Ingest als Vorlage
+(scripts/ingest/ari/01-convert-original-to-mhdbdb.py:135-141 emittiert ihn
+woertlich, scripts/_archived/tei-transformation.py hat ihn 2025 gebaut) und
+wird danach von keinem Sync-Skript mehr angefasst. Gelesen hat ihn bis #308
+auch nichts: build-corpus-index.py nimmt den Autor aus dem titleStmt.
+Wirksam wird er nach aussen, bei jeder Nachnutzung, die den Header als
 Autoritaet liest.
+
+Nicht geprueft, und das ist Absicht: die alternative-Formen und die idno-Zeilen
+im selben Block sind weitere ungeprueffte Spiegel, und die lokale xml:id wird
+nicht gegen @corresp gehalten (LUU fuehrt dort als einzige Datei eine UUID).
 
 Usage:
     python scripts/audit/check-author-refs.py           # Bericht
@@ -78,7 +93,7 @@ def main():
     pref = preferred_names(root)
 
     leer, tot, praefix, abweichend, ohne_ref, ws = [], [], [], [], [], []
-    spiegel, spiegel_tot, spiegel_geprueft = [], [], 0
+    spiegel, spiegel_tot, ohne_preferred, spiegel_geprueft = [], [], [], 0
     for path in corpus_files():
         sigle = path.name.replace('.tei.xml', '')
         tree = etree.parse(str(path))
@@ -92,6 +107,10 @@ def main():
             names = person.xpath('./tei:persName[@type="preferred"]',
                                  namespaces=NS)
             if not names:
+                # Nicht stillschweigend ueberspringen: ein Eintrag ohne
+                # preferred-Zeile faellt sonst aus der Grundmenge und der
+                # Zaehler sinkt, ohne dass etwas rot wird.
+                ohne_preferred.append((sigle, corresp or '(kein @corresp)'))
                 continue
             form = ' '.join(''.join(names[0].itertext()).split())
             if pid not in pref:
@@ -151,13 +170,16 @@ def main():
     print(f'  Spiegel-@corresp tot         {len(spiegel_tot)}')
     for sigle, corresp, form in spiegel_tot:
         print(f'      {sigle:6} {corresp} {form!r}')
+    print(f'  Spiegel ohne preferred-Zeile {len(ohne_preferred)}')
+    for sigle, corresp in ohne_preferred:
+        print(f'      {sigle:6} {corresp}')
     print()
     print(f'  Text weicht vom preferred-Namen ab: {len(abweichend)}')
     print('      (kein Fehler an sich, aber jeder Fall ist eine Entscheidung)')
     for sigle, pid, text, name in abweichend:
         print(f'      {sigle:6} {pid:12} TEI {text!r} <-> persons.xml {name!r}')
 
-    if args.check and (leer or tot or spiegel or spiegel_tot):
+    if args.check and (leer or tot or spiegel or spiegel_tot or ohne_preferred):
         sys.exit(1)
 
 
