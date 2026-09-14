@@ -87,3 +87,21 @@ geaendert, mwb-sigle 19 -> 0). Lab-Layout wie oben, `cp -r tei` passt bei
 whitespace-normalisiert) Form dauert Minuten, im Hintergrund starten.
 Der Zweig-Commit 5369b9aa3 (main-site.spec.js reload) haengt mit #399 nicht
 zusammen und ist nicht in main.
+
+**#237 AA-1, Runde 1 (887131ce3, 14.09.2026), Header-only-Bibliographie-Edit:**
+Der `biblStruct` im TEI-Header ist das LETZTE Glied einer Kette Zotero ->
+works.xml (`enhance_works_with_zotero.py` loescht und baut relatedItem/biblStruct
+neu, Kommentar Z. 281-285) -> Header (`sync_tei_headers.py --bibl-struct`). Auf
+origin/main waren Header-`VTC_VTC` und works.xml-`VTC_VTC` c14n-identisch, nach dem
+Commit nicht mehr; kein Gate sieht das (`--works --check` prueft nur msIdentifier).
+Reader (`tei-text-reader.js:318`), API (`api/works/work_572.json`) und Playground
+(`ui-helpers.js:14`) zeigen `work.biblStructs` aus dem Authority-Index, also
+works.xml, nie den Header. Messung: c14n beider Elemente per lxml, `>\s+<`
+kollabiert, Skript `bibl_compare.py`; Ausgabe ASCII-safe drucken (cp1252-Konsole
+bricht an U+010D und U+030C). Kombinierende Diakritika in VTC: 4 (Z+U+030C,
+i+U+0301, r+U+030C in „Život císaře" derselben note, u+U+0308 in „Verfügung"),
+korpusweit 568 von 667 Dateien, 1.366 Vorkommen (Regex ueber U+0300/0301/0302/
+0308/030A/030C/0327). `build-corpus-index.py` liest nur titleStmt (Z. 103, 110),
+Index enthaelt 0x „Emler"; dekomprimiert 168.639.244 / 23.507.013 Bytes. Der
+Build hat keine Output-Option und ueberschreibt data/, als Reviewer nicht laufen
+lassen. `validate-corpus.py --sample VTC TKA TKR --corpus-only` laeuft 4 s.
