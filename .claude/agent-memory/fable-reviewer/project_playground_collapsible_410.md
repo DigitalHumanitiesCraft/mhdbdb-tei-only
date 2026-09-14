@@ -7,7 +7,7 @@
 - **Aufrufer committet waehrend der Runde weiter**: `git log origin/main..HEAD` am Anfang UND am Ende laufen lassen. Hier kam vier Minuten nach dem ersten Commit ein zweiter (`hilfe-playground.html`), der Auftrag sagte „Ein Commit".
 - lxml-Verschachtelungsprobe: `html.fromstring(git show rev:playground/index.html)`, per `get_element_by_id` Kinder, Vor-/Nachgeschwister und `iterancestors()` der acht Knoepfe listen; Elementbilanz per Counter ueber beide Staende.
 - Issue-Text ohne gh: `curl -H "Authorization: Bearer $GITHUB_TOKEN" api.github.com/repos/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/410` liefert Body und Datum (wachauer, 2026-09-08T14:40Z).
-- localStorage-Konvention im Projekt: sieben Schluessel mit Bindestrich (`mhdbdb-matomo-optout`, `mhdbdb-results-view`, `mhdbdb-hapaxe-freq`, `mhdbdb-suche-*`, `mhdbdb-belege-*`); der neue `mhdbdb.playground.section.<panelId>` faellt aus der Reihe, kollidiert aber nicht. Einziges pauschales `localStorage.clear()` sitzt in `assets/js/site-chrome.js:115` hinter `#clearSiteDataBtn` (bewusst, mit confirm).
+- localStorage-Konvention im Projekt: sieben Schluessel mit Bindestrich (`mhdbdb-matomo-optout`, `mhdbdb-results-view`, `mhdbdb-hapaxe-freq`, `mhdbdb-suche-*`, `mhdbdb-belege-*`). Der Abschnittsschluessel heisst `mhdbdb-playground-section-<panelId>` (playground-main.js:501); die Punktform aus meiner Runde-1-Notiz hat es nie gegeben (`git log -S"mhdbdb.playground.section"` leer, 15.09.2026). Einziges pauschales `localStorage.clear()` sitzt in `assets/js/site-chrome.js:115` hinter `#clearSiteDataBtn` (bewusst, mit confirm).
 
 ## Runde 2 (09.09.2026): Korrekturen an Runde 1
 
@@ -16,3 +16,20 @@
 - **Gegenlauf auf main verifizieren**: `git reflog --date=iso` zeigt die Checkout-Zeiten, `testing/test-results/report.json` traegt `stats.startTime` und `duration`; passt beides zusammen, war der Lauf wirklich auf der Basis.
 - tailwind-output.css-Selektorzahl ist zaehlweisenabhaengig (Aufrufer 431/432, meine Klammerzaehlung 471/472 unique, 481/482 gesamt); tragfaehig ist nur die Mengendifferenz (`set(neu)-set(alt)`), nicht die absolute Zahl.
 - `playground/index.html` hat ein vorbestehendes `#authorityToggle` (Ladezustand, DOM-Index 5) neben dem neuen `#authorityQueriesToggle`; bei Greps nach `authorityToggle` beide auseinanderhalten.
+
+## Vier-Bloecke-Umbau (15.09.2026, Basis d9ee5dbcb = Kopf von PR #438)
+
+- **Hilfe-Abschnitt gegen Panel-Zugehoerigkeit messen, nicht gegen Namen.** lxml: `get_element_by_id('corpusAnalysesPanel')` -> Knopfbeschriftungen (`.//span/span`), dann die `h3` von `section#weitere-werkzeuge` dagegen halten. Ergebnis: 9 dokumentierte Werkzeuge, 5 in Block 3, 4 in Block 1 (Lemma-/Begriffs-Verteilung, Kookkurrenz, Reim). Die Einleitung „Die Werkzeuge dieses Abschnitts stehen unter Weitere Korpusanalysen" war damit fuer 4 von 9 falsch.
+- Landing-Page `index.html:408` traegt eine eigene Werkzeugliste unter der Blockueberschrift; bei einer Umbenennung des Blocks die Liste daneben mitlesen (2 von 4 Eintraegen gehoerten nach dem Umbau in den anderen Block).
+- Panel-Vorgabe ist dreiwertig (`'offen'`/`'zu'`/nichts -> `offen:`-Feld); ein alter `'zu'`-Wert fuer `authorityQueriesPanel` haelt den Block absichtlich zu („eigene Wahl wiegt schwerer").
+- `moreAnalysesToggle` sitzt in `#moreTeiQueries` (display:none bis Korpus geladen); Tests, die ihn klicken, haengen damit am Korpus-Load, genau wie vorher `toBeVisible` auf den Knopf darunter.
+
+## Runde 2 auf dem Vier-Bloecke-Umbau (15.09.2026)
+
+- **Ein "Karten umgehaengt"-Diff auf das pruefen, was KEINE Karte ist.** Beim Zerlegen von Abschnitt 5 verschwand die blaue Infobox "Kookkurrenz-Ranking vs. Naehe-Analyse" (Basis :445-455) still; die Karten waren vollzaehlig, die Commit-Message sprach nur von Karten. Messen: `git show <basis>:hilfe-playground.html | grep -n "<Stichwort>"` gegen HEAD, nicht nur h3/h4 zaehlen.
+- **Wird ein Hilfe-Abschnitt zweigeteilt, die Deep-Links darauf pruefen**: `grep -n 'hilfe-playground.html#' playground/index.html`. `#weitere-werkzeuge` (:362, Block 3) landet seit der Teilung auf der Gruppe von Block 1; die Block-3-Gruppe (h3 :437) hat keine id. Das ist die #397-Frage fuer Anker.
+- **Basis-Angabe im Auftrag gegen origin/main messen**: `git merge-base --is-ancestor <basis> origin/main` (exit 1 = gestackt). Hier war d9ee5dbcb der Kopf von `claude/308-375-432-datenkorrekturen`, 13 Commits ueber origin/main; der Auftrag nannte das nicht.
+- Blockreihenfolge in der Abfragespalte (HEAD): Korpusanalysen :228 (offen), Register & Indizes :302 (offen), Weitere Korpusanalysen :358 (zu), Experimentelle Forschungsdaten :423 (zu). Die beiden Analyse-Bloecke stehen NICHT nebeneinander, der Registerblock liegt dazwischen.
+- **Ankerprobe fuer doc-count-audit.py ohne Repo-Aenderung**: altes und neues Modul per `git show <rev>:scripts/audit/doc-count-audit.py` ins Scratchpad, `importlib` mit `sys.path.insert(0, <repo>/scripts)`, dann `re.compile(ANCHOR_SEP + CODE_ANCHORS[key])` gegen `git show <rev>:<datei>` je Zahlwort-Treffer (Skript `anchor_probe.py`). Ergebnis: alte Anker auf origin/main = neue Anker auf HEAD (README :32 elf, :37 elf+sechs, hilfe :174 sechs), keine Nebenbindung in den sechs gebundenen Dateien. "2x in README" sind 3 Bindungen in 2 Zeilen.
+- Vorbestehend, nicht aus #410: das Gate meldet `docs/DECISIONS.md / variants_normalized` als silent-obsolet (Exit 0).
+- Testreport-Abgleich: `testing/test-results/report.json` `stats.startTime` gegen `git reflog --date=iso` (Checkout-Zeit) halten; 333/34/429,5 s auf fddde3502 bestaetigt.
