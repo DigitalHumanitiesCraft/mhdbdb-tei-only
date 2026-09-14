@@ -105,3 +105,19 @@ korpusweit 568 von 667 Dateien, 1.366 Vorkommen (Regex ueber U+0300/0301/0302/
 Index enthaelt 0x „Emler"; dekomprimiert 168.639.244 / 23.507.013 Bytes. Der
 Build hat keine Output-Option und ueberschreibt data/, als Reviewer nicht laufen
 lassen. `validate-corpus.py --sample VTC TKA TKR --corpus-only` laeuft 4 s.
+
+**#308/#375/#432, Runde 1 (c7a4ee8f6, 14.09.2026), dritter Header-Spiegel:**
+`profileDesc/particDesc/listPerson/person/persName[@type="preferred"]` ist eine
+Kopie von persons.xml im Header (671 Vorkommen in 666 Dateien, gemessen per
+Grep). Kein Skript schreibt sie (nur `_archived/tei-transformation.py` und
+`ingest/ari/01-convert…` erzeugen sie), kein Gate vergleicht sie
+(`check-author-refs.py` prueft nur `titleStmt/author` gegen persons.xml),
+kein Code liest sie (`build-corpus-index.py` liest titleStmt, Z. 103-126;
+Reader/Suche nehmen `preferredName` aus dem Authority-Index). Eine
+Namensentscheidung in persons.xml muss also von Hand dorthin, und der Diff
+hat es bei SJW:121 nicht getan. Dazu: `altNames`-Zahlen „80 of 211" stehen an
+drei Stellen (CONTRACTS.md:892, DATA-MODEL.md:204, person-explorer.js:38 als
+„131 of 211") und werden von doc-count-audit.py nicht gegatet; Messung
+`grep -l '"altNames"' api/persons/person_*.json | wc -l` (alt 80, neu 81).
+Exit-Code eines Audits nie hinter `| tail` messen: `$?` ist dann der von tail
+(so war „--check ALT: 0" erst falsch, direkt gemessen 1).
