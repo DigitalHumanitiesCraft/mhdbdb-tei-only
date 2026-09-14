@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Hilfe zum Playground der Mittelhochdeutschen Begriffsdatenbank: Multi-Lemma- und Kookkurrenz-Suche, sechs Authority Files, die TEI-Analysewerkzeuge, typische Forschungsfragen.">
+    <meta name="description" content="Hilfe zum Playground der Mittelhochdeutschen Begriffsdatenbank: Multi-Lemma- und Kookkurrenz-Suche, Register und Indizes, die Korpusanalysen, typische Forschungsfragen.">
     <meta name="keywords" content="MHDBDB, Playground, Hilfe, Multi-Lemma-Suche, Kookkurrenz, Authority Files, TEI-Analyse, Forschung">
     <meta name="author" content="Universität Salzburg">
 
@@ -143,7 +143,7 @@
                 das Forschungswerkzeug der MHDBDB. Gedacht für mediävistische und
                 digital-humanistische Fragestellungen, die mit einer einfachen Einzelwort-Suche
                 nicht beantwortbar sind: Kookkurrenzen, mehrere Lemmata gleichzeitig, Zugriff auf
-                die sechs Authority Files.
+                die sechs Register.
             </p>
         </section>
 
@@ -155,10 +155,10 @@
                 <li><a href="#drei-spalten" class="text-brand-600 hover:text-brand-700 font-medium">2. Der Drei-Spalten-Aufbau</a></li>
                 <li><a href="#multi-lemma" class="text-brand-600 hover:text-brand-700 font-medium">3. Multi-Lemma-Suche</a></li>
                 <li><a href="#verse-position" class="text-brand-600 hover:text-brand-700 font-medium">4. Lemmasuche nach Versposition</a></li>
-                <li><a href="#weitere-werkzeuge" class="text-brand-600 hover:text-brand-700 font-medium">5. Weitere TEI-Analyse-Werkzeuge</a></li>
+                <li><a href="#weitere-werkzeuge" class="text-brand-600 hover:text-brand-700 font-medium">5. Die übrigen Korpusanalysen</a></li>
                 <li><a href="#forschungsfragen" class="text-brand-600 hover:text-brand-700 font-medium">6. Typische Forschungsfragen</a></li>
                 <li><a href="#experimentelle-forschungsdaten" class="text-brand-600 hover:text-brand-700 font-medium">7. Experimentelle Forschungsdaten</a></li>
-                <li><a href="#authority-files" class="text-brand-600 hover:text-brand-700 font-medium">8. Authority Files im Einsatz</a></li>
+                <li><a href="#authority-files" class="text-brand-600 hover:text-brand-700 font-medium">8. Register und Indizes im Einsatz</a></li>
                 <li><a href="#workflow" class="text-brand-600 hover:text-brand-700 font-medium">9. Vom Playground in die Leseansicht</a></li>
                 <li><a href="#weiter" class="text-brand-600 hover:text-brand-700 font-medium">10. Was Sie als Nächstes tun können</a></li>
             </ol>
@@ -171,11 +171,13 @@
                 Der <a href="playground/index.html" class="text-brand-600 hover:text-brand-700 font-medium">Playground</a>
                 erweitert die Korpussuche um drei Säulen: Erstens die <strong>Mehr-Lemma- und
                 Kookkurrenz-Suche</strong> – mehrere Lemmata gleichzeitig suchen und prüfen, wie
-                nahe sie im Text zusammenstehen. Zweitens die sechs durchsuchbaren
-                <strong>Authority Files</strong> – Autor*innen, Werke, das Wörterbuch, die
-                Begriffstaxonomie, Gattungen und Eigennamen. Drittens die
-                <strong>TEI-Analysewerkzeuge</strong> über dem vorgeladenen Korpus, von der
-                Wortfrequenz bis zum Reim-Wörterbuch.
+                nahe sie im Text zusammenstehen. Zweitens die sechs
+                <strong>Register &amp; Indizes</strong> zum Durchsuchen: Autor*innen, Werke, das Wörterbuch, die
+                Begriffstaxonomie, Gattungen und Eigennamen; technisch sind das die Authority
+                Files. Drittens die <strong>Korpusanalysen</strong> über dem vorgeladenen
+                Korpus, von der Wortfrequenz bis zum Reim-Wörterbuch. In der Abfragespalte
+                stehen sie in zwei Blöcken, dem obersten und einem weiter unten, getrennt
+                danach, ob Ihre Frage von einem Wort oder von einem Text ausgeht.
             </p>
             <p class="text-slate-700 leading-relaxed">
                 Die Oberfläche ist forschungsorientiert: etwas dichter, mit mehr Bedienelementen
@@ -193,7 +195,11 @@
             </p>
             <ol class="space-y-2 text-sm text-slate-700 mb-4 ml-4 list-decimal list-inside">
                 <li><strong>Korpus-Browser</strong> (links) – alle 667 Texte sind standardmäßig aktiv. Hier schränken Sie die Analyse auf bestimmte Werke, Autor*innen oder Gattungen ein.</li>
-                <li><strong>Abfragen</strong> (Mitte) – sechs Authority-File-Einstiegspunkte plus die TEI-Analysewerkzeuge: Multi-Lemma-Suche, Lemmasuche nach Versposition, Wortfrequenz-Analyse, Echte Hapaxlegomena, Text-Statistiken, Lemma-Verteilung, Begriffs-Verteilung, Textvergleich, Kookkurrenz-Ranking, Reim-Wörterbuch und Versendings-Profil. Dazu die experimentellen Forschungsdaten: Erweiterte Figurenbezeichnungen und Arthurische Pferde (beide Beta).</li>
+                <li><strong>Abfragen</strong> (Mitte) – vier Blöcke, von denen die oberen beiden offen stehen.
+                    <strong>Korpusanalysen</strong>: Sie bringen ein Wort oder einen Begriff mit (Multi-Lemma-Suche, Kookkurrenz-Ranking, Lemmasuche nach Versposition, Reim-Wörterbuch, Begriffs-Verteilung, Lemma-Verteilung).
+                    <strong>Register &amp; Indizes (Authority Files)</strong>: die sechs Nachschlagewerke zu Autor*innen, Werken, Wortschatz, Begriffen, Gattungen und Namen.
+                    <strong>Weitere Korpusanalysen</strong>: Sie bringen einen Text oder eine Autor*in mit (Echte Hapaxlegomena, Wortfrequenz-Analyse, Text-Statistiken, Versendings-Profil, Textvergleich).
+                    <strong>Experimentelle Forschungsdaten</strong>: Erweiterte Figurenbezeichnungen und Arthurische Pferde (beide Beta).</li>
                 <li><strong>Ergebnisse</strong> (rechts) – die Trefferliste zur aktuellen Abfrage, mit farbkodiertem Highlighting und Klick-Navigation in die Leseansicht.</li>
             </ol>
             <p class="text-slate-700 leading-relaxed">
@@ -348,80 +354,31 @@
             </p>
         </section>
 
-        <!-- 5. Weitere TEI-Analyse-Werkzeuge -->
+        <!-- 5. Die uebrigen Korpusanalysen -->
         <section id="weitere-werkzeuge" class="mb-12 scroll-mt-24">
-            <h2 class="text-2xl font-bold text-slate-900 mb-4">5. Weitere TEI-Analyse-Werkzeuge</h2>
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">5. Die übrigen Korpusanalysen</h2>
 
             <p class="text-slate-700 leading-relaxed mb-4">
-                Neben der Multi-Lemma-Suche und der Lemmasuche nach Versposition bietet der
-                Bereich <strong>TEI-Textanalyse</strong> weitere Werkzeuge über dem
-                vorgeladenen Korpus. Alle rechnen vollständig im Browser auf den vorgebauten
+                Die Korpusanalysen rechnen vollständig im Browser auf den vorgebauten
                 Indexen; wo es sinnvoll ist, führt ein Klick auf ein Ergebnis direkt in die
-                Leseansicht.
+                Leseansicht. Zwei davon haben einen eigenen Abschnitt: die
+                <a href="#multi-lemma" class="text-brand-600 hover:text-brand-700 font-medium">Multi-Lemma-Suche</a>
+                und die <a href="#verse-position" class="text-brand-600 hover:text-brand-700 font-medium">Lemmasuche nach Versposition</a>.
+                Die übrigen stehen hier, in der Reihenfolge der Abfragespalte und in deren
+                beiden Blöcken. Der Unterschied zwischen den Blöcken ist kein Rang,
+                sondern der Ausgangspunkt Ihrer Frage.
+            </p>
+
+            <h3 class="text-lg font-semibold text-slate-900 mt-6 mb-2">Im Block „Korpusanalysen"</h3>
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Ausgangspunkt ist ein einzelnes Wort oder ein Begriff. Der Block steht
+                aufgeklappt oben in der Abfragespalte; neben den hier beschriebenen Werkzeugen
+                enthält er die Multi-Lemma-Suche und die Lemmasuche nach Versposition, die
+                eigene Abschnitte haben.
             </p>
 
             <div class="bg-white rounded-xl border border-slate-200 p-5 my-4">
-                <h3 class="text-base font-semibold text-slate-900 mb-2">Wortfrequenz-Analyse</h3>
-                <p class="text-sm text-slate-700 leading-relaxed">
-                    Listet die häufigsten Lemmata über das gesamte Korpus oder einen einzelnen
-                    Text (Top-N). Ein POS-basierter Stoppwort-Filter entfernt häufige
-                    Funktionswörter (Artikel, Pronomen, Präpositionen, Konjunktionen) und hebt
-                    inhaltstragende Lemmata hervor. Die Tabelle zeigt je Lemma die absolute und
-                    die relative Frequenz (pro 1.000 annotierte Tokens); sortiert wird wahlweise nach der
-                    absoluten oder der relativen Frequenz.
-                </p>
-            </div>
-
-            <div class="bg-white rounded-xl border border-slate-200 p-5 my-4">
-                <h3 class="text-base font-semibold text-slate-900 mb-2">Text-Statistiken</h3>
-                <p class="text-sm text-slate-700 leading-relaxed">
-                    Pro Text: Token-Zahl, Lemma-Diversität (verschiedene Lemmata zur Gesamtzahl),
-                    Hapax-Rate und durchschnittliche Lemma-Frequenz, als sortierbare
-                    Korpus-Tabelle. Hohe Lemma-Diversität bei knappem Text ist ein Indikator für
-                    lexikalischen Reichtum. Über Checkboxen lässt sich ein Subset bilden („Nur
-                    Auswahl anzeigen"); die Auswahl übersteht das Sortieren.
-                </p>
-            </div>
-
-            <div class="bg-white rounded-xl border border-slate-200 p-5 my-4">
-                <h3 class="text-base font-semibold text-slate-900 mb-2">Lemma-Verteilung</h3>
-                <p class="text-sm text-slate-700 leading-relaxed">
-                    Zeigt ein einzelnes Lemma als Balkendiagramm über alle Texte: die Top-N als
-                    Balken, der Rest als aufklappbare Tabelle. Wahlweise absolut oder relativ
-                    (pro 1.000 annotierte Tokens). Ein Klick auf einen Balken oder eine Sigle öffnet die
-                    Leseansicht mit Highlighting.
-                </p>
-            </div>
-
-            <div class="bg-white rounded-xl border border-slate-200 p-5 my-4">
-                <h3 class="text-base font-semibold text-slate-900 mb-2">Begriffs-Verteilung</h3>
-                <p class="text-sm text-slate-700 leading-relaxed">
-                    Wie die Lemma-Verteilung, aber begriffsbasiert: Sie geben einen Begriff ein
-                    (deutsch, englisch oder als <code class="px-2 py-0.5 bg-slate-100 rounded text-xs">concept_</code>-ID)
-                    und sehen das Balkendiagramm über alle Texte. Aggregiert werden alle Lemmata,
-                    deren Bedeutungen dem Begriff zugeordnet sind (Datenpfad Begriff → Bedeutungen
-                    → Lemmata → Texte). Ein Autocomplete schlägt passende Begriffe vor, alternative
-                    Kandidaten werden angezeigt (etwa bei „love" → Intimität und Liebe/Zuneigung);
-                    eine aufklappbare Liste der zugeordneten Lemmata erlaubt die Validierung der
-                    Auswahl.
-                </p>
-            </div>
-
-            <div class="bg-white rounded-xl border border-slate-200 p-5 my-4">
-                <h3 class="text-base font-semibold text-slate-900 mb-2">Textvergleich</h3>
-                <p class="text-sm text-slate-700 leading-relaxed">
-                    Vergleicht zwei über Dropdown gewählte Texte und berechnet drei Lemma-Mengen:
-                    nur in A, in beiden, nur in B – je mit Frequenz in A, Frequenz in B und der
-                    absoluten Differenz. Sortier- und filterbar, mit A↔B-Swap für die gespiegelte
-                    Perspektive. Nützlich für Fragen wie „Welche Lemmata teilt der Parzival mit
-                    dem Jüngeren Titurel?" oder zur Suche nach geteilten seltenen Lemmata als
-                    Lehnvers-Indiz. Ein Klick auf eine Frequenz-Zahl öffnet den jeweiligen Text in
-                    der Leseansicht.
-                </p>
-            </div>
-
-            <div class="bg-white rounded-xl border border-slate-200 p-5 my-4">
-                <h3 class="text-base font-semibold text-slate-900 mb-2">Kookkurrenz-Ranking</h3>
+                <h4 class="text-base font-semibold text-slate-900 mb-2">Kookkurrenz-Ranking</h4>
                 <p class="text-sm text-slate-700 leading-relaxed">
                     Beantwortet die Frage „Welche Lemmata stehen am häufigsten bei <em>X</em>?".
                     Sie geben ein <strong>einzelnes</strong> Lemma ein und erhalten eine rangierte
@@ -448,7 +405,7 @@
             </div>
 
             <div class="bg-white rounded-xl border border-slate-200 p-5 my-4">
-                <h3 class="text-base font-semibold text-slate-900 mb-2">Reim-Wörterbuch</h3>
+                <h4 class="text-base font-semibold text-slate-900 mb-2">Reim-Wörterbuch</h4>
                 <p class="text-sm text-slate-700 leading-relaxed">
                     Beantwortet die Frage „Welche Lemmata reimen sich auf <em>X</em>?". Sie geben
                     ein Lemma ein (optional eingeschränkt auf einen Text oder eine Autorin bzw.
@@ -466,23 +423,39 @@
             </div>
 
             <div class="bg-white rounded-xl border border-slate-200 p-5 my-4">
-                <h3 class="text-base font-semibold text-slate-900 mb-2">Versendings-Profil</h3>
+                <h4 class="text-base font-semibold text-slate-900 mb-2">Begriffs-Verteilung</h4>
                 <p class="text-sm text-slate-700 leading-relaxed">
-                    Zeigt die häufigsten Lemmata am Versende – für das Gesamtkorpus, eine Autorin
-                    bzw. einen Autor oder einen einzelnen Text. Damit lassen sich Reim-Stile
-                    vergleichen: Was reimt Wolfram bevorzugt, was Hartmann? Neben der absoluten
-                    Zahl der Versende-Belege nennt die Tabelle den Anteil an den annotierten Versen des
-                    gewählten Bereichs sowie den <strong>Reim-Druck</strong>: den Anteil der
-                    Vorkommen eines Lemmas, die am Versende stehen. Ein Lemma mit 70 % Ende-Anteil
-                    ist stark reimgetrieben, eines mit 5 % eher semantisch motiviert. Der
-                    Funktionswort-Filter blendet Pronomen, Artikel und Hilfsverben aus. Wie alle
-                    Vers-Werkzeuge wertet das Profil nur Versdichtung aus (rund 90 % des Korpus);
-                    Prosa-Texte werden übersprungen.
+                    Wie die Lemma-Verteilung, aber begriffsbasiert: Sie geben einen Begriff ein
+                    (deutsch, englisch oder als <code class="px-2 py-0.5 bg-slate-100 rounded text-xs">concept_</code>-ID)
+                    und sehen das Balkendiagramm über alle Texte. Aggregiert werden alle Lemmata,
+                    deren Bedeutungen dem Begriff zugeordnet sind (Datenpfad Begriff → Bedeutungen
+                    → Lemmata → Texte). Ein Autocomplete schlägt passende Begriffe vor, alternative
+                    Kandidaten werden angezeigt (etwa bei „love" → Intimität und Liebe/Zuneigung);
+                    eine aufklappbare Liste der zugeordneten Lemmata erlaubt die Validierung der
+                    Auswahl.
                 </p>
             </div>
 
             <div class="bg-white rounded-xl border border-slate-200 p-5 my-4">
-                <h3 class="text-base font-semibold text-slate-900 mb-2">Echte Hapaxlegomena</h3>
+                <h4 class="text-base font-semibold text-slate-900 mb-2">Lemma-Verteilung</h4>
+                <p class="text-sm text-slate-700 leading-relaxed">
+                    Zeigt ein einzelnes Lemma als Balkendiagramm über alle Texte: die Top-N als
+                    Balken, der Rest als aufklappbare Tabelle. Wahlweise absolut oder relativ
+                    (pro 1.000 annotierte Tokens). Ein Klick auf einen Balken oder eine Sigle öffnet die
+                    Leseansicht mit Highlighting.
+                </p>
+            </div>
+
+            <h3 id="block-weitere-korpusanalysen" class="text-lg font-semibold text-slate-900 mt-6 mb-2 scroll-mt-24">Im Block „Weitere Korpusanalysen"</h3>
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Ausgangspunkt ist ein Text, ein Werk oder eine Autor*in: Sie fragen, was dessen
+                Wortschatz auszeichnet, was nur dort einmal vorkommt und wie er sich gegen
+                andere Texte verhält. Der Block ist zugeklappt ausgeliefert; ein Klick auf die
+                Überschrift öffnet ihn, und Ihre Wahl bleibt für den nächsten Besuch erhalten.
+            </p>
+
+            <div class="bg-white rounded-xl border border-slate-200 p-5 my-4">
+                <h4 class="text-base font-semibold text-slate-900 mb-2">Echte Hapaxlegomena</h4>
                 <p class="text-sm text-slate-700 leading-relaxed">
                     Listet Lemmata, die im gesamten Korpus nur einmal belegt sind (wählbar auch
                     Frequenz ≤ 2 oder ≤ 3), mit Fundort samt Versangabe und Sprung in die
@@ -510,6 +483,58 @@
                     Unlemmatisierte Tokens sind im Index unsichtbar, und Hapaxe sind nicht
                     selten schlicht Lemmatisierungsfehler – das Werkzeug ist damit zugleich
                     ein Kuratierungsinstrument.
+                </p>
+            </div>
+
+            <div class="bg-white rounded-xl border border-slate-200 p-5 my-4">
+                <h4 class="text-base font-semibold text-slate-900 mb-2">Wortfrequenz-Analyse</h4>
+                <p class="text-sm text-slate-700 leading-relaxed">
+                    Listet die häufigsten Lemmata über das gesamte Korpus oder einen einzelnen
+                    Text (Top-N). Ein POS-basierter Stoppwort-Filter entfernt häufige
+                    Funktionswörter (Artikel, Pronomen, Präpositionen, Konjunktionen) und hebt
+                    inhaltstragende Lemmata hervor. Die Tabelle zeigt je Lemma die absolute und
+                    die relative Frequenz (pro 1.000 annotierte Tokens); sortiert wird wahlweise nach der
+                    absoluten oder der relativen Frequenz.
+                </p>
+            </div>
+
+            <div class="bg-white rounded-xl border border-slate-200 p-5 my-4">
+                <h4 class="text-base font-semibold text-slate-900 mb-2">Text-Statistiken</h4>
+                <p class="text-sm text-slate-700 leading-relaxed">
+                    Pro Text: Token-Zahl, Lemma-Diversität (verschiedene Lemmata zur Gesamtzahl),
+                    Hapax-Rate und durchschnittliche Lemma-Frequenz, als sortierbare
+                    Korpus-Tabelle. Hohe Lemma-Diversität bei knappem Text ist ein Indikator für
+                    lexikalischen Reichtum. Über Checkboxen lässt sich ein Subset bilden („Nur
+                    Auswahl anzeigen"); die Auswahl übersteht das Sortieren.
+                </p>
+            </div>
+
+            <div class="bg-white rounded-xl border border-slate-200 p-5 my-4">
+                <h4 class="text-base font-semibold text-slate-900 mb-2">Versendings-Profil</h4>
+                <p class="text-sm text-slate-700 leading-relaxed">
+                    Zeigt die häufigsten Lemmata am Versende – für das Gesamtkorpus, eine Autorin
+                    bzw. einen Autor oder einen einzelnen Text. Damit lassen sich Reim-Stile
+                    vergleichen: Was reimt Wolfram bevorzugt, was Hartmann? Neben der absoluten
+                    Zahl der Versende-Belege nennt die Tabelle den Anteil an den annotierten Versen des
+                    gewählten Bereichs sowie den <strong>Reim-Druck</strong>: den Anteil der
+                    Vorkommen eines Lemmas, die am Versende stehen. Ein Lemma mit 70 % Ende-Anteil
+                    ist stark reimgetrieben, eines mit 5 % eher semantisch motiviert. Der
+                    Funktionswort-Filter blendet Pronomen, Artikel und Hilfsverben aus. Wie alle
+                    Vers-Werkzeuge wertet das Profil nur Versdichtung aus (rund 90 % des Korpus);
+                    Prosa-Texte werden übersprungen.
+                </p>
+            </div>
+
+            <div class="bg-white rounded-xl border border-slate-200 p-5 my-4">
+                <h4 class="text-base font-semibold text-slate-900 mb-2">Textvergleich</h4>
+                <p class="text-sm text-slate-700 leading-relaxed">
+                    Vergleicht zwei über Dropdown gewählte Texte und berechnet drei Lemma-Mengen:
+                    nur in A, in beiden, nur in B – je mit Frequenz in A, Frequenz in B und der
+                    absoluten Differenz. Sortier- und filterbar, mit A↔B-Swap für die gespiegelte
+                    Perspektive. Nützlich für Fragen wie „Welche Lemmata teilt der Parzival mit
+                    dem Jüngeren Titurel?" oder zur Suche nach geteilten seltenen Lemmata als
+                    Lehnvers-Indiz. Ein Klick auf eine Frequenz-Zahl öffnet den jeweiligen Text in
+                    der Leseansicht.
                 </p>
             </div>
 
@@ -677,7 +702,7 @@
 
         <!-- 8. Authority Files im Einsatz -->
         <section id="authority-files" class="mb-12 scroll-mt-24">
-            <h2 class="text-2xl font-bold text-slate-900 mb-4">8. Authority Files im Einsatz</h2>
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">8. Register und Indizes im Einsatz</h2>
 
             <p class="text-slate-700 leading-relaxed mb-4">
                 Sechs Authority-Ansichten öffnen je einen Einstiegspunkt in die kontrollierten
@@ -686,9 +711,10 @@
                 <a href="hilfe-daten.html#authority-files" class="text-brand-600 hover:text-brand-700 font-medium">Daten → Acht Authority Files</a>.
             </p>
             <p class="text-slate-700 leading-relaxed mb-4">
-                <strong>Wo Sie das finden:</strong> Die sechs Ansichten stehen unter „Authority Files durchsuchen". Der Block ist in der Abfragespalte
-                zugeklappt, damit nicht alles auf einmal dasteht. Ein Klick auf die
-                Überschrift öffnet ihn, und Ihre Wahl bleibt für den nächsten Besuch erhalten.
+                <strong>Wo Sie das finden:</strong> Die sechs Ansichten stehen unter „Register &amp; Indizes (Authority Files)". Der Block
+                steht in der Abfragespalte offen, weil er für die meisten Fragen der Einstieg
+                ist. Ein Klick auf die Überschrift klappt ihn zu, und Ihre Wahl bleibt für den
+                nächsten Besuch erhalten.
             </p>
 
             <ul class="space-y-3 text-sm text-slate-700 mb-4">
@@ -836,10 +862,10 @@
                     <li><a href="#drei-spalten" class="text-brand-600 hover:text-brand-700 font-medium">2. Drei-Spalten-Aufbau</a></li>
                     <li><a href="#multi-lemma" class="text-brand-600 hover:text-brand-700 font-medium">3. Multi-Lemma-Suche</a></li>
                     <li><a href="#verse-position" class="text-brand-600 hover:text-brand-700 font-medium">4. Versposition</a></li>
-                    <li><a href="#weitere-werkzeuge" class="text-brand-600 hover:text-brand-700 font-medium">5. Weitere Werkzeuge</a></li>
+                    <li><a href="#weitere-werkzeuge" class="text-brand-600 hover:text-brand-700 font-medium">5. Die übrigen Korpusanalysen</a></li>
                     <li><a href="#forschungsfragen" class="text-brand-600 hover:text-brand-700 font-medium">6. Forschungsfragen</a></li>
                     <li><a href="#experimentelle-forschungsdaten" class="text-brand-600 hover:text-brand-700 font-medium">7. Forschungsdaten</a></li>
-                    <li><a href="#authority-files" class="text-brand-600 hover:text-brand-700 font-medium">8. Authority Files</a></li>
+                    <li><a href="#authority-files" class="text-brand-600 hover:text-brand-700 font-medium">8. Register und Indizes</a></li>
                     <li><a href="#workflow" class="text-brand-600 hover:text-brand-700 font-medium">9. Zur Leseansicht</a></li>
                     <li><a href="#weiter" class="text-brand-600 hover:text-brand-700 font-medium">10. Was als Nächstes</a></li>
                 </ol>

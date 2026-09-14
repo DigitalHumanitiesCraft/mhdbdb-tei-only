@@ -238,9 +238,14 @@ class MHDBDBPlayground {
             // Populate file browser
             this.populateFileBrowser();
 
-            // Enable TEI queries
-            const teiQueries = document.getElementById('teiQueries');
-            if (teiQueries) teiQueries.style.display = 'block';
+            // Enable TEI queries. Seit #410 sind es zwei Bloecke: die
+            // Korpusanalysen (teiQueries) und die weiteren (moreTeiQueries).
+            // Beide haengen am geladenen Korpus und werden zusammen sichtbar;
+            // die Register daneben brauchen ihn nicht und stehen von Anfang an.
+            ['teiQueries', 'moreTeiQueries'].forEach((id) => {
+                const block = document.getElementById(id);
+                if (block) block.style.display = 'block';
+            });
 
         } catch (error) {
             console.error('❌ Failed to auto-load corpus:', error);
@@ -450,18 +455,26 @@ class MHDBDBPlayground {
     }
 
     /**
-     * Die beiden langen Abschnittslisten auf- und zuklappbar machen (#410).
+     * Die vier Abschnitte der Abfragespalte auf- und zuklappbar machen (#410).
      *
-     * KZW am 2026-09-08: „Es steht sonst zu viel auf einmal da. Zumal die
-     * experimentellen Forschungsdaten ja erweitert werden auch noch."
-     * Betroffen sind genau die beiden Abschnitte aus ihren Screenshots, nicht
-     * die TEI-Textanalyse: die ist der Hauptzweck der Seite und bleibt offen.
+     * Erste Runde (KZW am 2026-09-08): „Es steht sonst zu viel auf einmal da.
+     * Zumal die experimentellen Forschungsdaten ja erweitert werden auch
+     * noch." Damals wurden genau die beiden Abschnitte aus ihren Screenshots
+     * zuklappbar, die elf Analysewerkzeuge blieben als ein Block stehen.
      *
-     * Zugeklappt ist der Auslieferungszustand, die eigene Wahl wiegt aber
-     * schwerer: wer einmal aufklappt, findet den Abschnitt beim naechsten
-     * Besuch offen vor. localStorage kann in privaten Fenstern und bei
-     * gesperrten Site-Daten werfen, deshalb steht jeder Zugriff in try/catch
-     * und der Ausfall bedeutet schlicht „zugeklappt".
+     * Zweite Runde (KZW am 2026-09-11, nach der Bewertung vom 10.09.): die
+     * elf Werkzeuge sind auf zwei Bloecke aufgeteilt, und die Grenze ist nicht
+     * Wichtigkeit, sondern der Ausgangspunkt der Frage. Sechs Werkzeuge
+     * beginnen mit einem Wort oder Begriff („Korpusanalysen"), fuenf mit einem
+     * Text oder einer Autor*in („Weitere Korpusanalysen"). Die Register heissen
+     * jetzt „Register & Indizes (Authority Files)" und stehen offen, weil sie
+     * fuer die fachwissenschaftliche Nutzung der vertraute Einstieg sind.
+     *
+     * Die Vorgabe ist deshalb nicht mehr fuer alle gleich: die beiden oberen
+     * Bloecke stehen offen, die beiden unteren zu. Die eigene Wahl wiegt
+     * schwerer als die Vorgabe und wird gemerkt. localStorage kann in privaten
+     * Fenstern und bei gesperrten Site-Daten werfen, deshalb steht jeder
+     * Zugriff in try/catch und der Ausfall bedeutet: es gilt die Vorgabe.
      *
      * Der Umschalter ist ein <button> INNERHALB der <h3> und nicht die <h3>
      * selbst: in der Ueberschrift steht daneben der Hilfe-Link, und ein <a>
@@ -470,11 +483,13 @@ class MHDBDBPlayground {
      */
     setupSectionToggles() {
         const abschnitte = [
-            { toggle: 'experimentalToggle',    panel: 'experimentalPanel',    chevron: 'experimentalChevron' },
-            { toggle: 'authorityQueriesToggle', panel: 'authorityQueriesPanel', chevron: 'authorityQueriesChevron' }
+            { toggle: 'corpusAnalysesToggle',   panel: 'corpusAnalysesPanel',   chevron: 'corpusAnalysesChevron',   offen: true },
+            { toggle: 'authorityQueriesToggle', panel: 'authorityQueriesPanel', chevron: 'authorityQueriesChevron', offen: true },
+            { toggle: 'moreAnalysesToggle',     panel: 'moreAnalysesPanel',     chevron: 'moreAnalysesChevron',     offen: false },
+            { toggle: 'experimentalToggle',     panel: 'experimentalPanel',     chevron: 'experimentalChevron',     offen: false }
         ];
 
-        abschnitte.forEach(({ toggle, panel, chevron }) => {
+        abschnitte.forEach(({ toggle, panel, chevron, offen: vorgabeOffen }) => {
             const knopf = document.getElementById(toggle);
             const inhalt = document.getElementById(panel);
             const pfeil = document.getElementById(chevron);
@@ -496,7 +511,17 @@ class MHDBDBPlayground {
             } catch (e) {
                 // privates Fenster oder gesperrte Site-Daten: Default gilt
             }
-            anwenden(gemerkt === 'offen');
+            // Die Vorgabe ist seit #410 nicht mehr fuer alle Abschnitte
+            // dieselbe: die beiden oberen stehen offen, die beiden unteren zu.
+            // Deshalb wird der fehlende Speicherwert gegen die jeweilige
+            // Vorgabe aufgeloest und nicht pauschal als "zu" gelesen.
+            if (gemerkt === 'offen') {
+                anwenden(true);
+            } else if (gemerkt === 'zu') {
+                anwenden(false);
+            } else {
+                anwenden(vorgabeOffen);
+            }
 
             knopf.addEventListener('click', () => {
                 const offen = inhalt.classList.contains('hidden');

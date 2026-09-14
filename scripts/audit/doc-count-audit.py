@@ -396,7 +396,12 @@ NUMBER_WORDS = {
 }
 
 CODE_ANCHORS = {
-    'tei_tools': r'(?:TEI-Analyse-?[Ww]erkzeuge|TEI-Analysewerkzeuge|(?:TEI[- ])?analysis tools|Analyse-Werkzeuge|Werkzeuge)',
+    # 'Korpusanalysen' mit #410: die Abfragespalte des Playgrounds heisst seit
+    # dem Umbau nicht mehr "TEI-Textanalyse", und mit dem alten Namen
+    # verschwand in README.md und hilfe-playground.html die Bindung der Zahl.
+    # Drei Anker-Paare standen danach auf [no-hit], ohne dass etwas rot wurde:
+    # ein Gate, das seinen Gegenstand verliert, meldet das nicht von selbst.
+    'tei_tools': r'(?:TEI-Analyse-?[Ww]erkzeuge|TEI-Analysewerkzeuge|(?:TEI[- ])?analysis tools|Analyse-Werkzeuge|Korpusanalysen|Werkzeuge)',
     # 'research' muss mit: playground/readme.md schreibt 'two curated
     # research datasets', und ohne diese Alternative war der Anker dort
     # blind, sobald die Bindung oben ihn ueberhaupt erst benutzte.
@@ -423,7 +428,10 @@ CODE_ANCHORS = {
     # Englische Variante mit #356, aus demselben Grund wie bei
     # 'pattern_modules': playground/readme.md ist englisch geschrieben und
     # haette mit den deutschen Alternativen allein keine Bindung.
-    'authority_explorers': r'(?:Authority-File-(?:Explorer|Einstiegspunkte)|Authority-Explorer|[Aa]uthority(?:[- ][Ff]ile)?[- ][Ee]xplorers?)',
+    # 'Register und Indizes' ebenfalls mit #410, gleicher Grund wie bei
+    # tei_tools: der Block heisst in der Oberflaeche jetzt so, und die Docs
+    # ziehen nach. Die HTML-Schreibweise mit &amp; muss mit.
+    'authority_explorers': r'(?:Authority-File-(?:Explorer|Einstiegspunkte)|Authority-Explorer|[Aa]uthority(?:[- ][Ff]ile)?[- ][Ee]xplorers?|Register\s+(?:und|&(?:amp;)?)\s+Indizes)',
     'entry_points': r'(?:[Ss]earch\s+)?[Ee]ntry\s+[Pp]oints',
 }
 

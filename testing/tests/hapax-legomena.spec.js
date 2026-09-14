@@ -169,6 +169,11 @@ test.describe('Issue #196: Echte Hapaxlegomena', () => {
 
   test('Route + Sidebar-Button öffnen das Modul, Liste füllt sich', async ({ page }) => {
     await expect(page.locator('#resultsContainer')).toContainText('Hapax');
+    // #410: das Werkzeug steht seit dem Umbau unter „Weitere Korpusanalysen",
+    // und dieser Block wird zugeklappt ausgeliefert. Der Knopf ist also im
+    // Markup, aber erst nach dem Aufklappen sichtbar.
+    await expect(page.locator('#showHapaxLegomenaBtn')).toBeAttached();
+    await page.click('#moreAnalysesToggle');
     await expect(page.locator('#showHapaxLegomenaBtn')).toBeVisible();
 
     // Korpusweite Aggregation liefert Zeilen mit Detail-Buttons
