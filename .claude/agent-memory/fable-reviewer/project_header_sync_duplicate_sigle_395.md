@@ -150,3 +150,15 @@ Ausnahme die Pruefung ab. Bei jeder benannten Ausnahme fragen: greift sie an
 der Bedingung oder am Namen? Acht Proben (Kontrolle, Block weg, VOR richtig,
 VOR falsch, Zwei-Autoren-Block weg, @corresp weg, preferred weg, listPerson
 geleert, toter @ref) laufen in-process in unter 5 s.
+
+**Runde 5 (15541f725, 15.09.2026), Fix der Ausnahme:** `ausgenommen = sigle in
+LEERE_LISTPERSON and not corresp_ids`. Zehn Proben, kein Klasse A. Der vom
+Aufrufer gesuchte fuenfte Zustand (person-Element OHNE @corresp in VOR) laesst
+corresp_ids leer und die Ausnahme greifen, wird aber im person-Loop davor
+gefangen: mit preferred als `spiegel_tot` "(kein @corresp)", ohne als
+`ohne_preferred`, beide exit 1. Nur der Ausdruck "Leeres listPerson, bewusst:
+VOR" steht dann falsch daneben (Z. 228-230, Bedingung ist ausnahme_ueberfluessig,
+nicht corresp_ids). Invariante ist einseitig (autor ⊆ corresp): ein
+zusaetzlicher Nicht-Autor im particDesc ist exit 0, und das ist Modell
+(JOURNAL.md:824 "Figur oder Person im Text"), kein Loch. Auf Windows `rg -c`
+mit `awk -F: '{s+=$NF}'` summieren, `$2` trifft das Laufwerk "C".
