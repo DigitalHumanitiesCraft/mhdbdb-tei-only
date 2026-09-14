@@ -116,10 +116,12 @@ def extract_metadata(filepath):
             # genau die Klasse Fehler, die dieser Zweig gerade beseitigt.
             # Heute hat keine der 667 Dateien dort Kindelemente, der Index
             # bleibt also byte-identisch.
-            # ' '.join(...split()) statt .strip() (#228): in LUU steht der
+            # ' '.join(...split()) statt .strip() (#228): in LUU stand der
             # Autorname ueber zwei eingerueckte Zeilen, .strip() trimmt nur die
             # Raender und liess den Umbruch samt Einrueckung mitten im
-            # Namen stehen, in Index und API. XML-Einrueckung ist beliebig,
+            # Namen stehen, in Index und API. In tei/ ist der Fall seit #308
+            # geraeumt; authority-files/works.xml traegt ihn weiterhin
+            # (Albertanus von Brescia, Z. 14468). XML-Einrueckung ist beliebig,
             # die Normalisierung gehoert deshalb zum Leser, nicht in die
             # Quelldatei.
             author = ' '.join(''.join(author_el.itertext()).split())

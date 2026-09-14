@@ -57,7 +57,7 @@ ersetze(
 NEUER_TYP_WAEREN = "type_372376"   # Maximum in variants.xml war 372375
 
 print("\n#375  acht eindeutige Faelle: lemma_7505 wesen VRB -> lemma_7338 waer ADJ")
-DREISSIG = [
+ACHT_ADJ_FAELLE = [
     # (Sigle, Wort-ID, Quelltyp am Token, Zieltyp unter lemma_7338, Form)
     ("SL",  "SL_851_3",       "type_273599", NEUER_TYP_WAEREN, "waeren"),
     ("SL",  "SL_2648_4",      "type_273621", "type_287014",    "wâren"),
@@ -68,7 +68,7 @@ DREISSIG = [
     ("URS", "URS_11800_2",    "type_273621", "type_287014",    "wâren"),
     ("MSG", "MSG_21611030_3", "type_273713", "type_372364",    "woren"),
 ]
-for sigle, wid, quelltyp, zieltyp, form in DREISSIG:
+for sigle, wid, quelltyp, zieltyp, form in ACHT_ADJ_FAELLE:
     ersetze(
         f"tei/{sigle}.tei.xml",
         f'<w xml:id="{wid}" lemmaRef="lexicon.xml#lemma_7505" pos="VRB" '
