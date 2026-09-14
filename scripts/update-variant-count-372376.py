@@ -47,11 +47,11 @@ ersetze("hilfe-daten.html", "256.772", "256.773", 2, "Prosa + Kennzahl")
 print("\nDaten in der Nachbarschaft, die mitwachsen")
 ersetze("docs/TEI-MODEL-AUTH-FILES.md",
         "(most recently 256,773 forms, 2026-09-10 with #363)",
-        "(most recently 256,773 forms, 2026-09-15 with #375)", 1,
+        "(most recently 256,773 forms, 2026-09-14 with #375)", 1,
         "Regenerierungsdatum")
 ersetze("docs/CONTRACTS.md",
         "- 234,245 normalized entries (as of 2026-09-10; 256,773 raw forms",
-        "- 234,245 normalized entries (as of 2026-09-15; 256,773 raw forms", 1,
+        "- 234,245 normalized entries (as of 2026-09-14; 256,773 raw forms", 1,
         "Stichtag Paragraf C")
 
 print("\n" + "=" * 72)
