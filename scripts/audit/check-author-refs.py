@@ -175,12 +175,18 @@ def main():
         # Grundmenge sinkt still und --check bleibt gruen (CI-Review-Bot auf
         # PR #438). Eine gezaehlte Menge kann ihr eigenes Schrumpfen nicht
         # melden; eine Invariante braucht keine Zahl.
-        if sigle in LEERE_LISTPERSON:
-            if corresp_ids:
-                ausnahme_ueberfluessig.append(sigle)
-        else:
+        # Die Ausnahme haengt an der Bedingung und nicht am Siglennamen: sie
+        # gilt nur, solange die Datei wirklich ein leeres listPerson fuehrt.
+        # Sonst schaltet sie fuer die genannte Sigle die ganze Invariante ab
+        # und laesst auch eine falsche Person durch, waehrend "veraltete
+        # Ausnahme" keinen Exit-Code traegt, den in einem gruenen Schritt
+        # jemand liest.
+        ausgenommen = sigle in LEERE_LISTPERSON and not corresp_ids
+        if not ausgenommen:
             for pid in sorted(autor_ids - corresp_ids):
                 spiegel_fehlt.append((sigle, pid))
+        if sigle in LEERE_LISTPERSON and corresp_ids:
+            ausnahme_ueberfluessig.append(sigle)
 
     print(f'Geprueft: {len(corpus_files())} Korpusdateien')
     print()
