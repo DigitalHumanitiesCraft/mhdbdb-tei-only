@@ -33,3 +33,11 @@
 - **Ankerprobe fuer doc-count-audit.py ohne Repo-Aenderung**: altes und neues Modul per `git show <rev>:scripts/audit/doc-count-audit.py` ins Scratchpad, `importlib` mit `sys.path.insert(0, <repo>/scripts)`, dann `re.compile(ANCHOR_SEP + CODE_ANCHORS[key])` gegen `git show <rev>:<datei>` je Zahlwort-Treffer (Skript `anchor_probe.py`). Ergebnis: alte Anker auf origin/main = neue Anker auf HEAD (README :32 elf, :37 elf+sechs, hilfe :174 sechs), keine Nebenbindung in den sechs gebundenen Dateien. "2x in README" sind 3 Bindungen in 2 Zeilen.
 - Vorbestehend, nicht aus #410: das Gate meldet `docs/DECISIONS.md / variants_normalized` als silent-obsolet (Exit 0).
 - Testreport-Abgleich: `testing/test-results/report.json` `stats.startTime` gegen `git reflog --date=iso` (Checkout-Zeit) halten; 333/34/429,5 s auf fddde3502 bestaetigt.
+
+## Runde 3 (15.09.2026, Commit 31a552d55): beide A-Befunde behoben
+
+- Box-Rueckholung als Bytevergleich messen, nicht als Textvergleich: Skript zieht je Rev den `bg-blue-50`-Block um das Stichwort, gibt sha1, Laenge und vorige/naechste Ueberschrift aus. Ergebnis: 815 Bytes, sha 2832c1ed83 in d9738c2fa^, d9738c2fa und 31a552d55; verschwunden in 173d094c7 (nicht in d9738c2fa, das war die Zerlegung des Abschnitts, nicht der Vier-Bloecke-Commit). Nachbarn vorher/nachher gleich (Kookkurrenz / Reim).
+- Die Block-3-Gruppe hat seit 31a552d55 `id="block-weitere-korpusanalysen"` (h3 :449, mit `scroll-mt-24`; Praezedenz fuer id+scroll-mt-24 an h3: `#wortbestandteil` :737). Die Zeile oben unter Runde 2 („hat keine id") beschreibt den Stand vor diesem Commit.
+- `#weitere-werkzeuge` hat ausserhalb von hilfe-playground.html keinen Konsumenten mehr (nur die zwei Inhaltsverzeichnisse :158 und :865, die auf die section zeigen und dort richtig sind); testing/ referenziert weder help-icon noch hilfe-playground.
+- **Waehrend `npm test` laeuft, fehlt `testing/test-results/report.json`** (Port 8080 antwortet 200, Datei weg); Zahlen aus dem Vorlauf sind dann nur ueber die Vorrunde belegbar, nicht neu messbar.
+- Erster Block bleibt bewusst auf `#multi-lemma` (Aufrufer-Entscheidung, 15.09.2026); die Gruppe „Im Block Korpusanalysen" (h3 :372) hat keine id.
