@@ -26,9 +26,23 @@ Nur "leer" und "toter-ref" sind eindeutig Fehler. "abweichend" ist oft eine
 legitime bibliographische Variante und braucht eine fachliche Entscheidung,
 deshalb meldet das Skript es getrennt und ohne Exit-Code.
 
+Seit #308 wird zusaetzlich der zweite Ort geprueft, an dem ein Header einen
+Personennamen fuehrt: particDesc/listPerson/person/persName[@type="preferred"].
+Anders als der titleStmt ist das ein reiner Spiegel von persons.xml, adressiert
+ueber @corresp, und eine Abweichung ist deshalb nie eine Variante, sondern
+immer ein veralteter Spiegel:
+
+  spiegel     preferred-Form im particDesc != preferred-Form in persons.xml
+
+Der Anlass: af2000a06 hat person_1249 auf "Jakob von Warte" gezogen und
+tei/SJW.tei.xml:121 stehen lassen, wodurch die Datei sich nach der Korrektur
+weiter widersprach. Diesen Block schreibt kein Skript und las bis dahin kein
+Gate; wirksam wird er nach aussen, bei jeder Nachnutzung, die den Header als
+Autoritaet liest.
+
 Usage:
     python scripts/audit/check-author-refs.py           # Bericht
-    python scripts/audit/check-author-refs.py --check   # exit 1 bei leer/toter-ref
+    python scripts/audit/check-author-refs.py --check   # exit 1 bei leer/toter-ref/spiegel
 """
 import argparse
 import sys
@@ -57,16 +71,35 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('--check', action='store_true',
-                    help='exit 1, wenn ein leeres oder totes @ref gefunden wird')
+                    help='exit 1 bei leerem/totem @ref oder veraltetem particDesc-Spiegel')
     args = ap.parse_args()
 
     root = Path(__file__).resolve().parents[2]
     pref = preferred_names(root)
 
     leer, tot, praefix, abweichend, ohne_ref, ws = [], [], [], [], [], []
+    spiegel, spiegel_tot, spiegel_geprueft = [], [], 0
     for path in corpus_files():
         sigle = path.name.replace('.tei.xml', '')
         tree = etree.parse(str(path))
+        for person in tree.xpath('//tei:particDesc/tei:listPerson/tei:person',
+                                 namespaces=NS):
+            # Adressiert wird ueber @corresp, nicht ueber die lokale xml:id:
+            # LUU fuehrt dort eine UUID (person_05154796-...), korpusweit der
+            # einzige Fall, und das @corresp daneben loest korrekt auf.
+            corresp = person.get('corresp') or ''
+            pid = corresp.split('#')[-1]
+            names = person.xpath('./tei:persName[@type="preferred"]',
+                                 namespaces=NS)
+            if not names:
+                continue
+            form = ' '.join(''.join(names[0].itertext()).split())
+            if pid not in pref:
+                spiegel_tot.append((sigle, corresp or '(kein @corresp)', form))
+                continue
+            spiegel_geprueft += 1
+            if form != pref[pid]:
+                spiegel.append((sigle, pid, form, pref[pid]))
         for author in tree.xpath('//tei:titleStmt/tei:author', namespaces=NS):
             raw_text = ''.join(author.itertext()).strip()
             text = ' '.join(raw_text.split())
@@ -111,12 +144,20 @@ def main():
     for sigle, raw in ws:
         print(f'      {sigle:6} {raw!r}')
     print()
+    print(f'  particDesc-Spiegel geprueft  {spiegel_geprueft}')
+    print(f'  Spiegel veraltet             {len(spiegel)}')
+    for sigle, pid, form, name in spiegel:
+        print(f'      {sigle:6} {pid:12} Header {form!r} <-> persons.xml {name!r}')
+    print(f'  Spiegel-@corresp tot         {len(spiegel_tot)}')
+    for sigle, corresp, form in spiegel_tot:
+        print(f'      {sigle:6} {corresp} {form!r}')
+    print()
     print(f'  Text weicht vom preferred-Namen ab: {len(abweichend)}')
     print('      (kein Fehler an sich, aber jeder Fall ist eine Entscheidung)')
     for sigle, pid, text, name in abweichend:
         print(f'      {sigle:6} {pid:12} TEI {text!r} <-> persons.xml {name!r}')
 
-    if args.check and (leer or tot):
+    if args.check and (leer or tot or spiegel or spiegel_tot):
         sys.exit(1)
 
 
