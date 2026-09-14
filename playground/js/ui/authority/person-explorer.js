@@ -35,7 +35,7 @@ function escapeHtml(s) {
  *
  * Matching runs against the precomputed `altNormalized`, whose entries are
  * index-parallel to `altNames` (see build-authority-index.py). `altNames` is
- * absent for 131 of 211 persons and for every index built before 1.8.0; both
+ * absent for 130 of 211 persons and for every index built before 1.8.0; both
  * cases leave through the length check below.
  *
  * The live-normalization fallback is pure defence against a broken contract: it

@@ -166,7 +166,7 @@ Notes: Multiple sigles per work (editions). GND/Wikidata may be full URLs or bar
 | genres.xml | `genre_{hex}` | – (but many broader pointers, polyhierarchical) |
 | names.xml | `name_{numeric}` | `exactMatch`, `closeMatch` → `concepts.xml#...` |
 
-#### variants.xml (~16 MB, 256,772 variant forms)
+#### variants.xml (~16 MB, 256,773 variant forms)
 
 ```xml
 <TEI><text><body><div type="orthographicVariants">
@@ -201,7 +201,7 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
     works: "work_001,work_002",   // comma-separated string; normalized to an array only in the static JSON API (see API section)
     normalized: "meister eckhart",
     // optional, only where persons.xml carries persName[@type="alternative"]
-    // (80 of 211 persons). Index-parallel: altNormalized[i] belongs to altNames[i].
+    // (81 of 211 persons). Index-parallel: altNormalized[i] belongs to altNames[i].
     altNames: ["Charles IV"],           // e.g. person_1768 "Karl IV."
     altNormalized: ["charles iv"]
   }],

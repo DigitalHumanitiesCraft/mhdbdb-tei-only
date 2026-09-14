@@ -939,7 +939,7 @@ Earlier errors (all fixed by migration):
 | File | Entries | Validation |
 |-------|----------|-------------|
 | lexicon.xml | 43,878 lemmata (+4 WZB 2026-05-08, +125 #115 stubs 2026-07-02, -1 hasenblâse #363 2026-09-10) | tei_all ✓ · mhdbdb-authority ✓ |
-| variants.xml | 42,626 variant entries (256,772 forms) | tei_all ✓ · mhdbdb-authority ✓ |
+| variants.xml | 42,626 variant entries (256,773 forms) | tei_all ✓ · mhdbdb-authority ✓ |
 | persons.xml | 211 persons | tei_all ✓ · mhdbdb-authority ✓ |
 | works.xml | 584 works (+1 work_WZB) | tei_all ✓ · mhdbdb-authority ✓ |
 | concepts.xml | 567 categories | tei_all ✓ · mhdbdb-authority ✓ |
@@ -983,8 +983,8 @@ A consolidated list of all deliberately non-normalized islands of data and of th
 | this document | 1.0.0 | 2026-04-10 |
 | RELAX NG schema (`schema/mhdbdb.rnc`) | 1.0.0 | 2026-04-09 |
 | POS tagset | 1.0 (19 tags) | 2026-03 |
-| Corpus Index | 4.2.15 | 2026-09-11 |
-| Authority Index | 1.9.5 | 2026-09-11 |
+| Corpus Index | 4.2.16 | 2026-09-14 |
+| Authority Index | 1.9.6 | 2026-09-14 |
 | authority schema (`schema/mhdbdb-authority.rnc`) | 1.1.0 | 2026-07-30 |
 
 ---

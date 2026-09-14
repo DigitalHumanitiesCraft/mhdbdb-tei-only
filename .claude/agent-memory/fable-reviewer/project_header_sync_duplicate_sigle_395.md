@@ -105,3 +105,48 @@ korpusweit 568 von 667 Dateien, 1.366 Vorkommen (Regex ueber U+0300/0301/0302/
 Index enthaelt 0x „Emler"; dekomprimiert 168.639.244 / 23.507.013 Bytes. Der
 Build hat keine Output-Option und ueberschreibt data/, als Reviewer nicht laufen
 lassen. `validate-corpus.py --sample VTC TKA TKR --corpus-only` laeuft 4 s.
+
+**#308/#375/#432, Runde 1 (c7a4ee8f6, 14.09.2026), dritter Header-Spiegel:**
+`profileDesc/particDesc/listPerson/person/persName[@type="preferred"]` ist eine
+Kopie von persons.xml im Header (671 Vorkommen in 666 Dateien, gemessen per
+Grep). Kein Skript schreibt sie (nur `_archived/tei-transformation.py` und
+`ingest/ari/01-convert…` erzeugen sie), kein Gate vergleicht sie
+(`check-author-refs.py` prueft nur `titleStmt/author` gegen persons.xml),
+kein Code liest sie (`build-corpus-index.py` liest titleStmt, Z. 103-126;
+Reader/Suche nehmen `preferredName` aus dem Authority-Index). Eine
+Namensentscheidung in persons.xml muss also von Hand dorthin, und der Diff
+hat es bei SJW:121 nicht getan. Dazu: `altNames`-Zahlen „80 of 211" stehen an
+drei Stellen (CONTRACTS.md:892, DATA-MODEL.md:204, person-explorer.js:38 als
+„131 of 211") und werden von doc-count-audit.py nicht gegatet; Messung
+`grep -l '"altNames"' api/persons/person_*.json | wc -l` (alt 80, neu 81).
+Exit-Code eines Audits nie hinter `| tail` messen: `$?` ist dann der von tail
+(so war „--check ALT: 0" erst falsch, direkt gemessen 1).
+
+**Runde 3 (14609c22b, 14.09.2026), Gate fuer den Spiegel:** `check-author-refs.py`
+prueft seit #308 particDesc (Klassen `spiegel`/`spiegel_tot`, Step 7b in
+data-integrity.yml). Mutationsprobe in-process statt 667-Dateien-Lauf: Modul per
+importlib laden, `car.corpus_files = lambda: [Kopie1, Kopie2]` setzen, `sys.argv`
+auf `--check`, `main()` in `redirect_stdout`, SystemExit fangen; sieben Proben
+in 2 s statt 7 x 80 s. Ergebnis: alte preferred-Form und toter @corresp werden
+gefangen, **eine geloeschte preferred-Zeile geht still durch** (`if not names:
+continue`, Entry zaehlt nicht einmal in `geprueft`), alternative-Formen im Header
+(545 in 292 Eintraegen) werden gar nicht verglichen. Laufzeit hier 82,5 s, im
+Auftrag 1 min 47 s; Step 1b (`sync_tei_headers.py --works --check`) 0,7 s.
+persons.xml: 81 Personen mit alternative, 136 roh, Index 102 (dedup 34).
+Die Docstring-Zeile „Diesen Block schreibt kein Skript" ist zu stark: die
+ARI-Ingest-Vorlage (`ingest/ari/01-convert…:135-141`) emittiert ihn mit
+person_anonym; kein Sync-Skript pflegt ihn, das ist der haltbare Satz.
+
+**Runde 4 (2241f4b09, 15.09.2026), Untergrenze der Grundmenge:** Invariante
+titleStmt-Autor ⊆ particDesc-@corresp je Datei, Ausnahme `LEERE_LISTPERSON =
+{'VOR'}`. Gemessen: 672 @ref (alle `#N`), 671 @corresp (alle `persons.xml#N`),
+5 Zwei-Autoren-Dateien (BAX CR HOF RHB VDH), nur VOR mit leerem listPerson,
+0 Eintraege ohne Autor. **Falle: die Ausnahme ist per Sigle geschluesselt, nicht
+per Zustand.** Bekommt VOR eine falsche Person (Probe: 1249 statt 1772), meldet
+das Skript nur „Veraltete Ausnahme" ohne Exit-Code und prueft die Invariante
+fuer VOR gar nicht (exit 0). Das doc-count-audit-Muster (`silent-obsolet`) ist
+dort unschaedlich, weil der Anker trotzdem geprueft wird; hier schaltet die
+Ausnahme die Pruefung ab. Bei jeder benannten Ausnahme fragen: greift sie an
+der Bedingung oder am Namen? Acht Proben (Kontrolle, Block weg, VOR richtig,
+VOR falsch, Zwei-Autoren-Block weg, @corresp weg, preferred weg, listPerson
+geleert, toter @ref) laufen in-process in unter 5 s.

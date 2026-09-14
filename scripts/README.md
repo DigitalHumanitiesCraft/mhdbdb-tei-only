@@ -25,6 +25,8 @@ scripts/
 ├── remove-stanza-numerals-138.py # Strophenziffern aus dem Verstext entfernen (#138)
 ├── insert-div-chapters-358.py   # Willehalm-Dreißiger: `<pb n>` zu `<div type="chapter" n>` (#358)
 ├── migrate-caesura-to-gap-252.py # Ueberlieferungsluecken von '( caesura )' auf <gap/> (#252)
+├── apply-308-375-432.py         # Die drei entschiedenen Korrekturen einer Nacht: Namensansetzung, waeren als ADJ, WH_6214_3 (#308/#375/#432)
+├── update-variant-count-372376.py # Dokumentierte Formenzahl von variants.xml nachziehen, wenn ein Typ dazukommt (#375)
 │
 ├── ingest/                      # Korpus-Ingest je Vorhaben
 │   ├── ari/                     # ARITHMETIC, 6 Rechenbuch-Handschriften (#92)
@@ -43,7 +45,7 @@ scripts/
 │   ├── build-issue-matrix.py    # Triage-Matrix #44 aus den Issue-Labels bauen (#44)
 │   ├── check-authority-cross-refs.py # Korpus→Authority Cross-Ref-Integrität (#44/#115)
 │   ├── compare-findebuch-resolution-259.py # dreistufige Auflösung gegen den Findebuch-Verweisgraph (#259)
-│   ├── check-author-refs.py     # titleStmt/author gegen persons.xml (#228)
+│   ├── check-author-refs.py     # Personennamen im Header gegen persons.xml: titleStmt/author (#228) und particDesc/listPerson (#308)
 │   ├── check-doc-inventories.py  # Specs und Audit-Skripte stehen in DEVELOPMENT.md, Skripte auch in diesem Baum (#329)
 │   ├── check-file-sizes.py      # Einzeldateien vor GitHubs harter 100-MiB-Wand stoppen (#350)
 │   ├── check-index-budget.py    # Index-Größenbudget gz und roh, warnt nur (#111, ADR-019)
@@ -125,7 +127,7 @@ Struktur-, Querverweis- und Datenqualitäts-Audit für alle 8 Authority Files. P
 Korpus→Authority Cross-Reference-Integrität (#44/#115): scannt alle `tei/*.tei.xml` nach `@lemmaRef`/`@ana`/`@corresp`/`@ref`/`@target`, die auf nicht-existente Authority-`xml:id`s zeigen. `--check` macht daraus ein CI-Gate (scheitert bei unresolved refs außerhalb `lexicon.xml`; `lexicon.xml` wird als ID-Set-Ratsche gegen die committete `lexicon-baseline.json` gegated — neue dangling IDs = rot, tolerierter Backfill-Altbestand = grün, #152). `--update-baseline` zieht die Ratsche nach gelandetem Backfill nach. Läuft in `data-integrity.yml`.
 
 ### `check-author-refs.py`
-Autorangaben im `titleStmt` gegen `persons.xml` (#228): meldet leere `<author ref="..."/>` (Text erscheint autorlos), tote `@ref`, Abweichungen von der Referenzform `#person_N`, Textinhalte mit Zeilenumbruch (die so in Index und API landen) und Textinhalte, die vom `preferred`-Namen abweichen. `--check` setzt den Exit-Code nur bei den ersten beiden, die Namensabweichung ist oft eine legitime bibliographische Variante. **Läuft bewusst nicht in der CI**, solange der tote `@ref` in VOR offen ist (#308); sonst wäre der Befund ein Blocker für unbeteiligte PRs.
+Personennamen im TEI-Header gegen `persons.xml` (#228/#308), an zwei Stellen. Im `titleStmt`: leere `<author ref="..."/>` (Text erscheint autorlos), tote `@ref`, Abweichungen von der Referenzform `#person_N`, Textinhalte mit Zeilenumbruch (die so in Index und API landen) und Textinhalte, die vom `preferred`-Namen abweichen. Im `particDesc/listPerson` (seit #308): die `preferred`-Form der 671 Einträge in 666 Dateien, adressiert über `@corresp`. Dort ist eine Abweichung nie eine bibliographische Variante, sondern immer ein veralteter Spiegel, deshalb setzt sie den Exit-Code, die `titleStmt`-Namensabweichung dagegen nicht. Ein Eintrag ganz ohne `preferred`-Zeile bekommt eine eigene Klasse, statt aus der Grundmenge zu fallen: eine still schrumpfende Bezugsmenge ist genau der Fehler, den ein zählendes Gate sonst nicht melden kann. Die Untergrenze der Grundmenge kommt dabei nicht aus einer committeten Zahl, sondern aus den Daten: jede Autoren-ID des `titleStmt` muss im `particDesc` derselben Datei stehen. Ohne das fällt ein ganz gelöschtes `<person>`-Element durch alle Klassen, weil die sich sämtlich auf vorhandene Einträge beziehen. Die eine Sigle mit leerem `<listPerson/>` (VOR) steht namentlich im Skript, mit Grund, und wird gemeldet, sobald die Ausnahme überflüssig wird. **Läuft seit 14.09.2026 in `data-integrity.yml`** (Step 7b, nach der Cross-Ref-Prüfung): bis dahin blieb es draußen, solange der tote `@ref` in VOR offen war und unbeteiligte PRs rot gefärbt hätte, und genau den hat #308 behoben. Späte Position, weil es jede der 667 Dateien ganz parst, in zwei Läufen 1 min 47 s und 1 min 44 s. Ungeprüft bleiben die `alternative`-Formen und die `idno`-Zeilen desselben Blocks sowie die lokale `xml:id` gegen `@corresp`.
 
 ### `check-index-version-bump.py`
 Versions-Bump-Gate (#154): hat sich der dekomprimierte Inhalt von corpus-/authority-index gegenüber `--base <rev>` geändert, muss der `version`-String mitgeändert sein: sonst invalidiert der Dexie-Cache nicht. Läuft in `data-integrity.yml` (Diff-Base = erster Elternteil des Merge-Refs bzw. `event.before` beim Push).
