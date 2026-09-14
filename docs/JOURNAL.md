@@ -1874,3 +1874,165 @@ Diese Sitzung lief auf dem Laptop, wo GitHub-Anhänge abrufbar sind. Vorausgegan
 **Rot, vierte Zeile, am selben Tag gegen dieselbe Lehre: `items[0].keys()` ist nicht das Schema.** Für die Umlaut-Faltung in #419 habe ich gemessen, was der Fold über die Authority-Dateien anrichtet, und dafür die zu vergleichenden Felder so bestimmt: `keys = [k for k in ("termDE","termEN","title") if k in items[0]]`. Der erste Begriff im Index ist `concept_10000000` „Universum/Welt", und der trägt keine Alt-Terme. Also hat die Sonde die Alt-Felder gar nicht gesehen. Gemessen über alle Einträge tragen sie 263 von 567 Begriffen und 250 von 615 Gattungen, und der Code vergleicht sie: `multiFieldNormalized` liest im Begriffs-Explorer ausdrücklich `altDE` und `altEN`. Drei Aussagen hingen daran, alle in schon geschriebenem Text (der Zweig hatte `origin` nicht erreicht, die Runde läuft vor dem ersten Push): „keine neue Mehrdeutigkeit" (es gibt genau eine, `Vogel`/`Vögel` in `concept_14020000`, harmlos, aber der Satz war wörtlich falsch), „379 Einträge mit Umlaut" (391, die 12 fehlenden beginnen mit Großumlaut, und `foldDiacritics` kleinschreibt vorher) und der Satz im Review-Auftrag, der Index trage gar keine Alt-Felder. **Es ist dieselbe Lehre wie in der ersten roten Zeile dieses Eintrags, am selben Tag, und diesmal steckte der Mengenfehler nicht in der Zahl, sondern in der Zeile, die die Menge bestimmt.** Daraus die schärfere Form: eine Feldliste, die aus einem Stichprobenelement abgeleitet ist, ist eine Annahme über das Schema und gehört gegen alle Einträge geprüft, `Counter` über alle `keys()` statt `in items[0]`. Gefangen hat es `fable-reviewer` in Runde 1, zusammen mit dem Befund, der daraus folgte: `findAlternativeMatch` im Begriffs-Explorer stand allein auf `matchesNormalized` und lieferte für 56 Begriffe keinen „auch: …"-Hinweis mehr, obwohl sie durch die Faltung neu gelistet werden. Das ist genau die Frage, die seit #397 zur Übergabe gehört und die ich nicht gestellt hatte: **was hat diese Änderung wahr gemacht, das vorher falsch sein konnte?**
 
 Alle vier Fehler hatten dieselbe Gestalt: eine Aussage, die aus der Nähe richtig aussieht, weil ihre Bestandteile stimmen. Die 6.418.133 war gemessen, Alans Protokoll war gelesen, der Satz über das PDF stammte von jemandem, der die Datei tatsächlich vor sich hatte, und die Kollisionsmessung lief korrekt über die Felder, die sie kannte. Falsch war jeweils die Verbindung, und viermal hat sie derselbe Reviewer gelöst, der dafür nichts wusste, was mir nicht auch zur Verfügung stand.
+
+---
+
+## 2026-09-14/15 (Nachtlauf) – Neun Entscheidungen waren längst gefallen, und zweimal saß die Korrektur in einer Spiegelkopie
+
+Auftrag: die Vorgänge mit `wait:kzw` durchgehen, die beantworteten vom Warten befreien, umsetzen was dadurch frei wird, und alles ohne Entscheidung aufschreiben statt raten. Die Prämisse hat sich bestätigt, und zwar quantifizierbar: **9 von 39 Vorgängen mit `wait:kzw` trugen eine Antwort, die den ganzen offenen Rest trägt**, und keiner von ihnen hatte das Label verloren.
+
+### Ausgangsstand, selbst gemessen
+
+Grundmenge sind die offenen Vorgänge (`gh issue list --state open --limit 200`), Kontrollwert `evergreen` trifft genau einmal (#44), die Abfrage greift also.
+
+| Menge | vor dem Lauf | nach dem Lauf |
+|---|--:|--:|
+| offene Vorgänge | 71 | 69 |
+| davon `auto:blocked` | 46 | 37 |
+| davon `wait:kzw` | 39 | 30 |
+| `wait:*` ohne `auto:blocked` | 0 | 0 |
+| `auto:blocked` ohne `wait:*` | 0 | 0 |
+
+Die vier Zustände über den 39: **beantwortet und ausführbar 9, teilweise ausführbar 4, beantwortet mit einer neuen Frage 8, wirklich noch wartend 18.** Die Messvorschrift für die letzte Gruppe steht im #44-Kommentar, weil „wartet noch" sonst die Restmenge einer Subtraktion wäre und keine benannte Gruppe.
+
+Die Aufteilung stand zwischendurch auf 10 und 3. **#375 war in der ersten Gruppe gelandet, weil ich den ausführbaren Teil für den ganzen Vorgang gehalten hatte**: die acht eindeutigen Belege sind umannotiert, aber Punkt 1 des dortigen Arbeitsauftrags lautet wörtlich „@wachauer: die acht Fälle der zweiten Tabelle lesen". Der Vorgang bleibt deshalb offen und geht auf `auto:blocked` mit `wait:kzw` zurück. Das ist der Fehler, den dieser Lauf strukturell begünstigt: wer nach ausführbaren Resten sucht, liest einen Auftrag darauf hin, was er tun darf, und nicht darauf, was noch fehlt.
+
+### Der Befund des Laufs: der Header spiegelt drei Master, und nur einer war geprüft
+
+Ein TEI-Header führt an drei Stellen Daten, deren Master woanders liegt: `msIdentifier/idno` aus `works.xml`, `listBibl/biblStruct` über `works.xml` aus Zotero, `particDesc/listPerson/persName` aus `persons.xml`. Nur der erste hatte einen Schreiber und ein Gate. **Beide ungegateten Stellen sind in dieser Nacht aufgefallen, unabhängig voneinander, und beide Male saß eine Korrektur am falschen Glied.**
+
+**#237 AA-1.** Der Auftrag führt die Bibliographie-Korrektur in `tei/VTC.tei.xml` als „sofort ausführbar, unabhängig von allem anderen". Geschrieben, validiert, Index byte-identisch, alle Gates grün, und wirkungslos: derselbe `biblStruct` steht mit derselben `xml:id` in `authority-files/works.xml`, und ausgeliefert wird diese Fassung. `api/works/work_572.json` trägt „Josef Emler" und keinen Jireček. Die Schreibrichtung steht als Kommentar im Sync-Skript selbst (`scripts/sync/enhance_works_with_zotero.py:281-285`), wo sie für #235 schon einmal teuer gelernt wurde. **AA-1 hängt an AA-4**, und AA-4 ist Handarbeit in der Zotero-Oberfläche, also ein Posten für Christian. Zweig gesichert, kein PR.
+
+**#308.** Die Namensansetzung für `person_1249` ging auf „Jakob von Warte", in `persons.xml`, in `works.xml` und im `titleStmt` von `tei/SJW.tei.xml`. Der `particDesc`-Block derselben Datei blieb stehen und führte weiter „Jakob von Wart" als Hauptform. Die Datei widersprach sich nach der Korrektur weiter, nur andersherum, und zwar in genau der Zeile, die der #308-Kommentar vom 06.09. als Widerspruch benannt hatte.
+
+Der zweite Fall ist repariert und bekommt ein Gate. Gemessen über alle 667 Dateien: 666 tragen den Block, 671 Einträge sind gegen `persons.xml` prüfbar, **genau 1 Abweichung, danach 0**. Kontrollwert `person_1050` ergibt „Heinrich von Pressela" wie erwartet. `check-author-refs.py` prüft das seither und läuft als Step 7b in `data-integrity.yml`.
+
+**Dass es dort bisher nicht lief, war keine Lücke, sondern eine Entscheidung mit einer Bedingung daran**, und die stand seit #228 in `scripts/README.md`: „Läuft bewusst nicht in der CI, solange der tote `@ref` in VOR offen ist (#308); sonst wäre der Befund ein Blocker für unbeteiligte PRs." Genau diesen `@ref` hat die Korrektur dieser Nacht behoben. Die Bedingung war erfüllt, bevor irgendjemand sie nachgeschlagen hatte; gefunden habe ich sie erst, als ich die Doku zum Skript nachziehen wollte. **Eine Bedingung, die niemand überwacht, wird still wahr.**
+
+### Das Gate ist in beide Richtungen gelaufen, und es hatte selbst ein Loch
+
+Drei Mutationen, je einzeln eingebaut und zurückgenommen:
+
+| eingebauter Fehler | Meldung | exit |
+|---|---|--:|
+| SJW preferred zurück auf die alte Form | Spiegel veraltet 1 | 1 |
+| HHP `@corresp` auf `person_999999` | Spiegel tot 1 | 1 |
+| preferred-Zeile in SJW gelöscht | (nichts) | **0** |
+
+Der dritte Fall ist der Befund der dritten Reviewrunde und der interessanteste: ein Eintrag ohne `preferred`-Zeile fiel per `continue` aus der Grundmenge, der Zähler sank von 671 auf 670, und nichts wurde rot. **Ein zählendes Gate kann eine schrumpfende Bezugsmenge nicht von einem kleineren Bestand unterscheiden, solange das Schrumpfen keine eigene Klasse hat.** Jetzt hat es eine, und der dritte Fall gibt exit 1. Heute betrifft er 0 von 671 Einträgen, es war also ein Loch im Gate und kein Fehler im Bestand.
+
+**Und dann fand der CI-Review-Bot dasselbe Loch eine Ebene höher.** Die neue Klasse deckt einen Eintrag ohne `preferred`-Zeile ab; ein ganz gelöschtes `<person>`-Element fällt durch alle Klassen, weil sie sämtlich über vorhandene Einträge sprechen. Der Zähler sinkt still von 671 auf 670, `--check` bleibt exit 0, `schema/mhdbdb.rnc:211` erlaubt ein leeres `listPerson`, und sonst greift nichts: der Cross-Ref-Audit sucht tote Verweise, und ein gelöschter Block hat keine.
+
+**Beim dritten Mal wird nach der Hausregel nicht weitergezählt, sondern der Mechanismus gewechselt.** Statt einer vierten Fehlerklasse über gezählten Einträgen steht dort jetzt eine Invariante, die jede Datei selbst mitbringt: jede Autoren-ID des `titleStmt` muss im `particDesc` derselben Datei stehen. Gemessen über alle 667 Dateien: 672 `titleStmt`-Autoren mit `@ref`, keine einzige Datei ohne einen, 671 `particDesc`-Einträge in 666 Dateien, null Einträge ohne zugehörigen Autor. Die Differenz ist genau ein Fall, und er heißt `VOR`. Der Unterschied zur Baseline-Zahl, die der Bot als Alternative vorschlug: **eine Invariante wächst mit dem Korpus mit, eine Zahl muss jemand nachziehen.** Mit gelöschtem Block in SJW meldet das Gate „Autor ohne Spiegel 1" und exit 1, nach Rücknahme exit 0 und `tei/` byte-identisch.
+
+`VOR` steht dabei mit Namen und Grund im Skript statt als Zahl, und das Skript meldet die Ausnahme, sobald sie überflüssig wird. Ob die Datei ihren Autor im `particDesc` nachgetragen bekommt, ist eine Modellfrage und hier ausdrücklich nicht entschieden.
+
+Ungeprüft bleiben, ausdrücklich vermerkt: die `alternative`-Formen und die `idno`-Zeilen desselben Blocks, und die lokale `xml:id` gegen `@corresp`.
+
+### Umgesetzt
+
+**#308, #375 und #432** in einem Zug, weil sie dieselbe abgeleitete Schicht anfassen. Korpus-Index 4.2.16, Authority-Index 1.9.6, ein neuer Variantentyp `type_372376` für `waeren` (nie ein bestehender umgehängt, Regel aus #367).
+
+Wirkung am Index gemessen, alt gegen neu: `lemma_7338` 3.529 → 3.537, `lemma_7505` 36.362 → 36.354, `lemma_7779` 1.001 → 1.000, `lemma_9653` 14 → 15. Die beiden Ausgangswerte 1.001 und 14 sind genau die, die #432 nennt, was die Messung an den Vorgang bindet. `wordCount` ändert sich in 0 von 667 Texten.
+
+**Das Gate, das #378 vorschlägt, ist einmal von Hand gelaufen.** Variantenabbildung 1.9.5 gegen 1.9.6: 0 Formen hinzugekommen, 0 entfallen, 0 umgehängt, bei 234.245 Abbildungen auf beiden Seiten. Das war genau die Art Änderung, die eine Abbildung kippen kann, und sie hat es nicht getan.
+
+**Zwei weitere Gates sind in beide Richtungen ausgeübt worden, ohne dass jemand den Fehler eigens einbauen musste**, weil der Lauf ihn mitbrachte: `check-author-refs.py` stand vor der Korrektur auf **fünf Befunden in vier Klassen** und danach auf lauter Nullen, `doc-count-audit.py` ging über die Formenzahl erst rot und nach dem Nachziehen grün. Die fünf, am Diff nachgezählt statt aus dem Gedächtnis: ein toter `@ref` (VOR), ein Präfix-Ausreißer (WZB), ein Zeilenumbruch im Namen (LUU) und zwei Namensabweichungen (HHP, SJW). Die dokumentierte Formenzahl ist an 9 Stellen von 256.772 auf 256.773 gezogen worden; die 234.245 ausdrücklich **nicht**, weil sie eine andere Menge zählt (CONTRACTS §C).
+
+### Frontend im Browser geprüft, nicht nur im Code
+
+Zwei ausgelieferte Seiten tragen die Formenzahl. Vorher am Livestand: `hilfe-daten.html` zeigt „256.772 orthographischen Varianten". Nachher lokal „256.773", der Zahlenblock intakt neben „667 TEI-Texte" und „43.878 Lemmata"; `index.html` zeigt im Korpus-Übersichtsblock „256.773 / Orthographische Varianten". Beides am Bildschirm gesehen.
+
+### #410: vier Blöcke, und die Grenze ist nicht Wichtigkeit
+
+Der zweite Teil des Abends ist die Informationsarchitektur der Abfragespalte. Die Entscheidung lag seit dem 11.09. vor, samt der Bewertung, die sie trägt, und dem einen Nachtrag: „Ich möchte beim Aufklappen immer einen kleinen erklärenden Satz, was dieser Block beinhaltet (philologisch argumentiert, nicht technisch)."
+
+| Block | Vorgabe | Inhalt |
+|---|---|--:|
+| Korpusanalysen | offen | 6 Werkzeuge |
+| Register & Indizes (Authority Files) | offen | 6 Register |
+| Weitere Korpusanalysen | zu | 5 Werkzeuge |
+| Experimentelle Forschungsdaten | zu | 2 Datensätze |
+
+Die Aufteilung der elf Analysewerkzeuge folgt der am 10.09. an den Eingabefeldern gemessenen Regel: sechs beginnen mit einem Wort oder Begriff, fünf mit einem Text oder einer Autor*in. **Das ist keine Wertung, sondern eine Eigenschaft der Werkzeuge**, und deshalb heißen die Blöcke „Korpusanalysen" und „Weitere Korpusanalysen" statt „zentral" und „weitere".
+
+Auch hier vorher und nachher im Browser: am Livestand ein offener Block „TEI Textanalyse" mit elf Werkzeugen darunter zwei zugeklappte; lokal stehen beim ersten Laden die sechs Register da, während der Korpus noch lädt, und nach wenigen Sekunden kommen die Korpusanalysen dazu. Der Umschalter des dritten Blocks öffnet ihn samt Satz und fünf Werkzeugen, und die Wortfrequenz-Analyse rendert nach dem Umzug unverändert ihre Tabelle.
+
+**Ein toter Anker, gefangen durch Nachsehen statt Annehmen.** Der Hilfe-Link des neuen Blocks zeigte im Entwurf auf `hilfe-playground.html#tei-analyse`. Den Anker gibt es nicht; die Datei führt `#weitere-werkzeuge`. Ein toter Anker springt still auf den Seitenkopf und fällt niemandem auf, also ist er genau die Sorte Fehler, die nur vor dem Schreiben billig ist.
+
+**Das Umbenennen hat drei Gate-Bindungen stumm gelöst, und das Gate blieb dabei grün.** `doc-count-audit.py` bindet eine Zahl an ein Ankerwort: „elf TEI-Analyse-Werkzeuge" wird gegen den aus dem Code gezählten Wert geprüft, aber nur, solange das Ankerwort danebensteht. #410 benennt genau diese Wörter um. Danach meldete die Selbstprüfung des Gates drei Paare als `[no-hit]`: zweimal `README.md`, einmal `hilfe-playground.html`. Gemessen: auf `origin/main` traf das Muster in der README zweimal und in der Hilfeseite einmal, danach keinmal. **Ein Gate, das seinen Gegenstand verliert, meldet das nicht als Fehler, sondern als Zeile ohne Exit-Code**, und diese Zeile stand mitten in dreißig anderen. Die Anker sind erweitert und in beide Richtungen ausgeübt: mit „zehn Korpusanalysen" und „sieben Register und Indizes" in der README meldet das Gate beide Zeilen mit Fundstelle und gibt exit 1, nach Rücknahme exit 0 und kein `[no-hit]` mehr.
+
+Dabei eine Falle vermieden, die das erweiterte Muster selbst aufgestellt hätte: `ANCHOR_SEP` überbrückt bis zu acht Tags, also hätte ein Satz, der auf „Abschnitt 3 und 4." endet und dem eine Überschrift „Korpusanalysen" folgt, die 4 an den Anker gebunden und das Gate rot gemacht. Der Satz steht jetzt ohne Ziffer da.
+
+**Und ein Beinahe-Fall derselben Bauart:** das Skript, das zwölf Stellen der Hilfeseite ersetzt, suchte zunächst mit `\n` in einer Datei, die durchgehend CRLF trägt. Alle zwölf Muster hätten null Treffer gehabt, und weil das Skript bei null Treffern abbricht statt stumm Erfolg zu melden, wäre es aufgefallen; aufgefallen ist es trotzdem vorher, beim Lesen des eigenen Skripts. Die Regel dahinter steht seit dem 02.07. im Journal (`read_text()` normalisiert Zeilenenden) und seit #115 in der Roundtrip-Lehre.
+
+**Die Hilfeseite behauptete danach die falsche Blockzugehörigkeit, und zwar für vier von neun Werkzeugen.** Abschnitt 5 sagt über die Werkzeuge, die er beschreibt, wo sie in der Abfragespalte stehen. Nach dem Umbau stimmte das für fünf und nicht für vier: Kookkurrenz-Ranking, Reim-Wörterbuch, Begriffs-Verteilung und Lemma-Verteilung sind im offenen Block gelandet, der Abschnitt schickte die Leser*innen aber geschlossen in den zugeklappten. Gefunden hat es `fable-reviewer` in Runde 1, gemessen mit lxml über die Überschriften beider Panels, und ich habe es an derselben Stelle nachgemessen, bevor ich etwas geändert habe. Repariert ist nicht der Satz, sondern der Abschnitt: zwei Gruppen, jede mit ihrem Blocknamen als Überschrift, je in der Reihenfolge der Abfragespalte. **Eine Prosa-Aussage über eine Oberfläche altert genau dann, wenn die Oberfläche sich ändert, und niemand liest bei einem Umbau die Hilfeseite mit, weil sie nicht im Diff steht.**
+
+Dieselbe Bauart traf die Startseite: die Kachel „Korpusanalysen" führte zwei Werkzeuge auf, die im zugeklappten Block darunter liegen. Wer von der Kachel kommt und im gleichnamigen Block sucht, findet sie nicht. Und in ihrer Nachbarschaft stand „mit 10 spezialisierten Suchfunktionen". Gemessen sind es elf Korpusanalysen, sechs Register und zwei Datensätze; 10 ist keine dieser Mengen. Welche gemeint war, ist nicht rekonstruierbar, also steht dort jetzt keine Zahl statt einer geratenen.
+
+Beide Zweige sind gemergt: PR #438 (Daten und Gate) und PR #439 (#410), jeder mit vier grünen Checks und je einer Runde des CI-Bots ohne Befund. Der Bot hat auf #438 die beiden Befunde geliefert, die diese Nacht am teuersten waren.
+
+### Was über den Einzelfall hinausgilt
+
+| Aussage | Herkunft | verankert in |
+|---|---|---|
+| Ein Name kann mehrere Entitäten bezeichnen; das ist normal und wird über mehrere Senses am selben Lemma abgebildet, nicht über ein eigenes Lemma | #357 | `docs/DECISIONS.md` ADR-020 |
+| Echte Ambiguität in der Variantenauflösung wird nicht durch einen Tiebreak aufgelöst: alle Kandidaten bleiben erhalten, sortiert nach der Häufigkeit genau dieser normalisierten Form unter dem jeweiligen Lemma | #378 | `docs/DECISIONS.md` ADR-021 („entschieden, nicht umgesetzt") plus ein Zeiger in `docs/CONTRACTS.md` §C |
+| Bei zwei belegten Namensformen ist die historische die Hauptform und die modernisierte die Alternative; wo eine Normdatei ansetzt, folgt die Hauptform ihr | #308 | `docs/CONTRACTS.md` §F.5 |
+| **Nicht verankert:** dass eine Bibliographie-Korrektur bei Zotero anfangen muss und nicht im TEI-Header | Befund dieser Nacht an #237 | steht als Kommentar im Sync-Skript und jetzt im Vorgang; gehört als §F-Abschnitt in `docs/CONTRACTS.md`, ist aber eine Vertragsänderung und braucht eine Entscheidung |
+
+§F.5 ist der Abschnitt, der ohne die Zahlen daneben falsch gelernt würde. Gezählt über `persons.xml`, `works.xml` und `tei/` am Stand vor der Korrektur, mit der Regel, dass ein Name nur zählt, wo er nicht Präfix eines längeren ist: Pressela 7, Breslau 2, Warte 7, Wart 2. **Bei HHP war die Hauptform auch die häufigere, bei SJW die seltenere.** Wer aus „wovon haben wir mehr" argumentiert, bekommt beide Fälle richtig und den nächsten falsch.
+
+### Rote Zeilen
+
+**Rot: der #252-Kommentar ging mit den Zahlen von vor der Gegenprobe hinaus.** Zwei Fehler steckten darunter. Erstens hatte ich die Fälle über `<l n="4">` identifiziert, was in FR1 einmal je Strophe vorkommt und deshalb kein Schlüssel ist. Zweitens hat die Zählung nur die direkten Kinder der Zeile nach `<w>` durchsucht, während FR1 und MSG die Wörter teils in `<supplied>` oder `<hi rend="initial">` verschachteln; dadurch landeten drei Zeilen in der falschen Gruppe (843 statt 846 Fälle, die kleine Gruppe 6 statt 3). Beide Korrekturen stehen offengelegt im ersetzten Kommentar. **Die Lehre, die nicht gegriffen hat, ist die über den Kontrollwert, und zwar ihr zweiter Halbsatz: er kommt vor dem Schreiben und nicht nach dem Commit.** Der Kontrollwert lag bereit und war stark, nämlich die drei Fälle, die der Kommentar vom 10.09. namentlich nennt; nach der Korrektur enthält die kleine Gruppe exakt diese drei. Gezogen habe ich ihn nach dem Absenden. Die letzte Zeile zu dieser Lehre steht am 02.09. (Aufräumlauf, „eine Abwesenheitsabfrage wird zuerst an einem bekannten Positivfall getestet"); dort galt die Verschärfung der Null, hier gilt sie einer Zahl.
+
+**Rot, zweiter Teil desselben Vorgangs, gegen eine eigene Lehre von vor acht Tagen: Eindeutigkeit aus drei Stichproben.** Dass `<l n="4">` je Strophe genau einmal vorkommt, hätte ein `Counter` über die Datei in einer Zeile gezeigt. Stattdessen habe ich drei Verse angesehen, bei denen es passte. Die letzte Zeile zu dieser Lehre steht am 06.09.: „Eindeutigkeit über einer Menge mit einem Element ist keine Eindeutigkeit". Damals war die Stichprobe einelementig, hier dreielementig, und der Unterschied ändert nichts: **eine Schlüsseleigenschaft wird über der ganzen Menge geprüft oder gar nicht.** Zweite Zeile zu dieser Lehre; bei der dritten wird der Mechanismus gewechselt.
+
+**Rot, und die unangenehmste: derselbe Fehlermodus zweimal in derselben Nacht, drei Stunden auseinander.** Bei #237 hatte der Reviewer gegen 22 Uhr gezeigt, dass mein Fix im TEI-Header sitzt, während der ausgelieferte Stand aus `works.xml` kommt. Um 22:58 ging `af2000a06` hinaus und machte bei #308 dasselbe an einer anderen Spiegelstelle: `persons.xml` und `titleStmt` gezogen, `particDesc` stehen gelassen. Gefangen hat es wieder `fable-reviewer`, Runde 2. **Warum die frische Lehre nicht getragen hat, ist der brauchbare Teil:** ich hatte sie als „prüfe, ob der `biblStruct` woanders steht" gespeichert und genau das bei #308 geprüft, statt die Frage zu stellen, die trägt, nämlich **welche Spiegel diese Änderung überhaupt berührt**. Eine Lehre, die an ihrem Beispiel klebt, ist gegen den nächsten Fall wirkungslos. Die allgemeine Form steht jetzt in CONTRACTS §F.5 und im Docstring des Gates, und das Gate ist der Teil, der auch dann greift, wenn niemand die Lehre liest.
+
+**Rot: das Datum 2026-09-15 stand an sieben Stellen und war erschlossen, nicht abgelesen.** Weil der Lauf eine Nachtsitzung ist, habe ich aus „Nacht auf den 15." geschlossen. Gemessen sagen die Uhr, alle vier Commits und `authority-files/variants.xml` selbst den 14.; das Regenerierungsdatum widersprach damit der Datei, deren Regenerierung es beschreibt. Gefangen von `fable-reviewer` in Runde 2. Die Lehre steht seit dem 31.07. im Journal: **wer eine Zahl für historisch erklärt, misst das Datum dazu, statt es aus der Zahl zu erschließen.** Sie stammt aus derselben Klasse wie die Breve-Zahlen in §A, und sie ist hier an der billigsten denkbaren Stelle gerissen, denn das Datum stand im Sitzungskontext.
+
+**Rot, eigener Regelverstoß, und zwar zweimal in derselben Nacht aus derselben Familie.** Erstens habe ich für eine Umbenennung in einem Skript ein Heredoc mit mehrzeiligem Python in einen Shell-Befehl gelegt, was `shell-konventionen.md` ausdrücklich verbietet („kein Heredoc-Write, kein mehrzeiliges `python -c`"); alle anderen Ersetzungen dieser Nacht liefen als Skript im Scratchpad, mit Trefferzahl je Stelle und Abbruch bei Abweichung, also genau wie vorgesehen. Zweitens habe ich `npm test` durch `| tail -25` geschickt, obwohl die Projektregel dazu aus einem Satz besteht: nie durch eine Pipe. Der zweite Fall ist innerhalb von Minuten aufgefallen, weil die Pipe die Ausgabe bis zum Ende puffert und damit genau das verhindert, wofür sie gedacht war; der Lauf ist abgebrochen und ohne Pipe wiederholt worden. Die letzte Zeile zu einem eigenen Regelverstoß steht am 02.09. (Command Substitution in einem `gh api`-Aufruf) und trägt dieselbe Begründung: ein Zähler zählt nur, was gemeldet wird. **Beide Verstöße haben eine Gemeinsamkeit, die über sie hinausgeht: sie passierten in Befehlen, die nicht der Gegenstand der Arbeit waren.** Die Sorgfalt lag auf dem, was gemessen wurde, und nicht auf dem Werkzeug, mit dem gemessen wurde.
+
+**Rot: das Umbauskript hat den Abschnitt aus seinen Teilen neu zusammengesetzt, und was kein Teil war, fiel weg.** Abschnitt 5 der Hilfeseite ist nicht umsortiert, sondern aus den neun extrahierten Karten plus neuen Überschriften neu gebaut worden. Verloren ging dabei die blaue Box „Kookkurrenz-Ranking vs. Nähe-Analyse", das einzige Element des Abschnitts, das keine Karte war. Die Commit-Message sagte „Die neun Karten sind unverändert umgehängt", und das stimmte sogar: **es war die falsche Menge.** Gegenstand des Umbaus war der Abschnitt, gesprochen habe ich über die Karten. Die Lehre, die nicht gegriffen hat, steht als erste Frage der Mengenregel: über welche Menge spricht dieser Satz, und woher weiß ich, dass er für alle gilt. Gefunden hat es `fable-reviewer` in Runde 2.
+
+Zwei Dinge daran sind über den Fall hinaus brauchbar. Erstens hätte **ein Größenvergleich es nicht gefangen**: der neue Abschnitt ist mit 12.381 Zeichen größer als der alte mit 12.132, weil zwei Gruppenüberschriften dazukamen. Ein Verlust und ein Zuwachs im selben Diff heben sich in jeder Kennzahl auf, die nur zählt. Zweitens war die brauchbare Gegenprobe ein **Inventar der Top-Level-Elemente** vorher gegen nachher, und die habe ich erst gezogen, nachdem der Reviewer die eine Box benannt hatte: sie hat dann bestätigt, dass es bei dieser einen blieb. **Wer einen Befund über ein verlorenes Element bekommt, prüft nicht das Element, sondern das Inventar.**
+
+**Rot, gleicher Commit, anderer Fehlermodus: ein Deep-Link hing an einer Eigenschaft, die die Änderung aufgehoben hat.** Der Hilfe-Knopf des Blocks „Weitere Korpusanalysen" zeigte auf `#weitere-werkzeuge`. Das war richtig, solange Abschnitt gleich Block war. Nach der Zerlegung beginnt der Abschnitt mit der Gruppe des anderen Blocks, und wer aus dem zugeklappten Block Hilfe klickte, landete beim Kookkurrenz-Ranking, also bei genau der Verwechslung, gegen die dieser Vorgang gebaut ist. **Das ist die #397-Frage in ihrer unangenehmsten Form: der Link stand nicht im Diff.** Ich habe die Frage dem Reviewer im Auftrag mitgegeben und sie mir selbst nicht gestellt. Die Lehre steht seit #397 in CLAUDE.md, und ihr Kern trifft hier wörtlich: wer einen Umbau prüft, prüft das Neue, und was am Alten hing, prüft niemand.
+
+**Rot: „Fifteen checks" über einer Liste mit sechzehn Einträgen.** Der neue CI-Schritt ist als Punkt 15 in die nummerierte Liste in `docs/DEVELOPMENT.md` eingefügt worden, die Validierung auf 16 nachgerückt, und der fett gesetzte Leitsatz unmittelbar darüber blieb auf „Fifteen checks" stehen. Gefunden hat es der CI-Review-Bot auf dem PR, nachgezählt habe ich es an der Stelle: die Liste endet bei 16. **Die Lehre, die nicht gegriffen hat, ist die vom 14.09.: wer eine Stelle ändert, liest vor dem Commit ihre Nachbarschaft mit, und zwar namentlich den fett gesetzten Leitsatz über dem Absatz und jede Zahl, die mitwächst.** Sie ist am Vortag aus einem `corema`-Fall entstanden, in dem eine sechste Reviewrunde nur zustande kam, weil die Korrektur der fünften einen Fehler daneben einbaute. Hier ist es dieselbe Geometrie: der Fehler stand nicht in der eingefügten Zeile, sondern zwei Zeilen darüber. Erste Zeile zu dieser Lehre in diesem Projekt.
+
+**Nicht rot, aber festzuhalten, weil sonst der Eindruck entsteht, es sei knapp gegangen.** Drei weitere Fehler sind vor dem Commit oder vor der Veröffentlichung gefangen worden und haben nichts getragen: ASCII-Ersatzschreibungen („Jirecek", „ueber") in deutscher Prosa im TEI-Header, um dem NFD-Problem auszuweichen statt es zu lösen; „1 Vorkommen" kombinierender Zeichen in VTC, was eine Aussage über U+0308 war und als Aussage über alle sieben gesuchten Zeichen dastand (richtig sind 4); und „als Befund in #44 vermerkt" im Perfekt, während der #44-Kommentar noch ungeschrieben war.
+
+Drei weitere aus der zweiten Hälfte der Nacht, alle vor dem Commit gefangen und deshalb ohne Zählung, aber zwei davon aus einer Familie, die es wert ist: der neue Abschnitt der Hilfeseite verwies auf `#versposition`, während der Anker `verse-position` heißt (derselbe Fehlertyp wie `#tei-analyse` drei Stunden vorher, nur diesmal vor dem Lauf des Skripts gefangen, weil ich die Ankerliste vorher gemessen habe statt sie zu erinnern); die Ausnahme im neuen Gate begründete sich mit „`VOR` führt als einzige keinen `particDesc`-Block", was falsch ist, denn die Datei hat einen `particDesc` mit leerem `<listPerson/>`, und aufgefallen ist es nur, weil die Mutationsprobe an ihrer eigenen Vorbedingung scheiterte; und der erste Entwurf desselben Abschnitts schrieb „Die elf Korpusanalysen" in eine Seite, aus der die Werkzeugzahl am 02.09. ausdrücklich herausgenommen worden war, weil sie dort niemand nachzieht. **Der letzte ist die unangenehmste Sorte: eine Entscheidung, gegen die man verstößt, ohne sie zu kennen.** Gefunden hat sie nicht mein Gedächtnis, sondern das Gate, das die Entscheidung als Eintrag mit Begründung führt und beim Wiedereinsetzen der Zahl „veraltete Ausnahme" meldete. **Eine Entscheidung, die nur im Journal steht, schützt niemanden; eine, die als Konfigurationszeile neben ihrem Gate steht, meldet sich von selbst.**
+
+**Und der Fall, an dem die Regel sichtbar gearbeitet hat.** Für die Einordnung des neuen CI-Schritts hatte ich „rund zwei Sekunden" geschrieben und ihn in den billigen Block gelegt. Gemessen: 1 min 47 s und in einem zweiten Lauf 1 min 44 s, weil das Skript jede der 667 Dateien ganz parst, während der Nachbarschritt per `iterparse` nach 0,7 s fertig ist. Faktor 50 daneben, und die Zahl hätte eine Entscheidung getragen, nämlich die Position im Workflow. Gefangen hat es niemand: die Zahl ist gemessen worden, weil sie in eine Datei sollte. **Das ist der billigste Fang des Laufs, und er kostet eine Zeile vor dem Schreiben statt einer Reviewrunde danach.**
+
+### Zwei Befunde ohne Vorgang
+
+Beim Editieren eines TEI-Headers ist eine Textersetzung gescheitert, weil „Verfügung" dort nicht vorkomponiert steht, sondern als `u` plus kombinierendes Trema. Eine Suche über die NFC-Form findet solche Stellen nicht und meldet dabei keinen Fehler, sondern „nicht gefunden". Gemessen über alle 667 Dateien in `tei/`, für U+0300, U+0301, U+0302, U+0308, U+030A, U+030C und U+0327: **568 Dateien tragen mindestens eines, 1.366 Vorkommen**, Kontrollwert VTC 4, alle im `teiHeader`.
+
+`tei/LUU.tei.xml` führt im `particDesc` die Personen-ID `person_05154796-f128-42a1-bd0d-e8335bf854e6`, korpusweit der einzige Fall dieser Form. Das `@corresp` daneben löst korrekt auf, der Name stimmt. Nicht angefasst, weil eine `xml:id` ein möglicher Deep-Link-Anker ist (#358).
+
+Beide ohne Ticket, weil an keinem ein Arbeitspaket hängt.
+
+### Geschlossen, je ein Satz mit dem Grund
+
+- **#308** geschlossen, weil alle vier entschiedenen Punkte umgesetzt sind und die drei mechanischen Fälle desselben Audits mit ihnen, samt der Regel dahinter als `docs/CONTRACTS.md` §F.5 und einem Gate auf dem Spiegel, der beim Umsetzen aufgefallen ist.
+- **#432** geschlossen, weil `WH_6214_3` jetzt auf `lemma_9653` hängt und die Wirkung am Index gegen die beiden Zahlen gemessen ist, die der Vorgang selbst nennt (1.001 → 1.000 und 14 → 15).
+- **#375** ausdrücklich **nicht** geschlossen, obwohl der ausführbare Teil erledigt ist: Punkt 1 des dortigen Arbeitsauftrags ist eine Lesearbeit für @wachauer.
+- **#410** ausdrücklich **nicht** geschlossen, obwohl umgesetzt und gemergt: die Abnahme der Oberfläche liegt nach dem Deploy bei ihr, und dafür gibt es die Regel, dass das Issue offen bleibt und nicht der PR.
+- **#406** bleibt offen, obwohl der Auftrag „Aktualisiere die Triage" erfüllt ist: die Triage ist ein Lesedokument, und ihre sechs Positionen leben in ihren eigenen Vorgängen weiter.
+
+### Was zurück an Christian geht
+
+Alles hier ist liegengeblieben, weil eine Entscheidung fehlt, nicht weil die Arbeit fehlt.
+
+1. **#237 AA-1 ist geschrieben und nicht gemergt, weil es an AA-4 hängt.** Der Auftrag führt AA-1 als „unabhängig von allem anderen", gemessen ist es das nicht: der `biblStruct` steht zweimal, und ausgeliefert wird die Fassung aus `works.xml`. AA-4 ist Handarbeit in der Zotero-Oberfläche und damit deine. Der Zweig liegt als `claude/237-aa1-vtc-biblstruct`.
+2. **Die Richtung der `listBibl`-Kette braucht eine Entscheidung, bevor sie ein CONTRACTS-Abschnitt werden kann.** Dass eine Bibliographie-Korrektur bei Zotero anfangen muss, steht heute als Kommentar im Sync-Skript und im Vorgang. Als Vertragsabschnitt wäre es eine Festlegung darauf, dass der TEI-Header an dieser Stelle dauerhaft Kopie bleibt, und das ist keine Sitzungsentscheidung.
+3. **#433, #434 und #435 sind `auto:checkin` und tragen im Körper ausdrückliche „Zu entscheiden"-Punkte.** Sie sind nicht angefasst worden, weil genau das der Fall ist, den der Auftrag ausschließt.
+4. **#410 hat eine unbeantwortete Frage aus deinem Bewertungskommentar:** ob der aufgeklappte Zustand weiterhin im Browser gemerkt werden soll. Das Verhalten ist unverändert geblieben, weil „lass es, wie es ist" die einzige Variante ohne Entscheidung war.
+5. **Soll `tei/VOR.tei.xml` seinen Autor im `particDesc` nachgetragen bekommen?** Die Datei führt als einzige ein leeres `<listPerson/>`. Das neue Gate nimmt sie namentlich aus und meldet die Ausnahme, sobald sie überflüssig wird. Ein Nachtrag wäre eine Datenänderung am Modell und keine Reparatur.
+6. **#375 bleibt offen und geht zurück auf `wait:kzw`.** Die acht zu lesenden Fälle liegen als `ingest/pos-disambig/375-waeren-ausweitung/faelle.csv` bereit und warten auf eine Spalte `entscheidung`.
+7. **#370 und #378 sind nicht angefasst worden**, wie im Auftrag vorgegeben. Die Entscheidung aus #378 ist als ADR-021 verankert, ausdrücklich als „entschieden, nicht umgesetzt".
