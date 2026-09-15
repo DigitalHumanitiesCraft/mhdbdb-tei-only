@@ -358,7 +358,7 @@ export class ConceptDistribution {
         <div class="rounded-2xl border border-slate-200 bg-white p-6 text-sm">
           <div class="font-semibold text-slate-800">${escapeHtml(concept.termDE || concept.id)}</div>
           <div class="mt-1 text-xs text-slate-500">${escapeHtml(concept.id)} &middot; ${this.state.matchingLemmata.length.toLocaleString('de-DE')} Lemmata zugeordnet</div>
-          <p class="mt-4 text-slate-600">Berechne Verteilung &uuml;ber 667 Texte ...</p>
+          <p class="mt-4 text-slate-600">Berechne Verteilung &uuml;ber ${(this.getCorpusTexts() || []).length.toLocaleString('de-DE')} ausgew&auml;hlte Texte ...</p>
           <div class="mt-2 h-2 w-full rounded bg-slate-100 overflow-hidden">
             <div id="cdProgressBar" class="h-full bg-brand-400 transition-all" style="width: ${pct}%"></div>
           </div>
@@ -378,7 +378,7 @@ export class ConceptDistribution {
         <div class="rounded-2xl border border-slate-200 bg-white p-6 text-sm">
           <div class="font-semibold text-slate-800">${escapeHtml(concept.termDE || concept.id)}</div>
           <div class="mt-1 text-xs text-slate-500">${escapeHtml(concept.id)} · ${this.state.matchingLemmata.length} Lemmata zugeordnet</div>
-          <p class="mt-3 text-slate-600">Keine der zugeordneten Lemmata kommt im aktuellen Korpus vor.</p>
+          <p class="mt-3 text-slate-600">Keine der zugeordneten Lemmata kommt in den ausgewählten Texten vor. Im übrigen Korpus können sie durchaus stehen.</p>
           ${candidates}
         </div>
       `;

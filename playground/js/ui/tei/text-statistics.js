@@ -2,14 +2,17 @@
  * MHDBDB Playground - Text-Statistiken
  *
  * Stil-Visitenkarte pro Text: Token-Anzahl, Lemma-Diversität, Hapax-Rate,
- * durchschnittliche Lemmafrequenz. Sortierbare Übersichtstabelle aller
- * 667 Korpus-Texte.
+ * durchschnittliche Lemmafrequenz. Sortierbare Übersichtstabelle der in
+ * Schritt 1 ausgewählten Texte (seit #204; bis dahin immer des ganzen Korpus).
  *
  * Auswahl-UI (#136): Checkbox je Zeile + Master-Checkbox, Aktionsleiste mit
  * Zähler, "Nur Auswahl anzeigen" und "Auswahl leeren". Die Auswahl lebt als
- * Set auf der Instanz und übersteht damit Sortieren und Filter-Toggles.
+ * Set auf der Instanz und übersteht damit Sortieren und Filter-Toggles. Seit
+ * #204 wird sie beim Öffnen auf die Texte geschnitten, die noch in der
+ * Korpusauswahl stehen: sonst zählt die Leiste Zeilen mit, die es in der
+ * Tabelle nicht mehr gibt.
  *
- * Issues: #89, #136
+ * Issues: #89, #136, #204
  */
 
 import { emptyScopeMessage } from './corpus-scope.js';

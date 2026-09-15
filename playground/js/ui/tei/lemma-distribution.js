@@ -171,7 +171,7 @@ export class LemmaDistribution {
         <div class="rounded-2xl border border-slate-200 bg-white p-6 text-sm">
           <div class="font-semibold text-slate-800">${escapeHtml(lemma.lemma || lemma.id)}</div>
           <div class="mt-1 text-xs text-slate-500">${escapeHtml(lemma.id)}</div>
-          <p class="mt-3 text-slate-600">Keine Vorkommen im Korpus gefunden.</p>
+          <p class="mt-3 text-slate-600">Keine Vorkommen in den ausgewählten Texten gefunden. Im übrigen Korpus kann das Lemma durchaus stehen.</p>
           ${candidates}
         </div>
       `;
