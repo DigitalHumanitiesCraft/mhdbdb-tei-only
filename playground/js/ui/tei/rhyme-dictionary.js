@@ -126,7 +126,13 @@ export class RhymeDictionary {
   applySingleSelectionDefault() {
     const sigle = singleSelectedTextId();
     if (!sigle) {
-      this._autoFilledSigle = null;
+      // Merker NICHT loeschen. Er sagt „diese Sigle haben wir zuletzt
+      // eingetragen", und das bleibt wahr, waehrend die Auswahl breiter ist.
+      // Loeschte man ihn, verloere der Eintrag im Feld seinen Eigentuemer,
+      // und der Zweig unten koennte ihn nie wieder ueberschreiben: nach
+      // CR, dann „Alle", dann WH stuende weiter CR im Feld und es wuerde
+      // auch ueber CR gerechnet. „Alle" ist der Zustand nach jedem Laden,
+      // der Weg also der normale und nicht der ausgefallene.
       return;
     }
     // Ueberschrieben wird nur, was leer ist oder von uns selbst stammt. Was

@@ -326,6 +326,42 @@ test.describe('Playground: Korpusauswahl wirkt (#204)', () => {
         expect(verlauf.gerechnetUeber).toEqual(['WH']);
     });
 
+    test('Reim-Woerterbuch folgt auch ueber eine breite Auswahl hinweg', async ({ page }) => {
+        // Der Test darueber wechselt direkt zwischen zwei Einzelauswahlen. Der
+        // haeufigere Weg fuehrt aber ueber "Alle", denn das ist der Zustand
+        // nach jedem Laden. Solange dabei der Merker geloescht wurde, verlor
+        // der Eintrag im Feld seinen Eigentuemer und blieb danach stehen:
+        // gemessen am 15.09. Auswahl WH, Feld CR, gerechnet ueber CR.
+        const verlauf = await page.evaluate(async () => {
+            const pg = window.playground;
+            const rd = pg.ui.rhymeDictionary;
+            const nur = (id) => {
+                pg.corpusData.includedTexts.clear();
+                pg.corpusData.includedTexts.add(id);
+                pg.updateFileBrowserStats();
+            };
+            const alle = () => {
+                pg.corpusData.includedTexts.clear();
+                pg.corpusData.texts.forEach(t => pg.corpusData.includedTexts.add(t.id));
+                pg.updateFileBrowserStats();
+            };
+            nur('CR'); rd.show();
+            alle(); rd.show();
+            const beiAlle = document.getElementById('rdTextFilter').value;
+            nur('WH'); rd.show();
+            return {
+                beiAlle,
+                danach: document.getElementById('rdTextFilter').value,
+                gerechnetUeber: rd.filterTexts(rd.getCorpusTexts()).map(t => t.id)
+            };
+        });
+        // Bei breiter Auswahl bleibt der eigene Filter stehen, das ist gewollt
+        expect(verlauf.beiAlle).toBe('CR');
+        // Der Wechsel auf einen anderen Einzeltext muss trotzdem greifen
+        expect(verlauf.danach).toBe('WH');
+        expect(verlauf.gerechnetUeber).toEqual(['WH']);
+    });
+
     test('Reim-Woerterbuch laesst eine getippte Eingabe in Ruhe', async ({ page }) => {
         // Gegenstueck zum Test darueber: ueberschrieben wird nur, was leer ist
         // oder von der Vorbelegung selbst stammt.
