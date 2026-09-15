@@ -181,24 +181,29 @@ test.describe('Playground: Korpusauswahl wirkt (#204)', () => {
     });
 
     test('Begriffs-Verteilung verwirft eine Verteilung aus anderer Textmenge', async ({ page }) => {
-        const zustand = await page.evaluate(() => {
-            const pg = window.playground;
-            const cd = pg.ui.conceptDistribution;
-            const alle = () => {
-                pg.corpusData.includedTexts.clear();
-                pg.corpusData.texts.forEach(t => pg.corpusData.includedTexts.add(t.id));
-                pg.updateFileBrowserStats();
-            };
-            alle();
-            cd.show();
-            cd.state.distribution = [{ id: 'PZ', title: 'Parzival', count: 5 }];
-            pg.corpusData.includedTexts.clear();
-            pg.corpusData.includedTexts.add('CR');
-            pg.updateFileBrowserStats();
-            cd.show();
-            return cd.state.distribution;
-        });
-        expect(zustand).toBeNull();
+        // Echte Suche, nicht nur State setzen: nur so sind resolvedConcept und
+        // matchingLemmata gefuellt, und nur dann ist der Null-Zweig ueberhaupt
+        // erreichbar. Ein Test, der bloss state.distribution setzt, landet in
+        // „Kein Begriff gefunden" und prueft etwas anderes.
+        await page.locator('#showConceptDistributionBtn').click();
+        await page.waitForSelector('#cdQuery', { state: 'visible', timeout: 60000 });
+        await page.fill('#cdQuery', 'Liebe');
+        await page.press('#cdQuery', 'Escape');
+        await page.locator('#resultsContainer button', { hasText: 'Suchen' }).first().click();
+        await expect(page.locator('#resultsContainer')).toContainText('Vorkommen gesamt', { timeout: 60000 });
+
+        await page.locator('#fileFilter').fill('mori');
+        await page.locator('#selectOnlyVisibleBtn').click();
+        await page.locator('#showConceptDistributionBtn').click();
+
+        expect(await page.evaluate(() => window.playground.ui.conceptDistribution.state.distribution)).toBeNull();
+
+        // Den State zu pruefen genuegt nicht: der Null-Zweig zeigte bis #204
+        // nur drei Punkte, weil er vorher nur als Zwischenbild erreichbar war.
+        // Wer nach einer Auswahlaenderung hier landet, braucht eine Anweisung.
+        const panel = page.locator('#resultsContainer');
+        await expect(panel).toContainText('Auf „Suchen" klicken');
+        expect((await panel.textContent()).trim()).not.toMatch(/\.\.\.$/);
     });
 
     test('leere Auswahl meldet die Auswahl, nicht einen Ladezustand', async ({ page }) => {

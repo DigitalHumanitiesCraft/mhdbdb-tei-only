@@ -384,8 +384,12 @@ export class ConceptDistribution {
     }
 
     if (!this.state.distribution) {
-      // sollte nie passieren ausser direkt nach Search-Klick vor erstem Render
-      return '<div class="rounded-2xl border border-slate-100 bg-white p-6 text-sm text-slate-500">...</div>';
+      // Bis #204 war das nur das Zwischenbild zwischen Such-Klick und erstem
+      // Render, und drei Punkte reichten. Seit discardDistributionIfScopeChanged()
+      // landet man hier auch nach einer Auswahlaenderung, mit gefuelltem
+      // Eingabefeld und ohne jeden Hinweis, was zu tun ist. Wortlaut wie im
+      // Kookkurrenz-Ranking, das denselben Zweig schon immer so beschriftet.
+      return '<div class="rounded-2xl border border-dashed border-slate-200 bg-white p-8 text-center text-sm text-slate-500">Auf „Suchen" klicken, um die Verteilung zu berechnen.</div>';
     }
 
     const dist = this.state.distribution;
