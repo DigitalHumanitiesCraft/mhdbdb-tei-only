@@ -268,6 +268,9 @@ export class HapaxLegomenaAnalyzer {
             ${tabBtn('perText', 'Beitrag pro Text')}
           </div>
         </div>
+        <p class="mb-3 text-xs text-slate-500">
+          Dieses Werkzeug rechnet immer über den ganzen Korpus: ob ein Lemma nur einmal vorkommt, lässt sich nur korpusweit feststellen. Eine Auswahl im Korpus-Browser (Schritt 1) ändert die Zahlen hier deshalb nicht, auch nicht bei einem einzelnen Text. Welcher Text welche Raritäten beisteuert, zeigt „Beitrag pro Text".
+        </p>
         <div class="grid gap-3 sm:grid-cols-3">
           <label class="block">
             <span class="text-xs font-medium text-slate-600">Frequenzschwelle (korpusweit)</span>

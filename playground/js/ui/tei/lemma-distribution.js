@@ -8,6 +8,8 @@
  * Issue: #90
  */
 
+import { emptyScopeMessage } from './corpus-scope.js';
+
 const DEFAULT_STATE = Object.freeze({
   query: '',
   resolvedLemma: null,       // {id, lemma, pos} oder null
@@ -35,7 +37,7 @@ export class LemmaDistribution {
   show() {
     const texts = this.getCorpusTexts();
     if (!texts || texts.length === 0) {
-      this.renderError('Korpus ist noch nicht geladen. Bitte einen Moment warten und Button erneut klicken.');
+      this.renderError(emptyScopeMessage());
       return;
     }
     this.render();

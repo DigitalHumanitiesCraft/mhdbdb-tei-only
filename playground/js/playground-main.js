@@ -66,24 +66,59 @@ class MHDBDBPlayground {
             this.ui.teiExplorer,
             this.authorityManager
         );
+        // Zwei Sichten auf denselben Korpus (#204).
+        //
+        // corpusTextsThunk liefert ALLE geladenen Texte, selectedTextsThunk nur
+        // die im Korpus-Browser angehakten. Bis #204 bekamen alle Werkzeuge den
+        // ersten, auch die, deren Ergebnis sich auf eine Auswahl beziehen soll:
+        // gemessen am 15.09. lieferte das Kookkurrenz-Ranking für „minne" bei
+        // Auswahl „nur Moriz von Craûn" 7.161 Vorkommen, also exakt den
+        // korpusweiten Wert, während in CR selbst 14 stehen. Der Zähler
+        // „1 / 667 Texte aktiv" stand daneben und stimmte. Nur die
+        // Multi-Lemma-Suche hat die Auswahl je gelesen, sie geht über den
+        // teiManager und nicht über diese Thunks.
+        //
+        // Wer hier ein Werkzeug ergänzt, wählt bewusst: die Auswahl gilt,
+        // außer das Ergebnis ist seiner Natur nach korpusweit.
         const corpusTextsThunk = () => this.corpusData?.texts || this.teiManager.corpusIndex?.texts || [];
+        const selectedTextsThunk = () => {
+            const alle = corpusTextsThunk();
+            const auswahl = this.corpusData?.includedTexts;
+            // Vor dem Korpus-Load gibt es noch keine Auswahl. Dann ist die
+            // leere Menge kein Nutzerinnen-Wunsch, sondern ein Ladezustand,
+            // und die Werkzeuge sollen ihre Lade-Meldung zeigen dürfen.
+            if (!auswahl) return alle;
+            return alle.filter(t => auswahl.has(t.id));
+        };
+
         this.ui.wordFrequency = new WordFrequencyAnalyzer(
-            corpusTextsThunk,
+            selectedTextsThunk,
             this.authorityData
         );
-        this.ui.textStatistics = new TextStatistics(corpusTextsThunk);
-        this.ui.lemmaDistribution = new LemmaDistribution(corpusTextsThunk, this.authorityManager);
-        this.ui.versePositionSearch = new VersePositionSearch(corpusTextsThunk, this.authorityManager);
+        this.ui.textStatistics = new TextStatistics(selectedTextsThunk);
+        this.ui.lemmaDistribution = new LemmaDistribution(selectedTextsThunk, this.authorityManager);
+        this.ui.versePositionSearch = new VersePositionSearch(selectedTextsThunk, this.authorityManager);
         this.ui.conceptDistribution = new ConceptDistribution(
-            corpusTextsThunk,
+            selectedTextsThunk,
             this.authorityManager,
             () => this.authorityData
         );
+        // Textvergleich und Hapaxlegomena bleiben korpusweit (KZW/chsteiner,
+        // 15.09.): der Vergleich laesst seine zwei Texte ohnehin selbst waehlen,
+        // und "korpusweit einmalig" ist beim Hapax die Definition und nicht eine
+        // Voreinstellung. Beide sagen das in ihrer Kopfzeile, damit die Auswahl
+        // daneben nicht als wirkungslos missverstanden wird.
         this.ui.textComparison = new TextComparison(corpusTextsThunk, this.authorityManager);
-        this.ui.cooccurrenceRanking = new CooccurrenceRanking(corpusTextsThunk, this.authorityManager);
+        this.ui.cooccurrenceRanking = new CooccurrenceRanking(selectedTextsThunk, this.authorityManager);
+        // Das Reim-Wörterbuch hat ein eigenes Textfilter-Feld und bleibt
+        // deshalb korpusweit (chsteiner, 15.09.). Zwei Filter übereinander
+        // wären hier der Fehler aus #204 in klein: das eigene Feld zeigt
+        // seinen Zustand nur an, wenn es gefüllt ist, eine stille
+        // Schnittmenge mit Schritt 1 stünde also nirgends. Stattdessen trägt
+        // es einen einzeln ausgewählten Text sichtbar in sein Feld ein.
         this.ui.rhymeDictionary = new RhymeDictionary(corpusTextsThunk, this.authorityManager);
         this.ui.hapaxLegomena = new HapaxLegomenaAnalyzer(corpusTextsThunk, this.authorityData);
-        this.ui.verseEndingProfile = new VerseEndingProfileAnalyzer(corpusTextsThunk, this.authorityData);
+        this.ui.verseEndingProfile = new VerseEndingProfileAnalyzer(selectedTextsThunk, this.authorityData);
         this.ui.namingExplorer = new NamingExplorer('../data');
         this.ui.horsesExplorer = new HorsesExplorer('../data');
 
@@ -334,6 +369,79 @@ class MHDBDBPlayground {
 
         if (totalWordsEl) totalWordsEl.textContent = totalWords.toLocaleString();
         if (totalLemmataEl) totalLemmataEl.textContent = lemmataSet.size.toLocaleString();
+
+        // Jede Auswahlaenderung kann den Hinweis faellig machen oder erledigen
+        // (#204). Diese Methode ist der gemeinsame Durchgang aller vier Wege:
+        // Einzel-Haekchen, Alle, Keine, Nur diese.
+        this.updateFilterMismatchNote();
+    }
+
+    /**
+     * Die aktuell sichtbaren (gefilterten) Texte werden zur Auswahl (#204).
+     * Geteilt von „Nur diese" und der Korrektur im Mismatch-Hinweis.
+     */
+    selectOnlyVisibleTexts() {
+        const fileList = document.getElementById('fileList');
+        if (!fileList) return;
+        this.corpusData.includedTexts.clear();
+        Array.from(fileList.querySelectorAll('input[type="checkbox"]')).forEach(cb => {
+            const item = cb.closest('.file-item');
+            const isVisible = !item.style.display || item.style.display !== 'none';
+            cb.checked = isVisible;
+            if (isVisible) {
+                this.corpusData.includedTexts.add(cb.dataset.textId);
+            }
+        });
+        this.updateFileBrowserStats();
+    }
+
+    /**
+     * Issue #204: Hinweis, solange der Anzeigefilter aktiv ist und die Auswahl
+     * ueber die sichtbare Liste hinausgeht.
+     *
+     * Die Verwechslung ist zweimal unabhaengig passiert (Korpussuche 07/2026,
+     * Playground 09/2026): gefiltert wird gelesen als ausgewaehlt. Der Hinweis
+     * steht deshalb am Filterfeld und nicht am Ergebnis, denn hier laesst er
+     * sich noch mit einem Klick beantworten.
+     */
+    updateFilterMismatchNote() {
+        const note = document.getElementById('filterSelectionMismatch');
+        const fileList = document.getElementById('fileList');
+        const filterInput = document.getElementById('fileFilter');
+        if (!note || !fileList || !filterInput) return;
+
+        const query = filterInput.value.trim();
+        const sichtbare = query
+            ? Array.from(fileList.querySelectorAll('.file-item'))
+                .filter(item => item.style.display !== 'none')
+                .map(item => item.dataset.textId)
+            : [];
+
+        // Mismatch nur, wenn gefiltert wird, die Filterung etwas uebrig laesst
+        // und die Auswahl mehr umfasst als die sichtbare Liste. Ein Filter, der
+        // genau die ausgewaehlten Texte zeigt, ist kein Missverstaendnis.
+        const sichtbarSet = new Set(sichtbare);
+        const mismatch = query && sichtbare.length > 0 &&
+            [...this.corpusData.includedTexts].some(id => !sichtbarSet.has(id));
+
+        const onlyVisibleBtn = document.getElementById('selectOnlyVisibleBtn');
+        if (!mismatch) {
+            note.classList.add('hidden');
+            // Ohne Mismatch traegt „Nur diese" wieder das ruhige Link-Styling
+            if (onlyVisibleBtn) onlyVisibleBtn.classList.remove('font-semibold', 'underline');
+            return;
+        }
+
+        document.getElementById('mismatchSelectedCount').textContent =
+            this.corpusData.includedTexts.size.toLocaleString('de-DE');
+        // Der haeufigste Fall ist genau ein Text: beide gemeldeten
+        // Verwechslungen hatten bis auf einen Text herunter gefiltert.
+        document.getElementById('mismatchUseFilteredLabel').textContent = sichtbare.length === 1
+            ? 'Nur diesen einen Text verwenden'
+            : `Nur die ${sichtbare.length.toLocaleString('de-DE')} gefilterten Texte verwenden`;
+        note.classList.remove('hidden');
+        // KZW 15.09.: „Nur diese" deckt die Erwartung ab und darf auffallen
+        if (onlyVisibleBtn) onlyVisibleBtn.classList.add('font-semibold', 'underline');
     }
 
     setupFileBrowserFilter() {
@@ -380,6 +488,9 @@ class MHDBDBPlayground {
                 if (onlyVisibleBtn) onlyVisibleBtn.style.display = 'none';
                 if (onlyVisibleSep) onlyVisibleSep.style.display = 'none';
             }
+
+            // #204: Der Hinweis haengt am Filter, nicht am Ergebnis
+            this.updateFilterMismatchNote();
         });
 
         // Clear filter button
@@ -429,19 +540,13 @@ class MHDBDBPlayground {
         // "Nur diese" — select only visible (filtered) texts, deselect all others
         const selectOnlyVisibleBtn = document.getElementById('selectOnlyVisibleBtn');
         if (selectOnlyVisibleBtn) {
-            selectOnlyVisibleBtn.addEventListener('click', () => {
-                this.corpusData.includedTexts.clear();
-                const allCheckboxes = Array.from(fileList.querySelectorAll('input[type="checkbox"]'));
-                allCheckboxes.forEach(cb => {
-                    const item = cb.closest('.file-item');
-                    const isVisible = !item.style.display || item.style.display !== 'none';
-                    cb.checked = isVisible;
-                    if (isVisible) {
-                        this.corpusData.includedTexts.add(cb.dataset.textId);
-                    }
-                });
-                this.updateFileBrowserStats();
-            });
+            selectOnlyVisibleBtn.addEventListener('click', () => this.selectOnlyVisibleTexts());
+        }
+
+        // #204: dieselbe Korrektur aus dem Hinweis heraus, einen Klick entfernt
+        const mismatchUseFiltered = document.getElementById('mismatchUseFiltered');
+        if (mismatchUseFiltered) {
+            mismatchUseFiltered.addEventListener('click', () => this.selectOnlyVisibleTexts());
         }
     }
 

@@ -8,6 +8,8 @@
  * über reimgetriebene vs. nicht-reimgetriebene Wortwahl.
  */
 
+import { emptyScopeMessage } from './corpus-scope.js';
+
 const DEFAULT_STATE = Object.freeze({
   query: '',
   resolvedLemma: null,
@@ -32,7 +34,7 @@ export class VersePositionSearch {
   show() {
     const texts = this.getCorpusTexts();
     if (!texts || texts.length === 0) {
-      this.renderError('Korpus ist noch nicht geladen. Bitte einen Moment warten und Button erneut klicken.');
+      this.renderError(emptyScopeMessage());
       return;
     }
     this.render();

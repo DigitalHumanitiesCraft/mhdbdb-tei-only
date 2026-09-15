@@ -12,6 +12,8 @@
  * Issues: #89, #136
  */
 
+import { emptyScopeMessage } from './corpus-scope.js';
+
 const COLUMNS = [
   { key: 'id',            label: 'Sigle',        align: 'left',  fmt: 'text' },
   { key: 'title',         label: 'Titel',        align: 'left',  fmt: 'text' },
@@ -62,10 +64,16 @@ export class TextStatistics {
   show() {
     const texts = this.getCorpusTexts();
     if (!texts || texts.length === 0) {
-      this.renderError('Korpus ist noch nicht geladen. Bitte einen Moment warten und Button erneut klicken.');
+      this.renderError(emptyScopeMessage());
       return;
     }
     this._stats = this.computeAllStats();
+    // Die werkzeugeigenen Haekchen koennen Texte meinen, die inzwischen aus
+    // der Korpusauswahl gefallen sind (#204). Ungeschnitten zaehlt die Leiste
+    // sie mit und behauptet „Ausgewählt: 3 / 1", waehrend darunter „Keine
+    // Texte ausgewählt" steht. Gemessen am 15.09.
+    const vorhanden = new Set(this._stats.map(s => s.id));
+    this.selected = new Set([...this.selected].filter(id => vorhanden.has(id)));
     this.render();
   }
 
@@ -110,7 +118,7 @@ export class TextStatistics {
       <div class="rounded-2xl border border-slate-200 bg-slate-50/70 p-4">
         <h3 class="text-sm font-semibold uppercase tracking-wide text-slate-500">Text-Statistiken</h3>
         <p class="mt-2 text-sm text-slate-600">
-          Stil-Visitenkarte aller ${count.toLocaleString('de-DE')} Texte im Korpus.
+          Stil-Visitenkarte der ${count.toLocaleString('de-DE')} in Schritt 1 ausgewählten Texte.
           Klick auf eine Spaltenüberschrift sortiert; Klick auf eine Sigle öffnet den Text im Reader.
           Mit den Häkchen lassen sich Texte auswählen und als Subset betrachten; die Auswahl bleibt beim Sortieren erhalten.
         </p>

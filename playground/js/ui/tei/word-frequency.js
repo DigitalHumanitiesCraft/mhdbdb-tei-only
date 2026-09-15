@@ -8,6 +8,7 @@
  */
 
 import { buildTextLabelDisambiguator } from '../core/ui-helpers.js';
+import { emptyScopeMessage } from './corpus-scope.js';
 
 const TOP_N_OPTIONS = [20, 50, 100, 200];
 const DEFAULT_TOP_N = 50;
@@ -73,7 +74,7 @@ export class WordFrequencyAnalyzer {
       return {
         counts,
         totalTokens,
-        scopeLabel: 'Gesamtkorpus',
+        scopeLabel: 'Ausgewählte Texte',
         scopeMeta: `${texts.length.toLocaleString('de-DE')} Texte`,
         uniqueCount: counts.size
       };
@@ -97,11 +98,30 @@ export class WordFrequencyAnalyzer {
   async show() {
     const texts = this.getCorpusTexts();
     if (!texts || texts.length === 0) {
-      this.renderError('Korpus ist noch nicht geladen. Bitte einen Moment warten und Button erneut klicken.');
+      this.renderError(emptyScopeMessage());
       return;
     }
+    this.ensureScopeResolvable(texts);
     this._lastFreqData = this.computeFrequencies(this.state.scope);
     this.render();
+  }
+
+  /**
+   * Faellt ein einzeln gewaehlter Text aus der Korpusauswahl, faellt der
+   * Scope mit ihm (#204).
+   *
+   * Bis #204 war jede je gewaehlte Text-ID zwangslaeufig im Thunk-Ergebnis,
+   * der Scope konnte gar nicht ins Leere zeigen. Seit die Auswahl wirkt, kann
+   * er: `computeFrequencies` liefert dann null und die Tabelle sagt „Keine
+   * Daten", waehrend das Dropdown mangels passender Option die erste zeigt,
+   * also „Gesamtkorpus". Gemessen am 15.09.: „Keine Daten" unter
+   * „Gesamtkorpus (666 Texte)", fuer die Nutzerin nicht aufloesbar.
+   */
+  ensureScopeResolvable(texts) {
+    if (this.state.scope === 'corpus') return;
+    if (!texts.some(t => t.id === this.state.scope)) {
+      this.state.scope = 'corpus';
+    }
   }
 
   render() {
@@ -123,7 +143,7 @@ export class WordFrequencyAnalyzer {
     );
     const disambig = buildTextLabelDisambiguator(texts, this.authorityData?.works || []);
     const scopeOptions = [
-      `<option value="corpus"${this.state.scope === 'corpus' ? ' selected' : ''}>Gesamtkorpus (${texts.length} Texte)</option>`,
+      `<option value="corpus"${this.state.scope === 'corpus' ? ' selected' : ''}>Ausgewählte Texte (${texts.length})</option>`,
       ...texts.map(t => {
         const label = `${escapeHtml(t.id)}${t.title ? '-' + escapeHtml(t.title + (disambig.get(t.id) || '')) : ''}`;
         return `<option value="${escapeHtml(t.id)}"${this.state.scope === t.id ? ' selected' : ''}>${label}</option>`;

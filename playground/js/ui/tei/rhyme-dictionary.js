@@ -28,6 +28,7 @@
  */
 
 import { getNavigationEpoch } from '../core/router.js';
+import { singleSelectedTextId } from './corpus-scope.js';
 
 const DEFAULT_STATE = Object.freeze({
   query: '',
@@ -87,16 +88,49 @@ export class RhymeDictionary {
     this._textById = null;          // textId -> Corpus-Index-Texteintrag
     this._visiblePartners = [];     // aktuell gerenderte Partner (für Belege-Toggle)
     this._belegeShown = {};         // partnerIdx -> Anzahl bereits gerenderter Belege
+    this._autoFilledSigle = null;   // zuletzt aus Schritt 1 vorbelegte Sigle (#204)
   }
 
   show() {
     const texts = this.getCorpusTexts();
     if (!texts || texts.length === 0) {
+      // Dieses Werkzeug arbeitet korpusweit, hier kann leer nur „noch nicht
+      // geladen" heißen. Die Auswahl aus Schritt 1 kommt über
+      // applySingleSelectionDefault() ins eigene Filterfeld, nicht über den Thunk.
       this.renderError('Korpus ist noch nicht geladen. Bitte einen Moment warten und Button erneut klicken.');
       return;
     }
+    this.applySingleSelectionDefault();
     this.ensureLemmaMap();
     this.render();
+  }
+
+  /**
+   * Ist in Schritt 1 genau ein Text ausgewählt, wandert seine Sigle in das
+   * eigene Textfilter-Feld (#204, chsteiner 15.09.).
+   *
+   * Sichtbar statt still: die Nutzerin sieht im Feld stehen, worauf gerechnet
+   * wird, und kann es löschen. Deshalb auch der Merker: ein einmal bewusst
+   * geleertes Feld bleibt leer, solange die Auswahl dieselbe ist. Erst ein
+   * Wechsel auf einen anderen Einzeltext trägt wieder ein.
+   */
+  applySingleSelectionDefault() {
+    const sigle = singleSelectedTextId();
+    if (!sigle) {
+      this._autoFilledSigle = null;
+      return;
+    }
+    if (this.state.textFilter.trim() === '' && this._autoFilledSigle !== sigle) {
+      this.state.textFilter = sigle;
+      this._autoFilledSigle = sigle;
+      // Das alte Ergebnis wurde ohne diesen Filter gerechnet, und die
+      // Kopfzeile baut ihre Filterangabe aus dem AKTUELLEN textFilter. Bliebe
+      // es stehen, entstuende die Zeile „Filter „CR" → 667 Texte": eine
+      // Aussage, die sich selbst widerspricht, und genau die Sorte
+      // Falschbehauptung, gegen die #204 angeht. Verwerfen, dann steht wieder
+      // „Auf Suchen klicken" da.
+      this.state.result = null;
+    }
   }
 
   ensureLemmaMap() {
@@ -119,12 +153,20 @@ export class RhymeDictionary {
   /**
    * Textfilter (optional): Sigle exakt (case-insensitiv) ODER
    * Titel-/Autor-Substring. Leerer Filter = ganzer Korpus.
+   *
+   * Eine exakte Sigle gewinnt und schliesst die Substring-Treffer aus (#204):
+   * sonst zieht „CR" neben Moriz von Craûn auch Diu Crone (CRO) herein, weil
+   * deren Titel den Substring enthaelt. Gemessen am 15.09.: 2 Texte statt 1.
+   * Eine Sigle ist eine eindeutige Kennung, wer sie eingibt meint genau einen
+   * Text. Das gilt besonders seit die Auswahl aus Schritt 1 hier als Sigle
+   * eingetragen wird: dort ist genau ein Text gemeint und sonst nichts.
    */
   filterTexts(texts) {
     const f = this.state.textFilter.trim().toLowerCase();
     if (!f) return texts;
+    const exakt = texts.filter(t => (t.id || '').toLowerCase() === f);
+    if (exakt.length > 0) return exakt;
     return texts.filter(t =>
-      (t.id || '').toLowerCase() === f ||
       (t.title || '').toLowerCase().includes(f) ||
       (t.author || '').toLowerCase().includes(f)
     );
@@ -331,6 +373,7 @@ export class RhymeDictionary {
               value="${escapeAttr(this.state.textFilter)}"
               placeholder="Sigle, Titel oder Autor"
               class="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm focus:border-brand-400 focus:outline-none"/>
+            <span class="mt-1 block text-xs text-slate-500">Dieses Werkzeug grenzt den Korpus hier ein, nicht über Schritt 1. Ist dort genau ein Text ausgewählt, steht seine Sigle schon im Feld und lässt sich löschen.</span>
           </label>
           <label class="block">
             <span class="text-xs font-medium text-slate-600">Mindest-Reimpaare</span>

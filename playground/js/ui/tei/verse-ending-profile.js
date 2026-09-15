@@ -14,6 +14,7 @@
 
 import { buildTextLabelDisambiguator } from '../core/ui-helpers.js';
 import { FUNCTION_WORD_POS } from './word-frequency.js';
+import { emptyScopeMessage } from './corpus-scope.js';
 
 const TOP_N_OPTIONS = [20, 50, 100, 200];
 const DEFAULT_TOP_N = 50;
@@ -81,7 +82,7 @@ export class VerseEndingProfileAnalyzer {
 
     let scopeLabel, scopeMeta;
     if (scope === 'corpus') {
-      scopeLabel = 'Gesamtkorpus (Versdichtung)';
+      scopeLabel = 'Ausgewählte Texte (Versdichtung)';
       scopeMeta = `${texts.length.toLocaleString('de-DE')} Vers-Texte`;
     } else if (scope.startsWith('author:')) {
       scopeLabel = scope.slice('author:'.length);
@@ -98,11 +99,29 @@ export class VerseEndingProfileAnalyzer {
   async show() {
     const texts = this.getCorpusTexts();
     if (!texts || texts.length === 0) {
-      this.renderError('Korpus ist noch nicht geladen. Bitte einen Moment warten und Button erneut klicken.');
+      this.renderError(emptyScopeMessage());
       return;
     }
+    this.ensureScopeResolvable();
     this._lastProfile = this.computeProfile(this.state.scope);
     this.render();
+  }
+
+  /**
+   * Faellt der gewaehlte Text oder die gewaehlte Autorin aus der
+   * Korpusauswahl, faellt der Scope mit ihnen (#204).
+   *
+   * Wie in word-frequency.js: bis #204 konnte der Scope nicht ins Leere
+   * zeigen, weil der Thunk immer alle Texte lieferte. Hier zusaetzlich die
+   * `author:`-Scopes, die gegen die Versdichtung der Auswahl geprueft werden,
+   * nicht gegen den ganzen Korpus: das Dropdown baut seine optgroups aus
+   * derselben Menge.
+   */
+  ensureScopeResolvable() {
+    if (this.state.scope === 'corpus') return;
+    if (this.scopedTexts(this.state.scope).length === 0) {
+      this.state.scope = 'corpus';
+    }
   }
 
   render() {
@@ -138,7 +157,7 @@ export class VerseEndingProfileAnalyzer {
     }).join('');
 
     const scopeOptions = `
-      <option value="corpus"${this.state.scope === 'corpus' ? ' selected' : ''}>Gesamtkorpus (${texts.length} Vers-Texte)</option>
+      <option value="corpus"${this.state.scope === 'corpus' ? ' selected' : ''}>Ausgewählte Texte (${texts.length} Vers-Texte)</option>
       <optgroup label="Autor*in">${authorOptions}</optgroup>
       <optgroup label="Text">${textOptions}</optgroup>
     `;

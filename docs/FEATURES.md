@@ -207,6 +207,14 @@ Browse and search six controlled vocabularies with consistent interface patterns
 
 Corpus-wide text analysis using pre-built indexes. Eleven analysis tools in eleven playground entries (multi-lemma offers document, proximity and verse mode in one entry), all of them in place in the results panel as form plus body (except multi-lemma, which is a modal). The two curated external datasets described at the end of this section, character naming (#59) and arthurian horses (#193), are counted separately: with #194 they moved into a group of their own, "Experimentelle Forschungsdaten".
 
+**Which tools the corpus selection governs (#204).** The text selection in the Corpus Browser (Step 1) is the analysis basis for eight of the eleven tools: multi-lemma search plus co-occurrence ranking, verse-position search, concept distribution, lemma distribution, word frequency, text statistics, verse-ending profile. Three tools stand apart, each for a stated reason, and each says so in its own header:
+
+- **Hapax legomena** stays corpus-wide. Whether a lemma occurs exactly once can only be established against the whole corpus, so a selection would change the definition rather than the scope. "Beitrag pro Text" shows which text contributes which rarities.
+- **Text comparison** picks its two texts itself; the Step 1 selection does not narrow its dropdowns.
+- **Rhyme dictionary** has its own text filter field and stays corpus-wide through the thunk. Filtering twice, once visibly and once not, is the very confusion #204 is about. Instead, when Step 1 holds exactly one text, its sigle is written into that visible field, where it can be read and deleted. An exact sigle there beats title and author substrings, so `CR` means Moriz von Craûn and not additionally Diu Crone.
+
+Until 2026-09 only the multi-lemma search read the selection at all; the other ten always received all texts while the counter next to them read "1 / 667 Texte aktiv". The split now runs through two thunks in `playground-main.js` (`selectedTextsThunk` and `corpusTextsThunk`), and an empty selection is reported as such instead of as a loading state (`ui/tei/corpus-scope.js`).
+
 **Multi-Lemma Document Search:**
 - Input multiple lemmata (space-separated or one per line)
 - Find texts containing ALL lemmata (anywhere in document)
@@ -237,7 +245,7 @@ Corpus-wide text analysis using pre-built indexes. Eleven analysis tools in elev
 - Clicking a hit opens the reading view with highlighting
 
 **Word frequency analysis (#88):**
-- Top-N lemmata over the whole corpus or per text
+- Top-N lemmata over the selected texts or per text (selection-aware since #204; a scope pointing at a text that has since left the selection falls back to the full selection)
 - POS-based stopword filter (DET, ART, POS, PRO, PRP, CCNJ, SCNJ, CNJ, NEG, IPA, VEX, VEM): removes frequent function words, brings content-bearing lemmata forward
 - Absolute or relative frequency
 - Sorting by frequency or alphabetically
@@ -260,13 +268,13 @@ Corpus-wide text analysis using pre-built indexes. Eleven analysis tools in elev
 - Building a subset: a checkbox per row plus a master checkbox, „Nur Auswahl anzeigen", a selection counter; the selection survives sorting
 
 **Lemma distribution (#90):**
-- A single lemma gives a bar chart across all texts
+- A single lemma gives a bar chart across the selected texts (selection-aware since #204)
 - Top-N bars in the chart, the rest as an expandable table
 - Absolute or relative frequency (per 1000 tokens; the base of the rate is in [CONTRACTS §H.5](CONTRACTS.md#h5-normalized-figures-in-the-remaining-tools))
 - Clicking a bar or a sigle opens the reading view with highlighting
 
 **Concept distribution (#47 R2, with autocomplete #113):**
-- A single concept (German, English, or a `concept_xxxxx` id) gives a bar chart across all texts
+- A single concept (German, English, or a `concept_xxxxx` id) gives a bar chart across the selected texts (selection-aware since #204)
 - Aggregates every lemma whose `senses[*].conceptIds` contains the concept
 - Data path: concept → senses → lemmata → texts (summing occurrences per text); the base of the mode „Relativ (pro 1000)" is in [CONTRACTS §H.5](CONTRACTS.md#h5-normalized-figures-in-the-remaining-tools)
 - Alternative concept candidates are shown (e.g. „love" offers Intimität and Liebe/Zuneigung)
@@ -302,7 +310,7 @@ Corpus-wide text analysis using pre-built indexes. Eleven analysis tools in elev
 - Deliberate limits of the minimal variant (issue #106): lemma-based instead of token-based (the rhyming inflected form may differ), structural instead of phonetic, and alternating rhymes (ABAB) escape the ±1 scan; an original-token variant would need an index extension (`lineEndWords[]`), phonetic classification is follow-up work in #109
 
 **Verse-ending profile (#106 point 2):**
-- The top-N most frequent lemmata at the verse end, with a selectable scope: the whole corpus, an author (optgroup) or a single text
+- The top-N most frequent lemmata at the verse end, with a selectable scope: all selected texts, an author (optgroup) or a single text. Selection-aware since #204, and a scope whose text or author has left the selection falls back to the full selection
 - Data path: `text.words[lineEnds[i]]` per verse (corpus index v4.1.x), no new build step
 - Columns: verse-ending occurrences (absolute), the share of all verse endings in the scope, and **rhyme pressure**, the share of a lemma's occurrences that sit at the verse end against all of them (#106 point 3: a high value means rhyme-driven, a low one semantically motivated). Numerator and denominator are both scope-local and come from different index fields, which would skew the figure as soon as there are tokens with multiple lemma references (there are none today): [CONTRACTS §H.4](CONTRACTS.md#h4-verse-ending-profile-and-reim-druck-106-points-2-and-3)
 - Function word filter (the same POS set as word frequency and hapax), lemma links to the lemma pages

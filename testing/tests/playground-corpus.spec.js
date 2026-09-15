@@ -63,3 +63,266 @@ test.describe('Playground Corpus Loading', () => {
     });
 
 });
+
+/**
+ * Issue #204: Die Korpusauswahl muss fuer die Analysen gelten, und der
+ * Anzeigefilter darf nicht mit ihr verwechselt werden.
+ *
+ * Vorgeschichte: bis 09/2026 bekamen zehn der elf Werkzeuge immer alle Texte.
+ * Gemessen am 15.09.: Kookkurrenz-Ranking fuer "minne" zeigte bei Auswahl
+ * "nur CR" 7.161 Vorkommen (korpusweiter Wert), obwohl in CR 14 stehen.
+ */
+test.describe('Playground: Korpusauswahl wirkt (#204)', () => {
+
+    test.beforeEach(async ({ page }) => {
+        await page.goto('http://localhost:8080/playground/');
+        await page.waitForSelector('#fileBrowserSection', { state: 'visible', timeout: 60000 });
+    });
+
+    test('auswahlabhaengige Werkzeuge sehen nur die ausgewaehlten Texte', async ({ page }) => {
+        await page.locator('#fileFilter').fill('mori');
+        await page.locator('#selectOnlyVisibleBtn').click();
+
+        const scopes = await page.evaluate(() => {
+            const ui = window.playground.ui;
+            const namen = ['cooccurrenceRanking', 'wordFrequency', 'lemmaDistribution',
+                'conceptDistribution', 'versePositionSearch', 'verseEndingProfile',
+                'textStatistics'];
+            return Object.fromEntries(namen.map(n => [n, ui[n].getCorpusTexts().length]));
+        });
+
+        for (const [werkzeug, anzahl] of Object.entries(scopes)) {
+            expect(anzahl, `${werkzeug} muss der Auswahl folgen`).toBe(1);
+        }
+    });
+
+    test('korpusweite Werkzeuge ignorieren die Auswahl bewusst', async ({ page }) => {
+        await page.locator('#fileFilter').fill('mori');
+        await page.locator('#selectOnlyVisibleBtn').click();
+
+        // Hapaxlegomena und Textvergleich bleiben korpusweit (KZW 15.09.):
+        // "korpusweit einmalig" ist beim Hapax die Definition, und der
+        // Vergleich waehlt seine zwei Texte selbst.
+        const scopes = await page.evaluate(() => ({
+            hapax: window.playground.ui.hapaxLegomena.getCorpusTexts().length,
+            vergleich: window.playground.ui.textComparison.getCorpusTexts().length
+        }));
+        expect(scopes.hapax).toBeGreaterThan(600);
+        expect(scopes.vergleich).toBeGreaterThan(600);
+    });
+
+    test('Kookkurrenz zaehlt im Einzeltext, nicht korpusweit', async ({ page }) => {
+        await page.locator('#fileFilter').fill('mori');
+        await page.locator('#selectOnlyVisibleBtn').click();
+
+        // Gegenprobe gegen den Korpusindex: so oft steht lemma_4130 in CR
+        const erwartet = await page.evaluate(() =>
+            window.playground.corpusData.texts.find(t => t.id === 'CR').lemmata['lemma_4130'].length
+        );
+        expect(erwartet).toBe(14);
+
+        await page.locator('#showCooccurrenceRankingBtn').click();
+        await page.waitForSelector('#coRkSearchBtn', { state: 'visible', timeout: 60000 });
+        await page.fill('#coRkQuery', 'minne');
+        await page.press('#coRkQuery', 'Escape'); // Autocomplete schliessen
+        await page.click('#coRkSearchBtn');
+
+        await expect(page.locator('#resultsContainer')).toContainText(`${erwartet} Vorkommen`, { timeout: 15000 });
+        // Der korpusweite Wert darf gerade NICHT mehr dastehen
+        await expect(page.locator('#resultsContainer')).not.toContainText('7.161 Vorkommen');
+    });
+
+    test('leere Auswahl meldet die Auswahl, nicht einen Ladezustand', async ({ page }) => {
+        await page.locator('#selectNoneBtn').click();
+        // Die Wortfrequenz sitzt im Block "Weitere Korpusanalysen", der seit
+        // #410 zugeklappt startet.
+        await page.locator('#moreAnalysesToggle').click();
+        await page.locator('#showWordFrequencyBtn').click();
+
+        const container = page.locator('#resultsContainer');
+        await expect(container).toContainText('Kein Text ausgewählt');
+        // Die alte Meldung waere hier eine Falschdiagnose: der Korpus IST geladen
+        await expect(container).not.toContainText('Korpus ist noch nicht geladen');
+    });
+
+    test('Filter zeigt Hinweis, solange die Auswahl breiter ist', async ({ page }) => {
+        const hinweis = page.locator('#filterSelectionMismatch');
+        await expect(hinweis).toBeHidden();
+
+        await page.locator('#fileFilter').fill('mori');
+        await expect(hinweis).toBeVisible();
+        await expect(hinweis).toContainText('nur die Anzeige dieser Liste');
+        await expect(hinweis).toContainText('667 Texte');
+
+        // One-Click-Korrektur: Auswahl folgt dem Filter, Hinweis erledigt sich
+        await page.locator('#mismatchUseFiltered').click();
+        await expect(hinweis).toBeHidden();
+        await expect(page.locator('#includedCount')).toHaveText('1');
+    });
+
+    test('kein Hinweis, wenn der Filter die Auswahl nicht uebersteigt', async ({ page }) => {
+        await page.locator('#fileFilter').fill('mori');
+        await page.locator('#selectOnlyVisibleBtn').click();
+        await expect(page.locator('#filterSelectionMismatch')).toBeHidden();
+    });
+
+    test('Reim-Woerterbuch uebernimmt den Einzeltext in sein eigenes Feld', async ({ page }) => {
+        await page.locator('#fileFilter').fill('mori');
+        await page.locator('#selectOnlyVisibleBtn').click();
+
+        await page.locator('#showRhymeDictionaryBtn').click();
+        // Sichtbar statt still: das Werkzeug bleibt korpusweit, traegt die
+        // Auswahl aber in sein eigenes Filterfeld ein (chsteiner 15.09.).
+        await expect(page.locator('#rdTextFilter')).toHaveValue('CR');
+        expect(await page.evaluate(() =>
+            window.playground.ui.rhymeDictionary.getCorpusTexts().length
+        )).toBeGreaterThan(600);
+    });
+
+    test('Reim-Woerterbuch: exakte Sigle schlaegt Titel-Substring', async ({ page }) => {
+        // Ohne diese Regel zieht die Vorbelegung "CR" (Moriz von Craûn) auch
+        // Diu Crone (CRO) herein, weil deren Titel den Substring enthaelt:
+        // ein ausgewaehlter Text, zwei gescannte. Gemessen am 15.09.
+        await page.locator('#showRhymeDictionaryBtn').click();
+        const treffer = await page.evaluate(() => {
+            const rd = window.playground.ui.rhymeDictionary;
+            const probe = (f) => {
+                rd.state.textFilter = f;
+                return rd.filterTexts(rd.getCorpusTexts()).map(t => t.id);
+            };
+            return {
+                sigle: probe('CR'),
+                substring: probe('Crone'),
+                autor: probe('Hartmann').length
+            };
+        });
+        expect(treffer.sigle).toEqual(['CR']);
+        // Ohne Sigle-Treffer greift der Substring weiterhin
+        expect(treffer.substring).toEqual(['CRO']);
+        expect(treffer.autor).toBeGreaterThan(1);
+    });
+
+    /**
+     * Die drei folgenden Faelle haben eine gemeinsame Wurzel: Werkzeug-Zustand,
+     * der die Verengung des Korpus ueberlebt. Bis #204 konnte er das gefahrlos,
+     * weil der Thunk immer alle Texte lieferte und jede gespeicherte Text-ID
+     * darin vorkam. Alle drei am 15.09. im laufenden Playground gemessen.
+     */
+    test('Reim-Woerterbuch verwirft das Ergebnis, das ohne die Sigle gerechnet wurde', async ({ page }) => {
+        // Ohne Verwerfen entsteht die Kopfzeile "Filter „CR" → 667 Texte":
+        // die Filterangabe kommt aus dem neuen State, die Zahl aus dem alten
+        // Ergebnis. Eine Aussage, die sich selbst widerspricht.
+        await page.locator('#showRhymeDictionaryBtn').click();
+        await page.fill('#rdQuery', 'minne');
+        await page.press('#rdQuery', 'Escape');
+        await page.click('#rdSearchBtn');
+        await expect(page.locator('#resultsContainer')).toContainText('Vorkommen am Versende', { timeout: 60000 });
+
+        await page.locator('#fileFilter').fill('mori');
+        await page.locator('#selectOnlyVisibleBtn').click();
+        await page.locator('#showRhymeDictionaryBtn').click();
+
+        await expect(page.locator('#rdTextFilter')).toHaveValue('CR');
+        expect(await page.evaluate(() => window.playground.ui.rhymeDictionary.state.result)).toBeNull();
+        await expect(page.locator('#resultsContainer')).not.toContainText('667 Texte');
+    });
+
+    test('Wortfrequenz faellt auf die Auswahl zurueck, wenn ihr Scope-Text wegfaellt', async ({ page }) => {
+        const zustand = await page.evaluate(async () => {
+            const pg = window.playground;
+            const wf = pg.ui.wordFrequency;
+            wf.state.scope = 'CR';
+            await wf.show();
+            pg.corpusData.includedTexts.delete('CR');
+            pg.updateFileBrowserStats();
+            await wf.show();
+            const sel = document.querySelector('#resultsContainer select');
+            return {
+                scope: wf.state.scope,
+                dropdown: sel?.options[sel.selectedIndex]?.text,
+                hatDaten: !!wf._lastFreqData
+            };
+        });
+        // Vorher: scope blieb 'CR', Tabelle "Keine Daten", Dropdown "Gesamtkorpus"
+        expect(zustand.scope).toBe('corpus');
+        expect(zustand.hatDaten).toBe(true);
+        expect(zustand.dropdown).toContain('Ausgewählte Texte');
+    });
+
+    test('Versendings-Profil faellt auch bei einem author-Scope zurueck', async ({ page }) => {
+        // Zweiter Traeger desselben Fehlers: der Scope kann hier "author:X"
+        // sein, und ein Autor faellt genauso aus der Auswahl wie ein Text.
+        const zustand = await page.evaluate(async () => {
+            const pg = window.playground;
+            const vep = pg.ui.verseEndingProfile;
+            const verstext = vep.verseTexts()[0];
+            const autor = verstext.author || 'Unbekannt';
+            vep.state.scope = `author:${autor}`;
+            await vep.show();
+            const vorher = vep.state.scope;
+
+            // Alle Texte dieses Autors aus der Auswahl nehmen
+            pg.corpusData.texts
+                .filter(t => (t.author || 'Unbekannt') === autor)
+                .forEach(t => pg.corpusData.includedTexts.delete(t.id));
+            pg.updateFileBrowserStats();
+            await vep.show();
+            return { vorher, nachher: vep.state.scope, hatProfil: !!vep._lastProfile };
+        });
+        expect(zustand.vorher).toMatch(/^author:/);
+        expect(zustand.nachher).toBe('corpus');
+        expect(zustand.hatProfil).toBe(true);
+    });
+
+    test('Text-Statistiken zaehlen keine Haekchen mehr, die aus der Auswahl fielen', async ({ page }) => {
+        const zustand = await page.evaluate(async () => {
+            const pg = window.playground;
+            const ts = pg.ui.textStatistics;
+            await ts.show();
+            ts.selected = new Set(['PZ', 'TR', 'CR']);
+            ts.showSelectedOnly = true;
+            pg.corpusData.includedTexts.clear();
+            pg.corpusData.includedTexts.add('WH');
+            pg.updateFileBrowserStats();
+            await ts.show();
+            return {
+                selected: ts.selected.size,
+                stats: ts._stats.length,
+                text: document.getElementById('resultsContainer').textContent.replace(/\s+/g, ' ')
+            };
+        });
+        // Vorher: "Ausgewählt: 3 / 1" neben "Keine Texte ausgewählt"
+        expect(zustand.selected).toBe(0);
+        expect(zustand.stats).toBe(1);
+        expect(zustand.text).not.toContain('Ausgewählt: 3');
+    });
+
+    test('Reim-Woerterbuch respektiert ein bewusst geleertes Feld', async ({ page }) => {
+        await page.locator('#fileFilter').fill('mori');
+        await page.locator('#selectOnlyVisibleBtn').click();
+
+        await page.locator('#showRhymeDictionaryBtn').click();
+        await expect(page.locator('#rdTextFilter')).toHaveValue('CR');
+
+        // Feld geleert und gesucht: state ist leer. Beim naechsten Oeffnen darf
+        // die Vorbelegung nicht zurueckkommen, solange die Auswahl dieselbe ist.
+        await page.evaluate(() => {
+            const rd = window.playground.ui.rhymeDictionary;
+            rd.state.textFilter = '';   // was runSearch() bei geleertem Feld setzt
+            rd.show();
+        });
+        await expect(page.locator('#rdTextFilter')).toHaveValue('');
+
+        // Wechsel auf einen ANDEREN Einzeltext belegt wieder vor
+        const neueSigle = await page.evaluate(() => {
+            const pg = window.playground;
+            const andere = pg.corpusData.texts.find(t => t.id !== 'CR').id;
+            pg.corpusData.includedTexts.clear();
+            pg.corpusData.includedTexts.add(andere);
+            pg.ui.rhymeDictionary.show();
+            return { erwartet: andere, imFeld: document.getElementById('rdTextFilter').value };
+        });
+        expect(neueSigle.imFeld).toBe(neueSigle.erwartet);
+    });
+
+});
