@@ -1,9 +1,10 @@
 /**
  * MHDBDB Playground - Begriffs-Verteilung
  *
- * "Wo ist Begriff X (z.B. Sterben) im Korpus verteilt?" — Bar-Chart-Visualisierung
- * der Frequenz pro Text. Aggregiert alle Lemmata, deren senses[i].conceptIds
- * den gewählten Concept enthalten.
+ * "Wo ist Begriff X (z.B. Sterben) verteilt?" Bar-Chart-Visualisierung der
+ * Frequenz pro Text, über die in Schritt 1 ausgewählten Texte (seit #204,
+ * davor über den ganzen Korpus). Aggregiert alle Lemmata, deren
+ * senses[i].conceptIds den gewählten Concept enthalten.
  *
  * Datenpfad: concept (gewählt) -> alle lemmata.senses[*].conceptIds matches
  *   -> Summe der text.lemmata[lemmaId].length über alle matching lemmata pro Text
@@ -13,6 +14,7 @@
 
 import { getNavigationEpoch } from '../core/router.js';
 import { TextNormalizer } from '../../../../assets/js/lib/text-normalizer.js';
+import { emptyScopeMessage, scopeSignature } from './corpus-scope.js';
 
 const DEFAULT_STATE = Object.freeze({
   query: '',
@@ -69,10 +71,30 @@ export class ConceptDistribution {
   show() {
     const texts = this.getCorpusTexts();
     if (!texts || texts.length === 0) {
-      this.renderError('Korpus ist noch nicht geladen. Bitte einen Moment warten und Button erneut klicken.');
+      this.renderError(emptyScopeMessage());
       return;
     }
+    this.discardDistributionIfScopeChanged(texts);
     this.render();
+  }
+
+  /**
+   * Verwirft eine Verteilung, die über eine andere Textmenge gerechnet wurde (#204).
+   *
+   * Wie im Kookkurrenz-Ranking: die fertige Verteilung liegt im State und wird
+   * beim Oeffnen nur neu gerendert. Nach einer Verengung auf einen Text stand
+   * sonst weiter das Balkendiagramm ueber den ganzen Korpus da.
+   *
+   * Hier wird nur verglichen, gestempelt wird in `runSearch()`. Die
+   * Begruendung steht ausfuehrlich bei `discardResultIfScopeChanged()` im
+   * Kookkurrenz-Ranking: ein Stempel beim Oeffnen beschreibt die Menge, die
+   * angezeigt werden soll, nicht die, aus der das Ergebnis stammt.
+   */
+  discardDistributionIfScopeChanged(texts) {
+    if (this._computedOver !== undefined && this._computedOver !== scopeSignature(texts)) {
+      this.state.distribution = null;
+      this._computedOver = undefined;
+    }
   }
 
   /**
@@ -357,7 +379,7 @@ export class ConceptDistribution {
         <div class="rounded-2xl border border-slate-200 bg-white p-6 text-sm">
           <div class="font-semibold text-slate-800">${escapeHtml(concept.termDE || concept.id)}</div>
           <div class="mt-1 text-xs text-slate-500">${escapeHtml(concept.id)} &middot; ${this.state.matchingLemmata.length.toLocaleString('de-DE')} Lemmata zugeordnet</div>
-          <p class="mt-4 text-slate-600">Berechne Verteilung &uuml;ber 667 Texte ...</p>
+          <p class="mt-4 text-slate-600">Berechne Verteilung &uuml;ber ${(this.getCorpusTexts() || []).length.toLocaleString('de-DE')} ausgew&auml;hlte Texte ...</p>
           <div class="mt-2 h-2 w-full rounded bg-slate-100 overflow-hidden">
             <div id="cdProgressBar" class="h-full bg-brand-400 transition-all" style="width: ${pct}%"></div>
           </div>
@@ -367,8 +389,12 @@ export class ConceptDistribution {
     }
 
     if (!this.state.distribution) {
-      // sollte nie passieren ausser direkt nach Search-Klick vor erstem Render
-      return '<div class="rounded-2xl border border-slate-100 bg-white p-6 text-sm text-slate-500">...</div>';
+      // Bis #204 war das nur das Zwischenbild zwischen Such-Klick und erstem
+      // Render, und drei Punkte reichten. Seit discardDistributionIfScopeChanged()
+      // landet man hier auch nach einer Auswahlaenderung, mit gefuelltem
+      // Eingabefeld und ohne jeden Hinweis, was zu tun ist. Wortlaut wie im
+      // Kookkurrenz-Ranking, das denselben Zweig schon immer so beschriftet.
+      return '<div class="rounded-2xl border border-dashed border-slate-200 bg-white p-8 text-center text-sm text-slate-500">Auf „Suchen" klicken, um die Verteilung zu berechnen.</div>';
     }
 
     const dist = this.state.distribution;
@@ -377,7 +403,7 @@ export class ConceptDistribution {
         <div class="rounded-2xl border border-slate-200 bg-white p-6 text-sm">
           <div class="font-semibold text-slate-800">${escapeHtml(concept.termDE || concept.id)}</div>
           <div class="mt-1 text-xs text-slate-500">${escapeHtml(concept.id)} · ${this.state.matchingLemmata.length} Lemmata zugeordnet</div>
-          <p class="mt-3 text-slate-600">Keine der zugeordneten Lemmata kommt im aktuellen Korpus vor.</p>
+          <p class="mt-3 text-slate-600">Keine der zugeordneten Lemmata kommt in den ausgewählten Texten vor. Im übrigen Korpus können sie durchaus stehen.</p>
           ${candidates}
         </div>
       `;
@@ -610,6 +636,9 @@ export class ConceptDistribution {
       this.render();
       this.refocusInput();
 
+      // Die Textmenge VOR dem await festhalten: danach kann sie eine andere
+      // sein, und gerechnet wurde ueber diese hier (#204).
+      const gerechnetUeber = scopeSignature(this.getCorpusTexts());
       const dist = await this.computeDistribution(this.state.matchingLemmata, (frac) => {
         if (this._searchGen !== myGen) return;
         this.state.computeProgress = frac;
@@ -628,6 +657,7 @@ export class ConceptDistribution {
       }
 
       this.state.distribution = dist;
+      this._computedOver = gerechnetUeber;
       this.state.computing = false;
       this.state.computeProgress = 1;
       this.render();

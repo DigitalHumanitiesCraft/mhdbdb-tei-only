@@ -1,13 +1,15 @@
 /**
  * MHDBDB Playground - Wortfrequenz-Analyse
  *
- * Top-N Lemmata-Frequenz, korpusweit oder pro Text. Daten aus dem
+ * Top-N Lemmata-Frequenz, ueber die in Schritt 1 ausgewaehlten Texte oder
+ * pro Einzeltext (seit #204; bis dahin immer korpusweit). Daten aus dem
  * pre-built Corpus-Index (`text.lemmata` + `text.wordCount`).
  *
  * Issue: #88
  */
 
 import { buildTextLabelDisambiguator } from '../core/ui-helpers.js';
+import { emptyScopeMessage } from './corpus-scope.js';
 
 const TOP_N_OPTIONS = [20, 50, 100, 200];
 const DEFAULT_TOP_N = 50;
@@ -73,8 +75,10 @@ export class WordFrequencyAnalyzer {
       return {
         counts,
         totalTokens,
-        scopeLabel: 'Gesamtkorpus',
-        scopeMeta: `${texts.length.toLocaleString('de-DE')} Texte`,
+        scopeLabel: 'Ausgewählte Texte',
+        // Seit #204 kann die Auswahl genau ein Text sein, dann stand hier
+        // „1 Texte". Der Einzeltext-Zweig unten hat eigene Beschriftungen.
+        scopeMeta: `${texts.length.toLocaleString('de-DE')} ${texts.length === 1 ? 'Text' : 'Texte'}`,
         uniqueCount: counts.size
       };
     }
@@ -97,11 +101,30 @@ export class WordFrequencyAnalyzer {
   async show() {
     const texts = this.getCorpusTexts();
     if (!texts || texts.length === 0) {
-      this.renderError('Korpus ist noch nicht geladen. Bitte einen Moment warten und Button erneut klicken.');
+      this.renderError(emptyScopeMessage());
       return;
     }
+    this.ensureScopeResolvable(texts);
     this._lastFreqData = this.computeFrequencies(this.state.scope);
     this.render();
+  }
+
+  /**
+   * Faellt ein einzeln gewaehlter Text aus der Korpusauswahl, faellt der
+   * Scope mit ihm (#204).
+   *
+   * Bis #204 war jede je gewaehlte Text-ID zwangslaeufig im Thunk-Ergebnis,
+   * der Scope konnte gar nicht ins Leere zeigen. Seit die Auswahl wirkt, kann
+   * er: `computeFrequencies` liefert dann null und die Tabelle sagt „Keine
+   * Daten", waehrend das Dropdown mangels passender Option die erste zeigt,
+   * also „Gesamtkorpus". Gemessen am 15.09.: „Keine Daten" unter
+   * „Gesamtkorpus (666 Texte)", fuer die Nutzerin nicht aufloesbar.
+   */
+  ensureScopeResolvable(texts) {
+    if (this.state.scope === 'corpus') return;
+    if (!texts.some(t => t.id === this.state.scope)) {
+      this.state.scope = 'corpus';
+    }
   }
 
   render() {
@@ -123,7 +146,7 @@ export class WordFrequencyAnalyzer {
     );
     const disambig = buildTextLabelDisambiguator(texts, this.authorityData?.works || []);
     const scopeOptions = [
-      `<option value="corpus"${this.state.scope === 'corpus' ? ' selected' : ''}>Gesamtkorpus (${texts.length} Texte)</option>`,
+      `<option value="corpus"${this.state.scope === 'corpus' ? ' selected' : ''}>Ausgewählte Texte (${texts.length})</option>`,
       ...texts.map(t => {
         const label = `${escapeHtml(t.id)}${t.title ? '-' + escapeHtml(t.title + (disambig.get(t.id) || '')) : ''}`;
         return `<option value="${escapeHtml(t.id)}"${this.state.scope === t.id ? ' selected' : ''}>${label}</option>`;

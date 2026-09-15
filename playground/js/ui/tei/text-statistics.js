@@ -2,15 +2,20 @@
  * MHDBDB Playground - Text-Statistiken
  *
  * Stil-Visitenkarte pro Text: Token-Anzahl, Lemma-Diversität, Hapax-Rate,
- * durchschnittliche Lemmafrequenz. Sortierbare Übersichtstabelle aller
- * 667 Korpus-Texte.
+ * durchschnittliche Lemmafrequenz. Sortierbare Übersichtstabelle der in
+ * Schritt 1 ausgewählten Texte (seit #204; bis dahin immer des ganzen Korpus).
  *
  * Auswahl-UI (#136): Checkbox je Zeile + Master-Checkbox, Aktionsleiste mit
  * Zähler, "Nur Auswahl anzeigen" und "Auswahl leeren". Die Auswahl lebt als
- * Set auf der Instanz und übersteht damit Sortieren und Filter-Toggles.
+ * Set auf der Instanz und übersteht damit Sortieren und Filter-Toggles. Seit
+ * #204 wird sie beim Öffnen auf die Texte geschnitten, die noch in der
+ * Korpusauswahl stehen: sonst zählt die Leiste Zeilen mit, die es in der
+ * Tabelle nicht mehr gibt.
  *
- * Issues: #89, #136
+ * Issues: #89, #136, #204
  */
+
+import { emptyScopeMessage } from './corpus-scope.js';
 
 const COLUMNS = [
   { key: 'id',            label: 'Sigle',        align: 'left',  fmt: 'text' },
@@ -62,10 +67,16 @@ export class TextStatistics {
   show() {
     const texts = this.getCorpusTexts();
     if (!texts || texts.length === 0) {
-      this.renderError('Korpus ist noch nicht geladen. Bitte einen Moment warten und Button erneut klicken.');
+      this.renderError(emptyScopeMessage());
       return;
     }
     this._stats = this.computeAllStats();
+    // Die werkzeugeigenen Haekchen koennen Texte meinen, die inzwischen aus
+    // der Korpusauswahl gefallen sind (#204). Ungeschnitten zaehlt die Leiste
+    // sie mit und behauptet „Ausgewählt: 3 / 1", waehrend darunter „Keine
+    // Texte ausgewählt" steht. Gemessen am 15.09.
+    const vorhanden = new Set(this._stats.map(s => s.id));
+    this.selected = new Set([...this.selected].filter(id => vorhanden.has(id)));
     this.render();
   }
 
@@ -106,11 +117,16 @@ export class TextStatistics {
 
   renderHeader() {
     const count = this._stats?.length || 0;
+    // Seit #204 kann die Auswahl genau ein Text sein, und „der 1 ... Texte"
+    // traegt den Satz nicht.
+    const einleitung = count === 1
+      ? 'Stil-Visitenkarte des einen in Schritt 1 ausgewählten Texts.'
+      : `Stil-Visitenkarte der ${count.toLocaleString('de-DE')} in Schritt 1 ausgewählten Texte.`;
     return `
       <div class="rounded-2xl border border-slate-200 bg-slate-50/70 p-4">
         <h3 class="text-sm font-semibold uppercase tracking-wide text-slate-500">Text-Statistiken</h3>
         <p class="mt-2 text-sm text-slate-600">
-          Stil-Visitenkarte aller ${count.toLocaleString('de-DE')} Texte im Korpus.
+          ${einleitung}
           Klick auf eine Spaltenüberschrift sortiert; Klick auf eine Sigle öffnet den Text im Reader.
           Mit den Häkchen lassen sich Texte auswählen und als Subset betrachten; die Auswahl bleibt beim Sortieren erhalten.
         </p>

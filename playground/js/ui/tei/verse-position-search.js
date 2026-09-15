@@ -8,6 +8,8 @@
  * über reimgetriebene vs. nicht-reimgetriebene Wortwahl.
  */
 
+import { emptyScopeMessage } from './corpus-scope.js';
+
 const DEFAULT_STATE = Object.freeze({
   query: '',
   resolvedLemma: null,
@@ -32,7 +34,7 @@ export class VersePositionSearch {
   show() {
     const texts = this.getCorpusTexts();
     if (!texts || texts.length === 0) {
-      this.renderError('Korpus ist noch nicht geladen. Bitte einen Moment warten und Button erneut klicken.');
+      this.renderError(emptyScopeMessage());
       return;
     }
     this.render();
@@ -164,7 +166,7 @@ export class VersePositionSearch {
         <div class="rounded-2xl border border-slate-200 bg-white p-6 text-sm">
           <div class="font-semibold text-slate-800">${escapeHtml(lemma.lemma || lemma.id)}</div>
           <div class="mt-1 text-xs text-slate-500">${escapeHtml(lemma.id)}</div>
-          <p class="mt-3 text-slate-600">Keine Treffer am ${positionLabel} im Versdichtungs-Korpus.</p>
+          <p class="mt-3 text-slate-600">Keine Treffer am ${positionLabel} in den ausgewählten Versdichtungen. Im übrigen Korpus kann das Lemma durchaus dort stehen.</p>
           ${candidates}
         </div>
       `;

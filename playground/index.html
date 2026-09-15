@@ -171,6 +171,22 @@
                         </div>
                     </div>
 
+                    <!-- Issue #204: Der Filter ist ein Anzeigefilter, die Auswahl ist die Analysebasis.
+                         Zwei Nutzerinnen haben das nacheinander verwechselt, deshalb steht der Hinweis
+                         beim Filterfeld und nicht erst beim Ergebnis: hier faellt die Entscheidung. -->
+                    <div id="filterSelectionMismatch" class="hidden p-3 bg-blue-50 border border-blue-200 rounded-lg text-xs text-slate-700">
+                        <p class="m-0">
+                            Der Filter schränkt nur die <strong>Anzeige dieser Liste</strong> ein. Die Analysen laufen weiterhin über
+                            <strong><span id="mismatchSelectedCount">0 Texte</span></strong>.
+                        </p>
+                        <button id="mismatchUseFiltered" type="button" class="mt-2 inline-flex items-center gap-1.5 rounded-lg bg-brand-600 px-2.5 py-1.5 text-xs font-medium text-white transition hover:bg-brand-700">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span id="mismatchUseFilteredLabel">Nur die gefilterten Texte verwenden</span>
+                        </button>
+                    </div>
+
                     <!-- File List with Checkboxes -->
                     <div id="fileList" class="space-y-1 max-h-[500px] overflow-y-auto overflow-x-hidden border border-slate-200 rounded-lg p-2 bg-white">
                         <!-- Files will be populated here dynamically -->
@@ -279,7 +295,7 @@
                             </svg>
                             <span class="flex flex-col items-start leading-tight">
                                 <span>Begriffs-Verteilung</span>
-                                <span class="text-xs font-normal text-slate-500 mt-0.5">Visualisiert einen Begriff über alle Texte</span>
+                                <span class="text-xs font-normal text-slate-500 mt-0.5">Visualisiert einen Begriff über die ausgewählten Texte</span>
                             </span>
                         </button>
                         <button id="showLemmaDistributionBtn" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 flex items-center gap-2.5">
@@ -288,7 +304,7 @@
                             </svg>
                             <span class="flex flex-col items-start leading-tight">
                                 <span>Lemma-Verteilung</span>
-                                <span class="text-xs font-normal text-slate-500 mt-0.5">Visualisiert ein Lemma über alle Texte</span>
+                                <span class="text-xs font-normal text-slate-500 mt-0.5">Visualisiert ein Lemma über die ausgewählten Texte</span>
                             </span>
                         </button>
                         </div>
@@ -400,7 +416,7 @@
                             </svg>
                             <span class="flex flex-col items-start leading-tight">
                                 <span>Versendings-Profil</span>
-                                <span class="text-xs font-normal text-slate-500 mt-0.5">Top-Lemmata am Versende pro Korpus, Autor*in oder Text</span>
+                                <span class="text-xs font-normal text-slate-500 mt-0.5">Top-Lemmata am Versende pro Auswahl, Autor*in oder Text</span>
                             </span>
                         </button>
                         <button id="showTextComparisonBtn" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2 text-left text-sm font-medium text-slate-700 transition hover:border-brand-400 hover:text-brand-700 flex items-center gap-2.5">

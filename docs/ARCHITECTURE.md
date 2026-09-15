@@ -271,8 +271,8 @@ Each explorer follows consistent pattern:
 | Versposition | `#verse-position` | Lemma search by verse-initial or verse-final position (#47.3) |
 | Wortfrequenz | `#word-frequency` | Top-N lemmata, with stopword filter (#88) |
 | Text-Statistiken | `#text-statistics` | Token count, lemma diversity, hapax rate (#89) |
-| Lemma-Verteilung | `#lemma-distribution` | Bar chart per lemma across all texts (#90) |
-| Begriffs-Verteilung | `#concept-distribution` | Bar chart per concept across all texts (#47 R2, with autocomplete dropdown #113) |
+| Lemma-Verteilung | `#lemma-distribution` | Bar chart per lemma across the selected texts (#90) |
+| Begriffs-Verteilung | `#concept-distribution` | Bar chart per concept across the selected texts (#47 R2, with autocomplete dropdown #113) |
 | Textvergleich | `#text-comparison` | Set operations A only / both / B only over two texts (#108) |
 | Kookkurrenz-Ranking | `#cooccurrence-ranking` | Top-N neighboring lemmata of one lemma, POS-filtered (#107) |
 | Reim-Wörterbuch | `#rhyme-dictionary` | Rhyme-partner lemmata at adjacent verse endings, suffix heuristic (#106) |
@@ -280,6 +280,8 @@ Each explorer follows consistent pattern:
 | Versendings-Profil | `#verse-ending-profile` | Top-N verse-final lemmata per scope, with a "Reim-Druck" column (#106 items 2 and 3) |
 | Erweiterte Figurenbezeichnungen | `#naming` | Curated proper names, antonomasias and epithets per character in 4 works (#59, beta) |
 | Arthurische Pferde | `#horses` | Curated horse attestations in 5 works, with event filter and `?verseId=` reader deep link (#193, beta) |
+
+**Corpus scope of these views (#204).** Eight of the eleven analysis tools read the text selection from the Corpus Browser; hapax legomena, text comparison and the rhyme dictionary stay corpus-wide, each for a reason stated in its own UI header. Which tool does what, and why, is in [FEATURES.md → TEI Text Analysis](FEATURES.md#tei-text-analysis) rather than repeated per row here. Mechanically the split is two thunks in `playground-main.js`, `selectedTextsThunk` and `corpusTextsThunk`; a tool whose stored scope (`state.scope`, table checkboxes) points outside the current selection resets it on the next `show()`.
 
 **Parameters:**
 

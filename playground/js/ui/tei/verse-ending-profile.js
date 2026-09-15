@@ -1,7 +1,8 @@
 /**
  * MHDBDB Playground - Versendings-Profil
  *
- * Top-N häufigste Versende-Lemmata pro Gesamtkorpus, Autor oder Text
+ * Top-N häufigste Versende-Lemmata über die in Schritt 1 ausgewählten Texte,
+ * pro Autor oder pro Einzeltext (Auswahl seit #204, davor der ganze Korpus)
  * (#106 Punkt 2). Datenbasis sind die lineEnds[]-Arrays des Corpus-Index
  * v4.1.0+ (#47.3): text.words[lineEnds[i]] ist das Lemma am Ende von Vers i.
  * Kein neuer Build-Schritt. Prosa-Texte (leere lineEnds) werden übersprungen.
@@ -14,6 +15,7 @@
 
 import { buildTextLabelDisambiguator } from '../core/ui-helpers.js';
 import { FUNCTION_WORD_POS } from './word-frequency.js';
+import { emptyScopeMessage } from './corpus-scope.js';
 
 const TOP_N_OPTIONS = [20, 50, 100, 200];
 const DEFAULT_TOP_N = 50;
@@ -81,8 +83,10 @@ export class VerseEndingProfileAnalyzer {
 
     let scopeLabel, scopeMeta;
     if (scope === 'corpus') {
-      scopeLabel = 'Gesamtkorpus (Versdichtung)';
-      scopeMeta = `${texts.length.toLocaleString('de-DE')} Vers-Texte`;
+      scopeLabel = 'Ausgewählte Texte (Versdichtung)';
+      // Seit #204 kann auch dieser Zweig bei einem Text stehen; der
+      // author-Zweig darunter unterschied schon immer.
+      scopeMeta = `${texts.length.toLocaleString('de-DE')} Vers-Text${texts.length === 1 ? '' : 'e'}`;
     } else if (scope.startsWith('author:')) {
       scopeLabel = scope.slice('author:'.length);
       scopeMeta = `${texts.length.toLocaleString('de-DE')} Vers-Text${texts.length === 1 ? '' : 'e'}`;
@@ -98,11 +102,29 @@ export class VerseEndingProfileAnalyzer {
   async show() {
     const texts = this.getCorpusTexts();
     if (!texts || texts.length === 0) {
-      this.renderError('Korpus ist noch nicht geladen. Bitte einen Moment warten und Button erneut klicken.');
+      this.renderError(emptyScopeMessage());
       return;
     }
+    this.ensureScopeResolvable();
     this._lastProfile = this.computeProfile(this.state.scope);
     this.render();
+  }
+
+  /**
+   * Faellt der gewaehlte Text oder die gewaehlte Autorin aus der
+   * Korpusauswahl, faellt der Scope mit ihnen (#204).
+   *
+   * Wie in word-frequency.js: bis #204 konnte der Scope nicht ins Leere
+   * zeigen, weil der Thunk immer alle Texte lieferte. Hier zusaetzlich die
+   * `author:`-Scopes, die gegen die Versdichtung der Auswahl geprueft werden,
+   * nicht gegen den ganzen Korpus: das Dropdown baut seine optgroups aus
+   * derselben Menge.
+   */
+  ensureScopeResolvable() {
+    if (this.state.scope === 'corpus') return;
+    if (this.scopedTexts(this.state.scope).length === 0) {
+      this.state.scope = 'corpus';
+    }
   }
 
   render() {
@@ -138,7 +160,7 @@ export class VerseEndingProfileAnalyzer {
     }).join('');
 
     const scopeOptions = `
-      <option value="corpus"${this.state.scope === 'corpus' ? ' selected' : ''}>Gesamtkorpus (${texts.length} Vers-Texte)</option>
+      <option value="corpus"${this.state.scope === 'corpus' ? ' selected' : ''}>Ausgewählte Texte (${texts.length} Vers-Text${texts.length === 1 ? '' : 'e'})</option>
       <optgroup label="Autor*in">${authorOptions}</optgroup>
       <optgroup label="Text">${textOptions}</optgroup>
     `;
@@ -152,7 +174,7 @@ export class VerseEndingProfileAnalyzer {
         <h3 class="mb-3 text-sm font-semibold uppercase tracking-wide text-slate-500">Versendings-Profil</h3>
         <div class="grid gap-3 sm:grid-cols-2">
           <label class="block">
-            <span class="text-xs font-medium text-slate-600">Korpus / Autor*in / Text</span>
+            <span class="text-xs font-medium text-slate-600">Auswahl / Autor*in / Text</span>
             <select id="vepScope" class="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm focus:border-brand-400 focus:outline-none">${scopeOptions}</select>
           </label>
           <label class="block">
