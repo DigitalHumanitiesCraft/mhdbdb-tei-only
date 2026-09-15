@@ -76,7 +76,9 @@ export class WordFrequencyAnalyzer {
         counts,
         totalTokens,
         scopeLabel: 'Ausgewählte Texte',
-        scopeMeta: `${texts.length.toLocaleString('de-DE')} Texte`,
+        // Seit #204 kann die Auswahl genau ein Text sein, dann stand hier
+        // „1 Texte". Der Einzeltext-Zweig unten hat eigene Beschriftungen.
+        scopeMeta: `${texts.length.toLocaleString('de-DE')} ${texts.length === 1 ? 'Text' : 'Texte'}`,
         uniqueCount: counts.size
       };
     }

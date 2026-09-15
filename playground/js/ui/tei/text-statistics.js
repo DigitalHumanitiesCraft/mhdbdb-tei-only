@@ -117,11 +117,16 @@ export class TextStatistics {
 
   renderHeader() {
     const count = this._stats?.length || 0;
+    // Seit #204 kann die Auswahl genau ein Text sein, und „der 1 ... Texte"
+    // traegt den Satz nicht.
+    const einleitung = count === 1
+      ? 'Stil-Visitenkarte des einen in Schritt 1 ausgewählten Texts.'
+      : `Stil-Visitenkarte der ${count.toLocaleString('de-DE')} in Schritt 1 ausgewählten Texte.`;
     return `
       <div class="rounded-2xl border border-slate-200 bg-slate-50/70 p-4">
         <h3 class="text-sm font-semibold uppercase tracking-wide text-slate-500">Text-Statistiken</h3>
         <p class="mt-2 text-sm text-slate-600">
-          Stil-Visitenkarte der ${count.toLocaleString('de-DE')} in Schritt 1 ausgewählten Texte.
+          ${einleitung}
           Klick auf eine Spaltenüberschrift sortiert; Klick auf eine Sigle öffnet den Text im Reader.
           Mit den Häkchen lassen sich Texte auswählen und als Subset betrachten; die Auswahl bleibt beim Sortieren erhalten.
         </p>

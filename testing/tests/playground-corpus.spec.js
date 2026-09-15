@@ -257,8 +257,30 @@ test.describe('Playground: Korpusauswahl wirkt (#204)', () => {
 
         await page.locator('#fileFilter').fill('parzival');
         await expect(hinweis).toBeVisible();
-        await expect(hinweis).toContainText('1 Text ausgewählt');
+        await expect(hinweis).toContainText('über 1 Text');
         await expect(hinweis).not.toContainText('1 Texte');
+        // Und der ganze Satz traegt den Singular, nicht nur das Substantiv
+        await expect(hinweis).not.toContainText('sind weiterhin');
+    });
+
+    test('auch die Werkzeug-Kopfzeilen stehen bei einem Text im Singular', async ({ page }) => {
+        // Vor #204 war die Auswahl immer der ganze Korpus, ein Singular also
+        // unerreichbar. Seither ist genau ein Text der haeufigste Fall.
+        await page.locator('#fileFilter').fill('mori');
+        await page.locator('#selectOnlyVisibleBtn').click();
+        await page.locator('#moreAnalysesToggle').click();
+        const panel = page.locator('#resultsContainer');
+
+        await page.locator('#showTextStatisticsBtn').click();
+        await expect(panel).toContainText('des einen in Schritt 1 ausgewählten Texts', { timeout: 30000 });
+
+        // Exakter Knotentext statt Substring: „1 Texte" steckt auch in
+        // „21 Texte", ein not.toContainText waere hier keine Zusicherung.
+        await page.locator('#showWordFrequencyBtn').click();
+        await expect(panel.getByText('1 Text', { exact: true })).toBeVisible({ timeout: 30000 });
+
+        await page.locator('#showVerseEndingProfileBtn').click();
+        await expect(panel.getByText('1 Vers-Text', { exact: true })).toBeVisible({ timeout: 30000 });
     });
 
     test('kein Hinweis, wenn der Filter die Auswahl nicht uebersteigt', async ({ page }) => {
@@ -326,6 +348,23 @@ test.describe('Playground: Korpusauswahl wirkt (#204)', () => {
         await expect(page.locator('#rdTextFilter')).toHaveValue('CR');
         expect(await page.evaluate(() => window.playground.ui.rhymeDictionary.state.result)).toBeNull();
         await expect(page.locator('#resultsContainer')).not.toContainText('667 Texte');
+    });
+
+    test('Reim-Woerterbuch: die Filterzeile sagt bei einem Text „1 Text"', async ({ page }) => {
+        // Die Sigle-Vorbelegung macht den Ein-Text-Fall zum Regelfall, und
+        // dann lautete die Kopfzeile „Filter „CR" → 1 Texte".
+        await page.locator('#fileFilter').fill('mori');
+        await page.locator('#selectOnlyVisibleBtn').click();
+        await page.locator('#showRhymeDictionaryBtn').click();
+        await expect(page.locator('#rdTextFilter')).toHaveValue('CR');
+
+        await page.fill('#rdQuery', 'minne');
+        await page.press('#rdQuery', 'Escape');
+        await page.click('#rdSearchBtn');
+
+        const panel = page.locator('#resultsContainer');
+        await expect(panel).toContainText('Filter „CR" → 1 Text', { timeout: 60000 });
+        await expect(panel).not.toContainText('1 Texte');
     });
 
     test('Wortfrequenz faellt auf die Auswahl zurueck, wenn ihr Scope-Text wegfaellt', async ({ page }) => {

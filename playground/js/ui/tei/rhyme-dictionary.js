@@ -451,7 +451,7 @@ export class RhymeDictionary {
       : '';
 
     const filterNote = this.state.textFilter.trim()
-      ? ` · Filter „${escapeHtml(this.state.textFilter.trim())}" → ${r.scannedTextCount} Texte`
+      ? ` · Filter „${escapeHtml(this.state.textFilter.trim())}" → ${r.scannedTextCount} ${r.scannedTextCount === 1 ? 'Text' : 'Texte'}`
       : '';
 
     if (r.endOccurrences === 0) {

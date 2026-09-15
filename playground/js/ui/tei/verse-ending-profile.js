@@ -84,7 +84,9 @@ export class VerseEndingProfileAnalyzer {
     let scopeLabel, scopeMeta;
     if (scope === 'corpus') {
       scopeLabel = 'Ausgewählte Texte (Versdichtung)';
-      scopeMeta = `${texts.length.toLocaleString('de-DE')} Vers-Texte`;
+      // Seit #204 kann auch dieser Zweig bei einem Text stehen; der
+      // author-Zweig darunter unterschied schon immer.
+      scopeMeta = `${texts.length.toLocaleString('de-DE')} Vers-Text${texts.length === 1 ? '' : 'e'}`;
     } else if (scope.startsWith('author:')) {
       scopeLabel = scope.slice('author:'.length);
       scopeMeta = `${texts.length.toLocaleString('de-DE')} Vers-Text${texts.length === 1 ? '' : 'e'}`;
@@ -158,7 +160,7 @@ export class VerseEndingProfileAnalyzer {
     }).join('');
 
     const scopeOptions = `
-      <option value="corpus"${this.state.scope === 'corpus' ? ' selected' : ''}>Ausgewählte Texte (${texts.length} Vers-Texte)</option>
+      <option value="corpus"${this.state.scope === 'corpus' ? ' selected' : ''}>Ausgewählte Texte (${texts.length} Vers-Text${texts.length === 1 ? '' : 'e'})</option>
       <optgroup label="Autor*in">${authorOptions}</optgroup>
       <optgroup label="Text">${textOptions}</optgroup>
     `;
