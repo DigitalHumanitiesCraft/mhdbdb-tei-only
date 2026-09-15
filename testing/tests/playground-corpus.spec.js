@@ -246,6 +246,21 @@ test.describe('Playground: Korpusauswahl wirkt (#204)', () => {
         await expect(page.locator('#includedCount')).toHaveText('1');
     });
 
+    test('der Hinweis sagt bei einem Text „1 Text", nicht „1 Texte"', async ({ page }) => {
+        // Erreichbar auf dem Weg, den die gemeldete Nutzerin geht: erst auf
+        // einen Text verengen, dann im Filterfeld nach dem naechsten suchen.
+        // Das Wort stand fest im HTML, nur die Zahl kam aus JS.
+        await page.locator('#fileFilter').fill('mori');
+        await page.locator('#selectOnlyVisibleBtn').click();
+        const hinweis = page.locator('#filterSelectionMismatch');
+        await expect(hinweis).toBeHidden();
+
+        await page.locator('#fileFilter').fill('parzival');
+        await expect(hinweis).toBeVisible();
+        await expect(hinweis).toContainText('1 Text ausgewählt');
+        await expect(hinweis).not.toContainText('1 Texte');
+    });
+
     test('kein Hinweis, wenn der Filter die Auswahl nicht uebersteigt', async ({ page }) => {
         await page.locator('#fileFilter').fill('mori');
         await page.locator('#selectOnlyVisibleBtn').click();

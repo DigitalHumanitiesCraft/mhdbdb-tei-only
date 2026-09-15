@@ -432,8 +432,12 @@ class MHDBDBPlayground {
             return;
         }
 
+        // Das Wort steht hier und nicht im HTML: genau ein ausgewaehlter Text
+        // ist erreichbar (auf „mori" verengen, dann nach „par" weitersuchen)
+        // und stand sonst als „1 Texte" da.
+        const anzahl = this.corpusData.includedTexts.size;
         document.getElementById('mismatchSelectedCount').textContent =
-            this.corpusData.includedTexts.size.toLocaleString('de-DE');
+            `${anzahl.toLocaleString('de-DE')} ${anzahl === 1 ? 'Text' : 'Texte'}`;
         // Der haeufigste Fall ist genau ein Text: beide gemeldeten
         // Verwechslungen hatten bis auf einen Text herunter gefiltert.
         document.getElementById('mismatchUseFilteredLabel').textContent = sichtbare.length === 1
