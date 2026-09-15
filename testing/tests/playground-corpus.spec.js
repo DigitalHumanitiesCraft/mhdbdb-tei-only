@@ -162,7 +162,15 @@ test.describe('Playground: Korpusauswahl wirkt (#204)', () => {
     test('ein Tausch gleicher Groesse wird auch erkannt', async ({ page }) => {
         // Eine Signatur ueber die Anzahl wuerde CR gegen WH nicht bemerken,
         // deshalb vergleicht scopeSignature() die IDs.
-        const zustand = await page.evaluate(() => {
+        //
+        // Der Test geht durch eine echte Suche, weil der Stempel dort entsteht,
+        // wo gerechnet wird, und nicht beim Oeffnen. Wer state.result von Hand
+        // setzt, laesst _computedOver undefiniert, und dann gibt es nichts zu
+        // verwerfen: der Test waere gruen, ohne irgendetwas zu pruefen.
+        await page.locator('#showCooccurrenceRankingBtn').click();
+        await page.waitForSelector('#coRkSearchBtn', { state: 'visible', timeout: 60000 });
+
+        const zustand = await page.evaluate(async () => {
             const pg = window.playground;
             const cr = pg.ui.cooccurrenceRanking;
             const nur = (id) => {
@@ -172,12 +180,16 @@ test.describe('Playground: Korpusauswahl wirkt (#204)', () => {
             };
             nur('CR');
             cr.show();
-            cr.state.result = { totalOccurrences: 14, partners: [] };   // wie nach einer Suche
+            cr.state.query = 'minne';
+            await cr.runSearch();
+            const vorher = cr.state.result ? cr.state.result.totalOccurrences : null;
             nur('WH');
             cr.show();
-            return cr.state.result;
+            return { vorher, nachher: cr.state.result };
         });
-        expect(zustand).toBeNull();
+        // Kontrollwert: die Suche lief wirklich, und sie lief nur ueber CR
+        expect(zustand.vorher).toBe(14);
+        expect(zustand.nachher).toBeNull();
     });
 
     test('Begriffs-Verteilung verwirft eine Verteilung aus anderer Textmenge', async ({ page }) => {

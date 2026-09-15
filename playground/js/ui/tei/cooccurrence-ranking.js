@@ -77,13 +77,21 @@ export class CooccurrenceRanking {
    * korpusweit „minne" sucht (7.161 Vorkommen) und danach auf Moriz von Craûn
    * verengt, sah beim erneuten Oeffnen weiter 7.161 statt 14, und zwar
    * dauerhaft, nicht nur bis zum naechsten Oeffnen.
+   *
+   * Hier wird nur verglichen. Gestempelt wird in `runSearch()`, wo gerechnet
+   * wird: ein Stempel beim Oeffnen beschreibt die Menge, die gerade angezeigt
+   * werden soll, und nicht die, aus der das Ergebnis stammt. Beides faellt
+   * auseinander, sobald die Auswahl bei offenem Werkzeug wechselt, und das
+   * ist der Normalfall, weil Schritt 1 die ganze Zeit danebensteht. Gemessen
+   * am 15.09.: Alle oeffnen, auf CR verengen, suchen (14), zurueck auf Alle,
+   * erneut oeffnen, und die 14 standen unter 667 ausgewaehlten Texten. In der
+   * Gegenrichtung wurde ein korrektes Ergebnis verworfen.
    */
   discardResultIfScopeChanged(texts) {
-    const jetzt = scopeSignature(texts);
-    if (this._computedOver !== undefined && this._computedOver !== jetzt) {
+    if (this._computedOver !== undefined && this._computedOver !== scopeSignature(texts)) {
       this.state.result = null;
+      this._computedOver = undefined;
     }
-    this._computedOver = jetzt;
   }
 
   ensureLemmaMap() {
@@ -216,6 +224,9 @@ export class CooccurrenceRanking {
     const myToken = this._abortToken;
     const myEpoch = getNavigationEpoch();
     const target = this.state.resolvedLemma;
+    // Die Textmenge VOR dem await festhalten: danach kann sie eine andere
+    // sein, und gerechnet wurde ueber diese hier (#204).
+    const gerechnetUeber = scopeSignature(this.getCorpusTexts());
     const result = await this.computeCooccurrences(target.id, this.state.window, (p) => {
       if (this._abortToken !== myToken) return;
       this.state.progress = p;
@@ -234,6 +245,7 @@ export class CooccurrenceRanking {
       partners,
       _rawCounts: result.counts // fuer POS-Mode-Switching ohne Re-Compute
     };
+    this._computedOver = gerechnetUeber;
     this.state.computing = false;
     this.render();
   }

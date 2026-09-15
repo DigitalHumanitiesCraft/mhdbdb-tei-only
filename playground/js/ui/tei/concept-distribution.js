@@ -1,9 +1,10 @@
 /**
  * MHDBDB Playground - Begriffs-Verteilung
  *
- * "Wo ist Begriff X (z.B. Sterben) im Korpus verteilt?" — Bar-Chart-Visualisierung
- * der Frequenz pro Text. Aggregiert alle Lemmata, deren senses[i].conceptIds
- * den gewählten Concept enthalten.
+ * "Wo ist Begriff X (z.B. Sterben) verteilt?" Bar-Chart-Visualisierung der
+ * Frequenz pro Text, über die in Schritt 1 ausgewählten Texte (seit #204,
+ * davor über den ganzen Korpus). Aggregiert alle Lemmata, deren
+ * senses[i].conceptIds den gewählten Concept enthalten.
  *
  * Datenpfad: concept (gewählt) -> alle lemmata.senses[*].conceptIds matches
  *   -> Summe der text.lemmata[lemmaId].length über alle matching lemmata pro Text
@@ -82,14 +83,18 @@ export class ConceptDistribution {
    *
    * Wie im Kookkurrenz-Ranking: die fertige Verteilung liegt im State und wird
    * beim Oeffnen nur neu gerendert. Nach einer Verengung auf einen Text stand
-   * sonst weiter das Balkendiagramm ueber alle 667 da.
+   * sonst weiter das Balkendiagramm ueber den ganzen Korpus da.
+   *
+   * Hier wird nur verglichen, gestempelt wird in `runSearch()`. Die
+   * Begruendung steht ausfuehrlich bei `discardResultIfScopeChanged()` im
+   * Kookkurrenz-Ranking: ein Stempel beim Oeffnen beschreibt die Menge, die
+   * angezeigt werden soll, nicht die, aus der das Ergebnis stammt.
    */
   discardDistributionIfScopeChanged(texts) {
-    const jetzt = scopeSignature(texts);
-    if (this._computedOver !== undefined && this._computedOver !== jetzt) {
+    if (this._computedOver !== undefined && this._computedOver !== scopeSignature(texts)) {
       this.state.distribution = null;
+      this._computedOver = undefined;
     }
-    this._computedOver = jetzt;
   }
 
   /**
@@ -631,6 +636,9 @@ export class ConceptDistribution {
       this.render();
       this.refocusInput();
 
+      // Die Textmenge VOR dem await festhalten: danach kann sie eine andere
+      // sein, und gerechnet wurde ueber diese hier (#204).
+      const gerechnetUeber = scopeSignature(this.getCorpusTexts());
       const dist = await this.computeDistribution(this.state.matchingLemmata, (frac) => {
         if (this._searchGen !== myGen) return;
         this.state.computeProgress = frac;
@@ -649,6 +657,7 @@ export class ConceptDistribution {
       }
 
       this.state.distribution = dist;
+      this._computedOver = gerechnetUeber;
       this.state.computing = false;
       this.state.computeProgress = 1;
       this.render();
