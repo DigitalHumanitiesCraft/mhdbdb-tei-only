@@ -1,7 +1,8 @@
 /**
  * MHDBDB Playground - Versendings-Profil
  *
- * Top-N häufigste Versende-Lemmata pro Gesamtkorpus, Autor oder Text
+ * Top-N häufigste Versende-Lemmata über die in Schritt 1 ausgewählten Texte,
+ * pro Autor oder pro Einzeltext (Auswahl seit #204, davor der ganze Korpus)
  * (#106 Punkt 2). Datenbasis sind die lineEnds[]-Arrays des Corpus-Index
  * v4.1.0+ (#47.3): text.words[lineEnds[i]] ist das Lemma am Ende von Vers i.
  * Kein neuer Build-Schritt. Prosa-Texte (leere lineEnds) werden übersprungen.
@@ -171,7 +172,7 @@ export class VerseEndingProfileAnalyzer {
         <h3 class="mb-3 text-sm font-semibold uppercase tracking-wide text-slate-500">Versendings-Profil</h3>
         <div class="grid gap-3 sm:grid-cols-2">
           <label class="block">
-            <span class="text-xs font-medium text-slate-600">Korpus / Autor*in / Text</span>
+            <span class="text-xs font-medium text-slate-600">Auswahl / Autor*in / Text</span>
             <select id="vepScope" class="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm focus:border-brand-400 focus:outline-none">${scopeOptions}</select>
           </label>
           <label class="block">

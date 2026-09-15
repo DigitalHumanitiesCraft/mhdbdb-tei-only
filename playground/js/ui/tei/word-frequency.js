@@ -1,7 +1,8 @@
 /**
  * MHDBDB Playground - Wortfrequenz-Analyse
  *
- * Top-N Lemmata-Frequenz, korpusweit oder pro Text. Daten aus dem
+ * Top-N Lemmata-Frequenz, ueber die in Schritt 1 ausgewaehlten Texte oder
+ * pro Einzeltext (seit #204; bis dahin immer korpusweit). Daten aus dem
  * pre-built Corpus-Index (`text.lemmata` + `text.wordCount`).
  *
  * Issue: #88
