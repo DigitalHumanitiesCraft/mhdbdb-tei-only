@@ -297,6 +297,52 @@ test.describe('Playground: Korpusauswahl wirkt (#204)', () => {
         expect(zustand.text).not.toContain('Ausgewählt: 3');
     });
 
+    test('Reim-Woerterbuch folgt einem Wechsel auf einen anderen Einzeltext', async ({ page }) => {
+        // Der Test darunter geht durch den LEEREN Zweig und hat diesen Fall
+        // deshalb nicht getroffen: steht die eigene Vorbelegung noch im Feld,
+        // ist textFilter nicht leer. Gemessen am 15.09.: Auswahl WH, Feld CR,
+        // und filterTexts rechnete ueber CR.
+        const verlauf = await page.evaluate(async () => {
+            const pg = window.playground;
+            const rd = pg.ui.rhymeDictionary;
+            const nur = (id) => {
+                pg.corpusData.includedTexts.clear();
+                pg.corpusData.includedTexts.add(id);
+                pg.updateFileBrowserStats();
+            };
+            nur('CR');
+            rd.show();
+            const nachCR = document.getElementById('rdTextFilter').value;
+            nur('WH');
+            rd.show();
+            return {
+                nachCR,
+                nachWechsel: document.getElementById('rdTextFilter').value,
+                gerechnetUeber: rd.filterTexts(rd.getCorpusTexts()).map(t => t.id)
+            };
+        });
+        expect(verlauf.nachCR).toBe('CR');
+        expect(verlauf.nachWechsel).toBe('WH');
+        expect(verlauf.gerechnetUeber).toEqual(['WH']);
+    });
+
+    test('Reim-Woerterbuch laesst eine getippte Eingabe in Ruhe', async ({ page }) => {
+        // Gegenstueck zum Test darueber: ueberschrieben wird nur, was leer ist
+        // oder von der Vorbelegung selbst stammt.
+        const feld = await page.evaluate(async () => {
+            const pg = window.playground;
+            const rd = pg.ui.rhymeDictionary;
+            rd.state.textFilter = 'Hartmann';
+            rd._autoFilledSigle = null;
+            pg.corpusData.includedTexts.clear();
+            pg.corpusData.includedTexts.add('CR');
+            pg.updateFileBrowserStats();
+            rd.show();
+            return document.getElementById('rdTextFilter').value;
+        });
+        expect(feld).toBe('Hartmann');
+    });
+
     test('Reim-Woerterbuch respektiert ein bewusst geleertes Feld', async ({ page }) => {
         await page.locator('#fileFilter').fill('mori');
         await page.locator('#selectOnlyVisibleBtn').click();

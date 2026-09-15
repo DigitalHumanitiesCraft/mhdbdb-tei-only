@@ -110,9 +110,18 @@ export class RhymeDictionary {
    * eigene Textfilter-Feld (#204, chsteiner 15.09.).
    *
    * Sichtbar statt still: die Nutzerin sieht im Feld stehen, worauf gerechnet
-   * wird, und kann es löschen. Deshalb auch der Merker: ein einmal bewusst
-   * geleertes Feld bleibt leer, solange die Auswahl dieselbe ist. Erst ein
-   * Wechsel auf einen anderen Einzeltext trägt wieder ein.
+   * wird, und kann es löschen.
+   *
+   * Drei Faelle, die der Merker auseinanderhaelt:
+   * - Feld leer, Auswahl auf einem Text: eintragen.
+   * - Feld enthaelt noch unseren eigenen Eintrag, die Auswahl ist inzwischen
+   *   ein anderer Text: ueberschreiben. Dieser Fall stand bis zum Review an
+   *   PR #441 nur im Kommentar, nicht in der Bedingung: die pruefte allein
+   *   auf ein leeres Feld, weshalb das Werkzeug nach einem Wechsel von CR auf
+   *   WH weiter CR anzeigte und auch ueber CR rechnete, waehrend der Zaehler
+   *   daneben WH meldete.
+   * - Feld enthaelt etwas, das die Nutzerin selbst getippt oder bewusst
+   *   geleert hat: nicht anfassen.
    */
   applySingleSelectionDefault() {
     const sigle = singleSelectedTextId();
@@ -120,7 +129,12 @@ export class RhymeDictionary {
       this._autoFilledSigle = null;
       return;
     }
-    if (this.state.textFilter.trim() === '' && this._autoFilledSigle !== sigle) {
+    // Ueberschrieben wird nur, was leer ist oder von uns selbst stammt. Was
+    // die Nutzerin getippt hat, bleibt stehen: sonst raeumt das Werkzeug ihr
+    // die Eingabe weg, sobald sie nebenan einen Text anhakt.
+    const aktuell = this.state.textFilter.trim();
+    const unsereigenerEintrag = this._autoFilledSigle !== null && aktuell === this._autoFilledSigle;
+    if ((aktuell === '' || unsereigenerEintrag) && this._autoFilledSigle !== sigle) {
       this.state.textFilter = sigle;
       this._autoFilledSigle = sigle;
       // Das alte Ergebnis wurde ohne diesen Filter gerechnet, und die
