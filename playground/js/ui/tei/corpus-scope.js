@@ -52,3 +52,21 @@ export function singleSelectedTextId() {
     if (!auswahl || auswahl.size !== 1) return null;
     return [...auswahl][0];
 }
+
+/**
+ * Kennung der Textmenge, über die gerechnet wurde.
+ *
+ * Für Werkzeuge, die ihr fertiges Ergebnis im State halten und beim Öffnen
+ * nur neu rendern: sie können damit erkennen, dass die Auswahl seit der
+ * Berechnung eine andere ist, und das Ergebnis verwerfen, statt eine Zahl
+ * stehen zu lassen, die zur Auswahl daneben nicht mehr passt.
+ *
+ * Die IDs und nicht ihre Anzahl, denn ein Tausch (CR raus, WH rein) lässt
+ * die Länge gleich und wäre sonst nicht zu sehen.
+ *
+ * @param {Array} texts Ergebnis des Text-Thunks
+ * @returns {string}
+ */
+export function scopeSignature(texts) {
+    return (texts || []).map(t => t.id).join('|');
+}

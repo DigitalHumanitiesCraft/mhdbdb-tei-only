@@ -10,7 +10,7 @@
  */
 
 import { getNavigationEpoch } from '../core/router.js';
-import { emptyScopeMessage } from './corpus-scope.js';
+import { emptyScopeMessage, scopeSignature } from './corpus-scope.js';
 
 const DEFAULT_STATE = Object.freeze({
   query: '',
@@ -63,8 +63,27 @@ export class CooccurrenceRanking {
       this.renderError(emptyScopeMessage());
       return;
     }
+    this.discardResultIfScopeChanged(texts);
     this.ensureLemmaMap();
     this.render();
+  }
+
+  /**
+   * Verwirft ein Ergebnis, das über eine andere Textmenge gerechnet wurde (#204).
+   *
+   * Dieses Werkzeug haelt sein fertiges Ergebnis im State und rendert es beim
+   * Oeffnen unveraendert. Bis #204 war das gefahrlos, weil die Textmenge immer
+   * der ganze Korpus war und sich nie aenderte. Seither kann sie das: wer
+   * korpusweit „minne" sucht (7.161 Vorkommen) und danach auf Moriz von Craûn
+   * verengt, sah beim erneuten Oeffnen weiter 7.161 statt 14, und zwar
+   * dauerhaft, nicht nur bis zum naechsten Oeffnen.
+   */
+  discardResultIfScopeChanged(texts) {
+    const jetzt = scopeSignature(texts);
+    if (this._computedOver !== undefined && this._computedOver !== jetzt) {
+      this.state.result = null;
+    }
+    this._computedOver = jetzt;
   }
 
   ensureLemmaMap() {

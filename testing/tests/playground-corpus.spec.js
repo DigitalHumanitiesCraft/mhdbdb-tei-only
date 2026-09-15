@@ -132,6 +132,75 @@ test.describe('Playground: Korpusauswahl wirkt (#204)', () => {
         await expect(page.locator('#resultsContainer')).not.toContainText('7.161 Vorkommen');
     });
 
+    test('Kookkurrenz verwirft ein Ergebnis, das ueber eine andere Textmenge lief', async ({ page }) => {
+        // Der Test oben verengt VOR der ersten Suche und kann diesen Fall
+        // deshalb nicht treffen: das Werkzeug besitzt dort nie ein
+        // korpusweites Ergebnis. Gemessen am 15.09.: nach korpusweitem "minne"
+        // (7.161) und Verengung auf CR stand beim erneuten Oeffnen weiter
+        // 7.161 statt 14, und zwar dauerhaft, nicht nur bis zum Neuoeffnen.
+        await page.locator('#showCooccurrenceRankingBtn').click();
+        await page.waitForSelector('#coRkSearchBtn', { state: 'visible', timeout: 60000 });
+        await page.fill('#coRkQuery', 'minne');
+        await page.press('#coRkQuery', 'Escape');
+        await page.click('#coRkSearchBtn');
+        await expect(page.locator('#resultsContainer')).toContainText('7.161 Vorkommen', { timeout: 30000 });
+
+        await page.locator('#fileFilter').fill('mori');
+        await page.locator('#selectOnlyVisibleBtn').click();
+        await page.locator('#showCooccurrenceRankingBtn').click();
+
+        await expect(page.locator('#resultsContainer')).not.toContainText('7.161 Vorkommen');
+        expect(await page.evaluate(() => window.playground.ui.cooccurrenceRanking.state.result)).toBeNull();
+
+        // Und neu gerechnet kommt der Wert des Einzeltexts heraus
+        await page.fill('#coRkQuery', 'minne');
+        await page.press('#coRkQuery', 'Escape');
+        await page.click('#coRkSearchBtn');
+        await expect(page.locator('#resultsContainer')).toContainText('14 Vorkommen', { timeout: 30000 });
+    });
+
+    test('ein Tausch gleicher Groesse wird auch erkannt', async ({ page }) => {
+        // Eine Signatur ueber die Anzahl wuerde CR gegen WH nicht bemerken,
+        // deshalb vergleicht scopeSignature() die IDs.
+        const zustand = await page.evaluate(() => {
+            const pg = window.playground;
+            const cr = pg.ui.cooccurrenceRanking;
+            const nur = (id) => {
+                pg.corpusData.includedTexts.clear();
+                pg.corpusData.includedTexts.add(id);
+                pg.updateFileBrowserStats();
+            };
+            nur('CR');
+            cr.show();
+            cr.state.result = { totalOccurrences: 14, partners: [] };   // wie nach einer Suche
+            nur('WH');
+            cr.show();
+            return cr.state.result;
+        });
+        expect(zustand).toBeNull();
+    });
+
+    test('Begriffs-Verteilung verwirft eine Verteilung aus anderer Textmenge', async ({ page }) => {
+        const zustand = await page.evaluate(() => {
+            const pg = window.playground;
+            const cd = pg.ui.conceptDistribution;
+            const alle = () => {
+                pg.corpusData.includedTexts.clear();
+                pg.corpusData.texts.forEach(t => pg.corpusData.includedTexts.add(t.id));
+                pg.updateFileBrowserStats();
+            };
+            alle();
+            cd.show();
+            cd.state.distribution = [{ id: 'PZ', title: 'Parzival', count: 5 }];
+            pg.corpusData.includedTexts.clear();
+            pg.corpusData.includedTexts.add('CR');
+            pg.updateFileBrowserStats();
+            cd.show();
+            return cd.state.distribution;
+        });
+        expect(zustand).toBeNull();
+    });
+
     test('leere Auswahl meldet die Auswahl, nicht einen Ladezustand', async ({ page }) => {
         await page.locator('#selectNoneBtn').click();
         // Die Wortfrequenz sitzt im Block "Weitere Korpusanalysen", der seit

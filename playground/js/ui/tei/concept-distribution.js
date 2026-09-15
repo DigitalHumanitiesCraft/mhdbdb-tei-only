@@ -13,7 +13,7 @@
 
 import { getNavigationEpoch } from '../core/router.js';
 import { TextNormalizer } from '../../../../assets/js/lib/text-normalizer.js';
-import { emptyScopeMessage } from './corpus-scope.js';
+import { emptyScopeMessage, scopeSignature } from './corpus-scope.js';
 
 const DEFAULT_STATE = Object.freeze({
   query: '',
@@ -73,7 +73,23 @@ export class ConceptDistribution {
       this.renderError(emptyScopeMessage());
       return;
     }
+    this.discardDistributionIfScopeChanged(texts);
     this.render();
+  }
+
+  /**
+   * Verwirft eine Verteilung, die über eine andere Textmenge gerechnet wurde (#204).
+   *
+   * Wie im Kookkurrenz-Ranking: die fertige Verteilung liegt im State und wird
+   * beim Oeffnen nur neu gerendert. Nach einer Verengung auf einen Text stand
+   * sonst weiter das Balkendiagramm ueber alle 667 da.
+   */
+  discardDistributionIfScopeChanged(texts) {
+    const jetzt = scopeSignature(texts);
+    if (this._computedOver !== undefined && this._computedOver !== jetzt) {
+      this.state.distribution = null;
+    }
+    this._computedOver = jetzt;
   }
 
   /**
