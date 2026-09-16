@@ -174,9 +174,11 @@ Journalcommit, und die Runde danach kassierte ihre Prämisse.
 - **Der Abschlussbericht geht als Kommentar auf #44** und zusätzlich als
   Nachricht an mich.
 - **Rote Zeilen zählen:** ein Fehler, dessen Fehlermodus schon eine
-  dokumentierte Lehre hat, bekommt eine Zeile im JOURNAL-Eintrag mit Datum,
-  was passiert ist, und welche Lehre nicht gegriffen hat. Gezählt wird der
-  eigene Fehler, nicht der fremde.
+  dokumentierte Lehre hat, bekommt eine Zeile mit Datum, was passiert ist, und
+  welche Lehre nicht gegriffen hat. Gezählt wird der eigene Fehler, nicht der
+  fremde. **Sie geht seit dem 16.09.2026 nach `fehlerjournal.md` in der
+  Projektwurzel und nicht mehr in den JOURNAL-Eintrag**; dieser Kickoff lief
+  davor und nannte deshalb das JOURNAL.
 - **Meld mir, ob im Worktree etwas liegt, das den Abbau nicht überleben darf**,
   besonders unter `.claude/agent-memory/`.
 

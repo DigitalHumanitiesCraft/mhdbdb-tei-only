@@ -3213,7 +3213,7 @@ Geplant war ein Spurenlauf mit mehreren autonomen Sessions. Geworden ist ein ser
 
 **Pausiert wurde am einzigen kostenlosen Schnitt.** Das Fable-Kontingent geht zur Neige, und `fable-reviewer` ist Pflicht vor dem ersten Push jedes PR-Zweigs. Welle 1 war die einzige Welle ohne PR. Ein Schnitt dort verbraucht keine Review-Runde und liefert trotzdem ein Ergebnis; eine Welle später hätte er einen halb reviewten PR hinterlassen. Ergebnis von Welle 1: die *vrouwe*-Disambiguierung vor *minne* ist ein Anhängsel und kein eigener Lauf (155 Stellen, 150 mechanisch, null neue Lemmata). Der Zweig `claude/28-gleis1-begriffssystem` steht ungereviewt und ohne PR auf `origin`, ausnahmsweise freigegeben, damit die Arbeit über die Pause nicht nur lokal liegt.
 
-**Rot nach der Zählregel vom 01.09.: „an allen vier Stellen konsistent" statt fünf, obwohl die richtige Zahl im Kontext stand.** Die Welle-0-Meldung der Spur-Session gab das Ergebnis von `check-index-versions.py` mit vier Stellen an. Das Gate prüft fünf Dateien (`build-corpus-index.py`, `build-authority-index.py`, `assets/js/lib/corpus-loader.js`, `docs/TEI-MODEL.md`, `docs/INDEX.md`, Zeilen 46 bis 50). Die Fehlerquelle ist die Konsolenausgabe: sie listet **je Index vier Rollen** („build-skript, loader, TEI-MODEL.md, INDEX.md"), weil der Loader beide Versionen trägt, und diese Vier wurde für die Dateizahl gehalten. Die dokumentierte Lehre dazu lag der Session von Anfang an vor und hat nicht gegriffen; gefunden hat es die Koordination, nicht die Session. Die Zeile steht hier auf Bitte der Spur-Session, die auf `main` nicht committen darf. **Die Lehre über den Anlass hinaus: eine Ausgabe, die Rollen zählt, ist keine Aussage über Dateien**, und ein Skript, das gegen eine gemerkte Zahl läuft, ist die Gelegenheit, die Zahl zu prüfen, nicht der Beleg dafür.
+**Rot nach der Zählregel vom 01.09.: „an allen vier Stellen konsistent" statt fünf, obwohl die richtige Zahl im Kontext stand.** Ausgezogen als rote Zeile 1 nach [../fehlerjournal.md](../fehlerjournal.md).
 
 **Nachtrag am selben Tag:** die zwei Playbook-Aufträge, die für die Meta-Welle des pausierten Laufs übrig waren, sind mit `2adc52fc5` erledigt, direkt auf `main` ohne PR und ohne Review, weil Doku plus eine `.gitignore`-Zeile darunter fallen. Die oben eingeforderte 260-Zeichen-Messung ist damit nachgeholt und steht in Regel 29: Repo-Wurzel 64, Worktree unter `.claude/worktrees/` 88, tiefster `node_modules`-Pfad relativ 92, längster getrackter Pfad 74.
 
@@ -3225,29 +3225,29 @@ Geplant war ein Spurenlauf mit mehreren autonomen Sessions. Geworden ist ein ser
 
 **Die drei offenen Menschenfragen sind beantwortet**, KZW am 01.09. auf #216: die fünf `fro-minne`-Belege sind jedesmal Frau Minne, `rend="upper_case_first_letter"` markiert die Edition und nicht zwingend die Personifikation (im Verbund Frau plus Minne aber ein brauchbares Indiz), zu einem Fall will er den Verskontext, und die kleine Menge soll vorgezogen werden. **Die zweite Hälfte des letzten Punktes ist die, die leicht verlorengeht:** „andere vrouwen in eigenes Issue" wird umgesetzt, „kleine Menge vorziehen" betrifft 155 Belege, ist eine Korpusänderung und läuft in keiner der vier Wellen mit. Sie braucht eine Terminentscheidung und steht dafür ausdrücklich im Statuskommentar auf #216.
 
-**Rot, und zwar auf der Koordinationsseite:** der Freeze aus #385 tritt laut Ticket **mit dem Kickoff** in Kraft, nicht mit seiner Eintragung. Der Kickoff ging um kurz vor 22 Uhr hinaus, danach hat die Koordination mit `8a7ea2116` `docs/playbooks/MASTERPLAN-AUTONOME-ISSUE-SESSION.md` geändert, eine Datei, die auf der Einfrierliste steht. Die Lehre, die nicht gegriffen hat, ist #385 selbst: sie war nur nicht gelesen, weil der Freeze zum Zeitpunkt des Kickoffs noch nicht eingetragen war. Der Commit bleibt stehen, weil er einen Befund der laufenden Spur einarbeitet und ihr Abbau ohne ihn in die Sperre läuft; die Spur wurde in derselben Stunde mit dem Hash unterrichtet, was den eigentlichen Schaden repariert (unbemerkt geänderte Regeln). Die Konsequenz für den nächsten Lauf ist keine schärfere Formulierung, sondern eine Reihenfolge: **der Freeze wird eingetragen, bevor der Kickoff hinausgeht.** Offengelegt im Body von #385.
+**Rot, und zwar auf der Koordinationsseite** Ausgezogen als rote Zeile 2 nach [../fehlerjournal.md](../fehlerjournal.md).
 
-**Rot, zum zweiten Mal an einem Abend und wieder auf der Koordinationsseite: die Welle-2-Vorabmessung war falsch.** Die transitive Hülle unter `concept_23123000` sammelte nur die Kinder und nicht die Wurzel selbst (`gefunden, stapel = {}, [WURZEL]`, die Wurzel geht auf den Stapel und nie in die Ergebnismenge). Richtig sind **6.246 Lemmata** in **18** Kategorien mit **227.652** Belegen, nicht 6.219 in 17 mit 225.505; die Anteile 14,23 % und 3,02 % statt 14,17 % und 2,99 %. Gefunden hat es der `fable-reviewer` in Runde 1 auf dem Welle-2-PR, nachgemessen hat es die Spur, und danach die Koordination unabhängig ein drittes Mal. **Die Zahlendifferenz von 0,43 % ist das Unwichtigste daran.** Unter den 27 fehlenden Lemmata stehen `welsch`, `enwelsch`, `rotwalsch`, `englisch`, `tolmetze`, `tolken`, `vertolken`, `antvristen`, `diuten`, `diutunge`, `tiutschen`, `zediuten`, `ûzlegen`, `ûzleger`, `ûzlegerin`, `ûzlegunge`, `zunge`, `gezünge`: das Vokabular, mit dem der Text über Fremdsprachigkeit **spricht**, statt sie zu belegen. Die Wurzel heißt „Einzelsprachen" und trägt genau die Wörter, die keiner einzelnen Sprache zuzuordnen sind. In einer Messung zu #28 fehlte damit die Klasse, die das Phänomen benennt. **Die Spur hat diese Charakterisierung zu Recht eingeschränkt: sie trifft auf 24 der 27 zu**, sauber geteilt in Sprachbezeichnungen (8), Übersetzen und Auslegen (14) sowie Sprache als Organ (2). Die drei übrigen sind `gebrechen`, `engebrechen`, `gebrechenhaft`, und sie sind **kein Rauschen**, obwohl sie zunächst so aussehen: anders als `niht`, das sein Sprachkonzept am einzigen Sense trägt, tragen diese drei es am vierten von vier, und zwar alle in derselben Kombination aus „Mündliche Kommunikation" und „Einzelsprachen", während ihre Hauptbedeutung auf „Mangel/Bedürfnis/Misserfolg" sitzt. Das sieht nach gebrochener Sprachbeherrschung aus, also nach `radebrechen`, und wäre dann mit 341 Belegen in 101 Texten der belegstärkste Zugang, den Gleis 1 überhaupt hat. Damit ist es eine Frage an KZW.
+**Rot, zum zweiten Mal an einem Abend und wieder auf der Koordinationsseite: die Welle-2-Vorabmessung war falsch.** Ausgezogen als rote Zeile 3 nach [../fehlerjournal.md](../fehlerjournal.md).
 
-**Rot, zum dritten Mal an einem Abend und wieder die Koordination: „das Korpus kann Senses nicht auflösen" war falsch.** Der Satz stand hier und im #28-Kommentar, und er ist in zwei Minuten widerlegbar gewesen. Neben `@lemmaRef` trägt jedes annotierte `<w>` ein `@ana="lexicon.xml#lemma_{id}_sense_{id}"`, das genau auf den Sense zeigt, in **667 von 667** Dateien, dokumentiert in TEI-MODEL.md §4.1 samt Migrationsgeschichte (Phase B1, `@meaningRef` zu `@ana`, rund 5,9 Millionen Vorkommen). Zustande gekommen ist der Fehler dadurch, dass die Sense-Datensätze in `api/lemmata/index.json` tatsächlich nur `conceptIds` führen und daraus auf das Korpus geschlossen wurde, ohne das Dokument aufzuschlagen, das davon handelt. Die Lehre, die nicht gegriffen hat, ist die schlichteste im Bestand: **eine Abwesenheitsbehauptung braucht eine Abfrage, die Anwesenheit zeigen könnte.** Gefunden hat es die Spur, und sie hat gleich die Sachfrage mitentschieden: von den 40 sense-disambiguierten Tokens der `gebrechen`-Familie zeigt genau eines auf den fraglichen Sense, `JT_30921000_5`, und sein Kontext lautet „secureiz wol kunde hie beidenthalp gebrechen / die rede von ir munde". Das ist das Abbrechen der Rede, nicht gebrochene Sprachbeherrschung; `radebrechen` ist vom Tisch, und die verbliebene Frage an KZW ist enger: warum trägt ein Sense für das Unterbrechen der Rede das Konzept „Einzelsprachen"? **Der nützlichere Teil des Befunds gilt Gleis 1 insgesamt:** 92,4 % der Kandidaten-Tokens tragen ein `@ana`, aber es trennt fast nie, weil 6.872 der 6.996 Senses selbst ein Sprachkonzept haben. Genau 430 Tokens zeigen auf einen Sense ohne eines, und das sind die Stellen, an denen der annotierte Bestand einer Zuordnung widerspricht: das schärfste maschinelle Ausschlusskriterium, das Gleis 1 hat (Messung der Spur, hier nicht nachgemessen). Die Lehre, die nicht gegriffen hat, steht im Auftrag desselben Laufs, §9: ein Testlauf, dessen Grundgesamtheit man nicht kennt, beweist nichts, und plausible falsche Zahlen sind der Regelfall dieser Sorte. Konkret gegen den Wiederholungsfall: **eine Hülle wird gegen ihre eigene Wurzel geprüft, bevor man ihr glaubt**, das kostet zwei Zeilen. Richtigstellung mit Messvorschrift als Kommentar auf #28; die Zahlen im abgeschickten Auftrag bleiben stehen und bekommen eine Fußnote, beantragt in #385, weil `docs/playbooks/**` eingefroren ist.
+**Rot, zum dritten Mal an einem Abend und wieder die Koordination: „das Korpus kann Senses nicht auflösen" war falsch.** Ausgezogen als rote Zeile 4 nach [../fehlerjournal.md](../fehlerjournal.md).
 
-**Rot, zum vierten Mal, und die Welle-3-Vorabmessung war an zwei Stellen falsch.** Die erste ist ein Selbstwiderspruch innerhalb eines Absatzes: zum Trierer Zeichensatz steht dort erst die Messung „von 34,3 % auf 37,4 %" und zwei Sätze später das Fazit, die Zusatzregeln „kosten nur nichts und retten hier auch nichts". Mit beiden Schaltungen des Prüfskripts gemessen heben sie die Paare mit bekanntem Findebuch-Lemma von 5.081 auf 5.494 und die Befundmenge von 424 auf 465, also um 41 Fälle. Die zweite wiegt schwerer, weil sie den Zuschnitt des Tickets betrifft: die 477 Fälle waren als die Menge beschrieben, in der „genau dort unsere dreistufige Auflösung danebengreifen" kann. Dort kann sie es nicht. Das Auswahlkriterium, die Schreibform ist bei uns selbst ein Lemma, ist genau die Bedingung, unter der Stufe 1 trifft; die Menge löst deshalb zu 100 % auf Stufe 1 auf (gemessen 465 von 465), und die Fehlerklasse aus #224, wegen der #259 überhaupt existiert, kann in ihr gar nicht auftreten. Gefunden hat beides die Spur beim Bau des Skripts, nachgemessen die Koordination mit dem unveränderten Skript aus `f3a575c77` gegen denselben Dump, außerhalb des Repositoriums ausgeführt.
+**Rot, zum vierten Mal, und die Welle-3-Vorabmessung war an zwei Stellen falsch.** Ausgezogen als rote Zeile 5 nach [../fehlerjournal.md](../fehlerjournal.md).
 
 **Für den Zähler ist die Herkunft wichtiger als die Zahl.** Beide Fehler stammen aus derselben Vorabmessungscharge vom 01.09. wie die rote Zeile zwei und drei, also aus der Zeit **vor** der Lehre, die aus ihnen gezogen wurde. Sie sind ein weiterer Fund im selben Bestand und kein neuer Verstoß gegen eine schon stehende Regel; deshalb stehen sie hier als eine Zeile. Was sie belegen, ist die Wirksamkeitsfrage: **beide vorab vermessenen Wellen trugen einen Fehler, den erst die Spur beim Neubau fand**, und in beiden Fällen wäre er konserviert worden, wenn die Spur der Zahl gefolgt wäre, statt sie neu zu erarbeiten. Genau das war der Zweck der Vorwegnahme. Der strukturelle Grund steht in der roten Zeile drei: Operatorarbeit geht durch keinen Review, die Arbeit der Spur durch vier Runden. Richtigstellung mit Messvorschrift als Kommentar auf #259, der Body ist an beiden Stellen nachgezogen und der Vorabmessungs-Kommentar trägt eine Überholt-Notiz; die Fußnote im eingefrorenen Auftragstext ist über #385 beantragt.
 
-**Rot, zum fünften Mal, und dies ist der erste echte Wiederholungsfall des Laufs: die Lehre stand, sie war drei Stunden alt, und sie war meine eigene.** Am Vormittag des 02.09. habe ich im Setup-Repositorium den Satz veröffentlicht, das Ergebnis einer Vorabmessung gehe nicht in Ticketkommentare oder in die Chronik, bevor eine geprüfte Fassung existiert. Keine drei Stunden später habe ich aus einer Vorab-Meldung der Spur binnen einer Stunde einen publizierten Ticketkommentar, zwei Body-Änderungen und einen Journalcommit gemacht, und zwar an dem Kommentar, der einen früheren Fehler derselben Sorte richtigstellt. Die Meldung kam aus Meldepunkt 2 **vor** der Reviewrunde, was ihr Zweck ist; die Runde fand danach einen Klasse-A-Defekt im Prüfskript, und damit waren alle Beträge überholt, die ich publiziert hatte. Der Defekt: `itertext()` auch auf `<form type="sublemma">`, wo **2.705 der 8.610 Formen ausschließlich ein Wortartkürzel und gar keine Schreibform tragen**. Selbst nachgemessen mit einem eigenen Skript direkt am Dump, damit die Gegenprobe den Fehler nicht erbt: 8.610 Formen, 3.462 mit `<gram>`-Kind, 2.705 nur Kürzel, 1.039 Ergebnisse mit Leerzeichen, 3.498 mit Punkt, auf die Stelle die Zahlen der Spur. **Die Richtungen beider Befunde halten** (die Trierer Regeln retten etwas, die Prüfmenge löst ausnahmslos auf Stufe 1 auf), die Beträge nicht. Richtiggestellt durch eine Notiz am eigenen Kommentar, und die Betragszahlen sind aus dem Ticket-Body wieder heraus: sie gehören in den PR, nicht in ein Ticket, das bei jeder Reviewrunde nachaltert.
+**Rot, zum fünften Mal, und dies ist der erste echte Wiederholungsfall des Laufs: die Lehre stand, sie war drei Stunden alt, und sie war meine eigene.** Ausgezogen als rote Zeile 6 nach [../fehlerjournal.md](../fehlerjournal.md).
 
-**Im selben Kommentar noch ein zweiter Fall derselben Familie, gefunden von derselben Reviewrunde am Docstring der Spur und auf mich genauso zutreffend:** die Zahl 5.705 für das `ʒ` in der Lexer-Lemmaliste stand dort als Faktum. Sie ist keines. Sie stammt aus der Vorprüfung im Ticket-Body, der Body führt sie selbst unter „nicht nachprüfbar", und die Datei liegt auf dieser Maschine gar nicht (unter `temp/woerterbuchnetz2015` steht allein `FindeB`, nachgesehen). Erst mit Herkunft markiert, und **auch das war falsch**: `CLAUDE.md` Zeile 108 verlangt, was eine Aussage nicht braucht, zu **löschen statt zu belegen**. Die Zahl ist jetzt gelöscht. Der Umweg lohnt die Zeile, weil er eine Klasse benennt, die in der Zählung bisher fehlte und die aus dem Austausch mit `corema-operator` stammt: **die dekorative Zahl.** Sie steht neben einem Argument, das sie nicht braucht, und wird genau deshalb nie geprüft, denn niemand stützt sich auf sie. Wer bemerkt, dass sie nichts trägt, hat damit die Rechtfertigung, sie weiter nicht zu prüfen. Gefährlich wird sie, wenn sie fremd ist: diese hier kam aus einem Ticket-Body und trug dessen Autorität, obwohl sie dort selbst als unprüfbar markiert war. Ein Leser sieht ihr das nicht an.
+**Im selben Kommentar noch ein zweiter Fall derselben Familie, gefunden von derselben Reviewrunde am Docstring der Spur und auf mich genauso zutreffend** Ausgezogen als Teil der roten Zeile 6 nach [../fehlerjournal.md](../fehlerjournal.md).
 
 **Was daraus folgt, ist wieder keine schärfere Formulierung, sondern eine Reihenfolge**, und das ist inzwischen das Muster beider Koordinationsfehler dieses Laufs. Beim Freeze war es „eintragen, bevor der Kickoff hinausgeht", hier ist es: **was im Meldepunkt vor einer Reviewrunde kommt, geht in die Listen und nirgendwo sonst; publiziert wird nach der Runde.** Eine Regel, die drei Stunden nach ihrer eigenen Formulierung gebrochen wird, hat kein Textproblem. Die Meldedisziplin der Spur bleibt davon unberührt und ausdrücklich richtig: ein Meldepunkt liegt vor dem Review, sonst ist er sinnlos. **Der Fehler war die Publikation, nicht die Meldung**, und aus demselben Grund wird der Skriptdefekt der Spur hier nicht gezählt: einen Fehler, den die erste Reviewrunde in einem PR findet, zählt der Zähler nicht, sonst zählt er Arbeit statt Wiederholung.
 
-**Rot, zum sechsten Mal, und es ist dieselbe Bauart wie die vierte: Messung richtig, Mechanismus erfunden.** Zu einem Befund der Spur aus Welle 4 (das Verblemma `lemma_2535 grôzen` existiert, entgegen ihrer ersten Aussage) habe ich den Variantenbestand nachgemessen und dabei gesehen, dass `grozen`, `groezen` und `groesen` alle auf das Adjektiv `lemma_2534` zeigen. Die Messung stimmt. Daraus habe ich geschrieben, „Stufe 2 überschreibt eine Zuordnung, die Stufe 1 richtig hätte", und das ist frei erfunden: `docs/CONTRACTS.md` §C führt seit langem den Pseudocode mit `if results.length > 0: return results // EARLY RETURN, skip stages 2-3`. Stufe 1 bricht bei Treffer ab, ein Überschreiben kann es nicht geben. Die Spur hat es kassiert und die richtige Lage geliefert: betroffen ist allein der Ingest-Matcher, weil `wzb-breve-backfill.py` `variants.xml` direkt liest und die Stufenordnung nicht kennt. **Der Fehler saß im Werkzeug, nicht in der Auflösung**, und dieser Unterschied entscheidet, ob es ein Frontend-Bug ist oder eine Werkzeugeigenschaft. Ich hatte außerdem eine Frage an KZW daraus gebaut („Altlast oder Absicht?"), die mit falscher Prämisse hingegangen wäre; ihre Antwort darauf lautete **Homographie** (die flektierte Adjektivform *ist* der Verbinfinitiv, 1.223 Korpusbelege gegen 13), und **auch die ist nicht die Erklärung, was der CI-Bot zwei Stunden später gefunden und ich danach selbst nachgemessen habe.** Sie gilt für die Normalform `grozen`; der fragliche WZB-Token ist `grŏsen` und normalisiert auf `groesen`, also einen anderen Schlüssel. Gemessen in `variants.xml`: `lemma_2535` führt **neun** Formen (`grozte grozet grozten grossen grôzte grôzet grôssen grozzet grosset`), **keine davon normalisiert auf `groesen`**, und der einzige Träger dieser Normalform ist `lemma_2534` mit der Form `grösen`. Das Verblemma stand für diesen Schlüssel also nie zur Wahl. Die richtige Erklärung ist die schlichteste und stand von Anfang an in den Befund-CSVs: eine **Lücke im Variantenbestand** von `lemma_2535`. **Damit hat derselbe Fall drei Erklärungen durchlaufen, und die ersten beiden waren gebaut statt gelesen:** meine (Stufe 2 überschreibt Stufe 1), ihre (Homographie mit 1.223 Belegen), und die gemessene. Beide falschen hatten eine korrekte Messung neben sich stehen, die zu einem anderen Schlüssel gehörte.
+**Rot, zum sechsten Mal, und es ist dieselbe Bauart wie die vierte: Messung richtig, Mechanismus erfunden.** Ausgezogen als rote Zeile 7 nach [../fehlerjournal.md](../fehlerjournal.md).
 
-**Die Lehre, die nicht gegriffen hat, ist die meistzitierte des Tages:** ein Befund wird erst zur Aussage, wenn die Quelle offen war, und für einen Ablauf ist die Quelle der Ablauf, nicht die Tabelle daneben. Ich hatte sie am selben Tag dreimal selbst angeführt. **Der Tag hat damit dreimal dieselbe Abwesenheits- oder Mechanismusfrage falsch beantwortet, in drei verschiedenen Gestalten:** falsche Datenquelle (`@ana`, Vormittag), falsche Kodierung (`grep -P "\xc2\xad"` findet null von zwölf weichen Trennstrichen), falsche Normalform (`groezen` statt `grozen`, Befund der Spur an sich selbst). Daraus die Fassung, die zweimal gehalten hat und die passive Formulierung ersetzt: **eine Abwesenheitsabfrage wird zuerst an einem bekannten Positivfall getestet; findet sie den nicht, ist die Abfrage widerlegt und nicht der Bestand.** Genau das hat den `grep`-Fehler binnen einer Minute gefangen, weil zwölf bekannte Vorkommen danebenlagen.
+**Die Lehre, die nicht gegriffen hat, ist die meistzitierte des Tages** Ausgezogen als Teil der roten Zeile 7 nach [../fehlerjournal.md](../fehlerjournal.md).
 
 **Der substanzielle Fund aus derselben Kette, und er ist kein Fehler, sondern eine Eigenschaft, die niemand benannt hatte: `variants.xml` ist nicht einwertig, die daraus gebaute Karte schon.** Gemessen über alle `<form>` der Quelle, MHG-normalisiert: **234.243 Normalformen, davon 4.972 mit mehr als einem Ziel-Lemma.** `grossen` zeigt dort auf `lemma_2534`, `lemma_2535` und `lemma_31392`, `a` auf `lemma_1`, `lemma_2` und `lemma_37325`. In `data/authority-index.json.gz` steht unter `variants` je Normalform genau **eine** Zeichenkette (0 von 234.243 Werten ist etwas anderes), und dort bleibt von `grossen` allein `lemma_2534` übrig. **Beim Indexbau fallen also 4.972 Mehrdeutigkeiten still weg**, und Stufe 2 der Auflösung liefert deshalb immer genau ein Lemma, auch wo die Quelle mehrere kennt. Gefunden hat das die Spur beim Prüfen einer Prämisse, auf der an diesem Tag drei verschiedene Erklärungen desselben Falls standen, ihre zwei und meine eine. Die Regel daraus: **wer über `variants.xml` argumentiert, muss sagen, ob er die Quelle meint oder die gebaute Karte.** Für den Anlassfall ändert es nichts, `groesen` hat auch in der Quelle nur ein Ziel.
 
-**Rot, zum siebten Mal, und diesmal in einer Nachricht statt in einer Datei: einen Peer-Befund als gemessen weitergegeben, den ich nicht gemessen hatte.** Die Spur hatte einen CI-Bot-Befund mit einer Zeilenfalle erklärt (`rg -c` zähle Zeilen mit Treffer, und in der WZB stünden mehrere `<w>` je Zeile). Das klang zwingend, ich habe es übernommen, an sie zurückgespiegelt und in den Statusbericht geschrieben. **Gemessen: 0 von 235.993 Zeilen der WZB tragen mehr als ein `<w>`**, die Falle existiert nicht. Die wirkliche Ursache ist enger und hat die Spur selbst nachgereicht: das Suchmuster ließ nur Tokens zu, deren einziges Attribut `xml:id` ist, und drei der 922 tragen zusätzlich ein `pos="DIG"`. Die Bot-Zahl war korrekt erzeugt, nur nicht das, wofür er sie hielt. **Der Vorgang ist getrennt von der sechsten Zeile zu zählen**, obwohl er denselben Modus hat: dort war es eine eigene Erfindung, hier eine fremde Übernahme, und der Anlass ist ein anderer. Die Lehre, die nicht gegriffen hat, ist wörtlich die, die im selben Gespräch gelobt wurde: ein Befund ist auch dann eine Behauptung, wenn er von einem Werkzeug oder von einer sorgfältigen Spur kommt. **Zwei Minuten Messung hätten gereicht, und ich hatte die Datei an diesem Tag schon dreimal offen.**
+**Rot, zum siebten Mal, und diesmal in einer Nachricht statt in einer Datei: einen Peer-Befund als gemessen weitergegeben, den ich nicht gemessen hatte.** Ausgezogen als rote Zeile 8 nach [../fehlerjournal.md](../fehlerjournal.md).
 
 **Phase:** Betrieb, Lauf am selben Abend wieder aufgenommen. Wellen 2 und 3 vorab vermessen, Spur `mhdbdb-wellen-2345` in Welle 2, `fable-reviewer` Runde 1 auf Fable 5.1 beauftragt. Kein `npm test` auf der Koordinationsseite, keine Daten, kein Index berührt. Das Matrix-Gate lief zweimal rot und wurde beide Male nach einem Diff mit `--apply` nachgezogen; die zweite Ursache war eine einzige Zelle, das `updatedAt` von #28. Der Wiederaufnahmepunkt steht im #44-Zwischenstand.
 
@@ -3260,7 +3260,7 @@ Fortsetzung des am 01.09. pausierten Laufs, Spur `mhdbdb-wellen-2345`, Auftrag `
 
 **Der teuerste Fix des Laufs hat einen Prüfpfad entwertet, den niemand nachgezählt hat.** Derselbe Fix machte den Guard `if not concepts` in `main()` zu totem Code: die Kategorien werden jetzt aus einer anderen Menge gefüllt, und ein falsch geschriebener Wurzel-Identifier erzeugte statt einer Fehlermeldung eine leere CSV mit Rückgabewert 0. Zwei `fable-reviewer`-Runden hatten den Fix gesehen und die Nebenwirkung nicht. Gefunden hat es der CI-Bot in Runde 3. **Die Lehre über den Anlass hinaus: ein Fix ändert nicht nur, was er soll, er kann Prüfpfade entwerten, die auf dem alten Verhalten beruhten.** Die Gegenprobe dazu ist billig und wurde in Welle 3 gleich zweimal gemacht: einmal mit einem erfundenen Wurzel-Identifier, einmal mit einem Verzeichnis erfundener Wörterbucheinträge, jeweils um zu zeigen, dass ein Gurt noch erreichbar ist.
 
-**Rot: `check-doc-inventories.py` lief nicht lokal, und genau er wurde rot.** Der Welle-2-PR ging mit zwei neuen Skripten hinaus, von denen keines in `docs/DEVELOPMENT.md` und `scripts/README.md` stand. Das Gate liegt in `scripts/audit/`, und ich hatte drei andere aus demselben Verzeichnis von Hand aufgerufen. Die dokumentierte Lehre, die nicht gegriffen hat, ist die Bump-Gate-Lehre vom 31.07. in `feedback_index_version_bump`: ein Gate lokal laufen zu lassen spart eine Pipeline-Runde. Sie war auf Versionsstellen gemünzt und gilt für jedes Gate im selben Verzeichnis. Nachgetragen in `3b9abb3f9`.
+**Rot: `check-doc-inventories.py` lief nicht lokal, und genau er wurde rot.** Ausgezogen als rote Zeile 9 nach [../fehlerjournal.md](../fehlerjournal.md).
 
 **Die Hälfte einer Prüfmenge waren gar keine Schreibformen.** Welle 3 misst unsere dreistufige Lemmaauflösung gegen den Verweisgraphen des Findebuchs. Der erste Entwurf las die Formen mit `itertext()`, und `<form type="sublemma">` trägt im selben Element die grammatische Abkürzung: 3.462 der 8.610 Sublemmata haben ein `<gram>`-Kind, bei **2.705 ist die Abkürzung der gesamte Inhalt**, dort steht überhaupt keine Schreibform. Rund die Hälfte von Teil 2 war kontaminiert, und die kontaminierten Strings trafen trotzdem, weil Stufe 3 in der Richtung „Eingabe beginnt mit Lemma" prüft. Runde 1 des `fable-reviewer` fand es.
 
@@ -3272,7 +3272,7 @@ Fortsetzung des am 01.09. pausierten Laufs, Spur `mhdbdb-wellen-2345`, Auftrag `
 
 **Vier der 98 sind kein Wortartproblem, sondern ein falsches Ziel-Lemma, und zwei davon sind gar keine Wörter.** `grŏsen` in „wil grŏsen deinen namen" ist das Verb *grôzen*, und `grôz` führt kein `VRB`. `hŏrde` in „die vorporgin hŏrde des sandes" ist der Hort, nicht das Hören. Und zweimal ist `tŏch` die erste Hälfte von *tŏchter*, **zerrissen durch einen mitten im Wort stehenden Blattmarker** („von den tŏch XXVIII GENE tern"). Das ist dieselbe Bauart wie Punkt 1 desselben Tickets, die 17 Tokens mit literalem Escape, nur andersherum: dort zwei Wörter in einem Token, hier ein Wort auf zwei verteilt. Bemerkenswert daran ist, dass die erzeugenden Zeilen in `variants.xml` **für sich richtig** sind: `hoerde` ist ein Präteritum von *hœren*, `toech` eines von *ziehen*. Eine korpusabgeleitete Variantenzuordnung kann global stimmen und lokal falsch sein.
 
-**Rot, dritter Auftritt derselben Bauart an einem Tag: eine Abwesenheitsabfrage, deren Zuschnitt den gesuchten Fall ausschließt.** „Ein Lemma *grœzen* gibt es nicht" stand zwei Runden lang im Entwurf und war falsch: `lemma_2535` *grôzen* `VRB` existiert, mit 13 Belegen in 11 Texten. Meine Suche lief über die normalisierte Form `groezen`, *grôzen* normalisiert aber auf `grozen`. Die Regel, die die Koordination daraus formuliert hat und die hier festgehalten wird: **eine Abwesenheitsabfrage wird zuerst an einem bekannten Positivfall getestet; findet sie den nicht, ist die Abfrage widerlegt und nicht der Bestand.** Die Lehre, die nicht gegriffen hat, ist `feedback_zahlen_messvorschrift` vom 31.07.: eine Zahl ohne dokumentierte Zählweise. Für eine Null gilt sie genauso, und für eine Null ist sie gefährlicher, weil eine Null nicht auffällt.
+**Rot, dritter Auftritt derselben Bauart an einem Tag: eine Abwesenheitsabfrage, deren Zuschnitt den gesuchten Fall ausschließt.** Ausgezogen als rote Zeile 10 nach [../fehlerjournal.md](../fehlerjournal.md).
 
 **Derselbe Fall hat dann drei Erklärungen durchlaufen, und die ersten beiden waren gebaut statt gelesen.** Die Koordination erklärte den Fehlgriff mit einem Überschreiben durch Stufe 2, das es nach `docs/CONTRACTS.md` §C nicht geben kann (`EARLY RETURN -- skip stages 2-3`). Ich erklärte ihn mit Homographie: `grozen` trage 1.223 korrekte Adjektivtokens, `variants.xml` halte je Normalform ein Ziel, die häufigere Lesart gewinne. Auch falsch, gefunden vom CI-Review-Bot. **Das Token `grŏsen` normalisiert auf `groesen`, meine Messung galt `grozen`, das sind zwei Schlüssel.** `lemma_2535` führt neun Formen, keine davon normalisiert auf `groesen`; das Verblemma stand für diesen Schlüssel nie zur Wahl. Die gemessene Erklärung ist eine **Lücke im Variantenbestand**, und sie stand von Anfang an in den CSVs, bevor ich sie durch die schönere ersetzt habe. Beide falschen Erklärungen hatten eine korrekte Messung neben sich, die zu einem anderen Schlüssel gehörte. **Ein Vorgang mit drei Stationen, keine drei Fehler**, sonst zählt der Zähler Stationen statt Wiederholungen. Wie dünn die richtige Zuordnung ist, sagt die Gegenprobe: die Normalform `groesen` hat im ganzen Korpus 2 Tokens, eines davon ist dieses.
 
@@ -3302,16 +3302,16 @@ Die Variation war allerdings Zufall, und darauf lässt sich nichts bauen. **Was 
 
 **Eine Anweisung ist nicht dadurch gedeckt, dass sie vom Operator kommt.** Die Koordination bat, einen präzisierten Satz „in beide Statuskommentare" zu nehmen. Die Freigabe lautet aber je einen sachlichen Statuskommentar auf #28, #259, #235 und #216, und #259 hatte seinen bereits. Der Satz steht deshalb nur in #235, von dort auf #259 verlinkt. Die Koordination hat den Widerspruch angenommen und ihn selbst als Grenzüberschreitung verbucht. Eine Spur, die eine Freigabe nur so weit auslegt, wie sie geschrieben ist, kostet einen Satz an der falschen Stelle und spart die Frage, wer die Grenze verschoben hat.
 
-**Rot, eigener Regelverstoß:** für einen Nachtrag an einem Issue-Kommentar habe ich `gh api -f body="$(cat ...)"` benutzt, also Command Substitution in einem Shell-Befehl, die die globale `CLAUDE.md` ausdrücklich verbietet. Erster Fall dieses Fehlermodus in diesem Lauf, also kein Wiederholungsfall, aber die Zeile steht hier, weil ein Zähler nur zählt, was gemeldet wird.
+**Rot, eigener Regelverstoß** Ausgezogen als rote Zeile 11 nach [../fehlerjournal.md](../fehlerjournal.md).
 
 **Phase:** Betrieb. Drei Arbeits-PRs (#386, #388, #389, letzterer als `144fbbd3c`), einzeln gemergt, dazu dieser Eintrag als vierter: der Auftrag verbietet den direkten Push auf `main` ohne Ausnahme, und die Hausregel für kleine Doku-Änderungen hebt eine Auftragsgrenze nicht auf. Kein `Closes` auf keinem der vier Tickets. Statuskommentare auf #28, #216, #259 und #235. `npm test` vor jedem Push, VERDICT-Zeile jeweils im PR.
 ## 2026-09-02 (Abnahme) – Der Abbau traf die Spur im Laufen, und die Vorkehrung dagegen war schon geschrieben
 
 Koordinationsseite, Abschluss des Wellenlaufs. Vier PRs gemergt (#386, #388, #389, #391), Kontrollzahl am gemergten Stand selbst nachgemessen: 149.165 `<w>` in der WZB unverändert, 6.836 ohne `@lemmaRef` statt 6.925, Differenz genau 89. Die Tokenmenge bleibt identisch, nur die Annotationen kommen dazu.
 
-**Rot, zum achten Mal, und es ist eine Abwesenheitsbehauptung über eine Datei, die zwei Verzeichnisse entfernt liegt.** Im Freeze-Befund auf #385 stand, `kickoff-bausteine.md` verlange einen Abschnitt für Meldepunkte, aber keinen für den Freeze. Beide Hälften sind falsch: Baustein 6 heißt „Was eingefroren ist" und verlangt wörtlich Dateiliste, Inbox, Format und Grund, Baustein 9 ist einer der ausführlichsten überhaupt. Aufgefallen ist es erst, als ich für den Rückfluss den Wortlaut des angeblich fehlenden Bausteins zitieren wollte. Die Messung danach fällt schärfer aus als die Behauptung davor: von zehn Bausteinen stehen **neun** im abgeschickten Auftrag, und der eine fehlende ist ausgerechnet der Freeze-Baustein, von dem im ganzen Auftrag ein Halbsatz übrig ist. Nicht das Skill hat eine Lücke, der Kickoff hat einen vorhandenen Baustein ausgelassen, und geschrieben habe ich ihn selbst. Dieselbe Bauart wie die sechste rote Zeile (Mechanismus erfunden statt `CONTRACTS.md` gelesen). Dass ausgerechnet der Kommentar, der eine Vorkehrung gegen ungelesene Regeln fordert, selbst auf einer ungelesenen Regel steht, ist kein Zufall, sondern zeigt, wie zuverlässig dieser Fehlermodus ist.
+**Rot, zum achten Mal, und es ist eine Abwesenheitsbehauptung über eine Datei, die zwei Verzeichnisse entfernt liegt.** Ausgezogen als rote Zeile 12 nach [../fehlerjournal.md](../fehlerjournal.md).
 
-**Rot, zum neunten Mal, und dies ist der einzige Fehler des Laufs, gegen den bereits eine ausformulierte Vorkehrung an genau der richtigen Stelle stand.** Der Abbau des Worktrees lief, während die Session der Spur noch lief. `git worktree remove` hat den Verwaltungseintrag entfernt und ist am Verzeichnis mit `Permission denied` gescheitert; der Inhalt war zu diesem Zeitpunkt bereits gelöscht. Das Operator-Skill nennt genau diesen Vorgang als Fehler 1: ein Worktree wurde entfernt, während die Spur noch darin arbeitete, auf Grundlage einer Fertigmeldung statt eines Blicks in die Liste laufender Sessions. `ListAgents` habe ich erst danach aufgerufen, und die Spur stand dort als `bg`, `idle`, seit sechs Stunden.
+**Rot, zum neunten Mal, und dies ist der einzige Fehler des Laufs, gegen den bereits eine ausformulierte Vorkehrung an genau der richtigen Stelle stand.** Ausgezogen als rote Zeile 13 nach [../fehlerjournal.md](../fehlerjournal.md).
 
 **Was den Schaden verhindert hat, war nicht der Dateisystem-Lock.** Die Formulierung stammt von der Spur und korrigiert meine eigene: Windows hat den leeren Ordner gerettet, den Inhalt nicht. Verhindert hat den Verlust der Zustand der Spur, nämlich fertig gemeldet, alles gepusht, Arbeitsbaum sauber, kein Stash. Beides ist Zufall gegenüber der Vorkehrung, die gegriffen hätte. Eine Welle früher wäre der Verlust **still** gewesen: ein `git checkout origin/main -- tei/WZB.tei.xml` plus ein halber Lauf hinterlässt weder Status noch Stash, und die Entscheidungstafel der 98 Fälle war zu diesem Zeitpunkt zwei Stunden nicht committete Arbeit.
 
@@ -3329,16 +3329,7 @@ abgenommen, gearbeitet wurde nur noch an der Begleitung des Health-Checks.
 Beide Fehler dieses Abschnitts sind in derselben halben Stunde passiert, und
 der zweite ist beim Aufräumen des ersten aufgefallen.
 
-**Rot, zum zehnten Mal: eine ungemessene Annahme, die eine Entscheidung
-gestützt hat.** Vorgelegt wurde chsteiner die Entscheidung, die Werkzeugzahl
-ganz aus den Hilfeseiten zu nehmen, mit der Begründung, die Aufzählung daneben
-trage die Aussage ohnehin und sei immer aktuell. Aufgeschlagen war dafür
-nichts. Die Spur meldete daraufhin, die Aufzählung lasse den Pferde-Explorer
-aus, und korrigierte sich eine Stunde später selbst: er steht sehr wohl in der
-Seite, in Abschnitt 7 „Experimentelle Forschungsdaten"
-(`hilfe-playground.html:621`, Karte in 646), nur nicht in der einen Liste in
-Zeile 196. Ihr eigener Fehler war ein Grep auf eine CSS-Klasse, die Abschnitt 7
-nicht benutzt, also wörtlich „ein leerer Abruf ist kein Nullbefund".
+**Rot, zum zehnten Mal: eine ungemessene Annahme, die eine Entscheidung gestützt hat.** Ausgezogen als rote Zeile 14 nach [../fehlerjournal.md](../fehlerjournal.md).
 
 **Die Zeile bleibt trotzdem stehen, und zwar in umformulierter Fassung.** Sie
 zählt den Fehlermodus, nicht den Ausgang: die Annahme war zum Zeitpunkt der
@@ -3348,13 +3339,7 @@ streicht, weil es gutgegangen ist, macht den Zähler unfalsifizierbar, und genau
 das soll er nicht sein. Richtige Fassung: sie traf für die Seite zu und für die
 Liste in Zeile 196 nicht.
 
-**Rot, zum elften Mal, und diese ist die unangenehmste des Laufs: ein
-Positivtest, der die falsche Sache geprüft hat.** Gemeldet wurden vier
-Abweichungen zwischen TEI-Headern und `works.xml` (LAU wikidata, TRO zweimal,
-WZB wikidata), ausdrücklich als „selbst gemessen, mit Positivtest". Der Test
-existierte und prüft die **Normalisierung**, also dass eine nackte ID und eine
-volle URL auf denselben Wert fallen. Was er nicht prüft, ist die **Zuordnung**.
-Beim Aufmachen der Stellen bleiben von den vieren zwei übrig.
+**Rot, zum elften Mal, und diese ist die unangenehmste des Laufs: ein Positivtest, der die falsche Sache geprüft hat.** Ausgezogen als rote Zeile 15 nach [../fehlerjournal.md](../fehlerjournal.md).
 
 **Ein Test, der die falsche Sache prüft, macht eine ungeprüfte Zahl nicht
 geprüft, er verkleidet sie.** Das ist der Unterschied zu den bisherigen roten
@@ -3451,34 +3436,9 @@ Der dritte Lauf ist der einzige, der Fable gebraucht hat: 61 Bündel, eines je
 Sigel, nach POS-TAGSET §6.3. Die anderen beiden sind mechanisch entschieden und
 hätten kein Modell gebraucht.
 
-**Rot: Eindeutigkeit über einer Menge mit einem Element ist keine
-Eindeutigkeit.** Der #387-Extraktor sammelt je normalisierter Schreibform alle
-Lemmata, die im Korpus daran hängen, und annotiert, wo diese Menge einelementig
-ist. Das ist richtig gedacht und war trotzdem beinahe ein falsches Tag:
-`NLA_72101_5`, „wie si ze der hohzit **fvrn**", ist das Verb *varn*. Die
-Schreibung `fvrn` hat korpusweit **genau einen** annotierten Beleg
-(`RF_118100_0`, „fvrn hersante", zu Recht `lemma_7260`), und eine
-einelementige Menge ist trivial eindeutig. Das Skript hätte das Verb zur Frau
-gemacht, mit einer Begründung, die **wörtlich wahr** gewesen wäre: „alle Belege
-dieser Schreibung hängen an `lemma_7260`". Behoben mit `MIN_BELEGE = 5` plus
-einer namentlichen Ausnahmeliste. Die allgemeine Form der Lehre: ein Prädikat
-über einer Menge braucht eine Untergrenze für deren Größe, sonst misst es die
-Stichprobe statt den Gegenstand, und der Fehler versteckt sich hinter einem
-Satz, der stimmt.
+**Rot: Eindeutigkeit über einer Menge mit einem Element ist keine Eindeutigkeit.** Ausgezogen als rote Zeile 16 nach [../fehlerjournal.md](../fehlerjournal.md).
 
-**Rot: eine Zahl in der falschen Einheit macht eine verbuchte Altlast zu einem
-frischen Alarm.** Gemeldet wurde chsteiner „ein echter Befund, und größer als
-erwartet: 330 Korpus-Tokens verweisen mit `@ana` auf einen Sense, den weder der
-Index noch das Lexikon kennt". Die 330 stimmen. Was fehlte, war die
-Zähleinheit, in der die Ratsche arbeitet: **74 distinkte Sense-IDs, und alle 74
-stehen seit dem 02.07.2026 in `scripts/audit/lexicon-baseline.json`.**
-`check-authority-cross-refs.py` scannt `@ana` ausdrücklich (`REF_ATTRS`) und
-druckt die Zeile selbst: „74 sense-ids (330 refs)", Gate grün, `CI CHECK OK`.
-Es war nie ein Befund, sondern dieselbe #152-Sache in einer anderen Einheit.
-Der Fehlermodus ist derselbe, vor dem der eigene #28-Kommentar desselben Tages
-warnt (224 `zunge`-Widersprüche auf drei Senses), nur diesmal in eigener Sache.
-**Wer eine Zahl gegen eine Ratsche hält, hält sie in deren Einheit, sonst hält
-er sie gegen nichts.**
+**Rot: eine Zahl in der falschen Einheit macht eine verbuchte Altlast zu einem frischen Alarm.** Ausgezogen als rote Zeile 17 nach [../fehlerjournal.md](../fehlerjournal.md).
 
 **Der Ertrag von #28 Phase 2 ist nicht die Liste, sondern ihre Reichweite.**
 Der Phasenplan empfiehlt, mit den 430 `@ana`-Widersprüchen anzufangen „statt
@@ -3619,36 +3579,9 @@ die Zahl, um die es ging), scannte Docs und ausgelieferte HTML-Seiten und
 meldete in der Anker-Selbstprüfung kein konfiguriertes Paar ohne Treffer. Vor
 der Korrektur wäre er rot gewesen.
 
-**Rot, und es ist der Befund des Tages: sechs Bot-Befunde, ein einziges
-Muster.** Runde 10 (die Variantenzahl an zehn Stellen), Runde 11 (die
-Konfidenz-Rechnung, die einen von zwei Läufen nannte), die Zusage „der Body ist
-mitkorrigiert", die geschrieben wurde, bevor sie ausgeführt war, Runde 14
-Befund 1 (der billigste Check hinter dem teuersten, obwohl der Workflow-Kopf
-„billig nach teuer" ausschreibt), Runde 14 Befund 2 (die offengelegte Grenze
-nannte `docs/**` und `*.html`, aber nicht `playground/**`), Runde 15 (dieselbe
-Grenze nannte dann drei Herkünfte als eine, und die genannte Abhilfe deckte nur
-eine davon). Und nachträglich derselbe Fehler im Nachlauf-README: „31 von 31"
-über einer Menge, die 30 Elemente hat. Die 31 ist dabei nicht falsch, sie zählt
-die `confidence`-Fälle des ersten Laufs, und der Bot hat sie in Runde 11 selbst
-so nachgemessen; nur spricht der Satz über die Fälle des zweiten Laufs, und das
-sind 30. **Zwei richtige Zahlen über zwei verschiedene Mengen**, hingeschrieben
-mit dem Bezugswort der falschen. Genau die Sorte, die eine Nachmessung
-bestätigt, statt sie zu finden.
-**Jedesmal eine Aussage über eine Menge, geschrieben aus der Kenntnis eines
-Teils davon.** Das ist dieselbe Form wie die 330 `@ana`-Tokens vom Vormittag,
-nur ohne Zähleinheit als Ausrede. Die Gegenmaßnahme ist keine Regel, sondern
-eine Frage vor dem Schreiben: *woher weiß ich, dass das für alle gilt, und wo
-steht die Zählung?* Wo die Antwort ein Kommando ist, gehört das Kommando
-danebengeschrieben; die Fälle, in denen das getan wurde, sind die, die kein Bot
-mehr angefasst hat.
+**Rot, und es ist der Befund des Tages: sechs Bot-Befunde, ein einziges Muster.** Ausgezogen als rote Zeile 18 nach [../fehlerjournal.md](../fehlerjournal.md).
 
-**Rot, und der Beleg dafür stammt aus diesem Absatz selbst: die Pfadfilter
-eines `pull_request`-Triggers schützen einen Push nicht.** **16**
-`data-integrity`-Läufe sind von meinen eigenen Pushes abgebrochen worden,
-darunter der allererste, der das neue Gate vollständig ausgeführt hätte.
-Die Zahl stand hier zuerst als „zwei", dann als „drei", und beide Male war sie
-aus dem geschätzt, was mir gerade aufgefallen war. Gemessen über die
-Laufhistorie des Branches:
+**Rot, und der Beleg dafür stammt aus diesem Absatz selbst: die Pfadfilter eines `pull_request`-Triggers schützen einen Push nicht.** Ausgezogen als rote Zeile 19 nach [../fehlerjournal.md](../fehlerjournal.md).
 
     25 abgeschlossene data-integrity-Laeufe auf diesem Branch
     16 davon cancelled, 9 success
@@ -3734,13 +3667,7 @@ in jedem Fall hätte die Person, die es abarbeitet, Arbeit gemacht, die schon
 getan war, oder eine Entscheidung getroffen, die sich erübrigt hatte. **Vor der
 Vorlage steht die Nachmessung, nicht die Zusammenfassung.**
 
-**Rot: ich habe bei #358 gemessen, bevor ich den Kommentar gelesen habe.** Der
-Kommentar vom 09.08. sagt im ersten Satz, dass der Willehalm umgestellt und
-live ist. Ich hatte den Body gelesen, korpusweit gemessen, mich über den Fund
-gefreut und erst danach die Kommentare geöffnet. Das ist genau die Regel, die
-chsteiner in dieser Session viermal geschickt hat und die seit heute in
-`CLAUDE.md` steht, und ich habe sie an dem Tag gebrochen, an dem sie
-aufgeschrieben wurde. Der Schaden war nur Zeit; der Fund war schon dokumentiert.
+**Rot: ich habe bei #358 gemessen, bevor ich den Kommentar gelesen habe.** Ausgezogen als rote Zeile 20 nach [../fehlerjournal.md](../fehlerjournal.md).
 
 **Und schlimmer: derselbe Kommentar beschreibt den Messfehler, den ich dann
 gemacht habe.** Er hält fest, ein erster Lauf habe 48 Werke gemeldet, weil nur
@@ -3748,12 +3675,7 @@ gemacht habe.** Er hält fest, ein erster Lauf habe 48 Werke gemeldet, weil nur
 `lg[@n]` tragen. Mein Lauf prüfte ebenfalls nur `div[@n]` und meldete 146
 Werke. Der Kommentar enthielt die Korrektur, bevor ich den Fehler machte.
 
-**Rot: beinahe Textverlust gemeldet, der keiner war.** Beim #252-Abgleich fielen
-fünf RVBR-Stellen auf, an denen die Vorlage einen echten Vers trägt und das TEI
-eine leere Zeile. Vor dem Absenden in beiden Dateien nachgesehen: der Vers steht
-eine Zeile weiter. RVBR nummeriert die `xml:id` fortlaufend statt nach
-Linecode-Zeile, der Versatz war meiner. Die Meldung wäre ein Alarm über
-Datenverlust in einem publizierten Korpus gewesen.
+**Rot: beinahe Textverlust gemeldet, der keiner war.** Ausgezogen als rote Zeile 21 nach [../fehlerjournal.md](../fehlerjournal.md).
 
 **Was die zehn Vorgänge jetzt brauchen**, ist durchweg weniger als vorher:
 

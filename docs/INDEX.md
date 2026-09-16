@@ -113,7 +113,8 @@ For the current index versions see [TEI-MODEL.md §11](TEI-MODEL.md#11-versionin
 ### What was finished recently
 
 - **[JOURNAL.md](JOURNAL.md)** – chronological, with reasoning and dead ends; the full text of
-  the condensed entries lives in [journal-archive.md](journal-archive.md)
+  the condensed entries lives in [journal-archive.md](journal-archive.md), and the red lines
+  moved out to [../fehlerjournal.md](../fehlerjournal.md) on 2026-09-16
 - Since 2026-08-02 the [ROADMAP.md](ROADMAP.md) no longer keeps a chronicle of its own (#316); it
   says what is coming up and places ongoing work in context.
 
