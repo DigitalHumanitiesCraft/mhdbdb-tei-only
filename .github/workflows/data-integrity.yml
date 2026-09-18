@@ -276,16 +276,17 @@ jobs:
       #       Zahl und loest den Lauf nicht aus.
       #   (b) Ein PR am Playground aendert die GEMESSENE Zahl und loest den
       #       Lauf ebenfalls nicht aus. Sechs Groessen sind code-abgeleitet
-      #       (CODE_LABELS, doc-count-audit.py:335), und sie stammen aus
+      #       (CODE_LABELS in doc-count-audit.py), und sie stammen aus
       #       DREI verschiedenen Orten:
       #
       #         ui_modules, tei_tools, pattern_modules
-      #             glob ueber playground/js/ui/                (:216, :217)
+      #             die beiden globs in collect_code_counts()
       #         curated_datasets
       #             len(CURATED_DATASET_MODULES), eine Konstante
-      #             in diesem Skript selbst                     (:225)
+      #             in diesem Skript selbst
       #         authority_explorers, entry_points
-      #             re.findall auf playground/index.html        (:227-231)
+      #             re.findall auf playground/index.html,
+      #             ebenfalls in collect_code_counts()
       #
       #       curated_datasets ist damit gedeckt: es aendert sich nur mit
       #       scripts/audit/**, und das steht in den Filtern.
@@ -304,8 +305,14 @@ jobs:
       # docs/** aufzunehmen waere derselbe Handel bei jeder Doku-Aenderung.
       #
       # Nebenbei, weil es beim Nachmessen auffiel: playground/index.html
-      # steht auf BEIDEN Seiten dieses Gates, als gemessene Quelle (:227)
-      # und als Doku-Ziel fuer variants_normalized (:332).
+      # steht auf BEIDEN Seiten dieses Gates, als gemessene Quelle in
+      # collect_code_counts() und als Doku-Ziel fuer variants_normalized
+      # in DOC_TARGETS.
+      #
+      # Belegt wird hier bei Namen und nicht bei Zeilennummern: die fuenf
+      # Nummern, die bis 2026-09-18 hier standen, waren nach einem
+      # Kommentar-Einschub von rund 20 Zeilen in doc-count-audit.py alle
+      # falsch, und kein Gate sieht so etwas.
       #
       # Der Fall vom 06.09. faellt unter keine der beiden Grenzen: er faengt
       # an einer Datenaenderung an und loest diesen Workflow immer aus.
