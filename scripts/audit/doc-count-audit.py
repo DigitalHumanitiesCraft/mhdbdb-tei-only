@@ -222,9 +222,11 @@ def collect_code_counts() -> dict:
       Werkzeug Nr. 1). Die kuratierten Fremddatensaetze stehen daneben als
       eigener Count, siehe die Begruendung an CURATED_DATASET_MODULES.
     - Kuratierte Forschungsdatensaetze = CURATED_DATASET_MODULES
-    - Pattern-Module (DESIGN.md) = alle Module minus Router minus
-      MODAL_MODULES. Hier zaehlen die kuratierten Datensaetze MIT, weil die
-      Frage eine andere ist: sie folgen dem DESIGN-Pattern sehr wohl.
+    - Pattern-Module (DESIGN.md) = alle Module minus NON_TOOL_MODULES minus
+      MODAL_MODULES. NON_TOOL_MODULES war bis 2026-09-18 der Router allein,
+      deshalb stand hier "minus Router"; seit #204 gehoert der Scope-Helfer
+      dazu. Die kuratierten Datensaetze zaehlen MIT, weil die Frage eine
+      andere ist: sie folgen dem DESIGN-Pattern sehr wohl.
     - Authority-Explorer = die sechs show*Btn-Buttons der Authority-Sidebar
     - Entry Points = Explorer + Werkzeuge + kuratierte Datensaetze, also
       alles, was in der Sidebar anklickbar ist
@@ -238,10 +240,10 @@ def collect_code_counts() -> dict:
     if missing:
         sys.exit(f'FEHLER: Ausnahme-Mengen nennen nicht existierende Module: {sorted(missing)} '
                  f'— NON_TOOL_MODULES/MODAL_MODULES/CURATED_DATASET_MODULES pflegen.')
-    non_router = module_names - NON_TOOL_MODULES
-    counts['tei_tools'] = len(non_router - CURATED_DATASET_MODULES)
+    non_tool = module_names - NON_TOOL_MODULES
+    counts['tei_tools'] = len(non_tool - CURATED_DATASET_MODULES)
     counts['curated_datasets'] = len(CURATED_DATASET_MODULES)
-    counts['pattern_modules'] = len(non_router - MODAL_MODULES)
+    counts['pattern_modules'] = len(non_tool - MODAL_MODULES)
     html = Path('playground/index.html').read_text(encoding='utf-8')
     counts['authority_explorers'] = len(re.findall(
         r'id="show(?:Authors|Works|Lemmata|Concepts|Genres|Names)Btn"', html))
@@ -465,10 +467,13 @@ CODE_ANCHORS = {
 # Zeilen im Modul-/Verzeichnisbaum zaehlen Unterverzeichnisse ("├── core/
 # # Core utilities (3 modules)"), nie die Gesamtzahl. Ohne diesen Skip
 # meldet der ui_modules-Anker jede Baumzeile als Drift.
-# Nebenwirkung, bewusst in Kauf genommen: die Baumzeile "13 files: router +
-# modal + 11 analysis modules" in ARCHITECTURE.md wird damit auch fuer
-# pattern_modules nicht mehr geprueft. Dieselbe Angabe steht im Fliesstext
-# darunter ("The eleven analysis modules"), Drift bleibt sichtbar.
+# Nebenwirkung, bewusst in Kauf genommen: die Baumzeile fuer tei/ in
+# ARCHITECTURE.md (heute "15 files: router + modal + scope helper + 12
+# analysis modules") wird damit auch fuer pattern_modules nicht mehr
+# geprueft. Dieselbe Angabe steht im Fliesstext darunter (heute "The twelve
+# analysis modules"), Drift bleibt sichtbar. Die Zitate standen hier bis
+# 2026-09-18 im Wortlaut von zwei Staenden vorher ("13 files", "The eleven
+# analysis modules") und waren damit selbst gedriftet.
 TREE_LINE_RE = re.compile(r'^\s*[│├└]')
 
 # ADRs und Retrospektiven nennen bewusst den Stand von damals. Der
