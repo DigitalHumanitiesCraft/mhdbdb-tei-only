@@ -403,3 +403,18 @@ Aus `docs/JOURNAL.md`.
 ### 35. Rot: eine Pluralstelle repariert und den Satz daneben nicht mitgelesen.
 
 **Rot: eine Pluralstelle repariert und den Satz daneben nicht mitgelesen.** Der neue Hinweis meldete „1 Texte ausgewählt", sobald genau ein Text ausgewählt und vom Filter verdeckt war. Der Fix machte daraus „1 Text" und ließ das Verb stehen: „Für die Analysen **sind** weiterhin 1 Text ausgewählt." Committet, gepusht, durch CI, gefunden erst vom Review-Bot eine Runde später. **Die Lehre, die nicht gegriffen hat, ist dieselbe wie am 14.09.: wer eine Stelle ändert, liest vor dem Commit ihre Nachbarschaft mit.** Die letzte Zeile dazu steht unter „Fifteen checks" über einer Liste mit sechzehn Einträgen; das ist die zweite. Dieselbe Geometrie wie dort, nur eine Zeile statt zwei entfernt: der Fehler stand nie in dem, was ich geändert hatte.
+
+
+## 2026-09-18 – CLAUDE.md verdichtet, und der Drift-Befund war umgekehrt
+
+### 36. Rot: die Ausgabe eines Gates als Befund weitergegeben, ohne den Schluss daraus zu prüfen.
+
+**Rot: die Ausgabe eines Gates als Befund weitergegeben, ohne den Schluss daraus zu prüfen.** `doc-count-audit.py --check` lief rot, und ich habe chsteiner vorgelegt, die Doku sei alt: sechs Stellen in `README.md`, `docs/FEATURES.md` und `docs/ARCHITECTURE.md` nennen 11 Analysewerkzeuge, 19 Entry Points und 12 Pattern-Module, gemessen seien 12, 20 und 13. Dazu die Vermutung, der #204-Merge vom 15.09. habe die Zahlen nicht nachgezogen. Die Freigabe zum Nachziehen kam daraufhin.
+
+**Beim Nachsehen war es umgekehrt.** #204 hat mit `5ab07250f` `playground/js/ui/tei/corpus-scope.js` angelegt, ein Hilfsmodul für die Meldung bei leerer Auswahl, das acht Werkzeuge importieren, das selbst nichts anzeigt und keinen Knopf in `playground/index.html` hat. Kein Analysewerkzeug, also war die **Messung** falsch und die Doku-Zahlen waren es nicht. Repariert ist deshalb das Gate, nicht die Prosa.
+
+**Die Lehre, die nicht gegriffen hat: der eigene Befund ist der gefährlichere, weil eine selbst erhobene Messung sich geprüft anfühlt, auch wenn nur die Zahl gemessen wurde und nicht der Schluss daraus** (`agentenbefunde.md`). Gemessen hatte ich die Ausgabe des Werkzeugs; behauptet habe ich, welche Seite der Differenz die falsche ist. Die letzte Zeile zu dieser Lehre ist Eintrag 24, wo derselbe Satz wörtlich steht: der Bericht sagt, wo zu messen ist, er ist nicht die Messung. Hier war der Bericht das eigene Werkzeug.
+
+**Die „sechs Stellen" waren ihrerseits falsch, und das ist der zweite Fehler in derselben Vorlage.** Ich habe die Ausgabe des Gates mit `head -40` gelesen und die Summenzeile darunter nie gesehen. Gemessen sind es **11 Treffer in 9 (Datei,Key)-Paaren über fünf Dateien**: die drei genannten plus `docs/DESIGN.md` („Twelve", Zeile 162) und `playground/readme.md` (Zeilen 38 und 124). Sechs war die Zahl der Paare in den drei Dateien, die oben im abgeschnittenen Fenster standen. Gefunden hat es `fable-reviewer` in Runde 1, nachgemessen habe ich es an den beiden Zeilen. Die Lehre dazu steht in `dateisuche.md`: ein Read mit gesetztem Limit sagt nicht, dass die Datei weitergeht.
+
+**Aufgehalten hat den Fehler nicht Vorsicht, sondern die Vorschrift, die dokumentierte Zahl auf die gemessene zu ziehen** (`docs/DEVELOPMENT.md`, Debugging-Liste zu data-integrity): wer sie befolgen will, muss wissen, welches Modul dazugekommen ist, und damit steht die Frage im Raum, ob es überhaupt ein Werkzeug ist.

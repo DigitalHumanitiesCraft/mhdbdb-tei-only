@@ -136,8 +136,13 @@ INTENTIONALLY_SILENT = {
         'nennt Explorer, Werkzeuge und kuratierte Datensaetze einzeln, nie die Summe',
     ('docs/ARCHITECTURE.md', 'entry_points'):
         'nennt die Werkzeuge einzeln in der Routing-Tabelle, nie als Summe',
-    ('docs/ARCHITECTURE.md', 'tei_tools'):
-        'nennt die Werkzeuge einzeln in der Routing-Tabelle, nie als Summe',
+    # ('docs/ARCHITECTURE.md', 'tei_tools') stand hier bis 2026-09-18 mit
+    # derselben Begruendung wie entry_points eine Zeile hoeher. Mit #204 nennt
+    # die Datei die Zahl doch: "Eight of the eleven analysis tools read the
+    # text selection". Der Anker greift also, und die Ausnahme waere eine
+    # Luecke statt einer Feststellung. Die Selbstpruefung hat den Eintrag im
+    # selben Lauf als veraltet gemeldet. entry_points bleibt: dort steht
+    # weiterhin keine Summe.
     ('docs/INDEX.md', 'entry_points'):
         'verweist seit #316 auf FEATURES.md, statt den Katalog samt Zahlen zu wiederholen',
     ('docs/INDEX.md', 'tei_tools'):
@@ -158,8 +163,13 @@ INTENTIONALLY_SILENT = {
     # Nenner: 1 von 43.879 Lemmata ist kuratiert), also greift der Anker und
     # die Ausnahme waere eine Luecke statt einer Feststellung. Die
     # Selbstpruefung hat den Eintrag im selben Lauf als veraltet gemeldet.
-    ('docs/DECISIONS.md', 'variants_normalized'):
-        'ADR-015 nennt nur die historischen Formzahlen der Regenerierung, nie die Mappings',
+    # ('docs/DECISIONS.md', 'variants_normalized') stand hier bis 2026-09-18
+    # mit der Begruendung "ADR-015 nennt nur die historischen Formzahlen der
+    # Regenerierung, nie die Mappings". Das gilt fuer ADR-015 weiter, aber ein
+    # spaeterer ADR nennt die Mappings als aktuellen Stand (234.245, gemessen
+    # gegen Authority Index 1.9.6). Der Anker greift, die Ausnahme waere eine
+    # Luecke. Von der Selbstpruefung im selben Lauf gemeldet wie der
+    # ARCHITECTURE-Eintrag oben.
     # Mit #316 dazu, und die Uebersetzung hat hier nichts kaputtgemacht,
     # sondern etwas sichtbar: die bisherige Bindung traf "43.879 Eintraege",
     # also die Lexikonzahl, und wurde nur vom Drift-Fenster verworfen. Von
@@ -180,7 +190,15 @@ INTENTIONALLY_SILENT = {
 
 # Explizite Ausnahme-Mengen statt -1/-2-Offsets (Review PR #222): beim
 # naechsten Werkzeug-Zuwachs hier pflegen, nicht in Zaehl-Magie suchen.
-NON_TOOL_MODULES = {'tei-ui.js'}                 # Router, kein Werkzeug
+# Module ohne eigenen Einstiegspunkt: kein Knopf in der Sidebar, keine eigene
+# Ansicht, also weder Werkzeug noch Pattern-Modul.
+NON_TOOL_MODULES = {
+    'tei-ui.js',                                 # Router
+    'corpus-scope.js',                           # #204, Sprachregelung fuer den
+                                                 # leeren Scope; acht Werkzeuge
+                                                 # importieren sie, sie selbst
+                                                 # zeigt nichts an
+}
 MODAL_MODULES = {'multi-lemma-search.js'}        # folgt dem DESIGN-Pattern nicht
 # Kuratierte Fremddatensaetze. Sie liegen im selben Verzeichnis und folgen dem
 # DESIGN-Pattern, sind aber keine Analysewerkzeuge ueber dem Korpus, sondern
@@ -294,11 +312,20 @@ DOC_TARGETS = [
     # variants_forms = rohe orthographische Varianten,
     # variants_normalized = dedupliziert — die Zahl, die Suche/Playground zeigen.
     #
-    # docs/ARCHITECTURE.md und docs/DECISIONS.md fuehren fuer
-    # variants_normalized seit #279/#294 KEINE Zahl mehr, sondern verweisen
-    # auf CONTRACTS §C. Ihr Target bleibt trotzdem stehen, aber mit einer
-    # ehrlicheren Erwartung als "Ratsche" (Review PR #305): gefangen wird
-    # nur eine AUSGESCHRIEBENE Wiedereinsetzung ("234.244 Mappings").
+    # docs/ARCHITECTURE.md fuehrt fuer variants_normalized seit #279/#294
+    # KEINE Zahl mehr, sondern verweist auf CONTRACTS §C. Ihr Target bleibt
+    # trotzdem stehen, aber mit einer ehrlicheren Erwartung als "Ratsche"
+    # (Review PR #305): gefangen wird nur eine AUSGESCHRIEBENE
+    # Wiedereinsetzung ("234.244 Mappings").
+    #
+    # Fuer docs/DECISIONS.md galt derselbe Satz und gilt seit 2026-09-18
+    # nicht mehr: die Datei nennt die Mappings an zwei Stellen als Zahl
+    # (234.245, gemessen gegen Authority Index 1.9.6). Deshalb ist dort die
+    # INTENTIONALLY_SILENT-Ausnahme gefallen, siehe den Kommentar an ihrer
+    # Stelle. Beide Zahlen sind datierte Messungen, und die Regel aus
+    # docs/DEVELOPMENT.md laesst datierte Aussagen in Ruhe; beim naechsten
+    # Mappingwechsel wird der Scan sie trotzdem melden. Offen und dort
+    # notiert.
     #
     # Ausgerechnet die Form, die dort vorher stand, faellt durch: "~257k"
     # matcht das Ziffernmuster nicht (zwischen 7 und k liegt keine
