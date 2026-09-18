@@ -222,10 +222,10 @@ def collect_code_counts() -> dict:
     if missing:
         sys.exit(f'FEHLER: Ausnahme-Mengen nennen nicht existierende Module: {sorted(missing)} '
                  f'— NON_TOOL_MODULES/MODAL_MODULES/CURATED_DATASET_MODULES pflegen.')
-    non_router = module_names - NON_TOOL_MODULES
-    counts['tei_tools'] = len(non_router - CURATED_DATASET_MODULES)
+    non_tools = module_names - NON_TOOL_MODULES
+    counts['tei_tools'] = len(non_tools - CURATED_DATASET_MODULES)
     counts['curated_datasets'] = len(CURATED_DATASET_MODULES)
-    counts['pattern_modules'] = len(non_router - MODAL_MODULES)
+    counts['pattern_modules'] = len(non_tools - MODAL_MODULES)
     html = Path('playground/index.html').read_text(encoding='utf-8')
     counts['authority_explorers'] = len(re.findall(
         r'id="show(?:Authors|Works|Lemmata|Concepts|Genres|Names)Btn"', html))
