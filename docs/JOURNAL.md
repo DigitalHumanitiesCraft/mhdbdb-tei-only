@@ -4,6 +4,10 @@ Chronological log of development decisions, dead ends, and savepoints. Not a cha
 
 ---
 
+## 2026-09-16: #444, Moriz von Craûn ist anonym
+
+KZWs Korrektur aus #444: Die veraltete Zuschreibung an Bligger von Steinach entfällt in work_5 und im CR-Header. Anonym stand bereits an zweiter Stelle; der erste Eintrag bestimmte den Index-Autor. Auch der lokale Bligger-Eintrag in CR und der work_5-Rückverweis in MBS sind entfernt. Bliggers Lyrik bleibt ihm zugeordnet. Text und Annotationen bleiben unverändert. Beide Indexe (Corpus 4.2.17, Authority 1.9.7) und API neu gebaut. Die historische Zuschreibung bleibt hier dokumentiert; das Datenmodell für den Forschungsstatus und eine Prüfung aller Mehrfachzuschreibungen sind Folgeaufträge aus dieser Sitzung an Claude.
+
 ## Verdichtete Historie
 
 Hochrangiger Trace der Einträge 2025-02 bis 2026-09-07. Volltext aller 131 verdichteten Einträge in `journal-archive.md`.
