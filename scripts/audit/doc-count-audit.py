@@ -441,10 +441,14 @@ CODE_ANCHORS = {
 # Zeilen im Modul-/Verzeichnisbaum zaehlen Unterverzeichnisse ("├── core/
 # # Core utilities (3 modules)"), nie die Gesamtzahl. Ohne diesen Skip
 # meldet der ui_modules-Anker jede Baumzeile als Drift.
-# Nebenwirkung, bewusst in Kauf genommen: die Baumzeile "13 files: router +
-# modal + 11 analysis modules" in ARCHITECTURE.md wird damit auch fuer
-# pattern_modules nicht mehr geprueft. Dieselbe Angabe steht im Fliesstext
-# darunter ("The eleven analysis modules"), Drift bleibt sichtbar.
+# Nebenwirkung, bewusst in Kauf genommen: die Baumzeile fuer tei/ in
+# ARCHITECTURE.md wird damit auch fuer pattern_modules nicht mehr geprueft.
+# Dieselbe Angabe steht im Fliesstext darunter, Drift bleibt dort sichtbar.
+# Hier stand bis 2026-09-18 der Wortlaut beider Stellen ("13 files: router +
+# modal + 11 analysis modules", "The eleven analysis modules"); er war zwei
+# Staende alt, weil #193 und #204 je eine Datei hinzugefuegt haben. Ein
+# Zitat altert mit seinem Gegenstand, und kein Gate sieht das, deshalb
+# steht hier jetzt keiner mehr.
 TREE_LINE_RE = re.compile(r'^\s*[│├└]')
 
 # ADRs und Retrospektiven nennen bewusst den Stand von damals. Der
