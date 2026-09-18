@@ -166,7 +166,7 @@ The reading view converts TEI XML elements to HTML. Source: `extractAndFormatBod
 - Drop the legacy `MHDBDB_Playground` database (`dropLegacyPlaygroundDatabase()`, #314). The playground's only contact with IndexedDB is this deletion, never an initialization: the indexes live in the shared `CorpusLoader`
 - Load authority index (~3 MB)
 - Initialize data managers (authority, TEI)
-- Set up modular UI components (24 modules; 25 before #314 removed `file-display.js` and `progress.js`, 23 until #193 added `horses-explorer.js`)
+- Set up modular UI components (25 modules; 24 until #204 added the helper `corpus-scope.js`, 25 before #314 removed `file-display.js` and `progress.js`, 23 until #193 added `horses-explorer.js`)
 
 ### Data Layer
 
@@ -202,8 +202,9 @@ playground/js/ui/
 │   ├── concept-explorer.js
 │   ├── genre-explorer.js
 │   └── name-explorer.js
-├── tei/               # TEI text analysis (14 files: router + modal + 12 analysis modules)
+├── tei/               # TEI text analysis (15 files: router + helper + modal + 12 analysis modules)
 │   ├── tei-ui.js                  # Router/entry point, not an analysis tool
+│   ├── corpus-scope.js            # Shared helper for the corpus selection (#204), not an analysis tool
 │   ├── multi-lemma-search.js      # Modal outlier (DESIGN.md §Multi-Lemma, documented as such)
 │   ├── word-frequency.js          # Word frequency analysis (#88, R1)
 │   ├── text-statistics.js         # Text statistics (#89, R1)
@@ -227,7 +228,7 @@ playground/js/ui/
 - Easier testing and maintenance
 - Net reduction: 5,536 lines removed
 
-**Playground TEI module convention:** `playground/js/ui/tei/` holds fourteen files. The twelve analysis modules share one constructor/`show()`/`render()` pattern, with thunks instead of direct data references, a state-driven `renderBody()`, per-module escape helpers, and a MessageChannel yield for large aggregations. Two files are exempt: `tei-ui.js` is the router, and `multi-lemma-search.js` is a documented modal outlier. Two are a special case of their own: `naming-explorer.js` (#59) and `horses-explorer.js` (#193) do not read the corpus index but lazily fetch their own small index (`data/naming-index.json.gz`, `data/horses-index.json.gz`) via fetch plus pako, without an IndexedDB cache. Both belong to the playground's third group, "Experimentelle Forschungsdaten" (#194), which collects curated datasets from external research projects; the entry convention is in that issue. The pattern is documented as a template in [DESIGN.md §Playground TEI-Analysis Module Pattern](DESIGN.md#playground-tei-analysis-module-pattern).
+**Playground TEI module convention:** `playground/js/ui/tei/` holds fifteen files. The twelve analysis modules share one constructor/`show()`/`render()` pattern, with thunks instead of direct data references, a state-driven `renderBody()`, per-module escape helpers, and a MessageChannel yield for large aggregations. Three files are exempt: `tei-ui.js` is the router, `corpus-scope.js` is a shared helper for the corpus selection (#204), and `multi-lemma-search.js` is a documented modal outlier. Two are a special case of their own: `naming-explorer.js` (#59) and `horses-explorer.js` (#193) do not read the corpus index but lazily fetch their own small index (`data/naming-index.json.gz`, `data/horses-index.json.gz`) via fetch plus pako, without an IndexedDB cache. Both belong to the playground's third group, "Experimentelle Forschungsdaten" (#194), which collects curated datasets from external research projects; the entry convention is in that issue. The pattern is documented as a template in [DESIGN.md §Playground TEI-Analysis Module Pattern](DESIGN.md#playground-tei-analysis-module-pattern).
 
 **Authority Explorers:**
 Each explorer follows consistent pattern:

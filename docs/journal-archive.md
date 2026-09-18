@@ -3225,7 +3225,7 @@ Geplant war ein Spurenlauf mit mehreren autonomen Sessions. Geworden ist ein ser
 
 **Die drei offenen Menschenfragen sind beantwortet**, KZW am 01.09. auf #216: die fünf `fro-minne`-Belege sind jedesmal Frau Minne, `rend="upper_case_first_letter"` markiert die Edition und nicht zwingend die Personifikation (im Verbund Frau plus Minne aber ein brauchbares Indiz), zu einem Fall will er den Verskontext, und die kleine Menge soll vorgezogen werden. **Die zweite Hälfte des letzten Punktes ist die, die leicht verlorengeht:** „andere vrouwen in eigenes Issue" wird umgesetzt, „kleine Menge vorziehen" betrifft 155 Belege, ist eine Korpusänderung und läuft in keiner der vier Wellen mit. Sie braucht eine Terminentscheidung und steht dafür ausdrücklich im Statuskommentar auf #216.
 
-**Rot, und zwar auf der Koordinationsseite** Ausgezogen als rote Zeile 2 nach [../fehlerjournal.md](../fehlerjournal.md).
+**Rot, und zwar auf der Koordinationsseite.** Ausgezogen als rote Zeile 2 nach [../fehlerjournal.md](../fehlerjournal.md).
 
 **Rot, zum zweiten Mal an einem Abend und wieder auf der Koordinationsseite: die Welle-2-Vorabmessung war falsch.** Ausgezogen als rote Zeile 3 nach [../fehlerjournal.md](../fehlerjournal.md).
 
@@ -3233,17 +3233,15 @@ Geplant war ein Spurenlauf mit mehreren autonomen Sessions. Geworden ist ein ser
 
 **Rot, zum vierten Mal, und die Welle-3-Vorabmessung war an zwei Stellen falsch.** Ausgezogen als rote Zeile 5 nach [../fehlerjournal.md](../fehlerjournal.md).
 
-**Für den Zähler ist die Herkunft wichtiger als die Zahl.** Beide Fehler stammen aus derselben Vorabmessungscharge vom 01.09. wie die rote Zeile zwei und drei, also aus der Zeit **vor** der Lehre, die aus ihnen gezogen wurde. Sie sind ein weiterer Fund im selben Bestand und kein neuer Verstoß gegen eine schon stehende Regel; deshalb stehen sie hier als eine Zeile. Was sie belegen, ist die Wirksamkeitsfrage: **beide vorab vermessenen Wellen trugen einen Fehler, den erst die Spur beim Neubau fand**, und in beiden Fällen wäre er konserviert worden, wenn die Spur der Zahl gefolgt wäre, statt sie neu zu erarbeiten. Genau das war der Zweck der Vorwegnahme. Der strukturelle Grund steht in der roten Zeile drei: Operatorarbeit geht durch keinen Review, die Arbeit der Spur durch vier Runden. Richtigstellung mit Messvorschrift als Kommentar auf #259, der Body ist an beiden Stellen nachgezogen und der Vorabmessungs-Kommentar trägt eine Überholt-Notiz; die Fußnote im eingefrorenen Auftragstext ist über #385 beantragt.
-
 **Rot, zum fünften Mal, und dies ist der erste echte Wiederholungsfall des Laufs: die Lehre stand, sie war drei Stunden alt, und sie war meine eigene.** Ausgezogen als rote Zeile 6 nach [../fehlerjournal.md](../fehlerjournal.md).
 
-**Im selben Kommentar noch ein zweiter Fall derselben Familie, gefunden von derselben Reviewrunde am Docstring der Spur und auf mich genauso zutreffend** Ausgezogen als Teil der roten Zeile 6 nach [../fehlerjournal.md](../fehlerjournal.md).
+**Im selben Kommentar noch ein zweiter Fall derselben Familie, gefunden von derselben Reviewrunde am Docstring der Spur und auf mich genauso zutreffend.** Ausgezogen als Teil der roten Zeile 6 nach [../fehlerjournal.md](../fehlerjournal.md).
 
 **Was daraus folgt, ist wieder keine schärfere Formulierung, sondern eine Reihenfolge**, und das ist inzwischen das Muster beider Koordinationsfehler dieses Laufs. Beim Freeze war es „eintragen, bevor der Kickoff hinausgeht", hier ist es: **was im Meldepunkt vor einer Reviewrunde kommt, geht in die Listen und nirgendwo sonst; publiziert wird nach der Runde.** Eine Regel, die drei Stunden nach ihrer eigenen Formulierung gebrochen wird, hat kein Textproblem. Die Meldedisziplin der Spur bleibt davon unberührt und ausdrücklich richtig: ein Meldepunkt liegt vor dem Review, sonst ist er sinnlos. **Der Fehler war die Publikation, nicht die Meldung**, und aus demselben Grund wird der Skriptdefekt der Spur hier nicht gezählt: einen Fehler, den die erste Reviewrunde in einem PR findet, zählt der Zähler nicht, sonst zählt er Arbeit statt Wiederholung.
 
 **Rot, zum sechsten Mal, und es ist dieselbe Bauart wie die vierte: Messung richtig, Mechanismus erfunden.** Ausgezogen als rote Zeile 7 nach [../fehlerjournal.md](../fehlerjournal.md).
 
-**Die Lehre, die nicht gegriffen hat, ist die meistzitierte des Tages** Ausgezogen als Teil der roten Zeile 7 nach [../fehlerjournal.md](../fehlerjournal.md).
+**Die Lehre, die nicht gegriffen hat, ist die meistzitierte des Tages.** Ausgezogen als Teil der roten Zeile 7 nach [../fehlerjournal.md](../fehlerjournal.md).
 
 **Der substanzielle Fund aus derselben Kette, und er ist kein Fehler, sondern eine Eigenschaft, die niemand benannt hatte: `variants.xml` ist nicht einwertig, die daraus gebaute Karte schon.** Gemessen über alle `<form>` der Quelle, MHG-normalisiert: **234.243 Normalformen, davon 4.972 mit mehr als einem Ziel-Lemma.** `grossen` zeigt dort auf `lemma_2534`, `lemma_2535` und `lemma_31392`, `a` auf `lemma_1`, `lemma_2` und `lemma_37325`. In `data/authority-index.json.gz` steht unter `variants` je Normalform genau **eine** Zeichenkette (0 von 234.243 Werten ist etwas anderes), und dort bleibt von `grossen` allein `lemma_2534` übrig. **Beim Indexbau fallen also 4.972 Mehrdeutigkeiten still weg**, und Stufe 2 der Auflösung liefert deshalb immer genau ein Lemma, auch wo die Quelle mehrere kennt. Gefunden hat das die Spur beim Prüfen einer Prämisse, auf der an diesem Tag drei verschiedene Erklärungen desselben Falls standen, ihre zwei und meine eine. Die Regel daraus: **wer über `variants.xml` argumentiert, muss sagen, ob er die Quelle meint oder die gebaute Karte.** Für den Anlassfall ändert es nichts, `groesen` hat auch in der Quelle nur ein Ziel.
 
@@ -3274,14 +3272,6 @@ Fortsetzung des am 01.09. pausierten Laufs, Spur `mhdbdb-wellen-2345`, Auftrag `
 
 **Rot, dritter Auftritt derselben Bauart an einem Tag: eine Abwesenheitsabfrage, deren Zuschnitt den gesuchten Fall ausschließt.** Ausgezogen als rote Zeile 10 nach [../fehlerjournal.md](../fehlerjournal.md).
 
-**Derselbe Fall hat dann drei Erklärungen durchlaufen, und die ersten beiden waren gebaut statt gelesen.** Die Koordination erklärte den Fehlgriff mit einem Überschreiben durch Stufe 2, das es nach `docs/CONTRACTS.md` §C nicht geben kann (`EARLY RETURN -- skip stages 2-3`). Ich erklärte ihn mit Homographie: `grozen` trage 1.223 korrekte Adjektivtokens, `variants.xml` halte je Normalform ein Ziel, die häufigere Lesart gewinne. Auch falsch, gefunden vom CI-Review-Bot. **Das Token `grŏsen` normalisiert auf `groesen`, meine Messung galt `grozen`, das sind zwei Schlüssel.** `lemma_2535` führt neun Formen, keine davon normalisiert auf `groesen`; das Verblemma stand für diesen Schlüssel nie zur Wahl. Die gemessene Erklärung ist eine **Lücke im Variantenbestand**, und sie stand von Anfang an in den CSVs, bevor ich sie durch die schönere ersetzt habe. Beide falschen Erklärungen hatten eine korrekte Messung neben sich, die zu einem anderen Schlüssel gehörte. **Ein Vorgang mit drei Stationen, keine drei Fehler**, sonst zählt der Zähler Stationen statt Wiederholungen. Wie dünn die richtige Zuordnung ist, sagt die Gegenprobe: die Normalform `groesen` hat im ganzen Korpus 2 Tokens, eines davon ist dieses.
-
-**Die vierte Station kam von der lokalen Review-Runde 2 und ist die einzige mit Wert über den Fall hinaus: `variants.xml` ist gar nicht einwertig.** Die Prämisse, auf der beide falschen Erklärungen ruhten, ist selbst falsch. Gemessen: **4.972 der 234.243** MHG-normalisierten Formen zeigen auf mehr als ein Lemma, *grossen* sogar auf drei. Einwertig ist erst die daraus **gebaute** Karte im Authority-Index, die je Normalform einen String führt, und der Backfill-Matcher wählt bei Mehrdeutigkeit nicht, sondern legt den Fall in den Review. **Wer über `variants.xml` argumentiert, muss sagen, ob er die Quelle meint oder die gebaute Karte**, und keine der drei Erklärungen dieses Vormittags hat das getan. Beruhigend immerhin: die Behauptung stand nur in den Artefakten dieses Laufs, nirgends in `docs/` und in keinem Projektskript.
-
-Die Einordnung des Falls überlebt alle drei Korrekturen: unsichtbar für das Frontend, wirksam für jedes Werkzeug, das den Variantenbestand direkt liest. Das ist Kategorie C der #259-Messung, dort mit 361 Fällen beziffert, und damit hat diese Kategorie jetzt eine Adressatenangabe.
-
-**Und damit zum eigentlichen Ärgernis des Tages: beides stand schon in `docs/CONTRACTS.md` §C.** Die Frühgeburt der Stufe 1 steht dort als Pseudocode (`EARLY RETURN -- skip stages 2-3`), und die Mehrwertigkeit steht drei Seiten weiter als benannte Regel: „**First occurrence wins** – if two lemmata claim the same variant form, only the first one stored", mit Quellenangabe auf die `if normalized_variant not in variants`-Wache in `build-authority-index.py`. Der Abschnitt nennt sogar die beiden Zahlen, die auseinanderzuhalten sind. **Zwei Sessions haben an einem Vormittag drei Erklärungen für einen Fall gebaut, und die richtige Antwort stand in dem Dokument, das genau für diese Frage angelegt ist.** Das ist keine Lücke in der Dokumentation und keine im Werkzeug: wir haben nicht nachgesehen. Die Lehre, die sich daraus formulieren lässt, ist unangenehm banal und deshalb hier ausgeschrieben: **bevor ein Mechanismus erklärt wird, wird das Dokument geöffnet, das ihn beschreibt.** Es gibt in diesem Projekt genau eines dafür, und es heißt CONTRACTS.md.
-
 **Der Wiederholungslauf, der nur die Reproduzierbarkeit zeigen sollte, hat einen Defekt gefunden, den kein Gate hätte finden können.** Das Skript schreibt den Pfad seines Provenienz-Logs in den `<change>`-Eintrag des Korpusheaders, und es schrieb dorthin, was auf der Kommandozeile stand. Beim ersten Lauf war `--out-dir` relativ und der Eintrag richtig; beim zweiten absolut, und damit stand ein Windows-Pfad mit Laufwerksbuchstaben und dem Worktree-Namen im Korpus. **Ein Wert, der in eine Datei geht, darf nicht davon abhängen, wie der Aufruf getippt wurde**; das Skript rechnet den Pfad jetzt repo-relativ um und bricht ab, wenn er außerhalb des Repositoriums liegt.
 
 **Der Lehre daraus ist ein Detail wichtig, das leicht verlorengeht:** gefangen hat den Defekt nicht die Wiederholung, sondern dass ich beim zweiten Mal zufällig anders getippt hatte. Ein Wiederholungslauf mit identischer Kommandozeile hätte ihn nicht gezeigt. **Ein wiederholter Lauf findet Nichtdeterminismus, ein anders aufgerufener findet Umgebungsabhängigkeit**, und nur der zweite greift hier. Auf `origin` ist der absolute Pfad nie gelandet, geprüft am Header des gepushten Zweigs und korpusweit über alle 667 Dateien (Muster `C:[\\/]|/Users/|/home/|worktrees|chstn`, vorher an drei Testdateien auf Trefferfähigkeit geprüft, weil eine ungetestete Abwesenheitsabfrage heute schon einmal genug Schaden angerichtet hat).
@@ -3302,7 +3292,7 @@ Die Variation war allerdings Zufall, und darauf lässt sich nichts bauen. **Was 
 
 **Eine Anweisung ist nicht dadurch gedeckt, dass sie vom Operator kommt.** Die Koordination bat, einen präzisierten Satz „in beide Statuskommentare" zu nehmen. Die Freigabe lautet aber je einen sachlichen Statuskommentar auf #28, #259, #235 und #216, und #259 hatte seinen bereits. Der Satz steht deshalb nur in #235, von dort auf #259 verlinkt. Die Koordination hat den Widerspruch angenommen und ihn selbst als Grenzüberschreitung verbucht. Eine Spur, die eine Freigabe nur so weit auslegt, wie sie geschrieben ist, kostet einen Satz an der falschen Stelle und spart die Frage, wer die Grenze verschoben hat.
 
-**Rot, eigener Regelverstoß** Ausgezogen als rote Zeile 11 nach [../fehlerjournal.md](../fehlerjournal.md).
+**Rot, eigener Regelverstoß.** Ausgezogen als rote Zeile 11 nach [../fehlerjournal.md](../fehlerjournal.md).
 
 **Phase:** Betrieb. Drei Arbeits-PRs (#386, #388, #389, letzterer als `144fbbd3c`), einzeln gemergt, dazu dieser Eintrag als vierter: der Auftrag verbietet den direkten Push auf `main` ohne Ausnahme, und die Hausregel für kleine Doku-Änderungen hebt eine Auftragsgrenze nicht auf. Kein `Closes` auf keinem der vier Tickets. Statuskommentare auf #28, #216, #259 und #235. `npm test` vor jedem Push, VERDICT-Zeile jeweils im PR.
 ## 2026-09-02 (Abnahme) – Der Abbau traf die Spur im Laufen, und die Vorkehrung dagegen war schon geschrieben
@@ -3312,10 +3302,6 @@ Koordinationsseite, Abschluss des Wellenlaufs. Vier PRs gemergt (#386, #388, #38
 **Rot, zum achten Mal, und es ist eine Abwesenheitsbehauptung über eine Datei, die zwei Verzeichnisse entfernt liegt.** Ausgezogen als rote Zeile 12 nach [../fehlerjournal.md](../fehlerjournal.md).
 
 **Rot, zum neunten Mal, und dies ist der einzige Fehler des Laufs, gegen den bereits eine ausformulierte Vorkehrung an genau der richtigen Stelle stand.** Ausgezogen als rote Zeile 13 nach [../fehlerjournal.md](../fehlerjournal.md).
-
-**Was den Schaden verhindert hat, war nicht der Dateisystem-Lock.** Die Formulierung stammt von der Spur und korrigiert meine eigene: Windows hat den leeren Ordner gerettet, den Inhalt nicht. Verhindert hat den Verlust der Zustand der Spur, nämlich fertig gemeldet, alles gepusht, Arbeitsbaum sauber, kein Stash. Beides ist Zufall gegenüber der Vorkehrung, die gegriffen hätte. Eine Welle früher wäre der Verlust **still** gewesen: ein `git checkout origin/main -- tei/WZB.tei.xml` plus ein halber Lauf hinterlässt weder Status noch Stash, und die Entscheidungstafel der 98 Fälle war zu diesem Zeitpunkt zwei Stunden nicht committete Arbeit.
-
-**Die tragfähige Fassung, ebenfalls von der Spur, und sie ist eine Bedingung statt einer Mahnung:** eine Fertigmeldung ist eine Aussage über die **Arbeit**, `ListAgents` ist eine Aussage über den **Prozess**, und abgebaut wird gegen die zweite. Das ist dieselbe Unterscheidung wie „Quelle oder gebaute Karte" bei `variants.xml`: zwei richtige Angaben über verschiedene Dinge, und die falsche davon beantwortet die Frage nicht.
 
 **Die Verlustprüfung vor dem Löschen von Zweigen braucht eine andere Vorschrift, als die Playbooks nahelegen.** Bei Squash-Merges sagt `git branch --merged` nichts, und `-d` schlägt bei jedem gemergten Zweig fehl, ohne dass etwas verloren ginge. Gemessen wird deshalb der Inhalt: keine Datei, die es nur auf dem Zweig gibt (`diff --name-only --diff-filter=A`), und jede Zeilendifferenz entweder eine, die `main` zusätzlich hat, oder eine 1-zu-1-Ersetzung einer älteren Versionszeile. Für den `--worktree`-Startzweig genügt `merge-base --is-ancestor`. Eine grobe Zählung über `--numstat` reicht **nicht**: sie zeigt bei zwei der vier Zweige dieses Laufs hunderte „hinzugefügte" Zeilen, die allesamt ältere Fassungen derselben Zeilen sind. Ohne die Korrektur der Spur hätte ich zwei der vier Zweige gar nicht geprüft.
 
@@ -3331,22 +3317,7 @@ der zweite ist beim Aufräumen des ersten aufgefallen.
 
 **Rot, zum zehnten Mal: eine ungemessene Annahme, die eine Entscheidung gestützt hat.** Ausgezogen als rote Zeile 14 nach [../fehlerjournal.md](../fehlerjournal.md).
 
-**Die Zeile bleibt trotzdem stehen, und zwar in umformulierter Fassung.** Sie
-zählt den Fehlermodus, nicht den Ausgang: die Annahme war zum Zeitpunkt der
-Entscheidung durch nichts belegt, und dass sie sich beim Nachsehen
-größtenteils als richtig erweist, macht sie nicht zu einer Messung. Wer sie
-streicht, weil es gutgegangen ist, macht den Zähler unfalsifizierbar, und genau
-das soll er nicht sein. Richtige Fassung: sie traf für die Seite zu und für die
-Liste in Zeile 196 nicht.
-
 **Rot, zum elften Mal, und diese ist die unangenehmste des Laufs: ein Positivtest, der die falsche Sache geprüft hat.** Ausgezogen als rote Zeile 15 nach [../fehlerjournal.md](../fehlerjournal.md).
-
-**Ein Test, der die falsche Sache prüft, macht eine ungeprüfte Zahl nicht
-geprüft, er verkleidet sie.** Das ist der Unterschied zu den bisherigen roten
-Zeilen dieses Laufs: dort fehlte die Messung, hier stand eine daneben und hat
-die Lücke zugedeckt. Für den Empfänger ist das schlechter als gar keine Angabe,
-weil das Prädikat ihn davon abhält, nachzurechnen. Aufgefallen ist es nur, weil
-`works.xml` aus einem anderen Anlass offen war.
 
 **Das Projektwissen dahinter, und es ist der brauchbare Teil:** der TEI-Header
 führt Identifier an zwei verschiedenen Orten, und sie beschreiben verschiedene
@@ -3583,45 +3554,6 @@ der Korrektur wäre er rot gewesen.
 
 **Rot, und der Beleg dafür stammt aus diesem Absatz selbst: die Pfadfilter eines `pull_request`-Triggers schützen einen Push nicht.** Ausgezogen als rote Zeile 19 nach [../fehlerjournal.md](../fehlerjournal.md).
 
-    25 abgeschlossene data-integrity-Laeufe auf diesem Branch
-    16 davon cancelled, 9 success
-
-Alle Pushes auf diesen Branch stammen aus dieser Session, also gehen alle 16
-auf sie zurück, verteilt über den ganzen Tag von 09:03 bis 17:42. Das war
-mithin kein Ausrutscher am Ende, sondern die Arbeitsweise des Tages.
-`cancel-in-progress` gilt in diesem Workflow für `pull_request`. Beim dritten
-Mal hatte ich vorher nachgesehen und mich freigesprochen: der Commit fasst nur
-`docs/JOURNAL.md` und `ingest/**` an, beide stehen nicht in den Pfadfiltern,
-also könne kein Lauf starten und keiner abgebrochen werden. **Gemessen ist das
-Gegenteil**, und zwar an genau diesem Push:
-
-    git show --name-only 032d859   -->  docs/JOURNAL.md
-                                        ingest/pos-disambig/387-fro-adjadv/README.md
-    Lauf 34043618289 auf 032d859   -->  gestartet
-    Lauf 34043424099 auf f37254e   -->  cancelled
-
-Die Erklärung ist die dokumentierte Auswertungsregel und nicht die Messung: bei
-`pull_request` werden die `paths` gegen den **gesamten** PR-Diff gehalten, nicht
-gegen den einzelnen Push. PR #398 fasst `tei/`, `authority-files/`, `data/` und
-`scripts/audit/` an, also löst **jeder** Push auf diesen PR den Workflow aus,
-gleichgültig was er enthält. Für einen `push`-Trigger gilt das nicht, und daher
-kam mein Irrtum.
-
-Der Inhalt der Lehre bleibt und wird durch die 16 eher schärfer: **wer ein
-neues Gate einbaut, wartet dessen ersten vollständigen Lauf ab, bevor er
-weiterschiebt.** Dazu gehört, die Prüfung „ist der Lauf durch" wörtlich zu
-nehmen: am 06.09. um 17:50 standen drei der vier Checks auf `success` und
-`validate` auf `in_progress`, und der Push ging trotzdem raus, weil die drei
-grünen gelesen wurden und der eine laufende nicht. **Ein Check, der noch läuft,
-ist kein grüner Check**, und drei von vier ist bei einem `cancel-in-progress`
-genau so viel wert wie null. Neu ist, dass der Umweg
-„dieser Commit fasst ja nichts Gefiltertes an" auf einem Daten-PR nicht
-existiert. Und die Form des Fehlers ist wieder dieselbe: eine Aussage über eine
-Menge (was löst den Workflow aus) aus der Kenntnis eines Teils davon (die
-Filterliste), geschrieben ohne die Regel, nach der sie ausgewertet wird. Der
-vorstehende Absatz zählt sechs solche Fälle; dieser hier ist der siebte, und er
-ist entstanden, während ich den sechsten aufschrieb.
-
 **Phase:** PR #398 offen. Bei chsteiner liegen nur noch Dinge, die diese
 Umgebung nicht lösen kann: die 13 `fro`-Fälle für KZW (#387), die
 TRO-Identifier-Frage (#395, Authority-Datenbanken hier nicht erreichbar), und
@@ -3668,12 +3600,6 @@ getan war, oder eine Entscheidung getroffen, die sich erübrigt hatte. **Vor der
 Vorlage steht die Nachmessung, nicht die Zusammenfassung.**
 
 **Rot: ich habe bei #358 gemessen, bevor ich den Kommentar gelesen habe.** Ausgezogen als rote Zeile 20 nach [../fehlerjournal.md](../fehlerjournal.md).
-
-**Und schlimmer: derselbe Kommentar beschreibt den Messfehler, den ich dann
-gemacht habe.** Er hält fest, ein erster Lauf habe 48 Werke gemeldet, weil nur
-`div[@n]` als Vorfahr geprüft wurde, während die Strophentexte ihre Nummer am
-`lg[@n]` tragen. Mein Lauf prüfte ebenfalls nur `div[@n]` und meldete 146
-Werke. Der Kommentar enthielt die Korrektur, bevor ich den Fehler machte.
 
 **Rot: beinahe Textverlust gemeldet, der keiner war.** Ausgezogen als rote Zeile 21 nach [../fehlerjournal.md](../fehlerjournal.md).
 

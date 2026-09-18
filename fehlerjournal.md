@@ -16,8 +16,12 @@ angesprungen statt am Stück gelesen.
 der umgebende Text seinen Bezug behält; die Überschriften darüber sind die der
 Tageseinträge, aus denen die Zeilen stammen. Die Nummern sind bei diesem Auszug
 vergeben worden und laufen chronologisch. Vorher hatte dieses Repositorium
-keinen Nummernraum, verwiesen wurde über Datum und Lehre, und die älteren
-Zeilen verweisen untereinander weiterhin so.
+keinen Nummernraum: **die Zeilen eines Laufs zählten sich selbst durch** („Rot,
+zum sechsten Mal"), und sie verweisen untereinander weiterhin so. **Diese
+Laufzählung ist nicht die Nummer hier**, und der Versatz ist nicht
+gleichmäßig: Laufzählung 2 bis 7 liegen auf Eintrag 3 bis 8, Laufzählung 8
+aber auf Eintrag 12, weil dazwischen Zeilen ohne eigene Laufzählung stehen.
+Wo ein Eintrag so verweist, ist die Nummer in Klammern danebengesetzt.
 
 
 ## 2026-09-01 – Der Lauf, der seriell blieb, weil die abgeleitete Schicht global ist
@@ -49,6 +53,8 @@ Aus `docs/journal-archive.md`.
 
 **Rot, zum vierten Mal, und die Welle-3-Vorabmessung war an zwei Stellen falsch.** Die erste ist ein Selbstwiderspruch innerhalb eines Absatzes: zum Trierer Zeichensatz steht dort erst die Messung „von 34,3 % auf 37,4 %" und zwei Sätze später das Fazit, die Zusatzregeln „kosten nur nichts und retten hier auch nichts". Mit beiden Schaltungen des Prüfskripts gemessen heben sie die Paare mit bekanntem Findebuch-Lemma von 5.081 auf 5.494 und die Befundmenge von 424 auf 465, also um 41 Fälle. Die zweite wiegt schwerer, weil sie den Zuschnitt des Tickets betrifft: die 477 Fälle waren als die Menge beschrieben, in der „genau dort unsere dreistufige Auflösung danebengreifen" kann. Dort kann sie es nicht. Das Auswahlkriterium, die Schreibform ist bei uns selbst ein Lemma, ist genau die Bedingung, unter der Stufe 1 trifft; die Menge löst deshalb zu 100 % auf Stufe 1 auf (gemessen 465 von 465), und die Fehlerklasse aus #224, wegen der #259 überhaupt existiert, kann in ihr gar nicht auftreten. Gefunden hat beides die Spur beim Bau des Skripts, nachgemessen die Koordination mit dem unveränderten Skript aus `f3a575c77` gegen denselben Dump, außerhalb des Repositoriums ausgeführt.
 
+**Für den Zähler ist die Herkunft wichtiger als die Zahl.** Beide Fehler stammen aus derselben Vorabmessungscharge vom 01.09. wie die rote Zeile zwei und drei, also aus der Zeit **vor** der Lehre, die aus ihnen gezogen wurde. Sie sind ein weiterer Fund im selben Bestand und kein neuer Verstoß gegen eine schon stehende Regel; deshalb stehen sie hier als eine Zeile. Was sie belegen, ist die Wirksamkeitsfrage: **beide vorab vermessenen Wellen trugen einen Fehler, den erst die Spur beim Neubau fand**, und in beiden Fällen wäre er konserviert worden, wenn die Spur der Zahl gefolgt wäre, statt sie neu zu erarbeiten. Genau das war der Zweck der Vorwegnahme. Der strukturelle Grund steht in der roten Zeile drei: Operatorarbeit geht durch keinen Review, die Arbeit der Spur durch vier Runden. Richtigstellung mit Messvorschrift als Kommentar auf #259, der Body ist an beiden Stellen nachgezogen und der Vorabmessungs-Kommentar trägt eine Überholt-Notiz; die Fußnote im eingefrorenen Auftragstext ist über #385 beantragt.
+
 
 ### 6. Rot, zum fünften Mal, und dies ist der erste echte Wiederholungsfall des Laufs: die Lehre stand, sie war drei Stunden alt, und sie war meine eigene.
 
@@ -57,16 +63,16 @@ Aus `docs/journal-archive.md`.
 **Im selben Kommentar noch ein zweiter Fall derselben Familie, gefunden von derselben Reviewrunde am Docstring der Spur und auf mich genauso zutreffend:** die Zahl 5.705 für das `ʒ` in der Lexer-Lemmaliste stand dort als Faktum. Sie ist keines. Sie stammt aus der Vorprüfung im Ticket-Body, der Body führt sie selbst unter „nicht nachprüfbar", und die Datei liegt auf dieser Maschine gar nicht (unter `temp/woerterbuchnetz2015` steht allein `FindeB`, nachgesehen). Erst mit Herkunft markiert, und **auch das war falsch**: `CLAUDE.md` Zeile 108 verlangt, was eine Aussage nicht braucht, zu **löschen statt zu belegen**. Die Zahl ist jetzt gelöscht. Der Umweg lohnt die Zeile, weil er eine Klasse benennt, die in der Zählung bisher fehlte und die aus dem Austausch mit `corema-operator` stammt: **die dekorative Zahl.** Sie steht neben einem Argument, das sie nicht braucht, und wird genau deshalb nie geprüft, denn niemand stützt sich auf sie. Wer bemerkt, dass sie nichts trägt, hat damit die Rechtfertigung, sie weiter nicht zu prüfen. Gefährlich wird sie, wenn sie fremd ist: diese hier kam aus einem Ticket-Body und trug dessen Autorität, obwohl sie dort selbst als unprüfbar markiert war. Ein Leser sieht ihr das nicht an.
 
 
-### 7. Rot, zum sechsten Mal, und es ist dieselbe Bauart wie die vierte: Messung richtig, Mechanismus erfunden.
+### 7. Rot, zum sechsten Mal, und es ist dieselbe Bauart wie die vierte (Eintrag 5): Messung richtig, Mechanismus erfunden.
 
-**Rot, zum sechsten Mal, und es ist dieselbe Bauart wie die vierte: Messung richtig, Mechanismus erfunden.** Zu einem Befund der Spur aus Welle 4 (das Verblemma `lemma_2535 grôzen` existiert, entgegen ihrer ersten Aussage) habe ich den Variantenbestand nachgemessen und dabei gesehen, dass `grozen`, `groezen` und `groesen` alle auf das Adjektiv `lemma_2534` zeigen. Die Messung stimmt. Daraus habe ich geschrieben, „Stufe 2 überschreibt eine Zuordnung, die Stufe 1 richtig hätte", und das ist frei erfunden: `docs/CONTRACTS.md` §C führt seit langem den Pseudocode mit `if results.length > 0: return results // EARLY RETURN, skip stages 2-3`. Stufe 1 bricht bei Treffer ab, ein Überschreiben kann es nicht geben. Die Spur hat es kassiert und die richtige Lage geliefert: betroffen ist allein der Ingest-Matcher, weil `wzb-breve-backfill.py` `variants.xml` direkt liest und die Stufenordnung nicht kennt. **Der Fehler saß im Werkzeug, nicht in der Auflösung**, und dieser Unterschied entscheidet, ob es ein Frontend-Bug ist oder eine Werkzeugeigenschaft. Ich hatte außerdem eine Frage an KZW daraus gebaut („Altlast oder Absicht?"), die mit falscher Prämisse hingegangen wäre; ihre Antwort darauf lautete **Homographie** (die flektierte Adjektivform *ist* der Verbinfinitiv, 1.223 Korpusbelege gegen 13), und **auch die ist nicht die Erklärung, was der CI-Bot zwei Stunden später gefunden und ich danach selbst nachgemessen habe.** Sie gilt für die Normalform `grozen`; der fragliche WZB-Token ist `grŏsen` und normalisiert auf `groesen`, also einen anderen Schlüssel. Gemessen in `variants.xml`: `lemma_2535` führt **neun** Formen (`grozte grozet grozten grossen grôzte grôzet grôssen grozzet grosset`), **keine davon normalisiert auf `groesen`**, und der einzige Träger dieser Normalform ist `lemma_2534` mit der Form `grösen`. Das Verblemma stand für diesen Schlüssel also nie zur Wahl. Die richtige Erklärung ist die schlichteste und stand von Anfang an in den Befund-CSVs: eine **Lücke im Variantenbestand** von `lemma_2535`. **Damit hat derselbe Fall drei Erklärungen durchlaufen, und die ersten beiden waren gebaut statt gelesen:** meine (Stufe 2 überschreibt Stufe 1), ihre (Homographie mit 1.223 Belegen), und die gemessene. Beide falschen hatten eine korrekte Messung neben sich stehen, die zu einem anderen Schlüssel gehörte.
+**Rot, zum sechsten Mal, und es ist dieselbe Bauart wie die vierte (Eintrag 5): Messung richtig, Mechanismus erfunden.** Zu einem Befund der Spur aus Welle 4 (das Verblemma `lemma_2535 grôzen` existiert, entgegen ihrer ersten Aussage) habe ich den Variantenbestand nachgemessen und dabei gesehen, dass `grozen`, `groezen` und `groesen` alle auf das Adjektiv `lemma_2534` zeigen. Die Messung stimmt. Daraus habe ich geschrieben, „Stufe 2 überschreibt eine Zuordnung, die Stufe 1 richtig hätte", und das ist frei erfunden: `docs/CONTRACTS.md` §C führt seit langem den Pseudocode mit `if results.length > 0: return results // EARLY RETURN, skip stages 2-3`. Stufe 1 bricht bei Treffer ab, ein Überschreiben kann es nicht geben. Die Spur hat es kassiert und die richtige Lage geliefert: betroffen ist allein der Ingest-Matcher, weil `wzb-breve-backfill.py` `variants.xml` direkt liest und die Stufenordnung nicht kennt. **Der Fehler saß im Werkzeug, nicht in der Auflösung**, und dieser Unterschied entscheidet, ob es ein Frontend-Bug ist oder eine Werkzeugeigenschaft. Ich hatte außerdem eine Frage an KZW daraus gebaut („Altlast oder Absicht?"), die mit falscher Prämisse hingegangen wäre; ihre Antwort darauf lautete **Homographie** (die flektierte Adjektivform *ist* der Verbinfinitiv, 1.223 Korpusbelege gegen 13), und **auch die ist nicht die Erklärung, was der CI-Bot zwei Stunden später gefunden und ich danach selbst nachgemessen habe.** Sie gilt für die Normalform `grozen`; der fragliche WZB-Token ist `grŏsen` und normalisiert auf `groesen`, also einen anderen Schlüssel. Gemessen in `variants.xml`: `lemma_2535` führt **neun** Formen (`grozte grozet grozten grossen grôzte grôzet grôssen grozzet grosset`), **keine davon normalisiert auf `groesen`**, und der einzige Träger dieser Normalform ist `lemma_2534` mit der Form `grösen`. Das Verblemma stand für diesen Schlüssel also nie zur Wahl. Die richtige Erklärung ist die schlichteste und stand von Anfang an in den Befund-CSVs: eine **Lücke im Variantenbestand** von `lemma_2535`. **Damit hat derselbe Fall drei Erklärungen durchlaufen, und die ersten beiden waren gebaut statt gelesen:** meine (Stufe 2 überschreibt Stufe 1), ihre (Homographie mit 1.223 Belegen), und die gemessene. Beide falschen hatten eine korrekte Messung neben sich stehen, die zu einem anderen Schlüssel gehörte.
 
 **Die Lehre, die nicht gegriffen hat, ist die meistzitierte des Tages:** ein Befund wird erst zur Aussage, wenn die Quelle offen war, und für einen Ablauf ist die Quelle der Ablauf, nicht die Tabelle daneben. Ich hatte sie am selben Tag dreimal selbst angeführt. **Der Tag hat damit dreimal dieselbe Abwesenheits- oder Mechanismusfrage falsch beantwortet, in drei verschiedenen Gestalten:** falsche Datenquelle (`@ana`, Vormittag), falsche Kodierung (`grep -P "\xc2\xad"` findet null von zwölf weichen Trennstrichen), falsche Normalform (`groezen` statt `grozen`, Befund der Spur an sich selbst). Daraus die Fassung, die zweimal gehalten hat und die passive Formulierung ersetzt: **eine Abwesenheitsabfrage wird zuerst an einem bekannten Positivfall getestet; findet sie den nicht, ist die Abfrage widerlegt und nicht der Bestand.** Genau das hat den `grep`-Fehler binnen einer Minute gefangen, weil zwölf bekannte Vorkommen danebenlagen.
 
 
 ### 8. Rot, zum siebten Mal, und diesmal in einer Nachricht statt in einer Datei: einen Peer-Befund als gemessen weitergegeben, den ich nicht gemessen hatte.
 
-**Rot, zum siebten Mal, und diesmal in einer Nachricht statt in einer Datei: einen Peer-Befund als gemessen weitergegeben, den ich nicht gemessen hatte.** Die Spur hatte einen CI-Bot-Befund mit einer Zeilenfalle erklärt (`rg -c` zähle Zeilen mit Treffer, und in der WZB stünden mehrere `<w>` je Zeile). Das klang zwingend, ich habe es übernommen, an sie zurückgespiegelt und in den Statusbericht geschrieben. **Gemessen: 0 von 235.993 Zeilen der WZB tragen mehr als ein `<w>`**, die Falle existiert nicht. Die wirkliche Ursache ist enger und hat die Spur selbst nachgereicht: das Suchmuster ließ nur Tokens zu, deren einziges Attribut `xml:id` ist, und drei der 922 tragen zusätzlich ein `pos="DIG"`. Die Bot-Zahl war korrekt erzeugt, nur nicht das, wofür er sie hielt. **Der Vorgang ist getrennt von der sechsten Zeile zu zählen**, obwohl er denselben Modus hat: dort war es eine eigene Erfindung, hier eine fremde Übernahme, und der Anlass ist ein anderer. Die Lehre, die nicht gegriffen hat, ist wörtlich die, die im selben Gespräch gelobt wurde: ein Befund ist auch dann eine Behauptung, wenn er von einem Werkzeug oder von einer sorgfältigen Spur kommt. **Zwei Minuten Messung hätten gereicht, und ich hatte die Datei an diesem Tag schon dreimal offen.**
+**Rot, zum siebten Mal, und diesmal in einer Nachricht statt in einer Datei: einen Peer-Befund als gemessen weitergegeben, den ich nicht gemessen hatte.** Die Spur hatte einen CI-Bot-Befund mit einer Zeilenfalle erklärt (`rg -c` zähle Zeilen mit Treffer, und in der WZB stünden mehrere `<w>` je Zeile). Das klang zwingend, ich habe es übernommen, an sie zurückgespiegelt und in den Statusbericht geschrieben. **Gemessen: 0 von 235.993 Zeilen der WZB tragen mehr als ein `<w>`**, die Falle existiert nicht. Die wirkliche Ursache ist enger und hat die Spur selbst nachgereicht: das Suchmuster ließ nur Tokens zu, deren einziges Attribut `xml:id` ist, und drei der 922 tragen zusätzlich ein `pos="DIG"`. Die Bot-Zahl war korrekt erzeugt, nur nicht das, wofür er sie hielt. **Der Vorgang ist getrennt von der sechsten Zeile (Eintrag 7) zu zählen**, obwohl er denselben Modus hat: dort war es eine eigene Erfindung, hier eine fremde Übernahme, und der Anlass ist ein anderer. Die Lehre, die nicht gegriffen hat, ist wörtlich die, die im selben Gespräch gelobt wurde: ein Befund ist auch dann eine Behauptung, wenn er von einem Werkzeug oder von einer sorgfältigen Spur kommt. **Zwei Minuten Messung hätten gereicht, und ich hatte die Datei an diesem Tag schon dreimal offen.**
 
 
 ## 2026-09-02 – Der Wellenlauf zu Ende gebracht, und dreimal saß der Fehler im Zuschnitt der Prüfung
@@ -83,6 +89,14 @@ Aus `docs/journal-archive.md`.
 
 **Rot, dritter Auftritt derselben Bauart an einem Tag: eine Abwesenheitsabfrage, deren Zuschnitt den gesuchten Fall ausschließt.** „Ein Lemma *grœzen* gibt es nicht" stand zwei Runden lang im Entwurf und war falsch: `lemma_2535` *grôzen* `VRB` existiert, mit 13 Belegen in 11 Texten. Meine Suche lief über die normalisierte Form `groezen`, *grôzen* normalisiert aber auf `grozen`. Die Regel, die die Koordination daraus formuliert hat und die hier festgehalten wird: **eine Abwesenheitsabfrage wird zuerst an einem bekannten Positivfall getestet; findet sie den nicht, ist die Abfrage widerlegt und nicht der Bestand.** Die Lehre, die nicht gegriffen hat, ist `feedback_zahlen_messvorschrift` vom 31.07.: eine Zahl ohne dokumentierte Zählweise. Für eine Null gilt sie genauso, und für eine Null ist sie gefährlicher, weil eine Null nicht auffällt.
 
+**Derselbe Fall hat dann drei Erklärungen durchlaufen, und die ersten beiden waren gebaut statt gelesen.** Die Koordination erklärte den Fehlgriff mit einem Überschreiben durch Stufe 2, das es nach `docs/CONTRACTS.md` §C nicht geben kann (`EARLY RETURN -- skip stages 2-3`). Ich erklärte ihn mit Homographie: `grozen` trage 1.223 korrekte Adjektivtokens, `variants.xml` halte je Normalform ein Ziel, die häufigere Lesart gewinne. Auch falsch, gefunden vom CI-Review-Bot. **Das Token `grŏsen` normalisiert auf `groesen`, meine Messung galt `grozen`, das sind zwei Schlüssel.** `lemma_2535` führt neun Formen, keine davon normalisiert auf `groesen`; das Verblemma stand für diesen Schlüssel nie zur Wahl. Die gemessene Erklärung ist eine **Lücke im Variantenbestand**, und sie stand von Anfang an in den CSVs, bevor ich sie durch die schönere ersetzt habe. Beide falschen Erklärungen hatten eine korrekte Messung neben sich, die zu einem anderen Schlüssel gehörte. **Ein Vorgang mit drei Stationen, keine drei Fehler**, sonst zählt der Zähler Stationen statt Wiederholungen. Wie dünn die richtige Zuordnung ist, sagt die Gegenprobe: die Normalform `groesen` hat im ganzen Korpus 2 Tokens, eines davon ist dieses.
+
+**Die vierte Station kam von der lokalen Review-Runde 2 und ist die einzige mit Wert über den Fall hinaus: `variants.xml` ist gar nicht einwertig.** Die Prämisse, auf der beide falschen Erklärungen ruhten, ist selbst falsch. Gemessen: **4.972 der 234.243** MHG-normalisierten Formen zeigen auf mehr als ein Lemma, *grossen* sogar auf drei. Einwertig ist erst die daraus **gebaute** Karte im Authority-Index, die je Normalform einen String führt, und der Backfill-Matcher wählt bei Mehrdeutigkeit nicht, sondern legt den Fall in den Review. **Wer über `variants.xml` argumentiert, muss sagen, ob er die Quelle meint oder die gebaute Karte**, und keine der drei Erklärungen dieses Vormittags hat das getan. Beruhigend immerhin: die Behauptung stand nur in den Artefakten dieses Laufs, nirgends in `docs/` und in keinem Projektskript.
+
+Die Einordnung des Falls überlebt alle drei Korrekturen: unsichtbar für das Frontend, wirksam für jedes Werkzeug, das den Variantenbestand direkt liest. Das ist Kategorie C der #259-Messung, dort mit 361 Fällen beziffert, und damit hat diese Kategorie jetzt eine Adressatenangabe.
+
+**Und damit zum eigentlichen Ärgernis des Tages: beides stand schon in `docs/CONTRACTS.md` §C.** Die Frühgeburt der Stufe 1 steht dort als Pseudocode (`EARLY RETURN -- skip stages 2-3`), und die Mehrwertigkeit steht drei Seiten weiter als benannte Regel: „**First occurrence wins** – if two lemmata claim the same variant form, only the first one stored", mit Quellenangabe auf die `if normalized_variant not in variants`-Wache in `build-authority-index.py`. Der Abschnitt nennt sogar die beiden Zahlen, die auseinanderzuhalten sind. **Zwei Sessions haben an einem Vormittag drei Erklärungen für einen Fall gebaut, und die richtige Antwort stand in dem Dokument, das genau für diese Frage angelegt ist.** Das ist keine Lücke in der Dokumentation und keine im Werkzeug: wir haben nicht nachgesehen. Die Lehre, die sich daraus formulieren lässt, ist unangenehm banal und deshalb hier ausgeschrieben: **bevor ein Mechanismus erklärt wird, wird das Dokument geöffnet, das ihn beschreibt.** Es gibt in diesem Projekt genau eines dafür, und es heißt CONTRACTS.md.
+
 
 ### 11. Rot, eigener Regelverstoß
 
@@ -96,7 +110,7 @@ Aus `docs/journal-archive.md`.
 
 ### 12. Rot, zum achten Mal, und es ist eine Abwesenheitsbehauptung über eine Datei, die zwei Verzeichnisse entfernt liegt.
 
-**Rot, zum achten Mal, und es ist eine Abwesenheitsbehauptung über eine Datei, die zwei Verzeichnisse entfernt liegt.** Im Freeze-Befund auf #385 stand, `kickoff-bausteine.md` verlange einen Abschnitt für Meldepunkte, aber keinen für den Freeze. Beide Hälften sind falsch: Baustein 6 heißt „Was eingefroren ist" und verlangt wörtlich Dateiliste, Inbox, Format und Grund, Baustein 9 ist einer der ausführlichsten überhaupt. Aufgefallen ist es erst, als ich für den Rückfluss den Wortlaut des angeblich fehlenden Bausteins zitieren wollte. Die Messung danach fällt schärfer aus als die Behauptung davor: von zehn Bausteinen stehen **neun** im abgeschickten Auftrag, und der eine fehlende ist ausgerechnet der Freeze-Baustein, von dem im ganzen Auftrag ein Halbsatz übrig ist. Nicht das Skill hat eine Lücke, der Kickoff hat einen vorhandenen Baustein ausgelassen, und geschrieben habe ich ihn selbst. Dieselbe Bauart wie die sechste rote Zeile (Mechanismus erfunden statt `CONTRACTS.md` gelesen). Dass ausgerechnet der Kommentar, der eine Vorkehrung gegen ungelesene Regeln fordert, selbst auf einer ungelesenen Regel steht, ist kein Zufall, sondern zeigt, wie zuverlässig dieser Fehlermodus ist.
+**Rot, zum achten Mal, und es ist eine Abwesenheitsbehauptung über eine Datei, die zwei Verzeichnisse entfernt liegt.** Im Freeze-Befund auf #385 stand, `kickoff-bausteine.md` verlange einen Abschnitt für Meldepunkte, aber keinen für den Freeze. Beide Hälften sind falsch: Baustein 6 heißt „Was eingefroren ist" und verlangt wörtlich Dateiliste, Inbox, Format und Grund, Baustein 9 ist einer der ausführlichsten überhaupt. Aufgefallen ist es erst, als ich für den Rückfluss den Wortlaut des angeblich fehlenden Bausteins zitieren wollte. Die Messung danach fällt schärfer aus als die Behauptung davor: von zehn Bausteinen stehen **neun** im abgeschickten Auftrag, und der eine fehlende ist ausgerechnet der Freeze-Baustein, von dem im ganzen Auftrag ein Halbsatz übrig ist. Nicht das Skill hat eine Lücke, der Kickoff hat einen vorhandenen Baustein ausgelassen, und geschrieben habe ich ihn selbst. Dieselbe Bauart wie die sechste rote Zeile, Eintrag 7 (Mechanismus erfunden statt `CONTRACTS.md` gelesen). Dass ausgerechnet der Kommentar, der eine Vorkehrung gegen ungelesene Regeln fordert, selbst auf einer ungelesenen Regel steht, ist kein Zufall, sondern zeigt, wie zuverlässig dieser Fehlermodus ist.
 
 
 ### 13. Rot, zum neunten Mal, und dies ist der einzige Fehler des Laufs, gegen den bereits eine ausformulierte Vorkehrung an genau der richtigen Stelle stand.
@@ -107,6 +121,10 @@ Aus `docs/journal-archive.md`.
 ## 2026-09-02 (Nachlauf) – Zwei Befunde haben einander widerlegt, und der Test war für die falsche Sache gebaut
 
 Aus `docs/journal-archive.md`.
+
+**Was den Schaden verhindert hat, war nicht der Dateisystem-Lock.** Die Formulierung stammt von der Spur und korrigiert meine eigene: Windows hat den leeren Ordner gerettet, den Inhalt nicht. Verhindert hat den Verlust der Zustand der Spur, nämlich fertig gemeldet, alles gepusht, Arbeitsbaum sauber, kein Stash. Beides ist Zufall gegenüber der Vorkehrung, die gegriffen hätte. Eine Welle früher wäre der Verlust **still** gewesen: ein `git checkout origin/main -- tei/WZB.tei.xml` plus ein halber Lauf hinterlässt weder Status noch Stash, und die Entscheidungstafel der 98 Fälle war zu diesem Zeitpunkt zwei Stunden nicht committete Arbeit.
+
+**Die tragfähige Fassung, ebenfalls von der Spur, und sie ist eine Bedingung statt einer Mahnung:** eine Fertigmeldung ist eine Aussage über die **Arbeit**, `ListAgents` ist eine Aussage über den **Prozess**, und abgebaut wird gegen die zweite. Das ist dieselbe Unterscheidung wie „Quelle oder gebaute Karte" bei `variants.xml`: zwei richtige Angaben über verschiedene Dinge, und die falsche davon beantwortet die Frage nicht.
 
 
 ### 14. Rot, zum zehnten Mal: eine ungemessene Annahme, die eine Entscheidung gestützt hat.
@@ -121,6 +139,14 @@ Seite, in Abschnitt 7 „Experimentelle Forschungsdaten"
 (`hilfe-playground.html:621`, Karte in 646), nur nicht in der einen Liste in
 Zeile 196. Ihr eigener Fehler war ein Grep auf eine CSS-Klasse, die Abschnitt 7
 nicht benutzt, also wörtlich „ein leerer Abruf ist kein Nullbefund".
+
+**Die Zeile bleibt trotzdem stehen, und zwar in umformulierter Fassung.** Sie
+zählt den Fehlermodus, nicht den Ausgang: die Annahme war zum Zeitpunkt der
+Entscheidung durch nichts belegt, und dass sie sich beim Nachsehen
+größtenteils als richtig erweist, macht sie nicht zu einer Messung. Wer sie
+streicht, weil es gutgegangen ist, macht den Zähler unfalsifizierbar, und genau
+das soll er nicht sein. Richtige Fassung: sie traf für die Seite zu und für die
+Liste in Zeile 196 nicht.
 
 
 ### 15. Rot, zum elften Mal, und diese ist die unangenehmste des Laufs: ein Positivtest, der die falsche Sache geprüft hat.
@@ -137,6 +163,13 @@ Beim Aufmachen der Stellen bleiben von den vieren zwei übrig.
 ## 2026-09-06 – Eindeutigkeit über einer Menge mit einem Element, und ein Alarm, der nur eine andere Zähleinheit war
 
 Aus `docs/journal-archive.md`.
+
+**Ein Test, der die falsche Sache prüft, macht eine ungeprüfte Zahl nicht
+geprüft, er verkleidet sie.** Das ist der Unterschied zu den bisherigen roten
+Zeilen dieses Laufs: dort fehlte die Messung, hier stand eine daneben und hat
+die Lücke zugedeckt. Für den Empfänger ist das schlechter als gar keine Angabe,
+weil das Prädikat ihn davon abhält, nachzurechnen. Aufgefallen ist es nur, weil
+`works.xml` aus einem anderen Anlass offen war.
 
 
 ### 16. Rot: Eindeutigkeit über einer Menge mit einem Element ist keine Eindeutigkeit.
@@ -220,6 +253,45 @@ Laufhistorie des Branches:
 
 Aus `docs/journal-archive.md`.
 
+    25 abgeschlossene data-integrity-Laeufe auf diesem Branch
+    16 davon cancelled, 9 success
+
+Alle Pushes auf diesen Branch stammen aus dieser Session, also gehen alle 16
+auf sie zurück, verteilt über den ganzen Tag von 09:03 bis 17:42. Das war
+mithin kein Ausrutscher am Ende, sondern die Arbeitsweise des Tages.
+`cancel-in-progress` gilt in diesem Workflow für `pull_request`. Beim dritten
+Mal hatte ich vorher nachgesehen und mich freigesprochen: der Commit fasst nur
+`docs/JOURNAL.md` und `ingest/**` an, beide stehen nicht in den Pfadfiltern,
+also könne kein Lauf starten und keiner abgebrochen werden. **Gemessen ist das
+Gegenteil**, und zwar an genau diesem Push:
+
+    git show --name-only 032d859   -->  docs/JOURNAL.md
+                                        ingest/pos-disambig/387-fro-adjadv/README.md
+    Lauf 34043618289 auf 032d859   -->  gestartet
+    Lauf 34043424099 auf f37254e   -->  cancelled
+
+Die Erklärung ist die dokumentierte Auswertungsregel und nicht die Messung: bei
+`pull_request` werden die `paths` gegen den **gesamten** PR-Diff gehalten, nicht
+gegen den einzelnen Push. PR #398 fasst `tei/`, `authority-files/`, `data/` und
+`scripts/audit/` an, also löst **jeder** Push auf diesen PR den Workflow aus,
+gleichgültig was er enthält. Für einen `push`-Trigger gilt das nicht, und daher
+kam mein Irrtum.
+
+Der Inhalt der Lehre bleibt und wird durch die 16 eher schärfer: **wer ein
+neues Gate einbaut, wartet dessen ersten vollständigen Lauf ab, bevor er
+weiterschiebt.** Dazu gehört, die Prüfung „ist der Lauf durch" wörtlich zu
+nehmen: am 06.09. um 17:50 standen drei der vier Checks auf `success` und
+`validate` auf `in_progress`, und der Push ging trotzdem raus, weil die drei
+grünen gelesen wurden und der eine laufende nicht. **Ein Check, der noch läuft,
+ist kein grüner Check**, und drei von vier ist bei einem `cancel-in-progress`
+genau so viel wert wie null. Neu ist, dass der Umweg
+„dieser Commit fasst ja nichts Gefiltertes an" auf einem Daten-PR nicht
+existiert. Und die Form des Fehlers ist wieder dieselbe: eine Aussage über eine
+Menge (was löst den Workflow aus) aus der Kenntnis eines Teils davon (die
+Filterliste), geschrieben ohne die Regel, nach der sie ausgewertet wird. Der
+vorstehende Absatz zählt sechs solche Fälle; dieser hier ist der siebte, und er
+ist entstanden, während ich den sechsten aufschrieb.
+
 
 ### 20. Rot: ich habe bei #358 gemessen, bevor ich den Kommentar gelesen habe.
 
@@ -230,6 +302,12 @@ gefreut und erst danach die Kommentare geöffnet. Das ist genau die Regel, die
 chsteiner in dieser Session viermal geschickt hat und die seit heute in
 `CLAUDE.md` steht, und ich habe sie an dem Tag gebrochen, an dem sie
 aufgeschrieben wurde. Der Schaden war nur Zeit; der Fund war schon dokumentiert.
+
+**Und schlimmer: derselbe Kommentar beschreibt den Messfehler, den ich dann
+gemacht habe.** Er hält fest, ein erster Lauf habe 48 Werke gemeldet, weil nur
+`div[@n]` als Vorfahr geprüft wurde, während die Strophentexte ihre Nummer am
+`lg[@n]` tragen. Mein Lauf prüfte ebenfalls nur `div[@n]` und meldete 146
+Werke. Der Kommentar enthielt die Korrektur, bevor ich den Fehler machte.
 
 
 ### 21. Rot: beinahe Textverlust gemeldet, der keiner war.
