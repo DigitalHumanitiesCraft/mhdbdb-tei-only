@@ -136,8 +136,6 @@ INTENTIONALLY_SILENT = {
         'nennt Explorer, Werkzeuge und kuratierte Datensaetze einzeln, nie die Summe',
     ('docs/ARCHITECTURE.md', 'entry_points'):
         'nennt die Werkzeuge einzeln in der Routing-Tabelle, nie als Summe',
-    ('docs/ARCHITECTURE.md', 'tei_tools'):
-        'nennt die Werkzeuge einzeln in der Routing-Tabelle, nie als Summe',
     ('docs/INDEX.md', 'entry_points'):
         'verweist seit #316 auf FEATURES.md, statt den Katalog samt Zahlen zu wiederholen',
     ('docs/INDEX.md', 'tei_tools'):
@@ -158,8 +156,9 @@ INTENTIONALLY_SILENT = {
     # Nenner: 1 von 43.879 Lemmata ist kuratiert), also greift der Anker und
     # die Ausnahme waere eine Luecke statt einer Feststellung. Die
     # Selbstpruefung hat den Eintrag im selben Lauf als veraltet gemeldet.
-    ('docs/DECISIONS.md', 'variants_normalized'):
-        'ADR-015 nennt nur die historischen Formzahlen der Regenerierung, nie die Mappings',
+    # ('docs/DECISIONS.md', 'variants_normalized') stand hier bis 2026-09-17.
+    # Die Messung zu #378 nennt die normalisierten Formen des Laufzeit-
+    # Woerterbuchs jetzt selbst, der Anker greift, also ist die Ausnahme weg.
     # Mit #316 dazu, und die Uebersetzung hat hier nichts kaputtgemacht,
     # sondern etwas sichtbar: die bisherige Bindung traf "43.879 Eintraege",
     # also die Lexikonzahl, und wurde nur vom Drift-Fenster verworfen. Von
@@ -180,7 +179,10 @@ INTENTIONALLY_SILENT = {
 
 # Explizite Ausnahme-Mengen statt -1/-2-Offsets (Review PR #222): beim
 # naechsten Werkzeug-Zuwachs hier pflegen, nicht in Zaehl-Magie suchen.
-NON_TOOL_MODULES = {'tei-ui.js'}                 # Router, kein Werkzeug
+NON_TOOL_MODULES = {
+    'tei-ui.js',                                 # Router, kein Werkzeug
+    'corpus-scope.js',                           # #204, geteilter Helfer fuer die Korpusauswahl
+}
 MODAL_MODULES = {'multi-lemma-search.js'}        # folgt dem DESIGN-Pattern nicht
 # Kuratierte Fremddatensaetze. Sie liegen im selben Verzeichnis und folgen dem
 # DESIGN-Pattern, sind aber keine Analysewerkzeuge ueber dem Korpus, sondern
@@ -204,9 +206,10 @@ def collect_code_counts() -> dict:
       Werkzeug Nr. 1). Die kuratierten Fremddatensaetze stehen daneben als
       eigener Count, siehe die Begruendung an CURATED_DATASET_MODULES.
     - Kuratierte Forschungsdatensaetze = CURATED_DATASET_MODULES
-    - Pattern-Module (DESIGN.md) = alle Module minus Router minus
-      MODAL_MODULES. Hier zaehlen die kuratierten Datensaetze MIT, weil die
-      Frage eine andere ist: sie folgen dem DESIGN-Pattern sehr wohl.
+    - Pattern-Module (DESIGN.md) = alle Module minus NON_TOOL_MODULES (Router
+      und geteilte Helfer) minus MODAL_MODULES. Hier zaehlen die kuratierten
+      Datensaetze MIT, weil die Frage eine andere ist: sie folgen dem
+      DESIGN-Pattern sehr wohl.
     - Authority-Explorer = die sechs show*Btn-Buttons der Authority-Sidebar
     - Entry Points = Explorer + Werkzeuge + kuratierte Datensaetze, also
       alles, was in der Sidebar anklickbar ist
@@ -220,10 +223,10 @@ def collect_code_counts() -> dict:
     if missing:
         sys.exit(f'FEHLER: Ausnahme-Mengen nennen nicht existierende Module: {sorted(missing)} '
                  f'— NON_TOOL_MODULES/MODAL_MODULES/CURATED_DATASET_MODULES pflegen.')
-    non_router = module_names - NON_TOOL_MODULES
-    counts['tei_tools'] = len(non_router - CURATED_DATASET_MODULES)
+    non_tools = module_names - NON_TOOL_MODULES
+    counts['tei_tools'] = len(non_tools - CURATED_DATASET_MODULES)
     counts['curated_datasets'] = len(CURATED_DATASET_MODULES)
-    counts['pattern_modules'] = len(non_router - MODAL_MODULES)
+    counts['pattern_modules'] = len(non_tools - MODAL_MODULES)
     html = Path('playground/index.html').read_text(encoding='utf-8')
     counts['authority_explorers'] = len(re.findall(
         r'id="show(?:Authors|Works|Lemmata|Concepts|Genres|Names)Btn"', html))
