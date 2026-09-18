@@ -204,6 +204,7 @@ playground/js/ui/
 │   └── name-explorer.js
 ├── tei/               # TEI text analysis (15 files: router + helper + modal + 12 analysis modules)
 │   ├── tei-ui.js                  # Router/entry point, not an analysis tool
+│   ├── corpus-scope.js            # Shared helper for the corpus selection (#204), not an analysis tool
 │   ├── multi-lemma-search.js      # Modal outlier (DESIGN.md §Multi-Lemma, documented as such)
 │   ├── word-frequency.js          # Word frequency analysis (#88, R1)
 │   ├── text-statistics.js         # Text statistics (#89, R1)

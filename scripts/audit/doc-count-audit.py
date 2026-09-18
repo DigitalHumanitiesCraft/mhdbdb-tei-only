@@ -206,9 +206,10 @@ def collect_code_counts() -> dict:
       Werkzeug Nr. 1). Die kuratierten Fremddatensaetze stehen daneben als
       eigener Count, siehe die Begruendung an CURATED_DATASET_MODULES.
     - Kuratierte Forschungsdatensaetze = CURATED_DATASET_MODULES
-    - Pattern-Module (DESIGN.md) = alle Module minus Router minus
-      MODAL_MODULES. Hier zaehlen die kuratierten Datensaetze MIT, weil die
-      Frage eine andere ist: sie folgen dem DESIGN-Pattern sehr wohl.
+    - Pattern-Module (DESIGN.md) = alle Module minus NON_TOOL_MODULES (Router
+      und geteilte Helfer) minus MODAL_MODULES. Hier zaehlen die kuratierten
+      Datensaetze MIT, weil die Frage eine andere ist: sie folgen dem
+      DESIGN-Pattern sehr wohl.
     - Authority-Explorer = die sechs show*Btn-Buttons der Authority-Sidebar
     - Entry Points = Explorer + Werkzeuge + kuratierte Datensaetze, also
       alles, was in der Sidebar anklickbar ist
