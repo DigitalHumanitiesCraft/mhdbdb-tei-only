@@ -304,6 +304,39 @@ Completeness against `testing/tests/` is gated by `scripts/audit/check-doc-inven
 
 **Locally, and this is the actual safety net:** `python scripts/audit/check-file-sizes.py`
 
+### CI: Claude Review Bot
+
+**Workflow:** `.github/workflows/claude-code-review.yml`, `--model opus`, `--max-turns 100` since `6fbf7e002` (50 before that).
+
+The rules a session has to follow are in [CLAUDE.md → Git Rules](../CLAUDE.md#git-rules). This section holds the measurements they rest on, because they are dated and they age.
+
+**A red check is not a finding, and not proof that there is none.** Four runs, each read in the job log rather than inferred from the check state:
+
+| PR | Entries in the bot's prompt | Outcome |
+|----|----|----|
+| #368 | none, the platform computed no diff | `error_max_turns` after 6:24 min, not one checklist item ticked |
+| #379 | 16 | genuine `error_max_turns` (`is_error: true`), nothing delivered |
+| #377 | 34 | checklist ticked in full, two findings, `subtype: success`, `is_error: false`, 59 turns |
+| #382 | 10 | checklist ticked in full, four findings, `subtype: success`, `is_error: false`, 56 turns |
+
+**Count the entries in the `<changed_files>` block of the job log, and do not mix them up with the PR's file count.** They are two different sets. #382 shows the gap: 10 entries in the prompt of the run that fired on „pull request opened", 13 files in the PR today, because three arrived with later commits. Both numbers are correct. Measured on 2026-09-18 in run `33395376578` and with `gh pr view 382 --json files`. #368 carried 531 files by `git show --stat 4458686ab`, and `gh pr view 368 --json changedFiles` returns 0 to this day: there the platform never computed a diff at all.
+
+**#377 and #382 were finished reviews that the action merely marked red**, having spent 59 and 56 turns against a `--max-turns` of 50 (the raise to 100 came later). Nothing is lost when that happens: the comment is posted about ninety seconds into the run (09:10:53 on a run that failed at 09:20:37; 13:10:42 on one that failed at 13:19:28) and it survives the failure. Only the green tick is discarded, never the review. The turn numbers in this section come from the coordinating session's reading of the job logs and have not been remeasured since.
+
+**No configuration fixes the red tick.** `base-action/src/run-claude-sdk.ts` in the pinned `v1` throws unconditionally on a `success` above the budget, and no input controls it. Do not go looking for a switch.
+
+**Do not judge from the REST field whether the diff was computed.** `gh api .../pulls/377 -q .changed_files` returns 0 while `gh pr view 377 --json files` returns 34. That false 0 is exactly what the dismissal of #377 was built on: the comment carried two measured findings, the red check was written off as a platform limit nine minutes later, and the PR was merged with the comment unread. Read the `<changed_files>` block in the job log, or use `--json files`.
+
+**Do not rerun, and do not split the PR.** A run that genuinely aborted aborts identically on a rerun; comment the situation on the PR instead, so the red check does not get read as a finding. Splitting a data PR into a corpus commit and an index commit buys a bot pass at the price of a state in which the index does not match the corpus, which is what the Data-Change-Lifecycle forbids. What actually matters is gated anyway: `data-integrity.yml` rebuilds `variants.xml`, both indexes and the static API and compares them against the committed state, a stronger statement about a data PR than any reading of the diff.
+
+**The bot cannot execute Python, and that holds whether or not the run completes.** It said so itself on #386 on 2026-09-02: „Python ist in diesem Job nicht ausführbar (`python3 …` wird von der Berechtigungsschicht abgelehnt). Ich konnte das Skript also nicht laufen lassen." It listed the numbers it could not check (227.652, 7.546.243, 210.262, the 430, 92,4 %), declared them neither confirmed nor disputed, and used `grep` for whatever was checkable without a run. **On a measurement PR the bot therefore reviews the code and not the result.** That is not a defect, it is the reason the local `fable-reviewer` stands beside it rather than instead of it: that one has Bash and can recompute. On #391 it recomputed fifteen numbers from a prose entry with command and result, and flagged the three it could not measure as unchecked instead of passing over them.
+
+**Green runs are not an all-clear, and the plausible explanations have been ruled out one by one.** Measured in the job logs as of 2026-09-02: #377 (34 files) 59 turns red, #382 (13) 56 red, #386 (9) 28 then 27 green, #388 (5) 28 green, #389 (18) 46 green, #391 (1) green, #381 green. The obvious explanation, the raise of `--max-turns` to 100, does **not** hold: every run in that list stayed below the old budget of 50 and would have been green without it. Neither does diff size: 18 files took fewer turns than 13. What aborted #368 and #379 is still open, so do not adopt a fresh explanation without measuring it.
+
+**Since then the workflow has stopped going red, and that is an observation rather than a fix.** Measured on 2026-09-18 over the last 200 runs (`gh run list --workflow claude-code-review.yml --limit 200 --status failure`): the last red run of any kind was `chore/naming-index-update` on 2026-09-07, and the last one on a data PR was #382 on 2026-08-31. Nobody changed anything that would explain it, and no PR of #368's size has run since, so the table above still describes what to expect from a large data PR.
+
+**Two reading rules from the same measurements.** A merge marks the then-running bot `skipped` and two rapid pushes produce `cancelled`; **neither is a statement about the review**. And `gh pr checks` shows only the last run (on #386 it says `SKIPPED` although two complete reviews exist), so use `gh run list --workflow claude-code-review.yml` for the history.
+
 ### Audit Scripts Reference
 
 Diagnostic and validation scripts in `scripts/audit/`. Completeness against the directory is gated by `scripts/audit/check-doc-inventories.py`, the same script as for the spec table above. Until #329 this table named 11 of 22 scripts, among them neither of the em-dash and no-CDN gates that run in every CI.
