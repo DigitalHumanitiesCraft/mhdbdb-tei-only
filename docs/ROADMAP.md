@@ -22,10 +22,12 @@ that has shrunk to three sense choices at lemmata that already exist. `minne`
 line are `sere` (7,915), `not` (7,269), `nam` (6,709) and `leit` (6,550), and
 none of them should start while two series wait on editorial feedback.
 
-**Six tickets carry no work at all any more, only an acceptance:** #58, #169,
-#193, #239, #250 and #251 are built, merged and live, most of them since the end
-of July. #251 holds a shared four-step check path that covers #239 and #169 as
-well. They sit in the ping list of #44 as if they were work, and they are not.
+**Some tickets carry no work at all any more, only an acceptance:** #58, #193
+and #251 are built, merged and live, most of them since the end of July. They
+sit in the ping list of #44 as if they were work, and they are not. #251 holds a
+shared check path that used to cover #239 and #169 as well; both are closed
+since, as is #250. No count is given here on purpose, because the list moves
+faster than the sentence around it.
 
 **Redundancy in the TEI headers is generated rather than maintained since
 #399.** For `handschriftencensus`, `GND` and `wikidata` `works.xml` is the master
@@ -37,10 +39,19 @@ assigns its sigles per manuscript redaction while `works.xml` knows identifiers
 per work only; the model question behind that is #404.
 
 **What sorts the rest is #406**, a triage of KZW's share by how much a single
-decision releases. Its top entry is the sharpest illustration of the paragraph
-above: fifteen minutes of reading in #28 decide 77.2 percent of the non-name
-tokens of that workstream, and no machine can take it over, because the
-annotation confirms the questionable assignment instead of correcting it.
+decision releases. It was rebuilt on 2026-09-21 after KZW rejected the previous
+version: her answers were on record and the triage kept listing them as her
+backlog. Measured that day, seven of the ten tickets in which she had the last
+word were mislabelled `wait:kzw`, and the labels were corrected.
+
+The old top entry claimed that fifteen minutes of reading in #28 decide 77.2
+percent of the non-name tokens of that workstream. **That estimate is withdrawn,
+not replaced.** It was never measured, and it describes the wrong activity: by
+KZW's own scope of 2026-09-10 the pre-check of the 26 lemmata is ours, and what
+reaches her is the list of cases that stay uncertain afterwards. The size of
+that list is unknown until the pre-check has run. What does hold is why no
+machine can take the judgement over: the annotation confirms the questionable
+assignment instead of correcting it.
 
 ## Before that: search semantics decided and implemented
 
@@ -113,12 +124,14 @@ carry a label:
 
 | # | What | Key question |
 |---|------|-------------|
-| #169 | search semantics (audit 3/6) | all four points implemented (the point numbers are audit findings, not issue numbers): point 45, the 3-stage drift, in PR #227 (ADR-016), points 15/48/51 on 2026-07-29 after KZW's approval of 2026-07-28. What remains open is acceptance. The break in the numbers for proximity searches with 3+ lemmata is in the JOURNAL of 2026-07-29 |
 | #18 | multi-lemma plus PoS search | the POS policy (#27/#181) is merged and it can be specified; it needs POS data in the corpus index |
 
-Two rows left this table on 2026-09-02 because their issues are closed: **#140**
-(human-readable documentation) and **#172** (test suite policy). Both were already
-closed when the file was last edited.
+Rows left this table because their issues are closed: **#140** (human-readable
+documentation) and **#172** (test suite policy) on 2026-09-02, both already
+closed when the file was last edited, and **#169** (search semantics) on
+2026-09-21, on KZW's acceptance of 2026-09-17. The break in the numbers for
+proximity searches with three or more lemmata that #169 carried stays on record
+in the JOURNAL of 2026-07-29 and in [CONTRACTS §C.2.2](CONTRACTS.md).
 
 ## Future: needs design, or waiting for a trigger
 
