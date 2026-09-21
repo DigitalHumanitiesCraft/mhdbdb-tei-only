@@ -124,6 +124,7 @@
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 167 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/). 16 weitere Tokens der Form minne blieben bewusst unannotiert (Review).</change>
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 57 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/). 3 weitere Tokens der Form stat blieben bewusst unannotiert (Review).</change>
+      <change when="2026-09-21" who="#editor">#371 stat, drittes Lemma: 3 bislang unlemmatisierte Tokens der Form stat/stât annotiert (lemmaRef/pos/corresp nach dem actions-Array in KZWs Review vom 15.09.2026; drei neu gepraegte Variantentypen; kein @ana, weil die Sense-Zuordnung kuratorisch ist; die 17 Faelle mit option OFFEN und die 2 mit NEU_STAND bleiben unangetastet; Provenienz-Log: ingest/pos-disambig/371-stat/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -83776,7 +83777,7 @@
           <w xml:id="ADP_6504900_11" lemmaRef="lexicon.xml#lemma_7529" pos="NOM" ana="lexicon.xml#lemma_7529_sense_12293" corresp="variants.xml#type_27248">wile</w>
           <lb n="50"/>
           <w xml:id="ADP_6505000_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="ADP_6505000_1" pos="NOM">stat</w>
+          <w xml:id="ADP_6505000_1" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
           <w xml:id="ADP_6505000_2" lemmaRef="lexicon.xml#lemma_71948" pos="ADJ" ana="lexicon.xml#lemma_71948_sense_109682" corresp="variants.xml#type_353143">vnberueret</w>
           <w xml:id="ADP_6505000_3" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
           <w xml:id="ADP_6505000_4" lemmaRef="lexicon.xml#lemma_106" pos="ADJ" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_260">allen</w>
@@ -84637,7 +84638,7 @@
           <w xml:id="ADP_6511900_8" lemmaRef="lexicon.xml#lemma_4461" pos="ADJ" corresp="variants.xml#type_334565">obrosten</w>
           <w xml:id="ADP_6511900_9" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
           <w xml:id="ADP_6511900_10" lemmaRef="lexicon.xml#lemma_3738" pos="NOM" ana="lexicon.xml#lemma_3738_sense_5924" corresp="variants.xml#type_13017">libes</w>
-          <w xml:id="ADP_6511900_11" pos="NOM">stat</w>
+          <w xml:id="ADP_6511900_11" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
           <w xml:id="ADP_6511900_12" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_98651">vnt</w>
           <w xml:id="ADP_6511900_13" lemmaRef="lexicon.xml#lemma_1097" pos="SCNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3397">das</w>
           <lb n="120"/>
@@ -85539,7 +85540,7 @@
           <w xml:id="ADP_6605700_5" lemmaRef="lexicon.xml#lemma_1097" pos="PRO" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3397">das</w>
           <w xml:id="ADP_6605700_6" lemmaRef="lexicon.xml#lemma_1180" pos="ADV" ana="lexicon.xml#lemma_1180_sense_1864" corresp="variants.xml#type_3738">do</w>
           <w xml:id="ADP_6605700_7" lemmaRef="lexicon.xml#lemma_1432" pos="ADV" corresp="variants.xml#type_4671">enmitten</w>
-          <w xml:id="ADP_6605700_8" pos="NOM">stat</w>
+          <w xml:id="ADP_6605700_8" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20050">stat</w>
           <w xml:id="ADP_6605700_9" pos="ADJ">geliche</w>
           <w xml:id="ADP_6605700_10" pos="PRP">nach</w>
           <w xml:id="ADP_6605700_11" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_98651">vnt</w>

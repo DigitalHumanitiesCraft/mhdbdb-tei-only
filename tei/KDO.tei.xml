@@ -140,6 +140,7 @@
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
       <change when="2026-09-10" who="#editor">#363 Hausenblase: 3 Tokens der Konstruktion hûsenblâter (zusammen- und getrennt geschrieben) auf lemma_49714 hûsenblâter vereinheitlicht (lemmaRef/pos/ana/corresp; Mehrwort-Einheit nach TEI-MODEL.md §4.1a; editorische Entscheidung KZW in #363; Provenienz-Log: ingest/pos-disambig/363-hausenblase/).</change>
+      <change when="2026-09-21" who="#editor">#366 fyndling-Beitrag: 4 unlemmatisierte Tokens annotiert (lemmaRef/pos/corresp; editorische Entscheidungen KZW vom 11.09. und 17.09.2026; je Schreibung ein neu gepraegter Variantentyp nach der Regel aus #367; kein @ana, weil die Sense-Zuordnung kuratorisch ist; Provenienz-Log: ingest/pos-disambig/366-fyndling/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -1478,7 +1479,7 @@
           <w xml:id="KDO_121160700_8" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
           <w xml:id="KDO_121160700_9">leg</w>
           <w xml:id="KDO_121160700_10" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3397">das</w>
-          <w xml:id="KDO_121160700_11">gehornn</w>
+          <w xml:id="KDO_121160700_11" lemmaRef="lexicon.xml#lemma_2039" pos="NOM" corresp="variants.xml#type_372378">gehornn</w>
           <lb n="8"/>
           <w xml:id="KDO_121160800_0" lemmaRef="lexicon.xml#lemma_1082" pos="ADV" ana="lexicon.xml#lemma_1082_sense_1725" corresp="variants.xml#type_129899">darein</w>
           <w xml:id="KDO_121160800_1" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
@@ -2487,7 +2488,7 @@
           <w xml:id="KDO_123250200_0" lemmaRef="lexicon.xml#lemma_1258" pos="PRP" ana="lexicon.xml#lemma_1258_sense_1977" corresp="variants.xml#type_4044">durch</w>
           <w xml:id="KDO_123250200_1">mitt</w>
           <w xml:id="KDO_123250200_2" lemmaRef="lexicon.xml#lemma_2573" pos="ADJ" corresp="variants.xml#type_131619">guttenn</w>
-          <w xml:id="KDO_123250200_3">würtzenn</w>
+          <w xml:id="KDO_123250200_3" lemmaRef="lexicon.xml#lemma_7736" pos="NOM" corresp="variants.xml#type_372382">würtzenn</w>
           <pc xml:id="KDO_123250200_4" join="left">.</pc>
         </p>
       </div>
@@ -2635,7 +2636,7 @@
           <w xml:id="KDO_123290200_7" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
           <w xml:id="KDO_123290200_8" lemmaRef="lexicon.xml#lemma_6301" pos="VRB" ana="lexicon.xml#lemma_6301_sense_9929" corresp="variants.xml#type_43090">thu</w>
           <w xml:id="KDO_123290200_9" lemmaRef="lexicon.xml#lemma_1095" pos="PRP" ana="lexicon.xml#lemma_1095_sense_1739" corresp="variants.xml#type_44084">darzu</w>
-          <w xml:id="KDO_123290200_10">zimendtrinttenn</w>
+          <w xml:id="KDO_123290200_10" lemmaRef="lexicon.xml#lemma_26776" pos="NOM" corresp="variants.xml#type_372383">zimendtrinttenn</w>
           <lb n="3"/>
           <w xml:id="KDO_123290300_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
           <w xml:id="KDO_123290300_1" lemmaRef="lexicon.xml#lemma_14366" pos="NOM" ana="lexicon.xml#lemma_14366_sense_23811" corresp="variants.xml#type_131513">inber</w>
@@ -2781,7 +2782,7 @@
           <w xml:id="KDO_124310400_9" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
           <w xml:id="KDO_124310400_10" lemmaRef="lexicon.xml#lemma_5458" pos="VRB" ana="lexicon.xml#lemma_5458_sense_8511" corresp="variants.xml#type_131100">seudt</w>
           <w xml:id="KDO_124310400_11">mitt</w>
-          <w xml:id="KDO_124310400_12">würczenn</w>
+          <w xml:id="KDO_124310400_12" lemmaRef="lexicon.xml#lemma_7736" pos="NOM" corresp="variants.xml#type_372381">würczenn</w>
           <lb n="5"/>
           <w xml:id="KDO_124310500_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
           <w xml:id="KDO_124310500_1" lemmaRef="lexicon.xml#lemma_1961" pos="VRB" ana="lexicon.xml#lemma_1961_sense_3008" corresp="variants.xml#type_77151">gyb</w>

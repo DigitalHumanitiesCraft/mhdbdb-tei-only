@@ -137,6 +137,7 @@
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 65 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/). 1 weitere Tokens der Form minne blieben bewusst unannotiert (Review).</change>
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 10 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/). 4 weitere Tokens der Form stat blieben bewusst unannotiert (Review).</change>
       <change when="2026-09-06" who="#editor">#387 (vrouwe, mechanischer Teil): 1 Token der Form vrouwe erstmals annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260)). Kein LLM-Lauf: annotiert wurde nur, wo die MHG-normalisierte Schreibung im gesamten Korpus ein einziges Lemma traegt, dieses genau eine Wortart fuehrt und die Schreibung dafuer genug Belege hat. Kontextpflichtige Faelle sind unangetastet geblieben (Provenienz-Log: ingest/pos-disambig/387-vrouwe/).</change>
+      <change when="2026-09-21" who="#editor">#371 stat, drittes Lemma: 4 bislang unlemmatisierte Tokens der Form stat/stât annotiert (lemmaRef/pos/corresp nach dem actions-Array in KZWs Review vom 15.09.2026; drei neu gepraegte Variantentypen; kein @ana, weil die Sense-Zuordnung kuratorisch ist; die 17 Faelle mit option OFFEN und die 2 mit NEU_STAND bleiben unangetastet; Provenienz-Log: ingest/pos-disambig/371-stat/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -9974,7 +9975,7 @@
             <w xml:id="PSG_9509880_3">sich</w>
             <w xml:id="PSG_9509880_4" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
             <w xml:id="PSG_9509880_5">seiner</w>
-            <w xml:id="PSG_9509880_6">stât</w>
+            <w xml:id="PSG_9509880_6" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_372386">stât</w>
           </l>
           <l n="989">
             <hi rend="initial upper_case_first_letter">
@@ -10850,7 +10851,7 @@
             <w xml:id="PSG_9710780_1" lemmaRef="lexicon.xml#lemma_4992" pos="VRB" ana="lexicon.xml#lemma_4992_sense_7758" corresp="variants.xml#type_48681">gerûmt</w>
             <w xml:id="PSG_9710780_2">an</w>
             <w xml:id="PSG_9710780_3" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_44957">ainer</w>
-            <w xml:id="PSG_9710780_4">stât</w>
+            <w xml:id="PSG_9710780_4" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_372386">stât</w>
           </l>
           <l n="1079">
             <hi rend="initial upper_case_first_letter">
@@ -12100,7 +12101,7 @@
               </hi>
             <w xml:id="PSG_10012000_1" lemmaRef="lexicon.xml#lemma_1169" pos="DET" ana="lexicon.xml#lemma_1169_sense_1850" corresp="variants.xml#type_3685">dirr</w>
             <w xml:id="PSG_10012000_2" lemmaRef="lexicon.xml#lemma_2708" pos="NOM ADJ" ana="lexicon.xml#lemma_2708_sense_4365" corresp="variants.xml#type_9131">heiligen</w>
-            <w xml:id="PSG_10012000_3">stât</w>
+            <w xml:id="PSG_10012000_3" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_372386">stât</w>
           </l>
           <l n="1201">
             <hi rend="initial upper_case_first_letter">
@@ -13850,7 +13851,7 @@
             <w xml:id="PSG_10413780_2">sprach</w>
             <w xml:id="PSG_10413780_3">an</w>
             <w xml:id="PSG_10413780_4" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_44957">ainer</w>
-            <w xml:id="PSG_10413780_5">stât</w>
+            <w xml:id="PSG_10413780_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_372386">stât</w>
             <pc xml:id="PSG_10413780_6" join="left">:</pc>
           </l>
           <l n="1379">
