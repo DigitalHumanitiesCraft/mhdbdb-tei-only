@@ -454,9 +454,9 @@ Aus `docs/JOURNAL.md`.
 
 **Rot.** Im Kommentar an #375 vom 21.09.2026, 07:40, angekuendigt, dass „die 8 eindeutigen und die 8 von dir gelesenen Fälle" umannotiert werden. Beide Hälften falsch: die acht eindeutigen sind seit dem 14.09. erledigt (PR #438, alle acht tragen `lemma_7338`/ADJ, nachgemessen), und von den acht gelesenen sind vier Arbeit und vier bestätigen den Ist-Stand. Gemessene Menge: **vier** Tokens, nicht sechzehn.
 
-**Die Lehre ist dieselbe wie in 38 und 39 und steht in `eigene-quellen.md`: geladene Quelle nicht befragt.** Der Zwischenstand vom 14.09., 23:11, steht im selben Thread, und ich hatte diesen Thread am Vormittag desselben Tages in der #406-Triage vollständig gelesen. Die letzte Zeile dazu ist Eintrag 39 vom selben Tag.
+**Die Lehre ist dieselbe wie in 39 und steht in `eigene-quellen.md`: geladene Quelle nicht befragt.** Hier stand zuerst „38 und 39“, und Eintrag 38 gehört nicht in diese Kette: er weist sich selbst `agentenbefunde.md` zu, wo ihn auch Eintrag 54 führt (23, 36, 38, 52). Nachgetragen am 21.09.2026 von der Koordination, nachdem Eintrag 44 den Widerspruch benannt und offengelassen hatte. Der Zwischenstand vom 14.09., 23:11, steht im selben Thread, und ich hatte diesen Thread am Vormittag desselben Tages in der #406-Triage vollständig gelesen. Die letzte Zeile dazu ist Eintrag 39 vom selben Tag.
 
-**Damit ist es die vierte, und nach `wiederholte-fehler.md` ist eine vierte Zeile kein Befund mehr, sondern der Beleg, dass niemand die Konsequenz gezogen hat.** Gezogen ist sie: #454 trägt die projektseitige Haelfte, `claude-code-setup#64` die generische. Gebaut ist sie nicht. Dieser Eintrag ist deshalb kein Zählschritt, sondern gehört als Fall an #454.
+**Vor dieser Zeile steht in dieser Kette Eintrag 39 mit seinen zwei Fällen, und nach `wiederholte-fehler.md` ist die Schwelle damit überschritten: gezählt wird nicht mehr, der Mechanismus ist fällig.** Eine Ordinalzahl steht hier seit dem 21.09.2026 nicht mehr, weil der Bestand zwei unvereinbare getragen hat; die Nummern sind prüfbar, eine Anzahl ist es nicht. Gezogen ist sie: #454 trägt die projektseitige Haelfte, `claude-code-setup#64` die generische. Gebaut ist sie nicht. Dieser Eintrag ist deshalb kein Zählschritt, sondern gehört als Fall an #454.
 
 **Was er getragen hat:** KZW liest in dem Kommentar, der sich bei ihr für die falsche Triage entschuldigt, eine Ankündigung von Arbeit, die getan ist. Richtiggestellt in issuecomment-5758541144, mit der Messung je Token.
 
@@ -546,7 +546,9 @@ sein **und** muss im Wörterbuch schon unter einem anderen Lemma stehen;
 sieben erfüllen die erste Bedingung, `hawsen` als einzige auch die zweite.
 
 **Und hier ist die Konsequenz fällig, nicht die vierte Zeile.** Kette
-gemessen: 39, 50, 53, diese ist die vierte, und die dritte war heute.
+gemessen: 39, 50, 53 und diese. Eine Ordinalzahl steht hier seit
+dem 21.09.2026 nicht mehr: Eintrag 39 trägt zwei Fälle, also zählt
+jede Ordinalzahl, die ihn als einen nimmt, um eins zu niedrig.
 `wiederholte-fehler.md` sagt, bei der dritten werde der Mechanismus
 gewechselt und eine vierte sei nur noch der Beleg, dass es niemand getan
 hat. Für die Gruppe insgesamt ist das schwer, weil kein Muster sieht, ob
@@ -724,7 +726,7 @@ Die Regel ist dreimal nachgeschärft worden, und jedes Mal ist beim nächsten Ma
 
 **Der gemeldete Befund war richtig und zu klein, und das ist der lehrreichere Teil.** Er nannte die zwei Kommentare, weil nur die öffentlich standen. Gemessen über alles, was ich an diesem Tag geschrieben habe, waren es **35 Stellen**: 28 in meinen sieben Einträgen dieses Journals und 7 im Journaleintrag desselben Laufs, beide zu diesem Zeitpunkt bereits committet und gepusht. **Ein gemeldeter Befund nennt die Menge, die der Melder gesehen hat, und nicht die, die betroffen ist** (`mengen.md`). Hätte ich die fünf gemeldeten Stellen repariert und den Haken gesetzt, stünden dreißig weitere da, und der nächste Fund hätte ausgesehen wie ein neuer Fehler.
 
-**Die Lehre, die nicht gegriffen hat, steht in `eigene-quellen.md`: geladen heißt nicht befragt.** Die Konvention liegt als `feedback_deutsche_anfuehrungszeichen` in der Auto-Memory dieses Projekts, wird bei jedem Sitzungsstart geladen und stand die ganze Zeit im Kontext, mit Fundstelle und Anlass (KZWs #440, gemessen 144 öffnende gegen null schließende in `playground/js/`). An ihre Stelle trat beim Schreiben das gerade Zeichen, das ich für neutral hielt. **Es ist außerdem die erste Zeile zur Anführungszeichen-Konvention selbst**: gemessen über die 45 Einträge vom 21.09. führt keiner `Anführungszeichen`, `#440`, `U+201` oder `typograf`. Die letzte Zeile zur Lehre ist Eintrag 55, davor 53, 50 und 39. **Damit ist es die fünfte.**
+**Die Lehre, die nicht gegriffen hat, steht in `eigene-quellen.md`: geladen heißt nicht befragt.** Die Konvention liegt als `feedback_deutsche_anfuehrungszeichen` in der Auto-Memory dieses Projekts, wird bei jedem Sitzungsstart geladen und stand die ganze Zeit im Kontext, mit Fundstelle und Anlass (KZWs #440, gemessen 144 öffnende gegen null schließende in `playground/js/`). An ihre Stelle trat beim Schreiben das gerade Zeichen, das ich für neutral hielt. **Es ist außerdem die erste Zeile zur Anführungszeichen-Konvention selbst**: gemessen über die 45 Einträge vom 21.09. führt keiner `Anführungszeichen`, `#440`, `U+201` oder `typograf`. Die letzte Zeile zur Lehre ist Eintrag 55, davor 53, 50 und 39, dazu 44. **Eine Ordinalzahl steht hier seit dem 21.09.2026 nicht mehr:** Eintrag 39 trägt zwei Fälle, und Eintrag 44 wurde parallel in einer anderen Spur geschrieben, weshalb jede von Hand gezählte Ordinalzahl dieses Tages zu niedrig ausfiel.
 
 **Was sie getragen hat:** die Kommentare standen öffentlich an zwei Tickets, adressiert an genau die Person, die den Befund gemeldet hat. Gefunden hat es die Koordination, nicht ich, und sie hatte denselben Fehler eine Stunde vorher selbst gemacht, nachdem sie ihn Spur A gemeldet hatte. Repariert über `gh api -X PATCH` am geposteten Body, mit Gegenprobe am geposteten Stand: 1/1/0 und 4/4/0, Länge unverändert.
 
