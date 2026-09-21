@@ -81,7 +81,7 @@ scripts/
 │   └── sync_tei_headers.py      # Authority Files → TEI-Header
 │
 ├── review/                      # Kuratorische Prüfseiten, eine HTML-Datei zum Verschicken (#443)
-│                                # Dateien siehe review/README.md, wie bei ingest/
+│                                # Dateien siehe review/README.md
 │
 └── _archived/                   # Referenz, nicht ausführen
     ├── tei-transformation.py    # Original RDF/MySQL→TEI-Migration
@@ -92,6 +92,16 @@ scripts/
     ├── convert-l-to-lb-143.py   # <l> → <lb/> in drei Prosatexten (#143, geschlossen)
     └── wzb/                     # WZB-Sackgassen, siehe wzb/README.md
 ```
+
+**In `ingest/` und `review/` stehen die einzelnen Skripte absichtlich nicht.**
+`check-doc-inventories.py` bindet vier Pfade (`scripts`, `audit`, `sync`,
+`_archived`) und vergleicht jeden `.py`-Namen aus diesem Baum gegen das
+Dateisystem. Ein Name aus einem Ordner, den es nicht scannt, gilt ihm als
+„genannt, aber nicht vorhanden", und das Gate wird rot. Gemessen am 21.09.2026
+in beide Richtungen: der Eintrag der drei `review/`-Skripte kippte es, ihr
+Weglassen nicht. Wer die Namen hier haben will, nimmt vorher das Verzeichnis in
+die Pfadliste des Gates auf. Bis dahin steht die Auskunft in `README.md` des
+jeweiligen Ordners.
 
 Ein issue-gebundenes Einmal-Skript wandert nach `_archived/`, sobald sein Issue geschlossen ist. Die Grenze ist der Issue-Status, nicht die Frage, ob das Skript schon gelaufen ist: solange das Issue offen ist, kann eine Prüffrage einen erneuten Lauf erzwingen. Deshalb stehen die drei `*-138.py` oben, bis #138 geschlossen ist, und `convert-l-to-lb-143.py` liegt im Archiv. Die beiden `insert-*-from-linecode.py` sind keine Einmal-Skripte, sie werden für weitere Texte gebraucht.
 
@@ -195,7 +205,10 @@ Setzt Belege und Bewertungen zur fertigen Seite zusammen (#359). `--pruefen`
 gleicht nur ab und schreibt nichts. Der Abgleich ist streng und bricht ab bei
 einem Fall ohne Bewertung, einer Bewertung ohne Fall, einer Fundstelle, die
 unter den gemessenen Belegen nicht vorkommt, einem Vorschlag ohne tragenden
-Beleg und **einem Zitat in einer Begründung, das so in keinem Beleg steht.**
+Beleg und **einem Zitat, das so in keinem Beleg steht**, geprüft in jedem Feld,
+dessen Text auf die Karte kommt. Am Ende prüft er zusätzlich das fertige
+Dokument auf Rückwärtsstriche im sichtbaren Text und schreibt nichts, wenn er
+welche findet.
 
 ## _archived/ — Referenz
 

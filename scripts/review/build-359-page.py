@@ -181,13 +181,16 @@ def laden():
 
 
 def zitate_pruefen(schluessel, f, b):
-    """Steht jedes Zitat der Begruendung so in den Belegen?
+    """Steht jedes Zitat dieser Bewertung so in den Belegen?
 
-    Anlass: beim Ziehen der Umlaute in dieser Datei sind zwei mittelhochdeutsche
+    Anlass: beim Ziehen der Umlaute in dieser Datei sind drei mittelhochdeutsche
     Zitate mitgezogen worden (`wandels bloss` wurde zu `wandels bloß`,
-    `tugent gross` zu `tugent groß`). Beide sahen im fertigen HTML richtig aus,
-    und beide waren falsch: der Beleg darueber las anders als das Zitat
-    darunter. Das faellt keinem Leser auf und macht die Begruendung wertlos.
+    `tugent gross` zu `tugent groß`, `unde fuer` zu `unde für`). Alle drei sahen
+    im fertigen HTML richtig aus, und alle drei waren falsch: der Beleg darueber
+    las anders als das Zitat darunter. Das faellt keinem Leser auf und macht die
+    Begruendung wertlos.
+
+    Geprueft werden alle Felder aus `_prosafelder`, nicht nur `begruendung`.
 
     Geprueft wird nur, was wie ein Zitat aussieht: in Rueckwaertsstrichen, mit
     Leerzeichen darin. Einzelne Woerter sind meist Bezeichner (`lemma_2909`,
@@ -219,19 +222,38 @@ def zitate_pruefen(schluessel, f, b):
     frei = [flach(x) for x in b.get('zitate_frei', [])]
 
     fehlend = []
-    for zitat in re.findall(r'`([^`]+)`', b.get('begruendung', '')):
-        if ' ' not in zitat.strip():
-            continue
-        if flach(zitat) in frei:
-            continue
-        for stueck in [flach(s) for s in zitat.split('...')]:
-            if len(stueck) < 8 or ' ' not in stueck:
+    for feld, text in _prosafelder(b):
+        for zitat in re.findall(r'`([^`]+)`', text):
+            if ' ' not in zitat.strip():
                 continue
-            if stueck in frei:
+            if flach(zitat) in frei:
                 continue
-            if stueck not in heuhaufen:
-                fehlend.append(stueck)
+            for stueck in [flach(s) for s in zitat.split('...')]:
+                if len(stueck) < 8 or ' ' not in stueck:
+                    continue
+                if stueck in frei:
+                    continue
+                if stueck not in heuhaufen:
+                    fehlend.append('%s: %s' % (feld, stueck))
     return fehlend
+
+
+def _prosafelder(b):
+    """Jedes Feld einer Bewertung, dessen Text auf der Karte landet.
+
+    Bis Runde 1 zu #443/#359 hat das Gate nur `begruendung` gelesen. Genau
+    darueber steht aber `kurz`, fett gesetzt und als erstes gelesen, und dort
+    stand bei `roess` ein Zitat, das kein Beleg hergibt: die Fehlerklasse, fuer
+    die das Gate gebaut wurde, ein Feld weiter oben. Wer ein Feld hinzufuegt,
+    das in die Seite geht, traegt es hier ein.
+    """
+    felder = [(name, b.get(name)) for name in
+              ('kurz', 'begruendung', 'nebenbefund', 'stichprobe')]
+    v = b.get('vorschlag')
+    if isinstance(v, dict):
+        felder += [('vorschlag.' + name, v.get(name))
+                   for name in ('text', 'unsicherheit')]
+    return [(name, text) for name, text in felder if isinstance(text, str)]
 
 
 def abgleichen(ev, vo):
@@ -268,6 +290,50 @@ def abgleichen(ev, vo):
     return gemessen, fehler
 
 
+def _texte_gelesen(ev):
+    """Wie viele TEI-Texte der Sammellauf gelesen hat.
+
+    Steht seit dieser Runde in `evidence.json`. Fehlt das Feld, stammt die
+    Datei aus einem aelteren Lauf, und dann wird die Zahl NICHT geraten: eine
+    zur Bauzeit gezaehlte Menge ist eine andere als die gesammelte, und der
+    Unterschied ist genau das, was der Datenstand festhalten soll.
+    """
+    n = ev.get('texte_gelesen')
+    return '%d TEI-Texte' % n if n else 'TEI-Texte (Anzahl im Sammellauf nicht festgehalten)'
+
+
+def _korpus_version():
+    """Die Korpus-Indexversion aus dem Index, nicht aus dieser Datei.
+
+    Sie stand hier als Zeichenkette und waere beim naechsten Bump still falsch
+    geworden: die Seite haette einen Datenstand behauptet, den sie nicht hat,
+    und ihr Datenstand ist der einzige Grund, warum eine Antwort spaeter noch
+    zuzuordnen ist. Die Belege selbst kommen aus den TEI-Dateien und nicht aus
+    dem Index; die Version datiert sie, sie erzeugt sie nicht.
+    """
+    import gzip
+    import json as _json
+
+    pfad = REPO / 'data' / 'corpus-index.json.gz'
+    if not pfad.exists():
+        return 'nicht gemessen (data/corpus-index.json.gz fehlt)'
+    try:
+        with gzip.open(pfad, 'rt', encoding='utf-8') as fh:
+            return _json.load(fh).get('version') or 'ohne Versionsangabe'
+    except (OSError, ValueError) as fehler:
+        return 'nicht lesbar (%s)' % fehler.__class__.__name__
+
+
+def _zahlwort(n, einzahl, mehrzahl):
+    """"1 Token in 1 Text" statt "1 Tokens in 1 Texten".
+
+    Dreizehn Karten trugen die Mehrzahl bei einem einzigen Beleg. Das ist
+    kosmetisch, steht aber in einer Seite, die eine Fachwissenschaftlerin
+    liest, und die Zahl daneben ist eine Aussage ueber den Bestand.
+    """
+    return '%d %s' % (n, einzahl if n == 1 else mehrzahl)
+
+
 def fundstelle(b):
     if b['kontextart'] == 'vers' and b['zeile_n']:
         return 'Vers %s' % b['zeile_n']
@@ -287,7 +353,8 @@ def bau_fall(schluessel, f, b):
                             'klassifikation': 'Klassifikationskandidat',
                             'koerperteil': 'Körperteil-Zeile'}.get(f['klasse'], f['klasse'])),
         ('Belege', ('kein einziges Token im Korpus' if f['tokens_gesamt'] == 0
-                    else '%d Tokens in %d Texten' % (f['tokens_gesamt'], f['texte_gesamt']))),
+                    else '%s in %s' % (_zahlwort(f['tokens_gesamt'], 'Token', 'Tokens'),
+                                       _zahlwort(f['texte_gesamt'], 'Text', 'Texten')))),
         ('Befund', BEWERTUNG_LABEL[bew]),
     ]
     if f['konzepte']:
@@ -315,11 +382,11 @@ def bau_fall(schluessel, f, b):
 
     hinweis = None
     if f['tokens_gesamt'] > len(gezeigt):
-        hinweis = ('%d von %d Belegen gezeigt, die tragenden zuerst. %s'
-                   % (len(gezeigt), f['tokens_gesamt'], b.get('stichprobe', '')
-                      or 'Die übrigen stehen in evidence.json.'))
+        hinweis = markup('%d von %d Belegen gezeigt, die tragenden zuerst. %s'
+                         % (len(gezeigt), f['tokens_gesamt'], b.get('stichprobe', '')
+                            or 'Die übrigen stehen in evidence.json.'))
     elif b.get('stichprobe'):
-        hinweis = b['stichprobe']
+        hinweis = markup(b['stichprobe'])
 
     vorschlag = None
     if b.get('vorschlag'):
@@ -328,11 +395,11 @@ def bau_fall(schluessel, f, b):
         # darueber ("Was beim Lesen der Belege herauskam"). Zweimal derselbe
         # Absatz auf einer Karte liest sich wie zwei Aussagen und ist eine.
         vorschlag = dict(
-            text=v['text'],
+            text=markup(v['text']),
             begruendung=('Woraus das folgt, steht im Absatz darüber. Die tragenden Stellen sind '
                          + ', '.join('<span class="mono">%s</span>' % e(x)
                                      for x in b['tragende_belege']) + '.'),
-            unsicherheit=v.get('unsicherheit', ''),
+            unsicherheit=markup(v.get('unsicherheit', '')),
         )
 
     fall = dict(
@@ -361,7 +428,7 @@ def lesart_block(fall):
     Bericht darueber, was in den Belegen steht.
     """
     teile = ['<div class="block"><p class="eyebrow">Was beim Lesen der Belege herauskam</p>',
-             '<p style="font-weight:600;margin:0 0 8px">%s</p>' % e(fall['_kurz']),
+             '<p style="font-weight:600;margin:0 0 8px">%s</p>' % markup(fall['_kurz']),
              '<p style="margin:0">%s</p>' % markup(fall['_begruendung'])]
     if fall.get('_nebenbefund'):
         teile.append('<p style="margin:10px 0 0;font-size:.9rem;color:var(--text-secondary)">'
@@ -369,6 +436,28 @@ def lesart_block(fall):
                      % markup(fall['_nebenbefund']))
     teile.append('</div>')
     return ''.join(teile)
+
+
+def rohe_striche(seite):
+    """Rueckwaertsstriche im sichtbaren Teil des fertigen Dokuments.
+
+    Die Pruefung sitzt absichtlich am Ende und nicht an den Feldern: sie misst
+    das Erzeugnis und nicht den Weg dorthin. In Runde 1 zu #443/#359 sind vier
+    verschiedene Felder ungesetzt durchgelaufen, und jedes einzeln zu
+    bewachen hiesse, das fuenfte zu vergessen.
+
+    Der Skriptteil ist ausgenommen: dort sind Rueckwaertsstriche JavaScript
+    (Template-Literale) und gehoeren hin.
+    """
+    import re
+
+    sichtbar = re.sub(r'<script\b.*?</script>', '', seite, flags=re.S | re.I)
+    treffer = []
+    for i, zeile in enumerate(sichtbar.split('\n'), 1):
+        if '`' in zeile:
+            stelle = zeile.index('`')
+            treffer.append((i, zeile[max(0, stelle - 40):stelle + 40].strip()))
+    return treffer
 
 
 def markup(text):
@@ -428,6 +517,14 @@ def main():
         seite = render(spec(ev, faelle))
     finally:
         review_page._fall_html = urspruenglich
+
+    uebrig = rohe_striche(seite)
+    if uebrig:
+        print('Rueckwaertsstriche im sichtbaren Text, %d Stelle(n):' % len(uebrig))
+        for zeile, text in uebrig:
+            print('  Zeile %d: %s' % (zeile, text))
+        print('Hier fehlt markup(). Nichts geschrieben.')
+        return 1
 
     ZIEL.write_text(seite, encoding='utf-8')
     print('geschrieben: %s (%d Faelle, %.0f KB)'
@@ -509,7 +606,8 @@ def spec(ev, faelle):
             'Fälle auf einmal auf denselben Wert setzt.',
         ],
         datenstand=[
-            ('Korpus', '667 TEI-Texte, Korpus-Index 4.2.17'),
+            ('Korpus', '%s, Korpus-Index %s'
+             % (_texte_gelesen(ev), _korpus_version())),
             ('Wortschatz', 'Authority-Index %s' % ev.get('authority_index_version', '?')),
             ('Fallmenge', '%d Fälle aus dem Bericht: %d verdächtige Zuordnungen, '
                           '%d Klassifikationskandidaten, %d Körperteil-Zeilen'

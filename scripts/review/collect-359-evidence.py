@@ -248,7 +248,9 @@ def scan(faelle, nur_zaehlen):
     lemma_belege = defaultdict(list)
 
     parser = etree.XMLParser(no_network=True, load_dtd=False, resolve_entities=False)
+    gelesen = 0
     for fp in corpus_files():
+        gelesen += 1
         baum = etree.parse(str(fp), parser)
         wurzel = baum.getroot()
         body = wurzel.find('.//%sbody' % TEI)
@@ -290,7 +292,8 @@ def scan(faelle, nur_zaehlen):
 
     return dict(paar_tokens=paar_tokens, paar_texte=paar_texte, paar_belege=paar_belege,
                 lemma_tokens=lemma_tokens, lemma_texte=lemma_texte,
-                lemma_formen=lemma_formen, lemma_belege=lemma_belege)
+                lemma_formen=lemma_formen, lemma_belege=lemma_belege,
+                texte_gelesen=gelesen)
 
 
 def main():
@@ -367,6 +370,11 @@ def main():
     nutzlast = dict(
         erzeugt_von='scripts/review/collect-359-evidence.py',
         authority_index_version=auth_version,
+        # Wie viele Texte dieser Lauf wirklich gelesen hat. Die Zahl gehoert
+        # in den Datenstand der Seite und darf dort nicht als Konstante
+        # stehen: sie waechst mit jedem Ingest, und eine Seite, die ihren
+        # eigenen Datenstand falsch angibt, ist spaeter nicht mehr zuzuordnen.
+        texte_gelesen=erg.get('texte_gelesen', 0),
         beleg_cap=BELEG_CAP,
         faelle=faelle,
     )

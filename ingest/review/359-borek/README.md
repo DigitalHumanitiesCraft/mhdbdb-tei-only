@@ -37,14 +37,25 @@ bricht ab bei:
 - einer Fundstelle in einer Begründung, die unter den gemessenen Belegen nicht
   vorkommt,
 - einem Vorschlag ohne tragenden Beleg,
-- **einem Zitat in einer Begründung, das so in keinem Beleg steht.**
+- **einem Zitat, das so in keinem Beleg steht**, in jedem Feld, dessen Text auf
+  die Karte kommt: `kurz`, `begruendung`, `nebenbefund`, `stichprobe` und beide
+  Felder des Vorschlags,
+- **einem Rückwärtsstrich im fertigen HTML**, denn dort steht dann eine
+  Auszeichnung, die niemand gesetzt hat.
 
-Der letzte Punkt hat sich verdient: beim Ziehen der Umlaute in
+Der vorletzte Punkt hat sich verdient: beim Ziehen der Umlaute in
 `vorschlaege.json` sind drei mittelhochdeutsche Zitate mitgezogen worden
 (`wandels bloss` zu `wandels bloß`, `tugent gross` zu `tugent groß`,
 `unde fuer` zu `unde für`). Im fertigen HTML sah das richtig aus, und der Beleg
 darüber las jedes Mal anders als das Zitat darunter. Wer ein Zitat schreibt,
 das absichtlich kein Korpusbeleg ist, trägt es im Fall unter `zitate_frei` ein.
+
+**Und er hat seine Reichweite in der ersten Reviewrunde bekommen.** Anfangs las
+er nur `begruendung`. Direkt darüber steht aber `kurz`, fett gesetzt und als
+erstes gelesen, und dort stand bei `röss` die Behauptung, vier Belege läsen
+`ze röss und ze fuoss`: diese Formel liest keiner der fünf. Es war dieselbe
+Fehlerklasse, gegen die das Gate gebaut war, ein Feld weiter oben. Wer ein Feld
+hinzufügt, das in die Seite geht, trägt es in `_prosafelder` ein.
 
 ## Wenn KZW eine Bewertung geändert haben will
 

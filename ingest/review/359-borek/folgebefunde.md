@@ -13,14 +13,20 @@ Die Messvorschrift steht jeweils dabei.
 ## 1. Sieben Substantive an einem Verblemma (WZB, `lemma_3702`)
 
 **Befund.** `lemma_3702` ist das Verb `lenden` („anlanden, enden"). 44 seiner 45
-Korpus-Tokens meinen das auch. Sieben Tokens in der Wenzelsbibel meinen aber den
-Körperteil, die Lende, und tragen trotzdem `lemmaRef="lexicon.xml#lemma_3702"`
-und `pos="VRB"`.
+Korpus-Tokens tragen `pos="VRB"`, das 45. trägt `ADV VRB`. Sieben dieser 44
+meinen aber nicht das Verb, sondern den Körperteil, die Lende, und tragen
+trotzdem `lemmaRef="lexicon.xml#lemma_3702"` und `pos="VRB"`. Höchstens 38
+Tokens meinen also wirklich das Verb.
+
+**Die 44 ist ein Feldwert und keine Bedeutung.** Das ist kein Detail, sondern
+der Grund, warum dieser Befund fast durchgerutscht wäre: in der ersten Fassung
+stand hier „44 meinen das auch" neben „sieben meinen den Körperteil", und
+44 + 7 = 51 bei 45 Tokens. Gefunden hat es die Reviewrunde.
 
 | xml:id | Wortlaut |
 |---|---|
 | `WZB_35va_29_1` | kvnige werden komen ous deinen **lenden** |
-| `WZB_64vb_28_7` | Ewer **lenden** sult ir gurten |
+| `WZB_64vb_28_7` | Ew̆er **lenden** sult ir gurten |
 | `WZB_100rb_36_2` | Die czwen niren mit der veisticheit, die do bedecken die **lenden** |
 | `WZB_100va_31_1` | mit der veisticheit, die do ist bei den **lenden** |
 | `WZB_100vb_15_7` | Die czwei nirlein mit dem neczlin, das do ouf in ist bei den **lenden** |

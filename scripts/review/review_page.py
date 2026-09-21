@@ -557,18 +557,21 @@ JS = r"""
           stand: STAENDE.indexOf(a.stand) >= 0 ? a.stand : "unbearbeitet"
         };
       });
-      /* Vor dem Ersetzen zaehlen, und zwar beides. `neu` waechst gleich auf
-         alle Faelle an, weil fall() fehlende Eintraege anlegt; wer erst danach
-         zaehlt, meldet immer die Gesamtzahl und nie die eingelesene. Und was
-         hier stand, wird ersetzt: das gehoert in die Meldung, sonst merkt
-         niemand, dass eine halbe Stunde Arbeit weg ist. */
-      var ausDatei = Object.keys(neu).length;
+      /* Gezaehlt wird, was BEARBEITET ist, auf beiden Seiten. Die Zahl der
+         Eintraege sagt nichts: der Export schreibt jeden Fall der Seite, auch
+         den unberuehrten, also waeren es immer alle 45, und eine Meldung, die
+         immer dasselbe sagt, ist keine. Und was hier stand, wird ersetzt: das
+         gehoert in die Meldung, sonst merkt niemand, dass eine halbe Stunde
+         Arbeit weg ist. */
+      function bearbeitet(z) {
+        return !!(z && (z.antwort || z.kommentar || z.frei
+                        || (z.stand && z.stand !== "unbearbeitet")));
+      }
+      var ausDatei = 0;
+      Object.keys(neu).forEach(function (k) { if (bearbeitet(neu[k])) { ausDatei += 1; } });
       var vorher = 0;
       Object.keys(zustand.faelle).forEach(function (k) {
-        var z = zustand.faelle[k];
-        if (z && (z.antwort || z.kommentar || z.frei || (z.stand && z.stand !== "unbearbeitet"))) {
-          vorher += 1;
-        }
+        if (bearbeitet(zustand.faelle[k])) { vorher += 1; }
       });
       zustand.faelle = neu;
       zustand.name = d.bearbeiterin || zustand.name;
@@ -583,7 +586,8 @@ JS = r"""
         markiere(f.id);
       });
       fortschritt(); anwenden(); speichern();
-      window.alert("Eingelesen: " + ausDatei + (ausDatei === 1 ? " Fall" : " Fälle") + " aus der Datei."
+      window.alert("Eingelesen: " + ausDatei
+        + (ausDatei === 1 ? " bearbeiteter Fall" : " bearbeitete Fälle") + " aus der Datei."
         + (vorher > 0
             ? "\n\nDamit ist ersetzt, was vorher in diesem Browser stand ("
               + vorher + (vorher === 1 ? " bearbeiteter Fall" : " bearbeitete Fälle") + ")."
@@ -726,11 +730,11 @@ def _vorschlag_html(v):
                 '<p>Zu diesem Fall gibt es keinen Vorschlag. Die Begründung steht darüber: '
                 'entweder tragen die Belegstellen keinen, oder es gibt keine.</p></div>')
     teile = ['<div class="vorschlag"><p class="eyebrow">%s Maschinenvorschlag, keine Entscheidung</p>' % icon('sparkles')]
-    teile.append('<p class="satz">%s</p>' % e(v['text']))
+    teile.append('<p class="satz">%s</p>' % v['text'])
     if v.get('begruendung'):
         teile.append('<p>%s</p>' % v['begruendung'])
     if v.get('unsicherheit'):
-        teile.append('<p class="unsicher"><b>Unsicherheit:</b> %s</p>' % e(v['unsicherheit']))
+        teile.append('<p class="unsicher"><b>Unsicherheit:</b> %s</p>' % v['unsicherheit'])
     teile.append('</div>')
     return ''.join(teile)
 
@@ -747,7 +751,7 @@ def _fall_html(f):
     if not f['belege']:
         belege = ('<div class="beleg"><p style="margin:0;color:var(--text-secondary)">'
                   'Für diesen Fall gibt es im Korpus keinen einzigen Beleg.</p></div>')
-    mehr = ('<div class="beleg-mehr">%s</div>' % e(f['beleg_hinweis'])) if f.get('beleg_hinweis') else ''
+    mehr = ('<div class="beleg-mehr">%s</div>' % f['beleg_hinweis']) if f.get('beleg_hinweis') else ''
 
     return """
 <article class="fall" id="fall-%(id)s" data-status="unbearbeitet">
@@ -786,6 +790,50 @@ def _fall_html(f):
         optionen=_optionen(f))
 
 
+# Die Prosafelder der Spec sind HTML und werden nicht escaped. Der Generator
+# ist fuer beides zustaendig: escapen, was Text ist, und auszeichnen, was
+# Auszeichnung braucht. Diese Liste sagt, welche Felder das betrifft, und
+# `_rohe_auszeichnung` haelt die Zusage nach.
+HTML_FELDER = ('frage', 'beleg_hinweis')
+HTML_FELDER_VORSCHLAG = ('text', 'begruendung', 'unsicherheit')
+
+
+def _rohe_auszeichnung(spec):
+    """Ein Rueckwaertsstrich in einem HTML-Feld heisst: hier fehlt `markup()`.
+
+    Anlass ist Runde 1 zu #443/#359: `kurz`, `vorschlag.text`,
+    `vorschlag.unsicherheit` und `beleg_hinweis` gingen durch `e()` statt durch
+    die Auszeichnung des Generators, und in der fertigen Seite standen an 21
+    Stellen Rueckwaertsstriche im sichtbaren Text. Das faellt beim Bauen nicht
+    auf, weil die Nachbarfelder daneben richtig gesetzt sind.
+
+    Die Pruefung ist bewusst stumpf: sie versteht die Auszeichnung nicht, sie
+    verlangt nur, dass keine Markdown-Reste uebrig sind. Wer einen
+    Rueckwaertsstrich als Zeichen meint, schreibt ihn als `&#96;`.
+
+    Sie sieht nur die Felder, die dieses Modul selbst rendert. Ein Generator,
+    der `_fall_html` ersetzt und eigene Bloecke einhaengt, prueft sein
+    Ergebnis selbst; `build-359-page.py` tut das am fertigen Dokument.
+    """
+    fundstellen = []
+    for f in spec.get('faelle', []):
+        for feld in HTML_FELDER:
+            if '`' in (f.get(feld) or ''):
+                fundstellen.append('Fall %s, Feld %s' % (f.get('id', '?'), feld))
+        v = f.get('vorschlag')
+        if isinstance(v, dict):
+            for feld in HTML_FELDER_VORSCHLAG:
+                if '`' in (v.get(feld) or ''):
+                    fundstellen.append('Fall %s, vorschlag.%s' % (f.get('id', '?'), feld))
+    for g in spec.get('gruppen', []):
+        if '`' in (g.get('beschreibung') or ''):
+            fundstellen.append('Gruppe %s, Beschreibung' % g.get('id', '?'))
+    for p in spec.get('anleitung', []):
+        if '`' in p:
+            fundstellen.append('Anleitung')
+    return fundstellen
+
+
 def render(spec):
     """Die fertige Seite als ein einziger HTML-String.
 
@@ -803,6 +851,12 @@ def render(spec):
     doppelt = sorted({i for i in ids if ids.count(i) > 1})
     if doppelt:
         raise ValueError('doppelte Fall-IDs: %s' % ', '.join(doppelt))
+
+    roh = _rohe_auszeichnung(spec)
+    if roh:
+        raise ValueError(
+            'Rueckwaertsstriche in einem HTML-Feld, hier fehlt die Auszeichnung:\n  '
+            + '\n  '.join(roh))
 
     gruppen_html = []
     for g in spec['gruppen']:

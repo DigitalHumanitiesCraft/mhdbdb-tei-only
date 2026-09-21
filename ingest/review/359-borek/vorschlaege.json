@@ -145,7 +145,7 @@
 
     "brüsten|lemma_15400": {
       "bewertung": "aufloesungsartefakt",
-      "kurz": "Das Verb `sich bruesten`. Der Körperteil ist lemma_909 und trägt das Tierkonzept bereits.",
+      "kurz": "Das reflexive Verb `brüsten`. Der Körperteil ist lemma_909 und trägt das Tierkonzept bereits.",
       "begruendung": "Alle sieben Belege tragen @pos=\"VRB\": `ir hoher muot sich bruestet`, `hie ist an narren kein gebrust`, `alsam ein löuwe ist er gebrust`. Der Körperteil steht unter lemma_909 `brust` (NOM), und dieses Lemma führt in einem seiner Senses bereits concept_14011100 (Körper/Gliedmaßen von Säugetieren) und concept_14021100 (von Vögeln). **KZWs Bedingung ist hier gegenstandslos, weil die Zuordnung schon besteht.**",
       "tragende_belege": ["WVO_1270000_4", "TRO_29562_5", "ENG_2856_4"],
       "vorschlag": null
@@ -159,17 +159,17 @@
       "vorschlag": {
         "konzepte": ["concept_14011100"],
         "text": "concept_14011100 (Körper/Gliedmaßen von Säugetieren) ergänzen. Die Disambiguierung der einzelnen Tokens ist eigene Korpusarbeit und nicht Teil dieser Seite.",
-        "unsicherheit": "Wie viele der 207 Belege tierisch sind, ist nicht gemessen. Gelesen wurden neun, nämlich die mit einem Pferdewort im Kontextfenster; zwei davon sind tierisch. Die Aussage lautet `kommt vor`, nicht `kommt so oft vor`."
+        "unsicherheit": "Wie viele der 207 Belege tierisch sind, ist nicht gemessen. Gelesen wurden neun, nämlich die mit einem Pferdewort im Kontextfenster; zwei davon sind tierisch. Die Aussage lautet „kommt vor“, nicht „kommt so oft vor“."
       }
     },
 
     "lenden|lemma_3702": {
       "bewertung": "aufloesungsartefakt",
       "kurz": "Das Verb `landen`. Der Körperteil ist lemma_3701 und trägt beide Konzepte bereits.",
-      "begruendung": "44 der 45 Belege tragen @pos=\"VRB\" und meinen anlanden oder enden: `dô gelante turnûs vor eine borch`, `ir schif haet gelendet`, `sîn dreun ist nû gelendet`. Der Körperteil steht unter lemma_3701 `lende` (NOM) und führt bereits concept_14011100 **und** concept_21030000. **Auch hier ist KZWs Bedingung gegenstandslos, weil die Zuordnung schon besteht.**",
+      "begruendung": "44 der 45 Belege tragen @pos=\"VRB\", und die gelesenen meinen anlanden oder enden: `dô gelante turnûs vor eine borch`, `ir schif haet gelendet`, `sîn dreun ist nû gelendet`. Der Körperteil steht unter lemma_3701 `lende` (NOM) und führt bereits concept_14011100 **und** concept_21030000. **Auch hier ist KZWs Bedingung gegenstandslos, weil die Zuordnung schon besteht.**",
       "tragende_belege": ["ENE_77370_1", "MR2_31042220092100_3", "PZ_30728_4"],
       "vorschlag": null,
-      "nebenbefund": "Sieben Belege in der Wenzelsbibel sind keine Verben, sondern der Körperteil: `kvnige werden komen ous deinen lenden`, `Ewer lenden sult ir gurten`, `die czwei nirlein ... bei den lenden`. Sie tragen trotzdem @pos=\"VRB\" und lemma_3702. Das ist eine Fehlannotation in tei/ und gehört in ein eigenes Ticket, nicht in diese Seite."
+      "nebenbefund": "Sieben der 44 Belege mit @pos=\"VRB\" sind keine Verben, sondern der Körperteil, alle in der Wenzelsbibel; höchstens 38 meinen also wirklich das Verb: `kvnige werden komen ous deinen lenden`, `Ew̆er lenden sult ir gurten`, `die czwei nirlein ... bei den lenden`. Sie tragen trotzdem @pos=\"VRB\" und lemma_3702. Das ist eine Fehlannotation in tei/ und gehört in ein eigenes Ticket, nicht in diese Seite."
     },
 
     "oren|lemma_30381": {
@@ -270,7 +270,7 @@
 
     "röss|lemma_18728": {
       "bewertung": "annotation_falsch",
-      "kurz": "Vier der fünf Belege lesen `ze röss und ze fuoss`. Das ist das Ross.",
+      "kurz": "Vier der fünf Belege meinen die Berittenen, alle vier aus Wittenwilers Ring. Das ist das Ross.",
       "begruendung": "`yedem man ze röss und zfuoss`, `etleich ze fuoss, die andern ze röss`, `ze röss und ze füssen alle gar`, `so chament die ze röss aldo` (alle vier in Heinrich Wittenwilers Ring). Die Formel `ze rosse und ze fuoze` ist stehend und meint das Reittier. Annotiert sind sie als `resch` (schnell, knusprig). Der fünfte Beleg `so ist es röss gesotten` (Kochrezepte der Konstanzer Handschrift) ist richtig `resch`.",
       "zitate_frei": ["ze rosse und ze fuoze"],
       "tragende_belege": ["WRB_41240000_3", "WRB_48139000_7", "WRB_54233000_1", "WRB_54240000_4"],
@@ -341,7 +341,7 @@
       "vorschlag": {
         "konzepte": [],
         "text": "Die vier Kampfbelege auf das `hurt`-Lemma umhängen, die zwei Belege zum Anhäufen bei lemma_2903 belassen.",
-        "unsicherheit": "Der siebte Beleg ist nicht gelesen worden; gesammelt sind sechs von sieben Tokens."
+        "unsicherheit": "Der siebte Beleg (WUT_3909_1) ist nicht gelesen worden. Gesammelt sind alle sieben, gelesen sechs."
       }
     },
 
@@ -363,7 +363,7 @@
       "begruendung": "lemma_3103 `jagât` ist die Jagd als Substantiv und trägt @pos=\"NOM\". Vier der sechs gelesenen Belege sind aber Verbformen: `dô jaget alexander nâch`, `dô jaget er die widervart`, `der jaget ûf der vart hin nâch`, `ob in darumbe zwîvel jaget`. Nur `dar zô ne frumet nehein jaget` ist wirklich das Substantiv. Das betrifft 122 Tokens in 52 Texten und ist eine Disambiguierungsaufgabe, keine Klassifikationsfrage zu Boreks Listen.",
       "tragende_belege": ["AXR_752200_1", "AXS_5585000_5"],
       "vorschlag": null,
-      "stichprobe": "Sechs von 122 Belegen gelesen. Die Aussage `vier von sechs` gilt für die sechs."
+      "stichprobe": "Sechs von 122 Belegen gelesen. Die Aussage „vier von sechs“ gilt für die sechs."
     },
 
     "schuf|lemma_5153": {

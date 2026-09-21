@@ -56,6 +56,16 @@ Ein Fall braucht `id`, `gruppe`, `kopf`, `frage`, `belege`, `optionen` und
 darf `merkmale`, `vorschlag` und `beleg_hinweis` tragen. Fehlt ein Pflichtfeld
 oder ist eine `id` doppelt, bricht `render` ab.
 
+**Die Prosafelder sind HTML und werden nicht escaped.** Welche das sind, sagt
+`HTML_FELDER` und `HTML_FELDER_VORSCHLAG` in `review_page.py`. Der Generator
+ist für beides zuständig: escapen, was Text ist, und auszeichnen, was
+Auszeichnung braucht. Diese Trennung ist die einzige Stelle des Formats, an der
+man etwas falsch machen kann, ohne dass es auffällt, deshalb hält `render` sie
+nach: **ein Rückwärtsstrich in einem HTML-Feld bricht den Lauf ab**, denn dort
+steht dann eine Auszeichnung, die niemand gesetzt hat. In der ersten Runde zu
+#443 sind auf diesem Weg 21 Rückwärtsstriche in den sichtbaren Text geraten,
+während die Nachbarfelder daneben richtig gesetzt waren.
+
 **Die Antwortoptionen bringt jeder Fall selbst mit.** Das ist Alans erster
 Punkt aus #443: eine Liste, die für alle Fälle dieselbe ist, besteht zum
 größten Teil aus Möglichkeiten, die nicht zutreffen. Die freie Antwort hängt
@@ -76,7 +86,10 @@ das Format an jede Karte, unabhängig von den Optionen.
   `localStorage` je nach Browsereinstellung fehlschlagen, und dann muss die
   Seite es sagen statt es zu verschweigen.
 - **Zurück kommt JSON und ein lesbarer HTML-Bericht.** Der Import liest nur
-  einen Export derselben Kennung ein und sagt, was er ersetzt hat.
+  einen Export derselben Kennung ein und sagt, was er ersetzt hat. Gezählt
+  werden dabei auf beiden Seiten die **bearbeiteten** Fälle: der Export
+  schreibt jeden Fall der Seite, auch den unberührten, und eine Meldung, die
+  immer dieselbe Zahl nennt, ist keine.
 
 ## Was beim Bauen zu beachten ist
 
