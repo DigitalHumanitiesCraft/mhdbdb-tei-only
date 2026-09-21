@@ -52,8 +52,9 @@ Sense-Zuordnung ist nach `docs/TEI-MODEL-AUTH-FILES.md` kuratorisch: sie ist nic
 dem Korpus rekonstruierbar, sondern wird vom Team vergeben. Ein hier gesetztes `@ana`
 wäre kuratorische Arbeit des Skripts. Genau ein Fall (`FR1_4007060_6`) trägt im reichen
 `faelle`-Array einen Sense (`lemma_5710_sense_8948`), und der stammt aus unserem
-Vorschlag, nicht aus ihrer Entscheidung. Korpusweit tragen 1.554.314 von 7.547.816
-`<w>` mit `@lemmaRef` kein `@ana`, der Zustand ist also Praxis und kein Loch.
+Vorschlag, nicht aus ihrer Entscheidung. Korpusweit tragen nach diesem Lauf
+1.554.398 von 7.547.900 `<w>` mit `@lemmaRef` kein `@ana`, gemessen am 21.09.2026
+ueber alle 667 Dateien in `tei/`; der Zustand ist also Praxis und kein Loch.
 
 ## Drei Tokens, bei denen ein vorhandener Wert weicht
 

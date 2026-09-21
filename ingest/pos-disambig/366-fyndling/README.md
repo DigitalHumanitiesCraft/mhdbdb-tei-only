@@ -87,8 +87,9 @@ KZW hat in keinem der acht Fälle einen Sense benannt. Die Sense-Zuordnung ist n
 Korpus rekonstruierbar; ein hier gesetztes `@ana` wäre kuratorische Arbeit des Skripts.
 Drei der Ziellemmata (`lemma_26988`, `lemma_42619`, `lemma_26776`) tragen genau einen
 Sense, die Zuordnung wäre dort technisch eindeutig, aber technisch eindeutig ist nicht
-dasselbe wie entschieden. Korpusweit tragen 1.554.314 von 7.547.816 `<w>` mit
-`@lemmaRef` kein `@ana`.
+dasselbe wie entschieden. Korpusweit tragen nach diesem Lauf 1.554.398 von
+7.547.900 `<w>` mit `@lemmaRef` kein `@ana`, gemessen am 21.09.2026 ueber alle
+667 Dateien in `tei/`.
 
 Das ist damit der Rest, der nach diesem Lauf an KZW offenbleibt.
 
@@ -111,6 +112,6 @@ die Form `gehornn` bekommt dort mit `type_372378` ihren Eintrag in `variants.xml
   Es gibt dort also nichts zu entfernen.
 
 Beides steht als Rückfrage im Statuskommentar zu #366, mit dem Vorlauf, was bereits
-umgesetzt ist. Zur Einordnung mitgemessen: `lemma_2039` trägt heute 39 Tokens in 15
-Dateien, und `gehornn` stand auch dort noch nicht, das Hinzufügen war also echte Arbeit
-und kein Leerlauf.
+umgesetzt ist. Zur Einordnung mitgemessen, am 21.09.2026 nach diesem Lauf:
+`lemma_2039` trägt 40 Tokens in 15 Dateien, vor dem Lauf waren es 39. Und `gehornn`
+stand auch dort noch nicht, das Hinzufügen war also echte Arbeit und kein Leerlauf.

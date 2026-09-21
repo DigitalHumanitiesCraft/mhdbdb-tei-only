@@ -14,8 +14,9 @@ Kein `@ana`. In keinem der drei Vorgaenge hat KZW einen Sense benannt, und die
 Sense-Zuordnung ist nach TEI-MODEL-AUTH-FILES.md kuratorisch ("New sense
 meanings are curatorial (the team assigns the concept), not automatically
 reconstructible from the corpus"). Ein hier gesetztes @ana waere kuratorische
-Arbeit des Skripts. Korpusweit tragen 1.554.314 von 7.547.816 <w> mit
-@lemmaRef kein @ana, der Zustand ist also Praxis und kein Loch. Das gilt auch
+Arbeit des Skripts. Korpusweit tragen nach diesem Lauf 1.554.398 von 7.547.900
+<w> mit @lemmaRef kein @ana, gemessen am 21.09.2026 ueber alle 667 Dateien in
+tei/; der Zustand ist also Praxis und kein Loch. Das gilt auch
 fuer FR1_4007060_6, dessen `sense`-Feld im reichen `faelle`-Array aus unserem
 Vorschlag stammt und nicht aus KZWs Entscheidung (ihr `actions`-Array fuehrt
 ueberhaupt kein sense-Feld).
