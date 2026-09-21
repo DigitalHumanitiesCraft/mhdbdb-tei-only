@@ -166,7 +166,7 @@ Spiegelt die Werk-Identifier aus `works.xml` in den `msIdentifier` der TEI-Heade
 - `--all` läuft für `works` über denselben chirurgischen Pfad wie `--works`. Das ist kein Detail: bis zur Reviewrunde vom 07.09. fiel `--all` still in den alten lxml-Weg und hätte die 19 `mwb-sigle` gelöscht, ohne dass ein Gate angeschlagen hätte.
 - `--persons`, `--genres`, `--concepts` sind deklarierte Stubs. `main()` weist sie ab, bevor eine Klasse instanziiert wird: Fehlermeldung, Exit 1, kein Traceback. Unter `--all` werden sie mit einer Warnung übersprungen. Das `NotImplementedError` in den Klassen ist nur beim direkten Aufruf erreichbar.
 
-## review/ — Kuratorische Prüfseiten
+## review/: Kuratorische Prüfseiten
 
 Generatoren für Seiten, die an eine Fachwissenschaftlerin gehen und dort ohne
 Installation im Browser geöffnet werden. Das Gegenstück zu `audit/`: dort steht,
