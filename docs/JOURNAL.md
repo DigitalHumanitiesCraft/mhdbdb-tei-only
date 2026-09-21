@@ -421,3 +421,57 @@ Die Korrektur ist dann größer ausgefallen als der Befund. Statt die zwei gemel
 ### Offen
 
 #204 bleibt offen bis zur Abnahme durch @wachauer und steht auf `auto:blocked` + `wait:kzw`. #442 hält fest, was dieser PR bewusst nicht löst: ändert man die Auswahl bei offenem Werkzeug, folgt dessen Ergebnis erst beim nächsten Öffnen. Das betrifft alle acht auswahlabhängigen Werkzeuge gleich und ist eine Entscheidung über den ganzen Playground.
+
+## 2026-09-21 (Spur A des Datenlaufs) – 88 Tokens, und dreimal stand die Zahl im Auftrag gegen die Zahl im Bestand
+
+Drei von KZW entschiedene Pakete in einem Lauf, ein Rebuild der abgeleiteten Schicht, ein Versions-Bump, ein PR: #366 (acht unlemmatisierte Tokens aus dem fyndling-Beitrag), #375 (die vier letzten `wâren`-Fälle) und #371 (76 Tokens der Formen `stat` und `stât`). Korpus-Index 4.2.18, Authority-Index 1.9.8.
+
+### Was gearbeitet wurde
+
+88 Tokens in 45 Korpusdateien bekommen `@lemmaRef`, `@pos` und `@corresp`, je Datei ein `revisionDesc`-Eintrag pro Paket. 84 davon tragen erstmals ein `@lemmaRef`, vier wechseln von `lemma_7505` (Verb) auf `lemma_7338` (Adjektiv). Zehn Variantentypen neu geprägt, `type_372377` bis `type_372386`, keiner umgehängt. `variants.xml` von 256.773 auf 256.783 Formen, Einträge unverändert 42.626, normalisierte Mappings von 234.245 auf 234.250.
+
+Kein `@ana`. In keinem der drei Vorgänge hat KZW einen Sense benannt, und die Sense-Zuordnung ist nach TEI-MODEL-AUTH-FILES.md kuratorisch: sie wird vom Team vergeben und ist nicht aus dem Korpus rekonstruierbar. Ein hier gesetztes `@ana` wäre kuratorische Arbeit des Skripts gewesen. Das ist der Rest, der an KZW offenbleibt.
+
+### Drei Zahlen aus dem Auftragstext, die am Bestand nicht hielten
+
+Der Kickoff sagte selbst, sein ganzer Text sei eine Behauptung und jede Zahl vor der Verwendung nachzumessen. Dreimal hat das etwas gefangen, und keines der drei wäre von einem Gate bemerkt worden.
+
+**Zehn Typprägungen statt drei.** Der Laufplan rechnete mit drei neuen Typen, alle aus #371, und behandelte #366 als reines Setzen. Gemessen trägt dort **keine** der sieben Schreibungen unter ihrem Ziellemma bereits eine Nummer, es sind also sieben weitere. Der Satz stand seit dem 06.09. im Ticket („Alle sieben Schreibungen sind unter ihrem Ziel-Lemma noch nicht belegt"), und der Plan hatte ihn beim Lesen von #366 überflogen. Der harte Fall darunter ist `hawsen`: die Form wird bereits als `type_372368` unter `lemma_49714` *hûsenblâter* geführt, geprägt im #363-Lauf für die getrennt geschriebenen Erstglieder. Ein Umhängen hätte jene Tokens mitgerissen.
+
+**Die Arbeitsmenge von #375 war vier und nicht sechzehn.** Die acht „eindeutigen" Fälle sind seit PR #438 erledigt, einzeln nachgemessen; die vier VRB-Fälle aus KZWs Tabelle bestätigen den Ist-Stand. Und alle vier verbleibenden tragen die Form `wâren`, brauchen also nur den bestehenden `type_287014`. Die Typtabelle des Tickets nennt drei Zieltypen, weil sie für die ganze Sechzehnermenge geschrieben war. **Eine übernommene Liste ist derselbe Fehler wie eine übernommene Zahl, nur an einer Stelle, die niemand für eine Zahl hält.**
+
+**KZWs `zusammenfassung` war richtig, und der geplante Vorwurf traf nicht.** Laufplan und Kickoff hielten fest, ihr `offen: 7` stehe gegen gezählte 17 und die Zahl in der Zusammenfassung sei falsch. Gemessen decken sich alle vier Werte der `zusammenfassung` exakt mit dem Feld `status` (95/95, 63/63, 25/25, 7/7); die 17 zählt das Feld `option`. Die Kreuztabelle löst es auf: `status=offen` **und** `option=OFFEN` sind 7, `status=anders` **und** `option=OFFEN` sind 10. **Zwei Felder, zwei Mengen, beide Zahlen richtig.** Der Satz wäre vier Tage nach ihrer Rüge in #406 als Korrektur ins Ticket gegangen, für einen Fehler, den sie nicht gemacht hat. Er ist aus beiden Dokumenten entfernt, und ins Ticket geht stattdessen die Auflösung.
+
+### Die Feldsemantik eines Review-JSON, und warum sie ins Provenienz-Log gehört
+
+KZWs Review zu #371 kommt als JSON mit 95 beurteilten Fällen und einem `actions`-Array mit 76. Drei seiner Felder sehen nach ihrer Stimme aus und sind es nicht, gemessen am abgelegten Original:
+
+- **`begruendung` ist dreiteilig.** 19 von 95 wortgleich mit ihrem Feld `notiz`, 6 der generierte Satz „Abweichung von Claudes Vorschlag, ohne Notiz.", 70 ein analytischer Text, der nicht aus `notiz` stammt. Nur `notiz` ist zuverlässig ihre Stimme, und sie ist bei 76 der 95 Fälle leer.
+- **`batch_verdict` ist das Maschinenurteil.** Es weicht bei 25 Fällen von `pos` ab und trägt auch dort ein Urteil samt Konfidenz, wo sie `pos: null` gesetzt hat.
+- **`actions.confidence` ist kein Maß für Sicherheit, sondern eine Ableitung aus `status`**, ohne eine einzige Ausnahme: `ok` wird `high` (63), `anders` wird `medium` (13). Gegen `batch_verdict.confidence` weicht sie bei 61 von 76 ab. **Die 13 mit `medium` sind damit gerade die Fälle, in denen KZW vom Vorschlag abgewichen ist**, also die am gründlichsten angesehenen, und nicht die unsichersten.
+
+Der dritte Punkt hätte fast einen falschen Satz in den PR-Text gebracht: die 13 waren als die ausgewiesen, bei denen die Abnahme zuerst hinsehen soll. **Ein Feld, das einen Wert trägt, sieht geprüft aus, auch wenn nie jemand geprüft hat, was der Wert bedeutet.** Die Messvorschrift steht deshalb in `ingest/pos-disambig/371-stat/README.md`, neben der Aussage.
+
+Und das JSON ist nicht parsbar: bei Zeichen 82.382 steht mitten im `actions`-Array die Klartextzeile `Prüfer: Alan van Beek`. Genau einmal. Eine Zeile entfernen, dann strikt mit `json.loads`, mit `len(faelle) == 95` und `len(actions) == 76` als harter Bedingung; kein Feldschnitt über Regex, der hätte keine Kontrolle darüber, ob er ein Objekt verliert.
+
+### Was über den Fall hinausgilt
+
+**Eine Zahl, die steigt, zieht die Zahl neben sich mit, auch wenn ein Plan sie für unbeteiligt erklärt hat.** Der Laufplan führte die normalisierten Mappings ausdrücklich unter „nicht betroffen, andere Menge". Gemessen stiegen sie mit, von 234.245 auf 234.250: zehn neue Rohformen ergeben fünf neue Mappings. Beim Vorgängerzug (#375, eine einzige neue Schreibung) war es tatsächlich null, und daraus war eine Regel geworden. Die beiden Zahlen mussten zusammen gezogen werden, weil sie in denselben zwei Sätzen mit einem gemeinsamen Stichtag stehen: **eine allein zu ziehen hätte genau den Satz falsch gemacht, der vor ihrer Verwechslung warnt.**
+
+**Ein Gate, das eine Zahl bewacht, sieht nicht, ob die Zahl an dieser Stelle einen Ist-Stand meint.** `doc-count-audit.py` meldete die Formen- und die Mappingzahl an 17 Stellen. Zwei davon in `DECISIONS.md` sind keine Ist-Angaben: die eine benennt den Messstand von #378, die andere einen abgeschlossenen Vergleich zweier Indexstände („Authority Index 1.9.5 against 1.9.6: 0 forms added, 0 removed, 0 re-pointed, out of 234,245 mappings on both sides"). Die zweite hochzuziehen wäre eine Falschaussage über eine dokumentierte Messung gewesen. Der Ausweg stand schon im Gate: `find_stale_numbers` kennt einen nachgestellten Stand-von-Version-Vermerk, gebaut für genau diesen Satztyp in `CONTRACTS.md` (#297). Die Zeile heißt jetzt „out of 234,245 mappings on both sides, which is the state of v1.9.6 and not today's" und ist damit für das Gate **und** für einen menschlichen Leser eindeutig. **Wo eine historische Zahl neben einer wachsenden steht, ist der Vermerk billiger als die Ausnahme**, denn die Ausnahme altert still und der Vermerk steht im Text.
+
+**Das Inventar-Gate liest mehr Namen, als es Verzeichnisse scannt.** `check-doc-inventories.py` bindet vier Pfade (`scripts/` flach plus `audit/`, `sync/`, `_archived/`), hält aber jeden im Baum von `scripts/README.md` genannten Skriptnamen gegen die gescannten Dateien. Ein Name aus `scripts/ingest/` ist damit „genannt, aber nicht vorhanden" und färbt das Gate rot. Mutationsprobe am committeten Stand gefahren und zurückgenommen. Die Lücke unter `ingest/` sah aus wie ein Versehen und ist eine Notwendigkeit; sie trägt jetzt einen Absatz, der sagt warum.
+
+### Die #397-Frage: was hat dieser Zug wahr gemacht, das vorher falsch sein konnte
+
+Zehn Prägungen stellen eine Invariante her, die vorher an zehn Stellen verletzt war: die Form steht jetzt unter ihrem Lemma. **Jede Prüfung, die auf „Form nicht unter diesem Lemma vorhanden" gebaut war, hat für diese zehn Paare keinen Gegenstand mehr.** Gesucht und nicht gefunden: der Bestand kennt keine solche Prüfung, weil `extract-variants.py` den umgekehrten Weg geht (es liest den Korpus und schreibt `variants.xml`, statt zu prüfen). Was bleibt, ist die Gegenprobe selbst: der Trockenlauf vor und nach dem Zug, dessen vier Semantikzähler die Aussage tragen (`added 10`, die übrigen drei auf 0) und dessen Mehrdeutigkeitszähler unverändert bei 613 und 1 stehen. **Null zusätzliche Mehrdeutigkeiten ist die Zahl, die zählt**, denn ein Token, das ein Lemma mit dem Typ eines anderen kombiniert, bliebe in der Mehrheit unsichtbar und hinge still am falschen Lemma. Kein Gate sieht das.
+
+### Rote Zeilen
+
+**Rot: einem Menschen zugeschrieben, er habe etwas geprüft, weil ein Feld daneben so klang.** Ausgezogen als rote Zeile 40 nach [../fehlerjournal.md](../fehlerjournal.md).
+
+**Rot, erste Zeile zu dieser Lehre: die Trefferzahl stimmte, die Einfügeposition nicht, weil die Zeilenenden ungeprüft blieben.** Ausgezogen als rote Zeile 41 nach [../fehlerjournal.md](../fehlerjournal.md).
+
+### Offen
+
+Alle drei Vorgänge bleiben offen bis zur Abnahme durch @wachauer; ein `Closes` ist keine Abnahme. Was sie noch entscheiden muss: die Sense-Zuordnungen für alle 88 Tokens, die 17 Fälle mit `option: OFFEN` und die 2 mit `NEU_STAND` aus #371 (letztere bräuchten ein neues Lemma), und die erste Hälfte des `hirne`-Auftrags aus #366, die kein Objekt hat: `lemma_2853` trägt 228 Tokens in 66 Dateien und ist nicht leer, und die Form `gehornn` steht nicht darunter.
