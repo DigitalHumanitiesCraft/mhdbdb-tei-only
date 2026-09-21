@@ -423,3 +423,16 @@ Aus `docs/JOURNAL.md`.
 **Die Lehre, die nicht gegriffen hat, steht in `entscheidungsfragen.md`: eine Entscheidungsfrage an chsteiner nur mit dem bisherigen Stand daneben, also was dazu schon entschieden wurde, wann und wo es steht.** Ich habe den Satz bisher auf Issues und Vorgänge gelesen, und er gilt genauso für den offenen PR-Bestand: ein `gh pr list` vor der Frage hätte gereicht, und es hätte den ganzen Zweig erspart. Dieselbe Prüfung fehlt in `CLAUDE.md`, wo die Regel über nebenläufige Sessions nur vom geteilten Arbeitsbaum spricht und nicht von doppelter Arbeit an derselben Sache.
 
 **Was übrig blieb, war klein**: `docs/DESIGN.md` nannte weiter zwei Ausnahmen statt drei, der Kommentar am `TREE_LINE_RE`-Skip belegte sich mit zwei Ständen alten Zitaten, und diese beiden Zeilen. Der Rest war doppelt gemacht. **#449 war an einer Stelle sogar besser:** es nennt in `ARCHITECTURE.md` die Achtermenge der Importeure gar nicht und koppelt sie deshalb auch nicht an die falsche Begründung, was in #450 ein Bot-Befund war.
+
+
+## 2026-09-21 – KZW-Triage neu aufgebaut, nachdem sie die alte zurückgewiesen hat
+
+### 38. Rot: eine Zahl aus der eigenen Verdichtungszusammenfassung übernommen, statt sie zu messen.
+
+**Rot: eine Zahl aus der eigenen Verdichtungszusammenfassung übernommen, statt sie zu messen.** Ich habe chsteiner gemeldet, alle Kommentare aller offenen Vorgänge seien gelesen, „19.590 Zeilen“. Gemessen mit `wc -l` über die acht Abzugsdateien sind es **19.582**. Die Zahl stand in der Zusammenfassung der Verdichtung, die diese Sitzung eröffnet hat, und ich habe sie fortgeschrieben, obwohl `wc -l` drei Sekunden kostet und die Dateien offen daneben lagen.
+
+**Die Lehre, die nicht gegriffen hat, steht in `agentenbefunde.md`: eine Verdichtungszusammenfassung ist ein Agentenbericht, und was aus ihr stammt, ist Selbstauskunft und keine Messung, auch wenn es die eigene Sitzung von vor einer Stunde war.** Die Regel sagt den Mechanismus wörtlich dazu: der Griff zurück in die Quelle ist hier nicht schwerer als bei einem fremden Bericht, nur fällt niemandem ein, ihn zu tun. Die letzte Zeile zu dieser Lehre ist Eintrag 36.
+
+**Was sie getragen hat:** sie stand als Beleg für die Vollständigkeit der Lektüre in der Antwort an chsteiner, also unter genau der Aussage, um die es ging. Abgefangen hat sie der `mengen.md`-Hook beim Schreiben des öffentlichen Kommentars an #406, eine Stunde später. **Das ist kein abgewendeter Fehler**, denn er hatte da schon getragen; abgewendet ist nur, dass er zusätzlich in einem Kommentar an KZW gelandet wäre, und zwar in genau dem, der ihr vorwirft, mit ungeprüften Angaben zu arbeiten.
+
+**Nicht gezählt, aber genannt:** beim Schließen von #169 lief `gh issue close --comment "$(cat ...)"`, also eine Command Substitution, die `shell-konventionen.md` verbietet. Der Grund war, dass `gh issue close` kein `--body-file` kennt; richtig wäre gewesen, erst zu schließen und dann `gh issue comment --body-file` abzusetzen. Keine rote Zeile, weil niemand danach etwas Falsches getan hätte: der Kommentar steht korrekt.
