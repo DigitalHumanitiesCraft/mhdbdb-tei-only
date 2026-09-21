@@ -30,6 +30,7 @@ Arbeitsregeln und die Befundliste. Das ist Urteil und keine Zaehlung.
 Drei Achsen mit genau einem Label je Achse und Ticket:
 
     auto:full | auto:brief | auto:checkin | auto:pair | auto:blocked
+              | auto:frozen
     area:data | area:frontend | area:playground | area:pipeline
               | area:docs | area:orga
     effort:small | effort:medium | effort:large
@@ -37,6 +38,16 @@ Drei Achsen mit genau einem Label je Achse und Ticket:
 Dazu die Flags `ingest` und `evergreen` sowie, nur an `auto:blocked`, ein oder
 mehrere `wait:*` (kzw, julia, linda, extern). Mehrere sind erlaubt und
 richtig: #315 wartet auf KZW *und* Julia.
+
+`auto:frozen` ist am 21.09.2026 dazugekommen und trennt zwei Zustaende, die
+vorher beide `auto:blocked` hiessen: "wartet auf eine Antwort" und "wartet
+auf einen Termin". Der Anlass ist #271, bis Juni 2027 stillgelegt nach einer
+Entscheidung von KZW vom 11.09. Weil das Schema keinen Wert dafuer hatte,
+trug der Vorgang weiter `wait:kzw` und stand taeglich in ihrer Ping-Liste,
+obwohl sie geantwortet hatte. Das war im Vorgang selbst vermerkt, statt es zu
+beheben, und wurde am 17.09. in #406 zu Recht geruegt. Ein eingefrorener
+Vorgang traegt deshalb **kein** `wait:*`: niemand schuldet etwas, und die
+Ping-Liste bleibt die Liste der Schulden.
 
 `evergreen` ist die einzige Ausnahme von der Achsenpflicht. #44 traegt kein
 `auto:*` und kein `effort:*`, weil es nicht abgearbeitet, sondern gepflegt
@@ -126,7 +137,14 @@ AUTO_STUFEN = [
     ('auto:checkin', 'semiautonom, Zwischenentscheidungen unterwegs'),
     ('auto:pair', 'nur gemeinsam mit Chris in einer Session'),
     ('auto:blocked', 'wartet auf einen Menschen, nicht auf Arbeit'),
+    ('auto:frozen', 'bewusst stillgelegt bis zu einem Termin, wartet auf '
+                    'niemanden'),
 ]
+
+# `auto:frozen` steht bewusst unter `auto:blocked` und nicht daneben: es ist
+# die einzige Stufe, bei der niemand etwas schuldet. Wer die Matrix von oben
+# nach Arbeit liest, hat hier nichts mehr zu holen.
+FROZEN = 'auto:frozen'
 AREAS = ['area:data', 'area:frontend', 'area:playground', 'area:pipeline',
          'area:docs', 'area:orga']
 EFFORTS = ['effort:small', 'effort:medium', 'effort:large']
@@ -554,6 +572,28 @@ def selftest():
                    '`auto:pair` (0)' in block and 'Derzeit keins.' in block))
     faelle.append(('Ping-Liste nennt Person und Datum',
                    'KZW (`wachauer`)' in block and '#2 (2026-08-01)' in block))
+
+    # `auto:frozen` muss beides koennen: eine eigene Tabelle bekommen, damit
+    # der Vorgang nicht stumm aus der Matrix faellt, und aus der Ping-Liste
+    # herausbleiben, weil dort Schulden stehen und kein Termin. Ohne wait:*
+    # darf es dabei keine Luecke melden: das ist die Ausnahme, die der
+    # gesamte Eintrag ausmacht.
+    frozen = iss(271, [FROZEN, 'area:data', 'effort:large'], titel='Eingefroren')
+    faelle.append(('auto:frozen ohne wait:* ist keine Luecke',
+                   pruefe([frozen]) == []))
+    kalt = baue(sauber + [frozen])
+    faelle.append(('auto:frozen bekommt eine eigene Tabelle',
+                   f'`{FROZEN}` (1)' in kalt and '#271' in kalt))
+    faelle.append(('auto:frozen steht nicht in der Ping-Liste',
+                   '#271' not in kalt.split('### Quick Stats')[0]
+                   and '#271 (' not in kalt))
+    faelle.append(('auto:frozen zaehlt in der Kopfzahl mit',
+                   '**3 offene Issues**' in kalt))
+    # Gegenprobe zur vorigen Zeile: mit wait:* ist es weiterhin ein Fehler,
+    # sonst wuerde die neue Stufe die Ping-Liste zum Schweigen bringen.
+    faelle.append(('wait:* an auto:frozen faellt weiter auf', any(
+        'ohne auto:blocked' in f for f in
+        pruefe([iss(272, [FROZEN, 'area:data', 'effort:small', 'wait:kzw'])]))))
 
     # Der teuerste Fehlermodus dieser Liste: eigenes Nachfassen sieht aus
     # wie Bewegung. Gemessen werden muss das Schweigen der erwarteten
