@@ -89,7 +89,8 @@ Eine Seite mit 40 Vorschlägen, die alle aus dem Stichwort gebildet sind, macht 
 - **Keine Zahl in der Seite oder in einem Kommentar, die du nicht gemessen hast.** Was die Aussage nicht braucht, wird gestrichen statt belegt.
 - **Vor neuen Skripten lies zwei oder drei bestehende** und halte dich an die Topologie (`scripts/README.md`).
 - **Keine Emoji-Icons.** Heroicons als inline SVG ist der einzige Icon-Stil im Projekt.
-- **Deutsche Prosa mit echten Umlauten**, schließende Anführungszeichen U+201C, **keine Em-Dashes**. Das Gate ist `scripts/audit/check-no-em-dash.py --diff-base main`, und es prüft HTML vollständig.
+- **Deutsche Prosa mit echten Umlauten**, ~~schließende Anführungszeichen U+201C~~, **keine Em-Dashes**. Das Gate ist `scripts/audit/check-no-em-dash.py --diff-base main`, und es prüft HTML vollständig.
+  - **Nachtrag vom 21.09.2026, nach dem Ende dieses Laufs:** Die Vorgabe zu den Anführungszeichen ist überholt. Christian hat am selben Tag, aber nach dem Absenden dieses Kickoffs entschieden, überall das gerade `"` zu setzen, öffnend wie schließend, deutsch wie englisch. Der Auftrag bleibt hier unverändert stehen, weil die Spur korrekt nach ihm gearbeitet hat; wer ihn als Vorlage nimmt, nimmt diesen Punkt nicht mit. Die acht schrägen Zeichen in der erzeugten `359-pruefseite.html` (sechs aus `vorschlaege.json`, zwei aus `build-359-page.py:562`) stammen aus dieser Vorgabe und sind kein Fehler der Spur.
 - **Führt dein HTML oder JS neue Tailwind-Klassen ein, läuft `npm run build:css` vor dem Push**, sonst fehlen sie im gepurgten Ausgabestand.
 
 ---
