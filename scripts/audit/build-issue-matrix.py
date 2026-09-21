@@ -584,9 +584,13 @@ def selftest():
     kalt = baue(sauber + [frozen])
     faelle.append(('auto:frozen bekommt eine eigene Tabelle',
                    f'`{FROZEN}` (1)' in kalt and '#271' in kalt))
-    faelle.append(('auto:frozen steht nicht in der Ping-Liste',
-                   '#271' not in kalt.split('### Quick Stats')[0]
-                   and '#271 (' not in kalt))
+    # Die Kopfzahl und nicht die Nennung: ein eingefrorener Vorgang traegt
+    # kein wait:*, faellt also ohnehin durch jede Zeile der Ping-Liste. Was
+    # falsch wuerde, ist ihr Zaehler darueber. Die erste Fassung dieses
+    # Falles prueft auf "#271" und war damit stumm, gemessen an einer
+    # Mutation, die `blockierte` um FROZEN erweitert: Selbsttest blieb gruen.
+    faelle.append(('auto:frozen zaehlt nicht als wartend',
+                   '1 Tickets warten auf einen Menschen' in kalt))
     faelle.append(('auto:frozen zaehlt in der Kopfzahl mit',
                    '**3 offene Issues**' in kalt))
     # Gegenprobe zur vorigen Zeile: mit wait:* ist es weiterhin ein Fehler,
