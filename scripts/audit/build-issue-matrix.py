@@ -153,6 +153,19 @@ EFFORTS = ['effort:small', 'effort:medium', 'effort:large']
 # Sortierschluessel innerhalb einer Stufe: der kleinste Brocken zuerst.
 EFFORT_RANG = {e: i for i, e in enumerate(EFFORTS)}
 
+# Die drei Achsen mit ihrem erlaubten Vokabular. Die Anzahl allein genuegt
+# nicht: ein Label, das dem Praefix folgt und dem Skript unbekannt ist, zaehlt
+# als "genau eins" und faellt trotzdem aus jeder Tabelle, weil die ueber die
+# Konstanten oben iterieren. Das Ticket steht dann nur noch in der Kopfzahl,
+# und der Tageslauf bleibt gruen. Genau das waere beim Einfuehren von
+# `auto:frozen` passiert, haette jemand das Label auf GitHub vor diesem
+# Skript angelegt.
+ACHSEN = [
+    ('auto:', 'Autonomiestufe', [n for n, _ in AUTO_STUFEN]),
+    ('area:', 'Bereich', AREAS),
+    ('effort:', 'Aufwand', EFFORTS),
+]
+
 WAIT_NAMEN = {
     'wait:kzw': 'KZW (`wachauer`)',
     'wait:julia': 'Julia (`juliahin`)',
@@ -306,13 +319,18 @@ def pruefe(issues):
         if 'evergreen' in i['labels']:
             # Die Matrix selbst wird gepflegt, nicht abgearbeitet.
             continue
-        for praefix, name in (('auto:', 'Autonomiestufe'), ('area:', 'Bereich'),
-                              ('effort:', 'Aufwand')):
+        for praefix, name, erlaubt in ACHSEN:
             treffer = achse(i, praefix)
             if len(treffer) != 1:
                 gefunden = ', '.join(treffer) if treffer else 'keins'
                 fehler.append(f'#{nr}: {name} muss genau ein Label sein, '
                               f'gefunden: {gefunden}')
+            fremd = [t for t in treffer if t not in erlaubt]
+            if fremd:
+                fehler.append(f'#{nr}: unbekanntes {name}-Label: '
+                              f'{", ".join(fremd)}. Das Skript kennt nur '
+                              f'{", ".join(erlaubt)} und fuehrt alles andere '
+                              f'in keiner Tabelle')
         wartet = achse(i, 'wait:')
         blockiert = 'auto:blocked' in i['labels']
         if blockiert and not wartet:
@@ -683,6 +701,24 @@ def selftest():
     faelle.append(('Unbekanntes wait-Label faellt auf', any(
         'unbekanntes wait-Label' in f for f in
         pruefe([iss(9, ['auto:blocked', 'area:data', 'effort:small', 'wait:bob'])]))))
+
+    # Der fuenfte Fehlermodus, und der einzige, den die Anzahlpruefung allein
+    # nicht sieht: ein Label, das dem Praefix folgt und dem Skript fremd ist.
+    fremd_auto = pruefe([iss(11, ['auto:sometime', 'area:data', 'effort:small'])])
+    faelle.append(('Unbekannte Autonomiestufe faellt auf', any(
+        'unbekanntes Autonomiestufe-Label' in f for f in fremd_auto)))
+    faelle.append(('...und nicht als Anzahlfehler, denn es ist genau eines',
+                   not any('muss genau ein Label sein' in f for f in fremd_auto)))
+    faelle.append(('Unbekannter Bereich faellt auf', any(
+        'unbekanntes Bereich-Label' in f for f in
+        pruefe([iss(12, ['auto:full', 'area:datenbank', 'effort:small'])]))))
+    # Haelt AUTO_STUFEN und ACHSEN zusammen: wer eine Stufe nur an einer der
+    # beiden Stellen eintraegt, macht die eigene Matrix rot.
+    faelle.append(('Jede Stufe aus AUTO_STUFEN ist erlaubtes Vokabular',
+                   all(pruefe([iss(13, [name, 'area:data', 'effort:small']
+                                   + (['wait:kzw'] if name == 'auto:blocked'
+                                      else []))]) == []
+                       for name, _ in AUTO_STUFEN)))
 
     # Sortierung: klein vor gross, bei Gleichstand nach Nummer.
     gemischt = [iss(30, ['auto:full', 'area:docs', 'effort:large']),

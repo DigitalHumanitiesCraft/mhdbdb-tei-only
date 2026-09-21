@@ -48,7 +48,7 @@ Hier gehört hinein: was sich seit der letzten Session geändert hat, welche Ent
 **Was das Skript nicht ersetzt, und das ist der wichtigere Teil: ein Label erzeugt die Einteilung, nie die Freigabe.** Es ist eine Behauptung wie jede andere (Regel 21), und zwar eine, die zum Zeitpunkt des Vergebens galt. Vor jedem Issue, das die Session tatsächlich anfasst:
 
 - **Die Kommentare seit der Labelvergabe lesen.** Ein `auto:full` von letzter Woche weiß nichts von dem Einwand, den KZW gestern in den Thread geschrieben hat. Das ist der eine Weg, auf dem die Matrix stillschweigend falsch wird, ohne dass ein Gate anschlägt.
-- **`auto:blocked` nie „trotzdem" anfangen.** Die `wait:*`-Labels sagen, auf wen gewartet wird; bei mehreren wartet das Ticket auf alle.
+- **`auto:blocked` nie „trotzdem" anfangen.** Die `wait:*`-Labels sagen, auf wen gewartet wird; bei mehreren wartet das Ticket auf alle. **`auto:frozen` ebenso wenig**, und dort ist die Versuchung größer, weil kein `wait:*` daneben steht: der Vorgang ist bis zu einem Termin stillgelegt, der im Thread steht, und wartet gerade deshalb auf niemanden, den man anpingen könnte. Das Fehlen einer Schuld ist keine Freigabe.
 - **Die Befunde am Code verifizieren**, mit aktuellen Fundorten. Zeilennummern in Issue-Bodys altern; die in diesem Playbook auch.
 
 ---
