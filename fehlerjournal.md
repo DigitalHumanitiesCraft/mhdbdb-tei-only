@@ -454,7 +454,9 @@ Aus `docs/JOURNAL.md`.
 
 **Rot.** Im Kommentar an #375 vom 21.09.2026, 07:40, angekuendigt, dass „die 8 eindeutigen und die 8 von dir gelesenen Fälle" umannotiert werden. Beide Hälften falsch: die acht eindeutigen sind seit dem 14.09. erledigt (PR #438, alle acht tragen `lemma_7338`/ADJ, nachgemessen), und von den acht gelesenen sind vier Arbeit und vier bestätigen den Ist-Stand. Gemessene Menge: **vier** Tokens, nicht sechzehn.
 
-**Die Lehre ist dieselbe wie in 39 und steht in `eigene-quellen.md`: geladene Quelle nicht befragt.** Hier stand zuerst „38 und 39“, und Eintrag 38 gehört nicht in diese Kette: er weist sich selbst `agentenbefunde.md` zu, wo ihn auch Eintrag 54 führt (23, 36, 38, 52). Nachgetragen am 21.09.2026 von der Koordination, nachdem Eintrag 44 den Widerspruch benannt und offengelassen hatte. Der Zwischenstand vom 14.09., 23:11, steht im selben Thread, und ich hatte diesen Thread am Vormittag desselben Tages in der #406-Triage vollständig gelesen. Die letzte Zeile dazu ist Eintrag 39 vom selben Tag.
+**Die Lehre ist dieselbe wie in 39 und steht in `eigene-quellen.md`: geladene Quelle nicht befragt.**
+
+**Zur Kette, und der Absatz darüber trägt das bewusst nicht.** Hier stand zuerst „38 und 39“. Eintrag 38 gehört nicht hierher: er weist sich im Lehre-Absatz einer anderen Gruppe zu, und Eintrag 54 führt ihn ebenfalls dort. Der Name dieser Gruppe steht hier nicht, weil `hooks/lehren-zaehlen.py` jede Nennung im Lehre-Absatz als Zuweisung liest und dieser Eintrag sonst in zwei Ketten zählte. Nachgetragen am 21.09.2026 von der Koordination, nachdem Eintrag 44 den Widerspruch benannt und offengelassen hatte. Der Zwischenstand vom 14.09., 23:11, steht im selben Thread, und ich hatte diesen Thread am Vormittag desselben Tages in der #406-Triage vollständig gelesen. Die letzte Zeile dazu ist Eintrag 39 vom selben Tag.
 
 **Vor dieser Zeile steht in dieser Kette Eintrag 39 mit seinen zwei Fällen, und nach `wiederholte-fehler.md` ist die Schwelle damit überschritten: gezählt wird nicht mehr, der Mechanismus ist fällig.** Eine Ordinalzahl steht hier seit dem 21.09.2026 nicht mehr, weil der Bestand zwei unvereinbare getragen hat; die Nummern sind prüfbar, eine Anzahl ist es nicht. Gezogen ist sie: #454 trägt die projektseitige Haelfte, `claude-code-setup#64` die generische. Gebaut ist sie nicht. Dieser Eintrag ist deshalb kein Zählschritt, sondern gehört als Fall an #454.
 
@@ -731,3 +733,144 @@ Die Regel ist dreimal nachgeschärft worden, und jedes Mal ist beim nächsten Ma
 **Was sie getragen hat:** die Kommentare standen öffentlich an zwei Tickets, adressiert an genau die Person, die den Befund gemeldet hat. Gefunden hat es die Koordination, nicht ich, und sie hatte denselben Fehler eine Stunde vorher selbst gemacht, nachdem sie ihn Spur A gemeldet hatte. Repariert über `gh api -X PATCH` am geposteten Body, mit Gegenprobe am geposteten Stand: 1/1/0 und 4/4/0, Länge unverändert.
 
 **Fünfte Zeile heißt längst Mechanismus, und für diesen Teilfall ist einer greifbar, den es für Dateien schon gibt.** `check-no-em-dash.py` prüft Markdown und HTML im Repositorium; **ausgehender Text an GitHub wird von nichts geprüft**, und genau dort landet, was ein Mensch liest. Ein Gate, das einen Kommentarentwurf vor dem Absenden gegen beide Konventionen misst (Em-Dash und schließendes Anführungszeichen), kostet wenig und greift für jede Spur. Es zu bauen ist ein eigenes Arbeitspaket und nach der Issue-Schwelle dieses Projekts ein Ticket, kein Nebenbei; **hier steht es als benannter Mechanismus und nicht als gebauter**, und diese Zeile ist der dritte Beleg desselben Tages dafür, dass Text allein nicht greift.
+
+## 2026-09-21 (Koordination, nach den Merges) – Sechs Zeilen, vier davon vorgemerkt
+
+Vier dieser Zeilen standen seit dem Nachmittag als Vormerkung in der
+Betriebsliste des Laufs, weil diese Datei gesperrt war, solange PR #456 einen
+Konflikt trug. Die Vormerkung war der Ersatz dafür, dass die Fälle
+nicht am Gedächtnis hängen, und sie hat funktioniert: alle vier sind
+hier, mit ihrem Wortlaut vom Zeitpunkt des Fehlers.
+
+### 58. Rot, dreimal an einem Tag: eine Aussage über eine Datei, ohne sie aufzuschlagen, und jedes Mal lag sie offen.
+
+**Rot.** Drei Fälle, ein Fehlermodus. Erstens habe ich dem Peer eine
+These über seine Regelhistorie gemeldet, `dateisuche.md` sei dreimal
+nachgeschärft worden und jedes Mal habe beim nächsten Mal der neue
+Halbsatz gerissen; `git log --follow` zeigt acht Commits, davon inhaltlich
+**zwei** Nachschärfungen, und einer der vier von mir genannten
+Journaleinträge existierte auf `main` gar nicht. Zweitens habe ich beiden
+Spuren geschrieben, die Nummernlücke 44 bis 49 sei älter als dieser
+Lauf; mein eigener Kickoff vergibt sie in Zeile 175 an Spur B. Drittens habe
+ich den Abschnitt ADR-021 in `docs/DECISIONS.md` selbst auf 1240 bis 1290
+abgegrenzt, **weil** mein erstes Fenster zu eng war, danach ab 1266 gelesen und
+Stunden später als eigenen Befund gemeldet, was in 1249 bis 1254 stand.
+
+**Die Lehre, die nicht gegriffen hat, steht in `eigene-quellen.md`: geladen
+heißt nicht befragt, und der Griff ist billiger als der Satz, den er
+ersetzt.** In allen drei Fällen lag die Quelle lokal, in zweien hatte ich
+sie am selben Tag selbst geschrieben oder abgegrenzt. Die Kette dieser Lehre
+trägt die Einträge 39, 44, 50, 53, 55 und 57, wobei 39 zwei Fälle
+trägt; eine Ordinalzahl steht hier nicht, weil der Bestand drei
+unvereinbare getragen hat, siehe den Commit zur Kettenauflösung vom selben
+Tag.
+
+**Was sie getragen haben:** die erste eine abgeschickte These, die der Peer
+bereits als „der wertvollste Teil von allem heute" angenommen hatte und
+Christian vorlegen wollte; die zweite eine Anweisung an beide Spuren, fünf
+fertige Einträge umzunummern, der beide nicht gefolgt sind, weil sie
+nachgesehen haben; die dritte zwei falsche Aussagen an eine arbeitende Spur.
+Gefangen hat alle drei jemand anderes.
+
+**Der Mechanismus ist fällig und benannt:** `claude-code-setup#64` prüft,
+ob eine im Text genannte Fundstelle in der Sitzung gelesen wurde. Der dritte
+Fall zeigt, was er noch nicht misst: gelesen war die Datei, nur nicht weit
+genug. Was fehlt, ist die Differenz zwischen selbst gemessenem Umfang und
+gelesenem Ausschnitt.
+
+### 59. Rot: einem fremden Befund zugestimmt, ohne zu prüfen, ob seine Quelle über dieselbe Menge spricht.
+
+**Rot.** Der Peer hielt unseren Hook-Befund für gegenstandslos, der
+Nullbefund sei in `claude-code-setup#65` entschieden. Ich habe
+`rules/belege/wiederholte-fehler.md` aufgeschlagen, gelesen und „Punkt 1
+stimmt" geschrieben. #65 entscheidet über die **übergreifende**
+Zählung über mehrere Journale, unser Befund betrifft die
+**projektinterne** über die eigenen Einträge.
+
+**Die Lehre steht in `mengen.md`: über welche Menge spricht dieser Satz.**
+Angewandt nicht auf die eigene Zahl, sondern auf die fremde Quelle, die sie
+stützen soll. Die Warnung stand dabei in meiner eigenen Grep-Ausgabe, zwei
+Zeilen über der zitierten Stelle: „Sie zerfällt in zwei, und nur eine
+davon ist eine Entscheidung."
+
+**Was es getragen hat:** eine abgeschickte Zustimmung, die den Befund der
+eigenen Spur entwertet hätte. In derselben Nachricht habe ich dem Peer
+vorgehalten, eine Prämisse ungeprüft übernommen zu haben.
+Gefangen hat es Spur A aus ihrem geladenen Regelbestand.
+
+### 60. Rot: `rg -c` zählt Zeilen, und ich habe die Zahl als Zeichen gemeldet.
+
+**Rot.** An Christian gemeldet, die neue Prüfseite in
+`ingest/review/359-borek/` trage „3 schräge Anführungszeichen".
+Gemessen sind es **8** in 3 Zeilen; `rg -c` zählt treffende Zeilen und
+nicht Treffer. **Ich hatte denselben Unterschied eine Stunde vorher an einer
+anderen Datei selbst erkannt und benannt.**
+
+**Die Lehre steht in `mengen.md`: eine Zahl trägt die Menge, über die
+sie spricht.** Hier war die Zahl richtig und die Menge falsch, und beide Male
+lieferte dasselbe Werkzeug dieselbe Falle. Die Kette dieser Lehre nennt die
+Einträge 38, 45, 51, 53, 55 und 57; als Zuweisung gelesen habe ich 51.
+
+**Was es getragen hat:** eine Zahl in einer Nachricht an Christian, auf der
+eine Empfehlung zum Geltungsbereich stand.
+
+### 61. Rot: eine Abwesenheit am falschen Generator gemessen.
+
+**Rot.** Im selben Satz behauptet, die Zeichen kämen „nicht aus dem
+Generator, sondern aus der handgeschriebenen `vorschlaege.json`". Gemessen:
+`scripts/review/review_page.py` trägt tatsächlich null, aber die Seite
+hat **zwei** Generatoren, und `scripts/review/build-359-page.py:562` emittiert
+zwei der acht Zeichen in einem HTML-String. 6 aus den Daten, 2 aus Code.
+
+**Die Lehre steht in `dateisuche.md`: der Fehler steckt fast nie in der Suche,
+sondern in ihrem Zuschnitt.** Ich hatte eine Datei geprüft und „den
+Generator" geschrieben. Die zweite Frage der Regel, warum der Suchpfad dieser
+ist und nicht der ganze Bestand, hätte gereicht. Die Kette nennt die
+Einträge 43 und 48; Eintrag 48 bezeichnet sich als dritte und hält
+fest, dass weitere Zeilen dieser Lehre die Regel nur in Prosa nennen.
+
+**Was es getragen hat:** dieselbe Nachricht wie Zeile 60, und die Aussage
+hat den Unterschied zwischen einem Datenfehler und einem Codefehler verwischt.
+Gefangen hat es die lokale Reviewrunde.
+
+### 62. Rot: einem Menschen eine Messung zugeschrieben, die in ihrem Ticket nicht steht, und das Ticket nie geöffnet.
+
+**Rot.** Im Body von PR #458 stand, das Ticket #440 nenne „144 öffnende
+Zeichen gegen null schließende in `playground/js/`". Das Ticket nennt
+**keine einzige Zahl**. Sie stammt aus einer früheren Claude-Messung und
+liegt seit dem 15.09. in der Auto-Memory dieses Projekts, formuliert als
+Befund von @wachauer. Nachgemessen stimmt der Wert (144 / 0 auf `bd98c4310`),
+die Zuschreibung nicht.
+
+**Die Lehre steht in `agentenbefunde.md`: die Quelle gelesen zu haben
+genügt nicht, sie muss die Aussage hergeben, und bei einer Zuschreibung
+ist das eine Behauptung über einen Menschen.** Gelesen hatte ich hier
+nicht einmal die Quelle, sondern eine Gedächtnisnotiz über sie,
+obwohl `CLAUDE.md` für jedes berührte Ticket verlangt, die Kommentare
+zu lesen und nicht nur den Body. Die Kette dieser Lehre nennt die
+Einträge 36, 38, 40, 44, 49, 52 und 54.
+
+**Was es getragen hat:** einen öffentlichen PR-Body, der @wachauer eine
+Messung zuschreibt, und daneben hätte er verschwiegen, dass ihr Ticket
+ausdrücklich „schräg auch bei schließenden" verlangt und dieser
+PR das Gegenteil tut. Beides steht seit der Korrektur im Body. Die Memory ist
+richtiggestellt.
+
+### 63. Rot: beim Auflösen des Zählwiderspruchs eine neue Fehlzuweisung erzeugt.
+
+**Rot.** Der Commit, der die Ketten in Ordnung bringt, hat in den Lehre-Absatz
+von Eintrag 50 den Satz gesetzt, dass Eintrag 38 sich einer anderen Gruppe
+zuweist, und damit Eintrag 50 selbst in deren Kette gestellt: die Messung
+zeigte danach acht statt sieben Einträge dort.
+
+**Die Lehre steht in `wiederholte-fehler.md`: dieser Absatz trägt keine
+fremde Gruppe, jede Nennung darin ist eine Zuweisung, auch eine
+beiläufige.** Der Satz steht dort seit dem 18.09.2026, an dem er zweimal
+in einer Viertelstunde gerissen ist, und er nennt `hooks/lehren-zaehlen.py`
+als den Leser, der nicht unterscheidet.
+
+**Was es getragen hat:** einen Commit auf `main`, dessen Nachricht die
+korrigierten Ketten benennt, während er eine neue falsche erzeugte.
+Gefangen hat es die eigene Nachmessung wenige Minuten später, also ein
+mitlaufender Kontrollwert und nicht die Lehre. Der Hinweis steht jetzt in
+einem eigenen Absatz und nennt die fremde Gruppe nicht beim Namen.
