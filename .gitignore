@@ -25,6 +25,12 @@ proposals/
 # NICHT .claude/agent-memory/: das ist bewusst getrackt, siehe das README dort.
 .claude/worktrees/
 
+# Laufmaterial, das ein Sessionende ueberleben muss, aber nicht ins
+# Repositorium gehoert: Messungen, die beim Start erhoben und bei der
+# Abnahme gegengeprueft werden (rules/shell-konventionen.md verlangt fuer
+# genau diesen Fall .claude/tmp/ plus gitignore).
+.claude/tmp/
+
 # IDE and editor files
 # .vscode/
 .vscode/*
