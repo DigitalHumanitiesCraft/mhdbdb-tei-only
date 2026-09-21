@@ -155,11 +155,18 @@ EFFORT_RANG = {e: i for i, e in enumerate(EFFORTS)}
 
 # Die drei Achsen mit ihrem erlaubten Vokabular. Die Anzahl allein genuegt
 # nicht: ein Label, das dem Praefix folgt und dem Skript unbekannt ist, zaehlt
-# als "genau eins" und faellt trotzdem aus jeder Tabelle, weil die ueber die
-# Konstanten oben iterieren. Das Ticket steht dann nur noch in der Kopfzahl,
-# und der Tageslauf bleibt gruen. Genau das waere beim Einfuehren von
-# `auto:frozen` passiert, haette jemand das Label auf GitHub vor diesem
-# Skript angelegt.
+# als "genau eins" und faellt aus jeder Zaehlung, die ueber die Konstanten
+# oben laeuft, waehrend der Tageslauf gruen bleibt.
+#
+# Was das heisst, ist je Achse verschieden, gemessen am erzeugten Block und
+# als Selbsttest festgehalten: ein fremdes `auto:` erscheint in keiner
+# Tabelle, weil die Tabellen nach Autonomiestufe gebildet werden. Ein fremdes
+# `area:` oder `effort:` bekommt dagegen seine Zeile und zeigt den Rohwert in
+# der Zelle, weil zeile() den ersten Treffer ungefiltert nimmt. Die Kopfzahl
+# zaehlt das Ticket in allen drei Faellen weiter mit.
+#
+# Der erste Fall waere beim Einfuehren von `auto:frozen` eingetreten, haette
+# jemand das Label auf GitHub vor diesem Skript angelegt.
 ACHSEN = [
     ('auto:', 'Autonomiestufe', [n for n, _ in AUTO_STUFEN]),
     ('area:', 'Bereich', AREAS),
@@ -329,8 +336,7 @@ def pruefe(issues):
             if fremd:
                 fehler.append(f'#{nr}: unbekanntes {name}-Label: '
                               f'{", ".join(fremd)}. Das Skript kennt nur '
-                              f'{", ".join(erlaubt)} und fuehrt alles andere '
-                              f'in keiner Tabelle')
+                              f'{", ".join(erlaubt)}')
         wartet = achse(i, 'wait:')
         blockiert = 'auto:blocked' in i['labels']
         if blockiert and not wartet:
@@ -712,6 +718,20 @@ def selftest():
     faelle.append(('Unbekannter Bereich faellt auf', any(
         'unbekanntes Bereich-Label' in f for f in
         pruefe([iss(12, ['auto:full', 'area:datenbank', 'effort:small'])]))))
+    # Was ein fremder Wert im erzeugten Block anrichtet, ist je Achse
+    # verschieden. Der Kommentar ueber ACHSEN behauptet das, diese zwei Faelle
+    # halten ihn fest: die erste Fassung sagte "faellt aus jeder Tabelle" fuer
+    # alle drei Achsen, und das stimmt nur fuer auto:.
+    fremd_block = baue([iss(1, ['auto:full', 'area:docs', 'effort:small']),
+                        iss(11, ['auto:sometime', 'area:data', 'effort:small'])])
+    faelle.append(('Fremdes auto: erscheint in keiner Tabelle',
+                   '| #11 |' not in fremd_block
+                   and 'unbekanntes Autonomiestufe-Label' in fremd_block))
+    area_block = baue([iss(1, ['auto:full', 'area:docs', 'effort:small']),
+                       iss(12, ['auto:full', 'area:datenbank', 'effort:small'])])
+    faelle.append(('Fremdes area: bekommt seine Zeile, mit dem Rohwert',
+                   '| #12 |' in area_block and '| datenbank |' in area_block))
+
     # Haelt AUTO_STUFEN und ACHSEN zusammen: wer eine Stufe nur an einer der
     # beiden Stellen eintraegt, macht die eigene Matrix rot.
     faelle.append(('Jede Stufe aus AUTO_STUFEN ist erlaubtes Vokabular',

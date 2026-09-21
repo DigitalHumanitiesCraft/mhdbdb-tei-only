@@ -24,8 +24,25 @@ Runde 1 zu `claude/auto-frozen-label` (21.09.2026, Basis 49f960209, HEAD d460475
   gruen, die neue faellt.
 - Das Ein-Satz-Schema fuer Autonomiestufen steht ausserhalb des Repos in der
   handgeschriebenen Legende von #44 (Tabelle mit Spalte „Was eine Session
-  damit tut"); Playbook MASTERPLAN:51 nennt nur `auto:blocked` als „nie
-  trotzdem anfangen". Beides kennt `auto:frozen` nach dem Merge nicht.
+  damit tut"); sie kennt `auto:frozen` nach dem Merge nicht. MASTERPLAN:51
+  nennt es seit 1545ab1b5 (Runde 2).
+
+Runde 2 (21.09.2026, Commit 1545ab1b5, Vokabularpruefung in `pruefe()`):
+
+- **„Faellt aus jeder Tabelle, steht nur noch in der Kopfzahl" gilt nur fuer
+  `auto:`.** Gemessen per `baue()` im Scratchpad (importlib): ein fremdes
+  `area:`/`effort:` steht in seiner Autonomietabelle mit dem Rohwert in der
+  Zelle (`| #12 | T | datenbank | small |`), weil `zeile()` den ersten
+  Treffer ungefiltert schreibt; und ein fremdes `auto:` zaehlt in „Nach
+  Bereich" weiter mit. Der Satz stand dreimal im Commit (Kommentar :156,
+  Fehlermeldung :330, DEVELOPMENT.md:358) und im Auftragstext.
+- Der Tageslauf ist `--apply` (issue-matrix.yml:64), nicht `--check`;
+  `--check` ist der Vorflug in MASTERPLAN:154 und den Kickoffs.
+- Vokabular steht im Repo dreimal: Konstanten, Skript-Docstring :32-36,
+  CLAUDE.md:149-153; nur AUTO_STUFEN<->ACHSEN ist per Selbsttest gekoppelt.
+- Mutationsprobe ohne `git show`: Quelle lesen, `str.replace` mit
+  `count == 1`-Assert, in Scratch-Datei schreiben, `--selftest` per subprocess,
+  FAIL-Zeilen zaehlen. Drei Mutationen in einem Lauf unter 3 s.
 
 **Why:** Datums- und Zahlenbehauptungen in diesem Diff kamen aus einer
 Verdichtung (#406-Kommentar), nicht aus dem Thread; das wiederholt sich bei
