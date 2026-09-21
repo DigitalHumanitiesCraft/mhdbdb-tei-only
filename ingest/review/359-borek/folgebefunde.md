@@ -13,6 +13,8 @@ Die Messvorschrift steht jeweils dabei.
 
 ## 1. Sieben Substantive an einem Verblemma (WZB, `lemma_3702`)
 
+**Vorgang: [#459](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/459)** (21.09.2026, Zahlen dort nachgemessen).
+
 **Befund.** `lemma_3702` ist das Verb `lenden` („anlanden, enden“). 44 seiner 45
 Korpus-Tokens tragen `pos="VRB"`, das 45. trägt `ADV VRB`. Sieben dieser 44
 meinen aber nicht das Verb, sondern den Körperteil, die Lende, und tragen
@@ -60,7 +62,9 @@ eine Korpusänderung und zieht den Data-Change-Lifecycle nach sich.
 
 ---
 
-## 2. Verbformen an einem Substantivlemma (`lemma_3103`, 122 Tokens)
+## 2. Verbformen an einem Substantivlemma (`lemma_3103`)
+
+**Vorgang: [#460](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/460).** Dort ist die Umfangsangabe berichtigt: **122 Tokens in 52 Texten** zählt die Schreibung `jaget`, das Lemma trägt **185 Tokens in 65 Texten** über 18 Schreibungen. Die Zahl unten ist richtig, ihr Bezugswort nicht.
 
 **Befund.** `lemma_3103` `jagât` ist die Jagd als Substantiv und trägt
 `pos="NOM"`. Unter den sechs gelesenen Belegen sind vier Verbformen:
@@ -89,6 +93,8 @@ Es ist eine Wortart-Disambiguierung und gehört in die Nähe von #189/#198.
 ---
 
 ## 3. Die Tokens von `gebeine` (`lemma_1958`) sind zu disambiguieren
+
+**Vorgang: [#461](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/461)** (207 Tokens in 79 Texten nachgemessen).
 
 **Befund.** `lemma_1958` `gebeine` führt in beiden Senses nur
 `concept_21030000` (Körper von Menschen). Im Korpus wird das Wort aber auch für
@@ -127,6 +133,8 @@ gibt die 207 Tokens in 79 Texten aus. Die gesammelten Belege stehen unter
 ---
 
 ## 4. Das Feld `pos` nennt die erste geführte Wortart, nicht die häufigste
+
+**Vorgang: [#462](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/462).** Dort ist der Zuschnitt enger: die **Anzeige** im Frontend liest seit #187 (Commit `edb16dd3f`, 10.07.2026) durchgehend `posAll`, am 21.09.2026 am Code nachgeprüft. Offen sind das Feld in der **öffentlichen API** (`api/lemmata/index.json` liefert `"pos": "INJ"` für `jagen`) und die Reihenfolge innerhalb von `posAll`.
 
 **Befund.** Der Authority-Index führt je Lemma ein Feld `pos` und ein Feld
 `posAll`. `pos` ist die Angabe, die in Listen und im Explorer als *die* Wortart
