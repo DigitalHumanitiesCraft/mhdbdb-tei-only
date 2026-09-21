@@ -13,7 +13,7 @@ Die Messvorschrift steht jeweils dabei.
 
 ## 1. Sieben Substantive an einem Verblemma (WZB, `lemma_3702`)
 
-**Befund.** `lemma_3702` ist das Verb `lenden` („anlanden, enden"). 44 seiner 45
+**Befund.** `lemma_3702` ist das Verb `lenden` („anlanden, enden“). 44 seiner 45
 Korpus-Tokens tragen `pos="VRB"`, das 45. trägt `ADV VRB`. Sieben dieser 44
 meinen aber nicht das Verb, sondern den Körperteil, die Lende, und tragen
 trotzdem `lemmaRef="lexicon.xml#lemma_3702"` und `pos="VRB"`. Höchstens 38
@@ -21,7 +21,7 @@ Tokens meinen also wirklich das Verb.
 
 **Die 44 ist ein Feldwert und keine Bedeutung.** Das ist kein Detail, sondern
 der Grund, warum dieser Befund fast durchgerutscht wäre: in der ersten Fassung
-stand hier „44 meinen das auch" neben „sieben meinen den Körperteil", und
+stand hier „44 meinen das auch“ neben „sieben meinen den Körperteil“, und
 44 + 7 = 51 bei 45 Tokens. Gefunden hat es die Reviewrunde.
 
 | xml:id | Wortlaut |
@@ -76,7 +76,7 @@ eine Korpusänderung und zieht den Data-Change-Lifecycle nach sich.
 
 **Umfang, und was daran gemessen ist.** Das Lemma trägt **122 Tokens in 52
 Texten**, alle mit der Schreibung `jaget`. Gelesen sind **sechs**. Die Aussage
-„vier von sechs" gilt für die sechs und nicht für die 122; wie viele der
+„vier von sechs“ gilt für die sechs und nicht für die 122; wie viele der
 übrigen 116 Verbformen sind, ist **nicht gemessen**.
 
 **Warum das kein Pferdethema ist.** Der Fall ist über Boreks Gangartenliste in
@@ -100,17 +100,17 @@ Tiere gebraucht:
 | `HTR_193190_2` | des **lewen** gebeine ist âne marc |
 
 Damit ist KZWs Bedingung vom 16.09. erfüllt („wenn ein Text in unserem Korpus
-diese Verwendung belegt"), und das Lemma bekommt zusätzlich
+diese Verwendung belegt“), und das Lemma bekommt zusätzlich
 `concept_14011100`. Das steht als Vorschlag in der Prüfseite.
 
 **Was offen bleibt und hier hingehört.** KZW verlangt im selben Satz, dass „die
-betreffenden Tokens dabei auch gleich sauber disambiguiert werden". Das ist
+betreffenden Tokens dabei auch gleich sauber disambiguiert werden“. Das ist
 Korpusarbeit an bis zu 207 Tokens in 79 Texten und kein Anhang an eine
 Prüfseite.
 
 **Was gemessen ist und was nicht.** Gelesen sind **neun** der 207 Belege,
 nämlich die mit einem Pferdewort im Kontextfenster. Zwei davon sind tierisch.
-Die Zahl beantwortet „kommt vor", nicht „kommt wie oft vor". Der Löwenbeleg ist
+Die Zahl beantwortet „kommt vor“, nicht „kommt wie oft vor“. Der Löwenbeleg ist
 dem Filter nur zugelaufen, weil `marc` in der Wortliste steht (Streitross) und
 an dieser Stelle Knochenmark heißt: ein Zufallstreffer. Ein Filter für
 Tierwörter im Allgemeinen ist nicht gelaufen.

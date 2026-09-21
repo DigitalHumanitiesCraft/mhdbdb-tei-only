@@ -21,7 +21,7 @@ Generator.
 
 **Die Seite trägt ihre Daten eingebettet und lädt nichts nach.** KZW im Body von
 #443: „Für mich ist die einzelne HTML-Datei, die man verschickt und ohne
-Installation im Browser öffnet, weiterhin das gewünschte Grundformat." Eine
+Installation im Browser öffnet, weiterhin das gewünschte Grundformat.“ Eine
 nachladende Seite scheitert unter `file://` an CORS, also genau in der Lage,
 für die sie gebaut ist.
 
@@ -113,7 +113,7 @@ das Format an jede Karte, unabhängig von den Optionen.
   Unsicherheit, und die Seite sagt an jeder Karte, dass er keine Entscheidung
   ist. Es gibt keine Sammelaktion, die viele Fälle auf einen Wert setzt.
 - **Gespeichert wird im Browser**, mit sichtbarer Anzeige. Die Anzeige kennt
-  drei Zustände, darunter „Browser speichert nicht": unter `file://` kann
+  drei Zustände, darunter „Browser speichert nicht“: unter `file://` kann
   `localStorage` je nach Browsereinstellung fehlschlagen, und dann muss die
   Seite es sagen statt es zu verschweigen.
 - **Zurück kommt JSON und ein lesbarer HTML-Bericht.** Der Import liest nur

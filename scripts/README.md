@@ -97,7 +97,7 @@ scripts/
 `check-doc-inventories.py` bindet vier Pfade (`scripts`, `audit`, `sync`,
 `_archived`) und vergleicht jeden `.py`-Namen aus diesem Baum gegen das
 Dateisystem. Ein Name aus einem Ordner, den es nicht scannt, gilt ihm als
-„genannt, aber nicht vorhanden", und das Gate wird rot. Gemessen am 21.09.2026
+„genannt, aber nicht vorhanden“, und das Gate wird rot. Gemessen am 21.09.2026
 in beide Richtungen: der Eintrag der drei `review/`-Skripte kippte es, ihr
 Weglassen nicht. Wer die Namen hier haben will, nimmt vorher das Verzeichnis in
 die Pfadliste des Gates auf. Bis dahin steht die Auskunft in `README.md` des

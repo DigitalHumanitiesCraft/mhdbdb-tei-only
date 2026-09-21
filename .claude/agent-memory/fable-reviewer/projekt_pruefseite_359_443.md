@@ -38,7 +38,7 @@ Feld, das von e() auf markup() wechselt, in `render()` nachsehen, ob es eine
 Textkopie in DATEN hat. `HTML_FELDER` nannte `frage`, aber `_fall_html` escapet
 `frage` (Probe: `<b>` erscheint als `&lt;b&gt;`). Backticks im alten HTML
 (ce15d3f7c) nach Definition: 58 Zeichen / 22 Zeilen gesamt, 52 / 20 sichtbar,
-26 Paare; die „21" der Doku kam aus keiner davon. Werkzeug: Mutationsproben
+26 Paare; die „21“ der Doku kam aus keiner davon. Werkzeug: Mutationsproben
 in-process per importlib gegen build-359-page.py (zitate_pruefen, bau_fall,
 spec, render mit _fall_html-Patch), Sekunden statt Dateiaenderung.
 
@@ -73,7 +73,7 @@ inspect.getsource + str.replace + exec in Modul-Namensraum mutieren, statt
 Dateien anzufassen. Seite bitidentisch 308.718 Bytes / 45 Karten.
 
 Umgebung (Laptop, worktree-Sandbox): Befehle mit `python -c "..."` oder
-Verbund (`;`, `${PIPESTATUS}`) werden als „git in komplexer Form" abgelehnt,
+Verbund (`;`, `${PIPESTATUS}`) werden als „git in komplexer Form“ abgelehnt,
 weil der Pfad `Projekte/Git/` heisst; Skripte nach `$TEMP` schreiben und mit
 `python -X utf8 <datei>` starten (cp1252-Konsole bricht sonst an ł/w̆).
 
