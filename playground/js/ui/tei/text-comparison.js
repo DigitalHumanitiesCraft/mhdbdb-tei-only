@@ -198,7 +198,7 @@ export class TextComparison {
 
   renderBody() {
     if (!this.state.textAId || !this.state.textBId) {
-      return '<div class="rounded-2xl border border-dashed border-slate-200 bg-white p-8 text-center text-sm text-slate-500">Bitte zwei Texte auswählen und auf „Vergleichen" klicken.</div>';
+      return '<div class="rounded-2xl border border-dashed border-slate-200 bg-white p-8 text-center text-sm text-slate-500">Bitte zwei Texte auswählen und auf "Vergleichen" klicken.</div>';
     }
 
     const textA = this.getTextById(this.state.textAId);
@@ -331,7 +331,7 @@ export class TextComparison {
     const headDiff = showDiff ? `<th class="px-3 py-2 text-right text-xs font-semibold text-slate-600">|A−B|</th>` : '';
 
     const footer = truncated
-      ? `<div class="mt-2 text-center text-xs text-slate-500">Zeige ${visible.length.toLocaleString('de-DE')} von ${rows.length.toLocaleString('de-DE')} Zeilen. „Alle anzeigen" oben aktivieren für vollständige Tabelle.</div>`
+      ? `<div class="mt-2 text-center text-xs text-slate-500">Zeige ${visible.length.toLocaleString('de-DE')} von ${rows.length.toLocaleString('de-DE')} Zeilen. "Alle anzeigen" oben aktivieren für vollständige Tabelle.</div>`
       : '';
 
     return `

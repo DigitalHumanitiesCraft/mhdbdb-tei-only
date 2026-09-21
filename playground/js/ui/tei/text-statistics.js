@@ -132,11 +132,11 @@ export class TextStatistics {
         </p>
         <dl class="mt-3 grid gap-2 text-xs text-slate-600 sm:grid-cols-3">
           <div><dt class="font-medium text-slate-700">Diversität</dt><dd>verschiedene Lemmata ÷ annotierte Tokens (Type-Token-Ratio). Sinkt mit der Textlänge, auch ohne stilistischen Grund: nach dieser Spalte sortiert stehen kurze Texte oben.</dd></div>
-          <div><dt class="font-medium text-slate-700">Hapax-Rate</dt><dd>Anteil der Lemmata, die im Text genau einmal vorkommen, bezogen auf alle verschiedenen Lemmata des Texts. Nicht vergleichbar mit dem Werkzeug „Hapaxlegomena", das korpusweit einmalige Lemmata sucht.</dd></div>
+          <div><dt class="font-medium text-slate-700">Hapax-Rate</dt><dd>Anteil der Lemmata, die im Text genau einmal vorkommen, bezogen auf alle verschiedenen Lemmata des Texts. Nicht vergleichbar mit dem Werkzeug "Hapaxlegomena", das korpusweit einmalige Lemmata sucht.</dd></div>
           <div><dt class="font-medium text-slate-700">Ø-Freq</dt><dd>durchschnittliche Lemmafrequenz im Text: Vorkommen ÷ verschiedene Lemmata</dd></div>
         </dl>
         <p class="mt-2 text-xs text-slate-500">
-          „Tokens" meint durchgehend die annotierten Wortformen: gezählt werden Wortformen mit Lemma-Zuordnung. Wortformen ohne Lemma-Zuordnung stehen im Text, aber in keiner dieser Zahlen, und ihr Anteil schwankt je Text zwischen 0 % und 42 %.
+          "Tokens" meint durchgehend die annotierten Wortformen: gezählt werden Wortformen mit Lemma-Zuordnung. Wortformen ohne Lemma-Zuordnung stehen im Text, aber in keiner dieser Zahlen, und ihr Anteil schwankt je Text zwischen 0 % und 42 %.
         </p>
       </div>
     `;
@@ -156,7 +156,7 @@ export class TextStatistics {
     if (sorted.length === 0 && this.showSelectedOnly) {
       return `
         <div class="rounded-2xl border border-slate-200 bg-white p-6 text-center text-sm text-slate-500 shadow-sm">
-          Keine Texte ausgewählt. Häkchen in der Tabelle setzen oder „Nur Auswahl anzeigen" deaktivieren.
+          Keine Texte ausgewählt. Häkchen in der Tabelle setzen oder "Nur Auswahl anzeigen" deaktivieren.
         </div>
       `;
     }

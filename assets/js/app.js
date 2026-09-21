@@ -984,7 +984,7 @@ class MainSiteApp {
             // 0-Treffer-Box konkretisieren (#204): Begriff + Suchraum benennen
             if (this.elements.noResultsSummary && this.lastSearchTerm) {
                 this.elements.noResultsSummary.textContent =
-                    `0 Treffer für „${this.lastSearchTerm}“ in ${searchedCount.toLocaleString('de-DE')} ausgewählten Texten.`;
+                    `0 Treffer für "${this.lastSearchTerm}" in ${searchedCount.toLocaleString('de-DE')} ausgewählten Texten.`;
             }
             this.elements.noResults.classList.remove('hidden');
             // Scroll to no results message (with offset for sticky header)

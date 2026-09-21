@@ -269,7 +269,7 @@ export class HapaxLegomenaAnalyzer {
           </div>
         </div>
         <p class="mb-3 text-xs text-slate-500">
-          Dieses Werkzeug rechnet immer über den ganzen Korpus: ob ein Lemma nur einmal vorkommt, lässt sich nur korpusweit feststellen. Eine Auswahl im Korpus-Browser (Schritt 1) ändert die Zahlen hier deshalb nicht, auch nicht bei einem einzelnen Text. Welcher Text welche Raritäten beisteuert, zeigt „Beitrag pro Text".
+          Dieses Werkzeug rechnet immer über den ganzen Korpus: ob ein Lemma nur einmal vorkommt, lässt sich nur korpusweit feststellen. Eine Auswahl im Korpus-Browser (Schritt 1) ändert die Zahlen hier deshalb nicht, auch nicht bei einem einzelnen Text. Welcher Text welche Raritäten beisteuert, zeigt "Beitrag pro Text".
         </p>
         <div class="grid gap-3 sm:grid-cols-3">
           <label class="block">
@@ -312,7 +312,7 @@ export class HapaxLegomenaAnalyzer {
       <div class="rounded-2xl border border-blue-200 bg-blue-50 p-4 text-xs text-blue-900 space-y-1">
         <p><strong>Korpus-Hapax ≠ Text-Hapax:</strong> Hier zählt die Gesamtfrequenz eines <em>Lemmas</em> über alle Texte. Die Hapax-Rate der Text-Statistiken zählt dagegen Lemmata, die innerhalb <em>eines</em> Texts nur einmal vorkommen.</p>
         <p><strong>Annotationslücken verzerren:</strong> Unlemmatisierte Tokens sind im Index unsichtbar. Ein angezeigtes Hapax kann unannotierte Geschwister haben, besonders in frisch ingestierten Texten.</p>
-        <p><strong>Kuratierungsinstrument:</strong> Hapaxe sind oft Lemmatisierungs- oder Tippfehler; Einträge „ohne Authority-Eintrag" sind direkte Datenqualitäts-Funde. Der Wörterbuchnetz-Abgleich je Eintrag hilft bei der Frage: echtes mhd. Hapax oder nur Korpus-Hapax?</p>
+        <p><strong>Kuratierungsinstrument:</strong> Hapaxe sind oft Lemmatisierungs- oder Tippfehler; Einträge "ohne Authority-Eintrag" sind direkte Datenqualitäts-Funde. Der Wörterbuchnetz-Abgleich je Eintrag hilft bei der Frage: echtes mhd. Hapax oder nur Korpus-Hapax?</p>
       </div>
     `;
   }

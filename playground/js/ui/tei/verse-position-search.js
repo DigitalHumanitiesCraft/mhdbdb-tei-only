@@ -141,7 +141,7 @@ export class VersePositionSearch {
 
   renderBody() {
     if (!this.state.query) {
-      return '<div class="rounded-2xl border border-dashed border-slate-200 bg-white p-8 text-center text-sm text-slate-500">Bitte Lemma eingeben und auf „Suchen" klicken.</div>';
+      return '<div class="rounded-2xl border border-dashed border-slate-200 bg-white p-8 text-center text-sm text-slate-500">Bitte Lemma eingeben und auf "Suchen" klicken.</div>';
     }
     if (!this.state.resolvedLemma) {
       return `

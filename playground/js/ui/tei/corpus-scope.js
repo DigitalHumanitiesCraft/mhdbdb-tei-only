@@ -23,7 +23,7 @@ const NICHT_GELADEN =
 
 const NICHTS_AUSGEWAEHLT =
     'Kein Text ausgewählt. Dieses Werkzeug wertet die Auswahl aus dem Korpus-Browser ' +
-    '(Schritt 1) aus: dort mindestens einen Text anhaken, oder über „Alle" das ganze ' +
+    '(Schritt 1) aus: dort mindestens einen Text anhaken, oder über "Alle" das ganze ' +
     'Korpus auswählen.';
 
 /**

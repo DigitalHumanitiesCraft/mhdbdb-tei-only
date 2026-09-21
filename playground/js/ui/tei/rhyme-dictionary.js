@@ -367,7 +367,7 @@ export class RhymeDictionary {
       <div class="rounded-2xl border border-slate-200 bg-slate-50/70 p-4 space-y-3">
         <h3 class="text-sm font-semibold uppercase tracking-wide text-slate-500">Reim-Wörterbuch</h3>
         <p class="text-xs text-slate-600">
-          „Welche Lemmata reimen sich auf X?" Scannt die annotierten Versenden des Korpus und sammelt
+          "Welche Lemmata reimen sich auf X?" Scannt die annotierten Versenden des Korpus und sammelt
           die Lemmata benachbarter Versenden (±1 Vers, Paarreim-Annahme), deren normalisierte
           Form im Auslaut übereinstimmt. Lemma-basiert und strukturell, keine phonetische
           Reim-Klassifikation. Nur Verstexte; Prosa wird ignoriert.
@@ -422,7 +422,7 @@ export class RhymeDictionary {
     }
 
     if (!this.state.query) {
-      return '<div class="rounded-2xl border border-dashed border-slate-200 bg-white p-8 text-center text-sm text-slate-500">Bitte Lemma eingeben und auf „Suchen" klicken.</div>';
+      return '<div class="rounded-2xl border border-dashed border-slate-200 bg-white p-8 text-center text-sm text-slate-500">Bitte Lemma eingeben und auf "Suchen" klicken.</div>';
     }
     if (!this.state.resolvedLemma) {
       return `
@@ -433,7 +433,7 @@ export class RhymeDictionary {
       `;
     }
     if (!this.state.result) {
-      return '<div class="rounded-2xl border border-dashed border-slate-200 bg-white p-8 text-center text-sm text-slate-500">Auf „Suchen" klicken, um Berechnung zu starten.</div>';
+      return '<div class="rounded-2xl border border-dashed border-slate-200 bg-white p-8 text-center text-sm text-slate-500">Auf "Suchen" klicken, um Berechnung zu starten.</div>';
     }
 
     return this.renderResults();
@@ -451,7 +451,7 @@ export class RhymeDictionary {
       : '';
 
     const filterNote = this.state.textFilter.trim()
-      ? ` · Filter „${escapeHtml(this.state.textFilter.trim())}" → ${r.scannedTextCount} ${r.scannedTextCount === 1 ? 'Text' : 'Texte'}`
+      ? ` · Filter "${escapeHtml(this.state.textFilter.trim())}" → ${r.scannedTextCount} ${r.scannedTextCount === 1 ? 'Text' : 'Texte'}`
       : '';
 
     if (r.endOccurrences === 0) {
@@ -566,7 +566,7 @@ export class RhymeDictionary {
           Als Versende gilt das letzte Wort mit Lemma-Zuordnung: trägt das eigentliche
           Schlusswort keine, wird ein weiter vorne stehendes Wort als Reimwort gewertet.
           Verse ohne jede Zuordnung sind gar nicht erst im Scan.
-          „→ Belege" klappt die gezählten Verspaare auf – ausschließlich Vorkommen
+          "→ Belege" klappt die gezählten Verspaare auf – ausschließlich Vorkommen
           an benachbarten Versenden, mit Sprung in die Leseansicht.
         </p>
       </div>
