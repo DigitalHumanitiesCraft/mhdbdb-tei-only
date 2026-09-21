@@ -447,3 +447,17 @@ Aus `docs/JOURNAL.md`.
 **Was sie getragen haben:** das falsche Datum stand in einem Kommentar an KZW, der ihr gegenüber begründet, warum ihre Antworten nicht mehr als Rückstand geführt werden. Beide Stellen sind berichtigt, der Kommentar mit einem eigenen Nachtrag statt durch stille Änderung. Die Labelzahl stand im Commit `18b98c423` und wäre ohne die Reviewrunde gemergt worden.
 
 **Die dritte Zeile heißt Mechanismuswechsel statt weiterzählen, und der Mechanismus existiert bereits zweimal**, weshalb hier keiner gebaut wird: projektseitig als #454 (Staleness, mit diesen Fällen als Belegen), generisch als [`claude-code-setup#64`](https://github.com/chsteiner/claude-code-setup/issues/64), wo der Trockenlauf für einen Hook steht, der prüft, ob eine im Text genannte Fundstelle in dieser Sitzung überhaupt gelesen wurde. Genau dieser Hook hätte alle drei Fälle gefangen: in allen dreien **war** sie gelesen, nur nicht befragt. **Das ist der Unterschied, den #64 noch nicht misst**, und er gehört dort als Befund hinein.
+
+### 50. Rot, vierte Zeile derselben Lehre: die Auskunft stand zwei Bildschirmseiten über dem Satz, der sie widerlegt.
+
+**Rot.** Im Kommentar an #375 vom 21.09.2026, 07:40, angekuendigt, dass „die 8 eindeutigen und die 8 von dir gelesenen Fälle" umannotiert werden. Beide Hälften falsch: die acht eindeutigen sind seit dem 14.09. erledigt (PR #438, alle acht tragen `lemma_7338`/ADJ, nachgemessen), und von den acht gelesenen sind vier Arbeit und vier bestätigen den Ist-Stand. Gemessene Menge: **vier** Tokens, nicht sechzehn.
+
+**Die Lehre ist dieselbe wie in 38 und 39 und steht in `eigene-quellen.md`: geladene Quelle nicht befragt.** Der Zwischenstand vom 14.09., 23:11, steht im selben Thread, und ich hatte diesen Thread am Vormittag desselben Tages in der #406-Triage vollständig gelesen. Die letzte Zeile dazu ist Eintrag 39 vom selben Tag.
+
+**Damit ist es die vierte, und nach `wiederholte-fehler.md` ist eine vierte Zeile kein Befund mehr, sondern der Beleg, dass niemand die Konsequenz gezogen hat.** Gezogen ist sie: #454 trägt die projektseitige Haelfte, `claude-code-setup#64` die generische. Gebaut ist sie nicht. Dieser Eintrag ist deshalb kein Zählschritt, sondern gehört als Fall an #454.
+
+**Was er getragen hat:** KZW liest in dem Kommentar, der sich bei ihr für die falsche Triage entschuldigt, eine Ankündigung von Arbeit, die getan ist. Richtiggestellt in issuecomment-5758541144, mit der Messung je Token.
+
+**Was mich nicht entlastet, aber zur Sache gehört:** aufgefallen ist es beim Schreiben des Kickoffs für Spur A, nicht beim Schreiben des Kommentars. Bestaetigt hat es die Spur unabhaengig, nachgemessen habe ich es selbst. Ein Fehler, den erst die Arbeitsvorbereitung für jemand anderen sichtbar macht, wäre ohne den Lauf stehen geblieben.
+
+**Nummernvergabe, damit die Lücke erklaert ist:** 40 bis 44 sind für Spur `mhdbdb-daten` reserviert, 45 bis 49 für `mhdbdb-pruefseite`, 50 bis 54 für die Koordination. Vorab vergeben, weil drei Sessions gleichzeitig anhängen und sonst alle drei „die nächste" schreiben. Der Preis ist, dass das Journal in diesem Abschnitt nicht streng chronologisch ist.
