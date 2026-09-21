@@ -102,6 +102,8 @@ pruefseite, 50–54 Koordination, steht in Eintrag 50 auf main): ein Sprung von
   `$W`-Variable neben git): je git-Aufruf ein eigener Bash-Call mit literalem
   `-C`-Pfad.
 - `kickoff-bausteine.md` liegt in `claude-code-setup/skills/operator/`, nicht
-  unter `rules/`; „Regeldatei" im Fehlerjournal meint die 17 in `rules/`.
+  unter `rules/`; „Regeldatei" im Fehlerjournal meint die `*.md` direkt in
+  `rules/` (am 21.09.2026 16, dazu 11 in `rules/belege/`; die Zahl waechst,
+  gezaehlt wird mit `ls -1 rules/*.md | wc -l`, nicht aus dieser Zeile).
 - `validate-corpus.py --corpus-only --sample SIGLE ...`: ADP ist Stage-1-
   Baseline (KNOWN_TEI_ALL_BASELINE), Stage-2 ist die Zahl, die zaehlt.
