@@ -42,7 +42,9 @@ richtig: #315 wartet auf KZW *und* Julia.
 `auto:frozen` ist am 21.09.2026 dazugekommen und trennt zwei Zustaende, die
 vorher beide `auto:blocked` hiessen: "wartet auf eine Antwort" und "wartet
 auf einen Termin". Der Anlass ist #271, bis Juni 2027 stillgelegt nach einer
-Entscheidung von KZW vom 11.09. Weil das Schema keinen Wert dafuer hatte,
+Entscheidung von KZW vom 10.09. (Vorschlag 15:24, Jahreszahl bestaetigt
+16:41; ihr Kommentar vom 11.09. betrifft die NEIM-Konkordanz und nicht das
+Einfrieren). Weil das Schema keinen Wert dafuer hatte,
 trug der Vorgang weiter `wait:kzw` und stand taeglich in ihrer Ping-Liste,
 obwohl sie geantwortet hatte. Das war im Vorgang selbst vermerkt, statt es zu
 beheben, und wurde am 17.09. in #406 zu Recht geruegt. Ein eingefrorener
