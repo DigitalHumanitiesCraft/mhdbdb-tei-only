@@ -135,6 +135,7 @@
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 7 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
       <change when="2026-09-10" who="#editor">#363 Hausenblase: 2 Tokens der Konstruktion hûsenblâter (zusammen- und getrennt geschrieben) auf lemma_49714 hûsenblâter vereinheitlicht (lemmaRef/pos/ana/corresp; Mehrwort-Einheit nach TEI-MODEL.md §4.1a; editorische Entscheidung KZW in #363; Provenienz-Log: ingest/pos-disambig/363-hausenblase/).</change>
+      <change when="2026-09-21" who="#editor">#366 fyndling-Beitrag: 1 unlemmatisierte Tokens annotiert (lemmaRef/pos/corresp; editorische Entscheidungen KZW vom 11.09. und 17.09.2026; je Schreibung ein neu gepraegter Variantentyp nach der Regel aus #367; kein @ana, weil die Sense-Zuordnung kuratorisch ist; Provenienz-Log: ingest/pos-disambig/366-fyndling/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -970,7 +971,7 @@
             <w xml:id="KBL3_11282030_14">ains</w>
             <lb n="4"/>
             <w xml:id="KBL3_11282040_0" lemmaRef="lexicon.xml#lemma_12343" pos="ADJ" corresp="variants.xml#type_162374">vaisten</w>
-            <w xml:id="KBL3_11282040_1">hawsen</w>
+            <w xml:id="KBL3_11282040_1" lemmaRef="lexicon.xml#lemma_42619" pos="NOM" corresp="variants.xml#type_372380">hawsen</w>
             <pc xml:id="KBL3_11282040_2" join="left">,</pc>
             <w xml:id="KBL3_11282040_3" lemmaRef="lexicon.xml#lemma_5594" pos="NOM VRB" corresp="variants.xml#type_143877">sneid</w>
             <w xml:id="KBL3_11282040_4">in</w>

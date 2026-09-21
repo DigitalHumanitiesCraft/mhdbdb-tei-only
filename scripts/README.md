@@ -27,6 +27,7 @@ scripts/
 ├── migrate-caesura-to-gap-252.py # Ueberlieferungsluecken von '( caesura )' auf <gap/> (#252)
 ├── apply-308-375-432.py         # Die drei entschiedenen Korrekturen einer Nacht: Namensansetzung, waeren als ADJ, WH_6214_3 (#308/#375/#432)
 ├── update-variant-count-372376.py # Dokumentierte Formenzahl von variants.xml nachziehen, wenn ein Typ dazukommt (#375)
+├── update-variant-count-372386.py # Dasselbe fuer zehn Typen auf einmal, und zusaetzlich die Mappingzahl: die steigt diesmal mit (#366/#375/#371)
 │
 ├── ingest/                      # Korpus-Ingest je Vorhaben
 │   ├── ari/                     # ARITHMETIC, 6 Rechenbuch-Handschriften (#92)
@@ -104,6 +105,8 @@ die Pfadliste des Gates auf. Bis dahin steht die Auskunft in `README.md` des
 jeweiligen Ordners.
 
 Ein issue-gebundenes Einmal-Skript wandert nach `_archived/`, sobald sein Issue geschlossen ist. Die Grenze ist der Issue-Status, nicht die Frage, ob das Skript schon gelaufen ist: solange das Issue offen ist, kann eine Prüffrage einen erneuten Lauf erzwingen. Deshalb stehen die drei `*-138.py` oben, bis #138 geschlossen ist, und `convert-l-to-lb-143.py` liegt im Archiv. Die beiden `insert-*-from-linecode.py` sind keine Einmal-Skripte, sie werden für weitere Texte gebraucht.
+
+**Unter `ingest/` stehen im Baum nur die Unterordner und keine Skriptnamen, und das ist kein Versehen.** Das Inventar-Gate `audit/check-doc-inventories.py` (#329) scannt vier Pfade: `scripts/` flach plus `audit/`, `sync/` und `_archived/`. `ingest/` ist nicht dabei, aber das Gate liest **jeden** Skriptnamen aus diesem Baum und hält ihn gegen die gescannten Verzeichnisse. Ein hier eingetragener Name aus `ingest/` ist damit „genannt, aber nicht vorhanden", und das Gate wird rot. Gemessen am 21.09.2026 mit einer Mutationsprobe: `apply-366-375-371.py` unter `pos-disambig/` in den Baum geschrieben, Gate gelaufen (64 im Dateisystem gegen 65 in dieser Datei, der Name namentlich als fehlend gemeldet), Zeile wieder entfernt, Gate grün. Wer ein Ingest-Skript dokumentieren will, tut das in seinem Provenienz-Log unter `ingest/pos-disambig/<batch>/`, nicht hier.
 
 Skripte im Archiv sind Referenz. Der Grund, sie nicht zu starten, ist nicht technisch, sondern inhaltlich: es sind abgeschlossene Einmal-Migrationen, deren Ergebnis längst im Korpus steht, und ein zweiter Lauf schreibt auf einen anderen Ausgangsstand als der erste. Technisch scheitert genau eines von sechs, nämlich `convert-l-to-lb-143.py`, das die Repo-Wurzel als `Path(__file__).resolve().parent.parent` berechnet und aus `_archived/` heraus auf `scripts/` zeigt; die übrigen fünf arbeiten CWD-relativ (`Path('tei').glob(...)`) und liefen aus dem Repo-Root ohne Fehlermeldung durch. Wer eines wieder braucht, verschiebt es zurück und prüft den Ausgangsstand, statt es aus `_archived/` heraus aufzurufen.
 

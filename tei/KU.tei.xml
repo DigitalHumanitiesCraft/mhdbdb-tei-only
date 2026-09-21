@@ -130,6 +130,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-09-21" who="#editor">#375 waeren als Adjektiv: 1 Tokens der Form wâren von lemma_7505 wesen VRB auf lemma_7338 wâr ADJ umannotiert (lemmaRef/pos/corresp auf den bestehenden type_287014; Lektuere KZW vom 14.09.2026; Provenienz-Log: ingest/pos-disambig/375-waeren-ausweitung/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -7980,7 +7981,7 @@
           <w xml:id="KU_1534_0">si</w>
           <w xml:id="KU_1534_1" lemmaRef="lexicon.xml#lemma_1683" pos="VRB" ana="lexicon.xml#lemma_1683_sense_2638" corresp="variants.xml#type_5718">ervant</w>
           <w xml:id="KU_1534_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
-          <w xml:id="KU_1534_3" lemmaRef="lexicon.xml#lemma_7505" pos="VRB" corresp="variants.xml#type_273621">wâren</w>
+          <w xml:id="KU_1534_3" lemmaRef="lexicon.xml#lemma_7338" pos="ADJ" corresp="variants.xml#type_287014">wâren</w>
           <w xml:id="KU_1534_4" lemmaRef="lexicon.xml#lemma_704" pos="NOM" ana="lexicon.xml#lemma_704_sense_1139" corresp="variants.xml#type_2162">bilde</w>
           <caesura/>
           <pc xml:id="KU_1534_5" join="left">.</pc>

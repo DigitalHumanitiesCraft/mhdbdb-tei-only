@@ -138,6 +138,7 @@
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 1 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
       <change when="2026-09-10" who="#editor">#363 Hausenblase: 2 Tokens der Konstruktion hûsenblâter (zusammen- und getrennt geschrieben) auf lemma_49714 hûsenblâter vereinheitlicht (lemmaRef/pos/ana/corresp; Mehrwort-Einheit nach TEI-MODEL.md §4.1a; editorische Entscheidung KZW in #363; Provenienz-Log: ingest/pos-disambig/363-hausenblase/).</change>
+      <change when="2026-09-21" who="#editor">#366 fyndling-Beitrag: 1 unlemmatisierte Tokens annotiert (lemmaRef/pos/corresp; editorische Entscheidungen KZW vom 11.09. und 17.09.2026; je Schreibung ein neu gepraegter Variantentyp nach der Regel aus #367; kein @ana, weil die Sense-Zuordnung kuratorisch ist; Provenienz-Log: ingest/pos-disambig/366-fyndling/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -3924,7 +3925,7 @@
         <w xml:id="MBS2_52060_8" lemmaRef="lexicon.xml#lemma_27033" pos="VRB" ana="lexicon.xml#lemma_27033_sense_42999" corresp="variants.xml#type_272424">spick</w>
         <w xml:id="MBS2_52060_9" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3397">das</w>
         <w xml:id="MBS2_52060_10" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
-        <w xml:id="MBS2_52060_11">hawsen</w>
+        <w xml:id="MBS2_52060_11" lemmaRef="lexicon.xml#lemma_42619" pos="NOM" corresp="variants.xml#type_372380">hawsen</w>
         <w xml:id="MBS2_52060_12">oder</w>
         <lb n="7"/>
         <w xml:id="MBS2_52070_0" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
