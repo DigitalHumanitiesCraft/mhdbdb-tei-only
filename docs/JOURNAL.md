@@ -478,7 +478,7 @@ Zehn Prägungen stellen eine Invariante her, die vorher an zehn Stellen verletzt
 
 **Rot, erste Zeile zu dieser Lehre: die Trefferzahl stimmte, die Einfügeposition nicht, weil die Zeilenenden ungeprüft blieben.** Ausgezogen als rote Zeile 41 nach [../fehlerjournal.md](../fehlerjournal.md).
 
-**Rot: die Formenzahl an 19 Stellen mit Skript gezogen und die Zahl im selben Absatz daneben stehengelassen.** Ausgezogen als rote Zeile 42 nach [../fehlerjournal.md](../fehlerjournal.md).
+**Rot: zwei Variantenzahlen mit einem Skript gezogen und die dritte im selben Absatz daneben stehengelassen.** Ausgezogen als rote Zeile 42 nach [../fehlerjournal.md](../fehlerjournal.md).
 
 **Rot: die #397-Frage gestellt, verneint, und die Verneinung war eine Abwesenheitsbehauptung über den halben Bestand.** Ausgezogen als rote Zeile 43 nach [../fehlerjournal.md](../fehlerjournal.md).
 
