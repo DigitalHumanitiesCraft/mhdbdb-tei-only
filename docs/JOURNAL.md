@@ -464,13 +464,23 @@ Und das JSON ist nicht parsbar: bei Zeichen 82.382 steht mitten im `actions`-Arr
 
 ### Die #397-Frage: was hat dieser Zug wahr gemacht, das vorher falsch sein konnte
 
-Zehn Prägungen stellen eine Invariante her, die vorher an zehn Stellen verletzt war: die Form steht jetzt unter ihrem Lemma. **Jede Prüfung, die auf „Form nicht unter diesem Lemma vorhanden" gebaut war, hat für diese zehn Paare keinen Gegenstand mehr.** Gesucht und nicht gefunden: der Bestand kennt keine solche Prüfung, weil `extract-variants.py` den umgekehrten Weg geht (es liest den Korpus und schreibt `variants.xml`, statt zu prüfen). Was bleibt, ist die Gegenprobe selbst: der Trockenlauf vor und nach dem Zug, dessen vier Semantikzähler die Aussage tragen (`added 10`, die übrigen drei auf 0) und dessen Mehrdeutigkeitszähler unverändert bei 613 und 1 stehen. **Null zusätzliche Mehrdeutigkeiten ist die Zahl, die zählt**, denn ein Token, das ein Lemma mit dem Typ eines anderen kombiniert, bliebe in der Mehrheit unsichtbar und hinge still am falschen Lemma. Kein Gate sieht das.
+Zehn Prägungen stellen eine Invariante her, die vorher an zehn Stellen verletzt war: die Form steht jetzt unter ihrem Lemma. **Jede Prüfung, die auf „Form nicht unter diesem Lemma vorhanden" gebaut war, hat für diese zehn Paare keinen Gegenstand mehr.** Auf der Typ-Ebene trägt die Gegenprobe: der Trockenlauf vor und nach dem Zug hat `added 10` und die übrigen drei Semantikzähler auf 0, die Mehrdeutigkeitszähler stehen unverändert bei 613 und 1.
+
+**Hier stand zuerst „gesucht und nicht gefunden", und das war falsch.** Die Antwort auf die #397-Frage liegt eine Ebene tiefer, im normalisierten Laufzeit-Wörterbuch des Authority-Index, und dort hat der Zug eine Schreibform umgehängt: `hawsen` löst ab jetzt auf `lemma_42619` *hûse* auf statt auf `lemma_49714` *hûsenblâter*, weil first-wins nach Lemmanummer entscheidet und 42619 vor 49714 sortiert. Gemessen über beide gebauten Wörterbücher: **added 5, removed 0, re-pointed 1**. Wer „hawsen" sucht, erreicht damit 4 Belege statt 32, gezählt über die Belege des aufgelösten Lemmas und nicht über die Vorkommen der Form; die Form selbst steht 5 mal unter der Hausenblase und 2 mal unter dem Fisch. **Der Flip geht gegen Vorschrift B von ADR-021**, also gegen die Rangfolge, die KZW am 14.09. in #378 entschieden hat und die nicht gebaut ist.
+
+**Die Prüfung, die es gefunden hätte, verlangt dieses Projekt seit dem 14.09. selbst:** ADR-021 fordert genau diesen Vergleich als Handgate, ausdrücklich damit „a single re-annotation cannot silently flip a mapping". Er war einmal von Hand gelaufen, grün, 0/0/0; dieser Zug ist der zweite Lauf und liefert das erste rote Testdatum. Es steht jetzt in `docs/DECISIONS.md` neben dem grünen.
+
+**Was daraus über die #397-Frage hinaus folgt: null zusätzliche Mehrdeutigkeiten auf der Typ-Ebene ist eine richtige Zahl, die eine falsche Sicherheit trägt.** Ein Token, das ein Lemma mit dem Typ eines anderen kombiniert, bliebe in der Mehrheit unsichtbar, und dagegen misst dieser Zähler richtig. Er misst aber nicht, was die Prägung mit der **Schreibform** macht, und genau dort lag die Antwort. Ein Kontrollwert, der im selben Zuschnitt liegt wie die Frage, teilt dessen Blindheit; ausgezogen als rote Zeile 43.
 
 ### Rote Zeilen
 
 **Rot: einem Menschen zugeschrieben, er habe etwas geprüft, weil ein Feld daneben so klang.** Ausgezogen als rote Zeile 40 nach [../fehlerjournal.md](../fehlerjournal.md).
 
 **Rot, erste Zeile zu dieser Lehre: die Trefferzahl stimmte, die Einfügeposition nicht, weil die Zeilenenden ungeprüft blieben.** Ausgezogen als rote Zeile 41 nach [../fehlerjournal.md](../fehlerjournal.md).
+
+**Rot: die Formenzahl an 19 Stellen mit Skript gezogen und die Zahl im selben Absatz daneben stehengelassen.** Ausgezogen als rote Zeile 42 nach [../fehlerjournal.md](../fehlerjournal.md).
+
+**Rot: die #397-Frage gestellt, verneint, und die Verneinung war eine Abwesenheitsbehauptung über den halben Bestand.** Ausgezogen als rote Zeile 43 nach [../fehlerjournal.md](../fehlerjournal.md).
 
 ### Offen
 
