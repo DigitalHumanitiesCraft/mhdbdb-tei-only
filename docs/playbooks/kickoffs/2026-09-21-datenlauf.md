@@ -144,7 +144,12 @@ Eingefroren ab Laufbeginn, weil jede Session sie beim Start lädt oder sie den R
 
 Der Handgriff hat einen Präzedenzfall mit fertiger Dateiliste und Trefferzahlen: `scripts/update-variant-count-372376.py`, geschrieben für **+1** im September. Spur A schreibt das Gegenstück und lässt `doc-count-audit.py --check` lokal als Gate laufen. **`docs/JOURNAL.md` ist ausgenommen**, die Zahl steht dort in einem datierten Bericht und ist Geschichte, nicht Bestand.
 
-Nicht betroffen und deshalb nicht zu ziehen: die Zahl der Einträge (42.626, die Lemma-Gruppen bleiben dieselben) und die Zahl der normalisierten Mappings in `CONTRACTS.md` §C (234.245, andere Menge, siehe #279).
+Nicht betroffen und deshalb nicht zu ziehen: die Zahl der Einträge (42.626, die Lemma-Gruppen bleiben dieselben). Gemessen nach dem Lauf: bestätigt, sie steht unverändert.
+
+~~Ebenfalls nicht zu ziehen: die Zahl der normalisierten Mappings in `CONTRACTS.md` §C (234.245, andere Menge, siehe #279).~~ **Falsch, Spur A hat es gemessen und widerlegt.** Eine andere Menge zu sein heißt nicht, unberührt zu sein: die zehn neuen Rohformen ergeben fünf neue Mappings, weil die Deduplizierung normalisiert, und die Zahl geht von 234.245 auf **234.250**. Der Satz oben hat #279 richtig zitiert und den falschen Schluss daraus gezogen. Zwei Dinge, die dabei herausgekommen sind und über diesen Lauf hinausgehen:
+
+- **Der Zug betrifft mehr als die zwei Zeilen in `CONTRACTS.md` §C**, und `doc-count-audit.py` kennt die Zahl als `variants_normalized` in sieben Dateien. Nicht jeder Treffer im Repositorium ist zu ziehen: `JOURNAL.md` und das Skript des vorigen Zugs tragen datierte Stände, `DECISIONS.md` ist seit dem 17.09. vom Gate ausgenommen und von Hand anzusehen, und `CONTRACTS.md:99` trägt **beide** Zahlen mit verschiedenen Rollen (234.244 als Stand von v1.6.2 bleibt, „today 234,245" zieht mit).
+- **Gate und Index zählen dieselbe Menge, und das stand nirgends.** `doc-count-audit.py` misst über `variants.xml` (`count_variants_normalized`), die Dokumentation beschreibt das Laufzeit-Dictionary aus dem Authority-Index. Gemessen in beiden Bäumen: 234.245 gegen 234.245, 234.250 gegen 234.250. Hätten sie sich unterschieden, wäre das Gate nach einem richtigen Zug rot geblieben, und niemand hätte gewusst, welche Zahl in die Dokumentation gehört.
 
 **Inbox:** der Abschnitt am Ende dieses Dokuments. Format eines Wunsches: Datei, eindeutiger Ankertext, der **wörtliche** Ersatztext, ein Satz warum. Die Koordination trägt ein, nicht die Spur. **Im Tagbetrieb ist die Inbox kein Wartezimmer**, sondern nur die Ablage: die Spur meldet den Wunsch zusätzlich sofort, und die Koordination trägt ihn im selben Zug ein oder lehnt ihn ab.
 
