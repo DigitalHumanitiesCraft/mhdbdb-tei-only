@@ -23,6 +23,27 @@ gleichmäßig: Laufzählung 2 bis 7 liegen auf Eintrag 3 bis 8, Laufzählung 8
 aber auf Eintrag 12, weil dazwischen Zeilen ohne eigene Laufzählung stehen.
 Wo ein Eintrag so verweist, ist die Nummer in Klammern danebengesetzt.
 
+**Und eine Kette zu derselben Lehre wird über die Rückverweise gezählt,
+nicht über den Dateinamen der Regel.** Ein Grep nach `eigene-quellen.md`
+findet auch Einträge, die sie im Fließtext erwähnen, und findet die nicht,
+die ihre Lehre in Prosa benennen; beides ist hier vorgekommen. Die
+Zuweisung steckt ausschließlich im Absatz, der mit „Die Lehre" beginnt,
+und eine Nennung darin zählt, auch eine beiläufige. **Ein Eintrag kann
+dabei mehr als einen Fall tragen** (Eintrag 39 trägt zwei), und an einem
+Tag mit mehreren Spuren entstehen Zeilen parallel, sodass jede von Hand
+gezählte Ordinalzahl zu niedrig ausfällt, sobald eine Nachbarspur
+dazwischen schreibt.
+
+**Deshalb stehen in einer Kette die Nummern und keine Ordinalzahl.** Nur
+Namen lassen sich falsifizieren, eine Anzahl nicht. Am 21.09.2026 trug
+dieser Bestand drei unvereinbare Zählungen für dieselbe Lehre,
+geschrieben von drei Sessions desselben Tages, und aufgelöst werden
+konnten sie erst, als jemand die Nummern nebeneinanderlegte. **Der
+Lehren-Zähler aus `claude-code-setup` hilft dabei nicht:** er erwartet
+das Format `## Fehler N (rot)` und findet in dieser Datei null Zeilen,
+gemessen am 21.09.2026 gegen seinen Kontrollwert von 35 auf seinem eigenen
+Journal. Jede Kettenzahl hier ist Handarbeit.
+
 
 ## 2026-09-01 – Der Lauf, der seriell blieb, weil die abgeleitete Schicht global ist
 
