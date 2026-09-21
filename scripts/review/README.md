@@ -70,9 +70,19 @@ JavaScript), während die Nachbarfelder daneben richtig gesetzt waren.
 **Und der Rückweg braucht eine zweite Prüfung.** Ein Feld, das Auszeichnung
 bekommt, lebt als Text weiter: `vorschlagText` geht in die eingebetteten Daten,
 von dort in den JSON-Export und in den lesbaren Bericht, der ihn escapet.
-`_pruefe_textfelder` lehnt deshalb Markup in jedem Feld ab, das als Text
-exportiert wird. Ohne diese Prüfung fände die Fachwissenschaftlerin in ihrer
-eigenen Rückgabe wörtlich `<span class="mono">hurt</span>`.
+`_pruefe_textfelder` hält deshalb jedes exportierte Textfeld gegen seine
+Quelle: es muss deren Klartext sein, nicht weniger und nicht mehr. Ohne diese
+Prüfung fände die Fachwissenschaftlerin in ihrer eigenen Rückgabe wörtlich
+`<span class="mono">hurt</span>`.
+
+**Sie vergleicht, statt nach Markup zu suchen, und das ist hier keine
+Feinheit.** Eine Mustersuche nach `<` kann ein durchgerutschtes `<span>` nicht
+von einem geschriebenen `<pc>` unterscheiden, und `<pc>` und `<w>` sind genau
+die Zeichenketten, die in einer Annotationsbegründung dieses Projekts stehen.
+Die erste Fassung suchte nach dem Muster und hätte den Lauf an einer korrekt
+gesetzten Begründung abgebrochen, mit einer Meldung, die in die falsche
+Richtung wies. Gefunden hat das die dritte Reviewrunde; in den 45 Fällen von
+#359 trat es nicht auf, weil keiner von ihnen ein TEI-Element zitiert.
 
 **Die Antwortoptionen bringt jeder Fall selbst mit.** Das ist Alans erster
 Punkt aus #443: eine Liste, die für alle Fälle dieselbe ist, besteht zum

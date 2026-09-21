@@ -803,32 +803,54 @@ HTML_FELDER = ('beleg_hinweis',)
 HTML_FELDER_VORSCHLAG = ('text', 'begruendung', 'unsicherheit')
 
 
-# Die Felder der eingebetteten Daten, die als TEXT weiterleben: der
-# JSON-Export schreibt sie, und der lesbare Bericht setzt sie mit esc().
-# `belegHtml` steht bewusst nicht dabei, es ist als HTML deklariert.
-TEXTFELDER_DATEN = ('kopfText', 'frage', 'vorschlagText')
+# Die Felder der eingebetteten Daten, die als TEXT weiterleben, und der Pfad
+# zu ihrer Quelle im Spec-Fall: der JSON-Export schreibt sie, und der lesbare
+# Bericht setzt sie mit esc(). `belegHtml` steht bewusst nicht dabei, es ist
+# als HTML deklariert.
+TEXTFELDER_DATEN = {
+    'kopfText': ('kopf',),
+    'frage': ('frage',),
+    'vorschlagText': ('vorschlag', 'text'),
+}
 
 
-def _pruefe_textfelder(faelle):
-    """Kein Textfeld der eingebetteten Daten darf Markup tragen.
+def _pruefe_textfelder(faelle, spec_faelle):
+    """Jedes Textfeld der Daten muss der Klartext genau seiner Quelle sein.
 
-    Die Pruefung sitzt am Ergebnis und nicht an den Feldern, aus demselben
-    Grund wie die Rueckwaertsstrich-Pruefung: welches Spec-Feld heute Text ist
-    und morgen Auszeichnung bekommt, weiss niemand im Voraus, aber dass ein
-    `<span>` im JSON-Export nichts zu suchen hat, gilt immer.
+    Die Pruefung vergleicht, statt nach Markup zu suchen, und das ist der
+    Unterschied zwischen einem Gate und einem Fehlalarm: eine Mustersuche kann
+    ein durchgerutschtes `<span>` nicht von einem geschriebenen `<pc>`
+    unterscheiden, und `<pc>` und `<w>` sind in diesem Projekt genau die
+    Zeichenketten, die in einer Annotationsbegruendung stehen. Der Vergleich
+    kennt den Unterschied, weil er die Quelle daneben hat.
+
+    Sie waechst ausserdem mit: ob ein Feld heute Text ist und morgen durch
+    `markup()` geht, entscheidet allein sein Eintrag in HTML_FELDER, und die
+    erwartete Form folgt daraus, statt hier ein zweites Mal zu stehen.
     """
-    import re as _re
+    if len(faelle) != len(spec_faelle):
+        raise ValueError('Daten und Spec haben verschiedene Fallzahlen: %d gegen %d'
+                         % (len(faelle), len(spec_faelle)))
 
     fund = []
-    for f in faelle:
-        for feld in TEXTFELDER_DATEN:
-            wert = f.get(feld)
-            if isinstance(wert, str) and _re.search(r'<[a-zA-Z/]', wert):
-                fund.append('Fall %s, %s: %s' % (f.get('id', '?'), feld, wert[:70]))
+    for daten_fall, spec_fall in zip(faelle, spec_faelle):
+        for feld, pfad in TEXTFELDER_DATEN.items():
+            quelle = spec_fall
+            for stufe in pfad:
+                quelle = quelle.get(stufe) if isinstance(quelle, dict) else None
+            ausgezeichnet = (pfad[-1] in HTML_FELDER_VORSCHLAG if len(pfad) > 1
+                             else pfad[-1] in HTML_FELDER)
+            erwartet = _nur_text(quelle) if ausgezeichnet else quelle
+            if daten_fall.get(feld) != erwartet:
+                fund.append('Fall %s, %s:\n      steht:    %r\n      erwartet: %r'
+                            % (daten_fall.get('id', '?'), feld,
+                               (daten_fall.get(feld) or '')[:70],
+                               (erwartet or '')[:70]))
     if fund:
         raise ValueError(
-            'Markup in einem Feld, das als Text exportiert wird. Es landet so im\n'
-            'JSON und woertlich im lesbaren Bericht:\n  ' + '\n  '.join(fund))
+            'Ein Feld, das als Text exportiert wird, ist nicht der Klartext seiner\n'
+            'Quelle. So landet es im JSON und woertlich im lesbaren Bericht:\n  '
+            + '\n  '.join(fund))
 
 
 def _nur_text(html_text):
@@ -946,7 +968,7 @@ def render(spec):
         ) for f in spec['faelle']],
     )
 
-    _pruefe_textfelder(daten['faelle'])
+    _pruefe_textfelder(daten['faelle'], spec['faelle'])
 
     return """<!DOCTYPE html>
 <html lang="de" data-theme="light">
