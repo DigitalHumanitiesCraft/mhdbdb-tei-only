@@ -151,6 +151,7 @@
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 93 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/). 3 weitere Tokens der Form stat blieben bewusst unannotiert (Review).</change>
+      <change when="2026-09-21" who="#editor">#371 stat, drittes Lemma: 3 bislang unlemmatisierte Tokens der Form stat/stât annotiert (lemmaRef/pos/corresp nach dem actions-Array in KZWs Review vom 15.09.2026; drei neu gepraegte Variantentypen; kein @ana, weil die Sense-Zuordnung kuratorisch ist; die 17 Faelle mit option OFFEN und die 2 mit NEU_STAND bleiben unangetastet; Provenienz-Log: ingest/pos-disambig/371-stat/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -126105,7 +126106,7 @@
           <w xml:id="TR_15581_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25992">vrouwen</w>
           <w xml:id="TR_15581_3" lemmaRef="lexicon.xml#lemma_199" pos="PRP" ana="lexicon.xml#lemma_199_sense_248" corresp="variants.xml#type_522">an</w>
           <w xml:id="TR_15581_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
-          <w xml:id="TR_15581_5">stat</w>
+          <w xml:id="TR_15581_5" lemmaRef="lexicon.xml#lemma_5712" pos="NOM" corresp="variants.xml#type_372384">stat</w>
           <pc xml:id="TR_15581_6" join="left">!</pc>
           <pc xml:id="TR_15581_7" join="left">&gt;</pc>
         </l>
@@ -126188,7 +126189,7 @@
           <w xml:id="TR_15591_4">dor</w>
           <w xml:id="TR_15591_5" lemmaRef="lexicon.xml#lemma_199" pos="PRP" ana="lexicon.xml#lemma_199_sense_248" corresp="variants.xml#type_522">an</w>
           <w xml:id="TR_15591_6" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
-          <w xml:id="TR_15591_7">stat</w>
+          <w xml:id="TR_15591_7" lemmaRef="lexicon.xml#lemma_5712" pos="NOM" corresp="variants.xml#type_372384">stat</w>
         </l>
         <l n="15592">
           <w xml:id="TR_15592_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
@@ -127580,7 +127581,7 @@
           <w xml:id="TR_15767_1" lemmaRef="lexicon.xml#lemma_6171" pos="VRB" corresp="variants.xml#type_21745">getragen</w>
           <w xml:id="TR_15767_2" lemmaRef="lexicon.xml#lemma_199" pos="PRP" ana="lexicon.xml#lemma_199_sense_248" corresp="variants.xml#type_522">an</w>
           <w xml:id="TR_15767_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
-          <w xml:id="TR_15767_4">stat</w>
+          <w xml:id="TR_15767_4" lemmaRef="lexicon.xml#lemma_5712" pos="NOM" corresp="variants.xml#type_372384">stat</w>
         </l>
         <l n="15768">
           <w xml:id="TR_15768_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
