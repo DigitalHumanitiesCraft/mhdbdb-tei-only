@@ -30,6 +30,7 @@ Arbeitsregeln und die Befundliste. Das ist Urteil und keine Zaehlung.
 Drei Achsen mit genau einem Label je Achse und Ticket:
 
     auto:full | auto:brief | auto:checkin | auto:pair | auto:blocked
+              | auto:frozen
     area:data | area:frontend | area:playground | area:pipeline
               | area:docs | area:orga
     effort:small | effort:medium | effort:large
@@ -37,6 +38,18 @@ Drei Achsen mit genau einem Label je Achse und Ticket:
 Dazu die Flags `ingest` und `evergreen` sowie, nur an `auto:blocked`, ein oder
 mehrere `wait:*` (kzw, julia, linda, extern). Mehrere sind erlaubt und
 richtig: #315 wartet auf KZW *und* Julia.
+
+`auto:frozen` ist am 21.09.2026 dazugekommen und trennt zwei Zustaende, die
+vorher beide `auto:blocked` hiessen: "wartet auf eine Antwort" und "wartet
+auf einen Termin". Der Anlass ist #271, bis Juni 2027 stillgelegt nach einer
+Entscheidung von KZW vom 10.09. (Vorschlag 15:24, Jahreszahl bestaetigt
+16:41; ihr Kommentar vom 11.09. betrifft die NEIM-Konkordanz und nicht das
+Einfrieren). Weil das Schema keinen Wert dafuer hatte,
+trug der Vorgang weiter `wait:kzw` und stand taeglich in ihrer Ping-Liste,
+obwohl sie geantwortet hatte. Das war im Vorgang selbst vermerkt, statt es zu
+beheben, und wurde am 17.09. in #406 zu Recht geruegt. Ein eingefrorener
+Vorgang traegt deshalb **kein** `wait:*`: niemand schuldet etwas, und die
+Ping-Liste bleibt die Liste der Schulden.
 
 `evergreen` ist die einzige Ausnahme von der Achsenpflicht. #44 traegt kein
 `auto:*` und kein `effort:*`, weil es nicht abgearbeitet, sondern gepflegt
@@ -126,12 +139,39 @@ AUTO_STUFEN = [
     ('auto:checkin', 'semiautonom, Zwischenentscheidungen unterwegs'),
     ('auto:pair', 'nur gemeinsam mit Chris in einer Session'),
     ('auto:blocked', 'wartet auf einen Menschen, nicht auf Arbeit'),
+    ('auto:frozen', 'bewusst stillgelegt bis zu einem Termin, wartet auf '
+                    'niemanden'),
 ]
+
+# `auto:frozen` steht bewusst unter `auto:blocked` und nicht daneben: es ist
+# die einzige Stufe, bei der niemand etwas schuldet. Wer die Matrix von oben
+# nach Arbeit liest, hat hier nichts mehr zu holen.
+FROZEN = 'auto:frozen'
 AREAS = ['area:data', 'area:frontend', 'area:playground', 'area:pipeline',
          'area:docs', 'area:orga']
 EFFORTS = ['effort:small', 'effort:medium', 'effort:large']
 # Sortierschluessel innerhalb einer Stufe: der kleinste Brocken zuerst.
 EFFORT_RANG = {e: i for i, e in enumerate(EFFORTS)}
+
+# Die drei Achsen mit ihrem erlaubten Vokabular. Die Anzahl allein genuegt
+# nicht: ein Label, das dem Praefix folgt und dem Skript unbekannt ist, zaehlt
+# als "genau eins" und faellt aus jeder Zaehlung, die ueber die Konstanten
+# oben laeuft, waehrend der Tageslauf gruen bleibt.
+#
+# Was das heisst, ist je Achse verschieden, gemessen am erzeugten Block und
+# als Selbsttest festgehalten: ein fremdes `auto:` erscheint in keiner
+# Tabelle, weil die Tabellen nach Autonomiestufe gebildet werden. Ein fremdes
+# `area:` oder `effort:` bekommt dagegen seine Zeile und zeigt den Rohwert in
+# der Zelle, weil zeile() den ersten Treffer ungefiltert nimmt. Die Kopfzahl
+# zaehlt das Ticket in allen drei Faellen weiter mit.
+#
+# Der erste Fall waere beim Einfuehren von `auto:frozen` eingetreten, haette
+# jemand das Label auf GitHub vor diesem Skript angelegt.
+ACHSEN = [
+    ('auto:', 'Autonomiestufe', [n for n, _ in AUTO_STUFEN]),
+    ('area:', 'Bereich', AREAS),
+    ('effort:', 'Aufwand', EFFORTS),
+]
 
 WAIT_NAMEN = {
     'wait:kzw': 'KZW (`wachauer`)',
@@ -286,13 +326,17 @@ def pruefe(issues):
         if 'evergreen' in i['labels']:
             # Die Matrix selbst wird gepflegt, nicht abgearbeitet.
             continue
-        for praefix, name in (('auto:', 'Autonomiestufe'), ('area:', 'Bereich'),
-                              ('effort:', 'Aufwand')):
+        for praefix, name, erlaubt in ACHSEN:
             treffer = achse(i, praefix)
             if len(treffer) != 1:
                 gefunden = ', '.join(treffer) if treffer else 'keins'
                 fehler.append(f'#{nr}: {name} muss genau ein Label sein, '
                               f'gefunden: {gefunden}')
+            fremd = [t for t in treffer if t not in erlaubt]
+            if fremd:
+                fehler.append(f'#{nr}: unbekanntes {name}-Label: '
+                              f'{", ".join(fremd)}. Das Skript kennt nur '
+                              f'{", ".join(erlaubt)}')
         wartet = achse(i, 'wait:')
         blockiert = 'auto:blocked' in i['labels']
         if blockiert and not wartet:
@@ -555,6 +599,32 @@ def selftest():
     faelle.append(('Ping-Liste nennt Person und Datum',
                    'KZW (`wachauer`)' in block and '#2 (2026-08-01)' in block))
 
+    # `auto:frozen` muss beides koennen: eine eigene Tabelle bekommen, damit
+    # der Vorgang nicht stumm aus der Matrix faellt, und aus der Ping-Liste
+    # herausbleiben, weil dort Schulden stehen und kein Termin. Ohne wait:*
+    # darf es dabei keine Luecke melden: das ist die Ausnahme, die der
+    # gesamte Eintrag ausmacht.
+    frozen = iss(271, [FROZEN, 'area:data', 'effort:large'], titel='Eingefroren')
+    faelle.append(('auto:frozen ohne wait:* ist keine Luecke',
+                   pruefe([frozen]) == []))
+    kalt = baue(sauber + [frozen])
+    faelle.append(('auto:frozen bekommt eine eigene Tabelle',
+                   f'`{FROZEN}` (1)' in kalt and '#271' in kalt))
+    # Die Kopfzahl und nicht die Nennung: ein eingefrorener Vorgang traegt
+    # kein wait:*, faellt also ohnehin durch jede Zeile der Ping-Liste. Was
+    # falsch wuerde, ist ihr Zaehler darueber. Die erste Fassung dieses
+    # Falles prueft auf "#271" und war damit stumm, gemessen an einer
+    # Mutation, die `blockierte` um FROZEN erweitert: Selbsttest blieb gruen.
+    faelle.append(('auto:frozen zaehlt nicht als wartend',
+                   '1 Tickets warten auf einen Menschen' in kalt))
+    faelle.append(('auto:frozen zaehlt in der Kopfzahl mit',
+                   '**3 offene Issues**' in kalt))
+    # Gegenprobe zur vorigen Zeile: mit wait:* ist es weiterhin ein Fehler,
+    # sonst wuerde die neue Stufe die Ping-Liste zum Schweigen bringen.
+    faelle.append(('wait:* an auto:frozen faellt weiter auf', any(
+        'ohne auto:blocked' in f for f in
+        pruefe([iss(272, [FROZEN, 'area:data', 'effort:small', 'wait:kzw'])]))))
+
     # Der teuerste Fehlermodus dieser Liste: eigenes Nachfassen sieht aus
     # wie Bewegung. Gemessen werden muss das Schweigen der erwarteten
     # Person, nicht die Betriebsamkeit im Ticket.
@@ -637,6 +707,38 @@ def selftest():
     faelle.append(('Unbekanntes wait-Label faellt auf', any(
         'unbekanntes wait-Label' in f for f in
         pruefe([iss(9, ['auto:blocked', 'area:data', 'effort:small', 'wait:bob'])]))))
+
+    # Der fuenfte Fehlermodus, und der einzige, den die Anzahlpruefung allein
+    # nicht sieht: ein Label, das dem Praefix folgt und dem Skript fremd ist.
+    fremd_auto = pruefe([iss(11, ['auto:sometime', 'area:data', 'effort:small'])])
+    faelle.append(('Unbekannte Autonomiestufe faellt auf', any(
+        'unbekanntes Autonomiestufe-Label' in f for f in fremd_auto)))
+    faelle.append(('...und nicht als Anzahlfehler, denn es ist genau eines',
+                   not any('muss genau ein Label sein' in f for f in fremd_auto)))
+    faelle.append(('Unbekannter Bereich faellt auf', any(
+        'unbekanntes Bereich-Label' in f for f in
+        pruefe([iss(12, ['auto:full', 'area:datenbank', 'effort:small'])]))))
+    # Was ein fremder Wert im erzeugten Block anrichtet, ist je Achse
+    # verschieden. Der Kommentar ueber ACHSEN behauptet das, diese zwei Faelle
+    # halten ihn fest: die erste Fassung sagte "faellt aus jeder Tabelle" fuer
+    # alle drei Achsen, und das stimmt nur fuer auto:.
+    fremd_block = baue([iss(1, ['auto:full', 'area:docs', 'effort:small']),
+                        iss(11, ['auto:sometime', 'area:data', 'effort:small'])])
+    faelle.append(('Fremdes auto: erscheint in keiner Tabelle',
+                   '| #11 |' not in fremd_block
+                   and 'unbekanntes Autonomiestufe-Label' in fremd_block))
+    area_block = baue([iss(1, ['auto:full', 'area:docs', 'effort:small']),
+                       iss(12, ['auto:full', 'area:datenbank', 'effort:small'])])
+    faelle.append(('Fremdes area: bekommt seine Zeile, mit dem Rohwert',
+                   '| #12 |' in area_block and '| datenbank |' in area_block))
+
+    # Haelt AUTO_STUFEN und ACHSEN zusammen: wer eine Stufe nur an einer der
+    # beiden Stellen eintraegt, macht die eigene Matrix rot.
+    faelle.append(('Jede Stufe aus AUTO_STUFEN ist erlaubtes Vokabular',
+                   all(pruefe([iss(13, [name, 'area:data', 'effort:small']
+                                   + (['wait:kzw'] if name == 'auto:blocked'
+                                      else []))]) == []
+                       for name, _ in AUTO_STUFEN)))
 
     # Sortierung: klein vor gross, bei Gleichstand nach Nummer.
     gemischt = [iss(30, ['auto:full', 'area:docs', 'effort:large']),
