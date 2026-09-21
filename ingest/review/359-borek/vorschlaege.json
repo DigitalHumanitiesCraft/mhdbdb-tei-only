@@ -1,0 +1,411 @@
+{
+  "_lies_mich": "Die Bewertungen zu #359, von Hand geschrieben nach dem Lesen der Belegstellen in evidence.json, am 21.09.2026 gegen Authority-Index 1.9.7 und Korpus-Index 4.2.17. Jede Begründung nennt die Belege, auf denen sie steht; ein Eintrag ohne `tragende_belege` ist ein Eintrag ohne Vorschlag. Der Schlüssel ist `form|lemma_id`, weil dieselbe Form zwei Lemmata treffen kann und dasselbe Lemma von zwei Formen getroffen werden kann.",
+  "_bewertungen": {
+    "aufloesungsartefakt": "Boreks Form hat ein anderes Wort getroffen als gemeint. Keine Klassifikationslücke und keine Korpusarbeit.",
+    "annotation_korrekt": "Die Korpusannotation ist richtig; Boreks Form ist ein zufälliger Gleichklang.",
+    "annotation_falsch": "Die Korpusannotation ist an mindestens einem Beleg falsch. Korpusarbeit.",
+    "konzept_fehlt": "Lemma und Annotation sind richtig, aber die Belege zeigen einen Gebrauch, den die Konzepte nicht abdecken.",
+    "kein_korpusbeleg": "Das Lemma steht im Lexikon und trägt im Korpus kein einziges Token. Ohne Beleg kein Vorschlag.",
+    "unsicher": "Nach dem Lesen der Belege nicht entschieden. Geht ohne Vorschlag an KZW."
+  },
+  "faelle": {
+
+    "gorre|lemma_20760": {
+      "bewertung": "aufloesungsartefakt",
+      "kurz": "Das Königreich Gorre aus dem Prosa-Lancelot, nicht die Gurre.",
+      "begruendung": "Alle 38 Belege stehen im Prosa-Lancelot und tragen @pos=\"NAM\". Sie lesen durchgehend `bandemagus von gorre`, `das lant von gorre`, `das konigrich von gorre`. Das ist das arthurische Königreich, nicht das schlechte Pferd. Für Boreks Wort wäre ein anderes Lemma zuständig.",
+      "tragende_belege": ["PL1_126523_5", "PL1_160130_10", "PL1_162702_6"],
+      "vorschlag": null
+    },
+
+    "rosse|lemma_20697": {
+      "bewertung": "aufloesungsartefakt",
+      "kurz": "Ein Ortsname ohne Korpusbeleg; das Pferd steht unter lemma_4973.",
+      "begruendung": "lemma_20697 `Rosse` trägt @pos=\"NAM\" mit den Konzepten Politische Einheiten/Namen und Stadt/Namen und im Korpus null Tokens. Boreks `rosse` ist der Plural von `ros`, und das Lemma dafür ist lemma_4973 `ros`, das Säugetiere, Haustiere/Nutztiere und Pferd/Reiten bereits führt.",
+      "tragende_belege": [],
+      "vorschlag": null
+    },
+
+    "roz|lemma_18443": {
+      "bewertung": "aufloesungsartefakt",
+      "kurz": "Ein Adjektiv über Kristalle.",
+      "begruendung": "Der einzige Beleg lautet `kleiner unde grozer cristallen geliche den hueten, gleifer unde rozer` (Jüngerer Titurel). Ein Adjektiv der Oberflächenbeschaffenheit, kein Pferdewort.",
+      "tragende_belege": ["JT_4092000_2"],
+      "vorschlag": null
+    },
+
+    "roz|lemma_52489": {
+      "bewertung": "kein_korpusbeleg",
+      "kurz": "Null Tokens im Korpus, und das Tierkonzept steht bereits da.",
+      "begruendung": "lemma_52489 `roz` trägt im Korpus kein Token. Es führt bereits concept_14090000 (Tierkrankheiten/Unregelmäßigkeiten bei Tieren), also genau die tierbezogene Seite, um die es ginge.",
+      "tragende_belege": [],
+      "vorschlag": null
+    },
+
+    "stûde|lemma_5834": {
+      "bewertung": "aufloesungsartefakt",
+      "kurz": "Der Busch. 66 von 66 Belegen.",
+      "begruendung": "Sämtliche 66 Belege tragen @pos=\"NOM\" und stehen in Pflanzenkontexten: `holz und stûdach darin`, `swaz brâmen und stûden dran stuont`, `der stûden wurzel`. Die fünf Belege mit einem Pferdewort im Fenster sind Zufallsnachbarschaften, der Busch bleibt ein Busch. Boreks Wort ist `stuot`, und das löst laut Report eigenständig auf.",
+      "tragende_belege": ["AXR_1082900_3", "BAR_4635_2", "AK_49074_2"],
+      "vorschlag": null
+    },
+
+    "genge|lemma_2125": {
+      "bewertung": "konzept_fehlt",
+      "kurz": "Drei Belege beschreiben ein Pferd oder einen Zelter; kein Bewegungs- und kein Pferdekonzept vorhanden.",
+      "begruendung": "`izn wart nie ros so genge, wil man iz zu allen ziten ungezoumet riten` (Der Stricker, Ehemanns Rat), `wâ nû ros? ich wil rîten! ... ein zelter schoene und genge hiez der künic ziehen dar` (Konrad Fleck, Flore und Blanscheflur) und `ûf eime rosse genge` (Wolfdietrich-Sage). Drei von 57 Belegen charakterisieren damit ein Reittier. Die übrigen 54 sind das bekannte `gengez maere` und der Rechtstext (`oven unde genge` im Deutschenspiegel). Das Lemma führt heute Wille, Beweggrund, Vorbereitung, Gesellschaftliches Leben und Eigenschaften/Zustände, aber weder Bewegung noch Pferd/Reiten.",
+      "tragende_belege": ["EHR_1171720_5", "FLO_2736_4", "WDD_36220_3"],
+      "vorschlag": {
+        "konzepte": ["concept_23220000", "concept_31800000"],
+        "text": "concept_23220000 (Pferd/Reiten) und concept_31800000 (Bewegung) ergänzen, ohne die bestehenden zu ändern.",
+        "unsicherheit": "Drei von 57 Belegen sind eine schmale Grundlage für ein Lemma, dessen Hauptgebrauch woanders liegt. Denkbar ist auch, dass nur ein einzelner Sense das Pferdekonzept bekommt."
+      }
+    },
+
+    "gât|lemma_64730": {
+      "bewertung": "kein_korpusbeleg",
+      "kurz": "Null Tokens im Korpus.",
+      "begruendung": "lemma_64730 `gat` (Loch, Bodenbeschaffenheit, Formen) trägt im Korpus kein Token. Boreks `gât` ist die 3. Person von `gân`. Ohne Beleg gibt es nichts zu beurteilen.",
+      "tragende_belege": [],
+      "vorschlag": null
+    },
+
+    "hanc|lemma_2636": {
+      "bewertung": "kein_korpusbeleg",
+      "kurz": "Null Tokens im Korpus.",
+      "begruendung": "lemma_2636 `hanc` führt allein concept_12010000 (Geografische Erscheinungen/Landschaft), also den Abhang, und trägt im Korpus kein Token.",
+      "tragende_belege": [],
+      "vorschlag": null
+    },
+
+    "jagen|lemma_3102": {
+      "bewertung": "unsicher",
+      "kurz": "1.406 Tokens, bereits mit Jagd und Kriegswesen klassifiziert. Keine Entscheidung von mir.",
+      "begruendung": "Das Lemma trägt schon concept_23302000 (Jagd/Fischerei), concept_23240000 (Kriegswesen/Kampf/Gewalt) und concept_21072000. Borek führt `jagen` mit einem Stern, also nur in bestimmten Verwendungen einschlägig. Von 250 gesammelten Belegen tragen 17 ein Pferdewort im Kontextfenster, und unter den zehn gelesenen stehen zwei im Reitkontext: `die huoben sich zen rossen ... nâch in jagte alphart under einem banier` (AT) und `do er im jagende nach reit` (AMI). Ob daraus ein eigenes Reitkonzept folgt oder ob die Jagd-Zuordnung genügt, ist eine Entscheidung über das Begriffssystem und nicht über diese Belege.",
+      "tragende_belege": ["AT_1704_2", "AMI_654_3"],
+      "vorschlag": null,
+      "stichprobe": "250 von 1.406 Belegen gesammelt, davon 10 gelesen. Die Aussage über die 17 Pferdewörter gilt für die 250 gesammelten, nicht für die 1.406."
+    },
+
+    "schie|lemma_40871": {
+      "bewertung": "kein_korpusbeleg",
+      "kurz": "Null Tokens im Korpus.",
+      "begruendung": "lemma_40871 `schîe` führt Handarbeit/Werkzeuge und Holzverarbeitung und trägt im Korpus kein Token.",
+      "tragende_belege": [],
+      "vorschlag": null
+    },
+
+    "schiuhe|lemma_12677": {
+      "bewertung": "unsicher",
+      "kurz": "Ein einziger Pferdebeleg unter neun. Zu dünn für einen Vorschlag.",
+      "begruendung": "`daz ors ein wênic schiuhe was, dâ von ez hinder sich entweich` (Konrad von Würzburg, Der Trojanische Krieg) ist der einzige der neun Belege, der die Scheu einem Pferd zuschreibt. Die übrigen acht sind abstrakt (`der hete des dhein schiuhe niht`, `noch ze strîte schiuhe`). Das Lemma ist ein Eigenschaftswort und keine Gangart; Borek führt vermutlich das Verb `schiuhen` (lemma_5271). Ob ein abstraktes Substantiv ein Tierkonzept bekommen soll, weil es einmal von einem Pferd ausgesagt wird, entscheide ich nicht.",
+      "tragende_belege": ["TRO_4050_4"],
+      "vorschlag": null
+    },
+
+    "schreit|lemma_32548": {
+      "bewertung": "aufloesungsartefakt",
+      "kurz": "Ein Adjektiv, ein einziger Beleg, keine Gangart.",
+      "begruendung": "Der einzige Beleg lautet `bei rein so vein, dein steig geit braite schraitte tugent gross` (Oswald von Wolkenstein) und trägt @pos=\"ADJ\". Boreks `schreit` meint den Schritt als Gangart; dafür wäre ein Substantiv- oder Verblemma zuständig.",
+      "tragende_belege": ["OVW_1086010030_2"],
+      "vorschlag": null
+    },
+
+    "staben|lemma_5711": {
+      "bewertung": "aufloesungsartefakt",
+      "kurz": "Den Eid staben und der Stab. Keine Gangart.",
+      "begruendung": "Alle 39 Belege tragen @pos=\"VRB\" und gehören zu zwei Gebrauchsweisen: `des wil ich einen eyt staben`, `ob dû mir tûsent eide stabest` (den Eid vorsprechen) und `beide mit stecken und mit staben`, `die buoch staben` (der Stab, der Buchstabe). Kein Beleg beschreibt eine Bewegung.",
+      "tragende_belege": ["CRO_2279400_5", "GRG_18570_5", "ENG_2920_5"],
+      "vorschlag": null
+    },
+
+    "stüefe|lemma_21965": {
+      "bewertung": "konzept_fehlt",
+      "kurz": "Sieben von 14 Belegen beschreiben ein Pferd. Aber es ist keine Gangart.",
+      "begruendung": "`ûf sînem stiufen rosse grôz`, `ûf eime stiufen orse grôz`, `diu stiufen ors vil ûz erkorn`, `mit sînem stiufen rosse frech` (Konrad von Würzburg, Der Trojanische Krieg, viermal), `unde ir stüefen ors aldâ` (Konrad von Würzburg, Partonopier und Meliur), `ein kreftic ors stüef unde hôch` und `stüefe starc unmâzen hôch wart ein ros im dar gezogen` (Reinfried von Braunschweig). Sieben der 14 Belege charakterisieren ein Reittier, die übrigen sieben einen Krieger (`manegen stüefen degen`). Das Lemma führt heute ausschließlich abstrakte Konzepte (Wille, Beweggrund, Fähigkeiten, Moralische Eigenschaften, Eigenschaften/Zustände) und nichts Körperliches. **Gegen Borek:** die Belege zeigen keine Gangart, sondern eine Eigenschaft des Körperbaus, durchweg neben `grôz` und `hôch`.",
+      "tragende_belege": ["TRO_25579_2", "TRO_36063_2", "PRT_19549_2", "RVBR_960_3", "RVBR_17132_0"],
+      "vorschlag": {
+        "konzepte": ["concept_23220000"],
+        "text": "concept_23220000 (Pferd/Reiten) ergänzen. Kein Bewegungskonzept, weil kein Beleg eine Bewegung beschreibt.",
+        "unsicherheit": "Das Wort wird ebenso oft von Menschen gesagt. Denkbar ist, dass die Zuordnung an einen einzelnen Sense gehört und nicht an das Lemma."
+      }
+    },
+
+    "tokzelen|lemma_6136": {
+      "bewertung": "konzept_fehlt",
+      "kurz": "Eine Art der Fortbewegung, im Lanzelet an einem Reitpferd. Einziges Konzept heute: Selbstbezogene Aktivität.",
+      "begruendung": "`ergurret mager noch ze cranc. ûz dem wege ez selten dranc, wan ez niht tokzelende truoc. ez enbeiz noch ensluoc und liez ûf sich wol sitzen` (Lanzelet). Das Wort `Pferd` steht nicht da, aber nicht gegurrt, nicht mager, beißt nicht, schlägt nicht, trägt und lässt sich besitzen: das ist ein Reitpferd und nichts anderes. Der zweite Beleg bestätigt die Bewegungsart von außen: `der strit begunde tokzen, als uf dem wage tuot diu gans` (Willehalm), also ein wiegendes Auf und Ab.",
+      "tragende_belege": ["LZ_1457_3", "WH_39814_3"],
+      "vorschlag": {
+        "konzepte": ["concept_31800000", "concept_23220000"],
+        "text": "concept_31800000 (Bewegung) als Hauptzuordnung, concept_23220000 (Pferd/Reiten) für den Lanzelet-Gebrauch.",
+        "unsicherheit": "Zwei Belege insgesamt. Der Willehalm-Beleg spricht von einem Kampf und nicht von einem Tier; ob beide Stellen denselben Sense meinen, ist an zwei Belegen nicht zu entscheiden."
+      }
+    },
+
+    "brüsten|lemma_15400": {
+      "bewertung": "aufloesungsartefakt",
+      "kurz": "Das reflexive Verb `brüsten`. Der Körperteil ist lemma_909 und trägt das Tierkonzept bereits.",
+      "begruendung": "Alle sieben Belege tragen @pos=\"VRB\": `ir hoher muot sich bruestet`, `hie ist an narren kein gebrust`, `alsam ein löuwe ist er gebrust`. Der Körperteil steht unter lemma_909 `brust` (NOM), und dieses Lemma führt in einem seiner Senses bereits concept_14011100 (Körper/Gliedmaßen von Säugetieren) und concept_14021100 (von Vögeln). **KZWs Bedingung ist hier gegenstandslos, weil die Zuordnung schon besteht.**",
+      "tragende_belege": ["WVO_1270000_4", "TRO_29562_5", "ENG_2856_4"],
+      "vorschlag": null
+    },
+
+    "gebeine|lemma_1958": {
+      "bewertung": "konzept_fehlt",
+      "kurz": "Der einzige echte Körperteilfall, und der tierische Gebrauch ist belegt.",
+      "begruendung": "lemma_1958 `gebeine` (NOM) führt in beiden Senses nur concept_21030000 (Körper/Gliedmaßen von Menschen). Der tierische Gebrauch steht im Korpus: `gar des orses gebeine und hiez daz bewinden mit sîdînen tuochen linden` (Alexander, die Gebeine des Pferdes) und `des lewen gebeine ist âne marc` (Hugo von Trimberg). Damit ist KZWs Bedingung vom 16.09. erfüllt: ein Text unseres Korpus belegt diese Verwendung.",
+      "tragende_belege": ["AXU_23544_3", "HTR_193190_2"],
+      "vorschlag": {
+        "konzepte": ["concept_14011100"],
+        "text": "concept_14011100 (Körper/Gliedmaßen von Säugetieren) ergänzen. Die Disambiguierung der einzelnen Tokens ist eigene Korpusarbeit und nicht Teil dieser Seite.",
+        "unsicherheit": "Wie viele der 207 Belege tierisch sind, ist nicht gemessen. Gelesen wurden neun, nämlich die mit einem Pferdewort im Kontextfenster; zwei davon sind tierisch. Die Aussage lautet „kommt vor“, nicht „kommt so oft vor“."
+      }
+    },
+
+    "lenden|lemma_3702": {
+      "bewertung": "aufloesungsartefakt",
+      "kurz": "Das Verb `landen`. Der Körperteil ist lemma_3701 und trägt beide Konzepte bereits.",
+      "begruendung": "44 der 45 Belege tragen @pos=\"VRB\", und die gelesenen meinen anlanden oder enden: `dô gelante turnûs vor eine borch`, `ir schif haet gelendet`, `sîn dreun ist nû gelendet`. Der Körperteil steht unter lemma_3701 `lende` (NOM) und führt bereits concept_14011100 **und** concept_21030000. **Auch hier ist KZWs Bedingung gegenstandslos, weil die Zuordnung schon besteht.**",
+      "tragende_belege": ["ENE_77370_1", "MR2_31042220092100_3", "PZ_30728_4"],
+      "vorschlag": null,
+      "nebenbefund": "Sieben der 44 Belege mit @pos=\"VRB\" sind keine Verben, sondern der Körperteil, alle in der Wenzelsbibel; höchstens 38 meinen also wirklich das Verb: `kvnige werden komen ous deinen lenden`, `Ew̆er lenden sult ir gurten`, `die czwei nirlein ... bei den lenden`. Sie tragen trotzdem @pos=\"VRB\" und lemma_3702. Das ist eine Fehlannotation in tei/ und gehört in ein eigenes Ticket, nicht in diese Seite."
+    },
+
+    "oren|lemma_30381": {
+      "bewertung": "aufloesungsartefakt",
+      "kurz": "Das Fabelvolk der Ôren im Herzog Ernst. Das Ohr ist lemma_4447 und trägt das Tierkonzept bereits.",
+      "begruendung": "Alle drei Belege stehen im Herzog Ernst, tragen @pos=\"NAM\" und stehen in Aufzählungen der Wundervölker: `die ôren in den zîten`, `vil oren und manigen plathuof`, `plathüeve prechamî und oren`. Das Ohr steht unter lemma_4447 `ôr` (NOM) und führt bereits concept_14011100, concept_21030000 und concept_21062000 (Gehörsinn).",
+      "tragende_belege": ["ERB_4853_1", "ERB_5325_1", "ERB_5422_3"],
+      "vorschlag": null
+    },
+
+    "ôren|lemma_30381": {
+      "bewertung": "aufloesungsartefakt",
+      "kurz": "Dieselben drei Belege wie `oren`: zwei Zeilen des Reports auf einem Lemma.",
+      "begruendung": "`oren` und `ôren` sind zwei Zeilen im Abgleichsbericht, treffen aber dasselbe lemma_30381 mit denselben drei Tokens. Wer die Zeilen summiert, zählt diese drei doppelt. Zur Sache siehe die Karte zu `oren`.",
+      "tragende_belege": ["ERB_4853_1"],
+      "vorschlag": null
+    },
+
+    "celder|lemma_28290": {
+      "bewertung": "unsicher",
+      "kurz": "Sieht nach einem Zelter aus, aber ein Beleg mit seltsamem @pos entscheidet das nicht.",
+      "begruendung": "`die dar quamen mit herescrefte. do heiz der listige man die celder also lossam der kuninginne dar cehen vnde uorte sie zo den kielen` (König Rother). Das getroffene lemma_28290 `zalder` führt Konzepte des Zählens, Ordnens und der Literatur und passt syntaktisch schlecht auf ein Objekt, das man der Königin zeigt und danach zu den Schiffen führt; `zelter` (das Passgangpferd) passt dort gut. Dagegen steht, dass das Token @pos=\"PRO VRB\" trägt, also gar nicht als Substantiv annotiert ist. Ein einziger Beleg mit widersprüchlicher Annotation trägt keine Entscheidung.",
+      "tragende_belege": ["ROT_28700_1"],
+      "vorschlag": null
+    },
+
+    "hors|lemma_2590": {
+      "bewertung": "annotation_korrekt",
+      "kurz": "Ein Ball aus Haar für Kinder. `hâr` ist richtig.",
+      "begruendung": "`bambast, seil unde filtz; so macht man zaumgetiltz, den kinden hors zuo eim balle: der nach so lauffen alle beide wider unde fuer` (König vom Odenwald). Baumwolle, Seil und Filz, daraus ein Ball: Haar gehört in diese Reihe. Boreks `hors` ist ein zufälliger Gleichklang.",
+      "tragende_belege": ["KVO_116900_2"],
+      "vorschlag": null
+    },
+
+    "merch|lemma_4091": {
+      "bewertung": "annotation_korrekt",
+      "kurz": "Imperativ und 1. Person von `merken`.",
+      "begruendung": "`daz merch an gotegrein`, `ich merch, ir seicz ze hof bekant`, `merch, die nemn ich dir so schier`. Sechs der sieben Belege sind unzweideutig `merken`. Boreks `merch` meint die Mähre; laut Abgleichsbericht fehlt `merhe` in unserem Lexikon wirklich, weshalb hier nichts zu korrigieren, sondern gegebenenfalls ein Lemma anzulegen wäre.",
+      "tragende_belege": ["CRO_1124900_1", "WRB_30311000_1"],
+      "vorschlag": null
+    },
+
+    "perd|lemma_43808": {
+      "bewertung": "annotation_korrekt",
+      "kurz": "`bærde`, das Gebaren. Alle drei Belege.",
+      "begruendung": "`mitt schöner perd ir wort`, `von perd und wandel was er wol gestalt`, `paide ir sitt und ouch ir perd`. Durchgehend das Auftreten eines Menschen, nie ein Tier.",
+      "tragende_belege": ["LZT_5620_2", "LZT_67440_1", "MR1_130371000500_6"],
+      "vorschlag": null
+    },
+
+    "pert|lemma_542": {
+      "bewertung": "annotation_korrekt",
+      "kurz": "`bern`, schlagen. Alle drei Belege.",
+      "begruendung": "`so pert er euch die lende` (zweimal in der Neidhart-Lyrik, NEI und NEIC) und `ein ruetin in dy ert, do mit man dy esil pert`. Mit der Rute schlagen, nicht das Pferd.",
+      "tragende_belege": ["NEI_3007060_1", "TKR_1230060250_5"],
+      "vorschlag": null
+    },
+
+    "rassen|lemma_33621": {
+      "bewertung": "annotation_korrekt",
+      "kurz": "Die Raszen, ein Volksname.",
+      "begruendung": "`der krichen bulgaros rassen vnd boswen`: Griechen, Bulgaren, Raszen und Bosnier. Eine Völkerreihe, @pos=\"NAM\", richtig annotiert.",
+      "tragende_belege": ["PUC_741471100_0"],
+      "vorschlag": null
+    },
+
+    "roes|lemma_4951": {
+      "bewertung": "annotation_korrekt",
+      "kurz": "Die Blume.",
+      "begruendung": "`dor auß schain ir värbe röt als ain rös ünd fiöl tüt`. Rose und Veilchen als Farbvergleich.",
+      "tragende_belege": ["AXW_605800_2"],
+      "vorschlag": null
+    },
+
+    "roßen|lemma_4951": {
+      "bewertung": "annotation_korrekt",
+      "kurz": "Die Blume.",
+      "begruendung": "`vnd sein roßen farbes plut`: rosenfarbenes Blut. Dasselbe Lemma wie bei `roes` und `röslîn`, drei Zeilen des Reports auf einem Lemma.",
+      "tragende_belege": ["MSG_21610030_2"],
+      "vorschlag": null
+    },
+
+    "röslîn|lemma_4951": {
+      "bewertung": "annotation_korrekt",
+      "kurz": "Die Blume, als Verkleinerung.",
+      "begruendung": "`daz brint recht alz ein roeslin tuet in einem kuelen tauwe`: ein Röslein im kühlen Tau.",
+      "tragende_belege": ["DJUM_216206_5"],
+      "vorschlag": null
+    },
+
+    "rus|lemma_42904": {
+      "bewertung": "annotation_korrekt",
+      "kurz": "Französisch `rous`, rot, als Beiname.",
+      "begruendung": "`jr einr, belianz li rus, an gawein rande`. Ein französischer Beiname, und das Lemma führt genau das: Französisch und Farben.",
+      "tragende_belege": ["CRO_642800_5"],
+      "vorschlag": null
+    },
+
+    "röss|lemma_18728": {
+      "bewertung": "annotation_falsch",
+      "kurz": "Vier der fünf Belege meinen die Berittenen, alle vier aus Wittenwilers Ring. Das ist das Ross.",
+      "begruendung": "`yedem man ze röss und zfuoss`, `etleich ze fuoss, die andern ze röss`, `ze röss und ze füssen alle gar`, `so chament die ze röss aldo` (alle vier in Heinrich Wittenwilers Ring). Die Formel `ze rosse und ze fuoze` ist stehend und meint das Reittier. Annotiert sind sie als `resch` (schnell, knusprig). Der fünfte Beleg `so ist es röss gesotten` (Kochrezepte der Konstanzer Handschrift) ist richtig `resch`.",
+      "zitate_frei": ["ze rosse und ze fuoze"],
+      "tragende_belege": ["WRB_41240000_3", "WRB_48139000_7", "WRB_54233000_1", "WRB_54240000_4"],
+      "vorschlag": {
+        "konzepte": [],
+        "text": "Die vier WRB-Tokens auf das Ross-Lemma umhängen. Der KSA1-Beleg bleibt bei `resch`.",
+        "unsicherheit": "Welches Ross-Lemma genau, ist eine Frage an die Annotation und nicht an diese Seite."
+      }
+    },
+
+    "stût|lemma_5710": {
+      "bewertung": "annotation_korrekt",
+      "kurz": "Präteritum von `stân`.",
+      "begruendung": "`blanscandiz dare uure stut` (trat hervor) und `er kust in da ze stut` (auf der Stelle). Beide im Rolandslied, beide @pos=\"VRB\". Boreks `stût` meint die Stute; dafür ist `stuot` zuständig, das laut Bericht eigenständig auflöst.",
+      "tragende_belege": ["ROL_709_3", "ROL_2570_5"],
+      "vorschlag": null
+    },
+
+    "vül|lemma_24577": {
+      "bewertung": "annotation_korrekt",
+      "kurz": "`vüllen`, füllen.",
+      "begruendung": "`swaz daz kosten danne sül, wirt, so vül si, daz siu vollen hân!`: der Wirt soll so füllen, dass sie genug haben. Boreks `vül` meint das Fohlen.",
+      "tragende_belege": ["SJH_2003060_3"],
+      "vorschlag": null
+    },
+
+    "vüle|lemma_6356": {
+      "bewertung": "unsicher",
+      "kurz": "Kein Fohlen, aber die Annotation selbst wirft eine andere Frage auf.",
+      "begruendung": "Kein Beleg meint ein Fohlen, insofern ist Boreks Verdacht hier erledigt. Zwei der drei Belege sehen aber nicht nach `übel` aus, sondern nach `vüelen`: `went ir das ich sin nit wol vuele` (Mechthild) und `so ich dich nit vuele, o minne`. Der dritte, `is komit dicke vuele` (Wernher von Elmendorf), passt zu `übel`. Das ist eine Annotationsfrage außerhalb von #359 und wird hier nur genannt.",
+      "tragende_belege": ["FLG_1141140_3", "FLG1_5189300050_9", "WVE_732_3"],
+      "vorschlag": null
+    },
+
+    "gengen|lemma_2125": {
+      "bewertung": "annotation_korrekt",
+      "kurz": "`gängig`, üblich. Das Lemma selbst steht auf der Klassifikationskarte zu `genge`.",
+      "begruendung": "`die gengen gâbe emphâhen`, `die rihte gengen der sunne`, `mit iren kromen gengen die sie tund`. Vier Belege, keiner von einem Pferd. Dasselbe lemma_2125 trägt allerdings drei Pferdebelege unter der Schreibung `genge`; die Frage nach dem Konzept steht deshalb dort und nicht hier.",
+      "tragende_belege": ["KK_176_1", "MNA_298414_4", "NEI_12210030_3"],
+      "vorschlag": null
+    },
+
+    "gestracte|lemma_5824": {
+      "bewertung": "annotation_korrekt",
+      "kurz": "Ein geknüpftes Gebende, kein gestreckter Galopp.",
+      "begruendung": "`unt nôt unz an mîn ende an ditz gestracte gebende bin ich von schulden gevallen`. Ein `gebende` ist die Kopfbinde, und `stricken` (knüpfen) passt dazu. Boreks `gestracte` meint die gestreckte Gangart.",
+      "tragende_belege": ["CR_1770_2"],
+      "vorschlag": null
+    },
+
+    "hossen|lemma_2909": {
+      "bewertung": "annotation_falsch",
+      "kurz": "Ein Beleg steht in einer Reihe mit `draben` und ist annotiert als Beinkleid.",
+      "begruendung": "`zwen hurtecliche stozze verhangten si den rossen, ane draben, hossen si ain ander trafen` (Wilhelm von Österreich). Die Pferde bekommen die Zügel, dann `ane draben, hossen`: eine Gangart neben der anderen. Annotiert ist lemma_2909 `hose`. Die drei anderen Belege (`zwo hossen ... die waren lutter stechelin`, `die yssen hossen`, `sine hossen warend wandels bloss`, alle Göttweiger Trojanerkrieg) sind eiserne Beinkleider und richtig.",
+      "tragende_belege": ["WVO_821000_3"],
+      "vorschlag": {
+        "konzepte": [],
+        "text": "Das eine WVO-Token als Gangartwort neu annotieren. Die drei GWTK-Tokens bleiben unberührt.",
+        "unsicherheit": "Auf welches Lemma, sagt dieser Beleg nicht. Die Stelle ist die einzige ihrer Art im Korpus."
+      }
+    },
+
+    "hürten|lemma_2903": {
+      "bewertung": "annotation_falsch",
+      "kurz": "Vier Belege sind `hurten`, der Reiterangriff, annotiert als `horden`, das Anhäufen.",
+      "begruendung": "`die werden und die frischen zein ander liezen hürten` (Engelhard), `von starken hürten grôzen wart manic man geletzet` (Reinfried), `mit herten starken hürten grôz` und `der mit den hürten ûf der vart ze beider sît zerslagen wart` (Konrad von Würzburg, Der Trojanische Krieg). Das ist die `hurt`, der Anritt im Kampf; das Grundwort löst laut Abgleichsbericht eigenständig auf. Zwei weitere Belege meinen wirklich das Anhäufen: `sinne hürten kunde` (Die Klage) und `man mac gebende mêr hürten dâ danne samnende anderswâ` (Thomasin von Zirclaere, Der Welsche Gast).",
+      "tragende_belege": ["ENG_2797_3", "RVBR_7348_2", "TRO_43543_3", "TRO_43545_3"],
+      "vorschlag": {
+        "konzepte": [],
+        "text": "Die vier Kampfbelege auf das `hurt`-Lemma umhängen, die zwei Belege zum Anhäufen bei lemma_2903 belassen.",
+        "unsicherheit": "Der siebte Beleg (WUT_3909_1) ist nicht gelesen worden. Gesammelt sind alle sieben, gelesen sechs."
+      }
+    },
+
+    "irhancte|lemma_1573": {
+      "bewertung": "konzept_fehlt",
+      "kurz": "Die Annotation ist richtig, aber der Reitsinn steht in keinem Konzept.",
+      "begruendung": "`constantin do rande alsime daz mark irhancte` (König Rother): Constantin ritt, soweit ihm das Streitross freien Lauf ließ. `erhengen` heißt hier, dem Pferd die Zügel zu lassen, und `marc` daneben macht den Reitkontext eindeutig. Das Lemma führt Erlaubnis/Verbot, Gewalt/Strafe, Rechtswesen und Tod, also die Bedeutung `hängen` und `zulassen`, aber nichts Reiterliches.",
+      "tragende_belege": ["ROT_27720_3"],
+      "vorschlag": {
+        "konzepte": ["concept_23220000"],
+        "text": "concept_23220000 (Pferd/Reiten) für den Reitsinn ergänzen, ohne die bestehenden Konzepte anzutasten.",
+        "unsicherheit": "Ein einziger Beleg im ganzen Korpus. Ob eine Wendung mit einem Vorkommen ein eigenes Konzept trägt, ist eine Grundsatzfrage."
+      }
+    },
+
+    "jaget|lemma_3103": {
+      "bewertung": "unsicher",
+      "kurz": "Verbformen an einem Substantivlemma. Zu groß für diese Seite und kein Pferdethema.",
+      "begruendung": "lemma_3103 `jagât` ist die Jagd als Substantiv und trägt @pos=\"NOM\". Vier der sechs gelesenen Belege sind aber Verbformen: `dô jaget alexander nâch`, `dô jaget er die widervart`, `der jaget ûf der vart hin nâch`, `ob in darumbe zwîvel jaget`. Nur `dar zô ne frumet nehein jaget` ist wirklich das Substantiv. Das betrifft 122 Tokens in 52 Texten und ist eine Disambiguierungsaufgabe, keine Klassifikationsfrage zu Boreks Listen.",
+      "tragende_belege": ["AXR_752200_1", "AXS_5585000_5"],
+      "vorschlag": null,
+      "stichprobe": "Sechs von 122 Belegen gelesen. Die Aussage „vier von sechs“ gilt für die sechs."
+    },
+
+    "schuf|lemma_5153": {
+      "bewertung": "annotation_korrekt",
+      "kurz": "`schaffen`, Präteritum.",
+      "begruendung": "`got schuf den menschen umbe daz`, `iedoch schûf er die warde`, `daz schuf sin herlichez leben`. Sechs gelesene Belege, alle `schaffen`.",
+      "tragende_belege": ["BES_122100650_1", "ENE_1160_1"],
+      "vorschlag": null,
+      "stichprobe": "Sechs von 45 Belegen gelesen."
+    },
+
+    "schuffe|lemma_5153": {
+      "bewertung": "annotation_korrekt",
+      "kurz": "`schaffen`, Konjunktiv.",
+      "begruendung": "`er schuffe, daz din kuscher lyp gar unvermeilet stat`, `noch schuffe keynem fryd`, `das schuffe die zauber wurtze`. Alle fünf Belege gelesen, alle `schaffen`.",
+      "tragende_belege": ["MRS_1062316_1", "SAL_123040_1"],
+      "vorschlag": null
+    },
+
+    "stiufen|lemma_21965": {
+      "bewertung": "annotation_korrekt",
+      "kurz": "Die Annotation stimmt; das Konzept fehlt, und die Frage steht auf der Karte zu `stüefe`.",
+      "begruendung": "Alle vier Belege stehen in Konrads von Würzburg Trojanischem Krieg und beschreiben ein Pferd: `ûf sînem stiufen rosse grôz`, `ûf eime stiufen orse grôz`, `diu stiufen ors vil ûz erkorn`, `mit sînem stiufen rosse frech`. `stiufen` ist eine Schreibvariante von `stüefe`, die Zuordnung zu lemma_21965 ist richtig. Dass dem Lemma ein Pferdekonzept fehlt, ist derselbe Befund wie auf der Klassifikationskarte und wird dort entschieden.",
+      "tragende_belege": ["TRO_25579_2", "TRO_36063_2", "TRO_39193_1", "TRO_39961_2"],
+      "vorschlag": null
+    },
+
+    "trabe|lemma_6163": {
+      "bewertung": "annotation_korrekt",
+      "kurz": "Ein Flussname, kein Trab.",
+      "begruendung": "`ich hân gemerket von der seine unz an die muore, von dem pfâde unz an die trabe erkenne ich ir aller fuore` (Walther von der Vogelweide). Eine Reihe von Flüssen, und das Lemma führt genau das: Binnengewässer/Namen. @pos=\"NAM\".",
+      "tragende_belege": ["WVV_1112010200_6"],
+      "vorschlag": null
+    },
+
+    "trafen|lemma_6181": {
+      "bewertung": "annotation_korrekt",
+      "kurz": "`treffen`, nicht `traben`.",
+      "begruendung": "`waz sie trâfen, daz was verlorn`, `sie zerschrieten swaz sie trâfen`, `daz si mit den wâfen dicke ein ander trâfen`, `nû trâfen si vil rehte`. Durchgehend das Treffen im Kampf.",
+      "tragende_belege": ["AXU_23258_2", "ENG_4896_3", "ER_691500_1"],
+      "vorschlag": null,
+      "stichprobe": "Fünf von 35 Belegen gelesen."
+    }
+  }
+}

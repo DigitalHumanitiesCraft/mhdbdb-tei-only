@@ -81,6 +81,9 @@ scripts/
 │   ├── extract-variants.py      # Korpus → variants.xml regenerieren (#44/#115)
 │   └── sync_tei_headers.py      # Authority Files → TEI-Header
 │
+├── review/                      # Kuratorische Prüfseiten, eine HTML-Datei zum Verschicken (#443)
+│                                # Dateien siehe review/README.md
+│
 └── _archived/                   # Referenz, nicht ausführen
     ├── tei-transformation.py    # Original RDF/MySQL→TEI-Migration
     ├── add-xml-model-pi.py      # xml-model-PI nachrüsten (#32 Stage 1)
@@ -90,6 +93,16 @@ scripts/
     ├── convert-l-to-lb-143.py   # <l> → <lb/> in drei Prosatexten (#143, geschlossen)
     └── wzb/                     # WZB-Sackgassen, siehe wzb/README.md
 ```
+
+**In `ingest/` und `review/` stehen die einzelnen Skripte absichtlich nicht.**
+`check-doc-inventories.py` bindet vier Pfade (`scripts`, `audit`, `sync`,
+`_archived`) und vergleicht jeden `.py`-Namen aus diesem Baum gegen das
+Dateisystem. Ein Name aus einem Ordner, den es nicht scannt, gilt ihm als
+„genannt, aber nicht vorhanden“, und das Gate wird rot. Gemessen am 21.09.2026
+in beide Richtungen: der Eintrag der drei `review/`-Skripte kippte es, ihr
+Weglassen nicht. Wer die Namen hier haben will, nimmt vorher das Verzeichnis in
+die Pfadliste des Gates auf. Bis dahin steht die Auskunft in `README.md` des
+jeweiligen Ordners.
 
 Ein issue-gebundenes Einmal-Skript wandert nach `_archived/`, sobald sein Issue geschlossen ist. Die Grenze ist der Issue-Status, nicht die Frage, ob das Skript schon gelaufen ist: solange das Issue offen ist, kann eine Prüffrage einen erneuten Lauf erzwingen. Deshalb stehen die drei `*-138.py` oben, bis #138 geschlossen ist, und `convert-l-to-lb-143.py` liegt im Archiv. Die beiden `insert-*-from-linecode.py` sind keine Einmal-Skripte, sie werden für weitere Texte gebraucht.
 
@@ -165,6 +178,40 @@ Spiegelt die Werk-Identifier aus `works.xml` in den `msIdentifier` der TEI-Heade
 - `--works --bibl-struct` ist der alte Weg über lxml, der zusätzlich die `listBibl` zieht. **Er verliert dabei Daten und wird deshalb nur bewusst benutzt:** er löscht alle Nicht-Sigle-`idno` und damit die 19 `mwb-sigle`, die `works.xml` gar nicht kennt (gemessen 07.09.2026 auf einer Korpuskopie: 19 Dateien vorher, 0 nachher), er ändert bei AK, FR3, HZ, LUU und WZB die Bibliographie inhaltlich, und er serialisiert nebenbei alle 667 Dateien neu (Korpus 1.432,5 auf 1.430,6 MB). `--check` bemerkt den Verlust nicht, weil es `mwb-sigle` bewusst nicht prüft.
 - `--all` läuft für `works` über denselben chirurgischen Pfad wie `--works`. Das ist kein Detail: bis zur Reviewrunde vom 07.09. fiel `--all` still in den alten lxml-Weg und hätte die 19 `mwb-sigle` gelöscht, ohne dass ein Gate angeschlagen hätte.
 - `--persons`, `--genres`, `--concepts` sind deklarierte Stubs. `main()` weist sie ab, bevor eine Klasse instanziiert wird: Fehlermeldung, Exit 1, kein Traceback. Unter `--all` werden sie mit einer Warnung übersprungen. Das `NotImplementedError` in den Klassen ist nur beim direkten Aufruf erreichbar.
+
+## review/: Kuratorische Prüfseiten
+
+Generatoren für Seiten, die an eine Fachwissenschaftlerin gehen und dort ohne
+Installation im Browser geöffnet werden. Das Gegenstück zu `audit/`: dort steht,
+was eine Maschine entscheiden kann, hier das, was eine Person entscheiden muss.
+
+Die ausführliche Beschreibung des Formats, seiner Spec-Felder und der einen
+Entscheidung, die es trägt, steht in [`review/README.md`](review/README.md).
+Das erzeugte Material liegt nicht hier, sondern neben seinen Daten unter
+`ingest/review/<vorgang>/`.
+
+### `review_page.py`
+Das Prüfseiten-Format aus #443. Nimmt eine Fallliste entgegen und gibt eine
+vollständige HTML-Seite zurück: CSS, JavaScript und Daten eingebettet, keine
+externen Verweise, weil eine nachladende Seite unter `file://` an CORS
+scheitert. Speichert die Antworten im Browser und exportiert sie als JSON und
+als lesbaren HTML-Bericht. Kennt keinen Vorgang und keine Korpusdaten.
+
+### `collect-359-evidence.py`
+Holt die Belegstellen zu Boreks Pferdewortlisten aus den 667 TEI-Dateien, mit
+Kontextfenster (#359). `--counts` misst nur, `--write` schreibt
+`ingest/review/359-borek/evidence.json`. Die `@lemmaRef`-Prüfung ist
+token-exakt (CONTRACTS.md §B.1), nie ein Teilstring-Vergleich.
+
+### `build-359-page.py`
+Setzt Belege und Bewertungen zur fertigen Seite zusammen (#359). `--pruefen`
+gleicht nur ab und schreibt nichts. Der Abgleich ist streng und bricht ab bei
+einem Fall ohne Bewertung, einer Bewertung ohne Fall, einer Fundstelle, die
+unter den gemessenen Belegen nicht vorkommt, einem Vorschlag ohne tragenden
+Beleg und **einem Zitat, das so in keinem Beleg steht**, geprüft in jedem Feld,
+dessen Text auf die Karte kommt. Am Ende prüft er zusätzlich das fertige
+Dokument auf Rückwärtsstriche im sichtbaren Text und schreibt nichts, wenn er
+welche findet.
 
 ## _archived/ — Referenz
 
