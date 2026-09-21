@@ -52,8 +52,12 @@ kann. Vier Zahlen haengen an einer Lemma-Loeschung: `lexicon_entries`,
 ## Folge-Lauf #366/#375/#371 (21.09.2026): Typ-Ebene sauber, Form-Ebene kippt
 Zehn neue Typen, keiner umgehaengt, „Typen mit >1 Lemma bleiben bei 1" stimmt
 (type_117159, korpusweit per Regex in 26 s, `>1 Form` 613). Trotzdem hat das
-Laufzeit-Woerterbuch (`authority-index.json.gz['variants']`, first-wins nach
-Dateireihenfolge = Lemmanummer) **eine Zuordnung umgebogen**: `hawsen` lag
+Laufzeit-Woerterbuch (`authority-index.json.gz['variants']`, first-wins in
+**Dokumentreihenfolge**: `build-authority-index.py:807` prueft nur
+`if normalized_variant not in variants`; die kleinere Lemmanummer gewinnt
+allein, weil `variants.xml` danach sortiert ist, gemessen 21.09. 42.626
+Lemmaverweise / 0 Fallstellen auf 5ab7e7d21 und HEAD. Nicht „nach
+Lemmanummer" schreiben, das ist rote Zeile 44) **eine Zuordnung umgebogen**: `hawsen` lag
 unter lemma_49714 (type_372368, 5 HUB3-Tokens) und zeigt seit type_372380
 unter lemma_42619 (2 Tokens) auf das kleinere Lemma. Der Typ-Zaehler von
 `extract-variants.py` sieht das nicht, weil er Typen zaehlt und nicht Formen.
@@ -66,6 +70,20 @@ der Trockenlauf legt also eine Datei im Baum an; Zaehler lieber selbst rechnen.
 Fehlerjournal-Nummern werden je Spur vorab reserviert (40–44 daten, 45–49
 pruefseite, 50–54 Koordination, steht in Eintrag 50 auf main): ein Sprung von
 39 auf 50 ist kein Befund.
+
+## Runde 3 (21.09.2026), Fehlerjournal-Ketten und PR-Text
+- `claude-code-setup/hooks/lehren-zaehlen.py` parst dieses Journal NICHT
+  (Format `### N. Rot:` statt `## Fehler N (rot)`, Exit 1, 0 Zeilen). Ketten je
+  Lehre von Hand: Grep auf den Dateinamen, dann je Treffer pruefen, ob er im
+  Absatz „Die Lehre, die nicht gegriffen hat" steht. Eintrag 38 nennt dort
+  `agentenbefunde.md` und wird von 54 in dieser Kette gezaehlt, von 39/50/44
+  aber zusaetzlich fuer `eigene-quellen.md`; 50 und 55 nennen sich beide „die
+  vierte". Ordinalzahlen im Journal deshalb immer gegen die Vorgaenger lesen.
+- „Folgestellen korrigiert" gegen `git log -S <phrase> origin/main..HEAD`
+  messen: die Phrase stand auch in einer aelteren roten Zeile derselben Datei.
+- PR-Body ohne gh: `curl -s api.github.com/repos/.../pulls/N` gibt 200 ohne
+  Token; `updated_at` gegen `git log -1 --format=%cI` halten, wenn der Commit
+  behauptet, der PR-Text sei mitgezogen.
 
 ## Runde 2 (21.09.2026), Messrezepte
 - `@lemmaRef` ist `lexicon.xml#lemma_N`: Lemma-Id per `tok.split('#')[-1]`,
