@@ -509,3 +509,50 @@ Aus `docs/JOURNAL.md`.
 **Was er getragen hat:** die Begründung einer Anweisung an eine arbeitende Spur. Der Handlungsteil war zufällig richtig (sie trägt es selbst ein) und ist es jetzt zwingend statt nur sauber; die Begründung war das Gegenteil dessen, was das Gate tut.
 
 **Und hier wird gezählt genug.** Dies ist die fünfte Zeile zu `agentenbefunde.md` und die zweite an einem Tag zu demselben Teilfall. **Hier stand zuerst „die dritte seit Eintrag 38“, und das war woertlich richtig und im Zuschnitt unbegründet eng:** „seit 38“ stand da, weil mein Grep nach dem Dateinamen den Eintrag 23 nicht fand, der die Lehre in Prosa nennt. Die Kette ist 23, 36, 38, 52. Gefunden hat es Spur B beim Prüfen ihrer eigenen Rückverweise, und es ist derselbe Fehler, von dem dieser Eintrag handelt: eine Suche gemessen und ihren Zuschnitt behauptet. An der Konsequenz ändert die Zahl nichts. Die Gruppe ist seit dem 16.09.2026 ausgesetzt, weil kein Muster sieht, ob ein Satz mehr behauptet als seine Quelle. **Der Teilfall ist enger und deshalb greifbar: eine Aussage über das Verhalten eines Gates, das ausführbar danebenliegt.** Dagegen hilft kein Muster, sondern eine Gewohnheit mit einem Preis von Sekunden: das Gate ausführen, nicht seinen Quelltext zitieren, und bei einer Mutationsprobe zuerst prüfen, ob sie überhaupt an der Stelle ansetzt, um die es geht. Das gehört als Satz in die Projektanweisung und steht bis dahin hier.
+### 55. Rot: eine Allaussage gegen die eigene Messung geschrieben, deren Ausgabe im Kontext stand.
+
+**Rot: eine Allaussage gegen die eigene Messung geschrieben, deren Ausgabe im Kontext stand.** Ich hatte für Spur A nachgemessen, welche der zehn neuen
+Variantentypen im Laufzeit-Wörterbuch überhaupt sichtbar werden, und die
+Ausgabe meines eigenen Skripts listete Form für Form, ob ein Lemma mit
+passendem `normalized` existiert: bei sieben der zehn steht dort `nein`. In
+der Nachricht an die Spur, wenige Minuten später, stand trotzdem
+„`hawsen` ist das einzige, für das kein Lemma einen passenden
+`normalized` hat“. **Sieben, nicht eines.** Die Tabelle, die es widerlegt,
+hatte ich selbst erzeugt, sie stand unverändert im Kontext, und ich habe sie
+nicht noch einmal angesehen.
+
+Die Lehre ist `eigene-quellen.md`: geladene Quelle nicht befragt, und zwar
+in ihrer billigsten Form, denn die Quelle war nicht einmal eine Datei,
+sondern die Ausgabe von vorhin. Die letzte Zeile zu dieser Lehre ist
+Eintrag 53, von heute.
+
+**Was es getragen hat:** eine abgeschickte Anweisung an eine arbeitende
+Spur, mit der Aufforderung, den Satz in den PR-Text zu übernehmen. Dort
+wäre er zur Bedingung geworden, unter der eine Prägung eine
+Verhaltensänderung trägt, also zu einer Aussage, auf der künftige Läufe
+aufsetzen.
+
+**Warum die Zeile trotzdem rot ist, obwohl sie gefangen wurde.** Gefangen
+hat sie Spur A, weil ich ihr im selben Absatz geschrieben hatte, sie solle
+nachmessen statt übernehmen. Die Vorrichtung, die gegriffen hat, steht also
+beim Empfänger und ist eine, die ich für fremde Befunde gebaut habe. Bei
+mir hat nichts gegriffen. Wer einen solchen Fang „abgewendet“ nennt,
+zählt die Aufmerksamkeit anderer als eigene Vorsorge. Die richtige Fassung
+steht jetzt im PR und ist zweiteilig: die Schreibform darf kein Lemmaname
+sein **und** muss im Wörterbuch schon unter einem anderen Lemma stehen;
+sieben erfüllen die erste Bedingung, `hawsen` als einzige auch die zweite.
+
+**Und hier ist die Konsequenz fällig, nicht die vierte Zeile.** Kette
+gemessen: 39, 50, 53, diese ist die vierte, und die dritte war heute.
+`wiederholte-fehler.md` sagt, bei der dritten werde der Mechanismus
+gewechselt und eine vierte sei nur noch der Beleg, dass es niemand getan
+hat. Für die Gruppe insgesamt ist das schwer, weil kein Muster sieht, ob
+ein Satz eine Fundstelle braucht; die Frage liegt seit dem 13.09.2026 in
+`claude-code-setup#57`, Untergruppe (a). **Dieser Teilfall ist enger und
+deshalb greifbar: eine Allaussage über eine Menge, die in derselben Sitzung
+mit einem eigenen Skript gemessen wurde.** Dagegen hilft, was `mengen.md`
+für Zahlen längst verlangt, nur auf Allaussagen angewandt: die Ausgabezeile
+neben den Satz setzen. Hätte „7 von 10 ohne Stufe-1-Treffer“
+danebengestanden, wäre „das einzige“ nicht zu schreiben gewesen.
+Vorgelegt wird das Christian, weil es eine globale Regel ändert und nicht
+dieses Projekt.
