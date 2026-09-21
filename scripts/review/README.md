@@ -70,19 +70,32 @@ JavaScript), während die Nachbarfelder daneben richtig gesetzt waren.
 **Und der Rückweg braucht eine zweite Prüfung.** Ein Feld, das Auszeichnung
 bekommt, lebt als Text weiter: `vorschlagText` geht in die eingebetteten Daten,
 von dort in den JSON-Export und in den lesbaren Bericht, der ihn escapet.
-`_pruefe_textfelder` hält deshalb jedes exportierte Textfeld gegen seine
-Quelle: es muss deren Klartext sein, nicht weniger und nicht mehr. Ohne diese
-Prüfung fände die Fachwissenschaftlerin in ihrer eigenen Rückgabe wörtlich
-`<span class="mono">hurt</span>`.
+`_pruefe_textfelder` lehnt deshalb Markup in jedem Feld ab, das als Text
+exportiert wird. Ohne diese Prüfung fände die Fachwissenschaftlerin in ihrer
+eigenen Rückgabe wörtlich `<span class="mono">hurt</span>`.
 
-**Sie vergleicht, statt nach Markup zu suchen, und das ist hier keine
-Feinheit.** Eine Mustersuche nach `<` kann ein durchgerutschtes `<span>` nicht
-von einem geschriebenen `<pc>` unterscheiden, und `<pc>` und `<w>` sind genau
-die Zeichenketten, die in einer Annotationsbegründung dieses Projekts stehen.
-Die erste Fassung suchte nach dem Muster und hätte den Lauf an einer korrekt
-gesetzten Begründung abgebrochen, mit einer Meldung, die in die falsche
-Richtung wies. Gefunden hat das die dritte Reviewrunde; in den 45 Fällen von
-#359 trat es nicht auf, weil keiner von ihnen ein TEI-Element zitiert.
+**Diese Prüfung hat eine bekannte Lücke, und sie steht hier, statt behoben zu
+sein.** Sie sucht nach einem Muster, und ein Muster kann ein geschriebenes
+`<pc>` nicht von einem durchgerutschten `<span>` unterscheiden: wer in einer
+Begründung ein TEI-Element nennt, bekommt einen Abbruch mit einer Meldung, die
+in die falsche Richtung weist. In den 45 Fällen von #359 tritt das nicht auf,
+gemessen sind null Treffer über alle drei Textfelder.
+
+**Der Versuch, sie durch einen Vergleich mit der Quelle zu ersetzen, ist
+zurückgenommen worden, und der Grund gehört zur Lücke dazu.** Der Vergleich
+leitete den erwarteten Wert mit demselben Ausdruck aus derselben Quelle ab, den
+der Generator benutzt, und konnte deshalb nur melden, dass beide Stellen
+auseinanderlaufen, nichts über den Inhalt. Vor allem verlor er die Eigenschaft,
+auf die es ankommt: dass ein `<span>` in einem Textfeld **immer** falsch ist,
+gleich woher es stammt. Ein ausgezeichnetes Feld, das nicht in `HTML_FELDER`
+steht, lief damit durch, also genau das Fehlerbild, gegen das die Prüfung
+gebaut war.
+
+**Wer sie eines Tages schärfen will, hat den kürzeren Weg hier:** `markup()`
+erzeugt genau drei Zeichenketten, `<span class="zit">`, `<span class="mono">`
+und `<b>`. Auf diese drei zu prüfen statt auf ein Muster hat keinen Fehlalarm
+bei `<pc>`, und die eine Annahme, die dann bleibt, steht an derselben Funktion,
+die das Markup erzeugt.
 
 **Die Antwortoptionen bringt jeder Fall selbst mit.** Das ist Alans erster
 Punkt aus #443: eine Liste, die für alle Fälle dieselbe ist, besteht zum
