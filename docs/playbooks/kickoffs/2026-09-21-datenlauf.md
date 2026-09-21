@@ -81,7 +81,7 @@ Die Spur führt die zweite Hälfte aus und die erste nicht. **Die Rückfrage geh
 
 **Die Typprägung ist ein Handgriff und kein Nebenprodukt des Rebuilds.** `scripts/sync/extract-variants.py` liest ausschließlich `<w>`-Elemente, die **beide** Attribute tragen, `@lemmaRef` **und** `@corresp="variants.xml#type_N"`. Ein Token mit neuem `@lemmaRef`, aber ohne `@corresp`, erscheint in `variants.xml` nicht.
 
-**Und ein drittes Attribut gehört dazu, das in der ersten Fassung fehlte: `@pos`.** Gemessen über das ganze Korpus: 7.547.816 `<w>` tragen `@lemmaRef` **und** `@pos`, und **kein einziges** trägt `@lemmaRef` ohne `@pos`. Ein Token ohne `@pos` wäre also eine neue Klasse im Bestand. KZWs `actions`-Einträge liefern die Wortart mit (NOM, VRB), sie muss nicht geraten werden.
+**Und ein drittes Attribut gehört dazu, das in der ersten Fassung fehlte: `@pos`.** Gemessen über das ganze Korpus am 21.09. **vor dem Lauf**: 7.547.816 `<w>` tragen `@lemmaRef` **und** `@pos`, und **kein einziges** trägt `@lemmaRef` ohne `@pos`. Ein Token ohne `@pos` wäre also eine neue Klasse im Bestand. KZWs `actions`-Einträge liefern die Wortart mit (NOM, VRB), sie muss nicht geraten werden.
 
 **A3 wird als Skript gefahren, nicht als 76 Einzeledits.** Vorbilder im Repositorium: `scripts/apply-308-375-432.py` (Trefferzahl je Ersetzung, Abbruch bei Abweichung vom Erwartungswert) und `scripts/ingest/pos-disambig/fix-363-hausenblase.py` (Ist-Zustand je Token verifizieren, Abbruch bei fehlender Regel). Das Skript setzt je Token `@lemmaRef`, `@pos` und `@corresp`.
 
