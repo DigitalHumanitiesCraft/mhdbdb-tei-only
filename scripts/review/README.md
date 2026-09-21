@@ -63,8 +63,16 @@ Auszeichnung braucht. Diese Trennung ist die einzige Stelle des Formats, an der
 man etwas falsch machen kann, ohne dass es auffällt, deshalb hält `render` sie
 nach: **ein Rückwärtsstrich in einem HTML-Feld bricht den Lauf ab**, denn dort
 steht dann eine Auszeichnung, die niemand gesetzt hat. In der ersten Runde zu
-#443 sind auf diesem Weg 21 Rückwärtsstriche in den sichtbaren Text geraten,
-während die Nachbarfelder daneben richtig gesetzt waren.
+#443 sind auf diesem Weg **52 Rückwärtsstriche auf 20 Zeilen** in den sichtbaren
+Text geraten (das ganze Dokument trug 58 auf 22 Zeilen, die übrigen sind
+JavaScript), während die Nachbarfelder daneben richtig gesetzt waren.
+
+**Und der Rückweg braucht eine zweite Prüfung.** Ein Feld, das Auszeichnung
+bekommt, lebt als Text weiter: `vorschlagText` geht in die eingebetteten Daten,
+von dort in den JSON-Export und in den lesbaren Bericht, der ihn escapet.
+`_pruefe_textfelder` lehnt deshalb Markup in jedem Feld ab, das als Text
+exportiert wird. Ohne diese Prüfung fände die Fachwissenschaftlerin in ihrer
+eigenen Rückgabe wörtlich `<span class="mono">hurt</span>`.
 
 **Die Antwortoptionen bringt jeder Fall selbst mit.** Das ist Alans erster
 Punkt aus #443: eine Liste, die für alle Fälle dieselbe ist, besteht zum

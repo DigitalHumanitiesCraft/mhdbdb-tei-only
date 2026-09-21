@@ -11,7 +11,7 @@ Korpus-Index 4.2.17 und Authority-Index 1.9.7.
 | `crosscheck.json` | erzeugt | Der Abgleichsbericht aus `scripts/ingest/horses/01-wordlist-crosscheck.py --json`, die Herkunft der 45 Fälle |
 | `evidence.json` | gemessen | Die Belegstellen mit Kontext, aus dem Korpus geholt |
 | `vorschlaege.json` | von Hand | Die Bewertungen, geschrieben nach dem Lesen der Belege |
-| `folgebefunde.md` | von Hand | Drei Befunde, die nicht zu #359 gehören und eigene Vorgänge brauchen |
+| `folgebefunde.md` | von Hand | Befunde, die nicht zu #359 gehören und eigene Vorgänge brauchen |
 
 ## Wie die Seite neu entsteht
 

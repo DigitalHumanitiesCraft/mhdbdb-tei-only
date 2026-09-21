@@ -794,8 +794,66 @@ def _fall_html(f):
 # ist fuer beides zustaendig: escapen, was Text ist, und auszeichnen, was
 # Auszeichnung braucht. Diese Liste sagt, welche Felder das betrifft, und
 # `_rohe_auszeichnung` haelt die Zusage nach.
-HTML_FELDER = ('frage', 'beleg_hinweis')
+#
+# `frage` steht hier NICHT: `_fall_html` escapet sie, sie ist Text. Sie stand
+# hier eine Runde lang, und die Gate-Meldung "hier fehlt die Auszeichnung"
+# haette bei einem Rueckwaertsstrich in diesem Feld in die falsche Richtung
+# gewiesen: wer ihr gefolgt waere, haette sichtbare Tags bekommen.
+HTML_FELDER = ('beleg_hinweis',)
 HTML_FELDER_VORSCHLAG = ('text', 'begruendung', 'unsicherheit')
+
+
+# Die Felder der eingebetteten Daten, die als TEXT weiterleben: der
+# JSON-Export schreibt sie, und der lesbare Bericht setzt sie mit esc().
+# `belegHtml` steht bewusst nicht dabei, es ist als HTML deklariert.
+TEXTFELDER_DATEN = ('kopfText', 'frage', 'vorschlagText')
+
+
+def _pruefe_textfelder(faelle):
+    """Kein Textfeld der eingebetteten Daten darf Markup tragen.
+
+    Die Pruefung sitzt am Ergebnis und nicht an den Feldern, aus demselben
+    Grund wie die Rueckwaertsstrich-Pruefung: welches Spec-Feld heute Text ist
+    und morgen Auszeichnung bekommt, weiss niemand im Voraus, aber dass ein
+    `<span>` im JSON-Export nichts zu suchen hat, gilt immer.
+    """
+    import re as _re
+
+    fund = []
+    for f in faelle:
+        for feld in TEXTFELDER_DATEN:
+            wert = f.get(feld)
+            if isinstance(wert, str) and _re.search(r'<[a-zA-Z/]', wert):
+                fund.append('Fall %s, %s: %s' % (f.get('id', '?'), feld, wert[:70]))
+    if fund:
+        raise ValueError(
+            'Markup in einem Feld, das als Text exportiert wird. Es landet so im\n'
+            'JSON und woertlich im lesbaren Bericht:\n  ' + '\n  '.join(fund))
+
+
+def _nur_text(html_text):
+    """Ein HTML-Feld als Klartext, fuer Export und lesbaren Bericht.
+
+    Die Spec traegt HTML- und Textfelder nebeneinander, und `render` zieht aus
+    den HTML-Feldern Textkopien: `vorschlagText` geht so in die eingebetteten
+    Daten, von dort in den JSON-Export und in den HTML-Bericht, der ihn mit
+    esc() setzt. Solange das Feld Rohtext war, ging das gut. Seit es durch
+    `markup()` laeuft, steht dort Markup, und ohne diesen Schritt faende die
+    Fachwissenschaftlerin in ihrer eigenen Rueckgabe woertlich
+    `<span class="mono">hurt</span>`.
+
+    Das ist die #397-Frage an einer Korrektur aus derselben Runde: die
+    Aenderung hat "dieses Feld ist ausgezeichnet" wahr gemacht und damit
+    "dieses Feld ist Text" gebrochen, an einer Stelle, die niemand angefasst
+    hat.
+    """
+    import html as _html
+    import re as _re
+
+    if not html_text:
+        return html_text
+    ohne_tags = _re.sub(r'<[^>]+>', '', html_text)
+    return _html.unescape(ohne_tags)
 
 
 def _rohe_auszeichnung(spec):
@@ -803,9 +861,9 @@ def _rohe_auszeichnung(spec):
 
     Anlass ist Runde 1 zu #443/#359: `kurz`, `vorschlag.text`,
     `vorschlag.unsicherheit` und `beleg_hinweis` gingen durch `e()` statt durch
-    die Auszeichnung des Generators, und in der fertigen Seite standen an 21
-    Stellen Rueckwaertsstriche im sichtbaren Text. Das faellt beim Bauen nicht
-    auf, weil die Nachbarfelder daneben richtig gesetzt sind.
+    die Auszeichnung des Generators, und in der fertigen Seite standen
+    52 Rueckwaertsstriche auf 20 Zeilen sichtbaren Textes. Das faellt beim
+    Bauen nicht auf, weil die Nachbarfelder daneben richtig gesetzt sind.
 
     Die Pruefung ist bewusst stumpf: sie versteht die Auszeichnung nicht, sie
     verlangt nur, dass keine Markdown-Reste uebrig sind. Wer einen
@@ -879,10 +937,16 @@ def render(spec):
         formatVersion=FORMAT_VERSION,
         faelle=[dict(
             id=f['id'], gruppe=f['gruppe'], kopfText=f['kopf'], frage=f['frage'],
-            vorschlagText=(f['vorschlag']['text'] if f.get('vorschlag') else None),
+            # Durch _nur_text, weil dieses Feld als TEXT weiterlebt: der
+            # JSON-Export legt es in `vorschlag`, der lesbare Bericht setzt es
+            # mit esc(). Seit `vorschlag.text` durch markup() geht, stand hier
+            # sonst Markup, das KZW woertlich in ihrer Rueckgabe faende.
+            vorschlagText=(_nur_text(f['vorschlag']['text']) if f.get('vorschlag') else None),
             belegHtml=(_beleg_html(f['belege'][0]) if f['belege'] else ''),
         ) for f in spec['faelle']],
     )
+
+    _pruefe_textfelder(daten['faelle'])
 
     return """<!DOCTYPE html>
 <html lang="de" data-theme="light">

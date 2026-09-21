@@ -1,9 +1,10 @@
-# Drei Befunde aus #359, die nicht in #359 gehören
+# Vier Befunde aus #359, die nicht in #359 gehören
 
 Gefunden beim Lesen der Belegstellen für die Prüfseite zu #359, am 21.09.2026.
 Keiner davon ist in diesem Lauf bearbeitet worden, und keiner gehört in die
 Prüfseite: sie fragen nicht nach Boreks Pferdewortschatz, sie fragen nach der
-Annotation des Korpus. Sie stehen hier, damit daraus Vorgänge werden können.
+Annotation des Korpus und, im vierten Fall, nach einem Feld des Authority-Index.
+Sie stehen hier, damit daraus Vorgänge werden können.
 
 Alle Zahlen sind gegen Korpus-Index 4.2.17 und Authority-Index 1.9.7 gemessen.
 Die Messvorschrift steht jeweils dabei.
@@ -125,9 +126,58 @@ gibt die 207 Tokens in 79 Texten aus. Die gesammelten Belege stehen unter
 
 ---
 
-## Was diese drei gemeinsam haben
+## 4. Das Feld `pos` nennt die erste geführte Wortart, nicht die häufigste
 
-Alle drei sind an Belegstellen gefunden worden und nicht an Stichwörtern, und
-alle drei betreffen `tei/` oder `authority-files/`. Beides ist der Grund, warum
+**Befund.** Der Authority-Index führt je Lemma ein Feld `pos` und ein Feld
+`posAll`. `pos` ist die Angabe, die in Listen und im Explorer als *die* Wortart
+eines Lemmas erscheint. Bei vier der 34 hier gemessenen Lemmata nennt sie eine
+Wortart, die im Korpus praktisch nicht vorkommt:
+
+| Lemma | `pos` | `posAll` | häufigster Korpus-`@pos` | Nenner |
+|---|---|---|---|---|
+| `lemma_3102` jagen | INJ | INJ, VRB | VRB, 249 | von 250 gesammelten; das Lemma trägt 1.406 Tokens in 195 Texten |
+| `lemma_3702` lenden | ADV | ADV, VRB | VRB, 44 | von 45, gesammelt gleich gesamt |
+| `lemma_4091` merken | INJ | INJ, VRB | VRB, 7 | von 7, gesammelt gleich gesamt |
+| `lemma_4951` rôse | ADJ | ADJ, NOM | NOM, 3 | von 3, gesammelt gleich gesamt |
+
+Bei `merken` und `rôse` trägt **kein einziges** gesammeltes Token die Wortart,
+die `pos` nennt. Alle vier führen die Korpuswortart in `posAll`, und zwar an
+zweiter Stelle.
+
+**Warum das weiter reicht als #359.** Wer eine Lemmaliste liest und `INJ` sieht,
+hält `jagen` für eine Interjektion. Das betrifft jede Ansicht, die `pos` als die
+Wortart zeigt, und es betrifft `authority-files/`, nicht diese Prüfseite.
+
+**Was gemessen ist und was nicht.** Gemessen sind die **34 Lemmata dieser
+Prüfseite, die mindestens einen gesammelten Beleg tragen**: die 45 Fälle liegen
+auf 39 Lemmata, und fünf davon haben im Korpus kein einziges Token (`rosse`,
+`hanc`, `schie`, `roz`/`lemma_52489`, `gât`). Der Index führt **43.878 Lemmata**
+(`data/authority-index.json.gz`, Version 1.9.7); über alle übrigen sagt die
+Messung **nichts**. Ob vier von 34 repräsentativ sind, ist die Frage, die ein
+Ticket zu klären hätte.
+
+**Ein Zwischenschritt, ohne den die Zahl falsch wäre.** Gegen `posAll` sind
+**34 von 34 einig**, sobald Kompositum-Tags aufgelöst werden: ein Token-`@pos`
+wie `NOM ADJ` (siehe POS-TAGSET) widerspricht dem Lexikon nicht, wenn jeder
+seiner Teile dort geführt wird. Ohne diese Regel wären es 31 von 34, und die
+drei Abweichungen wären reine Notation gewesen.
+
+**Messvorschrift.** Je Lemma den häufigsten `@pos` der Belege aus
+`ingest/review/359-borek/evidence.json` gegen `lemmata[].pos` und
+`lemmata[].posAll` aus `data/authority-index.json.gz`. Einig gegen `posAll`,
+wenn der häufigste Token-Wert dort steht **oder** jeder Teil eines
+Kompositum-Tags dort steht; abweichend gegen `pos`, wenn `pos` unter den Teilen
+des häufigsten nicht vorkommt.
+
+---
+
+## Was diese vier gemeinsam haben
+
+Alle vier sind an Belegstellen gefunden worden und nicht an Stichwörtern, und
+alle vier betreffen `tei/` oder `authority-files/`. Beides ist der Grund, warum
 sie hier stehen und nicht umgesetzt sind: Spur B dieses Laufs schreibt nicht in
 die Daten.
+
+Der vierte fällt dabei aus der Reihe und ist deshalb der wichtigste: die ersten
+drei sind einzelne Annotationen, er ist eine Eigenschaft eines Feldes über den
+ganzen Bestand. Er gehört in ein eigenes Ticket und nicht als Absatz zu #359.
