@@ -346,7 +346,7 @@ export class ConceptDistribution {
 
   renderBody() {
     if (!this.state.query) {
-      return '<div class="rounded-2xl border border-dashed border-slate-200 bg-white p-8 text-center text-sm text-slate-500">Bitte Begriff eingeben und auf „Suchen" klicken.</div>';
+      return '<div class="rounded-2xl border border-dashed border-slate-200 bg-white p-8 text-center text-sm text-slate-500">Bitte Begriff eingeben und auf "Suchen" klicken.</div>';
     }
     if (!this.state.resolvedConcept) {
       return `
@@ -394,7 +394,7 @@ export class ConceptDistribution {
       // landet man hier auch nach einer Auswahlaenderung, mit gefuelltem
       // Eingabefeld und ohne jeden Hinweis, was zu tun ist. Wortlaut wie im
       // Kookkurrenz-Ranking, das denselben Zweig schon immer so beschriftet.
-      return '<div class="rounded-2xl border border-dashed border-slate-200 bg-white p-8 text-center text-sm text-slate-500">Auf „Suchen" klicken, um die Verteilung zu berechnen.</div>';
+      return '<div class="rounded-2xl border border-dashed border-slate-200 bg-white p-8 text-center text-sm text-slate-500">Auf "Suchen" klicken, um die Verteilung zu berechnen.</div>';
     }
 
     const dist = this.state.distribution;

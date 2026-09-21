@@ -115,13 +115,13 @@ class WoerterbuchPage {
         this.elements.pagination.innerHTML = '';
 
         if (matches.length === 0) {
-            this.elements.letterHeading.textContent = `Keine Treffer für „${query}“`;
+            this.elements.letterHeading.textContent = `Keine Treffer für "${query}"`;
         } else if (matches.length > PAGE_SIZE) {
             this.elements.letterHeading.textContent =
-                `„${query}“ – ${matches.length.toLocaleString('de-DE')} Treffer (erste ${PAGE_SIZE} angezeigt)`;
+                `"${query}" – ${matches.length.toLocaleString('de-DE')} Treffer (erste ${PAGE_SIZE} angezeigt)`;
         } else {
             this.elements.letterHeading.textContent =
-                `„${query}“ – ${matches.length.toLocaleString('de-DE')} Treffer`;
+                `"${query}" – ${matches.length.toLocaleString('de-DE')} Treffer`;
         }
         this.renderEntryList(matches.slice(0, PAGE_SIZE));
     }

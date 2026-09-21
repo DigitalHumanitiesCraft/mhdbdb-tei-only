@@ -214,7 +214,7 @@ test.describe('Playground: Korpusauswahl wirkt (#204)', () => {
         // nur drei Punkte, weil er vorher nur als Zwischenbild erreichbar war.
         // Wer nach einer Auswahlaenderung hier landet, braucht eine Anweisung.
         const panel = page.locator('#resultsContainer');
-        await expect(panel).toContainText('Auf „Suchen" klicken');
+        await expect(panel).toContainText('Auf "Suchen" klicken');
         expect((await panel.textContent()).trim()).not.toMatch(/\.\.\.$/);
     });
 
@@ -363,7 +363,7 @@ test.describe('Playground: Korpusauswahl wirkt (#204)', () => {
         await page.click('#rdSearchBtn');
 
         const panel = page.locator('#resultsContainer');
-        await expect(panel).toContainText('Filter „CR" → 1 Text', { timeout: 60000 });
+        await expect(panel).toContainText('Filter "CR" → 1 Text', { timeout: 60000 });
         await expect(panel).not.toContainText('1 Texte');
     });
 

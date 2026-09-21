@@ -261,7 +261,7 @@
                     einstellbar von 1 bis 50. Gezählt wird der Abstand in annotierten Tokens,
                     also in Wortformen mit Lemma-Zuordnung: Wörter ohne Zuordnung zählen nicht
                     mit, das Fenster ist im Text also etwas breiter als die Zahl. Das gilt für
-                    alle Abstandsangaben auf dieser Seite. Ideal für Fragen wie: „In welchen Passagen stehen
+                    alle Abstandsangaben auf dieser Seite. Ideal für Fragen wie: "In welchen Passagen stehen
                     <em>minne</em> und <em>herze</em> eng zusammen?"
                 </p>
             </div>
@@ -271,7 +271,7 @@
                 <p class="text-sm text-slate-700 leading-relaxed">
                     Die syntaktisch engste Variante: findet nur Verse, in denen alle gesuchten
                     Lemmata gemeinsam innerhalb <strong>einer Verszeile</strong> stehen. Ideal für
-                    Formel- und Kollokationsfragen wie: „Wo steht <em>rôt</em> unmittelbar bei
+                    Formel- und Kollokationsfragen wie: "Wo steht <em>rôt</em> unmittelbar bei
                     <em>munt</em> im selben Vers?" Funktioniert nur in Versdichtung (rund 90 %
                     des Korpus); Prosa-Texte haben keine Verszeilen und bleiben außen vor.
                     Jeder Treffer nennt die Versnummer im Text.
@@ -282,7 +282,7 @@
                 <h4 class="text-base font-semibold text-slate-900 mb-2">Dokument-Suche</h4>
                 <p class="text-sm text-slate-700 leading-relaxed">
                     Listet alle Texte auf, die sämtliche angegebenen Lemmata irgendwo enthalten –
-                    unabhängig vom Abstand. Ideal für Fragen wie: „Welche Texte behandeln sowohl
+                    unabhängig vom Abstand. Ideal für Fragen wie: "Welche Texte behandeln sowohl
                     <em>triuwe</em> als auch <em>zwîvel</em>?" Das Ergebnis ist dokumentbasiert,
                     nicht stellenbasiert.
                 </p>
@@ -304,7 +304,7 @@
             <p class="text-slate-700 leading-relaxed mb-4">
                 Findet ein einzelnes Lemma, das genau am <strong>Versanfang</strong> oder
                 <strong>Versende</strong> steht. Eine direkte Antwort auf mediävistische Fragen wie:
-                „Wie oft reimt Wolfram auf <em>minne</em>?" oder „Welche Wörter dominieren das
+                "Wie oft reimt Wolfram auf <em>minne</em>?" oder "Welche Wörter dominieren das
                 Versende im Parzival?"
             </p>
 
@@ -313,15 +313,15 @@
                 <li>Lemma eingeben (Wort wie <code class="px-2 py-0.5 bg-slate-100 rounded">minne</code> oder Lemma-ID).</li>
                 <li>Position wählen: <strong>Versanfang</strong> oder <strong>Versende</strong> (Default: Versende, weil der Reim-Use-Case häufiger ist).</li>
                 <li>Auf <strong>Suchen</strong> klicken.</li>
-                <li>Die Trefferliste zeigt jeden Text mit den Treffern an der gewählten Position, daneben den Anteil an allen Vorkommen im Text (z.B. „54%" heißt: jedes zweite Vorkommen des Lemmas im Text steht am Versende).</li>
+                <li>Die Trefferliste zeigt jeden Text mit den Treffern an der gewählten Position, daneben den Anteil an allen Vorkommen im Text (z.B. "54%" heißt: jedes zweite Vorkommen des Lemmas im Text steht am Versende).</li>
             </ol>
 
             <h3 class="text-lg font-semibold text-slate-900 mt-6 mb-2">Was die Position bedeutet</h3>
             <p class="text-slate-700 leading-relaxed mb-3">
                 Die Funktion arbeitet auf der <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;l&gt;</code>-Auszeichnung
                 des TEI-Korpus, also auf jeder vom Editions-Layout vorgegebenen Verszeile.
-                „Versanfang" ist das erste annotierte Wort einer <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;l&gt;</code>,
-                „Versende" das letzte. Wortpositionen außerhalb von <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;l&gt;</code>
+                "Versanfang" ist das erste annotierte Wort einer <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;l&gt;</code>,
+                "Versende" das letzte. Wortpositionen außerhalb von <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;l&gt;</code>
                 (etwa in Kapitelüberschriften, Marginalia oder Notizen) gelten weder als Anfang noch als Ende.
             </p>
 
@@ -369,7 +369,7 @@
                 sondern der Ausgangspunkt Ihrer Frage.
             </p>
 
-            <h3 class="text-lg font-semibold text-slate-900 mt-6 mb-2">Im Block „Korpusanalysen"</h3>
+            <h3 class="text-lg font-semibold text-slate-900 mt-6 mb-2">Im Block "Korpusanalysen"</h3>
             <p class="text-slate-700 leading-relaxed mb-4">
                 Ausgangspunkt ist ein einzelnes Wort oder ein Begriff. Der Block steht
                 aufgeklappt oben in der Abfragespalte; neben den hier beschriebenen Werkzeugen
@@ -380,14 +380,14 @@
             <div class="bg-white rounded-xl border border-slate-200 p-5 my-4">
                 <h4 class="text-base font-semibold text-slate-900 mb-2">Kookkurrenz-Ranking</h4>
                 <p class="text-sm text-slate-700 leading-relaxed">
-                    Beantwortet die Frage „Welche Lemmata stehen am häufigsten bei <em>X</em>?".
+                    Beantwortet die Frage "Welche Lemmata stehen am häufigsten bei <em>X</em>?".
                     Sie geben ein <strong>einzelnes</strong> Lemma ein und erhalten eine rangierte
                     Tabelle der häufigsten Nachbar-Lemmata innerhalb eines Kontextfensters
                     (±3 bis ±25 Wörter, Standard ±10). Der POS-Filter steht standardmäßig auf
                     Inhaltswörtern (Nomen, Verben, Adjektive, Adverbien), damit Funktionswörter
                     die Liste nicht dominieren; alternativ nur Nomen, nur Verben, nur Adjektive
                     oder alle. Ein Klick auf ein Partner-Lemma öffnet dessen Lemma-Seite; über
-                    den separaten Link „→ Belege" je Zeile landen beide Lemmata im Nähe-Modus
+                    den separaten Link "→ Belege" je Zeile landen beide Lemmata im Nähe-Modus
                     der Multi-Lemma-Suche.
                 </p>
             </div>
@@ -407,13 +407,13 @@
             <div class="bg-white rounded-xl border border-slate-200 p-5 my-4">
                 <h4 class="text-base font-semibold text-slate-900 mb-2">Reim-Wörterbuch</h4>
                 <p class="text-sm text-slate-700 leading-relaxed">
-                    Beantwortet die Frage „Welche Lemmata reimen sich auf <em>X</em>?". Sie geben
+                    Beantwortet die Frage "Welche Lemmata reimen sich auf <em>X</em>?". Sie geben
                     ein Lemma ein (optional eingeschränkt auf einen Text oder eine Autorin bzw.
                     einen Autor) und erhalten eine rangierte Tabelle der Reimpartner-Lemmata:
                     Lemmata an unmittelbar benachbarten Versenden (Paarreim-Annahme), deren
                     normalisierte Form im Auslaut übereinstimmt – etwa <em>muot : guot</em> oder
                     <em>tugent : jugent</em>. Je Partner werden die Texte mit Paarzahl angezeigt;
-                    „→ Belege" klappt die gezählten Verspaare direkt in der Tabelle auf –
+                    "→ Belege" klappt die gezählten Verspaare direkt in der Tabelle auf –
                     jeweils beide Verse mit hervorgehobenen Reimwörtern am Versende und
                     Sprung in die Leseansicht.
                     Die Heuristik ist strukturell und lemma-basiert: Kreuzreime (ABAB) und rein
@@ -430,7 +430,7 @@
                     und sehen das Balkendiagramm über alle Texte. Aggregiert werden alle Lemmata,
                     deren Bedeutungen dem Begriff zugeordnet sind (Datenpfad Begriff → Bedeutungen
                     → Lemmata → Texte). Ein Autocomplete schlägt passende Begriffe vor, alternative
-                    Kandidaten werden angezeigt (etwa bei „love" → Intimität und Liebe/Zuneigung);
+                    Kandidaten werden angezeigt (etwa bei "love" → Intimität und Liebe/Zuneigung);
                     eine aufklappbare Liste der zugeordneten Lemmata erlaubt die Validierung der
                     Auswahl.
                 </p>
@@ -446,7 +446,7 @@
                 </p>
             </div>
 
-            <h3 id="block-weitere-korpusanalysen" class="text-lg font-semibold text-slate-900 mt-6 mb-2 scroll-mt-24">Im Block „Weitere Korpusanalysen"</h3>
+            <h3 id="block-weitere-korpusanalysen" class="text-lg font-semibold text-slate-900 mt-6 mb-2 scroll-mt-24">Im Block "Weitere Korpusanalysen"</h3>
             <p class="text-slate-700 leading-relaxed mb-4">
                 Ausgangspunkt ist ein Text, ein Werk oder eine Autor*in: Sie fragen, was dessen
                 Wortschatz auszeichnet, was nur dort einmal vorkommt und wie er sich gegen
@@ -465,19 +465,19 @@
                     Filter gegen Eigennamen (gut ein Viertel aller Hapaxe), gegen Zahlwörter und
                     gegen Funktionswörter sowie eine Wortarten- und eine Anfangsbuchstaben-Facette
                     grenzen die Liste ein. Die ersten drei Filter sind beim Öffnen aktiv. Beim
-                    Zahlwort-Filter ist der Grund: dass „ahtundsibenzechundert" nur einmal
+                    Zahlwort-Filter ist der Grund: dass "ahtundsibenzechundert" nur einmal
                     vorkommt, sagt etwas über die Textlänge und nichts über den Wortschatz.
                     Ausgeblendet werden dabei nur Lemmata, deren einzige
-                    Wortart NUM ist; Wörter mit Zahlbezug und weiterer Wortart (etwa „zwispeltic"
+                    Wortart NUM ist; Wörter mit Zahlbezug und weiterer Wortart (etwa "zwispeltic"
                     als Adjektiv und Zahlwort) bleiben stehen. Wer die Zahlwörter sehen will,
                     nimmt den Haken heraus oder wählt in der Wortart-Facette gezielt NUM, was den
                     Filter aufhebt.
-                    „Details" prüft je Eintrag über das Wörterbuchnetz, ob das Lemma in einem
+                    "Details" prüft je Eintrag über das Wörterbuchnetz, ob das Lemma in einem
                     von fünf Wörterbüchern verzeichnet ist: MWB, Lexer, Lexer-Nachträge,
                     Benecke/Müller/Zarncke und Findebuch. So lässt sich abschätzen, ob ein
                     echtes mhd. Hapax oder nur ein Korpus-Hapax vorliegt. Bleibt die Zeile
                     leer, nennt der Hinweis die geprüften Wörterbücher beim Namen – der
-                    Negativbefund gilt immer nur für diese fünf. Der zweite Tab „Beitrag pro Text" zeigt, welche Texte die meisten
+                    Negativbefund gilt immer nur für diese fünf. Der zweite Tab "Beitrag pro Text" zeigt, welche Texte die meisten
                     Raritäten enthalten (absolut und pro 1.000 annotierte Tokens); der CSV-Export übergibt
                     die gefilterte Liste an die Redaktion oder eigene Auswertungen. Achtung:
                     Unlemmatisierte Tokens sind im Index unsichtbar, und Hapaxe sind nicht
@@ -504,7 +504,7 @@
                     Pro Text: Token-Zahl, Lemma-Diversität (verschiedene Lemmata zur Gesamtzahl),
                     Hapax-Rate und durchschnittliche Lemma-Frequenz, als sortierbare
                     Korpus-Tabelle. Hohe Lemma-Diversität bei knappem Text ist ein Indikator für
-                    lexikalischen Reichtum. Über Checkboxen lässt sich ein Subset bilden („Nur
+                    lexikalischen Reichtum. Über Checkboxen lässt sich ein Subset bilden ("Nur
                     Auswahl anzeigen"); die Auswahl übersteht das Sortieren.
                 </p>
             </div>
@@ -531,7 +531,7 @@
                     Vergleicht zwei über Dropdown gewählte Texte und berechnet drei Lemma-Mengen:
                     nur in A, in beiden, nur in B – je mit Frequenz in A, Frequenz in B und der
                     absoluten Differenz. Sortier- und filterbar, mit A↔B-Swap für die gespiegelte
-                    Perspektive. Nützlich für Fragen wie „Welche Lemmata teilt der Parzival mit
+                    Perspektive. Nützlich für Fragen wie "Welche Lemmata teilt der Parzival mit
                     dem Jüngeren Titurel?" oder zur Suche nach geteilten seltenen Lemmata als
                     Lehnvers-Indiz. Ein Klick auf eine Frequenz-Zahl öffnet den jeweiligen Text in
                     der Leseansicht.
@@ -553,7 +553,7 @@
 
                 <div class="bg-white rounded-xl border border-slate-200 p-5">
                     <p class="text-sm text-slate-600 uppercase tracking-wide font-semibold mb-1">Kookkurrenz-Analyse</p>
-                    <p class="text-slate-800 font-medium mb-2">„In welchen Passagen stehen <em>minne</em> und <em>herze</em> eng zusammen?"</p>
+                    <p class="text-slate-800 font-medium mb-2">"In welchen Passagen stehen <em>minne</em> und <em>herze</em> eng zusammen?"</p>
                     <p class="text-sm text-slate-600">
                         Multi-Lemma-Suche · <strong>Nähe-Analyse</strong> · Abstand 10 Wörter ·
                         <code class="px-2 py-0.5 bg-slate-100 rounded text-xs">minne, herze</code>.
@@ -563,7 +563,7 @@
 
                 <div class="bg-white rounded-xl border border-slate-200 p-5">
                     <p class="text-sm text-slate-600 uppercase tracking-wide font-semibold mb-1">Thematische Kopräsenz auf Dokumentebene</p>
-                    <p class="text-slate-800 font-medium mb-2">„Welche Texte behandeln sowohl <em>triuwe</em> als auch <em>zwîvel</em>?"</p>
+                    <p class="text-slate-800 font-medium mb-2">"Welche Texte behandeln sowohl <em>triuwe</em> als auch <em>zwîvel</em>?"</p>
                     <p class="text-sm text-slate-600">
                         Multi-Lemma-Suche · <strong>Dokument-Suche</strong> ·
                         <code class="px-2 py-0.5 bg-slate-100 rounded text-xs">triuwe, zwîvel</code>.
@@ -573,7 +573,7 @@
 
                 <div class="bg-white rounded-xl border border-slate-200 p-5">
                     <p class="text-sm text-slate-600 uppercase tracking-wide font-semibold mb-1">Begriffsnetzwerk erkunden</p>
-                    <p class="text-slate-800 font-medium mb-2">„Welche Lemmata fallen unter den Begriff <em>Tugend</em>?"</p>
+                    <p class="text-slate-800 font-medium mb-2">"Welche Lemmata fallen unter den Begriff <em>Tugend</em>?"</p>
                     <p class="text-sm text-slate-600">
                         Authority-Ansicht <strong>Begriffe</strong> · nach <em>Tugend</em> suchen ·
                         im Detaileintrag stehen alle Lemmata, die der Begriffstaxonomie nach
@@ -583,7 +583,7 @@
 
                 <div class="bg-white rounded-xl border border-slate-200 p-5">
                     <p class="text-sm text-slate-600 uppercase tracking-wide font-semibold mb-1">Gattungsbasierte Korpusselektion</p>
-                    <p class="text-slate-800 font-medium mb-2">„Welche Werke sind der Gattung Sangspruch zugeordnet?"</p>
+                    <p class="text-slate-800 font-medium mb-2">"Welche Werke sind der Gattung Sangspruch zugeordnet?"</p>
                     <p class="text-sm text-slate-600">
                         Authority-Ansicht <strong>Gattungen</strong> · nach <em>Sangspruch</em>
                         suchen · die Werkliste im Detaileintrag zeigt alle zugeordneten Texte.
@@ -609,7 +609,7 @@
                 unter jeder Ansicht.
             </p>
             <p class="text-slate-700 leading-relaxed mb-4">
-                <strong>Wo Sie das finden:</strong> Die Datensätze stehen unter „Experimentelle Forschungsdaten". Der Block ist in der Abfragespalte
+                <strong>Wo Sie das finden:</strong> Die Datensätze stehen unter "Experimentelle Forschungsdaten". Der Block ist in der Abfragespalte
                 zugeklappt, damit nicht alles auf einmal dasteht. Ein Klick auf die
                 Überschrift öffnet ihn, und Ihre Wahl bleibt für den nächsten Besuch erhalten.
             </p>
@@ -621,8 +621,8 @@
                         Kuratierte Bezeichnungspraktiken jenseits des Eigennamens für vier Werke
                         (Eneasroman, Iwein, Rolandslied, Trojanerkrieg) aus Linda Beutel-Thurows
                         Dissertationsprojekt <em>Naming-analysis</em>. Pro Figur sind die Terme nach
-                        Kategorien gegliedert: Eigennamen, Antonomasien („der rîter" für Iwein) und
-                        Epitheta („der küene"), je mit Häufigkeit und aufklappbaren Belegstellen samt
+                        Kategorien gegliedert: Eigennamen, Antonomasien ("der rîter" für Iwein) und
+                        Epitheta ("der küene"), je mit Häufigkeit und aufklappbaren Belegstellen samt
                         Versangabe und Sprecher (Erzähler, Figurenrede oder Selbstnennung). Dazu kommt
                         der <em>Deckname</em>, der die Figur wie ein Name benennt, ohne ihr Name zu sein:
                         er erscheint nur dort, wo er kuratiert vorliegt, derzeit für Alexander als
@@ -636,7 +636,7 @@
                         ein, wer sie benennt: der Erzähler, sie selbst, die Figurenrede insgesamt oder
                         eine einzelne nennende Figur. Unter <em>Nennende Instanz</em> wählen Sie umgekehrt
                         einen Nenner, und die Terme stehen nach der genannten Figur gruppiert. Damit
-                        lassen sich Fragen wie „Welche Benennungen für wen verwendet Iwein im
+                        lassen sich Fragen wie "Welche Benennungen für wen verwendet Iwein im
                         <em>Iwein</em>?" direkt beantworten. Der Erzähler steht dabei als eigener Nenner
                         zur Auswahl, und die Selbstnennungen einer Figur zählen zu ihr als Nenner.
                     </p>
@@ -711,14 +711,14 @@
                 <a href="hilfe-daten.html#authority-files" class="text-brand-600 hover:text-brand-700 font-medium">Daten → Acht Authority Files</a>.
             </p>
             <p class="text-slate-700 leading-relaxed mb-4">
-                <strong>Wo Sie das finden:</strong> Die sechs Ansichten stehen unter „Register &amp; Indizes (Authority Files)". Der Block
+                <strong>Wo Sie das finden:</strong> Die sechs Ansichten stehen unter "Register &amp; Indizes (Authority Files)". Der Block
                 steht in der Abfragespalte offen, weil er für die meisten Fragen der Einstieg
                 ist. Ein Klick auf die Überschrift klappt ihn zu, und Ihre Wahl bleibt für den
                 nächsten Besuch erhalten.
             </p>
 
             <ul class="space-y-3 text-sm text-slate-700 mb-4">
-                <li><strong>Autor*innen</strong> – Einstieg, wenn Sie bei einer Person beginnen: „Welche Werke sind Walther von der Vogelweide zugeschrieben?" Von dort öffnen Sie jedes Werk direkt im Reading View.</li>
+                <li><strong>Autor*innen</strong> – Einstieg, wenn Sie bei einer Person beginnen: "Welche Werke sind Walther von der Vogelweide zugeschrieben?" Von dort öffnen Sie jedes Werk direkt im Reading View.</li>
                 <li><strong>Werke</strong> – Einstieg, wenn Sie bei einem Text beginnen: Sigle, Autor*in, Editionen und Handschriftenzeugen im Überblick. Nützlich, um mehrere Editionen eines Werks zu vergleichen.</li>
                 <li><strong>Lemmata</strong> – Einstieg, wenn Sie ein Wort nachschlagen wollen, bevor Sie suchen: Wortart, Bedeutungen und Belegzahl auf einen Blick. Jeder Treffer hat einen Knopf <strong>Belege suchen</strong>, der genau dieses Lemma an die <a href="#multi-lemma" class="text-brand-600 hover:text-brand-700 font-medium">Multi-Lemma-Suche</a> übergibt. Enthält zusätzlich die <a href="#wortbestandteil" class="text-brand-600 hover:text-brand-700 font-medium">Wortbestandteil-Suche</a> für Komposita-Recherche.</li>
                 <li><strong>Begriffe</strong> – Einstieg für semantische Recherche: von einem Konzept (z.B. <em>Tugend</em>) zu allen zugeordneten Lemmata absteigen.</li>
@@ -757,17 +757,17 @@
 
             <p class="text-slate-700 leading-relaxed mb-4">
                 Gesucht wird auf der normalisierten Form, angezeigt wird die Originalform. Die
-                Eingabe „wein“ wird über die Variantenliste auf das Lemma <em>wîn</em> geführt und
-                sucht dann den Bestandteil „win“. Der Kopf der Trefferliste nennt beide Formen, damit
-                nachvollziehbar bleibt, warum <em>wîn</em> unter der Eingabe „wein“ erscheint.
+                Eingabe "wein" wird über die Variantenliste auf das Lemma <em>wîn</em> geführt und
+                sucht dann den Bestandteil "win". Der Kopf der Trefferliste nennt beide Formen, damit
+                nachvollziehbar bleibt, warum <em>wîn</em> unter der Eingabe "wein" erscheint.
                 Geben Sie den Bestandteil unflektiert ein: die Brücke greift nur bei belegten
-                Schreibformen, „weine“ führt also nicht auf <em>wîn</em>.
+                Schreibformen, "weine" führt also nicht auf <em>wîn</em>.
             </p>
 
             <div class="bg-amber-50 border-l-4 border-amber-400 p-4 rounded-r-lg my-6">
                 <p class="text-sm text-slate-700">
                     <strong>Was der Zeichenvergleich nicht kann:</strong> Er vergleicht Zeichenfolgen,
-                    nicht Wortbildung. „win“ trifft deshalb auch <em>winter</em>, <em>gewinnen</em> und
+                    nicht Wortbildung. "win" trifft deshalb auch <em>winter</em>, <em>gewinnen</em> und
                     <em>winden</em>, und die Komposita auf <em>-swîn</em> (Schwein) stehen neben denen
                     auf <em>-wîn</em> (Wein). Zwei Dinge helfen beim Aussortieren: die Wortart in der
                     Trefferzeile (Eigennamen wie <em>Baldewîn</em> tragen NAM) und die Markierung

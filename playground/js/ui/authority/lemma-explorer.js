@@ -718,13 +718,13 @@ export class LemmaExplorer {
             Angezeigt werden die Originalformen.
           </p>
           <p class="mt-2 text-xs text-slate-500">
-            Der Scan vergleicht Zeichenfolgen, nicht Wortbildung. „win" trifft
+            Der Scan vergleicht Zeichenfolgen, nicht Wortbildung. "win" trifft
             deshalb auch <em>winter</em>, <em>gewinnen</em> und <em>winden</em>, und die
             Komposita auf <em>-swîn</em> (Schwein) landen neben denen auf <em>-wîn</em>
             (Wein). Wo das Wörterbuch die Wortbildung ausdrücklich verzeichnet, ist der
-            Treffer mit „belegte Wortbildung" markiert; der Filter darunter blendet
+            Treffer mit "belegte Wortbildung" markiert; der Filter darunter blendet
             alles andere aus. Geben Sie den Bestandteil unflektiert ein: die Brücke über
-            die Variantenliste greift nur bei belegten Schreibformen, „weine" führt
+            die Variantenliste greift nur bei belegten Schreibformen, "weine" führt
             also nicht auf <em>wîn</em>.
           </p>
           ${exakt}

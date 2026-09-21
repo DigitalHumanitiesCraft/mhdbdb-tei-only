@@ -189,7 +189,7 @@ export class VerseEndingProfileAnalyzer {
         <p class="mt-3 text-xs text-slate-500">
           Zählt das Lemma am letzten Wort <em>mit Lemma-Zuordnung</em> jedes Verses
           (<code>lineEnds[]</code>, Corpus-Index v4.1.0+). Verse ohne jede Zuordnung kommen gar nicht vor.
-          „Reim-Druck" = Anteil der Vorkommen dieses Lemmas <em>in der gewählten Auswahl</em>, die am
+          "Reim-Druck" = Anteil der Vorkommen dieses Lemmas <em>in der gewählten Auswahl</em>, die am
           Versende stehen; hohe Werte deuten auf reimgetriebene Verwendung. Nur Versdichtung;
           Prosa-Texte werden übersprungen.
         </p>

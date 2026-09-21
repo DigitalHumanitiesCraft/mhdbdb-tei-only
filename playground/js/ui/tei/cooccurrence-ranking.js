@@ -283,7 +283,7 @@ export class CooccurrenceRanking {
       <div class="rounded-2xl border border-slate-200 bg-slate-50/70 p-4 space-y-3">
         <h3 class="text-sm font-semibold uppercase tracking-wide text-slate-500">Kookkurrenz-Ranking</h3>
         <p class="text-xs text-slate-600">
-          „Welche Lemmata stehen am häufigsten bei X?" Window-Scan über alle Vorkommen
+          "Welche Lemmata stehen am häufigsten bei X?" Window-Scan über alle Vorkommen
           des Eingabe-Lemmas, zählt Nachbar-Lemmata. Mittelhochdeutsche Sonderzeichen
           werden normalisiert (â→a, ê→e, ü→ue).
         </p>
@@ -344,7 +344,7 @@ export class CooccurrenceRanking {
     }
 
     if (!this.state.query) {
-      return '<div class="rounded-2xl border border-dashed border-slate-200 bg-white p-8 text-center text-sm text-slate-500">Bitte Lemma eingeben und auf „Suchen" klicken.</div>';
+      return '<div class="rounded-2xl border border-dashed border-slate-200 bg-white p-8 text-center text-sm text-slate-500">Bitte Lemma eingeben und auf "Suchen" klicken.</div>';
     }
     if (!this.state.resolvedLemma) {
       return `
@@ -355,7 +355,7 @@ export class CooccurrenceRanking {
       `;
     }
     if (!this.state.result) {
-      return '<div class="rounded-2xl border border-dashed border-slate-200 bg-white p-8 text-center text-sm text-slate-500">Auf „Suchen" klicken, um Berechnung zu starten.</div>';
+      return '<div class="rounded-2xl border border-dashed border-slate-200 bg-white p-8 text-center text-sm text-slate-500">Auf "Suchen" klicken, um Berechnung zu starten.</div>';
     }
 
     return this.renderResults();

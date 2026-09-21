@@ -425,7 +425,7 @@
                 Beim Schreiben Ihrer TEI-Daten setzen Sie nur <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">@xml:id</code>;
                 <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">@lemmaRef</code>, <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">@pos</code>,
                 <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">@ana</code> und <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">@corresp</code>
-                werden über die halbautomatische Pipeline (§6) gefüllt; die Spalte „Setzt"
+                werden über die halbautomatische Pipeline (§6) gefüllt; die Spalte "Setzt"
                 gibt an, in welcher Phase das passiert.
             </p>
             <div class="overflow-x-auto mb-6">
@@ -694,7 +694,7 @@
             <p class="text-sm text-slate-700 leading-relaxed mb-3">
                 Wenn die Stufe-2-Validierung (siehe §7) fehlschlägt, sind die Fehlermeldungen
                 oft <strong>kaskadierend</strong>: ein einziges Schema-fremdes Element
-                produziert eine Folge von „extra content"-Meldungen bis hoch in den
+                produziert eine Folge von "extra content"-Meldungen bis hoch in den
                 umschließenden <code class="px-2 py-0.5 bg-slate-100 rounded">&lt;body&gt;</code>.
                 Beispiel aus dem ARITHMETIC-Dogfood:
             </p>
@@ -706,7 +706,7 @@ L106: Element div has extra content: pb
 L105: Element body has extra content: div    ← Cascade-Spitze</code></pre>
             <p class="text-sm text-slate-700 leading-relaxed mb-6">
                 <strong>Praktische Konsequenz:</strong> beim Stage-2-Debug zuerst die innerste,
-                konkreteste Meldung adressieren („Did not expect element X"). Die anderen
+                konkreteste Meldung adressieren ("Did not expect element X"). Die anderen
                 lösen sich oft mit auf, sobald die Wurzel beseitigt ist.
             </p>
 
@@ -902,16 +902,16 @@ print('Stage 2 (MHDBDB):  ', 'PASS' if mhdbdb.validate(doc) else mhdbdb.error_lo
                 und (3)&nbsp;langfristig wartbar ist.
             </p>
 
-            <h3 class="text-lg font-semibold text-slate-800 mb-2">Mindestanforderungen (MUSS): „ingest-fähig"</h3>
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">Mindestanforderungen (MUSS): "ingest-fähig"</h3>
             <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm mb-6">
                 <ul class="space-y-3 text-sm text-slate-700">
                     <li><strong>Format:</strong> Einreichung als <strong>TEI-P5-XML</strong> (MHDBDB-konform, siehe Abschnitte 1–5). Andere Formate werden nicht direkt akzeptiert. Falls Konversion gewünscht: bitte vorab Kontakt aufnehmen; Konversion/Mapping ist eine kostenpflichtige Zusatzleistung (siehe Weg&nbsp;B oben).</li>
                     <li><strong>Einreichungsweg:</strong> Bevorzugt via <strong>Pull Request</strong> auf <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">GitHub</a>; die PR-Beschreibung enthält Quelle, Umfang und Besonderheiten.</li>
                     <li><strong>Lizenz &amp; Rechte:</strong> Lizenz ist angegeben und mit dem MHDBDB-Korpus kompatibel; Rechteinhaber bzw. Projekt sind genannt.</li>
                     <li><strong>TEI-Header:</strong> MHDBDB-konformer <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;teiHeader&gt;</code> nach dem Schema-Skelett (Abschnitt&nbsp;2); <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;TEI xml:id="SIGLE"&gt;</code> ist gesetzt.</li>
-                    <li><strong>Metadaten (inhaltlich):</strong> Werk eindeutig identifizierbar und im Sinne der MHDBDB modellierbar; Autor*in angegeben (bei anonymen Texten explizit „anonym"); Primärquelle (Edition/Handschrift/Transkription) zitierfähig dokumentiert; digitale Zwischenstufe/Provenienz dokumentiert (woher stammen Datei, Transkription, Annotation).</li>
+                    <li><strong>Metadaten (inhaltlich):</strong> Werk eindeutig identifizierbar und im Sinne der MHDBDB modellierbar; Autor*in angegeben (bei anonymen Texten explizit "anonym"); Primärquelle (Edition/Handschrift/Transkription) zitierfähig dokumentiert; digitale Zwischenstufe/Provenienz dokumentiert (woher stammen Datei, Transkription, Annotation).</li>
                     <li><strong>Werk-Anker (Authority-Link):</strong> Das Werk ist an <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">works.xml</code> angebunden. Falls neu: Der PR enthält die notwendige Ergänzung bzw. wird vorab mit dem Team abgestimmt.</li>
-                    <li><strong>Body-Struktur:</strong> Der Textkörper ist in einer für Texttyp/Genre plausiblen Struktur modelliert (sauber verschachtelte Blockelemente, keine „lose Tokenliste" ohne Struktur).</li>
+                    <li><strong>Body-Struktur:</strong> Der Textkörper ist in einer für Texttyp/Genre plausiblen Struktur modelliert (sauber verschachtelte Blockelemente, keine "lose Tokenliste" ohne Struktur).</li>
                     <li><strong>Tokenisierung (lexikalischer Textfluss):</strong> Sprachliche Tokens (der eigentliche Textfluss, inklusive Kolophone mit regulärem Sprachtext) sind als <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;w&gt;</code> ausgezeichnet; jedes <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;w&gt;</code> besitzt ein dateiweit eindeutiges <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">@xml:id</code>. Paratexte ohne Sprachfunktion (rein strukturelle Marker wie Kapitelmarken ohne lexikalischen Text) müssen nicht als <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;w&gt;</code> ausgezeichnet werden.</li>
                     <li><strong>Lemmatisierung &amp; POS:</strong> Für sprachliche <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;w&gt;</code>-Tokens sind <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">@lemmaRef</code> (Verweis auf <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">lexicon.xml#lemma_…</code>) <strong>und</strong> <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">@pos</code> (MHDBDB-19-Tagset) gesetzt. Wenn Sie Lemmatisierung/POS nicht selbst liefern können: Kontakt mit dem MHDBDB-Team aufnehmen; die Annotation kann als kostenpflichtige Zusatzleistung übernommen werden (Aufwand abhängig von Umfang und Ausgangszustand).</li>
                     <li><strong>Interpunktion:</strong> Als <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;pc join="left|right"&gt;…&lt;/pc&gt;</code> ausgezeichnet, nicht als freier Text zwischen Tokens.</li>
@@ -919,14 +919,14 @@ print('Stage 2 (MHDBDB):  ', 'PASS' if mhdbdb.validate(doc) else mhdbdb.error_lo
                 </ul>
             </div>
 
-            <h3 class="text-lg font-semibold text-slate-800 mb-2">Qualitätsanforderungen (SOLL): „review-freundlich"</h3>
+            <h3 class="text-lg font-semibold text-slate-800 mb-2">Qualitätsanforderungen (SOLL): "review-freundlich"</h3>
             <p class="text-sm text-slate-700 leading-relaxed mb-3">
                 Nicht zwingend, senken aber Review- und Ingest-Aufwand deutlich:
             </p>
             <ul class="space-y-2 text-sm text-slate-700 mb-6 ml-4 list-disc list-inside">
                 <li><strong>Editorische Eingriffe</strong> explizit ausgezeichnet (z.&nbsp;B. <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;supplied&gt;</code>, nach MHDBDB-Konvention).</li>
                 <li><strong>Normdaten:</strong> Autor*in/Werk verfügen, wenn vorhanden, über externe Normdaten-IDs (GND, Wikidata) in Header- bzw. Authority-Strukturen.</li>
-                <li><strong>Checkliste im PR:</strong> kurze Übersicht „was wurde gemappt, was nicht" plus Validierungsnachweis (Befehl/Output oder CI-Status).</li>
+                <li><strong>Checkliste im PR:</strong> kurze Übersicht "was wurde gemappt, was nicht" plus Validierungsnachweis (Befehl/Output oder CI-Status).</li>
             </ul>
 
             <div class="bg-blue-50 border border-blue-200 rounded-2xl p-5 text-sm text-blue-900">
