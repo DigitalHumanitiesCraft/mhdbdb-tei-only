@@ -75,17 +75,17 @@ Die Spur führt die zweite Hälfte aus und die erste nicht. **Die Rückfrage geh
 | `stât` | `lemma_5732` | 4 | **neu** |
 | `stat` | `lemma_5713` | 1 | **neu** |
 
-45 Tokens bekommen eine bestehende Nummer, 31 eine von drei neuen. Höchste vergebene Nummer heute: `type_372376`, nächste freie `type_372377`.
+45 Tokens bekommen eine bestehende Nummer, 31 eine von drei neuen. **A1 prägt weitere sieben** (siehe dort), der Lauf kommt damit auf **zehn**. Höchste vergebene Nummer am 21.09.: `type_372376`; vergeben werden `type_372377` bis `type_372383` an A1 und `type_372384` bis `type_372386` an A3.
 
 **Das deckt sich mit KZWs eigenem `hinweis`, und zwar in allen drei Punkten**, die Koordination hat jeden einzeln am Bestand geprüft: dass `lemma_5712` und `lemma_5713` die Schreibvariante `stat` noch nicht tragen, dass `NEU_UFER`/`NEU_STAND` erst ein neues Lemma bräuchten und deshalb nicht in `actions` stehen, und dass die vier PSG-Belege mit Zirkumflex einen neuen Typ unter `lemma_5732` brauchen. Ihre Analyse ist belastbar.
 
 **Die Typprägung ist ein Handgriff und kein Nebenprodukt des Rebuilds.** `scripts/sync/extract-variants.py` liest ausschließlich `<w>`-Elemente, die **beide** Attribute tragen, `@lemmaRef` **und** `@corresp="variants.xml#type_N"`. Ein Token mit neuem `@lemmaRef`, aber ohne `@corresp`, erscheint in `variants.xml` nicht.
 
-**Und ein drittes Attribut gehört dazu, das in der ersten Fassung fehlte: `@pos`.** Gemessen über das ganze Korpus: 7.547.816 `<w>` tragen `@lemmaRef` **und** `@pos`, und **kein einziges** trägt `@lemmaRef` ohne `@pos`. Ein Token ohne `@pos` wäre also eine neue Klasse im Bestand. KZWs `actions`-Einträge liefern die Wortart mit (NOM, VRB), sie muss nicht geraten werden.
+**Und ein drittes Attribut gehört dazu, das in der ersten Fassung fehlte: `@pos`.** Gemessen über das ganze Korpus am 21.09. **vor dem Lauf**: 7.547.816 `<w>` tragen `@lemmaRef` **und** `@pos`, und **kein einziges** trägt `@lemmaRef` ohne `@pos`. Ein Token ohne `@pos` wäre also eine neue Klasse im Bestand. KZWs `actions`-Einträge liefern die Wortart mit (NOM, VRB), sie muss nicht geraten werden.
 
 **A3 wird als Skript gefahren, nicht als 76 Einzeledits.** Vorbilder im Repositorium: `scripts/apply-308-375-432.py` (Trefferzahl je Ersetzung, Abbruch bei Abweichung vom Erwartungswert) und `scripts/ingest/pos-disambig/fix-363-hausenblase.py` (Ist-Zustand je Token verifizieren, Abbruch bei fehlender Regel). Das Skript setzt je Token `@lemmaRef`, `@pos` und `@corresp`.
 
-**Die Gegenprobe gegen die stille Fehlzuweisung**, und sie ist der Grund, warum A3 überhaupt ein Skript braucht: `extract-variants.py` nimmt je Typ die häufigste Form und das häufigste Lemma und meldet Mehrdeutigkeiten nur als Zähler, ohne Exit-Code. Ein Token, das `lemmaRef=lemma_5732` mit `corresp=type_20050` kombiniert, bleibt deshalb in der Mehrheit von `lemma_5710` unsichtbar und hängt still am falschen Lemma. Kein Gate sieht das. Deshalb: `extract-variants.py` **ohne** `--apply` vor und nach dem Lauf, und die Differenz muss genau drei neue Typen zeigen und null zusätzliche Mehrdeutigkeiten.
+**Die Gegenprobe gegen die stille Fehlzuweisung**, und sie ist der Grund, warum A3 überhaupt ein Skript braucht: `extract-variants.py` nimmt je Typ die häufigste Form und das häufigste Lemma und meldet Mehrdeutigkeiten nur als Zähler, ohne Exit-Code. Ein Token, das `lemmaRef=lemma_5732` mit `corresp=type_20050` kombiniert, bleibt deshalb in der Mehrheit von `lemma_5710` unsichtbar und hängt still am falschen Lemma. Kein Gate sieht das. Deshalb: `extract-variants.py` **ohne** `--apply` vor und nach dem Lauf, und die Differenz muss genau die zehn neuen Typen des Laufs zeigen und null zusätzliche Mehrdeutigkeiten.
 
 **Das JSON wird strikt geparst, nicht geschnitten.** Die eine bekannte Fremdzeile entfernen, dann `json.loads`, dann `len(faelle) == 95` und `len(actions) == 76` als harte Bedingung. Ein Feldschnitt über 171 Objekte hat keine Kontrolle darüber, ob er eines verliert, und `rules/bauweise.md` verlangt für eine unbekannte Eingabe einen harten Fehler statt eines stillen Überspringens. Der Feldschnitt war der Weg der Koordination beim Messen; für die Arbeit taugt er nicht.
 
@@ -93,7 +93,7 @@ Die Spur führt die zweite Hälfte aus und die erste nicht. **Die Rückfrage geh
 
 **Zwei Dinge, die an KZW zurückgehen und die Arbeit nicht aufhalten:**
 
-1. Ihre `zusammenfassung` sagt `offen: 7`, gezählt sind **17**. Die Struktur ist in sich stimmig (76 + 17 + 2 = 95), die Arbeitsliste also brauchbar; falsch ist die Zahl in der Zusammenfassung.
+1. **Hier stand ein Vorwurf, und er war falsch.** Die erste Fassung schrieb: „Ihre `zusammenfassung` sagt `offen: 7`, gezählt sind 17, falsch ist die Zahl in der Zusammenfassung." Gemessen zählen die beiden Zahlen **verschiedene Felder**: ihre `zusammenfassung` zählt `status` (95 gesamt, 63 `ok`, 25 `anders`, 7 `offen`, alle vier decken sich exakt), die 17 zählen `option: OFFEN`, und die setzen sich zusammen aus 7 mit `status: offen` und 10 mit `status: anders`. Beide Zahlen sind richtig. Ihre misst, wie sie zu unserem Vorschlag steht, meine, was am Ende annotierbar ist. **Was in den Statuskommentar gehört, ist diese Auflösung und keine Korrektur**, denn sie nützt jedem, der das JSON später aufmacht. Gefunden hat den Fehler Spur A beim Nachmessen, bevor er das Ticket erreichte.
 2. **Das JSON ist nicht maschinell parsbar.** Bei Zeichen 82.382, mitten im `actions`-Array, steht eine Klartextzeile im Objekt: `"confidence": "high"` gefolgt von `Prüfer: Alan van Beek`. Einmal im ganzen Kommentar. Wie die Spur damit umgeht, steht oben: eine Zeile entfernen, dann strikt parsen. Und sie meldet die Stelle im Ticket, damit KZW und Alan wissen, dass ihr Ausgabeformat eine Handnotiz nicht verträgt.
 
 ### Spur B: `pruefseite`
@@ -138,13 +138,18 @@ Eingefroren ab Laufbeginn, weil jede Session sie beim Start lädt oder sie den R
 - `docs/playbooks/BETRIEBSVERTRAG.md` und die MASTERPLAN-Dateien
 - `.github/workflows/`, `scripts/audit/`
 
-**Die Formenzahl ist eine ausdrückliche Ausnahme vom Freeze, so wie die Versionszeilen.** Ohne sie blockiert sich der Lauf selbst, und zwar nachts um drei: die drei neuen Typen heben die Zahl der Formen in `variants.xml` über die heute dokumentierten 256.773 hinaus, `scripts/audit/doc-count-audit.py --check` prüft genau diese Zahl, und der Aufruf steht in `.github/workflows/data-integrity.yml` Zeile 313. Sie steht heute in **sieben** Dateien, von denen der Freeze vier erfasst und zwei (`index.html`, `hilfe-daten.html`) in der ersten Fassung niemandem gehörten. Abnahmepunkt 4 verlangt zugleich `data-integrity.yml` grün. Spur A stünde also vor einem roten Gate, das sie nur durch Bruch des Freeze grün bekommt.
+**Die Formenzahl ist eine ausdrückliche Ausnahme vom Freeze, so wie die Versionszeilen.** Ohne sie blockiert sich der Lauf selbst, und zwar nachts um drei: die zehn neuen Typen des Laufs heben die Zahl der Formen in `variants.xml` über die heute dokumentierten 256.773 hinaus, `scripts/audit/doc-count-audit.py --check` prüft genau diese Zahl, und der Aufruf steht in `.github/workflows/data-integrity.yml` Zeile 313. Sie steht heute in **sieben** Dateien, von denen der Freeze vier erfasst und zwei (`index.html`, `hilfe-daten.html`) in der ersten Fassung niemandem gehörten. Abnahmepunkt 4 verlangt zugleich `data-integrity.yml` grün. Spur A stünde also vor einem roten Gate, das sie nur durch Bruch des Freeze grün bekommt.
 
-**Wie weit die Zahl steigt, steht hier bewusst nicht.** Drei neue Typen heißen rechnerisch drei neue Formen, aber das ist eine Vorhersage und keine Messung: was in der Datei landet, sagt der Rebuild. Die Spur liest die neue Zahl aus `variants.xml` ab, nachdem `extract-variants.py --apply` gelaufen ist, und zieht sie dann. Weicht sie von der Vorhersage ab, ist das ein Meldepunkt und kein Grund, die abgelesene Zahl zu korrigieren.
+**Wie weit die Zahl steigt, steht hier bewusst nicht.** Zehn neue Typen heißen rechnerisch zehn neue Formen, aber das ist eine Vorhersage und keine Messung: was in der Datei landet, sagt der Rebuild. Die Spur liest die neue Zahl aus `variants.xml` ab, nachdem `extract-variants.py --apply` gelaufen ist, und zieht sie dann. Weicht sie von der Vorhersage ab, ist das ein Meldepunkt und kein Grund, die abgelesene Zahl zu korrigieren.
 
 Der Handgriff hat einen Präzedenzfall mit fertiger Dateiliste und Trefferzahlen: `scripts/update-variant-count-372376.py`, geschrieben für **+1** im September. Spur A schreibt das Gegenstück und lässt `doc-count-audit.py --check` lokal als Gate laufen. **`docs/JOURNAL.md` ist ausgenommen**, die Zahl steht dort in einem datierten Bericht und ist Geschichte, nicht Bestand.
 
-Nicht betroffen und deshalb nicht zu ziehen: die Zahl der Einträge (42.626, die Lemma-Gruppen bleiben dieselben) und die Zahl der normalisierten Mappings in `CONTRACTS.md` §C (234.245, andere Menge, siehe #279).
+Nicht betroffen und deshalb nicht zu ziehen: die Zahl der Einträge (42.626, die Lemma-Gruppen bleiben dieselben). Gemessen nach dem Lauf: bestätigt, sie steht unverändert.
+
+~~Ebenfalls nicht zu ziehen: die Zahl der normalisierten Mappings in `CONTRACTS.md` §C (234.245, andere Menge, siehe #279).~~ **Falsch, Spur A hat es gemessen und widerlegt.** Eine andere Menge zu sein heißt nicht, unberührt zu sein: die zehn neuen Rohformen ergeben fünf neue Mappings, weil die Deduplizierung normalisiert, und die Zahl geht von 234.245 auf **234.250**. Der Satz oben hat #279 richtig zitiert und den falschen Schluss daraus gezogen. Zwei Dinge, die dabei herausgekommen sind und über diesen Lauf hinausgehen:
+
+- **Der Zug betrifft mehr als die zwei Zeilen in `CONTRACTS.md` §C**, und `doc-count-audit.py` kennt die Zahl als `variants_normalized` in sieben Dateien. Nicht jeder Treffer im Repositorium ist zu ziehen: `JOURNAL.md` und das Skript des vorigen Zugs tragen datierte Stände, `DECISIONS.md` ist seit dem 17.09. vom Gate ausgenommen und von Hand anzusehen, und `CONTRACTS.md:99` trägt **beide** Zahlen mit verschiedenen Rollen (234.244 als Stand von v1.6.2 bleibt, „today 234,245" zieht mit).
+- **Gate und Index zählen dieselbe Menge, und das stand nirgends.** `doc-count-audit.py` misst über `variants.xml` (`count_variants_normalized`), die Dokumentation beschreibt das Laufzeit-Dictionary aus dem Authority-Index. Gemessen in beiden Bäumen: 234.245 gegen 234.245, 234.250 gegen 234.250. Hätten sie sich unterschieden, wäre das Gate nach einem richtigen Zug rot geblieben, und niemand hätte gewusst, welche Zahl in die Dokumentation gehört.
 
 **Inbox:** der Abschnitt am Ende dieses Dokuments. Format eines Wunsches: Datei, eindeutiger Ankertext, der **wörtliche** Ersatztext, ein Satz warum. Die Koordination trägt ein, nicht die Spur. **Im Tagbetrieb ist die Inbox kein Wartezimmer**, sondern nur die Ablage: die Spur meldet den Wunsch zusätzlich sofort, und die Koordination trägt ihn im selben Zug ein oder lehnt ihn ab.
 
@@ -212,7 +217,7 @@ Diese vier werden nicht neu verhandelt. Wer sie für falsch hält, sagt es, arbe
 | Frage | Entscheidung | Begründung |
 |---|---|---|
 | Zuschnitt | zwei Spuren, Daten sequenziell | siehe Abschnitt 2 |
-| Neue Variantentypen in #371 | **prägen**, drei Stück, ab `type_372377` | Präzedenz #367 (Authority 1.9.2) und #363 (1.9.4). Die Regel lautet nicht „nie prägen", sondern: umgehängt wird nur, wo korpusweit ausschließlich Tokens der wandernden Menge den Typ tragen. Hier wird nichts umgehängt, weil alle 76 Tokens heute ohne `@lemmaRef` dastehen |
+| Neue Variantentypen | **prägen**, zehn Stück: sieben in A1 (`type_372377` bis `_383`), drei in A3 (`type_372384` bis `_386`) | Präzedenz #367 (Authority 1.9.2) und #363 (1.9.4). Die Regel lautet nicht „nie prägen", sondern: umgehängt wird nur, wo korpusweit ausschließlich Tokens der wandernden Menge den Typ tragen. Hier wird nichts umgehängt, weil alle 76 Tokens heute ohne `@lemmaRef` dastehen |
 | #359 | **#443 zuerst**, #359 als erste Anwendung | KZW verlangt es wörtlich („Bitte hierzu auch #443 berücksichtigen"), Alans Anforderungen liegen vor, und es wäre sonst die vierte Einzelseite, gegen die #443 geschrieben wurde |
 | Merge | **nein**, PR aufmachen und melden | `CLAUDE.md`: kein Commit und kein Push ohne Freigabe. An beiden PRs hängt KZWs Abnahme |
 
@@ -225,7 +230,7 @@ Was die Regel dennoch festlegt, weil es keine Ermessensfrage ist: bei Abbruch ni
 **Zwei Dinge gehören trotzdem zum Abbruch:**
 
 1. Der Statuskommentar an #371 führt die **nicht** gesetzten Token-IDs mit Namen auf, nicht „36 von 76". Eine Anzahl lässt sich nicht falsifizieren, eine Namensliste schon.
-2. Die drei Typnummern samt Paarzuordnung stehen **vor** dem ersten Token im PR-Text und in `ingest/`. Sonst prägt die Fortsetzung eine vierte.
+2. Die Typnummern samt Paarzuordnung stehen **vor** dem ersten Token im PR-Text und in `ingest/`. Sonst prägt die Fortsetzung eine elfte.
 
 ---
 

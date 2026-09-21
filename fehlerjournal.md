@@ -447,3 +447,112 @@ Aus `docs/JOURNAL.md`.
 **Was sie getragen haben:** das falsche Datum stand in einem Kommentar an KZW, der ihr gegenüber begründet, warum ihre Antworten nicht mehr als Rückstand geführt werden. Beide Stellen sind berichtigt, der Kommentar mit einem eigenen Nachtrag statt durch stille Änderung. Die Labelzahl stand im Commit `18b98c423` und wäre ohne die Reviewrunde gemergt worden.
 
 **Die dritte Zeile heißt Mechanismuswechsel statt weiterzählen, und der Mechanismus existiert bereits zweimal**, weshalb hier keiner gebaut wird: projektseitig als #454 (Staleness, mit diesen Fällen als Belegen), generisch als [`claude-code-setup#64`](https://github.com/chsteiner/claude-code-setup/issues/64), wo der Trockenlauf für einen Hook steht, der prüft, ob eine im Text genannte Fundstelle in dieser Sitzung überhaupt gelesen wurde. Genau dieser Hook hätte alle drei Fälle gefangen: in allen dreien **war** sie gelesen, nur nicht befragt. **Das ist der Unterschied, den #64 noch nicht misst**, und er gehört dort als Befund hinein.
+
+### 50. Rot, vierte Zeile derselben Lehre: die Auskunft stand zwei Bildschirmseiten über dem Satz, der sie widerlegt.
+
+**Rot.** Im Kommentar an #375 vom 21.09.2026, 07:40, angekuendigt, dass „die 8 eindeutigen und die 8 von dir gelesenen Fälle" umannotiert werden. Beide Hälften falsch: die acht eindeutigen sind seit dem 14.09. erledigt (PR #438, alle acht tragen `lemma_7338`/ADJ, nachgemessen), und von den acht gelesenen sind vier Arbeit und vier bestätigen den Ist-Stand. Gemessene Menge: **vier** Tokens, nicht sechzehn.
+
+**Die Lehre ist dieselbe wie in 38 und 39 und steht in `eigene-quellen.md`: geladene Quelle nicht befragt.** Der Zwischenstand vom 14.09., 23:11, steht im selben Thread, und ich hatte diesen Thread am Vormittag desselben Tages in der #406-Triage vollständig gelesen. Die letzte Zeile dazu ist Eintrag 39 vom selben Tag.
+
+**Damit ist es die vierte, und nach `wiederholte-fehler.md` ist eine vierte Zeile kein Befund mehr, sondern der Beleg, dass niemand die Konsequenz gezogen hat.** Gezogen ist sie: #454 trägt die projektseitige Haelfte, `claude-code-setup#64` die generische. Gebaut ist sie nicht. Dieser Eintrag ist deshalb kein Zählschritt, sondern gehört als Fall an #454.
+
+**Was er getragen hat:** KZW liest in dem Kommentar, der sich bei ihr für die falsche Triage entschuldigt, eine Ankündigung von Arbeit, die getan ist. Richtiggestellt in issuecomment-5758541144, mit der Messung je Token.
+
+**Was mich nicht entlastet, aber zur Sache gehört:** aufgefallen ist es beim Schreiben des Kickoffs für Spur A, nicht beim Schreiben des Kommentars. Bestaetigt hat es die Spur unabhaengig, nachgemessen habe ich es selbst. Ein Fehler, den erst die Arbeitsvorbereitung für jemand anderen sichtbar macht, wäre ohne den Lauf stehen geblieben.
+
+**Nummernvergabe, damit die Lücke erklaert ist:** 40 bis 44 sind für Spur `mhdbdb-daten` reserviert, 45 bis 49 für `mhdbdb-pruefseite`, 50 bis 54 für die Koordination. Vorab vergeben, weil drei Sessions gleichzeitig anhängen und sonst alle drei „die nächste" schreiben. Der Preis ist, dass das Journal in diesem Abschnitt nicht streng chronologisch ist.
+
+### 51. Rot: zwei Zahlen verglichen, die zwei Felder zählen, und daraus einen Vorwurf an einen Menschen gemacht.
+
+**Rot: zwei Zahlen verglichen, die zwei Felder zählen, und daraus einen Vorwurf an einen Menschen gemacht.** Im Laufplan zum Datenlauf und im Auftrag an Spur A stand: KZWs `zusammenfassung` im #371-JSON sage `offen: 7`, gezählt seien **17**, „falsch ist die Zahl in der Zusammenfassung". Gemessen zählen die beiden Zahlen verschiedene Felder. Ihre `zusammenfassung` zählt `status`, und zwar in allen vier Werten exakt (95 gesamt, 63 `ok`, 25 `anders`, 7 `offen`); meine 17 zählen `option: OFFEN`, zusammengesetzt aus 7 mit `status: offen` und 10 mit `status: anders`. **Beide Zahlen sind richtig.** Ihre misst, wie sie zum Vorschlag steht, meine, was am Ende annotierbar ist.
+
+**Die Lehre, die nicht gegriffen hat, steht in `mengen.md`: zwei Zahlen nebeneinander sind zwei Mengen, bis das Gegenteil gemessen ist.** Die Regel beschreibt genau diesen Fall, den Vergleich, der zusätzlich behauptet, beide Werte hätten dieselbe Grundmenge, und sagt dazu, diese Behauptung stehe nie da und werde nie geprüft. Hier stand sie nicht da und wurde nicht geprüft. Die letzte Zeile zu dieser Lehre ist Eintrag 31.
+
+**Was den Fall schwerer macht als eine Zahlendrift:** die Differenz war kein Rechenfehler, sondern ein Vorwurf, also eine Behauptung über die Arbeit eines Menschen, und die braucht denselben Beleg wie eine Zahl. Gefallen ist sie vier Tage nach KZWs Rüge in #406, in der sie die Verlässlichkeit der ganzen Triage in Frage stellt, und in einem Lauf, dessen Kickoff-Texte sich auf diese Rüge berufen.
+
+**Was er getragen hat:** der Satz stand in zwei gepushten Dokumenten und war Auftragsinhalt, Spur A sollte ihn als einen von zwei Punkten an KZW zurückmelden. Angehalten hat Spur A, mit der Begründung, die Zahl zähle ein anderes Feld. Nachgemessen habe ich selbst, mit der Gesamtrechnung 76 + 17 + 2 = 95 als Kontrollwert; beide Stellen sind korrigiert, und an KZW geht jetzt die Auflösung statt einer Korrektur.
+
+**Kein abgewendeter Fehler.** Abgewendet ist allein, dass er das Ticket erreicht hat; getragen hatte er da schon, nämlich einen Auftrag an eine arbeitende Spur. Und abgewendet hat ihn weder eine Vorrichtung von mir noch mein zweiter Blick, sondern die Vorschrift im Auftrag, dass auch die Zahlen der Koordination nachzumessen sind. Das ist heute das zweite Mal, dass diese eine Zeile einen meiner Fehler fängt, nach den sieben Typen in A1. Sie ist damit die einzige Vorrichtung des Laufs, die auf die Koordination selbst zeigt, deren Arbeit durch kein Review geht.
+
+### 52. Rot: aus einer auskommentierten Zeile auf das Verhalten eines Gates geschlossen, und das Gegenteil behauptet.
+
+**Rot: aus einer auskommentierten Zeile auf das Verhalten eines Gates geschlossen, und das Gegenteil behauptet.** Ich habe Spur A geschrieben, `docs/DECISIONS.md` sei in `doc-count-audit.py` von der Prüfung auf `variants_normalized` ausgenommen, „Kommentar Zeile 159, seit 2026-09-17". Die Zeile sagt: `# ('docs/DECISIONS.md', 'variants_normalized') stand hier bis 2026-09-17.`, und die zwei Zeilen darunter sagen „also ist die Ausnahme weg". Der Eintrag **stand** dort und ist entfernt; die Datei wird geprüft und steht in `DOC_TARGETS`. Ich hatte die Zeile in einer `rg`-Ausgabe gesehen und nicht in der Datei.
+
+**Die Lehre, die nicht gegriffen hat, steht in `agentenbefunde.md`: der eigene Befund ist der gefährlichere, weil eine selbst erhobene Messung sich geprüft anfühlt, auch wenn nur die Zahl gemessen wurde und nicht der Schluss daraus.** Gemessen hatte ich, dass die Zeile existiert. Behauptet habe ich, was das Gate tut. Die letzte Zeile zu dieser Lehre ist Eintrag 38.
+
+**Was er getragen hat:** die Angabe war Teil einer Anweisung, welche Stellen zu ziehen sind und welche nicht. Wäre Spur A ihr gefolgt, wäre eine echte Ist-Angabe stehen geblieben und `data-integrity.yml` rot, also genau der Abnahmepunkt, um dessentwillen die Anweisung geschrieben war.
+
+**Nicht abgewendet, obwohl nichts passiert ist.** Angehalten hat Spur A, weil ihr Auftrag verlangt, auch die Zahlen der Koordination nachzumessen, und sie hat die Stelle aufgeschlagen statt sie zu glauben. Das ist heute das dritte Mal, dass diese eine Vorschrift eine meiner Angaben umwirft: die sieben Typen in A1, KZWs `offen: 7`, und jetzt diese. **Bei mir ist die schärfere Lesart die richtige**, weil die Arbeit der Koordination durch kein Review geht und der Zähler sonst meinen Bestand an Glück misst.
+
+**Kein neuer Mechanismus, und das ist begründet und nicht versäumt.** `agentenbefunde.md` ist seit dem 16.09.2026 ausdrücklich ausgesetzt: ob ein Satz mehr behauptet, als seine Quelle hergibt, sieht kein Muster. Die Aussetzung ist nach `wiederholte-fehler.md` selbst der Mechanismus. Was in diesem Lauf tatsächlich greift, ist keine Vorrichtung von mir, sondern ein Satz in fremden Aufträgen, und dass er dreimal an einem Tag trifft, gehört als Fall an #454.
+
+### 53. Rot: dem Peer eine Lücke in einem Skill gemeldet, die keine ist, und dabei behauptet, seine Quelle gelesen zu haben.
+
+**Rot: dem Peer eine Lücke in einem Skill gemeldet, die keine ist, und dabei behauptet, seine Quelle gelesen zu haben.** An `cc-setup-peer-main-agent` ging der Befund, das `operator`-Skill habe für die Koordination nur zwei Vorrichtungen, beide griffen erst nach einer Spurmessung, und die Zeile, die heute vier meiner Planaussagen gefangen hat, sei „ein Zufall meines Auftragstextes und keine Eigenschaft des Verfahrens". Dazu ein Vorschlag, was ein elfter Baustein leisten solle. **Alles drei falsch.** Die Klausel ist Baustein 7 im Wortlaut („der ganze Auftragstext ist eine Behauptung und vor der Verwendung nachzumessen: jede Zahl, jede Allaussage und jede Datei- oder Zeilenangabe"), sie steht als Punkt 7 in der Prüfliste, und mein Vorschlag steht als Auflage in `SKILL.md`: „Jede Zahl im Auftragstext trägt ihre Herkunft."
+
+**Der Satz, der alles trägt, war eine Unwahrheit über meine eigene Arbeit:** „Das Skill hat für die Koordination zwei Vorrichtungen, und ich habe beide vor dem Schreiben dieser Nachricht nachgelesen." Nachgelesen hatte ich sie in `.claude/tmp/lauf-2026-09-21-listen.md`, meiner eigenen Betriebsliste, also in einer Abschrift von heute früh. Das Skill war die ganze Zeit geladen.
+
+**Die Lehre, die nicht gegriffen hat, steht in `eigene-quellen.md`: geladen heißt nicht befragt, und ein Skill, das für genau diese Arbeit geladen ist, ist eine Quelle und kein Wissen.** Die Regel nennt den Preis als Kriterium: der Griff kostete zwei `grep`, der Satz kostete einen Peer eine Prüfung. Die letzte Zeile zu dieser Lehre ist Eintrag 50.
+
+**Was er getragen hat:** die Nachricht war eine Vorlage für einen Vorgang in einem fremden Repositorium, mit einer Gestaltungsempfehlung daran. Der Peer hat die drei Stellen selbst aufgeschlagen und den Kernschluss widerlegt, bevor er etwas angelegt hat.
+
+**Was übrig bleibt und schärfer ist als das Gemeldete:** Baustein 7 ist eine Empfängerpflicht, die Spur misst nach. Was ich gerissen habe, ist die Absenderpflicht aus `mengen.md`, wo die Antwort auf „woher weiß ich das" ein Kommando ist, gehört das Kommando daneben. Meine Planzahlen trugen keine. Der Peer hat diesen Schnitt gezogen, nicht ich, und er ist der Grund, warum kein elfter Baustein nötig ist: die Auflage gilt global und würde sich im Skill nur verdoppeln.
+
+### 54. Rot, zweites Mal an diesem Tag: den Quelltext eines ausführbaren Gates gelesen und daraus sein Verhalten behauptet.
+
+**Rot, zweites Mal an diesem Tag: den Quelltext eines ausführbaren Gates gelesen und daraus sein Verhalten behauptet.** Spur B fragte, wer ihr neues `scripts/review/` in `scripts/README.md` einträgt. Ich habe in `check-doc-inventories.py` die gebundenen Pfade gemessen (`scripts`, `scripts/audit`, `scripts/sync`, `scripts/_archived`), festgestellt, dass `review/` nicht darunter ist, und ihr geschrieben, ihr Verzeichnis könne das Gate deshalb nicht kippen. **Falsch.** Das Gate scannt den Ordner zwar nicht, liest aber jeden Skriptnamen im Verzeichnisbaum und hält ihn gegen die gescannten Dateien: ein Name aus einem ungescannten Ordner ist damit „genannt, aber nicht vorhanden".
+
+**Die Lehre ist dieselbe wie in Eintrag 52, und zwar bis in die Form:** wer aus einem Feldwert auf ein Verhalten schließt, hat das Feld gemessen und das Verhalten behauptet (`agentenbefunde.md`). Beide Male war es ein Audit-Skript, beide Male lag es ausführbar daneben, und beide Male hat die Spur es widerlegt. Die letzte Zeile zu dieser Lehre ist Eintrag 52, von heute.
+
+**Diesmal mit Mutationsprobe statt mit Zustimmung.** Erfundener Name als Baumzeile in `scripts/README.md`, Gate ausgeführt, Original zurückgeschrieben: Exit 0 auf Exit 1, der Name namentlich gemeldet, Datei danach byteweise identisch. **Der erste Anlauf der Probe war ungültig** und hätte Spur B ein zweites Mal falsch beschieden: er setzte den Namen hinter ein Kommandobeispiel, und solche Zeilen überspringt das Gate ausdrücklich. Exit 0, und das sah aus wie ein Nullbefund.
+
+**Was er getragen hat:** die Begründung einer Anweisung an eine arbeitende Spur. Der Handlungsteil war zufällig richtig (sie trägt es selbst ein) und ist es jetzt zwingend statt nur sauber; die Begründung war das Gegenteil dessen, was das Gate tut.
+
+**Und hier wird gezählt genug.** Dies ist die fünfte Zeile zu `agentenbefunde.md` und die zweite an einem Tag zu demselben Teilfall. **Hier stand zuerst „die dritte seit Eintrag 38“, und das war woertlich richtig und im Zuschnitt unbegründet eng:** „seit 38“ stand da, weil mein Grep nach dem Dateinamen den Eintrag 23 nicht fand, der die Lehre in Prosa nennt. Die Kette ist 23, 36, 38, 52. Gefunden hat es Spur B beim Prüfen ihrer eigenen Rückverweise, und es ist derselbe Fehler, von dem dieser Eintrag handelt: eine Suche gemessen und ihren Zuschnitt behauptet. An der Konsequenz ändert die Zahl nichts. Die Gruppe ist seit dem 16.09.2026 ausgesetzt, weil kein Muster sieht, ob ein Satz mehr behauptet als seine Quelle. **Der Teilfall ist enger und deshalb greifbar: eine Aussage über das Verhalten eines Gates, das ausführbar danebenliegt.** Dagegen hilft kein Muster, sondern eine Gewohnheit mit einem Preis von Sekunden: das Gate ausführen, nicht seinen Quelltext zitieren, und bei einer Mutationsprobe zuerst prüfen, ob sie überhaupt an der Stelle ansetzt, um die es geht. Das gehört als Satz in die Projektanweisung und steht bis dahin hier.
+### 55. Rot: eine Allaussage gegen die eigene Messung geschrieben, deren Ausgabe im Kontext stand.
+
+**Rot: eine Allaussage gegen die eigene Messung geschrieben, deren Ausgabe im Kontext stand.** Ich hatte für Spur A nachgemessen, welche der zehn neuen
+Variantentypen im Laufzeit-Wörterbuch überhaupt sichtbar werden, und die
+Ausgabe meines eigenen Skripts listete Form für Form, ob ein Lemma mit
+passendem `normalized` existiert: bei sieben der zehn steht dort `nein`. In
+der Nachricht an die Spur, wenige Minuten später, stand trotzdem
+„`hawsen` ist das einzige, für das kein Lemma einen passenden
+`normalized` hat“. **Sieben, nicht eines.** Die Tabelle, die es widerlegt,
+hatte ich selbst erzeugt, sie stand unverändert im Kontext, und ich habe sie
+nicht noch einmal angesehen.
+
+Die Lehre ist `eigene-quellen.md`: geladene Quelle nicht befragt, und zwar
+in ihrer billigsten Form, denn die Quelle war nicht einmal eine Datei,
+sondern die Ausgabe von vorhin. Die letzte Zeile zu dieser Lehre ist
+Eintrag 53, von heute.
+
+**Was es getragen hat:** eine abgeschickte Anweisung an eine arbeitende
+Spur, mit der Aufforderung, den Satz in den PR-Text zu übernehmen. Dort
+wäre er zur Bedingung geworden, unter der eine Prägung eine
+Verhaltensänderung trägt, also zu einer Aussage, auf der künftige Läufe
+aufsetzen.
+
+**Warum die Zeile trotzdem rot ist, obwohl sie gefangen wurde.** Gefangen
+hat sie Spur A, weil ich ihr im selben Absatz geschrieben hatte, sie solle
+nachmessen statt übernehmen. Die Vorrichtung, die gegriffen hat, steht also
+beim Empfänger und ist eine, die ich für fremde Befunde gebaut habe. Bei
+mir hat nichts gegriffen. Wer einen solchen Fang „abgewendet“ nennt,
+zählt die Aufmerksamkeit anderer als eigene Vorsorge. Die richtige Fassung
+steht jetzt im PR und ist zweiteilig: die Schreibform darf kein Lemmaname
+sein **und** muss im Wörterbuch schon unter einem anderen Lemma stehen;
+sieben erfüllen die erste Bedingung, `hawsen` als einzige auch die zweite.
+
+**Und hier ist die Konsequenz fällig, nicht die vierte Zeile.** Kette
+gemessen: 39, 50, 53, diese ist die vierte, und die dritte war heute.
+`wiederholte-fehler.md` sagt, bei der dritten werde der Mechanismus
+gewechselt und eine vierte sei nur noch der Beleg, dass es niemand getan
+hat. Für die Gruppe insgesamt ist das schwer, weil kein Muster sieht, ob
+ein Satz eine Fundstelle braucht; die Frage liegt seit dem 13.09.2026 in
+`claude-code-setup#57`, Untergruppe (a). **Dieser Teilfall ist enger und
+deshalb greifbar: eine Allaussage über eine Menge, die in derselben Sitzung
+mit einem eigenen Skript gemessen wurde.** Dagegen hilft, was `mengen.md`
+für Zahlen längst verlangt, nur auf Allaussagen angewandt: die Ausgabezeile
+neben den Satz setzen. Hätte „7 von 10 ohne Stufe-1-Treffer“
+danebengestanden, wäre „das einzige“ nicht zu schreiben gewesen.
+Vorgelegt wird das Christian, weil es eine globale Regel ändert und nicht
+dieses Projekt.

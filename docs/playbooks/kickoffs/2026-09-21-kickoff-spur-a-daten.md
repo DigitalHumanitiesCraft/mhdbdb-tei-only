@@ -68,6 +68,8 @@ Acht Tokens, alle heute **ohne** `@lemmaRef`, in fünf Dateien (DES2, KBL4, KDO 
 
 Eine Falle: `KDO_123250200_3` steht im Ticket als `DO_...` getippt. Such nach der `xml:id`, nicht nach der Schreibung im Kommentar.
 
+**A1 prägt sieben Variantentypen, und das stand nicht in der ersten Fassung dieses Auftrags.** Keine der sieben Schreibungen ist unter ihrem Ziellemma belegt: `bersige` unter `lemma_26988`, `gewuertz`, `würtzenn` und `würczenn` unter `lemma_7736`, `gehornn` unter `lemma_2039`, `zimendtrinttenn` unter `lemma_26776`, `hawsen` unter `lemma_42619`. Sieben Paare für acht Tokens, weil zwei dieselbe Form unter demselben Lemma sind. Das ist keine neue Entscheidung: es steht seit dem 06.09. im Ticket und folgt der Regel aus #367. Bei `hawsen` ist das Umhängen ausgeschlossen, weil die Form unter `lemma_49714` als `type_372368` geführt wird und ein Umhängen die #363-Tokens mitrisse.
+
 **Der Datenauftrag zu `hirne` hat zwei Hälften, und nur eine ist ausführbar.** KZW schreibt: „Entferne diese Schreibvariante aus dem lemma hirne (lemma_2853), denn das ist leer und ohne Token. Füge es zu lemma_2039 hinzu." Die zweite Hälfte steckt in den acht Tokens. Die erste hat kein Objekt: gemessen trägt `lemma_2853` **228 Tokens in 66 Dateien**, ist also nicht leer, und die Form `gehornn` steht gar nicht unter ihm.
 
 Führ die erste Hälfte **nicht** aus. Schreib stattdessen eine Rückfrage an #366, und zwar **als Fortschreibung mit Vorlauf**: was bereits umgesetzt ist, was du gemessen hast, warum die erste Hälfte kein Objekt hat. Ohne diesen Vorlauf liest KZW sie als die Sorte Wiederholung, die sie am 17.09. in #406 gerügt hat.
@@ -106,7 +108,7 @@ Das deckt sich mit KZWs eigenem `hinweis` im JSON, den die Koordination in allen
 
 **Zwei Dinge gehen an KZW zurück, halten dich aber nicht auf:**
 
-1. Ihre `zusammenfassung` sagt `offen: 7`, gezählt sind **17**. Die Struktur ist in sich stimmig, falsch ist die Zahl in der Zusammenfassung.
+1. ~~Ihre `zusammenfassung` sagt `offen: 7`, gezählt sind **17**, falsch ist die Zahl in der Zusammenfassung.~~ **Zurückgezogen, der Vorwurf war falsch, und du hast ihn gefunden.** Die beiden Zahlen zählen verschiedene Felder: `zusammenfassung` zählt `status` (95 gesamt, 63 `ok`, 25 `anders`, 7 `offen`, alle vier decken sich exakt), die 17 zählen `option: OFFEN`, zusammengesetzt aus 7 mit `status: offen` und 10 mit `status: anders`. **Beide Zahlen sind richtig.** An KZW geht deshalb keine Korrektur, sondern diese Auflösung: ihr Feld sagt, wie sie zum Vorschlag steht, unseres, was am Ende annotierbar ist.
 2. **Das JSON ist nicht parsbar.** Bei Zeichen 82.382, im `actions`-Array, steht `"confidence": "high"` gefolgt von der Klartextzeile `Prüfer: Alan van Beek`. Genau einmal im ganzen Kommentar. Entferne diese eine Zeile und parse dann **strikt** mit `json.loads`, mit `len(faelle) == 95` und `len(actions) == 76` als harter Bedingung. Kein Feldschnitt über Regex: der hat keine Kontrolle darüber, ob er ein Objekt verliert, und `rules/bauweise.md` verlangt für eine unbekannte Eingabe einen harten Fehler statt eines stillen Überspringens. Meld die Stelle im Ticket, damit KZW und Alan wissen, dass ihr Ausgabeformat eine Handnotiz nicht verträgt.
 
 ---
@@ -115,21 +117,21 @@ Das deckt sich mit KZWs eigenem `hinweis` im JSON, den die Koordination in allen
 
 **Als Skript, nicht als 88 Einzeledits.** Vorbilder: `scripts/apply-308-375-432.py` (Trefferzahl je Ersetzung, Abbruch bei Abweichung vom Erwartungswert) und `scripts/ingest/pos-disambig/fix-363-hausenblase.py` (Ist-Zustand je Token verifizieren, Abbruch bei fehlender Regel). Leg es unter `scripts/ingest/` ab.
 
-**Je Token drei Attribute: `@lemmaRef`, `@pos`, `@corresp`.** Das dritte ist der Grund, warum die Typprägung überhaupt Arbeit ist: `scripts/sync/extract-variants.py` liest ausschließlich `<w>` mit `@lemmaRef` **und** `@corresp`, ein Token ohne `@corresp` erscheint in `variants.xml` nicht. Und `@pos` ist keine Kür: gemessen tragen **7.547.816** Tokens `@lemmaRef` mit `@pos` und **null** ohne. Ein Token ohne `@pos` wäre eine neue Klasse im Bestand. KZWs `actions` liefern die Wortart mit.
+**Je Token drei Attribute: `@lemmaRef`, `@pos`, `@corresp`.** Das dritte ist der Grund, warum die Typprägung überhaupt Arbeit ist: `scripts/sync/extract-variants.py` liest ausschließlich `<w>` mit `@lemmaRef` **und** `@corresp`, ein Token ohne `@corresp` erscheint in `variants.xml` nicht. Und `@pos` ist keine Kür: gemessen am 21.09. **vor dem Lauf** tragen **7.547.816** Tokens `@lemmaRef` mit `@pos` und **null** ohne. Ein Token ohne `@pos` wäre eine neue Klasse im Bestand. KZWs `actions` liefern die Wortart mit.
 
-**Die Gegenprobe, die den stillen Fehler fängt.** `extract-variants.py` nimmt je Typ die häufigste Form und das häufigste Lemma und meldet Mehrdeutigkeiten nur als Zähler, ohne Exit-Code. Ein Token, das `lemmaRef=lemma_5732` mit `corresp=type_20050` kombiniert, bleibt deshalb in der Mehrheit von `lemma_5710` unsichtbar und hängt still am falschen Lemma. **Kein Gate sieht das.** Also: `extract-variants.py` **ohne** `--apply` vor und nach deinem Lauf, und die Differenz muss genau die drei neuen Typen zeigen und **null** zusätzliche Mehrdeutigkeiten.
+**Die Gegenprobe, die den stillen Fehler fängt.** `extract-variants.py` nimmt je Typ die häufigste Form und das häufigste Lemma und meldet Mehrdeutigkeiten nur als Zähler, ohne Exit-Code. Ein Token, das `lemmaRef=lemma_5732` mit `corresp=type_20050` kombiniert, bleibt deshalb in der Mehrheit von `lemma_5710` unsichtbar und hängt still am falschen Lemma. **Kein Gate sieht das.** Also: `extract-variants.py` **ohne** `--apply` vor und nach deinem Lauf, und die Differenz muss genau die zehn neuen Typen des Laufs zeigen und **null** zusätzliche Mehrdeutigkeiten.
 
 **Dann die Kette aus dem Data-Change-Lifecycle**, vollständig und in dieser Reihenfolge: `extract-variants.py --apply`, `build-corpus-index.py`, `build-authority-index.py`, `build-api.py`, Versions-Bump an **allen fünf** Stellen. Freie Nummern heute: Corpus **4.2.18**, Authority **1.9.8**, und es sind keine anderen PRs offen, die sie beanspruchen könnten.
 
 **`--allow-dirty` brauchst du für alle drei Builds.** Sie verweigern sonst den unsauberen Baum, der Lifecycle verlangt aber den gemeinsamen Commit von TEI, Indexen und `api/`. **Greif nicht zu `git stash`**, wenn eine Meldung „commit or stash the changes above" erscheint: das hat in diesem Projekt schon Arbeit vernichtet.
 
-**Danach die Formenzahl nachziehen**, nach dem Muster von `scripts/update-variant-count-372376.py`, und `scripts/audit/doc-count-audit.py --check` lokal grün fahren. **Lies die neue Zahl aus `variants.xml` ab, statt sie zu rechnen.** Drei neue Typen heißen rechnerisch drei neue Formen, aber das ist eine Vorhersage. Weicht die abgelesene Zahl ab, ist das ein Meldepunkt und kein Grund, sie zu korrigieren.
+**Danach die Formenzahl nachziehen**, nach dem Muster von `scripts/update-variant-count-372376.py`, und `scripts/audit/doc-count-audit.py --check` lokal grün fahren. **Lies die neue Zahl aus `variants.xml` ab, statt sie zu rechnen.** Zehn neue Typen heißen rechnerisch zehn neue Formen, aber das ist eine Vorhersage. Weicht die abgelesene Zahl ab, ist das ein Meldepunkt und kein Grund, sie zu korrigieren.
 
 ---
 
 ## 8. Vorab entschieden, nicht neu zu verhandeln
 
-- **Neue Variantentypen prägen**, drei Stück. Präzedenz #367 und #363. Die Regel lautet nicht „nie prägen", sondern: umgehängt wird nur, wo korpusweit ausschließlich Tokens der wandernden Menge den Typ tragen.
+- **Neue Variantentypen prägen**, zehn Stück: sieben in A1, drei in A3, keine in A2. Präzedenz #367 und #363. Die Regel lautet nicht „nie prägen", sondern: umgehängt wird nur, wo korpusweit ausschließlich Tokens der wandernden Menge den Typ tragen.
 - **Nicht mergen.** Du öffnest einen PR und meldest. An ihm hängt KZWs Abnahme.
 - **Kein Ticket schließen.** Ein `Closes` ist keine Abnahme.
 - **Relabeln**, was du anfasst, in derselben Session, plus ein Statuskommentar je Vorgang.
@@ -185,9 +187,9 @@ Das deckt sich mit KZWs eigenem `hinweis` im JSON, den die Koordination in allen
 Du bist fertig, wenn jemand, der diesen Lauf nicht miterlebt hat, aus dem PR allein beantworten kann:
 
 - **Welche Tokens wurden angefasst, namentlich**, und auf welche Entscheidung von KZW mit Datum und Kommentarverweis geht jedes zurück?
-- **Welche drei Typnummern wurden geprägt**, für welche Form unter welchem Lemma, und warum geprägt statt umgehängt?
+- **Welche zehn Typnummern wurden geprägt**, für welche Form unter welchem Lemma, und warum geprägt statt umgehängt?
 - **Was wurde bewusst nicht angefasst** (die 17 `OFFEN`, die 2 `NEU_STAND`, die erste Hälfte des `hirne`-Auftrags), und warum nicht?
-- **Wie lautet die abgelesene Formenzahl nach dem Rebuild**, und deckt sie sich mit der Vorhersage aus drei neuen Typen?
+- **Wie lautet die abgelesene Formenzahl nach dem Rebuild**, und deckt sie sich mit der Vorhersage aus zehn neuen Typen?
 - **Was muss KZW noch entscheiden**, damit dieser Vorgang zu Ende geht?
 
 Kann er eine davon nicht beantworten, fehlt sie im PR-Text, und der PR ist noch nicht fertig.
