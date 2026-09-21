@@ -27,6 +27,7 @@ scripts/
 ├── migrate-caesura-to-gap-252.py # Ueberlieferungsluecken von '( caesura )' auf <gap/> (#252)
 ├── apply-308-375-432.py         # Die drei entschiedenen Korrekturen einer Nacht: Namensansetzung, waeren als ADJ, WH_6214_3 (#308/#375/#432)
 ├── update-variant-count-372376.py # Dokumentierte Formenzahl von variants.xml nachziehen, wenn ein Typ dazukommt (#375)
+├── update-variant-count-372386.py # Dasselbe fuer zehn Typen auf einmal, und zusaetzlich die Mappingzahl: die steigt diesmal mit (#366/#375/#371)
 │
 ├── ingest/                      # Korpus-Ingest je Vorhaben
 │   ├── ari/                     # ARITHMETIC, 6 Rechenbuch-Handschriften (#92)
