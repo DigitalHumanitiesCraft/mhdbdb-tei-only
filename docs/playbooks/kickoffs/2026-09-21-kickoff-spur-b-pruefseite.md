@@ -24,7 +24,9 @@
 C:\Users\chstn\Desktop\data\DHCraft\Projekte\Git\mhdbdb-tei-only\.claude\worktrees\mhdbdb-pruefseite
 ```
 
-Zweig `spur/pruefseite-443-359`, angelegt aus `origin/main` bei `dbc51327d`. `npm ci` ist dort bereits gelaufen.
+Zweig `worktree-mhdbdb-pruefseite`, angelegt aus `origin/main` bei `0d0404641`. `npm ci` ist dort gelaufen.
+
+**Der Zweigname ist vom Werkzeug vergeben, nicht gewählt.** Du darfst auf einen sprechenden Arbeitszweig wechseln, aber dann bleiben beim Abbau zwei Zweige liegen statt einem; sag es der Koordination, wenn du es tust.
 
 **Erste Handlung, vor allem anderen:** miss `pwd`, `git branch --show-current` und `git rev-parse --short HEAD`, halte sie gegen die drei Angaben oben und melde das Ergebnis. Bei Abweichung ändere nichts, melde und warte auf einen Neustart durch die Koordination. Du ziehst nicht selbst um.
 
