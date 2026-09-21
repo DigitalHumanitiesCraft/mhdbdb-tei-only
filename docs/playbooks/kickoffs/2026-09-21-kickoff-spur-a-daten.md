@@ -108,7 +108,7 @@ Das deckt sich mit KZWs eigenem `hinweis` im JSON, den die Koordination in allen
 
 **Zwei Dinge gehen an KZW zurück, halten dich aber nicht auf:**
 
-1. Ihre `zusammenfassung` sagt `offen: 7`, gezählt sind **17**. Die Struktur ist in sich stimmig, falsch ist die Zahl in der Zusammenfassung.
+1. ~~Ihre `zusammenfassung` sagt `offen: 7`, gezählt sind **17**, falsch ist die Zahl in der Zusammenfassung.~~ **Zurückgezogen, der Vorwurf war falsch, und du hast ihn gefunden.** Die beiden Zahlen zählen verschiedene Felder: `zusammenfassung` zählt `status` (95 gesamt, 63 `ok`, 25 `anders`, 7 `offen`, alle vier decken sich exakt), die 17 zählen `option: OFFEN`, zusammengesetzt aus 7 mit `status: offen` und 10 mit `status: anders`. **Beide Zahlen sind richtig.** An KZW geht deshalb keine Korrektur, sondern diese Auflösung: ihr Feld sagt, wie sie zum Vorschlag steht, unseres, was am Ende annotierbar ist.
 2. **Das JSON ist nicht parsbar.** Bei Zeichen 82.382, im `actions`-Array, steht `"confidence": "high"` gefolgt von der Klartextzeile `Prüfer: Alan van Beek`. Genau einmal im ganzen Kommentar. Entferne diese eine Zeile und parse dann **strikt** mit `json.loads`, mit `len(faelle) == 95` und `len(actions) == 76` als harter Bedingung. Kein Feldschnitt über Regex: der hat keine Kontrolle darüber, ob er ein Objekt verliert, und `rules/bauweise.md` verlangt für eine unbekannte Eingabe einen harten Fehler statt eines stillen Überspringens. Meld die Stelle im Ticket, damit KZW und Alan wissen, dass ihr Ausgabeformat eine Handnotiz nicht verträgt.
 
 ---

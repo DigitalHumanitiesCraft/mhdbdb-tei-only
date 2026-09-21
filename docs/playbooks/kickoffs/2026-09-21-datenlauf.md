@@ -93,7 +93,7 @@ Die Spur führt die zweite Hälfte aus und die erste nicht. **Die Rückfrage geh
 
 **Zwei Dinge, die an KZW zurückgehen und die Arbeit nicht aufhalten:**
 
-1. Ihre `zusammenfassung` sagt `offen: 7`, gezählt sind **17**. Die Struktur ist in sich stimmig (76 + 17 + 2 = 95), die Arbeitsliste also brauchbar; falsch ist die Zahl in der Zusammenfassung.
+1. **Hier stand ein Vorwurf, und er war falsch.** Die erste Fassung schrieb: „Ihre `zusammenfassung` sagt `offen: 7`, gezählt sind 17, falsch ist die Zahl in der Zusammenfassung." Gemessen zählen die beiden Zahlen **verschiedene Felder**: ihre `zusammenfassung` zählt `status` (95 gesamt, 63 `ok`, 25 `anders`, 7 `offen`, alle vier decken sich exakt), die 17 zählen `option: OFFEN`, und die setzen sich zusammen aus 7 mit `status: offen` und 10 mit `status: anders`. Beide Zahlen sind richtig. Ihre misst, wie sie zu unserem Vorschlag steht, meine, was am Ende annotierbar ist. **Was in den Statuskommentar gehört, ist diese Auflösung und keine Korrektur**, denn sie nützt jedem, der das JSON später aufmacht. Gefunden hat den Fehler Spur A beim Nachmessen, bevor er das Ticket erreichte.
 2. **Das JSON ist nicht maschinell parsbar.** Bei Zeichen 82.382, mitten im `actions`-Array, steht eine Klartextzeile im Objekt: `"confidence": "high"` gefolgt von `Prüfer: Alan van Beek`. Einmal im ganzen Kommentar. Wie die Spur damit umgeht, steht oben: eine Zeile entfernen, dann strikt parsen. Und sie meldet die Stelle im Ticket, damit KZW und Alan wissen, dass ihr Ausgabeformat eine Handnotiz nicht verträgt.
 
 ### Spur B: `pruefseite`
