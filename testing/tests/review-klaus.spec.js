@@ -1,0 +1,135 @@
+import { test, expect } from '@playwright/test';
+import { readFile } from 'node:fs/promises';
+import { pathToFileURL } from 'node:url';
+import { resolve } from 'node:path';
+
+const url = pathToFileURL(resolve(import.meta.dirname, '../../examples/review-pages/Klaus-Pruefung-390-115.html')).href;
+test.beforeEach(async ({ page }) => {
+  await page.goto(url);
+  await page.evaluate(() => localStorage.clear());
+  await page.reload();
+});
+async function exported(page) {
+  const wait = page.waitForEvent('download');
+  await page.locator('#backup').click();
+  const d = await wait;
+  return JSON.parse(await readFile(await d.path(), 'utf8'));
+}
+
+test('offline word-boundary decisions, required form, open state and persistence', async ({ page, context }) => {
+  await context.setOffline(true);
+  await page.reload();
+  const start = await exported(page);
+  expect(start.decisions.filter(c => c.issue === 390)).toHaveLength(22);
+  expect(start.decisions.filter(c => c.issue === 115)).toHaveLength(264);
+  expect(start.decisions.every(c => c.status === 'unreviewed' && !c.choice)).toBe(true);
+  await expect(page.getByRole('heading', { name: 'Diese zwei Dateien bitte an Katharina schicken' })).toBeAttached();
+  await page.locator('#reviewer').fill('Klaus');
+  await page.locator('input[value=join]').check();
+  await page.locator('[data-action=decided]').click();
+  await expect(page.locator('#feedback')).toContainText('Wortform eintragen');
+  await page.locator('#useJoined').click();
+  await page.locator('#comment').fill('Schreibung geprüft.');
+  await page.locator('[data-action=decided]').click();
+  await expect(page.locator('#caseStatus')).toHaveText('Entschieden');
+  await page.locator('[data-step="1"]').first().click();
+  await page.locator('[data-action=open]').click();
+  const saved = await exported(page);
+  expect(saved.decisions.filter(a => a.status === 'decided')).toHaveLength(1);
+  expect(saved.decisions.filter(a => a.status === 'open')).toHaveLength(1);
+  await page.reload();
+  expect((await exported(page)).decisions).toEqual(saved.decisions);
+  await page.locator('#comment').fill('Nachtrag');
+  await expect(page.locator('#caseStatus')).toHaveText('Unbearbeitet / Entwurf');
+});
+
+test('sense decisions, concept search, explicit pending concepts and protected group transfer', async ({ page }) => {
+  await page.locator('#reviewer').fill('Klaus');
+  await page.locator('#area').selectOption('115');
+  await expect(page.locator('#casePick option')).toHaveCount(110);
+  await page.locator('input[value=new]').check();
+  await page.locator('#meaning').fill('Ein Gegenstand; genaue Lesart im Kontext zu prüfen.');
+  await page.locator('[data-action=decided]').click();
+  await expect(page.locator('#feedback')).toContainText('passende Begriffe');
+  await page.locator('#conceptSearch').fill('Besitz');
+  const concept = await page.locator('#conceptPick option').nth(1).getAttribute('value');
+  await page.locator('#conceptPick').selectOption(concept);
+  await page.locator('#conceptAdd').click();
+  await expect(page.locator('#conceptChips button')).toHaveCount(1);
+  await page.locator('[data-action=decided]').click();
+  await page.locator('[data-step="1"]').first().click();
+  await page.locator('#comment').fill('Diesen Beleg bitte gesondert behandeln.');
+  await page.locator('[data-action=open]').click();
+  await page.locator('[data-step="-1"]').click();
+  await page.getByText('Diese Entscheidung auf weitere Belege der Gruppe übertragen', { exact: true }).click();
+  await page.locator('#groupApply').click();
+  await expect(page.locator('#groupFeedback')).toContainText('bestätigen');
+  await page.locator('#groupRead').check();
+  await page.locator('#groupApply').click();
+  await expect(page.locator('#groupFeedback')).toContainText('108 Belege übernommen');
+  const p = await exported(page);
+  const group = p.decisions.filter(a => a.group === 'lemma_1164_sense_16760');
+  expect(group.filter(a => a.status === 'decided')).toHaveLength(109);
+  expect(group.filter(a => a.status === 'open')).toHaveLength(1);
+  expect(group.find(a => a.status === 'open').comment).toContain('gesondert');
+  await page.locator('#nav [data-group="lemma_2175_sense_3406"]').click();
+  await page.locator('input[value=new]').check();
+  await page.locator('#meaning').fill('Lesart beschrieben, Klassifikation noch zu prüfen.');
+  await page.locator('#conceptsPending').check();
+  await page.locator('[data-action=decided]').click();
+  await expect(page.locator('#caseStatus')).toHaveText('Entschieden');
+  expect((await exported(page)).decisions.some(a => a.status === 'decided' && a.conceptsPending)).toBe(true);
+});
+
+test('both-issue export, safe HTML report, JSON round trip and incompatible import rejection', async ({ page }) => {
+  const errors = [];
+  page.on('pageerror', e => errors.push(e.message));
+  await page.locator('#reviewer').fill('Klaus');
+  await page.locator('input[value=other]').check();
+  await page.locator('#other').fill('Lesung <script>window.injected=1</script>');
+  await page.locator('#comment').fill('Zeile 1\nZeile 2: äöü');
+  await page.locator('[data-action=decided]').click();
+  await page.locator('#area').selectOption('115');
+  await page.locator('input[value=existing]').check();
+  const sense = await page.locator('#sense option').nth(1).getAttribute('value');
+  await page.locator('#sense').selectOption(sense);
+  await page.locator('[data-action=decided]').click();
+  const saved = await exported(page);
+  await page.evaluate(() => localStorage.clear());
+  await page.reload();
+  await page.locator('#importFile').setInputFiles({ name:'result.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(saved)) });
+  expect((await exported(page)).decisions).toEqual(saved.decisions);
+  const wrong = structuredClone(saved);
+  wrong.decisions[0].issue = 999;
+  await page.locator('#importFile').setInputFiles({ name:'wrong.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(wrong)) });
+  await expect(page.locator('#save')).toContainText('Import abgelehnt');
+  expect((await exported(page)).decisions).toEqual(saved.decisions);
+  await page.locator('#importFile').setInputFiles({ name:'result.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(saved)) });
+  await expect(page.locator('#importConfirm')).toBeVisible();
+  await page.locator('#importCancel').click();
+  await page.locator('#returnButton').click();
+  await expect(page.locator('#exportJson')).toBeFocused();
+  const wait = page.waitForEvent('download');
+  await page.locator('#exportHtml').click();
+  const d = await wait;
+  const html = await readFile(await d.path(), 'utf8');
+  expect(html).toContain('Zeile 1\nZeile 2: äöü');
+  expect(html).toContain('&lt;script&gt;window.injected=1&lt;/script&gt;');
+  const report = await page.context().newPage();
+  await report.setContent(html);
+  await expect(report.locator('article.card')).toHaveCount(286);
+  await expect(report.locator('script')).toHaveCount(0);
+  expect(await report.evaluate(() => window.injected)).toBeUndefined();
+  expect(errors).toEqual([]);
+});
+
+test('filters and export survive disabled browser storage', async ({ page }) => {
+  await page.evaluate(() => {Storage.prototype.setItem = () => {throw new Error('disabled');};});
+  await page.locator('#reviewer').fill('Klaus');
+  await expect(page.locator('#save')).toContainText('nicht verfügbar');
+  await page.locator('#comment').fill('Bewusst offen.');
+  await page.locator('[data-action=open]').click();
+  await page.locator('#filter').selectOption('open');
+  await expect(page.locator('#casePick option')).toHaveCount(1);
+  expect((await exported(page)).decisions.filter(d => d.status === 'open')).toHaveLength(1);
+});

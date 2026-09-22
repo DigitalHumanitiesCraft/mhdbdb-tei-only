@@ -99,6 +99,26 @@ Located in `/publications/` (outside `docs/`):
 - `JAHRESBERICHT-2025.md` – CLARIAH-AT annual report
 - `BERICHT-REKTORAT-MITTELVERWENDUNG-2026.md` – voluntary report and letter of thanks to the rectorate about the funds released in October 2025 (#145, draft, KZW review before sending)
 
+### Beispiele fachlicher Prüfseiten
+
+Unter [`examples/review-pages/`](../examples/review-pages/) liegen unausgefüllte HTML-Prüfmappen als feste Beispieldatenstände. Die Dateien herunterladen und lokal im Browser öffnen; sie benötigen keine Installation. Sie dokumentieren verschiedene Prüfverfahren, nicht den aktuellen Bearbeitungsstand der Issues. Menschliche Rückmeldungen und Ergebnisexporte gehören nicht in diese Beispielsammlung.
+
+| Beispiel | Fragestellung und Umfang | Datenstand | Rückgabe |
+|---------|--------------------------|------------|----------|
+| [#364: fehlende Lemma-Ziele](../examples/review-pages/364-lemma-review.html) | 11 Hauptgruppen mit 29 Belegen, dazu 24 optionale Gruppen mit 37 Belegen; Lemma-Kandidaten und Einzelentscheidungen | 17.09.2026; Commit und Quellprüfsummen eingebettet | JSON und HTML-Bericht; JSON-Import zum Fortsetzen |
+| [#371: stat](../examples/review-pages/371-stat-review.html) | 95 Rückhaltefälle in fünf Gruppen; Lemma-, Wortart- und Bedeutungsentscheidungen | Historisches Arbeitsbeispiel, archiviert am 22.09.2026; kein eigener datierter Quellnachweis eingebettet | JSON und CSV |
+| [#390/#115: Prüfmappe für Klaus](../examples/review-pages/Klaus-Pruefung-390-115.html) | 22 Wortgrenzen der Wenzelsbibel und 264 Belege zu 39 fehlenden Bedeutungszielen an 36 vorhandenen Lemmata | 21.09.2026; Commit und Quellprüfsummen eingebettet | JSON und HTML-Bericht; JSON-Import zum Fortsetzen; ausdrückliche Rückgabeanleitung |
+| [Kuratorik-App: Lexikon-Stubs](https://github.com/wachauer/mhdbdb-kuratorik/tree/296f4ff4cfb3a68b526397c46baef9a3ec9189ef) | Paket 1: 13 Wortartfälle und drei Grundsatzfragen aus #115 | Fest verlinkter externer Commit `296f4ff`; [laufende App](https://wachauer.github.io/mhdbdb-kuratorik/) kann inzwischen abweichen | JSON und Markdown-Tabelle |
+
+Die neueren Seiten #364 und #390/#115 setzen das Prüfmuster aus [#443](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/443) um: KI-Vorschläge sind keine bestätigten Antworten; unbearbeitet, entschieden und geprüft/offen bleiben unterscheidbar. Die ältere stat-Seite und die Kuratorik-App haben andere Bedien- und Exportregeln und sind keine vollständigen Referenzimplementierungen für #443. Insbesondere bietet stat eine pauschale Übernahme an. Für neue Prüfmappen die neueren Muster verwenden.
+
+Antworten werden im jeweiligen Browser gespeichert, nicht in die ursprüngliche HTML-Datei geschrieben. Zur Rückgabe die Exporte der betreffenden Seite verwenden. Ein Wechsel zwischen Dateiablagen oder Webadressen übernimmt den Browserstand nicht zuverlässig; bei den neueren Seiten vorher JSON sichern und anschließend importieren.
+
+Generatoren für neue Arbeitsstände: [`build-review-364.py`](../scripts/audit/build-review-364.py) und [`build-review-klaus.py`](../scripts/audit/build-review-klaus.py), jeweils mit HTML-Vorlage im selben Ordner. Aufruf aus dem Repository: `python scripts/audit/build-review-364.py` beziehungsweise `python scripts/audit/build-review-klaus.py`. Sie lesen die lokalen TEI-/Authority-Dateien und erzeugen Arbeitsdateien im Repository-Wurzelverzeichnis; die archivierten Beispiele werden dadurch nicht überschrieben. Die Klaus-Vorlage verwendet die Basisgestaltung der 364-Vorlage. Für stat liegt hier kein Generator vor; die externe Kuratorik-App dokumentiert ihren Aufbau im eigenen Repository.
+
+Browserprüfungen der archivierten neueren Beispiele: `npm test -- review-364.spec.js review-klaus.spec.js --reporter=line` (Windows: `npm.cmd`). Die Beispiele enthalten keine angewendeten Änderungen an den Forschungsdaten.
+
+
 ## Project Status
 
 ### Current Phase
