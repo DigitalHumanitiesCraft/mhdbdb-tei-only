@@ -1,11 +1,11 @@
 ---
 name: findebuch-dump-259
-description: Fallen des Trierer Findebuch-Dumps (temp/woerterbuchnetz2015/FindeB/P5, gitignoriert, ausserhalb jedes Worktrees) fuer Reviews an #259: gram-Kinder in sublemma-Formen, Akut-Regel der Vorabmessung, Lizenzauflage
+description: Fallen des Trierer Findebuch-Dumps (~/.cache/mhdbdb/woerterbuchnetz2015/FindeB/P5, ausserhalb des Repositoriums) fuer Reviews an #259: gram-Kinder in sublemma-Formen, Akut-Regel der Vorabmessung, Lizenzauflage
 metadata:
   type: project
 ---
 
-Der Findebuch-Dump (22 Dateien, kein Namensraum, externe DTD in Zeile 2) liegt nur im Hauptbaum unter `temp/`, nicht im Worktree; Skripte brauchen `--dump` mit absolutem Pfad. Gemessen am 2026-09-02 (Review Runde 1 zu #259):
+Der Findebuch-Dump (22 Dateien, 27.106.707 Bytes, kein Namensraum, externe DTD in Zeile 2) liegt seit dem 2026-09-22 im DHCraft-Drive (`Projekte/mhdbdb/extern/`, Konto `office@dhcraft.org`), lokal als Arbeitskopie unter `~/.cache/mhdbdb/woerterbuchnetz2015/FindeB/P5`, also ausserhalb des Repositoriums und damit gleich weit von Hauptbaum und Worktree entfernt; vorher lag er im Hauptbaum unter `temp/`. Ort, Lizenzauflage und Messvorschrift stehen in `sources/INVENTAR-ARCHIV.md`, letzter Abschnitt. Der Default in `scripts/audit/compare-findebuch-resolution-259.py` zeigt dorthin, `--dump` mit absolutem Pfad geht weiterhin. Gemessen am 2026-09-02 (Review Runde 1 zu #259):
 
 - **`<form type="sublemma">` enthaelt in 3.462 von 8.610 Faellen ein `<gram>`-Kind** (Wortartkuerzel mit Punkt; Runde 1 hatte 3.457 gezaehlt, Runde 2 misst 3.462, gram immer direktes Kind, nie tiefer), und in 2.705 davon *nur* das gram, ohne Schreibform. Der Trennstrich steht **nicht in der Form**, sondern als Tail des Geschwister-`<lb/>` unmittelbar vor ihr (2.704 von 2.705); ohne gram-Teilbaum ist der Formtext in allen 2.705 Faellen der Leerstring. `itertext()` auf sublemma haengt das Kuerzel an die Schreibform. `<form type="lemma">` ist davon frei: 23.434 mit `<ref>`-Kind, 11.394 ohne, kein einziges gram.
 - **Zweite, kleinere Kontamination: `<hi>`-Kinder** (39 in sublemma), meist ein Kuerzel mit Punkten vor oder zwischen Schreibformen. Ein Mehrwort-Filter ueber "Leerzeichen im Text" faengt 21 solcher Formen als Mehrwort, obwohl das Leerzeichen nur an der Markup-Grenze entsteht; 175 der 196 Mehrwortformen (Stand 8b4e5f907) haben das Leerzeichen dagegen im Textknoten selbst. gram-Tails mit Buchstaben: genau 1.

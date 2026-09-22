@@ -895,3 +895,38 @@ korrigierten Ketten benennt, während er eine neue falsche erzeugte.
 Gefangen hat es die eigene Nachmessung wenige Minuten später, also ein
 mitlaufender Kontrollwert und nicht die Lehre. Der Hinweis steht jetzt in
 einem eigenen Absatz und nennt die fremde Gruppe nicht beim Namen.
+
+### 64. Rot: 57 MB lizenzgebundenes Fremdmaterial in ein privates Google-Konto kopiert, weil ich eine Regel geglaubt habe, die sich selbst als ungemessen ausweist.
+
+**Rot.** Beim Auslagern des Trierer Findebuch-Dumps und einer De-Gruyter-PDF
+aus dem Arbeitsbaum habe ich sie nach `G:\Meine Ablage\MHDBDB\extern\`
+kopiert, in der Annahme, das sei das Drive von `office@dhcraft.org`. Es ist
+ein privates Konto. Die Gegenprobe war ein einziger Aufruf: der Drive-Connector
+läuft als `office@dhcraft.org` und findet unter `parentId = 'root'` völlig
+andere Ordner, als in `G:\Meine Ablage` stehen, und keinen der dortigen
+(`Laborwerte`, `doldrums`, `USA_Irland_2016`, `Grapes25`) bei sich.
+
+**Die Lehre steht in `agentenbefunde.md`: eine Verdichtungszusammenfassung
+ist ein Agentenbericht, und dasselbe gilt für eine frühere eigene Sitzung.**
+Die Angabe stammt aus `~/.claude/rules/google-konten.md`, und dort steht im
+selben Absatz der Satz, sie komme aus der Auto-Memory jener Sitzung und sei
+nicht nachgemessen. Der Hinweis lag also nicht in einer fernen Quelle, sondern
+im geladenen Regeltext, zwei Zeilen unter der Angabe. Die letzte Zeile zu
+dieser Lehre ist Eintrag 62; eine Ordinalzahl steht hier aus dem Grund nicht,
+den Eintrag 55 nennt.
+
+**Was es getragen hat:** die Dateien lagen einige Minuten im falschen Konto,
+davon ein Teil bereits in dessen Cloud, und zwar Material, für das #259
+ausdrücklich keine Lizenz feststellt. Zusätzlich standen ein
+Skript-Vorgabewert und ein frisch geschriebenes Inventar auf dem falschen Ort
+(es steht heute als letzter Abschnitt in `sources/INVENTAR-ARCHIV.md`). Gefangen hat es ein mitlaufender Kontrollwert und nicht die
+Lehre: die Suche nach der hochgeladenen Datei blieb leer, und erst die Frage,
+ob die Suche oder der Bestand falsch ist, hat das Konto aufgedeckt. Christian
+hat den Bestand selbst nach `Projekte/mhdbdb/extern/` im richtigen Konto
+verschoben.
+
+**Der Mechanismus ist die Korrektur der Regel selbst**, nicht ein Hook: in
+`google-konten.md` steht jetzt die gemessene Lage samt der Gegenprobe, die sie
+belegt. Eine Regel, die eine ungeprüfte Angabe als Handlungsanweisung
+formuliert, ist gefährlicher als keine Regel, weil ihre Herkunftsangabe im
+Moment des Handelns nicht mitgelesen wird.

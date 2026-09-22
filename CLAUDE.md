@@ -12,6 +12,8 @@ MHDBDB TEI Repository: 667 TEI-encoded Middle High German texts with semantic an
 
 @docs/INDEX.md is imported here, so its catalog of the 15 promptotyping documents is already in context and is not repeated. Not part of that set: `docs/features/` (planning docs, alive only while their issue is open) and `docs/playbooks/` (reusable session procedures).
 
+**Data that belongs to this project but may not live in it is listed in `sources/INVENTAR-ARCHIV.md`**: the 9.1 GB legacy archive at KZW's, and since 2026-09-22 also the two holdings in the DHCraft Drive under `Projekte/mhdbdb/extern/` (Trier Findebuch dump for #259, a De Gruyter volume), each with its licence condition and the byte count to check a copy against. A script whose data is missing is answered there rather than by asking KZW again.
+
 ### Language and constraints
 
 Two questions, kept apart: **who is the text for** (decides the language) and **what is mechanically checked** (one rule, everywhere).

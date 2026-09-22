@@ -125,7 +125,13 @@ if sys.stdout.encoding and sys.stdout.encoding.lower() not in ('utf-8', 'utf8'):
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', line_buffering=True)
 
 AUTHORITY_INDEX = PROJECT_ROOT / 'data' / 'authority-index.json.gz'
-DEFAULT_DUMP = PROJECT_ROOT / 'temp' / 'woerterbuchnetz2015' / 'FindeB' / 'P5'
+# Der Dump liegt seit dem 22.09.2026 ausserhalb des Arbeitsbaums, weil er
+# Trierer Copyright traegt und temp/ nur eine Gitignore-Zeile von einem Commit
+# trennt. Der Bestand liegt im DHCraft-Drive, hier steht nur eine lokale
+# Arbeitskopie: fehlt sie, laedt man sie von dort neu. Ort, Lizenzauflage und
+# Messvorschrift stehen in sources/INVENTAR-ARCHIV.md, letzter Abschnitt;
+# anderer Pfad: --dump <pfad>.
+DEFAULT_DUMP = Path.home() / '.cache' / 'mhdbdb' / 'woerterbuchnetz2015' / 'FindeB' / 'P5'
 DEFAULT_OUT = PROJECT_ROOT / 'temp' / '259-findebuch-befunde.csv'
 
 # Mindestlaenge fuer die Richtung "Eingabe beginnt mit Lemma". Muss mit

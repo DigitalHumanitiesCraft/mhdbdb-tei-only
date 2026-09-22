@@ -3,7 +3,8 @@
 Verzeichnis dessen, was im MHDBDB-Textarchiv liegt und **nicht** im Repo ist. Zweck: wenn bei
 einer Korpusfrage Unklarheit auftaucht, soll auffindbar sein, ob es dazu noch einen Scan, eine
 Vorstufe, eine Lesefassung oder eine Editions-PDF gibt, ohne dass jemand 9 GB durchsucht oder
-einen Druck aufschlägt.
+einen Druck aufschlägt. Seit 2026-09-22 stehen unten auch die Bestände, die **nicht** aus diesem
+Archiv stammen und trotzdem außerhalb des Repositoriums liegen.
 
 ## Zugriff: alles liegt lokal bei KZW
 
@@ -263,3 +264,32 @@ Nach dem OCR-Befund wäre der sinnvolle Zuschnitt **Scans und PDFs, also 1,3 GB 
 FineReader-Artefakte enthalten keinen eigenen Inhalt. Der FnhdC-Ordner müsste ohnehin
 ausgenommen werden. Entschieden ist das noch nicht. Bis dahin gilt: Archiv bleibt lokal bei KZW,
 dieses Inventar ist der Zugriffsweg.
+
+## Nicht aus dem Archiv: zwei Bestände im DHCraft-Drive
+
+Fremdmaterial ohne offene Lizenz, deshalb außerhalb des Repositoriums, aber anders als das Archiv
+ohne Anfrage erreichbar. Konto **office@dhcraft.org**, Ordner `Projekte/mhdbdb/extern/`
+([Link](https://drive.google.com/drive/folders/120fF4kdvRbxlQLzKYxauThtgnui3EtLo)), Stand
+2026-09-22.
+
+| Bestand | Umfang | Lizenz | gebraucht von |
+|---|---|---|---|
+| `woerterbuchnetz2015/FindeB/P5/` (Trierer Findebuch, von KZW am 30.07.2026 geliefert) plus das Original-Zip | 22 XML, 27.106.707 Bytes | Copyright 1998 Universität Trier, **keine offene Lizenz** ([#259](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/259)) | `scripts/audit/compare-findebuch-resolution-259.py`, lokale Arbeitskopie unter `~/.cache/mhdbdb/` |
+| `10.1515_9783110890587.pdf` (Hugo von Montfort: Das poetische Werk) | 29.312.370 Bytes | De Gruyter | nichts. Liegt auch noch in `data/audit/`, wird im Repo nirgends erwähnt, gehört der Bibliografie nach zu `tei/HUG.tei.xml` |
+
+**Die Auflage aus #259 gilt für beide:** nichts davon in ein Repositorium, einen Commit, einen
+Issue-Kommentar oder an einen externen Dienst. Aggregierte Zahlen über **unsere** Daten sind frei,
+Trierer Wortformen nicht; eine Befundliste mit fremden Schreibungen wird neu erzeugt statt
+abgelegt.
+
+**Beim Hantieren:** `G:\Meine Ablage` ist **nicht** dieses Konto (am 22.09.2026 einmal
+verwechselt, `fehlerjournal.md` Eintrag 64). Der Drive-Connector ist als Uploadweg nur für kleine
+Dateien tauglich, er nimmt Inhalte als base64 im Aufruf. Bytezahlen prüft man im Drive über
+`search_files` mit `parentId` und dem Feld `fileSize`, lokal mit
+`find <pfad> -type f -printf '%s\n' | awk '{s+=$1} END {print s, NR}'`.
+
+Bewusst **nicht** dort: die fyndling-Lieferung in `temp/` (Stand 18.08.2026), bis
+[#376](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/376) die Lizenz klärt.
+Von ihren 990 Formen tragen 754 CoReMA-Transkriptionen, aber 234 stehen unter `kkm`, `saw` und
+`wbd`, also den drei Quellen, deren Transkription Thomas Gloning gehört. Ebenfalls nicht dort:
+`proposals/`, ohne Zweitkopie nach Entscheidung vom 22.09.2026.
