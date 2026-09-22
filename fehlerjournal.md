@@ -930,3 +930,42 @@ verschoben.
 belegt. Eine Regel, die eine ungeprüfte Angabe als Handlungsanweisung
 formuliert, ist gefährlicher als keine Regel, weil ihre Herkunftsangabe im
 Moment des Handelns nicht mitgelesen wird.
+
+### 65. Rot: eine Zahl aus der Störungsseite eines Dienstes gezählt und als Bestandsangabe ins README geschrieben.
+
+**Rot.** Auf der Suche nach einem Rückfallweg für das verlorene WordPress unter
+`mhdbdb.sbg.ac.at:8300` habe ich die CDX-API des Internet Archive abgefragt und
+die Antwortzeilen mit `wc -l` gezählt. Ergebnis: 14. Daraus wurde im README des
+Archivrepositoriums der Satz, das Internet Archive habe den Bereich in „14
+Snapshot-Monaten", und das sei „der einzige noch verbleibende Weg". Der Dienst
+war zu diesem Zeitpunkt gestört und lieferte eine HTML-Seite („Internet Archive
+services are temporarily offline"), die zufällig vierzehn Zeilen hat. Sauber
+gemessen sind es null Snapshots, und zwar für den ganzen Port, nicht nur für
+das WordPress.
+
+**Die Lehre steht in `dateisuche.md`: einen Kontrollwert mitsuchen, von dem
+feststeht, dass er treffen muss, denn trifft er nicht, war die Suche falsch
+und nicht der Bestand leer.** Ich habe keinen mitgemessen. Als ich es
+nachgeholt habe, hat er sofort getragen: `mhdbdb.sbg.ac.at/*` liefert 3.335
+Snapshot-Monate von 2002 bis 2023, die Abfrage funktioniert also, und die Null
+am Port 8300 ist eine echte Leermenge. Die letzte Zeile zu dieser Lehre ist
+Eintrag 61.
+
+**Was es getragen hat:** die Zahl stand committet und gepusht im README des
+Archivrepositoriums, mitsamt der Folgerung, es gebe einen Rückfallweg. Auf
+dieser Grundlage stand dort außerdem, das Herunterladen der Snapshots sei noch
+zu erledigen, also eine Aufgabe für einen Bestand, den es nicht gibt. Christian
+gegenüber habe ich dieselbe Zahl zweimal behauptet. Aufgefallen ist es erst,
+als KZW den Port geklärt hatte und dieselbe Abfrage plötzlich null lieferte:
+zwei unvereinbare eigene Messungen, von denen die frühere ungeprüft war.
+
+**Der Mechanismus ist bereits in `dateisuche.md` erklärt und ausgesetzt**, und
+zwar für genau diesen Fall: ein voller Abruf trägt kein Merkmal, an dem ein
+Muster greifen könnte, weil dort alles stimmt außer dem Inhalt. Der Hook
+`suchergebnis.sh` speist nur ein, wenn eine Suche eng zugeschnitten war **und**
+leer ausging; hier ging sie voll aus. Was stattdessen greift, ist im
+Archivrepositorium hinterlegt: die Messvorschrift zählt nur noch Zeilen, die
+ein vierzehnstelliger Zeitstempel sind, führt den Kontrollwert mit und sagt
+ausdrücklich, dass ein Kontrollwert von null eine Störung bedeutet und keine
+Leermenge. `scripts/wayback_pruefen.py` setzt das um und unterscheidet die
+Störungsseite von der echten Leermenge.
