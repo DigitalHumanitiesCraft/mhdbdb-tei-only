@@ -201,11 +201,14 @@
                     <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                     </svg>
-                    <!-- #433: Gattungs-Vorschläge beim Tippen. Ein Klick setzt die Auswahl
-                         (wie "Nur diese"), nicht nur den Anzeigefilter, Untergattungen inklusive. -->
-                    <div id="genreSuggestions" role="listbox" aria-label="Gattungen"
-                         class="absolute left-0 right-0 top-full z-20 mt-1 hidden max-h-72 overflow-y-auto rounded-lg border border-slate-200 bg-white shadow-lg"></div>
                 </div>
+                <!-- #433: Gattungs-Vorschläge beim Tippen. Ein Klick setzt die Auswahl
+                     (wie "Nur diese"), nicht nur den Anzeigefilter, Untergattungen inklusive.
+                     Im Fluss statt als Overlay: über der Textliste schwebend hätte die Liste
+                     die obersten Checkboxen verdeckt, und ein Klick dorthin hätte statt eines
+                     Textes eine ganze Gattung gewählt (Review 23.09.). -->
+                <div id="genreSuggestions" role="listbox" aria-label="Gattungen"
+                     class="hidden max-h-72 overflow-y-auto rounded-lg border border-slate-200 bg-white"></div>
 
                 <!-- Text List with Checkboxes -->
                 <div id="textList" class="space-y-1 max-h-[400px] overflow-y-auto overflow-x-hidden border border-slate-300 rounded-lg p-3 bg-white">
