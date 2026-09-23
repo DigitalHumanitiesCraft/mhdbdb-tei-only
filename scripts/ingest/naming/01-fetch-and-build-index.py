@@ -142,8 +142,8 @@ BEKANNTE_ANFANGSMARKER = {
 # stehen sie nur, damit die Pruefung sie nicht aus einem Satz herausparsen muss;
 # in den Index geht weiterhin ausschliesslich SOURCE_META, unveraendert im
 # Wortlaut, damit der Byte-Vergleich des Freshness-Gates gueltig bleibt.
-QUELL_VERSION = "v0.2.2-beta"
-QUELL_DOI = "10.5281/zenodo.22248457"
+QUELL_VERSION = "v0.3.0-beta"
+QUELL_DOI = "10.5281/zenodo.21914259"
 
 SOURCE_META = {
     "repo": "https://github.com/" + REPO,
@@ -533,8 +533,9 @@ def build_record(row, figure_name, aliases, deck_aliases):
         who, by = "self", None
         phrase = clean(row["Eigennennung"])
     elif filled(row.get("Bezeichnung")):
-        # Figurenrede ohne erfasste nennende Figur (2x im Iwein am Pin
-        # v0.2.2-beta; hier stand '3x', gemessen 2026-09-11 ueber den Index)
+        # Figurenrede ohne erfasste nennende Figur. Rueckfall: am Pin
+        # v0.3.0-beta 0 Records (bis v0.2.2-beta 2x im Iwein, von Linda am
+        # 10.09. bereinigt, #420); gemessen 2026-09-23 ueber den Index
         who, by = "fig", None
         phrase = clean(row["Bezeichnung"])
     else:
