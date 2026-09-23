@@ -683,3 +683,29 @@ Keine. Verteilung aus `trockenlauf-auswerten.py`, Zeile dieser Session (`1185863
 - `docs/DESIGN.md` verliert die Zeile „Genre tag" unter Badges, als benannte Freeze-Ausnahme der Koordination: die Chip-Zeile war die einzige Verwendung des Musters.
 - Nicht angefasst, weil Spur A gehört: das Feld `genre` je Text im Korpus-Index, in 667 von 667 Texten vorhanden und in keinem gefüllt (`build-corpus-index.py`). Es hat nach diesem PR auch im Frontend keinen Leser mehr; ob es aus dem Build fällt, ist eine eigene Entscheidung.
 - KZW prüft nach Merge und Deploy; sichtbar ändert sich an den Trefferkarten nichts, sichtbar neu ist nur die eine Beschriftung des Filterhakens im Gattungen-Explorer.
+
+## 2026-09-23 (Nachtlauf, Spur A, Paket A2) – #270: der Kommentar nennt seinen Urheber
+
+KZW hat am 23.09. in #270 entschieden: die gespeicherte Urheberangabe soll direkt beim Kommentar stehen, auf der Lemma-Seite und im Playground, als „Kommentar von Katharina Zeppezauer-Wachauer“. Umgesetzt nach ADR-018 Option 2, also beim Bauen: `build-authority-index.py` liest `contributors.xml` und schreibt zu jedem `sense.commentResp` ein `sense.commentRespName` in den Index. Beide Oberflächen setzen das Label daraus, ohne Namen bleibt es beim bloßen „Kommentar“. Authority-Index 1.9.10, Korpusindex unverändert. ADR-018 trägt eine Revision statt einer neuen ADR, weil die Entscheidung dieselbe ist und nur ihr Geltungsbereich wächst.
+
+### Was über den Einzelfall hinausgilt
+
+**Der Index-Diff ist die Messung, nicht der Build-Erfolg.** Gegen `main` verändert der Rebuild genau zwei Felder: die Versionsnummer und `lemmata[22933].senses[0].commentRespName`. Heute trägt genau ein Kommentar eine Urheberangabe (lemma_37818, Abba). Die Spec verlangt diese Menge deshalb nicht, sondern liest den Index von der Platte und prüft, dass jede Oberfläche ihm folgt; lemma_37818 steht nur als Kontrollwert darin, damit ein leerer Abruf nicht als grün durchgeht.
+
+**Eine unbekannte Urheberangabe hält den Build an.** Ein `@resp`, das nicht mit `contributors.xml#` beginnt oder auf keine Person und keine Organisation zeigt, ist ein harter Fehler statt eines stillen Kommentars ohne Namen. Per Mutationsprobe an drei ungültigen Werten geprüft, jede brach ab, der Ausgangsstand war danach wiederhergestellt. 54 Namen werden gelesen (52 Personen, 2 Organisationen).
+
+**Aufgelöst wird nur der Kommentar.** `definitionResp` und `origin.resp` bleiben Verweise ohne Namen; die Spec prüft, dass kein `definitionRespName` und kein `origin.respName` in den Index gerät. Ob „von <Name>“ auch an `<def>` und `<etym>` gehört, ist eine Frage an KZW und steht im Statuskommentar von #270.
+
+### Rote Zeilen
+
+Keine neue. Die Runde-1-Befunde (Bump-Widerspruch in DATA-MODEL.md:903, Schema und XPath-Tabelle ohne das neue Feld) hat die vorgeschriebene Reviewrunde vor dem ersten Push gefunden; abgewendet, nicht gezählt. Einen Teillauf (4 Tests auf 593bdcb40) habe ich gestartet, ohne ihn bei der Koordination anzumelden, während Spur B einen Volllauf hatte. Die Koordination hat das korrigiert, seitdem werden auch Teilläufe angemeldet. Der Kickoff hatte nur Volläufe genannt; das ist eine Klarstellung der Laufregel, keine gerissene Lehre.
+
+Verteilung aus `trockenlauf-auswerten.py`, Zeile dieser Session (`09f7a3aa`, nacht-daten, über A1 und A2 zusammen), Stand beim Schreiben: shell-konventionen 63 Treffer bei 214 Aufrufen (29 %), mengenaussagen 32 bei 80 (40 %). Das Skript bricht weiterhin im Abschnitt `gelesenes` mit `AttributeError` ab.
+
+### Was zurück an Christian geht
+
+- Lokaler Review in drei Runden, alle drei mergefähig, keiner mit Klasse A und keiner am Verhalten; neben einem Code-Kommentar und dem Reviewer-Memory betrafen sie die Doku: Die Bump-Regel für `contributors.xml` stand in der Routingzeile und im Satz darunter gegensätzlich, und drei Aufzählungen der Indexfelder (DATA-MODEL Schema und XPath-Tabelle, TEI-MODEL-AUTH-FILES) kannten das neue Feld nicht. Behoben über Freeze-Ausnahmen der Koordination.
+- Veraltet und nicht angefasst, weil in docs/playbooks: MASTERPLAN-EINZEL-LEMMA-KURATION.md:102 („@resp wird nirgends angezeigt“). Die Koordination zieht die Zeile nach dem Merge nach.
+- `VERDICT: VOLLLAUF GRUEN (377 Tests, 39 Dateien)` auf e9b381d44, also vor dem Rebase auf B1 (28a5bffda). Der Rebase hat keine A2-Datei verändert; das kombinierte Verhalten prüft die Koordination mit einem Volllauf auf main.
+- Frage an KZW in #270: Urheber auch an Definition und Etymologie?
+- Freeze-Ausnahmen dieses PRs, von der Koordination benannt (Zeilen im Endstand): DATA-MODEL.md 239-244, 466, 512, 549, 894, 904, 908; CONTRACTS.md 927; TEI-MODEL-AUTH-FILES.md 211, 219; DECISIONS.md 46 und ADR-018; scripts/README.md 123; dazu die DEVELOPMENT.md-Zeile für die neue Spec.
