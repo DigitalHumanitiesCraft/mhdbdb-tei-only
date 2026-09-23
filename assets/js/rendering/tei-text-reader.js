@@ -769,8 +769,8 @@ class TEITextReader {
                 // ohne diesen Zweig LEER: die Luecke wuerde maschinell
                 // auffindbar und fuer Lesende unsichtbar, was das Gegenteil
                 // der Absicht ist. @reason und @extent stehen im Titel, wenn
-                // die Edition sie hergibt; heute traegt jede der 1.094
-                // Stellen reason="lost" und kein extent.
+                // die Edition sie hergibt; heute traegt jede Stelle
+                // reason="lost" und kein extent.
                 case 'gap': {
                     const grund = el.getAttribute('reason') || '';
                     const umfang = el.getAttribute('extent') || '';

@@ -41,8 +41,8 @@
         </authority>
         <availability status="restricted">
           <licence target="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</licence>
-          <p>Die semantischen Annotationen sind frei nachnutzbar (CC BY-NC-SA 4.0). Die zugrundeliegende Edition dieses Werks ist jedoch urheberrechtlich beschränkt. Eine vollständige Lesefassung kann daher nicht angeboten werden. Bitte beachten Sie die jeweiligen Angaben im Quellenverzeichnis.</p>
-          <ab type="display" n="excerpt-only"/>
+          <p>Die semantischen Annotationen sind frei nachnutzbar (CC BY-NC-SA 4.0). Die zugrundeliegende Edition dieses Werks ist jedoch urheberrechtlich beschränkt. Eine vollständige Fassung der Edition inkl. Apparat kann daher nicht angeboten werden. Bitte beachten Sie die jeweiligen Angaben im Quellenverzeichnis.</p>
+          <ab type="display" n="no-print"/>
         </availability>
         <date when="2025">2025</date>
         <ref type="history" target="https://doi.org/10.25619/BmE20223203">Zeppezauer-Wachauer, Katharina (2022): 50 Jahre Mittelhochdeutsche Begriffsdatenbank (MHDBDB)</ref>
@@ -141,6 +141,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-09-23" who="#editor">#267: Anzeigemarker excerpt-only in no-print umbenannt und den Lizenzsatz korrigiert, nach den Entscheidungen von KZW vom 10.09.2026. Der Text wird vollständig zum Lesen angeboten, von ihm werden aber keine ausdruckbaren Fassungen erzeugt.</change>
     </revisionDesc>
   </teiHeader>
   <text>

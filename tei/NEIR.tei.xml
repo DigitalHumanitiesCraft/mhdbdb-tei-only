@@ -149,6 +149,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-09-23" who="#editor">#252 zweiter Durchgang: 10 Stellen des Auslassungsmusters ( caesura ) innerhalb einer Zeile mit Wortlaut auf &lt;gap reason="lost"/&gt; migriert, nach der Freigabe von KZW vom 22.09.2026. Nur das Muster ersetzt, umliegender Text sowie Satz- und Redezeichen unverändert.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -2792,9 +2793,7 @@
               <w xml:id="NEIR_405040_3" lemmaRef="lexicon.xml#lemma_1517" pos="PRO" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_4999">er</w>
               <w xml:id="NEIR_405040_4" lemmaRef="lexicon.xml#lemma_1205" pos="ADV" ana="lexicon.xml#lemma_1205_sense_1899" corresp="variants.xml#type_3811">dort</w>
               <w xml:id="NEIR_405040_5" lemmaRef="lexicon.xml#lemma_678" pos="PRP" ana="lexicon.xml#lemma_678_sense_1096" corresp="variants.xml#type_77578">bei</w>
-              <pc xml:id="NEIR_405040_6" join="right">(</pc>
-              <caesura xml:id="NEIR_405040_7"/>
-              <pc xml:id="NEIR_405040_8" join="left">)</pc>
+              <gap reason="lost"/>
               <w xml:id="NEIR_405040_9" lemmaRef="lexicon.xml#lemma_1517" pos="POS" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_5023">sinen</w>
               <w xml:id="NEIR_405040_10" lemmaRef="lexicon.xml#lemma_3905" pos="NOM" ana="lexicon.xml#lemma_3905_sense_6158" corresp="variants.xml#type_13627">magen</w>
               <w xml:id="NEIR_405040_11" lemmaRef="lexicon.xml#lemma_4377" pos="ADJ ADV NEG" ana="lexicon.xml#lemma_4377_sense_6838" corresp="variants.xml#type_15286">niht</w>
@@ -2820,9 +2819,7 @@
               <w xml:id="NEIR_405070_1" lemmaRef="lexicon.xml#lemma_7489" pos="VRB VEX" ana="lexicon.xml#lemma_7489_sense_16763" corresp="variants.xml#type_27059">wirt</w>
               <w xml:id="NEIR_405070_2" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10237">mir</w>
               <w xml:id="NEIR_405070_3" lemmaRef="lexicon.xml#lemma_1517" pos="POS" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_5024">siner</w>
-              <pc xml:id="NEIR_405070_4" join="right">(</pc>
-              <caesura xml:id="NEIR_405070_5"/>
-              <pc xml:id="NEIR_405070_6" join="left">)</pc>
+              <gap reason="lost"/>
               <w xml:id="NEIR_405070_7" lemmaRef="lexicon.xml#lemma_10073" pos="NOM NEG" ana="lexicon.xml#lemma_10073_sense_22859" corresp="variants.xml#type_35564">ungenaden</w>
               <w xml:id="NEIR_405070_8" lemmaRef="lexicon.xml#lemma_943" pos="NOM ADV" ana="lexicon.xml#lemma_943_sense_81944" corresp="variants.xml#type_119841">puez</w>
               <pc xml:id="NEIR_405070_9" join="left">.</pc>
@@ -12410,9 +12407,7 @@
               <w xml:id="NEIR_2105130_1" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
               <w xml:id="NEIR_2105130_2" lemmaRef="lexicon.xml#lemma_1762" pos="PRO" ana="lexicon.xml#lemma_1762_sense_2752" corresp="variants.xml#type_6021">ez</w>
               <w xml:id="NEIR_2105130_3" lemmaRef="lexicon.xml#lemma_5607" pos="ADJ" ana="lexicon.xml#lemma_5607_sense_8770" corresp="variants.xml#type_19636">solhen</w>
-              <pc xml:id="NEIR_2105130_4" join="right">(</pc>
-              <caesura xml:id="NEIR_2105130_5"/>
-              <pc xml:id="NEIR_2105130_6" join="left">)</pc>
+              <gap reason="lost"/>
               <w xml:id="NEIR_2105130_7" lemmaRef="lexicon.xml#lemma_5148" pos="NOM" ana="lexicon.xml#lemma_5148_sense_7997" corresp="variants.xml#type_17819">schaden</w>
               <w xml:id="NEIR_2105130_8" lemmaRef="lexicon.xml#lemma_6301" pos="VRB" ana="lexicon.xml#lemma_6301_sense_9929" corresp="variants.xml#type_102053">tue</w>
               <pc xml:id="NEIR_2105130_9" join="left">!</pc>
@@ -13270,9 +13265,7 @@
               <w xml:id="NEIR_2206020_5" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
               <w xml:id="NEIR_2206020_6" lemmaRef="lexicon.xml#lemma_4238" pos="VRB VEM" ana="lexicon.xml#lemma_4238_sense_82702" corresp="variants.xml#type_42698">muz</w>
               <w xml:id="NEIR_2206020_7" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
-              <pc xml:id="NEIR_2206020_8" join="right">(</pc>
-              <caesura xml:id="NEIR_2206020_9"/>
-              <pc xml:id="NEIR_2206020_10" join="left">)</pc>
+              <gap reason="lost"/>
               <w xml:id="NEIR_2206020_11" lemmaRef="lexicon.xml#lemma_3957" pos="NOM" ana="lexicon.xml#lemma_3957_sense_6236" corresp="variants.xml#type_13802">manne</w>
               <w xml:id="NEIR_2206020_12" lemmaRef="lexicon.xml#lemma_7902" pos="NOM" ana="lexicon.xml#lemma_7902_sense_12959" corresp="variants.xml#type_28690">zouber</w>
               <w xml:id="NEIR_2206020_13" lemmaRef="lexicon.xml#lemma_1255" pos="VRB" ana="lexicon.xml#lemma_1255_sense_1974" corresp="variants.xml#type_4006">dulden</w>
@@ -21931,9 +21924,7 @@
               <w xml:id="NEIR_3607020_0">si</w>
               <w xml:id="NEIR_3607020_1" lemmaRef="lexicon.xml#lemma_4349" pos="VRB" ana="lexicon.xml#lemma_4349_sense_6799" corresp="variants.xml#type_15181">neig</w>
               <w xml:id="NEIR_3607020_2" lemmaRef="lexicon.xml#lemma_1517" pos="PRO" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_5008">in</w>
-              <pc xml:id="NEIR_3607020_3" join="right">(</pc>
-              <caesura xml:id="NEIR_3607020_4"/>
-              <pc xml:id="NEIR_3607020_5" join="left">)</pc>
+              <gap reason="lost"/>
               <w xml:id="NEIR_3607020_6" lemmaRef="lexicon.xml#lemma_1180" pos="ADV" ana="lexicon.xml#lemma_1180_sense_1864" corresp="variants.xml#type_3738">do</w>
               <w xml:id="NEIR_3607020_7">ir</w>
               <w xml:id="NEIR_3607020_8" lemmaRef="lexicon.xml#lemma_15952" pos="NAM" ana="lexicon.xml#lemma_15952_sense_26251" corresp="variants.xml#type_67570">engelmar</w>
@@ -23608,9 +23599,7 @@
               <w xml:id="NEIR_3901070_2" lemmaRef="lexicon.xml#lemma_7643" pos="PRO" ana="lexicon.xml#lemma_7643_sense_12530" corresp="variants.xml#type_27647">wir</w>
             </l>
             <l n="8">
-              <pc xml:id="NEIR_3901080_0" join="right">(</pc>
-              <caesura xml:id="NEIR_3901080_1"/>
-              <pc xml:id="NEIR_3901080_2" join="left">)</pc>
+              <gap reason="lost"/>
               <w xml:id="NEIR_3901080_3" lemmaRef="lexicon.xml#lemma_1180" pos="ADV" ana="lexicon.xml#lemma_1180_sense_1864" corresp="variants.xml#type_3738">do</w>
               <w xml:id="NEIR_3901080_4" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ ADV" ana="lexicon.xml#lemma_7250_sense_11752" corresp="variants.xml#type_25868">vro</w>
             </l>
@@ -24076,9 +24065,7 @@
             </l>
             <l n="5">
               <w xml:id="NEIR_3906050_0" lemmaRef="lexicon.xml#lemma_7505" pos="VRB" ana="lexicon.xml#lemma_7505_sense_12246" corresp="variants.xml#type_256607">waz</w>
-              <pc xml:id="NEIR_3906050_1" join="right">(</pc>
-              <caesura xml:id="NEIR_3906050_2"/>
-              <pc xml:id="NEIR_3906050_3" join="left">)</pc>
+              <gap reason="lost"/>
               <w xml:id="NEIR_3906050_4" lemmaRef="lexicon.xml#lemma_1517" pos="PRO" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_4999">er</w>
               <w xml:id="NEIR_3906050_5" lemmaRef="lexicon.xml#lemma_8252" pos="VRB" ana="lexicon.xml#lemma_8252_sense_80252" corresp="variants.xml#type_67841">ungeswachet</w>
               <pc xml:id="NEIR_3906050_6" join="left">.</pc>
@@ -25474,9 +25461,7 @@
             </l>
             <l n="13"><gap reason="lost"/></l>
             <l n="14">
-              <pc xml:id="NEIR_4104140_0" join="right">(</pc>
-              <caesura xml:id="NEIR_4104140_1"/>
-              <pc xml:id="NEIR_4104140_2" join="left">)</pc>
+              <gap reason="lost"/>
               <w xml:id="NEIR_4104140_3" lemmaRef="lexicon.xml#lemma_2573" pos="ADJ" ana="lexicon.xml#lemma_2573_sense_4121" corresp="variants.xml#type_42826">guter</w>
               <w xml:id="NEIR_4104140_4" lemmaRef="lexicon.xml#lemma_5484" pos="NOM" ana="lexicon.xml#lemma_5484_sense_8545" corresp="variants.xml#type_19151">sinne</w>
               <w xml:id="NEIR_4104140_5" lemmaRef="lexicon.xml#lemma_6113" pos="NOM" ana="lexicon.xml#lemma_6113_sense_9644" corresp="variants.xml#type_80982">toren</w>
@@ -25653,9 +25638,7 @@
               <w xml:id="NEIR_4201080_0" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18967">sint</w>
               <w xml:id="NEIR_4201080_1" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3567">di</w>
               <w xml:id="NEIR_4201080_2" lemmaRef="lexicon.xml#lemma_5994" pos="NOM" ana="lexicon.xml#lemma_5994_sense_9496" corresp="variants.xml#type_21152">tage</w>
-              <pc xml:id="NEIR_4201080_3" join="right">(</pc>
-              <caesura xml:id="NEIR_4201080_4"/>
-              <pc xml:id="NEIR_4201080_5" join="left">)</pc>
+              <gap reason="lost"/>
               <w xml:id="NEIR_4201080_6" lemmaRef="lexicon.xml#lemma_15282" pos="NOM" ana="lexicon.xml#lemma_15282_sense_25272" corresp="variants.xml#type_67873">trube</w>
               <pc xml:id="NEIR_4201080_7" join="left">.</pc>
             </l>
@@ -26320,9 +26303,7 @@
               <w xml:id="NEIR_4302040_1" lemmaRef="lexicon.xml#lemma_5608" pos="VRB VEM" ana="lexicon.xml#lemma_5608_sense_14919" corresp="variants.xml#type_19651">sol</w>
               <w xml:id="NEIR_4302040_2" lemmaRef="lexicon.xml#lemma_3001" pos="POS" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10229">min</w>
               <w xml:id="NEIR_4302040_3" lemmaRef="lexicon.xml#lemma_2326" pos="ADJ ADV" ana="lexicon.xml#lemma_2326_sense_3724" corresp="variants.xml#type_114881">gewaltich</w>
-              <pc xml:id="NEIR_4302040_4" join="right">(</pc>
-              <caesura xml:id="NEIR_4302040_5"/>
-              <pc xml:id="NEIR_4302040_6" join="left">)</pc>
+              <gap reason="lost"/>
               <w xml:id="NEIR_4302040_7" lemmaRef="lexicon.xml#lemma_9131" pos="ART PRP NUM" ana="lexicon.xml#lemma_9131_sense_15291" corresp="variants.xml#type_32209">zeinem</w>
               <w xml:id="NEIR_4302040_8" lemmaRef="lexicon.xml#lemma_7237" pos="NOM" ana="lexicon.xml#lemma_7237_sense_11736" corresp="variants.xml#type_25785">vriedel</w>
               <w xml:id="NEIR_4302040_9" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_76844">sin</w>

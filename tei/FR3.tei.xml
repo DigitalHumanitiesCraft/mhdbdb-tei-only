@@ -38,10 +38,9 @@
             <surname>Pütz</surname>
           </persName>
         </authority>
-        <availability status="restricted">
+        <availability>
           <licence target="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</licence>
-          <p>Die semantischen Annotationen sind frei nachnutzbar (CC BY-NC-SA 4.0). Die zugrundeliegende Edition dieses Werks ist jedoch urheberrechtlich beschränkt. Eine vollständige Lesefassung kann daher nicht angeboten werden. Bitte beachten Sie die jeweiligen Angaben im Quellenverzeichnis.</p>
-          <ab type="display" n="excerpt-only"/>
+          <p>Die semantischen Annotationen stehen unter der Lizenz CC BY-NC-SA 4.0. Die zugrunde liegenden E-Texte stammen aus unterschiedlichen Editionen und unterliegen je nach Quelle eigenen rechtlichen Bedingungen. Bitte beachten Sie die jeweiligen Angaben im Quellenverzeichnis.</p>
         </availability>
         <date when="2025">2025</date>
         <ref type="history" target="https://doi.org/10.25619/BmE20223203">Zeppezauer-Wachauer, Katharina (2022): 50 Jahre Mittelhochdeutsche Begriffsdatenbank (MHDBDB)</ref>
@@ -167,6 +166,8 @@
       <change when="2026-09-06" who="#editor">#387 Nachlauf (fro: ADJ gegen ADV): 5 Tokens der Schreibung fro in der Wortart bestimmt (lemmaRef/pos/corresp zu vrô ADJ (lemma_7250)). Zweiter Durchgang ueber die im ersten Lauf wegen mittlerer Konfidenz zurueckgehaltenen Belege, mit feststehendem Lemma und einem am Bestand gemessenen Prior; Verfahren, Regeln und zurueckgehaltene Faelle im Provenienz-Log: ingest/pos-disambig/387-fro-adjadv/. 3 weitere Tokens der Form fro blieben bewusst unannotiert (Review).</change>
       <change when="2026-09-21" who="#editor">#371 stat, drittes Lemma: 1 bislang unlemmatisierte Tokens der Form stat/stât annotiert (lemmaRef/pos/corresp nach dem actions-Array in KZWs Review vom 15.09.2026; drei neu gepraegte Variantentypen; kein @ana, weil die Sense-Zuordnung kuratorisch ist; die 17 Faelle mit option OFFEN und die 2 mit NEU_STAND bleiben unangetastet; Provenienz-Log: ingest/pos-disambig/371-stat/).</change>
       <change when="2026-09-23" who="#editor">#387 vrouwe/vrô, Resttokens: 3 Tokens annotiert nach den Einzelentscheidungen von KZW vom 17.09.2026 (lemmaRef/pos/corresp; kein @ana, weil die Sense-Zuordnung kuratorisch ist). Im ganzen Lauf: zwei Doppeltags ADJ NOM mit erklärendem @reason, wo KZW die Lesart für unentscheidbar erklärt hat, und drei neu geprägte Variantentypen nach der Regel aus #367.</change>
+      <change when="2026-09-23" who="#editor">#252 zweiter Durchgang: 176 Stellen des Auslassungsmusters ( caesura ) innerhalb einer Zeile mit Wortlaut auf &lt;gap reason="lost"/&gt; migriert, nach der Freigabe von KZW vom 22.09.2026. Nur das Muster ersetzt, umliegender Text sowie Satz- und Redezeichen unverändert.</change>
+      <change when="2026-09-23" who="#editor">#267: Nutzungsbeschränkung aufgehoben, nach der Entscheidung von KZW vom 10.09.2026 (Schutzfrist der Edition nach § 76b UrhG-AT abgelaufen). availability entspricht jetzt dem der übrigen Texte.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -837,9 +838,7 @@
                 <w xml:id="FR3_105204010050_2" lemmaRef="lexicon.xml#lemma_4523" pos="CNJ" ana="lexicon.xml#lemma_4523_sense_7060" corresp="variants.xml#type_61484">auch</w>
                 <w xml:id="FR3_105204010050_3" lemmaRef="lexicon.xml#lemma_2465" pos="NOM" ana="lexicon.xml#lemma_2465_sense_3951" corresp="variants.xml#type_8256">gotes</w>
                 <w xml:id="FR3_105204010050_4" lemmaRef="lexicon.xml#lemma_4872" pos="NOM ADJ" corresp="variants.xml#type_210157">richs</w>
-                <pc xml:id="FR3_105204010050_5" join="right">(</pc>
-                <caesura xml:id="FR3_105204010050_6"/>
-                <pc xml:id="FR3_105204010050_7" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_105204010050_8" lemmaRef="lexicon.xml#lemma_1258" pos="PRP" ana="lexicon.xml#lemma_1258_sense_1977" corresp="variants.xml#type_4044">durch</w>
                 <w xml:id="FR3_105204010050_9">ein</w>
                 <w xml:id="FR3_105204010050_10" lemmaRef="lexicon.xml#lemma_7534" pos="NOM" corresp="variants.xml#type_41951">wib</w>
@@ -890,9 +889,7 @@
                 <hi rend="initial">
                   <w xml:id="FR3_105204010100_0" lemmaRef="lexicon.xml#lemma_17131" pos="NAM" ana="lexicon.xml#lemma_17131_sense_29402" corresp="variants.xml#type_238817">olofern</w>
                 </hi>
-                <pc xml:id="FR3_105204010100_1" join="right">(</pc>
-                <caesura xml:id="FR3_105204010100_2"/>
-                <pc xml:id="FR3_105204010100_3" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_105204010100_4" lemmaRef="lexicon.xml#lemma_6963" pos="VRB" corresp="variants.xml#type_24551">versniten</w>
                 <pc xml:id="FR3_105204010100_5" join="left">.</pc>
               </l>
@@ -2574,9 +2571,7 @@
                   <w xml:id="FR3_105206050770_3" lemmaRef="lexicon.xml#lemma_4432" pos="ADV CNJ" ana="lexicon.xml#lemma_4432_sense_6912" corresp="variants.xml#type_15441">nu</w>
                 </supplied>
                 <w xml:id="FR3_105206050770_4" lemmaRef="lexicon.xml#lemma_2129" pos="VRB" corresp="variants.xml#type_238839">nüsset</w>
-                <pc xml:id="FR3_105206050770_5" join="right">(</pc>
-                <caesura xml:id="FR3_105206050770_6"/>
-                <pc xml:id="FR3_105206050770_7" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_105206050770_8" lemmaRef="lexicon.xml#lemma_2465" pos="NOM" ana="lexicon.xml#lemma_2465_sense_3951" corresp="variants.xml#type_8253">got</w>
                 <w xml:id="FR3_105206050770_9" lemmaRef="lexicon.xml#lemma_127" pos="ADV" ana="lexicon.xml#lemma_127_sense_161" corresp="variants.xml#type_318">alhie</w>
                 <pc xml:id="FR3_105206050770_10" join="left">,</pc>
@@ -2605,9 +2600,7 @@
               </l>
               <l n="81">
                 <w xml:id="FR3_105206050810_0" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3397">das</w>
-                <pc xml:id="FR3_105206050810_1" join="right">(</pc>
-                <caesura xml:id="FR3_105206050810_2"/>
-                <pc xml:id="FR3_105206050810_3" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_105206050810_4" lemmaRef="lexicon.xml#lemma_2465" pos="NOM" ana="lexicon.xml#lemma_2465_sense_3951" corresp="variants.xml#type_8257">gotez</w>
                 <w xml:id="FR3_105206050810_5" lemmaRef="lexicon.xml#lemma_19876" pos="ADJ" ana="lexicon.xml#lemma_19876_sense_33239" corresp="variants.xml#type_175148">priesterlicher</w>
                 <w xml:id="FR3_105206050810_6">hort</w>
@@ -2815,9 +2808,7 @@
                 <pc xml:id="FR3_105207010050_4" join="left">,</pc>
                 <w xml:id="FR3_105207010050_5" lemmaRef="lexicon.xml#lemma_7194" pos="ADV PRP" ana="lexicon.xml#lemma_7194_sense_11657" corresp="variants.xml#type_25545">vor</w>
                 <w xml:id="FR3_105207010050_6" lemmaRef="lexicon.xml#lemma_5867" pos="NOM" ana="lexicon.xml#lemma_5867_sense_9294" corresp="variants.xml#type_41314">sunden</w>
-                <pc xml:id="FR3_105207010050_7" join="right">(</pc>
-                <caesura xml:id="FR3_105207010050_8"/>
-                <pc xml:id="FR3_105207010050_9" join="left">)</pc>
+                <gap reason="lost"/>
                 <pc xml:id="FR3_105207010050_10" join="left">,</pc>
                 <w xml:id="FR3_105207010050_11">sit</w>
                 <w xml:id="FR3_105207010050_12">du</w>
@@ -3527,9 +3518,7 @@
                 <w xml:id="FR3_105208010180_1">siu</w>
                 <w xml:id="FR3_105208010180_2" lemmaRef="lexicon.xml#lemma_4649" pos="VRB" corresp="variants.xml#type_36110">pflag</w>
                 <w xml:id="FR3_105208010180_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-                <pc xml:id="FR3_105208010180_4" join="right">(</pc>
-                <caesura xml:id="FR3_105208010180_5"/>
-                <pc xml:id="FR3_105208010180_6" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_105208010180_7" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
                 <w xml:id="FR3_105208010180_8">gir</w>
                 <pc xml:id="FR3_105208010180_9" join="left">.</pc>
@@ -3538,9 +3527,7 @@
                 <w xml:id="FR3_105208010190_0" lemmaRef="lexicon.xml#lemma_30703" pos="ADV" ana="lexicon.xml#lemma_30703_sense_48076" corresp="variants.xml#type_157721">darumb</w>
                 <w xml:id="FR3_105208010190_1">sol</w>
                 <w xml:id="FR3_105208010190_2" lemmaRef="lexicon.xml#lemma_4368" pos="ADV" ana="lexicon.xml#lemma_4368_sense_6825" corresp="variants.xml#type_238872">nümer</w>
-                <pc xml:id="FR3_105208010190_3" join="right">(</pc>
-                <caesura xml:id="FR3_105208010190_4"/>
-                <pc xml:id="FR3_105208010190_5" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_105208010190_6" lemmaRef="lexicon.xml#lemma_697" pos="ADJ" ana="lexicon.xml#lemma_697_sense_1123" corresp="variants.xml#type_2111">biderb</w>
                 <w xml:id="FR3_105208010190_7">man</w>
                 <w xml:id="FR3_105208010190_8" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
@@ -3596,9 +3583,7 @@
                 <w xml:id="FR3_105208020240_2" lemmaRef="lexicon.xml#lemma_4523" pos="CNJ" ana="lexicon.xml#lemma_4523_sense_7060" corresp="variants.xml#type_61484">auch</w>
                 <w xml:id="FR3_105208020240_3" lemmaRef="lexicon.xml#lemma_2465" pos="NOM" ana="lexicon.xml#lemma_2465_sense_3951" corresp="variants.xml#type_8256">gotes</w>
                 <w xml:id="FR3_105208020240_4" lemmaRef="lexicon.xml#lemma_4872" pos="NOM ADJ" corresp="variants.xml#type_210157">richs</w>
-                <pc xml:id="FR3_105208020240_5" join="right">(</pc>
-                <caesura xml:id="FR3_105208020240_6"/>
-                <pc xml:id="FR3_105208020240_7" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_105208020240_8" lemmaRef="lexicon.xml#lemma_1258" pos="PRP" ana="lexicon.xml#lemma_1258_sense_1977" corresp="variants.xml#type_4044">durch</w>
                 <w xml:id="FR3_105208020240_9">ein</w>
                 <w xml:id="FR3_105208020240_10" lemmaRef="lexicon.xml#lemma_7534" pos="NOM" corresp="variants.xml#type_41951">wib</w>
@@ -3649,9 +3634,7 @@
                 <hi rend="initial">
                   <w xml:id="FR3_105208020290_0" lemmaRef="lexicon.xml#lemma_17131" pos="NAM" ana="lexicon.xml#lemma_17131_sense_29402" corresp="variants.xml#type_238817">olofern</w>
                 </hi>
-                <pc xml:id="FR3_105208020290_1" join="right">(</pc>
-                <caesura xml:id="FR3_105208020290_2"/>
-                <pc xml:id="FR3_105208020290_3" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_105208020290_4" lemmaRef="lexicon.xml#lemma_6963" pos="VRB" corresp="variants.xml#type_24551">versniten</w>
                 <pc xml:id="FR3_105208020290_5" join="left">.</pc>
               </l>
@@ -3861,9 +3844,7 @@
                 <w xml:id="FR3_105208030480_3">in</w>
                 <w xml:id="FR3_105208030480_4" lemmaRef="lexicon.xml#lemma_3173" pos="NAM" ana="lexicon.xml#lemma_3173_sense_5014" corresp="variants.xml#type_71407">kernten</w>
                 <pc xml:id="FR3_105208030480_5" join="left">,</pc>
-                <pc xml:id="FR3_105208030480_6" join="right">(</pc>
-                <caesura xml:id="FR3_105208030480_7"/>
-                <pc xml:id="FR3_105208030480_8" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_105208030480_9" lemmaRef="lexicon.xml#lemma_1248" pos="NAM" ana="lexicon.xml#lemma_1248_sense_1964" corresp="variants.xml#type_239376">döring</w>
                 <pc xml:id="FR3_105208030480_10" join="left">,</pc>
               </l>
@@ -3871,9 +3852,7 @@
                 <w xml:id="FR3_105208030490_0">in</w>
                 <w xml:id="FR3_105208030490_1" lemmaRef="lexicon.xml#lemma_11965" pos="NOM" ana="lexicon.xml#lemma_11965_sense_18962" corresp="variants.xml#type_238957">süden</w>
                 <pc xml:id="FR3_105208030490_2" join="left">,</pc>
-                <pc xml:id="FR3_105208030490_3" join="right">(</pc>
-                <caesura xml:id="FR3_105208030490_4"/>
-                <pc xml:id="FR3_105208030490_5" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_105208030490_6" lemmaRef="lexicon.xml#lemma_7506" pos="NOM" ana="lexicon.xml#lemma_7506_sense_12249" corresp="variants.xml#type_27182">westen</w>
                 <pc xml:id="FR3_105208030490_7" join="left">,</pc>
                 <w xml:id="FR3_105208030490_8" lemmaRef="lexicon.xml#lemma_3028" pos="PRP" ana="lexicon.xml#lemma_3028_sense_4834" corresp="variants.xml#type_10369">in</w>
@@ -3882,30 +3861,22 @@
                 <w xml:id="FR3_105208030490_11" lemmaRef="lexicon.xml#lemma_3028" pos="PRP" ana="lexicon.xml#lemma_3028_sense_4834" corresp="variants.xml#type_10369">in</w>
                 <w xml:id="FR3_105208030490_12" lemmaRef="lexicon.xml#lemma_6543" pos="NAM" ana="lexicon.xml#lemma_6543_sense_10382" corresp="variants.xml#type_59411">ungern</w>
                 <pc xml:id="FR3_105208030490_13" join="left">,</pc>
-                <pc xml:id="FR3_105208030490_14" join="right">(</pc>
-                <caesura xml:id="FR3_105208030490_15"/>
-                <pc xml:id="FR3_105208030490_16" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_105208030490_17" lemmaRef="lexicon.xml#lemma_27916" pos="NAM" ana="lexicon.xml#lemma_27916_sense_44192" corresp="variants.xml#type_137079">ofen</w>
                 <pc xml:id="FR3_105208030490_18" join="left">,</pc>
-                <pc xml:id="FR3_105208030490_19" join="right">(</pc>
-                <caesura xml:id="FR3_105208030490_20"/>
-                <pc xml:id="FR3_105208030490_21" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_105208030490_22" lemmaRef="lexicon.xml#lemma_18471" pos="NAM" ana="lexicon.xml#lemma_18471_sense_31114" corresp="variants.xml#type_238959">niffan</w>
                 <pc xml:id="FR3_105208030490_23" join="left">,</pc>
               </l>
               <l n="50">
-                <pc xml:id="FR3_105208030500_0" join="right">(</pc>
-                <caesura xml:id="FR3_105208030500_1"/>
-                <pc xml:id="FR3_105208030500_2" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_105208030500_3" lemmaRef="lexicon.xml#lemma_3028" pos="PRP" ana="lexicon.xml#lemma_3028_sense_4834" corresp="variants.xml#type_10369">in</w>
                 <w xml:id="FR3_105208030500_4" lemmaRef="lexicon.xml#lemma_3032" pos="NAM" ana="lexicon.xml#lemma_3032_sense_4838" corresp="variants.xml#type_238960">endion</w>
                 <pc xml:id="FR3_105208030500_5" join="left">,</pc>
                 <w xml:id="FR3_105208030500_6" lemmaRef="lexicon.xml#lemma_3028" pos="PRP" ana="lexicon.xml#lemma_3028_sense_4834" corresp="variants.xml#type_10369">in</w>
                 <w xml:id="FR3_105208030500_7" lemmaRef="lexicon.xml#lemma_11733" pos="NAM" ana="lexicon.xml#lemma_11733_sense_18576" corresp="variants.xml#type_238961">holant</w>
                 <pc xml:id="FR3_105208030500_8" join="left">,</pc>
-                <pc xml:id="FR3_105208030500_9" join="right">(</pc>
-                <caesura xml:id="FR3_105208030500_10"/>
-                <pc xml:id="FR3_105208030500_11" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_105208030500_12" lemmaRef="lexicon.xml#lemma_5064" pos="NAM" ana="lexicon.xml#lemma_5064_sense_7890" corresp="variants.xml#type_72105">sachsen</w>
                 <pc xml:id="FR3_105208030500_13" join="left">,</pc>
                 <w xml:id="FR3_105208030500_14" lemmaRef="lexicon.xml#lemma_3028" pos="PRP" ana="lexicon.xml#lemma_3028_sense_4834" corresp="variants.xml#type_10369">in</w>
@@ -3979,15 +3950,11 @@
                 <pc xml:id="FR3_105208030560_8" join="left">,</pc>
               </l>
               <l n="57">
-                <pc xml:id="FR3_105208030570_0" join="right">(</pc>
-                <caesura xml:id="FR3_105208030570_1"/>
-                <pc xml:id="FR3_105208030570_2" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_105208030570_3">kan</w>
                 <w xml:id="FR3_105208030570_4" lemmaRef="lexicon.xml#lemma_7766" pos="ADJ GRA" corresp="variants.xml#type_51246">zarter</w>
                 <w xml:id="FR3_105208030570_5" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25987">frowen</w>
-                <pc xml:id="FR3_105208030570_6" join="right">(</pc>
-                <caesura xml:id="FR3_105208030570_7"/>
-                <pc xml:id="FR3_105208030570_8" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_105208030570_9">rotten</w>
                 <w xml:id="FR3_105208030570_10" lemmaRef="lexicon.xml#lemma_4252" pos="NOM" corresp="variants.xml#type_45737">mund</w>
                 <w xml:id="FR3_105208030570_11" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
@@ -4662,9 +4629,7 @@
                   <pc xml:id="FR3_205209010100_5" join="left">,</pc>
                 </l>
                 <l n="11">
-                  <pc xml:id="FR3_205209010110_0" join="right">(</pc>
-                  <caesura xml:id="FR3_205209010110_1"/>
-                  <pc xml:id="FR3_205209010110_2" join="left">)</pc>
+                  <gap reason="lost"/>
                   <w xml:id="FR3_205209010110_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
                   <w xml:id="FR3_205209010110_4" lemmaRef="lexicon.xml#lemma_3541" pos="NOM" corresp="variants.xml#type_12313">kunst</w>
                   <supplied>
@@ -4685,9 +4650,7 @@
                     <w xml:id="FR3_205209010120_0" lemmaRef="lexicon.xml#lemma_122" pos="NAM" ana="lexicon.xml#lemma_122_sense_156" corresp="variants.xml#type_80092">allexander</w>
                   </hi>
                   <pc xml:id="FR3_205209010120_1" join="left">,</pc>
-                  <pc xml:id="FR3_205209010120_2" join="right">(</pc>
-                  <caesura xml:id="FR3_205209010120_3"/>
-                  <pc xml:id="FR3_205209010120_4" join="left">)</pc>
+                  <gap reason="lost"/>
                   <w xml:id="FR3_205209010120_5" lemmaRef="lexicon.xml#lemma_5513" pos="NAM" ana="lexicon.xml#lemma_5513_sense_8587" corresp="variants.xml#type_74425">ceciljen</w>
                   <w xml:id="FR3_205209010120_6">lant</w>
                   <pc xml:id="FR3_205209010120_7" join="left">,</pc>
@@ -4709,9 +4672,7 @@
                   <w xml:id="FR3_205209010140_0">in</w>
                   <w xml:id="FR3_205209010140_1" lemmaRef="lexicon.xml#lemma_6055" pos="NAM" ana="lexicon.xml#lemma_6055_sense_9580" corresp="variants.xml#type_249099">dennemarck</w>
                   <pc xml:id="FR3_205209010140_2" join="left">,</pc>
-                  <pc xml:id="FR3_205209010140_3" join="right">(</pc>
-                  <caesura xml:id="FR3_205209010140_4"/>
-                  <pc xml:id="FR3_205209010140_5" join="left">)</pc>
+                  <gap reason="lost"/>
                   <w xml:id="FR3_205209010140_6" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3397">das</w>
                   <w xml:id="FR3_205209010140_7">lant</w>
                   <w xml:id="FR3_205209010140_8" lemmaRef="lexicon.xml#lemma_11693" pos="NAM" ana="lexicon.xml#lemma_11693_sense_18540" corresp="variants.xml#type_238993">meron</w>
@@ -4833,9 +4794,7 @@
                 </l>
                 <l n="27">
                   <w xml:id="FR3_205209020270_0" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
-                  <pc xml:id="FR3_205209020270_1" join="right">(</pc>
-                  <caesura xml:id="FR3_205209020270_2"/>
-                  <pc xml:id="FR3_205209020270_3" join="left">)</pc>
+                  <gap reason="lost"/>
                   <w xml:id="FR3_205209020270_4" lemmaRef="lexicon.xml#lemma_3004" pos="ADV" ana="lexicon.xml#lemma_3004_sense_4808" corresp="variants.xml#type_10247">ie</w>
                   <w xml:id="FR3_205209020270_5" lemmaRef="lexicon.xml#lemma_2348" pos="VRB" corresp="variants.xml#type_7930">gewan</w>
                 </l>
@@ -4848,9 +4807,7 @@
                   <pc xml:id="FR3_205209020280_5" join="left">,</pc>
                 </l>
                 <l n="29">
-                  <pc xml:id="FR3_205209020290_0" join="right">(</pc>
-                  <caesura xml:id="FR3_205209020290_1"/>
-                  <pc xml:id="FR3_205209020290_2" join="left">)</pc>
+                  <gap reason="lost"/>
                   <w xml:id="FR3_205209020290_3">wer</w>
                   <w xml:id="FR3_205209020290_4" lemmaRef="lexicon.xml#lemma_106" pos="ADJ" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_261">aller</w>
                   <w xml:id="FR3_205209020290_5">welt</w>
@@ -4863,9 +4820,7 @@
                   <w xml:id="FR3_205209020300_2" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
                   <w xml:id="FR3_205209020300_3" lemmaRef="lexicon.xml#lemma_5280" pos="NOM ADJ ADV" ana="lexicon.xml#lemma_5280_sense_8229" corresp="variants.xml#type_44516">schön</w>
                   <w xml:id="FR3_205209020300_4" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
-                  <pc xml:id="FR3_205209020300_5" join="right">(</pc>
-                  <caesura xml:id="FR3_205209020300_6"/>
-                  <pc xml:id="FR3_205209020300_7" join="left">)</pc>
+                  <gap reason="lost"/>
                   <w xml:id="FR3_205209020300_8" lemmaRef="lexicon.xml#lemma_4131" pos="ADJ ADV" ana="lexicon.xml#lemma_4131_sense_6488" corresp="variants.xml#type_14402">minneclich</w>
                   <pc xml:id="FR3_205209020300_9" join="left">,</pc>
                   <w xml:id="FR3_205209020300_10" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10237">mir</w>
@@ -4974,9 +4929,7 @@
                   <pc xml:id="FR3_205209030410_5" join="left">,</pc>
                 </l>
                 <l n="42">
-                  <pc xml:id="FR3_205209030420_0" join="right">(</pc>
-                  <caesura xml:id="FR3_205209030420_1"/>
-                  <pc xml:id="FR3_205209030420_2" join="left">)</pc>
+                  <gap reason="lost"/>
                   <w xml:id="FR3_205209030420_3">wer</w>
                   <w xml:id="FR3_205209030420_4" lemmaRef="lexicon.xml#lemma_5280" pos="NOM ADJ ADV" ana="lexicon.xml#lemma_5280_sense_8229" corresp="variants.xml#type_44516">schön</w>
                   <w xml:id="FR3_205209030420_5" lemmaRef="lexicon.xml#lemma_106" pos="ADJ ADV" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_268">alz</w>
@@ -5063,9 +5016,7 @@
                   </supplied>
                   <w xml:id="FR3_205209030500_9" lemmaRef="lexicon.xml#lemma_3507" pos="NOM" ana="lexicon.xml#lemma_3507_sense_5555" corresp="variants.xml#type_12157">künig</w>
                   <w xml:id="FR3_205209030500_10" lemmaRef="lexicon.xml#lemma_5076" pos="NAM" ana="lexicon.xml#lemma_5076_sense_7907" corresp="variants.xml#type_17602">salomon</w>
-                  <pc xml:id="FR3_205209030500_11" join="right">(</pc>
-                  <caesura xml:id="FR3_205209030500_12"/>
-                  <pc xml:id="FR3_205209030500_13" join="left">)</pc>
+                  <gap reason="lost"/>
                   <w xml:id="FR3_205209030500_14">wise</w>
                   <pc xml:id="FR3_205209030500_15" join="left">,</pc>
                 </l>
@@ -9115,9 +9066,7 @@
                 <w xml:id="FR3_105212030570_2">fert</w>
                 <w xml:id="FR3_105212030570_3" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
                 <w xml:id="FR3_105212030570_4" lemmaRef="lexicon.xml#lemma_3964" pos="ADJ" corresp="variants.xml#type_64429">manigfalt</w>
-                <pc xml:id="FR3_105212030570_5" join="right">(</pc>
-                <caesura xml:id="FR3_105212030570_6"/>
-                <pc xml:id="FR3_105212030570_7" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_105212030570_8" lemmaRef="lexicon.xml#lemma_2866" pos="ADJ ADV" corresp="variants.xml#type_9673">hoch</w>
                 <w xml:id="FR3_105212030570_9">in</w>
                 <w xml:id="FR3_105212030570_10" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
@@ -9526,9 +9475,7 @@
                 <w xml:id="FR3_105212061000_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
                 <w xml:id="FR3_105212061000_3" lemmaRef="lexicon.xml#lemma_756" pos="NOM" corresp="variants.xml#type_2343">blick</w>
                 <pc xml:id="FR3_105212061000_4" join="left">,</pc>
-                <pc xml:id="FR3_105212061000_5" join="right">(</pc>
-                <caesura xml:id="FR3_105212061000_6"/>
-                <pc xml:id="FR3_105212061000_7" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_105212061000_8" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
                 <w xml:id="FR3_105212061000_9" lemmaRef="lexicon.xml#lemma_44222" pos="NOM" ana="lexicon.xml#lemma_44222_sense_68866" corresp="variants.xml#type_239227">hagelstraich</w>
                 <pc xml:id="FR3_105212061000_10" join="left">,</pc>
@@ -11908,9 +11855,7 @@
                 <w xml:id="FR3_105216040640_8">in</w>
                 <w xml:id="FR3_105216040640_9" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
                 <w xml:id="FR3_105216040640_10" lemmaRef="lexicon.xml#lemma_7929" pos="ADJ NUM" ana="lexicon.xml#lemma_7929_sense_13005" corresp="variants.xml#type_28805">zwene</w>
-                <pc xml:id="FR3_105216040640_11" join="right">(</pc>
-                <caesura xml:id="FR3_105216040640_12"/>
-                <pc xml:id="FR3_105216040640_13" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_105216040640_14" lemmaRef="lexicon.xml#lemma_7120" pos="VRB" corresp="variants.xml#type_130403">flacht</w>
                 <pc xml:id="FR3_105216040640_15" join="left">.</pc>
               </l>
@@ -12309,9 +12254,7 @@
                 <pc xml:id="FR3_105217010070_9" join="left">,</pc>
               </l>
               <l n="8">
-                <pc xml:id="FR3_105217010080_0" join="right">(</pc>
-                <caesura xml:id="FR3_105217010080_1"/>
-                <pc xml:id="FR3_105217010080_2" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_105217010080_3" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
                 <w xml:id="FR3_105217010080_4" lemmaRef="lexicon.xml#lemma_6342" pos="ADV PRP" ana="lexicon.xml#lemma_6342_sense_9997" corresp="variants.xml#type_64060">uß</w>
                 <w xml:id="FR3_105217010080_5">ime</w>
@@ -12322,14 +12265,10 @@
                 <w xml:id="FR3_105217010090_0" lemmaRef="lexicon.xml#lemma_6342" pos="ADV PRP" ana="lexicon.xml#lemma_6342_sense_9997" corresp="variants.xml#type_64060">uß</w>
                 <w xml:id="FR3_105217010090_1" lemmaRef="lexicon.xml#lemma_2640" pos="NOM" ana="lexicon.xml#lemma_2640_sense_4250" corresp="variants.xml#type_8903">henden</w>
                 <pc xml:id="FR3_105217010090_2" join="left">,</pc>
-                <pc xml:id="FR3_105217010090_3" join="right">(</pc>
-                <caesura xml:id="FR3_105217010090_4"/>
-                <pc xml:id="FR3_105217010090_5" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_105217010090_6" lemmaRef="lexicon.xml#lemma_7320" pos="NOM" corresp="variants.xml#type_93321">fußen</w>
                 <pc xml:id="FR3_105217010090_7" join="left">,</pc>
-                <pc xml:id="FR3_105217010090_8" join="right">(</pc>
-                <caesura xml:id="FR3_105217010090_9"/>
-                <pc xml:id="FR3_105217010090_10" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_105217010090_11">siten</w>
                 <pc xml:id="FR3_105217010090_12" join="left">,</pc>
               </l>
@@ -12404,9 +12343,7 @@
               </l>
               <l n="17">
                 <w xml:id="FR3_105217010170_0">bis</w>
-                <pc xml:id="FR3_105217010170_1" join="right">(</pc>
-                <caesura xml:id="FR3_105217010170_2"/>
-                <pc xml:id="FR3_105217010170_3" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_105217010170_4">im</w>
                 <w xml:id="FR3_105217010170_5" lemmaRef="lexicon.xml#lemma_4840" pos="NOM ADJ ADV" corresp="variants.xml#type_42728">recht</w>
                 <w xml:id="FR3_105217010170_6">ruwe</w>
@@ -12464,9 +12401,7 @@
               </l>
               <l n="21">
                 <w xml:id="FR3_105217020210_0">min</w>
-                <pc xml:id="FR3_105217020210_1" join="right">(</pc>
-                <caesura xml:id="FR3_105217020210_2"/>
-                <pc xml:id="FR3_105217020210_3" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_105217020210_4" lemmaRef="lexicon.xml#lemma_5211" pos="NOM" ana="lexicon.xml#lemma_5211_sense_8111" corresp="variants.xml#type_227662">scheppir</w>
                 <w xml:id="FR3_105217020210_5" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18951">bist</w>
               </l>
@@ -12474,9 +12409,7 @@
                 <w xml:id="FR3_105217020220_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
                 <w xml:id="FR3_105217020220_1" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
                 <w xml:id="FR3_105217020220_2">din</w>
-                <pc xml:id="FR3_105217020220_3" join="right">(</pc>
-                <caesura xml:id="FR3_105217020220_4"/>
-                <pc xml:id="FR3_105217020220_5" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_105217020220_6" lemmaRef="lexicon.xml#lemma_1033" pos="NOM" ana="lexicon.xml#lemma_1033_sense_1664" corresp="variants.xml#type_186981">creatüre</w>
                 <pc xml:id="FR3_105217020220_7" join="left">.</pc>
               </l>
@@ -12504,9 +12437,7 @@
               <l n="25">
                 <w xml:id="FR3_105217020250_0" lemmaRef="lexicon.xml#lemma_4377" pos="ADJ ADV NEG" ana="lexicon.xml#lemma_4377_sense_6838" corresp="variants.xml#type_15283">nicht</w>
                 <w xml:id="FR3_105217020250_1">spar</w>
-                <pc xml:id="FR3_105217020250_2" join="right">(</pc>
-                <caesura xml:id="FR3_105217020250_3"/>
-                <pc xml:id="FR3_105217020250_4" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_105217020250_5" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
                 <w xml:id="FR3_105217020250_6" lemmaRef="lexicon.xml#lemma_57802" pos="NOM" ana="lexicon.xml#lemma_57802_sense_92996" corresp="variants.xml#type_310291">rache</w>
                 <pc xml:id="FR3_105217020250_7" join="left">,</pc>
@@ -12591,9 +12522,7 @@
                 <hi rend="initial">
                   <w xml:id="FR3_105217020320_0" lemmaRef="lexicon.xml#lemma_140" pos="ADJ" ana="lexicon.xml#lemma_140_sense_174" corresp="variants.xml#type_239478">almechtjger</w>
                 </hi>
-                <pc xml:id="FR3_105217020320_1" join="right">(</pc>
-                <caesura xml:id="FR3_105217020320_2"/>
-                <pc xml:id="FR3_105217020320_3" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_105217020320_4" lemmaRef="lexicon.xml#lemma_7307" pos="NOM" ana="lexicon.xml#lemma_7307_sense_11843" corresp="variants.xml#type_68987">furste</w>
                 <w xml:id="FR3_105217020320_5" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
                 <w xml:id="FR3_105217020320_6" lemmaRef="lexicon.xml#lemma_2834" pos="NOM" ana="lexicon.xml#lemma_2834_sense_4553" corresp="variants.xml#type_210550">hiemelrich</w>
@@ -12740,9 +12669,7 @@
                 <w xml:id="FR3_105217030450_6" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
                 <w xml:id="FR3_105217030450_7" lemmaRef="lexicon.xml#lemma_285" pos="NOM ADJ" ana="lexicon.xml#lemma_285_sense_370" corresp="variants.xml#type_789">armer</w>
                 <w xml:id="FR3_105217030450_8" lemmaRef="lexicon.xml#lemma_9550" pos="NOM" ana="lexicon.xml#lemma_9550_sense_15490" corresp="variants.xml#type_33206">sünder</w>
-                <pc xml:id="FR3_105217030450_9" join="right">(</pc>
-                <caesura xml:id="FR3_105217030450_10"/>
-                <pc xml:id="FR3_105217030450_11" join="left">)</pc>
+                <gap reason="lost"/>
                 <supplied>
                   <w xml:id="FR3_105217030450_12">bin</w>
                 </supplied>
@@ -12771,9 +12698,7 @@
                 <w xml:id="FR3_105217030470_4">beden</w>
               </l>
               <l n="48">
-                <pc xml:id="FR3_105217030480_0" join="right">(</pc>
-                <caesura xml:id="FR3_105217030480_1"/>
-                <pc xml:id="FR3_105217030480_2" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_105217030480_3" lemmaRef="lexicon.xml#lemma_8139" pos="NEG VEX" corresp="variants.xml#type_29199">enhan</w>
                 <w xml:id="FR3_105217030480_4" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
                 <w xml:id="FR3_105217030480_5" lemmaRef="lexicon.xml#lemma_106" pos="ADJ ADV" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_42346">allis</w>
@@ -12861,9 +12786,7 @@
               <l n="56">
                 <w xml:id="FR3_105217030560_0" lemmaRef="lexicon.xml#lemma_5888" pos="VRB" corresp="variants.xml#type_20778">gesundert</w>
                 <w xml:id="FR3_105217030560_1" lemmaRef="lexicon.xml#lemma_6342" pos="ADV PRP" ana="lexicon.xml#lemma_6342_sense_9997" corresp="variants.xml#type_64060">uß</w>
-                <pc xml:id="FR3_105217030560_2" join="right">(</pc>
-                <caesura xml:id="FR3_105217030560_3"/>
-                <pc xml:id="FR3_105217030560_4" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_105217030560_5" lemmaRef="lexicon.xml#lemma_76252" pos="ADJ" ana="lexicon.xml#lemma_76252_sense_114706" corresp="variants.xml#type_361670">virdumeter</w>
                 <w xml:id="FR3_105217030560_6" lemmaRef="lexicon.xml#lemma_1155" pos="NOM" corresp="variants.xml#type_3644">diet</w>
                 <w xml:id="FR3_105217030560_7" lemmaRef="lexicon.xml#lemma_7194" pos="ADV PRP" ana="lexicon.xml#lemma_7194_sense_11657" corresp="variants.xml#type_25545">vor</w>
@@ -13412,9 +13335,7 @@
                 </hi>
                 <w xml:id="FR3_105218030490_1" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
                 <w xml:id="FR3_105218030490_2" lemmaRef="lexicon.xml#lemma_4523" pos="CNJ" ana="lexicon.xml#lemma_4523_sense_7060" corresp="variants.xml#type_61484">auch</w>
-                <pc xml:id="FR3_105218030490_3" join="right">(</pc>
-                <caesura xml:id="FR3_105218030490_4"/>
-                <pc xml:id="FR3_105218030490_5" join="left">)</pc>
+                <gap reason="lost"/>
                 <supplied>
                   <w xml:id="FR3_105218030490_6" lemmaRef="lexicon.xml#lemma_24667" pos="NOM" ana="lexicon.xml#lemma_24667_sense_39637" corresp="variants.xml#type_118331">hur</w>
                 </supplied>
@@ -13911,9 +13832,7 @@
                 <w xml:id="FR3_105218060960_1">listen</w>
                 <w xml:id="FR3_105218060960_2" lemmaRef="lexicon.xml#lemma_7648" pos="VRB" corresp="variants.xml#type_55956">worchte</w>
                 <w xml:id="FR3_105218060960_3" lemmaRef="lexicon.xml#lemma_4216" pos="NAM" ana="lexicon.xml#lemma_4216_sense_6599" corresp="variants.xml#type_66881">moises</w>
-                <pc xml:id="FR3_105218060960_4" join="right">(</pc>
-                <caesura xml:id="FR3_105218060960_5"/>
-                <pc xml:id="FR3_105218060960_6" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_105218060960_7" lemmaRef="lexicon.xml#lemma_7929" pos="ADJ NUM" ana="lexicon.xml#lemma_7929_sense_13005" corresp="variants.xml#type_28798">zwei</w>
                 <w xml:id="FR3_105218060960_8" lemmaRef="lexicon.xml#lemma_7084" pos="NOM" ana="lexicon.xml#lemma_7084_sense_11475" corresp="variants.xml#type_109944">vingerlein</w>
               </l>
@@ -24139,9 +24058,7 @@
                 <w xml:id="FR3_105232030520_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
                 <w xml:id="FR3_105232030520_1" lemmaRef="lexicon.xml#lemma_6771" pos="NOM" corresp="variants.xml#type_44588">vatter</w>
                 <w xml:id="FR3_105232030520_2" lemmaRef="lexicon.xml#lemma_155" pos="NOM ADJ" ana="lexicon.xml#lemma_155_sense_190" corresp="variants.xml#type_400">alt</w>
-                <pc xml:id="FR3_105232030520_3" join="right">(</pc>
-                <caesura xml:id="FR3_105232030520_4"/>
-                <pc xml:id="FR3_105232030520_5" join="left">)</pc>
+                <gap reason="lost"/>
                 <supplied>
                   <w xml:id="FR3_105232030520_6">junger</w>
                 </supplied>
@@ -26758,9 +26675,7 @@
                   <pc xml:id="FR3_507201050870_6" join="left">,</pc>
                 </l>
                 <l n="88">
-                  <pc xml:id="FR3_507201050880_0" join="right">(</pc>
-                  <caesura xml:id="FR3_507201050880_1"/>
-                  <pc xml:id="FR3_507201050880_2" join="left">)</pc>
+                  <gap reason="lost"/>
                   <w xml:id="FR3_507201050880_3" lemmaRef="lexicon.xml#lemma_6301" pos="VRB" ana="lexicon.xml#lemma_6301_sense_9929" corresp="variants.xml#type_80252">dede</w>
                   <w xml:id="FR3_507201050880_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
                   <w xml:id="FR3_507201050880_5" lemmaRef="lexicon.xml#lemma_7494" pos="NOM" ana="lexicon.xml#lemma_7494_sense_12223" corresp="variants.xml#type_27109">werlde</w>
@@ -26792,9 +26707,7 @@
                   <w xml:id="FR3_507201050910_1">weren</w>
                   <w xml:id="FR3_507201050910_2">sin</w>
                   <w xml:id="FR3_507201050910_3">schulde</w>
-                  <pc xml:id="FR3_507201050910_4" join="right">(</pc>
-                  <caesura xml:id="FR3_507201050910_5"/>
-                  <pc xml:id="FR3_507201050910_6" join="left">)</pc>
+                  <gap reason="lost"/>
                   <w xml:id="FR3_507201050910_7" lemmaRef="lexicon.xml#lemma_3349" pos="NOM ADJ ADV" corresp="variants.xml#type_11509">cleine</w>
                   <pc xml:id="FR3_507201050910_8" join="left">,</pc>
                 </l>
@@ -26845,9 +26758,7 @@
                     <w xml:id="FR3_507201060960_0">du</w>
                   </hi>
                   <w xml:id="FR3_507201060960_1" lemmaRef="lexicon.xml#lemma_2833" pos="ADJ" ana="lexicon.xml#lemma_2833_sense_4552" corresp="variants.xml#type_249441">himmelische</w>
-                  <pc xml:id="FR3_507201060960_2" join="right">(</pc>
-                  <caesura xml:id="FR3_507201060960_3"/>
-                  <pc xml:id="FR3_507201060960_4" join="left">)</pc>
+                  <gap reason="lost"/>
                   <supplied>
                     <w xml:id="FR3_507201060960_5" lemmaRef="lexicon.xml#lemma_282" pos="NOM" corresp="variants.xml#type_120615">arche</w>
                   </supplied>
@@ -30332,9 +30243,7 @@
               <l n="7">
                 <w xml:id="FR3_107207010070_0">ir</w>
                 <w xml:id="FR3_107207010070_1" lemmaRef="lexicon.xml#lemma_3273" pos="ADJ NEG" ana="lexicon.xml#lemma_3273_sense_5143" corresp="variants.xml#type_77579">chain</w>
-                <pc xml:id="FR3_107207010070_2" join="right">(</pc>
-                <caesura xml:id="FR3_107207010070_3"/>
-                <pc xml:id="FR3_107207010070_4" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_107207010070_5" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3504">dem</w>
                 <w xml:id="FR3_107207010070_6" lemmaRef="lexicon.xml#lemma_204" pos="NOM ADJ" ana="lexicon.xml#lemma_204_sense_256" corresp="variants.xml#type_542">andern</w>
                 <w xml:id="FR3_107207010070_7" lemmaRef="lexicon.xml#lemma_2065" pos="ADJ ADV" corresp="variants.xml#type_83823">gleiche</w>
@@ -30414,9 +30323,7 @@
               </l>
               <l n="16">
                 <w xml:id="FR3_107207010160_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-                <pc xml:id="FR3_107207010160_1" join="right">(</pc>
-                <caesura xml:id="FR3_107207010160_2"/>
-                <pc xml:id="FR3_107207010160_3" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_107207010160_4" lemmaRef="lexicon.xml#lemma_678" pos="PRP" ana="lexicon.xml#lemma_678_sense_1096" corresp="variants.xml#type_117180">pei</w>
                 <w xml:id="FR3_107207010160_5" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3504">dem</w>
                 <w xml:id="FR3_107207010160_6">rate</w>
@@ -30437,9 +30344,7 @@
                 <w xml:id="FR3_107207010180_0" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3255">da</w>
                 <w xml:id="FR3_107207010180_1">si</w>
                 <w xml:id="FR3_107207010180_2" lemmaRef="lexicon.xml#lemma_3009" pos="ADV" ana="lexicon.xml#lemma_3009_sense_4813" corresp="variants.xml#type_10286">immer</w>
-                <pc xml:id="FR3_107207010180_3" join="right">(</pc>
-                <caesura xml:id="FR3_107207010180_4"/>
-                <pc xml:id="FR3_107207010180_5" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_107207010180_6" lemmaRef="lexicon.xml#lemma_1292" pos="ADJ ADV" ana="lexicon.xml#lemma_1292_sense_2021" corresp="variants.xml#type_69777">ewig</w>
                 <w xml:id="FR3_107207010180_7" lemmaRef="lexicon.xml#lemma_4238" pos="VRB VEM" corresp="variants.xml#type_44661">müssen</w>
                 <w xml:id="FR3_107207010180_8">sein</w>
@@ -30533,9 +30438,7 @@
                 <w xml:id="FR3_107207020270_3" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
                 <w xml:id="FR3_107207020270_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3504">dem</w>
                 <w xml:id="FR3_107207020270_5" lemmaRef="lexicon.xml#lemma_2830" pos="NOM" ana="lexicon.xml#lemma_2830_sense_90142" corresp="variants.xml#type_9575">himel</w>
-                <pc xml:id="FR3_107207020270_6" join="right">(</pc>
-                <caesura xml:id="FR3_107207020270_7"/>
-                <pc xml:id="FR3_107207020270_8" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_107207020270_9" lemmaRef="lexicon.xml#lemma_4359" pos="ADJ ADV" corresp="variants.xml#type_15215">nider</w>
                 <pc xml:id="FR3_107207020270_10" join="left">,</pc>
               </l>
@@ -30552,9 +30455,7 @@
                 <w xml:id="FR3_107207020290_2">noch</w>
                 <w xml:id="FR3_107207020290_3" lemmaRef="lexicon.xml#lemma_3273" pos="ADJ NEG" ana="lexicon.xml#lemma_3273_sense_5143" corresp="variants.xml#type_98605">chainer</w>
                 <w xml:id="FR3_107207020290_4" lemmaRef="lexicon.xml#lemma_3400" pos="VRB" ana="lexicon.xml#lemma_3400_sense_5361" corresp="variants.xml#type_41212">chomen</w>
-                <pc xml:id="FR3_107207020290_5" join="right">(</pc>
-                <caesura xml:id="FR3_107207020290_6"/>
-                <pc xml:id="FR3_107207020290_7" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_107207020290_8">wider</w>
               </l>
               <l n="30">
@@ -30607,14 +30508,10 @@
                 <w xml:id="FR3_107207020350_0" lemmaRef="lexicon.xml#lemma_5153" pos="VRB" corresp="variants.xml#type_120191">schuef</w>
                 <w xml:id="FR3_107207020350_1">er</w>
                 <w xml:id="FR3_107207020350_2" lemmaRef="lexicon.xml#lemma_57" pos="NAM" ana="lexicon.xml#lemma_57_sense_71" corresp="variants.xml#type_147">adam</w>
-                <pc xml:id="FR3_107207020350_3" join="right">(</pc>
-                <caesura xml:id="FR3_107207020350_4"/>
-                <pc xml:id="FR3_107207020350_5" join="left">)</pc>
+                <gap reason="lost"/>
                 <pc xml:id="FR3_107207020350_6" join="left">,</pc>
                 <w xml:id="FR3_107207020350_7" lemmaRef="lexicon.xml#lemma_1756" pos="NAM" ana="lexicon.xml#lemma_1756_sense_2746" corresp="variants.xml#type_6008">eva</w>
-                <pc xml:id="FR3_107207020350_8" join="right">(</pc>
-                <caesura xml:id="FR3_107207020350_9"/>
-                <pc xml:id="FR3_107207020350_10" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_107207020350_11" lemmaRef="lexicon.xml#lemma_468" pos="ADJ" ana="lexicon.xml#lemma_468_sense_655" corresp="variants.xml#type_117923">paide</w>
                 <pc xml:id="FR3_107207020350_12" join="left">,</pc>
               </l>
@@ -30628,13 +30525,9 @@
                 <pc xml:id="FR3_107207020360_6" join="left">,</pc>
               </l>
               <l n="37">
-                <pc xml:id="FR3_107207020370_0" join="right">(</pc>
-                <caesura xml:id="FR3_107207020370_1"/>
-                <pc xml:id="FR3_107207020370_2" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_107207020370_3" lemmaRef="lexicon.xml#lemma_1612" pos="VRB" ana="lexicon.xml#lemma_1612_sense_2517" corresp="variants.xml#type_102994">erlaubt</w>
-                <pc xml:id="FR3_107207020370_4" join="right">(</pc>
-                <caesura xml:id="FR3_107207020370_5"/>
-                <pc xml:id="FR3_107207020370_6" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_107207020370_7" lemmaRef="lexicon.xml#lemma_106" pos="ADJ ADV" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_257">all</w>
                 <w xml:id="FR3_107207020370_8" lemmaRef="lexicon.xml#lemma_820" pos="NOM" corresp="variants.xml#type_146678">pawm</w>
                 <w xml:id="FR3_107207020370_9">pis</w>
@@ -30650,9 +30543,7 @@
                 <w xml:id="FR3_107207020380_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
                 <w xml:id="FR3_107207020380_4" lemmaRef="lexicon.xml#lemma_7273" pos="NOM" corresp="variants.xml#type_123650">frücht</w>
                 <pc xml:id="FR3_107207020380_5" join="left">,</pc>
-                <pc xml:id="FR3_107207020380_6" join="right">(</pc>
-                <caesura xml:id="FR3_107207020380_7"/>
-                <pc xml:id="FR3_107207020380_8" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_107207020380_9">verliest</w>
                 <w xml:id="FR3_107207020380_10" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
                 <w xml:id="FR3_107207020380_11" lemmaRef="lexicon.xml#lemma_1292" pos="ADJ" ana="lexicon.xml#lemma_1292_sense_2021" corresp="variants.xml#type_4211">ewigen</w>
@@ -30666,9 +30557,7 @@
                 <hi rend="initial">
                   <w xml:id="FR3_107207030390_0" lemmaRef="lexicon.xml#lemma_3886" pos="NAM" ana="lexicon.xml#lemma_3886_sense_6135" corresp="variants.xml#type_65714">lucifern</w>
                 </hi>
-                <pc xml:id="FR3_107207030390_1" join="right">(</pc>
-                <caesura xml:id="FR3_107207030390_2"/>
-                <pc xml:id="FR3_107207030390_3" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_107207030390_4" lemmaRef="lexicon.xml#lemma_7489" pos="VRB VEX" corresp="variants.xml#type_27046">ward</w>
                 <w xml:id="FR3_107207030390_5" lemmaRef="lexicon.xml#lemma_496" pos="VRB" corresp="variants.xml#type_1439">belangen</w>
                 <pc xml:id="FR3_107207030390_6" join="left">,</pc>
@@ -30725,9 +30614,7 @@
                 <w xml:id="FR3_107207030440_7">du</w>
                 <w xml:id="FR3_107207030440_8">si</w>
                 <w xml:id="FR3_107207030440_9" lemmaRef="lexicon.xml#lemma_4240" pos="VRB VEM" corresp="variants.xml#type_14781">mügest</w>
-                <pc xml:id="FR3_107207030440_10" join="right">(</pc>
-                <caesura xml:id="FR3_107207030440_11"/>
-                <pc xml:id="FR3_107207030440_12" join="left">)</pc>
+                <gap reason="lost"/>
                 <supplied>
                   <w xml:id="FR3_107207030440_13" lemmaRef="lexicon.xml#lemma_6201" pos="VRB" ana="lexicon.xml#lemma_6201_sense_9776" corresp="variants.xml#type_21885">triegen</w>
                 </supplied>
@@ -30920,9 +30807,7 @@
                 <w xml:id="FR3_107207040620_2">er</w>
                 <w xml:id="FR3_107207040620_3">ir</w>
                 <pc xml:id="FR3_107207040620_4" join="left">,</pc>
-                <pc xml:id="FR3_107207040620_5" join="right">(</pc>
-                <caesura xml:id="FR3_107207040620_6"/>
-                <pc xml:id="FR3_107207040620_7" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_107207040620_8" lemmaRef="lexicon.xml#lemma_4377" pos="ADJ ADV NEG" ana="lexicon.xml#lemma_4377_sense_6838" corresp="variants.xml#type_15283">nicht</w>
                 <supplied>
                   <w xml:id="FR3_107207040620_9" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
@@ -31022,9 +30907,7 @@
               <l n="72">
                 <w xml:id="FR3_107207040720_0" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3255">da</w>
                 <w xml:id="FR3_107207040720_1" lemmaRef="lexicon.xml#lemma_4238" pos="VRB VEM" corresp="variants.xml#type_65625">muest</w>
-                <pc xml:id="FR3_107207040720_2" join="right">(</pc>
-                <caesura xml:id="FR3_107207040720_3"/>
-                <pc xml:id="FR3_107207040720_4" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_107207040720_5">in</w>
                 <w xml:id="FR3_107207040720_6" lemmaRef="lexicon.xml#lemma_3089" pos="NOM" ana="lexicon.xml#lemma_3089_sense_4912" corresp="variants.xml#type_10599">jamer</w>
                 <w xml:id="FR3_107207040720_7" lemmaRef="lexicon.xml#lemma_1764" pos="VRB" ana="lexicon.xml#lemma_1764_sense_2754" corresp="variants.xml#type_6041">essen</w>
@@ -31080,9 +30963,7 @@
               </l>
               <l n="78">
                 <w xml:id="FR3_107207050780_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
-                <pc xml:id="FR3_107207050780_1" join="right">(</pc>
-                <caesura xml:id="FR3_107207050780_2"/>
-                <pc xml:id="FR3_107207050780_3" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_107207050780_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
                 <pc xml:id="FR3_107207050780_5" join="left">,</pc>
                 <w xml:id="FR3_107207050780_6" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
@@ -31398,9 +31279,7 @@
                 <hi rend="initial">
                   <w xml:id="FR3_107207061080_0" lemmaRef="lexicon.xml#lemma_57" pos="NAM" ana="lexicon.xml#lemma_57_sense_71" corresp="variants.xml#type_147">adam</w>
                 </hi>
-                <pc xml:id="FR3_107207061080_1" join="right">(</pc>
-                <caesura xml:id="FR3_107207061080_2"/>
-                <pc xml:id="FR3_107207061080_3" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_107207061080_4" lemmaRef="lexicon.xml#lemma_1992" pos="VRB" ana="lexicon.xml#lemma_1992_sense_3062" corresp="variants.xml#type_46310">gedacht</w>
                 <w xml:id="FR3_107207061080_5" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
                 <w xml:id="FR3_107207061080_6" lemmaRef="lexicon.xml#lemma_597" pos="ADJ ADV GRA" ana="lexicon.xml#lemma_597_sense_931" corresp="variants.xml#type_78501">pesten</w>
@@ -31454,9 +31333,7 @@
               </l>
               <l n="114">
                 <w xml:id="FR3_107207061140_0" lemmaRef="lexicon.xml#lemma_1087" pos="ADV" corresp="variants.xml#type_41888">darnach</w>
-                <pc xml:id="FR3_107207061140_1" join="right">(</pc>
-                <caesura xml:id="FR3_107207061140_2"/>
-                <pc xml:id="FR3_107207061140_3" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_107207061140_4" lemmaRef="lexicon.xml#lemma_1756" pos="NAM" ana="lexicon.xml#lemma_1756_sense_2746" corresp="variants.xml#type_6008">eva</w>
                 <w xml:id="FR3_107207061140_5" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
                 <w xml:id="FR3_107207061140_6" lemmaRef="lexicon.xml#lemma_204" pos="NOM ADJ" ana="lexicon.xml#lemma_204_sense_256" corresp="variants.xml#type_542">andern</w>
@@ -31832,17 +31709,13 @@
                 <w xml:id="FR3_107207091530_5" lemmaRef="lexicon.xml#lemma_7064" pos="ADJ NUM" ana="lexicon.xml#lemma_7064_sense_11447" corresp="variants.xml#type_24978">vierde</w>
               </l>
               <l n="154">
-                <pc xml:id="FR3_107207091540_0" join="right">(</pc>
-                <caesura xml:id="FR3_107207091540_1"/>
-                <pc xml:id="FR3_107207091540_2" join="left">)</pc>
+                <gap reason="lost"/>
                 <supplied>
                   <w xml:id="FR3_107207091540_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
                   <w xml:id="FR3_107207091540_4" lemmaRef="lexicon.xml#lemma_5970" pos="NOM" corresp="variants.xml#type_21055">swester</w>
                 </supplied>
                 <pc xml:id="FR3_107207091540_5" join="left">,</pc>
-                <pc xml:id="FR3_107207091540_6" join="right">(</pc>
-                <caesura xml:id="FR3_107207091540_7"/>
-                <pc xml:id="FR3_107207091540_8" join="left">)</pc>
+                <gap reason="lost"/>
                 <supplied>
                   <w xml:id="FR3_107207091540_9" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
                 </supplied>
@@ -32159,9 +32032,7 @@
                 <w xml:id="FR3_107207101860_1">solt</w>
                 <w xml:id="FR3_107207101860_2" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10226">mich</w>
                 <w xml:id="FR3_107207101860_3">sein</w>
-                <pc xml:id="FR3_107207101860_4" join="right">(</pc>
-                <caesura xml:id="FR3_107207101860_5"/>
-                <pc xml:id="FR3_107207101860_6" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_107207101860_7" lemmaRef="lexicon.xml#lemma_1560" pos="VRB" corresp="variants.xml#type_90609">ergeczen</w>
                 <pc xml:id="FR3_107207101860_8" join="left">,</pc>
               </l>
@@ -32314,9 +32185,7 @@
                 <w xml:id="FR3_107207112010_1">nam</w>
                 <w xml:id="FR3_107207112010_2">sol</w>
                 <w xml:id="FR3_107207112010_3">haissen</w>
-                <pc xml:id="FR3_107207112010_4" join="right">(</pc>
-                <caesura xml:id="FR3_107207112010_5"/>
-                <pc xml:id="FR3_107207112010_6" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_107207112010_7" lemmaRef="lexicon.xml#lemma_3128" pos="NAM" ana="lexicon.xml#lemma_3128_sense_4958" corresp="variants.xml#type_10761">jesus</w>
                 <w xml:id="FR3_107207112010_8" lemmaRef="lexicon.xml#lemma_3472" pos="NAM" ana="lexicon.xml#lemma_3472_sense_5499" corresp="variants.xml#type_11989">christ</w>
                 <pc xml:id="FR3_107207112010_9" join="left">.</pc>
@@ -32379,9 +32248,7 @@
               <l n="208">
                 <w xml:id="FR3_107207112080_0">es</w>
                 <w xml:id="FR3_107207112080_1" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18956">ist</w>
-                <pc xml:id="FR3_107207112080_2" join="right">(</pc>
-                <caesura xml:id="FR3_107207112080_3"/>
-                <pc xml:id="FR3_107207112080_4" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_107207112080_5" lemmaRef="lexicon.xml#lemma_7857" pos="NOM" ana="lexicon.xml#lemma_7857_sense_12879" corresp="variants.xml#type_82770">zeit</w>
                 <pc xml:id="FR3_107207112080_6" join="left">,</pc>
                 <w xml:id="FR3_107207112080_7" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3397">das</w>
@@ -32409,9 +32276,7 @@
                   <w xml:id="FR3_107207122100_0" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3255">da</w>
                 </hi>
                 <w xml:id="FR3_107207122100_1" lemmaRef="lexicon.xml#lemma_5196" pos="VRB" corresp="variants.xml#type_18066">schieden</w>
-                <pc xml:id="FR3_107207122100_2" join="right">(</pc>
-                <caesura xml:id="FR3_107207122100_3"/>
-                <pc xml:id="FR3_107207122100_4" join="left">)</pc>
+                <gap reason="lost"/>
                 <supplied>
                   <w xml:id="FR3_107207122100_5">si</w>
                 </supplied>
@@ -32545,9 +32410,7 @@
                 <w xml:id="FR3_107207122250_6">ee</w>
               </l>
               <l n="226">
-                <pc xml:id="FR3_107207122260_0" join="right">(</pc>
-                <caesura xml:id="FR3_107207122260_1"/>
-                <pc xml:id="FR3_107207122260_2" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_107207122260_3" lemmaRef="lexicon.xml#lemma_1073" pos="ADV" ana="lexicon.xml#lemma_1073_sense_1716" corresp="variants.xml#type_3322">dann</w>
                 <w xml:id="FR3_107207122260_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
                 <w xml:id="FR3_107207122260_5" lemmaRef="lexicon.xml#lemma_1411" pos="NOM" ana="lexicon.xml#lemma_1411_sense_2178" corresp="variants.xml#type_4608">engel</w>
@@ -33362,9 +33225,7 @@
                 <w xml:id="FR3_107209010060_4">ein</w>
                 <w xml:id="FR3_107209010060_5" lemmaRef="lexicon.xml#lemma_5280" pos="NOM ADJ ADV" ana="lexicon.xml#lemma_5280_sense_8229" corresp="variants.xml#type_82638">schöne</w>
                 <w xml:id="FR3_107209010060_6" lemmaRef="lexicon.xml#lemma_3159" pos="NOM" ana="lexicon.xml#lemma_3159_sense_4992" corresp="variants.xml#type_112206">jungkfrawe</w>
-                <pc xml:id="FR3_107209010060_7" join="right">(</pc>
-                <caesura xml:id="FR3_107209010060_8"/>
-                <pc xml:id="FR3_107209010060_9" join="left">)</pc>
+                <gap reason="lost"/>
                 <pc xml:id="FR3_107209010060_10" join="left">.</pc>
               </l>
               <l n="7">
@@ -33480,9 +33341,7 @@
                 <pc xml:id="FR3_107209010180_6" join="left">,</pc>
               </l>
               <l n="19">
-                <pc xml:id="FR3_107209010190_0" join="right">(</pc>
-                <caesura xml:id="FR3_107209010190_1"/>
-                <pc xml:id="FR3_107209010190_2" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_107209010190_3" lemmaRef="lexicon.xml#lemma_1053" pos="ADV" ana="lexicon.xml#lemma_1053_sense_1687" corresp="variants.xml#type_3250">damite</w>
                 <w xml:id="FR3_107209010190_4" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
                 <w xml:id="FR3_107209010190_5" lemmaRef="lexicon.xml#lemma_2348" pos="VRB" corresp="variants.xml#type_7930">gewan</w>
@@ -33509,9 +33368,7 @@
                   <w xml:id="FR3_107209020210_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
                 </supplied>
                 <w xml:id="FR3_107209020210_3" lemmaRef="lexicon.xml#lemma_3480" pos="NOM" corresp="variants.xml#type_12031">krone</w>
-                <pc xml:id="FR3_107209020210_4" join="right">(</pc>
-                <caesura xml:id="FR3_107209020210_5"/>
-                <pc xml:id="FR3_107209020210_6" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_107209020210_7" lemmaRef="lexicon.xml#lemma_7489" pos="VRB VEX" corresp="variants.xml#type_27046">ward</w>
                 <w xml:id="FR3_107209020210_8" lemmaRef="lexicon.xml#lemma_1961" pos="VRB" ana="lexicon.xml#lemma_1961_sense_3008" corresp="variants.xml#type_6635">gegeben</w>
                 <pc xml:id="FR3_107209020210_9" join="left">,</pc>
@@ -33953,9 +33810,7 @@
                 <pc xml:id="FR3_107210010120_9" join="left">.</pc>
               </l>
               <l n="13">
-                <pc xml:id="FR3_107210010130_0" join="right">(</pc>
-                <caesura xml:id="FR3_107210010130_1"/>
-                <pc xml:id="FR3_107210010130_2" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_107210010130_3">du</w>
                 <w xml:id="FR3_107210010130_4" lemmaRef="lexicon.xml#lemma_3775" pos="NOM" ana="lexicon.xml#lemma_3775_sense_5965" corresp="variants.xml#type_108002">lilge</w>
                 <w xml:id="FR3_107210010130_5" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
@@ -34299,9 +34154,7 @@
                 <w xml:id="FR3_107210030500_4" lemmaRef="lexicon.xml#lemma_1411" pos="NOM" ana="lexicon.xml#lemma_1411_sense_2178" corresp="variants.xml#type_4608">engel</w>
                 <w xml:id="FR3_107210030500_5" lemmaRef="lexicon.xml#lemma_5280" pos="NOM ADJ ADV" ana="lexicon.xml#lemma_5280_sense_8229" corresp="variants.xml#type_31441">schon</w>
                 <w xml:id="FR3_107210030500_6" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
-                <pc xml:id="FR3_107210030500_7" join="right">(</pc>
-                <caesura xml:id="FR3_107210030500_8"/>
-                <pc xml:id="FR3_107210030500_9" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_107210030500_10">sange</w>
                 <pc xml:id="FR3_107210030500_11" join="left">.</pc>
               </l>
@@ -34344,9 +34197,7 @@
                 <w xml:id="FR3_107210030550_0" lemmaRef="lexicon.xml#lemma_1082" pos="ADV" ana="lexicon.xml#lemma_1082_sense_1725" corresp="variants.xml#type_70905">darinn</w>
                 <w xml:id="FR3_107210030550_1" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
                 <w xml:id="FR3_107210030550_2">meit</w>
-                <pc xml:id="FR3_107210030550_3" join="right">(</pc>
-                <caesura xml:id="FR3_107210030550_4"/>
-                <pc xml:id="FR3_107210030550_5" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_107210030550_6" lemmaRef="lexicon.xml#lemma_1436" pos="VRB" corresp="variants.xml#type_4681">empfangen</w>
                 <w xml:id="FR3_107210030550_7" lemmaRef="lexicon.xml#lemma_7489" pos="VRB VEX" corresp="variants.xml#type_27046">ward</w>
                 <pc xml:id="FR3_107210030550_8" join="left">,</pc>
@@ -38945,9 +38796,7 @@
                   <pc xml:id="FR3_207215020340_5" join="left">.</pc>
                 </l>
                 <l n="35">
-                  <pc xml:id="FR3_207215020350_0" join="right">(</pc>
-                  <caesura xml:id="FR3_207215020350_1"/>
-                  <pc xml:id="FR3_207215020350_2" join="left">)</pc>
+                  <gap reason="lost"/>
                   <w xml:id="FR3_207215020350_3" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3397">das</w>
                   <w xml:id="FR3_207215020350_4" lemmaRef="lexicon.xml#lemma_4366" pos="ADJ PRO NEG" ana="lexicon.xml#lemma_4366_sense_6823" corresp="variants.xml#type_45740">niemand</w>
                   <w xml:id="FR3_207215020350_5">kan</w>
@@ -39730,9 +39579,7 @@
                 <pc xml:id="FR3_107216030560_7" join="left">,</pc>
               </l>
               <l n="57">
-                <pc xml:id="FR3_107216030570_0" join="right">(</pc>
-                <caesura xml:id="FR3_107216030570_1"/>
-                <pc xml:id="FR3_107216030570_2" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_107216030570_3" lemmaRef="lexicon.xml#lemma_5190" pos="NOM" corresp="variants.xml#type_18028">schaz</w>
                 <w xml:id="FR3_107216030570_4">ane</w>
                 <w xml:id="FR3_107216030570_5" lemmaRef="lexicon.xml#lemma_6280" pos="NOM" corresp="variants.xml#type_22203">tugent</w>
@@ -40573,9 +40420,7 @@
                 <w xml:id="FR3_108201020250_2">sin</w>
                 <w xml:id="FR3_108201020250_3" lemmaRef="lexicon.xml#lemma_4085" pos="ADJ ADV" ana="lexicon.xml#lemma_4085_sense_6420" corresp="variants.xml#type_14242">menschlich</w>
                 <w xml:id="FR3_108201020250_4" lemmaRef="lexicon.xml#lemma_774" pos="NOM" ana="lexicon.xml#lemma_774_sense_1254" corresp="variants.xml#type_67042">plumen</w>
-                <pc xml:id="FR3_108201020250_5" join="right">(</pc>
-                <caesura xml:id="FR3_108201020250_6"/>
-                <pc xml:id="FR3_108201020250_7" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_108201020250_8">nam</w>
                 <pc xml:id="FR3_108201020250_9" join="left">.</pc>
               </l>
@@ -41179,9 +41024,7 @@
                 <w xml:id="FR3_108202010030_2" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
                 <w xml:id="FR3_108202010030_3">dinen</w>
                 <w xml:id="FR3_108202010030_4" lemmaRef="lexicon.xml#lemma_2110" pos="NOM" corresp="variants.xml#type_44399">gnaden</w>
-                <pc xml:id="FR3_108202010030_5" join="right">(</pc>
-                <caesura xml:id="FR3_108202010030_6"/>
-                <pc xml:id="FR3_108202010030_7" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_108202010030_8">ein</w>
                 <w xml:id="FR3_108202010030_9" lemmaRef="lexicon.xml#lemma_7084" pos="NOM" ana="lexicon.xml#lemma_7084_sense_11475" corresp="variants.xml#type_46659">fingerlin</w>
                 <pc xml:id="FR3_108202010030_10" join="left">,</pc>
@@ -41329,13 +41172,9 @@
                 <w xml:id="FR3_108202010170_3">wer</w>
                 <w xml:id="FR3_108202010170_4">sol</w>
                 <w xml:id="FR3_108202010170_5" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10237">mir</w>
-                <pc xml:id="FR3_108202010170_6" join="right">(</pc>
-                <caesura xml:id="FR3_108202010170_7"/>
-                <pc xml:id="FR3_108202010170_8" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_108202010170_9">wenden</w>
-                <pc xml:id="FR3_108202010170_10" join="right">(</pc>
-                <caesura xml:id="FR3_108202010170_11"/>
-                <pc xml:id="FR3_108202010170_12" join="left">)</pc>
+                <gap reason="lost"/>
               </l>
               <l n="18">
                 <supplied>
@@ -41382,9 +41221,7 @@
                   <w xml:id="FR3_108202020220_0" lemmaRef="lexicon.xml#lemma_2684" pos="NOM" corresp="variants.xml#type_9038">herr</w>
                 </hi>
                 <w xml:id="FR3_108202020220_1" lemmaRef="lexicon.xml#lemma_106" pos="ADJ" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_261">aller</w>
-                <pc xml:id="FR3_108202020220_2" join="right">(</pc>
-                <caesura xml:id="FR3_108202020220_3"/>
-                <pc xml:id="FR3_108202020220_4" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_108202020220_5">welt</w>
                 <pc xml:id="FR3_108202020220_6" join="left">,</pc>
                 <w xml:id="FR3_108202020220_7" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4316">ain</w>
@@ -41544,9 +41381,7 @@
               <l n="38">
                 <w xml:id="FR3_108202020380_0" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
                 <w xml:id="FR3_108202020380_1" lemmaRef="lexicon.xml#lemma_3125" pos="NAM" ana="lexicon.xml#lemma_3125_sense_4955" corresp="variants.xml#type_82669">jherusalem</w>
-                <pc xml:id="FR3_108202020380_2" join="right">(</pc>
-                <caesura xml:id="FR3_108202020380_3"/>
-                <pc xml:id="FR3_108202020380_4" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_108202020380_5" lemmaRef="lexicon.xml#lemma_7131" pos="VRB" corresp="variants.xml#type_60539">fliessen</w>
               </l>
               <l n="39">
@@ -41593,9 +41428,7 @@
                 <pc xml:id="FR3_108202030430_6" join="left">,</pc>
               </l>
               <l n="44">
-                <pc xml:id="FR3_108202030440_0" join="right">(</pc>
-                <caesura xml:id="FR3_108202030440_1"/>
-                <pc xml:id="FR3_108202030440_2" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_108202030440_3">küng</w>
                 <w xml:id="FR3_108202030440_4" lemmaRef="lexicon.xml#lemma_10965" pos="NAM" ana="lexicon.xml#lemma_10965_sense_17543" corresp="variants.xml#type_72992">sabaoth</w>
                 <pc xml:id="FR3_108202030440_5" join="left">,</pc>
@@ -41686,9 +41519,7 @@
                 <pc xml:id="FR3_108202030530_7" join="left">,</pc>
               </l>
               <l n="54">
-                <pc xml:id="FR3_108202030540_0" join="right">(</pc>
-                <caesura xml:id="FR3_108202030540_1"/>
-                <pc xml:id="FR3_108202030540_2" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_108202030540_3" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
                 <w xml:id="FR3_108202030540_4">man</w>
                 <w xml:id="FR3_108202030540_5" lemmaRef="lexicon.xml#lemma_1242" pos="PRO" ana="lexicon.xml#lemma_1242_sense_1958" corresp="variants.xml#type_3956">dich</w>
@@ -41758,9 +41589,7 @@
                 <pc xml:id="FR3_108202030600_5" join="left">,</pc>
               </l>
               <l n="61">
-                <pc xml:id="FR3_108202030610_0" join="right">(</pc>
-                <caesura xml:id="FR3_108202030610_1"/>
-                <pc xml:id="FR3_108202030610_2" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_108202030610_3" lemmaRef="lexicon.xml#lemma_467" pos="VRB" ana="lexicon.xml#lemma_467_sense_654" corresp="variants.xml#type_114677">behüt</w>
                 <w xml:id="FR3_108202030610_4" lemmaRef="lexicon.xml#lemma_7194" pos="ADV PRP" ana="lexicon.xml#lemma_7194_sense_11657" corresp="variants.xml#type_25545">vor</w>
                 <w xml:id="FR3_108202030610_5" lemmaRef="lexicon.xml#lemma_4777" pos="VRB" corresp="variants.xml#type_39181">quel</w>
@@ -42015,9 +41844,7 @@
                 <w xml:id="FR3_108203010040_0">ob</w>
                 <w xml:id="FR3_108203010040_1" lemmaRef="lexicon.xml#lemma_7643" pos="PRO" ana="lexicon.xml#lemma_7643_sense_12530" corresp="variants.xml#type_27647">wir</w>
                 <w xml:id="FR3_108203010040_2" lemmaRef="lexicon.xml#lemma_7194" pos="ADV PRP" ana="lexicon.xml#lemma_7194_sense_11657" corresp="variants.xml#type_25545">vor</w>
-                <pc xml:id="FR3_108203010040_3" join="right">(</pc>
-                <caesura xml:id="FR3_108203010040_4"/>
-                <pc xml:id="FR3_108203010040_5" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_108203010040_6" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
                 <w xml:id="FR3_108203010040_7" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
                 <w xml:id="FR3_108203010040_8" lemmaRef="lexicon.xml#lemma_21854" pos="NOM" ana="lexicon.xml#lemma_21854_sense_35790" corresp="variants.xml#type_124097">peicht</w>
@@ -42509,9 +42336,7 @@
                 <w xml:id="FR3_108204010160_0">sie</w>
                 <w xml:id="FR3_108204010160_1">sachen</w>
                 <w xml:id="FR3_108204010160_2">ane</w>
-                <pc xml:id="FR3_108204010160_3" join="right">(</pc>
-                <caesura xml:id="FR3_108204010160_4"/>
-                <pc xml:id="FR3_108204010160_5" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_108204010160_6" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
                 <w xml:id="FR3_108204010160_7" lemmaRef="lexicon.xml#lemma_6819" pos="VRB" ana="lexicon.xml#lemma_6819_sense_10869" corresp="variants.xml#type_160037">verpoten</w>
                 <w xml:id="FR3_108204010160_8" lemmaRef="lexicon.xml#lemma_5669" pos="NOM" ana="lexicon.xml#lemma_5669_sense_8870" corresp="variants.xml#type_75474">speise</w>
@@ -42687,15 +42512,11 @@
                 <w xml:id="FR3_108204020340_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
                 <w xml:id="FR3_108204020340_1" lemmaRef="lexicon.xml#lemma_5528" pos="NOM" corresp="variants.xml#type_165277">schlang</w>
                 <w xml:id="FR3_108204020340_2" lemmaRef="lexicon.xml#lemma_3400" pos="VRB" ana="lexicon.xml#lemma_3400_sense_5361" corresp="variants.xml#type_11688">kam</w>
-                <pc xml:id="FR3_108204020340_3" join="right">(</pc>
-                <caesura xml:id="FR3_108204020340_4"/>
-                <pc xml:id="FR3_108204020340_5" join="left">)</pc>
+                <gap reason="lost"/>
               </l>
               <l n="35"><gap reason="lost"/></l>
               <l n="36">
-                <pc xml:id="FR3_108204020360_0" join="right">(</pc>
-                <caesura xml:id="FR3_108204020360_1"/>
-                <pc xml:id="FR3_108204020360_2" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_108204020360_3">unde</w>
                 <w xml:id="FR3_108204020360_4" lemmaRef="lexicon.xml#lemma_5525" pos="VRB" corresp="variants.xml#type_93039">schlug</w>
                 <w xml:id="FR3_108204020360_5">sie</w>
@@ -43185,9 +43006,7 @@
                 <pc xml:id="FR3_108205020240_8" join="left">,</pc>
               </l>
               <l n="25">
-                <pc xml:id="FR3_108205020250_0" join="right">(</pc>
-                <caesura xml:id="FR3_108205020250_1"/>
-                <pc xml:id="FR3_108205020250_2" join="left">)</pc>
+                <gap reason="lost"/>
                 <supplied>
                   <w xml:id="FR3_108205020250_3" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
                 </supplied>
@@ -43407,9 +43226,7 @@
                 <w xml:id="FR3_108205030480_2" lemmaRef="lexicon.xml#lemma_460" pos="ADJ ADV" ana="lexicon.xml#lemma_460_sense_641" corresp="variants.xml#type_188717">behend</w>
               </l>
               <l n="49">
-                <pc xml:id="FR3_108205030490_0" join="right">(</pc>
-                <caesura xml:id="FR3_108205030490_1"/>
-                <pc xml:id="FR3_108205030490_2" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_108205030490_3" lemmaRef="lexicon.xml#lemma_3400" pos="VRB" ana="lexicon.xml#lemma_3400_sense_5361" corresp="variants.xml#type_11688">kam</w>
                 <w xml:id="FR3_108205030490_4" lemmaRef="lexicon.xml#lemma_9983" pos="NAM" ana="lexicon.xml#lemma_9983_sense_16033" corresp="variants.xml#type_35189">thomas</w>
                 <w xml:id="FR3_108205030490_5" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_31260">zu</w>
@@ -43620,9 +43437,7 @@
                   <pc xml:id="FR3_208205010060_3" join="left">,</pc>
                 </l>
                 <l n="7">
-                  <pc xml:id="FR3_208205010070_0" join="right">(</pc>
-                  <caesura xml:id="FR3_208205010070_1"/>
-                  <pc xml:id="FR3_208205010070_2" join="left">)</pc>
+                  <gap reason="lost"/>
                   <w xml:id="FR3_208205010070_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
                   <w xml:id="FR3_208205010070_4" lemmaRef="lexicon.xml#lemma_3276" pos="ADJ ADV" corresp="variants.xml#type_116995">kaiserliche</w>
                   <w xml:id="FR3_208205010070_5">maid</w>
@@ -45377,9 +45192,7 @@
                 <pc xml:id="FR3_108207020350_4" join="left">.</pc>
               </l>
               <l n="36">
-                <pc xml:id="FR3_108207020360_0" join="right">(</pc>
-                <caesura xml:id="FR3_108207020360_1"/>
-                <pc xml:id="FR3_108207020360_2" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_108207020360_3">du</w>
                 <w xml:id="FR3_108207020360_4" lemmaRef="lexicon.xml#lemma_6171" pos="VRB" corresp="variants.xml#type_150518">trugt</w>
                 <w xml:id="FR3_108207020360_5">in</w>
@@ -45523,9 +45336,7 @@
               <l n="51">
                 <w xml:id="FR3_108207030510_0">ein</w>
                 <w xml:id="FR3_108207030510_1" lemmaRef="lexicon.xml#lemma_3151" pos="NAM" ana="lexicon.xml#lemma_3151_sense_4984" corresp="variants.xml#type_109677">jud</w>
-                <pc xml:id="FR3_108207030510_2" join="right">(</pc>
-                <caesura xml:id="FR3_108207030510_3"/>
-                <pc xml:id="FR3_108207030510_4" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_108207030510_5" lemmaRef="lexicon.xml#lemma_1844" pos="VRB" corresp="variants.xml#type_6315">gieng</w>
                 <w xml:id="FR3_108207030510_6" lemmaRef="lexicon.xml#lemma_1055" pos="ADV" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3258">dar</w>
                 <pc xml:id="FR3_108207030510_7" join="left">,</pc>
@@ -45610,9 +45421,7 @@
               <l n="59">
                 <w xml:id="FR3_108207030590_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
                 <w xml:id="FR3_108207030590_1" lemmaRef="lexicon.xml#lemma_2684" pos="NOM" corresp="variants.xml#type_9038">herr</w>
-                <pc xml:id="FR3_108207030590_2" join="right">(</pc>
-                <caesura xml:id="FR3_108207030590_3"/>
-                <pc xml:id="FR3_108207030590_4" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_108207030590_5" lemmaRef="lexicon.xml#lemma_3400" pos="VRB" ana="lexicon.xml#lemma_3400_sense_5361" corresp="variants.xml#type_11701">kom</w>
                 <w xml:id="FR3_108207030590_6">im</w>
                 <w xml:id="FR3_108207030590_7" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_31260">zu</w>
@@ -48402,9 +48211,7 @@
               </l>
               <l n="188">
                 <w xml:id="FR3_108208091880_0">zum</w>
-                <pc xml:id="FR3_108208091880_1" join="right">(</pc>
-                <caesura xml:id="FR3_108208091880_2"/>
-                <pc xml:id="FR3_108208091880_3" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_108208091880_4">willen</w>
                 <w xml:id="FR3_108208091880_5">din</w>
                 <pc xml:id="FR3_108208091880_6" join="left">,</pc>
@@ -54053,9 +53860,7 @@
               <l n="35">
                 <w xml:id="FR3_108217020350_0">in</w>
                 <w xml:id="FR3_108217020350_1" lemmaRef="lexicon.xml#lemma_1545" pos="NOM ADJ" ana="lexicon.xml#lemma_1545_sense_2397" corresp="variants.xml#type_5166">erden</w>
-                <pc xml:id="FR3_108217020350_2" join="right">(</pc>
-                <caesura xml:id="FR3_108217020350_3"/>
-                <pc xml:id="FR3_108217020350_4" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_108217020350_5">hie</w>
                 <w xml:id="FR3_108217020350_6" lemmaRef="lexicon.xml#lemma_6956" pos="VRB" ana="lexicon.xml#lemma_6956_sense_11206" corresp="variants.xml#type_243947">versloss</w>
                 <pc xml:id="FR3_108217020350_7" join="left">.</pc>
@@ -55469,9 +55274,7 @@
                   <w xml:id="FR3_108218050850_0">ein</w>
                 </hi>
                 <w xml:id="FR3_108218050850_1" lemmaRef="lexicon.xml#lemma_5487" pos="NOM" ana="lexicon.xml#lemma_5487_sense_8550" corresp="variants.xml#type_203485">senger</w>
-                <pc xml:id="FR3_108218050850_2" join="right">(</pc>
-                <caesura xml:id="FR3_108218050850_3"/>
-                <pc xml:id="FR3_108218050850_4" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_108218050850_5" lemmaRef="lexicon.xml#lemma_2598" pos="VRB VEX" corresp="variants.xml#type_8758">hat</w>
                 <w xml:id="FR3_108218050850_6" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
                 <w xml:id="FR3_108218050850_7">sinen</w>
@@ -57445,9 +57248,7 @@
                 <w xml:id="FR3_108220050970_1">nam</w>
                 <w xml:id="FR3_108220050970_2">er</w>
                 <w xml:id="FR3_108220050970_3">war</w>
-                <pc xml:id="FR3_108220050970_4" join="right">(</pc>
-                <caesura xml:id="FR3_108220050970_5"/>
-                <pc xml:id="FR3_108220050970_6" join="left">)</pc>
+                <gap reason="lost"/>
               </l>
               <l n="98">
                 <w xml:id="FR3_108220050980_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
@@ -57663,9 +57464,7 @@
                 <supplied>
                   <w xml:id="FR3_109201010130_1">te</w>
                 </supplied>
-                <pc xml:id="FR3_109201010130_2" join="right">(</pc>
-                <caesura xml:id="FR3_109201010130_3"/>
-                <pc xml:id="FR3_109201010130_4" join="left">)</pc>
+                <gap reason="lost"/>
                 <supplied>
                   <w xml:id="FR3_109201010130_5" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3504">dem</w>
                 </supplied>
@@ -57673,9 +57472,7 @@
                 <w xml:id="FR3_109201010130_7" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
                 <w xml:id="FR3_109201010130_8" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10226">mich</w>
                 <w xml:id="FR3_109201010130_9" lemmaRef="lexicon.xml#lemma_4377" pos="ADJ ADV NEG" ana="lexicon.xml#lemma_4377_sense_6838" corresp="variants.xml#type_15283">nicht</w>
-                <pc xml:id="FR3_109201010130_10" join="right">(</pc>
-                <caesura xml:id="FR3_109201010130_11"/>
-                <pc xml:id="FR3_109201010130_12" join="left">)</pc>
+                <gap reason="lost"/>
                 <supplied>
                   <w xml:id="FR3_109201010130_13" lemmaRef="lexicon.xml#lemma_25543" pos="PRP" ana="lexicon.xml#lemma_25543_sense_40876" corresp="variants.xml#type_123264">at</w>
                 </supplied>
@@ -57684,9 +57481,7 @@
                 <supplied>
                   <w xml:id="FR3_109201010140_0">en</w>
                 </supplied>
-                <pc xml:id="FR3_109201010140_1" join="right">(</pc>
-                <caesura xml:id="FR3_109201010140_2"/>
-                <pc xml:id="FR3_109201010140_3" join="left">)</pc>
+                <gap reason="lost"/>
                 <supplied>
                   <w xml:id="FR3_109201010140_4">en</w>
                 </supplied>
@@ -57699,13 +57494,9 @@
                 <supplied>
                   <w xml:id="FR3_109201010150_0">m</w>
                 </supplied>
-                <pc xml:id="FR3_109201010150_1" join="right">(</pc>
-                <caesura xml:id="FR3_109201010150_2"/>
-                <pc xml:id="FR3_109201010150_3" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_109201010150_4" lemmaRef="lexicon.xml#lemma_2534" pos="ADJ" corresp="variants.xml#type_8497">groze</w>
-                <pc xml:id="FR3_109201010150_5" join="right">(</pc>
-                <caesura xml:id="FR3_109201010150_6"/>
-                <pc xml:id="FR3_109201010150_7" join="left">)</pc>
+                <gap reason="lost"/>
                 <supplied>
                   <w xml:id="FR3_109201010150_8">en</w>
                 </supplied>
@@ -57765,13 +57556,9 @@
                 <w xml:id="FR3_109201010210_2" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
                 <w xml:id="FR3_109201010210_3" lemmaRef="lexicon.xml#lemma_7075" pos="ADJ ADV" ana="lexicon.xml#lemma_7075_sense_11459" corresp="variants.xml#type_25008">vil</w>
                 <w xml:id="FR3_109201010210_4" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_31260">zu</w>
-                <pc xml:id="FR3_109201010210_5" join="right">(</pc>
-                <caesura xml:id="FR3_109201010210_6"/>
-                <pc xml:id="FR3_109201010210_7" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_109201010210_8" lemmaRef="lexicon.xml#lemma_44833" pos="VRB" ana="lexicon.xml#lemma_44833_sense_69705" corresp="variants.xml#type_244400">rbet</w>
-                <pc xml:id="FR3_109201010210_9" join="right">(</pc>
-                <caesura xml:id="FR3_109201010210_10"/>
-                <pc xml:id="FR3_109201010210_11" join="left">)</pc>
+                <gap reason="lost"/>
                 <pc xml:id="FR3_109201010210_12" join="left">,</pc>
               </l>
               <l n="22">
@@ -58038,9 +57825,7 @@
                 <w xml:id="FR3_109203010030_5" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
                 <w xml:id="FR3_109203010030_6">eren</w>
                 <w xml:id="FR3_109203010030_7" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18956">ist</w>
-                <pc xml:id="FR3_109203010030_8" join="right">(</pc>
-                <caesura xml:id="FR3_109203010030_9"/>
-                <pc xml:id="FR3_109203010030_10" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_109203010030_11" lemmaRef="lexicon.xml#lemma_5974" pos="VRB" ana="lexicon.xml#lemma_5974_sense_9465" corresp="variants.xml#type_108948">geschwigen</w>
                 <pc xml:id="FR3_109203010030_12" join="left">.</pc>
               </l>
@@ -58090,9 +57875,7 @@
                 <w xml:id="FR3_109203010080_0">wer</w>
                 <w xml:id="FR3_109203010080_1">in</w>
                 <w xml:id="FR3_109203010080_2" lemmaRef="lexicon.xml#lemma_446" pos="VRB" ana="lexicon.xml#lemma_446_sense_612" corresp="variants.xml#type_1225">beginnet</w>
-                <pc xml:id="FR3_109203010080_3" join="right">(</pc>
-                <caesura xml:id="FR3_109203010080_4"/>
-                <pc xml:id="FR3_109203010080_5" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_109203010080_6" lemmaRef="lexicon.xml#lemma_2903" pos="VRB" corresp="variants.xml#type_9912">horden</w>
                 <pc xml:id="FR3_109203010080_7" join="left">,</pc>
               </l>
@@ -60574,9 +60357,7 @@
                 <w xml:id="FR3_109206010110_1">man</w>
                 <w xml:id="FR3_109206010110_2">ire</w>
                 <w xml:id="FR3_109206010110_3" lemmaRef="lexicon.xml#lemma_7644" pos="NOM" ana="lexicon.xml#lemma_7644_sense_12531" corresp="variants.xml#type_27658">wirde</w>
-                <pc xml:id="FR3_109206010110_4" join="right">(</pc>
-                <caesura xml:id="FR3_109206010110_5"/>
-                <pc xml:id="FR3_109206010110_6" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_109206010110_7">brisen</w>
                 <w xml:id="FR3_109206010110_8">sol</w>
               </l>
@@ -60720,9 +60501,7 @@
                   <w xml:id="FR3_109206020280_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
                 </supplied>
                 <w xml:id="FR3_109206020280_1" lemmaRef="lexicon.xml#lemma_6615" pos="NOM ADJ ADV NEG" corresp="variants.xml#type_45748">unrecht</w>
-                <pc xml:id="FR3_109206020280_2" join="right">(</pc>
-                <caesura xml:id="FR3_109206020280_3"/>
-                <pc xml:id="FR3_109206020280_4" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_109206020280_5" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18966">sind</w>
                 <w xml:id="FR3_109206020280_6" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
                 <w xml:id="FR3_109206020280_7" lemmaRef="lexicon.xml#lemma_7929" pos="ADJ NUM" ana="lexicon.xml#lemma_7929_sense_13005" corresp="variants.xml#type_28804">zwen</w>
@@ -60880,9 +60659,7 @@
                 <hi rend="initial">
                   <w xml:id="FR3_109206030450_0" lemmaRef="lexicon.xml#lemma_16102" pos="NOM" ana="lexicon.xml#lemma_16102_sense_26460" corresp="variants.xml#type_103853">gramatica</w>
                 </hi>
-                <pc xml:id="FR3_109206030450_1" join="right">(</pc>
-                <caesura xml:id="FR3_109206030450_2"/>
-                <pc xml:id="FR3_109206030450_3" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_109206030450_4" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3255">da</w>
                 <w xml:id="FR3_109206030450_5" lemmaRef="lexicon.xml#lemma_2007" pos="ADV PRP" corresp="variants.xml#type_6801">gegen</w>
               </l>
@@ -60941,9 +60718,7 @@
                 <w xml:id="FR3_109206030510_1" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18956">ist</w>
                 <w xml:id="FR3_109206030510_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
                 <w xml:id="FR3_109206030510_3" lemmaRef="lexicon.xml#lemma_4840" pos="NOM ADJ ADV" corresp="variants.xml#type_42560">rechten</w>
-                <pc xml:id="FR3_109206030510_4" join="right">(</pc>
-                <caesura xml:id="FR3_109206030510_5"/>
-                <pc xml:id="FR3_109206030510_6" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_109206030510_7" lemmaRef="lexicon.xml#lemma_6045" pos="NOM" ana="lexicon.xml#lemma_6045_sense_9568" corresp="variants.xml#type_21301">tempel</w>
                 <pc xml:id="FR3_109206030510_8" join="left">.</pc>
               </l>
@@ -60969,9 +60744,7 @@
                 <hi rend="initial">
                   <w xml:id="FR3_109206030540_0" lemmaRef="lexicon.xml#lemma_16102" pos="NOM" ana="lexicon.xml#lemma_16102_sense_26460" corresp="variants.xml#type_103853">gramatica</w>
                 </hi>
-                <pc xml:id="FR3_109206030540_1" join="right">(</pc>
-                <caesura xml:id="FR3_109206030540_2"/>
-                <pc xml:id="FR3_109206030540_3" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_109206030540_4" lemmaRef="lexicon.xml#lemma_4331" pos="VRB" ana="lexicon.xml#lemma_4331_sense_6775" corresp="variants.xml#type_15119">nennt</w>
                 <supplied>
                   <w xml:id="FR3_109206030540_5">in</w>
@@ -61390,9 +61163,7 @@
                 <hi rend="initial">
                   <w xml:id="FR3_109206051010_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
                 </hi>
-                <pc xml:id="FR3_109206051010_1" join="right">(</pc>
-                <caesura xml:id="FR3_109206051010_2"/>
-                <pc xml:id="FR3_109206051010_3" join="left">)</pc>
+                <gap reason="lost"/>
                 <hi rend="upper_case_first_letter">
                   <w xml:id="FR3_109206051010_4" lemmaRef="lexicon.xml#lemma_26193" pos="NOM" ana="lexicon.xml#lemma_26193_sense_41847" corresp="variants.xml#type_244477">arißmetrica</w>
                 </hi>
@@ -61812,9 +61583,7 @@
                 </hi>
                 <w xml:id="FR3_109206071450_1" lemmaRef="lexicon.xml#lemma_9537" pos="VRB" ana="lexicon.xml#lemma_9537_sense_41171" corresp="variants.xml#type_191842">climmet</w>
                 <w xml:id="FR3_109206071450_2">in</w>
-                <pc xml:id="FR3_109206071450_3" join="right">(</pc>
-                <caesura xml:id="FR3_109206071450_4"/>
-                <pc xml:id="FR3_109206071450_5" join="left">)</pc>
+                <gap reason="lost"/>
                 <supplied>
                   <w xml:id="FR3_109206071450_6" lemmaRef="lexicon.xml#lemma_45082" pos="NOM" ana="lexicon.xml#lemma_45082_sense_70222" corresp="variants.xml#type_247301">auckeit</w>
                 </supplied>
@@ -61949,9 +61718,7 @@
                 <w xml:id="FR3_109206081590_0">sie</w>
                 <w xml:id="FR3_109206081590_1">weiß</w>
                 <w xml:id="FR3_109206081590_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-                <pc xml:id="FR3_109206081590_3" join="right">(</pc>
-                <caesura xml:id="FR3_109206081590_4"/>
-                <pc xml:id="FR3_109206081590_5" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_109206081590_6" lemmaRef="lexicon.xml#lemma_1366" pos="NOM" ana="lexicon.xml#lemma_1366_sense_2108" corresp="variants.xml#type_64199">elementen</w>
                 <w xml:id="FR3_109206081590_7" lemmaRef="lexicon.xml#lemma_3437" pos="NOM" corresp="variants.xml#type_11850">craft</w>
               </l>
@@ -62182,9 +61949,7 @@
                 <w xml:id="FR3_109206091850_1">helt</w>
                 <w xml:id="FR3_109206091850_2" lemmaRef="lexicon.xml#lemma_7340" pos="NOM" ana="lexicon.xml#lemma_7340_sense_11898" corresp="variants.xml#type_26455">warheit</w>
                 <w xml:id="FR3_109206091850_3" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
-                <pc xml:id="FR3_109206091850_4" join="right">(</pc>
-                <caesura xml:id="FR3_109206091850_5"/>
-                <pc xml:id="FR3_109206091850_6" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_109206091850_7" lemmaRef="lexicon.xml#lemma_4840" pos="NOM ADJ ADV" corresp="variants.xml#type_42728">recht</w>
                 <pc xml:id="FR3_109206091850_8" join="left">,</pc>
                 <w xml:id="FR3_109206091850_9" lemmaRef="lexicon.xml#lemma_1053" pos="ADV" ana="lexicon.xml#lemma_1053_sense_1687" corresp="variants.xml#type_3249">damit</w>
@@ -62574,9 +62339,7 @@
                 <pc xml:id="FR3_110201020260_5" join="left">,</pc>
               </l>
               <l n="27">
-                <pc xml:id="FR3_110201020270_0" join="right">(</pc>
-                <caesura xml:id="FR3_110201020270_1"/>
-                <pc xml:id="FR3_110201020270_2" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_110201020270_3" lemmaRef="lexicon.xml#lemma_3541" pos="NOM" corresp="variants.xml#type_12313">kunst</w>
                 <pc xml:id="FR3_110201020270_4" join="left">,</pc>
                 <w xml:id="FR3_110201020270_5">di</w>
@@ -62729,9 +62492,7 @@
               </l>
               <l n="41">
                 <w xml:id="FR3_110201030410_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
-                <pc xml:id="FR3_110201030410_1" join="right">(</pc>
-                <caesura xml:id="FR3_110201030410_2"/>
-                <pc xml:id="FR3_110201030410_3" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_110201030410_4" lemmaRef="lexicon.xml#lemma_7063" pos="NUM" ana="lexicon.xml#lemma_7063_sense_11446" corresp="variants.xml#type_24969">vier</w>
                 <w xml:id="FR3_110201030410_5" lemmaRef="lexicon.xml#lemma_11804" pos="NOM" ana="lexicon.xml#lemma_11804_sense_18677" corresp="variants.xml#type_244516">ewangellisten</w>
                 <pc xml:id="FR3_110201030410_6" join="left">.</pc>
@@ -62795,9 +62556,7 @@
                   <pc xml:id="FR3_210201020160_7" join="left">,</pc>
                 </l>
                 <l n="17">
-                  <pc xml:id="FR3_210201020170_0" join="right">(</pc>
-                  <caesura xml:id="FR3_210201020170_1"/>
-                  <pc xml:id="FR3_210201020170_2" join="left">)</pc>
+                  <gap reason="lost"/>
                   <w xml:id="FR3_210201020170_3" lemmaRef="lexicon.xml#lemma_3541" pos="NOM" corresp="variants.xml#type_12313">kunst</w>
                   <w xml:id="FR3_210201020170_4">kan</w>
                   <w xml:id="FR3_210201020170_5" lemmaRef="lexicon.xml#lemma_4366" pos="ADJ PRO NEG" ana="lexicon.xml#lemma_4366_sense_6823" corresp="variants.xml#type_15233">nieman</w>
@@ -63158,9 +62917,7 @@
                 <w xml:id="FR3_110202020200_2" lemmaRef="lexicon.xml#lemma_7677" pos="NOM ADV" ana="lexicon.xml#lemma_7677_sense_12586" corresp="variants.xml#type_42694">woll</w>
                 <w xml:id="FR3_110202020200_3" lemmaRef="lexicon.xml#lemma_106" pos="ADJ" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_240327">allü</w>
                 <w xml:id="FR3_110202020200_4">ding</w>
-                <pc xml:id="FR3_110202020200_5" join="right">(</pc>
-                <caesura xml:id="FR3_110202020200_6"/>
-                <pc xml:id="FR3_110202020200_7" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_110202020200_8" lemmaRef="lexicon.xml#lemma_2837" pos="ADV" corresp="variants.xml#type_9597">hin</w>
                 <w xml:id="FR3_110202020200_9">innen</w>
                 <pc xml:id="FR3_110202020200_10" join="left">,</pc>
@@ -63810,9 +63567,7 @@
                 <supplied>
                   <w xml:id="FR3_110203030360_0" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3397">das</w>
                 </supplied>
-                <pc xml:id="FR3_110203030360_1" join="right">(</pc>
-                <caesura xml:id="FR3_110203030360_2"/>
-                <pc xml:id="FR3_110203030360_3" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_110203030360_4">man</w>
                 <w xml:id="FR3_110203030360_5" lemmaRef="lexicon.xml#lemma_56117" pos="PRO" ana="lexicon.xml#lemma_56117_sense_90961" corresp="variants.xml#type_304773">euch</w>
                 <w xml:id="FR3_110203030360_6" lemmaRef="lexicon.xml#lemma_1185" pos="CNJ" ana="lexicon.xml#lemma_1185_sense_1872" corresp="variants.xml#type_3758">doch</w>
@@ -65616,9 +65371,7 @@
                 <hi rend="initial">
                   <w xml:id="FR3_110205020160_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
                 </hi>
-                <pc xml:id="FR3_110205020160_1" join="right">(</pc>
-                <caesura xml:id="FR3_110205020160_2"/>
-                <pc xml:id="FR3_110205020160_3" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_110205020160_4" lemmaRef="lexicon.xml#lemma_3507" pos="NOM" ana="lexicon.xml#lemma_3507_sense_5555" corresp="variants.xml#type_52185">konig</w>
                 <w xml:id="FR3_110205020160_5">het</w>
                 <w xml:id="FR3_110205020160_6">ein</w>
@@ -65665,9 +65418,7 @@
                 </hi>
                 <w xml:id="FR3_110205020200_1" lemmaRef="lexicon.xml#lemma_2598" pos="VRB VEX" corresp="variants.xml#type_8758">hat</w>
                 <w xml:id="FR3_110205020200_2">dir</w>
-                <pc xml:id="FR3_110205020200_3" join="right">(</pc>
-                <caesura xml:id="FR3_110205020200_4"/>
-                <pc xml:id="FR3_110205020200_5" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_110205020200_6" lemmaRef="lexicon.xml#lemma_5349" pos="NOM" ana="lexicon.xml#lemma_5349_sense_8359" corresp="variants.xml#type_18608">sel</w>
                 <w xml:id="FR3_110205020200_7" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
                 <w xml:id="FR3_110205020200_8" lemmaRef="lexicon.xml#lemma_4523" pos="CNJ" ana="lexicon.xml#lemma_4523_sense_7060" corresp="variants.xml#type_61484">auch</w>
@@ -65959,9 +65710,7 @@
                 <pc xml:id="FR3_110205040470_0" join="right">&lt;</pc>
                 <w xml:id="FR3_110205040470_1" lemmaRef="lexicon.xml#lemma_7608" pos="ADV IPA" ana="lexicon.xml#lemma_7608_sense_12462" corresp="variants.xml#type_27506">wie</w>
                 <w xml:id="FR3_110205040470_2">tar</w>
-                <pc xml:id="FR3_110205040470_3" join="right">(</pc>
-                <caesura xml:id="FR3_110205040470_4"/>
-                <pc xml:id="FR3_110205040470_5" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_110205040470_6" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10237">mir</w>
                 <w xml:id="FR3_110205040470_7" lemmaRef="lexicon.xml#lemma_2465" pos="NOM" ana="lexicon.xml#lemma_2465_sense_3951" corresp="variants.xml#type_8253">got</w>
                 <w xml:id="FR3_110205040470_8">ein</w>
@@ -66303,9 +66052,7 @@
                 <w xml:id="FR3_110205060790_1" lemmaRef="lexicon.xml#lemma_3437" pos="NOM" corresp="variants.xml#type_64922">crafft</w>
                 <w xml:id="FR3_110205060790_2" lemmaRef="lexicon.xml#lemma_7473" pos="VRB VEM" corresp="variants.xml#type_26936">wolt</w>
                 <w xml:id="FR3_110205060790_3">sich</w>
-                <pc xml:id="FR3_110205060790_4" join="right">(</pc>
-                <caesura xml:id="FR3_110205060790_5"/>
-                <pc xml:id="FR3_110205060790_6" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_110205060790_7" lemmaRef="lexicon.xml#lemma_1710" pos="VRB" ana="lexicon.xml#lemma_1710_sense_2689" corresp="variants.xml#type_5836">erzeigen</w>
                 <pc xml:id="FR3_110205060790_8" join="left">.</pc>
               </l>
@@ -67252,9 +66999,7 @@
                   <pc xml:id="FR3_210206020220_7" join="left">,</pc>
                 </l>
                 <l n="23">
-                  <pc xml:id="FR3_210206020230_0" join="right">(</pc>
-                  <caesura xml:id="FR3_210206020230_1"/>
-                  <pc xml:id="FR3_210206020230_2" join="left">)</pc>
+                  <gap reason="lost"/>
                   <w xml:id="FR3_210206020230_3">ob</w>
                   <supplied>
                     <w xml:id="FR3_210206020230_4" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4317">eim</w>
@@ -67288,9 +67033,7 @@
                 <l n="26">
                   <w xml:id="FR3_210206020260_0">do</w>
                   <w xml:id="FR3_210206020260_1" lemmaRef="lexicon.xml#lemma_1242" pos="PRO" ana="lexicon.xml#lemma_1242_sense_1958" corresp="variants.xml#type_3966">du</w>
-                  <pc xml:id="FR3_210206020260_2" join="right">(</pc>
-                  <caesura xml:id="FR3_210206020260_3"/>
-                  <pc xml:id="FR3_210206020260_4" join="left">)</pc>
+                  <gap reason="lost"/>
                   <w xml:id="FR3_210206020260_5" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
                   <supplied>
                     <w xml:id="FR3_210206020260_6" lemmaRef="lexicon.xml#lemma_5883" pos="NOM" ana="lexicon.xml#lemma_5883_sense_9315" corresp="variants.xml#type_20760">sun</w>
@@ -67335,9 +67078,7 @@
                   <pc xml:id="FR3_210206020290_6" join="left">,</pc>
                 </l>
                 <l n="30">
-                  <pc xml:id="FR3_210206020300_0" join="right">(</pc>
-                  <caesura xml:id="FR3_210206020300_1"/>
-                  <pc xml:id="FR3_210206020300_2" join="left">)</pc>
+                  <gap reason="lost"/>
                   <w xml:id="FR3_210206020300_3" lemmaRef="lexicon.xml#lemma_1611" pos="VRB" corresp="variants.xml#type_5447">erloste</w>
                   <w xml:id="FR3_210206020300_4" lemmaRef="lexicon.xml#lemma_1205" pos="ADV" ana="lexicon.xml#lemma_1205_sense_1899" corresp="variants.xml#type_3811">dort</w>
                   <w xml:id="FR3_210206020300_5" lemmaRef="lexicon.xml#lemma_6342" pos="ADV PRP" ana="lexicon.xml#lemma_6342_sense_9997" corresp="variants.xml#type_64060">uß</w>
@@ -67488,9 +67229,7 @@
                   <pc xml:id="FR3_210206030440_6" join="left">,</pc>
                 </l>
                 <l n="45">
-                  <pc xml:id="FR3_210206030450_0" join="right">(</pc>
-                  <caesura xml:id="FR3_210206030450_1"/>
-                  <pc xml:id="FR3_210206030450_2" join="left">)</pc>
+                  <gap reason="lost"/>
                   <w xml:id="FR3_210206030450_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
                   <w xml:id="FR3_210206030450_4" lemmaRef="lexicon.xml#lemma_2866" pos="ADJ ADV GRA" corresp="variants.xml#type_94832">hosten</w>
                   <w xml:id="FR3_210206030450_5" lemmaRef="lexicon.xml#lemma_5943" pos="VRB" ana="lexicon.xml#lemma_5943_sense_9418" corresp="variants.xml#type_128185">swebend</w>
@@ -68199,9 +67938,7 @@
               <l n="68">
                 <w xml:id="FR3_110207050680_0">noch</w>
                 <w xml:id="FR3_110207050680_1" lemmaRef="lexicon.xml#lemma_4368" pos="ADV" ana="lexicon.xml#lemma_4368_sense_6825" corresp="variants.xml#type_15249">nimmer</w>
-                <pc xml:id="FR3_110207050680_2" join="right">(</pc>
-                <caesura xml:id="FR3_110207050680_3"/>
-                <pc xml:id="FR3_110207050680_4" join="left">)</pc>
+                <gap reason="lost"/>
                 <supplied>
                   <w xml:id="FR3_110207050680_5">wirt</w>
                 </supplied>
@@ -68870,9 +68607,7 @@
                 </hi>
                 <caesura/>
                 <w xml:id="FR3_111201010110_1" lemmaRef="lexicon.xml#lemma_6586" pos="NOM ADJ NEG" ana="lexicon.xml#lemma_6586_sense_10457" corresp="variants.xml#type_154097">unkeusch</w>
-                <pc xml:id="FR3_111201010110_2" join="right">(</pc>
-                <caesura xml:id="FR3_111201010110_3"/>
-                <pc xml:id="FR3_111201010110_4" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_111201010110_5" lemmaRef="lexicon.xml#lemma_6631" pos="NOM ADJ ADV NEG" corresp="variants.xml#type_101750">unstet</w>
                 <supplied>
                   <w xml:id="FR3_111201010110_6">si</w>
@@ -69369,9 +69104,7 @@
                 <hi rend="initial">
                   <w xml:id="FR3_111201040570_0">in</w>
                 </hi>
-                <pc xml:id="FR3_111201040570_1" join="right">(</pc>
-                <caesura xml:id="FR3_111201040570_2"/>
-                <pc xml:id="FR3_111201040570_3" join="left">)</pc>
+                <gap reason="lost"/>
                 <supplied>
                   <w xml:id="FR3_111201040570_4">irem</w>
                 </supplied>
@@ -73105,9 +72838,7 @@
                   <w xml:id="FR3_211205010050_0">s</w>
                   <w xml:id="FR3_211205010050_1">ave</w>
                   <pc xml:id="FR3_211205010050_2" join="left">,</pc>
-                  <pc xml:id="FR3_211205010050_3" join="right">(</pc>
-                  <caesura xml:id="FR3_211205010050_4"/>
-                  <pc xml:id="FR3_211205010050_5" join="left">)</pc>
+                  <gap reason="lost"/>
                   <supplied>
                     <w xml:id="FR3_211205010050_6">dir</w>
                   </supplied>
@@ -73357,9 +73088,7 @@
                   <w xml:id="FR3_211205020310_0" lemmaRef="lexicon.xml#lemma_2465" pos="NOM" ana="lexicon.xml#lemma_2465_sense_3951" corresp="variants.xml#type_8253">got</w>
                   <w xml:id="FR3_211205020310_1" lemmaRef="lexicon.xml#lemma_1242" pos="PRO" ana="lexicon.xml#lemma_1242_sense_1958" corresp="variants.xml#type_3956">dich</w>
                   <w xml:id="FR3_211205020310_2" lemmaRef="lexicon.xml#lemma_1645" pos="VRB" ana="lexicon.xml#lemma_1645_sense_2567" corresp="variants.xml#type_5586">ersach</w>
-                  <pc xml:id="FR3_211205020310_3" join="right">(</pc>
-                  <caesura xml:id="FR3_211205020310_4"/>
-                  <pc xml:id="FR3_211205020310_5" join="left">)</pc>
+                  <gap reason="lost"/>
                   <w xml:id="FR3_211205020310_6">on</w>
                   <w xml:id="FR3_211205020310_7" lemmaRef="lexicon.xml#lemma_15640" pos="NOM PRP" ana="lexicon.xml#lemma_15640_sense_25824" corresp="variants.xml#type_65459">anbegin</w>
                   <pc xml:id="FR3_211205020310_8" join="left">,</pc>
@@ -79427,9 +79156,7 @@
               <l n="83">
                 <w xml:id="FR3_111211050830_0" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3255">da</w>
                 <w xml:id="FR3_111211050830_1" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14532">mite</w>
-                <pc xml:id="FR3_111211050830_2" join="right">(</pc>
-                <caesura xml:id="FR3_111211050830_3"/>
-                <pc xml:id="FR3_111211050830_4" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_111211050830_5" lemmaRef="lexicon.xml#lemma_6342" pos="ADV PRP" ana="lexicon.xml#lemma_6342_sense_9997" corresp="variants.xml#type_129506">uss</w>
                 <w xml:id="FR3_111211050830_6" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
                 <w xml:id="FR3_111211050830_7">helle</w>
@@ -81365,127 +81092,81 @@
               <l n="7">
                 <w xml:id="FR3_112203010070_0" lemmaRef="lexicon.xml#lemma_1263" pos="ADJ ADV PRP" ana="lexicon.xml#lemma_1263_sense_1984" corresp="variants.xml#type_248305">durchleuchticleich</w>
                 <w xml:id="FR3_112203010070_1" lemmaRef="lexicon.xml#lemma_678" pos="PRP" ana="lexicon.xml#lemma_678_sense_1096" corresp="variants.xml#type_49002">be</w>
-                <pc xml:id="FR3_112203010070_2" join="right">(</pc>
-                <caesura xml:id="FR3_112203010070_3"/>
-                <pc xml:id="FR3_112203010070_4" join="left">)</pc>
+                <gap reason="lost"/>
               </l>
               <l n="8">
-                <pc xml:id="FR3_112203010080_0" join="right">(</pc>
-                <caesura xml:id="FR3_112203010080_1"/>
-                <pc xml:id="FR3_112203010080_2" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_112203010080_3">noch</w>
                 <w xml:id="FR3_112203010080_4">meine</w>
-                <pc xml:id="FR3_112203010080_5" join="right">(</pc>
-                <caesura xml:id="FR3_112203010080_6"/>
-                <pc xml:id="FR3_112203010080_7" join="left">)</pc>
+                <gap reason="lost"/>
               </l>
               <l n="9">
-                <pc xml:id="FR3_112203010090_0" join="right">(</pc>
-                <caesura xml:id="FR3_112203010090_1"/>
-                <pc xml:id="FR3_112203010090_2" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_112203010090_3" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
                 <w xml:id="FR3_112203010090_4" lemmaRef="lexicon.xml#lemma_1242" pos="PRO" ana="lexicon.xml#lemma_1242_sense_1958" corresp="variants.xml#type_3963">dir</w>
                 <w xml:id="FR3_112203010090_5" lemmaRef="lexicon.xml#lemma_7643" pos="PRO" ana="lexicon.xml#lemma_7643_sense_12530" corresp="variants.xml#type_212462">vir</w>
-                <pc xml:id="FR3_112203010090_6" join="right">(</pc>
-                <caesura xml:id="FR3_112203010090_7"/>
-                <pc xml:id="FR3_112203010090_8" join="left">)</pc>
+                <gap reason="lost"/>
               </l>
               <l n="10">
-                <pc xml:id="FR3_112203010100_0" join="right">(</pc>
-                <caesura xml:id="FR3_112203010100_1"/>
-                <pc xml:id="FR3_112203010100_2" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_112203010100_3" lemmaRef="lexicon.xml#lemma_207" pos="ADV" ana="lexicon.xml#lemma_207_sense_259" corresp="variants.xml#type_556">anders</w>
                 <w xml:id="FR3_112203010100_4" lemmaRef="lexicon.xml#lemma_40792" pos="INJ" ana="lexicon.xml#lemma_40792_sense_63386" corresp="variants.xml#type_216355">wei</w>
-                <pc xml:id="FR3_112203010100_5" join="right">(</pc>
-                <caesura xml:id="FR3_112203010100_6"/>
-                <pc xml:id="FR3_112203010100_7" join="left">)</pc>
+                <gap reason="lost"/>
               </l>
               <l n="11">
-                <pc xml:id="FR3_112203010110_0" join="right">(</pc>
-                <caesura xml:id="FR3_112203010110_1"/>
-                <pc xml:id="FR3_112203010110_2" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_112203010110_3">stete</w>
                 <w xml:id="FR3_112203010110_4" lemmaRef="lexicon.xml#lemma_119" pos="ADJ ADV" ana="lexicon.xml#lemma_119_sense_153" corresp="variants.xml#type_40303">allein</w>
-                <pc xml:id="FR3_112203010110_5" join="right">(</pc>
-                <caesura xml:id="FR3_112203010110_6"/>
-                <pc xml:id="FR3_112203010110_7" join="left">)</pc>
+                <gap reason="lost"/>
               </l>
               <l n="12">
-                <pc xml:id="FR3_112203010120_0" join="right">(</pc>
-                <caesura xml:id="FR3_112203010120_1"/>
-                <pc xml:id="FR3_112203010120_2" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_112203010120_3" lemmaRef="lexicon.xml#lemma_57742" pos="VRB" ana="lexicon.xml#lemma_57742_sense_92870" corresp="variants.xml#type_310015">besunnet</w>
               </l>
               <l n="13">
                 <w xml:id="FR3_112203010130_0">si</w>
-                <pc xml:id="FR3_112203010130_1" join="right">(</pc>
-                <caesura xml:id="FR3_112203010130_2"/>
-                <pc xml:id="FR3_112203010130_3" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_112203010130_4" lemmaRef="lexicon.xml#lemma_1162" pos="NOM VRB" corresp="variants.xml#type_3658">diezen</w>
               </l>
               <l n="14">
                 <supplied>
                   <w xml:id="FR3_112203010140_0" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_122291">mi</w>
                 </supplied>
-                <pc xml:id="FR3_112203010140_1" join="right">(</pc>
-                <caesura xml:id="FR3_112203010140_2"/>
-                <pc xml:id="FR3_112203010140_3" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_112203010140_4" lemmaRef="lexicon.xml#lemma_4377" pos="ADJ ADV NEG" ana="lexicon.xml#lemma_4377_sense_6838" corresp="variants.xml#type_15283">nicht</w>
                 <w xml:id="FR3_112203010140_5" lemmaRef="lexicon.xml#lemma_2065" pos="ADJ ADV" corresp="variants.xml#type_44451">glich</w>
-                <pc xml:id="FR3_112203010140_6" join="right">(</pc>
-                <caesura xml:id="FR3_112203010140_7"/>
-                <pc xml:id="FR3_112203010140_8" join="left">)</pc>
+                <gap reason="lost"/>
               </l>
               <l n="15">
-                <pc xml:id="FR3_112203010150_0" join="right">(</pc>
-                <caesura xml:id="FR3_112203010150_1"/>
-                <pc xml:id="FR3_112203010150_2" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_112203010150_3" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
                 <w xml:id="FR3_112203010150_4" lemmaRef="lexicon.xml#lemma_7712" pos="NOM" ana="lexicon.xml#lemma_7712_sense_12636" corresp="variants.xml#type_27909">wunnen</w>
-                <pc xml:id="FR3_112203010150_5" join="right">(</pc>
-                <caesura xml:id="FR3_112203010150_6"/>
-                <pc xml:id="FR3_112203010150_7" join="left">)</pc>
+                <gap reason="lost"/>
               </l>
               <l n="16">
-                <pc xml:id="FR3_112203010160_0" join="right">(</pc>
-                <caesura xml:id="FR3_112203010160_1"/>
-                <pc xml:id="FR3_112203010160_2" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_112203010160_3">sei</w>
                 <w xml:id="FR3_112203010160_4" lemmaRef="lexicon.xml#lemma_148" pos="CNJ" ana="lexicon.xml#lemma_148_sense_183" corresp="variants.xml#type_369">als</w>
                 <w xml:id="FR3_112203010160_5" lemmaRef="lexicon.xml#lemma_6099" pos="ADJ ADV" corresp="variants.xml#type_85639">teur</w>
-                <pc xml:id="FR3_112203010160_6" join="right">(</pc>
-                <caesura xml:id="FR3_112203010160_7"/>
-                <pc xml:id="FR3_112203010160_8" join="left">)</pc>
+                <gap reason="lost"/>
               </l>
               <l n="17"><gap reason="lost"/></l>
               <l n="18">
-                <pc xml:id="FR3_112203010180_0" join="right">(</pc>
-                <caesura xml:id="FR3_112203010180_1"/>
-                <pc xml:id="FR3_112203010180_2" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_112203010180_3" lemmaRef="lexicon.xml#lemma_7646" pos="ADJ ADV" ana="lexicon.xml#lemma_7646_sense_12533" corresp="variants.xml#type_248306">wirdicleich</w>
-                <pc xml:id="FR3_112203010180_4" join="right">(</pc>
-                <caesura xml:id="FR3_112203010180_5"/>
-                <pc xml:id="FR3_112203010180_6" join="left">)</pc>
+                <gap reason="lost"/>
               </l>
               <l n="19">
-                <pc xml:id="FR3_112203010190_0" join="right">(</pc>
-                <caesura xml:id="FR3_112203010190_1"/>
-                <pc xml:id="FR3_112203010190_2" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_112203010190_3">mag</w>
                 <w xml:id="FR3_112203010190_4" lemmaRef="lexicon.xml#lemma_3732" pos="ADJ ADV" corresp="variants.xml#type_77598">leicht</w>
-                <pc xml:id="FR3_112203010190_5" join="right">(</pc>
-                <caesura xml:id="FR3_112203010190_6"/>
-                <pc xml:id="FR3_112203010190_7" join="left">)</pc>
+                <gap reason="lost"/>
               </l>
               <l n="20">
-                <pc xml:id="FR3_112203010200_0" join="right">(</pc>
-                <caesura xml:id="FR3_112203010200_1"/>
-                <pc xml:id="FR3_112203010200_2" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_112203010200_3" lemmaRef="lexicon.xml#lemma_6293" pos="ADJ" ana="lexicon.xml#lemma_6293_sense_9916" corresp="variants.xml#type_22253">tummen</w>
                 <w xml:id="FR3_112203010200_4" lemmaRef="lexicon.xml#lemma_2" pos="NOM" ana="lexicon.xml#lemma_2_sense_2" corresp="variants.xml#type_191454">w</w>
-                <pc xml:id="FR3_112203010200_5" join="right">(</pc>
-                <caesura xml:id="FR3_112203010200_6"/>
-                <pc xml:id="FR3_112203010200_7" join="left">)</pc>
+                <gap reason="lost"/>
               </l>
             </lg>
           </p>
@@ -82809,9 +82490,7 @@
                 <pc xml:id="FR3_112204091630_1" join="left">,</pc>
                 <caesura/>
                 <w xml:id="FR3_112204091630_2" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
-                <pc xml:id="FR3_112204091630_3" join="right">(</pc>
-                <caesura xml:id="FR3_112204091630_4"/>
-                <pc xml:id="FR3_112204091630_5" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_112204091630_6" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3397">das</w>
                 <w xml:id="FR3_112204091630_7">sich</w>
                 <w xml:id="FR3_112204091630_8" lemmaRef="lexicon.xml#lemma_7075" pos="ADJ ADV" ana="lexicon.xml#lemma_7075_sense_11459" corresp="variants.xml#type_25008">vil</w>
@@ -87431,9 +87110,7 @@
                 <caesura/>
                 <w xml:id="FR3_113202010010_7">was</w>
                 <w xml:id="FR3_113202010010_8">wibe</w>
-                <pc xml:id="FR3_113202010010_9" join="right">(</pc>
-                <caesura xml:id="FR3_113202010010_10"/>
-                <pc xml:id="FR3_113202010010_11" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_113202010010_12">ir</w>
                 <w xml:id="FR3_113202010010_13">ere</w>
                 <w xml:id="FR3_113202010010_14" lemmaRef="lexicon.xml#lemma_2947" pos="NOM" ana="lexicon.xml#lemma_2947_sense_4737" corresp="variants.xml#type_36377">hüten</w>
@@ -89846,9 +89523,7 @@
                 <w xml:id="FR3_114202020160_1" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
                 <w xml:id="FR3_114202020160_2">werde</w>
                 <w xml:id="FR3_114202020160_3" lemmaRef="lexicon.xml#lemma_7273" pos="NOM" corresp="variants.xml#type_65348">frucht</w>
-                <pc xml:id="FR3_114202020160_4" join="right">(</pc>
-                <caesura xml:id="FR3_114202020160_5"/>
-                <pc xml:id="FR3_114202020160_6" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_114202020160_7" lemmaRef="lexicon.xml#lemma_2030" pos="ADJ" ana="lexicon.xml#lemma_2030_sense_3134" corresp="variants.xml#type_186743">geheure</w>
                 <pc xml:id="FR3_114202020160_8" join="left">,</pc>
               </l>
@@ -90564,9 +90239,7 @@
                 <w xml:id="FR3_114204020500_0">sich</w>
                 <caesura/>
                 <w xml:id="FR3_114204020500_1" lemmaRef="lexicon.xml#lemma_2866" pos="ADJ ADV GRA" corresp="variants.xml#type_9700">hoher</w>
-                <pc xml:id="FR3_114204020500_2" join="right">(</pc>
-                <caesura xml:id="FR3_114204020500_3"/>
-                <pc xml:id="FR3_114204020500_4" join="left">)</pc>
+                <gap reason="lost"/>
                 <pc xml:id="FR3_114204020500_5" join="left">,</pc>
                 <w xml:id="FR3_114204020500_6" lemmaRef="lexicon.xml#lemma_5295" pos="VRB" corresp="variants.xml#type_18428">schouwe</w>
                 <w xml:id="FR3_114204020500_7" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
@@ -90984,9 +90657,7 @@
               <l n="10">
                 <w xml:id="FR3_115022010100_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
                 <w xml:id="FR3_115022010100_1" lemmaRef="lexicon.xml#lemma_6786" pos="NOM ADJ" corresp="variants.xml#type_60403">faigen</w>
-                <pc xml:id="FR3_115022010100_2" join="right">(</pc>
-                <caesura xml:id="FR3_115022010100_3"/>
-                <pc xml:id="FR3_115022010100_4" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_115022010100_5">ir</w>
                 <w xml:id="FR3_115022010100_6">gesellen</w>
                 <pc xml:id="FR3_115022010100_7" join="left">!</pc>
@@ -93789,9 +93460,7 @@
                 <w xml:id="FR3_115406010520_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
                 <w xml:id="FR3_115406010520_1">für</w>
                 <w xml:id="FR3_115406010520_2">in</w>
-                <pc xml:id="FR3_115406010520_3" join="right">(</pc>
-                <caesura xml:id="FR3_115406010520_4"/>
-                <pc xml:id="FR3_115406010520_5" join="left">)</pc>
+                <gap reason="lost"/>
                 <pc xml:id="FR3_115406010520_6" join="left">,</pc>
                 <w xml:id="FR3_115406010520_7">swar</w>
                 <w xml:id="FR3_115406010520_8" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
@@ -93900,14 +93569,10 @@
                 <w xml:id="FR3_115406010600_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
                 <w xml:id="FR3_115406010600_1" lemmaRef="lexicon.xml#lemma_7419" pos="NOM" ana="lexicon.xml#lemma_7419_sense_12070" corresp="variants.xml#type_248956">wazzirs</w>
                 <w xml:id="FR3_115406010600_2" lemmaRef="lexicon.xml#lemma_15946" pos="NOM VRB" corresp="variants.xml#type_224931">spriez</w>
-                <pc xml:id="FR3_115406010600_3" join="right">(</pc>
-                <caesura xml:id="FR3_115406010600_4"/>
-                <pc xml:id="FR3_115406010600_5" join="left">)</pc>
+                <gap reason="lost"/>
               </l>
               <l n="61">
-                <pc xml:id="FR3_115406010610_0" join="right">(</pc>
-                <caesura xml:id="FR3_115406010610_1"/>
-                <pc xml:id="FR3_115406010610_2" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_115406010610_3" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
                 <w xml:id="FR3_115406010610_4">erze</w>
                 <w xml:id="FR3_115406010610_5" lemmaRef="lexicon.xml#lemma_2763" pos="PRP" ana="lexicon.xml#lemma_2763_sense_4458" corresp="variants.xml#type_9362">herabe</w>
@@ -94010,9 +93675,7 @@
               </l>
               <l n="71">
                 <w xml:id="FR3_115407010710_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
-                <pc xml:id="FR3_115407010710_1" join="right">(</pc>
-                <caesura xml:id="FR3_115407010710_2"/>
-                <pc xml:id="FR3_115407010710_3" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_115407010710_4">sit</w>
                 <w xml:id="FR3_115407010710_5" lemmaRef="lexicon.xml#lemma_1419" pos="VRB" corresp="variants.xml#type_249055">engoldin</w>
                 <w xml:id="FR3_115407010710_6">hant</w>
@@ -94051,9 +93714,7 @@
               <l n="74">
                 <w xml:id="FR3_115407010740_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
                 <w xml:id="FR3_115407010740_1" lemmaRef="lexicon.xml#lemma_1756" pos="NAM" ana="lexicon.xml#lemma_1756_sense_2746" corresp="variants.xml#type_6008">eva</w>
-                <pc xml:id="FR3_115407010740_2" join="right">(</pc>
-                <caesura xml:id="FR3_115407010740_3"/>
-                <pc xml:id="FR3_115407010740_4" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_115407010740_5" lemmaRef="lexicon.xml#lemma_3962" pos="ADJ" ana="lexicon.xml#lemma_3962_sense_6245" corresp="variants.xml#type_113483">manigin</w>
                 <w xml:id="FR3_115407010740_6" lemmaRef="lexicon.xml#lemma_5148" pos="NOM ADJ" corresp="variants.xml#type_248965">shadin</w>
                 <w xml:id="FR3_115407010740_7">nam</w>
@@ -94288,9 +93949,7 @@
                 <w xml:id="FR3_115419010120_3">unde</w>
                 <w xml:id="FR3_115419010120_4">lip</w>
                 <w xml:id="FR3_115419010120_5">sal</w>
-                <pc xml:id="FR3_115419010120_6" join="right">(</pc>
-                <caesura xml:id="FR3_115419010120_7"/>
-                <pc xml:id="FR3_115419010120_8" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_115419010120_9">scheiden</w>
                 <w xml:id="FR3_115419010120_10" lemmaRef="lexicon.xml#lemma_6330" pos="ADV PRP" ana="lexicon.xml#lemma_6330_sense_9973" corresp="variants.xml#type_22478">uf</w>
                 <w xml:id="FR3_115419010120_11" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
@@ -94562,9 +94221,7 @@
               <l n="32">
                 <w xml:id="FR3_115421010320_0" lemmaRef="lexicon.xml#lemma_1258" pos="PRP" ana="lexicon.xml#lemma_1258_sense_1977" corresp="variants.xml#type_4044">durch</w>
                 <w xml:id="FR3_115421010320_1">diner</w>
-                <pc xml:id="FR3_115421010320_2" join="right">(</pc>
-                <caesura xml:id="FR3_115421010320_3"/>
-                <pc xml:id="FR3_115421010320_4" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_115421010320_5">wunden</w>
                 <w xml:id="FR3_115421010320_6">willen</w>
                 <w xml:id="FR3_115421010320_7" lemmaRef="lexicon.xml#lemma_7285" pos="NUM" ana="lexicon.xml#lemma_7285_sense_11817" corresp="variants.xml#type_249059">vumph</w>
@@ -94666,9 +94323,7 @@
               </l>
               <l n="41">
                 <w xml:id="FR3_115421010410_0">sint</w>
-                <pc xml:id="FR3_115421010410_1" join="right">(</pc>
-                <caesura xml:id="FR3_115421010410_2"/>
-                <pc xml:id="FR3_115421010410_3" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_115421010410_4" lemmaRef="lexicon.xml#lemma_7194" pos="ADV PRP" ana="lexicon.xml#lemma_7194_sense_11657" corresp="variants.xml#type_25545">vor</w>
                 <w xml:id="FR3_115421010410_5" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
                 <w xml:id="FR3_115421010410_6">sunder</w>
@@ -94757,9 +94412,7 @@
                 <w xml:id="FR3_115422010470_3" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10237">mir</w>
                 <w xml:id="FR3_115422010470_4" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_43065">czu</w>
                 <w xml:id="FR3_115422010470_5" lemmaRef="lexicon.xml#lemma_905" pos="NOM" corresp="variants.xml#type_40652">bruder</w>
-                <pc xml:id="FR3_115422010470_6" join="right">(</pc>
-                <caesura xml:id="FR3_115422010470_7"/>
-                <pc xml:id="FR3_115422010470_8" join="left">)</pc>
+                <gap reason="lost"/>
                 <pc xml:id="FR3_115422010470_9" join="left">,</pc>
                 <w xml:id="FR3_115422010470_10" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
                 <w xml:id="FR3_115422010470_11">do</w>
@@ -94955,9 +94608,7 @@
                 <w xml:id="FR3_115423010050_6" lemmaRef="lexicon.xml#lemma_4377" pos="ADJ ADV NEG" ana="lexicon.xml#lemma_4377_sense_6838" corresp="variants.xml#type_15283">nicht</w>
                 <w xml:id="FR3_115423010050_7" lemmaRef="lexicon.xml#lemma_414" pos="ADJ ADV GRA" ana="lexicon.xml#lemma_414_sense_562" corresp="variants.xml#type_1102">baz</w>
                 <w xml:id="FR3_115423010050_8" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
-                <pc xml:id="FR3_115423010050_9" join="right">(</pc>
-                <caesura xml:id="FR3_115423010050_10"/>
-                <pc xml:id="FR3_115423010050_11" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_115423010050_12" lemmaRef="lexicon.xml#lemma_4787" pos="VRB" corresp="variants.xml#type_228797">geratin</w>
                 <w xml:id="FR3_115423010050_13">kan</w>
                 <pc xml:id="FR3_115423010050_14" join="left">.</pc>
@@ -94982,9 +94633,7 @@
                 <w xml:id="FR3_115423010070_4" lemmaRef="lexicon.xml#lemma_2834" pos="NOM" ana="lexicon.xml#lemma_2834_sense_4553" corresp="variants.xml#type_248990">hemilrich</w>
               </l>
               <l n="8">
-                <pc xml:id="FR3_115423010080_0" join="right">(</pc>
-                <caesura xml:id="FR3_115423010080_1"/>
-                <pc xml:id="FR3_115423010080_2" join="left">)</pc>
+                <gap reason="lost"/>
                 <w xml:id="FR3_115423010080_3" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
                 <w xml:id="FR3_115423010080_4" lemmaRef="lexicon.xml#lemma_1517" pos="POS" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_248991">seinis</w>
                 <w xml:id="FR3_115423010080_5" lemmaRef="lexicon.xml#lemma_5385" pos="ADJ" ana="lexicon.xml#lemma_5385_sense_8406" corresp="variants.xml#type_30894">selbes</w>

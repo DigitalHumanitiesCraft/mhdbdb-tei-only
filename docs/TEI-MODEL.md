@@ -58,7 +58,7 @@ The header is already largely standardized across all 667 files. This section do
 
   <publicationStmt>
     <!-- standard block: MHDBDB/Uni Salzburg, CC BY-NC-SA 4.0 -->
-    <!-- identical in all files -->
+    <!-- largely identical; <availability> varies, see "Restricted availability" below -->
   </publicationStmt>
 
   <sourceDesc>
@@ -100,6 +100,8 @@ The header is already largely standardized across all 667 files. This section do
 - digital intermediaries as `<bibl type="digitalIntermediary">` (ADR-012)
 
 **Excerpt texts (#134):** if the corpus text is a defined excerpt from a larger work (for example AK = "Buch von Akkon" inside the Steirische Reimchronik), the primary edition additionally carries `<biblScope unit="verse">{from}–{to}</biblScope>` in the `<imprint>` plus, optionally, `<note type="context">{contextual relation}</note>` on the `<biblStruct>`. The `unit="verse"` is the machine-readable excerpt signal: the reader then shows a banner plus "Ausschnitt" metadata (excerpt title from `<analytic>/<title>`). An `<analytic>` title alone marks NO excerpt: 534 headers carry one for ordinary edition data.
+
+**Restricted availability and `no-print` (#267):** the `<availability>` inside `<publicationStmt>` is not identical everywhere. Nine headers (HUB1, HUB2, MAI, MML, MRL, MRS, MSB1, NEI, RLS) carry `<availability status="restricted">`, a licence paragraph saying that "eine vollständige Fassung der Edition inkl. Apparat" cannot be offered, and `<ab type="display" n="no-print"/>`. The marker means: **the full text is offered for reading, but no printable or PDF version is generated from it**, so that the site does not replace buying the edition (KZW, 2026-09-10 in #267). That is a project decision, not a legal necessity; the legal basis for offering these texts at all is in [RESEARCH.md → Corpus Scope and Rights Basis](RESEARCH.md#corpus-scope-and-rights-basis). Nothing evaluates the marker today, because neither the site nor the reading view produces a print version (the only `@media print` rules sit in internal review pages); whoever builds a print or PDF export has to read it. Until 2026-09-23 the marker was called `excerpt-only`, which said the opposite of what the site does, and stood on ten texts: FR3 was released from the restriction on 2026-09-10 (the protection period of its edition has expired) and now carries the standard `<availability>`.
 
 ### 2.1bis Editor attribution and credits
 
@@ -681,7 +683,7 @@ Only for parts of the text supplied by the editor. Do not misuse it for recipe t
 <caesura/>
 ```
 
-Marks a **metrical** caesura inside a line of verse (`<l>`). Measured on 2026-09-10: 51,986 occurrences in 225 files, so not rare at all (an earlier version of this section said "5 files", which was low by a factor of 45).
+Marks a **metrical** caesura inside a line of verse (`<l>`). Measured on 2026-09-23, after the second #252 pass: 51,140 occurrences in 218 files, so not rare at all (an earlier version of this section said "5 files", which was low by a factor of 45).
 
 `<caesura/>` says nothing about missing text. For that, see 6.5a.
 
@@ -691,7 +693,7 @@ Marks a **metrical** caesura inside a line of verse (`<l>`). Measured on 2026-09
 <l n="32"><gap reason="lost"/></l>
 ```
 
-Marks text the edition could not supply. Measured on 2026-09-10: 1,094 occurrences in 103 files, all with `reason="lost"`.
+Marks text the edition could not supply. Measured on 2026-09-23: 1,940 occurrences in 114 files, all with `reason="lost"` (1,094 from the first pass, 846 from the second).
 
 **These used to be encoded as punctuation plus caesura** and were migrated in #252:
 
@@ -706,23 +708,23 @@ Marks text the edition could not supply. Measured on 2026-09-10: 1,094 occurrenc
 
 Two reasons for the change. `<caesura/>` denotes a metrical incision, not a missing passage, so the old encoding said the wrong thing; and a gap was only findable as a three-part serialization pattern, which made any analysis of transmission density impractical. The decision is KZW's, 2026-07-29, generalized to the whole set on 2026-09-10; the evidence is 290 of 324 cases resolving against a Linecode source carrying an omission marker, without a single counter-example.
 
+**A second pass followed inside lines.** On 2026-09-22 KZW released the same pattern where it stands between words: 846 cases in 20 files, counted by the rule stated in the #252 thread on 2026-09-14 (a `<caesura/>` whose immediate element siblings are a `<pc>` with `(` on the left and a `<pc>` with `)` on the right, inside a block element that holds at least one `<w>` at any depth). 841 of them sit in `<l>`, 5 in `<p>` prose. Only the three elements of the pattern were replaced; the words, punctuation and speech marks around them stayed as they were. Script: `scripts/ingest/gap-252/migrate-inline-gap.py`, 2026-09-23.
+
 **What the migration deliberately did not touch**, because a mechanical rule cannot decide it:
 
 | Left as it is | Count | Why |
 |---|--:|---|
 | `<l>` with a caesura, no `<w>`, but real text | 12 in 8 files | `FDS` carries the editorial note "(folgen Lied 34 bis Lied 37)", `EIL`, `GWTK` and `FR1` carry unlemmatized wording. A rule of "no `<w>` means a gap" would have deleted it |
 | `<l>` with visible characters that are not the marker | 38 | 22 lines with speech marks only (`<` and `>`, which in `GWTK` and `BRF` are quotation marks, one of them with a full stop), 5 with a lone comma or colon, 8 with a single bracket, and 3 with the complete marker plus one extra character |
-| `( caesura )` **inside** a line, between words | 838 in 17 files | `FR1` 518, `FR3` 176, `MSG` 56, `BRW` 38, `NEIC` 22, `NEIR` 10, `NEIM` 5, `SKL` 3, `MML` 2, plus eight files with one each |
-| the same pattern in `<p>` prose | 5 in 3 files | `HUB2` 1, `PL1` 1, `SUB1` 3 |
 | `<l><hi><caesura/></hi></l>`, the caesura not a direct child | 2 in `MUG` | the migration looks at direct children only and does not see these. Whether the `<hi>` should go with them is a decision, not a script bug |
 
-The last three rows are probably the same phenomenon as the migrated set, but saying so is a philological claim about passages with text around them, not a mechanical one. **Open in #252.**
+The `MUG` row is probably the same phenomenon as the migrated set, but saying so is a philological claim, not a mechanical one. **Open in #252**, as are the five lines with a lone comma or colon from the second row: they carry no bracket at all, KZW did not release them on 2026-09-22, and they were put to KZW with their context on 2026-09-23.
 
 The 8 single brackets form four pairs spanning several omitted verses (`SJH` lg179 n=6/7, `SUS` lg61 n=6/10, `SUS` lg127 n=7/8, `SVW` lg6 n=6/7); in `SUS` lg61 three now-migrated lines sit between them, so that omission is half encoded as gaps and half as a bracket. The 3 with marker plus one character are `NEIC` lg3 n=14 `< ( )`, `NEIR` lg5 n=6 `( ) ,` and `SJH` lg168 n=13 `( ) !`, which can be repaired by hand.
 
 The second row is the reason the criterion asks for the exact marker `( )` rather than for "brackets". An earlier version accepted angle brackets too and would have deleted the closing quotation mark of a speech in `GWTK` line 36, leaving the speech opened in line 35 unclosed.
 
-`<gap/>` carries no `xml:id` in `schema/mhdbdb.rnc`, and the 1,339 ids of the replaced elements were verified to be referenced nowhere (neither index, none of the 2,742 API files) before they were dropped.
+`<gap/>` carries no `xml:id` in `schema/mhdbdb.rnc`, and the 1,339 ids of the replaced elements were verified to be referenced nowhere (neither index, none of the 2,742 API files) before they were dropped. The second pass dropped 2,538 more (three per case) and checked them the same way, against both indexes and every JSON file under `api/`.
 
 The reading view renders a gap as `[…]` with the reason in the tooltip (`tei-text-reader.js`). Without that the migration would have made gaps machine-findable and invisible to readers, which is the opposite of the intent.
 
