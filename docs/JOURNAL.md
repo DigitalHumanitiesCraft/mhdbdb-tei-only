@@ -777,3 +777,24 @@ Keine. Verteilung aus `trockenlauf-auswerten.py`, Zeile dieser Session (`1185863
 - KZW prüft nach Merge und Deploy im Wörterbuch; der Prüfweg steht in #467.
 - In #467 beantwortet: Korpussuche und Lemma-Explorer kennen die Nummer nicht, die Multi-Lemma-Suche nur als nackte Zahl (`4086`, nicht `lemma_4086`). Ob Korpussuche oder Playground sie lernen sollen, ist KZWs Entscheidung; der Aufwand wäre klein.
 - Die Commits der Pakete B1 und B2 und der erste Commit von B3 tragen als Trailer `Co-Authored-By: Claude Opus 5.5`, `CLAUDE.md` schreibt `Co-Authored-By: Claude` vor (Hinweis der Reviewrunde zu B3); ab dem zweiten B3-Commit in der Form von `CLAUDE.md`.
+
+## 2026-09-23 (Nachtlauf, Spur B, Paket B4) – #448: CSV-Export im Playground
+
+Die Userfrage aus #448: Ergebnisse im Playground als CSV herunterladen. KZWs Auftrag dazu war, die Werkzeuge systematisch durchzugehen. Unter `playground/js/ui/tei/` liegen 15 Dateien, ohne den Helfer `corpus-scope.js` und die Hülle `tei-ui.js` also 13 Werkzeuge, aufgeteilt 13 (9 + 1 + 3). Neun Werkzeuge mit tabellarischem Ergebnis bekommen einen Export: Wortfrequenz, Versendings-Profil, Text-Statistiken, Kookkurrenz-Ranking, Reim-Wörterbuch, Textvergleich, Versposition, Bezeichnungen und Pferde. Das eine ist Hapax, das seinen älteren Export behält. Drei bekommen keinen: Konzept- und Lemmaverteilung, weil ihr Ergebnis ein Diagramm ist, und die Multi-Lemma-Suche, weil ihr Ergebnis aus Karten besteht, deren Kontext erst beim Aufklappen per `fetch` aus dem TEI nachkommt. Ausgerechnet der Anwendungsfall aus dem Ticket ("an der brust" bei Steinen) liegt dort; die Tabelle je Werkzeug und die offene Frage dazu stehen im Statuskommentar in #448.
+
+### Was über den Einzelfall hinausgilt
+
+**Die Datei trägt die Menge, nicht die Anzeige.** Wo eine Tabelle nach Top-N oder einer Anzeigegrenze kappt (50, 100, beim Reim-Wörterbuch 200), exportiert der Knopf trotzdem alles hinter ihr, mit den aktuellen Filtern. Das war schon die Regel des Hapax-Exports, der über alle Seiten geht, und der Tooltip jedes Knopfs sagt, welche Zeilen drin sind. In Wortfrequenz und Versendings-Profil stand die Filter- und Sortierlogik mitten in `renderTable`; sie ist jetzt eine eigene Methode `sortedEntries()`, damit Tabelle und Datei dieselbe Menge lesen und nicht zwei Kopien derselben Regel.
+
+**Zwei Formate im selben Werkzeugkasten, und das bleibt so.** Die Hauptseite exportiert seit #114 mit Komma, der Hapax-Export im Playground mit Semikolon. Der Laufplan hatte beide für gleich gehalten; gleich sind nur BOM und CRLF. Entschieden hat die Koordination: die neuen Exporte folgen der Hauptseite, Hapax bleibt, weil ein Wechsel bestehende Auswertungen bräche. Der Helfer `assets/js/lib/csv-export.js` trägt das Format jetzt für beide Seiten, `app.js` delegiert an ihn. Dass der Export der Hauptseite dabei bytegleich bleibt, prüft ein Test gegen eine wörtliche Kopie des alten Quotings, nicht gegen den Helfer selbst; sein Kontrollwert sind die vier Texte mit Komma in Titel oder Autor, die *minne* trifft (FR1, FR2, HVM, PL1).
+
+**Komma-CSV und deutsches Excel.** Ein deutsches Excel spaltet eine Komma-CSV beim Doppelklick nicht auf. Die Hilfe verspricht deshalb nicht "öffnet sich direkt", sondern nennt den Weg über "Daten, Aus Text/CSV". Das gilt für die Hauptseite seit #114 genauso und ist vielleicht der Grund, warum Hapax einmal das Semikolon bekam.
+
+### Rote Zeilen
+
+Keine. Ein eigener Zählfehler, bevor er etwas trug: in der Meldung an die Koordination standen "12 Werkzeuge", es sind 13; die Koordination hat nachgezählt, der PR-Body trägt die richtige Aufschlüsselung.
+
+### Was zurück an Christian geht
+
+- Die Multi-Lemma-Suche ist genau das Werkzeug aus dem Anwendungsfall des Tickets und hat keinen Export. Ein Export dort bräuchte eine Entscheidung, ob die Datei nur die Trefferliste (Text, Abstand, Vers) trägt oder auch den Wortlaut, der erst per `fetch` aus dem TEI kommt. Die Frage steht in #448.
+- Die Datensätze von Linda (CC BY-NC-SA) und Borek (CC0) gehen jetzt als CSV aus dem Playground. Die Datei trägt keine Quellenangabe, die Seite schon. Ob die CSV eine Attributionszeile braucht, ist eine Frage an Linda; eine Kommentarzeile bricht allerdings manches Einleseprogramm.
