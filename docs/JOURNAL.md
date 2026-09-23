@@ -826,3 +826,25 @@ Verteilung aus `trockenlauf-auswerten.py`, Zeile dieser Session (`09f7a3aa`, nac
 - Freeze-Ausnahmen der Koordination: CONTRACTS.md Z. 99, 381, 396 (Homographen jetzt 476 Formen, 991 Lemmata, 2,27 %), sieben ungegatete Stellen mit 43.878 in DATA-MODEL, DESIGN, FEATURES und TEI-MODEL-AUTH-FILES, das „46“-Beispiel.
 - Nicht angefasst, im PR genannt: `ingest/foreign-lang/28-gleis1-kandidaten.csv:5626` führt das gelöschte `lemma_64691` *Siegesfest*; die Kommentare in `hapax-legomena.spec.js:7-12` und `hapax-legomena.js:127-130` sagen noch, 42/46/49 fielen mit #228, es fiel nur 46.
 - Fragen an KZW in #228: die Form für die 26 Ziffern; ob Mur gelöscht und die zwei `etym`-Verweise umgehängt werden sollen.
+
+## 2026-09-24 (Nachtlauf, Koordination) – acht PRs in einer Nacht, und wo die Koordination selbst danebenlag
+
+Laufplan `docs/playbooks/kickoffs/2026-09-23-nachtlauf.md`, zwei Spuren (A Daten, B Frontend), Merge-Freigabe von Christian für PRs ohne offene Befunde, Index-Bumps eingeschlossen. Gemergt wurden zehn PRs, 10 (2 + 8): zwei Reste des Tageslaufs und die acht Pakete des Nachtlaufs, in dieser Reihenfolge: #476, #469 (Tagesreste), #477 (A1: #252, #267), #478 (B1: #433), #479 (A2: #270, Authority 1.9.10), #480 (B2: #420, geschlossen), #482 (A3: #357, Authority 1.9.11), #481 (B3: #467), #483 (B4: #448), #484 (A4: #228, Korpus 4.2.20, Authority 1.9.12). Schlusslauf der Koordination auf `82af90239`, dem Stand mit allen zusammen: `VERDICT: VOLLLAUF GRUEN (389 Tests, 40 Dateien)`. Deploy und Data Integrity auf diesem Stand grün.
+
+### Was über den Einzelfall hinausgilt
+
+**Zwei Spuren, die dateidisjunkt geschnitten sind, sind es über die Daten nicht.** A4 löschte `lemma_69733` „46“, und genau dieses Lemma war in derselben Nacht in B3 zum Prüfbeispiel für die Nummernsuche geworden, in Spec, Hilfeseite und Ticketkommentar. Kein Dateibesitz hat das angezeigt; gefunden hat es die Koordination, weil sie die Löschliste gegen den eben gemergten PR hielt. Wer Spuren nach Dateien schneidet, muss bei Löschungen in `authority-files/` zusätzlich fragen, welche gemergten Tests und Beispiele an den gelöschten IDs hängen.
+
+**Ein „sofern“ in einer Entscheidung ist keine Entscheidung.** K7 in #228 rechnet die 26 Ziffern in MR1 und WVV nur mit, „sofern“ sie wie vorgeschlagen entannotiert werden, und der Vorschlag stammt von einer Session. Die Spur hatte das als entschieden gelesen; die Koordination hat es nach Lektüre des Kommentars herausgenommen und als Frage an KZW gegeben.
+
+**Testvergabe seriell hat gehalten, bis auf einen Fall.** Ein Volllauf zur Zeit, Teilläufe nicht daneben; einmal fuhr Spur A zwei unangemeldete Teilläufe während eines B-Volllaufs, der trotzdem grün endete. Einmal hat Spur B einen Slot zurückgegeben statt ihn zu nutzen, weil ein Checkout einem laufenden Review die Dateien weggezogen hätte. Wo ein Teillauf statt eines Volllaufs reichte, stand die Begründung als Messung daneben (wer die geänderte Datei lädt), nicht als Einschätzung.
+
+**Ein vermeintlicher Neustart war eine eigene Nachricht.** Spur A stand mitten in der Nacht mit neuer PID unter derselben Kennung da, und die Zustellung meldete „new session under a previously used name“. Das Operator-Skill (`transport.md`) beschreibt genau das: eine Nachricht an eine ruhende Spur startet sie neu. Verloren ging nichts (Baum sauber, Zweig gleich PR-Kopf, laut Spur A).
+
+### Rote Zeilen
+
+Keine. Einmal lag die Koordination daneben, und abgewendet hat es die Spur, nicht die Koordination: Für den Konflikt in #481 wies sie Spur B an, mit `--force-with-lease` auf den PR-Zweig zu pushen, obwohl der Spurvertrag Force-Push verbietet. Spur B hat abgelehnt und gefragt; gemergt wurde über einen Merge-Commit. Es hat nichts getragen, deshalb keine Zeile; die Nummern 90 bis 94 bleiben unverbraucht.
+
+### Was zurück an Christian geht
+
+Steht im Morgenbericht der Koordination; die Fragen an KZW stehen je in #251, #252, #267, #270, #357, #228, #433, #467, #448, alle auf `auto:blocked` + `wait:kzw`, die Matrix in #44 ist nachgezogen.
