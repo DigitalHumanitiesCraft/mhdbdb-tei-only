@@ -205,6 +205,7 @@ Completeness against `testing/tests/` is gated by `scripts/audit/check-doc-inven
 |------|----------|--------------|
 | `main-site.spec.js` | Main site | Landing page, search page loading, search results, reading view |
 | `search-engine.spec.js` | Main site | SearchEngine class: resolution, filtering, deduplication |
+| `genre-filter-suggestion.spec.js` | Main site | Genre suggestions in the text filter: a click selects the texts of the genre including its subgenres, checked against an oracle computed from the index files; typing alone leaves the selection unchanged (#433, #204) |
 | `search-normalization.spec.js` | Main site | MHG normalization functions in browser context |
 | `search-with-corpus.spec.js` | Main site | Search against real corpus data |
 | `reading-view.spec.js` | Main site | TEI reading view rendering, highlighting, navigation |
@@ -228,6 +229,7 @@ Completeness against `testing/tests/` is gated by `scripts/audit/check-doc-inven
 | `naming-explorer.spec.js` | Playground | Character naming: route, work/character selection, category tabs, mandatory attribution (#59) |
 | `horses-explorer.spec.js` | Playground | Arthurian horses: route, horse selection, event filter, attribution, and the `?verseId=` deep link into the reading view (#193) |
 | `genre-explorer.spec.js` | Playground | Genre tree: `genres[].parents` as the transitive reduction, the two roots, empty branches marked, and categories with several parents opening independently at each of their positions (#361) |
+| `text-comparison-filter.spec.js` | Playground | Typing filter above both text lists of the text comparison: folded match on siglum, title and author, auto-select of a single remaining text, selection kept when the filter misses it (#435) |
 | `normalization-parity.spec.js` | Cross-cutting | Python/JS normalizer agreement (see [CONTRACTS.md](CONTRACTS.md#a-mhg-normalization-parity)) |
 | `lemma-matching.spec.js` | Cross-cutting | Lemma highlight matching exactness, #130 (see [CONTRACTS.md](CONTRACTS.md#b1-lemma-highlight-matching-contract)) |
 | `position-parity.spec.js` | Cross-cutting | Python/JS word-position agreement, #131 (see [CONTRACTS.md](CONTRACTS.md#b-position-counting-contract)) |

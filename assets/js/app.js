@@ -13,6 +13,12 @@ import { SearchEngine } from './search/search-engine.js';
 import { extractKwicHits, formatLineRef } from './search/kwic-service.js';
 import { TEICacheManager } from './storage/tei-cache-manager.js';
 import { TEITextReader } from './rendering/tei-text-reader.js';
+import { buildGenreSubtrees, workIdFromRef } from './lib/genre-tree.js';
+
+/** Höchstens so viele Gattungs-Vorschläge unter dem Textfilter (#433). */
+const GENRE_SUGGESTION_LIMIT = 8;
+/** Ab so vielen getippten Zeichen erscheinen sie ("Artus..." im Ticket). */
+const GENRE_SUGGESTION_MIN_CHARS = 3;
 
 /**
  * Issue #160: Deklaratives Spaltenmodell der Ergebnis-Tabelle (#114/#129).
@@ -173,6 +179,7 @@ class MainSiteApp {
                 lemmaList: document.getElementById('lemmaList'),
                 textList: document.getElementById('textList'),
                 textFilter: document.getElementById('textFilter'),
+                genreSuggestions: document.getElementById('genreSuggestions'),
                 selectAllTexts: document.getElementById('selectAllTexts'),
                 selectNoneTexts: document.getElementById('selectNoneTexts'),
                 selectOnlyVisible: document.getElementById('selectOnlyVisible'),
@@ -296,7 +303,114 @@ class MainSiteApp {
         // Populate text list with checkboxes
         this.populateTextList();
 
+        this.genreIndex = this.buildGenreIndex(authorityIndex);
+
         console.log('[MainSiteApp] Search page initialized');
+    }
+
+    /**
+     * Gattungen mit den Texten, die sie samt Untergattungen tragen (#433).
+     *
+     * Kette: Text -> workRef -> Werk -> Gattungen, und je Gattung die Werke
+     * ihres ganzen Teilbaums (lib/genre-tree.js, dieselbe Rechnung wie im
+     * Gattungen-Explorer). Gattungen ohne einen einzigen Text im Korpus
+     * fallen weg: ein Vorschlag, der die Auswahl auf null Texte setzt, wäre
+     * eine Falle.
+     */
+    buildGenreIndex(authorityIndex) {
+        const genres = authorityIndex?.genres || [];
+        const { subtreeWorks } = buildGenreSubtrees(genres, authorityIndex?.maps?.genreToWorks || {});
+
+        const textsByWork = new Map();
+        for (const text of this.corpusData.texts) {
+            const workId = workIdFromRef(text.workRef);
+            if (!workId) continue;
+            if (!textsByWork.has(workId)) textsByWork.set(workId, []);
+            textsByWork.get(workId).push(text.id);
+        }
+
+        const index = [];
+        for (const genre of genres) {
+            const textIds = new Set();
+            for (const workId of subtreeWorks.get(genre.id) || []) {
+                for (const textId of textsByWork.get(workId) || []) textIds.add(textId);
+            }
+            if (textIds.size === 0) continue;
+            const label = genre.termDE || genre.termEN || genre.id;
+            index.push({ id: genre.id, label, folded: TextNormalizer.foldDiacritics(label), textIds });
+        }
+        return index;
+    }
+
+    /** Vorschläge zur Eingabe: Wortanfang vor Wortinnerem, dann nach Textzahl. */
+    findGenreSuggestions(query) {
+        const q = TextNormalizer.foldDiacritics(query.trim());
+        if (q.length < GENRE_SUGGESTION_MIN_CHARS) return [];
+        return (this.genreIndex || [])
+            .filter(g => g.folded.includes(q))
+            .sort((a, b) =>
+                Number(b.folded.startsWith(q)) - Number(a.folded.startsWith(q)) ||
+                b.textIds.size - a.textIds.size ||
+                a.label.localeCompare(b.label, 'de'))
+            .slice(0, GENRE_SUGGESTION_LIMIT);
+    }
+
+    renderGenreSuggestions(items) {
+        const box = this.elements.genreSuggestions;
+        const input = this.elements.textFilter;
+        if (!box) return;
+        this.genreSuggestionItems = items;
+        this.genreSuggestionIndex = -1;
+        if (items.length === 0) {
+            box.classList.add('hidden');
+            box.innerHTML = '';
+            input?.setAttribute('aria-expanded', 'false');
+            return;
+        }
+        box.innerHTML = items.map((g, i) => `
+            <button type="button" role="option" aria-selected="false" data-genre-idx="${i}"
+                    class="flex w-full items-center justify-between gap-3 px-3 py-2 text-left text-sm hover:bg-brand-50">
+                <span class="min-w-0 truncate"><span class="mr-2 rounded-full bg-slate-100 px-2 py-0.5 text-xs text-slate-600">Gattung</span>${escapeHtml(g.label)}</span>
+                <span class="flex-shrink-0 text-xs text-slate-500">${g.textIds.size.toLocaleString('de-DE')} ${g.textIds.size === 1 ? 'Text' : 'Texte'}</span>
+            </button>`).join('');
+        box.classList.remove('hidden');
+        input?.setAttribute('aria-expanded', 'true');
+    }
+
+    highlightGenreSuggestion(index) {
+        const box = this.elements.genreSuggestions;
+        if (!box) return;
+        this.genreSuggestionIndex = index;
+        box.querySelectorAll('[data-genre-idx]').forEach((el, i) => {
+            const active = i === index;
+            el.setAttribute('aria-selected', active ? 'true' : 'false');
+            el.classList.toggle('bg-brand-50', active);
+            if (active) el.scrollIntoView({ block: 'nearest' });
+        });
+    }
+
+    /**
+     * Ein Gattungs-Vorschlag setzt die Auswahl, nicht nur den Filter (#433,
+     * von KZW am 2026-09-17 angenommen). Das Filterfeld allein rührt die
+     * Auswahl nicht an (#204); hier ist es umgekehrt, deshalb wird das Feld
+     * geleert: sonst stünde ein Suchwort darin, das mit der Auswahl nichts
+     * zu tun hat, und der #204-Hinweis meldete einen Widerspruch.
+     */
+    applyGenreSelection(genre) {
+        const textList = this.elements.textList;
+        if (!textList || !genre) return;
+        this.corpusData.includedTexts.clear();
+        textList.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+            const drin = genre.textIds.has(cb.dataset.textId);
+            cb.checked = drin;
+            if (drin) this.corpusData.includedTexts.add(cb.dataset.textId);
+        });
+        this.renderGenreSuggestions([]);
+        if (this.elements.textFilter) {
+            this.elements.textFilter.value = '';
+            this.elements.textFilter.dispatchEvent(new Event('input'));
+        }
+        this.updateTextListStats();
     }
 
     updateLoadingStatus(message, progress) {
@@ -568,6 +682,35 @@ class MainSiteApp {
                     if (this.elements.selectOnlyVisible) this.elements.selectOnlyVisible.style.display = 'none';
                     if (this.elements.selectOnlyVisibleSep) this.elements.selectOnlyVisibleSep.style.display = 'none';
                 }
+
+                this.renderGenreSuggestions(this.findGenreSuggestions(e.target.value));
+            });
+
+            // #433: Tastatur und Maus für die Gattungs-Vorschläge, nach dem
+            // Autocomplete-Muster aus DESIGN.md (mousedown statt click, weil
+            // blur sonst die Liste schließt, bevor der Klick ankommt).
+            textFilter.addEventListener('keydown', (e) => {
+                const items = this.genreSuggestionItems || [];
+                if (items.length === 0) return;
+                if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    this.highlightGenreSuggestion(Math.min(items.length - 1, (this.genreSuggestionIndex ?? -1) + 1));
+                } else if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    this.highlightGenreSuggestion(Math.max(0, (this.genreSuggestionIndex ?? 0) - 1));
+                } else if (e.key === 'Enter' && this.genreSuggestionIndex >= 0) {
+                    e.preventDefault();
+                    this.applyGenreSelection(items[this.genreSuggestionIndex]);
+                } else if (e.key === 'Escape') {
+                    this.renderGenreSuggestions([]);
+                }
+            });
+            textFilter.addEventListener('blur', () => setTimeout(() => this.renderGenreSuggestions([]), 150));
+            this.elements.genreSuggestions?.addEventListener('mousedown', (e) => {
+                const btn = e.target.closest('[data-genre-idx]');
+                if (!btn) return;
+                e.preventDefault();
+                this.applyGenreSelection((this.genreSuggestionItems || [])[Number(btn.dataset.genreIdx)]);
             });
         }
 

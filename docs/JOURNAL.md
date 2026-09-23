@@ -553,3 +553,44 @@ Gemessene Verteilung aus `trockenlauf-auswerten.py`, Abschnitt `shell-konvention
 - Der *fröwen*-Flip (siehe oben) bleibt bis zur Umsetzung von ADR-021 bestehen; KZW bekommt ihn in #387 als Hinweis.
 - Nachzüge außerhalb des PR: `hilfe-daten-beitragen.html:819` (Baseline 30, Spur B), `docs/DECISIONS.md:782` und die dritte ADR-021-Fixture (Inbox).
 - Offen bei KZW: das `etym` von *zalder* (#464, Vorschlag *er* + *zal* + *zeln*) und die Grenze zwischen ihrer allgemeinen Konvention `ADJ NOM` und ihren zwei Einzelentscheidungen `NOM` (#387).
+
+## 2026-09-23 (Spur B des Issue-Abbaus) – vier KZW-Meldungen im Frontend, eine davon wartet auf sie
+
+### Was gearbeitet wurde
+
+- **#446**, „das Korpus“ in nutzersichtbarem Text: sechs Stellen in Playground und Hilfe. Das Audit hatte vier genannt; die fünfte (`playground/index.html:126`) stand dort nicht, die sechste habe ich selbst zuerst übersehen (rote Zeile 70). `README.md:115` hat die Koordination in `081ad4d10` übernommen.
+- **#435**, Tippfilter über beiden Textlisten im Textvergleich, wie KZW am 15.09. entschieden hat. Ihre Frage zur Begriffs-Verteilung beantwortet die Messung: das Autocomplete gibt es seit `a2e7b0b36` (#113, 15.05.). Alans „baum“ scheiterte an der Umlautfaltung, behoben am 11.09. in `a3779e271`; im Browser schlägt „baum“ jetzt „Bäume“ vor.
+- **#433**, Gattungs-Vorschlag im Textfilter der Korpussuche, Klick setzt die Auswahl samt Untergattungen. Dazu der Gattungen-Explorer auf den Teilbaum umgestellt; das revidiert #361/PR #362 und ist von Christian freigegeben. Die Chip-Frage steht in #433 bei KZW.
+- **#58** nicht gebaut: für den Durchklick gibt es drei vernünftige Zielorte, und Christian wollte die Form mit KZW klären. Der Entwurf ging über die Koordination an sie.
+
+### Was über den Einzelfall hinausgilt
+
+**Ein Haltepunkt im Auftrag kann den falschen Gegenstand tragen.** Der Kickoff nannte für #433 den Haltepunkt „Chip“ als „Form der Auswahl in der Suchmaske“. Im Thread war diese Form seit dem 17.09. entschieden, und „Chip“ meinte den Gattungs-Chip in der Trefferliste, zu dem KZWs Frage „Wo genau würde man das sehen?“ seit dem 15.09. offen stand. Erst die Kommentare, nicht der Auftragstext, sagten, wo der Halt hingehört.
+
+**Eine Entscheidung von gestern kann an einer Prämisse hängen, die heute fällt.** #361 hatte bewusst zwei Bedeutungen für denselben Filterhaken festgeschrieben, weil „Werke anzeigen“ nur die direkten Werke las. KZWs „die Untergattungen kommen immer mit“ nimmt genau diese Prämisse weg. Die Revision musste trotzdem benannt und vorgelegt werden, bevor gebaut wurde, weil sie gegen eine dokumentierte Entscheidung ging.
+
+**Ein totes Feld hat oft einen falschen Leser, nicht einen fehlenden Schreiber.** Das Ticket vermutete den Gattungs-Chip am leeren `genre` des Korpus-Index. Gelesen wird aber `work.genre` im Authority-Index, ein Feld, das keines der 584 Werke trägt; sie tragen `genres` als Liste.
+
+**Ein Overlay über einer Liste von Checkboxen macht aus einem Fehlklick eine andere Handlung.** Der Reviewer hatte es nur „für den Berater“ notiert: die Vorschlagsliste lag über der Textliste, und ein Klick auf eine verdeckte Checkbox hätte eine ganze Gattung gewählt. Sie steht jetzt im Fluss.
+
+### Die #397-Frage
+
+Wahr gemacht hat der Zug: `findWorksInGenre` ist jetzt eine Obermenge der direkten Zuordnung. Unerreichbar geworden ist dadurch der Detailfeld-Zweig „kein Werk direkt zugeordnet, im Zweig darunter N“; er ist entfernt. Die zwei Stellen, die weiter die direkte Zahl brauchen (Baumzeile, Detailfeld), gehen über das neue `countOwnWorks`. Der Filterhaken zählt in beiden Ansichten jetzt dieselbe Menge; seine zwei Beschriftungen bleiben stehen, bis `genre-explorer.spec.js` nach dem Merge von #465 angepasst werden darf.
+
+### Rote Zeilen
+
+**Rot: eine Trefferzeile selbst abgeschnitten und das Abgeschnittene als Nichttreffer gelesen.** Ausgezogen als rote Zeile 70 nach [../fehlerjournal.md](../fehlerjournal.md).
+
+**Rot: Port 8080 als frei gemeldet, weil die Gegenprobe auf einem deutschen Windows nach „LISTEN“ suchte.** Ausgezogen als rote Zeile 71 nach [../fehlerjournal.md](../fehlerjournal.md).
+
+Verteilung aus `claude-code-setup/hooks/trockenlauf-auswerten.py` am 23.09.: `suchergebnis` 1.798 Zeilen, davon eng 1.371, leer 46, eng und leer 36. Die Auswertung bricht danach beim Log `gelesenes` (2.250 Zeilen) mit `AttributeError: 'NoneType' object has no attribute 'get'` ab (Zeile 102); eine Zeile dieses Logs ist kein Objekt. Das ist ein Befund an `claude-code-setup`, hier nicht angefasst.
+
+Nicht gezählt: zwei Testläufe durch eine Pipe geschickt, gegen die Projektregel. Die VERDICT-Zeile war beide Male sichtbar, getragen hat es nichts.
+
+### Was zurück an Christian geht
+
+- #58 wartet auf KZWs Wahl der Form; die Lesearbeit (Render- und Lesestellen) steht in #58 und in dieser Session.
+- #433: der Chip wartet auf KZW; FILTER_LABEL und `genre-explorer.spec.js` werden nach dem Merge von #465 zusammengezogen.
+- `docs/FEATURES.md` und `docs/DEVELOPMENT.md` tragen der Koordination übergebene Änderungswünsche, einzutragen nach den Merges.
+- Nebenbefund: ERB und ERD tragen im Textvergleich dieselbe Beschriftung „Herzog Ernst (Hrsg. Bartsch, 1869)“; der Disambiguator unterscheidet sie nicht.
+- `hilfe-daten-beitragen.html:819` nennt die Baseline 34 auf Ansage von Spur A; bis deren PR gemergt ist, eilt die Hilfeseite voraus.
