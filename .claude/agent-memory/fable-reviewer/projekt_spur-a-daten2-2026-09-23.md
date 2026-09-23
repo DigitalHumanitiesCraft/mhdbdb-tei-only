@@ -48,3 +48,26 @@ tei/ per Regex) und das Ergebnis als Befund mit Fundstelle DECISIONS.md.
   @pos nicht, Playground nutzt posAll aus dem Authority-Index.
 - Issue-Threads: `gh --repo ... issue view N --json title,body,comments` in
   Datei, dann dump_issue.py; #387 hat 4, #418 11, #464 1, #416 8 Kommentare.
+
+## Runde 2 (23.09.2026), Commit 7366d788c (Korrektur 4cbbf7454) gegen 081ad4d10
+
+- Reproduktionsprobe fuer ein Apply-Skript: `git show origin/main:<datei>` nur fuer die
+  19 betroffenen Sigles plus lexicon.xml/variants.xml ins Scratch (`$TEMP/rev-daten2/repro/`),
+  Skript unter gleicher Tiefe (`scripts/ingest/pos-disambig/`) ablegen, `--apply`, dann
+  Bytevergleich gegen HEAD: 19 TEI + lexicon.xml IDENTISCH. Damit ist die revisionDesc-Zeile
+  belegt, nicht nur der Tokenstand. Laufzeit unter 30 s (repro.py im Scratch).
+- Authority-Index-Nachbau ohne Schreiben in den Baum: build-authority-index.py,
+  mhg_normalizer.py, tei_namespaces.py und authority-files/ ins Scratch kopieren,
+  `--allow-dirty`, JSON-Vergleich: identisch mit data/authority-index.json.gz (rebuild_auth.py).
+- `extract-variants.py` OHNE --apply schreibt trotzdem authority-files/variants.regen.xml
+  in den Arbeitsbaum (nicht gitignoriert): danach sofort loeschen, sonst steht ein `??`
+  im status, das wie ein Rest des Aufrufers aussieht.
+- Sandbox-Guard: jede Bash-Zeile mit einem `git`-Aufruf muss allein stehen, sonst
+  „too complex to verify"; auch `grep` auf einen absoluten Pfad mit „Git" faellt darunter.
+  Relative Pfade im Worktree oder das Grep-Tool nehmen. Heredocs sind gesperrt, Memory
+  per Edit/Write anhaengen.
+- apply-387-418-464.py:339 zieht NUR_TYP ueber alle rows der Sigle ab, nicht je Paket;
+  bei den heutigen Auftraegen (AC3 nur #418) folgenlos, bei einer Sigle mit zwei Paketen
+  wuerde die Zahl des zweiten Pakets falsch und der Nachsatz doppelt.
+- build-corpus-index.py liest keinen teiHeader-Abschnitt namens revisionDesc (Grep leer),
+  eine revisionDesc-Aenderung nach dem Build macht den Corpus-Index nicht stale.
