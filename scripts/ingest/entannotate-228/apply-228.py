@@ -25,7 +25,9 @@ Drei Einschraenkungen aus dem Nachtlauf vom 23.09.2026:
     lemma_66692 Mur (etym von lemma_33528 und lemma_66691). Nach der
     Regeneration von variants.xml zeigte sein Sense per @ana auf den
     entfallenen type_348958; dieses @ana ist von Hand entfernt (Review
-    Runde 1), das Skript selbst tut das nicht.
+    Runde 1), das Skript selbst tut das nicht. Dieselbe Mechanik traf 82
+    weitere Tokens in mehrwertigen @ana-Listen; die entfernt
+    prune-ana-228.py (Review Runde 2).
   - Die 26 Ziffern in <supplied> (MR1, WVV) bleiben annotiert. KZW hat sie am
     28.07.2026 als Nicht-Lemmata bezeichnet, die Umsetzung aber am 11.09.2026
     nur unter "sofern" genannt; die Form (entannotieren, <num>, @n) ist offen
