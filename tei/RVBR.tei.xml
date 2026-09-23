@@ -133,6 +133,7 @@
       <change when="2026-09-06" who="#editor">#387 (fro): 42 homographie-ambige Tokens der Form fro kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260) bzw. vrô ADJ/ADV (lemma_7250); LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/387-fro/). 10 weitere Tokens der Form fro blieben bewusst unannotiert (Review).</change>
       <change when="2026-09-06" who="#editor">#216 Punkt 3, Nachtrag: 3 Tokens der Anredeform frô unmittelbar vor minne annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260)); fuer diese Schreibung war unter dem Ziel-Lemma kein Variantentyp vorhanden, type_372365 ist dafuer neu gepraegt. Entscheidung @wachauer 01.09.2026, Verfahren und Herkunft im Provenienz-Log: ingest/pos-disambig/216-fro3/.</change>
       <change when="2026-09-06" who="#editor">#387 Nachlauf (fro: ADJ gegen ADV): 3 Tokens der Schreibung fro in der Wortart bestimmt (lemmaRef/pos/corresp zu vrô ADJ (lemma_7250)). Zweiter Durchgang ueber die im ersten Lauf wegen mittlerer Konfidenz zurueckgehaltenen Belege, mit feststehendem Lemma und einem am Bestand gemessenen Prior; Verfahren, Regeln und zurueckgehaltene Faelle im Provenienz-Log: ingest/pos-disambig/387-fro-adjadv/. 4 weitere Tokens der Form fro blieben bewusst unannotiert (Review).</change>
+      <change when="2026-09-23" who="#editor">#387 vrouwe/vrô, Resttokens: 4 Tokens annotiert nach den Einzelentscheidungen von KZW vom 17.09.2026 (lemmaRef/pos/corresp; kein @ana, weil die Sense-Zuordnung kuratorisch ist). Im ganzen Lauf: zwei Doppeltags ADJ NOM mit erklärendem @reason, wo KZW die Lesart für unentscheidbar erklärt hat, und drei neu geprägte Variantentypen nach der Regel aus #367.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -43876,7 +43877,7 @@
           <w xml:id="RVBR_5752_2" lemmaRef="lexicon.xml#lemma_4365" pos="ADV NEG" ana="lexicon.xml#lemma_4365_sense_6822" corresp="variants.xml#type_15230">nie</w>
           <w xml:id="RVBR_5752_3">kein</w>
           <w xml:id="RVBR_5752_4" lemmaRef="lexicon.xml#lemma_4082" pos="NOM" corresp="variants.xml#type_14224">mensche</w>
-          <w xml:id="RVBR_5752_5">frô</w>
+          <w xml:id="RVBR_5752_5" lemmaRef="lexicon.xml#lemma_7250" pos="ADV" corresp="variants.xml#type_25866">frô</w>
         </l>
         <l n="5753">
           <w xml:id="RVBR_5753_0">noch</w>
@@ -46412,7 +46413,7 @@
           <w xml:id="RVBR_6082_4">gesiht</w>
         </l>
         <l n="6083">
-          <w xml:id="RVBR_6083_0">frô</w>
+          <w xml:id="RVBR_6083_0" lemmaRef="lexicon.xml#lemma_7250" pos="ADV" corresp="variants.xml#type_25866">frô</w>
           <w xml:id="RVBR_6083_1">noch</w>
           <w xml:id="RVBR_6083_2" lemmaRef="lexicon.xml#lemma_7248" pos="ADJ ADV" ana="lexicon.xml#lemma_7248_sense_11750" corresp="variants.xml#type_25846">friuntlîchen</w>
           <w xml:id="RVBR_6083_3">an</w>
@@ -121765,7 +121766,7 @@
         </l>
         <l n="15969">
           <w xml:id="RVBR_15969_0" lemmaRef="lexicon.xml#lemma_3567" pos="VRB" corresp="variants.xml#type_12426">lâzen</w>
-          <w xml:id="RVBR_15969_1">frô</w>
+          <w xml:id="RVBR_15969_1" lemmaRef="lexicon.xml#lemma_7250" pos="ADV" corresp="variants.xml#type_25866">frô</w>
           <w xml:id="RVBR_15969_2" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
           <w xml:id="RVBR_15969_3" lemmaRef="lexicon.xml#lemma_7257" pos="ADJ ADV" ana="lexicon.xml#lemma_7257_sense_11760" corresp="variants.xml#type_25960">froelîch</w>
           <w xml:id="RVBR_15969_4">leben</w>
@@ -202624,7 +202625,7 @@
           <w xml:id="RVBR_26626_1" lemmaRef="lexicon.xml#lemma_1839" pos="NOM" ana="lexicon.xml#lemma_1839_sense_2839" corresp="variants.xml#type_6256">gâbe</w>
           <w xml:id="RVBR_26626_2" lemmaRef="lexicon.xml#lemma_7228" pos="ADJ ADV" ana="lexicon.xml#lemma_7228_sense_11722" corresp="variants.xml#type_59972">frîlîch</w>
           <w xml:id="RVBR_26626_3">unde</w>
-          <w xml:id="RVBR_26626_4">frô</w>
+          <w xml:id="RVBR_26626_4" lemmaRef="lexicon.xml#lemma_7250" pos="ADV" corresp="variants.xml#type_25866">frô</w>
           <pc xml:id="RVBR_26626_5" join="left">.</pc>
         </l>
         <l n="26627">

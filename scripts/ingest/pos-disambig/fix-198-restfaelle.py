@@ -28,6 +28,13 @@ Umsetzung haengt type_117159 also weiter an mehreren Lemmata, nur an anderen.
 Ob und wie der Verstoss aufgeloest wird, entscheidet sich in #418 und wird dort
 gemessen, nicht hier behauptet.
 
+NACHTRAG 2026-09-23: umgesetzt in Welle A1 (#387/#418/#464). Beide Seiten sind
+neu gepraegt worden, hawe als type_372390 unter lemma_2923 und als type_372391
+unter lemma_9644; AC3_23010_1 traegt jetzt type_372391. type_117159 hat keine
+Tokens mehr und ist aus variants.xml entfallen, extract-variants.py meldet
+"type ids with >1 lemma: 0". Der Satz oben, der Typ haenge danach weiter an
+mehreren Lemmata, beschreibt die Variante ohne Neupraegung.
+
 Nur @lemmaRef/@pos/@corresp aendern sich; Token-Text, Reihenfolge und xml:id
 bleiben byte-identisch (Invariante POS-TAGSET.md §6.3.4).
 

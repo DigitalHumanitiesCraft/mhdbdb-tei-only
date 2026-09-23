@@ -74,14 +74,15 @@ SCHEMA_TEI_ALL = 'schema/tei_all.rng'
 SCHEMA_MHDBDB = 'schema/mhdbdb.rng'
 SCHEMA_MHDBDB_AUTH = 'schema/mhdbdb-authority.rng'
 
-# Known #30-baseline: 30 corpus files that are intentionally not
+# Known #30-baseline: 34 corpus files that are intentionally not
 # strict-tei_all-valid because they contain patterns documented as
 # GAPs in mhdbdb.rnc. They are listed in TEI-MODEL.md §10 with the
 # GAP-Kategorie they fall under. Keep this set in sync with that doc.
 KNOWN_TEI_ALL_BASELINE = frozenset({
     # @reason auf <w> (Compound-POS-Split wie wiltu = wilt + du)
     'ABS.tei.xml', 'AC1.tei.xml', 'AC2.tei.xml', 'AC3.tei.xml',
-    'ADP.tei.xml', 'AGS.tei.xml', 'FLG.tei.xml',
+    'ADP.tei.xml', 'AGS.tei.xml', 'ENE.tei.xml', 'FLG.tei.xml',
+    'FR1.tei.xml', 'FR3.tei.xml', 'ROT.tei.xml',
     # <hi> direkt in Block-Kontext ohne Wrapper
     'DAL.tei.xml', 'DBK.tei.xml', 'DBS.tei.xml', 'DKA.tei.xml',
     'DKF.tei.xml', 'DKI.tei.xml', 'DKM.tei.xml', 'DKR.tei.xml',
@@ -95,7 +96,7 @@ KNOWN_TEI_ALL_BASELINE = frozenset({
     # <head> fehlend/unerwartet
     'TKR.tei.xml', 'VOR.tei.xml',
 })
-KNOWN_TEI_ALL_BASELINE_COUNT = len(KNOWN_TEI_ALL_BASELINE)  # 30
+KNOWN_TEI_ALL_BASELINE_COUNT = len(KNOWN_TEI_ALL_BASELINE)  # 34
 
 
 def load_schemas():
