@@ -145,7 +145,6 @@ All icons inherit color via `currentColor`.
 | Type | Pattern |
 |------|---------|
 | Match count | `bg-brand-100 text-brand-700 text-xs font-semibold px-3 py-1 rounded-full` |
-| Genre tag | `bg-slate-100 text-slate-700 text-xs px-3 py-1 rounded-full` |
 | PoS badge | `bg-brand-100 text-brand-700 text-xs font-semibold uppercase tracking-wide px-[10px] py-[2px] rounded-full` |
 | Info badge | `bg-blue-100 text-blue-800 text-sm font-medium rounded-full px-3 py-1` |
 

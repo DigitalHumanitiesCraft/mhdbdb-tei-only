@@ -13,7 +13,7 @@ class SearchEngine {
         this.authorityIndex = authorityIndex;
         this.corpusIndex = corpusIndex;
 
-        // Create reverse lookup maps for fast filtering
+        // Reverse lookup map for the author filter
         // (Die Gattungskette workToGenre/getGenre ist mit #433 entfallen: sie
         // las work.genre, das keines der Werke traegt, und speiste nur den
         // nie sichtbaren Gattungs-Chip der Trefferkarte.)
