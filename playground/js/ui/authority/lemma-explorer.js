@@ -1070,13 +1070,18 @@ export class LemmaExplorer {
             ? senseId
             : '<span style="color: #94a3b8;">Keine Begriffszuordnung</span>';
 
-        // Kuratierte Prosa (<def> / <note type="comment"> im Lexikon)
+        // Kuratierte Prosa (<def> / <note type="comment"> im Lexikon).
+        // Seit #270 nennt das Label den Urheber des Kommentars, wo der
+        // Index ihn aufgeloest hat (commentRespName).
         const definitionHTML = sense.definition
           ? `<div style="margin-top: 4px; font-size: 0.9rem; color: #1e293b;">${this.escapeText(sense.definition)}</div>`
           : "";
+        const commentLabel = sense.commentRespName
+          ? `Kommentar von ${this.escapeText(sense.commentRespName)}:`
+          : "Kommentar:";
         const commentHTML = sense.comment
           ? `<div style="margin-top: 4px; font-size: 0.85rem; color: #475569; line-height: 1.5;">
-               <strong>Kommentar:</strong> ${this.escapeText(sense.comment)}
+               <strong>${commentLabel}</strong> ${this.escapeText(sense.comment)}
              </div>`
           : "";
 

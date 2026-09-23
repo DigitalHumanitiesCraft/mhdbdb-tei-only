@@ -236,11 +236,12 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
       id: "lemma_879_sense_1",
       conceptIds: ["concept_1234"],
       // the three curated fields below exist only where lexicon.xml carries them
-      // (#248, authority index 1.7.0). As of 2026-08-03 that is a single sense,
+      // (#248, authority index 1.7.0; commentRespName is resolved from
+      // contributors.xml, #270, 1.9.10). As of 2026-08-03 that is a single sense,
       // lemma_37818 "Abba": one <def> and one <note type="comment">, each with
       // its @resp. Curation is ongoing, so expect this count to grow.
       definition: "...", definitionResp: "contributors.xml#contrib_003",
-      comment: "...",    commentResp: "contributors.xml#contrib_003"
+      comment: "...",    commentResp: "contributors.xml#contrib_003", commentRespName: "Katharina Zeppezauer-Wachauer"
     }],
     // likewise curated, likewise a single lemma as of 2026-08-03: the borrowing
     // chain from <etym type="borrowing">
@@ -462,7 +463,7 @@ This is the point where #59 decided differently. The naming index builds **no** 
 
 Three core build scripts:
 
-1. **`build-authority-index.py`** - Extract authority data from 7 inhaltstragende XML files (the 8th, `contributors.xml`, is deliberately not indexed – see below)
+1. **`build-authority-index.py`** - Extract authority data from 7 inhaltstragende XML files (the 8th, `contributors.xml`, is deliberately not indexed, but since #270 it is read to resolve the author of a curated comment to a name – see below)
    - Parse XML with lxml
    - Extract structured data for each entity type
    - Build performance maps (conceptToLemmas, genreToWorks)
@@ -508,7 +509,7 @@ Build properties: deterministic on the #125 principle (no timestamps, compact JS
 | | | `.//tei:sense` | Senses (with `@xml:id`; concept pointers per sense) |
 | | | `.//tei:ptr[contains(@target,"concepts.xml#")]` *(relative to the `<sense>`)* | Concept pointers per sense |
 | | | `./tei:def` *(relative to the `<sense>`)* | `sense.definition` + `sense.definitionResp` from `@resp`. Curated, see below |
-| | | `./tei:note[@type="comment"]` *(relative to the `<sense>`)* | `sense.comment` + `sense.commentResp` from `@resp`. Curated, see below |
+| | | `./tei:note[@type="comment"]` *(relative to the `<sense>`)* | `sense.comment` + `sense.commentResp` from `@resp`, and since 1.9.10 (#270) `sense.commentRespName`, the `persName`/`orgName` of that id in `contributors.xml` (whitespace collapsed; an unknown id stops the build). Curated, see below |
 | | persons.xml | `//tei:person` | Person records |
 | | | `.//tei:persName[@type="preferred"]` | Canonical name |
 | | | `./tei:persName[@type="alternative"]` | `person.altNames` + `person.altNormalized` (index-parallel). Deduplicated by exact text: wherever the German and English form coincide, the same string stands twice. `@xml:lang` is not indexed, and the parser does not key on it |
@@ -545,7 +546,7 @@ Build properties: deterministic on the #125 principle (no timestamps, compact JS
 
 #### Curated lexicon fields (#268, since authority index v1.7.0)
 
-The three productions marked „curated" (`etym[@type="borrowing"]`, `def`, `note[@type="comment"]`) are the only ones in the lexicon carrying editorial prose instead of classification. The build writes the corresponding index fields **only where they actually stand in the XML**: 43,878 lemmata entries with empty keys would inflate index and API for nothing. As of 2026-07-31 exactly one lemma is curated (`lemma_37818` „Abba"), so consumers have to treat the fields as optional, never as a promise per record. Normative: [CONTRACTS.md §G.3](CONTRACTS.md#g3-field-schemas). The `@resp` values land in the index unchanged as `contributors.xml#contrib_N`; the id can only be resolved through the XML file, because `contributors.xml` is deliberately not indexed.
+The three productions marked „curated" (`etym[@type="borrowing"]`, `def`, `note[@type="comment"]`) are the only ones in the lexicon carrying editorial prose instead of classification. The build writes the corresponding index fields **only where they actually stand in the XML**: 43,878 lemmata entries with empty keys would inflate index and API for nothing. As of 2026-07-31 exactly one lemma is curated (`lemma_37818` „Abba"), so consumers have to treat the fields as optional, never as a promise per record. Normative: [CONTRACTS.md §G.3](CONTRACTS.md#g3-field-schemas). The `@resp` values land in the index unchanged as `contributors.xml#contrib_N`. Since authority index 1.9.10 (#270, ADR-018) the build also resolves the comment's `@resp` through `contributors.xml` and writes the display name next to it as `sense.commentRespName`; an id it cannot resolve stops the build. `definitionResp` and `origin.resp` stay unresolved, and `contributors.xml` itself is still not indexed as a collection.
 
 #### Namespace Handling
 
@@ -890,7 +891,7 @@ The two checklists below describe the **maximum case**. Not every change needs e
 
 - `build-corpus-index.py` reads from `tei/` the file name and five header statements (the sigle from `idno[@type="sigle"]`, title, author including `@ref`, `msIdentifier/@corresp`, genre term), plus every `<w @lemmaRef>` with non-empty text inside `<body>` including document order, plus the `<l>` boundaries. Everything else in the TEI is invisible to it, in particular `@pos` and `@ana` as well as `<div>`, `<lg>` and `<pb>`. XPaths: [Build Script XPath Reference](#build-script-xpath-reference).
 - `extract-variants.py` reads from `tei/` only those `<w>` carrying **both** a `@lemmaRef` and a `@corresp="variants.xml#type_N"`, and from those the lemma id, the type id and the wording. Plus the number of corpus files, which stands in the header of `variants.xml`.
-- `build-authority-index.py` reads `authority-files/` exclusively (the seven indexed files including `variants.xml`, without `contributors.xml`). It does not read `tei/`. Unlike the corpus index, here the file decides rather than the element: any change of substance in one of the seven files requires the rebuild. Which markup ends up in the index is in the [Build Script XPath Reference](#build-script-xpath-reference).
+- `build-authority-index.py` reads `authority-files/` exclusively (the seven indexed files including `variants.xml`; since #270 also `contributors.xml`, but only to resolve the authors of curated comments to names, which it writes as `sense.commentRespName`). It does not read `tei/`. Unlike the corpus index, here the file decides rather than the element: any change of substance in one of the seven files requires the rebuild. Which markup ends up in the index is in the [Build Script XPath Reference](#build-script-xpath-reference).
 - `build-api.py` reads the two built `data/*.json.gz` exclusively, neither `tei/` nor `authority-files/`.
 
 **Routing by type of change:**
@@ -900,11 +901,11 @@ The two checklists below describe the **maximum case**. Not every change needs e
 | `tei/`: `@pos` or `@ana`; `<note>` in the header, the encoding description, `<respStmt>`; `<div>`, `<lg>`, `<pb>`, comments, indentation outside `<w>`. Condition: the sequence of `<w>` and the `<l>` boundaries stay unchanged | no rebuild, and therefore no version bump either. What remains is step 2 (schema) and step 8 (cross-ref audit), then commit and push | 0 s |
 | `tei/`: `<l>` boundaries moved, or one of the five header statements changed. No `<w>` added, removed, or changed in wording, `@lemmaRef` or `@corresp` | the corpus checklist without steps 5 and 6 | about 50 s |
 | `tei/`: the stock of `<w>`, their wording, `@lemmaRef` or `@corresp` touched; a file added or removed | the corpus checklist in full | about 85 s |
-| `authority-files/contributors.xml` | no rebuild, no bump (none of the outputs contains the file). Schema and cross-ref audit, then commit and push | 0 s |
+| `authority-files/contributors.xml` | the authority checklist except step 1, and step 2 (the bump) only if the rebuild shows a diff: since #270 the authority index carries the name of every person a curated comment's `@resp` points at (`sense.commentRespName`). A change that touches none of those names leaves the index unchanged, the rebuild shows an empty diff, and then no bump is set (no bump without a change of content, see below) | about 17 s |
 | One of the seven indexed `authority-files/` other than `works.xml` | the authority checklist in full except step 1 | about 17 s |
 | `authority-files/works.xml` | the authority checklist in full | about 17 s plus the Zotero run |
 
-The version bump (corpus checklist step 3, authority checklist step 2) is dropped only in the rows without a rebuild. As soon as an index is rebuilt it is mandatory, because the browser invalidates its 30-day cache through the version number alone (#94). Since #154 `scripts/audit/check-index-version-bump.py` catches the forgotten bump: it compares the decompressed index content against the diff base and runs in `data-integrity.yml` deliberately **before** the rebuild step. Two gaps remain: without a determinable diff base (`workflow_dispatch`, a force push) the workflow skips the gate with a `notice`, and it does not cover the version statements in the documentation (TEI-MODEL.md §11, INDEX.md).
+The version bump (corpus checklist step 3, authority checklist step 2) is dropped in the rows without a rebuild, and in the `contributors.xml` row when the rebuild shows no diff. Otherwise, as soon as an index is rebuilt, it is mandatory, because the browser invalidates its 30-day cache through the version number alone (#94). Since #154 `scripts/audit/check-index-version-bump.py` catches the forgotten bump: it compares the decompressed index content against the diff base and runs in `data-integrity.yml` deliberately **before** the rebuild step. Two gaps remain: without a determinable diff base (`workflow_dispatch`, a force push) the workflow skips the gate with a `notice`, and it does not cover the version statements in the documentation (TEI-MODEL.md §11, INDEX.md).
 
 The converse also holds: do not set a bump without a change of content. It forces every returning person to reload the index although nothing changed, and no CI notices.
 
