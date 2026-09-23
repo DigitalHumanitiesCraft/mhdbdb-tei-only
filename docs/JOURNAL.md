@@ -637,3 +637,29 @@ Verteilung aus `trockenlauf-auswerten.py`, Zeile dieser Session (`03dc7dca`, mhd
 - **Zwei Volläufe parallel brauchen weniger Worker.** Mit je sechs hat Claude Code die Läufe wegen Speichermangels beendet, mit je zwei liefen beide in etwa 22 Minuten grün. Ob sechs auf einer sonst ruhigen Maschine parallel tragen, ist nicht gemessen.
 - **`trockenlauf-auswerten.py` stürzt im Abschnitt `gelesenes` ab** (siehe oben).
 - **`TaskStop` auf `npm run serve` ließ hier den `http-server`-Kindprozess stehen** (gemessen: PID 34060 lauschte nach dem Stopp weiter auf 8081). Der Port bleibt belegt, bis jemand die PID beendet. Ob der alte Aufruf ohne Wrapper sich genauso verhielt, ist nicht gemessen.
+
+## 2026-09-23 (Nachtlauf, Spur A, Paket A1) – #252 und #267: 846 Lücken und neun Header, und kein Index hat es gemerkt
+
+Der Nachlass des Tageslaufs, fertig gemacht. #252 zweiter Durchgang: 846 Stellen des Musters `( caesura )` innerhalb einer Zeile mit Wortlaut sind `<gap reason="lost"/>` geworden, in 20 Dateien, nach KZWs Freigabe vom 22.09. #267: neun Header tragen `no-print` statt `excerpt-only` und den Satz, den KZW am 10.09. formuliert hat, FR3 trägt das Standard-`<availability>`. Kein Versions-Bump, weil keiner der drei Builds eine Differenz erzeugt. Skripte unter `scripts/ingest/gap-252/` und `scripts/ingest/no-print-267/`, Zahlen im PR.
+
+### Was über den Einzelfall hinausgilt
+
+**Ein gesicherter Patch ist ein Kontrollwert, kein Ergebnis.** Das Skript lief frisch auf `origin/main`; der Tagespatch wurde nicht angewandt, sondern auf Kopien des Basisstands im Scratch, und dann zeilenweise gegen den Arbeitsbaum gehalten. 17 Dateien zeilengleich, drei unterscheiden sich genau um die #267-Zeilen. Kein Byte-Gleichstand, und zwar aus einem Grund, der beim ersten Blick wie eine Abweichung aussieht: `core.autocrlf=true`, `git show` liefert den LF-Blob, der Arbeitsbaum hat CRLF. Wer hier nur Bytes vergleicht, meldet 20 Abweichungen, die keine sind; wer nur Zeilen vergleicht, übersieht eine echte Zeilenend-Änderung. Beides zusammen, plus `git diff --numstat` als Gegenprobe (3 → 1 Zeilen je Stelle), trennt die Fälle.
+
+**Die Zahl einer Messung steht in TEI-MODEL.md zweimal, und kein Gate kennt sie.** §6.5 und §3.1 nennen beide die Zahl der `<caesura/>`. Am 10.09. ist die Kopie in §3.1 stehen geblieben, heute wieder; gefunden hat es beide Male die Reviewrunde. `doc-count-audit.py` führt keinen `caesura`-Schlüssel, also hängt an keiner der beiden Zeilen ein Anker. Der Vorschlag des Reviewers gehört an Christian: entweder verweist §3.1 nur noch auf §6.5, ohne Zahl, oder das Audit bekommt den Schlüssel.
+
+**Ein Marker, den niemand liest, kann jahrelang das Gegenteil sagen.** `sources/README.md` behauptete, das Frontend zeige bei den `excerpt-only`-Texten nur Auszüge. Es hat den Marker nirgends ausgewertet (#267, am 06.09. gemessen, heute für `assets/`, `playground/`, `testing/` wiederholt). Der neue Name `no-print` hat dasselbe Risiko: auch ihn wertet heute nichts aus, weil nichts druckt. Die Bedeutung steht jetzt in TEI-MODEL §2.1, damit der, der einmal eine Druckansicht baut, sie findet.
+
+### Rote Zeilen
+
+Keine neue. Die stehen gebliebene Zahlkopie in TEI-MODEL.md:263 fällt unter die Lehre aus `korrigieren.md` (Nachbarschaft einer geänderten Zahl mitlesen), hat aber nichts getragen: die vorgeschriebene Reviewrunde hat sie vor dem ersten Push gefunden, und ein durch ein Gate abgewendeter Fehler zählt nach `wiederholte-fehler.md` nicht. Dass dieselbe Lehre damit heute zum zweiten Mal nur über die Reviewrunde gegriffen hat (Eintrag darüber, CONTRACTS.md:381 und TEI-MODEL.md:933), steht oben als Befund.
+
+Gemessene Verteilung aus `trockenlauf-auswerten.py`, Abschnitt `shell-konventionen`: diese Session `09f7a3aa nacht-daten` mit 85 Aufrufen, 17 Treffern, 20 %. Das Skript bricht danach weiterhin am Log `gelesenes-trockenlauf.jsonl` mit `AttributeError: 'NoneType' object has no attribute 'get'` ab; es liegt in `claude-code-setup` und ist hier nicht angefasst.
+
+### Was zurück an Christian geht
+
+- Ein Daten-PR ohne Index-Bump; der CI-Review-Bot wird voraussichtlich rot, der lokale Review trägt ihn (zwei Runden, Runde 2 ohne Befund).
+- `npm test` auf Port 8081 mit zwei Workern: `VERDICT: VOLLLAUF GRUEN (373 Tests, 38 Dateien)`, 0 unerwartet, 0 flaky, gelaufen auf 8be73c141; danach nur eine Doku-Zeile und Reviewer-Memory.
+- Offen bei KZW in #252: die fünf Komma- und Doppelpunktfälle (Kontextliste vom 23.09. 14:05), die zwei `MUG`-Stellen mit der Zäsur im `<hi>`, die drei Stellen „Marker plus ein Zeichen“.
+- Nicht angefasst, weil nicht Spur A: der Docstring von `scripts/migrate-caesura-to-gap-252.py` nennt noch „838 in 17 Dateien“ als offen.
+- Zu entscheiden: ob die caesura-Zahl in TEI-MODEL §3.1 bleibt oder ein Audit-Schlüssel dazukommt (siehe oben).
