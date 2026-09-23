@@ -17,6 +17,12 @@ const DEFAULT_STATE = Object.freeze({
   category: 'both',          // 'both' | 'only-a' | 'only-b'
   sortBy: 'frequency',       // 'frequency' | 'difference' | 'alphabetic'
   nameFilter: '',
+  // Tippfilter über den beiden Textlisten (#435). In der nach Sigle
+  // sortierten Liste des ganzen Korpus fand man den Herzog Ernst nur, wenn
+  // man wusste, dass er unter E steht. Der Filter liegt im State, damit er ein render() nach
+  // "Vergleichen" oder "A ↔ B" übersteht.
+  textFilterA: '',
+  textFilterB: '',
   showAll: false
 });
 
@@ -136,6 +142,37 @@ export class TextComparison {
     return rows.filter(r => TextNormalizer.matchesNormalized(r.lemma || r.lemmaId, f));
   }
 
+  /**
+   * Optionen einer Textliste unter dem Tippfilter (#435). Verglichen wird
+   * gegen die ganze Beschriftung (Sigle, Titel, Autor*in), gefaltet wie die
+   * anderen neuhochdeutschen Deskriptoren (foldDiacritics): Groß- und
+   * Kleinschreibung und Diakritika zählen nicht. Der gewählte Text bleibt in der Liste, auch wenn
+   * er nicht passt, sonst zeigte das Feld still einen anderen an als den,
+   * der verglichen wird.
+   */
+  filterTextOptions(filter, selectedId) {
+    const all = this._textOptions || [];
+    const q = (filter || '').trim();
+    if (!q) return { shown: all, matches: all.length };
+    const shown = all.filter(o => o.value === selectedId || TextNormalizer.matchesFolded(o.label, q));
+    const matches = shown.filter(o => o.value !== selectedId || TextNormalizer.matchesFolded(o.label, q)).length;
+    return { shown, matches };
+  }
+
+  buildTextOptions(filter, selectedId) {
+    const q = (filter || '').trim();
+    const { shown, matches } = this.filterTextOptions(filter, selectedId);
+    const total = (this._textOptions || []).length;
+    const head = !q
+      ? 'Text wählen …'
+      : matches === 0
+        ? `Kein Text passt zu "${q}"`
+        : `${matches.toLocaleString('de-DE')} von ${total.toLocaleString('de-DE')} Texten, bitte wählen …`;
+    return `<option value="">${escapeHtml(head)}</option>` + shown.map(o =>
+      `<option value="${escapeAttr(o.value)}"${o.value === selectedId ? ' selected' : ''}>${escapeHtml(o.label)}</option>`
+    ).join('');
+  }
+
   render() {
     const container = document.getElementById('resultsContainer');
     if (!container) return;
@@ -154,14 +191,22 @@ export class TextComparison {
     const disambig = buildTextLabelDisambiguator(
       sorted, this.authorityManager?.authorityData?.works || []
     );
-    const options = sorted.map(t => {
+    this._textOptions = sorted.map(t => {
       const label = `${t.id}-${t.title || ''}${disambig.get(t.id) || ''}${t.author ? ', ' + t.author : ''}`;
       return { value: t.id, label };
     });
 
-    const buildSelect = (selectedId) => options.map(o =>
-      `<option value="${escapeAttr(o.value)}"${o.value === selectedId ? ' selected' : ''}>${escapeHtml(o.label)}</option>`
-    ).join('');
+    const filterField = (side) => `
+            <div class="relative mt-1">
+              <input type="text" id="tcFilter${side}" autocomplete="off"
+                value="${escapeAttr(this.state[`textFilter${side}`])}"
+                placeholder="Tippen zum Filtern (Titel, Sigle, Autor*in)"
+                aria-label="Liste für Text ${side} filtern"
+                class="w-full pl-9 pr-3 py-2 text-sm border border-slate-200 rounded-lg bg-white focus:border-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-200">
+              <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+              </svg>
+            </div>`;
 
     return `
       <div class="rounded-2xl border border-slate-200 bg-slate-50/70 p-4 space-y-3">
@@ -173,20 +218,20 @@ export class TextComparison {
           Die beiden Texte werden hier direkt gewählt. Die Auswahl im Korpus-Browser (Schritt 1) wirkt auf dieses Werkzeug deshalb nicht: die Listen unten enthalten immer das ganze Korpus.
         </p>
         <div class="grid gap-3 sm:grid-cols-2">
-          <label class="block">
+          <div>
             <span class="text-xs font-medium text-slate-600">Text A</span>
-            <select id="tcSelectA" class="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm focus:border-brand-400 focus:outline-none">
-              <option value="">Text wählen …</option>
-              ${buildSelect(this.state.textAId)}
+            ${filterField('A')}
+            <select id="tcSelectA" aria-label="Text A" class="mt-2 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm focus:border-brand-400 focus:outline-none">
+              ${this.buildTextOptions(this.state.textFilterA, this.state.textAId)}
             </select>
-          </label>
-          <label class="block">
+          </div>
+          <div>
             <span class="text-xs font-medium text-slate-600">Text B</span>
-            <select id="tcSelectB" class="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm focus:border-brand-400 focus:outline-none">
-              <option value="">Text wählen …</option>
-              ${buildSelect(this.state.textBId)}
+            ${filterField('B')}
+            <select id="tcSelectB" aria-label="Text B" class="mt-2 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm focus:border-brand-400 focus:outline-none">
+              ${this.buildTextOptions(this.state.textFilterB, this.state.textBId)}
             </select>
-          </label>
+          </div>
         </div>
         <div class="flex flex-wrap items-center gap-3">
           <button id="tcCompareBtn" type="button" class="rounded-lg border border-brand-200 bg-brand-50 px-4 py-1.5 text-sm font-medium text-brand-700 hover:border-brand-400 hover:bg-brand-100">Vergleichen</button>
@@ -368,6 +413,25 @@ export class TextComparison {
     if (selA) selA.addEventListener('change', (e) => { this.state.textAId = e.target.value; });
     if (selB) selB.addEventListener('change', (e) => { this.state.textBId = e.target.value; });
 
+    // Tippfilter: nur die Optionen neu setzen, kein render(), sonst verliert
+    // das Feld bei jedem Tastendruck den Fokus (DESIGN.md, Autocomplete-Lehre).
+    // Bleibt genau ein Text übrig und ist noch keiner gewählt, wird er
+    // gewählt: dann reicht Tippen, wie in #435 gewünscht.
+    for (const side of ['A', 'B']) {
+      const input = document.getElementById(`tcFilter${side}`);
+      const select = side === 'A' ? selA : selB;
+      if (!input || !select) continue;
+      input.addEventListener('input', (e) => {
+        this.state[`textFilter${side}`] = e.target.value;
+        const idKey = `text${side}Id`;
+        const { shown, matches } = this.filterTextOptions(e.target.value, this.state[idKey]);
+        if (matches === 1 && !this.state[idKey] && e.target.value.trim()) {
+          this.state[idKey] = shown[0].value;
+        }
+        select.innerHTML = this.buildTextOptions(e.target.value, this.state[idKey]);
+      });
+    }
+
     document.getElementById('tcCompareBtn')?.addEventListener('click', () => {
       this.state.showAll = false;
       this.render();
@@ -377,6 +441,9 @@ export class TextComparison {
       const tmp = this.state.textAId;
       this.state.textAId = this.state.textBId;
       this.state.textBId = tmp;
+      const tmpFilter = this.state.textFilterA;
+      this.state.textFilterA = this.state.textFilterB;
+      this.state.textFilterB = tmpFilter;
       this.render();
     });
 
