@@ -40,8 +40,8 @@
         </authority>
         <availability status="restricted">
           <licence target="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</licence>
-          <p>Die semantischen Annotationen sind frei nachnutzbar (CC BY-NC-SA 4.0). Die zugrundeliegende Edition dieses Werks ist jedoch urheberrechtlich beschränkt. Eine vollständige Lesefassung kann daher nicht angeboten werden. Bitte beachten Sie die jeweiligen Angaben im Quellenverzeichnis.</p>
-          <ab type="display" n="excerpt-only"/>
+          <p>Die semantischen Annotationen sind frei nachnutzbar (CC BY-NC-SA 4.0). Die zugrundeliegende Edition dieses Werks ist jedoch urheberrechtlich beschränkt. Eine vollständige Fassung der Edition inkl. Apparat kann daher nicht angeboten werden. Bitte beachten Sie die jeweiligen Angaben im Quellenverzeichnis.</p>
+          <ab type="display" n="no-print"/>
         </availability>
         <date when="2025">2025</date>
         <ref type="history" target="https://doi.org/10.25619/BmE20223203">Zeppezauer-Wachauer, Katharina (2022): 50 Jahre Mittelhochdeutsche Begriffsdatenbank (MHDBDB)</ref>
@@ -142,6 +142,7 @@
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 44 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/). 22 weitere Tokens der Form minne blieben bewusst unannotiert (Review).</change>
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 77 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/). 2 weitere Tokens der Form stat blieben bewusst unannotiert (Review).</change>
       <change when="2026-09-21" who="#editor">#371 stat, drittes Lemma: 2 bislang unlemmatisierte Tokens der Form stat/stât annotiert (lemmaRef/pos/corresp nach dem actions-Array in KZWs Review vom 15.09.2026; drei neu gepraegte Variantentypen; kein @ana, weil die Sense-Zuordnung kuratorisch ist; die 17 Faelle mit option OFFEN und die 2 mit NEU_STAND bleiben unangetastet; Provenienz-Log: ingest/pos-disambig/371-stat/).</change>
+      <change when="2026-09-23" who="#editor">#267: Anzeigemarker excerpt-only in no-print umbenannt und den Lizenzsatz korrigiert, nach den Entscheidungen von KZW vom 10.09.2026. Der Text wird vollständig zum Lesen angeboten, von ihm werden aber keine ausdruckbaren Fassungen erzeugt.</change>
     </revisionDesc>
   </teiHeader>
   <text>

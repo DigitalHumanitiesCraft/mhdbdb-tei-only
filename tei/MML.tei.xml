@@ -40,8 +40,8 @@
         </authority>
         <availability status="restricted">
           <licence target="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</licence>
-          <p>Die semantischen Annotationen sind frei nachnutzbar (CC BY-NC-SA 4.0). Die zugrundeliegende Edition dieses Werks ist jedoch urheberrechtlich beschränkt. Eine vollständige Lesefassung kann daher nicht angeboten werden. Bitte beachten Sie die jeweiligen Angaben im Quellenverzeichnis.</p>
-          <ab type="display" n="excerpt-only"/>
+          <p>Die semantischen Annotationen sind frei nachnutzbar (CC BY-NC-SA 4.0). Die zugrundeliegende Edition dieses Werks ist jedoch urheberrechtlich beschränkt. Eine vollständige Fassung der Edition inkl. Apparat kann daher nicht angeboten werden. Bitte beachten Sie die jeweiligen Angaben im Quellenverzeichnis.</p>
+          <ab type="display" n="no-print"/>
         </availability>
         <date when="2025">2025</date>
         <ref type="history" target="https://doi.org/10.25619/BmE20223203">Zeppezauer-Wachauer, Katharina (2022): 50 Jahre Mittelhochdeutsche Begriffsdatenbank (MHDBDB)</ref>
@@ -145,6 +145,8 @@
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 43 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/). 17 weitere Tokens der Form minne blieben bewusst unannotiert (Review).</change>
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 5 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
       <change when="2026-09-06" who="#editor">#387 (fro): 2 homographie-ambige Tokens der Form fro kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260) bzw. vrô ADJ/ADV (lemma_7250); LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/387-fro/).</change>
+      <change when="2026-09-23" who="#editor">#252 zweiter Durchgang: 2 Stellen des Auslassungsmusters ( caesura ) innerhalb einer Zeile mit Wortlaut auf &lt;gap reason="lost"/&gt; migriert, nach der Freigabe von KZW vom 22.09.2026. Nur das Muster ersetzt, umliegender Text sowie Satz- und Redezeichen unverändert.</change>
+      <change when="2026-09-23" who="#editor">#267: Anzeigemarker excerpt-only in no-print umbenannt und den Lizenzsatz korrigiert, nach den Entscheidungen von KZW vom 10.09.2026. Der Text wird vollständig zum Lesen angeboten, von ihm werden aber keine ausdruckbaren Fassungen erzeugt.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -1726,9 +1728,7 @@
               <w xml:id="MML_10810_1" lemmaRef="lexicon.xml#lemma_6330" pos="ADV PRP" ana="lexicon.xml#lemma_6330_sense_9973" corresp="variants.xml#type_22478">uf</w>
               <w xml:id="MML_10810_2" lemmaRef="lexicon.xml#lemma_106" pos="ADJ ADV" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_42346">allis</w>
               <w xml:id="MML_10810_3" lemmaRef="lexicon.xml#lemma_5818" pos="VRB" corresp="variants.xml#type_190848">stritis</w>
-              <pc xml:id="MML_10810_4" join="right">(</pc>
-              <caesura xml:id="MML_10810_5"/>
-              <pc xml:id="MML_10810_6" join="left">)</pc>
+              <gap reason="lost"/>
             </l>
           </lg>
           <lg type="stanza" n="12">
@@ -12773,9 +12773,7 @@
               <w xml:id="MML_130613_2" lemmaRef="lexicon.xml#lemma_7643" pos="PRO" ana="lexicon.xml#lemma_7643_sense_12530" corresp="variants.xml#type_27633">uns</w>
               <w xml:id="MML_130613_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
               <w xml:id="MML_130613_4" lemmaRef="lexicon.xml#lemma_2465" pos="NOM" ana="lexicon.xml#lemma_2465_sense_3951" corresp="variants.xml#type_44792">gottes</w>
-              <pc xml:id="MML_130613_5" join="right">(</pc>
-              <caesura xml:id="MML_130613_6"/>
-              <pc xml:id="MML_130613_7" join="left">)</pc>
+              <gap reason="lost"/>
               <pc xml:id="MML_130613_8" join="left">.</pc>
               <w xml:id="MML_130613_9" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_31260">zu</w>
               <w xml:id="MML_130613_10" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4323">einer</w>

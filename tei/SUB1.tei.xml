@@ -118,6 +118,7 @@
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 19 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
       <change when="2026-09-10" who="#editor">#363 Hausenblase: 6 Tokens der Konstruktion hûsenblâter (zusammen- und getrennt geschrieben) auf lemma_49714 hûsenblâter vereinheitlicht (lemmaRef/pos/ana/corresp; Mehrwort-Einheit nach TEI-MODEL.md §4.1a; editorische Entscheidung KZW in #363; Provenienz-Log: ingest/pos-disambig/363-hausenblase/).</change>
+      <change when="2026-09-23" who="#editor">#252 zweiter Durchgang: 3 Stellen des Auslassungsmusters ( caesura ) innerhalb einer Zeile mit Wortlaut auf &lt;gap reason="lost"/&gt; migriert, nach der Freigabe von KZW vom 22.09.2026. Nur das Muster ersetzt, umliegender Text sowie Satz- und Redezeichen unverändert.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -1547,9 +1548,7 @@
           <w xml:id="SUB1_11090_14">ein</w>
           <w xml:id="SUB1_11090_15">gute</w>
           <lb n="10"/>
-          <pc xml:id="SUB1_11100_0" join="right">(</pc>
-          <caesura xml:id="SUB1_11100_1"/>
-          <pc xml:id="SUB1_11100_2" join="left">)</pc>
+          <gap reason="lost"/>
           <pc xml:id="SUB1_11100_3" join="left">,</pc>
           <w xml:id="SUB1_11100_4" lemmaRef="lexicon.xml#lemma_7284" pos="VRB" corresp="variants.xml#type_131683">full</w>
           <w xml:id="SUB1_11100_5" lemmaRef="lexicon.xml#lemma_1073" pos="ADV" ana="lexicon.xml#lemma_1073_sense_1716" corresp="variants.xml#type_3320">dan</w>
@@ -7198,9 +7197,7 @@
           <pc xml:id="SUB1_52050_3" join="left">,</pc>
           <w xml:id="SUB1_52050_4" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
           <w xml:id="SUB1_52050_5" lemmaRef="lexicon.xml#lemma_4330" pos="VRB" corresp="variants.xml#type_143337">nymb</w>
-          <pc xml:id="SUB1_52050_6" join="right">(</pc>
-          <caesura xml:id="SUB1_52050_7"/>
-          <pc xml:id="SUB1_52050_8" join="left">)</pc>
+          <gap reason="lost"/>
           <w xml:id="SUB1_52050_9" lemmaRef="lexicon.xml#lemma_7475" pos="ADJ" ana="lexicon.xml#lemma_7475_sense_14295" corresp="variants.xml#type_246426">wellisch</w>
           <w xml:id="SUB1_52050_10" lemmaRef="lexicon.xml#lemma_7532" pos="NOM" ana="lexicon.xml#lemma_7532_sense_12297" corresp="variants.xml#type_67774">wein</w>
           <w xml:id="SUB1_52050_11" lemmaRef="lexicon.xml#lemma_1055" pos="ADV" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3258">dar</w>
@@ -8504,9 +8501,7 @@
           </supplied>
           <w xml:id="SUB1_62020_5" lemmaRef="lexicon.xml#lemma_1732" pos="CNJ" ana="lexicon.xml#lemma_1732_sense_2721" corresp="variants.xml#type_5898">et</w>
           <w xml:id="SUB1_62020_6" lemmaRef="lexicon.xml#lemma_4138" pos="VRB" ana="lexicon.xml#lemma_4138_sense_6495" corresp="variants.xml#type_285730">misce</w>
-          <pc xml:id="SUB1_62020_7" join="right">(</pc>
-          <caesura xml:id="SUB1_62020_8"/>
-          <pc xml:id="SUB1_62020_9" join="left">)</pc>
+          <gap reason="lost"/>
           <w xml:id="SUB1_62020_10" lemmaRef="lexicon.xml#lemma_10234" pos="ADV PRP" ana="lexicon.xml#lemma_10234_sense_16362" corresp="variants.xml#type_36157">cum</w>
           <w xml:id="SUB1_62020_11" lemmaRef="lexicon.xml#lemma_27088" pos="NOM" ana="lexicon.xml#lemma_27088_sense_43067" corresp="variants.xml#type_131819">vino</w>
           <w xml:id="SUB1_62020_12" lemmaRef="lexicon.xml#lemma_51107" pos="ADJ" ana="lexicon.xml#lemma_51107_sense_82577" corresp="variants.xml#type_285733">carui</w>

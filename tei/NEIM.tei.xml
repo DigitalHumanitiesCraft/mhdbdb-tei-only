@@ -153,6 +153,7 @@
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 9 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
       <change when="2026-09-06" who="#editor">#387 (fro): 2 homographie-ambige Tokens der Form fro kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260) bzw. vrô ADJ/ADV (lemma_7250); LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/387-fro/). 1 weitere Tokens der Form fro blieben bewusst unannotiert (Review).</change>
       <change when="2026-09-23" who="#editor">#387 vrouwe/vrô, Resttokens: 1 Token annotiert nach den Einzelentscheidungen von KZW vom 17.09.2026 (lemmaRef/pos/corresp; kein @ana, weil die Sense-Zuordnung kuratorisch ist). Im ganzen Lauf: zwei Doppeltags ADJ NOM mit erklärendem @reason, wo KZW die Lesart für unentscheidbar erklärt hat, und drei neu geprägte Variantentypen nach der Regel aus #367.</change>
+      <change when="2026-09-23" who="#editor">#252 zweiter Durchgang: 5 Stellen des Auslassungsmusters ( caesura ) innerhalb einer Zeile mit Wortlaut auf &lt;gap reason="lost"/&gt; migriert, nach der Freigabe von KZW vom 22.09.2026. Nur das Muster ersetzt, umliegender Text sowie Satz- und Redezeichen unverändert.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -1952,9 +1953,7 @@
               <w xml:id="NEIM_205040_0" lemmaRef="lexicon.xml#lemma_56116" pos="PRO" ana="lexicon.xml#lemma_56116_sense_90960" corresp="variants.xml#type_304743">si</w>
               <w xml:id="NEIM_205040_1" lemmaRef="lexicon.xml#lemma_3770" pos="VRB" ana="lexicon.xml#lemma_3770_sense_5960" corresp="variants.xml#type_80153">lit</w>
               <w xml:id="NEIM_205040_2" lemmaRef="lexicon.xml#lemma_3028" pos="PRP" ana="lexicon.xml#lemma_3028_sense_4834" corresp="variants.xml#type_10369">in</w>
-              <pc xml:id="NEIM_205040_3" join="right">(</pc>
-              <caesura xml:id="NEIM_205040_4"/>
-              <pc xml:id="NEIM_205040_5" join="left">)</pc>
+              <gap reason="lost"/>
               <w xml:id="NEIM_205040_6" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4323">einer</w>
               <w xml:id="NEIM_205040_7" lemmaRef="lexicon.xml#lemma_18926" pos="NOM" ana="lexicon.xml#lemma_18926_sense_31785" corresp="variants.xml#type_83420">lachen</w>
             </l>
@@ -8453,9 +8452,7 @@
               <w xml:id="NEIM_1309010_4">an</w>
               <w xml:id="NEIM_1309010_5" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
               <w xml:id="NEIM_1309010_6" lemmaRef="lexicon.xml#lemma_5798" pos="NOM" corresp="variants.xml#type_277298">strâsse</w>
-              <pc xml:id="NEIM_1309010_7" join="right">(</pc>
-              <caesura xml:id="NEIM_1309010_8"/>
-              <pc xml:id="NEIM_1309010_9" join="left">)</pc>
+              <gap reason="lost"/>
               <w xml:id="NEIM_1309010_10" lemmaRef="lexicon.xml#lemma_7252" pos="NOM" ana="lexicon.xml#lemma_7252_sense_11755" corresp="variants.xml#type_60065">froeide</w>
               <w xml:id="NEIM_1309010_11" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
               <w xml:id="NEIM_1309010_12">kinden</w>
@@ -10069,9 +10066,7 @@
               <w xml:id="NEIM_1703010_4">in</w>
               <w xml:id="NEIM_1703010_5" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
               <w xml:id="NEIM_1703010_6">scheide</w>
-              <pc xml:id="NEIM_1703010_7" join="right">(</pc>
-              <caesura xml:id="NEIM_1703010_8"/>
-              <pc xml:id="NEIM_1703010_9" join="left">)</pc>
+              <gap reason="lost"/>
               <w xml:id="NEIM_1703010_10" lemmaRef="lexicon.xml#lemma_5232" pos="VRB" corresp="variants.xml#type_18188">schieben</w>
               <pc xml:id="NEIM_1703010_11" join="left">,</pc>
             </l>
@@ -15646,9 +15641,7 @@
             <l n="6">
               <w xml:id="NEIM_3405060_0">si</w>
               <w xml:id="NEIM_3405060_1">nam</w>
-              <pc xml:id="NEIM_3405060_2" join="right">(</pc>
-              <caesura xml:id="NEIM_3405060_3"/>
-              <pc xml:id="NEIM_3405060_4" join="left">)</pc>
+              <gap reason="lost"/>
             </l>
             <l n="7">
               <w xml:id="NEIM_3405070_0">in</w>
@@ -16878,9 +16871,7 @@
               <w xml:id="NEIM_3802010_5" lemmaRef="lexicon.xml#lemma_1913" pos="ADJ ADV" ana="lexicon.xml#lemma_1913_sense_2938" corresp="variants.xml#type_6476">gar</w>
             </l>
             <l n="2">
-              <pc xml:id="NEIM_3802020_0" join="right">(</pc>
-              <caesura xml:id="NEIM_3802020_1"/>
-              <pc xml:id="NEIM_3802020_2" join="left">)</pc>
+              <gap reason="lost"/>
               <w xml:id="NEIM_3802020_3" lemmaRef="lexicon.xml#lemma_5280" pos="NOM ADJ ADV" ana="lexicon.xml#lemma_5280_sense_8229" corresp="variants.xml#type_31441">schon</w>
               <w xml:id="NEIM_3802020_4">gevar</w>
               <pc xml:id="NEIM_3802020_5" join="left">,</pc>

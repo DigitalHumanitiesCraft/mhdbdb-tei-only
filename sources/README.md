@@ -179,16 +179,19 @@ Die Dateien sind Transkripte teils urheberrechtlich geschützter kritischer Edit
 erfassten Sigeln steht der Volltext bereits als annotiertes TEI im öffentlichen Repo, die
 Aufnahme der Quelldatei ändert an der Exposition also nichts.
 
-Ein Punkt bleibt zu beachten: **8 der 199 Sigeln tragen im TEI-Header
-`<availability status="restricted">` mit `<ab type="display" n="excerpt-only"/>`**, also FR3,
-HUB1, HUB2, MML, MRL, MRS, MSB1 und RLS. Das Frontend zeigt dort bewusst nur Auszüge. Eine
-codierte Quelldatei ist einer glatten Lesefassung näher als annotiertes TEI. Wenn das anders
-bewertet wird, sind es genau **8 Dateien**, alle über die Manifest-Spalte `sigle` auffindbar:
-`erledigt/fr3.txt`, `erledigt/kochrezepttextsammlungen/fertig-codiert/hub1.txt` und `hub2.txt`,
-`erledigt/der-marner/mml.txt`, `mrl.txt`, `mrs.txt`,
-`erledigt/kochrezepttextsammlungen/fertig-codiert/msb1.txt` und
-`erledigt/rumelant-von-sachsen/rls.txt`. Frühere Fassungen dieses Absatzes nannten 9; das war
-falsch gezählt.
+Ein Punkt bleibt zu beachten: **7 der 199 Sigeln tragen im TEI-Header
+`<availability status="restricted">` mit `<ab type="display" n="no-print"/>`**, also HUB1,
+HUB2, MML, MRL, MRS, MSB1 und RLS (die übrigen beiden `no-print`-Texte, MAI und NEI, haben
+keine Quelldatei hier). Der Marker heißt seit #267: der Volltext wird zum Lesen angeboten, aber
+es wird keine ausdruckbare Fassung davon erzeugt (Entscheidung KZW vom 10.09.2026; Bedeutung in
+`docs/TEI-MODEL.md` §2.1). Bis zum 23.09.2026 hieß er `excerpt-only`, und dieser Absatz sagte,
+das Frontend zeige dort nur Auszüge; tatsächlich wertet es den Marker nirgends aus und zeigt
+den Volltext (nachgemessen in #267). Eine codierte Quelldatei ist einer
+glatten Lesefassung näher als annotiertes TEI. Wenn das anders bewertet wird, sind es genau **7 Dateien**, alle über die Manifest-Spalte
+`sigle` auffindbar: `erledigt/kochrezepttextsammlungen/fertig-codiert/hub1.txt`, `hub2.txt` und
+`msb1.txt`, `erledigt/der-marner/mml.txt`, `mrl.txt`, `mrs.txt` und
+`erledigt/rumelant-von-sachsen/rls.txt`. `erledigt/fr3.txt` gehört seit #267 nicht mehr dazu:
+FR3 ist von der Beschränkung befreit, weil die Schutzfrist seiner Edition abgelaufen ist.
 
 Nicht aufgenommen sind Seitenscans der Drucke. Das wäre ein neuer Veröffentlichungsakt und ist
 in #248 ausdrücklich abgelehnt. Ebenfalls nicht aufgenommen und **lizenzrechtlich gesperrt**: das
