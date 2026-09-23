@@ -59,8 +59,9 @@ im Schweigen.
 Exit-Status
 -----------
 0 nur, wenn nichts offen blieb. Steht etwas in PROBLEME, endet der Lauf mit 1,
-im Trockenlauf wie beim Schreiben. Beim Schreiben kommen zwei Faelle dazu: Zotero
-hat eine Neuanlage abgelehnt, oder MAX_NEU hat Kandidaten abgeschnitten. Die
+im Trockenlauf wie beim Schreiben. Beim Schreiben kommt dazu: ZOTERO_API_KEY
+fehlt, Zotero hat eine Neuanlage abgelehnt, oder MAX_NEU hat Kandidaten
+abgeschnitten. Die
 Kappung gehoert dazu, obwohl sie kein Fehler ist: sie laesst Funde liegen, und
 ein Status, der das verschweigt, sagt der Routine das Gegenteil dessen, was hier
 zugesagt ist. Im Trockenlauf gibt es sie nicht, denn dort wird nichts angelegt
