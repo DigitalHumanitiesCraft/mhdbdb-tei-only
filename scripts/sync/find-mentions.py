@@ -58,9 +58,11 @@ im Schweigen.
 
 Exit-Status
 -----------
-0 nur, wenn der Lauf vollstaendig war. Steht etwas in PROBLEME oder hat Zotero
-eine Neuanlage abgelehnt, endet der Lauf mit 1, im Trockenlauf wie beim
-Schreiben. Fuer einen Lauf am Terminal ist das nebensaechlich, weil der Text
+0 nur, wenn nichts offen blieb. Steht etwas in PROBLEME, hat Zotero eine
+Neuanlage abgelehnt oder hat MAX_NEU Kandidaten abgeschnitten, endet der Lauf
+mit 1, im Trockenlauf wie beim Schreiben. Die Kappung gehoert dazu, obwohl sie
+kein Fehler ist: sie laesst Funde liegen, und ein Status, der das verschweigt,
+sagt der Routine das Gegenteil dessen, was hier zugesagt ist. Fuer einen Lauf am Terminal ist das nebensaechlich, weil der Text
 gelesen wird; fuer die unbeaufsichtigte Monatsroutine ist der Status das
 einzige Signal, und ohne ihn sieht ein Lauf mit vier ausgefallenen Quellen
 genauso aus wie einer ohne Neuigkeiten.
@@ -857,7 +859,8 @@ def main():
         print("legt daraus Dubletten an. Es wird nichts geschrieben.")
         sys.exit(1)
 
-    if len(cands) > MAX_NEU:
+    gekappt = len(cands) > MAX_NEU
+    if gekappt:
         print(f"\nACHTUNG: {len(cands)} Kandidaten, es werden nur die "
               f"{MAX_NEU} neuesten angelegt. Rest siehe Liste oben.")
         cands = cands[:MAX_NEU]
@@ -873,8 +876,13 @@ def main():
     print(f"\n{angelegt} Eintraege in 'Zu pruefen (automatisch gefunden)' angelegt.")
     for f in fehler:
         print(f"  ! {f}")
-    if PROBLEME or fehler:
-        print("\nDieser Lauf war nicht vollstaendig, Exit-Status 1.")
+    # Die Kappung zaehlt mit. Sie ist kein Fehler und heilt sich ueber zwei
+    # Laeufe, weil die angelegten Eintraege beim naechsten Mal zur
+    # Abgleichsbasis gehoeren. Etwas blieb aber liegen, und genau das soll 0
+    # ausschliessen: die Monatsroutine sieht nur den Status, die ACHTUNG-Zeile
+    # liest dort niemand.
+    if PROBLEME or fehler or gekappt:
+        print("\nDieser Lauf hat etwas offen gelassen, Exit-Status 1.")
         sys.exit(1)
 
 
