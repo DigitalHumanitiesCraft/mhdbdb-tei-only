@@ -676,7 +676,7 @@ Der Nachlass des Tageslaufs, übernommen von der Neustart-Instanz `nacht-fronten
 
 ### Rote Zeilen
 
-Keine. Verteilung aus `trockenlauf-auswerten.py`, Zeile dieser Session (`11858632`, nacht-frontend-2): shell-konventionen 19 Treffer bei 60 Aufrufen (32 %), mengenaussagen 2 bei 13 (15 %). Das Skript bricht weiterhin im Abschnitt `gelesenes` mit `AttributeError: 'NoneType' object has no attribute 'get'` ab (Zeile 102); es liegt in `claude-code-setup`.
+Keine. Verteilung aus `trockenlauf-auswerten.py`, Zeile dieser Session (`11858632`, nacht-frontend-2), Stand beim Schreiben dieses Eintrags am 23.09. abends (die Zahlen wachsen mit jedem weiteren Aufruf der Session): shell-konventionen 19 Treffer bei 60 Aufrufen (32 %), mengenaussagen 2 bei 13 (15 %). Das Skript bricht weiterhin im Abschnitt `gelesenes` mit `AttributeError: 'NoneType' object has no attribute 'get'` ab (Zeile 102); es liegt in `claude-code-setup`.
 
 ### Was zurück an Christian geht
 
