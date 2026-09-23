@@ -20,6 +20,7 @@ class WoerterbuchPage {
         this.activeLetter = 'a';
         this.activePage = 1;
         this.searchQuery = '';
+        this.numberHitId = null;    // #467: Treffer über die Lemma-Nummer
 
         this.elements = {
             loadingScreen: document.getElementById('loadingScreen'),
@@ -121,6 +122,7 @@ class WoerterbuchPage {
         this.searchQuery = query;
 
         if (!query) {
+            this.numberHitId = null;
             this.renderLetterBar();
             this.renderEntries();
             this.renderPagination();
