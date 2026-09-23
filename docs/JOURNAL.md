@@ -4,6 +4,11 @@ Chronological log of development decisions, dead ends, and savepoints. Not a cha
 
 ---
 
+## 2026-09-22: Review-page examples for reuse
+
+KZW approved collecting the blank review pages via a separate branch and PR after consultation with Chris. `examples/review-pages/` preserves byte-identical copies of the local #364, #371 and #390/#115 pages. The overview in INDEX documents scope, snapshot dates, exports and differences from #443, and links the external wachauer/mhdbdb-kuratorik example at commit 296f4ff4cfb3a68b526397c46baef9a3ec9189ef. Existing generators and templates accompany the newer examples; generators continue to write working pages at the repository root, leaving the archived snapshots unchanged. Browser tests now address the archived copies. No submitted human decisions or corpus/authority edits are included. Validation: seven Chromium tests passed at the archive paths; the stat page rendered 95 cards without browser errors and exported valid JSON. Archive copies verified byte-identical.
+
+
 ## 2026-09-21: Ein Prüfseiten-Format (#443), und die halbe Fallmenge war gar keine Frage (#359)
 
 Zwei Vorgänge in einem Lauf: ein Format für kuratorische Prüfseiten (#443) und seine erste Anwendung, 45 Fälle aus Luise Boreks Pferdewortlisten (#359). Eine einzelne HTML-Datei, die man verschickt und ohne Installation im Browser öffnet, mit eingebetteten Daten, Rückgabe als JSON und als lesbarer Bericht.

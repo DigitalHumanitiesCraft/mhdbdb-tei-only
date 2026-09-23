@@ -99,6 +99,26 @@ Located in `/publications/` (outside `docs/`):
 - `JAHRESBERICHT-2025.md` – CLARIAH-AT annual report
 - `BERICHT-REKTORAT-MITTELVERWENDUNG-2026.md` – voluntary report and letter of thanks to the rectorate about the funds released in October 2025 (#145, draft, KZW review before sending)
 
+### Example review pages
+
+[`examples/review-pages/`](../examples/review-pages/) holds blank HTML review pages as fixed example data snapshots. Download a file and open it locally in the browser; nothing needs installing. They document different review procedures, not the current state of work on the issues. Human answers and result exports do not belong in this collection.
+
+| Example | Question and scope | Data snapshot | Returned as |
+|---------|--------------------|---------------|-------------|
+| [#364: missing lemma targets](../examples/review-pages/364-lemma-review.html) | 11 main groups with 29 attestations, plus 24 optional groups with 37 attestations; lemma candidates and individual decisions | 2026-09-17; commit and source checksums embedded | JSON and HTML report; JSON import to resume |
+| [#371: stat](../examples/review-pages/371-stat-review.html) | 95 held-back cases in five groups; lemma, part-of-speech and sense decisions | Historical working example, archived 2026-09-22; no dated source record of its own embedded | JSON and CSV |
+| [#390/#115: review for Klaus](../examples/review-pages/Klaus-Pruefung-390-115.html) | 22 word boundaries in the Wenzelsbibel and 264 attestations for 39 missing sense targets on 36 existing lemmata | 2026-09-21; commit and source checksums embedded | JSON and HTML report; JSON import to resume; explicit return instructions |
+| [Kuratorik app: lexicon stubs](https://github.com/wachauer/mhdbdb-kuratorik/tree/296f4ff4cfb3a68b526397c46baef9a3ec9189ef) | Package 1: 13 part-of-speech cases and three questions of principle from #115 | External commit `296f4ff`, pinned; the [running app](https://wachauer.github.io/mhdbdb-kuratorik/) may since have diverged | JSON and Markdown table |
+
+The newer pages, #364 and #390/#115, implement the review pattern from [#443](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/443): AI suggestions are not confirmed answers, and untouched, decided and checked/open stay distinguishable. The older stat page and the Kuratorik app follow other interaction and export rules and are not complete reference implementations of #443; stat in particular offers a blanket accept. New review pages should follow the newer pattern.
+
+Answers are stored in the browser that was used, not written into the HTML file. To return them, use the page's own exports. Moving to a different file location or web address does not reliably carry the browser state over; on the newer pages, save the JSON first and import it afterwards.
+
+Generators for new working snapshots: [`build-review-364.py`](../scripts/audit/build-review-364.py) and [`build-review-klaus.py`](../scripts/audit/build-review-klaus.py), each with its HTML template in the same folder. Run from the repository: `python scripts/audit/build-review-364.py` or `python scripts/audit/build-review-klaus.py`. They read the local TEI and authority files and write working files into the repository root; the archived examples are not overwritten. The Klaus template uses the base styling of the 364 template. There is no generator for stat here; the external Kuratorik app documents its build in its own repository.
+
+Browser tests for the archived newer examples: `npm test -- review-364.spec.js review-klaus.spec.js` (Windows: `npm.cmd`). Do not add `--reporter`: it replaces the JSON reporter from the config, and the run then ends in `VERDICT: KEIN ERGEBNIS` even when every test passes. **The specs test the archived copies, not the templates.** After changing a template, regenerate the page and replace the archived example, or the green tests keep vouching for the old version. That only works while the generator still passes its scope asserts (35/66/29 for #364, 39/264/22 for #390/#115); once the issue has been worked off, it aborts and the archived copy is the last instance. A regenerated page embeds today's date and the current commit, so the "Data snapshot" column above changes with it, and the specs check counts from the data, not only the template. The examples contain no applied changes to the research data.
+
+
 ## Project Status
 
 ### Current Phase
