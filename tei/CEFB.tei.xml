@@ -138,6 +138,7 @@
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
       <change when="2026-09-23" who="#editor">#418 hawe: 3 Tokens nach der Zuordnung von KZW vom 11.09.2026 auf lemma_2923 houwen bzw. lemma_9644 houwe gesetzt (lemmaRef/pos/corresp, @ana beim Substantiv). Im ganzen Lauf: zwei Belege auf den neuen Sense lemma_9644_sense_119194 „Schlag“; hawe erhält unter beiden Lemmata einen neu geprägten Variantentyp, type_117159 von lemma_2598 haben entfällt damit.</change>
+      <change when="2026-09-23" who="#editor">#228: 10 Tokens im editorischen Apparat der Noten mit @n (Sigel, Strophenzähler, Rubriken und Überschriften der Edition) entannotiert: lemmaRef, pos, ana und corresp entfallen. Entscheidung KZW 11.09.2026: moderner Apparat ist kein mittelhochdeutscher Text.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -147,29 +148,29 @@
           <pb type="edition" n="5"/>
           <supplied>
             <hi rend="initial upper_case_first_letter">
-                <w xml:id="CEFB_50001_0" lemmaRef="lexicon.xml#lemma_21780" pos="NOM" ana="lexicon.xml#lemma_21780_sense_35673" corresp="variants.xml#type_153943">titel</w>
+                <w xml:id="CEFB_50001_0">titel</w>
               </hi>
           </supplied>
           <pc xml:id="CEFB_50001_1" join="left">,</pc>
           <supplied>
             <hi rend="upper_case_first_letter">
-              <w xml:id="CEFB_50001_2" lemmaRef="lexicon.xml#lemma_64608" pos="NOM" ana="lexicon.xml#lemma_64608_sense_101462" corresp="variants.xml#type_332879">ausgaben</w>
+              <w xml:id="CEFB_50001_2">ausgaben</w>
             </hi>
           </supplied>
           <hi rend="upper_case">
             <supplied>
               <hi rend="upper_case_first_letter">
-                <w xml:id="CEFB_50001_3" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_86282">zv</w>
+                <w xml:id="CEFB_50001_3">zv</w>
               </hi>
             </supplied>
           </hi>
           <supplied>
-            <w xml:id="CEFB_50001_4" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
+            <w xml:id="CEFB_50001_4">und</w>
           </supplied>
           <hi rend="upper_case">
             <supplied>
               <hi rend="upper_case_first_letter">
-                <w xml:id="CEFB_50001_5" lemmaRef="lexicon.xml#lemma_13826" pos="DIG" ana="lexicon.xml#lemma_13826_sense_22789" corresp="variants.xml#type_101390">l</w>
+                <w xml:id="CEFB_50001_5">l</w>
               </hi>
             </supplied>
           </hi>
@@ -221,16 +222,16 @@
           <pc xml:id="CEFB_50330_11" join="left">.</pc>
           <note n="1">
             <hi rend="upper_case_first_letter">
-              <w xml:id="CEFB_50331_0" lemmaRef="lexicon.xml#lemma_21780" pos="NOM" ana="lexicon.xml#lemma_21780_sense_35673" corresp="variants.xml#type_153943">titel</w>
+              <w xml:id="CEFB_50331_0">titel</w>
             </hi>
             <pc xml:id="CEFB_50331_1" join="left">,</pc>
             <hi rend="upper_case_first_letter">
-              <w xml:id="CEFB_50331_2" lemmaRef="lexicon.xml#lemma_64608" pos="NOM" ana="lexicon.xml#lemma_64608_sense_101462" corresp="variants.xml#type_332879">ausgaben</w>
+              <w xml:id="CEFB_50331_2">ausgaben</w>
             </hi>
             <hi rend="upper_case upper_case_first_letter">
                 <w xml:id="CEFB_50331_3">l</w>
               </hi>
-            <w xml:id="CEFB_50331_4" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
+            <w xml:id="CEFB_50331_4">und</w>
             <hi rend="upper_case upper_case_first_letter">
                 <w xml:id="CEFB_50331_5">l</w>
               </hi>
@@ -339,7 +340,7 @@
             <pb type="edition" n="6"/>
             <supplied>
               <hi rend="upper_case_first_letter">
-                <w xml:id="CEFB_60001_0" lemmaRef="lexicon.xml#lemma_36001" pos="NOM" ana="lexicon.xml#lemma_36001_sense_56031" corresp="variants.xml#type_187103">text</w>
+                <w xml:id="CEFB_60001_0">text</w>
               </hi>
             </supplied>
           </note>
@@ -2618,7 +2619,7 @@
             <lb n="7"/>
             <supplied>
               <hi rend="initial upper_case_first_letter">
-                  <w xml:id="CEFB_61000180701_0" lemmaRef="lexicon.xml#lemma_36001" pos="NOM" ana="lexicon.xml#lemma_36001_sense_56031" corresp="variants.xml#type_187103">text</w>
+                  <w xml:id="CEFB_61000180701_0">text</w>
                 </hi>
             </supplied>
             <pc xml:id="CEFB_61000180701_1" join="left">.</pc>

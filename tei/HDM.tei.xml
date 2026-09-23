@@ -127,6 +127,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
+      <change when="2026-09-23" who="#editor">#228: 4 Tokens im editorischen Apparat der Noten mit @n (Sigel, Strophenzähler, Rubriken und Überschriften der Edition) entannotiert: lemmaRef, pos, ana und corresp entfallen. Entscheidung KZW 11.09.2026: moderner Apparat ist kein mittelhochdeutscher Text.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -134,11 +135,11 @@
       <p>
         <note n="1">
           <hi rend="initial">
-            <w xml:id="HDM_10_0" lemmaRef="lexicon.xml#lemma_2724" pos="NAM" ana="lexicon.xml#lemma_2724_sense_4390" corresp="variants.xml#type_9184">heinrich</w>
+            <w xml:id="HDM_10_0">heinrich</w>
           </hi>
-          <w xml:id="HDM_10_1" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
-          <w xml:id="HDM_10_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="HDM_10_3" lemmaRef="lexicon.xml#lemma_66692" pos="NAM" ana="lexicon.xml#lemma_66692_sense_103811" corresp="variants.xml#type_348958">muore</w>
+          <w xml:id="HDM_10_1">von</w>
+          <w xml:id="HDM_10_2">der</w>
+          <w xml:id="HDM_10_3">muore</w>
         </note>
         <l n="1">
           <hi rend="initial">

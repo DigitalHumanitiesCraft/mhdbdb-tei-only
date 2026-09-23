@@ -149,6 +149,7 @@
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 4 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
       <change when="2026-09-06" who="#editor">#387 (vrouwe, mechanischer Teil): 1 Token der Form vrouwe erstmals annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260)). Kein LLM-Lauf: annotiert wurde nur, wo die MHG-normalisierte Schreibung im gesamten Korpus ein einziges Lemma traegt, dieses genau eine Wortart fuehrt und die Schreibung dafuer genug Belege hat. Kontextpflichtige Faelle sind unangetastet geblieben (Provenienz-Log: ingest/pos-disambig/387-vrouwe/).</change>
       <change when="2026-09-06" who="#editor">#387 (fro): 1 homographie-ambige Tokens der Form fro kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260) bzw. vrô ADJ/ADV (lemma_7250); LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/387-fro/).</change>
+      <change when="2026-09-23" who="#editor">#228: lob in der Liedüberschrift „der gense lob“ nachannotiert (lemma_3849 lop, NOM), wie von KZW am 11.09.2026 erbeten.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -5223,7 +5224,7 @@
         <note n="1">
           <hi rend="upper_case initial">
               <w xml:id="KVO_300001_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-            </hi><hi rend="upper_case"><w xml:id="KVO_300001_1" lemmaRef="lexicon.xml#lemma_1910" pos="NOM" ana="lexicon.xml#lemma_1910_sense_2935" corresp="variants.xml#type_6458">gense</w></hi><hi rend="upper_case"><w xml:id="KVO_300001_2">lob</w></hi>
+            </hi><hi rend="upper_case"><w xml:id="KVO_300001_1" lemmaRef="lexicon.xml#lemma_1910" pos="NOM" ana="lexicon.xml#lemma_1910_sense_2935" corresp="variants.xml#type_6458">gense</w></hi><hi rend="upper_case"><w xml:id="KVO_300001_2" lemmaRef="lexicon.xml#lemma_3849" pos="NOM" ana="lexicon.xml#lemma_3849_sense_6077" corresp="variants.xml#type_13441">lob</w></hi>
         </note>
         <head>
           <l n="h_1">

@@ -96,7 +96,7 @@ Breves on the remaining base characters stay untouched: 23 further WZB tokens (y
 | `person_1332` Wachsmut von Mühlhausen | `wachsmut von mühlhausen` | `wachsmut von muehlhausen` |
 | `work_435` Lyrik von Hugo von Mühldorf | `lyrik von hugo von mühldorf` | `lyrik von hugo von muehldorf` |
 
-All three were unfindable through normalized search. All 43,879 lemma normalizations and all 234,244 variant mappings remain unchanged. Hence Authority Index v1.6.2. **234,244 is the state of v1.6.2, not today's** (today 234,250, see §C): with the HUG stanza numerals, #138 also removed the type `type_195524` „cxlvix", attested only there, measured against the blob before `87b6dc941`. The difference of one is therefore a real data step and not a typo in either line (#277).
+All three were unfindable through normalized search. All 43,879 lemma normalizations and all 234,244 variant mappings remain unchanged. Hence Authority Index v1.6.2. **234,244 is the state of v1.6.2, not today's** (today 233,978, see §C): with the HUG stanza numerals, #138 also removed the type `type_195524` „cxlvix", attested only there, measured against the blob before `87b6dc941`. The difference of one is therefore a real data step and not a typo in either line (#277).
 
 **Not affected:** the corpus index stores lemma ids and positions, not normalized text forms; `build-corpus-index.py` does import `normalize_mhg` but never calls it. For the corpus text itself the checkable statement is sharper than the sample originally noted here: **there is not a single combining diaeresis and no combining tilde inside `<w>` anywhere in the corpus.** The 1,339 diaereses in 566 of the 667 files all sit outside the annotated tokens, mostly in the `<note>` bibliography prose of the teiHeader (places of publication such as Tübingen, Zürich). Inside `<w>` there are 774 combining marks in total, of which 752 are WZB breves and 22 are exotics: 11 dot below, 8 macron, 3 U+035B (the abbreviation zigzag in `cetera͛`, `her͛re`).
 
@@ -377,8 +377,8 @@ User types: **brott**
 ### Variant Dictionary Structure
 
 - Flat map: `{ normalized_variant_form: lemma_id }`
-- 234,250 normalized entries (as of 2026-09-23; 256,787 raw forms in variants.xml, deduped first-occurrence-wins), extracted from `authority-files/variants.xml`
-- **Two numbers that have to stay different:** 256,787 is the count of raw forms in `variants.xml`, 234,250 the count of mappings in the runtime dictionary after deduplication. Whoever writes "variants dictionary" means the smaller one. Whoever reads 234,244 is reading the state before #138 (§A, step 0)
+- 233,978 normalized entries (as of 2026-09-24; 256,512 raw forms in variants.xml, deduped first-occurrence-wins), extracted from `authority-files/variants.xml`
+- **Two numbers that have to stay different:** 256,512 is the count of raw forms in `variants.xml`, 233,978 the count of mappings in the runtime dictionary after deduplication. Whoever writes "variants dictionary" means the smaller one. Whoever reads 234,244 is reading the state before #138 (§A, step 0)
 - **First occurrence wins** – if two lemmata claim the same variant form, only the first one stored (source: `parse_variants()` in `build-authority-index.py`, the `if normalized_variant not in variants` guard). Line anchors drift; look the function up by name
 - **This rule is decided away and not yet built.** [ADR-021](DECISIONS.md#adr-021-an-ambiguous-written-form-returns-every-candidate-lemma-ranked-by-that-forms-own-frequency) (KZW, 2026-09-14, #378) replaces „exactly 1" with „0..N, ranked by how often *this* normalized form occurs under each candidate". Nothing in the code has changed, so the stage table above still describes what runs today; whoever implements the ADR renarrates the stage 2 row and the return shape in both consumers
 - Keys are **normalized** forms (lowercase + MHG character mapping applied before storage)
@@ -391,13 +391,15 @@ Handing over the label alone would send that click back through stage 1, where a
 homograph group returns `matches[0]`, which can be a different lemma than the one
 on screen.
 
-Measured on 2026-08-07 against `authority-files/lexicon.xml` (43,879 entries with a
+Measured on 2026-09-24 against `authority-files/lexicon.xml` (43,713 entries with a
 `form/orth`): 102 written forms carry more than one entry (216 lemmata), and after
-normalization 477 forms do (993 lemmata, 2.26 percent). `sin`, `wal`, `mal` and `de`
+normalization 476 forms do (991 lemmata, 2.27 percent). `sin`, `wal`, `mal` and `de`
 are in that set. Counting rule, because the number depends on it: group by
 `normalize_mhg()` from `scripts/mhg_normalizer.py`, the canonical normalizer, not by a
-hand-written character map. A shorter map yields 475/988, and that is how the wrong
-pair got into the first draft of this section.
+hand-written character map. On the first measurement (2026-08-07, 43,879 entries,
+477/993) a shorter map yielded 475/988, and that is how the wrong pair got into the
+first draft of this section. The step from 477/993 to 476/991 is #228: it deleted
+`lemma_64413`, and the group `erklaeren` is left with `lemma_14608` alone.
 
 The `ids` parameter of the `multi-lemma` route therefore pins the resolution.
 `MultiLemmaSearchUI.lemmaIdHints` maps written form to id, and `resolveTerms()`

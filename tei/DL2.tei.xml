@@ -195,6 +195,7 @@
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 12 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
+      <change when="2026-09-23" who="#editor">#228: 7 Tokens im editorischen Apparat der Noten mit @n (Sigel, Strophenzähler, Rubriken und Überschriften der Edition) entannotiert: lemmaRef, pos, ana und corresp entfallen. Entscheidung KZW 11.09.2026: moderner Apparat ist kein mittelhochdeutscher Text.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -206,12 +207,12 @@
             <note n="1">
               <supplied>
                 <hi rend="initial">
-                  <w xml:id="DL2_1203110010001_0" lemmaRef="lexicon.xml#lemma_61288" pos="NAM" ana="lexicon.xml#lemma_61288_sense_97622" corresp="variants.xml#type_322419">deutschenspiegel</w>
+                  <w xml:id="DL2_1203110010001_0">deutschenspiegel</w>
                 </hi>
                 <pc xml:id="DL2_1203110010001_1" join="left">.</pc>
-                <w xml:id="DL2_1203110010001_2" lemmaRef="lexicon.xml#lemma_13826" pos="DIG" ana="lexicon.xml#lemma_13826_sense_22789" corresp="variants.xml#type_54855">ii</w>
+                <w xml:id="DL2_1203110010001_2">ii</w>
                 <pc xml:id="DL2_1203110010001_3" join="left">.</pc>
-                <w xml:id="DL2_1203110010001_4" lemmaRef="lexicon.xml#lemma_61289" pos="NAM" ana="lexicon.xml#lemma_61289_sense_97623" corresp="variants.xml#type_322421">landrechtsteil</w>
+                <w xml:id="DL2_1203110010001_4">landrechtsteil</w>
               </supplied>
             </note>
             <lb n="1"/>
@@ -4795,9 +4796,9 @@
             <note n="1">
               <supplied>
                 <hi rend="initial">
-                  <w xml:id="DL2_1229353000081_0" lemmaRef="lexicon.xml#lemma_13907" pos="NAM" ana="lexicon.xml#lemma_13907_sense_22964" corresp="variants.xml#type_314987">augsburger</w>
+                  <w xml:id="DL2_1229353000081_0">augsburger</w>
                 </hi>
-                <w xml:id="DL2_1229353000081_1" lemmaRef="lexicon.xml#lemma_61290" pos="NAM" ana="lexicon.xml#lemma_61290_sense_97624" corresp="variants.xml#type_322423">sachsenspiegel</w>
+                <w xml:id="DL2_1229353000081_1">sachsenspiegel</w>
               </supplied>
             </note>
           </p>
@@ -7622,9 +7623,9 @@
               <note n="1">
                 <supplied>
                   <hi rend="initial">
-                    <w xml:id="DL2_2229353000081_0" lemmaRef="lexicon.xml#lemma_6342" pos="ADV PRP" ana="lexicon.xml#lemma_6342_sense_9997" corresp="variants.xml#type_84231">aus</w>
+                    <w xml:id="DL2_2229353000081_0">aus</w>
                   </hi>
-                  <w xml:id="DL2_2229353000081_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3504">dem</w>
+                  <w xml:id="DL2_2229353000081_1">dem</w>
                   <w xml:id="DL2_2229353000081_2">lehnrecht</w>
                 </supplied>
               </note>

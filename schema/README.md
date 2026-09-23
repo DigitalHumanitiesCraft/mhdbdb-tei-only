@@ -123,8 +123,8 @@ Für die 8 XML-Dateien in `authority-files/`, die als kontrollierte Vokabulare d
 
 | Datei | Inhalt | Body-Struktur |
 |-------|--------|---------------|
-| `lexicon.xml` | 43.878 Lemmata mit Bedeutungen | `<div>/<entry>` |
-| `variants.xml` | 256.787 Wortformen (42.626 Lemma-Gruppen) | `<div>/<entry>/<form>` |
+| `lexicon.xml` | 43.713 Lemmata mit Bedeutungen | `<div>/<entry>` |
+| `variants.xml` | 256.512 Wortformen (42.460 Lemma-Gruppen) | `<div>/<entry>/<form>` |
 | `persons.xml` | 211 Personen (Autoren, Herausgeber) | `<listPerson>/<person>` |
 | `works.xml` | 584 Werke mit bibliographischen Daten | `<listBibl>/<bibl>` |
 | `contributors.xml` | 52 MHDBDB-Mitwirkende + 2 Organisationen | `<listOrg>` + `<listPerson>` |
