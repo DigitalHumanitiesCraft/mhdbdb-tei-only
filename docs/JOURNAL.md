@@ -709,3 +709,25 @@ Verteilung aus `trockenlauf-auswerten.py`, Zeile dieser Session (`09f7a3aa`, nac
 - `VERDICT: VOLLLAUF GRUEN (377 Tests, 39 Dateien)` auf e9b381d44, also vor dem Rebase auf B1 (28a5bffda). Der Rebase hat keine A2-Datei verändert; das kombinierte Verhalten prüft die Koordination mit einem Volllauf auf main.
 - Frage an KZW in #270: Urheber auch an Definition und Etymologie?
 - Freeze-Ausnahmen dieses PRs, von der Koordination benannt (Zeilen im Endstand): DATA-MODEL.md 239-244, 466, 512, 549, 894, 904, 908; CONTRACTS.md 927; TEI-MODEL-AUTH-FILES.md 211, 219; DECISIONS.md 46 und ADR-018; scripts/README.md 123; dazu die DEVELOPMENT.md-Zeile für die neue Spec.
+
+## 2026-09-23 (Nachtlauf, Spur B, Paket B2) – #420: Pin auf v0.3.0-beta und "Lemma" statt "Term"
+
+Lindas Punkte 1 und 4 aus ihrer Abnahme vom 16.09.: der Naming-Index steht jetzt auf Naming-analysis v0.3.0-beta, und das Modul "Erweiterte Figurenbezeichnungen" sagt überall "Lemma", wo es "Term" sagte (Perspektive, Auswahl, Filter, Spaltentitel, Hilfe, FEATURES, Spec). Der Montagslauf `naming-index-update.yml`, seit dem 14.09. rot, hat damit seinen Grund verloren. Punkt 3, ein Tab "Bezeichnung", ist nicht gebaut: die Kategorie wird an vier Stellen gefiltert oder gezählt, und ob der Tab in allen drei Perspektiven erscheinen soll, ist eine Gestaltungsfrage, die Linda offen gelassen hat.
+
+### Was über den Einzelfall hinausgilt
+
+**Ein Aufrufparameter, der wörtlich in ein Artefakt geschrieben wird, gehört zum Inhalt.** Der Laufplan sah `--ref v0.3.0-beta` vor. Das Skript schreibt `source.ref` aber unverändert in den Index, und der Montagslauf baut ohne `--ref`, also gegen `master`, und vergleicht Bytes. Mit dem Tag im Feld hätte er jeden Montag einen PR ohne Datenänderung geöffnet. Gebaut ist deshalb gegen `master`, das zum Bauzeitpunkt derselbe Commit war wie der Tag (`8076467a`); die Provenienz trägt `source.commit`, und das Freshness-Gate in `data-integrity.yml` normalisiert `ref` ohnehin weg.
+
+**Eine Zahl, die ein Skript für ein Modul nachrechnet, muss rechnen wie das Modul.** In Kommentar und FEATURES stand seit #420 "247 von 433 treffen exakt 100, Spanne 89 bis 109". Das Modul rundet mit `Math.round`, halbe Prozente also aufwärts; gemessen war mit Pythons `round()`, das halbe zur geraden Zahl rundet. Mit der Rundung des Moduls sind es 244 und 91 bis 121. Die zwei Beispiele daneben (`helt` 98, `hêrre` 95) sind in beiden Rundungen gleich, deshalb fiel es niemandem auf. Gefunden hat es die Reviewrunde.
+
+**Linda sprach von 13 Zeilen in drei Werken, der Index zeigt 9 Records in zwei.** Ihr Bereinigungscommit `af531d30` vom 09.09. berührt die Dateien aller drei Werke. In den `categorization_*.json` sind es 12 Stellen, nicht 13 (die dreizehnte liegt vermutlich nur in einer Excel-Datei, nicht geprüft): Iwein 3 (V. 1805, 2216, 4905), Rolandslied 8 (V. 527, 2863, 2864, 2875, 2880, 2882, 2887, 6101), Trojanerkrieg 1. Den Index bewegen davon 9. Rolandslied 527 und 6101 und die Trojanerkrieg-Stelle trugen doppelte Attribution, und unser Build hatte schon dieselbe Seite gewählt: er zählt Figurenrede nur, wenn nennende Figur **und** `Bezeichnung` gesetzt sind, und prüft das vor dem Erzähler-Feld (`build_record`). Bei 527 und 6101 fehlte `Bezeichnung`, also Erzähler wie jetzt bei Linda; bei der Trojanerkrieg-Stelle war beides gesetzt, also Figurenrede wie jetzt bei Linda. Im Index ändern sich Attribution oder Phrase von 9 Records (IW 3, ROL 6); Record- und Figurenzahlen je Werk bleiben gleich, und die 2 Iwein-Records "Figurenrede ohne Nenner" gibt es nicht mehr. Lindas Beispielzahlen im Rolandslied (`helt`, `hêrre`, Ruolant) sind auf altem und neuem Stand identisch.
+
+### Rote Zeilen
+
+Keine. Verteilung aus `trockenlauf-auswerten.py`, Zeile dieser Session (`11858632`, nacht-frontend-2), Stand beim Schreiben dieses Eintrags am 23.09. abends (die Zahlen wachsen mit jedem weiteren Aufruf): shell-konventionen 52 Treffer bei 174 Aufrufen (30 %), mengenaussagen 16 bei 41 (39 %). Der Abschnitt `gelesenes` bricht weiter mit `AttributeError` ab (siehe B1).
+
+### Was zurück an Christian geht
+
+- Frage an Linda in #420: ihre `CITATION.cff` nennt seit v0.3.0-beta den Concept-DOI `10.5281/zenodo.21914259`, bis v0.2.2-beta den Versions-DOI. Übernommen ist ihr Wortlaut; ob der Index lieber den Versions-DOI `10.5281/zenodo.22690452` zitieren soll, entscheidet sie.
+- Angebot an Linda in #420: der Tab "Bezeichnung" (ihr Punkt 3), wenn sie ihn will, mit der Frage, in welchen Perspektiven.
+- #420 schließt mit dem Merge, weil Linda die Abnahme an Punkt 1 und 4 gebunden hat.

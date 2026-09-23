@@ -3,7 +3,7 @@
  *
  * Smoke-Tests fuer das kuratierte Figurenbezeichnungs-Modul: Route #naming,
  * Werk/Figur-Auswahl, Kategorie-Tabs, Belegstellen-Expand, MHG-normalisierter
- * Term-Filter und Pflicht-Attribution (Lizenzauflage CC BY-NC-SA).
+ * Lemma-Filter und Pflicht-Attribution (Lizenzauflage CC BY-NC-SA).
  *
  * Datengrundlage ist data/naming-index.json.gz (extern kuratiert, lindabeutel/
  * Naming-analysis). Die Tests locken Struktur, nicht exakte Zahlen.
@@ -67,7 +67,7 @@ test.describe('Naming Explorer (#59)', () => {
     await expect(page.locator('#resultsContainer')).toContainText(INDEX_QUELLE.citation);
   });
 
-  test('Werk + Figur liefert Summary und Term-Tabelle mit drei Kategorien', async ({ page }) => {
+  test('Werk + Figur liefert Summary und Lemma-Tabelle mit drei Kategorien', async ({ page }) => {
     await selectIwein(page);
 
     // Weicher Daten-Lock: Iwein hat 239 kuratierte Belegstellen (Quellstand
@@ -82,7 +82,7 @@ test.describe('Naming Explorer (#59)', () => {
     expect(badgeSet.has('Antonomasie')).toBe(true);
     expect(badgeSet.has('Epitheton')).toBe(true);
 
-    // Top-Term ist nach Haeufigkeit sortiert (hoechster Count zuerst)
+    // Top-Lemma ist nach Haeufigkeit sortiert (hoechster Count zuerst)
     const counts = await page.locator('[data-ne-term] td:nth-child(3)').allTextContents();
     const nums = counts.map(c => parseInt(c.replace(/\./g, ''), 10));
     expect(nums[0]).toBe(Math.max(...nums));
@@ -129,8 +129,10 @@ test.describe('Naming Explorer (#59)', () => {
     await expect(page.locator('#resultsContainer a[href*="verse="]')).toHaveCount(0);
   });
 
-  test('Term-Filter ist MHG-normalisiert (tore findet tôre)', async ({ page }) => {
+  test('Lemma-Filter ist MHG-normalisiert (tore findet tôre)', async ({ page }) => {
     await selectIwein(page);
+    await expect(page.locator('#resultsContainer')).toContainText('Lemma-Filter');
+    await expect(page.locator('#resultsContainer')).not.toContainText('Term');
 
     await page.fill('#neNameFilter', 'tore');
     await page.waitForSelector('[data-ne-term]', { state: 'visible', timeout: 5000 });
@@ -175,7 +177,7 @@ test.describe('Naming Explorer (#59)', () => {
     expect(evidence).not.toContain('Erzähler');
   });
 
-  test('Nenner-Perspektive gruppiert die Terme nach genannter Figur', async ({ page }) => {
+  test('Nenner-Perspektive gruppiert die Lemmata nach genannter Figur', async ({ page }) => {
     await page.click('[data-ne-persp="namer"]');
     await page.selectOption('#neWorkSelect', 'IW');
     // Der Nenner-Select fuehrt den Erzaehler als eigenen Eintrag
@@ -198,13 +200,13 @@ test.describe('Naming Explorer (#59)', () => {
     expect(new Set(badges.map(b => b.trim())).has('Antonomasie')).toBe(true);
   });
 
-  // --- Term-Perspektive (#420) -------------------------------------------
+  // --- Lemma-Perspektive (#420) -------------------------------------------
   //
   // Der Oracle dieser Gruppe ist NICHT unsere eigene Rechnung, sondern Lindas
   // veroeffentlichter Datensatz figures_by_lemma_helt_naming_variants.json aus
-  // Naming-analysis v0.3.0-beta, zitiert in #420. Unser Index ist auf
-  // v0.2.2-beta gepinnt (source.commit 2f16f0ea); die Zahlen stimmen ueber
-  // beide Staende hinweg ueberein, was hier mitgeprueft wird. Wandert der Pin
+  // Naming-analysis v0.3.0-beta, zitiert in #420. Unser Index ist seit dem
+  // 23.09.2026 auf denselben Stand gepinnt (source.commit 8076467a; vorher
+  // v0.2.2-beta, 2f16f0ea, mit denselben Zahlen fuer ROL). Wandert der Pin
   // und aendert sich die Erhebung fuer ROL, gehen diese Tests rot, und das ist
   // die richtige Reaktion: dann deckt sich unsere Ansicht nicht mehr mit ihrer.
   const HELT_ROL = { nennungen: 78, figuren: 22, erz: 61 };
@@ -219,7 +221,7 @@ test.describe('Naming Explorer (#59)', () => {
 
   const zahlen = (texte) => texte.map(x => parseInt(x.replace(/[^\d]/g, ''), 10));
 
-  test('Term-Perspektive: helt im Rolandslied trifft Lindas veroeffentlichte Zahlen', async ({ page }) => {
+  test('Lemma-Perspektive: helt im Rolandslied trifft Lindas veroeffentlichte Zahlen', async ({ page }) => {
     await selectTerm(page, 'ROL', 'helt');
 
     await expect(page.locator('#resultsContainer')).toContainText(
@@ -246,7 +248,7 @@ test.describe('Naming Explorer (#59)', () => {
     expect(nennungen.length).toBe(HELT_ROL.figuren);
   });
 
-  test('Term-Perspektive: hêrre dreht das Bild zur Figurenrede', async ({ page }) => {
+  test('Lemma-Perspektive: hêrre dreht das Bild zur Figurenrede', async ({ page }) => {
     // Lindas zweites Beispiel aus #420, und der Grund fuer die Perspektive:
     // dasselbe Material, gegenlaeufiges Bild. helt kommt ueberwiegend vom
     // Erzaehler, hêrre ueberwiegend aus Figurenrede.
@@ -260,7 +262,7 @@ test.describe('Naming Explorer (#59)', () => {
     expect(rede).toBeGreaterThan(erz);
   });
 
-  test('Term-Perspektive: eine Zeile der Quelle ist EINE Nennung, auch in zwei Gruppen', async ({ page }) => {
+  test('Lemma-Perspektive: eine Zeile der Quelle ist EINE Nennung, auch in zwei Gruppen', async ({ page }) => {
     // Lindas Zaehlregel und ihre Ueberlappungsregel aus #420 in einem Test,
     // weil nur zusammen pruefbar: "Eine Zeile ist eine Nennung. Sie zaehlt
     // einmal fuer ihre benannte Figur, auch wenn das Lemma in mehreren Spalten
@@ -295,7 +297,7 @@ test.describe('Naming Explorer (#59)', () => {
     expect(echtUeber).toBeGreaterThan(0);
   });
 
-  test('Term-Perspektive: ein Eigenname faellt in die Bezeichnungsspalte', async ({ page }) => {
+  test('Lemma-Perspektive: ein Eigenname faellt in die Bezeichnungsspalte', async ({ page }) => {
     // Schliesst eine Luecke, die der Review gefunden hat: die uebrigen Tests
     // arbeiten mit helt, hêrre und got, und die sind allesamt Antonomasien.
     // Eine Mutation BEZ_CATS = ['ant'], die Eigennamen und Decknamen aus der
@@ -313,7 +315,7 @@ test.describe('Naming Explorer (#59)', () => {
     expect(epi).toBe(0);
   });
 
-  test('Term-Perspektive: Kategorie-Tab schneidet auf Epitheta zu', async ({ page }) => {
+  test('Lemma-Perspektive: Kategorie-Tab schneidet auf Epitheta zu', async ({ page }) => {
     await selectTerm(page, 'IW', 'alt');
     const vorher = await page.locator('[data-ne-term] td:nth-child(2)').allTextContents();
     await page.click('[data-ne-cat="epi"]');
@@ -331,7 +333,7 @@ test.describe('Naming Explorer (#59)', () => {
       .toBeLessThan(zahlen(vorher).reduce((a, b) => a + b, 0));
   });
 
-  test('Term-Perspektive: Unterfilter zaehlt am Kategorie-Tab entlang, nicht daran vorbei', async ({ page }) => {
+  test('Lemma-Perspektive: Unterfilter zaehlt am Kategorie-Tab entlang, nicht daran vorbei', async ({ page }) => {
     // Die Tabelle rechnet auf der kategoriegeschnittenen Menge. Zaehlte das
     // Select daneben ueber alle vier Kategorien, stuenden zwei verschiedene
     // Gesamtzahlen im selben Bild, und „Erzaehler (n)" verspraeche ein n, das
@@ -354,7 +356,7 @@ test.describe('Naming Explorer (#59)', () => {
     expect(zahlen([alleOhneSchnitt])[0]).toBeGreaterThan(summe);
   });
 
-  test('Term-Perspektive: gewaehlter Einzelnenner ueberlebt den Kategoriewechsel', async ({ page }) => {
+  test('Lemma-Perspektive: gewaehlter Einzelnenner ueberlebt den Kategoriewechsel', async ({ page }) => {
     // Die Optionsliste des Unterfilters darf nicht am Kategorieschnitt
     // schrumpfen. Taete sie es, fiele ein gewaehlter Nenner heraus, das
     // Select zeigte mangels `selected` wieder „Alle", `state.speaker` bliebe
@@ -383,7 +385,7 @@ test.describe('Naming Explorer (#59)', () => {
     expect(await page.locator('[data-ne-term]').count()).toBeGreaterThan(0);
   });
 
-  test('Term-Perspektive: Unterfilter auf den Erzaehler grenzt ein', async ({ page }) => {
+  test('Lemma-Perspektive: Unterfilter auf den Erzaehler grenzt ein', async ({ page }) => {
     await selectTerm(page, 'ROL', 'helt');
     await page.selectOption('#neSubFilter', 'erz');
     await page.waitForTimeout(100);
@@ -396,7 +398,7 @@ test.describe('Naming Explorer (#59)', () => {
       .toContainText(`in ${HELT_ROL.erz} von ${HELT_ROL.nennungen} kuratierten Belegstellen`);
   });
 
-  test('Term-Perspektive: Belegstellen klappen je Figur auf', async ({ page }) => {
+  test('Lemma-Perspektive: Belegstellen klappen je Figur auf', async ({ page }) => {
     await selectTerm(page, 'ROL', 'helt');
     await page.locator('[data-ne-term]').first().click();
     const evidence = page.locator('tr.bg-slate-50\\/50').first();
@@ -407,12 +409,15 @@ test.describe('Naming Explorer (#59)', () => {
     await expect(evidence.locator('a[href*="korpus.html?textId=ROL&verse="]').first()).toBeVisible();
   });
 
-  test('Term-Perspektive: Werk ohne Auswahl nennt die Zahl der Terme', async ({ page }) => {
+  test('Lemma-Perspektive: Werk ohne Auswahl nennt die Zahl der Lemmata', async ({ page }) => {
+    // Beschriftung "Lemma" statt "Term", modulweit (Linda in #420, Punkt 4):
+    // die Eintraege sind durchgehend lemmatisiert.
+    await expect(page.locator('[data-ne-persp="lemma"]')).toHaveText(/^\s*Lemma\s*$/);
     await page.click('[data-ne-persp="lemma"]');
     await page.selectOption('#neWorkSelect', 'IW');
-    await expect(page.locator('#resultsContainer')).toContainText(/\d+ Terme in kuratierten Bezeichnungen/);
+    await expect(page.locator('#resultsContainer')).toContainText(/\d+ Lemmata in kuratierten Bezeichnungen/);
     const optionen = await page.locator('#neFigureSelect option').allTextContents();
-    // Terme nach Belegzahl, mit der Zahl der Figuren als Zusatz
+    // Lemmata nach Belegzahl, mit der Zahl der Figuren als Zusatz
     expect(optionen.some(o => /\(\d+ Belege, \d+ Figuren?\)/.test(o))).toBe(true);
   });
 
@@ -557,7 +562,7 @@ test.describe('Naming Explorer (#59)', () => {
     await expect(page.locator('[data-ne-term] td:nth-child(2)')).toHaveText('Deckname');
   });
 
-  test('Der Erzaehler ist als Nenner auswaehlbar und liefert Terme', async ({ page }) => {
+  test('Der Erzaehler ist als Nenner auswaehlbar und liefert Lemmata', async ({ page }) => {
     // Regression aus PR #360: NARRATOR_KEY lag als U+0000-Sentinel im
     // option-value, und der HTML-Tokenizer macht daraus U+FFFD. Der Wert aus
     // dem Select traf den Schluessel damit nie, die Auswahl lieferte in allen
