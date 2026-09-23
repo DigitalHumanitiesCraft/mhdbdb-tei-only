@@ -193,6 +193,10 @@ REVISION = {
             'Präteritalform von zeln und er als @reason dokumentiert, keine Token-Trennung '
             '(KZW 22.09.2026).'),
 }
+NUR_TYP = {
+    'AC3_23010_1': (' AC3_23010_1 stand seit #416 bereits auf lemma_9644 und erhält hier nur '
+                    'den neuen Variantentyp statt type_117159.'),
+}
 DATUM = '2026-09-23'
 
 ANKER = re.compile(
@@ -330,12 +334,17 @@ def main():
             n = sum(1 for a in rows if a['paket'] == paket)
             if not n:
                 continue
+            # AC3_23010_1 war schon annotiert und bekommt nur den neuen Typ;
+            # der Eintrag zaehlt es deshalb nicht als umannotiert mit.
+            nur_typ = [a['xml_id'] for a in rows if a['xml_id'] in NUR_TYP]
+            n -= len(nur_typ)
             m = ANKER.search(text)
             if not m:
                 sys.exit(f'ABBRUCH: kein revisionDesc-Anker in {s}')
             nl = '\r\n' if '\r\n' in m.group(3) else '\n'
             eintrag = (f'<change when="{DATUM}" who="#editor">'
                        + REVISION[paket].format(n=n, t='Token' if n == 1 else 'Tokens')
+                       + ''.join(NUR_TYP[w] for w in nur_typ)
                        + '</change>')
             text = text[:m.end(2)] + nl + m.group(1) + eintrag + text[m.end(2):]
         if APPLY:

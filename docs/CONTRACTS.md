@@ -378,7 +378,7 @@ User types: **brott**
 
 - Flat map: `{ normalized_variant_form: lemma_id }`
 - 234,250 normalized entries (as of 2026-09-23; 256,787 raw forms in variants.xml, deduped first-occurrence-wins), extracted from `authority-files/variants.xml`
-- **Two numbers that have to stay different:** 256,783 is the count of raw forms in `variants.xml`, 234,250 the count of mappings in the runtime dictionary after deduplication. Whoever writes "variants dictionary" means the smaller one. Whoever reads 234,244 is reading the state before #138 (§A, step 0)
+- **Two numbers that have to stay different:** 256,787 is the count of raw forms in `variants.xml`, 234,250 the count of mappings in the runtime dictionary after deduplication. Whoever writes "variants dictionary" means the smaller one. Whoever reads 234,244 is reading the state before #138 (§A, step 0)
 - **First occurrence wins** – if two lemmata claim the same variant form, only the first one stored (source: `parse_variants()` in `build-authority-index.py`, the `if normalized_variant not in variants` guard). Line anchors drift; look the function up by name
 - **This rule is decided away and not yet built.** [ADR-021](DECISIONS.md#adr-021-an-ambiguous-written-form-returns-every-candidate-lemma-ranked-by-that-forms-own-frequency) (KZW, 2026-09-14, #378) replaces „exactly 1" with „0..N, ranked by how often *this* normalized form occurs under each candidate". Nothing in the code has changed, so the stage table above still describes what runs today; whoever implements the ADR renarrates the stage 2 row and the return shape in both consumers
 - Keys are **normalized** forms (lowercase + MHG character mapping applied before storage)

@@ -930,7 +930,7 @@ Earlier errors (all fixed by migration):
 
 **Two-stage validation:**
 - **Stage 1:** `tei_all.rng` = the TEI P5 conformance test (criteria 1-4). Baseline: 633/667 green.
-- **Stage 2:** `mhdbdb.rnc` = the MHDBDB stamp. It covers all patterns in the existing data, including the 30 tei_all deviations (GAPs 1-11). Baseline: 667/667 green.
+- **Stage 2:** `mhdbdb.rnc` = the MHDBDB stamp. It covers all patterns in the existing data, including the 34 tei_all deviations (GAPs 1-11). Baseline: 667/667 green.
 
 `mhdbdb.rnc` is **not a strict subset** of `tei_all.rng`: it is stricter on some points (enumerated `@type` values, more restrictive child elements) and more permissive on others (the GAPs). The two stages check different properties and are complementary, not redundant.
 
