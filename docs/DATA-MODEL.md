@@ -462,7 +462,7 @@ This is the point where #59 decided differently. The naming index builds **no** 
 
 Three core build scripts:
 
-1. **`build-authority-index.py`** - Extract authority data from 7 inhaltstragende XML files (the 8th, `contributors.xml`, is deliberately not indexed – see below)
+1. **`build-authority-index.py`** - Extract authority data from 7 inhaltstragende XML files (the 8th, `contributors.xml`, is deliberately not indexed, but since #270 it is read to resolve the author of a curated comment to a name – see below)
    - Parse XML with lxml
    - Extract structured data for each entity type
    - Build performance maps (conceptToLemmas, genreToWorks)
@@ -545,7 +545,7 @@ Build properties: deterministic on the #125 principle (no timestamps, compact JS
 
 #### Curated lexicon fields (#268, since authority index v1.7.0)
 
-The three productions marked „curated" (`etym[@type="borrowing"]`, `def`, `note[@type="comment"]`) are the only ones in the lexicon carrying editorial prose instead of classification. The build writes the corresponding index fields **only where they actually stand in the XML**: 43,878 lemmata entries with empty keys would inflate index and API for nothing. As of 2026-07-31 exactly one lemma is curated (`lemma_37818` „Abba"), so consumers have to treat the fields as optional, never as a promise per record. Normative: [CONTRACTS.md §G.3](CONTRACTS.md#g3-field-schemas). The `@resp` values land in the index unchanged as `contributors.xml#contrib_N`; the id can only be resolved through the XML file, because `contributors.xml` is deliberately not indexed.
+The three productions marked „curated" (`etym[@type="borrowing"]`, `def`, `note[@type="comment"]`) are the only ones in the lexicon carrying editorial prose instead of classification. The build writes the corresponding index fields **only where they actually stand in the XML**: 43,878 lemmata entries with empty keys would inflate index and API for nothing. As of 2026-07-31 exactly one lemma is curated (`lemma_37818` „Abba"), so consumers have to treat the fields as optional, never as a promise per record. Normative: [CONTRACTS.md §G.3](CONTRACTS.md#g3-field-schemas). The `@resp` values land in the index unchanged as `contributors.xml#contrib_N`. Since authority index 1.9.10 (#270, ADR-018) the build also resolves the comment's `@resp` through `contributors.xml` and writes the display name next to it as `sense.commentRespName`; an id it cannot resolve stops the build. `definitionResp` and `origin.resp` stay unresolved, and `contributors.xml` itself is still not indexed as a collection.
 
 #### Namespace Handling
 
@@ -890,7 +890,7 @@ The two checklists below describe the **maximum case**. Not every change needs e
 
 - `build-corpus-index.py` reads from `tei/` the file name and five header statements (the sigle from `idno[@type="sigle"]`, title, author including `@ref`, `msIdentifier/@corresp`, genre term), plus every `<w @lemmaRef>` with non-empty text inside `<body>` including document order, plus the `<l>` boundaries. Everything else in the TEI is invisible to it, in particular `@pos` and `@ana` as well as `<div>`, `<lg>` and `<pb>`. XPaths: [Build Script XPath Reference](#build-script-xpath-reference).
 - `extract-variants.py` reads from `tei/` only those `<w>` carrying **both** a `@lemmaRef` and a `@corresp="variants.xml#type_N"`, and from those the lemma id, the type id and the wording. Plus the number of corpus files, which stands in the header of `variants.xml`.
-- `build-authority-index.py` reads `authority-files/` exclusively (the seven indexed files including `variants.xml`, without `contributors.xml`). It does not read `tei/`. Unlike the corpus index, here the file decides rather than the element: any change of substance in one of the seven files requires the rebuild. Which markup ends up in the index is in the [Build Script XPath Reference](#build-script-xpath-reference).
+- `build-authority-index.py` reads `authority-files/` exclusively (the seven indexed files including `variants.xml`; since #270 also `contributors.xml`, but only to resolve the authors of curated comments to names, which it writes as `sense.commentRespName`). It does not read `tei/`. Unlike the corpus index, here the file decides rather than the element: any change of substance in one of the seven files requires the rebuild. Which markup ends up in the index is in the [Build Script XPath Reference](#build-script-xpath-reference).
 - `build-api.py` reads the two built `data/*.json.gz` exclusively, neither `tei/` nor `authority-files/`.
 
 **Routing by type of change:**
@@ -900,7 +900,7 @@ The two checklists below describe the **maximum case**. Not every change needs e
 | `tei/`: `@pos` or `@ana`; `<note>` in the header, the encoding description, `<respStmt>`; `<div>`, `<lg>`, `<pb>`, comments, indentation outside `<w>`. Condition: the sequence of `<w>` and the `<l>` boundaries stay unchanged | no rebuild, and therefore no version bump either. What remains is step 2 (schema) and step 8 (cross-ref audit), then commit and push | 0 s |
 | `tei/`: `<l>` boundaries moved, or one of the five header statements changed. No `<w>` added, removed, or changed in wording, `@lemmaRef` or `@corresp` | the corpus checklist without steps 5 and 6 | about 50 s |
 | `tei/`: the stock of `<w>`, their wording, `@lemmaRef` or `@corresp` touched; a file added or removed | the corpus checklist in full | about 85 s |
-| `authority-files/contributors.xml` | no rebuild, no bump (none of the outputs contains the file). Schema and cross-ref audit, then commit and push | 0 s |
+| `authority-files/contributors.xml` | the authority checklist in full except step 1: since #270 the authority index carries the name of every person a curated comment's `@resp` points at (`sense.commentRespName`). A change that touches none of those names leaves the index unchanged, which the rebuild shows as an empty diff | about 17 s |
 | One of the seven indexed `authority-files/` other than `works.xml` | the authority checklist in full except step 1 | about 17 s |
 | `authority-files/works.xml` | the authority checklist in full | about 17 s plus the Zotero run |
 

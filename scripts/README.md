@@ -120,7 +120,7 @@ Skripte im Archiv sind Referenz. Der Grund, sie nicht zu starten, ist nicht tech
 Die Build-Scripts werden über `npm run` aufgerufen und dürfen nicht verschoben werden.
 
 ### `build-authority-index.py`
-Verarbeitet die 7 inhaltstragenden Authority Files und generiert `data/authority-index.json.gz` (~3 MB). Enthält Lemmata, Personen, Werke, Konzepte, Gattungen, Namen und Varianten. `contributors.xml` (8. Authority-File seit 2026-04-14) wird bewusst **nicht** indiziert — es ist Projekt-interne Editor-Attribution, kein Suchinhalt.
+Verarbeitet die 7 inhaltstragenden Authority Files und generiert `data/authority-index.json.gz` (~3 MB). Enthält Lemmata, Personen, Werke, Konzepte, Gattungen, Namen und Varianten. `contributors.xml` (8. Authority-File seit 2026-04-14) wird bewusst **nicht** indiziert: es ist Projekt-interne Editor-Attribution, kein Suchinhalt. Seit #270 liest der Build die Datei trotzdem, um den Urheber eines kuratierten Kommentars als `commentRespName` neben dessen `@resp` zu schreiben.
 
 ### `build-corpus-index.py`
 Parst alle TEI-Dateien in `tei/` und generiert `data/corpus-index.json.gz` (~42 MB). Extrahiert Lemma-Positionen, Wortzählung und Metadaten. Die aktuelle Index-Version steht im `'version'`-Literal des Skripts und in `docs/TEI-MODEL.md` §11, nicht hier: zwei Stellen halten sich in Sync, drei driften.

@@ -197,10 +197,16 @@ class LemmaPage {
                     : '';
                 // Der Kommentar bekommt ein sichtbares Label: das Datenmodell
                 // trennt Bedeutungsangabe und Argumentation, eine Graustufe
-                // allein macht diese Trennung nicht lesbar.
+                // allein macht diese Trennung nicht lesbar. Seit #270 nennt
+                // das Label den Urheber, wo der Index ihn aufgeloest hat
+                // (commentRespName); "von" bezeichnet die Urheberschaft,
+                // keine gesonderte Pruefung (KZW 23.09.2026).
+                const commentLabel = sense.commentRespName
+                    ? `Kommentar von ${escapeHtml(sense.commentRespName)}`
+                    : 'Kommentar';
                 const comment = sense.comment
                     ? `<div class="mb-2">
-                           <div class="text-xs text-slate-400 mb-0.5">Kommentar</div>
+                           <div class="text-xs text-slate-400 mb-0.5">${commentLabel}</div>
                            <p class="text-sm text-slate-600 leading-relaxed">${escapeHtml(sense.comment)}</p>
                        </div>`
                     : '';
