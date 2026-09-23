@@ -30,7 +30,7 @@ const POS={NAM:'Eigenname',NOM:'Substantiv',VRB:'Verb',ADJ:'Adjektiv',ADV:'Adver
 const KEY='mhdbdb-review-364-'+DATA.fingerprint;
 const byId=Object.fromEntries(DATA.cases.map(c=>[c.id,c]));
 const byGroup=Object.fromEntries(DATA.groups.map(g=>[g.id,g]));
-let state={reviewer:'',answers:{},theme:'light'},active=DATA.groups[0].id;
+let state={reviewer:'',answers:{}},active=DATA.groups[0].id;
 const blank=()=>({status:'unreviewed',choice:'',other:'',comment:'',reviewer:'',updatedAt:null});
 const answer=id=>state.answers[id]||blank();
 const lemmaLabel=id=>{const l=DATA.candidates[id];return l?`${l.form} · ${l.pos.map(p=>p.split(' ').map(v=>POS[v]||v).join(' / ')).join(' / ')} (${id})`:id;};
@@ -69,7 +69,7 @@ function validate(raw){
  if(a.status==='decided'&&(!a.choice||(a.choice==='other'&&!a.other.trim())||(['new-name','keep-id'].includes(a.choice)&&!a.comment.trim())||!a.reviewer.trim()))throw Error('Unvollständige Entscheidung bei '+a.id);
  if(a.status==='open'&&!a.reviewer.trim())throw Error('Prüfername fehlt bei '+a.id);
  answers[a.id]={status:a.status,choice:a.choice,other:a.other,comment:a.comment,reviewer:a.reviewer,updatedAt:a.updatedAt};}
- return {reviewer:raw.reviewer,answers,theme:state.theme};
+ return {reviewer:raw.reviewer,answers};
 }
 function payload(){return {schema:DATA.schema,issue:364,fingerprint:DATA.fingerprint,sourceCommit:DATA.commit,sourceDate:DATA.date,sourceHashes:DATA.sources,exportedAt:new Date().toISOString(),reviewer:state.reviewer,decisions:DATA.cases.map(c=>({id:c.id,group:c.group,sigle:c.sigle,form:c.form,old:c.old,...answer(c.id)}))};}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(payload()));$('save').textContent='Im Browser gespeichert · '+new Date().toLocaleTimeString('de-AT');}catch(e){$('save').textContent='Browserspeicherung nicht verfügbar. Bitte JSON exportieren.';}}
