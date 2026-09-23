@@ -92,6 +92,11 @@ scripts/audit/*.json
 # CSV-Reports von quantify-unannotated-tokens.py (#189) — disposable Diagnose,
 # landen default in data/audit/ und gehoeren nie in den Index-Datenbestand
 data/audit/
+# Arbeitsdateien der Pruefseiten-Generatoren build-review-364.py und
+# build-review-klaus.py (#469), nur im Wurzelverzeichnis. Die archivierten
+# Beispiele unter examples/review-pages/ sind davon nicht betroffen.
+/364-lemma-review.html
+/Klaus-Pruefung-390-115.html
 # Ausnahme: die #152-Ratschen-Baseline ist KEIN disposable Report, sie ist
 # die committete Referenzmenge des CI-Gates (check-authority-cross-refs.py)
 !scripts/audit/lexicon-baseline.json
