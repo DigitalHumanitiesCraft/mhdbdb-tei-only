@@ -16,6 +16,7 @@ import {
 } from "../search/SearchHelpers.js";
 
 import { displayResults } from "../core/ui-helpers.js";
+import { buildGenreSubtrees } from "../../../../assets/js/lib/genre-tree.js";
 
 // Self-contained per module (DESIGN.md §Escaping-Konvention).
 function escapeHtml(s) {
@@ -94,19 +95,9 @@ export class GenreExplorer {
     const genreToWorks =
       window.playground?.authorityManager?.indexes?.genreToWorks || new Map();
 
-    const subtreeWorks = new Map();
-    const collect = (id, seen) => {
-      if (subtreeWorks.has(id)) return subtreeWorks.get(id);
-      if (seen.has(id)) return new Set();
-      const next = new Set(seen).add(id);
-      const works = new Set(genreToWorks.get(id) || []);
-      for (const childId of children.get(id) || []) {
-        for (const workId of collect(childId, next)) works.add(workId);
-      }
-      subtreeWorks.set(id, works);
-      return works;
-    };
-    for (const id of byId.keys()) collect(id, new Set());
+    // Seit #433 geteilt mit dem Gattungs-Vorschlag der Korpussuche, damit
+    // beide Seiten dieselbe Werkmenge einer Gattung meinen.
+    const { subtreeWorks } = buildGenreSubtrees(this.authorityData.genres, genreToWorks);
 
     this.tree = { byId, children, roots, subtreeWorks };
     return this.tree;
