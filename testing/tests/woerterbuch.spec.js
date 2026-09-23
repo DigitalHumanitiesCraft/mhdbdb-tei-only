@@ -72,4 +72,37 @@ test.describe('Wörterbuch-Einstiegsseite', () => {
         const navLink = page.locator('header a[data-nav="woerterbuch"]').first();
         await expect(navLink).toHaveText(/Wörterbuch/);
     });
+
+    // #467: Suche nach der Lemma-Nummer. lemma_4086 ist "mer" (KZWs Beispiel),
+    // gemessen am Authority-Index 2026-09-23.
+    test('Lemma-Nummer findet genau dieses Lemma (#467)', async ({ page }) => {
+        await page.goto('/woerterbuch.html');
+        await page.waitForSelector('#woerterbuchContent:not(.hidden)', { timeout: 30000 });
+
+        for (const eingabe of ['lemma_4086', 'lexicon.xml#lemma_4086']) {
+            await page.fill('#lemmaSearch', eingabe);
+            await expect(page.locator('#letterHeading')).toHaveText(`"${eingabe}" – 1 Treffer`);
+            await expect(page.locator('#entryGrid a')).toHaveCount(1);
+            await expect(page.locator('#entryGrid a')).toHaveText('mer');
+            await expect(page.locator('#entryGrid a')).toHaveAttribute('href', 'lemma/?id=4086');
+            await expect(page.locator('#entryGrid [data-lemma-number]')).toHaveText('lemma_4086');
+        }
+
+        await page.fill('#lemmaSearch', 'lemma_999999999');
+        await expect(page.locator('#letterHeading')).toHaveText('Keine Treffer für "lemma_999999999"');
+    });
+
+    test('nackte Zahl: Nummer zuerst, Ziffern-Lemmata bleiben (#467)', async ({ page }) => {
+        // "46" ist lemma_46 (abwege) UND ein Lemma, das mit der Ziffer beginnt
+        // (lemma_69733 "46"); die Praefixsuche darf dabei nicht verloren gehen.
+        await page.goto('/woerterbuch.html');
+        await page.waitForSelector('#woerterbuchContent:not(.hidden)', { timeout: 30000 });
+
+        await page.fill('#lemmaSearch', '46');
+        await expect(page.locator('#letterHeading')).toHaveText('"46" – 2 Treffer');
+        const eintraege = page.locator('#entryGrid a');
+        await expect(eintraege).toHaveText(['abwege', '46']);
+        await expect(page.locator('#entryGrid [data-lemma-number]')).toHaveCount(1);
+        await expect(page.locator('#entryGrid [data-lemma-number]')).toHaveText('lemma_46');
+    });
 });
