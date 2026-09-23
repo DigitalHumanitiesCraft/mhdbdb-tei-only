@@ -569,7 +569,7 @@ export function showWelcomeMessage() {
     <div class="rounded-2xl border border-brand-100 bg-brand-50/70 p-8 text-center">
       <h3 class="text-lg font-semibold text-brand-700">MHDBDB Playground bereit!</h3>
       <p class="mt-3 text-sm text-brand-800/90">
-        Authority Files sind geladen, der Korpus lädt im Hintergrund. Wählen Sie links eine Abfrage, um zu beginnen.
+        Authority Files sind geladen, das Korpus lädt im Hintergrund. Wählen Sie links eine Abfrage, um zu beginnen.
       </p>
     </div>
   `;

@@ -393,7 +393,7 @@ export class RhymeDictionary {
               value="${escapeAttr(this.state.textFilter)}"
               placeholder="Sigle, Titel oder Autor"
               class="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm focus:border-brand-400 focus:outline-none"/>
-            <span class="mt-1 block text-xs text-slate-500">Dieses Werkzeug grenzt den Korpus hier ein, nicht über Schritt 1. Ist dort genau ein Text ausgewählt, steht seine Sigle schon im Feld und lässt sich löschen.</span>
+            <span class="mt-1 block text-xs text-slate-500">Dieses Werkzeug grenzt das Korpus hier ein, nicht über Schritt 1. Ist dort genau ein Text ausgewählt, steht seine Sigle schon im Feld und lässt sich löschen.</span>
           </label>
           <label class="block">
             <span class="text-xs font-medium text-slate-600">Mindest-Reimpaare</span>
