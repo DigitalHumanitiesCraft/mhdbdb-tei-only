@@ -1,6 +1,6 @@
 ---
 name: nacht-a3-357-ingliart-sense
-description: Review-Lehren aus Nachtlauf A3 (#357, ADR-020): zweiter Sense an lemma_3036 Ingliart, sense/@ana-Verschiebung, welche Gates und Konsumenten sense/@ana lesen (keine), Katalognachbarn in REN, Guard-Verhalten bei git-Pipes
+description: Review-Lehren aus Nachtlauf A3 (#357, ADR-020): zweiter Sense an lemma_3036 Ingliart, sense/@ana-Verschiebung, welche Gates und Konsumenten sense/@ana lesen (keine), REN-Namenkatalog 24206-24220 (15 Personen, nicht 8), Sense-Konzepte in ptr/@target, Guard-Verhalten bei git-Pipes
 metadata:
   type: project
 ---
@@ -15,11 +15,20 @@ deshalb gate-neutral; richtig oder falsch entscheidet nur DATA-MODEL.md:849 (@co
 variants-Lookup ∩ ana des Sense). Wer den Typ beim alten Sense laesst, macht die Schnittmenge fuer den
 neuen Sense leer (0 Treffer = „Form fehlt in variants.xml"), also gehoert er zum Sense des Tokens.
 
-**Rennewart-Namenkatalog REN 2420.60–2421.00** (tei/REN.tei.xml ~201400–201440): Personen
-Pauriper 19404, Wimiligar 22280, Ingliart 3036, Rufter 22282, Echerabant 22283
-tragen concept_21012000 + concept_23112500; die „von X"-Ziele (Punpeire 21932, Nubilere 22278,
-Kartetstere 20599, Jelezie 22285, Themarie 22286) tragen concept_24120000 (Orte). Die drei im Laufplan
-genannten Nachbarn sind also nicht die einzigen Personen, aber alle Personen stimmen ueberein.
+**Rennewart-Namenkatalog, Runde 2 (23.09.) nachgemessen ueber l/@n statt Zeilenfenster:** der
+Katalog laeuft 24206–24220 (tei/REN.tei.xml 201405–201520), gerahmt von „als daz maer mir tuot
+bekant" (24205) und „die gaben ritterliche ir leben" (24221). Muster „X von Y", je Vers ein
+Personen- und ein Ortsname. 15 Personen-Tokens, alle 15 tragen concept_21012000 (Maennlich) +
+concept_23112500 (Personennamen); 8 davon in 24206–24213 (Echerabant, Pauriper, Wimiligar,
+Ingliart, Rufter, Ziraster 7900 = Zoroaster, Nilichter, Gabwar), 7 weitere in 24214–24220
+(Tshilis, Eriuch, Muris, Agapiter, Zefar, Duriter, Malchiar). Orte tragen concept_24120000;
+Ausnahme Pilde 47319 (Burg/Stadt/Gemeinde + 23112500, kein 24120000). Runde 1 hatte mit einem
+Zeilenfenster nur 5 Personen gesehen, der PR-Autor mit 24206–24213 nur 8: **ein Vers- oder
+Zeilenfenster ist nicht der Katalog, Katalogende am Rahmenvers messen.**
+Konzepte eines Sense stehen in `sense/ptr/@target`, NICHT in `sense/@ana` (dort stehen die
+Variantentypen); ein Skript, das @ana liest, zaehlt 0 Konzepte. Skript: $TEMP/rev357_katalog.py
+(lo hi als Argumente, relative Pfade, `python -X utf8`). lemma_7900 hat 2 Tokens (REN ziraster,
+PZ zôrôastêr), Sense zusaetzlich Arabisch + Nichtchristliche Mythologie.
 
 **Zahlen dieser Runde:** hoechste Sense-Nummer vor dem PR 119194 (grep -o 'sense_[0-9]*"' | sort -n);
 type_177507 nur an REN_242090_0 (1 Treffer in tei/, 1 in variants.xml); lemma_3036 hat 3 Tokens
