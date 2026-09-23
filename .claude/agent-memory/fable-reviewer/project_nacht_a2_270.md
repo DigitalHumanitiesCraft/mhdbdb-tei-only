@@ -5,7 +5,7 @@ metadata:
   type: project
 ---
 
-Review von `claude/nacht-a2-270` (593bdcb40 gegen 347998146), Runde 1, 24.09.2026.
+Review von `claude/nacht-a2-270` (593bdcb40 gegen 347998146), Runde 1, 23.09.2026 (Commit 593bdcb40 um 20:47 +0200; die erste Fassung dieser Zeile und die MEMORY.md-Indexzeile schrieben 24.09.).
 
 **Messwege, die ohne Rebuild und ohne Testlauf tragen:**
 - Index gegen Basis: `git show <basis>:data/authority-index.json.gz > $TEMP/x.gz` (git-Aufruf allein, sonst lehnt der Worktree-Guard ab), dann rekursiver Python-Walk beider gunzip-JSONs. Ergebnis 2 Diffs: `$.version` und `lemmata[22933].senses[0].commentRespName`.
@@ -18,5 +18,12 @@ Review von `claude/nacht-a2-270` (593bdcb40 gegen 347998146), Runde 1, 24.09.202
 - `data-integrity.yml` triggert auf `authority-files/**`, Freshness-Step (Z. 418-442) ohne `if:`; der harte Fehler in `resp_name` greift dort.
 - `api/index.html` nennt weder resp noch contributors (Kontrollwert `lemmata` 1 Treffer).
 - Nicht mitgezogen, weil eingefroren und nicht in der Ausnahmeliste: `DATA-MODEL.md:238-243` (Index-Schema ohne `commentRespName`, „the three curated fields"), `DATA-MODEL.md:499-511` XPath-Referenz ohne contributors.xml-Zeile, obwohl Z. 893 dorthin verweist; `DATA-MODEL.md:907` „As soon as an index is rebuilt it is mandatory" gegen die neue Routingzeile 903 (Rebuild mit leerem Diff) und Z. 909.
+
+**Runde 2 (9abad9dae, 23.09.2026, drei Fix-Commits):**
+- Die Routingzeile 903 (Bump nur bei Diff) ist mit dem Gate konsistent (`check-index-version-bump.py:115` `if old == new` = OK) und mit ADR-018 :1149 („a change to a name ... needs a rebuild and a bump"); der Widerspruch sitzt allein in DATA-MODEL.md:907 („dropped only in the rows without a rebuild"), eingefroren, nicht in der Ausnahmeliste. DECISIONS.md:1093 ist der Praezedenzfall (Rebuild ohne Diff, kein Bump).
+- Schemabeschreibungen des Authority-Index liegen an drei Orten: DATA-MODEL.md:238-243 (Block), :499-511 (XPath), TEI-MODEL-AUTH-FILES.md:219 („Index mapping"); CONTRACTS.md:927 ist die vierte (§G.3, normativ) und hatte commentRespName schon in Runde 1. Bei einem neuen Sense-Feld alle vier greppen (`grep -rl commentRespName --include=*.md`).
+- contributors.xml: 52 person/52 persName, 2 org/2 orgName, `el.find()` trifft also je genau einen Namen.
+- Spec liegt unter `testing/tests/`, nicht `testing/`; ein Glob auf `testing/*.spec.js` laeuft still leer (Kontrollwert „Kommentar von" = 4). Lemma-Seite ist `lemma/lemma-page.js`, kein `lemma/js/`.
+- Datumsfehler in Runde 1: Memory mit 24.09. beschriftet, Commits sind vom 23.09. (git show -s --format=%ci).
 
 **Spec-Anker statisch geprueft:** `#lemmaContent`/`#sensesContent` in `lemma/index.html:211/245`, `lemmaResults` in lemma-explorer.js:177, Router `#lemmata&q=` -> showLemmataWithSearch (router.js:42-44), Suche „abba" trifft 3 Lemmata (sabbat, Abbach, Abba) < maxResults 50. Nicht mehr geprueft: wie `lemmaItemButtons` ({text, action}) zu `onclick` gerendert wird.
