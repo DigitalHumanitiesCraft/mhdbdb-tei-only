@@ -128,6 +128,7 @@
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 20 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/). 7 weitere Tokens der Form minne blieben bewusst unannotiert (Review).</change>
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 2 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
+      <change when="2026-09-23" who="#editor">#228: 25 Tokens im editorischen Apparat der Noten mit @n (Sigel, Strophenzähler, Rubriken und Überschriften der Edition) entannotiert: lemmaRef, pos, ana und corresp entfallen. Entscheidung KZW 11.09.2026: moderner Apparat ist kein mittelhochdeutscher Text.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -140,7 +141,7 @@
           <note n="1">
             <supplied>
               <hi rend="upper_case_first_letter">
-                <w xml:id="NML_10000010_0" lemmaRef="lexicon.xml#lemma_56394" pos="NOM" ana="lexicon.xml#lemma_56394_sense_91309" corresp="variants.xml#type_306105">hs</w>
+                <w xml:id="NML_10000010_0">hs</w>
               </hi>
               <pc xml:id="NML_10000010_1" join="left">.</pc>
               <w xml:id="NML_10000010_2">a</w>
@@ -568,12 +569,12 @@
           <note n="1">
             <supplied>
               <hi rend="upper_case_first_letter">
-                <w xml:id="NML_20000010_0" lemmaRef="lexicon.xml#lemma_56394" pos="NOM" ana="lexicon.xml#lemma_56394_sense_91309" corresp="variants.xml#type_306105">hs</w>
+                <w xml:id="NML_20000010_0">hs</w>
               </hi>
               <pc xml:id="NML_20000010_1" join="left">.</pc>
               <w xml:id="NML_20000010_2">a</w>
             </supplied>
-            <w xml:id="NML_20000010_3" lemmaRef="lexicon.xml#lemma_53328" pos="NUM" ana="lexicon.xml#lemma_53328_sense_86743" corresp="variants.xml#type_350557">40</w>
+            <w xml:id="NML_20000010_3">40</w>
           </note>
           <lg type="stanza" n="1">
             <l n="1">
@@ -902,12 +903,12 @@
           <note n="1">
             <supplied>
               <hi rend="upper_case_first_letter">
-                <w xml:id="NML_30000010_0" lemmaRef="lexicon.xml#lemma_56394" pos="NOM" ana="lexicon.xml#lemma_56394_sense_91309" corresp="variants.xml#type_306105">hs</w>
+                <w xml:id="NML_30000010_0">hs</w>
               </hi>
               <pc xml:id="NML_30000010_1" join="left">.</pc>
               <w xml:id="NML_30000010_2">a</w>
             </supplied>
-            <w xml:id="NML_30000010_3" lemmaRef="lexicon.xml#lemma_69733" pos="NUM" ana="lexicon.xml#lemma_69733_sense_107268" corresp="variants.xml#type_347684">46</w>
+            <w xml:id="NML_30000010_3">46</w>
           </note>
           <l n="1">
             <hi rend="initial">
@@ -1716,12 +1717,12 @@
           <note n="1">
             <supplied>
               <hi rend="upper_case_first_letter">
-                <w xml:id="NML_40000010_0" lemmaRef="lexicon.xml#lemma_56394" pos="NOM" ana="lexicon.xml#lemma_56394_sense_91309" corresp="variants.xml#type_306105">hs</w>
+                <w xml:id="NML_40000010_0">hs</w>
               </hi>
               <pc xml:id="NML_40000010_1" join="left">.</pc>
               <w xml:id="NML_40000010_2">a</w>
             </supplied>
-            <w xml:id="NML_40000010_3" lemmaRef="lexicon.xml#lemma_53328" pos="NUM" ana="lexicon.xml#lemma_53328_sense_86743" corresp="variants.xml#type_350558">60</w>
+            <w xml:id="NML_40000010_3">60</w>
           </note>
           <l n="1">
             <hi rend="initial">
@@ -1833,11 +1834,11 @@
           <note n="1">
             <supplied>
               <hi rend="upper_case_first_letter">
-                <w xml:id="NML_50000010_0" lemmaRef="lexicon.xml#lemma_56394" pos="NOM" ana="lexicon.xml#lemma_56394_sense_91309" corresp="variants.xml#type_306105">hs</w>
+                <w xml:id="NML_50000010_0">hs</w>
               </hi>
               <pc xml:id="NML_50000010_1" join="left">.</pc>
               <hi rend="upper_case_first_letter">
-                <w xml:id="NML_50000010_2" lemmaRef="lexicon.xml#lemma_2" pos="NOM" ana="lexicon.xml#lemma_2_sense_2" corresp="variants.xml#type_80756">d</w>
+                <w xml:id="NML_50000010_2">d</w>
               </hi>
             </supplied>
           </note>
@@ -2481,7 +2482,7 @@
           <note n="1">
             <supplied>
               <hi rend="upper_case_first_letter">
-                <w xml:id="NML_70000010_0" lemmaRef="lexicon.xml#lemma_56394" pos="NOM" ana="lexicon.xml#lemma_56394_sense_91309" corresp="variants.xml#type_306105">hs</w>
+                <w xml:id="NML_70000010_0">hs</w>
               </hi>
               <pc xml:id="NML_70000010_1" join="left">.</pc>
             </supplied>
@@ -2750,10 +2751,10 @@
           <note n="1">
             <supplied>
               <hi rend="upper_case_first_letter">
-                <w xml:id="NML_80000010_0" lemmaRef="lexicon.xml#lemma_56394" pos="NOM" ana="lexicon.xml#lemma_56394_sense_91309" corresp="variants.xml#type_306105">hs</w>
+                <w xml:id="NML_80000010_0">hs</w>
               </hi>
               <pc xml:id="NML_80000010_1" join="left">.</pc>
-              <w xml:id="NML_80000010_2" lemmaRef="lexicon.xml#lemma_2" pos="NOM" ana="lexicon.xml#lemma_2_sense_2" corresp="variants.xml#type_104835">h</w>
+              <w xml:id="NML_80000010_2">h</w>
             </supplied>
           </note>
           <lg type="stanza" n="1">
@@ -6602,11 +6603,11 @@
           <note n="1">
             <supplied>
               <hi rend="upper_case_first_letter">
-                <w xml:id="NML_90000010_0" lemmaRef="lexicon.xml#lemma_56394" pos="NOM" ana="lexicon.xml#lemma_56394_sense_91309" corresp="variants.xml#type_306105">hs</w>
+                <w xml:id="NML_90000010_0">hs</w>
               </hi>
               <pc xml:id="NML_90000010_1" join="left">.</pc>
               <w xml:id="NML_90000010_2">i</w>
-              <w xml:id="NML_90000010_3" lemmaRef="lexicon.xml#lemma_2" pos="NOM" ana="lexicon.xml#lemma_2_sense_2" corresp="variants.xml#type_104881">k</w>
+              <w xml:id="NML_90000010_3">k</w>
             </supplied>
           </note>
           <l n="1">
@@ -6678,7 +6679,7 @@
           <note n="1">
             <supplied>
               <hi rend="upper_case_first_letter">
-                <w xml:id="NML_100000010_0" lemmaRef="lexicon.xml#lemma_56394" pos="NOM" ana="lexicon.xml#lemma_56394_sense_91309" corresp="variants.xml#type_306105">hs</w>
+                <w xml:id="NML_100000010_0">hs</w>
               </hi>
               <pc xml:id="NML_100000010_1" join="left">.</pc>
             </supplied>
@@ -6883,11 +6884,11 @@
           <note n="1">
             <supplied>
               <hi rend="upper_case_first_letter">
-                <w xml:id="NML_110000010_0" lemmaRef="lexicon.xml#lemma_56394" pos="NOM" ana="lexicon.xml#lemma_56394_sense_91309" corresp="variants.xml#type_306105">hs</w>
+                <w xml:id="NML_110000010_0">hs</w>
               </hi>
               <pc xml:id="NML_110000010_1" join="left">.</pc>
               <hi rend="upper_case_first_letter">
-                <w xml:id="NML_110000010_2" lemmaRef="lexicon.xml#lemma_69732" pos="" ana="lexicon.xml#lemma_69732_sense_107267" corresp="variants.xml#type_347682">mb</w>
+                <w xml:id="NML_110000010_2">mb</w>
               </hi>
             </supplied>
           </note>
@@ -7155,7 +7156,7 @@
           <note n="1">
             <supplied>
               <hi rend="upper_case_first_letter">
-                <w xml:id="NML_120000010_0" lemmaRef="lexicon.xml#lemma_56394" pos="NOM" ana="lexicon.xml#lemma_56394_sense_91309" corresp="variants.xml#type_306105">hs</w>
+                <w xml:id="NML_120000010_0">hs</w>
               </hi>
               <pc xml:id="NML_120000010_1" join="left">.</pc>
               <w xml:id="NML_120000010_2">n</w>
@@ -8515,10 +8516,10 @@
           <note n="1">
             <supplied>
               <hi rend="upper_case_first_letter">
-                <w xml:id="NML_200000010_0" lemmaRef="lexicon.xml#lemma_56394" pos="NOM" ana="lexicon.xml#lemma_56394_sense_91309" corresp="variants.xml#type_306105">hs</w>
+                <w xml:id="NML_200000010_0">hs</w>
               </hi>
               <pc xml:id="NML_200000010_1" join="left">.</pc>
-              <w xml:id="NML_200000010_2" lemmaRef="lexicon.xml#lemma_2" pos="NOM" ana="lexicon.xml#lemma_2_sense_2" corresp="variants.xml#type_80780">p</w>
+              <w xml:id="NML_200000010_2">p</w>
             </supplied>
           </note>
           <l n="1">
@@ -9086,7 +9087,7 @@
           <note n="1">
             <supplied>
               <hi rend="upper_case_first_letter">
-                <w xml:id="NML_230000010_0" lemmaRef="lexicon.xml#lemma_56394" pos="NOM" ana="lexicon.xml#lemma_56394_sense_91309" corresp="variants.xml#type_306105">hs</w>
+                <w xml:id="NML_230000010_0">hs</w>
               </hi>
               <pc xml:id="NML_230000010_1" join="left">.</pc>
               <w xml:id="NML_230000010_2">s</w>
@@ -11295,7 +11296,7 @@
           <note n="1">
             <supplied>
               <hi rend="upper_case_first_letter">
-                <w xml:id="NML_330000010_0" lemmaRef="lexicon.xml#lemma_56394" pos="NOM" ana="lexicon.xml#lemma_56394_sense_91309" corresp="variants.xml#type_306105">hs</w>
+                <w xml:id="NML_330000010_0">hs</w>
               </hi>
               <pc xml:id="NML_330000010_1" join="left">.</pc>
               <w xml:id="NML_330000010_2">sg</w>
@@ -11390,14 +11391,14 @@
           <note n="1">
             <supplied>
               <hi rend="upper_case_first_letter">
-                <w xml:id="NML_340000010_0" lemmaRef="lexicon.xml#lemma_56394" pos="NOM" ana="lexicon.xml#lemma_56394_sense_91309" corresp="variants.xml#type_306105">hs</w>
+                <w xml:id="NML_340000010_0">hs</w>
               </hi>
             </supplied>
             <pc xml:id="NML_340000010_1" join="left">.</pc>
             <hi rend="upper_case">
               <supplied>
                 <hi rend="upper_case_first_letter">
-                  <w xml:id="NML_340000010_2" lemmaRef="lexicon.xml#lemma_2" pos="NOM" ana="lexicon.xml#lemma_2_sense_2" corresp="variants.xml#type_191454">w</w>
+                  <w xml:id="NML_340000010_2">w</w>
                 </hi>
               </supplied>
             </hi>
@@ -11525,7 +11526,7 @@
           <note n="1">
             <supplied>
               <hi rend="upper_case_first_letter">
-                <w xml:id="NML_350000010_0" lemmaRef="lexicon.xml#lemma_56394" pos="NOM" ana="lexicon.xml#lemma_56394_sense_91309" corresp="variants.xml#type_306105">hs</w>
+                <w xml:id="NML_350000010_0">hs</w>
               </hi>
               <pc xml:id="NML_350000010_1" join="left">.</pc>
               <w xml:id="NML_350000010_2">x</w>
