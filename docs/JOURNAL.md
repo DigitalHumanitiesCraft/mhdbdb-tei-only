@@ -732,6 +732,32 @@ Keine. Verteilung aus `trockenlauf-auswerten.py`, Zeile dieser Session (`1185863
 - Angebot an Linda in #420: der Tab "Bezeichnung" (ihr Punkt 3), wenn sie ihn will, mit der Frage, in welchen Perspektiven.
 - #420 schließt mit dem Merge, weil Linda die Abnahme an Punkt 1 und 4 gebunden hat.
 
+## 2026-09-23 (Nachtlauf, Spur A, Paket A3) – #357: ein Name, zwei Entitäten, und das Konzept stand schon im Katalog
+
+KZW hat am 14.09. in #357 entschieden (ADR-020): „ingligar von jelezie“ im Rennewart bekommt kein eigenes Lemma, aber Ingliart einen zweiten Sense für den Menschennamen. Welches Konzept dieser Sense trägt, stand nicht im Thread. Der Laufplan verlangte, es aus den Nachbarn im selben Namenkatalog abzuleiten, und bei fehlender Übereinstimmung anzuhalten. Übereinstimmung gab es: `lemma_3036_sense_119195` trägt `concept_21012000` und `concept_23112500`, `REN_242090_0` zeigt mit `@ana` darauf, die beiden Parzival-Belege bleiben beim Pferdenamen. Authority-Index 1.9.11, Korpus-Index unverändert.
+
+### Was über den Einzelfall hinausgilt
+
+**Der Katalog war die bessere Messung als die drei genannten Nachbarn, und seine Grenzen gehören mitgemessen.** Der Auftrag nannte drei Lemmata. Der Katalog läuft von Vers 24206 bis 24220, gerahmt von „als daz maer mir tuot bekant“ und „die gaben ritterliche ir leben“, und hat 15 Personen und 14 Orte. Alle 15 Personen tragen dieselben zwei Konzepte; 14 davon sind Zeugen, der 15. ist der umgehängte Token. Ein Konzept, das der ganze Katalog trägt, ist abgeleitet und nicht gewählt. Meine erste Fassung des ADR-Satzes nannte „24206 bis 24213, acht Personen“ und damit ein Messfenster als Katalogumfang. Die Zahl stimmte für das Fenster, der Bezug nicht. Die zweite Reviewrunde hat das vor dem Push gefunden.
+
+**Der Korpus-Index sieht keine Sense-Zuordnung.** `build-corpus-index.py` liest `@ana` nicht. Ein Token, das nur den Sense wechselt, lässt den Index byte-gleich, und ein Bump wäre einer ohne Inhalt. Sichtbar wird der zweite Sense nur über den Authority-Index (`senseCount`, `conceptToLemmas`).
+
+**`sense/@ana` im Lexikon hat keinen Konsumenten im Build, trägt aber eine Regel.** Die Typliste des Sense ist die Schnittmenge, aus der ein Ingest `@corresp` auflöst (DATA-MODEL.md, Phase 3). `type_177507` („ingligar“) trägt korpusweit nur dieser eine Token. Deshalb ist er aus dem Pferde-Sense in den neuen gewandert; bliebe er stehen, wäre die Schnittmenge für den neuen Sense leer.
+
+### Rote Zeilen
+
+Keine. Der Fensterfehler im ADR-Satz (oben) fällt unter die Mengenlehre (`mengen.md`: eine richtige Zahl mit falschem Bezug), hat aber nichts getragen: Die Reviewrunde hat ihn vor dem ersten Push gefunden.
+
+Verteilung aus `trockenlauf-auswerten.py`, Zeile dieser Session (`09f7a3aa`, nacht-daten, über A1 bis A3), Stand beim Schreiben: shell-konventionen 110 Treffer bei 365 Aufrufen (30 %), mengenaussagen 57 bei 126 (45 %).
+
+### Was zurück an Christian geht
+
+- Lokaler Review in drei Runden, alle mergefähig, kein Klasse A. Einziger Sachbefund war der Katalogumfang im ADR-Satz (oben). Die Konzepte der drei Nachbarn hat die Koordination selbst am Baum geprüft.
+- Pilde (`lemma_47319`, REN 24216) steht im Katalog als Ort, trägt aber `concept_23253000`, `concept_24212000` und `concept_24222000` plus „Personennamen“ (`concept_23112500`) und kein `concept_24120000`. Das ist nicht angefasst und im PR genannt.
+- `VERDICT: VOLLLAUF GRUEN (377 Tests, 39 Dateien)` auf 767810ae7, vor der Prosa-Korrektur und dem Rebase auf #480. Nach dem Rebase ist der Authority-Rebuild byte-gleich mit dem committeten Index.
+- ADR-020 hat einen neuen Consequences-Punkt (Freeze-Ausnahme der Koordination). Er hält fest, dass die Konzeptzuweisung abgeleitet ist und KZW sie in #357 überstimmen kann; Z. 1247 („sense meanings stay curatorial“) bleibt stehen.
+- „Das gilt für alle Namen“ ist nicht angefasst. Welche Namen heute einen Sense mit Referenten verschiedener Art teilen, ist eine eigene Messung und steht als Beobachtung im Statuskommentar.
+
 ## 2026-09-23 (Nachtlauf, Spur B, Paket B3) – #467: das Wörterbuch nimmt die Lemma-Nummer
 
 KZWs Wunsch aus #467: im Wörterbuch "lemma_4086" eingeben und "mer" sehen. Das Suchfeld nimmt jetzt `lemma_4086`, auch in der Schreibung aus `@lemmaRef` (`lexicon.xml#lemma_4086`), und zeigt genau dieses Lemma; beim Treffer steht die Nummer neben dem Eintrag. Korpussuche und Playground sind nach dem Laufplan nicht gebaut, sondern gemessen; die Antwort steht in #467.
