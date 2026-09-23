@@ -798,3 +798,31 @@ Keine. Ein eigener Zählfehler, bevor er etwas trug: in der Meldung an die Koord
 
 - Die Multi-Lemma-Suche ist genau das Werkzeug aus dem Anwendungsfall des Tickets und hat keinen Export. Ein Export dort bräuchte eine Entscheidung, ob die Datei nur die Trefferliste (Text, Abstand, Vers) trägt oder auch den Wortlaut, der erst per `fetch` aus dem TEI kommt. Die Frage steht in #448.
 - Die Datensätze von Linda (CC BY-NC-SA) und Borek (CC0) gehen jetzt als CSV aus dem Playground. Die Datei trägt keine Quellenangabe, die Seite schon. Ob die CSV eine Attributionszeile braucht, ist eine Frage an Linda; eine Kommentarzeile bricht allerdings manches Einleseprogramm.
+
+## 2026-09-24 (Nachtlauf, Spur A, Paket A4) – #228: Apparat entannotiert, und ein gehaltenes Lemma hat 82 Geschwister im Lexikon
+
+KZW hat am 11.09. in #228 entschieden (K7): Die Dichternamen im Verfasser-Slot von acht Liedtexten, die übrigen Apparatnoten mit `@n` und die 422 neuhochdeutschen Inhaltsangaben in GWTK sind Herausgebertext und werden entannotiert; CL und KVO bleiben, in KVO wird `lob` nachgetragen; Lemmata, die dadurch jeden Beleg verlieren, werden gelöscht. Umgesetzt mit `scripts/ingest/entannotate-228/apply-228.py`: 69 Noten mit 132 Tokens in 12 Texten, 422 GWTK-Noten mit 2.058 Tokens, 165 Lemmata gelöscht (`lexicon.xml` 43.878 auf 43.713), `variants.xml` regeneriert (256.787 auf 256.512 Formen, 233.978 Mappings). Korpus-Index 4.2.20, Authority-Index 1.9.12.
+
+Drei Dinge blieben bewusst draußen. NEIM, weil seine Noten die Konkordanz tragen, die #453 sichern will. Die 26 Ziffern in MR1 und WVV, weil K7 sie nur unter „sofern“ nennt; die Form ist als Frage in #228. Und `lemma_66692` *Mur*: belegfrei, aber `lemma_33528` *Murouwe* und `lemma_66691` *Murstat* verweisen per `etym` darauf, also Haltepunkt statt Löschung.
+
+### Was über den Einzelfall hinausgilt
+
+**Ein Lemma zu halten macht seine ausgehenden Zeiger falsch, nicht nur seine eingehenden richtig.** Der Haltepunkt schützt die zwei `etym`-Verweise auf Mur. Dass Murs eigener Sense per `@ana` auf einen Typ zeigt, den die Regeneration von `variants.xml` gerade entfernt hatte, sah kein Gate: `check-authority-cross-refs.py` überspringt nackte `#frag`. Die erste Reviewrunde hat es gefunden.
+
+**Und das Suchmuster war der Zuschnitt.** Gemessen war mit `ana="#type_\d+"`, also nur an einwertigen Listen. `sense/@ana` ist eine Leerzeichenliste; 21.844 von 43.404 Attributen auf origin/main sind mehrwertig. Per `split()` gemessen hatte A4 nicht einen, sondern 83 Typ-Tokens hängend gemacht; Mur war der einzige einwertige Fall und deshalb der einzige, den das Muster sah. Die zweite Runde hat das gefunden, `prune-ana-228.py` entfernt die übrigen 82. Danach hängen wieder genau die 105 Tokens, die schon auf origin/main hingen. Ob jede Regeneration von `variants.xml` die Lexikonlisten mitbereinigen soll, ist eine Frage an den Data-Change-Lifecycle, nicht an #228.
+
+**Ein gelöschtes Lemma kann das Beispiel einer anderen Spur sein.** „46“ war seit #467 (B3, am selben Abend gemergt) das Prüfbeispiel für die Suche nach der Lemma-Nummer, in `woerterbuch.spec.js` und in `hilfe-korpussuche.html`. Beide zeigen jetzt auf „36“ (`lemma_69748` und `lemma_36` *aberelle*, genau zwei Treffer). Entscheidet KZW die Ziffern, muss das Beispiel noch einmal umziehen.
+
+### Rote Zeilen
+
+Keine. Der hängende Zeiger (83 Tokens) hat nichts getragen: `sense/@ana` hat keinen Konsumenten im Build, und beide Runden haben ihn vor dem ersten Push gefunden. Ebenso abgewendet: Der erste Apply-Lauf schrieb `<note n>` wörtlich in den `<change>`-Text und zerbrach 13 TEI-Dateien. `extract-variants.py` brach daran ab, die Dateien wurden zurückgesetzt, das Skript bekam einen Markup-Guard und einen Parse vor dem Schreiben.
+
+Verteilung aus `trockenlauf-auswerten.py`, Zeile dieser Session (`09f7a3aa`, nacht-daten, über A1 bis A4), Stand beim Schreiben: shell-konventionen 139 Treffer bei 542 Aufrufen (26 %), mengenaussagen 75 bei 190 (39 %).
+
+### Was zurück an Christian geht
+
+- Lokaler Review in drei Runden. Runde 1 und 2 hatten je einen Sachbefund (oben), Runde 3 auf Prune und Doku war mergefähig ohne Befund.
+- `VERDICT: VOLLLAUF GRUEN (379 Tests, 39 Dateien)` auf f13277280, vor dem Rebase auf #448 (danach f123424f5; `git diff --stat` zwischen beiden zeigt nur die 22 Dateien, die main seither geändert hat: #448, Kickoff, Reviewer-Memory). Er gilt für den Prune-Commit, weil kein Test `lexicon.xml` liest und Index und API danach byte-gleich neu gebaut wurden. Nach dem Rebase `VERDICT: TEILLAUF GRUEN (24 Tests aus 2 Datei(en))` für die zwei Specs, die #448 geändert hat, auf 3e15feb40.
+- Freeze-Ausnahmen der Koordination: CONTRACTS.md Z. 99, 381, 396 (Homographen jetzt 476 Formen, 991 Lemmata, 2,27 %), sieben ungegatete Stellen mit 43.878 in DATA-MODEL, DESIGN, FEATURES und TEI-MODEL-AUTH-FILES, das „46“-Beispiel.
+- Nicht angefasst, im PR genannt: `ingest/foreign-lang/28-gleis1-kandidaten.csv:5626` führt das gelöschte `lemma_64691` *Siegesfest*; die Kommentare in `hapax-legomena.spec.js:7-12` und `hapax-legomena.js:127-130` sagen noch, 42/46/49 fielen mit #228, es fiel nur 46.
+- Fragen an KZW in #228: die Form für die 26 Ziffern; ob Mur gelöscht und die zwei `etym`-Verweise umgehängt werden sollen.
