@@ -36,15 +36,10 @@ function escapeHtml(s) {
  * Zwischenknoten ihre Kinder nicht verstecken. KZW hat am 2026-09-15 in #433
  * entschieden, dass die Untergattungen immer mitkommen, auch im Explorer.
  * Seitdem liest "Werke anzeigen" den Teilbaum, und die Praemisse der
- * Trennung ist weg: in beiden Ansichten zaehlt dieselbe Menge.
- *
- * Die zwei Beschriftungen bleiben vorerst stehen, weil beide auch fuer die
- * neue Bedeutung zutreffen und genre-explorer.spec.js sie einzeln prueft.
+ * Trennung ist weg: in beiden Ansichten zaehlt dieselbe Menge, also traegt
+ * der Haken auch nur noch eine Beschriftung.
  */
-const FILTER_LABEL = {
-  baum: "Nur Zweige anzeigen, die zu Werken führen",
-  suche: "Nur Gattungen mit zugeordneten Werken anzeigen",
-};
+const FILTER_LABEL = "Nur Gattungen mit Werken anzeigen, Untergattungen eingerechnet";
 
 export class GenreExplorer {
   constructor(authorityData) {
@@ -151,7 +146,7 @@ export class GenreExplorer {
       <label class="flex items-center gap-2 text-sm text-slate-700 cursor-pointer">
         <input type="checkbox" id="genreOnlyWithWorks" ${this.onlyWithWorks ? "checked" : ""}
                class="w-4 h-4 rounded border-slate-300 text-brand-600 focus:ring-brand-500" />
-        <span id="genreFilterLabel">${FILTER_LABEL.baum}</span>
+        <span id="genreFilterLabel">${FILTER_LABEL}</span>
       </label>
     `;
 
@@ -384,11 +379,9 @@ export class GenreExplorer {
     // stehen. Ohne Begriff ist der Baum die Ansicht, mit Begriff die Liste.
     const treffer = document.getElementById("genreResults");
     const baum = document.getElementById("genreTreeSection");
-    const beschriftung = document.getElementById("genreFilterLabel");
     if (!searchTerm.trim()) {
       treffer?.classList.add("hidden");
       baum?.classList.remove("hidden");
-      if (beschriftung) beschriftung.textContent = FILTER_LABEL.baum;
       // Neu zeichnen, weil der #119-Filter jetzt auch den Baum betrifft und
       // sein Umschalter genau hier hereinkommt.
       this.renderTree();
@@ -396,7 +389,6 @@ export class GenreExplorer {
     }
     treffer?.classList.remove("hidden");
     baum?.classList.add("hidden");
-    if (beschriftung) beschriftung.textContent = FILTER_LABEL.suche;
 
     let matches = SearchPatterns.multiFieldNormalized(
       this.authorityData.genres,
@@ -404,7 +396,7 @@ export class GenreExplorer {
       [(genre) => genre.termDE || "", (genre) => genre.termEN || ""]
     );
 
-    // #119: optional filter to genres that actually have assigned works.
+    // #119: optional filter to genres that have works, subgenres included (#433).
     if (this.onlyWithWorks) {
       matches = matches.filter(
         (genre) => this.findWorksInGenre(genre.id).length > 0

@@ -663,3 +663,23 @@ Gemessene Verteilung aus `trockenlauf-auswerten.py`, Abschnitt `shell-konvention
 - Offen bei KZW in #252: die fünf Komma- und Doppelpunktfälle (Kontextliste vom 23.09. 14:05), die zwei `MUG`-Stellen mit der Zäsur im `<hi>`, die drei Stellen „Marker plus ein Zeichen“.
 - Nicht angefasst, weil nicht Spur A: der Docstring von `scripts/migrate-caesura-to-gap-252.py` nennt noch „838 in 17 Dateien“ als offen.
 - Zu entscheiden: ob die caesura-Zahl in TEI-MODEL §3.1 bleibt oder ein Audit-Schlüssel dazukommt (siehe oben).
+
+## 2026-09-23 (Nachtlauf, Spur B, Paket B1) – #433: der Chip war nie da, und die Kette dahinter auch nicht
+
+Der Nachlass des Tageslaufs, übernommen von der Neustart-Instanz `nacht-frontend-2` (die erste Instanz `nacht-frontend` endete ohne Commit). Zwei Teile: der verwaiste Commit `5625ff334` (eine Beschriftung für den Filterhaken im Gattungen-Explorer) per Cherry-pick, byte-identisch; und KZWs Entscheidung vom 23.09. 12:32 UTC in #433, den ungenutzten Anzeigezweig für den Gattungs-Chip auf den Trefferkarten zu entfernen. Damit sind die zwei Zusagen aus dem Eintrag des Tageslaufs eingelöst: „der Chip wartet auf KZW" und „FILTER_LABEL und `genre-explorer.spec.js` werden nach dem Merge von #465 zusammengezogen" (oben unter „Was zurück an Christian geht" und im #397-Absatz). Der JOURNAL-Nachtrag aus dem gesicherten Patch ist nicht übernommen: er hätte eine alte Zeile mitten im Text geändert und einen Hash genannt, den es auf `main` nicht geben wird.
+
+### Was über den Einzelfall hinausgilt
+
+**Ein toter Anzeigezweig hat eine tote Kette hinter sich, und die gehört mit weg.** Der Chip las `result.genre`, das `SearchEngine.getGenre()` aus `work.genre` füllte, einem Feld, das keines der 584 Werke im Authority-Index trägt (gemessen, der Schlüssel fehlt ganz; die Werke tragen die Liste `genres`). An derselben Kette hing ein Filterzweig `filters.genre`, den kein Aufrufer übergibt. Hätte ihn jemand benutzt, hätte er jeden Text ausgeschlossen, weil `null !== genre` immer wahr war. Nur die Chip-Zeile zu streichen hätte diesen Zweig als scheinbar funktionierenden Gattungsfilter stehen lassen, genau die Sorte Feld, die #58 erzeugt hat.
+
+**Kein neuer Test, und das ist gemessen, nicht bequem.** Ein Test auf das Fehlen des Chips wäre auf der Basis ebenso grün gewesen, weil der Chip nie gerendert hat. Er hätte also nichts festgehalten (§2.1 Regel 3 im Issue-Playbook).
+
+### Rote Zeilen
+
+Keine. Verteilung aus `trockenlauf-auswerten.py`, Zeile dieser Session (`11858632`, nacht-frontend-2), Stand beim Schreiben dieses Eintrags am 23.09. abends (die Zahlen wachsen mit jedem weiteren Aufruf der Session): shell-konventionen 19 Treffer bei 60 Aufrufen (32 %), mengenaussagen 2 bei 13 (15 %). Das Skript bricht weiterhin im Abschnitt `gelesenes` mit `AttributeError: 'NoneType' object has no attribute 'get'` ab (Zeile 102); es liegt in `claude-code-setup`.
+
+### Was zurück an Christian geht
+
+- `docs/DESIGN.md` verliert die Zeile „Genre tag" unter Badges, als benannte Freeze-Ausnahme der Koordination: die Chip-Zeile war die einzige Verwendung des Musters.
+- Nicht angefasst, weil Spur A gehört: das Feld `genre` je Text im Korpus-Index, in 667 von 667 Texten vorhanden und in keinem gefüllt (`build-corpus-index.py`). Es hat nach diesem PR auch im Frontend keinen Leser mehr; ob es aus dem Build fällt, ist eine eigene Entscheidung.
+- KZW prüft nach Merge und Deploy; sichtbar ändert sich an den Trefferkarten nichts, sichtbar neu ist nur die eine Beschriftung des Filterhakens im Gattungen-Explorer.

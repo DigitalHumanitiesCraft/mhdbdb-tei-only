@@ -13,24 +13,11 @@ class SearchEngine {
         this.authorityIndex = authorityIndex;
         this.corpusIndex = corpusIndex;
 
-        // Create reverse lookup maps for fast filtering
-        this.workToGenre = this.buildWorkToGenreMap();
+        // Reverse lookup map for the author filter
+        // (Die Gattungskette workToGenre/getGenre ist mit #433 entfallen: sie
+        // las work.genre, das keines der Werke traegt, und speiste nur den
+        // nie sichtbaren Gattungs-Chip der Trefferkarte.)
         this.workToAuthor = this.buildWorkToAuthorMap();
-    }
-
-    /**
-     * Build map: workRef → genre
-     */
-    buildWorkToGenreMap() {
-        const map = new Map();
-
-        this.authorityIndex.works.forEach(work => {
-            if (work.id && work.genre) {
-                map.set(work.id, work.genre);
-            }
-        });
-
-        return map;
     }
 
     /**
@@ -53,7 +40,7 @@ class SearchEngine {
     /**
      * Search for a lemma across all texts
      * @param {string} searchTerm - Word or lemma to search for
-     * @param {object} filters - { genre: string, authorId: string }
+     * @param {object} filters - { includedTexts: Set, authorId: string }
      * @returns {array} - Array of search results
      */
     async searchLemma(searchTerm, filters = {}) {
@@ -100,7 +87,6 @@ class SearchEngine {
                     lemmaId: lemmaId,
                     title: text.title,
                     author: this.getAuthorName(text.authorRef),
-                    genre: this.getGenre(text.workRef),
                     matchCount: matchCount,
                     wordCount: text.wordCount,
                     snippet: snippet
@@ -164,14 +150,6 @@ class SearchEngine {
             }
         }
 
-        // Genre filter
-        if (filters.genre) {
-            const textGenre = this.getGenre(text.workRef);
-            if (textGenre !== filters.genre) {
-                return false;
-            }
-        }
-
         // Author filter
         if (filters.authorId) {
             const textAuthor = this.getAuthorId(text.workRef);
@@ -181,18 +159,6 @@ class SearchEngine {
         }
 
         return true;
-    }
-
-    /**
-     * Get genre from work reference
-     */
-    getGenre(workRef) {
-        if (!workRef) return null;
-
-        // Extract work ID from ref: "works.xml#work_123" → "work_123"
-        const workId = workRef.includes('#') ? workRef.split('#')[1] : workRef;
-
-        return this.workToGenre.get(workId) || null;
     }
 
     /**
