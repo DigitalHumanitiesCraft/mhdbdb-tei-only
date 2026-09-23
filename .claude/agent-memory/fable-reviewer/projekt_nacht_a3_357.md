@@ -37,8 +37,18 @@ type_177507 nur an REN_242090_0 (1 Treffer in tei/, 1 in variants.xml); lemma_30
 api/concepts/concept_N.json tragen keine Lemmalisten, deshalb sind 2 API-Dateien vollstaendig.
 Issue #357 hat genau einen Kommentar (wachauer 2026-09-14T12:17:41Z), das Konzept steht nicht drin.
 
+**Runde 3 (23.09.), Satz DECISIONS.md:1250 nachgemessen:** Fenster 24200–24226 liefert dieselben
+29 NAM-Tokens wie 24206–24220, der Rahmen haelt. 15/15 mit beiden Konzepten gilt erst am HEAD:
+auf der Basis 5ede36174 zeigte REN_242090_0 auf lemma_3036_sense_4843 (concept_14012100 +
+23221000, Pferd), also 14/15. „all fifteen" zaehlt den Ingliart-Token mit, dessen Zuweisung der
+PR selbst schreibt; die Nachbarn sind 14. Wahr am HEAD, aber wer „derived from those neighbours"
+liest, schliesst auf 15 Zeugen. Kein anderer Prosa-Ort traegt 24213/„eight person" (git grep
+ueber *.md, docs, scripts), die alte Zahl steht nur in der Commit-Message 767810ae7.
+
 **Guard:** ein Verbundkommando mit `git diff ... | grep ... $'\xe2\x80\x94'` wird als „zu komplex"
-abgelehnt, `git diff ... | tail -1` im `;`-Verbund dagegen nicht. Em-Dash-Zaehlung ueber hinzugefuegte
+abgelehnt, `git diff ... | tail -1` im `;`-Verbund dagegen nicht. `python "$TEMP"/skript.py` wird
+ebenfalls abgelehnt (Variable im Programm-Operanden); literaler Pfad
+`C:/Users/chstn/AppData/Local/Temp/skript.py` laeuft, weil dort kein „Git" im Pfad steht. Em-Dash-Zaehlung ueber hinzugefuegte
 Zeilen deshalb per Python-Skript in $TEMP mit subprocess. `extract-variants.py` ohne --apply schreibt
 `authority-files/variants.regen.xml` (nicht gitignoriert, .gitignore:90 deckt nur Audit-Outputs),
 danach loeschen, sonst meldet der Endstand eine Bewegung.
