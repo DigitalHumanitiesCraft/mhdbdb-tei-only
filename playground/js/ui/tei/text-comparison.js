@@ -170,7 +170,7 @@ export class TextComparison {
           Zwei Texte auswählen. Die Lemma-Mengen werden verglichen: Was hat nur Text A, was nur Text B, was beide gemeinsam (mit Frequenz und Differenz).
         </p>
         <p class="text-xs text-slate-500">
-          Die beiden Texte werden hier direkt gewählt. Die Auswahl im Korpus-Browser (Schritt 1) wirkt auf dieses Werkzeug deshalb nicht: die Listen unten enthalten immer den ganzen Korpus.
+          Die beiden Texte werden hier direkt gewählt. Die Auswahl im Korpus-Browser (Schritt 1) wirkt auf dieses Werkzeug deshalb nicht: die Listen unten enthalten immer das ganze Korpus.
         </p>
         <div class="grid gap-3 sm:grid-cols-2">
           <label class="block">
