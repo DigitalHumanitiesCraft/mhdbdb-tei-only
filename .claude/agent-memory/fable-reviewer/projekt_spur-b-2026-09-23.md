@@ -1,6 +1,6 @@
 ---
 name: spur-b-2026-09-23-genre-tree-textfilter
-description: Review Spur B 23.09.2026 (#446/#435/#433): Gattungs-Teilbaum-Zahlen aus den Indexdateien, Tailwind-Frischeprobe per Testbuild ins Temp, Spec-Tabelle in DEVELOPMENT.md ist vollstaendig gepflegt, FEATURES.md traegt die #361-Semantik
+description: Review Spur B 23.09.2026 (#446/#435/#433): Gattungs-Teilbaum-Zahlen aus den Indexdateien, Tailwind-Frischeprobe per Testbuild ins Temp, Spec-Tabelle in DEVELOPMENT.md ist vollstaendig gepflegt; Folge-Commit FILTER_LABEL (5625ff334): 92/133/41 aus dem Authority-Index, Volllaufzahl aus report.json statt --list
 metadata:
   type: project
 ---
@@ -16,7 +16,7 @@ Review Spur B (Zweig `worktree-mhdbdb-playground`, HEAD cde8ca889 gegen merge-ba
 
 **Fallen:**
 - Bash-`for`-Schleife, deren Body den Repo-Pfad enthaelt (".../Projekte/Git/..."), wird vom Worktree-Guard als "git in komplexer Form" abgelehnt. Einzelbefehle mit `echo`-Labels statt Schleife.
-- `docs/FEATURES.md` Genre-Explorer-Absatz (Zeilen 174-199) beschreibt die #361-Trennung "eigene Werke" gegen "Werke im Zweig"; wer den Explorer auf Teilbaum umstellt, muss dort mitziehen. hilfe-playground.html war nachgezogen, FEATURES.md nicht.
+- `docs/FEATURES.md` Genre-Explorer-Absatz (Zeilen 174-199) beschrieb die #361-Trennung "eigene Werke" gegen "Werke im Zweig"; hilfe-playground.html war nachgezogen, FEATURES.md nicht. **Erledigt mit 97019dfc9** (Inbox-Commit der Koordination, FEATURES:177/186 tragen seither #433).
 - `authority-ui.js:197` `findWorksInGenre` ist ein Wrapper ohne Aufrufer (Grep ueber playground/**, assets/**, *.html, testing/).
 
 **Runde 2 (HEAD 2be362d11, Fix 6bc6f5c8d: Vorschlagsliste im Fluss statt Overlay), 23.09.2026:**
@@ -27,3 +27,8 @@ Review Spur B (Zweig `worktree-mhdbdb-playground`, HEAD cde8ca889 gegen merge-ba
 - Worktree-Guard lehnt neben `for`-Schleifen auch `python -c` ab, sobald der Repo-Pfad im Befehl steht: Skript ins Temp, `python -X utf8 skript.py`.
 - Altverhalten seit Runde 1, nicht vom Fix: Tab aus `#textFilter` springt auf den ersten Vorschlags-Button, 150 ms spaeter schliesst blur die Liste und der Fokus faellt auf BODY. Pfeil+Enter ist der tragende Tastaturpfad. `tabindex="-1"` an den Optionen waere der Beraterhinweis.
 - "Minne" hat genau 8 Vorschlaege mit Text, also zufaellig gleich `GENRE_SUGGESTION_LIMIT`; BKN haengt ueber Streitgedicht (Eltern: Dialogische Kurzform, Minnesang, Weltliches Meisterlied) am Minnesang-Teilbaum. `space-y-3` greift auf `:not([hidden])`, die Klasse `hidden` ist kein Attribut, der Abstand stoert bei display:none aber nicht.
+
+**Folge-Commit 5625ff334 (Zweig claude/433-filter-label, FILTER_LABEL auf einen String), Runde 1, 23.09.2026:**
+- Die Filterzahlen fuer den #119-Haken kommen allein aus `data/authority-index.json.gz` (`genres[].parents` + `maps.genreToWorks`, 92 Schluessel): direkt>0 = 92 Gattungen, Teilbaum>0 = 133, Differenz 41 (das war die Zahl im alten Spec-Kommentar). Lyrik genre_a2770533: 0 direkt / 427 Teilbaum. "lyrik" trifft gefaltet 7 Gattungen, Anlasslyrik hat Teilbaum 0 und faellt mit Haken heraus; die 30er-Grenze von handleSearchResults ist weit weg. Skript zehn Zeilen, ins Temp.
+- Als Subagent lehnt der Auto-Mode-Classifier `npx playwright test --list` ab (Interfere With Workloads), auch mit `--config` auf testing/. Die Volllaufzahl des Aufrufers steht in `testing/test-results/report.json` (`stats.expected/unexpected`, Suites rekursiv fuer die Dateizahl): 366/36 am 23.09. 16:23 lokal, vor dem eigenen Einzellauf lesen.
+- Alte Beschriftungen im Bestand nur noch in docs/journal-archive.md (historisch) und docs/JOURNAL.md:578/593 (Zusagen vom 23.09., durch den Commit eingeloest, nicht nachgezogen).
