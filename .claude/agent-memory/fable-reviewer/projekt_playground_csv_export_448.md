@@ -28,5 +28,12 @@ Review Runde 1 von #448 (claude/nacht-b4-448, dfa5c8a0a gegen 905a771c6), 23.09.
 - Lizenzen: Linda CC BY-NC-SA 4.0 steht in DATA-MODEL.md:371, Borek CC0 1.0 in :410; Seiten-Attribution naming-explorer.js:1140, horses-explorer.js:383.
 - Gates laufen im Worktree mit relativem Pfad (`python -X utf8 scripts/audit/check-no-em-dash.py --diff-base origin/main`), der cwd-Reset stellt das Worktree wieder her.
 
+**Runde 3 (23.09.2026, 4fcdf945d gegen d166fa4b1, Cherry-pick nach B3-Merge):**
+- Nullprobe fuer den Neuaufbau: `git diff <alter JOURNAL-Commit> HEAD --stat` zeigt nur die Dateien, die main seither brachte (B3 + Kickoff-Zeile + Memory); B4-Code taucht nicht auf. Dateimengen B3/B4 disjunkt bis auf JOURNAL.md und MEMORY.md, beide reine Anhaenge (JOURNAL-Hunk `@@ -777,3 +777,24 @@` ohne Minus-Zeilen).
+- Werkzeugzaehlung in der Landing: `<button id="...Btn">` in playground/index.html per awk ueber Zeilen 245-470: 19 = 6 (Korpusanalysen) + 6 (Normdaten, dazwischen) + 7 (Weitere Korpusanalysen); die 13 des Kommentars sind 6 + 7.
+- „bis zu 50 Fundstellen je Karte" der Multi-Lemma-Suche sitzt in tei-ui.js:200 (`fileResults.slice(0, 50)`), nicht in ui-helpers.js oder multi-lemma-search.js; `\b50\b` trifft dort nur Tailwind-Farben.
+- Textvergleich-Kopf ist dynamisch (`PZ (A)`, `ERB (B)`), der Kommentar paraphrasiert ihn als „Anzahl in A/B"; Versposition ebenso (`Treffer am ${positionLabel}`).
+- Guard lehnt `cd /dev/null; W=...; git -C "$W"` ab; plain `git ...; git ...` mit relativen Pfaden in einer Kette geht durch.
+
 **Why:** Die Zahlen im Commit („4 Texte mit Komma") und in der Hilfe („50 oder 100 Zeilen") sind genau die Klasse-B-Kandidaten, die eine Folgerunde sonst neu misst.
 **How to apply:** Bei Folgerunden zu #448 oder neuen Exporten die Grenzen und die minne-Zahlen von hier nehmen und nur bei Indexwechsel neu messen.
