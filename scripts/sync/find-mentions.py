@@ -56,6 +56,15 @@ die Arbeit, sobald die Probe nicht aufgeht. Dasselbe Prinzip gilt fuer die
 Quellen: eine Abfrage, die nicht geantwortet hat, landet in PROBLEME und nicht
 im Schweigen.
 
+Exit-Status
+-----------
+0 nur, wenn der Lauf vollstaendig war. Steht etwas in PROBLEME oder hat Zotero
+eine Neuanlage abgelehnt, endet der Lauf mit 1, im Trockenlauf wie beim
+Schreiben. Fuer einen Lauf am Terminal ist das nebensaechlich, weil der Text
+gelesen wird; fuer die unbeaufsichtigte Monatsroutine ist der Status das
+einzige Signal, und ohne ihn sieht ein Lauf mit vier ausgefallenen Quellen
+genauso aus wie einer ohne Neuigkeiten.
+
 Praezision vor Vollstaendigkeit: ein Treffer zaehlt nur, wenn der Projektname
 in Titel, Abstract oder Beschreibung steht oder wenn er aus der Suche nach
 einem eindeutigen Token stammt. Ohne diese Huerde liefert die Suche nach
@@ -199,7 +208,10 @@ def clean_doi(d):
     return d.rstrip(".")
 
 
-def get(url, tries=4, headers=None):
+def get(url, tries=4, headers=None, kopf=False):
+    """Eine GET-Anfrage mit Wiederholung. Gibt None zurueck, wenn nicht
+    geantwortet wurde, sonst die geparste Antwort, mit `kopf=True` als Paar
+    (Antwort, Kopfzeilen)."""
     for attempt in range(tries):
         try:
             r = requests.get(url, headers=headers or UA, timeout=60)
@@ -207,7 +219,7 @@ def get(url, tries=4, headers=None):
                 time.sleep(20 * (attempt + 1))
                 continue
             r.raise_for_status()
-            return r.json()
+            return (r.json(), r.headers) if kopf else r.json()
         except Exception as e:
             if attempt == tries - 1:
                 print(f"  ! {url[:80]}: {e}", file=sys.stderr)
@@ -263,16 +275,20 @@ def split_name(n):
 # ------------------------------------------------------------ Zotero-Basis
 def zotero_gesamtzahl():
     """Serverseitige Anzahl der Top-Level-Eintraege aus der Kopfzeile
-    Total-Results. None, wenn die Auskunft nicht zu bekommen war."""
+    Total-Results. None, wenn die Auskunft nicht zu bekommen war.
+
+    Laeuft ueber `get()` und damit mit demselben Wiederholungsbudget wie die
+    Seitenabrufe. Vorher war ausgerechnet dieser Aufruf der einzige ohne
+    Wiederholung, und an ihm haengt die ganze Schreibsperre.
+    """
+    antwort = get(f"https://api.zotero.org/groups/{GROUP}/items/top"
+                  "?format=json&limit=1", kopf=True)
+    if antwort is None:
+        return None
     try:
-        r = requests.get(f"https://api.zotero.org/groups/{GROUP}/items/top",
-                         params={"format": "json", "limit": 1},
-                         headers=UA, timeout=60)
-        r.raise_for_status()
-        return int(r.headers["Total-Results"])
-    except Exception as e:
-        print(f"  ! Gesamtzahl der Zotero-Gruppe nicht abrufbar: {e}",
-              file=sys.stderr)
+        return int(antwort[1]["Total-Results"])
+    except (KeyError, TypeError, ValueError) as e:
+        print(f"  ! Kopfzeile Total-Results unbrauchbar: {e}", file=sys.stderr)
         return None
 
 
@@ -330,7 +346,17 @@ def zotero_baseline():
                             "20000 Eintraegen erreicht, Rest ungelesen.")
             vollstaendig = False
             break
-    if erwartet is not None and gelesen != erwartet:
+    # Ohne Gegenprobe keine Freigabe. Faellt die Gesamtzahl aus, ist die Basis
+    # nicht laenger geprueft, und ungeprueft ist hier dasselbe wie lueckenhaft:
+    # `if not data: break` allein kann eine Seite, die mit HTTP 200 und leerer
+    # Liste zurueckkommt, nicht vom Listenende unterscheiden. Die fruehere
+    # Fassung liess die Pruefung in genau diesem Fall ersatzlos entfallen und
+    # schaltete die Schreibsperre damit aus, statt sie einzuschalten.
+    if erwartet is None:
+        PROBLEME.append("Zotero-Abgleichsbasis: Gesamtzahl der Gruppe nicht "
+                        "abrufbar, die Vollstaendigkeit ist ungeprueft.")
+        vollstaendig = False
+    elif gelesen != erwartet:
         PROBLEME.append(f"Zotero-Abgleichsbasis: {gelesen} von {erwartet} "
                         "Eintraegen gelesen.")
         vollstaendig = False
@@ -684,7 +710,7 @@ def zotero_item(c, heute):
         "itemType": typ,
         "title": c["title"][:500],
         "creators": creators,
-        "date": c.get("date", ""),
+        "date": c.get("date") or "",
         "url": c.get("url", "") or (f"https://doi.org/{c['doi']}" if c["doi"] else ""),
         "collections": [COL_PRUEFEN],
         "tags": [{"tag": "auto-fund"}, {"tag": f"auto-fund {heute[:7]}"}],
@@ -787,7 +813,10 @@ def main():
                           "jahr": jahr_aus(f.get("date")),
                           "autoren": nachnamen(f.get("authors"))})
 
-    cands.sort(key=lambda x: x["date"], reverse=True)
+    # `or ""`, weil ein Feld, das die Quelle mit null liefert, aus `.get()` als
+    # None zurueckkommt. Der Vergleich str gegen None wuerde den Lauf hier
+    # beenden, nach allen Netzabfragen und vor candidates.json.
+    cands.sort(key=lambda x: x["date"] or "", reverse=True)
     print(f"\n{unspezifisch} als unspezifisch verworfen, {bekannt} schon in Zotero.")
     print(f"{len(cands)} neue Kandidaten:\n")
     for c in cands:
@@ -820,7 +849,7 @@ def main():
 
     if not args.write:
         print("\n(Trockenlauf, nichts geschrieben. Mit --write in Zotero anlegen.)")
-        return
+        sys.exit(1 if PROBLEME else 0)
 
     if not basis_ok:
         print("\nFEHLER: Die Zotero-Abgleichsbasis ist unvollstaendig (siehe oben).")
@@ -834,7 +863,7 @@ def main():
         cands = cands[:MAX_NEU]
     if not cands:
         print("\nNichts Neues, in Zotero bleibt alles unveraendert.")
-        return
+        sys.exit(1 if PROBLEME else 0)
 
     key = os.environ.get("ZOTERO_API_KEY", "")
     if not key:
@@ -844,6 +873,9 @@ def main():
     print(f"\n{angelegt} Eintraege in 'Zu pruefen (automatisch gefunden)' angelegt.")
     for f in fehler:
         print(f"  ! {f}")
+    if PROBLEME or fehler:
+        print("\nDieser Lauf war nicht vollstaendig, Exit-Status 1.")
+        sys.exit(1)
 
 
 if __name__ == "__main__":
