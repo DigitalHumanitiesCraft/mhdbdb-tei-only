@@ -27,18 +27,19 @@ function escapeHtml(s) {
 }
 
 /**
- * Ein Haken, zwei Ansichten, zwei notwendig verschiedene Bedeutungen (#361).
+ * Ein Haken, zwei Ansichten, seit #433 eine Bedeutung: "hat Werke, die
+ * Untergattungen eingerechnet".
  *
- * In der Trefferliste heisst er "eigene Werke": eine Karte ohne eigene Werke
- * ist eine Sackgasse, ihr Knopf "Werke anzeigen" haette nichts zu zeigen.
- * Im Baum muss er "Werke im Zweig" heissen, sonst waeren die Kinder eines
- * Zwischenknotens ohne eigene Werke nicht mehr erreichbar. Nach den 92
- * Gattungen mit eigenen und den 133 mit Werken im Zweig sind das 41
- * Kategorien, die im gefilterten Baum stehen und in der gefilterten Suche
- * fehlen wuerden.
+ * #361 hatte sie bewusst getrennt: in der Trefferliste "eigene Werke", weil
+ * "Werke anzeigen" nur die direkt zugeordneten las und eine Karte ohne sie
+ * eine Sackgasse gewesen waere; im Baum "Werke im Zweig", damit werklose
+ * Zwischenknoten ihre Kinder nicht verstecken. KZW hat am 2026-09-15 in #433
+ * entschieden, dass die Untergattungen immer mitkommen, auch im Explorer.
+ * Seitdem liest "Werke anzeigen" den Teilbaum, und die Praemisse der
+ * Trennung ist weg: in beiden Ansichten zaehlt dieselbe Menge.
  *
- * Die Bedeutungen anzugleichen waere falsch, also sagt die Beschriftung je
- * Ansicht, was der Haken dort tut.
+ * Die zwei Beschriftungen bleiben vorerst stehen, weil beide auch fuer die
+ * neue Bedeutung zutreffen und genre-explorer.spec.js sie einzeln prueft.
  */
 const FILTER_LABEL = {
   baum: "Nur Zweige anzeigen, die zu Werken führen",
@@ -226,7 +227,7 @@ export class GenreExplorer {
     const path = [...ancestors, genreId];
     const key = path.join("/");
     const offen = this.expanded.has(key);
-    const eigene = this.findWorksInGenre(genreId).length;
+    const eigene = this.countOwnWorks(genreId);
     const imZweig = subtreeWorks.get(genreId)?.size || 0;
     const leer = imZweig === 0;
 
@@ -257,12 +258,14 @@ export class GenreExplorer {
            ><svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${chevron}"/></svg></button>`
       : `<span class="w-5 shrink-0"></span>`;
 
-    // Own works first, because that is what a click delivers; the subtree count
-    // only appears when it says something the own count does not.
-    const zahlen = [
-      eigene ? `${eigene} ${eigene === 1 ? "Werk" : "Werke"}` : null,
-      imZweig > eigene ? `${imZweig} im Zweig` : null,
-    ].filter(Boolean);
+    // Seit #433 zählt die Gattung ihre Untergattungen mit, wie überall im
+    // Explorer; die direkt zugeordneten stehen nur dabei, wenn sie weniger sind.
+    const zahlen = imZweig
+      ? [
+          `${imZweig} ${imZweig === 1 ? "Werk" : "Werke"}`,
+          eigene < imZweig ? `davon ${eigene} direkt` : null,
+        ].filter(Boolean)
+      : [];
 
     return `
       <div class="genre-node">
@@ -309,14 +312,14 @@ export class GenreExplorer {
    * of the duplicated nodes was clicked.
    */
   showGenreDetail(genreId) {
-    const { byId, subtreeWorks } = this.buildTree();
+    const { byId } = this.buildTree();
     const genre = byId.get(genreId);
     const panel = document.getElementById("genreDetail");
     if (!genre || !panel) return;
 
     const pfade = this.pathsTo(genreId);
     const werke = this.findWorksInGenre(genreId);
-    const imZweig = subtreeWorks.get(genreId)?.size || 0;
+    const eigene = this.countOwnWorks(genreId);
 
     const pfadHTML = pfade
       .map((p) => `<li class="leading-relaxed">${this.formatPath(p)}</li>`)
@@ -341,11 +344,12 @@ export class GenreExplorer {
              ? `<p class="mt-1 text-xs text-slate-500">erste 20 von ${werke.length}</p>`
              : ""
          }`
-      : `<p class="mt-1 text-slate-500">${
-          imZweig
-            ? `Dieser Gattung ist kein Werk direkt zugeordnet, im Zweig darunter stehen ${imZweig}.`
-            : "Weder dieser Gattung noch einer darunter ist ein Werk der MHDBDB zugeordnet."
-        }</p>`;
+      : `<p class="mt-1 text-slate-500">Weder dieser Gattung noch einer darunter ist ein Werk der MHDBDB zugeordnet.</p>`;
+    const herkunft = werke.length && eigene < werke.length
+      ? `<p class="mt-1 text-xs text-slate-500">Einschließlich der Untergattungen; direkt zugeordnet ${
+          eigene === 1 ? "ist 1 Werk" : `sind ${eigene} Werke`
+        }.</p>`
+      : "";
 
     panel.className =
       "rounded-2xl border border-slate-200 bg-white p-4 text-sm shadow-sm";
@@ -364,6 +368,7 @@ export class GenreExplorer {
       </div>
       <div class="mt-3">
         <div class="text-xs uppercase tracking-wide text-slate-500">Werke</div>
+        ${herkunft}
         ${werkeHTML}
       </div>
     `;
@@ -525,14 +530,33 @@ export class GenreExplorer {
     }, undefined, 'authors');
   }
 
+  /**
+   * Die Werke einer Gattung samt aller Untergattungen (#433). Bis dahin nur
+   * die direkt zugeordneten: "Lyrik" stand deshalb gedimmt und ohne Knöpfe
+   * da, obwohl darunter Hunderte Werke hängen. KZW am 2026-09-15: "die
+   * Untergattungen kommen immer mit, das geht nicht anders."
+   */
   findWorksInGenre(genreId) {
-    const workIds =
-      window.playground.authorityManager.indexes.genreToWorks.get(genreId) ||
-      [];
+    const { subtreeWorks } = this.buildTree();
+    const byId = this.worksById();
+    return [...(subtreeWorks.get(genreId) || [])]
+      .map((workId) => byId.get(workId))
+      .filter(Boolean)
+      .sort((a, b) => (a.title || "").localeCompare(b.title || "", "de"));
+  }
 
-    return workIds
-      .map((workId) => this.authorityData.works.find((w) => w.id === workId))
-      .filter(Boolean);
+  /** Nur die direkt zugeordneten Werke, für die Angabe "davon N direkt". */
+  countOwnWorks(genreId) {
+    const genreToWorks =
+      window.playground?.authorityManager?.indexes?.genreToWorks || new Map();
+    return (genreToWorks.get(genreId) || []).length;
+  }
+
+  worksById() {
+    if (!this._worksById) {
+      this._worksById = new Map(this.authorityData.works.map((w) => [w.id, w]));
+    }
+    return this._worksById;
   }
 
   /**
