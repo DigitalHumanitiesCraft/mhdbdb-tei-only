@@ -1,0 +1,22 @@
+---
+name: nacht-a2-270
+description: Review #270 commentRespName (Authority 1.9.10, Nachtlauf A2 23.09.2026): Messwege ohne Build-Lauf, Worktree-Guard, die drei frozen Doku-Stellen, die der Diff nicht erreicht
+metadata:
+  type: project
+---
+
+Review von `claude/nacht-a2-270` (593bdcb40 gegen 347998146), Runde 1, 24.09.2026.
+
+**Messwege, die ohne Rebuild und ohne Testlauf tragen:**
+- Index gegen Basis: `git show <basis>:data/authority-index.json.gz > $TEMP/x.gz` (git-Aufruf allein, sonst lehnt der Worktree-Guard ab), dann rekursiver Python-Walk beider gunzip-JSONs. Ergebnis 2 Diffs: `$.version` und `lemmata[22933].senses[0].commentRespName`.
+- Build-Funktionen in-process per `importlib.util.spec_from_file_location` auf `scripts/build-authority-index.py`; `load_contributor_names()` liefert 54 (52 `contrib_*` + `mhdbdb-team`, `dhcraft`), `resp_name` beendet mit SystemExit bei fremdem Praefix, unbekannter ID und leerer ID.
+- Der Worktree-Guard lehnt jedes Kommando ab, das einen Pfad mit „Git" enthaelt UND ein git-Wort; Probe-Skripte nach `$TEMP` (Write) und mit relativen Pfaden aus dem Worktree starten. `python -X utf8` wegen der Emoji-Ausgaben des Builds.
+
+**Was nach #397 an der alten Invariante hing (contributors.xml wird nicht gelesen):**
+- `ui-helpers.js:581` `totalAuthorityFiles = 7` zaehlt Index-Sammlungen (`authorityData.files`), nicht gelesene Dateien; bleibt richtig.
+- `check-index-version-bump.py` ist inhaltsbasiert, keine Dateiliste; unberuehrt.
+- `data-integrity.yml` triggert auf `authority-files/**`, Freshness-Step (Z. 418-442) ohne `if:`; der harte Fehler in `resp_name` greift dort.
+- `api/index.html` nennt weder resp noch contributors (Kontrollwert `lemmata` 1 Treffer).
+- Nicht mitgezogen, weil eingefroren und nicht in der Ausnahmeliste: `DATA-MODEL.md:238-243` (Index-Schema ohne `commentRespName`, „the three curated fields"), `DATA-MODEL.md:499-511` XPath-Referenz ohne contributors.xml-Zeile, obwohl Z. 893 dorthin verweist; `DATA-MODEL.md:907` „As soon as an index is rebuilt it is mandatory" gegen die neue Routingzeile 903 (Rebuild mit leerem Diff) und Z. 909.
+
+**Spec-Anker statisch geprueft:** `#lemmaContent`/`#sensesContent` in `lemma/index.html:211/245`, `lemmaResults` in lemma-explorer.js:177, Router `#lemmata&q=` -> showLemmataWithSearch (router.js:42-44), Suche „abba" trifft 3 Lemmata (sabbat, Abbach, Abba) < maxResults 50. Nicht mehr geprueft: wie `lemmaItemButtons` ({text, action}) zu `onclick` gerendert wird.
