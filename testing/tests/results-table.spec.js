@@ -144,6 +144,49 @@ test.describe('Issue #114: Tabellenansicht für Korpussuche', () => {
         expect(download.suggestedFilename()).toMatch(/^mhdbdb-suche-minne-\d{4}-\d{2}-\d{2}\.csv$/);
     });
 
+    // #448: app.js delegiert seit dem Playground-Export an lib/csv-export.js.
+    // Der Test haelt das Format der Hauptseite fest, und zwar gegen eine
+    // woertliche Kopie des alten #114-Quotings (altesQuoting), nicht gegen den
+    // Helfer selbst: jede Zeile wird zerlegt und mit dem alten Algorithmus
+    // wieder zusammengesetzt und muss bytegleich herauskommen.
+    test('CSV-Format der Ergebnistabelle bleibt das aus #114 (#448)', async ({ page }) => {
+        const altesQuoting = (value) => {
+            const str = String(value ?? '');
+            if (/[",\n\r]/.test(str)) {
+                return `"${str.replace(/"/g, '""')}"`;
+            }
+            return str;
+        };
+
+        await page.fill('#searchInput', 'minne');
+        await page.click('#searchButton');
+        await page.waitForSelector('#resultsList > *');
+        await page.click('#viewToggleTable');
+        await page.waitForSelector('#resultsList table');
+
+        const downloadPromise = page.waitForEvent('download');
+        await page.click('#resultsDownloadBtn');
+        const bytes = fs.readFileSync(await (await downloadPromise).path());
+
+        expect([...bytes.subarray(0, 3)]).toEqual([0xEF, 0xBB, 0xBF]);
+        const text = bytes.toString('utf8').slice(1);
+        const zeilen = text.split('\r\n');
+        expect(zeilen[0]).toBe('Sigle,Titel,Autor*in,Treffer,Frequenz/10k,Keyness (LL),Annotierte Tokens');
+        const anzahl = await page.evaluate(() => window._mhdbdbApp.currentResults.length);
+        expect(zeilen.length - 1).toBe(anzahl);
+
+        let gequotet = 0;
+        for (const zeile of zeilen) {
+            const zellen = zerlegeCsvZeile(zeile);
+            expect(zellen).toHaveLength(7);
+            expect(zellen.map(altesQuoting).join(',')).toBe(zeile);
+            if (zeile.includes('"')) gequotet++;
+        }
+        // Kontrollwert: minne trifft Titel mit Komma, sonst prueft die
+        // Schleife das Quoting gar nicht
+        expect(gequotet).toBeGreaterThan(0);
+    });
+
     // --- Issue #114 Followups (Integrationswünsche aus der Prüfung) ---
 
     test('Gesamtzeile zeigt die Gesamttrefferzahl (tfoot)', async ({ page }) => {
@@ -406,3 +449,22 @@ test.describe('Issue #203: KWIC-Belege-Export', () => {
         expect(lines.length - 1).toBeGreaterThan(100);
     });
 });
+
+/** Eine CSV-Zeile nach RFC 4180 in Zellen zerlegen (Umbrueche in Zellen kommen hier nicht vor). */
+function zerlegeCsvZeile(zeile) {
+    const zellen = [];
+    let zelle = '';
+    let inQuotes = false;
+    for (let i = 0; i < zeile.length; i++) {
+        const c = zeile[i];
+        if (inQuotes) {
+            if (c === '"' && zeile[i + 1] === '"') { zelle += '"'; i++; }
+            else if (c === '"') inQuotes = false;
+            else zelle += c;
+        } else if (c === '"') inQuotes = true;
+        else if (c === ',') { zellen.push(zelle); zelle = ''; }
+        else zelle += c;
+    }
+    zellen.push(zelle);
+    return zellen;
+}
