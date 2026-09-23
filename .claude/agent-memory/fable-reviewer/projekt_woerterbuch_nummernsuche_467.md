@@ -28,3 +28,12 @@ traegt "Claude Opus 5.5", das JOURNAL sagte "ab B3" in CLAUDE.md-Form.
 Datenzahlen (Authority-Index 23.09.2026): variants hat 89 rein numerische Schluessel, alle auf die
 5 Ziffernlemmata (53328 "1", 69733 "46", 69748 "36", 69749 "42", 69750 "49"); `variants["4086"]`
 fehlt. Korpussuche `46` trifft daher das Lemma "46", nie lemma_46.
+
+**Runde 3 (Cherry-pick-Neuaufbau, 23.09.2026 spaet):** `git range-diff <alt-basis>..<alt> origin/main..HEAD`
+zeigt die uebernommenen Commits als `=`; dazu `git diff <alt-head> HEAD --stat -- <code/test/hilfe>` als
+Nullprobe (leer = Code identisch). Ein Squash-Merge-Trailer kann eine Variante tragen: B1 (#478,
+28a5bffda) hat "Claude Opus 5.5 (1M context)", B2 (#480) "Claude Opus 5.5"; ein JOURNAL-Satz "tragen
+Opus 5.5" ist fuer B1 nur bis auf den Zusatz wahr. `trockenlauf-auswerten.py` (claude-code-setup/hooks)
+druckt je Session eine Zeile (Aufrufe/Treffer/Rate) und laeuft ohne Argumente; Sessionzahlen im JOURNAL
+sind nur als "damals <= jetzt" pruefbar (76/259 -> 86/316 in der Zwischenzeit). "steht in #467" war zum
+Pin-Zeitpunkt weiter falsch (2 Kommentare, beide wachauer); der Aufrufer wollte vor dem Push posten.
