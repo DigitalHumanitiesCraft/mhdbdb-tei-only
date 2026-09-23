@@ -21,7 +21,7 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Issue #196: Echte Hapaxlegomena', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('http://localhost:8080/playground/#hapax-legomena');
+    await page.goto('/playground/#hapax-legomena');
     await page.waitForSelector('#hxFreq', { state: 'visible', timeout: 60000 });
   });
 

@@ -15,7 +15,8 @@
  *
  * 1. Fremder Dev-Server. `testing/playwright.config.js` setzt
  *    `reuseExistingServer: !process.env.CI`, und Playwright prueft nur, ob auf
- *    Port 8080 jemand antwortet, nicht wer. Solange alle Sessions im selben
+ *    dem Testport (Vorgabe 8080, siehe testing/test-port.js) jemand
+ *    antwortet, nicht wer. Solange alle Sessions im selben
  *    Arbeitsbaum liefen, war das harmlos, und das Journal hat es fuenfmal als
  *    harmlos abgehakt (`journal-archive.md:839, 954, 1021, 1080, 1127`). Seit
  *    Regel 29 jeder Session ihren eigenen Worktree gibt, serviert ein
@@ -55,6 +56,7 @@ import { existsSync, rmSync, mkdirSync, writeFileSync, unlinkSync, readFileSync,
 import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { randomBytes } from 'crypto';
+import { testPort } from '../testing/test-port.js';
 
 const hier = dirname(fileURLToPath(import.meta.url));
 const repoWurzel = resolve(hier, '..');
@@ -64,7 +66,17 @@ const reportPfad = resolve(ergebnisVerzeichnis, 'report.json');
 const specVerzeichnis = resolve(testVerzeichnis, 'tests');
 const playwrightCli = resolve(repoWurzel, 'node_modules', '@playwright', 'test', 'cli.js');
 
-const BASIS_URL = 'http://localhost:8080';
+// Derselbe Port wie `baseURL` und `webServer` in testing/playwright.config.js,
+// aus derselben Funktion gelesen (#465): der Sentinel unten muss den Server
+// pruefen, den Playwright gleich wiederverwendet, sonst prueft er nichts.
+// Playwright erbt die Umgebung ueber `spawnSync` weiter unten.
+let PORT;
+try {
+  PORT = testPort();
+} catch (fehler) {
+  abbruch(fehler.message, 2);
+}
+const BASIS_URL = `http://localhost:${PORT}`;
 
 // Grosszuegig bemessen, in beide Richtungen begruendet: eine aktive Ablehnung
 // kommt sofort und wartet nie, ein gesaettigter `http-server` dagegen kann
@@ -104,7 +116,7 @@ function mitFrist(url) {
 }
 
 /**
- * Antwortet auf 8080 jemand, und ist es unser Arbeitsbaum?
+ * Antwortet auf dem Testport jemand, und ist es unser Arbeitsbaum?
  *
  * Der Test laeuft ueber eine Datei mit Zufallsnamen und Zufallsinhalt unter
  * `testing/test-results/`: das Verzeichnis ist gitignored, der Sentinel
@@ -192,10 +204,11 @@ if (!ohneReport) {
   const server = await serverPruefen();
   if (server.status === 'fremd') {
     abbruch(
-      `Port 8080 wird von einem fremden oder nicht antwortenden Server bedient (${server.grund}).\n` +
+      `Port ${PORT} wird von einem fremden oder nicht antwortenden Server bedient (${server.grund}).\n` +
         `Playwright wuerde ihn wiederverwenden und die Suite gegen einen anderen\n` +
         `Arbeitsbaum laufen lassen. Erwartet: ${repoWurzel}\n` +
-        `Abhilfe: den fremden Dev-Server beenden, dann erneut starten.`,
+        `Abhilfe: den fremden Dev-Server beenden, dann erneut starten,\n` +
+        `oder auf einen freien Port ausweichen (MHDBDB_TEST_PORT=8081 npm test).`,
       2
     );
   }

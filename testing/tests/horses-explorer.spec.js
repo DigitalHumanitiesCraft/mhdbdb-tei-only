@@ -17,11 +17,9 @@
 
 import { test, expect } from '@playwright/test';
 
-const BASE = 'http://localhost:8080';
-
 test.describe('Arthurische Pferde (#193)', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto(`${BASE}/playground/#horses`);
+    await page.goto(`/playground/#horses`);
     // dispatchFromHash() laeuft erst nach Corpus-Load; danach laedt das Modul
     // seinen eigenen Index lazy (fetch+pako, 11 KB)
     await page.waitForSelector('#hxHorseSelect', { state: 'visible', timeout: 60000 });
@@ -98,7 +96,7 @@ test.describe('Arthurische Pferde (#193)', () => {
   test('verseId springt im Reader auf den richtigen Vers', async ({ page }) => {
     // Der Kern des Deep-Links: ?verse=26 waere im Parzival mehrdeutig (rund
     // 800 Verse tragen <l n="26">), ?verseId=PZ_33926 ist es nicht.
-    await page.goto(`${BASE}/korpus.html?textId=PZ&verseId=PZ_33926`);
+    await page.goto(`/korpus.html?textId=PZ&verseId=PZ_33926`);
     await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
     await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
 
@@ -117,7 +115,7 @@ test.describe('Arthurische Pferde (#193)', () => {
     // die Kerne 462900 bis 462957 ab. Zehn Belege zeigen dorthin; mit nur dem
     // ersten Kern am <l> faenden sie ihr Ziel nicht und der Sprung liefe
     // stumm ins Leere. Deshalb traegt ein mehrversiges <l> data-core-max.
-    await page.goto(`${BASE}/korpus.html?textId=ER&verseId=ER_462918`);
+    await page.goto(`/korpus.html?textId=ER&verseId=ER_462918`);
     await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
     await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
 

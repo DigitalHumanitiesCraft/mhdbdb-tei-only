@@ -12,7 +12,7 @@ test.describe('TEI DOM Caching', () => {
     test('first load caches TEI file', async ({ page }) => {
         test.setTimeout(120000);
 
-        await page.goto('http://localhost:8080/korpus.html');
+        await page.goto('/korpus.html');
 
         const logs = [];
         page.on('console', msg => logs.push(msg.text()));
@@ -51,7 +51,7 @@ test.describe('TEI DOM Caching', () => {
         // darf keinen /tei/-Request mehr auslösen (Revalidierungs-Memo, #151).
         test.setTimeout(120000);
 
-        await page.goto('http://localhost:8080/korpus.html');
+        await page.goto('/korpus.html');
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
 
         await page.fill('#searchInput', 'got');
@@ -75,7 +75,7 @@ test.describe('TEI DOM Caching', () => {
     });
 
     test('cache statistics available', async ({ page }) => {
-        await page.goto('http://localhost:8080/korpus.html');
+        await page.goto('/korpus.html');
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
 
         const cacheStats = await page.evaluate(async () => {
@@ -90,7 +90,7 @@ test.describe('TEI DOM Caching', () => {
     });
 
     test('stale cached copy is replaced on next load (revalidation, #151)', async ({ page }) => {
-        await page.goto('http://localhost:8080/korpus.html');
+        await page.goto('/korpus.html');
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
 
         const result = await page.evaluate(async () => {
@@ -134,7 +134,7 @@ test.describe('TEI DOM Caching', () => {
     });
 
     test('unchanged file revalidates via 304 and serves cached copy', async ({ page }) => {
-        await page.goto('http://localhost:8080/korpus.html');
+        await page.goto('/korpus.html');
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
 
         const result = await page.evaluate(async () => {
@@ -183,7 +183,7 @@ test.describe('TEI DOM Caching', () => {
     });
 
     test('same session re-load skips the network (revalidation memo)', async ({ page }) => {
-        await page.goto('http://localhost:8080/korpus.html');
+        await page.goto('/korpus.html');
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
 
         const result = await page.evaluate(async () => {
@@ -209,7 +209,7 @@ test.describe('TEI DOM Caching', () => {
     });
 
     test('cache can be cleared', async ({ page }) => {
-        await page.goto('http://localhost:8080/korpus.html');
+        await page.goto('/korpus.html');
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
 
         const result = await page.evaluate(async () => {

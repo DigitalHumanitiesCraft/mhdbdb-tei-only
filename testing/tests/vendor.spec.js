@@ -83,7 +83,7 @@ test('at least the 5 known pages reference vendored pako/dexie', () => {
 
 for (const { urlPath } of pagesWithLibs) {
     test(`vendored pako + dexie load on ${urlPath}`, async ({ page }) => {
-        await page.goto(`http://localhost:8080${urlPath}`);
+        await page.goto(`${urlPath}`);
         await page.waitForLoadState('domcontentloaded');
         const libs = await page.evaluate(() => ({
             pako: typeof window.pako !== 'undefined',

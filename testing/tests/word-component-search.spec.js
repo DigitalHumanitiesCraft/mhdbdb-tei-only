@@ -23,7 +23,7 @@
 
 import { test, expect } from '@playwright/test';
 
-const KOMPONENTEN_ROUTE = 'http://localhost:8080/playground/#lemmata&mode=component';
+const KOMPONENTEN_ROUTE = '/playground/#lemmata&mode=component';
 
 /** Wartet, bis der Authority-Index geladen und der Explorer verdrahtet ist. */
 async function playgroundBereit(page) {
@@ -351,7 +351,7 @@ test.describe('#239: Modus-Umschaltung und Regression der normalen Lemmasuche', 
         // Regressionstest gegen Akzeptanzkriterium 4: der neue Modus darf die
         // reguläre Suche nicht anfassen. Sie ist unverändert substring-basiert
         // auf der normalisierten Form und kennt keine Gruppen.
-        await page.goto('http://localhost:8080/playground/#lemmata&q=minne');
+        await page.goto('/playground/#lemmata&q=minne');
         await playgroundBereit(page);
 
         await expect(page.locator('#lemmaResults')).toContainText('Treffer für "minne"', { timeout: 30000 });
@@ -376,7 +376,7 @@ test.describe('#239: Modus-Umschaltung und Regression der normalen Lemmasuche', 
     });
 
     test('die Route ohne mode-Parameter öffnet weiterhin die normale Suche', async ({ page }) => {
-        await page.goto('http://localhost:8080/playground/#lemmata');
+        await page.goto('/playground/#lemmata');
         await playgroundBereit(page);
 
         const modus = await page.evaluate(

@@ -2,9 +2,14 @@
 import { defineConfig, devices } from '@playwright/test';
 import { fileURLToPath } from 'url';
 import { dirname, resolve } from 'path';
+import { testPort, basisUrl } from './test-port.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
+// Vorgabe 8080, abweichend über MHDBDB_TEST_PORT (#465). Gelesen wird nur in
+// test-port.js, weil run-tests.js denselben Port per Sentinel prüft.
+const PORT = testPort();
 
 export default defineConfig({
   testDir: './tests',
@@ -64,7 +69,7 @@ export default defineConfig({
     ['json', { outputFile: resolve(__dirname, 'test-results/report.json') }]
   ],
   use: {
-    baseURL: 'http://localhost:8080',
+    baseURL: basisUrl(),
     // Zusammen mit retries: 1 oben. 'retain-on-failure' wäre der naive Weg,
     // kostet 19 bis 26 Prozent, je nach Referenzlauf: der Modus zeichnet für
     // JEDEN Test auf und verwirft die Traces der grünen erst hinterher
@@ -97,8 +102,8 @@ export default defineConfig({
   ],
 
   webServer: {
-    command: 'npx http-server .. -p 8080 -c-1',
-    port: 8080,
+    command: `npx http-server .. -p ${PORT} -c-1`,
+    port: PORT,
     reuseExistingServer: !process.env.CI,
     timeout: 120 * 1000,
   },

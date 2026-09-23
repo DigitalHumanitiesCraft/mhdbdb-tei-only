@@ -44,7 +44,7 @@
 
 import { test, expect } from '@playwright/test';
 
-const PLAYGROUND = 'http://localhost:8080/playground/';
+const PLAYGROUND = '/playground/';
 
 /** Der Homograph aus dem Kopfkommentar. */
 const FORM = 'arm';

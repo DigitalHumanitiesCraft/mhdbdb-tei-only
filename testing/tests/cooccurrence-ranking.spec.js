@@ -18,7 +18,7 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Issue #163: Kookkurrenz-Dropdown-Homographen', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('http://localhost:8080/playground/#cooccurrence-ranking');
+    await page.goto('/playground/#cooccurrence-ranking');
     await page.waitForSelector('#coRkSearchBtn', { state: 'visible', timeout: 60000 });
   });
 
@@ -49,7 +49,7 @@ test.describe('Issue #163: Kookkurrenz-Dropdown-Homographen', () => {
 
 test.describe('Issue #164: Multi-Lemma-Suche rôt + munt', () => {
   test('resolveLemmaIds löst rôt auf das Adjektiv-Lemma auf', async ({ page }) => {
-    await page.goto('http://localhost:8080/playground/');
+    await page.goto('/playground/');
     await page.waitForFunction(() => {
       return window.playground?.corpusData?.texts?.length > 0 &&
              window.playground?.ui?.multiLemmaSearch;
@@ -66,7 +66,7 @@ test.describe('Issue #164: Multi-Lemma-Suche rôt + munt', () => {
     // aber nur 60 her: der Wert war unerreichbar. Nicht gesenkt, sondern das
     // Budget nachgezogen, weil die Nähe-Suche den ganzen Korpus-Index lädt.
     test.setTimeout(180000);
-    await page.goto('http://localhost:8080/playground/#multi-lemma&lemmata=r%C3%B4t,munt&mode=proximity&dist=10');
+    await page.goto('/playground/#multi-lemma&lemmata=r%C3%B4t,munt&mode=proximity&dist=10');
 
     // 366 Kookkurrenzen in 98 Texten erwartet — auf jeden Fall nicht "(0 Treffer)"
     await expect(page.locator('#resultsContainer')).toContainText('Nähe-Beziehungen', { timeout: 120000 });
@@ -77,7 +77,7 @@ test.describe('Issue #164: Multi-Lemma-Suche rôt + munt', () => {
 
 test.describe('Issue #161: Multi-POS posAll[] (Authority-Index v1.6.0)', () => {
   test('lemma_79188 salve trägt posAll [NOM, VRB] im geladenen Index', async ({ page }) => {
-    await page.goto('http://localhost:8080/playground/');
+    await page.goto('/playground/');
     await page.waitForFunction(() => {
       return window.playground?.authorityData?.lemmata?.length > 0;
     }, null, { timeout: 60000 });
@@ -93,7 +93,7 @@ test.describe('Issue #161: Multi-POS posAll[] (Authority-Index v1.6.0)', () => {
   });
 
   test('posPasses zählt Multi-POS-Lemmata für jede ihrer Wortarten', async ({ page }) => {
-    await page.goto('http://localhost:8080/playground/');
+    await page.goto('/playground/');
     await page.waitForFunction(() => !!window.playground?.ui?.cooccurrenceRanking, null, { timeout: 60000 });
 
     const r = await page.evaluate(() => {
@@ -123,7 +123,7 @@ test.describe('Issue #161: Multi-POS posAll[] (Authority-Index v1.6.0)', () => {
   });
 
   test('Autocomplete-Badge zeigt alle POS-Tags eines Multi-POS-Lemmas', async ({ page }) => {
-    await page.goto('http://localhost:8080/playground/#cooccurrence-ranking');
+    await page.goto('/playground/#cooccurrence-ranking');
     await page.waitForSelector('#coRkQuery', { state: 'visible', timeout: 60000 });
 
     await page.fill('#coRkQuery', 'salve');

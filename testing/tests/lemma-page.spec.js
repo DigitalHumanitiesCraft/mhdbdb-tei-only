@@ -8,7 +8,7 @@ import { test, expect } from '@playwright/test';
 test.describe('Persistent Lemma Pages', () => {
 
     test('lemma page loads with query param (?id=879)', async ({ page }) => {
-        await page.goto('http://localhost:8080/lemma/?id=879');
+        await page.goto('/lemma/?id=879');
 
         // Wait for loading to complete
         await page.waitForSelector('#lemmaContent:not(.hidden)', { timeout: 30000 });
@@ -27,7 +27,7 @@ test.describe('Persistent Lemma Pages', () => {
     });
 
     test('lemma page shows correct data for brôt (879)', async ({ page }) => {
-        await page.goto('http://localhost:8080/lemma/?id=879');
+        await page.goto('/lemma/?id=879');
         await page.waitForSelector('#lemmaContent:not(.hidden)', { timeout: 30000 });
 
         // brôt should be a noun
@@ -44,7 +44,7 @@ test.describe('Persistent Lemma Pages', () => {
     });
 
     test('lemma page shows corpus occurrences', async ({ page }) => {
-        await page.goto('http://localhost:8080/lemma/?id=879');
+        await page.goto('/lemma/?id=879');
         await page.waitForSelector('#lemmaContent:not(.hidden)', { timeout: 30000 });
 
         // Wait a bit for corpus index to load
@@ -60,7 +60,7 @@ test.describe('Persistent Lemma Pages', () => {
     });
 
     test('lemma page shows external links', async ({ page }) => {
-        await page.goto('http://localhost:8080/lemma/?id=879');
+        await page.goto('/lemma/?id=879');
         await page.waitForSelector('#lemmaContent:not(.hidden)', { timeout: 30000 });
 
         // Should have old MHDBDB link with correct URL
@@ -76,7 +76,7 @@ test.describe('Persistent Lemma Pages', () => {
     });
 
     test('lemma page loads Wörterbuchnetz entries via API', async ({ page }) => {
-        await page.goto('http://localhost:8080/lemma/?id=879');
+        await page.goto('/lemma/?id=879');
         await page.waitForSelector('#lemmaContent:not(.hidden)', { timeout: 30000 });
 
         // Wörterbuchnetz section appears after async API call (brôt → brot)
@@ -113,7 +113,7 @@ test.describe('Persistent Lemma Pages', () => {
             });
         });
 
-        await page.goto('http://localhost:8080/lemma/?id=879');
+        await page.goto('/lemma/?id=879');
         await page.waitForSelector('#wbnetzSection:not(.hidden)', { timeout: 30000 });
 
         // Eine Gruppe je Wörterbuch, in der Abfragereihenfolge aus DICTIONARIES
@@ -147,7 +147,7 @@ test.describe('Persistent Lemma Pages', () => {
     });
 
     test('invalid lemma ID shows error', async ({ page }) => {
-        await page.goto('http://localhost:8080/lemma/?id=99999999');
+        await page.goto('/lemma/?id=99999999');
 
         // Should show error, not content
         await page.waitForSelector('#errorDisplay:not(.hidden)', { timeout: 30000 });
@@ -161,7 +161,7 @@ test.describe('Persistent Lemma Pages', () => {
     });
 
     test('no ID shows error message', async ({ page }) => {
-        await page.goto('http://localhost:8080/lemma/');
+        await page.goto('/lemma/');
 
         await page.waitForSelector('#errorDisplay:not(.hidden)', { timeout: 30000 });
 
@@ -170,7 +170,7 @@ test.describe('Persistent Lemma Pages', () => {
     });
 
     test('minne (4130) - high-frequency lemma loads', async ({ page }) => {
-        await page.goto('http://localhost:8080/lemma/?id=4130');
+        await page.goto('/lemma/?id=4130');
         await page.waitForSelector('#lemmaContent:not(.hidden)', { timeout: 30000 });
 
         const title = await page.textContent('#lemmaTitle');
@@ -184,7 +184,7 @@ test.describe('Persistent Lemma Pages', () => {
 
     test('etymology links point to other lemma pages', async ({ page }) => {
         // lemma_100 (ahzehen) has etymology components
-        await page.goto('http://localhost:8080/lemma/?id=100');
+        await page.goto('/lemma/?id=100');
         await page.waitForSelector('#lemmaContent:not(.hidden)', { timeout: 30000 });
 
         // Check if etymology section is visible (not all lemmata have etymology)
@@ -200,7 +200,7 @@ test.describe('Persistent Lemma Pages', () => {
     });
 
     test('copy ID button exists and is clickable', async ({ page }) => {
-        await page.goto('http://localhost:8080/lemma/?id=879');
+        await page.goto('/lemma/?id=879');
         await page.waitForSelector('#lemmaContent:not(.hidden)', { timeout: 30000 });
 
         // Verify button exists and shows initial text
@@ -213,7 +213,7 @@ test.describe('Persistent Lemma Pages', () => {
     });
 
     test('orthographic variants shown for brôt (879)', async ({ page }) => {
-        await page.goto('http://localhost:8080/lemma/?id=879');
+        await page.goto('/lemma/?id=879');
         await page.waitForSelector('#lemmaContent:not(.hidden)', { timeout: 30000 });
 
         // brôt should have multiple attested spelling variants
@@ -229,7 +229,7 @@ test.describe('Persistent Lemma Pages', () => {
     });
 
     test('compounds section shown for brôt (879)', async ({ page }) => {
-        await page.goto('http://localhost:8080/lemma/?id=879');
+        await page.goto('/lemma/?id=879');
         await page.waitForSelector('#lemmaContent:not(.hidden)', { timeout: 30000 });
 
         // brôt should have compounds (halpbrôt, himelbrôt, etc.)
@@ -245,7 +245,7 @@ test.describe('Persistent Lemma Pages', () => {
     });
 
     test('IMAREAL link present in external links', async ({ page }) => {
-        await page.goto('http://localhost:8080/lemma/?id=879');
+        await page.goto('/lemma/?id=879');
         await page.waitForSelector('#lemmaContent:not(.hidden)', { timeout: 30000 });
 
         const imrealLink = page.locator('#externalLinks a:has-text("REALonline")');
@@ -255,7 +255,7 @@ test.describe('Persistent Lemma Pages', () => {
     });
 
     test('occurrence links navigate to korpus reading view', async ({ page }) => {
-        await page.goto('http://localhost:8080/lemma/?id=879');
+        await page.goto('/lemma/?id=879');
         await page.waitForSelector('#occurrencesSection:not(.hidden)', { timeout: 30000 });
 
         // Get first occurrence link
@@ -276,7 +276,7 @@ test.describe('Persistent Lemma Pages', () => {
     // lemma_37818 (Abba) — genau deshalb prüft der zweite Test, dass ein
     // Lemma ohne Kuratierung die Sektion nicht zeigt.
     test('kuratierte Herkunft und Bedeutung erscheinen für Abba (37818)', async ({ page }) => {
-        await page.goto('http://localhost:8080/lemma/?id=37818');
+        await page.goto('/lemma/?id=37818');
         await page.waitForSelector('#lemmaContent:not(.hidden)', { timeout: 30000 });
 
         // Beide Herkunftsschichten samt Code. Die Liste muss deckungsgleich mit
@@ -311,7 +311,7 @@ test.describe('Persistent Lemma Pages', () => {
     });
 
     test('Lemma ohne kuratierte Herkunft zeigt keine Herkunft-Sektion (879)', async ({ page }) => {
-        await page.goto('http://localhost:8080/lemma/?id=879');
+        await page.goto('/lemma/?id=879');
         await page.waitForSelector('#lemmaContent:not(.hidden)', { timeout: 30000 });
 
         const originHidden = await page.locator('#originSection')
@@ -325,7 +325,7 @@ test.describe('Persistent Lemma Pages', () => {
         // Highlight verifiziert.
         test.setTimeout(120000);
 
-        await page.goto('http://localhost:8080/lemma/?id=879');
+        await page.goto('/lemma/?id=879');
         await page.waitForSelector('#occurrencesSection:not(.hidden)', { timeout: 30000 });
 
         await page.locator('#occurrencesContent a').first().click();

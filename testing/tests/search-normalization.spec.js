@@ -15,7 +15,7 @@ test.describe('Search Normalization Test Suite', () => {
 
     test.beforeAll(async ({ browser }) => {
         page = await browser.newPage();
-        await page.goto('http://localhost:8080/playground/');
+        await page.goto('/playground/');
 
         // Wait for authority files to load.
         // 60000, nicht 30000: vor der Signaturkorrektur war der Timeout

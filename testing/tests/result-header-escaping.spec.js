@@ -25,7 +25,7 @@
 
 import { test, expect } from '@playwright/test';
 
-const PLAYGROUND = 'http://localhost:8080/playground/';
+const PLAYGROUND = '/playground/';
 // Kein Komma: der Router trennt die Terme daran (router.js).
 const NUTZLAST = '<img src=x>';
 
