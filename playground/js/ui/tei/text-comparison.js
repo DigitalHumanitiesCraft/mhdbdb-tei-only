@@ -8,7 +8,8 @@
  * Issue: #108
  */
 
-import { buildTextLabelDisambiguator } from '../core/ui-helpers.js';
+import { buildTextLabelDisambiguator, csvButton } from '../core/ui-helpers.js';
+import { toCsv, downloadCsv, csvDateStamp, csvFilenamePart } from '../../../../assets/js/lib/csv-export.js';
 import { TextNormalizer } from '../../../../assets/js/lib/text-normalizer.js';
 
 const DEFAULT_STATE = Object.freeze({
@@ -288,6 +289,9 @@ export class TextComparison {
     const enriched = activeRows.map(r => this.enrichWithLemma(r));
     const filtered = this.filterByName(enriched);
     const sortedRows = this.sortRows(filtered, this.state.category);
+    // Fuer den CSV-Export: die ganze Kategorie mit Filter und Sortierung,
+    // ohne die Anzeigegrenze TOP_N_DEFAULT (#448).
+    this._lastExport = sortedRows.length > 0 ? { rows: sortedRows, textA, textB } : null;
 
     const controls = this.renderControls(filtered.length);
     const table = this.renderTable(sortedRows, textA, textB);
@@ -333,8 +337,22 @@ export class TextComparison {
           <input id="tcShowAll" type="checkbox"${this.state.showAll ? ' checked' : ''} class="rounded border-slate-300" />
           Alle ${filteredCount.toLocaleString('de-DE')} Zeilen
         </label>
+        ${filteredCount > 0 ? csvButton('tcCsvExport', `Alle ${filteredCount} Zeilen dieser Kategorie mit dem aktuellen Filter, auch ohne "Alle anzeigen"`) : ''}
       </div>
     `;
+  }
+
+  exportCsv() {
+    const exp = this._lastExport;
+    if (!exp) return;
+    const { rows, textA, textB } = exp;
+    const kategorie = { 'only-a': 'nur A', 'only-b': 'nur B', both: 'beide' }[this.state.category] || this.state.category;
+    const csv = toCsv(
+      ['Lemma', 'ID', 'PoS', 'Kategorie', `${textA.id} (A)`, `${textB.id} (B)`, '|A-B|'],
+      rows.map(r => [r.lemma, r.lemmaId, r.pos, kategorie, r.countA, r.countB, r.diff])
+    );
+    const cat = { 'only-a': 'nurA', 'only-b': 'nurB', both: 'beide' }[this.state.category] || 'kategorie';
+    downloadCsv(`mhdbdb-textvergleich-${csvFilenamePart(textA.id)}-${csvFilenamePart(textB.id)}-${cat}-${csvDateStamp()}.csv`, csv);
   }
 
   renderTable(rows, textA, textB) {
@@ -432,6 +450,7 @@ export class TextComparison {
       });
     }
 
+    document.getElementById('tcCsvExport')?.addEventListener('click', () => this.exportCsv());
     document.getElementById('tcCompareBtn')?.addEventListener('click', () => {
       this.state.showAll = false;
       this.render();

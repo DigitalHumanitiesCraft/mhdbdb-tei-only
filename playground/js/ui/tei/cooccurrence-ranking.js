@@ -11,6 +11,8 @@
 
 import { getNavigationEpoch } from '../core/router.js';
 import { emptyScopeMessage, scopeSignature } from './corpus-scope.js';
+import { csvButton } from '../core/ui-helpers.js';
+import { toCsv, downloadCsv, csvDateStamp, csvFilenamePart } from '../../../../assets/js/lib/csv-export.js';
 
 const DEFAULT_STATE = Object.freeze({
   query: '',
@@ -194,6 +196,19 @@ export class CooccurrenceRanking {
     }
     out.sort((a, b) => b.count - a.count);
     return out;
+  }
+
+  /** Alle Partner nach dem Namensfilter, ohne Top-N-Kappung (#448). */
+  exportCsv() {
+    const lemma = this.state.resolvedLemma;
+    const partners = this.state.result?.partners;
+    if (!lemma || !partners) return;
+    const rows = this.filterPartners(partners).map((p, idx) => [
+      idx + 1, p.lemma, p.lemmaId, p.pos, p.count
+    ]);
+    const csv = toCsv(['Rang', 'Partner-Lemma', 'ID', 'PoS', 'Kookkurrenz-Frequenz'], rows);
+    const name = csvFilenamePart(lemma.lemma || lemma.id);
+    downloadCsv(`mhdbdb-kookkurrenz-${name}-fenster${this.state.window}-${csvDateStamp()}.csv`, csv);
   }
 
   filterPartners(partners) {
@@ -440,6 +455,7 @@ export class CooccurrenceRanking {
               class="w-full rounded-lg border border-slate-200 bg-white px-2 py-1 text-xs focus:border-brand-400 focus:outline-none" />
           </label>
           <span class="text-xs text-slate-500">${visible.length.toLocaleString('de-DE')} / ${filtered.length.toLocaleString('de-DE')} angezeigt</span>
+          ${csvButton('coRkCsvExport', `Alle ${filtered.length} Partner mit dem aktuellen Filter, nicht nur die Top-N`)}
         </div>
 
         <div class="overflow-x-auto rounded-2xl border border-slate-200">
@@ -636,6 +652,7 @@ export class CooccurrenceRanking {
         }
       });
     }
+    document.getElementById('coRkCsvExport')?.addEventListener('click', () => this.exportCsv());
   }
 }
 

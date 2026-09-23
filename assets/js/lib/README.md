@@ -109,6 +109,24 @@ const { subtreeWorks } = buildGenreSubtrees(authorityIndex.genres, authorityInde
 subtreeWorks.get(minnesangId).size; // Werke von Minnesang und allen Untergattungen
 ```
 
+### `csv-export.js`
+CSV-Export im Hausformat aus #114: Komma als Trenner, Quoting nach RFC 4180 nur bei Bedarf, CRLF, UTF-8 mit BOM. Geteilt von der Ergebnistabelle der Korpussuche (`app.js`) und den tabellarischen Playground-Werkzeugen (#448). Der ältere Hapax-Export im Playground trennt mit Semikolon und bleibt so, weil ein Formatwechsel bestehende Auswertungen bräche.
+
+**Exports:**
+- `csvCell(value)` → String (eine Zelle, `null` und `undefined` werden zu `''`)
+- `toCsv(header, rows)` → String (Kopfzeile und Zeilen als Arrays von Zellwerten, CRLF-getrennt)
+- `csvFilenamePart(text, fallback)` → dateinamensicherer Baustein, höchstens 40 Zeichen
+- `csvDateStamp()` → `"2026-09-23"`
+- `downloadCsv(filename, csv)` → startet den Download, setzt das BOM selbst
+
+**Usage:**
+```javascript
+import { toCsv, downloadCsv, csvDateStamp } from '../../lib/csv-export.js';
+
+const csv = toCsv(['Lemma', 'Absolut'], [['minne', 1234], ['êre, guot', 56]]);
+downloadCsv(`mhdbdb-wortfrequenz-${csvDateStamp()}.csv`, csv);
+```
+
 ## Design Principles
 
 1. **DRY (Don't Repeat Yourself)**: All shared code lives here

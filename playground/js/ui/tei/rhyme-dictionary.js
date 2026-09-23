@@ -29,6 +29,8 @@
 
 import { getNavigationEpoch } from '../core/router.js';
 import { singleSelectedTextId } from './corpus-scope.js';
+import { csvButton } from '../core/ui-helpers.js';
+import { toCsv, downloadCsv, csvDateStamp, csvFilenamePart } from '../../../../assets/js/lib/csv-export.js';
 
 const DEFAULT_STATE = Object.freeze({
   query: '',
@@ -532,6 +534,7 @@ export class RhymeDictionary {
             <div>${r.verseTextCount.toLocaleString('de-DE')} Verstexte gescannt</div>
           </div>
         </header>
+        ${filtered.length > 0 ? `<div class="flex">${csvButton('rdCsvExport', `Alle ${filtered.length} Reimpartner ab Mindest-Reimpaare ${this.state.minCount}, mit allen Texten je Partner`)}</div>` : ''}
 
         <div class="overflow-x-auto rounded-2xl border border-slate-200">
           <table class="w-full text-sm">
@@ -808,7 +811,28 @@ export class RhymeDictionary {
     this.renderAutocomplete();
   }
 
+  /**
+   * Alle Reimpartner ab Mindest-Reimpaare, ohne die Anzeigegrenze
+   * MAX_VISIBLE_PARTNERS; die Textspalte nennt alle Texte, nicht nur die
+   * ersten sechs Chips (#448).
+   */
+  exportCsv() {
+    const lemma = this.state.resolvedLemma;
+    const r = this.state.result;
+    if (!lemma || !r) return;
+    const rows = r.partners
+      .filter(p => p.count >= this.state.minCount)
+      .map((p, idx) => [
+        idx + 1, p.lemma, p.lemmaId, p.pos, p.count,
+        p.texts.map(t => `${t.id}: ${t.count}`).join(' | ')
+      ]);
+    const csv = toCsv(['Rang', 'Reimpartner-Lemma', 'ID', 'PoS', 'Reimpaare', 'Texte (Reimpaare)'], rows);
+    const name = csvFilenamePart(lemma.lemma || lemma.id);
+    downloadCsv(`mhdbdb-reimpartner-${name}-${csvDateStamp()}.csv`, csv);
+  }
+
   attachHandlers() {
+    document.getElementById('rdCsvExport')?.addEventListener('click', () => this.exportCsv());
     const runSearch = () => {
       const input = document.getElementById('rdQuery');
       if (!input) return;

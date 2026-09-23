@@ -16,6 +16,8 @@
  */
 
 import { emptyScopeMessage } from './corpus-scope.js';
+import { csvButton } from '../core/ui-helpers.js';
+import { toCsv, downloadCsv, csvDateStamp } from '../../../../assets/js/lib/csv-export.js';
 
 const COLUMNS = [
   { key: 'id',            label: 'Sigle',        align: 'left',  fmt: 'text' },
@@ -111,8 +113,19 @@ export class TextStatistics {
           class="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs text-slate-600 hover:border-slate-400${n === 0 ? ' opacity-50' : ''}"${n === 0 ? ' disabled' : ''}>
           Auswahl leeren
         </button>
+        ${csvButton('tsCsvExport', 'Die angezeigten Zeilen in der aktuellen Sortierung, mit Autor*in als eigener Spalte')}
       </div>
     `;
+  }
+
+  /** Die angezeigten Zeilen (mit "Nur Auswahl anzeigen"), sortiert wie die Tabelle (#448). */
+  exportCsv() {
+    const rows = this.sortedStats().map(s => [
+      s.id, s.title, s.author, s.wordCount, s.uniqueLemmata,
+      s.diversity.toFixed(3), s.hapaxRate.toFixed(3), s.avgLemmaFreq.toFixed(2)
+    ]);
+    const csv = toCsv(['Sigle', 'Titel', 'Autor*in', 'Annot. Tokens', 'Unique', 'Diversität', 'Hapax-Rate', 'Ø-Freq'], rows);
+    downloadCsv(`mhdbdb-textstatistik-${this.showSelectedOnly ? 'auswahl' : 'alle'}-${csvDateStamp()}.csv`, csv);
   }
 
   renderHeader() {
@@ -290,6 +303,8 @@ export class TextStatistics {
       this.selected.clear();
       this.render();
     });
+
+    document.getElementById('tsCsvExport')?.addEventListener('click', () => this.exportCsv());
   }
 }
 

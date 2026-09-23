@@ -27,6 +27,8 @@
 
 import { TextNormalizer } from '../../../../assets/js/lib/text-normalizer.js';
 import { getNavigationEpoch } from '../core/router.js';
+import { csvButton } from '../core/ui-helpers.js';
+import { toCsv, downloadCsv, csvDateStamp, csvFilenamePart } from '../../../../assets/js/lib/csv-export.js';
 
 const DEFAULT_STATE = Object.freeze({
   horseId: '',
@@ -197,9 +199,40 @@ export class HorsesExplorer {
       ? all
       : all.filter(a => (a.events || []).some(e => e.type === this.state.eventType));
 
+    this._lastExport = visible.length > 0 ? { horse, attestations: visible } : null;
+
     return this.renderSummary(horse, all)
       + this.renderEventTabs(counts, all.length)
+      + (visible.length > 0 ? `<div class="flex">${csvButton('hxHorseCsvExport', `Die ${visible.length} angezeigten Belege, die Auszeichnung je Art in einer eigenen Spalte`)}</div>` : '')
       + this.renderAttestations(visible, horse);
+  }
+
+  /** Die angezeigten Belege (mit Ereignis-Filter), Auszeichnung aufgeteilt (#448). */
+  exportCsv() {
+    const exp = this._lastExport;
+    if (!exp) return;
+    const { horse, attestations } = exp;
+    const liste = xs => xs.join(' | ');
+    const rows = attestations.map(a => [
+      this.horseLabel(horse),
+      WORK_LABEL[a.work] || a.work || '',
+      a.citation,
+      a.target || '',
+      a.match && a.match !== 'exact' ? (MATCH_NOTE[a.match] || a.match) : '',
+      a.text,
+      liste((a.events || []).map(e => EVENT_LABEL[e.type] || e.type)),
+      liste((a.traits || []).map(t => `${TRAIT_LABEL[t.type] || t.type}: ${t.text}`)),
+      liste((a.objects || []).map(o => `${OBJECT_LABEL[o.type] || o.type}: ${o.text}`)),
+      liste((a.persons || []).filter(p => p.role).map(p =>
+        `${ROLE_LABEL[p.role] || p.role}: ${(p.ref && p.ref.length) ? p.ref.join(', ') : p.text}`)),
+      liste((a.designations || []).map(d => d.text))
+    ]);
+    const csv = toCsv(
+      ['Pferd', 'Werk', 'Stelle (Borek)', 'Vers im Korpus', 'Zuordnung', 'Wortlaut', 'Ereignisse', 'Eigenschaften', 'Ausrüstung', 'Figuren', 'Bezeichnungen'],
+      rows
+    );
+    const ereignis = this.state.eventType === 'all' ? 'alle' : csvFilenamePart(this.state.eventType);
+    downloadCsv(`mhdbdb-pferd-${csvFilenamePart(this.horseLabel(horse))}-${ereignis}-${csvDateStamp()}.csv`, csv);
   }
 
   renderSummary(horse, attestations) {
@@ -368,6 +401,8 @@ export class HorsesExplorer {
         this.render();
       });
     });
+
+    document.getElementById('hxHorseCsvExport')?.addEventListener('click', () => this.exportCsv());
   }
 }
 

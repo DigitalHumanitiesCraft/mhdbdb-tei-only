@@ -8,8 +8,9 @@
  * Issue: #88
  */
 
-import { buildTextLabelDisambiguator } from '../core/ui-helpers.js';
+import { buildTextLabelDisambiguator, csvButton } from '../core/ui-helpers.js';
 import { emptyScopeMessage } from './corpus-scope.js';
+import { toCsv, downloadCsv, csvDateStamp, csvFilenamePart } from '../../../../assets/js/lib/csv-export.js';
 
 const TOP_N_OPTIONS = [20, 50, 100, 200];
 const DEFAULT_TOP_N = 50;
@@ -178,21 +179,23 @@ export class WordFrequencyAnalyzer {
             <select id="wfSortBy" class="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm focus:border-brand-400 focus:outline-none">${sortOptions}</select>
           </label>
         </div>
-        <label class="mt-3 flex items-center gap-2 text-sm text-slate-700 cursor-pointer">
-          <input type="checkbox" id="wfHideFunc" ${this.state.hideFunctionWords ? 'checked' : ''} class="w-4 h-4 rounded border-slate-300 text-brand-600 focus:ring-brand-500" />
-          <span>Funktionswörter ausblenden <span class="text-xs text-slate-500">(der/die/daz, ich/er/sie, in/zuo, und/oder, niht, hân/wesen, …)</span></span>
-        </label>
+        <div class="mt-3 flex flex-wrap items-center gap-x-6 gap-y-2">
+          <label class="flex items-center gap-2 text-sm text-slate-700 cursor-pointer">
+            <input type="checkbox" id="wfHideFunc" ${this.state.hideFunctionWords ? 'checked' : ''} class="w-4 h-4 rounded border-slate-300 text-brand-600 focus:ring-brand-500" />
+            <span>Funktionswörter ausblenden <span class="text-xs text-slate-500">(der/die/daz, ich/er/sie, in/zuo, und/oder, niht, hân/wesen, …)</span></span>
+          </label>
+          ${this._lastFreqData ? csvButton('wfCsvExport', 'Alle Lemmata der Auswahl, nicht nur die Top-N, mit den aktuellen Filtern') : ''}
+        </div>
       </div>
     `;
   }
 
-  renderTable() {
-    const data = this._lastFreqData;
-    if (!data) {
-      return '<div class="rounded-2xl border border-dashed border-slate-200 bg-slate-50/70 p-6 text-center text-sm text-slate-500">Keine Daten.</div>';
-    }
-    const { counts, totalTokens, scopeLabel, scopeMeta, uniqueCount } = data;
-
+  /**
+   * Gefilterte und sortierte Eintraege, ungekappt. Tabelle (Top-N) und
+   * CSV-Export (alle) lesen dieselbe Menge (#448).
+   */
+  sortedEntries(data) {
+    const { counts, totalTokens } = data;
     const allEntries = Array.from(counts.entries()).map(([id, c]) => ({
       id,
       count: c,
@@ -214,8 +217,38 @@ export class WordFrequencyAnalyzer {
     entries.sort((a, b) =>
       this.state.sortBy === 'relative' ? b.rel - a.rel : b.count - a.count
     );
+    return { entries, hiddenCount: allEntries.length - entries.length };
+  }
+
+  exportCsv() {
+    const data = this._lastFreqData;
+    if (!data) return;
+    const { entries } = this.sortedEntries(data);
+    const rows = entries.map((e, idx) => {
+      const lemma = this.getLemmaById(e.id);
+      return [
+        idx + 1,
+        lemma ? lemma.lemma : e.id,
+        e.id,
+        (lemma?.posAll || (lemma?.pos ? [lemma.pos] : [])).join(' '),
+        e.count,
+        e.rel.toFixed(2)
+      ];
+    });
+    const csv = toCsv(['Rang', 'Lemma', 'ID', 'PoS', 'Absolut', 'pro 1000'], rows);
+    const scope = this.state.scope === 'corpus' ? 'auswahl' : csvFilenamePart(this.state.scope);
+    downloadCsv(`mhdbdb-wortfrequenz-${scope}-${csvDateStamp()}.csv`, csv);
+  }
+
+  renderTable() {
+    const data = this._lastFreqData;
+    if (!data) {
+      return '<div class="rounded-2xl border border-dashed border-slate-200 bg-slate-50/70 p-6 text-center text-sm text-slate-500">Keine Daten.</div>';
+    }
+    const { totalTokens, scopeLabel, scopeMeta, uniqueCount } = data;
+
+    const { entries, hiddenCount } = this.sortedEntries(data);
     const top = entries.slice(0, this.state.topN);
-    const hiddenCount = allEntries.length - entries.length;
 
     const rows = top.map((e, idx) => {
       const lemma = this.getLemmaById(e.id);
@@ -298,6 +331,7 @@ export class WordFrequencyAnalyzer {
       this.state.hideFunctionWords = e.target.checked;
       this.render();
     });
+    document.getElementById('wfCsvExport')?.addEventListener('click', () => this.exportCsv());
   }
 }
 
