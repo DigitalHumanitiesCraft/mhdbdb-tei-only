@@ -166,4 +166,8 @@ Entwürfe an KZW und Externe, als Subagenten der Koordination (Planreview: nur E
 
 ## Grenzverhandlungen während des Laufs
 
-*(leer bei Laufbeginn)*
+- **Tag-Reihenfolge #387 revidiert: `ADJ NOM` mit `@reason` statt `NOM ADJ`** (Widerspruch Spur A, entschieden von der Koordination am 23.09.). §1 Punkt 5 hat die Altlast gezählt und keine Konvention. Nachgezählt über 667 Dateien: `VRB PRO` 154, davon 154 mit `@reason`; `PRO VRB` 9.068 und `NOM ADJ` 119.501, jeweils 0 mit `@reason`. Ein bewusstes Doppeltag hat also eine eigene Reihenfolge plus `@reason`, und so wird es in POS-TAGSET festgehalten.
+- **#387 prägt drei neue Typen statt einem, #418 Variante (a)**: zwei neue `hawe`-Typen, und `type_117159` fällt weg. Beides folgt aus der Tabellenzeile „prägen, nie umhängen“.
+- **NEIM_2503080_8 darf in A1 mit**: ein einzelnes `<w>` plus `<change>`, keine `<note>`. #453 plant keine Neukonvertierung. Der Haltepunkt A3 bleibt.
+- **#58**: Die Form des Durchklicks geht auf Christians Entscheidung zuerst als Frage an KZW. B1 wird bis zur Antwort nicht gebaut.
+- **B3 „Chip“** meint den Gattungs-Chip in der Trefferliste (app.js), nicht die Suchmaske; deren Form hat KZW am 15. und 17.09. entschieden (Lesart Spur B, bestätigt).

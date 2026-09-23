@@ -152,6 +152,7 @@
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 13 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
       <change when="2026-09-06" who="#editor">#216 Punkt 3 (vrouwe vor minne): 1 Token der Anredeform vrouwe unmittelbar vor minne erstmals annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260)). Kein LLM-Lauf; Verfahren, Herkunft der einzelnen Entscheidungen und zurueckgehaltene Faelle im Provenienz-Log: ingest/pos-disambig/216-vrouwe155/.</change>
       <change when="2026-09-06" who="#editor">#387 (vrouwe, mechanischer Teil): 2 Tokens der Form vrouwe erstmals annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260)). Kein LLM-Lauf: annotiert wurde nur, wo die MHG-normalisierte Schreibung im gesamten Korpus ein einziges Lemma traegt, dieses genau eine Wortart fuehrt und die Schreibung dafuer genug Belege hat. Kontextpflichtige Faelle sind unangetastet geblieben (Provenienz-Log: ingest/pos-disambig/387-vrouwe/).</change>
+      <change when="2026-09-23" who="#editor">#387 vrouwe/vrô, Resttokens: 1 Token annotiert nach den Einzelentscheidungen von KZW vom 17.09.2026 (lemmaRef/pos/corresp; kein @ana, weil die Sense-Zuordnung kuratorisch ist). Im ganzen Lauf: zwei Doppeltags ADJ NOM mit erklärendem @reason, wo KZW die Lesart für unentscheidbar erklärt hat, und drei neu geprägte Variantentypen nach der Regel aus #367.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -6989,7 +6990,7 @@
             <w xml:id="FLG_1102110_11" pos="PRP">ane</w>
             <w xml:id="FLG_1102110_12" lemmaRef="lexicon.xml#lemma_6477" pos="NOM" corresp="variants.xml#type_197965">underlas</w>
             <pc xml:id="FLG_1102110_13" join="left">.</pc>
-            <w xml:id="FLG_1102110_14" pos="VRB">vroewe</w>
+            <w xml:id="FLG_1102110_14" lemmaRef="lexicon.xml#lemma_7256" pos="VRB" corresp="variants.xml#type_372388">vroewe</w>
             <lb n="12"/>
             <w xml:id="FLG_1102120_0" lemmaRef="lexicon.xml#lemma_1242" pos="PRO" ana="lexicon.xml#lemma_1242_sense_1958" corresp="variants.xml#type_3956">dich</w>
             <pc xml:id="FLG_1102120_1" join="left">,</pc>

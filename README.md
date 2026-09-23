@@ -112,7 +112,7 @@ Zentrale Konzepte und ihre TEI-Repräsentation:
 
 **Hierarchie:** Ein **Token** hat ein **Lemma** (Form), optional einen **Sense** (Bedeutung), und ein Sense kann auf ein oder mehrere **Konzepte** (semantische Tags) verweisen.
 
-**Hinweis zu `@pos`:** Das normative [19-Tag-Set](docs/POS-TAGSET.md) ist das Ziel-Schema für die Wortart-Disambiguierung. Der Bestandskorpus enthält darüber hinaus Legacy-Tags (insbesondere `ART` und `GRA`) sowie zusammengesetzte, durch Leerzeichen getrennte Werte (z.B. `ADJ ADV`). Vollständige Tag-Tabelle, Legacy-Mapping und Korpus-Verteilung: [docs/POS-TAGSET.md](docs/POS-TAGSET.md).
+**Hinweis zu `@pos`:** Das normative [19-Tag-Set](docs/POS-TAGSET.md) ist das Ziel-Schema für die Wortart-Disambiguierung. Das Bestandskorpus enthält darüber hinaus Legacy-Tags (insbesondere `ART` und `GRA`) sowie zusammengesetzte, durch Leerzeichen getrennte Werte (z.B. `ADJ ADV`). Vollständige Tag-Tabelle, Legacy-Mapping und Korpus-Verteilung: [docs/POS-TAGSET.md](docs/POS-TAGSET.md).
 
 Tiefergehende Details in [docs/TEI-MODEL.md](docs/TEI-MODEL.md) und [docs/DATA-MODEL.md](docs/DATA-MODEL.md).
 
