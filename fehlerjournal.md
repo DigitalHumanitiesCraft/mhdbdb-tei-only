@@ -969,3 +969,47 @@ ein vierzehnstelliger Zeitstempel sind, führt den Kontrollwert mit und sagt
 ausdrücklich, dass ein Kontrollwert von null eine Störung bedeutet und keine
 Leermenge. `scripts/wayback_pruefen.py` setzt das um und unterscheidet die
 Störungsseite von der echten Leermenge.
+
+### 70. Rot: eine Trefferzeile selbst abgeschnitten und das Abgeschnittene als Nichttreffer gelesen.
+
+**Rot.** Für #446 („das Korpus“) habe ich die maskulinen Formen richtig gesucht,
+die Ausgabe aber mit `cut -c1-220` gekürzt. Die Zeile
+`text-comparison.js:173` begann mit „Die Auswahl im Korpus-Browser“ und trug
+„den ganzen Korpus“ erst hinter dem Schnitt. Gemeldet habe ich der
+Koordination fünf Stellen, es waren sechs. Gefunden habe ich die sechste erst
+beim Lesen der Datei für das nächste Paket; die Nachkontrolle mit `rg -o`, die
+nur die Treffer selbst zeigt, fand keine weitere.
+
+**Die Lehre steht in `dateisuche.md`: der Fehler steckt fast nie in der Suche,
+sondern in ihrem Zuschnitt, und die Zeile ist auch ein Zuschnitt.** Hier war
+der Zuschnitt nicht der Suchpfad und nicht das Muster, sondern die Anzeige:
+die Suche hatte getroffen, und ich habe den Treffer vor dem Lesen selbst
+weggeschnitten. Die letzte Zeile zu dieser Lehre ist Eintrag 65.
+
+**Was es getragen hat:** eine Zahl in einer Meldung an die Koordination, die
+sie für den Abschlussbericht vorhält. Korrigiert wurde sie wenige Minuten
+später, bevor sie weiterging, und die Koordination hat bestätigt, die Fünf
+nicht weiterzugeben. Der Code war zu diesem Zeitpunkt nur lokal committet.
+
+### 71. Rot: Port 8080 als frei gemeldet, weil die Gegenprobe auf einem deutschen Windows nach „LISTEN“ suchte.
+
+**Rot.** Nach der Chrome-Prüfung habe ich den Dev-Server über `TaskStop` auf die
+Hintergrund-Shell beendet. Das beendet die bash-Hülle von `npm run serve`,
+nicht den node-Prozess darunter. Die Gegenprobe war
+`netstat -ano | grep ":8080 " | grep LISTEN`, und sie blieb leer. Dieses Windows
+schreibt den Zustand aber als „ABHÖREN“. Gemeldet habe ich „Port 8080 ist frei,
+kein Server läuft mehr“, während `http-server` aus meinem Worktree weiter
+lauschte.
+
+**Die Lehre steht in `dateisuche.md`: ein leerer Abruf ist kein Nullbefund,
+einen Kontrollwert mitsuchen, von dem feststeht, dass er treffen muss.** Ich
+hatte keinen. Die Abfrage ein einziges Mal gegen einen laufenden Server zu
+richten, hätte sie als blind erwiesen; `Get-NetTCPConnection -State Listen`
+misst unabhängig von der Sprache. Die letzte Zeile zu dieser Lehre ist
+Eintrag 70.
+
+**Was es getragen hat:** die Freigabe des Ports an die Koordination, auf die
+hin Spur A ihren Testlauf startete. Er scheiterte an „fremder Server (HTTP 404)“.
+Gefunden hat es die Messung der Koordination, nicht meine. Beenden konnte ich
+den Prozess danach nicht: `taskkill` und `Stop-Process` hat der
+Auto-Mode-Classifier abgelehnt, und die Blockade ging an Christian.
