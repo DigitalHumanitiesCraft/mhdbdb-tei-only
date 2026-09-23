@@ -58,12 +58,15 @@ im Schweigen.
 
 Exit-Status
 -----------
-0 nur, wenn nichts offen blieb. Steht etwas in PROBLEME, hat Zotero eine
-Neuanlage abgelehnt oder hat MAX_NEU Kandidaten abgeschnitten, endet der Lauf
-mit 1, im Trockenlauf wie beim Schreiben. Die Kappung gehoert dazu, obwohl sie
-kein Fehler ist: sie laesst Funde liegen, und ein Status, der das verschweigt,
-sagt der Routine das Gegenteil dessen, was hier zugesagt ist. Fuer einen Lauf am Terminal ist das nebensaechlich, weil der Text
-gelesen wird; fuer die unbeaufsichtigte Monatsroutine ist der Status das
+0 nur, wenn nichts offen blieb. Steht etwas in PROBLEME, endet der Lauf mit 1,
+im Trockenlauf wie beim Schreiben. Beim Schreiben kommen zwei Faelle dazu: Zotero
+hat eine Neuanlage abgelehnt, oder MAX_NEU hat Kandidaten abgeschnitten. Die
+Kappung gehoert dazu, obwohl sie kein Fehler ist: sie laesst Funde liegen, und
+ein Status, der das verschweigt, sagt der Routine das Gegenteil dessen, was hier
+zugesagt ist. Im Trockenlauf gibt es sie nicht, denn dort wird nichts angelegt
+und candidates.json enthaelt alle Kandidaten. Fuer einen Lauf am Terminal ist
+das nebensaechlich, weil der Text gelesen wird; fuer die unbeaufsichtigte
+Monatsroutine ist der Status das
 einzige Signal, und ohne ihn sieht ein Lauf mit vier ausgefallenen Quellen
 genauso aus wie einer ohne Neuigkeiten.
 
