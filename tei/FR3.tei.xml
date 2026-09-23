@@ -166,6 +166,7 @@
       <change when="2026-09-06" who="#editor">#387 (fro): 8 homographie-ambige Tokens der Form fro kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260) bzw. vrô ADJ/ADV (lemma_7250); LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/387-fro/). 8 weitere Tokens der Form fro blieben bewusst unannotiert (Review).</change>
       <change when="2026-09-06" who="#editor">#387 Nachlauf (fro: ADJ gegen ADV): 5 Tokens der Schreibung fro in der Wortart bestimmt (lemmaRef/pos/corresp zu vrô ADJ (lemma_7250)). Zweiter Durchgang ueber die im ersten Lauf wegen mittlerer Konfidenz zurueckgehaltenen Belege, mit feststehendem Lemma und einem am Bestand gemessenen Prior; Verfahren, Regeln und zurueckgehaltene Faelle im Provenienz-Log: ingest/pos-disambig/387-fro-adjadv/. 3 weitere Tokens der Form fro blieben bewusst unannotiert (Review).</change>
       <change when="2026-09-21" who="#editor">#371 stat, drittes Lemma: 1 bislang unlemmatisierte Tokens der Form stat/stât annotiert (lemmaRef/pos/corresp nach dem actions-Array in KZWs Review vom 15.09.2026; drei neu gepraegte Variantentypen; kein @ana, weil die Sense-Zuordnung kuratorisch ist; die 17 Faelle mit option OFFEN und die 2 mit NEU_STAND bleiben unangetastet; Provenienz-Log: ingest/pos-disambig/371-stat/).</change>
+      <change when="2026-09-23" who="#editor">#387 vrouwe/vrô, Resttokens: 3 Tokens annotiert nach den Einzelentscheidungen von KZW vom 17.09.2026 (lemmaRef/pos/corresp; kein @ana, weil die Sense-Zuordnung kuratorisch ist). Im ganzen Lauf: zwei Doppeltags ADJ NOM mit erklärendem @reason, wo KZW die Lesart für unentscheidbar erklärt hat, und drei neu geprägte Variantentypen nach der Regel aus #367.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -13215,7 +13216,7 @@
               <l n="30">
                 <w xml:id="FR3_105218020300_0" lemmaRef="lexicon.xml#lemma_2007" pos="ADV PRP" corresp="variants.xml#type_6804">gein</w>
                 <w xml:id="FR3_105218020300_1" lemmaRef="lexicon.xml#lemma_6242" pos="ADJ ADV" ana="lexicon.xml#lemma_6242_sense_9843" corresp="variants.xml#type_22044">trurec</w>
-                <w xml:id="FR3_105218020300_2">fro</w>
+                <w xml:id="FR3_105218020300_2" lemmaRef="lexicon.xml#lemma_7250" pos="ADJ NOM" corresp="variants.xml#type_41787" reason="adjektivische und nominale Lesart nicht entscheidbar (KZW 17.09.2026, #387)">fro</w>
                 <pc xml:id="FR3_105218020300_3" join="left">,</pc>
                 <w xml:id="FR3_105218020300_4" lemmaRef="lexicon.xml#lemma_2007" pos="ADV PRP" corresp="variants.xml#type_6804">gein</w>
                 <w xml:id="FR3_105218020300_5">sorgen</w>
@@ -76850,7 +76851,7 @@
                 <w xml:id="FR3_111209101540_3">wer</w>
                 <w xml:id="FR3_111209101540_4" lemmaRef="lexicon.xml#lemma_2739" pos="VRB" ana="lexicon.xml#lemma_2739_sense_4421" corresp="variants.xml#type_43814">halff</w>
                 <w xml:id="FR3_111209101540_5" lemmaRef="lexicon.xml#lemma_7075" pos="ADJ ADV" ana="lexicon.xml#lemma_7075_sense_11459" corresp="variants.xml#type_25008">vil</w>
-                <w xml:id="FR3_111209101540_6">fro</w>
+                <w xml:id="FR3_111209101540_6" lemmaRef="lexicon.xml#lemma_7250" pos="ADV" corresp="variants.xml#type_41787">fro</w>
                 <caesura/>
                 <w xml:id="FR3_111209101540_7" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
                 <w xml:id="FR3_111209101540_8">swere</w>
@@ -77378,7 +77379,7 @@
                   <w xml:id="FR3_211209020180_3">wer</w>
                   <w xml:id="FR3_211209020180_4" lemmaRef="lexicon.xml#lemma_2739" pos="VRB" ana="lexicon.xml#lemma_2739_sense_4421" corresp="variants.xml#type_43814">halff</w>
                   <w xml:id="FR3_211209020180_5" lemmaRef="lexicon.xml#lemma_7075" pos="ADJ ADV" ana="lexicon.xml#lemma_7075_sense_11459" corresp="variants.xml#type_25008">vil</w>
-                  <w xml:id="FR3_211209020180_6">fro</w>
+                  <w xml:id="FR3_211209020180_6" lemmaRef="lexicon.xml#lemma_7250" pos="ADV" corresp="variants.xml#type_41787">fro</w>
                   <w xml:id="FR3_211209020180_7" lemmaRef="lexicon.xml#lemma_6342" pos="ADV PRP" ana="lexicon.xml#lemma_6342_sense_9997" corresp="variants.xml#type_64060">uß</w>
                   <w xml:id="FR3_211209020180_8">swere</w>
                 </l>

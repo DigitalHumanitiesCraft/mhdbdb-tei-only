@@ -125,6 +125,7 @@
       <change when="2026-09-06" who="#editor">#387 (vrouwe, mechanischer Teil): 73 Tokens der Form vrouwe erstmals annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260)). Kein LLM-Lauf: annotiert wurde nur, wo die MHG-normalisierte Schreibung im gesamten Korpus ein einziges Lemma traegt, dieses genau eine Wortart fuehrt und die Schreibung dafuer genug Belege hat. Kontextpflichtige Faelle sind unangetastet geblieben (Provenienz-Log: ingest/pos-disambig/387-vrouwe/).</change>
       <change when="2026-09-06" who="#editor">#387 (fro): 6 homographie-ambige Tokens der Form fro kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260) bzw. vrô ADJ/ADV (lemma_7250); LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/387-fro/).</change>
       <change when="2026-09-21" who="#editor">#371 stat, drittes Lemma: 1 bislang unlemmatisierte Tokens der Form stat/stât annotiert (lemmaRef/pos/corresp nach dem actions-Array in KZWs Review vom 15.09.2026; drei neu gepraegte Variantentypen; kein @ana, weil die Sense-Zuordnung kuratorisch ist; die 17 Faelle mit option OFFEN und die 2 mit NEU_STAND bleiben unangetastet; Provenienz-Log: ingest/pos-disambig/371-stat/).</change>
+      <change when="2026-09-23" who="#editor">#418 hawe: 1 Token nach der Zuordnung von KZW vom 11.09.2026 auf lemma_2923 houwen bzw. lemma_9644 houwe gesetzt (lemmaRef/pos/corresp, @ana beim Substantiv). Im ganzen Lauf: zwei Belege auf den neuen Sense lemma_9644_sense_119194 „Schlag“; hawe erhält unter beiden Lemmata einen neu geprägten Variantentyp, type_117159 von lemma_2598 haben entfällt damit.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -17898,7 +17899,7 @@
           <w xml:id="MR2_12484100113100_1">er</w>
           <w xml:id="MR2_12484100113100_2">zum</w>
           <w xml:id="MR2_12484100113100_3" lemmaRef="lexicon.xml#lemma_1288" pos="ADJ ADV NUM" corresp="variants.xml#type_35613">ersten</w>
-          <w xml:id="MR2_12484100113100_4" lemmaRef="lexicon.xml#lemma_2598" pos="VRB VEX" corresp="variants.xml#type_117159">hawe</w>
+          <w xml:id="MR2_12484100113100_4" lemmaRef="lexicon.xml#lemma_9644" pos="NOM" ana="lexicon.xml#lemma_9644_sense_119194" corresp="variants.xml#type_372391">hawe</w>
           <pc xml:id="MR2_12484100113100_5" join="left">,</pc>
         </l>
         <l n="114">
