@@ -174,8 +174,7 @@ Browse and search six controlled vocabularies with consistent interface patterns
 **Genre Explorer:**
 - Resting state is the typology as an expandable tree, from its two roots
   (*Epik, Lyrik und Dramatik*, *Wissensliteratur und Gebrauchsliteratur*),
-  9 levels deep. Each node names its own works and how many sit in the branch
-  below it; branches leading to no work at all are dimmed and labelled, because
+  9 levels deep. Each node names the works of its whole branch and, where fewer, how many are assigned to it directly (#433); branches leading to no work at all are dimmed and labelled, because
   482 of the 615 categories are in that position (#361)
 - The 171 categories with more than one parent are shown at every one of those
   positions, and each position opens and closes on its own. A *Predigtmärlein*
@@ -184,14 +183,8 @@ Browse and search six controlled vocabularies with consistent interface patterns
   branches rather than dimming them: 1,167 tree positions become 246, behind
   them the 133 categories that lead anywhere. Dropping cannot tear the tree
   apart, because a parent's work set is the superset of every child branch;
-  both roots survive. One checkbox, but its meaning has to differ between the
-  views, so its label says which one is in force: in the tree „works in the
-  branch" (an intermediate node without works of its own has to survive, or its
-  children become unreachable), in the result list „works of its own" (a card
-  without them is a dead end, its „Werke anzeigen" button would have nothing to
-  show). That is 41 of the 133
-- Detail panel per category: every root-to-category path (up to 9), plus the
-  works assigned to it
+  both roots survive. Since #433 the checkbox means the same in both views: the category has works somewhere in its branch. Until then the result list counted only works assigned directly, which #433 revised after KZW's decision of 2026-09-15 that subgenres always come along; „Werke anzeigen" now lists the whole branch
+- Detail panel per category: every root-to-category path (up to 9), plus the works of its whole branch, with the number assigned directly
 - Search by genre term steps in front of the tree; a hit names its path
   (`Epik, Lyrik und Dramatik › Kurzdichtung › Märe`) instead of the unordered
   " UND " chain of all ancestors that stood there until #361

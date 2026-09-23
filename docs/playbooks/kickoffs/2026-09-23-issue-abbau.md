@@ -162,12 +162,39 @@ Entwürfe an KZW und Externe, als Subagenten der Koordination (Planreview: nur E
 
 ## Änderungswünsche an eingefrorene Dateien
 
-*(leer bei Laufbeginn)*
+*Stand 23.09. nachmittags: 1, 3 und 4 von der Koordination nach den Merges von #471 und #474 eingetragen (die Zahlen in 3 am gemergten Stand nachgemessen, alle bestätigt). 2 ist mit #474 gekommen (Freeze-Ausnahme, s. Grenzverhandlungen). 5 wartet auf #469.*
+
+1. **Spur B, `docs/FEATURES.md`, Genre Explorer** (FEATURES beschreibt sonst die #361-Semantik, die #433 revidiert; „Lyrik“ hätte dort keine Werke, live hat sie laut Spur B 427):
+   - Anker `9 levels deep. Each node names its own works and how many sit in the branch\n  below it;` → `9 levels deep. Each node names the works of its whole branch and, where fewer, how many are assigned to it directly (#433);`
+   - Anker ab `One checkbox, but its meaning has to differ between the` bis `That is 41 of the 133` → `Since #433 the checkbox means the same in both views: the category has works somewhere in its branch. Until then the result list counted only works assigned directly, which #433 revised after KZW's decision of 2026-09-15 that subgenres always come along; „Werke anzeigen" now lists the whole branch`
+   - Anker `plus the\n  works assigned to it` → `plus the works of its whole branch, with the number assigned directly`
+   - Nach dem Merge von Spur B's PR einzutragen. Der zweite Anker reicht bis zum Ende des Aufzählungspunkts (FEATURES.md Z. 187 bis 192, nachgesehen).
+2. **Spur B, `docs/DEVELOPMENT.md`, Spec-Tabelle** (nach dem Merge von #469 und von B's PR):
+   - nach der Zeile `search-engine.spec.js`: `| `genre-filter-suggestion.spec.js` | Main site | Genre suggestions in the text filter: a click selects the texts of the genre including its subgenres, checked against an oracle computed from the index files; typing alone leaves the selection unchanged (#433, #204) |`
+   - nach der Zeile `genre-explorer.spec.js`: `| `text-comparison-filter.spec.js` | Playground | Typing filter above both text lists of the text comparison: folded match on siglum, title and author, auto-select of a single remaining text, selection kept when the filter misses it (#435) |`
+
+3. **Spur A, `docs/DECISIONS.md`, ADR-021** (zweiter gemessener Flip, sonst nur im Codekommentar): hinter dem Ende von Z. 1289 (`…and until this run there was only the green.`) als eigener Unterpunkt:
+   `  - **The third run is red again, twice** (2026-09-23, #387/#418/#464, Authority Index 1.9.8 against 1.9.9): **0 forms added, 0 removed, 2 re-pointed**, out of 234,250 mappings on both sides. \`hawe\` moved from \`lemma_2598\` *haben* to \`lemma_2923\` *houwen*, which is what Vorschrift B would choose (7 attestations under *houwen*, 6 under \`lemma_9644\` *houwe*, none left under *haben*). \`froewen\` moved from \`lemma_7256\` *vröuwen* to \`lemma_7250\` *vrô*, **against** Vorschrift B: the form is attested 35 times under \`lemma_7260\` *vrouwe*, 21 times under *vröuwen* and once under *vrô*, and it is that single token, minted as \`type_372389\` on KZW's decision in #387, that now wins because *vrô* sorts first. The type counter saw none of this (\`type ids with >1 lemma\` went from 1 to 0); only the dictionary comparison did.`
+   Zahlen von Spur A gemessen, von der Koordination nicht nachgezählt; vor dem Eintragen gegen den gemergten Stand halten.
+4. **Spur A, `docs/DECISIONS.md:782`**: `the 30 corpus files currently covered by GAPs 1–11` → `the 34 corpus files currently covered by GAPs 1–11` (dieselbe Baseline wie TEI-MODEL §10).
+
+5. **Spur C, `docs/DEVELOPMENT.md`** (nach den Merges von #469 und #472, am Ankertext suchen):
+   - `- Automated web server startup (port 8080)` → `- Automated web server startup on port 8080, or on the port in `MHDBDB_TEST_PORT` when it is set (#465). The variable is read in one place, `testing/test-port.js`, by the config, by `scripts/run-tests.js` and by `npm run serve` alike; anything but an integer from 1 to 65535 stops the run with exit 2. Two worktrees test in parallel with one command each: `npm test` in the first, `MHDBDB_TEST_PORT=8081 npm test` in the second (PowerShell: `$env:MHDBDB_TEST_PORT = "8081"`, then `npm test`). On 2026-09-23, on a 64 GB machine, a side-by-side pair of full runs at six workers each was stopped for lack of memory; with `-- --workers=2` each, both finished green in about 22 minutes.` (Wortlaut von Spur C nachträglich korrigiert)
+   - `(no report written, or a foreign server on 8080)` → `(no report written, a foreign server on the test port, or an invalid `MHDBDB_TEST_PORT`)`
+   - `# Opens on http://localhost:8080` → `# Opens on http://localhost:8080 (or on MHDBDB_TEST_PORT, see Testing)`
+   - „64 GB“ vor dem Eintragen nachmessen, die Angabe stammt von Spur C.
 
 ## Grenzverhandlungen während des Laufs
+
+- **Inbox-Wunsch 2 (DEVELOPMENT.md, zwei Spec-Zeilen) geht als Freeze-Ausnahme in Spur B's PR #474**: `check-doc-inventories.py` wird ohne die Zeilen rot (Run 35859225526, „36 Specs, 34 in DEVELOPMENT.md“). Der Freeze auf DEVELOPMENT.md war wegen #469 gesetzt; #469 ändert dieselbe Tabelle nur in einem anderen Hunk (@@ -234, zwei review-*.spec.js-Zeilen am Ende). Dasselbe trifft C's Inbox-Wunsch nicht, weil der Inventar-Check dort keine Zeile verlangt.
+- **A2, FR3-Haltepunkt aufgelöst**: KZW 10.09. 14:59 in #267 („2026 können wir FR3 bereits von dieser Ausnahmeregel befreien“), bestätigt in unserer Zusammenfassung 15:52 („FR3 | Marker fällt“). FR3 bekommt das Standard-`<availability>`. Das Audit hatte den Punkt als offen geführt.
+- **A2, Freeze-Ausnahmen**: `sources/README.md` Absatz Z. 182–191 als Ganzes (statt nur Z. 183, sonst widerspricht er sich); `assets/js/rendering/tei-text-reader.js:772` Kommentarzahl weg (Datei von Spur B, deren PR gemergt ist).
+- **Maschinenweit nur ein Testlauf zur Zeit** (ab 23.09. nachmittags): Zwei Volläufe mit je 6 Workern haben zweimal den Speicher erschöpft (C mit Hauptbaum, C mit A); beide Male hat Claude Code den Lauf abgebrochen. Die Port-Warteschlange gilt deshalb für die Maschine, nicht je Port. Den Neustart nach dem Abbruch hat Christian beide Male freigegeben.
 
 - **Tag-Reihenfolge #387 revidiert: `ADJ NOM` mit `@reason` statt `NOM ADJ`** (Widerspruch Spur A, entschieden von der Koordination am 23.09.). §1 Punkt 5 hat die Altlast gezählt und keine Konvention. Nachgezählt über 667 Dateien: `VRB PRO` 154, davon 154 mit `@reason`; `PRO VRB` 9.068 und `NOM ADJ` 119.501, jeweils 0 mit `@reason`. Ein bewusstes Doppeltag hat also eine eigene Reihenfolge plus `@reason`, und so wird es in POS-TAGSET festgehalten.
 - **#387 prägt drei neue Typen statt einem, #418 Variante (a)**: zwei neue `hawe`-Typen, und `type_117159` fällt weg. Beides folgt aus der Tabellenzeile „prägen, nie umhängen“.
 - **NEIM_2503080_8 darf in A1 mit**: ein einzelnes `<w>` plus `<change>`, keine `<note>`. #453 plant keine Neukonvertierung. Der Haltepunkt A3 bleibt.
+- **Baseline 30 → 34 als Freeze-Ausnahme für Spur A**: validate-corpus.py (Set, :77, :98), TEI-MODEL.md 895–967 und :933, schema/README.md:23 (dort mit Ersatz eines Bestands-U+2014, sonst rot), CONTRACTS.md:381 (Nachbarzeile der gegateten Zählzeile). hilfe-daten-beitragen.html:819 zieht Spur B nach. DECISIONS.md:782 über die Inbox.
+- **`froewen` kippt gegen Vorschrift B (ADR-021)** durch das Prägen nach #387 (first-wins, *vrô* sortiert zuerst). Angenommen, nicht umgehängt: die Auflösung ist das Gate aus ADR-021, nicht eine Ausnahme von „nie umhängen“. KZW bekommt es in #387 als Hinweis ohne Frage.
 - **#58**: Die Form des Durchklicks geht auf Christians Entscheidung zuerst als Frage an KZW. B1 wird bis zur Antwort nicht gebaut.
 - **B3 „Chip“** meint den Gattungs-Chip in der Trefferliste (app.js), nicht die Suchmaske; deren Form hat KZW am 15. und 17.09. entschieden (Lesart Spur B, bestätigt).
