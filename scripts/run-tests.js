@@ -208,7 +208,7 @@ if (!ohneReport) {
         `Playwright wuerde ihn wiederverwenden und die Suite gegen einen anderen\n` +
         `Arbeitsbaum laufen lassen. Erwartet: ${repoWurzel}\n` +
         `Abhilfe: den fremden Dev-Server beenden, dann erneut starten,\n` +
-        `oder auf einen freien Port ausweichen (etwa MHDBDB_TEST_PORT=${PORT + 1} npm test).`,
+        `oder auf einen freien Port ausweichen (etwa MHDBDB_TEST_PORT=${PORT < 65535 ? PORT + 1 : PORT - 1} npm test).`,
       2
     );
   }
