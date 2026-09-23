@@ -99,7 +99,7 @@ Frontend-Rendering, Tests dafür, Hilfeseiten. **Standardmäßig nicht Teil der 
 
 Wenn die Aufgabe ausdrücklich sagt „soll online sichtbar sein", dann gehört es dazu, und dann gilt: **beide Oberflächen oder keine.** Lemma-Seite und Playground-Lemmata-Explorer zeigen dieselben Lemma-Daten; nur eine von beiden zu bedienen erzeugt genau die Drift, die sonst Audits einsammeln.
 
-Die Kehrseite dieser Voreinstellung ist bekannt und in Kauf genommen: es entsteht ein Bestand kuratierter Daten, die in der Oberfläche nicht vorkommen. Für genau diesen Zustand gibt es bereits ein Beispiel, #270 (`@resp` der kuratierten Angaben wird nirgends angezeigt, weil `contributors.xml` nicht im Index ist). Wer Stufe 3 vertagt, **verlinkt das Folgeticket im PR**, sonst wird aus „vertagt" stillschweigend „vergessen".
+Die Kehrseite dieser Voreinstellung ist bekannt und in Kauf genommen: es entsteht ein Bestand kuratierter Daten, die in der Oberfläche nicht vorkommen. Für genau diesen Zustand gab es bereits ein Beispiel, #270: `@resp` der kuratierten Angaben wurde nirgends angezeigt, weil `contributors.xml` nicht im Index war. Seit Authority-Index 1.9.10 (23.09.2026) steht der Name am Kommentar („Kommentar von …", Lemma-Seite und Playground); an Definition und Etymologie weiterhin nicht, dazu ist in #270 gefragt. Wer Stufe 3 vertagt, **verlinkt das Folgeticket im PR**, sonst wird aus „vertagt" stillschweigend „vergessen".
 
 ---
 
