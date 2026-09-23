@@ -469,8 +469,10 @@ export class NamingExplorer {
    * Die Spalte summiert sich deshalb NICHT verlaesslich auf 100, und zwar aus
    * einem zweiten Grund: gerundet wird je Zeile. ROL/`helt` summiert auf 98,
    * `hêrre` auf 95, und Lindas eigene Referenzdatei tut fuer `helt` dasselbe.
-   * Von 433 Lemmata mit mindestens zwei Figuren treffen 247 exakt 100, die
-   * Spanne reicht von 89 bis 109 (Reviewbefund B2).
+   * Von 433 Lemmata mit mindestens zwei Figuren treffen 244 exakt 100, die
+   * Spanne reicht von 91 bis 121 (gemessen 2026-09-23 mit Math.round wie
+   * unten; die frueheren 247 und 89 bis 109 waren mit Pythons round()
+   * gerechnet, das halbe Prozente zur geraden Zahl rundet).
    */
   computeFigureRows(pairs, term) {
     const map = new Map();

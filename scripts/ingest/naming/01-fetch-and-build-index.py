@@ -535,7 +535,7 @@ def build_record(row, figure_name, aliases, deck_aliases):
     elif filled(row.get("Bezeichnung")):
         # Figurenrede ohne erfasste nennende Figur. Rueckfall: am Pin
         # v0.3.0-beta 0 Records (bis v0.2.2-beta 2x im Iwein, von Linda am
-        # 10.09. bereinigt, #420); gemessen 2026-09-23 ueber den Index
+        # 09.09. bereinigt, Commit af531d30, #420); gemessen 2026-09-23 ueber den Index
         who, by = "fig", None
         phrase = clean(row["Bezeichnung"])
     else:
