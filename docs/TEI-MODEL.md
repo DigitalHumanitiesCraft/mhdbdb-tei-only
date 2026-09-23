@@ -260,7 +260,7 @@ TEI P5 requires in `<monogr>`: `(author|editor)*, title+, editor*, (idno|imprint
 - stanzas as `<lg>` with `@n`. Allowed `@type` values: `stanza`
 - optional enclosing `<div>` for books/sections
 - for songs: `<div type="song">` > `<lg type="stanza">` > `<l>`
-- caesuras as `<caesura/>` inside `<l>` (optional; 51,986 in 225 files, see 6.5)
+- caesuras as `<caesura/>` inside `<l>` (optional; 51,140 in 218 files, see 6.5)
 
 **Current state:** most verse texts have `<l>` without an `<lg>` wrapper. The migration happens step by step (issue #30, stage 2).
 
