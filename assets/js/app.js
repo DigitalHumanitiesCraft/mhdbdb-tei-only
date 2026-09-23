@@ -14,6 +14,7 @@ import { extractKwicHits, formatLineRef } from './search/kwic-service.js';
 import { TEICacheManager } from './storage/tei-cache-manager.js';
 import { TEITextReader } from './rendering/tei-text-reader.js';
 import { buildGenreSubtrees, workIdFromRef } from './lib/genre-tree.js';
+import { csvCell, downloadCsv } from './lib/csv-export.js';
 
 /** Höchstens so viele Gattungs-Vorschläge unter dem Textfilter (#433). */
 const GENRE_SUGGESTION_LIMIT = 8;
@@ -1407,14 +1408,11 @@ class MainSiteApp {
     /**
      * Issue #114: CSV-Cell-Quoting nach RFC 4180 / Excel-Konvention.
      * Wenn der Wert Komma, Quote oder Newline enthält, in "..." einfassen
-     * und enthaltene Quotes verdoppeln.
+     * und enthaltene Quotes verdoppeln. Seit #448 in lib/csv-export.js,
+     * geteilt mit den Playground-Exporten.
      */
     escapeCsvCell(value) {
-        const str = String(value ?? '');
-        if (/[",\n\r]/.test(str)) {
-            return `"${str.replace(/"/g, '""')}"`;
-        }
-        return str;
+        return csvCell(value);
     }
 
     serializeResultsAsCSV() {
@@ -1440,16 +1438,7 @@ class MainSiteApp {
 
     /** Startet den Browser-Download einer CSV (UTF-8 BOM für Excel). */
     triggerCsvDownload(filename, csv) {
-        const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8' });
-        const url = URL.createObjectURL(blob);
-
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = filename;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
+        downloadCsv(filename, csv);
     }
 
     /**

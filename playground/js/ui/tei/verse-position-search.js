@@ -9,6 +9,8 @@
  */
 
 import { emptyScopeMessage } from './corpus-scope.js';
+import { csvButton } from '../core/ui-helpers.js';
+import { toCsv, downloadCsv, csvDateStamp, csvFilenamePart } from '../../../../assets/js/lib/csv-export.js';
 
 const DEFAULT_STATE = Object.freeze({
   query: '',
@@ -159,6 +161,7 @@ export class VersePositionSearch {
 
     const hits = this.findHits(lemma.id);
     const positionLabel = this.state.position === 'start' ? 'Versanfang' : 'Versende';
+    this._lastHits = hits.length > 0 ? { lemma, hits, positionLabel } : null;
     const cleanId = lemma.id.replace(/^lemma_/, '');
 
     if (hits.length === 0) {
@@ -213,14 +216,29 @@ export class VersePositionSearch {
             <div>${totalHits.toLocaleString('de-DE')} Treffer am ${positionLabel}</div>
           </div>
         </header>
-        <div class="text-xs text-slate-500 border-t border-slate-100 pt-3">
-          Spalte: <strong>Treffer am ${positionLabel}</strong> / Gesamtvorkommen im Text (Anteil). Klick öffnet Text im Reader mit Highlighting.
+        <div class="flex items-center gap-3 text-xs text-slate-500 border-t border-slate-100 pt-3">
+          <span>Spalte: <strong>Treffer am ${positionLabel}</strong> / Gesamtvorkommen im Text (Anteil). Klick öffnet Text im Reader mit Highlighting.</span>
+          ${csvButton('vpsCsvExport', `Alle ${hits.length} Texte mit Treffern am ${positionLabel}`)}
         </div>
         <ul class="grid gap-1 sm:grid-cols-2">
           ${rows}
         </ul>
       </div>
     `;
+  }
+
+  /** Die Liste als Tabelle, eine Zeile je Text (#448). */
+  exportCsv() {
+    const last = this._lastHits;
+    if (!last) return;
+    const { lemma, hits, positionLabel } = last;
+    const rows = hits.map(h => [
+      h.id, h.title, h.author, h.count, h.totalOccurrences,
+      h.totalOccurrences > 0 ? (h.count / h.totalOccurrences * 100).toFixed(1) : ''
+    ]);
+    const csv = toCsv(['Sigle', 'Titel', 'Autor*in', `Treffer am ${positionLabel}`, 'Vorkommen im Text', 'Anteil (%)'], rows);
+    const pos = this.state.position === 'start' ? 'versanfang' : 'versende';
+    downloadCsv(`mhdbdb-${pos}-${csvFilenamePart(lemma.lemma || lemma.id)}-${csvDateStamp()}.csv`, csv);
   }
 
   renderError(msg) {
@@ -288,6 +306,7 @@ export class VersePositionSearch {
   }
 
   attachHandlers() {
+    document.getElementById('vpsCsvExport')?.addEventListener('click', () => this.exportCsv());
     const runSearch = () => {
       const input = document.getElementById('vpsQuery');
       if (!input) return;

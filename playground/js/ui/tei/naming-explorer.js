@@ -79,6 +79,8 @@
 
 import { TextNormalizer } from '../../../../assets/js/lib/text-normalizer.js';
 import { getNavigationEpoch } from '../core/router.js';
+import { csvButton } from '../core/ui-helpers.js';
+import { toCsv, downloadCsv, csvDateStamp, csvFilenamePart } from '../../../../assets/js/lib/csv-export.js';
 
 const DEFAULT_STATE = Object.freeze({
   perspective: 'named',  // 'named' = benannte Figur | 'namer' = nennende Instanz | 'lemma' = Lemma
@@ -678,6 +680,7 @@ export class NamingExplorer {
       visible = visible.filter(t => TextNormalizer.matchesNormalized(t.term, filter));
     }
 
+    this._lastExport = visible.length > 0 ? { kind: 'terms', work, rows: visible, namerMode } : null;
     const controls = this.renderControls(work, visible.length);
     const table = this.renderTermTable(visible, namerMode);
 
@@ -707,6 +710,7 @@ export class NamingExplorer {
       ? pairs
       : pairs.filter(p => (p.record[this.state.category] || []).includes(term));
     const rows = this.computeFigureRows(sichtbar, term);
+    this._lastExport = rows.length > 0 ? { kind: 'figures', work, rows, term } : null;
 
     const gesamtImWerk = (this.getTerms(work).find(e => e.term === term) || { count: 0 }).count;
     const summary = this.renderLemmaSummary(work, term, sichtbar.length, rows.length, gesamtImWerk);
@@ -715,6 +719,7 @@ export class NamingExplorer {
       <div class="flex flex-wrap items-center gap-3 rounded-xl border border-slate-200 bg-slate-50/60 p-3 text-sm">
         ${this.renderSubFilter(work)}
         <span class="text-xs text-slate-500">${rows.length.toLocaleString('de-DE')} ${rows.length === 1 ? 'Figur' : 'Figuren'}</span>
+        ${rows.length > 0 ? csvButton('neCsvExport', 'Die angezeigten Figuren mit allen Zählspalten, ohne die Belegstellen') : ''}
       </div>
     `;
     return summary + tabs + controls + this.renderFigureTable(rows, sichtbar.length);
@@ -990,8 +995,41 @@ export class NamingExplorer {
             class="w-full rounded-lg border border-slate-200 bg-white px-2 py-1 text-xs focus:border-brand-400 focus:outline-none" />
         </label>
         <span class="text-xs text-slate-500">${visibleCount.toLocaleString('de-DE')} Lemmata</span>
+        ${visibleCount > 0 ? csvButton('neCsvExport', 'Die angezeigten Lemmata mit Kategorie und Häufigkeit, ohne die Belegstellen') : ''}
       </div>
     `;
+  }
+
+  /**
+   * Die angezeigte Tabelle (Kategorie-Tab, Unterfilter, Lemma-Filter), eine
+   * Zeile je Tabellenzeile. Die aufklappbaren Belegstellen gehen nicht mit:
+   * sie sind je Zeile eine Liste und wuerden die Tabelle sprengen (#448).
+   */
+  exportCsv() {
+    const exp = this._lastExport;
+    if (!exp) return;
+    const { work } = exp;
+    let csv;
+    let teil;
+    if (exp.kind === 'figures') {
+      csv = toCsv(
+        ['Werk', 'Lemma', 'Benannte Figur', 'Nennungen', 'Anteil (%)', 'Erzähler', 'Figurenrede', 'Selbst', 'als Bezeichnung', 'als Epitheton'],
+        exp.rows.map(r => [work.sigle, exp.term, r.figure, r.mentions, r.share, r.erz, r.fig, r.self, r.bez, r.epi])
+      );
+      teil = `lemma-${csvFilenamePart(exp.term)}`;
+    } else {
+      const kopf = exp.namerMode
+        ? ['Werk', 'Genannte Figur', 'Lemma', 'Kategorie', 'Häufigkeit']
+        : ['Werk', 'Lemma', 'Kategorie', 'Häufigkeit'];
+      csv = toCsv(kopf, exp.rows.map(t => {
+        const kat = CATEGORY_META[t.cat]?.label || t.cat;
+        return exp.namerMode
+          ? [work.sigle, t.figure, t.term, kat, t.count]
+          : [work.sigle, t.term, kat, t.count];
+      }));
+      teil = `${this.state.perspective}-${csvFilenamePart(this.state.subject)}`;
+    }
+    downloadCsv(`mhdbdb-bezeichnungen-${csvFilenamePart(work.sigle)}-${teil}-${csvDateStamp()}.csv`, csv);
   }
 
   renderTermTable(terms, namerMode) {
@@ -1141,6 +1179,7 @@ export class NamingExplorer {
   }
 
   attachHandlers() {
+    document.getElementById('neCsvExport')?.addEventListener('click', () => this.exportCsv());
     document.querySelectorAll('[data-ne-persp]').forEach(btn => {
       btn.addEventListener('click', (e) => {
         const mode = e.currentTarget.getAttribute('data-ne-persp');

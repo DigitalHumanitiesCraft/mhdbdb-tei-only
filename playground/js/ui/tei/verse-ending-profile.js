@@ -13,7 +13,8 @@
  * niedrigem eher semantisch motiviert).
  */
 
-import { buildTextLabelDisambiguator } from '../core/ui-helpers.js';
+import { buildTextLabelDisambiguator, csvButton } from '../core/ui-helpers.js';
+import { toCsv, downloadCsv, csvDateStamp, csvFilenamePart } from '../../../../assets/js/lib/csv-export.js';
 import { FUNCTION_WORD_POS } from './word-frequency.js';
 import { emptyScopeMessage } from './corpus-scope.js';
 
@@ -182,10 +183,13 @@ export class VerseEndingProfileAnalyzer {
             <select id="vepTopN" class="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm focus:border-brand-400 focus:outline-none">${topNOptions}</select>
           </label>
         </div>
-        <label class="mt-3 flex items-center gap-2 text-sm text-slate-700 cursor-pointer">
-          <input type="checkbox" id="vepHideFunc" ${this.state.hideFunctionWords ? 'checked' : ''} class="w-4 h-4 rounded border-slate-300 text-brand-600 focus:ring-brand-500" />
-          <span>Funktionswörter ausblenden <span class="text-xs text-slate-500">(der/die/daz, ich/er/sie, in/zuo, und/oder, niht, hân/wesen, …)</span></span>
-        </label>
+        <div class="mt-3 flex flex-wrap items-center gap-x-6 gap-y-2">
+          <label class="flex items-center gap-2 text-sm text-slate-700 cursor-pointer">
+            <input type="checkbox" id="vepHideFunc" ${this.state.hideFunctionWords ? 'checked' : ''} class="w-4 h-4 rounded border-slate-300 text-brand-600 focus:ring-brand-500" />
+            <span>Funktionswörter ausblenden <span class="text-xs text-slate-500">(der/die/daz, ich/er/sie, in/zuo, und/oder, niht, hân/wesen, …)</span></span>
+          </label>
+          ${this._lastProfile ? csvButton('vepCsvExport', 'Alle Versende-Lemmata der Auswahl, nicht nur die Top-N, mit den aktuellen Filtern') : ''}
+        </div>
         <p class="mt-3 text-xs text-slate-500">
           Zählt das Lemma am letzten Wort <em>mit Lemma-Zuordnung</em> jedes Verses
           (<code>lineEnds[]</code>, Corpus-Index v4.1.0+). Verse ohne jede Zuordnung kommen gar nicht vor.
@@ -197,13 +201,12 @@ export class VerseEndingProfileAnalyzer {
     `;
   }
 
-  renderTable() {
-    const data = this._lastProfile;
-    if (!data) {
-      return '<div class="rounded-2xl border border-dashed border-slate-200 bg-slate-50/70 p-6 text-center text-sm text-slate-500">Keine Daten für diese Auswahl (nur Versdichtung wird ausgewertet).</div>';
-    }
-    const { endCounts, totalCounts, verseCount, scopeLabel, scopeMeta } = data;
-
+  /**
+   * Gefilterte und sortierte Eintraege, ungekappt. Tabelle (Top-N) und
+   * CSV-Export (alle) lesen dieselbe Menge (#448).
+   */
+  sortedEntries(data) {
+    const { endCounts, totalCounts, verseCount } = data;
     const allEntries = Array.from(endCounts.entries()).map(([id, endCount]) => {
       const total = totalCounts.get(id) || endCount;
       return {
@@ -223,8 +226,38 @@ export class VerseEndingProfileAnalyzer {
         })
       : allEntries;
     entries.sort((a, b) => b.endCount - a.endCount);
+    return { entries, hiddenCount: allEntries.length - entries.length };
+  }
+
+  exportCsv() {
+    const data = this._lastProfile;
+    if (!data) return;
+    const rows = this.sortedEntries(data).entries.map((e, idx) => {
+      const lemma = this.getLemmaById(e.id);
+      return [
+        idx + 1,
+        lemma ? lemma.lemma : e.id,
+        e.id,
+        (lemma?.posAll || (lemma?.pos ? [lemma.pos] : [])).join(' '),
+        e.endCount,
+        e.shareOfVerses.toFixed(2),
+        e.rhymePressure.toFixed(1)
+      ];
+    });
+    const csv = toCsv(['Rang', 'Lemma', 'ID', 'PoS', 'Versende-Belege', 'Anteil an annot. Versen (%)', 'Reim-Druck (%)'], rows);
+    const scope = this.state.scope === 'corpus' ? 'auswahl' : csvFilenamePart(this.state.scope.replace(/^author:/, ''));
+    downloadCsv(`mhdbdb-versende-${scope}-${csvDateStamp()}.csv`, csv);
+  }
+
+  renderTable() {
+    const data = this._lastProfile;
+    if (!data) {
+      return '<div class="rounded-2xl border border-dashed border-slate-200 bg-slate-50/70 p-6 text-center text-sm text-slate-500">Keine Daten für diese Auswahl (nur Versdichtung wird ausgewertet).</div>';
+    }
+    const { endCounts, verseCount, scopeLabel, scopeMeta } = data;
+
+    const { entries, hiddenCount } = this.sortedEntries(data);
     const top = entries.slice(0, this.state.topN);
-    const hiddenCount = allEntries.length - entries.length;
 
     const rows = top.map((e, idx) => {
       const lemma = this.getLemmaById(e.id);
@@ -304,6 +337,7 @@ export class VerseEndingProfileAnalyzer {
       this.state.hideFunctionWords = e.target.checked;
       this.render();
     });
+    document.getElementById('vepCsvExport')?.addEventListener('click', () => this.exportCsv());
   }
 }
 
