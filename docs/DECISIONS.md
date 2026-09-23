@@ -1247,6 +1247,7 @@ Three things follow, and the third is the one that is easy to lose:
 - **It does not settle §F.2.** Sense meanings stay curatorial: this ADR says a second sense is required, not what it means. The concept assignment is still the team's.
 - **It compounds with the `Alanya` lesson in CLAUDE.md.** There, a lemma was characterised from the headword alone and the attestations said otherwise. Here the attestations say two things at once, and the correct answer is to record both rather than to choose. Both cases have the same root: the headword is not the evidence.
 - **The open work in #357 is now mechanical in shape and curatorial in substance:** `lemma_3036` needs a second sense for the person reading, and `REN_242090_0` needs to point at it. The sense meaning is KZW's to assign.
+- **Implemented 2026-09-23 (Authority Index 1.9.11).** `lemma_3036_sense_119195` carries `concept_21012000` and `concept_23112500`, the two concepts that every person name in the same *Rennewart* catalogue carries (verses 24206 to 24213: eight person tokens, among them `lemma_22280`, `lemma_22282` and `lemma_22283`). The assignment is derived from those neighbours, not chosen, and it stays KZW's to overrule in #357.
 
 ---
 
