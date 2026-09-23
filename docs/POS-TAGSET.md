@@ -49,6 +49,12 @@ In the older stock many `<w>` elements (~35 to 40 %) carry space-separated compo
 | preposition plus determiner | *zer* = ze + der | `PRP DET` | `ze+der` |
 | preposition plus determiner | *zem* = ze + dem | `PRP DET` | `ze+dem` |
 
+**A deliberate double tag has its own order and always carries `@reason`.** That is what tells it apart from the unresolved compounds of the older stock, which carry neither. Measured on 2026-09-23 over all 667 files, before the change described in the next sentences: all 154 `VRB PRO` carried a `@reason`, none of the 9,068 `PRO VRB` did, and none of the 119,501 `NOM ADJ`. After it the first two pairs read 156 of 156 and 0 of 9,066. The reverse order in the stock is migration residue for K4 (§6.2) to resolve; the fusion order is a decision. The two `zalder` tokens of `lemma_28290` moved from `PRO VRB` to `VRB PRO` for exactly this reason (KZW, 2026-09-22, #464; `reason="zalte+er"`).
+
+**Substantivized adjectives (KZW's decision of 2026-09-17, #387).** Where a token cannot be decided between the adjectival and the nominal reading, it keeps both as the double tag `ADJ NOM`, in that order, plus a `@reason` stating in words that the reading is undecidable. This is not a fusion: the token is one word with two possible word classes, and the `@reason` records an open question rather than two components, so it is prose and not the `a+b` notation of the table above. The first two instances are `FR1_5092110_2` and its parallel `FR3_105218020300_2` (*gein trurec fro*). KZW stated the convention for substantivized adjectives in general in the same words (double tag plus comment); in the same decision she tagged two individual substantivations, `FR2_419020_7` (*ein swinendez fro*) and `FR1_13058020_4` (*daz lustlich fro*), as plain `NOM` under the adjective lemma, and recorded the two separately. Where the line between the two runs is her call and is asked in #387.
+
+`@reason` on `<w>` is outside strict TEI (it is GAP category one in [TEI-MODEL.md §10](TEI-MODEL.md#10-validation-baseline)), so every file that receives its first one joins the tei_all baseline.
+
 ## 3. Legacy tags (older stock)
 
 The stock taken over from the RDF migration partly uses an older tagset. These tags are **not** part of the 19-tag schema and are being migrated:

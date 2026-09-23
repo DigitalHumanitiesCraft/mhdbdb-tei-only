@@ -132,6 +132,7 @@
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 74 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/). 60 weitere Tokens der Form minne blieben bewusst unannotiert (Review).</change>
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 32 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/). 2 weitere Tokens der Form stat blieben bewusst unannotiert (Review).</change>
       <change when="2026-09-21" who="#editor">#371 stat, drittes Lemma: 2 bislang unlemmatisierte Tokens der Form stat/stât annotiert (lemmaRef/pos/corresp nach dem actions-Array in KZWs Review vom 15.09.2026; drei neu gepraegte Variantentypen; kein @ana, weil die Sense-Zuordnung kuratorisch ist; die 17 Faelle mit option OFFEN und die 2 mit NEU_STAND bleiben unangetastet; Provenienz-Log: ingest/pos-disambig/371-stat/).</change>
+      <change when="2026-09-23" who="#editor">#464 zalder: 1 Token von @pos PRO VRB auf VRB PRO, Verschmelzung aus einer Präteritalform von zeln und er als @reason dokumentiert, keine Token-Trennung (KZW 22.09.2026).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -7714,7 +7715,7 @@
         </l>
         <l n="1009">
           <w xml:id="ENE_10090_0" lemmaRef="lexicon.xml#lemma_1180" pos="ADV" ana="lexicon.xml#lemma_1180_sense_1864" corresp="variants.xml#type_3739">dô</w>
-          <w xml:id="ENE_10090_1" lemmaRef="lexicon.xml#lemma_28290" pos="PRO VRB" corresp="variants.xml#type_140326">zalder</w>
+          <w xml:id="ENE_10090_1" lemmaRef="lexicon.xml#lemma_28290" pos="VRB PRO" corresp="variants.xml#type_140326" reason="zalte+er">zalder</w>
           <w xml:id="ENE_10090_2">in</w>
           <w xml:id="ENE_10090_3" lemmaRef="lexicon.xml#lemma_9131" pos="ART PRP NUM" ana="lexicon.xml#lemma_9131_sense_15291" corresp="variants.xml#type_32209">zeinem</w>
           <w xml:id="ENE_10090_4">armen</w>

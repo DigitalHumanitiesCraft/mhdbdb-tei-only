@@ -526,6 +526,75 @@ Zehn Prägungen stellen eine Invariante her, die vorher an zehn Stellen verletzt
 
 Alle drei Vorgänge bleiben offen bis zur Abnahme durch @wachauer; ein `Closes` ist keine Abnahme. Was sie noch entscheiden muss: die Sense-Zuordnungen für alle 88 Tokens, die 17 Fälle mit `option: OFFEN` und die 2 mit `NEU_STAND` aus #371 (letztere bräuchten ein neues Lemma), und die erste Hälfte des `hirne`-Auftrags aus #366, die kein Objekt hat: `lemma_2853` trägt 228 Tokens in 66 Dateien und ist nicht leer, und die Form `gehornn` steht nicht darunter.
 
+## 2026-09-23 (Spur A, Welle A1) – #387, #418, #464: 36 Tokens, und das Doppeltag steht in der Reihenfolge, die nichts verwechselt
+
+Drei von KZW entschiedene Pakete in einem PR, ein Rebuild, Korpus-Index 4.2.19, Authority-Index 1.9.9. 21 Resttokens aus #387, die 12 offenen *hawe*-Belege aus #418 (dazu `AC3_23010_1` mit neuem Typ), die zwei *zalder*-Tokens aus #464. Fünf Typen geprägt (`type_372387` bis `type_372391`), `type_117159` entfallen, ein neuer Sense `lemma_9644_sense_119194`. Laufskript `scripts/ingest/pos-disambig/apply-387-418-464.py`, Einzelheiten im PR.
+
+### Was über den Einzelfall hinausgilt
+
+**Eine Bestandszahl zählt die Altlast mit, bis man fragt, welches Merkmal die Fälle trennt.** Der Laufplan hatte `NOM ADJ` statt KZWs `ADJ NOM` vorgesehen, weil der Bestand 119.501 zu 0 steht. Die Zahl war richtig, trug aber die falsche Menge: keiner der 119.501 hat ein `@reason`, sie sind die unaufgelösten Komposita der Migration, die K4 auflösen soll. Die Verschmelzungen zeigen, was eine bewusste Doppelannotation im Bestand ausmacht: `VRB PRO` 154 von 154 mit `@reason`, `PRO VRB` 0 von 9.068. Ein bewusstes Doppeltag in `NOM ADJ` zu schreiben, hätte es in genau die Menge gelegt, die später maschinell aufgelöst wird. Festgehalten in POS-TAGSET §2; die Koordination hat die Laufplan-Zeile revidiert. Die #464-Tokens wechseln aus demselben Grund von `PRO VRB` auf `VRB PRO`.
+
+**Eine Kommentarvorgabe hat Folgen im Schema, die niemand mitgeplant hatte.** `@reason` an `<w>` ist GAP-Kategorie 1 und in tei_all ungültig. Vier Dateien, die vorher tei_all-gültig waren (FR1, FR3, ENE, ROT), sind es mit ihrem ersten `@reason` nicht mehr; die Baseline steigt von 30 auf 34, und die alte Zahl stand in `validate-corpus.py`, TEI-MODEL.md §10, `schema/README.md`, `DECISIONS.md` und einer Hilfeseite. Gefunden hat es die Stichprobe über die 19 geänderten Dateien, nicht ein Gate: Stage 1 warnt nur, und mit `--sample` oder `--corpus-only` überspringt `validate-corpus.py` den Namensabgleich ganz. Wer nachweisen will, dass die Baseline hält, fährt den Lauf **ohne** Filter (hier 641/675, Stage-1 34 bei Baseline 34, keine NEW- oder GONE-Zeile).
+
+**Der Typzähler war zum zweiten Mal grün, während das Wörterbuch umklappte.** `extract-variants.py` meldete `>1 lemma` von 1 auf 0, also sauberer als vorher. Der Vergleich der beiden gebauten `authority-index`-Wörterbücher, den ADR-021 seit dem 14.09. verlangt, zeigte 0 neu, 0 entfallen, 2 umgeklappt: `hawe` zu *houwen* (B-konform) und `froewen` zu *vrô*, gegen Vorschrift B (35 Belege unter *vrouwe*, 21 unter *vröuwen*, 1 unter *vrô*). Die Ursache ist dieselbe wie bei `hawsen` am 21.09.: eine zwingende Neuprägung trifft auf first-wins. Gefunden hat es die Reviewrunde, nicht ich, obwohl der Eintrag darüber und rote Zeile 43 genau das beschreiben. **Der Vergleich steht nicht als Schritt im Data-Change-Lifecycle, und solange er dort fehlt, fährt ihn nur, wer sich an ADR-021 erinnert.** Die dritte Fixture liegt als Änderungswunsch im Laufplan, weil `DECISIONS.md` eingefroren ist.
+
+**Eine revisionDesc-Vorlage, die für jede Datei gilt, sagt über den Sonderfall die Unwahrheit.** In AC3 stand zunächst „2 Tokens umannotiert“, obwohl einer davon nur einen neuen Typ bekam. Das Skript kennt den Fall jetzt (`NUR_TYP`), und die Zeile ist aus der Vorlage neu erzeugt; die Reviewrunde 2 hat per Nachbau auf dem Vor-Stand bestätigt, dass alle 19 TEI-Dateien und `lexicon.xml` byteidentisch herauskommen.
+
+### Rote Zeilen
+
+Keine neue. Der Wörterbuch-Flip hätte eine Zeile zu derselben Lehre wie Nummer 43 werden können; er hat nichts getragen, weil die vorgeschriebene Reviewrunde ihn vor dem Push gefunden hat. Dasselbe gilt für die zwei Nachbarzeilen, die die Zahländerung nicht mitgezogen hatte (CONTRACTS.md:381, TEI-MODEL.md:933, Lehre aus `korrigieren.md`), und für die Vorher-Zahlen, die im POS-TAGSET-Absatz zunächst als Ist-Stand standen. Nach `wiederholte-fehler.md` ist ein durch ein Gate abgewendeter Fehler keiner. Dass die Lehre selbst dreimal nicht gegriffen hat und jedes Mal die Reviewrunde, steht oben.
+
+Gemessene Verteilung aus `trockenlauf-auswerten.py`, Abschnitt `shell-konventionen`: diese Session `394e94e5 mhdbdb-daten2` mit 178 Aufrufen, 49 Treffern, 28 %. Das Skript bricht danach am Log `gelesenes-trockenlauf.jsonl` mit `AttributeError: 'NoneType' object has no attribute 'get'` ab (eine Zeile ist `null`); die übrigen Abschnitte liegen deshalb nicht vor. Das Skript liegt in `claude-code-setup` und ist hier nicht angefasst.
+
+### Was zurück an Christian geht
+
+- Der PR ist ein Daten-PR, der CI-Review-Bot wird rot; der lokale Review trägt ihn (zwei Runden, keine offenen Befunde).
+- `npm test` endete mit `VERDICT: ROT (3 flaky …)`: 352 bestanden, 0 unerwartet, drei Lade-Timeouts im ersten Versuch, alle im Retry grün, während Spur C parallel testete.
+- Der *fröwen*-Flip (siehe oben) bleibt bis zur Umsetzung von ADR-021 bestehen; KZW bekommt ihn in #387 als Hinweis.
+- Nachzüge außerhalb des PR: `hilfe-daten-beitragen.html:819` (Baseline 30, Spur B), `docs/DECISIONS.md:782` und die dritte ADR-021-Fixture (Inbox).
+- Offen bei KZW: das `etym` von *zalder* (#464, Vorschlag *er* + *zal* + *zeln*) und die Grenze zwischen ihrer allgemeinen Konvention `ADJ NOM` und ihren zwei Einzelentscheidungen `NOM` (#387).
+
+## 2026-09-23 (Spur B des Issue-Abbaus) – vier KZW-Meldungen im Frontend, eine davon wartet auf sie
+
+### Was gearbeitet wurde
+
+- **#446**, „das Korpus“ in nutzersichtbarem Text: sechs Stellen in Playground und Hilfe. Das Audit hatte vier genannt; die fünfte (`playground/index.html:126`) stand dort nicht, die sechste habe ich selbst zuerst übersehen (rote Zeile 70). `README.md:115` hat die Koordination in `081ad4d10` übernommen.
+- **#435**, Tippfilter über beiden Textlisten im Textvergleich, wie KZW am 15.09. entschieden hat. Ihre Frage zur Begriffs-Verteilung beantwortet die Messung: das Autocomplete gibt es seit `a2e7b0b36` (#113, 15.05.). Alans „baum“ scheiterte an der Umlautfaltung, behoben am 11.09. in `a3779e271`; im Browser schlägt „baum“ jetzt „Bäume“ vor.
+- **#433**, Gattungs-Vorschlag im Textfilter der Korpussuche, Klick setzt die Auswahl samt Untergattungen. Dazu der Gattungen-Explorer auf den Teilbaum umgestellt; das revidiert #361/PR #362 und ist von Christian freigegeben. Die Chip-Frage steht in #433 bei KZW.
+- **#58** nicht gebaut: für den Durchklick gibt es drei vernünftige Zielorte, und Christian wollte die Form mit KZW klären. Der Entwurf ging über die Koordination an sie.
+
+### Was über den Einzelfall hinausgilt
+
+**Ein Haltepunkt im Auftrag kann den falschen Gegenstand tragen.** Der Kickoff nannte für #433 den Haltepunkt „Chip“ als „Form der Auswahl in der Suchmaske“. Im Thread war diese Form seit dem 17.09. entschieden, und „Chip“ meinte den Gattungs-Chip in der Trefferliste, zu dem KZWs Frage „Wo genau würde man das sehen?“ seit dem 15.09. offen stand. Erst die Kommentare, nicht der Auftragstext, sagten, wo der Halt hingehört.
+
+**Eine Entscheidung von gestern kann an einer Prämisse hängen, die heute fällt.** #361 hatte bewusst zwei Bedeutungen für denselben Filterhaken festgeschrieben, weil „Werke anzeigen“ nur die direkten Werke las. KZWs „die Untergattungen kommen immer mit“ nimmt genau diese Prämisse weg. Die Revision musste trotzdem benannt und vorgelegt werden, bevor gebaut wurde, weil sie gegen eine dokumentierte Entscheidung ging.
+
+**Ein totes Feld hat oft einen falschen Leser, nicht einen fehlenden Schreiber.** Das Ticket vermutete den Gattungs-Chip am leeren `genre` des Korpus-Index. Gelesen wird aber `work.genre` im Authority-Index, ein Feld, das keines der 584 Werke trägt; sie tragen `genres` als Liste.
+
+**Ein Overlay über einer Liste von Checkboxen macht aus einem Fehlklick eine andere Handlung.** Der Reviewer hatte es nur „für den Berater“ notiert: die Vorschlagsliste lag über der Textliste, und ein Klick auf eine verdeckte Checkbox hätte eine ganze Gattung gewählt. Sie steht jetzt im Fluss.
+
+### Die #397-Frage
+
+Wahr gemacht hat der Zug: `findWorksInGenre` ist jetzt eine Obermenge der direkten Zuordnung. Unerreichbar geworden ist dadurch der Detailfeld-Zweig „kein Werk direkt zugeordnet, im Zweig darunter N“; er ist entfernt. Die zwei Stellen, die weiter die direkte Zahl brauchen (Baumzeile, Detailfeld), gehen über das neue `countOwnWorks`. Der Filterhaken zählt in beiden Ansichten jetzt dieselbe Menge; seine zwei Beschriftungen bleiben stehen, bis `genre-explorer.spec.js` nach dem Merge von #465 angepasst werden darf.
+
+### Rote Zeilen
+
+**Rot: eine Trefferzeile selbst abgeschnitten und das Abgeschnittene als Nichttreffer gelesen.** Ausgezogen als rote Zeile 70 nach [../fehlerjournal.md](../fehlerjournal.md).
+
+**Rot: Port 8080 als frei gemeldet, weil die Gegenprobe auf einem deutschen Windows nach „LISTEN“ suchte.** Ausgezogen als rote Zeile 71 nach [../fehlerjournal.md](../fehlerjournal.md).
+
+Verteilung aus `claude-code-setup/hooks/trockenlauf-auswerten.py` am 23.09.: `suchergebnis` 1.798 Zeilen, davon eng 1.371, leer 46, eng und leer 36. Die Auswertung bricht danach beim Log `gelesenes` (2.250 Zeilen) mit `AttributeError: 'NoneType' object has no attribute 'get'` ab (Zeile 102); eine Zeile dieses Logs ist kein Objekt. Das ist ein Befund an `claude-code-setup`, hier nicht angefasst.
+
+Nicht gezählt: zwei Testläufe durch eine Pipe geschickt, gegen die Projektregel. Die VERDICT-Zeile war beide Male sichtbar, getragen hat es nichts.
+
+### Was zurück an Christian geht
+
+- #58 wartet auf KZWs Wahl der Form; die Lesearbeit (Render- und Lesestellen) steht in #58 und in dieser Session.
+- #433: der Chip wartet auf KZW; FILTER_LABEL und `genre-explorer.spec.js` werden nach dem Merge von #465 zusammengezogen.
+- `docs/FEATURES.md` und `docs/DEVELOPMENT.md` tragen der Koordination übergebene Änderungswünsche, einzutragen nach den Merges.
+- Nebenbefund: ERB und ERD tragen im Textvergleich dieselbe Beschriftung „Herzog Ernst (Hrsg. Bartsch, 1869)“; der Disambiguator unterscheidet sie nicht.
+- `hilfe-daten-beitragen.html:819` nennt die Baseline 34 auf Ansage von Spur A; bis deren PR gemergt ist, eilt die Hilfeseite voraus.
+
 ## 2026-09-23 (Spur C des Laufs) – #465: der Testport als Parameter, und warum die Probe zweimal am Speicher scheiterte
 
 PR #472, nicht gemergt. `MHDBDB_TEST_PORT`, Vorgabe 8080. Gelesen wird die Variable allein in `testing/test-port.js`, und dieselbe Funktion versorgen die Config (`baseURL`, `webServer`), `scripts/run-tests.js` (Sentinel) und `npm run serve` (neuer Wrapper `testing/serve.js`). In 30 Specs sind 132 absolute Adressen jetzt Pfade relativ zu `baseURL`; zusammen mit den drei Stellen in der Config sind das die 135 in 31 Dateien, die die Koordination gezählt hatte.

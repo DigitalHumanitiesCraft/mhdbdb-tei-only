@@ -154,6 +154,7 @@
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 1 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/). 20 weitere Tokens der Form minne blieben bewusst unannotiert (Review).</change>
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 1 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
+      <change when="2026-09-23" who="#editor">#387 vrouwe/vrô, Resttokens: 1 Token annotiert nach den Einzelentscheidungen von KZW vom 17.09.2026 (lemmaRef/pos/corresp; kein @ana, weil die Sense-Zuordnung kuratorisch ist). Im ganzen Lauf: zwei Doppeltags ADJ NOM mit erklärendem @reason, wo KZW die Lesart für unentscheidbar erklärt hat, und drei neu geprägte Variantentypen nach der Regel aus #367.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -2238,7 +2239,7 @@
               <pc xml:id="FR2_419020_4" join="left">,</pc>
               <w xml:id="FR2_419020_5">ein</w>
               <w xml:id="FR2_419020_6" lemmaRef="lexicon.xml#lemma_5976" pos="VRB" corresp="variants.xml#type_235943">swinendez</w>
-              <w xml:id="FR2_419020_7">fro</w>
+              <w xml:id="FR2_419020_7" lemmaRef="lexicon.xml#lemma_7250" pos="NOM" corresp="variants.xml#type_41787">fro</w>
               <pc xml:id="FR2_419020_8" join="left">.</pc>
             </l>
             <l n="3">

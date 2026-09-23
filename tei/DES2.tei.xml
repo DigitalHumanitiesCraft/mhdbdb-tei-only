@@ -140,6 +140,7 @@
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
       <change when="2026-09-21" who="#editor">#366 fyndling-Beitrag: 1 unlemmatisierte Tokens annotiert (lemmaRef/pos/corresp; editorische Entscheidungen KZW vom 11.09. und 17.09.2026; je Schreibung ein neu gepraegter Variantentyp nach der Regel aus #367; kein @ana, weil die Sense-Zuordnung kuratorisch ist; Provenienz-Log: ingest/pos-disambig/366-fyndling/).</change>
+      <change when="2026-09-23" who="#editor">#418 hawe: 1 Token nach der Zuordnung von KZW vom 11.09.2026 auf lemma_2923 houwen bzw. lemma_9644 houwe gesetzt (lemmaRef/pos/corresp, @ana beim Substantiv). Im ganzen Lauf: zwei Belege auf den neuen Sense lemma_9644_sense_119194 „Schlag“; hawe erhält unter beiden Lemmata einen neu geprägten Variantentyp, type_117159 von lemma_2598 haben entfällt damit.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -3534,7 +3535,7 @@
           <w xml:id="DES2_291281010_5" lemmaRef="lexicon.xml#lemma_3157" pos="NOM ADJ" ana="lexicon.xml#lemma_3157_sense_4990" corresp="variants.xml#type_77653">iunge</w>
           <w xml:id="DES2_291281010_6" lemmaRef="lexicon.xml#lemma_68368" pos="ADJ" ana="lexicon.xml#lemma_68368_sense_105762" corresp="variants.xml#type_343705">gebratenne</w>
           <w xml:id="DES2_291281010_7" lemmaRef="lexicon.xml#lemma_2961" pos="NOM" ana="lexicon.xml#lemma_2961_sense_4753" corresp="variants.xml#type_129441">hüner</w>
-          <w xml:id="DES2_291281010_8" lemmaRef="lexicon.xml#lemma_2598" pos="VRB VEX" corresp="variants.xml#type_117159">hawe</w>
+          <w xml:id="DES2_291281010_8" lemmaRef="lexicon.xml#lemma_2923" pos="VRB" corresp="variants.xml#type_372390">hawe</w>
           <w xml:id="DES2_291281010_9" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
           <w xml:id="DES2_291281010_10">an</w>
           <w xml:id="DES2_291281010_11" lemmaRef="lexicon.xml#lemma_3349" pos="NOM ADJ ADV" corresp="variants.xml#type_259771">kleyne</w>

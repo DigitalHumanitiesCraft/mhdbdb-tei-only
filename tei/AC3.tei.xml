@@ -149,6 +149,7 @@
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 3 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
       <change when="2026-09-06" who="#editor">#387 (fro): 2 homographie-ambige Tokens der Form fro kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260) bzw. vrô ADJ/ADV (lemma_7250); LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/387-fro/).</change>
       <change when="2026-09-11" who="#editor">#198 Schritt 2: Token AC3_23010_1 (hawe) von lemma_2598 haben auf lemma_9644 houwe umannotiert und mit @ana auf dessen einzigen Sense versehen; @corresp unveraendert (type_117159). Grundlage: Geraetepaar "hawe vnd schaufel" als Satzsubjekt.</change>
+      <change when="2026-09-23" who="#editor">#418 hawe: 1 Token nach der Zuordnung von KZW vom 11.09.2026 auf lemma_2923 houwen bzw. lemma_9644 houwe gesetzt (lemmaRef/pos/corresp, @ana beim Substantiv). Im ganzen Lauf: zwei Belege auf den neuen Sense lemma_9644_sense_119194 „Schlag“; hawe erhält unter beiden Lemmata einen neu geprägten Variantentyp, type_117159 von lemma_2598 haben entfällt damit. AC3_23010_1 stand seit #416 bereits auf lemma_9644 und erhält hier nur den neuen Variantentyp statt type_117159.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -5680,7 +5681,7 @@
           <pc xml:id="AC3_17290_6" join="left">,</pc>
           <w xml:id="AC3_17290_7" lemmaRef="lexicon.xml#lemma_56117" pos="POS" ana="lexicon.xml#lemma_56117_sense_90961" corresp="variants.xml#type_304801">ewer</w>
           <w xml:id="AC3_17290_8" lemmaRef="lexicon.xml#lemma_12457" pos="NOM" ana="lexicon.xml#lemma_12457_sense_19661" corresp="variants.xml#type_166273">sense</w>
-          <w xml:id="AC3_17290_9" lemmaRef="lexicon.xml#lemma_2598" pos="VRB" corresp="variants.xml#type_117159">hawe</w>
+          <w xml:id="AC3_17290_9" lemmaRef="lexicon.xml#lemma_9644" pos="NOM" ana="lexicon.xml#lemma_9644_sense_15624" corresp="variants.xml#type_372391">hawe</w>
           <lb n="30"/>
           <w xml:id="AC3_17300_0" pos="PRP">vur</w>
           <w xml:id="AC3_17300_1" pos="PRO">sich</w>
@@ -7676,7 +7677,7 @@
           <pb n="23"/>
           <lb n="1"/>
           <w xml:id="AC3_23010_0" lemmaRef="lexicon.xml#lemma_30703" pos="ADV" ana="lexicon.xml#lemma_30703_sense_48076" corresp="variants.xml#type_157728">darvmb</w>
-          <w xml:id="AC3_23010_1" lemmaRef="lexicon.xml#lemma_9644" pos="NOM" ana="lexicon.xml#lemma_9644_sense_15624" corresp="variants.xml#type_117159">hawe</w>
+          <w xml:id="AC3_23010_1" lemmaRef="lexicon.xml#lemma_9644" pos="NOM" ana="lexicon.xml#lemma_9644_sense_15624" corresp="variants.xml#type_372391">hawe</w>
           <w xml:id="AC3_23010_2" lemmaRef="lexicon.xml#lemma_6467" pos="CCNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_38749">vnd</w>
           <w xml:id="AC3_23010_3" lemmaRef="lexicon.xml#lemma_33755" pos="NOM" ana="lexicon.xml#lemma_33755_sense_52620" corresp="variants.xml#type_188184">schaufel</w>
           <w xml:id="AC3_23010_4" pos="ADV">noch</w>
