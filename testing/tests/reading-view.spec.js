@@ -17,7 +17,7 @@ test.describe('Reading View', () => {
     test.setTimeout(120000);
 
     test('should load reading view via URL params', async ({ page }) => {
-        await page.goto('http://localhost:8080/korpus.html?textId=ABG&lemmaIds=lemma_879');
+        await page.goto('/korpus.html?textId=ABG&lemmaIds=lemma_879');
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
 
         // Reading title should populate after TEI loads
@@ -28,7 +28,7 @@ test.describe('Reading View', () => {
     });
 
     test('should display metadata correctly', async ({ page }) => {
-        await page.goto('http://localhost:8080/korpus.html?textId=ABG&lemmaIds=lemma_879');
+        await page.goto('/korpus.html?textId=ABG&lemmaIds=lemma_879');
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
         await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
 
@@ -41,7 +41,7 @@ test.describe('Reading View', () => {
     });
 
     test('should render formatted text content', async ({ page }) => {
-        await page.goto('http://localhost:8080/korpus.html?textId=ABG&lemmaIds=lemma_879');
+        await page.goto('/korpus.html?textId=ABG&lemmaIds=lemma_879');
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
         await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
 
@@ -51,7 +51,7 @@ test.describe('Reading View', () => {
     });
 
     test('should highlight lemma occurrences', async ({ page }) => {
-        await page.goto('http://localhost:8080/korpus.html?textId=ABG&lemmaIds=lemma_879');
+        await page.goto('/korpus.html?textId=ABG&lemmaIds=lemma_879');
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
         await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
 
@@ -62,7 +62,7 @@ test.describe('Reading View', () => {
 
     test('should show highlight navigation with indicator', async ({ page }) => {
         // Use search flow to get a text with multiple highlights
-        await page.goto('http://localhost:8080/korpus.html');
+        await page.goto('/korpus.html');
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
 
         await page.fill('#searchInput', 'got');
@@ -98,7 +98,7 @@ test.describe('Reading View', () => {
     test('should color-code multi-lemma highlights', async ({ page }) => {
         // HTR enthält beide Lemmata (brôt 56x, wîn 79x) — ABG enthielt wîn gar
         // nicht, daher konnte der alte Test nie 2 Farben sehen (Audit #110).
-        await page.goto('http://localhost:8080/korpus.html?textId=HTR&lemmaIds=lemma_879,lemma_7532');
+        await page.goto('/korpus.html?textId=HTR&lemmaIds=lemma_879,lemma_7532');
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
         await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
 
@@ -127,7 +127,7 @@ test.describe('Reading View', () => {
 
     test('should render div type headers (song, chapter, recipe)', async ({ page }) => {
         // HZU has div type="number" headers
-        await page.goto('http://localhost:8080/korpus.html?textId=HZU&lemmaIds=lemma_879');
+        await page.goto('/korpus.html?textId=HZU&lemmaIds=lemma_879');
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
         await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
 
@@ -140,7 +140,7 @@ test.describe('Reading View', () => {
 
     test('should render stanza labels and verse line numbers', async ({ page }) => {
         // NBB (Nibelungenlied) has lg type="stanza" with l elements
-        await page.goto('http://localhost:8080/korpus.html?textId=NBB&lemmaIds=lemma_879');
+        await page.goto('/korpus.html?textId=NBB&lemmaIds=lemma_879');
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
         await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
 
@@ -163,7 +163,7 @@ test.describe('Reading View', () => {
     test('#127: NBB (stanza-local @n) numbers only the first verse line', async ({ page }) => {
         // Nibelungenlied: @n resets per stanza (1..4) and never reaches a multiple of
         // 5, so only the very first numeric line carries a margin number.
-        await page.goto('http://localhost:8080/korpus.html?textId=NBB&lemmaIds=lemma_879');
+        await page.goto('/korpus.html?textId=NBB&lemmaIds=lemma_879');
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
         await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
 
@@ -176,7 +176,7 @@ test.describe('Reading View', () => {
 
     test('#127: AGS (continuous @n) numbers the first line plus every 5th', async ({ page }) => {
         // Der altgewordene Sünder: continuous @n -> first line anchored + 5,10,15,...
-        await page.goto('http://localhost:8080/korpus.html?textId=AGS&lemmaIds=lemma_879');
+        await page.goto('/korpus.html?textId=AGS&lemmaIds=lemma_879');
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
         await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
 
@@ -193,7 +193,7 @@ test.describe('Reading View', () => {
         // (Header-Zählung). Numerische @n rendern als sichtbare .lb-number;
         // h_-Zeilen als unsichtbarer .lb-anchor, der nur als Deep-Link-Ziel
         // (?verse=h_N) dient (#158/#162).
-        await page.goto('http://localhost:8080/korpus.html?textId=ABG&lemmaIds=lemma_879');
+        await page.goto('/korpus.html?textId=ABG&lemmaIds=lemma_879');
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
         await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
 
@@ -219,7 +219,7 @@ test.describe('Reading View', () => {
         // die Regel `.back-to-top.hidden { display: none }` gewinnt display:flex
         // gegen Tailwinds .hidden, und der Button steht dauerhaft auf der Seite,
         // obwohl seine Klassenliste korrekt aussieht.
-        await page.goto('http://localhost:8080/korpus.html');
+        await page.goto('/korpus.html');
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
 
         const btn = page.locator('#backToTop');
@@ -233,7 +233,7 @@ test.describe('Reading View', () => {
     });
 
     test('#138: Nach-oben-Button erscheint mit Text und springt zum Panelkopf', async ({ page }) => {
-        await page.goto('http://localhost:8080/korpus.html?textId=HUG&lemmaIds=lemma_879');
+        await page.goto('/korpus.html?textId=HUG&lemmaIds=lemma_879');
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
         await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
 
@@ -281,7 +281,7 @@ test.describe('Reading View', () => {
         // jetzt an jedem <div> zurückgesetzt, das seine Zählung bei n="1" neu
         // beginnt. Der #127-Fall (NBB, strophenlokale Zählung) darf davon NICHT
         // betroffen sein — dafür der Test oben.
-        await page.goto('http://localhost:8080/korpus.html?textId=HUG&lemmaIds=lemma_879');
+        await page.goto('/korpus.html?textId=HUG&lemmaIds=lemma_879');
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
         await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
 
@@ -310,7 +310,7 @@ test.describe('Reading View', () => {
         // wäre auch dort grün (main setzt gar nichts zurück). Er sichert die
         // zweite Bedingung gegen ein späteres Vereinfachen ab, nicht das Feature
         // gegen den Vorzustand. Trennscharf ist der HUG-Test darüber.
-        await page.goto('http://localhost:8080/korpus.html?textId=NLA&lemmaIds=lemma_879');
+        await page.goto('/korpus.html?textId=NLA&lemmaIds=lemma_879');
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
         await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
 
@@ -325,7 +325,7 @@ test.describe('Reading View', () => {
 
     test('should render note date and year badges', async ({ page }) => {
         // HZU has note type="date" and note type="year"
-        await page.goto('http://localhost:8080/korpus.html?textId=HZU&lemmaIds=lemma_879');
+        await page.goto('/korpus.html?textId=HZU&lemmaIds=lemma_879');
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
         await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
 
@@ -342,7 +342,7 @@ test.describe('Reading View', () => {
 
     test('should render hi rend compound values with token classes', async ({ page }) => {
         // IW (Iwein) has hi rend="initial" elements
-        await page.goto('http://localhost:8080/korpus.html?textId=IW&lemmaIds=lemma_879');
+        await page.goto('/korpus.html?textId=IW&lemmaIds=lemma_879');
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
         await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
 
@@ -354,7 +354,7 @@ test.describe('Reading View', () => {
 
     test('should render colophon with distinct styling', async ({ page }) => {
         // ALX has div type="colophon"
-        await page.goto('http://localhost:8080/korpus.html?textId=ALX&lemmaIds=lemma_879');
+        await page.goto('/korpus.html?textId=ALX&lemmaIds=lemma_879');
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
         await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
 
@@ -369,20 +369,20 @@ test.describe('Reading View', () => {
 
     test('should apply verse-context or prose-context class', async ({ page }) => {
         // NBB (verse) should get verse-context
-        await page.goto('http://localhost:8080/korpus.html?textId=NBB&lemmaIds=lemma_879');
+        await page.goto('/korpus.html?textId=NBB&lemmaIds=lemma_879');
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
         await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
         await expect(page.locator('#readingBody.verse-context')).toBeVisible();
 
         // ABG (prose) should get prose-context
-        await page.goto('http://localhost:8080/korpus.html?textId=ABG&lemmaIds=lemma_879');
+        await page.goto('/korpus.html?textId=ABG&lemmaIds=lemma_879');
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
         await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
         await expect(page.locator('#readingBody.prose-context')).toBeVisible();
     });
 
     test('should show error for missing text', async ({ page }) => {
-        await page.goto('http://localhost:8080/korpus.html?textId=NONEXISTENT_TEXT&lemmaIds=lemma_879');
+        await page.goto('/korpus.html?textId=NONEXISTENT_TEXT&lemmaIds=lemma_879');
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
 
         // Wait for error to appear in reading body
@@ -404,7 +404,7 @@ test.describe('Issue #134: Ausschnitts-Kontext (Excerpt)', () => {
     test.setTimeout(120000);
 
     test('AK zeigt Excerpt-Banner und Ausschnitt-Metadaten', async ({ page }) => {
-        await page.goto('http://localhost:8080/korpus.html?textId=AK');
+        await page.goto('/korpus.html?textId=AK');
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
         await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
 
@@ -428,7 +428,7 @@ test.describe('Issue #134: Ausschnitts-Kontext (Excerpt)', () => {
         // 534 Korpus-Header haben <analytic> für gewöhnliche
         // Editions-Angaben (Zeitschriftenartikel, Sammelband-Kapitel).
         // Excerpt-Signal ist ausschließlich biblScope unit="verse".
-        await page.goto('http://localhost:8080/korpus.html?textId=ABG');
+        await page.goto('/korpus.html?textId=ABG');
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
         await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
 
@@ -439,7 +439,7 @@ test.describe('Issue #134: Ausschnitts-Kontext (Excerpt)', () => {
         // FB trägt zwei biblStruct-Einträge (book + bookSection) — die
         // Excerpt-Erkennung durchsucht alle, findet aber ohne
         // biblScope unit="verse" keinen Ausschnitt (Review-Finding PR #178).
-        await page.goto('http://localhost:8080/korpus.html?textId=FB');
+        await page.goto('/korpus.html?textId=FB');
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
         await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
 
@@ -455,7 +455,7 @@ test.describe('Issue #250: Editorische Eingriffe im Metadatenpanel', () => {
     test('ABS zeigt die Angaben aus editorialDecl, ohne das Repository-Boilerplate', async ({ page }) => {
         // ABS ist der kleinste Text mit inhaltlichen Angaben (3 Absätze nach
         // Filter, Zahlen aus scripts/audit/count-editorial-notes-and-div-heads.py).
-        await page.goto('http://localhost:8080/korpus.html?textId=ABS');
+        await page.goto('/korpus.html?textId=ABS');
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
         await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
 
@@ -478,7 +478,7 @@ test.describe('Issue #250: Editorische Eingriffe im Metadatenpanel', () => {
         // Der Anlassfall: FR3 hat die beiden Anhaenge der Edition vertauscht und
         // einen Verszaehlungsfehler korrigiert. Wer daraus zitiert, ohne das zu
         // wissen, zitiert falsch (#250, Punkt 1).
-        await page.goto('http://localhost:8080/korpus.html?textId=FR3');
+        await page.goto('/korpus.html?textId=FR3');
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
         await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 120000 });
 
@@ -498,7 +498,7 @@ test.describe('Issue #250: Editorische Eingriffe im Metadatenpanel', () => {
     test('KVO ohne inhaltliche Angaben zeigt den Abschnitt gar nicht', async ({ page }) => {
         // Gegenprobe: 3 Texte (CEFB, GWTK, KVO) tragen im editorialDecl nur das
         // Boilerplate. Ein leerer Abschnitt waere schlimmer als keiner.
-        await page.goto('http://localhost:8080/korpus.html?textId=KVO');
+        await page.goto('/korpus.html?textId=KVO');
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
         await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
 
@@ -517,7 +517,7 @@ test.describe('Issue #250: Label ueber einer eigenen head-Ueberschrift', () => {
         // Alle 57 recipe-divs in ABS tragen einen eigenen <head> ("basteten ."),
         // und keiner davon fuehrt die Nummer aus @n mit. Das Label ist damit die
         // einzige sichtbare Zaehlung und darf nicht verschwinden.
-        await page.goto('http://localhost:8080/korpus.html?textId=ABS');
+        await page.goto('/korpus.html?textId=ABS');
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
         await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
 
@@ -535,7 +535,7 @@ test.describe('Issue #250: Label ueber einer eigenen head-Ueberschrift', () => {
         // Gegenprobe. MBS1 hat 4 recipe-divs, keines mit <head>: die neue Klasse
         // darf dort nicht auftauchen, sonst wuerde die Aenderung Abschnitte
         // umformatieren, die gar keine Doppelung haben.
-        await page.goto('http://localhost:8080/korpus.html?textId=MBS1');
+        await page.goto('/korpus.html?textId=MBS1');
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
         await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
 
@@ -549,7 +549,7 @@ test.describe('Issue #250: Label ueber einer eigenen head-Ueberschrift', () => {
         // Der sichtbarste Fall der Doppelung: bei type="chapter" rendert der
         // Reader sein Label selbst als h3.section-head, der <head> ebenfalls.
         // Vorher standen dort zwei h3 untereinander ("Kapitel 1" / "das i capitel").
-        await page.goto('http://localhost:8080/korpus.html?textId=AC1');
+        await page.goto('/korpus.html?textId=AC1');
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
         await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
 
@@ -565,7 +565,7 @@ test.describe('Issue #250: Label ueber einer eigenen head-Ueberschrift', () => {
         // Abschnittsnummer stand nur in den Wort-IDs plus als <pb n="77"/>.
         // Das <pb> war das falsche Element: 465 der 467 Abschnitte haben
         // exakt 30 Verse, das ist der Dreissiger und keine Handschriftenseite.
-        await page.goto('http://localhost:8080/korpus.html?textId=WH&verseId=WH_7714');
+        await page.goto('/korpus.html?textId=WH&verseId=WH_7714');
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
         await page.waitForSelector('.verse-line', { state: 'visible', timeout: 90000 });
 

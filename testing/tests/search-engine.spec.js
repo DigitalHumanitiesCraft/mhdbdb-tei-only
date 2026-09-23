@@ -14,7 +14,7 @@ import { test, expect } from '@playwright/test';
 test.describe('Search Engine', () => {
 
     test.beforeEach(async ({ page }) => {
-        await page.goto('http://localhost:8080/korpus.html');
+        await page.goto('/korpus.html');
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
     });
 

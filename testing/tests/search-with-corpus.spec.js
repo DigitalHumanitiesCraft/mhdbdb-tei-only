@@ -9,7 +9,7 @@ test.describe('Search Functions with Pre-Built Corpus', () => {
 
     test.beforeEach(async ({ page }) => {
         // Navigate to playground
-        await page.goto('http://localhost:8080/playground/');
+        await page.goto('/playground/');
 
         // Wait for authority files to load
         await page.waitForSelector('#statusText:has-text("Authority Files geladen")', { timeout: 15000 });
@@ -219,7 +219,7 @@ test.describe('Search Functions with Pre-Built Corpus', () => {
     test('Performance: Corpus auto-loads within 60 seconds', async ({ page }) => {
         // Reload page to measure performance
         const startTime = Date.now();
-        await page.goto('http://localhost:8080/playground/');
+        await page.goto('/playground/');
 
         // Wait for authority files
         await page.waitForSelector('#statusText:has-text("Authority Files geladen")', { timeout: 15000 });

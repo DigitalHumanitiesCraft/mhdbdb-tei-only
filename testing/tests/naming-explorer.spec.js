@@ -30,7 +30,7 @@ const INDEX_QUELLE = JSON.parse(
 
 test.describe('Naming Explorer (#59)', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('http://localhost:8080/playground/#naming');
+    await page.goto('/playground/#naming');
     // dispatchFromHash() laeuft erst nach Corpus-Load; danach laedt das Modul
     // seinen eigenen Index lazy (fetch+pako, ~110 KB)
     await page.waitForSelector('#neWorkSelect', { state: 'visible', timeout: 60000 });

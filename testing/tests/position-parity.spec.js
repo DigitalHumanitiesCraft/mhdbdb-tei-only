@@ -43,14 +43,12 @@ const __dirname = path.dirname(__filename);
 const REPO_ROOT = path.join(__dirname, '../..');
 const HELPER = path.join(__dirname, '../helpers/extract_word_positions.py');
 
-const BASE = 'http://localhost:8080';
-
 // Establish a same-origin document so the dynamic import('/assets/...') inside
 // jsPositionsMap() resolves. /playground/ loads its index asynchronously (does not
 // block the load event), the same origin-bootstrap pattern lemma-matching.spec.js
 // uses for its unit block.
 test.beforeEach(async ({ page }) => {
-  await page.goto(`${BASE}/playground/`);
+  await page.goto(`/playground/`);
 });
 
 /**
@@ -124,7 +122,7 @@ test.describe('B. Position Counting parity — real corpus', () => {
       const probes = topLemmata(lemmata, 3);
       expect(probes.length, `${textId} should have lemmata`).toBeGreaterThan(0);
 
-      const js = await jsPositionsMap(page, `${BASE}/tei/${textId}.tei.xml`, probes);
+      const js = await jsPositionsMap(page, `/tei/${textId}.tei.xml`, probes);
       for (const lemmaId of probes) {
         // Non-vacuous: a frequent lemma has many occurrences spanning the text.
         expect(lemmata[lemmaId].length, `${textId} ${lemmaId} occurrences`).toBeGreaterThan(0);
@@ -147,7 +145,7 @@ test.describe('B. Position Counting parity — empty <w lemmaRef> asymmetry (#13
   test('fixture: whole sequence — empty <w lemmaRef> is not counted by either side', async ({ page }) => {
     const fixtureAbs = path.join(REPO_ROOT, FIXTURE_REL);
     const { lemmata } = pythonData(fixtureAbs, 'FIXTURE');
-    const js = await jsPositionsMap(page, `${BASE}/${FIXTURE_REL}`, Object.keys(EXPECTED));
+    const js = await jsPositionsMap(page, `/${FIXTURE_REL}`, Object.keys(EXPECTED));
 
     for (const [lemmaId, expected] of Object.entries(EXPECTED)) {
       // Pin the contract independent of code, then assert both sides hit it.
@@ -183,7 +181,7 @@ test.describe('B. Position Counting parity — #170 latent drifts', () => {
   test('JS reader: word inside date-<note> is counted AND parity holds (badge + children)', async ({ page }) => {
     const fixtureAbs = path.join(REPO_ROOT, FIXTURE_REL);
     const { lemmata } = pythonData(fixtureAbs, 'FIXTURE170');
-    const js = await jsPositionsMap(page, `${BASE}/${FIXTURE_REL}`, Object.keys(EXPECTED));
+    const js = await jsPositionsMap(page, `/${FIXTURE_REL}`, Object.keys(EXPECTED));
 
     for (const [lemmaId, expected] of Object.entries(EXPECTED)) {
       expect(lemmata[lemmaId], `Python positions for ${lemmaId}`).toEqual(expected);

@@ -12,7 +12,7 @@ test.describe('Main Site', () => {
 
     test.beforeEach(async ({ page }) => {
         // Navigate to search page (not landing page)
-        await page.goto('http://localhost:8080/korpus.html');
+        await page.goto('/korpus.html');
     });
 
     test('should load without console errors', async ({ page }) => {
@@ -181,7 +181,7 @@ test.describe('Main Site', () => {
 test.describe('Such-Deep-Link ?search= (#144)', () => {
 
     test('?search=brôt füllt das Suchfeld und liefert Treffer', async ({ page }) => {
-        await page.goto('http://localhost:8080/korpus.html?search=br%C3%B4t');
+        await page.goto('/korpus.html?search=br%C3%B4t');
 
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
 
@@ -201,7 +201,7 @@ test.describe('Such-Deep-Link ?search= (#144)', () => {
     test('Lemma-Seiten-Button "Im Korpus suchen" führt zu Treffern', async ({ page, context }) => {
         test.setTimeout(120000);
 
-        await page.goto('http://localhost:8080/lemma/?id=879');
+        await page.goto('/lemma/?id=879');
         await page.waitForSelector('#lemmaContent:not(.hidden)', { timeout: 30000 });
 
         // Button verlinkt auf korpus.html?search=... und öffnet einen neuen Tab
@@ -223,7 +223,7 @@ test.describe('Such-Deep-Link ?search= (#144)', () => {
 test.describe('Issue #204: Filter vs. Auswahl', () => {
 
     test.beforeEach(async ({ page }) => {
-        await page.goto('http://localhost:8080/korpus.html');
+        await page.goto('/korpus.html');
         // 60000 aus demselben Grund wie in results-table.spec.js: es ist
         // zeichengleich derselbe Wait auf derselben Seite. Vor der
         // Signaturkorrektur war der Timeout wirkungslos, real band das

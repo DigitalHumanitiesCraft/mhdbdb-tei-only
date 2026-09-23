@@ -8,7 +8,7 @@ import { test, expect } from '@playwright/test';
 test.describe('Playground Corpus Loading', () => {
 
     test.beforeEach(async ({ page }) => {
-        await page.goto('http://localhost:8080/playground/');
+        await page.goto('/playground/');
     });
 
     test('playground shows loading state then file browser', async ({ page }) => {
@@ -75,7 +75,7 @@ test.describe('Playground Corpus Loading', () => {
 test.describe('Playground: Korpusauswahl wirkt (#204)', () => {
 
     test.beforeEach(async ({ page }) => {
-        await page.goto('http://localhost:8080/playground/');
+        await page.goto('/playground/');
         await page.waitForSelector('#fileBrowserSection', { state: 'visible', timeout: 60000 });
     });
 

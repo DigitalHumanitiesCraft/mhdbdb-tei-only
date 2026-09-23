@@ -19,7 +19,7 @@ async function dismissAutocomplete(page) {
 
 test.describe('Issue #106: Reim-Wörterbuch (Minimalvariante)', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('http://localhost:8080/playground/#rhyme-dictionary');
+    await page.goto('/playground/#rhyme-dictionary');
     await page.waitForSelector('#rdSearchBtn', { state: 'visible', timeout: 60000 });
   });
 

@@ -23,11 +23,9 @@
 
 import { test, expect } from '@playwright/test';
 
-const BASE = 'http://localhost:8080';
-
 test.describe('Gattungs-Explorer Baumansicht (#361)', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto(`${BASE}/playground/#genres`);
+    await page.goto(`/playground/#genres`);
     await page.waitForSelector('#genreTree .genre-node', {
       state: 'visible',
       timeout: 60000,

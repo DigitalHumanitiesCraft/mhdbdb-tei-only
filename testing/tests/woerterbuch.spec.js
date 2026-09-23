@@ -8,7 +8,7 @@ import { test, expect } from '@playwright/test';
 test.describe('Wörterbuch-Einstiegsseite', () => {
 
     test('lädt mit Buchstabe A und zeigt Einträge', async ({ page }) => {
-        await page.goto('http://localhost:8080/woerterbuch.html');
+        await page.goto('/woerterbuch.html');
         await page.waitForSelector('#woerterbuchContent:not(.hidden)', { timeout: 30000 });
 
         // Indexleiste: 26 Buchstaben + '#'
@@ -25,7 +25,7 @@ test.describe('Wörterbuch-Einstiegsseite', () => {
     });
 
     test('Buchstabenwechsel auf S aktualisiert Einträge und URL', async ({ page }) => {
-        await page.goto('http://localhost:8080/woerterbuch.html');
+        await page.goto('/woerterbuch.html');
         await page.waitForSelector('#woerterbuchContent:not(.hidden)', { timeout: 30000 });
 
         await page.click('#letterBar button[data-letter="s"]');
@@ -36,7 +36,7 @@ test.describe('Wörterbuch-Einstiegsseite', () => {
     });
 
     test('Pagination blättert innerhalb des Buchstabens', async ({ page }) => {
-        await page.goto('http://localhost:8080/woerterbuch.html?buchstabe=s');
+        await page.goto('/woerterbuch.html?buchstabe=s');
         await page.waitForSelector('#woerterbuchContent:not(.hidden)', { timeout: 30000 });
 
         const firstBefore = await page.textContent('#entryGrid a >> nth=0');
@@ -48,7 +48,7 @@ test.describe('Wörterbuch-Einstiegsseite', () => {
     });
 
     test('URL-State wird beim Laden gelesen (Deep-Link)', async ({ page }) => {
-        await page.goto('http://localhost:8080/woerterbuch.html?buchstabe=m&seite=2');
+        await page.goto('/woerterbuch.html?buchstabe=m&seite=2');
         await page.waitForSelector('#woerterbuchContent:not(.hidden)', { timeout: 30000 });
 
         const heading = await page.textContent('#letterHeading');
@@ -60,7 +60,7 @@ test.describe('Wörterbuch-Einstiegsseite', () => {
     });
 
     test('Eintrag verlinkt auf die Lemma-Seite', async ({ page }) => {
-        await page.goto('http://localhost:8080/woerterbuch.html');
+        await page.goto('/woerterbuch.html');
         await page.waitForSelector('#woerterbuchContent:not(.hidden)', { timeout: 30000 });
 
         const href = await page.getAttribute('#entryGrid a >> nth=0', 'href');
@@ -68,7 +68,7 @@ test.describe('Wörterbuch-Einstiegsseite', () => {
     });
 
     test('Nav-Link Wörterbuch ist auf der Startseite vorhanden', async ({ page }) => {
-        await page.goto('http://localhost:8080/index.html');
+        await page.goto('/index.html');
         const navLink = page.locator('header a[data-nav="woerterbuch"]').first();
         await expect(navLink).toHaveText(/Wörterbuch/);
     });

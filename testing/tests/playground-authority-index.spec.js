@@ -15,7 +15,7 @@ test.describe('Playground Authority Index Loading', () => {
         });
 
         // Navigate to playground
-        await page.goto('http://localhost:8080/playground/');
+        await page.goto('/playground/');
 
         // Wait for authority data to load
         await page.waitForSelector('#statusText:has-text("Authority Files geladen")', { timeout: 15000 });
@@ -32,7 +32,7 @@ test.describe('Playground Authority Index Loading', () => {
     });
 
     test('authority data populated correctly from index', async ({ page }) => {
-        await page.goto('http://localhost:8080/playground/');
+        await page.goto('/playground/');
         await page.waitForSelector('#statusText:has-text("Authority Files geladen")', { timeout: 15000 });
 
         const authorityStats = await page.evaluate(() => {
@@ -58,7 +58,7 @@ test.describe('Playground Authority Index Loading', () => {
     });
 
     test('person altNames and altNormalized are index-parallel (#307)', async ({ page }) => {
-        await page.goto('http://localhost:8080/playground/');
+        await page.goto('/playground/');
         await page.waitForSelector('#statusText:has-text("Authority Files geladen")', { timeout: 15000 });
 
         const alt = await page.evaluate(() => {
@@ -90,7 +90,7 @@ test.describe('Playground Authority Index Loading', () => {
     });
 
     test('authority searches work with index data', async ({ page }) => {
-        await page.goto('http://localhost:8080/playground/');
+        await page.goto('/playground/');
         await page.waitForSelector('#statusText:has-text("Authority Files geladen")', { timeout: 15000 });
 
         // #410, zweite Runde: der Block "Register & Indizes (Authority
@@ -115,7 +115,7 @@ test.describe('Playground Authority Index Loading', () => {
     });
 
     test('corpus browser available after auto-load', async ({ page }) => {
-        await page.goto('http://localhost:8080/playground/');
+        await page.goto('/playground/');
 
         // Wait for corpus auto-load to complete
         await page.waitForSelector('#fileBrowserSection', { state: 'visible', timeout: 60000 });
@@ -128,7 +128,7 @@ test.describe('Playground Authority Index Loading', () => {
     });
 
     test('corpus auto-loads 667 texts', async ({ page }) => {
-        await page.goto('http://localhost:8080/playground/');
+        await page.goto('/playground/');
 
         // Wait for corpus auto-load to complete
         await page.waitForSelector('#fileBrowserSection', { state: 'visible', timeout: 60000 });
@@ -143,7 +143,7 @@ test.describe('Playground Authority Index Loading', () => {
     test('performance: authority index loads within 20 seconds', async ({ page }) => {
         const startTime = Date.now();
 
-        await page.goto('http://localhost:8080/playground/');
+        await page.goto('/playground/');
         await page.waitForSelector('#statusText:has-text("Authority Files geladen")', { timeout: 30000 });
 
         const loadTime = Date.now() - startTime;

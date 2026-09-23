@@ -26,7 +26,7 @@ async function dismissAutocomplete(page) {
 
 test.describe('Concept Distribution Performance Lock', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('http://localhost:8080/playground/#concept-distribution');
+    await page.goto('/playground/#concept-distribution');
     // Warten bis das Form-Element vorhanden ist
     await page.waitForSelector('#cdSearchBtn', { state: 'visible', timeout: 60000 });
   });
@@ -147,7 +147,7 @@ test.describe('Concept Distribution Performance Lock', () => {
  */
 test.describe('Issue #419: Umlaut-Faltung in der Begriffssuche', () => {
   test('„baum" und „tree" finden beide den Begriff „Bäume"', async ({ page }) => {
-    await page.goto('http://localhost:8080/playground/#concept-distribution');
+    await page.goto('/playground/#concept-distribution');
     await page.waitForSelector('#cdSearchBtn', { state: 'visible', timeout: 60000 });
 
     // Die englische Seite war immer schon gruen: sie ist hier der Kontrollwert,
@@ -164,7 +164,7 @@ test.describe('Issue #419: Umlaut-Faltung in der Begriffssuche', () => {
     // multiFieldNormalized ist der Suchpfad der vier Authority-Explorer; die
     // Aenderung sitzt dort, nicht in der Begriffsverteilung, also wird sie
     // auch dort geprueft.
-    await page.goto('http://localhost:8080/playground/#concepts');
+    await page.goto('/playground/#concepts');
     await page.waitForSelector('#conceptSearch', { state: 'visible', timeout: 60000 });
 
     await page.fill('#conceptSearch', 'baum');
@@ -183,7 +183,7 @@ test.describe('Issue #419: Umlaut-Faltung in der Begriffssuche', () => {
   // auf, und die Verteilungsansicht rechnete eine vollstaendige Analyse fuer
   // eine Anfrage ohne Inhalt.
   test('Eingabe aus lauter kombinierenden Zeichen trifft keinen Begriff', async ({ page }) => {
-    await page.goto('http://localhost:8080/playground/#concept-distribution');
+    await page.goto('/playground/#concept-distribution');
     await page.waitForSelector('#cdSearchBtn', { state: 'visible', timeout: 60000 });
 
     // Kontrollwert zuerst: das Dropdown fuellt sich ueberhaupt.
@@ -201,7 +201,7 @@ test.describe('Issue #419: Umlaut-Faltung in der Begriffssuche', () => {
   // zeichengleich in persons.preferredName, wo sie bis #437 nicht ankam.
   // Gemessen am 11.09.: 27 Autorennamen mit Umlaut stehen in beiden Mengen.
   test('Personen-Explorer faltet wie der Werke-Explorer', async ({ page }) => {
-    await page.goto('http://localhost:8080/playground/#authors');
+    await page.goto('/playground/#authors');
     await page.waitForSelector('#authorSearch', { state: 'visible', timeout: 60000 });
 
     await page.fill('#authorSearch', 'kurenberg');
@@ -218,7 +218,7 @@ test.describe('Issue #419: Umlaut-Faltung in der Begriffssuche', () => {
   // eine feste Zeichenliste. „Malmariée-Lied" ist der einzige Deskriptor in
   // den vier Sammlungen, an dem das sichtbar wird (gemessen am 11.09.).
   test('Fold erreicht auch Akzente ausserhalb der Umlautliste', async ({ page }) => {
-    await page.goto('http://localhost:8080/playground/#genres');
+    await page.goto('/playground/#genres');
     await page.waitForSelector('#genreSearch', { state: 'visible', timeout: 60000 });
 
     await page.fill('#genreSearch', 'malmariee');
@@ -230,7 +230,7 @@ test.describe('Issue #419: Umlaut-Faltung in der Begriffssuche', () => {
   // gebaut und lieferte für sie keinen „auch: …"-Hinweis mehr, der Begriff
   // stand also unerklärt in der Liste. Gemessen am 11.09.: 56 Begriffe.
   test('Fold-Treffer über einen Alt-Term trägt seinen „auch"-Hinweis', async ({ page }) => {
-    await page.goto('http://localhost:8080/playground/#concepts');
+    await page.goto('/playground/#concepts');
     await page.waitForSelector('#conceptSearch', { state: 'visible', timeout: 60000 });
 
     // „fruchte" trifft concept_13023100 „Obst" nur über altDE „Früchte",

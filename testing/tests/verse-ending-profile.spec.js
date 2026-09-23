@@ -10,7 +10,7 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Issue #106.2: Versendings-Profil', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('http://localhost:8080/playground/#verse-ending-profile');
+    await page.goto('/playground/#verse-ending-profile');
     await page.waitForSelector('#vepScope', { state: 'visible', timeout: 60000 });
   });
 

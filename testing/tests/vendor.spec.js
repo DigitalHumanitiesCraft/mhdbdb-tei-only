@@ -24,7 +24,10 @@ const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 
 function htmlFiles(dir, acc = []) {
     for (const entry of readdirSync(dir, { withFileTypes: true })) {
-        if (['node_modules', '.git', 'test-results', 'tei', 'data'].includes(entry.name)) continue;
+        // .claude: dort liegen die Worktrees paralleler Sessions; ohne den
+        // Ausschluss testet der Hauptbaum deren Seiten mit, und die Testzahl
+        // haengt davon ab, wie viele Worktrees gerade existieren (#465).
+        if (['node_modules', '.git', '.claude', 'test-results', 'tei', 'data'].includes(entry.name)) continue;
         const p = join(dir, entry.name);
         if (entry.isDirectory()) htmlFiles(p, acc);
         else if (entry.name.endsWith('.html')) acc.push(p);
@@ -83,7 +86,7 @@ test('at least the 5 known pages reference vendored pako/dexie', () => {
 
 for (const { urlPath } of pagesWithLibs) {
     test(`vendored pako + dexie load on ${urlPath}`, async ({ page }) => {
-        await page.goto(`http://localhost:8080${urlPath}`);
+        await page.goto(`${urlPath}`);
         await page.waitForLoadState('domcontentloaded');
         const libs = await page.evaluate(() => ({
             pako: typeof window.pako !== 'undefined',

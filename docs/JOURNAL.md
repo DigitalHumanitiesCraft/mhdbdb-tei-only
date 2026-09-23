@@ -594,3 +594,41 @@ Nicht gezählt: zwei Testläufe durch eine Pipe geschickt, gegen die Projektrege
 - `docs/FEATURES.md` und `docs/DEVELOPMENT.md` tragen der Koordination übergebene Änderungswünsche, einzutragen nach den Merges.
 - Nebenbefund: ERB und ERD tragen im Textvergleich dieselbe Beschriftung „Herzog Ernst (Hrsg. Bartsch, 1869)“; der Disambiguator unterscheidet sie nicht.
 - `hilfe-daten-beitragen.html:819` nennt die Baseline 34 auf Ansage von Spur A; bis deren PR gemergt ist, eilt die Hilfeseite voraus.
+
+## 2026-09-23 (Spur C des Laufs) – #465: der Testport als Parameter, und warum die Probe zweimal am Speicher scheiterte
+
+PR #472, nicht gemergt. `MHDBDB_TEST_PORT`, Vorgabe 8080. Gelesen wird die Variable allein in `testing/test-port.js`, und dieselbe Funktion versorgen die Config (`baseURL`, `webServer`), `scripts/run-tests.js` (Sentinel) und `npm run serve` (neuer Wrapper `testing/serve.js`). In 30 Specs sind 132 absolute Adressen jetzt Pfade relativ zu `baseURL`; zusammen mit den drei Stellen in der Config sind das die 135 in 31 Dateien, die die Koordination gezählt hatte.
+
+### Was gearbeitet wurde
+
+- Umbau, zwei Review-Runden `fable-reviewer` (Runde 1 auf `cdaee8ddd`: Basisangabe im Auftrag, Randwert 65535 im Abhilfetext; Runde 2 auf `e36b5b17e`: ohne Befund), CI grün, Bot ohne Befund.
+- Parallelprobe mit je `--workers=2`, Hauptbaum auf 8080 und dieser Zweig auf 8081 gleichzeitig: `VOLLLAUF GRUEN (370 Tests, 34 Dateien)` und `VOLLLAUF GRUEN (355 Tests, 34 Dateien)`. Allein auf 8080 ohne Variable: `VOLLLAUF GRUEN (355 Tests, 34 Dateien)`.
+- Mutationen: fremder Server auf dem gesetzten und auf dem Vorgabeport ergibt je Exit 2; der eigene Server über `npm run serve` wird erkannt und wiederverwendet; eine leere Spec-Datei ergibt `NICHT GELAUFEN` und `VERDICT: ROT`, Exit 1; ungültige Werte (`abc`, `0`, `""`, `65536`) ergeben je Exit 2 mit VERDICT-Zeile.
+- Nebenbefund behoben: `vendor.spec.js` durchsuchte die Repo-Wurzel ohne `.claude` auszunehmen und testete im Hauptbaum je fünf Seiten aus drei fremden Worktrees mit. Daher 370 Tests dort gegen 355 hier, mit `--list` gezählt und nach Datei aufgeschlüsselt.
+
+### Zwei Fallen, die kein Ticket kannte
+
+**`http-server` ohne `-p` weicht still aus.** Der naheliegende Umbau von `npm run serve` wäre gewesen, `-p 8080` wegzulassen und `PORT` zu setzen. `http-server` nimmt dann `PORT` und ohne sie den nächsten freien Port ab 8080 (`bin/http-server`, Zeile 68 und 129). Bei belegtem 8080 wäre der Dev-Server also stillschweigend auf 8081 gelandet: genau die Verhaltensänderung ohne gesetzte Variable, die der Auftrag als Stoppbedingung nannte. Dazu kommt, dass npm-Skripte unter Windows in `cmd.exe` laufen (`script-shell` ist `null`), wo `$VAR` nicht expandiert. Beides zusammen verlangt einen Wrapper, der `-p` immer setzt.
+
+**Das Inventar-Gate entschied über den Ort einer neuen Datei.** `scripts/serve.js` machte `check-doc-inventories.py` rot, weil `scripts/README.md` jede Datei unter `scripts/` kennen muss und in diesem Lauf eingefroren war. Unter `testing/` zählt dasselbe Gate nur `*.spec.js` in `testing/tests/`. Gemessen, nicht gelesen: das Gate einmal mit der Datei unter `scripts/` gefahren (Exit 1, „Fehlt: serve.js"), einmal unter `testing/` (Exit 0). Der Rotlauf war zugleich der Kontrollwert, dass das Gate neue Dateien überhaupt sieht.
+
+### Was über den Einzelfall hinausgilt
+
+**Eine Testzahl, die von der Umgebung abhängt, ist keine Eigenschaft der Suite.** Wer im Hauptbaum `npm test` fuhr, bekam so viele vendor-Tests, wie gerade Worktrees unter `.claude/` lagen. Die VERDICT-Zeile zeigte 370 und sah aus wie ein Bestand. Aufgefallen ist es nur, weil zwei Läufe gleichzeitig liefen und ihre Zahlen nebeneinander standen. Der Spec-Abgleich von `run-tests.js` hätte es nicht gefunden, denn er vergleicht Dateien, nicht Tests je Datei.
+
+**Eine Abnahmeprobe, die die Maschine überfordert, ist ein Befund über die Probe und nicht über die Änderung.** Die ersten beiden Läufe mit je sechs Workern hatten vor dem Abbruch 11 und 14 Fehlschläge, auch der unveränderte Hauptbaum. Die naheliegende Lesart „der Umbau bricht 14 Tests" hätte eine Nacharbeit an fehlerfreiem Code ausgelöst. Getrennt hat es erst ein zweiter Lauf unter anderen Bedingungen: gleichzeitig mit je zwei Workern, beide grün.
+
+**Was diese Änderung wahr gemacht hat, das vorher falsch sein konnte (#397):** `BASIS_URL` stimmte mit dem Port von Playwright nur überein, weil beide Konstanten waren. Jetzt hängt die Übereinstimmung an derselben Lesefunktion und an der Vererbung der Umgebung über `spawnSync`. Außerhalb von `run-tests.js` (`--config`, `test:ui`, `test:debug`, `test:headed`) prüft kein Sentinel, und das war vorher genauso.
+
+### Rote Zeilen
+
+**Rot: aus einem gemessenen Abbruch auf seine Ursache geschlossen und die Ursache in einen PR-Body geschrieben.** Ausgezogen als rote Zeile 73 nach [../fehlerjournal.md](../fehlerjournal.md).
+
+Verteilung aus `trockenlauf-auswerten.py`, Zeile dieser Session (`03dc7dca`, mhdbdb-testport): shell-konventionen 32 Treffer bei 107 Aufrufen (30 %), mengenaussagen 10 bei 15 (67 %). Das Skript selbst bricht im Abschnitt `gelesenes` mit `AttributeError: 'NoneType' object has no attribute 'get'` ab (Zeile 102, `auswerten_bool`): ein Element der eingelesenen Logzeilen ist `None`, woher, ist nicht untersucht. Das ist ein Befund für `claude-code-setup` und nicht in diesem Repositorium zu beheben.
+
+### Was zurück an Christian geht
+
+- **#472 mergen**, wenn der PR trägt. Danach trägt die Koordination die drei Inbox-Sätze in `docs/DEVELOPMENT.md` ein, sobald auch #469 gemergt ist.
+- **Zwei Volläufe parallel brauchen weniger Worker.** Mit je sechs hat Claude Code die Läufe wegen Speichermangels beendet, mit je zwei liefen beide in etwa 22 Minuten grün. Ob sechs auf einer sonst ruhigen Maschine parallel tragen, ist nicht gemessen.
+- **`trockenlauf-auswerten.py` stürzt im Abschnitt `gelesenes` ab** (siehe oben).
+- **`TaskStop` auf `npm run serve` ließ hier den `http-server`-Kindprozess stehen** (gemessen: PID 34060 lauschte nach dem Stopp weiter auf 8081). Der Port bleibt belegt, bis jemand die PID beendet. Ob der alte Aufruf ohne Wrapper sich genauso verhielt, ist nicht gemessen.

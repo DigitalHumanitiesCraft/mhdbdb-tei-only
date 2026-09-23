@@ -72,7 +72,7 @@ test.describe('MHG Normalization Parity', () => {
 
   test('JavaScript normalizer matches Python for all test cases', async ({ page }) => {
     // Navigate to playground to access TextNormalizer
-    await page.goto('http://localhost:8080/playground/');
+    await page.goto('/playground/');
 
     // Load TextNormalizer module
     const normalizationResults = await page.evaluate(async (testCases) => {
@@ -107,7 +107,7 @@ test.describe('MHG Normalization Parity', () => {
   });
 
   test('Python and JavaScript produce identical output', async ({ page }) => {
-    await page.goto('http://localhost:8080/playground/');
+    await page.goto('/playground/');
 
     // Test subset of cases by calling both normalizers
     const testInputs = ['brôt', 'wîn', 'schöne', 'mære', 'Âventiure'];
@@ -139,7 +139,7 @@ test.describe('MHG Normalization Parity', () => {
   });
 
   test('Normalization is idempotent', async ({ page }) => {
-    await page.goto('http://localhost:8080/playground/');
+    await page.goto('/playground/');
 
     const testCases = ['brôt', 'wîn', 'schöne'];
 
@@ -158,7 +158,7 @@ test.describe('MHG Normalization Parity', () => {
   });
 
   test('matchesNormalized works correctly', async ({ page }) => {
-    await page.goto('http://localhost:8080/playground/');
+    await page.goto('/playground/');
 
     const testCases = [
       { text: 'brôt', search: 'brot', shouldMatch: true },
@@ -180,7 +180,7 @@ test.describe('MHG Normalization Parity', () => {
   });
 
   test('exactMatchNormalized works correctly', async ({ page }) => {
-    await page.goto('http://localhost:8080/playground/');
+    await page.goto('/playground/');
 
     const testCases = [
       { text: 'brôt', search: 'brot', shouldMatch: true },

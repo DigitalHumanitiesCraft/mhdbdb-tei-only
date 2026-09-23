@@ -8,7 +8,7 @@ import { test, expect } from '@playwright/test';
 test.describe('Cross-Reference Functionality', () => {
 
     test.beforeEach(async ({ page }) => {
-        await page.goto('http://localhost:8080/playground/');
+        await page.goto('/playground/');
         await page.waitForSelector('#statusText:has-text("Authority Files geladen")', { timeout: 15000 });
         console.log('✅ Playground ready');
     });

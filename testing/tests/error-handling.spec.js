@@ -17,7 +17,7 @@ test.describe('Error Handling', () => {
         // Block all TEI file requests
         await page.route('**/tei/**', route => route.abort());
 
-        await page.goto('http://localhost:8080/korpus.html');
+        await page.goto('/korpus.html');
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
 
         // Search and click first result to trigger TEI fetch
@@ -42,7 +42,7 @@ test.describe('Error Handling', () => {
     });
 
     test('404 TEI file shows error message', async ({ page }) => {
-        await page.goto('http://localhost:8080/korpus.html?textId=FAKE_TEXT_404&lemmaIds=879');
+        await page.goto('/korpus.html?textId=FAKE_TEXT_404&lemmaIds=879');
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
 
         // Wait for the error to surface
@@ -67,7 +67,7 @@ test.describe('Error Handling', () => {
             });
         });
 
-        await page.goto('http://localhost:8080/korpus.html?textId=ABG&lemmaIds=879');
+        await page.goto('/korpus.html?textId=ABG&lemmaIds=879');
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
 
         // Wait for parse error
@@ -83,7 +83,7 @@ test.describe('Error Handling', () => {
 
     test('page remains functional after error', async ({ page }) => {
         // Trigger error with bad text ID
-        await page.goto('http://localhost:8080/korpus.html?textId=NONEXISTENT&lemmaIds=879');
+        await page.goto('/korpus.html?textId=NONEXISTENT&lemmaIds=879');
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
         await page.waitForTimeout(3000);
 

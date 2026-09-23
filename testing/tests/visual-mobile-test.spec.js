@@ -22,7 +22,7 @@ const viewports = {
 for (const [device, viewport] of Object.entries(viewports)) {
     test(`Playground - ${device} (${viewport.width}x${viewport.height})`, async ({ page }) => {
         await page.setViewportSize(viewport);
-        await page.goto('http://localhost:8080/playground/');
+        await page.goto('/playground/');
 
         // Wait for corpus to auto-load
         await page.waitForSelector('#fileBrowserSection', { state: 'visible', timeout: 30000 });
@@ -75,7 +75,7 @@ for (const [device, viewport] of Object.entries(viewports)) {
 // Landscape orientation tests
 test('Main Site - Landscape iPad (1024x768)', async ({ page }) => {
     await page.setViewportSize({ width: 1024, height: 768 });
-    await page.goto('http://localhost:8080/korpus.html');
+    await page.goto('/korpus.html');
     await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
 
     await page.screenshot({
@@ -86,7 +86,7 @@ test('Main Site - Landscape iPad (1024x768)', async ({ page }) => {
 
 test('Playground - Landscape iPad (1024x768)', async ({ page }) => {
     await page.setViewportSize({ width: 1024, height: 768 });
-    await page.goto('http://localhost:8080/playground/');
+    await page.goto('/playground/');
 
     // Wait for corpus to auto-load
     await page.waitForSelector('#fileBrowserSection', { state: 'visible', timeout: 30000 });
@@ -100,7 +100,7 @@ test('Playground - Landscape iPad (1024x768)', async ({ page }) => {
 // Touch interaction tests
 test('Main Site - Touch Interaction Test (iPhone)', async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 });
-    await page.goto('http://localhost:8080/korpus.html');
+    await page.goto('/korpus.html');
     await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
 
     // Search button should be tappable
@@ -113,7 +113,7 @@ test('Main Site - Touch Interaction Test (iPhone)', async ({ page }) => {
 
 test('Playground - Touch Interaction Test (iPhone)', async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 });
-    await page.goto('http://localhost:8080/playground/');
+    await page.goto('/playground/');
 
     // Wait for corpus to auto-load
     await page.waitForSelector('#fileBrowserSection', { state: 'visible', timeout: 30000 });

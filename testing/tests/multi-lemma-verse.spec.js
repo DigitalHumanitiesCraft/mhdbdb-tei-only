@@ -12,7 +12,7 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Issue #106.8: Multi-Lemma-Modus „Im selben Vers"', () => {
   test('Hash-Route mode=verse liefert Vers-Kookkurrenzen (minne + herze)', async ({ page }) => {
-    await page.goto('http://localhost:8080/playground/#multi-lemma&lemmata=minne,herze&mode=verse');
+    await page.goto('/playground/#multi-lemma&lemmata=minne,herze&mode=verse');
 
     // Ergebnis-Header weist den Vers-Modus aus
     await expect(page.locator('#resultsContainer')).toContainText('(im selben Vers)', { timeout: 120000 });
@@ -25,7 +25,7 @@ test.describe('Issue #106.8: Multi-Lemma-Modus „Im selben Vers"', () => {
   });
 
   test('Unbekannter mode-Wert fällt auf Proximity zurück', async ({ page }) => {
-    await page.goto('http://localhost:8080/playground/#multi-lemma&lemmata=minne,herze&mode=quatsch');
+    await page.goto('/playground/#multi-lemma&lemmata=minne,herze&mode=quatsch');
 
     // Fallback: Proximity-Ergebnisse (Wortabstand), kein Vers-Header
     await expect(page.locator('#resultsContainer')).toContainText('Kookkurrenz-Analyse', { timeout: 120000 });
@@ -56,7 +56,7 @@ test.describe('#424: Null-Treffer meldet keine Treffer', () => {
   });
 
   test('Kopf sagt (0 Treffer) und daneben steht keine Zahl', async ({ page }) => {
-    await page.goto('http://localhost:8080/playground/#multi-lemma');
+    await page.goto('/playground/#multi-lemma');
     await page.waitForFunction(
       () => window.playground?.corpusData?.texts?.length > 0 &&
             window.playground?.authorityData?.lemmata?.length > 0,
@@ -102,7 +102,7 @@ test.describe('#424: Null-Treffer meldet keine Treffer', () => {
     expect(paar, 'kein Lemmapaar mit disjunkten Textmengen im Korpus gefunden').not.toBeNull();
 
     await page.goto(
-      `http://localhost:8080/playground/#multi-lemma&lemmata=${paar.formA},${paar.formB}` +
+      `/playground/#multi-lemma&lemmata=${paar.formA},${paar.formB}` +
       `&ids=${paar.idA},${paar.idB}&mode=proximity&dist=10`
     );
 

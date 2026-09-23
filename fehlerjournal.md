@@ -1013,3 +1013,13 @@ hin Spur A ihren Testlauf startete. Er scheiterte an „fremder Server (HTTP 404
 Gefunden hat es die Messung der Koordination, nicht meine. Beenden konnte ich
 den Prozess danach nicht: `taskkill` und `Stop-Process` hat der
 Auto-Mode-Classifier abgelehnt, und die Blockade ging an Christian.
+
+### 73. Rot: aus einem gemessenen Abbruch auf seine Ursache geschlossen und die Ursache in einen PR-Body geschrieben.
+
+**Rot.** Claude Code hat am 23.09.2026 die Parallelprobe für #465 (zwei Volläufe mit je sechs Workern) wegen Speichermangels beendet. Gemessen war der Abbruch, sonst nichts. Im Body von PR #472 stand danach, die Läufe seien abgebrochen worden, „während auch andere Sessions liefen", und im Inbox-Wortlaut für `docs/DEVELOPMENT.md` hieß es „other sessions active". Belegt ist ein fremder Prozess nur für einen späteren, einzelnen Abbruch: beim ersten Versuch der Spec-Abgleich-Mutation lauschte PID 38672 auf 8080. Für die Parallelprobe selbst habe ich nie nachgesehen, was sonst lief.
+
+**Die Lehre steht in `agentenbefunde.md`: der eigene Befund ist der gefährlichere, und wer aus einem Feldwert auf ein Verhalten schließt, hat das Feld gemessen und das Verhalten behauptet.** Hier war der Feldwert eine Systemmeldung, und die Ursache habe ich dazugeschrieben, weil sie entlastend klang: nicht die Maschine ist zu klein, es lief nur zu viel. Die letzte Zeile zu dieser Lehre ist Eintrag 64.
+
+**Was es getragen hat:** der Satz stand etwa eine halbe Stunde im veröffentlichten PR-Body und im Wortlaut, den die Koordination nach dem Merge von #469 in die Doku einträgt. Ein Leser hätte daraus gefolgert, sechs Worker je Lauf seien auf einer ruhigen Maschine parallel tragbar, und das ist nicht gemessen. Aufgefallen ist es beim Entwurf des Journaleintrags, nicht durch eine Vorrichtung. PR-Body und Inbox-Wortlaut sind richtiggestellt.
+
+**Kein neuer Mechanismus:** `agentenbefunde.md` ist seit dem 16.09.2026 ausdrücklich ausgesetzt, weil kein Muster sieht, ob ein Satz mehr behauptet als seine Quelle hergibt. Die Aussetzung ist nach `wiederholte-fehler.md` selbst der Mechanismus.

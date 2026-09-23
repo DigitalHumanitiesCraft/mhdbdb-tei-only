@@ -20,8 +20,6 @@
 
 import { test, expect } from '@playwright/test';
 
-const BASE = 'http://localhost:8080';
-
 // CONTRACTS §B.1 case table — exact-token semantics.
 const CASES = [
   // [lemmaRef, searchId, shouldMatch, note]
@@ -38,7 +36,7 @@ const CASES = [
 
 test.describe('B.1 Lemma Matching — unit (lemmaRefMatchesId)', () => {
   test('exact-token semantics match the §B.1 contract table', async ({ page }) => {
-    await page.goto(`${BASE}/playground/`);
+    await page.goto(`/playground/`);
 
     const results = await page.evaluate(async (cases) => {
       const { lemmaRefMatchesId } = await import('/assets/js/lib/lemma-match.js');
@@ -64,7 +62,7 @@ test.describe('B.1 Lemma Matching — e2e reader highlight counts', () => {
 
   for (const { textId, count } of EXPECTED) {
     test(`${textId}: lemma_308 highlights exactly ${count} words (not the substring-inflated total)`, async ({ page }) => {
-      await page.goto(`${BASE}/korpus.html?textId=${textId}&lemmaIds=lemma_308`);
+      await page.goto(`/korpus.html?textId=${textId}&lemmaIds=lemma_308`);
       await page.waitForSelector('#readingBody .highlight', { timeout: 30000 });
       const highlightCount = await page.locator('#readingBody .highlight').count();
       expect(highlightCount).toBe(count);
