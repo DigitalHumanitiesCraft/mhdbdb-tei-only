@@ -21,7 +21,11 @@ Drei Einschraenkungen aus dem Nachtlauf vom 23.09.2026:
     Hs. C, die #453 sichern will. Deshalb bleibt auch lemma_53328 ("1"), das
     dort 63 Belege behaelt.
   - Ein belegfreies Lemma, auf das ein anderer Eintrag einer Authority-Datei
-    verweist, wird nicht geloescht, sondern gemeldet.
+    verweist, wird nicht geloescht, sondern gemeldet. Getroffen hat das
+    lemma_66692 Mur (etym von lemma_33528 und lemma_66691). Nach der
+    Regeneration von variants.xml zeigte sein Sense per @ana auf den
+    entfallenen type_348958; dieses @ana ist von Hand entfernt (Review
+    Runde 1), das Skript selbst tut das nicht.
   - Die 26 Ziffern in <supplied> (MR1, WVV) bleiben annotiert. KZW hat sie am
     28.07.2026 als Nicht-Lemmata bezeichnet, die Umsetzung aber am 11.09.2026
     nur unter "sofern" genannt; die Form (entannotieren, <num>, @n) ist offen
