@@ -216,7 +216,7 @@ The RDF migration brought classification only (POS, concept pointers, compound c
 
 **Order (RELAX NG, sequence without interleave):** inside `<entry>`, `<etym type="morphological">` comes before `<etym type="borrowing">`; inside `<sense>`, `<def>` comes before `<note type="comment">` before the `<ptr>` elements. Appending generation (`SubElement`, as in `scripts/ingest/wzb/wzb-add-lemma.py`) gets this right by itself; inserting by hand otherwise yields a stage-2 error whose message does not name the cause.
 
-**Index mapping:** `lemma.origin = {languages[{name, code}], attribution?, resp?}` plus `sense.definition` / `sense.comment` (and `definitionResp` / `commentResp`), each only where present in the lexicon: 43,878 lemmata with empty fields would inflate index and API for no gain. Authority index from v1.7.0 on.
+**Index mapping:** `lemma.origin = {languages[{name, code}], attribution?, resp?}` plus `sense.definition` / `sense.comment` (and `definitionResp` / `commentResp`, plus `commentRespName`, the name resolved from contributors.xml, from v1.9.10 on), each only where present in the lexicon: 43,878 lemmata with empty fields would inflate index and API for no gain. Authority index from v1.7.0 on.
 
 **Current state:** 1 entry (`lemma_37818` Abba, 2026-07-30). The rest follows via #28 phase 2/3.
 

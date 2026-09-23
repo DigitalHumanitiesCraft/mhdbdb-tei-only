@@ -236,7 +236,8 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
       id: "lemma_879_sense_1",
       conceptIds: ["concept_1234"],
       // the three curated fields below exist only where lexicon.xml carries them
-      // (#248, authority index 1.7.0). As of 2026-08-03 that is a single sense,
+      // (#248, authority index 1.7.0; commentRespName is resolved from
+      // contributors.xml, #270, 1.9.10). As of 2026-08-03 that is a single sense,
       // lemma_37818 "Abba": one <def> and one <note type="comment">, each with
       // its @resp. Curation is ongoing, so expect this count to grow.
       definition: "...", definitionResp: "contributors.xml#contrib_003",
@@ -904,7 +905,7 @@ The two checklists below describe the **maximum case**. Not every change needs e
 | One of the seven indexed `authority-files/` other than `works.xml` | the authority checklist in full except step 1 | about 17 s |
 | `authority-files/works.xml` | the authority checklist in full | about 17 s plus the Zotero run |
 
-The version bump (corpus checklist step 3, authority checklist step 2) is dropped only in the rows without a rebuild. As soon as an index is rebuilt it is mandatory, because the browser invalidates its 30-day cache through the version number alone (#94). Since #154 `scripts/audit/check-index-version-bump.py` catches the forgotten bump: it compares the decompressed index content against the diff base and runs in `data-integrity.yml` deliberately **before** the rebuild step. Two gaps remain: without a determinable diff base (`workflow_dispatch`, a force push) the workflow skips the gate with a `notice`, and it does not cover the version statements in the documentation (TEI-MODEL.md §11, INDEX.md).
+The version bump (corpus checklist step 3, authority checklist step 2) is dropped in the rows without a rebuild, and in the `contributors.xml` row when the rebuild shows no diff. Otherwise, as soon as an index is rebuilt, it is mandatory, because the browser invalidates its 30-day cache through the version number alone (#94). Since #154 `scripts/audit/check-index-version-bump.py` catches the forgotten bump: it compares the decompressed index content against the diff base and runs in `data-integrity.yml` deliberately **before** the rebuild step. Two gaps remain: without a determinable diff base (`workflow_dispatch`, a force push) the workflow skips the gate with a `notice`, and it does not cover the version statements in the documentation (TEI-MODEL.md §11, INDEX.md).
 
 The converse also holds: do not set a bump without a change of content. It forces every returning person to reload the index although nothing changed, and no CI notices.
 
