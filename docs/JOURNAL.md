@@ -709,6 +709,7 @@ Verteilung aus `trockenlauf-auswerten.py`, Zeile dieser Session (`09f7a3aa`, nac
 - `VERDICT: VOLLLAUF GRUEN (377 Tests, 39 Dateien)` auf e9b381d44, also vor dem Rebase auf B1 (28a5bffda). Der Rebase hat keine A2-Datei verändert; das kombinierte Verhalten prüft die Koordination mit einem Volllauf auf main.
 - Frage an KZW in #270: Urheber auch an Definition und Etymologie?
 - Freeze-Ausnahmen dieses PRs, von der Koordination benannt (Zeilen im Endstand): DATA-MODEL.md 239-244, 466, 512, 549, 894, 904, 908; CONTRACTS.md 927; TEI-MODEL-AUTH-FILES.md 211, 219; DECISIONS.md 46 und ADR-018; scripts/README.md 123; dazu die DEVELOPMENT.md-Zeile für die neue Spec.
+
 ## 2026-09-23 (Nachtlauf, Spur B, Paket B2) – #420: Pin auf v0.3.0-beta und "Lemma" statt "Term"
 
 Lindas Punkte 1 und 4 aus ihrer Abnahme vom 16.09.: der Naming-Index steht jetzt auf Naming-analysis v0.3.0-beta, und das Modul "Erweiterte Figurenbezeichnungen" sagt überall "Lemma", wo es "Term" sagte (Perspektive, Auswahl, Filter, Spaltentitel, Hilfe, FEATURES, Spec). Der Montagslauf `naming-index-update.yml`, seit dem 14.09. rot, hat damit seinen Grund verloren. Punkt 3, ein Tab "Bezeichnung", ist nicht gebaut: die Kategorie wird an vier Stellen gefiltert oder gezählt, und ob der Tab in allen drei Perspektiven erscheinen soll, ist eine Gestaltungsfrage, die Linda offen gelassen hat.
