@@ -179,4 +179,5 @@ Eingefroren: `CLAUDE.md`; die 15 promptotyping-Dokumente in `docs/` mit den Ausn
 
 ## Grenzverhandlungen während des Laufs
 
-*(leer bei Laufbeginn)*
+- **A1 ohne Bump gemergt, wenn es so weit ist**: `data/`, `api/` und `authority-files/` ohne Diff nach allen drei Builds (Spur A, `check-index-version-bump.py` bestätigt laut Reviewer). `<gap>` und `<caesura>` sind keine `<w>`.
+- **A2 (#270), benannte Freeze-Ausnahmen** (Anfrage Spur A, entschieden von der Koordination): sobald `build-authority-index.py` `contributors.xml` liest, werden diese Stellen falsch und ziehen im A2-PR mit, nur soweit sie davon handeln: `docs/DATA-MODEL.md` Z. 465, 548, 893, **903** (Routingzeile „contributors.xml: no rebuild, no bump"; bliebe sie stehen, veraltete der Name im Index still), `docs/CONTRACTS.md` Z. 927 (§G.3), `docs/TEI-MODEL-AUTH-FILES.md` Z. 211, `docs/DECISIONS.md` Z. 46 (ADR-001), `scripts/README.md` Z. 123. Nicht falsch und deshalb nicht angefasst: `RESEARCH.md:136`, `playground/readme.md:190`, `MASTERPLAN-EINZEL-LEMMA-KURATION.md:102`. Spur B berührt in `DATA-MODEL.md` nur Z. 370; verschiedene Hunks.
