@@ -94,6 +94,21 @@ import { fetchWbnetzEntries } from '../../lib/woerterbuchnetz.js';
 const treffer = await fetchWbnetzEntries('brot');
 ```
 
+### `genre-tree.js`
+Werke je Gattung einschließlich aller Untergattungen (#433). Geteilt vom Gattungs-Vorschlag im Textfilter der Korpussuche und vom Gattungsbaum im Playground, damit beide dieselbe Menge meinen. Die Hierarchie ist ein DAG (`genre.parents[]`, mehrere Eltern möglich), die Werkmenge deshalb eine Vereinigung, keine Summe.
+
+**Exports:**
+- `buildGenreSubtrees(genres, genreToWorks)` → `{ children, subtreeWorks }` (`genreToWorks` als Map oder als Objekt aus `authorityIndex.maps`)
+- `workIdFromRef(workRef)` → `"work_89"` aus `"works.xml#work_89"`
+
+**Usage:**
+```javascript
+import { buildGenreSubtrees } from '../../lib/genre-tree.js';
+
+const { subtreeWorks } = buildGenreSubtrees(authorityIndex.genres, authorityIndex.maps.genreToWorks);
+subtreeWorks.get(minnesangId).size; // Werke von Minnesang und allen Untergattungen
+```
+
 ## Design Principles
 
 1. **DRY (Don't Repeat Yourself)**: All shared code lives here
