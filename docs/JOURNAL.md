@@ -757,3 +757,23 @@ Verteilung aus `trockenlauf-auswerten.py`, Zeile dieser Session (`09f7a3aa`, nac
 - `VERDICT: VOLLLAUF GRUEN (377 Tests, 39 Dateien)` auf 767810ae7, vor der Prosa-Korrektur und dem Rebase auf #480. Nach dem Rebase ist der Authority-Rebuild byte-gleich mit dem committeten Index.
 - ADR-020 hat einen neuen Consequences-Punkt (Freeze-Ausnahme der Koordination). Er hält fest, dass die Konzeptzuweisung abgeleitet ist und KZW sie in #357 überstimmen kann; Z. 1247 („sense meanings stay curatorial“) bleibt stehen.
 - „Das gilt für alle Namen“ ist nicht angefasst. Welche Namen heute einen Sense mit Referenten verschiedener Art teilen, ist eine eigene Messung und steht als Beobachtung im Statuskommentar.
+
+## 2026-09-23 (Nachtlauf, Spur B, Paket B3) – #467: das Wörterbuch nimmt die Lemma-Nummer
+
+KZWs Wunsch aus #467: im Wörterbuch "lemma_4086" eingeben und "mer" sehen. Das Suchfeld nimmt jetzt `lemma_4086`, auch in der Schreibung aus `@lemmaRef` (`lexicon.xml#lemma_4086`), und zeigt genau dieses Lemma; beim Treffer steht die Nummer neben dem Eintrag. Korpussuche und Playground sind nach dem Laufplan nicht gebaut, sondern gemessen; die Antwort steht in #467.
+
+### Was über den Einzelfall hinausgilt
+
+**Eine nackte Zahl ist im Wörterbuch nicht eindeutig, und das ließ sich vor dem Bauen messen.** Fünf Lemmata beginnen mit einer Ziffer ("1", "36", "42", "46", "49"), und die Präfixsuche findet sie heute über genau diese Eingabe. Hätte eine Zahl nur noch die Nummer gesucht, wären sie über das Suchfeld unerreichbar geworden. Deshalb sucht `lemma_46` nur die Nummer, `46` dagegen die Nummer zuerst (*abwege*) und darunter weiter das Lemma *46*. Die Multi-Lemma-Suche im Playground, auf die KZW am 23.09. hinwies, behandelt eine nackte Zahl dagegen allein als Nummer (`tei-ui.js:19`), und nur sie: `lemma_4086` findet dort nichts, denn alles außer reinen Ziffern geht in die Namensauflösung, die keinen ID-Zweig hat. Die ID-Erkennung in `authority-manager.js:49` (`resolveLemmaNames`) sieht nach dem Gegenteil aus, hat aber keinen Aufrufer; die erste Fassung dieses Eintrags hatte sich auf sie gestützt, die Reviewrunde hat es gefunden.
+
+**Ein Hilfebeispiel ist auch eine Behauptung über die Daten.** Die erste Fassung erklärte "Nummer zuerst, darunter die Präfixtreffer" am Beispiel `4086`, zu dem es keine Präfixtreffer gibt; wer es nachtippt, sucht die zweite Liste vergeblich. Gefunden hat es die Reviewrunde, das Beispiel ist jetzt `46`, dasselbe, das der Test prüft.
+
+### Rote Zeilen
+
+Keine. Verteilung aus `trockenlauf-auswerten.py`, Zeile dieser Session (`11858632`, nacht-frontend-2), Stand beim Schreiben dieses Eintrags am 23.09. spätabends (die Zahlen wachsen mit jedem weiteren Aufruf): shell-konventionen 76 Treffer bei 259 Aufrufen (29 %), mengenaussagen 28 bei 68 (41 %).
+
+### Was zurück an Christian geht
+
+- KZW prüft nach Merge und Deploy im Wörterbuch; der Prüfweg steht in #467.
+- In #467 beantwortet: Korpussuche und Lemma-Explorer kennen die Nummer nicht, die Multi-Lemma-Suche nur als nackte Zahl (`4086`, nicht `lemma_4086`). Ob Korpussuche oder Playground sie lernen sollen, ist KZWs Entscheidung; der Aufwand wäre klein.
+- Die Commits der Pakete B1 und B2 und der erste Commit von B3 tragen als Trailer `Co-Authored-By: Claude Opus 5.5`, `CLAUDE.md` schreibt `Co-Authored-By: Claude` vor (Hinweis der Reviewrunde zu B3); ab dem zweiten B3-Commit in der Form von `CLAUDE.md`.

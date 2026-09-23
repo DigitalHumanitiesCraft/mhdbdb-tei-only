@@ -20,6 +20,7 @@ class WoerterbuchPage {
         this.activeLetter = 'a';
         this.activePage = 1;
         this.searchQuery = '';
+        this.numberHitId = null;    // #467: Treffer über die Lemma-Nummer
 
         this.elements = {
             loadingScreen: document.getElementById('loadingScreen'),
@@ -60,6 +61,26 @@ class WoerterbuchPage {
         }
         // Flache Gesamtliste in Bucket-Reihenfolge → bereits global a–z–# sortiert
         this.allEntries = LETTERS.flatMap(letter => this.buckets.get(letter));
+        // #467: Nachschlagen per Lemma-Nummer
+        this.byId = new Map(lemmata.map(e => [e.id, e]));
+    }
+
+    /**
+     * #467: Lemma-Nummer im Suchfeld. "lemma_4086" (auch in der Form aus
+     * @lemmaRef, "lexicon.xml#lemma_4086") sucht nur die Nummer; eine nackte Zahl wie
+     * "4086" sucht die Nummer UND weiter per Präfix, weil es Lemmata gibt,
+     * die mit einer Ziffer beginnen (Buchstabe '#'). Gibt {nurNummer, treffer}
+     * zurück oder null, wenn die Eingabe keine Nummer ist.
+     */
+    lookupLemmaNumber(query) {
+        const mitPraefix = /^(?:lexicon\.xml)?#?lemma_(\d+)$/i.exec(query);
+        const nackt = /^\d+$/.test(query) ? query : null;
+        const nummer = mitPraefix ? mitPraefix[1] : nackt;
+        if (nummer === null) return null;
+        return {
+            nurNummer: Boolean(mitPraefix),
+            treffer: this.byId.get(`lemma_${nummer.replace(/^0+(?=\d)/, '')}`) || null,
+        };
     }
 
     readUrlState() {
@@ -101,15 +122,25 @@ class WoerterbuchPage {
         this.searchQuery = query;
 
         if (!query) {
+            this.numberHitId = null;
             this.renderLetterBar();
             this.renderEntries();
             this.renderPagination();
             return;
         }
 
-        const nq = TextNormalizer.normalizeMHG(query);
-        const matches = this.allEntries.filter(
-            e => (e.normalized || e.lemma.toLowerCase()).startsWith(nq));
+        const nummer = this.lookupLemmaNumber(query);
+        let matches = [];
+        if (!nummer || !nummer.nurNummer) {
+            const nq = TextNormalizer.normalizeMHG(query);
+            matches = this.allEntries.filter(
+                e => (e.normalized || e.lemma.toLowerCase()).startsWith(nq));
+        }
+        // Der Nummerntreffer steht oben und kommt nicht doppelt vor
+        if (nummer && nummer.treffer) {
+            matches = [nummer.treffer, ...matches.filter(e => e !== nummer.treffer)];
+        }
+        this.numberHitId = nummer && nummer.treffer ? nummer.treffer.id : null;
 
         this.renderLetterBar();              // ohne Aktiv-Markierung (searchQuery gesetzt)
         this.elements.pagination.innerHTML = '';
@@ -179,6 +210,14 @@ class WoerterbuchPage {
             pos.className = 'pos-badge bg-brand-100 text-brand-700 flex-shrink-0';
 
             row.appendChild(link);
+            // #467: beim Treffer über die Lemma-Nummer die Nummer mit anzeigen
+            if (this.searchQuery && entry.id === this.numberHitId) {
+                const nr = document.createElement('span');
+                nr.textContent = entry.id;
+                nr.className = 'ml-auto font-mono text-xs text-slate-500 flex-shrink-0';
+                nr.dataset.lemmaNumber = '';
+                row.appendChild(nr);
+            }
             row.appendChild(pos);
             this.elements.entryGrid.appendChild(row);
         }
