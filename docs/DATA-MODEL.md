@@ -240,7 +240,7 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
       // lemma_37818 "Abba": one <def> and one <note type="comment">, each with
       // its @resp. Curation is ongoing, so expect this count to grow.
       definition: "...", definitionResp: "contributors.xml#contrib_003",
-      comment: "...",    commentResp: "contributors.xml#contrib_003"
+      comment: "...",    commentResp: "contributors.xml#contrib_003", commentRespName: "Katharina Zeppezauer-Wachauer"
     }],
     // likewise curated, likewise a single lemma as of 2026-08-03: the borrowing
     // chain from <etym type="borrowing">
@@ -508,7 +508,7 @@ Build properties: deterministic on the #125 principle (no timestamps, compact JS
 | | | `.//tei:sense` | Senses (with `@xml:id`; concept pointers per sense) |
 | | | `.//tei:ptr[contains(@target,"concepts.xml#")]` *(relative to the `<sense>`)* | Concept pointers per sense |
 | | | `./tei:def` *(relative to the `<sense>`)* | `sense.definition` + `sense.definitionResp` from `@resp`. Curated, see below |
-| | | `./tei:note[@type="comment"]` *(relative to the `<sense>`)* | `sense.comment` + `sense.commentResp` from `@resp`. Curated, see below |
+| | | `./tei:note[@type="comment"]` *(relative to the `<sense>`)* | `sense.comment` + `sense.commentResp` from `@resp`, and since 1.9.10 (#270) `sense.commentRespName`, the `persName`/`orgName` of that id in `contributors.xml` (whitespace collapsed; an unknown id stops the build). Curated, see below |
 | | persons.xml | `//tei:person` | Person records |
 | | | `.//tei:persName[@type="preferred"]` | Canonical name |
 | | | `./tei:persName[@type="alternative"]` | `person.altNames` + `person.altNormalized` (index-parallel). Deduplicated by exact text: wherever the German and English form coincide, the same string stands twice. `@xml:lang` is not indexed, and the parser does not key on it |
