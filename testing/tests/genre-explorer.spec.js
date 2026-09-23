@@ -162,19 +162,27 @@ test.describe('Gattungs-Explorer Baumansicht (#361)', () => {
     await expect(wurzeln.first().locator('.genre-node')).toHaveCount(7);
   });
 
-  test('die Beschriftung des Filters sagt je Ansicht, was er tut', async ({ page }) => {
-    // Ein Haken, zwei notwendig verschiedene Bedeutungen: im Baum "Werke im
-    // Zweig" (sonst waeren die Kinder eines werklosen Zwischenknotens nicht
-    // erreichbar), in der Trefferliste "eigene Werke" (sonst haette der Knopf
-    // "Werke anzeigen" nichts zu zeigen). Betrifft 41 Kategorien.
+  test('der Filter meint in Baum und Trefferliste dasselbe', async ({ page }) => {
+    // #361 hatte zwei Bedeutungen: im Baum "Werke im Zweig", in der
+    // Trefferliste "eigene Werke", weil "Werke anzeigen" nur die direkten las.
+    // Seit #433 (KZW 2026-09-15: die Untergattungen kommen immer mit) liest es
+    // den Teilbaum, und der Haken hat eine Bedeutung und eine Beschriftung.
+    const beschriftung = 'Nur Gattungen mit Werken anzeigen, Untergattungen eingerechnet';
     const label = page.locator('#genreFilterLabel');
-    await expect(label).toHaveText('Nur Zweige anzeigen, die zu Werken führen');
+    await expect(label).toHaveText(beschriftung);
 
-    await page.fill('#genreSearch', 'chronik');
-    await expect(label).toHaveText('Nur Gattungen mit zugeordneten Werken anzeigen');
+    // Lyrik ist der Pruefstein: kein Werk direkt, aber welche darunter. Mit
+    // der alten Bedeutung verschwand sie aus der gefilterten Trefferliste.
+    await page.check('#genreOnlyWithWorks');
+    await page.fill('#genreSearch', 'lyrik');
+    await page.waitForSelector('#genreResults >> text=Treffer', { timeout: 10000 });
+    await expect(label).toHaveText(beschriftung);
+    const lyrik = page.locator('#genreResults article', { hasText: 'ID: genre_a2770533' });
+    await expect(lyrik).toHaveCount(1);
+    await expect(lyrik.getByRole('button', { name: 'Werke anzeigen' })).toBeVisible();
 
     await page.fill('#genreSearch', '');
-    await expect(label).toHaveText('Nur Zweige anzeigen, die zu Werken führen');
+    await expect(label).toHaveText(beschriftung);
   });
 
   test('der Klapp-Knopf behaelt den Tastaturfokus', async ({ page }) => {
