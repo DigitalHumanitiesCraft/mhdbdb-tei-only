@@ -148,7 +148,13 @@ betroffen). Die Zahl 173 geaenderter `bibl` in works.xml gegen 172 API-Dateien
 erklaert sich durch work_7, dort aendert sich nur die Einrueckung von `</bibl>`.
 Index-Diff: nur `works[].biblStructs[].textContent` (185 in 172 Werken), stats
 gleich. Das Sync-Skript kennt FR1/FLG nicht: die Handkorrekturen (#236, #104)
-werden bei jedem Online-Sync erneut ueberschrieben und muessen von Hand zurueck. Laufzeit hier 82,5 s, im
+werden bei jedem Online-Sync erneut ueberschrieben und muessen von Hand zurueck.
+Runde 2 (9cd15fbd3): Christian hat am 24.09.2026 den Zuschnitt auf VTC und die
+Kettenrichtung Zotero -> works.xml -> Header (Header ist Kopie) entschieden; die
+171 Faelle gehen in einen eigenen Vorgang mit eigenem Schreiber. Nach dem
+Zuschnitt: 1 Hunk in works.xml, Header-Abweichungen 3 -> 2 (VTC geloest, 0 neu),
+Index/API nur work_572. Die Skripte aus Runde 1 laufen unveraendert gegen den
+neuen HEAD, weil sie `git show origin/main` und `HEAD` statt fester SHAs lesen. Laufzeit hier 82,5 s, im
 Auftrag 1 min 47 s; Step 1b (`sync_tei_headers.py --works --check`) 0,7 s.
 persons.xml: 81 Personen mit alternative, 136 roh, Index 102 (dedup 34).
 Die Docstring-Zeile „Diesen Block schreibt kein Skript" ist zu stark: die
