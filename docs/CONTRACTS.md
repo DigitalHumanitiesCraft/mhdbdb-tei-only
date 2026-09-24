@@ -396,7 +396,7 @@ Measured on 2026-09-24 against `authority-files/lexicon.xml` (43,713 entries wit
 normalization 476 forms do (991 lemmata, 2.27 percent). `sin`, `wal`, `mal` and `de`
 are in that set. Counting rule, because the number depends on it: group by
 `normalize_mhg()` from `scripts/mhg_normalizer.py`, the canonical normalizer, not by a
-hand-written character map. On the first measurement (2026-08-07, 43,879 entries,
+hand-written character map. On the first measurement (2026-08-07, 43,879 entries, not today's count;
 477/993) a shorter map yielded 475/988, and that is how the wrong pair got into the
 first draft of this section. The step from 477/993 to 476/991 is #228: it deleted
 `lemma_64413`, and the group `erklaeren` is left with `lemma_14608` alone.

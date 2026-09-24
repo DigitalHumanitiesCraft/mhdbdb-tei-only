@@ -16,7 +16,7 @@ Counterpart to `docs/TEI-MODEL.md` (corpus files).
 
 | File | Content | Entries | Size |
 |-------|--------|-----------|---------|
-| `lexicon.xml` | Lemmata with senses, POS, etymology | 43,713 | 33 MB |
+| `lexicon.xml` | Lemmata with senses, POS, etymology | 43,713 lemmata | 33 MB |
 | `variants.xml` | Orthographic variants per lemma | 42,460 variant entries, 256,512 forms | 16 MB |
 | `persons.xml` | Authors/persons with authority data | 211 | 74 KB |
 | `works.xml` | Works with bibliography and genre | 584 | 1.4 MB |
