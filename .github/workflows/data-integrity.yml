@@ -46,7 +46,8 @@ name: Data Integrity
 #      blockierender Step VOR Step 6 (Freshness Indexe) stehen: der
 #      Index-Vergleich kann variants-Drift prinzipiell nicht erkennen
 #      (der Rebuild nutzt dieselbe committete variants.xml und matcht).
-#      Nie auf advisory herunterstufen.
+#      Nie auf advisory herunterstufen. Derselbe Lauf bereinigt verwaiste
+#      #type_N in lexicon.xml sense/@ana; auch dort muss der Diff leer sein.
 #   5. Freshness API (#45): build-api.py muss das committete api/
 #      byte-identisch reproduzieren (plain JSON, kein gzip — daher
 #      reicht git diff). MUSS VOR Step 6 (Freshness Indexe) laufen: der
@@ -399,6 +400,13 @@ jobs:
           python scripts/sync/extract-variants.py --apply
           if ! git diff --exit-code -- authority-files/variants.xml; then
             echo "::error file=authority-files/variants.xml::variants.xml ist nicht mit dem Korpus synchron. Lokal 'python scripts/sync/extract-variants.py --apply' ausfuehren und mitcommitten (DATA-MODEL.md -> Data-Change-Lifecycle)."
+            exit 1
+          fi
+          # --apply bereinigt auch verwaiste #type_N in lexicon.xml sense/@ana.
+          # Ohne diesen Diff saehe das Cross-Ref-Gate weiter unten nur noch den
+          # hier bereinigten Stand und bliebe auf einem verwaisten Commit gruen.
+          if ! git diff --exit-code -- authority-files/lexicon.xml; then
+            echo "::error file=authority-files/lexicon.xml::lexicon.xml fuehrt in sense/@ana Typ-Tokens, die variants.xml nicht kennt. Lokal 'python scripts/sync/extract-variants.py --apply' ausfuehren und lexicon.xml mitcommitten (DATA-MODEL.md -> Data-Change-Lifecycle)."
             exit 1
           fi
 

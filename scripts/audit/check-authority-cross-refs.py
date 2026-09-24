@@ -15,7 +15,9 @@ Reference attributes scanned (on any element):
 
 Out of scope: internal refs (#fragment without a file part) and external URIs
 (http...). The authority->authority direction is covered by
-`audit-authority-files.py` (and was clean as of 2026-05-28).
+`audit-authority-files.py` (and was clean as of 2026-05-28), with one
+exception gated here: --check fails on any #type_N in lexicon.xml sense/@ana
+that variants.xml does not carry (extract-variants.py --apply prunes them).
 
 Output:
   scripts/audit/authority-cross-refs-audit.json   (machine-readable, Phase-2 cleanup input)
@@ -132,6 +134,22 @@ def count_missing_corresp(tree):
             continue
         n += 1
     return n
+
+
+def orphan_ana_in_lexicon(variant_ids):
+    """Verwaiste #type_N in lexicon.xml sense/@ana (Richtung Authority ->
+    Authority, die der Korpus-Scan oben nicht sieht, weil er nur tei/ liest).
+
+    Die Mengenfunktion kommt aus extract-variants.py, das dieselben Tokens bei
+    --apply entfernt: Bereinigung und Gate sollen dieselbe Menge meinen.
+    """
+    import importlib.util
+    pfad = Path(__file__).resolve().parents[1] / 'sync' / 'extract-variants.py'
+    spec = importlib.util.spec_from_file_location('extract_variants', pfad)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    lex = etree.parse(str(AUTHORITY_DIR / 'lexicon.xml')).getroot()
+    return mod.orphan_ana_tokens(lex, variant_ids)
 
 
 def load_corresp_baseline():
@@ -500,6 +518,20 @@ def main():
                   f'Entweder @corresp nachtragen oder den Anstieg bewusst und '
                   f'begruendet via --update-baseline aufnehmen.')
             return 1
+        # Verwaiste Typ-Tokens in lexicon.xml sense/@ana: keine Ratsche, 0 ist
+        # der einzige zulaessige Stand, weil extract-variants.py --apply sie im
+        # selben Lauf entfernt, in dem sie entstehen.
+        ana_orphans = orphan_ana_in_lexicon(auth_ids['variants.xml'])
+        if ana_orphans:
+            n = sum(len(o) for _, o in ana_orphans.values())
+            sample = ', '.join(f'{sid} {" ".join(o)}' for sid, (_, o)
+                               in sorted(ana_orphans.items())[:3])
+            print(f'\n::error file=authority-files/lexicon.xml::'
+                  f'CI CHECK FAILED: {n} Typ-Tokens in {len(ana_orphans)} '
+                  f'sense/@ana zeigen auf Typen, die variants.xml nicht fuehrt '
+                  f'(z.B. {sample}). "python scripts/sync/extract-variants.py '
+                  f'--apply" entfernt sie; lexicon.xml mitcommitten.')
+            return 1
         gefallen = {s: (alt, corresp_now.get(s, 0))
                     for s, alt in corresp_baseline.items()
                     if corresp_now.get(s, 0) < alt}
@@ -507,7 +539,8 @@ def main():
               f'lexicon.xml = {lex_refs:,} refs / {len(current_lex_ids):,} distinct ids, '
               f'alle innerhalb der Baseline ({len(baseline):,} tolerierte IDs, #44/#115/#152). '
               f'Tokens ohne @corresp = {sum(corresp_now.values()):,}, keine Sigle ueber '
-              f'ihrer Baseline (#370).')
+              f'ihrer Baseline (#370). Verwaiste Typ-Tokens in lexicon.xml '
+              f'sense/@ana = 0.')
         if gefallen:
             zeilen = ', '.join(f'{s} {alt:,} auf {neu:,}'
                                for s, (alt, neu) in sorted(gefallen.items()))

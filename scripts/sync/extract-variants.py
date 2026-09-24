@@ -22,9 +22,20 @@ form) so each type id is emitted exactly once. Such collisions are reported.
 Negative type ids (legacy punctuation codes, #115) are skipped. The two
 `<?xml-model?>` PIs (added in #32) are preserved.
 
+Verwaiste Typ-Tokens im Lexikon: lexicon.xml fuehrt je Sense in sense/@ana
+eine Leerzeichenliste von #type_N. Faellt ein Typ bei der Regeneration aus
+variants.xml, zeigt sein Token ins Leere, und kein Build liest die Liste, also
+merkt es niemand (#228, JOURNAL 2026-09-24 Paket A4: 83 Tokens in einem Lauf,
+dazu 105 aeltere). --apply entfernt deshalb im selben Lauf jedes Token, dessen
+Typ in der eben geschriebenen variants.xml nicht vorkommt; wird eine Liste
+leer, faellt das Attribut (Schema: ana optional). Der Trockenlauf nennt nur
+die Zahl. CI (data-integrity.yml, Freshness variants.xml) verlangt danach auch
+fuer lexicon.xml einen leeren Diff, und check-authority-cross-refs.py --check
+verlangt 0 verwaiste Tokens.
+
 Usage:
     python scripts/sync/extract-variants.py            # dry-run -> authority-files/variants.regen.xml
-    python scripts/sync/extract-variants.py --apply    # overwrite authority-files/variants.xml
+    python scripts/sync/extract-variants.py --apply    # overwrite variants.xml, prune lexicon sense/@ana
     python scripts/sync/extract-variants.py --jobs 1   # sequentiell parsen (Default: bis 8 Prozesse)
 """
 
@@ -54,6 +65,7 @@ XML = '{http://www.w3.org/XML/1998/namespace}'
 # landete woanders.
 VARIANTS = PROJECT_ROOT / 'authority-files' / 'variants.xml'
 DRY_OUT = PROJECT_ROOT / 'authority-files' / 'variants.regen.xml'
+LEXICON = PROJECT_ROOT / 'authority-files' / 'lexicon.xml'
 
 TYPE_POS_RE = re.compile(r'^type_\d+$')        # positive type id only
 TYPE_NUM_RE = re.compile(r'^type_(\d+)$')
@@ -251,6 +263,54 @@ def read_existing():
     return out, date_text, name_text
 
 
+def orphan_ana_tokens(lexicon_root, type_ids):
+    """sense-xml:id -> (alle Tokens, verwaiste Tokens) fuer jede Sense, deren
+    @ana mindestens ein #type_N ohne Gegenstueck in type_ids traegt.
+
+    Geteilt mit check-authority-cross-refs.py, damit Bereinigung und Gate
+    dieselbe Menge meinen. Gesplittet wird an Leerzeichen: ein Muster wie
+    ana="#type_\\d+" saehe nur die einwertigen Listen, und genau daran ist
+    der Befund in #228 zuerst vorbeigegangen (1 statt 83).
+    """
+    out = {}
+    for sense in lexicon_root.iter(f'{TEI}sense'):
+        toks = (sense.get('ana') or '').split()
+        orphans = [t for t in toks if t.startswith('#type_') and t[1:] not in type_ids]
+        if orphans:
+            out[sense.get(f'{XML}id')] = (toks, orphans)
+    return out
+
+
+def prepare_lexicon_prune(type_ids):
+    """Bereinigten Text von lexicon.xml vorbereiten, ohne etwas zu schreiben.
+
+    Textersetzung statt lxml-Serialisierung, damit der Diff genau die
+    betroffenen Attribute zeigt und nicht die ganze Datei. Jeder Anker muss
+    genau einmal treffen, und das Ergebnis muss parsen. Laeuft in main() VOR
+    dem Schreiben von variants.xml: bricht es ab, ist keine der beiden
+    Dateien angefasst (Review Runde 1; vorher stand variants.xml dann schon
+    neu im Baum).
+    Rueckgabe: (neuer Text oder None, Tokens, Senses).
+    """
+    orphans = orphan_ana_tokens(etree.parse(str(LEXICON)).getroot(), type_ids)
+    n_tokens = sum(len(o) for _, o in orphans.values())
+    if not orphans:
+        return None, 0, 0
+    with open(LEXICON, encoding='utf-8', newline='') as f:
+        text = f.read()
+    for sid, (toks, raus) in sorted(orphans.items()):
+        old = f'<sense xml:id="{sid}" ana="{" ".join(toks)}"'
+        rest = [t for t in toks if t not in raus]
+        new = f'<sense xml:id="{sid}"' + (f' ana="{" ".join(rest)}"' if rest else '')
+        if text.count(old) != 1:
+            sys.exit(f'FEHLER: Anker fuer {sid} in lexicon.xml nicht genau einmal '
+                     f'gefunden ({text.count(old)}); weder variants.xml noch '
+                     f'lexicon.xml geschrieben.')
+        text = text.replace(old, new)
+    etree.fromstring(text.encode('utf-8'))
+    return text, n_tokens, len(orphans)
+
+
 def parse_jobs(argv):
     """--jobs N aus argv lesen. Default: bis corpus_files.DEFAULT_JOBS_CAP Prozesse.
 
@@ -311,8 +371,12 @@ def main():
                or tree.findtext(HEADER_NAME) != old_name)
     if changed and old_date is not None:
         tree.find(HEADER_DATE).text = today
+    lexicon_text, ana_tokens, ana_senses = prepare_lexicon_prune(new_ids)
     out = VARIANTS if apply else DRY_OUT
     tree.write(str(out), xml_declaration=True, encoding='UTF-8', pretty_print=True)
+    if apply and lexicon_text is not None:
+        with open(LEXICON, 'w', encoding='utf-8', newline='') as f:
+            f.write(lexicon_text)
 
     mode = 'APPLIED -> authority-files/variants.xml' if apply else f'DRY-RUN -> {out}'
     print('=' * 60)
@@ -330,6 +394,10 @@ def main():
     print(f'Data-quality (resolved by majority):')
     print(f'  type ids with >1 form:    {multi_form:>9,}')
     print(f'  type ids with >1 lemma:   {multi_lemma:>9,}')
+    print()
+    verb = 'pruned' if apply else 'to prune with --apply'
+    print(f'lexicon.xml sense/@ana, orphaned type tokens {verb}: '
+          f'{ana_tokens:,} in {ana_senses:,} senses')
     if not apply:
         print(f'\nDry-run only. Inspect {out}, then re-run with --apply.')
     return 0
