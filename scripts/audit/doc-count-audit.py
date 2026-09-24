@@ -276,7 +276,9 @@ DOC_TARGETS = [
     ('docs/FEATURES.md', ['lexicon_entries']),
     # CONTRACTS.md:315 beschreibt den Ist-Aufbau des Variants-Dictionary; der
     # Datumsstempel dort macht die Zeile nicht historisch.
-    ('docs/CONTRACTS.md', ['variants_forms', 'variants_normalized']),
+    # lexicon_entries seit 2026-09-24: Zeile 394 nennt die Lexikongroesse als
+    # Nenner der Homographen-Messung (Review der Anker-Runde).
+    ('docs/CONTRACTS.md', ['variants_forms', 'variants_normalized', 'lexicon_entries']),
     # ARCHITECTURE.md und DECISIONS.md standen bis 2026-07-31 in KEINER
     # Datenzahl-Liste (#276, Luecke 1): ARCHITECTURE.md nur in
     # CODE_DOC_TARGETS, DECISIONS.md ueberhaupt nirgends. Dadurch konnte in
@@ -525,9 +527,12 @@ NEAR_KEYWORDS = {
     # TEI-MODEL-AUTH-FILES.md gebunden wurde. Dort stand sie an sieben
     # Stellen, keine davon gegatet, und #228 (Paket A4) musste sie von Hand
     # nachziehen: "43,713 entries", "43,713 lexicon entries", "43,713 lemma
-    # pages", "43,713 full records". Das blanke "entries" traefe auch
-    # "42,460 entries" fuer variants.xml, liegt aber ausserhalb des
-    # Drift-Fensters (+-874 um 43.713) und wird dort nicht gemeldet.
+    # pages", "43,713 full records". Die Docs schreiben die Eintragszahl von
+    # variants.xml als "42,460 variant entries"; dort setzt das blanke
+    # "entries" nicht an, weil ANCHOR_SEP kein Wort zulaesst. Ein nacktes
+    # "42,460 entries" verwuerfe der Drift-Scan (Fenster +-874 um 43.713),
+    # die Abdeckungspruefung nicht: anchor_binds_number kennt kein Fenster
+    # und zaehlt jede Zahl vor "entries" als Bindung, auch "200 entries".
     'lexicon_entries': r'(?:[Ll]emmata|(?:full\s+)?[Rr]ecords|Lexikoneintr[äa]ge|Lemma-Seiten|(?:lexicon\s+)?entries|lemma\s+pages)',
     # Zweisprachig seit #316: DATA-MODEL.md schreibt die 584 seit der
     # Uebersetzung als "584 works". TEI-MODEL.md ist noch deutsch und haelt
