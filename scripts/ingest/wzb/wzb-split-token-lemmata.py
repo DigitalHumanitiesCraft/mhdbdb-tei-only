@@ -34,7 +34,9 @@ geschieden. Die WZB legt sie, ire und iren zu 2.400 von 2.407 Belegen auf
 lemma_5454 (1.963 + 260 + 177 von 1.963 + 267 + 177); die Tafel folgt dieser Hauspraxis und entscheidet die Frage nicht.
 
 Aufruf: python scripts/ingest/wzb/wzb-split-token-lemmata.py [--apply]
-Ohne --apply wird nur das Provenienz-Log geschrieben.
+Ohne --apply wird nur das Provenienz-Log geschrieben, und das nur, solange
+die Tokens unannotiert sind: nach dem Anwenden bricht jeder Lauf am
+Formpruefer ab, das Log im Repository ist dann der letzte Stand.
 """
 
 import argparse
@@ -52,17 +54,17 @@ LOG = ROOT / "ingest" / "wzb" / "235-split-tokens"
 ANNOTIEREN = {
     "WZB_55rb_23_13":   ("et",      "lemma_78608", "ADV",  "WZB 16/16 lemma_78608 ADV; das et cetera zwei Tokens davor traegt dasselbe"),
     "WZB_55rb_23_13b":  ("cetera",  "lemma_33125", "ADJ",  "WZB 15/15 lemma_33125 ADJ"),
-    "WZB_69va_2_2":     ("in",      "lemma_3028",  "PRP",  "in seiner mitte (Ex 14,29 per medium): Rektion"),
+    "WZB_69va_2_2":     ("in",      "lemma_3028",  "PRP",  "WZB lemma_3028 2945 PRP/lemma_1517 356 PRO/lemma_5454 284 PRO; in seiner mitte (Ex 15,19 in medio eius): Rektion"),
     "WZB_69va_2_2b":    ("seiner",  "lemma_1517",  "POS",  "WZB 214/214 lemma_1517 POS"),
-    "WZB_119rb_13_4":   ("in",      "lemma_3028",  "PRP",  "noch in trovme gelouben (Lev 19,26): Rektion"),
+    "WZB_119rb_13_4":   ("in",      "lemma_3028",  "PRP",  "WZB lemma_3028 2945 PRP/lemma_1517 356 PRO/lemma_5454 284 PRO; noch in trovme gelouben (Lev 19,26): Rektion"),
     "WZB_119rb_13_4b":  ("trovme",  "lemma_6239",  "NOM",  "WZB 12/12 lemma_6239 NOM"),
     "WZB_119va_21_2":   ("wenne",   "lemma_7385",  "SCNJ", "WZB 841/841 lemma_7385 SCNJ"),
     "WZB_119va_21_2b":  ("ir",      "lemma_56117", "PRO",  "WZB lemma_56117 693 PRO/468 POS; ir seit: Subjekt"),
     "WZB_124rb_8_4":    ("herren",  "lemma_2684",  "NOM",  "WZB 888/888 lemma_2684 NOM"),
     "WZB_124rb_8_4b":   ("gote",    "lemma_2465",  "NOM",  "WZB 128/128 lemma_2465 NOM"),
-    "WZB_127rb_20_1":   ("vor",     "lemma_7194",  "PRP",  "WZB 577 PRP/86 ADV; vallen vor euch (Lev 26,8 coram vobis)"),
+    "WZB_127rb_20_1":   ("vor",     "lemma_7194",  "PRP",  "WZB 577 PRP/86 ADV; vallen vor euch (Lev 26,7 coram vobis)"),
     "WZB_127rb_20_1b":  ("euch",    "lemma_56117", "PRO",  "WZB 569/569 lemma_56117 PRO"),
-    "WZB_135va_15_0":   ("vor",     "lemma_7194",  "PRP",  "WZB 577 PRP/86 ADV; opfer vor sie (Lev 5,11 pro peccato)"),
+    "WZB_135va_15_0":   ("vor",     "lemma_7194",  "PRP",  "WZB 577 PRP/86 ADV; opfer vor sie (Num 5,15 pro illa)"),
     "WZB_135va_15_0b":  ("sie",     "lemma_5454",  "PRO",  "WZB 1963/1963 lemma_5454 PRO"),
     "WZB_143vb_10_4b":  ("einem",   "lemma_1331",  "DET",  "WZB 199 DET/14 NUM; einem topfe: Artikel"),
     "WZB_154rb_14_4":   ("Herre",   "lemma_2684",  "NOM",  "WZB 1033/1033 lemma_2684 NOM"),
@@ -79,7 +81,7 @@ ANNOTIEREN = {
     "WZB_219va_16_0b":  ("teil",    "lemma_6041",  "NOM",  "WZB 105/105 lemma_6041 NOM"),
     "WZB_222ra_19_2":   ("vorwar",  "lemma_8989",  "ADV",  "WZB 97/97 lemma_8989 ADV; Jos 8,26 Iosue vero"),
     "WZB_222ra_19_2b":  ("czoch",   "lemma_7861",  "VRB",  "WZB 99/99 lemma_7861 VRB"),
-    "WZB_227ra_19_1":   ("in",      "lemma_3028",  "PRP",  "in salacha (Jos 12,5 in Salecha): Rektion"),
+    "WZB_227ra_19_1":   ("in",      "lemma_3028",  "PRP",  "WZB lemma_3028 2945 PRP/lemma_1517 356 PRO/lemma_5454 284 PRO; in salacha (Jos 12,5 in Salecha): Rektion"),
 }
 
 # Bleiben byte-identisch stehen und gehen als Frage an KZW.
