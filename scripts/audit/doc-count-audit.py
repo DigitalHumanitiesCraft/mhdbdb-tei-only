@@ -264,9 +264,16 @@ DOC_TARGETS = [
     # Beide tragen undatierte Ist-Angaben zu variants.xml und standen bis
     # 2026-07-28 nicht im Audit; sie blieben deshalb bei 256.761 stehen.
     ('docs/DATA-MODEL.md', ['variants_forms', 'variants_entries', 'variants_normalized',
-                            'works']),  # works: #293 hat die 584 in Prosa gebracht
+                            'works',  # works: #293 hat die 584 in Prosa gebracht
+                            'lexicon_entries']),
     ('docs/TEI-MODEL-AUTH-FILES.md', ['variants_forms', 'variants_entries',
-                                       'contributors_persons']),
+                                       'contributors_persons', 'lexicon_entries']),
+    # lexicon_entries in DATA-MODEL, DESIGN, FEATURES und TEI-MODEL-AUTH-FILES
+    # seit 2026-09-24: sieben ungegatete Nennungen der Lexikongroesse, die
+    # #228 von Hand nachziehen musste (Nachtlauf 23./24.09., Befund B2 der
+    # A4-Runde 1).
+    ('docs/DESIGN.md', ['lexicon_entries']),
+    ('docs/FEATURES.md', ['lexicon_entries']),
     # CONTRACTS.md:315 beschreibt den Ist-Aufbau des Variants-Dictionary; der
     # Datumsstempel dort macht die Zeile nicht historisch.
     ('docs/CONTRACTS.md', ['variants_forms', 'variants_normalized']),
@@ -512,7 +519,16 @@ NEAR_KEYWORDS = {
     # wie ein fehlendes Target, nur schwerer zu sehen, und genau das haette
     # die Erweiterung sonst gebaut. Kollisionsfrei zu variants_entries: dessen
     # "Eintr[äa]ge" setzt hinter der Zahl nicht an, weil dort das L steht.
-    'lexicon_entries': r'(?:[Ll]emmata|[Rr]ecords|Lexikoneintr[äa]ge|Lemma-Seiten)',
+    #
+    # Die drei englischen Fuegungen dahinter kamen am 2026-09-24 dazu, als
+    # die Lexikongroesse in DATA-MODEL.md, DESIGN.md, FEATURES.md und
+    # TEI-MODEL-AUTH-FILES.md gebunden wurde. Dort stand sie an sieben
+    # Stellen, keine davon gegatet, und #228 (Paket A4) musste sie von Hand
+    # nachziehen: "43,713 entries", "43,713 lexicon entries", "43,713 lemma
+    # pages", "43,713 full records". Das blanke "entries" traefe auch
+    # "42,460 entries" fuer variants.xml, liegt aber ausserhalb des
+    # Drift-Fensters (+-874 um 43.713) und wird dort nicht gemeldet.
+    'lexicon_entries': r'(?:[Ll]emmata|(?:full\s+)?[Rr]ecords|Lexikoneintr[äa]ge|Lemma-Seiten|(?:lexicon\s+)?entries|lemma\s+pages)',
     # Zweisprachig seit #316: DATA-MODEL.md schreibt die 584 seit der
     # Uebersetzung als "584 works". TEI-MODEL.md ist noch deutsch und haelt
     # die Form "Werke", beide Zielorte brauchen ihre Variante.
