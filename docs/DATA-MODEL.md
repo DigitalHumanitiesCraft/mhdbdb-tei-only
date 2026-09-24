@@ -323,7 +323,6 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
     authorRef: "#person_445",        // verbatim from the TEI @ref: 666 of 667 in this shape,
                                      // WZB alone writes "persons.xml#person_anonym" (#308)
     workRef: "works.xml#work_89",    // verbatim from msIdentifier/@corresp, with file prefix
-    genre: "",                       // empty in all 667 texts, see the XPath table below
     wordCount: 2955,                 // lemmatized tokens only (<w> with @lemmaRef), NOT all <w>
     words: ["lemma_879", ...],       // lemma IDs in document order; index = position
     lemmata: {                       // reverse map per text: lemma → positions
@@ -540,7 +539,6 @@ Build properties: deterministic on the #125 principle (no timestamps, compact JS
 | | | `//tei:titleStmt/tei:title` → `itertext()` + whitespace collapse | Title. **Not** `/text()`: that is the reading #228 removed, six titles carried a line break into `api/texts/*.json` |
 | | | `//tei:titleStmt/tei:author` | Author name + `@ref` |
 | | | `//tei:msIdentifier` | `@corresp` → work reference |
-| | | `//tei:keywords/tei:term[@type="genre"]/text()`, Fallback `//tei:term[@type="genre"]/text()` | `text.genre`. **Never fires: the element occurs 0 times in the corpus, so the field is empty in all 667 texts.** The interface takes the genre via `workRef` from `genres.xml` instead (`search-engine.js`). Kept so an ingest that does supply it is picked up |
 | | | `//tei:body//tei:w[@lemmaRef]` *(logical; real code: single-pass `iterwalk`)* | All words with positions (see [CONTRACTS.md](CONTRACTS.md#b-position-counting-contract)) |
 | | | `//tei:body//tei:l` *(in the same `iterwalk`)* | `lineStarts`/`lineEnds`, the word index of the first and last indexed `<w>` per verse |
 
@@ -889,7 +887,7 @@ The two checklists below describe the **maximum case**. Not every change needs e
 
 **What the four builds read:**
 
-- `build-corpus-index.py` reads from `tei/` the file name and five header statements (the sigle from `idno[@type="sigle"]`, title, author including `@ref`, `msIdentifier/@corresp`, genre term), plus every `<w @lemmaRef>` with non-empty text inside `<body>` including document order, plus the `<l>` boundaries. Everything else in the TEI is invisible to it, in particular `@pos` and `@ana` as well as `<div>`, `<lg>` and `<pb>`. XPaths: [Build Script XPath Reference](#build-script-xpath-reference).
+- `build-corpus-index.py` reads from `tei/` the file name and four header statements (the sigle from `idno[@type="sigle"]`, title, author including `@ref`, `msIdentifier/@corresp`), plus every `<w @lemmaRef>` with non-empty text inside `<body>` including document order, plus the `<l>` boundaries. Everything else in the TEI is invisible to it, in particular `@pos` and `@ana` as well as `<div>`, `<lg>` and `<pb>`. XPaths: [Build Script XPath Reference](#build-script-xpath-reference).
 - `extract-variants.py` reads from `tei/` only those `<w>` carrying **both** a `@lemmaRef` and a `@corresp="variants.xml#type_N"`, and from those the lemma id, the type id and the wording. Plus the number of corpus files, which stands in the header of `variants.xml`. It also reads `sense/@ana` in `lexicon.xml`, and with `--apply` writes it too (step 5): of the four builds, it is the only one that can alter `lexicon.xml` after a `tei/` change.
 - `build-authority-index.py` reads `authority-files/` exclusively (the seven indexed files including `variants.xml`; since #270 also `contributors.xml`, but only to resolve the authors of curated comments to names, which it writes as `sense.commentRespName`). It does not read `tei/`. Unlike the corpus index, here the file decides rather than the element: any change of substance in one of the seven files requires the rebuild. Which markup ends up in the index is in the [Build Script XPath Reference](#build-script-xpath-reference).
 - `build-api.py` reads the two built `data/*.json.gz` exclusively, neither `tei/` nor `authority-files/`.
@@ -899,7 +897,7 @@ The two checklists below describe the **maximum case**. Not every change needs e
 | Changed | Steps needed | Build time |
 |---|---|---|
 | `tei/`: `@pos` or `@ana`; `<note>` in the header, the encoding description, `<respStmt>`; `<div>`, `<lg>`, `<pb>`, comments, indentation outside `<w>`. Condition: the sequence of `<w>` and the `<l>` boundaries stay unchanged | no rebuild, and therefore no version bump either. What remains is step 2 (schema) and step 8 (cross-ref audit), then commit and push | 0 s |
-| `tei/`: `<l>` boundaries moved, or one of the five header statements changed. No `<w>` added, removed, or changed in wording, `@lemmaRef` or `@corresp` | the corpus checklist without steps 5 and 6 | about 50 s |
+| `tei/`: `<l>` boundaries moved, or one of the four header statements changed. No `<w>` added, removed, or changed in wording, `@lemmaRef` or `@corresp` | the corpus checklist without steps 5 and 6 | about 50 s |
 | `tei/`: the stock of `<w>`, their wording, `@lemmaRef` or `@corresp` touched; a file added or removed | the corpus checklist in full | about 85 s |
 | `authority-files/contributors.xml` | the authority checklist except step 1, and step 2 (the bump) only if the rebuild shows a diff: since #270 the authority index carries the name of every person a curated comment's `@resp` points at (`sense.commentRespName`). A change that touches none of those names leaves the index unchanged, the rebuild shows an empty diff, and then no bump is set (no bump without a change of content, see below) | about 17 s |
 | One of the seven indexed `authority-files/` other than `works.xml` | the authority checklist in full except step 1 | about 17 s |

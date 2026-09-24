@@ -127,7 +127,8 @@ export class HapaxLegomenaAnalyzer {
     // interessant, deshalb abschaltbar statt hart entfernt. Die drei
     // Ziffern-Einträge, die diesen Filter ausgelöst haben (42, 46, 49), sind
     // Altbestands-Artefakte und gehören ins TEI-Putzen (#228), nicht in einen
-    // Filter.
+    // Filter. 46 ist dort am 24.09. entfernt worden; 42 und 49 stehen in WVV,
+    // und darüber entscheidet KZW noch.
     //
     // Bewusst NUR reine NUM-Lemmata, nicht jedes Lemma mit NUM unter mehreren
     // Tags: 47 der 119 NUM-Hapaxe tragen weitere Wortarten (zwispeltic ADJ/NUM,

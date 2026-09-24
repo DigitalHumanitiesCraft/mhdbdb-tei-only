@@ -32,6 +32,22 @@ export function csvFilenamePart(text, fallback = 'export') {
     return (s || fallback).replace(/[^a-zA-Z0-9äöüÄÖÜß-]/g, '_').slice(0, 40);
 }
 
+/**
+ * Quelle und Lizenz eines Fremddatensatzes als Dateinamen-Baustein, etwa
+ * "beutel-naming-analysis-v0.3.0-beta-cc-by-nc-sa-4.0" (#420). Die Angabe
+ * steht im Dateinamen und nicht als Zeile in der Datei, weil eine Kopf- oder
+ * Kommentarzeile manches Einleseprogramm bricht; so mit Linda Beutel-Thurow
+ * am 24.09. in #420 abgestimmt. Kleinschreibung, Punkte bleiben (Version,
+ * Lizenznummer), alles andere wird Bindestrich.
+ */
+export function csvSourcePart(...parts) {
+    return parts
+        .filter(Boolean)
+        .map(p => String(p).toLowerCase().replace(/[^a-z0-9.]+/g, '-').replace(/^-+|-+$/g, ''))
+        .filter(Boolean)
+        .join('-');
+}
+
 /** Startet den Browser-Download eines CSV-Texts (mit BOM). */
 export function downloadCsv(filename, csv) {
     const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8' });

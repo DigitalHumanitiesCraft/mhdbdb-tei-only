@@ -80,7 +80,7 @@
 import { TextNormalizer } from '../../../../assets/js/lib/text-normalizer.js';
 import { getNavigationEpoch } from '../core/router.js';
 import { csvButton } from '../core/ui-helpers.js';
-import { toCsv, downloadCsv, csvDateStamp, csvFilenamePart } from '../../../../assets/js/lib/csv-export.js';
+import { toCsv, downloadCsv, csvDateStamp, csvFilenamePart, csvSourcePart } from '../../../../assets/js/lib/csv-export.js';
 
 const DEFAULT_STATE = Object.freeze({
   perspective: 'named',  // 'named' = benannte Figur | 'namer' = nennende Instanz | 'lemma' = Lemma
@@ -719,7 +719,7 @@ export class NamingExplorer {
       <div class="flex flex-wrap items-center gap-3 rounded-xl border border-slate-200 bg-slate-50/60 p-3 text-sm">
         ${this.renderSubFilter(work)}
         <span class="text-xs text-slate-500">${rows.length.toLocaleString('de-DE')} ${rows.length === 1 ? 'Figur' : 'Figuren'}</span>
-        ${rows.length > 0 ? csvButton('neCsvExport', 'Die angezeigten Figuren mit allen Zählspalten, ohne die Belegstellen') : ''}
+        ${rows.length > 0 ? csvButton('neCsvExport', 'Die angezeigten Figuren mit allen Zählspalten, ohne die Belegstellen. Quelle (Beutel-Thurow, Naming-analysis) und Lizenz stehen im Dateinamen') : ''}
       </div>
     `;
     return summary + tabs + controls + this.renderFigureTable(rows, sichtbar.length);
@@ -995,7 +995,7 @@ export class NamingExplorer {
             class="w-full rounded-lg border border-slate-200 bg-white px-2 py-1 text-xs focus:border-brand-400 focus:outline-none" />
         </label>
         <span class="text-xs text-slate-500">${visibleCount.toLocaleString('de-DE')} Lemmata</span>
-        ${visibleCount > 0 ? csvButton('neCsvExport', 'Die angezeigten Lemmata mit Kategorie und Häufigkeit, ohne die Belegstellen') : ''}
+        ${visibleCount > 0 ? csvButton('neCsvExport', 'Die angezeigten Lemmata mit Kategorie und Häufigkeit, ohne die Belegstellen. Quelle (Beutel-Thurow, Naming-analysis) und Lizenz stehen im Dateinamen') : ''}
       </div>
     `;
   }
@@ -1029,7 +1029,12 @@ export class NamingExplorer {
       }));
       teil = `${this.state.perspective}-${csvFilenamePart(this.state.subject)}`;
     }
-    downloadCsv(`mhdbdb-bezeichnungen-${csvFilenamePart(work.sigle)}-${teil}-${csvDateStamp()}.csv`, csv);
+    // Quelle und Lizenz im Dateinamen (#420), aus index.source wie die
+    // sichtbare Attribution, damit ein Datenupdate beide mitnimmt.
+    const q = this.index.source;
+    const version = (q.citation.match(/\((v[^)]+)\)/) || [])[1];
+    const quelle = csvSourcePart('beutel-naming-analysis', version, q.license);
+    downloadCsv(`mhdbdb-bezeichnungen-${csvFilenamePart(work.sigle)}-${teil}-${quelle}-${csvDateStamp()}.csv`, csv);
   }
 
   renderTermTable(terms, namerMode) {

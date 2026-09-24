@@ -65,6 +65,14 @@ WAS DIESES SKRIPT NICHT ANFASST, alles am 2026-09-10 nach dem Lauf gemessen:
 Sie sind vermutlich dieselbe Sache, aber das ist eine philologische Aussage
 ueber Stellen mit Text ringsum und keine mechanische. Offen in #252.
 
+NACHTRAG 2026-09-24: die Stellen INNERHALB einer Zeile sind nicht mehr offen.
+Nach KZWs Freigabe vom 22.09. hat sie der zweite Durchgang am 23.09. auf
+<gap reason="lost"/> gebracht, mit eigenem Skript unter scripts/ingest/gap-252/
+(laut JOURNAL 846 Stellen in 20 Dateien, gezaehlt am Tag des Laufs, nicht am
+10.09. wie die Tabelle oben). Offen bei KZW bleiben die beiden MUG-Stellen mit
+der Zaesur im <hi>, dazu aus der B'-Gruppe die Komma- und Doppelpunktfaelle
+und die drei Stellen "Marker plus ein Zeichen".
+
 WARUM TEXTUELL UND NICHT UEBER LXML: ein lxml-Round-Trip formatiert die ganze
 Datei neu und macht aus 1.094 Aenderungen einen Diff ueber 103 Dateien. Die
 Zielmenge wird deshalb mit lxml BESTIMMT und mit einer Regex GESCHRIEBEN, und
