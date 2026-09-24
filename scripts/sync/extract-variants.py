@@ -281,18 +281,21 @@ def orphan_ana_tokens(lexicon_root, type_ids):
     return out
 
 
-def prune_lexicon_ana(type_ids, apply):
-    """Verwaiste #type_N aus sense/@ana in lexicon.xml entfernen (nur mit apply).
+def prepare_lexicon_prune(type_ids):
+    """Bereinigten Text von lexicon.xml vorbereiten, ohne etwas zu schreiben.
 
     Textersetzung statt lxml-Serialisierung, damit der Diff genau die
     betroffenen Attribute zeigt und nicht die ganze Datei. Jeder Anker muss
-    genau einmal treffen, sonst bricht das Skript ab, bevor es schreibt.
-    Rueckgabe: (Tokens, Senses).
+    genau einmal treffen, und das Ergebnis muss parsen. Laeuft in main() VOR
+    dem Schreiben von variants.xml: bricht es ab, ist keine der beiden
+    Dateien angefasst (Review Runde 1; vorher stand variants.xml dann schon
+    neu im Baum).
+    Rueckgabe: (neuer Text oder None, Tokens, Senses).
     """
     orphans = orphan_ana_tokens(etree.parse(str(LEXICON)).getroot(), type_ids)
     n_tokens = sum(len(o) for _, o in orphans.values())
-    if not apply or not orphans:
-        return n_tokens, len(orphans)
+    if not orphans:
+        return None, 0, 0
     with open(LEXICON, encoding='utf-8', newline='') as f:
         text = f.read()
     for sid, (toks, raus) in sorted(orphans.items()):
@@ -301,12 +304,11 @@ def prune_lexicon_ana(type_ids, apply):
         new = f'<sense xml:id="{sid}"' + (f' ana="{" ".join(rest)}"' if rest else '')
         if text.count(old) != 1:
             sys.exit(f'FEHLER: Anker fuer {sid} in lexicon.xml nicht genau einmal '
-                     f'gefunden ({text.count(old)}); nichts geschrieben.')
+                     f'gefunden ({text.count(old)}); weder variants.xml noch '
+                     f'lexicon.xml geschrieben.')
         text = text.replace(old, new)
-    etree.fromstring(text.encode('utf-8'))  # parst noch, bevor geschrieben wird
-    with open(LEXICON, 'w', encoding='utf-8', newline='') as f:
-        f.write(text)
-    return n_tokens, len(orphans)
+    etree.fromstring(text.encode('utf-8'))
+    return text, n_tokens, len(orphans)
 
 
 def parse_jobs(argv):
@@ -369,9 +371,12 @@ def main():
                or tree.findtext(HEADER_NAME) != old_name)
     if changed and old_date is not None:
         tree.find(HEADER_DATE).text = today
+    lexicon_text, ana_tokens, ana_senses = prepare_lexicon_prune(new_ids)
     out = VARIANTS if apply else DRY_OUT
     tree.write(str(out), xml_declaration=True, encoding='UTF-8', pretty_print=True)
-    ana_tokens, ana_senses = prune_lexicon_ana(new_ids, apply)
+    if apply and lexicon_text is not None:
+        with open(LEXICON, 'w', encoding='utf-8', newline='') as f:
+            f.write(lexicon_text)
 
     mode = 'APPLIED -> authority-files/variants.xml' if apply else f'DRY-RUN -> {out}'
     print('=' * 60)
