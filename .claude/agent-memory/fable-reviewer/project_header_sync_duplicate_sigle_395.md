@@ -130,7 +130,31 @@ auf `--check`, `main()` in `redirect_stdout`, SystemExit fangen; sieben Proben
 in 2 s statt 7 x 80 s. Ergebnis: alte preferred-Form und toter @corresp werden
 gefangen, **eine geloeschte preferred-Zeile geht still durch** (`if not names:
 continue`, Entry zaehlt nicht einmal in `geprueft`), alternative-Formen im Header
-(545 in 292 Eintraegen) werden gar nicht verglichen. Laufzeit hier 82,5 s, im
+(545 in 292 Eintraegen) werden gar nicht verglichen.
+
+**#237 Online-Sync, Runde 1 (08427c583, 24.09.2026):** `enhance_works_with_zotero.py
+--cache` heisst online + Cache schreiben (`--offline` liest ihn), Cache liegt in
+`scripts/sync/.zotero_cache.json` (nicht Repo-Wurzel), dict mit 1.605 Items, je
+Item `data.dateModified`/`creators`. Ein Online-Sync nach #171 F37 (2734267a3,
+capitalize -> cap_first) hebt in 171 Werken 187 Titelelemente an (nur
+lower->upper, 0 upper->lower, per Wortpaar-Zaehlung); `[Der ...]` und `"Diu` sind
+Erstwoerter nach Klammer/Anfuehrungszeichen, die title_case immer hebt.
+**Die Header-Kopien laufen dabei nicht mit:** Header-biblStruct-Titel gegen
+works.xml (NFC, per @corresp) weichen auf origin/main in 3 (OVG, WGA nur
+Zeilenumbruch, VTC) und danach in 185 Faellen (184 Dateien) ab; kein Gate
+(`--works --check` prueft nur msIdentifier), kein Konsument (Reader liest Header-
+Titel nur bei biblScope unit=verse, `tei-text-reader.js:244-255`, 0 der 183
+betroffen). Die Zahl 173 geaenderter `bibl` in works.xml gegen 172 API-Dateien
+erklaert sich durch work_7, dort aendert sich nur die Einrueckung von `</bibl>`.
+Index-Diff: nur `works[].biblStructs[].textContent` (185 in 172 Werken), stats
+gleich. Das Sync-Skript kennt FR1/FLG nicht: die Handkorrekturen (#236, #104)
+werden bei jedem Online-Sync erneut ueberschrieben und muessen von Hand zurueck.
+Runde 2 (9cd15fbd3): Christian hat am 24.09.2026 den Zuschnitt auf VTC und die
+Kettenrichtung Zotero -> works.xml -> Header (Header ist Kopie) entschieden; die
+171 Faelle gehen in einen eigenen Vorgang mit eigenem Schreiber. Nach dem
+Zuschnitt: 1 Hunk in works.xml, Header-Abweichungen 3 -> 2 (VTC geloest, 0 neu),
+Index/API nur work_572. Die Skripte aus Runde 1 laufen unveraendert gegen den
+neuen HEAD, weil sie `git show origin/main` und `HEAD` statt fester SHAs lesen. Laufzeit hier 82,5 s, im
 Auftrag 1 min 47 s; Step 1b (`sync_tei_headers.py --works --check`) 0,7 s.
 persons.xml: 81 Personen mit alternative, 136 roh, Index 102 (dedup 34).
 Die Docstring-Zeile „Diesen Block schreibt kein Skript" ist zu stark: die

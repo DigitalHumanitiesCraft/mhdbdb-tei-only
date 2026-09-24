@@ -848,3 +848,22 @@ Keine. Einmal lag die Koordination daneben, und abgewendet hat es die Spur, nich
 ### Was zurück an Christian geht
 
 Steht im Morgenbericht der Koordination; die Fragen an KZW stehen je in #251, #252, #267, #270, #357, #228, #433, #467, #448, alle auf `auto:blocked` + `wait:kzw`, die Matrix in #44 ist nachgezogen.
+
+## 2026-09-24 – #237: VTC-Editionsnachweis aus Zotero, und ein Online-Sync ist nie nur ein Werk
+
+KZW hat am 23.09. in #237 Weg 1 gewählt: den Zotero-Eintrag Z246QK62 selbst korrigiert (Josef Jireček als Mitherausgeber von FRB III) und um einen Online-Sync gebeten. Übernommen ist genau dieses Werk: `works.xml` (`work_572`), der VTC-Header, Authority-Index 1.9.13, API. Der Korpus-Index bleibt byte-gleich.
+
+### Was über den Einzelfall hinausgilt
+
+**Ein Online-Sync ändert alles, was seit dem letzten Online-Sync auseinandergelaufen ist.** Am 24.09. brachte er außer VTC zweierlei mit. Erstens 171 Werke, in denen nur die Großschreibung zurückkehrt (`[lieder]` → `[Lieder]`, `N.f.` → `N.F.`): die Korrektur aus #171 F37 (`2734267a3`, 11.07.), die seither auf keinen Online-Sync getroffen war; kein Großbuchstabe fällt dabei weg. Zweitens zwei bewusste Handkorrekturen, die der Sync still zurückgenommen hätte, weil sie nur in `works.xml` stehen: FLG (`c0b546a45`, #104) und FR1 (`115c3a01f`, #236).
+
+**Die 171 blieben draußen, weil ihre Kopien in 182 TEI-Headern nicht mitlaufen.** Für `listBibl` gibt es keinen gefahrlosen Schreiber (`--bibl-struct` serialisiert alle 667 Dateien neu und löscht die `mwb-sigle`), und `--works --check` prüft nur `msIdentifier`. Gefunden hat das die lokale Review in Runde 1; entschieden hat chsteiner am 24.09.: dieser PR nur VTC, der Rest in #486. Mit derselben Antwort ist die Richtung der Kette entschieden, die seit dem Nachtlauf 14./15.09. offen stand: Zotero → `works.xml` → Header, der Header ist Kopie.
+
+### Rote Zeilen
+
+Keine.
+
+### Was zurück an Christian geht
+
+- #486: Schreiber und Gate für `listBibl`, die 171 Titel, FR1 und FLG nach Zotero (KZW), Doku an die Kettenentscheidung.
+- Offen in #237 bei KZW: Blaschka 1934 für WLK (Werkeintrag vorbereiten, Zotero-Felder vorgeben).
