@@ -47,6 +47,29 @@ Review-Runde 1 zu `scripts/ingest/wzb/wzb-breve-wortart.py` am 2026-09-02 (Zweig
 - lemma_2535 `grôzen` VRB existiert (13 Belege in 11 Texten, meist intransitiv "groz
   werden"); eine Suche nach "grœzen" trifft es nicht.
 
+**Split-Tokens (Runde 1 zu 19ee4dc21, 2026-09-24, `scripts/ingest/wzb/wzb-split-token-lemmata.py`):**
+
+- Die Beleg-Spalte zitiert Vulgata-Verse. Drei von zehn Zitaten waren falsch, alle drei
+  bei richtiger Lesung: 69va_2_2 ist Ex 15,19 "in medio eius" (nicht 14,29), 127rb_20_1
+  ist Lev 26,7 "corruent coram vobis" (nicht 26,8), 135va_15_0 ist Num 5,15 "pro illa,
+  farinae hordeaceae" (nicht Lev 5,11). Pruefvorschrift: Folio gegen die laufenden
+  Kolumnentitel (LEUITICUS letzter pb 129r, NUMERI erster pb 130r, IOSUE ab 214r),
+  Kapitel-`<head>` des umgebenden `<div>` (69va = "CAPITULUM XU"), dann biblegateway
+  `version=VULGATE` per WebFetch. Die Zahl im Zitat ist das, was niemand nachschlaegt.
+- Belegverteilung je Form in der WZB ueber `<w @lemmaRef>` + `normalize_mhg` (itertext,
+  NFC) reproduziert alle "n/n"-Werte der Tafel als HEAD minus neue Tokens (et 17 = 16+1,
+  vor PRP 579 = 577+2, in PRP 2.948 = 2.945+3). sie/ire/iren auf lemma_5454: 1.964/261/178
+  am HEAD, 7 ire auf lemma_56116.
+- Das Skript kann sein Provenienz-Log nach `--apply` nicht mehr erzeugen (der Guard
+  "nicht unannotiert gefunden" greift), also Tafel UND diff-liste.csv von Hand korrigieren.
+- `extract-variants.py` ohne `--apply` legt `authority-files/variants.regen.xml` an
+  (untracked, nicht ignoriert); als eigener Einzeiler loeschen, sonst steht es im status.
+  `check-authority-cross-refs.py` schreibt `scripts/audit/authority-cross-refs-audit.json`,
+  das ist gitignoriert. Beide Laeufe ~1 min, im Hintergrund mit Logdatei.
+- Kein Gate, Test oder Doc haengt an 5.362/5.364 (nur journal-archive.md:3285, erzaehlend)
+  oder an 142.330 (0 Treffer in docs/, testing/, scripts/audit/); die Header-Quote 95,4 %
+  bleibt bei 142.360/149.165 = 95,44 % gleich.
+
 **Why:** Diese Zahlen tauchen in Docstring, README, config.json und Versionskommentar
 gleichzeitig auf; wer eine korrigiert, muss alle vier Stellen treffen.
 

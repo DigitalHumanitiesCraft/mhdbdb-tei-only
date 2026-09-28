@@ -37,3 +37,11 @@ Opus 5.5" ist fuer B1 nur bis auf den Zusatz wahr. `trockenlauf-auswerten.py` (c
 druckt je Session eine Zeile (Aufrufe/Treffer/Rate) und laeuft ohne Argumente; Sessionzahlen im JOURNAL
 sind nur als "damals <= jetzt" pruefbar (76/259 -> 86/316 in der Zwischenzeit). "steht in #467" war zum
 Pin-Zeitpunkt weiter falsch (2 Kommentare, beide wachauer); der Aufrufer wollte vor dem Push posten.
+
+**Runde 1 (Nachtlauf B3, 23.09.2026), Datenlage:** Authority-Index 43.878 Lemmata, 5 mit Ziffer
+beginnend (lemma_53328 "1", 69733 "46", 69748 "36", 69749 "42", 69750 "49"), 0 IDs mit fuehrender
+Null, 0 IDs ausserhalb lemma_N, Praefix "lemma" = 0 (alte Suche gab fuer lemma_N nie einen Treffer).
+FEATURES.md:109-121 beschreibt das Suchfeld nicht, Hilfe ist hilfe-korpussuche.html §7 :440ff.
+Tailwind-Klassen per Grep-Tool `\.(klasse)[{:,\\ ]` in tailwind-output.css zaehlen. Guard lehnt auch
+`$c[...]`-Globs in Schleifen ab, relative Pfade vom Worktree aus gehen; Index-Messung als Python in
+$TEMP mit absolutem Datenpfad laeuft.
