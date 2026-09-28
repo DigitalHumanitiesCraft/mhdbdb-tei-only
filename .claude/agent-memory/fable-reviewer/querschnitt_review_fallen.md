@@ -1,0 +1,36 @@
+---
+name: querschnitt-review-fallen
+description: Wiederkehrende Denkfallen im Review: #397-Frage, Stempel, Zwilling, benannte Ausnahmen, tautologische Gates, Kopien einer Zahl, Auftrag und JOURNAL als Behauptung
+metadata:
+  type: project
+---
+Stand 28.09.2026.
+
+**Was der Diff nicht zeigt**
+- #397-Frage: was macht der Fix wahr, woran hing etwas am Gegenteil? Getroffen u.a. bei: verengter Thunk -> Instanzzustand der Werkzeuge; neuer Typ -> Woerterbuch-Flip; Feld von e() auf markup() -> Textkopie im Export; Hilfe-Abschnitt geteilt -> Deep-Links `hilfe-*.html#`; gehaltene Waise -> haengender Zeiger. Nicht nur Pruefungen suchen, auch Schreiber und Kopien.
+- Ein Stempel gehoert dorthin, wo das Ergebnis entsteht, nicht wo es angezeigt wird.
+- Verlaengert ein PR eine Umformulierung: den Zwilling suchen.
+- Verschobener Block aendert die Reihenfolge zu BEIDEN Nachbarn.
+- Per-Schluessel-A-Struktur unter Schluessel B abgelegt: letzter gewinnt.
+- „Karten umgehaengt"-Diff auf das pruefen, was keine Karte ist (`git show <basis>:<f> | grep -n <Stichwort>`).
+- Zeilenangabe als Beleg: Funktion benennen, Aufrufer greppen (toter Code sieht aus wie ein Beleg).
+
+**Gates und Ausnahmen**
+- Benannte Ausnahme: greift sie an der Bedingung oder am Namen? Am Namen schaltet sie die Pruefung ab.
+- Prueft das Gate den Wert oder nur die Konsistenz zweier Stellen desselben Autors?
+- Vor Klasse A ueber eine Invariante die Basis mitmessen: haelt sie dort nicht, ist es Vorbestand.
+- Zahlen stehen oft mehrfach: nach dem Gate-Lauf `grep -rn` ueber die alte Zahl; die Zweitzeile neben einem Anker selbst lesen.
+
+**Auftrag, JOURNAL, Threads**
+- Zahlen und Daten im Auftrag stammen oft aus Verdichtungen: im Thread nachlesen (UTC beachten), nicht in einem Zusammenfassungskommentar.
+- „in #N beantwortet", „PR-Text mitgezogen" per API messen; JOURNAL-Saetze ueber kuenftige Kommentare sind Bedingungen.
+- Wachsende Zahlen (Sessionzahlen) sind nur als damals <= jetzt pruefbar.
+- Vorher-Zahlen von der Live-Seite gehoeren zum dort aufgeloesten Lemma (Homograph `arm`: lemma_285 Adj., lemma_286 Koerperteil).
+- Personennamen gegen contributors.xml (Alan van Beek = contrib_007).
+- Scope-Fragen (z.B. Pruefseiten unter ingest/) vor dem Zaehlen klaeren.
+
+**Fehlerjournal**
+- `claude-code-setup/hooks/lehren-zaehlen.py` parst dieses Journal nicht (Format `### N. Rot:`): Ketten von Hand ueber den Absatz „Die Lehre, die nicht gegriffen hat"; Ordinalzahlen gegen Vorgaenger lesen.
+- Nummern werden je Spur vorab reserviert: Spruenge sind kein Befund.
+
+**Dieses Memory** ist Eingabe fuer den naechsten Lauf, keine Messung: Zahlen daraus vor Gebrauch nachmessen.
