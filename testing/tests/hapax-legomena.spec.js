@@ -4,12 +4,14 @@
  * Verifiziert das 11. TEI-Analyse-Werkzeug im Playground: korpusweite
  * Frequenzaggregation (Hapax/Dis/Tris) mit Filter-Toolbar und Detail-Panel.
  *
- * Achtung bei den beiden NUM-Tests: sie ankern auf den Ziffern-Lemmata 42/46/49
- * (`/^\d/` auf dem ersten Listeneintrag). Genau diese Lemmata sollen mit #228
- * aus dem Korpus verschwinden. Wenn #228 umgesetzt ist, werden die Tests rot,
- * obwohl der Filter weiter korrekt arbeitet — dann ist der Anker zu ersetzen,
- * nicht der Filter zu reparieren. Die Schwellwert-Assertion `> 100` übersteht
- * #228 dagegen (116 Lemmata bleiben).
+ * Achtung bei den beiden NUM-Tests: sie ankern auf Ziffern-Lemmata
+ * (`/^\d/` auf dem ersten Listeneintrag). Von den drei, die den Filter
+ * ausgelöst haben, ist 46 mit #228 (K7, 24.09.) aus dem Korpus verschwunden;
+ * 42 und 49 stehen nur in WVV, und ob die Ziffern dort entannotiert werden,
+ * ist in #228 eine offene Frage an KZW. Das Lexikon führt daneben noch 1 und
+ * 36 (Stand 24.09.). Bleibt kein Ziffern-Lemma in der Liste, werden die Tests
+ * rot, obwohl der Filter weiter korrekt arbeitet: dann ist der Anker zu
+ * ersetzen, nicht der Filter zu reparieren.
  *
  * Der Wörterbuchnetz-Test spiegelt den Attribut-Breakout-Regressionstest aus
  * results-table.spec.js: derselbe Shared Client (assets/js/lib/woerterbuchnetz.js)

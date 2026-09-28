@@ -121,9 +121,9 @@ export class LemmaExplorer {
    * Ein Lemma an die Belegsuche übergeben (#58).
    *
    * Übergeben wird die ID, nicht die Schreibform. Der Klick hat ein bestimmtes
-   * Lemma gemeint, und für 993 der 43.879 Lemmata (477 normalisierte Formen,
-   * gemessen am 2026-08-07) würde die Auflösung über die Schreibform ein
-   * anderes treffen: `sin`, `wal`, `mal`, `de`. Die Schreibform fährt nur als
+   * Lemma gemeint, und für 991 der 43.713 Lemmata (476 normalisierte Formen,
+   * gemessen am 2026-09-24, Zählweise in CONTRACTS.md) würde die Auflösung
+   * über die Schreibform ein anderes treffen: `sin`, `wal`, `mal`, `de`. Die Schreibform fährt nur als
    * Beschriftung mit, damit im Ergebnis „minne" steht und nicht „4130".
    *
    * Dokumentmodus, weil ein einzelnes Lemma keine Nähesuche trägt; die

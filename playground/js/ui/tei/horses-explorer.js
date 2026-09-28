@@ -28,7 +28,7 @@
 import { TextNormalizer } from '../../../../assets/js/lib/text-normalizer.js';
 import { getNavigationEpoch } from '../core/router.js';
 import { csvButton } from '../core/ui-helpers.js';
-import { toCsv, downloadCsv, csvDateStamp, csvFilenamePart } from '../../../../assets/js/lib/csv-export.js';
+import { toCsv, downloadCsv, csvDateStamp, csvFilenamePart, csvSourcePart } from '../../../../assets/js/lib/csv-export.js';
 
 const DEFAULT_STATE = Object.freeze({
   horseId: '',
@@ -203,7 +203,7 @@ export class HorsesExplorer {
 
     return this.renderSummary(horse, all)
       + this.renderEventTabs(counts, all.length)
-      + (visible.length > 0 ? `<div class="flex">${csvButton('hxHorseCsvExport', `Die ${visible.length} angezeigten Belege, die Auszeichnung je Art in einer eigenen Spalte`)}</div>` : '')
+      + (visible.length > 0 ? `<div class="flex">${csvButton('hxHorseCsvExport', `Die ${visible.length} angezeigten Belege, die Auszeichnung je Art in einer eigenen Spalte. Quelle (Borek) und Lizenz stehen im Dateinamen`)}</div>` : '')
       + this.renderAttestations(visible, horse);
   }
 
@@ -232,7 +232,11 @@ export class HorsesExplorer {
       rows
     );
     const ereignis = this.state.eventType === 'all' ? 'alle' : csvFilenamePart(this.state.eventType);
-    downloadCsv(`mhdbdb-pferd-${csvFilenamePart(this.horseLabel(horse))}-${ereignis}-${csvDateStamp()}.csv`, csv);
+    // Quelle und Lizenz im Dateinamen wie bei den Figurenbezeichnungen (#420).
+    // CC0 verlangt keine Nennung; sie steht trotzdem da, damit die Datei
+    // ausserhalb des Playgrounds sagt, woher sie kommt.
+    const quelle = csvSourcePart('borek-pferde', this.index?.source?.licence || 'CC0 1.0');
+    downloadCsv(`mhdbdb-pferd-${csvFilenamePart(this.horseLabel(horse))}-${ereignis}-${quelle}-${csvDateStamp()}.csv`, csv);
   }
 
   renderSummary(horse, attestations) {

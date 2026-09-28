@@ -14,11 +14,12 @@ export class MultiLemmaSearchUI {
 
         // Schreibform -> feste Lemma-ID (#58). Wer aus dem Lemmata-Explorer
         // kommt, hat ein bestimmtes Lemma angeklickt; die Auflösung über die
-        // Schreibform nimmt dagegen matches[0]. Gemessen am 2026-08-07 über
+        // Schreibform nimmt dagegen matches[0]. Gemessen am 2026-09-24 über
         // authority-files/lexicon.xml, gruppiert mit normalize_mhg() aus
-        // scripts/mhg_normalizer.py: 477 normalisierte Formen tragen mehr
-        // als einen Eintrag, zusammen 993 der 43.879 Lemmata (2,26 Prozent),
-        // darunter sin, wal, mal und de. Für die stünde hier sonst still ein
+        // scripts/mhg_normalizer.py: 476 normalisierte Formen tragen mehr
+        // als einen Eintrag, zusammen 991 der 43.713 Lemmata, darunter sin,
+        // wal, mal und de. Zählweise und Verlauf in CONTRACTS.md, dort wird
+        // die Zahl gepflegt, hier nicht. Für die stünde hier sonst still ein
         // anderes Lemma. Gefüllt wird die Map nur vom Router, nie von einer
         // Handeingabe: siehe addLemmaFromInput.
         this.lemmaIdHints = new Map();

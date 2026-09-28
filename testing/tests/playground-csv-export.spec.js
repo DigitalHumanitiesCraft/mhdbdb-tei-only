@@ -150,6 +150,8 @@ test.describe('CSV-Export im Playground (#448)', () => {
     const csv = await ladeCsv(page, 'hxHorseCsvExport');
     const zeilen = pruefeFormat(csv, 'Pferd,Werk,Stelle (Borek),Vers im Korpus,Zuordnung,Wortlaut,Ereignisse,Eigenschaften,Ausrüstung,Figuren,Bezeichnungen');
     expect(zeilen.length).toBe(tabelle);
+    // Quelle und Lizenz stehen im Dateinamen, nicht in der Datei (#420).
+    expect(csv.name).toMatch(new RegExp(`^mhdbdb-pferd-Gringuljete-alle-borek-pferde-cc0-1\\.0-${DATUM}\\.csv$`));
   });
 
   test('Bezeichnungen: Figur- und Lemma-Perspektive exportieren ihre Tabelle', async ({ page }) => {
@@ -173,5 +175,10 @@ test.describe('CSV-Export im Playground (#448)', () => {
     const lemmaZeilen = pruefeFormat(lemmaCsv, 'Werk,Lemma,Benannte Figur,Nennungen,Anteil (%),Erzähler,Figurenrede,Selbst,als Bezeichnung,als Epitheton');
     expect(lemmaZeilen.length).toBe(figuren);
     expect(lemmaZeilen.every(z => z.startsWith('ROL,helt,'))).toBe(true);
+    // Quelle, Version und Lizenz im Dateinamen, wie mit Linda Beutel-Thurow
+    // in #420 abgestimmt. Die Version kommt aus dem Index und darf wandern.
+    const quelle = '-beutel-naming-analysis-v[0-9][^-]*(?:-[a-z]+)?-cc-by-nc-sa-4\\.0-';
+    expect(figurCsv.name).toMatch(new RegExp(`^mhdbdb-bezeichnungen-IW-.+${quelle}${DATUM}\\.csv$`));
+    expect(lemmaCsv.name).toMatch(new RegExp(`^mhdbdb-bezeichnungen-ROL-lemma-helt${quelle}${DATUM}\\.csv$`));
   });
 });
