@@ -134,9 +134,9 @@ def extract_metadata(filepath):
             workRef = ms_id_nodes[0].get('corresp', '')
 
         # Kein genre-Feld mehr (4.2.22): term[@type="genre"] kommt im Korpus
-        # nicht vor, das Feld war in allen 667 Texten leer und hatte seit #433
-        # keinen Leser. Die Gattung eines Textes kommt ueber workRef aus
-        # genres.xml (search-engine.js).
+        # nicht vor, das Feld war in allen 667 Texten leer und hatte seit #314
+        # keinen Leser. Die Gattung eines Werks laeuft ueber work.genres
+        # (tei-text-reader.js) und maps.genreToWorks (app.js, genre-tree.js).
         return {
             'id': sigle,
             'filename': filename,
