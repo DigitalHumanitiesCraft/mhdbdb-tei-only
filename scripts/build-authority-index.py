@@ -435,10 +435,11 @@ def parse_works():
         sigle = ', '.join(sigles) if sigles else None
 
         # Get author - prefer text content over ref.
-        # Nur direktes Kind (#293): jedes <bibl> traegt seit dem Zotero-Sync ein
-        # <biblStruct> mit den <author> der EDITION. Eine Descendant-Suche traege
-        # bei einem Werk ohne eigenen <author> still den Editionsautor als
-        # Werksautor ein. Heute betrifft das 0 von 584 Eintraegen, alle haben ein
+        # Nur direktes Kind (#293): seit dem Zotero-Sync traegt jedes <bibl> ausser
+        # work_WLK (#237, Nachweis folgt per Sync) ein <biblStruct> mit den
+        # <author> der EDITION. Eine Descendant-Suche traege bei einem Werk ohne
+        # eigenen <author> still den Editionsautor als Werksautor ein. Gemessen
+        # 28.09.2026: betrifft 0 von 585 Eintraegen, alle haben ein
         # direktes Kind; die Enge kostet also nichts. Analog zu ./tei:title oben.
         author_el = work_el.xpath('./tei:author', namespaces=ns)
         if not author_el:
