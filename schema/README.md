@@ -126,7 +126,7 @@ Für die 8 XML-Dateien in `authority-files/`, die als kontrollierte Vokabulare d
 | `lexicon.xml` | 43.713 Lemmata mit Bedeutungen | `<div>/<entry>` |
 | `variants.xml` | 256.512 Wortformen (42.460 Lemma-Gruppen) | `<div>/<entry>/<form>` |
 | `persons.xml` | 211 Personen (Autoren, Herausgeber) | `<listPerson>/<person>` |
-| `works.xml` | 584 Werke mit bibliographischen Daten | `<listBibl>/<bibl>` |
+| `works.xml` | 585 Werke mit bibliographischen Daten | `<listBibl>/<bibl>` |
 | `contributors.xml` | 52 MHDBDB-Mitwirkende + 2 Organisationen | `<listOrg>` + `<listPerson>` |
 | `concepts.xml` | 567 semantische Konzepte | `<taxonomy>` in `<encodingDesc>` |
 | `genres.xml` | 615 Gattungskategorien (hierarchisch) | `<taxonomy>` in `<encodingDesc>` |

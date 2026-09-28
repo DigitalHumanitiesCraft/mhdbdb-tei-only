@@ -183,7 +183,7 @@ class WorksSyncer(AuthoritySyncer):
         (work_id, sigle). Beide Teile des Schluessels sind noetig: die work_id,
         weil eine Sigle nicht eindeutig ein Werk identifiziert, und die Sigle,
         weil `biblStructs` nach `@key = sigle` gefiltert ist und sich damit
-        innerhalb desselben Werks je Sigle unterscheidet. 70 der 584 Werke
+        innerhalb desselben Werks je Sigle unterscheidet. 70 der 585 Werke
         tragen mehr als eine Sigle, und die Zahl der biblStruct weicht dort
         tatsaechlich ab (work_205: DES2 hat 1, GSP hat 2; work_668: WG 1,
         WGA 2, WGI 2). Eine Ablage allein nach work_id hielte den Datensatz

@@ -214,7 +214,7 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
     sigle: "ABG",
     sigles: ["ABG"],
     author: "Meister Eckhart",
-    authorRef: "persons.xml#person_445",  // with file prefix throughout, all 584 works.
+    authorRef: "persons.xml#person_445",  // with file prefix throughout, all 585 works.
                                           // The corpus index writes the same reference
                                           // as "#person_445", see the texts record below
     gnd: "work GND",              // Added v1.1.0
@@ -558,7 +558,7 @@ Source: `scripts/tei_namespaces.py` (`get_namespaces`, a shared lib since #171 F
 
 **How far this robustness reaches.** It applies only to XPaths running through the `ns` parameter. Where the build uses `findall()` with a hardcoded `{http://www.tei-c.org/ns/1.0}`, there is no namespace-free branch: `.//tei:entry` in `variants.xml` and `.//tei:bibl` in `works.xml` find nothing in a document without the TEI namespace. Point 3 of the list above does not help there either, because in a namespace-free document it inserts exactly the TEI namespace. Both files are namespaced, so the case does not arise; but the robustness is narrower than the table used to claim (#293).
 
-**Why `./tei:author` and not `.//tei:author`.** The author of a work is a direct child of the `<bibl>`. Since the Zotero sync all 584 works in `works.xml` contain at least one `<biblStruct>`, and nearly all of those carry `<author>` elements of their own: those are the authors of the **edition**, not of the work. For a work without its own `<author>` a descendant search would silently record the edition's author as the work's author. Measured on 2026-07-31: not a single entry is affected, all of them have a direct `<author>` child. The narrow path therefore costs nothing and rules the case out before it arises (#293).
+**Why `./tei:author` and not `.//tei:author`.** The author of a work is a direct child of the `<bibl>`. Since the Zotero sync every work in `works.xml` contains at least one `<biblStruct>`, except `work_WLK` (added 2026-09-24, its edition record follows with the next sync, #237), and nearly all of those carry `<author>` elements of their own: those are the authors of the **edition**, not of the work. For a work without its own `<author>` a descendant search would silently record the edition's author as the work's author. Measured on 2026-07-31: not a single entry is affected, all of them have a direct `<author>` child. The narrow path therefore costs nothing and rules the case out before it arises (#293).
 
 #### Variant Dictionary Deduplication
 

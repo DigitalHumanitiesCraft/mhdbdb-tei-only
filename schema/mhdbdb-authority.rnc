@@ -240,7 +240,7 @@ works.bibl = element bibl {
         attribute type { text }?,
         attribute ana { text }?,
         text
-    }+,                                 # required: 584/584 works have title
+    }+,                                 # required: 585/585 works have title (work_WLK dazu, 24.09.2026)
     # Hier stand 583/583, also eins zu wenig. Wodurch genau, ist nicht mehr
     # belegbar; die Zaehlweise steht in keiner Commit-Message. works.xml hat
     # 584 bibl mit 669 Sigle-Eintraegen auf 668 verschiedenen Siglen, TRO
