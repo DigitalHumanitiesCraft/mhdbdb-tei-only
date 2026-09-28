@@ -15,6 +15,7 @@ Stand 28.09.2026.
 - Sandkasten ohne Korpuskopie: Scratch-ROOT mit Skript + `scripts/corpus_files.py`, tei/ als Symlinks, geaenderte Dateien per `git show` als echte Kopie.
 - Apply-Skript reproduzieren: betroffene Dateien per `git show origin/main:` ins Scratch, Skript in gleicher Verzeichnistiefe, `--apply`, Bytevergleich gegen HEAD.
 - Generierte Seite bitidentisch: Zielpfad (z.B. `ZIEL`) auf $TEMP biegen, `main()`.
+- **Gates im Worktree mit cwd = Worktree starten** (`env -C <wt> python ...`): `doc-count-audit.py` und `validate-corpus.py` lesen cwd-relativ und messen sonst still den Hauptbaum, gruen. Kontrollwert: eine Zahl, die zwischen beiden Baeumen differiert, muss kippen.
 
 **Vergleichen**
 - gz nie auf Bytes (lokales zlib != Runner): dekomprimieren, rekursiver JSON-Walk bzw. `json.dumps(sort_keys=True)`.
