@@ -41,6 +41,7 @@ scripts/
 ├── audit/                       # Korpus- & Authority-Analyse, CI-Gates
 │   ├── audit-tei-corpus.py      # Element/Attribut-Inventar des Korpus
 │   ├── audit-authority-files.py # Struktur-Audit der Authority Files (authority→authority)
+│   ├── build-begriffshilfe-498.py # Begriffshilfe zum Hochladen in eine KI: Auftrag plus Begriffssystem, Varianten A/A2/B (#498)
 │   ├── build-foreign-candidates-28.py # Kandidatenmenge Fremdsprachigkeit aus dem Begriffssystem (#28)
 │   ├── foreign-sense-contradictions-28.py # #28 Phase 2: Belege, deren @ana der Sprachzuordnung widerspricht, plus die Lemmata zur Handpruefung
 │   ├── build-issue-matrix.py    # Triage-Matrix #44 aus den Issue-Labels bauen (#44)
@@ -66,6 +67,7 @@ scripts/
 │   ├── doc-count-audit.py       # Zählungen aus den Daten gegen die Doku prüfen
 │   ├── drop-negative-variant-corresp.py # tote @corresp aus <w> entfernen (#115)
 │   ├── measure-216-vrouwe-minne.py # Groesse der vrouwe-Luecke vor minne messen (#216/#387)
+│   ├── measure-498-concept-cross-sections.py # Querschnitte über das Begriffssystem messen, Testfall Wachsamkeit (#498)
 │   ├── measure-stage3-resolution.py # Wirkung von Stufe 3 der Lemma-Auflösung (#224)
 │   ├── parallel-witness-bias.py # Verzerrung je Werkzeug durch Parallelüberlieferung (#255)
 │   ├── quantify-unannotated-tokens.py # unannotierte Wortformen korpusweit zählen (#189)
