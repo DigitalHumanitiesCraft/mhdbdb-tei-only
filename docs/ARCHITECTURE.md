@@ -424,6 +424,12 @@ Corpus and authority data were never stored here. The playground reads them thro
 
 **Freshness:** deterministic build + CI gate ("Freshness API" in `data-integrity.yml`) keep `api/` byte-identical to what the committed indexes produce. Contracts (URL schema stability, field schemas): [CONTRACTS.md §G](CONTRACTS.md#g-static-json-api-contract-45).
 
+## Begriffshilfe download (`assets/downloads/`)
+
+**Generator:** `scripts/build-begriffshilfe.py` (#498) – reads `authority-files/concepts.xml`, `authority-files/lexicon.xml` and the `w/@ana` of every TEI file (not the indexes), emits one Markdown file, `assets/downloads/mhdbdb-begriffshilfe.md`: a fixed task for an external AI plus the full concept table. Offered on `hilfe-begriffe-finden.html`; no site code reads it.
+
+**Freshness:** same pattern as the API. The build is deterministic (no date, no commit hash, LF, the only provenance is the SHA-256 of `concepts.xml`), `npm run build:data` runs it last, and the CI step "Freshness Begriffshilfe" in `data-integrity.yml` rebuilds it and fails on any difference under `assets/downloads/`.
+
 ## External Services
 
 ### Wörterbuchnetz API

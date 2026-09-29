@@ -35,3 +35,4 @@ Stand 28.09.2026.
 - Zahlsuche mit `\b` (ingest/wzb-Koordinaten wie `1051,986`).
 - CSVs im Repo: oft `;` + BOM (`utf-8-sig`).
 - Leere Suche: Kontrollwert mitmessen (z.B. `type="sigle"` = 667 Dateien).
+- **CRLF-Befund an einer Playwright-Spec erst mit Probe:** JS `$` mit `m`-Flag matcht auch vor `\r` (ECMAScript-LineTerminator umfasst CR), `/^...$/m` auf CRLF-Text trifft also. Am 29.09. fast als A gemeldet; `node -e` auf einer `sed 's/$/\r/'`-Kopie im Scratch entkraeftet es in Sekunden. `git ls-files --eol <datei>` zeigt, was im Baum liegt (hier `*.md text=auto` + autocrlf=true: w/crlf), ein Build-Skript, das LF schreibt, bleibt trotzdem `git status`-sauber.

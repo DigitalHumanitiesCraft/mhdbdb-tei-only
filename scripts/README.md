@@ -8,6 +8,7 @@ Build, validation, and data transformation scripts for MHDBDB TEI corpus.
 scripts/
 ├── build-api.py                 # Statische JSON-API unter api/ generieren (#45)
 ├── build-authority-index.py     # Authority-Index generieren
+├── build-begriffshilfe.py       # Begriffshilfe-Download (assets/downloads/mhdbdb-begriffshilfe.md) aus concepts.xml, lexicon.xml und w/@ana; deterministisch, CI-Freshness-Gate (#498)
 ├── build-corpus-index.py        # Korpus-Index generieren
 ├── build-pages.py               # Nav/Footer/Matomo aus includes/ in alle Seiten injizieren (--check Drift-Gate)
 ├── build-vendor.js              # Vendored JS-Dependencies bündeln
@@ -41,7 +42,6 @@ scripts/
 ├── audit/                       # Korpus- & Authority-Analyse, CI-Gates
 │   ├── audit-tei-corpus.py      # Element/Attribut-Inventar des Korpus
 │   ├── audit-authority-files.py # Struktur-Audit der Authority Files (authority→authority)
-│   ├── build-begriffshilfe-498.py # Begriffshilfe zum Hochladen in eine KI: Auftrag plus Begriffssystem, Varianten A/A2/B (#498)
 │   ├── build-foreign-candidates-28.py # Kandidatenmenge Fremdsprachigkeit aus dem Begriffssystem (#28)
 │   ├── foreign-sense-contradictions-28.py # #28 Phase 2: Belege, deren @ana der Sprachzuordnung widerspricht, plus die Lemmata zur Handpruefung
 │   ├── build-issue-matrix.py    # Triage-Matrix #44 aus den Issue-Labels bauen (#44)
@@ -246,12 +246,14 @@ python scripts/build-corpus-index.py
 python scripts/sync/extract-variants.py --apply     # nur bei neuen Formen
 python scripts/build-authority-index.py             # nur nach --apply
 python scripts/build-api.py
+python scripts/build-begriffshilfe.py               # nur bei geaendertem w/@ana
 python scripts/audit/check-authority-cross-refs.py --check
 
 # Nach Aenderung in authority-files/
 # 1. Version bumpen, dann:
 python scripts/build-authority-index.py
 python scripts/build-api.py
+python scripts/build-begriffshilfe.py               # bei lexicon.xml oder concepts.xml
 
 # Indexe validieren, Korpus gegen Schema validieren
 python scripts/validate-indices.py

@@ -703,6 +703,7 @@ python scripts/build-authority-index.py
 python scripts/build-corpus-index.py
 python scripts/validate-indices.py
 python scripts/build-api.py                       # static JSON API from the two indexes (#45)
+python scripts/build-begriffshilfe.py             # concept-help download from concepts.xml, lexicon.xml and w/@ana (#498)
 ```
 
 **Cache invalidation:**
@@ -874,7 +875,7 @@ Candidate senses are presented to the LLM as `sense_id :: concept label DE (EN)`
 
 Legend for the status column: **CI** means automated (GitHub Actions) · **script** means a guard built into the script · **manual** means documented but not enforced.
 
-**Since #125 (2026-06-12):** the index builds are deterministic (no `generatedAt`, a sorted glob, gzip without mtime), so a no-op rebuild from an unchanged source state produces **no diff** any more, which makes „rebuilding just to be safe" free. The CI gate `data-integrity.yml` rebuilds variants.xml, both indexes and the static JSON API (#45) on every data PR and compares the content (decompressed for the indexes) against the committed state: forgotten rebuilds (steps 4 to 7) block the merge.
+**Since #125 (2026-06-12):** the index builds are deterministic (no `generatedAt`, a sorted glob, gzip without mtime), so a no-op rebuild from an unchanged source state produces **no diff** any more, which makes „rebuilding just to be safe" free. The CI gate `data-integrity.yml` rebuilds variants.xml, both indexes, the static JSON API (#45) and the concept-help download (#498) on every data PR and compares the content (decompressed for the indexes) against the committed state: forgotten rebuilds (steps 4 to 8) block the merge.
 
 **Basic principles for the lifecycle** (an excerpt; the complete rules F.1 to F.3 are normative in [CONTRACTS.md → Authority Source Rules](CONTRACTS.md#f-authority-source-rules)):
 
@@ -885,23 +886,26 @@ Legend for the status column: **CI** means automated (GitHub Actions) · **scrip
 
 The two checklists below describe the **maximum case**. Not every change needs every step, and one single question decides: does the build read the changed place at all?
 
-**What the four builds read:**
+**What the five builds read:**
 
 - `build-corpus-index.py` reads from `tei/` the file name and four header statements (the sigle from `idno[@type="sigle"]`, title, author including `@ref`, `msIdentifier/@corresp`), plus every `<w @lemmaRef>` with non-empty text inside `<body>` including document order, plus the `<l>` boundaries. Everything else in the TEI is invisible to it, in particular `@pos` and `@ana` as well as `<div>`, `<lg>` and `<pb>`. XPaths: [Build Script XPath Reference](#build-script-xpath-reference).
-- `extract-variants.py` reads from `tei/` only those `<w>` carrying **both** a `@lemmaRef` and a `@corresp="variants.xml#type_N"`, and from those the lemma id, the type id and the wording. Plus the number of corpus files, which stands in the header of `variants.xml`. It also reads `sense/@ana` in `lexicon.xml`, and with `--apply` writes it too (step 5): of the four builds, it is the only one that can alter `lexicon.xml` after a `tei/` change.
+- `extract-variants.py` reads from `tei/` only those `<w>` carrying **both** a `@lemmaRef` and a `@corresp="variants.xml#type_N"`, and from those the lemma id, the type id and the wording. Plus the number of corpus files, which stands in the header of `variants.xml`. It also reads `sense/@ana` in `lexicon.xml`, and with `--apply` writes it too (step 5): of the five builds, it is the only one that can alter `lexicon.xml` after a `tei/` change.
 - `build-authority-index.py` reads `authority-files/` exclusively (the seven indexed files including `variants.xml`; since #270 also `contributors.xml`, but only to resolve the authors of curated comments to names, which it writes as `sense.commentRespName`). It does not read `tei/`. Unlike the corpus index, here the file decides rather than the element: any change of substance in one of the seven files requires the rebuild. Which markup ends up in the index is in the [Build Script XPath Reference](#build-script-xpath-reference).
 - `build-api.py` reads the two built `data/*.json.gz` exclusively, neither `tei/` nor `authority-files/`.
+- `build-begriffshilfe.py` (#498) reads `authority-files/concepts.xml` and `authority-files/lexicon.xml` (senses with their concept pointers) and from `tei/` only `w/@ana`, by regular expression, to count the attestations per sense. It does not read the two built indexes. Its output `assets/downloads/mhdbdb-begriffshilfe.md` is deterministic (no date, no commit, LF), so the CI gate can compare it byte for byte. Because it reads `w/@ana`, a pure `@ana` change is the one corpus change below that needs a rebuild but no index rebuild and no version bump.
 
 **Routing by type of change:**
 
 | Changed | Steps needed | Build time |
 |---|---|---|
-| `tei/`: `@pos` or `@ana`; `<note>` in the header, the encoding description, `<respStmt>`; `<div>`, `<lg>`, `<pb>`, comments, indentation outside `<w>`. Condition: the sequence of `<w>` and the `<l>` boundaries stay unchanged | no rebuild, and therefore no version bump either. What remains is step 2 (schema) and step 8 (cross-ref audit), then commit and push | 0 s |
-| `tei/`: `<l>` boundaries moved, or one of the four header statements changed. No `<w>` added, removed, or changed in wording, `@lemmaRef` or `@corresp` | the corpus checklist without steps 5 and 6 | about 50 s |
-| `tei/`: the stock of `<w>`, their wording, `@lemmaRef` or `@corresp` touched; a file added or removed | the corpus checklist in full | about 85 s |
-| `authority-files/contributors.xml` | the authority checklist except step 1, and step 2 (the bump) only if the rebuild shows a diff: since #270 the authority index carries the name of every person a curated comment's `@resp` points at (`sense.commentRespName`). A change that touches none of those names leaves the index unchanged, the rebuild shows an empty diff, and then no bump is set (no bump without a change of content, see below) | about 17 s |
-| One of the seven indexed `authority-files/` other than `works.xml` | the authority checklist in full except step 1 | about 17 s |
-| `authority-files/works.xml` | the authority checklist in full | about 17 s plus the Zotero run |
+| `tei/`: `@pos`; `<note>` in the header, the encoding description, `<respStmt>`; `<div>`, `<lg>`, `<pb>`, comments, indentation outside `<w>`. Condition: the sequence of `<w>` and the `<l>` boundaries stay unchanged | no rebuild, and therefore no version bump either. What remains is step 2 (schema) and step 9 (cross-ref audit), then commit and push | 0 s |
+| `tei/`: `@ana` on `<w>`. Condition: the sequence of `<w>` and the `<l>` boundaries stay unchanged | no index rebuild and no version bump, but step 8 (`build-begriffshilfe.py`, which counts the attestations per sense from `w/@ana`), plus step 2 (schema) and step 9 (cross-ref audit), then commit and push, staging `assets/downloads/mhdbdb-begriffshilfe.md` too | about 25 s |
+| `tei/`: `<l>` boundaries moved, or one of the four header statements changed. No `<w>` added, removed, or changed in wording, `@lemmaRef` or `@corresp` | the corpus checklist without steps 5, 6 and 8 | about 50 s |
+| `tei/`: the stock of `<w>`, their wording, `@lemmaRef` or `@corresp` touched; a file added or removed | the corpus checklist in full (step 8 included: the attestation counts of the Begriffshilfe move with the stock of `<w>`) | about 85 s plus about 25 s |
+| `authority-files/contributors.xml` | the authority checklist except steps 1 and 5, and step 2 (the bump) only if the rebuild shows a diff: since #270 the authority index carries the name of every person a curated comment's `@resp` points at (`sense.commentRespName`). A change that touches none of those names leaves the index unchanged, the rebuild shows an empty diff, and then no bump is set (no bump without a change of content, see below) | about 17 s |
+| `authority-files/lexicon.xml` or `authority-files/concepts.xml` | the authority checklist in full except step 1, step 5 included: the Begriffshilfe exports `concepts.xml` and counts senses from `lexicon.xml` | about 17 s plus about 25 s |
+| One of the other indexed `authority-files/` (not `works.xml`, `lexicon.xml`, `concepts.xml`) | the authority checklist except steps 1 and 5 | about 17 s |
+| `authority-files/works.xml` | the authority checklist in full except step 5 (`build-begriffshilfe.py` does not read `works.xml`) | about 17 s plus the Zotero run |
 
 The version bump (corpus checklist step 3, authority checklist step 2) is dropped in the rows without a rebuild, and in the `contributors.xml` row when the rebuild shows no diff. Otherwise, as soon as an index is rebuilt, it is mandatory, because the browser invalidates its 30-day cache through the version number alone (#94). Since #154 `scripts/audit/check-index-version-bump.py` catches the forgotten bump: it compares the decompressed index content against the diff base and runs in `data-integrity.yml` deliberately **before** the rebuild step. Two gaps remain: without a determinable diff base (`workflow_dispatch`, a force push) the workflow skips the gate with a `notice`, and it does not cover the version statements in the documentation (TEI-MODEL.md §11, INDEX.md).
 
@@ -909,7 +913,7 @@ The converse also holds: do not set a bump without a change of content. It force
 
 **A version number is a resource two open branches can claim at the same time, and nothing notices.** Before you bump, look at the open pull requests and take the next number above the highest one already claimed there. Neither gate covers this: `check-index-versions.py` checks that the four places agree **within one working state**, and the #154 bump gate checks only that a bump happened at all. Both are green on both sides of a collision. It happened on 2026-09-10: #363 was merged with corpus 4.2.14 and authority 1.9.4 while the open PR #416 had claimed exactly those two numbers in its rebase of 2026-09-09. Cost, measured with `git merge-tree`: eight conflicting files in the older PR, all of them the derived layer plus the version literals (`api/index.json`, `api/lemmata/index.json`, `corpus-loader.js`, both `data/*.json.gz`, `docs/INDEX.md`, `docs/TEI-MODEL.md`, both build scripts), and a renumber plus a full rebuild on someone else's branch. The source data merged cleanly, `lexicon.xml` included, because the two changes sat in different lemmata. The cheap version of the rule: `gh pr list` (or `list_pull_requests`) and one `grep` for `'version':` in the open heads, before the bump and not after.
 
-Individual times, measured on 2026-07-31 over 667 corpus files on a Windows laptop with 16 cores, using the default of 8 parallel processes set in #284: `build-corpus-index.py` 46 s, `extract-variants.py --apply` 23 s, `build-authority-index.py` 12 s, `build-api.py` 4 s. Sequentially (`--jobs 1`) it was 184 s, 97 s, 12 s and 4 s, so 297 s in total instead of 85 s. On machines with fewer cores the value lies in between, the default being `min(8, cpu_count)`. Orders of magnitude for planning, not a guarantee.
+Individual times, measured on 2026-07-31 over 667 corpus files on a Windows laptop with 16 cores, using the default of 8 parallel processes set in #284: `build-corpus-index.py` 46 s, `extract-variants.py --apply` 23 s, `build-authority-index.py` 12 s, `build-api.py` 4 s. Sequentially (`--jobs 1`) it was 184 s, 97 s, 12 s and 4 s, so 297 s in total instead of 85 s. On machines with fewer cores the value lies in between, the default being `min(8, cpu_count)`. Orders of magnitude for planning, not a guarantee. `build-begriffshilfe.py` (single-process pass over all 667 files) took 18 s on 2026-09-29 on the same laptop (second run, files cached); the tables above say about 25 s as a planning value.
 
 A rebuild may be dropped, an inspection may not: `<div>`, `<lg>` and `<pb>` are invisible to the indexes but not to the **reading view** (which renders chapter `<div>`, stanzas and page breaks, see #17/#101). Whoever changes something there looks at the text in the reader, even if the table says 0 s. The same holds for `@n`: the margin numbers and the `?verse=` deep links resolve directly against it (`data-n` in `tei-text-reader.js`). A renumbering therefore silently retargets every link already shared, at 0 s build time and without a CI signal.
 
@@ -930,10 +934,11 @@ Row 2 against row 3 can be measured instead of guessed: run `extract-variants.py
 | 5 | **For new or vanished forms:** `python scripts/sync/extract-variants.py --apply` (`variants.xml` is corpus-derived). The same run removes every `#type_N` from `sense/@ana` in `lexicon.xml` whose type the new `variants.xml` no longer carries, so a type that drops out takes its lexicon pointers with it | new word forms do not resolve to their lemma (stage 2 resolution); the lemma page chips are incomplete; `sense/@ana` points at types that do not exist (no build reads it, so nothing else notices) | CI (freshness gate on `variants.xml` and `lexicon.xml`; the cross-ref audit requires 0 orphaned tokens) |
 | 6 | After step 5: `python scripts/build-authority-index.py` | the variant map in the index stays stale | CI (freshness gate) |
 | 7 | Regenerate the API: `python scripts/build-api.py` (it reads both `data/*.json.gz`, hence after steps 4 and 6; the freshly built, still uncommitted indexes require `--allow-dirty` locally) | the static JSON API under `api/` serves stale or orphaned records | CI (freshness gate in data-integrity.yml) |
-| 8 | Cross-ref audit: `python scripts/audit/check-authority-cross-refs.py --check` | dangling refs (lemma or variant not found, empty panels) | CI (in `data-integrity.yml`) |
-| 9 | `python scripts/validate-indices.py` plus `npm test` (**ask the user first**) | structural index or frontend regression | manual |
-| 10 | Commit **the TEI, the built `data/*.json.gz`, `api/` and the bumps together**, staging files by name (never `git add -A`, the working dir is shared) | production serves a stale search or an old cache | manual |
-| 11 | Push to main, GitHub Pages deploys statically (~2 to 5 min, no Pages build) | it never reaches production; what is committed is what ships | CI (auto deploy) |
+| 8 | Regenerate the Begriffshilfe: `python scripts/build-begriffshilfe.py` (about 25 s; it reads `concepts.xml`, the `sense/ptr` of `lexicon.xml` and `w/@ana`, not the indexes and not `variants.xml`, so its place in the order is free) | the downloadable concept help under `assets/downloads/` carries stale attestation counts or lemmata | CI (freshness gate in data-integrity.yml) |
+| 9 | Cross-ref audit: `python scripts/audit/check-authority-cross-refs.py --check` | dangling refs (lemma or variant not found, empty panels) | CI (in `data-integrity.yml`) |
+| 10 | `python scripts/validate-indices.py` plus `npm test` (**ask the user first**) | structural index or frontend regression | manual |
+| 11 | Commit **the TEI, the built `data/*.json.gz`, `api/`, `assets/downloads/mhdbdb-begriffshilfe.md` and the bumps together**, staging files by name (never `git add -A`, the working dir is shared) | production serves a stale search or an old cache | manual |
+| 12 | Push to main, GitHub Pages deploys statically (~2 to 5 min, no Pages build) | it never reaches production; what is committed is what ships | CI (auto deploy) |
 
 ### When `authority-files/` changes
 
@@ -943,8 +948,9 @@ Row 2 against row 3 can be measured instead of guessed: run `extract-variants.py
 | 2 | Bump the version (`build-authority-index.py` plus `corpus-loader.js`) plus `check-index-versions.py` | a stale cache for up to 30 days | CI (consistency plus the #154 bump gate, see the routing section) |
 | 3 | **Authority index: `python scripts/build-authority-index.py`** (the frontend reads ONLY the index, never the XML) | every authority change stays invisible until rebuild and commit (this is how the lexicon/variants drift went unnoticed) | CI (freshness gate in data-integrity.yml) |
 | 4 | Regenerate the API: `python scripts/build-api.py` (after step 3; the freshly built, still uncommitted index requires `--allow-dirty` locally) | the static JSON API under `api/` serves stale authority records | CI (freshness gate in data-integrity.yml) |
-| 5 | Cross-ref audit `--check` plus schema `validate-corpus.py --fail-fast` | dangling refs or invalid XML | CI |
-| 6 | Commit the built `data/authority-index.json.gz`, `api/` and the bumps, by name | production serves the old index | manual |
+| 5 | Regenerate the Begriffshilfe: `python scripts/build-begriffshilfe.py` (only for `concepts.xml` or `lexicon.xml`; about 25 s; it reads both files plus `w/@ana` in the corpus, not the indexes) | the downloadable concept help under `assets/downloads/` serves a stale concept system or stale sense counts | CI (freshness gate in data-integrity.yml) |
+| 6 | Cross-ref audit `--check` plus schema `validate-corpus.py --fail-fast` | dangling refs or invalid XML | CI |
+| 7 | Commit the built `data/authority-index.json.gz`, `api/`, `assets/downloads/mhdbdb-begriffshilfe.md` (if step 5 applied) and the bumps, by name | production serves the old index | manual |
 
 **Decoupling:** a pure `authority-files/` change needs **no** corpus index rebuild (`build-corpus-index.py` does not read `authority-files/`). A pure `tei/` change needs the authority rebuild only if new forms force a regeneration of `variants.xml` (step 5 into step 6). Which steps drop out in a given case is in the [routing table](#which-steps-apply-to-my-change-routing) above.
 

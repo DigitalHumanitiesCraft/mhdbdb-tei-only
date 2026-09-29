@@ -170,6 +170,7 @@ Browse and search six controlled vocabularies with consistent interface patterns
 - Display: Term, hierarchy (broader/narrower), associated lemmata
 - Action: Navigate hierarchy, view all lemmata for concept
 - Note: v1.1.0 replaced inline truncation with full searchable interface
+- Below the search field and in the zero-hit message, a link to the help page „Passende Begriffe finden" (Begriffshilfe, #498; see below)
 
 **Genre Explorer:**
 - Resting state is the typology as an expandable tree, from its two roots
@@ -274,6 +275,7 @@ Until 2026-09 only the multi-lemma search read the selection at all; the other t
 - An expandable „zugeordnete Lemmata" section for validating the concept selection
 - Clicking a hit opens the reading view
 - A **live autocomplete dropdown** in the concept input (max. 8 suggestions, arrow navigation, Enter selects and searches, Escape closes), the same pattern as DWDS or Google search
+- Below the intro and in the „Kein Begriff gefunden" box, a link to the Begriffshilfe (#498)
 
 **Text comparison (#108):**
 - Choose two texts through dropdown menus (all 667 sigles with title and author)
@@ -412,6 +414,18 @@ Static JSON API under `/api/`, served directly by GitHub Pages – stable, citab
 **Documentation:** human-readable docs page at [`api/index.html`](https://dhcraft.org/mhdbdb-tei-only/api/index.html) (German), linked from `hilfe-daten.html`.
 
 **Target audience:** external projects that already reference MHDBDB lemma pages (MWB, Wörterbuchnetz, Wikidata P9351) and researchers who want machine-readable access without cloning the repo or parsing the gzipped indexes.
+
+## Begriffshilfe: From One's Own Topic to Existing Concepts (#498)
+
+A researcher arrives with a topic of their own (the test case was „Wachsamkeit") that is not a concept in the MHDBDB concept system. The help page [`hilfe-begriffe-finden.html`](../hilfe-begriffe-finden.html) offers a Markdown file to download and upload into any AI chat, together with the sentence „Bitte bearbeite den Arbeitsauftrag in der Datei. Mein Thema: …".
+
+**What the file contains:** a fixed task for the AI (suggest existing concepts with their ids, mark context-dependent search paths, invent nothing, ask back when no topic is given) and the complete concept table: per concept its hierarchy, the number of senses and lemmata, the most frequent lemmata under it, and for larger concepts the most frequent co-occurring concepts. The co-concept column is what made the difference in the test of 2026-09-29: only this variant led the models from „Wachsamkeit" to Aufmerksamkeit plus Kriegswesen.
+
+**What it is not:** a search. The AI returns suggestions, which the user looks up in the Concept Explorer and checks against the attestations; there is no AND query over two concepts.
+
+**How it stays current:** `scripts/build-begriffshilfe.py` writes `assets/downloads/mhdbdb-begriffshilfe.md` deterministically from `concepts.xml`, `lexicon.xml` and `w/@ana`, it is part of `npm run build:data`, and a CI freshness check turns red when the committed file no longer matches the data (see [DATA-MODEL.md → Data-Change-Lifecycle](DATA-MODEL.md#data-change-lifecycle)).
+
+Linked from the help hub, the playground guide, the Concept Explorer and the concept distribution.
 
 ---
 

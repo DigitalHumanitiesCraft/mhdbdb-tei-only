@@ -17,4 +17,4 @@ Verdichtet am 28.09.2026. Zahlen hier sind Eingabe, keine Messung.
 - [Pruefseiten](pruefseiten.md): Zitat-Gate, markup vs. e(), Generator-Laufzeit, datengebundene Specs
 - [Findebuch-Dump #259](project_findebuch_dump_259.md): gram/hi in sublemma, Trennstrich am lb, keine Wortformen
 - [find-mentions #476](projekt_find_mentions_476.md): Probe ohne Netz, disjunkte Kandidatentitel, Exit-Pfade
-- [Begriffshilfe #498](projekt_begriffshilfe_498.md): Korpusdurchgang cachen, Belege unter Begriff vs. gesamt, Kontrollwerte Aufmerksamkeit
+- [Begriffshilfe #498](projekt_begriffshilfe_498.md): Korpusdurchgang cachen, Belege unter Begriff vs. gesamt, Kontrollwerte Aufmerksamkeit, Freshness-Gate und `--out`-Gegenprobe, Nummernkopplung DEVELOPMENT/Workflow

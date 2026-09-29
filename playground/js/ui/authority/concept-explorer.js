@@ -18,6 +18,13 @@ import {
 } from "../search/SearchHelpers.js";
 import { TextNormalizer } from "../../../../assets/js/lib/text-normalizer.js";
 
+// Verweis auf die Begriffshilfe (#498): wer mit einem eigenen Begriff kommt, der im
+// Begriffssystem nicht steht, findet dort den Weg zu vorhandenen Begriffen.
+const BEGRIFFSHILFE_LINK =
+  'Kein passender Begriff zum eigenen Thema? ' +
+  '<a href="../hilfe-begriffe-finden.html" target="_blank" rel="noopener" ' +
+  'class="font-medium text-brand-700 underline">Anleitung: Passende Begriffe finden</a>';
+
 import { displayResults } from "../core/ui-helpers.js";
 
 export class ConceptExplorer {
@@ -49,6 +56,7 @@ export class ConceptExplorer {
       searchInputId: "conceptSearch",
       resultsId: "conceptResults",
       totalCount: this.authorityData.concepts.length,
+      extraControlsHTML: `<p class="text-xs text-slate-600" data-begriffshilfe-link>${BEGRIFFSHILFE_LINK}</p>`,
     });
 
     renderToContainer("resultsContainer", searchHTML);
@@ -74,7 +82,7 @@ export class ConceptExplorer {
 
     const result = handleSearchResults(searchTerm, matches, {
       maxResults: 50,
-      emptyMessage: 'Keine Begriffe gefunden für "{term}"',
+      emptyMessage: `Keine Begriffe gefunden für "{term}". <span data-begriffshilfe-link>${BEGRIFFSHILFE_LINK}</span>`,
     });
 
     if (typeof result === "string") {
