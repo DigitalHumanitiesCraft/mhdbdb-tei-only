@@ -18,7 +18,8 @@
     "build:authority": "node scripts/run-python.js scripts/build-authority-index.py",
     "build:corpus": "node scripts/run-python.js scripts/build-corpus-index.py",
     "build:api": "node scripts/run-python.js scripts/build-api.py",
-    "build:data": "npm run build:corpus && node scripts/run-python.js scripts/sync/extract-variants.py --apply && npm run build:authority && node scripts/run-python.js scripts/build-api.py --allow-dirty",
+    "build:begriffshilfe": "node scripts/run-python.js scripts/build-begriffshilfe.py",
+    "build:data": "npm run build:corpus && node scripts/run-python.js scripts/sync/extract-variants.py --apply && npm run build:authority && node scripts/run-python.js scripts/build-api.py --allow-dirty && npm run build:begriffshilfe",
     "build": "npm run build:css && npm run build:vendor && npm run build:data",
     "validate:indices": "node scripts/run-python.js scripts/validate-indices.py"
   },

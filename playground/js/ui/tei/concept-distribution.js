@@ -39,6 +39,15 @@ const DEFAULT_STATE = Object.freeze({
 const AUTOCOMPLETE_LIMIT = 8;
 
 const TOP_N_OPTIONS = [15, 30, 50, 100];
+
+// Verweis auf die Begriffshilfe (#498): wer mit einem eigenen Begriff kommt, der im
+// Begriffssystem nicht steht, findet dort den Weg zu vorhandenen Begriffen.
+const BEGRIFFSHILFE_LINK = `
+        <p class="text-xs text-slate-600" data-begriffshilfe-link>
+          Kein passender Begriff zum eigenen Thema?
+          <a href="../hilfe-begriffe-finden.html" target="_blank" rel="noopener"
+             class="font-medium text-brand-700 underline">Anleitung: Passende Begriffe finden</a>
+        </p>`;
 // Worst-case (concept_21072000: 8718 Lemmata) erzeugt ohne Chunking ~2.7s Long-
 // Task. Mit time-based Yield bei 30ms pro Chunk bleiben Long-Tasks unter dem
 // 50ms-Schwellwert, an dem der Browser sie als "blocking" wertet (UI bleibt
@@ -306,6 +315,7 @@ export class ConceptDistribution {
           <code class="rounded bg-white px-1.5 py-0.5 font-mono">concept_21104000</code>).
           Aggregiert alle Lemmata, die diesem Begriff zugeordnet sind, und zeigt deren gemeinsame Häufigkeit pro Text.
         </p>
+        ${BEGRIFFSHILFE_LINK}
         <div class="grid gap-3 sm:grid-cols-4">
           <div class="sm:col-span-2">
             <label class="block">
@@ -353,6 +363,7 @@ export class ConceptDistribution {
         <div class="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
           Kein Begriff gefunden für <code class="font-mono">${escapeHtml(this.state.query)}</code>.
           Versuchen Sie eine andere Schreibweise oder einen englischen Term.
+          ${BEGRIFFSHILFE_LINK}
         </div>
       `;
     }

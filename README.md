@@ -45,7 +45,7 @@ Beide Interfaces nutzen vorgebaute Indizes für die Suche und laden TEI-Dateien 
 - **[docs/INDEX.md](docs/INDEX.md)**: Wissensbasis mit Verweisen auf alle Spezial-Dokumente
 
 ### Für Nutzer:innen
-- **[hilfe.html](hilfe.html)**: Hilfe-Hub mit Themen-Seiten zu [Korpussuche](hilfe-korpussuche.html), [Playground](hilfe-playground.html), [Daten](hilfe-daten.html), [Daten beitragen](hilfe-daten-beitragen.html) und [Schema](hilfe-schema.html)
+- **[hilfe.html](hilfe.html)**: Hilfe-Hub mit Themen-Seiten zu [Korpussuche](hilfe-korpussuche.html), [Playground](hilfe-playground.html), [Passende Begriffe finden](hilfe-begriffe-finden.html), [Daten](hilfe-daten.html), [Daten beitragen](hilfe-daten-beitragen.html) und [Schema](hilfe-schema.html)
 
 ## Schnellstart
 

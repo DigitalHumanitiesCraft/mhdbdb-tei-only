@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Passende Begriffe im Begriffssystem der MHDBDB finden, wenn das eigene Thema nicht wörtlich vorkommt: mit einer herunterladbaren Datei und einer KI Ihrer Wahl zu Einstiegsbegriffen und Lemmata, nachgeschlagen im Begriffe-Explorer des Playgrounds.">
+    <meta name="keywords" content="MHDBDB, Begriffssystem, Begriffe finden, Begriffshilfe, KI, Playground, Mittelhochdeutsch">
+    <meta name="author" content="Universität Salzburg">
+
+    <title>Passende Begriffe finden – MHDBDB Hilfe</title>
+
+    <link rel="stylesheet" href="assets/css/tailwind-output.css">
+    <link rel="icon" type="image/png" href="assets/images/mhdbdb-logo.png">
+    <link rel="stylesheet" href="assets/css/shared.css">
+    <link rel="stylesheet" href="assets/css/hilfe.css">
+<!-- MATOMO:START -->
+<script>
+  (function() {
+    var optedOut = false;
+    try { optedOut = window.localStorage && localStorage.getItem('mhdbdb-matomo-optout') === '1'; } catch (e) {}
+    if (optedOut) return;
+    var _paq = window._paq = window._paq || [];
+    _paq.push(['disableCookies']);
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    var u="https://webstatistics.sbg.ac.at/";
+    _paq.push(['setTrackerUrl', u+'matomo.php']);
+    _paq.push(['setSiteId', '15']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<!-- MATOMO:END -->
+</head>
+<body class="bg-slate-100 text-slate-900">
+
+<!-- NAV:START key=hilfe -->
+<header class="border-b border-slate-200 bg-white/90 backdrop-blur sticky top-0 z-50">
+    <div class="container mx-auto px-6 py-4">
+        <nav class="flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-3">
+                <img src="assets/images/mhdbdb-logo.png" alt="MHDBDB Logo" class="w-40">
+                <span class="text-lg font-bold text-brand-600">MHDBDB</span>
+            </a>
+
+            <!-- Desktop Navigation -->
+            <div class="hidden md:flex items-center gap-6">
+                <a href="index.html" data-nav="start" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                    Startseite
+                </a>
+                <a href="korpus.html" data-nav="korpus" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                    Korpussuche
+                </a>
+                <a href="playground/index.html" data-nav="playground" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                    Playground
+                </a>
+                <a href="woerterbuch.html" data-nav="woerterbuch" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                    Wörterbuch
+                </a>
+                <a aria-current="page" href="hilfe.html" data-nav="hilfe" class="text-sm text-slate-900 font-semibold hover:text-slate-900 transition">
+                    Hilfe
+                </a>
+                <a href="index.html#contact" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                    Kontakt
+                </a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobileMenuButton" class="md:hidden p-2 text-slate-600 hover:text-slate-900 transition" aria-label="Toggle menu">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </nav>
+
+        <!-- Mobile Navigation (Hidden by default, only visible on mobile) -->
+        <div id="mobileMenu" class="hidden md:hidden mt-4 pb-4 border-t border-slate-200">
+            <div class="flex flex-col gap-3 pt-4">
+                <a href="index.html" data-nav="start" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                    Startseite
+                </a>
+                <a href="korpus.html" data-nav="korpus" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                    Korpussuche
+                </a>
+                <a href="playground/index.html" data-nav="playground" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                    Playground
+                </a>
+                <a href="woerterbuch.html" data-nav="woerterbuch" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                    Wörterbuch
+                </a>
+                <a aria-current="page" href="hilfe.html" data-nav="hilfe" class="text-sm text-slate-900 font-semibold hover:text-slate-900 transition py-2">
+                    Hilfe
+                </a>
+                <a href="index.html#contact" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                    Kontakt
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- NAV:END -->
+
+    <!-- Hilfe-interne Nav-Leiste -->
+    <nav class="bg-white border-b border-slate-200" aria-label="Hilfe-Bereiche">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-wrap gap-x-8 gap-y-2 -mb-px">
+                <a href="hilfe.html" class="py-3 border-b-2 border-transparent text-slate-600 hover:text-slate-900 hover:border-slate-300 transition text-sm font-medium">
+                    Quick-Start
+                </a>
+                <a href="hilfe-korpussuche.html" class="py-3 border-b-2 border-transparent text-slate-600 hover:text-slate-900 hover:border-slate-300 transition text-sm font-medium">
+                    Korpussuche-Hilfe
+                </a>
+                <a href="hilfe-playground.html" class="py-3 border-b-2 border-brand-600 text-brand-700 font-semibold text-sm" aria-current="page">
+                    Playground-Hilfe
+                </a>
+                <a href="hilfe-daten.html" class="py-3 border-b-2 border-transparent text-slate-600 hover:text-slate-900 hover:border-slate-300 transition text-sm font-medium">
+                    Daten
+                </a>
+                <a href="hilfe-schema.html" class="py-3 border-b-2 border-transparent text-slate-600 hover:text-slate-900 hover:border-slate-300 transition text-sm font-medium">
+                    Schema
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-12">
+      <div class="hilfe-main-grid">
+        <div class="hilfe-content">
+
+        <!-- Brotkrume -->
+        <nav aria-label="Pfad" class="mb-6 text-sm text-slate-500">
+            <a href="hilfe.html" class="hover:text-brand-600 transition">Hilfe</a>
+            <span class="mx-2">›</span>
+            <span class="text-slate-700">Passende Begriffe finden</span>
+        </nav>
+
+        <!-- Hero -->
+        <section class="mb-10">
+            <h1 class="text-4xl font-bold text-slate-900 mb-4">Passende Begriffe finden</h1>
+            <p class="text-lg text-slate-600 leading-relaxed">
+                Ihr Thema steht nicht als Begriff im Begriffssystem der MHDBDB? Mit einer
+                herunterladbaren Datei und einer KI Ihrer Wahl finden Sie Begriffe und Lemmata,
+                über die Sie das Thema trotzdem erreichen, und schlagen sie anschließend im
+                Playground nach.
+            </p>
+        </section>
+
+        <!-- Inhaltsverzeichnis (inline, unter xl sichtbar) -->
+        <nav aria-label="Auf dieser Seite" class="hilfe-toc-inline mb-12 bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+            <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500 mb-3">Auf dieser Seite</h2>
+            <ol class="space-y-2 text-sm">
+                <li><a href="#wofuer" class="text-brand-600 hover:text-brand-700 font-medium">1. Wofür diese Hilfe gedacht ist</a></li>
+                <li><a href="#so-geht-es" class="text-brand-600 hover:text-brand-700 font-medium">2. So geht es</a></li>
+                <li><a href="#grenzen" class="text-brand-600 hover:text-brand-700 font-medium">3. Was die KI kann und was nicht</a></li>
+                <li><a href="#datei" class="text-brand-600 hover:text-brand-700 font-medium">4. Was in der Datei steht</a></li>
+                <li><a href="#weiter" class="text-brand-600 hover:text-brand-700 font-medium">5. Weiterführend</a></li>
+            </ol>
+        </nav>
+
+        <!-- 1. Wofür -->
+        <section id="wofuer" class="mb-12 scroll-mt-24">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">1. Wofür diese Hilfe gedacht ist</h2>
+
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Das Begriffssystem der MHDBDB ordnet die Bedeutungen der Lemmata in einer
+                Hierarchie von Begriffen. Das eigene Forschungsthema steht dort oft nicht
+                wörtlich, sondern verteilt sich über mehrere Begriffe.
+            </p>
+
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Ein Beispiel ist <em>Wachsamkeit</em>: Einen eigenen Begriff dafür gibt es nicht.
+                Wege dorthin führen aber etwa über <em>Aufmerksamkeit</em>, über <em>Schlaf</em>
+                (als Gegenstück) oder über das <em>Kriegswesen</em>, wenn die Wache gemeint ist.
+                Welcher Weg trägt, hängt davon ab, was genau Sie mit dem Thema meinen.
+            </p>
+
+            <p class="text-slate-700 leading-relaxed">
+                Die Datei zu dieser Seite hilft bei der Auswahl solcher Einstiegsbegriffe. Sie ist eine
+                Einstiegshilfe zur Begriffswahl: kein Chatbot der MHDBDB und keine Belegsuche.
+            </p>
+        </section>
+
+        <!-- 2. So geht es -->
+        <section id="so-geht-es" class="mb-12 scroll-mt-24">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">2. So geht es</h2>
+
+            <ol class="space-y-3 text-sm text-slate-700 mb-4 ml-4 list-decimal list-inside">
+                <li>
+                    <strong>Datei herunterladen:</strong>
+                    <a href="assets/downloads/mhdbdb-begriffshilfe.md" download class="text-brand-600 hover:text-brand-700 font-medium">mhdbdb-begriffshilfe.md</a>
+                    (Markdown, also reiner Text; Kodierung UTF-8).
+                </li>
+                <li>
+                    <strong>In einem neuen Chat hochladen:</strong> Laden Sie die Datei bei einer KI
+                    Ihrer Wahl hoch (ChatGPT, Gemini, Claude oder ein ähnlicher Dienst) und schreiben
+                    Sie dazu den folgenden Satz, mit Ihrem Thema an Stelle der Auslassungspunkte.
+                </li>
+            </ol>
+
+            <div class="bg-slate-50 rounded-xl border border-slate-200 p-4 my-4">
+                <p class="text-sm text-slate-700">
+                    <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">Bitte bearbeite den Arbeitsauftrag in der Datei. Mein Thema: …</code>
+                </p>
+            </div>
+
+            <ol start="3" class="space-y-3 text-sm text-slate-700 mb-4 ml-4 list-decimal list-inside">
+                <li>
+                    <strong>Vorschläge nachschlagen:</strong> Die KI nennt vorhandene Begriffe als
+                    Einstieg, manchmal in Kombination mit einem Mitbegriff, und dazu Lemmata zum
+                    Nachschlagen. Öffnen Sie den
+                    <a href="playground/index.html#concepts" class="text-brand-600 hover:text-brand-700 font-medium">Begriffe-Explorer</a>
+                    im Playground und tippen Sie die Benennung eines Begriffs ins Suchfeld. Beim
+                    Eintrag führt "Lemmata anzeigen" zur Lemmaliste. Sie zeigt höchstens 20 Lemmata
+                    in alphabetischer Reihenfolge; ein von der KI genanntes Lemma tippen Sie deshalb
+                    ins zusätzliche Filterfeld und klicken es an.
+                </li>
+                <li>
+                    <strong>Prüfen:</strong> In den Lemma-Details sehen Sie die Begriffe je
+                    Bedeutung, in den Belegen die Textstellen selbst. Erst dort zeigt sich, ob ein
+                    Vorschlag zu Ihrem Thema passt.
+                </li>
+            </ol>
+
+            <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded-r-lg my-6">
+                <p class="text-sm text-slate-700">
+                    <strong>Hinweis zu Kombinationen:</strong> Schlägt die KI einen Begriff zusammen mit
+                    einem Mitbegriff vor (bei <em>Wachsamkeit</em> etwa <em>Aufmerksamkeit</em> mit
+                    <em>Kriegswesen</em>), gibt es auf der Website keine UND-Abfrage dafür. Sie schlagen
+                    beide Begriffe einzeln nach und suchen in den Lemma-Details nach Bedeutungen, an
+                    denen beide stehen.
+                </p>
+            </div>
+        </section>
+
+        <!-- 3. Grenzen -->
+        <section id="grenzen" class="mb-12 scroll-mt-24">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">3. Was die KI kann und was nicht</h2>
+
+            <ul class="space-y-3 text-sm text-slate-700 mb-4 ml-4 list-disc list-inside">
+                <li><strong>Sie macht Vorschläge, keine Belege.</strong> Die Datei enthält keine Textstellen. Ob ein Begriff oder ein Lemma zu Ihrem Thema passt, entscheiden die Belege im Korpus.</li>
+                <li><strong>Mitbegriffe sind Suchwege.</strong> Die Website kann Kombinationen von Begriffen nicht direkt abfragen; die Mitbegriffe zeigen, wo sich das Nachsehen lohnt.</li>
+                <li><strong>Antworten schwanken.</strong> Sie unterscheiden sich je nach KI und je nach Durchlauf. Zwei Anläufe mit derselben Frage können zu verschiedenen Vorschlägen führen.</li>
+                <li><strong>Jeden Vorschlag an den Belegen prüfen.</strong> Ein plausibler Begriff kann an den Belegen vorbeigehen.</li>
+                <li><strong>Bei Zahlen kann sich die KI verlesen.</strong> Zahlen zu Lemmata und Belegen prüfen Sie im Playground nach, bevor Sie damit arbeiten.</li>
+            </ul>
+        </section>
+
+        <!-- 4. Datei -->
+        <section id="datei" class="mb-12 scroll-mt-24">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">4. Was in der Datei steht</h2>
+
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Die Datei besteht aus zwei Teilen: einem festen Arbeitsauftrag an die KI und dem
+                vollständigen Begriffssystem mit den Kennungen, Benennungen und Oberbegriffen.
+                Zu jedem Begriff stehen dort:
+            </p>
+
+            <ul class="space-y-3 text-sm text-slate-700 mb-4 ml-4 list-disc list-inside">
+                <li>die Zahl der Bedeutungen und der Lemmata, die unter ihm hängen,</li>
+                <li>die häufigsten Lemmata mit ihrer Belegzahl unter diesem Begriff,</li>
+                <li>die häufigsten Mitbegriffe, also Begriffe, die an denselben Bedeutungen stehen, in der Form <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">Name (ID, k von n)</code>.</li>
+            </ul>
+
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Die Datei wird bei jeder Datenänderung neu erzeugt und passt daher zum aktuellen
+                Stand von Begriffssystem und Korpus.
+            </p>
+
+            <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded-r-lg my-6">
+                <p class="text-sm text-slate-700 mb-2">
+                    <strong>Die Datei ist groß</strong> (einige hundert Kilobyte). Manche
+                    Chat-Oberflächen lesen große Dateien nur in Ausschnitten. Wirken die Vorschläge
+                    dünn oder fehlt ein erwarteter Bereich, fragen Sie in demselben Chat nach und bitten
+                    Sie darum, die Datei erneut und vollständig durchzusehen.
+                </p>
+            </div>
+
+            <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded-r-lg my-6">
+                <p class="text-sm text-slate-700">
+                    <strong>Datenschutz:</strong> Ihr Thema und die Datei gehen an den Anbieter der
+                    KI, die Sie wählen. Die Datei enthält nur öffentliche Daten der MHDBDB. Was Sie
+                    zusätzlich zu Ihrem Thema im Chat schreiben, entscheiden Sie selbst.
+                </p>
+            </div>
+        </section>
+
+        <!-- 5. Weiterführend -->
+        <section id="weiter" class="mb-12 scroll-mt-24">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">5. Weiterführend</h2>
+
+            <ul class="space-y-3 text-sm text-slate-700 mb-4 ml-4 list-disc list-inside">
+                <li><a href="hilfe-playground.html" class="text-brand-600 hover:text-brand-700 font-medium">Playground-Hilfe</a>: Begriffe-Explorer, Begriffs-Verteilung und die übrigen Werkzeuge.</li>
+                <li><a href="hilfe-daten.html" class="text-brand-600 hover:text-brand-700 font-medium">Daten</a>: was im Korpus und in den Authority Files steckt, samt bekannten Grenzen.</li>
+            </ul>
+        </section>
+
+        <!-- Stand-Zeile -->
+        <p class="hilfe-stand">
+            Stand: September 2026 ·
+            <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/commits/main/hilfe-begriffe-finden.html" target="_blank" rel="noopener">Änderungen auf GitHub</a>
+        </p>
+
+        </div><!-- /.hilfe-content -->
+
+        <!-- Sticky TOC (sichtbar ab xl) -->
+        <aside class="hilfe-toc-aside">
+            <nav aria-label="Auf dieser Seite" class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
+                <h2 class="text-xs font-semibold uppercase tracking-wide text-slate-500 mb-3">Auf dieser Seite</h2>
+                <ol class="space-y-2 text-sm">
+                    <li><a href="#wofuer" class="text-brand-600 hover:text-brand-700 font-medium">1. Wofür diese Hilfe gedacht ist</a></li>
+                    <li><a href="#so-geht-es" class="text-brand-600 hover:text-brand-700 font-medium">2. So geht es</a></li>
+                    <li><a href="#grenzen" class="text-brand-600 hover:text-brand-700 font-medium">3. Was die KI kann und was nicht</a></li>
+                    <li><a href="#datei" class="text-brand-600 hover:text-brand-700 font-medium">4. Was in der Datei steht</a></li>
+                    <li><a href="#weiter" class="text-brand-600 hover:text-brand-700 font-medium">5. Weiterführend</a></li>
+                </ol>
+            </nav>
+        </aside>
+
+      </div><!-- /.hilfe-main-grid -->
+    </main>
+
+<!-- FOOTER:START -->
+<footer class="bg-slate-100 text-slate-900 py-8">
+  <div class="container mx-auto px-6">
+    <!-- Logos Row -->
+    <div
+      class="flex flex-wrap items-center justify-center gap-8 mb-6 pb-6 border-b border-slate-300"
+    >
+      <img
+        src="assets/images/mhdbdb-logo.png"
+        alt="MHDBDB Logo"
+        class="h-16 w-auto"
+      />
+      <img
+        src="assets/images/university-logo.png"
+        alt="Universität Salzburg"
+        class="h-24 w-auto"
+      />
+      <img
+        src="assets/images/clariah-logo.svg"
+        alt="CLARIAH-AT"
+        class="h-16 w-auto"
+      />
+    </div>
+
+    <!-- Info and Button Row -->
+    <div
+      class="flex flex-col md:flex-row justify-between items-center gap-6"
+    >
+      <div class="text-center md:text-left">
+        <p class="text-sm mb-2">
+          Universität Salzburg, 2025–<span class="current-year">2026</span> |
+          <a
+            href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
+            class="hover:text-brand-600 transition"
+            target="_blank"
+            rel="noopener"
+          >
+            CC BY-NC-SA 4.0
+          </a>
+        </p>
+        <div
+          class="flex flex-wrap justify-center md:justify-start gap-4 text-sm text-slate-600"
+        >
+          <a
+            href="mailto:mhdbdb@plus.ac.at"
+            class="hover:text-brand-600 transition"
+            >mhdbdb@plus.ac.at</a
+          >
+          <span>|</span>
+          <a
+            href="https://mhdbdb.plus.ac.at"
+            class="hover:text-brand-600 transition"
+            target="_blank"
+            rel="noopener"
+          >
+            mhdbdb.plus.ac.at
+          </a>
+          <span>|</span>
+          <a
+            href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only"
+            class="hover:text-brand-600 transition"
+            target="_blank"
+            rel="noopener"
+          >
+            GitHub
+          </a>
+          <span>|</span>
+          <a
+            href="impressum.html"
+            class="hover:text-brand-600 transition"
+          >
+            Impressum
+          </a>
+          <span>|</span>
+          <a
+            href="barrierefreiheit.html"
+            class="hover:text-brand-600 transition"
+          >
+            Barrierefreiheit
+          </a>
+        </div>
+      </div>
+      <button
+        id="clearSiteDataBtn"
+        class="btn-secondary text-sm flex items-center gap-2"
+        title="Alle gespeicherten Daten löschen (Cache, IndexedDB, etc.)"
+      >
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+        </svg>
+        <span>Website-Daten löschen</span>
+      </button>
+    </div>
+  </div>
+</footer>
+<script src="assets/js/site-chrome.js" defer></script>
+<!-- FOOTER:END -->
+
+</body>
+</html>

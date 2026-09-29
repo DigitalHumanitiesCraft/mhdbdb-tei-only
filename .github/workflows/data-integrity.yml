@@ -54,6 +54,11 @@ name: Data Integrity
 #      Index-Rebuild dort laesst data/*.json.gz mit potenziell anderen
 #      gz-Bytes zurueck (je zlib-Build), was den build-api-Pre-flight
 #      ("data/ muss clean sein") grundlos ausloesen wuerde.
+#   5b. Freshness Begriffshilfe (#498): build-begriffshilfe.py muss
+#      assets/downloads/mhdbdb-begriffshilfe.md byte-identisch
+#      reproduzieren (liest concepts.xml, lexicon.xml und w/@ana im
+#      Korpus; deterministisch, LF). Liest weder data/ noch git, die
+#      Position ist frei; sie steht bei den uebrigen Freshness-Gates.
 #   6. Freshness Indexe (Rebuild-and-Compare): beide Indexe frisch
 #      bauen, DEKOMPRIMIERTEN Inhalt mit dem committeten Stand
 #      vergleichen (gzip-Bytes koennen je zlib-Build variieren).
@@ -94,8 +99,8 @@ name: Data Integrity
 # Ziffern darunter zu verschieben. Die Buchstaben verschiebt er sehr
 # wohl: #399 hat 1b auf 1c und 1c auf 1d geschoben. Stehen bleibt 2
 # bis 8. Sie entspricht NICHT der durchnummerierten Liste in
-# docs/DEVELOPMENT.md (dort 1 bis 15, ohne Buchstaben): dort ist der
-# Index-Rebuild Pruefung 11, hier Step 6. Wer zwischen beiden Dateien
+# docs/DEVELOPMENT.md (dort 1 bis 17, ohne Buchstaben): dort ist der
+# Index-Rebuild Pruefung 12, hier Step 6. Wer zwischen beiden Dateien
 # springt, vergleicht Namen und nicht Nummern.
 #
 # Dependencies sind in requirements.txt gepinnt (CI und lokal dieselben
@@ -121,6 +126,8 @@ on:
       - 'scripts/build-corpus-index.py'
       - 'scripts/build-authority-index.py'
       - 'scripts/build-api.py'
+      - 'scripts/build-begriffshilfe.py'
+      - 'assets/downloads/**'
       - 'scripts/mhg_normalizer.py'
       # Globs statt Einzeldateien: jedes hier ausgefuehrte Gate-Skript
       # soll seinen eigenen Aenderungs-Trigger haben (Review #146).
@@ -149,6 +156,8 @@ on:
       - 'scripts/build-corpus-index.py'
       - 'scripts/build-authority-index.py'
       - 'scripts/build-api.py'
+      - 'scripts/build-begriffshilfe.py'
+      - 'assets/downloads/**'
       - 'scripts/mhg_normalizer.py'
       - 'scripts/sync/**'
       - 'scripts/audit/**'
@@ -420,6 +429,18 @@ jobs:
           if [ -n "$(git status --porcelain -- api/)" ]; then
             echo "::error file=api/index.json::api/ ist nicht mit den Indexen synchron (geaenderte ODER untracked Files). Lokal python scripts/build-api.py ausfuehren und mitcommitten (DATA-MODEL.md -> Data-Change-Lifecycle)."
             git status --porcelain -- api/
+            exit 1
+          fi
+
+      - name: Freshness Begriffshilfe (#498)
+        run: |
+          python scripts/build-begriffshilfe.py
+          # git status --porcelain wie beim API-Step: faengt geaenderte und
+          # untracked Files. Die Datei ist deterministisch (kein Datum, kein
+          # Commit, LF), abhaengig von concepts.xml, lexicon.xml und w/@ana.
+          if [ -n "$(git status --porcelain -- assets/downloads/)" ]; then
+            echo "::error file=assets/downloads/mhdbdb-begriffshilfe.md::Die Begriffshilfe ist nicht mit concepts.xml, lexicon.xml und dem Korpus synchron. Lokal python scripts/build-begriffshilfe.py ausfuehren und mitcommitten (DATA-MODEL.md -> Data-Change-Lifecycle)."
+            git status --porcelain -- assets/downloads/
             exit 1
           fi
 
