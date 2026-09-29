@@ -19,7 +19,8 @@ Stand 28.09.2026, verdichtet aus Runden 07.09. bis 28.09.
 - rg ueber die Wurzel haengt an tei/ (1,4 GB, >120 s): je Verzeichnis suchen oder Dateiliste des Skripts nehmen.
 
 **GitHub**
-- Laptop: `gh issue view N --json title,body,comments`, `gh pr view N --json comments` (Bot-Kommentar voll).
+- Laptop: `gh issue view N --json title,body,comments`, `gh pr view N --json comments` (Bot-Kommentar voll); `gh pr list --json number,headRefName,files` fuer „welcher offene PR beruehrt Quelle X" (29.09., als Subagent ohne Ablehnung). In `--jq` keine `\.`-Escapes in String-Literalen (Parsefehler), `startswith()` statt Regex.
+- GitHub Pages ohne `.nojekyll` (keins im Repo, kein Pages-Workflow): `.md` ohne Front Matter wird trotzdem roh ausgeliefert, gemessen 29.09. per WebFetch auf `docs/INDEX.md` live. Ein Download-Link auf eine `.md` unter `assets/` braucht also keinen Sonderfall.
 - `curl api.github.com/repos/DigitalHumanitiesCraft/mhdbdb-tei-only/...` ohne Token 200 am Laptop: `issues/N/comments`, `pulls/N` (body, `updated_at` gegen `git log -1 --format=%cI`), `pulls?head=Org:zweig&state=all`, `commits/<sha>` (files[].patch; xlsx nur `changes: 0`), `actions/runs/<id>/jobs` (roter Step); `/logs` 403.
 - WebFetch auf api.github.com 403; auf github.com/.../pull/N liefert es die Bot-Runden; Issue-HTML zeigt Kommentare nicht (clientseitig, wirkt wie 0).
 - **Widerspruch Cloud-Session:** 07.09. api.github.com 403 („GitHub access is not enabled"); 10.09. laut #424-Notiz ohne Token 200; mit `Authorization: Bearer $GITHUB_TOKEN` 200.
