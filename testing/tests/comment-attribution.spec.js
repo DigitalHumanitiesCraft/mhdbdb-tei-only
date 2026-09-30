@@ -29,6 +29,14 @@ const kommentare = auth.lemmata.flatMap(l => (l.senses || [])
     .filter(s => s.comment && s.commentResp)
     .map(s => ({ id: l.id, lemma: l.lemma, resp: s.commentResp, name: s.commentRespName })));
 
+/** Dasselbe fuer Definitionen und Herkunftserklaerungen (KZW 25.09.2026). */
+const definitionen = auth.lemmata.flatMap(l => (l.senses || [])
+    .filter(s => s.definition && s.definitionResp)
+    .map(s => ({ id: l.id, lemma: l.lemma, resp: s.definitionResp, name: s.definitionRespName })));
+const herkuenfte = auth.lemmata
+    .filter(l => l.origin && l.origin.attribution && l.origin.resp)
+    .map(l => ({ id: l.id, lemma: l.lemma, resp: l.origin.resp, name: l.origin.respName }));
+
 test.describe('Urheberangabe am kuratierten Kommentar (#270)', () => {
     test('der Index traegt zu jedem commentResp einen Namen', () => {
         // Kontrollwert: Abba traegt seit 2026-07-30 einen Kommentar. Fehlt
@@ -37,12 +45,34 @@ test.describe('Urheberangabe am kuratierten Kommentar (#270)', () => {
         for (const k of kommentare) {
             expect(k.name, `${k.id} ${k.resp}`).toBeTruthy();
         }
-        // Nur Kommentare bekommen einen Namen: definitionResp und origin.resp
-        // bleiben unaufgeloest, bis #270 das fuer <def> und <etym> entscheidet.
-        const fremd = auth.lemmata.filter(l =>
-            (l.origin && 'respName' in l.origin) ||
-            (l.senses || []).some(s => 'definitionRespName' in s));
-        expect(fremd).toEqual([]);
+    });
+
+    test('der Index traegt zu jeder Definition und Herkunftserklaerung mit Urheber einen Namen', () => {
+        // KZW 25.09.2026: dieselbe Angabe auch an <def> und <etym>. Kontrollwert
+        // wie oben: Abba traegt beide mit @resp.
+        expect(definitionen.map(d => d.id)).toContain('lemma_37818');
+        expect(herkuenfte.map(h => h.id)).toContain('lemma_37818');
+        for (const x of [...definitionen, ...herkuenfte]) {
+            expect(x.name, `${x.id} ${x.resp}`).toBeTruthy();
+        }
+        // Ohne @resp kein Name: nichts wird aus Nachbarangaben uebernommen.
+        const ohneResp = auth.lemmata.filter(l =>
+            (l.origin && !l.origin.resp && 'respName' in l.origin) ||
+            (l.senses || []).some(s => !s.definitionResp && 'definitionRespName' in s));
+        expect(ohneResp).toEqual([]);
+    });
+
+    test('die Lemma-Seite nennt den Urheber von Definition und Herkunftserklaerung', async ({ page }) => {
+        for (const d of definitionen) {
+            await page.goto(`/lemma/?id=${d.id.replace('lemma_', '')}`);
+            await page.waitForSelector('#lemmaContent:not(.hidden)', { timeout: 30000 });
+            await expect(page.locator('#sensesContent')).toContainText(`Definition von ${d.name}`);
+        }
+        for (const h of herkuenfte) {
+            await page.goto(`/lemma/?id=${h.id.replace('lemma_', '')}`);
+            await page.waitForSelector('#lemmaContent:not(.hidden)', { timeout: 30000 });
+            await expect(page.locator('#originContent')).toContainText(`Herkunftserklärung von ${h.name}`);
+        }
     });
 
     test('die Lemma-Seite nennt den Urheber des Kommentars', async ({ page }) => {
@@ -76,6 +106,12 @@ test.describe('Urheberangabe am kuratierten Kommentar (#270)', () => {
             await expect(knopf).toHaveCount(1, { timeout: 30000 });
             await knopf.click();
             await expect(page.getByText(`Kommentar von ${k.name}:`)).toBeVisible({ timeout: 30000 });
+            if (definitionen.some(d => d.id === k.id)) {
+                await expect(page.getByText(`Definition von ${k.name}:`)).toBeVisible();
+            }
+            if (herkuenfte.some(h => h.id === k.id)) {
+                await expect(page.getByText(`Herkunftserklärung von ${k.name}:`)).toBeVisible();
+            }
         }
     });
 });

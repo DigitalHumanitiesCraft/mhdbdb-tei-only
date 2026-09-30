@@ -178,8 +178,13 @@ class LemmaPage {
             const langs = lemma.origin.languages.map(l =>
                 `<span class="inline-block bg-brand-50 text-brand-700 px-2 py-0.5 rounded text-xs mr-1 mb-1">${escapeHtml(l.name)}${l.code ? ` <span class="text-brand-400 font-mono">${escapeHtml(l.code)}</span>` : ''}</span>`
             ).join('');
+            // Seit #270 (KZW 25.09.2026) mit Urheber, wo der Index ihn
+            // aufgeloest hat; ohne Namen kein Label, nichts wird ergaenzt.
+            const originLabel = lemma.origin.respName
+                ? `<div class="text-xs text-slate-400 mt-2 mb-0.5">Herkunftserklärung von ${escapeHtml(lemma.origin.respName)}</div>`
+                : '';
             const attribution = lemma.origin.attribution
-                ? `<p class="text-sm text-slate-600 mt-2">${escapeHtml(lemma.origin.attribution)}</p>`
+                ? `${originLabel}<p class="text-sm text-slate-600 ${originLabel ? '' : 'mt-2'}">${escapeHtml(lemma.origin.attribution)}</p>`
                 : '';
             this.elements.originContent.innerHTML = `<div>${langs}</div>${attribution}`;
         }
@@ -192,8 +197,13 @@ class LemmaPage {
                 // Kuratierte Prosa steht VOR den Begriffs-Chips: wo eine
                 // Bedeutung ausformuliert ist, ist sie die Hauptinformation,
                 // die Begriffszuordnung bleibt die Klassifikation dazu.
+                // Urheber der Definition wie beim Kommentar (#270, KZW
+                // 25.09.2026); ohne aufgeloesten Namen bleibt sie ohne Label.
+                const definitionLabel = sense.definitionRespName
+                    ? `<div class="text-xs text-slate-400 mb-0.5">Definition von ${escapeHtml(sense.definitionRespName)}</div>`
+                    : '';
                 const definition = sense.definition
-                    ? `<p class="text-sm text-slate-800 mb-2">${escapeHtml(sense.definition)}</p>`
+                    ? `${definitionLabel}<p class="text-sm text-slate-800 mb-2">${escapeHtml(sense.definition)}</p>`
                     : '';
                 // Der Kommentar bekommt ein sichtbares Label: das Datenmodell
                 // trennt Bedeutungsangabe und Argumentation, eine Graustufe

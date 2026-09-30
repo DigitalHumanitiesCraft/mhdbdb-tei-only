@@ -1022,8 +1022,12 @@ export class LemmaExplorer {
             : this.escapeText(l.name)
         )
         .join(" • ");
+      // Seit #270 (KZW 25.09.2026) mit Urheber, wo der Index ihn aufgeloest hat.
+      const originLabel = lemma.origin.respName
+        ? `<strong>Herkunftserklärung von ${this.escapeText(lemma.origin.respName)}:</strong> `
+        : "";
       const attribution = lemma.origin.attribution
-        ? `<div style="font-size: 0.8rem; color: #64748b; margin-top: 2px;">${this.escapeText(lemma.origin.attribution)}</div>`
+        ? `<div style="font-size: 0.8rem; color: #64748b; margin-top: 2px;">${originLabel}${this.escapeText(lemma.origin.attribution)}</div>`
         : "";
       resultHTML += `
               <div style="margin-bottom: 8px;">
@@ -1072,9 +1076,13 @@ export class LemmaExplorer {
 
         // Kuratierte Prosa (<def> / <note type="comment"> im Lexikon).
         // Seit #270 nennt das Label den Urheber des Kommentars, wo der
-        // Index ihn aufgeloest hat (commentRespName).
+        // Index ihn aufgeloest hat (commentRespName), seit 25.09.2026 auch
+        // der Definition (definitionRespName).
+        const definitionLabel = sense.definitionRespName
+          ? `<strong>Definition von ${this.escapeText(sense.definitionRespName)}:</strong> `
+          : "";
         const definitionHTML = sense.definition
-          ? `<div style="margin-top: 4px; font-size: 0.9rem; color: #1e293b;">${this.escapeText(sense.definition)}</div>`
+          ? `<div style="margin-top: 4px; font-size: 0.9rem; color: #1e293b;">${definitionLabel}${this.escapeText(sense.definition)}</div>`
           : "";
         const commentLabel = sense.commentRespName
           ? `Kommentar von ${this.escapeText(sense.commentRespName)}:`
