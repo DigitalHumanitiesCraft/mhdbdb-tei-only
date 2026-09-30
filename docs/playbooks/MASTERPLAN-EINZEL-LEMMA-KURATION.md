@@ -115,7 +115,23 @@ Für `lexicon.xml` gilt zusätzlich die Grundregel aus CONTRACTS §F: **das Korp
 
 ---
 
-## 8. Abschluss (immer)
+## 8. Die freiwillige philologische Anmerkung aus einer Token-Prüfung
+
+Ergänzt am 2026-09-30 auf KZWs Bitte in #269 (23.09.2026): „Bitte ergänzt ausdrücklich den Fall einer freiwilligen philologischen Anmerkung aus einer Token-Prüfung: Solche Rechercheergebnisse sollen bei Bedarf zur passenden Bedeutung veröffentlicht werden können, ohne Kommentare zum Standard oder zur Pflicht jeder Prüfung zu machen. Der Kommentar soll seinen Urheber sichtbar nennen; Urheberschaft und Prüfung sind dabei zu unterscheiden."
+
+Der Fall: Bei einer Token-Prüfung (Disambiguierung, Prüfseite, Einzelbeleg) entsteht ein Rechercheergebnis, das über die Entscheidung hinaus erhaltenswert ist, etwa eine Parallelstelle, eine Wörterbuchangabe oder die Begründung einer Lesung. Es kann als `<note type="comment">` an die Bedeutung, die es betrifft.
+
+- **Freiwillig.** Der Kommentar ist eine Ergänzung, kein Bestandteil der Prüfung. Keine Prüfseite und kein Gate verlangt ihn, und eine Prüfung ohne Kommentar ist vollständig.
+- **An die passende Bedeutung**, nicht an das Lemma: `<note type="comment">` steht im `<sense>`, dessen Belege die Anmerkung betrifft. Passt sie zu keiner vorhandenen Bedeutung, ist das ein eigener Befund und eine Rückfrage, kein Grund, sie an eine andere Bedeutung zu hängen.
+- **Mit Urheber.** `@resp` auf `contributors.xml#contrib_N` ist am Kommentar Pflicht (Schema, `docs/TEI-MODEL-AUTH-FILES.md` §3.1). Urheber ist, wer die Anmerkung verfasst hat. Lemma-Seite und Playground zeigen „Kommentar von <Name>" (#270, Authority-Index 1.9.10). Steht die Person nicht in `contributors.xml`, hält der Build an; sie wird dann dort ergänzt und nicht durch einen anderen Eintrag ersetzt.
+- **Urheberschaft ist nicht Prüfung.** „Kommentar von" sagt, wer den Text geschrieben hat, nicht, dass ihn jemand fachlich geprüft hat. Eine Prüfung festzuhalten ist eine eigene Angabe und folgt nicht aus `@resp`.
+- **Stufe 1.** Das Schema kennt `<note type="comment">` seit Authority-Index 1.7.0, und die Anzeige mit Namen ist gebaut. Die Session läuft also bis zum PR durch, eine Stufe 3 fällt nicht an.
+
+Beispiel ist der Kommentar bei „Abba" (`lemma_37818_sense_59052`), Urheberin KZW (`contrib_003`).
+
+---
+
+## 9. Abschluss (immer)
 
 Dieselbe Liste, dieselbe Reihenfolge, unabhängig von der Stufe:
 
@@ -130,7 +146,7 @@ Dieselbe Liste, dieselbe Reihenfolge, unabhängig von der Stufe:
 
 ---
 
-## 9. Entscheidungen, auf denen dieses Playbook steht
+## 10. Entscheidungen, auf denen dieses Playbook steht
 
 Getroffen von chsteiner am 2026-08-07, aus den Fragen in #269:
 
@@ -140,3 +156,5 @@ Getroffen von chsteiner am 2026-08-07, aus den Fragen in #269:
 | Wo endet eine Session? | **Bei korrekten Daten.** Stufe 3 ist ein eigenes Ticket | KZWs Rückmeldung zum Abba-Fall. Kostet 4 der 20 Dateien, siehe Abschnitt 1 |
 | Wie hart ist der Stufe-2-Stopp? | **Session endet mit Vorschlag**, kein Warten im Lauf | Betriebsvertrag Regel 9 verbietet einer autonomen Session das Warten; ein blockierender Stopp widerspräche ihr |
 | Neues Vokabular nötig? | Eigene Stufe zwischen 1 und 2, siehe Abschnitt 7 | Aus der vierten Frage in #269, die das Modell zunächst nicht abdeckte |
+
+Dazu von KZW am 2026-09-23 in #269: das Verfahren passt grundsätzlich; der Kommentar aus einer Token-Prüfung ist freiwillig, nennt seinen Urheber und ist keine Prüfung (Abschnitt 8).
