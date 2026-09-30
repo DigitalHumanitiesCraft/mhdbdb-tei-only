@@ -464,7 +464,8 @@ test.describe('Issue #250: Editorische Eingriffe im Metadatenpanel', () => {
         await expect(editorial).toBeVisible();
         await expect(editorial).toContainText('Editorische Eingriffe');
         await expect(editorial).toContainText('Der Text besteht aus 57 Rezepten');
-        await expect(editorial).toContainText('nicht disambiguiert');
+        // Seit #493 nach dem @ana-Stand: 2723 von 3364 lemmatisierten Tokens
+        await expect(editorial).toContainText('teilweise semantisch disambiguiert');
         await expect(page.locator('.metadata-editorial-note')).toHaveCount(3);
 
         // Das Boilerplate über lokale Dateireferenzen steht in 666 Headern und

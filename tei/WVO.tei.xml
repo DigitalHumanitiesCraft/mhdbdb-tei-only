@@ -116,7 +116,7 @@
           genres.xml#genre_XXX) point to controlled vocabularies in the authority-files directory of
           this repository. These internal cross-references enable linking to person, work, lemma,
           concept, genre, and name authority files.</p>
-      <normalization><p>Lemmatisiert, noch nicht disambiguiert.</p><p>Der Text enthält einen längeren Einschub nach Zeile 567.</p><p>Die Groß-/Kleinschreibung entspricht aus technischen Gründen nur teilweise der Edition.</p></normalization></editorialDecl>
+      <normalization><p>Lemmatisiert, teilweise semantisch disambiguiert.</p><p>Der Text enthält einen längeren Einschub nach Zeile 567.</p><p>Die Groß-/Kleinschreibung entspricht aus technischen Gründen nur teilweise der Edition.</p></normalization></editorialDecl>
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
@@ -164,6 +164,7 @@
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 173 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/). 63 weitere Tokens der Form minne blieben bewusst unannotiert (Review).</change>
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 110 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/). 2 weitere Tokens der Form stat blieben bewusst unannotiert (Review).</change>
       <change when="2026-09-21" who="#editor">#371 stat, drittes Lemma: 1 bislang unlemmatisierte Tokens der Form stat/stât annotiert (lemmaRef/pos/corresp nach dem actions-Array in KZWs Review vom 15.09.2026; drei neu gepraegte Variantentypen; kein @ana, weil die Sense-Zuordnung kuratorisch ist; die 17 Faelle mit option OFFEN und die 2 mit NEU_STAND bleiben unangetastet; Provenienz-Log: ingest/pos-disambig/371-stat/).</change>
+      <change when="2026-09-30" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization an den Stand der Annotation angeglichen (60350 von 81268 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;Lemmatisiert, noch nicht disambiguiert.&#34;</change>
     </revisionDesc>
   </teiHeader>
   <text>

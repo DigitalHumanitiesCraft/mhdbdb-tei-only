@@ -1,0 +1,235 @@
+#!/usr/bin/env python3
+"""
+Angabe zur semantischen Disambiguierung im Header an den Stand der
+Annotation angleichen (#493).
+
+KZW am 2026-09-25 in #493: "Lass den Satz in der Form nur stehen, wenn
+saemtliche Tokens in einem Text noch nicht Begriffs-disambiguiert sind. Wenn
+ein Teil des Textes semantisch erschlossen wurde, schreib das hin."
+
+Der Satz steht in encodingDesc/editorialDecl/normalization als eigenes <p>,
+in 53 Fassungen ("Lemmatisiert, nicht disambiguiert.", "Noch nicht
+disambiguiert." ...). Er stammt aus dem Altbestand und wurde bei der Migration
+mitgeschleppt.
+
+MESSVORSCHRIFT: gezaehlt wird im <body> jedes <w> mit nicht leerem Text.
+    lemmatisiert  = mit @lemmaRef
+    erschlossen   = mit @lemmaRef und @ana (Verweis auf einen Sense)
+Ein Token gilt als erschlossen, sobald es einen Begriff traegt, auch wenn die
+Zuordnung automatisch kam, weil das Lemma nur einen Sense hat (DATA-MODEL,
+Phase 3). Das ist KZWs Wortlaut: Tokens, die Begriffs-disambiguiert sind.
+Ein @ana mit mehreren Senses kommt im Korpus nicht vor (0 Tokens, gemessen).
+
+    erschlossen = 0            -> Satz bleibt
+    0 < erschlossen < lemmat.  -> "teilweise semantisch disambiguiert"
+    erschlossen = lemmat.      -> "semantisch disambiguiert"
+
+ZIELMENGE, gemessen am 2026-09-30 (667 Dateien):
+    Dateien mit einem solchen Satz                     572
+      erschlossen = 0                                     0
+      teilweise                                         402
+      vollstaendig                                      170
+    Dateien mit mehr als einem solchen Satz               0
+
+Ersetzt wird nur die Aussage zur Disambiguierung; der Teil zur Lemmatisierung
+bleibt stehen. Ausnahme sind die 12 Saetze, die beides in einem Zug verneinen
+("Noch nicht lemmatisiert und disambiguiert.", "Weder lemmatisiert noch
+disambiguiert."). Die zwoelf Texte sind zu 74 bis 87 % lemmatisiert, dort wird
+der ganze Satz zu "Teilweise lemmatisiert, ...". Saetze, die schon
+"teilweise", "weitgehend" oder "fast vollstaendig disambiguiert" sagen,
+bleiben bei teilweise erschlossenen Texten stehen.
+
+Ein Satz, den keine Regel abdeckt, ist ein harter Fehler: nichts wird
+geschrieben.
+
+Je geaenderter Datei kommt ein <change> in den revisionDesc (Muster #216),
+mit den Zahlen dieser Datei. Idempotent ueber den Marker '#493'.
+
+Textuelle Ersetzung statt lxml-Serialisierung, damit der Rest der Datei
+byte-identisch bleibt.
+
+Usage:
+    python scripts/update-disambig-status-493.py            # Trockenlauf
+    python scripts/update-disambig-status-493.py --apply
+"""
+import argparse
+import csv
+import re
+import sys
+from collections import Counter
+from pathlib import Path
+
+from lxml import etree
+
+REPO = Path(__file__).resolve().parents[1]
+TEI_DIR = REPO / "tei"
+PLAN = REPO / "ingest" / "disambig-493" / "aenderungen.csv"
+NS = "{http://www.tei-c.org/ns/1.0}"
+
+DATUM = "2026-09-30"
+MARKER = "#493"
+DIS = "semantisch disambiguiert"
+
+NORM_RE = re.compile(r"<normalization>(.*?)</normalization>", re.S)
+P_RE = re.compile(r"<p>(.*?)</p>", re.S)
+CLOSE_RE = re.compile(r"([ \t]*)</revisionDesc>")
+LAST_CHANGE_RE = re.compile(r"([ \t]*)<change[ >]")
+EIGENE_ZEILE_RE = re.compile(r"[ \t]*<change [^>]*>#493: .*?</change>\r?\n")
+
+QUALIFIZIERT = re.compile(r"\b(teilweise|weitgehend|fast vollständig) disambiguiert")
+DOPPELT = re.compile(r"(Noch nicht|Nicht) lemmatisiert (und|oder) (nicht )?disambiguiert\.|"
+                     r"Weder lemmatisiert noch disambiguiert\.")
+POSITIV = re.compile(r"(?P<x>.+?) und disambiguiert(?P<rest>\.?.*)")
+VORNE = re.compile(r"(?P<pre>Der Text ist )?(?:[Nn]och )?[Nn]icht disambiguiert(?P<rest>.*)")
+LEMMA_TEIL = r"(?P<x>(?:.*\s)?[Ll]emmatisiert)"
+UND_NICHT = re.compile(LEMMA_TEIL + r" und (?:noch )?nicht disambiguiert(?P<rest>.*)")
+HINTEN = re.compile(LEMMA_TEIL + r"(?P<sep>[,;.])?\s*(?:aber\s+)?(?:[Nn]och\s+)?[Nn]icht disambiguiert(?P<rest>.*)")
+
+
+class UnbekannterSatz(Exception):
+    pass
+
+
+def neuer_satz(s, klasse):
+    """Neuer Satz, oder None, wenn der alte stimmt."""
+    q = ("teilweise " if klasse == "teil" else "") + DIS
+    gross = q[0].upper() + q[1:]
+    if QUALIFIZIERT.search(s):
+        if klasse == "teil":
+            return None
+        raise UnbekannterSatz("schon eingeschraenkt, aber vollstaendig erschlossen")
+    if DOPPELT.fullmatch(s):
+        return f"Teilweise lemmatisiert, {q}."
+    m = POSITIV.fullmatch(s)
+    if m and "nicht" not in m["x"].split()[-1:]:
+        return None if klasse == "alle" else f"{m['x']} und {q}{m['rest']}"
+    m = VORNE.fullmatch(s)
+    if m:
+        return (f"Der Text ist {q}{m['rest']}" if m["pre"] else f"{gross}{m['rest']}")
+    m = UND_NICHT.fullmatch(s)
+    if m:
+        return f"{m['x']} und {q}{m['rest']}"
+    m = HINTEN.fullmatch(s)
+    if m:
+        sep = m["sep"] or ","
+        if sep == ".":
+            return f"{m['x']}. {gross}{m['rest']}"
+        return f"{m['x']}{sep} {q}{m['rest']}"
+    raise UnbekannterSatz("keine Regel")
+
+
+def zaehle(pfad):
+    doc = etree.parse(str(pfad))
+    body = doc.find(f".//{NS}text/{NS}body")
+    lem = ana = 0
+    for w in body.iter(f"{NS}w"):
+        if not "".join(w.itertext()).strip() or not w.get("lemmaRef"):
+            continue
+        lem += 1
+        if w.get("ana"):
+            ana += 1
+    return lem, ana
+
+
+def change_eintragen(text, eintrag, fname):
+    kopf = text.split("</teiHeader>", 1)[0]
+    if MARKER in kopf:
+        text, _ = EIGENE_ZEILE_RE.subn("", text, count=1)
+        kopf = text.split("</teiHeader>", 1)[0]
+    m_close = None
+    for m_close in CLOSE_RE.finditer(kopf):
+        pass
+    if m_close is None:
+        raise SystemExit(f"FEHLER: {fname}: kein </revisionDesc> im teiHeader")
+    einrueckung = None
+    for m in LAST_CHANGE_RE.finditer(text[:m_close.start()]):
+        einrueckung = m.group(1)
+    if einrueckung is None:
+        einrueckung = m_close.group(1) + "  "
+    nl = "\r\n" if "\r\n" in kopf else "\n"
+    return text[:m_close.start()] + einrueckung + eintrag + nl + text[m_close.start():]
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--apply", action="store_true")
+    args = ap.parse_args()
+
+    dateien = sorted(TEI_DIR.glob("*.tei.xml"))
+    fehler, plan, neu_text = [], [], {}
+    stat = Counter()
+    for fp in dateien:
+        text = fp.read_text(encoding="utf-8", newline="")
+        kopf = text.split("</teiHeader>", 1)[0]
+        m_norm = NORM_RE.search(kopf)
+        if not m_norm:
+            continue
+        treffer = [m for m in P_RE.finditer(m_norm.group(1))
+                   if "disambig" in m.group(1).lower()]
+        if not treffer:
+            continue
+        if len(treffer) > 1:
+            fehler.append(f"{fp.name}: {len(treffer)} Saetze mit 'disambig'")
+            continue
+        inhalt = treffer[0].group(1)
+        if "<" in inhalt:
+            fehler.append(f"{fp.name}: Kindelement im Satz")
+            continue
+        alt = " ".join(inhalt.split())
+        lem, ana = zaehle(fp)
+        stat["mit Satz"] += 1
+        if ana == 0:
+            stat["erschlossen = 0, bleibt"] += 1
+            continue
+        klasse = "alle" if ana == lem else "teil"
+        stat[f"Klasse {klasse}"] += 1
+        try:
+            neu = neuer_satz(alt, klasse)
+        except UnbekannterSatz as e:
+            fehler.append(f"{fp.name}: {e}: {alt!r} ({klasse})")
+            continue
+        if neu is None or neu == alt:
+            stat["stimmt schon"] += 1
+            continue
+        stat["geaendert"] += 1
+        plan.append([fp.name[:-8], alt, neu, lem, ana, f"{100 * ana / lem:.1f}"])
+
+        start = m_norm.start(1) + treffer[0].start(1)
+        ende = m_norm.start(1) + treffer[0].end(1)
+        lead = inhalt[:len(inhalt) - len(inhalt.lstrip())]
+        trail = inhalt[len(inhalt.rstrip()):]
+        text = text[:start] + lead + neu + trail + text[ende:]
+        eintrag = (f'<change when="{DATUM}" who="#editor">#493: Angabe zur semantischen '
+                   f"Disambiguierung in encodingDesc/normalization an den Stand der Annotation "
+                   f"angeglichen ({ana} von {lem} lemmatisierten Tokens tragen einen Begriff "
+                   f"in @ana). Vorher: &#34;{alt}&#34;</change>")
+        neu_text[fp] = change_eintragen(text, eintrag, fp.name)
+
+    if fehler:
+        print(f"FEHLER in {len(fehler)} Dateien, nichts geschrieben:")
+        for f in fehler:
+            print("  " + f)
+        return 1
+
+    print(f"Dateien: {len(dateien)} | " + " | ".join(f"{k}: {v}" for k, v in sorted(stat.items())))
+    uebersicht = Counter((p[1], p[2]) for p in plan)
+    print(f"\n{len(uebersicht)} verschiedene Ersetzungen:")
+    for (alt, neu), n in sorted(uebersicht.items(), key=lambda x: -x[1]):
+        print(f"  {n:4d}  {alt}\n        -> {neu}")
+
+    if args.apply:
+        for fp, t in neu_text.items():
+            fp.write_text(t, encoding="utf-8", newline="")
+        PLAN.parent.mkdir(parents=True, exist_ok=True)
+        with PLAN.open("w", encoding="utf-8", newline="") as h:
+            w = csv.writer(h)
+            w.writerow(["sigle", "alt", "neu", "lemmatisiert", "erschlossen", "anteil_prozent"])
+            w.writerows(plan)
+        print(f"\n[APPLY] {len(neu_text)} Dateien geschrieben, Liste: {PLAN.relative_to(REPO)}")
+    else:
+        print("\n[DRY-RUN] --apply zum Schreiben")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

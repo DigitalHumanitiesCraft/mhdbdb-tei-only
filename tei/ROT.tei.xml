@@ -99,7 +99,7 @@
       <editorialDecl>
         <p xml:lang="de">Lokale Dateireferenzen (z.B. persons.xml#person_445, lexicon.xml#lemma_879, genres.xml#genre_XXX) verweisen auf kontrollierte Vokabulare im authority-files Verzeichnis dieses Repositorys. Diese internen Querverweise ermöglichen die Verknüpfung mit Personen-, Werk-, Lemma-, Konzept-, Genre- und Namensautoritätsdateien.</p>
         <p xml:lang="en">Local file references (e.g. persons.xml#person_445, lexicon.xml#lemma_879, genres.xml#genre_XXX) point to controlled vocabularies in the authority-files directory of this repository. These internal cross-references enable linking to person, work, lemma, concept, genre, and name authority files.</p>
-      <normalization><p>Der Text besteht aus 5181 Versen beginnend mit Vers 1 und weist Einschübe auf.</p><p>Hochgestellte o,v, etc. und Abbreviaturen wurden aufgelöst. Emendierte Wörter erscheinen kursiv, und im Gegensatz zur Edition alle Eigennamen konsequent groß.</p><p>Teilweise lemmatisiert, nicht disambiguiert.</p><p>Die Groß-/Kleinschreibung entspricht aus technischen Gründen nur teilweise der Edition.</p></normalization></editorialDecl>
+      <normalization><p>Der Text besteht aus 5181 Versen beginnend mit Vers 1 und weist Einschübe auf.</p><p>Hochgestellte o,v, etc. und Abbreviaturen wurden aufgelöst. Emendierte Wörter erscheinen kursiv, und im Gegensatz zur Edition alle Eigennamen konsequent groß.</p><p>Teilweise lemmatisiert, teilweise semantisch disambiguiert.</p><p>Die Groß-/Kleinschreibung entspricht aus technischen Gründen nur teilweise der Edition.</p></normalization></editorialDecl>
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
@@ -159,6 +159,7 @@
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 3 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 29 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
       <change when="2026-09-23" who="#editor">#464 zalder: 1 Token von @pos PRO VRB auf VRB PRO, Verschmelzung aus einer Präteritalform von zeln und er als @reason dokumentiert, keine Token-Trennung (KZW 22.09.2026).</change>
+      <change when="2026-09-30" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization an den Stand der Annotation angeglichen (16138 von 20400 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;Teilweise lemmatisiert, nicht disambiguiert.&#34;</change>
     </revisionDesc>
   </teiHeader>
   <text>
