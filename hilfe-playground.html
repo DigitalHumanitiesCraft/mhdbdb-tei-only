@@ -301,6 +301,25 @@
                 Treffer öffnet die Leseansicht der Hauptseite mit allen Lemmata in denselben Farben
                 und springt direkt zur Fundstelle.
             </p>
+
+            <h3 class="text-lg font-semibold text-slate-900 mt-6 mb-2">Fundstellen exportieren</h3>
+            <p class="text-slate-700 leading-relaxed mb-3">
+                Über der Trefferliste stehen die Knöpfe <strong>CSV-Export</strong> und
+                <strong>XLSX-Export</strong>. Die Datei enthält alle Treffer der Suche, nicht nur
+                die bis zu 50 angezeigten je Text, und eine Zeile je Fundstelle: Sigle, Titel,
+                Autor*in, Vers oder Zeile, die Wort-IDs der Belegwörter und den Kontext. Die
+                Wort-ID macht die Stelle eindeutig, auch wo ein Text seine Verse abschnittsweise
+                neu zählt. In der Dokument-Suche ist jede Zeile ein einzelner Beleg eines der
+                gesuchten Lemmata, mit zehn Wörtern Kontext auf jeder Seite.
+            </p>
+            <p class="text-slate-700 leading-relaxed">
+                Jede Zeile nennt außerdem die Suche (Modus, Abstand, Lemmata mit ID) und die
+                Textauswahl, wie sie beim Start der Suche galten. Die XLSX-Datei öffnet sich in
+                Excel ohne Importeinstellungen und hat ein zweites Blatt "Suche" mit diesen
+                Angaben, der Version des Korpus-Index und der Lizenz. Für den Export werden die
+                betroffenen Texte nachgeladen; das dauert bei vielen Treffern eine Weile, der
+                Fortschritt steht neben den Knöpfen.
+            </p>
         </section>
 
         <!-- 4. Lemmasuche nach Versposition -->
@@ -387,8 +406,9 @@
                 Komma, die Kodierung UTF-8; in Excel öffnen Sie die Datei am sichersten über
                 "Daten" und "Aus Text/CSV". Die
                 Hapaxlegomena haben ihren eigenen, älteren Export mit Semikolon. Diagramme
-                (Konzept- und Lemmaverteilung) und die Trefferkarten der Multi-Lemma-Suche
-                lassen sich nicht als CSV herunterladen.
+                (Konzept- und Lemmaverteilung) lassen sich nicht als CSV herunterladen. Die
+                Multi-Lemma-Suche exportiert ihre Fundstellen als CSV und XLSX, siehe
+                <a href="#multi-lemma" class="text-brand-600 hover:text-brand-700 font-medium">Abschnitt 3</a>.
             </p>
 
             <h3 class="text-lg font-semibold text-slate-900 mt-6 mb-2">Im Block "Korpusanalysen"</h3>

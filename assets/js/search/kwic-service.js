@@ -35,27 +35,23 @@ function lineRefFor(wordEl, lastLbN, lastPbN) {
 }
 
 /**
- * Extract KWIC hits for the given lemma IDs.
+ * One pass over the <body>: every readable word as a context token, and for
+ * every counted position (CONTRACTS §B) its token index, @lemmaRef and line
+ * reference. Shared by extractKwicHits and the multi-lemma export of the
+ * playground (#448), which needs context windows spanning several lemmata.
  *
  * @param {Document} teiDoc - parsed TEI document
- * @param {string[]} lemmaIds - lemma IDs to match (exact token match, §B.1)
- * @param {object} options
- * @param {number} options.contextWords - words of context per side (default 10)
- * @param {number} options.maxHits - cap on returned hits (default Infinity)
- * @returns {{hits: Array<{position: number, lineRef: object|null,
- *            before: string[], keyword: string, after: string[]}>, total: number}}
+ * @returns {{tokens: string[], positions: Array<{tokenIndex: number,
+ *            lemmaRef: string, lineRef: object|null, xmlId: string}>}}
+ *          `positions[p]` belongs to §B position p.
  */
-function extractKwicHits(teiDoc, lemmaIds, { contextWords = 10, maxHits = Infinity } = {}) {
+function collectPositionTokens(teiDoc) {
+    const tokens = [];     // surface forms for context windows (annotated or not)
+    const positions = [];  // index = §B position
+
     const body = teiDoc.querySelector('body');
-    if (!body) return { hits: [], total: 0 };
+    if (!body) return { tokens, positions };
 
-    const ids = (lemmaIds || []).filter(Boolean).map(id => id.toString());
-    if (ids.length === 0) return { hits: [], total: 0 };
-
-    const tokens = [];   // surface forms for context windows (annotated or not)
-    const rawHits = [];  // { tokenIndex, position, lineRef }
-
-    let position = 0;    // CONTRACTS §B counter (<w lemmaRef> with text only)
     let lastLbN = null;
     let lastPbN = null;
 
@@ -89,22 +85,43 @@ function extractKwicHits(teiDoc, lemmaIds, { contextWords = 10, maxHits = Infini
                 if (!inParatext) {
                     const tokenIndex = tokens.length;
                     tokens.push(text);
-
-                    if (lemmaRef && ids.some(id => lemmaRefMatchesId(lemmaRef, id))) {
-                        rawHits.push({
+                    if (lemmaRef) {
+                        positions.push({
                             tokenIndex,
-                            position,
-                            lineRef: lineRefFor(node, lastLbN, lastPbN)
+                            lemmaRef,
+                            lineRef: lineRefFor(node, lastLbN, lastPbN),
+                            xmlId: node.getAttribute('xml:id') || ''
                         });
                     }
                 }
-
-                if (lemmaRef) position++;
             }
         }
 
         node = walker.nextNode();
     }
+
+    return { tokens, positions };
+}
+
+/**
+ * Extract KWIC hits for the given lemma IDs.
+ *
+ * @param {Document} teiDoc - parsed TEI document
+ * @param {string[]} lemmaIds - lemma IDs to match (exact token match, §B.1)
+ * @param {object} options
+ * @param {number} options.contextWords - words of context per side (default 10)
+ * @param {number} options.maxHits - cap on returned hits (default Infinity)
+ * @returns {{hits: Array<{position: number, lineRef: object|null,
+ *            before: string[], keyword: string, after: string[]}>, total: number}}
+ */
+function extractKwicHits(teiDoc, lemmaIds, { contextWords = 10, maxHits = Infinity } = {}) {
+    const ids = (lemmaIds || []).filter(Boolean).map(id => id.toString());
+    if (ids.length === 0) return { hits: [], total: 0 };
+
+    const { tokens, positions } = collectPositionTokens(teiDoc);
+    const rawHits = positions
+        .map((p, position) => ({ ...p, position }))
+        .filter(p => ids.some(id => lemmaRefMatchesId(p.lemmaRef, id)));
 
     const limited = (maxHits === Infinity) ? rawHits : rawHits.slice(0, maxHits);
     const hits = limited.map(h => ({
@@ -131,4 +148,4 @@ function formatLineRef(lineRef) {
     }
 }
 
-export { extractKwicHits, formatLineRef };
+export { collectPositionTokens, extractKwicHits, formatLineRef };
