@@ -75,6 +75,40 @@ test.describe('Lemma-Nummer in der Korpussuche (#467)', () => {
     });
 });
 
+// Lemmata mit reiner Ziffernschreibung (#228 raeumt sie gerade ab, darum aus
+// den Daten und nicht fest verdrahtet) und ihre Ziffern-Varianten
+const ZIFFERN = /^\d+$/;
+const ZIFFERN_LEMMA = auth.lemmata.find(l => ZIFFERN.test(l.lemma)
+    && Object.entries(auth.variants).some(([k, v]) => v === l.id && ZIFFERN.test(k)));
+
+test.describe('Links der Lemma-Seite in die Korpussuche (#467)', () => {
+    test('ein Wort-Lemma verlinkt weiter seine Schreibform', async ({ page }) => {
+        await page.goto('/lemma/?id=4086');
+        await page.waitForSelector('#lemmaContent:not(.hidden)', { timeout: 30000 });
+        await expect(page.locator('#externalLinks a', { hasText: 'Im Korpus suchen' }))
+            .toHaveAttribute('href', `../korpus.html?search=${encodeURIComponent(MER.lemma)}`);
+    });
+
+    test('ein Ziffern-Lemma verlinkt seine ID, nicht die Ziffer', async ({ page }) => {
+        test.skip(!ZIFFERN_LEMMA, 'kein Lemma mit Ziffernschreibung und Ziffern-Varianten mehr im Index');
+        const nummer = ZIFFERN_LEMMA.id.replace('lemma_', '');
+        await page.goto(`/lemma/?id=${nummer}`);
+        await page.waitForSelector('#lemmaContent:not(.hidden)', { timeout: 30000 });
+        await expect(page.locator('#externalLinks a', { hasText: 'Im Korpus suchen' }))
+            .toHaveAttribute('href', `../korpus.html?search=${ZIFFERN_LEMMA.id}`);
+        // Jeder Varianten-Chip aus Ziffern zeigt auf dieses Lemma
+        const chips = page.locator('#variantsContent a');
+        const anzahl = await chips.count();
+        let ziffernChips = 0;
+        for (let i = 0; i < anzahl; i++) {
+            if (!ZIFFERN.test((await chips.nth(i).textContent()).trim())) continue;
+            ziffernChips++;
+            await expect(chips.nth(i)).toHaveAttribute('href', `../korpus.html?search=${ZIFFERN_LEMMA.id}`);
+        }
+        expect(ziffernChips).toBeGreaterThan(0);
+    });
+});
+
 test.describe('Lemma-Nummer in der Multi-Lemma-Suche (#467)', () => {
     test.beforeEach(async ({ page }) => {
         await page.goto('/playground/');

@@ -450,6 +450,7 @@ KZW on 2026-09-24: the corpus search and the multi-lemma search accept `4086` an
 - **A number never reaches stage 1.** `36` is `lemma_36` (*aberelle*), not the lemma spelled `36`, as long as such a lemma exists.
 - **An unknown number resolves to nothing**, it is not retried as a written form. The main site checks existence against `authorityIndex.lemmata` (`SearchEngine.resolveSearchTerm`), the playground against `authorityManager.findLemmaById` (`TEIExplorer.resolveLemmaIds`). Before #467 the playground passed a bare number through unchecked.
 - **The resolved lemma is shown.** The main site puts it in the lemma box even when it has no hit in the selection; the multi-lemma chip shows `lemma_4086 = mer`, or „unbekannte Lemma-Nummer".
+- **Links into the corpus search carry a written form, so a written form made of digits would now be read as a number.** The lemma page (`lemma-page.js`, "Im Korpus suchen" and the variant chips) therefore links `lemma_N` of the lemma it shows whenever the form parses as a number. Measured on 2026-09-30: 4 lemmata are spelled in digits only (`1`, `36`, `42`, `49`), and all 78 digit-only keys of the variants dictionary point to a lemma other than `lemma_<key>`. Every other link stays a word search.
 - **The dictionary is the exception** (`woerterbuch.js`, #481): there a bare number also lists the lemmata whose written form starts with it, because the register is a browsing tool, not a search.
 
 ---

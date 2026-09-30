@@ -11,8 +11,8 @@
  * wie im Woerterbuch (#481). Fuehrende Nullen fallen weg ("04086" -> lemma_4086),
  * damit eine Eingabe nicht an der Schreibweise der Nummer scheitert.
  *
- * Geteilt von Hauptseite (search-engine.js) und Playground (tei-ui.js,
- * multi-lemma-search.js). Das Woerterbuch hat eine eigene Regel, weil es die
+ * Geteilt von Hauptseite (search-engine.js), Lemma-Seite (Links in die
+ * Korpussuche) und Playground (tei-ui.js, multi-lemma-search.js). Das Woerterbuch hat eine eigene Regel, weil es die
  * nackte Zahl zusaetzlich per Praefix sucht (#481).
  */
 

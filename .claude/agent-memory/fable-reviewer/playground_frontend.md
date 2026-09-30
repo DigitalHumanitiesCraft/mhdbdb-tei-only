@@ -10,7 +10,8 @@ Stand 28.09.2026.
 
 **Multi-Lemma-Suche**
 - `fetch` sitzt in ui-helpers.js (Klick auf `.result-summary`, `enrichFileResults`), nicht in multi-lemma-search.js; „bis zu 50 Fundstellen je Karte" = tei-ui.js `fileResults.slice(0, 50)`.
-- Kennt nur die nackte Zahl (tei-ui.js:19), nicht `lemma_N`. `authority-manager.js` `resolveLemmaNames` hat 0 Aufrufer.
+- Nummer als Eingabe (#467, Zweig `claude/467-nummernsuche-korpus-multilemma`, Review 30.09.2026): `assets/js/lib/lemma-id-input.js` `parseLemmaIdInput` (auch `lexicon.xml#lemma_N`, fuehrende Nullen weg) fuer search-engine.js `resolveSearchTerm` und tei-ui.js `resolveLemmaIds`; vor #467 nahm der Playground die nackte Zahl ungeprueft, die Hauptseite gar nicht. `authority-manager.js` `resolveLemmaNames` hat 0 Aufrufer.
+- **Ziffern-Lemmata gegen Nummernpfad messen:** 4 Lemmata mit reiner Ziffernschreibung (lemma_53328 `1`, lemma_69748 `36`, lemma_69749 `42`, lemma_69750 `49`, alle korpusbelegt) und 78 reine Ziffernschluessel in `authorityIndex.variants` (Skript ueber data/*.json.gz, 30.09.2026). Jede Uebergabe per Schreibform (`lemma-page.js` `korpus.html?search=<lemma.lemma>` und Varianten-Chips, cooccurrence-ranking.js `lemmata=<lemma.lemma>`) landet fuer sie beim Nummern-Lemma. Uebergaben per `ids=` (lemma-explorer.js `sendLemmaToOccurrenceSearch`) sind gepinnt und sicher.
 - Proximity verlangt alle Lemmata je Text und scannt `words[]`. Naeheprobe ohne Browser: corpus-index `texts[i].lemmata` = {lemma_id: [positionen]}, Treffer bei `|pa - pb| <= dist`.
 - Haelt keinen Zustand (filtert je Aufruf per includedTexts).
 

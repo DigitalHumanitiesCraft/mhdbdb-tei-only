@@ -12,7 +12,7 @@ Verdichtet am 28.09.2026. Zahlen hier sind Eingabe, keine Messung.
 - [Lexikon und Variants](lexikon_variants.md): first-wins-Flip, sense/@ana ohne Konsument, Ziffernlemmata
 - [Authority-Dateien](authority_dateien.md): concepts kein Baum, zwei genre-Felder, Schema an vier Orten, Siglen
 - [Header-Spiegel](header_spiegel.md): Header als Kopie ohne Leser, sync_tei_headers-Fallen, Zotero-Sync
-- [Playground/Frontend](playground_frontend.md): Hash-Pfad, Multi-Lemma, Werkzeugzustand #204, Zaehlungen
+- [Playground/Frontend](playground_frontend.md): Hash-Pfad, Multi-Lemma, Nummernpfad #467 und Ziffernlemmata, Werkzeugzustand #204, Zaehlungen
 - [Naming #420](naming_420.md): Nachbau, Blob-Hash, Lindas Daten, Zitationskopien, JS-Rundung
 - [Pruefseiten](pruefseiten.md): Zitat-Gate, markup vs. e(), Generator-Laufzeit, datengebundene Specs
 - [Findebuch-Dump #259](project_findebuch_dump_259.md): gram/hi in sublemma, Trennstrich am lb, keine Wortformen
