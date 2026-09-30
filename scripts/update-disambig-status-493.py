@@ -170,7 +170,7 @@ def main():
     args = ap.parse_args()
 
     dateien = sorted(TEI_DIR.glob("*.tei.xml"))
-    fehler, plan, neu_text = [], [], {}
+    fehler, plan, ersetzt, neu_text = [], [], [], {}
     stat = Counter()
     for fp in dateien:
         text = fp.read_text(encoding="utf-8", newline="")
@@ -211,6 +211,7 @@ def main():
         m_vorher = VORHER_RE.search(kopf)
         ursprung = m_vorher.group(1) if m_vorher else alt
         plan.append([fp.name[:-8], ursprung, neu, lem, ana, f"{100 * ana / lem:.1f}"])
+        ersetzt.append((alt, neu))
 
         start = m_norm.start(1) + treffer[0].start(1)
         ende = m_norm.start(1) + treffer[0].end(1)
@@ -230,7 +231,9 @@ def main():
         return 1
 
     print(f"Dateien: {len(dateien)} | " + " | ".join(f"{k}: {v}" for k, v in sorted(stat.items())))
-    uebersicht = Counter((p[1], p[2]) for p in plan)
+    # Was jetzt in der Datei steht -> was dort gleich steht; der Altwortlaut
+    # der Liste (Spalte alt) kann davon abweichen
+    uebersicht = Counter(ersetzt)
     print(f"\n{len(uebersicht)} verschiedene Ersetzungen:")
     for (alt, neu), n in sorted(uebersicht.items(), key=lambda x: -x[1]):
         print(f"  {n:4d}  {alt}\n        -> {neu}")
@@ -238,19 +241,20 @@ def main():
     if args.apply and not plan:
         print("\n[APPLY] nichts zu aendern, nichts geschrieben")
     elif args.apply:
-        for fp, t in neu_text.items():
-            fp.write_text(t, encoding="utf-8", newline="")
         # Die Liste fuehrt je Datei den letzten Stand; Zeilen von Dateien, die
-        # dieser Lauf nicht beruehrt, bleiben stehen
+        # dieser Lauf nicht beruehrt, bleiben stehen. Gelesen wird sie VOR dem
+        # ersten Schreiben: ein Fehler hier darf keine TEI-Datei hinterlassen
         kopfzeile = ["sigle", "alt", "neu", "lemmatisiert", "erschlossen", "anteil_prozent"]
         zeilen = {}
         if PLAN.exists():
             with PLAN.open(encoding="utf-8", newline="") as h:
                 r = csv.reader(h)
                 if next(r, None) != kopfzeile:
-                    raise SystemExit(f"FEHLER: {PLAN.name} hat eine unerwartete Kopfzeile")
+                    raise SystemExit(f"FEHLER: {PLAN.name} hat eine unerwartete Kopfzeile, nichts geschrieben")
                 zeilen = {z[0]: z for z in r}
         zeilen.update({z[0]: z for z in plan})
+        for fp, t in neu_text.items():
+            fp.write_text(t, encoding="utf-8", newline="")
         PLAN.parent.mkdir(parents=True, exist_ok=True)
         with PLAN.open("w", encoding="utf-8", newline="") as h:
             w = csv.writer(h)
