@@ -245,7 +245,7 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
     }],
     // likewise curated, likewise a single lemma as of 2026-08-03: the borrowing
     // chain from <etym type="borrowing">
-    origin: {languages: [{name, code}], attribution: "...", resp: "..."},
+    origin: {languages: [{name, code}], attribution: "...", resp: "...", respName: "..."},
     normalized: "brot"
   }],
 
@@ -462,7 +462,7 @@ This is the point where #59 decided differently. The naming index builds **no** 
 
 Three core build scripts:
 
-1. **`build-authority-index.py`** - Extract authority data from 7 inhaltstragende XML files (the 8th, `contributors.xml`, is deliberately not indexed, but since #270 it is read to resolve the author of a curated comment to a name – see below)
+1. **`build-authority-index.py`** - Extract authority data from 7 inhaltstragende XML files (the 8th, `contributors.xml`, is deliberately not indexed, but since #270 it is read to resolve the author of a curated statement (comment, definition, origin explanation) to a name, see below)
    - Parse XML with lxml
    - Extract structured data for each entity type
    - Build performance maps (conceptToLemmas, genreToWorks)
@@ -544,7 +544,7 @@ Build properties: deterministic on the #125 principle (no timestamps, compact JS
 
 #### Curated lexicon fields (#268, since authority index v1.7.0)
 
-The three productions marked „curated" (`etym[@type="borrowing"]`, `def`, `note[@type="comment"]`) are the only ones in the lexicon carrying editorial prose instead of classification. The build writes the corresponding index fields **only where they actually stand in the XML**: empty keys on every lemma entry would inflate index and API for nothing. As of 2026-07-31 exactly one lemma is curated (`lemma_37818` „Abba"), so consumers have to treat the fields as optional, never as a promise per record. Normative: [CONTRACTS.md §G.3](CONTRACTS.md#g3-field-schemas). The `@resp` values land in the index unchanged as `contributors.xml#contrib_N`. Since authority index 1.9.10 (#270, ADR-018) the build also resolves the comment's `@resp` through `contributors.xml` and writes the display name next to it as `sense.commentRespName`; an id it cannot resolve stops the build. `definitionResp` and `origin.resp` stay unresolved, and `contributors.xml` itself is still not indexed as a collection.
+The three productions marked „curated" (`etym[@type="borrowing"]`, `def`, `note[@type="comment"]`) are the only ones in the lexicon carrying editorial prose instead of classification. The build writes the corresponding index fields **only where they actually stand in the XML**: empty keys on every lemma entry would inflate index and API for nothing. As of 2026-07-31 exactly one lemma is curated (`lemma_37818` „Abba"), so consumers have to treat the fields as optional, never as a promise per record. Normative: [CONTRACTS.md §G.3](CONTRACTS.md#g3-field-schemas). The `@resp` values land in the index unchanged as `contributors.xml#contrib_N`. Since authority index 1.9.10 (#270, ADR-018) the build also resolves the comment's `@resp` through `contributors.xml` and writes the display name next to it as `sense.commentRespName`; an id it cannot resolve stops the build. Since 1.9.15 it does the same for `definitionResp` (`sense.definitionRespName`) and `origin.resp` (`origin.respName`), with the same stop. `contributors.xml` itself is still not indexed as a collection.
 
 #### Namespace Handling
 

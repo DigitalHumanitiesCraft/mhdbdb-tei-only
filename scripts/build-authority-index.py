@@ -88,8 +88,9 @@ def load_contributor_names():
 def resp_name(resp, namen, wo):
     """Loest 'contributors.xml#contrib_N' zum Anzeigenamen auf.
 
-    Unbekannte Form oder unbekannte ID ist ein harter Fehler: ein Kommentar,
-    dessen Urheber sich nicht aufloesen laesst, soll den Build anhalten und
+    Unbekannte Form oder unbekannte ID ist ein harter Fehler: eine kuratierte
+    Angabe (Kommentar, Definition, Herkunftserklaerung), deren Urheber sich
+    nicht aufloesen laesst, soll den Build anhalten und
     nicht still ohne Namen erscheinen.
     """
     praefix = 'contributors.xml#'

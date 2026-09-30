@@ -14,6 +14,7 @@ Stand 28.09.2026.
 - Per-Schluessel-A-Struktur unter Schluessel B abgelegt: letzter gewinnt.
 - „Karten umgehaengt"-Diff auf das pruefen, was keine Karte ist (`git show <basis>:<f> | grep -n <Stichwort>`).
 - Zeilenangabe als Beleg: Funktion benennen, Aufrufer greppen (toter Code sieht aus wie ein Beleg).
+- Hebt ein PR eine Vertagung auf („X bleibt unaufgeloest" -> jetzt aufgeloest): nach dem verneinenden Satz und der Einschraenkung suchen (`stay unresolved`, `for comments only`, „Urheber eines Kommentars"), nicht nach dem neuen Feldnamen; der Autor grept den neuen Namen und trifft die Negation nie. #270, 2. Revision (30.09.2026): 8 Stellen uebrig, darunter CONTRACTS §G, TEI-MODEL-AUTH-FILES §3.1 und Statuszeile plus Konsequenzliste der eigenen ADR.
 
 **Gates und Ausnahmen**
 - Benannte Ausnahme: greift sie an der Bedingung oder am Namen? Am Namen schaltet sie die Pruefung ab.

@@ -1,5 +1,5 @@
 /**
- * Urheberangabe am kuratierten Kommentar (#270, ADR-018 Revision 23.09.2026)
+ * Urheberangabe an kuratierten Angaben (#270, ADR-018 Revisionen 23.09. und 25.09.2026)
  *
  * KZW am 2026-09-23 in #270: "Die bereits gespeicherte Urheberangabe soll
  * direkt beim Kommentar sichtbar sein, auf der Lemma-Seite und im
@@ -99,22 +99,30 @@ test.describe('Urheberangabe am kuratierten Kommentar (#270)', () => {
         await expect(page.locator('#sensesContent')).not.toContainText('Kommentar von');
     });
 
-    test('der Lemma-Explorer im Playground nennt denselben Urheber', async ({ page }) => {
-        for (const k of kommentare) {
-            await page.goto(`/playground/#lemmata&q=${encodeURIComponent(k.lemma.toLowerCase())}`);
+    test('der Lemma-Explorer im Playground nennt dieselben Urheber', async ({ page }) => {
+        // Je Lemma alle erwarteten Labels, jedes mit dem Namen seiner eigenen
+        // Angabe: Definition und Kommentar koennen verschiedene Urheber haben,
+        // und ein Lemma mit Definition muss keinen Kommentar tragen.
+        const erwartet = new Map();
+        const merke = (x, label) => {
+            if (!erwartet.has(x.id)) erwartet.set(x.id, { lemma: x.lemma, labels: [] });
+            erwartet.get(x.id).labels.push(`${label} von ${x.name}:`);
+        };
+        kommentare.forEach(k => merke(k, 'Kommentar'));
+        definitionen.forEach(d => merke(d, 'Definition'));
+        herkuenfte.forEach(h => merke(h, 'Herkunftserklärung'));
+
+        for (const [id, { lemma, labels }] of erwartet) {
+            await page.goto(`/playground/#lemmata&q=${encodeURIComponent(lemma.toLowerCase())}`);
             await page.waitForFunction(
                 () => window.playground?.authorityData?.lemmata?.length > 0, null, { timeout: 60000 });
             // Die Bedeutungen stehen erst nach "Bedeutungen anzeigen" auf der
             // Trefferkarte dieses Lemmas, nicht in der Trefferliste selbst.
-            const knopf = page.locator(`#lemmaResults [onclick*="showLemmaSenses('${k.id}')"]`);
+            const knopf = page.locator(`#lemmaResults [onclick*="showLemmaSenses('${id}')"]`);
             await expect(knopf).toHaveCount(1, { timeout: 30000 });
             await knopf.click();
-            await expect(page.getByText(`Kommentar von ${k.name}:`)).toBeVisible({ timeout: 30000 });
-            if (definitionen.some(d => d.id === k.id)) {
-                await expect(page.getByText(`Definition von ${k.name}:`)).toBeVisible();
-            }
-            if (herkuenfte.some(h => h.id === k.id)) {
-                await expect(page.getByText(`Herkunftserklärung von ${k.name}:`)).toBeVisible();
+            for (const label of labels) {
+                await expect(page.getByText(label)).toBeVisible({ timeout: 30000 });
             }
         }
     });
