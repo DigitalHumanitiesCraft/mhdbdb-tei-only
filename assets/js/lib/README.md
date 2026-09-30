@@ -144,6 +144,22 @@ const csv = toCsv(['Lemma', 'Absolut'], [['minne', 1234], ['êre, guot', 56]]);
 downloadCsv(`mhdbdb-wortfrequenz-${csvDateStamp()}.csv`, csv);
 ```
 
+### `xlsx-export.js`
+XLSX-Export ohne Fremdbibliothek (#448): ZIP ohne Kompression mit selbst gerechnetem CRC-32, je Blatt ein Worksheet mit Inline-Strings, eine fette und eingefrorene Kopfzeile. Zahlen werden als Zahl geschrieben, alles andere als Text; in XML 1.0 verbotene Steuerzeichen fallen weg. Eine CDN-Bibliothek ist hier nicht erlaubt (`no-cdn-check.yml`). Genutzt vom Export der Multi-Lemma-Suche im Playground.
+
+**Exports:**
+- `toXlsx(sheets)` → `Uint8Array` (`sheets`: `[{name, header, rows}]`, Blattnamen eindeutig, höchstens 31 Zeichen)
+- `downloadXlsx(filename, bytes)` → startet den Download
+
+**Usage:**
+```javascript
+import { toXlsx, downloadXlsx } from '../../lib/xlsx-export.js';
+
+downloadXlsx('mhdbdb-beispiel.xlsx', toXlsx([
+    { name: 'Fundstellen', header: ['Sigle', 'Stelle'], rows: [['PZ', 'V. 1']] }
+]));
+```
+
 ## Design Principles
 
 1. **DRY (Don't Repeat Yourself)**: All shared code lives here
