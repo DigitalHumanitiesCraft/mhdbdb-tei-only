@@ -7,6 +7,18 @@
 import { CorpusLoader } from '../assets/js/lib/corpus-loader.js';
 import { escapeHtml } from '../assets/js/lib/escape.js';
 import { fetchWbnetzEntries, decodeHtmlEntities, dictionaryTitle } from '../assets/js/lib/woerterbuchnetz.js';
+import { parseLemmaIdInput } from '../assets/js/lib/lemma-id-input.js';
+
+/**
+ * Suchbegriff fuer einen Link in die Korpussuche. Seit #467 liest die Suche
+ * eine reine Ziffernfolge als Lemma-Nummer; eine Schreibform wie "36"
+ * (lemma_69748) oder die Variante "2" fuehrte dann auf ein fremdes Lemma
+ * (lemma_36, lemma_2). Solche Formen verlinken deshalb die ID des Lemmas,
+ * dem sie gehoeren; alle anderen bleiben Wortsuchen.
+ */
+function korpusSuchbegriff(form, lemmaId) {
+    return parseLemmaIdInput(form) ? lemmaId : form;
+}
 
 class LemmaPage {
     constructor() {
@@ -303,7 +315,7 @@ class LemmaPage {
             },
             {
                 label: 'Im Korpus suchen',
-                url: `../korpus.html?search=${encodeURIComponent(lemma.lemma)}`,
+                url: `../korpus.html?search=${encodeURIComponent(korpusSuchbegriff(lemma.lemma, `lemma_${numericId}`))}`,
                 icon: '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"></path></svg>'
             }
         ];
@@ -391,7 +403,7 @@ class LemmaPage {
         this.elements.variantsSection.classList.remove('hidden');
         this.elements.variantsCount.textContent = `(${variantForms.length})`;
         this.elements.variantsContent.innerHTML = variantForms.map(v =>
-            `<a href="../korpus.html?search=${encodeURIComponent(v)}"
+            `<a href="../korpus.html?search=${encodeURIComponent(korpusSuchbegriff(v, lemmaKey))}"
                 class="inline-block bg-slate-100 px-2 py-0.5 rounded text-xs mr-1 mb-1 hover:bg-brand-50 hover:text-brand-700 transition">${escapeHtml(v)}</a>`
         ).join('');
     }

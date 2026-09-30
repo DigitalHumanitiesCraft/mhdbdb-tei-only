@@ -65,6 +65,23 @@ isStage3Match('minneclich', 'minnecl'); // true (Lemma beginnt mit der Eingabe)
 isStage3Match('mi', 'minnecl');         // false (zu kurz für die Rückrichtung)
 ```
 
+### `lemma-id-input.js`
+Erkennt eine Lemma-Nummer als Sucheingabe (#467, CONTRACTS §C.1.2). Eine Nummer ist eine eindeutige ID und geht nicht durch die drei Stufen. Geteilt von Korpussuche (`search-engine.js`), Lemma-Seite (Links in die Korpussuche) und Playground (`tei-ui.js`, `multi-lemma-search.js`). Das Wörterbuch hat eine eigene Regel, weil es die nackte Zahl zusätzlich per Präfix sucht (#481).
+
+**Exports:**
+- `parseLemmaIdInput(term)` → `"lemma_N"` oder `null`
+
+**Usage:**
+```javascript
+import { parseLemmaIdInput } from '../lib/lemma-id-input.js';
+
+parseLemmaIdInput('4086');                   // 'lemma_4086'
+parseLemmaIdInput('lemma_4086');             // 'lemma_4086'
+parseLemmaIdInput('lexicon.xml#lemma_4086'); // 'lemma_4086' (Schreibung aus @lemmaRef)
+parseLemmaIdInput('04086');                  // 'lemma_4086' (führende Nullen fallen weg)
+parseLemmaIdInput('minne');                  // null (Schreibform)
+```
+
 ### `escape.js`
 HTML- und Attribut-Escaping für Hauptseite und Lemma-Seiten. Escaped auch Anführungszeichen, weil die Werte in Attribut-Kontexte interpoliert werden (`href="..."`) und der frühere textContent-Trick dort einen Attribute-Breakout offenließ (Review zu PR #157). Die Playground-TEI-Module halten nach dokumentierter Konvention eigene Kopien (DESIGN.md, Playground TEI-Analysis Module Pattern).
 

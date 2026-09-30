@@ -15,6 +15,7 @@ Search for Middle High German words across the corpus with automatic normalizati
 - System normalizes MHG characters (â→a, ô→o, ü→ue)
 - Resolves orthographic variants (e.g., "brot", "brott" → "brôt")
 - Searches across selected texts
+- **Lemma number as input (#467):** `4086` or `lemma_4086` means exactly that lemma, bypassing the variant resolution; the lemma appears in the info box even without hits in the selection, an unknown number finds nothing (CONTRACTS §C.1.2)
 - **Multi-lemma disambiguation:** When search resolves to multiple lemmata, results are deduplicated by text with all matched lemmata displayed
 - Returns results with match counts aggregated across lemmata
 
@@ -213,6 +214,7 @@ Until 2026-09 only the multi-lemma search read the selection at all; the other t
 - Input multiple lemmata (space-separated or one per line)
 - Find texts containing ALL lemmata (anywhere in document)
 - Automatic variant resolution
+- A lemma number (`879`, `lemma_879`) is taken as that id in all three modes; its chip shows the lemma it resolves to (`lemma_879 = brôt`) or „unbekannte Lemma-Nummer" (#467)
 - Results: List of matching texts
 
 **Multi-Lemma Proximity Search:**

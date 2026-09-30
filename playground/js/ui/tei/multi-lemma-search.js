@@ -4,6 +4,7 @@
  */
 
 import { getNavigationEpoch } from '../core/router.js';
+import { parseLemmaIdInput } from '../../../../assets/js/lib/lemma-id-input.js';
 
 export class MultiLemmaSearchUI {
     constructor(teiExplorer, authorityManager) {
@@ -151,8 +152,20 @@ export class MultiLemmaSearchUI {
         chip.className = 'lemma-chip';
         chip.dataset.lemma = lemma;
 
+        // Eine Lemma-Nummer zeigt im Chip, worauf sie aufloest, damit man die
+        // Eingabe pruefen kann (#467, KZW 24.09.2026).
+        let aufloesung = '';
+        const idInput = parseLemmaIdInput(lemma);
+        if (idInput) {
+            const treffer = (window.playground?.authorityManager || this.authorityManager)
+                ?.findLemmaById(idInput);
+            aufloesung = treffer
+                ? ` <span class="lemma-chip-resolved">= ${this.escapeHtml(treffer.lemma)}</span>`
+                : ' <span class="lemma-chip-resolved">(unbekannte Lemma-Nummer)</span>';
+        }
+
         chip.innerHTML = `
-            <span>${this.escapeHtml(lemma)}</span>
+            <span>${this.escapeHtml(lemma)}${aufloesung}</span>
             <button type="button" aria-label="Remove ${this.escapeHtml(lemma)}">
                 <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>

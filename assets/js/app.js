@@ -10,6 +10,7 @@ import { TextNormalizer } from './lib/text-normalizer.js';
 import { escapeHtml } from './lib/escape.js';
 import { fetchWbnetzEntries, decodeHtmlEntities, dictionaryTitle } from './lib/woerterbuchnetz.js';
 import { SearchEngine } from './search/search-engine.js';
+import { parseLemmaIdInput } from './lib/lemma-id-input.js';
 import { extractKwicHits, formatLineRef } from './search/kwic-service.js';
 import { TEICacheManager } from './storage/tei-cache-manager.js';
 import { TEITextReader } from './rendering/tei-text-reader.js';
@@ -850,17 +851,19 @@ class MainSiteApp {
             // Referenzsumme sonst mit der Auswahl variieren würde.
             // Berechnung lazy erst beim Tabellen-Render (ensureKeyness) —
             // in der Listenansicht wird Keyness nirgends konsumiert.
-            this._keynessLemmaIds = this.searchEngine.resolveLemmaIds(
-                TextNormalizer.normalizeMHG(searchTerm)
-            );
+            this._keynessLemmaIds = this.searchEngine.resolveSearchTerm(searchTerm);
             this._keynessComputed = false;
 
             // Issue #114: Sort-Spec bei neuer Suche auf Default zurück
             this.sortSpec = { column: 'matchCount', direction: 'desc' };
             this.sortResults();
 
-            // Display lemma info
-            this.displayLemmaInfo(Array.from(lemmaSet));
+            // Display lemma info. Bei einer Lemma-Nummer steht das Lemma auch
+            // ohne Treffer in der Auswahl da, damit man die Eingabe pruefen
+            // kann (#467, KZW 24.09.2026).
+            this.displayLemmaInfo(parseLemmaIdInput(searchTerm)
+                ? this._keynessLemmaIds
+                : Array.from(lemmaSet));
 
             // Display results
             this.displayResults();
