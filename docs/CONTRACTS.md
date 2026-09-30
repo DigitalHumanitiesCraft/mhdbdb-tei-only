@@ -295,7 +295,7 @@ Validated on real corpus data: PL1 689 → 57, OVG 369 → 26 (matches the resul
 
 ## C. 3-Stage Lemma Resolution Algorithm
 
-**Contract:** Search resolves user input to lemma IDs through exactly 3 stages, in order, with early return. One caller may skip all three: a component that already holds an exact lemma id can pin it (§C.1.1). That path exists in one place and nowhere else.
+**Contract:** Search resolves user input to lemma IDs through exactly 3 stages, in order, with early return. Two inputs skip all three: a component that already holds an exact lemma id can pin it (§C.1.1), and a user who types a lemma number gets that id (§C.1.2). Those two paths exist in the places named there and nowhere else.
 
 **Why:** MHG has extensive orthographic variation. A single lemma can appear as dozens of attested forms. The 3-stage approach balances precision (exact first) with recall (fuzzy last).
 
@@ -306,7 +306,8 @@ Source: `assets/js/search/search-engine.js` (`resolveLemmaIds`), `playground/js/
 ```
 function resolveLemmaIds(normalized):
     // Input: already normalized via normalizeMHG() (Contract A)
-    // Called by searchLemma() which normalizes the raw user input first
+    // Called by resolveSearchTerm(), which first checks for a lemma number
+    // (§C.1.2) and otherwise normalizes the raw user input
 
     // Stage 1: Exact match on normalized canonical form
     results = []
@@ -441,6 +442,15 @@ other producers of `#multi-lemma&lemmata=...` do **not** pin yet and still resol
 by written form: `cooccurrence-ranking.js` (the "Belege" link) and
 `sendWordComponentSelection()` in the lemma explorer. Any claim that the hand-over
 is id-exact holds for the explorer button only.
+
+### C.1.2 Lemma number as input (#467)
+
+KZW on 2026-09-24: the corpus search and the multi-lemma search accept `4086` and `lemma_4086` and treat either „as a unique lemma id". `assets/js/lib/lemma-id-input.js` (`parseLemmaIdInput`) decides what counts as a number: optional `lemma_` (also `lexicon.xml#lemma_`, the `@lemmaRef` spelling), then digits, leading zeros dropped. Anything else is a written form and goes through the three stages.
+
+- **A number never reaches stage 1.** `36` is `lemma_36` (*aberelle*), not the lemma spelled `36`, as long as such a lemma exists.
+- **An unknown number resolves to nothing**, it is not retried as a written form. The main site checks existence against `authorityIndex.lemmata` (`SearchEngine.resolveSearchTerm`), the playground against `authorityManager.findLemmaById` (`TEIExplorer.resolveLemmaIds`). Before #467 the playground passed a bare number through unchecked.
+- **The resolved lemma is shown.** The main site puts it in the lemma box even when it has no hit in the selection; the multi-lemma chip shows `lemma_4086 = mer`, or „unbekannte Lemma-Nummer".
+- **The dictionary is the exception** (`woerterbuch.js`, #481): there a bare number also lists the lemmata whose written form starts with it, because the register is a browsing tool, not a search.
 
 ---
 

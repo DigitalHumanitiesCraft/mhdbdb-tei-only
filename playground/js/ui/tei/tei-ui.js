@@ -4,6 +4,7 @@
  */
 
 import { displayHinweis, displaySummaryResults } from '../core/ui-helpers.js';
+import { parseLemmaIdInput } from '../../../../assets/js/lib/lemma-id-input.js';
 
 export class TEIExplorer {
     // Kein Konstruktor: bis #325/#327 nahm er teiData und authorityData
@@ -15,9 +16,15 @@ export class TEIExplorer {
         const lemmaIds = [];
 
         searchTerms.forEach(term => {
-            // Check if it's already a lemma ID (numeric)
-            if (/^\d+$/.test(term)) {
-                lemmaIds.push(term);
+            // Lemma-Nummer, "4086" wie "lemma_4086" (#467, KZW 24.09.2026):
+            // eindeutige ID, keine Schreibform. Bis dahin ging nur die nackte
+            // Zahl, und die ungeprueft: eine unbekannte Nummer lief als leere
+            // Suche durch, statt als "kein Lemma gefunden" gemeldet zu werden.
+            const idInput = parseLemmaIdInput(term);
+            if (idInput) {
+                if (window.playground?.authorityManager?.findLemmaById(idInput)) {
+                    lemmaIds.push(idInput.replace('lemma_', ''));
+                }
                 return;
             }
 

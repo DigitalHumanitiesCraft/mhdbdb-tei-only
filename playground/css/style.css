@@ -737,6 +737,12 @@ textarea:focus {
   }
 }
 
+/* #467: aufgeloestes Lemma hinter einer eingetippten Lemma-Nummer */
+.lemma-chip-resolved {
+  font-weight: 400;
+  opacity: 0.85;
+}
+
 .lemma-chip button {
   display: flex;
   align-items: center;

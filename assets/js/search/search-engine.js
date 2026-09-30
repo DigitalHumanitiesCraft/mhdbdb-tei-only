@@ -7,6 +7,7 @@
 // Import MHG normalizer from shared library
 import { TextNormalizer } from '../lib/text-normalizer.js';
 import { isStage3Match, stage3Distance } from '../lib/lemma-resolve.js';
+import { parseLemmaIdInput } from '../lib/lemma-id-input.js';
 
 class SearchEngine {
     constructor(authorityIndex, corpusIndex) {
@@ -18,6 +19,9 @@ class SearchEngine {
         // las work.genre, das keines der Werke traegt, und speiste nur den
         // nie sichtbaren Gattungs-Chip der Trefferkarte.)
         this.workToAuthor = this.buildWorkToAuthorMap();
+
+        // #467: Existenzpruefung fuer die Suche per Lemma-Nummer
+        this.lemmaIds = new Set(this.authorityIndex.lemmata.map(l => l.id));
     }
 
     /**
@@ -44,11 +48,9 @@ class SearchEngine {
      * @returns {array} - Array of search results
      */
     async searchLemma(searchTerm, filters = {}) {
-        // Step 1: Normalize search term
-        const normalized = TextNormalizer.normalizeMHG(searchTerm);
-
-        // Step 2: Resolve to lemma ID(s)
-        const lemmaIds = this.resolveLemmaIds(normalized);
+        // Steps 1+2: normalize and resolve to lemma ID(s), or take a lemma
+        // number as given (#467)
+        const lemmaIds = this.resolveSearchTerm(searchTerm);
 
         if (lemmaIds.length === 0) {
             return [];
@@ -98,6 +100,22 @@ class SearchEngine {
         results.sort((a, b) => b.matchCount - a.matchCount);
 
         return results;
+    }
+
+    /**
+     * Rohe Eingabe zu Lemma-IDs. Eine Lemma-Nummer ("4086", "lemma_4086")
+     * ist eine eindeutige ID und geht nicht durch die drei Stufen (#467,
+     * KZW 24.09.2026); eine unbekannte Nummer loest zu nichts auf, statt als
+     * Schreibform weitergesucht zu werden.
+     * @param {string} searchTerm
+     * @returns {string[]} IDs mit `lemma_`-Praefix
+     */
+    resolveSearchTerm(searchTerm) {
+        const idInput = parseLemmaIdInput(searchTerm);
+        if (idInput) {
+            return this.lemmaIds.has(idInput) ? [idInput] : [];
+        }
+        return this.resolveLemmaIds(TextNormalizer.normalizeMHG(searchTerm));
     }
 
     /**

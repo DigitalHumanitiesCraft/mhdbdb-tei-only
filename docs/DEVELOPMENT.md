@@ -220,6 +220,7 @@ Completeness against `testing/tests/` is gated by `scripts/audit/check-doc-inven
 | `tei-caching.spec.js` | Main site | IndexedDB TEI cache behavior |
 | `error-handling.spec.js` | Main site | Graceful error handling |
 | `woerterbuch.spec.js` | Main site | A–Z register over the authority index, pagination, deep links (#117) |
+| `lemma-id-search.spec.js` | Main site, Playground | Lemma number as input (#467): `4086` and `lemma_4086` resolve to that id in the corpus search and the multi-lemma search, the lemma is shown (also without hits), an unknown number resolves to nothing |
 | `lemma-page.spec.js` | Lemma pages | URL parsing, data rendering, external links |
 | `comment-attribution.spec.js` | Lemma pages, Playground | Author of a curated comment: every `commentResp` in the authority index carries a `commentRespName`, and both the lemma page and the playground's Lemma Explorer label the comment "Kommentar von <name>"; a lemma without a comment shows no such label (#270) |
 | `playground.spec.js` | Playground | Start page loads (title, `#authorityOverview`), reset button visible, modules load without `console.error`/`pageerror` (#331). Since #326 only these three tests |
