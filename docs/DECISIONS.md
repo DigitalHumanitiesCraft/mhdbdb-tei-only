@@ -1148,8 +1148,14 @@ KZW lifted the deferral for comments in #270 on 2026-09-23, before either trigge
 
 - **`contributors.xml` is now read by the authority build**, though still not indexed as a collection. A change to a name that a comment resolves to therefore needs a rebuild and a bump; the routing table in DATA-MODEL.md and the build description say so. CI already rebuilds on any change under `authority-files/`, so a forgotten rebuild is caught by the freshness gate.
 - **An unresolvable `@resp` on a comment stops the build** (unknown id, or a target outside `contributors.xml`). This closes, for comments only, the gap named above that `audit-authority-files.py` does not run in CI.
-- **`definitionResp` and `origin.resp` stay unresolved.** Whether „von <name>" belongs on a stated meaning and on an origin is not decided; the question is in #270. For origins the #28 reason above still applies.
+- **`definitionResp` and `origin.resp` stay unresolved.** Whether „von <name>" belongs on a stated meaning and on an origin is not decided; the question is in #270. For origins the #28 reason above still applies. *(Superseded by the revision of 2026-09-25 below.)*
 - **API consumers gain one optional field**, `senses[].commentRespName`, present exactly where `commentResp` is; nothing is removed or renamed.
+
+### Revision 2026-09-25: stated meanings and origins name their author too
+
+KZW answered the open question in #270 on 2026-09-25: „Ja, bitte die vorhandene Urheberangabe auch bei Definitionen und Herkunftserklärungen anzeigen, jeweils direkt bei der betreffenden Angabe." The labels are „Definition von <name>" and „Herkunftserklärung von <name>"; as with comments they name the authorship of the editorial contribution, not an additional review. Bibliographic sources stay separate, and where no `@resp` is stored no name is added or borrowed from a neighbouring statement.
+
+**Chosen: option 2 again**, for `definitionResp` and `origin.resp` (authority index 1.9.15): the build writes `sense.definitionRespName` and `origin.respName` next to the reference, with the same hard stop on an unresolvable `@resp`. The #28 reason above does not contradict this: it concerns who or what vouches for an origin (a dictionary, a pipeline), and that stays a bibliographic question of its own; `origin.respName` only names the person who wrote the explanation. API consumers gain these two optional fields, present exactly where their reference is.
 
 ---
 

@@ -12,6 +12,10 @@
  * Kommentar (lemma_37818 Abba); die Tests verlangen die Menge nicht, nur
  * dass die Seite dem Index folgt.
  *
+ * KZW am 2026-09-25: dieselbe Angabe auch bei Definition und
+ * Herkunftserklaerung ("Definition von ...", "Herkunftserklärung von ...");
+ * Index-Felder definitionRespName und origin.respName (1.9.15).
+ *
  * Relative Pfade gegen baseURL, kein fester Port (#465).
  */
 
