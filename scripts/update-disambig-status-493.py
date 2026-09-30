@@ -46,7 +46,8 @@ Je geaenderter Datei kommt ein <change> in den revisionDesc (Muster #216),
 mit den Zahlen dieser Datei; ein spaeterer Lauf ersetzt ihn (Marker '#493').
 Ein zweiter Lauf erkennt die eigene Ausgabe und stuft nur um, wenn sich
 der Stand geaendert hat (teilweise -> vollstaendig); ohne Aenderung schreibt
-er nichts.
+er nichts, auch die Liste nicht. "Vorher" bleibt dabei der Wortlaut aus dem
+Altbestand, und die Liste fuehrt je Datei den letzten Stand.
 
 Textuelle Ersetzung statt lxml-Serialisierung, damit der Rest der Datei
 byte-identisch bleibt.
@@ -77,7 +78,8 @@ NORM_RE = re.compile(r"<normalization>(.*?)</normalization>", re.S)
 P_RE = re.compile(r"<p>(.*?)</p>", re.S)
 CLOSE_RE = re.compile(r"([ \t]*)</revisionDesc>")
 LAST_CHANGE_RE = re.compile(r"([ \t]*)<change[ >]")
-EIGENE_ZEILE_RE = re.compile(r"[ \t]*<change [^>]*>#493: .*?</change>\r?\n")
+VORHER_RE = re.compile(r"<change [^>]*>#493: .*?Vorher: &#34;(.*?)&#34;</change>")
+EIGENE_ZEILE_RE =re.compile(r"[ \t]*<change [^>]*>#493: .*?</change>\r?\n")
 
 EIGEN = re.compile(r"(?P<vor>.*?)(?:[Tt]eilweise semantisch|[Ss]emantisch) disambiguiert(?P<rest>.*)")
 QUALIFIZIERT = re.compile(r"\b(teilweise|weitgehend|fast vollständig) disambiguiert")
@@ -204,7 +206,11 @@ def main():
             stat["stimmt schon"] += 1
             continue
         stat["geaendert"] += 1
-        plan.append([fp.name[:-8], alt, neu, lem, ana, f"{100 * ana / lem:.1f}"])
+        # Bei einem spaeteren Lauf bleibt der Wortlaut aus dem Altbestand das
+        # "Vorher", nicht die eigene Ausgabe des ersten Laufs
+        m_vorher = VORHER_RE.search(kopf)
+        ursprung = m_vorher.group(1) if m_vorher else alt
+        plan.append([fp.name[:-8], ursprung, neu, lem, ana, f"{100 * ana / lem:.1f}"])
 
         start = m_norm.start(1) + treffer[0].start(1)
         ende = m_norm.start(1) + treffer[0].end(1)
@@ -214,7 +220,7 @@ def main():
         eintrag = (f'<change when="{DATUM}" who="#editor">#493: Angabe zur semantischen '
                    f"Disambiguierung in encodingDesc/normalization an den Stand der Annotation "
                    f"angeglichen ({ana} von {lem} lemmatisierten Tokens tragen einen Begriff "
-                   f"in @ana). Vorher: &#34;{alt}&#34;</change>")
+                   f"in @ana). Vorher: &#34;{ursprung}&#34;</change>")
         neu_text[fp] = change_eintragen(text, eintrag, fp.name)
 
     if fehler:
@@ -229,15 +235,29 @@ def main():
     for (alt, neu), n in sorted(uebersicht.items(), key=lambda x: -x[1]):
         print(f"  {n:4d}  {alt}\n        -> {neu}")
 
-    if args.apply:
+    if args.apply and not plan:
+        print("\n[APPLY] nichts zu aendern, nichts geschrieben")
+    elif args.apply:
         for fp, t in neu_text.items():
             fp.write_text(t, encoding="utf-8", newline="")
+        # Die Liste fuehrt je Datei den letzten Stand; Zeilen von Dateien, die
+        # dieser Lauf nicht beruehrt, bleiben stehen
+        kopfzeile = ["sigle", "alt", "neu", "lemmatisiert", "erschlossen", "anteil_prozent"]
+        zeilen = {}
+        if PLAN.exists():
+            with PLAN.open(encoding="utf-8", newline="") as h:
+                r = csv.reader(h)
+                if next(r, None) != kopfzeile:
+                    raise SystemExit(f"FEHLER: {PLAN.name} hat eine unerwartete Kopfzeile")
+                zeilen = {z[0]: z for z in r}
+        zeilen.update({z[0]: z for z in plan})
         PLAN.parent.mkdir(parents=True, exist_ok=True)
         with PLAN.open("w", encoding="utf-8", newline="") as h:
             w = csv.writer(h)
-            w.writerow(["sigle", "alt", "neu", "lemmatisiert", "erschlossen", "anteil_prozent"])
-            w.writerows(plan)
-        print(f"\n[APPLY] {len(neu_text)} Dateien geschrieben, Liste: {PLAN.relative_to(REPO)}")
+            w.writerow(kopfzeile)
+            w.writerows(zeilen[k] for k in sorted(zeilen))
+        print(f"\n[APPLY] {len(neu_text)} Dateien geschrieben, Liste ({len(zeilen)} Zeilen): "
+              f"{PLAN.relative_to(REPO)}")
     else:
         print("\n[DRY-RUN] --apply zum Schreiben")
     return 0
