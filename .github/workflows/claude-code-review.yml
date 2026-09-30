@@ -38,6 +38,10 @@ jobs:
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           track_progress: true
+          # DIAGNOSE, nie mergen: macht den ausgeblendeten Fehlertext sichtbar
+          # (seit 2026-09-28 bricht jeder Lauf nach 2 s mit is_error:true ab).
+          # Der PR wird nach dem Lauf ungemergt geschlossen.
+          show_full_output: true
           # KEIN use_sticky_comment. Am 30.07. eingeschaltet und nach einem
           # halben Tag wieder entfernt, damit es niemand erneut vorschlägt:
           #
