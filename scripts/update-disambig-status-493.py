@@ -3,12 +3,12 @@
 Angabe zur semantischen Disambiguierung im Header an den Stand der
 Annotation angleichen (#493).
 
-KZW am 2026-09-25 in #493: "Lass den Satz in der Form nur stehen, wenn
+KZW am 2026-09-28 im Body von #493: "Lass den Satz in der Form nur stehen, wenn
 saemtliche Tokens in einem Text noch nicht Begriffs-disambiguiert sind. Wenn
 ein Teil des Textes semantisch erschlossen wurde, schreib das hin."
 
 Der Satz steht in encodingDesc/editorialDecl/normalization als eigenes <p>,
-in 53 Fassungen ("Lemmatisiert, nicht disambiguiert.", "Noch nicht
+in 52 Fassungen ("Lemmatisiert, nicht disambiguiert.", "Noch nicht
 disambiguiert." ...). Er stammt aus dem Altbestand und wurde bei der Migration
 mitgeschleppt.
 
@@ -34,7 +34,7 @@ ZIELMENGE, gemessen am 2026-09-30 (667 Dateien):
 Ersetzt wird nur die Aussage zur Disambiguierung; der Teil zur Lemmatisierung
 bleibt stehen. Ausnahme sind die 12 Saetze, die beides in einem Zug verneinen
 ("Noch nicht lemmatisiert und disambiguiert.", "Weder lemmatisiert noch
-disambiguiert."). Die zwoelf Texte sind zu 74 bis 87 % lemmatisiert, dort wird
+disambiguiert."). Die zwoelf Texte sind zu 74 bis 86 % lemmatisiert, dort wird
 der ganze Satz zu "Teilweise lemmatisiert, ...". Saetze, die schon
 "teilweise", "weitgehend" oder "fast vollstaendig disambiguiert" sagen,
 bleiben bei teilweise erschlossenen Texten stehen.
@@ -43,7 +43,10 @@ Ein Satz, den keine Regel abdeckt, ist ein harter Fehler: nichts wird
 geschrieben.
 
 Je geaenderter Datei kommt ein <change> in den revisionDesc (Muster #216),
-mit den Zahlen dieser Datei. Idempotent ueber den Marker '#493'.
+mit den Zahlen dieser Datei; ein spaeterer Lauf ersetzt ihn (Marker '#493').
+Ein zweiter Lauf erkennt die eigene Ausgabe und stuft nur um, wenn sich
+der Stand geaendert hat (teilweise -> vollstaendig); ohne Aenderung schreibt
+er nichts.
 
 Textuelle Ersetzung statt lxml-Serialisierung, damit der Rest der Datei
 byte-identisch bleibt.
@@ -76,6 +79,7 @@ CLOSE_RE = re.compile(r"([ \t]*)</revisionDesc>")
 LAST_CHANGE_RE = re.compile(r"([ \t]*)<change[ >]")
 EIGENE_ZEILE_RE = re.compile(r"[ \t]*<change [^>]*>#493: .*?</change>\r?\n")
 
+EIGEN = re.compile(r"(?P<vor>.*?)(?:[Tt]eilweise semantisch|[Ss]emantisch) disambiguiert(?P<rest>.*)")
 QUALIFIZIERT = re.compile(r"\b(teilweise|weitgehend|fast vollständig) disambiguiert")
 DOPPELT = re.compile(r"(Noch nicht|Nicht) lemmatisiert (und|oder) (nicht )?disambiguiert\.|"
                      r"Weder lemmatisiert noch disambiguiert\.")
@@ -94,6 +98,14 @@ def neuer_satz(s, klasse):
     """Neuer Satz, oder None, wenn der alte stimmt."""
     q = ("teilweise " if klasse == "teil" else "") + DIS
     gross = q[0].upper() + q[1:]
+    # Eigene Ausgabe eines frueheren Laufs: an die aktuelle Klasse angleichen,
+    # damit ein zweiter Lauf nach weiterer Annotation hochstuft statt abbricht
+    m = EIGEN.fullmatch(s)
+    if m:
+        vorne = m["vor"] == "" or m["vor"].endswith(". ")
+        ziel = gross if vorne else q
+        neu = f"{m['vor']}{ziel}{m['rest']}"
+        return None if neu == s else neu
     if QUALIFIZIERT.search(s):
         if klasse == "teil":
             return None
