@@ -3,8 +3,9 @@
  *
  * Verifiziert den dritten Suchmodus der Multi-Lemma-Suche: Kookkurrenz
  * beschränkt auf ein gemeinsames <l>, via lineStarts[]/lineEnds[]-Binärsuche
- * (Corpus-Index v4.1.0+). Ground-Truth aus dem PR (#211): „minne + herze"
- * liefert korpusweit 64 Vers-Treffer in 18 Texten, z. B. BUH Vers 98
+ * (Corpus-Index v4.1.0+). Ground-Truth aus dem PR (#211) waren damals 64
+ * Vers-Treffer in 18 Texten fuer „minne + herze"; am 2026-09-30 gegen Index
+ * v4.2.22 gemessen: 166 in 66 Texten (#448). Beispiel BUH Vers 98
  * („dâ bî ûz ir herzen blüejet || diu vil süeze minne").
  */
 
