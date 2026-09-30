@@ -986,7 +986,7 @@ A consolidated list of all deliberately non-normalized islands of data and of th
 | RELAX NG schema (`schema/mhdbdb.rnc`) | 1.0.0 | 2026-04-09 |
 | POS tagset | 1.0 (19 tags) | 2026-03 |
 | Corpus Index | 4.2.22 | 2026-09-24 |
-| Authority Index | 1.9.14 | 2026-09-28 |
+| Authority Index | 1.9.15 | 2026-09-30 |
 | authority schema (`schema/mhdbdb-authority.rnc`) | 1.1.0 | 2026-07-30 |
 
 ---

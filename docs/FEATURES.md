@@ -385,7 +385,7 @@ A section „Wörterbücher" with deep links into five Middle High German dictio
 
 ### Curated statements and their author (#270)
 
-Where a lemma carries curated prose from `lexicon.xml` (origin, a stated meaning, a philological comment), the lemma page shows it above the concept chips of the sense. Since authority index 1.9.10 a comment names its author: the label reads „Kommentar von Katharina Zeppezauer-Wachauer" instead of „Kommentar", resolved at build time from the comment's `@resp` (ADR-018). The playground's Lemma Explorer shows the same label. „von" names the authorship, not a separate review (KZW, 2026-09-23). Stated meanings and origins are shown without a name for now; whether they get one is open in #270. As of 2026-09-23 one lemma carries a comment (`lemma_37818` Abba).
+Where a lemma carries curated prose from `lexicon.xml` (origin, a stated meaning, a philological comment), the lemma page shows it above the concept chips of the sense. Since authority index 1.9.10 a comment names its author: the label reads „Kommentar von Katharina Zeppezauer-Wachauer" instead of „Kommentar", resolved at build time from the comment's `@resp` (ADR-018). The playground's Lemma Explorer shows the same label. „von" names the authorship, not a separate review (KZW, 2026-09-23). Since 1.9.15 a stated meaning and an origin explanation name their author the same way, „Definition von …" and „Herkunftserklärung von …" (KZW, 2026-09-25); where no author is stored, no label appears. As of 2026-09-30 one lemma carries all three (`lemma_37818` Abba).
 
 ### Similar Lemmata
 

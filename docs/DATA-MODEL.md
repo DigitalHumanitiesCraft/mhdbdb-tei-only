@@ -236,16 +236,16 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
       id: "lemma_879_sense_1",
       conceptIds: ["concept_1234"],
       // the three curated fields below exist only where lexicon.xml carries them
-      // (#248, authority index 1.7.0; commentRespName is resolved from
-      // contributors.xml, #270, 1.9.10). As of 2026-08-03 that is a single sense,
+      // (#248, authority index 1.7.0; the *RespName fields are resolved from
+      // contributors.xml, #270: comment 1.9.10, definition 1.9.15). As of 2026-08-03 that is a single sense,
       // lemma_37818 "Abba": one <def> and one <note type="comment">, each with
       // its @resp. Curation is ongoing, so expect this count to grow.
-      definition: "...", definitionResp: "contributors.xml#contrib_003",
+      definition: "...", definitionResp: "contributors.xml#contrib_003", definitionRespName: "Katharina Zeppezauer-Wachauer",
       comment: "...",    commentResp: "contributors.xml#contrib_003", commentRespName: "Katharina Zeppezauer-Wachauer"
     }],
     // likewise curated, likewise a single lemma as of 2026-08-03: the borrowing
     // chain from <etym type="borrowing">
-    origin: {languages: [{name, code}], attribution: "...", resp: "..."},
+    origin: {languages: [{name, code}], attribution: "...", resp: "...", respName: "..."},
     normalized: "brot"
   }],
 
@@ -462,7 +462,7 @@ This is the point where #59 decided differently. The naming index builds **no** 
 
 Three core build scripts:
 
-1. **`build-authority-index.py`** - Extract authority data from 7 inhaltstragende XML files (the 8th, `contributors.xml`, is deliberately not indexed, but since #270 it is read to resolve the author of a curated comment to a name – see below)
+1. **`build-authority-index.py`** - Extract authority data from 7 inhaltstragende XML files (the 8th, `contributors.xml`, is deliberately not indexed, but since #270 it is read to resolve the author of a curated statement (comment, definition, origin explanation) to a name, see below)
    - Parse XML with lxml
    - Extract structured data for each entity type
    - Build performance maps (conceptToLemmas, genreToWorks)
@@ -504,10 +504,10 @@ Build properties: deterministic on the #125 principle (no timestamps, compact JS
 | | | `.//tei:form[@type="lemma"]/tei:orth` | Lemma text |
 | | | `.//tei:pos` | Part(s) of speech |
 | | | `.//tei:etym[@type="morphological"]//tei:seg[@type="component"]` | Etymology components + `@corresp` |
-| | | `.//tei:etym[@type="borrowing"]`, inside it `./tei:lang` and `./tei:note[@type="attribution"]` | `lemma.origin`: source languages (`@norm` → `code`), optional attribution including `@resp`. Curated, see below |
+| | | `.//tei:etym[@type="borrowing"]`, inside it `./tei:lang` and `./tei:note[@type="attribution"]` | `lemma.origin`: source languages (`@norm` → `code`), optional attribution including `@resp`, and since 1.9.15 (#270) `origin.respName`, resolved like `sense.commentRespName`. Curated, see below |
 | | | `.//tei:sense` | Senses (with `@xml:id`; concept pointers per sense) |
 | | | `.//tei:ptr[contains(@target,"concepts.xml#")]` *(relative to the `<sense>`)* | Concept pointers per sense |
-| | | `./tei:def` *(relative to the `<sense>`)* | `sense.definition` + `sense.definitionResp` from `@resp`. Curated, see below |
+| | | `./tei:def` *(relative to the `<sense>`)* | `sense.definition` + `sense.definitionResp` from `@resp`, and since 1.9.15 (#270) `sense.definitionRespName`, resolved like `sense.commentRespName`. Curated, see below |
 | | | `./tei:note[@type="comment"]` *(relative to the `<sense>`)* | `sense.comment` + `sense.commentResp` from `@resp`, and since 1.9.10 (#270) `sense.commentRespName`, the `persName`/`orgName` of that id in `contributors.xml` (whitespace collapsed; an unknown id stops the build). Curated, see below |
 | | persons.xml | `//tei:person` | Person records |
 | | | `.//tei:persName[@type="preferred"]` | Canonical name |
@@ -544,7 +544,7 @@ Build properties: deterministic on the #125 principle (no timestamps, compact JS
 
 #### Curated lexicon fields (#268, since authority index v1.7.0)
 
-The three productions marked „curated" (`etym[@type="borrowing"]`, `def`, `note[@type="comment"]`) are the only ones in the lexicon carrying editorial prose instead of classification. The build writes the corresponding index fields **only where they actually stand in the XML**: empty keys on every lemma entry would inflate index and API for nothing. As of 2026-07-31 exactly one lemma is curated (`lemma_37818` „Abba"), so consumers have to treat the fields as optional, never as a promise per record. Normative: [CONTRACTS.md §G.3](CONTRACTS.md#g3-field-schemas). The `@resp` values land in the index unchanged as `contributors.xml#contrib_N`. Since authority index 1.9.10 (#270, ADR-018) the build also resolves the comment's `@resp` through `contributors.xml` and writes the display name next to it as `sense.commentRespName`; an id it cannot resolve stops the build. `definitionResp` and `origin.resp` stay unresolved, and `contributors.xml` itself is still not indexed as a collection.
+The three productions marked „curated" (`etym[@type="borrowing"]`, `def`, `note[@type="comment"]`) are the only ones in the lexicon carrying editorial prose instead of classification. The build writes the corresponding index fields **only where they actually stand in the XML**: empty keys on every lemma entry would inflate index and API for nothing. As of 2026-07-31 exactly one lemma is curated (`lemma_37818` „Abba"), so consumers have to treat the fields as optional, never as a promise per record. Normative: [CONTRACTS.md §G.3](CONTRACTS.md#g3-field-schemas). The `@resp` values land in the index unchanged as `contributors.xml#contrib_N`. Since authority index 1.9.10 (#270, ADR-018) the build also resolves the comment's `@resp` through `contributors.xml` and writes the display name next to it as `sense.commentRespName`; an id it cannot resolve stops the build. Since 1.9.15 it does the same for `definitionResp` (`sense.definitionRespName`) and `origin.resp` (`origin.respName`), with the same stop. `contributors.xml` itself is still not indexed as a collection.
 
 #### Namespace Handling
 
@@ -890,7 +890,7 @@ The two checklists below describe the **maximum case**. Not every change needs e
 
 - `build-corpus-index.py` reads from `tei/` the file name and four header statements (the sigle from `idno[@type="sigle"]`, title, author including `@ref`, `msIdentifier/@corresp`), plus every `<w @lemmaRef>` with non-empty text inside `<body>` including document order, plus the `<l>` boundaries. Everything else in the TEI is invisible to it, in particular `@pos` and `@ana` as well as `<div>`, `<lg>` and `<pb>`. XPaths: [Build Script XPath Reference](#build-script-xpath-reference).
 - `extract-variants.py` reads from `tei/` only those `<w>` carrying **both** a `@lemmaRef` and a `@corresp="variants.xml#type_N"`, and from those the lemma id, the type id and the wording. Plus the number of corpus files, which stands in the header of `variants.xml`. It also reads `sense/@ana` in `lexicon.xml`, and with `--apply` writes it too (step 5): of the five builds, it is the only one that can alter `lexicon.xml` after a `tei/` change.
-- `build-authority-index.py` reads `authority-files/` exclusively (the seven indexed files including `variants.xml`; since #270 also `contributors.xml`, but only to resolve the authors of curated comments to names, which it writes as `sense.commentRespName`). It does not read `tei/`. Unlike the corpus index, here the file decides rather than the element: any change of substance in one of the seven files requires the rebuild. Which markup ends up in the index is in the [Build Script XPath Reference](#build-script-xpath-reference).
+- `build-authority-index.py` reads `authority-files/` exclusively (the seven indexed files including `variants.xml`; since #270 also `contributors.xml`, but only to resolve the authors of curated statements to names, which it writes as `sense.commentRespName`, `sense.definitionRespName` and `origin.respName`). It does not read `tei/`. Unlike the corpus index, here the file decides rather than the element: any change of substance in one of the seven files requires the rebuild. Which markup ends up in the index is in the [Build Script XPath Reference](#build-script-xpath-reference).
 - `build-api.py` reads the two built `data/*.json.gz` exclusively, neither `tei/` nor `authority-files/`.
 - `build-begriffshilfe.py` (#498) reads `authority-files/concepts.xml` and `authority-files/lexicon.xml` (senses with their concept pointers) and from `tei/` only `w/@ana`, by regular expression, to count the attestations per sense. It does not read the two built indexes. Its output `assets/downloads/mhdbdb-begriffshilfe.md` is deterministic (no date, no commit, LF), so the CI gate can compare it byte for byte. Because it reads `w/@ana`, a pure `@ana` change is the one corpus change below that needs a rebuild but no index rebuild and no version bump.
 
@@ -902,7 +902,7 @@ The two checklists below describe the **maximum case**. Not every change needs e
 | `tei/`: `@ana` on `<w>`. Condition: the sequence of `<w>` and the `<l>` boundaries stay unchanged | no index rebuild and no version bump, but step 8 (`build-begriffshilfe.py`, which counts the attestations per sense from `w/@ana`), plus step 2 (schema) and step 9 (cross-ref audit), then commit and push, staging `assets/downloads/mhdbdb-begriffshilfe.md` too | about 25 s |
 | `tei/`: `<l>` boundaries moved, or one of the four header statements changed. No `<w>` added, removed, or changed in wording, `@lemmaRef` or `@corresp` | the corpus checklist without steps 5, 6 and 8 | about 50 s |
 | `tei/`: the stock of `<w>`, their wording, `@lemmaRef` or `@corresp` touched; a file added or removed | the corpus checklist in full (step 8 included: the attestation counts of the Begriffshilfe move with the stock of `<w>`) | about 85 s plus about 25 s |
-| `authority-files/contributors.xml` | the authority checklist except steps 1 and 5, and step 2 (the bump) only if the rebuild shows a diff: since #270 the authority index carries the name of every person a curated comment's `@resp` points at (`sense.commentRespName`). A change that touches none of those names leaves the index unchanged, the rebuild shows an empty diff, and then no bump is set (no bump without a change of content, see below) | about 17 s |
+| `authority-files/contributors.xml` | the authority checklist except steps 1 and 5, and step 2 (the bump) only if the rebuild shows a diff: since #270 the authority index carries the name of every person a curated statement's `@resp` points at (`sense.commentRespName`, `sense.definitionRespName`, `origin.respName`). A change that touches none of those names leaves the index unchanged, the rebuild shows an empty diff, and then no bump is set (no bump without a change of content, see below) | about 17 s |
 | `authority-files/lexicon.xml` or `authority-files/concepts.xml` | the authority checklist in full except step 1, step 5 included: the Begriffshilfe exports `concepts.xml` and counts senses from `lexicon.xml` | about 17 s plus about 25 s |
 | One of the other indexed `authority-files/` (not `works.xml`, `lexicon.xml`, `concepts.xml`) | the authority checklist except steps 1 and 5 | about 17 s |
 | `authority-files/works.xml` | the authority checklist in full except step 5 (`build-begriffshilfe.py` does not read `works.xml`) | about 17 s plus the Zotero run |
