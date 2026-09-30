@@ -187,16 +187,26 @@ export async function exportZeilen(ctx, fortschritt = () => {}) {
     let fertig = 0;
     fortschritt(0, dateien.length);
 
+    // Promise.all bricht die anderen Arbeiter nicht ab. Ohne das Flag laden
+    // sie nach dem ersten Fehler weiter und ueberschreiben mit ihrem
+    // Fortschritt die Fehlermeldung (Review #448).
+    let abgebrochen = false;
     let naechste = 0;
     async function arbeiter() {
-        while (naechste < dateien.length) {
+        while (!abgebrochen && naechste < dateien.length) {
             const datei = dateien[naechste++];
-            const text = texte.get(datei);
-            const tei = await ladeTei(datei);
-            const meta = [text.id, text.title || '', text.author || ''];
-            ergebnis.set(datei, ctx.mode === 'document'
-                ? zeilenDokumentModus(ctx, text, tei, meta)
-                : zeilenFensterModus(ctx, text, tei, jeDatei.get(datei), meta));
+            try {
+                const text = texte.get(datei);
+                const tei = await ladeTei(datei);
+                if (abgebrochen) return;
+                const meta = [text.id, text.title || '', text.author || ''];
+                ergebnis.set(datei, ctx.mode === 'document'
+                    ? zeilenDokumentModus(ctx, text, tei, meta)
+                    : zeilenFensterModus(ctx, text, tei, jeDatei.get(datei), meta));
+            } catch (error) {
+                abgebrochen = true;
+                throw error;
+            }
             fortschritt(++fertig, dateien.length);
         }
     }

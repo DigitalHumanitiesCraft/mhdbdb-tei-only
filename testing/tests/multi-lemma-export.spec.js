@@ -108,6 +108,24 @@ test.describe('Multi-Lemma-Export (#448)', () => {
     expect([...jeSigle.values()].every(s => s.size === 2)).toBe(true);
   });
 
+  test('Fehler beim Nachladen bleibt stehen, der Fortschritt ueberschreibt ihn nicht', async ({ page }) => {
+    await page.goto('/playground/#multi-lemma&lemmata=minne,herze&mode=verse');
+    await page.waitForSelector('#mlExportCsv', { state: 'visible', timeout: 120000 });
+    // AXR ist die erste Datei der Liste; die drei anderen Arbeiter laufen
+    // zu diesem Zeitpunkt schon
+    await page.route('**/tei/AXR.tei.xml', route => route.fulfill({ status: 500, body: '' }));
+    let downloads = 0;
+    page.on('download', () => { downloads++; });
+    await page.click('#mlExportCsv');
+    const status = page.locator('#mlExportStatus');
+    await expect(status).toContainText('Export fehlgeschlagen: AXR.tei.xml: HTTP 500', { timeout: 60000 });
+    await expect(page.locator('#mlExportCsv')).toBeEnabled();
+    // Laenger warten, als die restlichen Dateien zum Laden brauchen
+    await page.waitForTimeout(8000);
+    await expect(status).toContainText('Export fehlgeschlagen');
+    expect(downloads).toBe(0);
+  });
+
   test('XLSX: gueltiges Paket mit Fundstellen- und Suchblatt', async ({ page }) => {
     await page.goto('/playground/#multi-lemma&lemmata=minne,herze&mode=verse');
     await page.waitForSelector('#mlExportXlsx', { state: 'visible', timeout: 120000 });
