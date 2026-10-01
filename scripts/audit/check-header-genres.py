@@ -47,7 +47,7 @@ from lxml import etree
 
 # Gemeinsame Korpusauswahl (#287).
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from corpus_files import corpus_files  # noqa: E402
+from corpus_files import corpus_files, tei_header  # noqa: E402
 
 NS = {'tei': 'http://www.tei-c.org/ns/1.0'}
 XID = '{http://www.w3.org/XML/1998/namespace}id'
@@ -97,7 +97,7 @@ def main():
     ausnahme_genutzt = set()
     for path in dateien:
         sigle = path.name.replace('.tei.xml', '')
-        kopf = etree.parse(str(path)).find('tei:teiHeader', NS)
+        kopf = tei_header(path)
         werkref = kopf.xpath('.//tei:msIdentifier/@corresp', namespaces=NS)
         wid = werkref[0].split('#', 1)[-1] if werkref else None
         if wid not in werke:

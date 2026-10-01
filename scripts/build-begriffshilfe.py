@@ -40,6 +40,7 @@ Usage:
     python scripts/build-begriffshilfe.py --out <datei>    # nur zum Ausprobieren
 """
 import argparse
+import concurrent.futures
 import hashlib
 import html
 import re
@@ -50,7 +51,7 @@ from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT_ROOT / 'scripts'))
-from corpus_files import corpus_files  # noqa: E402
+from corpus_files import corpus_files, default_jobs  # noqa: E402
 
 CONCEPTS_REL = 'authority-files/concepts.xml'
 LEXICON_REL = 'authority-files/lexicon.xml'
@@ -127,21 +128,52 @@ def ancestors(cid, parents):
     return seen
 
 
-def count_tokens(known):
+_KNOWN = None
+
+
+def _count_init(known):
+    global _KNOWN
+    _KNOWN = known
+
+
+def count_file(f):
+    """Zaehler und unbekannte Verweise fuer eine Datei."""
+    tokens, unknown = Counter(), 0
+    for m in ANA_RE.finditer(f.read_text(encoding='utf-8')):
+        for ref in m.group(1).split():
+            sid = ref.split('#')[-1]
+            if sid in _KNOWN:
+                tokens[sid] += 1
+            else:
+                unknown += 1
+    return tokens, unknown
+
+
+def count_tokens(known, jobs=1):
     """Token je Bedeutung aus w/@ana. Regex statt Baum: nur @ana zaehlt. Kopie aus
     scripts/audit/measure-498-concept-cross-sections.py (bei Aenderung beide
-    mitziehen). Gibt (tokens, Zahl der Dateien) zurueck."""
+    mitziehen). Gibt (tokens, Zahl der Dateien) zurueck.
+
+    Parallel je Datei (#284-Muster); die Teilzaehler werden in Dateireihenfolge
+    zusammengefuehrt, damit auch die Schluesselreihenfolge der seriellen
+    Fassung gleicht (Erstauftreten ueber die sortierte Dateiliste)."""
     tokens = Counter()
     files = corpus_files()
     unknown = 0
-    for f in files:
-        for m in ANA_RE.finditer(f.read_text(encoding='utf-8')):
-            for ref in m.group(1).split():
-                sid = ref.split('#')[-1]
-                if sid in known:
-                    tokens[sid] += 1
-                else:
-                    unknown += 1
+    if jobs <= 1:
+        _count_init(known)
+        teile = map(count_file, files)
+    else:
+        pool = concurrent.futures.ProcessPoolExecutor(
+            max_workers=jobs, initializer=_count_init, initargs=(known,))
+        teile = pool.map(count_file, files, chunksize=1)
+    try:
+        for teil, unbekannt in teile:
+            tokens.update(teil)
+            unknown += unbekannt
+    finally:
+        if jobs > 1:
+            pool.shutdown(cancel_futures=True)
     print(f'Korpus: {len(files)} Dateien, {sum(tokens.values()):,} Token mit aufloesbarer '
           f'Bedeutung, {unknown:,} @ana-Verweise ohne Bedeutung in lexicon.xml')
     return tokens, len(files)
@@ -306,7 +338,7 @@ Die Reihenfolge der Quelldatei bleibt erhalten. Nur umgebende und mehrfache Leer
     header = '| ID | Deutsch | Alternativ DE | Englisch | Alternativ EN | Direkte Oberbegriffe |'
     lexicon_raw = (PROJECT_ROOT / LEXICON_REL).read_bytes()
     concepts_of, lemma_of, orth_of = load_lexicon(lexicon_raw, {r['id'] for r in records})
-    tokens, _n_files = count_tokens(set(concepts_of))
+    tokens, _n_files = count_tokens(set(concepts_of), args.jobs)
     extra = enrich(records, concepts_of, lemma_of, orth_of, tokens,
                    args.top, args.co_top, args.min_senses)
     header += ' Bedeutungen | Lemmata | Häufigste Lemmata (Belege) | Häufigste Mitbegriffe |'
@@ -356,7 +388,12 @@ def main():
     ap.add_argument('--co-top', type=int, default=10, help='Mitbegriffe je Begriff')
     ap.add_argument('--min-senses', type=int, default=30, help='Mindestzahl Bedeutungen fuer Mitbegriffe')
     ap.add_argument('--out', help=f'Ausgabedatei (default: {OUT_REL})')
-    build(ap.parse_args())
+    ap.add_argument('--jobs', type=int, default=default_jobs(),
+                    help='Worker-Prozesse fuer die Korpuszaehlung (1 = seriell)')
+    args = ap.parse_args()
+    if args.jobs < 1:
+        ap.error('--jobs muss mindestens 1 sein')
+    build(args)
     return 0
 
 

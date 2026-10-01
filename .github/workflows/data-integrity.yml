@@ -87,15 +87,16 @@ name: Data Integrity
 #      zweite Spiegel neben dem msIdentifier aus Step 1b. Geprueft
 #      werden titleStmt/author (leer, toter @ref, Praefixform) und
 #      seit #308 particDesc/listPerson/persName[@type="preferred"],
-#      671 Eintraege in 666 Dateien, adressiert ueber @corresp. Eine
-#      Abweichung dort ist nie eine bibliographische Variante, sondern
-#      immer ein veralteter Spiegel. Hier und nicht bei 1b, weil das
-#      Skript jede der 667 Dateien ganz parst (gemessen 1 min 47 s).
+#      adressiert ueber @corresp. Eine Abweichung dort ist nie eine
+#      bibliographische Variante, sondern immer ein veralteter Spiegel.
+#      Liest seit 01.10.2026 nur den teiHeader (unter einer Sekunde statt
+#      rund einer Minute); die Position hier ist seither keine Kostenfrage.
 #   7c. Gattungen im Header gegen works.xml (#495): die Hauptgattungen
 #      in classDecl/taxonomy[@xml:id="genres"] muessen Werkgattungen
 #      sein, und jede Werkgattung muss im Kopf stehen (als Haupt- oder
 #      Elterngattung). Eine Gattung nur im Kopf kommt im Index nirgends
-#      an. Neben 7b, weil es ebenso jede Datei ganz parst.
+#      an. Neben 7b, als zweites Header-Gate; liest ebenfalls nur den
+#      teiHeader.
 #   8. Zweistufige RelaxNG-Validierung (P2-13): Stage 2
 #      (mhdbdb.rng / mhdbdb-authority.rng) ist das harte Gate;
 #      Stage-1-Baseline-Fails (#30) sind nur Warnungen.
@@ -527,9 +528,9 @@ jobs:
       # Lief bis heute bewusst nicht mit, solange der tote @ref in VOR offen
       # war (so in scripts/README.md vermerkt); der ist mit #308 behoben, das
       # Skript steht auf exit 0, damit faellt die Begruendung weg.
-      # Hier und nicht oben bei 1b, weil es jede der 667 Dateien ganz parst:
-      # gemessen 1 min 47 s, waehrend 1b per iterparse nach rund einer
-      # Sekunde fertig ist.
+      # Stand frueher hier und nicht oben bei 1b, weil es jede der 667 Dateien
+      # ganz parste (1 min 47 s); seit 01.10.2026 liest es per iterparse nur
+      # den teiHeader wie 1b, die Position ist seither keine Kostenfrage.
       - name: Personennamen im Header gegen persons.xml (#228/#308)
         run: python scripts/audit/check-author-refs.py --check
 
