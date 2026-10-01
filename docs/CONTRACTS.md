@@ -392,8 +392,8 @@ Handing over the label alone would send that click back through stage 1, where a
 homograph group returns `matches[0]`, which can be a different lemma than the one
 on screen.
 
-Measured on 2026-09-24 against `authority-files/lexicon.xml` (43,713 entries with a
-`form/orth`; 43,710 since #228 removed three digit lemmas on 2026-10-01, none of which shared a written form, so the figures below are unchanged): 102 written forms carry more than one entry (216 lemmata), and after
+Measured on 2026-09-24 against `authority-files/lexicon.xml` (43,710 entries with a
+`form/orth` today; the measurement still included three digit lemmas that #228 removed on 2026-10-01, none of which shared a written form, so the figures below are unchanged): 102 written forms carry more than one entry (216 lemmata), and after
 normalization 476 forms do (991 lemmata, 2.27 percent). `sin`, `wal`, `mal` and `de`
 are in that set. Counting rule, because the number depends on it: group by
 `normalize_mhg()` from `scripts/mhg_normalizer.py`, the canonical normalizer, not by a
