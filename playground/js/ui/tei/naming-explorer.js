@@ -586,8 +586,11 @@ export class NamingExplorer {
           <span class="rounded bg-amber-100 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-amber-800">Beta</span>
         </h3>
         <p class="text-xs text-slate-600">
-          Kuratierte Bezeichnungspraktiken jenseits des Eigennamens: Wie wird eine Figur benannt, umschrieben (Antonomasie) und charakterisiert (Epitheton)?
-          Verfügbar für die vier Werke mit kuratierten Daten aus dem Dissertationsprojekt <em>Naming-analysis</em> <strong>von Linda Beutel-Thurow (Universität Salzburg).</strong>
+          Kuratierte Erfassung jeder Nennung einer Figur mit Versstelle und benennender Instanz: Erzähler, andere Figur oder Selbstnennung.
+          Unterschieden werden <strong>Bezeichnungsvarianten</strong>, die für sich allein stehen (Eigenname oder Antonomasie, etwa <em>Pârîs</em> oder <em>der künec</em>),
+          und <strong>Epitheta</strong>, die als Attribut hinzutreten und nicht allein stehen können.
+          Daten aus dem Dissertationsprojekt <em>Naming-analysis</em> <strong>von Linda Beutel-Thurow (Universität Salzburg)</strong> für vier Werke.
+          Zur genauen Definition von Termini, Erhebung und Grenzen des Datensatzes: <a href="https://doi.org/10.58079/16qo7" target="_blank" rel="noopener" class="text-brand-700 hover:underline">Beutel-Thurow 2026</a>.
         </p>
         ${this.renderPerspectiveTabs()}
         <div class="grid gap-3 sm:grid-cols-2">
