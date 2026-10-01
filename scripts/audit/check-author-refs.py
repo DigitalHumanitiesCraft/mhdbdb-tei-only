@@ -76,7 +76,7 @@ from lxml import etree
 
 # Gemeinsame Korpusauswahl (#287).
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from corpus_files import corpus_files  # noqa: E402
+from corpus_files import corpus_files, tei_header  # noqa: E402
 
 NS = {'tei': 'http://www.tei-c.org/ns/1.0'}
 
@@ -117,9 +117,11 @@ def main():
     spiegel_fehlt, ausnahme_ueberfluessig = [], []
     for path in corpus_files():
         sigle = path.name.replace('.tei.xml', '')
-        tree = etree.parse(str(path))
+        # Beide gepruefte Stellen liegen im teiHeader; der Textteil wird nicht
+        # gelesen (rund 60 s weniger ueber alle 667 Dateien).
+        tree = tei_header(path)
         corresp_ids, autor_ids = set(), set()
-        for person in tree.xpath('//tei:particDesc/tei:listPerson/tei:person',
+        for person in tree.xpath('.//tei:particDesc/tei:listPerson/tei:person',
                                  namespaces=NS):
             # Adressiert wird ueber @corresp, nicht ueber die lokale xml:id:
             # LUU fuehrt dort eine UUID (person_05154796-...), korpusweit der
@@ -143,7 +145,7 @@ def main():
             spiegel_geprueft += 1
             if form != pref[pid]:
                 spiegel.append((sigle, pid, form, pref[pid]))
-        for author in tree.xpath('//tei:titleStmt/tei:author', namespaces=NS):
+        for author in tree.xpath('.//tei:titleStmt/tei:author', namespaces=NS):
             raw_text = ''.join(author.itertext()).strip()
             text = ' '.join(raw_text.split())
             if text != raw_text:

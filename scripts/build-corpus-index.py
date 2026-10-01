@@ -80,10 +80,11 @@ OUTPUT_FILE = DATA_DIR / 'corpus-index.json.gz'
 TEI_NS = {'tei': 'http://www.tei-c.org/ns/1.0'}
 
 
-def extract_metadata(filepath):
-    """Extract metadata from TEI file."""
+def extract_metadata(filepath, tree=None):
+    """Extract metadata from TEI file (tree: bereits geparster Baum, sonst wird geparst)."""
     try:
-        tree = etree.parse(str(filepath))
+        if tree is None:
+            tree = etree.parse(str(filepath))
         ns = get_namespaces(tree)
 
         # Get sigle from filename or XML
@@ -151,7 +152,7 @@ def extract_metadata(filepath):
         return None
 
 
-def extract_word_data(filepath, text_id):
+def extract_word_data(filepath, text_id, tree=None):
     """
     Extract word data using document-level indexing (v4.1.0).
 
@@ -163,7 +164,8 @@ def extract_word_data(filepath, text_id):
       line_ends   = [7, 14, 22, ...] # word-index where each <l> ends (inclusive)
     """
     try:
-        tree = etree.parse(str(filepath))
+        if tree is None:
+            tree = etree.parse(str(filepath))
 
         # Get body element
         TEI = '{http://www.tei-c.org/ns/1.0}'
@@ -246,15 +248,24 @@ def extract_word_data(filepath, text_id):
 
 def process_tei_file(filepath):
     """Process single TEI file and return text data."""
+    # Einmal parsen, beide Auszuege lesen denselben Baum. Bis 01.10.2026 parste
+    # jede der beiden Funktionen die Datei selbst, also jede Datei zweimal.
+    # Ein Parse-Fehler endet wie zuvor: Meldung, Datei uebersprungen.
+    try:
+        tree = etree.parse(str(filepath))
+    except Exception as e:
+        print(f"⚠️  Error extracting metadata from {filepath.name}: {e}")
+        return None
+
     # Extract metadata
-    metadata = extract_metadata(filepath)
+    metadata = extract_metadata(filepath, tree)
     if not metadata:
         return None
 
     text_id = metadata['id']
 
     # Extract full word data + line boundaries (document-level)
-    words, lemmata, word_count, line_starts, line_ends = extract_word_data(filepath, text_id)
+    words, lemmata, word_count, line_starts, line_ends = extract_word_data(filepath, text_id, tree)
 
     # Combine
     text_data = {

@@ -73,3 +73,24 @@ DEFAULT_JOBS_CAP = 8
 def default_jobs():
     """Vorgabe fuer --jobs: die Obergrenze, auf kleinen Maschinen die Kernzahl."""
     return min(DEFAULT_JOBS_CAP, os.cpu_count() or 1)
+
+
+def tei_header(path):
+    """Nur den teiHeader einer Korpusdatei lesen, nicht den ganzen Text.
+
+    Ein voller Parse aller 667 Dateien kostet rund 45 s, der Header allein per
+    iterparse rund 0,3 s (gemessen 01.10.2026, lokal). Fuer Gates, die nur
+    Header-Felder pruefen, ist das der ganze Unterschied (Muster wie
+    erster_msidentifier in sync/sync_tei_headers.py). iterparse liefert das
+    Element, sobald sein Endtag gelesen ist; danach wird abgebrochen.
+
+    Folge, die der Aufrufer kennen muss: ein Syntaxfehler im Textteil faellt
+    hier nicht auf. Das pruefen validate-corpus.py und die Index-Builds.
+    Ein Syntaxfehler im Header wirft weiter XMLSyntaxError, eine Datei ohne
+    teiHeader ist ein harter Fehler.
+    """
+    from lxml import etree
+    ziel = '{http://www.tei-c.org/ns/1.0}teiHeader'
+    for _, el in etree.iterparse(str(path), events=('end',), tag=ziel):
+        return el
+    raise ValueError(f'{path}: kein teiHeader')
