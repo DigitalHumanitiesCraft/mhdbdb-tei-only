@@ -132,7 +132,7 @@ test.describe('Naming Explorer (#59)', () => {
   test('Lemma-Filter ist MHG-normalisiert (tore findet tôre)', async ({ page }) => {
     await selectIwein(page);
     await expect(page.locator('#resultsContainer')).toContainText('Lemma-Filter');
-    await expect(page.locator('#resultsContainer')).not.toContainText(/\bTerm\b/);
+    await expect(page.locator('#resultsContainer')).not.toContainText(/Term(?!ini)/);
 
     await page.fill('#neNameFilter', 'tore');
     await page.waitForSelector('[data-ne-term]', { state: 'visible', timeout: 5000 });
