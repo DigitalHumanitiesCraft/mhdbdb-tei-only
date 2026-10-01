@@ -4,14 +4,12 @@
  * Verifiziert das 11. TEI-Analyse-Werkzeug im Playground: korpusweite
  * Frequenzaggregation (Hapax/Dis/Tris) mit Filter-Toolbar und Detail-Panel.
  *
- * Achtung bei den beiden NUM-Tests: sie ankern auf Ziffern-Lemmata
- * (`/^\d/` auf dem ersten Listeneintrag). Von den drei, die den Filter
- * ausgelöst haben, ist 46 mit #228 (K7, 24.09.) aus dem Korpus verschwunden;
- * 42 und 49 stehen nur in WVV, und ob die Ziffern dort entannotiert werden,
- * ist in #228 eine offene Frage an KZW. Das Lexikon führt daneben noch 1 und
- * 36 (Stand 24.09.). Bleibt kein Ziffern-Lemma in der Liste, werden die Tests
- * rot, obwohl der Filter weiter korrekt arbeitet: dann ist der Anker zu
- * ersetzen, nicht der Filter zu reparieren.
+ * Die beiden NUM-Tests ankern nicht mehr auf Ziffern-Lemmata (`/^\d/` auf dem
+ * ersten Listeneintrag): die drei, die den Filter ausgeloest haben (42, 46,
+ * 49), hat #228 geloescht, und das letzte Ziffern-Lemma "1" ist mit 63
+ * Belegen kein Hapax. Der Default-Test vergleicht jetzt die Gesamtzahl mit
+ * einem Orakel aus den Indexen, der Facetten-Test das Wortart-Kennzeichen
+ * der Zeilen.
  *
  * Der Wörterbuchnetz-Test spiegelt den Attribut-Breakout-Regressionstest aus
  * results-table.spec.js: derselbe Shared Client (assets/js/lib/woerterbuchnetz.js)
@@ -20,6 +18,34 @@
  */
 
 import { test, expect } from '@playwright/test';
+import { readFileSync } from 'fs';
+import { gunzipSync } from 'zlib';
+import { fileURLToPath } from 'url';
+import { dirname, resolve } from 'path';
+
+// Orakel: reine NUM-Lemmata (posAll genau ["NUM"]) mit genau einem Korpusbeleg,
+// gezaehlt wie aggregateCorpus() und passesFilters() in hapax-legomena.js.
+const wurzel = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
+const lies = name => JSON.parse(gunzipSync(readFileSync(resolve(wurzel, 'data', name))).toString('utf-8'));
+const REINE_NUM_HAPAXE = (() => {
+  const auth = lies('authority-index.json.gz');
+  const corpus = lies('corpus-index.json.gz');
+  const byId = new Map(auth.lemmata.map(l => [l.id, l]));
+  const counts = new Map();
+  for (const text of corpus.texts) {
+    for (const [id, positions] of Object.entries(text.lemmata || {})) {
+      counts.set(id, (counts.get(id) || 0) + positions.length);
+    }
+  }
+  let n = 0;
+  for (const [id, count] of counts) {
+    const lemma = byId.get(id);
+    if (count !== 1 || !lemma) continue;
+    const tags = lemma.posAll || (lemma.pos ? String(lemma.pos).trim().split(/\s+/) : []);
+    if (tags.length === 1 && tags[0] === 'NUM') n++;
+  }
+  return n;
+})();
 
 test.describe('Issue #196: Echte Hapaxlegomena', () => {
   test.beforeEach(async ({ page }) => {
@@ -27,7 +53,7 @@ test.describe('Issue #196: Echte Hapaxlegomena', () => {
     await page.waitForSelector('#hxFreq', { state: 'visible', timeout: 60000 });
   });
 
-  test('NUM-Filter: Ziffern-Lemmata stehen nicht mehr auf den ersten Plätzen', async ({ page }) => {
+  test('NUM-Filter: reine Zahlwörter sind per Default ausgeblendet', async ({ page }) => {
     // Anlass des Filters (KZW 27.07.): die Ziffern-Lemmata 42/46/49 standen auf
     // den Rängen 1 bis 3, weil die Liste alphabetisch sortiert ist und Ziffern
     // vor Buchstaben sortieren. Der Filter ist per Default an.
@@ -36,22 +62,20 @@ test.describe('Issue #196: Echte Hapaxlegomena', () => {
     const checkbox = page.locator('#hxHideNum');
     await expect(checkbox).toBeChecked();
 
-    // Zweite Zelle = Lemma; die erste trägt die laufende Nummer.
-    const erstesLemma = () => page.locator('tbody tr').first().locator('td').nth(1).innerText();
     // Die Gesamtzahl steht im Listenkopf, die Tabelle selbst paginiert bei 100.
     const gesamt = async () => {
       const text = await page.locator('#resultsContainer').innerText();
       return parseInt(text.match(/([\d.]+) Lemmata mit Frequenz/)[1].replace(/\./g, ''), 10);
     };
 
-    expect((await erstesLemma()).trim()).not.toMatch(/^\d/);
     const summeAn = await gesamt();
 
-    // Ausgeschaltet müssen sie wieder auftauchen, und zwar ganz oben.
+    // Ausgeschaltet kommen genau die reinen NUM-Hapaxe dazu; die Seite 1 der
+    // alphabetischen Liste enthaelt keines, darum zaehlt der Test die Summe.
+    expect(REINE_NUM_HAPAXE).toBeGreaterThan(0);
     await checkbox.uncheck();
     await page.waitForTimeout(500);
-    expect(await gesamt()).toBeGreaterThan(summeAn);
-    expect((await erstesLemma()).trim()).toMatch(/^\d/);
+    expect(await gesamt() - summeAn).toBe(REINE_NUM_HAPAXE);
   });
 
   test('NUM-Filter: explizite Wortart-Facette NUM schlägt den Default', async ({ page }) => {
@@ -68,9 +92,9 @@ test.describe('Issue #196: Echte Hapaxlegomena', () => {
     const gesamt = parseInt(text.match(/([\d.]+) Lemmata mit Frequenz/)[1].replace(/\./g, ''), 10);
     expect(gesamt).toBeGreaterThan(100);
 
-    // Darunter wieder die reinen Ziffern-Lemmata.
-    const erstesLemma = await page.locator('tbody tr').first().locator('td').nth(1).innerText();
-    expect(erstesLemma.trim()).toMatch(/^\d/);
+    // Darunter wieder die reinen Zahlwörter, die der Default sonst ausblendet.
+    const kennzeichen = await page.locator('tbody tr td:nth-child(2) span.font-mono.text-xs').allInnerTexts();
+    expect(kennzeichen.filter(t => t.trim() === 'NUM').length).toBeGreaterThan(0);
   });
 
   test('NAM-Facette schlägt den Eigennamen-Default und deaktiviert dessen Checkbox', async ({ page }) => {
