@@ -21,6 +21,7 @@ Stand 28.09.2026.
 - Prueft das Gate den Wert oder nur die Konsistenz zweier Stellen desselben Autors?
 - Vor Klasse A ueber eine Invariante die Basis mitmessen: haelt sie dort nicht, ist es Vorbestand.
 - Zahlen stehen oft mehrfach: nach dem Gate-Lauf `grep -rn` ueber die alte Zahl; die Zweitzeile neben einem Anker selbst lesen.
+- Harter Fehler NACH dem ersten Schreibvorgang ist kein Guard: bei einem Skript, das Dateien und eine Liste schreibt, die Zeile des `raise SystemExit` gegen die Zeile des ersten `write_text` halten. Zweimal getroffen (sync_tei_headers, siehe header_spiegel.md; `update-disambig-status-493.py` Runde 3, 30.09.2026: TEI geschrieben, CSV-Kopfzeilenpruefung danach, Wiederholungslauf sagt „nichts zu aendern", Zeile fehlt dauerhaft). Sonde: Kopie mit kaputter Liste, `--apply`, Hash der Datei vor/nach.
 
 **Auftrag, JOURNAL, Threads**
 - Zahlen und Daten im Auftrag stammen oft aus Verdichtungen: im Thread nachlesen (UTC beachten), nicht in einem Zusammenfassungskommentar.

@@ -7,7 +7,7 @@ Verdichtet am 28.09.2026. Zahlen hier sind Eingabe, keine Messung.
 - [Messrezepte](querschnitt_messen.md): importlib in-process, Mutationsproben, gz/c14n-Vergleich, Zaehlfallen
 - [Tests](querschnitt_tests.md): run-tests.js, --reporter-Falle, report.json, Playwright-Probe, Tailwind
 - [Review-Denkfallen](querschnitt_review_fallen.md): #397-Frage, Stempel, Ausnahmen, Zahlenkopien, Auftrag pruefen
-- [Gates und CI](gates_und_ci.md): doc-count-audit-Luecken, Einzelgates, extract-variants, issue-matrix, main-Schutz
+- [Gates und CI](gates_und_ci.md): doc-count-audit-Luecken, Einzelgates, extract-variants, issue-matrix, main-Schutz, Review-Bot-Log (was sanitize versteckt, PR-Workflow-Datei, Tokenmaskierung)
 - [TEI-Korpus](korpus_tei.md): was der Korpus-Index liest, pc/caesura/gap, Vers/Prosa, WZB, Header
 - [Lexikon und Variants](lexikon_variants.md): first-wins-Flip, sense/@ana ohne Konsument, Ziffernlemmata
 - [Authority-Dateien](authority_dateien.md): concepts kein Baum, zwei genre-Felder, Schema an vier Orten, Siglen
