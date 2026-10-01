@@ -22,7 +22,10 @@ import io
 import re
 import sys
 from pathlib import Path
-from lxml import etree
+# Bewusst stdlib statt lxml: das Gate laeuft seit dem 01.10.2026 auch in
+# no-cdn-check.yml, das ohne pip auskommt. Die Zaehlungen brauchen nur
+# Element plus Attribut, dafuer reicht ElementTree.
+import xml.etree.ElementTree as etree
 
 # scripts/ auf den Pfad, damit der Parity-Normalizer und die gemeinsame
 # Korpusauswahl (#287) importierbar sind
@@ -34,10 +37,26 @@ if sys.stdout.encoding and sys.stdout.encoding.lower() not in ('utf-8', 'utf8'):
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', line_buffering=True)
 
 
+TEI = '{http://www.tei-c.org/ns/1.0}'
+ATTRS = {'xml:id': '{http://www.w3.org/XML/1998/namespace}id', 'corresp': 'corresp'}
+_baeume = {}
+
+
+def _parse(path: str):
+    if path not in _baeume:
+        _baeume[path] = etree.parse(path)
+    return _baeume[path]
+
+
 def count_xml_elements(path: str, xpath: str) -> int:
-    """Count elements matching xpath in path (TEI namespace assumed)."""
-    tree = etree.parse(path)
-    return len(tree.xpath(xpath, namespaces={'tei': 'http://www.tei-c.org/ns/1.0'}))
+    """Count elements matching xpath in path (TEI namespace assumed).
+    Nur die Form //tei:<element>[@<attr>] ist erlaubt; alles andere ist ein
+    harter Fehler statt einer stillen Null."""
+    m = re.fullmatch(r'//tei:(\w+)\[@(xml:id|corresp)\]', xpath)
+    if m is None:
+        raise ValueError('nicht unterstuetzter XPath: %r' % xpath)
+    tag, attr = TEI + m.group(1), ATTRS[m.group(2)]
+    return sum(1 for el in _parse(path).iter(tag) if el.get(attr) is not None)
 
 
 def count_variants_normalized(path: str) -> int:
@@ -45,11 +64,11 @@ def count_variants_normalized(path: str) -> int:
     Suche tatsächlich prüft (Variants-Dictionary dedupliziert nach
     MHG-Normalisierung, siehe CONTRACTS.md). Muss mit dem JS-Build der
     Runtime-Map übereinstimmen; Parity haengt an normalize_mhg()."""
-    tree = etree.parse(path)
-    orth_tag = '{http://www.tei-c.org/ns/1.0}orth'
+    orth_tag = TEI + 'orth'
     normed = set()
-    for form in tree.xpath('//tei:form[@xml:id]',
-                           namespaces={'tei': 'http://www.tei-c.org/ns/1.0'}):
+    for form in _parse(path).iter(TEI + 'form'):
+        if form.get(ATTRS['xml:id']) is None:
+            continue
         orth = form.find(orth_tag)
         text = orth.text if orth is not None else form.text
         if text and text.strip():

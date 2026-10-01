@@ -267,10 +267,12 @@ jobs:
       # "Steps von billig nach teuer (fail fast)" aus; eine falsche Zahl auf
       # index.html darf nicht erst hinter der RelaxNG-Validierung auffallen.
       #
-      # Warum hier und nicht in no-cdn-check.yml, wo die uebrigen Doku-Gates
-      # haengen: das Skript liest variants.xml und braucht dafuer lxml.
-      # no-cdn-check.yml ist stdlib-only und hat fuenf Minuten Timeout. Hier
-      # ist lxml ohnehin installiert.
+      # Seit 01.10.2026 laeuft derselbe Schritt AUCH in no-cdn-check.yml.
+      # Frueher stand hier, warum nicht dort: das Skript brauchte lxml, und
+      # no-cdn-check.yml ist stdlib-only. Es zaehlt jetzt mit ElementTree.
+      # Hier bleibt es trotzdem, weil no-cdn-check.yml auf tei/** und
+      # authority-files/** nicht anspringt: eine Datenaenderung ohne
+      # Doku-Anteil faengt nur dieser Workflow.
       #
       # Warum ueberhaupt: das Skript gibt es seit Monaten und lief in keinem
       # Workflow. Am 06.09. hat der neu gepraegte type_372365 die
@@ -279,8 +281,11 @@ jobs:
       # (index.html und hilfe-daten.html, beide fuer Besucher sichtbar).
       # Gefunden hat es der Review-Bot, nicht die CI.
       #
-      # GRENZEN, und es sind zwei. Die Pfadfilter dieses Workflows nennen
-      # weder docs/** noch *.html noch playground/**:
+      # GRENZEN dieses Workflows, und es sind zwei; geschlossen sind beide
+      # seit 01.10.2026 durch den Schritt in no-cdn-check.yml, dessen Filter
+      # **.md, **/*.html und playground/** nennen. Die Beschreibung bleibt,
+      # weil sie erklaert, warum das Gate an zwei Stellen steht. Die
+      # Pfadfilter hier nennen weder docs/** noch *.html noch playground/**:
       #
       #   (a) Ein PR, der nur Dokumentation anfasst, aendert die BEHAUPTETE
       #       Zahl und loest den Lauf nicht aus.
