@@ -4,8 +4,8 @@
  * KZW am 2026-09-24 in #467: Korpussuche und Multi-Lemma-Suche nehmen beide
  * Schreibweisen, "4086" und "lemma_4086", und behandeln sie "jeweils als
  * eindeutige Lemma-ID". Eine Eingabe dieser Form geht deshalb nicht durch die
- * 3-Stufen-Aufloesung (lemma-resolve.js): "36" heisst lemma_36, nicht das
- * Lemma mit der Schreibung "36".
+ * 3-Stufen-Aufloesung (lemma-resolve.js): "1" heisst lemma_1, nicht das
+ * Lemma mit der Schreibung "1".
  *
  * Angenommen wird auch die Form aus @lemmaRef im TEI, "lexicon.xml#lemma_4086",
  * wie im Woerterbuch (#481). Fuehrende Nullen fallen weg ("04086" -> lemma_4086),

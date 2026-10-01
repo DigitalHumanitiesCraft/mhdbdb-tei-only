@@ -96,7 +96,7 @@ Breves on the remaining base characters stay untouched: 23 further WZB tokens (y
 | `person_1332` Wachsmut von Mühlhausen | `wachsmut von mühlhausen` | `wachsmut von muehlhausen` |
 | `work_435` Lyrik von Hugo von Mühldorf | `lyrik von hugo von mühldorf` | `lyrik von hugo von muehldorf` |
 
-All three were unfindable through normalized search. All 43,879 lemma normalizations and all 234,244 variant mappings remain unchanged. Hence Authority Index v1.6.2. **234,244 is the state of v1.6.2, not today's** (today 233,978, see §C): with the HUG stanza numerals, #138 also removed the type `type_195524` „cxlvix", attested only there, measured against the blob before `87b6dc941`. The difference of one is therefore a real data step and not a typo in either line (#277).
+All three were unfindable through normalized search. All 43,879 lemma normalizations and all 234,244 variant mappings remain unchanged. Hence Authority Index v1.6.2. **234,244 is the state of v1.6.2, not today's** (today 233,962, see §C): with the HUG stanza numerals, #138 also removed the type `type_195524` „cxlvix", attested only there, measured against the blob before `87b6dc941`. The difference of one is therefore a real data step and not a typo in either line (#277).
 
 **Not affected:** the corpus index stores lemma ids and positions, not normalized text forms; `build-corpus-index.py` does import `normalize_mhg` but never calls it. For the corpus text itself the checkable statement is sharper than the sample originally noted here: **there is not a single combining diaeresis and no combining tilde inside `<w>` anywhere in the corpus.** The 1,339 diaereses in 566 of the 667 files all sit outside the annotated tokens, mostly in the `<note>` bibliography prose of the teiHeader (places of publication such as Tübingen, Zürich). Inside `<w>` there are 774 combining marks in total, of which 752 are WZB breves and 22 are exotics: 11 dot below, 8 macron, 3 U+035B (the abbreviation zigzag in `cetera͛`, `her͛re`).
 
@@ -378,8 +378,8 @@ User types: **brott**
 ### Variant Dictionary Structure
 
 - Flat map: `{ normalized_variant_form: lemma_id }`
-- 233,978 normalized entries (as of 2026-09-24; 256,512 raw forms in variants.xml, deduped first-occurrence-wins), extracted from `authority-files/variants.xml`
-- **Two numbers that have to stay different:** 256,512 is the count of raw forms in `variants.xml`, 233,978 the count of mappings in the runtime dictionary after deduplication. Whoever writes "variants dictionary" means the smaller one. Whoever reads 234,244 is reading the state before #138 (§A, step 0)
+- 233,962 normalized entries (as of 2026-10-01; 256,496 raw forms in variants.xml, deduped first-occurrence-wins), extracted from `authority-files/variants.xml`
+- **Two numbers that have to stay different:** 256,496 is the count of raw forms in `variants.xml`, 233,962 the count of mappings in the runtime dictionary after deduplication. Whoever writes "variants dictionary" means the smaller one. Whoever reads 234,244 is reading the state before #138 (§A, step 0)
 - **First occurrence wins** – if two lemmata claim the same variant form, only the first one stored (source: `parse_variants()` in `build-authority-index.py`, the `if normalized_variant not in variants` guard). Line anchors drift; look the function up by name
 - **This rule is decided away and not yet built.** [ADR-021](DECISIONS.md#adr-021-an-ambiguous-written-form-returns-every-candidate-lemma-ranked-by-that-forms-own-frequency) (KZW, 2026-09-14, #378) replaces „exactly 1" with „0..N, ranked by how often *this* normalized form occurs under each candidate". Nothing in the code has changed, so the stage table above still describes what runs today; whoever implements the ADR renarrates the stage 2 row and the return shape in both consumers
 - Keys are **normalized** forms (lowercase + MHG character mapping applied before storage)
@@ -392,8 +392,8 @@ Handing over the label alone would send that click back through stage 1, where a
 homograph group returns `matches[0]`, which can be a different lemma than the one
 on screen.
 
-Measured on 2026-09-24 against `authority-files/lexicon.xml` (43,713 entries with a
-`form/orth`): 102 written forms carry more than one entry (216 lemmata), and after
+Measured on 2026-09-24 against `authority-files/lexicon.xml` (43,710 entries with a
+`form/orth` today; the measurement still included three digit lemmas that #228 removed on 2026-10-01, none of which shared a written form, so the figures below are unchanged): 102 written forms carry more than one entry (216 lemmata), and after
 normalization 476 forms do (991 lemmata, 2.27 percent). `sin`, `wal`, `mal` and `de`
 are in that set. Counting rule, because the number depends on it: group by
 `normalize_mhg()` from `scripts/mhg_normalizer.py`, the canonical normalizer, not by a
@@ -447,10 +447,10 @@ is id-exact holds for the explorer button only.
 
 KZW on 2026-09-24: the corpus search and the multi-lemma search accept `4086` and `lemma_4086` and treat either „as a unique lemma id". `assets/js/lib/lemma-id-input.js` (`parseLemmaIdInput`) decides what counts as a number: optional `lemma_` (also `lexicon.xml#lemma_`, the `@lemmaRef` spelling), then digits, leading zeros dropped. Anything else is a written form and goes through the three stages.
 
-- **A number never reaches stage 1.** `36` is `lemma_36` (*aberelle*), not the lemma spelled `36`, as long as such a lemma exists.
+- **A number never reaches stage 1.** `1` is `lemma_1` (*a*), not the lemma spelled `1`, as long as such a lemma exists.
 - **An unknown number resolves to nothing**, it is not retried as a written form. The main site checks existence against `authorityIndex.lemmata` (`SearchEngine.resolveSearchTerm`), the playground against `authorityManager.findLemmaById` (`TEIExplorer.resolveLemmaIds`). Before #467 the playground passed a bare number through unchecked.
 - **The resolved lemma is shown.** The main site puts it in the lemma box even when it has no hit in the selection; the multi-lemma chip shows `lemma_4086 = mer`, or „unbekannte Lemma-Nummer".
-- **Links into the corpus search carry a written form, so a written form made of digits would now be read as a number.** The lemma page (`lemma-page.js`, "Im Korpus suchen" and the variant chips) therefore links `lemma_N` of the lemma it shows whenever the form parses as a number. Measured on 2026-09-30: 4 lemmata are spelled in digits only (`1`, `36`, `42`, `49`), and all 78 digit-only keys of the variants dictionary point to a lemma other than `lemma_<key>`. Every other link stays a word search.
+- **Links into the corpus search carry a written form, so a written form made of digits would now be read as a number.** The lemma page (`lemma-page.js`, "Im Korpus suchen" and the variant chips) therefore links `lemma_N` of the lemma it shows whenever the form parses as a number. Measured on 2026-10-01, after #228 removed `36`, `42` and `49`: 1 lemma is spelled in digits only (`1`, `lemma_53328`), and all 62 digit-only keys of the variants dictionary point to it, never to `lemma_<key>`. Every other link stays a word search.
 - **The dictionary is the exception** (`woerterbuch.js`, #481): there a bare number also lists the lemmata whose written form starts with it, because the register is a browsing tool, not a search.
 
 ---

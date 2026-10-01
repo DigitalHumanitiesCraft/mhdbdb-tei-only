@@ -11,9 +11,9 @@ import { parseLemmaIdInput } from '../assets/js/lib/lemma-id-input.js';
 
 /**
  * Suchbegriff fuer einen Link in die Korpussuche. Seit #467 liest die Suche
- * eine reine Ziffernfolge als Lemma-Nummer; eine Schreibform wie "36"
- * (lemma_69748) oder die Variante "2" fuehrte dann auf ein fremdes Lemma
- * (lemma_36, lemma_2). Solche Formen verlinken deshalb die ID des Lemmas,
+ * eine reine Ziffernfolge als Lemma-Nummer; eine Schreibform wie "1"
+ * (lemma_53328) oder die Variante "2" fuehrte dann auf ein fremdes Lemma
+ * (lemma_1, lemma_2). Solche Formen verlinken deshalb die ID des Lemmas,
  * dem sie gehoeren; alle anderen bleiben Wortsuchen.
  */
 function korpusSuchbegriff(form, lemmaId) {
