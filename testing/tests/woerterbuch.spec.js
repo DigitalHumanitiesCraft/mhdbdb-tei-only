@@ -93,19 +93,19 @@ test.describe('Wörterbuch-Einstiegsseite', () => {
     });
 
     test('nackte Zahl: Nummer zuerst, Ziffern-Lemmata bleiben (#467)', async ({ page }) => {
-        // "36" ist lemma_36 (aberelle) UND ein Lemma, das mit der Ziffer beginnt
-        // (lemma_69748 "36"); die Praefixsuche darf dabei nicht verloren gehen.
-        // Bis #228 stand hier "46"; dessen Lemma lemma_69733 ist mit dem
-        // Apparat entfallen. "36" bleibt, solange die Ziffern in MR1/WVV
-        // annotiert sind (offene Frage in #228).
+        // "1" ist lemma_1 (a) UND ein Lemma, das mit der Ziffer beginnt
+        // (lemma_53328 "1"); die Praefixsuche darf dabei nicht verloren gehen.
+        // Vorher stand hier "46", dann "36"; beide Ziffern-Lemmata hat #228
+        // geloescht. "1" ist das letzte und bleibt, solange NEIM seine
+        // Apparat-Ziffern traegt (#453).
         await page.goto('/woerterbuch.html');
         await page.waitForSelector('#woerterbuchContent:not(.hidden)', { timeout: 30000 });
 
-        await page.fill('#lemmaSearch', '36');
-        await expect(page.locator('#letterHeading')).toHaveText('"36" – 2 Treffer');
+        await page.fill('#lemmaSearch', '1');
+        await expect(page.locator('#letterHeading')).toHaveText('"1" – 2 Treffer');
         const eintraege = page.locator('#entryGrid a');
-        await expect(eintraege).toHaveText(['aberelle', '36']);
+        await expect(eintraege).toHaveText(['a', '1']);
         await expect(page.locator('#entryGrid [data-lemma-number]')).toHaveCount(1);
-        await expect(page.locator('#entryGrid [data-lemma-number]')).toHaveText('lemma_36');
+        await expect(page.locator('#entryGrid [data-lemma-number]')).toHaveText('lemma_1');
     });
 });

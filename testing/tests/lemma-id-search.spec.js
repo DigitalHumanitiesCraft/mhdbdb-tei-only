@@ -24,10 +24,11 @@ const auth = JSON.parse(gunzipSync(readFileSync(resolve(wurzel, 'data', 'authori
 const corpus = JSON.parse(gunzipSync(readFileSync(resolve(wurzel, 'data', 'corpus-index.json.gz'))).toString('utf-8'));
 const byId = new Map(auth.lemmata.map(l => [l.id, l]));
 
-// Beispiel aus dem Ticket; "36" ist der Fall, in dem Nummer und Schreibung
-// auseinanderlaufen, solange ein Lemma mit der Schreibung "36" existiert.
+// Beispiel aus dem Ticket; "1" ist der Fall, in dem Nummer und Schreibung
+// auseinanderlaufen, solange ein Lemma mit der Schreibung "1" existiert
+// (lemma_53328, nach #228 das letzte Ziffern-Lemma).
 const MER = byId.get('lemma_4086');
-const NR36 = byId.get('lemma_36');
+const NR1 = byId.get('lemma_1');
 // Kleinste Nummer ohne Lemma, und ein Lemma ohne Korpusbeleg
 const FEHLT = (() => { let n = 1; while (byId.has(`lemma_${n}`)) n++; return n; })();
 const OHNE_BELEG = auth.lemmata.find(l => !corpus.lemmaIndex[l.id]);
@@ -52,11 +53,11 @@ test.describe('Lemma-Nummer in der Korpussuche (#467)', () => {
     }
 
     test('eine Nummer ist eine ID, keine Schreibform', async ({ page }) => {
-        await page.fill('#searchInput', '36');
+        await page.fill('#searchInput', '1');
         await page.click('#searchButton');
         const badges = page.locator('#lemmaList a');
         await expect(badges).toHaveCount(1, { timeout: 15000 });
-        await expect(badges.first()).toHaveText(NR36.lemma);
+        await expect(badges.first()).toHaveText(NR1.lemma);
     });
 
     test('ein Lemma ohne Treffer bleibt sichtbar', async ({ page }) => {

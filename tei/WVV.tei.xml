@@ -148,6 +148,7 @@
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 16 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
       <change when="2026-08-31" who="#editor">#367 (wâren als Adjektiv): 2 Tokens der Fügung „der/die wâren minne“ von lemma_7505 wesen (VRB) auf lemma_7338 wâr (ADJ) umannotiert (lemmaRef, pos und corresp; philologische Einzelentscheidung von K. Zeppezauer-Wachauer vom 2026-08-25, kein LLM-Batch; Provenienz-Log: ingest/pos-disambig/367-waeren/).</change>
       <change when="2026-09-30" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization an den Stand der Annotation angeglichen (17305 von 22706 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;Vollständig lemmatisiert, nicht disambiguiert.&#34;</change>
+      <change when="2026-10-01" who="#editor">#228: 11 Ziffern in supplied (Zählung der Edition) entannotiert: lemmaRef, pos, ana und corresp entfallen, die Ziffer bleibt stehen. Entscheidung KZW 25.09.2026: Ziffern sind keine Lemmata.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -44791,7 +44792,7 @@
             <pc xml:id="WVV_1197031700_3" join="left">.</pc>
           </l>
           </lg><supplied>
-            <w xml:id="WVV_1205010001_0" lemmaRef="lexicon.xml#lemma_53328" pos="NUM" ana="lexicon.xml#lemma_53328_sense_86743" corresp="variants.xml#type_299966">5</w>
+            <w xml:id="WVV_1205010001_0">5</w>
             <w xml:id="WVV_1205010001_1">a</w>
           </supplied>
           <lg type="stanza" n="465"><l n="1">
@@ -44959,7 +44960,7 @@
             <pc xml:id="WVV_1205020700_9" join="left">.</pc>
           </l>
           </lg><supplied>
-            <w xml:id="WVV_1208010001_0" lemmaRef="lexicon.xml#lemma_53328" pos="NUM" ana="lexicon.xml#lemma_53328_sense_86743" corresp="variants.xml#type_299969">8</w>
+            <w xml:id="WVV_1208010001_0">8</w>
             <w xml:id="WVV_1208010001_1">a</w>
           </supplied>
           <lg type="stanza" n="467"><l n="1">
@@ -45098,7 +45099,7 @@
             <pc xml:id="WVV_1208011400_9" join="left">.</pc>
           </l>
           </lg><supplied>
-            <w xml:id="WVV_1211010001_0" lemmaRef="lexicon.xml#lemma_53328" pos="NUM" ana="lexicon.xml#lemma_53328_sense_86743" corresp="variants.xml#type_299972">11</w>
+            <w xml:id="WVV_1211010001_0">11</w>
             <w xml:id="WVV_1211010001_1">a</w>
           </supplied>
           <lg type="stanza" n="468"><l n="1">
@@ -45245,7 +45246,7 @@
             <pc xml:id="WVV_1211011100_14" join="left">.</pc>
           </l>
           </lg><supplied>
-            <w xml:id="WVV_1212010001_0" lemmaRef="lexicon.xml#lemma_53328" pos="NUM" ana="lexicon.xml#lemma_53328_sense_86743" corresp="variants.xml#type_299973">12</w>
+            <w xml:id="WVV_1212010001_0">12</w>
             <w xml:id="WVV_1212010001_1">a</w>
             <hi rend="upper_case_first_letter">
               <w xml:id="WVV_1212010001_2" lemmaRef="lexicon.xml#lemma_54577" pos="NOM" ana="lexicon.xml#lemma_54577_sense_88848" corresp="variants.xml#type_300098">fürstenspiegelton</w>
@@ -45880,7 +45881,7 @@
             <pc xml:id="WVV_1212051000_9" join="left">.</pc>
           </l>
           </lg><supplied>
-            <w xml:id="WVV_1223010001_0" lemmaRef="lexicon.xml#lemma_53328" pos="NUM" ana="lexicon.xml#lemma_53328_sense_86743" corresp="variants.xml#type_320740">23</w>
+            <w xml:id="WVV_1223010001_0">23</w>
             <w xml:id="WVV_1223010001_1">a</w>
           </supplied>
           <lg type="stanza" n="474"><l n="1">
@@ -46217,7 +46218,7 @@
             <pc xml:id="WVV_1231050900_7" join="left">.</pc>
           </l>
           </lg><supplied>
-            <w xml:id="WVV_1236010001_0" lemmaRef="lexicon.xml#lemma_69748" pos="NUM" ana="lexicon.xml#lemma_69748_sense_107284" corresp="variants.xml#type_347726">36</w>
+            <w xml:id="WVV_1236010001_0">36</w>
             <w xml:id="WVV_1236010001_1">a</w>
           </supplied>
           <lg type="stanza" n="477"><l n="1">
@@ -46747,7 +46748,7 @@
             <pc xml:id="WVV_1241050800_6" join="left">.</pc>
           </l>
           </lg><supplied>
-            <w xml:id="WVV_1242010001_0" lemmaRef="lexicon.xml#lemma_69749" pos="NUM" ana="lexicon.xml#lemma_69749_sense_107285" corresp="variants.xml#type_347728">42</w>
+            <w xml:id="WVV_1242010001_0">42</w>
             <w xml:id="WVV_1242010001_1">a</w>
           </supplied>
           <lg type="stanza" n="482"><l n="1">
@@ -46826,7 +46827,7 @@
             <pc xml:id="WVV_1242010600_10" join="left">.</pc>
           </l>
           </lg><supplied>
-            <w xml:id="WVV_1308010001_0" lemmaRef="lexicon.xml#lemma_53328" pos="NUM" ana="lexicon.xml#lemma_53328_sense_86743" corresp="variants.xml#type_299969">8</w>
+            <w xml:id="WVV_1308010001_0">8</w>
             <w xml:id="WVV_1308010001_1" lemmaRef="lexicon.xml#lemma_2" pos="NOM" ana="lexicon.xml#lemma_2_sense_2" corresp="variants.xml#type_80744">b</w>
           </supplied>
           <lg type="stanza" n="483"><l n="1">
@@ -46962,7 +46963,7 @@
             <pc xml:id="WVV_1308011400_8" join="left">.</pc>
           </l>
           </lg><supplied>
-            <w xml:id="WVV_1312010001_0" lemmaRef="lexicon.xml#lemma_53328" pos="NUM" ana="lexicon.xml#lemma_53328_sense_86743" corresp="variants.xml#type_299973">12</w>
+            <w xml:id="WVV_1312010001_0">12</w>
             <w xml:id="WVV_1312010001_1" lemmaRef="lexicon.xml#lemma_2" pos="NOM" ana="lexicon.xml#lemma_2_sense_2" corresp="variants.xml#type_80744">b</w>
           </supplied>
           <lg type="stanza" n="484"><l n="1">
@@ -47234,7 +47235,7 @@
             <pc xml:id="WVV_2108011400_8" join="left">.</pc>
           </l>
           </lg><supplied>
-            <w xml:id="WVV_2223020001_0" lemmaRef="lexicon.xml#lemma_53328" pos="NUM" ana="lexicon.xml#lemma_53328_sense_86743" corresp="variants.xml#type_320740">23</w>
+            <w xml:id="WVV_2223020001_0">23</w>
             <w xml:id="WVV_2223020001_1">a</w>
             <hi rend="upper_case_first_letter">
               <w xml:id="WVV_2223020001_2" lemmaRef="lexicon.xml#lemma_69747" pos="NOM" ana="lexicon.xml#lemma_69747_sense_107283" corresp="variants.xml#type_347724">textfassung</w>
@@ -47361,7 +47362,7 @@
             <pc xml:id="WVV_2223021100_7" join="left">.</pc>
           </l>
           </lg><supplied>
-            <w xml:id="WVV_2249010001_0" lemmaRef="lexicon.xml#lemma_69750" pos="NUM" ana="lexicon.xml#lemma_69750_sense_107286" corresp="variants.xml#type_347730">49</w>
+            <w xml:id="WVV_2249010001_0">49</w>
             <w xml:id="WVV_2249010001_1">a</w>
           </supplied>
           <lg type="stanza" n="487"><l n="1">

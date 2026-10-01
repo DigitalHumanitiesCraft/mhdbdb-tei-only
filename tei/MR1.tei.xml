@@ -126,6 +126,7 @@
       <change when="2026-09-06" who="#editor">#387 (fro): 7 homographie-ambige Tokens der Form fro kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260) bzw. vrô ADJ/ADV (lemma_7250); LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/387-fro/).</change>
       <change when="2026-09-23" who="#editor">#387 vrouwe/vrô, Resttokens: 4 Tokens annotiert nach den Einzelentscheidungen von KZW vom 17.09.2026 (lemmaRef/pos/corresp; kein @ana, weil die Sense-Zuordnung kuratorisch ist). Im ganzen Lauf: zwei Doppeltags ADJ NOM mit erklärendem @reason, wo KZW die Lesart für unentscheidbar erklärt hat, und drei neu geprägte Variantentypen nach der Regel aus #367.</change>
       <change when="2026-09-30" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization an den Stand der Annotation angeglichen (26353 von 36054 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;Teilweise lemmatisiert, nicht disambiguiert.&#34;</change>
+      <change when="2026-10-01" who="#editor">#228: 15 Ziffern in supplied (Zählung der Edition) entannotiert: lemmaRef, pos, ana und corresp entfallen, die Ziffer bleibt stehen. Entscheidung KZW 25.09.2026: Ziffern sind keine Lemmata.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -133,7 +134,7 @@
       <p>
         <pb n="1r"/>
         <supplied>
-          <w xml:id="MR1_10011000001_0" lemmaRef="lexicon.xml#lemma_53328" pos="NUM" ana="lexicon.xml#lemma_53328_sense_86743" corresp="variants.xml#type_295719">1</w>
+          <w xml:id="MR1_10011000001_0">1</w>
         </supplied>
         <pc xml:id="MR1_10011000001_1" join="left">.</pc>
         <supplied>
@@ -17175,7 +17176,7 @@
           </l>
           <pb n="34r"/>
           <supplied>
-            <w xml:id="MR1_20341000001_0" lemmaRef="lexicon.xml#lemma_53328" pos="NUM" ana="lexicon.xml#lemma_53328_sense_86743" corresp="variants.xml#type_299963">2</w>
+            <w xml:id="MR1_20341000001_0">2</w>
           </supplied>
           <pc xml:id="MR1_20341000001_1" join="left">.</pc>
           <supplied>
@@ -23524,7 +23525,7 @@
           </l>
           <pb n="48r"/>
           <supplied>
-            <w xml:id="MR1_30481000001_0" lemmaRef="lexicon.xml#lemma_53328" pos="NUM" ana="lexicon.xml#lemma_53328_sense_86743" corresp="variants.xml#type_299964">3</w>
+            <w xml:id="MR1_30481000001_0">3</w>
           </supplied>
           <pc xml:id="MR1_30481000001_1" join="left">.</pc>
           <supplied>
@@ -28271,7 +28272,7 @@
           </l>
           <pb n="59r"/>
           <supplied>
-            <w xml:id="MR1_40591000001_0" lemmaRef="lexicon.xml#lemma_53328" pos="NUM" ana="lexicon.xml#lemma_53328_sense_86743" corresp="variants.xml#type_299965">4</w>
+            <w xml:id="MR1_40591000001_0">4</w>
           </supplied>
           <pc xml:id="MR1_40591000001_1" join="left">.</pc>
           <supplied>
@@ -30555,7 +30556,7 @@
           <pb n="74r"/>
           <l n="h_1">
             <supplied>
-              <w xml:id="MR1_50741000010_0" lemmaRef="lexicon.xml#lemma_53328" pos="NUM" ana="lexicon.xml#lemma_53328_sense_86743" corresp="variants.xml#type_299966">5</w>
+              <w xml:id="MR1_50741000010_0">5</w>
             </supplied>
             <pc xml:id="MR1_50741000010_1" join="left">.</pc>
             <hi rend="upper_case_first_letter">
@@ -33913,7 +33914,7 @@
           <pb n="94v"/>
           <l n="h_1">
             <supplied>
-              <w xml:id="MR1_60942000010_0" lemmaRef="lexicon.xml#lemma_53328" pos="NUM" ana="lexicon.xml#lemma_53328_sense_86743" corresp="variants.xml#type_299967">6</w>
+              <w xml:id="MR1_60942000010_0">6</w>
             </supplied>
             <pc xml:id="MR1_60942000010_1" join="left">.</pc>
             <hi rend="upper_case_first_letter">
@@ -38891,7 +38892,7 @@
         <head>
           <l n="572">
             <supplied>
-              <w xml:id="MR1_61072057210_0" lemmaRef="lexicon.xml#lemma_53328" pos="NUM" ana="lexicon.xml#lemma_53328_sense_86743" corresp="variants.xml#type_299968">7</w>
+              <w xml:id="MR1_61072057210_0">7</w>
             </supplied>
             <pc xml:id="MR1_61072057210_1" join="left">.</pc>
             <hi rend="upper_case_first_letter">
@@ -43046,7 +43047,7 @@
         <head>
           <l n="h_1">
             <supplied>
-              <w xml:id="MR1_81182000010_0" lemmaRef="lexicon.xml#lemma_53328" pos="NUM" ana="lexicon.xml#lemma_53328_sense_86743" corresp="variants.xml#type_299969">8</w>
+              <w xml:id="MR1_81182000010_0">8</w>
             </supplied>
             <pc xml:id="MR1_81182000010_1" join="left">.</pc>
             <hi rend="upper_case_first_letter">
@@ -48971,7 +48972,7 @@
         <head>
           <l n="h_1">
             <supplied>
-              <w xml:id="MR1_91341000010_0" lemmaRef="lexicon.xml#lemma_53328" pos="NUM" ana="lexicon.xml#lemma_53328_sense_86743" corresp="variants.xml#type_299970">9</w>
+              <w xml:id="MR1_91341000010_0">9</w>
             </supplied>
             <pc xml:id="MR1_91341000010_1" join="left">.</pc>
             <hi rend="upper_case_first_letter">
@@ -51447,7 +51448,7 @@
           </l>
           <pb n="88r"/>
           <supplied>
-            <w xml:id="MR1_100881000001_0" lemmaRef="lexicon.xml#lemma_53328" pos="NUM" ana="lexicon.xml#lemma_53328_sense_86743" corresp="variants.xml#type_299971">10</w>
+            <w xml:id="MR1_100881000001_0">10</w>
           </supplied>
           <pc xml:id="MR1_100881000001_1" join="left">.</pc>
           <supplied>
@@ -61731,7 +61732,7 @@
           </l>
           <pb n="10r"/>
           <supplied>
-            <w xml:id="MR1_110101000001_0" lemmaRef="lexicon.xml#lemma_53328" pos="NUM" ana="lexicon.xml#lemma_53328_sense_86743" corresp="variants.xml#type_299972">11</w>
+            <w xml:id="MR1_110101000001_0">11</w>
           </supplied>
           <pc xml:id="MR1_110101000001_1" join="left">.</pc>
           <supplied>
@@ -65546,7 +65547,7 @@
           </l>
           <pb n="20v"/>
           <supplied>
-            <w xml:id="MR1_120202000001_0" lemmaRef="lexicon.xml#lemma_53328" pos="NUM" ana="lexicon.xml#lemma_53328_sense_86743" corresp="variants.xml#type_299973">12</w>
+            <w xml:id="MR1_120202000001_0">12</w>
           </supplied>
           <pc xml:id="MR1_120202000001_1" join="left">.</pc>
           <supplied>
@@ -73738,7 +73739,7 @@
             <w xml:id="MR1_120371085400_6" lemmaRef="lexicon.xml#lemma_5366" pos="VRB" ana="lexicon.xml#lemma_5366_sense_8382" corresp="variants.xml#type_102247">säch</w>
           </l>
           <supplied>
-            <w xml:id="MR1_130371000001_0" lemmaRef="lexicon.xml#lemma_53328" pos="NUM" ana="lexicon.xml#lemma_53328_sense_86743" corresp="variants.xml#type_299974">13</w>
+            <w xml:id="MR1_130371000001_0">13</w>
           </supplied>
           <pc xml:id="MR1_130371000001_1" join="left">.</pc>
           <supplied>
@@ -78826,7 +78827,7 @@
           </l>
           <pb n="48v"/>
           <supplied>
-            <w xml:id="MR1_140482000001_0" lemmaRef="lexicon.xml#lemma_53328" pos="NUM" ana="lexicon.xml#lemma_53328_sense_86743" corresp="variants.xml#type_299975">14</w>
+            <w xml:id="MR1_140482000001_0">14</w>
           </supplied>
           <pc xml:id="MR1_140482000001_1" join="left">.</pc>
           <supplied>
@@ -83321,7 +83322,7 @@
           <pb n="60v"/>
           <l n="h_1">
             <supplied>
-              <w xml:id="MR1_150602000010_0" lemmaRef="lexicon.xml#lemma_53328" pos="NUM" ana="lexicon.xml#lemma_53328_sense_86743" corresp="variants.xml#type_299976">15</w>
+              <w xml:id="MR1_150602000010_0">15</w>
             </supplied>
             <pc xml:id="MR1_150602000010_1" join="left">.</pc>
             <hi rend="upper_case_first_letter">
