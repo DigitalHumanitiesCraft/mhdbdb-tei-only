@@ -157,7 +157,7 @@ After significant changes, increment version in build script to force browser ca
 ### Playwright Tests
 
 ```bash
-npm test              # Run all tests (headless), 5.0 to 5.3 min (6 workers)
+npm test              # Run all tests (headless), 487 to 519 s for 389 tests (6 workers, 2026-09-24, #488)
 npm run test:changed  # Only specs touched since origin/main
 npm run test:quick    # Three specs as a smoke test, 22 tests (main-site, playground, corpus)
 npm run test:ui       # Interactive mode
