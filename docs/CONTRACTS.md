@@ -392,8 +392,8 @@ Handing over the label alone would send that click back through stage 1, where a
 homograph group returns `matches[0]`, which can be a different lemma than the one
 on screen.
 
-Measured on 2026-09-24 against `authority-files/lexicon.xml` (43,710 entries with a
-`form/orth` since #228 removed three digit lemmas on 2026-10-01, none of which shared a written form): 102 written forms carry more than one entry (216 lemmata), and after
+Measured on 2026-09-24 against `authority-files/lexicon.xml` (43,713 entries with a
+`form/orth`; 43,710 since #228 removed three digit lemmas on 2026-10-01, none of which shared a written form, so the figures below are unchanged): 102 written forms carry more than one entry (216 lemmata), and after
 normalization 476 forms do (991 lemmata, 2.27 percent). `sin`, `wal`, `mal` and `de`
 are in that set. Counting rule, because the number depends on it: group by
 `normalize_mhg()` from `scripts/mhg_normalizer.py`, the canonical normalizer, not by a
@@ -447,10 +447,10 @@ is id-exact holds for the explorer button only.
 
 KZW on 2026-09-24: the corpus search and the multi-lemma search accept `4086` and `lemma_4086` and treat either „as a unique lemma id". `assets/js/lib/lemma-id-input.js` (`parseLemmaIdInput`) decides what counts as a number: optional `lemma_` (also `lexicon.xml#lemma_`, the `@lemmaRef` spelling), then digits, leading zeros dropped. Anything else is a written form and goes through the three stages.
 
-- **A number never reaches stage 1.** `36` is `lemma_36` (*aberelle*), not the lemma spelled `36`, as long as such a lemma exists.
+- **A number never reaches stage 1.** `1` is `lemma_1` (*a*), not the lemma spelled `1`, as long as such a lemma exists.
 - **An unknown number resolves to nothing**, it is not retried as a written form. The main site checks existence against `authorityIndex.lemmata` (`SearchEngine.resolveSearchTerm`), the playground against `authorityManager.findLemmaById` (`TEIExplorer.resolveLemmaIds`). Before #467 the playground passed a bare number through unchecked.
 - **The resolved lemma is shown.** The main site puts it in the lemma box even when it has no hit in the selection; the multi-lemma chip shows `lemma_4086 = mer`, or „unbekannte Lemma-Nummer".
-- **Links into the corpus search carry a written form, so a written form made of digits would now be read as a number.** The lemma page (`lemma-page.js`, "Im Korpus suchen" and the variant chips) therefore links `lemma_N` of the lemma it shows whenever the form parses as a number. Measured on 2026-09-30: 4 lemmata are spelled in digits only (`1`, `36`, `42`, `49`), and all 78 digit-only keys of the variants dictionary point to a lemma other than `lemma_<key>`. Every other link stays a word search.
+- **Links into the corpus search carry a written form, so a written form made of digits would now be read as a number.** The lemma page (`lemma-page.js`, "Im Korpus suchen" and the variant chips) therefore links `lemma_N` of the lemma it shows whenever the form parses as a number. Measured on 2026-10-01, after #228 removed `36`, `42` and `49`: 1 lemma is spelled in digits only (`1`, `lemma_53328`), and all 62 digit-only keys of the variants dictionary point to it, never to `lemma_<key>`. Every other link stays a word search.
 - **The dictionary is the exception** (`woerterbuch.js`, #481): there a bare number also lists the lemmata whose written form starts with it, because the register is a browsing tool, not a search.
 
 ---

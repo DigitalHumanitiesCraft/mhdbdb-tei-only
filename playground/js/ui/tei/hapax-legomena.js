@@ -127,11 +127,10 @@ export class HapaxLegomenaAnalyzer {
     // interessant, deshalb abschaltbar statt hart entfernt. Die drei
     // Ziffern-Einträge, die diesen Filter ausgelöst haben (42, 46, 49), sind
     // Altbestands-Artefakte und gehören ins TEI-Putzen (#228), nicht in einen
-    // Filter. 46 ist dort am 24.09. entfernt worden; 42 und 49 stehen in WVV,
-    // und darüber entscheidet KZW noch.
+    // Filter. Alle drei sind dort entfernt (46 am 24.09., 42 und 49 am 01.10.).
     //
     // Bewusst NUR reine NUM-Lemmata, nicht jedes Lemma mit NUM unter mehreren
-    // Tags: 47 der 119 NUM-Hapaxe tragen weitere Wortarten (zwispeltic ADJ/NUM,
+    // Tags: 47 der 116 NUM-Hapaxe (Stand 01.10.) tragen weitere Wortarten (zwispeltic ADJ/NUM,
     // zweizungen NOM/NUM, drîwîse ADV/NUM). Das sind Inhaltswörter mit
     // Zahlbezug und genau die Funde, für die das Werkzeug gebaut ist. Deshalb
     // hier strenger als hideNames/hideFunctionWords, die per includes/some
@@ -139,7 +138,7 @@ export class HapaxLegomenaAnalyzer {
     //
     // Die explizite Wortart-Facette schlägt den Default (siehe oben): wer in
     // der Facette "NUM" wählt, bekäme sonst kommentarlos nur die 47 gemischten
-    // statt aller 119.
+    // statt aller 116.
     //
     // DIG (römische Zahlen) braucht keinen eigenen Filter: es gibt genau drei
     // DIG-Lemmata, und keines kann hier je erscheinen. lemma_13826 "I" hat
