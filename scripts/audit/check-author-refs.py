@@ -35,7 +35,7 @@ immer ein veralteter Spiegel:
   spiegel        preferred-Form im particDesc != preferred-Form in persons.xml
   spiegel-tot    @corresp zeigt auf eine ID, die es in persons.xml nicht gibt
   ohne-preferred person-Eintrag ganz ohne persName[@type="preferred"]. Heute
-                 0 von 671, aber ohne eigene Klasse waere er ein stilles Loch:
+                 keiner, aber ohne eigene Klasse waere er ein stilles Loch:
                  wer die preferred-Zeile loescht, faellt sonst nur aus der
                  Grundmenge und loest keine Meldung aus
   spiegel-fehlt  eine Autoren-ID aus dem titleStmt hat keinen Eintrag im
@@ -118,7 +118,7 @@ def main():
     for path in corpus_files():
         sigle = path.name.replace('.tei.xml', '')
         # Beide gepruefte Stellen liegen im teiHeader; der Textteil wird nicht
-        # gelesen (rund 60 s weniger ueber alle 667 Dateien).
+        # gelesen (Messung im Docstring von corpus_files.tei_header).
         tree = tei_header(path)
         corresp_ids, autor_ids = set(), set()
         for person in tree.xpath('.//tei:particDesc/tei:listPerson/tei:person',
