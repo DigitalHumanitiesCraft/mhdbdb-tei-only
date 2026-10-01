@@ -15,8 +15,9 @@ _sense_5862 (concept_12010000, concept_31500000) ist nicht gemeint.
 TYP
 ---
 Regel aus #367: neue Nummer praegen, nie eine bestehende umhaengen.
-type_12871 ist `lenden` unter lemma_3702 und behaelt die uebrigen 38 Tokens
-des Verbs. Hoechste vergebene Nummer am 01.10.2026: type_372391 (gemessen an
+type_12871 ist `lenden` unter lemma_3702 und behaelt danach einen Beleg
+(JT_20484000_11, vorher 8 mit den sieben WZB); das Verb lemma_3702 behaelt
+38 Tokens in 20 Texten. Hoechste vergebene Nummer am 01.10.2026: type_372391 (gemessen an
 variants.xml auf origin/main 652815547). Gepraegt wird type_372392 fuer
 `lenden` unter lemma_3701.
 
