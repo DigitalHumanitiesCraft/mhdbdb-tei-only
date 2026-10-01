@@ -91,6 +91,11 @@ name: Data Integrity
 #      Abweichung dort ist nie eine bibliographische Variante, sondern
 #      immer ein veralteter Spiegel. Hier und nicht bei 1b, weil das
 #      Skript jede der 667 Dateien ganz parst (gemessen 1 min 47 s).
+#   7c. Gattungen im Header gegen works.xml (#495): die Hauptgattungen
+#      in classDecl/taxonomy[@xml:id="genres"] muessen Werkgattungen
+#      sein, und jede Werkgattung muss im Kopf stehen (als Haupt- oder
+#      Elterngattung). Eine Gattung nur im Kopf kommt im Index nirgends
+#      an. Neben 7b, weil es ebenso jede Datei ganz parst.
 #   8. Zweistufige RelaxNG-Validierung (P2-13): Stage 2
 #      (mhdbdb.rng / mhdbdb-authority.rng) ist das harte Gate;
 #      Stage-1-Baseline-Fails (#30) sind nur Warnungen.
@@ -100,7 +105,7 @@ name: Data Integrity
 # Ziffern darunter zu verschieben. Die Buchstaben verschiebt er sehr
 # wohl: #399 hat 1b auf 1c und 1c auf 1d geschoben. Stehen bleibt 2
 # bis 8. Sie entspricht NICHT der durchnummerierten Liste in
-# docs/DEVELOPMENT.md (dort 1 bis 17, ohne Buchstaben): dort ist der
+# docs/DEVELOPMENT.md (dort durchgezaehlt, ohne Buchstaben): dort ist der
 # Index-Rebuild Pruefung 12, hier Step 6. Wer zwischen beiden Dateien
 # springt, vergleicht Namen und nicht Nummern.
 #
@@ -527,6 +532,12 @@ jobs:
       # Sekunde fertig ist.
       - name: Personennamen im Header gegen persons.xml (#228/#308)
         run: python scripts/audit/check-author-refs.py --check
+
+      # Gattungen im Header gegen works.xml (#495). Fuenf Frauendienst-Koepfe
+      # sind als Ausnahme benannt, bis KZW ueber work_6 entschieden hat; das
+      # Skript meldet die Ausnahme als veraltet, sobald sie nicht mehr passt.
+      - name: Gattungen im Header gegen works.xml (#495)
+        run: python scripts/audit/check-header-genres.py --check
 
       - name: Validate corpus and authority files (P2-13)
         run: python scripts/audit/validate-corpus.py --fail-fast

@@ -53,6 +53,7 @@ scripts/
 │   ├── check-author-refs.py     # Personennamen im Header gegen persons.xml: titleStmt/author (#228) und particDesc/listPerson (#308)
 │   ├── check-doc-inventories.py  # Specs und Audit-Skripte stehen in DEVELOPMENT.md, Skripte auch in diesem Baum (#329)
 │   ├── check-file-sizes.py      # Einzeldateien vor GitHubs harter 100-MiB-Wand stoppen (#350)
+│   ├── check-header-genres.py   # Gattungen im TEI-Kopf (classDecl) gegen die Gattungen des Werks in works.xml (#495)
 │   ├── check-index-budget.py    # Index-Größenbudget gz und roh, warnt nur (#111, ADR-019)
 │   ├── check-index-version-bump.py # Inhalt geändert => Version gebumpt (#154)
 │   ├── check-index-versions.py  # Index-Versions-Konstanten konsistent
