@@ -25,3 +25,6 @@ Stand 28.09.2026.
 - bez + epi > mentions nur, wenn ein Term im SELBEN Record in beiden Gruppen steht (selten).
 - `naming-explorer.spec.js` faengt eine Mutation `BEZ_CATS = ['ant']` nicht.
 - Montags-Schedule des Workflows war am 07., 14. und 21.09. rot.
+
+**Beispiel-Lemmata in Beschreibungstexten gegen den Index halten** (01.10.2026, #485). Der Index fuehrt Lindas Lemmaformen, nicht normalisierte Woerterbuch-Ansaetze: `rîtaere` (kein `rîter`), `künic` (kein `künec`), `Paris` (kein `Pârîs`). Messen: Index entpacken, ueber works[].figures[fig][].{eig,deck,ant,epi} greppen. Die Hilfe sagt seit vor #458 "der rîter" fuer Iwein, Lindas eigener Vorschlag in #485 "Pârîs"/"der künec"; beides steht so nicht in der Maske.
+- Der "Term"-Waechter im Spec (seit #480) prueft seit #485 (Runde 2) `/Term(?!ini)/`: alte Substring-Semantik, nur "Termini" aus dem Beschreibungstext ausgenommen. Zwischenstand `/\bTerm\b/` (Runde 1) liess die alten Plurale "12 Terme" / "Keine Terme" durch. Im Modul sind alle anderen "Term"-Vorkommen JS-Bezeichner (getTerms, computeTerms, expandedTerms), nichts Gerendertes; Iwein-Daten enthalten kein "Term".
