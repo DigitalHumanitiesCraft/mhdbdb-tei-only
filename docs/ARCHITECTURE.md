@@ -166,7 +166,7 @@ The reading view converts TEI XML elements to HTML. Source: `extractAndFormatBod
 - Drop the legacy `MHDBDB_Playground` database (`dropLegacyPlaygroundDatabase()`, #314). The playground's only contact with IndexedDB is this deletion, never an initialization: the indexes live in the shared `CorpusLoader`
 - Load authority index (~3 MB)
 - Initialize data managers (authority, TEI)
-- Set up modular UI components (25 modules; 24 until #204 added the helper `corpus-scope.js`, 25 before #314 removed `file-display.js` and `progress.js`, 23 until #193 added `horses-explorer.js`)
+- Set up modular UI components (26 modules; 25 until #448 added the export helper `multi-lemma-export.js`, 24 until #204 added the helper `corpus-scope.js`, 25 before #314 removed `file-display.js` and `progress.js`, 23 until #193 added `horses-explorer.js`)
 
 ### Data Layer
 

@@ -182,6 +182,7 @@ INTENTIONALLY_SILENT = {
 NON_TOOL_MODULES = {
     'tei-ui.js',                                 # Router, kein Werkzeug
     'corpus-scope.js',                           # #204, geteilter Helfer fuer die Korpusauswahl
+    'multi-lemma-export.js',                     # #448, Export der Multi-Lemma-Suche, kein eigenes Werkzeug
 }
 MODAL_MODULES = {'multi-lemma-search.js'}        # folgt dem DESIGN-Pattern nicht
 # Kuratierte Fremddatensaetze. Sie liegen im selben Verzeichnis und folgen dem
