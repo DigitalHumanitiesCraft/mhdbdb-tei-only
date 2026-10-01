@@ -104,48 +104,24 @@
             <gloss xml:lang="en">Dialogical Short Form</gloss>
             <gloss xml:lang="en">Dialogic Form in Small Poetry</gloss>
           </category>
-          <category xml:id="genre_4ecfe25e" corresp="genres.xml#genre_4ecfe25e">
-            <gloss xml:lang="de">Minnesang</gloss>
-            <gloss xml:lang="de">Minnesänger</gloss>
-            <gloss xml:lang="de">Liebeslyrik</gloss>
-            <gloss xml:lang="en">Minnesang</gloss>
-            <gloss xml:lang="en">Minnesinger</gloss>
-            <gloss xml:lang="en">Minstrels</gloss>
-            <gloss xml:lang="en">Love Poetry</gloss>
+          <category xml:id="genre_0a612f94" corresp="genres.xml#genre_0a612f94">
+            <gloss xml:lang="de">Minnelehre</gloss>
+            <gloss xml:lang="de">Minneregel</gloss>
+            <gloss xml:lang="de">Minnereflexion</gloss>
+            <gloss xml:lang="en">Minne Doctrine</gloss>
+            <gloss xml:lang="en">Reflection of Love</gloss>
+            <gloss xml:lang="en">Rule of Minne</gloss>
           </category>
-          <category xml:id="genre_72cae96a" ana="parent" corresp="genres.xml#genre_72cae96a">
-            <gloss xml:lang="de">Höfischer Roman</gloss>
-            <gloss xml:lang="de">Versroman</gloss>
-            <gloss xml:lang="en">Courtly Romance</gloss>
-            <gloss xml:lang="en">Courtly Novel</gloss>
-            <gloss xml:lang="en">Verse Novel</gloss>
-          </category>
-          <category xml:id="genre_782dcfc4" ana="parent" corresp="genres.xml#genre_782dcfc4">
-            <gloss xml:lang="de">Mediale Sonderform</gloss>
-            <gloss xml:lang="en">Special Media Forms</gloss>
-          </category>
-          <category xml:id="genre_88b5cae2" corresp="genres.xml#genre_88b5cae2">
-            <gloss xml:lang="de">Liebesroman und Abenteuerroman</gloss>
-            <gloss xml:lang="de">Liebesroman</gloss>
-            <gloss xml:lang="de">Minneroman und Aventiureroman</gloss>
-            <gloss xml:lang="de">Minneroman</gloss>
-            <gloss xml:lang="de">Abenteuerroman</gloss>
-            <gloss xml:lang="de">Aventiureroman</gloss>
-            <gloss xml:lang="en">Love and Adventure Romance</gloss>
-            <gloss xml:lang="en">Love Novel</gloss>
-            <gloss xml:lang="en">Love Romance</gloss>
-            <gloss xml:lang="en">Aventiure Novel</gloss>
-            <gloss xml:lang="en">Adventure Romance</gloss>
-            <gloss xml:lang="en">Minne Novel</gloss>
-            <gloss xml:lang="en">Minne Romance</gloss>
-          </category>
-          <category xml:id="genre_a2770533" ana="parent" corresp="genres.xml#genre_a2770533">
-            <gloss xml:lang="de">Lyrik</gloss>
-            <gloss xml:lang="en">Lyric Poetry</gloss>
-          </category>
-          <category xml:id="genre_e513a99c" corresp="genres.xml#genre_e513a99c">
-            <gloss xml:lang="de">Brief</gloss>
-            <gloss xml:lang="en">Letter</gloss>
+          <category xml:id="genre_60eb54e6" corresp="genres.xml#genre_60eb54e6">
+            <gloss xml:lang="de">Streitgedicht</gloss>
+            <gloss xml:lang="de">Streitlied</gloss>
+            <gloss xml:lang="de">Streitgespräch</gloss>
+            <gloss xml:lang="en">Argument Poem</gloss>
+            <gloss xml:lang="en">Controversy Poem</gloss>
+            <gloss xml:lang="en">Dispute Poem</gloss>
+            <gloss xml:lang="en">Moot</gloss>
+            <gloss xml:lang="en">Disputation</gloss>
+            <gloss xml:lang="en">Dispute Song</gloss>
           </category>
         </taxonomy>
       </classDecl>
@@ -168,6 +144,7 @@
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 13 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/). 1 weitere Tokens der Form stat blieben bewusst unannotiert (Review).</change>
       <change when="2026-09-21" who="#editor">#371 stat, drittes Lemma: 1 bislang unlemmatisierte Tokens der Form stat/stât annotiert (lemmaRef/pos/corresp nach dem actions-Array in KZWs Review vom 15.09.2026; drei neu gepraegte Variantentypen; kein @ana, weil die Sense-Zuordnung kuratorisch ist; die 17 Faelle mit option OFFEN und die 2 mit NEU_STAND bleiben unangetastet; Provenienz-Log: ingest/pos-disambig/371-stat/).</change>
       <change when="2026-09-30" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization an den Stand der Annotation angeglichen (7389 von 9826 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;Lemmatisiert, aber noch nicht disambiguiert.&#34;</change>
+      <change when="2026-10-01" who="#editor">#495: Gattungsklassifikation an das Werk angeglichen (works.xml work_7 Frauenbuch: Minnelehre, Streitgedicht). Der Kopf trug die Gattungen des Frauendiensts (Minnesang, Liebesroman und Abenteuerroman, Brief) samt deren Elternkategorien Höfischer Roman, Mediale Sonderform und Lyrik; Dialogische Kurzform bleibt als Elternkategorie von Streitgedicht.</change>
     </revisionDesc>
   </teiHeader>
   <text>
