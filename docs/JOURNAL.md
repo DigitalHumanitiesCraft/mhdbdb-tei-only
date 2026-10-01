@@ -4,6 +4,20 @@ Chronological log of development decisions, dead ends, and savepoints. Not a cha
 
 ---
 
+## 2026-10-01: Sechs PRs, und die CI ist um ein Viertel schneller, nicht um die Hälfte
+
+Gemergt: #508 (#485, Lindas Beschreibung der Figurenbezeichnungen), #509 (#459, sieben WZB-Tokens auf *lende*, Index 4.2.24 / 1.9.17), #510 (#495, Gattungen im TEI-Kopf gegen `works.xml`, neues Gate `check-header-genres.py`), #511 und #512 (Laufzeit), #513 (#485, Beispielformen *Paris* / *der künic* nach Lindas Freigabe). #459 geschlossen.
+
+**Laufzeit.** `validate-corpus.py` läuft auf `--jobs` Workern (#511), drei Kopf-Prüfungen lesen per `corpus_files.tei_header` nur den `teiHeader`, `check-authority-cross-refs.py` und `build-begriffshilfe.py` scannen parallel, `build-corpus-index.py` parst jede Datei einmal statt zweimal (#512); jede Ausgabe ist gegen den alten Stand byte-identisch oder bis auf die Worker-Zeile gleich gemessen. Lokal fällt die Validierung von 393 bis 608 s auf 64 bis 68 s. **In CI fällt der Job `validate` nur von 748 auf 545 s** (Validierungsschritt 329 → 216 s), weil der Runner vier Kerne hat. Der größte Einzelposten ist danach der Checkout.
+
+**Der Checkout ist kein Hebel, und das ist gemessen, nicht vermutet.** Je 8 Läufe von `data-integrity`, `no-cdn-check` und `file-size-check`: die Dauer springt in allen drei zwischen rund 80 s und 130 bis 160 s, auch bei `fetch-depth: 1`; davon gut 60 s Download, gut 20 s Auspacken. Alle drei Workflows brauchen die Dateiinhalte (`check-file-sizes.py` liest Größen aus `git ls-tree -l`, `doc-count-audit` zählt `tei/`). Deshalb keine Änderung, und aus demselben Grund kein Aufteilen von `validate` in parallele Jobs: jeder brächte seinen eigenen Checkout mit. gzip bleibt auf Stufe 9 (Entscheidung chsteiner): zehn Sekunden Build gegen einen größeren Download für alle Leser.
+
+**Was eine Suche nach weiteren Hebeln nebenbei gefunden hat, betrifft Nutzer und nicht die Suite:** der Playground lädt beim Start den Korpus-Index, bevor der Router läuft (`playground-main.js:147-156`), auch für Routen, die ihn nicht brauchen. Notiert in #488, nicht umgesetzt.
+
+**Audit-Skripte sind cwd-relativ.** Aus dem Hauptbaum gegen einen Worktree gestartet, messen sie den Hauptbaum; zweimal an diesem Tag hat das ein falsches Ergebnis geliefert, beide Male vor dem Push gefangen. Im Worktree heißt der Aufruf `env -C <worktree> python scripts/audit/...`.
+
+Antworten des Tages: @wachauer zu #228 (Mur bleibt vorerst, Zuordnung erst an Quellen prüfen; die 273 reinen Bestandteile werden aus Belegen und Bestandteilsverweisen abgeleitet gekennzeichnet, kein `entry/@type`), @lindabeutel zu #485. Labels entsprechend nachgezogen.
+
 ## 2026-09-22: Review-page examples for reuse
 
 KZW approved collecting the blank review pages via a separate branch and PR after consultation with Chris. `examples/review-pages/` preserves byte-identical copies of the local #364, #371 and #390/#115 pages. The overview in INDEX documents scope, snapshot dates, exports and differences from #443, and links the external wachauer/mhdbdb-kuratorik example at commit 296f4ff4cfb3a68b526397c46baef9a3ec9189ef. Existing generators and templates accompany the newer examples; generators continue to write working pages at the repository root, leaving the archived snapshots unchanged. Browser tests now address the archived copies. No submitted human decisions or corpus/authority edits are included. Validation: seven Chromium tests passed at the archive paths; the stat page rendered 95 cards without browser errors and exported valid JSON. Archive copies verified byte-identical.
