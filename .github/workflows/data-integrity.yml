@@ -14,9 +14,10 @@ name: Data Integrity
 #   1a. Dokumentierte Zahlen gegen die Daten (#382/#398): jede in der
 #      Doku und auf den ausgelieferten Seiten verankerte Zaehlung wird
 #      gegen den Bestand gehalten. Frueh, weil billig (sechs Sekunden)
-#      und ohne Abhaengigkeit von einem Vorgaenger. Zwei Grenzen stehen
-#      am Step selbst: die Pfadfilter nennen weder docs/** (behauptete
-#      Zahl) noch playground/** (gemessene Zahl).
+#      und ohne Abhaengigkeit von einem Vorgaenger. Die Pfadfilter hier
+#      nennen weder docs/** (behauptete Zahl) noch playground/**
+#      (gemessene Zahl); seit 01.10.2026 deckt das derselbe Schritt in
+#      no-cdn-check.yml ab, Begruendung am Step.
 #   1b. Werk-Identifier gegen works.xml (#399): fuer
 #      handschriftencensus, GND und wikidata ist works.xml Master, der
 #      msIdentifier jedes TEI-Headers ist Spiegel. Verglichen wird

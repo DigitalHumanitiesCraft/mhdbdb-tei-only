@@ -23,6 +23,10 @@
 # RelaxNG über 667 Dateien, und es liefe bei jedem tei/-Commit mit,
 # während eine Änderung an testing/tests/ es gar nicht auslöste.
 #
+# Seit 01.10.2026 ein viertes: die dokumentierten Zahlen gegen die Daten
+# (doc-count-audit.py, #382/#398), zusätzlich zu data-integrity.yml.
+# Begründung am Schritt.
+#
 # Die Trigger-Pfade nennen scripts/audit/** als Glob und nicht die einzelnen
 # Skripte. Das ist seit dem zweiten Inventar Pflicht und nicht Bequemlichkeit:
 # ein NEU angelegtes Audit-Skript muss den Lauf auslösen, sonst fällt genau
