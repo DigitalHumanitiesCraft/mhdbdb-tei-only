@@ -909,3 +909,22 @@ Keine.
 
 - #486: Schreiber und Gate für `listBibl`, die 171 Titel, FR1 und FLG nach Zotero (KZW), Doku an die Kettenentscheidung.
 - Offen in #237 bei KZW: Blaschka 1934 für WLK (Werkeintrag vorbereiten, Zotero-Felder vorgeben).
+
+## 2026-10-02 – #370 Punkt 2: Vorprüfung der offenen Paare (Spur C)
+
+484 WZB-Paare aus Schreibung und Lemma ohne `@corresp` sind am Kontext entschieden: ANLEGEN 412 von 484 Paaren (4.675 von 5.273 Tokens), NICHT_ANLEGEN 43 (260), PRUEFSEITE 29 (338), VERKNUEPFEN 0. Dazu 74 Paare (109 Tokens), die seit der Arbeitsliste vom 31.08. dazugekommen sind: ANLEGEN 49 (80), VERKNUEPFEN 25 (29). Die 29 Prüfseitenfälle stehen auf `ingest/wzb/370-corresp/pruefseite-370.html` nach #443. Ausgang: `entscheidungen.csv`, `entscheidungen-nachtrag.csv`, Belege in `evidenz.json`.
+
+### Was über den Einzelfall hinausgilt
+
+**Die Liste vom 31.08. und der Korpus waren nicht mehr dieselbe Menge.** Die 484 Paare tragen heute 5.283 Tokens ohne `@corresp`, nicht 5.273 (8 Paare mit mehr Belegen), und 25 der 74 Paare danach hatten ihren Typ unter dem Lemma schon: das sind Punkt-1-Fälle, kein Anlegen. Der erste Entwurf hatte sie auf ANLEGEN gesetzt, und `fable-reviewer` hat es in Runde 1 gefunden. Die Koordination hat dafür den Wert `VERKNUEPFEN` festgelegt. **Soll für Spur A ist „alle Tokens ohne `@corresp` je Paar", nicht die Zahl der Liste.**
+
+**Ein Sammellemma verdeckt Befunde.** 41 der 484 Paare stehen unter `lemma_2` abc, das KZW am 11.09. (#228) ausdrücklich als eigenes Thema abgetrennt hat: alle NICHT_ANLEGEN, Zielvorschläge für 18 davon in `abc-befunde.csv`. Außerhalb von abc stehen 7 Paare der meil-Familie (82 Tokens) unter `heiligen`, obwohl die Belege „beflecken" meinen (Lexer Bd. 1, Sp. 2077): als KI-Vorschlag auf der Prüfseite, nicht angewendet.
+
+### Rote Zeilen
+
+Eine, Eintrag 100: `cd` und zweimal ein Heredoc in Shell-Befehlen. Der Hook hat die Heredocs geblockt.
+
+### Was zurück an Christian geht
+
+- Die 29 Fälle der Prüfseite (KZW oder wen sie benennt), darunter die cs-Randglossen (6 Paare) und die gemischten Paare `wirft`, `lose`, `weiden`, `pilgereimen`.
+- Offen für die Koordination: ob Spur A die 25 VERKNUEPFEN-Paare wie Punkt 1 behandelt.
