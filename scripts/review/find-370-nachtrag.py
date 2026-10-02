@@ -13,7 +13,8 @@ Schreibung und Lemma, die jetzt ohne @corresp sind und nicht in der Arbeitsliste
 stehen, und schreibt sie im selben Format nach offene-faelle-nachtrag.csv.
 
 Schluessel wie in #370 Punkt 1: NFC-normalisierte, kleingeschriebene Schreibung
-und das erste Lemma aus @lemmaRef.
+und das Lemma aus @lemmaRef. Hat ein <w> mehrere Verweise in @lemmaRef, bricht
+das Skript ab, statt eines davon zu waehlen (im WZB-Korpus heute keiner).
 
 Nur Lesen. Aufruf aus dem Repo-Wurzelverzeichnis:
     python scripts/review/find-370-nachtrag.py
@@ -41,7 +42,11 @@ def main():
     for _, el in etree.iterparse(str(ROOT / 'tei' / 'WZB.tei.xml'), tag=TEI + 'w'):
         ref = el.get('lemmaRef')
         if ref and not el.get('corresp'):
-            lem = ref.split('#')[-1].split()[0]
+            teile = ref.split()
+            if len(teile) != 1 or teile[0].count('#') != 1 or not teile[0].split('#')[1]:
+                raise SystemExit('mehrwertiger oder unbekannter @lemmaRef an %s, Schluessel waere mehrdeutig: %r'
+                                 % (el.get(XMLID), ref))
+            lem = teile[0].split('#')[1]
             form = unicodedata.normalize('NFC', ''.join(el.itertext()).strip()).lower()
             k = (form, lem)
             if k not in bekannt:
