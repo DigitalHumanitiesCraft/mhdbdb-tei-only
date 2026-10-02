@@ -651,7 +651,7 @@ class TEITextReader {
                     } else if (label) {
                         header = `<div class="${headerClasses}">${this.escapeHtml(label)}</div>`;
                     }
-                    // #358: Beginnt ein Buch am Anfang dieses div (Buch V bei 4,1),
+                    // #358: Beginnt ein Buch am Anfang dieses div,
                     // steht sein milestone als erstes Kind und rendert sonst UNTER
                     // der Strophen-Überschrift ("Strophe 5" über "Buch III"). Er
                     // wird deshalb vor das Label gezogen; im milestone-Zweig
