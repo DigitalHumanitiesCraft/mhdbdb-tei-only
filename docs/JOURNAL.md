@@ -986,3 +986,19 @@ Eine, Eintrag 101: VIII am Erzählerton statt am ersten Vers der Quelle festgema
 ### Was zurück an Christian geht
 
 Nichts aus diesem Paket. Spur A3 setzt die Milestones aus der gemergten Datei.
+
+## 2026-10-02 – #228: Mur bei Murstetten (Spur C)
+
+KZW hat am 25.09. gefragt, ob der Bestandteil `Mur` (`lemma_66692`, Gewässername) in Murstetten (`lemma_66691`) stimmt, und am 01.10. präzisiert. Die drei Belege (HZU2, 1339, 1392, 1396) meinen denselben Ort in Niederösterreich und sagen über die Herkunft des Namens nichts. Winter (Jb. LKNÖ 54/55, S. 349–361) gibt für das Bestimmungswort Schusters Deutung wieder (vermutlich slawischer Personenname); von der Mur ist bei ihm nicht die Rede. Vorschlag als Kommentar in #228: `Mur` aus der Etymologie von `lemma_66691` streichen, kein Ersatzziel, `lemma_66692` bleibt wegen `Mûrouwe`. Die Notiz liegt unter `ingest/mur-228/README.md`, geändert ist nichts in `authority-files/`.
+
+### Was über den Einzelfall hinausgilt
+
+**Eine Deutung aus zweiter Hand trägt ihren Weg mit.** Schuster habe ich nicht geöffnet, nur Winters Wiedergabe von 1990 gelesen. Der Satz mit den Mauer-Orten ist Winters eigener, und `fable-reviewer` hat es in Runde 1 gefunden, weil der erste Entwurf ihn Schuster zugeschrieben hatte. Nach dem Befund steht jede Deutung mit der Person, die sie sagt, und dem Weg, auf dem sie zu mir kam.
+
+### Rote Zeilen
+
+Keine.
+
+### Was zurück an Christian geht
+
+- Die Entscheidung über den Vorschlag liegt bei KZW (#228). Die zweite Hälfte ihrer Frage vom 25.09., die Deutung von Murau, ist in diesem Schritt nicht geprüft.
