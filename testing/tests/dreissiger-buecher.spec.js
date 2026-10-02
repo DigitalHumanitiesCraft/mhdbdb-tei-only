@@ -7,10 +7,8 @@
  * seiner Stelle. `type` bleibt `chapter`, die Verszählungs-Rücksetzung und die
  * Deep-Links hängen weiter daran.
  *
- * Die Spec rendert ein Testfragment mit dem echten Reader (extractAndFormatBody),
- * unabhängig davon, ob das TEI von PZ und WH schon subtype und milestone trägt.
- * Ein Test am echten PZ steht am Ende und läuft erst, wenn das TEI die
- * Kodierung hat.
+ * Die Spec rendert ein Testfragment mit dem echten Reader (extractAndFormatBody)
+ * und zum Schluss das echte PZ (subtype und milestone kommen mit A3).
  */
 
 import { test, expect } from '@playwright/test';
@@ -132,20 +130,36 @@ test.describe('Dreißiger und Bücher (#358)', () => {
         expect(html).toContain('Buch &lt;b&gt;');
     });
 
-    test('echtes PZ: 16 Bücher, Dreißiger als Strophe (nach A3)', async ({ page }) => {
+    test('echtes PZ: 16 Bücher als Überschrift, jeder Dreißiger heißt Strophe', async ({ page }) => {
         const info = await page.evaluate(async () => {
+            const { TEITextReader } = await import('/assets/js/rendering/tei-text-reader.js');
             const xml = await (await fetch('/tei/PZ.tei.xml')).text();
             const doc = new DOMParser().parseFromString(xml, 'text/xml');
             const ns = 'http://www.tei-c.org/ns/1.0';
-            const books = doc.getElementsByTagNameNS(ns, 'milestone');
+            const milestones = [...doc.getElementsByTagNameNS(ns, 'milestone')]
+                .filter(m => m.getAttribute('unit') === 'book');
+            const { html } = new TEITextReader(null, null, null).extractAndFormatBody(doc, null, []);
+            const host = document.createElement('div');
+            host.innerHTML = html;
+            const chapters = [...host.querySelectorAll('.tei-div[data-type="chapter"]')];
+            const label = d => (d.querySelector(':scope > h3.section-head, :scope > .tei-div-header')?.textContent || '').trim();
             return {
-                books: [...books].filter(m => m.getAttribute('unit') === 'book').length,
-                dreissiger: doc.querySelectorAll('div[type="chapter"][subtype="dreissiger"]').length,
-                chapters: doc.querySelectorAll('div[type="chapter"]').length,
+                milestones: milestones.length,
+                chapterDivs: doc.querySelectorAll('div[type="chapter"]').length,
+                dreissigerDivs: doc.querySelectorAll('div[type="chapter"][subtype="dreissiger"]').length,
+                renderedChapters: chapters.length,
+                strophe: chapters.filter(d => /^Strophe \d+$/.test(label(d))).length,
+                kapitel: chapters.filter(d => /^Kapitel/.test(label(d))).length,
+                books: [...host.querySelectorAll('.book-heading')].map(b => b.textContent.trim()),
             };
         });
-        test.skip(info.books === 0 && info.dreissiger === 0, 'TEI von PZ trägt die Kodierung noch nicht (A3 offen)');
-        expect(info.books).toBe(16);
-        expect(info.dreissiger).toBe(info.chapters);
+        expect(info.milestones).toBe(16);
+        expect(info.dreissigerDivs).toBe(info.chapterDivs);
+        expect(info.renderedChapters).toBe(info.chapterDivs);
+        expect(info.strophe).toBe(info.chapterDivs);
+        expect(info.kapitel).toBe(0);
+        // 16 Überschriften, je genau einmal (Hoist ohne Doppelung), in Buchreihenfolge
+        expect(info.books).toHaveLength(16);
+        expect(new Set(info.books).size).toBe(16);
     });
 });
