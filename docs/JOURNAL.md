@@ -18,7 +18,7 @@ PZ und WH tragen die Gliederung jetzt im Markup: `subtype="dreissiger"` an allen
 
 **Ein Docstring versprach einen Haltepunkt, den es nicht gab.** Das Skript nannte als Haltepunkt eine nicht eindeutig zu findende `<l>`-Startzeile; die Prüfung am Ergebnis verglich aber nur `div/@n` und `l/@n`, nicht die `erste_wort_id`. Gefunden hat es der Fable-Reviewer per Mutationsprobe (ein zweites `<l n="27">` in div 58 lief durch). Behoben: die Ergebnisprüfung hält das erste `<w>` der Zeile nach dem `milestone` gegen die Wort-ID der CSV, und die Probe auf einer Kopie des Basisstands bricht jetzt ab; derselbe Lauf auf der Basis reproduziert beide Dateien byte-identisch. Die Daten waren nie betroffen (0 doppelte `l/@n` in einem `div`).
 
-**Offen, Entscheidung bei der Koordination:** `docs/DATA-MODEL.md` (Zeile zum Kapitelapparat, #66) schreibt `<milestone unit="chapter" n="N"/>` inline im Textfluss vor; das Schema erlaubt `milestone` nur als Kind von `div` mit `@unit="book"`. Im Korpus `tei/` gibt es heute außer den 16 neuen keine `milestone` (die `unit="chapter"` stehen nur in den Quellen unter `ingest/wzb/`), ein künftiger Ingest nach dieser Tabellenzeile fiele aber im Stage-2-Gate durch. DATA-MODEL ist im Lauf eingefroren, deshalb gemeldet statt geändert.
+**Das Schema bleibt eng, die Tabellenzeile sagt es jetzt.** `docs/DATA-MODEL.md` (Zeile zum Kapitelapparat, #66) schreibt `<milestone unit="chapter" n="N"/>` inline im Textfluss vor; das Schema erlaubt `milestone` nur als Kind von `div` mit `@unit="book"`. Im Korpus `tei/` gibt es heute außer den 16 neuen keine `milestone` (die `unit="chapter"` stehen nur in den Quellen unter `ingest/wzb/`), ein künftiger Ingest nach der Zeile fiele aber im Stage-2-Gate durch. Entschieden von der Koordination (G5 des Laufplans): die Werteliste wird nicht auf Vorrat geöffnet, weil keine Daten es verlangen; die Zeile trägt einen Satz, dass der erste Ingest, der `unit="chapter"` im Textfluss braucht, `schema/mhdbdb.rnc` in einem eigenen PR erweitert. #66 selbst bleibt unberührt.
 
 ### Rote Zeilen
 
@@ -26,7 +26,7 @@ Keine.
 
 ### Was zurück an Christian geht
 
-Die Entscheidung zur DATA-MODEL-Zeile oben (Werteliste von `milestone/@unit` öffnen oder die Tabellenzeile anpassen).
+Nichts aus A3.
 
 ## 2026-10-02: #370 Punkt 2 eingespielt, Authority-Index 1.9.19 (Spur A2 des Laufs vom 02.10.)
 
