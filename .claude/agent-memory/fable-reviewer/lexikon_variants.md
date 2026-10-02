@@ -1,16 +1,19 @@
 ---
 name: lexikon-variants
-description: lexicon.xml und variants.xml im Review: first-wins-Woerterbuch kippt bei neuen Typen, sense/@ana ohne Konsument, haengende Typverweise, Schreiber ausserhalb Lifecycle, Kompositum- und Ziffernlemma-Fakten
+description: lexicon.xml und variants.xml im Review: Woerterbuch seit 1.9.18 nach Vorschrift B (form/@n, variantCandidates) statt first-wins, Flip-Gate mit Quittung, sense/@ana ohne Konsument, haengende Typverweise, Schreiber ausserhalb Lifecycle, Kompositum- und Ziffernlemma-Fakten
 metadata:
   type: project
 ---
-Stand 28.09.2026.
+Stand 02.10.2026.
 
-**Laufzeit-Woerterbuch kippt, Typ-Zaehler bleibt gruen**
-- `authority-index.json.gz['variants']` ist first-wins in Dokumentreihenfolge (`build-authority-index.py` ~:807 `if normalized_variant not in variants`); die kleinere Lemmanummer gewinnt nur, weil variants.xml danach sortiert ist. Nicht „nach Lemmanummer" schreiben.
-- Ein neuer Typ fuer eine anderswo existierende Form kann eine Zuordnung umbiegen; `extract-variants.py` zaehlt Typen, nicht Formen, und sieht es nicht (mehrfach passiert: hawsen, froewen).
-- Rezept bei jedem Daten-PR mit neuen `type_N`: Basis-Index per `git show <basis>:data/authority-index.json.gz`, beide `variants`-Dicts: added/removed/re-pointed, dazu Tokenzahl je (Form, Lemma) aus tei/. ADR-021 (DECISIONS.md) fuehrt diese Handlaeufe als Fixturen (Vorschrift B); ein Datenlauf mit neuen Typen braucht dort eine Zeile.
-- variants.xml ist je Normalform NICHT einwertig (02.09.: 4.972 von 234.243 Normalformen zeigen auf mehr als ein Lemma): „Einwertigkeit" ist falsch. Typ-Id -> Lemma ist dagegen eindeutig (Regex ueber `<w>`-Tags, corresp -> set(lemmaRef), <1 min).
+**Laufzeit-Woerterbuch: seit Authority 1.9.18 Vorschrift B statt first-wins** (Zweig `claude/lauf-a1-378`, 81121f733, Runde 1 am 02.10.; vorher galt bis 1.9.17 first-wins in Dokumentreihenfolge)
+- `variants.xml` traegt je `<form>` ein Pflichtattribut `n` (Tokens des Typs unter dem Lemma, aus `extract-variants.py`; Schema `mhdbdb-authority.rnc` verlangt es). `build-authority-index.py parse_variants(known_lemma_ids)` summiert `n` je (Normalform, Lemma), rangiert absteigend, Gleichstand = Dokumentordnung (= Lemmanummer, Eintraege sind sortiert; 591 Listen mit Gleichstand oben). `variants[form]` = erster Kandidat, `variantCandidates[form]` nur bei >1 (4.961 von 233.962; 4.979 Formen von >1 Lemma beansprucht, 18 fallen durch den Dangling-Filter auf einen, 24 Listen enthielten haengende Lemmata; 15 `variants`-Werte zeigen weiter auf Lemmata ohne lexicon-Eintrag, weil die Form nur solche hat). Fehlendes `n` = harter Build-Abbruch.
+- Gemessen am Korpus (eigener iterparse-Scan, 211 s, Skript im Scratch): `@n`-Summen == corresp-Tokenzahlen je (Normalform, Lemma) bei allen 4.979, Reihenfolge weicht in 0 Faellen ab, auch gegen alle `<w @lemmaRef>`. Kein `@lemmaRef` mit mehreren IDs im Korpus (0 von 667 Dateien).
+- Flips 1.9.17 -> 1.9.18: 2.063 (2.065 ohne Dangling-Filter; halap, chana). Beispiele: hab 418:15 -> lemma_2598, ne 1433:1 -> lemma_4377, froewen 35/21/1 -> lemma_7260, hawsen 5:2 -> lemma_49714; pyn bleibt lemma_4664, hawe lemma_2923.
+- Inversionen (`app.js getVariantFormsFor`, `lemma-page.js renderVariants`) listen eine Form weiter nur unter dem ersten Kandidaten; ADR-021 fuehrt das als offen.
+- `extract-variants.py` zaehlt Typen, nicht Formen; ein neuer Typ fuer eine anderswo existierende Form kann weiter die Rangfolge drehen, sichtbar jetzt im Gate `check-variants-flips.py` (siehe gates_und_ci).
+- Typ-Id -> Lemma ist eindeutig (Regex ueber `<w>`-Tags, corresp -> set(lemmaRef), <1 min).
+- Der Dangling-Filter ist die eine Stelle, an der der Index von lexicon.xml abhaengt: ein Backfill (#115), der ein haengendes Lemma anlegt, kann eine Form umklappen (halap: lemma_79230 haette 3:1 gewonnen).
 - Typ-Traeger korpusweit: `re.finditer(r'<w xml:id="([^"]+)"[^>]*corresp="variants\.xml#(type_\d+)"')`, ~30 s.
 
 **sense/@ana**
