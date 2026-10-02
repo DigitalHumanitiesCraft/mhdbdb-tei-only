@@ -166,7 +166,7 @@ Notes: Multiple sigles per work (editions). GND/Wikidata may be full URLs or bar
 | genres.xml | `genre_{hex}` | – (but many broader pointers, polyhierarchical) |
 | names.xml | `name_{numeric}` | `exactMatch`, `closeMatch` → `concepts.xml#...` |
 
-#### variants.xml (~16 MB, 256,497 variant forms)
+#### variants.xml (~16 MB, 256,958 variant forms)
 
 ```xml
 <TEI><text><body><div type="orthographicVariants">
@@ -283,11 +283,11 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
   variants: {
     "brot": "lemma_879",   // normalized form → lemma ID
     "brott": "lemma_879",
-    // ... 233,962 mappings (2026-10-01). Where several lemmata claim a form
+    // ... 234,264 mappings (2026-10-02). Where several lemmata claim a form
     // the value is the first candidate by Vorschrift B (v1.9.18, ADR-021, #378)
   },
 
-  variantCandidates: {               // v1.9.18: only forms with more than one candidate (4,961)
+  variantCandidates: {               // v1.9.18: only forms with more than one candidate (4,973)
     "hab": ["lemma_2598", "lemma_2593"]   // ranked: corpus tokens of THIS form under the lemma
   },
 
@@ -573,7 +573,7 @@ Source: `scripts/tei_namespaces.py` (`get_namespaces`, a shared lib since #171 F
 When building the variants map, every lemma that claims a normalized variant form is kept (ADR-021, #378; until Authority Index 1.9.17 the first one in document order won and the rest were dropped silently). Per form and lemma the build sums `form/@n` of `variants.xml` and ranks the lemmata by that sum, highest first, ties by document order (the smaller lemma number). Two fields come out:
 
 - `variants[form]` is the first candidate, so a consumer that holds one id per form keeps working;
-- `variantCandidates[form]` lists all candidates in rank order and exists only for forms with more than one (4,961 of 233,962 on 2026-10-02). Candidates that have no entry in `lexicon.xml` are dropped while the form has one that does, so a dangling reference (#115) cannot outrank a real lemma; that is why 4,961 and not the 4,979 forms claimed by more than one lemma.
+- `variantCandidates[form]` lists all candidates in rank order and exists only for forms with more than one (4,973 of 234,264 on 2026-10-02). Candidates that have no entry in `lexicon.xml` are dropped while the form has one that does, so a dangling reference (#115) cannot outrank a real lemma; that is why 4,973 and not the 4,991 forms claimed by more than one lemma.
 
 A missing or non-numeric `@n` aborts the build. Source: `build-authority-index.py`, `parse_variants()` (line anchors drift, so search for the function by name). The gate `scripts/audit/check-variants-flips.py` reports every form whose first candidate changes against the diff base (see the Data-Change-Lifecycle).
 

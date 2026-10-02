@@ -1,6 +1,6 @@
 {
-  "from": "1.9.17",
-  "to": "1.9.18",
-  "flips": 2063,
-  "reason": "#378 / ADR-021: variants[form] ist nicht mehr first-wins (kleinere Lemmanummer), sondern der erste Kandidat nach Vorschrift B (Tokens dieser Form unter dem Lemma). Die 2.063 Umklappungen sind die Formen, bei denen first-wins nicht dem haeufigsten Kandidaten folgte (2.065 nach Vorschrift B, minus zwei Formen, deren Gewinner kein Lemma in lexicon.xml haette) (Messung am 02.10.2026, Stand HEAD 03ff79829)."
+  "from": "1.9.18",
+  "to": "1.9.19",
+  "flips": 10,
+  "reason": "#370 Punkt 2: 461 neu gepraegte Typen (ANLEGEN, von KZW freigegeben) heben die Tokenzahl dieser Formen unter dem neuen Lemma; Vorschrift B (ADR-021) stellt es dadurch an die Spitze der Kandidatenliste. Die zehn Formen: boeze, geheisse, gepflaget, kochen, reisse, steigen, tir, vassen, verrens, weicz. Kein Typ wurde umgehaengt (Messung am 02.10.2026, Base origin/main 76eeedee6)."
 }
