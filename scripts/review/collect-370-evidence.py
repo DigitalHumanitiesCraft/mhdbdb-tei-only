@@ -47,9 +47,10 @@ def lemma_id(ref):
     """Lemma-Id aus genau einem Verweis '#lemma_N'; mehrere Verweise sind ein harter Fehler."""
     if not ref:
         return None
-    if len(ref.split()) != 1 or ref.count('#') != 1:
+    teile = ref.split()
+    if len(teile) != 1 or teile[0].count('#') != 1 or not teile[0].split('#')[1]:
         raise SystemExit('mehrwertiger oder unbekannter Verweis, Schluessel waere mehrdeutig: %r' % ref)
-    return ref.split('#')[1]
+    return teile[0].split('#')[1]
 
 
 def lade_paare(name='offene-faelle.csv'):
@@ -130,6 +131,8 @@ def lade_varianten():
     for _, el in etree.iterparse(str(ROOT / 'authority-files' / 'variants.xml'),
                                  events=('end',), tag=TEI + 'entry'):
         lem = lemma_id(el.get('corresp'))
+        if lem is None:
+            raise SystemExit('variants-Eintrag ohne corresp, Schluessel waere None')
         for f in el.iterfind(TEI + 'form'):
             if f.text:
                 je_lemma[lem].append(f.text)

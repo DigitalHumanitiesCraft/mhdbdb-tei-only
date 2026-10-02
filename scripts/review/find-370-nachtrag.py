@@ -42,10 +42,11 @@ def main():
     for _, el in etree.iterparse(str(ROOT / 'tei' / 'WZB.tei.xml'), tag=TEI + 'w'):
         ref = el.get('lemmaRef')
         if ref and not el.get('corresp'):
-            if len(ref.split()) != 1 or ref.count('#') != 1:
+            teile = ref.split()
+            if len(teile) != 1 or teile[0].count('#') != 1 or not teile[0].split('#')[1]:
                 raise SystemExit('mehrwertiger oder unbekannter @lemmaRef an %s, Schluessel waere mehrdeutig: %r'
                                  % (el.get(XMLID), ref))
-            lem = ref.split('#')[1]
+            lem = teile[0].split('#')[1]
             form = unicodedata.normalize('NFC', ''.join(el.itertext()).strip()).lower()
             k = (form, lem)
             if k not in bekannt:
