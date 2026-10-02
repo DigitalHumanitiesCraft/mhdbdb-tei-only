@@ -228,13 +228,15 @@ TEI Ch. 9 (Dictionaries). Each entry corresponds to one lemma and lists all atte
 <body>
   <div type="orthographicVariants">
     <entry corresp="lexicon.xml#lemma_879">
-      <form xml:id="type_2783">brôt</form>
-      <form xml:id="type_2784">brôte</form>
-      <form xml:id="type_2785">brôtes</form>
+      <form xml:id="type_2783" n="306">brôt</form>
+      <form xml:id="type_2784" n="24">brôte</form>
+      <form xml:id="type_2785" n="32">brôtes</form>
     </entry>
   </div>
 </body>
 ```
+
+`@n` is required (authority schema 1.2.0, #378): the number of corpus tokens of this type under the lemma, written by `extract-variants.py`. It ranks the candidates of an ambiguous written form (ADR-021).
 
 **Design decision:** variants in a separate file instead of in lexicon.xml (256k forms would inflate the 33 MB lexicon past 60 MB). Linked via `@corresp`.
 

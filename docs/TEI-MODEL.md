@@ -533,7 +533,7 @@ The human-readable base form stays accessible through the lookup `@lemmaRef` →
     │
     ├─ lexicon.xml: <sense xml:id="lemma_2598_sense_77615" ana="#type_8717 ...">
     │
-    └─ variants.xml: <form xml:id="type_8717">hân</form>
+    └─ variants.xml: <form xml:id="type_8717" n="11885">hân</form>
 ```
 
 **Migration (✓ completed):** `@wordRef` became `@corresp` (a standard attribute from `att.global`). The URI was corrected in the process, because the target sits in `variants.xml`, not in `lexicon.xml`:

@@ -12,7 +12,8 @@ replacement.
 
 Per <w> with @lemmaRef and a variants @corresp it records (lemma, type, form):
   <w lemmaRef="lexicon.xml#lemma_7672" corresp="variants.xml#type_93122">wißent</w>
-  -> entry lemma_7672 / <form xml:id="type_93122">wißent</form>
+  -> entry lemma_7672 / <form xml:id="type_93122" n="469">wißent</form>
+(n = number of such tokens of the type under the lemma, #378)
 
 xml:id uniqueness: a `type_N` is one orthographic form of one lemma. If the
 corpus attests a type id with more than one form or under more than one lemma
