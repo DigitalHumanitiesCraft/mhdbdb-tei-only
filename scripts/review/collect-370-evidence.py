@@ -44,7 +44,12 @@ KONTEXT = 10
 
 
 def lemma_id(ref):
-    return ref.split('#')[-1].split()[0] if ref else None
+    """Lemma-Id aus genau einem Verweis '#lemma_N'; mehrere Verweise sind ein harter Fehler."""
+    if not ref:
+        return None
+    if len(ref.split()) != 1 or ref.count('#') != 1:
+        raise SystemExit('mehrwertiger oder unbekannter Verweis, Schluessel waere mehrdeutig: %r' % ref)
+    return ref.split('#')[1]
 
 
 def lade_paare(name='offene-faelle.csv'):
