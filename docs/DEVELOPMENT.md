@@ -91,13 +91,15 @@ Pre-built indexes are included in repository. Rebuild only when modifying source
 ### Build Commands
 
 ```bash
+# Build corpus index first: since Authority Index 1.9.18 (#228, noCorpus) the
+# authority build reads data/corpus-index.json.gz and aborts if it is missing
+# or carries another INDEX_VERSION than build-corpus-index.py
+python scripts/build-corpus-index.py
+# Output: data/corpus-index.json.gz (~42 MB; current version in TEI-MODEL.md §11)
+
 # Build authority index (consumes authority-files/variants.xml, no extraction step)
 python scripts/build-authority-index.py
 # Output: data/authority-index.json.gz (~3 MB)
-
-# Build corpus index
-python scripts/build-corpus-index.py
-# Output: data/corpus-index.json.gz (~42 MB; current version in TEI-MODEL.md §11)
 
 # Validate indices
 python scripts/validate-indices.py
