@@ -165,6 +165,8 @@ def tabelle(zeilen):
     teile = []
     for art in ('ANLEGEN', 'VERKNUEPFEN', 'NICHT_ANLEGEN', 'PRUEFSEITE'):
         rows = gruppiert.get(art, [])
+        if not rows:
+            continue
         tok = sum(int(z['tokens']) for z in rows)
         koerper = ''.join(
             '<tr><td class="mono">%s</td><td class="mono">%s</td><td>%s</td><td>%s</td><td>%s</td></tr>'
@@ -206,6 +208,8 @@ def main():
     tokens_liste = sum(int(z['tokens']) for z in zeilen)
     tokens_heute = sum(len(x['belege']) for x in evidenz.values())
     z_ent = Counter(z['entscheidung'].split(':')[0] for z in zeilen)
+    if z_ent['ANLEGEN'] + z_ent['NICHT_ANLEGEN'] + z_ent['PRUEFSEITE'] != n:
+        sys.exit('Der Vorspann rechnet nur ANLEGEN, NICHT_ANLEGEN und PRUEFSEITE: %s' % dict(z_ent))
 
     punkte = ''.join('<li><a href="#g-%s">%s</a> <span class="anz">%d Fälle</span></li>'
                      % (g['id'], g['titel'], zahl[g['id']]) for g in GRUPPEN)
