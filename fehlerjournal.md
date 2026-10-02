@@ -1043,3 +1043,13 @@ Auto-Mode-Classifier abgelehnt, und die Blockade ging an Christian.
 **Was es getragen hat:** eine falsche Aussage in der Commit-Nachricht „#228: Review Runde 1: gerade Anführungszeichen, shrink-0, Inventarzeile“ und im Auftrag an den Reviewer. Die Codeänderung ist harmlos, beide Selektoren hängen an derselben Regel. Aufgefallen ist es durch die Gegenmessung des Reviewers in Runde 2, nicht durch eine Vorrichtung. Die Nachricht lässt sich vor dem Push nicht ändern, ohne die Historie umzuschreiben; der PR-Text stellt es richtig.
 
 **Kein neuer Mechanismus:** `hooks/suchergebnis.sh` sieht nur enge, leere Suchen im Werkzeug, nicht einen Zählbefehl über eine einzeilige Datei. Dort kann kein Muster greifen; die Aussetzung ist der Mechanismus.
+
+### 101. Rot: eine Buchgrenze am Erzählerton festgemacht, nicht am ersten Vers der Quelle (Spur C, 02.10.2026).
+
+**Rot.** Für #358 habe ich Buch VIII des Parzival bei 399,1 angesetzt („nû hoert von âventiuren sagen") und die Stelle der Koordination als gemessen gemeldet. Gelesen hatte ich dort einen Erzähleranruf, der wie ein Buchanfang klingt. Bartsch druckt als ersten Vers unter der Überschrift ACHTES BUCH „Swer was ze Bêârosche komen", Martins Kommentar unter VIII beginnt bei 398,4, und die TEI trägt die Initiale an 398,1. Ich hatte für die anderen Bücher den ersten Vers der Quelle gelesen und für dieses eines den Eindruck genommen.
+
+**Die Lehre steht in `agentenbefunde.md`: die gelesene Quelle muss die Aussage hergeben, die auf ihr steht.** Das Skript, das ich dafür baute, prüfte die Anfangswörter gegen das TEI, aus dem ich sie selbst genommen hatte, und konnte den Fehler deshalb nicht fangen. Die letzte Zeile zu dieser Lehre ist Eintrag 73.
+
+**Was es getragen hat:** nichts im Repo. Die falsche Stelle stand in einer Nachricht an die Koordination und in einem Commit; `fable-reviewer` hat sie in Runde 1 gefunden, bevor etwas daraus abgeleitet wurde (Spur A3 liest die Datei erst aus dem gemergten PR). Abgewendet hat es die Gegenprobe des Reviewers, nicht meine.
+
+**Kein neuer Mechanismus:** `agentenbefunde.md` ist ausgesetzt; die Aussetzung ist der Mechanismus. Die Quellenspalte der Datei sagt seitdem, welche Wörter aus dem TEI stammen und welche Stelle aus den Quellen gelesen ist.
