@@ -30,6 +30,7 @@ Stand 28.09.2026.
 - Vorher-Zahlen von der Live-Seite gehoeren zum dort aufgeloesten Lemma (Homograph `arm`: lemma_285 Adj., lemma_286 Koerperteil).
 - Personennamen gegen contributors.xml (Alan van Beek = contrib_007).
 - Scope-Fragen (z.B. Pruefseiten unter ingest/) vor dem Zaehlen klaeren.
+- Mehrspurige Laeufe (Laufplan unter `docs/playbooks/kickoffs/`): die Koordination antwortet auf Aenderungswuensche der Spuren mit Commits auf `main`. Ist `origin/main` weiter als die im Auftrag genannte Basis, `git log <basis>..origin/main -- docs/playbooks/kickoffs/` lesen: dort steht oft die Antwort, auf die der Aufrufer noch wartet (02.10.2026: Ae4 gab die DEVELOPMENT-Zeile frei, waehrend der Auftrag „eingefroren, nur nach deren Antwort" sagte). Allaussagen im Diff gegen den Laufplan-Paragraphen halten, aus dem sie stammen (§4.2 nannte drei Buecher, FEATURES machte „the books" daraus).
 
 **Fehlerjournal**
 - `claude-code-setup/hooks/lehren-zaehlen.py` parst dieses Journal nicht (Format `### N. Rot:`): Ketten von Hand ueber den Absatz „Die Lehre, die nicht gegriffen hat"; Ordinalzahlen gegen Vorgaenger lesen.

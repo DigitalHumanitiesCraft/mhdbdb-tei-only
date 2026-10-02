@@ -14,6 +14,8 @@ Stand 28.09.2026.
 - Port frei? `curl -s -o /dev/null -w "%{http_code}" localhost:8080/...` (000 = frei). Welcher Baum auf :8080? `curl .../<seite> | grep -c '<String aus dem Diff>'`.
 - Config-Werte ohne Server: `import('./testing/playwright.config.js')` und `use.baseURL`/`webServer` drucken (bei Guard als `temp/*.mjs`).
 - Specs liegen in `testing/tests/`; ein Glob `testing/*.spec.js` laeuft still leer.
+- Anderer Port ohne Config-Aenderung: `MHDBDB_TEST_PORT=8084 node scripts/run-tests.js <spec>` (02.10.2026, Laufplan vergibt 8081-8083 an die Spuren).
+- Playwright-Zeilennummern in der Laufausgabe (`spec.js:75:3`) stimmen bei Specs mit Nicht-ASCII-Zeichen nicht mit dem Quelltext ueberein (gemessen 02.10.2026: Test an Zeile 64, Ausgabe 75; Versatz waechst nach unten). Zeilen fuer den Befund aus `rg -n`, nie aus der Laufausgabe.
 
 **Proben ohne Spec**
 - Playwright: `.mjs` in $TEMP, `import { chromium } from 'file:///C:/.../node_modules/playwright/index.mjs'` (ohne `file:///` ERR_UNSUPPORTED_ESM_URL_SCHEME), gegen :8080, `page.evaluate` auf `window.playground.ui.<tool>.state`, `show()` direkt rufen; ca. 1 min.
