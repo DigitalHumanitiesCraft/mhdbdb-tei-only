@@ -423,7 +423,7 @@ Parzival (PZ) and Willehalm (WH) are cut into sections of thirty lines (Dreißig
 - **`<milestone unit="book" n="I"/>` … `XVI`**, PZ only, 16 elements. Each is a **direct child of the chapter `div`**, immediately before the `<l>` that opens the book, never inside an `<lg>` and never inside a line (the schema allows `milestone` only as a child of `div`, deliberately not in `inline.model`). Books II, III and IV begin inside a Dreißiger (58,27, 116,5, 179,13), the other thirteen at the start of one. The boundary positions are the 16 rows of `ingest/parzival-buecher/grenzen.csv` (word id of the first word, source: Bartsch and Martin), the elements were inserted by `scripts/ingest/parzival-358/pz-wh-struktur.py`.
 - `@unit` is a closed list with the single value `book`; a second unit is a schema change.
 
-No effect on the indexes: the corpus index reads `<w>` and document order only, `data/corpus-index.json.gz` stays byte-identical. The reading view ignores `milestone` with any `@unit` other than `verse`, so until it shows the book boundary the new elements render nothing.
+No effect on the indexes: the corpus index reads `<w>` and `<l>` in document order, so `data/corpus-index.json.gz` stays byte-identical (measured by rebuilding on a clean tree). The reading view ignores `milestone` with any `@unit` other than `verse`, so until it shows the book boundary the new elements render nothing.
 
 ---
 

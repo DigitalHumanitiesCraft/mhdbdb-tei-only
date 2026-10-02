@@ -86,7 +86,8 @@ for sigle in ("PZ", "WH"):
             l = next((a for a in w.iterancestors() if a.tag == f"{TEI}l"), None)
             if l is None or l.getparent().tag != f"{TEI}div" or l.getparent().get("type") != "chapter":
                 abbruch(f"{r['buch']}: <l> ist kein direktes Kind eines chapter-div")
-            ziele.append((l.getparent().get("n"), l.get("n"), r["buch"].replace("Buch ", "")))
+            ziele.append((l.getparent().get("n"), l.get("n"), r["buch"].replace("Buch ", ""),
+                          r["erste_wort_id"]))
         if [z[2] for z in ziele] != [roemisch(i) for i in range(1, 17)]:
             abbruch("Buchfolge in grenzen.csv ist nicht I bis XVI")
 
@@ -94,11 +95,11 @@ for sigle in ("PZ", "WH"):
     neu = DIV_TAG.sub(lambda m: f'<div type="chapter" subtype="dreissiger" n="{m.group(1)}">', text)
     n_sub = len(divs)
     n_ms = 0
-    for div_n, l_n, buch in ziele:
+    for div_n, l_n, buch, _wort_id in ziele:
         start = neu.find(f'<div type="chapter" subtype="dreissiger" n="{div_n}">')
         if start < 0 or neu.count(f'subtype="dreissiger" n="{div_n}">') != 1:
             abbruch(f"{sigle}: div n={div_n} nicht eindeutig")
-        m = re.compile(rf'^( *)<l n="{l_n}">\n', re.M).search(neu, start)
+        m = re.compile(rf'^( *)<l n="{l_n}"[^>]*>\n', re.M).search(neu, start)
         if m is None:
             abbruch(f"{sigle}: <l n={l_n}> nach div {div_n} nicht gefunden")
         # kein weiteres div zwischen div-Start und <l>
@@ -119,10 +120,14 @@ for sigle, (pfad, roh, neu, n_sub, n_ms, ziele) in ergebnis.items():
     mss = list(body.iter(f"{TEI}milestone"))
     if len(mss) != n_ms:
         abbruch(f"{sigle}: {len(mss)} milestone im Ergebnis, erwartet {n_ms}")
-    for ms, (div_n, l_n, buch) in zip(mss, ziele):
+    for ms, (div_n, l_n, buch, wort_id) in zip(mss, ziele):
         nxt = ms.getnext()
+        erstes_w = None if nxt is None else next(iter(nxt.iter(f"{TEI}w")), None)
+        # gegen die EINGABE halten: das <l> nach dem milestone traegt als erstes
+        # <w> die erste_wort_id der Zeile aus grenzen.csv
         if (ms.getparent().tag != f"{TEI}div" or ms.getparent().get("n") != div_n
                 or nxt is None or nxt.tag != f"{TEI}l" or nxt.get("n") != l_n
+                or erstes_w is None or erstes_w.get(XMLID) != wort_id
                 or ms.get("unit") != "book" or ms.get("n") != buch or len(ms) or ms.tail.strip()):
             abbruch(f"{sigle}: milestone {buch} sitzt nicht richtig")
     # alles andere unveraendert: <w>-Folge und Text identisch
