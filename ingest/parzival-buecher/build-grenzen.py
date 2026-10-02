@@ -49,7 +49,7 @@ BUECHER = [
     ('IV', '179,13', 'dannen schiet sus', B9, '179,14'),
     ('V', '224,1', 'swer ruochet hoeren', B9, '224,2'),
     ('VI', '280,1', 'welt ir nû hoeren', B9, '280,1'),
-    ('VII', '338,1', 'der nie gewarp', B10, '338,1'),
+    ('VII', '338,1', 'der nie gewarp', B10, '338,2'),
     ('VIII', '398,1', 'swer was ze bêârosche', B10, '398,4'),
     ('IX', '433,1', 'tuot ûf wem', B10, '433,1'),
     ('X', '503,1', 'ez naehet nû', B10, '503,1'),
