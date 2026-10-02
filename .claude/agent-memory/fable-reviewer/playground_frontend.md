@@ -37,3 +37,4 @@ Stand 28.09.2026.
 - `findAlternativeMatch` (concept-explorer) baut darauf, dass `matchesNormalized` den Treffer nicht sieht.
 - Dokumentsuche: CONTRACTS.md §C traegt die Objektform von `searchDocumentUsingEnhancedIndex`; `containsAll` prueft Array-Truthiness.
 - Lemma-Seite ist `lemma/lemma-page.js`.
+- Leseansicht #358 (B2, 02.10.2026): „Buch N" wird im div-Zweig nur gehoben, wenn der book-milestone `firstElementChild` ist; steht ein `pb`/`lb` davor, rendert er wieder unter „Strophe N". Gemessen: alle 827 PZ- und 467 WH-chapter-divs beginnen mit `<l>`, Korpus hat 0 `<milestone>` (Kontrollwert 61 Dateien mit `<pb`); Sonde: lxml ueber `body//div[@type="chapter"]`, erstes Element-Kind zaehlen. Einziger `state`-Bauer ist `extractAndFormatBody`, `processChildren` wirft ausserhalb. In-Repo-Buchgrenzen nur Laufplan §4.2 (II 58,27, III 116,5, IV 179,13), `ingest/parzival-buecher/grenzen.csv` kommt erst mit C2.
