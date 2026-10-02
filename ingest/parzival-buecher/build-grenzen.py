@@ -8,8 +8,16 @@ Die Buchanfaenge (Spalte beginn_stelle) stehen in BUECHER, mit den Quellen, auf
 denen sie stehen. Das Skript prueft sie gegen das TEI: die Zeile muss existieren,
 und ihre ersten Woerter muessen der in BUECHER genannten Anfangszeile gleichen,
 sonst bricht es ab. Die erste Wort-ID ist die des ersten <w> der Zeile in
-Dokumentordnung; ein <pc> davor (in Buch IX steht eine editorische Klammer
-vor dem ersten Wort) zaehlt nicht.
+Dokumentordnung; ein <pc> davor (in Buch IX steht ein Redezeichen vor dem
+ersten Wort) zaehlt nicht.
+
+Die Anfangswoerter in BUECHER sind der Wortlaut des TEI, nicht der der Quellen:
+das Skript prueft damit nur, dass die Stelle im TEI existiert und das Wort-ID-
+Mapping stimmt. Dass die Stelle ein Buchanfang ist, steht auf den von Hand
+gelesenen Quellen (Bartsch: Buchueberschrift mit erstem Vers im OCR-Volltext;
+Martin: Ueberschrift im Kommentar mit der ersten kommentierten Stelle). Dass
+das Skript unter ingest/ liegt und nicht unter scripts/ingest/, folgt dem
+Auftrag: es erzeugt nur die Datei daneben.
 
 Aufruf aus dem Repo-Wurzelverzeichnis:
     python ingest/parzival-buecher/build-grenzen.py
@@ -42,13 +50,13 @@ BUECHER = [
     ('V', '224,1', 'swer ruochet hoeren', B9, '224,2'),
     ('VI', '280,1', 'welt ir nû hoeren', B9, '280,1'),
     ('VII', '338,1', 'der nie gewarp', B10, '338,1'),
-    ('VIII', '399,1', 'nû hoert von âventiuren', B10, '399,7'),
+    ('VIII', '398,1', 'swer was ze bêârosche', B10, '398,4'),
     ('IX', '433,1', 'tuot ûf wem', B10, '433,1'),
     ('X', '503,1', 'ez naehet nû', B10, '503,1'),
     ('XI', '553,1', 'grôz müede im', B10, '553,5'),
     ('XII', '583,1', 'swer im nû ruowe', B10, '583,4'),
     ('XIII', '627,1', 'arnîve zorn bejagete', B11, '627,1'),
-    ('XIV', '679,1', 'ob von dem werden', B11, '679,4'),
+    ('XIV', '679,1', 'ob von dem werden', B11, '679,6'),
     ('XV', '734,1', 'vil liute des hât', B11, '734,2'),
     ('XVI', '787,1', 'amfortas und die', B11, '787,3'),
 ]
@@ -75,8 +83,8 @@ def main():
         text = ' '.join(w for _, w in woerter)
         if not text.startswith(anfang):
             sys.exit('Buch %s: Zeile %s beginnt mit "%s", erwartet "%s"' % (buch, stelle, text[:40], anfang))
-        quelle = '%s: Buch %s beginnt bei %s mit "%s"; %s; Text in tei/PZ.tei.xml an dieser Stelle gleich' % (
-            BARTSCH % bartsch, buch, stelle, anfang, MARTIN % (buch, martin))
+        quelle = '%s: Buch %s beginnt bei %s; %s; die TEI-Zeile an dieser Stelle beginnt mit "%s"' % (
+            BARTSCH % bartsch, buch, stelle, MARTIN % (buch, martin), anfang)
         ausgabe.append(['Buch ' + buch, stelle, woerter[0][0], quelle])
     if len(ausgabe) != 16 or len({a[2] for a in ausgabe}) != 16:
         sys.exit('Erwartet 16 verschiedene Buchanfaenge')
