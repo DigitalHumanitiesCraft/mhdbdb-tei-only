@@ -32,6 +32,26 @@ Keine.
 
 Nichts aus A1. Für A2 steht die Prüfung der Ratsche in `corresp-coverage-baseline.json` aus (Spur C meldet heute 5.392 statt 5.273 Tokens ohne `@corresp`).
 
+## 2026-10-02 (Spur B, B1): #228, reine Wortbestandteile im Wörterbuch und auf der Lemmaseite
+
+KZW hat am 01.10. entschieden: die 273 Einträge ohne Korpusbeleg, die eine andere Etymologie als Bestandteil nennt, tragen in Wörterbuch und Lemmaseite „Als Wortbestandteil erfasst; kein eigenständiger Beleg im aktuellen Korpus.“; der Status wird abgeleitet, nicht gespeichert, kein `entry/@type`. Umgesetzt: eine gemeinsame Regel in `assets/js/lib/component-only.js` (`noCorpus === true` am Lemma und Nennung in `etymology[].lemmaRef` eines anderen Lemmas), im Wörterbuch die Kurzmarke „nur als Wortbestandteil“ mit dem vollen Satz als Tooltip, auf der Lemmaseite der volle Satz unter dem Titelblock, dazu Hilfetext und `component-only.spec.js`. Gemergt wird erst nach A1, weil `noCorpus` im Authority-Index 1.9.17 noch nicht steht.
+
+### Was über den Einzelfall hinausgilt
+
+**Die Ableitung brauchte ein Indexfeld, und das hat die erste Messung entschieden, nicht das Raten.** Die Bestandteilsverweise standen längst im Authority-Index (`etymology[].lemmaRef`, nur `seg type="component"`), die Belegzahl nicht; sie steht nur im 40-MB-Corpus-Index, den die Lemmaseite lädt und das Wörterbuch nicht laden darf. Gemessen am Index 1.9.17 / 4.2.24: 1.285 Einträge ohne Beleg, davon 273 als Bestandteil genannt, *Mur* dabei. Beide Zahlen aus #228 reproduzierten. Spur A baut `noCorpus: true` in den ersten Bump.
+
+**Eine Spec, die ein noch nicht gebautes Feld braucht, mockt den Index.** `component-only.spec.js` ersetzt `authority-index.json.gz` per Route durch eine Kopie mit `noCorpus` an drei Fällen: *Mur* (Hinweis), ein ungenanntes Lemma (keiner), *ouwe* (genannt, aber belegt: keiner). Sie läuft damit vor A1; der dritte Test bindet die Sichtbarkeit an das Feld im echten Index und kippt nach A1 nur, wenn *Mur* es nicht bekommt, dann wäre der A1-Build der Befund.
+
+**Die Kennzeichnung sagt nichts über die Zerlegung.** Das war KZWs Bedingung, und die Spec prüft es am Wortlaut (kein „geprüft“, „bestätigt“, „korrekt“, „richtig“). Dass Murstetten überhaupt auf den Fluss zurückgeht, ist offen (C3).
+
+### Rote Zeilen
+
+Eine, Nr. 95: einen Reviewerbefund mit derselben fehlerhaften Messung „bestätigt“, mit der er selbst entstanden war.
+
+### Was zurück an Christian geht
+
+Nichts aus B1. Offen für die Hilfe: `hilfe-korpussuche.html` Z. 445 f. nennt für Registereinträge nur Lemma und Wortart-Kürzel; die Marke steht stattdessen in `hilfe-daten.html`. Ein Halbsatz dort wäre nach A1 stimmiger, ist aber nicht blockierend.
+
 ## 2026-10-01: Sechs PRs, und die CI ist um ein Viertel schneller, nicht um die Hälfte
 
 Gemergt: #508 (#485, Lindas Beschreibung der Figurenbezeichnungen), #509 (#459, sieben WZB-Tokens auf *lende*, Index 4.2.24 / 1.9.17), #510 (#495, Gattungen im TEI-Kopf gegen `works.xml`, neues Gate `check-header-genres.py`), #511 und #512 (Laufzeit), #513 (#485, Beispielformen *Paris* / *der künic* nach Lindas Freigabe). #459 geschlossen.
