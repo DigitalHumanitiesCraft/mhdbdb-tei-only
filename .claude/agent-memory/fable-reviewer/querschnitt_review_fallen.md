@@ -30,6 +30,7 @@ Stand 28.09.2026.
 - Vorher-Zahlen von der Live-Seite gehoeren zum dort aufgeloesten Lemma (Homograph `arm`: lemma_285 Adj., lemma_286 Koerperteil).
 - Personennamen gegen contributors.xml (Alan van Beek = contrib_007).
 - Scope-Fragen (z.B. Pruefseiten unter ingest/) vor dem Zaehlen klaeren.
+- **„Ich habe selbst nachgemessen" im Auftrag ist eine Wiederholung meiner Methode, keine Gegenprobe** (02.10.2026, #228 Runde 2): der Aufrufer bestaetigte meinen Nullbefund zu `.flex-shrink-0` mit derselben `\{`-Regex, und beide waren falsch (gruppierter Selektor). Einen eigenen Vorrundenbefund in Runde 2 mit einer ANDEREN Messung pruefen (Kontextausgabe statt Zaehlung), bevor die Korrektur als „haelt" gilt.
 
 **Fehlerjournal**
 - `claude-code-setup/hooks/lehren-zaehlen.py` parst dieses Journal nicht (Format `### N. Rot:`): Ketten von Hand ueber den Absatz „Die Lehre, die nicht gegriffen hat"; Ordinalzahlen gegen Vorgaenger lesen.

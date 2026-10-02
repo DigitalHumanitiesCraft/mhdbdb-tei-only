@@ -19,4 +19,5 @@ Verdichtet am 28.09.2026. Zahlen hier sind Eingabe, keine Messung.
 - [find-mentions #476](projekt_find_mentions_476.md): Probe ohne Netz, disjunkte Kandidatentitel, Exit-Pfade
 - [Begriffshilfe #498](projekt_begriffshilfe_498.md): Korpusdurchgang cachen, Belege unter Begriff vs. gesamt, Kontrollwerte Aufmerksamkeit, Freshness-Gate und `--out`-Gegenprobe, Nummernkopplung DEVELOPMENT/Workflow
 - [WZB @corresp #370](projekt_370_corresp.md): C1 (ANLEGEN bei vorhandenem Typ, Tokenzahl 31.08. vs. heute, Stichprobenseed) und A2-Einspielung (Messrezept alt/neu, Nachbarn ohne Gate: projectDesc-Quoten, variantCandidates-Zahlen)
+- [Wortbestandteile #228](projekt_wortbestandteile_228.md): lemma_N beidseitig, 1.285/273, Mur-Nenner, noCorpus erst 1.9.18, Frontend-Anfuehrungszeichen 0, Laufplan bewegt sich nach Abzweig (Ae1-Pflicht)
 - [Pferde #193](projekt_pferde_193.md): zwei Vers-Einheiten (Zitatnummern 335 vs. Ziele 336 seit 3695.2), Pz. 340,29 Ein-Pferd-Doppel, Altzahlen in ingest/README und mapping.py, hilfe-Kopie, Zenodo-API
