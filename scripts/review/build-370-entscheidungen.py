@@ -91,7 +91,12 @@ def lade_vorhandene_typen():
     typen = {}
     for _, el in etree.iterparse(str(ROOT / 'authority-files' / 'variants.xml'),
                                  events=('end',), tag=TEI + 'entry'):
-        lem = (el.get('corresp') or '').split('#')[-1].split()[0]
+        corresp = el.get('corresp') or ''
+        teile = corresp.split()
+        if len(teile) != 1 or teile[0].count('#') != 1 or not teile[0].split('#')[1]:
+            raise SystemExit('mehrwertiger oder fehlender corresp an einem variants-Eintrag, '
+                             'Schluessel waere mehrdeutig: %r' % corresp)
+        lem = teile[0].split('#')[1]
         for f in el.iterfind(TEI + 'form'):
             if f.text:
                 typen.setdefault((unicodedata.normalize('NFC', f.text).lower(), lem), f.get(XMLID))
