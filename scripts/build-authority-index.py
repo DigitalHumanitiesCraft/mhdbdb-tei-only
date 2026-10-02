@@ -818,14 +818,17 @@ def parse_names():
     return names
 
 
-def parse_variants():
-    """Parse variants.xml to extract orthographic variants."""
+def parse_variants(known_lemma_ids):
+    """Parse variants.xml to extract orthographic variants.
+
+    known_lemma_ids: IDs der Lemmata aus lexicon.xml (siehe Kandidatenauswahl unten).
+    """
     print("🔤 Parsing variants.xml...")
     variants_file = AUTHORITY_DIR / 'variants.xml'
 
     if not variants_file.exists():
         print(f"⚠️  Warning: {variants_file} not found, skipping")
-        return {}
+        return {}, {}
 
     tree = etree.parse(str(variants_file))
     ns = get_namespaces(tree)
@@ -878,10 +881,17 @@ def parse_variants():
     # nach den Korpus-Tokens DIESER Form unter dem Lemma, nicht nach der
     # Gesamthaeufigkeit des Lemmas. sorted() ist stabil: bei Gleichstand
     # gewinnt die Dokumentordnung (die kleinere Lemmanummer).
+    #
+    # Kandidaten ohne Eintrag in lexicon.xml (hängende Verweise, #115) scheiden
+    # aus, solange die Form ein bekanntes Lemma hat: ein solcher Kandidat liesse
+    # sich weder anzeigen noch verlinken und wuerde sonst, mit vielen Tokens,
+    # vor das echte Lemma rutschen (halap, chana). Hat die Form nur unbekannte
+    # Lemmata, bleibt es bei der Rangfolge unter ihnen.
     variants = {}      # normalized_variant -> erster Kandidat (Abwaertskompatibilitaet)
     candidates = {}    # normalized_variant -> [lemma_id, ...], nur bei mehr als einem
     for normalized_variant, per_lemma in counts.items():
-        ranked = sorted(per_lemma, key=lambda lid: -per_lemma[lid])
+        pool = [lid for lid in per_lemma if lid in known_lemma_ids] or list(per_lemma)
+        ranked = sorted(pool, key=lambda lid: -per_lemma[lid])
         variants[normalized_variant] = ranked[0]
         if len(ranked) > 1:
             candidates[normalized_variant] = ranked
@@ -1000,7 +1010,7 @@ def build_index():
     concepts = parse_concepts()
     genres = parse_genres()
     names = parse_names()
-    variants, variant_candidates = parse_variants()
+    variants, variant_candidates = parse_variants({lemma['id'] for lemma in lemmata})
 
     # noCorpus nur dort, wo es zutrifft; sonst fehlt das Feld (Indexgroesse)
     corpus_lemma_ids = load_corpus_lemma_ids()
