@@ -228,7 +228,7 @@ class WoerterbuchPage {
                 const tag = document.createElement('span');
                 tag.textContent = COMPONENT_ONLY_SHORT;
                 tag.title = COMPONENT_ONLY_NOTE;
-                tag.className = 'text-xs text-slate-400 italic flex-shrink-0';
+                tag.className = 'text-xs text-slate-400 italic shrink-0';
                 tag.dataset.componentOnly = '';
                 if (!row.querySelector('[data-lemma-number]')) tag.classList.add('ml-auto');
                 row.appendChild(tag);
