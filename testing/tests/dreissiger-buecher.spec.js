@@ -89,6 +89,25 @@ test.describe('Dreißiger und Bücher (#358)', () => {
         expect(books[0].before).toBe(2);
     });
 
+    test('Buch am Anfang eines Dreißigers steht ÜBER "Strophe N", genau einmal', async ({ page }) => {
+        const r = await page.evaluate(async () => {
+            const { TEITextReader } = await import('/assets/js/rendering/tei-text-reader.js');
+            const ns = 'http://www.tei-c.org/ns/1.0';
+            const xml = `<TEI xmlns="${ns}"><text><body><div type="chapter" subtype="dreissiger" n="5"><milestone unit="book" n="III"/><l n="1">a</l><l n="2">b</l></div></body></text></TEI>`;
+            const doc = new DOMParser().parseFromString(xml, 'text/xml');
+            const { html } = new TEITextReader(null, null, null).extractAndFormatBody(doc, null, []);
+            const host = document.createElement('div');
+            host.innerHTML = html;
+            const div = host.querySelector('.tei-div');
+            return {
+                order: [...div.children].filter(c => /^H[23]$/.test(c.tagName)).map(c => `${c.tagName}:${c.textContent.trim()}`),
+                bookCount: host.querySelectorAll('.book-heading').length,
+            };
+        });
+        expect(r.order).toEqual(['H2:Buch III', 'H3:Strophe 5']);
+        expect(r.bookCount).toBe(1);
+    });
+
     test('milestone ohne n oder mit anderer unit erzeugt keine Überschrift', async ({ page }) => {
         const n = await page.evaluate(async () => {
             const { TEITextReader } = await import('/assets/js/rendering/tei-text-reader.js');

@@ -220,6 +220,7 @@ Completeness against `testing/tests/` is gated by `scripts/audit/check-doc-inven
 | `tei-caching.spec.js` | Main site | IndexedDB TEI cache behavior |
 | `error-handling.spec.js` | Main site | Graceful error handling |
 | `woerterbuch.spec.js` | Main site | A–Z register over the authority index, pagination, deep links (#117) |
+| `dreissiger-buecher.spec.js` | Main site | Reading view labels thirty-verse sections ("Strophe N") and Parzival book milestones ("Buch N"); fragment tests plus real PZ once the TEI carries the encoding (#358) |
 | `lemma-id-search.spec.js` | Main site, Playground | Lemma number as input (#467): `4086` and `lemma_4086` resolve to that id in the corpus search and the multi-lemma search, the lemma is shown (also without hits), an unknown number resolves to nothing |
 | `lemma-page.spec.js` | Lemma pages | URL parsing, data rendering, external links |
 | `comment-attribution.spec.js` | Lemma pages, Playground | Author of a curated statement: every `commentResp`, `definitionResp` and `origin.resp` in the authority index carries its resolved name, and both the lemma page and the playground's Lemma Explorer label the statement "Kommentar von", "Definition von" or "Herkunftserklärung von <name>"; a lemma without a comment shows no such label (#270) |
