@@ -151,6 +151,25 @@ test.describe('Dreißiger und Bücher (#358)', () => {
                 strophe: chapters.filter(d => /^Strophe \d+$/.test(label(d))).length,
                 kapitel: chapters.filter(d => /^Kapitel/.test(label(d))).length,
                 books: [...host.querySelectorAll('.book-heading')].map(b => b.textContent.trim()),
+                // Ort und Reihenfolge: je Buch die Nummer und der Kern (data-core) des
+                // ersten Verses, der im Text auf den milestone folgt, aus dem TEI
+                // und aus dem gerenderten DOM; beide Listen müssen gleich sein.
+                expected: milestones.map(m => {
+                    const l = doc.evaluate('following::tei:l[1]', m, p => (p === 'tei' ? ns : null),
+                        XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+                    const wid = l.getElementsByTagNameNS(ns, 'w')[0].getAttribute('xml:id');
+                    return `${m.getAttribute('n')}>${wid.split('_')[1]}`;
+                }),
+                actual: (() => {
+                    const out = [];
+                    const seq = [...host.querySelectorAll('.book-heading, .verse-line')];
+                    seq.forEach((el, i) => {
+                        if (!el.classList.contains('book-heading')) return;
+                        const next = seq.slice(i + 1).find(e => e.classList.contains('verse-line'));
+                        out.push(`${el.dataset.book}>${next ? next.getAttribute('data-core') : 'keiner'}`);
+                    });
+                    return out;
+                })(),
             };
         });
         expect(info.milestones).toBe(16);
@@ -161,5 +180,7 @@ test.describe('Dreißiger und Bücher (#358)', () => {
         // 16 Überschriften, je genau einmal (Hoist ohne Doppelung), in Buchreihenfolge
         expect(info.books).toHaveLength(16);
         expect(new Set(info.books).size).toBe(16);
+        // jede Überschrift steht unmittelbar vor dem ersten Vers ihres Buchs, in TEI-Reihenfolge
+        expect(info.actual).toEqual(info.expected);
     });
 });
