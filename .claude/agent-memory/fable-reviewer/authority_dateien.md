@@ -15,7 +15,6 @@ Stand 28.09.2026.
 - `totalAuthorityFiles = 7` (ui-helpers.js) zaehlt Index-Sammlungen, nicht Dateien.
 - Schema steht an vier Orten: DATA-MODEL.md (Schema-Block, XPath-Referenz), TEI-MODEL-AUTH-FILES.md („Index mapping"), CONTRACTS.md §G.3 (normativ). Neues Feld: alle vier greppen.
 - api/: `api/lemmata` hat nur index.json; `api/concepts/concept_N.json` ohne Lemmalisten.
-- Fremdindizes: naming `source.license`, horses `source.licence`.
 
 **contributors.xml:** build-authority-index liest sie nur in `load_contributor_names()` (direktes Kind persName/orgName je xml:id); `<note>` wird nicht gelesen, `resp_name` endet mit SystemExit bei fremdem Praefix, unbekannter oder leerer ID. contrib_052 traegt eine dritte Kopie der Naming-Zitation (siehe naming_420).
 
