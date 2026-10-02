@@ -970,3 +970,19 @@ Eine, Eintrag 100: `cd` und zweimal ein Heredoc in Shell-Befehlen. Der Hook hat 
 
 - Die 29 Fälle der Prüfseite (KZW oder wen sie benennt), darunter die cs-Randglossen (6 Paare) und die gemischten Paare `wirft`, `lose`, `weiden`, `pilgereimen`.
 - Offen für die Koordination: ob Spur A die 25 VERKNUEPFEN-Paare wie Punkt 1 behandelt.
+
+## 2026-10-02 – #358: die 16 Buchgrenzen des Parzival (Spur C)
+
+Die Bücher fehlten im TEI komplett (Alan, #358); KZW hat am 11.09. die Benennung „Buch I" usw. entschieden. `ingest/parzival-buecher/grenzen.csv` bildet die 16 Buchanfänge nach Lachmann auf die erste Wort-ID in `PZ.tei.xml` ab: I 1,1; II 58,27; III 116,5; IV 179,13; V 224,1; VI 280,1; VII 338,1; VIII 398,1; IX 433,1; X 503,1; XI 553,1; XII 583,1; XIII 627,1; XIV 679,1; XV 734,1; XVI 787,1. Quellen: Bartsch (Deutsche Classiker des Mittelalters 9-11, 1875-77) und Martin (Kommentar, 1903), beide als OCR-Volltext von archive.org gelesen, nicht am Scan.
+
+### Was über den Einzelfall hinausgilt
+
+**Die Bücher II bis IV beginnen mitten im Dreißiger, die anderen 13 an einem Dreißigeranfang**, und die Zählung der Dreißiger in den Wort-IDs trägt die Abbildung ohne Umweg. **Zwei Stellen waren aus dem Gedächtnis oder dem Eindruck falsch:** XIII beginnt bei 627,1, nicht bei 643,1 (Bartsch und Martin einig), und VIII bei 398,1, nicht bei 399,1. Die zweite hat erst die Gegenprobe des Reviewers gefunden. **Ein Skript, das die Anfangswörter gegen die Datei prüft, aus der sie stammen, prüft nur die Wort-ID-Abbildung**, nicht die Grenze; die Quellenspalte sagt es jetzt.
+
+### Rote Zeilen
+
+Eine, Eintrag 101: VIII am Erzählerton statt am ersten Vers der Quelle festgemacht.
+
+### Was zurück an Christian geht
+
+Nichts aus diesem Paket. Spur A3 setzt die Milestones aus der gemergten Datei.
