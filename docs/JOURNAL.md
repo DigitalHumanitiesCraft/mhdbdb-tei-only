@@ -4,6 +4,28 @@ Chronological log of development decisions, dead ends, and savepoints. Not a cha
 
 ---
 
+## 2026-10-02: #370 Punkt 2 eingespielt, Authority-Index 1.9.19 (Spur A2 des Laufs vom 02.10.)
+
+Die in C1 entschiedenen WZB-Paare sind in `tei/WZB.tei.xml` eingespielt: 486 Paare (461 ANLEGEN, 25 VERKNUEPFEN), 4.794 Tokens. Die 461 ANLEGEN-Paare tragen 4.765 Tokens und haben neue Typen `type_372393` bis `type_372853` bekommen; die 25 VERKNUEPFEN-Paare tragen 29 Tokens auf bestehenden Typen. Nicht angefasst: PRUEFSEITE (29 Paare, 338 Tokens) und NICHT_ANLEGEN (43 Paare, 260 Tokens). Einspielskript `scripts/ingest/wzb/wzb-corresp-punkt2.py` mit Batch-Prüfung vor dem Schreiben, Provenienz je Token in `ingest/wzb/370-corresp/punkt2-zuordnung.csv`.
+
+### Was über den Einzelfall hinausgilt
+
+**Die Ratsche stimmt, die zwei Zahlen waren zwei Mengen.** 5.273 ist die CSV-Zählung der Hauptliste (4.675 ANLEGEN + 598 PRUEFSEITE/NICHT_ANLEGEN), 5.392 der Stand der WZB: 5.273 + 10 Tokens, die seit der CSV-Zählung in 8 bereits entschiedenen Paaren dazukamen (`ŏ`-Schreibungen, `et`, u. a.), + 109 aus dem Nachtrag. Entschieden wird je Paar, deshalb gehen alle heutigen Tokens eines entschiedenen Paars mit. Baseline neu 600 (WZB 598, EKL 2).
+
+**Korpus-Index byte-identisch, Authority-Index nicht.** `build-corpus-index.py` liest `@corresp` nur am `msIdentifier`, nie am `<w>`; auch nach der Änderung der projectDesc-Quoten bleibt `data/corpus-index.json.gz` unverändert (Kommando: Build auf sauberem Baum, danach `git status --short` leer). Der Authority-Index trägt dagegen 302 neue Formen (233.962 auf 234.264) und 12 neue Kandidatenlisten (4.961 auf 4.973), also 1.9.19.
+
+**Zehn Zuordnungen schlagen um, und das ist Vorschrift B, kein Umhängen.** Je ein neu geprägter Typ hebt die Tokenzahl einer Form unter dem neuen Lemma über die des bisherigen Spitzenreiters (boeze, geheisse, gepflaget, kochen, reisse, steigen, tir, vassen, verrens, weicz). Kein bestehender Typ wurde umgehängt (`extract-variants`: lemma assignment changed 0, form text changed 0). Quittung im Flip-Gate für 1.9.18 auf 1.9.19, genau 10; die Tabelle mit Tokens je Kandidat steht im PR.
+
+**Was ein Gate nicht deckt, deckt auch eine Gegenzählung nicht.** Der Fable-Reviewer fand drei Nachbarzahlen, die der Lifecycle nicht gatet: die Kandidatenlisten- und Mehrfachzahlen in CONTRACTS und DATA-MODEL (4.961/4.979 auf 4.973/4.991), die Mengenangabe in der Zeile darunter, und die `@corresp`-Quote in der projectDesc der WZB (91,8 % auf 95,0 % der 149.165 `<w>`, 96,2 % auf 99,6 % der 142.360 lemmatisierten). Alle vor dem Push behoben; die Quote ist die Folge der eigentlichen Änderung und stand im Diff nicht.
+
+### Rote Zeilen
+
+Keine.
+
+### Was zurück an Christian geht
+
+Die 10 Umklappungen (Tabelle im PR) zur Abnahme durch KZW; `tir` und `kochen` sind die Grenzfälle. Offen bleiben die 29 PRUEFSEITE-Paare auf der Prüfseite.
+
 ## 2026-10-02: #378 gebaut, Authority-Index 1.9.18 (Spur A1 des Laufs vom 02.10.)
 
 ADR-021 ist umgesetzt: Eine mehrdeutige normalisierte Schreibform liefert in Stufe 2 alle Kandidaten, geordnet nach Vorschrift B (Korpus-Tokens dieser Form unter dem Lemma), statt first-wins. Dazu das Gate gegen kippende Zuordnungen und, für Spur B (#228), das Feld `lemma.noCorpus`. Gemessen und gebaut wie folgt.
