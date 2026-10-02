@@ -37,14 +37,16 @@ sechs Verse als zweifelhaft, die keine waren.
     shifted     im Umkreis verschoben, Wortlaut belegt die Identitaet
                 (Pz. 339,24 bis 339,28 stehen bei uns zwei Verse tiefer)
     distant     ausserhalb des Umkreises, aber eindeutig gefunden
-                (Pz. 604,18 steht unter 603,18; Er. 4118 ist 4718)
+                (Pz. 604,18 steht unter 603,18; bis Quelle 3695.2 auch
+                Er. 4118, das 4718 ist)
     unresolved  kein Treffer, der die Schwelle und den Abstand haelt
 
-Gezaehlt wird je BELEG, in Bericht wie Index: 346 Stellenangaben, nicht 336
-Verse. Unter Pz. 340,29 stehen naemlich zwei verschiedene Verse, ein Reimpaar,
+Gezaehlt wird je BELEG, in Bericht wie Index: 346 Stellenangaben, nicht 335
+Versnummern. Unter Pz. 340,29 stehen naemlich zwei verschiedene Verse, ein Reimpaar,
 und wer je Versnummer bewertet, gibt beiden dasselbe Ziel.
 
 Gemessen am 08.08.2026: 337 exact, 6 shifted, 3 distant, 0 unresolved.
+Gemessen am 02.10.2026 mit Quelle 3695.2: 338 exact, 6 shifted, 2 distant.
 """
 import difflib
 import re

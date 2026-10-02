@@ -756,6 +756,14 @@ Parse order: ?id > #hash > path segment (first match wins)
 
 **ID mapping:** `numericId` → `lemma_{numericId}` (internal key) = Wikidata P9351 value = Worterbuchnetz `lid`
 
+### D.6 Curated Dataset Route: `playground/#horses` (#193)
+
+**Contract:** `https://dhcraft.org/mhdbdb-tei-only/playground/#horses` MUST open the Arthurian horses view. The route key `horses` in `playground/js/ui/core/router.js` is not renamed, and the module is not removed without a redirect from this address.
+
+**Why:** Luise Borek asked for a persistent address to name in her TUdatalib record (hdl:tudatalib/3695.2) as the place where her dataset is used. Decided by chsteiner on 2026-10-02 in #193: the route is promised as stable, and the Zenodo concept DOI (10.5281/zenodo.20627656) is named alongside it as the persistent identifier, in case the domain ever changes. As of 2026-10-02 the only Zenodo version is v1.0.0 of 2026-06-10, which predates the horses index (added 2026-08-08); the DOI covers the horses data only from the next release on.
+
+**Scope:** only the bare route. Parameters after it (horse selection, event filter) are view state and carry no promise; the selection is not in the URL today. The beta badge describes the curation state and does not weaken the address. No other playground route is covered by this contract.
+
 ---
 
 ## E. Cache Invalidation

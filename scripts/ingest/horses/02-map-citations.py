@@ -2,8 +2,8 @@
 """#193 Baustein 3, Vorpruefung: treffen Boreks Belegstellen unsere Verse?
 
 Das ist die Frage, an der das ganze Feature haengt, und sie war vor jeder
-UI-Entscheidung zu beantworten. `arthurianHorses.xml` (TUdatalib 3695, CC0)
-traegt 346 Stellenangaben aus fuenf Werken, verteilt auf 336 Verse. Alle
+UI-Entscheidung zu beantworten. `arthurianHorses.xml` (TUdatalib 3695.2, CC0)
+traegt 346 Stellenangaben aus fuenf Werken, unter 335 Versnummern. Alle
 fuenf Werke liegen im Korpus.
 
 Dieses Skript berichtet, es baut nichts. Die Aufloesungslogik steht in
@@ -11,12 +11,17 @@ Dieses Skript berichtet, es baut nichts. Die Aufloesungslogik steht in
 Bericht und Index nicht auseinanderlaufen. Warum der Wortlaut und nicht die
 Verszahl entscheidet, steht dort im Kopf.
 
-Gezaehlt wird je BELEG, genau wie im Index: 346 Stellenangaben, nicht 336
-Verse. Das ist keine Kosmetik. Unter Pz. 340,29 stehen zwei verschiedene
+Gezaehlt wird je BELEG, genau wie im Index: 346 Stellenangaben, nicht 335
+Versnummern. Das ist keine Kosmetik. Unter Pz. 340,29 stehen zwei verschiedene
 Verse, ein Reimpaar, und wer je Versnummer bewertet, gibt beiden dasselbe
 Ziel und schickt den zweiten Link auf den falschen Vers.
 
 Ergebnis vom 08.08.2026: 337 exact, 6 shifted, 3 distant, 0 unresolved.
+Ergebnis vom 02.10.2026 mit Version 2 der Quelle (hdl:tudatalib/3695.2):
+338 exact, 6 shifted, 2 distant, 0 unresolved, unter 335 Versnummern. Er.
+4118 heisst dort 4718 und trifft exakt; damit sind es 335 statt 336
+Versnummern, weil Er. 4718 schon fuer ein anderes Pferd zitiert war. Als
+Korpusverse (`target`) sind es vorher wie nachher 336.
 
 Usage:
     python scripts/ingest/horses/02-map-citations.py           # Bericht
@@ -38,7 +43,7 @@ import mapping  # noqa: E402
 
 HERE = Path(__file__).resolve().parent
 QUELLE = ('https://tudatalib.ulb.tu-darmstadt.de/server/api/core/bitstreams/'
-          'a64fd7c9-9c58-4446-97bd-885577f2b85c/content')   # hdl:tudatalib/3695
+          '6bdbeea1-daf2-4f8c-b409-a1e1712454d5/content')   # hdl:tudatalib/3695.2
 
 
 def main():
