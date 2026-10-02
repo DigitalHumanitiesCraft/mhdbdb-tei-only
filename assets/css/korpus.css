@@ -432,6 +432,18 @@
   color: var(--accent-primary);
 }
 
+/* Buchgrenze im Parzival (#358): "Buch II" als <milestone unit="book">. Bei 827
+   Strophen und 16 Büchern muss das Buch gegen die Strophen-Überschrift erkennbar
+   sein: größer, mit Trennlinie, mehr Luft davor. Steht als Kind eines div,
+   auch mitten in einem Dreißiger. */
+.reading-body .section-head.book-heading {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-top: var(--space-8);
+  padding-bottom: var(--space-2);
+  border-bottom: 2px solid var(--accent-primary);
+}
+
 .reading-body .verse-group {
   margin: var(--space-4) 0;
 }

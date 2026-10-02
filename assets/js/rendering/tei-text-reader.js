@@ -615,7 +615,15 @@ class TEITextReader {
                         'number': 'Nr.', 'section': 'Abschnitt',
                         'colophon': 'Kolophon', 'parallel': 'Parallelüberlieferung'
                     };
-                    const label = divLabels[divType];
+                    // #358: Ein Dreißiger (PZ, WH) trägt subtype="dreissiger" am
+                    // chapter-div und heißt "Strophe", nicht "Kapitel" (KZW
+                    // 11.09.2026, Vorschlag Alan). Nur die Beschriftung ändert
+                    // sich: type bleibt chapter, damit divRestartsNumbering,
+                    // die Deep-Links über verseId und alles andere an chapter
+                    // unverändert greifen.
+                    const label = divType === 'chapter' && el.getAttribute('subtype') === 'dreissiger'
+                        ? 'Strophe'
+                        : divLabels[divType];
                     // Trägt das div eine eigene Überschrift, wird das synthetische
                     // Label ihr übergeordnet (kleiner, direkt darüber) statt als
                     // gleichrangige zweite Überschrift daneben (#250, #236).
@@ -758,6 +766,12 @@ class TEITextReader {
                     const msN = el.getAttribute('n') || '';
                     if (unit === 'verse' && msN) {
                         return `<span class="verse-marker" title="Vers ${this.escapeHtml(msN)}">${this.escapeHtml(msN)}</span>`;
+                    }
+                    // #358: Buchgrenze (Parzival), "Buch II" an der Stelle des
+                    // milestone. Block-Überschrift; der milestone steht als Kind
+                    // eines div, nie in einem p (dort würde das h2 das p schließen).
+                    if (unit === 'book' && msN) {
+                        return `<h2 class="section-head book-heading" data-book="${this.escapeHtml(msN)}">Buch ${this.escapeHtml(msN)}</h2>`;
                     }
                     return '';
                 }
