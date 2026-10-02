@@ -244,10 +244,16 @@ n_anl = sum(len(z[3]) for z in zuordnung if z[2] == "ANLEGEN")
 n_ver = sum(len(z[3]) for z in zuordnung if z[2] == "VERKNUEPFEN")
 p_anl = sum(1 for z in zuordnung if z[2] == "ANLEGEN")
 p_ver = sum(1 for z in zuordnung if z[2] == "VERKNUEPFEN")
+
+def punkt(n):
+    """Tausenderpunkt wie die uebrigen change-Eintraege der WZB."""
+    return f"{n:,}".replace(",", ".")
+
+
 eintrag = (
-    f'    <change when="2026-10-02" who="#editor">#370 Punkt 2: {ersetzt:,} lemmatisierte '
+    f'    <change when="2026-10-02" who="#editor">#370 Punkt 2: {punkt(ersetzt)} lemmatisierte '
     f"Tokens ohne @corresp mit einem Variantentyp verknuepft, nach den Entscheidungen "
-    f"aus C1 (ingest/wzb/370-corresp/): {n_anl:,} Tokens in {p_anl} Paaren auf "
+    f"aus C1 (ingest/wzb/370-corresp/): {punkt(n_anl)} Tokens in {p_anl} Paaren auf "
     f"{p_anl} neu gepraegten Typen type_{hoechste + 1} bis type_{naechste - 1} (Regel "
     f"aus #367), {n_ver} Tokens in {p_ver} Paaren auf bestehende Typen. Nicht "
     f"eingespielt: PRUEFSEITE und NICHT_ANLEGEN.</change>\r\n"
