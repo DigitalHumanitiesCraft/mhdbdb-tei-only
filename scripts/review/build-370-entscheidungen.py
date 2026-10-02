@@ -26,7 +26,7 @@ Festlegungen der Koordination vom 02.10.2026, die hier gelten:
 
 Jedes Paar, das nicht in den Urteilen steht, wird so behandelt: gibt es unter dem
 Lemma schon einen Typ mit derselben Schreibung (variants.xml), bekommt es
-NICHT_ANLEGEN ("Typ existiert, nur verknuepfen", ein Punkt-1-Fall). Sonst bekommt
+VERKNUEPFEN ("Typ existiert, nur @corresp setzen", ein Punkt-1-Fall). Sonst bekommt
 es ANLEGEN mit einer aus der Evidenz zusammengesetzten Begruendung, die den
 Kontext nennt. Das ist beim Nachtrag KEINE Lesung jedes Falls: dort steht nur,
 was die Evidenz hergibt, und die Kontexte wurden einmal durchgesehen.
@@ -65,7 +65,7 @@ QUELLEN = {
     'LEXER:gehaere': 'Lexer Bd. 1, Sp. 784, ge-hære stn. (Sammelbildung zu hâr): https://woerterbuchnetz.de/?sigle=Lexer&lemid=G01036',
     'LEXER:enphinden': 'Lexer Bd. 1, Sp. 564, enphinden stv.: https://woerterbuchnetz.de/?sigle=Lexer&lemid=E01066',
 }
-WERTE = ('ANLEGEN', 'NICHT_ANLEGEN', 'PRUEFSEITE')
+WERTE = ('ANLEGEN', 'NICHT_ANLEGEN', 'PRUEFSEITE', 'VERKNUEPFEN')
 STICHPROBE = 30
 SEED = 20261002
 ABC = 'lemma_2'
@@ -236,7 +236,7 @@ def main():
         elif k in vorhanden:
             # Der Typ gibt es schon: kein neuer Typ, die Tokens sind nur zu verknüpfen (Punkt 1)
             bl = e['belege']
-            ent = 'NICHT_ANLEGEN'
+            ent = 'VERKNUEPFEN'
             beg = ("Der Typ existiert schon: {} unter {} (variants.xml). Kein neuer Typ; die Tokens ohne @corresp "
                    "sind mit diesem Typ zu verknüpfen (Punkt 1). Kontext: '{}' ({}).").format(
                        vorhanden[k], lemma_label(e['lemma_info'], e['lemma']),
@@ -262,12 +262,12 @@ def main():
     n = len(zeilen)
     t = sum(z[2] for z in zeilen)
     txt = ['Entscheidungen #370 Punkt 2{}, {} Paare, {} Tokens'.format(' (Nachtrag)' if args.nachtrag else '', n, t)]
-    for art in ('ANLEGEN', 'NICHT_ANLEGEN', 'PRUEFSEITE'):
+    for art in ('ANLEGEN', 'VERKNUEPFEN', 'NICHT_ANLEGEN', 'PRUEFSEITE'):
         txt.append('{}: {} von {} Paaren ({:.1f} %), {} von {} Tokens'.format(
             art, zaehl[art], n, 100 * zaehl[art] / n if n else 0, zaehl_tok[art], t))
     txt.append('davon von Hand begründet: {} von {} Paaren, mit Kontext aus der Evidenz zusammengesetzt: {}'.format(
         handarbeit, n, n - handarbeit))
-    txt.append('davon NICHT_ANLEGEN, weil der Typ schon existiert (nur zu verknüpfen): {} von {} Paaren, {} Tokens'.format(
+    txt.append('VERKNUEPFEN, weil der Typ unter dem Lemma schon existiert: {} von {} Paaren, {} Tokens'.format(
         len(nur_verknuepfen), n, sum(ev[k]['tokens'] for k in nur_verknuepfen)))
     belegt = sum(len(e['belege']) for e in evidenz)
     txt.append('Tokens ohne @corresp bei diesen Paaren am heutigen Korpusstand: {} (Spalte tokens: {}; '

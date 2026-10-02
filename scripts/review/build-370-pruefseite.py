@@ -163,7 +163,7 @@ def tabelle(zeilen):
     for z in zeilen:
         gruppiert.setdefault(z['entscheidung'].split(':')[0], []).append(z)
     teile = []
-    for art in ('ANLEGEN', 'NICHT_ANLEGEN', 'PRUEFSEITE'):
+    for art in ('ANLEGEN', 'VERKNUEPFEN', 'NICHT_ANLEGEN', 'PRUEFSEITE'):
         rows = gruppiert.get(art, [])
         tok = sum(int(z['tokens']) for z in rows)
         koerper = ''.join(
