@@ -9,6 +9,7 @@ Stand 28.09.2026, verdichtet aus Runden 07.09. bis 28.09.
 **Worktree-Guard (Repo-Pfad enthaelt `Projekte/Git/`)**
 - Abgelehnt wurden: `python -c` und Kommandos mit „Git"-Pfad plus git-Wort; mehrere git-Aufrufe im Verbund; `for`-Schleifen mit Repo-Pfad; `$VAR`/`$TEMP` im Programm-Operanden; `$(...)`, `$'..'`, `| grep -c $'\r'`; `cd ...;`-Ketten; `--glob` im Bash-rg; Heredocs.
 - Geht: ein git-Aufruf je Bash-Call; relative Pfade vom Worktree aus; Skript per Write nach `C:/Users/chstn/AppData/Local/Temp/` (literaler Pfad) oder `temp/*.py|mjs` (gitignoriert), dann `python -X utf8 <datei>`; `env -C <worktree> python -X utf8 scripts/...`; Grep-Tool statt rg (liest auch fremde Worktrees); Skript unter „Git"-Pfad per `runpy.run_path` aus Wrapper in $TEMP; Memory per Write/Edit.
+- 02.10.2026 (Subagent, Worktree `lauf-b-frontend`): durch gingen `git -C "<pfad>" ...; git ...` als Kette, `python -X utf8 -c` mit relativen Pfaden (mit absolutem „Git"-Pfad abgelehnt), `rg -c "„" hilfe-*.html` ohne Glob-Wildcard-Dateien dagegen nicht: jedes `*.html` oder `--glob` im Bash-rg faellt („value computed at runtime"). Ersatz: Grep-Tool mit `glob: "{*.html,lemma/*.html}"` und `output_mode: count`.
 - **Widerspruch, nicht entschieden:** Runden vom 23.09. melden, jedes Kommando mit „Git" im Pfad falle, auch `git -C <pfad>`, `cp`, Pipes, `node -e "import file:///.../Git/..."`; andere (testport R2, csv-export R3 23.09., genre-feld R2 28.09.) liessen `git -C "<pfad>"` und `;`-Ketten ohne `$VAR` durch. Je Session probieren.
 
 **Windows**

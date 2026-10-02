@@ -220,6 +220,7 @@ Completeness against `testing/tests/` is gated by `scripts/audit/check-doc-inven
 | `tei-caching.spec.js` | Main site | IndexedDB TEI cache behavior |
 | `error-handling.spec.js` | Main site | Graceful error handling |
 | `woerterbuch.spec.js` | Main site | A–Z register over the authority index, pagination, deep links (#117) |
+| `component-only.spec.js` | Main site | Marker and note for component-only lemmata in the dictionary and on the lemma page, against a mocked authority index (#228) |
 | `lemma-id-search.spec.js` | Main site, Playground | Lemma number as input (#467): `4086` and `lemma_4086` resolve to that id in the corpus search and the multi-lemma search, the lemma is shown (also without hits), an unknown number resolves to nothing |
 | `variant-candidates.spec.js` | Main site, Playground, index | Ambiguous written forms (#378, ADR-021): every candidate list in the authority index has two or more known lemmata and `variants` points at the first one, `hab` ranks the verb first, `halap` and `chana` do not point at lemmata without an entry, `noCorpus` only as `true`; the main site returns all candidates and shows the note, the playground returns them with the verb first |
 | `lemma-page.spec.js` | Lemma pages | URL parsing, data rendering, external links |
