@@ -82,6 +82,22 @@ parseLemmaIdInput('04086');                  // 'lemma_4086' (führende Nullen f
 parseLemmaIdInput('minne');                  // null (Schreibform)
 ```
 
+### `component-only.js`
+Regel für reine Wortbestandteile (#228): ein Lemma ohne Korpusbeleg (`noCorpus: true` im Authority-Index), das eine andere Etymologie als Bestandteil nennt. Geteilt von Wörterbuch (Kurzmarke) und Lemma-Seite (voller Hinweis), damit beide dieselbe Menge zeigen. Der Status wird abgeleitet, nicht gespeichert.
+
+**Exports:**
+- `COMPONENT_ONLY_NOTE`, `COMPONENT_ONLY_SHORT`: voller Hinweissatz und Kurzmarke
+- `buildComponentRefSet(lemmata)` → `Set` der Lemma-IDs, die irgendeine Etymologie nennt (Selbstverweis zählt nicht)
+- `isComponentOnly(lemma, refSet)` → `boolean`
+
+**Usage:**
+```javascript
+import { buildComponentRefSet, isComponentOnly } from '../lib/component-only.js';
+
+const refs = buildComponentRefSet(authorityIndex.lemmata);
+isComponentOnly(lemma, refs);   // true nur bei lemma.noCorpus === true und Nennung in einer Etymologie
+```
+
 ### `escape.js`
 HTML- und Attribut-Escaping für Hauptseite und Lemma-Seiten. Escaped auch Anführungszeichen, weil die Werte in Attribut-Kontexte interpoliert werden (`href="..."`) und der frühere textContent-Trick dort einen Attribute-Breakout offenließ (Review zu PR #157). Die Playground-TEI-Module halten nach dokumentierter Konvention eigene Kopien (DESIGN.md, Playground TEI-Analysis Module Pattern).
 
