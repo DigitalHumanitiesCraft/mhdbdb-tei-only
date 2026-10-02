@@ -5,7 +5,10 @@
 
 offene-faelle.csv stammt vom 31.08.2026 (484 Paare, 5.273 Tokens). Seither hat
 der Korpus (#235-Breve-Batch vom 24.09., #387/#418/#464, #459) weitere WZB-Tokens
-mit @lemmaRef und ohne @corresp bekommen. Dieses Skript zaehlt die Paare aus
+mit @lemmaRef und ohne @corresp bekommen. Dieses Skript zaehlt nur neue PAARE:
+Tokens, die zu einem Paar der Arbeitsliste gehoeren, zaehlt es nicht (das
+sind bei den 484 Paaren 10 Tokens mehr als in der Liste, siehe
+collect-370-evidence.py). Es zaehlt die Paare aus
 Schreibung und Lemma, die jetzt ohne @corresp sind und nicht in der Arbeitsliste
 stehen, und schreibt sie im selben Format nach offene-faelle-nachtrag.csv.
 

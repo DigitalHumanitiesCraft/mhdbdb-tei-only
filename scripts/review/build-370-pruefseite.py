@@ -57,7 +57,7 @@ def markup(text):
 
 
 def fundstelle(xml_id):
-    m = re.match(r'WZB_(\w+?)_(\d+)_(\d+)$', xml_id)
+    m = re.match(r'WZB_(\w+?)_(\d+)_(\d+)\w*$', xml_id)
     if not m:
         raise ValueError('unerwartete xml:id ' + xml_id)
     return 'Blatt %s, Zeile %s, Wort %s' % m.groups()
@@ -203,6 +203,8 @@ def main():
         faelle.append(bau_fall(z, urteile.get(k), evidenz[k], g))
     zahl = Counter(f['gruppe'] for f in faelle)
     n = len(zeilen)
+    tokens_liste = sum(int(z['tokens']) for z in zeilen)
+    tokens_heute = sum(len(x['belege']) for x in evidenz.values())
     z_ent = Counter(z['entscheidung'].split(':')[0] for z in zeilen)
 
     punkte = ''.join('<li><a href="#g-%s">%s</a> <span class="anz">%d Fälle</span></li>'
@@ -234,13 +236,16 @@ def main():
             'Das Kommentarfeld hängt an keiner Antwort.',
             '<b>Mein Vorschlag ist keine Entscheidung.</b> Unter jedem Fall steht, woraus er folgt und was '
             'daran unsicher ist. Es gibt keine Schaltfläche, die viele Fälle auf einmal setzt.',
-            'Die drei Antworten sind <b>VARIANTE ANLEGEN</b>, <b>NICHT ANLEGEN</b> und <b>ANDERE ZUORDNUNG</b> '
+            'Die Antworten sind <b>Zustimmung zu meinem Vorschlag</b>, <b>VARIANTE ANLEGEN</b>, '
+            '<b>NICHT ANLEGEN</b> und <b>ANDERE ZUORDNUNG</b> '
             '(dann nennen Sie das Lemma im Kommentar). Gemeint ist immer die ganze Schreibung unter dem Lemma; '
             'bei den gemischten Fällen beschreibt der Kommentar, wie die Belege aufzuteilen sind.',
         ],
         datenstand=[
             ('Korpus', 'tei/WZB.tei.xml, letzte Änderung %s' % korpus_commit()),
-            ('Arbeitsliste', 'ingest/wzb/370-corresp/offene-faelle.csv, %d Paare, Stand 31.08.2026' % n),
+            ('Arbeitsliste', 'ingest/wzb/370-corresp/offene-faelle.csv, %d Paare, Stand 31.08.2026; die Tokenzahlen '
+                             'der Tabelle sind die der Liste (%d), am Korpusstand oben stehen bei denselben Paaren %d Tokens '
+                             'ohne @corresp' % (n, tokens_liste, tokens_heute)),
             ('Belege gesammelt mit', 'scripts/review/collect-370-evidence.py (evidenz.json)'),
             ('Entscheidungen', 'entscheidungen.csv, erzeugt mit scripts/review/build-370-entscheidungen.py'),
             ('Seite erzeugt mit', 'scripts/review/build-370-pruefseite.py am %s' % date.today().strftime('%d.%m.%Y')),

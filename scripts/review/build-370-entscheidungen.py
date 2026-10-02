@@ -24,9 +24,12 @@ Festlegungen der Koordination vom 02.10.2026, die hier gelten:
 - lemma_2 abc wird nicht bearbeitet (KZW, #228, 11.09.): jedes Paar darunter
   bekommt NICHT_ANLEGEN, der Befund steht in abc-befunde.csv.
 
-Jedes Paar, das nicht in den Urteilen steht, hat in den Belegen keinen Anlass
-zu Zweifeln gegeben und bekommt ANLEGEN mit einer aus der Evidenz
-zusammengesetzten Begruendung, die den Kontext nennt, an dem entschieden wurde.
+Jedes Paar, das nicht in den Urteilen steht, wird so behandelt: gibt es unter dem
+Lemma schon einen Typ mit derselben Schreibung (variants.xml), bekommt es
+NICHT_ANLEGEN ("Typ existiert, nur verknuepfen", ein Punkt-1-Fall). Sonst bekommt
+es ANLEGEN mit einer aus der Evidenz zusammengesetzten Begruendung, die den
+Kontext nennt. Das ist beim Nachtrag KEINE Lesung jedes Falls: dort steht nur,
+was die Evidenz hergibt, und die Kontexte wurden einmal durchgesehen.
 
 Defensiv: ein Urteil ohne Paar, ein doppeltes Urteil, ein unbekannter
 Entscheidungswert oder ein Ziellemma, das es im Lexikon nicht gibt, sind harte
@@ -42,6 +45,7 @@ import difflib
 import json
 import random
 import sys
+import unicodedata
 from collections import Counter
 from pathlib import Path
 
@@ -80,6 +84,19 @@ def lemma_ids():
         ids.add(el.get(XMLID))
         el.clear()
     return ids
+
+
+def lade_vorhandene_typen():
+    """(Schreibung NFC klein, Lemma) -> xml:id des Typs in variants.xml."""
+    typen = {}
+    for _, el in etree.iterparse(str(ROOT / 'authority-files' / 'variants.xml'),
+                                 events=('end',), tag=TEI + 'entry'):
+        lem = (el.get('corresp') or '').split('#')[-1].split()[0]
+        for f in el.iterfind(TEI + 'form'):
+            if f.text:
+                typen.setdefault((unicodedata.normalize('NFC', f.text).lower(), lem), f.get(XMLID))
+        el.clear()
+    return typen
 
 
 def graphie_unterschied(a, b):
@@ -188,6 +205,8 @@ def main():
     abc = []
     auto_keys = []
     pruef_keys = []
+    nur_verknuepfen = []
+    vorhanden = lade_vorhandene_typen()
     zaehl = Counter()
     zaehl_tok = Counter()
     handarbeit = 0
@@ -214,6 +233,15 @@ def main():
                 ent = 'PRUEFSEITE'
             if ent == 'PRUEFSEITE':
                 pruef_keys.append(k)
+        elif k in vorhanden:
+            # Der Typ gibt es schon: kein neuer Typ, die Tokens sind nur zu verknüpfen (Punkt 1)
+            bl = e['belege']
+            ent = 'NICHT_ANLEGEN'
+            beg = ("Der Typ existiert schon: {} unter {} (variants.xml). Kein neuer Typ; die Tokens ohne @corresp "
+                   "sind mit diesem Typ zu verknüpfen (Punkt 1). Kontext: '{}' ({}).").format(
+                       vorhanden[k], lemma_label(e['lemma_info'], e['lemma']),
+                       kontext(bl[0]) if bl else '', bl[0]['id'] if bl else '')
+            nur_verknuepfen.append(k)
         else:
             ent, beg = 'ANLEGEN', auto_begruendung(e)
             auto_keys.append(k)
@@ -239,6 +267,11 @@ def main():
             art, zaehl[art], n, 100 * zaehl[art] / n if n else 0, zaehl_tok[art], t))
     txt.append('davon von Hand begründet: {} von {} Paaren, mit Kontext aus der Evidenz zusammengesetzt: {}'.format(
         handarbeit, n, n - handarbeit))
+    txt.append('davon NICHT_ANLEGEN, weil der Typ schon existiert (nur zu verknüpfen): {} von {} Paaren, {} Tokens'.format(
+        len(nur_verknuepfen), n, sum(ev[k]['tokens'] for k in nur_verknuepfen)))
+    belegt = sum(len(e['belege']) for e in evidenz)
+    txt.append('Tokens ohne @corresp bei diesen Paaren am heutigen Korpusstand: {} (Spalte tokens: {}; '
+               'Soll für Spur A ist die heutige Zahl)'.format(belegt, t))
     if abc:
         txt.append('lemma_2 abc: {} Paare (NICHT_ANLEGEN), davon {} mit Zielvorschlag in abc-befunde.csv'.format(
             len(abc), sum(1 for a in abc if a[3])))
