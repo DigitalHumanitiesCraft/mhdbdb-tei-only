@@ -313,8 +313,13 @@ export class LemmaExplorer {
     // in Stufe 1 hätte per Definition dieselbe normalisierte Form wie die
     // Eingabe, brächte also nichts Neues; dass es ihn gibt, meldet die
     // Exakt-Zeile im Kopf ohnehin.
-    const variantenId = this.authorityData.variants?.[eingabeNorm];
-    if (variantenId) {
+    // Mehrere Kandidaten (ADR-021, #378): jeder Kandidat liefert seine
+    // Brückenform, in der Reihenfolge nach Vorschrift B.
+    const kandidaten = this.authorityData.variantCandidates?.[eingabeNorm];
+    const variantenIds = Array.isArray(kandidaten)
+      ? kandidaten
+      : [this.authorityData.variants?.[eingabeNorm]].filter(Boolean);
+    for (const variantenId of variantenIds) {
       const lemma = this.authorityData.lemmata.find((l) => l.id === variantenId);
       const form = lemma ? TextNormalizer.normalizeMHG(lemma.lemma || "") : "";
       // Die Mindestlänge gilt auch für die Brückenform, sonst umgeht ein

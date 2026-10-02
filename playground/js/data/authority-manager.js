@@ -108,6 +108,22 @@ export class AuthorityFilesManager {
     const variantsCount = Object.keys(this.authorityData.variants || {}).length;
 
     if (variantsCount > 0) {
+      // Mehrere Kandidaten (ADR-021, #378): alle, geordnet nach Vorschrift B
+      // (Tokens DIESER Form unter dem Lemma); matches[0]-Konsumenten nehmen
+      // damit den haeufigsten, die uebrigen bleiben erhalten.
+      const candidateIds = this.authorityData.variantCandidates?.[normalizedCharacters];
+      if (Array.isArray(candidateIds)) {
+        const wanted = new Set(candidateIds);
+        const lemmaById = new Map();
+        for (const l of this.authorityData.lemmata) {
+          if (wanted.has(l.id)) lemmaById.set(l.id, l);
+        }
+        const candidates = candidateIds.map(id => lemmaById.get(id)).filter(Boolean);
+        if (candidates.length > 0) {
+          return candidates;
+        }
+      }
+
       // Try normalized lookup in variants dictionary
       const lemmaId = this.authorityData.variants[normalizedCharacters];
 

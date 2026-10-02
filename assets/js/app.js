@@ -179,6 +179,7 @@ class MainSiteApp {
                 clearSearchButton: document.getElementById('clearSearchButton'),
                 lemmaInfo: document.getElementById('lemmaInfo'),
                 lemmaList: document.getElementById('lemmaList'),
+                lemmaAmbiguityNote: document.getElementById('lemmaAmbiguityNote'),
                 textList: document.getElementById('textList'),
                 textFilter: document.getElementById('textFilter'),
                 genreSuggestions: document.getElementById('genreSuggestions'),
@@ -861,9 +862,19 @@ class MainSiteApp {
             // Display lemma info. Bei einer Lemma-Nummer steht das Lemma auch
             // ohne Treffer in der Auswahl da, damit man die Eingabe pruefen
             // kann (#467, KZW 24.09.2026).
+            // Mehrere Kandidaten einer Schreibform (ADR-021 / #378): die
+            // Lemmata stehen in der Reihenfolge der Aufloesung (Vorschrift B),
+            // nicht in der der Trefferliste, und ein Hinweis sagt es.
+            const ambiguous = this.searchEngine.hasAmbiguousVariant(searchTerm);
+            let lemmaOrder = Array.from(lemmaSet);
+            if (ambiguous) {
+                const resolvedOrder = new Map(this._keynessLemmaIds.map((id, i) => [id, i]));
+                lemmaOrder.sort((a, b) => resolvedOrder.get(a) - resolvedOrder.get(b));
+            }
             this.displayLemmaInfo(parseLemmaIdInput(searchTerm)
                 ? this._keynessLemmaIds
-                : Array.from(lemmaSet));
+                : lemmaOrder);
+            this.elements.lemmaAmbiguityNote?.classList.toggle('hidden', !ambiguous);
 
             // Display results
             this.displayResults();
