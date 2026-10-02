@@ -16,4 +16,5 @@ Verdichtet am 02.10.2026. Zahlen hier sind Eingabe, keine Messung.
 - [Fremdindizes](fremdindizes.md): Naming #420 (Nachbau, Term-Perspektive) und Pferde #193 (zwei Vers-Einheiten)
 - [Prüfseiten](pruefseiten.md): Zitat-Gate, markup vs. e(), Generator-Laufzeit, datengebundene Specs
 - [Begriffshilfe #498](projekt_begriffshilfe_498.md): Korpusdurchgang cachen, Belege unter Begriff vs. gesamt, Freshness-Gate
+- [Parzival-Bücher #358](projekt_parzival_buecher_358.md): OCR-Messrezept Bartsch/Martin, Fallen (VIII = 398,1, Redezeichen-pc, TEI-gegen-TEI-Vergleich)
 - [WZB @corresp #370](projekt_370_corresp.md): ANLEGEN-Falle, zwei Tokenzählungen, Messrezept alt/neu, mitalternde Nachbarn
