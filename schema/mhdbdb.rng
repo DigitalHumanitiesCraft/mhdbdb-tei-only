@@ -1067,6 +1067,12 @@
       </optional>
       <optional>
         <attribute>
+          <name ns="">subtype</name>
+          <ref name="div.subtype"/>
+        </attribute>
+      </optional>
+      <optional>
+        <attribute>
           <name ns="">n</name>
           <text/>
         </attribute>
@@ -1081,10 +1087,28 @@
             <ref name="head"/>
             <ref name="ab"/>
             <ref name="figure"/>
+            <ref name="milestone"/>
             <ref name="inline.model"/>
           </choice>
         </zeroOrMore>
       </mixed>
+    </element>
+  </define>
+  <define name="div.subtype">
+    <value>dreissiger</value>
+  </define>
+  <define name="milestone">
+    <element>
+      <name ns="http://www.tei-c.org/ns/1.0">milestone</name>
+      <attribute>
+        <name ns="">unit</name>
+        <value>book</value>
+      </attribute>
+      <attribute>
+        <name ns="">n</name>
+        <text/>
+      </attribute>
+      <empty/>
     </element>
   </define>
   <define name="p">
