@@ -166,7 +166,7 @@ Notes: Multiple sigles per work (editions). GND/Wikidata may be full URLs or bar
 | genres.xml | `genre_{hex}` | – (but many broader pointers, polyhierarchical) |
 | names.xml | `name_{numeric}` | `exactMatch`, `closeMatch` → `concepts.xml#...` |
 
-#### variants.xml (~16 MB, 256,497 variant forms)
+#### variants.xml (~16 MB, 256,958 variant forms)
 
 ```xml
 <TEI><text><body><div type="orthographicVariants">
@@ -283,7 +283,7 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
   variants: {
     "brot": "lemma_879",   // normalized form → lemma ID
     "brott": "lemma_879",
-    // ... 233,962 mappings (2026-10-01). Where several lemmata claim a form
+    // ... 234,264 mappings (2026-10-02). Where several lemmata claim a form
     // the value is the first candidate by Vorschrift B (v1.9.18, ADR-021, #378)
   },
 
