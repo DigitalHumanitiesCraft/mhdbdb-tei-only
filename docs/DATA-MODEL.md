@@ -171,12 +171,12 @@ Notes: Multiple sigles per work (editions). GND/Wikidata may be full URLs or bar
 ```xml
 <TEI><text><body><div type="orthographicVariants">
   <entry corresp="lexicon.xml#lemma_{n}">
-    <form xml:id="type_{m}">{variant text}</form>+
+    <form xml:id="type_{m}" n="{tokens}">{variant text}</form>+
   </entry>+
 </div></body></text></TEI>
 ```
 
-Notes: Flat list of variants grouped by lemma cross-reference. Forms preserve MHG diacritics. One entry per lexicon lemma; multiple forms per entry.
+Notes: Flat list of variants grouped by lemma cross-reference. Forms preserve MHG diacritics. One entry per lexicon lemma; multiple forms per entry. `@n` (required since the authority schema 1.2.0, #378) is the number of corpus tokens of this type under the entry's lemma, written by `extract-variants.py`. It is the only frequency in the authority layer and the sole input of the candidate ranking (Vorschrift B, ADR-021).
 
 ## Pre-Built Index Architecture
 
@@ -246,7 +246,9 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
     // likewise curated, likewise a single lemma as of 2026-08-03: the borrowing
     // chain from <etym type="borrowing">
     origin: {languages: [{name, code}], attribution: "...", resp: "...", respName: "..."},
-    normalized: "brot"
+    normalized: "brot",
+    noCorpus: true        // v1.9.18: only where the lemma has no corpus attestation, else absent.
+                          // Derived from corpus-index.lemmaIndex at build time (1,285 on 2026-10-02), not stored in lexicon.xml
   }],
 
   concepts: [{
@@ -281,7 +283,12 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
   variants: {
     "brot": "lemma_879",   // normalized form → lemma ID
     "brott": "lemma_879",
-    // ... 233,962 mappings (2026-10-01)
+    // ... 233,962 mappings (2026-10-01). Where several lemmata claim a form
+    // the value is the first candidate by Vorschrift B (v1.9.18, ADR-021, #378)
+  },
+
+  variantCandidates: {               // v1.9.18: only forms with more than one candidate (4,961)
+    "hab": ["lemma_2598", "lemma_2593"]   // ranked: corpus tokens of THIS form under the lemma
   },
 
   maps: {
@@ -299,7 +306,8 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
 **Key features:**
 - Normalized searchable text for all entities (MHG character conversion: â→a, ô→o, ü→ue)
 - Performance maps pre-computed (conceptToLemmas, genreToWorks)
-- Variants dictionary enables O(1) orthographic variant lookup
+- Variants dictionary enables O(1) orthographic variant lookup; `variantCandidates` carries all candidates where a form is ambiguous
+- **The authority build reads one file outside `authority-files/`**: `data/corpus-index.json.gz`, only for `lemma.noCorpus`. It aborts if the file is missing, has no `lemmaIndex`, or carries a version other than the literal in `build-corpus-index.py` (a stale corpus index must not produce a silently wrong flag). Hence the order corpus index before authority index, which the CI freshness step already follows
 - Separate GND/Wikidata identifiers for works vs authors (added during the authority migration; current authority-index version per TEI-MODEL.md §11)
 
 ### Corpus Index
@@ -481,7 +489,7 @@ Three core build scripts:
    - Check cross-references
    - Verify data quality
 
-**Variants regeneration:** `authority-files/variants.xml` is consumed by `build-authority-index.py` but is itself **derived from the corpus** (one `<form xml:id="type_N">` per orthographic variant, grouped under the lemma it attests). Regenerate it with `python scripts/sync/extract-variants.py --apply` (reads current `@lemmaRef` + `@corresp`; xml:id uniqueness by majority vote) whenever the corpus gains new orthographic forms, then rebuild the authority index and bump its version. *Historical note:* the original extractor lived only on the archived `initial-data-wrangling` branch and read the pre-#32 `@wordRef`, so the file silently drifted by 64,287 forms until the maintained generator was added and `variants.xml` regenerated on 2026-05-29 (192,472 → 256,759 forms; #44/#115).
+**Variants regeneration:** `authority-files/variants.xml` is consumed by `build-authority-index.py` but is itself **derived from the corpus** (one `<form xml:id="type_N" n="...">` per orthographic variant, grouped under the lemma it attests; `n` is its token count). Regenerate it with `python scripts/sync/extract-variants.py --apply` (reads current `@lemmaRef` + `@corresp`; xml:id uniqueness by majority vote) whenever the corpus gains new orthographic forms, then rebuild the authority index and bump its version. *Historical note:* the original extractor lived only on the archived `initial-data-wrangling` branch and read the pre-#32 `@wordRef`, so the file silently drifted by 64,287 forms until the maintained generator was added and `variants.xml` regenerated on 2026-05-29 (192,472 → 256,759 forms; #44/#115).
 
 ### Static JSON API (`api/`)
 
@@ -562,7 +570,12 @@ Source: `scripts/tei_namespaces.py` (`get_namespaces`, a shared lib since #171 F
 
 #### Variant Dictionary Deduplication
 
-When building the variants map, **first occurrence wins**: if two lemmata claim the same normalized variant form, only the first is stored. No collision detection or warning. Source: `build-authority-index.py`, `parse_variants()` (line anchors drift, so search for the function by name).
+When building the variants map, every lemma that claims a normalized variant form is kept (ADR-021, #378; until Authority Index 1.9.17 the first one in document order won and the rest were dropped silently). Per form and lemma the build sums `form/@n` of `variants.xml` and ranks the lemmata by that sum, highest first, ties by document order (the smaller lemma number). Two fields come out:
+
+- `variants[form]` is the first candidate, so a consumer that holds one id per form keeps working;
+- `variantCandidates[form]` lists all candidates in rank order and exists only for forms with more than one (4,961 of 233,962 on 2026-10-02). Candidates that have no entry in `lexicon.xml` are dropped while the form has one that does, so a dangling reference (#115) cannot outrank a real lemma; that is why 4,961 and not the 4,979 forms claimed by more than one lemma.
+
+A missing or non-numeric `@n` aborts the build. Source: `build-authority-index.py`, `parse_variants()` (line anchors drift, so search for the function by name). The gate `scripts/audit/check-variants-flips.py` reports every form whose first candidate changes against the diff base (see the Data-Change-Lifecycle).
 
 ### Data Wrangling Scripts
 
@@ -890,8 +903,8 @@ The two checklists below describe the **maximum case**. Not every change needs e
 **What the five builds read:**
 
 - `build-corpus-index.py` reads from `tei/` the file name and four header statements (the sigle from `idno[@type="sigle"]`, title, author including `@ref`, `msIdentifier/@corresp`), plus every `<w @lemmaRef>` with non-empty text inside `<body>` including document order, plus the `<l>` boundaries. Everything else in the TEI is invisible to it, in particular `@pos` and `@ana` as well as `<div>`, `<lg>` and `<pb>`. XPaths: [Build Script XPath Reference](#build-script-xpath-reference).
-- `extract-variants.py` reads from `tei/` only those `<w>` carrying **both** a `@lemmaRef` and a `@corresp="variants.xml#type_N"`, and from those the lemma id, the type id and the wording. Plus the number of corpus files, which stands in the header of `variants.xml`. It also reads `sense/@ana` in `lexicon.xml`, and with `--apply` writes it too (step 5): of the five builds, it is the only one that can alter `lexicon.xml` after a `tei/` change.
-- `build-authority-index.py` reads `authority-files/` exclusively (the seven indexed files including `variants.xml`; since #270 also `contributors.xml`, but only to resolve the authors of curated statements to names, which it writes as `sense.commentRespName`, `sense.definitionRespName` and `origin.respName`). It does not read `tei/`. Unlike the corpus index, here the file decides rather than the element: any change of substance in one of the seven files requires the rebuild. Which markup ends up in the index is in the [Build Script XPath Reference](#build-script-xpath-reference).
+- `extract-variants.py` reads from `tei/` only those `<w>` carrying **both** a `@lemmaRef` and a `@corresp="variants.xml#type_N"`, and from those the lemma id, the type id, the wording and (since #378) the number of such tokens per type, which it writes as `form/@n`. Plus the number of corpus files, which stands in the header of `variants.xml`. It also reads `sense/@ana` in `lexicon.xml`, and with `--apply` writes it too (step 5): of the five builds, it is the only one that can alter `lexicon.xml` after a `tei/` change.
+- `build-authority-index.py` reads `authority-files/` (the seven indexed files including `variants.xml`; since #270 also `contributors.xml`, but only to resolve the authors of curated statements to names, which it writes as `sense.commentRespName`, `sense.definitionRespName` and `origin.respName`) and, since #378, one file outside it: `data/corpus-index.json.gz`, for `lemma.noCorpus` only. It does not read `tei/`. A missing, versionless or stale corpus index aborts it; the order corpus index, then authority index, is therefore binding. Unlike the corpus index, here the file decides rather than the element: any change of substance in one of the seven files requires the rebuild. Which markup ends up in the index is in the [Build Script XPath Reference](#build-script-xpath-reference).
 - `build-api.py` reads the two built `data/*.json.gz` exclusively, neither `tei/` nor `authority-files/`.
 - `build-begriffshilfe.py` (#498) reads `authority-files/concepts.xml` and `authority-files/lexicon.xml` (senses with their concept pointers) and from `tei/` only `w/@ana`, by regular expression, to count the attestations per sense. It does not read the two built indexes. Its output `assets/downloads/mhdbdb-begriffshilfe.md` is deterministic (no date, no commit, LF), so the CI gate can compare it byte for byte. Because it reads `w/@ana`, a pure `@ana` change is the one corpus change below that needs a rebuild but no index rebuild and no version bump.
 
@@ -922,7 +935,11 @@ A rebuild may be dropped, an inspection may not: `<div>`, `<lg>` and `<pb>` are 
 
 **When in doubt, build.** Since #125 a rebuild from an unchanged source state produces no diff. Overestimating therefore costs waiting time only, underestimating produces silent drift. The table saves time where the case is clear, it does not replace building in a borderline case.
 
-Row 2 against row 3 can be measured instead of guessed: run `extract-variants.py` **without** `--apply` and read the four semantic counters in its output (`added`, `removed`, `form text changed`, `lemma assignment changed`). All four at 0 means row 2, provided no corpus file was added or removed: the file count in the header is the fifth condition and does not show up in the counters. The dry run costs the same scan, does not touch `variants.xml` and drops its result as `authority-files/variants.regen.xml`, which must not be committed. Do not decide via `--apply` plus `git status`: the script itself warns against that fallacy at this point, because a byte diff can also come from lxml serialization drift (the local version against the pin in `requirements.txt`) without anything having changed in substance.
+Row 2 against row 3 can be measured instead of guessed: run `extract-variants.py` **without** `--apply` and read the five semantic counters in its output (`added`, `removed`, `form text changed`, `lemma assignment changed`, `token count n changed`). All five at 0 means row 2, provided no corpus file was added or removed: the file count in the header is the sixth condition and does not show up in the counters.
+
+**What `@n` costs (#378).** Since `variants.xml` carries the token count per form, every corpus change that adds, removes or re-annotates a `<w>` carrying `@corresp` also changes `variants.xml`: one `<form>` line per type id touched, plus the `<date>` line. Measured on 2026-10-02 by removing one `@corresp` each in three files: 3 lines (`token count n changed: 3`), the other four counters 0. A change that moves k annotated tokens therefore touches at most k lines, and an ingest of a new text touches as many lines as it has distinct types. The first regeneration after `@n` was introduced rewrote all 256,497 `<form>` lines (plus the date line), which is the bulk of the 1.9.18 diff and not a content change. Whether the **authority index** changes is a separate question: only if the new counts change the rank or the set of candidates of an ambiguous form, or a lemma gains its first or loses its last corpus attestation (`noCorpus`); otherwise the rebuild shows an empty diff and no bump is set.
+
+**The flip gate (#378, ADR-021).** `scripts/audit/check-variants-flips.py --base <rev>` compares `variants` of the committed authority index with the diff base and fails on every form that now points at another lemma, because a single re-annotation can do that unseen (#367: one token gave `lemma_7338` the form `woren` against 111 verb attestations). A flip that is wanted (the ranking by Vorschrift B moved because a count moved) is acknowledged in `scripts/audit/variants-flips-ack.json`: `from` and `to` are the two index versions, `flips` the exact number, `reason` a sentence. The acknowledgement covers that one version pair only and expires with the next bump; the file is git-ignored like the other audit JSONs, so it is added with `git add -f`. The same gate checks that `variants[form]` equals the first entry of `variantCandidates[form]`. It runs in `data-integrity.yml` before the index rebuild, next to the bump gate. The dry run costs the same scan, does not touch `variants.xml` and drops its result as `authority-files/variants.regen.xml`, which must not be committed. Do not decide via `--apply` plus `git status`: the script itself warns against that fallacy at this point, because a byte diff can also come from lxml serialization drift (the local version against the pin in `requirements.txt`) without anything having changed in substance.
 
 ### When `tei/` changes (scripted ingest, a new text OR a manual correction)
 
