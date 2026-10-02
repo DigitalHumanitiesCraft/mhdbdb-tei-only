@@ -4,6 +4,34 @@ Chronological log of development decisions, dead ends, and savepoints. Not a cha
 
 ---
 
+## 2026-10-02: #378 gebaut, Authority-Index 1.9.18 (Spur A1 des Laufs vom 02.10.)
+
+ADR-021 ist umgesetzt: Eine mehrdeutige normalisierte Schreibform liefert in Stufe 2 alle Kandidaten, geordnet nach Vorschrift B (Korpus-Tokens dieser Form unter dem Lemma), statt first-wins. Dazu das Gate gegen kippende Zuordnungen und, für Spur B (#228), das Feld `lemma.noCorpus`. Gemessen und gebaut wie folgt.
+
+**Frequenzquelle `form/@n` in `variants.xml`** (`extract-variants.py` schreibt es, Schema Pflichtattribut). Preis: jede Korpusänderung an einem `@corresp`-tragenden `<w>` ändert nun auch `variants.xml`, eine Zeile je Typ (drei mutierte Tokens gaben `token count n changed: 3`). Die Erstregeneration änderte alle 256.497 Zeilen und sonst nichts. **Indexformat additiv:** `variants[form]` bleibt eine ID, jetzt der erste Kandidat; `variantCandidates[form]` nur bei mehreren (4.961 Formen). Index 1.9.18, 2.063 bestehende Zuordnungen klappen gegen 1.9.17 um.
+
+### Was über den Einzelfall hinausgilt
+
+**Die Ticketzahlen haben gehalten, die Zählweise ist jetzt festgelegt.** Heute 4.979 umstrittene Formen (Ticket 31.08.: 4.972), nach Vorschrift B folgt first-wins bei 2.065 nicht dem häufigsten (2.064), davon 1.330 erreichbar (1.328). Gezählt wird nach Tokenform, nicht nach Variantentyp; die `@n`-Reihenfolge stimmt bei allen 4.979 Formen mit einer direkt am Korpus gezählten Vorschrift B überein, und der Fable-Reviewer hat dasselbe unabhängig gemessen.
+
+**Hängende Lemma-Verweise (#115) sind Kandidaten ohne Gegenstück.** Die erste Fassung ließ 24 Kandidatenlisten Lemma-IDs ohne Eintrag in `lexicon.xml` tragen; `halap` und `chana` wären darauf umgeklappt. Gefunden hat es die neue Spec, bevor irgendetwas gepusht war. Seither scheiden solche Kandidaten aus, solange die Form ein bekanntes Lemma hat (4.979 mehrfach beanspruchte Formen, 4.961 mit Kandidatenliste, 2.063 statt 2.065 Umklappungen). Kopplung, die bleibt: Legt #115 später ein dort fehlendes Lemma an, kann die Zuordnung umklappen, und das Gate verlangt eine Quittung für einen Nebeneffekt eines Lexikon-Commits.
+
+**Das Gate quittiert genau ein Versionspaar mit genau einer Zahl.** `check-variants-flips.py` ist rot bei jeder umgeklappten Form, außer `scripts/audit/variants-flips-ack.json` nennt Von- und Nach-Version und die exakte Anzahl; beim nächsten Bump ist die Quittung von selbst wirkungslos. Mutationsproben: unverändert grün, Einzelform umgehängt rot, Invariante `variants[form] = variantCandidates[form][0]` verletzt rot, Quittung mit 2.064 statt 2.063 rot. Die `.gitignore` schließt `scripts/audit/*.json` aus, die Quittung ist wie die Baselines mit `git add -f` eingetragen.
+
+**`noCorpus` kommt aus dem Korpus-Index, nicht aus `variants.xml`.** Quelle (a) hätte 1.288 geliefert (drei Lemmata sind nur über Tokens ohne `@corresp` belegt), (b) trifft die 1.285 von Spur B. Der Authority-Build liest damit `data/corpus-index.json.gz` und bricht bei fehlender oder versionsfremder Datei ab; die CI-Reihenfolge (Korpus vor Authority) stimmte schon.
+
+**Die Beispieldatei war gegen das eigene neue Schema ungültig**, und kein Gate prüft die Beispiele; der Reviewer fand es, nicht ein Werkzeug. Korrigiert und mit lxml-RelaxNG validiert (True); `hilfe-schema.html` lädt die Datei und zeigt sie jetzt richtig.
+
+**Offen, bei Spur B:** Die Form-Chips auf der Lemmaseite und im Suchpanel invertieren `variants` und führen eine Form nur unter ihrem ersten Kandidaten, wie vorher unter first-wins.
+
+### Rote Zeilen
+
+Keine.
+
+### Was zurück an Christian geht
+
+Nichts aus A1. Für A2 steht die Prüfung der Ratsche in `corresp-coverage-baseline.json` aus (Spur C meldet heute 5.392 statt 5.273 Tokens ohne `@corresp`).
+
 ## 2026-10-01: Sechs PRs, und die CI ist um ein Viertel schneller, nicht um die Hälfte
 
 Gemergt: #508 (#485, Lindas Beschreibung der Figurenbezeichnungen), #509 (#459, sieben WZB-Tokens auf *lende*, Index 4.2.24 / 1.9.17), #510 (#495, Gattungen im TEI-Kopf gegen `works.xml`, neues Gate `check-header-genres.py`), #511 und #512 (Laufzeit), #513 (#485, Beispielformen *Paris* / *der künic* nach Lindas Freigabe). #459 geschlossen.
