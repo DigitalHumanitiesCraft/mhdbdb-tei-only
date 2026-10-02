@@ -11,6 +11,10 @@ Angelegt am 21.09.2026 für #443 (das Format) und #359 (die erste Anwendung).
 | `review_page.py` | **Das Format aus #443.** Nimmt eine Fallliste entgegen und gibt eine fertige HTML-Seite zurück. Kennt keinen Vorgang und keine Daten |
 | `collect-359-evidence.py` | Holt die Belegstellen für #359 aus den 667 TEI-Dateien |
 | `build-359-page.py` | Setzt Belege und Bewertungen zur Seite für #359 zusammen |
+| `find-370-nachtrag.py` | #370 Punkt 2: die WZB-Paare ohne `@corresp`, die seit der Arbeitsliste vom 31.08. dazugekommen sind |
+| `collect-370-evidence.py` | #370 Punkt 2: Belege, Kontext und Konkurrenzlemmata je Paar nach `ingest/wzb/370-corresp/evidenz.json` |
+| `build-370-entscheidungen.py` | #370 Punkt 2: `entscheidungen.csv` aus Evidenz und den Handurteilen in `urteile-manuell.csv` |
+| `build-370-pruefseite.py` | #370 Punkt 2: die Prüfseite `pruefseite-370.html` für die PRUEFSEITE-Paare |
 
 Das Material und die erzeugte Seite liegen unter
 [`ingest/review/359-borek/`](../../ingest/review/359-borek/README.md), nicht

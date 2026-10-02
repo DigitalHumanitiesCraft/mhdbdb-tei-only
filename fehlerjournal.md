@@ -1023,3 +1023,13 @@ Auto-Mode-Classifier abgelehnt, und die Blockade ging an Christian.
 **Was es getragen hat:** der Satz stand etwa eine halbe Stunde im veröffentlichten PR-Body und im Wortlaut, den die Koordination nach dem Merge von #469 in die Doku einträgt. Ein Leser hätte daraus gefolgert, sechs Worker je Lauf seien auf einer ruhigen Maschine parallel tragbar, und das ist nicht gemessen. Aufgefallen ist es beim Entwurf des Journaleintrags, nicht durch eine Vorrichtung. PR-Body und Inbox-Wortlaut sind richtiggestellt.
 
 **Kein neuer Mechanismus:** `agentenbefunde.md` ist seit dem 16.09.2026 ausdrücklich ausgesetzt, weil kein Muster sieht, ob ein Satz mehr behauptet als seine Quelle hergibt. Die Aussetzung ist nach `wiederholte-fehler.md` selbst der Mechanismus.
+
+### 100. Rot: `cd` und zweimal ein Heredoc in Shell-Befehlen, die nicht der Gegenstand der Arbeit waren (Spur C, 02.10.2026).
+
+**Rot.** In der Spur `lauf-c-recherche` (#370, #358, #228) habe ich erstens mit `cd` in das Scratchpad gewechselt und danach per `cd` zurück, obwohl `shell-konventionen.md` das `cd` an jeder Trennstelle verbietet. Zweitens habe ich zweimal ein Heredoc abgesetzt, einmal mit Python-Inhalt und einmal als "kurzer Test", beide Male nach der Regel „keine großen Inhalte in einen Shell-Befehl inlinen, Dateien nur per Write". Der Hook `shell-konventionen.sh` hat beide Heredocs geblockt; das `cd` ist durchgegangen, weil es in ein fremdes Verzeichnis führte.
+
+**Die Lehre steht in `shell-konventionen.md`: kein `cd`, kein Heredoc, mehrzeilige Logik als Skript per Write.** Alle drei Fälle passierten in Befehlen, die nur schnell etwas erledigen sollten, genau wie in den Einträgen 30 und 34 beschrieben. Die letzte Zeile zu dieser Lehre ist Eintrag 34.
+
+**Was es getragen hat:** nichts. Die Heredocs hat der Hook abgewendet, bevor sie liefen; das `cd` blieb ohne Folge, weil danach absolute Pfade benutzt wurden. Gezählt wird es nach `wiederholte-fehler.md` trotzdem, weil das `cd` nicht von etwas abgewendet wurde und der Hook das Heredoc erst beim zweiten Mal in dieser Spur davon abgehalten hat, es erneut zu versuchen.
+
+**Kein neuer Mechanismus:** der Hook existiert und hat gegriffen. Die Lücke ist das `cd` in ein Verzeichnis außerhalb des Arbeitsverzeichnisses; sie steht als Beobachtung hier und nicht als eigener Hook.
