@@ -148,7 +148,7 @@ test.describe('CSV-Export im Playground (#448)', () => {
     const tabelle = await page.locator('#resultsContainer table tbody tr').count();
 
     const csv = await ladeCsv(page, 'hxHorseCsvExport');
-    const zeilen = pruefeFormat(csv, 'Pferd,Werk,Stelle (Borek),Vers im Korpus,Zuordnung,Wortlaut,Ereignisse,Eigenschaften,Ausrüstung,Figuren,Bezeichnungen');
+    const zeilen = pruefeFormat(csv, 'Pferd,Werk,Stelle (Borek),Vers im Korpus,Zuordnung,Wortlaut,Ereignisse,Eigenschaften,Ausrüstung,Zustand,Figuren,Bezeichnungen');
     expect(zeilen.length).toBe(tabelle);
     // Quelle und Lizenz stehen im Dateinamen, nicht in der Datei (#420).
     expect(csv.name).toMatch(new RegExp(`^mhdbdb-pferd-Gringuljete-alle-borek-pferde-cc0-1\\.0-${DATUM}\\.csv$`));

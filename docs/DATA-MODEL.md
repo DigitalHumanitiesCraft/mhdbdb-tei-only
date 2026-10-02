@@ -402,26 +402,26 @@ Category derivation at build time: `Epitheta 1-5` becomes `epi`; `Bezeichnung 1-
 
 ### Horses Index (#193)
 
-**File:** `data/horses-index.json.gz` (11 KB gz, 77 KB raw, v1.0.0)
+**File:** `data/horses-index.json.gz` (11 KB gz, 77 KB raw, v1.1.0)
 **Build:** `python scripts/ingest/horses/03-build-index.py` (fetches the source once into the script directory, which is gitignored; `--dry-run` reports without writing)
 **Consumer:** a curated playground query (in progress, together with #194)
 
-A second external curated dataset, and again not corpus-derived: Luise Borek's `arthurianHorses.xml`, an exemplary semantic encoding of the horses in five Arthurian works (hdl:tudatalib/3695, **CC0 1.0**, published 2023-01-18). Note that the file's own header still reads "Veröffentlichung unter CC-BY-SA wird angestrebt" and carries the date January 2017: that is the draft state, the repository licence governs.
+A second external curated dataset, and again not corpus-derived: Luise Borek's `arthurianHorses.xml`, an exemplary semantic encoding of the horses in five Arthurian works (hdl:tudatalib/3695.2, **CC0 1.0**, version 2 published 2026-10-01). Version 2 differs from version 1 (hdl:tudatalib/3695, 2023-01-18) in a single line: Borek corrected the transposed digit Er. 4118 to 4718 after we reported it in #193. The version 2 record lists both files under the same name, so the build pins the bitstream id, not the filename. Note that the file's own header still reads "Veröffentlichung unter CC-BY-SA wird angestrebt" and carries the date January 2017: that is the draft state, the repository licence governs.
 
-13 horses (10 named, 3 unnamed), 346 attestations across 336 verses in WH, PZ, ER, IW and TR, with Borek's inline annotations carried through: `event/@type` (care, intro, loss, combat, trans, communication, recognition, gift), `trait/@type` (quality, marking, color), `object/@type` (gear, armor, deco, weapon), `person/@role` (owner, claimant, rider), and the designation the horse appears under in the verse (`usg`, for instance `ors`).
+13 horses (10 named, 3 unnamed), 346 attestations under 335 of Borek's verse numbers (336 verses in our corpus) in WH, PZ, ER, IW and TR, with Borek's inline annotations carried through: `event/@type` (care, intro, loss, combat, trans, communication, recognition, gift), `trait/@type` (quality, marking, color), `object/@type` (gear, armor, deco, weapon), `person/@role` (owner, claimant, rider), `state` (the horse's condition, untyped, wording only: `tôt`, `sere wunt`; 9 attestations), and the designation the horse appears under in the verse (`usg`, for instance `ors`). Until 2026-10-02 `state` was in the index but not shown in the view; Borek noticed in #193.
 
 Three of Borek's markings sit where a naive walk misses them, and each occurs once: an `event` **inside** the `<l>` rather than around it (Pz. 549,7 carries its `care` that way), an `objectName` without an enclosing `object` (Wh. 77,14, the sword Schoyuse), and a `horseGrp` for a group of animals rather than this one horse (Pz. 474,3 compares `ein ors` with `den orsn`). All three would have vanished silently from any filter, which is why the build collects ancestors and descendants of a verse.
 
-**Both citations are stored, and that is the point.** Borek's reference and our resolved target are two different statements, and for nine of the 346 attestations they diverge. Our Parzival follows Leitzmann (ATB 12, 7th ed. 1961), our Erec Leitzmann/Wolff (ATB 39, 3rd ed. 1963); **Borek names no edition at all**, her `sourceDesc` carries only the work's GND. The difference is therefore documentable but not resolvable, so a silent conversion to our counting would not be verifiable. What is verifiable is the wording, and that is what the build measures.
+**Both citations are stored, and that is the point.** Borek's reference and our resolved target are two different statements, and for eight of the 346 attestations they diverge. Our Parzival follows Leitzmann (ATB 12, 7th ed. 1961), our Erec Leitzmann/Wolff (ATB 39, 3rd ed. 1963); **Borek names no edition at all**, her `sourceDesc` carries only the work's GND. The difference is therefore documentable but not resolvable, so a silent conversion to our counting would not be verifiable. What is verifiable is the wording, and that is what the build measures.
 
 | `match` | meaning | count |
 |---|---|---|
-| `exact` | Borek's number hits our verse | 337 |
-| `shifted` | displaced within a four-verse radius, wording proves identity (Pz. 339,24 to 339,28 sit two verses lower here) | 5 |
-| `distant` | outside the radius but unambiguous (Pz. 604,18 is our 603,18; Er. 4118 is 4718, a transposed digit in the source) | 3 |
+| `exact` | Borek's number hits our verse | 338 |
+| `shifted` | displaced within a four-verse radius, wording proves identity (Pz. 339,24 to 339,28 sit two verses lower here; the second verse of the rhyme pair under Pz. 340,29 sits one lower) | 6 |
+| `distant` | outside the radius but unambiguous (Pz. 604,18 and 604,19 are our 603,18 and 603,19) | 2 |
 | `unresolved` | no candidate holding both threshold and margin: `target` is `null` and the view must not offer a jump | 0 |
 
-Counted **per attestation**. The report `02-map-citations.py` counts the same measurement **per verse** and therefore says 328 exact, not 338: ten verses are cited by two horses each. Two units, one measurement.
+Counted **per attestation**, in the build and in the report `02-map-citations.py` alike, measured 2026-10-02 against source version 2. Version 1 gave 337 / 6 / 3: Er. 4118 was `distant` until Borek corrected it to 4718. Eleven of Borek's verse numbers carry two attestations, hence 346 attestations under 335 numbers: ten are cited by two horses, and Pz. 340,29 twice by Gringuljete, since Borek gives both verses of a rhyme pair that number. Counted as verses of our corpus (`target`) it is 336, before and after the correction, because 4118 already resolved to `ER_471800`.
 
 Comparison runs on the MHG-normalized letter string without word breaks (`difflib`), threshold 0.75, and a `distant` hit is only adopted with at least 0.15 margin over the runner-up. A word-set comparison was tried first and failed on orthography and word division (`ans grâles` against `an sgrâles`), reporting six verses as doubtful that were not. The rationale sits in `scripts/ingest/horses/mapping.py`, shared by the build and the report `02-map-citations.py` so the two cannot drift apart.
 
@@ -433,9 +433,9 @@ This is the point where #59 decided differently. The naming index builds **no** 
 
 ```json
 {
-  "version": "1.0.0",
-  "source": { "title": "...", "author": "Luise Borek", "handle": "hdl:tudatalib/3695",
-              "licence": "CC0 1.0", "published": "2023-01-18", "sha256": "<hex>" },
+  "version": "1.1.0",
+  "source": { "title": "...", "author": "Luise Borek", "handle": "hdl:tudatalib/3695.2",
+              "licence": "CC0 1.0", "published": "2026-10-01", "sha256": "<hex>" },
   "horses": [
     { "id": "Gringuljete", "name": "Gringuljete", "named": true,
       "variants": ["Gringuljet", "Kringulet", "Gringalet"],

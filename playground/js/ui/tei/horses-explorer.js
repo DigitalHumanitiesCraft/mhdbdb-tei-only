@@ -12,7 +12,7 @@
  * (11 KB gz), und ohne Cache entfällt der Versions-Bump-Kanal (#94).
  *
  * Zwei Angaben pro Beleg, und das ist Absicht: `citation` ist Boreks
- * Stellenangabe im Wortlaut, `target` unser aufgelöster Vers. Bei neun der
+ * Stellenangabe im Wortlaut, `target` unser aufgelöster Vers. Bei acht der
  * 346 Belege fallen sie auseinander, weil unser Parzival Leitzmann (ATB 12) folgt und
  * Borek gar keine Ausgabe nennt. Sichtbar ist immer Boreks Angabe, das ist
  * die zitierfähige Referenz; der Link benutzt `target`. Siehe
@@ -51,6 +51,8 @@ const EVENT_LABEL = {
 const TRAIT_LABEL = { color: 'Farbe', quality: 'Qualität', marking: 'Abzeichen' };
 const OBJECT_LABEL = { gear: 'Ausrüstung', armor: 'Rüstung', deco: 'Zierrat', weapon: 'Waffe' };
 const ROLE_LABEL = { owner: 'Besitzer', rider: 'Reiter', claimant: 'Anspruch' };
+// Boreks <state> hat keinen @type: der Wortlaut ('tôt', 'sere wunt') ist die
+// ganze Angabe. Neun der 346 Belege tragen einen (Quelle 3695.2).
 
 const WORK_LABEL = {
   WH: 'Willehalm', PZ: 'Parzival', ER: 'Erec', IW: 'Iwein', TR: 'Tristan'
@@ -58,7 +60,7 @@ const WORK_LABEL = {
 
 // Belege, deren Stellenangabe nicht deckungsgleich mit unserer Zählung ist.
 // Der Hinweis gehört an den einzelnen Beleg, nicht in eine Fußnote: er
-// betrifft neun von 346 und wäre pauschal formuliert irreführend.
+// betrifft acht von 346 und wäre pauschal formuliert irreführend.
 const MATCH_NOTE = {
   shifted: 'Die zitierte Ausgabe zählt hier abweichend; der Wortlaut belegt die Stelle.',
   distant: 'Die zitierte Ausgabe zählt hier deutlich abweichend; der Wortlaut belegt die Stelle.',
@@ -155,6 +157,8 @@ export class HorsesExplorer {
 
   renderForm() {
     const horses = this.index?.horses || [];
+    const attestations = this.index?.attestations || [];
+    const abweichend = attestations.filter(a => a.match && a.match !== 'exact').length;
     const options = horses.map(h => {
       const works = h.works.map(w => WORK_LABEL[w] || w).join(', ');
       return `<option value="${escapeAttr(h.id)}"${h.id === this.state.horseId ? ' selected' : ''}>${escapeHtml(this.horseLabel(h))} - ${escapeHtml(works)} (${h.attestations.toLocaleString('de-DE')} Belege)</option>`;
@@ -180,7 +184,7 @@ export class HorsesExplorer {
         </label>
         <p class="text-[11px] text-slate-500">
           Angegeben ist immer Boreks Stellenangabe. Sie folgt einer anderen Textgrundlage als unser Korpus:
-          bei neun der 346 Belege weicht die Verszählung ab, dort ist die Stelle über den Wortlaut zugeordnet und der Beleg entsprechend markiert.
+          bei ${abweichend.toLocaleString('de-DE')} der ${attestations.length.toLocaleString('de-DE')} Belege weicht die Verszählung ab, dort ist die Stelle über den Wortlaut zugeordnet und der Beleg entsprechend markiert.
         </p>
       </div>
     `;
@@ -223,12 +227,13 @@ export class HorsesExplorer {
       liste((a.events || []).map(e => EVENT_LABEL[e.type] || e.type)),
       liste((a.traits || []).map(t => `${TRAIT_LABEL[t.type] || t.type}: ${t.text}`)),
       liste((a.objects || []).map(o => `${OBJECT_LABEL[o.type] || o.type}: ${o.text}`)),
+      liste((a.states || []).map(s => s.text)),
       liste((a.persons || []).filter(p => p.role).map(p =>
         `${ROLE_LABEL[p.role] || p.role}: ${(p.ref && p.ref.length) ? p.ref.join(', ') : p.text}`)),
       liste((a.designations || []).map(d => d.text))
     ]);
     const csv = toCsv(
-      ['Pferd', 'Werk', 'Stelle (Borek)', 'Vers im Korpus', 'Zuordnung', 'Wortlaut', 'Ereignisse', 'Eigenschaften', 'Ausrüstung', 'Figuren', 'Bezeichnungen'],
+      ['Pferd', 'Werk', 'Stelle (Borek)', 'Vers im Korpus', 'Zuordnung', 'Wortlaut', 'Ereignisse', 'Eigenschaften', 'Ausrüstung', 'Zustand', 'Figuren', 'Bezeichnungen'],
       rows
     );
     const ereignis = this.state.eventType === 'all' ? 'alle' : csvFilenamePart(this.state.eventType);
@@ -355,6 +360,7 @@ export class HorsesExplorer {
       ...(a.events || []).map(e => badge(EVENT_LABEL[e.type] || e.type, 'border-brand-200 bg-brand-50 text-brand-700')),
       ...(a.traits || []).map(t => badge(`${TRAIT_LABEL[t.type] || t.type}: ${t.text}`, 'border-rose-200 bg-rose-50 text-rose-700')),
       ...(a.objects || []).map(o => badge(`${OBJECT_LABEL[o.type] || o.type}: ${o.text}`, 'border-amber-200 bg-amber-50 text-amber-800')),
+      ...(a.states || []).map(s => badge(`Zustand: ${s.text}`, 'border-rose-200 bg-white text-rose-700')),
       // Boreks Wortlaut ist hier oft nur ein Pronomen ('er'), waehrend @ref die
       // Figur nennt. Also die Figur zeigen und den Wortlaut in den Tooltip.
       ...(a.persons || []).filter(p => p.role).map(p => {
@@ -380,7 +386,7 @@ export class HorsesExplorer {
       <div class="rounded-2xl border border-slate-200 bg-slate-50/70 p-4 text-xs text-slate-600 space-y-1">
         <div class="font-semibold text-slate-700">Arthurische Pferde nach Luise Borek</div>
         <div>
-          Borek, L. (2023). ${escapeHtml(s.title || 'Exemplarische Auszeichnung arthurischer Pferde')}. TU Darmstadt.
+          Borek, L. (${escapeHtml((s.published || '2023').slice(0, 4))}). ${escapeHtml(s.title || 'Exemplarische Auszeichnung arthurischer Pferde')}. TU Darmstadt.
           <a href="${escapeAttr(s.url || '')}" target="_blank" rel="noopener" class="text-brand-700 hover:underline">${escapeHtml(s.handle || '')}</a>
         </div>
         <div>

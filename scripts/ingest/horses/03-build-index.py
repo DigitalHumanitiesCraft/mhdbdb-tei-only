@@ -2,7 +2,11 @@
 """#193 Baustein 3: `data/horses-index.json.gz` aus Luise Boreks Auszeichnung.
 
 Quelle: 'Exemplarische Auszeichnung arthurischer Pferde', Luise Borek,
-TU Darmstadt, hdl:tudatalib/3695, CC0 1.0, publiziert 2023-01-18. Die Datei
+TU Darmstadt, hdl:tudatalib/3695.2, CC0 1.0. Version 2 vom 2026-10-01
+korrigiert gegenueber Version 1 (hdl:tudatalib/3695, 2023-01-18) genau eine
+Zeile, den Zahlendreher Er. 4118 -> 4718, den wir in #193 gemeldet hatten.
+Der Eintrag von Version 2 fuehrt beide Dateien unter demselben Namen; die
+alte hat die MD5 f839596b..., die neue 62245cf0.... Die Datei
 selbst traegt im Header noch 'Veroeffentlichung unter CC-BY-SA wird
 angestrebt' und das Datum Januar 2017: das ist der Entwurfsstand, es gilt die
 Lizenz des Repositoriums.
@@ -10,7 +14,7 @@ Lizenz des Repositoriums.
 ## Wie ein Beleg gespeichert wird
 
 Boreks Zitation und unser aufgeloestes Ziel sind ZWEI Angaben, und fuer acht
-der 336 Verse fallen sie auseinander. Der Index fuehrt beide:
+der 346 Belege fallen sie auseinander (Stand Quelle 3695.2). Der Index fuehrt beide:
 
     citation   'Pz. 339,24'   Boreks Angabe, woertlich, unveraendert
     target     'PZ_33926'     wohin der Sprung in die Leseansicht geht
@@ -68,16 +72,16 @@ REPO = mapping.REPO
 TEI, XML = mapping.TEI, mapping.XML
 ZIEL = REPO / 'data' / 'horses-index.json.gz'
 
-VERSION = '1.0.0'
+VERSION = '1.1.0'
 QUELLE = ('https://tudatalib.ulb.tu-darmstadt.de/server/api/core/bitstreams/'
-          'a64fd7c9-9c58-4446-97bd-885577f2b85c/content')
+          '6bdbeea1-daf2-4f8c-b409-a1e1712454d5/content')
 HERKUNFT = {
     'title': 'Exemplarische Auszeichnung arthurischer Pferde',
     'author': 'Luise Borek',
-    'handle': 'hdl:tudatalib/3695',
-    'url': 'https://tudatalib.ulb.tu-darmstadt.de/handle/tudatalib/3695',
+    'handle': 'hdl:tudatalib/3695.2',
+    'url': 'https://tudatalib.ulb.tu-darmstadt.de/handle/tudatalib/3695.2',
     'licence': 'CC0 1.0',
-    'published': '2023-01-18',
+    'published': '2026-10-01',
 }
 
 
@@ -259,8 +263,9 @@ def main():
 
     # Nach dem AUFGELOESTEN Ziel sortieren, nicht nach Boreks Nummer: die
     # Tabelle soll in Textreihenfolge stehen, und wo die beiden auseinander
-    # fallen, ist unser Vers die Textposition. Sichtbar an Er. 4118, das in
-    # Wahrheit 4718 ist und sonst 600 Verse zu frueh in der Liste stuende.
+    # fallen, ist unser Vers die Textposition. Sichtbar war das an Er. 4118,
+    # das in Wahrheit 4718 ist und sonst 600 Verse zu frueh in der Liste
+    # stuende (in Version 2 der Quelle korrigiert, die Regel bleibt).
     # Ohne Ziel bleibt Boreks Nummer die einzige Auskunft.
     belege.sort(key=lambda b: (
         b['work'],
