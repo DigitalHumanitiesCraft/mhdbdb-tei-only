@@ -158,13 +158,14 @@ def collect(base_files, jobs=1):
 def resolve(type_form, type_lemma):
     """Pick one lemma + one form per type id.
 
-    Return (lemma_to_types, type_to_form, type_to_lemma, multi_form, multi_lemma).
+    Return (lemma_to_types, type_to_form, type_to_lemma, type_to_n, multi_form, multi_lemma).
     type_to_lemma lets the diff look up a type's lemma in O(1) instead of scanning
     lemma_to_types per type (which was O(types x lemmas) and hung the run).
     """
     lemma_to_types = defaultdict(list)
     type_to_form = {}
     type_to_lemma = {}
+    type_to_n = {}
     multi_form = multi_lemma = 0
     for type_id in type_form:
         forms = type_form[type_id]
@@ -187,8 +188,12 @@ def resolve(type_form, type_lemma):
         lemma = sorted(lemmas.items(), key=lambda kv: (-kv[1], lemma_key(kv[0])))[0][0]
         type_to_form[type_id] = form
         type_to_lemma[type_id] = lemma
+        # n = Tokens dieses Typs unter dem gewaehlten Lemma (ADR-021, #378):
+        # die Haeufigkeit, nach der der Authority-Build mehrere Kandidaten
+        # einer normalisierten Form ordnet (Vorschrift B).
+        type_to_n[type_id] = lemmas[lemma]
         lemma_to_types[lemma].append(type_id)
-    return lemma_to_types, type_to_form, type_to_lemma, multi_form, multi_lemma
+    return lemma_to_types, type_to_form, type_to_lemma, type_to_n, multi_form, multi_lemma
 
 
 def lemma_key(lemma_id):
@@ -201,7 +206,7 @@ def type_key(type_id):
     return int(m.group(1)) if m else 1 << 62
 
 
-def build_tree(lemma_to_types, type_to_form, n_files, date_text):
+def build_tree(lemma_to_types, type_to_form, type_to_n, n_files, date_text):
     root = etree.Element(f'{TEI}TEI', nsmap={None: TEI_NS})
     header = etree.SubElement(root, f'{TEI}teiHeader')
     fileDesc = etree.SubElement(header, f'{TEI}fileDesc')
@@ -228,6 +233,7 @@ def build_tree(lemma_to_types, type_to_form, n_files, date_text):
         for type_id in sorted(lemma_to_types[lemma_id], key=type_key):
             form = etree.SubElement(entry, f'{TEI}form')
             form.set(f'{XML}id', type_id)
+            form.set('n', str(type_to_n[type_id]))
             form.text = type_to_form[type_id]
 
     tree = etree.ElementTree(root)
@@ -244,7 +250,8 @@ def read_existing():
     """Bestehende variants.xml in EINEM Parse einlesen (Diff + Header).
 
     Return (type_map, date_text, name_text):
-      type_map:  type_id -> (lemma_id, form), fuer den Diff
+      type_map:  type_id -> (lemma_id, form, n), fuer den Diff; n ist der Text
+                 des Attributs oder None, solange die Datei es nicht traegt
       date_text: <date>-Text oder None (Datei fehlt / kein date)
       name_text: respStmt/<name>-Text ("MHDBDB TEI Corpus (N texts)") oder None
     """
@@ -257,7 +264,7 @@ def read_existing():
         for form in entry.findall(f'{TEI}form'):
             tid = form.get(f'{XML}id')
             if tid:
-                out[tid] = (lemma_id, (form.text or '').strip())
+                out[tid] = (lemma_id, (form.text or '').strip(), form.get('n'))
     date_text = tree.findtext(HEADER_DATE) or None
     name_text = tree.findtext(HEADER_NAME)
     return out, date_text, name_text
@@ -344,7 +351,7 @@ def main():
     base_files = corpus_files()
     print(f'Scanning {len(base_files)} corpus files for <w @lemmaRef @corresp>... ({jobs} Prozesse)')
     type_form, type_lemma = collect(base_files, jobs=jobs)
-    lemma_to_types, type_to_form, type_to_lemma, multi_form, multi_lemma = resolve(type_form, type_lemma)
+    lemma_to_types, type_to_form, type_to_lemma, type_to_n, multi_form, multi_lemma = resolve(type_form, type_lemma)
 
     n_types = len(type_to_form)
     n_lemmas = len(lemma_to_types)
@@ -357,6 +364,7 @@ def main():
     removed = cur_ids - new_ids
     form_changed = sum(1 for t in (new_ids & cur_ids) if cur[t][1] != type_to_form[t])
     lemma_changed = sum(1 for t in (new_ids & cur_ids) if cur[t][0] != type_to_lemma[t])
+    n_changed = sum(1 for t in (new_ids & cur_ids) if cur[t][2] != str(type_to_n[t]))
 
     # Datum nur bei inhaltlicher Aenderung (#125): der semantische Diff
     # (Zaehler oben + Korpusgroesse im Header-<name>) entscheidet ueber den
@@ -366,8 +374,8 @@ def main():
     # Output eine reine Funktion der Diff-verglichenen Daten, der Diff ist
     # also vollstaendig. <date> bedeutet damit "Stand der Daten".
     today = date.today().isoformat()
-    tree = build_tree(lemma_to_types, type_to_form, len(base_files), old_date or today)
-    changed = (bool(added or removed or form_changed or lemma_changed)
+    tree = build_tree(lemma_to_types, type_to_form, type_to_n, len(base_files), old_date or today)
+    changed = (bool(added or removed or form_changed or lemma_changed or n_changed)
                or tree.findtext(HEADER_NAME) != old_name)
     if changed and old_date is not None:
         tree.find(HEADER_DATE).text = today
@@ -390,6 +398,7 @@ def main():
     print(f'  removed (gone from corpus):{len(removed):>8,}')
     print(f'  form text changed:        {form_changed:>9,}')
     print(f'  lemma assignment changed: {lemma_changed:>9,}')
+    print(f'  token count n changed:    {n_changed:>9,}')
     print()
     print(f'Data-quality (resolved by majority):')
     print(f'  type ids with >1 form:    {multi_form:>9,}')
