@@ -1023,3 +1023,13 @@ Auto-Mode-Classifier abgelehnt, und die Blockade ging an Christian.
 **Was es getragen hat:** der Satz stand etwa eine halbe Stunde im veröffentlichten PR-Body und im Wortlaut, den die Koordination nach dem Merge von #469 in die Doku einträgt. Ein Leser hätte daraus gefolgert, sechs Worker je Lauf seien auf einer ruhigen Maschine parallel tragbar, und das ist nicht gemessen. Aufgefallen ist es beim Entwurf des Journaleintrags, nicht durch eine Vorrichtung. PR-Body und Inbox-Wortlaut sind richtiggestellt.
 
 **Kein neuer Mechanismus:** `agentenbefunde.md` ist seit dem 16.09.2026 ausdrücklich ausgesetzt, weil kein Muster sieht, ob ein Satz mehr behauptet als seine Quelle hergibt. Die Aussetzung ist nach `wiederholte-fehler.md` selbst der Mechanismus.
+
+### 96. Rot: eine Stellenangabe in einen Code-Kommentar geschrieben, die ich nirgends gemessen hatte.
+
+**Rot.** Im div-Zweig von `tei-text-reader.js` stand für #358 der Kommentar „Beginnt ein Buch am Anfang dieses div (Buch V bei 4,1)“. Die Stelle habe ich aus keiner Quelle genommen; sie klang nach einem Beispiel. Die einzigen Buchgrenzen im Repo stehen im Laufplan (II 58,27, III 116,5, IV 179,13, dort als ungeprüft) und sind nicht 4,1: Dreißiger 4 liegt mitten in Buch I.
+
+**Die Lehre steht in `mengen.md`: vor jeder Zahl und jeder Allaussage fragen, über welche Menge der Satz spricht und woher ich weiß, dass er gilt, und in der Projektanweisung: jede Zahl in einem Kommentar ist gemessen, was der Satz nicht braucht, wird gestrichen statt belegt.** Das Beispiel war für den Satz überflüssig, und ich habe es nicht gestrichen, sondern erfunden. Die letzte Zeile zu dieser Lehre ist Eintrag 65.
+
+**Was es getragen hat:** nichts im Verhalten; ein Leser des Kommentars hätte die Grenze im falschen Dreißiger gesucht. Gefunden hat es die Fable-Runde 2, nicht eine Vorrichtung. Der Kommentar nennt die Stelle nicht mehr.
+
+**Kein neuer Mechanismus:** kein Muster sieht, ob eine Zahl in einem Kommentar eine Quelle hat; die Aussetzung ist der Mechanismus.
