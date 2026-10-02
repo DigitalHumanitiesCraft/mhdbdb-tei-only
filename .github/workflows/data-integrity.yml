@@ -354,6 +354,11 @@ jobs:
             python scripts/audit/check-index-version-bump.py --base "${{ steps.base.outputs.sha }}"
           fi
 
+      - name: Variants-Flip-Gate (#378, ADR-021)
+        # Wie das Bump-Gate vor dem Index-Rebuild: gemessen wird der committete Stand.
+        run: |
+          if [ -n "${{ steps.base.outputs.sha }}" ]; then python scripts/audit/check-variants-flips.py --base "${{ steps.base.outputs.sha }}"; fi
+
       # Wie das Bump-Gate darueber vor dem Index-Rebuild (Step 6 der Liste
       # im Kopf): der ueberschreibt data/*.json.gz im Working Tree.
       # Gemessen werden soll der committete Stand, also das, was

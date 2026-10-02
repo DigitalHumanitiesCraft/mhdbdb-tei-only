@@ -533,7 +533,7 @@ The human-readable base form stays accessible through the lookup `@lemmaRef` →
     │
     ├─ lexicon.xml: <sense xml:id="lemma_2598_sense_77615" ana="#type_8717 ...">
     │
-    └─ variants.xml: <form xml:id="type_8717">hân</form>
+    └─ variants.xml: <form xml:id="type_8717" n="11885">hân</form>
 ```
 
 **Migration (✓ completed):** `@wordRef` became `@corresp` (a standard attribute from `att.global`). The URI was corrected in the process, because the target sits in `variants.xml`, not in `lexicon.xml`:
@@ -986,8 +986,8 @@ A consolidated list of all deliberately non-normalized islands of data and of th
 | RELAX NG schema (`schema/mhdbdb.rnc`) | 1.0.0 | 2026-04-09 |
 | POS tagset | 1.0 (19 tags) | 2026-03 |
 | Corpus Index | 4.2.24 | 2026-10-01 |
-| Authority Index | 1.9.17 | 2026-10-01 |
-| authority schema (`schema/mhdbdb-authority.rnc`) | 1.1.0 | 2026-07-30 |
+| Authority Index | 1.9.18 | 2026-10-02 |
+| authority schema (`schema/mhdbdb-authority.rnc`) | 1.2.0 | 2026-10-02 |
 
 ---
 

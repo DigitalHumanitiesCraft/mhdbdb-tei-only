@@ -17,6 +17,7 @@ Search for Middle High German words across the corpus with automatic normalizati
 - Searches across selected texts
 - **Lemma number as input (#467):** `4086` or `lemma_4086` means exactly that lemma, bypassing the variant resolution; the lemma appears in the info box even without hits in the selection, an unknown number finds nothing (CONTRACTS §C.1.2)
 - **Multi-lemma disambiguation:** When search resolves to multiple lemmata, results are deduplicated by text with all matched lemmata displayed
+- **Ambiguous written forms (#378, ADR-021):** A form that several lemmata attest (`hab`: *haben* and *habe*) resolves to all of them, and the info box says so: „Diese Schreibform kann zu mehreren Lemmata gehören. Die Lemmata stehen in der Reihenfolge, wie häufig diese Schreibform im Korpus beim jeweiligen Lemma belegt ist." Nothing is decided for the reader by a tie-break (CONTRACTS §C)
 - Returns results with match counts aggregated across lemmata
 
 **Visual design:**

@@ -9,7 +9,7 @@ Verdichtet am 28.09.2026. Zahlen hier sind Eingabe, keine Messung.
 - [Review-Denkfallen](querschnitt_review_fallen.md): #397-Frage, Stempel, Ausnahmen, Zahlenkopien, Auftrag pruefen
 - [Gates und CI](gates_und_ci.md): doc-count-audit-Luecken, Einzelgates, validate-corpus parallel (fail-fast, Speicher), extract-variants, issue-matrix, main-Schutz, Review-Bot-Log (was sanitize versteckt, PR-Workflow-Datei, Tokenmaskierung), Body-Syntaxfehler nach tei_header, Parallel-Gegenprobe, CRLF im Worktree
 - [TEI-Korpus](korpus_tei.md): was der Korpus-Index liest, pc/caesura/gap, Vers/Prosa, WZB, Header
-- [Lexikon und Variants](lexikon_variants.md): first-wins-Flip, sense/@ana ohne Konsument, Ziffernlemmata
+- [Lexikon und Variants](lexikon_variants.md): seit 1.9.18 Vorschrift B (form/@n, variantCandidates, 2.063 Flips), Dangling-Filter, sense/@ana ohne Konsument, Ziffernlemmata
 - [Authority-Dateien](authority_dateien.md): concepts kein Baum, zwei genre-Felder, Schema an vier Orten, Siglen
 - [Header-Spiegel](header_spiegel.md): Header als Kopie ohne Leser, sync_tei_headers-Fallen, Zotero-Sync, particDesc 670 seit #444 (Altstand 671), tei_header
 - [Playground/Frontend](playground_frontend.md): Hash-Pfad, Multi-Lemma, Nummernpfad #467 und Ziffernlemmata, Werkzeugzustand #204, Zaehlungen

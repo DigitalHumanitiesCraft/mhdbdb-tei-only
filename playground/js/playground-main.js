@@ -41,7 +41,8 @@ class MHDBDBPlayground {
             concepts: [],
             genres: [],
             names: [],
-            variants: []
+            variants: [],
+            variantCandidates: {}
         };
         
         // Hier stand bis #325 ein this.teiData mit fünf Feldern (files,
@@ -179,6 +180,7 @@ class MHDBDBPlayground {
             this.authorityData.genres = authorityIndex.genres || [];
             this.authorityData.names = authorityIndex.names || [];
             this.authorityData.variants = authorityIndex.variants || {};
+            this.authorityData.variantCandidates = authorityIndex.variantCandidates || {};
 
             // Load pre-built performance Maps (if available)
             if (authorityIndex.maps) {

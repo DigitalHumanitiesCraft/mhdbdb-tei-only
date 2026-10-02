@@ -119,6 +119,20 @@ class SearchEngine {
     }
 
     /**
+     * Ob die Eingabe in Stufe 2 auf mehrere Kandidaten zeigt (ADR-021, #378).
+     * Nur dann steht der Hinweis "kann zu mehreren Lemmata gehoeren" da: eine
+     * Lemma-Nummer und ein Stufe-1-Treffer fragen die Variantenliste nie.
+     * @param {string} searchTerm
+     * @returns {boolean}
+     */
+    hasAmbiguousVariant(searchTerm) {
+        if (parseLemmaIdInput(searchTerm)) return false;
+        const normalized = TextNormalizer.normalizeMHG(searchTerm);
+        const stage1 = this.authorityIndex.lemmata.some(lemma => lemma.normalized === normalized);
+        return !stage1 && Array.isArray(this.authorityIndex.variantCandidates?.[normalized]);
+    }
+
+    /**
      * Resolve search term to lemma IDs
      */
     resolveLemmaIds(normalized) {
@@ -135,7 +149,13 @@ class SearchEngine {
             return lemmaIds;
         }
 
-        // Strategy 2: Check variants index
+        // Strategy 2: Check variants index. Eine Schreibform mit mehreren
+        // Kandidaten steht in variantCandidates, geordnet nach Vorschrift B
+        // (ADR-021, #378); sonst traegt variants genau ein Lemma.
+        const candidates = this.authorityIndex.variantCandidates?.[normalized];
+        if (Array.isArray(candidates)) {
+            return [...candidates];
+        }
         const variantLemmaId = this.authorityIndex.variants[normalized];
         if (variantLemmaId) {
             lemmaIds.push(variantLemmaId);
