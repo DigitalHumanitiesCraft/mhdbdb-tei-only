@@ -804,7 +804,7 @@ To be settled per source in advance (example answers for ARI in `scripts/ingest/
 | Category | Treatment |
 |---|---|
 | Running headers (`<fw>`), `<surplus>` | strip the annotation, not lexical |
-| Chapter apparatus (e.g. CAPITULUM plus a number) | `<head type="chapter" n="{arabic}">` as the first child of the `<div type="chapter">`; `<milestone unit="chapter" n="N"/>` at the original position in the text flow (TEI P5 allows no `<head>` inside `<l>`) |
+| Chapter apparatus (e.g. CAPITULUM plus a number) | `<head type="chapter" n="{arabic}">` as the first child of the `<div type="chapter">`; `<milestone unit="chapter" n="N"/>` at the original position in the text flow (TEI P5 allows no `<head>` inside `<l>`). The schema currently admits `<milestone>` only as a child of `<div>` with `unit="book"` (#358); the first ingest that needs `unit="chapter"` in the text flow extends `schema/mhdbdb.rnc` in its own PR. |
 | Scribal marks, section initials | `<w>` becomes `<pc join="left">` |
 | Roman numerals in the text flow | keep the `<w>`, `lemma_13826` (DIG) |
 | Roman numerals as margin counting (stanza, chapter, verse numbers) | strip the annotation, remove the token; the counting belongs in `lg/@n` or the `@n` of the element concerned. Recognizable from the xml:id block: in the legacy Linecode the margin numeral sits in a subunit of its own (`SIG_30040_9` is the verse, `SIG_30041_0` the numeral), while a word of the text always sits in the block of its verse. `@pos="DIG"` is useless as a criterion: in HUG 108 of the 814 margin numerals carried no annotation at all (#138) |

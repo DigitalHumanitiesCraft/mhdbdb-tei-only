@@ -4,6 +4,30 @@ Chronological log of development decisions, dead ends, and savepoints. Not a cha
 
 ---
 
+## 2026-10-02: #358 TEI, Dreißiger-subtype und Buchgrenzen des Parzival (Spur A3 des Laufs vom 02.10.)
+
+PZ und WH tragen die Gliederung jetzt im Markup: `subtype="dreissiger"` an allen 827 (PZ) und 467 (WH) `div type="chapter"`, dazu in PZ 16 `<milestone unit="book" n="I"/>` bis `XVI`. Grenzen aus `ingest/parzival-buecher/grenzen.csv` (C2), Einspielskript `scripts/ingest/parzival-358/pz-wh-struktur.py`, Schema um beides erweitert (`div.subtype` geschlossen, kein GAP; `milestone` nur als Kind von `div`).
+
+### Was über den Einzelfall hinausgilt
+
+**Gemessen vor dem Schreiben, nicht angenommen.** In beiden Dateien ist jedes `div` ein `chapter` ohne weiteres Attribut außer `@n` (lückenlos 1..N), die Kinder sind nur `<l>`, es gibt kein `lg` und kein `milestone`; deshalb durfte `subtype` an jedes `div`. Alle 16 Grenzen sind `<l>` direkt unter dem chapter-div; II, III und IV liegen mitten im Dreißiger (58,27, 116,5, 179,13), die anderen 13 am Divanfang.
+
+**„Dreißiger" ist die Gliederungseinheit, keine Verszahl.** Von 827 PZ-Dreißigern haben 826 genau 30 Verse, Nr. 257 hat 32 (HUGO-Verszählung). Von 467 in WH haben 465 30 Verse, Nr. 57 hat 28, Nr. 467 (unvollendetes Ende) 24. Die Koordination hat die Abweichungen als Editionsbefund akzeptiert, der Schema-Kommentar sagt es ausdrücklich.
+
+**Kein Index-Bump.** Beide Indexe sind nach der Änderung auf sauberem Baum byte-identisch neu gebaut worden (`git status --short` leer). Der Korpus-Index liest `<w>` und `<l>` in Dokumentordnung (`build-corpus-index.py`, iterwalk), keines der beiden ändert sich; Index 4.2.25 ist deshalb zurückgegeben. Konsumenten gemessen: der Reader gibt für `milestone` mit `@unit != "verse"` nichts aus (Anzeige liegt bei B2, #519), KWIC, Reimwörterbuch und Positionszählung laufen über `w` und `lb`/`pb`, `build-api.py` liest keine TEI, kein Code vergleicht das Attributset eines `div`.
+
+**Ein Docstring versprach einen Haltepunkt, den es nicht gab.** Das Skript nannte als Haltepunkt eine nicht eindeutig zu findende `<l>`-Startzeile; die Prüfung am Ergebnis verglich aber nur `div/@n` und `l/@n`, nicht die `erste_wort_id`. Gefunden hat es der Fable-Reviewer per Mutationsprobe (ein zweites `<l n="27">` in div 58 lief durch). Behoben: die Ergebnisprüfung hält das erste `<w>` der Zeile nach dem `milestone` gegen die Wort-ID der CSV, und die Probe auf einer Kopie des Basisstands bricht jetzt ab; derselbe Lauf auf der Basis reproduziert beide Dateien byte-identisch. Die Daten waren nie betroffen (0 doppelte `l/@n` in einem `div`).
+
+**Das Schema bleibt eng, die Tabellenzeile sagt es jetzt.** `docs/DATA-MODEL.md` (Zeile zum Kapitelapparat, #66) schreibt `<milestone unit="chapter" n="N"/>` inline im Textfluss vor; das Schema erlaubt `milestone` nur als Kind von `div` mit `@unit="book"`. Im Korpus `tei/` gibt es heute außer den 16 neuen keine `milestone` (die `unit="chapter"` stehen nur in den Quellen unter `ingest/wzb/`), ein künftiger Ingest nach der Zeile fiele aber im Stage-2-Gate durch. Entschieden von der Koordination (G5 des Laufplans): die Werteliste wird nicht auf Vorrat geöffnet, weil keine Daten es verlangen; die Zeile trägt einen Satz, dass der erste Ingest, der `unit="chapter"` im Textfluss braucht, `schema/mhdbdb.rnc` in einem eigenen PR erweitert. #66 selbst bleibt unberührt.
+
+### Rote Zeilen
+
+Keine.
+
+### Was zurück an Christian geht
+
+Nichts aus A3.
+
 ## 2026-10-02: #370 Punkt 2 eingespielt, Authority-Index 1.9.19 (Spur A2 des Laufs vom 02.10.)
 
 Die in C1 entschiedenen WZB-Paare sind in `tei/WZB.tei.xml` eingespielt: 486 Paare (461 ANLEGEN, 25 VERKNUEPFEN), 4.794 Tokens. Die 461 ANLEGEN-Paare tragen 4.765 Tokens und haben neue Typen `type_372393` bis `type_372853` bekommen; die 25 VERKNUEPFEN-Paare tragen 29 Tokens auf bestehenden Typen. Nicht angefasst: PRUEFSEITE (29 Paare, 338 Tokens) und NICHT_ANLEGEN (43 Paare, 260 Tokens). Einspielskript `scripts/ingest/wzb/wzb-corresp-punkt2.py` mit Batch-Prüfung vor dem Schreiben, Provenienz je Token in `ingest/wzb/370-corresp/punkt2-zuordnung.csv`.
