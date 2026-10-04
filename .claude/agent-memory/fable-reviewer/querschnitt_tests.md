@@ -16,6 +16,8 @@ Verdichtet 02.10.2026.
 - Anderer Port ohne Config-Änderung: `MHDBDB_TEST_PORT=8084 node scripts/run-tests.js <spec>`.
 - Playwright-Zeilennummern in der Laufausgabe stimmen bei Specs mit Nicht-ASCII-Zeichen nicht mit dem Quelltext überein (B2, 02.10.2026); Zeilen für einen Befund aus `rg -n`.
 
+- **Einzelspec auf einer Kopie, ohne den Worktree zu berühren (Cloud, 04.10.2026):** `git archive <rev> -- $(git ls-tree --name-only <rev> | grep -v '^tei$') | tar -x -C <kopie>`, dazu `git show <rev>:tei/PZ.tei.xml > <kopie>/tei/PZ.tei.xml` (321 MB statt 1,7 GB), `ln -s <worktree>/node_modules <kopie>/node_modules`, dann `MHDBDB_TEST_PORT=8097 node scripts/run-tests.js <spec> [--grep <Titelwort>]` aus der Kopie. Browser liegen in `$PLAYWRIGHT_BROWSERS_PATH` (/opt/pw-browsers), nicht in `~/.cache`. `report.json` des Aufrufers bleibt unangetastet; Mutationsproben mit cp/cmp-Restaurierung je Lauf (dreissiger-buecher.spec.js: 33 s, mit PZ-Rendern bis 76 s).
+
 **Proben ohne Spec**
 - Playwright: `.mjs` in $TEMP, `import { chromium } from 'file:///C:/.../node_modules/playwright/index.mjs'` (ohne `file:///` ERR_UNSUPPORTED_ESM_URL_SCHEME), `page.evaluate` auf `window.playground.ui.<tool>.state`; ca. 1 min. Echter Klick statt `dispatchEvent('mousedown')`: Specs umgehen mouseup/click.
 - ESM-Helfer per `file://`-Import gegen eine wörtliche Altkopie vergleichen; `node --check` nimmt ESM; kein JS-Parser in node_modules.

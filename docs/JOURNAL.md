@@ -4,6 +4,28 @@ Chronological log of development decisions, dead ends, and savepoints. Not a cha
 
 ---
 
+## 2026-10-04 (Koordination): Lauf vom 02.10. abgeschlossen, Parzival-Bücher und „Strophe“ auf `main`
+
+Vier Vorgänge (#378, #370 Punkt 2, #358, #228) in drei Spuren, neun PRs gemergt; die Tabelle mit den Commits steht im Laufplan unter „Abnahme“. Die lokale Koordination hat am 03.10. an ihrem Fable-Limit an eine Cloud-Session übergeben, die #523 (A3) und #519 (B2) gemergt hat. Damit trägt der Parzival die 16 Bücher im TEI und zeigt sie als „Buch N“, die Dreißiger in PZ und WH heißen „Strophe N“. Bei KZW liegen jetzt die Prüfseite zu #370, der Mur-Vorschlag in #228 und die Abnahmen von #378, #228 und #358. Der `fable-reviewer` lief in der Cloud-Session ohne Limit; die Übergabe hat also getragen.
+
+### Lehren
+
+**(a) Vor jedem Merge die Dateiliste gegen die Zuteilung halten.** Beim ersten Merge (#517) vergessen, `assets/js/app.js` ging ungemeldet mit; ab da Teil der Merge-Prüfung, bei #523 und #519 gegen §3 gehalten.
+
+**(b) „Von Fable geprüft“ heißt: Kopf der Runde gleich Kopf des Merges, sonst den Diff dazwischen nennen.** Bei #523 lag zwischen Runde 1 und dem Merge-Kopf ein eingemergter `main`-Stand; erst die Trennung zwischen eigenem Diff und Merge machte sichtbar, dass sich nur das Einspielskript geändert hatte.
+
+**(c) Der Review-Bot läuft auf Entwürfen nicht** (`claude-code-review.yml` Z. 22). Ein Entwurf mit grüner CI hat deshalb keinen Bot-Kommentar, nicht einen ohne Befund.
+
+**(d) Ein Volllauf in einer Cloud-Session braucht zwei Handgriffe, die das Repo nicht mitbringt:** Playwright 1.55.1 erwartet den Chromium-Build 1193, der Container hat 1194, und `python3.13` hat kein `lxml`. Beides führt zu roten Tests, die nichts über den Code sagen (beim ersten Lauf 401 von 427). Wer einen Volllauf in der Cloud zählt, prüft vorher Browser-Build und `lxml`.
+
+### Rote Zeilen
+
+Eine, Nr. 85: eine Testursache als belegt in einen Merge-Commit und einen Issue-Kommentar geschrieben, gestützt auf eine Probe, die etwas anderes gemessen hatte.
+
+### Was zurück an Christian geht
+
+Drei nicht blockierende Test- und Kommentarlücken stehen im Laufplan unter „Abnahme“. Die Ursache des einen roten Wörterbuchnetz-Tests auf #523 bleibt ungeklärt.
+
 ## 2026-10-02 (Spur B, B2): #358, Dreißiger heißen "Strophe", Parzival-Bücher "Buch N"
 
 KZW hat am 11.09. entschieden: im Parzival heißen die Bücher "Buch I" usw., die Dreißiger "Strophe" statt "Kapitel". Umgesetzt in der Leseansicht: `<div type="chapter" subtype="dreissiger">` wird als "Strophe N" beschriftet, `<milestone unit="book" n="II"/>` als Überschrift "Buch II" an seiner Stelle, mit eigener CSS-Regel `.section-head.book-heading` (Ä3). `type` bleibt `chapter`, damit Verszählungs-Rücksetzung und Deep-Links über `verseId` unberührt greifen. Die Kodierung selbst baut Spur A (A3); B2 wird erst danach gemergt, bis dahin prüft die Spec mit einem Testfragment.

@@ -1063,3 +1063,13 @@ Auto-Mode-Classifier abgelehnt, und die Blockade ging an Christian.
 **Was es getragen hat:** nichts im Repo. Die falsche Stelle stand in einer Nachricht an die Koordination und in einem Commit; `fable-reviewer` hat sie in Runde 1 gefunden, bevor etwas daraus abgeleitet wurde (Spur A3 liest die Datei erst aus dem gemergten PR). Abgewendet hat es die Gegenprobe des Reviewers, nicht meine.
 
 **Kein neuer Mechanismus:** `agentenbefunde.md` ist ausgesetzt; die Aussetzung ist der Mechanismus. Die Quellenspalte der Datei sagt seitdem, welche Wörter aus dem TEI stammen und welche Stelle aus den Quellen gelesen ist.
+
+### 85. Rot: eine Testursache als belegt geschrieben, gestützt auf eine Probe, die etwas anderes gemessen hatte (Koordination, Cloud-Session, 04.10.2026).
+
+**Rot.** Auf #523 blieb im vollen Lauf ein Test rot, `lemma-page.spec.js` „Wörterbuchnetz entries via API“. Ich habe Chromium mit einer eigenen Probe gegen die API geschickt, `ERR_CERT_AUTHORITY_INVALID` bekommen und daraus geschrieben, der Test sei in der Cloud nicht lauffähig, weil der Browser dort keine externe API erreiche: in den Merge-Commit `d2f1f39` und in einen Kommentar an #358. Im Volllauf zu #519, am nächsten Morgen im selben Container, lief derselbe Test grün. Die Probe lief außerhalb der Spec mit einem eigenen Browserstart; ob sie dieselbe Bedingung traf wie der Test, habe ich nicht geprüft, und warum der Test später lief, ist ungeklärt.
+
+**Die Lehre steht in `CLAUDE.md` unter Self-Inflicted Overhead: vor der Probe prüfen, dass sie die Stelle trifft, um die es geht.** Hier traf sie eine benachbarte Stelle, und ich habe ihr Ergebnis als Ursache des Testfehlers ausgegeben. Die letzten Zeilen zu dieser Lehre sind die Einträge 52 und 54.
+
+**Was es getragen hat:** eine falsche Begründung in einem Merge-Commit, der nicht mehr zu ändern ist; der Merge selbst hing nicht daran, sondern an der Freigabe von Christian für 426 von 427. Im Kommentar an #358 ist die Aussage am selben Tag richtiggestellt, im Laufplan steht sie als nicht belegt.
+
+**Kein neuer Mechanismus:** kein Muster sieht, ob eine Probe die Stelle trifft, über die der Satz spricht; die Aussetzung ist der Mechanismus.
