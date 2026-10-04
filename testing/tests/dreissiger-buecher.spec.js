@@ -177,9 +177,11 @@ test.describe('Dreißiger und Bücher (#358)', () => {
         expect(info.renderedChapters).toBe(info.chapterDivs);
         expect(info.strophe).toBe(info.chapterDivs);
         expect(info.kapitel).toBe(0);
-        // 16 Überschriften, je genau einmal (Hoist ohne Doppelung), in Buchreihenfolge
-        expect(info.books).toHaveLength(16);
-        expect(new Set(info.books).size).toBe(16);
+        // 16 Überschriften, je genau einmal (Hoist ohne Doppelung), Buch I bis XVI
+        // in dieser Folge: fängt auch vertauschte n im TEI
+        const ROEMISCH = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII',
+            'IX', 'X', 'XI', 'XII', 'XIII', 'XIV', 'XV', 'XVI'];
+        expect(info.books).toEqual(ROEMISCH.map(n => `Buch ${n}`));
         // jede Überschrift steht unmittelbar vor dem ersten Vers ihres Buchs, in TEI-Reihenfolge
         expect(info.actual).toEqual(info.expected);
     });

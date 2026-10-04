@@ -72,7 +72,7 @@ for sigle in ("PZ", "WH"):
         abbruch(f"{sigle}: lg vorhanden, vor A3 melden")
     if list(body.iter(f"{TEI}milestone")):
         abbruch(f"{sigle}: milestone schon vorhanden")
-    ziele = []   # (div_n, l_n, buch)
+    ziele = []   # (div_n, l_n, buch, erste_wort_id)
     if sigle == "PZ":
         with open(GRENZEN, encoding="utf-8-sig", newline="") as fh:
             rows = list(csv.DictReader(fh, delimiter=";"))
