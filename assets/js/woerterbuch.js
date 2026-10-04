@@ -7,6 +7,9 @@
 
 import { CorpusLoader } from './lib/corpus-loader.js';
 import { TextNormalizer } from './lib/text-normalizer.js';
+import {
+    COMPONENT_ONLY_NOTE, COMPONENT_ONLY_SHORT, buildComponentRefSet, isComponentOnly,
+} from './lib/component-only.js';
 
 const PAGE_SIZE = 200;
 const LETTERS = [...'abcdefghijklmnopqrstuvwxyz', '#'];
@@ -63,6 +66,8 @@ class WoerterbuchPage {
         this.allEntries = LETTERS.flatMap(letter => this.buckets.get(letter));
         // #467: Nachschlagen per Lemma-Nummer
         this.byId = new Map(lemmata.map(e => [e.id, e]));
+        // #228: reine Wortbestandteile (kein Korpusbeleg, aber als Bestandteil genannt)
+        this.componentRefs = buildComponentRefSet(lemmata);
     }
 
     /**
@@ -217,6 +222,16 @@ class WoerterbuchPage {
                 nr.className = 'ml-auto font-mono text-xs text-slate-500 flex-shrink-0';
                 nr.dataset.lemmaNumber = '';
                 row.appendChild(nr);
+            }
+            // #228: Kurzmarke, der volle Satz steht als Tooltip und auf der Lemmaseite
+            if (isComponentOnly(entry, this.componentRefs)) {
+                const tag = document.createElement('span');
+                tag.textContent = COMPONENT_ONLY_SHORT;
+                tag.title = COMPONENT_ONLY_NOTE;
+                tag.className = 'text-xs text-slate-400 italic shrink-0';
+                tag.dataset.componentOnly = '';
+                if (!row.querySelector('[data-lemma-number]')) tag.classList.add('ml-auto');
+                row.appendChild(tag);
             }
             row.appendChild(pos);
             this.elements.entryGrid.appendChild(row);

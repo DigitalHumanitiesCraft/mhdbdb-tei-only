@@ -317,7 +317,12 @@ function resolveLemmaIds(normalized):
     if results.length > 0:
         return results                       // EARLY RETURN — skip stages 2-3
 
-    // Stage 2: Variants dictionary lookup (O(1) hash map)
+    // Stage 2: Variants dictionary lookup (O(1) hash map). A form claimed by
+    // several lemmata has an entry in variantCandidates (ADR-021, #378):
+    // all of them, best first by Vorschrift B (see "Variant Dictionary Structure")
+    candidates = authorityIndex.variantCandidates[normalized]
+    if candidates:
+        return candidates                    // EARLY RETURN, 2..N ids, ranked
     variantMatch = authorityIndex.variants[normalized]
     if variantMatch:
         return [variantMatch]                // EARLY RETURN — skip stage 3
@@ -338,7 +343,7 @@ function resolveLemmaIds(normalized):
 | Stage | Input Type | Return | Performance | Example |
 |-------|-----------|--------|-------------|---------|
 | 1 | Canonical or normalized form | 0..N lemma IDs (homographs) | O(n) scan | `brot` → `[lemma_879]` |
-| 2 | Attested orthographic variant | Exactly 1 lemma ID | O(1) lookup | `brott` → normalize → `brot` → variants[`brot`] → `lemma_879` |
+| 2 | Attested orthographic variant | 1..N lemma IDs: exactly one unless the form is ambiguous, then all candidates ranked by Vorschrift B | O(1) lookup | `brott` → normalize → `brot` → variants[`brot`] → `lemma_879`; `hab` → variantCandidates[`hab`] → `lemma_2598`, `lemma_2593` |
 | 3 | Prefix match, both directions | 0..N lemma IDs, closest first | O(n) scan + sort | `minnecl` → `minnec`, `minne`, `minneclîch`, …; `schwertkampf` → none |
 
 ### Stage 3: why prefix and not substring (#224)
@@ -377,11 +382,14 @@ User types: **brott**
 
 ### Variant Dictionary Structure
 
-- Flat map: `{ normalized_variant_form: lemma_id }`
-- 233,962 normalized entries (as of 2026-10-01; 256,497 raw forms in variants.xml, deduped first-occurrence-wins), extracted from `authority-files/variants.xml`
-- **Two numbers that have to stay different:** 256,497 is the count of raw forms in `variants.xml`, 233,962 the count of mappings in the runtime dictionary after deduplication. Whoever writes "variants dictionary" means the smaller one. Whoever reads 234,244 is reading the state before #138 (§A, step 0)
-- **First occurrence wins** – if two lemmata claim the same variant form, only the first one stored (source: `parse_variants()` in `build-authority-index.py`, the `if normalized_variant not in variants` guard). Line anchors drift; look the function up by name
-- **This rule is decided away and not yet built.** [ADR-021](DECISIONS.md#adr-021-an-ambiguous-written-form-returns-every-candidate-lemma-ranked-by-that-forms-own-frequency) (KZW, 2026-09-14, #378) replaces „exactly 1" with „0..N, ranked by how often *this* normalized form occurs under each candidate". Nothing in the code has changed, so the stage table above still describes what runs today; whoever implements the ADR renarrates the stage 2 row and the return shape in both consumers
+- Flat map: `{ normalized_variant_form: lemma_id }`, and since Authority Index 1.9.18 a second flat map `variantCandidates: { normalized_variant_form: [lemma_id, ...] }` that exists only for ambiguous forms
+- 234,264 normalized entries (as of 2026-10-02; 256,958 raw forms in variants.xml, deduplicated by normalized form), extracted from `authority-files/variants.xml`; 4,973 of them have more than one candidate and an entry in `variantCandidates` (4,991 forms are claimed by more than one lemma; 18 of those are left with one candidate once the lemmata without a `lexicon.xml` entry are dropped, see below)
+- **Two numbers that have to stay different:** 256,958 is the count of raw forms in `variants.xml`, 234,264 the count of mappings in the runtime dictionary after deduplication. Whoever writes "variants dictionary" means the smaller one. Whoever reads 234,244 is reading the state before #138 (§A, step 0)
+- **Every claiming lemma is kept, ranked by Vorschrift B** (ADR-021, KZW 2026-09-14, built in Authority Index 1.9.18, #378). Until 1.9.17 the first one in document order won, which meant the smaller migration number, and the rest were dropped. Source: `parse_variants()` in `build-authority-index.py`; look the function up by name, line anchors drift
+- **Vorschrift B, counted as follows.** The rank key of a candidate is the number of corpus tokens of **this normalized form** under that lemma: the normalized text of the `<w>`, not the type id, and not the lemma's overall frequency (that is Vorschrift A). `extract-variants.py` writes it as `form/@n` (tokens of the type under the lemma) and the build sums it over all types of the lemma that normalize to the form. Ties go to the smaller lemma number. **Candidates without an entry in `lexicon.xml` are dropped** while the form has a lemma that is in it (dangling references, #115, 24 candidate lists on 2026-10-02): such a candidate can be neither shown nor linked, and with many tokens it would otherwise outrank the real lemma (`halap`, `chana`). A form claimed only by lemmata without an entry keeps the ranking among them. Checked on 2026-10-02 against a direct count over all `<w @lemmaRef>` of the corpus by normalized token text, before that filter: 0 of 4,979 lists differ in order, and the count over tokens with `@corresp` only gives the same figures. The figures of #378 recomputed on that date: 4,979 ambiguous forms (4,972 on 2026-08-31); the first-wins winner is not the most frequent candidate for 2,065 of them under B (2,064), of which 1,330 are reachable because stage 1 does not catch them first (1,328); under A 1,894 and 1,273 (1,893, 1,272). The deviation of 1 to 3 that #378 mentions is this choice of counting unit plus growth since August. Applied to `variants`, the rule re-points 2,063 forms against Authority Index 1.9.17: the 2,065 minus `halap` and `chana`
+- **`variants[form]` is the first candidate**, not a separate rule: a consumer that can hold one id per form keeps working and gets the best-ranked lemma. `variantCandidates[form][0] === variants[form]` for every key; `scripts/audit/check-variants-flips.py` checks it
+- **Consumers.** Stage 2 of the main site (`SearchEngine.resolveLemmaIds`) returns all candidates, and `korpus.html` shows the note „Diese Schreibform kann zu mehreren Lemmata gehören …" with the lemma badges in rank order (`SearchEngine.hasAmbiguousVariant`, only for a stage 2 hit with candidates). The playground (`AuthorityManager.searchLemmaByOrthography`) returns all candidates as well, so every `matches[0]` caller (multi-lemma search, co-occurrence, rhyme, verse position, lemma distribution) now takes the best-ranked one; the chip of the multi-lemma search holds one id per term (§C.1.1) and therefore shows only that one, without the note. `resolveComponentForms` in the lemma explorer takes the bridge form of every candidate. **Callers that take `matches[0]` or `variants[form]` are a bug class**, as already stated for stage 1 (#163/#164), and stage 2 now belongs to it
+- **Side effects.** The keyness reference set (§H.1) is built from `resolveSearchTerm`, so for an ambiguous form it now covers all candidates instead of one, and the log-likelihood values for such a search change. The lemma-page and search-panel form chips invert `variants` and therefore list a form only under the lemma that is its first candidate (as under first-wins before); extending them to `variantCandidates` is open
 - Keys are **normalized** forms (lowercase + MHG character mapping applied before storage)
 
 ### C.1.1 Pinned resolution: a caller that already holds the id (#58)

@@ -17,6 +17,7 @@ Search for Middle High German words across the corpus with automatic normalizati
 - Searches across selected texts
 - **Lemma number as input (#467):** `4086` or `lemma_4086` means exactly that lemma, bypassing the variant resolution; the lemma appears in the info box even without hits in the selection, an unknown number finds nothing (CONTRACTS §C.1.2)
 - **Multi-lemma disambiguation:** When search resolves to multiple lemmata, results are deduplicated by text with all matched lemmata displayed
+- **Ambiguous written forms (#378, ADR-021):** A form that several lemmata attest (`hab`: *haben* and *habe*) resolves to all of them, and the info box says so: „Diese Schreibform kann zu mehreren Lemmata gehören. Die Lemmata stehen in der Reihenfolge, wie häufig diese Schreibform im Korpus beim jeweiligen Lemma belegt ist." Nothing is decided for the reader by a tie-break (CONTRACTS §C)
 - Returns results with match counts aggregated across lemmata
 
 **Visual design:**
@@ -119,6 +120,7 @@ A conventional dictionary entry page (`woerterbuch.html`) for all 43,710 lemma p
 - Every entry (lemma plus POS badge) links to the persistent lemma page `lemma/?id=N`
 - Deep links through URL state: `woerterbuch.html?buchstabe=s&seite=3`
 - Reachable from the header menu item „Wörterbuch" on every page
+- Pure word components (#228): an entry without any corpus attestation that another entry names in its etymology (`seg type="component"`) carries the short tag „nur als Wortbestandteil" (full sentence as tooltip). The status is derived, never stored: `noCorpus: true` on the lemma in the authority index (set by the build only for lemmata without a corpus attestation, since 1.9.18) plus the `etymology[].lemmaRef` of all other lemmata, one shared rule in `assets/js/lib/component-only.js`. The tag describes the state of coverage and does not confirm that the recorded decomposition is correct (KZW, 2026-10-01)
 
 **Naming decision:** „Wörterbuch" instead of „Lemmata" (the playground's technical term) or „Wortindex" (old MHDBDB; mentioned in the page subtitle as a bridge), reasoned in issue #117.
 
@@ -392,6 +394,10 @@ A section „Wörterbücher" with deep links into five Middle High German dictio
 ### Curated statements and their author (#270)
 
 Where a lemma carries curated prose from `lexicon.xml` (origin, a stated meaning, a philological comment), the lemma page shows it above the concept chips of the sense. Since authority index 1.9.10 a comment names its author: the label reads „Kommentar von Katharina Zeppezauer-Wachauer" instead of „Kommentar", resolved at build time from the comment's `@resp` (ADR-018). The playground's Lemma Explorer shows the same label. „von" names the authorship, not a separate review (KZW, 2026-09-23). Since 1.9.15 a stated meaning and an origin explanation name their author the same way, „Definition von …" and „Herkunftserklärung von …" (KZW, 2026-09-25); where no author is stored, no label appears. As of 2026-09-30 one lemma carries all three (`lemma_37818` Abba).
+
+### Pure word components (#228)
+
+Under the title block, a lemma page shows „Als Wortbestandteil erfasst; kein eigenständiger Beleg im aktuellen Korpus." for exactly those entries the dictionary tags as „nur als Wortbestandteil" (same rule, see Dictionary above). The Belegstellen section stays hidden for them, as for any lemma without attestations.
 
 ### Similar Lemmata
 

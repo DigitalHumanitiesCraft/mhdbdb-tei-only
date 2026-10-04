@@ -37,6 +37,7 @@ scripts/
 │   ├── horses/                  # Arthurische Pferde (Borek), horses-index bauen (#193)
 │   ├── legacy-sources/          # Linecode-Quellen ins Repo spiegeln (#248)
 │   ├── naming/                  # Figurenbezeichnungen, naming-index bauen (#59)
+│   ├── parzival-358/            # Dreißiger-subtype und Buchgrenzen-milestone in PZ und WH (#358)
 │   ├── pos-disambig/            # PoS-/Lemma-Disambiguierung in Batches (#189/#198)
 │   └── wzb/                     # Wenzelsbibel (#224 und Vorläufer)
 │
@@ -56,6 +57,7 @@ scripts/
 │   ├── check-header-genres.py   # Gattungen im TEI-Kopf (classDecl) gegen die Gattungen des Werks in works.xml (#495)
 │   ├── check-index-budget.py    # Index-Größenbudget gz und roh, warnt nur (#111, ADR-019)
 │   ├── check-index-version-bump.py # Inhalt geändert => Version gebumpt (#154)
+│   ├── check-variants-flips.py # keine still umgeklappte variants-Zuordnung (#378)
 │   ├── check-index-versions.py  # Index-Versions-Konstanten konsistent
 │   ├── check-lexicon-senses.py  # jeder <entry> in lexicon.xml hat mindestens einen <sense>
 │   ├── check-naming-index.py    # naming-index: Provenienz + Sigle-Existenz (#152)
@@ -156,6 +158,9 @@ Personennamen im TEI-Header gegen `persons.xml` (#228/#308), an zwei Stellen. Im
 
 ### `check-index-version-bump.py`
 Versions-Bump-Gate (#154): hat sich der dekomprimierte Inhalt von corpus-/authority-index gegenüber `--base <rev>` geändert, muss der `version`-String mitgeändert sein: sonst invalidiert der Dexie-Cache nicht. Läuft in `data-integrity.yml` (Diff-Base = erster Elternteil des Merge-Refs bzw. `event.before` beim Push).
+
+### `check-variants-flips.py`
+Gate gegen still umgeklappte `variants`-Zuordnungen (#378, ADR-021): jede Form, die gegenüber `--base <rev>` auf ein anderes Lemma zeigt, macht den Lauf rot, außer `variants-flips-ack.json` nennt genau dieses Versionspaar mit genau dieser Anzahl; prüft außerdem `variants[form] == variantCandidates[form][0]`. Läuft in `data-integrity.yml` vor dem Index-Rebuild.
 
 ### `check-naming-index.py`
 Naming-Index-Konsistenz (#152): `source.commit`-Provenienz vorhanden + alle `works[].sigle` existieren als `tei/<SIG>.tei.xml`. `--print-source-commit` liefert den Quell-Pin für die Workflows. Läuft in `data-integrity.yml` und `naming-index-update.yml`.

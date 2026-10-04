@@ -24,6 +24,100 @@ Eine, Nr. 96: eine erfundene Stellenangabe ("Buch V bei 4,1") in einem Code-Komm
 
 Nichts aus B2. Offen bis A3 und C2: die tatsächlichen Buchgrenzen (Laufplan nennt drei, II 58,27, III 116,5, IV 179,13, als ungeprüft); der PZ-Test in `dreissiger-buecher.spec.js` ist bis A3 übersprungen und wird danach entfernt (0 skipped auf dem Merge-Stand).
 
+## 2026-10-02: #358 TEI, Dreißiger-subtype und Buchgrenzen des Parzival (Spur A3 des Laufs vom 02.10.)
+
+PZ und WH tragen die Gliederung jetzt im Markup: `subtype="dreissiger"` an allen 827 (PZ) und 467 (WH) `div type="chapter"`, dazu in PZ 16 `<milestone unit="book" n="I"/>` bis `XVI`. Grenzen aus `ingest/parzival-buecher/grenzen.csv` (C2), Einspielskript `scripts/ingest/parzival-358/pz-wh-struktur.py`, Schema um beides erweitert (`div.subtype` geschlossen, kein GAP; `milestone` nur als Kind von `div`).
+
+### Was über den Einzelfall hinausgilt
+
+**Gemessen vor dem Schreiben, nicht angenommen.** In beiden Dateien ist jedes `div` ein `chapter` ohne weiteres Attribut außer `@n` (lückenlos 1..N), die Kinder sind nur `<l>`, es gibt kein `lg` und kein `milestone`; deshalb durfte `subtype` an jedes `div`. Alle 16 Grenzen sind `<l>` direkt unter dem chapter-div; II, III und IV liegen mitten im Dreißiger (58,27, 116,5, 179,13), die anderen 13 am Divanfang.
+
+**„Dreißiger" ist die Gliederungseinheit, keine Verszahl.** Von 827 PZ-Dreißigern haben 826 genau 30 Verse, Nr. 257 hat 32 (HUGO-Verszählung). Von 467 in WH haben 465 30 Verse, Nr. 57 hat 28, Nr. 467 (unvollendetes Ende) 24. Die Koordination hat die Abweichungen als Editionsbefund akzeptiert, der Schema-Kommentar sagt es ausdrücklich.
+
+**Kein Index-Bump.** Beide Indexe sind nach der Änderung auf sauberem Baum byte-identisch neu gebaut worden (`git status --short` leer). Der Korpus-Index liest `<w>` und `<l>` in Dokumentordnung (`build-corpus-index.py`, iterwalk), keines der beiden ändert sich; Index 4.2.25 ist deshalb zurückgegeben. Konsumenten gemessen: der Reader gibt für `milestone` mit `@unit != "verse"` nichts aus (Anzeige liegt bei B2, #519), KWIC, Reimwörterbuch und Positionszählung laufen über `w` und `lb`/`pb`, `build-api.py` liest keine TEI, kein Code vergleicht das Attributset eines `div`.
+
+**Ein Docstring versprach einen Haltepunkt, den es nicht gab.** Das Skript nannte als Haltepunkt eine nicht eindeutig zu findende `<l>`-Startzeile; die Prüfung am Ergebnis verglich aber nur `div/@n` und `l/@n`, nicht die `erste_wort_id`. Gefunden hat es der Fable-Reviewer per Mutationsprobe (ein zweites `<l n="27">` in div 58 lief durch). Behoben: die Ergebnisprüfung hält das erste `<w>` der Zeile nach dem `milestone` gegen die Wort-ID der CSV, und die Probe auf einer Kopie des Basisstands bricht jetzt ab; derselbe Lauf auf der Basis reproduziert beide Dateien byte-identisch. Die Daten waren nie betroffen (0 doppelte `l/@n` in einem `div`).
+
+**Das Schema bleibt eng, die Tabellenzeile sagt es jetzt.** `docs/DATA-MODEL.md` (Zeile zum Kapitelapparat, #66) schreibt `<milestone unit="chapter" n="N"/>` inline im Textfluss vor; das Schema erlaubt `milestone` nur als Kind von `div` mit `@unit="book"`. Im Korpus `tei/` gibt es heute außer den 16 neuen keine `milestone` (`unit="chapter"` steht nur im WZB-Ingest-Skript `scripts/ingest/wzb/wzb-structural-fix.py`), ein künftiger Ingest nach der Zeile fiele aber im Stage-2-Gate durch. Entschieden von der Koordination (G5 des Laufplans): die Werteliste wird nicht auf Vorrat geöffnet, weil keine Daten es verlangen; die Zeile trägt einen Satz, dass der erste Ingest, der `unit="chapter"` im Textfluss braucht, `schema/mhdbdb.rnc` in einem eigenen PR erweitert. #66 selbst bleibt unberührt.
+
+### Rote Zeilen
+
+Keine.
+
+### Was zurück an Christian geht
+
+Nichts aus A3.
+
+## 2026-10-02: #370 Punkt 2 eingespielt, Authority-Index 1.9.19 (Spur A2 des Laufs vom 02.10.)
+
+Die in C1 entschiedenen WZB-Paare sind in `tei/WZB.tei.xml` eingespielt: 486 Paare (461 ANLEGEN, 25 VERKNUEPFEN), 4.794 Tokens. Die 461 ANLEGEN-Paare tragen 4.765 Tokens und haben neue Typen `type_372393` bis `type_372853` bekommen; die 25 VERKNUEPFEN-Paare tragen 29 Tokens auf bestehenden Typen. Nicht angefasst: PRUEFSEITE (29 Paare, 338 Tokens) und NICHT_ANLEGEN (43 Paare, 260 Tokens). Einspielskript `scripts/ingest/wzb/wzb-corresp-punkt2.py` mit Batch-Prüfung vor dem Schreiben, Provenienz je Token in `ingest/wzb/370-corresp/punkt2-zuordnung.csv`.
+
+### Was über den Einzelfall hinausgilt
+
+**Die Ratsche stimmt, die zwei Zahlen waren zwei Mengen.** 5.273 ist die CSV-Zählung der Hauptliste (4.675 ANLEGEN + 598 PRUEFSEITE/NICHT_ANLEGEN), 5.392 der Stand der WZB: 5.273 + 10 Tokens, die seit der CSV-Zählung in 8 bereits entschiedenen Paaren dazukamen (`ŏ`-Schreibungen, `et`, u. a.), + 109 aus dem Nachtrag. Entschieden wird je Paar, deshalb gehen alle heutigen Tokens eines entschiedenen Paars mit. Baseline neu 600 (WZB 598, EKL 2).
+
+**Korpus-Index byte-identisch, Authority-Index nicht.** `build-corpus-index.py` liest `@corresp` nur am `msIdentifier`, nie am `<w>`; auch nach der Änderung der projectDesc-Quoten bleibt `data/corpus-index.json.gz` unverändert (Kommando: Build auf sauberem Baum, danach `git status --short` leer). Der Authority-Index trägt dagegen 302 neue Formen (233.962 auf 234.264) und 12 neue Kandidatenlisten (4.961 auf 4.973), also 1.9.19.
+
+**Zehn Zuordnungen schlagen um, und das ist Vorschrift B, kein Umhängen.** Je ein neu geprägter Typ hebt die Tokenzahl einer Form unter dem neuen Lemma über die des bisherigen Spitzenreiters (boeze, geheisse, gepflaget, kochen, reisse, steigen, tir, vassen, verrens, weicz). Kein bestehender Typ wurde umgehängt (`extract-variants`: lemma assignment changed 0, form text changed 0). Quittung im Flip-Gate für 1.9.18 auf 1.9.19, genau 10; die Tabelle mit Tokens je Kandidat steht im PR.
+
+**Was ein Gate nicht deckt, deckt auch eine Gegenzählung nicht.** Der Fable-Reviewer fand drei Nachbarzahlen, die der Lifecycle nicht gatet: die Kandidatenlisten- und Mehrfachzahlen in CONTRACTS und DATA-MODEL (4.961/4.979 auf 4.973/4.991), die Mengenangabe in der Zeile darunter, und die `@corresp`-Quote in der projectDesc der WZB (91,8 % auf 95,0 % der 149.165 `<w>`, 96,2 % auf 99,6 % der 142.360 lemmatisierten). Alle vor dem Push behoben; die Quote ist die Folge der eigentlichen Änderung und stand im Diff nicht.
+
+### Rote Zeilen
+
+Keine.
+
+### Was zurück an Christian geht
+
+Die 10 Umklappungen (Tabelle im PR) zur Abnahme durch KZW; `tir` und `kochen` sind die Grenzfälle. Offen bleiben die 29 PRUEFSEITE-Paare auf der Prüfseite.
+
+## 2026-10-02: #378 gebaut, Authority-Index 1.9.18 (Spur A1 des Laufs vom 02.10.)
+
+ADR-021 ist umgesetzt: Eine mehrdeutige normalisierte Schreibform liefert in Stufe 2 alle Kandidaten, geordnet nach Vorschrift B (Korpus-Tokens dieser Form unter dem Lemma), statt first-wins. Dazu das Gate gegen kippende Zuordnungen und, für Spur B (#228), das Feld `lemma.noCorpus`. Gemessen und gebaut wie folgt.
+
+**Frequenzquelle `form/@n` in `variants.xml`** (`extract-variants.py` schreibt es, Schema Pflichtattribut). Preis: jede Korpusänderung an einem `@corresp`-tragenden `<w>` ändert nun auch `variants.xml`, eine Zeile je Typ (drei mutierte Tokens gaben `token count n changed: 3`). Die Erstregeneration änderte alle 256.497 Zeilen und sonst nichts. **Indexformat additiv:** `variants[form]` bleibt eine ID, jetzt der erste Kandidat; `variantCandidates[form]` nur bei mehreren (4.961 Formen). Index 1.9.18, 2.063 bestehende Zuordnungen klappen gegen 1.9.17 um.
+
+### Was über den Einzelfall hinausgilt
+
+**Die Ticketzahlen haben gehalten, die Zählweise ist jetzt festgelegt.** Heute 4.979 umstrittene Formen (Ticket 31.08.: 4.972), nach Vorschrift B folgt first-wins bei 2.065 nicht dem häufigsten (2.064), davon 1.330 erreichbar (1.328). Gezählt wird nach Tokenform, nicht nach Variantentyp; die `@n`-Reihenfolge stimmt bei allen 4.979 Formen mit einer direkt am Korpus gezählten Vorschrift B überein, und der Fable-Reviewer hat dasselbe unabhängig gemessen.
+
+**Hängende Lemma-Verweise (#115) sind Kandidaten ohne Gegenstück.** Die erste Fassung ließ 24 Kandidatenlisten Lemma-IDs ohne Eintrag in `lexicon.xml` tragen; `halap` und `chana` wären darauf umgeklappt. Gefunden hat es die neue Spec, bevor irgendetwas gepusht war. Seither scheiden solche Kandidaten aus, solange die Form ein bekanntes Lemma hat (4.979 mehrfach beanspruchte Formen, 4.961 mit Kandidatenliste, 2.063 statt 2.065 Umklappungen). Kopplung, die bleibt: Legt #115 später ein dort fehlendes Lemma an, kann die Zuordnung umklappen, und das Gate verlangt eine Quittung für einen Nebeneffekt eines Lexikon-Commits.
+
+**Das Gate quittiert genau ein Versionspaar mit genau einer Zahl.** `check-variants-flips.py` ist rot bei jeder umgeklappten Form, außer `scripts/audit/variants-flips-ack.json` nennt Von- und Nach-Version und die exakte Anzahl; beim nächsten Bump ist die Quittung von selbst wirkungslos. Mutationsproben: unverändert grün, Einzelform umgehängt rot, Invariante `variants[form] = variantCandidates[form][0]` verletzt rot, Quittung mit 2.064 statt 2.063 rot. Die `.gitignore` schließt `scripts/audit/*.json` aus, die Quittung ist wie die Baselines mit `git add -f` eingetragen.
+
+**`noCorpus` kommt aus dem Korpus-Index, nicht aus `variants.xml`.** Quelle (a) hätte 1.288 geliefert (drei Lemmata sind nur über Tokens ohne `@corresp` belegt), (b) trifft die 1.285 von Spur B. Der Authority-Build liest damit `data/corpus-index.json.gz` und bricht bei fehlender oder versionsfremder Datei ab; die CI-Reihenfolge (Korpus vor Authority) stimmte schon.
+
+**Die Beispieldatei war gegen das eigene neue Schema ungültig**, und kein Gate prüft die Beispiele; der Reviewer fand es, nicht ein Werkzeug. Korrigiert und mit lxml-RelaxNG validiert (True); `hilfe-schema.html` lädt die Datei und zeigt sie jetzt richtig.
+
+**Offen, bei Spur B:** Die Form-Chips auf der Lemmaseite und im Suchpanel invertieren `variants` und führen eine Form nur unter ihrem ersten Kandidaten, wie vorher unter first-wins.
+
+### Rote Zeilen
+
+Keine.
+
+### Was zurück an Christian geht
+
+Nichts aus A1. Für A2 steht die Prüfung der Ratsche in `corresp-coverage-baseline.json` aus (Spur C meldet heute 5.392 statt 5.273 Tokens ohne `@corresp`).
+
+## 2026-10-02 (Spur B, B1): #228, reine Wortbestandteile im Wörterbuch und auf der Lemmaseite
+
+KZW hat am 01.10. entschieden: die 273 Einträge ohne Korpusbeleg, die eine andere Etymologie als Bestandteil nennt, tragen in Wörterbuch und Lemmaseite „Als Wortbestandteil erfasst; kein eigenständiger Beleg im aktuellen Korpus.“; der Status wird abgeleitet, nicht gespeichert, kein `entry/@type`. Umgesetzt: eine gemeinsame Regel in `assets/js/lib/component-only.js` (`noCorpus === true` am Lemma und Nennung in `etymology[].lemmaRef` eines anderen Lemmas), im Wörterbuch die Kurzmarke „nur als Wortbestandteil“ mit dem vollen Satz als Tooltip, auf der Lemmaseite der volle Satz unter dem Titelblock, dazu Hilfetext und `component-only.spec.js`. Gemergt wird erst nach A1, weil `noCorpus` im Authority-Index 1.9.17 noch nicht steht.
+
+### Was über den Einzelfall hinausgilt
+
+**Die Ableitung brauchte ein Indexfeld, und das hat die erste Messung entschieden, nicht das Raten.** Die Bestandteilsverweise standen längst im Authority-Index (`etymology[].lemmaRef`, nur `seg type="component"`), die Belegzahl nicht; sie steht nur im 40-MB-Corpus-Index, den die Lemmaseite lädt und das Wörterbuch nicht laden darf. Gemessen am Index 1.9.17 / 4.2.24: 1.285 Einträge ohne Beleg, davon 273 als Bestandteil genannt, *Mur* dabei. Beide Zahlen aus #228 reproduzierten. Spur A baut `noCorpus: true` in den ersten Bump.
+
+**Eine Spec, die ein noch nicht gebautes Feld braucht, mockt den Index.** `component-only.spec.js` ersetzt `authority-index.json.gz` per Route durch eine Kopie mit `noCorpus` an drei Fällen: *Mur* (Hinweis), ein ungenanntes Lemma (keiner), *ouwe* (genannt, aber belegt: keiner). Sie läuft damit vor A1; der dritte Test bindet die Sichtbarkeit an das Feld im echten Index und kippt nach A1 nur, wenn *Mur* es nicht bekommt, dann wäre der A1-Build der Befund.
+
+**Die Kennzeichnung sagt nichts über die Zerlegung.** Das war KZWs Bedingung, und die Spec prüft es am Wortlaut (kein „geprüft“, „bestätigt“, „korrekt“, „richtig“). Dass Murstetten überhaupt auf den Fluss zurückgeht, ist offen (C3).
+
+### Rote Zeilen
+
+Eine, Nr. 95: einen Reviewerbefund mit derselben fehlerhaften Messung „bestätigt“, mit der er selbst entstanden war.
+
+### Was zurück an Christian geht
+
+Nichts aus B1. Offen für die Hilfe: `hilfe-korpussuche.html` Z. 445 f. nennt für Registereinträge nur Lemma und Wortart-Kürzel; die Marke steht stattdessen in `hilfe-daten.html`. Ein Halbsatz dort wäre nach A1 stimmiger, ist aber nicht blockierend.
+
 ## 2026-10-01: Sechs PRs, und die CI ist um ein Viertel schneller, nicht um die Hälfte
 
 Gemergt: #508 (#485, Lindas Beschreibung der Figurenbezeichnungen), #509 (#459, sieben WZB-Tokens auf *lende*, Index 4.2.24 / 1.9.17), #510 (#495, Gattungen im TEI-Kopf gegen `works.xml`, neues Gate `check-header-genres.py`), #511 und #512 (Laufzeit), #513 (#485, Beispielformen *Paris* / *der künic* nach Lindas Freigabe). #459 geschlossen.
@@ -901,3 +995,54 @@ Keine.
 
 - #486: Schreiber und Gate für `listBibl`, die 171 Titel, FR1 und FLG nach Zotero (KZW), Doku an die Kettenentscheidung.
 - Offen in #237 bei KZW: Blaschka 1934 für WLK (Werkeintrag vorbereiten, Zotero-Felder vorgeben).
+
+## 2026-10-02 – #370 Punkt 2: Vorprüfung der offenen Paare (Spur C)
+
+484 WZB-Paare aus Schreibung und Lemma ohne `@corresp` sind am Kontext entschieden: ANLEGEN 412 von 484 Paaren (4.675 von 5.273 Tokens), NICHT_ANLEGEN 43 (260), PRUEFSEITE 29 (338), VERKNUEPFEN 0. Dazu 74 Paare (109 Tokens), die seit der Arbeitsliste vom 31.08. dazugekommen sind: ANLEGEN 49 (80), VERKNUEPFEN 25 (29). Die 29 Prüfseitenfälle stehen auf `ingest/wzb/370-corresp/pruefseite-370.html` nach #443. Ausgang: `entscheidungen.csv`, `entscheidungen-nachtrag.csv`, Belege in `evidenz.json`.
+
+### Was über den Einzelfall hinausgilt
+
+**Die Liste vom 31.08. und der Korpus waren nicht mehr dieselbe Menge.** Die 484 Paare tragen heute 5.283 Tokens ohne `@corresp`, nicht 5.273 (8 Paare mit mehr Belegen), und 25 der 74 Paare danach hatten ihren Typ unter dem Lemma schon: das sind Punkt-1-Fälle, kein Anlegen. Der erste Entwurf hatte sie auf ANLEGEN gesetzt, und `fable-reviewer` hat es in Runde 1 gefunden. Die Koordination hat dafür den Wert `VERKNUEPFEN` festgelegt. **Soll für Spur A ist „alle Tokens ohne `@corresp` je Paar", nicht die Zahl der Liste.**
+
+**Ein Sammellemma verdeckt Befunde.** 41 der 484 Paare stehen unter `lemma_2` abc, das KZW am 11.09. (#228) ausdrücklich als eigenes Thema abgetrennt hat: alle NICHT_ANLEGEN, Zielvorschläge für 18 davon in `abc-befunde.csv`. Außerhalb von abc stehen 7 Paare der meil-Familie (82 Tokens) unter `heiligen`, obwohl die Belege „beflecken" meinen (Lexer Bd. 1, Sp. 2077): als KI-Vorschlag auf der Prüfseite, nicht angewendet.
+
+### Rote Zeilen
+
+Eine, Eintrag 100: `cd` und zweimal ein Heredoc in Shell-Befehlen. Der Hook hat die Heredocs geblockt.
+
+### Was zurück an Christian geht
+
+- Die 29 Fälle der Prüfseite (KZW oder wen sie benennt), darunter die cs-Randglossen (6 Paare) und die gemischten Paare `wirft`, `lose`, `weiden`, `pilgereimen`.
+- Offen für die Koordination: ob Spur A die 25 VERKNUEPFEN-Paare wie Punkt 1 behandelt.
+
+## 2026-10-02 – #358: die 16 Buchgrenzen des Parzival (Spur C)
+
+Die Bücher fehlten im TEI komplett (Alan, #358); KZW hat am 11.09. die Benennung „Buch I" usw. entschieden. `ingest/parzival-buecher/grenzen.csv` bildet die 16 Buchanfänge nach Lachmann auf die erste Wort-ID in `PZ.tei.xml` ab: I 1,1; II 58,27; III 116,5; IV 179,13; V 224,1; VI 280,1; VII 338,1; VIII 398,1; IX 433,1; X 503,1; XI 553,1; XII 583,1; XIII 627,1; XIV 679,1; XV 734,1; XVI 787,1. Quellen: Bartsch (Deutsche Classiker des Mittelalters 9-11, 1875-77) und Martin (Kommentar, 1903), beide als OCR-Volltext von archive.org gelesen, nicht am Scan.
+
+### Was über den Einzelfall hinausgilt
+
+**Die Bücher II bis IV beginnen mitten im Dreißiger, die anderen 13 an einem Dreißigeranfang**, und die Zählung der Dreißiger in den Wort-IDs trägt die Abbildung ohne Umweg. **Zwei Stellen waren aus dem Gedächtnis oder dem Eindruck falsch:** XIII beginnt bei 627,1, nicht bei 643,1 (Bartsch und Martin einig), und VIII bei 398,1, nicht bei 399,1. Die zweite hat erst die Gegenprobe des Reviewers gefunden. **Ein Skript, das die Anfangswörter gegen die Datei prüft, aus der sie stammen, prüft nur die Wort-ID-Abbildung**, nicht die Grenze; die Quellenspalte sagt es jetzt.
+
+### Rote Zeilen
+
+Eine, Eintrag 101: VIII am Erzählerton statt am ersten Vers der Quelle festgemacht.
+
+### Was zurück an Christian geht
+
+Nichts aus diesem Paket. Spur A3 setzt die Milestones aus der gemergten Datei.
+
+## 2026-10-02 – #228: Mur bei Murstetten (Spur C)
+
+KZW hat am 25.09. gefragt, ob der Bestandteil `Mur` (`lemma_66692`, Gewässername) in Murstetten (`lemma_66691`) stimmt, und am 01.10. präzisiert. Die drei Belege (HZU2, 1339, 1392, 1396) meinen denselben Ort in Niederösterreich und sagen über die Herkunft des Namens nichts. Winter (Jb. LKNÖ 54/55, S. 349–361) gibt für das Bestimmungswort Schusters Deutung wieder (vermutlich slawischer Personenname); von der Mur ist bei ihm nicht die Rede. Vorschlag als Kommentar in #228: `Mur` aus der Etymologie von `lemma_66691` streichen, kein Ersatzziel, `lemma_66692` bleibt wegen `Mûrouwe`. Die Notiz liegt unter `ingest/mur-228/README.md`, geändert ist nichts in `authority-files/`.
+
+### Was über den Einzelfall hinausgilt
+
+**Eine Deutung aus zweiter Hand trägt ihren Weg mit.** Schuster habe ich nicht geöffnet, nur Winters Wiedergabe von 1990 gelesen. Der Satz mit den Mauer-Orten ist Winters eigener, und `fable-reviewer` hat es in Runde 1 gefunden, weil der erste Entwurf ihn Schuster zugeschrieben hatte. Nach dem Befund steht jede Deutung mit der Person, die sie sagt, und dem Weg, auf dem sie zu mir kam.
+
+### Rote Zeilen
+
+Keine.
+
+### Was zurück an Christian geht
+
+- Die Entscheidung über den Vorschlag liegt bei KZW (#228). Die zweite Hälfte ihrer Frage vom 25.09., die Deutung von Murau, ist in diesem Schritt nicht geprüft.

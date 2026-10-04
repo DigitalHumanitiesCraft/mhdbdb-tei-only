@@ -1033,3 +1033,33 @@ Auto-Mode-Classifier abgelehnt, und die Blockade ging an Christian.
 **Was es getragen hat:** nichts im Verhalten; ein Leser des Kommentars hätte die Grenze im falschen Dreißiger gesucht. Gefunden hat es die Fable-Runde 2, nicht eine Vorrichtung. Der Kommentar nennt die Stelle nicht mehr.
 
 **Kein neuer Mechanismus:** kein Muster sieht, ob eine Zahl in einem Kommentar eine Quelle hat; die Aussetzung ist der Mechanismus.
+
+### 100. Rot: `cd` und zweimal ein Heredoc in Shell-Befehlen, die nicht der Gegenstand der Arbeit waren (Spur C, 02.10.2026).
+
+**Rot.** In der Spur `lauf-c-recherche` (#370, #358, #228) habe ich erstens mit `cd` in das Scratchpad gewechselt und danach per `cd` zurück, obwohl `shell-konventionen.md` das `cd` an jeder Trennstelle verbietet. Zweitens habe ich zweimal ein Heredoc abgesetzt, einmal mit Python-Inhalt und einmal als "kurzer Test", beide Male nach der Regel „keine großen Inhalte in einen Shell-Befehl inlinen, Dateien nur per Write". Der Hook `shell-konventionen.sh` hat beide Heredocs geblockt; das `cd` ist durchgegangen, weil es in ein fremdes Verzeichnis führte.
+
+**Die Lehre steht in `shell-konventionen.md`: kein `cd`, kein Heredoc, mehrzeilige Logik als Skript per Write.** Alle drei Fälle passierten in Befehlen, die nur schnell etwas erledigen sollten, genau wie in den Einträgen 30 und 34 beschrieben. Die letzte Zeile zu dieser Lehre ist Eintrag 34.
+
+**Was es getragen hat:** nichts. Die Heredocs hat der Hook abgewendet, bevor sie liefen; das `cd` blieb ohne Folge, weil danach absolute Pfade benutzt wurden. Gezählt wird es nach `wiederholte-fehler.md` trotzdem, weil das `cd` nicht von etwas abgewendet wurde und der Hook das Heredoc erst beim zweiten Mal in dieser Spur davon abgehalten hat, es erneut zu versuchen.
+
+**Kein neuer Mechanismus:** der Hook existiert und hat gegriffen. Die Lücke ist das `cd` in ein Verzeichnis außerhalb des Arbeitsverzeichnisses; sie steht als Beobachtung hier und nicht als eigener Hook.
+
+### 95. Rot: einen Reviewerbefund mit derselben fehlerhaften Messung bestätigt, mit der er entstanden war.
+
+**Rot.** Der `fable-reviewer` meldete in Runde 1 zu #228 B1, `flex-shrink-0` habe in `assets/css/tailwind-output.css` keine Regel. Ich habe nachgemessen und 0 Treffer bekommen, mit `grep -c "flex-shrink-0{"`, also mit der Form, die der Reviewer selbst benutzt hatte. Die Datei führt die Klasse aber als Gruppe: `.flex-shrink-0,.shrink-0{flex-shrink:0}`. Das `{` direkt hinter dem Namen trifft jede Gruppe nicht. Ich habe `flex-shrink-0` an zwei Stellen durch `shrink-0` ersetzt, in die Commit-Nachricht „hat in tailwind-output.css keine Regel“ geschrieben und dieselbe Aussage dem Reviewer von Runde 2 als gemessen mitgegeben. Runde 2 hat sie widerlegt.
+
+**Die Lehre steht in `dateisuche.md`: ein leerer Abruf ist kein Nullbefund, vor dem Schreiben einen Kontrollwert mitsuchen, der treffen muss, und er liegt außerhalb des Zuschnitts.** Der Kontrollwert wäre `shrink-0` gewesen, von dem feststeht, dass die Klasse in der Datei steht; ein Treffer auf ihn, daneben ein Treffer ohne `{` auf `flex-shrink-0`, hätte den Fehler in einer Sekunde gezeigt. Die letzte Zeile zu dieser Lehre ist Eintrag 71.
+
+**Was es getragen hat:** eine falsche Aussage in der Commit-Nachricht „#228: Review Runde 1: gerade Anführungszeichen, shrink-0, Inventarzeile“ und im Auftrag an den Reviewer. Die Codeänderung ist harmlos, beide Selektoren hängen an derselben Regel. Aufgefallen ist es durch die Gegenmessung des Reviewers in Runde 2, nicht durch eine Vorrichtung. Die Nachricht lässt sich vor dem Push nicht ändern, ohne die Historie umzuschreiben; der PR-Text stellt es richtig.
+
+**Kein neuer Mechanismus:** `hooks/suchergebnis.sh` sieht nur enge, leere Suchen im Werkzeug, nicht einen Zählbefehl über eine einzeilige Datei. Dort kann kein Muster greifen; die Aussetzung ist der Mechanismus.
+
+### 101. Rot: eine Buchgrenze am Erzählerton festgemacht, nicht am ersten Vers der Quelle (Spur C, 02.10.2026).
+
+**Rot.** Für #358 habe ich Buch VIII des Parzival bei 399,1 angesetzt („nû hoert von âventiuren sagen") und die Stelle der Koordination als gemessen gemeldet. Gelesen hatte ich dort einen Erzähleranruf, der wie ein Buchanfang klingt. Bartsch druckt als ersten Vers unter der Überschrift ACHTES BUCH „Swer was ze Bêârosche komen", Martins Kommentar unter VIII beginnt bei 398,4, und die TEI trägt die Initiale an 398,1. Ich hatte für die anderen Bücher den ersten Vers der Quelle gelesen und für dieses eines den Eindruck genommen.
+
+**Die Lehre steht in `agentenbefunde.md`: die gelesene Quelle muss die Aussage hergeben, die auf ihr steht.** Das Skript, das ich dafür baute, prüfte die Anfangswörter gegen das TEI, aus dem ich sie selbst genommen hatte, und konnte den Fehler deshalb nicht fangen. Die letzte Zeile zu dieser Lehre ist Eintrag 73.
+
+**Was es getragen hat:** nichts im Repo. Die falsche Stelle stand in einer Nachricht an die Koordination und in einem Commit; `fable-reviewer` hat sie in Runde 1 gefunden, bevor etwas daraus abgeleitet wurde (Spur A3 liest die Datei erst aus dem gemergten PR). Abgewendet hat es die Gegenprobe des Reviewers, nicht meine.
+
+**Kein neuer Mechanismus:** `agentenbefunde.md` ist ausgesetzt; die Aussetzung ist der Mechanismus. Die Quellenspalte der Datei sagt seitdem, welche Wörter aus dem TEI stammen und welche Stelle aus den Quellen gelesen ist.

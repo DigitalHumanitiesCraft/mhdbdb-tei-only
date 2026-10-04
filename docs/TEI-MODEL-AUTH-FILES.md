@@ -17,7 +17,7 @@ Counterpart to `docs/TEI-MODEL.md` (corpus files).
 | File | Content | Entries | Size |
 |-------|--------|-----------|---------|
 | `lexicon.xml` | Lemmata with senses, POS, etymology | 43,710 lemmata | 33 MB |
-| `variants.xml` | Orthographic variants per lemma | 42,457 variant entries, 256,497 forms | 16 MB |
+| `variants.xml` | Orthographic variants per lemma | 42,459 variant entries, 256,958 forms | 16 MB |
 | `persons.xml` | Authors/persons with authority data | 211 | 74 KB |
 | `works.xml` | Works with bibliography and genre | 585 | 1.4 MB |
 | `contributors.xml` | MHDBDB contributors (founders, coordination, editors) | 52 persons + 2 orgs | 15 KB |
@@ -52,7 +52,7 @@ Important for day-to-day operation (see [INDEX.md → Current Phase](INDEX.md#cu
 | `names.xml` | RDF→CSV→TEI snapshot | maintained by hand in-repo, decoupled from the corpus | low (0 corpus coupling) |
 | `contributors.xml` | born-digital (2026-04) | **maintained by hand** (no generator) | none |
 
-**Overall pattern:** all files are RDF-derived migration snapshots (2025-07-22), maintained **in-repo** since the migration: there is no external master left and no re-export source. Only `variants.xml` is corpus-derived and regenerable. `lexicon.xml` is repo master AND index of the corpus annotation: if a corpus `<w>` carries a `@lemmaRef`/`@ana` that is missing from lexicon.xml, the corpus leads and lexicon.xml has to be brought in line (see [CONTRACTS.md → Authority Source Rules](CONTRACTS.md#f-authority-source-rules)). New **sense meanings** are curatorial (the team assigns the concept), not automatically reconstructible from the corpus. `lexicon.xml` and `variants.xml` were stale until 2026-05; `variants.xml` has been regenerated (most recently 256,497 forms, 2026-10-01 with #459), `lexicon.xml` still has 396 ingest-caused dangling refs after the category A stub backfill (2026-07-02) (109 IDs, curatorial remainder B/C open, #115; cause in §6.1). The `_archived` generators write pre-#32 attributes (`@wordRef`/`@meaningRef`) on the corpus side and must never be run against the current corpus unchecked.
+**Overall pattern:** all files are RDF-derived migration snapshots (2025-07-22), maintained **in-repo** since the migration: there is no external master left and no re-export source. Only `variants.xml` is corpus-derived and regenerable. `lexicon.xml` is repo master AND index of the corpus annotation: if a corpus `<w>` carries a `@lemmaRef`/`@ana` that is missing from lexicon.xml, the corpus leads and lexicon.xml has to be brought in line (see [CONTRACTS.md → Authority Source Rules](CONTRACTS.md#f-authority-source-rules)). New **sense meanings** are curatorial (the team assigns the concept), not automatically reconstructible from the corpus. `lexicon.xml` and `variants.xml` were stale until 2026-05; `variants.xml` has been regenerated (most recently 256,958 forms, 2026-10-02 with #370 Punkt 2), `lexicon.xml` still has 396 ingest-caused dangling refs after the category A stub backfill (2026-07-02) (109 IDs, curatorial remainder B/C open, #115; cause in §6.1). The `_archived` generators write pre-#32 attributes (`@wordRef`/`@meaningRef`) on the corpus side and must never be run against the current corpus unchecked.
 
 ---
 
@@ -228,13 +228,15 @@ TEI Ch. 9 (Dictionaries). Each entry corresponds to one lemma and lists all atte
 <body>
   <div type="orthographicVariants">
     <entry corresp="lexicon.xml#lemma_879">
-      <form xml:id="type_2783">brôt</form>
-      <form xml:id="type_2784">brôte</form>
-      <form xml:id="type_2785">brôtes</form>
+      <form xml:id="type_2783" n="306">brôt</form>
+      <form xml:id="type_2784" n="24">brôte</form>
+      <form xml:id="type_2785" n="32">brôtes</form>
     </entry>
   </div>
 </body>
 ```
+
+`@n` is required (authority schema 1.2.0, #378): the number of corpus tokens of this type under the lemma, written by `extract-variants.py`. It ranks the candidates of an ambiguous written form (ADR-021).
 
 **Design decision:** variants in a separate file instead of in lexicon.xml (256k forms would inflate the 33 MB lexicon past 60 MB). Linked via `@corresp`.
 

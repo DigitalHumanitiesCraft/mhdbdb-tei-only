@@ -8,6 +8,7 @@ import { CorpusLoader } from '../assets/js/lib/corpus-loader.js';
 import { escapeHtml } from '../assets/js/lib/escape.js';
 import { fetchWbnetzEntries, decodeHtmlEntities, dictionaryTitle } from '../assets/js/lib/woerterbuchnetz.js';
 import { parseLemmaIdInput } from '../assets/js/lib/lemma-id-input.js';
+import { COMPONENT_ONLY_NOTE, buildComponentRefSet, isComponentOnly } from '../assets/js/lib/component-only.js';
 
 /**
  * Suchbegriff fuer einen Link in die Korpussuche. Seit #467 liest die Suche
@@ -38,6 +39,8 @@ class LemmaPage {
             lemmaPos: document.getElementById('lemmaPos'),
             lemmaId: document.getElementById('lemmaId'),
             copyIdBtn: document.getElementById('copyIdBtn'),
+            componentOnlyNote: document.getElementById('componentOnlyNote'),
+            componentOnlyText: document.getElementById('componentOnlyText'),
             etymologySection: document.getElementById('etymologySection'),
             etymologyContent: document.getElementById('etymologyContent'),
             originSection: document.getElementById('originSection'),
@@ -119,6 +122,12 @@ class LemmaPage {
 
             // Render lemma data
             this.renderLemma(lemma);
+
+            // #228: reiner Wortbestandteil, dieselbe Regel wie im Wörterbuch
+            if (isComponentOnly(lemma, buildComponentRefSet(this.authorityIndex.lemmata))) {
+                this.elements.componentOnlyText.textContent = COMPONENT_ONLY_NOTE;
+                this.elements.componentOnlyNote.classList.remove('hidden');
+            }
 
             // Render variants, compounds, and navigation (from authority index)
             this.renderVariants(lemmaKey);

@@ -271,6 +271,10 @@
                         <div id="lemmaList" class="flex flex-wrap gap-2">
                             <!-- Lemma badges will be inserted here -->
                         </div>
+                        <!-- #378 / ADR-021: Hinweis, wenn eine Schreibform auf mehrere Lemmata zeigt -->
+                        <p id="lemmaAmbiguityNote" class="hidden mt-2 text-xs text-slate-600">
+                            Diese Schreibform kann zu mehreren Lemmata gehören. Die Lemmata stehen in der Reihenfolge, wie häufig diese Schreibform im Korpus beim jeweiligen Lemma belegt ist.
+                        </p>
                         <!-- Issue #114 Followup: Types (Schreibformen) + Wörterbuch-Links (MWB, Lexer, LexerN, BMZ, FindeB, #258) -->
                         <div id="lemmaTypes" class="hidden mt-2">
                             <!-- Filled by displayLemmaTypes() -->

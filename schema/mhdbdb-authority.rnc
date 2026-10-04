@@ -200,6 +200,7 @@ variants.entry = element entry {
     attribute corresp { text },            # lexicon.xml#lemma_N
     element form {
         attribute xml:id { xsd:NCName },   # type_N
+        attribute n { xsd:nonNegativeInteger },  # corpus tokens of this type under the entry's lemma (ADR-021, #378)
         text                               # orthographic variant
     }+
 }
