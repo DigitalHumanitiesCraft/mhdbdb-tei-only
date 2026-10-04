@@ -37,6 +37,7 @@ scripts/
 │   ├── horses/                  # Arthurische Pferde (Borek), horses-index bauen (#193)
 │   ├── legacy-sources/          # Linecode-Quellen ins Repo spiegeln (#248)
 │   ├── naming/                  # Figurenbezeichnungen, naming-index bauen (#59)
+│   ├── parzival-358/            # Dreißiger-subtype und Buchgrenzen-milestone in PZ und WH (#358)
 │   ├── pos-disambig/            # PoS-/Lemma-Disambiguierung in Batches (#189/#198)
 │   └── wzb/                     # Wenzelsbibel (#224 und Vorläufer)
 │

@@ -18,3 +18,5 @@ metadata:
 - `<pc>&lt;</pc>` vor einem Buchanfang (PZ_43301_0) ist ein Redezeichen, keine editorische Klammer; die erste Wort-ID von IX ist deshalb `PZ_43301_1`.
 - Martins erste kommentierte Note liegt oft nach dem Buchanfang (VII 338,2 statt 338,1): sie ist kein Beleg gegen die Grenze.
 - `<hi rend="initial">` steht an 12 von 16 Buchanfaengen (nicht XI, XII, XIII, XVI) und an 398,1, nicht an 399,1; ein Buch-Markup gibt es im TEI nicht, `div type="chapter"` sind Dreissiger.
+
+**A3-Review (02.10.2026, Runde 1):** Basis billig rekonstruieren (` subtype="dreissiger"` und milestone-Zeilen aus HEAD strippen, Blob-SHA gegen `rev-parse <basis>:tei/PZ.tei.xml`); statt Index-Rebuild `process_tei_file` aus build-corpus-index per importlib auf HEAD und Basis vergleichen. Die Ergebnispruefung von `pz-wh-struktur.py` prueft l/@n, nicht die Wort-ID (Mutationsprobe: doppeltes `<l n>` im div laeuft durch). DATA-MODEL.md:807 nennt `milestone unit="chapter"` inline, das Schema erlaubt nur `book` unter div.

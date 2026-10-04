@@ -326,8 +326,27 @@ body.content = mixed { (tei.div | p | lg | l | head | ab | figure | inline.model
 # 'tei.div' not 'div' — 'div' is a reserved keyword in RELAX NG Compact
 tei.div = element div {
     attribute type { div.type.standard | div.type.arithmetic }?,
+    attribute subtype { div.subtype }?,
     attribute n { text }?,
-    mixed { (tei.div | p | lg | l | head | ab | figure | inline.model)* }
+    mixed { (tei.div | p | lg | l | head | ab | figure | milestone | inline.model)* }
+}
+
+# div/@subtype (#358): geschlossene Werteliste, kein GAP. "dreissiger" steht an
+# jedem div type="chapter" in PZ und WH, wo das div ein Dreissiger der
+# Ausgabe ist (@n ist dessen Nummer), und nirgends sonst. Der Wert benennt die
+# Gliederungseinheit und garantiert keine 30 Verse (PZ 257 hat 32, WH 57 hat
+# 28, das unvollendete WH 467 hat 24; Stand 2026-10-02).
+div.subtype = "dreissiger"
+
+# milestone (#358): bisher nur fuer die Buchgrenzen des Parzival. Als direktes
+# Kind eines div, unmittelbar vor dem <l>, mit dem das Buch beginnt; bewusst
+# NICHT in inline.model und nicht in lg, damit ein Buchbeginn nie mitten in
+# einer Strophe oder einem Wort stehen kann. @unit ist geschlossen, bis eine
+# zweite Einheit gebraucht wird.
+milestone = element milestone {
+    attribute unit { "book" },
+    attribute n { text },
+    empty
 }
 
 # GAP 4: <p> can contain <div> (7 files, 27 elements)

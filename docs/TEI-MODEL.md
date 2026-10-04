@@ -407,6 +407,24 @@ All numbers recounted on 2026-08-09 across all 667 corpus files (`div[@type]`, 5
 
 **Stanza check (verified):** `div type="stanza"` historically existed only in LZT (1,122) and has been migrated to `lg type="stanza"` since #23/v4.1.1; currently **0** `div type="stanza"` in the corpus (LZT now uses `lg type="stanza"`).
 
+### 3.5a Dreißiger and book boundaries in PZ and WH (#358)
+
+Parzival (PZ) and Willehalm (WH) are cut into sections of thirty lines (Dreißiger), each one a `<div type="chapter">` whose `@n` is the running number of the Dreißiger (PZ 1–827, WH 1–467). Two attributes and one element make that readable:
+
+```xml
+<div type="chapter" subtype="dreissiger" n="58">
+  <l n="1">…</l>
+  …
+  <milestone unit="book" n="II"/>   <!-- Buch II begins at 58,27, in the middle of the Dreißiger -->
+  <l n="27">…</l>
+```
+
+- **`div/@subtype="dreissiger"`** sits on **every** `div type="chapter"` of PZ (827) and WH (467), and nowhere else. The schema value list is closed (`div.subtype` in `mhdbdb.rnc`), no GAP. The value names the unit of division; it does **not** guarantee thirty lines: PZ 257 has 32, WH 57 has 28 and the unfinished WH 467 has 24 (counted 2026-10-02, 826 + 1 and 465 + 2 of the Dreißiger).
+- **`<milestone unit="book" n="I"/>` … `XVI`**, PZ only, 16 elements. Each is a **direct child of the chapter `div`**, immediately before the `<l>` that opens the book, never inside an `<lg>` and never inside a line (the schema allows `milestone` only as a child of `div`, deliberately not in `inline.model`). Books II, III and IV begin inside a Dreißiger (58,27, 116,5, 179,13), the other thirteen at the start of one. The boundary positions are the 16 rows of `ingest/parzival-buecher/grenzen.csv` (word id of the first word, source: Bartsch and Martin), the elements were inserted by `scripts/ingest/parzival-358/pz-wh-struktur.py`.
+- `@unit` is a closed list with the single value `book`; a second unit is a schema change.
+
+No effect on the indexes: the corpus index reads `<w>` and `<l>` in document order, so `data/corpus-index.json.gz` stays byte-identical (measured by rebuilding on a clean tree). The reading view ignores `milestone` with any `@unit` other than `verse`, so until it shows the book boundary the new elements render nothing.
+
 ---
 
 ## 4. Word element (`<w>`)
