@@ -249,8 +249,14 @@
                         <tr>
                             <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">&lt;div&gt;</code></td>
                             <td class="p-3">–</td>
-                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">@type, @n</code></td>
-                            <td class="p-3">Textgliederung; Enum siehe <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/docs/TEI-MODEL.md" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">TEI-MODEL §6</a></td>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">@type, @subtype, @n</code></td>
+                            <td class="p-3">Textgliederung; Enum siehe <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/docs/TEI-MODEL.md" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">TEI-MODEL §6</a>; <code class="px-2 py-0.5 bg-slate-100 rounded">@subtype="dreissiger"</code> nur am <code class="px-2 py-0.5 bg-slate-100 rounded">chapter</code></td>
+                        </tr>
+                        <tr>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">&lt;milestone&gt;</code></td>
+                            <td class="p-3">–</td>
+                            <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">@unit, @n</code></td>
+                            <td class="p-3">Buchgrenze im Parzival (<code class="px-2 py-0.5 bg-slate-100 rounded">unit="book"</code>), erscheint als Überschrift "Buch N"</td>
                         </tr>
                         <tr>
                             <td class="p-3"><code class="px-2 py-0.5 bg-slate-100 rounded">&lt;lg&gt;</code></td>
@@ -530,6 +536,14 @@
                             <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;div type="chapter|section|song|number|recipe|colophon|parallel"&gt;</code>;
                             das genaue Enum dokumentiert
                             <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/blob/main/docs/TEI-MODEL.md" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">TEI-MODEL §6</a>.
+                            Dreißiger (Parzival, Willehalm) tragen am
+                            <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;div type="chapter"&gt;</code>
+                            zusätzlich
+                            <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">subtype="dreissiger"</code>;
+                            die Leseansicht nennt sie dann "Strophe N" statt "Kapitel N".
+                            Die Bücher des Parzival stehen als
+                            <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">&lt;milestone unit="book" n="II"/&gt;</code>
+                            vor dem ersten Vers des Buchs und erscheinen als Überschrift "Buch II".
                         </p>
                         <p class="text-sm text-slate-700 leading-relaxed">
                             Domänenspezifische Korpora dürfen das

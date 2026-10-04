@@ -4,6 +4,26 @@ Chronological log of development decisions, dead ends, and savepoints. Not a cha
 
 ---
 
+## 2026-10-02 (Spur B, B2): #358, Dreißiger heißen "Strophe", Parzival-Bücher "Buch N"
+
+KZW hat am 11.09. entschieden: im Parzival heißen die Bücher "Buch I" usw., die Dreißiger "Strophe" statt "Kapitel". Umgesetzt in der Leseansicht: `<div type="chapter" subtype="dreissiger">` wird als "Strophe N" beschriftet, `<milestone unit="book" n="II"/>` als Überschrift "Buch II" an seiner Stelle, mit eigener CSS-Regel `.section-head.book-heading` (Ä3). `type` bleibt `chapter`, damit Verszählungs-Rücksetzung und Deep-Links über `verseId` unberührt greifen. Die Kodierung selbst baut Spur A (A3); B2 wird erst danach gemergt, bis dahin prüft die Spec mit einem Testfragment.
+
+### Was über den Einzelfall hinausgilt
+
+**Die Messung "welche Stellen sagen Kapitel" hat genau eine Stelle ergeben.** Grep über JS, HTML und CSS: nur `divLabels` in `tei-text-reader.js` beschriftet `chapter`; kein KWIC, kein Playground, kein Export. Die übrigen HTML-Treffer dokumentieren das TEI-Enum. Das ist der Grund, warum die Umbenennung ein Einzeiler im Reader ist und kein Querschnitt.
+
+**Ein Test, der ein Wort aus den Daten erwartet, muss dem Datenstand folgen.** `reading-view.spec.js` erwartete für WH fest "Kapitel 77" und wäre mit A3 rot geworden. Er liest jetzt `subtype` aus dem TEI und erwartet entsprechend "Strophe 77" oder "Kapitel 77", damit er vor und nach der Umkodierung dasselbe prüft.
+
+**Die Position eines milestone ist eine Darstellungsfrage, nicht nur eine Kodierungsfrage.** Steht ein Buchmilestone laut Laufplan als erstes Kind eines Dreißiger-div, rendert er unter dem Label "Strophe N". Das hat die Fable-Runde 1 als Randbemerkung gefunden; behoben ist es im Reader (der milestone wird vor das Label gezogen, `state.hoisted` verhindert die Doppelung). Der Hoist hängt an `firstElementChild`: ein künftiges `<pb>` vor dem milestone würde ihn wieder unter das Label setzen, heute 0 Fälle (PZ 827 div, WH 467, alle mit `<l>` als erstem Kind).
+
+### Rote Zeilen
+
+Eine, Nr. 96: eine erfundene Stellenangabe ("Buch V bei 4,1") in einem Code-Kommentar.
+
+### Was zurück an Christian geht
+
+Nichts aus B2. Offen bis A3 und C2: die tatsächlichen Buchgrenzen (Laufplan nennt drei, II 58,27, III 116,5, IV 179,13, als ungeprüft); der PZ-Test in `dreissiger-buecher.spec.js` ist bis A3 übersprungen und wird danach entfernt (0 skipped auf dem Merge-Stand).
+
 ## 2026-10-02: #358 TEI, Dreißiger-subtype und Buchgrenzen des Parzival (Spur A3 des Laufs vom 02.10.)
 
 PZ und WH tragen die Gliederung jetzt im Markup: `subtype="dreissiger"` an allen 827 (PZ) und 467 (WH) `div type="chapter"`, dazu in PZ 16 `<milestone unit="book" n="I"/>` bis `XVI`. Grenzen aus `ingest/parzival-buecher/grenzen.csv` (C2), Einspielskript `scripts/ingest/parzival-358/pz-wh-struktur.py`, Schema um beides erweitert (`div.subtype` geschlossen, kein GAP; `milestone` nur als Kind von `div`).

@@ -544,6 +544,12 @@ class TEITextReader {
         return false;
     }
 
+    /** #358: Überschrift "Buch N" für <milestone unit="book" n="N"/>. */
+    bookHeadingHtml(el) {
+        const n = this.escapeHtml(el.getAttribute('n'));
+        return `<h2 class="section-head book-heading" data-book="${n}">Buch ${n}</h2>`;
+    }
+
     /**
      * Extract and format body text with TEI structure preservation
      * Handles: <head>, <p>, <div>, <lg>, <l>, <lb>, <pb>, <hi rend="...">, <pc>, <seg>
@@ -556,7 +562,8 @@ class TEITextReader {
         }
 
         const highlights = [];
-        const state = { wordPosition: 0, firstNumericLineShown: false }; // Use object to pass by reference
+        // hoisted: book-milestones, die das div-Rendering schon vor sein Label gezogen hat (#358)
+        const state = { wordPosition: 0, firstNumericLineShown: false, hoisted: new Set() }; // Use object to pass by reference
 
         // Create lemma-to-color mapping for multi-lemma mode
         const lemmaColorMap = {};
@@ -615,7 +622,15 @@ class TEITextReader {
                         'number': 'Nr.', 'section': 'Abschnitt',
                         'colophon': 'Kolophon', 'parallel': 'Parallelüberlieferung'
                     };
-                    const label = divLabels[divType];
+                    // #358: Ein Dreißiger (PZ, WH) trägt subtype="dreissiger" am
+                    // chapter-div und heißt "Strophe", nicht "Kapitel" (KZW
+                    // 11.09.2026, Vorschlag Alan). Nur die Beschriftung ändert
+                    // sich: type bleibt chapter, damit divRestartsNumbering,
+                    // die Deep-Links über verseId und alles andere an chapter
+                    // unverändert greifen.
+                    const label = divType === 'chapter' && el.getAttribute('subtype') === 'dreissiger'
+                        ? 'Strophe'
+                        : divLabels[divType];
                     // Trägt das div eine eigene Überschrift, wird das synthetische
                     // Label ihr übergeordnet (kleiner, direkt darüber) statt als
                     // gleichrangige zweite Überschrift daneben (#250, #236).
@@ -636,7 +651,19 @@ class TEITextReader {
                     } else if (label) {
                         header = `<div class="${headerClasses}">${this.escapeHtml(label)}</div>`;
                     }
-                    return `<div class="tei-div tei-div-${this.escapeHtml(divType)}" data-type="${this.escapeHtml(divType)}" data-n="${this.escapeHtml(divN)}">${header}${children()}</div>`;
+                    // #358: Beginnt ein Buch am Anfang dieses div,
+                    // steht sein milestone als erstes Kind und rendert sonst UNTER
+                    // der Strophen-Überschrift ("Strophe 5" über "Buch III"). Er
+                    // wird deshalb vor das Label gezogen; im milestone-Zweig
+                    // überspringt ihn `state.hoisted`, damit er nicht doppelt steht.
+                    let lead = '';
+                    const first = el.firstElementChild;
+                    if (first && first.localName === 'milestone' &&
+                        first.getAttribute('unit') === 'book' && first.getAttribute('n')) {
+                        lead = this.bookHeadingHtml(first);
+                        state.hoisted.add(first);
+                    }
+                    return `<div class="tei-div tei-div-${this.escapeHtml(divType)}" data-type="${this.escapeHtml(divType)}" data-n="${this.escapeHtml(divN)}">${lead}${header}${children()}</div>`;
                 }
                 case 'lg': {
                     const lgN = el.getAttribute('n') || '';
@@ -758,6 +785,12 @@ class TEITextReader {
                     const msN = el.getAttribute('n') || '';
                     if (unit === 'verse' && msN) {
                         return `<span class="verse-marker" title="Vers ${this.escapeHtml(msN)}">${this.escapeHtml(msN)}</span>`;
+                    }
+                    // #358: Buchgrenze (Parzival), "Buch II" an der Stelle des
+                    // milestone. Block-Überschrift; der milestone steht als Kind
+                    // eines div, nie in einem p (dort würde das h2 das p schließen).
+                    if (unit === 'book' && msN) {
+                        return state.hoisted.has(el) ? '' : this.bookHeadingHtml(el);
                     }
                     return '';
                 }

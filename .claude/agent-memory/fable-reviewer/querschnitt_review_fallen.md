@@ -26,6 +26,7 @@ Verdichtet 02.10.2026.
 - Vorher-Zahlen von der Live-Seite gehören zum dort aufgelösten Lemma (Homograph `arm`). Personennamen gegen contributors.xml. Scope-Fragen vor dem Zählen klären.
 - **„Ich habe selbst nachgemessen" im Auftrag ist eine Wiederholung meiner Methode, keine Gegenprobe** (#228 Runde 2): der Aufrufer bestätigte meinen Nullbefund zu `.flex-shrink-0` mit derselben Regex, beide waren falsch (siehe querschnitt_tests). Einen eigenen Vorrundenbefund mit einer ANDEREN Messung prüfen (Kontextausgabe statt Zählung).
 - **Der Laufplan ist Anforderungsquelle und bewegt sich nach dem Abzweig** (`docs/playbooks/kickoffs/2026-10-02-lauf.md`: nach der Basis zwei Commits, einer verlangte eine DEVELOPMENT.md-Zeile für eine neue Spec, sonst `check-doc-inventories.py` rot). Der Auftrag nannte die alte Basis; `git diff <basis> origin/main` auf den Kickoff zeigt die Pflicht. Bei Laufplan-Spuren immer so messen.
+- Allaussagen im Diff gegen den Laufplan-Paragraphen halten, aus dem sie stammen (B2: §4.2 nannte drei Bücher, FEATURES machte „the books“ daraus).
 
 **Fehlerjournal**
 - `claude-code-setup/hooks/lehren-zaehlen.py` parst dieses Journal nicht (Format `### N. Rot:`): Ketten von Hand über den Absatz „Die Lehre, die nicht gegriffen hat". Nummern werden je Spur vorab reserviert: Sprünge sind kein Befund.

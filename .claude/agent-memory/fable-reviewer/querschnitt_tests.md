@@ -13,6 +13,8 @@ Verdichtet 02.10.2026.
 - `node scripts/run-tests.js --list` zählt ohne Server; ein statisches `grep` auf `test(` liegt darunter (Schleifen, generierte Tests).
 - **Port 8080:** frei? `curl -s -o /dev/null -w "%{http_code}" localhost:8080/...` (000 = frei). Welcher Baum? `curl .../<seite> | grep -c '<String aus dem Diff>'`. run-tests.js bricht ab (`KEIN ERGEBNIS`, Exit 2), wenn :8080 ein fremder Baum bedient. Abhilfe `MHDBDB_TEST_PORT=<port> npm.cmd test -- <spec>`: am 02.10.2026 war 8081 ebenfalls fremd belegt, 8097 lief (TEILLAUF GRÜN, 10 Tests 30 s). `netstat -ano | grep LISTEN` findet unter deutscher Konsole nichts (dort ABHÖREN).
 - Specs liegen in `testing/tests/`; ein Glob `testing/*.spec.js` läuft still leer.
+- Anderer Port ohne Config-Änderung: `MHDBDB_TEST_PORT=8084 node scripts/run-tests.js <spec>`.
+- Playwright-Zeilennummern in der Laufausgabe stimmen bei Specs mit Nicht-ASCII-Zeichen nicht mit dem Quelltext überein (B2, 02.10.2026); Zeilen für einen Befund aus `rg -n`.
 
 **Proben ohne Spec**
 - Playwright: `.mjs` in $TEMP, `import { chromium } from 'file:///C:/.../node_modules/playwright/index.mjs'` (ohne `file:///` ERR_UNSUPPORTED_ESM_URL_SCHEME), `page.evaluate` auf `window.playground.ui.<tool>.state`; ca. 1 min. Echter Klick statt `dispatchEvent('mousedown')`: Specs umgehen mouseup/click.

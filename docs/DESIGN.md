@@ -534,8 +534,9 @@ Source: `assets/css/korpus.css` (post-#17 reader-view styling). Element-to-class
 |-------|------------|-------------|
 | `.reading-body` | `Georgia, serif; 1.125rem; line-height: 1.8` | Container |
 | `.section-head` | `sans-serif; 1.25rem; font-weight: 600; color: accent` | `<head>` |
+| `.section-head.book-heading` | larger than `.section-head`, 2px rule (values in `korpus.css`) | `<milestone unit="book" n="…"/>`, rendered as „Buch N" (#358) |
 | `.tei-div`, `.tei-div-{type}` | `margin: space-4 0`; per-type variants for song / chapter / recipe / number / section / colophon / parallel | `<div>` |
-| `.tei-div-header`, `.tei-div-header.tei-div-{type}` | German label + counter (e.g. „Lied 3", „Kapitel 12") | first child of `<div>` |
+| `.tei-div-header`, `.tei-div-header.tei-div-{type}` | German label + counter (e.g. „Lied 3", „Kapitel 12", „Strophe 58" for `subtype="dreissiger"`) | first child of `<div>`, below a book heading that opens the same `<div>` |
 | `.verse-group` | `margin: space-4 0` | `<lg>` |
 | `.stanza-label` | inline „Strophe N" prefix | first child of `<lg>` |
 | `.verse-line` | `display: block; margin-left: space-4; line-height: 1.6`; verse number in margin via `data-n` (1, 5, 10, …) | `<l>` |
