@@ -575,21 +575,15 @@ test.describe('Issue #250: Label ueber einer eigenen head-Ueberschrift', () => {
         await expect(page.locator('#readingBody .page-break')).toHaveCount(0);
 
         // Der Deep-Link aus #193 traegt weiter, und die Stelle ist jetzt
-        // ohne Nachrechnen zitierfaehig: Wh. 77,14 steht unter "Kapitel 77".
+        // ohne Nachrechnen zitierfaehig: Wh. 77,14 steht unter "Strophe 77".
         const ziel = page.locator('.verse-line[data-core="7714"]');
         await expect(ziel).toHaveCount(1);
         await expect(ziel).toHaveAttribute('data-n', '14');
         const kapitel = page.locator('#readingBody .tei-div[data-n="77"]');
-        // Seit #358 (KZW 11.09.2026) heisst ein Dreissiger "Strophe", sobald
-        // das TEI subtype="dreissiger" traegt; davor "Kapitel". Das Wort folgt
-        // dem TEI, damit der Test vor und nach der Umkodierung (A3) dasselbe prueft.
-        const hatSubtype = await page.evaluate(async () => {
-            const xml = await (await fetch('/tei/WH.tei.xml')).text();
-            const tag = xml.match(/<div\b[^>]*\bn="77"[^>]*>/);
-            return !!tag && /\bsubtype="dreissiger"/.test(tag[0]);
-        });
-        await expect(kapitel.locator('> h3.section-head'))
-            .toHaveText(hatSubtype ? 'Strophe 77' : 'Kapitel 77');
+        // Seit #358 traegt jeder WH-Dreissiger subtype="dreissiger" und heisst
+        // "Strophe" (KZW 11.09.2026). Fest erwartet, damit eine Rueck-Umkodierung
+        // von WH hier rot wird.
+        await expect(kapitel.locator('> h3.section-head')).toHaveText('Strophe 77');
         await expect(kapitel.locator('.verse-line[data-core="7714"]')).toHaveCount(1);
     });
 
