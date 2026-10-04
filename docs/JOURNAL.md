@@ -24,7 +24,7 @@ Eine, Nr. 85: eine Testursache als belegt in einen Merge-Commit und einen Issue-
 
 ### Was zurück an Christian geht
 
-Drei nicht blockierende Test- und Kommentarlücken stehen im Laufplan unter „Abnahme“. Die Ursache des einen roten Wörterbuchnetz-Tests auf #523 bleibt ungeklärt.
+Die drei nicht blockierenden Test- und Kommentarlücken aus der Abnahme sind am selben Tag in #524 geschlossen. Dabei ist die Lehre aus dem B2-Eintrag vom 02.10. („ein Test, der ein Wort aus den Daten erwartet, muss dem Datenstand folgen“) zurückgenommen worden: sie galt nur, solange A3 noch ausstand. Seit WH die Kennzeichnung trägt, erwartet der Test fest „Strophe 77“, denn ein Test, der dem Datenstand folgt, meldet auch dessen Rückschritt nicht. Die Ursache des einen roten Wörterbuchnetz-Tests auf #523 bleibt ungeklärt.
 
 ## 2026-10-02 (Spur B, B2): #358, Dreißiger heißen "Strophe", Parzival-Bücher "Buch N"
 
