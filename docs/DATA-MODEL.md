@@ -524,7 +524,7 @@ Build properties: deterministic on the #125 principle (no timestamps, compact JS
 | | | `.//tei:idno[@type="wikidata"]` | Wikidata ID |
 | | | (derived from works.xml `<author @ref>`) | Work IDs (built at index time) |
 | | works.xml | `.//tei:bibl` (fallback `.//work` for non-TEI sources) | Work records |
-| | | `./tei:title` | All titles (with `@xml:lang`, `@type`, `@ana`). All 1,147 title objects carry an `ana` key, 510 of them non-null |
+| | | `./tei:title` | All titles (with `@xml:lang`, `@type`, `@ana`). Every title object carries an `ana` key, most of them null (2026-10-05: 510 of 1,149 non-null) |
 | | | `.//tei:idno[@type="sigle"]` | Sigles (may be multiple) |
 | | | `.//tei:idno[@type="GND"]` | Work GND (extract ID from URL: strip `https://d-nb.info/gnd/`) |
 | | | `.//tei:idno[@type="wikidata"]` | Work Wikidata (extract Q-ID from URL: strip `https://www.wikidata.org/entity/`) |
