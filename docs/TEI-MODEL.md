@@ -1022,7 +1022,7 @@ When new texts are ingested, the following defaults hold for editor attribution 
 2. **Collective team attribution** in `<titleStmt>/<respStmt>`:
    - `<orgName ref="contributors.xml#mhdbdb-team">MHDBDB-Team (vollständige Liste in contributors.xml)</orgName>`
 
-These building blocks were set by the migration script `scripts/_archived/migrate-header-credits.py` in 666 files on 2026-04-15. WZB received only the team attribution at the branch merge on 2026-05-06 (`48204f386`) and got the authority block on 2026-10-05, copied unchanged from the other files. Since then both building blocks are identical in all 667 files. For new ingests simply copy them from an existing file or from `schema/examples/corpus.example.tei.xml`.
+These building blocks were set by the migration script `scripts/_archived/migrate-header-credits.py` on 2026-04-15, in every corpus file of that day; WZB was not yet among them. It received only the team attribution at the branch merge on 2026-05-06 (`48204f386`) and got the authority block on 2026-10-05, copied unchanged from the other files. Since then both building blocks are identical in all 667 files. For new ingests simply copy them from an existing file or from `schema/examples/corpus.example.tei.xml`.
 
 **Do not write the full contributor list into the header.** The 50+ editors who historically worked on the existing texts live in `contributors.xml` and are covered by the collective `mhdbdb-team` reference. The header stays lean.
 
