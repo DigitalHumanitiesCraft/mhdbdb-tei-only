@@ -954,7 +954,7 @@ Row 2 against row 3 can be measured instead of guessed: run `extract-variants.py
 | 7 | Regenerate the API: `python scripts/build-api.py` (it reads both `data/*.json.gz`, hence after steps 4 and 6; the freshly built, still uncommitted indexes require `--allow-dirty` locally) | the static JSON API under `api/` serves stale or orphaned records | CI (freshness gate in data-integrity.yml) |
 | 8 | Regenerate the Begriffshilfe: `python scripts/build-begriffshilfe.py` (about 25 s; it reads `concepts.xml`, the `sense/ptr` of `lexicon.xml` and `w/@ana`, not the indexes and not `variants.xml`, so its place in the order is free) | the downloadable concept help under `assets/downloads/` carries stale attestation counts or lemmata | CI (freshness gate in data-integrity.yml) |
 | 9 | Cross-ref audit: `python scripts/audit/check-authority-cross-refs.py --check` | dangling refs (lemma or variant not found, empty panels) | CI (in `data-integrity.yml`) |
-| 10 | `python scripts/validate-indices.py` plus `npm test` (**ask the user first**) | structural index or frontend regression | manual |
+| 10 | `python scripts/validate-indices.py` plus `npm test` (needs no permission, see CLAUDE.md) | structural index or frontend regression | manual |
 | 11 | Commit **the TEI, the built `data/*.json.gz`, `api/`, `assets/downloads/mhdbdb-begriffshilfe.md` and the bumps together**, staging files by name (never `git add -A`, the working dir is shared) | production serves a stale search or an old cache | manual |
 | 12 | Push to main, GitHub Pages deploys statically (~2 to 5 min, no Pages build) | it never reaches production; what is committed is what ships | CI (auto deploy) |
 
