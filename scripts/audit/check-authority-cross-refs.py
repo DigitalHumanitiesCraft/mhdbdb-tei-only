@@ -50,7 +50,7 @@ from lxml import etree
 
 # Gemeinsame Korpusauswahl (#287).
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from corpus_files import TEI_DIR, corpus_files, default_jobs  # noqa: E402
+from corpus_files import PROJECT_ROOT, TEI_DIR, corpus_files, default_jobs  # noqa: E402
 
 # Konvention in scripts/audit/ (#329): Windows-Konsolen laufen auf cp1252,
 # und Audit-Skripte geben Korpus- und Lexikonformen aus. Die MHG-Breven ŏ
@@ -69,7 +69,10 @@ TEI_NS = '{http://www.tei-c.org/ns/1.0}'
 REF_ATTRS = ('lemmaRef', 'ana', 'corresp', 'ref', 'target')
 
 # Authority files live here; we resolve fragments against their xml:id sets.
-AUTHORITY_DIR = Path('authority-files')
+# An der Repo-Wurzel dieses Skripts verankert wie TEI_DIR, nicht am cwd: sonst
+# liest ein Aufruf aus einer anderen Kopie (Worktree) Korpus und Authority aus
+# zwei verschiedenen Staenden (fehlerjournal.md 104).
+AUTHORITY_DIR = PROJECT_ROOT / 'authority-files'
 SCRIPT_DIR = Path(__file__).resolve().parent
 JSON_OUT = SCRIPT_DIR / 'authority-cross-refs-audit.json'
 
@@ -319,7 +322,7 @@ def main():
         return 1
     update_baseline = update_scope is not None
     if not TEI_DIR.exists() or not AUTHORITY_DIR.exists():
-        print('Error: run from repo root (tei/ and authority-files/ required)')
+        print(f'Error: tei/ oder authority-files/ fehlt unter {PROJECT_ROOT}')
         return 1
 
     print('Building authority id-sets...')

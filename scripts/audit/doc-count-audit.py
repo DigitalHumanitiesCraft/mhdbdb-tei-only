@@ -19,6 +19,7 @@ Usage:
 import argparse
 import glob
 import io
+import os
 import re
 import sys
 from pathlib import Path
@@ -898,6 +899,12 @@ def main():
     ap.add_argument('--check', action='store_true',
                     help='exit code 1 if any stale numbers found in docs')
     args = ap.parse_args()
+    # Alle Pfade dieses Skripts sind relativ geschrieben (rund 40 Stellen),
+    # corpus_files() dagegen rechnet ueber __file__. Ohne chdir pruefte ein
+    # Aufruf aus einer anderen Kopie (Worktree) deren Doku gegen das eigene
+    # Korpus (fehlerjournal.md 104). Das Skript nimmt keine Pfad-Argumente,
+    # der Wechsel ist also verlustfrei.
+    os.chdir(Path(__file__).resolve().parents[2])
 
     counts = collect_counts()
     code_counts = collect_code_counts()

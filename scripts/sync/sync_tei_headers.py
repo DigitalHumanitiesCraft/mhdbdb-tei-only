@@ -45,7 +45,7 @@ from abc import ABC, abstractmethod
 
 # Gemeinsame Korpusauswahl (#287).
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from corpus_files import TEI_DIR, corpus_files  # noqa: E402
+from corpus_files import PROJECT_ROOT, TEI_DIR, corpus_files  # noqa: E402
 
 # Set up logging
 logging.basicConfig(
@@ -54,8 +54,10 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# File paths
-AUTHORITY_DIR = Path("authority-files")
+# File paths. An der Repo-Wurzel verankert wie TEI_DIR, nicht am cwd: sonst
+# liest ein Aufruf aus einer anderen Kopie Header und Authority aus zwei
+# verschiedenen Staenden (fehlerjournal.md 104).
+AUTHORITY_DIR = PROJECT_ROOT / "authority-files"
 
 # TEI namespace
 TEI_NS = {"tei": "http://www.tei-c.org/ns/1.0"}
