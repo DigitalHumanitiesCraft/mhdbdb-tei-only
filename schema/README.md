@@ -20,7 +20,7 @@ Jede MHDBDB-Datei muss beide Stufen bestehen:
 1. **TEI-P5-Konformität** (`tei_all.rng`) — die Datei ist valides TEI
 2. **MHDBDB-Constraints** (`mhdbdb.rnc` oder `mhdbdb-authority.rnc`) — die Datei folgt den MHDBDB-Konventionen
 
-Stufe 2 ist das maßgebliche Schema (hartes Gate in der CI). Stufe 1 stellt die Interoperabilität mit dem TEI-Ökosystem sicher und wird in der CI als Drift-Wache mitgeprüft: 34 Korpus-Files sind als #30-Baseline (GAPs 1–11 in `mhdbdb.rnc`) absichtlich nicht TEI-Standard-konform. Ein 35. Fail würde als WARN im CI-Log erscheinen.
+Stufe 2 ist das maßgebliche Schema (hartes Gate in der CI). Stufe 1 stellt die Interoperabilität mit dem TEI-Ökosystem sicher und wird in der CI als Drift-Wache mitgeprüft: 34 Korpus-Files sind als #30-Baseline (GAPs 1 bis 9 und 11 in `mhdbdb.rnc`) absichtlich nicht TEI-Standard-konform. Ein 35. Fail würde als WARN im CI-Log erscheinen.
 
 ### Editor-Validation: nur Stufe 2 als `<?xml-model?>`-PI
 

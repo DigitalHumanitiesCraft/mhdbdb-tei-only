@@ -950,7 +950,7 @@ Earlier errors (all fixed by migration):
 
 **Two-stage validation:**
 - **Stage 1:** `tei_all.rng` = the TEI P5 conformance test (criteria 1-4). Baseline: 633/667 green.
-- **Stage 2:** `mhdbdb.rnc` = the MHDBDB stamp. It covers all patterns in the existing data, including the 34 tei_all deviations (GAPs 1-11). Baseline: 667/667 green.
+- **Stage 2:** `mhdbdb.rnc` = the MHDBDB stamp. It covers all patterns in the existing data, including the 34 tei_all deviations (GAPs 1 to 9 and 11). Baseline: 667/667 green.
 
 `mhdbdb.rnc` is **not a strict subset** of `tei_all.rng`: it is stricter on some points (enumerated `@type` values, more restrictive child elements) and more permissive on others (the GAPs). The two stages check different properties and are complementary, not redundant.
 
@@ -984,7 +984,7 @@ A consolidated list of all deliberately non-normalized islands of data and of th
 
 | Exception / gap | Affected | Reason | Status / tracking |
 |------------------|-----------|-------|-------------------|
-| schema GAPs 1-11 (`schema/mhdbdb.rnc`) | 34 corpus files (category table above) | existing data; migration disproportionately expensive or semantically risky: documented exceptions to the data-before-schema rule | permanent; every GAP is commented in the schema |
+| schema GAPs 1 to 9 and 11 (`schema/mhdbdb.rnc`) | 34 corpus files (category table above) | existing data; migration disproportionately expensive or semantically risky: documented exceptions to the data-before-schema rule | permanent; every GAP is commented in the schema |
 | ARI/PD-001 domain elements | 6 ARITHMETIC manuscripts (not yet in the corpus) | 12 non-schema element classes + 24 `div/@type` + 7 `hi/@rend` values from Carina's arithmetic books; without PD-001 they would fail stage-2 validation | decided 2026-05-08: domain tags go into the schema (DECISIONS.md § PD-001); the schema extension is on `main` since `b59350bb5` and the six converted files lie in `ingest/ari/`; only the ingest is pending, waiting on Carina's metadata → #92 |
 | lexicon.xml backfill | remaining 396 dangling refs / 109 IDs (category B: sense curation, category C: typos/homographs) | the WZB forward ingest stamped lemma IDs into the corpus only; category A (125 entries) was stubbed on 2026-07-02 via `backfill-lexicon.py` | open → #115 (B/C curatorial, KZW/Julia) |
 | WVV stanza anchors | WVV, 23 stanzas | unusual Linecode template, anchors missing (#23 follow-up) | **solved** 2026-07-08 (#110): the 4 open places contained 11 header-separated verse blocks, each is now an `<lg type="stanza">` of its own; WVV has 489 stanzas, token stream byte-identical |

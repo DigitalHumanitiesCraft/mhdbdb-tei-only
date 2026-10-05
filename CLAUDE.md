@@ -75,7 +75,7 @@ python scripts/build-api.py               # Rebuild static JSON API
 - **Desktop-only**: min 1200px width
 - **IndexedDB required**: large indexes cached in browser
 - **Position counting**: only `<w>` elements with `@lemmaRef`; Python and JS must match exactly
-- **Data before schema**: when existing data (corpus, authority files) conflicts with the schema, migrate the data first, do not loosen the schema. Loosening is admissible only where the data migration would be disproportionately expensive or semantically dangerous, and then it is documented explicitly as a `GAP` comment in the schema (see `schema/mhdbdb.rnc`, GAPs 1–11).
+- **Data before schema**: when existing data (corpus, authority files) conflicts with the schema, migrate the data first, do not loosen the schema. Loosening is admissible only where the data migration would be disproportionately expensive or semantically dangerous, and then it is documented explicitly as a `GAP` comment in the schema (see the `GAP` comments in `schema/mhdbdb.rnc`).
 
 ## Git Rules
 
