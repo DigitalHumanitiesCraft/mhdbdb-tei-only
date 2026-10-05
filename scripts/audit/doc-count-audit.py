@@ -899,7 +899,7 @@ def main():
     ap.add_argument('--check', action='store_true',
                     help='exit code 1 if any stale numbers found in docs')
     args = ap.parse_args()
-    # Alle Pfade dieses Skripts sind relativ geschrieben (rund 40 Stellen),
+    # Die Pfade dieses Skripts sind relativ geschrieben, an vielen Stellen;
     # corpus_files() dagegen rechnet ueber __file__. Ohne chdir pruefte ein
     # Aufruf aus einer anderen Kopie (Worktree) deren Doku gegen das eigene
     # Korpus (fehlerjournal.md 104). Das Skript nimmt keine Pfad-Argumente,

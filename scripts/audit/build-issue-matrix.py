@@ -352,6 +352,9 @@ def pruefe(issues):
 
 
 ROADMAP = 'docs/ROADMAP.md'
+# Gelesen wird an der Repo-Wurzel dieses Skripts, nicht am cwd (fehlerjournal.md
+# 104). Im sparse Checkout von issue-matrix.yml ist das dieselbe Stelle wie vorher.
+REPO = Path(__file__).resolve().parents[2]
 
 
 def hole_geschlossene():
@@ -402,7 +405,7 @@ def pruefe_roadmap(geschlossene):
     Pflegerueckstand und kein kaputter Build. Das gilt auch fuer den Ausfall
     dieser Pruefung selbst, siehe main().
     """
-    pfad = Path(ROADMAP)
+    pfad = REPO / ROADMAP
     if not pfad.exists():
         raise FileNotFoundError(pfad)
     treffer = []
@@ -851,7 +854,7 @@ def main():
         roadmap_treffer = pruefe_roadmap(hole_geschlossene())
     except FileNotFoundError:
         roadmap_treffer = []
-        print(f'::warning::{ROADMAP} ist im Arbeitsverzeichnis nicht '
+        print(f'::warning::{ROADMAP} ist unter {REPO} nicht '
               f'vorhanden, die ROADMAP-Pruefung ist ausgefallen. Im Workflow '
               f'gehoert die Datei in die sparse-checkout-Liste.',
               file=sys.stderr)
