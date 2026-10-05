@@ -328,8 +328,8 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
     filename: "ABG.tei.xml",
     title: "Von der Abgeschiedenheit",
     author: "Meister Eckhart",
-    authorRef: "#person_445",        // verbatim from the TEI @ref: 666 of 667 in this shape,
-                                     // WZB alone writes "persons.xml#person_anonym" (#308)
+    authorRef: "#person_445",        // verbatim from the TEI @ref: 667 of 667 in this shape
+                                     // since #308 (WZB used to write "persons.xml#person_anonym")
     workRef: "works.xml#work_89",    // verbatim from msIdentifier/@corresp, with file prefix
     wordCount: 2955,                 // lemmatized tokens only (<w> with @lemmaRef), NOT all <w>
     words: ["lemma_879", ...],       // lemma IDs in document order; index = position
