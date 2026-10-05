@@ -76,9 +76,13 @@ from lxml import etree
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from corpus_files import default_jobs  # noqa: E402
 
-SCHEMA_TEI_ALL = 'schema/tei_all.rng'
-SCHEMA_MHDBDB = 'schema/mhdbdb.rng'
-SCHEMA_MHDBDB_AUTH = 'schema/mhdbdb-authority.rng'
+# Alle Pfade an der Repo-Wurzel dieses Skripts verankert, nicht am cwd: aus
+# einer anderen Kopie (Worktree) aufgerufen, validierte es sonst still die
+# Dateien dieser anderen Kopie (fehlerjournal.md 104).
+REPO = Path(__file__).resolve().parents[2]
+SCHEMA_TEI_ALL = str(REPO / 'schema' / 'tei_all.rng')
+SCHEMA_MHDBDB = str(REPO / 'schema' / 'mhdbdb.rng')
+SCHEMA_MHDBDB_AUTH = str(REPO / 'schema' / 'mhdbdb-authority.rng')
 
 # Known #30-baseline: 34 corpus files that are intentionally not
 # strict-tei_all-valid because they contain patterns documented as
@@ -186,8 +190,8 @@ def main():
     files = []  # list of (path, stage2_schema, stage2_label)
     if args.sample:
         for s in args.sample:
-            p_corpus = Path(f'tei/{s}.tei.xml')
-            p_auth = Path(f'authority-files/{s}.xml')
+            p_corpus = REPO / 'tei' / f'{s}.tei.xml'
+            p_auth = REPO / 'authority-files' / f'{s}.xml'
             if p_corpus.exists():
                 files.append((p_corpus, mhdbdb, 'mhdbdb'))
             elif p_auth.exists():
@@ -201,10 +205,10 @@ def main():
             # XML-Datei in diesen beiden Verzeichnissen schema-valide". Ein
             # versehentlich in tei/ liegender .disamb.-Zwischenstand soll hier
             # geprueft und nicht stillschweigend uebersprungen werden.
-            for f in sorted(glob.glob('tei/*.tei.xml')):
+            for f in sorted(glob.glob(str(REPO / 'tei' / '*.tei.xml'))):
                 files.append((Path(f), mhdbdb, 'mhdbdb'))
         if not args.corpus_only:
-            for f in sorted(glob.glob('authority-files/*.xml')):
+            for f in sorted(glob.glob(str(REPO / 'authority-files' / '*.xml'))):
                 files.append((Path(f), auth, 'mhdbdb-authority'))
 
     if not files:
