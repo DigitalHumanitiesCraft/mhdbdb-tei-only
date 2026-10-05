@@ -503,10 +503,10 @@ npm run test:headed   # Visible browser
 **Solution:** Three-stage lookup (exact → variants → prefix match in both directions)
 **Result:** Attested orthographic variants resolve via stage 2; stage 3 catches stems and inflected forms without drowning them in short-lemma noise (#224)
 
-### IndexedDB Dual Expiration
+### IndexedDB Expiration
 
 **Problem:** Balance freshness vs performance
-**Solution:** 30-day expiration for reference data, no expiration for user content
+**Solution:** The index cache (`assets/js/lib/corpus-loader.js`) is dropped on a version mismatch with `INDEX_VERSION`/`AUTHORITY_INDEX_VERSION` or after 30 days. The TEI cache of the reading view (`assets/js/storage/tei-cache-manager.js`) also expires after 30 days, but there that is storage hygiene: the reader revalidates against the server on every load (#151). The former second rule, no expiration for uploaded user files, went with the upload path (#314).
 **Result:** Fresh data without excessive refetching
 
 ### Document-Level Indexing (v4.0.0)
