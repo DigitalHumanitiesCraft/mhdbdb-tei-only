@@ -507,7 +507,7 @@ Build desktop-only interface with minimum 1200px screen width:
 **Positive:**
 - Faster feature development
 - Better desktop experience
-- Simpler CSS (no media queries)
+- Simpler CSS (no mobile layout; the few breakpoints that exist, such as the column collapse below 1280px and the mobile menu, only keep narrow windows usable)
 - Can use complex multi-column layouts
 
 **Negative:**

@@ -105,7 +105,7 @@ Allows users to include/exclude specific texts from search:
 **Layout Architecture:**
 - Browser-level scrolling (no container scrollbars)
 - Equal-height columns using CSS Grid with `align-items: start`
-- Responsive: 3 columns on desktop (≥1280px), stacked on mobile
+- 3 columns from 1280px (`xl:`), one column below; this is a fallback for narrow windows, not a mobile layout (the interface is desktop-only, ADR-008)
 - Dynamic column management (2-column initial state, 3-column after search)
 
 **Key features:**
