@@ -281,7 +281,7 @@ function lemmaRefMatchesId(lemmaRef, lemmaId):
 | `lexicon.xml#lemma_308 lexicon.xml#lemma_5` | `lemma_5` | yes |
 | `lexicon.xml#lemma_30800` | `lemma_308` | **no** |
 
-**Applies to all highlight/match paths**, all routed through the single `lemmaRefMatchesId` since #130 (was 6 inline copies across 4 files, the duplication that made #126 possible). Call sites today, measured 2026-08-01: `tei-text-reader.js:770/:784` (single + multi-lemma), `kwic-service.js:93` (KWIC lines) and `ui-helpers.js:444` in the playground (context highlight).
+**Applies to all highlight/match paths**, all routed through the single `lemmaRefMatchesId` since #130 (was 6 inline copies across 4 files, the duplication that made #126 possible). Call sites, measured 2026-10-05: `tei-text-reader.js` `processWord()` (single + multi-lemma), `kwic-service.js` `extractKwicHits()` (KWIC lines), and in the playground `ui-helpers.js` `enrichFileResults()` (context highlight) plus `multi-lemma-export.js` `pruefePosition()` and `zeilenFensterModus()` (export).
 
 Two former call sites are gone, and both are worth naming because the rule is easy to think of as universal: `text-renderer.js` lost its dead render path and then the whole shim (audit #42 plus Carearbeit 2026-07), and `tei-manager.js` stopped calling it with #314. The latter is not a gap: the proximity search reads `words[]` from the corpus index, and that array holds exactly one lemma ID per position (`build-corpus-index.py`: `words.append(lemma_ids[0])`, #170). There is no whitespace-separated list to tokenize, so a normalized `===` is the same predicate there. The unused import stayed behind until #325.
 
@@ -635,7 +635,7 @@ function searchDocumentLevel(lemmaIds, corpusData):
 
 **Trigger:** Reading view opens a text whose work has a `wikidata` field in the authority index.
 
-Source: `assets/js/rendering/tei-text-reader.js` → `getWikidataImage()` (~line 939; P18 `wbgetclaims` request at ~line 944)
+Source: `assets/js/rendering/tei-text-reader.js` → `getWikidataImage()` (the P18 `wbgetclaims` request sits inside it)
 
 **Request chain (3 sequential calls):**
 
@@ -714,9 +714,9 @@ Response: {                              // illustrative shape, IDs schematic
 
 | Target | URL Pattern | Source |
 |--------|------------|--------|
-| Old MHDBDB | `https://mhdbdb-old.sbg.ac.at/mhdbdb/App?action=Dic&lid={numericId}` | `lemma-page.js:239` |
-| REALonline (IMAREAL) | `https://realonline.imareal.sbg.ac.at/suche#{json}` where json = `{"s":"{normalized}"}` | `lemma-page.js:244` |
-| Corpus search | `../korpus.html?search={lemma.lemma}` – evaluated in `app.js` `handleURLParameters()` (#144): fills the search field and triggers the normal search | `lemma-page.js:249` |
+| Old MHDBDB | `https://mhdbdb-old.sbg.ac.at/mhdbdb/App?action=Dic&lid={numericId}` | `lemma-page.js` `renderExternalLinks()` |
+| REALonline (IMAREAL) | `https://realonline.imareal.sbg.ac.at/suche#{json}` where json = `{"s":"{normalized}"}` | `lemma-page.js` `renderExternalLinks()` |
+| Corpus search | `../korpus.html?search={lemma.lemma}` – evaluated in `app.js` `handleURLParameters()` (#144): fills the search field and triggers the normal search | `lemma-page.js` `renderExternalLinks()` |
 | GND (person/work) | `https://d-nb.info/gnd/{gndId}` | `tei-text-reader.js` |
 | Wikidata (person/work) | `https://www.wikidata.org/wiki/{wikidataId}` | `tei-text-reader.js` |
 | Handschriftencensus | URL stored in authority index `work.handschriftencensus` | `tei-text-reader.js` |
@@ -742,7 +742,7 @@ Response (XML):
 
 **Why:** External dictionary networks link to MHDBDB lemmata by numeric ID. Breaking these URLs breaks scholarly infrastructure across institutions.
 
-Source: `404.html` (redirect), `lemma/lemma-page.js:48-72` (parsing)
+Source: `404.html` (redirect), `lemma/lemma-page.js` `parseLemmaId()` (parsing)
 
 ```
 URL routing (GitHub Pages, no server-side routing):
