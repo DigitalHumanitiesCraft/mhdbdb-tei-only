@@ -10,6 +10,9 @@ Verdichtet 02.10.2026 (#395, #399, #237, #308).
 - Zotero -> works.xml (`enhance_works_with_zotero.py`) -> Header (`sync_tei_headers.py --bibl-struct`); der Header ist Kopie (entschieden 24.09.).
 - Reader, API und Playground nehmen biblStructs, hc/GND/wikidata und preferredName aus dem Authority-Index, nie aus dem Header. Reader liest Header-Titel nur bei `biblScope unit=verse`.
 - Drei Spiegel ohne Leser: msIdentifier-idno, listBibl/biblStruct, `particDesc/.../persName[@type="preferred"]` (Kopie von persons.xml; kein Sync-Skript, Namensentscheidungen von Hand nachziehen).
+- Vierter ohne Leser (gemessen 05.10.2026, WZB-authority-Block): `publicationStmt/authority` liest kein Build, kein Reader-JS, kein Playground, kein Test (`rg publicationStmt|<authority` über scripts/ assets/js playground/js testing/tests, nur `_archived/` und `ingest/ari` schreiben ihn). Header-Ergänzung dort ändert data/ und api/ nicht, also kein Versions-Bump.
+
+**WZB-Zeilenenden:** WZB ist die einzige CRLF-Datei in tei/, und zwar im Blob selbst (`*.xml -text` in .gitattributes, autocrlf wirkungslos). Kontrollzahl 17 reine LF-Zeilen (journal-archive:3119); vor und nach einer Header-Änderung mit `(?<!\r)\n` zählen. PZ ist LF, ein „byte-identisch aus PZ" gilt also nur modulo CR.
 
 **sync_tei_headers.py**
 - Schlüssel seit #395 (work_id, sigle); vorher gewann je Sigle der letzte Eintrag (TRO).
