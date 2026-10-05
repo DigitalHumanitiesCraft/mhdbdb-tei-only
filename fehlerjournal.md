@@ -1083,3 +1083,23 @@ Auto-Mode-Classifier abgelehnt, und die Blockade ging an Christian.
 **Was es getragen hat:** einen Kommentar an KZW in genau dem Vorgang, in dem sie verlangt hat, dass offene und erledigte Fragen bei ihr richtig geführt werden. Christian hat es nach dem Posten gemerkt („bitte immer alle kommentare lesen“). Nach dem Nachlesen aller 21 genannten Vorgänge ist der Kommentar am selben Tag ergänzt, mit Vermerk im Text.
 
 **Kein neuer Mechanismus:** zweite Zeile zu dieser Lehre. Der Hook zu `entscheidungsfragen.md` sieht `gh issue view` ohne `--json comments`, nicht ein eigenes Skript, das die Kommentare holt und dann abschneidet; die Aussetzung ist der Mechanismus.
+
+### 103. Rot: `doc-count-audit.py` ohne `--check` laufen lassen und `main` mit einer Drift rot gemacht (05.10.2026).
+
+**Rot.** Beim Zahlen-Durchgang vom 05.10. habe ich in TEI-MODEL:1025 „in 666 files on 2026-04-15" geschrieben und direkt auf `main` gepusht. Lokal lief `doc-count-audit.py` ohne `--check`; ohne den Schalter endet es mit Exit 0, auch wenn der Drift-Scan anschlägt. Die CI ruft es mit `--check` auf (`no-cdn-check.yml`, `data-integrity.yml`), und dort war es rot. Aufgefallen erst, als #527 dieselben zwei Checks rot zeigte.
+
+**Die Lehre steht in Eintrag 9 und in `feedback_index_version_bump`: ein Gate lokal laufen lassen, bevor es die Pipeline tut.** Ich habe es laufen lassen, aber nicht so, wie die Pipeline es aufruft, und der Exit-Code hat genau das verschwiegen. Die letzte Zeile zu dieser Lehre ist Eintrag 9.
+
+**Was es getragen hat:** `no-cdn-check` auf `main` ist seit dem Push von `741b9e4b4` (der `aaca396f3` enthält) rot, zuletzt grün auf `621bcf749`; drei rote Läufe bis zum Merge von #527. Behoben in #527 (Satz ohne die Zahl).
+
+**Kein neuer Mechanismus:** zweite Zeile.
+
+### 104. Rot: Schema-Validierung und Drift-Scan aus dem Hauptbaum gestartet, gemeint war der Worktree, und „2/2 voll gültig" in den PR-Text geschrieben (05.10.2026).
+
+**Rot.** Für #527 habe ich `scripts/audit/validate-corpus.py` aus dem Worktree aufgerufen, mit dem Hauptbaum als Arbeitsverzeichnis. Das Skript löst `schema/` und `tei/` relativ zum Arbeitsverzeichnis auf, validiert hat es also die WZB **ohne** den neuen Block. Das Ergebnis „2/2 fully valid" stand im PR-Text als Beleg für die Änderung. Bemerkt erst, als `doc-count-audit.py` aus demselben Grund die alte Fassung von TEI-MODEL meldete. Mit dem Worktree als Arbeitsverzeichnis wiederholt: 2/2 gültig, also zufällig richtig.
+
+**Die Lehre steht in `CLAUDE.md` unter Self-Inflicted Overhead: vor der Probe prüfen, ob sie die Stelle trifft, um die es geht** (dort mit den Einträgen 52 und 54 belegt). Hier traf sie eine andere Kopie derselben Datei. Die letzte Zeile zu dieser Lehre ist Eintrag 54.
+
+**Was es getragen hat:** eine Gültigkeitsaussage in einem PR-Text, die über die geänderte Datei nichts sagte. Richtiggestellt im Kommentar auf #527 vor dem Merge.
+
+**Dritte Zeile, also Mechanismuswechsel:** Vorschlag, beide Skripte (und jedes weitere in `scripts/audit/`, das cwd-relativ liest) den Repo-Pfad über `__file__` bestimmen zu lassen, wie es `check-no-em-dash.py` schon tut. Dann prüft ein Skript immer die Kopie, in der es liegt.
