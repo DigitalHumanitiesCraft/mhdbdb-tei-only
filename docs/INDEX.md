@@ -22,7 +22,7 @@ The MHDBDB TEI Repository provides a comprehensive digital corpus of Middle High
 - **Legacy Linecode sources** - 306 pre-TEI ingest files under [`sources/linecode/`](../sources/README.md) covering 199 of the 667 sigles, plus a catalog of the 9.1 GB local archive they came from. **Not normative, never indexed, never edited**: they exist to diagnose what the original Linecode-to-TEI conversion flattened (#248). The archive itself stays on KZW's OneDrive; `sources/INVENTAR-ARCHIV.md` is the access path
 
 ### Key Architecture Decision
-The project migrated from runtime XML parsing to pre-built JSON indexes because large XML files caused 30-second browser load times. Pre-built indexes reduce download size by 19× and eliminate parsing overhead. Trade-off: requires Python build step when XML sources change.
+The project migrated from runtime XML parsing to pre-built JSON indexes because large XML files caused 30-second browser load times. For the authority files, the pre-built index cut the download by about 15× (47.3 MB of XML to ~3.1 MB, [ADR-001](DECISIONS.md)) and the indexes eliminate parsing overhead. Trade-off: requires Python build step when XML sources change.
 
 ## Core Features
 

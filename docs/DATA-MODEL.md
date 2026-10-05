@@ -14,7 +14,7 @@ The MHDBDB data architecture follows a three-stage flow:
 [Runtime Data Structures]
 ```
 
-**Key Principle:** Pre-compute expensive operations (XML parsing, cross-reference resolution) at build time rather than runtime, reducing browser load from ~50 MB XML to ~3 MB compressed JSON (19× reduction).
+**Key Principle:** Pre-compute expensive operations (XML parsing, cross-reference resolution) at build time rather than runtime, reducing the authority download from 47.3 MB of XML to ~3.1 MB of compressed JSON (about 15×, see ADR-001 in DECISIONS.md).
 
 ## Source Data
 

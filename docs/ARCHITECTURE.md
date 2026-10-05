@@ -495,7 +495,7 @@ npm run test:headed   # Visible browser
 
 **Problem:** 50MB XML files caused 30-second browser load times
 **Solution:** Pre-build JSON indexes at build time
-**Result:** 19× smaller download, no parsing overhead
+**Result:** ~15× smaller authority download (47.3 MB → ~3.1 MB, ADR-001), no parsing overhead
 
 ### 3-Stage Lemma Resolution
 
