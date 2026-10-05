@@ -112,7 +112,7 @@ Attribution of the people who worked on the MHDBDB runs centrally through `autho
 | Information | Place in the header | Pattern |
 |-------------|-----------------|--------|
 | collective team attribution | `<titleStmt>/<respStmt>` | `<orgName ref="contributors.xml#mhdbdb-team">` |
-| founders + coordinator (always the same; 666 of 667 files, WZB has none, measured 2026-10-05) | `<publicationStmt>/<authority>` | `<persName role="founder\|coordinator" ref="contributors.xml#contrib_00X">` |
+| founders + coordinator (always the same, all 667 files since 2026-10-05) | `<publicationStmt>/<authority>` | `<persName role="founder\|coordinator" ref="contributors.xml#contrib_00X">` |
 | prominent lead editor (only for JT/PUC/TKA/TKR/VTC) | second `<titleStmt>/<respStmt>` | `<name role="lead-editor" ref="contributors.xml#contrib_00X">` |
 | a named contribution that is *not* a lead editorship (only WZB) | second `<titleStmt>/<respStmt>` | `<name ref="contributors.xml#contrib_00X">`, no `@role` |
 
@@ -1022,7 +1022,7 @@ When new texts are ingested, the following defaults hold for editor attribution 
 2. **Collective team attribution** in `<titleStmt>/<respStmt>`:
    - `<orgName ref="contributors.xml#mhdbdb-team">MHDBDB-Team (vollständige Liste in contributors.xml)</orgName>`
 
-These building blocks were set by the migration script `scripts/_archived/migrate-header-credits.py` in 666 files on 2026-04-15. WZB received only the team attribution, at the branch merge on 2026-05-06 (`48204f386`); it has never carried the authority block. Measured 2026-10-05: the team attribution is in 667 of 667 files, the three `<persName>` entries in 666, WZB being the one without. For new ingests simply copy them from an existing file or from `schema/examples/corpus.example.tei.xml`.
+These building blocks were set by the migration script `scripts/_archived/migrate-header-credits.py` in 666 files on 2026-04-15. WZB received only the team attribution at the branch merge on 2026-05-06 (`48204f386`) and got the authority block on 2026-10-05, copied unchanged from the other files. Since then both building blocks are identical in all 667 files. For new ingests simply copy them from an existing file or from `schema/examples/corpus.example.tei.xml`.
 
 **Do not write the full contributor list into the header.** The 50+ editors who historically worked on the existing texts live in `contributors.xml` and are covered by the collective `mhdbdb-team` reference. The header stays lean.
 
