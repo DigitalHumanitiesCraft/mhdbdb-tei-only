@@ -876,7 +876,7 @@ Schema bump to v4.1.0 (MINOR, a schema extension). Built in the build script via
 
 **Mitigations:**
 - The CI workflow `index-version-check.yml` with `scripts/audit/check-index-versions.py` now enforces version consistency (commit `07c9f3244`; consolidated into `data-integrity.yml` since #125).
-- The memory rule `feedback_index_version_bump.md` reminds future sessions of the three-place rule.
+- The memory rule `feedback_index_version_bump.md` reminds future sessions of the version-bump rule: three places when this ADR was written, five today (see CONTRACTS §E, „Five-place version bump").
 
 ### Relation to ADR-001 and ADR-003
 
