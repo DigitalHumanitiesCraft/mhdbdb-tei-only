@@ -412,7 +412,7 @@ Category derivation at build time: `Epitheta 1-5` becomes `epi`; `Bezeichnung 1-
 
 **File:** `data/horses-index.json.gz` (11 KB gz, 77 KB raw, v1.1.0)
 **Build:** `python scripts/ingest/horses/03-build-index.py` (fetches the source once into the script directory, which is gitignored; `--dry-run` reports without writing)
-**Consumer:** a curated playground query (in progress, together with #194)
+**Consumer:** the curated playground view `playground/#horses` (#193, route contract in [CONTRACTS §D.6](CONTRACTS.md#d6-curated-dataset-route-playgroundhorses-193))
 
 A second external curated dataset, and again not corpus-derived: Luise Borek's `arthurianHorses.xml`, an exemplary semantic encoding of the horses in five Arthurian works (hdl:tudatalib/3695.2, **CC0 1.0**, version 2 published 2026-10-01). Version 2 differs from version 1 (hdl:tudatalib/3695, 2023-01-18) in a single line: Borek corrected the transposed digit Er. 4118 to 4718 after we reported it in #193. The version 2 record lists both files under the same name, so the build pins the bitstream id, not the filename. Note that the file's own header still reads "Veröffentlichung unter CC-BY-SA wird angestrebt" and carries the date January 2017: that is the draft state, the repository licence governs.
 
