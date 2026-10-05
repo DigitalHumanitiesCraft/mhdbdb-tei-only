@@ -338,7 +338,7 @@ Texts with both verse and prose sections use nested `<div>` elements:
 
 ### 3.5 `div/@type` values (audit)
 
-15 distinct values in the existing corpus. They came over as 1:1 translations from the old database export (Julia's TEI documentation, June 2024).
+The old database export brought 15 distinct values, as 1:1 translations (Julia's TEI documentation, June 2024). After the consolidation the corpus carries 7 (recounted on 2026-10-05, same figures as the table below).
 
 For the full list of accepted values see the table "All div/@type decisions in full" below.
 
