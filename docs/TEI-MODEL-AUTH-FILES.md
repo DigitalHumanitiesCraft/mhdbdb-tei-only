@@ -552,7 +552,7 @@ All migration steps were implemented in phases F-K. After #32 was closed, the sc
 
 Active ingest began after the #32 migration. The Wenzelsbibel pipeline (WZB, 2026-04 to 2026-05) exposed the drift pattern that #115 uncovered:
 
-- **Phase 1b** (commit `5cdc98831`, 2026-04) recognized new word forms and assigned new lemma IDs ≥78000. Only 4 of them made it into `lexicon.xml` (senseless at first). In total **98 lemma IDs ≥78000** are missing from `lexicon.xml` today (#115): `wzb-apply-lemmarefs.py` wrote them into the corpus as `@lemmaRef`, but **no script carried `lexicon.xml` along**.
+- **Phase 1b** (commit `5cdc98831`, 2026-04) recognized new word forms and assigned new lemma IDs ≥78000. Only 4 of them made it into `lexicon.xml` (senseless at first). On 2026-10-05, **35 lemma IDs ≥78000** used as `@lemmaRef` in the corpus still have no entry in `lexicon.xml` (#115; all 35 are classified as typo or homograph suspects, category C): `wzb-apply-lemmarefs.py` wrote them into the corpus as `@lemmaRef`, but **no script carried `lexicon.xml` along**.
 - **Phase 3** (sense resolution) mostly picked existing senses (<78000); the missing sense IDs ≥78000 are largely structural artefacts of the lemma creation, not new meanings.
 - **Emergency repair** (commits `8caa09627`/`649c0fe55`, 2026-05): the 4 senseless lemmata each got a `<sense>` by hand; `scripts/audit/check-lexicon-senses.py` was written as regression protection.
 
