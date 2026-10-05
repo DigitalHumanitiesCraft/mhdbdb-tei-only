@@ -762,7 +762,7 @@ Wraps `<w>` elements with numeric content (Roman numerals and the like). Rendere
 <cb n="{column no.}"/>
 ```
 
-Marks a column break. Rare (996 occurrences in 3 files). Rendered as `[Sp. {n}]`.
+Marks a column break. Rare (1,956 occurrences in 4 files on 2026-10-05: WZB 960, GWTK 823, EHB 114, CLV 59). Rendered as `[Sp. {n}]`.
 
 ### 6.8 Known errors in the existing data
 
