@@ -1073,3 +1073,13 @@ Auto-Mode-Classifier abgelehnt, und die Blockade ging an Christian.
 **Was es getragen hat:** eine falsche Begründung in einem Merge-Commit, der nicht mehr zu ändern ist; der Merge selbst hing nicht daran, sondern an der Freigabe von Christian für 426 von 427. Im Kommentar an #358 ist die Aussage am selben Tag richtiggestellt, im Laufplan steht sie als nicht belegt.
 
 **Kein neuer Mechanismus:** kein Muster sieht, ob eine Probe die Stelle trifft, über die der Satz spricht; die Aussetzung ist der Mechanismus.
+
+### 102. Rot: einen Triage-Nachtrag an KZW aus den letzten Kommentaren der Vorgänge geschrieben, nicht aus den ganzen Threads (05.10.2026).
+
+**Rot.** Für den Nachtrag zu #406 vom 05.10. habe ich alle offenen Vorgänge samt Kommentaren abgerufen, gelesen aber mit einem eigenen Skript nur die letzten ein bis zwei Kommentare je Vorgang. Gepostet ging der Nachtrag mit zwei Lücken: bei #497 stand „Es fehlt nur dein Ja oder Nein“, obwohl derselbe Kommentar eine zweite Frage an KZW stellt (Gaperise, einheitliche Klassifikation von „von X“-Ortsnamen), und bei #358 fehlten die drei Fragen vom 09.08., die nie beantwortet wurden. Zwischendurch hatte ich Christian außerdem gemeldet, der Mur-Vorschlag in #228 sei nie gepostet worden; er stand drei Kommentare weiter oben.
+
+**Die Lehre steht in `CLAUDE.md` unter „Working an Issue“: die Kommentare lesen, nie nur den Body, immer.** Ich habe den Body durch die letzten Kommentare ersetzt und denselben Fehler gemacht, eine Ebene weiter unten. Die letzte Zeile zu dieser Lehre ist Eintrag 20.
+
+**Was es getragen hat:** einen Kommentar an KZW in genau dem Vorgang, in dem sie verlangt hat, dass offene und erledigte Fragen bei ihr richtig geführt werden. Christian hat es nach dem Posten gemerkt („bitte immer alle kommentare lesen“). Nach dem Nachlesen aller 21 genannten Vorgänge ist der Kommentar am selben Tag ergänzt, mit Vermerk im Text.
+
+**Kein neuer Mechanismus:** zweite Zeile zu dieser Lehre. Der Hook zu `entscheidungsfragen.md` sieht `gh issue view` ohne `--json comments`, nicht ein eigenes Skript, das die Kommentare holt und dann abschneidet; die Aussetzung ist der Mechanismus.
