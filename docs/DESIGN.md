@@ -451,7 +451,8 @@ The pattern is implemented in five modules (four as of 2026-05-16, the fifth sin
 |--------|---------|---------|
 | 2-column | `grid xl:grid-cols-[1fr_2fr]` | Korpus default |
 | 3-column | `grid xl:grid-cols-[1fr_1fr_2fr]` | Playground, korpus post-search |
-| Columns collapse at `max-width: 1279px` to single column.
+
+Columns collapse at `max-width: 1279px` to single column.
 
 ### Section Rhythm (Landing Page)
 
