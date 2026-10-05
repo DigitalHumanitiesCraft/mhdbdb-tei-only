@@ -886,7 +886,7 @@ npm test
 **Schema files:**
 - `schema/mhdbdb.rnc`: source of truth (RELAX NG compact, hand-edited)
 - `schema/mhdbdb.rng`: generated via `trang schema/mhdbdb.rnc schema/mhdbdb.rng` (for lxml/Python)
-- `schema/tei_all.rng`: TEI P5 4.11.0 reference (gitignored, download command above)
+- `schema/tei_all.rng`: TEI P5 4.11.0 reference (committed, no download needed)
 
 **No ODD:** the TEI ODD toolchain (stylesheets + Roma) has 60-80 open issues, depends on XSLT 2.0 (Saxon), and the Roma web interface is unstable. TEI conformance criterion 5 ("documented via ODD or **analogous documentation**") is met by this document (TEI-MODEL.md) and the RELAX NG schema together.
 
