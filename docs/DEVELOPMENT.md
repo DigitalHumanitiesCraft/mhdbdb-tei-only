@@ -110,7 +110,7 @@ python scripts/validate-indices.py
 
 # Build static JSON API from the two indexes (#45), alias: npm run build:api
 python scripts/build-api.py
-# Output: api/ (2,742 plain JSON files, ~14 MB). Single-shot target, needs a clean data/.
+# Output: api/ (plain JSON files; record counts in api/index.json). Single-shot target, needs a clean data/.
 # Run build:api ALONE to regenerate only the API from the already-committed indexes
 # (no index rebuild). To rebuild the indexes AND the API together (kept in lockstep),
 # use `npm run build:data` / `npm run build` (see below).

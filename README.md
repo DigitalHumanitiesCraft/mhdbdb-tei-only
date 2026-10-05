@@ -81,7 +81,7 @@ npm run report             # Letzten Testreport anzeigen
 
 ### Programmatischer Zugriff
 
-**Statische JSON-API:** Authority-Records und Text-Metadaten liegen als 2.742 zitierfähige JSON-Dateien unter [`/api/`](https://dhcraft.org/mhdbdb-tei-only/api/index.json) vor, direkt von GitHub Pages serviert (kein Backend). Einstieg, URL-Schema und Beispiele: [API-Dokumentation](https://dhcraft.org/mhdbdb-tei-only/api/index.html).
+**Statische JSON-API:** Authority-Records und Text-Metadaten liegen als zitierfähige JSON-Dateien unter [`/api/`](https://dhcraft.org/mhdbdb-tei-only/api/index.json) vor, direkt von GitHub Pages serviert (kein Backend). Einstieg, URL-Schema und Beispiele: [API-Dokumentation](https://dhcraft.org/mhdbdb-tei-only/api/index.html).
 
 TEI-Dateien referenzieren Authority-Daten über `xml:id`:
 ```xml

@@ -495,7 +495,7 @@ Three core build scripts:
 
 **Script:** `scripts/build-api.py` (alias: `npm run build:api`, not part of the `npm run build` aggregate)
 
-Third derived layer beside the two indexes. Reads **only** the two pre-built indexes (`data/authority-index.json.gz` + `data/corpus-index.json.gz`), never the XML sources, and emits a static JSON API into `api/` (2,742 files, ~14 MB), served as plain files by GitHub Pages:
+Third derived layer beside the two indexes. Reads **only** the two pre-built indexes (`data/authority-index.json.gz` + `data/corpus-index.json.gz`), never the XML sources, and emits a static JSON API into `api/` (one file per record except the lemmata; record counts in `api/index.json`), served as plain files by GitHub Pages:
 
 - `api/index.json` – root manifest (collection counts, source index versions)
 - `api/lemmata/index.json` – full lemma records as one bundle (43,710 records, no individual files)

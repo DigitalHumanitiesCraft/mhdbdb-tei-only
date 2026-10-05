@@ -417,7 +417,7 @@ Corpus and authority data were never stored here. The playground reads them thro
 
 ## Static JSON API (`api/`)
 
-**Generator:** `scripts/build-api.py` (#45) – reads the two pre-built indexes (`data/*.json.gz`), emits 2,742 plain JSON files (~14 MB) into `api/`.
+**Generator:** `scripts/build-api.py` (#45) – reads the two pre-built indexes (`data/*.json.gz`), emits plain JSON files into `api/`, one per record except the lemmata; the record count per collection is in the root manifest `api/index.json`.
 
 **Served by:** GitHub Pages, like every other file in the repo – no backend, no runtime component, CORS open (Pages sends `Access-Control-Allow-Origin: *`). The main site and playground do **not** consume the API (they load the gzipped indexes); it exists purely for external programmatic access, so it adds zero runtime cost to the site.
 
