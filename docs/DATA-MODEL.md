@@ -30,7 +30,7 @@ Each TEI file contains:
 
 **Cross-reference pattern:**
 ```xml
-<w lemmaRef="#lemma_879">brott</w>
+<w xml:id="BRW_110040_5" lemmaRef="lexicon.xml#lemma_879" pos="NOM" ana="lexicon.xml#lemma_879_sense_1449" corresp="variants.xml#type_2786">brot</w>
 ```
 
 ### Authority Files
