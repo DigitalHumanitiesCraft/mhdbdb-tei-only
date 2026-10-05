@@ -240,7 +240,7 @@ Each explorer follows consistent pattern:
 
 **Multi-Lemma Search UI:**
 - Modal interface for multi-lemma input
-- Search mode selection (document vs proximity)
+- Search mode selection (proximity by default, verse since #106, document)
 - Variant resolution (automatic)
 - Color-coded results
 - Clickable navigation to main site reading view
