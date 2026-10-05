@@ -173,7 +173,7 @@ Why that order: K1 to K3 are context-free and shrink the problem space measurabl
 
 ### 6.6 Expressly NOT part of this policy
 
-No pilot run, no corpus change, no token campaign within #27 (scope decision by chsteiner on 2026-07-03). This policy is the template from which future campaign issues (one per class) are set up. #18 (data migration) depends on K1 to K3.
+No pilot run, no corpus change, no token campaign within #27 (scope decision by chsteiner on 2026-07-03). This policy is the template from which future campaign issues (one per class) are set up. #18 (a PoS filter for the multi-lemma search, frozen with #27) depends on K1 to K3.
 
 ## 7. `@pos` inside a multi-word lemma unit
 
