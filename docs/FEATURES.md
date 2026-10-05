@@ -149,7 +149,6 @@ Browse and search six controlled vocabularies with consistent interface patterns
 **Work Explorer:**
 - Search by title, sigle, or author
 - Display: Title, sigle, author, genres, GND/Wikidata (work-specific), bibliographic references
-- Note: v1.1.0 added separate work identifiers (distinct from author)
 
 **Lemma Explorer:** two named modes, switchable in the header, routed as `#lemmata` and `#lemmata&mode=component`
 
@@ -173,7 +172,6 @@ Browse and search six controlled vocabularies with consistent interface patterns
 - Search by concept term (German or English)
 - Display: Term, hierarchy (broader/narrower), associated lemmata
 - Action: Navigate hierarchy, view all lemmata for concept
-- Note: v1.1.0 replaced inline truncation with full searchable interface
 - Below the search field and in the zero-hit message, a link to the help page „Passende Begriffe finden" (Begriffshilfe, #498; see below)
 
 **Genre Explorer:**
@@ -194,7 +192,6 @@ Browse and search six controlled vocabularies with consistent interface patterns
   (`Epik, Lyrik und Dramatik › Kurzdichtung › Märe`) instead of the unordered
   " UND " chain of all ancestors that stood there until #361
 - Action: view all works in a genre, or all authors
-- Note: v1.1.0 fixed hierarchy extraction
 
 **Name Explorer:**
 - Search by proper name
