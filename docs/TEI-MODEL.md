@@ -65,9 +65,9 @@ The header is already largely standardized across all 667 files. This section do
     <msDesc>
       <msIdentifier corresp="works.xml#work_{id}">
         <idno type="sigle">{SIGLE}</idno>
-        <idno type="handschriftencensus">{HC no.}</idno>  <!-- optional, 354 texts -->
-        <idno type="GND">{GND no.}</idno>                 <!-- optional, 216 texts -->
-        <idno type="wikidata">{Q no.}</idno>              <!-- optional, 129 texts, work level -->
+        <idno type="handschriftencensus">{HC no.}</idno>  <!-- optional, 355 texts (2026-10-05) -->
+        <idno type="GND">{GND no.}</idno>                 <!-- optional, 217 texts -->
+        <idno type="wikidata">{Q no.}</idno>              <!-- optional, 131 texts, work level -->
         <idno type="mwb-sigle">{MWB short sigle}</idno>   <!-- optional, 19 texts -->
         <msName xml:lang="de">{work title}</msName>
       </msIdentifier>
