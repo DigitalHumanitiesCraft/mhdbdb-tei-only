@@ -320,7 +320,7 @@ Do not hash-route: `korpus.html` is a separate site. Plain anchor tags with `tar
 text-comparison PZ vs JT, „Beide": 3,058 lookups × 43,754 ≈ 134 million iterations ≈ 5962ms
                                   ↓ (local map built once per show())
                                        1 lookup × 43,754 (build) + 3,058 × O(1) ≈ 53ms (112× faster)
-        (43,754 = lexicon size at the time of this measurement; the lexicon grows, the order of magnitude stays)
+        (43,754 = lexicon size at the time of this measurement; the size moves with every data change, the order of magnitude stays)
 ```
 
 Pattern:
