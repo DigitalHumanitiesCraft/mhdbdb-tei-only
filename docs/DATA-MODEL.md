@@ -141,7 +141,7 @@ Notes: IDs are numeric (`person_N`) except `person_anonym`. GND and Wikidata are
 </listBibl></body></text></TEI>
 ```
 
-Notes: Multiple sigles per work (editions). GND/Wikidata may be full URLs or bare IDs – build script extracts ID portion. Genre `<ref>` elements come in de/en pairs, plus optional parent hierarchy refs.
+Notes: Multiple sigles per work (editions). GND/Wikidata may be full URLs or bare IDs – build script extracts ID portion. Genres are bare `<ptr target="genres.xml#…"/>` pointers, one per genre, with no label in `works.xml`: the label and the hierarchy come from `genres.xml` (the de/en `<ref>` pairs of the migration are gone, TEI-MODEL-AUTH-FILES).
 
 #### concepts.xml, genres.xml, names.xml (shared pattern)
 
