@@ -38,7 +38,7 @@ Each TEI file contains:
 **Location:** `authority-files/` directory
 **Format:** TEI P5 XML with custom MHDBDB schema
 
-Eight authority files – seven inhaltstragende controlled vocabularies (in the corpus index) plus one projekt-interner Mitwirkenden-Register:
+Eight authority files – seven content-bearing controlled vocabularies (in the authority index) plus one project-internal register of contributors:
 
 - `persons.xml` - Authors and historical persons
 - `works.xml` - Work and manuscript metadata
@@ -470,7 +470,7 @@ This is the point where #59 decided differently. The naming index builds **no** 
 
 Three core build scripts:
 
-1. **`build-authority-index.py`** - Extract authority data from 7 inhaltstragende XML files (the 8th, `contributors.xml`, is deliberately not indexed, but since #270 it is read to resolve the author of a curated statement (comment, definition, origin explanation) to a name, see below)
+1. **`build-authority-index.py`** - Extract authority data from 7 content-bearing XML files (the 8th, `contributors.xml`, is deliberately not indexed, but since #270 it is read to resolve the author of a curated statement (comment, definition, origin explanation) to a name, see below)
    - Parse XML with lxml
    - Extract structured data for each entity type
    - Build performance maps (conceptToLemmas, genreToWorks)
