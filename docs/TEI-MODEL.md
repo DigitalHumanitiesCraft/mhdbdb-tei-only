@@ -659,7 +659,7 @@ TEI P5 provides `<pc>` (punctuation character) as the counterpart to `<w>`. It i
 
 `<hi rend="initial">` is a corpus convention and encodes decorated initials from manuscripts and prints.
 
-**Audit: `hi/@rend` values (666 files):**
+**Audit: `hi/@rend` values (2026-04-08, 666 files, before WZB; the values move with every ingest):**
 
 | Value | Count |
 |------|-------|
