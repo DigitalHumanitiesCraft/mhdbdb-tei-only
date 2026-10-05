@@ -506,7 +506,7 @@ works.xml ──author @ref──> persons.xml
 | lexicon → concepts | `<ptr target="concepts.xml#..."/>` | a sense has 0-N concept pointers |
 | lexicon → lexicon | `<seg corresp="lexicon.xml#...">` | etymology components |
 | variants → lexicon | `@corresp="lexicon.xml#..."` | 1:1 (one entry per lemma) |
-| works → persons | `<author ref="persons.xml#...">` | 1:N (4 works have 2 authors) |
+| works → persons | `<author ref="persons.xml#...">` | 1:N (3 works have 2 authors on 2026-10-05: `work_325`, `work_408`, `work_462`) |
 | works → genres | `<ptr target="genres.xml#..."/>` | 1:N (one work, several genres) |
 | names → concepts | `<ptr type="exactMatch\|closeMatch" target="concepts.xml#..."/>` | 0-N |
 | taxonomy-internal | `<ptr type="broader" target="#..."/>` | 0-N (polyhierarchy) |
