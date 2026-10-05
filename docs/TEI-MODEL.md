@@ -852,7 +852,7 @@ New texts have to meet the following minimum requirements:
 - [ ] `<w @lemmaRef>` for every annotated word
 - [ ] `@pos` with a valid tag from the 19-tag set (sec. 5)
 - [ ] body structure conforming to the genre pattern (sec. 3)
-- [ ] validation against `schema/mhdbdb.rnc` (once available)
+- [ ] validation against `schema/mhdbdb.rnc` (stage 2, see 9.3)
 
 ### 9.2 Recommended (non-blocking)
 
