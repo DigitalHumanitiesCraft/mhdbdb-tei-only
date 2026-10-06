@@ -711,7 +711,7 @@ Marks a **metrical** caesura inside a line of verse (`<l>`). Measured on 2026-09
 <l n="32"><gap reason="lost"/></l>
 ```
 
-Marks text the edition could not supply. Measured on 2026-09-23: 1,940 occurrences in 114 files, all with `reason="lost"` (1,094 from the first pass, 846 from the second).
+Marks text the edition could not supply. Measured on 2026-10-06: 1,943 occurrences in 114 files, all with `reason="lost"` (1,094 from the first pass, 846 from the second, 3 by hand).
 
 **These used to be encoded as punctuation plus caesura** and were migrated in #252:
 
@@ -733,12 +733,12 @@ Two reasons for the change. `<caesura/>` denotes a metrical incision, not a miss
 | Left as it is | Count | Why |
 |---|--:|---|
 | `<l>` with a caesura, no `<w>`, but real text | 12 in 8 files | `FDS` carries the editorial note "(folgen Lied 34 bis Lied 37)", `EIL`, `GWTK` and `FR1` carry unlemmatized wording. A rule of "no `<w>` means a gap" would have deleted it |
-| `<l>` with visible characters that are not the marker | 38 | 22 lines with speech marks only (`<` and `>`, which in `GWTK` and `BRF` are quotation marks, one of them with a full stop), 5 with a lone comma or colon, 8 with a single bracket, and 3 with the complete marker plus one extra character |
+| `<l>` with visible characters that are not the marker | 35 | 22 lines with speech marks only (`<` and `>`, which in `GWTK` and `BRF` are quotation marks, one of them with a full stop), 5 with a lone comma or colon, and 8 with a single bracket |
 | `<l><hi><caesura/></hi></l>`, the caesura not a direct child | 2 in `MUG` | the migration looks at direct children only and does not see these. Whether the `<hi>` should go with them is a decision, not a script bug |
 
 The `MUG` row is probably the same phenomenon as the migrated set, but saying so is a philological claim, not a mechanical one. **Open in #252**, as are the five lines with a lone comma or colon from the second row: they carry no bracket at all, KZW did not release them on 2026-09-22, and they were put to KZW with their context on 2026-09-23.
 
-The 8 single brackets form four pairs spanning several omitted verses (`SJH` lg179 n=6/7, `SUS` lg61 n=6/10, `SUS` lg127 n=7/8, `SVW` lg6 n=6/7); in `SUS` lg61 three now-migrated lines sit between them, so that omission is half encoded as gaps and half as a bracket. The 3 with marker plus one character are `NEIC` lg3 n=14 `< ( )`, `NEIR` lg5 n=6 `( ) ,` and `SJH` lg168 n=13 `( ) !`, which can be repaired by hand.
+The 8 single brackets form four pairs spanning several omitted verses (`SJH` lg179 n=6/7, `SUS` lg61 n=6/10, `SUS` lg127 n=7/8, `SVW` lg6 n=6/7); in `SUS` lg61 three now-migrated lines sit between them, so that omission is half encoded as gaps and half as a bracket. Three further lines carried the complete marker plus one extra character (`NEIC` lg3 n=14 `< ( )`, `NEIR` lg5 n=6 `( ) ,`, `SJH` lg168 n=13 `( ) !`); KZW released them on 2026-10-02, and they were migrated by hand on 2026-10-06 with the extra character kept.
 
 The second row is the reason the criterion asks for the exact marker `( )` rather than for "brackets". An earlier version accepted angle brackets too and would have deleted the closing quotation mark of a speech in `GWTK` line 36, leaving the speech opened in line 35 unclosed.
 

@@ -131,6 +131,7 @@
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 32 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/). 20 weitere Tokens der Form minne blieben bewusst unannotiert (Review).</change>
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 3 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
       <change when="2026-09-23" who="#editor">#252 zweiter Durchgang: 1 Stelle des Auslassungsmusters ( caesura ) innerhalb einer Zeile mit Wortlaut auf &lt;gap reason="lost"/&gt; migriert, nach der Freigabe von KZW vom 22.09.2026. Nur das Muster ersetzt, umliegender Text sowie Satz- und Redezeichen unverändert.</change>
+      <change when="2026-10-06" who="#editor">#252: 1 wortloser Vers mit vollständigem Auslassungsmuster ( caesura ) und einem weiteren Zeichen auf &lt;gap reason="lost"/&gt; migriert, nach der Freigabe von KZW vom 02.10.2026. Das Zeichen daneben unverändert.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -16124,9 +16125,7 @@
           <w xml:id="SJH_4101120_3" lemmaRef="lexicon.xml#lemma_2540" pos="NOM ADJ" corresp="variants.xml#type_8514">grüene</w>
         </l>
         <l n="13">
-          <pc xml:id="SJH_4101130_0" join="right">(</pc>
-          <caesura xml:id="SJH_4101130_1"/>
-          <pc xml:id="SJH_4101130_2" join="left">)</pc>
+          <gap reason="lost"/>
           <pc xml:id="SJH_4101130_3" join="left">!</pc>
         </l>
         </lg><lg type="stanza" n="169"><l n="1">
