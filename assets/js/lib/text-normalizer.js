@@ -101,7 +101,9 @@ export class TextNormalizer {
      *
      * Intended for the modern German and English descriptors of the
      * authority files (concepts, genres, names, work titles), not for
-     * Middle High German attestations: use normalizeMHG for those.
+     * Middle High German attestations: use normalizeMHG for those. The one
+     * exception is a second net next to normalizeMHG, where the source
+     * writes ë or í that normalizeMHG does not know (naming explorer, #525).
      *
      * @param {string} text - Text to fold
      * @returns {string} Folded text (NFC, lowercase, diacritics removed)

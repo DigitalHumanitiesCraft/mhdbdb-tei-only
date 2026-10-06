@@ -3,7 +3,7 @@
  *
  * Smoke-Tests fuer das kuratierte Figurenbezeichnungs-Modul: Route #naming,
  * Werk/Figur-Auswahl, Kategorie-Tabs, Belegstellen-Expand, MHG-normalisierter
- * Lemma-Filter und Pflicht-Attribution (Lizenzauflage CC BY-NC-SA).
+ * und diakritikgefalteter Lemma-Filter und Pflicht-Attribution (Lizenzauflage CC BY-NC-SA).
  *
  * Datengrundlage ist data/naming-index.json.gz (extern kuratiert, lindabeutel/
  * Naming-analysis). Die Tests locken Struktur, nicht exakte Zahlen.
@@ -140,6 +140,28 @@ test.describe('Naming Explorer (#59)', () => {
     const terms = await page.locator('[data-ne-term] td:nth-child(1)').allTextContents();
     expect(terms.length).toBeGreaterThan(0);
     expect(terms.some(t => t.includes('tôre'))).toBe(true);
+  });
+
+  test('Lemma-Filter ignoriert auch ë und Umlaut (neve findet nëve, kunic findet künic, #525)', async ({ page }) => {
+    // normalizeMHG kennt kein ë und expandiert ü zu ue; der Filter faltet
+    // deshalb zusaetzlich die Diakritika. Gawein traegt nëve, Artus künic
+    // (Quellstand data/naming-index.json.gz, gemessen 2026-10-06).
+    await page.selectOption('#neWorkSelect', 'IW');
+    await page.selectOption('#neFigureSelect', 'Gawein');
+    await page.waitForSelector('[data-ne-term]', { state: 'visible', timeout: 5000 });
+
+    await page.fill('#neNameFilter', 'neve');
+    await page.waitForSelector('[data-ne-term]', { state: 'visible', timeout: 5000 });
+    let terms = await page.locator('[data-ne-term] td:nth-child(1)').allTextContents();
+    expect(terms.some(t => t.includes('nëve'))).toBe(true);
+
+    // Der Figurwechsel leert den Filter, also danach neu setzen
+    await page.selectOption('#neFigureSelect', 'Artus');
+    await page.waitForSelector('[data-ne-term]', { state: 'visible', timeout: 5000 });
+    await page.fill('#neNameFilter', 'kunic');
+    await page.waitForSelector('[data-ne-term]', { state: 'visible', timeout: 5000 });
+    terms = await page.locator('[data-ne-term] td:nth-child(1)').allTextContents();
+    expect(terms.some(t => t.includes('künic'))).toBe(true);
   });
 
   test('Werk-Wechsel setzt Figur zurueck', async ({ page }) => {

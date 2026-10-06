@@ -679,8 +679,12 @@ export class NamingExplorer {
     let visible = this.state.category === 'all' ? terms : terms.filter(t => t.cat === this.state.category);
     const filter = this.state.nameFilter.trim();
     if (filter) {
-      // MHG-normalisiert, damit "riter" auch "rîter"/"rîtaere" findet
-      visible = visible.filter(t => TextNormalizer.matchesNormalized(t.term, filter));
+      // MHG-normalisiert, damit "riter" auch "rîter"/"rîtaere" findet, und
+      // zusaetzlich diakritikgefaltet (#525): normalizeMHG kennt kein ë und
+      // kein í, die Quelle schreibt aber nëve, swëster, knëht, bíderbe.
+      // Die Faltung findet ausserdem "kunic" in "künic".
+      visible = visible.filter(t => TextNormalizer.matchesNormalized(t.term, filter)
+        || TextNormalizer.matchesFolded(t.term, filter));
     }
 
     this._lastExport = visible.length > 0 ? { kind: 'terms', work, rows: visible, namerMode } : null;

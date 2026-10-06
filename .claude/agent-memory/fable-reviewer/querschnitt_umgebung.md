@@ -13,7 +13,7 @@ Verdichtet 02.10.2026 aus Runden 07.09. bis 02.10.
 - Als Subagent lehnt der Auto-Mode-Classifier `npx playwright test --list` ab (auch mit `--config`).
 
 **Windows**
-- `python -X utf8`: cp1252 bricht an ł, w̆ und Emoji; Ausgaben ASCII-safe drucken (Umlaute als `�` sind cp1252, kein Datenbefund).
+- `python -X utf8`: cp1252 bricht an ł, w̆ und Emoji; Ausgaben ASCII-safe drucken (Umlaute als `�` sind cp1252, kein Datenbefund). Unter `python -I` (Sandbox-Regel für fremde Daten) wirkt `PYTHONIOENCODING`/`PYTHONUTF8` NICHT (-I impliziert -E); nur der Schalter `-I -X utf8` hilft (06.10.2026, naming-index, ā in der Ausgabe).
 - `rg -c` summieren mit `awk -F: '{s+=$NF}'` (`$2` trifft Laufwerk C). Exit-Code nie hinter `| tail` messen. autocrlf=true: w/lf bei i/lf ist kein Commit-Unterschied.
 - rg über die Wurzel hängt an tei/ (1,4 GB, >120 s): je Verzeichnis suchen.
 
