@@ -732,7 +732,7 @@ Two reasons for the change. `<caesura/>` denotes a metrical incision, not a miss
 
 | Left as it is | Count | Why |
 |---|--:|---|
-| `<l>` with a caesura, no `<w>`, but real text | 12 in 8 files | `FDS` carries the editorial note "(folgen Lied 34 bis Lied 37)", `EIL`, `GWTK` and `FR1` carry unlemmatized wording. A rule of "no `<w>` means a gap" would have deleted it |
+| `<l>` with a caesura and visible text with at least one letter, but no `<w>` as a direct child (the words, if any, sit inside `<supplied>` or `<hi>`) | 9 in 6 files (measured 2026-10-06; 12 in 8 on 2026-09-10, three went with the second pass) | `FDS` carries the editorial note "(folgen Lied 34 bis Lied 37)"; `EIL`, `GWTK`, `JT`, `MAI` and `WDB` carry wording inside `<supplied>` or `<hi>`. A rule of "no `<w>` means a gap" would have deleted it |
 | `<l>` with visible characters that are not the marker | 35 | 22 lines with speech marks only (`<` and `>`, which in `GWTK` and `BRF` are quotation marks, one of them with a full stop), 5 with a lone comma or colon, and 8 with a single bracket |
 | `<l><hi><caesura/></hi></l>`, the caesura not a direct child | 2 in `MUG` | the migration looks at direct children only and does not see these. Whether the `<hi>` should go with them is a decision, not a script bug |
 
