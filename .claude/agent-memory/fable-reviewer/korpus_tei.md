@@ -15,7 +15,10 @@ Verdichtet 02.10.2026. Zahlen sind Eingabe, vor Gebrauch nachmessen.
 **caesura/gap (#252)**
 - gap immer `reason="lost"`, kein `extent`. Zwei Kopien der caesura-Zahl in TEI-MODEL.md, kein Gate.
 - Rohmuster inline: `<pc[^>]*>\(</pc>\s*<caesura[^>]*/>\s*<pc[^>]*>\)</pc>`. `find(T+'caesura')` sieht nur direkte Kinder (MUG `<l><hi><caesura/></hi></l>`).
-- Linecode-Gegenprobe nur für Siglen in `sources/linecode-manifest.csv` (MAI, NEI fehlen).
+- Linecode-Gegenprobe nur für Siglen in `sources/linecode-manifest.csv` (MAI, NEI fehlen; GWTK = `neue-texte-klaus/gtk2.txt`, RVBR = `erledigt/rvbr.txt` sind drin, obwohl ein #252-Kommentar vom 23.09. das Gegenteil sagte). Die Zeilennummer im 19-stelligen Linecode-Präfix ist nicht überall die TEI-`@n`: bei RVBR um eins niedriger (06.10.: Linecode 17223 `...,` = TEI l n=17224), bei GWTK gleich. Vor einem Versvergleich den Versatz am Wortlaut der Nachbarzeilen ermitteln. Omissionsmarker im Linecode ist `...` plus Satzzeichen.
+- `corpus-index.json.gz` enthält keine xml:ids und keine Versnummern-Stämme (06.10.: `w`-Kontrollwert `NEIC_6303150_0` und `6303150` je 0 Treffer, `lemma_5961` 5.928). Eine gelöschte `pc`-/`caesura`-id kann dort also nicht hängen; Rebuild-Behauptungen des Aufrufers sind so ohne Rebuild prüfbar.
+- revisionDesc-Präzedenz bei #252 ist gespalten: erster Durchgang (#426, 103 TEI-Dateien) ohne `<change>`-Eintrag, zweiter (#477) mit je einem pro Datei. Ein fehlender Eintrag bei einer Handkorrektur ist deshalb Klasse C, keine Regelverletzung; dokumentiert ist in TEI-MODEL §2.4 nur die Form.
+- Resttabelle TEI-MODEL §6.5a (Zeilen um 736/741) zählt die nicht migrierten Fälle; jede Handkorrektur daraus macht die Zeile falsch, und der Diff fasst sie nicht an.
 
 **Vers und Prosa**
 - Reader-Deep-Link `?verseId=` löst nur in Texten mit `<l>` auf; Prosa hat nur `lb`, `lb@n` wiederholt sich je Seite (Kochbücher: je Rezept neu).
