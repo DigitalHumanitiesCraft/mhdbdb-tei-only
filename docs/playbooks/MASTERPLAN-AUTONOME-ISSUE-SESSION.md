@@ -297,7 +297,7 @@ Was die alte Fassung dieses Abschnitts an dieser Stelle sagte, gilt unverändert
 
 1. **Autorisierung:** `claude/*`-Branches und PR-Erstellung, `main` bleibt tabu.
 2. **Umfang:** die Wellen aus §3, geschnitten nach §2 Punkt 4. **Welle 0 als Vorflug ausschreiben**, und wenn es keinen Meta-PR gibt, im Kickoff sagen, in welcher Welle der JOURNAL-Eintrag mitläuft.
-3. **Weiche `npm test`:** ob die volle Suite freigegeben ist oder nur gezielte Läufe. Ohne diesen Satz hat die Session keinen Weg, die stehende Konvention „Tests nie ungefragt" aufzulösen, und darf zugleich nicht nachfragen. Bis zum 2026-08-05 fehlte er hier, während §2 den Volllauf vor dem Push verlangte.
+3. **Weiche `npm test`:** Tests brauchen seit dem 24.08.2026 keine Freigabe mehr (CLAUDE.md → Git Rules); die Weiche sagt nur noch, ob die Koordination Volläufe vergibt, wenn mehrere Spuren dieselbe Maschine teilen. Bis zum 24.08. galt „Tests nie ungefragt", und vor dem 2026-08-05 fehlte diese Weiche hier, während §2 den Volllauf vor dem Push verlangte.
 4. **Notationsfallen**, falls welche im Spiel sind (etwa Befund-Nummern in einem Issue-Body, die wie Issue-Nummern aussehen).
 5. **Das Verifikations-Handwerk aus §2.1** in Kurzform, mindestens die Mutations-Regel.
 6. **Nicht anfassen** mit den Gruppen aus §4, inklusive der Fallen („sieht nach leichtem Einstieg aus, ist aber blockiert").

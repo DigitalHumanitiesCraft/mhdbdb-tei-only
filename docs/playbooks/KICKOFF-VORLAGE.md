@@ -30,7 +30,7 @@ Für die Issue-Session gilt zusätzlich: die Auswahl kommt aus den `auto:*`-Labe
 
 Fragen, die die Session sonst stellen müsste, was ihr untersagt ist:
 
-- **`npm test`:** ausdrückliche Freigabe für die volle Suite, oder Beschränkung auf gezielte Läufe. Ohne diesen Satz gilt die stehende Konvention „Tests nie ungefragt", und die Session hat keinen Weg, sie aufzulösen.
+- **`npm test`:** Tests brauchen seit dem 24.08.2026 keine Freigabe mehr (CLAUDE.md → Git Rules). Der Kickoff sagt nur, ob ein Lauf mit mehreren Spuren die volle Suite über die Koordination vergibt, und auf welchem Port.
 - **Lösch-Policy** (Carearbeit): was gelöscht werden darf und was nach `scripts/_archived/` wandert.
 - **Live-Smoke-Checks** (Merge): ob sie Teil der Session sind. Empfehlung: ja.
 - **Health-Check** (Carearbeit): als eigenes Arbeitspaket ja oder nein.

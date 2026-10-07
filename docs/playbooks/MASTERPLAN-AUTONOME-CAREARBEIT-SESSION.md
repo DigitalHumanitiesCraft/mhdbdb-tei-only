@@ -14,12 +14,13 @@ NICHT Teil dieses Playbooks: Feature-Arbeit, Ingest (eigene Verfahren in DATA-MO
 
 ## 2. Betriebsvertrag (gilt nur nach explizitem User-Kickoff)
 
-Dieser Plan autorisiert NICHTS. Eine Carearbeit-Session startet erst mit einem Kickoff-Prompt. Der Kickoff regelt vier Weichen (Defaults = Session 1):
+Dieser Plan autorisiert NICHTS. Eine Carearbeit-Session startet erst mit einem Kickoff-Prompt. Der Kickoff regelt drei Weichen (Defaults = Session 1):
 
 - **Branch-/PR-Modus:** ein Branch `chore/carearbeit-YYYY-MM`, thematische Commits (ein Commit pro Arbeitspaket), ein PR; Squash-Merge nach User-Prüfung.
 - **Lösch-Policy:** klar Totes löschen (Git-History = Archiv), nur erledigte Einmal-Migrationen mit Doku-Wert nach `scripts/_archived/`.
-- **npm test:** einmalige Freigabe für die volle Suite (Konvention: Tests nie ungefragt).
 - **Health-Check:** als eigenes Arbeitspaket integriert ja/nein.
+
+`npm test` ist keine Weiche mehr: Tests brauchen seit dem 24.08.2026 keine Freigabe (CLAUDE.md → Git Rules).
 
 **Der gemeinsame Teil des Vertrags steht in [`BETRIEBSVERTRAG.md`](BETRIEBSVERTRAG.md)** und wird beim Kickoff in den Prompt kopiert ([`KICKOFF-VORLAGE.md`](KICKOFF-VORLAGE.md)). Dazu kommen zwei Regeln, die nur für die Pflegearbeit gelten und genau das Gegenteil dessen sagen, was ein Aufräum-Reflex nahelegt:
 
