@@ -30,5 +30,6 @@ Verdichtet 02.10.2026.
 
 **Fehlerjournal**
 - `claude-code-setup/hooks/lehren-zaehlen.py` parst dieses Journal nicht (Format `### N. Rot:`): Ketten von Hand über den Absatz „Die Lehre, die nicht gegriffen hat". Nummern werden je Spur vorab reserviert: Sprünge sind kein Befund.
+- Kette messen: `grep -n -o "Die letzte Zeile zu dieser Lehre ist Eintrag [0-9]*"` und von der neuen Zeile rückwärts folgen (Eintrag 106 am 07.10.: 106→105→95→71→70→65, „mindestens die vierte" war damit wahr); der Satz ist bei 71 umbrochen, die Einzeilen-Regex traf ihn nicht, also Fenster lesen. Ein Zitat aus einem Issue-Kommentar über alle Kommentare des Tages greppen, nicht am Zeitstempel des Auftrags festmachen: der Auftrag nannte ~15:56, der Satz stand im Kommentar 17:07.
 
 **Dieses Memory** ist Eingabe für den nächsten Lauf, keine Messung: Zahlen daraus vor Gebrauch nachmessen.
