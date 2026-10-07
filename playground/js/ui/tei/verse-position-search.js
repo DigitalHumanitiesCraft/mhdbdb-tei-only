@@ -8,7 +8,7 @@
  * über reimgetriebene vs. nicht-reimgetriebene Wortwahl.
  */
 
-import { trackScope, emptyScopeMessage } from './corpus-scope.js';
+import { trackScope, clearScopeNotice, emptyScopeMessage } from './corpus-scope.js';
 import { csvButton } from '../core/ui-helpers.js';
 import { toCsv, downloadCsv, csvDateStamp, csvFilenamePart } from '../../../../assets/js/lib/csv-export.js';
 
@@ -34,12 +34,13 @@ export class VersePositionSearch {
   }
 
   show() {
-    trackScope(() => this.show());
     const texts = this.getCorpusTexts();
     if (!texts || texts.length === 0) {
+      clearScopeNotice();
       this.renderError(emptyScopeMessage());
       return;
     }
+    // Gestempelt wird in renderBody(), sobald ein Ergebnis dasteht (#442).
     this.render();
   }
 
@@ -143,11 +144,12 @@ export class VersePositionSearch {
   }
 
   renderBody() {
-    trackScope(() => this.show());
     if (!this.state.query) {
+      clearScopeNotice();
       return '<div class="rounded-2xl border border-dashed border-slate-200 bg-white p-8 text-center text-sm text-slate-500">Bitte Lemma eingeben und auf "Suchen" klicken.</div>';
     }
     if (!this.state.resolvedLemma) {
+      clearScopeNotice();
       return `
         <div class="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
           Kein Lemma gefunden für <code class="font-mono">${escapeHtml(this.state.query)}</code>.
@@ -155,6 +157,9 @@ export class VersePositionSearch {
         </div>
       `;
     }
+
+    // Ab hier steht ein Ergebnis ueber der aktuellen Auswahl (#442).
+    trackScope(() => this.show());
 
     const lemma = this.state.resolvedLemma;
     const candidates = this.state.candidates.length > 1

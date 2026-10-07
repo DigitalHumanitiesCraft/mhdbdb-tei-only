@@ -10,7 +10,7 @@
  */
 
 import { getNavigationEpoch } from '../core/router.js';
-import { trackScope, emptyScopeMessage, scopeSignature } from './corpus-scope.js';
+import { trackScope, clearScopeNotice, emptyScopeMessage, scopeSignature } from './corpus-scope.js';
 import { csvButton } from '../core/ui-helpers.js';
 import { toCsv, downloadCsv, csvDateStamp, csvFilenamePart } from '../../../../assets/js/lib/csv-export.js';
 
@@ -62,13 +62,20 @@ export class CooccurrenceRanking {
   show() {
     this._abortToken = (this._abortToken || 0) + 1;
     this.state.computing = false;
-    trackScope(() => { this.show(); if (this.getCorpusTexts().length) this.runSearch(); });
     const texts = this.getCorpusTexts();
     if (!texts || texts.length === 0) {
+      clearScopeNotice();
       this.renderError(emptyScopeMessage());
       return;
     }
     this.discardResultIfScopeChanged(texts);
+    // Erst stempeln, wenn ein Ergebnis dasteht (#442), siehe
+    // concept-distribution.js.
+    if (this.state.result) {
+      trackScope(() => { this.show(); if (this.getCorpusTexts().length) this.runSearch(); });
+    } else {
+      clearScopeNotice();
+    }
     this.ensureLemmaMap();
     this.render();
   }

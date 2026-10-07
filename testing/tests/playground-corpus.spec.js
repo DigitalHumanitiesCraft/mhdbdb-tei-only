@@ -561,21 +561,86 @@ test.describe('Auswahlhinweis (#442)', () => {
         });
     });
 
+    // Die drei ohne Eingabefeld rechnen schon beim Oeffnen ueber die Auswahl,
+    // bei ihnen genuegt show().
+    const OHNE_FELD = ['wordFrequency', 'textStatistics', 'verseEndingProfile'];
+    // Die vier mit Eingabefeld zeigen nach show() nur das leere Formular. Erst
+    // die Suche macht aus dem Panel eine Aussage ueber die Auswahl (#442).
+    const MIT_FELD = {
+        lemmaDistribution: ['#ldQuery', '#ldSearchBtn'],
+        versePositionSearch: ['#vpsQuery', '#vpsSearchBtn'],
+        conceptDistribution: ['#cdQuery', '#cdSearchBtn'],
+        cooccurrenceRanking: ['#coRkQuery', '#coRkSearchBtn']
+    };
+    const SUCHBEGRIFF = { conceptDistribution: 'Liebe' };
+
+    async function auswahlTauschen(page, sigle) {
+        await page.evaluate(id => {
+            window.playground.corpusData.includedTexts = new Set([id]);
+            window.playground.updateFileBrowserStats();
+        }, sigle);
+    }
+
+    // Escape vor dem Klick, weil die Autocomplete-Liste den Suchknopf verdeckt
+    // und `page.click` sonst bis zum Timeout wartet. Gemessen: bei „minne" ist
+    // `ldAutocomplete` sichtbar und `elementFromPoint` ueber dem Knopf trifft
+    // einen Vorschlag statt des Knopfes, bei einem Begriff ohne Vorschlaege
+    // („xyzqwertz") trifft es den Knopf. Escape ist der Weg, den auch die
+    // Nutzerin hat (`e.key === 'Escape'` in allen vier Werkzeugen).
+    async function suchen(page, feld, knopf, begriff) {
+        await page.fill(feld, begriff);
+        await page.press(feld, 'Escape');
+        await page.click(knopf);
+    }
+
     test('alle sieben Analysepanels melden den Tausch gleicher Groesse und seine Ruecknahme', async ({ page }) => {
-        for (const name of ['wordFrequency', 'textStatistics', 'lemmaDistribution',
-            'versePositionSearch', 'conceptDistribution', 'cooccurrenceRanking', 'verseEndingProfile']) {
-            await page.evaluate(async name => {
-                await window.playground.ui[name].show();
-                window.playground.corpusData.includedTexts = new Set(['WH']);
-                window.playground.updateFileBrowserStats();
-            }, name);
+        for (const name of OHNE_FELD) {
+            await page.evaluate(async name => { await window.playground.ui[name].show(); }, name);
+            await auswahlTauschen(page, 'WH');
             await expect(page.locator('#corpusScopeNotice')).toBeVisible();
-            await page.evaluate(() => {
-                window.playground.corpusData.includedTexts = new Set(['CR']);
-                window.playground.updateFileBrowserStats();
-            });
+            await auswahlTauschen(page, 'CR');
             await expect(page.locator('#corpusScopeNotice')).toHaveCount(0);
         }
+        for (const [name, [feld, knopf]] of Object.entries(MIT_FELD)) {
+            await page.evaluate(async name => { await window.playground.ui[name].show(); }, name);
+            await suchen(page, feld, knopf, SUCHBEGRIFF[name] || 'minne');
+            await expect(page.locator(feld)).toHaveValue(SUCHBEGRIFF[name] || 'minne');
+            await auswahlTauschen(page, 'WH');
+            await expect(page.locator('#corpusScopeNotice')).toBeVisible();
+            await auswahlTauschen(page, 'CR');
+            await expect(page.locator('#corpusScopeNotice')).toHaveCount(0);
+        }
+    });
+
+    // Befund des CI-Review-Bots an PR #538, gemessen und bestaetigt: der
+    // Hinweis erschien ueber dem leeren Formular und behauptete ein Ergebnis,
+    // das nie berechnet worden war. „Neu berechnen" rendert dann das leere
+    // Formular erneut, der Knopf fuehrt also nirgendwohin.
+    test('ohne Suche kein Hinweis: das leere Formular behauptet kein Ergebnis', async ({ page }) => {
+        for (const name of Object.keys(MIT_FELD)) {
+            await page.evaluate(async name => { await window.playground.ui[name].show(); }, name);
+            await auswahlTauschen(page, 'WH');
+            await expect(page.locator('#corpusScopeNotice')).toHaveCount(0);
+            await auswahlTauschen(page, 'CR');
+        }
+    });
+
+    test('ein Begriff ohne Treffer behauptet ebenfalls kein Ergebnis', async ({ page }) => {
+        await page.evaluate(() => window.playground.ui.lemmaDistribution.show());
+        await suchen(page, '#ldQuery', '#ldSearchBtn', 'xyzqwertz');
+        await expect(page.locator('#resultsContainer')).toContainText('Kein Lemma gefunden');
+        await auswahlTauschen(page, 'WH');
+        await expect(page.locator('#corpusScopeNotice')).toHaveCount(0);
+    });
+
+    // Der Nullbefund ist eine Aussage ueber die Auswahl und wird gestempelt:
+    // „keine Vorkommen in den ausgewaehlten Texten" gilt nur fuer diese.
+    test('der Nullbefund gehoert zur Auswahl und wird gemeldet', async ({ page }) => {
+        await page.evaluate(() => window.playground.ui.lemmaDistribution.show());
+        await suchen(page, '#ldQuery', '#ldSearchBtn', 'minne');
+        await expect(page.locator('#resultsContainer')).not.toContainText('Bitte Lemma eingeben');
+        await auswahlTauschen(page, 'WH');
+        await expect(page.locator('#corpusScopeNotice')).toBeVisible();
     });
 
     test('Neu berechnen aktualisiert die Statistik, Navigation entfernt den Hinweis', async ({ page }) => {
