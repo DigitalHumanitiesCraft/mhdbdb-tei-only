@@ -15,7 +15,7 @@
  * Issues: #89, #136, #204
  */
 
-import { emptyScopeMessage } from './corpus-scope.js';
+import { trackScope, emptyScopeMessage } from './corpus-scope.js';
 import { csvButton } from '../core/ui-helpers.js';
 import { toCsv, downloadCsv, csvDateStamp } from '../../../../assets/js/lib/csv-export.js';
 
@@ -67,6 +67,7 @@ export class TextStatistics {
   }
 
   show() {
+    trackScope(() => this.show());
     const texts = this.getCorpusTexts();
     if (!texts || texts.length === 0) {
       this.renderError(emptyScopeMessage());

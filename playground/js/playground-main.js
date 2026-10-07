@@ -3,6 +3,7 @@
  * Now using modular UI components instead of monolithic ui-helpers.js
  */
 
+import { updateScopeNotice } from './ui/tei/corpus-scope.js';
 import { AuthorityFilesManager } from './data/authority-manager.js';
 import { TEIFilesManager } from './data/tei-manager.js';
 
@@ -376,6 +377,7 @@ class MHDBDBPlayground {
         // (#204). Diese Methode ist der gemeinsame Durchgang aller vier Wege:
         // Einzel-Haekchen, Alle, Keine, Nur diese.
         this.updateFilterMismatchNote();
+        updateScopeNotice();
     }
 
     /**
@@ -497,6 +499,7 @@ class MHDBDBPlayground {
 
             // #204: Der Hinweis haengt am Filter, nicht am Ergebnis
             this.updateFilterMismatchNote();
+        updateScopeNotice();
         });
 
         // Clear filter button

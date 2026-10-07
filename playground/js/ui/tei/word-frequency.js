@@ -9,7 +9,7 @@
  */
 
 import { buildTextLabelDisambiguator, csvButton } from '../core/ui-helpers.js';
-import { emptyScopeMessage } from './corpus-scope.js';
+import { trackScope, emptyScopeMessage } from './corpus-scope.js';
 import { toCsv, downloadCsv, csvDateStamp, csvFilenamePart } from '../../../../assets/js/lib/csv-export.js';
 
 const TOP_N_OPTIONS = [20, 50, 100, 200];
@@ -100,6 +100,7 @@ export class WordFrequencyAnalyzer {
   }
 
   async show() {
+    trackScope(() => this.show());
     const texts = this.getCorpusTexts();
     if (!texts || texts.length === 0) {
       this.renderError(emptyScopeMessage());
@@ -316,6 +317,7 @@ export class WordFrequencyAnalyzer {
 
     scopeEl?.addEventListener('change', (e) => {
       this.state.scope = e.target.value;
+      trackScope(() => this.show());
       this._lastFreqData = this.computeFrequencies(this.state.scope);
       this.render();
     });

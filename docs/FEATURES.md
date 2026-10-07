@@ -208,6 +208,8 @@ Corpus-wide text analysis using pre-built indexes. Eleven analysis tools in elev
 - **Text comparison** picks its two texts itself; the Step 1 selection does not narrow its dropdowns.
 - **Rhyme dictionary** has its own text filter field and stays corpus-wide through the thunk. Filtering twice, once visibly and once not, is the very confusion #204 is about. Instead, when Step 1 holds exactly one text, its sigle is written into that visible field, where it can be read and deleted. An exact sigle there beats title and author substrings, so `CR` means Moriz von Craûn and not additionally Diu Crone.
 
+**Selection changes while a tool is open (#442).** The eight selection-dependent tools show a warning above their panel when the selected text IDs change. The existing result stays visible until the user chooses "Neu berechnen"; changing checkboxes does not launch an analysis. Recalculation preserves the tool's search parameters. Restoring the original selection removes the warning, as does navigating to another tool. A selection change during an asynchronous calculation also leaves the warning visible.
+
 Until 2026-09 only the multi-lemma search read the selection at all; the other ten always received all texts while the counter next to them read "1 / 667 Texte aktiv". The split now runs through two thunks in `playground-main.js` (`selectedTextsThunk` and `corpusTextsThunk`), and an empty selection is reported as such instead of as a loading state (`ui/tei/corpus-scope.js`).
 
 **Multi-Lemma Document Search:**

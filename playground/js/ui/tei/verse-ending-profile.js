@@ -16,7 +16,7 @@
 import { buildTextLabelDisambiguator, csvButton } from '../core/ui-helpers.js';
 import { toCsv, downloadCsv, csvDateStamp, csvFilenamePart } from '../../../../assets/js/lib/csv-export.js';
 import { FUNCTION_WORD_POS } from './word-frequency.js';
-import { emptyScopeMessage } from './corpus-scope.js';
+import { trackScope, emptyScopeMessage } from './corpus-scope.js';
 
 const TOP_N_OPTIONS = [20, 50, 100, 200];
 const DEFAULT_TOP_N = 50;
@@ -101,6 +101,7 @@ export class VerseEndingProfileAnalyzer {
   }
 
   async show() {
+    trackScope(() => this.show());
     const texts = this.getCorpusTexts();
     if (!texts || texts.length === 0) {
       this.renderError(emptyScopeMessage());
@@ -326,6 +327,7 @@ export class VerseEndingProfileAnalyzer {
 
     scopeEl?.addEventListener('change', (e) => {
       this.state.scope = e.target.value;
+      trackScope(() => this.show());
       this._lastProfile = this.computeProfile(this.state.scope);
       this.render();
     });
