@@ -1,3 +1,4 @@
+import { trackScope } from './corpus-scope.js';
 /**
  * MHDBDB Playground - Multi-Lemma Search UI Controller
  * Handles the modal interface for advanced multi-lemma search
@@ -256,6 +257,14 @@ export class MultiLemmaSearchUI {
         // 2026-08-07: dist=3, dist=10 und dist=25 lieferten denselben Kopf
         // („max. 10 Wörter") und dieselben zwei Treffer.
         const distanz = parseInt(this.proximityDistance.value) || 10;
+        trackScope(() => {
+            this.lemmas = [...searchTerms];
+            this.lemmaIdHints = new Map(zeiger);
+            this.searchModeRadios.forEach(radio => { radio.checked = radio.value === searchMode; });
+            this.proximityDistance.value = String(distanz);
+            return this.executeSearch();
+        });
+
 
         // Close modal first
         this.close();

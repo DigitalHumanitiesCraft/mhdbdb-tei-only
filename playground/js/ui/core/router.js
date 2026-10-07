@@ -1,3 +1,4 @@
+import { clearScopeNotice } from '../tei/corpus-scope.js';
 /**
  * MHDBDB Playground - Hash Router
  *
@@ -255,6 +256,9 @@ function dispatch(view, params) {
   // Erst NACH dem Unknown-View-Check bumpen: eine unbekannte Route ändert
   // die sichtbare View nicht, laufende Scans der alten View bleiben gültig.
   _navigationEpoch += 1;
+  const opensModalOnly = view === 'multi-lemma' &&
+    !(params.lemmata || '').split(',').some(term => term.trim());
+  if (!opensModalOnly) clearScopeNotice();
 
   handler(params);
 

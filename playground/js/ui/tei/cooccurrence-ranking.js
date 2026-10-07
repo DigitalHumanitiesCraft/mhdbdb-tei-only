@@ -10,7 +10,7 @@
  */
 
 import { getNavigationEpoch } from '../core/router.js';
-import { emptyScopeMessage, scopeSignature } from './corpus-scope.js';
+import { trackScope, emptyScopeMessage, scopeSignature } from './corpus-scope.js';
 import { csvButton } from '../core/ui-helpers.js';
 import { toCsv, downloadCsv, csvDateStamp, csvFilenamePart } from '../../../../assets/js/lib/csv-export.js';
 
@@ -60,6 +60,9 @@ export class CooccurrenceRanking {
   }
 
   show() {
+    this._abortToken = (this._abortToken || 0) + 1;
+    this.state.computing = false;
+    trackScope(() => { this.show(); if (this.getCorpusTexts().length) this.runSearch(); });
     const texts = this.getCorpusTexts();
     if (!texts || texts.length === 0) {
       this.renderError(emptyScopeMessage());
@@ -241,6 +244,7 @@ export class CooccurrenceRanking {
     const target = this.state.resolvedLemma;
     // Die Textmenge VOR dem await festhalten: danach kann sie eine andere
     // sein, und gerechnet wurde ueber diese hier (#204).
+    trackScope(() => { this.show(); if (this.getCorpusTexts().length) this.runSearch(); });
     const gerechnetUeber = scopeSignature(this.getCorpusTexts());
     const result = await this.computeCooccurrences(target.id, this.state.window, (p) => {
       if (this._abortToken !== myToken) return;

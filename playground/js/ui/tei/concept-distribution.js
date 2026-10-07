@@ -14,7 +14,7 @@
 
 import { getNavigationEpoch } from '../core/router.js';
 import { TextNormalizer } from '../../../../assets/js/lib/text-normalizer.js';
-import { emptyScopeMessage, scopeSignature } from './corpus-scope.js';
+import { trackScope, emptyScopeMessage, scopeSignature } from './corpus-scope.js';
 
 const DEFAULT_STATE = Object.freeze({
   query: '',
@@ -78,6 +78,9 @@ export class ConceptDistribution {
   }
 
   show() {
+    this._searchGen = (this._searchGen || 0) + 1;
+    this.state.computing = false;
+    trackScope(() => { this.show(); document.getElementById('cdSearchBtn')?.click(); });
     const texts = this.getCorpusTexts();
     if (!texts || texts.length === 0) {
       this.renderError(emptyScopeMessage());
@@ -649,6 +652,7 @@ export class ConceptDistribution {
 
       // Die Textmenge VOR dem await festhalten: danach kann sie eine andere
       // sein, und gerechnet wurde ueber diese hier (#204).
+      trackScope(() => { this.show(); document.getElementById('cdSearchBtn')?.click(); });
       const gerechnetUeber = scopeSignature(this.getCorpusTexts());
       const dist = await this.computeDistribution(this.state.matchingLemmata, (frac) => {
         if (this._searchGen !== myGen) return;

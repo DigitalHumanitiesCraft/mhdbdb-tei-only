@@ -8,7 +8,7 @@
  * Issue: #90
  */
 
-import { emptyScopeMessage } from './corpus-scope.js';
+import { trackScope, emptyScopeMessage } from './corpus-scope.js';
 
 const DEFAULT_STATE = Object.freeze({
   query: '',
@@ -35,6 +35,7 @@ export class LemmaDistribution {
   }
 
   show() {
+    trackScope(() => this.show());
     const texts = this.getCorpusTexts();
     if (!texts || texts.length === 0) {
       this.renderError(emptyScopeMessage());
@@ -148,6 +149,7 @@ export class LemmaDistribution {
   }
 
   renderBody() {
+    trackScope(() => this.show());
     if (!this.state.query) {
       return '<div class="rounded-2xl border border-dashed border-slate-200 bg-white p-8 text-center text-sm text-slate-500">Bitte Lemma eingeben und auf "Suchen" klicken.</div>';
     }

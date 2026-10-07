@@ -549,3 +549,134 @@ test.describe('Playground: Korpusauswahl wirkt (#204)', () => {
     });
 
 });
+
+
+test.describe('Auswahlhinweis (#442)', () => {
+    test.beforeEach(async ({ page }) => {
+        await page.goto('/playground/');
+        await page.waitForSelector('#fileBrowserSection', { state: 'visible', timeout: 60000 });
+        await page.evaluate(() => {
+            window.playground.corpusData.includedTexts = new Set(['CR']);
+            window.playground.updateFileBrowserStats();
+        });
+    });
+
+    test('alle sieben Analysepanels melden den Tausch gleicher Groesse und seine Ruecknahme', async ({ page }) => {
+        for (const name of ['wordFrequency', 'textStatistics', 'lemmaDistribution',
+            'versePositionSearch', 'conceptDistribution', 'cooccurrenceRanking', 'verseEndingProfile']) {
+            await page.evaluate(async name => {
+                await window.playground.ui[name].show();
+                window.playground.corpusData.includedTexts = new Set(['WH']);
+                window.playground.updateFileBrowserStats();
+            }, name);
+            await expect(page.locator('#corpusScopeNotice')).toBeVisible();
+            await page.evaluate(() => {
+                window.playground.corpusData.includedTexts = new Set(['CR']);
+                window.playground.updateFileBrowserStats();
+            });
+            await expect(page.locator('#corpusScopeNotice')).toHaveCount(0);
+        }
+    });
+
+    test('Neu berechnen aktualisiert die Statistik, Navigation entfernt den Hinweis', async ({ page }) => {
+        await page.evaluate(() => window.playground.ui.textStatistics.show());
+        await page.evaluate(() => {
+            window.playground.corpusData.includedTexts = new Set(['WH']);
+            window.playground.updateFileBrowserStats();
+        });
+        expect(await page.evaluate(() => window.playground.ui.textStatistics._stats.map(t => t.id))).toEqual(['CR']);
+        await page.getByRole('button', { name: 'Neu berechnen', exact: true }).click();
+        await expect(page.locator('#corpusScopeNotice')).toHaveCount(0);
+        expect(await page.evaluate(() => window.playground.ui.textStatistics._stats.map(t => t.id))).toEqual(['WH']);
+        await page.evaluate(() => {
+            window.playground.corpusData.includedTexts.clear();
+            window.playground.updateFileBrowserStats();
+        });
+        await expect(page.locator('#corpusScopeNotice')).toBeVisible();
+        await page.evaluate(async () => {
+            const { navigate } = await import('/playground/js/ui/core/router.js');
+            navigate('multi-lemma');
+            window.playground.ui.multiLemmaSearch.close();
+        });
+        await expect(page.locator('#corpusScopeNotice')).toBeVisible();
+        await page.evaluate(async () => {
+            const { navigate } = await import('/playground/js/ui/core/router.js');
+            navigate('authors');
+        });
+        await expect(page.locator('#corpusScopeNotice')).toHaveCount(0);
+    });
+
+    test('Multi-Lemma-Neuberechnung behaelt Modus, Distanz und Lemma-Zeiger', async ({ page }) => {
+        await page.evaluate(async () => {
+            const ui = window.playground.ui.multiLemmaSearch;
+            ui.lemmas = ['minne'];
+            ui.lemmaIdHints = new Map([['minne', '4130']]);
+            ui.searchModeRadios.forEach(r => { r.checked = r.value === 'document'; });
+            ui.proximityDistance.value = '25';
+            await ui.executeSearch();
+            window.playground.corpusData.includedTexts = new Set(['WH']);
+            window.playground.updateFileBrowserStats();
+            window.repeatedSearch = null;
+            const original = ui.executeSearch.bind(ui);
+            ui.executeSearch = () => {
+                window.repeatedSearch = { terms: [...ui.lemmas], hints: [...ui.lemmaIdHints],
+                    mode: ui.getSelectedSearchMode(), distance: ui.proximityDistance.value };
+                return original();
+            };
+        });
+        await page.getByRole('button', { name: 'Neu berechnen', exact: true }).click();
+        expect(await page.evaluate(() => window.repeatedSearch)).toEqual({
+            terms: ['minne'], hints: [['minne', '4130']], mode: 'document', distance: '25'
+        });
+        await expect(page.locator('#corpusScopeNotice')).toHaveCount(0);
+    });
+});
+
+
+test('Auswahlaenderung waehrend einer Berechnung bleibt nach deren Ende sichtbar (#442)', async ({ page }) => {
+    await page.goto('/playground/');
+    await page.waitForSelector('#fileBrowserSection', { state: 'visible', timeout: 60000 });
+    await page.evaluate(() => {
+        const pg = window.playground;
+        pg.corpusData.includedTexts = new Set(['CR']);
+        pg.updateFileBrowserStats();
+        const tool = pg.ui.cooccurrenceRanking;
+        tool.show();
+        tool.state.query = 'minne';
+        const original = tool.computeCooccurrences.bind(tool);
+        tool.computeCooccurrences = async (...args) => {
+            const result = await original(...args);
+            await new Promise(resolve => { window.finishScopeComputation = resolve; });
+            return result;
+        };
+        window.scopeComputation = tool.runSearch();
+    });
+    await page.waitForFunction(() => !!window.finishScopeComputation);
+    await page.evaluate(() => {
+        window.playground.corpusData.includedTexts = new Set(['WH']);
+        window.playground.updateFileBrowserStats();
+    });
+    await expect(page.locator('#corpusScopeNotice')).toBeVisible();
+    await page.evaluate(async () => {
+        window.finishScopeComputation();
+        await window.scopeComputation;
+    });
+    await expect(page.locator('#resultsContainer')).toContainText('14 Vorkommen');
+    await expect(page.locator('#corpusScopeNotice')).toBeVisible();
+    await page.evaluate(() => {
+        window.finishScopeComputation = null;
+        window.scopeComputation = window.playground.ui.cooccurrenceRanking.runSearch();
+    });
+    await page.waitForFunction(() => !!window.finishScopeComputation);
+    await page.evaluate(() => {
+        window.playground.corpusData.includedTexts.clear();
+        window.playground.updateFileBrowserStats();
+    });
+    await page.getByRole('button', { name: 'Neu berechnen', exact: true }).click();
+    await page.evaluate(async () => {
+        window.finishScopeComputation();
+        await window.scopeComputation;
+    });
+    await expect(page.locator('#resultsContainer')).toContainText('Kein Text ausgew\u00e4hlt');
+    await expect(page.locator('#corpusScopeNotice')).toHaveCount(0);
+});

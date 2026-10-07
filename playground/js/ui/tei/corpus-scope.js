@@ -70,3 +70,42 @@ export function singleSelectedTextId() {
 export function scopeSignature(texts) {
     return (texts || []).map(t => t.id).join('|');
 }
+
+
+// Gemeinsamer Hinweis ausserhalb des austauschbaren Ergebnispanels (#442).
+let activeScope = null;
+
+function selectedSignature() {
+    return JSON.stringify([...(window.playground?.corpusData?.includedTexts || [])].sort());
+}
+
+export function clearScopeNotice() {
+    activeScope = null;
+    document.getElementById('corpusScopeNotice')?.remove();
+}
+
+export function trackScope(recalculate) {
+    activeScope = { signature: selectedSignature(), recalculate };
+    updateScopeNotice();
+}
+
+export function updateScopeNotice() {
+    document.getElementById('corpusScopeNotice')?.remove();
+    if (!activeScope || activeScope.signature === selectedSignature()) return;
+    const results = document.getElementById('resultsContainer');
+    if (!results) return;
+    const notice = document.createElement('div');
+    notice.id = 'corpusScopeNotice';
+    notice.className = 'rounded-lg border border-amber-200 bg-amber-50 p-4 mb-4 text-sm text-amber-800';
+    notice.setAttribute('role', 'status');
+    const text = document.createElement('span');
+    text.textContent = 'Die Textauswahl hat sich seit dieser Berechnung geändert. Das angezeigte Ergebnis gehört zur vorherigen Auswahl. ';
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'font-semibold underline';
+    button.textContent = 'Neu berechnen';
+    const refresh = activeScope.recalculate;
+    button.addEventListener('click', () => refresh());
+    notice.append(text, button);
+    results.before(notice);
+}
