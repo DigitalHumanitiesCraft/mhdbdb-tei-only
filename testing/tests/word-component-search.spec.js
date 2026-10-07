@@ -21,7 +21,8 @@
  *    vorhandenen Determinativkomposita ôsterwîn, ziperwîn und lantwîn.
  */
 
-import { test, expect } from '@playwright/test';
+// Warmer Context pro Worker (#488): kein Storage-Zustand, keine Routes.
+import { test, expect } from '../warm-page.js';
 
 const KOMPONENTEN_ROUTE = '/playground/#lemmata&mode=component';
 

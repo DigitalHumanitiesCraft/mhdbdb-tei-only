@@ -6,12 +6,15 @@
  * jeder Test holt 42 MB, entpackt und parst sie und schreibt sie in eine
  * leere IndexedDB. Hier bekommt jeder Worker EINEN Context; der erste Test
  * darin fuellt den Cache, jeder weitere liest ihn aus IndexedDB. Jeder Test
- * bekommt trotzdem eine eigene, frische `page`.
+ * bekommt trotzdem eine eigene, frische `page`, und nach jedem Test wird
+ * localStorage geleert (siehe unten); geteilt bleibt nur IndexedDB.
  *
  * Opt-in je Spec: `import { test, expect } from '../warm-page.js';` statt
  * aus '@playwright/test'. NICHT fuer Specs, die
  *  - Storage-Zustand pruefen oder setzen (localStorage, IndexedDB,
  *    sessionStorage ueber Tests hinweg, setOffline),
+ *  - das kalte Laden messen oder pruefen: im warmen Context kommt der Index
+ *    aus dem Cache, der Test bleibt gruen und misst nichts mehr,
  *  - Netzantworten mit page.route/context.route mocken: in einem warmen
  *    Context bedient der Cache, die Route feuert nie, und der Test prueft
  *    den Cache statt des Mocks, ohne rot zu werden,
@@ -45,6 +48,18 @@ export const test = base.extend({
     page: async ({ warmContext }, use) => {
         const page = await warmContext.newPage();
         await use(page);
+        // localStorage teilt sich der warme Context, und die Seiten schreiben
+        // selbst hinein (Aufklappzustand im Playground, Ergebnisansicht auf
+        // korpus.html). Ohne das Leeren klappte der naechste Test einen Block
+        // zu, den er aufklappen wollte, und lief in den Timeout. Warm bleiben
+        // soll nur IndexedDB mit dem Index; sessionStorage gilt je Seite.
+        try {
+            if (page.url().startsWith('http')) {
+                await page.evaluate(() => localStorage.clear());
+            }
+        } catch {
+            // Seite schon geschlossen oder fremder Ursprung: nichts zu leeren
+        }
         await page.close();
     },
 });
