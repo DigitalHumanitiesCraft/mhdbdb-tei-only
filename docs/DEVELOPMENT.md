@@ -455,8 +455,9 @@ npm run serve
 # 3. Run automated tests
 npm test
 
-# 4. CRITICAL: Wait for user to test and approve
-# DO NOT COMMIT without user approval!
+# 4. Before committing: the gates the change touches, a green VERDICT line,
+# and a fable-reviewer round with no open finding that changes behaviour. Once those have run, no
+# separate approval is needed (CLAUDE.md → Git Rules, first bullet).
 
 # 5. Commit with descriptive message
 # Stage specific files BY NAME — never `git add .` / `git add -A`.
@@ -469,7 +470,7 @@ git commit -m "Add feature: description
 
 Co-Authored-By: Claude <noreply@anthropic.com>"
 
-# 6. Push (ONLY AFTER USER APPROVAL)
+# 6. Push (only after step 4)
 git push -u origin feature/your-feature-name
 
 # 7. Merge via pull request. This is a convention, not a lock:
@@ -496,7 +497,7 @@ Small documentation changes are the exception and go straight to `main`, see CLA
 - Add AI-assisted footer
 
 **DON'T:**
-- Commit without user testing and approval
+- Commit, push or merge before the gates, the tests and the review have run
 - Force push to main
 - Skip hooks or validation
 
@@ -524,7 +525,7 @@ For autonomous issue work and PR merge sessions there are reusable procedures wi
 - [ ] Manual testing complete
 - [ ] Pre-built indexes rebuilt (if XML sources changed)
 - [ ] Documentation updated
-- [ ] User has tested and approved changes
+- [ ] `fable-reviewer` round with no open finding that changes behaviour
 
 ### Post-Deployment Verification
 

@@ -10,7 +10,7 @@ Eine autonome Session startet nur mit einem Kickoff-Prompt von chsteiner. Kein P
 
 ### 1. Autorisierung (immer, wörtlich)
 
-Was diese Session darf, und was auch sie nicht darf. Die Freigabe übersteuert die CLAUDE.md-Regel „never commit/push without user approval" für den genannten Umfang und nur für ihn.
+Was diese Session darf, und was auch sie nicht darf. Die Freigabe gilt für den genannten Umfang und nur für ihn. Die allgemeine Freigabe in CLAUDE.md (Git Rules, erster Punkt, seit 2026-10-07) reicht in dieser Session nicht weiter als der Kickoff.
 
 - **Issue-Session:** Commits und Pushes auf `claude/*`-Branches, PRs erstellen. `main` bleibt tabu.
 - **Merge-Session:** Merges der benannten PRs nach `main`. Keine direkten Pushes auf `main`.

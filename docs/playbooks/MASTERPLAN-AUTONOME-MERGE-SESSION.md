@@ -10,7 +10,7 @@ Dieser Plan autorisiert NICHTS. Eine Merge-Session startet erst mit einem Kickof
 
 Drei Angaben braucht der Kickoff zusätzlich, und ohne sie startet die Session nicht:
 
-1. **Merge-Autorisierung nach main** für die benannten PRs. Sie übersteuert die CLAUDE.md-Regel „NEVER commit or push without user testing and approval": der Kickoff IST die Approval. Ohne ihn bleibt `main` tabu. Autorisiert sind Merges, keine direkten Pushes.
+1. **Merge-Autorisierung nach main** für die benannten PRs. Der Kickoff IST die Approval. Die allgemeine Freigabe in CLAUDE.md (Git Rules, erster Punkt, seit 2026-10-07) gilt in einer Playbook-Session nicht über den Kickoff hinaus. Ohne ihn bleibt `main` tabu. Autorisiert sind Merges, keine direkten Pushes.
 2. **Umfang:** alle offenen `claude/*`-PRs oder eine explizite Teilmenge, in Merge-Reihenfolge.
 3. **Live-Smoke-Checks** nach dem Deploy: Teil der Session, ja oder nein (empfohlen: ja).
 
