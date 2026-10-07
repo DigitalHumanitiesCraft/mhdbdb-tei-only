@@ -17,7 +17,8 @@
  * steht der Quellstand daneben, gegen den sie gemessen wurde.
  */
 
-import { test, expect } from '@playwright/test';
+// Warmer Context pro Worker (#488): kein Storage-Zustand, keine Routes.
+import { test, expect } from '../warm-page.js';
 import { readFileSync } from 'node:fs';
 import { gunzipSync } from 'node:zlib';
 

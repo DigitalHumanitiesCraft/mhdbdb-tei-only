@@ -61,8 +61,11 @@ export default defineConfig({
   // einzige Wert, der sich dort wirklich ändert.
   //
   // Nichts erzwingt serielle Ausführung: kein `test.describe.serial`, kein
-  // `test.use()`, keine Abhängigkeit zwischen Tests, und Playwright gibt jedem
-  // Test ohnehin einen eigenen Context mit isolierter Storage-Partition.
+  // `test.use()`, keine Abhängigkeit zwischen Tests. Playwright gibt jedem
+  // Test einen eigenen Context mit isolierter Storage-Partition, außer in
+  // Specs, die `test` aus `warm-page.js` importieren (#488): dort teilen sich
+  // alle Tests eines Workers einen Context und damit IndexedDB und
+  // localStorage. Diese Specs dürfen deshalb keinen Storage-Zustand prüfen.
   workers: process.env.CI ? 2 : 6,
   reporter: [
     ['html', { outputFolder: resolve(__dirname, 'test-results/html-report') }],

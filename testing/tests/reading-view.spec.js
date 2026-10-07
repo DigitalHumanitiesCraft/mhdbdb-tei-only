@@ -9,7 +9,8 @@
  * Issue #43 — Priority 2: reading view coverage
  */
 
-import { test, expect } from '@playwright/test';
+// Warmer Context pro Worker (#488): kein Storage-Zustand, keine Routes.
+import { test, expect } from '../warm-page.js';
 
 test.describe('Reading View', () => {
 

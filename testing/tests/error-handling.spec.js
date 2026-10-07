@@ -9,6 +9,10 @@
 
 import { test, expect } from '@playwright/test';
 
+// Die rote Fehlermeldung, die TEIReader.showError() in #readingBody schreibt
+// (assets/js/rendering/tei-text-reader.js). Ersetzt feste waitForTimeout (#488).
+const FEHLER_IM_LESEBEREICH = '#readingBody p.text-red-600';
+
 test.describe('Error Handling', () => {
 
     test.setTimeout(120000);
@@ -26,8 +30,8 @@ test.describe('Error Handling', () => {
         await page.waitForSelector('#resultsList > div', { timeout: 10000 });
         await page.locator('#resultsList > div').first().click();
 
-        // Wait for error to appear
-        await page.waitForTimeout(5000);
+        // Warten, bis der Reader die Fehlermeldung gesetzt hat (TEIReader.showError)
+        await page.waitForSelector(FEHLER_IM_LESEBEREICH, { timeout: 15000 });
 
         // Reading body should show error (not crash)
         const bodyText = await page.locator('#readingBody').textContent();
@@ -45,8 +49,8 @@ test.describe('Error Handling', () => {
         await page.goto('/korpus.html?textId=FAKE_TEXT_404&lemmaIds=879');
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
 
-        // Wait for the error to surface
-        await page.waitForTimeout(3000);
+        // Warten, bis der Fehler im Lesebereich steht
+        await page.waitForSelector(FEHLER_IM_LESEBEREICH, { timeout: 15000 });
 
         // Error should appear in reading body or error display
         const bodyText = await page.locator('#readingBody').textContent();
@@ -70,8 +74,8 @@ test.describe('Error Handling', () => {
         await page.goto('/korpus.html?textId=ABG&lemmaIds=879');
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
 
-        // Wait for parse error
-        await page.waitForTimeout(5000);
+        // Warten, bis der Parse-Fehler im Lesebereich steht
+        await page.waitForSelector(FEHLER_IM_LESEBEREICH, { timeout: 15000 });
 
         // Reading body should show error, not crash
         const bodyText = await page.locator('#readingBody').textContent();
@@ -85,7 +89,7 @@ test.describe('Error Handling', () => {
         // Trigger error with bad text ID
         await page.goto('/korpus.html?textId=NONEXISTENT&lemmaIds=879');
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
-        await page.waitForTimeout(3000);
+        await page.waitForSelector(FEHLER_IM_LESEBEREICH, { timeout: 15000 });
 
         // Search input should still be usable
         await expect(page.locator('#searchInput')).toBeVisible();
