@@ -36,7 +36,7 @@ Verdichtet 02.10.2026. Zahlen sind Eingabe, vor Gebrauch nachmessen.
 - `schema/examples/*.xml` validiert nichts: eine Pflichtattribut-Änderung im Schema lässt die Beispieldatei still ungültig (Probe mit lxml RelaxNG).
 - Kein Gate: tailwind-output.css, sense/@ana, Header-Spiegel gegen works.xml außer Gattungen.
 - **Syntaxfehler im Textteil:** seit `tei_header` (iterparse bricht nach `</teiHeader>` ab) fangen ihn 7b/7c nicht mehr; fangen tun Step 4 (extract-variants), Step 6 (build-corpus-index überspringt die Datei mit Exit 0, der Rebuild-Vergleich wird rot), Step 7 (cross-refs). Lokal bleibt build-corpus-index grün, nur die Warnzeile zeigt es.
-- **Parallel-Gegenprobe** (cross-refs, Begriffshilfe): `--jobs=1` gegen Vorgabe, per `cmp`; eine `--out`-Datei erst nach `tr -d '\r'` mit dem Baum vergleichen (`core.autocrlf=true`).
+- **Parallel-Gegenprobe** (cross-refs, Begriffshilfe): `--jobs=1` gegen Vorgabe, per `cmp`; eine `--out`-Datei erst nach `tr -d '\r'` mit dem Baum vergleichen (`core.autocrlf=true`). Ausnahme Begriffshilfe, sobald die `.gitattributes`-Zeile `assets/downloads/mhdbdb-begriffshilfe.md text eol=lf` (Runde 07.10.2026) auf main ist: dann liegt sie LF im Baum, `cmp` direkt; vorher `git ls-files --eol <datei>` lesen. Sicherer als beides: `git hash-object <out>` gegen `git rev-parse HEAD:<pfad>`, unabhängig vom Checkout.
 
 **extract-variants.py**
 - „Typ mit >1 Lemma" endet mit return 0: kein Gate. Ohne `--apply` schreibt es `authority-files/variants.regen.xml` (nicht gitignoriert, danach löschen); Laufzeit ~1 min.

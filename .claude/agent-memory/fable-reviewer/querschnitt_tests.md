@@ -11,6 +11,7 @@ Verdichtet 02.10.2026.
 - `--reporter` auf der CLI ersetzt die Reporter der Config: kein report.json, `VERDICT: KEIN ERGEBNIS`, Exit 2, obwohl alles grün.
 - `testing/test-results/report.json` wird von jedem Einzellauf überschrieben und fehlt, solange `npm test` läuft: Volllaufzahl des Aufrufers (`stats.expected/unexpected`) vorher lesen.
 - `node scripts/run-tests.js --list` zählt ohne Server; ein statisches `grep` auf `test(` liegt darunter (Schleifen, generierte Tests).
+- **Auch `npx playwright test --list -c testing/playwright.config.js` überschreibt `report.json`** (JSON-Reporter läuft im Listenmodus mit: `expected 0, skipped N`). Am 06.10.2026 so den Volllauf-Beleg des Aufrufers (435/350,5 s) vernichtet, obwohl die Zeile darüber das Lesen vorher verlangt. Vor jedem `--list` oder Einzellauf: `stats` des vorhandenen `report.json` in die Scratch-Datei kopieren.
 - **Port 8080:** frei? `curl -s -o /dev/null -w "%{http_code}" localhost:8080/...` (000 = frei). Welcher Baum? `curl .../<seite> | grep -c '<String aus dem Diff>'`. run-tests.js bricht ab (`KEIN ERGEBNIS`, Exit 2), wenn :8080 ein fremder Baum bedient. Abhilfe `MHDBDB_TEST_PORT=<port> npm.cmd test -- <spec>`: am 02.10.2026 war 8081 ebenfalls fremd belegt, 8097 lief (TEILLAUF GRÜN, 10 Tests 30 s). `netstat -ano | grep LISTEN` findet unter deutscher Konsole nichts (dort ABHÖREN).
 - Specs liegen in `testing/tests/`; ein Glob `testing/*.spec.js` läuft still leer.
 - Anderer Port ohne Config-Änderung: `MHDBDB_TEST_PORT=8084 node scripts/run-tests.js <spec>`.

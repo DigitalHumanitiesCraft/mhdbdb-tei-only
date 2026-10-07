@@ -23,3 +23,8 @@ Verdichtet 02.10.2026.
 - Blob gleich Runner-Build: `git fetch origin refs/pull/<N>/head`, `git rev-parse FETCH_HEAD:<p> HEAD:<p>`.
 - Gegenlauf auf der Basis belegen: `git reflog --date=iso` gegen `testing/test-results/report.json` `stats.startTime`.
 - Diff-Zeilenarten zählen: `git diff base...HEAD -- tei/ | grep '^+' | sed 's/xml:id="[^"]*"//g; s/when="[^"]*"//g' | sort | uniq -c`.
+
+**EOL- und Attribut-Proben ohne den Arbeitsbaum (07.10.2026)**
+- Probeklon im Scratchpad: `git clone --shared --no-checkout --branch main <repo> <scratch>/eolprobe`, dann `git -C ... sparse-checkout set --no-cone .gitattributes assets/downloads/x.md` **ohne führenden Slash** (Git Bash macht aus `/.gitattributes` den Pfad `C:/Program Files/Git/.gitattributes`; Warnung ignorieren) und `sparse-checkout reapply`. Erbt `core.autocrlf` aus der System-Config, `config core.autocrlf false` + `core.eol lf` simuliert Linux. Schreibt nichts ins Hauptrepo. Der Scratchpad-Ordner ist mit der Session des Aufrufers geteilt: eigenen Ordnernamen wählen.
+- Ein `git status` M bei leerem `git diff` ist eine Größenabweichung zwischen Index-Stat und Datei (`git ls-files -s --debug`, `size:`); git vergleicht dann keinen Inhalt. `git add` der Datei (Blob bleibt) oder `git restore` löst es, `git add --renormalize` ist bei LF-Blob ein No-op.
+- `rnc2rng` ist lokal installiert (`python -m rnc2rng <rnc> <ziel>`), schreibt unter Windows CRLF, unter Linux LF.
