@@ -3,7 +3,7 @@
 Verdichtet am 02.10.2026. Zahlen hier sind Eingabe, keine Messung.
 
 - [Umgebung](querschnitt_umgebung.md): Worktree-Guard, Windows, GitHub ohne gh, Cloud-Session
-- [Git-Rezepte](querschnitt_git.md): Altstand, Basis prüfen, range-diff, log -S, Blob-Hash, EOL-Proben im Sparse-Klon (status M bei leerem diff), Squash zählen per merge_commit_sha, Stack nach Squash (rebase --onto, Auto-Delete retargetet)
+- [Git-Rezepte](querschnitt_git.md): Altstand, Basis, range-diff, Herkunft, EOL-Proben, Squash zählen und Stack nach Squash
 - [Messrezepte](querschnitt_messen.md): importlib in-process, Mutationsproben, Zählfallen, find-mentions-Probe
 - [Tests](querschnitt_tests.md): run-tests.js, Port, report.json, Playwright-Probe, Tailwind
 - [Review-Denkfallen](querschnitt_review_fallen.md): #397-Frage, Gates, Auftrag und Laufplan prüfen
@@ -18,5 +18,5 @@ Verdichtet am 02.10.2026. Zahlen hier sind Eingabe, keine Messung.
 - [Begriffshilfe #498](projekt_begriffshilfe_498.md): Korpusdurchgang cachen, Belege unter Begriff vs. gesamt, Freshness-Gate
 - [Parzival-Bücher #358](projekt_parzival_buecher_358.md): OCR-Messrezept Bartsch/Martin, Fallen (VIII = 398,1, Redezeichen-pc, TEI-gegen-TEI-Vergleich)
 - [WZB @corresp #370](projekt_370_corresp.md): ANLEGEN-Falle, zwei Tokenzählungen, Messrezept alt/neu, mitalternde Nachbarn
-- [#526 Breve/Makron](projekt_526_breve_makron.md): Tafelskript auf Kopie (parents[3]), Guard-Grenzen (Regel V), CONTRACTS §A zählt Unannotiertes als Invariante
-- [Warm-Context #488](projekt_warm_context_488.md): Fixture-Reihenfolge, Worker-Context erbt use+Timeout 0, Probe ohne Server, Worker-Stop nach Fehlschlag, App-Storage-Schlüssel, Nachbarn (DEVELOPMENT:188)
+- [#526 Breve/Makron](projekt_526_breve_makron.md): Tafelskripte reproduzieren, Guard-Grenzen, EOL-Falle der WZB
+- [Warm-Context #488](projekt_warm_context_488.md): was ein Worker-Context erbt, Probe ohne Server, App-Storage, Laufzeitskalen
