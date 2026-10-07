@@ -27,6 +27,8 @@ Verdichtet 02.10.2026.
 - **„Ich habe selbst nachgemessen" im Auftrag ist eine Wiederholung meiner Methode, keine Gegenprobe** (#228 Runde 2): der Aufrufer bestätigte meinen Nullbefund zu `.flex-shrink-0` mit derselben Regex, beide waren falsch (siehe querschnitt_tests). Einen eigenen Vorrundenbefund mit einer ANDEREN Messung prüfen (Kontextausgabe statt Zählung).
 - **Der Laufplan ist Anforderungsquelle und bewegt sich nach dem Abzweig** (`docs/playbooks/kickoffs/2026-10-02-lauf.md`: nach der Basis zwei Commits, einer verlangte eine DEVELOPMENT.md-Zeile für eine neue Spec, sonst `check-doc-inventories.py` rot). Der Auftrag nannte die alte Basis; `git diff <basis> origin/main` auf den Kickoff zeigt die Pflicht. Bei Laufplan-Spuren immer so messen.
 - Allaussagen im Diff gegen den Laufplan-Paragraphen halten, aus dem sie stammen (B2: §4.2 nannte drei Bücher, FEATURES machte „the books“ daraus).
+- `docs/playbooks/kickoffs/<datum>-*.md` sind datierte Prompts: zitieren sie eine inzwischen geänderte CLAUDE.md-Regel, ist das kein Befund (07.10.: datenlauf :222 zitiert die alte Commit-Freigabe von vor dem 07.10.).
+- Merge-Playbook :37 behauptet „Repo-Konvention: Merge-Commit, kein Squash"; Praxis auf main messen mit `git log --oneline --merges --since=<datum> origin/main | wc -l` gegen `--no-merges | grep -c "(#[0-9]*)$"` (07.10.: seit 01.09. 6 Merge-Commits, 113 Squash-Stil, letzter PR-Merge-Commit #445 am 21.09.; DEVELOPMENT.md:486 sagt `--squash`). Widerspruch ist Vorbestand, liegt bei Christian.
 
 **Fehlerjournal**
 - `claude-code-setup/hooks/lehren-zaehlen.py` parst dieses Journal nicht (Format `### N. Rot:`): Ketten von Hand über den Absatz „Die Lehre, die nicht gegriffen hat". Nummern werden je Spur vorab reserviert: Sprünge sind kein Befund.
