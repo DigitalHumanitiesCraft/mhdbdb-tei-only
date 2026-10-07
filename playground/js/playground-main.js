@@ -499,7 +499,7 @@ class MHDBDBPlayground {
 
             // #204: Der Hinweis haengt am Filter, nicht am Ergebnis
             this.updateFilterMismatchNote();
-        updateScopeNotice();
+            updateScopeNotice();
         });
 
         // Clear filter button
