@@ -18,5 +18,5 @@ Verdichtet am 02.10.2026. Zahlen hier sind Eingabe, keine Messung.
 - [Begriffshilfe #498](projekt_begriffshilfe_498.md): Korpusdurchgang cachen, Belege unter Begriff vs. gesamt, Freshness-Gate
 - [Parzival-Bücher #358](projekt_parzival_buecher_358.md): OCR-Messrezept Bartsch/Martin, Fallen (VIII = 398,1, Redezeichen-pc, TEI-gegen-TEI-Vergleich)
 - [WZB @corresp #370](projekt_370_corresp.md): ANLEGEN-Falle, zwei Tokenzählungen, Messrezept alt/neu, mitalternde Nachbarn
-- [#526 Breve/Makron](projekt_526_breve_makron.md): Tafelskripte reproduzieren, Guard-Grenzen, EOL-Falle der WZB
+- [#526 Breve/Makron/w-n](projekt_526_breve_makron.md): Tafelskripte reproduzieren, Guard-Grenzen, EOL-Falle der WZB, Index-Abgleich je Lemma, §A-Zählvorschrift, corresp-Ratsche
 - [Warm-Context #488](projekt_warm_context_488.md): was ein Worker-Context erbt, Probe ohne Server, App-Storage, Laufzeitskalen

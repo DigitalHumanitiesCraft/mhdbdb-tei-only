@@ -1,6 +1,6 @@
 ---
 name: projekt-526-breve-makron
-description: Review-Rezepte für die #526-Nachannotierungen in der WZB (wzb-breve-526.py, wzb-makron-526.py): Tafelskript auf Kopie, Guard-Grenzen, EOL-Probe, mitalternde Allaussagen in CONTRACTS.md §A
+description: Review-Rezepte für die #526-Nachannotierungen in der WZB (wzb-breve-526.py, wzb-makron-526.py, wzb-breve-wn-526.py): Tafelskript auf Kopie, Guard-Grenzen, EOL-Probe, Index-Abgleich je Lemma, mitalternde Allaussagen in CONTRACTS.md §A
 metadata:
   type: project
 ---
@@ -12,4 +12,8 @@ metadata:
 
 **Begriffshilfe bleibt unberührt**, obwohl das FOLGEN-Docstring ihren Neubau nennt: der Generator liest nur `w/@ana`, die #526-Läufe schreiben keins. Gegenprobe `build-begriffshilfe.py --out <scratch>` plus `git hash-object` gegen HEAD.
 
-**Mitalternde Allaussagen:** `docs/CONTRACTS.md` §A (um Zeile 101-107) zählte unannotierte WZB-Tokens als Invariante; seit #534 (07.10.) stehen beide Sätze datiert in der Vergangenheit. Die Rohzahlen daneben (Zeichen, nicht Annotation) bleiben gültig. Ein neuer #526-Lauf: dort und im #526-Thread nach Rest-Zählungen suchen.
+**Mitalternde Allaussagen:** `docs/CONTRACTS.md` §A (um Zeile 101-107) zählte unannotierte WZB-Tokens als Invariante; seit #534 (07.10.) stehen beide Sätze datiert in der Vergangenheit. Die Rohzahlen daneben (Zeichen, nicht Annotation) bleiben gültig. Ein neuer #526-Lauf: dort und im #526-Thread nach Rest-Zählungen suchen. §A-Zählvorschrift „136/64": `<w>`-Text roh (kein NFD), U+0306 auf Grundzeichen außer o/u, alle 667 Dateien; `lemmaRef=` im Starttag. Die 64 (ADR-017, 06.08.) wurden am 23.09. zu 65 durch `WZB_64ra_25_4` (`vrow̆e`, #471, KZW-Einzelentscheidung), Punkt 4 am 07.10. zu 94. `DECISIONS.md` ~1094-1096 („13 tokens ... all unlemmatized", „48 of the 113") ist datierter ADR-Text und wird nicht nachgezogen.
+
+**Index-Abgleich ohne Neubau (Punkt 4, 07.10.):** `corpus-index.json.gz` aus `git show` beider Stände laden, `texts[WZB].lemmata[lemma]`-Längen vergleichen: Summe der Differenzen muss der Tokenzahl des Laufs entsprechen (32), `lemmaIndex` (Lemma -> Siglenliste) bleibt gleich, wenn alle Ziel-Lemmata in der WZB schon belegt waren; dann ist auch der Authority-Index unberührt (`load_corpus_lemma_ids` liest nur die Lemma-Menge). `wordCount` zählt nur lemmatisierte `<w>` (+32).
+
+**Was dieser Skripttyp wahr macht (#397):** die #370-Ratsche `corresp-coverage-baseline.json` steigt um die Tokenzahl (kein @corresp geschrieben) und muss per `--update-baseline=corresp` mitkommen; `check-authority-cross-refs.py` ohne `--check` druckt die Istwerte. Die Begriffshilfe ist nachweislich unabhängig: `build-begriffshilfe.py --out <scratch>` ergab denselben Blob-Hash wie HEAD, das „FOLGEN: Begriffshilfe neu bauen" im Docstring aller drei Skripte ist deshalb eine Scheinabhängigkeit. Neue Skripte landen mit `i/lf` im Index wie alle 33 Geschwister; die autocrlf-Warnung beim `add` ist kein Befund. Konsolenausgabe kürzt `vergleich_belege[:10]` („293 von 29"), die CSV ist vollständig.

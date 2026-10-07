@@ -22,8 +22,9 @@ Nicht annotiert (REVIEW, fuer Christian):
 KEIN @corresp, KEIN @ana, wie in wzb-breve-526.py und wzb-makron-526.py: die
 Typfrage liegt in #370. GRA wird nie vergeben.
 
-FOLGEN: @lemmaRef kommt neu hinzu, also Korpus-Index, API und Begriffshilfe
-neu bauen; variants.xml und der Authority-Index bleiben unberuehrt.
+FOLGEN: @lemmaRef kommt neu hinzu, also Korpus-Index und API neu bauen;
+variants.xml, der Authority-Index und die Begriffshilfe (haengt an w/@ana)
+bleiben unberuehrt.
 
 Nicht idempotent: ein zweiter Lauf findet die Tokens annotiert vor und bricht
 ab.
@@ -329,8 +330,8 @@ def main() -> int:
     print("  Lemmata:", dict(Counter(z["ziel_lemma_form"] + " " + z["neu_pos"]
                                      for z in zeilen if z["action"] == "ANNOTATE")))
     for z in zeilen:
-        print("  %-16s %-18s %-8s %-12s %-4s %-10s %s" % (z["xml_id"], z["form"], z["action"],
-              z["neu_lemmaRef"].replace("lexicon.xml#", ""), z["neu_pos"], z["vergleich_belege"][:10],
+        print("  %-16s %-18s %-8s %-12s %-4s %-12s %s" % (z["xml_id"], z["form"], z["action"],
+              z["neu_lemmaRef"].replace("lexicon.xml#", ""), z["neu_pos"], z["vergleich_belege"],
               z["umfeld"]))
     print("  Artefakte:", out)
     return 0
