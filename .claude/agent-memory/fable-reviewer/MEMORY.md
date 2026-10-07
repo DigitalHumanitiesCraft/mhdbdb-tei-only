@@ -3,7 +3,7 @@
 Verdichtet am 02.10.2026. Zahlen hier sind Eingabe, keine Messung.
 
 - [Umgebung](querschnitt_umgebung.md): Worktree-Guard, Windows, GitHub ohne gh, Cloud-Session
-- [Git-Rezepte](querschnitt_git.md): Altstand, Basis prüfen, range-diff, log -S, Blob-Hash, EOL-Proben im Sparse-Klon (status M bei leerem diff)
+- [Git-Rezepte](querschnitt_git.md): Altstand, Basis prüfen, range-diff, log -S, Blob-Hash, EOL-Proben im Sparse-Klon (status M bei leerem diff), Squash zählen per merge_commit_sha, Stack nach Squash (rebase --onto, Auto-Delete retargetet)
 - [Messrezepte](querschnitt_messen.md): importlib in-process, Mutationsproben, Zählfallen, find-mentions-Probe
 - [Tests](querschnitt_tests.md): run-tests.js, Port, report.json, Playwright-Probe, Tailwind
 - [Review-Denkfallen](querschnitt_review_fallen.md): #397-Frage, Gates, Auftrag und Laufplan prüfen
