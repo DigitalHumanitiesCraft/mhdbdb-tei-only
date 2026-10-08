@@ -43,7 +43,10 @@ Ein Satz, den keine Regel abdeckt, ist ein harter Fehler: nichts wird
 geschrieben.
 
 Je geaenderter Datei kommt ein <change> in den revisionDesc (Muster #216),
-mit den Zahlen dieser Datei; ein spaeterer Lauf ersetzt ihn (Marker '#493').
+mit den Zahlen dieser Datei und dem Datum des Laufs; ein spaeterer Lauf
+ersetzt ihn (Marker '#493'). Bis 2026-10-08 stand das Datum fest im Skript,
+und ein Hochstufen haette den neueren Eintrag mit dem aelteren Datum
+ueberschrieben (Hinweis des CI-Bots an #548).
 Ein zweiter Lauf erkennt die eigene Ausgabe und stuft nur um, wenn sich
 der Stand geaendert hat (teilweise -> vollstaendig); ohne Aenderung schreibt
 er nichts, auch die Liste nicht. "Vorher" bleibt dabei der Wortlaut aus dem
@@ -57,8 +60,7 @@ disambiguiert." und "Semantisch disambiguiert.". Fehlt <normalization>, wird es
 als letztes Kind von <editorialDecl> angelegt (Schema: normalization steht
 dort zuletzt). Gemessen am 2026-10-08: 95 Dateien ohne Satz, 75 teilweise,
 20 vollstaendig erschlossen; 4 der 75 teilweise erschlossenen haben kein
-<normalization>. Ein Satz zur
-Lemmatisierung wird dabei nicht erfunden. Der <change> traegt "Vorher" leer,
+<normalization>. Ein Satz zur Lemmatisierung wird dabei nicht erfunden. Der <change> traegt "Vorher" leer,
 damit ein spaeterer Lauf das als Ursprung erkennt.
 
 Textuelle Ersetzung statt lxml-Serialisierung, damit der Rest der Datei
@@ -73,6 +75,7 @@ import csv
 import re
 import sys
 from collections import Counter
+from datetime import date
 from pathlib import Path
 
 from lxml import etree
@@ -82,8 +85,7 @@ TEI_DIR = REPO / "tei"
 PLAN = REPO / "ingest" / "disambig-493" / "aenderungen.csv"
 NS = "{http://www.tei-c.org/ns/1.0}"
 
-DATUM = "2026-09-30"
-DATUM_ERGAENZT = "2026-10-08"
+DATUM = date.today().isoformat()
 MARKER = "#493"
 DIS = "semantisch disambiguiert"
 
@@ -212,7 +214,7 @@ def main():
                 stat[f"ergaenzt mit neuem normalization, {klasse}"] += 1
             plan.append([fp.name[:-8], "", neu, lem, ana, f"{100 * ana / lem:.1f}"])
             ersetzt.append(("(kein Satz)", neu))
-            eintrag = (f'<change when="{DATUM_ERGAENZT}" who="#editor">#493: Angabe zur semantischen '
+            eintrag = (f'<change when="{DATUM}" who="#editor">#493: Angabe zur semantischen '
                        f"Disambiguierung in encodingDesc/normalization ergänzt ({ana} von {lem} "
                        f"lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;&#34;</change>")
             neu_text[fp] = change_eintragen(text, eintrag, fp.name)
