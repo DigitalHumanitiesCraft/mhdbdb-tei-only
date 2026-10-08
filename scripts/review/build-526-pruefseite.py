@@ -42,14 +42,16 @@ XID = '{http://www.w3.org/XML/1998/namespace}id'
 KANDIDATEN = {
     'WZB_10vb_3_3': ([('lemma_5827', 'ströuwen', 'VRB'), ('lemma_15396', 'zerströuwen', 'VRB')],
                      'Am Vers „von danne zu strew̆te sie vnser herre“: ein Verb im Präteritum, „zerstreute“.',
-                     'Ob „zu strew̆te“ als *zerströuwen* in zwei Wörtern zu lesen ist, entscheidet die Worttrennung, nicht das Lemma von `strew̆te` allein.'),
+                     'Ob „zu strew̆te“ als *zerströuwen* in zwei Wörtern zu lesen ist, entscheidet die Worttrennung, nicht das Lemma von `strew̆te` allein. '
+                     '*zerströuwen* hat in der WZB keinen Beleg; #536 hat „czu strew̆et“ und „zu strew̆en“ auf *ströuwen* gelegt.'),
     'WZB_21ra_36_4': ([('lemma_3159', 'juncvrouwe', 'NOM')],
                       '„ein schŏne iuncvrow̆“: Substantiv, die Jungfrau.', ''),
     'WZB_76vb_35_2': ([('lemma_3159', 'juncvrouwe', 'NOM')],
                       '„ein iuncvrow̆ enpfurt die noch nicht ist vortrew̆et“: Substantiv, die Jungfrau.', ''),
     'WZB_21va_19_0': ([('lemma_2816', 'höuwe', 'NOM')],
-                      '„futers vnd hew̆es ist zu vns“: Futter und Heu. `höuwe` trägt in lexicon.xml Konzepte wie Ernte und Wiesenwirtschaft.',
-                      'Das zweite Lemma derselben Schreibung, `lemma_61268` hou, ist der Hieb und passt hier nicht.'),
+                      '„futers vnd hew̆es ist zu vns“: Futter und Heu. `höuwe` trägt in lexicon.xml Konzepte wie Ernte und Wiesenwirtschaft; '
+                      'die WZB legt `heu` (WZB_21vb_14_2) und `hŏue` (WZB_126va_6_3) schon darauf.',
+                      'Ähnlich geformt, aber am Vers unpassend: `lemma_61268` hou (der Hieb) und `lemma_9644` houwe (die Haue, in der WZB zweimal als `howe`).'),
     'WZB_233vb_15_4': ([('lemma_4221', 'mûren', 'VRB')],
                        '„gar wol gemaw̆erte stete“: Partizip zu *mûren*, ummauerte Städte.',
                        'Partizip in attributiver Stellung: VRB nach dem Lemma, am Vers auch als ADJ lesbar.'),
@@ -65,16 +67,20 @@ KANDIDATEN = {
     'WZB_42vb_3_7': ([('lemma_1739', 'eteswenne', 'ADV')],
                      '„Muge wir etwenn̆ vinden einen semelichen man“: Adverb, etwa, wohl.',
                      '`eteswenne` führt in lexicon.xml nur das Konzept Zeit (irgendwann); am Vers ist eher „etwa, vielleicht“ gemeint.'),
-    'WZB_46vb_33_2': ([('lemma_4128', 'min', 'ADJ'), ('lemma_4134', 'minner', 'ADJ')],
-                      '„vnser min̆ster bruder“: Superlativ, der jüngste Bruder.',
-                      'Der Superlativ *minnest* hat kein eigenes Lemma; er hängt am Positiv `min` oder am Komparativ `minner`, beide mit GRA in der Wortartenliste.'),
+    'WZB_46vb_33_2': ([('lemma_4134', 'minner', 'ADV'), ('lemma_4134', 'minner', 'ADJ'), ('lemma_4128', 'min', 'ADJ')],
+                      '„vnser min̆ster bruder“: Superlativ, der jüngste Bruder. Die WZB hat den Superlativ schon neunmal annotiert '
+                      '(`minsten`, `minneste`, `minnesten`), alle auf `lemma_4134` *minner* mit Wortart ADV, auch attributiv wie „die minneste tochter“ (WZB_28rb_17_3).',
+                      'Die Form `minster` selbst steht in der WZB nur unannotiert (WZB_45va_34_6, WZB_46vb_22_2), daher „nirgends“ oben. '
+                      'Ob ADV auch für den attributiven Gebrauch richtig ist, betrifft alle neun Belege; die Entscheidung hier trägt dazu `minster` (2), `minnest` und `minnester` mit.'),
     'WZB_47ra_22_3': ([('lemma_6215', 'triuwe', 'NOM')],
                       '„ouf mein trew̆ hab genomen“: Substantiv, die Treue, das gegebene Wort.', ''),
     'WZB_61vb_18_5': ([('lemma_5827', 'ströuwen', 'VRB')],
                       '„vnd strew̆ die in den himel“: Imperativ, streue.', ''),
-    'WZB_65ra_9_3': ([('lemma_5827', 'ströuwen', 'VRB'), ('lemma_7833', 'zerstœren', 'VRB')],
-                     '„euch wirt kein pflage nicht zu strew̆ende“: flektierter Infinitiv.',
-                     'Zwischen „zerstreuen“ und „verderben, zerstören“ entscheidet der Sinn der Plage, nicht die Form.'),
+    'WZB_65ra_9_3': ([('lemma_15396', 'zerströuwen', 'VRB'), ('lemma_5827', 'ströuwen', 'VRB')],
+                     '„euch wirt kein pflage nicht zu strew̆ende“: flektierter Infinitiv. Am Vers ist eher „verderben“ gemeint als „zerstreuen“; '
+                     'diesen Sinn trägt *zerströuwen* in seiner zweiten Bedeutung (`lemma_15396_sense_56021`, unter anderem mit den Begriffen „Natürlicher Tod/Gewaltsamer Tod“, „Gewalt/Strafe/Vergebung“ und „Vergehen“), *ströuwen* nicht.',
+                     'Das setzt voraus, dass „zu strew̆ende“ als *zerströuwen* in zwei Wörtern zu lesen ist, wie bei WZB_10vb_3_3. '
+                     'Die zwei vergleichbaren Stellen hat #536 auf *ströuwen* gelegt.'),
     'WZB_67ra_25_6': ([('lemma_537', 'beriuwen', 'VRB')],
                       '„das sies leichte icht berew̆te“: dass es sie nicht etwa reue.', ''),
     'WZB_72va_21_2': ([('lemma_7256', 'vröuwen', 'VRB')],
@@ -84,9 +90,10 @@ KANDIDATEN = {
     'WZB_84vb_4_3': ([],
                      '„ein vngesow̆erteigtes crustilbrot“: ungesäuert, ohne Sauerteig.',
                      'In lexicon.xml steht kein Lemma für *ungesûrteiget* oder eine nahe Form. Das ist eine Lexikonlücke und gehört zur Grundsatzfrage aus Punkt 3 von #526.'),
-    'WZB_90ra_20_7': ([('lemma_5827', 'ströuwen', 'VRB')],
+    'WZB_90ra_20_7': ([('lemma_5827', 'ströuwen', 'VRB'), ('lemma_15396', 'zerströuwen', 'VRB')],
                       '„das ich dich icht zu strew̆e an dem wege“: ein Verb. Die einzige annotierte Vergleichsform `strewe` ist ströuwe NOM (WZB_150vb_13_3).',
-                      'Vorschlag aus dem Lauf vom 07.10. (#536), wie „czu strewet“ (WZB_206ra_7_0).'),
+                      'Vorschlag wie im Lauf vom 07.10. (#536) bei „czu strew̆et“ (WZB_206ra_7_0). Zur Worttrennung wie bei WZB_10vb_3_3; '
+                      'unannotiert steht dazu `czustrewe` in einem Wort (WZB_183vb_21_7).'),
 }
 
 
@@ -103,7 +110,8 @@ def fundstelle(xml_id):
     m = re.match(r'WZB_(\w+?)_(\d+)_(\d+)$', xml_id)
     if not m:
         raise ValueError('unerwartete xml:id ' + xml_id)
-    return 'Blatt %s, Zeile %s, Wort %s' % m.groups()
+    # keine Wortnummer: das Suffix der xml:id zaehlt w und pc ab 0
+    return 'Blatt %s, Zeile %s' % (m.group(1), m.group(2))
 
 
 def pruefe_kandidaten():
