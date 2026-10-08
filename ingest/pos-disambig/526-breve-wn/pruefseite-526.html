@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WZB: Breve-Schreibungen ohne Vergleichsform</title>
+<meta name="generator" content="mhdbdb review_page.py 1.0.0">
+<style>
+:root {
+  --brand-50:  #f1f5fd;
+  --brand-100: #e2ebfa;
+  --brand-200: #c0d3f4;
+  --brand-500: #3b75d8;
+  --brand-600: #265cc4;
+  --brand-700: #1f4aa2;
+  --bg-page:      #f1f5f9;
+  --bg-primary:   #ffffff;
+  --bg-secondary: #f8fafc;
+  --text-primary:   #1f2937;
+  --text-secondary: #64748b;
+  --border-primary: #e2e8f0;
+  --accent-primary: #3b75d8;
+  --info-bg: #eff6ff; --info-br: #bfdbfe; --info-tx: #1e40af;
+  --warn-bg: #fefce8; --warn-br: #fde68a; --warn-tx: #854d0e;
+  --ok-bg:   #f0fdf4; --ok-br:   #bbf7d0; --ok-tx:   #15803d;
+  --open-bg: #fdf4ff; --open-br: #e9d5ff; --open-tx: #6b21a8;
+  --mark-bg: #fbbf24; --mark-tx: #78350f;
+  --shadow: 0 1px 2px rgba(15, 23, 42, .06), 0 1px 3px rgba(15, 23, 42, .08);
+}
+:root[data-theme="dark"] {
+  --bg-page:      #0f172a;
+  --bg-primary:   #1e293b;
+  --bg-secondary: #172033;
+  --text-primary:   #e2e8f0;
+  --text-secondary: #94a3b8;
+  --border-primary: #334155;
+  --brand-50:  #16243f;
+  --brand-100: #1c2f52;
+  --brand-200: #2a4472;
+  --brand-600: #8ab0f0;
+  --brand-700: #b7cdf7;
+  --info-bg: #17273f; --info-br: #2b4a7a; --info-tx: #bfdbfe;
+  --warn-bg: #2e2716; --warn-br: #5b4a1e; --warn-tx: #fde68a;
+  --ok-bg:   #14281d; --ok-br:   #1f5134; --ok-tx:   #bbf7d0;
+  --open-bg: #281a33; --open-br: #4b2a63; --open-tx: #e9d5ff;
+  --mark-bg: #92670a; --mark-tx: #fef3c7;
+  --shadow: 0 1px 2px rgba(0, 0, 0, .4);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg-page);
+  color: var(--text-primary);
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
+}
+a { color: var(--brand-600); }
+.wrap { max-width: 1040px; margin: 0 auto; padding: 0 24px 96px; }
+
+/* Kopfleiste: Name, Fortschritt, Export. Bleibt beim Scrollen stehen. */
+.bar {
+  position: sticky; top: 0; z-index: 50;
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border-primary);
+  backdrop-filter: blur(6px);
+}
+.bar-inner {
+  max-width: 1040px; margin: 0 auto; padding: 12px 24px;
+  display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center;
+}
+.bar-title { font-weight: 700; font-size: .95rem; margin-right: auto; }
+.bar-title span { display: block; font-weight: 500; font-size: .8rem; color: var(--text-secondary); }
+.field { display: flex; align-items: center; gap: 8px; }
+label { font-size: .8rem; font-weight: 600; color: var(--text-secondary); }
+input[type="text"], textarea, select {
+  font: inherit; color: var(--text-primary); background: var(--bg-primary);
+  border: 1px solid var(--border-primary); border-radius: 10px; padding: 7px 10px;
+}
+input[type="text"]:focus, textarea:focus, select:focus {
+  outline: none; border-color: var(--brand-500); box-shadow: 0 0 0 3px var(--brand-100);
+}
+.btn {
+  font: inherit; font-size: .85rem; font-weight: 600; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 6px;
+  border-radius: 10px; padding: 7px 13px;
+  background: var(--brand-50); color: var(--brand-700);
+  border: 1px solid var(--brand-200);
+}
+.btn:hover { background: var(--brand-100); border-color: var(--brand-500); }
+.btn-plain { background: var(--bg-primary); color: var(--text-primary); border-color: var(--border-primary); }
+.btn-plain:hover { background: var(--bg-secondary); border-color: var(--text-secondary); }
+.btn svg { width: 16px; height: 16px; }
+
+.saveflag { font-size: .78rem; color: var(--text-secondary); display: inline-flex; align-items: center; gap: 5px; }
+.saveflag svg { width: 14px; height: 14px; }
+.saveflag.on { color: var(--ok-tx); }
+
+/* Fortschritt */
+.progress { min-width: 190px; }
+.progress-track { height: 7px; border-radius: 999px; background: var(--border-primary); overflow: hidden; display: flex; }
+.progress-track i { display: block; height: 100%; }
+.seg-done { background: #22c55e; }
+.seg-open { background: #a855f7; }
+.progress-text { font-size: .76rem; color: var(--text-secondary); margin-top: 3px; }
+
+/* Kopfbereich */
+header.page { padding: 34px 0 10px; }
+header.page h1 { font-size: 1.875rem; margin: 0 0 6px; line-height: 1.25; }
+header.page .sub { color: var(--text-secondary); margin: 0 0 22px; font-size: 1.02rem; }
+.panel {
+  background: var(--bg-primary); border: 1px solid var(--border-primary);
+  border-radius: 18px; padding: 22px 24px; box-shadow: var(--shadow); margin-bottom: 18px;
+}
+.panel h2 { font-size: 1.1rem; margin: 0 0 10px; }
+.panel.wichtig { border-color: var(--warn-br); background: var(--warn-bg); }
+.panel.wichtig h2 { color: var(--warn-tx); }
+ul.nav { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 6px; }
+ul.nav a { text-decoration: none; font-weight: 600; }
+ul.nav li { font-size: .9rem; }
+ul.nav .anz { color: var(--text-secondary); font-weight: 400; }
+.panel p { margin: 0 0 10px; }
+.panel p:last-child { margin-bottom: 0; }
+.eyebrow {
+  font-size: .75rem; font-weight: 600; text-transform: uppercase;
+  letter-spacing: .07em; color: var(--text-secondary); margin: 0 0 8px;
+}
+dl.stand { display: grid; grid-template-columns: max-content 1fr; gap: 5px 18px; margin: 0; font-size: .88rem; }
+dl.stand dt { color: var(--text-secondary); }
+dl.stand dd { margin: 0; }
+.mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .92em; }
+/* Ein zitierter Beleg im Fliesstext, gesetzt wie die Belege selbst. */
+.zit { font-family: Georgia, "Times New Roman", serif; font-size: 1.04em; }
+
+/* Filter */
+.filters { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 4px 0 24px; }
+.chip {
+  font: inherit; font-size: .82rem; font-weight: 600; cursor: pointer;
+  border-radius: 999px; padding: 5px 13px;
+  background: var(--bg-primary); color: var(--text-secondary);
+  border: 1px solid var(--border-primary);
+}
+.chip[aria-pressed="true"] { background: var(--brand-600); border-color: var(--brand-600); color: #fff; }
+:root[data-theme="dark"] .chip[aria-pressed="true"] { color: #0f172a; }
+
+/* Gruppen */
+section.gruppe { margin: 34px 0 0; }
+section.gruppe > h2 { font-size: 1.4rem; margin: 0 0 4px; }
+section.gruppe > .gruppe-text { color: var(--text-secondary); margin: 0 0 16px; max-width: 76ch; }
+
+/* Fallkarte */
+.fall {
+  background: var(--bg-primary); border: 1px solid var(--border-primary);
+  border-radius: 18px; padding: 0; box-shadow: var(--shadow); margin-bottom: 20px; overflow: hidden;
+}
+.fall[data-status="entschieden"] { border-color: var(--ok-br); }
+.fall[data-status="offen"] { border-color: var(--open-br); }
+.fall-kopf { padding: 18px 24px 14px; border-bottom: 1px solid var(--border-primary); }
+.fall-kopf h3 { margin: 0 0 6px; font-size: 1.12rem; }
+.fall-kopf h3 .form { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+.fall-frage { margin: 0; font-weight: 600; }
+.merkmale { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0 0; }
+.tag {
+  font-size: .75rem; border-radius: 999px; padding: 3px 10px;
+  background: var(--bg-secondary); border: 1px solid var(--border-primary); color: var(--text-secondary);
+}
+.tag b { font-weight: 600; color: var(--text-primary); }
+.statusmark { font-size: .75rem; font-weight: 600; border-radius: 999px; padding: 3px 10px; border: 1px solid; }
+.st-neu  { background: var(--bg-secondary); border-color: var(--border-primary); color: var(--text-secondary); }
+.st-ent  { background: var(--ok-bg);   border-color: var(--ok-br);   color: var(--ok-tx); }
+.st-off  { background: var(--open-bg); border-color: var(--open-br); color: var(--open-tx); }
+
+.fall-koerper { padding: 18px 24px 22px; }
+.block { margin-bottom: 20px; }
+.block:last-child { margin-bottom: 0; }
+
+/* Belege */
+.belege { border: 1px solid var(--border-primary); border-radius: 14px; overflow: hidden; }
+.beleg { padding: 13px 16px; border-bottom: 1px solid var(--border-primary); }
+.beleg:last-child { border-bottom: 0; }
+.beleg-kopf {
+  font-size: .78rem; color: var(--text-secondary);
+  display: flex; flex-wrap: wrap; gap: 4px 14px; margin-bottom: 7px;
+}
+.beleg-kopf .werk { font-weight: 600; color: var(--text-primary); }
+.zitat { font-family: Georgia, "Times New Roman", serif; font-size: 1.06rem; line-height: 1.75; }
+.zitat .z { display: block; }
+.zitat .z.neben { color: var(--text-secondary); }
+.zitat .vnr {
+  display: inline-block; min-width: 3.6em; margin-right: .5em;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: .72rem; color: var(--text-secondary); text-align: right; user-select: none;
+}
+.zitat mark { background: var(--mark-bg); color: var(--mark-tx); font-weight: 600; padding: 0 2px; border-radius: 3px; }
+.beleg-mehr { padding: 10px 16px; font-size: .82rem; color: var(--text-secondary); background: var(--bg-secondary); }
+
+/* Vorschlag */
+.vorschlag { border: 1px solid var(--info-br); background: var(--info-bg); border-radius: 14px; padding: 15px 17px; }
+.vorschlag .eyebrow { color: var(--info-tx); display: flex; align-items: center; gap: 6px; }
+.vorschlag .eyebrow svg { width: 15px; height: 15px; }
+.vorschlag p { margin: 0 0 9px; }
+.vorschlag p:last-child { margin-bottom: 0; }
+.vorschlag .satz { font-weight: 600; }
+.vorschlag .unsicher { font-size: .88rem; color: var(--info-tx); }
+.kein-vorschlag { border: 1px dashed var(--border-primary); background: var(--bg-secondary); border-radius: 14px; padding: 15px 17px; color: var(--text-secondary); }
+.kein-vorschlag .eyebrow { color: var(--text-secondary); }
+
+/* Antwort */
+.optionen { display: grid; gap: 7px; }
+.opt {
+  display: flex; gap: 10px; align-items: flex-start;
+  border: 1px solid var(--border-primary); border-radius: 12px; padding: 10px 13px;
+  cursor: pointer; background: var(--bg-primary);
+}
+.opt:hover { border-color: var(--brand-200); background: var(--brand-50); }
+.opt input { margin: 3px 0 0; accent-color: var(--accent-primary); flex: none; }
+.opt span { font-size: .94rem; }
+.opt.gewaehlt { border-color: var(--brand-500); background: var(--brand-50); }
+details.mehr { margin-top: 7px; }
+details.mehr > summary { cursor: pointer; font-size: .85rem; font-weight: 600; color: var(--brand-600); list-style: none; padding: 5px 0; }
+details.mehr > summary::-webkit-details-marker { display: none; }
+details.mehr > summary::before { content: "+ "; }
+details[open].mehr > summary::before { content: "\2212 "; }
+.freitext { margin-top: 8px; }
+.freitext input { width: 100%; }
+
+textarea.komm { width: 100%; resize: vertical; min-height: 5.6em; line-height: 1.5; }
+
+.stand-wahl { display: flex; flex-wrap: wrap; gap: 7px; }
+.stand-wahl button {
+  font: inherit; font-size: .84rem; font-weight: 600; cursor: pointer;
+  border-radius: 10px; padding: 7px 13px;
+  background: var(--bg-primary); color: var(--text-secondary); border: 1px solid var(--border-primary);
+}
+.stand-wahl button[aria-pressed="true"].w-ent { background: var(--ok-bg);   border-color: var(--ok-br);   color: var(--ok-tx); }
+.stand-wahl button[aria-pressed="true"].w-off { background: var(--open-bg); border-color: var(--open-br); color: var(--open-tx); }
+.stand-wahl button[aria-pressed="true"].w-neu { background: var(--bg-secondary); border-color: var(--text-secondary); color: var(--text-primary); }
+
+.leer { border: 1px dashed var(--border-primary); background: var(--bg-secondary); border-radius: 16px; padding: 26px; text-align: center; color: var(--text-secondary); }
+
+footer.page { margin-top: 40px; padding-top: 18px; border-top: 1px solid var(--border-primary); font-size: .84rem; color: var(--text-secondary); }
+footer.page p { margin: 0 0 6px; }
+
+@media print {
+  .bar, .filters, .stand-wahl, .btn { display: none !important; }
+  .fall { break-inside: avoid; box-shadow: none; }
+}
+@media (max-width: 720px) {
+  .wrap { padding: 0 16px 72px; }
+  .bar-inner { padding: 10px 16px; }
+}
+</style>
+</head>
+<body>
+<div class="bar">
+  <div class="bar-inner">
+    <div class="bar-title">WZB: Breve-Schreibungen ohne Vergleichsform<span>Vorgang #526</span></div>
+    <div class="field">
+      <label for="name">Name</label>
+      <input type="text" id="name" placeholder="wer prüft" autocomplete="name" size="18">
+    </div>
+    <div class="progress">
+      <div class="progress-track">
+        <i class="seg-done" id="seg-done" style="width:0"></i>
+        <i class="seg-open" id="seg-open" style="width:0"></i>
+      </div>
+      <div class="progress-text" id="fortschritt-text"></div>
+    </div>
+    <button type="button" class="btn" id="export-json"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg> JSON</button>
+    <button type="button" class="btn" id="export-html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg> Bericht</button>
+    <label class="btn btn-plain" for="import"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M7.5 7.5L12 3m0 0l4.5 4.5M12 3v13.5"/></svg> Import
+      <input type="file" id="import" accept="application/json,.json" hidden></label>
+    <button type="button" class="btn btn-plain" id="thema" aria-pressed="false" title="Dunkelmodus"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.752 15.002A9.72 9.72 0 0118 15.75 9.75 9.75 0 018.25 6c0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"/></svg></button>
+    <span class="saveflag" id="saveflag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12.75l6 6 9-13.5"/></svg><span></span></span>
+  </div>
+</div>
+
+<div class="wrap">
+<header class="page">
+  <h1>WZB: Breve-Schreibungen ohne Vergleichsform</h1>
+  <p class="sub">19 Wörter der Wenzelsbibel mit Breve auf w oder n, die kein Lauf mechanisch annotieren konnte.</p>
+
+  <div class="panel">
+    <h2>So wird geprüft</h2>
+    <p>Diese Datei ist vollständig. Sie brauchen kein Internet, keine Anmeldung und keine Installation.</p><p>Tragen Sie oben Ihren Namen ein. Antworten und Kommentare werden sofort im Browser gespeichert; die Anzeige oben rechts sagt, ob das gelingt. Zum Zurückschicken drücken Sie <b>JSON</b>. Mit <b>Import</b> lesen Sie einen früheren Export wieder ein.</p><p>Jeder Fall hat drei Stände: <b>unbearbeitet</b>, <b>entschieden</b> und <b>geprüft, bleibt offen</b>. Das Kommentarfeld hängt an keiner Antwort.</p><p><b>Der KI-Vorschlag ist keine Entscheidung.</b> Unter jedem Fall steht, woraus er folgt und was daran unsicher ist. Es gibt keine Schaltfläche, die viele Fälle auf einmal setzt.</p><p>Die Antworten nennen die Lemmata, die in <span class="mono">lexicon.xml</span> in Frage kommen. Passt keines, wählen Sie <b>Lexikonlücke</b> oder schreiben die richtige Zuordnung in die freie Antwort. Bei 1 Fall steht gar kein Kandidat: dort fehlt das Lemma im Wörterbuch.</p>
+  </div>
+
+  
+
+  <div class="panel">
+    <p class="eyebrow">Datenstand</p>
+    <dl class="stand"><dt>Korpus</dt><dd>tei/WZB.tei.xml, letzte Änderung 503269d77 2026-10-07</dd><dt>Fallliste</dt><dd>ingest/pos-disambig/526-breve-wn/diff-liste.csv, Zeilen mit action REVIEW (19)</dd><dt>Kandidaten</dt><dd>am Vers gelesen und gegen authority-files/lexicon.xml geprüft, 08.10.2026</dd><dt>Seite erzeugt mit</dt><dd>scripts/review/build-526-pruefseite.py am 08.10.2026</dd></dl>
+  </div>
+</header>
+
+<div class="filters">
+  <span class="eyebrow" style="margin:0 4px 0 0">Anzeigen</span>
+  <button type="button" class="chip" data-filter="alle" aria-pressed="true">alle</button>
+  <button type="button" class="chip" data-filter="unbearbeitet" aria-pressed="false">unbearbeitet</button>
+  <button type="button" class="chip" data-filter="entschieden" aria-pressed="false">entschieden</button>
+  <button type="button" class="chip" data-filter="offen" aria-pressed="false">geprüft, bleibt offen</button>
+</div>
+
+<section class="gruppe" id="g-offen"><h2>Zu entscheiden</h2><p class="gruppe-text">Für diese Wörter ist die Form ohne Breve in der Wenzelsbibel nirgends annotiert, oder die einzige annotierte Vergleichsform passt am Vers nicht.</p>
+<article class="fall" id="fall-WZB_10vb_3_3" data-status="unbearbeitet">
+  <div class="fall-kopf">
+    <h3><span class="form">strew̆te  ·  Blatt 10vb, Zeile 3, Wort 3</span></h3>
+    <p class="fall-frage">Welches Lemma und welche Wortart gehören zu strew̆te an dieser Stelle?</p>
+    <div class="merkmale"><span class="tag"><b>Schreibung</b> strew̆te</span><span class="tag"><b>Form ohne Breve</b> strewte</span><span class="tag"><b>In der WZB annotiert</b> nirgends</span><span class="statusmark st-neu">unbearbeitet</span></div>
+  </div>
+  <div class="fall-koerper">
+    <div class="block">
+      <p class="eyebrow">Belegstellen</p>
+      <div class="belege"><div class="beleg"><div class="beleg-kopf"><span class="werk">Wenzelsbibel (WZB)</span><span>Blatt 10vb, Zeile 3, Wort 3</span><span class="mono">WZB_10vb_3_3</span></div><div class="zitat"><span class="z"><span class="vnr"></span>aller erden vnd von danne zu <mark>strew̆te</mark> sie vnser herre auf die gestalt</span></div></div><div class="beleg-mehr">Umfeld aus <span class="mono">diff-liste.csv</span> des Laufs vom 07.10.2026 (#536).</div></div>
+    </div>
+    <div class="block"><div class="vorschlag"><p class="eyebrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg> Maschinenvorschlag, keine Entscheidung</p><p class="satz">KI-Vorschlag: lemma_5827 ströuwen, Wortart VRB.</p><p>Am Vers „von danne zu strew̆te sie vnser herre“: ein Verb im Präteritum, „zerstreute“.</p><p class="unsicher"><b>Unsicherheit:</b> Ob „zu strew̆te“ als <i>zerströuwen</i> in zwei Wörtern zu lesen ist, entscheidet die Worttrennung, nicht das Lemma von <span class="mono">strew̆te</span> allein.</p></div></div>
+    <div class="block">
+      <p class="eyebrow">Ihre Antwort</p>
+      <div class="optionen"><label class="opt"><input type="radio" name="a-WZB_10vb_3_3" value="lemma_5827 ströuwen (VRB)"><span>lemma_5827 ströuwen (VRB)</span></label><label class="opt"><input type="radio" name="a-WZB_10vb_3_3" value="lemma_15396 zerströuwen (VRB)"><span>lemma_15396 zerströuwen (VRB)</span></label><label class="opt"><input type="radio" name="a-WZB_10vb_3_3" value="Lexikonlücke: hier fehlt ein Lemma (zu Punkt 3)"><span>Lexikonlücke: hier fehlt ein Lemma (zu Punkt 3)</span></label><label class="opt"><input type="radio" name="a-WZB_10vb_3_3" value="Bewusst unannotiert lassen"><span>Bewusst unannotiert lassen</span></label></div><label class="opt freitext" style="display:block"><span>Andere Antwort</span><input type="text" placeholder="eigene Formulierung, auch neben einer gewählten Option"></label>
+    </div>
+    <div class="block">
+      <p class="eyebrow"><label for="k-WZB_10vb_3_3">Kommentar</label></p>
+      <textarea class="komm" id="k-WZB_10vb_3_3" rows="4"
+        placeholder="Freier Text. Bleibt erhalten, egal welche Antwort gewählt ist, und steht im Export."></textarea>
+    </div>
+    <div class="block">
+      <p class="eyebrow">Bearbeitungsstand</p>
+      <div class="stand-wahl">
+        <button type="button" class="w-neu" data-stand="unbearbeitet" aria-pressed="true">unbearbeitet</button>
+        <button type="button" class="w-ent" data-stand="entschieden" aria-pressed="false">entschieden</button>
+        <button type="button" class="w-off" data-stand="offen" aria-pressed="false">geprüft, bleibt offen</button>
+      </div>
+    </div>
+  </div>
+</article>
+<article class="fall" id="fall-WZB_21ra_36_4" data-status="unbearbeitet">
+  <div class="fall-kopf">
+    <h3><span class="form">iuncvrow̆  ·  Blatt 21ra, Zeile 36, Wort 4</span></h3>
+    <p class="fall-frage">Welches Lemma und welche Wortart gehören zu iuncvrow̆ an dieser Stelle?</p>
+    <div class="merkmale"><span class="tag"><b>Schreibung</b> iuncvrow̆</span><span class="tag"><b>Form ohne Breve</b> iuncvrow</span><span class="tag"><b>In der WZB annotiert</b> nirgends</span><span class="statusmark st-neu">unbearbeitet</span></div>
+  </div>
+  <div class="fall-koerper">
+    <div class="block">
+      <p class="eyebrow">Belegstellen</p>
+      <div class="belege"><div class="beleg"><div class="beleg-kopf"><span class="werk">Wenzelsbibel (WZB)</span><span>Blatt 21ra, Zeile 36, Wort 4</span><span class="mono">WZB_21ra_36_4</span></div><div class="zitat"><span class="z"><span class="vnr"></span>gar ein mait vnd ein schŏne <mark>iuncvrow̆</mark> SIS vnd manne noch vnbekant Und</span></div></div><div class="beleg-mehr">Umfeld aus <span class="mono">diff-liste.csv</span> des Laufs vom 07.10.2026 (#536).</div></div>
+    </div>
+    <div class="block"><div class="vorschlag"><p class="eyebrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg> Maschinenvorschlag, keine Entscheidung</p><p class="satz">KI-Vorschlag: lemma_3159 juncvrouwe, Wortart NOM.</p><p>„ein schŏne iuncvrow̆“: Substantiv, die Jungfrau.</p></div></div>
+    <div class="block">
+      <p class="eyebrow">Ihre Antwort</p>
+      <div class="optionen"><label class="opt"><input type="radio" name="a-WZB_21ra_36_4" value="lemma_3159 juncvrouwe (NOM)"><span>lemma_3159 juncvrouwe (NOM)</span></label><label class="opt"><input type="radio" name="a-WZB_21ra_36_4" value="Lexikonlücke: hier fehlt ein Lemma (zu Punkt 3)"><span>Lexikonlücke: hier fehlt ein Lemma (zu Punkt 3)</span></label><label class="opt"><input type="radio" name="a-WZB_21ra_36_4" value="Bewusst unannotiert lassen"><span>Bewusst unannotiert lassen</span></label></div><label class="opt freitext" style="display:block"><span>Andere Antwort</span><input type="text" placeholder="eigene Formulierung, auch neben einer gewählten Option"></label>
+    </div>
+    <div class="block">
+      <p class="eyebrow"><label for="k-WZB_21ra_36_4">Kommentar</label></p>
+      <textarea class="komm" id="k-WZB_21ra_36_4" rows="4"
+        placeholder="Freier Text. Bleibt erhalten, egal welche Antwort gewählt ist, und steht im Export."></textarea>
+    </div>
+    <div class="block">
+      <p class="eyebrow">Bearbeitungsstand</p>
+      <div class="stand-wahl">
+        <button type="button" class="w-neu" data-stand="unbearbeitet" aria-pressed="true">unbearbeitet</button>
+        <button type="button" class="w-ent" data-stand="entschieden" aria-pressed="false">entschieden</button>
+        <button type="button" class="w-off" data-stand="offen" aria-pressed="false">geprüft, bleibt offen</button>
+      </div>
+    </div>
+  </div>
+</article>
+<article class="fall" id="fall-WZB_21va_19_0" data-status="unbearbeitet">
+  <div class="fall-kopf">
+    <h3><span class="form">hew̆es  ·  Blatt 21va, Zeile 19, Wort 0</span></h3>
+    <p class="fall-frage">Welches Lemma und welche Wortart gehören zu hew̆es an dieser Stelle?</p>
+    <div class="merkmale"><span class="tag"><b>Schreibung</b> hew̆es</span><span class="tag"><b>Form ohne Breve</b> hewes</span><span class="tag"><b>In der WZB annotiert</b> nirgends</span><span class="statusmark st-neu">unbearbeitet</span></div>
+  </div>
+  <div class="fall-koerper">
+    <div class="block">
+      <p class="eyebrow">Belegstellen</p>
+      <div class="belege"><div class="beleg"><div class="beleg-kopf"><span class="werk">Wenzelsbibel (WZB)</span><span>Blatt 21va, Zeile 19, Wort 0</span><span class="mono">WZB_21va_19_0</span></div><div class="zitat"><span class="z"><span class="vnr"></span>sie sprach mer Und futers vnd <mark>hew̆es</mark> ist zu vns vnd ein weiter</span></div></div><div class="beleg-mehr">Umfeld aus <span class="mono">diff-liste.csv</span> des Laufs vom 07.10.2026 (#536).</div></div>
+    </div>
+    <div class="block"><div class="vorschlag"><p class="eyebrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg> Maschinenvorschlag, keine Entscheidung</p><p class="satz">KI-Vorschlag: lemma_2816 höuwe, Wortart NOM.</p><p>„futers vnd hew̆es ist zu vns“: Futter und Heu. <span class="mono">höuwe</span> trägt in lexicon.xml Konzepte wie Ernte und Wiesenwirtschaft.</p><p class="unsicher"><b>Unsicherheit:</b> Das zweite Lemma derselben Schreibung, <span class="mono">lemma_61268</span> hou, ist der Hieb und passt hier nicht.</p></div></div>
+    <div class="block">
+      <p class="eyebrow">Ihre Antwort</p>
+      <div class="optionen"><label class="opt"><input type="radio" name="a-WZB_21va_19_0" value="lemma_2816 höuwe (NOM)"><span>lemma_2816 höuwe (NOM)</span></label><label class="opt"><input type="radio" name="a-WZB_21va_19_0" value="Lexikonlücke: hier fehlt ein Lemma (zu Punkt 3)"><span>Lexikonlücke: hier fehlt ein Lemma (zu Punkt 3)</span></label><label class="opt"><input type="radio" name="a-WZB_21va_19_0" value="Bewusst unannotiert lassen"><span>Bewusst unannotiert lassen</span></label></div><label class="opt freitext" style="display:block"><span>Andere Antwort</span><input type="text" placeholder="eigene Formulierung, auch neben einer gewählten Option"></label>
+    </div>
+    <div class="block">
+      <p class="eyebrow"><label for="k-WZB_21va_19_0">Kommentar</label></p>
+      <textarea class="komm" id="k-WZB_21va_19_0" rows="4"
+        placeholder="Freier Text. Bleibt erhalten, egal welche Antwort gewählt ist, und steht im Export."></textarea>
+    </div>
+    <div class="block">
+      <p class="eyebrow">Bearbeitungsstand</p>
+      <div class="stand-wahl">
+        <button type="button" class="w-neu" data-stand="unbearbeitet" aria-pressed="true">unbearbeitet</button>
+        <button type="button" class="w-ent" data-stand="entschieden" aria-pressed="false">entschieden</button>
+        <button type="button" class="w-off" data-stand="offen" aria-pressed="false">geprüft, bleibt offen</button>
+      </div>
+    </div>
+  </div>
+</article>
+<article class="fall" id="fall-WZB_233vb_15_4" data-status="unbearbeitet">
+  <div class="fall-kopf">
+    <h3><span class="form">gemaw̆erte  ·  Blatt 233vb, Zeile 15, Wort 4</span></h3>
+    <p class="fall-frage">Welches Lemma und welche Wortart gehören zu gemaw̆erte an dieser Stelle?</p>
+    <div class="merkmale"><span class="tag"><b>Schreibung</b> gemaw̆erte</span><span class="tag"><b>Form ohne Breve</b> gemawerte</span><span class="tag"><b>In der WZB annotiert</b> nirgends</span><span class="statusmark st-neu">unbearbeitet</span></div>
+  </div>
+  <div class="fall-koerper">
+    <div class="block">
+      <p class="eyebrow">Belegstellen</p>
+      <div class="belege"><div class="beleg"><div class="beleg-kopf"><span class="werk">Wenzelsbibel (WZB)</span><span>Blatt 233vb, Zeile 15, Wort 4</span><span class="mono">WZB_233vb_15_4</span></div><div class="zitat"><span class="z"><span class="vnr"></span>gegen der svnnen oufgank gar wol <mark>gemaw̆erte</mark> stete vnd vnd vnd vnd vnd</span></div></div><div class="beleg-mehr">Umfeld aus <span class="mono">diff-liste.csv</span> des Laufs vom 07.10.2026 (#536).</div></div>
+    </div>
+    <div class="block"><div class="vorschlag"><p class="eyebrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg> Maschinenvorschlag, keine Entscheidung</p><p class="satz">KI-Vorschlag: lemma_4221 mûren, Wortart VRB.</p><p>„gar wol gemaw̆erte stete“: Partizip zu <i>mûren</i>, ummauerte Städte.</p><p class="unsicher"><b>Unsicherheit:</b> Partizip in attributiver Stellung: VRB nach dem Lemma, am Vers auch als ADJ lesbar.</p></div></div>
+    <div class="block">
+      <p class="eyebrow">Ihre Antwort</p>
+      <div class="optionen"><label class="opt"><input type="radio" name="a-WZB_233vb_15_4" value="lemma_4221 mûren (VRB)"><span>lemma_4221 mûren (VRB)</span></label><label class="opt"><input type="radio" name="a-WZB_233vb_15_4" value="Lexikonlücke: hier fehlt ein Lemma (zu Punkt 3)"><span>Lexikonlücke: hier fehlt ein Lemma (zu Punkt 3)</span></label><label class="opt"><input type="radio" name="a-WZB_233vb_15_4" value="Bewusst unannotiert lassen"><span>Bewusst unannotiert lassen</span></label></div><label class="opt freitext" style="display:block"><span>Andere Antwort</span><input type="text" placeholder="eigene Formulierung, auch neben einer gewählten Option"></label>
+    </div>
+    <div class="block">
+      <p class="eyebrow"><label for="k-WZB_233vb_15_4">Kommentar</label></p>
+      <textarea class="komm" id="k-WZB_233vb_15_4" rows="4"
+        placeholder="Freier Text. Bleibt erhalten, egal welche Antwort gewählt ist, und steht im Export."></textarea>
+    </div>
+    <div class="block">
+      <p class="eyebrow">Bearbeitungsstand</p>
+      <div class="stand-wahl">
+        <button type="button" class="w-neu" data-stand="unbearbeitet" aria-pressed="true">unbearbeitet</button>
+        <button type="button" class="w-ent" data-stand="entschieden" aria-pressed="false">entschieden</button>
+        <button type="button" class="w-off" data-stand="offen" aria-pressed="false">geprüft, bleibt offen</button>
+      </div>
+    </div>
+  </div>
+</article>
+<article class="fall" id="fall-WZB_34va_9_6" data-status="unbearbeitet">
+  <div class="fall-kopf">
+    <h3><span class="form">bow̆t  ·  Blatt 34va, Zeile 9, Wort 6</span></h3>
+    <p class="fall-frage">Welches Lemma und welche Wortart gehören zu bow̆t an dieser Stelle?</p>
+    <div class="merkmale"><span class="tag"><b>Schreibung</b> bow̆t</span><span class="tag"><b>Form ohne Breve</b> bowt</span><span class="tag"><b>In der WZB annotiert</b> nirgends</span><span class="statusmark st-neu">unbearbeitet</span></div>
+  </div>
+  <div class="fall-koerper">
+    <div class="block">
+      <p class="eyebrow">Belegstellen</p>
+      <div class="belege"><div class="beleg"><div class="beleg-kopf"><span class="werk">Wenzelsbibel (WZB)</span><span>Blatt 34va, Zeile 9, Wort 6</span><span class="mono">WZB_34va_9_6</span></div><div class="zitat"><span class="z"><span class="vnr"></span>erde die ist in ewerr gewalt <mark>bow̆t</mark> sie vnd koufslagit Und besitczet sie</span></div></div><div class="beleg-mehr">Umfeld aus <span class="mono">diff-liste.csv</span> des Laufs vom 07.10.2026 (#536).</div></div>
+    </div>
+    <div class="block"><div class="vorschlag"><p class="eyebrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg> Maschinenvorschlag, keine Entscheidung</p><p class="satz">KI-Vorschlag: lemma_917 bûwen, Wortart VRB.</p><p>„die ist in ewerr gewalt bow̆t sie vnd koufslagit“: bebauen, bewirtschaften.</p></div></div>
+    <div class="block">
+      <p class="eyebrow">Ihre Antwort</p>
+      <div class="optionen"><label class="opt"><input type="radio" name="a-WZB_34va_9_6" value="lemma_917 bûwen (VRB)"><span>lemma_917 bûwen (VRB)</span></label><label class="opt"><input type="radio" name="a-WZB_34va_9_6" value="Lexikonlücke: hier fehlt ein Lemma (zu Punkt 3)"><span>Lexikonlücke: hier fehlt ein Lemma (zu Punkt 3)</span></label><label class="opt"><input type="radio" name="a-WZB_34va_9_6" value="Bewusst unannotiert lassen"><span>Bewusst unannotiert lassen</span></label></div><label class="opt freitext" style="display:block"><span>Andere Antwort</span><input type="text" placeholder="eigene Formulierung, auch neben einer gewählten Option"></label>
+    </div>
+    <div class="block">
+      <p class="eyebrow"><label for="k-WZB_34va_9_6">Kommentar</label></p>
+      <textarea class="komm" id="k-WZB_34va_9_6" rows="4"
+        placeholder="Freier Text. Bleibt erhalten, egal welche Antwort gewählt ist, und steht im Export."></textarea>
+    </div>
+    <div class="block">
+      <p class="eyebrow">Bearbeitungsstand</p>
+      <div class="stand-wahl">
+        <button type="button" class="w-neu" data-stand="unbearbeitet" aria-pressed="true">unbearbeitet</button>
+        <button type="button" class="w-ent" data-stand="entschieden" aria-pressed="false">entschieden</button>
+        <button type="button" class="w-off" data-stand="offen" aria-pressed="false">geprüft, bleibt offen</button>
+      </div>
+    </div>
+  </div>
+</article>
+<article class="fall" id="fall-WZB_42vb_3_7" data-status="unbearbeitet">
+  <div class="fall-kopf">
+    <h3><span class="form">etwenn̆  ·  Blatt 42vb, Zeile 3, Wort 7</span></h3>
+    <p class="fall-frage">Welches Lemma und welche Wortart gehören zu etwenn̆ an dieser Stelle?</p>
+    <div class="merkmale"><span class="tag"><b>Schreibung</b> etwenn̆</span><span class="tag"><b>Form ohne Breve</b> etwenn</span><span class="tag"><b>In der WZB annotiert</b> nirgends</span><span class="statusmark st-neu">unbearbeitet</span></div>
+  </div>
+  <div class="fall-koerper">
+    <div class="block">
+      <p class="eyebrow">Belegstellen</p>
+      <div class="belege"><div class="beleg"><div class="beleg-kopf"><span class="werk">Wenzelsbibel (WZB)</span><span>Blatt 42vb, Zeile 3, Wort 7</span><span class="mono">WZB_42vb_3_7</span></div><div class="zitat"><span class="z"><span class="vnr"></span>Und sprach zu in Muge wir <mark>etwenn̆</mark> vinden einen semelichen man der do</span></div></div><div class="beleg-mehr">Umfeld aus <span class="mono">diff-liste.csv</span> des Laufs vom 07.10.2026 (#536).</div></div>
+    </div>
+    <div class="block"><div class="vorschlag"><p class="eyebrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg> Maschinenvorschlag, keine Entscheidung</p><p class="satz">KI-Vorschlag: lemma_1739 eteswenne, Wortart ADV.</p><p>„Muge wir etwenn̆ vinden einen semelichen man“: Adverb, etwa, wohl.</p><p class="unsicher"><b>Unsicherheit:</b> <span class="mono">eteswenne</span> führt in lexicon.xml nur das Konzept Zeit (irgendwann); am Vers ist eher „etwa, vielleicht“ gemeint.</p></div></div>
+    <div class="block">
+      <p class="eyebrow">Ihre Antwort</p>
+      <div class="optionen"><label class="opt"><input type="radio" name="a-WZB_42vb_3_7" value="lemma_1739 eteswenne (ADV)"><span>lemma_1739 eteswenne (ADV)</span></label><label class="opt"><input type="radio" name="a-WZB_42vb_3_7" value="Lexikonlücke: hier fehlt ein Lemma (zu Punkt 3)"><span>Lexikonlücke: hier fehlt ein Lemma (zu Punkt 3)</span></label><label class="opt"><input type="radio" name="a-WZB_42vb_3_7" value="Bewusst unannotiert lassen"><span>Bewusst unannotiert lassen</span></label></div><label class="opt freitext" style="display:block"><span>Andere Antwort</span><input type="text" placeholder="eigene Formulierung, auch neben einer gewählten Option"></label>
+    </div>
+    <div class="block">
+      <p class="eyebrow"><label for="k-WZB_42vb_3_7">Kommentar</label></p>
+      <textarea class="komm" id="k-WZB_42vb_3_7" rows="4"
+        placeholder="Freier Text. Bleibt erhalten, egal welche Antwort gewählt ist, und steht im Export."></textarea>
+    </div>
+    <div class="block">
+      <p class="eyebrow">Bearbeitungsstand</p>
+      <div class="stand-wahl">
+        <button type="button" class="w-neu" data-stand="unbearbeitet" aria-pressed="true">unbearbeitet</button>
+        <button type="button" class="w-ent" data-stand="entschieden" aria-pressed="false">entschieden</button>
+        <button type="button" class="w-off" data-stand="offen" aria-pressed="false">geprüft, bleibt offen</button>
+      </div>
+    </div>
+  </div>
+</article>
+<article class="fall" id="fall-WZB_46vb_33_2" data-status="unbearbeitet">
+  <div class="fall-kopf">
+    <h3><span class="form">min̆ster  ·  Blatt 46vb, Zeile 33, Wort 2</span></h3>
+    <p class="fall-frage">Welches Lemma und welche Wortart gehören zu min̆ster an dieser Stelle?</p>
+    <div class="merkmale"><span class="tag"><b>Schreibung</b> min̆ster</span><span class="tag"><b>Form ohne Breve</b> minster</span><span class="tag"><b>In der WZB annotiert</b> nirgends</span><span class="statusmark st-neu">unbearbeitet</span></div>
+  </div>
+  <div class="fall-koerper">
+    <div class="block">
+      <p class="eyebrow">Belegstellen</p>
+      <div class="belege"><div class="beleg"><div class="beleg-kopf"><span class="werk">Wenzelsbibel (WZB)</span><span>Blatt 46vb, Zeile 33, Wort 2</span><span class="mono">WZB_46vb_33_2</span></div><div class="zitat"><span class="z"><span class="vnr"></span>mugen nicht geczihen Ist das vnser <mark>min̆ster</mark> bruder mit vns czeuhet so czihe</span></div></div><div class="beleg-mehr">Umfeld aus <span class="mono">diff-liste.csv</span> des Laufs vom 07.10.2026 (#536).</div></div>
+    </div>
+    <div class="block"><div class="vorschlag"><p class="eyebrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg> Maschinenvorschlag, keine Entscheidung</p><p class="satz">KI-Vorschlag: lemma_4128 min, Wortart ADJ.</p><p>„vnser min̆ster bruder“: Superlativ, der jüngste Bruder.</p><p class="unsicher"><b>Unsicherheit:</b> Der Superlativ <i>minnest</i> hat kein eigenes Lemma; er hängt am Positiv <span class="mono">min</span> oder am Komparativ <span class="mono">minner</span>, beide mit GRA in der Wortartenliste.</p></div></div>
+    <div class="block">
+      <p class="eyebrow">Ihre Antwort</p>
+      <div class="optionen"><label class="opt"><input type="radio" name="a-WZB_46vb_33_2" value="lemma_4128 min (ADJ)"><span>lemma_4128 min (ADJ)</span></label><label class="opt"><input type="radio" name="a-WZB_46vb_33_2" value="lemma_4134 minner (ADJ)"><span>lemma_4134 minner (ADJ)</span></label><label class="opt"><input type="radio" name="a-WZB_46vb_33_2" value="Lexikonlücke: hier fehlt ein Lemma (zu Punkt 3)"><span>Lexikonlücke: hier fehlt ein Lemma (zu Punkt 3)</span></label><label class="opt"><input type="radio" name="a-WZB_46vb_33_2" value="Bewusst unannotiert lassen"><span>Bewusst unannotiert lassen</span></label></div><label class="opt freitext" style="display:block"><span>Andere Antwort</span><input type="text" placeholder="eigene Formulierung, auch neben einer gewählten Option"></label>
+    </div>
+    <div class="block">
+      <p class="eyebrow"><label for="k-WZB_46vb_33_2">Kommentar</label></p>
+      <textarea class="komm" id="k-WZB_46vb_33_2" rows="4"
+        placeholder="Freier Text. Bleibt erhalten, egal welche Antwort gewählt ist, und steht im Export."></textarea>
+    </div>
+    <div class="block">
+      <p class="eyebrow">Bearbeitungsstand</p>
+      <div class="stand-wahl">
+        <button type="button" class="w-neu" data-stand="unbearbeitet" aria-pressed="true">unbearbeitet</button>
+        <button type="button" class="w-ent" data-stand="entschieden" aria-pressed="false">entschieden</button>
+        <button type="button" class="w-off" data-stand="offen" aria-pressed="false">geprüft, bleibt offen</button>
+      </div>
+    </div>
+  </div>
+</article>
+<article class="fall" id="fall-WZB_47ra_22_3" data-status="unbearbeitet">
+  <div class="fall-kopf">
+    <h3><span class="form">trew̆  ·  Blatt 47ra, Zeile 22, Wort 3</span></h3>
+    <p class="fall-frage">Welches Lemma und welche Wortart gehören zu trew̆ an dieser Stelle?</p>
+    <div class="merkmale"><span class="tag"><b>Schreibung</b> trew̆</span><span class="tag"><b>Form ohne Breve</b> trew</span><span class="tag"><b>In der WZB annotiert</b> nirgends</span><span class="statusmark st-neu">unbearbeitet</span></div>
+  </div>
+  <div class="fall-koerper">
+    <div class="block">
+      <p class="eyebrow">Belegstellen</p>
+      <div class="belege"><div class="beleg"><div class="beleg-kopf"><span class="werk">Wenzelsbibel (WZB)</span><span>Blatt 47ra, Zeile 22, Wort 3</span><span class="mono">WZB_47ra_22_3</span></div><div class="zitat"><span class="z"><span class="vnr"></span>Wenne ich disen iungen ouf mein <mark>trew̆</mark> hab genomen Und hab gelobet sprechende</span></div></div><div class="beleg-mehr">Umfeld aus <span class="mono">diff-liste.csv</span> des Laufs vom 07.10.2026 (#536).</div></div>
+    </div>
+    <div class="block"><div class="vorschlag"><p class="eyebrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg> Maschinenvorschlag, keine Entscheidung</p><p class="satz">KI-Vorschlag: lemma_6215 triuwe, Wortart NOM.</p><p>„ouf mein trew̆ hab genomen“: Substantiv, die Treue, das gegebene Wort.</p></div></div>
+    <div class="block">
+      <p class="eyebrow">Ihre Antwort</p>
+      <div class="optionen"><label class="opt"><input type="radio" name="a-WZB_47ra_22_3" value="lemma_6215 triuwe (NOM)"><span>lemma_6215 triuwe (NOM)</span></label><label class="opt"><input type="radio" name="a-WZB_47ra_22_3" value="Lexikonlücke: hier fehlt ein Lemma (zu Punkt 3)"><span>Lexikonlücke: hier fehlt ein Lemma (zu Punkt 3)</span></label><label class="opt"><input type="radio" name="a-WZB_47ra_22_3" value="Bewusst unannotiert lassen"><span>Bewusst unannotiert lassen</span></label></div><label class="opt freitext" style="display:block"><span>Andere Antwort</span><input type="text" placeholder="eigene Formulierung, auch neben einer gewählten Option"></label>
+    </div>
+    <div class="block">
+      <p class="eyebrow"><label for="k-WZB_47ra_22_3">Kommentar</label></p>
+      <textarea class="komm" id="k-WZB_47ra_22_3" rows="4"
+        placeholder="Freier Text. Bleibt erhalten, egal welche Antwort gewählt ist, und steht im Export."></textarea>
+    </div>
+    <div class="block">
+      <p class="eyebrow">Bearbeitungsstand</p>
+      <div class="stand-wahl">
+        <button type="button" class="w-neu" data-stand="unbearbeitet" aria-pressed="true">unbearbeitet</button>
+        <button type="button" class="w-ent" data-stand="entschieden" aria-pressed="false">entschieden</button>
+        <button type="button" class="w-off" data-stand="offen" aria-pressed="false">geprüft, bleibt offen</button>
+      </div>
+    </div>
+  </div>
+</article>
+<article class="fall" id="fall-WZB_54ra_18_1" data-status="unbearbeitet">
+  <div class="fall-kopf">
+    <h3><span class="form">bow̆te  ·  Blatt 54ra, Zeile 18, Wort 1</span></h3>
+    <p class="fall-frage">Welches Lemma und welche Wortart gehören zu bow̆te an dieser Stelle?</p>
+    <div class="merkmale"><span class="tag"><b>Schreibung</b> bow̆te</span><span class="tag"><b>Form ohne Breve</b> bowte</span><span class="tag"><b>In der WZB annotiert</b> nirgends</span><span class="statusmark st-neu">unbearbeitet</span></div>
+  </div>
+  <div class="fall-koerper">
+    <div class="block">
+      <p class="eyebrow">Belegstellen</p>
+      <div class="belege"><div class="beleg"><div class="beleg-kopf"><span class="werk">Wenzelsbibel (WZB)</span><span>Blatt 54ra, Zeile 18, Wort 1</span><span class="mono">WZB_54ra_18_1</span></div><div class="zitat"><span class="z"><span class="vnr"></span>die hebammen vnsern herren vorchten dorumbe <mark>bow̆te</mark> her in heuser N Nu gepot</span></div></div><div class="beleg-mehr">Umfeld aus <span class="mono">diff-liste.csv</span> des Laufs vom 07.10.2026 (#536).</div></div>
+    </div>
+    <div class="block"><div class="vorschlag"><p class="eyebrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg> Maschinenvorschlag, keine Entscheidung</p><p class="satz">KI-Vorschlag: lemma_917 bûwen, Wortart VRB.</p><p>„dorumbe bow̆te her in heuser“: er baute ihnen Häuser.</p></div></div>
+    <div class="block">
+      <p class="eyebrow">Ihre Antwort</p>
+      <div class="optionen"><label class="opt"><input type="radio" name="a-WZB_54ra_18_1" value="lemma_917 bûwen (VRB)"><span>lemma_917 bûwen (VRB)</span></label><label class="opt"><input type="radio" name="a-WZB_54ra_18_1" value="Lexikonlücke: hier fehlt ein Lemma (zu Punkt 3)"><span>Lexikonlücke: hier fehlt ein Lemma (zu Punkt 3)</span></label><label class="opt"><input type="radio" name="a-WZB_54ra_18_1" value="Bewusst unannotiert lassen"><span>Bewusst unannotiert lassen</span></label></div><label class="opt freitext" style="display:block"><span>Andere Antwort</span><input type="text" placeholder="eigene Formulierung, auch neben einer gewählten Option"></label>
+    </div>
+    <div class="block">
+      <p class="eyebrow"><label for="k-WZB_54ra_18_1">Kommentar</label></p>
+      <textarea class="komm" id="k-WZB_54ra_18_1" rows="4"
+        placeholder="Freier Text. Bleibt erhalten, egal welche Antwort gewählt ist, und steht im Export."></textarea>
+    </div>
+    <div class="block">
+      <p class="eyebrow">Bearbeitungsstand</p>
+      <div class="stand-wahl">
+        <button type="button" class="w-neu" data-stand="unbearbeitet" aria-pressed="true">unbearbeitet</button>
+        <button type="button" class="w-ent" data-stand="entschieden" aria-pressed="false">entschieden</button>
+        <button type="button" class="w-off" data-stand="offen" aria-pressed="false">geprüft, bleibt offen</button>
+      </div>
+    </div>
+  </div>
+</article>
+<article class="fall" id="fall-WZB_61vb_18_5" data-status="unbearbeitet">
+  <div class="fall-kopf">
+    <h3><span class="form">strew̆  ·  Blatt 61vb, Zeile 18, Wort 5</span></h3>
+    <p class="fall-frage">Welches Lemma und welche Wortart gehören zu strew̆ an dieser Stelle?</p>
+    <div class="merkmale"><span class="tag"><b>Schreibung</b> strew̆</span><span class="tag"><b>Form ohne Breve</b> strew</span><span class="tag"><b>In der WZB annotiert</b> nirgends</span><span class="statusmark st-neu">unbearbeitet</span></div>
+  </div>
+  <div class="fall-koerper">
+    <div class="block">
+      <p class="eyebrow">Belegstellen</p>
+      <div class="belege"><div class="beleg"><div class="beleg-kopf"><span class="werk">Wenzelsbibel (WZB)</span><span>Blatt 61vb, Zeile 18, Wort 5</span><span class="mono">WZB_61vb_18_5</span></div><div class="zitat"><span class="z"><span class="vnr"></span>vol aschen ous dem ouen vnd <mark>strew̆</mark> die in den himel vor hern</span></div></div><div class="beleg-mehr">Umfeld aus <span class="mono">diff-liste.csv</span> des Laufs vom 07.10.2026 (#536).</div></div>
+    </div>
+    <div class="block"><div class="vorschlag"><p class="eyebrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg> Maschinenvorschlag, keine Entscheidung</p><p class="satz">KI-Vorschlag: lemma_5827 ströuwen, Wortart VRB.</p><p>„vnd strew̆ die in den himel“: Imperativ, streue.</p></div></div>
+    <div class="block">
+      <p class="eyebrow">Ihre Antwort</p>
+      <div class="optionen"><label class="opt"><input type="radio" name="a-WZB_61vb_18_5" value="lemma_5827 ströuwen (VRB)"><span>lemma_5827 ströuwen (VRB)</span></label><label class="opt"><input type="radio" name="a-WZB_61vb_18_5" value="Lexikonlücke: hier fehlt ein Lemma (zu Punkt 3)"><span>Lexikonlücke: hier fehlt ein Lemma (zu Punkt 3)</span></label><label class="opt"><input type="radio" name="a-WZB_61vb_18_5" value="Bewusst unannotiert lassen"><span>Bewusst unannotiert lassen</span></label></div><label class="opt freitext" style="display:block"><span>Andere Antwort</span><input type="text" placeholder="eigene Formulierung, auch neben einer gewählten Option"></label>
+    </div>
+    <div class="block">
+      <p class="eyebrow"><label for="k-WZB_61vb_18_5">Kommentar</label></p>
+      <textarea class="komm" id="k-WZB_61vb_18_5" rows="4"
+        placeholder="Freier Text. Bleibt erhalten, egal welche Antwort gewählt ist, und steht im Export."></textarea>
+    </div>
+    <div class="block">
+      <p class="eyebrow">Bearbeitungsstand</p>
+      <div class="stand-wahl">
+        <button type="button" class="w-neu" data-stand="unbearbeitet" aria-pressed="true">unbearbeitet</button>
+        <button type="button" class="w-ent" data-stand="entschieden" aria-pressed="false">entschieden</button>
+        <button type="button" class="w-off" data-stand="offen" aria-pressed="false">geprüft, bleibt offen</button>
+      </div>
+    </div>
+  </div>
+</article>
+<article class="fall" id="fall-WZB_65ra_9_3" data-status="unbearbeitet">
+  <div class="fall-kopf">
+    <h3><span class="form">strew̆ende  ·  Blatt 65ra, Zeile 9, Wort 3</span></h3>
+    <p class="fall-frage">Welches Lemma und welche Wortart gehören zu strew̆ende an dieser Stelle?</p>
+    <div class="merkmale"><span class="tag"><b>Schreibung</b> strew̆ende</span><span class="tag"><b>Form ohne Breve</b> strewende</span><span class="tag"><b>In der WZB annotiert</b> nirgends</span><span class="statusmark st-neu">unbearbeitet</span></div>
+  </div>
+  <div class="fall-koerper">
+    <div class="block">
+      <p class="eyebrow">Belegstellen</p>
+      <div class="belege"><div class="beleg"><div class="beleg-kopf"><span class="werk">Wenzelsbibel (WZB)</span><span>Blatt 65ra, Zeile 9, Wort 3</span><span class="mono">WZB_65ra_9_3</span></div><div class="zitat"><span class="z"><span class="vnr"></span>euch wirt kein pflage nicht zu <mark>strew̆ende</mark> wenne ich slahe Und den tag</span></div></div><div class="beleg-mehr">Umfeld aus <span class="mono">diff-liste.csv</span> des Laufs vom 07.10.2026 (#536).</div></div>
+    </div>
+    <div class="block"><div class="vorschlag"><p class="eyebrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg> Maschinenvorschlag, keine Entscheidung</p><p class="satz">KI-Vorschlag: lemma_5827 ströuwen, Wortart VRB.</p><p>„euch wirt kein pflage nicht zu strew̆ende“: flektierter Infinitiv.</p><p class="unsicher"><b>Unsicherheit:</b> Zwischen „zerstreuen“ und „verderben, zerstören“ entscheidet der Sinn der Plage, nicht die Form.</p></div></div>
+    <div class="block">
+      <p class="eyebrow">Ihre Antwort</p>
+      <div class="optionen"><label class="opt"><input type="radio" name="a-WZB_65ra_9_3" value="lemma_5827 ströuwen (VRB)"><span>lemma_5827 ströuwen (VRB)</span></label><label class="opt"><input type="radio" name="a-WZB_65ra_9_3" value="lemma_7833 zerstœren (VRB)"><span>lemma_7833 zerstœren (VRB)</span></label><label class="opt"><input type="radio" name="a-WZB_65ra_9_3" value="Lexikonlücke: hier fehlt ein Lemma (zu Punkt 3)"><span>Lexikonlücke: hier fehlt ein Lemma (zu Punkt 3)</span></label><label class="opt"><input type="radio" name="a-WZB_65ra_9_3" value="Bewusst unannotiert lassen"><span>Bewusst unannotiert lassen</span></label></div><label class="opt freitext" style="display:block"><span>Andere Antwort</span><input type="text" placeholder="eigene Formulierung, auch neben einer gewählten Option"></label>
+    </div>
+    <div class="block">
+      <p class="eyebrow"><label for="k-WZB_65ra_9_3">Kommentar</label></p>
+      <textarea class="komm" id="k-WZB_65ra_9_3" rows="4"
+        placeholder="Freier Text. Bleibt erhalten, egal welche Antwort gewählt ist, und steht im Export."></textarea>
+    </div>
+    <div class="block">
+      <p class="eyebrow">Bearbeitungsstand</p>
+      <div class="stand-wahl">
+        <button type="button" class="w-neu" data-stand="unbearbeitet" aria-pressed="true">unbearbeitet</button>
+        <button type="button" class="w-ent" data-stand="entschieden" aria-pressed="false">entschieden</button>
+        <button type="button" class="w-off" data-stand="offen" aria-pressed="false">geprüft, bleibt offen</button>
+      </div>
+    </div>
+  </div>
+</article>
+<article class="fall" id="fall-WZB_67ra_25_6" data-status="unbearbeitet">
+  <div class="fall-kopf">
+    <h3><span class="form">berew̆te  ·  Blatt 67ra, Zeile 25, Wort 6</span></h3>
+    <p class="fall-frage">Welches Lemma und welche Wortart gehören zu berew̆te an dieser Stelle?</p>
+    <div class="merkmale"><span class="tag"><b>Schreibung</b> berew̆te</span><span class="tag"><b>Form ohne Breve</b> berewte</span><span class="tag"><b>In der WZB annotiert</b> nirgends</span><span class="statusmark st-neu">unbearbeitet</span></div>
+  </div>
+  <div class="fall-koerper">
+    <div class="block">
+      <p class="eyebrow">Belegstellen</p>
+      <div class="belege"><div class="beleg"><div class="beleg-kopf"><span class="werk">Wenzelsbibel (WZB)</span><span>Blatt 67ra, Zeile 25, Wort 6</span><span class="mono">WZB_67ra_25_6</span></div><div class="zitat"><span class="z"><span class="vnr"></span>ist wenende das sies leichte icht <mark>berew̆te</mark> wenne sie streite sehen entsten gegen</span></div></div><div class="beleg-mehr">Umfeld aus <span class="mono">diff-liste.csv</span> des Laufs vom 07.10.2026 (#536).</div></div>
+    </div>
+    <div class="block"><div class="vorschlag"><p class="eyebrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg> Maschinenvorschlag, keine Entscheidung</p><p class="satz">KI-Vorschlag: lemma_537 beriuwen, Wortart VRB.</p><p>„das sies leichte icht berew̆te“: dass es sie nicht etwa reue.</p></div></div>
+    <div class="block">
+      <p class="eyebrow">Ihre Antwort</p>
+      <div class="optionen"><label class="opt"><input type="radio" name="a-WZB_67ra_25_6" value="lemma_537 beriuwen (VRB)"><span>lemma_537 beriuwen (VRB)</span></label><label class="opt"><input type="radio" name="a-WZB_67ra_25_6" value="Lexikonlücke: hier fehlt ein Lemma (zu Punkt 3)"><span>Lexikonlücke: hier fehlt ein Lemma (zu Punkt 3)</span></label><label class="opt"><input type="radio" name="a-WZB_67ra_25_6" value="Bewusst unannotiert lassen"><span>Bewusst unannotiert lassen</span></label></div><label class="opt freitext" style="display:block"><span>Andere Antwort</span><input type="text" placeholder="eigene Formulierung, auch neben einer gewählten Option"></label>
+    </div>
+    <div class="block">
+      <p class="eyebrow"><label for="k-WZB_67ra_25_6">Kommentar</label></p>
+      <textarea class="komm" id="k-WZB_67ra_25_6" rows="4"
+        placeholder="Freier Text. Bleibt erhalten, egal welche Antwort gewählt ist, und steht im Export."></textarea>
+    </div>
+    <div class="block">
+      <p class="eyebrow">Bearbeitungsstand</p>
+      <div class="stand-wahl">
+        <button type="button" class="w-neu" data-stand="unbearbeitet" aria-pressed="true">unbearbeitet</button>
+        <button type="button" class="w-ent" data-stand="entschieden" aria-pressed="false">entschieden</button>
+        <button type="button" class="w-off" data-stand="offen" aria-pressed="false">geprüft, bleibt offen</button>
+      </div>
+    </div>
+  </div>
+</article>
+<article class="fall" id="fall-WZB_72va_21_2" data-status="unbearbeitet">
+  <div class="fall-kopf">
+    <h3><span class="form">vrew̆te  ·  Blatt 72va, Zeile 21, Wort 2</span></h3>
+    <p class="fall-frage">Welches Lemma und welche Wortart gehören zu vrew̆te an dieser Stelle?</p>
+    <div class="merkmale"><span class="tag"><b>Schreibung</b> vrew̆te</span><span class="tag"><b>Form ohne Breve</b> vrewte</span><span class="tag"><b>In der WZB annotiert</b> nirgends</span><span class="statusmark st-neu">unbearbeitet</span></div>
+  </div>
+  <div class="fall-koerper">
+    <div class="block">
+      <p class="eyebrow">Belegstellen</p>
+      <div class="belege"><div class="beleg"><div class="beleg-kopf"><span class="werk">Wenzelsbibel (WZB)</span><span>Blatt 72va, Zeile 21, Wort 2</span><span class="mono">WZB_72va_21_2</span></div><div class="zitat"><span class="z"><span class="vnr"></span>erledigt hette vnser herre Und der <mark>vrew̆te</mark> sich DUS vber alle die gut</span></div></div><div class="beleg-mehr">Umfeld aus <span class="mono">diff-liste.csv</span> des Laufs vom 07.10.2026 (#536).</div></div>
+    </div>
+    <div class="block"><div class="vorschlag"><p class="eyebrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg> Maschinenvorschlag, keine Entscheidung</p><p class="satz">KI-Vorschlag: lemma_7256 vröuwen, Wortart VRB.</p><p>„der vrew̆te sich“: sich freuen.</p></div></div>
+    <div class="block">
+      <p class="eyebrow">Ihre Antwort</p>
+      <div class="optionen"><label class="opt"><input type="radio" name="a-WZB_72va_21_2" value="lemma_7256 vröuwen (VRB)"><span>lemma_7256 vröuwen (VRB)</span></label><label class="opt"><input type="radio" name="a-WZB_72va_21_2" value="Lexikonlücke: hier fehlt ein Lemma (zu Punkt 3)"><span>Lexikonlücke: hier fehlt ein Lemma (zu Punkt 3)</span></label><label class="opt"><input type="radio" name="a-WZB_72va_21_2" value="Bewusst unannotiert lassen"><span>Bewusst unannotiert lassen</span></label></div><label class="opt freitext" style="display:block"><span>Andere Antwort</span><input type="text" placeholder="eigene Formulierung, auch neben einer gewählten Option"></label>
+    </div>
+    <div class="block">
+      <p class="eyebrow"><label for="k-WZB_72va_21_2">Kommentar</label></p>
+      <textarea class="komm" id="k-WZB_72va_21_2" rows="4"
+        placeholder="Freier Text. Bleibt erhalten, egal welche Antwort gewählt ist, und steht im Export."></textarea>
+    </div>
+    <div class="block">
+      <p class="eyebrow">Bearbeitungsstand</p>
+      <div class="stand-wahl">
+        <button type="button" class="w-neu" data-stand="unbearbeitet" aria-pressed="true">unbearbeitet</button>
+        <button type="button" class="w-ent" data-stand="entschieden" aria-pressed="false">entschieden</button>
+        <button type="button" class="w-off" data-stand="offen" aria-pressed="false">geprüft, bleibt offen</button>
+      </div>
+    </div>
+  </div>
+</article>
+<article class="fall" id="fall-WZB_75rb_7_1" data-status="unbearbeitet">
+  <div class="fall-kopf">
+    <h3><span class="form">bow̆e  ·  Blatt 75rb, Zeile 7, Wort 1</span></h3>
+    <p class="fall-frage">Welches Lemma und welche Wortart gehören zu bow̆e an dieser Stelle?</p>
+    <div class="merkmale"><span class="tag"><b>Schreibung</b> bow̆e</span><span class="tag"><b>Form ohne Breve</b> bowe</span><span class="tag"><b>In der WZB annotiert</b> nirgends</span><span class="statusmark st-neu">unbearbeitet</span></div>
+  </div>
+  <div class="fall-koerper">
+    <div class="block">
+      <p class="eyebrow">Belegstellen</p>
+      <div class="belege"><div class="beleg"><div class="beleg-kopf"><span class="werk">Wenzelsbibel (WZB)</span><span>Blatt 75rb, Zeile 7, Wort 1</span><span class="mono">WZB_75rb_7_1</span></div><div class="zitat"><span class="z"><span class="vnr"></span>mir eynen steineinen alter machest nicht <mark>bow̆e</mark> den mit gehowen steinen Wenne ist</span></div></div><div class="beleg-mehr">Umfeld aus <span class="mono">diff-liste.csv</span> des Laufs vom 07.10.2026 (#536).</div></div>
+    </div>
+    <div class="block"><div class="vorschlag"><p class="eyebrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg> Maschinenvorschlag, keine Entscheidung</p><p class="satz">KI-Vorschlag: lemma_917 bûwen, Wortart VRB.</p><p>„nicht bow̆e den mit gehowen steinen“: bauen.</p></div></div>
+    <div class="block">
+      <p class="eyebrow">Ihre Antwort</p>
+      <div class="optionen"><label class="opt"><input type="radio" name="a-WZB_75rb_7_1" value="lemma_917 bûwen (VRB)"><span>lemma_917 bûwen (VRB)</span></label><label class="opt"><input type="radio" name="a-WZB_75rb_7_1" value="Lexikonlücke: hier fehlt ein Lemma (zu Punkt 3)"><span>Lexikonlücke: hier fehlt ein Lemma (zu Punkt 3)</span></label><label class="opt"><input type="radio" name="a-WZB_75rb_7_1" value="Bewusst unannotiert lassen"><span>Bewusst unannotiert lassen</span></label></div><label class="opt freitext" style="display:block"><span>Andere Antwort</span><input type="text" placeholder="eigene Formulierung, auch neben einer gewählten Option"></label>
+    </div>
+    <div class="block">
+      <p class="eyebrow"><label for="k-WZB_75rb_7_1">Kommentar</label></p>
+      <textarea class="komm" id="k-WZB_75rb_7_1" rows="4"
+        placeholder="Freier Text. Bleibt erhalten, egal welche Antwort gewählt ist, und steht im Export."></textarea>
+    </div>
+    <div class="block">
+      <p class="eyebrow">Bearbeitungsstand</p>
+      <div class="stand-wahl">
+        <button type="button" class="w-neu" data-stand="unbearbeitet" aria-pressed="true">unbearbeitet</button>
+        <button type="button" class="w-ent" data-stand="entschieden" aria-pressed="false">entschieden</button>
+        <button type="button" class="w-off" data-stand="offen" aria-pressed="false">geprüft, bleibt offen</button>
+      </div>
+    </div>
+  </div>
+</article>
+<article class="fall" id="fall-WZB_76vb_35_2" data-status="unbearbeitet">
+  <div class="fall-kopf">
+    <h3><span class="form">iuncvrow̆  ·  Blatt 76vb, Zeile 35, Wort 2</span></h3>
+    <p class="fall-frage">Welches Lemma und welche Wortart gehören zu iuncvrow̆ an dieser Stelle?</p>
+    <div class="merkmale"><span class="tag"><b>Schreibung</b> iuncvrow̆</span><span class="tag"><b>Form ohne Breve</b> iuncvrow</span><span class="tag"><b>In der WZB annotiert</b> nirgends</span><span class="statusmark st-neu">unbearbeitet</span></div>
+  </div>
+  <div class="fall-koerper">
+    <div class="block">
+      <p class="eyebrow">Belegstellen</p>
+      <div class="belege"><div class="beleg"><div class="beleg-kopf"><span class="werk">Wenzelsbibel (WZB)</span><span>Blatt 76vb, Zeile 35, Wort 2</span><span class="mono">WZB_76vb_35_2</span></div><div class="zitat"><span class="z"><span class="vnr"></span>sein arbeit Ist das ymant ein <mark>iuncvrow̆</mark> enpfurt die noch nicht ist vortrew̆et</span></div></div><div class="beleg-mehr">Umfeld aus <span class="mono">diff-liste.csv</span> des Laufs vom 07.10.2026 (#536).</div></div>
+    </div>
+    <div class="block"><div class="vorschlag"><p class="eyebrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg> Maschinenvorschlag, keine Entscheidung</p><p class="satz">KI-Vorschlag: lemma_3159 juncvrouwe, Wortart NOM.</p><p>„ein iuncvrow̆ enpfurt die noch nicht ist vortrew̆et“: Substantiv, die Jungfrau.</p></div></div>
+    <div class="block">
+      <p class="eyebrow">Ihre Antwort</p>
+      <div class="optionen"><label class="opt"><input type="radio" name="a-WZB_76vb_35_2" value="lemma_3159 juncvrouwe (NOM)"><span>lemma_3159 juncvrouwe (NOM)</span></label><label class="opt"><input type="radio" name="a-WZB_76vb_35_2" value="Lexikonlücke: hier fehlt ein Lemma (zu Punkt 3)"><span>Lexikonlücke: hier fehlt ein Lemma (zu Punkt 3)</span></label><label class="opt"><input type="radio" name="a-WZB_76vb_35_2" value="Bewusst unannotiert lassen"><span>Bewusst unannotiert lassen</span></label></div><label class="opt freitext" style="display:block"><span>Andere Antwort</span><input type="text" placeholder="eigene Formulierung, auch neben einer gewählten Option"></label>
+    </div>
+    <div class="block">
+      <p class="eyebrow"><label for="k-WZB_76vb_35_2">Kommentar</label></p>
+      <textarea class="komm" id="k-WZB_76vb_35_2" rows="4"
+        placeholder="Freier Text. Bleibt erhalten, egal welche Antwort gewählt ist, und steht im Export."></textarea>
+    </div>
+    <div class="block">
+      <p class="eyebrow">Bearbeitungsstand</p>
+      <div class="stand-wahl">
+        <button type="button" class="w-neu" data-stand="unbearbeitet" aria-pressed="true">unbearbeitet</button>
+        <button type="button" class="w-ent" data-stand="entschieden" aria-pressed="false">entschieden</button>
+        <button type="button" class="w-off" data-stand="offen" aria-pressed="false">geprüft, bleibt offen</button>
+      </div>
+    </div>
+  </div>
+</article>
+<article class="fall" id="fall-WZB_76vb_36_4" data-status="unbearbeitet">
+  <div class="fall-kopf">
+    <h3><span class="form">vortrew̆et  ·  Blatt 76vb, Zeile 36, Wort 4</span></h3>
+    <p class="fall-frage">Welches Lemma und welche Wortart gehören zu vortrew̆et an dieser Stelle?</p>
+    <div class="merkmale"><span class="tag"><b>Schreibung</b> vortrew̆et</span><span class="tag"><b>Form ohne Breve</b> vortrewet</span><span class="tag"><b>In der WZB annotiert</b> nirgends</span><span class="statusmark st-neu">unbearbeitet</span></div>
+  </div>
+  <div class="fall-koerper">
+    <div class="block">
+      <p class="eyebrow">Belegstellen</p>
+      <div class="belege"><div class="beleg"><div class="beleg-kopf"><span class="werk">Wenzelsbibel (WZB)</span><span>Blatt 76vb, Zeile 36, Wort 4</span><span class="mono">WZB_76vb_36_4</span></div><div class="zitat"><span class="z"><span class="vnr"></span>iuncvrow̆ enpfurt die noch nicht ist <mark>vortrew̆et</mark> vnd slefet bei ir der sol</span></div></div><div class="beleg-mehr">Umfeld aus <span class="mono">diff-liste.csv</span> des Laufs vom 07.10.2026 (#536).</div></div>
+    </div>
+    <div class="block"><div class="vorschlag"><p class="eyebrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg> Maschinenvorschlag, keine Entscheidung</p><p class="satz">KI-Vorschlag: lemma_6997 vertrûwen, Wortart VRB.</p><p>„die noch nicht ist vortrew̆et“: verlobt. <span class="mono">vertrûwen</span> trägt in lexicon.xml das Konzept Ehe.</p></div></div>
+    <div class="block">
+      <p class="eyebrow">Ihre Antwort</p>
+      <div class="optionen"><label class="opt"><input type="radio" name="a-WZB_76vb_36_4" value="lemma_6997 vertrûwen (VRB)"><span>lemma_6997 vertrûwen (VRB)</span></label><label class="opt"><input type="radio" name="a-WZB_76vb_36_4" value="Lexikonlücke: hier fehlt ein Lemma (zu Punkt 3)"><span>Lexikonlücke: hier fehlt ein Lemma (zu Punkt 3)</span></label><label class="opt"><input type="radio" name="a-WZB_76vb_36_4" value="Bewusst unannotiert lassen"><span>Bewusst unannotiert lassen</span></label></div><label class="opt freitext" style="display:block"><span>Andere Antwort</span><input type="text" placeholder="eigene Formulierung, auch neben einer gewählten Option"></label>
+    </div>
+    <div class="block">
+      <p class="eyebrow"><label for="k-WZB_76vb_36_4">Kommentar</label></p>
+      <textarea class="komm" id="k-WZB_76vb_36_4" rows="4"
+        placeholder="Freier Text. Bleibt erhalten, egal welche Antwort gewählt ist, und steht im Export."></textarea>
+    </div>
+    <div class="block">
+      <p class="eyebrow">Bearbeitungsstand</p>
+      <div class="stand-wahl">
+        <button type="button" class="w-neu" data-stand="unbearbeitet" aria-pressed="true">unbearbeitet</button>
+        <button type="button" class="w-ent" data-stand="entschieden" aria-pressed="false">entschieden</button>
+        <button type="button" class="w-off" data-stand="offen" aria-pressed="false">geprüft, bleibt offen</button>
+      </div>
+    </div>
+  </div>
+</article>
+<article class="fall" id="fall-WZB_78rb_5_6" data-status="unbearbeitet">
+  <div class="fall-kopf">
+    <h3><span class="form">bow̆o  ·  Blatt 78rb, Zeile 5, Wort 6</span></h3>
+    <p class="fall-frage">Welches Lemma und welche Wortart gehören zu bow̆o an dieser Stelle?</p>
+    <div class="merkmale"><span class="tag"><b>Schreibung</b> bow̆o</span><span class="tag"><b>Form ohne Breve</b> bowo</span><span class="tag"><b>In der WZB annotiert</b> nirgends</span><span class="statusmark st-neu">unbearbeitet</span></div>
+  </div>
+  <div class="fall-koerper">
+    <div class="block">
+      <p class="eyebrow">Belegstellen</p>
+      <div class="belege"><div class="beleg"><div class="beleg-kopf"><span class="werk">Wenzelsbibel (WZB)</span><span>Blatt 78rb, Zeile 5, Wort 6</span><span class="mono">WZB_78rb_5_6</span></div><div class="zitat"><span class="z"><span class="vnr"></span>gŏte noch bowe ir nicht Nicht <mark>bow̆o</mark> ir werk svnder stŏre sie vnd</span></div></div><div class="beleg-mehr">Umfeld aus <span class="mono">diff-liste.csv</span> des Laufs vom 07.10.2026 (#536).</div></div>
+    </div>
+    <div class="block"><div class="vorschlag"><p class="eyebrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg> Maschinenvorschlag, keine Entscheidung</p><p class="satz">KI-Vorschlag: lemma_917 bûwen, Wortart VRB.</p><p>„Nicht bow̆o ir werk“: nach dem Vers ein Verb des Tuns oder Bauens.</p><p class="unsicher"><b>Unsicherheit:</b> Die Endung -o ist für die WZB ungewöhnlich; ob hier <i>bûwen</i> gemeint ist oder ein Schreibfehler für ein anderes Verb, sagt der Vers allein nicht.</p></div></div>
+    <div class="block">
+      <p class="eyebrow">Ihre Antwort</p>
+      <div class="optionen"><label class="opt"><input type="radio" name="a-WZB_78rb_5_6" value="lemma_917 bûwen (VRB)"><span>lemma_917 bûwen (VRB)</span></label><label class="opt"><input type="radio" name="a-WZB_78rb_5_6" value="Lexikonlücke: hier fehlt ein Lemma (zu Punkt 3)"><span>Lexikonlücke: hier fehlt ein Lemma (zu Punkt 3)</span></label><label class="opt"><input type="radio" name="a-WZB_78rb_5_6" value="Bewusst unannotiert lassen"><span>Bewusst unannotiert lassen</span></label></div><label class="opt freitext" style="display:block"><span>Andere Antwort</span><input type="text" placeholder="eigene Formulierung, auch neben einer gewählten Option"></label>
+    </div>
+    <div class="block">
+      <p class="eyebrow"><label for="k-WZB_78rb_5_6">Kommentar</label></p>
+      <textarea class="komm" id="k-WZB_78rb_5_6" rows="4"
+        placeholder="Freier Text. Bleibt erhalten, egal welche Antwort gewählt ist, und steht im Export."></textarea>
+    </div>
+    <div class="block">
+      <p class="eyebrow">Bearbeitungsstand</p>
+      <div class="stand-wahl">
+        <button type="button" class="w-neu" data-stand="unbearbeitet" aria-pressed="true">unbearbeitet</button>
+        <button type="button" class="w-ent" data-stand="entschieden" aria-pressed="false">entschieden</button>
+        <button type="button" class="w-off" data-stand="offen" aria-pressed="false">geprüft, bleibt offen</button>
+      </div>
+    </div>
+  </div>
+</article>
+<article class="fall" id="fall-WZB_84vb_4_3" data-status="unbearbeitet">
+  <div class="fall-kopf">
+    <h3><span class="form">vngesow̆erteigtes  ·  Blatt 84vb, Zeile 4, Wort 3</span></h3>
+    <p class="fall-frage">Welches Lemma und welche Wortart gehören zu vngesow̆erteigtes an dieser Stelle?</p>
+    <div class="merkmale"><span class="tag"><b>Schreibung</b> vngesow̆erteigtes</span><span class="tag"><b>Form ohne Breve</b> vngesowerteigtes</span><span class="tag"><b>In der WZB annotiert</b> nirgends</span><span class="statusmark st-neu">unbearbeitet</span></div>
+  </div>
+  <div class="fall-koerper">
+    <div class="block">
+      <p class="eyebrow">Belegstellen</p>
+      <div class="belege"><div class="beleg"><div class="beleg-kopf"><span class="werk">Wenzelsbibel (WZB)</span><span>Blatt 84vb, Zeile 4, Wort 3</span><span class="mono">WZB_84vb_4_3</span></div><div class="zitat"><span class="z"><span class="vnr"></span>vngemeiligte wider vnd osterbrot Und ein <mark>vngesow̆erteigtes</mark> crustilbrot das do besprenget sei mit</span></div></div><div class="beleg-mehr">Umfeld aus <span class="mono">diff-liste.csv</span> des Laufs vom 07.10.2026 (#536).</div></div>
+    </div>
+    <div class="block"><div class="vorschlag"><p class="eyebrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg> Maschinenvorschlag, keine Entscheidung</p><p class="satz">KI-Vorschlag: kein passendes Lemma in lexicon.xml.</p><p>„ein vngesow̆erteigtes crustilbrot“: ungesäuert, ohne Sauerteig.</p><p class="unsicher"><b>Unsicherheit:</b> In lexicon.xml steht kein Lemma für <i>ungesûrteiget</i> oder eine nahe Form. Das ist eine Lexikonlücke und gehört zur Grundsatzfrage aus Punkt 3 von #526.</p></div></div>
+    <div class="block">
+      <p class="eyebrow">Ihre Antwort</p>
+      <div class="optionen"><label class="opt"><input type="radio" name="a-WZB_84vb_4_3" value="Lexikonlücke: hier fehlt ein Lemma (zu Punkt 3)"><span>Lexikonlücke: hier fehlt ein Lemma (zu Punkt 3)</span></label><label class="opt"><input type="radio" name="a-WZB_84vb_4_3" value="Bewusst unannotiert lassen"><span>Bewusst unannotiert lassen</span></label></div><label class="opt freitext" style="display:block"><span>Andere Antwort</span><input type="text" placeholder="eigene Formulierung, auch neben einer gewählten Option"></label>
+    </div>
+    <div class="block">
+      <p class="eyebrow"><label for="k-WZB_84vb_4_3">Kommentar</label></p>
+      <textarea class="komm" id="k-WZB_84vb_4_3" rows="4"
+        placeholder="Freier Text. Bleibt erhalten, egal welche Antwort gewählt ist, und steht im Export."></textarea>
+    </div>
+    <div class="block">
+      <p class="eyebrow">Bearbeitungsstand</p>
+      <div class="stand-wahl">
+        <button type="button" class="w-neu" data-stand="unbearbeitet" aria-pressed="true">unbearbeitet</button>
+        <button type="button" class="w-ent" data-stand="entschieden" aria-pressed="false">entschieden</button>
+        <button type="button" class="w-off" data-stand="offen" aria-pressed="false">geprüft, bleibt offen</button>
+      </div>
+    </div>
+  </div>
+</article>
+<article class="fall" id="fall-WZB_90ra_20_7" data-status="unbearbeitet">
+  <div class="fall-kopf">
+    <h3><span class="form">strew̆e  ·  Blatt 90ra, Zeile 20, Wort 7</span></h3>
+    <p class="fall-frage">Welches Lemma und welche Wortart gehören zu strew̆e an dieser Stelle?</p>
+    <div class="merkmale"><span class="tag"><b>Schreibung</b> strew̆e</span><span class="tag"><b>Form ohne Breve</b> strewe</span><span class="tag"><b>In der WZB annotiert</b> lemma_22461 NOM x1</span><span class="statusmark st-neu">unbearbeitet</span></div>
+  </div>
+  <div class="fall-koerper">
+    <div class="block">
+      <p class="eyebrow">Belegstellen</p>
+      <div class="belege"><div class="beleg"><div class="beleg-kopf"><span class="werk">Wenzelsbibel (WZB)</span><span>Blatt 90ra, Zeile 20, Wort 7</span><span class="mono">WZB_90ra_20_7</span></div><div class="zitat"><span class="z"><span class="vnr"></span>halses das ich dich icht zu <mark>strew̆e</mark> an dem wege Und do das</span></div></div><div class="beleg-mehr">Umfeld aus <span class="mono">diff-liste.csv</span> des Laufs vom 07.10.2026 (#536).</div></div>
+    </div>
+    <div class="block"><div class="vorschlag"><p class="eyebrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg> Maschinenvorschlag, keine Entscheidung</p><p class="satz">KI-Vorschlag: lemma_5827 ströuwen, Wortart VRB.</p><p>„das ich dich icht zu strew̆e an dem wege“: ein Verb. Die einzige annotierte Vergleichsform <span class="mono">strewe</span> ist ströuwe NOM (WZB_150vb_13_3).</p><p class="unsicher"><b>Unsicherheit:</b> Vorschlag aus dem Lauf vom 07.10. (#536), wie „czu strewet“ (WZB_206ra_7_0).</p></div></div>
+    <div class="block">
+      <p class="eyebrow">Ihre Antwort</p>
+      <div class="optionen"><label class="opt"><input type="radio" name="a-WZB_90ra_20_7" value="lemma_5827 ströuwen (VRB)"><span>lemma_5827 ströuwen (VRB)</span></label><label class="opt"><input type="radio" name="a-WZB_90ra_20_7" value="Lexikonlücke: hier fehlt ein Lemma (zu Punkt 3)"><span>Lexikonlücke: hier fehlt ein Lemma (zu Punkt 3)</span></label><label class="opt"><input type="radio" name="a-WZB_90ra_20_7" value="Bewusst unannotiert lassen"><span>Bewusst unannotiert lassen</span></label></div><label class="opt freitext" style="display:block"><span>Andere Antwort</span><input type="text" placeholder="eigene Formulierung, auch neben einer gewählten Option"></label>
+    </div>
+    <div class="block">
+      <p class="eyebrow"><label for="k-WZB_90ra_20_7">Kommentar</label></p>
+      <textarea class="komm" id="k-WZB_90ra_20_7" rows="4"
+        placeholder="Freier Text. Bleibt erhalten, egal welche Antwort gewählt ist, und steht im Export."></textarea>
+    </div>
+    <div class="block">
+      <p class="eyebrow">Bearbeitungsstand</p>
+      <div class="stand-wahl">
+        <button type="button" class="w-neu" data-stand="unbearbeitet" aria-pressed="true">unbearbeitet</button>
+        <button type="button" class="w-ent" data-stand="entschieden" aria-pressed="false">entschieden</button>
+        <button type="button" class="w-off" data-stand="offen" aria-pressed="false">geprüft, bleibt offen</button>
+      </div>
+    </div>
+  </div>
+</article></section>
+
+<div class="leer" id="nichts" hidden>In dieser Ansicht steht kein Fall. Wählen Sie oben einen anderen Filter.</div>
+
+<footer class="page">
+  
+</footer>
+</div>
+
+<script>window.__PRUEFDATEN__ = {"kennung": "mhdbdb-526-wzb-breve-wn", "titel": "WZB: Breve-Schreibungen ohne Vergleichsform", "vorgang": "#526", "datenstand": [["Korpus", "tei/WZB.tei.xml, letzte Änderung 503269d77 2026-10-07"], ["Fallliste", "ingest/pos-disambig/526-breve-wn/diff-liste.csv, Zeilen mit action REVIEW (19)"], ["Kandidaten", "am Vers gelesen und gegen authority-files/lexicon.xml geprüft, 08.10.2026"], ["Seite erzeugt mit", "scripts/review/build-526-pruefseite.py am 08.10.2026"]], "formatVersion": "1.0.0", "faelle": [{"id": "WZB_10vb_3_3", "gruppe": "offen", "kopfText": "strew̆te  ·  Blatt 10vb, Zeile 3, Wort 3", "frage": "Welches Lemma und welche Wortart gehören zu strew̆te an dieser Stelle?", "vorschlagText": "KI-Vorschlag: lemma_5827 ströuwen, Wortart VRB.", "belegHtml": "<div class=\"zitat\"><span class=\"z\"><span class=\"vnr\"><\/span>aller erden vnd von danne zu <mark>strew̆te<\/mark> sie vnser herre auf die gestalt<\/span><\/div>"}, {"id": "WZB_21ra_36_4", "gruppe": "offen", "kopfText": "iuncvrow̆  ·  Blatt 21ra, Zeile 36, Wort 4", "frage": "Welches Lemma und welche Wortart gehören zu iuncvrow̆ an dieser Stelle?", "vorschlagText": "KI-Vorschlag: lemma_3159 juncvrouwe, Wortart NOM.", "belegHtml": "<div class=\"zitat\"><span class=\"z\"><span class=\"vnr\"><\/span>gar ein mait vnd ein schŏne <mark>iuncvrow̆<\/mark> SIS vnd manne noch vnbekant Und<\/span><\/div>"}, {"id": "WZB_21va_19_0", "gruppe": "offen", "kopfText": "hew̆es  ·  Blatt 21va, Zeile 19, Wort 0", "frage": "Welches Lemma und welche Wortart gehören zu hew̆es an dieser Stelle?", "vorschlagText": "KI-Vorschlag: lemma_2816 höuwe, Wortart NOM.", "belegHtml": "<div class=\"zitat\"><span class=\"z\"><span class=\"vnr\"><\/span>sie sprach mer Und futers vnd <mark>hew̆es<\/mark> ist zu vns vnd ein weiter<\/span><\/div>"}, {"id": "WZB_233vb_15_4", "gruppe": "offen", "kopfText": "gemaw̆erte  ·  Blatt 233vb, Zeile 15, Wort 4", "frage": "Welches Lemma und welche Wortart gehören zu gemaw̆erte an dieser Stelle?", "vorschlagText": "KI-Vorschlag: lemma_4221 mûren, Wortart VRB.", "belegHtml": "<div class=\"zitat\"><span class=\"z\"><span class=\"vnr\"><\/span>gegen der svnnen oufgank gar wol <mark>gemaw̆erte<\/mark> stete vnd vnd vnd vnd vnd<\/span><\/div>"}, {"id": "WZB_34va_9_6", "gruppe": "offen", "kopfText": "bow̆t  ·  Blatt 34va, Zeile 9, Wort 6", "frage": "Welches Lemma und welche Wortart gehören zu bow̆t an dieser Stelle?", "vorschlagText": "KI-Vorschlag: lemma_917 bûwen, Wortart VRB.", "belegHtml": "<div class=\"zitat\"><span class=\"z\"><span class=\"vnr\"><\/span>erde die ist in ewerr gewalt <mark>bow̆t<\/mark> sie vnd koufslagit Und besitczet sie<\/span><\/div>"}, {"id": "WZB_42vb_3_7", "gruppe": "offen", "kopfText": "etwenn̆  ·  Blatt 42vb, Zeile 3, Wort 7", "frage": "Welches Lemma und welche Wortart gehören zu etwenn̆ an dieser Stelle?", "vorschlagText": "KI-Vorschlag: lemma_1739 eteswenne, Wortart ADV.", "belegHtml": "<div class=\"zitat\"><span class=\"z\"><span class=\"vnr\"><\/span>Und sprach zu in Muge wir <mark>etwenn̆<\/mark> vinden einen semelichen man der do<\/span><\/div>"}, {"id": "WZB_46vb_33_2", "gruppe": "offen", "kopfText": "min̆ster  ·  Blatt 46vb, Zeile 33, Wort 2", "frage": "Welches Lemma und welche Wortart gehören zu min̆ster an dieser Stelle?", "vorschlagText": "KI-Vorschlag: lemma_4128 min, Wortart ADJ.", "belegHtml": "<div class=\"zitat\"><span class=\"z\"><span class=\"vnr\"><\/span>mugen nicht geczihen Ist das vnser <mark>min̆ster<\/mark> bruder mit vns czeuhet so czihe<\/span><\/div>"}, {"id": "WZB_47ra_22_3", "gruppe": "offen", "kopfText": "trew̆  ·  Blatt 47ra, Zeile 22, Wort 3", "frage": "Welches Lemma und welche Wortart gehören zu trew̆ an dieser Stelle?", "vorschlagText": "KI-Vorschlag: lemma_6215 triuwe, Wortart NOM.", "belegHtml": "<div class=\"zitat\"><span class=\"z\"><span class=\"vnr\"><\/span>Wenne ich disen iungen ouf mein <mark>trew̆<\/mark> hab genomen Und hab gelobet sprechende<\/span><\/div>"}, {"id": "WZB_54ra_18_1", "gruppe": "offen", "kopfText": "bow̆te  ·  Blatt 54ra, Zeile 18, Wort 1", "frage": "Welches Lemma und welche Wortart gehören zu bow̆te an dieser Stelle?", "vorschlagText": "KI-Vorschlag: lemma_917 bûwen, Wortart VRB.", "belegHtml": "<div class=\"zitat\"><span class=\"z\"><span class=\"vnr\"><\/span>die hebammen vnsern herren vorchten dorumbe <mark>bow̆te<\/mark> her in heuser N Nu gepot<\/span><\/div>"}, {"id": "WZB_61vb_18_5", "gruppe": "offen", "kopfText": "strew̆  ·  Blatt 61vb, Zeile 18, Wort 5", "frage": "Welches Lemma und welche Wortart gehören zu strew̆ an dieser Stelle?", "vorschlagText": "KI-Vorschlag: lemma_5827 ströuwen, Wortart VRB.", "belegHtml": "<div class=\"zitat\"><span class=\"z\"><span class=\"vnr\"><\/span>vol aschen ous dem ouen vnd <mark>strew̆<\/mark> die in den himel vor hern<\/span><\/div>"}, {"id": "WZB_65ra_9_3", "gruppe": "offen", "kopfText": "strew̆ende  ·  Blatt 65ra, Zeile 9, Wort 3", "frage": "Welches Lemma und welche Wortart gehören zu strew̆ende an dieser Stelle?", "vorschlagText": "KI-Vorschlag: lemma_5827 ströuwen, Wortart VRB.", "belegHtml": "<div class=\"zitat\"><span class=\"z\"><span class=\"vnr\"><\/span>euch wirt kein pflage nicht zu <mark>strew̆ende<\/mark> wenne ich slahe Und den tag<\/span><\/div>"}, {"id": "WZB_67ra_25_6", "gruppe": "offen", "kopfText": "berew̆te  ·  Blatt 67ra, Zeile 25, Wort 6", "frage": "Welches Lemma und welche Wortart gehören zu berew̆te an dieser Stelle?", "vorschlagText": "KI-Vorschlag: lemma_537 beriuwen, Wortart VRB.", "belegHtml": "<div class=\"zitat\"><span class=\"z\"><span class=\"vnr\"><\/span>ist wenende das sies leichte icht <mark>berew̆te<\/mark> wenne sie streite sehen entsten gegen<\/span><\/div>"}, {"id": "WZB_72va_21_2", "gruppe": "offen", "kopfText": "vrew̆te  ·  Blatt 72va, Zeile 21, Wort 2", "frage": "Welches Lemma und welche Wortart gehören zu vrew̆te an dieser Stelle?", "vorschlagText": "KI-Vorschlag: lemma_7256 vröuwen, Wortart VRB.", "belegHtml": "<div class=\"zitat\"><span class=\"z\"><span class=\"vnr\"><\/span>erledigt hette vnser herre Und der <mark>vrew̆te<\/mark> sich DUS vber alle die gut<\/span><\/div>"}, {"id": "WZB_75rb_7_1", "gruppe": "offen", "kopfText": "bow̆e  ·  Blatt 75rb, Zeile 7, Wort 1", "frage": "Welches Lemma und welche Wortart gehören zu bow̆e an dieser Stelle?", "vorschlagText": "KI-Vorschlag: lemma_917 bûwen, Wortart VRB.", "belegHtml": "<div class=\"zitat\"><span class=\"z\"><span class=\"vnr\"><\/span>mir eynen steineinen alter machest nicht <mark>bow̆e<\/mark> den mit gehowen steinen Wenne ist<\/span><\/div>"}, {"id": "WZB_76vb_35_2", "gruppe": "offen", "kopfText": "iuncvrow̆  ·  Blatt 76vb, Zeile 35, Wort 2", "frage": "Welches Lemma und welche Wortart gehören zu iuncvrow̆ an dieser Stelle?", "vorschlagText": "KI-Vorschlag: lemma_3159 juncvrouwe, Wortart NOM.", "belegHtml": "<div class=\"zitat\"><span class=\"z\"><span class=\"vnr\"><\/span>sein arbeit Ist das ymant ein <mark>iuncvrow̆<\/mark> enpfurt die noch nicht ist vortrew̆et<\/span><\/div>"}, {"id": "WZB_76vb_36_4", "gruppe": "offen", "kopfText": "vortrew̆et  ·  Blatt 76vb, Zeile 36, Wort 4", "frage": "Welches Lemma und welche Wortart gehören zu vortrew̆et an dieser Stelle?", "vorschlagText": "KI-Vorschlag: lemma_6997 vertrûwen, Wortart VRB.", "belegHtml": "<div class=\"zitat\"><span class=\"z\"><span class=\"vnr\"><\/span>iuncvrow̆ enpfurt die noch nicht ist <mark>vortrew̆et<\/mark> vnd slefet bei ir der sol<\/span><\/div>"}, {"id": "WZB_78rb_5_6", "gruppe": "offen", "kopfText": "bow̆o  ·  Blatt 78rb, Zeile 5, Wort 6", "frage": "Welches Lemma und welche Wortart gehören zu bow̆o an dieser Stelle?", "vorschlagText": "KI-Vorschlag: lemma_917 bûwen, Wortart VRB.", "belegHtml": "<div class=\"zitat\"><span class=\"z\"><span class=\"vnr\"><\/span>gŏte noch bowe ir nicht Nicht <mark>bow̆o<\/mark> ir werk svnder stŏre sie vnd<\/span><\/div>"}, {"id": "WZB_84vb_4_3", "gruppe": "offen", "kopfText": "vngesow̆erteigtes  ·  Blatt 84vb, Zeile 4, Wort 3", "frage": "Welches Lemma und welche Wortart gehören zu vngesow̆erteigtes an dieser Stelle?", "vorschlagText": "KI-Vorschlag: kein passendes Lemma in lexicon.xml.", "belegHtml": "<div class=\"zitat\"><span class=\"z\"><span class=\"vnr\"><\/span>vngemeiligte wider vnd osterbrot Und ein <mark>vngesow̆erteigtes<\/mark> crustilbrot das do besprenget sei mit<\/span><\/div>"}, {"id": "WZB_90ra_20_7", "gruppe": "offen", "kopfText": "strew̆e  ·  Blatt 90ra, Zeile 20, Wort 7", "frage": "Welches Lemma und welche Wortart gehören zu strew̆e an dieser Stelle?", "vorschlagText": "KI-Vorschlag: lemma_5827 ströuwen, Wortart VRB.", "belegHtml": "<div class=\"zitat\"><span class=\"z\"><span class=\"vnr\"><\/span>halses das ich dich icht zu <mark>strew̆e<\/mark> an dem wege Und do das<\/span><\/div>"}]};</script>
+<script>
+(function () {
+  "use strict";
+  var DATEN = window.__PRUEFDATEN__;
+  var SCHLUESSEL = "pruefseite:" + DATEN.kennung;
+  var STAENDE = ["unbearbeitet", "entschieden", "offen"];
+
+  var zustand = { name: "", faelle: {}, gespeichert: null };
+
+  function leer(fallId) { return { antwort: null, frei: "", kommentar: "", stand: "unbearbeitet" }; }
+  function fall(id) {
+    if (!zustand.faelle[id]) { zustand.faelle[id] = leer(id); }
+    return zustand.faelle[id];
+  }
+
+  /* Speichern: der Browser ist der Ablageort, der Export der Weitergabeweg.
+     Jeder Zugriff in try/catch, weil localStorage im privaten Fenster wirft. */
+  function laden() {
+    try {
+      var roh = window.localStorage.getItem(SCHLUESSEL);
+      if (!roh) { return; }
+      var d = JSON.parse(roh);
+      if (d && typeof d === "object") {
+        zustand.name = typeof d.name === "string" ? d.name : "";
+        zustand.faelle = (d.faelle && typeof d.faelle === "object") ? d.faelle : {};
+        zustand.gespeichert = d.gespeichert || null;
+      }
+    } catch (e) { /* kein Speicher: die Seite funktioniert trotzdem */ }
+  }
+  var speicherTimer = null;
+  function speichern() {
+    zustand.gespeichert = new Date().toISOString();
+    try {
+      window.localStorage.setItem(SCHLUESSEL, JSON.stringify({
+        name: zustand.name, faelle: zustand.faelle, gespeichert: zustand.gespeichert
+      }));
+      flagge("ok");
+    } catch (e) { flagge("fehlt"); }
+  }
+  function speichernGleich() {
+    if (speicherTimer) { window.clearTimeout(speicherTimer); }
+    speicherTimer = window.setTimeout(speichern, 350);
+  }
+  /* Drei Zustaende, nicht zwei. "noch nichts gespeichert" ist der normale
+     Anfang und darf nicht aussehen wie "der Browser speichert nicht": die
+     zweite Meldung ist eine Warnung und wuerde beim ersten Oeffnen jedem
+     Nutzer erscheinen, der noch nichts getan hat. */
+  function flagge(stand) {
+    var el = document.getElementById("saveflag");
+    if (!el) { return; }
+    el.className = "saveflag" + (stand === "ok" ? " on" : "");
+    el.querySelector("span").textContent =
+        stand === "ok"    ? "im Browser gespeichert " + uhrzeit(zustand.gespeichert)
+      : stand === "fehlt" ? "Browser speichert nicht, bitte exportieren"
+      :                     "noch nichts eingetragen";
+  }
+  /* Kann der Browser ueberhaupt speichern? Unter file:// gibt es Chrome-
+     Einstellungen, in denen das fehlschlaegt, und dann muss die Seite es
+     sagen, statt es beim ersten Klick zu merken. */
+  function speicherProbe() {
+    try {
+      window.localStorage.setItem(SCHLUESSEL + ":probe", "1");
+      window.localStorage.removeItem(SCHLUESSEL + ":probe");
+      return true;
+    } catch (e) { return false; }
+  }
+  function uhrzeit(iso) {
+    if (!iso) { return ""; }
+    var d = new Date(iso);
+    return ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2);
+  }
+
+  function zaehle() {
+    var n = { unbearbeitet: 0, entschieden: 0, offen: 0 };
+    DATEN.faelle.forEach(function (f) {
+      var s = (zustand.faelle[f.id] && zustand.faelle[f.id].stand) || "unbearbeitet";
+      if (STAENDE.indexOf(s) < 0) { s = "unbearbeitet"; }
+      n[s] += 1;
+    });
+    return n;
+  }
+  function fortschritt() {
+    var n = zaehle(), g = DATEN.faelle.length;
+    var t = document.getElementById("fortschritt-text");
+    document.getElementById("seg-done").style.width = (100 * n.entschieden / g) + "%";
+    document.getElementById("seg-open").style.width = (100 * n.offen / g) + "%";
+    t.textContent = n.entschieden + " entschieden, " + n.offen + " geprüft und offen, "
+                  + n.unbearbeitet + " unbearbeitet, von " + g;
+  }
+
+  var filter = "alle";
+  function anwenden() {
+    var sichtbar = 0;
+    DATEN.faelle.forEach(function (f) {
+      var el = document.getElementById("fall-" + f.id);
+      if (!el) { return; }
+      var s = (zustand.faelle[f.id] && zustand.faelle[f.id].stand) || "unbearbeitet";
+      var zeig = (filter === "alle") || (filter === s);
+      el.hidden = !zeig;
+      if (zeig) { sichtbar += 1; }
+    });
+    document.querySelectorAll("section.gruppe").forEach(function (sec) {
+      var offen = sec.querySelectorAll(".fall:not([hidden])").length;
+      sec.hidden = offen === 0;
+    });
+    document.getElementById("nichts").hidden = sichtbar !== 0;
+  }
+
+  function markiere(id) {
+    var z = fall(id);
+    var el = document.getElementById("fall-" + id);
+    if (!el) { return; }
+    el.setAttribute("data-status", z.stand);
+    var m = el.querySelector(".statusmark");
+    m.className = "statusmark " + (z.stand === "entschieden" ? "st-ent" : z.stand === "offen" ? "st-off" : "st-neu");
+    m.textContent = z.stand === "entschieden" ? "entschieden"
+                  : z.stand === "offen" ? "geprüft, bleibt offen" : "unbearbeitet";
+    el.querySelectorAll(".stand-wahl button").forEach(function (b) {
+      b.setAttribute("aria-pressed", String(b.getAttribute("data-stand") === z.stand));
+    });
+    el.querySelectorAll(".opt").forEach(function (o) {
+      var inp = o.querySelector("input");
+      o.classList.toggle("gewaehlt", inp.checked);
+    });
+  }
+
+  function verdrahte(f) {
+    var el = document.getElementById("fall-" + f.id);
+    if (!el) { return; }
+    var z = fall(f.id);
+
+    el.querySelectorAll('input[type="radio"]').forEach(function (inp) {
+      if (z.antwort !== null && inp.value === z.antwort) { inp.checked = true; }
+      inp.addEventListener("change", function () {
+        z.antwort = inp.value;
+        /* Die Antwort setzt den Stand auf "entschieden", wenn er noch
+           unbearbeitet war. Einen bereits gesetzten Stand ueberschreibt sie
+           nicht: wer "geprueft, bleibt offen" gewaehlt und dazu eine Tendenz
+           angekreuzt hat, meint beides. */
+        if (z.stand === "unbearbeitet") { z.stand = "entschieden"; }
+        markiere(f.id); fortschritt(); anwenden(); speichernGleich();
+      });
+    });
+
+    var frei = el.querySelector(".freitext input");
+    if (frei) {
+      frei.value = z.frei || "";
+      frei.addEventListener("input", function () { z.frei = frei.value; speichernGleich(); });
+    }
+
+    var komm = el.querySelector("textarea.komm");
+    komm.value = z.kommentar || "";
+    komm.addEventListener("input", function () { z.kommentar = komm.value; speichernGleich(); });
+
+    el.querySelectorAll(".stand-wahl button").forEach(function (b) {
+      b.addEventListener("click", function () {
+        z.stand = b.getAttribute("data-stand");
+        markiere(f.id); fortschritt(); anwenden(); speichernGleich();
+      });
+    });
+
+    markiere(f.id);
+  }
+
+  /* Weitergeben. Der Export traegt Name, Antworten, Kommentare und Staende,
+     dazu die Kennung der Seite: ein Import in eine andere Seite waere ein
+     stiller Datenverlust und wird abgelehnt. */
+  function exportDaten() {
+    return {
+      format: "mhdbdb-pruefseite",
+      formatVersion: DATEN.formatVersion,
+      kennung: DATEN.kennung,
+      vorgang: DATEN.vorgang,
+      datenstand: DATEN.datenstand,
+      bearbeiterin: zustand.name,
+      exportiert: new Date().toISOString(),
+      antworten: DATEN.faelle.map(function (f) {
+        var z = zustand.faelle[f.id] || leer(f.id);
+        return {
+          id: f.id, gruppe: f.gruppe, kopf: f.kopfText, frage: f.frage,
+          vorschlag: f.vorschlagText || null,
+          stand: z.stand, antwort: z.antwort, freieAntwort: z.frei || "", kommentar: z.kommentar || ""
+        };
+      })
+    };
+  }
+  function hole(name, typ, text) {
+    var b = new Blob([text], { type: typ + ";charset=utf-8" });
+    var u = URL.createObjectURL(b);
+    var a = document.createElement("a");
+    a.href = u; a.download = name;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    window.setTimeout(function () { URL.revokeObjectURL(u); }, 2000);
+  }
+  function dateiname(endung) {
+    var n = (zustand.name || "ohne-namen").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+    return DATEN.kennung + "_" + (n || "ohne-namen") + "." + endung;
+  }
+  function esc(s) {
+    return String(s === null || s === undefined ? "" : s)
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+  }
+  function bericht() {
+    var d = exportDaten(), n = zaehle();
+    var zeilen = d.antworten.map(function (a) {
+      var f = DATEN.faelle.filter(function (x) { return x.id === a.id; })[0] || {};
+      return "<article><h3>" + esc(a.kopf) + " <em>" + esc(a.stand) + "</em></h3>"
+        + "<p class='q'>" + esc(a.frage) + "</p>"
+        + (f.belegHtml ? "<div class='b'>" + f.belegHtml + "</div>" : "")
+        + "<p><b>Maschinenvorschlag:</b> " + esc(a.vorschlag || "keiner") + "</p>"
+        + "<p><b>Antwort:</b> " + esc(a.antwort || "keine")
+        + (a.freieAntwort ? " <i>(" + esc(a.freieAntwort) + ")</i>" : "") + "</p>"
+        + "<p><b>Kommentar:</b> " + (a.kommentar ? esc(a.kommentar) : "<i>keiner</i>") + "</p></article>";
+    }).join("\n");
+    return "<!DOCTYPE html>\n<html lang=\"de\"><head><meta charset=\"utf-8\">"
+      + "<title>Ergebnisbericht " + esc(DATEN.titel) + "</title><style>"
+      + "body{font-family:ui-sans-serif,system-ui,sans-serif;max-width:56rem;margin:2rem auto;padding:0 1.5rem;color:#1f2937;line-height:1.55}"
+      + "h1{font-size:1.6rem}article{border:1px solid #e2e8f0;border-radius:14px;padding:1rem 1.2rem;margin:0 0 1rem}"
+      + "h3{margin:0 0 .3rem;font-size:1.05rem}h3 em{font-weight:500;font-style:normal;color:#64748b;font-size:.85rem}"
+      + ".q{font-weight:600;margin:.2rem 0 .6rem}.b{font-family:Georgia,serif;background:#f8fafc;border-radius:10px;padding:.6rem .8rem;margin:0 0 .7rem;font-size:.95rem}"
+      + ".b mark{background:#fbbf24;color:#78350f}p{margin:.3rem 0}"
+      + "</style></head><body><h1>Ergebnisbericht: " + esc(DATEN.titel) + "</h1>"
+      + "<p>Vorgang " + esc(DATEN.vorgang) + ". Bearbeiterin oder Bearbeiter: <b>"
+      + esc(d.bearbeiterin || "nicht angegeben") + "</b>. Erzeugt am "
+      + esc(new Date().toLocaleString("de-AT")) + ".</p>"
+      + "<p>" + n.entschieden + " entschieden, " + n.offen + " geprüft und offen, "
+      + n.unbearbeitet + " unbearbeitet, von " + DATEN.faelle.length + ".</p>"
+      + "<p>Datenstand: " + esc(DATEN.datenstand.map(function (p) { return p[0] + ": " + p[1]; }).join(" &middot; ")) + "</p>"
+      + zeilen + "</body></html>";
+  }
+
+  function importieren(datei) {
+    var leser = new FileReader();
+    leser.onload = function () {
+      var d;
+      try { d = JSON.parse(String(leser.result)); }
+      catch (e) { window.alert("Die Datei ist kein gültiges JSON."); return; }
+      if (!d || d.format !== "mhdbdb-pruefseite") {
+        window.alert("Das ist kein Export einer Prüfseite."); return;
+      }
+      if (d.kennung !== DATEN.kennung) {
+        window.alert("Dieser Export gehört zu einer anderen Prüfseite (" + d.kennung
+          + "). Er wird nicht eingelesen, damit nichts still verlorengeht.");
+        return;
+      }
+      var neu = {};
+      (d.antworten || []).forEach(function (a) {
+        if (!a || !a.id) { return; }
+        neu[a.id] = {
+          antwort: a.antwort || null, frei: a.freieAntwort || "",
+          kommentar: a.kommentar || "",
+          stand: STAENDE.indexOf(a.stand) >= 0 ? a.stand : "unbearbeitet"
+        };
+      });
+      /* Gezaehlt wird, was BEARBEITET ist, auf beiden Seiten. Die Zahl der
+         Eintraege sagt nichts: der Export schreibt jeden Fall der Seite, auch
+         den unberuehrten, also waeren es immer alle 45, und eine Meldung, die
+         immer dasselbe sagt, ist keine. Und was hier stand, wird ersetzt: das
+         gehoert in die Meldung, sonst merkt niemand, dass eine halbe Stunde
+         Arbeit weg ist. */
+      function bearbeitet(z) {
+        return !!(z && (z.antwort || z.kommentar || z.frei
+                        || (z.stand && z.stand !== "unbearbeitet")));
+      }
+      var ausDatei = 0;
+      Object.keys(neu).forEach(function (k) { if (bearbeitet(neu[k])) { ausDatei += 1; } });
+      var vorher = 0;
+      Object.keys(zustand.faelle).forEach(function (k) {
+        if (bearbeitet(zustand.faelle[k])) { vorher += 1; }
+      });
+      zustand.faelle = neu;
+      zustand.name = d.bearbeiterin || zustand.name;
+      document.getElementById("name").value = zustand.name;
+      DATEN.faelle.forEach(function (f) {
+        var el = document.getElementById("fall-" + f.id);
+        if (!el) { return; }
+        var z = fall(f.id);
+        el.querySelectorAll('input[type="radio"]').forEach(function (i) { i.checked = (i.value === z.antwort); });
+        var fr = el.querySelector(".freitext input"); if (fr) { fr.value = z.frei || ""; }
+        el.querySelector("textarea.komm").value = z.kommentar || "";
+        markiere(f.id);
+      });
+      fortschritt(); anwenden(); speichern();
+      window.alert("Eingelesen: " + ausDatei
+        + (ausDatei === 1 ? " bearbeiteter Fall" : " bearbeitete Fälle") + " aus der Datei."
+        + (vorher > 0
+            ? "\n\nDamit ist ersetzt, was vorher in diesem Browser stand ("
+              + vorher + (vorher === 1 ? " bearbeiteter Fall" : " bearbeitete Fälle") + ")."
+            : ""));
+    };
+    leser.readAsText(datei, "utf-8");
+  }
+
+  function thema(wert) {
+    document.documentElement.setAttribute("data-theme", wert);
+    try { window.localStorage.setItem(SCHLUESSEL + ":thema", wert); } catch (e) { /* egal */ }
+    document.getElementById("thema").setAttribute("aria-pressed", String(wert === "dark"));
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    laden();
+    var t = "light";
+    try { t = window.localStorage.getItem(SCHLUESSEL + ":thema") || "light"; } catch (e) { /* egal */ }
+    thema(t === "dark" ? "dark" : "light");
+
+    var nameFeld = document.getElementById("name");
+    nameFeld.value = zustand.name;
+    nameFeld.addEventListener("input", function () { zustand.name = nameFeld.value; speichernGleich(); });
+
+    DATEN.faelle.forEach(verdrahte);
+    fortschritt();
+    flagge(!speicherProbe() ? "fehlt" : (zustand.gespeichert ? "ok" : "leer"));
+
+    document.querySelectorAll(".chip[data-filter]").forEach(function (c) {
+      c.addEventListener("click", function () {
+        filter = c.getAttribute("data-filter");
+        document.querySelectorAll(".chip[data-filter]").forEach(function (o) {
+          o.setAttribute("aria-pressed", String(o === c));
+        });
+        anwenden();
+      });
+    });
+    anwenden();
+
+    document.getElementById("export-json").addEventListener("click", function () {
+      hole(dateiname("json"), "application/json", JSON.stringify(exportDaten(), null, 2));
+    });
+    document.getElementById("export-html").addEventListener("click", function () {
+      hole(dateiname("bericht.html"), "text/html", bericht());
+    });
+    document.getElementById("import").addEventListener("change", function (e) {
+      if (e.target.files && e.target.files[0]) { importieren(e.target.files[0]); }
+      e.target.value = "";
+    });
+    document.getElementById("thema").addEventListener("click", function () {
+      thema(document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark");
+    });
+  });
+})();
+</script>
+</body>
+</html>
