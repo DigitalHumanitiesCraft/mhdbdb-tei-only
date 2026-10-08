@@ -238,6 +238,8 @@ export class CooccurrenceRanking {
     this.state.candidates = candidates;
     this.state.result = null;
     if (!this.state.resolvedLemma) {
+      // Kein Ergebnis: auch der Stempel einer frueheren Suche gilt nicht mehr (#442)
+      clearScopeNotice();
       this.render();
       return;
     }

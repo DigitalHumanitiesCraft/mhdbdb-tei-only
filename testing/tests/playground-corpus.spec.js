@@ -633,6 +633,21 @@ test.describe('Auswahlhinweis (#442)', () => {
         await expect(page.locator('#corpusScopeNotice')).toHaveCount(0);
     });
 
+    // Befund des CI-Review-Bots an PR #539: erst ein Treffer (gestempelt), dann
+    // ein Begriff ohne Treffer. Der Stempel der ersten Suche darf das leere
+    // Panel nicht mehr als Ergebnis ausgeben.
+    test('nach Treffer und Fehlschlag behauptet das Panel kein Ergebnis', async ({ page }) => {
+        for (const [name, [feld, knopf]] of Object.entries(MIT_FELD)) {
+            await page.evaluate(async name => { await window.playground.ui[name].show(); }, name);
+            await suchen(page, feld, knopf, SUCHBEGRIFF[name] || 'minne');
+            await page.waitForFunction(name => !window.playground.ui[name].state.computing, name, { timeout: 60000 });
+            await suchen(page, feld, knopf, 'xyzqwertz');
+            await auswahlTauschen(page, 'WH');
+            await expect(page.locator('#corpusScopeNotice'), name).toHaveCount(0);
+            await auswahlTauschen(page, 'CR');
+        }
+    });
+
     // Der Nullbefund ist eine Aussage ueber die Auswahl und wird gestempelt:
     // „keine Vorkommen in den ausgewaehlten Texten" gilt nur fuer diese.
     test('der Nullbefund gehoert zur Auswahl und wird gemeldet', async ({ page }) => {

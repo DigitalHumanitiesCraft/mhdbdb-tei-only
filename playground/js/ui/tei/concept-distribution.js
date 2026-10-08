@@ -635,6 +635,8 @@ export class ConceptDistribution {
       if (!concept || this.state.matchingLemmata.length === 0) {
         this.state.computing = false;
         this.state.computeProgress = 0;
+        // Kein Ergebnis: auch der Stempel einer frueheren Suche gilt nicht mehr (#442)
+        clearScopeNotice();
         this.render();
         this.refocusInput();
         return;
