@@ -36,7 +36,10 @@ export class VersePositionSearch {
   show() {
     const texts = this.getCorpusTexts();
     if (!texts || texts.length === 0) {
-      clearScopeNotice();
+      // "Kein Text ausgewaehlt" ist eine Aussage ueber die Auswahl wie der
+      // Nullbefund: gestempelt, damit ein neues Haekchen den Rueckweg zeigt
+      // (Review an #539), wie bei den drei Werkzeugen ohne Suchfeld.
+      trackScope(() => this.show());
       this.renderError(emptyScopeMessage());
       return;
     }

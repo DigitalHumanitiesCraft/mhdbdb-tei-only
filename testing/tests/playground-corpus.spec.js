@@ -759,4 +759,14 @@ test('Auswahlaenderung waehrend einer Berechnung bleibt nach deren Ende sichtbar
     });
     await expect(page.locator('#resultsContainer')).toContainText('Kein Text ausgew\u00e4hlt');
     await expect(page.locator('#corpusScopeNotice')).toHaveCount(0);
+    // Der Rueckweg (Review an #539): wer danach wieder einen Text anhakt,
+    // bekommt Hinweis und "Neu berechnen" zurueck, statt vor der
+    // Fehlermeldung stehen zu bleiben.
+    await page.evaluate(() => {
+        window.playground.corpusData.includedTexts = new Set(['CR']);
+        window.playground.updateFileBrowserStats();
+    });
+    await expect(page.locator('#corpusScopeNotice')).toBeVisible();
+    await page.getByRole('button', { name: 'Neu berechnen', exact: true }).click();
+    await expect(page.locator('#resultsContainer')).not.toContainText('Kein Text ausgew\u00e4hlt');
 });
