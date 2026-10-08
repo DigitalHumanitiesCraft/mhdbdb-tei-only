@@ -1125,16 +1125,18 @@ export class LemmaExplorer {
     return resultHTML;
   }
 
-  showLemmaDetails(lemmaId, lemmaText) {
+  showLemmaDetails(lemmaId) {
     // Navigate to Lemma Explorer with pre-filled search
     this.showLemmataWithSearch();
 
-    // Pre-fill search input and trigger search
+    // Ueber die ID statt die Schreibform (seit #545): die Schreibform fand jedes
+    // Lemma, das sie enthaelt ("stein" auch bechstein, steinwant), und das
+    // angeklickte stand irgendwo in der alphabetischen Liste
     setTimeout(() => {
       const searchInput = document.getElementById("lemmaSearch");
       if (searchInput) {
-        searchInput.value = lemmaText;
-        this.searchLemmata(lemmaText);
+        searchInput.value = lemmaId;
+        this.searchLemmata(lemmaId);
         searchInput.focus();
       }
     }, 0);

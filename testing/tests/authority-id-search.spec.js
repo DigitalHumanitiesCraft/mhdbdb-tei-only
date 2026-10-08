@@ -47,4 +47,22 @@ test.describe('ID-Suche in den Registern (#545)', () => {
         await page.fill('#cdQuery', '12040000');
         await expect(page.locator('#cdAutocomplete')).toContainText('Mineralien', { timeout: 15000 });
     });
+
+    // Der Klick auf ein Lemma im Begriffe-Explorer oeffnet es ueber seine ID.
+    // Ueber die Schreibform stand "vels" zwischen velsen, velseht usw.
+    test('Lemma-Klick im Begriffe-Explorer zeigt genau dieses Lemma', async ({ page }) => {
+        await page.goto('/playground/#concepts&q=concept_12040000');
+        const treffer = page.locator('#conceptResults');
+        await expect(treffer).toContainText('ID: concept_12040000', { timeout: 60000 });
+        await treffer.getByRole('button', { name: 'Lemmata anzeigen' }).first().click();
+        await page.fill('#lemmas-concept_12040000-search', 'vels');
+        const link = page.locator('a[title="Details im Lemma-Explorer anzeigen"]')
+            .filter({ has: page.locator('span', { hasText: /^vels$/ }) });
+        await link.first().click();
+
+        await expect(page.locator('#lemmaSearch')).toHaveValue(/^lemma_\d+$/, { timeout: 15000 });
+        const ergebnis = page.locator('#lemmaResults');
+        await expect(ergebnis).toContainText('vels');
+        await expect(ergebnis.getByText(/ID: lemma_\d+/)).toHaveCount(1);
+    });
 });

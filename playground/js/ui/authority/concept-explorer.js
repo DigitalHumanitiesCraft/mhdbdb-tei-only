@@ -188,7 +188,7 @@ export class ConceptExplorer {
         ${displayMatches.map(lemma => `
           <div style="padding: 8px; background: white; border-radius: 4px; border: 1px solid #e5e7eb;">
             <a href="javascript:void(0)"
-               onclick="window.playground.ui.authorityExplorers.lemmaExplorer.showLemmaDetails('${lemma.id}', '${escapeForJS(lemma.lemma)}')"
+               onclick="window.playground.ui.authorityExplorers.lemmaExplorer.showLemmaDetails('${lemma.id}')"
                style="color: #1f2937; text-decoration: none; cursor: pointer; font-size: 1rem; display: flex; align-items: center; gap: 6px;"
                title="Details im Lemma-Explorer anzeigen">
               <span>${lemma.lemma}</span>
