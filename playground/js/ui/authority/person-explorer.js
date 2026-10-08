@@ -15,6 +15,7 @@ import {
   formatMetadata,
 } from "../search/SearchHelpers.js";
 import { TextNormalizer } from "../../../../assets/js/lib/text-normalizer.js";
+import { findByIdInput, withIdHit } from "../../../../assets/js/lib/authority-id-input.js";
 
 import { displayResults } from "../core/ui-helpers.js";
 
@@ -146,10 +147,13 @@ export class PersonExplorer {
     // #307: alternative name forms search alongside the preferred one. Each form
     // is tested on its own instead of joining them into one haystack, so a term
     // cannot match across the boundary between two forms.
-    const matches = this.authorityData.persons.filter(
-      (person) =>
-        personNameMatches(person.preferredName, searchTerm) ||
-        findAlternativeMatch(person, searchTerm) !== null
+    const matches = withIdHit(
+      findByIdInput(this.authorityData.persons, "person", searchTerm), // #545
+      this.authorityData.persons.filter(
+        (person) =>
+          personNameMatches(person.preferredName, searchTerm) ||
+          findAlternativeMatch(person, searchTerm) !== null
+      )
     );
 
     const result = handleSearchResults(searchTerm, matches, {

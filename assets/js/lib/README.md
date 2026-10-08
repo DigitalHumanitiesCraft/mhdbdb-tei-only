@@ -82,6 +82,25 @@ parseLemmaIdInput('04086');                  // 'lemma_4086' (führende Nullen f
 parseLemmaIdInput('minne');                  // null (Schreibform)
 ```
 
+### `authority-id-input.js`
+Findet einen Registereintrag über seine ID (#545), damit sich die Vorschläge der Begriffshilfe im Playground nachschlagen lassen. Angenommen werden dieselben Schreibweisen wie bei `lemma-id-input.js`, mit beliebigem Präfix. Anders als dort ergänzt ein ID-Treffer die Textsuche, statt sie zu ersetzen. Geteilt von den sechs Authority-Explorern (`playground/js/ui/authority/`) und der Begriffs-Verteilung.
+
+**Exports:**
+- `findByIdInput(items, prefix, term)` → Eintrag oder `null`
+- `withIdHit(idHit, matches)` → Trefferliste mit dem ID-Treffer vorn, ohne Dublette
+
+**Usage:**
+```javascript
+import { findByIdInput, withIdHit } from '../lib/authority-id-input.js';
+
+findByIdInput(concepts, 'concept', '12040000');          // concept_12040000
+findByIdInput(concepts, 'concept', 'concept_12040000');  // concept_12040000
+findByIdInput(concepts, 'concept', '#concept_12040000'); // concept_12040000
+findByIdInput(genres, 'genre', '06677194');              // genre_06677194 (führende Null bleibt erhalten, wo die ID sie trägt)
+findByIdInput(concepts, 'concept', 'person_1768');       // null (fremdes Präfix)
+withIdHit(hit, textMatches);                             // [hit, ...textMatches ohne hit]
+```
+
 ### `component-only.js`
 Regel für reine Wortbestandteile (#228): ein Lemma ohne Korpusbeleg (`noCorpus: true` im Authority-Index), das eine andere Etymologie als Bestandteil nennt. Geteilt von Wörterbuch (Kurzmarke) und Lemma-Seite (voller Hinweis), damit beide dieselbe Menge zeigen. Der Status wird abgeleitet, nicht gespeichert.
 

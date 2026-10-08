@@ -15,6 +15,7 @@ import {
   formatMetadata,
   SearchPatterns,
 } from "../search/SearchHelpers.js";
+import { findByIdInput, withIdHit } from "../../../../assets/js/lib/authority-id-input.js";
 
 export class WorkExplorer {
   constructor(authorityData) {
@@ -45,14 +46,17 @@ export class WorkExplorer {
       return;
     }
 
-    const matches = SearchPatterns.multiFieldNormalized(
-      this.authorityData.works,
-      searchTerm,
-      [
-        (work) => work.title,
-        (work) => work.author || "",
-        (work) => work.sigle || "",
-      ]
+    const matches = withIdHit(
+      findByIdInput(this.authorityData.works, "work", searchTerm), // #545
+      SearchPatterns.multiFieldNormalized(
+        this.authorityData.works,
+        searchTerm,
+        [
+          (work) => work.title,
+          (work) => work.author || "",
+          (work) => work.sigle || "",
+        ]
+      )
     );
 
     const result = handleSearchResults(searchTerm, matches, {

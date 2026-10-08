@@ -14,6 +14,7 @@
 
 import { getNavigationEpoch } from '../core/router.js';
 import { TextNormalizer } from '../../../../assets/js/lib/text-normalizer.js';
+import { findByIdInput } from '../../../../assets/js/lib/authority-id-input.js';
 import { trackScope, clearScopeNotice, emptyScopeMessage, scopeSignature } from './corpus-scope.js';
 
 const DEFAULT_STATE = Object.freeze({
@@ -137,11 +138,10 @@ export class ConceptDistribution {
     if (concepts.length === 0) return { resolved: null, candidates: [] };
 
     const needle = trimmed.toLowerCase();
-    // Direct ID match (e.g. "concept_21104000")
-    if (/^concept_\d+$/.test(trimmed)) {
-      const direct = concepts.find(c => c.id === trimmed);
-      if (direct) return { resolved: direct, candidates: [direct] };
-    }
+    // Direkter ID-Treffer: "concept_21104000", seit #545 auch "21104000" und
+    // "#concept_21104000", wie im Begriffe-Explorer
+    const direct = findByIdInput(concepts, 'concept', trimmed);
+    if (direct) return { resolved: direct, candidates: [direct] };
 
     // #419 (Alan van Beek): "tree" fand „Bäume" ueber termEN „Trees",
     // „baum" fand nichts, weil die deutsche Pluralform den Umlaut traegt
