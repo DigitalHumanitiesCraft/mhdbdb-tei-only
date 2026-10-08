@@ -236,6 +236,7 @@ Completeness against `testing/tests/` is gated by `scripts/audit/check-doc-inven
 | `playground.spec.js` | Playground | Start page loads (title, `#authorityOverview`), reset button visible, modules load without `console.error`/`pageerror` (#331). Since #326 only these three tests |
 | `playground-authority-index.spec.js` | Playground | Authority index loading, data structure integrity |
 | `playground-corpus.spec.js` | Playground | Corpus index loading, search functions |
+| `playground-router-start.spec.js` | Playground | Router starts after the authority index: a route without corpus need renders while the corpus index is held back, a corpus route renders only after it arrives (#535). Cold context on purpose, since the warm fixture would serve the index from IndexedDB |
 | `concept-distribution.spec.js` | Playground | Concept distribution analysis (concept → senses → lemmata → texts) |
 | `begriffshilfe.spec.js` | Help pages, Playground | Begriffshilfe (#498): the help page loads and offers the download, the file is served and its table has as many rows as its own "Begriffe: N" line says; the concept explorer (also on zero hits) and the concept distribution link to the help page |
 | `cooccurrence-ranking.spec.js` | Playground | Co-occurrence ranking and homograph resolution of the multi-lemma search (#163/#164) |
