@@ -259,7 +259,7 @@ Nutze die vollständige Begriffsliste am Ende dieser Datei als verbindliche Quel
 
 - Beginne mit einer kurzen Einschätzung, ob ein gleichnamiger Eintrag existiert und welcher Einstieg am ehesten passt. Wenn kein brauchbarer Einstieg erkennbar ist, sage das offen.
 - Gib eine kompakte Tabelle aus: **Priorität | vorhandener Begriff und ID | warum für meine Suche interessant | Grenze oder nötige Eingrenzung**. Begründe die Auswahl mit den gelieferten Benennungen und gegebenenfalls deren hierarchischem Kontext; kennzeichne deine thematische Deutung als Vorschlag.{answer_extra}
-- Schließe mit zwei oder drei konkreten nächsten Schritten unter Nutzung der unten beschriebenen Bedienmöglichkeiten. Nenne dabei die exakten deutschen Hauptbenennungen zum Nachschlagen.
+- Schließe mit zwei oder drei konkreten nächsten Schritten unter Nutzung der unten beschriebenen Bedienmöglichkeiten. Nenne dabei zum Nachschlagen die ID und die exakte deutsche Hauptbenennung.
 - Stelle am Ende höchstens eine hilfreiche Rückfrage zur Eingrenzung. Liefere bei einem offenen Thema trotzdem zuerst die Einstiegsvorschläge.
 
 ### Was diese Datei aussagen kann
