@@ -20,10 +20,10 @@ Verdichtet 02.10.2026 (#395, #399, #237, #308).
 - Regex-Schreiber: idno mit Zusatzattribut oder auf der sigle-Zeile wird dupliziert statt entfernt. Schreibblock vor dem Stub-Guard: schreibt erst, endet dann mit Exit 1.
 - Lab-Layout für Proben: `scripts/corpus_files.py` + `scripts/sync/` + `tei/<Auswahl>` + `authority-files/works.xml`, cwd = Scratch.
 
-**Zotero-Sync:** `--cache` = online + Cache schreiben, `--offline` liest ihn (`scripts/sync/.zotero_cache.json`). Online-Sync nach title_case-Änderung hebt viele Titel an; die Header laufen nicht mit, und die Handkorrekturen FR1/FLG (#236, #104) werden jedes Mal überschrieben.
+**Zotero-Sync:** `--cache` = online + Cache schreiben, `--offline` liest ihn. Ein Online-Sync hebt Titel an; die Header laufen nicht mit, und die Handkorrekturen FR1/FLG (#236, #104) werden jedes Mal überschrieben.
 
 **Messen:** Header-biblStruct gegen works.xml per @corresp, c14n per lxml, `>\s+<` kollabiert, NFC. MWB-Siglen: `https://www.mhdwb-online.de/quellenverzeichnis.php?buchstabe=N`.
 
 **check-author-refs.py:** Die Ausnahme `LEERE_LISTPERSON` war per Sigle geschlüsselt und schaltete die Prüfung für VOR ab; Fix `sigle in LEERE_LISTPERSON and not corresp_ids`. Ein zusätzlicher Nicht-Autor im particDesc ist gewollt. Seit `corpus_files.tei_header` lesen check-author-refs und check-header-genres nur den Kopf; classDecl, particDesc, msIdentifier stehen innerhalb des teiHeader.
 
-**particDesc-Zählung:** Altstand „671 in 666 Dateien" galt bis #444 (16.09.2026, Moriz von Craun); danach 670 (gemessen 01.10., alle mit preferred-Zeile, ohne particDesc nur VOR). Datiert (haltbar) steht der Altstand in CONTRACTS.md:908 und check-author-refs.py:85; undatierte Kopien waren am 02.10. nicht mehr zu finden (grep `671` in DEVELOPMENT.md und check-author-refs.py: nur Z. 85). doc-count-audit kennt die Zahl nicht; Messvorschrift: `check-author-refs.py` druckt „particDesc-Spiegel geprüft N".
+**particDesc-Zählung:** „671 in 666 Dateien" galt bis #444 (16.09.2026), danach 670. Der Altstand steht datiert in CONTRACTS.md:908 und check-author-refs.py:85 (kein Drift). doc-count-audit kennt die Zahl nicht; Messvorschrift: `check-author-refs.py` druckt „particDesc-Spiegel geprüft N".

@@ -1,22 +1,19 @@
 # fable-reviewer Memory (mhdbdb-tei-only)
 
-Verdichtet am 02.10.2026. Zahlen hier sind Eingabe, keine Messung.
+Verdichtet am 08.10.2026. Zahlen in den Dateien sind Eingabe, keine Messung.
 
-- [Umgebung](querschnitt_umgebung.md): Worktree-Guard, Windows, GitHub ohne gh, Cloud-Session
-- [Git-Rezepte](querschnitt_git.md): Altstand, Basis, range-diff, Herkunft, EOL-Proben, Squash zählen und Stack nach Squash
-- [Messrezepte](querschnitt_messen.md): importlib in-process, Mutationsproben, Zählfallen, find-mentions-Probe
-- [Tests](querschnitt_tests.md): run-tests.js, Port, report.json, Playwright-Probe, Tailwind
-- [Review-Denkfallen](querschnitt_review_fallen.md): #397-Frage, Gates, Auftrag und Laufplan prüfen
-- [Gates und CI](gates_und_ci.md): was jedes Gate nicht prüft, Review-Bot, main-Schutz
+- [Umgebung](querschnitt_umgebung.md): Worktree-Guard, Classifier, Windows, GitHub ohne gh, Cloud-Session
+- [Git-Rezepte](querschnitt_git.md): Altstand, Basis, range-diff, Herkunft, Squash und Stack, EOL-Probeklon
+- [Messrezepte](querschnitt_messen.md): importlib in-process, Mutationsproben, Rebuild-and-Compare, Zählfallen
+- [Tests](querschnitt_tests.md): run-tests.js, Port, report.json, Playwright-Probe, Tailwind, warmer Worker-Context
+- [Review-Denkfallen](querschnitt_review_fallen.md): #397-Frage, Gates, Auftrag und Laufplan prüfen, Fehlerjournal-Ketten
+- [Gates und CI](gates_und_ci.md): was jedes Gate nicht prüft, Begriffshilfe-Generator, Review-Bot, main-Schutz
 - [TEI-Korpus](korpus_tei.md): Korpus-Index, pc/caesura, Vers/Prosa, WZB, Header, Findebuch-Dump #259
 - [Lexikon und Variants](lexikon_variants.md): Vorschrift B, Dangling-Filter, sense/@ana, Wortbestandteile #228, Ziffernlemmata
 - [Authority-Dateien](authority_dateien.md): concepts kein Baum, genre-Felder, Schema an vier Orten, Siglen
 - [Header-Spiegel](header_spiegel.md): Header als Kopie, sync_tei_headers-Fallen, particDesc-Zählung
-- [Playground/Frontend](playground_frontend.md): Hash-Pfad, Multi-Lemma, Nummernpfad, Werkzeugzustand
-- [Fremdindizes](fremdindizes.md): Naming #420 (Nachbau, Term-Perspektive) und Pferde #193 (zwei Vers-Einheiten)
-- [Prüfseiten](pruefseiten.md): Zitat-Gate, markup vs. e(), Generator-Laufzeit, datengebundene Specs
-- [Begriffshilfe #498](projekt_begriffshilfe_498.md): Korpusdurchgang cachen, Belege unter Begriff vs. gesamt, Freshness-Gate
-- [Parzival-Bücher #358](projekt_parzival_buecher_358.md): OCR-Messrezept Bartsch/Martin, Fallen (VIII = 398,1, Redezeichen-pc, TEI-gegen-TEI-Vergleich)
-- [WZB @corresp #370](projekt_370_corresp.md): ANLEGEN-Falle, zwei Tokenzählungen, Messrezept alt/neu, mitalternde Nachbarn
-- [#526 Breve/Makron/w-n](projekt_526_breve_makron.md): Tafelskripte reproduzieren, Guard-Grenzen, EOL-Falle der WZB, Index-Abgleich je Lemma, §A-Zählvorschrift, corresp-Ratsche
-- [Warm-Context #488](projekt_warm_context_488.md): was ein Worker-Context erbt, Probe ohne Server, App-Storage, Laufzeitskalen
+- [Playground/Frontend](playground_frontend.md): Hash-Pfad, Multi-Lemma, Nummernpfad, Werkzeugzustand, Router-Start
+- [Fremdindizes](fremdindizes.md): Naming #420 und Pferde #193
+- [Prüfseiten](pruefseiten.md): Zitat-Gate, markup vs. e(), Generator-Laufzeit, 526-Prüfseite
+- [Parzival-Bücher #358](projekt_parzival_buecher_358.md): OCR-Messrezept Bartsch/Martin, Fallen, Skript- und Spec-Proben
+- [WZB-Nachannotierung #370/#526](projekt_526_breve_makron.md): ANLEGEN-Falle, Tafelskripte auf Kopie, Guard-Grenzen, EOL, Index-Abgleich
