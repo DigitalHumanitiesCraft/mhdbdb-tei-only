@@ -64,5 +64,19 @@ test.describe('ID-Suche in den Registern (#545)', () => {
         const ergebnis = page.locator('#lemmaResults');
         await expect(ergebnis).toContainText('vels');
         await expect(ergebnis.getByText(/ID: lemma_\d+/)).toHaveCount(1);
+
+        // Das Ziel steht in der Adresse und uebersteht ein Neuladen
+        await expect(page).toHaveURL(/#lemmata&q=lemma_\d+$/);
+        await page.reload();
+        await expect(page.locator('#lemmaResults')).toContainText('vels', { timeout: 60000 });
+        await expect(page.locator('#lemmaResults').getByText(/ID: lemma_\d+/)).toHaveCount(1);
+    });
+
+    test('Moduswechsel macht aus einer Lemma-ID die Schreibform', async ({ page }) => {
+        await page.goto('/playground/#lemmata&q=lemma_6794');
+        await expect(page.locator('#lemmaResults')).toContainText('ID: lemma_6794', { timeout: 60000 });
+        await page.getByRole('button', { name: /Wortbestandteil suchen/ }).click();
+        await expect(page).toHaveURL(/#lemmata&mode=component&q=vels$/);
+        await expect(page.locator('#lemmaSearch')).toHaveValue('vels', { timeout: 15000 });
     });
 });
