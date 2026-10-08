@@ -62,6 +62,24 @@ const ROUTES = {
 };
 
 /**
+ * Routen, deren Module beim Rendern den Korpus-Index brauchen (#535). Der
+ * Router startet seit #535 schon nach dem Authority-Index; eine dieser Routen
+ * wartet dann auf `window.playground.corpusReady`, alle anderen rendern sofort.
+ * Gemessen am Code (08.10.2026): die Multi-Lemma-Suche und die zehn
+ * TEI-Werkzeuge lesen den Korpus ueber corpusData bzw. die Thunks in
+ * playground-main.js; die sechs Register lesen nur authorityData, naming und
+ * horses laden eigene Dateien (naming-index.json.gz, horses-index.json.gz).
+ * Eine neue Route, die den Korpus braucht, gehoert hier hinein, sonst rendert
+ * sie vor dem Laden gegen eine leere Textliste.
+ */
+const CORPUS_ROUTES = new Set([
+  'multi-lemma', 'verse-position', 'word-frequency', 'text-statistics',
+  'lemma-distribution', 'concept-distribution', 'text-comparison',
+  'cooccurrence-ranking', 'rhyme-dictionary', 'hapax-legomena',
+  'verse-ending-profile',
+]);
+
+/**
  * Mapping from view key to the DOM id of its search input (if any).
  * Used by dispatch() to auto-fill the input when a `q` param is present in
  * the URL hash. Views without a search input (multi-lemma) are intentionally
@@ -256,6 +274,23 @@ function dispatch(view, params) {
   // Erst NACH dem Unknown-View-Check bumpen: eine unbekannte Route ändert
   // die sichtbare View nicht, laufende Scans der alten View bleiben gültig.
   _navigationEpoch += 1;
+
+  // #535: Korpus-Route vor dem Laden des Korpus-Index. Erst nach dem Laden
+  // ausfuehren, und nur, wenn inzwischen keine andere Navigation kam: sonst
+  // ueberschriebe die alte Route die neue (derselbe Fall wie #159).
+  const pg = window.playground;
+  if (CORPUS_ROUTES.has(view) && pg?.corpusReady && !pg.corpusLoaded) {
+    const epoch = _navigationEpoch;
+    pg.corpusReady.then(() => {
+      if (epoch === _navigationEpoch) runRoute(view, params, handler);
+    });
+    return;
+  }
+  runRoute(view, params, handler);
+}
+
+/** Run a dispatched route: the handler, then the q/show follow-ups. */
+function runRoute(view, params, handler) {
   const opensModalOnly = view === 'multi-lemma' &&
     !(params.lemmata || '').split(',').some(term => term.trim());
   if (!opensModalOnly) clearScopeNotice();
@@ -305,8 +340,9 @@ export function navigate(view, params = {}) {
 }
 
 /**
- * Dispatch the current hash, if any. Called once on page load (after data
- * is ready) to restore state from a bookmarked/shared URL, and from the
+ * Dispatch the current hash, if any. Called once on page load (after the
+ * authority index; corpus routes wait in dispatch(), #535) to restore state
+ * from a bookmarked/shared URL, and from the
  * hashchange listener to handle browser back/forward.
  */
 export function dispatchFromHash() {
@@ -317,7 +353,7 @@ export function dispatchFromHash() {
 
 /**
  * Wire up the hashchange listener. Call once after the playground has
- * finished loading its data, then immediately call dispatchFromHash() to
+ * loaded the authority index (#535), then immediately call dispatchFromHash() to
  * restore any initial state from the URL.
  */
 export function initRouter() {

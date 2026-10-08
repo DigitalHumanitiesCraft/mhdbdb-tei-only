@@ -32,8 +32,9 @@ const INDEX_QUELLE = JSON.parse(
 test.describe('Naming Explorer (#59)', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/playground/#naming');
-    // dispatchFromHash() laeuft erst nach Corpus-Load; danach laedt das Modul
-    // seinen eigenen Index lazy (fetch+pako, ~110 KB)
+    // dispatchFromHash() laeuft seit #535 nach dem Authority-Index, nicht
+    // erst nach dem Korpus-Index; danach laedt das Modul seinen eigenen Index
+    // lazy (fetch+pako, ~110 KB)
     await page.waitForSelector('#neWorkSelect', { state: 'visible', timeout: 60000 });
   });
 
