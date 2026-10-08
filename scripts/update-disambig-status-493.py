@@ -56,7 +56,8 @@ Formen, die im Korpus schon allein stehen: "Teilweise semantisch
 disambiguiert." und "Semantisch disambiguiert.". Fehlt <normalization>, wird es
 als letztes Kind von <editorialDecl> angelegt (Schema: normalization steht
 dort zuletzt). Gemessen am 2026-10-08: 95 Dateien ohne Satz, 75 teilweise,
-20 vollstaendig erschlossen, 4 davon ohne <normalization>. Ein Satz zur
+20 vollstaendig erschlossen; 4 der 75 teilweise erschlossenen haben kein
+<normalization>. Ein Satz zur
 Lemmatisierung wird dabei nicht erfunden. Der <change> traegt "Vorher" leer,
 damit ein spaeterer Lauf das als Ursprung erkennt.
 
