@@ -497,16 +497,21 @@ test.describe('Issue #250: Editorische Eingriffe im Metadatenpanel', () => {
         await expect(notes.filter({ hasText: 'Anhang II' })).toHaveCount(1);
     });
 
-    test('KVO ohne inhaltliche Angaben zeigt den Abschnitt gar nicht', async ({ page }) => {
-        // Gegenprobe: 3 Texte (CEFB, GWTK, KVO) tragen im editorialDecl nur das
-        // Boilerplate. Ein leerer Abschnitt waere schlimmer als keiner.
+    test('KVO zeigt die ergaenzte Angabe zur Disambiguierung, ohne Boilerplate', async ({ page }) => {
+        // Bis #493 (2026-10-08) trugen CEFB, GWTK und KVO im editorialDecl nur
+        // das Boilerplate, und hier stand die Gegenprobe "kein leerer
+        // Abschnitt". Seither hat jeder der 667 Header eine inhaltliche Angabe;
+        // der Zweig ohne Abschnitt hat im Korpus keinen Fall mehr und ist hier
+        // nicht mehr getestet.
         await page.goto('/korpus.html?textId=KVO');
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
         await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
 
         await page.click('.metadata-toggle-btn');
         await expect(page.locator('.metadata-sections')).toBeVisible();
-        await expect(page.locator('.metadata-editorial')).toHaveCount(0);
+        const editorial = page.locator('.metadata-editorial');
+        await expect(editorial).toContainText('Teilweise semantisch disambiguiert.');
+        await expect(editorial).not.toContainText('Lokale Dateireferenzen');
     });
 
 });

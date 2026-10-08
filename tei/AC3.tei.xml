@@ -106,7 +106,7 @@
       <editorialDecl>
         <p xml:lang="de">Lokale Dateireferenzen (z.B. persons.xml#person_445, lexicon.xml#lemma_879, genres.xml#genre_XXX) verweisen auf kontrollierte Vokabulare im authority-files Verzeichnis dieses Repositorys. Diese internen Querverweise ermöglichen die Verknüpfung mit Personen-, Werk-, Lemma-, Konzept-, Genre- und Namensautoritätsdateien.</p>
         <p xml:lang="en">Local file references (e.g. persons.xml#person_445, lexicon.xml#lemma_879, genres.xml#genre_XXX) point to controlled vocabularies in the authority-files directory of this repository. These internal cross-references enable linking to person, work, lemma, concept, genre, and name authority files.</p>
-      <normalization><p>Die Groß-/Kleinschreibung entspricht aus technischen Gründen nur teilweise der Edition.</p></normalization></editorialDecl>
+      <normalization><p>Die Groß-/Kleinschreibung entspricht aus technischen Gründen nur teilweise der Edition.</p><p>Teilweise semantisch disambiguiert.</p></normalization></editorialDecl>
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
@@ -150,6 +150,7 @@
       <change when="2026-09-06" who="#editor">#387 (fro): 2 homographie-ambige Tokens der Form fro kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260) bzw. vrô ADJ/ADV (lemma_7250); LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/387-fro/).</change>
       <change when="2026-09-11" who="#editor">#198 Schritt 2: Token AC3_23010_1 (hawe) von lemma_2598 haben auf lemma_9644 houwe umannotiert und mit @ana auf dessen einzigen Sense versehen; @corresp unveraendert (type_117159). Grundlage: Geraetepaar "hawe vnd schaufel" als Satzsubjekt.</change>
       <change when="2026-09-23" who="#editor">#418 hawe: 1 Token nach der Zuordnung von KZW vom 11.09.2026 auf lemma_2923 houwen bzw. lemma_9644 houwe gesetzt (lemmaRef/pos/corresp, @ana beim Substantiv). Im ganzen Lauf: zwei Belege auf den neuen Sense lemma_9644_sense_119194 „Schlag“; hawe erhält unter beiden Lemmata einen neu geprägten Variantentyp, type_117159 von lemma_2598 haben entfällt damit. AC3_23010_1 stand seit #416 bereits auf lemma_9644 und erhält hier nur den neuen Variantentyp statt type_117159.</change>
+      <change when="2026-10-08" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization ergänzt (5972 von 7883 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;&#34;</change>
     </revisionDesc>
   </teiHeader>
   <text>

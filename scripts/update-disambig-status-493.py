@@ -49,6 +49,18 @@ der Stand geaendert hat (teilweise -> vollstaendig); ohne Aenderung schreibt
 er nichts, auch die Liste nicht. "Vorher" bleibt dabei der Wortlaut aus dem
 Altbestand, und die Liste fuehrt je Datei den letzten Stand.
 
+ERGAENZEN (KZW am 2026-10-08 in #493: "Ja ergaenze das dort mithilfe deines
+Skripts auch"): Dateien OHNE einen solchen Satz bekommen ihn, sobald
+erschlossen > 0, als eigenes <p> am Ende von <normalization>, in den beiden
+Formen, die im Korpus schon allein stehen: "Teilweise semantisch
+disambiguiert." und "Semantisch disambiguiert.". Fehlt <normalization>, wird es
+als letztes Kind von <editorialDecl> angelegt (Schema: normalization steht
+dort zuletzt). Gemessen am 2026-10-08: 95 Dateien ohne Satz, 75 teilweise,
+20 vollstaendig erschlossen; 4 der 75 teilweise erschlossenen haben kein
+<normalization>. Ein Satz zur
+Lemmatisierung wird dabei nicht erfunden. Der <change> traegt "Vorher" leer,
+damit ein spaeterer Lauf das als Ursprung erkennt.
+
 Textuelle Ersetzung statt lxml-Serialisierung, damit der Rest der Datei
 byte-identisch bleibt.
 
@@ -71,6 +83,7 @@ PLAN = REPO / "ingest" / "disambig-493" / "aenderungen.csv"
 NS = "{http://www.tei-c.org/ns/1.0}"
 
 DATUM = "2026-09-30"
+DATUM_ERGAENZT = "2026-10-08"
 MARKER = "#493"
 DIS = "semantisch disambiguiert"
 
@@ -176,11 +189,33 @@ def main():
         text = fp.read_text(encoding="utf-8", newline="")
         kopf = text.split("</teiHeader>", 1)[0]
         m_norm = NORM_RE.search(kopf)
-        if not m_norm:
-            continue
         treffer = [m for m in P_RE.finditer(m_norm.group(1))
-                   if "disambig" in m.group(1).lower()]
+                   if "disambig" in m.group(1).lower()] if m_norm else []
         if not treffer:
+            lem, ana = zaehle(fp)
+            if ana == 0:
+                stat["ohne Satz, erschlossen = 0"] += 1
+                continue
+            klasse = "alle" if ana == lem else "teil"
+            neu = "Semantisch disambiguiert." if klasse == "alle" else "Teilweise semantisch disambiguiert."
+            if m_norm:
+                pos = m_norm.end(1)
+                text = text[:pos] + f"<p>{neu}</p>" + text[pos:]
+                stat[f"ergaenzt in normalization, {klasse}"] += 1
+            else:
+                enden = list(re.finditer(r"</editorialDecl>", kopf))
+                if len(enden) != 1:
+                    fehler.append(f"{fp.name}: weder <normalization> noch genau ein </editorialDecl>")
+                    continue
+                pos = enden[0].start()
+                text = text[:pos] + f"<normalization><p>{neu}</p></normalization>" + text[pos:]
+                stat[f"ergaenzt mit neuem normalization, {klasse}"] += 1
+            plan.append([fp.name[:-8], "", neu, lem, ana, f"{100 * ana / lem:.1f}"])
+            ersetzt.append(("(kein Satz)", neu))
+            eintrag = (f'<change when="{DATUM_ERGAENZT}" who="#editor">#493: Angabe zur semantischen '
+                       f"Disambiguierung in encodingDesc/normalization ergänzt ({ana} von {lem} "
+                       f"lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;&#34;</change>")
+            neu_text[fp] = change_eintragen(text, eintrag, fp.name)
             continue
         if len(treffer) > 1:
             fehler.append(f"{fp.name}: {len(treffer)} Saetze mit 'disambig'")

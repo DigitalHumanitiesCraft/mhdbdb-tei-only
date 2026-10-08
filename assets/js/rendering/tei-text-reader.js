@@ -1082,8 +1082,8 @@ class TEITextReader {
         }
 
         // Section 7b: Editorische Eingriffe (#250, KZW-Entscheidung 29.07.2026)
-        // Ohne Eingriffe kein Abschnitt: 3 Texte (CEFB, GWTK, KVO) haben nach dem
-        // Boilerplate-Filter keinen einzigen Absatz mehr.
+        // Ohne Eingriffe kein Abschnitt. Bis #493 (08.10.2026) traf das CEFB, GWTK
+        // und KVO; seither hat jeder Text nach dem Boilerplate-Filter einen Absatz.
         if (metadata.editorialNotes && metadata.editorialNotes.length > 0) {
             metadataHTML += '<div class="metadata-section metadata-editorial">';
             metadataHTML += '<h4 class="metadata-section-title">Editorische Eingriffe</h4>';
