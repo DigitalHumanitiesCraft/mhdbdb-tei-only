@@ -60,8 +60,9 @@ disambiguiert." und "Semantisch disambiguiert.". Fehlt <normalization>, wird es
 als letztes Kind von <editorialDecl> angelegt (Schema: normalization steht
 dort zuletzt). Gemessen am 2026-10-08: 95 Dateien ohne Satz, 75 teilweise,
 20 vollstaendig erschlossen; 4 der 75 teilweise erschlossenen haben kein
-<normalization>. Ein Satz zur Lemmatisierung wird dabei nicht erfunden. Der <change> traegt "Vorher" leer,
-damit ein spaeterer Lauf das als Ursprung erkennt.
+<normalization>. Ein Satz zur Lemmatisierung wird dabei nicht erfunden. Der
+<change> traegt "Vorher" leer, damit ein spaeterer Lauf das als Ursprung
+erkennt.
 
 Textuelle Ersetzung statt lxml-Serialisierung, damit der Rest der Datei
 byte-identisch bleibt.
