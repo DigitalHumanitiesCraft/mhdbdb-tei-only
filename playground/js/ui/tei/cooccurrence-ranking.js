@@ -10,7 +10,7 @@
  */
 
 import { getNavigationEpoch } from '../core/router.js';
-import { trackScope, emptyScopeMessage, scopeSignature } from './corpus-scope.js';
+import { trackScope, clearScopeNotice, emptyScopeMessage, scopeSignature } from './corpus-scope.js';
 import { csvButton } from '../core/ui-helpers.js';
 import { toCsv, downloadCsv, csvDateStamp, csvFilenamePart } from '../../../../assets/js/lib/csv-export.js';
 
@@ -62,13 +62,23 @@ export class CooccurrenceRanking {
   show() {
     this._abortToken = (this._abortToken || 0) + 1;
     this.state.computing = false;
-    trackScope(() => { this.show(); if (this.getCorpusTexts().length) this.runSearch(); });
     const texts = this.getCorpusTexts();
     if (!texts || texts.length === 0) {
+      // "Kein Text ausgewaehlt" ist eine Aussage ueber die Auswahl wie der
+      // Nullbefund: gestempelt, damit ein neues Haekchen den Rueckweg zeigt
+      // (Review an #539), wie bei den drei Werkzeugen ohne Suchfeld.
+      trackScope(() => this.show());
       this.renderError(emptyScopeMessage());
       return;
     }
     this.discardResultIfScopeChanged(texts);
+    // Erst stempeln, wenn ein Ergebnis dasteht (#442), siehe
+    // concept-distribution.js.
+    if (this.state.result) {
+      trackScope(() => { this.show(); if (this.getCorpusTexts().length) this.runSearch(); });
+    } else {
+      clearScopeNotice();
+    }
     this.ensureLemmaMap();
     this.render();
   }
@@ -231,6 +241,8 @@ export class CooccurrenceRanking {
     this.state.candidates = candidates;
     this.state.result = null;
     if (!this.state.resolvedLemma) {
+      // Kein Ergebnis: auch der Stempel einer frueheren Suche gilt nicht mehr (#442)
+      clearScopeNotice();
       this.render();
       return;
     }

@@ -14,7 +14,7 @@
 
 import { getNavigationEpoch } from '../core/router.js';
 import { TextNormalizer } from '../../../../assets/js/lib/text-normalizer.js';
-import { trackScope, emptyScopeMessage, scopeSignature } from './corpus-scope.js';
+import { trackScope, clearScopeNotice, emptyScopeMessage, scopeSignature } from './corpus-scope.js';
 
 const DEFAULT_STATE = Object.freeze({
   query: '',
@@ -80,13 +80,24 @@ export class ConceptDistribution {
   show() {
     this._searchGen = (this._searchGen || 0) + 1;
     this.state.computing = false;
-    trackScope(() => { this.show(); document.getElementById('cdSearchBtn')?.click(); });
     const texts = this.getCorpusTexts();
     if (!texts || texts.length === 0) {
+      // "Kein Text ausgewaehlt" ist eine Aussage ueber die Auswahl wie der
+      // Nullbefund: gestempelt, damit ein neues Haekchen den Rueckweg zeigt
+      // (Review an #539), wie bei den drei Werkzeugen ohne Suchfeld.
+      trackScope(() => this.show());
       this.renderError(emptyScopeMessage());
       return;
     }
     this.discardDistributionIfScopeChanged(texts);
+    // Erst stempeln, wenn eine Verteilung dasteht. Sonst meldet der Hinweis
+    // ein veraltetes Ergebnis ueber dem leeren Formular (#442): das Werkzeug
+    // ist offen, gesucht wurde nie, und ein Haekchen in Schritt 1 genuegte.
+    if (this.state.distribution) {
+      trackScope(() => { this.show(); document.getElementById('cdSearchBtn')?.click(); });
+    } else {
+      clearScopeNotice();
+    }
     this.render();
   }
 
@@ -627,6 +638,8 @@ export class ConceptDistribution {
       if (!concept || this.state.matchingLemmata.length === 0) {
         this.state.computing = false;
         this.state.computeProgress = 0;
+        // Kein Ergebnis: auch der Stempel einer frueheren Suche gilt nicht mehr (#442)
+        clearScopeNotice();
         this.render();
         this.refocusInput();
         return;
