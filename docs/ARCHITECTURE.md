@@ -307,9 +307,11 @@ Each explorer follows consistent pattern:
 |----------|-------------|
 | `parseHash()` | Extracts `{view, params}` from `location.hash` |
 | `buildHash(view, params)` | Constructs hash string with URL-encoded values |
-| `dispatch(view, params)` | Looks up view handler, calls it, then defers `q`/`show` to next tick |
+| `dispatch(view, params)` | Looks up view handler, calls it, then defers `q`/`show` to next tick. A view in `CORPUS_ROUTES` waits for `window.playground.corpusReady` if the corpus index is still loading, and runs only if no other navigation came in meanwhile (#535) |
 | `navigate(view, params)` | Updates hash and dispatches (suppresses listener to prevent double-fire) |
-| `initRouter()` | Wires `hashchange` listener, called once after data loads |
+| `initRouter()` | Wires `hashchange` listener, called once after the authority index loads; the corpus index keeps loading in the background (#535) |
+
+**Which routes wait for the corpus index** (`CORPUS_ROUTES`, #535): the multi-lemma search and the TEI analysis tools that read the corpus. The authority registers read only the authority index, and `naming` and `horses` load their own files, so they render while the corpus index is still on its way. A new route whose module reads the corpus belongs in that set, or it renders against an empty text list.
 
 **Known limitation:** `triggerExpand(itemId)` only works for items in the currently visible result set (typically top 50).
 

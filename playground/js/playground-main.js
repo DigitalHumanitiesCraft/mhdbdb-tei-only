@@ -147,16 +147,17 @@ class MHDBDBPlayground {
 
         // Load authority files from pre-built index (UPDATED)
         await this.loadAuthorityIndex();
-
-        // NEW: Auto-load corpus on startup
-        await this.autoLoadCorpus();
-
         this.updateUI();
 
-        // NEW: Wire up hash router and dispatch any initial hash from the URL.
-        // Done after data loading so that handlers can rely on populated state.
+        // #535: Der Router startet nach dem Authority-Index, nicht erst nach
+        // dem Korpus-Index (rund 40 MB gz). Register, naming und horses
+        // rendern damit sofort; Routen, die den Korpus brauchen, warten im
+        // Router auf corpusReady (CORPUS_ROUTES in router.js).
+        this.corpusLoaded = false;
+        this.corpusReady = this.autoLoadCorpus().then(() => { this.corpusLoaded = true; });
         initRouter();
         dispatchFromHash();
+        await this.corpusReady;
     }
 
     async loadAuthorityIndex() {
