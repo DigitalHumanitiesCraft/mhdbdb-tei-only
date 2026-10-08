@@ -14,7 +14,7 @@ Verdichtet 08.10.2026.
 - **Datierte Abfolge, kein Widerspruch:** als Subagent lehnte der Classifier bis 02.10. `npx playwright test --list` ab (auch mit `--config`); am 06.10.2026 lief `MHDBDB_TEST_PORT=8086 npx.cmd playwright test --list -c <abs. Config>` als Subagent durch (435 Tests in 47 Dateien), ebenso ein Playwright-Lauf mit Scratchpad-Config. Je Session probieren.
 
 **Windows**
-- `python -X utf8`: cp1252 bricht an ł, w̆ und Emoji; Ausgaben ASCII-safe drucken (Umlaute als `�` sind cp1252, kein Datenbefund). Unter `python -I` wirkt `PYTHONIOENCODING`/`PYTHONUTF8` NICHT (-I impliziert -E); nur `-I -X utf8` hilft.
+- `python -X utf8`: cp1252 bricht an ł, w̆ und Emoji; Ausgaben ASCII-safe drucken (Umlaute als `�` sind cp1252, kein Datenbefund). Unter `python -I` wirkt `PYTHONIOENCODING`/`PYTHONUTF8` NICHT (-I impliziert -E); nur `-I -X utf8` hilft. Und `-I` kappt die User-Site-Packages: ein Skript, das `lxml` importiert, bricht darunter mit ModuleNotFoundError (08.10.2026); Projektskripte und eigene Proben darüber ohne `-I` laden, `-I` nur für fremde Downloads.
 - `rg -c` summieren mit `awk -F: '{s+=$NF}'` (`$2` trifft Laufwerk C). Exit-Code nie hinter `| tail` messen. autocrlf=true: w/lf bei i/lf ist kein Commit-Unterschied.
 - rg über die Wurzel hängt an tei/ (1,4 GB, >120 s): je Verzeichnis suchen.
 

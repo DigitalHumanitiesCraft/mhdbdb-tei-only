@@ -8,6 +8,7 @@ Verdichtet 08.10.2026.
 
 **Was der Diff nicht zeigt**
 - #397-Frage: was macht der Fix wahr, woran hing etwas am Gegenteil? Getroffen bei: verengter Thunk -> Instanzzustand der Werkzeuge; neuer Typ -> Wörterbuch-Flip; Feld von e() auf markup() -> Textkopie im Export; Hilfe-Abschnitt geteilt -> Deep-Links `hilfe-*.html#`; gehaltene Waise -> hängender Zeiger; Stempel nur noch bei Ergebnis -> Rückweg aus „Kein Text ausgewählt" (#539: die vier Werkzeuge mit Suchfeld löschen im Leer-Guard, die drei ohne stempeln davor, gemessen d=0 gegen d=1). Nicht nur Prüfungen suchen, auch Schreiber und Kopien.
+- **Das Dokument, das die Änderung motiviert, beschreibt oft das alte Verhalten** (#545: die Begriffshilfe-Download sagte „Das Suchfeld durchsucht Benennungen, nicht IDs", und der PR machte genau das falsch). Nach dem Auslöser im Issue greppen (`grep -rn "nicht IDs"`), nicht nur nach dem geänderten Bezeichner; generierte Artefakte haben einen Generator und ein Byte-Gate.
 - Ein „der Konsistenz halber" mitgeänderter Nachbarzweig (Leer-Guard, Fehlerast) ist der Ort, an dem #397 trifft: unveränderte Geschwistermodule mit derselben Folge durchspielen, der Unterschied ist der Befund.
 - Ein Stempel gehört dorthin, wo das Ergebnis entsteht, nicht wo es angezeigt wird.
 - Verlängert ein PR eine Umformulierung: den Zwilling suchen (z. B. Docstring in text-normalizer.js und CONTRACTS.md §F). Ein verschobener Block ändert die Reihenfolge zu BEIDEN Nachbarn. Per-Schlüssel-A-Struktur unter Schlüssel B abgelegt: letzter gewinnt.
