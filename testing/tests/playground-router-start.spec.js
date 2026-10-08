@@ -35,7 +35,7 @@ test.describe('Playground-Router startet vor dem Korpus-Index (#535)', () => {
     await expect(page.locator('#neWorkSelect')).toBeVisible({ timeout: 60000 });
     // Gegenprobe: der Korpus-Index ist angefragt, aber noch nicht da. Ohne sie
     // waere der Test auch gruen, wenn der Index schon geladen gewesen waere.
-    expect(korpus.angefragt()).toBe(true);
+    await expect.poll(() => korpus.angefragt(), { timeout: 60000 }).toBe(true);
     await expect(page.locator('#corpusLoadingState')).toBeVisible();
 
     korpus.freigeben();

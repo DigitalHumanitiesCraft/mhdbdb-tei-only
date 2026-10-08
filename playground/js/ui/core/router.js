@@ -340,8 +340,9 @@ export function navigate(view, params = {}) {
 }
 
 /**
- * Dispatch the current hash, if any. Called once on page load (after data
- * is ready) to restore state from a bookmarked/shared URL, and from the
+ * Dispatch the current hash, if any. Called once on page load (after the
+ * authority index; corpus routes wait in dispatch(), #535) to restore state
+ * from a bookmarked/shared URL, and from the
  * hashchange listener to handle browser back/forward.
  */
 export function dispatchFromHash() {
@@ -352,7 +353,7 @@ export function dispatchFromHash() {
 
 /**
  * Wire up the hashchange listener. Call once after the playground has
- * finished loading its data, then immediately call dispatchFromHash() to
+ * loaded the authority index (#535), then immediately call dispatchFromHash() to
  * restore any initial state from the URL.
  */
 export function initRouter() {
