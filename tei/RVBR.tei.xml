@@ -93,7 +93,7 @@
       <editorialDecl>
         <p xml:lang="de">Lokale Dateireferenzen (z.B. persons.xml#person_445, lexicon.xml#lemma_879, genres.xml#genre_XXX) verweisen auf kontrollierte Vokabulare im authority-files Verzeichnis dieses Repositorys. Diese internen Querverweise ermöglichen die Verknüpfung mit Personen-, Werk-, Lemma-, Konzept-, Genre- und Namensautoritätsdateien.</p>
         <p xml:lang="en">Local file references (e.g. persons.xml#person_445, lexicon.xml#lemma_879, genres.xml#genre_XXX) point to controlled vocabularies in the authority-files directory of this repository. These internal cross-references enable linking to person, work, lemma, concept, genre, and name authority files.</p>
-      <normalization><p>Fragmentarisches Reimpaarepos, endet in der Ausgabe mit Vers 27627. Aie Ausgabe von Bartsch hat jedoch einen eingefügten Vers(18075) nicht mitgezählt, so dass Vers 18075 bei MHDBDB = 18076 ist, und alle weiteren Verse sich entsprechend verschieben.</p><p>Die Groß-/Kleinschreibung entspricht aus technischen Gründen nur teilweise der Edition.</p></normalization></editorialDecl>
+      <normalization><p>Fragmentarisches Reimpaarepos, endet in der Ausgabe mit Vers 27627. Aie Ausgabe von Bartsch hat jedoch einen eingefügten Vers(18075) nicht mitgezählt, so dass Vers 18075 bei MHDBDB = 18076 ist, und alle weiteren Verse sich entsprechend verschieben.</p><p>Die Groß-/Kleinschreibung entspricht aus technischen Gründen nur teilweise der Edition.</p><p>Teilweise semantisch disambiguiert.</p></normalization></editorialDecl>
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
@@ -134,6 +134,7 @@
       <change when="2026-09-06" who="#editor">#216 Punkt 3, Nachtrag: 3 Tokens der Anredeform frô unmittelbar vor minne annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260)); fuer diese Schreibung war unter dem Ziel-Lemma kein Variantentyp vorhanden, type_372365 ist dafuer neu gepraegt. Entscheidung @wachauer 01.09.2026, Verfahren und Herkunft im Provenienz-Log: ingest/pos-disambig/216-fro3/.</change>
       <change when="2026-09-06" who="#editor">#387 Nachlauf (fro: ADJ gegen ADV): 3 Tokens der Schreibung fro in der Wortart bestimmt (lemmaRef/pos/corresp zu vrô ADJ (lemma_7250)). Zweiter Durchgang ueber die im ersten Lauf wegen mittlerer Konfidenz zurueckgehaltenen Belege, mit feststehendem Lemma und einem am Bestand gemessenen Prior; Verfahren, Regeln und zurueckgehaltene Faelle im Provenienz-Log: ingest/pos-disambig/387-fro-adjadv/. 4 weitere Tokens der Form fro blieben bewusst unannotiert (Review).</change>
       <change when="2026-09-23" who="#editor">#387 vrouwe/vrô, Resttokens: 4 Tokens annotiert nach den Einzelentscheidungen von KZW vom 17.09.2026 (lemmaRef/pos/corresp; kein @ana, weil die Sense-Zuordnung kuratorisch ist). Im ganzen Lauf: zwei Doppeltags ADJ NOM mit erklärendem @reason, wo KZW die Lesart für unentscheidbar erklärt hat, und drei neu geprägte Variantentypen nach der Regel aus #367.</change>
+      <change when="2026-10-08" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization ergänzt (67022 von 92061 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;&#34;</change>
     </revisionDesc>
   </teiHeader>
   <text>
