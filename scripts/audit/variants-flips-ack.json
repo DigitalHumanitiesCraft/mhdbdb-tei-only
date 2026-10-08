@@ -1,6 +1,6 @@
 {
-  "from": "1.9.18",
-  "to": "1.9.19",
-  "flips": 10,
-  "reason": "#370 Punkt 2: 461 neu gepraegte Typen (ANLEGEN, von KZW freigegeben) heben die Tokenzahl dieser Formen unter dem neuen Lemma; Vorschrift B (ADR-021) stellt es dadurch an die Spitze der Kandidatenliste. Die zehn Formen: boeze, geheisse, gepflaget, kochen, reisse, steigen, tir, vassen, verrens, weicz. Kein Typ wurde umgehaengt (Messung am 02.10.2026, Base origin/main 76eeedee6)."
+  "from": "1.9.19",
+  "to": "1.9.20",
+  "flips": 1,
+  "reason": "#533: die Form airt loest nicht mehr auf lemma_1324 ei auf, sondern auf lemma_305 art. Das war der Befund des Tickets: airt ist keine Schreibung von ei. Nach der Korrektur traegt die Form genau zwei Belege, je einen unter lemma_4510 ort (KSA1, umgekehrte Schreibung ai fuer o vor r) und lemma_305 art (MR2, ai fuer langes a vor r); bei 1:1 entscheidet nach Vorschrift B (ADR-021) die kleinere Lemmanummer, also art. variantCandidates fuehrt beide Lesarten (lemma_305, lemma_4510), es geht also keine verloren, und das falsche ei faellt heraus. Gemessen am 07.10.2026, Base origin/main f38b02ac8."
 }
