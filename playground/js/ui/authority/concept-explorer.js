@@ -17,6 +17,7 @@ import {
   SearchPatterns,
 } from "../search/SearchHelpers.js";
 import { TextNormalizer } from "../../../../assets/js/lib/text-normalizer.js";
+import { findByIdInput, withIdHit } from "../../../../assets/js/lib/authority-id-input.js";
 
 // Verweis auf die Begriffshilfe (#498): wer mit einem eigenen Begriff kommt, der im
 // Begriffssystem nicht steht, findet dort den Weg zu vorhandenen Begriffen.
@@ -52,7 +53,7 @@ export class ConceptExplorer {
   showConceptsWithSearch() {
     const searchHTML = createSearchInterface({
       title: "Begriffe-Explorer",
-      placeholder: "Begriff suchen (z.B. Freundschaft, Liebe, Ehre)",
+      placeholder: "Begriff oder ID suchen (z.B. Freundschaft, Liebe, concept_12040000)",
       searchInputId: "conceptSearch",
       resultsId: "conceptResults",
       totalCount: this.authorityData.concepts.length,
@@ -69,15 +70,19 @@ export class ConceptExplorer {
       return;
     }
 
-    const matches = SearchPatterns.multiFieldNormalized(
-      this.authorityData.concepts,
-      searchTerm,
-      [
-        (concept) => concept.termDE || "",
-        (concept) => concept.termEN || "",
-        (concept) => (concept.altDE || []).join(" "),
-        (concept) => (concept.altEN || []).join(" "),
-      ]
+    // #545: die Begriffshilfe nennt Begriffe mit ihrer ID
+    const matches = withIdHit(
+      findByIdInput(this.authorityData.concepts, "concept", searchTerm),
+      SearchPatterns.multiFieldNormalized(
+        this.authorityData.concepts,
+        searchTerm,
+        [
+          (concept) => concept.termDE || "",
+          (concept) => concept.termEN || "",
+          (concept) => (concept.altDE || []).join(" "),
+          (concept) => (concept.altEN || []).join(" "),
+        ]
+      )
     );
 
     const result = handleSearchResults(searchTerm, matches, {

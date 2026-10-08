@@ -141,6 +141,8 @@ The playground provides advanced research tools for medievalists and digital hum
 
 Browse and search six controlled vocabularies with consistent interface patterns.
 
+**IDs as input (#545):** every search field below also takes the entry's id, in the forms `concept_12040000`, `12040000`, `#concept_12040000` or `concepts.xml#concept_12040000`, so the suggestions of the Begriffshilfe (which names concepts by id) can be looked up directly. The id hit is added on top of the text hits rather than replacing them, and an id with another register's prefix finds nothing. Shared helper: `assets/js/lib/authority-id-input.js`. The concept distribution takes the same forms.
+
 **Person Explorer:**
 - Search by author name
 - Display: Name, GND/Wikidata links, work count

@@ -41,7 +41,7 @@ Nenne Zahlen, Lemmata und Mitbegriffe nur so, wie sie in der Liste stehen, und b
 ## So können die Vorschläge nachgeschlagen werden
 
 1. Öffne den [Begriffe-Explorer](https://dhcraft.org/mhdbdb-tei-only/playground/#concepts).
-2. Suche nach der empfohlenen deutschen Hauptbenennung. Vergleiche die angezeigte ID mit der empfohlenen ID. Das Suchfeld des Begriffe-Explorers durchsucht Benennungen, nicht IDs.
+2. Gib die empfohlene ID in das Suchfeld ein, ganz (`concept_12040000`) oder nur die Nummer (`12040000`). Der Begriff mit dieser ID steht dann oben. Prüfe, ob seine Benennung zur Empfehlung passt. Die Suche nach der deutschen Hauptbenennung geht ebenso.
 3. Wähle beim passenden Eintrag „Lemmata anzeigen“. Die Liste zeigt höchstens 20 Lemmata in alphabetischer Reihenfolge, bei großen Begriffen also nur einen kleinen Ausschnitt. Gib ein genanntes Lemma in das zusätzliche Suchfeld ein, um es zu finden, und klicke es an, um seine Details zu öffnen.
 
 Prüfe mehrere vorgeschlagene Begriffe zunächst einzeln. Ob eine Bedeutung zwei Begriffe zugleich trägt, lässt sich auf der Website heute nicht direkt abfragen; das zeigen nur die Lemma-Details. Ein sprachlich passender Einstieg garantiert noch keine passenden Belege.

@@ -17,6 +17,7 @@ import {
 
 import { displayResults } from "../core/ui-helpers.js";
 import { buildGenreSubtrees } from "../../../../assets/js/lib/genre-tree.js";
+import { findByIdInput, withIdHit } from "../../../../assets/js/lib/authority-id-input.js";
 
 // Self-contained per module (DESIGN.md §Escaping-Konvention).
 function escapeHtml(s) {
@@ -390,10 +391,13 @@ export class GenreExplorer {
     treffer?.classList.remove("hidden");
     baum?.classList.add("hidden");
 
-    let matches = SearchPatterns.multiFieldNormalized(
-      this.authorityData.genres,
-      searchTerm,
-      [(genre) => genre.termDE || "", (genre) => genre.termEN || ""]
+    let matches = withIdHit(
+      findByIdInput(this.authorityData.genres, "genre", searchTerm), // #545
+      SearchPatterns.multiFieldNormalized(
+        this.authorityData.genres,
+        searchTerm,
+        [(genre) => genre.termDE || "", (genre) => genre.termEN || ""]
+      )
     );
 
     // #119: optional filter to genres that have works, subgenres included (#433).

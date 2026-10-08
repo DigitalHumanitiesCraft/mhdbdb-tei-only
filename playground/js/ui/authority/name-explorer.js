@@ -15,6 +15,7 @@ import {
   formatMetadata,
   SearchPatterns,
 } from "../search/SearchHelpers.js";
+import { findByIdInput, withIdHit } from "../../../../assets/js/lib/authority-id-input.js";
 
 import { displayResults } from "../core/ui-helpers.js";
 
@@ -59,10 +60,13 @@ export class NameExplorer {
       return;
     }
 
-    const matches = SearchPatterns.multiFieldNormalized(
-      this.authorityData.names,
-      searchTerm,
-      [(name) => name.termDE || "", (name) => name.termEN || ""]
+    const matches = withIdHit(
+      findByIdInput(this.authorityData.names, "name", searchTerm), // #545
+      SearchPatterns.multiFieldNormalized(
+        this.authorityData.names,
+        searchTerm,
+        [(name) => name.termDE || "", (name) => name.termEN || ""]
+      )
     );
 
     const result = handleSearchResults(searchTerm, matches, {

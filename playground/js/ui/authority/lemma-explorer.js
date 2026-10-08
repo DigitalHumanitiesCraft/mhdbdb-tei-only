@@ -16,6 +16,7 @@ import {
   SearchPatterns,
 } from "../search/SearchHelpers.js";
 import { TextNormalizer } from "../../../../assets/js/lib/text-normalizer.js";
+import { findByIdInput, withIdHit } from "../../../../assets/js/lib/authority-id-input.js";
 
 /**
  * Mindestlänge der Eingabe im Wortbestandteil-Modus (#239 Anforderung 5).
@@ -243,7 +244,7 @@ export class LemmaExplorer {
       return;
     }
 
-    const matches = SearchPatterns.textContainsNormalized(
+    const textMatches = SearchPatterns.textContainsNormalized(
       this.authorityData.lemmata,
       searchTerm,
       (lemma) => lemma.lemma
@@ -251,7 +252,12 @@ export class LemmaExplorer {
 
     // #137: alphabetisch nach Lemma-Label sortieren (vorher implizit nach Lemma-ID),
     // VOR dem maxResults-Cut in handleSearchResults. Idiom wie concept-explorer.js.
-    matches.sort((a, b) => (a.lemma || "").localeCompare(b.lemma || "", "de"));
+    textMatches.sort((a, b) => (a.lemma || "").localeCompare(b.lemma || "", "de"));
+    // #545: ein ID-Treffer steht vor der alphabetischen Liste
+    const matches = withIdHit(
+      findByIdInput(this.authorityData.lemmata, "lemma", searchTerm),
+      textMatches
+    );
 
     const result = handleSearchResults(searchTerm, matches, {
       maxResults: 50,
