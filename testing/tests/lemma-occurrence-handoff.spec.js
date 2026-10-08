@@ -73,8 +73,9 @@ function zeugen(page, idA, idB) {
 }
 
 /**
- * Der Router hängt seinen Hash-Dispatch hinter das Laden von Authority- UND
- * Korpus-Index (playground-main.js: initRouter() nach autoLoadCorpus()). Jeder
+ * Die Multi-Lemma-Route wartet auf den Korpus-Index (seit #535 im Router,
+ * CORPUS_ROUTES; vorher startete der Router erst nach ihm), und
+ * playgroundBereit() wartet selbst auf corpusData.texts. Jeder
  * Test hier wartet damit auf den vollen Korpus, und dafür reicht das
  * 60-Sekunden-Budget aus der Config nicht, wenn sechs Worker denselben
  * single-threaded http-server bedienen. Begründung wie in playground.spec.js.

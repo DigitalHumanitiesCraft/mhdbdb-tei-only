@@ -15,6 +15,7 @@ Angelegt am 21.09.2026 für #443 (das Format) und #359 (die erste Anwendung).
 | `collect-370-evidence.py` | #370 Punkt 2: Belege, Kontext und Konkurrenzlemmata je Paar nach `ingest/wzb/370-corresp/evidenz.json` |
 | `build-370-entscheidungen.py` | #370 Punkt 2: `entscheidungen.csv` aus Evidenz und den Handurteilen in `urteile-manuell.csv` |
 | `build-370-pruefseite.py` | #370 Punkt 2: die Prüfseite `pruefseite-370.html` für die PRUEFSEITE-Paare |
+| `build-526-pruefseite.py` | #526 Punkt 4: die Prüfseite `ingest/pos-disambig/526-breve-wn/pruefseite-526.html` für die WZB-Breve-Tokens, die #536 nicht annotiert hat. Die Kandidaten stehen im Skript und werden beim Lauf gegen `lexicon.xml` geprüft |
 
 Das Material und die erzeugte Seite liegen unter
 [`ingest/review/359-borek/`](../../ingest/review/359-borek/README.md), nicht

@@ -20,8 +20,9 @@ import { test, expect } from '@playwright/test';
 test.describe('Arthurische Pferde (#193)', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(`/playground/#horses`);
-    // dispatchFromHash() laeuft erst nach Corpus-Load; danach laedt das Modul
-    // seinen eigenen Index lazy (fetch+pako, 11 KB)
+    // dispatchFromHash() laeuft seit #535 nach dem Authority-Index, nicht
+    // erst nach dem Korpus-Index; danach laedt das Modul seinen eigenen Index
+    // lazy (fetch+pako, 11 KB)
     await page.waitForSelector('#hxHorseSelect', { state: 'visible', timeout: 60000 });
   });
 
