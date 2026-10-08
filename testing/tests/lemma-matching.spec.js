@@ -18,7 +18,7 @@
  *    code yielded 689/369 (lemma_3089 etc.) — so this fails red on regression.
  */
 
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../warm-page.js';
 
 // CONTRACTS §B.1 case table — exact-token semantics.
 const CASES = [
