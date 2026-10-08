@@ -231,7 +231,13 @@ export class LemmaExplorer {
     // Lemmasuche und wird nach der Rückkehr auf einen anderen Begriff gelegt.
     this.discardComponentViewState();
     const eingabe = document.getElementById("lemmaSearch");
-    const term = eingabe ? eingabe.value.trim() : "";
+    let term = eingabe ? eingabe.value.trim() : "";
+    // Eine Lemma-ID (#545) ist kein Wortbestandteil: in deren Modus wird sie zur
+    // Schreibform des Lemmas, sonst fiele sie als Zeichenfolge "lemma_6794" durch
+    if (modus === "component") {
+      const lemma = findByIdInput(this.authorityData.lemmata, "lemma", term);
+      if (lemma) term = lemma.lemma || "";
+    }
     const teile = ["lemmata"];
     if (modus === "component") teile.push("mode=component");
     if (term) teile.push(`q=${encodeURIComponent(term)}`);
@@ -1126,19 +1132,11 @@ export class LemmaExplorer {
   }
 
   showLemmaDetails(lemmaId) {
-    // Navigate to Lemma Explorer with pre-filled search
-    this.showLemmataWithSearch();
-
     // Ueber die ID statt die Schreibform (seit #545): die Schreibform fand jedes
     // Lemma, das sie enthaelt ("stein" auch bechstein, steinwant), und das
-    // angeklickte stand irgendwo in der alphabetischen Liste
-    setTimeout(() => {
-      const searchInput = document.getElementById("lemmaSearch");
-      if (searchInput) {
-        searchInput.value = lemmaId;
-        this.searchLemmata(lemmaId);
-        searchInput.focus();
-      }
-    }, 0);
+    // angeklickte stand irgendwo in der alphabetischen Liste. Ueber den Hash wie
+    // switchLemmaSearchMode, damit das Ziel bookmarkbar ist und ein Neuladen
+    // nicht auf den Begriffe-Explorer zurueckfaellt; der Router fuellt das Feld.
+    window.location.hash = `lemmata&q=${encodeURIComponent(lemmaId)}`;
   }
 }
