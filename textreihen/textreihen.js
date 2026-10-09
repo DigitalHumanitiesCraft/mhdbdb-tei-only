@@ -28,8 +28,13 @@
     return node;
   }
 
+  /* Zwei Faltungen: ohne Akzente ("Beschworung") und mit deutscher Umschrift ("Beschwoerung"). */
   function normalize(s) {
     return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/ß/g, 'ss');
+  }
+  function translit(s) {
+    return s.toLowerCase().replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/ß/g, 'ss')
+      .normalize('NFD').replace(/[̀-ͯ]/g, '');
   }
 
   var CHEVRON = '<svg class="tr-chevron" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd"/></svg>';
@@ -51,7 +56,8 @@
       var parts = [id, label(id)];
       Object.keys(C[id].l).forEach(function (lg) { parts.push(C[id].l[lg]); });
       Object.keys(C[id].a || {}).forEach(function (lg) { parts = parts.concat(C[id].a[lg]); });
-      C[id]._s = normalize(parts.join(' | '));
+      var all = parts.join(' | ');
+      C[id]._s = normalize(all) + '\u0001' + translit(all);
     });
   }
 
@@ -248,7 +254,7 @@
     }
 
     var ps = c.p || [];
-    box.appendChild(section(ps.length > 1 ? 'Übergeordnet (' + ps.length + ' direkte Eltern)' : ps.length ? 'Übergeordnet' : 'Übergeordnet'));
+    box.appendChild(section(ps.length > 1 ? 'Übergeordnet (' + ps.length + ' direkte Eltern)' : 'Übergeordnet'));
     if (ps.length) {
       var pul = h('ul', { 'class': 'tr-linklist' });
       ps.slice().sort(function (a, b) { return label(a).localeCompare(label(b), 'de'); })
@@ -326,7 +332,11 @@
     box.innerHTML = '';
     if (!raw) { box.hidden = true; return; }
     var q = normalize(raw);
-    var hits = Object.keys(C).filter(function (id) { return C[id]._s.indexOf(q) !== -1; });
+    var variants = [q];
+    if (translit(raw) !== q) variants.push(translit(raw));
+    var hits = Object.keys(C).filter(function (id) {
+      return variants.some(function (v) { return C[id]._s.indexOf(v) !== -1; });
+    });
     box.hidden = false;
     var info = hits.length === 0 ? 'Keine Treffer' : hits.length + (hits.length === 1 ? ' Treffer' : ' Treffer') + (hits.length > MAX_RESULTS ? ' (die ersten ' + MAX_RESULTS + ' sind aufgelistet)' : '');
     box.appendChild(h('p', { 'class': 'tr-results-info', role: 'status', text: info }));

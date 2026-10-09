@@ -68,6 +68,10 @@ Referenz dient die ID (`c_` plus acht Hexstellen).
 | `data/textreihen.json` (SKOS-Browser) | `python scripts/build-textreihen.py` aus `data/skos/*.rj` | `--check` |
 | `bibliography.html`, Abschnitt zwischen `BIB:START` und `BIB:END` | `python scripts/build-textreihen-bibliography.py` aus der Zotero-Gruppe 4876216 | `--check` (offline, gegen `data/zotero-schnappschuss.json`) |
 
+`textreihen.json` ist die einzige Stelle, an der etwas an den Daten verändert wird, und nur
+in der Anzeige: 33 Bezeichnungen mit Leerraum am Rand (etwa "Losbuch ") werden getrimmt.
+Kanten, Konzepte und Bezeichnungen bleiben sonst unverändert.
+
 Die Bibliografie bleibt aktuell, indem jemand das Skript ohne `--offline` laufen lässt:
 es holt die Haupteinträge der öffentlichen Zotero-Gruppe neu (190 am 09.10.2026; die 205
 Items der API sind 190 Einträge, 12 Anhänge und 3 Notizen) und schreibt Schnappschuss und

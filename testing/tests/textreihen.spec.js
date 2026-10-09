@@ -162,9 +162,14 @@ test.describe('Textreihentypologie: SKOS-Browser', () => {
     test('Suche findet Kategorien und fuehrt in den Baum', async ({ page }) => {
         await page.goto('/textreihen/browser.html');
         await expect(page.locator('html[data-tr-ready="1"]')).toBeAttached();
-        await page.fill('#trSearch', 'beschwoerung'); // ohne Umlaut
-        await expect(page.locator('#trResults .tr-result')).toHaveCount(1);
-        await page.locator('#trResults .tr-result').click();
+        // ohne Umlaut, einmal ohne Akzent und einmal in deutscher Umschrift
+        // (Treffer sind auch Komposita wie Beschwörungsformel, deshalb wird der genaue Eintrag gewaehlt)
+        const genau = page.locator('#trResults .tr-result', { has: page.locator('.tr-result-name', { hasText: /^Beschwörung$/ }) });
+        await page.fill('#trSearch', 'beschworung');
+        await expect(genau).toHaveCount(1);
+        await page.fill('#trSearch', 'beschwoerung');
+        await expect(genau).toHaveCount(1);
+        await genau.click();
         await expect(page).toHaveURL(new RegExp('#' + BESCHWOERUNG + '$'));
         await expect(page.locator('#trDetail .tr-detail-title')).toHaveText('Beschwörung');
 
@@ -172,7 +177,10 @@ test.describe('Textreihentypologie: SKOS-Browser', () => {
         await page.fill('#trSearch', 'Minstrelsy');
         await expect(page.locator('#trResults .tr-result-name')).toContainText(['Minnesängerisches im Spruchsang']);
         await page.fill('#trSearch', 'c_f3e5cee1');
-        await expect(page.locator('#trResults .tr-result-name')).toHaveText(['Dietrichsepik']);
+        await expect(page.locator('#trResults .tr-result-name')).toHaveText(['Dietrichsepos']);
+        // "Dietrichsepik" aus dem How To ist eine Alternativbezeichnung derselben Kategorie
+        await page.fill('#trSearch', 'Dietrichsepik');
+        await expect(page.locator('#trResults .tr-result-name')).toHaveText(['Dietrichsepos']);
         await page.fill('#trSearch', 'xyzzy');
         await expect(page.locator('#trResults')).toContainText('Keine Treffer');
     });
