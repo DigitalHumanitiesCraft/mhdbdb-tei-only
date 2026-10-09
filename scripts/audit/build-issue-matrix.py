@@ -19,8 +19,9 @@ die belastbarere Quelle, weil sie am Ticket haengen und nicht an einem Absatz.
 ## Was generiert wird und was nicht
 
 Generiert (zwischen den Markern, jeder Handstand darin wird ueberschrieben):
-Quick Stats, Verteilung nach Bereich, die Ping-Liste aus `wait:*` und je eine
-Tabelle pro Autonomiestufe.
+ganz oben zwischen `PERSONEN` die Listen je Person; zwischen `MATRIX` Quick
+Stats, Verteilung nach Bereich, "Wer ist am Zug" (bei uns, Frage fehlt, die
+Zeile fuer Externe) und je eine Tabelle pro Autonomiestufe.
 
 Von Hand bleibt alles ausserhalb der Marker: die Legende des Schemas, die
 Arbeitsregeln und die Befundliste. Das ist Urteil und keine Zaehlung.
@@ -64,7 +65,7 @@ unmittelbar vor dem Umbau: 28 Labels, davon vier fuer denselben Sachverhalt).
 Wer ein Ticket anlegt und die Achsen nicht setzt, soll das im Gate sehen und
 nicht in vier Wochen.
 
-Umgekehrt gilt: `auto:blocked` ohne `wait:*` macht die Ping-Liste
+Umgekehrt gilt: `auto:blocked` ohne `wait:*` macht die Listen je Person
 unvollstaendig, und ein `wait:*` an einem nicht blockierten Ticket macht sie
 falsch. Beides ist ein Fehler und kein Hinweis.
 
@@ -76,8 +77,9 @@ waere: dieses Feld springt bei jeder Label-Aenderung auf heute. Beim Aufbau
 des Schemas am 05.08. standen dadurch schlagartig alle 52 Tickets auf
 demselben Datum, und die Sortierung "aeltestes zuerst" war wertlos.
 
-**In der Ping-Liste** steht das Datum der letzten Wortmeldung **der
-erwarteten Person**. Die Frage dort lautet "wie lange schweigt KZW zu
+**In der Ping-Liste** stand bis zum 09.10.2026 das Datum der letzten
+Wortmeldung **der erwarteten Person**; seither gibt es sie nur noch fuer
+Externe, fuer die Personen gilt "wer ist am Zug" (unten). Die Frage dort lautet "wie lange schweigt KZW zu
 diesem Ticket" und nicht "wann hat hier zuletzt jemand geschrieben". Der
 Unterschied ist am selben 05.08. teuer geworden: sieben Tickets bekamen an
 einem Nachmittag einen Nachmess-Kommentar, und die Ping-Liste zeigte sie
