@@ -11,7 +11,7 @@ Verdichtet am 08.10.2026. Zahlen in den Dateien sind Eingabe, keine Messung.
 - [TEI-Korpus](korpus_tei.md): Korpus-Index, pc/caesura, Vers/Prosa, WZB, Header, Findebuch-Dump #259
 - [Lexikon und Variants](lexikon_variants.md): Vorschrift B, Dangling-Filter, sense/@ana, Wortbestandteile #228, Ziffernlemmata
 - [Authority-Dateien](authority_dateien.md): concepts kein Baum, genre-Felder, Schema an vier Orten, Siglen
-- [Header-Spiegel](header_spiegel.md): Header als Kopie, sync_tei_headers-Fallen, particDesc-Zählung
+- [Header-Spiegel](header_spiegel.md): Header als Kopie, sync_tei_headers-Fallen, particDesc-Zählung, Zuschreibungsstatus #452
 - [Playground/Frontend](playground_frontend.md): Hash-Pfad, Multi-Lemma, Nummernpfad, Werkzeugzustand, Router-Start
 - [Fremdindizes](fremdindizes.md): Naming #420 und Pferde #193
 - [Prüfseiten](pruefseiten.md): Zitat-Gate, markup vs. e(), Generator-Laufzeit, 526-Prüfseite
