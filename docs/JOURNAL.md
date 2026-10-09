@@ -24,7 +24,7 @@ Vier, Nr. 115 bis 118: zweimal die unvollständige Gate-Liste vor dem Push (115 
 
 ### Was zurück an Christian geht
 
-Die Abnahme geht nach dem Merge an @wachauer allein, mit der Frage nach HOF und VDH (Stricker allein, der Anonym-Rest in `particDesc` bleibt mit veralteten Werklisten stehen) und der Frage, ob die Analysewerkzeuge alle Zuschreibungen zeigen sollen. Die Reviews liefen ausnahmsweise auf Opus statt Fable (Fable-Limit, Freigabe 09.10.); der volle Testlauf lief ohne gesetzten `MHDBDB_TEST_PORT`, also vermutlich auf dem Standardport 8080 statt auf dem zugeteilten 8083.
+Die Abnahme geht nach dem Merge an @wachauer allein, mit der Frage nach HOF und VDH (Stricker allein, der Anonym-Rest in `particDesc` bleibt mit veralteten Werklisten stehen) und der Frage, ob die Analysewerkzeuge alle Zuschreibungen zeigen sollen. Die Reviews liefen ausnahmsweise auf Opus statt Fable (Fable-Limit, Freigabe 09.10.); der erste volle Testlauf lief ohne gesetzten `MHDBDB_TEST_PORT`, also vermutlich auf dem Standardport 8080 statt auf dem zugeteilten 8083; die Koordination hat deshalb einen zweiten verlangt, der mit `MHDBDB_TEST_PORT=8083` auf dem Code-Endstand grün lief (473 Tests, 50 Dateien).
 
 ## 2026-10-04 (Koordination): Lauf vom 02.10. abgeschlossen, Parzival-Bücher und „Strophe“ auf `main`
 
