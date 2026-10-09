@@ -4,6 +4,34 @@ Chronological log of development decisions, dead ends, and savepoints. Not a cha
 
 ---
 
+## 2026-10-09 (Spur 93): #93, Umzug der Textreihentypologie auf `textreihen/`
+
+Die alte Website `marketext.at/Textreihentypologie` liegt als Unterseite unter `textreihen/`: elf Seiten (Start, About, How To, Visualization & Browser, Use cases, Outreach, Bibliography mit Literatursuche, Download, "Gattungs-Explorer in MHDBDB Next", die zwei Beiträge), erreichbar über einen Footer-Link und eine Kachel auf `hilfe.html`, ohne Menüpunkt. Datenbasis ist der unveränderte SKOS-Stand `86c233f08` (12.06.2023, CC BY 4.0 laut README des Quellrepos), nicht `genres.xml`; der SKOS-Browser zeigt die 618 Kategorien mit 894 `broader`-Aussagen, und eine Kategorie mit mehreren direkten Eltern steht unter jedem (193 von 618, "Beschwörung" unter zwölf). Die Bibliografie (190 Zotero-Einträge) ist statisch gebaut. Zwei Review-Runden, Volllauf grün (466 Tests). Offen: KZW hat nicht beantwortet, ob Logos, Startbild und drei Screenshots übernommen werden dürfen (Kommentar vom 09.10. in #93); der Merge wartet darauf.
+
+### Was über den Einzelfall hinausgilt
+
+**(a) Die Lizenz stand im README, nicht in einer Lizenzdatei.** GitHub zeigte `license: null`, und der Kommentar vom 10.08. in #93 schloss daraus "keine Lizenz". Wer die Rechte eines Repos prüft, liest die README und die Datensätze an anderer Stelle (hier die Hamburger DOI-Einträge, ebenfalls CC BY 4.0), nicht nur das Lizenzfeld.
+
+**(b) Eine Zählung am Dateitext ist keine Zählung der Aussagen.** 881 Zeilen mit `skos:broader`, 894 Aussagen (siehe Fehlerjournal 109). Dasselbe bei Zotero: 205 Items über `/items`, 190 Bibliografieeinträge über `/items/top`; das Skript muss sagen, welchen Endpunkt es holt.
+
+**(c) Die Beispiele einer Anleitung tragen Alternativbezeichnungen, nicht die Vorzugsbezeichnung.** "Dietrichsepik" im How To ist `altLabel` von "Dietrichsepos". Der Browser findet beides; ein Test, der den Titel einer Beispiel-ID aus der Anleitung erwartet, scheitert sonst.
+
+**(d) Ein gieriger Regex im Bauskript hat 190 von 190 Einträgen ein `</div>` mitgegeben, unsichtbar, weil `<main>` kein offenes `<div>` hatte** (Runde 1). Ein Test, der nur Zahlen zählt, merkt das nicht; die Spec prüft jetzt die Zeile.
+
+**(e) Die Mutationsprobe der Linkspec traf beim ersten Versuch beide eingebauten Fehler** (kaputter Anker, fehlendes Bild); damit ist belegt, dass sie Anker und Bildquellen wirklich prüft und nicht nur Seiten abruft.
+
+**(f) Die alte Website hatte zwei eigene Fehler**, die beim Umzug nicht mitgewandert sind: einen internen Link auf `dokument.html#MHDBDB` (Seite existiert nicht) und den Platzhalter "#DOI (wird nachgeliefert)". Beides steht in `textreihen/README.md`.
+
+### Rote Zeilen
+
+Eine, Nr. 109: die Zeilenzahl der Turtle-Datei als Zahl der Aussagen gemeldet.
+
+### Was zurück an Christian geht
+
+Nichts, was er entscheiden müsste. Für KZW (und zuerst Julia, einfache Abnahme) nach dem Merge: die drei Bildgruppen (Antwort auf den Kommentar in #93 steht aus), und die Prüfschritte der Unterseite. In `CLAUDE.md` fehlt `textreihen/` im Verzeichnisbaum (Inbox an die Koordination).
+
+---
+
 ## 2026-10-04 (Koordination): Lauf vom 02.10. abgeschlossen, Parzival-Bücher und „Strophe“ auf `main`
 
 Vier Vorgänge (#378, #370 Punkt 2, #358, #228) in drei Spuren, neun PRs gemergt; die Tabelle mit den Commits steht im Laufplan unter „Abnahme“. Die lokale Koordination hat am 03.10. an ihrem Fable-Limit an eine Cloud-Session übergeben, die #523 (A3) und #519 (B2) gemergt hat. Damit trägt der Parzival die 16 Bücher im TEI und zeigt sie als „Buch N“, die Dreißiger in PZ und WH heißen „Strophe N“. Bei KZW liegen jetzt die Prüfseite zu #370, der Mur-Vorschlag in #228 und die Abnahmen von #378, #228 und #358. Der `fable-reviewer` lief in der Cloud-Session ohne Limit; die Übergabe hat also getragen.
