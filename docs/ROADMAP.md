@@ -1,6 +1,6 @@
 # Roadmap
 
-Strategic priorities for the MHDBDB TEI Repository. Updated 2026-10-05.
+Strategic priorities for the MHDBDB TEI Repository. Last full pass 2026-10-05; the #28 and #216 lines updated 2026-10-09.
 
 See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/44) for the full triage matrix with per-issue status.
 
@@ -25,22 +25,21 @@ them are decisions plus a few named repairs.**
   KZW left open and the 2 that would need a new lemma, and both groups sit with
   her. #371 stays open for her acceptance.
 - `minne` (#216) applied 5,435 tokens and held back 1,547. What is still ours
-  is listed in the thread, among it the NAM lemma "Minne", the repair cases
-  `SAX_24200_4` and `MR2_27022210102100_5`, the WVV address cases, the
+  is listed in the thread, among it the NAM lemma "Minne", the repair case
+  `MR2_27022210102100_5` (`SAX_24200_4` was fixed on 2026-10-09), the WVV address cases, the
   `GWTK` suspects and a rule for POS-TAGSET.md.
 - Series 3 (`sere`, `not`, `nam`, `leit` and the rest of the list from PR #210)
   does not start while two series wait on editorial feedback.
 
-**#28 (foreign language) has its pre-check done and owes two steps of its
+**#28 (foreign language) has its pre-check done and owes one step of its
 own.** On 2026-09-23 the 26 lemmata with more than 500 attestations were checked
 against corpus context, existing annotation and a dictionary each: 16 borrowed,
 1 Latin quotation word, 7 not foreign at all, 2 uncertain. One question went to
 KZW: does "UR no" from 2026-07-29 also hold for the origin layer in the lexicon?
-Two steps were announced in the same comment as not waiting for that answer,
-and neither has happened yet: removing the unattested sense copies at
-`engebrechen` and `gebrechenhaft` (KZW's decision of 2026-09-10; both entries
-still carry `concept_23123000`, checked 2026-10-05), and the list of Latin
-attestations for layer A.
+Two steps were announced in the same comment as not waiting for that answer.
+One is done: the unattested sense copies at `engebrechen` and `gebrechenhaft`
+(KZW's decision of 2026-09-10) were removed on 2026-10-09, authority index
+1.9.21. The other is still ours: the list of Latin attestations for layer A.
 
 **Some tickets carry no work of ours any more, only an acceptance or one
 answer:** #251 has a released check path since 2026-09-23 and one design

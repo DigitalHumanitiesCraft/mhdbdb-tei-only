@@ -11,7 +11,7 @@
  * Index, in der `noCorpus` an drei Lemmata gesetzt ist. Sie prüft damit die
  * Anzeigeregel unabhängig davon, ob der Build das Feld schon schreibt.
  * Der Gegenstand, an dem die Regel hängt, sind drei Fälle:
- *   Mur (lemma_66692)  ohne Beleg, von Murouwe und Murstat genannt: Hinweis
+ *   Mur (lemma_66692)  ohne Beleg, von Murouwe genannt: Hinweis
  *   Kontrolle A        ohne Beleg, von niemandem genannt: kein Hinweis
  *   ouwe (lemma_4532)  von Murouwe genannt, aber belegt (kein noCorpus): kein Hinweis
  */
