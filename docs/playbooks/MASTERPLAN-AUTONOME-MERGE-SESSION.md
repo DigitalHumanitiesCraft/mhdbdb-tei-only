@@ -45,7 +45,7 @@ Ein PR wird nur gemerged, wenn ALLE Gates grün sind:
 
 ### Phase 3: Abschluss
 1. Verifizieren, dass alle Closes-Issues wirklich zu sind; Part-of-Issues offen geblieben.
-2. **KZW-UI-Pings** für live gegangene UI-Features (Projektkonvention: @wachauer mit Live-URL + Test-Hinweisen; Issues offen lassen bis ihr OK — nur wo das Kommentar-Budget des Issues es erlaubt).
+2. **Abnahme-Pings** für live gegangene UI-Features (Projektkonvention: Live-URL + Test-Hinweise; einfache Abnahmen zuerst an @juliahin, @wachauer mitgenannt, siehe Betriebsvertrag Regel 8; Issues offen lassen bis zum OK; nur wo das Kommentar-Budget des Issues es erlaubt).
 3. #44-Matrix aktualisieren: Bucket „PR offen" auflösen → Recently Completed; Quick Stats neu.
 4. ROADMAP „Now" nachziehen; JOURNAL-Eintrag (Merges, CI-/Deploy-Vorkommnisse, Lehren).
 5. Abschlussreport als Nachtrag im bestehenden #44-Session-Kommentar (Edit, kein neuer Kommentar).

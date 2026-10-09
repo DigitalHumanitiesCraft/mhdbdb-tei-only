@@ -21,7 +21,7 @@ Der Teil des Vertrags, der für **alle** autonomen Sessions gleich lautet. Die d
 
 ## 3. Wie kommuniziert wird
 
-8. **Höchstens ein sachlicher Statuskommentar pro Issue.** Etablierte Ausnahme: der KZW-UI-Ping nach dem Live-Gang, der zur Abnahme gehört.
+8. **Höchstens ein sachlicher Statuskommentar pro Issue.** Etablierte Ausnahme: der Abnahme-Ping nach dem Live-Gang. Einfache Abnahmen gehen seit dem 09.10.2026 zuerst an Julia, KZW wird mitgenannt (`CLAUDE.md` → Working an Issue).
 9. **Nicht fragen, nicht warten.** Alles Nötige liegt im Repo und in den Issue-Threads (`gh issue view N --json comments`). Nur nachweislich Unbeschaffbares wird im Abschlussreport dokumentiert übersprungen.
     - **Zu jedem angefassten Issue werden die Kommentare gelesen, nicht nur der Body. Immer** (chsteiner, 06.09.2026). Der Body ist der älteste Text im Ticket, und in einem laufenden Projekt ist der älteste Text der unwahrscheinlichste. Die Entscheidungen, die Messungen und die Richtigstellungen stehen im Thread: #216 führt sein ganzes Arbeitspaket in zwölf Kommentaren und nennt im Body das Wort *vrouwe* kein einziges Mal, #392 bis #394 sagen im Body „zu entscheiden" und im Kommentar „umgesetzt und gemergt". Wer nur den Body liest, ist nicht uninformiert, sondern falsch informiert. Messung in `CLAUDE.md` → Working an Issue.
 10. **Stil:** keine Emoji-Icons (Heroicons inline SVG ist der einzige Icon-Stil), keine Em-Dashes in Prosa, echte Umlaute statt ASCII-Ersatz. Die Sprachregel nach Zielgruppe steht in `CLAUDE.md`.

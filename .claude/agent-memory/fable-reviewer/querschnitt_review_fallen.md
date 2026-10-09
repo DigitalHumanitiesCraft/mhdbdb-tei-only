@@ -29,6 +29,8 @@ Verdichtet 08.10.2026.
 - **Der Laufplan ist Anforderungsquelle und bewegt sich nach dem Abzweig** (`docs/playbooks/kickoffs/2026-10-02-lauf.md`: nach der Basis kamen zwei Commits, einer verlangte eine DEVELOPMENT.md-Zeile für eine neue Spec). `git diff <basis> origin/main` auf den Kickoff zeigt die Pflicht. Allaussagen im Diff gegen den Laufplan-Paragraphen halten, aus dem sie stammen.
 - `docs/playbooks/kickoffs/<datum>-*.md` und `docs/JOURNAL.md`-Einträge sind datierte Protokolle: zitieren sie eine inzwischen geänderte CLAUDE.md-Regel, ist das kein Befund.
 - Die `CLAUDE.md` im Session-Kontext kann älter sein als HEAD. Jeden Verweis „steht in CLAUDE.md" mit `git grep` auf HEAD messen.
+- **Eine Regel aus einem Issue-Kommentar hat neben dem Wortlaut eine zweite Quelle: die Label-Ereignisse der Autorin Sekunden danach** (`gh api .../issues/N/timeline --jq 'select(.event=="labeled" or .event=="unlabeled")'`). Am 09.10.2026 (#378) schrieb KZW „Julia vorreihen" und setzte `wait:julia` **dazu**, ohne `wait:kzw` zu entfernen; die Auslegung „wait:julia statt wait:kzw" im Diff war damit an der Quelle widerlegt, obwohl der Kommentartext sie zuließ.
+- **Ein Zitat mit „mich"/„ich" im Auftrag gehört der Person, die der Auftrag als Sprecher nennt.** Die Paraphrase im Diff kann das Pronomen stillschweigend auf eine andere Person umhängen (09.10.2026: „Das kostet mich nur sinnlos Zeit", Christian, wurde zu „costs KZW time"). Jede Zuschreibung gegen das Pronomen im Wortlaut halten.
 
 **Fehlerjournal**
 - `claude-code-setup/hooks/lehren-zaehlen.py` parst dieses Journal nicht (Format `### N. Rot:`): Ketten von Hand über den Absatz „Die Lehre, die nicht gegriffen hat". Nummern werden je Spur vorab reserviert: Sprünge sind kein Befund.
