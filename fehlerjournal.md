@@ -1181,3 +1181,13 @@ Auto-Mode-Classifier abgelehnt, und die Blockade ging an Christian.
 **Was es getragen hat:** eine weitere Review-Runde. Behoben in `75e5caf10`. Die Runde 5 hat den Sweep umgekehrt (vom Eingabefeld rückwärts, jede Stelle mit Befund oder Ausschluss in einer Tabelle) und keine weitere Stelle gefunden.
 
 **Mechanismus: die Methode, nicht eine Vorrichtung.** Der Sweep von der Eingabe her ersetzt die Suche nach dem Feldnamen; im Reviewer-Memory (`header_spiegel.md`) steht das Vorgehen. Ein Hook ist dafür nicht gebaut, weil die Fälle in Template-Strings verschiedener Dateien liegen und keine feste Form haben.
+
+### 118. Rot: nach Eintrag 115 am selben Tag wieder ein CI-Gate nicht lokal gelaufen, `check-doc-inventories.py` (Spur 452, 09.10.2026).
+
+**Rot.** Nach 115 habe ich vor dem Push die Schritte nicht aus den Workflow-Dateien abgelesen. `no-cdn-check.yml` ruft `scripts/audit/check-doc-inventories.py` auf (Z. 165). Es meldete, dass die neue Spec `attribution-status.spec.js` in `docs/DEVELOPMENT.md` und das neue Modul `assets/js/lib/attributions.js` in `assets/js/lib/README.md` fehlten; der Check `check` auf PR #556 war rot, bevor irgendein Mensch den PR las. Lokal nach der Korrektur: Spec 50 von 50, Module 13 von 13.
+
+**Die Lehre steht in `docs/DATA-MODEL.md` (Data-Change-Lifecycle): die Gates einer Änderung sind die Schritte der Workflow-Dateien, nicht eine Liste aus dem Gedächtnis.** Die letzte Zeile zu dieser Lehre ist Eintrag 115.
+
+**Was es getragen hat:** eine weitere CI-Runde auf dem PR. Behoben im Commit nach `002f65a86`.
+
+**Mechanismus: zweite Zeile, noch keine dritte.** Bei der nächsten Zeile zu dieser Lehre wird gewechselt; Vorschlag: eine Schleife über alle `run:`-Schritte der drei Workflows als Skript in `scripts/audit/`, die ein Mensch oder eine Session vor dem Push einmal aufruft.

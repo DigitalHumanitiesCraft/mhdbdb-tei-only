@@ -14,13 +14,13 @@ Ein Vorgang (#452, im Zusammenhang mit #444) auf dem Zweig `claude/452-zuschreib
 
 **(b) Die Fehlerklasse „Autor als Zeichenkette“ hat drei Runden gebraucht.** Gefunden wurde sie nacheinander in `app.js` (Runde 2), in Dateiliste und Reim-Textfilter des Playgrounds (Runde 3) und im Tippfilter des Textvergleichs (Runde 4). Erst der Sweep in Runde 5 ging vom Eingabefeld rückwärts statt von `text.author` vorwärts und fand nichts mehr. Ein Suchlauf über `text.author` übersieht zusammengesetzte Strings (Beschriftungen, `data-`Attribute); das Eingabefeld ist der bessere Ausgangspunkt.
 
-**(c) Vor dem Push alle Schritte aus `data-integrity.yml` lokal laufen lassen, nicht die Liste aus dem Gedächtnis.** `check-author-refs.py` fehlte in meiner Liste und war in der CI rot. Behoben mit einer Ausnahme für verworfene Zuschreibungen (`0e5f1ab6e`), die die Koordination wegen des Freezes auf diesem Skript freigegeben hat.
+**(c) Vor dem Push alle Schritte aus `data-integrity.yml` lokal laufen lassen, nicht die Liste aus dem Gedächtnis.** `check-author-refs.py` fehlte in meiner Liste und war in der CI rot; nach dem PR ging es mit `check-doc-inventories.py` (neue Spec und neues Lib-Modul fehlten in den Inventaren) noch einmal so. Wer eine Spec oder ein Modul anlegt, zieht `docs/DEVELOPMENT.md` und `assets/js/lib/README.md` im selben Zug nach. Behoben mit einer Ausnahme für verworfene Zuschreibungen (`0e5f1ab6e`), die die Koordination wegen des Freezes auf diesem Skript freigegeben hat.
 
 **(d) Die Werkesuche zählt Autorfelder fest auf** (`attributionNames(work)[1]`, `[2]`). Bei höchstens zwei zählenden Autoren je Werk (gemessen vom Reviewer) reicht das; bekommt ein Werk einen dritten, findet niemand den, und kein Test merkt es.
 
 ### Rote Zeilen
 
-Drei, Nr. 115 bis 117: die unvollständige Gate-Liste vor dem Push und zwei Wiederholungen der Fehlerklasse aus (b), nachdem die Lehre schon im Reviewer-Memory stand.
+Vier, Nr. 115 bis 118: zweimal die unvollständige Gate-Liste vor dem Push (115 `check-author-refs.py`, 118 `check-doc-inventories.py`, beide erst in der CI rot) und zwei Wiederholungen der Fehlerklasse aus (b), nachdem die Lehre schon im Reviewer-Memory stand.
 
 ### Was zurück an Christian geht
 
