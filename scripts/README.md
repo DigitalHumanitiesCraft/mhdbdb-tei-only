@@ -11,6 +11,8 @@ scripts/
 ├── build-begriffshilfe.py       # Begriffshilfe-Download (assets/downloads/mhdbdb-begriffshilfe.md) aus concepts.xml, lexicon.xml und w/@ana; deterministisch, CI-Freshness-Gate (#498)
 ├── build-corpus-index.py        # Korpus-Index generieren
 ├── build-pages.py               # Nav/Footer/Matomo aus includes/ in alle Seiten injizieren (--check Drift-Gate)
+├── build-textreihen.py          # Textreihentypologie: SKOS (RDF/JSON, unverändert aus textseries 86c233f08) -> textreihen/data/textreihen.json für den SKOS-Browser (--check Drift-Gate, #93)
+├── build-textreihen-bibliography.py # Textreihentypologie: Zotero-Gruppe 4876216 -> statische Bibliografie in textreihen/bibliography.html samt Schnappschuss (--offline, --check, #93)
 ├── build-vendor.js              # Vendored JS-Dependencies bündeln
 ├── python-bin.js                # Python-Interpreter auflösen statt raten (#318)
 ├── run-python.js                # Wrapper, über den die npm-Skripte Python starten (#318)

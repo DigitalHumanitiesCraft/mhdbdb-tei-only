@@ -433,6 +433,14 @@ Corpus and authority data were never stored here. The playground reads them thro
 
 **Freshness:** same pattern as the API. The build is deterministic (no date, no commit hash, LF, the only provenance is the SHA-256 of `concepts.xml`), `npm run build:data` runs it last, and the CI step "Freshness Begriffshilfe" in `data-integrity.yml` rebuilds it and fails on any difference under `assets/downloads/`.
 
+## Textreihentypologie subsite (`textreihen/`)
+
+**What it is:** the moved website of the MHDBDB text-series typology (#93, formerly `marketext.at/Textreihentypologie`): 11 static pages in the shared site chrome (registered in `build-pages.py`, reached through the footer link and a tile on `hilfe.html`, no menu entry), its own `textreihen.css` with `tr-` classes so that the compiled Tailwind stylesheet stays untouched, and two small scripts: `textreihen.js` (the SKOS browser) and `bibliografie.js` (the bibliography filter).
+
+**Data, and why it is not `genres.xml`:** the vocabulary is the SKOS data set of Middle-High-German-Conceptual-Database/textseries, commit `86c233f08` (2023-06-12), kept unchanged in `textreihen/data/skos/` (`.ttl`, `.rdf`, `.rj` plus the repository README, which names the licence CC BY 4.0). The texts and publications refer to exactly this state, so there is deliberately **no comparison** with `authority-files/genres.xml`, which the MHDBDB maintains separately as TEI; nothing under `tei/`, `authority-files/`, `data/` or `api/` is read or written. `scripts/build-textreihen.py` reads the `.rj` with the standard library and writes `textreihen/data/textreihen.json` (618 concepts, 894 `skos:broader` statements, three roots). It keeps every `broader` statement, including the 65 that another parent of the same concept already covers transitively: a concept with several direct parents appears under each of them.
+
+**No runtime dependency:** the browser loads only `data/textreihen.json`. The historical concept URIs (`https://dhplus.sbg.ac.at/mhdbdb/instance/c_...`, a domain that no longer resolves) appear as text identifiers and are never links. The bibliography (190 entries of the Zotero group 4876216) is built statically by `scripts/build-textreihen-bibliography.py` into `bibliography.html` between `BIB:START` and `BIB:END` markers, from the snapshot `data/zotero-schnappschuss.json`; rerunning the script without `--offline` pulls the current group state. `--check` on both scripts is the drift gate.
+
 ## External Services
 
 ### Wörterbuchnetz API
