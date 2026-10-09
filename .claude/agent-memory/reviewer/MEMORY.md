@@ -18,4 +18,4 @@ Verdichtet am 08.10. und 10.10.2026. Zahlen in den Dateien sind Eingabe, keine M
 - [Parzival-Bücher #358](projekt_parzival_buecher_358.md): OCR-Messrezept Bartsch/Martin, Fallen, Proben
 - [WZB-Nachannotierung #370/#526](projekt_526_breve_makron.md): Tafelskripte, ANLEGEN-Falle, Guard-Grenzen, Index-Abgleich
 - [Glossar-Export #554](projekt_glossar_554.md): PII-Rezept für WordPress-Exporte, öffentliche Attachments
-- [Textreihen-Unterseite #93](projekt_93_textreihen.md): alte Site per curl + Textvergleich prüfen, Zotero-Endpunkte, Befunde Runde 1
+- [Textreihen-Unterseite #93](projekt_93_textreihen.md): alte Site per curl + Textvergleich prüfen, Zotero-Endpunkte (`format=versions`), Befunde Runde 1 und 2
