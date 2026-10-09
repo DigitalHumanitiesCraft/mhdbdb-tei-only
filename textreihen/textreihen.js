@@ -357,8 +357,9 @@
 
   /* ---------- Start ---------- */
   function fromHash() {
-    var id = decodeURIComponent(location.hash.replace(/^#/, ''));
-    if (id && C[id]) select(id, true);
+    /* IDs sind c_ plus acht Hexstellen und nie kodiert: kein decodeURIComponent, das bei "#%" wirft */
+    var id = location.hash.replace(/^#/, '');
+    if (id && Object.prototype.hasOwnProperty.call(C, id)) select(id, true);
   }
 
   function init() {

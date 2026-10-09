@@ -10,11 +10,26 @@
 
 import { test, expect } from '@playwright/test';
 import { readdirSync } from 'node:fs';
+import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
 const SEITEN_DIR = join(dirname(fileURLToPath(import.meta.url)), '..', '..', 'textreihen');
 const BESCHWOERUNG = 'c_624b0297'; // zwoelf direkte Eltern in der SKOS-Quelle
+
+// Git-Blob-SHA-1 der vier Quelldateien im Commit 86c233f08 des Repos textseries (steht auch in textreihen/README.md)
+const QUELLE_BLOBS = {
+    'MHDBDB-Textreihentypologie.ttl': '8d7f05fc5c2d69db446ddf345a518a507ac3cf35',
+    'MHDBDB-Textreihentypologie.rdf': 'c14784d5e1c257e6bab3b251d0c52862b53aceca',
+    'MHDBDB-Textreihentypologie.rj': '755772bdbb0d14c5a51834fdda68efc0a0cd8e14',
+    'README-textseries-repo.md': '85b10768ad51f709ed95e1067ae43a91c427263a',
+};
+
+function gitBlobSha1(buf) {
+    // Zeilenenden normalisieren: ein Windows-Checkout mit autocrlf liefert CRLF, der Blob im Commit ist LF
+    const lf = Buffer.from(buf.toString('latin1').replace(/\r\n/g, '\n'), 'latin1');
+    return createHash('sha1').update(`blob ${lf.length}\0`).update(lf).digest('hex');
+}
 
 function internalRefs(html) {
     const refs = [];
@@ -104,6 +119,10 @@ test.describe('Textreihentypologie: Seiten, Links, Downloads', () => {
         }
         const ttl = await (await request.get('/textreihen/data/skos/MHDBDB-Textreihentypologie.ttl')).text();
         expect((ttl.match(/a skos:Concept\b/g) || []).length).toBe(618);
+        for (const [datei, sha] of Object.entries(QUELLE_BLOBS)) {
+            const r = await request.get(`/textreihen/data/skos/${datei}`);
+            expect(gitBlobSha1(await r.body()), datei).toBe(sha);
+        }
         await expect(page.locator('main')).toContainText('86c233f08');
         await expect(page.locator('main')).toContainText('CC BY 4.0');
     });
@@ -185,6 +204,15 @@ test.describe('Textreihentypologie: SKOS-Browser', () => {
         await expect(page.locator('#trResults')).toContainText('Keine Treffer');
     });
 
+    test('ein kaputter oder unbekannter Hash stoert den Start nicht', async ({ page }) => {
+        for (const hash of ['%E0', '%', 'c_00000000', 'constructor']) {
+            await page.goto(`/textreihen/browser.html#${hash}`);
+            await expect(page.locator('html[data-tr-ready="1"]'), hash).toBeAttached();
+            await expect(page.locator('#trTree .tr-error')).toHaveCount(0);
+            await expect(page.locator('#trTree > li')).toHaveCount(3);
+        }
+    });
+
     test('Auf- und Zuklappen ohne Suche', async ({ page }) => {
         await page.goto('/textreihen/browser.html');
         await expect(page.locator('html[data-tr-ready="1"]')).toBeAttached();
@@ -202,7 +230,13 @@ test.describe('Textreihentypologie: SKOS-Browser', () => {
 
 test.describe('Textreihentypologie: Bibliografie', () => {
 
-    test('190 Eintraege, Textsuche und Schlagwort-Filter', async ({ page }) => {
+    test('190 Eintraege, Textsuche und Schlagwort-Filter', async ({ page, request }) => {
+        // kein Eintrag darf ein verwaistes </div> mitbringen (ein gieriger Regex im Bauskript hat das einmal getan)
+        const html = await (await request.get('/textreihen/bibliography.html')).text();
+        const eintraege = html.split('\n').filter((z) => z.includes('class="tr-bib-entry"'));
+        expect(eintraege.length).toBe(190);
+        expect(eintraege.filter((z) => z.includes('</div>'))).toEqual([]);
+
         await page.goto('/textreihen/bibliography.html');
         const alle = page.locator('#bibList > li');
         await expect(alle).toHaveCount(190);
