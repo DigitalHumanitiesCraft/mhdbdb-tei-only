@@ -62,6 +62,18 @@ PAGES = {
     "hilfe-schema.html": ("hilfe", ""),
     "lemma/index.html": (None, "../"),
     "playground/index.html": ("playground", "../"),
+    # Unterseite Textreihentypologie (#93): hat keinen eigenen Menuepunkt, der Zugang laeuft ueber Footer und Hilfe-Kachel
+    "textreihen/index.html": (None, "../"),
+    "textreihen/about.html": (None, "../"),
+    "textreihen/how-to.html": (None, "../"),
+    "textreihen/browser.html": (None, "../"),
+    "textreihen/use-cases.html": (None, "../"),
+    "textreihen/outreach.html": (None, "../"),
+    "textreihen/bibliography.html": (None, "../"),
+    "textreihen/download.html": (None, "../"),
+    "textreihen/gattungs-explorer-next.html": (None, "../"),
+    "textreihen/aufruf-zur-mitarbeit.html": (None, "../"),
+    "textreihen/poster.html": (None, "../"),
 }
 
 # Pages that carry ONLY the Matomo region, not the shared nav/footer chrome.
