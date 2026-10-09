@@ -488,6 +488,17 @@ def parse_works():
         notes_by_target = {}
         for note_el in work_el.xpath('./tei:note[@type="attribution"]', namespaces=ns):
             target = (note_el.get('target') or '').lstrip('#')
+            # Defensiv parsen: eine Note, die auf keinen <author> dieses Werks
+            # zeigt, oder zwei Noten auf dasselbe Ziel wuerden still ihren
+            # Beleg verlieren (das Schema verlangt fuer target nur text)
+            author_ids = {a.get('{http://www.w3.org/XML/1998/namespace}id') for a in author_el}
+            if target not in author_ids:
+                raise ValueError(
+                    f"{work_id}: <note type=\"attribution\" target=\"{note_el.get('target')}\"> "
+                    f"zeigt auf keinen <author> mit diesem xml:id")
+            if target in notes_by_target:
+                raise ValueError(
+                    f"{work_id}: zwei <note type=\"attribution\"> mit dem Ziel {target}")
             notes_by_target[target] = ' '.join(''.join(note_el.itertext()).split())
         attributions = []
         for a_el in author_el:
