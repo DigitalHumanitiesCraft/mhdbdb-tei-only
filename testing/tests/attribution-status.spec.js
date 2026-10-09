@@ -141,7 +141,7 @@ test.describe('Zuschreibungsstatus: Personenansicht und Anzeigetexte', () => {
     });
 
     test('Werke-Explorer: die Suche nach Konrad findet RHB und nennt alle Zuschreibungen', async ({ page }) => {
-        await page.goto('/playground/#works&q=Konrad+von+W%C3%BCrzburg');
+        await page.goto('/playground/#works&q=Konrad%20von%20W%C3%BCrzburg');
         await expect(page.locator('#workResults')).toContainText('Die Halbe Birne', { timeout: 60000 });
         await expect(page.locator('#workResults')).toContainText('Anonym; Konrad von Würzburg (umstritten)');
     });
