@@ -75,6 +75,17 @@ test.describe('Playground Corpus Loading', () => {
  */
 test.describe('Playground: Korpusauswahl wirkt (#204)', () => {
 
+    // Korpusweite Zahl der minne-Vorkommen (lemma_4130), so formatiert, wie
+    // das Kookkurrenz-Ranking sie anzeigt. Aus dem Index gelesen statt
+    // eingetragen: als feste Zahl brach sie bei jeder minne-Annotation, und
+    // die not.toContainText-Proben unten waeren danach still gruen geblieben.
+    async function korpusweitMinne(page) {
+        const n = await page.evaluate(() => window.playground.corpusData.texts
+            .reduce((s, t) => s + (t.lemmata['lemma_4130']?.length || 0), 0));
+        expect(n).toBeGreaterThan(1000);
+        return n.toLocaleString('de-DE');
+    }
+
     test.beforeEach(async ({ page }) => {
         await page.goto('/playground/');
         await page.waitForSelector('#fileBrowserSection', { state: 'visible', timeout: 60000 });
@@ -121,6 +132,7 @@ test.describe('Playground: Korpusauswahl wirkt (#204)', () => {
             window.playground.corpusData.texts.find(t => t.id === 'CR').lemmata['lemma_4130'].length
         );
         expect(erwartet).toBe(14);
+        const korpusweit = await korpusweitMinne(page);
 
         await page.locator('#showCooccurrenceRankingBtn').click();
         await page.waitForSelector('#coRkSearchBtn', { state: 'visible', timeout: 60000 });
@@ -130,7 +142,7 @@ test.describe('Playground: Korpusauswahl wirkt (#204)', () => {
 
         await expect(page.locator('#resultsContainer')).toContainText(`${erwartet} Vorkommen`, { timeout: 15000 });
         // Der korpusweite Wert darf gerade NICHT mehr dastehen
-        await expect(page.locator('#resultsContainer')).not.toContainText('7.161 Vorkommen');
+        await expect(page.locator('#resultsContainer')).not.toContainText(`${korpusweit} Vorkommen`);
     });
 
     test('Kookkurrenz verwirft ein Ergebnis, das ueber eine andere Textmenge lief', async ({ page }) => {
@@ -139,18 +151,19 @@ test.describe('Playground: Korpusauswahl wirkt (#204)', () => {
         // korpusweites Ergebnis. Gemessen am 15.09.: nach korpusweitem "minne"
         // (7.161) und Verengung auf CR stand beim erneuten Oeffnen weiter
         // 7.161 statt 14, und zwar dauerhaft, nicht nur bis zum Neuoeffnen.
+        const korpusweit = await korpusweitMinne(page);
         await page.locator('#showCooccurrenceRankingBtn').click();
         await page.waitForSelector('#coRkSearchBtn', { state: 'visible', timeout: 60000 });
         await page.fill('#coRkQuery', 'minne');
         await page.press('#coRkQuery', 'Escape');
         await page.click('#coRkSearchBtn');
-        await expect(page.locator('#resultsContainer')).toContainText('7.161 Vorkommen', { timeout: 30000 });
+        await expect(page.locator('#resultsContainer')).toContainText(`${korpusweit} Vorkommen`, { timeout: 30000 });
 
         await page.locator('#fileFilter').fill('mori');
         await page.locator('#selectOnlyVisibleBtn').click();
         await page.locator('#showCooccurrenceRankingBtn').click();
 
-        await expect(page.locator('#resultsContainer')).not.toContainText('7.161 Vorkommen');
+        await expect(page.locator('#resultsContainer')).not.toContainText(`${korpusweit} Vorkommen`);
         expect(await page.evaluate(() => window.playground.ui.cooccurrenceRanking.state.result)).toBeNull();
 
         // Und neu gerechnet kommt der Wert des Einzeltexts heraus
