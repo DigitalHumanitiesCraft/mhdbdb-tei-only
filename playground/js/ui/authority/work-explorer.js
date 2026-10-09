@@ -16,6 +16,24 @@ import {
   SearchPatterns,
 } from "../search/SearchHelpers.js";
 import { findByIdInput, withIdHit } from "../../../../assets/js/lib/authority-id-input.js";
+import {
+  ADAPTER_LABEL,
+  attributionNames,
+  adapters,
+  countingAttributions,
+  formatAttribution,
+  formatAttributionList,
+  formerAttributions,
+} from "../../../../assets/js/lib/attributions.js";
+
+// Self-contained per module (DESIGN.md §Escaping-Konvention): nur für den
+// Beleg-Tooltip der Zuschreibungen (#452)
+function escapeAttr(s) {
+  if (s == null) return "";
+  return String(s).replace(/[&<>"']/g, (c) => (
+    { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]
+  ));
+}
 
 export class WorkExplorer {
   constructor(authorityData) {
@@ -54,6 +72,10 @@ export class WorkExplorer {
         [
           (work) => work.title,
           (work) => work.author || "",
+          // #452: weitere Autor*innen (umstritten, unsicher) finden das Werk
+          // ebenfalls; jede Form wird einzeln geprüft, nicht zusammengezogen
+          (work) => attributionNames(work)[1] || "",
+          (work) => attributionNames(work)[2] || "",
           (work) => work.sigle || "",
         ]
       )
@@ -72,7 +94,9 @@ export class WorkExplorer {
     const resultHTML = result.matches
       .map((work) => {
         const genre = this.getWorkGenre(work.id);
-        const authorName = work.author !== "Unbekannt" ? work.author : null;
+        const authorName = work.author !== "Unbekannt"
+          ? (formatAttributionList(work) || work.author)
+          : null;
 
         return generateResultItem({
           meta: formatMetadata([
@@ -174,16 +198,49 @@ export class WorkExplorer {
       }
 
       // Author with navigation
-      if (workDetails.author) {
-        detailsHTML += `
-        <div style="margin-bottom: 8px;">
-          <strong>Autor*in:</strong> ${workDetails.author}
+      // #452: alle Zuschreibungen eines Werks, mit Statustext und Beleg als Tooltip;
+      // Bearbeiter und frühere Zuschreibungen getrennt, nie als Autor*in
+      const attributionLine = (a, withStatus = true) => {
+        const text = withStatus ? formatAttribution(a) : a.name;
+        const title = a.note ? ` title="${escapeAttr(a.note)}"` : "";
+        return `<span${title}>${text}</span>`;
+      };
+      const attributionButton = (name) => `
           <button onclick="window.playground.ui.authorityExplorers.searchAuthorFromWork('${escapeForJS(
-            workDetails.author
+            name
           )}')"
             style="margin-left: 10px; padding: 2px 6px; background: #28a745; color: white; border: none; border-radius: 3px; font-size: 0.75rem; cursor: pointer;">
             Andere Werke
-          </button>
+          </button>`;
+      const authors = workDetails.attributions ? countingAttributions(workDetails) : [];
+      if (authors.length > 0) {
+        authors.forEach((a, i) => {
+          detailsHTML += `
+        <div style="margin-bottom: 8px;">
+          <strong>${i === 0 ? "Autor*in:" : "Weitere Zuschreibung:"}</strong> ${attributionLine(a)}${attributionButton(a.name)}
+        </div>
+      `;
+        });
+      } else if (workDetails.author) {
+        detailsHTML += `
+        <div style="margin-bottom: 8px;">
+          <strong>Autor*in:</strong> ${workDetails.author}${attributionButton(workDetails.author)}
+        </div>
+      `;
+      }
+      const adapterList = workDetails.attributions ? adapters(workDetails) : [];
+      if (adapterList.length > 0) {
+        detailsHTML += `
+        <div style="margin-bottom: 8px;">
+          <strong>${ADAPTER_LABEL}:</strong> ${adapterList.map((a) => attributionLine(a, false)).join("; ")}
+        </div>
+      `;
+      }
+      const formerList = workDetails.attributions ? formerAttributions(workDetails) : [];
+      if (formerList.length > 0) {
+        detailsHTML += `
+        <div style="margin-bottom: 8px;">
+          <strong>Frühere Zuschreibungen:</strong> ${formerList.map((a) => attributionLine(a)).join("; ")}
         </div>
       `;
       }
@@ -288,6 +345,7 @@ export class WorkExplorer {
 
     // Author (already in index)
     details.author = work.author;
+    details.attributions = work.attributions || null;
 
     // GND and Wikidata (from authority index v1.1.0+)
     details.gnd = work.gnd || null;

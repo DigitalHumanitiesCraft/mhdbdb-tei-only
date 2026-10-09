@@ -7,6 +7,7 @@
  */
 
 import { lemmaRefMatchesId } from '../lib/lemma-match.js';
+import { ADAPTER_LABEL, STATUS_LABEL, formatAttributionList, isCountingAuthor, personIdOf } from '../lib/attributions.js';
 
 /**
  * Repository-Boilerplate im <editorialDecl>, das NICHT in die Leseansicht gehört (#250).
@@ -312,6 +313,12 @@ class TEITextReader {
                         metadata.authorId = work.authorRef.includes('#') ?
                             work.authorRef.split('#')[1] : work.authorRef;
                         metadata.author = work.author || metadata.author;
+                    }
+
+                    // Alle Zuschreibungen (#452): Autor*innen mit Status, Bearbeiter, frühere
+                    if (Array.isArray(work.attributions)) {
+                        metadata.attributions = work.attributions;
+                        metadata.authorLine = formatAttributionList(work);
                     }
 
                     // Editions (biblStructs)
@@ -917,12 +924,56 @@ class TEITextReader {
     }
 
     /**
+     * Eine Zuschreibung als Zeile des Metadaten-Panels (#452): Name, Statustext
+     * (umstritten / unsicher zugeschrieben / verworfen), der Beleg als Tooltip
+     * und die Normdaten-Links der Person. Bearbeiter tragen den Statustext
+     * nicht, der Abschnittstitel sagt die Rolle.
+     */
+    attributionRowHTML(attribution, { adapter = false } = {}) {
+        const person = (this.authorityIndex && this.authorityIndex.persons || [])
+            .find(p => p.id === personIdOf(attribution.ref));
+        const statusLabel = !adapter && STATUS_LABEL[attribution.status];
+        const title = attribution.note ? ` title="${this.escapeHtml(attribution.note)}"` : '';
+        let html = `<div class="metadata-row"${title}><strong>${this.escapeHtml(attribution.name)}</strong>`;
+        if (statusLabel) {
+            html += ` <span>(${this.escapeHtml(statusLabel)})</span>`;
+        }
+        html += '</div>';
+        // Keine Normdaten-Links bei einer verworfenen Zuschreibung: KZW hat am
+        // 23.09.2026 in #444 bestätigt, dass der Wikidata-Link zu Bligger bei CR
+        // entfällt; er soll bei der früheren Zuschreibung nicht wiederkehren.
+        if (person && attribution.status !== 'rejected') {
+            html += this.personLinksHTML(person.id, person.gnd, person.wikidata);
+        }
+        return html;
+    }
+
+    /**
+     * GND- und Wikidata-Links einer Person; Wikidata bei Anonym unterdrückt
+     * (Issue #96 KZW-Comment). Leer, wenn die Person keine Normdaten trägt.
+     */
+    personLinksHTML(personId, gnd, wikidata) {
+        const icon = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"></path></svg>';
+        const showWikidata = wikidata && personId !== 'person_anonym';
+        if (!gnd && !showWikidata) return '';
+        let html = '<div class="external-links">';
+        if (gnd) {
+            html += `<a href="https://d-nb.info/gnd/${gnd}" target="_blank" rel="noopener" class="external-link" title="Autor*in GND: ${gnd}">${icon} GND</a>`;
+        }
+        if (showWikidata) {
+            html += `<a href="https://www.wikidata.org/wiki/${wikidata}" target="_blank" rel="noopener" class="external-link" title="Autor*in Wikidata: ${wikidata}">${icon} Wikidata</a>`;
+        }
+        return html + '</div>';
+    }
+
+    /**
      * Populate modal with comprehensive metadata and text
      */
     populateModal(textId, metadata, bodyResult) {
         // Set title and author in header
         this.elements.readingTitle.textContent = metadata.title;
-        this.elements.readingAuthor.textContent = metadata.author;
+        // Alle zählenden Zuschreibungen mit Statustext, z. B. "Anonym; Konrad von Würzburg (umstritten)" (#452)
+        this.elements.readingAuthor.textContent = metadata.authorLine || metadata.author;
 
         // Excerpt banner (#134): sichtbar über dem Text, bewusst NICHT im
         // eingeklappten Metadaten-Bereich — die Ausschnittsbeziehung muss
@@ -1033,10 +1084,20 @@ class TEITextReader {
         // Section 5: Author with external links
         metadataHTML += '<div class="metadata-section">';
         metadataHTML += '<h4 class="metadata-section-title">Autor*in</h4>';
-        metadataHTML += `<div class="metadata-row"><strong>${this.escapeHtml(metadata.author)}</strong></div>`;
+        const countingAuthors = (metadata.attributions || []).filter(isCountingAuthor);
+        if (countingAuthors.length > 0) {
+            // Alle Zuschreibungen in Dokumentreihenfolge, "umstritten" und
+            // "unsicher zugeschrieben" mit Statustext und Beleg als Tooltip (#452)
+            countingAuthors.forEach(attribution => {
+                metadataHTML += this.attributionRowHTML(attribution);
+            });
+        } else {
+            metadataHTML += `<div class="metadata-row"><strong>${this.escapeHtml(metadata.author)}</strong></div>`;
+        }
 
         // Author GND and Wikidata links (Heroicon: arrow-top-right-on-square)
-        if (metadata.authorGnd || metadata.authorWikidata) {
+        // Nur im Rückfall ohne attributions; sonst trägt attributionRowHTML sie je Person.
+        if (countingAuthors.length === 0 && (metadata.authorGnd || metadata.authorWikidata)) {
             metadataHTML += '<div class="external-links">';
             if (metadata.authorGnd) {
                 metadataHTML += `<a href="https://d-nb.info/gnd/${metadata.authorGnd}" target="_blank" rel="noopener" class="external-link" title="Autor*in GND: ${metadata.authorGnd}"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"></path></svg> GND</a>`;
@@ -1048,6 +1109,22 @@ class TEITextReader {
             metadataHTML += '</div>';
         }
         metadataHTML += '</div>';
+
+        // Bearbeiter und frühere Zuschreibungen (#452): getrennt vom Autor, nie als Autor gezählt
+        const adapterList = (metadata.attributions || []).filter(a => a.role === 'adapter');
+        const formerList = (metadata.attributions || []).filter(a => !a.role && a.status === 'rejected');
+        if (adapterList.length > 0) {
+            metadataHTML += '<div class="metadata-section">';
+            metadataHTML += `<h4 class="metadata-section-title">${ADAPTER_LABEL}</h4>`;
+            adapterList.forEach(a => { metadataHTML += this.attributionRowHTML(a, { adapter: true }); });
+            metadataHTML += '</div>';
+        }
+        if (formerList.length > 0) {
+            metadataHTML += '<div class="metadata-section">';
+            metadataHTML += '<h4 class="metadata-section-title">Frühere Zuschreibungen</h4>';
+            formerList.forEach(a => { metadataHTML += this.attributionRowHTML(a); });
+            metadataHTML += '</div>';
+        }
 
         // Section 6: Editions (Zotero links with current edition highlighted)
         if (metadata.editions && metadata.editions.length > 0) {

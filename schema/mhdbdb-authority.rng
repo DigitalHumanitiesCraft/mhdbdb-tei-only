@@ -425,6 +425,46 @@
               <text/>
             </attribute>
           </optional>
+          <optional>
+            <attribute>
+              <name ns="http://www.w3.org/XML/1998/namespace">id</name>
+              <data type="NCName"/>
+            </attribute>
+          </optional>
+          <optional>
+            <ref name="works.attribution.status"/>
+          </optional>
+          <optional>
+            <attribute>
+              <name ns="">role</name>
+              <value>adapter</value>
+            </attribute>
+          </optional>
+          <text/>
+        </element>
+      </zeroOrMore>
+      <zeroOrMore>
+        <element>
+          <name ns="http://www.tei-c.org/ns/1.0">note</name>
+          <attribute>
+            <name ns="">type</name>
+            <value>attribution</value>
+          </attribute>
+          <attribute>
+            <name ns="">target</name>
+            <text/>
+          </attribute>
+          <attribute>
+            <name ns="">resp</name>
+            <text/>
+          </attribute>
+          <element>
+            <name ns="http://www.tei-c.org/ns/1.0">date</name>
+            <attribute>
+              <name ns="">when</name>
+              <text/>
+            </attribute>
+          </element>
           <text/>
         </element>
       </zeroOrMore>
@@ -435,6 +475,16 @@
         </element>
       </zeroOrMore>
     </element>
+  </define>
+  <define name="works.attribution.status">
+    <attribute>
+      <name ns="">ana</name>
+      <choice>
+        <value>disputed</value>
+        <value>uncertain</value>
+        <value>rejected</value>
+      </choice>
+    </attribute>
   </define>
   <define name="works.biblStruct">
     <element>

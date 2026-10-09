@@ -29,6 +29,7 @@ import { HorsesExplorer } from './ui/tei/horses-explorer.js';
 // Import utilities for global exposure (needed for testing)
 import { TextNormalizer } from '../../assets/js/lib/text-normalizer.js';
 import { SearchPatterns } from './ui/search/SearchHelpers.js';
+import { authorLineOfText } from '../../assets/js/lib/attributions.js';
 
 class MHDBDBPlayground {
     constructor() {
@@ -303,7 +304,9 @@ class MHDBDBPlayground {
             label.className = 'file-item';
             label.dataset.textId = text.id;
             label.dataset.title = text.title.toLowerCase();
-            label.dataset.author = (text.author || '').toLowerCase();
+            // Alle Zuschreibungen des Werks (#452), damit "konrad" auch RHB findet
+            const authorLine = authorLineOfText(text, this.authorityData.works);
+            label.dataset.author = authorLine.toLowerCase();
 
             const checkbox = document.createElement('input');
             checkbox.type = 'checkbox';
@@ -320,7 +323,7 @@ class MHDBDBPlayground {
 
             const meta = document.createElement('span');
             meta.className = 'file-meta';
-            const author = text.author || 'Unbekannt';
+            const author = authorLine || 'Unbekannt';
             const wordCount = text.wordCount ? text.wordCount.toLocaleString() : '0';
             meta.textContent = `${text.id} • ${author} • ${wordCount} Wörter`;
 

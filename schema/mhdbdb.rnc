@@ -53,7 +53,13 @@ titleStmt = element titleStmt {
         attribute ana { text }?,
         text
     }+,
-    element author { attribute ref { text }?, mixed { (element name { text })* } }*,
+    element author {
+        attribute ref { text }?,
+        # Zuschreibungsstatus und Rolle (#452); Beleg nur in works.xml
+        attribute ana { "disputed" | "uncertain" | "rejected" }?,
+        attribute role { "adapter" }?,
+        mixed { (element name { text })* }
+    }*,
     element respStmt {
         element resp { text },
         (element name { attribute ref { xsd:anyURI }?, attribute role { text }?, attribute xml:lang { text }?, text }

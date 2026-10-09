@@ -195,6 +195,24 @@ downloadXlsx('mhdbdb-beispiel.xlsx', toXlsx([
 ]));
 ```
 
+### `attributions.js`
+Zuschreibungsstatus der Werkautoren (#452): welche Autoren zählen (weder Bearbeiter noch verworfen), wie Status und Rolle angezeigt werden, und eine Autorzeile für Listen und Filter. Eine Stelle, die einen Autor durchsucht oder anzeigt, liest hier und nicht `text.author`, das nur den ersten zählenden Autor trägt.
+
+**Exports:**
+- `STATUS_LABEL`, `ADAPTER_LABEL`: Anzeigetexte ("umstritten", "unsicher zugeschrieben", "verworfen", "Bearbeiter")
+- `personIdOf(ref)`, `isCountingAuthor(attribution)`
+- `countingAttributions(work)`, `adapters(work)`, `formerAttributions(work)`: die drei Gruppen eines Werks
+- `formatAttribution(attribution)`, `formatAttributionList(work)`: Namen mit Statuszusatz
+- `authorLineOfText(text, works)`: Autorzeile eines Textes ohne SearchEngine
+- `attributionNames(work)`: alle Namen eines Werks für Suchfelder
+
+**Usage:**
+```javascript
+import { authorLineOfText } from '../../lib/attributions.js';
+
+authorLineOfText(text, authorityData.works); // 'Anonym; Konrad von Würzburg (umstritten)'
+```
+
 ## Design Principles
 
 1. **DRY (Don't Repeat Yourself)**: All shared code lives here

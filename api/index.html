@@ -212,6 +212,7 @@ console.log(person.preferredName); // "Karl IV."</code></pre>
             </ul>
         </li>
         <li>Einzeldateien (<code>{collection}/{id}.json</code>) enthalten die vollen Records; Works z.&nbsp;B. inklusive <code>gnd</code>, <code>wikidata</code> und <code>handschriftencensus</code>.</li>
+        <li>Zuschreibungen (seit Authority-Index 1.9.22): Works tragen <code>attributions</code>, alle Autorenangaben in Dokumentreihenfolge mit <code>ref</code>, <code>name</code> und, wo gesetzt, <code>status</code> (<code>disputed</code> umstritten, <code>uncertain</code> unsicher zugeschrieben, <code>rejected</code> verworfen), <code>role</code> (<code>adapter</code>, Bearbeiter) und <code>note</code> (Beleg). <code>author</code> und <code>authorRef</code> bleiben der erste Autor, der weder Bearbeiter noch verworfen ist. Persons führen in <code>works</code> die Werke, in denen sie als Autor*in zählen, dazu nur wo vorhanden <code>formerWorks</code> (verworfene Zuschreibungen) und <code>adaptedWorks</code> (als Bearbeiter*in); alle drei sind Arrays.</li>
     </ul>
 
     <h2 id="referenz-konvention">Referenz-Konvention</h2>

@@ -216,7 +216,15 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
     author: "Meister Eckhart",
     authorRef: "persons.xml#person_445",  // with file prefix throughout, all 585 works.
                                           // The corpus index writes the same reference
-                                          // as "#person_445", see the texts record below
+                                          // as "#person_445", see the texts record below.
+                                          // = the first author that counts (not an adapter,
+                                          // not rejected), CONTRACTS.md F.6
+    attributions: [                       // every <author> in document order (v1.9.22, #452)
+      { ref: "persons.xml#person_1", name: "Konrad von Würzburg",
+        status: "disputed",               // only where set: disputed | uncertain | rejected
+        role: "adapter",                  // only where set
+        note: "..." }                     // only where the work carries a <note type="attribution">
+    ],
     gnd: "work GND",              // Added v1.1.0
     wikidata: "work Wikidata",    // Added v1.1.0
     genres: ["genre_123"],
@@ -329,6 +337,8 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
     title: "Von der Abgeschiedenheit",
     author: "Meister Eckhart",
     authorRef: "#person_445",        // verbatim from the TEI @ref: 667 of 667 in this shape
+                                     // author/authorRef: the first titleStmt author that is
+                                     // neither adapter nor rejected (4.2.31, #452)
                                      // since #308 (WZB used to write "persons.xml#person_anonym")
     workRef: "works.xml#work_89",    // verbatim from msIdentifier/@corresp, with file prefix
     wordCount: 2955,                 // lemmatized tokens only (<w> with @lemmaRef), NOT all <w>
@@ -522,7 +532,7 @@ Build properties: deterministic on the #125 principle (no timestamps, compact JS
 | | | `./tei:persName[@type="alternative"]` | `person.altNames` + `person.altNormalized` (index-parallel). Deduplicated by exact text: wherever the German and English form coincide, the same string stands twice. `@xml:lang` is not indexed, and the parser does not key on it |
 | | | `.//tei:idno[@type="GND"]` | GND identifier |
 | | | `.//tei:idno[@type="wikidata"]` | Wikidata ID |
-| | | (derived from works.xml `<author @ref>`) | Work IDs (built at index time) |
+| | | (derived from works.xml `<author @ref>`, all of them, not only the first) | `person.works` (counting authors: not adapter, not rejected), `person.formerWorks` (`@ana="rejected"`), `person.adaptedWorks` (`@role="adapter"`); the last two only where non-empty. Built at index time |
 | | works.xml | `.//tei:bibl` (fallback `.//work` for non-TEI sources) | Work records |
 | | | `./tei:title` | All titles (with `@xml:lang`, `@type`, `@ana`). Every title object carries an `ana` key, most of them null (2026-10-05: 510 of 1,149 non-null) |
 | | | `.//tei:idno[@type="sigle"]` | Sigles (may be multiple) |
@@ -530,7 +540,7 @@ Build properties: deterministic on the #125 principle (no timestamps, compact JS
 | | | `.//tei:idno[@type="wikidata"]` | Work Wikidata (extract Q-ID from URL: strip `https://www.wikidata.org/entity/`) |
 | | | `.//tei:idno[@type="handschriftencensus"]` | Handschriftencensus URL |
 | | | `./tei:ptr[contains(@target,"genres.xml#")]` | Genre pointers (label from genres.xml lookup) |
-| | | `./tei:author` (direct child only, see the note below the table) | Author name + `@ref` → person ID |
+| | | `./tei:author` (direct child only, see the note below the table) | `work.attributions`: every author with `@ref`, name, `@ana` → `status`, `@role` → `role`, and the text of the `./tei:note[@type="attribution"]` whose `@target` is the author's `@xml:id` → `note`. `work.author`/`authorRef` are the first author without `@role` and without `@ana="rejected"` (#452) |
 | | | `.//tei:biblStruct` | `work.biblStructs`: `key` (`@key`), `corresp` (`@corresp`), `textContent` (flattened `itertext()`). All 681 elements carry an `@type` and an `@xml:id`; **neither is read** |
 | | concepts.xml | `//tei:category` (filter ID starts with `concept_`) | Concept entries |
 | | genres.xml | `//tei:category` (filter ID starts with `genre_`) | Genre entries |
@@ -545,7 +555,7 @@ Build properties: deterministic on the #125 principle (no timestamps, compact JS
 | | variants.xml | `tei:entry` + `./tei:form` | Diff against the previous state before writing |
 | `build-corpus-index.py` | tei/*.tei.xml | `//tei:idno[@type="sigle"]/text()` | Sigle (fallback: filename without `.tei.xml`) |
 | | | `//tei:titleStmt/tei:title` → `itertext()` + whitespace collapse | Title. **Not** `/text()`: that is the reading #228 removed, six titles carried a line break into `api/texts/*.json` |
-| | | `//tei:titleStmt/tei:author` | Author name + `@ref` |
+| | | `//tei:titleStmt/tei:author[not(@role) and not(@ana="rejected")]`, the first one | Author name + `@ref` (an adapter and a rejected attribution are skipped, #452) |
 | | | `//tei:msIdentifier` | `@corresp` → work reference |
 | | | `//tei:body//tei:w[@lemmaRef]` *(logical; real code: single-pass `iterwalk`)* | All words with positions (see [CONTRACTS.md](CONTRACTS.md#b-position-counting-contract)) |
 | | | `//tei:body//tei:l` *(in the same `iterwalk`)* | `lineStarts`/`lineEnds`, the word index of the first and last indexed `<w>` per verse |

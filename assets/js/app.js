@@ -432,7 +432,11 @@ class MainSiteApp {
             label.className = 'flex items-start gap-2 p-2 hover:bg-slate-50 rounded transition-colors';
             label.dataset.textId = text.id;
             label.dataset.title = (text.title || '').toLowerCase();
-            label.dataset.author = (text.author || '').toLowerCase();
+            // Alle Zuschreibungen des Werks (#452), damit die Textauswahl auch
+            // einen umstrittenen Autor findet ("konrad" findet RHB), nicht nur
+            // das Kompatibilitätsfeld text.author
+            const authorLine = this.searchEngine.getAuthorLine(text) || text.author || '';
+            label.dataset.author = authorLine.toLowerCase();
 
             const checkbox = document.createElement('input');
             checkbox.type = 'checkbox';
@@ -486,7 +490,7 @@ class MainSiteApp {
 
             const meta = document.createElement('div');
             meta.className = 'text-sm text-slate-600 truncate';
-            const author = text.author || 'Unbekannt';
+            const author = authorLine || 'Unbekannt';
             const wordCount = text.wordCount ? text.wordCount.toLocaleString() : '0';
             meta.textContent = `${text.id} • ${author} • ${wordCount} annot. Tokens`;
             meta.title = 'Annotierte Tokens: Wortformen mit Lemma-Zuordnung, nicht die Gesamtlänge des Texts.';
