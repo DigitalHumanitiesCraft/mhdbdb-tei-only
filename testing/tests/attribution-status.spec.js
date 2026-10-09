@@ -129,6 +129,18 @@ test.describe('Zuschreibungsstatus: Textlisten und Textfilter', () => {
         expect(await versteckt(page, '#textList label[data-text-id="CR"]')).toBe(true);
     });
 
+    test('Playground-Textvergleich: der Tippfilter findet RHB unter Konrad', async ({ page }) => {
+        test.setTimeout(120000);
+        await page.goto('/playground/#text-comparison');
+        await page.waitForSelector('#tcFilterA', { state: 'visible', timeout: 90000 });
+        await page.locator('#tcFilterA').fill('konrad von würzburg');
+        const werte = await page.locator('#tcSelectA option:not([value=""])').evaluateAll(os => os.map(o => o.value));
+        expect(werte).toContain('RHB');
+        expect(werte).not.toContain('CR');
+        await expect(page.locator('#tcSelectA option[value="RHB"]'))
+            .toContainText('Anonym; Konrad von Würzburg (umstritten)');
+    });
+
     test('Playground: Dateifilter und Metazeile kennen alle Zuschreibungen', async ({ page }) => {
         await page.goto('/playground/');
         const rhb = '#fileList label[data-text-id="RHB"]';

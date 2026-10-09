@@ -11,6 +11,7 @@
 import { buildTextLabelDisambiguator, csvButton } from '../core/ui-helpers.js';
 import { toCsv, downloadCsv, csvDateStamp, csvFilenamePart } from '../../../../assets/js/lib/csv-export.js';
 import { TextNormalizer } from '../../../../assets/js/lib/text-normalizer.js';
+import { authorLineOfText } from '../../../../assets/js/lib/attributions.js';
 
 const DEFAULT_STATE = Object.freeze({
   textAId: '',
@@ -189,11 +190,13 @@ export class TextComparison {
   renderForm() {
     const texts = this.getCorpusTexts() || [];
     const sorted = [...texts].sort((a, b) => (a.id || '').localeCompare(b.id || '', 'de'));
-    const disambig = buildTextLabelDisambiguator(
-      sorted, this.authorityManager?.authorityData?.works || []
-    );
+    const works = this.authorityManager?.authorityData?.works || [];
+    const disambig = buildTextLabelDisambiguator(sorted, works);
     this._textOptions = sorted.map(t => {
-      const label = `${t.id}-${t.title || ''}${disambig.get(t.id) || ''}${t.author ? ', ' + t.author : ''}`;
+      // Der Tippfilter sucht in dieser Beschriftung: alle Zuschreibungen des
+      // Werks (#452), damit "konrad" auch RHB findet
+      const author = authorLineOfText(t, works);
+      const label = `${t.id}-${t.title || ''}${disambig.get(t.id) || ''}${author ? ', ' + author : ''}`;
       return { value: t.id, label };
     });
 
