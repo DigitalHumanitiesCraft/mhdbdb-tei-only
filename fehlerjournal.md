@@ -1142,6 +1142,16 @@ Auto-Mode-Classifier abgelehnt, und die Blockade ging an Christian.
 
 **Was es getragen hat:** zwei Benachrichtigungen an Julia zu erledigten Vorgängen. Richtiggestellt in derselben Stunde: beide Kommentare als gegenstandslos überschrieben, `wait:julia` wieder entfernt; die übrigen neun angefassten Tickets waren noch offen.
 
+### 109. Rot: die Zeilenzahl einer Turtle-Datei (881) als Zahl der `skos:broader`-Aussagen an die Koordination gemeldet (09.10.2026).
+
+**Rot.** Im P1-Bericht der Spur 93 steht „881 skos:broader", gemessen mit `rg -c "skos:broader"` über die `.ttl` des SKOS-Repos. `rg -c` zählt Zeilen, und eine Zeile der Turtle-Datei trägt mehrere Objekte: gezählt als Aussagen sind es 894 (am `.rj` und mit rdflib am `.ttl` nachgemessen, vom `fable-reviewer` in Runde 1 unabhängig bestätigt). Der Kommentar vom 10.08. in #93 nennt ebenfalls 881; ich habe sie als „stimmt" gemeldet, weil meine Zeilenzahl dieselbe war. Aufgefallen ist es, als ich für den Browser die Aussagen einzeln lesen musste und rdflib 894 lieferte.
+
+**Die Lehre steht in `mengen.md`: eine Zahl am falschen Bezugswort macht den Satz falsch, auch wenn Zahl und Bezugswort einzeln stimmen.** Die 881 stimmt als Zeilenzahl; der Satz sprach von Aussagen. Die letzte Zeile zu dieser Lehre ist Eintrag 107.
+
+**Was es getragen hat:** eine Gegenprobe, die keine war (meine Messung „bestätigte" die Zahl, weil beide dieselbe Menge zählten), und einen Kommentar der Koordination an KZW in #93, der die 881 übernommen hatte; die Koordination zieht ihn nach. Auf den Seiten und in der Doku steht 894; die 881 kommt nur in `textreihen/README.md` vor, ausdrücklich als Zeilenzahl der Turtle-Datei.
+
+**Mechanismus:** offen, siehe Eintrag 107.
+
 ### 114. Rot: Christian eine Entscheidung zu #225 vorgelegt, deren Prämisse („die Liste muss noch verschickt werden") seit zwei Monaten falsch war (09.10.2026).
 
 **Rot.** Der Kommentar an #225 vom 07.09. sagt, die aktualisierte Lemmaliste für Trier liege in Christians Downloads und müsse von ihm verschickt werden. Issue-Audit und `/entscheiden` vom 09.10. haben das übernommen, und Christian hat daraufhin „Liste neu erzeugen und Mailentwurf anlegen“ entschieden. Christian hatte die Datei aber am 07.08. um 15:14 UTC an Thomas Burch geschickt, mit genau dem Absatz über die 129 gestrichenen Verweise, den der Kommentar als fehlend führt. Aufgefallen ist es, als ich im Postfach Burchs Adresse für den Entwurf suchte: nicht als Gegenprobe, sondern weil der Entwurf einen Empfänger brauchte.
