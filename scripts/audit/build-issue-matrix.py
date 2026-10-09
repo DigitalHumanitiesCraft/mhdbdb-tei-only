@@ -383,29 +383,40 @@ def letzter_kommentar(issue, konten):
     return max(treffer, key=lambda k: k['createdAt']) if treffer else None
 
 
-def erste_zeile(kommentar):
-    for zeile in (kommentar.get('body') or '').splitlines():
-        if zeile.strip():
-            return zeile.strip()
-    return ''
+def erste_zeile(kommentar, konto=None):
+    """Die Zeile, die fuer diese Person zaehlt.
+
+    Gibt es eine Zeile, die mit `@konto` und einem Anfangswort beginnt, ist es
+    diese: so traegt ein Kommentar an zwei Personen zwei verschiedene Fragen
+    (#526, 09.10.: Grundsatzfrage an KZW, Pruefseite an Julia). Sonst die
+    erste nicht leere Zeile, fuer alle gleich.
+    """
+    zeilen = [z.strip() for z in (kommentar.get('body') or '').splitlines()
+              if z.strip()]
+    if konto:
+        for z in zeilen:
+            if (z.startswith(f'@{konto} ') or z.startswith(f'@{konto},')) \
+                    and ANFANG.match(z):
+                return z
+    return zeilen[0] if zeilen else ''
 
 
-def art(kommentar):
+def art(kommentar, konto=None):
     """'frage', 'abnahme' oder 'ohne': was unser letzter Kommentar verlangt.
 
-    Nur der Anfang der ersten nicht leeren Zeile zaehlt. "Das ist noch keine
-    Abnahme: ..." mitten im Satz darf nicht treffen, sonst passiert hier, was
-    GitHub mit "Kein Closes: #235" gemacht hat (CLAUDE.md, Git Rules).
+    Nur der Zeilenanfang zaehlt. "Das ist noch keine Abnahme: ..." mitten im
+    Satz darf nicht treffen, sonst passiert hier, was GitHub mit "Kein
+    Closes: #235" gemacht hat (CLAUDE.md, Git Rules).
     """
     if not kommentar:
         return 'ohne'
-    m = ANFANG.match(erste_zeile(kommentar))
+    m = ANFANG.match(erste_zeile(kommentar, konto))
     return m.group(1).lower() if m else 'ohne'
 
 
-def frage_text(kommentar):
+def frage_text(kommentar, konto=None):
     """Der erste Satz nach dem Anfangswort, fuer eine Zeile in der Liste."""
-    text = ANFANG.sub('', erste_zeile(kommentar), count=1)
+    text = ANFANG.sub('', erste_zeile(kommentar, konto), count=1)
     text = re.sub(r'[*_`#>]', '', text)
     text = ' '.join(text.split())
     text = re.split(r'(?<=[.?!])\s', text, maxsplit=1)[0]
@@ -436,7 +447,7 @@ def einordnen(issues):
             if ihr and (not unser or ihr['createdAt'] > unser['createdAt']):
                 bei_uns.append((i, wait, ihr))
                 continue
-            was = art(unser)
+            was = art(unser, WAIT_KONTEN[wait])
             if was == 'ohne':
                 fehlt.append((i, wait, unser))
             elif (was == 'abnahme' and wait != 'wait:julia'
@@ -497,7 +508,7 @@ def baue_personen(issues):
                 aus.append('Derzeit nichts.\n')
                 continue
             for i, k in eintraege:
-                aus.append(f'- [{frage_text(k)}]({k["url"]}) · '
+                aus.append(f'- [{frage_text(k, WAIT_KONTEN[wait])}]({k["url"]}) · '
                            f'#{i["number"]} {kurztitel(i)} · '
                            f'seit {k["createdAt"][:10]}')
             aus.append('')
@@ -926,6 +937,15 @@ def selftest():
     kat, _, jul = p.partition('### Für Julia')
     faelle.append(('Julia-Abnahme steht nur bei Julia', '#66' in jul
                    and '#66' not in kat))
+    # Zwei Personen, zwei Fragen in einem Kommentar: jede bekommt ihre Zeile.
+    p, _ = wo(iss(72, W + ['wait:kzw', 'wait:julia'], kommentare=[
+        ('2026-10-04', 'chsteiner',
+         '@wachauer Frage: Duerfen wir neue Lemmata anlegen?\nGrund.\n\n'
+         '@juliahin Frage: Welches Lemma gehoert zu den 19 Woertern?')]))
+    kat, _, jul = p.partition('### Für Julia')
+    faelle.append(('Je Person die an sie adressierte Zeile',
+                   'neue Lemmata' in kat and '19 Woertern' not in kat
+                   and '19 Woertern' in jul and 'neue Lemmata' not in jul))
     # Gegenprobe: eine Frage mit beiden Labels steht bei beiden.
     p, _ = wo(iss(67, W + ['wait:kzw', 'wait:julia'], kommentare=[
         ('2026-10-04', 'chsteiner', 'Frage: Wer von euch?')]))
