@@ -121,9 +121,11 @@ und je `wait:<person>`:
   unsere letzte Frage an sie. Bots zaehlen auf keiner Seite, und unsere
   Statusmeldungen ohne Anfangswort zaehlen nicht: sonst schaltete ein
   "Label korrigiert" nach ihrer Antwort die Frist ab.
+  Das gilt auch, wenn wir sie nie gefragt haben und sie irgendwann
+  geschrieben hat.
 - Sonst liegt der Ball bei der Person, und unsere letzte Frage sagt, was
-  sie tun soll. Gibt es keine, steht der Vorgang bei uns unter "Frage
-  fehlt" und in keiner Personenliste.
+  sie tun soll. Gibt es keine und hat sie nie geschrieben, steht der
+  Vorgang bei uns unter "Frage fehlt" und in keiner Personenliste.
 
 Das Anfangswort ist gemessen und nicht Geschmack: am 09.10. lagen nach der
 reinen Regel "wer zuletzt schrieb" 47 der 51 `wait:kzw` bei KZW, aber unser
@@ -135,7 +137,10 @@ den Vorgang, schlug bei 35 von 51 an und ist deshalb nicht drin; geblieben
 ist nur der Live-Link (`LIVE`), als Hinweis "vermutlich Abnahme".
 
 Eine Abnahme, die auch `wait:julia` traegt, steht nur in Julias Liste:
-einfache Abnahmen gehen seit dem 09.10. zuerst an Julia (KZW in #378).
+einfache Abnahmen gehen seit dem 09.10. zuerst an Julia (KZW in #378). Fuer
+KZW zaehlt die Abnahme an Julia als unsere Reaktion: was sie davor
+geschrieben hat, liegt dann nicht mehr bei uns. Erst eine eigene, juengere
+Frage an KZW oder ein juengerer Kommentar von ihr holt sie zurueck.
 
 Liegt etwas laenger als `FRIST_TAGE` bei uns, wird der Lauf rot wie bei
 einer Label-Luecke, und der Body sagt es. Abstellen laesst sich das nur mit
@@ -479,12 +484,22 @@ def einordnen(issues):
             unser = letzte_frage(i, konto)
             # Julia zuerst (KZW in #378, 09.10.). Liegt eine Abnahme bei
             # Julia, steht sie nur dort; KZW bleibt im Kommentar mitgenannt
-            # und bekommt weder eine Zeile noch "Frage fehlt" noch "bei uns".
+            # und bekommt weder eine Zeile noch "Frage fehlt" noch "bei uns",
+            # solange weder sie danach geschrieben hat noch eine juengere
+            # Frage an sie offen ist. Die Abnahme an Julia ist zugleich unsere
+            # Reaktion auf eine
+            # aeltere Antwort von KZW (Review-Runde 2: Frage an KZW, sie
+            # antwortet, wir setzen um, Abnahme an Julia mit cc).
             julia = WAIT_KONTEN['wait:julia']
-            bei_julia = (wait != 'wait:julia' and 'wait:julia' in i['labels']
-                         and art(letzte_frage(i, julia), julia) == 'abnahme')
-            if bei_julia and (not unser or art(unser, konto) == 'abnahme'):
-                continue
+            an_julia = (letzte_frage(i, julia)
+                        if wait != 'wait:julia' and 'wait:julia' in i['labels']
+                        else None)
+            if an_julia and art(an_julia, julia) == 'abnahme':
+                j = an_julia['createdAt']
+                if ((not ihr or ihr['createdAt'] < j)
+                        and (not unser or unser['createdAt'] < j
+                             or art(unser, konto) == 'abnahme')):
+                    continue
             if ihr and (not unser or ihr['createdAt'] > unser['createdAt']):
                 bei_uns.append((i, wait, ihr))
                 continue
@@ -978,6 +993,29 @@ def selftest():
     faelle.append(('Julia-Abnahme steht nur bei Julia, bei KZW nirgends',
                    '#66' in jul and '#66' not in kat and '#66' not in m
                    and 'Dazu kommen' not in kat))
+    # Der uebliche Lebenslauf: Frage an KZW, sie antwortet, wir setzen um,
+    # Abnahme an Julia mit cc. KZW steht danach nirgends, auch nicht rot.
+    p, m = wo(iss(77, W + ['wait:kzw', 'wait:julia'], kommentare=[
+        ('2026-09-01', 'chsteiner', '@wachauer Frage: Soll X?'),
+        ('2026-09-02', 'wachauer', 'Ja.'),
+        ('2026-10-04', 'chsteiner',
+         '@juliahin **Abnahme:** Bitte pruefen?\ncc @wachauer')]))
+    kat, _, jul = p.partition('### Für Julia')
+    faelle.append(('Abnahme an Julia nach KZWs Antwort: KZW nirgends',
+                   '#77' in jul and '#77' not in kat and '#77' not in m
+                   and 'laenger als' not in m))
+    # Gegenprobe: schreibt KZW nach der Abnahme an Julia, liegt es bei uns.
+    _, m = wo(iss(78, W + ['wait:kzw', 'wait:julia'], kommentare=[
+        ('2026-09-01', 'chsteiner', '@juliahin Abnahme: Bitte pruefen?'),
+        ('2026-09-02', 'wachauer', 'Moment, da fehlt noch was.')]))
+    faelle.append(('KZW nach der Abnahme an Julia: Ball bei uns',
+                   '**Ball bei uns (1)**' in m and '#78' in m))
+    # Nie gefragt, aber sie hat geschrieben: bei uns, nicht "Frage fehlt".
+    _, m = wo(iss(79, W + ['wait:kzw'], kommentare=[
+        ('2026-09-01', 'wachauer', 'Hier meine Antwort.'),
+        ('2026-09-05', 'chsteiner', 'Umgesetzt in PR 553.')]))
+    faelle.append(('Ohne Frage, aber mit ihrer Antwort: Ball bei uns',
+                   '**Ball bei uns (1)**' in m and '**Frage fehlt (0)**' in m))
     # Dasselbe ohne Adressierung: die Abnahme gilt fuer beide, steht aber
     # nur bei Julia.
     p, m = wo(iss(76, W + ['wait:kzw', 'wait:julia'], kommentare=[
