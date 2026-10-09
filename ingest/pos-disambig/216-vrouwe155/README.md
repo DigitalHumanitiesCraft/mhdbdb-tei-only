@@ -234,6 +234,7 @@ Tokentext trägt und dasselbe `@pos` wie zur Extraktionszeit.
    *vrouwe* trägt bereits `lemma_7260`. Liegen bei @wachauer.
 3. **Die Reparaturfälle** `SAX_24200_4` (trägt `lemma_3001` *ich*, richtig wäre
    `lemma_4130`) und `MR2_27022210102100_5` (ohne Lemma, ist das Verb).
+   `SAX_24200_4` ist am 09.10.2026 umannotiert (Korpusindex 4.2.30).
 4. **Die sieben WVV-Anredestellen** ohne Lemma aus dem Kommentar vom 31.08.
 5. **Die Regel in `POS-TAGSET.md`**, gültig auch für *werlt* und *sælde*.
 6. **Punkt 8**, die sieben GWTK-Verdachtsfälle (*minne* für *mîne*).

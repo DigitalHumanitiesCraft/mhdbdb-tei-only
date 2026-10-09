@@ -1,6 +1,6 @@
 # Mur bei Murstetten (#228)
 
-Recherchepfad zu der Frage, die @wachauer am 25.09.2026 in #228 gestellt und am 01.10. präzisiert hat: Ist `lemma_66692` *Mur* (NAM, Gewässername) als Bestandteil von `lemma_66691` *Murstetten* fachlich richtig? Der Vorschlag steht als Kommentar in #228 (https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/228#issuecomment-5952554439). Geändert ist nichts in `authority-files/`.
+Recherchepfad zu der Frage, die @wachauer am 25.09.2026 in #228 gestellt und am 01.10. präzisiert hat: Ist `lemma_66692` *Mur* (NAM, Gewässername) als Bestandteil von `lemma_66691` *Murstetten* fachlich richtig? Der Vorschlag steht als Kommentar in #228 (https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/228#issuecomment-5952554439). Beim Schreiben dieser Notiz war nichts in `authority-files/` geändert; die Streichung kam nach KZWs Entscheidung vom 09.10.2026 (unten).
 
 ## Belege (am TEI gelesen)
 
@@ -24,4 +24,7 @@ Das Datum steht in den Urkundenköpfen (`<note type="year">`, `<note type="date"
 
 - Schuster am Original prüfen (Eintrag M 317). Winter hat ein Manuskript benutzt; die gedruckte Fassung kann abweichen.
 - `lemma_33528` *Mûrouwe* (Murau) behält `Mur`; die Deutung des Namens Murau ist hier nicht geprüft.
-- Entscheidung bei KZW: `Mur` aus der Etymologie von `lemma_66691` streichen, kein Ersatzziel.
+
+## Entschieden
+
+- @wachauer am 09.10.2026 („1: ja“ in #228): `Mur` ist aus der Etymologie von `lemma_66691` gestrichen, kein Ersatzziel (Authority-Index 1.9.21).
