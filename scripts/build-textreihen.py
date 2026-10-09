@@ -43,13 +43,20 @@ def values(po, pred):
     return po.get(pred, [])
 
 
+TRIMMED = []
+
+
 def by_lang(objs):
     out = {}
     for o in objs:
         lang = o.get("lang")
         if not lang:
             raise SystemExit(f"Literal ohne Sprachangabe: {o['value']!r}")
-        out.setdefault(lang, []).append(o["value"])
+        v = o["value"]
+        if v != v.strip():
+            # die Quelle bleibt unveraendert; nur die Anzeigefassung wird getrimmt (z. B. "Losbuch ")
+            TRIMMED.append(v)
+        out.setdefault(lang, []).append(v.strip())
     return out
 
 
@@ -176,7 +183,8 @@ def main():
     m = data["meta"]
     summary = (f"{m['konzepte']} Konzepte, {m['broaderAussagen']} broader-Aussagen "
                f"(davon {redundant} durch einen anderen Elternteil transitiv abgedeckt), "
-               f"{m['mitMehrerenEltern']} von {m['konzepte']} Konzepten mit mehreren Eltern, {len(m['wurzeln'])} Wurzeln")
+               f"{m['mitMehrerenEltern']} von {m['konzepte']} Konzepten mit mehreren Eltern, {len(m['wurzeln'])} Wurzeln, "
+               f"{len(TRIMMED)} Bezeichnungen mit Leerraum am Rand getrimmt")
     if args.check:
         if not OUT.exists() or OUT.read_text(encoding="utf-8") != text:
             print("textreihen/data/textreihen.json passt nicht zur Quelle:", summary)

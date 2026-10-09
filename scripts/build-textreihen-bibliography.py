@@ -70,7 +70,8 @@ def reduce_items(raw):
             "key": it["key"],
             "version": it["version"],
             "itemType": d["itemType"],
-            "sort": (it.get("meta", {}).get("creatorSummary") or "").lower(),
+            # ohne Autor*in (Wiki-Artikel, Webseiten) sortiert der Titel; sonst stuenden sie alle vor "Achnitz"
+            "sort": (it.get("meta", {}).get("creatorSummary") or d.get("title") or "").lower(),
             "date": it.get("meta", {}).get("parsedDate") or "",
             "title": d.get("title") or "",
             "tags": sorted({t["tag"] for t in d.get("tags", [])}),
