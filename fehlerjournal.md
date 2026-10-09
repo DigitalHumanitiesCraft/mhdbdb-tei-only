@@ -1141,3 +1141,13 @@ Auto-Mode-Classifier abgelehnt, und die Blockade ging an Christian.
 **Die Lehre steht im Skill `issue-audit`, Abschnitt 7: ein Kommentar an einen Menschen, der einen Stand behauptet, stützt sich auf den ganzen Thread jedes genannten Issues, nicht auf die Audit-Tabelle.** Der Thread hätte heute frisch abgerufen werden müssen, nicht aus dem Snapshot vom Morgen gelesen. Letzte Zeile zu dieser Lehre: keine.
 
 **Was es getragen hat:** zwei Benachrichtigungen an Julia zu erledigten Vorgängen. Richtiggestellt in derselben Stunde: beide Kommentare als gegenstandslos überschrieben, `wait:julia` wieder entfernt; die übrigen neun angefassten Tickets waren noch offen.
+
+### 114. Rot: Christian eine Entscheidung zu #225 vorgelegt, deren Prämisse („die Liste muss noch verschickt werden") seit zwei Monaten falsch war (09.10.2026).
+
+**Rot.** Der Kommentar an #225 vom 07.09. sagt, die aktualisierte Lemmaliste für Trier liege in Christians Downloads und müsse von ihm verschickt werden. Issue-Audit und `/entscheiden` vom 09.10. haben das übernommen, und Christian hat daraufhin „Liste neu erzeugen und Mailentwurf anlegen“ entschieden. Christian hatte die Datei aber am 07.08. um 15:14 UTC an Thomas Burch geschickt, mit genau dem Absatz über die 129 gestrichenen Verweise, den der Kommentar als fehlend führt. Aufgefallen ist es, als ich im Postfach Burchs Adresse für den Entwurf suchte: nicht als Gegenprobe, sondern weil der Entwurf einen Empfänger brauchte.
+
+**Die Lehre steht in `agentenbefunde.md`: ein Agentenbefund wird erst zur Aussage, wenn ich seine Quelle selbst geöffnet habe, und eine frühere eigene Sitzung ist ein Agentenbericht.** Der Kommentar vom 07.09. ist eine Selbstauskunft dieses Projekts über Christians Postfach, und das Postfach war mit einem Suchaufruf erreichbar. Die letzte Zeile zu dieser Lehre ist Eintrag 64.
+
+**Was es getragen hat:** eine Entscheidungsfrage an Christian und fast einen zweiten Versand derselben Datei an einen Externen. Abgewendet hat den Versand keine Vorrichtung, sondern ein Nebeneffekt des Entwurfs. Richtiggestellt in #225 am selben Tag; die neu erzeugte Liste war byte-identisch mit der verschickten.
+
+**Kein neuer Mechanismus:** `agentenbefunde.md` ist ausgesetzt; die Aussetzung ist der Mechanismus.
