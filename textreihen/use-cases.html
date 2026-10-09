@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Anwendungsfälle der Textreihentypologie: MHDBDB und das Hausbuch des Michael de Leone.">
+    <meta name="author" content="Katharina Zeppezauer-Wachauer, Marco Heiles">
+
+    <title>Use cases – MHDBDB-Textreihentypologie</title>
+
+    <link rel="stylesheet" href="../assets/css/tailwind-output.css">
+    <link rel="icon" type="image/png" href="../assets/images/mhdbdb-logo.png">
+    <link rel="stylesheet" href="../assets/css/shared.css">
+    <link rel="stylesheet" href="textreihen.css">
+<!-- MATOMO:START -->
+<script>
+  (function() {
+    var optedOut = false;
+    try { optedOut = window.localStorage && localStorage.getItem('mhdbdb-matomo-optout') === '1'; } catch (e) {}
+    if (optedOut) return;
+    var _paq = window._paq = window._paq || [];
+    _paq.push(['disableCookies']);
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    var u="https://webstatistics.sbg.ac.at/";
+    _paq.push(['setTrackerUrl', u+'matomo.php']);
+    _paq.push(['setSiteId', '15']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<!-- MATOMO:END -->
+</head>
+<body class="bg-slate-100 text-slate-900">
+
+<!-- NAV:START -->
+<header class="border-b border-slate-200 bg-white/90 backdrop-blur sticky top-0 z-50">
+    <div class="container mx-auto px-6 py-4">
+        <nav class="flex items-center justify-between">
+            <a href="../index.html" class="flex items-center gap-3">
+                <img src="../assets/images/mhdbdb-logo.png" alt="MHDBDB Logo" class="w-40">
+                <span class="text-lg font-bold text-brand-600">MHDBDB</span>
+            </a>
+
+            <!-- Desktop Navigation -->
+            <div class="hidden md:flex items-center gap-6">
+                <a href="../index.html" data-nav="start" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                    Startseite
+                </a>
+                <a href="../korpus.html" data-nav="korpus" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                    Korpussuche
+                </a>
+                <a href="../playground/index.html" data-nav="playground" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                    Playground
+                </a>
+                <a href="../woerterbuch.html" data-nav="woerterbuch" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                    Wörterbuch
+                </a>
+                <a href="../hilfe.html" data-nav="hilfe" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                    Hilfe
+                </a>
+                <a href="../index.html#contact" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                    Kontakt
+                </a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobileMenuButton" class="md:hidden p-2 text-slate-600 hover:text-slate-900 transition" aria-label="Toggle menu">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </nav>
+
+        <!-- Mobile Navigation (Hidden by default, only visible on mobile) -->
+        <div id="mobileMenu" class="hidden md:hidden mt-4 pb-4 border-t border-slate-200">
+            <div class="flex flex-col gap-3 pt-4">
+                <a href="../index.html" data-nav="start" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                    Startseite
+                </a>
+                <a href="../korpus.html" data-nav="korpus" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                    Korpussuche
+                </a>
+                <a href="../playground/index.html" data-nav="playground" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                    Playground
+                </a>
+                <a href="../woerterbuch.html" data-nav="woerterbuch" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                    Wörterbuch
+                </a>
+                <a href="../hilfe.html" data-nav="hilfe" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                    Hilfe
+                </a>
+                <a href="../index.html#contact" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                    Kontakt
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- NAV:END -->
+
+    <nav class="tr-subnav" aria-label="Bereiche der Textreihentypologie">
+        <div class="container mx-auto px-6">
+            <div class="tr-subnav-inner">
+                <a href="index.html">Start</a>
+                <a href="about.html">About</a>
+                <a href="how-to.html">How To</a>
+                <a href="browser.html">Visualization &amp; Browser</a>
+                <a href="use-cases.html" aria-current="page">Use cases</a>
+                <a href="outreach.html">Outreach</a>
+                <a href="bibliography.html">Bibliography</a>
+                <a href="download.html">Download</a>
+                <a href="gattungs-explorer-next.html">Gattungs-Explorer in MHDBDB Next</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="tr-main">
+        <h1>Use cases</h1>
+        <div class="tr-prose">
+        <ul>
+        <li><a href="#MHDBDB">Use case 1: Mittelhochdeutsch</a><a href="#MHDBDB">e</a><a href="#MHDBDB"> Begriffsdatenbank (MHDBDB)</a></li>
+
+        <li><a href="#Leone">Use case 2: Das Hausbuch des Michael de Leone</a></li>
+        </ul>
+
+        <ul></ul>
+
+        <h2 id="MHDBDB">Use case 1: MHDBDB</h2>
+
+        <p>Im neuen Frontend der MHDBDB werden die maschinenlesbaren, Semantic-Web-tauglichen Konzepte zwei Anwendungen haben:</p>
+
+        <p>Erstens dienen sie in der visuellen Suche als praktische Filtermöglichkeit. Der Filter reicht nur bis auf Ebene 4 des SKOS-Vokabulars, da noch feinere Spezifikationen nicht mehr userfreundlich im Interface umgesetzt werden können. Alle tiefer reichenden Annotationen werden bei der Suche automatisch mit höheren Werten im Baum des Vokabulars ausgegeben. Aufgrund der Annotation mit <em>genreFormMainparent </em>(eindeutige Herkunft) können eindeutige Graphenbäume erstellt werden. Man findet entsprechend annotierte Werke bei allen Einträgen im Baum von unten nach oben, z.B ein Werk, das als "Geistliche Rede" (<em>genreForm</em>) mit der Herkunft (<em>genreFormMainparent</em>) "Diskursive Kurzform" annotiert ist, bei allen folgenden Textreihen-Konzepten:</p>
+
+        <ul class="tr-pfad"><li>Epik, Lyrik und Dramatik<ul><li>Kurzdichtung<ul><li>Diskursive Kurzform<ul><li>Geistliche Rede</li></ul></li></ul></li></ul></li></ul>
+
+        <figure><!-- Bild Screenshot-2023-05-17-130018-1024x417.png nicht übernommen (Rechte bei KZW angefragt, #93) --></figure>
+
+        <ul>
+        <li></li>
+        </ul>
+
+        <figure>
+        <figure><!-- Bild Screenshot-2023-05-17-130116.png nicht übernommen (Rechte bei KZW angefragt, #93) --></figure>
+        </figure>
+
+        <p>Zweitens ist das Vokabular auch in den bibliografischen Metadaten enthalten, und zwar bereits auf Werkebene (was in die Ebene der Editionen und MHDBDB-E-Texte mit übernommen wird):</p>
+
+        <figure><a href="https://www.marketext.at/Textreihentypologie/wp-content/uploads/2023/05/BibliografischeMetadaten_Pantalon.drawio.png" target="_blank" rel="noopener"><img src="img/bibliografische-metadaten-pantalon.png" alt="" loading="lazy"></a></figure>
+
+        <p>Das bedeutet, dass in der Werktitelansicht alle Werke aufgelistet werden können, die beispielsweise mit "Allegorie (c_dd3320dc)" annotiert wurden. Es ermöglicht beispielsweise das zielgerichtete Anlegen von Sammlungen oder den Download spezifischer Textreihen-Korpora.</p>
+
+        <figure><!-- Bild Screenshot-2023-05-17-125621.png nicht übernommen (Rechte bei KZW angefragt, #93) --></figure>
+
+        <h2 id="Leone">Use case 2: Das Hausbuch des Michael de Leone</h2>
+
+        <p>Als wichtiges Anwendungsfeld der Textreihentypologie betrachten wir die Annotation von Handschriftenbeschreibungen. In dem von Marco Heiles geleiteten Forschungsprojekt <em>Magical Written Artefacts in Late-Medieval German Instructional Literature</em><a href="#_ftn1" id="_ftnref1"><sup>[1]</sup></a> (2023–2025) des Exzellenclusters <em>Understanding Written Artefacts</em> der Universität Hamburg soll die MHDBDB-Textreihentypologie um die Überlieferungsumgebung der dort im Fokus stehenden magischen Texte zu erfassen. Die Zuordnung aller Texte einer Handschrift zu jeweils mindestens einer konkreten Textreihe (<em>genreForm</em>) und dessen übergeordneter Zuordnung (<em>genreFormMainparent</em>) soll dort statistische Aussagen zu Überlieferungskontexten und damit schließlich Aussagen über das Gebrauchs- und Sammlungsinteresse der magischen Texte liefern.</p>
+
+        <p>Für die vorliegende Vorstellung der Textreihentypologie möchten wir diesem Vorhaben nicht vorgreifen und möchten stattdessen am Beispiel einer prominenten Sammelhandschrift (multiple text manuscript) aufzeigen, dass diese Art der Handschriftenerschließung mit unserem Vokabular möglich ist. Unsere Wahl fiel dabei auf die Handschrift <em>2° Cod. ms. 731 (Cim. 4)</em> der Universitätsbibliothek München.<a href="#_ftn2" id="_ftnref2"><sup>[2]</sup></a> Diese Handschrift bildete ursprünglich den zweiten Teil des zweibändig angelegten 'Hausbuchs' des Würzburger bischöflichen Protonitars Michael de Leone und ist auch unter den Bezeichnungen 'Leonebuch' oder 'Würzburger Liederhandschrift' bekannt. Der Pergamentcodex von 285 Blättern im Folioformat (345 x 265 mm) entstand zur Mitte des 14. Jahrhundert (ca. 1345-1354) in Würzburg. Unsere Tabelle der Textereignisse der Handschrift orientiert sich an der detaillierten Handschriftebeschreibung von Gisela Kornrumpf und Paul-Gerhard Völker von 1968<a href="#_ftn3" id="_ftnref3"><sup>[3]</sup></a> und kann in <em>Google Tabellen </em>betrachtet und kommentiert werden.<a href="#_ftn4" id="_ftnref4"><sup>[4]</sup></a></p>
+
+        <figure><a href="https://www.marketext.at/Textreihentypologie/wp-content/uploads/2023/05/Abbildung-Tabelle-1-Leonebuch-scaled.jpg" target="_blank" rel="noopener"><img src="img/tabelle-leone-hausbuch.jpg" alt="" loading="lazy"></a></figure>
+
+        <p><em>Abbildung: Tabellenausschnitt zum Hausbuch Michaels de Leone</em></p>
+
+        <p>Michaels de Leone Hausbuch ist zweisprachig angelegt. Deutsche und lateinische Texte wechseln sich ab, auch wenn die deutschen Texte den größeren Raum einnehmen. Die Tabelle erfasst bis auf die Lyrikkorpora alle deutschsprachigen Texte der Handschrift im Einzelnen und die lateinischen Kleintexte in Gruppen. Bei der Zuordnung der Texte haben wir uns an der Sekundärliteratur orientiert und ignorieren den Umstand, dass unsere Textreihentypologie eigentlich nur für die deutschsprachige Literatur von ca. 1050 bis 1520 angelegt ist. Einige Zuordnungen konnten dabei direkt aus der Handschriftenbeschreibung von Kornrumpf/Völker übernommen werden, etwa wenn dort ein Text als "Regimen sanitatis" (fol. 166ra-167ra) beschrieben wird.<a href="#_ftn5" id="_ftnref5"><sup>[5]</sup></a> Häufig gaben auch die Überschriften in der Handschrift selbst die Textreihe an. Die <em>oracio hominis ad mortem egrotantis</em> (fol. 9vb) ist ein Gebet für einen Todkranken, gehört also in die Textreihe Gebet (<em>genreFormMainparent</em>: Religiöser Gebrauchstext), die Beschreibung als Krankengebet wäre exakter, so fein differenziert unsere Textreihentypologie aber (noch) nicht. Für andere genügte ein Blick in die entsprechenden Einträge der einschlägigen Literaturlexika, auch wenn deren Gattungs- oder Textsortenbezeichnungen noch keinem kontrollierten Vokabular folgen. Die entsprechenden Artikel machen aber nicht immer Angaben zu den Textreihen der Werke. Zum <em>Lucidarius </em>(fol. 137va-154vb) finden sich beispielsweise im <em>Verfasserlexikon </em>keine Angaben zu Gattung oder Textreihe, auch wenn an einer Stelle von "verwandten lat. Enzyklopädien" die Rede ist.<a href="#_ftn6" id="_ftnref6"><sup>[6]</sup></a> Das Killy Literaturlexikon dagegen fordert bei anonymen Werken offenbar eine Werktypangabe bereits in der Überschrift. Hier wird der <em>Lucidarius</em> als "Geistliche Enzyklopädie"<a href="#_ftn7" id="_ftnref7"><sup>[7]</sup></a> beschrieben, einem Terminus, der – wie eine Abfrage in der <em>Verfasser-Datenbank<a href="#_ftn8" id="_ftnref8"><sup><strong><sup>[8]</sup></strong></sup></a></em> zeigt – im gesamten Lexikon ansonsten nicht benutzt wird. Auch im <em>Deutschen Literatur-Lexikon. Das Mittelalter</em> wird der <em>Lucidarius</em> als "Geistliche Enzyklopädie"<a href="#_ftn9" id="_ftnref9"><sup>[9]</sup></a> bezeichnet, das Werk aber auch als "mhd. Prosakompendium geistlichen und weltlichen Wissens"<a href="#_ftn10" id="_ftnref10"><sup>[10]</sup></a> und "Verbindung von geistlicher Summa und Realiensumma"<a href="#_ftn11" id="_ftnref11"><sup>[11]</sup></a> näher beschreiben. Auch im <em>Deutschen Literatur-Lexikon. Das Mittelalter</em> wird der Begriff 'Geistliche Enzyklopädie' &nbsp;nur ein einziges Mal benutzt und taugt so also nicht zur Textreihenbestimmung. In der Tabelle wurde der <em>Lucidarius</em> daher schlicht als Enzyklopädie (<em>genreFormMainparent</em>: Großdidaxe) aufgenommen.</p>
+
+        <p>Ergänzung zu den Nachschlagewerken mussten vor allem für die kleineren Texte auch aktuelle Forschungsbeiträge herangezogen werden, etwa zu Lupold Hornburgs Reden, die dadurch einzeln erfasst werden konnten.<a href="#_ftn12" id="_ftnref12"><sup>[12]</sup></a> Die Textreihenzuordnung der Einzeltexte der Kleinepik-Sammlung <em>Die Welt</em> konnte direkt aus zwei Quellen übernommen werden. Zum einen aus dem einschlägigen Beitrag von Wolfram Achnitz und Franz-Josef Holznagel zu dieser Sammlung<a href="#_ftn13" id="_ftnref13"><sup>[13]</sup></a> und zum anderen aus dem Brevitas-Wiki<a href="#_ftn14" id="_ftnref14"><sup>[14]</sup></a>, dessen Artikel zu den einzelnen Texten in der Tabelle auch verlinkt sind. Als ebenso hilfreich wie das <em>Brevitas-Wiki</em> zur Annotation von Kurzdichtung erwies sich die digitale Edition <em>Lyrik des Deutschen Mittelalters </em>(LDM), dessen Daten zum Reimarkorpus der Handschrift<a href="#_ftn15" id="_ftnref15"><sup>[15]</sup></a> in einer eigenen Tabelle ausgewertet wurde, bei der Annotation von Lyrik. Im LDM wird jedes Lied einer "Anthologie" zugeordnet,<a href="#_ftn16" id="_ftnref16"><sup>[16]</sup></a> etwa "Allgemeines Minnelied", "Minne- bzw. Werbelied", "Frauenlied" oder "Wechsel". Die Inhaltsbeschreibungen weisen zudem regelmäßig darauf hin, wenn es sich um eine Minneklage oder einen Frauenpreis handelt. Obwohl die Vokabulare der LDM und unserer Textreihentypologie nicht aufeinander abgestimmt wurden, sind sie also kongruent, weil sie sich aus derselben Fachtradition herleiten.</p>
+
+        <figure><a href="https://www.marketext.at/Textreihentypologie/wp-content/uploads/2023/05/Abbildung-Tabelle-2-Reinmar-scaled.jpg" target="_blank" rel="noopener"><img src="img/tabelle-reinmar-e.jpg" alt="" loading="lazy"></a></figure>
+
+        <p><em>Abbildung: Tabellenausschnitt zum Kopus der Lieder Reinmar des Alten im Hausbuch Michaels de Leone (E)</em></p>
+
+        <p>Als besonders wichtig für die Annotation von Handschrifteninhalten mit, der Textreihentypologie hat sich herausgestellt, dass der Textreihenbegriff so flexibel ist, dass wir auch Paratexte/Paracontent<a href="#_ftn17" id="_ftnref17"><sup>[17]</sup></a> annotieren können. Das Leonebuch enthält beispielsweise zu Beginn einen Besitzeintrag (fol. 1va) und ein Inhaltsverzeichnis (fol. 1va-2rb). Auf den letzen Blättern der Handschrift finden zudem auch Federproben (fol. 285v, 286r). Inhaltsverzeichnisse und Indizes bilden selbstverständlich keine literarische Gattungen, dennoch unterliegen auch diese Textphänomene einer historischen Entwicklung gegenseitiger Abhängigkeiten und sie können somit auch als Textreihen verstanden werden.<a href="#_ftn18" id="_ftnref18"><sup>[18]</sup></a> Die Federproben (<em>probationes pennae</em>) sind dagegen hauptsächlich durch eine gemeinsame Schreibpraxis verbunden und die einzelnen Kleintexte und Textfragmente können häufig auch anderen Textreihen zugeordnet werden.<a href="#_ftn19" id="_ftnref19"><sup>[19]</sup></a> Doch auch sie sind keine Grundkonstante der Handschriftlichkeit, sondern – besonders in ihrer Formelhaftigkeit – Teil einer historischen Reihe.<a href="#_ftn20" id="_ftnref20"><sup>[20]</sup></a> Die Annotation der Textreihen bei der Handschriftenbeschreibung bedeutet – besonders bei der Erstbeschreibung von Handschriften – keinen erheblichen Mehraufwand, verspricht aber vor allem bei größeren Handschriftenkorpora einen erheblichen Mehrwert. Mithilfe der MHDBDB-Textreihentypologie können auch Texte, für die noch keine werkbezogenen Normdaten bereitstehen und die wie bspw. einzelne Segen, Rezepte oder Federproben wohl auch in absehbarer Zeit keine Normdaten zugewiesen bekommen werden, maschinenlesbar erfasst und statistisch ausgewertet werden. Darüber hinaus bietet die Annotation aber auch dem menschlichen Leser einen weitaus schnelleren Überblick über die inhaltliche und thematische Zusammensetzung einer Handschrift. Die Benutzer der Handschriftenbeschreibung müssen nicht mehr jeden Text selbst kennen und einordnen, sondern können auf die Beurteilung des Handschriftenbeschreibers zurückgreifen. Dabei konnten im Falle des Hausbuchs Michaels de Leone auch die lateinischen Texte mit unserem für die deutsche Literatur konzipierten Vokabular erfasst werden. Um diese oder anderssprachige Handschriften aber flächendeckend zu erfassen, wären sicher umfangreiche Ergänzungen notwendig.</p>
+
+        <p><a href="#_ftnref1" id="_ftn1"><sup>[1]</sup></a> <a href="https://www.csmc.uni-hamburg.de/written-artefacts/research-fields/field-k/rfk03.html" target="_blank" rel="noopener">https://www.csmc.uni-hamburg.de/written-artefacts/research-fields/field-k/rfk03.html</a>.</p>
+
+        <p><a href="#_ftnref2" id="_ftn2"><sup>[2]</sup></a> Digitalisat: <a href="https://epub.ub.uni-muenchen.de/10638/" target="_blank" rel="noopener">https://epub.ub.uni-muenchen.de/10638/</a>.</p>
+
+        <p>Kurzbeschreibung im Handschriftencensus: <a href="https://www.handschriftencensus.de/6441" target="_blank" rel="noopener">https://www.handschriftencensus.de/6441</a>.</p>
+
+        <p><a href="#_ftnref3" id="_ftn3"><sup>[3]</sup></a> Gisela Kornrumpf und Paul-Gerhard Völker, Die deutschen mittelalterlichen Handschriften der Universitätsbibliothek München (Die Handschriften der Universitätsbibliothek München 1), Wiesbaden 1968, S. 66–107, Ergänzung S. 349.</p>
+
+        <p><a href="#_ftnref4" id="_ftn4"><sup>[4]</sup></a> Tabelle in <em>Google Tabellen</em>: <a href="https://docs.google.com/spreadsheets/d/1wjkBEXEYj09XPpbi3vjGFA4ZuyF0g7be/edit?usp=sharing&amp;ouid=114143101492401035777&amp;rtpof=true&amp;sd=true" target="_blank" rel="noopener">https://docs.google.com/spreadsheets/d/1wjkBEXEYj09XPpbi3vjGFA4ZuyF0g7be/edit?usp=sharing&amp;ouid=114143101492401035777&amp;rtpof=true&amp;sd=true</a>.</p>
+
+        <p>Kopie der Tabelle im Forschungsdatenrepositorium der Universität Hamburg: <a href="https://doi.org/10.25592/uhhfdm.12418" target="_blank" rel="noopener">https://doi.org/10.25592/uhhfdm.12418</a>.</p>
+
+        <p><a href="#_ftnref5" id="_ftn5"><sup>[5]</sup></a> Vgl. Kornrumpf/Völker, Handschriften (wie Anm. 59), S. 88.</p>
+
+        <p><a href="#_ftnref6" id="_ftn6"><sup>[6]</sup></a> Georg Steer, Art. Lucidarius, in: Verfasserlexikon.&nbsp; 5 (1985), Sp. 939-947.</p>
+
+        <p><a href="#_ftnref7" id="_ftn7"><sup>[7]</sup></a> Georg Steer und Jürgen Wolf, Lucidaris, in: Killy Literaturlexikon. 2. Auflage 7 (2010), S. 531f.</p>
+
+        <p><a href="#_ftnref8" id="_ftn8"><sup>[8]</sup></a> Verfasserdatenbank: <a href="https://www.degruyter.com/database/VDBO" target="_blank" rel="noopener">https://www.degruyter.com/database/VDBO</a>.</p>
+
+        <p><a href="#_ftnref9" id="_ftn9"><sup>[9]</sup></a> Sabina Foidl, Art. Lucidarius, in: Deutsches Literatur Lexikon. Das Mittelalter 1 (2011), Sp. 558-561, hier Sp. 558.</p>
+
+        <p><a href="#_ftnref10" id="_ftn10"><sup>[10]</sup></a> Ebd.</p>
+
+        <p><a href="#_ftnref11" id="_ftn11"><sup>[11]</sup></a> Ebd., Sp. 559.</p>
+
+        <p><a href="#_ftnref12" id="_ftn12"><sup>[12]</sup></a> Karina Kellermann, Ein kurtze rede wore. Die vier politischen Reimreden des Lupold Hornburg, in: Wolfram Studien 24 (2017), S. 199–220.</p>
+
+        <p><a href="#_ftnref13" id="_ftn13"><sup>[13]</sup></a> Wolfgang Achnitz und Franz-Josef Holznagel; Der werlt lauff vnd ir posait: Die Sammlung 'Die Welt' und ihre Rezeption, in: Würzburg, der Große Löwenhof und die deutsche Literatur des Spätmittelalters (Imagines medii aevi 17), hrsg. von Horst Brunner, Wiesbaden 2004. S. 283-312.</p>
+
+        <p><a href="#_ftnref14" id="_ftn14"><sup>[14]</sup></a> Brevitas-Wiki, <a href="https://wiki.brevitas.org/wiki/Systematik_Kleinepik" target="_blank" rel="noopener">https://wiki.brevitas.org/</a>.</p>
+
+        <p><a href="#_ftnref15" id="_ftn15"><sup>[15]</sup></a> her Reymar (E), in: Lyrik des deutschen Mittelalters,&nbsp; <a href="https://www.ldm-digital.de/autoren.php?au=Reinm&amp;hs=E" target="_blank" rel="noopener">https://www.ldm-digital.de/autoren.php?au=Reinm&amp;hs=E</a>.&nbsp;</p>
+
+        <p><a href="#_ftnref16" id="_ftn16"><sup>[16]</sup></a> Leider werden die Anthologien in der Dokumentation der Edition nicht erwähnt. Vgl. Lyrik des deutschen Mittelalters – Dokumen­ta­tion, in: Lyrik des deutschen Mittelalters,&nbsp; <a href="https://www.ldm-digital.de/doc.php" target="_blank" rel="noopener">https://www.ldm-digital.de/doc.php</a>.</p>
+
+        <p><a href="#_ftnref17" id="_ftn17"><sup>[17]</sup></a> Der in Analogie zum Paratext-Begriff Genetts entwickelte Terminus paracontent, trägt dem Umstand Rechnung, dass Handschriften nicht nur Texte im engeren Wortsinn beinhalten.Vgl. Giovanni Ciotti u.a., Definition of Paracontent, in: CSMC – Occasional Paper, 6, 2018,<a href="https://www.csmc.uni-hamburg.de/publications/occasional-papers/files/csmc-occasional-paper-6-tnt.pdf" target="_blank" rel="noopener"> </a><a href="https://www.csmc.uni-hamburg.de/publications/occasional-papers/files/csmc-occasional-paper-6-tnt.pdf" target="_blank" rel="noopener">https://www.csmc.uni-hamburg.de/publications/occasional-papers/files/csmc-occasional-paper-6-tnt.pdf</a>; Patrick Patrick Andrist, Toward a definition of paratexts and paratextuality: The case of ancient Greek manuscripts, in: Bible as Notepad: Tracing Annotations and Annotation Practices in Late Antique and Medieval Biblical Manuscripts (Manuscripta Biblica 3), hrsg. von Liv Ingeborg Lied und Marilena Maniaci, Berlin/Boston 2018, S. 130–150.</p>
+
+        <p><a href="#_ftnref18" id="_ftn18"><sup>[18]</sup></a> Vgl. Nigel Palmer, Kapitel und Buch. Zu den Gliederungsprinzipien mittelalterlicher Bücher, in: Frühmittelalterliche Studien 23 (1989), S. 43-88; Karin Schneider, Paläographie und Handschriftenkunde für Germanisten. Eine Einführung. 3. Auflage. Berlin/Boston 2014, S. 163f.</p>
+
+        <p><a href="#_ftnref19" id="_ftn19"><sup>[19]</sup></a> Vgl. bspw. Kurt Gärtner, Der Anfangsvers des Gregorius Hartmanns von Aue als Federprobe in der Trierer Handschrift von Konrads von Würzburg Silvester, S. 105-122.</p>
+
+        <p><a href="#_ftnref20" id="_ftn20"><sup>[20]</sup></a> Vgl. dazu auch: Bernhard Bischoff, Elementarunterricht und Probationes pennae in der 1. Hälfte des Mittelalters, in: Ders. Mittelalterliche Studien I, Stuttgart 1966, S. 74-87.</p>
+        </div>
+
+    </main>
+
+<!-- FOOTER:START -->
+<footer class="bg-slate-100 text-slate-900 py-8">
+  <div class="container mx-auto px-6">
+    <!-- Logos Row -->
+    <div
+      class="flex flex-wrap items-center justify-center gap-8 mb-6 pb-6 border-b border-slate-300"
+    >
+      <img
+        src="../assets/images/mhdbdb-logo.png"
+        alt="MHDBDB Logo"
+        class="h-16 w-auto"
+      />
+      <img
+        src="../assets/images/university-logo.png"
+        alt="Universität Salzburg"
+        class="h-24 w-auto"
+      />
+      <img
+        src="../assets/images/clariah-logo.svg"
+        alt="CLARIAH-AT"
+        class="h-16 w-auto"
+      />
+    </div>
+
+    <!-- Info and Button Row -->
+    <div
+      class="flex flex-col md:flex-row justify-between items-center gap-6"
+    >
+      <div class="text-center md:text-left">
+        <p class="text-sm mb-2">
+          Universität Salzburg, 2025–<span class="current-year">2026</span> |
+          <a
+            href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
+            class="hover:text-brand-600 transition"
+            target="_blank"
+            rel="noopener"
+          >
+            CC BY-NC-SA 4.0
+          </a>
+        </p>
+        <div
+          class="flex flex-wrap justify-center md:justify-start gap-4 text-sm text-slate-600"
+        >
+          <a
+            href="mailto:mhdbdb@plus.ac.at"
+            class="hover:text-brand-600 transition"
+            >mhdbdb@plus.ac.at</a
+          >
+          <span>|</span>
+          <a
+            href="https://mhdbdb.plus.ac.at"
+            class="hover:text-brand-600 transition"
+            target="_blank"
+            rel="noopener"
+          >
+            mhdbdb.plus.ac.at
+          </a>
+          <span>|</span>
+          <a
+            href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only"
+            class="hover:text-brand-600 transition"
+            target="_blank"
+            rel="noopener"
+          >
+            GitHub
+          </a>
+          <span>|</span>
+          <a
+            href="../textreihen/index.html"
+            class="hover:text-brand-600 transition"
+          >
+            Textreihentypologie
+          </a>
+          <span>|</span>
+          <a
+            href="../impressum.html"
+            class="hover:text-brand-600 transition"
+          >
+            Impressum
+          </a>
+          <span>|</span>
+          <a
+            href="../barrierefreiheit.html"
+            class="hover:text-brand-600 transition"
+          >
+            Barrierefreiheit
+          </a>
+        </div>
+      </div>
+      <button
+        id="clearSiteDataBtn"
+        class="btn-secondary text-sm flex items-center gap-2"
+        title="Alle gespeicherten Daten löschen (Cache, IndexedDB, etc.)"
+      >
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+        </svg>
+        <span>Website-Daten löschen</span>
+      </button>
+    </div>
+  </div>
+</footer>
+<script src="../assets/js/site-chrome.js" defer></script>
+<!-- FOOTER:END -->
+
+</body>
+</html>

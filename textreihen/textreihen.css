@@ -1,0 +1,119 @@
+/* Unterseite Textreihentypologie (#93). Eigene Klassen mit Praefix tr-, damit das
+ * kompilierte Tailwind-Stylesheet nicht neu gebaut werden muss. Farben wie auf
+ * der uebrigen Site (brand = rgb(38, 92, 196), slate-Grautoene). */
+
+.tr-subnav { background: #fff; border-bottom: 1px solid #e2e8f0; }
+.tr-subnav-inner { display: flex; flex-wrap: wrap; column-gap: 1.75rem; row-gap: 0.25rem; margin-bottom: -1px; }
+.tr-subnav a {
+  padding: 0.75rem 0; border-bottom: 2px solid transparent; font-size: 0.875rem; font-weight: 500;
+  color: #475569; text-decoration: none;
+}
+.tr-subnav a:hover { color: #0f172a; border-color: #cbd5e1; }
+.tr-subnav a[aria-current="page"] { color: rgb(31, 74, 162); border-color: rgb(38, 92, 196); font-weight: 600; }
+
+.tr-main { max-width: 56rem; margin: 0 auto; padding: 3rem 1.5rem 4rem; }
+.tr-main-wide { max-width: 80rem; }
+.tr-main h1 { font-size: 2.25rem; line-height: 1.15; font-weight: 700; color: #0f172a; margin: 0 0 1rem; }
+.tr-lead { font-size: 1.125rem; line-height: 1.6; color: #475569; margin: 0 0 2rem; }
+.tr-muted { color: #64748b; font-size: 0.875rem; }
+
+.tr-prose { color: #334155; line-height: 1.7; }
+.tr-prose h2 { font-size: 1.5rem; font-weight: 700; color: #0f172a; margin: 2.5rem 0 0.75rem; scroll-margin-top: 6rem; }
+.tr-prose h3 { font-size: 1.15rem; font-weight: 600; color: #0f172a; margin: 1.75rem 0 0.5rem; }
+.tr-prose p { margin: 0 0 1rem; }
+.tr-prose ul { list-style: disc; padding-left: 1.5rem; margin: 0 0 1rem; }
+.tr-prose ol { list-style: decimal; padding-left: 1.5rem; margin: 0 0 1rem; }
+.tr-prose li { margin: 0.25rem 0; }
+.tr-prose a { color: rgb(38, 92, 196); text-decoration: underline; text-underline-offset: 2px; word-break: break-word; }
+.tr-prose a:hover { color: rgb(31, 74, 162); }
+.tr-prose figure { margin: 1.5rem 0; overflow-x: auto; }
+.tr-prose figcaption { color: #64748b; font-size: 0.875rem; margin-top: 0.5rem; }
+.tr-prose img { max-width: 100%; height: auto; border: 1px solid #e2e8f0; border-radius: 0.5rem; background: #fff; }
+.tr-prose table { border-collapse: collapse; font-size: 0.9rem; background: #fff; }
+.tr-prose td, .tr-prose th { border: 1px solid #cbd5e1; padding: 0.4rem 0.65rem; vertical-align: top; }
+.tr-prose code { background: #f1f5f9; border-radius: 0.25rem; padding: 0.05rem 0.35rem; font-size: 0.875em; }
+.tr-prose .tr-pfad { list-style: none; padding-left: 0; margin: 0 0 1rem; font-family: ui-monospace, monospace; font-size: 0.9rem; }
+.tr-prose .tr-pfad ul { list-style: none; padding-left: 1.5rem; margin: 0; }
+.tr-prose .tr-pfad li::before { content: "\2192\00a0"; color: #94a3b8; }
+.tr-prose sup { font-size: 0.75em; }
+
+.tr-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 1rem; padding: 1.5rem; box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05); }
+.tr-card-link { display: block; text-decoration: none; color: inherit; }
+.tr-card-link:hover { border-color: rgb(127, 164, 232); box-shadow: 0 4px 10px rgba(15, 23, 42, 0.08); }
+.tr-card h2, .tr-card h3 { margin: 0 0 0.35rem; font-size: 1.1rem; font-weight: 700; color: #0f172a; }
+.tr-card p { margin: 0; font-size: 0.9rem; color: #475569; }
+.tr-grid { display: grid; gap: 1.25rem; grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 1.5rem 0 2.5rem; }
+.tr-note { background: #f8fafc; border: 1px solid #e2e8f0; border-left: 4px solid rgb(38, 92, 196); border-radius: 0.5rem; padding: 1rem 1.25rem; margin: 1.5rem 0; }
+.tr-note p:last-child { margin-bottom: 0; }
+.tr-funding { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid #e2e8f0; font-size: 0.9rem; color: #475569; }
+.tr-title-row { display: flex; align-items: center; gap: 0.6rem; }
+.tr-title-row svg { width: 1.5rem; height: 1.5rem; color: rgb(38, 92, 196); flex: none; }
+
+/* SKOS-Browser */
+.tr-browser { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 1.5rem; align-items: start; }
+.tr-panel { background: #fff; border: 1px solid #e2e8f0; border-radius: 1rem; padding: 1.25rem; }
+.tr-detail { position: sticky; top: 5.5rem; max-height: calc(100vh - 7rem); overflow-y: auto; }
+.tr-toolbar { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.75rem 0 1rem; }
+.tr-input {
+  width: 100%; border: 1px solid #cbd5e1; border-radius: 0.5rem; padding: 0.55rem 0.75rem; font-size: 1rem; background: #fff; color: #0f172a;
+}
+.tr-input:focus-visible { outline: 2px solid rgb(38, 92, 196); outline-offset: 1px; }
+.tr-btn {
+  border: 1px solid #cbd5e1; background: #fff; color: #334155; border-radius: 0.5rem; padding: 0.35rem 0.75rem; font-size: 0.875rem; cursor: pointer;
+}
+.tr-btn:hover { border-color: rgb(38, 92, 196); color: rgb(31, 74, 162); }
+.tr-results { margin-bottom: 1rem; border: 1px solid #e2e8f0; border-radius: 0.5rem; background: #f8fafc; max-height: 18rem; overflow-y: auto; }
+.tr-results[hidden] { display: none; }
+.tr-results-info { margin: 0; padding: 0.5rem 0.75rem; font-size: 0.8rem; color: #64748b; border-bottom: 1px solid #e2e8f0; }
+.tr-results-list { list-style: none; margin: 0; padding: 0; }
+.tr-result { display: block; width: 100%; text-align: left; background: none; border: 0; border-bottom: 1px solid #e2e8f0; padding: 0.45rem 0.75rem; cursor: pointer; }
+.tr-result:hover, .tr-result:focus-visible { background: #e8effc; }
+.tr-result-name { display: block; font-weight: 600; color: #0f172a; }
+.tr-result-sub { display: block; font-size: 0.8rem; color: #64748b; }
+.tr-results mark { background: #fde68a; color: inherit; border-radius: 0.15rem; }
+
+.tr-tree, .tr-children { list-style: none; margin: 0; padding: 0; }
+.tr-children { margin-left: 1.1rem; border-left: 1px solid #e2e8f0; padding-left: 0.35rem; }
+.tr-children[hidden] { display: none; }
+.tr-row { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0.35rem; padding: 0.15rem 0.25rem; border-radius: 0.375rem; }
+.tr-row:hover { background: #f1f5f9; }
+.tr-row.is-selected { background: #dbe6fb; box-shadow: inset 3px 0 0 rgb(38, 92, 196); }
+.tr-toggle, .tr-leaf { width: 1.4rem; height: 1.4rem; flex: none; align-self: center; display: inline-flex; align-items: center; justify-content: center; }
+.tr-toggle { background: none; border: 0; border-radius: 0.25rem; color: #475569; cursor: pointer; padding: 0; }
+.tr-toggle:hover { background: #e2e8f0; }
+.tr-chevron { width: 1rem; height: 1rem; transition: transform 0.12s; }
+.tr-toggle[aria-expanded="true"] .tr-chevron { transform: rotate(90deg); }
+.tr-name { background: none; border: 0; padding: 0; font: inherit; font-weight: 500; color: #0f172a; cursor: pointer; text-align: left; }
+.tr-name:hover { color: rgb(31, 74, 162); text-decoration: underline; }
+.tr-en { font-size: 0.8rem; color: #94a3b8; }
+.tr-count { font-size: 0.7rem; color: #64748b; background: #f1f5f9; border-radius: 999px; padding: 0 0.4rem; }
+.tr-badge { font-size: 0.7rem; border-radius: 999px; padding: 0 0.5rem; display: inline-block; }
+.tr-badge-multi { background: #e0f2fe; color: #075985; }
+.tr-badge-old { background: #fef3c7; color: #92400e; }
+.tr-error { padding: 0.75rem; background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; border-radius: 0.5rem; }
+
+.tr-detail-title { font-size: 1.4rem; font-weight: 700; margin: 0 0 0.5rem; color: #0f172a; }
+.tr-detail-h { font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: #64748b; margin: 1.1rem 0 0.35rem; }
+.tr-dl { display: grid; grid-template-columns: 9rem 1fr; gap: 0.2rem 0.75rem; margin: 0; font-size: 0.9rem; }
+.tr-dl dt { color: #64748b; }
+.tr-dl dd { margin: 0; color: #0f172a; word-break: break-word; }
+.tr-uri { font-size: 0.8rem; }
+.tr-linklist { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.35rem; }
+.tr-link { background: #eff4fd; border: 1px solid #c8d9f6; color: rgb(31, 74, 162); border-radius: 999px; padding: 0.1rem 0.65rem; font-size: 0.85rem; cursor: pointer; }
+.tr-link:hover { background: #dbe6fb; }
+.tr-paths { list-style: none; margin: 0; padding: 0; font-size: 0.85rem; }
+.tr-paths li { margin: 0.25rem 0; line-height: 1.9; }
+.tr-sep { color: #94a3b8; }
+
+/* Bibliografie */
+.tr-bib-filter { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 0.75rem; margin: 1rem 0; }
+.tr-bib-list { list-style: none; padding: 0; margin: 0; }
+.tr-bib-entry { padding: 0.55rem 0; border-bottom: 1px solid #e2e8f0; font-size: 0.9rem; line-height: 1.55; color: #334155; word-break: break-word; }
+.tr-bib-entry[hidden] { display: none; }
+.tr-bib-entry a { color: rgb(38, 92, 196); text-decoration: underline; }
+
+@media (max-width: 1100px) {
+  .tr-browser { grid-template-columns: minmax(0, 1fr); }
+  .tr-detail { position: static; max-height: none; }
+  .tr-grid { grid-template-columns: minmax(0, 1fr); }
+}
