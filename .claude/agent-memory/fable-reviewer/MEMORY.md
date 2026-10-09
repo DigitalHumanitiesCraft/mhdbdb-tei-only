@@ -17,4 +17,4 @@ Verdichtet am 08.10.2026. Zahlen in den Dateien sind Eingabe, keine Messung.
 - [Prüfseiten](pruefseiten.md): Zitat-Gate, markup vs. e(), Generator-Laufzeit, 526-Prüfseite
 - [Parzival-Bücher #358](projekt_parzival_buecher_358.md): OCR-Messrezept Bartsch/Martin, Fallen, Skript- und Spec-Proben
 - [WZB-Nachannotierung #370/#526](projekt_526_breve_makron.md): ANLEGEN-Falle, Tafelskripte auf Kopie, Guard-Grenzen, EOL, Index-Abgleich
-- [Textreihen-Unterseite #93](projekt_93_textreihen.md): alte Site per curl + Textvergleich prüfen, Zotero-Endpunkte, Befunde Runde 1 (09.10.2026)
+- [Textreihen-Unterseite #93](projekt_93_textreihen.md): alte Site per curl + Textvergleich prüfen, Zotero-Endpunkte (`format=versions`), Befunde Runde 1 und Nachmessung Runde 2 (09.10.2026)
