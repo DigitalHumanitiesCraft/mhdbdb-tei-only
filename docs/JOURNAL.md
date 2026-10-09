@@ -4,6 +4,28 @@ Chronological log of development decisions, dead ends, and savepoints. Not a cha
 
 ---
 
+## 2026-10-09 (Spur 452): Zuschreibungsstatus für Werkautoren, Corpus Index 4.2.31, Authority Index 1.9.22
+
+Ein Vorgang (#452, im Zusammenhang mit #444) auf dem Zweig `claude/452-zuschreibung`: Autoren eines Werks tragen einen Status (ohne Zusatz anerkannt, `disputed`, `uncertain`, `rejected`) oder die Rolle `adapter`. Betroffen sind fünf Sigel: CR (Bligger von Steinach verworfen), BAX (Anonym als Bearbeiter), HOF und VDH (Stricker allein), RHB (Konrad von Würzburg umstritten, zählt als Autor). Daten, Schema, beide Indizes, API, Leseansicht, Suche und Playground tragen die Unterscheidung; die Anzeigetexte stammen von KZW („umstritten“, „unsicher zugeschrieben“, „verworfen“, „Bearbeiter“, Rubrik „Frühere Zuschreibungen“). Gemessen am Zweigkopf `75e5caf10`: `npm test` mit `VERDICT: VOLLLAUF GRUEN (473 Tests, 50 Dateien)`; fünf Review-Runden des Reviewers, die letzte ohne Befund.
+
+### Was über den Einzelfall hinausgilt
+
+**(a) „Zählender Autor“ ist ein eigener Begriff, kein Feld.** Zählend heißt: weder Bearbeiter noch verworfen. Das Kompatibilitätsfeld `author` bleibt der erste zählende Autor, alle Zuschreibungen stehen in `works[].attributions`. Jede Stelle, die einen Autor als Zeichenkette liest, sieht deshalb nur diesen ersten. Im Korpus betrifft das nach der Messung des Reviewers genau RHB und work_325; die Auswertung der Analysewerkzeuge (Gruppierung, Statistik) liest weiter nur den ersten Namen, eine eigene Autorenzeile im Korpusindex gehört nicht in diesen PR.
+
+**(b) Die Fehlerklasse „Autor als Zeichenkette“ hat drei Runden gebraucht.** Gefunden wurde sie nacheinander in `app.js` (Runde 2), in Dateiliste und Reim-Textfilter des Playgrounds (Runde 3) und im Tippfilter des Textvergleichs (Runde 4). Erst der Sweep in Runde 5 ging vom Eingabefeld rückwärts statt von `text.author` vorwärts und fand nichts mehr. Ein Suchlauf über `text.author` übersieht zusammengesetzte Strings (Beschriftungen, `data-`Attribute); das Eingabefeld ist der bessere Ausgangspunkt.
+
+**(c) Vor dem Push alle Schritte aus `data-integrity.yml` lokal laufen lassen, nicht die Liste aus dem Gedächtnis.** `check-author-refs.py` fehlte in meiner Liste und war in der CI rot. Behoben mit einer Ausnahme für verworfene Zuschreibungen (`0e5f1ab6e`), die die Koordination wegen des Freezes auf diesem Skript freigegeben hat.
+
+**(d) Die Werkesuche zählt Autorfelder fest auf** (`attributionNames(work)[1]`, `[2]`). Bei höchstens zwei zählenden Autoren je Werk (gemessen vom Reviewer) reicht das; bekommt ein Werk einen dritten, findet niemand den, und kein Test merkt es.
+
+### Rote Zeilen
+
+Drei, Nr. 115 bis 117: die unvollständige Gate-Liste vor dem Push und zwei Wiederholungen der Fehlerklasse aus (b), nachdem die Lehre schon im Reviewer-Memory stand.
+
+### Was zurück an Christian geht
+
+Die Abnahme geht nach dem Merge an @wachauer allein, mit der Frage nach HOF und VDH (Stricker allein, der Anonym-Rest in `particDesc` bleibt mit veralteten Werklisten stehen) und der Frage, ob die Analysewerkzeuge alle Zuschreibungen zeigen sollen. Die Reviews liefen ausnahmsweise auf Opus statt Fable (Fable-Limit, Freigabe 09.10.); der volle Testlauf lief ohne gesetzten `MHDBDB_TEST_PORT`, also vermutlich auf dem Standardport 8080 statt auf dem zugeteilten 8083.
+
 ## 2026-10-04 (Koordination): Lauf vom 02.10. abgeschlossen, Parzival-Bücher und „Strophe“ auf `main`
 
 Vier Vorgänge (#378, #370 Punkt 2, #358, #228) in drei Spuren, neun PRs gemergt; die Tabelle mit den Commits steht im Laufplan unter „Abnahme“. Die lokale Koordination hat am 03.10. an ihrem Fable-Limit an eine Cloud-Session übergeben, die #523 (A3) und #519 (B2) gemergt hat. Damit trägt der Parzival die 16 Bücher im TEI und zeigt sie als „Buch N“, die Dreißiger in PZ und WH heißen „Strophe N“. Bei KZW liegen jetzt die Prüfseite zu #370, der Mur-Vorschlag in #228 und die Abnahmen von #378, #228 und #358. Der `fable-reviewer` lief in der Cloud-Session ohne Limit; die Übergabe hat also getragen.

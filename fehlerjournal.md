@@ -1151,3 +1151,33 @@ Auto-Mode-Classifier abgelehnt, und die Blockade ging an Christian.
 **Was es getragen hat:** eine Entscheidungsfrage an Christian und fast einen zweiten Versand derselben Datei an einen Externen. Abgewendet hat den Versand keine Vorrichtung, sondern ein Nebeneffekt des Entwurfs. Richtiggestellt in #225 am selben Tag; die neu erzeugte Liste war byte-identisch mit der verschickten.
 
 **Kein neuer Mechanismus:** `agentenbefunde.md` ist ausgesetzt; die Aussetzung ist der Mechanismus.
+
+### 115. Rot: vor dem Push die lokalen Gates aus einer Liste im Kopf gelaufen, `check-author-refs.py` fehlte, die CI war rot (Spur 452, 09.10.2026).
+
+**Rot.** Vor dem ersten Push auf `claude/452-zuschreibung` habe ich die Gates der Data-Change-Lifecycle lokal laufen lassen, aber aus einer Liste, die ich selbst zusammengestellt hatte, nicht aus `.github/workflows/data-integrity.yml`. `scripts/audit/check-author-refs.py` stand nicht darauf. Es meldete für CR die verworfene Zuschreibung (Bligger von Steinach) als Autor ohne `particDesc`-Spiegel und war in der CI rot.
+
+**Die Lehre steht in `docs/DATA-MODEL.md` (Data-Change-Lifecycle): die Gates einer Datenänderung sind die Schritte von `.github/workflows/data-integrity.yml`, nicht eine Liste aus dem Gedächtnis.** Letzte Zeile zu dieser Lehre: keine.
+
+**Was es getragen hat:** eine Runde CI und eine Ausnahme im eingefrorenen Skript, die die Koordination freigeben musste. Behoben in `0e5f1ab6e` (verworfene Zuschreibung braucht keinen Spiegel), mit Mutationsprobe und Messung danach.
+
+**Kein neuer Mechanismus:** eine Zeile. Die Gegenprobe ist, die Schritte aus der Workflow-Datei abzulesen.
+
+### 116. Rot: Fehlerklasse „Autor als Zeichenkette“ nach der Lehre aus Runde 2 in Runde 3 wieder getroffen (Spur 452, 09.10.2026).
+
+**Rot.** In Runde 2 fand der Reviewer, dass der Textfilter der Hauptseite (`assets/js/app.js`) nur `text.author` liest, sodass „konrad“ RHB nicht mehr findet. Ich habe die Stelle behoben und die Lehre ins Reviewer-Memory geschrieben, den Rest aber mit einer Suche nach `text.author` im Frontend gesucht. In Runde 3 kamen die Dateiliste des Playgrounds (`playground-main.js`) und der Textfilter im Reim-Wörterbuch (`rhyme-dictionary.js`) hinzu; beide hatte meine Suche nicht getroffen, weil dort der Name in ein Template-Literal gebaut wurde.
+
+**Die Lehre steht in `mengen.md`: Allaussagen und Mengenangaben ohne Zahl brauchen ihre Menge; „alle Leser dieses Feldes“ ist so eine Aussage.** Der Satz „alle Stellen sind behoben“ stand auf einer Suche, die nur einen Zuschnitt traf. Letzte Zeile zu dieser Lehre: keine.
+
+**Was es getragen hat:** zwei Review-Runden, keine Nutzerwirkung (vor dem Push gefangen). Behoben in `8028faeae`, mit einer Spec für Hauptseite und Playground.
+
+**Kein neuer Mechanismus:** noch keine dritte Zeile; 117 gehört zur selben Klasse.
+
+### 117. Rot: dieselbe Fehlerklasse in Runde 4 ein drittes Mal, im Tippfilter des Textvergleichs (Spur 452, 09.10.2026).
+
+**Rot.** `playground/js/ui/tei/text-comparison.js` baut die Optionsbeschriftung, in der der Tippfilter sucht, aus `t.author`. Nach Runde 3 hatte ich den Sweep als erledigt gemeldet, obwohl er nur Stellen mit `dataset.author` und Filter-Aufrufen traf; die Beschriftung lag im selben Verzeichnis (`playground/`), aber in einem Template-Literal ohne eines der Suchwörter.
+
+**Die Lehre steht in `mengen.md` (Allaussagen) und im Reviewer-Memory „Template-Strings als Leser eines Felds“.** Die letzte Zeile zu dieser Lehre ist Eintrag 116.
+
+**Was es getragen hat:** eine weitere Review-Runde. Behoben in `75e5caf10`. Die Runde 5 hat den Sweep umgekehrt (vom Eingabefeld rückwärts, jede Stelle mit Befund oder Ausschluss in einer Tabelle) und keine weitere Stelle gefunden.
+
+**Mechanismus: die Methode, nicht eine Vorrichtung.** Der Sweep von der Eingabe her ersetzt die Suche nach dem Feldnamen; im Reviewer-Memory (`header_spiegel.md`) steht das Vorgehen. Ein Hook ist dafür nicht gebaut, weil die Fälle in Template-Strings verschiedener Dateien liegen und keine feste Form haben.
