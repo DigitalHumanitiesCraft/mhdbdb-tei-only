@@ -141,9 +141,10 @@ einfache Abnahmen gehen seit dem 09.10. zuerst an Julia (KZW in #378). Eine
 offene Frage an KZW und eine nur an KZW gerichtete Abnahme bleiben davon
 unberuehrt. Hat KZW geantwortet, zaehlt jede juengere Abnahme an Julia als
 unsere Reaktion; schreibt KZW danach noch einmal, liegt es bei uns. Der
-Vorrang gilt nur fuer KZW. Unsichtbar wird dabei nichts: wo es eine
-Abnahme an Julia gibt, steht der Vorgang bei Julia (Liste oder "bei uns");
-der Selbsttest prueft das fuer jeden seiner Faelle.
+Vorrang gilt nur fuer KZW und vergleicht Zeilen, nicht Kommentare: eine
+eigene Zeile `@wachauer Abnahme:` neben einer an Julia bleibt bei KZW. Der
+Selbsttest prueft ueber seine Lebenslauf-Faelle, unabhaengig von dieser
+Regel, dass keine offene Frage an KZW unsichtbar wird.
 
 Liegt etwas laenger als `FRIST_TAGE` bei uns, wird der Lauf rot wie bei
 einer Label-Luecke, und der Body sagt es. Abstellen laesst sich das nur mit
@@ -473,14 +474,6 @@ def einordnen(issues):
     person = {w: {'abnahme': [], 'frage': []} for w in PERSONEN}
     bei_uns, fehlt = [], []
 
-    def eintragen(i, wait, stelle, ihr, unser):
-        if stelle == 'bei_uns':
-            bei_uns.append((i, wait, ihr))
-        elif stelle == 'fehlt':
-            fehlt.append((i, wait, letzter_kommentar(i, WIR)))
-        else:
-            person[wait][stelle].append((i, unser))
-
     for i in issues:
         if 'evergreen' in i['labels']:
             continue
@@ -503,13 +496,13 @@ def einordnen(issues):
             # Julia zuerst (KZW in #378, 09.10.), nur fuer KZW. Gibt es eine
             # Abnahme von uns an Julia, wird KZW uebersprungen, wenn
             # - wir KZW nie gefragt haben und sie nie geschrieben hat,
-            # - unsere letzte Abnahme an KZW auch Julia meint (eine nur an
-            #   KZW gerichtete bleibt bei ihr: komplexe Abnahmen, Runde 4),
+            # - unsere letzte Abnahme an KZW dieselbe Zeile ist wie die an
+            #   Julia (eine eigene Zeile oder ein eigener Kommentar nur an
+            #   KZW bleibt bei ihr: komplexe Abnahmen, Runden 4 und 5),
             # - oder der Ball nach KZWs Antwort bei uns laege und eine
             #   juengere Abnahme an Julia unsere Reaktion ist (Frage an KZW,
             #   sie antwortet, wir setzen um, Abnahme an Julia mit cc).
             # Eine offene Frage an KZW wird nie uebersprungen.
-            eintrag = (i, wait, stelle, ihr, unser)
             if wait == 'wait:kzw' and 'wait:julia' in i['labels']:
                 julia = WAIT_KONTEN['wait:julia']
                 abnahmen = [k['createdAt'] for k in i.get('comments') or []
@@ -517,12 +510,18 @@ def einordnen(issues):
                             and art(k, julia) == 'abnahme']
                 if abnahmen and (
                         stelle == 'fehlt'
-                        or (stelle == 'abnahme'
-                            and art(unser, julia) == 'abnahme')
+                        or (stelle == 'abnahme' and art(unser, julia) ==
+                            'abnahme' and erste_zeile(unser, konto) ==
+                            erste_zeile(unser, julia))
                         or (stelle == 'bei_uns'
                             and max(abnahmen) > ihr['createdAt'])):
                     continue
-            eintragen(*eintrag)
+            if stelle == 'bei_uns':
+                bei_uns.append((i, wait, ihr))
+            elif stelle == 'fehlt':
+                fehlt.append((i, wait, letzter_kommentar(i, WIR)))
+            else:
+                person[wait][stelle].append((i, unser))
     for wait in person:
         for liste in person[wait].values():
             liste.sort(key=lambda t: (t[1]['createdAt'], t[0]['number']))
@@ -1148,28 +1147,54 @@ def selftest():
                    '| 2026-10-05 |' in wo(iss(71, W + ['wait:kzw'], kommentare=[
                        ('2026-10-05', 'wachauer', 'Ja.')]), ganz=True)[1]))
 
-    # Invariante ueber alle Faelle oben (Runde 4): jedes wait:<person> landet
-    # an genau einer Stelle, oder, nur bei KZW, der Vorgang steht bei Julia.
-    # Der Julia-Vorrang ist der einzige Pfad, der etwas auslassen kann.
+    # Zwei Abnahme-Zeilen in einem Kommentar: die an KZW bleibt bei ihr
+    # (Runde 5: verglichen wird die Zeile, nicht der Kommentar).
+    p, _ = wo(iss(85, W + ['wait:kzw', 'wait:julia'], kommentare=[
+        ('2026-10-04', 'chsteiner', '@juliahin Abnahme: Seite Y?\n'
+         '@wachauer Abnahme: Grundsatzpruefung Z?')]))
+    kat, _, jul = p.partition('### Für Julia')
+    faelle.append(('Zwei Abnahme-Zeilen: die an KZW bleibt bei KZW',
+                   'Grundsatzpruefung Z?' in kat and 'Seite Y?' in jul
+                   and 'Seite Y?' not in kat))
+
+    # Invarianten ueber alle Faelle oben, unabhaengig von der Skip-Logik
+    # (Runde 5: die erste Fassung hing an derselben Herleitung wie der Skip
+    # und blieb bei jedem Mutanten gruen).
+    # 1. Kein wait:<person> steht an zwei Stellen.
+    # 2. Ist unsere letzte Frage an KZW unbeantwortet, steht sie in KZWs
+    #    Liste, ausser es ist eine Abnahme in genau derselben Zeile wie die
+    #    an Julia. Das ist die Fehlerklasse aus #406, umgekehrt.
     def stellen(e, nr, wait):
         n = sum(1 for was in ('abnahme', 'frage')
                 for i, _ in e['person'][wait][was] if i['number'] == nr)
         return n + sum(1 for i, w, _ in e['bei_uns'] + e['fehlt']
                        if i['number'] == nr and w == wait)
-    luecken = []
+    kzw, jul_k = WAIT_KONTEN['wait:kzw'], WAIT_KONTEN['wait:julia']
+    luecken, offen_geprueft = [], 0
     for i in gesehen:
         e = einordnen([i])
         for wait in PERSONEN:
-            if wait not in i['labels']:
-                continue
-            n = stellen(e, i['number'], wait)
-            if n > 1 or (n == 0 and not (
-                    wait == 'wait:kzw'
-                    and stellen(e, i['number'], 'wait:julia') == 1)):
-                luecken.append(f'#{i["number"]} {wait}')
-    faelle.append((f'Kein Vorgang unsichtbar oder doppelt '
-                   f'({len(gesehen)} Faelle, Luecken: {luecken or "keine"})',
-                   not luecken and len(gesehen) > 20))
+            if wait in i['labels'] and stellen(e, i['number'], wait) > 1:
+                luecken.append(f'#{i["number"]} {wait} doppelt')
+        if 'wait:kzw' not in i['labels']:
+            continue
+        u = letzte_frage(i, kzw)
+        ihr = letzter_kommentar(i, (kzw,))
+        if not u or (ihr and ihr['createdAt'] > u['createdAt']):
+            continue
+        if ('wait:julia' in i['labels'] and art(u, kzw) == 'abnahme'
+                and erste_zeile(u, kzw) == erste_zeile(u, jul_k)):
+            continue
+        offen_geprueft += 1
+        gelistet = [k for i2, k in e['person']['wait:kzw'][art(u, kzw)]
+                    if i2['number'] == i['number']]
+        if gelistet != [u]:
+            luecken.append(f'#{i["number"]} offene Frage an KZW fehlt')
+    faelle.append((f'Kein Vorgang doppelt, keine offene KZW-Frage '
+                   f'unsichtbar ({len(gesehen)} Faelle, davon '
+                   f'{offen_geprueft} mit offener Frage; Luecken: '
+                   f'{luecken or "keine"})',
+                   not luecken and offen_geprueft > 10))
 
     # Bei Externen gibt es kein Konto zu filtern, also faellt unsere eigene
     # Seite heraus. Das eigene Nachfassen darf die Uhr auch hier nicht stellen.
