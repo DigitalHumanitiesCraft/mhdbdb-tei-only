@@ -338,6 +338,28 @@ Label and parent hierarchy are resolved from genres.xml at runtime. The build sc
 
 **Author name in `<author>`:** the text content (`Heinrich von Rang`) stays, because TEI expects readable text in `<author>`. The source of truth for the author name is `persons.xml`; the text in `<author>` is a convenience for human readers. This is not denormalization in the same sense as the genre labels, because `<author>` without text would be semantically incomplete.
 
+**Attribution status and role (#452, #444).** A work may carry several `<author>` elements, and the relation between work and person says what each one means. The status lives on the `<author>` itself, not on the person and not on the work (KZW, #444, 16.09.2026):
+
+| `@ana` | Display text | Counts as author in search, filter, reading view, person view, API |
+|---|---|---|
+| (none) | Autor*in | yes, generally accepted |
+| `disputed` | „umstritten" | yes, with the note |
+| `uncertain` | „unsicher zugeschrieben" | yes, with the note (no work carries it yet) |
+| `rejected` | „verworfen" | no, only under „Frühere Zuschreibungen" |
+
+`@role="adapter"` marks the *Bearbeiter* of a work whose original has another author. An adapter never counts as author. The two attributes are independent: `@ana` says how certain the attribution is, `@role` says what the person did. Anonymous remains an author of its own where it is one (`person_anonym`, KZW 08.10.2026), whatever the status of a named person next to it.
+
+The evidence sits only in `works.xml`, in a `<note type="attribution" target="#work_N_aK" resp="contributors.xml#contrib_N"><date when="…"/>…</note>` after the authors; the `<author>` it points at carries the matching `@xml:id`. The TEI headers carry `@ana` and `@role` on `titleStmt/author` and no note (TEI has no `<note>` in `titleStmt`, and the evidence belongs to the relation, not to its copy in a header). Example, `work_5` (Moriz von Craûn):
+
+```xml
+<author ref="persons.xml#person_anonym">Anonym</author>
+<author xml:id="work_5_a2" ref="persons.xml#person_227" ana="rejected">Bligger von Steinach</author>
+<note type="attribution" target="#work_5_a2" resp="contributors.xml#contrib_003">
+  <date when="2026-09-16"/>Ältere Zuschreibung, …</note>
+```
+
+The four cases of #452 as they stand: `work_5` (CR) Anonym, Bligger von Steinach rejected; `work_462` (BAX) Lamprecht, Anonym as adapter; `work_408` (HOF, VDH) Stricker alone; `work_325` (RHB) Anonym first, Konrad von Würzburg disputed. What the build derives from it: [CONTRACTS.md → F.6 Attribution Status](CONTRACTS.md#f6-attribution-status-which-author-a-reader-sees-452).
+
 ### 3.5 concepts.xml: concept ontology
 
 TEI Ch. 2.3.7 (The Classification Declaration / Taxonomy). Data in `<encodingDesc>/<classDecl>` (TEI allows `<taxonomy>` only there).
@@ -506,7 +528,7 @@ works.xml ──author @ref──> persons.xml
 | lexicon → concepts | `<ptr target="concepts.xml#..."/>` | a sense has 0-N concept pointers |
 | lexicon → lexicon | `<seg corresp="lexicon.xml#...">` | etymology components |
 | variants → lexicon | `@corresp="lexicon.xml#..."` | 1:1 (one entry per lemma) |
-| works → persons | `<author ref="persons.xml#...">` | 1:N (3 works have 2 authors on 2026-10-05: `work_325`, `work_408`, `work_462`) |
+| works → persons | `<author ref="persons.xml#...">` | 1:N, with attribution status and role on the relation itself (see "Attribution status" in §3.4); 3 works carry two `<author>` elements since #452 (`work_5`, `work_325`, `work_462`), `work_408` carries one |
 | works → genres | `<ptr target="genres.xml#..."/>` | 1:N (one work, several genres) |
 | names → concepts | `<ptr type="exactMatch\|closeMatch" target="concepts.xml#..."/>` | 0-N |
 | taxonomy-internal | `<ptr type="broader" target="#..."/>` | 0-N (polyhierarchy) |

@@ -82,6 +82,7 @@ Full-text immersive reader with multi-lemma highlighting and rich metadata.
 - **TEI structural rendering:** Full support for structural elements (headings, divisions, stanzas, page/column breaks, caesuras, editor insertions)
 - **Wikidata integration:** Automatic image fetching with attribution
 - **Dual identifiers:** Separate GND/Wikidata for work vs author
+- **Attribution status (#452):** the author line shows every attribution that counts with its status, e.g. „Anonym; Konrad von Würzburg (umstritten)" (RHB). A *Bearbeiter* (BAX) and a rejected attribution (Bligger von Steinach at CR) stand in the metadata panel under „Bearbeiter" and „Frühere Zuschreibungen", the evidence as tooltip; neither counts as author. The result table and its CSV carry the same line. Rules: [CONTRACTS.md F.6](CONTRACTS.md#f6-attribution-status-which-author-a-reader-sees-452)
 - **Context navigation:** Prev/next buttons to jump between occurrences
 - **Back to the start of the text (#138):** a round jump button at the bottom right, as soon as the panel header has scrolled out of the viewport; it jumps back to title and metadata, not to the top of the page
 - **Verse numbering per counting range (#138):** the visible margin numbering restarts at 1 in every `<div>` that begins its own **continuous** count at `n="1"`. Two conditions make the criterion: the first numeric `<l>` carries `n="1"`, and the 1 occurs exactly once inside the `<div>`. Lines of an embedded parallel witness (`div[@type="parallel"]` inside another `<div>`) do not count towards this: every witness is measured on its own lines only (#250, see below). Of 7,256 `<div>`s in the corpus 3,128 meet the first condition, of which **1,959 in 138 texts** qualify (1,364 `chapter`, 252 `song`, 159 without `@type`, 156 `section`, 21 `parallel`, 7 `number`). This makes **1,818 additional margin numbers in 50 texts** visible. The largest case is PZ (Parzival) with +826, followed by WH (+466, which entered this statistic only with the Willehalm rebuild in #358), FR3 (+136), CHH (+53), TKR (+40) and HUG (+39, Julia's original case). Measured 2026-09-08. The basis is `python scripts/audit/count-verse-numbering-resets.py`, which rebuilds the render order and compares „with reset" against „without reset"; since #302 it carries the witness separation, so every number in this paragraph is reproducible.
@@ -145,12 +146,12 @@ Browse and search six controlled vocabularies with consistent interface patterns
 
 **Person Explorer:**
 - Search by author name
-- Display: Name, GND/Wikidata links, work count
-- Action: View all works by author
+- Display: Name, GND/Wikidata links, work count, and where they exist the counts of works as *Bearbeiter* and of earlier attributions (#452)
+- Action: View all works by author, a disputed attribution marked „(umstritten)"; adaptations and earlier attributions are listed apart, never among the works the person wrote
 
 **Work Explorer:**
-- Search by title, sigle, or author
-- Display: Title, sigle, author, genres, GND/Wikidata (work-specific), bibliographic references
+- Search by title, sigle, or author (every author that counts finds the work, #452)
+- Display: Title, sigle, authors with attribution status, adapter, earlier attributions, genres, GND/Wikidata (work-specific), bibliographic references
 
 **Lemma Explorer:** two named modes, switchable in the header, routed as `#lemmata` and `#lemmata&mode=component`
 
