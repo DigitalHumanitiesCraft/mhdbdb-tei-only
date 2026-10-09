@@ -137,10 +137,10 @@ den Vorgang, schlug bei 35 von 51 an und ist deshalb nicht drin; geblieben
 ist nur der Live-Link (`LIVE`), als Hinweis "vermutlich Abnahme".
 
 Eine Abnahme, die auch `wait:julia` traegt, steht nur in Julias Liste:
-einfache Abnahmen gehen seit dem 09.10. zuerst an Julia (KZW in #378). Fuer
-KZW zaehlt die Abnahme an Julia als unsere Reaktion: was sie davor
-geschrieben hat, liegt dann nicht mehr bei uns. Erst eine eigene, juengere
-Frage an KZW oder ein juengerer Kommentar von ihr holt sie zurueck.
+einfache Abnahmen gehen seit dem 09.10. zuerst an Julia (KZW in #378). Eine
+offene Frage an KZW bleibt davon unberuehrt und steht weiter in ihrer
+Liste. Hat KZW geantwortet, zaehlt jede juengere Abnahme an Julia als
+unsere Reaktion; schreibt KZW danach noch einmal, liegt es bei uns.
 
 Liegt etwas laenger als `FRIST_TAGE` bei uns, wird der Lauf rot wie bei
 einer Label-Luecke, und der Body sagt es. Abstellen laesst sich das nur mit
@@ -482,31 +482,32 @@ def einordnen(issues):
             # nach ihrer Antwort die Frist ab, und der Vorgang steht auf keiner
             # Liste mehr (Opus-Review 09.10., #397).
             unser = letzte_frage(i, konto)
-            # Julia zuerst (KZW in #378, 09.10.). Liegt eine Abnahme bei
-            # Julia, steht sie nur dort; KZW bleibt im Kommentar mitgenannt
-            # und bekommt weder eine Zeile noch "Frage fehlt" noch "bei uns",
-            # solange weder sie danach geschrieben hat noch eine juengere
-            # Frage an sie offen ist. Die Abnahme an Julia ist zugleich unsere
-            # Reaktion auf eine
-            # aeltere Antwort von KZW (Review-Runde 2: Frage an KZW, sie
-            # antwortet, wir setzen um, Abnahme an Julia mit cc).
-            julia = WAIT_KONTEN['wait:julia']
-            an_julia = (letzte_frage(i, julia)
-                        if wait != 'wait:julia' and 'wait:julia' in i['labels']
-                        else None)
-            if an_julia and art(an_julia, julia) == 'abnahme':
-                j = an_julia['createdAt']
-                if ((not ihr or ihr['createdAt'] < j)
-                        and (not unser or unser['createdAt'] < j
-                             or art(unser, konto) == 'abnahme')):
-                    continue
             if ihr and (not unser or ihr['createdAt'] > unser['createdAt']):
+                stelle = 'bei_uns'
+            elif not unser:
+                stelle = 'fehlt'
+            else:
+                stelle = art(unser, konto)
+            # Julia zuerst (KZW in #378, 09.10.): eine Abnahme an Julia nimmt
+            # KZW aus jeder Liste, ausser es ist eine offene Frage an KZW da.
+            # Liegt der Ball nach KZWs Antwort bei uns, zaehlt eine juengere
+            # Abnahme an Julia als unsere Reaktion (Frage an KZW, sie
+            # antwortet, wir setzen um, Abnahme an Julia mit cc).
+            if stelle != 'frage' and wait != 'wait:julia' \
+                    and 'wait:julia' in i['labels']:
+                julia = WAIT_KONTEN['wait:julia']
+                abnahmen = [k['createdAt'] for k in i.get('comments') or []
+                            if konto_von(k) in WIR
+                            and art(k, julia) == 'abnahme']
+                if abnahmen and (stelle != 'bei_uns'
+                                 or max(abnahmen) > ihr['createdAt']):
+                    continue
+            if stelle == 'bei_uns':
                 bei_uns.append((i, wait, ihr))
-                continue
-            if not unser:
+            elif stelle == 'fehlt':
                 fehlt.append((i, wait, letzter_kommentar(i, WIR)))
-                continue
-            person[wait][art(unser, konto)].append((i, unser))
+            else:
+                person[wait][stelle].append((i, unser))
     for wait in person:
         for liste in person[wait].values():
             liste.sort(key=lambda t: (t[1]['createdAt'], t[0]['number']))
@@ -1010,6 +1011,32 @@ def selftest():
         ('2026-09-02', 'wachauer', 'Moment, da fehlt noch was.')]))
     faelle.append(('KZW nach der Abnahme an Julia: Ball bei uns',
                    '**Ball bei uns (1)**' in m and '#78' in m))
+    # Offene Frage an KZW, danach eine getrennte Abnahme an Julia: die Frage
+    # bleibt in KZWs Liste (Runde 3; der Vorrang darf nichts verschlucken).
+    p, m = wo(iss(80, W + ['wait:kzw', 'wait:julia'], kommentare=[
+        ('2026-09-01', 'chsteiner', '@wachauer Frage: Soll X so bleiben?'),
+        ('2026-09-05', 'chsteiner',
+         '@juliahin Abnahme: Bitte Y pruefen?\ncc @wachauer')]))
+    kat, _, jul = p.partition('### Für Julia')
+    faelle.append(('Offene KZW-Frage bleibt trotz spaeterer Julia-Abnahme',
+                   'Soll X so bleiben?' in kat and '#80' in jul))
+    # Abnahme an Julia nach KZWs Antwort, danach eine Frage an Julia: die
+    # Abnahme bleibt unsere Reaktion, KZW nicht bei uns.
+    _, m = wo(iss(81, W + ['wait:kzw', 'wait:julia'], kommentare=[
+        ('2026-09-01', 'chsteiner', '@wachauer Frage: Soll X?'),
+        ('2026-09-02', 'wachauer', 'Ja.'),
+        ('2026-09-10', 'chsteiner', '@juliahin Abnahme: Bitte pruefen?'),
+        ('2026-09-20', 'chsteiner', '@juliahin Frage: Noch was?')]))
+    faelle.append(('Spaetere Frage an Julia macht KZW nicht rot',
+                   '#81' not in m))
+    # Frage an KZW und Abnahme an Julia im selben Kommentar: beide Zeilen.
+    p, _ = wo(iss(82, W + ['wait:kzw', 'wait:julia'], kommentare=[
+        ('2026-10-04', 'chsteiner', '@wachauer Frage: Gilt Z?\n\n'
+         '@juliahin Abnahme: Bitte Y pruefen?')]))
+    kat, _, jul = p.partition('### Für Julia')
+    faelle.append(('Frage an KZW und Abnahme an Julia in einem Kommentar',
+                   'Gilt Z?' in kat and 'Bitte Y pruefen?' in jul
+                   and 'Bitte Y' not in kat))
     # Nie gefragt, aber sie hat geschrieben: bei uns, nicht "Frage fehlt".
     _, m = wo(iss(79, W + ['wait:kzw'], kommentare=[
         ('2026-09-01', 'wachauer', 'Hier meine Antwort.'),
