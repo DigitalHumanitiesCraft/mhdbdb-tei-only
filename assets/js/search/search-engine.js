@@ -8,6 +8,7 @@
 import { TextNormalizer } from '../lib/text-normalizer.js';
 import { isStage3Match, stage3Distance } from '../lib/lemma-resolve.js';
 import { parseLemmaIdInput } from '../lib/lemma-id-input.js';
+import { countingAttributions, formatAttributionList, personIdOf } from '../lib/attributions.js';
 
 class SearchEngine {
     constructor(authorityIndex, corpusIndex) {
@@ -25,16 +26,28 @@ class SearchEngine {
     }
 
     /**
-     * Build map: workRef → authorId
+     * Build map: workId → Set of author ids.
+     * Alle Zuschreibungen, die als Autor zaehlen (#452): auch "umstritten" und
+     * "unsicher zugeschrieben", nicht aber Bearbeiter und verworfene. Werke
+     * ohne attributions fallen auf das Kompatibilitaetsfeld authorRef zurueck.
      */
     buildWorkToAuthorMap() {
         const map = new Map();
 
         this.authorityIndex.works.forEach(work => {
-            if (work.id && work.authorRef) {
+            if (!work.id) return;
+            const ids = new Set();
+            if (Array.isArray(work.attributions)) {
+                countingAttributions(work).forEach(a => {
+                    const id = personIdOf(a.ref);
+                    if (id) ids.add(id);
+                });
+            } else if (work.authorRef) {
                 // Extract author ID from ref: "persons.xml#person_123" → "person_123"
-                const authorId = work.authorRef.includes('#') ? work.authorRef.split('#')[1] : work.authorRef;
-                map.set(work.id, authorId);
+                ids.add(personIdOf(work.authorRef));
+            }
+            if (ids.size > 0) {
+                map.set(work.id, ids);
             }
         });
 
@@ -88,7 +101,7 @@ class SearchEngine {
                     textId: text.id,
                     lemmaId: lemmaId,
                     title: text.title,
-                    author: this.getAuthorName(text.authorRef),
+                    author: this.getAuthorLine(text),
                     matchCount: matchCount,
                     wordCount: text.wordCount,
                     snippet: snippet
@@ -190,8 +203,8 @@ class SearchEngine {
 
         // Author filter
         if (filters.authorId) {
-            const textAuthor = this.getAuthorId(text.workRef);
-            if (textAuthor !== filters.authorId) {
+            const textAuthors = this.getAuthorIds(text.workRef);
+            if (!textAuthors.has(filters.authorId)) {
                 return false;
             }
         }
@@ -200,15 +213,37 @@ class SearchEngine {
     }
 
     /**
-     * Get author ID from work reference
+     * Alle Autor-IDs eines Werks (#452), leeres Set wenn keine bekannt.
      */
-    getAuthorId(workRef) {
-        if (!workRef) return null;
+    getAuthorIds(workRef) {
+        if (!workRef) return new Set();
 
         // Extract work ID
         const workId = workRef.includes('#') ? workRef.split('#')[1] : workRef;
 
-        return this.workToAuthor.get(workId) || null;
+        return this.workToAuthor.get(workId) || new Set();
+    }
+
+    /**
+     * Get author ID from work reference: der erste Autor (Kompatibilitaet).
+     */
+    getAuthorId(workRef) {
+        const [first] = this.getAuthorIds(workRef);
+        return first || null;
+    }
+
+    /**
+     * Autorenzeile eines Textes (#452): alle Zuschreibungen des Werks mit
+     * Statustext ("Anonym; Konrad von Würzburg (umstritten)"). Ohne Werk oder
+     * ohne attributions der Name zum Kompatibilitaetsfeld authorRef.
+     */
+    getAuthorLine(text) {
+        const workId = text.workRef
+            ? (text.workRef.includes('#') ? text.workRef.split('#')[1] : text.workRef)
+            : null;
+        const work = workId ? this.authorityIndex.works.find(w => w.id === workId) : null;
+        const line = work ? formatAttributionList(work) : '';
+        return line || this.getAuthorName(text.authorRef);
     }
 
     /**

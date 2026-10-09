@@ -17,6 +17,15 @@ import {
 
 import { displayResults } from "../core/ui-helpers.js";
 import { buildGenreSubtrees } from "../../../../assets/js/lib/genre-tree.js";
+import { attributionNames, formatAttributionList } from "../../../../assets/js/lib/attributions.js";
+
+// #452: alle Zuschreibungen eines Werks statt nur des ersten Autors; Werke ohne
+// attributions fallen auf das Kompatibilitätsfeld author zurück
+const authorLineOf = (w) => formatAttributionList(w) || w.author;
+const authorNamesOf = (w) => {
+  const names = attributionNames(w);
+  return names.length ? names : [w.author];
+};
 import { findByIdInput, withIdHit } from "../../../../assets/js/lib/authority-id-input.js";
 
 // Self-contained per module (DESIGN.md §Escaping-Konvention).
@@ -330,7 +339,7 @@ export class GenreExplorer {
                  `<li>${escapeHtml(w.title)}${
                    w.sigle ? ` (${escapeHtml(w.sigle)})` : ""
                  } <span class="text-slate-500">von ${escapeHtml(
-                   w.author
+                   authorLineOf(w)
                  )}</span></li>`
              )
              .join("")}
@@ -473,7 +482,7 @@ export class GenreExplorer {
                 • <strong>${work.title}</strong>${
             work.sigle ? ` (${work.sigle})` : ""
           }
-                <span style="color: #475569;">von ${work.author}</span>
+                <span style="color: #475569;">von ${authorLineOf(work)}</span>
             </div>
         `
         )
@@ -492,7 +501,7 @@ export class GenreExplorer {
 
   showAuthorsInGenre(genreId, genreName) {
     const worksInGenre = this.findWorksInGenre(genreId);
-    const authorsInGenre = [...new Set(worksInGenre.map((w) => w.author))];
+    const authorsInGenre = [...new Set(worksInGenre.flatMap(authorNamesOf))];
 
     toggleDetails(`genre-details-${genreId}`, () => {
       if (authorsInGenre.length === 0) {
@@ -502,8 +511,8 @@ export class GenreExplorer {
       const authorsHTML = authorsInGenre
         .slice(0, 15)
         .map((author) => {
-          const worksCount = worksInGenre.filter(
-            (w) => w.author === author
+          const worksCount = worksInGenre.filter((w) =>
+            authorNamesOf(w).includes(author)
           ).length;
           return `
                 <div style="margin-bottom: 3px; font-size: 0.85rem;">
