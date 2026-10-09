@@ -98,6 +98,41 @@ uns geschrieben hat, und #147 auf 2026-07-10.
 Beide Daten kommen aus demselben `gh issue list`-Aufruf, das kostet rund
 drei Sekunden fuer den ganzen Bestand.
 
+## MESSVORSCHRIFT: wer ist am Zug
+
+Seit dem 09.10.2026 steht ganz oben in #44, zwischen eigenen Markern
+(`PERSONEN`), je eine Liste fuer Katharina, Julia und Linda: nur das, was
+gerade bei ihnen liegt. Anlass ist die Ruege von KZW vom 17.09. in #406:
+"Bereits beantwortete Fragen duerfen nicht erneut als Entscheidungsrueckstand
+bei mir erscheinen", und dazu "benenne die konkrete unbeantwortete Frage".
+Die Labels koennen das nicht leisten: sie werden von Hand gepflegt, und wenn
+KZW antwortet, bleibt `wait:kzw` stehen.
+
+Darum wird nicht gespeichert, wer am Zug ist, sondern gerechnet, je Vorgang
+und je `wait:<person>`:
+
+- **Ball bei uns**, wenn der letzte Kommentar der Person juenger ist als
+  unser letzter (`WIR`). Bots zaehlen auf keiner Seite.
+- Sonst liegt der Ball bei der Person, und unser letzter Kommentar sagt,
+  was sie tun soll. Er muss mit `Frage:` oder `Abnahme:` beginnen (fett
+  oder nicht, auch nach fuehrenden @-Erwaehnungen). Ohne Anfangswort steht
+  der Vorgang bei uns unter "Frage fehlt" und in keiner Personenliste.
+
+Das Anfangswort ist gemessen und nicht Geschmack: am 09.10. lagen nach der
+reinen Regel "wer zuletzt schrieb" 47 der 51 `wait:kzw` bei KZW, aber unser
+letzter Kommentar war dort meist eine Statusmeldung ("Umgesetzt in PR 553",
+"Label korrigiert", "Stand 06.09.") und keine Frage; vier Vorgaenge hatten
+gar keinen. Ihre Liste waere wieder voll von Dingen gewesen, die sie nichts
+fragen. Ein zweiter Hinweis auf Abnahmen, ein gemergter PR mit Verweis auf
+den Vorgang, schlug bei 35 von 51 an und ist deshalb nicht drin; geblieben
+ist nur der Live-Link (`LIVE`), als Hinweis "vermutlich Abnahme".
+
+Eine Abnahme, die auch `wait:julia` traegt, steht nur in Julias Liste:
+einfache Abnahmen gehen seit dem 09.10. zuerst an Julia (KZW in #378).
+
+Liegt etwas laenger als `FRIST_TAGE` bei uns, wird der Lauf rot wie bei
+einer Label-Luecke, und der Body sagt es.
+
 Usage:
     python scripts/audit/build-issue-matrix.py             # Vorschau auf stdout
     python scripts/audit/build-issue-matrix.py --apply     # #44 aktualisieren
@@ -106,7 +141,8 @@ Usage:
 
 Exit codes:
     0 = alles konsistent (bei --check zusaetzlich: Body ist aktuell)
-    1 = Label-Luecke, oder bei --check ein veralteter Body
+    1 = Label-Luecke, Ball laenger als FRIST_TAGE bei uns, oder bei --check
+        ein veralteter Body
     2 = gh nicht nutzbar, Marker fehlen oder stehen verkehrt herum,
         Issue nicht lesbar
 
@@ -122,6 +158,7 @@ import json
 import re
 import subprocess
 import sys
+from datetime import date, timedelta
 from pathlib import Path
 
 if sys.stdout.encoding and sys.stdout.encoding.lower() not in ('utf-8', 'utf8'):
@@ -130,6 +167,10 @@ if sys.stdout.encoding and sys.stdout.encoding.lower() not in ('utf-8', 'utf8'):
 MATRIX_ISSUE = 44
 BEGIN = '<!-- MATRIX:BEGIN (generiert von scripts/audit/build-issue-matrix.py, nicht von Hand aendern) -->'
 END = '<!-- MATRIX:END -->'
+# Zweites Markerpaar ganz oben im Body: die Listen fuer Menschen. Eigene
+# Marker, damit der handgepflegte Text dazwischen (Legende, Schema) bleibt.
+PBEGIN = '<!-- PERSONEN:BEGIN (generiert von scripts/audit/build-issue-matrix.py, nicht von Hand aendern) -->'
+PEND = '<!-- PERSONEN:END -->'
 
 # Reihenfolge ist Absicht: von "sofort machbar" nach "wartet auf einen
 # Menschen". Wer die Matrix liest, um Arbeit zu finden, liest von oben.
@@ -200,6 +241,24 @@ WAIT_KONTEN = {
 # Fassung dieser Liste trug das Suffix und war damit toter Code, inklusive
 # eines gruenen Selbsttests, der dasselbe falsche Format prueft.
 UNSERE_SEITE = ('chsteiner', 'claude', 'github-actions')
+
+# Wer "wir" ist, wenn es darum geht, wer am Zug ist: nur das Konto, unter dem
+# Christian und alle Sessions schreiben. Die Bots aus UNSERE_SEITE fehlen
+# absichtlich: ein Review-Kommentar stellt keine Frage und beantwortet keine.
+WIR = ('chsteiner',)
+# Wie die Personen in den Listen oben heissen. Die Reihenfolge ist die der
+# Abschnitte im Body.
+PERSONEN = {
+    'wait:kzw': 'Katharina',
+    'wait:julia': 'Julia',
+    'wait:linda': 'Linda',
+}
+# Personen, deren Abschnitt auch leer erscheint. Linda erscheint nur, wenn
+# etwas bei ihr liegt.
+IMMER_SICHTBAR = ('wait:kzw', 'wait:julia')
+ANFANG = re.compile(r'(?:@[\w-]+[\s,:]*)*(?:\*\*)?(Frage|Abnahme):')
+LIVE = 'dhcraft.org/mhdbdb-tei-only'
+FRIST_TAGE = 7
 
 
 def abbruch(meldung):
@@ -316,6 +375,133 @@ def letzte_wortmeldung(issue, konto=None, ausser=None):
 def achse(issue, praefix):
     """Alle Labels eines Praefix an diesem Issue."""
     return [l for l in issue['labels'] if l.startswith(praefix)]
+
+
+def letzter_kommentar(issue, konten):
+    """Der juengste Kommentar eines der genannten Konten, sonst None."""
+    treffer = [k for k in issue.get('comments') or [] if konto_von(k) in konten]
+    return max(treffer, key=lambda k: k['createdAt']) if treffer else None
+
+
+def erste_zeile(kommentar):
+    for zeile in (kommentar.get('body') or '').splitlines():
+        if zeile.strip():
+            return zeile.strip()
+    return ''
+
+
+def art(kommentar):
+    """'frage', 'abnahme' oder 'ohne': was unser letzter Kommentar verlangt.
+
+    Nur der Anfang der ersten nicht leeren Zeile zaehlt. "Das ist noch keine
+    Abnahme: ..." mitten im Satz darf nicht treffen, sonst passiert hier, was
+    GitHub mit "Kein Closes: #235" gemacht hat (CLAUDE.md, Git Rules).
+    """
+    if not kommentar:
+        return 'ohne'
+    m = ANFANG.match(erste_zeile(kommentar))
+    return m.group(1).lower() if m else 'ohne'
+
+
+def frage_text(kommentar):
+    """Der erste Satz nach dem Anfangswort, fuer eine Zeile in der Liste."""
+    text = ANFANG.sub('', erste_zeile(kommentar), count=1)
+    text = re.sub(r'[*_`#>]', '', text)
+    text = ' '.join(text.split())
+    text = re.split(r'(?<=[.?!])\s', text, maxsplit=1)[0]
+    if len(text) > 140:
+        text = text[:139] + '…'
+    # Eckige Klammern wuerden den Linktext beenden, in dem der Satz steht.
+    return entschaerfe(text).replace('[', '(').replace(']', ')') or '(ohne Text)'
+
+
+def einordnen(issues):
+    """Jeden Vorgang mit wait:<person> einer Stelle zuordnen.
+
+    Liefert ein dict: 'person' -> {wait: {'abnahme': [...], 'frage': [...]}},
+    'bei_uns' -> [(issue, wait, ihr_kommentar)], 'fehlt' -> [(issue, wait,
+    unser_kommentar_oder_None)]. Die Listen der Personen tragen
+    (issue, unser_kommentar). Messvorschrift im Modul-Docstring.
+    """
+    person = {w: {'abnahme': [], 'frage': []} for w in PERSONEN}
+    bei_uns, fehlt = [], []
+    for i in issues:
+        if 'evergreen' in i['labels']:
+            continue
+        for wait in PERSONEN:
+            if wait not in i['labels']:
+                continue
+            ihr = letzter_kommentar(i, (WAIT_KONTEN[wait],))
+            unser = letzter_kommentar(i, WIR)
+            if ihr and (not unser or ihr['createdAt'] > unser['createdAt']):
+                bei_uns.append((i, wait, ihr))
+                continue
+            was = art(unser)
+            if was == 'ohne':
+                fehlt.append((i, wait, unser))
+            elif (was == 'abnahme' and wait != 'wait:julia'
+                  and 'wait:julia' in i['labels']):
+                # Julia zuerst (KZW in #378, 09.10.). Liegt sie bei Julia,
+                # steht sie nur dort; KZW bleibt im Kommentar mitgenannt.
+                continue
+            else:
+                person[wait][was].append((i, unser))
+    for wait in person:
+        for liste in person[wait].values():
+            liste.sort(key=lambda t: (t[1]['createdAt'], t[0]['number']))
+    bei_uns.sort(key=lambda t: (t[2]['createdAt'], t[0]['number']))
+    fehlt.sort(key=lambda t: t[0]['number'])
+    return {'person': person, 'bei_uns': bei_uns, 'fehlt': fehlt}
+
+
+def ueberfaellig(eingeordnet, heute):
+    """Vorgaenge, die laenger als FRIST_TAGE bei uns liegen."""
+    grenze = (heute - timedelta(days=FRIST_TAGE)).isoformat()
+    return [(i, wait, k) for i, wait, k in eingeordnet['bei_uns']
+            if k['createdAt'][:10] < grenze]
+
+
+def kurztitel(issue, laenge=70):
+    titel = issue['title']
+    if len(titel) > laenge:
+        titel = titel[:laenge - 1] + '…'
+    return entschaerfe(titel)
+
+
+def baue_personen(issues):
+    """Der Block ganz oben in #44: was bei wem liegt, fuer Menschen lesbar."""
+    eingeordnet = einordnen(issues)
+    aus = ['## Wer ist gerade dran?\n',
+           'Hier steht nur, was gerade bei dir liegt, mit der Frage selbst als '
+           'Link. Hast du geantwortet, verschwindet der Punkt beim nächsten '
+           'täglichen Lauf von selbst. Erzeugt von '
+           '`scripts/audit/build-issue-matrix.py`.\n']
+    for wait, name in PERSONEN.items():
+        listen = eingeordnet['person'][wait]
+        if wait not in IMMER_SICHTBAR and not any(listen.values()):
+            continue
+        aus.append(f'### Für {name}\n')
+        # Ohne diese Zeile stuende bei leeren Listen "Derzeit nichts", obwohl
+        # Vorgaenge auf die Person warten, deren Frage nur noch nicht in der
+        # neuen Form gestellt ist. Am 09.10. waren das 47 bei Katharina.
+        offen = sum(1 for _, w, _ in eingeordnet['fehlt'] if w == wait)
+        if offen:
+            aus.append(f'_Dazu kommen {offen} ältere Vorgänge, bei denen wir '
+                       f'die Frage an dich noch nicht in dieser Form gestellt '
+                       f'haben. Sie kommen nach und nach hierher; bis dahin '
+                       f'musst du dort nichts tun._\n')
+        for was, kopf in (('abnahme', 'Abnehmen'), ('frage', 'Entscheiden')):
+            eintraege = listen[was]
+            aus.append(f'**{kopf} ({len(eintraege)})**, älteste zuerst\n')
+            if not eintraege:
+                aus.append('Derzeit nichts.\n')
+                continue
+            for i, k in eintraege:
+                aus.append(f'- [{frage_text(k)}]({k["url"]}) · '
+                           f'#{i["number"]} {kurztitel(i)} · '
+                           f'seit {k["createdAt"][:10]}')
+            aus.append('')
+    return '\n'.join(aus).rstrip() + '\n'
 
 
 def pruefe(issues):
@@ -436,7 +622,7 @@ def entschaerfe(titel):
 
     Ein Pipe wuerde die Zelle teilen, ein Zeilenumbruch die ganze Zeile.
     """
-    for marker in ('MATRIX:BEGIN', 'MATRIX:END'):
+    for marker in ('MATRIX:BEGIN', 'MATRIX:END', 'PERSONEN:BEGIN', 'PERSONEN:END'):
         titel = titel.replace(marker, marker.replace(':', ': '))
     titel = titel.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
     return titel.replace('|', '\\|').replace('\n', ' ').replace('\r', ' ')
@@ -466,8 +652,8 @@ def tabelle(issues):
     return '\n'.join([kopf] + [zeile(i) for i in sortiert])
 
 
-def baue(issues):
-    """Den generierten Block als Markdown."""
+def baue(issues, heute=None):
+    """Den generierten Block als Markdown. `heute` nur fuer den Selbsttest."""
     zaehlbar = [i for i in issues if 'evergreen' not in i['labels']]
     gesamt = len(zaehlbar)
     aus = []
@@ -512,23 +698,54 @@ def baue(issues):
 
     blockierte = [i for i in zaehlbar if 'auto:blocked' in i['labels']]
     if blockierte:
-        aus.append('### Ping-Liste: worauf gewartet wird\n')
-        aus.append(f'{len(blockierte)} Tickets warten auf einen Menschen. '
-                   f'Laengste Stille zuerst. Das Datum ist die letzte '
-                   f'Wortmeldung **der erwarteten Person**, damit ein '
-                   f'Nachfassen von unserer Seite die Uhr nicht '
-                   f'zuruecksetzt; bei Externen ohne GitHub-Konto der '
-                   f'letzte Kommentar, der nicht von uns stammt.\n')
-        for wait, name in WAIT_NAMEN.items():
-            konto = WAIT_KONTEN.get(wait)
-            treffer = [(letzte_wortmeldung(i, konto, UNSERE_SEITE), i)
-                       for i in blockierte if wait in i['labels']]
-            if not treffer:
-                continue
-            treffer.sort(key=lambda t: (t[0], t[1]['number']))
-            liste = ', '.join(f'#{i["number"]} ({seit})' for seit, i in treffer)
-            aus.append(f'- **{name}**, {len(treffer)}: {liste}')
-        aus.append('')
+        eingeordnet = einordnen(zaehlbar)
+        spaet = {(i['number'], wait) for i, wait, _ in
+                 ueberfaellig(eingeordnet, heute or date.today())}
+        if spaet:
+            nummern = ', '.join(f'#{nr}' for nr, _ in sorted(spaet))
+            aus.append(f'> **{len(spaet)} Wartesache(n) liegen laenger als '
+                       f'{FRIST_TAGE} Tage bei uns:** {nummern}. Die Person '
+                       f'hat geantwortet, und niemand hat reagiert.\n')
+        aus.append('### Wer ist am Zug\n')
+        aus.append(f'{len(blockierte)} Tickets warten auf einen Menschen. Was '
+                   f'bei Katharina, Julia oder Linda liegt, steht ganz oben '
+                   f'im Body; hier steht, was bei uns liegt. Messvorschrift '
+                   f'im Docstring des Skripts.\n')
+        bei_uns = eingeordnet['bei_uns']
+        aus.append(f'**Ball bei uns ({len(bei_uns)})**: die Person hat nach '
+                   f'unserem letzten Kommentar geschrieben. Antworten, '
+                   f'umsetzen oder schliessen.\n')
+        for i, wait, k in bei_uns:
+            frist = (f' **seit mehr als {FRIST_TAGE} Tagen**'
+                     if (i['number'], wait) in spaet else '')
+            aus.append(f'- #{i["number"]} {kurztitel(i)}: {PERSONEN[wait]} am '
+                       f'{k["createdAt"][:10]} ([Antwort]({k["url"]})){frist}')
+        if bei_uns:
+            aus.append('')
+        fehlt = eingeordnet['fehlt']
+        aus.append(f'**Frage fehlt ({len(fehlt)})**: wartet auf eine Person, '
+                   f'aber unser letzter Kommentar beginnt weder mit `Frage:` '
+                   f'noch mit `Abnahme:`. Steht deshalb in keiner Liste oben. '
+                   f'Beheben mit einem Kommentar, der die Frage stellt, oder '
+                   f'mit anderen Labels, wenn nichts mehr gebraucht wird.\n')
+        for i, wait, k in fehlt:
+            seit = k['createdAt'][:10] if k else 'keiner'
+            hinweis = (', vermutlich Abnahme (Live-Link)'
+                       if k and LIVE in (k.get('body') or '') else '')
+            aus.append(f'- #{i["number"]} {kurztitel(i)} ({PERSONEN[wait]}), '
+                       f'unser letzter Kommentar: {seit}{hinweis}')
+        if fehlt:
+            aus.append('')
+        # Externe haben kein Konto, an dem sich messen liesse, wer am Zug ist.
+        # Fuer sie bleibt die Ping-Zeile mit der laengsten Stille zuerst.
+        extern = [(letzte_wortmeldung(i, None, UNSERE_SEITE), i)
+                  for i in blockierte if 'wait:extern' in i['labels']]
+        if extern:
+            extern.sort(key=lambda t: (t[0], t[1]['number']))
+            liste = ', '.join(f'#{i["number"]} ({seit})' for seit, i in extern)
+            aus.append(f'**{WAIT_NAMEN["wait:extern"]} ({len(extern)})**, '
+                       f'laengste Stille zuerst; das Datum ist der letzte '
+                       f'Kommentar, der nicht von uns stammt: {liste}\n')
 
     for stufe, was in AUTO_STUFEN:
         treffer = [i for i in zaehlbar if stufe in i['labels']]
@@ -542,8 +759,11 @@ def baue(issues):
     return '\n'.join(aus).rstrip() + '\n'
 
 
-def ersetze(body, block):
+def ersetze(body, block, begin=BEGIN, end=END):
     """Den Bereich zwischen den Markern austauschen.
+
+    Zwei Markerpaare stehen im Body (MATRIX und PERSONEN), jeder Aufruf
+    ersetzt genau eines und laesst das andere als Handtext stehen.
 
     Die Reihenfolgepruefung ist kein Formalismus: steht END vor BEGIN, ist
     `partition(END)` hinter BEGIN leer, und der gesamte handgepflegte Fuss
@@ -551,16 +771,21 @@ def ersetze(body, block):
     melden und zu genau dem `--apply` auffordern, das den Verlust schreibt.
     Deshalb hier Exit 2 statt einer Reparatur auf Verdacht.
     """
-    if BEGIN not in body or END not in body:
+    if begin not in body or end not in body:
         abbruch(f'In #{MATRIX_ISSUE} fehlen die Marker. Erwartet wird eine '
-                f'Zeile "{BEGIN}" und spaeter "{END}".')
-    if body.index(BEGIN) > body.index(END):
+                f'Zeile "{begin}" und spaeter "{end}".')
+    if body.index(begin) > body.index(end):
         abbruch(f'In #{MATRIX_ISSUE} steht der END-Marker vor dem '
-                f'BEGIN-Marker. In dieser Reihenfolge wuerde der Text nach '
-                f'BEGIN verloren gehen; bitte die Marker im Body ordnen.')
-    kopf, _, rest = body.partition(BEGIN)
-    _, _, fuss = rest.partition(END)
-    return f'{kopf}{BEGIN}\n\n{block}\n{END}{fuss}'
+                f'BEGIN-Marker ({begin}). In dieser Reihenfolge wuerde der '
+                f'Text nach BEGIN verloren gehen; bitte die Marker im Body '
+                f'ordnen.')
+    kopf, _, rest = body.partition(begin)
+    _, _, fuss = rest.partition(end)
+    return f'{kopf}{begin}\n\n{block}\n{end}{fuss}'
+
+
+def ersetze_beide(body, block, personen):
+    return ersetze(ersetze(body, block), personen, PBEGIN, PEND)
 
 
 def hole_body():
@@ -571,14 +796,18 @@ def hole_body():
 def selftest():
     """Zaehlung, Sortierung, Pruefung und Marker-Ersatz an erfundenen Daten."""
     def iss(nr, labels, titel='T', datum='2026-08-01', kommentare=None):
-        # kommentare: Liste aus 'JJJJ-MM-TT' oder ('JJJJ-MM-TT', 'login')
-        def komm(k):
-            datum_, konto = (k, 'chsteiner') if isinstance(k, str) else k
+        # kommentare: Liste aus 'JJJJ-MM-TT', ('JJJJ-MM-TT', 'login') oder
+        # ('JJJJ-MM-TT', 'login', 'Text')
+        def komm(n, k):
+            k = (k, 'chsteiner') if isinstance(k, str) else k
+            datum_, konto, text = (k + ('',))[:3]
             return {'createdAt': datum_ + 'T00:00:00Z',
-                    'author': {'login': konto}}
+                    'author': {'login': konto}, 'body': text,
+                    'url': f'https://x/{nr}#c{n}'}
         roh = {'number': nr, 'title': titel, 'labels': sorted(labels),
                'createdAt': datum + 'T00:00:00Z',
-               'comments': [komm(k) for k in (kommentare or [])]}
+               'comments': [komm(n, k) for n, k in
+                            enumerate(kommentare or [])]}
         roh['still_seit'] = letzte_wortmeldung(roh)
         return roh
 
@@ -599,8 +828,10 @@ def selftest():
     faelle.append(('ingest-Flag steht in der Zeile', '`ingest`' in block))
     faelle.append(('Leere Stufe wird benannt statt weggelassen',
                    '`auto:pair` (0)' in block and 'Derzeit keins.' in block))
-    faelle.append(('Ping-Liste nennt Person und Datum',
-                   'KZW (`wachauer`)' in block and '#2 (2026-08-01)' in block))
+    faelle.append(('Wartesache ohne unseren Kommentar steht unter Frage fehlt',
+                   '**Frage fehlt (1)**' in block
+                   and '- #2 T (Katharina), unser letzter Kommentar: keiner'
+                   in block))
 
     # `auto:frozen` muss beides koennen: eine eigene Tabelle bekommen, damit
     # der Vorgang nicht stumm aus der Matrix faellt, und aus der Ping-Liste
@@ -628,25 +859,104 @@ def selftest():
         'ohne auto:blocked' in f for f in
         pruefe([iss(272, [FROZEN, 'area:data', 'effort:small', 'wait:kzw'])]))))
 
-    # Der teuerste Fehlermodus dieser Liste: eigenes Nachfassen sieht aus
-    # wie Bewegung. Gemessen werden muss das Schweigen der erwarteten
-    # Person, nicht die Betriebsamkeit im Ticket.
-    nachgefasst = iss(50, ['auto:blocked', 'area:data', 'effort:small',
-                           'wait:kzw'], datum='2026-01-01',
-                      kommentare=[('2026-06-01', 'wachauer'),
-                                  ('2026-08-05', 'chsteiner')])
-    ping = baue([nachgefasst])
-    faelle.append(('Eigenes Nachfassen setzt die Ping-Uhr nicht zurueck',
-                   '#50 (2026-06-01)' in ping and '#50 (2026-08-05)' not in ping))
-    faelle.append(('In der Tabelle steht weiter die letzte Wortmeldung',
-                   '| 2026-08-05 |' in ping))
+    # Wer ist am Zug (Messvorschrift im Docstring). Jeder Fall prueft beide
+    # Seiten: wo der Vorgang steht UND wo er nicht stehen darf, denn ein
+    # Vorgang in der falschen Liste ist genau KZWs Ruege aus #406.
+    W = ['auto:blocked', 'area:data', 'effort:small']
+    heute = date(2026, 10, 9)
 
-    # Wer nie geantwortet hat, wartet seit dem Anlegen und nicht seit dem
-    # letzten Zuruf.
-    nie = iss(51, ['auto:blocked', 'area:data', 'effort:small', 'wait:julia'],
-              datum='2026-02-02', kommentare=[('2026-08-05', 'chsteiner')])
-    faelle.append(('Ohne Antwort zaehlt das Anlegedatum',
-                   '#51 (2026-02-02)' in baue([nie])))
+    def wo(i, ganz=False):
+        # Nur der Abschnitt "Wer ist am Zug" und der Kasten davor: die
+        # Tabellen darunter nennen jeden blockierten Vorgang ohnehin, ein
+        # "#N not in" gegen den ganzen Block waere also stumm.
+        m = baue([i], heute)
+        if not ganz:
+            m = m.partition('### `auto:')[0]
+        return baue_personen([i]), m
+
+    # Sie hat nach unserer Frage geantwortet: bei uns, nicht in ihrer Liste.
+    p, m = wo(iss(60, W + ['wait:kzw'], kommentare=[
+        ('2026-10-01', 'chsteiner', 'Frage: Soll X?'),
+        ('2026-10-05', 'wachauer', 'Ja.')]))
+    faelle.append(('Ihre Antwort legt den Ball zu uns', '**Ball bei uns (1)**'
+                   in m and '#60' in m and '#60' not in p))
+
+    # Wir fragen danach neu: wieder bei ihr, mit dem neuen Satz.
+    p, m = wo(iss(61, W + ['wait:kzw'], kommentare=[
+        ('2026-10-01', 'wachauer', 'Ja.'),
+        ('2026-10-02', 'chsteiner', 'Frage: Gilt das auch fuer Y? Rest.')]))
+    faelle.append(('Unsere Frage legt den Ball zu ihr, mit dem ersten Satz',
+                   '**Entscheiden (1)**' in p
+                   and '[Gilt das auch fuer Y?](https://x/61#c1)' in p
+                   and 'seit 2026-10-02' in p and '#61' not in m))
+
+    # Abnahme, fett und nach einer Erwaehnung.
+    p, _ = wo(iss(62, W + ['wait:kzw'], kommentare=[
+        ('2026-10-03', 'chsteiner', '@wachauer **Abnahme:** Bitte X pruefen.')]))
+    faelle.append(('Abnahme fett nach @-Erwaehnung wird erkannt',
+                   '**Abnehmen (1)**' in p and 'Bitte X pruefen.' in p))
+
+    # Das Anfangswort zaehlt nur am Anfang.
+    p, m = wo(iss(63, W + ['wait:kzw'], kommentare=[
+        ('2026-10-03', 'chsteiner', 'Das ist noch keine Abnahme: erst morgen.')]))
+    faelle.append(('Abnahme: mitten im Satz trifft nicht', '#63' not in p
+                   and '**Frage fehlt (1)**' in m))
+    faelle.append(('Frage fehlt wird in ihrer Liste mitgezaehlt, statt '
+                   '"Derzeit nichts" stehen zu lassen',
+                   'Dazu kommen 1 ältere' in p.partition('### Für Julia')[0]))
+
+    # Statusmeldung ohne Anfangswort: Frage fehlt, mit Live-Hinweis.
+    p, m = wo(iss(64, W + ['wait:kzw'], kommentare=[
+        ('2026-10-03', 'chsteiner',
+         'Umgesetzt, live: https://dhcraft.org/mhdbdb-tei-only/')]))
+    faelle.append(('Statusmeldung steht unter Frage fehlt, mit Live-Hinweis',
+                   '#64' not in p and 'vermutlich Abnahme' in m))
+
+    # Ein Bot nach ihrer Antwort legt den Ball nicht zurueck.
+    p, m = wo(iss(65, W + ['wait:kzw'], kommentare=[
+        ('2026-10-01', 'chsteiner', 'Frage: Soll X?'),
+        ('2026-10-05', 'wachauer', 'Ja.'),
+        ('2026-10-06', 'claude', 'Frage: Review-Kommentar')]))
+    faelle.append(('Bot-Kommentar legt den Ball nicht zurueck',
+                   '**Ball bei uns (1)**' in m and '#65' not in p))
+
+    # Julia zuerst: eine Abnahme mit beiden Labels steht nur bei Julia.
+    p, _ = wo(iss(66, W + ['wait:kzw', 'wait:julia'], kommentare=[
+        ('2026-10-04', 'chsteiner', '@juliahin **Abnahme:** Bitte pruefen.')]))
+    kat, _, jul = p.partition('### Für Julia')
+    faelle.append(('Julia-Abnahme steht nur bei Julia', '#66' in jul
+                   and '#66' not in kat))
+    # Gegenprobe: eine Frage mit beiden Labels steht bei beiden.
+    p, _ = wo(iss(67, W + ['wait:kzw', 'wait:julia'], kommentare=[
+        ('2026-10-04', 'chsteiner', 'Frage: Wer von euch?')]))
+    kat, _, jul = p.partition('### Für Julia')
+    faelle.append(('Eine Frage an beide steht bei beiden', '#67' in jul
+                   and '#67' in kat))
+
+    # Frist: genau die Grenze ist noch nicht ueberfaellig, ein Tag mehr schon.
+    for tage, soll in ((FRIST_TAGE, False), (FRIST_TAGE + 1, True)):
+        tag = (heute - timedelta(days=tage)).isoformat()
+        _, m = wo(iss(68, W + ['wait:kzw'], kommentare=[
+            ('2026-09-01', 'chsteiner', 'Frage: X?'), (tag, 'wachauer', 'Ja.')]))
+        faelle.append((f'Antwort vor {tage} Tagen: ueberfaellig={soll}',
+                       ('laenger als' in m) == soll))
+
+    # Linda erscheint nur, wenn etwas bei ihr liegt; Katharina und Julia immer.
+    leer = baue_personen([iss(69, ['auto:full', 'area:docs', 'effort:small'])])
+    faelle.append(('Leere Personenliste: Katharina und Julia stehen, Linda nicht',
+                   '### Für Katharina' in leer and '### Für Julia' in leer
+                   and 'Linda' not in leer))
+
+    # Eckige Klammern im Satz duerfen den Link nicht beenden.
+    p, _ = wo(iss(70, W + ['wait:kzw'], kommentare=[
+        ('2026-10-03', 'chsteiner', 'Frage: Gilt [X] auch?')]))
+    faelle.append(('Eckige Klammern im Fragesatz bleiben im Link',
+                   '[Gilt (X) auch?](https://x/70#c0)' in p))
+
+    # Die Tabellen behalten die letzte Wortmeldung, gleich von wem.
+    faelle.append(('In der Tabelle steht weiter die letzte Wortmeldung',
+                   '| 2026-10-05 |' in wo(iss(71, W + ['wait:kzw'], kommentare=[
+                       ('2026-10-05', 'wachauer', 'Ja.')]), ganz=True)[1]))
 
     # Bei Externen gibt es kein Konto zu filtern, also faellt unsere eigene
     # Seite heraus. Das eigene Nachfassen darf die Uhr auch hier nicht stellen.
@@ -803,6 +1113,24 @@ def selftest():
     faelle.append(('Fehlender END-Marker steigt aus',
                    steigt_mit_2_aus(f'oben\n{BEGIN}\nunten')))
 
+    # Zwei Markerpaare: jedes wird ersetzt, der Handtext dazwischen bleibt.
+    zwei = f'{PBEGIN}\nP\n{PEND}\nmitte\n{BEGIN}\nM\n{END}\nunten'
+    beide = ersetze_beide(zwei, 'NEU-M\n', 'NEU-P\n')
+    faelle.append(('Beide Markerpaare werden je fuer sich ersetzt',
+                   beide.index('NEU-P') < beide.index(PEND) < beide.index('mitte')
+                   < beide.index(BEGIN) < beide.index('NEU-M') < beide.index(END)
+                   and '\nP\n' not in beide and '\nM\n' not in beide
+                   and beide.endswith('unten')))
+    faelle.append(('Ersatz beider Paare ist idempotent',
+                   ersetze_beide(beide, 'NEU-M\n', 'NEU-P\n') == beide))
+    try:
+        with contextlib.redirect_stderr(io.StringIO()):
+            ersetze_beide(f'oben\n{BEGIN}\nM\n{END}\nunten', 'N\n', 'N\n')
+        ohne_p = False
+    except SystemExit as exc:
+        ohne_p = exc.code == 2
+    faelle.append(('Fehlendes PERSONEN-Paar steigt mit 2 aus', ohne_p))
+
     # Ein Titel mit Marker-String waere sonst kumulativ zerstoererisch.
     giftig = iss(12, ['auto:full', 'area:docs', 'effort:small'],
                  f'Bug in {END} beim Rendern')
@@ -871,10 +1199,19 @@ def main():
               file=sys.stderr)
 
     block = baue(issues)
+    personen = baue_personen(issues)
+
+    # Liegt etwas zu lange bei uns, ist das ein Fehler wie eine Label-Luecke:
+    # der Body wird geschrieben und sagt es, der Lauf wird rot.
+    for i, wait, k in ueberfaellig(einordnen(issues), date.today()):
+        fehler.append(f'#{i["number"]}')
+        print(f'::error title=Ball bei uns::#{i["number"]}: {PERSONEN[wait]} '
+              f'hat am {k["createdAt"][:10]} geantwortet, seitdem kam von uns '
+              f'nichts ({k["url"]})', file=sys.stderr)
 
     if args.check:
         aktuell = hole_body()
-        neu = ersetze(aktuell, block)
+        neu = ersetze_beide(aktuell, block, personen)
         if aktuell.strip() != neu.strip():
             print(f'::error::Der Body von #{MATRIX_ISSUE} ist nicht auf dem '
                   f'Label-Stand. Beheben mit: python '
@@ -889,13 +1226,14 @@ def main():
         return 0
 
     if args.apply:
-        neu = ersetze(hole_body(), block)
+        neu = ersetze_beide(hole_body(), block, personen)
         gh(['issue', 'edit', str(MATRIX_ISSUE), '--body', neu])
         zaehlbar = sum(1 for i in issues if 'evergreen' not in i['labels'])
         print(f'#{MATRIX_ISSUE} aktualisiert: {zaehlbar} Issues gelistet, '
               f'{len(issues)} geprueft.')
         return 1 if fehler else 0
 
+    print(personen)
     print(block)
     return 1 if fehler else 0
 
