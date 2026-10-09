@@ -440,6 +440,16 @@ A researcher arrives with a topic of their own (the test case was „Wachsamkeit
 
 Linked from the help hub, the playground guide, the Concept Explorer and the concept distribution.
 
+## Text-series typology subsite (#93)
+
+The former website of the MHDBDB text-series typology, a controlled SKOS vocabulary by Katharina Zeppezauer-Wachauer and Marco Heiles, lives under [`textreihen/`](../textreihen/index.html). Reached from the site footer and from a tile on the help hub; there is no menu entry.
+
+- **Contents of the old site:** About, How To, Use cases, Outreach, the two posts (call for collaboration, poster), the bibliography with its literature search, and the download of the data, each on a page of its own, with authorship, publication references and funding notice kept.
+- **SKOS browser (`textreihen/browser.html`):** collapsible hierarchy with search over labels in all languages, alternative labels and ids, and a detail panel per category (labels, editorial note, parents, children, all paths from the root, id, dates). A category with several direct parents stands under every one of them (193 of 618; "Beschwörung" has 12). A category can be called directly: `browser.html#c_624b0297`. Historical URIs are shown as identifiers only.
+- **Data state:** the SKOS data of the original repository, commit `86c233f08`, licence CC BY 4.0. It is **not** reconciled with `genres.xml`, which the MHDBDB keeps as its own TEI data state; the page "Gattungs-Explorer in MHDBDB Next" says so and links to the [Genre Explorer](#authority-file-exploration).
+- **Bibliography:** 190 entries from the public Zotero group, filterable by text and by text-series tag; static, rebuilt with `scripts/build-textreihen-bibliography.py`.
+- **Not carried over:** the logos of the funders and partners, the start image and three screenshots of the use cases, until KZW has answered whether they may be reused. The funding notice stands as text.
+
 ---
 
 For technical implementation, see [ARCHITECTURE.md](ARCHITECTURE.md).

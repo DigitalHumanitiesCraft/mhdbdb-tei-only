@@ -51,6 +51,7 @@ mhdbdb-tei-only/
 ├── scripts/               # Python build scripts
 ├── playground/            # Playground interface (self-contained sub-app)
 ├── lemma/                 # Persistent lemma pages (Issue #42)
+├── textreihen/            # Subsite of the text-series typology (#93): 11 pages, SKOS browser, unchanged SKOS source in data/skos/
 ├── publications/          # Project outputs (blog posts, reports)
 ├── testing/               # Playwright tests
 ├── docs/                  # Documentation hub
@@ -135,6 +136,13 @@ npm run build:vendor     # node scripts/build-vendor.js
 # includes/_nav.html or includes/_footer.html (NOT the pages directly):
 python scripts/build-pages.py            # rewrite changed pages (idempotent)
 python scripts/build-pages.py --check    # exit 1 if any page is out of sync (drift gate)
+
+# Textreihentypologie subsite (textreihen/, #93). The SKOS source files in textreihen/data/skos/ are
+# the unchanged commit 86c233f08 of Middle-High-German-Conceptual-Database/textseries (CC BY 4.0);
+# only the two derived files below are regenerated, nothing is fetched at runtime.
+python scripts/build-textreihen.py              # textreihen/data/skos/*.rj -> textreihen/data/textreihen.json (--check: drift gate)
+python scripts/build-textreihen-bibliography.py # Zotero group 4876216 -> textreihen/bibliography.html + data/zotero-schnappschuss.json
+                                                # (--offline: rebuild from the snapshot; --check: drift gate, no network)
 
 # Build the full derived layer in dependency order: corpus index, variants.xml, authority index, API
 npm run build:data       # build:corpus && extract-variants --apply && build:authority && build-api --allow-dirty && build:begriffshilfe
@@ -258,6 +266,7 @@ Completeness against `testing/tests/` is gated by `scripts/audit/check-doc-inven
 | `lemma-matching.spec.js` | Cross-cutting | Lemma highlight matching exactness, #130 (see [CONTRACTS.md](CONTRACTS.md#b1-lemma-highlight-matching-contract)) |
 | `position-parity.spec.js` | Cross-cutting | Python/JS word-position agreement, #131 (see [CONTRACTS.md](CONTRACTS.md#b-position-counting-contract)) |
 | `site-chrome.spec.js` | Cross-cutting | Build-injected nav/footer + mobile-menu (`build-pages.py`) |
+| `textreihen.spec.js` | Subsite | The `textreihen/` subsite (#93): all 11 pages reachable from the start page with no orphan file, every internal link, image, anchor and download resolving, the SKOS tree showing a category with several direct parents (Beschwörung, 12) under every one of them, search and direct link, the bibliography filter, and no request to the unreachable `dhplus.sbg.ac.at` |
 | `vendor.spec.js` | Cross-cutting | Runtime libraries come from `assets/vendor/`, no CDN dependency: no external `<script src>` and no external `<link>` that triggers a fetch (runtime counterpart to `no-cdn-check.yml`, same rules) |
 | `result-header-escaping.spec.js` | Cross-cutting | The playground result header escapes the search input: markup arriving through a shared `#multi-lemma&…&ids=…` link must not become an element (#427) |
 | `review-364.spec.js` | Review pages | The archived #364 review page in `examples/review-pages/`, opened as a local file without a server: decisions, open state, persistence, JSON round trip and import rejection, HTML report, offline operation (#443). Tests the archived copy, not the template in `scripts/audit/` |
