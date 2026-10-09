@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Wie die SKOS-Daten der Textreihentypologie zur Annotation von Werken verwendet werden.">
+    <meta name="author" content="Katharina Zeppezauer-Wachauer, Marco Heiles">
+
+    <title>How To – MHDBDB-Textreihentypologie</title>
+
+    <link rel="stylesheet" href="../assets/css/tailwind-output.css">
+    <link rel="icon" type="image/png" href="../assets/images/mhdbdb-logo.png">
+    <link rel="stylesheet" href="../assets/css/shared.css">
+    <link rel="stylesheet" href="textreihen.css">
+<!-- MATOMO:START -->
+<script>
+  (function() {
+    var optedOut = false;
+    try { optedOut = window.localStorage && localStorage.getItem('mhdbdb-matomo-optout') === '1'; } catch (e) {}
+    if (optedOut) return;
+    var _paq = window._paq = window._paq || [];
+    _paq.push(['disableCookies']);
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    var u="https://webstatistics.sbg.ac.at/";
+    _paq.push(['setTrackerUrl', u+'matomo.php']);
+    _paq.push(['setSiteId', '15']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<!-- MATOMO:END -->
+</head>
+<body class="bg-slate-100 text-slate-900">
+
+<!-- NAV:START -->
+<header class="border-b border-slate-200 bg-white/90 backdrop-blur sticky top-0 z-50">
+    <div class="container mx-auto px-6 py-4">
+        <nav class="flex items-center justify-between">
+            <a href="../index.html" class="flex items-center gap-3">
+                <img src="../assets/images/mhdbdb-logo.png" alt="MHDBDB Logo" class="w-40">
+                <span class="text-lg font-bold text-brand-600">MHDBDB</span>
+            </a>
+
+            <!-- Desktop Navigation -->
+            <div class="hidden md:flex items-center gap-6">
+                <a href="../index.html" data-nav="start" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                    Startseite
+                </a>
+                <a href="../korpus.html" data-nav="korpus" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                    Korpussuche
+                </a>
+                <a href="../playground/index.html" data-nav="playground" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                    Playground
+                </a>
+                <a href="../woerterbuch.html" data-nav="woerterbuch" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                    Wörterbuch
+                </a>
+                <a href="../hilfe.html" data-nav="hilfe" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                    Hilfe
+                </a>
+                <a href="../index.html#contact" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                    Kontakt
+                </a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobileMenuButton" class="md:hidden p-2 text-slate-600 hover:text-slate-900 transition" aria-label="Toggle menu">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </nav>
+
+        <!-- Mobile Navigation (Hidden by default, only visible on mobile) -->
+        <div id="mobileMenu" class="hidden md:hidden mt-4 pb-4 border-t border-slate-200">
+            <div class="flex flex-col gap-3 pt-4">
+                <a href="../index.html" data-nav="start" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                    Startseite
+                </a>
+                <a href="../korpus.html" data-nav="korpus" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                    Korpussuche
+                </a>
+                <a href="../playground/index.html" data-nav="playground" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                    Playground
+                </a>
+                <a href="../woerterbuch.html" data-nav="woerterbuch" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                    Wörterbuch
+                </a>
+                <a href="../hilfe.html" data-nav="hilfe" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                    Hilfe
+                </a>
+                <a href="../index.html#contact" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                    Kontakt
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- NAV:END -->
+
+    <nav class="tr-subnav" aria-label="Bereiche der Textreihentypologie">
+        <div class="container mx-auto px-6">
+            <div class="tr-subnav-inner">
+                <a href="index.html">Start</a>
+                <a href="about.html">About</a>
+                <a href="how-to.html" aria-current="page">How To</a>
+                <a href="browser.html">Visualization &amp; Browser</a>
+                <a href="use-cases.html">Use cases</a>
+                <a href="outreach.html">Outreach</a>
+                <a href="bibliography.html">Bibliography</a>
+                <a href="download.html">Download</a>
+                <a href="gattungs-explorer-next.html">Gattungs-Explorer in MHDBDB Next</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="tr-main">
+        <h1>How To</h1>
+        <div class="tr-prose">
+        <h2>Wie nutzt man es?</h2>
+
+        <p>1.</p>
+
+        <p>Jeder Datensatz des auf <a href="https://github.com/Middle-High-German-Conceptual-Database/textseries/" target="_blank" rel="noopener">GitHub downloadbaren SKOS-Vokabulars</a> hat eine im Semantic Web eindeutig referenzierbare ID, zum Beispiel:</p>
+
+        <figure><table><tbody><tr><td><strong>SKOS-Datensatz</strong></td><td><strong>ID</strong></td></tr><tr><td>Dietrichsepik</td><td>c_f3e5cee1</td></tr><tr><td>Marienleich</td><td>c_dacec895</td></tr><tr><td>Losbuch</td><td>c_d21adda7</td></tr></tbody></table></figure>
+
+        <p>2.</p>
+
+        <p>Jedem Werk, das mit den SKOS-Daten annotiert werden soll, kann bei Bedarf auch mehr als eine Textreihe zugewiesen werden, zum Beispiel:</p>
+
+        <figure><table><tbody><tr><td><strong>Werk</strong></td><td><strong>SKOS / exakte Zuordnung 1 </strong><strong><em>(genreForm)</em></strong></td><td><strong>SKOS / exakte Zuordnung 2 </strong><strong><em>(genreForm)</em></strong></td></tr><tr><td>Stricker: Die Gäuhühner</td><td>Bîspel (c_8bb910cf)</td><td>Allegorie (c_dd3320dc)</td></tr><tr><td>Sebastian Brant: Das Narrenschiff</td><td>Schwankroman (c_535c3395)</td><td>Großdidaxe (c_60bae378)</td></tr><tr><td>Honorius Augustodunensis: Elucidarium, dt. (Auswahlübersetzung)</td><td>Enzyklopädie (c_6e09fcd0)</td><td>Pastorales Handbuch (c_d11208c0)</td></tr></tbody></table></figure>
+
+        <p>3.</p>
+
+        <p>Jedes Werk benötigt (mindestens) eine Hauptform und eine dazugehörende eindeutige Herkunft, zum Beispiel:</p>
+
+        <figure><table><tbody><tr><td><strong>Werk</strong></td><td><strong>SKOS / exakte Zuordnung 1 </strong><strong><em>(genreForm)</em></strong></td><td><strong>SKOS / eindeutige Herkunft von 1 </strong><strong><em>(genreFormMainparent)</em></strong></td><td><strong>SKOS / exakte Zuordnung 2 (</strong><strong><em>genreForm</em></strong><strong>)</strong></td><td><strong>SKOS / eindeutige Herkunft von 2 </strong><strong><em>(genreFormMainparent)</em></strong></td></tr><tr><td>Stricker: Vaterunser</td><td>Vaterunser (c_707350eb)</td><td>Dialogische Kurzform (c_01bf2b8b)</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>Wach uff myn hort (Rostocker Liederbuch)</td><td>Tagelied (c_2e829572)</td><td>Liederbuchlyrik (c_76c0e2b7)</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>Hans Folz: Bäderbüchlein</td><td>Bäderschrift (c_6a30d34d)</td><td>Texte zur Behandlung von Krankheiten (c_97d95287)</td><td>Bäderschrift (c_6a30d34d)</td><td>Reiseliteratur (c_90d500db)</td></tr></tbody></table></figure>
+
+        <p>Wir empfehlen, für Ontologien im Sinne einer besseren Maschinenlesbarkeit und problemlosen Interoperabilität im Semantic Web die bereits existierende <a href="https://bibfra.me/vocab/lite/genre." target="_blank" rel="noopener">BIBFRAME (Bibliographic Framework)-Property "genre" bzw. das Attribut "genreForm"</a> zu nutzen – obwohl wir streng genommen nicht von Genres sprechen, sondern von Textreihen. Das ist in diesem Fall aber unproblematisch, eine Maschine diskutiert nicht, was der Unterschied zwischen Gattung und Textreihe ist, sondern liest nur Identifikatoren aus.</p>
+
+        <p>Werke (in der Anwendung im Semantic Web meist Classes) bekommen demnach immer zwei neue Properties, zum Beispiel:</p>
+
+        <p>–&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <em>genreForm </em>(exakte Zuordnung 1-n)</p>
+
+        <p>–&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <em>genreFormMainparent </em>(eindeutige Herkunft von 1-n)</p>
+
+        <p>Beispielsweise werden die Triples folgendermaßen gebildet:</p>
+
+        <figure><table><tbody><tr><td>[Stricker: Vaterunser]</td><td>[ist genreForm]</td><td>[Vaterunser (c_707350eb)]</td></tr><tr><td>[Stricker: Vaterunser]</td><td>[hat genreFormMainparent]</td><td>[Dialogische Kurzform (c_01bf2b8b)]</td></tr></tbody></table></figure>
+
+        <h2>Die Daten</h2>
+        <p>Das SKOS-Vokabular liegt in dieser Unterseite im Original vor (<a href="download.html">Download</a>); der Browser unter
+        <a href="browser.html">Visualization &amp; Browser</a> zeigt es als Baum und nennt zu jeder Kategorie die ID.</p>
+        </div>
+
+    </main>
+
+<!-- FOOTER:START -->
+<footer class="bg-slate-100 text-slate-900 py-8">
+  <div class="container mx-auto px-6">
+    <!-- Logos Row -->
+    <div
+      class="flex flex-wrap items-center justify-center gap-8 mb-6 pb-6 border-b border-slate-300"
+    >
+      <img
+        src="../assets/images/mhdbdb-logo.png"
+        alt="MHDBDB Logo"
+        class="h-16 w-auto"
+      />
+      <img
+        src="../assets/images/university-logo.png"
+        alt="Universität Salzburg"
+        class="h-24 w-auto"
+      />
+      <img
+        src="../assets/images/clariah-logo.svg"
+        alt="CLARIAH-AT"
+        class="h-16 w-auto"
+      />
+    </div>
+
+    <!-- Info and Button Row -->
+    <div
+      class="flex flex-col md:flex-row justify-between items-center gap-6"
+    >
+      <div class="text-center md:text-left">
+        <p class="text-sm mb-2">
+          Universität Salzburg, 2025–<span class="current-year">2026</span> |
+          <a
+            href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
+            class="hover:text-brand-600 transition"
+            target="_blank"
+            rel="noopener"
+          >
+            CC BY-NC-SA 4.0
+          </a>
+        </p>
+        <div
+          class="flex flex-wrap justify-center md:justify-start gap-4 text-sm text-slate-600"
+        >
+          <a
+            href="mailto:mhdbdb@plus.ac.at"
+            class="hover:text-brand-600 transition"
+            >mhdbdb@plus.ac.at</a
+          >
+          <span>|</span>
+          <a
+            href="https://mhdbdb.plus.ac.at"
+            class="hover:text-brand-600 transition"
+            target="_blank"
+            rel="noopener"
+          >
+            mhdbdb.plus.ac.at
+          </a>
+          <span>|</span>
+          <a
+            href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only"
+            class="hover:text-brand-600 transition"
+            target="_blank"
+            rel="noopener"
+          >
+            GitHub
+          </a>
+          <span>|</span>
+          <a
+            href="../textreihen/index.html"
+            class="hover:text-brand-600 transition"
+          >
+            Textreihentypologie
+          </a>
+          <span>|</span>
+          <a
+            href="../impressum.html"
+            class="hover:text-brand-600 transition"
+          >
+            Impressum
+          </a>
+          <span>|</span>
+          <a
+            href="../barrierefreiheit.html"
+            class="hover:text-brand-600 transition"
+          >
+            Barrierefreiheit
+          </a>
+        </div>
+      </div>
+      <button
+        id="clearSiteDataBtn"
+        class="btn-secondary text-sm flex items-center gap-2"
+        title="Alle gespeicherten Daten löschen (Cache, IndexedDB, etc.)"
+      >
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+        </svg>
+        <span>Website-Daten löschen</span>
+      </button>
+    </div>
+  </div>
+</footer>
+<script src="../assets/js/site-chrome.js" defer></script>
+<!-- FOOTER:END -->
+
+</body>
+</html>
