@@ -243,7 +243,8 @@
           <idno type="GND">https://d-nb.info/gnd/4467771-6</idno>
           <ptr target="genres.xml#genre_271237bd"/>
           <author ref="persons.xml#person_565">Lamprecht der Pfaffe</author>
-          <author ref="persons.xml#person_anonym">Anonym</author>
+          <author xml:id="work_462_a2" ref="persons.xml#person_anonym" role="adapter">Anonym</author>
+          <note type="attribution" target="#work_462_a2" resp="contributors.xml#contrib_003"><date when="2026-10-08"/>Anonymer Bearbeiter der Basler Fassung; Lamprecht ist Autor der Vorlage. Belege: Handschriftencensus Werk 217 (Pfaffe Lambrecht: 'Alexanderlied', Basler Fassung B), GND 4467771-6 ("eine der drei Fassungen/Bearbeitungen"), Wikidata Q2643537 (Autor Lamprecht). Entscheidung KZW, #452.</note>
           <relatedItem>
             <biblStruct type="book" xml:id="BAX_BAX" corresp="http://zotero.org/groups/5043625/items/L4N89AJ9" key="BAX">
               <monogr>
@@ -8575,8 +8576,9 @@
           <idno type="handschriftencensus">http://www.handschriftencensus.de/werke/2213</idno>
           <ptr target="genres.xml#genre_09114e08"/>
           <ptr target="genres.xml#genre_d65a163b"/>
-          <author ref="persons.xml#person_1">Konrad von Würzburg</author>
           <author ref="persons.xml#person_anonym">Anonym</author>
+          <author xml:id="work_325_a2" ref="persons.xml#person_1" ana="disputed">Konrad von Würzburg</author>
+          <note type="attribution" target="#work_325_a2" resp="contributors.xml#contrib_003"><date when="2026-10-08"/>Verfasserschaft umstritten: vier Handschriften nennen Konrad; Zweifel seit Lachmann (1820), Laudan (ZfdA 50, 1908) und Zwierzina dagegen, Grubmüller (Ausgabe 1996) hält Konrad für zumindest wahrscheinlich, Feistner (2000) spricht sich für ihn aus. GND 4250654-2 und Wikidata Q45227348 führen keinen Verfasser. Stand nach der Zusammenstellung in #452 (Primärliteratur nicht eingesehen). Entscheidung KZW, #452.</note>
           <relatedItem>
             <biblStruct type="bookSection" xml:id="RHB_RHB" corresp="http://zotero.org/groups/5043625/items/2YXWC9W9" key="RHB">
               <analytic>
@@ -20233,6 +20235,8 @@
           <ptr target="genres.xml#genre_14fbb80a"/>
           <ptr target="genres.xml#genre_d65a163b"/>
           <author ref="persons.xml#person_anonym">Anonym</author>
+          <author xml:id="work_5_a2" ref="persons.xml#person_227" ana="rejected">Bligger von Steinach</author>
+          <note type="attribution" target="#work_5_a2" resp="contributors.xml#contrib_003"><date when="2026-09-16"/>Ältere Zuschreibung, von der Forschung aufgegeben; als "komplett veraltete Annahme" von KZW in #444 benannt.</note>
           <relatedItem>
             <biblStruct type="book" xml:id="CR_CR" corresp="http://zotero.org/groups/5043625/items/BBVM3BFZ" key="CR">
               <monogr>
@@ -23093,7 +23097,6 @@
           <ptr target="genres.xml#genre_8bb910cf"/>
           <ptr target="genres.xml#genre_d65a163b"/>
           <author ref="persons.xml#person_4">Der Stricker</author>
-          <author ref="persons.xml#person_anonym">Anonym</author>
           <relatedItem>
             <biblStruct type="bookSection" xml:id="HOF_HOF" corresp="http://zotero.org/groups/5043625/items/PA35RHRZ" key="HOF">
               <analytic>

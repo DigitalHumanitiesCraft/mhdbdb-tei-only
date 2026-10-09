@@ -79,6 +79,22 @@
               <text/>
             </attribute>
           </optional>
+          <optional>
+            <attribute>
+              <name ns="">ana</name>
+              <choice>
+                <value>disputed</value>
+                <value>uncertain</value>
+                <value>rejected</value>
+              </choice>
+            </attribute>
+          </optional>
+          <optional>
+            <attribute>
+              <name ns="">role</name>
+              <value>adapter</value>
+            </attribute>
+          </optional>
           <mixed>
             <zeroOrMore>
               <element>

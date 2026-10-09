@@ -17,7 +17,8 @@ Output tree:
   api/<coll>/{id}.json            Full individual record + license key
 
 Transformations:
-  - persons: 'works' comma-string → JSON array ("work_4,work_36" → [...])
+  - persons: 'works' comma-string → JSON array ("work_4,work_36" → [...]);
+    dasselbe fuer 'formerWorks' und 'adaptedWorks', wo vorhanden (#452)
   - texts: heavy keys (words, lemmata, lineStarts, lineEnds) stripped
   - every emitted file carries "license": "CC BY-NC-SA 4.0"
 
@@ -269,7 +270,11 @@ def build_api(authority, corpus):
     stats['persons'] = write_collection(
         'persons', authority['persons'],
         summarize=lambda r: {'id': r['id'], 'preferredName': r['preferredName']},
-        transform=lambda r: {**r, 'works': parse_person_works(r.get('works'))},
+        transform=lambda r: {
+            **r, 'works': parse_person_works(r.get('works')),
+            # formerWorks/adaptedWorks (#452) stehen nur bei den Personen, die sie haben
+            **{k: parse_person_works(r[k]) for k in ('formerWorks', 'adaptedWorks') if k in r},
+        },
     )
     print(f"   persons:  {stats['persons'][0]} files")
 

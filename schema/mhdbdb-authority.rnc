@@ -255,12 +255,25 @@ works.bibl = element bibl {
     }*,
     element author {
         attribute ref { text }?,       # persons.xml#person_N
+        attribute xml:id { xsd:NCName }?,   # nur wo eine attribution-Note zielt (#452)
+        works.attribution.status?,     # fehlt = allgemein anerkannt
+        attribute role { "adapter" }?, # Bearbeiter, zaehlt nicht als Autor (#452)
+        text
+    }*,
+    element note {                     # Beleg einer Zuschreibung (#452)
+        attribute type { "attribution" },
+        attribute target { text },     # #work_N_aK, der <author> mit dem Status
+        attribute resp { text },       # contributors.xml#contrib_N
+        element date { attribute when { text } },
         text
     }*,
     element relatedItem {
         works.biblStruct
     }*
 }
+
+# Zuschreibungsstatus auf <author> (#452): umstritten | unsicher zugeschrieben | verworfen
+works.attribution.status = attribute ana { "disputed" | "uncertain" | "rejected" }
 
 works.biblStruct = element biblStruct {
     attribute type { text }?,          # journalArticle, bookSection, book
