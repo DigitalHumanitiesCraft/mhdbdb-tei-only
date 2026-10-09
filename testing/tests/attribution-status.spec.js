@@ -57,6 +57,11 @@ test.describe('Zuschreibungsstatus: Leseansicht', () => {
         await expect(sections).toContainText('Frühere Zuschreibungen');
         await expect(sections).toContainText('Bligger von Steinach');
         await expect(sections).toContainText('(verworfen)');
+        // Der Wikidata-Link zu Bligger entfällt bei CR (KZW, #444, 23.09.2026) und
+        // kehrt über die frühere Zuschreibung nicht zurück
+        const frueher = sections.locator('.metadata-section', { has: page.locator('h4', { hasText: 'Frühere Zuschreibungen' }) });
+        await expect(frueher).toHaveCount(1);
+        await expect(frueher.locator('a')).toHaveCount(0);
     });
 
     test('HOF und VDH: Stricker allein', async ({ page }) => {

@@ -939,7 +939,10 @@ class TEITextReader {
             html += ` <span>(${this.escapeHtml(statusLabel)})</span>`;
         }
         html += '</div>';
-        if (person) {
+        // Keine Normdaten-Links bei einer verworfenen Zuschreibung: KZW hat am
+        // 23.09.2026 in #444 bestätigt, dass der Wikidata-Link zu Bligger bei CR
+        // entfällt; er soll bei der früheren Zuschreibung nicht wiederkehren.
+        if (person && attribution.status !== 'rejected') {
             html += this.personLinksHTML(person.id, person.gnd, person.wikidata);
         }
         return html;
