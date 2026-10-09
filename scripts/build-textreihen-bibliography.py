@@ -34,7 +34,7 @@ STYLE = "harvard-cite-them-right"
 LOCALE = "en-US"
 PAGE_SIZE = 100
 SKIP_TYPES = {"note", "attachment"}
-ENTRY_RE = re.compile(r'<div class="csl-entry">(.*)</div>', re.S)
+ENTRY_RE = re.compile(r'<div class="csl-entry">(.*?)</div>', re.S)
 URL_RE = re.compile(r"(?<![\"'>=])(https?://[^\s<]+[^\s<.,;:)\]])")
 BLOCK_RE = re.compile(r"<!-- BIB:START -->.*?<!-- BIB:END -->", re.S)
 
@@ -128,7 +128,8 @@ def main():
         return 0
     if new != text:
         PAGE.write_text(new, encoding="utf-8", newline="")
-    print(f"{len(entries)} Einträge ({skipped} Notizen/Anhänge übersprungen), {len(tags)} Schlagwörter, Seite {'geändert' if new != text else 'unverändert'}")
+    quelle = "aus dem Schnappschuss" if args.offline else f"von Zotero, {skipped} Notizen/Anhänge übersprungen"
+    print(f"{len(entries)} Einträge ({quelle}), {len(tags)} Schlagwörter, Seite {'geändert' if new != text else 'unverändert'}")
     return 0
 
 

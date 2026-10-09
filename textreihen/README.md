@@ -73,9 +73,10 @@ in der Anzeige: 33 Bezeichnungen mit Leerraum am Rand (etwa "Losbuch ") werden g
 Kanten, Konzepte und Bezeichnungen bleiben sonst unverändert.
 
 Die Bibliografie bleibt aktuell, indem jemand das Skript ohne `--offline` laufen lässt:
-es holt die Haupteinträge der öffentlichen Zotero-Gruppe neu (190 am 09.10.2026; die 205
-Items der API sind 190 Einträge, 12 Anhänge und 3 Notizen) und schreibt Schnappschuss und
-Seite neu. Ein Hintergrundabruf im Browser gibt es nicht.
+es holt die Haupteinträge der öffentlichen Zotero-Gruppe (`/items/top`) neu, 190 am
+09.10.2026, und schreibt Schnappschuss und Seite neu. (Die Abfrage `/items` liefert 205
+Items, nämlich diese 190 plus 12 Anhänge und 3 Notizen; die gehören nicht in ein
+Literaturverzeichnis.) Ein Hintergrundabruf im Browser gibt es nicht.
 
 ## Was nicht übernommen ist, und warum
 
