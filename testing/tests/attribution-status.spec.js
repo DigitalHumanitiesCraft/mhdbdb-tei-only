@@ -113,6 +113,37 @@ test.describe('Zuschreibungsstatus: Autorfilter der Suchmaschine', () => {
     });
 });
 
+test.describe('Zuschreibungsstatus: Textlisten und Textfilter', () => {
+    // Eine umstrittene Zuschreibung zaehlt im Filter als Autor (#452): "konrad"
+    // muss RHB finden, obwohl text.author dort "Anonym" ist.
+    const versteckt = (page, selector) => page.locator(selector).evaluate(el => el.style.display === 'none');
+
+    test('Hauptseite: der Textfilter findet RHB unter Konrad, nicht aber CR', async ({ page }) => {
+        await page.goto('/korpus.html');
+        await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
+        const rhb = '#textList label[data-text-id="RHB"]';
+        await expect(page.locator(rhb)).toHaveAttribute('data-author', 'anonym; konrad von würzburg (umstritten)');
+        await expect(page.locator(`${rhb} .text-sm.text-slate-600`)).toContainText('Anonym; Konrad von Würzburg (umstritten)');
+        await page.fill('#textFilter', 'konrad von würzburg');
+        expect(await versteckt(page, rhb)).toBe(false);
+        expect(await versteckt(page, '#textList label[data-text-id="CR"]')).toBe(true);
+    });
+
+    test('Playground: Dateifilter und Metazeile kennen alle Zuschreibungen', async ({ page }) => {
+        await page.goto('/playground/');
+        const rhb = '#fileList label[data-text-id="RHB"]';
+        await page.waitForSelector(rhb, { state: 'attached', timeout: 60000 });
+        await expect(page.locator(rhb)).toHaveAttribute('data-author', 'anonym; konrad von würzburg (umstritten)');
+        await expect(page.locator(`${rhb} .file-meta`)).toContainText('Anonym; Konrad von Würzburg (umstritten)');
+        await page.locator('#fileFilter').evaluate(el => {
+            el.value = 'konrad von würzburg';
+            el.dispatchEvent(new Event('input'));
+        });
+        expect(await versteckt(page, rhb)).toBe(false);
+        expect(await versteckt(page, '#fileList label[data-text-id="CR"]')).toBe(true);
+    });
+});
+
 test.describe('Zuschreibungsstatus: Personenansicht und Anzeigetexte', () => {
     test('Bligger fuehrt CR unter "Frühere Zuschreibungen", Werke nur MBS', async ({ page }) => {
         await page.goto('/playground/#authors&q=person_227');

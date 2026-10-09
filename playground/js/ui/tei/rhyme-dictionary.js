@@ -28,6 +28,7 @@
  */
 
 import { getNavigationEpoch } from '../core/router.js';
+import { authorLineOfText } from '../../../../assets/js/lib/attributions.js';
 import { singleSelectedTextId } from './corpus-scope.js';
 import { csvButton } from '../core/ui-helpers.js';
 import { toCsv, downloadCsv, csvDateStamp, csvFilenamePart } from '../../../../assets/js/lib/csv-export.js';
@@ -188,9 +189,11 @@ export class RhymeDictionary {
     if (!f) return texts;
     const exakt = texts.filter(t => (t.id || '').toLowerCase() === f);
     if (exakt.length > 0) return exakt;
+    // Alle Zuschreibungen des Werks (#452), damit "konrad" auch RHB findet
+    const works = this.authorityManager?.authorityData?.works || [];
     return texts.filter(t =>
       (t.title || '').toLowerCase().includes(f) ||
-      (t.author || '').toLowerCase().includes(f)
+      authorLineOfText(t, works).toLowerCase().includes(f)
     );
   }
 

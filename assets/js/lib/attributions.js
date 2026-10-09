@@ -66,6 +66,19 @@ export function formatAttributionList(work) {
     return countingAttributions(work).map(formatAttribution).join('; ');
 }
 
+/**
+ * Autorenzeile eines Korpustexts: alle Zuschreibungen seines Werks, sonst das
+ * Kompatibilitaetsfeld text.author. Fuer Textlisten und Textfilter, die ohne
+ * SearchEngine arbeiten (Playground); `works` ist authorityIndex.works.
+ */
+export function authorLineOfText(text, works) {
+    const workId = text && text.workRef
+        ? (text.workRef.includes('#') ? text.workRef.split('#')[1] : text.workRef)
+        : null;
+    const work = workId && Array.isArray(works) ? works.find(w => w.id === workId) : null;
+    return (work ? formatAttributionList(work) : '') || (text && text.author) || '';
+}
+
 /** Alle Namen, unter denen ein Werk als Autorwerk gefunden werden soll. */
 export function attributionNames(work) {
     return countingAttributions(work).map(a => a.name);
