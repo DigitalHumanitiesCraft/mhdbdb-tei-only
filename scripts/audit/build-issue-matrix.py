@@ -50,7 +50,7 @@ trug der Vorgang weiter `wait:kzw` und stand taeglich in ihrer Ping-Liste,
 obwohl sie geantwortet hatte. Das war im Vorgang selbst vermerkt, statt es zu
 beheben, und wurde am 17.09. in #406 zu Recht geruegt. Ein eingefrorener
 Vorgang traegt deshalb **kein** `wait:*`: niemand schuldet etwas, und die
-Ping-Liste bleibt die Liste der Schulden.
+Listen je Person bleiben Listen der Schulden.
 
 `evergreen` ist die einzige Ausnahme von der Achsenpflicht. #44 traegt kein
 `auto:*` und kein `effort:*`, weil es nicht abgearbeitet, sondern gepflegt
@@ -113,12 +113,17 @@ KZW antwortet, bleibt `wait:kzw` stehen.
 Darum wird nicht gespeichert, wer am Zug ist, sondern gerechnet, je Vorgang
 und je `wait:<person>`:
 
+- Eine **Frage an sie** ist ein Kommentar von uns (`WIR`), dessen erste
+  Zeile mit `Frage:` oder `Abnahme:` beginnt (fett oder nicht, auch nach
+  fuehrenden @-Erwaehnungen), oder der eine Zeile `@<konto> Frage:` traegt.
+  Eine erste Zeile, die nur an andere adressiert ist, fragt sie nicht.
 - **Ball bei uns**, wenn der letzte Kommentar der Person juenger ist als
-  unser letzter (`WIR`). Bots zaehlen auf keiner Seite.
-- Sonst liegt der Ball bei der Person, und unser letzter Kommentar sagt,
-  was sie tun soll. Er muss mit `Frage:` oder `Abnahme:` beginnen (fett
-  oder nicht, auch nach fuehrenden @-Erwaehnungen). Ohne Anfangswort steht
-  der Vorgang bei uns unter "Frage fehlt" und in keiner Personenliste.
+  unsere letzte Frage an sie. Bots zaehlen auf keiner Seite, und unsere
+  Statusmeldungen ohne Anfangswort zaehlen nicht: sonst schaltete ein
+  "Label korrigiert" nach ihrer Antwort die Frist ab.
+- Sonst liegt der Ball bei der Person, und unsere letzte Frage sagt, was
+  sie tun soll. Gibt es keine, steht der Vorgang bei uns unter "Frage
+  fehlt" und in keiner Personenliste.
 
 Das Anfangswort ist gemessen und nicht Geschmack: am 09.10. lagen nach der
 reinen Regel "wer zuletzt schrieb" 47 der 51 `wait:kzw` bei KZW, aber unser
@@ -133,7 +138,8 @@ Eine Abnahme, die auch `wait:julia` traegt, steht nur in Julias Liste:
 einfache Abnahmen gehen seit dem 09.10. zuerst an Julia (KZW in #378).
 
 Liegt etwas laenger als `FRIST_TAGE` bei uns, wird der Lauf rot wie bei
-einer Label-Luecke, und der Body sagt es.
+einer Label-Luecke, und der Body sagt es. Abstellen laesst sich das nur mit
+einer neuen Frage an sie oder mit anderen Labels.
 
 Usage:
     python scripts/audit/build-issue-matrix.py             # Vorschau auf stdout
@@ -350,14 +356,13 @@ def konto_von(kommentar):
     return login[:-5] if login.endswith('[bot]') else login
 
 
-def letzte_wortmeldung(issue, konto=None, ausser=None):
+def letzte_wortmeldung(issue, ausser=None):
     """Datum des letzten Kommentars, ersatzweise das Anlegedatum.
 
-    Genau einer der beiden Filter greift, nie beide: mit `konto` zaehlen
-    nur die Kommentare dieser Person, mit `ausser` alle ausser denen der
-    genannten Logins, und `konto` hat Vorrang. Die Ping-Liste braucht den
-    ersten Modus ("wie lange schweigt KZW zu diesem Ticket"), die Tabellen
-    keinen ("wann hat hier zuletzt jemand geschrieben").
+    Mit `ausser` zaehlen alle Kommentare ausser denen der genannten Logins:
+    die Zeile fuer Externe braucht das ("wann kam zuletzt etwas von
+    aussen"), die Tabellen nicht ("wann hat hier zuletzt jemand
+    geschrieben").
 
     Warum das nicht dasselbe ist und was die Verwechslung gekostet hat:
     Messvorschrift im Modul-Docstring. Sie steht dort und nur dort, damit
@@ -365,9 +370,7 @@ def letzte_wortmeldung(issue, konto=None, ausser=None):
     muss.
     """
     kommentare = issue.get('comments') or []
-    if konto:
-        kommentare = [k for k in kommentare if konto_von(k) == konto]
-    elif ausser:
+    if ausser:
         kommentare = [k for k in kommentare if konto_von(k) not in ausser]
     if kommentare:
         return max(k['createdAt'] for k in kommentare)[:10]
@@ -391,16 +394,22 @@ def erste_zeile(kommentar, konto=None):
     Gibt es eine Zeile, die mit `@konto` und einem Anfangswort beginnt, ist es
     diese: so traegt ein Kommentar an zwei Personen zwei verschiedene Fragen
     (#526, 09.10.: Grundsatzfrage an KZW, Pruefseite an Julia). Sonst die
-    erste nicht leere Zeile, fuer alle gleich.
+    erste nicht leere Zeile, ausser sie ist an jemand anderen adressiert: dann
+    ist es keine Frage an diese Person, sonst stuende eine `@juliahin Frage:`
+    auch in Katharinas Liste (Opus-Review 09.10., die Fehlerklasse aus #406).
     """
     zeilen = [z.strip() for z in (kommentar.get('body') or '').splitlines()
               if z.strip()]
+    erste = zeilen[0] if zeilen else ''
     if konto:
         for z in zeilen:
             if (z.startswith(f'@{konto} ') or z.startswith(f'@{konto},')) \
                     and ANFANG.match(z):
                 return z
-    return zeilen[0] if zeilen else ''
+        an = re.match(r'(?:@[\w-]+[\s,:]*)+', erste)
+        if an and f'@{konto}' not in re.findall(r'@[\w-]+', an.group(0)):
+            return ''
+    return erste
 
 
 def art(kommentar, konto=None):
@@ -416,12 +425,29 @@ def art(kommentar, konto=None):
     return m.group(1).lower() if m else 'ohne'
 
 
+def letzte_frage(issue, konto):
+    """Unser juengster Kommentar, der `konto` etwas fragt, sonst None.
+
+    Statusmeldungen ohne Anfangswort zaehlen nicht: sie legen den Ball
+    weder zu ihr noch nehmen sie ihn uns ab.
+    """
+    unsere = [k for k in issue.get('comments') or [] if konto_von(k) in WIR]
+    for k in sorted(unsere, key=lambda k: k['createdAt'], reverse=True):
+        if art(k, konto) != 'ohne':
+            return k
+    return None
+
+
 def frage_text(kommentar, konto=None):
-    """Der erste Satz nach dem Anfangswort, fuer eine Zeile in der Liste."""
+    """Die Zeile nach dem Anfangswort bis zum ersten Fragezeichen.
+
+    Nicht bis zum ersten Punkt: "z. B.", "1,85 Mio." und "29.07." schnitten
+    am 09.10. vier von 46 Fragen vor dem Fragezeichen ab, eine davon ganz.
+    """
     text = ANFANG.sub('', erste_zeile(kommentar, konto), count=1)
     text = re.sub(r'[*_`#>]', '', text)
     text = ' '.join(text.split())
-    text = re.split(r'(?<=[.?!])\s', text, maxsplit=1)[0]
+    text = text.split('?', 1)[0] + '?' if '?' in text else text
     if len(text) > 140:
         text = text[:139] + '…'
     # Eckige Klammern wuerden den Linktext beenden, in dem der Satz steht.
@@ -433,7 +459,7 @@ def einordnen(issues):
 
     Liefert ein dict: 'person' -> {wait: {'abnahme': [...], 'frage': [...]}},
     'bei_uns' -> [(issue, wait, ihr_kommentar)], 'fehlt' -> [(issue, wait,
-    unser_kommentar_oder_None)]. Die Listen der Personen tragen
+    unser_letzter_kommentar_oder_None)]. Die Listen der Personen tragen
     (issue, unser_kommentar). Messvorschrift im Modul-Docstring.
     """
     person = {w: {'abnahme': [], 'frage': []} for w in PERSONEN}
@@ -444,21 +470,28 @@ def einordnen(issues):
         for wait in PERSONEN:
             if wait not in i['labels']:
                 continue
-            ihr = letzter_kommentar(i, (WAIT_KONTEN[wait],))
-            unser = letzter_kommentar(i, WIR)
+            konto = WAIT_KONTEN[wait]
+            ihr = letzter_kommentar(i, (konto,))
+            # Gemessen wird gegen unsere letzte *Frage* an sie, nicht gegen
+            # unseren letzten Kommentar: sonst schaltet ein Statuskommentar
+            # nach ihrer Antwort die Frist ab, und der Vorgang steht auf keiner
+            # Liste mehr (Opus-Review 09.10., #397).
+            unser = letzte_frage(i, konto)
+            # Julia zuerst (KZW in #378, 09.10.). Liegt eine Abnahme bei
+            # Julia, steht sie nur dort; KZW bleibt im Kommentar mitgenannt
+            # und bekommt weder eine Zeile noch "Frage fehlt" noch "bei uns".
+            julia = WAIT_KONTEN['wait:julia']
+            bei_julia = (wait != 'wait:julia' and 'wait:julia' in i['labels']
+                         and art(letzte_frage(i, julia), julia) == 'abnahme')
+            if bei_julia and (not unser or art(unser, konto) == 'abnahme'):
+                continue
             if ihr and (not unser or ihr['createdAt'] > unser['createdAt']):
                 bei_uns.append((i, wait, ihr))
                 continue
-            was = art(unser, WAIT_KONTEN[wait])
-            if was == 'ohne':
-                fehlt.append((i, wait, unser))
-            elif (was == 'abnahme' and wait != 'wait:julia'
-                  and 'wait:julia' in i['labels']):
-                # Julia zuerst (KZW in #378, 09.10.). Liegt sie bei Julia,
-                # steht sie nur dort; KZW bleibt im Kommentar mitgenannt.
+            if not unser:
+                fehlt.append((i, wait, letzter_kommentar(i, WIR)))
                 continue
-            else:
-                person[wait][was].append((i, unser))
+            person[wait][art(unser, konto)].append((i, unser))
     for wait in person:
         for liste in person[wait].values():
             liste.sort(key=lambda t: (t[1]['createdAt'], t[0]['number']))
@@ -539,8 +572,8 @@ def pruefe(issues):
         wartet = achse(i, 'wait:')
         blockiert = 'auto:blocked' in i['labels']
         if blockiert and not wartet:
-            fehler.append(f'#{nr}: auto:blocked ohne wait:*, die Ping-Liste '
-                          f'bleibt unvollstaendig')
+            fehler.append(f'#{nr}: auto:blocked ohne wait:*, steht deshalb '
+                          f'unter "Wer ist am Zug" nirgends')
         if wartet and not blockiert:
             fehler.append(f'#{nr}: {", ".join(wartet)} an einem Ticket ohne '
                           f'auto:blocked')
@@ -680,7 +713,7 @@ def baue(issues, heute=None):
     # Kopfzahl es mitzaehlt; eins mit zwei auto:* erscheint in beiden
     # Tabellen, und die erste Fundstelle einer Sitzung ist dann womoeglich
     # "sofort machbar" fuer etwas Blockiertes; ein auto:blocked ohne wait:*
-    # fehlt in jeder Zeile der Ping-Liste, deren Kopfzahl es mitzaehlt.
+    # fehlt unter "Wer ist am Zug", dessen Kopfzahl es mitzaehlt.
     # Der rote Lauf allein hilft nicht: er steht in der Actions-Historie
     # und nicht dort, wo gelesen wird. Deshalb traegt der Body dieselben
     # Meldungen, die `pruefe()` ausgibt, statt einzelner Sonderfaelle.
@@ -726,8 +759,9 @@ def baue(issues, heute=None):
                    f'im Docstring des Skripts.\n')
         bei_uns = eingeordnet['bei_uns']
         aus.append(f'**Ball bei uns ({len(bei_uns)})**: die Person hat nach '
-                   f'unserem letzten Kommentar geschrieben. Antworten, '
-                   f'umsetzen oder schliessen.\n')
+                   f'unserer letzten Frage an sie geschrieben. Neu fragen, '
+                   f'umlabeln oder schliessen; ein Statuskommentar allein '
+                   f'nimmt den Vorgang nicht von hier.\n')
         for i, wait, k in bei_uns:
             frist = (f' **seit mehr als {FRIST_TAGE} Tagen**'
                      if (i['number'], wait) in spaet else '')
@@ -737,8 +771,8 @@ def baue(issues, heute=None):
             aus.append('')
         fehlt = eingeordnet['fehlt']
         aus.append(f'**Frage fehlt ({len(fehlt)})**: wartet auf eine Person, '
-                   f'aber unser letzter Kommentar beginnt weder mit `Frage:` '
-                   f'noch mit `Abnahme:`. Steht deshalb in keiner Liste oben. '
+                   f'aber kein Kommentar von uns fragt sie mit `Frage:` oder '
+                   f'`Abnahme:`. Steht deshalb in keiner Liste oben. '
                    f'Beheben mit einem Kommentar, der die Frage stellt, oder '
                    f'mit anderen Labels, wenn nichts mehr gebraucht wird.\n')
         for i, wait, k in fehlt:
@@ -750,8 +784,8 @@ def baue(issues, heute=None):
         if fehlt:
             aus.append('')
         # Externe haben kein Konto, an dem sich messen liesse, wer am Zug ist.
-        # Fuer sie bleibt die Ping-Zeile mit der laengsten Stille zuerst.
-        extern = [(letzte_wortmeldung(i, None, UNSERE_SEITE), i)
+        # Fuer sie bleibt eine Zeile mit der laengsten Stille zuerst.
+        extern = [(letzte_wortmeldung(i, UNSERE_SEITE), i)
                   for i in blockierte if 'wait:extern' in i['labels']]
         if extern:
             extern.sort(key=lambda t: (t[0], t[1]['number']))
@@ -847,7 +881,7 @@ def selftest():
                    in block))
 
     # `auto:frozen` muss beides koennen: eine eigene Tabelle bekommen, damit
-    # der Vorgang nicht stumm aus der Matrix faellt, und aus der Ping-Liste
+    # der Vorgang nicht stumm aus der Matrix faellt, und aus "Wer ist am Zug"
     # herausbleiben, weil dort Schulden stehen und kein Termin. Ohne wait:*
     # darf es dabei keine Luecke melden: das ist die Ausnahme, die der
     # gesamte Eintrag ausmacht.
@@ -858,7 +892,7 @@ def selftest():
     faelle.append(('auto:frozen bekommt eine eigene Tabelle',
                    f'`{FROZEN}` (1)' in kalt and '#271' in kalt))
     # Die Kopfzahl und nicht die Nennung: ein eingefrorener Vorgang traegt
-    # kein wait:*, faellt also ohnehin durch jede Zeile der Ping-Liste. Was
+    # kein wait:*, faellt also ohnehin durch jede Liste je Person. Was
     # falsch wuerde, ist ihr Zaehler darueber. Die erste Fassung dieses
     # Falles prueft auf "#271" und war damit stumm, gemessen an einer
     # Mutation, die `blockierte` um FROZEN erweitert: Selbsttest blieb gruen.
@@ -867,7 +901,7 @@ def selftest():
     faelle.append(('auto:frozen zaehlt in der Kopfzahl mit',
                    '**3 offene Issues**' in kalt))
     # Gegenprobe zur vorigen Zeile: mit wait:* ist es weiterhin ein Fehler,
-    # sonst wuerde die neue Stufe die Ping-Liste zum Schweigen bringen.
+    # sonst wuerde die neue Stufe die Listen je Person zum Schweigen bringen.
     faelle.append(('wait:* an auto:frozen faellt weiter auf', any(
         'ohne auto:blocked' in f for f in
         pruefe([iss(272, [FROZEN, 'area:data', 'effort:small', 'wait:kzw'])]))))
@@ -934,11 +968,23 @@ def selftest():
                    '**Ball bei uns (1)**' in m and '#65' not in p))
 
     # Julia zuerst: eine Abnahme mit beiden Labels steht nur bei Julia.
-    p, _ = wo(iss(66, W + ['wait:kzw', 'wait:julia'], kommentare=[
-        ('2026-10-04', 'chsteiner', '@juliahin **Abnahme:** Bitte pruefen.')]))
+    # Auch nicht als "Frage fehlt" oder "bei uns" fuer KZW, obwohl sie frueher
+    # im Thread geschrieben hat und keine Zeile an sie geht.
+    p, m = wo(iss(66, W + ['wait:kzw', 'wait:julia'], kommentare=[
+        ('2026-09-01', 'wachauer', 'Bitte Julia vorreihen.'),
+        ('2026-10-04', 'chsteiner',
+         '@juliahin **Abnahme:** Bitte pruefen?\ncc @wachauer')]))
     kat, _, jul = p.partition('### Für Julia')
-    faelle.append(('Julia-Abnahme steht nur bei Julia', '#66' in jul
-                   and '#66' not in kat))
+    faelle.append(('Julia-Abnahme steht nur bei Julia, bei KZW nirgends',
+                   '#66' in jul and '#66' not in kat and '#66' not in m
+                   and 'Dazu kommen' not in kat))
+    # Dasselbe ohne Adressierung: die Abnahme gilt fuer beide, steht aber
+    # nur bei Julia.
+    p, m = wo(iss(76, W + ['wait:kzw', 'wait:julia'], kommentare=[
+        ('2026-10-04', 'chsteiner', 'Abnahme: Bitte pruefen?')]))
+    kat, _, jul = p.partition('### Für Julia')
+    faelle.append(('Unadressierte Abnahme mit beiden Labels nur bei Julia',
+                   '#76' in jul and '#76' not in kat and '#76' not in m))
     # Zwei Personen, zwei Fragen in einem Kommentar: jede bekommt ihre Zeile.
     p, _ = wo(iss(72, W + ['wait:kzw', 'wait:julia'], kommentare=[
         ('2026-10-04', 'chsteiner',
@@ -948,6 +994,29 @@ def selftest():
     faelle.append(('Je Person die an sie adressierte Zeile',
                    'neue Lemmata' in kat and '19 Woertern' not in kat
                    and '19 Woertern' in jul and 'neue Lemmata' not in jul))
+    # Eine erste Zeile an die eine Person steht nicht bei der anderen.
+    p, m = wo(iss(73, W + ['wait:kzw', 'wait:julia'], kommentare=[
+        ('2026-10-04', 'chsteiner', '@wachauer Frage: Nur an KZW gerichtet?')]))
+    kat, _, jul = p.partition('### Für Julia')
+    faelle.append(('An eine Person adressierte Frage fehlt bei der anderen',
+                   'Nur an KZW' in kat and 'Nur an KZW' not in jul
+                   and '#73 T (Julia)' in m))
+    # Ihre Antwort, danach nur ein Statuskommentar von uns: der Ball bleibt
+    # bei uns, und die Frist laeuft weiter (#397: der Status darf den Alarm
+    # nicht abschalten).
+    p, m = wo(iss(74, W + ['wait:kzw'], kommentare=[
+        ('2026-09-01', 'chsteiner', 'Frage: X?'),
+        ('2026-09-02', 'wachauer', 'Ja.'),
+        ('2026-09-03', 'chsteiner', 'Label korrigiert.')]))
+    faelle.append(('Status nach ihrer Antwort laesst den Ball bei uns',
+                   '**Ball bei uns (1)**' in m and 'laenger als' in m
+                   and '**Frage fehlt (0)**' in m and '#74' not in p))
+    # Abkuerzungen und Daten schneiden die Frage nicht ab.
+    p, _ = wo(iss(75, W + ['wait:kzw'], kommentare=[
+        ('2026-10-03', 'chsteiner',
+         'Frage: Gilt z. B. die Regel vom 29.07. auch hier? Rest.')]))
+    faelle.append(('Punkte vor dem Fragezeichen kuerzen die Frage nicht',
+                   '[Gilt z. B. die Regel vom 29.07. auch hier?]' in p))
     # Gegenprobe: eine Frage mit beiden Labels steht bei beiden.
     p, _ = wo(iss(67, W + ['wait:kzw', 'wait:julia'], kommentare=[
         ('2026-10-04', 'chsteiner', 'Frage: Wer von euch?')]))
@@ -997,11 +1066,13 @@ def selftest():
                        f'Antwort von aussen',
                        f'#{nr} (2026-03-03)' in baue([stumm])))
 
-    # WAIT_NAMEN und WAIT_KONTEN kodieren dieselbe Personenliste zweimal.
-    # Ein neuer Eintrag ohne Konto faellt stumm auf die Extern-Regel zurueck,
-    # womit jeder fremde Kommentar als Antwort der erwarteten Person zaehlt.
-    faelle.append(('Jede benannte Person hat ein Konto, nur Externe nicht',
-                   set(WAIT_NAMEN) - set(WAIT_KONTEN) == {'wait:extern'}))
+    # WAIT_NAMEN, WAIT_KONTEN und PERSONEN kodieren dieselbe Personenliste
+    # dreimal. Fehlt ein neues wait:<person> in PERSONEN, faellt der Vorgang
+    # still aus jeder Liste; fehlt das Konto, bricht einordnen() ab.
+    faelle.append(('Jede benannte Person hat ein Konto und eine Liste, nur '
+                   'Externe nicht',
+                   set(WAIT_NAMEN) - set(WAIT_KONTEN) == {'wait:extern'}
+                   and set(WAIT_NAMEN) - {'wait:extern'} == set(PERSONEN)))
     faelle.append(('Ohne Luecke kein Luecken-Kasten',
                    'Label-Luecke(n)' not in block))
 
@@ -1023,7 +1094,7 @@ def selftest():
     stumm = baue(sauber + [iss(97, ['auto:blocked', 'area:docs',
                                     'effort:small'])])
     faelle.append(('auto:blocked ohne wait:* wird benannt, statt aus der '
-                   'Ping-Liste zu fallen', '#97: auto:blocked ohne wait' in stumm
+                   'Wer-ist-am-Zug zu fallen', '#97: auto:blocked ohne wait' in stumm
                    and '| #97 |' in stumm))
 
     # Die vier Fehlermodi, die dieses Gate rechtfertigen.
@@ -1228,8 +1299,8 @@ def main():
     for i, wait, k in ueberfaellig(einordnen(issues), date.today()):
         fehler.append(f'#{i["number"]}')
         print(f'::error title=Ball bei uns::#{i["number"]}: {PERSONEN[wait]} '
-              f'hat am {k["createdAt"][:10]} geantwortet, seitdem kam von uns '
-              f'nichts ({k["url"]})', file=sys.stderr)
+              f'hat am {k["createdAt"][:10]} geantwortet, seitdem keine neue '
+              f'Frage von uns ({k["url"]})', file=sys.stderr)
 
     if args.check:
         aktuell = hole_body()

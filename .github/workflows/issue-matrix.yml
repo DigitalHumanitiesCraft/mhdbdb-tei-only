@@ -7,12 +7,14 @@ name: Issue Matrix
 # fremde Label-Edits zu roten PRs machen und die Ursache trotzdem nicht
 # beheben. Ein Lauf, der den Body einfach nachzieht, behebt sie.
 #
-# Der Lauf schreibt ausschliesslich zwischen den MATRIX-Markern im Body von
-# #44. Alles ausserhalb bleibt handgepflegt und wird nicht angefasst.
+# Der Lauf schreibt ausschliesslich zwischen den PERSONEN- und den
+# MATRIX-Markern im Body von #44. Alles ausserhalb bleibt handgepflegt und
+# wird nicht angefasst.
 #
 # Rot wird der Lauf bei Label-Luecken (Ticket ohne auto:*, auto:blocked ohne
-# wait:* und so weiter). Der Body ist dann trotzdem aktualisiert: die Meldung
-# ist eine Aufforderung, das Ticket zu labeln, keine fehlgeschlagene Arbeit.
+# wait:* und so weiter) und wenn eine Antwort laenger als 7 Tage bei uns
+# liegt. Der Body ist dann trotzdem aktualisiert: die Meldung ist eine
+# Aufforderung zu handeln, keine fehlgeschlagene Arbeit.
 
 on:
   schedule:
