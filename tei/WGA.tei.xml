@@ -200,6 +200,7 @@
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 47 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/). 1 weitere Tokens der Form minne blieben bewusst unannotiert (Review).</change>
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 14 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
       <change when="2026-09-30" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization an den Stand der Annotation angeglichen (45636 von 61102 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;Nur teilweise lemmatisiert, nicht disambiguiert.&#34;</change>
+      <change when="2026-10-10" who="#editor">#460 jagen: 7 Tokens als Verbform gelesen, von lemma_3103 jagât (NOM) auf lemma_3102 jagen (VRB) umgehängt, @ana entfällt; neu geprägte Variantentypen nach der Regel aus #367.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -17224,7 +17225,7 @@
           <w xml:id="WGA_186200_1">si</w>
           <w xml:id="WGA_186200_2" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3256">dâ</w>
           <w xml:id="WGA_186200_3" lemmaRef="lexicon.xml#lemma_134" pos="ADV" ana="lexicon.xml#lemma_134_sense_168" corresp="variants.xml#type_342">allenthalben</w>
-          <w xml:id="WGA_186200_4" lemmaRef="lexicon.xml#lemma_3103" pos="NOM" ana="lexicon.xml#lemma_3103_sense_4930" corresp="variants.xml#type_10676">jeit</w>
+          <w xml:id="WGA_186200_4" lemmaRef="lexicon.xml#lemma_3102" pos="VRB" corresp="variants.xml#type_372856">jeit</w>
           <pc xml:id="WGA_186200_5" join="left">.</pc>
         </l>
         <l n="1863">
@@ -17322,7 +17323,7 @@
           <w xml:id="WGA_187200_3" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
           <w xml:id="WGA_187200_4" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_28131">ze</w>
           <w xml:id="WGA_187200_5" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" corresp="variants.xml#type_20161">stat</w>
-          <w xml:id="WGA_187200_6" lemmaRef="lexicon.xml#lemma_3103" pos="NOM" ana="lexicon.xml#lemma_3103_sense_4930" corresp="variants.xml#type_10676">jeit</w>
+          <w xml:id="WGA_187200_6" lemmaRef="lexicon.xml#lemma_3102" pos="VRB" corresp="variants.xml#type_372856">jeit</w>
           <pc xml:id="WGA_187200_7" join="left">.</pc>
         </l>
         <l n="1873">
@@ -36407,7 +36408,7 @@
         <l n="3925">
           <w xml:id="WGA_392500_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
           <w xml:id="WGA_392500_1" lemmaRef="lexicon.xml#lemma_7287" pos="ADJ NUM" ana="lexicon.xml#lemma_7287_sense_11819" corresp="variants.xml#type_49792">vümfte</w>
-          <w xml:id="WGA_392500_2" lemmaRef="lexicon.xml#lemma_3103" pos="NOM" ana="lexicon.xml#lemma_3103_sense_4930" corresp="variants.xml#type_10676">jeit</w>
+          <w xml:id="WGA_392500_2" lemmaRef="lexicon.xml#lemma_3102" pos="VRB" corresp="variants.xml#type_372856">jeit</w>
           <w xml:id="WGA_392500_3" lemmaRef="lexicon.xml#lemma_11552" pos="ADJ PRP" ana="lexicon.xml#lemma_11552_sense_18385" corresp="variants.xml#type_42229">zaller</w>
           <w xml:id="WGA_392500_4" lemmaRef="lexicon.xml#lemma_7857" pos="NOM" ana="lexicon.xml#lemma_7857_sense_12879" corresp="variants.xml#type_28466">zît</w>
           <pc xml:id="WGA_392500_5" join="left">,</pc>
@@ -38054,7 +38055,7 @@
           <hi rend="initial">
             <w xml:id="WGA_411100_0">swer</w>
           </hi>
-          <w xml:id="WGA_411100_1" lemmaRef="lexicon.xml#lemma_3103" pos="NOM" ana="lexicon.xml#lemma_3103_sense_4930" corresp="variants.xml#type_10676">jeit</w>
+          <w xml:id="WGA_411100_1" lemmaRef="lexicon.xml#lemma_3102" pos="VRB" corresp="variants.xml#type_372856">jeit</w>
           <w xml:id="WGA_411100_2" lemmaRef="lexicon.xml#lemma_4470" pos="CNJ" ana="lexicon.xml#lemma_4470_sense_6973" corresp="variants.xml#type_15543">ode</w>
           <w xml:id="WGA_411100_3" lemmaRef="lexicon.xml#lemma_476" pos="VRB" corresp="variants.xml#type_52232">beizet</w>
           <w xml:id="WGA_411100_4">gerne</w>
@@ -89888,7 +89889,7 @@
           <w xml:id="WGA_989300_1">si</w>
           <w xml:id="WGA_989300_2" lemmaRef="lexicon.xml#lemma_5903" pos="VRB" corresp="variants.xml#type_20826">suochet</w>
           <w xml:id="WGA_989300_3">unde</w>
-          <w xml:id="WGA_989300_4" lemmaRef="lexicon.xml#lemma_3103" pos="NOM" ana="lexicon.xml#lemma_3103_sense_4930" corresp="variants.xml#type_10674">jaget</w>
+          <w xml:id="WGA_989300_4" lemmaRef="lexicon.xml#lemma_3102" pos="VRB" corresp="variants.xml#type_372855">jaget</w>
         </l>
         <l n="9894">
           <w xml:id="WGA_989400_0" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
@@ -90493,7 +90494,7 @@
           <w xml:id="WGA_995900_1" lemmaRef="lexicon.xml#lemma_7129" pos="VRB" ana="lexicon.xml#lemma_7129_sense_11558" corresp="variants.xml#type_25283">vliuhet</w>
           <w xml:id="WGA_995900_2" lemmaRef="lexicon.xml#lemma_1209" pos="NOM" ana="lexicon.xml#lemma_1209_sense_1903" corresp="variants.xml#type_3820">drât</w>
           <pc xml:id="WGA_995900_3" join="left">,</pc>
-          <w xml:id="WGA_995900_4" lemmaRef="lexicon.xml#lemma_3103" pos="NOM" ana="lexicon.xml#lemma_3103_sense_4930" corresp="variants.xml#type_10676">jeit</w>
+          <w xml:id="WGA_995900_4" lemmaRef="lexicon.xml#lemma_3102" pos="VRB" corresp="variants.xml#type_372856">jeit</w>
           <w xml:id="WGA_995900_5">man</w>
           <w xml:id="WGA_995900_6">in</w>
           <w xml:id="WGA_995900_7" lemmaRef="lexicon.xml#lemma_1209" pos="NOM" ana="lexicon.xml#lemma_1209_sense_1903" corresp="variants.xml#type_3820">drât</w>
@@ -120183,7 +120184,7 @@
           <w xml:id="WGA_1331500_2" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
           <w xml:id="WGA_1331500_3">man</w>
           <w xml:id="WGA_1331500_4">in</w>
-          <w xml:id="WGA_1331500_5" lemmaRef="lexicon.xml#lemma_3103" pos="NOM" ana="lexicon.xml#lemma_3103_sense_4930" corresp="variants.xml#type_10674">jaget</w>
+          <w xml:id="WGA_1331500_5" lemmaRef="lexicon.xml#lemma_3102" pos="VRB" corresp="variants.xml#type_372855">jaget</w>
           <pc xml:id="WGA_1331500_6" join="left">,</pc>
         </l>
         <l n="13316">

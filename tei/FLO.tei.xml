@@ -138,6 +138,7 @@
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 49 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/). 10 weitere Tokens der Form minne blieben bewusst unannotiert (Review).</change>
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 34 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
       <change when="2026-09-30" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization an den Stand der Annotation angeglichen (25043 von 33238 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;Lemmatisiert, aber nicht disambiguiert.&#34;</change>
+      <change when="2026-10-10" who="#editor">#461 gebeine: 1 Token mit Säugetierknochen auf den neuen Sense lemma_1958_sense_119196 (concept_14011100) gesetzt.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -21317,7 +21318,7 @@
           <w xml:id="FLO_2760_0" lemmaRef="lexicon.xml#lemma_1517" pos="PRO" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_4999">er</w>
           <w xml:id="FLO_2760_1" lemmaRef="lexicon.xml#lemma_2598" pos="VRB VEX" corresp="variants.xml#type_8724">hâte</w>
           <w xml:id="FLO_2760_2" lemmaRef="lexicon.xml#lemma_5729" pos="ADJ ADV" corresp="variants.xml#type_20145">starc</w>
-          <w xml:id="FLO_2760_3" lemmaRef="lexicon.xml#lemma_1958" pos="NOM" corresp="variants.xml#type_6602">gebeine</w>
+          <w xml:id="FLO_2760_3" lemmaRef="lexicon.xml#lemma_1958" pos="NOM" ana="lexicon.xml#lemma_1958_sense_119196" corresp="variants.xml#type_6602">gebeine</w>
         </l>
         <l n="2761">
           <w xml:id="FLO_2761_0" lemmaRef="lexicon.xml#lemma_14379" pos="ADJ" ana="lexicon.xml#lemma_14379_sense_23836" corresp="variants.xml#type_57566">hôhevizzelîchen</w>

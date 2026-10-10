@@ -160,6 +160,7 @@
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 29 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
       <change when="2026-09-23" who="#editor">#464 zalder: 1 Token von @pos PRO VRB auf VRB PRO, Verschmelzung aus einer Präteritalform von zeln und er als @reason dokumentiert, keine Token-Trennung (KZW 22.09.2026).</change>
       <change when="2026-09-30" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization an den Stand der Annotation angeglichen (16138 von 20400 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;Teilweise lemmatisiert, nicht disambiguiert.&#34;</change>
+      <change when="2026-10-10" who="#editor">#461 gebeine: 1 Token mit Säugetierknochen auf den neuen Sense lemma_1958_sense_119196 (concept_14011100) gesetzt.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -14676,7 +14677,7 @@
           </hi>
           <w xml:id="ROT_16010_1">in</w>
           <w xml:id="ROT_16010_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
-          <w xml:id="ROT_16010_3" lemmaRef="lexicon.xml#lemma_1958" pos="NOM" corresp="variants.xml#type_6602">gebeine</w>
+          <w xml:id="ROT_16010_3" lemmaRef="lexicon.xml#lemma_1958" pos="NOM" ana="lexicon.xml#lemma_1958_sense_119196" corresp="variants.xml#type_6602">gebeine</w>
           <pc xml:id="ROT_16010_4" join="left">.</pc>
         </l>
         <l n="1602">

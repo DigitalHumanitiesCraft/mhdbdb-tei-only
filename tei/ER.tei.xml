@@ -183,6 +183,7 @@
         und Wikidata-Verlinkung des Autors.</change>
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 33 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/). 2 weitere Tokens der Form stat blieben bewusst unannotiert (Review).</change>
       <change when="2026-09-30" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization an den Stand der Annotation angeglichen (33854 von 43018 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;Voll lemmatisiert, aber nicht disambiguiert.&#34;</change>
+      <change when="2026-10-10" who="#editor">#461 gebeine: 2 Tokens mit Säugetierknochen auf den neuen Sense lemma_1958_sense_119196 (concept_14011100) gesetzt.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -11338,7 +11339,7 @@
         <l n="1430">
           <w xml:id="ER_143000_0" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
           <w xml:id="ER_143000_1" lemmaRef="lexicon.xml#lemma_1912" pos="ADJ" ana="lexicon.xml#lemma_1912_sense_2937" corresp="variants.xml#type_6466">ganzem</w>
-          <w xml:id="ER_143000_2" lemmaRef="lexicon.xml#lemma_1958" pos="NOM" corresp="variants.xml#type_6602">gebeine</w>
+          <w xml:id="ER_143000_2" lemmaRef="lexicon.xml#lemma_1958" pos="NOM" ana="lexicon.xml#lemma_1958_sense_119196" corresp="variants.xml#type_6602">gebeine</w>
           <pc xml:id="ER_143000_3" join="left">,</pc>
         </l>
         <l n="1431">
@@ -57007,7 +57008,7 @@
         <l n="7356">
           <w xml:id="ER_735600_0" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
           <w xml:id="ER_735600_1" lemmaRef="lexicon.xml#lemma_1251" pos="ADJ" ana="lexicon.xml#lemma_1251_sense_1967" corresp="variants.xml#type_3995">dürrem</w>
-          <w xml:id="ER_735600_2" lemmaRef="lexicon.xml#lemma_1958" pos="NOM" corresp="variants.xml#type_6602">gebeine</w>
+          <w xml:id="ER_735600_2" lemmaRef="lexicon.xml#lemma_1958" pos="NOM" ana="lexicon.xml#lemma_1958_sense_119196" corresp="variants.xml#type_6602">gebeine</w>
           <pc xml:id="ER_735600_3" join="left">,</pc>
         </l>
         <l n="7357">

@@ -134,6 +134,7 @@
       <change when="2026-09-21" who="#editor">#375 waeren als Adjektiv: 1 Tokens der Form wâren von lemma_7505 wesen VRB auf lemma_7338 wâr ADJ umannotiert (lemmaRef/pos/corresp auf den bestehenden type_287014; Lektuere KZW vom 14.09.2026; Provenienz-Log: ingest/pos-disambig/375-waeren-ausweitung/).</change>
       <change when="2026-09-21" who="#editor">#371 stat, drittes Lemma: 4 bislang unlemmatisierte Tokens der Form stat/stât annotiert (lemmaRef/pos/corresp nach dem actions-Array in KZWs Review vom 15.09.2026; drei neu gepraegte Variantentypen; kein @ana, weil die Sense-Zuordnung kuratorisch ist; die 17 Faelle mit option OFFEN und die 2 mit NEU_STAND bleiben unangetastet; Provenienz-Log: ingest/pos-disambig/371-stat/).</change>
       <change when="2026-09-30" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization an den Stand der Annotation angeglichen (85595 von 111684 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;Voll lemmatisiert, aber nicht disambiguiert.&#34;</change>
+      <change when="2026-10-10" who="#editor">#460 jagen: 8 Tokens als Verbform gelesen, von lemma_3103 jagât (NOM) auf lemma_3102 jagen (VRB) umgehängt, @ana entfällt; neu geprägte Variantentypen nach der Regel aus #367.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -2292,7 +2293,7 @@
           <l n="26">
           <w xml:id="PZ_926_0" lemmaRef="lexicon.xml#lemma_4533" pos="INJ" ana="lexicon.xml#lemma_4533_sense_7071" corresp="variants.xml#type_15696">ouwê</w>
           <w xml:id="PZ_926_1">war</w>
-          <w xml:id="PZ_926_2" lemmaRef="lexicon.xml#lemma_3103" pos="NOM" ana="lexicon.xml#lemma_3103_sense_4930" corresp="variants.xml#type_10674">jaget</w>
+          <w xml:id="PZ_926_2" lemmaRef="lexicon.xml#lemma_3102" pos="VRB" corresp="variants.xml#type_372855">jaget</w>
           <w xml:id="PZ_926_3" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10226">mich</w>
           <w xml:id="PZ_926_4" lemmaRef="lexicon.xml#lemma_3001" pos="POS" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10218">mîn</w>
           <w xml:id="PZ_926_5">gelust</w>
@@ -16224,7 +16225,7 @@
           <w xml:id="PZ_6527_1" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
           <w xml:id="PZ_6527_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
           <w xml:id="PZ_6527_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
-          <w xml:id="PZ_6527_4" lemmaRef="lexicon.xml#lemma_3103" pos="NOM" ana="lexicon.xml#lemma_3103_sense_4930" corresp="variants.xml#type_10674">jaget</w>
+          <w xml:id="PZ_6527_4" lemmaRef="lexicon.xml#lemma_3102" pos="VRB" corresp="variants.xml#type_372855">jaget</w>
           <pc xml:id="PZ_6527_5" join="left">,</pc>
         </l>
           <l n="28">
@@ -59883,7 +59884,7 @@
           <w xml:id="PZ_24111_3" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
           <w xml:id="PZ_24111_4" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
           <w xml:id="PZ_24111_5" lemmaRef="lexicon.xml#lemma_5403" pos="NOM" corresp="variants.xml#type_18850">senewe</w>
-          <w xml:id="PZ_24111_6" lemmaRef="lexicon.xml#lemma_3103" pos="NOM" ana="lexicon.xml#lemma_3103_sense_4930" corresp="variants.xml#type_10674">jaget</w>
+          <w xml:id="PZ_24111_6" lemmaRef="lexicon.xml#lemma_3102" pos="VRB" corresp="variants.xml#type_372855">jaget</w>
           <pc xml:id="PZ_24111_7" join="left">.</pc>
         </l>
           <l n="12">
@@ -82177,7 +82178,7 @@
         </l>
           <l n="28">
           <w xml:id="PZ_32928_0" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10226">mich</w>
-          <w xml:id="PZ_32928_1" lemmaRef="lexicon.xml#lemma_3103" pos="NOM" ana="lexicon.xml#lemma_3103_sense_4930" corresp="variants.xml#type_10674">jaget</w>
+          <w xml:id="PZ_32928_1" lemmaRef="lexicon.xml#lemma_3102" pos="VRB" corresp="variants.xml#type_372855">jaget</w>
           <w xml:id="PZ_32928_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
           <w xml:id="PZ_32928_3" lemmaRef="lexicon.xml#lemma_1396" pos="NOM" corresp="variants.xml#type_4550">endes</w>
           <w xml:id="PZ_32928_4" lemmaRef="lexicon.xml#lemma_3001" pos="POS" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10218">mîn</w>
@@ -84207,7 +84208,7 @@
           <w xml:id="PZ_33809_2" lemmaRef="lexicon.xml#lemma_199" pos="PRP" ana="lexicon.xml#lemma_199_sense_248" corresp="variants.xml#type_522">an</w>
           <w xml:id="PZ_33809_3" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
           <w xml:id="PZ_33809_4" lemmaRef="lexicon.xml#lemma_2866" pos="ADJ GRA" corresp="variants.xml#type_9692">hoeste</w>
-          <w xml:id="PZ_33809_5" lemmaRef="lexicon.xml#lemma_3103" pos="NOM" ana="lexicon.xml#lemma_3103_sense_4930" corresp="variants.xml#type_10674">jaget</w>
+          <w xml:id="PZ_33809_5" lemmaRef="lexicon.xml#lemma_3102" pos="VRB" corresp="variants.xml#type_372855">jaget</w>
           <pc xml:id="PZ_33809_6" join="left">,</pc>
         </l>
           <l n="10">
@@ -84703,7 +84704,7 @@
           <w xml:id="PZ_34008_3" lemmaRef="lexicon.xml#lemma_7129" pos="VRB" ana="lexicon.xml#lemma_7129_sense_11558" corresp="variants.xml#type_25283">vliuhet</w>
           <w xml:id="PZ_34008_4" lemmaRef="lexicon.xml#lemma_1281" pos="ADJ ADV" ana="lexicon.xml#lemma_1281_sense_2010" corresp="variants.xml#type_4139">ê</w>
           <w xml:id="PZ_34008_5">man</w>
-          <w xml:id="PZ_34008_6" lemmaRef="lexicon.xml#lemma_3103" pos="NOM" ana="lexicon.xml#lemma_3103_sense_4930" corresp="variants.xml#type_10674">jaget</w>
+          <w xml:id="PZ_34008_6" lemmaRef="lexicon.xml#lemma_3102" pos="VRB" corresp="variants.xml#type_372855">jaget</w>
           <pc xml:id="PZ_34008_7" join="left">,</pc>
         </l>
           <l n="9">
@@ -162403,7 +162404,7 @@
           <w xml:id="PZ_64929_1" lemmaRef="lexicon.xml#lemma_1517" pos="POS" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_5012">sînem</w>
           <w xml:id="PZ_64929_2" lemmaRef="lexicon.xml#lemma_2795" pos="NOM" corresp="variants.xml#type_9460">herzen</w>
           <w xml:id="PZ_64929_3" lemmaRef="lexicon.xml#lemma_3530" pos="NOM" corresp="variants.xml#type_12258">kummer</w>
-          <w xml:id="PZ_64929_4" lemmaRef="lexicon.xml#lemma_3103" pos="NOM" ana="lexicon.xml#lemma_3103_sense_4930" corresp="variants.xml#type_10674">jaget</w>
+          <w xml:id="PZ_64929_4" lemmaRef="lexicon.xml#lemma_3102" pos="VRB" corresp="variants.xml#type_372855">jaget</w>
           <pc xml:id="PZ_64929_5" join="left">,</pc>
         </l>
           <l n="30">
@@ -172959,7 +172960,7 @@
           <w xml:id="PZ_69317_0" lemmaRef="lexicon.xml#lemma_4470" pos="CNJ" ana="lexicon.xml#lemma_4470_sense_6973" corresp="variants.xml#type_15544">oder</w>
           <w xml:id="PZ_69317_1" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
           <w xml:id="PZ_69317_2" lemmaRef="lexicon.xml#lemma_1517" pos="PRO" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_4999">er</w>
-          <w xml:id="PZ_69317_3" lemmaRef="lexicon.xml#lemma_3103" pos="NOM" ana="lexicon.xml#lemma_3103_sense_4930" corresp="variants.xml#type_10674">jaget</w>
+          <w xml:id="PZ_69317_3" lemmaRef="lexicon.xml#lemma_3102" pos="VRB" corresp="variants.xml#type_372855">jaget</w>
           <w xml:id="PZ_69317_4" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10226">mich</w>
           <w xml:id="PZ_69317_5" lemmaRef="lexicon.xml#lemma_199" pos="PRP" ana="lexicon.xml#lemma_199_sense_248" corresp="variants.xml#type_522">an</w>
           <w xml:id="PZ_69317_6" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>

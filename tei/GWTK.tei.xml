@@ -137,6 +137,7 @@
       <change when="2026-09-23" who="#editor">#387 vrouwe/vrô, Resttokens: 3 Tokens annotiert nach den Einzelentscheidungen von KZW vom 17.09.2026 (lemmaRef/pos/corresp; kein @ana, weil die Sense-Zuordnung kuratorisch ist). Im ganzen Lauf: zwei Doppeltags ADJ NOM mit erklärendem @reason, wo KZW die Lesart für unentscheidbar erklärt hat, und drei neu geprägte Variantentypen nach der Regel aus #367.</change>
       <change when="2026-09-23" who="#editor">#228: 2.058 Tokens in den neuhochdeutschen Inhaltsangaben der Noten mit @n entannotiert: lemmaRef, pos, ana und corresp entfallen. Entscheidung KZW 11.09.2026: Herausgeberprosa gehört nicht ins mittelhochdeutsche Korpus.</change>
       <change when="2026-10-08" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization ergänzt (55166 von 79328 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;&#34;</change>
+      <change when="2026-10-10" who="#editor">#461 gebeine: 1 Token mit Säugetierknochen auf den neuen Sense lemma_1958_sense_119196 (concept_14011100) gesetzt.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -41283,7 +41284,7 @@
             <hi rend="initial upper_case_first_letter">
                 <w xml:id="GWTK_69110398400_0">sin</w>
               </hi>
-            <w xml:id="GWTK_69110398400_1" lemmaRef="lexicon.xml#lemma_1958" pos="NOM" corresp="variants.xml#type_160661">gebaine</w>
+            <w xml:id="GWTK_69110398400_1" lemmaRef="lexicon.xml#lemma_1958" pos="NOM" ana="lexicon.xml#lemma_1958_sense_119196" corresp="variants.xml#type_160661">gebaine</w>
             <w xml:id="GWTK_69110398400_2" lemmaRef="lexicon.xml#lemma_7388" pos="NOM" corresp="variants.xml#type_26652">wandels</w>
             <w xml:id="GWTK_69110398400_3">bar</w>
             <pc xml:id="GWTK_69110398400_4" join="left">,</pc>

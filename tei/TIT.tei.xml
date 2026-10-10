@@ -160,6 +160,7 @@
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 1 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
       <change when="2026-09-21" who="#editor">#375 waeren als Adjektiv: 1 Tokens der Form wâren von lemma_7505 wesen VRB auf lemma_7338 wâr ADJ umannotiert (lemmaRef/pos/corresp auf den bestehenden type_287014; Lektuere KZW vom 14.09.2026; Provenienz-Log: ingest/pos-disambig/375-waeren-ausweitung/).</change>
       <change when="2026-09-30" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization an den Stand der Annotation angeglichen (4147 von 5557 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;Lemmatisiert, aber noch nicht disambiguiert.&#34;</change>
+      <change when="2026-10-10" who="#editor">#460 jagen: 1 Token als Verbform gelesen, von lemma_3103 jagât (NOM) auf lemma_3102 jagen (VRB) umgehängt, @ana entfällt; neu geprägte Variantentypen nach der Regel aus #367.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -6787,7 +6788,7 @@
             <w xml:id="TIT_120040_8" lemmaRef="lexicon.xml#lemma_2007" pos="ADV PRP" corresp="variants.xml#type_6804">gein</w>
             <w xml:id="TIT_120040_9" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10237">mir</w>
             <caesura/>
-            <w xml:id="TIT_120040_10" lemmaRef="lexicon.xml#lemma_3103" pos="NOM" ana="lexicon.xml#lemma_3103_sense_4930" corresp="variants.xml#type_10674">jaget</w>
+            <w xml:id="TIT_120040_10" lemmaRef="lexicon.xml#lemma_3102" pos="VRB" corresp="variants.xml#type_372855">jaget</w>
             <w xml:id="TIT_120040_11" lemmaRef="lexicon.xml#lemma_69474" pos="ADJ" ana="lexicon.xml#lemma_69474_sense_106967" corresp="variants.xml#type_346664">senediu</w>
             <w xml:id="TIT_120040_12" lemmaRef="lexicon.xml#lemma_5613" pos="NOM" corresp="variants.xml#type_19705">sorge</w>
             <pc xml:id="TIT_120040_13" join="left">,</pc>
