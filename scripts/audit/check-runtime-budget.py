@@ -3,9 +3,9 @@
 Laufzeitbudget der CI-Schritte (#564): rot, wenn ein Schritt deutlich laenger
 braucht als sein Budget.
 
-Bis hierher gab es nur `timeout-minutes` (Abbruch nach 45 Minuten) und nichts,
-was rot wurde, wenn ein Schritt langsamer wurde. Eine Verlangsamung fiel erst
-auf, wenn jemand wartete.
+Bis hierher gab es in diesen Workflows nur `timeout-minutes` (5, 20 bzw. 45
+Minuten je Workflow) als Abbruch und nichts, was rot wurde, wenn ein Schritt
+langsamer wurde. Eine Verlangsamung fiel erst auf, wenn jemand wartete.
 
 ## Wie es laeuft
 
@@ -53,8 +53,10 @@ ihn einfuehrt. Der Review-Schritt ist ohnehin ausgenommen.
 
 Die Werte stehen mit Datum, Anzahl Laeufe und Messvorschrift in der Budgetdatei
 (`basis`). `--measure` rechnet sie aus der API nach. Regel der Koordination:
-p90 der erfolgreichen Laeufe seit dem Merge der jeweiligen Beschleunigung, sobald
-es mindestens 10 gibt; bis dahin die letzten 25 mit Vermerk.
+p90 der erfolgreichen Laeufe. Zeitraum: bei einem Schritt, den eine Beschleunigung
+veraendert hat (Checkout nach E1), nur Laeufe seit deren Merge; sonst die letzten
+25. Gibt es weniger als 10 Laeufe, steht das mit "n unter 10, vorlaeufig" in
+`basis`, und die Nachkalibrierung folgt.
 
 Usage:
     python scripts/audit/check-runtime-budget.py --selftest

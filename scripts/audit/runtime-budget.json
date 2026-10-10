@@ -19,7 +19,7 @@
       "budget_s": 5,
       "n": 3,
       "date": "2026-10-10",
-      "basis": "p90 der erfolgreichen Laeufe seit dem Merge von E1 (#571); n unter 10, vorlaeufig",
+      "basis": "p90 der erfolgreichen Laeufe seit dem Merge von E1 (#571), nicht der letzten 25, damit alle Schritte des Workflows dieselbe Grundmenge haben; n unter 10, vorlaeufig",
       "reason": "liegt unter der Untergrenze, die Grenze ist daher 10 s"
     },
     "file-size-check.yml/Checkout": {
