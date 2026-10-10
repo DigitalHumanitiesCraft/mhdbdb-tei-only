@@ -87,9 +87,28 @@ jobs:
         # fetch-depth: 2, damit der Diff-Base-Schritt unten den ersten
         # Elternteil des Merge-Refs lesen kann. Mit der Voreinstellung 1
         # kappt die shallow-Grenze die Elternliste, und `HEAD^1` scheitert.
+        #
+        # sparse-checkout laesst die Korpusdateien und die Index-Archive
+        # weg (#564): tei/ ist 1.366 von 1.651 MB des Baums, und der
+        # Checkout war mit median 117 s der groesste Posten dieses Jobs.
+        # Die Action holt bei sparse-checkout nur die Blobs der
+        # ausgecheckten Pfade (--filter=blob:none).
+        # Bewusst eine Ausschlussliste und keine Positivliste: ein neues
+        # Verzeichnis ist damit im Baum und wird von den Gates gesehen.
+        # Gemessen 10.10.2026: check-no-cdn.py (29 Dateien) und der
+        # Vollscan von check-no-em-dash.py (74) sehen im sparse-Baum
+        # dieselben Dateien wie im vollen; tei/ und data/ stehen in ihren
+        # eigenen TOP_LEVEL_SKIP. ingest/, sources/ und examples/ bleiben
+        # drin: dort liegen HTML-Pruefseiten und Markdown, die beide Gates
+        # lesen.
         uses: actions/checkout@v6
         with:
           fetch-depth: 2
+          sparse-checkout: |
+            /*
+            !/tei/*.tei.xml
+            !/data/*.json.gz
+          sparse-checkout-cone-mode: false
 
       - name: Diff-Base bestimmen (#292)
         id: base
@@ -173,5 +192,26 @@ jobs:
       # legen, war lxml; das Skript zaehlt seitdem mit ElementTree und ist
       # stdlib-only. Lokal gemessen am 01.10.2026: 5,4 Sekunden fuer den
       # ganzen --check.
+      # doc-count-audit.py zaehlt die Korpusdateien nur ueber corpus_files(),
+      # also ueber die DATEINAMEN in tei/ (Inhalt liest es nur aus
+      # authority-files/). Im sparse-Baum fehlen sie, und das Skript meldet
+      # dann "Korpus-Dateien 0", ueberspringt alle neun corpus_files-Paare
+      # ("pruefen derzeit nichts") und endet mit Exit 0: ein stilles Gruen,
+      # gemessen im Lauf 38047149367 auf dem Messzweig. Deshalb leere
+      # Platzhalter mit den Namen aus dem Git-Baum. Mutationsprobe am
+      # 10.10.2026 im sparse-Klon: 667 -> 665 in docs/INDEX.md ist mit
+      # Platzhaltern rot (Exit 1), ohne tei/ gruen (Exit 0).
+      - name: tei/-Dateinamen fuer doc-count-audit (#564)
+        run: |
+          mkdir -p tei
+          git ls-tree -r --name-only HEAD tei/ | while IFS= read -r f; do : > "$f"; done
+          erwartet=$(git ls-tree -r --name-only HEAD tei/ | grep -c '\.tei\.xml$')
+          vorhanden=$(find tei -maxdepth 1 -name '*.tei.xml' | wc -l)
+          echo "tei/*.tei.xml: $vorhanden Platzhalter, $erwartet im Git-Baum"
+          if [ "$erwartet" -lt 1 ] || [ "$erwartet" != "$vorhanden" ]; then
+            echo "::error title=Platzhalter::Platzhalter und Git-Baum weichen ab oder tei/ ist leer."
+            exit 1
+          fi
+
       - name: Dokumentierte Zahlen gegen die Daten (#382/#398)
         run: python3 scripts/audit/doc-count-audit.py --check
