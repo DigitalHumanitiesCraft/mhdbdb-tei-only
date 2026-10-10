@@ -17,8 +17,11 @@ name: Data Integrity
 #   Job freshness: Steps 0, 1c, 1d, 4, 5, 5b, 6, 6b, 6c, 7
 #                  (Variants-Flip-Gate und Index-Budget-Selbsttest gehoeren
 #                  zu 1c/1d; alles, was Dateien neu baut und vergleicht)
-# Rot ist, wenn ein Job rot ist; jeder Schritt steht in genau einem Job.
-# Der Checkout steht in beiden (voller Baum: sparse war hier langsamer).
+# Rot ist, wenn ein Job rot ist. Jede Pruefung steht in genau einem Job;
+# Checkout, Python-Setup und Dependency-Install stehen in beiden (voller
+# Baum: sparse war hier langsamer). Zahlen: Dauer je Schritt aus der Actions-
+# API (completed_at minus started_at je Job), letzte 25 Laeufe mit
+# conclusion=success am 10.10.2026, Median.
 #
 #   0. Diff-Base bestimmen (PR: erster Elternteil des Merge-Refs,
 #      Push: event.before) —
@@ -96,7 +99,8 @@ name: Data Integrity
 #      (scripts/audit/lexicon-baseline.json) gegated: jede ID ausserhalb
 #      der Baseline = rot, tolerierter Altbestand = gruen, geschrumpfter
 #      Ist-Stand = ::warning mit --update-baseline-Hinweis. Vor der
-#      RelaxNG-Validierung, weil deutlich billiger (plain parse).
+#      Deutlich billiger als die RelaxNG-Validierung (plain parse); seit
+#      #564 steht diese im anderen Job und beide laufen parallel.
 #   7b. Personennamen im Header gegen persons.xml (#228/#308): der
 #      zweite Spiegel neben dem msIdentifier aus Step 1b. Geprueft
 #      werden titleStmt/author (leer, toter @ref, Praefixform) und
@@ -200,9 +204,8 @@ concurrency:
 jobs:
   validate:
     runs-on: ubuntu-latest
-    # Checkout ~2 min (grosses Repo) + Index-Builds (~5 min lokal) +
-    # RelaxNG-Validierung. 45 min lassen Luft fuer langsame Runner;
-    # nach den ersten realen Laeufen ggf. nachjustieren.
+    # Checkout (grosses Repo, bis ~4 min) + RelaxNG-Validierung (rund
+    # 3,5 min). 45 min lassen Luft fuer langsame Runner.
     timeout-minutes: 45
     steps:
       - name: Checkout
