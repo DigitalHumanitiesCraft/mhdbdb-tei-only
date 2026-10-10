@@ -98,7 +98,7 @@ name: Data Integrity
 #      als ID-Set-Ratsche gegen die committete Baseline-Datei
 #      (scripts/audit/lexicon-baseline.json) gegated: jede ID ausserhalb
 #      der Baseline = rot, tolerierter Altbestand = gruen, geschrumpfter
-#      Ist-Stand = ::warning mit --update-baseline-Hinweis. Vor der
+#      Ist-Stand = ::warning mit --update-baseline-Hinweis.
 #      Deutlich billiger als die RelaxNG-Validierung (plain parse); seit
 #      #564 steht diese im anderen Job und beide laufen parallel.
 #   7b. Personennamen im Header gegen persons.xml (#228/#308): der
