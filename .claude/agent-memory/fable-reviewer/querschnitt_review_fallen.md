@@ -15,6 +15,7 @@ Verdichtet 08.10.2026.
 - Zeilenangabe als Beleg: Funktion benennen, Aufrufer greppen (toter Code sieht aus wie ein Beleg).
 - Hebt ein PR eine Vertagung auf („X bleibt unaufgelöst" -> jetzt aufgelöst): nach dem verneinenden Satz suchen (`stay unresolved`, `for comments only`), nicht nach dem neuen Feldnamen (#270: 8 Stellen übrig).
 - **Ein Datenfix, der einen offenen Fall erledigt, lässt `docs/ROADMAP.md` und die Recherche-README unter `ingest/<fall>/` stehen** (09.10.2026, #28/#216/#228: ROADMAP sagte „neither has happened yet" und „repair cases SAX_24200_4 still ours", die mur-228-README „Geändert ist nichts in authority-files/"). Token-ID, Lemma-ID und Sense-ID des Fixes über `docs/ROADMAP.md` und `ingest/*/README.md` greppen; JOURNAL und Kickoffs sind datiert und zählen nicht.
+- **Eine Änderung an der Lemma-Auflösung (CONTRACTS §C) hat Python-Spiegel, die der Diff nicht anfasst** (#463, 10.10.2026): `scripts/audit/compare-findebuch-resolution-259.py` `resolve()` behauptet „in der Reihenfolge, in der sie produktiv laeuft", und seine Teilmengen/Kategorien bauen auf „Stufe 1 trifft immer"; dazu `docs/DATA-MODEL.md` „Stages are mutually exclusive, first match wins" und `docs/DEVELOPMENT.md` (Skripttabelle). `rg -n "def resolve|stage3|variantCandidates" scripts/` und `rg -i "first match wins|mutually exclusive" docs/`.
 
 **Gates und Ausnahmen**
 - Benannte Ausnahme: greift sie an der Bedingung oder am Namen? Am Namen schaltet sie die Prüfung ab.
