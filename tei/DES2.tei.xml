@@ -142,6 +142,7 @@
       <change when="2026-09-21" who="#editor">#366 fyndling-Beitrag: 1 unlemmatisierte Tokens annotiert (lemmaRef/pos/corresp; editorische Entscheidungen KZW vom 11.09. und 17.09.2026; je Schreibung ein neu gepraegter Variantentyp nach der Regel aus #367; kein @ana, weil die Sense-Zuordnung kuratorisch ist; Provenienz-Log: ingest/pos-disambig/366-fyndling/).</change>
       <change when="2026-09-23" who="#editor">#418 hawe: 1 Token nach der Zuordnung von KZW vom 11.09.2026 auf lemma_2923 houwen bzw. lemma_9644 houwe gesetzt (lemmaRef/pos/corresp, @ana beim Substantiv). Im ganzen Lauf: zwei Belege auf den neuen Sense lemma_9644_sense_119194 „Schlag“; hawe erhält unter beiden Lemmata einen neu geprägten Variantentyp, type_117159 von lemma_2598 haben entfällt damit.</change>
       <change when="2026-09-30" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization an den Stand der Annotation angeglichen (3017 von 3992 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;- Voll lemmatisiert aber nicht disambiguiert.&#34;</change>
+      <change when="2026-10-10" who="#editor">#461 gebeine: 1 Token mit Säugetierknochen auf den neuen Sense lemma_1958_sense_119196 (concept_14011100) gesetzt.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -878,7 +879,7 @@
           <w xml:id="DES2_91242060_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_38749">vnd</w>
           <w xml:id="DES2_91242060_1" lemmaRef="lexicon.xml#lemma_3837" pos="VRB" corresp="variants.xml#type_108426">löse</w>
           <w xml:id="DES2_91242060_2" lemmaRef="lexicon.xml#lemma_468" pos="ADJ" ana="lexicon.xml#lemma_468_sense_655" corresp="variants.xml#type_64096">beyde</w>
-          <w xml:id="DES2_91242060_3" lemmaRef="lexicon.xml#lemma_1958" pos="NOM" corresp="variants.xml#type_243132">gepein</w>
+          <w xml:id="DES2_91242060_3" lemmaRef="lexicon.xml#lemma_1958" pos="NOM" ana="lexicon.xml#lemma_1958_sense_119196" corresp="variants.xml#type_243132">gepein</w>
           <w xml:id="DES2_91242060_4" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_38749">vnd</w>
           <w xml:id="DES2_91242060_5" lemmaRef="lexicon.xml#lemma_7121" pos="NOM" corresp="variants.xml#type_25183">fleisch</w>
           <w xml:id="DES2_91242060_6" lemmaRef="lexicon.xml#lemma_29" pos="ADV PRP" ana="lexicon.xml#lemma_29_sense_39" corresp="variants.xml#type_87">abe</w>

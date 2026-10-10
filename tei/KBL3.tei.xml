@@ -137,6 +137,7 @@
       <change when="2026-09-10" who="#editor">#363 Hausenblase: 2 Tokens der Konstruktion hûsenblâter (zusammen- und getrennt geschrieben) auf lemma_49714 hûsenblâter vereinheitlicht (lemmaRef/pos/ana/corresp; Mehrwort-Einheit nach TEI-MODEL.md §4.1a; editorische Entscheidung KZW in #363; Provenienz-Log: ingest/pos-disambig/363-hausenblase/).</change>
       <change when="2026-09-21" who="#editor">#366 fyndling-Beitrag: 1 unlemmatisierte Tokens annotiert (lemmaRef/pos/corresp; editorische Entscheidungen KZW vom 11.09. und 17.09.2026; je Schreibung ein neu gepraegter Variantentyp nach der Regel aus #367; kein @ana, weil die Sense-Zuordnung kuratorisch ist; Provenienz-Log: ingest/pos-disambig/366-fyndling/).</change>
       <change when="2026-09-30" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization an den Stand der Annotation angeglichen (1503 von 2058 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;- Voll lemmatisiert aber nicht disambiguiert.&#34;</change>
+      <change when="2026-10-10" who="#editor">#461 gebeine: 1 Token mit Säugetierknochen auf den neuen Sense lemma_1958_sense_119196 (concept_14011100) gesetzt.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -2619,7 +2620,7 @@
             <pc xml:id="KBL3_37961050_7" join="left">.</pc>
             <w xml:id="KBL3_37961050_8" lemmaRef="lexicon.xml#lemma_4330" pos="VRB" corresp="variants.xml#type_15091">nim</w>
             <w xml:id="KBL3_37961050_9" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3397">das</w>
-            <w xml:id="KBL3_37961050_10" lemmaRef="lexicon.xml#lemma_1958" pos="NOM" corresp="variants.xml#type_155861">gepain</w>
+            <w xml:id="KBL3_37961050_10" lemmaRef="lexicon.xml#lemma_1958" pos="NOM" ana="lexicon.xml#lemma_1958_sense_119196" corresp="variants.xml#type_155861">gepain</w>
             <w xml:id="KBL3_37961050_11" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_38749">vnd</w>
             <w xml:id="KBL3_37961050_12" lemmaRef="lexicon.xml#lemma_26868" pos="PRO VRB" corresp="variants.xml#type_272815">hakchs</w>
             <pc xml:id="KBL3_37961050_13" join="left">.</pc>
