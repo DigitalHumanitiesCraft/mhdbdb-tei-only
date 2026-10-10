@@ -1,5 +1,11 @@
 // @ts-check
-import { test, expect } from '@playwright/test';
+// Warmer Context pro Worker (#488, #564): der Korpus-Index kommt ab dem
+// zweiten Test aus IndexedDB statt aus dem Netz. localStorage wird nur
+// innerhalb eines Tests benutzt (View-Wahl, beforeEach setzt zurueck) und
+// nach jedem Test geleert; die Stubs fuer die Woerterbuchnetz-API
+// (page.route) bleiben wirksam, weil sie nicht zwischengespeichert wird
+// und die Tests die Stub-Werte pruefen.
+import { test, expect } from '../warm-page.js';
 import fs from 'fs';
 
 test.describe('Issue #114: Tabellenansicht für Korpussuche', () => {

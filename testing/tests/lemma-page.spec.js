@@ -3,7 +3,12 @@
  * Verifies persistent lemma pages load and display correctly
  */
 
-import { test, expect } from '@playwright/test';
+// Warmer Context pro Worker (#488, #564): der Korpus-Index kommt ab dem
+// zweiten Test aus IndexedDB statt aus dem Netz. Der Stub fuer die
+// Woerterbuchnetz-API (page.route) bleibt wirksam: sie wird nicht
+// zwischengespeichert, und der Test prueft die Stub-Werte, ein
+// umgangener Stub wuerde ihn rot machen.
+import { test, expect } from '../warm-page.js';
 
 test.describe('Persistent Lemma Pages', () => {
 

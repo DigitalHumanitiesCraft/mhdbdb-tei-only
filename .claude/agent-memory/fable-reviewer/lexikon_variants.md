@@ -15,7 +15,7 @@ Verdichtet 08.10.2026. Zahlen sind Eingabe, vor Gebrauch nachmessen.
 
 **sense/@ana**
 - Trägt Variantentypen, hat keinen Konsumenten (build-authority-index liest `ana` nur am Konzept-`title`, cross-refs überspringt `#type_N`, kein Spec/Frontend lädt lexicon.xml): Änderungen sind index-, API- und testneutral. Richtig/falsch entscheidet DATA-MODEL (der Typ gehört zum Sense seines Tokens). Konzepte eines Sense stehen in `sense/ptr/@target`.
-- Hängende Typverweise je Revision: lexicon + variants per `git show`, `split()` über sense/@ana gegen die variants-xml:id-Menge. Eine belegfrei gehaltene Waise verliert ihren variants-Eintrag und behält sense/@ana; `extract-variants.py --apply` räumt sie ab. Alle sense-Starttags mit @ana sind kanonisch `<sense xml:id=".." ana="..">`, der Textanker des Prune hängt daran.
+- Hängende Typverweise je Revision: lexicon + variants per `git show`, `split()` über sense/@ana gegen die variants-xml:id-Menge. Eine belegfrei gehaltene Waise verliert ihren variants-Eintrag und behält sense/@ana; `extract-variants.py --apply` räumt sie ab.
 
 **Schreiber von lexicon.xml außerhalb des Lifecycle:** apply-228.py (löscht Einträge), backfill-lexicon.py (Stubs). „Der eine Ort, an dem eine tei/-Änderung lexicon.xml ändern kann" (DATA-MODEL) gilt nur für die Lifecycle-Skripte.
 
@@ -24,10 +24,10 @@ Verdichtet 08.10.2026. Zahlen sind Eingabe, vor Gebrauch nachmessen.
 **Ziffernlemmata:** seit `claude/228-ziffern` nur noch lemma_53328 „1" (Belege alle NEIM, #453); alle Ziffernschlüssel im Laufzeit-Wörterbuch zeigen darauf. hapax-legomena.spec.js ankert auf ein Orakel aus den Indexen. Außerhalb des Diffs veraltend: CONTRACTS.md C.1.2 („4 lemmata ... 78 keys"), Kommentar `passesFilters` in hapax-legomena.js.
 
 **Reine Wortbestandteile (#228, `component-only.js`, `noCorpus`)**
-- `lemma.id` und `etymology[].lemmaRef` tragen beide `lemma_N` ohne `#`/`lexicon.xml#`. Kontrollfall Mur `lemma_66692` (von Mûrouwe und Murstetten genannt, selbst unbelegt). `noCorpus` gibt es erst seit 1.9.18; die Spec mockt es per `page.route`; veralteter Browser-Cache ist kein Loch (`corpus-loader.js` verwirft ihn bei Versionsabweichung). `renderOccurrences` kehrt ohne `lemmaIndex[lemmaKey]` früh zurück.
+- `lemma.id` und `etymology[].lemmaRef` tragen beide `lemma_N` ohne `#`/`lexicon.xml#`. `noCorpus` gibt es erst seit 1.9.18; die Spec mockt es per `page.route`; veralteter Browser-Cache ist kein Loch (`corpus-loader.js` verwirft ihn bei Versionsabweichung). `renderOccurrences` kehrt ohne `lemmaIndex[lemmaKey]` früh zurück.
 - `hilfe-korpussuche.html` ~Z. 445-446 („Jeder Eintrag besteht aus dem Lemma und einem Wortart-Kürzel") ist nach #228 eine Allaussage mit Ausnahmen.
 
 **Tokens zwischen Lemmata umhängen (#460/#461/#462, 10.10.2026)**
-- Variantentypen werden nicht umgehängt (#367), neue Nummern geprägt (höchste vorher `type_372854`); `n` der alten Typen sinkt, ein Typ ohne Rest entfällt. Das Flip-Gate verlangt die gitignorierte `scripts/audit/variants-flips-ack.json` (`git add -f`): den Grund je Form lesen, eine Form ohne zweiten Kandidaten darf nicht „bleibt zweiter Kandidat“ tragen.
-- Sense-IDs sind global (höchste vorher 119195), ein neuer Sense trägt kein `@ana`. `extract-variants.py --help` läuft als Trockenlauf und schreibt `authority-files/variants.regen.xml`: vor dem Commit löschen.
-- Zerlegte Tags zählen für beide Teile (`NEG VRB`): ein „häufigste Wortart“ aus Korpuszählung hat bei Gleichstand keinen Sieger. Die Grundmenge zerlegen, bevor eine Regel darauf steht (#462: 1.537 abweichende `pos` nach der Wortlaut-Lesart, 5.653 nach „Inhaltswort gewinnt“, beide von 9.987 mehrwertigen Lemmata mit Korpusbeleg).
+- Variantentypen werden nicht umgehängt (#367), neue Nummern geprägt; `n` der alten Typen sinkt, ein Typ ohne Rest entfällt. Das Flip-Gate verlangt die gitignorierte `scripts/audit/variants-flips-ack.json` (`git add -f`): den Grund je Form lesen.
+- Sense-IDs sind global, ein neuer Sense trägt kein `@ana`. `extract-variants.py --help` läuft als Trockenlauf und schreibt `authority-files/variants.regen.xml`: vor dem Commit löschen.
+- Zerlegte Tags zählen für beide Teile (`NEG VRB`): ein „häufigste Wortart“ aus Korpuszählung hat bei Gleichstand keinen Sieger. Die Grundmenge zerlegen, bevor eine Regel darauf steht (#462: 1.537 abweichende `pos` nach der Wortlaut-Lesart gegen 5.653 nach „Inhaltswort gewinnt“).

@@ -11,7 +11,7 @@ Zusammengelegt aus fünf Runden, verdichtet 10.10.2026.
 **Messrezept**
 - Quellen als OCR: `https://archive.org/download/<id>/<id>_djvu.txt` nach `.claude/tmp/` (gitignoriert). Bartsch `wolframsvonesch01bartgoog` (Bd. 9), `...03...` (Bd. 10), `...00...` (Bd. 11); Martin Kommentar `parzival00wolfuoft`.
 - Bartsch: Überschrift `ACHTES BUCH.` in Großbuchstaben, dann Inhaltsangabe, dann der erste Vers mit Marginalzahl (OCR von Bd. 10 schlecht, locker suchen).
-- Martin: Buchüberschrift als kurze römische Zeile (OCR `IL`, `YII.`), dann die erste Note; sie liegt oft nach dem Buchanfang (VII 338,2 statt 338,1) und ist kein Beleg gegen die Grenze. Eine Zahl wie `679, 4` am Zeilenanfang kann ein Querverweis sein.
+- Martin: Buchüberschrift als kurze römische Zeile (OCR `IL`, `YII.`), dann die erste Note; sie liegt oft nach dem Buchanfang und ist kein Beleg gegen die Grenze.
 - `build-grenzen.py` reproduziert die CSV byteidentisch; `git status` zeigt unter autocrlf trotzdem ` M`, der Blob-Hash (`hash-object --no-filters`) ist die Messung.
 
 **Fallen**
@@ -22,6 +22,6 @@ Zusammengelegt aus fünf Runden, verdichtet 10.10.2026.
 - Leseansicht (B2): „Buch N" wird im div-Zweig nur gehoben, wenn der book-milestone `firstElementChild` des div ist; steht ein `pb`/`lb` davor, rendert er unter „Strophe N".
 
 **Skript und Spec**
-- Basis billig rekonstruieren: ` subtype="dreissiger"` und milestone-Zeilen aus HEAD strippen, Blob-SHA gegen `rev-parse <basis>:tei/PZ.tei.xml`. Statt Index-Rebuild `process_tei_file` aus build-corpus-index per importlib auf HEAD und Basis vergleichen.
-- `pz-wh-struktur.py` hält das erste `<w>` des `<l>` nach dem milestone gegen `erste_wort_id` (l/@n allein ließ ein doppeltes `<l n>` durch); alle Prüfungen laufen vor dem ersten Schreibvorgang.
-- `dreissiger-buecher.spec.js`: Soll aus dem TEI (`following::tei:l[1]`, erstes `<w>`, Kern = `split('_')[1]`), Ist aus dem DOM (`data-core`). Mutationsproben, die rot werden müssen: Label „Kapitel" statt „Strophe", Buch nicht gerendert, milestones ans Divende, Nummern vertauscht, PZ ohne milestones. Der WH-Test erwartet fest `Strophe 77`.
+- Basis billig rekonstruieren: ` subtype="dreissiger"` und milestone-Zeilen aus HEAD strippen, Blob-SHA gegen `rev-parse <basis>:tei/PZ.tei.xml`; statt Index-Rebuild `process_tei_file` aus build-corpus-index per importlib auf HEAD und Basis vergleichen.
+- `pz-wh-struktur.py` hält das erste `<w>` des `<l>` nach dem milestone gegen `erste_wort_id`; alle Prüfungen laufen vor dem ersten Schreibvorgang.
+- `dreissiger-buecher.spec.js`: Soll aus dem TEI, Ist aus dem DOM (`data-core`). Mutationsproben, die rot werden müssen: Label „Kapitel“ statt „Strophe“, Buch nicht gerendert, milestones ans Divende, Nummern vertauscht, PZ ohne milestones.

@@ -6,30 +6,18 @@
  * Rewritten Feb 2026 to match current panel-based architecture (Issue #43)
  */
 
-import { test, expect } from '@playwright/test';
+// Warmer Context pro Worker (#488): der Korpus-Index kommt ab dem zweiten Test
+// aus IndexedDB statt aus dem Netz (#564, Testdauer). Die beiden Tests, die das
+// Laden der frischen Seite selbst pruefen (Konsolenfehler beim Start, Ready-Log
+// nach dem Neuladen), laufen weiter im kalten Context von Playwright.
+import { test, expect } from '../warm-page.js';
+import { test as kalt } from '@playwright/test';
 
 test.describe('Main Site', () => {
 
     test.beforeEach(async ({ page }) => {
         // Navigate to search page (not landing page)
         await page.goto('/korpus.html');
-    });
-
-    test('should load without console errors', async ({ page }) => {
-        const errors = [];
-        page.on('console', msg => {
-            if (msg.type() === 'error') {
-                errors.push(msg.text());
-            }
-        });
-
-        // Wait for loading screen to disappear
-        await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
-
-        if (errors.length > 0) {
-            console.error('Console errors:', errors);
-        }
-        expect(errors.length).toBe(0);
     });
 
     test('should display search page elements', async ({ page }) => {
@@ -45,28 +33,6 @@ test.describe('Main Site', () => {
 
         // Reading panel (always present, right column)
         await expect(page.locator('#readingPanel')).toBeVisible();
-    });
-
-    test('should load indices successfully', async ({ page }) => {
-        const logs = [];
-        page.on('console', msg => {
-            logs.push(msg.text());
-        });
-
-        // Neu laden, NACHDEM der Listener haengt. Das beforeEach hat schon
-        // navigiert, und `page.goto` loest erst auf, wenn die Initialisierung
-        // durch ist: gemessen am 07.09.2026 loest goto nach 12,8 s auf und der
-        // Ladeschirm verschwindet 38 ms spaeter, "[MainSiteApp] Ready" ist
-        // Logzeile 13 von 15 und faellt damit vor das Anhaengen. Ohne dieses
-        // reload zeichnet der Listener NULL Zeilen auf und der Test ist rot,
-        // ohne dass an der Anwendung etwas fehlt.
-        await page.reload();
-
-        await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
-
-        // App logs "[MainSiteApp] Ready" when fully initialized
-        const readyLog = logs.some(log => log.includes('[MainSiteApp] Ready'));
-        expect(readyLog).toBeTruthy();
     });
 
     test('should populate text list with corpus texts', async ({ page }) => {
@@ -87,14 +53,9 @@ test.describe('Main Site', () => {
         await page.fill('#searchInput', 'brot');
         await page.click('#searchButton');
 
-        // Wait for results to appear
-        await page.waitForTimeout(2000);
-
-        // Either results section or no-results message should be visible
-        const resultsVisible = await page.locator('#resultsSection').isVisible();
-        const noResultsVisible = await page.locator('#noResults').isVisible();
-
-        expect(resultsVisible || noResultsVisible).toBeTruthy();
+        // Either results section or no-results message should become visible
+        // (statt fester 2 s: wartet auf genau diese Aussage, #564)
+        await expect(page.locator('#resultsSection').or(page.locator('#noResults')).first()).toBeVisible();
     });
 
     test('should display search results with proper structure', async ({ page }) => {
@@ -178,6 +139,53 @@ test.describe('Main Site', () => {
 
 });
 
+kalt.describe('Main Site', () => {
+
+    kalt.beforeEach(async ({ page }) => {
+        await page.goto('/korpus.html');
+    });
+
+    kalt('should load without console errors', async ({ page }) => {
+        const errors = [];
+        page.on('console', msg => {
+            if (msg.type() === 'error') {
+                errors.push(msg.text());
+            }
+        });
+
+        // Wait for loading screen to disappear
+        await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
+
+        if (errors.length > 0) {
+            console.error('Console errors:', errors);
+        }
+        expect(errors.length).toBe(0);
+    });
+
+    kalt('should load indices successfully', async ({ page }) => {
+        const logs = [];
+        page.on('console', msg => {
+            logs.push(msg.text());
+        });
+
+        // Neu laden, NACHDEM der Listener haengt. Das beforeEach hat schon
+        // navigiert, und `page.goto` loest erst auf, wenn die Initialisierung
+        // durch ist: gemessen am 07.09.2026 loest goto nach 12,8 s auf und der
+        // Ladeschirm verschwindet 38 ms spaeter, "[MainSiteApp] Ready" ist
+        // Logzeile 13 von 15 und faellt damit vor das Anhaengen. Ohne dieses
+        // reload zeichnet der Listener NULL Zeilen auf und der Test ist rot,
+        // ohne dass an der Anwendung etwas fehlt.
+        await page.reload();
+
+        await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
+
+        // App logs "[MainSiteApp] Ready" when fully initialized
+        const readyLog = logs.some(log => log.includes('[MainSiteApp] Ready'));
+        expect(readyLog).toBeTruthy();
+    });
+
+});
+
 test.describe('Such-Deep-Link ?search= (#144)', () => {
 
     test('?search=brôt füllt das Suchfeld und liefert Treffer', async ({ page }) => {
@@ -200,8 +208,10 @@ test.describe('Such-Deep-Link ?search= (#144)', () => {
         expect(new URL(page.url()).searchParams.get('search')).toBe('brôt');
     });
 
-    test('Lemma-Seiten-Button "Im Korpus suchen" führt zu Treffern', async ({ page, context }) => {
+    test('Lemma-Seiten-Button "Im Korpus suchen" führt zu Treffern', async ({ page }) => {
         test.setTimeout(120000);
+        // Der Context der Seite, im warmen Context also der warme
+        const context = page.context();
 
         await page.goto('/lemma/?id=879');
         await page.waitForSelector('#lemmaContent:not(.hidden)', { timeout: 30000 });
@@ -214,10 +224,16 @@ test.describe('Such-Deep-Link ?search= (#144)', () => {
             corpusLink.click(),
         ]);
 
-        // Auf der Korpussuche erscheinen Treffer automatisch
-        await searchPage.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
-        await searchPage.waitForSelector('#resultsList > div', { timeout: 15000 });
-        expect(await searchPage.locator('#resultsList > div').count()).toBeGreaterThan(0);
+        // Auf der Korpussuche erscheinen Treffer automatisch. Der Tab wird hier
+        // geschlossen, damit er vor dem Teardown nicht offen bleibt, auch wenn
+        // eine Pruefung fehlschlaegt (warm-page.js schliesst uebrige Seiten ohnehin).
+        try {
+            await searchPage.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
+            await searchPage.waitForSelector('#resultsList > div', { timeout: 15000 });
+            expect(await searchPage.locator('#resultsList > div').count()).toBeGreaterThan(0);
+        } finally {
+            await searchPage.close();
+        }
     });
 
 });
