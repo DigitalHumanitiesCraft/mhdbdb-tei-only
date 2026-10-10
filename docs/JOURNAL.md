@@ -1165,3 +1165,13 @@ Keine.
 - **#461, an KZW:** die 6 Tierbelege ohne Säugetier (Hahn, Fisch, Phönix, drei Drachen), die 9 offenen Belege und `concept_21104000` an `lemma_1958_sense_3004`, Frage nach dem Merge.
 - **#462, an KZW:** gestellt (Gleichstand durch zerlegte Tags, dazu 22 Lemmata, deren häufigster Korpus-Tag im Lexikon nicht geführt wird); #462 steht auf `auto:blocked`, `wait:kzw`.
 - Die Chrome-Prüfung in einem echten Browser steht aus (Erweiterung nicht verbunden), ersetzt durch das Playwright-Skript oben.
+
+## 2026-10-10 – #463: Stufe 1 ohne Korpusbeleg hält Stufe 2 nicht mehr ab (Spur lauf-b-suche)
+
+Entschieden war nur Stufe 2: Bringt Stufe 1 keinen belegten Treffer (Eintrag in `corpusIndex.lemmaIndex`), wird die Variantenliste mitgefragt, die Stufe-1-Treffer bleiben hinten in der Liste. Haupt- und Playground-Auflösung benutzen dasselbe Prädikat (`lemma-resolve.js`), die Schleifen bleiben je Seite. Gemessen (Authority 1.9.22, Korpus 4.2.31): 1.285 von 43.710 Lemmata ohne Beleg, `lemmaIndex` hat für die belegten genau einen Eintrag, 0 leere. Zeilen: `rosse` 0 auf 184, `gat` 0 auf 525, `hanc` 0 auf 0, `roz` 1 auf 1 (`rôz` ist belegt), `lenden` 20 auf 20.
+
+**Review auf Opus (G4), zwei Runden.** Runde 1 fand, dass der erste Entwurf Stufe 3 mitfragte, obwohl der Entscheidungstext sie nicht nennt (`Cordoba` löste per Präfix auf `cor` auf); Stufe 3 läuft wieder nur bei leerer Stufe 1 und 2. Runde 2 fand, dass der Playground unbelegte Homographen ungerankt zurückgab (`vlâder` gegen `vlader`); die Gleichstandsregel gilt jetzt auch ohne Beleg.
+
+**Folge, die bleibt:** Wer die Schreibform eines unbelegten Lemmas als Suchbegriff weitergibt (Wortbestandteil-Suche, "Im Korpus suchen"), landet beim belegten Lemma der Variante. Von 1.285 unbelegten Lemmata trifft das bei 573 (je Lemma gezählt). Eine ID-Übergabe nach CONTRACTS §C.1.1 würde es schließen und ist nicht Teil dieses Zuschnitts.
+
+**Nicht in diesem Zuschnitt, an die Koordination gemeldet:** `compare-findebuch-resolution-259.py` bildet die Auflösung mit "Stufe 1 gewinnt immer" nach (Spur C), DATA-MODEL.md Z. 643 "first match wins" (Spur A), ein Kommentar in `lemma-explorer.js`.
