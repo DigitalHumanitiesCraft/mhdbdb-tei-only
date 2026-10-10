@@ -122,8 +122,8 @@ export class LemmaExplorer {
    * Ein Lemma an die Belegsuche übergeben (#58).
    *
    * Übergeben wird die ID, nicht die Schreibform. Der Klick hat ein bestimmtes
-   * Lemma gemeint, und für 991 Lemmata (476 normalisierte Formen,
-   * gemessen am 2026-09-24, Zählweise in CONTRACTS.md) würde die Auflösung
+   * Lemma gemeint, und bei Homographen (Zählweise in CONTRACTS.md) sowie, seit
+   * #463, bei unbelegten Lemmata mit Stufe-2-Eintrag würde die Auflösung
    * über die Schreibform ein anderes treffen: `sin`, `wal`, `mal`, `de`. Die Schreibform fährt nur als
    * Beschriftung mit, damit im Ergebnis „minne" steht und nicht „4130".
    *
@@ -871,7 +871,9 @@ export class LemmaExplorer {
    * Anforderung 2: ausgewählte Lemmata gesammelt an die Multi-Lemma-Suche
    * geben. Übergeben werden die Originalformen, nicht die IDs, weil die
    * Multi-Lemma-Route Schreibformen erwartet und sie in der Ergebnisanzeige
-   * auch so beschriftet. Sie laufen dort durch Stufe 1 der Auflösung.
+   * auch so beschriftet. Sie laufen dort durch die Auflösung: Stufe 1 hält nur,
+   * wenn mindestens ein exakter Treffer im Korpus belegt ist, sonst kommen die
+   * Stufe-2-Treffer nach vorn (#463, `stage1Holds` in lemma-resolve.js).
    */
   sendWordComponentSelection() {
     // Aus dem Modell, nicht aus dem DOM (#251): eine Auswahl, die der Filter
