@@ -27,5 +27,5 @@ Zusammengelegt aus projekt_370_corresp und projekt_526_breve_makron, 08.10.2026;
 ## #526 (Breve, Makron, w-n; Prüfseite Punkt 4)
 
 - **Guard-Grenzen:** Regel V prüft nur `treffer > 0`: ein falsches, aber in der WZB belegtes Lemma+pos für eine mehrdeutige Form läuft durch; dort trägt allein die Tafel, also den Vers lesen.
-- **Mitalternde Allaussagen:** `docs/CONTRACTS.md` §A zählte unannotierte WZB-Tokens als Invariante; seit #534 datiert. Bei einem neuen Lauf dort und im Thread nach Rest-Zählungen suchen. Zählvorschrift „136/64": `<w>`-Text roh (kein NFD), U+0306 auf Grundzeichen außer o/u, alle 667 Dateien. Der ADR-Text in `DECISIONS.md` ist datiert und wird nicht nachgezogen.
+- **Mitalternde Allaussagen:** `docs/CONTRACTS.md` §A zählte unannotierte WZB-Tokens als Invariante; seit #534 datiert. Bei einem neuen Lauf dort und im Thread nach Rest-Zählungen suchen. Der ADR-Text in `DECISIONS.md` ist datiert und wird nicht nachgezogen.
 - **Prüfseite (`scripts/review/build-526-pruefseite.py`):** die `xml:id` `WZB_<blatt>_<zeile>_<n>` zählt ab 0 über `<w>` **und** `<pc>`, Suffix auch `13b`; ein „Wort n+1" aus der id ist bei Satzzeichen davor falsch. Ein „Sinn"-Satz über ein Lemma ist nur über `concepts.xml` prüfbar: `lexicon.xml`-Senses tragen keine `<def>`, nur `<ptr target="concepts.xml#concept_N">`.

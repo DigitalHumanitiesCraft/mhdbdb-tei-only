@@ -13,13 +13,10 @@ Verdichtet 08.10.2026.
 - Proben: `render` per `inspect.getsource` + replace + `exec` mutieren; Seite bitidentisch regenerieren (ZIEL auf $TEMP). BELEGE aus dem HTML: `re.search(r'const BELEGE = (\[.*?\]);\n', html, re.S)` + json gegen `faelle.csv` (`;`).
 
 **Archivierte Beispiele (#469)**
-- `build-review-364.py` braucht >10 min und 1,6 GB: nur im Hintergrund mit Logdatei. Beide Generatoren brechen per assert ab, wenn der Issue-Umfang nicht mehr 35/66/29 (364) bzw. 39/264/22 (Klaus) ist.
-- Regeneration bettet HEAD und heutiges Datum ein (ein eingebetteter Commit kann im Repo fehlen). `build-review-klaus.py` liest die 364-Vorlage nur für den `<style>`-Block; Vorlage gegen Archiv: difflib zeilenweise ohne die Zeile mit `id="review-data"`.
-- Specs können datengebunden sein: ein neuer Datenstand bricht sie ohne Vorlagenänderung.
+- `build-review-364.py` braucht >10 min und 1,6 GB: nur im Hintergrund mit Logdatei. Beide Generatoren brechen per assert ab, wenn der Issue-Umfang nicht mehr stimmt. Regeneration bettet HEAD und heutiges Datum ein; Specs können datengebunden sein, ein neuer Datenstand bricht sie ohne Vorlagenänderung. Vorlage gegen Archiv: difflib zeilenweise ohne die Zeile mit `id="review-data"`.
 
 **build-526-pruefseite.py (#526 Punkt 4)**
-- Probe ohne Worktree-Berührung: Quelltext lesen, `ROOT = Path(__file__)...` und `sys.path.insert(...)` auf den Worktree-Pfad, `ZIEL` auf das Scratchpad ersetzen, `exec` unter `__name__ == '__main__'`. Der `print` am Ende wirft `ValueError` an `ZIEL.relative_to(ROOT)`, die Datei ist da schon geschrieben: diese Exception heißt „durchgelaufen", nicht „Gate".
-- `pruefe_kandidaten()` prüft nur `orth`, nicht die Wortart (`('lemma_2816','höuwe','VRB')` läuft durch).
-- `fundstelle()` schrieb „Wort N" mit dem Suffix der xml:id (zählt `<w>` und `<pc>`, siehe projekt_526_breve_makron); in der 526-Seite weggelassen, dieselbe Zeile steht noch in `build-370-pruefseite.py:63`.
+- Probe ohne Worktree-Berührung: Quelltext lesen, `ROOT`/`sys.path` auf den Worktree, `ZIEL` ins Scratchpad ersetzen, `exec` unter `__name__ == '__main__'`. Der `print` am Ende wirft `ValueError` an `ZIEL.relative_to(ROOT)`, die Datei ist da schon geschrieben: diese Exception heißt „durchgelaufen“, nicht „Gate“.
+- `pruefe_kandidaten()` prüft nur `orth`, nicht die Wortart. `fundstelle()` schrieb „Wort N“ mit dem Suffix der xml:id (zählt `<w>` und `<pc>`, projekt_526_breve_makron); dieselbe Zeile steht noch in `build-370-pruefseite.py`.
 
-**Anführungszeichen und Scope (#440):** Prüfseiten unter `ingest/` sind ausgelieferte Seiten; ob sie im Geltungsbereich sind, vorher klären. Generatoren emittieren eigene Strings. Kommentar vs. Code in JS: eigener Zeichenscanner (kein Parser verfügbar). **Widerspruch im Bestand:** `docs/playbooks/kickoffs/2026-09-21-kickoff-spur-b-pruefseite.md:92` schreibt U+201C vor, gegen die Entscheidung für gerade Zeichen.
+**Anführungszeichen und Scope (#440):** Prüfseiten unter `ingest/` sind ausgelieferte Seiten; ob sie im Geltungsbereich sind, vorher klären. Kommentar vs. Code in JS: eigener Zeichenscanner (kein Parser verfügbar). **Widerspruch im Bestand:** `docs/playbooks/kickoffs/2026-09-21-kickoff-spur-b-pruefseite.md:92` schreibt U+201C vor, gegen die Entscheidung für gerade Zeichen.

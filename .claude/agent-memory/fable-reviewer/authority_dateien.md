@@ -20,6 +20,6 @@ Stand 28.09.2026.
 
 **works.xml:** Siglen mit `.//tei:idno[@type="sigle"]` zaehlen wie der Syncer. TRO ist die einzige Doppelsigle (work_69, work_c7da236c). `work_WLK` (#237/#496) hat keinen `biblStruct`, bis der Zotero-Sync ihn nachliefert.
 - Werk ohne TEI-Datei ist nicht neu (`WG` work_668, `WLK`); Kontrollwert beim Messen „Siglen ohne Datei". `person-explorer.js` verlinkt `sigles[0]` ungeprueft.
-- Werkzahl ungegatet an drei Stellen: TEI-MODEL-AUTH-FILES.md Overview-Tabelle, Kommentar `build-authority-index.py` (Autor-XPath), Docstring `sync_tei_headers.py` („70 der N"). Die `584` in `mhdbdb-authority.rnc` (datiert) und `doc-count-audit.py` (Historie) sind kein Drift.
+- Werkzahl ungegatet an drei Stellen (TEI-MODEL-AUTH-FILES.md Overview-Tabelle, Kommentar in `build-authority-index.py`, Docstring `sync_tei_headers.py`); die `584` in `mhdbdb-authority.rnc` und `doc-count-audit.py` sind datiert, kein Drift.
 
-**hilfe-daten.html-Groessenliste** = MiB des Git-Blobs, abgeschnitten statt gerundet.
+**hilfe-daten.html-Groessenliste** = MiB des Git-Blobs, abgeschnitten.
