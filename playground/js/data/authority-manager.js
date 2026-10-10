@@ -6,7 +6,7 @@
  */
 
 import { TextNormalizer } from '../../../assets/js/lib/text-normalizer.js';
-import { isStage3Match, stage3Distance } from '../../../assets/js/lib/lemma-resolve.js';
+import { isStage3Match, stage3Distance, isAttestedLemma, stage1Holds } from '../../../assets/js/lib/lemma-resolve.js';
 
 export class AuthorityFilesManager {
   constructor(authorityData) {
@@ -99,9 +99,21 @@ export class AuthorityFilesManager {
       const lemmaNormalized = TextNormalizer.normalizeMHG(lemmaLower);
       return lemmaLower === normalized || lemmaNormalized === normalizedCharacters;
     });
-    if (exactMatches.length > 0) {
+    // Stufe 1 haelt nur mit mindestens einem belegten Treffer (#463, wie die
+    // Hauptseite). Sonst werden Stufe 2 und 3 mitgefragt und die unbelegten
+    // Stufe-1-Treffer bleiben in der Liste. Ohne geladenen Corpus-Index
+    // gilt alles als belegt (altes Verhalten).
+    const lemmaIndex = window.playground?.corpusData?.lemmaIndex;
+    if (stage1Holds(exactMatches.map(l => l.id), lemmaIndex)) {
       return this.rankHomographs(exactMatches, normalized);
     }
+    // Die unbelegten Stufe-1-Treffer stehen HINTEN: matches[0]-Konsumenten
+    // (Multi-Lemma-Suche, Kookkurrenz, Reim, Versposition) duerfen nicht ein
+    // Lemma ohne Beleg als ersten Treffer nehmen (#163/#164).
+    const withStage1 = (found) => {
+      const seen = new Set(exactMatches);
+      return [...found.filter(l => !seen.has(l)), ...exactMatches];
+    };
 
     // Stage 2: Search in variants index (orthographic variants from TEI corpus)
     // Structure: variants = {normalized_variant: lemma_id, ...}
@@ -120,7 +132,8 @@ export class AuthorityFilesManager {
         }
         const candidates = candidateIds.map(id => lemmaById.get(id)).filter(Boolean);
         if (candidates.length > 0) {
-          return candidates;
+          if (exactMatches.length === 0) return candidates;
+          if (candidates.some(l => isAttestedLemma(lemmaIndex, l.id))) return withStage1(candidates);
         }
       }
 
@@ -131,7 +144,8 @@ export class AuthorityFilesManager {
         // Find the corresponding lemma in lemmata array
         const lemma = this.authorityData.lemmata.find(l => l.id === lemmaId);
         if (lemma) {
-          return [lemma];
+          if (exactMatches.length === 0) return [lemma];
+          if (isAttestedLemma(lemmaIndex, lemma.id)) return withStage1([lemma]);
         }
       }
     }
@@ -165,7 +179,7 @@ export class AuthorityFilesManager {
         || (a.idx - b.idx)
       )
       .map(entry => entry.lemma);
-    return partialMatches;
+    return exactMatches.length > 0 ? withStage1(partialMatches) : partialMatches;
   }
 
   /**

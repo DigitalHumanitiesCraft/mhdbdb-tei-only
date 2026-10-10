@@ -6,7 +6,7 @@
 
 // Import MHG normalizer from shared library
 import { TextNormalizer } from '../lib/text-normalizer.js';
-import { isStage3Match, stage3Distance } from '../lib/lemma-resolve.js';
+import { isStage3Match, stage3Distance, isAttestedLemma, stage1Holds } from '../lib/lemma-resolve.js';
 import { parseLemmaIdInput } from '../lib/lemma-id-input.js';
 import { countingAttributions, formatAttributionList, personIdOf } from '../lib/attributions.js';
 
@@ -142,8 +142,8 @@ class SearchEngine {
         if (parseLemmaIdInput(searchTerm)) return false;
         const normalized = TextNormalizer.normalizeMHG(searchTerm);
         // Ein unbelegter Stufe-1-Treffer haelt Stufe 2 nicht mehr fern (#463)
-        const stage1Holds = this.stage1Ids(normalized).some(id => this.isAttested(id));
-        return !stage1Holds && Array.isArray(this.authorityIndex.variantCandidates?.[normalized]);
+        const holds = stage1Holds(this.stage1Ids(normalized), this.corpusIndex?.lemmaIndex);
+        return !holds &&Array.isArray(this.authorityIndex.variantCandidates?.[normalized]);
     }
 
     /**
@@ -156,8 +156,8 @@ class SearchEngine {
         // (#463). Ein Lemma ohne Beleg (z.B. "Rosse" fuer die Eingabe "rosse")
         // schnitt sonst Stufe 2 und 3 ab, und die Suche endete leer, obwohl
         // das belegte Lemma (ros) in der Variantenliste stand. Die Stufe-1-
-        // Treffer bleiben in der Liste; das Lexikon ist mehr als der Korpus.
-        if (lemmaIds.length > 0 && lemmaIds.some(id => this.isAttested(id))) {
+        // Treffer bleiben in der Liste (am Ende); das Lexikon ist mehr als der Korpus.
+        if (stage1Holds(lemmaIds, this.corpusIndex?.lemmaIndex)) {
             return lemmaIds;
         }
         const stage1Unattested = lemmaIds.length > 0;
@@ -174,7 +174,7 @@ class SearchEngine {
             return stage2;
         }
         if (stage2.some(id => this.isAttested(id))) {
-            return this.unionIds(lemmaIds, stage2);
+            return this.unionIds(stage2, lemmaIds);
         }
 
         // Strategy 3: Partial match fallback. Prefix-oriented in both directions
@@ -188,7 +188,7 @@ class SearchEngine {
             .sort((a, b) =>
                 stage3Distance(a.normalized, normalized) - stage3Distance(b.normalized, normalized)
             );
-        return this.unionIds(this.unionIds(lemmaIds, stage2), partial.map(lemma => lemma.id));
+        return this.unionIds(this.unionIds(stage2, partial.map(lemma => lemma.id)), lemmaIds);
     }
 
     /** Stufe 1: alle Lemmata, deren normalisierte Ansetzung der Eingabe gleicht. */
@@ -205,11 +205,13 @@ class SearchEngine {
      * damit die Stufen sich verhalten wie vor #463.
      */
     isAttested(lemmaId) {
-        const index = this.corpusIndex?.lemmaIndex;
-        return index ? Array.isArray(index[lemmaId]) && index[lemmaId].length > 0 : true;
+        return isAttestedLemma(this.corpusIndex?.lemmaIndex, lemmaId);
     }
 
-    /** a gefolgt von den Elementen aus b, die noch nicht in a stehen. */
+    /**
+     * a gefolgt von den Elementen aus b, die noch nicht in a stehen. Die
+     * unbelegten Stufe-1-Treffer kommen als b, also ans Ende der Liste.
+     */
     unionIds(a, b) {
         const seen = new Set(a);
         return [...a, ...b.filter(id => !seen.has(id))];

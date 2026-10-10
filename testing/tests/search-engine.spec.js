@@ -300,7 +300,7 @@ test.describe('Search Engine', () => {
 
         test('hanc: ohne Stufe 2 fragt Stufe 3, das unbelegte hanc bleibt in der Liste', async ({ page }) => {
             const r = await aufloesen(page, 'hanc');
-            expect(r.ids[0]).toBe('lemma_2636');
+            expect(r.ids).toContain('lemma_2636');
             expect(r.ids.length).toBeGreaterThan(1);
             expect(r.zeilen).toBeGreaterThan(0);
         });

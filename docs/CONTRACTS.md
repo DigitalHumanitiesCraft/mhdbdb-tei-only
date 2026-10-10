@@ -326,7 +326,7 @@ function resolveLemmaIds(normalized):
     if stage2 is not empty AND results is empty:
         return stage2                        // EARLY RETURN, 1..N ids, ranked
     if any id in stage2 is attested:         // only reachable with unattested stage-1 hits
-        return results + stage2 (without duplicates)
+        return stage2 + results (without duplicates)
 
     // Stage 3: Partial match fallback (bidirectional PREFIX, see #224)
     partial = []
@@ -336,7 +336,7 @@ function resolveLemmaIds(normalized):
                AND normalized.startsWith(lemma.normalized)):        // inflected input
             partial.push(lemma)
     sort partial by abs(len(lemma.normalized) - len(normalized))    // closest first
-    return results + stage2 + partial.map(lemma => lemma.id)       // without duplicates, may be empty
+    return stage2 + partial.map(lemma => lemma.id) + results       // without duplicates, may be empty
 ```
 
 ### Stage 1 holds only with a corpus attestation (#463)
@@ -349,7 +349,8 @@ Decided by chsteiner on 2026-10-10: **if stage 1 yields no attested hit, stage 2
 - **Without `lemmaIndex`** (old index states) everything counts as attested, which is the pre-#463 behaviour.
 - **`hasAmbiguousVariant` follows the same predicate**: the note appears when stage 1 holds no attested hit and stage 2 has candidates.
 - **Not covered:** a stage-1 hit that is attested but wrong (`lenden`: verb lemma `lemma_3702` wins over the noun `lemma_3701`) is a separate question. Nor does an attested stage-1 hit change anything, so `roz` (`rôz` has 1 token) still yields 1 row.
-- **Playground:** `searchLemmaByOrthography` has the same early return after stage 1 and is **not** changed by #463 (own decision pending, see the issue).
+- **Playground too** (coordination decision G1, 2026-10-10): `searchLemmaByOrthography` applies the same rule. The predicate (`isAttestedLemma`, `stage1Holds`) lives in `assets/js/lib/lemma-resolve.js` and both sides call it; the loops stay per side. Without the corpus index loaded the playground counts everything as attested (old behaviour).
+- **Order of the list: unattested stage-1 hits come last** (after the stage-2 candidates and, where reached, the stage-3 hits), because `matches[0]` callers in the playground (§C.1.1) must not take a lemma without a token. The exception is stage 3, which sorts by length distance: an unattested lemma spelled exactly like the input (`hanc`) sits first there, because it is distance 0 and stays in its place when the list is de-duplicated.
 
 ### Stage Behavior
 
