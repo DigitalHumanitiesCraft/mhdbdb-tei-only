@@ -16,7 +16,7 @@ Stand 28.09.2026.
 - Schema steht an vier Orten: DATA-MODEL.md (Schema-Block, XPath-Referenz), TEI-MODEL-AUTH-FILES.md („Index mapping"), CONTRACTS.md §G.3 (normativ). Neues Feld: alle vier greppen.
 - api/: `api/lemmata` hat nur index.json; `api/concepts/concept_N.json` ohne Lemmalisten.
 
-**contributors.xml:** build-authority-index liest sie nur in `load_contributor_names()` (direktes Kind persName/orgName je xml:id); `<note>` wird nicht gelesen, `resp_name` endet mit SystemExit bei fremdem Praefix, unbekannter oder leerer ID. contrib_052 traegt eine dritte Kopie der Naming-Zitation (siehe naming_420).
+**contributors.xml:** build-authority-index liest sie nur in `load_contributor_names()` (direktes Kind persName/orgName je xml:id); `<note>` wird nicht gelesen, `resp_name` endet mit SystemExit bei fremdem Praefix, unbekannter oder leerer ID. contrib_052 traegt eine dritte Kopie der Naming-Zitation (siehe fremdindizes).
 
 **works.xml:** Siglen mit `.//tei:idno[@type="sigle"]` zaehlen wie der Syncer. TRO ist die einzige Doppelsigle (work_69, work_c7da236c). `work_WLK` (#237/#496) hat keinen `biblStruct`, bis der Zotero-Sync ihn nachliefert.
 - Werk ohne TEI-Datei ist nicht neu (`WG` work_668, `WLK`); Kontrollwert beim Messen „Siglen ohne Datei". `person-explorer.js` verlinkt `sigles[0]` ungeprueft.

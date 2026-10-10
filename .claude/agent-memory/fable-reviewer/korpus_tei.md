@@ -6,7 +6,7 @@ metadata:
 ---
 Verdichtet 08.10.2026. Zahlen sind Eingabe, vor Gebrauch nachmessen.
 
-**Was `build-corpus-index.py` liest:** nur `w` und `l` (iterwalk; Frames ohne `w` fallen weg) plus Header `idno[@type=sigle]`, titleStmt title/author, `msIdentifier/@corresp`, keywords. Nicht: revisionDesc, availability, gap/caesura, particDesc, Header-biblStruct, `@pos`. Änderungen dort sind ohne Rebuild und Bump prüfbar. `corpus-index.json.gz` enthält keine xml:ids und keine Versnummern-Stämme (`w`-Kontrollwert `NEIC_6303150_0` und `6303150` je 0 Treffer, `lemma_5961` 5.928): eine gelöschte `pc`-/`caesura`-id kann dort nicht hängen.
+**Was `build-corpus-index.py` liest:** nur `w` und `l` (iterwalk; Frames ohne `w` fallen weg) plus Header `idno[@type=sigle]`, titleStmt title/author, `msIdentifier/@corresp`, keywords. Nicht: revisionDesc, availability, gap/caesura, particDesc, Header-biblStruct, `@pos`. Änderungen dort sind ohne Rebuild und Bump prüfbar. `corpus-index.json.gz` enthält keine xml:ids und keine Versnummern-Stämme (gegen einen `lemma_N`-Kontrollwert gemessen): eine gelöschte `pc`-/`caesura`-id kann dort nicht hängen.
 
 **Token-Ebene**
 - `@lemmaRef` ist in tei/ einwertig. Attributreihenfolge an `w`: xml:id lemmaRef pos ana corresp reason. Multi-pos = Leerzeichen in @pos.
@@ -15,9 +15,9 @@ Verdichtet 08.10.2026. Zahlen sind Eingabe, vor Gebrauch nachmessen.
 **caesura/gap (#252)**
 - gap immer `reason="lost"`, kein `extent`. Zwei Kopien der caesura-Zahl in TEI-MODEL.md, kein Gate.
 - Rohmuster inline: `<pc[^>]*>\(</pc>\s*<caesura[^>]*/>\s*<pc[^>]*>\)</pc>`. `find(T+'caesura')` sieht nur direkte Kinder (MUG `<l><hi><caesura/></hi></l>`).
-- Linecode-Gegenprobe nur für Siglen in `sources/linecode-manifest.csv` (MAI, NEI fehlen; GWTK und RVBR sind drin, entgegen einem #252-Kommentar vom 23.09.). Die Zeilennummer im Linecode-Präfix ist nicht überall die TEI-`@n` (RVBR um eins niedriger): Versatz am Wortlaut der Nachbarzeilen ermitteln. Omissionsmarker im Linecode ist `...` plus Satzzeichen.
-- revisionDesc-Präzedenz bei #252 ist gespalten: erster Durchgang (#426) ohne `<change>`-Eintrag, zweiter (#477) mit je einem pro Datei. Ein fehlender Eintrag bei einer Handkorrektur ist deshalb Klasse C; TEI-MODEL §2.4 dokumentiert nur die Form.
-- Resttabelle TEI-MODEL §6.5a (um Z. 736/741) zählt die nicht migrierten Fälle; jede Handkorrektur daraus macht die Zeile falsch, der Diff fasst sie nicht an. Messgerät: `python scripts/migrate-caesura-to-gap-252.py` ohne `--apply` (reiner Trockenlauf). Der Skriptkopf (Z. 33-35) sagt „nur unlemmatisierter Wortlaut" für Klasse C; das stimmt nicht (EIL 2866 trug beide `@lemmaRef`).
+- Linecode-Gegenprobe nur für Siglen in `sources/linecode-manifest.csv` (nachsehen, nicht einem Thread glauben: GWTK und RVBR sind drin, MAI, NEI nicht). Die Zeilennummer im Linecode-Präfix ist nicht überall die TEI-`@n` (RVBR um eins niedriger): Versatz am Wortlaut der Nachbarzeilen ermitteln. Omissionsmarker im Linecode ist `...` plus Satzzeichen.
+- revisionDesc-Präzedenz bei #252 ist gespalten (#426 ohne `<change>`, #477 mit je einem pro Datei): ein fehlender Eintrag bei einer Handkorrektur ist Klasse C; TEI-MODEL §2.4 dokumentiert nur die Form.
+- Resttabelle TEI-MODEL §6.5a zählt die nicht migrierten Fälle; jede Handkorrektur daraus macht die Zeile falsch, der Diff fasst sie nicht an. Messgerät: `python scripts/migrate-caesura-to-gap-252.py` ohne `--apply`. Der Skriptkopf sagt „nur unlemmatisierter Wortlaut" für Klasse C; das stimmt nicht (EIL 2866 trug beide `@lemmaRef`).
 
 **Vers und Prosa:** Reader-Deep-Link `?verseId=` löst nur in Texten mit `<l>` auf; Prosa hat nur `lb`, `lb@n` wiederholt sich je Seite (Kochbücher: je Rezept neu).
 

@@ -6,7 +6,7 @@
  */
 
 import { TextNormalizer } from '../../../assets/js/lib/text-normalizer.js';
-import { isStage3Match, stage3Distance } from '../../../assets/js/lib/lemma-resolve.js';
+import { isStage3Match, stage3Distance, stage1Holds } from '../../../assets/js/lib/lemma-resolve.js';
 
 export class AuthorityFilesManager {
   constructor(authorityData) {
@@ -99,9 +99,22 @@ export class AuthorityFilesManager {
       const lemmaNormalized = TextNormalizer.normalizeMHG(lemmaLower);
       return lemmaLower === normalized || lemmaNormalized === normalizedCharacters;
     });
-    if (exactMatches.length > 0) {
+    // Stufe 1 haelt nur mit mindestens einem belegten Treffer (#463, wie die
+    // Hauptseite). Sonst wird Stufe 2 mitgefragt (Stufe 3 bleibt den Eingaben
+    // vorbehalten, die in Stufe 1 und 2 nichts finden) und die unbelegten
+    // Stufe-1-Treffer bleiben in der Liste. Ohne geladenen Corpus-Index
+    // gilt alles als belegt (altes Verhalten).
+    const lemmaIndex = this.getAttestationIndex();
+    if (stage1Holds(exactMatches.map(l => l.id), lemmaIndex)) {
       return this.rankHomographs(exactMatches, normalized);
     }
+    // Die unbelegten Stufe-1-Treffer stehen HINTEN: matches[0]-Konsumenten
+    // (Multi-Lemma-Suche, Kookkurrenz, Reim, Versposition) duerfen nicht ein
+    // Lemma ohne Beleg als ersten Treffer nehmen (#163/#164).
+    const withStage1 = (found) => {
+      const seen = new Set(exactMatches);
+      return [...found.filter(l => !seen.has(l)), ...this.rankHomographs(exactMatches, normalized)];
+    };
 
     // Stage 2: Search in variants index (orthographic variants from TEI corpus)
     // Structure: variants = {normalized_variant: lemma_id, ...}
@@ -120,7 +133,7 @@ export class AuthorityFilesManager {
         }
         const candidates = candidateIds.map(id => lemmaById.get(id)).filter(Boolean);
         if (candidates.length > 0) {
-          return candidates;
+          return exactMatches.length === 0 ? candidates : withStage1(candidates);
         }
       }
 
@@ -131,10 +144,13 @@ export class AuthorityFilesManager {
         // Find the corresponding lemma in lemmata array
         const lemma = this.authorityData.lemmata.find(l => l.id === lemmaId);
         if (lemma) {
-          return [lemma];
+          return exactMatches.length === 0 ? [lemma] : withStage1([lemma]);
         }
       }
     }
+
+    // Unbelegter Stufe 1 ohne Stufe 2: wie vor #463 bleibt es bei Stufe 1.
+    if (exactMatches.length > 0) return this.rankHomographs(exactMatches, normalized);
 
     // Stage 3: Partial-Match-Fallback, praefixorientiert in beide Richtungen
     // (Stamm-Eingabe -> Lemma, flektierte Eingabe -> Lemma). Regel und
@@ -166,6 +182,22 @@ export class AuthorityFilesManager {
       )
       .map(entry => entry.lemma);
     return partialMatches;
+  }
+
+  /**
+   * Der Reverse-Index fuer die Belegregel (#463) oder null, wenn es keinen
+   * brauchbaren gibt. playground-main.js faellt bei fehlendem Feld auf `{}`
+   * zurueck; ein leeres Objekt ist truthy und wuerde jedes Lemma als
+   * unbelegt zaehlen. Die Leerpruefung ist O(n) und laeuft deshalb einmal je
+   * geladenem Index-Objekt, nicht je Aufloesung.
+   */
+  getAttestationIndex() {
+    const lemmaIndex = window.playground?.corpusData?.lemmaIndex;
+    if (lemmaIndex !== this._attestationSeen) {
+      this._attestationSeen = lemmaIndex;
+      this._attestationUsable = !!lemmaIndex && Object.keys(lemmaIndex).length > 0;
+    }
+    return this._attestationUsable ? lemmaIndex : null;
   }
 
   /**

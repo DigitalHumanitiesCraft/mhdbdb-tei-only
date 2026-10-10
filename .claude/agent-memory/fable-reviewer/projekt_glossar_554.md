@@ -5,33 +5,12 @@ metadata:
   type: project
 ---
 
-Runde 1 am 10.10.2026 auf `claude/554-glossar` @ 1698fe97d (Basis 81e4928d8).
+Zwei Runden am 10.10.2026 (`claude/554-glossar`). Bei jedem weiteren Fremdexport nach `sources/` diese Punkte vorab abarbeiten; Personendaten im Korpus: [[header-spiegel]].
 
-- **PII-Pruefung eines WordPress-Exports nicht an der Mail-Regex aufhaengen.** Die Bereinigung
-  traf alle 13 Mail-Vorkommen, liess aber im Impressum (`page`, post 2306) die Telefonnummer
-  der Herausgeberin stehen, direkt neben der entfernten Mailadresse. Rezept: Zeilendiff
-  Original gegen Bereinigt (gleiche Zeilenzahl, da Textersatz), dann gezielt `Telefon`, `\+\d{2}`,
-  `<address>`, `credit` in `_wp_attachment_metadata`, `/author/`, `?author=` suchen.
-- **Ortsangaben pruefen:** der Arbeiter verortete mailto und verfremdete Adresse auf der
-  "Kontaktseite"; beides steht im Impressum. Zuordnung je Fund ueber das umschliessende `<item>`.
-- **GitHub-`user-attachments` eines oeffentlichen Repos sind ohne Login abrufbar** (curl -sI:
-  302 auf signierte S3-URL). Ein "Original nur als Anhang in #N" ist also oeffentlich, und
-  das Loeschen des Kommentars loescht die Datei nicht (gemessen 10.10.: HTTP 200 danach).
-  Die Datei-ID eines solchen Anhangs gehoert deshalb nie in Notizen, Commits oder Issues.
-- **#397 an `sources/`:** `sources/README.md` sagt im Kopf "historische Ingest-Vorlagen" und
-  "Alles ... Auszug aus dem 9,1-GB-Archiv"; jeder neue Nicht-Legacy-Bestand macht das falsch,
-  ohne dass der Diff die Zeilen beruehrt.
-
-Runde 2 am 10.10.2026 auf `69d49bc25` (Elternteil 047dae093):
-
-- **Original beschaffen:** Der Kommentar mit dem Anhang in #423 wurde am 10.10. wegen der
-  Personendaten geloescht; das Original gibt es nur noch bei KZW. Bytes und SHA-256 gegen die
-  Glossar-README pruefen. Dann `bereinige-export.py` (mit `-E -P`, nicht `-I`) und `cmp` gegen den Blob:
-  war byte-gleich, Exit 0.
-- **`PHONE_RE` frisst `-` und Leerzeichen hinter der Nummer** (`[\d ()/\-]{5,}`): eine Probe mit
-  `<!-- Tel.: ... -->` zerbrach das `-->`. Mutationen deshalb nicht in Kommentare setzen. Nationale
-  Form ohne `Tel:` (`0662/...`) trifft die Regex nicht; im Bestand gibt es keine solche.
-- Der Squash vor dem Push hat #558 revertiert, siehe [[querschnitt-git]].
-
-**How to apply:** bei jedem weiteren Fremdexport nach `sources/` diese vier Punkte vorab
-abarbeiten. Siehe auch [[header-spiegel]] fuer Personendaten im Korpus.
+- **PII-Prüfung eines WordPress-Exports nicht an der Mail-Regex aufhängen.** Die Bereinigung traf alle Mail-Vorkommen, ließ aber im Impressum die Telefonnummer der Herausgeberin direkt neben der entfernten Mailadresse stehen. Rezept: Zeilendiff Original gegen Bereinigt (gleiche Zeilenzahl, da Textersatz), dann gezielt `Telefon`, `\+\d{2}`, `<address>`, `credit` in `_wp_attachment_metadata`, `/author/`, `?author=` suchen.
+- **Ortsangaben prüfen:** Zuordnung je Fund über das umschließende `<item>`, nicht der Seitenangabe des Arbeiters glauben (er verortete Impressum-Funde auf der "Kontaktseite").
+- **GitHub-`user-attachments` eines öffentlichen Repos sind ohne Login abrufbar** (curl -sI: 302 auf signierte S3-URL). Ein "Original nur als Anhang in #N" ist also öffentlich, und das Löschen des Kommentars löscht die Datei nicht (gemessen 10.10.: HTTP 200 danach). Die Datei-ID eines solchen Anhangs gehört nie in Notizen, Commits oder Issues.
+- **#397 an `sources/`:** `sources/README.md` sagt im Kopf "historische Ingest-Vorlagen" und "Alles ... Auszug aus dem 9,1-GB-Archiv"; jeder neue Nicht-Legacy-Bestand macht das falsch, ohne dass der Diff die Zeilen berührt.
+- **Original beschaffen:** der Anhang in #423 ist gelöscht, das Original gibt es nur bei KZW. Bytes und SHA-256 gegen die Glossar-README prüfen, dann `bereinige-export.py` (mit `-E -P`, nicht `-I`) und `cmp` gegen den Blob.
+- **`PHONE_RE` frisst `-` und Leerzeichen hinter der Nummer** (`[\d ()/\-]{5,}`): eine Probe mit `<!-- Tel.: ... -->` zerbrach das `-->`, Mutationen deshalb nicht in Kommentare setzen. Nationale Form ohne `Tel:` (`0662/...`) trifft die Regex nicht.
+- Der lokale Squash vor dem Push revertierte einen main-Commit, siehe [[querschnitt-git]].

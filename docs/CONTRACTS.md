@@ -295,11 +295,11 @@ Validated on real corpus data: PL1 689 → 57, OVG 369 → 26 (matches the resul
 
 ## C. 3-Stage Lemma Resolution Algorithm
 
-**Contract:** Search resolves user input to lemma IDs through exactly 3 stages, in order, with early return. Two inputs skip all three: a component that already holds an exact lemma id can pin it (§C.1.1), and a user who types a lemma number gets that id (§C.1.2). Those two paths exist in the places named there and nowhere else.
+**Contract:** Search resolves user input to lemma IDs through exactly 3 stages, in order, with early return. Stage 1 returns early only if at least one of its hits has a corpus attestation; otherwise stage 2 is asked as well (#463). Two inputs skip all three: a component that already holds an exact lemma id can pin it (§C.1.1), and a user who types a lemma number gets that id (§C.1.2). Those two paths exist in the places named there and nowhere else.
 
 **Why:** MHG has extensive orthographic variation. A single lemma can appear as dozens of attested forms. The 3-stage approach balances precision (exact first) with recall (fuzzy last).
 
-Source: `assets/js/search/search-engine.js` (`resolveLemmaIds`), `playground/js/data/authority-manager.js` (`searchLemmaByOrthography`). Since #224 the stage-3 predicate and its ranking distance live together in `assets/js/lib/lemma-resolve.js`; both interfaces import them. Only stage 3 is explicitly shared: stage 1 still differs (the main site compares against the index's precomputed `lemma.normalized`, the playground normalizes at runtime and additionally ranks homographs by corpus frequency). Since #224 the playground applies the frequency tie-break in **stage 3** as well, after the length distance and before index order (`authority-manager.js`, `searchLemmaByOrthography`). The pseudocode below reflects the main-site ordering; anyone who needs the playground order should read the lesson from #163/#164 along with it: at equal distance the more frequent lemma wins, because consumers of `matches[0]` silently take the first hit.
+Source: `assets/js/search/search-engine.js` (`resolveLemmaIds`), `playground/js/data/authority-manager.js` (`searchLemmaByOrthography`). Since #224 the stage-3 predicate and its ranking distance live together in `assets/js/lib/lemma-resolve.js`; both interfaces import them. Stage 3 and, since #463, the attestation predicate (`isAttestedLemma`, `stage1Holds`) are explicitly shared: the stage-1 loops still differ (the main site compares against the index's precomputed `lemma.normalized`, the playground normalizes at runtime and additionally ranks homographs by corpus frequency). Since #224 the playground applies the frequency tie-break in **stage 3** as well, after the length distance and before index order (`authority-manager.js`, `searchLemmaByOrthography`). The pseudocode below reflects the main-site ordering; anyone who needs the playground order should read the lesson from #163/#164 along with it: at equal distance the more frequent lemma wins, because consumers of `matches[0]` silently take the first hit.
 
 ### Pseudocode
 
@@ -314,36 +314,51 @@ function resolveLemmaIds(normalized):
     for each lemma in authorityIndex.lemmata:
         if lemma.normalized === normalized:
             results.push(lemma.id)
-    if results.length > 0:
+    if any id in results is attested:        // corpusIndex.lemmaIndex has an entry (#463)
         return results                       // EARLY RETURN — skip stages 2-3
+    // (results empty, or every hit unattested: continue; unattested hits stay in the list)
 
     // Stage 2: Variants dictionary lookup (O(1) hash map). A form claimed by
     // several lemmata has an entry in variantCandidates (ADR-021, #378):
     // all of them, best first by Vorschrift B (see "Variant Dictionary Structure")
     candidates = authorityIndex.variantCandidates[normalized]
-    if candidates:
-        return candidates                    // EARLY RETURN, 2..N ids, ranked
-    variantMatch = authorityIndex.variants[normalized]
-    if variantMatch:
-        return [variantMatch]                // EARLY RETURN — skip stage 3
+    stage2 = candidates ?? (variants[normalized] ? [variants[normalized]] : [])
+    if results is not empty:                 // here every stage-1 hit is unattested
+        return stage2 + results (without duplicates)   // EARLY RETURN, stage 3 is not asked
+    if stage2 is not empty:
+        return stage2                        // EARLY RETURN, 1..N ids, ranked
 
     // Stage 3: Partial match fallback (bidirectional PREFIX, see #224)
-    results = []
+    partial = []
     for each lemma in authorityIndex.lemmata:
         if lemma.normalized.startsWith(normalized)                  // stem input
            OR (lemma.normalized.length >= 3
                AND normalized.startsWith(lemma.normalized)):        // inflected input
-            results.push(lemma)
-    sort results by abs(len(lemma.normalized) - len(normalized))    // closest first
-    return results.map(lemma => lemma.id)                          // May be empty
+            partial.push(lemma)
+    sort partial by abs(len(lemma.normalized) - len(normalized))    // closest first
+    return partial.map(lemma => lemma.id)                          // May be empty
 ```
+
+### Stage 1 holds only with a corpus attestation (#463)
+
+Stage 1 compares against the lexicon, not against corpus usage, so a lemma with no corpus token won against an attested one as soon as its spelling matched the input. Measured on 2026-10-10 (Authority Index 1.9.22, Corpus Index 4.2.31): 1,285 of 43,710 lemmata have no corpus token, and for the lemmata of the lexicon `corpusIndex.lemmaIndex` has an entry for exactly the other 42,425 (0 empty entries, 0 deviations from the token sum over `texts[].lemmata`; the index has 42,460 keys, 35 of them without a lexicon entry). An unattested hit never produces a result row on the main site, but it cut off stage 2.
+
+Decided by chsteiner on 2026-10-10: **if stage 1 yields no attested hit, stage 2 is asked as well.** Stage 3 is not part of that decision: it runs as before only for inputs that find nothing in stages 1 and 2 (`Cordoba`, spelled like its own unattested lemma, would otherwise resolve to `cor` by prefix; `hanc` stays at 0 rows). Stage-1 hits stay in the id list. The lexicon is more than the corpus index and is meant to be, so unattested lemmata are not excluded, only they no longer stop the resolution.
+
+- **Attested means: has an entry in `lemmaIndex`**, corpus-wide, not within the current text selection or author filter.
+- **Without `lemmaIndex`** (old index states) everything counts as attested, which is the pre-#463 behaviour.
+- **`hasAmbiguousVariant` follows the same predicate**: the note appears when stage 1 holds no attested hit and stage 2 has candidates.
+- **Not covered:** a stage-1 hit that is attested but wrong (`lenden`: verb lemma `lemma_3702` wins over the noun `lemma_3701`) is a separate question. Nor does an attested stage-1 hit change anything, so `roz` (`rôz` has 1 token) still yields 1 row.
+- **Playground too** (coordination decision G1, 2026-10-10): `searchLemmaByOrthography` applies the same rule. The predicate (`isAttestedLemma`, `stage1Holds`) lives in `assets/js/lib/lemma-resolve.js` and both sides call it; the loops stay per side. Without the corpus index loaded the playground counts everything as attested (old behaviour).
+- **Order of the list: unattested stage-1 hits come last** (after the stage-2 candidates), because `matches[0]` callers in the playground (§C.1.1) must not take a lemma without a token.
+- **Consequence for callers that hand over a lemma's own spelling as a search term** (word-component search in the lemma explorer, the "Im Korpus suchen" button of the lemma page): for an unattested lemma that has a stage-2 entry, `matches[0]` is now the attested lemma of that variant (`Rosse` → `ros`), not the lemma itself. Measured on 2026-10-10 with the main site's `resolveLemmaIds`: the spelling of 573 of the 1,285 unattested lemmata (counted per lemma) now yields at least one attested foreign id. Passing the lemma id (`ids=`, §C.1.1) would close it and is not part of #463.
 
 ### Stage Behavior
 
 | Stage | Input Type | Return | Performance | Example |
 |-------|-----------|--------|-------------|---------|
 | 1 | Canonical or normalized form | 0..N lemma IDs (homographs) | O(n) scan | `brot` → `[lemma_879]` |
-| 2 | Attested orthographic variant | 1..N lemma IDs: exactly one unless the form is ambiguous, then all candidates ranked by Vorschrift B | O(1) lookup | `brott` → normalize → `brot` → variants[`brot`] → `lemma_879`; `hab` → variantCandidates[`hab`] → `lemma_2598`, `lemma_2593` |
+| 2 | Attested orthographic variant | 1..N lemma IDs: exactly one unless the form is ambiguous, then all candidates ranked by Vorschrift B; with unattested stage-1 hits, those follow the candidates | O(1) lookup | `brott` → normalize → `brot` → variants[`brot`] → `lemma_879`; `hab` → variantCandidates[`hab`] → `lemma_2598`, `lemma_2593` |
 | 3 | Prefix match, both directions | 0..N lemma IDs, closest first | O(n) scan + sort | `minnecl` → `minnec`, `minne`, `minneclîch`, …; `schwertkampf` → none |
 
 ### Stage 3: why prefix and not substring (#224)

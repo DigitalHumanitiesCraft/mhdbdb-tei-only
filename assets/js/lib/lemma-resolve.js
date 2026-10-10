@@ -37,6 +37,39 @@
  */
 
 /**
+ * Traegt ein Lemma mindestens einen Korpusbeleg? (#463) Massstab ist der
+ * Reverse-Index `corpusIndex.lemmaIndex` (Eintrag nur bei Beleg, gemessen
+ * 10.10.2026: 0 leere Eintraege). Fehlt der Index (alter Stand oder noch nicht
+ * geladen), gilt alles als belegt, die Stufen verhalten sich dann wie vor #463.
+ * Die Probe ist ein reiner Property-Zugriff; ein `for...in` auf den Index
+ * waere O(n) (gemessen ca. 4 ms bei 42.460 Schluesseln), siehe den Playground
+ * (authority-manager.js), der ein leeres Objekt vorher aussortiert.
+ *
+ * @param {Object|null|undefined} lemmaIndex - corpusIndex.lemmaIndex
+ * @param {string} lemmaId - mit `lemma_`-Praefix
+ * @returns {boolean}
+ */
+export function isAttestedLemma(lemmaIndex, lemmaId) {
+    if (!lemmaIndex) return true;
+    const textIds = lemmaIndex[lemmaId];
+    return Array.isArray(textIds) && textIds.length > 0;
+}
+
+/**
+ * Haelt Stufe 1? Nur wenn mindestens ein Stufe-1-Treffer belegt ist. Sonst
+ * wird Stufe 2 mitgefragt (Stufe 3 bleibt den Eingaben vorbehalten, die in
+ * Stufe 1 und 2 nichts finden) und die unbelegten Treffer bleiben in der
+ * Liste (#463, Vertrag in CONTRACTS.md §C).
+ *
+ * @param {string[]} stage1Ids
+ * @param {Object|null|undefined} lemmaIndex
+ * @returns {boolean}
+ */
+export function stage1Holds(stage1Ids, lemmaIndex) {
+    return stage1Ids.some(id => isAttestedLemma(lemmaIndex, id));
+}
+
+/**
  * Minimum normalized lemma length for the "input starts with lemma" direction.
  * Without it, `ô`/`o` and `ês`/`es` match almost any input. Not applied to the
  * other direction, where the lemma is longer than the query by construction.

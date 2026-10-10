@@ -383,4 +383,59 @@ test.describe('Aufräumrunde: doppelte Lemma-IDs degenerieren die Kookkurrenz-Su
         expect(ids.length).toBe(1);
         expect(new Set(ids).size).toBe(ids.length);
     });
+
+    test('Stufe 1 ohne Korpusbeleg haelt nicht, der erste Treffer ist belegt (#463)', async ({ page }) => {
+        await page.waitForFunction(
+            () => window.playground?.authorityData?.lemmata?.length > 0 &&
+                  window.playground?.corpusData?.lemmaIndex, null,
+            { timeout: 120000 }
+        );
+        const r = await page.evaluate(() => {
+            const am = window.playground.authorityManager;
+            const ids = e => am.searchLemmaByOrthography(e).map(l => l.id);
+            const erster = e => am.searchLemmaByOrthography(e)[0]?.lemma;
+            return {
+                rosse: ids('rosse'), gat: ids('gat'), roz: ids('roz'), got: ids('got'),
+                vlaederErster: erster('vlâder'), vlaederOhneDach: erster('vlader')
+            };
+        });
+        // Zwei unbelegte Homographen (vlader, vlâder): der Gleichstandsbrecher
+        // "diakritisch-exakte Eingabe zuerst" gilt auch ohne Beleg
+        expect(r.vlaederErster).toBe('vlâder');
+        expect(r.vlaederOhneDach).toBe('vlader');
+        // rosse: Rosse (lemma_20697) hat 0 Tokens, ros (lemma_4973) 6.608; ros zuerst
+        expect(r.rosse[0]).toBe('lemma_4973');
+        expect(r.rosse.at(-1)).toBe('lemma_20697');
+        // gat: das unbelegte gat (lemma_64730) bleibt, gan (lemma_1844) steht davor
+        expect(r.gat).toContain('lemma_64730');
+        expect(r.gat.indexOf('lemma_1844')).toBeGreaterThanOrEqual(0);
+        expect(r.gat.indexOf('lemma_1844')).toBeLessThan(r.gat.indexOf('lemma_64730'));
+        // roz: rôz ist belegt, Stufe 1 haelt, ros bleibt aussen vor
+        expect(r.roz).not.toContain('lemma_4973');
+        expect(r.roz).toContain('lemma_18443');
+        // got: unveraendert genau ein Treffer
+        expect(r.got).toEqual(['lemma_2465']);
+    });
+
+    test('ein leerer lemmaIndex gilt wie ein fehlender als "alles belegt" (#463, Bot-Befund)', async ({ page }) => {
+        await page.waitForFunction(
+            () => window.playground?.authorityData?.lemmata?.length > 0 &&
+                  window.playground?.corpusData?.lemmaIndex, null,
+            { timeout: 120000 }
+        );
+        const r = await page.evaluate(() => {
+            const pg = window.playground;
+            const am = pg.authorityManager;
+            const echt = pg.corpusData;
+            // playground-main.js faellt bei fehlendem Feld auf {} zurueck
+            pg.corpusData = { ...echt, lemmaIndex: {} };
+            const mitLeer = am.searchLemmaByOrthography('rosse').map(l => l.id);
+            pg.corpusData = echt;
+            const mitEcht = am.searchLemmaByOrthography('rosse').map(l => l.id);
+            return { mitLeer, mitEcht };
+        });
+        // leer: Stufe 1 haelt, wie vor #463 (nur Rosse); echt: ros zuerst
+        expect(r.mitLeer).toEqual(['lemma_20697']);
+        expect(r.mitEcht[0]).toBe('lemma_4973');
+    });
 });
