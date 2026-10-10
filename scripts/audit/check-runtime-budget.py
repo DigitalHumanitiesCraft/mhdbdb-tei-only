@@ -58,6 +58,18 @@ veraendert hat (Checkout nach E1), nur Laeufe seit deren Merge; sonst die letzte
 25. Gibt es weniger als 10 Laeufe, steht das mit "n unter 10, vorlaeufig" in
 `basis`, und die Nachkalibrierung folgt.
 
+## Erinnerung an die Nachkalibrierung
+
+Ein vorlaeufiger Eintrag traegt `provisional_since` (ISO-Zeitpunkt; die
+Budgetdatei wird abgelehnt, wenn `basis` "vorlaeufig" sagt und das Feld fehlt).
+Nach der eigentlichen Pruefung zaehlt das Skript die erfolgreichen Laeufe des
+eigenen Workflows seit diesem Zeitpunkt (alle Zweige, wie `--measure`). Ab 10
+ist der Eintrag faellig: auf jedem Ereignis eine Warnung, auf main zusaetzlich
+ein Kommentar in `calibration_issue`, einmal je Workflow und Zeitpunkt (Marke im
+Kommentar). Die Erinnerung aendert den Exit-Code nie, auch nicht, wenn sie
+selbst nicht laufen kann. Erledigt ist sie, wenn jemand den Eintrag mit
+`--measure` neu rechnet und `provisional_since` streicht.
+
 Usage:
     python scripts/audit/check-runtime-budget.py --selftest
     python scripts/audit/check-runtime-budget.py --check --repo R --run-id N --attempt A \\
@@ -128,14 +140,15 @@ def lade_budget(pfad):
         cfg = json.loads(Path(pfad).read_text(encoding='utf-8'))
     except (OSError, ValueError) as exc:
         raise MessungFehlt(f'Budgetdatei nicht lesbar: {exc}')
-    for feld in ('factor', 'checkout_factor', 'floor_s', 'collector_issue', 'excluded', 'steps'):
+    for feld in ('factor', 'checkout_factor', 'floor_s', 'collector_issue', 'calibration_issue', 'excluded', 'steps'):
         if feld not in cfg:
             raise MessungFehlt(f'Budgetdatei ohne Feld {feld!r}')
     for feld in ('factor', 'checkout_factor', 'floor_s'):
         if not isinstance(cfg[feld], (int, float)) or cfg[feld] < 0:
             raise MessungFehlt(f'Budgetdatei: {feld} ist keine Zahl ab 0')
-    if not isinstance(cfg['collector_issue'], int):
-        raise MessungFehlt('Budgetdatei: collector_issue ist keine Issue-Nummer')
+    for feld in ('collector_issue', 'calibration_issue'):
+        if not isinstance(cfg[feld], int):
+            raise MessungFehlt(f'Budgetdatei: {feld} ist keine Issue-Nummer')
     for schluessel, eintrag in cfg['steps'].items():
         if '/' not in schluessel:
             raise MessungFehlt(f'Budgetdatei: Schluessel {schluessel!r} ohne "<workflow>/<schritt>"')
@@ -144,7 +157,101 @@ def lade_budget(pfad):
                 raise MessungFehlt(f'Budgetdatei: {schluessel!r} ohne {feld!r}')
         if not isinstance(eintrag['budget_s'], (int, float)) or eintrag['budget_s'] <= 0:
             raise MessungFehlt(f'Budgetdatei: {schluessel!r}: budget_s ist keine positive Zahl')
+        seit = eintrag.get('provisional_since')
+        if seit is not None:
+            try:
+                zeit(seit)
+            except (TypeError, ValueError):
+                raise MessungFehlt(f'Budgetdatei: {schluessel!r}: provisional_since ist kein ISO-Zeitpunkt')
+        elif 'vorlaeufig' in str(eintrag['basis']):
+            raise MessungFehlt(f'Budgetdatei: {schluessel!r} ist laut basis vorlaeufig, ohne provisional_since')
     return cfg
+
+
+KALIBRIER_LAEUFE = 10
+
+
+def faellige_kalibrierung(cfg, workflow, zaehle):
+    """{provisional_since: (anzahl, [schritte])} fuer die faelligen Eintraege dieses Workflows.
+
+    `zaehle(seit)` liefert die erfolgreichen Laeufe des Workflows seit `seit`; je
+    Zeitpunkt wird einmal gezaehlt.
+    """
+    gruppen = {}
+    for schluessel, eintrag in cfg['steps'].items():
+        wf, _, name = schluessel.partition('/')
+        if wf == workflow and eintrag.get('provisional_since'):
+            gruppen.setdefault(eintrag['provisional_since'], []).append(name)
+    faellig = {}
+    for seit, namen in sorted(gruppen.items()):
+        anzahl = zaehle(seit)
+        if anzahl >= KALIBRIER_LAEUFE:
+            faellig[seit] = (anzahl, sorted(namen))
+    return faellig
+
+
+def kalibrier_marke(workflow, seit):
+    return f'<!-- laufzeitbudget-kalibrierung {workflow} {seit} -->'
+
+
+def api_get(pfad, token):
+    api = os.environ.get('GITHUB_API_URL', 'https://api.github.com')
+    req = urllib.request.Request(f'{api}/{pfad}', headers={
+        'Authorization': f'Bearer {token}', 'Accept': 'application/vnd.github+json',
+        'X-GitHub-Api-Version': '2022-11-28'})
+    with urllib.request.urlopen(req, timeout=30) as antwort:
+        return json.loads(antwort.read().decode('utf-8'))
+
+
+def erinnere(args, cfg, token, zaehle=None, marken=None, kommentar=None):
+    """Erinnerung an faellige Nachkalibrierungen; aendert nie den Exit-Code.
+
+    zaehle(seit) -> int, marken() -> Text aller Kommentare im calibration_issue,
+    kommentar(text): fuer den Selbsttest ersetzbar.
+    """
+    try:
+        if zaehle is None:
+            def zaehle(seit):
+                q = (f'repos/{args.repo}/actions/workflows/{args.workflow}/runs?status=success&per_page=1'
+                     '&created=' + urllib.request.quote('>=' + seit))
+                return int(api_get(q, token)['total_count'])
+        faellig = faellige_kalibrierung(cfg, args.workflow, zaehle)
+        if not faellig:
+            return
+        for seit, (anzahl, namen) in faellig.items():
+            print(f'::warning title=Laufzeitbudget::{args.workflow}: {len(namen)} vorlaeufige(s) Budget(s) seit {seit} '
+                  f'mit {anzahl} erfolgreichen Laeufen faellig zur Nachkalibrierung (#{cfg["calibration_issue"]}): '
+                  + ', '.join(namen))
+        if args.event == 'pull_request' or args.ref != 'refs/heads/main':
+            return
+        if marken is None:
+            def marken():
+                texte, seite = [], 1
+                while True:
+                    teil = api_get(f'repos/{args.repo}/issues/{cfg["calibration_issue"]}/comments'
+                                   f'?per_page=100&page={seite}', token)
+                    texte += [c.get('body') or '' for c in teil]
+                    if len(teil) < 100:
+                        return '\n'.join(texte)
+                    seite += 1
+        if kommentar is None:
+            def kommentar(text):
+                kommentiere(args.repo, cfg['calibration_issue'], text, token)
+        vorhanden = marken()
+        for seit, (anzahl, namen) in faellig.items():
+            marke = kalibrier_marke(args.workflow, seit)
+            if marke in vorhanden:
+                continue
+            koerper = [marke,
+                       f'Nachkalibrierung faellig: `{args.workflow}` hat seit {seit} {anzahl} erfolgreiche Laeufe '
+                       f'(Schwelle {KALIBRIER_LAEUFE}). Vorlaeufige Budgets:', '']
+            koerper += [f'- `{n}`' for n in namen]
+            koerper += ['', f'Neu rechnen mit `python scripts/audit/check-runtime-budget.py --measure '
+                            f'--repo {args.repo} --workflow {args.workflow} --since {seit}`, die Eintraege in '
+                            '`scripts/audit/runtime-budget.json` ersetzen und `provisional_since` streichen.']
+            kommentar('\n'.join(koerper))
+    except (urllib.error.URLError, OSError, ValueError, KeyError, TypeError) as exc:
+        print(f'::warning title=Laufzeitbudget::Erinnerung an die Nachkalibrierung nicht moeglich: {exc}')
 
 
 def grenze(workflow, name, cfg):
@@ -397,7 +504,7 @@ def selftest():
     def args(**kw):
         a = A()
         a.event, a.job_status, a.job, a.workflow, a.self_step = 'pull_request', 'success', 'check', 'w.yml', 'Laufzeitbudget'
-        a.ref, a.run_id, a.run_url = 'refs/heads/main', 1, 'u'
+        a.ref, a.run_id, a.run_url, a.repo = 'refs/heads/main', 1, 'u', 'o/r'
         for k, v in kw.items():
             setattr(a, k, v)
         return a
@@ -468,6 +575,68 @@ def selftest():
             except MessungFehlt:
                 ok = True
         cases.append((f'Budgetdatei wird abgelehnt: {text}', ok))
+    for kaputt, text in (
+            (dict(cfg, steps={'w.yml/X': dict(cfg['steps']['w.yml/Bauen'], basis='n unter 10, vorlaeufig')}),
+             'vorlaeufig ohne provisional_since'),
+            (dict(cfg, steps={'w.yml/X': dict(cfg['steps']['w.yml/Bauen'], provisional_since='gestern')}),
+             'provisional_since kein Zeitpunkt')):
+        import tempfile
+        with tempfile.TemporaryDirectory() as t:
+            p = Path(t) / 'b.json'
+            p.write_text(json.dumps(dict(kaputt, calibration_issue=2)), encoding='utf-8')
+            try:
+                lade_budget(p)
+                ok = False
+            except MessungFehlt:
+                ok = True
+        cases.append((f'Budgetdatei wird abgelehnt: {text}', ok))
+
+    vor = dict(cfg, calibration_issue=2, steps={
+        'w.yml/A': {'provisional_since': '2026-10-10T13:57:23Z'},
+        'w.yml/B': {'provisional_since': '2026-10-10T13:57:23Z'},
+        'w.yml/C': {'provisional_since': '2026-10-11T00:00:00Z'},
+        'w.yml/D': {},
+        'x.yml/E': {'provisional_since': '2026-10-10T13:57:23Z'}})
+    gezaehlt = []
+
+    def zaehler(werte):
+        def z(seit):
+            gezaehlt.append(seit)
+            return werte[seit]
+        return z
+    f = faellige_kalibrierung(vor, 'w.yml', zaehler({'2026-10-10T13:57:23Z': 10, '2026-10-11T00:00:00Z': 9}))
+    cases.append(('Kalibrierung: 10 Laeufe faellig, 9 nicht; fremder Workflow und Eintrag ohne Feld zaehlen nicht',
+                  f == {'2026-10-10T13:57:23Z': (10, ['A', 'B'])}))
+    cases.append(('Kalibrierung: je Zeitpunkt einmal gezaehlt', sorted(gezaehlt) == ['2026-10-10T13:57:23Z', '2026-10-11T00:00:00Z']))
+    gesendet3 = []
+    stumm = io.StringIO()
+    sys.stdout = sys.stderr = stumm
+    try:
+        immer10 = lambda seit: 10
+        erinnere(args(event='push'), vor, 't', zaehle=immer10, marken=lambda: '', kommentar=gesendet3.append)
+        n_main = len(gesendet3)
+        erinnere(args(event='push'), vor, 't', zaehle=immer10,
+                 marken=lambda: kalibrier_marke('w.yml', '2026-10-10T13:57:23Z')
+                 + kalibrier_marke('w.yml', '2026-10-11T00:00:00Z'), kommentar=gesendet3.append)
+        n_doppelt = len(gesendet3) - n_main
+        erinnere(args(event='pull_request'), vor, 't', zaehle=immer10, marken=lambda: '', kommentar=gesendet3.append)
+        erinnere(args(event='push', ref='refs/heads/anderer'), vor, 't', zaehle=immer10, marken=lambda: '',
+                 kommentar=gesendet3.append)
+        n_rest = len(gesendet3) - n_main - n_doppelt
+
+        def kaputt(seit):
+            raise urllib.error.URLError('weg')
+        erinnere(args(event='push'), vor, 't', zaehle=kaputt, marken=lambda: '', kommentar=gesendet3.append)
+        ausgabe = stumm.getvalue()
+    finally:
+        sys.stdout, sys.stderr = alt_out, alt_err
+    cases.append(('Kalibrierung: auf main ein Kommentar je Zeitpunkt, mit Marke',
+                  n_main == 2 and gesendet3[0].startswith(kalibrier_marke('w.yml', '2026-10-10T13:57:23Z'))))
+    cases.append(('Kalibrierung: vorhandene Marke verhindert den zweiten Kommentar', n_doppelt == 0))
+    cases.append(('Kalibrierung: auf PR und anderem Zweig nur Warnung, kein Kommentar',
+                  n_rest == 0 and ausgabe.count('faellig zur Nachkalibrierung') >= 6))
+    cases.append(('Kalibrierung: API-Fehler ist nur eine Warnung',
+                  'Erinnerung an die Nachkalibrierung nicht moeglich' in ausgabe))
     cases.append(('p90 von 25 Werten ist der 23. Wert', p90(list(range(1, 26))) == 23))
 
     echt = lade_budget(BUDGET_FILE) if BUDGET_FILE.exists() else None
@@ -545,7 +714,10 @@ def main():
         print(f'::warning title=Laufzeitbudget::Messung nicht moeglich: {exc}')
         return 0
     kommentar = (lambda text: kommentiere(args.repo, cfg['collector_issue'], text, token)) if token else None
-    return pruefe(args, cfg, antwort, kommentar)
+    code = pruefe(args, cfg, antwort, kommentar)
+    if token and not args.jobs_json:
+        erinnere(args, cfg, token)
+    return code
 
 
 if __name__ == '__main__':
