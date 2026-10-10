@@ -18,8 +18,8 @@ name: Data Integrity
 #                  (Variants-Flip-Gate und Index-Budget-Selbsttest gehoeren
 #                  zu 1c/1d; alles, was Dateien neu baut und vergleicht)
 # Rot ist, wenn ein Job rot ist. Jede Pruefung steht in genau einem Job;
-# Checkout, Python-Setup und Dependency-Install stehen in beiden (voller
-# Baum: sparse war hier langsamer). Zahlen: Dauer je Schritt aus der Actions-
+# Checkout, Python-Setup, Dependency-Install und der Budgetschritt am Ende
+# stehen in beiden (voller Baum: sparse war hier langsamer). Zahlen: Dauer je Schritt aus der Actions-
 # API (completed_at minus started_at je Job), letzte 25 Laeufe mit
 # conclusion=success am 10.10.2026, Median.
 #
