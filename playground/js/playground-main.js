@@ -578,13 +578,13 @@ class MHDBDBPlayground {
      * Erste Runde (KZW am 2026-09-08): „Es steht sonst zu viel auf einmal da.
      * Zumal die experimentellen Forschungsdaten ja erweitert werden auch
      * noch." Damals wurden genau die beiden Abschnitte aus ihren Screenshots
-     * zuklappbar, die elf Analysewerkzeuge blieben als ein Block stehen.
+     * zuklappbar, die Analysewerkzeuge blieben als ein Block stehen.
      *
      * Zweite Runde (KZW am 2026-09-11, nach der Bewertung vom 10.09.): die
-     * elf Werkzeuge sind auf zwei Bloecke aufgeteilt, und die Grenze ist nicht
-     * Wichtigkeit, sondern der Ausgangspunkt der Frage. Sechs Werkzeuge
-     * beginnen mit einem Wort oder Begriff („Korpusanalysen"), fuenf mit einem
-     * Text oder einer Autor*in („Weitere Korpusanalysen"). Die Register heissen
+     * Werkzeuge sind auf zwei Bloecke aufgeteilt, und die Grenze ist nicht
+     * Wichtigkeit, sondern der Ausgangspunkt der Frage. Die einen
+     * beginnen mit einem Wort oder Begriff („Korpusanalysen"), die anderen mit
+     * einem Text oder einer Autor*in („Weitere Korpusanalysen"). Die Register heissen
      * jetzt „Register & Indizes (Authority Files)" und stehen offen, weil sie
      * fuer die fachwissenschaftliche Nutzung der vertraute Einstieg sind.
      *
