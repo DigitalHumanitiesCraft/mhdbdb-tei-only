@@ -526,11 +526,11 @@ def anchor_binds_number(content: str, pattern: str, num_re: re.Pattern) -> bool:
     Die Selbstpruefung fragte bis #342 nur, ob das Anker-Wort ueberhaupt
     vorkommt. Der Scan verlangt aber mehr: die Zahl muss direkt davor
     stehen, ANCHOR_SEP laesst dazwischen nur Whitespace und etwas Markup zu.
-    Kommt das Wort nur in Prosa vor ("and the TEI analysis tools, from ..."),
+    Kommt das Wort nur im Fliesstext vor, nie hinter einer Zahl,
     laeuft der Scan ins Leere, waehrend die Selbstpruefung Abdeckung meldet.
-    Gemessen betraf das acht Paare: zwei liessen sich beheben, weil der Anker
-    die im Bestand verwendete Formulierung nicht kannte, sechs stehen seither
-    begruendet in INTENTIONALLY_SILENT (#342).
+    Gemessen betraf das mit #342 acht Paare: zwei liessen sich beheben, weil
+    der Anker die im Bestand verwendete Formulierung nicht kannte, die uebrigen
+    wurden begruendet in INTENTIONALLY_SILENT eingetragen.
 
     Die Skip-Regeln des Scans (z. B. Rundungs- und Pfeil-Praefixe,
     historische Kontexte, das Drift-Fenster selbst) sind hier bewusst
@@ -559,9 +559,9 @@ def check_anchor_coverage(counts: dict) -> list:
     fragte nur, ob das Anker-Wort im Dokument vorkommt, waehrend der Scan
     eine Zahl unmittelbar davor verlangt. Ein Anker in reiner Prosa erfuellte
     also die Selbstpruefung, ohne dass der Scan je haette anschlagen koennen.
-    Betroffen waren acht Paare. Zwei davon liessen sich beheben, indem der
-    corpus_files-Anker die real verwendeten Formulierungen lernte; die
-    restlichen sechs stehen jetzt begruendet in INTENTIONALLY_SILENT.
+    Betroffen waren damals acht Paare. Zwei davon liessen sich beheben, indem
+    der corpus_files-Anker die real verwendeten Formulierungen lernte; die
+    uebrigen wurden begruendet in INTENTIONALLY_SILENT eingetragen.
 
     Gemeldet werden sechs Zustaende:
       missing-file  Pfad existiert nicht (Umbenennung, Tippfehler)
