@@ -27,7 +27,7 @@ Mediävist:innen haben kein flexibles, exploratives Tool, um ihre TEI-Textkorpor
 
 ### Search & Analysis
 
-**Authority Files Exploration (6 authority explorers):**
+**Authority Files Exploration:**
 1. **Autoren** - Search by name with MHG character normalization
 2. **Werke** - Multi-field search across title, author, sigle
 3. **Lemmata** - Lexicon search with orthographic variant support
@@ -35,7 +35,7 @@ Mediävist:innen haben kein flexibles, exploratives Tool, um ihre TEI-Textkorpor
 5. **Gattungen** - Literary genre classification
 6. **Namen** - Proper names with semantic relations
 
-**TEI Text Analysis (11 analysis tools, plus two curated research datasets):** from the multi-lemma search with proximity analysis to the rhyme dictionary and the verse-ending profile. The two curated datasets (character naming #59, arthurian horses #193) are counted separately, because #194 moved them into a group of their own.
+**TEI Text Analysis (analysis tools, plus curated research datasets):** from the multi-lemma search with proximity analysis to the rhyme dictionary and the verse-ending profile. The curated datasets (character naming #59, arthurian horses #193) are listed separately, because #194 moved them into a group of their own.
 
 The list of tools is deliberately **not repeated here**. It already lives in [FEATURES.md](../docs/FEATURES.md), with counts, examples and issue references, and every new tool would otherwise have to be entered in a fourth place. This section carried exactly one of them until 2026-08-06, which is what a duplicated catalog looks like once nobody keeps it in step. The modules themselves are the ground truth: one file per tool in `playground/js/ui/tei/`, one per explorer in `playground/js/ui/authority/`.
 
@@ -121,7 +121,7 @@ The suite is repo-wide, not per sub-app: `npm test` from the repository root, an
 
 - **`SearchHelpers.js`** (`playground/js/ui/search/`) - wiederverwendbare Suchmuster, exportiert `SearchPatterns`
 
-*Die vier Namen `AuthorityExplorers.js`, `TEIExplorer.js`, `XPathInterface.js` und `MultiLemmaSearch.js` standen bis Juli 2026 hier und benennen keine Datei im Repo. Der aktuelle Modulbaum steht in [ARCHITECTURE.md](../docs/ARCHITECTURE.md) (26 Module unter `playground/js/ui/`). Ein fünfter Eintrag, `UICore.js`, ist mit #314 weggefallen, weil er genau die beiden gelöschten Module benannte.*
+*Die vier Namen `AuthorityExplorers.js`, `TEIExplorer.js`, `XPathInterface.js` und `MultiLemmaSearch.js` standen bis Juli 2026 hier und benennen keine Datei im Repo. Der aktuelle Modulbaum steht in [ARCHITECTURE.md](../docs/ARCHITECTURE.md). Ein fünfter Eintrag, `UICore.js`, ist mit #314 weggefallen, weil er genau die beiden gelöschten Module benannte.*
 
 ### Utilities
 
@@ -149,7 +149,7 @@ The suite is repo-wide, not per sub-app: `npm test` from the repository root, an
 **Must-Have Features (All Implemented):**
 - ✅ F1: TEI corpus loading from pre-built index (drag & drop upload UI was removed in the current redesign)
 - ✅ F2: Data structure overview (statistics, browsers)
-- ✅ F3: Explorative query engine (6 authority explorers plus 12 analysis tools)
+- ✅ F3: Explorative query engine (authority explorers plus analysis tools)
 - ✅ F4: Contextual results (snippets, metadata, cross-refs)
 - ✅ F5: 3-panel desktop layout
 - ✅ F6: XPath power-user interface
