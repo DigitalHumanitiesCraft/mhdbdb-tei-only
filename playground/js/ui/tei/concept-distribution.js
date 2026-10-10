@@ -216,7 +216,7 @@ export class ConceptDistribution {
   /**
    * Find all lemmata whose senses reference the given concept.
    *
-   * Synchron: pro Suche ein einzelner Pass ueber 43.754 Lemmata. Worst-Case
+   * Synchron: pro Suche ein einzelner Pass ueber rund 44.000 Lemmata. Worst-Case
    * ~80-100ms Long-Task; akzeptabel, weil danach der async-chunked
    * computeDistribution-Pfad anlaeuft und die UI sofort wieder frei wird.
    * Async machen brachte ueberraschend mehr 100-200ms-Tasks (zusaetzliche
