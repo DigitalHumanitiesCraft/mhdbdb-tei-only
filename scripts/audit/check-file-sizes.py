@@ -57,14 +57,25 @@ Usage:
     python scripts/audit/check-file-sizes.py             # Bericht + Exit-Code
     python scripts/audit/check-file-sizes.py --quiet     # nur Exit-Code bei Erfolg
     python scripts/audit/check-file-sizes.py --selftest  # Parser und Schwellen prüfen
+    python scripts/audit/check-file-sizes.py --github-tree DATEI
+        # Größen aus einer API-Antwort (GET /repos/{r}/git/trees/{tree-sha}?recursive=1)
+
+`--github-tree` gibt es für CI (#564): `git ls-tree -l` braucht jeden Blob, und
+in einem Klon ohne Blobs lädt es sie einzeln nach (gemessen: über fünf Minuten).
+Die API liefert die Größen in einer Antwort. Damit sie vom geprüften Commit
+stammen, wird der Baum Pfad für Pfad mit `git ls-tree -r -z HEAD` (ohne `-l`,
+braucht keine Blobs) verglichen; jede Abweichung und `truncated: true` sind
+Exit 2. Ohne die Option ändert sich nichts.
 
 Exit codes:
     0 = alle Dateien unter der Fail-Schwelle (Warnungen sind grün)
     1 = mindestens eine Datei ab 90 MiB
-    2 = git nicht lesbar oder unerwartetes ls-tree-Format
+    2 = git nicht lesbar, unerwartetes ls-tree-Format, oder (mit --github-tree)
+        API-Baum unbrauchbar, abgeschnitten oder nicht der des Commits
 """
 import argparse
 import io
+import json
 import subprocess
 import sys
 from pathlib import Path
@@ -117,6 +128,64 @@ def parse_ls_tree(text):
     return out
 
 
+def parse_github_tree(text):
+    """Antwort von `GET /repos/{r}/git/trees/{sha}?recursive=1` zu [(size, path, sha)].
+
+    Nur Blobs. `truncated: true` ist ein harter Fehler: die API schneidet ab
+    100.000 Eintraegen oder 7 MB ab, und ein abgeschnittener Baum wuerde den
+    Rest still ungeprueft lassen (#564).
+    """
+    data = json.loads(text)
+    if data.get('truncated'):
+        raise ValueError("GitHub-Baum ist abgeschnitten (truncated: true)")
+    tree = data.get('tree')
+    if not isinstance(tree, list):
+        raise ValueError("GitHub-Baum ohne Feld 'tree'")
+    out = []
+    for entry in tree:
+        if entry.get('type') != 'blob':
+            continue
+        out.append((int(entry['size']), entry['path'], entry['sha']))
+    return out
+
+
+def parse_ls_tree_shas(text):
+    """`git ls-tree -r -z HEAD` (ohne -l) zu {pfad: sha}, nur Blobs.
+
+    Ohne -l liest git nur die Baum-Objekte, keine Blobs: das geht auch im
+    Klon mit filter=blob:none, ohne dass etwas nachgeladen wird.
+    """
+    out = {}
+    for line in text.split('\0'):
+        if not line.strip():
+            continue
+        meta, _, path = line.partition('\t')
+        fields = meta.split()
+        if not path or len(fields) != 3:
+            raise ValueError(f"Unerwartetes ls-tree-Format: {line!r}")
+        _mode, objtype, sha = fields
+        if objtype == 'blob':
+            out[path] = sha
+    return out
+
+
+def vergleiche_baeume(api_blobs, git_shas):
+    """Abweichungen zwischen dem API-Baum und dem Baum des ausgecheckten Commits.
+
+    Gleicher Pfad mit gleicher Blob-SHA auf beiden Seiten heisst: die API hat
+    den Baum dieses Commits geliefert, und die Groessen gehoeren zu diesen
+    Blobs. Leere Liste = gleich.
+    """
+    api = {path: sha for _size, path, sha in api_blobs}
+    if len(api) != len(api_blobs):
+        return ["API-Baum nennt einen Pfad mehrfach"]
+    diffs = []
+    for path in sorted(set(api) | set(git_shas)):
+        if api.get(path) != git_shas.get(path):
+            diffs.append(f"{path}: API {api.get(path)} gegen git {git_shas.get(path)}")
+    return diffs
+
+
 def classify(size_bytes):
     """'fail' ab FAIL_MIB, 'warn' ab WARN_MIB, sonst 'ok'."""
     mib = size_bytes / MIB
@@ -141,6 +210,31 @@ def tracked_blobs():
     except ValueError as exc:
         print(f"::error title=File size audit::{exc}", file=sys.stderr)
         sys.exit(2)
+
+
+def blobs_aus_github_tree(pfad):
+    """Groessen aus einer gespeicherten API-Antwort, gegen den lokalen Baum belegt.
+
+    Der lokale Baum kommt aus `git ls-tree -r -z HEAD` und braucht keine Blobs.
+    Weicht auch nur ein Pfad oder eine SHA ab, ist das ein harter Fehler: dann
+    stammen die Groessen nicht vom geprueften Commit.
+    """
+    try:
+        api = parse_github_tree(Path(pfad).read_text(encoding='utf-8'))
+        res = subprocess.run(
+            ['git', 'ls-tree', '-r', '-z', 'HEAD'],
+            cwd=REPO, capture_output=True, text=True, encoding='utf-8', check=True,
+        )
+        lokal = parse_ls_tree_shas(res.stdout)
+    except (OSError, ValueError, KeyError, subprocess.CalledProcessError) as exc:
+        print(f"::error title=File size audit::API-Baum nicht verwertbar: {exc}", file=sys.stderr)
+        sys.exit(2)
+    diffs = vergleiche_baeume(api, lokal)
+    if diffs:
+        print(f"::error title=File size audit::API-Baum weicht vom Baum des geprueften Commits ab "
+              f"({len(diffs)} Eintraege, erster: {diffs[0]})", file=sys.stderr)
+        sys.exit(2)
+    return [(size, path) for size, path, _sha in api]
 
 
 def selftest():
@@ -188,6 +282,46 @@ def selftest():
             ok = True
         cases.append((f"Formatdrift wirft statt durchzuwinken: {bad[:32]}...", ok))
 
+    # API-Weg (#564): derselbe Wertebereich, aber mit zwei Fehlermodi mehr,
+    # die das Gate sonst still ueberspringen wuerde.
+    api_json = (
+        '{"sha":"t","truncated":false,"tree":['
+        '{"path":"tei","type":"tree","sha":"a"},'
+        '{"path":"tei/OVG.tei.xml","type":"blob","sha":"b1","size":65931062},'
+        '{"path":"vendor/sub","type":"commit","sha":"c"},'
+        '{"path":"x.txt","type":"blob","sha":"b2","size":42}]}'
+    )
+    api = parse_github_tree(api_json)
+    cases.append(("API-Parser liest nur Blobs mit Groesse und SHA",
+                  api == [(65931062, 'tei/OVG.tei.xml', 'b1'), (42, 'x.txt', 'b2')]))
+    try:
+        parse_github_tree(api_json.replace('"truncated":false', '"truncated":true'))
+        ok = False
+    except ValueError:
+        ok = True
+    cases.append(("abgeschnittener API-Baum wirft statt Rest zu ueberspringen", ok))
+    try:
+        parse_github_tree('{"sha":"t"}')
+        ok = False
+    except ValueError:
+        ok = True
+    cases.append(("API-Antwort ohne Feld tree wirft", ok))
+    git_ok = parse_ls_tree_shas(
+        "040000 tree a\ttei\0"
+        "100644 blob b1\ttei/OVG.tei.xml\0"
+        "160000 commit c\tvendor/sub\0"
+        "100644 blob b2\tx.txt\0")
+    cases.append(("ls-tree ohne -l liefert Pfad und SHA der Blobs",
+                  git_ok == {'tei/OVG.tei.xml': 'b1', 'x.txt': 'b2'}))
+    cases.append(("gleicher Baum auf beiden Seiten: keine Abweichung",
+                  vergleiche_baeume(api, git_ok) == []))
+    cases.append(("fehlender Pfad im API-Baum faellt auf",
+                  len(vergleiche_baeume(api[:1], git_ok)) == 1))
+    cases.append(("zusaetzlicher Pfad im API-Baum faellt auf",
+                  len(vergleiche_baeume(api, {'x.txt': 'b2'})) == 1))
+    cases.append(("gleicher Pfad, andere SHA (anderer Commit) faellt auf",
+                  len(vergleiche_baeume(api, dict(git_ok, **{'x.txt': 'zz'}))) == 1))
+
     failed = [name for name, ok in cases if not ok]
     for name, ok in cases:
         print(f"  {'OK  ' if ok else 'FAIL'}  {name}")
@@ -202,12 +336,15 @@ def main():
     parser = argparse.ArgumentParser(description="Groessenwaechter gegen GitHubs 100-MiB-Wand (#350).")
     parser.add_argument('--quiet', action='store_true', help="Keine Ausgabe bei Erfolg (nur Exit-Code).")
     parser.add_argument('--selftest', action='store_true', help="Parser und Schwellen an synthetischen Eingaben pruefen.")
+    parser.add_argument('--github-tree', metavar='DATEI',
+                        help="Groessen aus dieser API-Antwort (git/trees/<sha>?recursive=1) statt aus "
+                             "`git ls-tree -l`; gegen den lokalen Baum belegt (#564).")
     args = parser.parse_args()
 
     if args.selftest:
         return selftest()
 
-    blobs = tracked_blobs()
+    blobs = blobs_aus_github_tree(args.github_tree) if args.github_tree else tracked_blobs()
     if not blobs:
         print("::error title=File size audit::git ls-tree lieferte keine Blobs.", file=sys.stderr)
         return 2

@@ -16,8 +16,8 @@
 # Verzeichnis zu gross werden, und ein Waechter, der vorher entscheiden
 # muss, welcher Ordner wachsen darf, hat dieselbe Grenzziehung am Hals,
 # die sich dieses Projekt beim Em-Dash-Gate am 03.08. abgewoehnt hat.
-# Der Lauf kostet Sekunden: `git ls-tree -l` liefert die Groessen mit,
-# keine Datei wird gelesen.
+# Der Lauf kostet Sekunden: die Groessen kommen als Metadaten (lokal aus
+# `git ls-tree -l`, in CI aus der Trees-API, #564), keine Datei wird gelesen.
 #
 # Wichtig zur Erwartung: dieses Gate kann einen abgelehnten Push NICHT
 # verhindern. GitHub weist den Push zurueck, bevor ein Workflow startet.
@@ -45,13 +45,36 @@ jobs:
     timeout-minutes: 5
     steps:
       - name: Checkout
-        # fetch-depth: 1 genuegt, `git ls-tree HEAD` braucht keine History.
+        # Nur das Skript im Arbeitsbaum (#564). fetch-depth: 1 genuegt, der
+        # Baum des Commits ist da. sparse-checkout holt dabei ohne Blobs
+        # (filter=blob:none): `git ls-tree -l` laedt sie dann einzeln nach und
+        # lief im Messlauf 38047147806 in den 5-Minuten-Timeout. Der volle
+        # Abruf ohne Arbeitsbaum brauchte 197 s (Lauf 38047512442), der
+        # Checkout median 115 s (25 Laeufe): die Zeit steckt im Abruf von
+        # 193 MiB Pack, nicht im Schreiben. Die Groessen kommen deshalb aus
+        # der Trees-API, siehe unten.
         uses: actions/checkout@v6
+        with:
+          sparse-checkout: |
+            scripts/audit/check-file-sizes.py
+          sparse-checkout-cone-mode: false
 
       # Dieses Gate wird jahrelang gruen sein (Abstand zur Schwelle heute
       # 27 MiB). Ohne Selbsttest wuesste niemand, ob es noch funktioniert.
       - name: Groessenwaechter Selbsttest (#350)
         run: python3 scripts/audit/check-file-sizes.py --selftest
 
+      # Der Baum ist der des geprueften Commits: die Tree-SHA kommt aus dem
+      # ausgecheckten HEAD (bei pull_request der Merge-Commit), nicht aus der
+      # Zweigspitze. Das Skript prueft ausserdem Pfad fuer Pfad gegen
+      # `git ls-tree -r -z HEAD` (ohne -l, braucht keine Blobs) und bricht bei
+      # jeder Abweichung und bei `truncated: true` mit Exit 2 ab.
+      - name: Baum mit Groessen aus der API (#564)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          tree=$(git rev-parse 'HEAD^{tree}')
+          gh api "repos/${GITHUB_REPOSITORY}/git/trees/${tree}?recursive=1" > "$RUNNER_TEMP/tree.json"
+
       - name: Keine committete Datei nahe GitHubs 100-MiB-Wand (#350)
-        run: python3 scripts/audit/check-file-sizes.py
+        run: python3 scripts/audit/check-file-sizes.py --github-tree "$RUNNER_TEMP/tree.json"

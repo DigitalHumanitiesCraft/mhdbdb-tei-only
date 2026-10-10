@@ -87,9 +87,51 @@ jobs:
         # fetch-depth: 2, damit der Diff-Base-Schritt unten den ersten
         # Elternteil des Merge-Refs lesen kann. Mit der Voreinstellung 1
         # kappt die shallow-Grenze die Elternliste, und `HEAD^1` scheitert.
+        #
+        # sparse-checkout laesst die Korpusdateien und die Index-Archive
+        # weg (#564): tei/ ist 1.366 von 1.651 MiB des Baums, und der
+        # Checkout war mit median 117 s der groesste Posten dieses Jobs.
+        # Die Action holt bei sparse-checkout nur die Blobs der
+        # ausgecheckten Pfade (--filter=blob:none).
+        # Bewusst eine Ausschlussliste und keine Positivliste: ein neues
+        # Verzeichnis ist damit im Baum und wird von den Gates gesehen.
+        # Gemessen 10.10.2026: check-no-cdn.py (29 Dateien) und der
+        # Vollscan von check-no-em-dash.py (74) sehen im sparse-Baum
+        # dieselben Dateien wie im vollen; tei/ und data/ stehen in ihren
+        # eigenen TOP_LEVEL_SKIP. ingest/, sources/ und examples/ bleiben
+        # drin: dort liegen HTML-Pruefseiten und Markdown, die beide Gates
+        # lesen.
         uses: actions/checkout@v6
         with:
           fetch-depth: 2
+          sparse-checkout: |
+            /*
+            !/tei/*.tei.xml
+            !/data/*.json.gz
+          sparse-checkout-cone-mode: false
+
+      # Kontrollwert fuer den sparse-Checkout (#564): jede getrackte Datei
+      # ausser den beiden ausgeschlossenen Klassen muss im Arbeitsbaum
+      # stehen. Faellt ein Muster versehentlich zu weit, sehen die Gates
+      # unten eine kleinere Menge und melden trotzdem gruen.
+      - name: Arbeitsbaum vollstaendig ausser tei/*.tei.xml und data/*.json.gz (#564)
+        run: |
+          # NUL-getrennt (-z): ohne den Schalter quotet git Pfade mit
+          # Nicht-ASCII ("Zus\303\244tzlich.html"), [ -e ] findet sie nicht,
+          # und die Ausschlussmuster treffen "tei/\303\204.tei.xml" nicht mehr.
+          # Heute gibt es keinen solchen Pfad im Baum.
+          git ls-tree -r -z --name-only HEAD \
+            | grep -z -v -E '^(tei/[^/]+\.tei\.xml|data/[^/]+\.json\.gz)$' > "$RUNNER_TEMP/soll.bin" || true
+          soll=$(tr -cd '\0' < "$RUNNER_TEMP/soll.bin" | wc -c)
+          fehlt=0
+          while IFS= read -r -d '' f; do
+            [ -e "$f" ] || { echo "fehlt im Arbeitsbaum: $f"; fehlt=$((fehlt + 1)); }
+          done < "$RUNNER_TEMP/soll.bin"
+          echo "$soll Dateien erwartet, $fehlt fehlen"
+          if [ "$soll" -lt 1000 ] || [ "$fehlt" -ne 0 ]; then
+            echo "::error title=sparse-checkout::Arbeitsbaum unvollstaendig oder Sollliste zu klein."
+            exit 1
+          fi
 
       - name: Diff-Base bestimmen (#292)
         id: base
@@ -173,5 +215,29 @@ jobs:
       # legen, war lxml; das Skript zaehlt seitdem mit ElementTree und ist
       # stdlib-only. Lokal gemessen am 01.10.2026: 5,4 Sekunden fuer den
       # ganzen --check.
+      # doc-count-audit.py zaehlt die Korpusdateien nur ueber corpus_files(),
+      # also ueber die DATEINAMEN in tei/ (Inhalt liest es nur aus
+      # authority-files/). Im sparse-Baum fehlen sie, und das Skript meldet
+      # dann "Korpus-Dateien 0", ueberspringt alle neun corpus_files-Paare
+      # ("pruefen derzeit nichts") und endet mit Exit 0: ein stilles Gruen,
+      # gemessen im Lauf 38047149367 auf dem Messzweig. Deshalb leere
+      # Platzhalter mit den Namen aus dem Git-Baum. Mutationsprobe am
+      # 10.10.2026 im sparse-Klon: 667 -> 665 in docs/INDEX.md ist mit
+      # Platzhaltern rot (Exit 1), ohne tei/ gruen (Exit 0).
+      # Dieser Schritt und doc-count-audit bleiben die letzten: danach gelten
+      # die 667 leeren Dateien fuer git als geaendert, und ein spaeterer
+      # Schritt, der git-Diffs oder tei-Inhalte liest, saehe leere Dateien.
+      - name: tei/-Dateinamen fuer doc-count-audit (#564)
+        run: |
+          mkdir -p tei
+          git ls-tree -r -z --name-only HEAD tei/ | while IFS= read -r -d '' f; do : > "$f"; done
+          erwartet=$(git ls-tree -r -z --name-only HEAD tei/ | grep -z -c '\.tei\.xml$' || true)
+          vorhanden=$(find tei -maxdepth 1 -name '*.tei.xml' -print0 | tr -cd '\0' | wc -c)
+          echo "tei/*.tei.xml: $vorhanden Platzhalter, $erwartet im Git-Baum"
+          if [ "$erwartet" -lt 1 ] || [ "$erwartet" != "$vorhanden" ]; then
+            echo "::error title=Platzhalter::Platzhalter und Git-Baum weichen ab oder tei/ ist leer."
+            exit 1
+          fi
+
       - name: Dokumentierte Zahlen gegen die Daten (#382/#398)
         run: python3 scripts/audit/doc-count-audit.py --check
