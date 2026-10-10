@@ -1,6 +1,6 @@
 # fable-reviewer Memory (mhdbdb-tei-only)
 
-Verdichtet am 08.10.2026. Zahlen in den Dateien sind Eingabe, keine Messung.
+Verdichtet am 08.10. und 10.10.2026. Zahlen in den Dateien sind Eingabe, keine Messung.
 
 - [Umgebung](querschnitt_umgebung.md): Worktree-Guard, Classifier, Windows, GitHub ohne gh, Cloud-Session
 - [Git-Rezepte](querschnitt_git.md): Altstand, Basis, range-diff, Herkunft, Squash und Stack, EOL-Probeklon

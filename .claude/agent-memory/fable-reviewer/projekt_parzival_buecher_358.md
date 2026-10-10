@@ -23,7 +23,7 @@ Zusammengelegt aus fünf Runden, 08.10.2026.
 
 **Skriptprüfung (A3)**
 - Basis billig rekonstruieren: ` subtype="dreissiger"` und milestone-Zeilen aus HEAD strippen, Blob-SHA gegen `rev-parse <basis>:tei/PZ.tei.xml`. Statt Index-Rebuild `process_tei_file` aus build-corpus-index per importlib auf HEAD und Basis vergleichen.
-- Die Ergebnisprüfung von `pz-wh-struktur.py` hielt zuerst nur l/@n (doppeltes `<l n>` im div lief durch); seither hält sie das erste `<w>` des `<l>` nach dem milestone gegen `erste_wort_id`. Alle Prüfungen laufen vor dem ersten Schreibvorgang.
+- Die Ergebnisprüfung von `pz-wh-struktur.py` hält das erste `<w>` des `<l>` nach dem milestone gegen `erste_wort_id` (l/@n allein ließ ein doppeltes `<l n>` durch). Alle Prüfungen laufen vor dem ersten Schreibvorgang.
 - Treiber für Kopien mit eigenem ROOT: `scripts/ingest/parzival-358/`, `tei/`, `ingest/parzival-buecher/` nachbauen, Skript und CSV vom Kopf, TEI von der Basis.
 
 **Spec `dreissiger-buecher.spec.js`:** Soll aus dem TEI (`following::tei:l[1]`, erstes `<w>`, Kern = `split('_')[1]`), Ist aus dem gerenderten DOM (`data-core`, dieselbe Kernformel in `verseCoreRange`). Pinnt `Buch I..XVI` per `toEqual`. Mutationsproben, die rot werden müssen: Label „Kapitel" statt „Strophe", Buch nicht gerendert, milestones ans Divende, Nummern vertauscht (im Reader wie im TEI), PZ ohne milestones. Der WH-Test erwartet fest `Strophe 77` (kein TEI-Lesen); WH-subtype hat sonst keinen Browsertest.
