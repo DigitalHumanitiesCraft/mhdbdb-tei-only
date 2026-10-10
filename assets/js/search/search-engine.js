@@ -195,9 +195,13 @@ class SearchEngine {
 
     /** Stufe 1: alle Lemmata, deren normalisierte Ansetzung der Eingabe gleicht. */
     stage1Ids(normalized) {
-        return this.authorityIndex.lemmata
-            .filter(lemma => lemma.normalized === normalized)
-            .map(lemma => lemma.id);
+        const ids = [];
+        this.authorityIndex.lemmata.forEach(lemma => {
+            if (lemma.normalized === normalized) {
+                ids.push(lemma.id);
+            }
+        });
+        return ids;
     }
 
     /**
