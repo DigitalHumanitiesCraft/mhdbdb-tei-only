@@ -1604,8 +1604,14 @@ class TEITextReader {
         if (this.elements) {
             this.showNavigation(false);
             this.showLoading(false);
+            // Kopf, den populateModal gesetzt hat: Titel setzt der Aufrufer
+            // (showEmptyState), der Autor und die Metadaten bleiben sonst stehen
+            if (this.elements.readingAuthor) {
+                this.elements.readingAuthor.textContent = '';
+            }
             if (this.elements.readingMetadata) {
                 this.elements.readingMetadata.innerHTML = '';
+                this.elements.readingMetadata.classList.add('hidden');
             }
         }
         this.highlightTextInList(null);

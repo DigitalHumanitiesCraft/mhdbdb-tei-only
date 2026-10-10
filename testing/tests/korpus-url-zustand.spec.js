@@ -8,6 +8,10 @@
  *
  * Alans Fall (#419, Testfall 6 und 15): Treffertext öffnen, Browser-Zurück,
  * und die Suche war weg.
+ *
+ * Laufzeit (#564): Die Tests öffnen nie den ersten Treffer von "minne", das ist
+ * ein Großtext (JT hat 44 MB), sondern den kleinsten Treffertext der ersten
+ * Seite bzw. den kleinsten Text der Liste.
  */
 
 import { test, expect } from '@playwright/test';
@@ -20,6 +24,21 @@ async function suchen(page, begriff = SUCHE) {
     await page.fill('#searchInput', begriff);
     await page.click('#searchButton');
     await page.waitForSelector('#resultsList > div', { timeout: 20000 });
+}
+
+/**
+ * Position des Treffertextes mit den wenigsten Wörtern unter den angezeigten
+ * Karten, bevorzugt einer mit Autorzeile (der Test prüft, dass sie nach dem
+ * Schließen wieder leer ist).
+ */
+async function kleinsteKarte(page) {
+    return page.evaluate(() => {
+        const karten = document.querySelectorAll('#resultsList > div').length;
+        const angezeigt = window._mhdbdbApp.currentResults.slice(0, karten);
+        const mitAutor = angezeigt.map((r, i) => i).filter(i => angezeigt[i].author);
+        const kandidaten = mitAutor.length > 0 ? mitAutor : angezeigt.map((r, i) => i);
+        return kandidaten.reduce((a, b) => (angezeigt[b].wordCount < angezeigt[a].wordCount ? b : a));
+    });
 }
 
 const params = page => new URL(page.url()).searchParams;
@@ -45,8 +64,9 @@ test.describe('Korpussuche: URL-Zustand und Browser-Zurück (#434)', () => {
         await suchen(page);
         const vorher = await page.evaluate(() => history.length);
 
-        await page.locator('#resultsList > div').first().click();
+        await page.locator('#resultsList > div').nth(await kleinsteKarte(page)).click();
         await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
+        await expect(page.locator('#readingAuthor')).not.toBeEmpty();
 
         expect(params(page).get('search')).toBe(SUCHE);
         expect(params(page).get('textId')).toBeTruthy();
@@ -55,6 +75,7 @@ test.describe('Korpussuche: URL-Zustand und Browser-Zurück (#434)', () => {
         // Browser-Zurück: Text zu, Suche und Trefferliste bleiben
         await page.goBack();
         await expect(page.locator('#readingTitle')).toBeEmpty({ timeout: 10000 });
+        await expect(page.locator('#readingAuthor')).toBeEmpty();
         expect(params(page).get('search')).toBe(SUCHE);
         expect(params(page).get('textId')).toBeNull();
         expect(await page.inputValue('#searchInput')).toBe(SUCHE);
@@ -84,7 +105,7 @@ test.describe('Korpussuche: URL-Zustand und Browser-Zurück (#434)', () => {
     test('die kopierte Adresse mit search und textId öffnet in einem neuen Tab Suche und Text', async ({ page, context }) => {
         test.setTimeout(180000);
         await suchen(page);
-        await page.locator('#resultsList > div').first().click();
+        await page.locator('#resultsList > div').nth(await kleinsteKarte(page)).click();
         await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
         const titel = (await page.locator('#readingTitle').textContent()).trim();
         const adresse = page.url();
@@ -107,8 +128,9 @@ test.describe('Korpussuche: URL-Zustand und Browser-Zurück (#434)', () => {
     test('KWIC-Beleg öffnen setzt position in die Adresse', async ({ page }) => {
         test.setTimeout(180000);
         await suchen(page);
-        await page.locator('#resultsList > div [data-kwic-toggle]').first().click();
-        const beleg = page.locator('#resultsList > div [data-position]').first();
+        const karte = page.locator('#resultsList > div').nth(await kleinsteKarte(page));
+        await karte.locator('[data-kwic-toggle]').click();
+        const beleg = karte.locator('[data-position]').first();
         await beleg.waitFor({ timeout: 20000 });
         const position = await beleg.getAttribute('data-position');
         await beleg.click();
@@ -122,40 +144,68 @@ test.describe('Korpussuche: URL-Zustand und Browser-Zurück (#434)', () => {
         test.setTimeout(180000);
         await page.goto('/korpus.html');
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
-        await page.locator('#textList button[title="Text lesen"], #textList .icon-btn[title="Text lesen"]').first().click();
+        const klein = await page.evaluate(() => {
+            const texte = window._mhdbdbApp.corpusData.texts.filter(t => t.wordCount > 0);
+            return texte.reduce((a, b) => (b.wordCount < a.wordCount ? b : a)).id;
+        });
+        await page.locator(`#textList label[data-text-id="${klein}"] .icon-btn[title="Text lesen"]`).click();
         await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
         expect(params(page).get('search')).toBeNull();
-        expect(params(page).get('textId')).toBeTruthy();
+        expect(params(page).get('textId')).toBe(klein);
 
         await page.goBack();
         await expect(page.locator('#readingTitle')).toBeEmpty({ timeout: 10000 });
+        await expect(page.locator('#readingAuthor')).toBeEmpty();
         expect(params(page).get('textId')).toBeNull();
     });
 
     test('Schließen während des Ladens öffnet das Panel nicht nachträglich', async ({ page }) => {
         test.setTimeout(180000);
         await suchen(page);
-        const textId = await page.evaluate(() => window._mhdbdbApp.currentResults[0].textId);
 
-        // Öffnen und sofort schließen, noch bevor das TEI geladen ist
-        await page.evaluate(id => {
+        // Öffnen und sofort schließen, noch bevor das TEI geladen ist; dann auf
+        // das Ende genau dieses Ladevorgangs warten, nicht auf eine feste Zeit:
+        // sonst wäre der Test auch ohne den Abbruch grün, solange das Laden
+        // länger dauert als das Warten.
+        const r = await page.evaluate(async () => {
             const app = window._mhdbdbApp;
-            app.openText(id, {});
+            const reader = app.teiReader;
+            const klein = app.corpusData.texts.filter(t => t.wordCount > 0)
+                .reduce((a, b) => (b.wordCount < a.wordCount ? b : a)).id;
+            const original = reader.loadTEIFile.bind(reader);
+            let laden = null;
+            reader.loadTEIFile = (datei) => (laden = original(datei));
+            app.openText(klein, {});
             app.closeText();
-        }, textId);
-        await page.waitForTimeout(5000);
+            await laden;
+            // das Zurückkehren des abgebrochenen openReadingView einen Takt abwarten
+            await new Promise(res => setTimeout(res, 300));
+            reader.loadTEIFile = original;
+            return {
+                geladen: laden !== null,
+                titel: document.getElementById('readingTitle').textContent,
+                autor: document.getElementById('readingAuthor').textContent,
+                aktuell: reader.currentTextId
+            };
+        });
 
-        await expect(page.locator('#readingTitle')).toBeEmpty();
+        expect(r.geladen).toBe(true);
+        expect(r.titel).toBe('');
+        expect(r.autor).toBe('');
+        expect(r.aktuell).toBeNull();
         await expect(page.locator('#readingNavigation')).toBeHidden();
-        expect(await page.evaluate(() => window._mhdbdbApp.teiReader.currentTextId)).toBeNull();
     });
 
-    test('Textauswahl, Seite und Sortierung bleiben außerhalb der Adresse', async ({ page }) => {
+    test('Textauswahl und Ansicht bleiben außerhalb der Adresse', async ({ page }) => {
         await suchen(page);
+        const vorher = page.url();
+
         await page.click('#selectNoneTexts');
-        await page.fill('#searchInput', SUCHE);
-        const keys = [...params(page).keys()];
-        expect(keys).toEqual(['search']);
+        await page.click('#viewToggleTable');
+        await page.waitForSelector('#resultsList, #resultsTable', { timeout: 10000 });
+
+        expect(page.url()).toBe(vorher);
+        expect([...params(page).keys()]).toEqual(['search']);
     });
 
 });

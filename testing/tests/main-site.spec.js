@@ -195,7 +195,7 @@ test.describe('Such-Deep-Link ?search= (#144)', () => {
         expect(inputValue).toBe('brôt');
 
         // Der Suchbegriff bleibt in der Adresse (#434): Neuladen, Lesezeichen
-        // und Weitergeben führen zur selben Trefferliste. Seit #434 wurde hier
+        // und Weitergeben führen zur selben Trefferliste. Bis #434 wurde hier
         // das Gegenteil verlangt (URL bereinigt).
         expect(new URL(page.url()).searchParams.get('search')).toBe('brôt');
     });
