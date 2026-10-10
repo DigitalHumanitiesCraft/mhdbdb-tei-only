@@ -40,7 +40,8 @@
  * Traegt ein Lemma mindestens einen Korpusbeleg? (#463) Massstab ist der
  * Reverse-Index `corpusIndex.lemmaIndex` (Eintrag nur bei Beleg, gemessen
  * 10.10.2026: 0 leere Eintraege). Fehlt der Index (alter Stand oder noch nicht
- * geladen), gilt alles als belegt, die Stufen verhalten sich dann wie vor #463.
+ * geladen) oder ist er leer (der Playground faellt bei fehlendem Feld auf `{}`
+ * zurueck), gilt alles als belegt, die Stufen verhalten sich dann wie vor #463.
  *
  * @param {Object|null|undefined} lemmaIndex - corpusIndex.lemmaIndex
  * @param {string} lemmaId - mit `lemma_`-Praefix
@@ -48,13 +49,17 @@
  */
 export function isAttestedLemma(lemmaIndex, lemmaId) {
     if (!lemmaIndex) return true;
+    let leer = true;
+    for (const _schluessel in lemmaIndex) { leer = false; break; }
+    if (leer) return true;
     const textIds = lemmaIndex[lemmaId];
     return Array.isArray(textIds) && textIds.length > 0;
 }
 
 /**
  * Haelt Stufe 1? Nur wenn mindestens ein Stufe-1-Treffer belegt ist. Sonst
- * werden Stufe 2 und 3 mitgefragt und die unbelegten Treffer bleiben in der
+ * wird Stufe 2 mitgefragt (Stufe 3 bleibt den Eingaben vorbehalten, die in
+ * Stufe 1 und 2 nichts finden) und die unbelegten Treffer bleiben in der
  * Liste (#463, Vertrag in CONTRACTS.md §C).
  *
  * @param {string[]} stage1Ids

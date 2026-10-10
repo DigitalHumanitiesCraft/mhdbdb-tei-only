@@ -6,7 +6,7 @@
 
 // Import MHG normalizer from shared library
 import { TextNormalizer } from '../lib/text-normalizer.js';
-import { isStage3Match, stage3Distance, isAttestedLemma, stage1Holds } from '../lib/lemma-resolve.js';
+import { isStage3Match, stage3Distance, stage1Holds } from '../lib/lemma-resolve.js';
 import { parseLemmaIdInput } from '../lib/lemma-id-input.js';
 import { countingAttributions, formatAttributionList, personIdOf } from '../lib/attributions.js';
 
@@ -143,7 +143,7 @@ class SearchEngine {
         const normalized = TextNormalizer.normalizeMHG(searchTerm);
         // Ein unbelegter Stufe-1-Treffer haelt Stufe 2 nicht mehr fern (#463)
         const holds = stage1Holds(this.stage1Ids(normalized), this.corpusIndex?.lemmaIndex);
-        return !holds &&Array.isArray(this.authorityIndex.variantCandidates?.[normalized]);
+        return !holds && Array.isArray(this.authorityIndex.variantCandidates?.[normalized]);
     }
 
     /**
@@ -198,16 +198,6 @@ class SearchEngine {
         return this.authorityIndex.lemmata
             .filter(lemma => lemma.normalized === normalized)
             .map(lemma => lemma.id);
-    }
-
-    /**
-     * Traegt das Lemma mindestens einen Korpusbeleg? Massstab ist der
-     * Reverse-Index (Eintrag nur bei Beleg, 0 leere Eintraege, gemessen
-     * 10.10.2026). Fehlt der Index (alte Staende), gilt alles als belegt,
-     * damit die Stufen sich verhalten wie vor #463.
-     */
-    isAttested(lemmaId) {
-        return isAttestedLemma(this.corpusIndex?.lemmaIndex, lemmaId);
     }
 
     /**
