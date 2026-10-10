@@ -31,5 +31,6 @@ Verdichtet 08.10.2026.
 - lxml `id(elem)` ist keine Identität (Proxies teilen Adressen): `tree.getpath()` + Datei.
 - Rundung wie das Modul: JS `Math.round` = `math.floor(x + 0.5)`, nicht Pythons `round()`.
 - Tokens (w+pc) sind nicht Wörter. Zahl hängt an der Feldmenge: Messung auf die Feldmenge des Codes bringen. Umlaut-Regex mit `[äöüÄÖÜ]`.
+- Restsuche nach Katalogzahlen nicht über das Nomen (`tools|modules`): die Explorer heißen in FEATURES „controlled vocabularies" (:143, „six"), Werkzeuge auch „the other ten". Zahlwörter allein greppen und jede Zeile lesen (#451 R2, zwei Runden übersehen).
 - Katalog-/Bereichsende am Rahmen messen, nicht per Zeilenfenster. Zahlsuche mit `\b`. CSVs im Repo oft `;` + BOM (`utf-8-sig`). Leere Suche: Kontrollwert mitmessen (`type="sigle"` = 667 Dateien).
 - **Browser-ES-Modul ohne Browser prüfen:** Datei aus `assets/js/lib/` als `.mjs`-Kopie ins Scratch, dynamisch importieren (ein `.js`-Import scheitert ohne `type: module`); geht, solange `document`/`window` nur in ungerufenen Funktionen stehen.

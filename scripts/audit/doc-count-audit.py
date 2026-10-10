@@ -137,33 +137,13 @@ def scan_min_for(key: str) -> int:
 # das Gegenteil sind: eine Entscheidung. Das Target bleibt konfiguriert, damit
 # eine spaeter doch eingesetzte Zahl sofort gegatet ist.
 INTENTIONALLY_SILENT = {
-    # Die beiden folgenden sind ein Sonderfall und keine Feststellung
-    # "ohne Zahl": beide Dateien FUEHREN die Zahl, sie ist nur nicht
-    # scanbar. NUMBER_WORDS beginnt bewusst bei fuenf, weil "zwei Gruende"
-    # und "three steps" in Prosa staendig vorkommen und jede kleinere
-    # Zahl Fehlalarme erzeugen wuerde. curated_datasets ist mit dem Wert 2
-    # der einzige Count unterhalb dieser Grenze, und beide Dateien
-    # schreiben ihn als Wort ("zwei kuratierte Forschungsdatensaetze",
-    # "two curated research datasets") statt als Ziffer. docs/FEATURES.md
-    # schreibt "2 curated datasets" und ist deshalb gebunden und wirksam.
-    # Wer NUMBER_WORDS eines Tages nach unten oeffnet, misst vorher die
-    # Fehlalarme und streicht dann diese beiden Eintraege.
-    ('README.md', 'curated_datasets'):
-        'schreibt die Zahl als Wort "zwei"; NUMBER_WORDS beginnt bei fuenf',
-    ('playground/readme.md', 'curated_datasets'):
-        'schreibt die Zahl als Wort "two"; NUMBER_WORDS beginnt bei fuenf',
-    ('README.md', 'entry_points'):
-        'nennt Explorer, Werkzeuge und kuratierte Datensaetze einzeln, nie die Summe',
-    ('docs/ARCHITECTURE.md', 'entry_points'):
-        'nennt die Werkzeuge einzeln in der Routing-Tabelle, nie als Summe',
-    ('docs/INDEX.md', 'entry_points'):
-        'verweist seit #316 auf FEATURES.md, statt den Katalog samt Zahlen zu wiederholen',
-    ('docs/INDEX.md', 'tei_tools'):
-        'verweist seit #316 auf FEATURES.md, statt den Katalog samt Zahlen zu wiederholen',
-    # Die folgenden fuenf sind mit #342 dazugekommen, nicht weil sich die
+    # Die folgenden drei sind mit #342 dazugekommen, nicht weil sich die
     # Dokumente geaendert haetten, sondern weil die Selbstpruefung seither die
     # Zahlbindung verlangt statt blossem Vorkommen des Ankerworts. Jede
     # Begruendung ist gemessen: die Ist-Zahl kommt in der Datei nicht vor.
+    # (Sieben weitere Eintraege standen hier an den Katalogzahlen des
+    # Playgrounds; sie sind mit #451 zusammen mit dem Zaehlen dieser Zahlen
+    # entfallen.)
     ('docs/ARCHITECTURE.md', 'corpus_files'):
         'beschreibt Komponenten und Datenfluss, nennt die Korpusgroesse nirgends',
     ('docs/ARCHITECTURE.md', 'variants_forms'):
@@ -182,78 +162,10 @@ INTENTIONALLY_SILENT = {
     # Mit #316 dazu, und die Uebersetzung hat hier nichts kaputtgemacht,
     # sondern etwas sichtbar: die bisherige Bindung traf "43.879 Eintraege",
     # also die Lexikonzahl, und wurde nur vom Drift-Fenster verworfen. Von
-    # variants.xml nennt die Datei die Zahl der Formen (Zeile 169), nie die
-    # der Eintraege.
+    # variants.xml nennt die Datei die Zahl der Formen, nie die der Eintraege.
     ('docs/DATA-MODEL.md', 'variants_entries'):
         'nennt von variants.xml nur die Formenzahl, nie die Zahl der Eintraege',
-    # Health-Check 02.09.: die Werkzeugzahl ist aus der Hilfeseite ganz
-    # herausgenommen worden (Entscheidung chsteiner). Grund ist nicht, dass
-    # sie dort falsch war, sondern dass sie dort niemand nachzieht: die Seite
-    # nannte "zwoelf" an vier Stellen, waehrend es dreizehn Module waren, seit
-    # der Pferde-Explorer am 08.08. dazukam. Die Aufzaehlungen daneben tragen
-    # die Aussage und veralten nicht still.
-    ('hilfe-playground.html', 'tei_tools'):
-        'nennt die Werkzeuge seit 02.09. namentlich, nie als Summe',
 }
-
-
-# Explizite Ausnahme-Mengen statt -1/-2-Offsets (Review PR #222): beim
-# naechsten Werkzeug-Zuwachs hier pflegen, nicht in Zaehl-Magie suchen.
-NON_TOOL_MODULES = {
-    'tei-ui.js',                                 # Router, kein Werkzeug
-    'corpus-scope.js',                           # #204, geteilter Helfer fuer die Korpusauswahl
-    'multi-lemma-export.js',                     # #448, Export der Multi-Lemma-Suche, kein eigenes Werkzeug
-}
-MODAL_MODULES = {'multi-lemma-search.js'}        # folgt dem DESIGN-Pattern nicht
-# Kuratierte Fremddatensaetze. Sie liegen im selben Verzeichnis und folgen dem
-# DESIGN-Pattern, sind aber keine Analysewerkzeuge ueber dem Korpus, sondern
-# Forschungsdaten Dritter. Mit #194 haben sie im Playground die eigene Rubrik
-# "Experimentelle Forschungsdaten" bekommen, und FEATURES.md zaehlt sie seither
-# getrennt. Diese Lesart gilt seit dem Health-Check vom 02.09. ueberall:
-# "N Analysewerkzeuge plus zwei kuratierte Forschungsdatensaetze".
-CURATED_DATASET_MODULES = {
-    'naming-explorer.js',                        # #59, Linda Beutel-Thurow
-    'horses-explorer.js',                        # #193, Luise Borek
-}
-
-
-def collect_code_counts() -> dict:
-    """Code-abgeleitete Counts (Carearbeit-Lehre 2026-07-13: Drift-Klasse
-    Nr. 1 sind Werkzeug-/Entry-Point-Zahlen, nicht Datenzahlen).
-
-    Ableitungen folgen den Doku-Konventionen:
-    - TEI-Werkzeuge = Module in playground/js/ui/tei/ minus NON_TOOL_MODULES
-      minus CURATED_DATASET_MODULES (multi-lemma-search.js zaehlt als
-      Werkzeug Nr. 1). Die kuratierten Fremddatensaetze stehen daneben als
-      eigener Count, siehe die Begruendung an CURATED_DATASET_MODULES.
-    - Kuratierte Forschungsdatensaetze = CURATED_DATASET_MODULES
-    - Pattern-Module (DESIGN.md) = alle Module minus NON_TOOL_MODULES (Router
-      und geteilte Helfer) minus MODAL_MODULES. Hier zaehlen die kuratierten
-      Datensaetze MIT, weil die Frage eine andere ist: sie folgen dem
-      DESIGN-Pattern sehr wohl.
-    - Authority-Explorer = die sechs show*Btn-Buttons der Authority-Sidebar
-    - Entry Points = Explorer + Werkzeuge + kuratierte Datensaetze, also
-      alles, was in der Sidebar anklickbar ist
-    - UI-Module = alle .js unter playground/js/ui/ (Gesamtzahl des
-      Modulbaums in ARCHITECTURE.md §UI Layer, #276)"""
-    counts = {}
-    counts['ui_modules'] = len(glob.glob('playground/js/ui/**/*.js', recursive=True))
-    module_names = {Path(m).name for m in glob.glob('playground/js/ui/tei/*.js')}
-    known = NON_TOOL_MODULES | MODAL_MODULES | CURATED_DATASET_MODULES
-    missing = known - module_names
-    if missing:
-        sys.exit(f'FEHLER: Ausnahme-Mengen nennen nicht existierende Module: {sorted(missing)} '
-                 f'— NON_TOOL_MODULES/MODAL_MODULES/CURATED_DATASET_MODULES pflegen.')
-    non_tools = module_names - NON_TOOL_MODULES
-    counts['tei_tools'] = len(non_tools - CURATED_DATASET_MODULES)
-    counts['curated_datasets'] = len(CURATED_DATASET_MODULES)
-    counts['pattern_modules'] = len(non_tools - MODAL_MODULES)
-    html = Path('playground/index.html').read_text(encoding='utf-8')
-    counts['authority_explorers'] = len(re.findall(
-        r'id="show(?:Authors|Works|Lemmata|Concepts|Genres|Names)Btn"', html))
-    counts['entry_points'] = (counts['authority_explorers'] + counts['tei_tools']
-                              + counts['curated_datasets'])
-    return counts
 
 
 # (label, key, formatted-as-found-in-docs)
@@ -295,14 +207,15 @@ DOC_TARGETS = [
     # A4-Runde 1).
     ('docs/DESIGN.md', ['lexicon_entries']),
     ('docs/FEATURES.md', ['lexicon_entries']),
-    # CONTRACTS.md:315 beschreibt den Ist-Aufbau des Variants-Dictionary; der
+    # CONTRACTS.md beschreibt den Ist-Aufbau des Variants-Dictionary; ein
     # Datumsstempel dort macht die Zeile nicht historisch.
-    # lexicon_entries seit 2026-09-24: Zeile 394 nennt die Lexikongroesse als
+    # lexicon_entries seit 2026-09-24: die Datei nennt die Lexikongroesse als
     # Nenner der Homographen-Messung (Review der Anker-Runde).
     ('docs/CONTRACTS.md', ['variants_forms', 'variants_normalized', 'lexicon_entries']),
     # ARCHITECTURE.md und DECISIONS.md standen bis 2026-07-31 in KEINER
     # Datenzahl-Liste (#276, Luecke 1): ARCHITECTURE.md nur in
-    # CODE_DOC_TARGETS, DECISIONS.md ueberhaupt nirgends. Dadurch konnte in
+    # der inzwischen entfallenen Liste der Code-Zahlen, DECISIONS.md
+    # ueberhaupt nirgends. Dadurch konnte in
     # ARCHITECTURE.md "~257k mappings" stehenbleiben, waehrend das Runtime-
     # Dictionary 234.243 Eintraege hat. ARCHITECTURE.md beschreibt Stufe 2
     # der Lemma-Aufloesung und den Woerterbuch-Registeraufbau, DECISIONS.md
@@ -310,14 +223,12 @@ DOC_TARGETS = [
     ('docs/ARCHITECTURE.md', ['corpus_files', 'lexicon_entries',
                               'variants_forms', 'variants_normalized']),
     # Achtung ADR-Eigenart: ADRs nennen bewusst historische Zahlen
-    # ("On the day of the decision ... 13 modules", "192,472 -> 256,759
-    # variant forms"). Stumm bleiben die aus drei verschiedenen Gruenden,
-    # nicht aus einem: "256,759 variant forms" haelt der Pfeil-Skip in
-    # find_stale_numbers, "13 modules" der HISTORICAL_MARKERS-Skip in
-    # find_stale_wordcounts, "64,287 variant forms" allein die Fenster-
+    # ("192,472 -> 256,759 variant forms"). Stumm bleiben die aus zwei
+    # verschiedenen Gruenden: "256,759 variant forms" haelt der Pfeil-Skip in
+    # find_stale_numbers, "64,287 variant forms" allein die Fenster-
     # Distanz zum Ist-Wert (der Fenster-Check laeuft vor dem Anker-Abgleich,
     # die Zahl faellt also raus, obwohl ihr Anker bindet; Probe: auf 250.000
-    # gesetzt wird sie gemeldet). Ohne die ersten beiden produziert dieses Target
+    # gesetzt wird sie gemeldet). Ohne den Pfeil-Skip produziert dieses Target
     # Dauer-Fehlalarme und wird abgeschaltet.
     ('docs/DECISIONS.md', ['corpus_files', 'lexicon_entries',
                            'variants_forms', 'variants_normalized']),
@@ -363,137 +274,14 @@ DOC_TARGETS = [
     # hilfe-daten.html. Die drei Seiten darunter tragen die Lemma-Zahl
     # ebenfalls, waren dafuer aber blind, und #363 hat genau das vorgefuehrt:
     # der Sweep zog in playground/index.html die eine gegatete Zahl nach
-    # (234.243 in Zeile 477) und liess die ungegatete 369 Zeilen darueber
-    # stehen (43.879 in Zeile 108). Gefunden hat es der Review-Bot, nicht der
+    # (234.243 weiter unten auf der Seite) und liess die ungegatete 43.879
+    # weiter oben stehen. Gefunden hat es der Review-Bot, nicht der
     # Gate. Dieselbe Falle wie bei index.html 2026-07-28, eine Zeile darueber.
     ('hilfe-korpussuche.html', ['lexicon_entries', 'variants_normalized']),
     ('hilfe-playground.html', ['lexicon_entries', 'variants_normalized']),
     ('hilfe-daten-beitragen.html', ['variants_forms']),
     ('playground/index.html', ['lexicon_entries', 'variants_normalized']),
 ]
-
-CODE_LABELS = [
-    ('Playground — UI-Module gesamt (js/ui/)', 'ui_modules'),
-    ('Playground — TEI-Analyse-Werkzeuge', 'tei_tools'),
-    ('Playground — kuratierte Forschungsdatensaetze', 'curated_datasets'),
-    ('Playground — Pattern-Module (DESIGN)', 'pattern_modules'),
-    ('Playground — Authority-Explorer', 'authority_explorers'),
-    ('Playground — Search Entry Points', 'entry_points'),
-]
-
-# Kleine, code-abgeleitete Counts stehen in den Docs meist als Zahlwort
-# ("zwoelf TEI-Analysewerkzeuge", "Twelve analysis tools") oder kleine
-# Ziffer ("all 18 entry points") — der numerische Scan oben greift dafuer
-# nicht (Untergrenze 100). Eigener Wortzahl-Scan mit engen Ankern.
-CODE_DOC_TARGETS = [
-    # curated_datasets war seit #392 berechnet, stand in CODE_LABELS und in
-    # CODE_ANCHORS und war an keine einzige Datei gebunden. Damit lief weder
-    # find_stale_wordcounts noch check_anchor_coverage je darueber, der Anker
-    # war tote Konfiguration, und die Meldung "keine Ankerluecke" stimmte nur
-    # deshalb, weil das Paar gar nicht konfiguriert war (CI-Review-Bot auf
-    # PR #396, 02.09.2026). Gebunden an die drei Dateien, die die Zahl
-    # tatsaechlich fuehren.
-    ('README.md', ['tei_tools', 'authority_explorers', 'entry_points',
-                   'curated_datasets']),
-    ('docs/INDEX.md', ['tei_tools', 'entry_points']),
-    ('docs/FEATURES.md', ['tei_tools', 'entry_points', 'curated_datasets']),
-    ('docs/ARCHITECTURE.md', ['tei_tools', 'pattern_modules', 'entry_points',
-                              'ui_modules']),
-    ('docs/DESIGN.md', ['pattern_modules']),
-    # #276 Luecke 1: DECISIONS.md wurde von keinem der beiden Scans beruehrt.
-    # ADR-002 haelt die Modulzahl (historisch markiert, siehe oben).
-    ('docs/DECISIONS.md', ['ui_modules']),
-    ('hilfe-playground.html', ['tei_tools', 'authority_explorers']),
-    # playground/readme.md mit #356. Die Datei fuehrte bis dahin genau EINES
-    # der zwoelf TEI-Werkzeuge auf und nannte an dritter Stelle "11 search
-    # types"; der Katalog ist jetzt ein Verweis auf FEATURES.md, die beiden
-    # Summen bleiben und werden deshalb hier gebunden.
-    # ui_modules mit #396: die Datei nannte 23 Module, gemessen 24 seit
-    # #193 horses-explorer.js dazugekommen ist, und war als einzige
-    # Datei mit dieser Zahl nicht gebunden. Der Anker greift hier ohne
-    # Umweg: '24 Module' ist zweistellig, steht unmittelbar hinter der
-    # Zahl, und kein Skip faengt die Zeile ab.
-    ('playground/readme.md', ['tei_tools', 'authority_explorers',
-                              'curated_datasets', 'ui_modules']),
-]
-
-NUMBER_WORDS = {
-    'fuenf': 5, 'fünf': 5, 'sechs': 6, 'sieben': 7, 'acht': 8, 'neun': 9,
-    'zehn': 10, 'elf': 11, 'zwoelf': 12, 'zwölf': 12, 'dreizehn': 13,
-    'vierzehn': 14, 'fuenfzehn': 15, 'fünfzehn': 15, 'sechzehn': 16,
-    'siebzehn': 17, 'achtzehn': 18, 'neunzehn': 19, 'zwanzig': 20,
-    'five': 5, 'six': 6, 'seven': 7, 'eight': 8, 'nine': 9, 'ten': 10,
-    'eleven': 11, 'twelve': 12, 'thirteen': 13, 'fourteen': 14,
-    'fifteen': 15, 'sixteen': 16, 'seventeen': 17, 'eighteen': 18,
-    'nineteen': 19, 'twenty': 20,
-}
-
-CODE_ANCHORS = {
-    # 'Korpusanalysen' mit #410: die Abfragespalte des Playgrounds heisst seit
-    # dem Umbau nicht mehr "TEI-Textanalyse", und mit dem alten Namen
-    # verschwand in README.md und hilfe-playground.html die Bindung der Zahl.
-    # Drei Anker-Paare standen danach auf [no-hit], ohne dass etwas rot wurde:
-    # ein Gate, das seinen Gegenstand verliert, meldet das nicht von selbst.
-    'tei_tools': r'(?:TEI-Analyse-?[Ww]erkzeuge|TEI-Analysewerkzeuge|(?:TEI[- ])?analysis tools|Analyse-Werkzeuge|Korpusanalysen|Werkzeuge)',
-    # 'research' muss mit: playground/readme.md schreibt 'two curated
-    # research datasets', und ohne diese Alternative war der Anker dort
-    # blind, sobald die Bindung oben ihn ueberhaupt erst benutzte.
-    # Geklammert, und das ist nicht kosmetisch: ANCHOR_SEP wird dem
-    # Muster vorangestellt, und eine Alternation auf oberster Ebene
-    # ergibt (SEP + A) | B. Der zweite Zweig verlaere damit den
-    # Separator und muesste unmittelbar hinter der Zahl stehen, was
-    # '2 curated datasets' nie erfuellt. Dieser Anker war als einziger
-    # der sechs ungeklammert und fiel nicht auf, solange er an keine
-    # Datei gebunden war.
-    'curated_datasets': r'(?:kuratierte[nr]?\s+Forschungsdatens(?:ae|ä)tze|curated\s+(?:external\s+|research\s+)?datasets)',
-    # Beide Sprachen: die Docs stellen auf Englisch um (#316), DESIGN.md
-    # traegt den Count noch deutsch. Ohne die englische Variante ging die
-    # Bindung in ARCHITECTURE.md still verloren, als "die elf Analyse-Module"
-    # zu "The eleven analysis modules" wurde.
-    'pattern_modules': r'(?:Analyse-Module|analysis\s+modules)',
-    # #276 Luecke 2: die Gesamtzahl der Module unter playground/js/ui/ stand
-    # an drei Stellen in drei verschiedenen falschen Auspraegungen, ohne dass
-    # es dafuer ueberhaupt einen Count gab. Der Anker greift bewusst nur das
-    # blanke "Module(n)"/"modules" — qualifizierte Fuegungen wie
-    # "11 analysis modules" gehoeren zu pattern_modules und matchen hier
-    # nicht, weil der Anker unmittelbar hinter der Zahl stehen muss.
-    'ui_modules': r'(?:UI-)?[Mm]odule[ns]?\b',
-    # Englische Variante mit #356, aus demselben Grund wie bei
-    # 'pattern_modules': playground/readme.md ist englisch geschrieben und
-    # haette mit den deutschen Alternativen allein keine Bindung.
-    # 'Register und Indizes' ebenfalls mit #410, gleicher Grund wie bei
-    # tei_tools: der Block heisst in der Oberflaeche jetzt so, und die Docs
-    # ziehen nach. Die HTML-Schreibweise mit &amp; muss mit.
-    'authority_explorers': r'(?:Authority-File-(?:Explorer|Einstiegspunkte)|Authority-Explorer|[Aa]uthority(?:[- ][Ff]ile)?[- ][Ee]xplorers?|Register\s+(?:und|&(?:amp;)?)\s+Indizes)',
-    'entry_points': r'(?:[Ss]earch\s+)?[Ee]ntry\s+[Pp]oints',
-}
-
-# Zeilen im Modul-/Verzeichnisbaum zaehlen Unterverzeichnisse ("├── core/
-# # Core utilities (3 modules)"), nie die Gesamtzahl. Ohne diesen Skip
-# meldet der ui_modules-Anker jede Baumzeile als Drift.
-# Nebenwirkung, bewusst in Kauf genommen: die Baumzeile fuer tei/ in
-# ARCHITECTURE.md wird damit auch fuer pattern_modules nicht mehr geprueft.
-# Dieselbe Angabe steht im Fliesstext darunter, Drift bleibt dort sichtbar.
-# Hier stand bis 2026-09-18 der Wortlaut beider Stellen ("13 files: router +
-# modal + 11 analysis modules", "The eleven analysis modules"); er war zwei
-# Staende alt, weil #193 und #204 je eine Datei hinzugefuegt haben. Ein
-# Zitat altert mit seinem Gegenstand, und kein Gate sieht das, deshalb
-# steht hier jetzt keiner mehr.
-TREE_LINE_RE = re.compile(r'^\s*[│├└]')
-
-# ADRs und Retrospektiven nennen bewusst den Stand von damals. Der
-# Chronikzeilen-Skip (Datum, Haekchen) greift dort nicht, weil ADR-Fliesstext
-# das Datum in der Ueberschrift traegt, nicht in der Zeile. Marker auf der
-# ganzen Zeile, analog zum hist_ctx-Skip in find_stale_numbers.
-# Zweisprachig seit #316: die englischen Marker sind die woertlichen
-# Entsprechungen der deutschen daneben, keine neue Klasse. Ohne sie meldete
-# das Audit die bewusst historischen ADR-002-Zahlen ("13 modules") als Drift,
-# sobald der Absatz uebersetzt war.
-HISTORICAL_MARKERS = re.compile(
-    r'Tag der Entscheidung|Entscheidungszeitpunkt|damals|seinerzeit|seither'
-    r'|historisch|urspr(?:ü|ue)nglich|zum Zeitpunkt|Stand von|at the time'
-    r'|day of the decision|since then|historical(?:ly)?|originally')
-
 
 # Was zwischen Zahl und Anker stehen darf: Whitespace-Laeufe, begrenzte
 # HTML-Tags (Stat-Karten haben Zahl und Label in getrennten <p>) und
@@ -513,8 +301,8 @@ NEAR_KEYWORDS = {
     # (±2 %) und der Rundungs-/Arrow-Skip False Positives abfangen.
     # Mit #342 nachgetragen: "TEI-codierte Texte" (das alte Muster verlangte
     # "TEI" direkt vor "Texte") und "[Cc]orpus", das gar nicht vorkam. Beide
-    # Formen stehen im Bestand unmittelbar hinter der 667, README.md Zeile 21
-    # und ROADMAP.md Zeile 118; die Selbstpruefung meldete die zwei Dateien
+    # Formen stehen im Bestand unmittelbar hinter der 667, README.md (Korpus-Inhalt)
+    # und ROADMAP.md; die Selbstpruefung meldete die zwei Dateien
     # deshalb als ungeprueft, obwohl sie die Zahl fuehren.
     'corpus_files': r'(?:TEI(?:-XML)?[-\s](?:files?|Dateien|Texte)|TEI-[a-zäöüß]+e\s+Texte|Korpus(?:-?[Dd]ateien)?|(?:mittelhochdeutsche\s+)?TEI-Texte|[Cc]orpus\b|Dateien|[Ff]iles)',
     # Kleinschreibung, weil ARCHITECTURE.md die Zahl als "43,879 `lemmata`
@@ -525,8 +313,8 @@ NEAR_KEYWORDS = {
     # nicht als Bequemlichkeit: ohne sie sind zwei der drei an diesem Tag
     # ergaenzten DOC_TARGETS-Bindungen wirkungslos, weil der Anker unmittelbar
     # hinter der Zahl ansetzen muss und ANCHOR_SEP keinen Wortbestandteil
-    # zulaesst. playground/index.html:108 schreibt "43.878 Lexikoneintraege",
-    # hilfe-korpussuche.html:419 "43.878 Lemma-Seiten"; beide beginnen nicht
+    # zulaesst. playground/index.html schreibt "43.878 Lexikoneintraege",
+    # hilfe-korpussuche.html "43.878 Lemma-Seiten"; beide beginnen nicht
     # mit "Lemmata". Alle drei tragen im Drift-Scan, je mit Mutationsprobe
     # geprueft (Zahl auf 43.879 zurueckgesetzt, Gate rot mit Fundstelle, nach
     # Ruecknahme gruen).
@@ -590,7 +378,7 @@ NEAR_KEYWORDS = {
     # Alternative blieb die Stelle jahrelang ungeprueft.
     # "variant mappings" ist die englische Entsprechung von
     # "Varianten-Schluessel": beim Umstellen von CONTRACTS.md auf Englisch
-    # (#316) verlor CONTRACTS.md Zeile 90 sonst ihre einzige Bindung, weil
+    # (#316) verlor eine Zeile in CONTRACTS.md sonst ihre einzige Bindung, weil
     # ANCHOR_SEP zwischen Zahl und Anker kein Wort zulaesst und "[Mm]appings"
     # damit erst hinter "variant" beginnt.
     'variants_normalized': r'(?:[Nn]ormalisierte\w*\s+(?:Schreibvarianten|Varianten)|[Ee]indeutige\s+Zuordnungen|[Nn]ormalized\s+entries|[Vv]arianten-Schl[üu]ssel|[Vv]ariant\s+mappings|[Mm]appings)',
@@ -617,58 +405,6 @@ NEAR_KEYWORDS = {
     # machen die Alternative kollisionsfrei zu 'persons'.
     'contributors_persons': r'(?:Personen|[Pp]ersons|MHDBDB-Mitwirkende)',
 }
-
-
-def find_stale_wordcounts(doc_path: str, current: int, key: str) -> list:
-    """Zahlwort- und Kleinziffern-Drift fuer code-abgeleitete Counts.
-
-    Gleiche Anker-Idee wie find_stale_numbers (Keyword direkt hinter der
-    Zahl, begrenzt Markup dazwischen), aber: Zahlwoerter statt grosser
-    Ziffern, KEIN Drift-Fenster (jede Abweichung vom Ist-Wert zaehlt),
-    und ein Skip fuer datierte Chronik-Zeilen (Milestones/Changelogs mit
-    "(20YY-" oder Haekchen-Marker), deren Zahlen bewusst historisch sind.
-    Ordinale ("Zehntes Werkzeug") matchen dank \\b-Grenzen nicht."""
-    if not Path(doc_path).exists():
-        return []
-    keywords = CODE_ANCHORS.get(key)
-    if not keywords:
-        return []
-    anchor = re.compile(ANCHOR_SEP + keywords)
-    words = '|'.join(sorted(NUMBER_WORDS, key=len, reverse=True))
-    num_re = re.compile(rf'\b((?i:{words})|\d{{1,2}})\b')
-    content = Path(doc_path).read_text(encoding='utf-8')
-
-    findings = []
-    for m in num_re.finditer(content):
-        raw = m.group(1)
-        num = NUMBER_WORDS.get(raw.lower(), None)
-        if num is None:
-            try:
-                num = int(raw)
-            except ValueError:
-                continue
-        if num == current:
-            continue
-        if not anchor.match(content[m.end():m.end() + 300]):
-            continue
-        # Datierte Chronik-Zeilen (INDEX-Milestones, ROADMAP-Log) sind
-        # bewusst historisch: "damit 8 TEI-Analyse-Werkzeuge (2026-05-15)".
-        line_start = content.rfind('\n', 0, m.start()) + 1
-        line_end = content.find('\n', m.end())
-        line = content[line_start:line_end if line_end != -1 else len(content)]
-        if re.search(r'\(20\d\d-|✅|✓', line):
-            continue
-        # Modulbaum-Zeilen zaehlen Unterverzeichnisse, nicht Gesamtzahlen
-        # ("├── authority/  # Authority file exploration (7 modules)").
-        if TREE_LINE_RE.match(line):
-            continue
-        # ADR-Fliesstext mit explizitem Damals-Marker (#276).
-        if HISTORICAL_MARKERS.search(line):
-            continue
-        line_no = content[:m.start()].count('\n') + 1
-        ctx = content[max(0, m.start() - 25):m.end() + 40].replace('\n', ' ').strip()
-        findings.append((line_no, raw, ctx[:80]))
-    return findings
 
 
 def find_stale_numbers(doc_path: str, current: int, key: str) -> list:
@@ -773,35 +509,31 @@ def find_stale_numbers(doc_path: str, current: int, key: str) -> list:
     return findings
 
 
-def number_pattern_for(key: str, numeric: bool) -> re.Pattern:
-    """Das Zahlmuster, mit dem der jeweilige Scan im Dokument sucht.
+def number_pattern_for(key: str) -> re.Pattern:
+    """Das Zahlmuster, mit dem der Scan im Dokument sucht.
 
-    Wortgleich zu den beiden Scans, damit die Selbstpruefung unten nicht
-    grosszuegiger wird als das, was sie zusichert: find_stale_numbers sucht
-    grosse Ziffern mit Tausendertrennung, find_stale_wordcounts Zahlwoerter
-    und zweistellige Ziffern.
+    Wortgleich zu find_stale_numbers, damit die Selbstpruefung unten nicht
+    grosszuegiger wird als das, was sie zusichert: grosse Ziffern mit
+    Tausendertrennung.
     """
-    if numeric:
-        min_digits = 2 if scan_min_for(key) < 100 else 3
-        return re.compile(rf'\b(\d{{1,3}}(?:[.,]\d{{3}})+|\d{{{min_digits},7}})\b')
-    words = '|'.join(sorted(NUMBER_WORDS, key=len, reverse=True))
-    return re.compile(rf'\b((?i:{words})|\d{{1,2}})\b')
+    min_digits = 2 if scan_min_for(key) < 100 else 3
+    return re.compile(rf'\b(\d{{1,3}}(?:[.,]\d{{3}})+|\d{{{min_digits},7}})\b')
 
 
 def anchor_binds_number(content: str, pattern: str, num_re: re.Pattern) -> bool:
     """Steht im Dokument irgendwo eine Zahl unmittelbar vor dem Anker?
 
     Die Selbstpruefung fragte bis #342 nur, ob das Anker-Wort ueberhaupt
-    vorkommt. Beide Scans verlangen aber mehr: die Zahl muss direkt davor
+    vorkommt. Der Scan verlangt aber mehr: die Zahl muss direkt davor
     stehen, ANCHOR_SEP laesst dazwischen nur Whitespace und etwas Markup zu.
-    Kommt das Wort nur in Prosa vor ("and the TEI analysis tools, from ..."),
+    Kommt das Wort nur im Fliesstext vor, nie hinter einer Zahl,
     laeuft der Scan ins Leere, waehrend die Selbstpruefung Abdeckung meldet.
-    Gemessen betraf das acht Paare: zwei liessen sich beheben, weil der Anker
-    die im Bestand verwendete Formulierung nicht kannte, sechs stehen seither
-    begruendet in INTENTIONALLY_SILENT (#342).
+    Gemessen betraf das mit #342 acht Paare: zwei liessen sich beheben, weil
+    der Anker die im Bestand verwendete Formulierung nicht kannte, die uebrigen
+    wurden begruendet in INTENTIONALLY_SILENT eingetragen.
 
-    Die Skip-Regeln der Scans (z. B. datierte Chronik-Zeilen, Modulbaum-Zeilen,
-    Rundungs- und Pfeil-Praefixe, das Drift-Fenster selbst) sind hier bewusst
+    Die Skip-Regeln des Scans (z. B. Rundungs- und Pfeil-Praefixe,
+    historische Kontexte, das Drift-Fenster selbst) sind hier bewusst
     NICHT nachgebildet. Sie nehmen einzelne
     Fundstellen aus, nicht die Pruefbarkeit der Stelle an sich: eine
     Datei, in der die Zahl nur in einer Chronik-Zeile steht, wuerde sonst als
@@ -813,23 +545,23 @@ def anchor_binds_number(content: str, pattern: str, num_re: re.Pattern) -> bool:
                for m in num_re.finditer(content))
 
 
-def check_anchor_coverage(counts: dict, code_counts: dict) -> list:
+def check_anchor_coverage(counts: dict) -> list:
     """Selbstpruefung: welches konfigurierte (Datei, Key)-Paar prueft nichts?
 
     Hintergrund (#276 Luecke 4): docs/ARCHITECTURE.md stand mit drei Keys in
-    CODE_DOC_TARGETS, und keiner der drei Anker hatte einen einzigen Treffer
+    einer Target-Liste, und keiner der drei Anker hatte einen einzigen Treffer
     in der Datei. Das Target war sauber konfiguriert, das Audit meldete gruen,
     und geprueft wurde nichts. Das ist kein Fehler — eine Datei darf ueber
     einen Count schweigen — aber es darf nicht unsichtbar bleiben, sonst
     zaehlt man Targets und haelt sie fuer Abdeckung.
 
     Nachtrag #342: die Pruefung hatte selbst denselben blinden Fleck. Sie
-    fragte nur, ob das Anker-Wort im Dokument vorkommt, waehrend beide Scans
-    eine Zahl unmittelbar davor verlangen. Ein Anker in reiner Prosa erfuellte
+    fragte nur, ob das Anker-Wort im Dokument vorkommt, waehrend der Scan
+    eine Zahl unmittelbar davor verlangt. Ein Anker in reiner Prosa erfuellte
     also die Selbstpruefung, ohne dass der Scan je haette anschlagen koennen.
-    Betroffen waren acht Paare. Zwei davon liessen sich beheben, indem der
-    corpus_files-Anker die real verwendeten Formulierungen lernte; die
-    restlichen sechs stehen jetzt begruendet in INTENTIONALLY_SILENT.
+    Betroffen waren damals acht Paare. Zwei davon liessen sich beheben, indem
+    der corpus_files-Anker die real verwendeten Formulierungen lernte; die
+    uebrigen wurden begruendet in INTENTIONALLY_SILENT eingetragen.
 
     Gemeldet werden sechs Zustaende:
       missing-file  Pfad existiert nicht (Umbenennung, Tippfehler)
@@ -846,51 +578,48 @@ def check_anchor_coverage(counts: dict, code_counts: dict) -> list:
                     der Eintrag gehoert entfernt
     """
     gaps = []
-    scans = [(DOC_TARGETS, NEAR_KEYWORDS, counts, True),
-             (CODE_DOC_TARGETS, CODE_ANCHORS, code_counts, False)]
-    for targets, anchors, values, numeric in scans:
-        for doc_path, keys in targets:
-            path = Path(doc_path)
-            if not path.exists():
-                for key in keys:
-                    gaps.append((doc_path, key, 'missing-file', ''))
-                continue
-            content = path.read_text(encoding='utf-8')
+    for doc_path, keys in DOC_TARGETS:
+        path = Path(doc_path)
+        if not path.exists():
             for key in keys:
-                pattern = anchors.get(key)
-                if not pattern:
-                    gaps.append((doc_path, key, 'no-anchor',
-                                 'kein Anker-Muster hinterlegt'))
-                    continue
-                if numeric and values[key] < scan_min_for(key):
-                    gaps.append((doc_path, key, 'below-min',
-                                 f'Ist-Wert {values[key]} < {scan_min_for(key)}'))
-                    continue
-                num_re = number_pattern_for(key, numeric)
-                if not anchor_binds_number(content, pattern, num_re):
-                    reason = INTENTIONALLY_SILENT.get((doc_path, key))
-                    # Zwei Wege in denselben Zustand, mit verschiedener
-                    # Behebung: fehlt das Wort ganz, gehoert der Count in die
-                    # Datei oder das Target weg. Steht es nur in Prosa, reicht
-                    # es, die Zahl an derselben Stelle zu nennen.
-                    diagnose = ('Anker kommt im Dokument nicht vor'
-                                if not re.search(pattern, content) else
-                                'Anker kommt nur in Prosa vor, nie hinter einer Zahl')
-                    gaps.append((doc_path, key,
-                                 'silent' if reason else 'no-hit',
-                                 reason or diagnose))
-                elif (doc_path, key) in INTENTIONALLY_SILENT:
-                    # Seit #342 heisst "trifft" hier: der Anker steht hinter
-                    # einer Zahl. Ein Eintrag wird also erst dann obsolet
-                    # gemeldet, wenn die Datei wirklich wieder zaehlt, und
-                    # nicht schon, wenn das Wort in einem Fliesstext auftaucht.
-                    # Der Anker trifft, der Eintrag behauptet das Gegenteil:
-                    # tote Config mit inzwischen falscher Begruendung. Ohne
-                    # diese Meldung altert INTENTIONALLY_SILENT genauso still
-                    # wie die Luecken, gegen die es gebaut wurde.
-                    gaps.append((doc_path, key, 'silent-obsolet',
-                                 'Anker trifft inzwischen, Eintrag aus '
-                                 'INTENTIONALLY_SILENT entfernen'))
+                gaps.append((doc_path, key, 'missing-file', ''))
+            continue
+        content = path.read_text(encoding='utf-8')
+        for key in keys:
+            pattern = NEAR_KEYWORDS.get(key)
+            if not pattern:
+                gaps.append((doc_path, key, 'no-anchor',
+                             'kein Anker-Muster hinterlegt'))
+                continue
+            if counts[key] < scan_min_for(key):
+                gaps.append((doc_path, key, 'below-min',
+                             f'Ist-Wert {counts[key]} < {scan_min_for(key)}'))
+                continue
+            num_re = number_pattern_for(key)
+            if not anchor_binds_number(content, pattern, num_re):
+                reason = INTENTIONALLY_SILENT.get((doc_path, key))
+                # Zwei Wege in denselben Zustand, mit verschiedener
+                # Behebung: fehlt das Wort ganz, gehoert der Count in die
+                # Datei oder das Target weg. Steht es nur in Prosa, reicht
+                # es, die Zahl an derselben Stelle zu nennen.
+                diagnose = ('Anker kommt im Dokument nicht vor'
+                            if not re.search(pattern, content) else
+                            'Anker kommt nur in Prosa vor, nie hinter einer Zahl')
+                gaps.append((doc_path, key,
+                             'silent' if reason else 'no-hit',
+                             reason or diagnose))
+            elif (doc_path, key) in INTENTIONALLY_SILENT:
+                # Seit #342 heisst "trifft" hier: der Anker steht hinter
+                # einer Zahl. Ein Eintrag wird also erst dann obsolet
+                # gemeldet, wenn die Datei wirklich wieder zaehlt, und
+                # nicht schon, wenn das Wort in einem Fliesstext auftaucht.
+                # Der Anker trifft, der Eintrag behauptet das Gegenteil:
+                # tote Config mit inzwischen falscher Begruendung. Ohne
+                # diese Meldung altert INTENTIONALLY_SILENT genauso still
+                # wie die Luecken, gegen die es gebaut wurde.
+                gaps.append((doc_path, key, 'silent-obsolet',
+                             'Anker trifft inzwischen, Eintrag aus '
+                             'INTENTIONALLY_SILENT entfernen'))
     return gaps
 
 
@@ -907,7 +636,6 @@ def main():
     os.chdir(Path(__file__).resolve().parents[2])
 
     counts = collect_counts()
-    code_counts = collect_code_counts()
 
     print('=== Current corpus + authority counts ===')
     print()
@@ -915,8 +643,6 @@ def main():
     print('|----------|----------------|')
     for label, key in LABELS:
         print(f'| {label} | {counts[key]:,} |')
-    for label, key in CODE_LABELS:
-        print(f'| {label} | {code_counts[key]} |')
     print()
 
     print('=== Doc drift scan ===')
@@ -935,22 +661,9 @@ def main():
                     print(f'    ... +{len(findings) - 5} more')
                 total_drift += len(findings)
 
-    for doc_path, keys in CODE_DOC_TARGETS:
-        for key in keys:
-            findings = find_stale_wordcounts(doc_path, code_counts[key], key)
-            if findings:
-                print(f'  {doc_path} — expected {code_counts[key]} for {key}:')
-                for line_no, raw, ctx in findings[:5]:
-                    print(f'    L{line_no}: "{raw}" near "{ctx}"')
-                if len(findings) > 5:
-                    print(f'    ... +{len(findings) - 5} more')
-                total_drift += len(findings)
-
     if total_drift == 0:
         print('  No drift detected against scanned docs + user-facing HTML pages')
-        print('  (data counts + code-derived playground counts).')
-        print('  NB: Zahlwort-Scan deckt Werkzeug-/Explorer-/Entry-Point-Claims ab;')
-        print('      datierte Chronik-Zeilen (Milestones/Changelogs) sind ausgenommen.')
+        print('  (data counts).')
     else:
         print()
         print(f'  Total potential drift hits: {total_drift}')
@@ -959,7 +672,7 @@ def main():
     print()
     print('=== Anker-Abdeckung (Selbstpruefung) ===')
     print()
-    gaps = check_anchor_coverage(counts, code_counts)
+    gaps = check_anchor_coverage(counts)
     # Bewusst stille Paare (#297) getrennt ausweisen: sie in dieselbe Zahl zu
     # werfen wie echte Luecken macht die Meldung zu Rauschen, das jeder Lauf
     # wiederholt und niemand mehr liest.

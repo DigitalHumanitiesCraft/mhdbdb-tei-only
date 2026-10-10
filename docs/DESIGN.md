@@ -158,7 +158,7 @@ Checkbox accent: `accent-color: #3b75d8`.
 
 ## Playground TEI-Analysis Module Pattern
 
-Twelve analysis modules under `playground/js/ui/tei/` share a consistent structure (the router `tei-ui.js`, the modal controller `multi-lemma-search.js` with its export helper `multi-lemma-export.js`, and the shared corpus-selection helper `corpus-scope.js` do not follow the pattern). Anyone adding a new analysis tool should follow it: modules that deviate for no visible reason make the playground feel inconsistent and break conventions the router and the sidebar buttons build on.
+The analysis modules under `playground/js/ui/tei/` share a consistent structure (the router `tei-ui.js`, the modal controller `multi-lemma-search.js` with its export helper `multi-lemma-export.js`, and the shared corpus-selection helper `corpus-scope.js` do not follow the pattern). Anyone adding a new analysis tool should follow it: modules that deviate for no visible reason make the playground feel inconsistent and break conventions the router and the sidebar buttons build on.
 
 **Canonical examples:** `lemma-distribution.js` (#90), `verse-position-search.js` (#47.3), `concept-distribution.js` (#47 R2 + #113 autocomplete), `text-comparison.js` (#108), `cooccurrence-ranking.js` (#107), `rhyme-dictionary.js` (#106), `naming-explorer.js` (#59, deviation: its own lazily fetched index `data/naming-index.json.gz` instead of a corpus thunk).
 
@@ -435,7 +435,7 @@ input.addEventListener('blur', () => setTimeout(() => this.closeAutocomplete(), 
 
 ARIA: `role="combobox" + aria-controls + aria-expanded` on the input, `role="listbox"` on the dropdown, `role="option" + aria-selected` on the buttons. Scroll the active item into view on arrow navigation (`activeEl.scrollIntoView({block: 'nearest'})`). Reuse `resolveQuery()` as the suggestion source: no second resolver path.
 
-The pattern is implemented in five modules (four as of 2026-05-16, the fifth since #106): `concept-distribution.js` (#113, the original), `lemma-distribution.js`, `verse-position-search.js`, `cooccurrence-ranking.js` (all three ported on 2026-05-16; since #106 also `rhyme-dictionary.js`). If further modules gain a lemma or concept input: copy it and adjust the ids (`xxQuery`/`xxAutocomplete`/`data-xx-ac-idx`).
+The pattern is implemented in `concept-distribution.js` (#113, the original), `lemma-distribution.js`, `verse-position-search.js`, `cooccurrence-ranking.js` (all three ported on 2026-05-16) and, since #106, `rhyme-dictionary.js`. If further modules gain a lemma or concept input: copy it and adjust the ids (`xxQuery`/`xxAutocomplete`/`data-xx-ac-idx`).
 
 **Passing the selection through (#163):** the dropdown selection must not only set `input.value` (a string): with homographs (three lemmata „rôt") `resolveQuery()` would resolve that string back to the wrong lemma. Rule: a selection (Enter on an active item, mousedown) additionally sets `this.state.selectedLemma = c` (or `selectedConcept`); the `input` handler resets it to `null` on manual typing; `runSearch()` prefers `selectedLemma` as long as the query text still matches the chosen form. Default resolution without an explicit selection: `searchLemmaByOrthography()` returns stage-1 homographs sorted by frequency (corpus frequency descending), so `matches[0]` is the most plausible lemma.
 

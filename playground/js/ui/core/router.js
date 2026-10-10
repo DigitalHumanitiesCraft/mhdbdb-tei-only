@@ -65,9 +65,9 @@ const ROUTES = {
  * Routen, deren Module beim Rendern den Korpus-Index brauchen (#535). Der
  * Router startet seit #535 schon nach dem Authority-Index; eine dieser Routen
  * wartet dann auf `window.playground.corpusReady`, alle anderen rendern sofort.
- * Gemessen am Code (08.10.2026): die Multi-Lemma-Suche und die zehn
+ * Gemessen am Code (08.10.2026): die Multi-Lemma-Suche und die
  * TEI-Werkzeuge lesen den Korpus ueber corpusData bzw. die Thunks in
- * playground-main.js; die sechs Register lesen nur authorityData, naming und
+ * playground-main.js; die Register lesen nur authorityData, naming und
  * horses laden eigene Dateien (naming-index.json.gz, horses-index.json.gz).
  * Eine neue Route, die den Korpus braucht, gehoert hier hinein, sonst rendert
  * sie vor dem Laden gegen eine leere Textliste.

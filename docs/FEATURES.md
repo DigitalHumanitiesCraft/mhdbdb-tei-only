@@ -140,7 +140,7 @@ The playground provides advanced research tools for medievalists and digital hum
 
 ### Authority File Exploration
 
-Browse and search six controlled vocabularies with consistent interface patterns.
+Browse and search the controlled vocabularies with consistent interface patterns.
 
 **IDs as input (#545):** every search field below also takes the entry's id, in the forms `concept_12040000`, `12040000`, `#concept_12040000` or `concepts.xml#concept_12040000`, so the suggestions of the Begriffshilfe (which names concepts by id) can be looked up directly. The id hit is added on top of the text hits rather than replacing them, and an id with another register's prefix finds nothing. Shared helper: `assets/js/lib/authority-id-input.js`. The concept distribution takes the same forms.
 
@@ -203,17 +203,17 @@ Browse and search six controlled vocabularies with consistent interface patterns
 
 ### TEI Text Analysis
 
-Corpus-wide text analysis using pre-built indexes. Eleven analysis tools in eleven playground entries (multi-lemma offers document, proximity and verse mode in one entry), all of them in place in the results panel as form plus body (except multi-lemma, which is a modal). The two curated external datasets described at the end of this section, character naming (#59) and arthurian horses (#193), are counted separately: with #194 they moved into a group of their own, "Experimentelle Forschungsdaten".
+Corpus-wide text analysis using pre-built indexes. The analysis tools have playground entries of their own (multi-lemma offers document, proximity and verse mode in one entry), all of them in place in the results panel as form plus body (except multi-lemma, which is a modal). The curated external datasets described at the end of this section, character naming (#59) and arthurian horses (#193), are listed separately: with #194 they moved into a group of their own, "Experimentelle Forschungsdaten".
 
-**Which tools the corpus selection governs (#204).** The text selection in the Corpus Browser (Step 1) is the analysis basis for eight of the eleven tools: multi-lemma search plus co-occurrence ranking, verse-position search, concept distribution, lemma distribution, word frequency, text statistics, verse-ending profile. Three tools stand apart, each for a stated reason, and each says so in its own header:
+**Which tools the corpus selection governs (#204).** The text selection in the Corpus Browser (Step 1) is the analysis basis for these tools: multi-lemma search plus co-occurrence ranking, verse-position search, concept distribution, lemma distribution, word frequency, text statistics, verse-ending profile. Some tools stand apart, each for a stated reason, and each says so in its own header:
 
 - **Hapax legomena** stays corpus-wide. Whether a lemma occurs exactly once can only be established against the whole corpus, so a selection would change the definition rather than the scope. "Beitrag pro Text" shows which text contributes which rarities.
 - **Text comparison** picks its two texts itself; the Step 1 selection does not narrow its dropdowns.
 - **Rhyme dictionary** has its own text filter field and stays corpus-wide through the thunk. Filtering twice, once visibly and once not, is the very confusion #204 is about. Instead, when Step 1 holds exactly one text, its sigle is written into that visible field, where it can be read and deleted. An exact sigle there beats title and author substrings, so `CR` means Moriz von Craûn and not additionally Diu Crone.
 
-**Selection changes while a tool is open (#442).** The eight selection-dependent tools show a warning above their panel when the selected text IDs change. The existing result stays visible until the user chooses "Neu berechnen"; changing checkboxes does not launch an analysis. Recalculation preserves the tool's search parameters. Restoring the original selection removes the warning, as does navigating to another tool. A selection change during an asynchronous calculation also leaves the warning visible. A tool holding no result shows no warning: the four panel tools with a search field (lemma distribution, verse position, concept distribution, cooccurrence ranking) display an empty form until a search has run, and a warning over an empty form would claim a result that was never computed; the same holds after a search that found no lemma or concept. The null finding counts as a result and is stamped, because "no occurrences in the selected texts" is a statement about that selection. So is "Kein Text ausgewählt": checking a text again brings back the warning and "Neu berechnen".
+**Selection changes while a tool is open (#442).** The selection-dependent tools show a warning above their panel when the selected text IDs change. The existing result stays visible until the user chooses "Neu berechnen"; changing checkboxes does not launch an analysis. Recalculation preserves the tool's search parameters. Restoring the original selection removes the warning, as does navigating to another tool. A selection change during an asynchronous calculation also leaves the warning visible. A tool holding no result shows no warning: the panel tools with a search field (lemma distribution, verse position, concept distribution, cooccurrence ranking) display an empty form until a search has run, and a warning over an empty form would claim a result that was never computed; the same holds after a search that found no lemma or concept. The null finding counts as a result and is stamped, because "no occurrences in the selected texts" is a statement about that selection. So is "Kein Text ausgewählt": checking a text again brings back the warning and "Neu berechnen".
 
-Until 2026-09 only the multi-lemma search read the selection at all; the other ten always received all texts while the counter next to them read "1 / 667 Texte aktiv". The split now runs through two thunks in `playground-main.js` (`selectedTextsThunk` and `corpusTextsThunk`), and an empty selection is reported as such instead of as a loading state (`ui/tei/corpus-scope.js`).
+Until 2026-09 only the multi-lemma search read the selection at all; the other tools always received all texts while the counter next to them read "1 / 667 Texte aktiv". The split now runs through two thunks in `playground-main.js` (`selectedTextsThunk` and `corpusTextsThunk`), and an empty selection is reported as such instead of as a loading state (`ui/tei/corpus-scope.js`).
 
 **Multi-Lemma Document Search:**
 - Input multiple lemmata (space-separated or one per line)
@@ -371,7 +371,7 @@ All playground views are bookmarkable and shareable via hash-based URLs.
 
 ### Search Normalization
 
-Consistent search behavior across all 19 entry points via Middle High German character normalization (measured 2026-09-02: 6 authority explorers, 11 analysis tools, 2 curated datasets).
+Consistent search behavior across the authority explorers, the analysis tools and the curated datasets via Middle High German character normalization.
 
 **Normalization rules:**
 - Long vowels: â→a, ê→e, î→i, ô→o, û→u
