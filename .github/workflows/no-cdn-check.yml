@@ -119,7 +119,7 @@ jobs:
           # NUL-getrennt (-z): ohne den Schalter quotet git Pfade mit
           # Nicht-ASCII ("Zus\303\244tzlich.html"), [ -e ] findet sie nicht,
           # und die Ausschlussmuster treffen "tei/\303\204.tei.xml" nicht mehr.
-          # Heute gibt es keinen solchen Pfad im Baum, in der History ueber 20.
+          # Heute gibt es keinen solchen Pfad im Baum.
           git ls-tree -r -z --name-only HEAD \
             | grep -z -v -E '^(tei/[^/]+\.tei\.xml|data/[^/]+\.json\.gz)$' > "$RUNNER_TEMP/soll.bin" || true
           soll=$(tr -cd '\0' < "$RUNNER_TEMP/soll.bin" | wc -c)
