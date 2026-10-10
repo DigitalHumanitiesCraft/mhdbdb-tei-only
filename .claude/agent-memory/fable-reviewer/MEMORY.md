@@ -5,7 +5,7 @@ Verdichtet am 08.10. und 10.10.2026. Zahlen in den Dateien sind Eingabe, keine M
 - [Umgebung](querschnitt_umgebung.md): Worktree-Guard, Classifier, Windows, GitHub ohne gh, Cloud-Session
 - [Git-Rezepte](querschnitt_git.md): Altstand, Basis, range-diff, Herkunft, Squash und Stack, EOL-Probeklon
 - [Messrezepte](querschnitt_messen.md): importlib in-process, Mutationsproben, Rebuild-and-Compare, Zählfallen
-- [Tests](querschnitt_tests.md): run-tests.js, Port, report.json, Playwright-Probe, Tailwind, warmer Worker-Context
+- [Tests](querschnitt_tests.md): run-tests.js, Port, report.json, Playwright-Probe, Tailwind, warmer Worker-Context, networkidle/beforeAll-Fallen
 - [Review-Denkfallen](querschnitt_review_fallen.md): #397-Frage, Gates, Auftrag und Laufplan prüfen, Fehlerjournal-Ketten
 - [Gates und CI](gates_und_ci.md): was jedes Gate nicht prüft, Begriffshilfe-Generator, Review-Bot, main-Schutz
 - [TEI-Korpus](korpus_tei.md): Korpus-Index, pc/caesura, Vers/Prosa, WZB, Header, Findebuch-Dump #259

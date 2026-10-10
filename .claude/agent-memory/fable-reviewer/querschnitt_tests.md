@@ -34,3 +34,8 @@ Verdichtet 08.10.2026.
 - Probe ohne Server: Scratchpad-Config importiert die echte per `file:///`, löscht `webServer`, setzt testDir/outputDir/retries 0; Specs als `*.spec.mjs` importieren `test` aus `warm-page.js`. Timeout: `page.context()._timeoutSettings._defaultTimeout`. Nach einem Fehlschlag läuft der Retry kalt.
 - Der Teardown-`localStorage.clear()` deckt `mhdbdb-results-view` (app.js) und `mhdbdb-playground-section-<panel>` (playground-main.js); kein Service Worker. Neue Opt-in-Specs auf Storage-Asserts, `page.route` und `context`-Fixture greppen (`grep -rl warm-page testing/tests`).
 - Zwei Volläufe gleicher Testzahl streuen um ~30 s: ein Einzellaufpaar belegt keinen Gewinn darunter.
+
+**Warte-Fallen (Playwright 1.55.1, #564 D3, 10.10.2026)**
+- `page.waitForLoadState('networkidle')` nach dem ersten networkidle der Seite ist ein No-op: der Zustand wird nicht zurückgenommen (`server/frames.js` `_startNetworkIdleTimer` kehrt bei gesetztem Zustand zurück, Client `frame.js` `_loadStates`). Gemessen: 1 ms bei 4 offenen TEI-Requests. Als Ersatz für eine feste Frist nach einem Klick taugt es nicht.
+- `beforeAll`/`afterAll` laufen mit `project.timeout` (`worker/workerMain.js` Slot), nicht mit dem `test.setTimeout` des describe; ihre Zeit fehlt in `result.duration` und damit in der Dauertabelle von run-tests.js. Lücke in den `startTime`s zeigt sie.
+- Probe-Rezept Export-Leiste: nach Klick auf `#mlExportCsv` steht sofort `Lade Texte … 0 / N`, N = nachzuladende Dateien.
