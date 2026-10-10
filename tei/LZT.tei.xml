@@ -134,6 +134,7 @@
       <change when="2026-09-06" who="#editor">#387 (fro): 2 homographie-ambige Tokens der Form fro kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260) bzw. vrô ADJ/ADV (lemma_7250); LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/387-fro/).</change>
       <change when="2026-09-21" who="#editor">#371 stat, drittes Lemma: 2 bislang unlemmatisierte Tokens der Form stat/stât annotiert (lemmaRef/pos/corresp nach dem actions-Array in KZWs Review vom 15.09.2026; drei neu gepraegte Variantentypen; kein @ana, weil die Sense-Zuordnung kuratorisch ist; die 17 Faelle mit option OFFEN und die 2 mit NEU_STAND bleiben unangetastet; Provenienz-Log: ingest/pos-disambig/371-stat/).</change>
       <change when="2026-09-30" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization an den Stand der Annotation angeglichen (26780 von 36120 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;Vollständig lemmatisiert, aber noch nicht disambiguiert.&#34;</change>
+      <change when="2026-10-10" who="#editor">#460 jagen: 3 Tokens als Verbform gelesen, von lemma_3103 jagât (NOM) auf lemma_3102 jagen (VRB) umgehängt, @ana entfällt; neu geprägte Variantentypen nach der Regel aus #367.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -1530,7 +1531,7 @@
             <w xml:id="LZT_2130_1" lemmaRef="lexicon.xml#lemma_4729" pos="NOM" corresp="variants.xml#type_117145">preys</w>
             <w xml:id="LZT_2130_2">nach</w>
             <w xml:id="LZT_2130_3">eren</w>
-            <w xml:id="LZT_2130_4" lemmaRef="lexicon.xml#lemma_3103" pos="NOM" ana="lexicon.xml#lemma_3103_sense_4930" corresp="variants.xml#type_10674">jaget</w>
+            <w xml:id="LZT_2130_4" lemmaRef="lexicon.xml#lemma_3102" pos="VRB" corresp="variants.xml#type_372855">jaget</w>
             <pc xml:id="LZT_2130_5" join="left">.</pc>
           </l>
           <l n="4">
@@ -5635,7 +5636,7 @@
           <l n="4">
             <w xml:id="LZT_8140_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
             <w xml:id="LZT_8140_1" lemmaRef="lexicon.xml#lemma_7644" pos="NOM" ana="lexicon.xml#lemma_7644_sense_12531" corresp="variants.xml#type_27658">wirde</w>
-            <w xml:id="LZT_8140_2" lemmaRef="lexicon.xml#lemma_3103" pos="NOM" ana="lexicon.xml#lemma_3103_sense_4930" corresp="variants.xml#type_10674">jaget</w>
+            <w xml:id="LZT_8140_2" lemmaRef="lexicon.xml#lemma_3102" pos="VRB" corresp="variants.xml#type_372855">jaget</w>
             <w xml:id="LZT_8140_3" lemmaRef="lexicon.xml#lemma_6330" pos="ADV PRP" ana="lexicon.xml#lemma_6330_sense_9973" corresp="variants.xml#type_41213">auf</w>
             <w xml:id="LZT_8140_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
             <w xml:id="LZT_8140_5" lemmaRef="lexicon.xml#lemma_5176" pos="NOM" ana="lexicon.xml#lemma_5176_sense_8047" corresp="variants.xml#type_17960">schanden</w>
@@ -64416,7 +64417,7 @@
             <w xml:id="LZT_88170_4">noch</w>
             <w xml:id="LZT_88170_5">in</w>
             <w xml:id="LZT_88170_6" lemmaRef="lexicon.xml#lemma_3630" pos="NOM" ana="lexicon.xml#lemma_3630_sense_5737" corresp="variants.xml#type_73011">lasster</w>
-            <w xml:id="LZT_88170_7" lemmaRef="lexicon.xml#lemma_3103" pos="NOM" ana="lexicon.xml#lemma_3103_sense_4930" corresp="variants.xml#type_10674">jaget</w>
+            <w xml:id="LZT_88170_7" lemmaRef="lexicon.xml#lemma_3102" pos="VRB" corresp="variants.xml#type_372855">jaget</w>
             <pc xml:id="LZT_88170_8" join="left">!</pc>
             <pc xml:id="LZT_88170_9" join="left">&gt;</pc>
           </l>

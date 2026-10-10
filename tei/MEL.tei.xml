@@ -131,6 +131,7 @@
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 33 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/). 21 weitere Tokens der Form minne blieben bewusst unannotiert (Review).</change>
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 37 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
       <change when="2026-09-30" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization an den Stand der Annotation angeglichen (43187 von 56745 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;Lemmatisiert, aber nicht disambiguiert.&#34;</change>
+      <change when="2026-10-10" who="#editor">#460 jagen: 2 Tokens als Verbform gelesen, von lemma_3103 jagât (NOM) auf lemma_3102 jagen (VRB) umgehängt, @ana entfällt; neu geprägte Variantentypen nach der Regel aus #367.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -59521,7 +59522,7 @@
           <w xml:id="MEL_71840_3" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_28131">ze</w>
           <w xml:id="MEL_71840_4" lemmaRef="lexicon.xml#lemma_106" pos="ADJ" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_260">allen</w>
           <w xml:id="MEL_71840_5" lemmaRef="lexicon.xml#lemma_7857" pos="NOM" ana="lexicon.xml#lemma_7857_sense_12879" corresp="variants.xml#type_28468">zîten</w>
-          <w xml:id="MEL_71840_6" lemmaRef="lexicon.xml#lemma_3103" pos="NOM" ana="lexicon.xml#lemma_3103_sense_4930" corresp="variants.xml#type_10676">jeit</w>
+          <w xml:id="MEL_71840_6" lemmaRef="lexicon.xml#lemma_3102" pos="VRB" corresp="variants.xml#type_372856">jeit</w>
         </l>
         <l n="7185">
           <w xml:id="MEL_71850_0" lemmaRef="lexicon.xml#lemma_4840" pos="NOM ADJ ADV" corresp="variants.xml#type_16637">reht</w>
@@ -65831,7 +65832,7 @@
         </l>
         <l n="7954">
           <w xml:id="MEL_79540_0" lemmaRef="lexicon.xml#lemma_3005" pos="ADV" ana="lexicon.xml#lemma_3005_sense_4809" corresp="variants.xml#type_10249">iedoch</w>
-          <w xml:id="MEL_79540_1" lemmaRef="lexicon.xml#lemma_3103" pos="NOM" ana="lexicon.xml#lemma_3103_sense_4930" corresp="variants.xml#type_10674">jaget</w>
+          <w xml:id="MEL_79540_1" lemmaRef="lexicon.xml#lemma_3102" pos="VRB" corresp="variants.xml#type_372855">jaget</w>
           <w xml:id="MEL_79540_2">in</w>
           <w xml:id="MEL_79540_3">sîn</w>
           <w xml:id="MEL_79540_4" lemmaRef="lexicon.xml#lemma_1990" pos="NOM" ana="lexicon.xml#lemma_1990_sense_3060" corresp="variants.xml#type_6735">gedanc</w>

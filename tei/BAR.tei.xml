@@ -161,6 +161,7 @@
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 66 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 38 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
       <change when="2026-09-30" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization an den Stand der Annotation angeglichen (53843 von 70776 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;Noch nicht lemmatisiert und disambiguiert.&#34;</change>
+      <change when="2026-10-10" who="#editor">#460 jagen: 3 Tokens als Verbform gelesen, von lemma_3103 jagât (NOM) auf lemma_3102 jagen (VRB) umgehängt, @ana entfällt; neu geprägte Variantentypen nach der Regel aus #367.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -37313,7 +37314,7 @@
         </l>
         <l n="4611">
           <w xml:id="BAR_4611_0" lemmaRef="lexicon.xml#lemma_1762" pos="PRO" ana="lexicon.xml#lemma_1762_sense_2752" corresp="variants.xml#type_6021">ez</w>
-          <w xml:id="BAR_4611_1" lemmaRef="lexicon.xml#lemma_3103" pos="NOM" ana="lexicon.xml#lemma_3103_sense_4930" corresp="variants.xml#type_10674">jaget</w>
+          <w xml:id="BAR_4611_1" lemmaRef="lexicon.xml#lemma_3102" pos="VRB" corresp="variants.xml#type_372855">jaget</w>
           <w xml:id="BAR_4611_2">in</w>
           <w xml:id="BAR_4611_3" lemmaRef="lexicon.xml#lemma_13" pos="ADV NEG" ana="lexicon.xml#lemma_13_sense_18" corresp="variants.xml#type_41">âne</w>
           <w xml:id="BAR_4611_4" lemmaRef="lexicon.xml#lemma_4127" pos="NOM ADJ ADV" ana="lexicon.xml#lemma_4127_sense_6480" corresp="variants.xml#type_14367">milte</w>
@@ -38159,7 +38160,7 @@
         <l n="4715">
           <w xml:id="BAR_4715_0" lemmaRef="lexicon.xml#lemma_106" pos="ADJ ADV" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_264">allez</w>
           <w xml:id="BAR_4715_1" lemmaRef="lexicon.xml#lemma_21626" pos="NOM" ana="lexicon.xml#lemma_21626_sense_35457" corresp="variants.xml#type_97263">menschenkünne</w>
-          <w xml:id="BAR_4715_2" lemmaRef="lexicon.xml#lemma_3103" pos="NOM" ana="lexicon.xml#lemma_3103_sense_4930" corresp="variants.xml#type_10674">jaget</w>
+          <w xml:id="BAR_4715_2" lemmaRef="lexicon.xml#lemma_3102" pos="VRB" corresp="variants.xml#type_372855">jaget</w>
           <pc xml:id="BAR_4715_3" join="left">,</pc>
         </l>
         <l n="4716">
@@ -78052,7 +78053,7 @@
         </l>
         <l n="9578">
           <w xml:id="BAR_9578_0">si</w>
-          <w xml:id="BAR_9578_1" lemmaRef="lexicon.xml#lemma_3103" pos="NOM" ana="lexicon.xml#lemma_3103_sense_4930" corresp="variants.xml#type_10674">jaget</w>
+          <w xml:id="BAR_9578_1" lemmaRef="lexicon.xml#lemma_3102" pos="VRB" corresp="variants.xml#type_372855">jaget</w>
           <w xml:id="BAR_9578_2">in</w>
           <w xml:id="BAR_9578_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_45021">diu</w>
           <w xml:id="BAR_9578_4" lemmaRef="lexicon.xml#lemma_7782" pos="NOM ADJ ADV" corresp="variants.xml#type_28160">zeichen</w>
