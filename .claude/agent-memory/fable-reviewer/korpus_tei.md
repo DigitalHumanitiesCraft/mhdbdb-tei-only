@@ -26,6 +26,7 @@ Verdichtet 08.10.2026. Zahlen sind Eingabe, vor Gebrauch nachmessen.
 **Header**
 - msIdentifier-Reihenfolge: sigle, handschriftencensus, GND, wikidata, [mwb-sigle], msName+; im Header nackte IDs, in works.xml URLs.
 - `status="restricted"` = `n="no-print"`; kein Konsument von excerpt-only/restricted/`@media print` außerhalb der Prüfseiten.
+- **NEIM-Liedkonkordanz steht zweimal** (gemessen 10.10.2026, #453): im Header `editorialDecl/normalization` („Lied N = C Str. a-b", Metadatenpanel) und je Lied als `<note n="1">` im Body („c str . a - b", Ziffern als `<w lemmaRef=lemma_53328 pos=NUM>`, im Reader inline sichtbar). Ein Header-Fix ohne die Note erzeugt Widerspruch; die Note anzufassen ist ein `<w>`-Wortlaut-Change (volle Korpus-Checkliste). Bei Header-Korrekturen immer nach einer Body-Kopie suchen.
 - revisionDesc trägt je-Datei-Zahlen der Annotationsserien (#216, #369): damit lassen sich fremde Zählungen rekonstruieren. Kombinierende Diakritika sind in Headern verbreitet: vor Vergleichen NFC.
 
 **Reset-Zahlen** (`count-verse-numbering-resets.py`) stehen dreimal in tei-text-reader.js und in FEATURES.md, kein Gate. Alt/neu per `git archive`; Regel abschalten per Patch `in_nested_parallel` -> False. tei/ ist 1,4 GB.

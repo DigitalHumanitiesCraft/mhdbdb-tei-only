@@ -26,6 +26,7 @@ Verdichtet 08.10.2026.
 **Squash (Repo-Konvention seit 21.09.2026)**
 - `git log --no-merges | grep -c '(#N)$'` zählt Commits mit Issue-Bezug, keine Squash-Merges. Squash je Commit messen: `gh api repos/<org>/<repo>/pulls/N --jq .merge_commit_sha` gleich Commit-SHA; 404 = Issue.
 - Stack nach Squash der Basis: schlichtes `git rebase main` replayt die Basis-Commits und bricht, `rebase --onto main <alter Basis-Head>` geht. GitHub meldet den dep-PR nur CONFLICTING, wenn er dieselben Zeilen berührt. Alter Head: `gh pr view <basis> --json headRefOid`, auch nach MERGED.
+- **Lokales Zusammenfassen auf neue Basis revertiert main still** (10.10.2026, #554): ein Squash, dessen Baum aus dem alten Stand kommt („Baum identisch mit Commit X"), aber dessen Elternteil die neue `origin/main` ist, nimmt jeden zwischenzeitlichen main-Commit zurück (#558 NEIM). Probe immer `git diff --stat HEAD^ HEAD` (nicht `<alte Basis>...HEAD`, das blendet es aus) und `git diff --stat origin/main HEAD -- <Pfade außerhalb des Auftrags>`.
 - Kein gesquashter Head ist Vorfahr von main: `branch --merged` listet ihn nicht, `branch -d` verweigert, nur `-D`. Jede Anweisung „gemergte Branches löschen" oder Guard auf `--merged` mitlesen. Beim Auto-Delete (`delete_branch_on_merge`) retargetet GitHub abhängige PRs selbst.
 
 **EOL- und Attribut-Proben ohne den Arbeitsbaum**
