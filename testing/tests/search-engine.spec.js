@@ -322,18 +322,18 @@ test.describe('Search Engine', () => {
             expect(r.ids).toEqual(['lemma_2465']);
         });
 
-        test('isAttestedLemma: fehlender oder leerer lemmaIndex gilt als belegt (altes Verhalten)', async ({ page }) => {
+        test('isAttestedLemma: fehlender lemmaIndex gilt als belegt (altes Verhalten)', async ({ page }) => {
             const r = await page.evaluate(async () => {
                 const m = await import('/assets/js/lib/lemma-resolve.js');
                 const echt = window._mhdbdbApp.searchEngine.corpusIndex.lemmaIndex;
                 return {
                     fehlt: m.isAttestedLemma(undefined, 'lemma_20697'),
-                    leer: m.isAttestedLemma({}, 'lemma_20697'),
+                    nichts: m.isAttestedLemma(null, 'lemma_20697'),
                     rosseEcht: m.isAttestedLemma(echt, 'lemma_20697'),
                     rosEcht: m.isAttestedLemma(echt, 'lemma_4973')
                 };
             });
-            expect(r).toEqual({ fehlt: true, leer: true, rosseEcht: false, rosEcht: true });
+            expect(r).toEqual({ fehlt: true, nichts: true, rosseEcht: false, rosEcht: true });
         });
 
         test('hasAmbiguousVariant: der Hinweis folgt demselben Massstab', async ({ page }) => {

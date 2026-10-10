@@ -416,4 +416,26 @@ test.describe('Aufräumrunde: doppelte Lemma-IDs degenerieren die Kookkurrenz-Su
         // got: unveraendert genau ein Treffer
         expect(r.got).toEqual(['lemma_2465']);
     });
+
+    test('ein leerer lemmaIndex gilt wie ein fehlender als "alles belegt" (#463, Bot-Befund)', async ({ page }) => {
+        await page.waitForFunction(
+            () => window.playground?.authorityData?.lemmata?.length > 0 &&
+                  window.playground?.corpusData?.lemmaIndex, null,
+            { timeout: 120000 }
+        );
+        const r = await page.evaluate(() => {
+            const pg = window.playground;
+            const am = pg.authorityManager;
+            const echt = pg.corpusData;
+            // playground-main.js faellt bei fehlendem Feld auf {} zurueck
+            pg.corpusData = { ...echt, lemmaIndex: {} };
+            const mitLeer = am.searchLemmaByOrthography('rosse').map(l => l.id);
+            pg.corpusData = echt;
+            const mitEcht = am.searchLemmaByOrthography('rosse').map(l => l.id);
+            return { mitLeer, mitEcht };
+        });
+        // leer: Stufe 1 haelt, wie vor #463 (nur Rosse); echt: ros zuerst
+        expect(r.mitLeer).toEqual(['lemma_20697']);
+        expect(r.mitEcht[0]).toBe('lemma_4973');
+    });
 });

@@ -104,7 +104,7 @@ export class AuthorityFilesManager {
     // vorbehalten, die in Stufe 1 und 2 nichts finden) und die unbelegten
     // Stufe-1-Treffer bleiben in der Liste. Ohne geladenen Corpus-Index
     // gilt alles als belegt (altes Verhalten).
-    const lemmaIndex = window.playground?.corpusData?.lemmaIndex;
+    const lemmaIndex = this.getAttestationIndex();
     if (stage1Holds(exactMatches.map(l => l.id), lemmaIndex)) {
       return this.rankHomographs(exactMatches, normalized);
     }
@@ -182,6 +182,22 @@ export class AuthorityFilesManager {
       )
       .map(entry => entry.lemma);
     return partialMatches;
+  }
+
+  /**
+   * Der Reverse-Index fuer die Belegregel (#463) oder null, wenn es keinen
+   * brauchbaren gibt. playground-main.js faellt bei fehlendem Feld auf `{}`
+   * zurueck; ein leeres Objekt ist truthy und wuerde jedes Lemma als
+   * unbelegt zaehlen. Die Leerpruefung ist O(n) und laeuft deshalb einmal je
+   * geladenem Index-Objekt, nicht je Aufloesung.
+   */
+  getAttestationIndex() {
+    const lemmaIndex = window.playground?.corpusData?.lemmaIndex;
+    if (lemmaIndex !== this._attestationSeen) {
+      this._attestationSeen = lemmaIndex;
+      this._attestationUsable = !!lemmaIndex && Object.keys(lemmaIndex).length > 0;
+    }
+    return this._attestationUsable ? lemmaIndex : null;
   }
 
   /**

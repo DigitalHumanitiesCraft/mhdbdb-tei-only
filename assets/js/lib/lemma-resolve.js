@@ -40,8 +40,10 @@
  * Traegt ein Lemma mindestens einen Korpusbeleg? (#463) Massstab ist der
  * Reverse-Index `corpusIndex.lemmaIndex` (Eintrag nur bei Beleg, gemessen
  * 10.10.2026: 0 leere Eintraege). Fehlt der Index (alter Stand oder noch nicht
- * geladen) oder ist er leer (der Playground faellt bei fehlendem Feld auf `{}`
- * zurueck), gilt alles als belegt, die Stufen verhalten sich dann wie vor #463.
+ * geladen), gilt alles als belegt, die Stufen verhalten sich dann wie vor #463.
+ * Die Probe ist ein reiner Property-Zugriff; ein `for...in` auf den Index
+ * waere O(n) (gemessen ca. 4 ms bei 42.460 Schluesseln), siehe den Playground
+ * (authority-manager.js), der ein leeres Objekt vorher aussortiert.
  *
  * @param {Object|null|undefined} lemmaIndex - corpusIndex.lemmaIndex
  * @param {string} lemmaId - mit `lemma_`-Praefix
@@ -49,9 +51,6 @@
  */
 export function isAttestedLemma(lemmaIndex, lemmaId) {
     if (!lemmaIndex) return true;
-    let leer = true;
-    for (const _schluessel in lemmaIndex) { leer = false; break; }
-    if (leer) return true;
     const textIds = lemmaIndex[lemmaId];
     return Array.isArray(textIds) && textIds.length > 0;
 }
