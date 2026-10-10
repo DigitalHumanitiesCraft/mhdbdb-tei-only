@@ -128,7 +128,7 @@ Post-MVP and **in active operation**. Three things every session should know:
 - **Today:** an active project with ongoing data ingest (WZB/Wenzelsbibel, ARITHMETIC #92, more planned) and ongoing manual corpus corrections. Not frozen.
 - **Consequence:** every change in `tei/` or `authority-files/` must carry the derived layer with it (indexes, corpus-derived `variants.xml`). The **corpus leads**, `lexicon.xml` is an index and follows (see [CONTRACTS.md → Authority Source Rules](CONTRACTS.md#f-authority-source-rules)); otherwise it drifts silently. Binding step sequence: [DATA-MODEL.md → Data-Change-Lifecycle](DATA-MODEL.md#data-change-lifecycle).
 
-For the current index versions see [TEI-MODEL.md §11](TEI-MODEL.md#11-versioning) (as of 2026-10-09: Corpus Index v4.2.31, Authority Index v1.9.22).
+For the current index versions see [TEI-MODEL.md §11](TEI-MODEL.md#11-versioning) (as of 2026-10-10: Corpus Index v4.2.32, Authority Index v1.9.23).
 
 ### What was finished recently
 
