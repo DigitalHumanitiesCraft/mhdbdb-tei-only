@@ -42,4 +42,9 @@ Verdichtet 08. und 10.10.2026. Zahlen sind Eingabe, vor Gebrauch nachmessen.
 
 **Review-Bot (claude-code-review.yml):** ohne `show_full_output` zeigt das Log nur `init` und die Result-Zusammenfassung; voll bei `show_full_output: true` oder `ACTIONS_STEP_DEBUG=true`. Muster über rote Läufe: `gh run view <id> --log | grep -o '"is_error": [^,]*'`.
 
+**check-runtime-budget.py (#564)**
+- Neues Pflichtfeld in `lade_budget` macht Ablehnungsfälle im Selbsttest still leer, wenn die Basis-`cfg` des Selbsttests es nicht trägt: Ablehnungsgrund je Fall per importlib ausgeben, nicht nur „abgelehnt ja/nein" (10.10.: 3 von 4 Altfällen fielen nur noch an `calibration_issue`).
+- `erinnere` fängt `HTTPException` (IncompleteRead) und AttributeError nicht; „Exit-Code nie" daran proben.
+- Lauf-Zählung (`total_count`) ist nicht Schritt-Zählung: „Freshness naming-index" läuft nur bei `naming_changed`, 8 von 8 Läufen am 10.10. skipped.
+
 **main-Schutz** ist nur ein Ruleset (`deletion`, `non_fast_forward`): `branches/main .protected=true` heißt nicht PR-Pflicht. `rules/branches/main` und `rulesets/<id>` lesen.
