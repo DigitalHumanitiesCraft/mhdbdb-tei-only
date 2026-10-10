@@ -488,9 +488,12 @@ class TEITextReader {
      *
      * Dieselben Zahlen stehen in drei weiteren Blöcken (oben bei
      * divRestartsNumbering, unten beim Zählungs-Anker, dazu docs/FEATURES.md
-     * beim Stichwort „Verse numbering per counting range"). Kein Gate deckt
-     * Zahlen in .js-Kommentaren ab, und doc-count-audit.py hat auf diese
-     * Markdown-Stelle keinen Anker; wer sie neu misst, zieht alle vier nach.
+     * beim Stichwort „Verse numbering per counting range"). Sie stehen in
+     * scripts/audit/check-measured-counts.py (#414), das wöchentlich und bei
+     * Änderungen unter tei/ läuft und die Sätze wörtlich gegen die Messung
+     * hält. Wer sie neu misst, zieht alle vier nach; wer einen Satz
+     * umformuliert, zieht dort den Eintrag nach, sonst meldet das Gate den
+     * Anker als nicht gefunden. doc-count-audit.py kennt diese Zahlen nicht.
      *
      * Und nicht nur die vier: an #358 hängt jede korpusweite div-Zahl im
      * Repository. Der Nenner „5.143 typisierte divs" bei hasOwnHeading und
