@@ -58,6 +58,10 @@ jobs:
   measured-counts:
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    permissions:
+      contents: read
+      actions: read
+      issues: write
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -73,3 +77,14 @@ jobs:
 
       - name: Gemessene Zahlen gegen ihre Fundstellen (#414)
         run: python scripts/audit/check-measured-counts.py
+
+      # Laufzeitbudget (#564), siehe no-cdn-check.yml.
+      - name: Laufzeitbudget (#564)
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >
+          python scripts/audit/check-runtime-budget.py --check
+          --workflow measured-counts.yml --job measured-counts
+          --job-status "${{ job.status }}"
+          --run-url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
