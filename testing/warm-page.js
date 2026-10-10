@@ -11,15 +11,20 @@
  *
  * Opt-in je Spec: `import { test, expect } from '../warm-page.js';` statt
  * aus '@playwright/test'. NICHT fuer Specs, die
- *  - Storage-Zustand pruefen oder setzen (localStorage, IndexedDB,
- *    sessionStorage ueber Tests hinweg, setOffline),
+ *  - Storage-Zustand ueber Tests hinweg pruefen oder setzen (localStorage,
+ *    IndexedDB, sessionStorage, setOffline); innerhalb eines Tests ist
+ *    localStorage unbedenklich, der Teardown leert es,
  *  - das kalte Laden messen oder pruefen: im warmen Context kommt der Index
  *    aus dem Cache, der Test bleibt gruen und misst nichts mehr,
- *  - Netzantworten mit page.route/context.route mocken: in einem warmen
- *    Context bedient der Cache, die Route feuert nie, und der Test prueft
- *    den Cache statt des Mocks, ohne rot zu werden,
+ *  - Netzantworten mocken, die im Cache landen (der Korpus-Index): in einem
+ *    warmen Context bedient der Cache, die Route feuert nie, und der Test
+ *    prueft den Cache statt des Mocks, ohne rot zu werden. Stubs fuer
+ *    Antworten, die nicht zwischengespeichert werden (api.woerterbuchnetz.de:
+ *    nur ein In-Memory-Cache je Seite), sind in Ordnung, wenn der Test die
+ *    Stub-Werte prueft; ein umgangener Stub wuerde ihn rot machen (#564),
  *  - neben `page` den `context`-Fixture benutzen: der waere ein anderer
- *    Context als der der Seite.
+ *    Context als der der Seite. Wer weitere Seiten braucht, nimmt
+ *    `page.context()`; der Teardown schliesst uebrig gebliebene Seiten.
  *
  * Die Context-Optionen kommen aus dem Projekt (`use` in der Config), damit
  * baseURL und Viewport dieselben sind wie beim eingebauten Context.
@@ -61,6 +66,12 @@ export const test = base.extend({
             // Seite schon geschlossen oder fremder Ursprung: nichts zu leeren
         }
         await page.close();
+        // Seiten, die der Test selbst geoeffnet und nicht geschlossen hat (neue
+        // Tabs): der eingebaute Context schloss sie mit dem Test, dieser lebt
+        // bis zum Ende des Workers und haelt sonst jeden Tab samt Index offen.
+        for (const uebrig of warmContext.pages()) {
+            await uebrig.close().catch(() => {});
+        }
     },
 });
 

@@ -202,7 +202,8 @@ function testsMitStatus(knoten, status, treffer = []) {
  * Testdauer je Spec-Datei aus dem Suite-Baum (#564): Summe der `duration` aller
  * Versuche (`results`) aller Tests, also auch der Retries, denn die Zeit wurde
  * verbraucht. Schluessel ist die `file`-Angabe der obersten Suite. Die Summe ist
- * Rechenzeit ueber alle Worker: bei mehreren Workern meist groesser als die
+ * Rechenzeit ueber alle Worker, ohne Hooks ausserhalb der Tests (die Zeit eines
+ * `beforeAll` steckt in keinem `duration`): bei mehreren Workern meist groesser als die
  * Wanduhr, mit einem einzigen hoechstens so gross. Die Workerzahl ist die
  * tatsaechliche (`config.metadata.actualWorkers`), nicht das konfigurierte
  * Maximum.

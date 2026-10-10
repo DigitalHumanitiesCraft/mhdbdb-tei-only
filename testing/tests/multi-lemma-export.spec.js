@@ -8,9 +8,10 @@
  * ir herzen blüejet || diu vil süeze minne").
  *
  * Laufzeit (#564): der Export laedt jeden Text mit einem Treffer nach, bei
- * minne + herze sind das Hunderte. Deshalb gibt es diese Suche nur einmal
- * (eine Seite, ein Nachladen), und die uebrigen Faelle laufen auf kleinen
- * Suchen mit wenigen Texten.
+ * minne + herze sind das im Versmodus 66 Dateien (gemessen 10.10.2026), im
+ * Naehemodus 109. Deshalb gibt es diese Suche nur einmal (eine Seite, ein
+ * Nachladen), und die uebrigen Faelle laufen auf kleinen Suchen mit wenigen
+ * Texten.
  */
 
 import { test, expect } from '@playwright/test';
@@ -67,6 +68,9 @@ test.describe('Multi-Lemma-Export (#448)', () => {
 
     test.beforeAll(async ({ browser }) => {
       page = await browser.newPage();
+      // Ein Hook laeuft mit dem Projekt-Timeout (60 s), nicht mit dem des
+      // Testblocks; hier ausdruecklich setzen
+      test.setTimeout(240000);
       await page.goto('/playground/#multi-lemma&lemmata=minne,herze&mode=verse');
       await page.waitForSelector('#mlExportCsv', { state: 'visible', timeout: 120000 });
     });
@@ -81,20 +85,34 @@ test.describe('Multi-Lemma-Export (#448)', () => {
       await page.route('**/tei/AXR.tei.xml', route => route.fulfill({ status: 500, body: '' }));
       let downloads = 0;
       const zaehle = () => { downloads++; };
+      // Offene TEI-Anfragen zaehlen. waitForLoadState('networkidle') taugt
+      // hier nicht: es kehrt sofort zurueck, wenn die Seite es einmal erreicht
+      // hatte (gemessen: 1 ms bei vier offenen Anfragen).
+      let offen = 0;
+      const auf = (r) => { if (r.url().includes('/tei/')) offen++; };
+      const zu = (r) => { if (r.url().includes('/tei/')) offen--; };
       page.on('download', zaehle);
+      page.on('request', auf);
+      page.on('requestfinished', zu);
+      page.on('requestfailed', zu);
       try {
         await page.click('#mlExportCsv');
         const status = page.locator('#mlExportStatus');
         await expect(status).toContainText('Export fehlgeschlagen: AXR.tei.xml: HTTP 500', { timeout: 60000 });
         await expect(page.locator('#mlExportCsv')).toBeEnabled();
-        // Warten, bis die restlichen Dateien fertig geladen sind (keine
-        // Anfrage mehr unterwegs), statt einer festen Frist: erst dann steht
-        // fest, dass ihr Fortschritt die Meldung nicht mehr ueberschreibt.
-        await page.waitForLoadState('networkidle');
+        // Warten, bis die restlichen Dateien fertig geladen sind, statt einer
+        // festen Frist: erst dann steht fest, dass ihr Fortschritt die Meldung
+        // nicht mehr ueberschreibt. Der Fortschritt kommt erst nach dem Parsen,
+        // also nach requestfinished; der Leerlauf-Aufruf wartet das ab.
+        await expect.poll(() => offen, { timeout: 60000 }).toBe(0);
+        await page.evaluate(() => new Promise(r => requestAnimationFrame(() => requestIdleCallback(() => r()))));
         await expect(status).toContainText('Export fehlgeschlagen');
         expect(downloads).toBe(0);
       } finally {
         page.off('download', zaehle);
+        page.off('request', auf);
+        page.off('requestfinished', zu);
+        page.off('requestfailed', zu);
         await page.unroute('**/tei/AXR.tei.xml');
       }
     });
@@ -140,10 +158,10 @@ test.describe('Multi-Lemma-Export (#448)', () => {
   });
 
   test('Nähe-Analyse: Abstand-Spalte, kein Wert über dem Fenster', async ({ page }) => {
-    // Kleine Suche (Wîcher, Wîcnant: 3 Texte): minne + herze lud hier rund 60
-    // Sekunden lang Hunderte von Texten nach. Gemessen am 10.10.2026: mit
-    // Fenster 3 sind es 5 Zeilen, mit Fenster 40 sechs, die sechste liegt also
-    // ausserhalb des Fensters, und genau die darf hier nicht erscheinen.
+    // Kleine Suche (Wîcher, Wîcnant: 2 Texte): minne + herze lud hier rund 60
+    // Sekunden lang 109 Texte nach. Gemessen am 10.10.2026: mit Fenster 3 sind
+    // es 5 Zeilen, mit Fenster 40 sechs, die sechste liegt also ausserhalb des
+    // Fensters, und genau die darf hier nicht erscheinen.
     await page.goto('/playground/#multi-lemma&lemmata=W%C3%AEcher,W%C3%AEcnant&mode=proximity&dist=3');
     await page.waitForSelector('#mlExportCsv', { state: 'visible', timeout: 120000 });
     const n = await fundstellenZahl(page);
