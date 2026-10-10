@@ -10,7 +10,9 @@
 # Die Trigger-Pfade sind genau die, die die Aufloesung beruehren: die Suche der
 # Hauptseite, die gemeinsamen Module, der Playground-Manager, das Skript samt
 # Budget und dieser Workflow. Nicht Teil der Pfade: data/ (ein neuer Index
-# aendert die Mengen, nicht den Code; der Wochenlauf ist der Ort dafuer).
+# aendert die Mengen, nicht den Code). Ein Wachstum der Indexe wird deshalb erst
+# beim naechsten PR unter den genannten Pfaden sichtbar; ein Zeitplan-Lauf
+# steht nicht darin und waere ein eigener Beschluss.
 #
 # Sparse-Checkout, weil der Benchmark nur data/, den Code der Aufloesung und das
 # Skript liest.

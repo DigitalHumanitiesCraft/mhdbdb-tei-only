@@ -1,13 +1,13 @@
 {
   "_meta": {
     "issue": "#564",
-    "gemessen": "2026-10-10, nach D1, Node gegen data/*.json.gz (Authority Index 1.9.23, Corpus Index 4.2.32), Median von 100 warmen Aufrufen, Median ueber 3 Laeufe, Rechner mit parallelen Sessions",
+    "gemessen": "2026-10-10, nach D1, Node gegen data/*.json.gz (Authority Index 1.9.23, Corpus Index 4.2.32), Median von 100 warmen Aufrufen, Median ueber 3 Laeufe (Vorlaeufer der jetzigen Messvorschrift: kleinster von 3 Blockmedianen zu je 50 Aufrufen, je Oberflaeche ein eigener Prozess), Rechner mit parallelen Sessions; VORLAEUFIG bis zum Nachziehen aus dem ersten CI-Lauf (G2)",
     "regel": "budgetMs = measuredMs * 1,5, aufgerundet auf 0,1 ms, mindestens 1 ms (Untergrenze gegen Rauschen). Entscheidung chsteiner in #564 (10.10.2026): Rot ist zu beheben oder im selben PR zu erhoehen, mit einer Zeile Begruendung hier.",
     "pg-ac": "Summe der Tastendruecke beim Tippen des Worts, nicht ein einzelner Aufruf",
     "erhoehungen": []
   },
   "budgets": {
-    "main:exakt": { "measuredMs": 0.712, "budgetMs": 1 },
+    "main:exakt": { "measuredMs": 0.712, "budgetMs": 1.1 },
     "main:exakt-diakritisch": { "measuredMs": 0.739, "budgetMs": 1.2 },
     "main:homograph": { "measuredMs": 0.62, "budgetMs": 1 },
     "main:variante": { "measuredMs": 0.665, "budgetMs": 1 },
@@ -25,7 +25,7 @@
     "pg:unbelegt-mit-variante": { "measuredMs": 0.001, "budgetMs": 1 },
     "pg:belegt-kurz": { "measuredMs": 0.001, "budgetMs": 1 },
     "pg:gat": { "measuredMs": 0.001, "budgetMs": 1 },
-    "pg:praefix": { "measuredMs": 1.134, "budgetMs": 1.7 },
+    "pg:praefix": { "measuredMs": 1.134, "budgetMs": 1.8 },
     "pg:unbekannt": { "measuredMs": 0.993, "budgetMs": 1.5 },
     "pg-ac:kurz": { "measuredMs": 6.38, "budgetMs": 9.6 },
     "pg-ac:minne": { "measuredMs": 8.48, "budgetMs": 12.8 },

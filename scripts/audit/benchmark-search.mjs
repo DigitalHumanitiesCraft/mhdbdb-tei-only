@@ -9,7 +9,8 @@
  *
  * Was gemessen wird: je Eingabe und Oberflaeche der kleinste von drei
  * Blockmedianen zu je REPS warmen Aufrufen (ein Aufruf vorab, der die Caches
- * fuellt; Begruendung am Minimum bei messen()). Gemessen wird in Node,
+ * fuellt; Begruendung am Minimum bei messen()), jede Oberflaeche in einem
+ * eigenen Prozess (Begruendung beim Kindprozess). Gemessen wird in Node,
  * nicht im Browser: dieselben Module, dieselben Daten, aber ohne Netz,
  * Entpacken und Seitenaufbau.
  *   - main:  SearchEngine.resolveSearchTerm (assets/js/search/search-engine.js)
@@ -33,6 +34,7 @@ import { gunzipSync } from 'zlib';
 import { readFileSync, writeFileSync } from 'fs';
 import { resolve, dirname } from 'path';
 import { fileURLToPath, pathToFileURL } from 'url';
+import { spawnSync } from 'child_process';
 
 const wurzel = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const budgetPfad = resolve(wurzel, 'scripts', 'audit', 'search-budget.json');
@@ -46,12 +48,18 @@ const nurMessen = args.includes('--measure');
 const dumpPfad = arg('--dump');
 const REPS = Number(arg('--reps') ?? 50);
 const BLOECKE = 3;
+// Kindprozess: misst nur die Faelle einer Oberflaeche und druckt JSON (siehe unten)
+const nur = arg('--only');
 const managerPfad = resolve(arg('--manager') ?? resolve(wurzel, 'playground/js/data/authority-manager.js'));
 
 function abbruch(text) {
   console.error(text);
   console.log(`BENCHMARK: KEIN ERGEBNIS (${text.split('\n')[0]})`);
   process.exit(2);
+}
+
+if (!Number.isInteger(REPS) || REPS < 1) {
+  abbruch(`--reps muss eine ganze Zahl ab 1 sein, war: ${arg('--reps')}`);
 }
 
 function ladeIndex(name) {
@@ -188,8 +196,37 @@ if (dumpPfad) {
   process.exit(0);
 }
 
+// Jede Oberflaeche in einem eigenen Prozess. Gemessen am 10.10.2026 (Review):
+// dieselbe Playground-Aufloesung brauchte allein 1,0 ms, im selben Prozess nach
+// der Hauptseite 2,8 bis 3,6 ms, und zwar in jedem Block. Der Zustand des
+// Heaps haengt an der Reihenfolge; die Bloecke oben filtern das nicht.
+const oberflaeche = (key) => (key.startsWith('main:') ? 'main' : 'pg');
+if (nur) {
+  const gewaehlt = faelle.filter((f) => oberflaeche(f.key) === nur);
+  const teil = {};
+  for (const f of gewaehlt) teil[f.key] = messen(f.lauf, f.vorab);
+  console.log(`KIND ${JSON.stringify({ gemessen: teil, lemmata: authority.lemmata.length, varianten: Object.keys(authority.variants).length })}`);
+  process.exit(0);
+}
+
 const gemessen = {};
-for (const f of faelle) gemessen[f.key] = messen(f.lauf, f.vorab);
+let kopf = '';
+for (const art of ['main', 'pg']) {
+  const kind = spawnSync(process.execPath, [fileURLToPath(import.meta.url), '--only', art, '--reps', String(REPS), '--manager', managerPfad], {
+    encoding: 'utf8',
+    maxBuffer: 1 << 24,
+  });
+  const zeile = (kind.stdout || '').split('\n').find((z) => z.startsWith('KIND '));
+  if (kind.status !== 0 || !zeile) {
+    abbruch(`Kindprozess ${art} ohne Ergebnis (Status ${kind.status}): ${(kind.stderr || '').trim().split('\n')[0]}`);
+  }
+  const antwort = JSON.parse(zeile.slice(5));
+  Object.assign(gemessen, antwort.gemessen);
+  kopf = `${antwort.lemmata} Lemmata, ${antwort.varianten} Varianten`;
+}
+for (const f of faelle) {
+  if (!Number.isFinite(gemessen[f.key])) abbruch(`Messwert fuer ${f.key} ist keine Zahl: ${gemessen[f.key]}`);
+}
 
 let budget = null;
 if (!nurMessen) {
@@ -200,7 +237,7 @@ if (!nurMessen) {
   }
 }
 
-console.log(`Kleinster von ${BLOECKE} Blockmedianen (je ${REPS} warme Aufrufe) je Eingabe, ${authority.lemmata.length} Lemmata, ${Object.keys(authority.variants).length} Varianten`);
+console.log(`Kleinster von ${BLOECKE} Blockmedianen (je ${REPS} warme Aufrufe) je Eingabe, ${kopf}, je Oberflaeche ein eigener Prozess`);
 let rot = 0;
 let fehlend = 0;
 for (const f of faelle) {
@@ -211,6 +248,8 @@ for (const f of faelle) {
     if (erlaubt === undefined) {
       urteil = '  KEIN BUDGET';
       fehlend++;
+    } else if (!Number.isFinite(erlaubt) || erlaubt <= 0) {
+      abbruch(`Budget fuer ${f.key} ist keine positive Zahl: ${erlaubt}`);
     } else if (ms > erlaubt) {
       urteil = `  ROT (Budget ${erlaubt} ms)`;
       rot++;
