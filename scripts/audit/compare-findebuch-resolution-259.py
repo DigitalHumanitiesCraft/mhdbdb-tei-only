@@ -292,8 +292,9 @@ def stage3(query, lemmata):
 
 
 def resolve(query, lemmata, variants, by_norm):
-    """Die dreistufige Aufloesung, in der Reihenfolge, in der sie produktiv
-    laeuft. Rueckgabe: (stufe, liste der Lemma-Ids)."""
+    """Die dreistufige Aufloesung vor #463 (Stufe 1 gewinnt bedingungslos, die
+    Belegregel aus #463 fehlt noch, siehe Modul-Docstring). Rueckgabe: (stufe,
+    liste der Lemma-Ids)."""
     hit = by_norm.get(query)
     if hit:
         return 1, [l['id'] for l in hit]
