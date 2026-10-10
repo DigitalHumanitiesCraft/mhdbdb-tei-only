@@ -122,6 +122,7 @@
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 36 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/). 3 weitere Tokens der Form minne blieben bewusst unannotiert (Review).</change>
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 114 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
       <change when="2026-09-30" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization an den Stand der Annotation angeglichen (51750 von 67909 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;Noch nicht lemmatisiert oder disambiguiert.&#34;</change>
+      <change when="2026-10-10" who="#editor">#461 gebeine: 3 Tokens mit Säugetierknochen auf den neuen Sense lemma_1958_sense_119196 (concept_14011100) gesetzt.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -85640,7 +85641,7 @@
           <w xml:id="KCR_101840_1" lemmaRef="lexicon.xml#lemma_8188" pos="NEG VRB VEM" corresp="variants.xml#type_212478">nemach</w>
           <w xml:id="KCR_101840_2" lemmaRef="lexicon.xml#lemma_1169" pos="DET" ana="lexicon.xml#lemma_1169_sense_1850" corresp="variants.xml#type_3698">diz</w>
           <w xml:id="KCR_101840_3">tôte</w>
-          <w xml:id="KCR_101840_4" lemmaRef="lexicon.xml#lemma_1958" pos="NOM" ana="lexicon.xml#lemma_1958_sense_3004" corresp="variants.xml#type_160661">gebaine</w>
+          <w xml:id="KCR_101840_4" lemmaRef="lexicon.xml#lemma_1958" pos="NOM" ana="lexicon.xml#lemma_1958_sense_119196" corresp="variants.xml#type_160661">gebaine</w>
           <w xml:id="KCR_101840_5" lemmaRef="lexicon.xml#lemma_6330" pos="ADV PRP" ana="lexicon.xml#lemma_6330_sense_9973" corresp="variants.xml#type_22474">ûf</w>
           <w xml:id="KCR_101840_6" lemmaRef="lexicon.xml#lemma_5710" pos="VRB" corresp="variants.xml#type_20053">stên</w>
           <pc xml:id="KCR_101840_7" join="left">.</pc>
@@ -85790,7 +85791,7 @@
           <w xml:id="KCR_102000_1">mag</w>
           <w xml:id="KCR_102000_2" lemmaRef="lexicon.xml#lemma_1169" pos="DET" ana="lexicon.xml#lemma_1169_sense_1850" corresp="variants.xml#type_3698">diz</w>
           <w xml:id="KCR_102000_3" lemmaRef="lexicon.xml#lemma_1251" pos="ADJ" ana="lexicon.xml#lemma_1251_sense_1967" corresp="variants.xml#type_69567">durre</w>
-          <w xml:id="KCR_102000_4" lemmaRef="lexicon.xml#lemma_1958" pos="NOM" ana="lexicon.xml#lemma_1958_sense_3004" corresp="variants.xml#type_160661">gebaine</w>
+          <w xml:id="KCR_102000_4" lemmaRef="lexicon.xml#lemma_1958" pos="NOM" ana="lexicon.xml#lemma_1958_sense_119196" corresp="variants.xml#type_160661">gebaine</w>
         </l>
         <l n="10201">
           <w xml:id="KCR_102010_0" lemmaRef="lexicon.xml#lemma_6330" pos="ADV PRP" ana="lexicon.xml#lemma_6330_sense_9973" corresp="variants.xml#type_22474">ûf</w>
@@ -86842,7 +86843,7 @@
           <w xml:id="KCR_103210_1" lemmaRef="lexicon.xml#lemma_5089" pos="VRB" corresp="variants.xml#type_32203">samente</w>
           <w xml:id="KCR_103210_2">sich</w>
           <w xml:id="KCR_103210_3" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
-          <w xml:id="KCR_103210_4" lemmaRef="lexicon.xml#lemma_1958" pos="NOM" ana="lexicon.xml#lemma_1958_sense_3004" corresp="variants.xml#type_160661">gebaine</w>
+          <w xml:id="KCR_103210_4" lemmaRef="lexicon.xml#lemma_1958" pos="NOM" ana="lexicon.xml#lemma_1958_sense_119196" corresp="variants.xml#type_160661">gebaine</w>
           <pc xml:id="KCR_103210_5" join="left">.</pc>
         </l>
         <l n="10322">
