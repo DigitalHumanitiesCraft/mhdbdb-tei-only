@@ -1245,6 +1245,7 @@ class MainSiteApp {
                         // Adresse bleiben bei der zuletzt ausgeführten Suche, damit Feld und
                         // Trefferliste nicht zwei verschiedene Suchen zeigen.
                         this.elements.searchInput.value = vorher;
+                        this.lastSearchTerm = vorher;
                         window.history.replaceState({}, document.title, this.buildStateUrl());
                         return;
                     }
