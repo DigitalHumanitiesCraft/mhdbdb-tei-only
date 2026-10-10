@@ -60,7 +60,16 @@ jobs:
     timeout-minutes: 20
     steps:
       - name: Checkout
+        # sparse-checkout ohne ingest/, sources/ und examples/ (#564): die
+        # Zaehlskripte lesen tei/ und die Fundstellen aus CLAIMS.
         uses: actions/checkout@v6
+        with:
+          sparse-checkout: |
+            /*
+            !/ingest/
+            !/sources/
+            !/examples/
+          sparse-checkout-cone-mode: false
 
       - name: Set up Python
         uses: actions/setup-python@v6

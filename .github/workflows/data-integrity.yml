@@ -194,9 +194,23 @@ jobs:
         # fetch-depth: 2, damit der Diff-Base-Schritt unten den ersten
         # Elternteil des Merge-Refs lesen kann. Mit der Voreinstellung 1
         # kappt die shallow-Grenze die Elternliste, und `HEAD^1` scheitert.
+        #
+        # sparse-checkout ohne ingest/, sources/ und examples/ (#564): rund 165
+        # von 1.651 MB des Baums, die kein Schritt dieses Jobs liest (gemessen
+        # 10.10.2026 mit rg ueber die ausgefuehrten Skripte: die einzigen
+        # Treffer auf "ingest/" sind Verweise auf scripts/ingest/ in
+        # Kommentaren). tei/, data/, api/ und authority-files/ braucht der Job
+        # ganz. Ausschlussliste statt Positivliste, damit ein neues
+        # Verzeichnis im Baum ist.
         uses: actions/checkout@v6
         with:
           fetch-depth: 2
+          sparse-checkout: |
+            /*
+            !/ingest/
+            !/sources/
+            !/examples/
+          sparse-checkout-cone-mode: false
 
       - name: Diff-Base bestimmen (#154/#152)
         id: base
