@@ -60,32 +60,7 @@ jobs:
     timeout-minutes: 20
     steps:
       - name: Checkout
-        # sparse-checkout ohne ingest/, sources/ und examples/ (#564): die
-        # Zaehlskripte lesen tei/ und die Fundstellen aus CLAIMS.
         uses: actions/checkout@v6
-        with:
-          sparse-checkout: |
-            /*
-            !/ingest/
-            !/sources/
-            !/examples/
-          sparse-checkout-cone-mode: false
-
-      # Kontrollwert fuer den sparse-Checkout (#564): jede getrackte Datei
-      # ausser ingest/, sources/ und examples/ muss im Arbeitsbaum stehen.
-      - name: Arbeitsbaum vollstaendig ausser ingest/, sources/, examples/ (#564)
-        run: |
-          git ls-tree -r --name-only HEAD | grep -v -E '^(ingest|sources|examples)/' > "$RUNNER_TEMP/soll.txt"
-          soll=$(wc -l < "$RUNNER_TEMP/soll.txt")
-          fehlt=0
-          while IFS= read -r f; do
-            [ -e "$f" ] || { echo "fehlt im Arbeitsbaum: $f"; fehlt=$((fehlt + 1)); }
-          done < "$RUNNER_TEMP/soll.txt"
-          echo "$soll Dateien erwartet, $fehlt fehlen"
-          if [ "$soll" -lt 1000 ] || [ "$fehlt" -ne 0 ]; then
-            echo "::error title=sparse-checkout::Arbeitsbaum unvollstaendig oder Sollliste zu klein."
-            exit 1
-          fi
 
       - name: Set up Python
         uses: actions/setup-python@v6

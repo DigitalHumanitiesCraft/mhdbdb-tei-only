@@ -194,39 +194,9 @@ jobs:
         # fetch-depth: 2, damit der Diff-Base-Schritt unten den ersten
         # Elternteil des Merge-Refs lesen kann. Mit der Voreinstellung 1
         # kappt die shallow-Grenze die Elternliste, und `HEAD^1` scheitert.
-        #
-        # sparse-checkout ohne ingest/, sources/ und examples/ (#564): rund 165
-        # von 1.651 MB des Baums, die kein Schritt dieses Jobs liest (gemessen
-        # 10.10.2026 mit rg ueber die ausgefuehrten Skripte: die einzigen
-        # Treffer auf "ingest/" sind Verweise auf scripts/ingest/ in
-        # Kommentaren). tei/, data/, api/ und authority-files/ braucht der Job
-        # ganz. Ausschlussliste statt Positivliste, damit ein neues
-        # Verzeichnis im Baum ist.
         uses: actions/checkout@v6
         with:
           fetch-depth: 2
-          sparse-checkout: |
-            /*
-            !/ingest/
-            !/sources/
-            !/examples/
-          sparse-checkout-cone-mode: false
-
-      # Kontrollwert fuer den sparse-Checkout (#564): jede getrackte Datei
-      # ausser ingest/, sources/ und examples/ muss im Arbeitsbaum stehen.
-      - name: Arbeitsbaum vollstaendig ausser ingest/, sources/, examples/ (#564)
-        run: |
-          git ls-tree -r --name-only HEAD | grep -v -E '^(ingest|sources|examples)/' > "$RUNNER_TEMP/soll.txt"
-          soll=$(wc -l < "$RUNNER_TEMP/soll.txt")
-          fehlt=0
-          while IFS= read -r f; do
-            [ -e "$f" ] || { echo "fehlt im Arbeitsbaum: $f"; fehlt=$((fehlt + 1)); }
-          done < "$RUNNER_TEMP/soll.txt"
-          echo "$soll Dateien erwartet, $fehlt fehlen"
-          if [ "$soll" -lt 1000 ] || [ "$fehlt" -ne 0 ]; then
-            echo "::error title=sparse-checkout::Arbeitsbaum unvollstaendig oder Sollliste zu klein."
-            exit 1
-          fi
 
       - name: Diff-Base bestimmen (#154/#152)
         id: base
