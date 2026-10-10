@@ -1,6 +1,6 @@
 {
-  "from": "1.9.19",
-  "to": "1.9.20",
-  "flips": 1,
-  "reason": "#533: die Form airt loest nicht mehr auf lemma_1324 ei auf, sondern auf lemma_305 art. Das war der Befund des Tickets: airt ist keine Schreibung von ei. Nach der Korrektur traegt die Form genau zwei Belege, je einen unter lemma_4510 ort (KSA1, umgekehrte Schreibung ai fuer o vor r) und lemma_305 art (MR2, ai fuer langes a vor r); bei 1:1 entscheidet nach Vorschrift B (ADR-021) die kleinere Lemmanummer, also art. variantCandidates fuehrt beide Lesarten (lemma_305, lemma_4510), es geht also keine verloren, und das falsche ei faellt heraus. Gemessen am 07.10.2026, Base origin/main f38b02ac8."
+  "from": "1.9.22",
+  "to": "1.9.23",
+  "flips": 3,
+  "reason": "#460: die Formen jaget, jeit und jait loesen nicht mehr auf lemma_3103 jagat (NOM) auf, sondern auf lemma_3102 jagen (VRB). Das ist der Zweck des Tickets: 145 der 185 Tokens des Substantivlemmas sind Verbformen (jaget 109 von 122, jeit 35 von 39, jait 1 von 1) und stehen jetzt unter drei neu gepraegten Typen type_372855 bis type_372857. Bei jaget (109 gegen 13) und jeit (35 gegen 4) entscheidet nach Vorschrift B (ADR-021) die groessere Belegzahl; bei jait (1 gegen 0) ist der Typ unter lemma_3103 entfallen. Die uebrigen Substantiv-Belege behalten ihre Typen type_10674 und type_10676; jaget und jeit fuehren lemma_3103 deshalb weiter als zweiten Eintrag in variantCandidates, jait hat keinen zweiten Kandidaten mehr."
 }
