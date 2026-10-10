@@ -224,9 +224,9 @@ test.describe('Such-Deep-Link ?search= (#144)', () => {
             corpusLink.click(),
         ]);
 
-        // Auf der Korpussuche erscheinen Treffer automatisch. Der Tab gehoert
-        // dem warmen Context und wuerde sonst bis zum Ende des Workers offen
-        // bleiben (der eingebaute Context schloss ihn mit dem Test).
+        // Auf der Korpussuche erscheinen Treffer automatisch. Der Tab wird hier
+        // geschlossen, damit er vor dem Teardown nicht offen bleibt, auch wenn
+        // eine Pruefung fehlschlaegt (warm-page.js schliesst uebrige Seiten ohnehin).
         try {
             await searchPage.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
             await searchPage.waitForSelector('#resultsList > div', { timeout: 15000 });
