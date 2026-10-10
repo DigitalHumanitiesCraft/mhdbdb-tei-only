@@ -290,9 +290,11 @@ Dateien tauglich, er nimmt Inhalte als base64 im Aufruf. Bytezahlen prüft man i
 
 **Im Repo, aber ohne sein Original:** der WordPress-Export des Glossars Kochbuchforschung liegt
 bereinigt unter [`glossar-kochbuchforschung/`](glossar-kochbuchforschung/README.md) (#554). Das
-Original (5.791.014 Bytes, SHA-256 in der dortigen README) trägt Mailadressen und Logins und
-liegt nur als Anhang in [#423](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/423);
-wer es braucht, holt es dort, es kommt in kein Repositorium.
+Original (5.791.014 Bytes, SHA-256 in der dortigen README) trägt Mailadressen, Logins und eine
+Telefonnummer. Es hing als Anhang an einem Kommentar in
+[#423](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/423), der deshalb am
+2026-10-10 gelöscht wurde; KZWs Freigabe daraus steht wörtlich in der README. Wer das Original
+braucht, fragt KZW, es kommt in kein Repositorium.
 
 Bewusst **nicht** dort: die fyndling-Lieferung in `temp/` (Stand 18.08.2026), bis
 [#376](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/376) die Lizenz klärt.
