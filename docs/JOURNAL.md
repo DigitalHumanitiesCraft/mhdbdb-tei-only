@@ -1174,4 +1174,4 @@ Entschieden war nur Stufe 2: Bringt Stufe 1 keinen belegten Treffer (Eintrag in 
 
 **Folge, die bleibt:** Wer die Schreibform eines unbelegten Lemmas als Suchbegriff weitergibt (Wortbestandteil-Suche, "Im Korpus suchen"), landet beim belegten Lemma der Variante. Von 1.285 unbelegten Lemmata trifft das bei 573 (je Lemma gezählt). Eine ID-Übergabe nach CONTRACTS §C.1.1 würde es schließen und ist nicht Teil dieses Zuschnitts.
 
-**Nicht in diesem Zuschnitt, an die Koordination gemeldet:** `compare-findebuch-resolution-259.py` bildet die Auflösung mit "Stufe 1 gewinnt immer" nach (Spur C), DATA-MODEL.md Z. 643 "first match wins" (Spur A), ein Kommentar in `lemma-explorer.js`.
+**Runde 3** (Opus, nur das Delta) ohne Befund. **Nachgezogen:** DATA-MODEL.md Z. 643 ("first match wins"), DEVELOPMENT.md und der Modul-Docstring von `compare-findebuch-resolution-259.py` sagen jetzt, dass das Skript die Auflösung vor #463 nachbildet; sein Verhalten bleibt unverändert, die Anpassung ist Folgearbeit in #259 (der Funktions-Docstring Z. 295 behauptet noch "wie produktiv"). Der Kommentar in `lemma-explorer.js` Z. 874 geht an Spur C.
