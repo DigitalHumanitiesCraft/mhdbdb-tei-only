@@ -288,6 +288,12 @@ Dateien tauglich, er nimmt Inhalte als base64 im Aufruf. Bytezahlen prüft man i
 `search_files` mit `parentId` und dem Feld `fileSize`, lokal mit
 `find <pfad> -type f -printf '%s\n' | awk '{s+=$1} END {print s, NR}'`.
 
+**Im Repo, aber ohne sein Original:** der WordPress-Export des Glossars Kochbuchforschung liegt
+bereinigt unter [`glossar-kochbuchforschung/`](glossar-kochbuchforschung/README.md) (#554). Das
+Original (5.791.014 Bytes, SHA-256 in der dortigen README) trägt Mailadressen und Logins und
+liegt nur als Anhang in [#423](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/423);
+wer es braucht, holt es dort, es kommt in kein Repositorium.
+
 Bewusst **nicht** dort: die fyndling-Lieferung in `temp/` (Stand 18.08.2026), bis
 [#376](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/376) die Lizenz klärt.
 Von ihren 990 Formen tragen 754 CoReMA-Transkriptionen, aber 234 stehen unter `kkm`, `saw` und

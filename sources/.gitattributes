@@ -4,5 +4,8 @@
 linecode/** -text
 *.csv -text
 
+# Glossar-Export (#554): bereinigte Fassung, deren sha256 in der README steht.
+glossar-kochbuchforschung/** -text
+
 # Word-Vorlage der Legacy-Pipeline: Binaerformat, nie diffen.
 legacy-tooling/*.dot binary
