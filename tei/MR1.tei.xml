@@ -127,6 +127,7 @@
       <change when="2026-09-23" who="#editor">#387 vrouwe/vrô, Resttokens: 4 Tokens annotiert nach den Einzelentscheidungen von KZW vom 17.09.2026 (lemmaRef/pos/corresp; kein @ana, weil die Sense-Zuordnung kuratorisch ist). Im ganzen Lauf: zwei Doppeltags ADJ NOM mit erklärendem @reason, wo KZW die Lesart für unentscheidbar erklärt hat, und drei neu geprägte Variantentypen nach der Regel aus #367.</change>
       <change when="2026-09-30" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization an den Stand der Annotation angeglichen (26353 von 36054 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;Teilweise lemmatisiert, nicht disambiguiert.&#34;</change>
       <change when="2026-10-01" who="#editor">#228: 15 Ziffern in supplied (Zählung der Edition) entannotiert: lemmaRef, pos, ana und corresp entfallen, die Ziffer bleibt stehen. Entscheidung KZW 25.09.2026: Ziffern sind keine Lemmata.</change>
+      <change when="2026-10-10" who="#editor">#460 jagen: 1 Token als Verbform gelesen, von lemma_3103 jagât (NOM) auf lemma_3102 jagen (VRB) umgehängt, @ana entfällt; neu geprägte Variantentypen nach der Regel aus #367.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -48653,7 +48654,7 @@
             <w xml:id="MR1_81332064400_5" lemmaRef="lexicon.xml#lemma_22773" pos="NOM" ana="lexicon.xml#lemma_22773_sense_37053" corresp="variants.xml#type_299783">krüme</w>
           </l>
           <l n="645">
-            <w xml:id="MR1_81332064500_0" lemmaRef="lexicon.xml#lemma_3103" pos="NOM" ana="lexicon.xml#lemma_3103_sense_4930" corresp="variants.xml#type_10674">jaget</w>
+            <w xml:id="MR1_81332064500_0" lemmaRef="lexicon.xml#lemma_3102" pos="VRB" corresp="variants.xml#type_372855">jaget</w>
             <w xml:id="MR1_81332064500_1" lemmaRef="lexicon.xml#lemma_1073" pos="ADV" ana="lexicon.xml#lemma_1073_sense_1716" corresp="variants.xml#type_3322">dann</w>
             <w xml:id="MR1_81332064500_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
             <w xml:id="MR1_81332064500_3" lemmaRef="lexicon.xml#lemma_7595" pos="NOM" ana="lexicon.xml#lemma_7595_sense_12432" corresp="variants.xml#type_27483">widervart</w>
