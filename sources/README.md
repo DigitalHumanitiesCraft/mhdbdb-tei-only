@@ -1,19 +1,25 @@
-# `sources/` – Legacy-Quelldateien, nicht normativ
+# `sources/` – Quelldateien (Legacy-Linecode und Fremdexporte), nicht normativ
 
 > **Achtung: das hier sind keine Korpusdaten.**
 > Normativ sind ausschließlich [`tei/`](../tei/) und [`authority-files/`](../authority-files/).
-> Die Dateien in diesem Verzeichnis sind **historische Ingest-Vorlagen** aus der Zeit vor der
-> TEI-Migration. Sie werden **nicht** validiert, **nicht** indexiert, von **keinem** Build-Skript
-> gelesen und nie als Beleg für den aktuellen Datenstand zitiert. Wer eine Aussage über das
-> Korpus braucht, liest `tei/`. Wer wissen will, was der Ingest verloren hat, liest hier.
+> Die Linecode-Dateien in diesem Verzeichnis (`linecode/`, `legacy-tooling/` und die
+> Verzeichnisse dazu) sind **historische Ingest-Vorlagen** aus der Zeit vor der TEI-Migration.
+> Dazu kommen Exporte fremder Quellen (bisher `glossar-kochbuchforschung/`, #554), die keine
+> Ingest-Vorlagen sind. Alles hier wird **nicht** validiert, **nicht** indexiert, von **keinem**
+> Build-Skript gelesen und nie als Beleg für den aktuellen Datenstand zitiert. Wer eine Aussage
+> über das Korpus braucht, liest `tei/`. Wer wissen will, was der Ingest verloren hat, liest
+> die Linecode-Dateien.
 
-Angelegt zu [Issue #248](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/248),
+Der Linecode-Teil wurde angelegt zu
+[Issue #248](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/248),
 Freigabe durch KZW am 2026-07-30.
 
 ## Das Quellarchiv liegt lokal bei KZW, nicht hier
 
-Alles in diesem Verzeichnis ist ein **Auszug** aus einem 9,1 GB großen Archiv, das
-**ausschließlich lokal auf Katharina Zeppezauer-Wachauers OneDrive** liegt:
+Die Linecode-Bestände in diesem Verzeichnis sind ein **Auszug** aus einem 9,1 GB großen Archiv
+(Stand der Aufnahme 2026-07-30, siehe `INVENTAR-ARCHIV.md`), das
+**ausschließlich lokal auf Katharina Zeppezauer-Wachauers OneDrive** liegt (der
+Glossar-Export stammt nicht daher):
 
 ```
 MHDBDB_Inhaltliches/Texte/     (im MHDBDB-Sharefolder-Backup)
@@ -34,6 +40,7 @@ existiert genau dafür.
 | [`linecode-manifest.csv`](linecode-manifest.csv) | Eine Zeile je Datei: Sigle, `inhaltstyp`, Originalpfad im Archiv, Zeilen, Codebreiten, `sha256`, Dubletten, Arbeitskopien. Bei `erledigt/frauenlob_bd2-codiert.rtf` sind `zeilen`, `codierte_zeilen`, `codebreiten` und `encoding_gelesen` leer: die Datei ist RTF und läuft nicht durch den Zeilenscanner |
 | [`INVENTAR-ARCHIV.md`](INVENTAR-ARCHIV.md) | Was das Archiv sonst noch enthält (Scans, OCR-Projekte, Volltextexport 2017, Ingest-Kandidaten) und wie man lokal darauf zugreift |
 | [`archiv-inventar.csv`](archiv-inventar.csv) | Dateiweises Verzeichnis des Archivs, 5.037 Zeilen (alles außer den 14.771 FineReader-Projektdateien) |
+| [`glossar-kochbuchforschung/`](glossar-kochbuchforschung/README.md) | **Kein Legacy-Bestand und nicht aus dem Archiv:** bereinigter WordPress-Export des Glossars Kochbuchforschung (5.790.889 Bytes, ohne Mailadressen, Telefonnummer und Logins), von KZW am 08.10.2026 geliefert, CC BY-NC-SA 4.0 (#554). Gleiche Einstufung wie der Rest dieses Ordners: nicht normativ, nicht indexiert |
 
 Die Unterordner von `linecode/` spiegeln die Archivstruktur: `erledigt/` (302 Dateien) und
 `neue-texte-klaus/` (4 Dateien).
