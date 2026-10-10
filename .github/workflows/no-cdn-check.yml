@@ -110,6 +110,25 @@ jobs:
             !/data/*.json.gz
           sparse-checkout-cone-mode: false
 
+      # Kontrollwert fuer den sparse-Checkout (#564): jede getrackte Datei
+      # ausser den beiden ausgeschlossenen Klassen muss im Arbeitsbaum
+      # stehen. Faellt ein Muster versehentlich zu weit, sehen die Gates
+      # unten eine kleinere Menge und melden trotzdem gruen.
+      - name: Arbeitsbaum vollstaendig ausser tei/*.tei.xml und data/*.json.gz (#564)
+        run: |
+          git ls-tree -r --name-only HEAD \
+            | grep -v -E '^(tei/[^/]+\.tei\.xml|data/[^/]+\.json\.gz)$' > "$RUNNER_TEMP/soll.txt"
+          soll=$(wc -l < "$RUNNER_TEMP/soll.txt")
+          fehlt=0
+          while IFS= read -r f; do
+            [ -e "$f" ] || { echo "fehlt im Arbeitsbaum: $f"; fehlt=$((fehlt + 1)); }
+          done < "$RUNNER_TEMP/soll.txt"
+          echo "$soll Dateien erwartet, $fehlt fehlen"
+          if [ "$soll" -lt 1000 ] || [ "$fehlt" -ne 0 ]; then
+            echo "::error title=sparse-checkout::Arbeitsbaum unvollstaendig oder Sollliste zu klein."
+            exit 1
+          fi
+
       - name: Diff-Base bestimmen (#292)
         id: base
         # Die Shell-Zeilen sind wortgleich zu data-integrity.yml (#154),
