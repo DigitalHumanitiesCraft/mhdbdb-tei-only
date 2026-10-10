@@ -4,6 +4,24 @@ Chronological log of development decisions, dead ends, and savepoints. Not a cha
 
 ---
 
+## 2026-10-10 (Spur D, #564 D3): langsamste Tests schneller, ohne Abdeckung zu verlieren
+
+**Was:** `main-site`, `lemma-page` und `results-table` laufen im warmen Context (#488), zwei Tests in `main-site` bleiben kalt. In `multi-lemma-export` gibt es die große Suche (minne + herze, 66 Dateien im Versmodus) nur noch einmal auf einer gemeinsamen Seite (Fehlerfall, CSV, XLSX aus dem Zwischenspeicher der Suche); Nähe- und Dokumentfall laufen auf kleinen Suchen. Feste Wartezeiten in `main-site` und `reading-view` sind Ereignissen gewichen.
+
+**Messung** (voller `npm test`, Port 8087, `--workers=2`, 492 Tests, beide Läufe grün): Summe der Testdauern 2347 s auf 2062 s, Wanduhr 1205 s auf 1058 s. Je Spec (Summe der Dauern, vorher/nachher): multi-lemma-export 170,4/58,5 s, results-table 124,5/56,5 s, main-site 99,1/47,6 s, lemma-page 99,2/36,3 s, reading-view 95,8/94,1 s. Die Zeit eines `beforeAll` steckt in keinem `duration`; bei multi-lemma-export kommen rund 6 s (Schätzung, nicht gemessen) hinzu.
+
+**Was über den Einzelfall hinausgeht:**
+- `waitForLoadState('networkidle')` kehrt sofort zurück, wenn die Seite den Zustand einmal erreicht hatte (gemessen 1 ms bei vier offenen Anfragen). Als Ersatz für eine feste Frist taugt es nicht; der Test zählt jetzt offene `/tei/`-Anfragen. Mutationsprobe (Guard `abgebrochen` entfernt) macht ihn rot an der Endprüfung.
+- Im warmen Context bleiben Tabs, die ein Test öffnet, bis zum Workerende offen; `warm-page.js` schließt übrige Seiten jetzt im Teardown.
+- Ein Hook läuft mit dem Projekt-Timeout, nicht mit dem des Testblocks.
+- Nicht angefasst, aber die nächsten Kandidaten: `attribution-status` (104,8 s), `proximity-and-resolution` (83,7 s), `search-with-corpus`, `korpus-url-zustand`, `position-parity`.
+
+**Review:** Opus, zwei Runden. Runde 1: networkidle wirkungslos, Tab-Leck, Regeltexte zu weit, Zahlen im Kommentar; alles behoben. Runde 2: kein A-Befund, ein überholter Kommentar (behoben), eine Zahl im Auftrag aus einem anderen Lauf (korrigiert). Reviewer-Memory dafür destilliert (eigener Commit).
+
+**Rote Zeilen:** Keine. Nummern 150 bis 154 weiter unverbraucht.
+
+---
+
 ## 2026-10-10 (Spur D, #564 D2): `run-tests.js` druckt die Dauer je Spec-Datei
 
 **Was:** Vor der VERDICT-Zeile stehen jetzt Summe der Testdauern (alle Versuche), Wanduhr, tatsächliche Workerzahl und die zehn langsamsten Spec-Dateien. Kein Gate; Verdikt und Exit-Code sind unverändert, die VERDICT-Zeile bleibt die letzte Zeile (Abweichung vom Kickoff-Wortlaut „nach der VERDICT-Zeile“, G1 des Laufplans).
