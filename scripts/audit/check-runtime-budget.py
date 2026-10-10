@@ -78,6 +78,7 @@ import json
 import math
 import os
 import sys
+import time
 import urllib.error
 import urllib.request
 from datetime import datetime, timezone
@@ -195,6 +196,25 @@ def hole_jobs(repo, run_id, attempt, token):
         raise MessungFehlt(f'Actions-API nicht lesbar ({url}): {exc}')
 
 
+def vor_dem_gate(schritte, eigener_schritt):
+    """Die Schritte vor dem eigenen, ohne Runner-Schritte; ohne eigenen Schritt alle."""
+    liste = []
+    for s in schritte:
+        if s['name'] == eigener_schritt:
+            break
+        if s['name'] in RUNNER_SCHRITTE or s['name'].startswith('Post '):
+            continue
+        liste.append(s)
+    return liste
+
+
+def offene_schritte(schritte, eigener_schritt):
+    """Schritte vor dem Gate, die die API weder fertig noch laufend mit Startzeit fuehrt."""
+    return [s for s in vor_dem_gate(schritte, eigener_schritt)
+            if s.get('status') != 'completed'
+            and not (s.get('status') == 'in_progress' and s.get('started_at'))]
+
+
 def eigene_schritte(antwort, job_name):
     jobs = [j for j in antwort.get('jobs', []) if j.get('name') == job_name]
     if len(jobs) != 1:
@@ -222,6 +242,15 @@ def pruefe(args, cfg, antwort, kommentar=None):
                          jetzt=getattr(args, 'jetzt', None) or datetime.now(timezone.utc))
         if not zeilen:
             raise MessungFehlt(f'Job {args.job!r}: kein fertiger Schritt messbar')
+        gemessen = {z[0] for z in zeilen}
+        fehlt = [s for s in vor_dem_gate(schritte, args.self_step)
+                 if s['name'] not in gemessen and f'{args.workflow}/{s["name"]}' not in cfg['excluded']
+                 and s.get('conclusion') != 'skipped']
+        for s in fehlt:
+            print(f'  nicht gemessen: {s["name"]} (status {s.get("status")}, conclusion {s.get("conclusion")})')
+        if fehlt and not job_rot:
+            raise MessungFehlt(f'{len(fehlt)} Schritt(e) vor dem Gate nicht messbar: '
+                               + ', '.join(s['name'] for s in fehlt))
     except MessungFehlt as exc:
         if erzwingend and not job_rot:
             print(f'::error title=Laufzeitbudget::Messung nicht moeglich: {exc}', file=sys.stderr)
@@ -346,6 +375,14 @@ def selftest():
                   ueber([laufend]) == []))
     cases.append(('wartender Schritt (pending) wird nicht bewertet',
                   ueber([{'name': 'Bauen', 'status': 'pending', 'conclusion': None}], jetzt=jetzt) == []))
+    offen_pending = [{'name': 'Vor', 'status': 'completed', 'conclusion': 'success'},
+                     {'name': 'Bauen', 'status': 'queued', 'conclusion': None},
+                     {'name': 'Laufzeitbudget', 'status': 'in_progress', 'conclusion': None, 'started_at': 'x'},
+                     {'name': 'Spaeter', 'status': 'pending', 'conclusion': None}]
+    cases.append(('offener Schritt vor dem Gate wird erkannt, spaetere nicht',
+                  [s['name'] for s in offene_schritte(offen_pending, 'Laufzeitbudget')] == ['Bauen']))
+    cases.append(('laufender Schritt mit Startzeit ist nicht offen',
+                  offene_schritte([laufend], 'Laufzeitbudget') == []))
     streng = dict(cfg, factor=0, checkout_factor=0, floor_s=0)
     cases.append(('Mutation: Faktor 0 und Untergrenze 0 macht jeden Schritt ab 1 s rot',
                   ueber([schritt('Bauen', 1), schritt('Klein', 1)], cfg=streng) == ['Bauen', 'Klein']))
@@ -378,6 +415,9 @@ def selftest():
         r_leer = pruefe(args(), cfg, antwort())
         r_keinjob_push = pruefe(args(event='push', job='gibt-es-nicht'), cfg, gut)
         r_fehlt_rot = pruefe(args(job_status='failure', job='gibt-es-nicht'), cfg, gut)
+        r_ungemessen = pruefe(args(), cfg, antwort(schritt('Bauen', 100), {'name': 'Haengt', 'status': 'queued', 'conclusion': None},
+                                                   {'name': 'Laufzeitbudget', 'status': 'in_progress', 'conclusion': None, 'started_at': 'x'}))
+        r_uebersprungen = pruefe(args(), cfg, antwort(schritt('Bauen', 100), {'name': 'Bedingt', 'status': 'completed', 'conclusion': 'skipped'}))
         gesendet = []
         pruefe(args(event='push'), cfg, schlecht, kommentar=gesendet.append)
         pruefe(args(event='push', ref='refs/heads/anderer'), cfg, schlecht, kommentar=gesendet.append)
@@ -392,6 +432,8 @@ def selftest():
     cases.append(('PR, Job ohne fertigen Schritt: Exit 2', r_leer == 2))
     cases.append(('push, Job nicht gefunden: nur Warnung, Exit 0', r_keinjob_push == 0))
     cases.append(('PR mit rotem Job und fehlender Messung: Exit 0 (verdeckt nichts)', r_fehlt_rot == 0))
+    cases.append(('PR, ein Schritt vor dem Gate nicht messbar: Exit 2', r_ungemessen == 2))
+    cases.append(('PR, ein Schritt wegen if uebersprungen (skipped): Exit 0', r_uebersprungen == 0))
     cases.append(('Kommentar ins Sammelticket nur bei Ueberschreitung auf push in main',
                   len(gesendet) == 1 and 'Bauen' in gesendet[0]))
 
@@ -468,7 +510,15 @@ def main():
         else:
             if not (args.repo and args.run_id and token):
                 raise MessungFehlt('Repository, Lauf-Nummer oder Token fehlen')
-            antwort = hole_jobs(args.repo, args.run_id, args.attempt, token)
+            for versuch in range(6):
+                antwort = hole_jobs(args.repo, args.run_id, args.attempt, token)
+                try:
+                    offen = offene_schritte(eigene_schritte(antwort, args.job), args.self_step)
+                except MessungFehlt:
+                    break
+                if not offen:
+                    break
+                time.sleep(2)
     except MessungFehlt as exc:
         if erzwingend and args.job_status in ('success', ''):
             print(f'::error title=Laufzeitbudget::Messung nicht moeglich: {exc}', file=sys.stderr)
