@@ -298,11 +298,10 @@ test.describe('Search Engine', () => {
             expect(r.zeilenLemmata).not.toContain('lemma_64730');
         });
 
-        test('hanc: ohne Stufe 2 fragt Stufe 3, das unbelegte hanc bleibt in der Liste', async ({ page }) => {
+        test('hanc: ohne Stufe-2-Eintrag bleibt es bei Stufe 1, Stufe 3 wird nicht mitgefragt', async ({ page }) => {
             const r = await aufloesen(page, 'hanc');
-            expect(r.ids).toContain('lemma_2636');
-            expect(r.ids.length).toBeGreaterThan(1);
-            expect(r.zeilen).toBeGreaterThan(0);
+            expect(r.ids).toEqual(['lemma_2636']);
+            expect(r.zeilen).toBe(0);
         });
 
         test('roz: ein belegter Stufe-1-Treffer (rôz) haelt, Stufe 2 bleibt ungefragt', async ({ page }) => {

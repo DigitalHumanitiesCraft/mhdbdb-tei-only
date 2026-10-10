@@ -295,7 +295,7 @@ Validated on real corpus data: PL1 689 → 57, OVG 369 → 26 (matches the resul
 
 ## C. 3-Stage Lemma Resolution Algorithm
 
-**Contract:** Search resolves user input to lemma IDs through exactly 3 stages, in order, with early return. Stage 1 returns early only if at least one of its hits has a corpus attestation (#463). Two inputs skip all three: a component that already holds an exact lemma id can pin it (§C.1.1), and a user who types a lemma number gets that id (§C.1.2). Those two paths exist in the places named there and nowhere else.
+**Contract:** Search resolves user input to lemma IDs through exactly 3 stages, in order, with early return. Stage 1 returns early only if at least one of its hits has a corpus attestation; otherwise stage 2 is asked as well (#463). Two inputs skip all three: a component that already holds an exact lemma id can pin it (§C.1.1), and a user who types a lemma number gets that id (§C.1.2). Those two paths exist in the places named there and nowhere else.
 
 **Why:** MHG has extensive orthographic variation. A single lemma can appear as dozens of attested forms. The 3-stage approach balances precision (exact first) with recall (fuzzy last).
 
@@ -323,10 +323,10 @@ function resolveLemmaIds(normalized):
     // all of them, best first by Vorschrift B (see "Variant Dictionary Structure")
     candidates = authorityIndex.variantCandidates[normalized]
     stage2 = candidates ?? (variants[normalized] ? [variants[normalized]] : [])
-    if stage2 is not empty AND results is empty:
+    if results is not empty:                 // here every stage-1 hit is unattested
+        return stage2 + results (without duplicates)   // EARLY RETURN, stage 3 is not asked
+    if stage2 is not empty:
         return stage2                        // EARLY RETURN, 1..N ids, ranked
-    if any id in stage2 is attested:         // only reachable with unattested stage-1 hits
-        return stage2 + results (without duplicates)
 
     // Stage 3: Partial match fallback (bidirectional PREFIX, see #224)
     partial = []
@@ -336,28 +336,29 @@ function resolveLemmaIds(normalized):
                AND normalized.startsWith(lemma.normalized)):        // inflected input
             partial.push(lemma)
     sort partial by abs(len(lemma.normalized) - len(normalized))    // closest first
-    return stage2 + partial.map(lemma => lemma.id) + results       // without duplicates, may be empty
+    return partial.map(lemma => lemma.id)                          // May be empty
 ```
 
 ### Stage 1 holds only with a corpus attestation (#463)
 
-Stage 1 compares against the lexicon, not against corpus usage, so a lemma with no corpus token won against an attested one as soon as its spelling matched the input. Measured on 2026-10-10 (Authority Index 1.9.22, Corpus Index 4.2.31): 1,285 of 43,710 lemmata have no corpus token, and `corpusIndex.lemmaIndex` has an entry for exactly the other 42,425 (0 empty entries, 0 deviations from the token sum over `texts[].lemmata`). An unattested hit never produces a result row on the main site, but it cut off stages 2 and 3.
+Stage 1 compares against the lexicon, not against corpus usage, so a lemma with no corpus token won against an attested one as soon as its spelling matched the input. Measured on 2026-10-10 (Authority Index 1.9.22, Corpus Index 4.2.31): 1,285 of 43,710 lemmata have no corpus token, and for the lemmata of the lexicon `corpusIndex.lemmaIndex` has an entry for exactly the other 42,425 (0 empty entries, 0 deviations from the token sum over `texts[].lemmata`; the index has 42,460 keys, 35 of them without a lexicon entry). An unattested hit never produces a result row on the main site, but it cut off stage 2.
 
-Decided by chsteiner on 2026-10-10: **if stage 1 yields no attested hit, stage 2 is asked as well** (and, if that has nothing attested either, stage 3 as before). Stage-1 hits stay in the id list. The lexicon is more than the corpus index and is meant to be, so unattested lemmata are not excluded, only they no longer stop the resolution.
+Decided by chsteiner on 2026-10-10: **if stage 1 yields no attested hit, stage 2 is asked as well.** Stage 3 is not part of that decision: it runs as before only for inputs that find nothing in stages 1 and 2 (`Cordoba`, spelled like its own unattested lemma, would otherwise resolve to `cor` by prefix; `hanc` stays at 0 rows). Stage-1 hits stay in the id list. The lexicon is more than the corpus index and is meant to be, so unattested lemmata are not excluded, only they no longer stop the resolution.
 
 - **Attested means: has an entry in `lemmaIndex`**, corpus-wide, not within the current text selection or author filter.
 - **Without `lemmaIndex`** (old index states) everything counts as attested, which is the pre-#463 behaviour.
 - **`hasAmbiguousVariant` follows the same predicate**: the note appears when stage 1 holds no attested hit and stage 2 has candidates.
 - **Not covered:** a stage-1 hit that is attested but wrong (`lenden`: verb lemma `lemma_3702` wins over the noun `lemma_3701`) is a separate question. Nor does an attested stage-1 hit change anything, so `roz` (`rôz` has 1 token) still yields 1 row.
 - **Playground too** (coordination decision G1, 2026-10-10): `searchLemmaByOrthography` applies the same rule. The predicate (`isAttestedLemma`, `stage1Holds`) lives in `assets/js/lib/lemma-resolve.js` and both sides call it; the loops stay per side. Without the corpus index loaded the playground counts everything as attested (old behaviour).
-- **Order of the list: unattested stage-1 hits come last** (after the stage-2 candidates and, where reached, the stage-3 hits), because `matches[0]` callers in the playground (§C.1.1) must not take a lemma without a token. The exception is stage 3, which sorts by length distance: an unattested lemma spelled exactly like the input (`hanc`) sits first there, because it is distance 0 and stays in its place when the list is de-duplicated.
+- **Order of the list: unattested stage-1 hits come last** (after the stage-2 candidates), because `matches[0]` callers in the playground (§C.1.1) must not take a lemma without a token.
+- **Consequence for callers that hand over a lemma's own spelling as a search term** (word-component search in the lemma explorer, the "Im Korpus suchen" button of the lemma page): for an unattested lemma that has a stage-2 entry, `matches[0]` is now the attested lemma of that variant (`Rosse` → `ros`), not the lemma itself. Measured on 2026-10-10 with the main site's `resolveLemmaIds`: the spelling of 573 of the 1,285 unattested lemmata (counted per lemma) now yields at least one attested foreign id. Passing the lemma id (`ids=`, §C.1.1) would close it and is not part of #463.
 
 ### Stage Behavior
 
 | Stage | Input Type | Return | Performance | Example |
 |-------|-----------|--------|-------------|---------|
 | 1 | Canonical or normalized form | 0..N lemma IDs (homographs) | O(n) scan | `brot` → `[lemma_879]` |
-| 2 | Attested orthographic variant | 1..N lemma IDs: exactly one unless the form is ambiguous, then all candidates ranked by Vorschrift B | O(1) lookup | `brott` → normalize → `brot` → variants[`brot`] → `lemma_879`; `hab` → variantCandidates[`hab`] → `lemma_2598`, `lemma_2593` |
+| 2 | Attested orthographic variant | 1..N lemma IDs: exactly one unless the form is ambiguous, then all candidates ranked by Vorschrift B; with unattested stage-1 hits, those follow the candidates | O(1) lookup | `brott` → normalize → `brot` → variants[`brot`] → `lemma_879`; `hab` → variantCandidates[`hab`] → `lemma_2598`, `lemma_2593` |
 | 3 | Prefix match, both directions | 0..N lemma IDs, closest first | O(n) scan + sort | `minnecl` → `minnec`, `minne`, `minneclîch`, …; `schwertkampf` → none |
 
 ### Stage 3: why prefix and not substring (#224)

@@ -154,7 +154,7 @@ class SearchEngine {
 
         // Stufe 1 haelt nur, wenn mindestens ein Treffer im Korpus belegt ist
         // (#463). Ein Lemma ohne Beleg (z.B. "Rosse" fuer die Eingabe "rosse")
-        // schnitt sonst Stufe 2 und 3 ab, und die Suche endete leer, obwohl
+        // schnitt sonst Stufe 2 ab, und die Suche endete leer, obwohl
         // das belegte Lemma (ros) in der Variantenliste stand. Die Stufe-1-
         // Treffer bleiben in der Liste (am Ende); das Lexikon ist mehr als der Korpus.
         if (stage1Holds(lemmaIds, this.corpusIndex?.lemmaIndex)) {
@@ -170,25 +170,27 @@ class SearchEngine {
         const stage2 = Array.isArray(candidates)
             ? [...candidates]
             : (variantLemmaId ? [variantLemmaId] : []);
-        if (stage2.length > 0 && !stage1Unattested) {
-            return stage2;
-        }
-        if (stage2.some(id => this.isAttested(id))) {
+        if (stage1Unattested) {
+            // Entschieden ist nur Stufe 2 (#463, chsteiner 10.10.2026). Stufe 3
+            // bleibt wie vor #463 den Eingaben vorbehalten, die in Stufe 1 und 2
+            // nichts finden: sonst loest "Cordoba" ueber das Praefix auf "cor" auf.
             return this.unionIds(stage2, lemmaIds);
+        }
+        if (stage2.length > 0) {
+            return stage2;
         }
 
         // Strategy 3: Partial match fallback. Prefix-oriented in both directions
         // (stem input → lemma, inflected input → lemma), never an unbounded
         // substring test: that is what made "böses" resolve to ês/ô/sê (#224).
         // Rule and rationale live in lib/lemma-resolve.js, contract in
-        // CONTRACTS.md §C. Erreicht nur, wer in Stufe 1 und 2 nichts Belegtes
-        // fand; unbelegte Treffer der Stufen 1 und 2 bleiben in der Liste.
+        // CONTRACTS.md §C.
         const partial = this.authorityIndex.lemmata
             .filter(lemma => isStage3Match(lemma.normalized, normalized))
             .sort((a, b) =>
                 stage3Distance(a.normalized, normalized) - stage3Distance(b.normalized, normalized)
             );
-        return this.unionIds(this.unionIds(stage2, partial.map(lemma => lemma.id)), lemmaIds);
+        return partial.map(lemma => lemma.id);
     }
 
     /** Stufe 1: alle Lemmata, deren normalisierte Ansetzung der Eingabe gleicht. */

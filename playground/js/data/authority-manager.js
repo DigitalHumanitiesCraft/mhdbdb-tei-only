@@ -6,7 +6,7 @@
  */
 
 import { TextNormalizer } from '../../../assets/js/lib/text-normalizer.js';
-import { isStage3Match, stage3Distance, isAttestedLemma, stage1Holds } from '../../../assets/js/lib/lemma-resolve.js';
+import { isStage3Match, stage3Distance, stage1Holds } from '../../../assets/js/lib/lemma-resolve.js';
 
 export class AuthorityFilesManager {
   constructor(authorityData) {
@@ -100,7 +100,8 @@ export class AuthorityFilesManager {
       return lemmaLower === normalized || lemmaNormalized === normalizedCharacters;
     });
     // Stufe 1 haelt nur mit mindestens einem belegten Treffer (#463, wie die
-    // Hauptseite). Sonst werden Stufe 2 und 3 mitgefragt und die unbelegten
+    // Hauptseite). Sonst wird Stufe 2 mitgefragt (Stufe 3 bleibt den Eingaben
+    // vorbehalten, die in Stufe 1 und 2 nichts finden) und die unbelegten
     // Stufe-1-Treffer bleiben in der Liste. Ohne geladenen Corpus-Index
     // gilt alles als belegt (altes Verhalten).
     const lemmaIndex = window.playground?.corpusData?.lemmaIndex;
@@ -132,8 +133,7 @@ export class AuthorityFilesManager {
         }
         const candidates = candidateIds.map(id => lemmaById.get(id)).filter(Boolean);
         if (candidates.length > 0) {
-          if (exactMatches.length === 0) return candidates;
-          if (candidates.some(l => isAttestedLemma(lemmaIndex, l.id))) return withStage1(candidates);
+          return exactMatches.length === 0 ? candidates : withStage1(candidates);
         }
       }
 
@@ -144,11 +144,13 @@ export class AuthorityFilesManager {
         // Find the corresponding lemma in lemmata array
         const lemma = this.authorityData.lemmata.find(l => l.id === lemmaId);
         if (lemma) {
-          if (exactMatches.length === 0) return [lemma];
-          if (isAttestedLemma(lemmaIndex, lemma.id)) return withStage1([lemma]);
+          return exactMatches.length === 0 ? [lemma] : withStage1([lemma]);
         }
       }
     }
+
+    // Unbelegter Stufe 1 ohne Stufe 2: wie vor #463 bleibt es bei Stufe 1.
+    if (exactMatches.length > 0) return exactMatches;
 
     // Stage 3: Partial-Match-Fallback, praefixorientiert in beide Richtungen
     // (Stamm-Eingabe -> Lemma, flektierte Eingabe -> Lemma). Regel und
@@ -179,7 +181,7 @@ export class AuthorityFilesManager {
         || (a.idx - b.idx)
       )
       .map(entry => entry.lemma);
-    return exactMatches.length > 0 ? withStage1(partialMatches) : partialMatches;
+    return partialMatches;
   }
 
   /**
