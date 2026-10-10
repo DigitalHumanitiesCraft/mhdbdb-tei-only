@@ -203,9 +203,9 @@ Browse and search six controlled vocabularies with consistent interface patterns
 
 ### TEI Text Analysis
 
-Corpus-wide text analysis using pre-built indexes. Eleven analysis tools in eleven playground entries (multi-lemma offers document, proximity and verse mode in one entry), all of them in place in the results panel as form plus body (except multi-lemma, which is a modal). The two curated external datasets described at the end of this section, character naming (#59) and arthurian horses (#193), are counted separately: with #194 they moved into a group of their own, "Experimentelle Forschungsdaten".
+Corpus-wide text analysis using pre-built indexes. Each analysis tool has its own playground entry (multi-lemma offers document, proximity and verse mode in one entry), all of them in place in the results panel as form plus body (except multi-lemma, which is a modal). The curated external datasets described at the end of this section, character naming (#59) and arthurian horses (#193), are listed separately: with #194 they moved into a group of their own, "Experimentelle Forschungsdaten".
 
-**Which tools the corpus selection governs (#204).** The text selection in the Corpus Browser (Step 1) is the analysis basis for eight of the eleven tools: multi-lemma search plus co-occurrence ranking, verse-position search, concept distribution, lemma distribution, word frequency, text statistics, verse-ending profile. Three tools stand apart, each for a stated reason, and each says so in its own header:
+**Which tools the corpus selection governs (#204).** The text selection in the Corpus Browser (Step 1) is the analysis basis for these tools: multi-lemma search plus co-occurrence ranking, verse-position search, concept distribution, lemma distribution, word frequency, text statistics, verse-ending profile. Some tools stand apart, each for a stated reason, and each says so in its own header:
 
 - **Hapax legomena** stays corpus-wide. Whether a lemma occurs exactly once can only be established against the whole corpus, so a selection would change the definition rather than the scope. "Beitrag pro Text" shows which text contributes which rarities.
 - **Text comparison** picks its two texts itself; the Step 1 selection does not narrow its dropdowns.
@@ -371,7 +371,7 @@ All playground views are bookmarkable and shareable via hash-based URLs.
 
 ### Search Normalization
 
-Consistent search behavior across all 19 entry points via Middle High German character normalization (measured 2026-09-02: 6 authority explorers, 11 analysis tools, 2 curated datasets).
+Consistent search behavior across the authority explorers, the analysis tools and the curated datasets via Middle High German character normalization.
 
 **Normalization rules:**
 - Long vowels: â→a, ê→e, î→i, ô→o, û→u
