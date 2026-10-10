@@ -179,6 +179,7 @@ The reading view converts TEI XML elements to HTML. Source: `extractAndFormatBod
   3. Prefix-match fallback, both directions, shared with the main site via `assets/js/lib/lemma-resolve.js` (#224; before that an unbounded substring test, one-directional here and bidirectional on the main site)
 - Direct array access (no XML DOM queries)
 - Performance maps for fast lookups
+- Lookup tables over the lemma array (`getLemmaTables`, #564): lower-case and normalized form per lemma, id → row, built once per loaded array instead of per resolution. Before that, every playground resolution normalized all lemmata again (stages 1 and 3), every resolution that reached stage 2 scanned all variant keys for an emptiness check, and the whole cost a multiple of the main site's. The autocomplete narrows its scan to the hits of the previous keystroke and selects the top 8 instead of sorting all hits. Runtime is held to a budget by `scripts/audit/benchmark-search.mjs` (see DEVELOPMENT.md)
 
 **TEIFilesManager** (`playground/js/data/tei-manager.js`)
 - Multi-lemma search over the pre-built corpus index (the file-upload path was removed in #314). `searchMultipleLemmasUsingIndex()` dispatches on `contextType` into the three modes below; there is no single-lemma entry point here, the main site has its own

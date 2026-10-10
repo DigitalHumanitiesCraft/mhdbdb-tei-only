@@ -8,6 +8,9 @@
 import { TextNormalizer } from '../../../assets/js/lib/text-normalizer.js';
 import { isStage3Match, stage3Distance, stage1Holds } from '../../../assets/js/lib/lemma-resolve.js';
 
+// Einmal angelegt statt je Vergleich `localeCompare(b, 'de')` (#564); gleiche Ordnung
+const AUTOCOMPLETE_COLLATOR = new Intl.Collator('de');
+
 export class AuthorityFilesManager {
   constructor(authorityData) {
     this.authorityData = authorityData;
@@ -46,14 +49,72 @@ export class AuthorityFilesManager {
 
   // ==================== LEMMA RESOLUTION ====================
 
+  /**
+   * Nachschlagetafeln ueber das Lemma-Array (#564), einmal je geladenem Array
+   * statt einmal je Aufloesung. Vorher normalisierte jede Suche alle rund
+   * 44.000 Lemmata neu (Stufe 1 und 3) und suchte per `find` nach IDs; das
+   * kostete im Playground ein Vielfaches der Hauptseite. Die Tafeln haengen
+   * an der Identitaet des Arrays (und seiner Laenge): wer `lemmata` ersetzt
+   * oder anhaengt, bekommt neue; wer ein Element in place aendert, nicht
+   * (playground-main.js weist das Array nur einmal zu).
+   *
+   * `first`/`last`: Index der ersten/letzten Zeile je ID, weil `find` den
+   * ersten Treffer nimmt, die Kandidatenabbildung in Stufe 2 aber den letzten
+   * (gemessen 10.10.2026: 0 doppelte IDs, das Verhalten bleibt trotzdem
+   * erhalten). `lower`/`norm`: Indizes je Kleinschreibung bzw. je
+   * normalisierter Form, aufsteigend. `normArr`: Stufe-3-Form je Zeile, ''
+   * ohne `lemma.lemma`.
+   */
+  getLemmaTables() {
+    const lemmata = this.authorityData.lemmata;
+    const t = this._lemmaTables;
+    if (t && t.source === lemmata && t.length === lemmata.length) return t;
+    const first = new Map();
+    const last = new Map();
+    const lower = new Map();
+    const norm = new Map();
+    const normArr = new Array(lemmata.length);
+    const push = (map, key, idx) => {
+      const list = map.get(key);
+      if (list) list.push(idx); else map.set(key, [idx]);
+    };
+    lemmata.forEach((l, idx) => {
+      if (!first.has(l.id)) first.set(l.id, idx);
+      last.set(l.id, idx);
+      if (!l.lemma) {
+        normArr[idx] = '';
+        return;
+      }
+      const lw = l.lemma.toLowerCase();
+      const n = TextNormalizer.normalizeMHG(lw);
+      normArr[idx] = n;
+      push(lower, lw, idx);
+      push(norm, n, idx);
+    });
+    this._lemmaTables = { source: lemmata, length: lemmata.length, first, last, lower, norm, normArr };
+    return this._lemmaTables;
+  }
+
+  /** Gibt es ueberhaupt Varianten? Einmal je Objekt, nicht je Aufloesung (O(n)). */
+  hasVariants() {
+    const variants = this.authorityData.variants;
+    if (variants !== this._variantsSeen) {
+      this._variantsSeen = variants;
+      this._variantsUsable = !!variants && Object.keys(variants).length > 0;
+    }
+    return this._variantsUsable;
+  }
+
   resolveLemmaNames(searchTerms) {
     const resolvedLemmas = [];
-    
+    const tables = this.getLemmaTables();
+    const lemmata = this.authorityData.lemmata;
+
     searchTerms.forEach(term => {
       // Check if it's already a lemma ID
       if (/^lemma_\d+$/.test(term) || /^\d+$/.test(term)) {
         const lemmaId = term.replace('lemma_', '');
-        const lemma = this.authorityData.lemmata.find(l => l.id === `lemma_${lemmaId}`);
+        const lemma = lemmata[tables.first.get(`lemma_${lemmaId}`)];
         if (lemma) {
           resolvedLemmas.push({
             input: term,
@@ -66,9 +127,7 @@ export class AuthorityFilesManager {
       
       // Search by orthography
       const normalizedTerm = term.toLowerCase();
-      const matchingLemma = this.authorityData.lemmata.find(l => 
-        l.lemma && l.lemma.toLowerCase() === normalizedTerm
-      );
+      const matchingLemma = lemmata[tables.lower.get(normalizedTerm)?.[0]];
       
       if (matchingLemma) {
         resolvedLemmas.push({
@@ -93,12 +152,17 @@ export class AuthorityFilesManager {
     // je nach Index-Reihenfolge einen 1-Beleg-Eigennamen statt des
     // hochfrequenten Appellativs (#163/#164). Sortierung: Korpus-Frequenz
     // absteigend, bei Gleichstand diakritisch-exakte Eingabe zuerst.
-    const exactMatches = this.authorityData.lemmata.filter(lemma => {
-      if (!lemma.lemma) return false;
-      const lemmaLower = lemma.lemma.toLowerCase();
-      const lemmaNormalized = TextNormalizer.normalizeMHG(lemmaLower);
-      return lemmaLower === normalized || lemmaNormalized === normalizedCharacters;
-    });
+    // Ueber die Tafeln statt eines Laufs mit Normalisierung je Lemma (#564);
+    // Indizes beider Treffermengen, dedupliziert und in Array-Reihenfolge.
+    const tables = this.getLemmaTables();
+    const lemmataAll = this.authorityData.lemmata;
+    const byLower = tables.lower.get(normalized);
+    const byNorm = tables.norm.get(normalizedCharacters);
+    let exactIdx;
+    if (!byLower) exactIdx = byNorm || [];
+    else if (!byNorm) exactIdx = byLower;
+    else exactIdx = [...new Set([...byLower, ...byNorm])].sort((a, b) => a - b);
+    const exactMatches = exactIdx.map(i => lemmataAll[i]);
     // Stufe 1 haelt nur mit mindestens einem belegten Treffer (#463, wie die
     // Hauptseite). Sonst wird Stufe 2 mitgefragt (Stufe 3 bleibt den Eingaben
     // vorbehalten, die in Stufe 1 und 2 nichts finden) und die unbelegten
@@ -118,20 +182,17 @@ export class AuthorityFilesManager {
 
     // Stage 2: Search in variants index (orthographic variants from TEI corpus)
     // Structure: variants = {normalized_variant: lemma_id, ...}
-    const variantsCount = Object.keys(this.authorityData.variants || {}).length;
-
-    if (variantsCount > 0) {
+    // Die Leerpruefung ist O(n) ueber 234.264 Schluessel (gemessen 10.10.2026
+    // ca. 37 ms im Node-Skript des Subagenten, #564) und laeuft deshalb einmal
+    // je Objekt (hasVariants), nicht je Aufloesung.
+    if (this.hasVariants()) {
       // Mehrere Kandidaten (ADR-021, #378): alle, geordnet nach Vorschrift B
       // (Tokens DIESER Form unter dem Lemma); matches[0]-Konsumenten nehmen
       // damit den haeufigsten, die uebrigen bleiben erhalten.
       const candidateIds = this.authorityData.variantCandidates?.[normalizedCharacters];
       if (Array.isArray(candidateIds)) {
-        const wanted = new Set(candidateIds);
-        const lemmaById = new Map();
-        for (const l of this.authorityData.lemmata) {
-          if (wanted.has(l.id)) lemmaById.set(l.id, l);
-        }
-        const candidates = candidateIds.map(id => lemmaById.get(id)).filter(Boolean);
+        // Letzte Zeile je ID, wie die frühere Schleife mit Map.set (Überschreiben)
+        const candidates = candidateIds.map(id => lemmataAll[tables.last.get(id)]).filter(Boolean);
         if (candidates.length > 0) {
           return exactMatches.length === 0 ? candidates : withStage1(candidates);
         }
@@ -142,7 +203,7 @@ export class AuthorityFilesManager {
 
       if (lemmaId) {
         // Find the corresponding lemma in lemmata array
-        const lemma = this.authorityData.lemmata.find(l => l.id === lemmaId);
+        const lemma = lemmataAll[tables.first.get(lemmaId)];
         if (lemma) {
           return exactMatches.length === 0 ? [lemma] : withStage1([lemma]);
         }
@@ -168,11 +229,11 @@ export class AuthorityFilesManager {
     // Korpus-Frequenz, damit matches[0]-Konsumenten (Multi-Lemma-Suche,
     // Kookkurrenz, Reim, Versposition) nicht wieder einen 1-Beleg-Eigennamen
     // vor das hochfrequente Appellativ gesetzt bekommen (#163/#164).
-    const partialMatches = this.authorityData.lemmata
+    const partialMatches = lemmataAll
       .map((lemma, idx) => ({
         lemma,
         idx,
-        norm: lemma.lemma ? TextNormalizer.normalizeMHG(lemma.lemma.toLowerCase()) : ''
+        norm: tables.normArr[idx]
       }))
       .filter(entry => isStage3Match(entry.norm, normalizedCharacters))
       .sort((a, b) =>
@@ -243,9 +304,12 @@ export class AuthorityFilesManager {
   }
 
   findLemmaById(lemmaId) {
-    return this.authorityData.lemmata.find(l => 
-      l.id === `lemma_${lemmaId}` || l.id === lemmaId
-    );
+    const { first } = this.getLemmaTables();
+    const a = first.get(`lemma_${lemmaId}`);
+    const b = first.get(lemmaId);
+    // find nimmt die erste Zeile, die eine der beiden Formen traegt
+    const idx = a === undefined ? b : (b === undefined ? a : Math.min(a, b));
+    return this.authorityData.lemmata[idx];
   }
 
   /**
@@ -273,15 +337,23 @@ export class AuthorityFilesManager {
     const lemmata = this.authorityData?.lemmata || [];
     const startsWith = [];
     const includes = [];
-    // Voll-Scan (43k) ohne Early-Break, sonst springen kurze Treffer wie „êre"
-    // unter längere wie „êrengir" weil das Lemma-Array nicht ID-sortiert ist.
-    // 43k Iterationen sind ~3-5ms — pro Keystroke akzeptabel.
-    for (const l of lemmata) {
+    // Voll-Scan (43k) ohne Early-Break, sonst springen kurze Treffer wie „êre“
+    // unter längere wie „êrengir“ weil das Lemma-Array nicht ID-sortiert ist.
+    // Tippt jemand weiter, enthält jedes Lemma des neuen Suchworts auch das
+    // vorige (Teilstring des Teilstrings): dann reicht ein Scan über die
+    // Treffer des vorigen Tastendrucks (#564), in Array-Reihenfolge, damit
+    // die stabile Sortierung unten bei Gleichstand dasselbe liefert.
+    const cache = this._autocompletePool;
+    const pool = cache && cache.source === lemmata && cache.length === lemmata.length
+      && needle.startsWith(cache.needle) ? cache.pool : lemmata;
+    const hits = [];
+    for (const l of pool) {
       if (!l.normalized) continue;
       const ln = l.normalized;
-      if (ln.startsWith(needle)) startsWith.push(l);
-      else if (ln.includes(needle)) includes.push(l);
+      if (ln.startsWith(needle)) { startsWith.push(l); hits.push(l); }
+      else if (ln.includes(needle)) { includes.push(l); hits.push(l); }
     }
+    this._autocompletePool = { source: lemmata, length: lemmata.length, needle, pool: hits };
     // Sortierung: exakt-match → kürzere Lemmata → alphabetisch. So steht
     // „êre" über „êrengir" und „minne" über „minnesänger".
     const sortByRelevance = (a, b) => {
@@ -291,11 +363,26 @@ export class AuthorityFilesManager {
       const bExact = bn === needle ? 0 : 1;
       if (aExact !== bExact) return aExact - bExact;
       if (an.length !== bn.length) return an.length - bn.length;
-      return an.localeCompare(bn, 'de');
+      return AUTOCOMPLETE_COLLATOR.compare(an, bn);
     };
-    startsWith.sort(sortByRelevance);
-    includes.sort(sortByRelevance);
-    return [...startsWith, ...includes].slice(0, maxSuggestions);
+    // Nur die ersten maxSuggestions werden gebraucht: Auswahl statt Sortierung
+    // der ganzen Treffermenge (bei „ê" sind es zehntausende, #564). Bei
+    // Gleichstand bleibt die frühere Reihenfolge, wie bei der stabilen Sortierung.
+    const top = (liste, k) => {
+      const best = [];
+      for (const l of liste) {
+        if (best.length === k && sortByRelevance(l, best[k - 1]) >= 0) continue;
+        let i = best.length;
+        while (i > 0 && sortByRelevance(l, best[i - 1]) < 0) i--;
+        best.splice(i, 0, l);
+        if (best.length > k) best.pop();
+      }
+      return best;
+    };
+    if (maxSuggestions <= 0) return [];
+    const first = top(startsWith, maxSuggestions);
+    if (first.length >= maxSuggestions) return first;
+    return [...first, ...top(includes, maxSuggestions - first.length)];
   }
 
 }

@@ -104,6 +104,9 @@ data/audit/
 # @corresp je Sigle. Ein Anstieg heisst, ein Ingest hat die
 # Variantenverknuepfung ausgelassen.
 !scripts/audit/corresp-coverage-baseline.json
+# Und das Laufzeitbudget der Suche (#564): committete Vorgabe des Benchmarks,
+# kein Report.
+!scripts/audit/search-budget.json
 scripts/audit/*-REPORT.md
 scripts/audit/lexicon-backfill-*.md
 scripts/audit/lexicon-backfill-*.xml

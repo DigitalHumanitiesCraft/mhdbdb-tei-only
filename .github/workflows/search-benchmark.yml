@@ -1,0 +1,65 @@
+# Such-Benchmark (#564): Laufzeit der Lemma-Aufloesung auf Hauptseite und im
+# Playground gegen die echten Indexe, gehalten gegen scripts/audit/search-budget.json.
+#
+# Warum es das gibt: In PR #562 (#463) fand ein Review eine Pruefung, die je
+# Aufruf ueber rund 42.000 Schluessel lief; so etwas faengt sonst nur ein
+# Mensch beim Lesen. Rot heisst nach der Entscheidung in #564: beheben, oder
+# das Budget im selben PR mit einer Zeile Begruendung erhoehen. Ein einmaliger
+# Neustart wegen Runner-Rauschen ist erlaubt. Rot auf main blockiert nichts.
+#
+# Die Trigger-Pfade sind genau die, die die Aufloesung beruehren: die Suche der
+# Hauptseite, die gemeinsamen Module, der Playground-Manager, das Skript samt
+# Budget und dieser Workflow. Nicht Teil der Pfade: data/ (ein neuer Index
+# aendert die Mengen, nicht den Code). Ein Wachstum der Indexe wird deshalb erst
+# beim naechsten PR unter den genannten Pfaden sichtbar; ein Zeitplan-Lauf
+# steht nicht darin und waere ein eigener Beschluss.
+#
+# Sparse-Checkout, weil der Benchmark nur data/, den Code der Aufloesung und das
+# Skript liest.
+
+name: search-benchmark
+
+on:
+  pull_request:
+    paths:
+      - 'assets/js/search/**'
+      - 'assets/js/lib/**'
+      - 'playground/js/data/**'
+      - 'scripts/audit/benchmark-search.mjs'
+      - 'scripts/audit/search-budget.json'
+      - '.github/workflows/search-benchmark.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'assets/js/search/**'
+      - 'assets/js/lib/**'
+      - 'playground/js/data/**'
+      - 'scripts/audit/benchmark-search.mjs'
+      - 'scripts/audit/search-budget.json'
+      - '.github/workflows/search-benchmark.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: search-benchmark-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          sparse-checkout: |
+            data
+            assets/js
+            playground/js/data
+            scripts/audit
+
+      - name: Node-Version
+        run: node --version
+
+      - name: Aufloesung gegen Budget (#564)
+        run: node scripts/audit/benchmark-search.mjs

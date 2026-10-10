@@ -1,0 +1,35 @@
+{
+  "_meta": {
+    "issue": "#564",
+    "gemessen": "2026-10-10, Runner ubuntu-latest (ubuntu-24.04, Node v22.23.3), 3 Laeufe des Workflows search-benchmark.yml auf PR #570 (Laeufe 38049886145, 38049935674, 38049980046), Authority Index 1.9.23, Corpus Index 4.2.32; measuredMs = der groesste der drei Werte, weil die Runner um den Faktor 2 streuten (main:exakt 0,345 gegen 0,672 ms)",
+    "messvorschrift": "Je Eingabe der kleinste von 3 Blockmedianen zu je 50 warmen Aufrufen, jede Oberflaeche (main, pg inkl. pg-ac) in einem eigenen Prozess; siehe scripts/audit/benchmark-search.mjs",
+    "regel": "budgetMs = max(measuredMs * 1,5 aufgerundet auf 0,1 ms; 0,1 ms). Untergrenze 0,1 ms (G4, 10.10.2026): mit 1 ms bliebe ein Rueckfall auf eine Schleife ueber alle Variantenkandidaten (ca. 0,3 ms) gruen. Entscheidung chsteiner in #564 (10.10.2026): Rot ist zu beheben oder im selben PR zu erhoehen, mit einer Zeile Begruendung unter erhoehungen.",
+    "pg-ac": "Summe der Tastendruecke beim Tippen des Worts, nicht ein einzelner Aufruf",
+    "erhoehungen": []
+  },
+  "budgets": {    "main:exakt": { "measuredMs": 0.672, "budgetMs": 1.1 },
+    "main:exakt-diakritisch": { "measuredMs": 0.685, "budgetMs": 1.1 },
+    "main:homograph": { "measuredMs": 0.616, "budgetMs": 1 },
+    "main:variante": { "measuredMs": 0.674, "budgetMs": 1.1 },
+    "main:variante-mehrdeutig": { "measuredMs": 0.648, "budgetMs": 1 },
+    "main:unbelegt-mit-variante": { "measuredMs": 0.659, "budgetMs": 1 },
+    "main:belegt-kurz": { "measuredMs": 0.608, "budgetMs": 1 },
+    "main:gat": { "measuredMs": 0.618, "budgetMs": 1 },
+    "main:praefix": { "measuredMs": 1.797, "budgetMs": 2.7 },
+    "main:unbekannt": { "measuredMs": 1.605, "budgetMs": 2.5 },
+    "pg:exakt": { "measuredMs": 0.002, "budgetMs": 0.1 },
+    "pg:exakt-diakritisch": { "measuredMs": 0.004, "budgetMs": 0.1 },
+    "pg:homograph": { "measuredMs": 0.004, "budgetMs": 0.1 },
+    "pg:variante": { "measuredMs": 0.002, "budgetMs": 0.1 },
+    "pg:variante-mehrdeutig": { "measuredMs": 0.002, "budgetMs": 0.1 },
+    "pg:unbelegt-mit-variante": { "measuredMs": 0.003, "budgetMs": 0.1 },
+    "pg:belegt-kurz": { "measuredMs": 0.003, "budgetMs": 0.1 },
+    "pg:gat": { "measuredMs": 0.003, "budgetMs": 0.1 },
+    "pg:praefix": { "measuredMs": 2.2, "budgetMs": 3.3 },
+    "pg:unbekannt": { "measuredMs": 1.936, "budgetMs": 3 },
+    "pg-ac:kurz": { "measuredMs": 1.263, "budgetMs": 1.9 },
+    "pg-ac:minne": { "measuredMs": 2.488, "budgetMs": 3.8 },
+    "pg-ac:diakritisch": { "measuredMs": 6.513, "budgetMs": 9.8 },
+    "pg-ac:ohne-treffer": { "measuredMs": 1.391, "budgetMs": 2.1 }
+  }
+}
