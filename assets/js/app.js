@@ -815,13 +815,13 @@ class MainSiteApp {
 
         if (!searchTerm) {
             this.showError('Bitte geben Sie einen Suchbegriff ein.');
-            return;
+            return false;
         }
 
         // Check if any texts are selected
         if (this.corpusData.includedTexts.size === 0) {
             this.showError('Bitte wählen Sie mindestens einen Text aus.');
-            return;
+            return false;
         }
 
         console.log(`[MainSiteApp] Searching for: "${searchTerm}" in ${this.corpusData.includedTexts.size} texts`);
@@ -903,10 +903,12 @@ class MainSiteApp {
             // Weitergeben). replaceState: eine neue Suche ist kein eigener
             // History-Schritt, erst das Öffnen eines Textes ist einer.
             this.syncUrl('replace');
+            return true;
 
         } catch (error) {
             console.error('[MainSiteApp] Search failed:', error);
             this.showError(`Suchfehler: ${error.message}`);
+            return false;
         }
     }
 
@@ -1236,8 +1238,16 @@ class MainSiteApp {
 
             if (search !== this.lastSearchTerm) {
                 if (search) {
+                    const vorher = this.lastSearchTerm;
                     this.elements.searchInput.value = search;
-                    await this.handleSearch();
+                    if (await this.handleSearch() === false) {
+                        // Die Suche ist abgebrochen (z.B. leere Textauswahl): Suchfeld und
+                        // Adresse bleiben bei der zuletzt ausgeführten Suche, damit Feld und
+                        // Trefferliste nicht zwei verschiedene Suchen zeigen.
+                        this.elements.searchInput.value = vorher;
+                        window.history.replaceState({}, document.title, this.buildStateUrl());
+                        return;
+                    }
                 } else {
                     this.clearSearch();
                 }

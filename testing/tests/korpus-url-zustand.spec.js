@@ -196,6 +196,27 @@ test.describe('Korpussuche: URL-Zustand und Browser-Zurück (#434)', () => {
         await expect(page.locator('#readingNavigation')).toBeHidden();
     });
 
+    test('bricht die Suche nach Browser-Zurück ab (leere Textauswahl), zeigen Feld und Liste dieselbe Suche', async ({ page }) => {
+        test.setTimeout(180000);
+        await suchen(page);
+        await page.locator('#resultsList > div').nth(await kleinsteKarte(page)).click();
+        await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
+
+        // zweite Suche überschreibt den Eintrag mit Text (replaceState)
+        await page.fill('#searchInput', 'got');
+        await page.click('#searchButton');
+        await expect.poll(() => params(page).get('search')).toBe('got');
+
+        // Auswahl leeren, dann zurück: der Eintrag davor trägt ?search=minne und
+        // ruft handleSearch auf, das mit leerer Auswahl abbricht
+        await page.click('#selectNoneTexts');
+        await page.goBack();
+        await expect.poll(() => page.evaluate(() => window._mhdbdbApp.lastSearchTerm)).toBe('got');
+
+        expect(await page.inputValue('#searchInput')).toBe('got');
+        expect(params(page).get('search')).toBe('got');
+    });
+
     test('Textauswahl und Ansicht bleiben außerhalb der Adresse', async ({ page }) => {
         await suchen(page);
         const vorher = page.url();
