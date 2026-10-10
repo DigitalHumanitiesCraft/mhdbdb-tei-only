@@ -140,7 +140,7 @@ The playground provides advanced research tools for medievalists and digital hum
 
 ### Authority File Exploration
 
-Browse and search six controlled vocabularies with consistent interface patterns.
+Browse and search the controlled vocabularies with consistent interface patterns.
 
 **IDs as input (#545):** every search field below also takes the entry's id, in the forms `concept_12040000`, `12040000`, `#concept_12040000` or `concepts.xml#concept_12040000`, so the suggestions of the Begriffshilfe (which names concepts by id) can be looked up directly. The id hit is added on top of the text hits rather than replacing them, and an id with another register's prefix finds nothing. Shared helper: `assets/js/lib/authority-id-input.js`. The concept distribution takes the same forms.
 
@@ -213,7 +213,7 @@ Corpus-wide text analysis using pre-built indexes. The analysis tools have playg
 
 **Selection changes while a tool is open (#442).** The selection-dependent tools show a warning above their panel when the selected text IDs change. The existing result stays visible until the user chooses "Neu berechnen"; changing checkboxes does not launch an analysis. Recalculation preserves the tool's search parameters. Restoring the original selection removes the warning, as does navigating to another tool. A selection change during an asynchronous calculation also leaves the warning visible. A tool holding no result shows no warning: the panel tools with a search field (lemma distribution, verse position, concept distribution, cooccurrence ranking) display an empty form until a search has run, and a warning over an empty form would claim a result that was never computed; the same holds after a search that found no lemma or concept. The null finding counts as a result and is stamped, because "no occurrences in the selected texts" is a statement about that selection. So is "Kein Text ausgewählt": checking a text again brings back the warning and "Neu berechnen".
 
-Until 2026-09 only the multi-lemma search read the selection at all; the other ten always received all texts while the counter next to them read "1 / 667 Texte aktiv". The split now runs through two thunks in `playground-main.js` (`selectedTextsThunk` and `corpusTextsThunk`), and an empty selection is reported as such instead of as a loading state (`ui/tei/corpus-scope.js`).
+Until 2026-09 only the multi-lemma search read the selection at all; the other tools always received all texts while the counter next to them read "1 / 667 Texte aktiv". The split now runs through two thunks in `playground-main.js` (`selectedTextsThunk` and `corpusTextsThunk`), and an empty selection is reported as such instead of as a loading state (`ui/tei/corpus-scope.js`).
 
 **Multi-Lemma Document Search:**
 - Input multiple lemmata (space-separated or one per line)
