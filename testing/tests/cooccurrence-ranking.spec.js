@@ -76,7 +76,7 @@ test.describe('Issue #164: Multi-Lemma-Suche rôt + munt', () => {
 });
 
 test.describe('Issue #161: Multi-POS posAll[] (Authority-Index v1.6.0)', () => {
-  test('lemma_79188 salve trägt posAll [NOM, VRB] im geladenen Index', async ({ page }) => {
+  test('lemma_79188 salve trägt NOM und VRB in posAll im geladenen Index', async ({ page }) => {
     await page.goto('/playground/');
     await page.waitForFunction(() => {
       return window.playground?.authorityData?.lemmata?.length > 0;
@@ -87,9 +87,12 @@ test.describe('Issue #161: Multi-POS posAll[] (Authority-Index v1.6.0)', () => {
       return l ? { pos: l.pos, posAll: l.posAll } : null;
     });
     expect(rec).not.toBeNull();
-    // pos bleibt der Erstwert (rückwärtskompatibel), posAll trägt alle Tags
-    expect(rec.pos).toBe('NOM');
-    expect(rec.posAll).toEqual(['NOM', 'VRB']);
+    // posAll trägt alle Lexikon-Tags, seit 1.9.23 (#462) nach Korpushäufigkeit
+    // geordnet; pos ist ihr erstes Element. Die Reihenfolge von salve hängt an
+    // 15 gegen 16 Tokens und kann beim nächsten Ingest kippen, also prüft der
+    // Test die Menge und die Kopplung, nicht die Reihenfolge.
+    expect([...rec.posAll].sort()).toEqual(['NOM', 'VRB']);
+    expect(rec.pos).toBe(rec.posAll[0]);
   });
 
   test('posPasses zählt Multi-POS-Lemmata für jede ihrer Wortarten', async ({ page }) => {
@@ -131,6 +134,6 @@ test.describe('Issue #161: Multi-POS posAll[] (Authority-Index v1.6.0)', () => {
 
     // Vor dem Review-Fix zeigte das Badge nur den pos-Erstwert ("NOM")
     const item = page.locator('#coRkAutocomplete button', { hasText: 'lemma_79188' });
-    await expect(item).toContainText('NOM VRB');
+    await expect(item).toContainText(/\b(NOM VRB|VRB NOM)\b/);
   });
 });
