@@ -80,7 +80,7 @@ import os
 import sys
 import urllib.error
 import urllib.request
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 if sys.stdout.encoding and sys.stdout.encoding.lower() not in ('utf-8', 'utf8'):
@@ -102,8 +102,17 @@ def zeit(text):
     return datetime.fromisoformat(text.replace('Z', '+00:00'))
 
 
-def sekunden(schritt):
-    """Dauer eines fertigen, erfolgreichen Schritts in Sekunden, sonst None."""
+def sekunden(schritt, jetzt=None):
+    """Dauer eines erfolgreichen Schritts in Sekunden, sonst None.
+
+    Ein Schritt, den die Jobs-API noch als `in_progress` fuehrt, zaehlt mit
+    `jetzt` als Ende. Das ist der Schritt unmittelbar vor diesem Gate: beim
+    ersten PR-Lauf (#575) meldete die API ihn noch nicht als abgeschlossen, und
+    ohne diese Regel fehlte in jedem Job genau der letzte, oft groesste Schritt.
+    """
+    if schritt.get('status') == 'in_progress' and jetzt is not None:
+        a = schritt.get('started_at')
+        return (jetzt - zeit(a)).total_seconds() if a else None
     if schritt.get('conclusion') != 'success':
         return None
     a, b = schritt.get('started_at'), schritt.get('completed_at')
@@ -148,7 +157,7 @@ def grenze(workflow, name, cfg):
     return budget * faktor, budget, faktor
 
 
-def bewerte(schritte, workflow, cfg, eigener_schritt=None):
+def bewerte(schritte, workflow, cfg, eigener_schritt=None, jetzt=None):
     """[(name, dauer, grenze, budget, faktor, ueber)] fuer alle messbaren Schritte."""
     zeilen = []
     for s in schritte:
@@ -157,7 +166,7 @@ def bewerte(schritte, workflow, cfg, eigener_schritt=None):
             continue
         if name in RUNNER_SCHRITTE or name.startswith('Post '):
             continue
-        dauer = sekunden(s)
+        dauer = sekunden(s, jetzt)
         if dauer is None:
             continue
         g, budget, faktor = grenze(workflow, name, cfg)
@@ -209,7 +218,8 @@ def pruefe(args, cfg, antwort, kommentar=None):
     job_rot = args.job_status not in ('success', '')
     try:
         schritte = eigene_schritte(antwort, args.job)
-        zeilen = bewerte(schritte, args.workflow, cfg, eigener_schritt=args.self_step)
+        zeilen = bewerte(schritte, args.workflow, cfg, eigener_schritt=args.self_step,
+                         jetzt=getattr(args, 'jetzt', None) or datetime.now(timezone.utc))
         if not zeilen:
             raise MessungFehlt(f'Job {args.job!r}: kein fertiger Schritt messbar')
     except MessungFehlt as exc:
@@ -307,7 +317,7 @@ def selftest():
         return s
 
     def ueber(schritte, **kw):
-        return [z[0] for z in bewerte(schritte, 'w.yml', kw.get('cfg', cfg), kw.get('eigener')) if z[5]]
+        return [z[0] for z in bewerte(schritte, 'w.yml', kw.get('cfg', cfg), kw.get('eigener'), kw.get('jetzt')) if z[5]]
 
     cases = []
     cases.append(('Schritt im Budget ist ok', ueber([schritt('Bauen', 150)]) == []))
@@ -325,6 +335,17 @@ def selftest():
     cases.append(('Schluessel mit Gedankenstrich im Schrittnamen findet sein Budget',
                   ueber([schritt('Freshness Indexe — Rebuild', 121)]) == ['Freshness Indexe — Rebuild']
                   and ueber([schritt('Freshness Indexe — Rebuild', 120)]) == []))
+    laufend = {'name': 'Bauen', 'status': 'in_progress', 'conclusion': None,
+               'started_at': '2026-10-10T12:00:00Z'}
+    jetzt = zeit('2026-10-10T12:03:00Z')
+    cases.append(('laufender Schritt zaehlt mit jetzt als Ende: 180 s gegen Grenze 150 s ist rot',
+                  ueber([laufend], jetzt=jetzt) == ['Bauen']))
+    cases.append(('laufender Schritt im Budget (120 s) ist ok',
+                  ueber([laufend], jetzt=zeit('2026-10-10T12:02:00Z')) == []))
+    cases.append(('laufender Schritt ohne jetzt wird nicht bewertet',
+                  ueber([laufend]) == []))
+    cases.append(('wartender Schritt (pending) wird nicht bewertet',
+                  ueber([{'name': 'Bauen', 'status': 'pending', 'conclusion': None}], jetzt=jetzt) == []))
     streng = dict(cfg, factor=0, checkout_factor=0, floor_s=0)
     cases.append(('Mutation: Faktor 0 und Untergrenze 0 macht jeden Schritt ab 1 s rot',
                   ueber([schritt('Bauen', 1), schritt('Klein', 1)], cfg=streng) == ['Bauen', 'Klein']))
