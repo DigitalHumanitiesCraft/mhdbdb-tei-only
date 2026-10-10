@@ -4,6 +4,18 @@ Chronological log of development decisions, dead ends, and savepoints. Not a cha
 
 ---
 
+## 2026-10-10 (Spur D, #564 D2): `run-tests.js` druckt die Dauer je Spec-Datei
+
+**Was:** Vor der VERDICT-Zeile stehen jetzt Summe der Testdauern (alle Versuche), Wanduhr, tatsächliche Workerzahl und die zehn langsamsten Spec-Dateien. Kein Gate; Verdikt und Exit-Code sind unverändert, die VERDICT-Zeile bleibt die letzte Zeile (Abweichung vom Kickoff-Wortlaut „nach der VERDICT-Zeile“, G1 des Laufplans).
+
+**Was über den Einzelfall hinausgeht:** `config.workers` im Playwright-Report ist das konfigurierte Maximum (hier 6), die tatsächliche Zahl steht in `config.metadata.actualWorkers`; bei einer Datei und `fullyParallel: false` läuft ein Worker. Mein Teillauf mit zwei Dateien und `--workers=2` hat den Unterschied zufällig verdeckt, der Review fand ihn. Wer vorher und nachher je Spec „bei gleicher Workerzahl“ vergleicht, braucht die tatsächliche.
+
+**Verifikation:** Gegengerechnet mit einer unabhängigen Zählung über `report.json`: Teillauf (2 Dateien, 109 s Summe) und der Volllauf-Report von D1 (492 Tests, 51 Dateien, Summe 2.346 s, Wanduhr 1.213 s mit 2 Workern) ergeben dieselben Summen und dieselbe Top-10. Zwei Teilläufe auf Port 8087 (2 Dateien mit `--workers=2`, eine Datei ohne), beide grün. Kein voller `npm test` für dieses Paket: geändert ist nur die Ausgabe vor dem Verdikt, den Volllauf-Zweig lässt der Diff unberührt; D3 fährt ohnehin Volllauf. Review auf Opus, eine Runde (2 B-Befunde, 1 C-Befund, behoben).
+
+**Rote Zeilen:** Keine. Nummern 150 bis 154 weiter unverbraucht.
+
+---
+
 ## 2026-10-10 (Spur D, #564 D1): Playground-Suche beschleunigt, Such-Benchmark mit Budget aus dem Runner
 
 **Was:** `authority-manager.js` rechnet Kleinform, normalisierte Form und ID-Zeile einmal je Lemma-Array vor (`getLemmaTables`), prüft die Varianten einmal je Objekt auf Leere (`hasVariants`) und verengt den Autocomplete-Scan auf die Treffer des vorigen Tastendrucks. Dazu `scripts/audit/benchmark-search.mjs` mit `search-budget.json` und eigenem Workflow `search-benchmark.yml`; PR #570. Messwerte vorher und nachher stehen im PR-Body (Node gegen die echten Indexe, 24 Fälle).
