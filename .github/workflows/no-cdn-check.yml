@@ -166,10 +166,12 @@ jobs:
 
       # Seit 01.10.2026 auch hier, nicht nur in data-integrity.yml. Dort
       # loesen docs/** und *.html keinen Lauf aus, und das war als Grenze
-      # dokumentiert: eine Doku-Aenderung, die eine Zahl verschiebt, wurde
-      # erst vom naechsten Daten-PR bemerkt, der damit nichts zu tun hatte
-      # (so bei #503 und #505, als das Gate noch Modulzahlen zaehlte). Der Grund, das Gate nicht hierher zu legen, war lxml; das
-      # Skript zaehlt seitdem mit ElementTree und ist stdlib-only. Lokal
-      # gemessen am 01.10.2026: 5,4 Sekunden fuer den ganzen --check.
+      # dokumentiert: eine Zahl, die ohne Lauf dieses Gates aus dem Tritt
+      # geriet, wurde erst vom naechsten Daten-PR bemerkt, der damit nichts
+      # zu tun hatte (so bei #503 und #505: ein Code-PR verschob eine damals
+      # noch gezaehlte Modulzahl). Der Grund, das Gate nicht hierher zu
+      # legen, war lxml; das Skript zaehlt seitdem mit ElementTree und ist
+      # stdlib-only. Lokal gemessen am 01.10.2026: 5,4 Sekunden fuer den
+      # ganzen --check.
       - name: Dokumentierte Zahlen gegen die Daten (#382/#398)
         run: python3 scripts/audit/doc-count-audit.py --check

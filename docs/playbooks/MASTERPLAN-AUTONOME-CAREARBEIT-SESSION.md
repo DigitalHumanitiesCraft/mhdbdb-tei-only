@@ -67,7 +67,7 @@ Parallel: `gh issue list` für den Bestand nach Betriebsvertrag Regel 17 (geship
 
 **Session 1 (2026-07-13, PR #220):**
 
-1. Drift-Klasse Nr. 1 sind **code-abgeleitete Counts** (Werkzeug-/Entry-Point-Zahlen in Hilfe, README, Docs), genau die prüft `doc-count-audit.py` nicht. Erweiterungskandidat: Playground-Sidebar-Buttons zählen.
+1. Drift-Klasse Nr. 1 sind **code-abgeleitete Counts** (Werkzeug-/Entry-Point-Zahlen in Hilfe, README, Docs), genau die prüft `doc-count-audit.py` nicht. Erweiterungskandidat: Playground-Sidebar-Buttons zählen (verworfen mit #451, 10.10.2026).
 2. Mechanische Gates zuerst laufen lassen: billig, objektiv, fanden den Footer-Drift und die variants-Zahl sofort.
 3. Audit-Reports altern: zwei geplante Löschungen waren bereits erledigt. Ist-Stand vor jeder Löschung neu verifizieren, nie dem Report vertrauen.
 4. Der Code selbst war nach #171-Audit + Dead-Code-Sweep schon sauber (keine einzige verwaiste JS-Datei); der Ertrag lag überwiegend in Doku/Hilfe. Erwartung für Folge-Sessions entsprechend setzen.
