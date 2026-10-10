@@ -220,11 +220,14 @@ jobs:
       # Platzhalter mit den Namen aus dem Git-Baum. Mutationsprobe am
       # 10.10.2026 im sparse-Klon: 667 -> 665 in docs/INDEX.md ist mit
       # Platzhaltern rot (Exit 1), ohne tei/ gruen (Exit 0).
+      # Dieser Schritt und doc-count-audit bleiben die letzten: danach gelten
+      # die 667 leeren Dateien fuer git als geaendert, und ein spaeterer
+      # Schritt, der git-Diffs oder tei-Inhalte liest, saehe leere Dateien.
       - name: tei/-Dateinamen fuer doc-count-audit (#564)
         run: |
           mkdir -p tei
           git ls-tree -r --name-only HEAD tei/ | while IFS= read -r f; do : > "$f"; done
-          erwartet=$(git ls-tree -r --name-only HEAD tei/ | grep -c '\.tei\.xml$')
+          erwartet=$(git ls-tree -r --name-only HEAD tei/ | grep -c '\.tei\.xml$' || true)
           vorhanden=$(find tei -maxdepth 1 -name '*.tei.xml' | wc -l)
           echo "tei/*.tei.xml: $vorhanden Platzhalter, $erwartet im Git-Baum"
           if [ "$erwartet" -lt 1 ] || [ "$erwartet" != "$vorhanden" ]; then
