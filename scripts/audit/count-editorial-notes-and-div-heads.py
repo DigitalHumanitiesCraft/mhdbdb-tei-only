@@ -47,9 +47,11 @@ Teil C misst, für wie viele der Teil-B-Fälle das gilt.
 Usage:
     python scripts/audit/count-editorial-notes-and-div-heads.py
     python scripts/audit/count-editorial-notes-and-div-heads.py --text FR3
+    python scripts/audit/count-editorial-notes-and-div-heads.py --json   # Teil B und C
 """
 import argparse
 import glob
+import json
 import sys
 from collections import Counter, defaultdict
 from pathlib import Path
@@ -121,17 +123,70 @@ def labelled_divs_with_head(tree):
     return out
 
 
+def measure_div_heads(files):
+    """Teil B und C ueber die Dateien, ohne Ausgabe.
+
+    Eine Stelle fuer den Report und fuer --json; Teil A (editorialDecl) gehoert
+    nicht dazu, weil keine der gegateten Fundstellen eine Zahl daraus fuehrt.
+    """
+    per_type = defaultdict(Counter)
+    texts = Counter()
+    total_labelled = Counter()
+    first_child = Counter()
+    for f in files:
+        tree = etree.parse(f)
+        sig = Path(f).name.split('.')[0]
+        for div in tree.iter(f'{{{TEI}}}div'):
+            if div.get('type', '') in DIV_LABELS:
+                total_labelled[div.get('type')] += 1
+        for div_type, n, head, is_first in labelled_divs_with_head(tree):
+            texts[sig] += 1
+            first_child[is_first] += 1
+            if not n:
+                per_type[div_type]['ohne @n'] += 1
+            elif n in head:
+                per_type[div_type]['@n im head enthalten'] += 1
+            else:
+                per_type[div_type]['@n fehlt im head'] += 1
+
+    return {
+        'with_head': sum(sum(c.values()) for c in per_type.values()),
+        'labelled_total': sum(total_labelled.values()),
+        'total_labelled': dict(total_labelled),
+        'texts_with_head': len(texts),
+        'per_type': {t: dict(c) for t, c in per_type.items()},
+        'carries': sum(c['@n im head enthalten'] for c in per_type.values()),
+        'has_n': sum(sum(c.values()) - c['ohne @n'] for c in per_type.values()),
+        'first_child_true': first_child[True],
+        'first_child_false': first_child[False],
+        'top_texts': texts.most_common(8),
+    }
+
+
+def corpus_file_list(corpus='tei'):
+    files = sorted(glob.glob(str(Path(corpus) / '*.tei.xml')))
+    if not files:
+        sys.exit(f'Keine TEI-Dateien in {corpus}/')
+    return files
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--text', help='eine Sigle im Detail')
     ap.add_argument('--corpus', default='tei', help='Korpusverzeichnis')
+    ap.add_argument('--json', action='store_true',
+                    help='nur Teil B und C, maschinenlesbar')
     args = ap.parse_args()
     if hasattr(sys.stdout, 'reconfigure'):
         sys.stdout.reconfigure(encoding='utf-8')
 
-    files = sorted(glob.glob(str(Path(args.corpus) / '*.tei.xml')))
-    if not files:
-        sys.exit(f'Keine TEI-Dateien in {args.corpus}/')
+    files = corpus_file_list(args.corpus)
+    if args.json:
+        if args.text:
+            sys.exit('--json und --text schliessen sich aus')
+        print(json.dumps(measure_div_heads(files), ensure_ascii=False,
+                         indent=2, sort_keys=True))
+        return
 
     if args.text:
         path = Path(args.corpus) / f'{args.text}.tei.xml'
@@ -180,42 +235,25 @@ def main():
         f'{k}: {dist[k]}' for k in sorted(dist)))
 
     # --- Teil B und C ---
-    per_type = defaultdict(Counter)
-    texts = Counter()
-    total_labelled = Counter()
-    first_child = Counter()
-    for f in files:
-        tree = etree.parse(f)
-        sig = Path(f).name.split('.')[0]
-        for div in tree.iter(f'{{{TEI}}}div'):
-            if div.get('type', '') in DIV_LABELS:
-                total_labelled[div.get('type')] += 1
-        for div_type, n, head, is_first in labelled_divs_with_head(tree):
-            texts[sig] += 1
-            first_child[is_first] += 1
-            if not n:
-                per_type[div_type]['ohne @n'] += 1
-            elif n in head:
-                per_type[div_type]['@n im head enthalten'] += 1
-            else:
-                per_type[div_type]['@n fehlt im head'] += 1
-
-    with_head = sum(sum(c.values()) for c in per_type.values())
+    m = measure_div_heads(files)
+    per_type = {t: Counter(c) for t, c in m['per_type'].items()}
+    total_labelled = m['total_labelled']
+    with_head = m['with_head']
     print(f'\nTEIL B: typisierte div mit eigenem <head>: '
-          f'{with_head} von {sum(total_labelled.values())} in {len(texts)} Texten')
+          f'{with_head} von {m["labelled_total"]} in {m["texts_with_head"]} Texten')
     for div_type in sorted(per_type):
         counts = per_type[div_type]
         print(f'  {div_type:9s} {sum(counts.values()):5d} von {total_labelled[div_type]:5d}'
               f'   ' + ', '.join(f'{k}: {v}' for k, v in counts.most_common()))
-    carries = sum(c['@n im head enthalten'] for c in per_type.values())
-    has_n = sum(sum(c.values()) - c['ohne @n'] for c in per_type.values())
+    carries = m['carries']
+    has_n = m['has_n']
     print(f'  davon mit @n: {has_n}, und in {carries} Fällen steht die Nummer im <head>')
     if carries == 0:
         print('  -> Label unterdrücken würde die einzige sichtbare Zählung entfernen')
     print(f'\nTEIL C: <head> ist erstes Element-Kind: '
-          f'{first_child[True]} von {with_head} '
-          f'(Nachbarselektor im CSS greift), sonst {first_child[False]}')
-    print('  Top-Texte: ' + ', '.join(f'{s} {c}' for s, c in texts.most_common(8)))
+          f'{m["first_child_true"]} von {with_head} '
+          f'(Nachbarselektor im CSS greift), sonst {m["first_child_false"]}')
+    print('  Top-Texte: ' + ', '.join(f'{s} {c}' for s, c in m['top_texts']))
 
 
 if __name__ == '__main__':
