@@ -141,6 +141,13 @@ class MainSiteApp {
         this.currentPage = 0;
         this.resultsPerPage = 20;
 
+        // #434: URL-Zustand der Korpussuche. In der Adresse stehen nur der
+        // Suchbegriff (lastSearchTerm) und der geöffnete Text samt Fundstelle
+        // (openTextState); Textauswahl, Filter, Seite und Sortierung nicht.
+        this.lastSearchTerm = '';
+        this.openTextState = null;      // { textId, position } oder null
+        this._restoringHistory = false; // true: Zustand kommt aus der Adresse, nichts zurückschreiben
+
         // Issue #114: View-Mode für Korpussuche-Ergebnisse
         this.viewMode = this.loadViewMode();        // 'list' | 'table'
         this.sortSpec = { column: 'matchCount', direction: 'desc' };  // Default, nicht persistiert
@@ -479,7 +486,7 @@ class MainSiteApp {
             readBtn.addEventListener('click', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                this.teiReader.openReadingView(text.id, {}, this.elements);
+                this.openText(text.id, {});
             });
 
             icons.appendChild(teiBtn);
@@ -542,6 +549,9 @@ class MainSiteApp {
 
             // Clear search
             this.elements.clearSearchButton.addEventListener('click', () => this.clearSearch());
+
+            // Browser-Zurück und -Vor (#434): Suche und Lesepanel folgen der Adresse
+            window.addEventListener('popstate', () => this.handlePopState());
 
             // Text filtering
             this.setupTextFiltering();
@@ -889,6 +899,11 @@ class MainSiteApp {
             // Show clear button
             this.elements.clearSearchButton.style.display = 'block';
 
+            // #434: der Suchbegriff gehört in die Adresse (Neuladen, Lesezeichen,
+            // Weitergeben). replaceState: eine neue Suche ist kein eigener
+            // History-Schritt, erst das Öffnen eines Textes ist einer.
+            this.syncUrl('replace');
+
         } catch (error) {
             console.error('[MainSiteApp] Search failed:', error);
             this.showError(`Suchfehler: ${error.message}`);
@@ -1115,7 +1130,131 @@ class MainSiteApp {
             mainGrid.classList.add('two-column');
         }
 
+        this.lastSearchTerm = '';
+        this.syncUrl('replace');
+
         console.log('[MainSiteApp] Search cleared');
+    }
+
+    // --- #434: URL-Zustand der Korpussuche ---
+
+    /**
+     * Adresse zum aktuellen Zustand: `?search=…` und, wenn ein Text offen ist,
+     * `&textId=…` (bei KWIC-Treffern mit `&position=…`).
+     */
+    buildStateUrl() {
+        const params = new URLSearchParams();
+        if (this.lastSearchTerm) params.set('search', this.lastSearchTerm);
+        if (this.openTextState) {
+            params.set('textId', this.openTextState.textId);
+            if (this.openTextState.position !== null) {
+                params.set('position', String(this.openTextState.position));
+            }
+        }
+        const query = params.toString();
+        return window.location.pathname + (query ? `?${query}` : '');
+    }
+
+    /**
+     * Schreibt den Zustand in die Adresse. Steht dort schon dieselbe Adresse,
+     * entsteht kein History-Eintrag (zweimal denselben Text anklicken).
+     * @param {'push'|'replace'} mode
+     */
+    syncUrl(mode) {
+        if (this._restoringHistory || !this.isSearchPage) return;
+        const url = this.buildStateUrl();
+        if (url === window.location.pathname + window.location.search) return;
+        if (mode === 'push') {
+            window.history.pushState({}, document.title, url);
+        } else {
+            window.history.replaceState({}, document.title, url);
+        }
+    }
+
+    /**
+     * Öffnet einen Text im Lesepanel und macht daraus einen History-Schritt,
+     * damit Browser-Zurück zur Trefferliste führt (#434).
+     */
+    openText(textId, options = {}) {
+        this.openTextState = {
+            textId,
+            position: options.targetPosition != null ? options.targetPosition : null
+        };
+        this.teiReader.openReadingView(textId, options, this.elements);
+        this.syncUrl('push');
+    }
+
+    /**
+     * Schließt das Lesepanel (Browser-Zurück in einen Zustand ohne Text).
+     */
+    closeText() {
+        this.openTextState = null;
+        this.teiReader.closeReadingView();
+        this.showEmptyState();
+    }
+
+    /**
+     * Optionen für openReadingView aus Adressparametern. Fehlen `lemmaIds`,
+     * stehen die der Treffer für diesen Text zur Verfügung, damit ein
+     * wiederhergestellter Text dieselbe Hervorhebung trägt wie der Klick.
+     */
+    optionsFromParams(params) {
+        const textId = params.get('textId');
+        const lemmaIdsParam = params.get('lemmaIds');
+        const positionParam = params.get('position');
+        const options = {};
+        let lemmaIds = lemmaIdsParam
+            ? lemmaIdsParam.split(',').map(id => id.trim()).filter(id => id)
+                .map(id => id.startsWith('lemma_') ? id : `lemma_${id}`)
+            : [];
+        if (lemmaIds.length === 0) {
+            const result = this.currentResults.find(r => r.textId === textId);
+            if (result) lemmaIds = result.lemmaIds || [result.lemmaId];
+        }
+        if (lemmaIds.length > 0) {
+            options.lemmaIds = lemmaIds;
+            const position = positionParam ? parseInt(positionParam, 10) : null;
+            if (position !== null && !isNaN(position)) options.targetPosition = position;
+        }
+        if (params.get('verse')) options.targetVerse = params.get('verse');
+        if (params.get('verseId')) options.targetVerseId = params.get('verseId');
+        return options;
+    }
+
+    /**
+     * Browser-Zurück und -Vor: Die Adresse ist die Wahrheit. Erst die Suche
+     * (falls sie von der angezeigten abweicht), dann der Text. Nichts davon
+     * schreibt in die Adresse zurück.
+     */
+    async handlePopState() {
+        if (!this.isSearchPage || !this.teiReader) return;
+        this._restoringHistory = true;
+        try {
+            const params = new URLSearchParams(window.location.search);
+            const search = params.get('search') || '';
+            const textId = params.get('textId');
+
+            if (search !== this.lastSearchTerm) {
+                if (search) {
+                    this.elements.searchInput.value = search;
+                    await this.handleSearch();
+                } else {
+                    this.clearSearch();
+                }
+            }
+
+            if (!textId) {
+                if (this.openTextState) this.closeText();
+                return;
+            }
+            const position = params.get('position') ? parseInt(params.get('position'), 10) : null;
+            const open = this.openTextState;
+            if (open && open.textId === textId && open.position === position) return;
+            this.openTextState = { textId, position: isNaN(position) ? null : position };
+            this.teiReader.openReadingView(textId, this.optionsFromParams(params), this.elements);
+        } finally {
+            this._restoringHistory = false;
+        }
     }
 
     displayResults() {
@@ -1387,7 +1526,7 @@ class MainSiteApp {
             this.displayResults();
         }
 
-        this.teiReader.openReadingView(textId, { lemmaIds }, this.elements);
+        this.openText(textId, { lemmaIds });
     }
     /**
      * Issue #114: Serialisiert this.currentResults im TSV-Format.
@@ -1711,7 +1850,7 @@ class MainSiteApp {
         // Open reading view with highlighting (pass all lemmaIds for multi-lemma highlighting)
         card.addEventListener('click', () => {
             const lemmaIds = result.lemmaIds || [result.lemmaId];
-            this.teiReader.openReadingView(result.textId, { lemmaIds: lemmaIds }, this.elements);
+            this.openText(result.textId, { lemmaIds: lemmaIds });
         });
 
         // Issue #129: KWIC-Belege ausklappen (darf den Karten-Klick nicht auslösen)
@@ -1837,7 +1976,7 @@ class MainSiteApp {
             this.displayResults();
         }
 
-        this.teiReader.openReadingView(result.textId, { lemmaIds, targetPosition: position }, this.elements);
+        this.openText(result.textId, { lemmaIds, targetPosition: position });
     }
 
     // --- Ende Issue #129 ---
@@ -1900,7 +2039,8 @@ class MainSiteApp {
             if (searchParam) {
                 console.log(`[MainSiteApp] URL search parameter detected: "${searchParam}"`);
                 this.elements.searchInput.value = searchParam;
-                window.history.replaceState({}, document.title, window.location.pathname);
+                // Die Adresse bleibt stehen (#434): handleSearch schreibt sie
+                // kanonisch zurück, Neuladen und Lesezeichen funktionieren.
                 this.handleSearch();
                 return true;
             }
@@ -1936,11 +2076,27 @@ class MainSiteApp {
         }
 
         // Open reader after brief delay (ensure DOM is ready)
-        setTimeout(() => {
-            this.teiReader.openReadingView(textId, options, this.elements);
-
-            // Clear URL parameters (optional - keeps URL clean)
-            window.history.replaceState({}, document.title, window.location.pathname);
+        setTimeout(async () => {
+            // #434: Die Adresse bleibt wie übergeben (kein replaceState mehr), und
+            // der Zustand steht vor der Suche fest, damit deren Rückschreiben
+            // (syncUrl) den Text nicht aus der Adresse streicht.
+            this._restoringHistory = true;
+            try {
+                this.openTextState = {
+                    textId,
+                    position: options.targetPosition != null ? options.targetPosition : null
+                };
+                if (searchParam) {
+                    // Erst suchen, dann öffnen: die Treffer liefern die Hervorhebung,
+                    // wenn die Adresse keine lemmaIds trägt.
+                    this.elements.searchInput.value = searchParam;
+                    await this.handleSearch();
+                    if (!options.lemmaIds) Object.assign(options, this.optionsFromParams(params));
+                }
+                this.teiReader.openReadingView(textId, options, this.elements);
+            } finally {
+                this._restoringHistory = false;
+            }
         }, 300);
 
         return true; // URL params were processed
