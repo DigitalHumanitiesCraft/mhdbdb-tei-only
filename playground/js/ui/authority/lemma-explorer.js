@@ -871,7 +871,9 @@ export class LemmaExplorer {
    * Anforderung 2: ausgewählte Lemmata gesammelt an die Multi-Lemma-Suche
    * geben. Übergeben werden die Originalformen, nicht die IDs, weil die
    * Multi-Lemma-Route Schreibformen erwartet und sie in der Ergebnisanzeige
-   * auch so beschriftet. Sie laufen dort durch Stufe 1 der Auflösung.
+   * auch so beschriftet. Sie laufen dort durch die Auflösung: Stufe 1 hält nur,
+   * wenn mindestens ein exakter Treffer im Korpus belegt ist, sonst kommen die
+   * Stufe-2-Treffer nach vorn (#463, `stage1Holds` in lemma-resolve.js).
    */
   sendWordComponentSelection() {
     // Aus dem Modell, nicht aus dem DOM (#251): eine Auswahl, die der Filter
