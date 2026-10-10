@@ -207,6 +207,10 @@ jobs:
     # Checkout (grosses Repo, bis ~4 min) + RelaxNG-Validierung (rund
     # 3,5 min). 45 min lassen Luft fuer langsame Runner.
     timeout-minutes: 45
+    permissions:
+      contents: read
+      actions: read
+      issues: write
     steps:
       - name: Checkout
         # Voller Baum, ohne History: dieser Job liest tei/, authority-files/ und
@@ -344,12 +348,27 @@ jobs:
       - name: Validate corpus and authority files (P2-13)
         run: python scripts/audit/validate-corpus.py --fail-fast
 
+      # Laufzeitbudget (#564), siehe no-cdn-check.yml.
+      - name: Laufzeitbudget (#564)
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >
+          python scripts/audit/check-runtime-budget.py --check
+          --workflow data-integrity.yml --job validate
+          --job-status "${{ job.status }}"
+          --run-url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+
   # Zweiter Job (#564, E2): die Rebuild-and-Compare-Pruefungen laufen parallel zu
   # den Schema- und Spiegel-Gates oben, auf einem eigenen Runner. Die Schritte
   # stehen in der Reihenfolge, die ihre Abhaengigkeiten verlangen (Kopf der Datei).
   freshness:
     runs-on: ubuntu-latest
     timeout-minutes: 45
+    permissions:
+      contents: read
+      actions: read
+      issues: write
     steps:
       - name: Checkout
         # fetch-depth: 2, damit der Diff-Base-Schritt unten den ersten
@@ -560,3 +579,14 @@ jobs:
 
       - name: Authority cross-reference integrity (#44/#115/#152)
         run: python scripts/audit/check-authority-cross-refs.py --check
+
+      # Laufzeitbudget (#564), siehe no-cdn-check.yml.
+      - name: Laufzeitbudget (#564)
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >
+          python scripts/audit/check-runtime-budget.py --check
+          --workflow data-integrity.yml --job freshness
+          --job-status "${{ job.status }}"
+          --run-url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
