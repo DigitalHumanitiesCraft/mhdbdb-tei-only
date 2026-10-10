@@ -10,6 +10,7 @@ scripts/
 ├── build-authority-index.py     # Authority-Index generieren
 ├── build-begriffshilfe.py       # Begriffshilfe-Download (assets/downloads/mhdbdb-begriffshilfe.md) aus concepts.xml, lexicon.xml und w/@ana; deterministisch, CI-Freshness-Gate (#498)
 ├── build-corpus-index.py        # Korpus-Index generieren
+├── build-lemma-pos.py           # Wortart-Zählung je Lemma aus tei/ (data/lemma-pos.json.gz), Quelle für lemma.pos und lemma.posAll im Authority-Index; deterministisch, CI-Freshness-Gate (#462)
 ├── build-pages.py               # Nav/Footer/Matomo aus includes/ in alle Seiten injizieren (--check Drift-Gate)
 ├── build-vendor.js              # Vendored JS-Dependencies bündeln
 ├── python-bin.js                # Python-Interpreter auflösen statt raten (#318)
@@ -128,6 +129,9 @@ Die Build-Scripts werden über `npm run` aufgerufen und dürfen nicht verschoben
 
 ### `build-authority-index.py`
 Verarbeitet die 7 inhaltstragenden Authority Files und generiert `data/authority-index.json.gz` (~3 MB). Enthält Lemmata, Personen, Werke, Konzepte, Gattungen, Namen und Varianten. `contributors.xml` (8. Authority-File seit 2026-04-14) wird bewusst **nicht** indiziert: es ist Projekt-interne Editor-Attribution, kein Suchinhalt. Seit #270 liest der Build die Datei trotzdem, um den Urheber einer kuratierten Angabe neben deren `@resp` zu schreiben: `commentRespName` (Kommentar), `definitionRespName` (Definition), `origin.respName` (Herkunftserklärung).
+
+### `build-lemma-pos.py`
+Zählt je Lemma, wie viele Tokens jeden Teil-Tag von `@pos` tragen (Kompositum-Tags zerlegt), und schreibt `data/lemma-pos.json.gz` (~0,2 MB, rund 5 s). Der Authority-Build liest tei/ nicht und holt sich die Häufigkeiten aus dieser Datei; fehlt sie, bricht er ab. `--check` baut im Speicher und vergleicht mit der committeten Datei (CI, #462). Vor `build-authority-index.py` laufen lassen.
 
 ### `build-corpus-index.py`
 Parst alle TEI-Dateien in `tei/` und generiert `data/corpus-index.json.gz` (~42 MB). Extrahiert Lemma-Positionen, Wortzählung und Metadaten. Die aktuelle Index-Version steht im `'version'`-Literal des Skripts und in `docs/TEI-MODEL.md` §11, nicht hier: zwei Stellen halten sich in Sync, drei driften.
@@ -252,13 +256,14 @@ Originales Transformationsscript aus dem `initial-data-wrangling`-Branch (~2000 
 python scripts/audit/check-index-versions.py
 python scripts/build-corpus-index.py
 python scripts/sync/extract-variants.py --apply     # nur bei neuen Formen
-python scripts/build-authority-index.py             # nur nach --apply
+python scripts/build-lemma-pos.py                  # nach Aenderung von @lemmaRef oder @pos, vor dem Authority-Index
+python scripts/build-authority-index.py             # nur nach --apply oder geaenderter lemma-pos
 python scripts/build-api.py
 python scripts/build-begriffshilfe.py               # nur bei geaendertem w/@ana
 python scripts/audit/check-authority-cross-refs.py --check
 
 # Nach Aenderung in authority-files/
-# 1. Version bumpen, dann:
+# 1. Version bumpen, dann (data/lemma-pos.json.gz muss zum Korpus passen: python scripts/build-lemma-pos.py --check):
 python scripts/build-authority-index.py
 python scripts/build-api.py
 python scripts/build-begriffshilfe.py               # bei lexicon.xml oder concepts.xml

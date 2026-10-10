@@ -60,6 +60,12 @@ name: Data Integrity
 #      reproduzieren (liest concepts.xml, lexicon.xml und w/@ana im
 #      Korpus; deterministisch, LF). Liest weder data/ noch git, die
 #      Position ist frei; sie steht bei den uebrigen Freshness-Gates.
+#   5c. Freshness lemma-pos (#462): build-lemma-pos.py --check muss die
+#      committete data/lemma-pos.json.gz nach Dekompression reproduzieren.
+#      Der Authority-Build liest tei/ nicht und holt die Wortart-Zaehlung
+#      aus dieser Datei; ein veralteter Stand faellt ihm selbst nicht auf,
+#      und der Index-Vergleich in Step 6 nutzt dieselbe committete Datei und
+#      matcht dann. Steht deshalb VOR Step 6.
 #   6. Freshness Indexe (Rebuild-and-Compare): beide Indexe frisch
 #      bauen, DEKOMPRIMIERTEN Inhalt mit dem committeten Stand
 #      vergleichen (gzip-Bytes koennen je zlib-Build variieren).
@@ -134,6 +140,7 @@ on:
       - 'scripts/build-authority-index.py'
       - 'scripts/build-api.py'
       - 'scripts/build-begriffshilfe.py'
+      - 'scripts/build-lemma-pos.py'
       - 'assets/downloads/**'
       - 'scripts/mhg_normalizer.py'
       # Globs statt Einzeldateien: jedes hier ausgefuehrte Gate-Skript
@@ -164,6 +171,7 @@ on:
       - 'scripts/build-authority-index.py'
       - 'scripts/build-api.py'
       - 'scripts/build-begriffshilfe.py'
+      - 'scripts/build-lemma-pos.py'
       - 'assets/downloads/**'
       - 'scripts/mhg_normalizer.py'
       - 'scripts/sync/**'
@@ -460,6 +468,11 @@ jobs:
             git status --porcelain -- assets/downloads/
             exit 1
           fi
+
+      - name: Freshness lemma-pos (#462)
+        # Reiner Vergleich im Speicher, schreibt nichts. Liest tei/ (rund fuenf
+        # Sekunden auf mehreren Prozessen) und die committete Datei.
+        run: python scripts/build-lemma-pos.py --check
 
       - name: Freshness Indexe — Rebuild-and-Compare (#125)
         run: |

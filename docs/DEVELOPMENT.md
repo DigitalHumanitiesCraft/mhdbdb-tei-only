@@ -101,7 +101,11 @@ Pre-built indexes are included in repository. Rebuild only when modifying source
 python scripts/build-corpus-index.py
 # Output: data/corpus-index.json.gz (~42 MB; current version in TEI-MODEL.md §11)
 
-# Build authority index (consumes authority-files/variants.xml, no extraction step)
+# Count the parts of speech per lemma in the corpus (#462); build-authority-index.py aborts without the result
+python scripts/build-lemma-pos.py
+# Output: data/lemma-pos.json.gz (~0.2 MB, about 5 s). Run it after every change to @lemmaRef or @pos in tei/, before the authority index.
+
+# Build authority index (consumes authority-files/variants.xml and data/lemma-pos.json.gz, no extraction step)
 python scripts/build-authority-index.py
 # Output: data/authority-index.json.gz (~3 MB)
 
@@ -271,7 +275,7 @@ Completeness against `testing/tests/` is gated by `scripts/audit/check-doc-inven
 ### CI: Data Integrity
 
 **Workflow:** `.github/workflows/data-integrity.yml` (since #125 it consolidates the former `schema-validation.yml` + `index-version-check.yml`)
-**Triggers:** PRs + main pushes touching `schema/`, `tei/`, `authority-files/`, the three index `.json.gz` files (corpus/authority/naming), `api/**`, `assets/downloads/**`, the build scripts (`build-*-index.py`, `build-api.py`, `build-begriffshilfe.py`, `mhg_normalizer.py`), `scripts/sync/`, `scripts/audit/`, `scripts/ingest/naming/`, `corpus-loader.js` or `requirements.txt`. Plus `workflow_dispatch`.
+**Triggers:** PRs + main pushes touching `schema/`, `tei/`, `authority-files/`, the three index `.json.gz` files (corpus/authority/naming), `api/**`, `assets/downloads/**`, the build scripts (`build-*-index.py`, `build-api.py`, `build-begriffshilfe.py`, `build-lemma-pos.py`, `mhg_normalizer.py`), `scripts/sync/`, `scripts/audit/`, `scripts/ingest/naming/`, `corpus-loader.js` or `requirements.txt`. Plus `workflow_dispatch`.
 
 **The workflow file carries a second numbering of its own, and the two do not correspond.** Its header comment runs `0, 1, 1a … 1d, 2 … 8`, with letters so that a step inserted later shows its position without renumbering the digits below it. Inserting one does shift the letters, as #399 shifted `1b` to `1c` and `1c` to `1d`; what stays put is `2` to `8`. What is check 12 here (freshness of the indexes) is Step 6 there. Compare the two lists by name, never by number.
 
@@ -287,7 +291,7 @@ Completeness against `testing/tests/` is gated by `scripts/audit/check-doc-inven
 8. **TEI P5 pin** – the committed `tei_all.rng` is checked against the pinned version (4.11.0).
 9. **Freshness of variants.xml** (#125) – `extract-variants.py --apply` has to reproduce the committed file byte for byte („corpus changed, variants.xml forgotten"). Blocking and BEFORE check 12: the index comparison alone cannot detect variants drift. The same run prunes orphaned `#type_N` from `sense/@ana` in `lexicon.xml`, and that file has to come out unchanged as well.
 10. **Freshness of the API** (#45) – `build-api.py` has to reproduce the committed `api/` byte for byte (plain JSON, `git diff` suffices). Before the index gate, because the CI index rebuild leaves `data/` gz-dirty.
-11. **Freshness of the Begriffshilfe** (#498) – `build-begriffshilfe.py` has to reproduce the committed `assets/downloads/mhdbdb-begriffshilfe.md` byte for byte. It reads `concepts.xml`, `lexicon.xml` and `w/@ana` in the corpus, so a new or changed concept, sense or sense annotation turns it red; a pure `@pos` or `@lemmaRef` change does not. Deterministic by construction: no date, no commit hash, only the SHA-256 of `concepts.xml`.
+11. **Freshness of the Begriffshilfe** (#498) – `build-begriffshilfe.py` has to reproduce the committed `assets/downloads/mhdbdb-begriffshilfe.md` byte for byte. It reads `concepts.xml`, `lexicon.xml` and `w/@ana` in the corpus, so a new or changed concept, sense or sense annotation turns it red; a pure `@pos` or `@lemmaRef` change does not. Deterministic by construction: no date, no commit hash, only the SHA-256 of `concepts.xml`. In its own workflow step directly after it runs the **freshness of the part-of-speech counts** (#462, `python scripts/build-lemma-pos.py --check`): the committed `data/lemma-pos.json.gz` has to equal a fresh count over `tei/` after decompression, because the authority build reads that file instead of the corpus and cannot notice that it is stale. It is listed here rather than as a numbered check of its own so that the numbers of the checks below stay as they are.
 12. **Freshness of the indexes** (#125, rebuild-and-compare) – both indexes are built fresh and compared decompressed against the committed state („source or build script changed, rebuild forgotten"). This works only because the builds are deterministic.
 13. **Naming index consistency** (#152) – `source.commit` provenance present and every `works[].sigle` exists as `tei/<SIG>.tei.xml` (a sigle rename would otherwise silently break the reader link in the playground). Offline, always runs. Locally: `python scripts/audit/check-naming-index.py`.
 14. **Freshness of the naming index** (#152, rebuild-and-compare) – a rebuild from the `source.commit` pinned inside the index has to reproduce the committed state. Runs ONLY if naming paths changed against the diff base (external fetch to `lindabeutel/Naming-analysis`; no external network dependency on every data PR, the #125 principle).
@@ -308,6 +312,7 @@ Completeness against `testing/tests/` is gated by `scripts/audit/check-doc-inven
 - variants or index freshness → work through the Data-Change-Lifecycle in DATA-MODEL.md (regenerate, rebuild, bump, all in one commit)
 - API freshness → `python scripts/build-api.py` locally, commit `api/` along
 - Begriffshilfe freshness (#498) → `python scripts/build-begriffshilfe.py` locally, commit `assets/downloads/mhdbdb-begriffshilfe.md` along
+- Part-of-speech counts (#462) → `python scripts/build-lemma-pos.py`, then `python scripts/build-authority-index.py`, commit `data/lemma-pos.json.gz` and the authority index along
 - Stage 2 failure → `python scripts/audit/validate-corpus.py --sample <SIGLE>` locally
 - TEI version mismatch → bump `EXPECTED` in the workflow and `schema/README.md`
 
