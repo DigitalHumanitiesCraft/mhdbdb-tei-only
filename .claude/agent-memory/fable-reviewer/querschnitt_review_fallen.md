@@ -44,4 +44,4 @@ Verdichtet 08.10. und 10.10.2026.
 
 **Dieses Memory** ist Eingabe für den nächsten Lauf, keine Messung: Zahlen daraus vor Gebrauch nachmessen.
 
-**Auftrag nach Abzweigung (10.10.2026):** „origin/main hat seither nur X geändert“ im Auftrag ist eine Behauptung. `git log <Basis>..origin/main --stat` selbst; am 10.10. war der Satz veraltet, ein weiterer Merge (#414) war dazugekommen. Nach jedem Rebase die Gates (Versionen, `doc-count-audit --check`, Em-Dash) erneut fahren.
+**Auftrag nach Abzweigung (10.10.2026):** „origin/main hat seither nur X geändert“ im Auftrag ist eine Behauptung. `git log <Basis>..origin/main --stat` selbst; am 10.10. war der Satz veraltet, ein weiterer Merge (#451) war dazugekommen. Nach jedem Rebase die Gates (Versionen, `doc-count-audit --check`, Em-Dash) erneut fahren.
