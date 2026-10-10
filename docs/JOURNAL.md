@@ -1142,3 +1142,26 @@ Keine.
 **Review auf Opus.** Der `fable-reviewer` lief wegen des Fable-Limits mit `model: opus` (G4 im Laufplan vom 10.10.). Er musste nach 40 Zügen zum Berichten aufgefordert werden.
 
 **Offen, bei der Koordination:** Ä1 (Zeile in `CLAUDE.md`), Ä2 (Kommentar in `no-cdn-check.yml`); und `docs/playbooks/MASTERPLAN-AUTONOME-CAREARBEIT-SESSION.md` Zeile 83 nennt das Erweitern des Gates um code-abgeleitete Counts „umgesetzt 2026-07-14“, was seit #451 zurückgenommen ist.
+
+## 2026-10-10 – #460 und #461: Verbformen von jagât, Säugetierknochen bei gebeine (Spur A, Lauf vom 10.10.)
+
+**Was geschehen ist.** #460: 145 der 185 Tokens von `lemma_3103` jagât (NOM) sind Verbformen (`jaget` 109, `jeit` 35, `jait` 1, 51 Dateien) und stehen jetzt auf `lemma_3102` jagen (`VRB`, ohne `@ana`, drei neu geprägte Variantentypen `type_372855` bis `type_372857`). Die 35 Substantive und die 5 unklaren Belege (`AXU_18452_5`, `WVW_6542_4`, `WH_28126_1`, `JT_48611000_4`, `JT_43134000_4`) sind unberührt; die Einstufung ist ein Leseurteil am Kontext, die Schreibung trennt die Klassen nicht (`jaget` und `jeit` tragen auch 14 echte Substantive). #461: `lemma_1958` gebeine bekommt `lemma_1958_sense_119196` mit `concept_14011100`, 21 Säugetier-Belege in 15 Dateien tragen ihn als `@ana`. Korpus-Index 4.2.32, Authority-Index 1.9.23. Arbeitslisten unter `ingest/pos-disambig/460-jagat/` und `ingest/review/461-gebeine/`, Skripte `apply-460-jagat.py` und `apply-461-gebeine.py` prüfen den Ist-Zustand vor dem Schreiben.
+
+**Belegt.** Beide Tabellen gegen `tei/` nachgelesen (185 von 185, 207 von 207). Die variants-Änderung ist genau die erwartete: 3 Typen dazu, 1 entfällt (`type_115155`), `n` bei `type_10674` 122 auf 13 und bei `type_10676` 39 auf 4. Das Flip-Gate meldet drei gewollte Umklappungen (`jaget`, `jeit`, `jait` von `lemma_3103` auf `lemma_3102`), die Quittung deckt genau sie. Alle CI-Schritte aus den Workflow-Dateien lokal gefahren, die Frische-Schritte reproduzieren byte-gleich; `npm test` auf Port 8084: VOLLLAUF GRUEN, 473 Tests in 50 Dateien. Review auf Opus (Fable am Limit): Runde 1 auf einem größeren Stand, Runde 2 auf dem Stand dieses PR ohne Befund am Diff. Chrome war nicht verbunden; ersatzweise ein headless-Playwright-Wegwerfskript gegen Port 8084 (nicht im Repo): die Lemmaseite von `gebeine` zeigt „Bedeutung 3: Körper/Gliedmaßen von Säugetieren“; die Suche nach `jagen` meldet 1.551 Treffer (1.406 vorher plus 145), die nach `jaget` 1.591 mit `jagen` vor `jagât` (1.551 plus die 40 verbliebenen). Das ist kein hart neu geladener Chrome-Lauf, sondern ein frischer Browserkontext. **Laufzeitwirkung:** keine Änderung an Build, Gate oder Test; die Build-Skripte ändern nur ihre Versionsliterale, der Volltest lief wie zuvor durch.
+
+### Was über den Einzelfall hinausgilt
+
+**Ein Feld, das aus zerlegten Tags zählt, erzeugt Gleichstände dort, wo es am meisten zu unterscheiden gäbe.** Aus #462 (pos und posAll aus dem Korpus): ein Token `NEG VRB` zählt für beide Teile, bei Negations- und Partikelverben stehen sie deshalb exakt gleichauf, und die Reihenfolge im Lexikon entschied. Die Vorab-Messung hatte 6.859 Gleichstände genannt und sie als unproblematisch geführt; mein erster Entwurf schrieb „die häufigste Wortart“ in die Doku, was bei Gleichstand nicht stimmt. Der Reviewer hat es gefunden (156 Lemmata, die nur durch einen Gleichstand ein neues pos bekamen). Die Entscheidung „das Inhaltswort gewinnt“ hob die Zahl der abweichenden pos von 1.537 auf 5.653 (beide von 9.987 mehrwertigen Lemmata mit Korpusbeleg), weil sie auch die 4.116 Gleichstände erfasste, bei denen der Lexikon-Erstwert gleichauf vorn lag. Daraufhin hat chsteiner #462 angehalten und KZW gefragt; der Stand liegt auf `claude/462-lemma-pos`, die Zerlegung in `ingest/pos-disambig/462-pos/README.md` auf diesem Zweig. **Vor der Regel die Grundmenge zerlegen, nicht nur die Fälle, auf die sie zielt.**
+
+**Ein Test, der eine Reihenfolge festschreibt, die ein Ingest kippen kann.** `cooccurrence-ranking.spec.js` erwartete für `salve` `posAll` `['NOM','VRB']`; im Korpus steht NOM 15 gegen VRB 16. Der Test gehört zu A3 und ist mit ihm herausgenommen.
+
+### Rote Zeilen
+
+Keine.
+
+### Was zurück an Christian geht
+
+- **#460, an KZW:** die 5 unklaren Belege (Kontext in `belege.tsv`), Frage nach dem Merge.
+- **#461, an KZW:** die 6 Tierbelege ohne Säugetier (Hahn, Fisch, Phönix, drei Drachen), die 9 offenen Belege und `concept_21104000` an `lemma_1958_sense_3004`, Frage nach dem Merge.
+- **#462, an KZW:** gestellt (Gleichstand durch zerlegte Tags, dazu 22 Lemmata, deren häufigster Korpus-Tag im Lexikon nicht geführt wird); #462 steht auf `auto:blocked`, `wait:kzw`.
+- Die Chrome-Prüfung in einem echten Browser steht aus (Erweiterung nicht verbunden), ersetzt durch das Playwright-Skript oben.
