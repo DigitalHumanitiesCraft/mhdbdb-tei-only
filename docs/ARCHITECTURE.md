@@ -101,6 +101,7 @@ Allows users to include/exclude specific texts from search:
 - Rich metadata panel (work/author info, Wikidata images)
 - Context navigation (prev/next occurrence)
 - URL parameter support (`?textId=ABG&lemmaIds=879,7532&position=310`)
+- `closeReadingView()` (#434): resets the reader and discards a load still in flight (the load generation `_loadSeq` is bumped, so a late `await` renders nothing); `app.js` calls it from its `popstate` handler
 
 **Layout Architecture:**
 - Browser-level scrolling (no container scrollbars)
