@@ -20,7 +20,7 @@ export class MultiLemmaSearchUI {
         // Schreibform nimmt dagegen matches[0]. Gemessen am 2026-09-24 über
         // authority-files/lexicon.xml, gruppiert mit normalize_mhg() aus
         // scripts/mhg_normalizer.py: 476 normalisierte Formen tragen mehr
-        // als einen Eintrag, zusammen 991 der 43.710 Lemmata, darunter sin,
+        // als einen Eintrag, zusammen 991 Lemmata, darunter sin,
         // wal, mal und de. Zählweise und Verlauf in CONTRACTS.md, dort wird
         // die Zahl gepflegt, hier nicht. Für die stünde hier sonst still ein
         // anderes Lemma. Gefüllt wird die Map nur vom Router, nie von einer

@@ -1,0 +1,75 @@
+# Gemessene Verszaehlungs- und div-Zahlen gegen ihre Fundstellen (#414).
+#
+# Eigener, seltener Workflow statt doc-count-audit.py in data-integrity.yml
+# oder no-cdn-check.yml: die beiden Zaehlskripte bauen die Renderreihenfolge
+# bzw. parsen alle 667 Korpusdateien und brauchen zusammen rund vier Minuten
+# (lokal gemessen am 10.10.2026: 263 Sekunden fuer den ganzen Lauf), der
+# bestehende Audit rund fuenf Sekunden. In jeden Lauf passen sie nicht.
+#
+# Wann er laeuft:
+#   - woechentlich (montags), damit eine Drift ohne jeden Anlass irgendwann
+#     auffaellt;
+#   - bei Aenderungen unter tei/, denn dort entstehen die Zahlen;
+#   - bei Aenderungen an den Fundstellen und an den Zaehlskripten selbst,
+#     denn dort kann ein Satz umformuliert oder eine Zahl von Hand verstellt
+#     werden (Liste der Fundstellen: CLAIMS in scripts/audit/check-measured-counts.py).
+#
+# Er braucht lxml (die Zaehlskripte parsen mit lxml), deshalb pip install aus
+# requirements.txt wie in data-integrity.yml.
+
+name: measured-counts
+
+on:
+  pull_request:
+    paths:
+      - 'tei/**'
+      - 'assets/js/rendering/tei-text-reader.js'
+      - 'assets/css/korpus.css'
+      - 'docs/FEATURES.md'
+      - 'docs/TEI-MODEL.md'
+      - 'scripts/audit/check-measured-counts.py'
+      - 'scripts/audit/count-verse-numbering-resets.py'
+      - 'scripts/audit/count-editorial-notes-and-div-heads.py'
+      - 'scripts/corpus_files.py'
+      - '.github/workflows/measured-counts.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'tei/**'
+      - 'assets/js/rendering/tei-text-reader.js'
+      - 'assets/css/korpus.css'
+      - 'docs/FEATURES.md'
+      - 'docs/TEI-MODEL.md'
+      - 'scripts/audit/check-measured-counts.py'
+      - 'scripts/audit/count-verse-numbering-resets.py'
+      - 'scripts/audit/count-editorial-notes-and-div-heads.py'
+      - 'scripts/corpus_files.py'
+      - '.github/workflows/measured-counts.yml'
+  schedule:
+    - cron: '23 4 * * 1'
+  workflow_dispatch:
+
+concurrency:
+  group: measured-counts-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  measured-counts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install --quiet -r requirements.txt
+
+      - name: Gemessene Zahlen gegen ihre Fundstellen (#414)
+        run: python scripts/audit/check-measured-counts.py

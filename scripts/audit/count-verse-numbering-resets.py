@@ -17,17 +17,17 @@ Unterschied zwischen "mit Reset" und "ohne Reset" direkt.
 
 Nachgebaute Logik, Paritaet zu assets/js/rendering/tei-text-reader.js:
 
-  divRestartsNumbering(div)   -> :411
+  divRestartsNumbering(div)
       a) die erste numerische <l> im Teilbaum traegt n="1"
       b) n="1" kommt im Teilbaum GENAU EINMAL vor
       (querySelectorAll('l[n]') greift auf ALLE Nachfahren, auch ueber
       geschachtelte <div> hinweg; iter() bildet das ab)
 
-  isInNestedParallel(l, div)  -> :473
+  isInNestedParallel(l, div)
       Zeilen eines eingehaengten Parallelzeugen zaehlen fuer das umgebende
       <div> nicht mit (#250 Punkt 3, nachgezogen in #302)
 
-  Randnummer sichtbar    -> :627
+  Randnummer sichtbar (case 'l' in _renderElement)
       isNumeric UND (noch kein Anker gesetzt ODER int(n) % 5 == 0)
 
 Der Walk ist eine Pre-Order-Traversierung ueber <body>, weil der Renderer
@@ -40,6 +40,7 @@ Usage:
     python scripts/audit/count-verse-numbering-resets.py --text PZ # ein Text im Detail
 """
 import argparse
+import json
 import re
 import sys
 from collections import Counter
@@ -59,7 +60,7 @@ NUMERIC = re.compile(r'^\d+$')
 def in_nested_parallel(node, div_el):
     """Liegt der Knoten in einem Parallelzeugen INNERHALB von div_el?
 
-    Paritaet zu tei-text-reader.js:473 (isInNestedParallel), #250 Punkt 3.
+    Paritaet zu tei-text-reader.js (isInNestedParallel), #250 Punkt 3.
     Die Vorfahrenkette wird nur bis div_el hochgelaufen: ist div_el SELBST die
     parallel-div, endet die Schleife sofort und der Zeuge behaelt seine eigene
     Zaehlung. Genau das trennt die beiden Faelle, ein einfaches
@@ -106,7 +107,7 @@ def div_conditions(div_el):
 
 
 def div_restarts_numbering(div_el):
-    """Parity zu tei-text-reader.js:411 (divRestartsNumbering)."""
+    """Parity zu tei-text-reader.js (divRestartsNumbering)."""
     a, b = div_conditions(div_el)
     return a and b
 
@@ -179,12 +180,52 @@ def analyse(path):
     }
 
 
+def summarize(results):
+    """Die korpusweiten Zahlen aus den Ergebnissen je Text.
+
+    Eine Stelle fuer den Gesamtreport und fuer --json: was das seltene Gate
+    (check-measured-counts.py) liest, ist genau das, was der Report druckt.
+    """
+    types = Counter()
+    for r in results:
+        types.update(r['types'])
+    ranked = sorted(results, key=lambda x: -x['extra'])
+    return {
+        'texts': len(results),
+        'divs_total': sum(r['divs_total'] for r in results),
+        'starts_total': sum(r['starts_at_one'] for r in results),
+        'qualifying_total': sum(r['qualifying'] for r in results),
+        'texts_with_qualifying': sum(1 for r in results if r['qualifying'] > 0),
+        'rejected_by_b_total': sum(r['rejected_by_b'] for r in results),
+        'texts_rejected_by_b': sum(1 for r in results if r['rejected_by_b'] > 0),
+        'extra_total': sum(r['extra'] for r in results),
+        'texts_with_extra': sum(1 for r in results if r['extra'] > 0),
+        'extra_only_a_total': sum(r['extra_only_a'] for r in results),
+        'types': dict(types),
+        'extra_by_text': {r['sigle']: r['extra'] for r in ranked if r['extra'] > 0},
+    }
+
+
+def measure():
+    """Korpusweite Messung ohne Ausgabe (fuer check-measured-counts.py)."""
+    results = [r for r in (analyse(f) for f in corpus_files()) if r]
+    return summarize(results)
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('--top', type=int, default=10, help='Laenge der Bestenliste (Default 10)')
     ap.add_argument('--text', help='nur diese Sigle, mit Detailausgabe')
+    ap.add_argument('--json', action='store_true',
+                    help='nur die korpusweiten Zahlen, maschinenlesbar')
     args = ap.parse_args()
+    if args.json and args.text:
+        raise SystemExit('--json und --text schliessen sich aus')
+
+    if args.json:
+        print(json.dumps(measure(), ensure_ascii=False, indent=2, sort_keys=True))
+        return
 
     files = corpus_files()
     if args.text:
@@ -214,18 +255,16 @@ def main():
               f"(Bedingung (b) verhindert {r['extra_only_a'] - r['extra']})")
         return
 
-    qualifying_total = sum(r['qualifying'] for r in results)
-    rejected_by_b_total = sum(r['rejected_by_b'] for r in results)
-    starts_total = sum(r['starts_at_one'] for r in results)
-    divs_total = sum(r['divs_total'] for r in results)
-    texts_with_qualifying = sum(1 for r in results if r['qualifying'] > 0)
-    texts_rejected_by_b = sum(1 for r in results if r['rejected_by_b'] > 0)
-    extra_total = sum(r['extra'] for r in results)
-    texts_with_extra = sum(1 for r in results if r['extra'] > 0)
-
-    types = Counter()
-    for r in results:
-        types.update(r['types'])
+    s = summarize(results)
+    qualifying_total = s['qualifying_total']
+    rejected_by_b_total = s['rejected_by_b_total']
+    starts_total = s['starts_total']
+    divs_total = s['divs_total']
+    texts_with_qualifying = s['texts_with_qualifying']
+    texts_rejected_by_b = s['texts_rejected_by_b']
+    extra_total = s['extra_total']
+    texts_with_extra = s['texts_with_extra']
+    types = Counter(s['types'])
 
     print(f'Korpus: {len(results)} Texte mit <body>, {divs_total} <div> gesamt')
     print()
@@ -237,7 +276,7 @@ def main():
     print('      (strophenlokale Zaehlung, wuerde ohne (b) nackte Randeinsen erzeugen)')
     print()
     print(f'Zusaetzliche Randnummern         {extra_total} in {texts_with_extra} Texten')
-    only_a_total = sum(r['extra_only_a'] for r in results)
+    only_a_total = s['extra_only_a_total']
     print(f'  ohne Bedingung (b) waeren es   {only_a_total}, '
           f'(b) verhindert also {only_a_total - extra_total} unmotivierte Randeinsen')
     print()

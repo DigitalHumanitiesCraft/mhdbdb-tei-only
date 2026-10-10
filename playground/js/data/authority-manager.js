@@ -228,7 +228,7 @@ export class AuthorityFilesManager {
    * Eingabe wird mit TextNormalizer.normalizeMHG normalisiert (â→a, ê→e,
    * ü→ue, æ→ae, ō→o, …) damit „ere" auch „êre" matcht — derselbe Normalizer,
    * mit dem lemma.normalized gebaut wird (CONTRACTS §A). Linear scan über
-   * 43.754 Lemmata, ~5-10ms pro Aufruf — akzeptabel für keystroke-Frequenz.
+   * rund 44.000 Lemmata, ~5-10ms pro Aufruf — akzeptabel für keystroke-Frequenz.
    */
   getLemmaAutocompleteMatches(partialInput, maxSuggestions = 8) {
     const trimmed = (partialInput || '').trim();

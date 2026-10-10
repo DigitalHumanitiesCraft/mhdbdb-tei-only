@@ -4,6 +4,34 @@ Chronological log of development decisions, dead ends, and savepoints. Not a cha
 
 ---
 
+## 2026-10-10 (Lauf C, Zahlen): #451 Katalogzahlen raus, #414 seltenes Gate für die Verszählungs- und div-Zahlen
+
+Zwei Pakete derselben Spur. **C1 (#451, Schritte 1 bis 3):** `doc-count-audit.py` zählt nur noch, was ein XPath zählt (Datenzahlen), die Katalogzahlen (Tests, Tools, Spalten) sind aus Gate und Prosa heraus; PR #561, Squash `641d0ed2b`. **C2 (#414):** `scripts/audit/check-measured-counts.py` hält 28 wörtliche Sätze in vier Dateien (Reader-Kommentare, `korpus.css`, `docs/FEATURES.md`, `docs/TEI-MODEL.md`) gegen die Messung der beiden Zählskripte, die dafür ein maschinenlesbares `measure()` bekamen (gedruckte Ausgabe unverändert, per Diff geprüft). Läuft im eigenen Workflow `measured-counts.yml` (wöchentlich, bei `tei/` und an den gelesenen Dateien), weil ein Lauf rund vier Minuten braucht (263 s, ein Lauf) gegen fünf Sekunden für den Audit.
+
+### Was über den Einzelfall hinausgilt
+
+**(a) Eine Fundstelle ist erst gegatet, wenn ihr Satz in `CLAIMS` steht.** Runde 1 fand drei Zwillingsstellen derselben Zahlen, die ich übersehen hatte (Reader "159 der qualifizierenden divs", FEATURES "discards 1,169", `korpus.css` "1.061 der 1.097"). Der Weg dorthin war der Suchlauf über den ganzen Bestand nach den Zahlen, nicht nach dem Satz.
+
+**(b) Zahlenrand zählt.** Der erste Entwurf suchte den Satz als Teilstring: "500" hätte in "1.500" getroffen. Jetzt hat der Satz an Ziffernrändern eine Grenze, und die Diagnose "Zahl weicht ab" vs. "Anker nicht gefunden" kommt aus einem zweiten Muster mit beliebigen Zahlen.
+
+**(c) Zwei Allaussagen im Text sind Messbedingungen geworden** ("in keinem dieser Fälle", "no further types"); sie bleiben rot, bis jemand den Eintrag ändert.
+
+**(d) Bewusst nicht gegatet:** TEI-MODEL.md:352 (1,406 undatiert, gleich dem Tabellenwert), NLA "38 untypisierte" (Einzeltext, das Gate misst ihn nicht), "WH +466" (historische Diff-Aussage). Ebenso die Datumsstempel neben den Zahlen ("Stand 2026-09-08"): das Gate hält die Zahl, nicht das Datum.
+
+**(e) Lemma-Gesamtzahlen in Kommentaren** sind durch "rund 44.000" ersetzt oder samt Nenner gestrichen (drei Stellen in Runde 1). `lemma-explorer.js:74` trägt weiter "16.713 der rund 44.000"; der Reviewer vermerkt es als Randnotiz. G8 (der Kommentar bei ~874) ist nicht angefasst, er wartet auf B1.
+
+### Messung
+
+Mutationsproben mit gemessenen Werten, jeweils zurückgestellt und die Rücknahme geprüft: JS-Kommentar, FEATURES, TEI-MODEL, CSS, Randfall 159 → 1159, umformulierter Satz → "Anker nicht gefunden". Voller `npm test` (Port 8086, `--workers=2`): `VERDICT: VOLLLAUF GRUEN (473 Tests, 50 Dateien)`. Zwei Review-Runden auf Opus statt Fable (Fable-Limit, G4 in `docs/playbooks/kickoffs/2026-10-10-lauf.md`); Runde 2 ohne Befund.
+
+### Rote Zeilen
+
+Keine. Zwei eigene Zahlen (32 statt 34 Zeilen, 716 statt 715) habe ich vor dem Weiterreichen nachgemessen und in der Folgemeldung richtiggestellt; getragen hat keine etwas, die PR-Texte tragen die gemessenen Werte. Die Nummern 140 bis 144 sind unverbraucht.
+
+### Was zurück an Christian geht
+
+#451 bleibt offen, bis die Koordination Schritt 4 (die Zeile in `CLAUDE.md`) schreibt. #414 bleibt nach dem Merge offen (Bezug, kein Schließen).
+
 ## 2026-10-09 (Spur 452): Zuschreibungsstatus für Werkautoren, Corpus Index 4.2.31, Authority Index 1.9.22
 
 Ein Vorgang (#452, im Zusammenhang mit #444) auf dem Zweig `claude/452-zuschreibung`: Autoren eines Werks tragen einen Status (ohne Zusatz anerkannt, `disputed`, `uncertain`, `rejected`) oder die Rolle `adapter`. Betroffen sind fünf Sigel: CR (Bligger von Steinach verworfen), BAX (Anonym als Bearbeiter), HOF und VDH (Stricker allein), RHB (Konrad von Würzburg umstritten, zählt als Autor). Daten, Schema, beide Indizes, API, Leseansicht, Suche und Playground tragen die Unterscheidung; die Anzeigetexte stammen von KZW („umstritten“, „unsicher zugeschrieben“, „verworfen“, „Bearbeiter“, Rubrik „Frühere Zuschreibungen“). Gemessen am Zweigkopf `75e5caf10`: `npm test` mit `VERDICT: VOLLLAUF GRUEN (473 Tests, 50 Dateien)`; fünf Review-Runden des Reviewers, die letzte ohne Befund.

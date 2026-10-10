@@ -61,6 +61,7 @@ scripts/
 │   ├── check-variants-flips.py # keine still umgeklappte variants-Zuordnung (#378)
 │   ├── check-index-versions.py  # Index-Versions-Konstanten konsistent
 │   ├── check-lexicon-senses.py  # jeder <entry> in lexicon.xml hat mindestens einen <sense>
+│   ├── check-measured-counts.py # gemessene Verszählungs- und div-Zahlen gegen ihre Fundstellen, auch in .js-Kommentaren; seltenes Gate (#414)
 │   ├── check-naming-index.py    # naming-index: Provenienz + Sigle-Existenz (#152)
 │   ├── check-no-cdn.py          # keine externen <script src> und <link href> in committeten Seiten
 │   ├── check-no-em-dash.py      # keine Em-Dashes in HTML/JS/CSS und in jeder .md; Markdown nur im Diff (#292)

@@ -71,7 +71,7 @@ export class LemmaExplorer {
     this.lastComponentTerm = null;
     // Aus statt undefined: der Default ist eine Entscheidung (@wachauer,
     // 2026-09-08 in #239) und keine Nebenwirkung einer fehlenden Zuweisung.
-    // Angeschaltet sperrt er 16.713 der 43.879 Lemmata dauerhaft aus: sie
+    // Angeschaltet sperrt er 16.713 der rund 44.000 Lemmata dauerhaft aus: sie
     // führen im Lexikon keine Wortbestandteile und können ihn nie
     // passieren. Dass gefiltert wird, sagt die Kopfzeile („davon N als
     // belegte Wortbildung angezeigt") und die gesetzte Checkbox durchaus;
@@ -122,7 +122,7 @@ export class LemmaExplorer {
    * Ein Lemma an die Belegsuche übergeben (#58).
    *
    * Übergeben wird die ID, nicht die Schreibform. Der Klick hat ein bestimmtes
-   * Lemma gemeint, und für 991 der 43.710 Lemmata (476 normalisierte Formen,
+   * Lemma gemeint, und für 991 Lemmata (476 normalisierte Formen,
    * gemessen am 2026-09-24, Zählweise in CONTRACTS.md) würde die Auflösung
    * über die Schreibform ein anderes treffen: `sin`, `wal`, `mal`, `de`. Die Schreibform fährt nur als
    * Beschriftung mit, damit im Ergebnis „minne" steht und nicht „4130".
@@ -556,7 +556,7 @@ export class LemmaExplorer {
       this.componentPicked.delete(wert);
     }
 
-    // Homographen gleichschreibend zusammenhalten. 102 der 43.765 Schreibformen
+    // Homographen gleichschreibend zusammenhalten. 102 Schreibformen
     // gehören mehr als einem Lemma (`sal`, `wal`, `sin` je vier), und das Modell
     // hält Formen, nicht IDs, weil die Multi-Lemma-Route Formen erwartet. Zwei
     // Checkboxen können deshalb denselben `value` tragen. Ohne diesen Abgleich
