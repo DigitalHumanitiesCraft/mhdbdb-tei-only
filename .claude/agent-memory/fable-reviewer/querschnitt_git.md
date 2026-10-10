@@ -21,7 +21,6 @@ Verdichtet 08.10.2026.
 - „Seit #N kein Leser": `git log --oneline -S"<objekt>.<feld>" -- <pfade>`, Datum gegen das Issue. „Folgestellen korrigiert": `git log -S <phrase> origin/main..HEAD`. Erstes Auftauchen einer Datei: `git log --diff-filter=A`.
 - Trailer: `git log --format='%h %(trailers:key=Co-Authored-By,valueonly)'`. Zeilenzitate `datei:N` per `git show <ref>:<pfad> | grep -n` prüfen.
 - Blob gleich Runner-Build: `git fetch origin refs/pull/<N>/head`, `git rev-parse FETCH_HEAD:<p> HEAD:<p>`.
-- Diff-Zeilenarten zählen: `git diff base...HEAD -- tei/ | grep '^+' | sed 's/xml:id="[^"]*"//g; s/when="[^"]*"//g' | sort | uniq -c`.
 
 **Squash (Repo-Konvention seit 21.09.2026)**
 - `git log --no-merges | grep -c '(#N)$'` zählt Commits mit Issue-Bezug, keine Squash-Merges. Squash je Commit: `gh api repos/<org>/<repo>/pulls/N --jq .merge_commit_sha` gleich Commit-SHA; 404 = Issue.
@@ -30,6 +29,6 @@ Verdichtet 08.10.2026.
 - Kein gesquashter Head ist Vorfahr von main: `branch --merged` listet ihn nicht, `branch -d` verweigert, nur `-D`. Jede Anweisung „gemergte Branches löschen" oder Guard auf `--merged` mitlesen. Beim Auto-Delete (`delete_branch_on_merge`) retargetet GitHub abhängige PRs selbst.
 
 **EOL- und Attribut-Proben ohne den Arbeitsbaum**
-- Probeklon im Scratchpad: `git clone --shared --no-checkout --branch main <repo> <scratch>/eolprobe`, dann `git -C ... sparse-checkout set --no-cone .gitattributes <datei>` **ohne führenden Slash** (Git Bash macht aus `/.gitattributes` den Pfad `C:/Program Files/Git/.gitattributes`) und `sparse-checkout reapply`. Erbt `core.autocrlf` aus der System-Config; `config core.autocrlf false` + `core.eol lf` simuliert Linux. Der Scratchpad-Ordner ist mit der Session des Aufrufers geteilt: eigenen Ordnernamen wählen.
-- Ein `git status` M bei leerem `git diff` ist eine Größenabweichung zwischen Index-Stat und Datei (`git ls-files -s --debug`, `size:`); git vergleicht dann keinen Inhalt. `git add` der Datei (Blob bleibt) oder `git restore` löst es, `git add --renormalize` ist bei LF-Blob ein No-op. `git ls-files --eol <datei>` zeigt, was im Baum liegt.
-- `rnc2rng` ist lokal installiert (`python -m rnc2rng <rnc> <ziel>`), schreibt unter Windows CRLF, unter Linux LF.
+- Probeklon im Scratchpad: `git clone --shared --no-checkout --branch main <repo> <scratch>/eolprobe`, dann `sparse-checkout set --no-cone .gitattributes <datei>` **ohne führenden Slash** (Git Bash macht aus `/.gitattributes` einen Pfad unter `C:/Program Files/Git/`) und `sparse-checkout reapply`. `config core.autocrlf false` + `core.eol lf` simuliert Linux. Der Scratchpad-Ordner ist mit der Session des Aufrufers geteilt: eigenen Ordnernamen wählen.
+- Ein `git status` M bei leerem `git diff` ist eine Größenabweichung zwischen Index-Stat und Datei (`git ls-files -s --debug`, `size:`). `git add` der Datei (Blob bleibt) oder `git restore` löst es, `git add --renormalize` ist bei LF-Blob ein No-op. `git ls-files --eol <datei>` zeigt, was im Baum liegt.
+- `rnc2rng` (`python -m rnc2rng <rnc> <ziel>`) schreibt unter Windows CRLF, unter Linux LF.

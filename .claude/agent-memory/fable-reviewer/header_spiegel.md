@@ -18,7 +18,6 @@ Verdichtet 02.10.2026 (#395, #399, #237, #308).
 - Schlüssel seit #395 (work_id, sigle); vorher gewann je Sigle der letzte Eintrag (TRO).
 - Alter lxml-Pfad (`--works --bibl-struct`, `--all`) serialisiert alle 667 Dateien neu, löscht alle mwb-sigle und überschreibt listBibl mit Inhaltsverlust.
 - Regex-Schreiber: idno mit Zusatzattribut oder auf der sigle-Zeile wird dupliziert statt entfernt. Schreibblock vor dem Stub-Guard: schreibt erst, endet dann mit Exit 1.
-- Lab-Layout für Proben: `scripts/corpus_files.py` + `scripts/sync/` + `tei/<Auswahl>` + `authority-files/works.xml`, cwd = Scratch.
 
 **Zotero-Sync:** `--cache` = online + Cache schreiben, `--offline` liest ihn. Ein Online-Sync hebt Titel an; die Header laufen nicht mit, und die Handkorrekturen FR1/FLG (#236, #104) werden jedes Mal überschrieben.
 

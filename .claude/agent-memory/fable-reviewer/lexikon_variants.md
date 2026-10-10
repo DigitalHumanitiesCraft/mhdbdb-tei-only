@@ -19,14 +19,13 @@ Verdichtet 08.10.2026. Zahlen sind Eingabe, vor Gebrauch nachmessen.
 
 **Schreiber von lexicon.xml außerhalb des Lifecycle:** apply-228.py (löscht Einträge), backfill-lexicon.py (Stubs). „Der eine Ort, an dem eine tei/-Änderung lexicon.xml ändern kann" (DATA-MODEL) gilt nur für die Lifecycle-Skripte.
 
-**Wortart:** kein Skript vergleicht Token-@pos mit gramGrp; Legacy-Tag ART fällt aus NP-Start-Mengen wie {DET, ADJ, NOM, NAM, PRO, POS, NUM} heraus.
+**Wortart:** kein Skript vergleicht Token-@pos mit gramGrp; Legacy-Tag ART fällt aus NP-Start-Mengen heraus.
 
 **Ziffernlemmata:** seit `claude/228-ziffern` nur noch lemma_53328 „1" (Belege alle NEIM, #453); alle Ziffernschlüssel im Laufzeit-Wörterbuch zeigen darauf. hapax-legomena.spec.js ankert auf ein Orakel aus den Indexen. Außerhalb des Diffs veraltend: CONTRACTS.md C.1.2 („4 lemmata ... 78 keys"), Kommentar `passesFilters` in hapax-legomena.js.
 
 **Reine Wortbestandteile (#228, `component-only.js`, `noCorpus`)**
 - `lemma.id` und `etymology[].lemmaRef` tragen beide `lemma_N` ohne `#`/`lexicon.xml#`. Kontrollfall Mur `lemma_66692` (von Mûrouwe und Murstetten genannt, selbst unbelegt). `noCorpus` gibt es erst seit 1.9.18; die Spec mockt es per `page.route`; veralteter Browser-Cache ist kein Loch (`corpus-loader.js` verwirft ihn bei Versionsabweichung). `renderOccurrences` kehrt ohne `lemmaIndex[lemmaKey]` früh zurück.
 - `hilfe-korpussuche.html` ~Z. 445-446 („Jeder Eintrag besteht aus dem Lemma und einem Wortart-Kürzel") ist nach #228 eine Allaussage mit Ausnahmen.
-- Frontend-Anführungszeichen: ausgelieferte HTML-Seiten tragen 0 U+201E/U+201C/U+201D (Grep-Tool, glob `{*.html,lemma/*.html,playground/*.html}`, count).
 
 **Tokens zwischen Lemmata umhängen (#460/#461/#462, 10.10.2026)**
 - Variantentypen werden nicht umgehängt (#367), neue Nummern geprägt (höchste vorher `type_372854`); `n` der alten Typen sinkt, ein Typ ohne Rest entfällt. Das Flip-Gate verlangt die gitignorierte `scripts/audit/variants-flips-ack.json` (`git add -f`): den Grund je Form lesen, eine Form ohne zweiten Kandidaten darf nicht „bleibt zweiter Kandidat“ tragen.
