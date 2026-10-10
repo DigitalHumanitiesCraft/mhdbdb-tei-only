@@ -1,9 +1,10 @@
 {
-  "_comment": "Laufzeitbudget der CI-Schritte (#564), gelesen von check-runtime-budget.py. Grenze = budget_s mal factor, Checkout-Schritte mal checkout_factor; ein Budget unter floor_s gilt als floor_s, ein Schritt ohne Eintrag auch. Ein Budget wird nur im selben PR erhoeht, der die Verlangsamung rechtfertigt, mit neuer reason.",
+  "_comment": "Laufzeitbudget der CI-Schritte (#564), gelesen von check-runtime-budget.py. Grenze = budget_s mal factor, Checkout-Schritte mal checkout_factor; ein Budget unter floor_s gilt als floor_s, ein Schritt ohne Eintrag auch. Ein Budget wird nur im selben PR erhoeht, der die Verlangsamung rechtfertigt, mit neuer reason. provisional_since: Zeitpunkt, ab dem die erfolgreichen Laeufe fuer die Nachkalibrierung gezaehlt werden; ab 10 erinnert das Gate (calibration_issue).",
   "factor": 1.5,
   "checkout_factor": 1.3,
   "floor_s": 10,
   "collector_issue": 574,
+  "calibration_issue": 564,
   "excluded": [
     "claude-code-review.yml/Run Claude Code Review"
   ],
@@ -13,21 +14,24 @@
       "n": 3,
       "date": "2026-10-10",
       "basis": "p90 der erfolgreichen Laeufe seit dem Merge von E1 (#571, 12:38 UTC); n unter 10, vorlaeufig, Nachkalibrierung angekuendigt in #564",
-      "reason": "schlanker Checkout nach E1; vorher median 124 s im Gesamtlauf"
+      "reason": "schlanker Checkout nach E1; vorher median 124 s im Gesamtlauf",
+      "provisional_since": "2026-10-10T13:57:23Z"
     },
     "no-cdn-check.yml/Dokumentierte Zahlen gegen die Daten (#382/#398)": {
       "budget_s": 5,
       "n": 3,
       "date": "2026-10-10",
       "basis": "p90 der erfolgreichen Laeufe seit dem Merge von E1 (#571), nicht der letzten 25, damit alle Schritte des Workflows dieselbe Grundmenge haben; n unter 10, vorlaeufig",
-      "reason": "liegt unter der Untergrenze, die Grenze ist daher 10 s"
+      "reason": "liegt unter der Untergrenze, die Grenze ist daher 10 s",
+      "provisional_since": "2026-10-10T13:57:23Z"
     },
     "file-size-check.yml/Checkout": {
       "budget_s": 2,
       "n": 3,
       "date": "2026-10-10",
       "basis": "p90 der erfolgreichen Laeufe seit dem Merge von E1 (#571); n unter 10, vorlaeufig",
-      "reason": "Checkout nur eines Skripts; die Grenze ist die Untergrenze 10 s"
+      "reason": "Checkout nur eines Skripts; die Grenze ist die Untergrenze 10 s",
+      "provisional_since": "2026-10-10T13:57:23Z"
     },
     "data-integrity.yml/Checkout": {
       "budget_s": 226,
@@ -96,8 +100,8 @@
       "budget_s": 3,
       "n": 5,
       "date": "2026-10-10",
-      "basis": "p90 der 5 Laeufe, in denen der Schritt existiert; n unter 10, vorlaeufig",
-      "reason": "liegt unter der Untergrenze, die Grenze ist daher 10 s"
+      "basis": "p90 der 5 Laeufe, in denen der Schritt existiert; n unter 10, aber ohne Nachkalibrierung: der Schritt laeuft nur bei geaenderten Namensdateien (if: naming_changed), die letzten 8 Laeufe hatten ihn alle skipped, und eine Zaehlung nach Laeufen kaeme nie zu Messungen",
+      "reason": "liegt unter der Untergrenze, die Grenze ist daher 10 s und haengt nicht am Budget"
     },
     "data-integrity.yml/Freshness variants.xml (#125)": {
       "budget_s": 45,
@@ -111,28 +115,32 @@
       "n": 6,
       "date": "2026-10-10",
       "basis": "p90 der 6 vorhandenen erfolgreichen Laeufe; n unter 10, vorlaeufig",
-      "reason": "voller Checkout; streut stark (median 111 s)"
+      "reason": "voller Checkout; streut stark (median 111 s)",
+      "provisional_since": "2026-10-10T13:57:23Z"
     },
     "measured-counts.yml/Set up Python": {
       "budget_s": 5,
       "n": 6,
       "date": "2026-10-10",
       "basis": "p90 der 6 vorhandenen erfolgreichen Laeufe; n unter 10, vorlaeufig",
-      "reason": "liegt unter der Untergrenze, die Grenze ist daher 10 s"
+      "reason": "liegt unter der Untergrenze, die Grenze ist daher 10 s",
+      "provisional_since": "2026-10-10T13:57:23Z"
     },
     "measured-counts.yml/Install dependencies": {
       "budget_s": 4,
       "n": 6,
       "date": "2026-10-10",
       "basis": "p90 der 6 vorhandenen erfolgreichen Laeufe; n unter 10, vorlaeufig",
-      "reason": "liegt unter der Untergrenze, die Grenze ist daher 10 s"
+      "reason": "liegt unter der Untergrenze, die Grenze ist daher 10 s",
+      "provisional_since": "2026-10-10T13:57:23Z"
     },
     "measured-counts.yml/Gemessene Zahlen gegen ihre Fundstellen (#414)": {
       "budget_s": 128,
       "n": 6,
       "date": "2026-10-10",
       "basis": "p90 der 6 vorhandenen erfolgreichen Laeufe; n unter 10, vorlaeufig",
-      "reason": "Zaehlskripte ueber das ganze Korpus"
+      "reason": "Zaehlskripte ueber das ganze Korpus",
+      "provisional_since": "2026-10-10T13:57:23Z"
     }
   }
 }
