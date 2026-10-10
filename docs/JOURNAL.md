@@ -12,15 +12,15 @@ Chronological log of development decisions, dead ends, and savepoints. Not a cha
 
 **(a) Ein Zeitgate muss die Reihenfolge seiner Fälle kennen.** Dieselbe Playground-Auflösung (`schwertkampf`) brauchte allein 1,0 ms und im selben Prozess nach den Hauptseitenfällen 2,8 bis 3,6 ms, in jedem Block. Der Review fand es, weil das Gate auf seinem eigenen Commit viermal von vier Läufen rot war. Das Minimum mehrerer Blockmediane filtert Last von außen, nicht diesen Zustand; geholfen hat nur ein eigener Prozess je Oberfläche. Die Ursache ist nicht geklärt (Müllsammlung und frische Instanz sind es laut Review nicht).
 
-**(b) Ein Budget gehört dem Ort, an dem es gilt.** Auf dem Entwicklungsrechner schwankten dieselben unveränderten Hauptseitenfälle zwischen 0,6 und 1,8 ms, je nach Last der Nachbarsessions. Auf dem Runner lagen drei Läufe bei 0,3 / 0,6 / 0,6 ms für `main:exakt`: der Runner streut um den Faktor 2 zwischen Läufen, aber nicht mit der Last des Entwicklungsrechners. Das Budget stammt daher aus dem größten von drei Runner-Werten mal 1,5 (Entscheidung G2 der Koordination).
+**(b) Ein Budget gehört dem Ort, an dem es gilt.** Auf dem Entwicklungsrechner schwankten dieselben unveränderten Hauptseitenfälle zwischen 0,6 und 1,8 ms, je nach Last der Nachbarsessions. Auf dem Runner lagen drei Läufe bei 0,345 / 0,672 / 0,655 ms für `main:exakt`: der Runner streut um den Faktor 2 zwischen Läufen, aber nicht mit der Last des Entwicklungsrechners. Das Budget stammt daher aus dem größten von drei Runner-Werten mal 1,5 (Entscheidung G2 der Koordination).
 
-**(c) Eine Untergrenze ist eine Aussage über den kleinsten Rückfall, den das Gate noch fängt.** Mit 1 ms blieb ein `Object.keys(variantCandidates)` je Aufruf (rund 0,3 ms) bei Messwerten von 0,001 ms grün; G4 senkte sie auf 0,1 ms. Die Mutationsprobe mit genau dieser Zeile macht 17 von 24 Fällen rot.
+**(c) Eine Untergrenze ist eine Aussage über den kleinsten Rückfall, den das Gate noch fängt.** Mit 1 ms blieb ein `Object.keys(variantCandidates)` je Aufruf (rund 0,3 ms) bei Messwerten von 0,001 ms grün; G4 senkte sie auf 0,1 ms. Die Mutationsprobe mit genau dieser Zeile in `searchLemmaByOrthography` trifft nur die acht schnellen `pg:`-Fälle (gemessen 0,29 bis 0,32 ms gegen 0,001 bis 0,002 ms vorher, Budget 0,1 ms); `pg:praefix` und `pg:unbekannt` bleiben grün. Lokal war das Gate auf einem belasteten Rechner auch ohne Mutation 5 von 24 rot, gegen die Runner-Budgets.
 
 **(d) `NaN > Budget` ist falsch, also grün.** `--reps 0` ergab 24 Zeilen `NaN ms ok`. Ungültige Zahlen enden jetzt mit Exit 2.
 
 ### Verifikation
 
-Voller `npm test` (Port 8087, `--workers=2`) auf `f55a133e0`: `VERDICT: VOLLLAUF GRUEN (492 Tests, 51 Dateien)`; danach änderten sich nur Benchmark-Skript, Budgetdatei, Docs und Agent-Memory. Ergebnisgleichheit gegen `origin/main`: 4.530 Schlüssel byte-gleich. Review auf Opus (Fable-Limit), Runde 1 (5 Befunde, 2 der Klasse A und 3 der Klasse B, alle nachgemessen und behoben) und Runde 2 (Untergrenze nach G4, Ursachenformulierung, stderr).
+Voller `npm test` (Port 8087, `--workers=2`) auf `1c82b9a5f` (vor dem Rebase lokal `f55a133e0`): `VERDICT: VOLLLAUF GRUEN (492 Tests, 51 Dateien)`; danach änderten sich nur Benchmark-Skript, Budgetdatei, Docs und Agent-Memory. Ergebnisgleichheit gegen `origin/main`: 4.530 Schlüssel byte-gleich. Review auf Opus (Fable-Limit), Runde 1 (5 Befunde, 2 der Klasse A und 3 der Klasse B, alle nachgemessen und behoben) und Runde 2 (Untergrenze nach G4, Ursachenformulierung, stderr).
 
 ### Rote Zeilen
 
