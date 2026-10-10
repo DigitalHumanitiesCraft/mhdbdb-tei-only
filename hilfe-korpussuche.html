@@ -209,7 +209,7 @@
                 Hinter der Normalisierung arbeitet eine dreistufige Auflösung:
             </p>
             <ol class="space-y-2 text-sm text-slate-700 mb-4 ml-4 list-decimal list-inside">
-                <li><strong>Exakter Treffer im Wörterbuch</strong> – Ihr Suchwort entspricht einem Lemma direkt. Die Suche endet hier nur, wenn dieses Lemma im Korpus belegt ist. Hat es keinen einzigen Beleg, wird zusätzlich das Variantenwörterbuch befragt ("rosse" findet dann <em>ros</em> statt nichts).</li>
+                <li><strong>Exakter Treffer im Wörterbuch</strong> – Ihr Suchwort entspricht einem Lemma direkt. Die Suche endet hier nur, wenn mindestens eines der gefundenen Lemmata im Korpus belegt ist. Hat keines einen Beleg, wird zusätzlich das Variantenwörterbuch befragt ("rosse" findet dann <em>ros</em> statt nichts).</li>
                 <li><strong>Variantenwörterbuch</strong> – 234.264 normalisierte Schreibvarianten werden gegen Ihre Eingabe geprüft.</li>
                 <li><strong>Wortanfang</strong> als Fallback, wenn weder ein exakter noch ein Varianten-Treffer existiert: gefunden wird, was mit Ihrer Eingabe beginnt ("minnecl" → "minneclich") oder womit Ihre Eingabe beginnt ("minnecl" → "minnec", ab drei Buchstaben). Die ähnlichste Schreibung steht oben.</li>
             </ol>

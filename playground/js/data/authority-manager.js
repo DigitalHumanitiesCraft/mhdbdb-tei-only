@@ -113,7 +113,7 @@ export class AuthorityFilesManager {
     // Lemma ohne Beleg als ersten Treffer nehmen (#163/#164).
     const withStage1 = (found) => {
       const seen = new Set(exactMatches);
-      return [...found.filter(l => !seen.has(l)), ...exactMatches];
+      return [...found.filter(l => !seen.has(l)), ...this.rankHomographs(exactMatches, normalized)];
     };
 
     // Stage 2: Search in variants index (orthographic variants from TEI corpus)
@@ -150,7 +150,7 @@ export class AuthorityFilesManager {
     }
 
     // Unbelegter Stufe 1 ohne Stufe 2: wie vor #463 bleibt es bei Stufe 1.
-    if (exactMatches.length > 0) return exactMatches;
+    if (exactMatches.length > 0) return this.rankHomographs(exactMatches, normalized);
 
     // Stage 3: Partial-Match-Fallback, praefixorientiert in beide Richtungen
     // (Stamm-Eingabe -> Lemma, flektierte Eingabe -> Lemma). Regel und

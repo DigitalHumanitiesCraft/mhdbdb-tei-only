@@ -393,8 +393,16 @@ test.describe('Aufräumrunde: doppelte Lemma-IDs degenerieren die Kookkurrenz-Su
         const r = await page.evaluate(() => {
             const am = window.playground.authorityManager;
             const ids = e => am.searchLemmaByOrthography(e).map(l => l.id);
-            return { rosse: ids('rosse'), gat: ids('gat'), roz: ids('roz'), got: ids('got') };
+            const erster = e => am.searchLemmaByOrthography(e)[0]?.lemma;
+            return {
+                rosse: ids('rosse'), gat: ids('gat'), roz: ids('roz'), got: ids('got'),
+                vlaederErster: erster('vlâder'), vlaederOhneDach: erster('vlader')
+            };
         });
+        // Zwei unbelegte Homographen (vlader, vlâder): der Gleichstandsbrecher
+        // "diakritisch-exakte Eingabe zuerst" gilt auch ohne Beleg
+        expect(r.vlaederErster).toBe('vlâder');
+        expect(r.vlaederOhneDach).toBe('vlader');
         // rosse: Rosse (lemma_20697) hat 0 Tokens, ros (lemma_4973) 6.608; ros zuerst
         expect(r.rosse[0]).toBe('lemma_4973');
         expect(r.rosse.at(-1)).toBe('lemma_20697');
