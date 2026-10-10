@@ -15,9 +15,8 @@ name: Data Integrity
 #      Doku und auf den ausgelieferten Seiten verankerte Zaehlung wird
 #      gegen den Bestand gehalten. Frueh, weil billig (sechs Sekunden)
 #      und ohne Abhaengigkeit von einem Vorgaenger. Die Pfadfilter hier
-#      nennen weder docs/** (behauptete Zahl) noch playground/**
-#      (gemessene Zahl); seit 01.10.2026 deckt das derselbe Schritt in
-#      no-cdn-check.yml ab, Begruendung am Step.
+#      nennen docs/** (behauptete Zahl) nicht; seit 01.10.2026 deckt das
+#      derselbe Schritt in no-cdn-check.yml ab, Begruendung am Step.
 #   1b. Werk-Identifier gegen works.xml (#399): fuer
 #      handschriftencensus, GND und wikidata ist works.xml Master, der
 #      msIdentifier jedes TEI-Headers ist Spiegel. Verglichen wird
@@ -268,8 +267,8 @@ jobs:
       #
       # Position: frueh, weil billig. Sechs Sekunden lokal gemessen
       # (06.09.2026), und der Schritt haengt an keinem Vorgaenger:
-      # doc-count-audit.py liest authority-files/*.xml, die Dateiliste aus
-      # corpus_files() (nicht den geparsten Korpus) und playground/js/ui/.
+      # doc-count-audit.py liest authority-files/*.xml und die Dateiliste aus
+      # corpus_files() (nicht den geparsten Korpus).
       # Nach "Install dependencies" ist alles da. Der Workflow-Kopf schreibt
       # "Steps von billig nach teuer (fail fast)" aus; eine falsche Zahl auf
       # index.html darf nicht erst hinter der RelaxNG-Validierung auffallen.
@@ -288,48 +287,22 @@ jobs:
       # (index.html und hilfe-daten.html, beide fuer Besucher sichtbar).
       # Gefunden hat es der Review-Bot, nicht die CI.
       #
-      # GRENZEN dieses Workflows, und es sind zwei; geschlossen sind beide
-      # seit 01.10.2026 durch den Schritt in no-cdn-check.yml, dessen Filter
-      # **.md, **/*.html und playground/** nennen. Die Beschreibung bleibt,
-      # weil sie erklaert, warum das Gate an zwei Stellen steht. Die
-      # Pfadfilter hier nennen weder docs/** noch *.html noch playground/**:
+      # GRENZE dieses Workflows: Die Pfadfilter hier nennen weder docs/**
+      # noch *.html. Ein PR, der nur Dokumentation anfasst, aendert die
+      # BEHAUPTETE Zahl und loest den Lauf nicht aus; dann faellt die Drift
+      # erst beim naechsten Datenlauf auf, in einem PR, der damit nichts zu
+      # tun hat. Geschlossen ist das seit 01.10.2026 durch den Schritt in
+      # no-cdn-check.yml, dessen Filter **.md und **/*.html nennen. Die
+      # Beschreibung bleibt, weil sie erklaert, warum das Gate an zwei Stellen
+      # steht. docs/** hier aufzunehmen kostete diesen 45-Minuten-Lauf bei
+      # jeder Doku-Aenderung.
       #
-      #   (a) Ein PR, der nur Dokumentation anfasst, aendert die BEHAUPTETE
-      #       Zahl und loest den Lauf nicht aus.
-      #   (b) Ein PR am Playground aendert die GEMESSENE Zahl und loest den
-      #       Lauf ebenfalls nicht aus. Sechs Groessen sind code-abgeleitet
-      #       (CODE_LABELS in doc-count-audit.py), und sie stammen aus
-      #       DREI verschiedenen Orten:
+      # Eine zweite Grenze (Aenderungen am Playground, die die GEMESSENE Zahl
+      # verschoben) gab es, solange das Gate Werkzeug- und Modulzahlen aus
+      # playground/ zaehlte. Seit #451 zaehlt es keine Zahl mehr, die aus dem
+      # Playground-Code kommt.
       #
-      #         ui_modules, tei_tools, pattern_modules
-      #             glob ueber playground/js/ui/ (collect_code_counts())
-      #         curated_datasets
-      #             len(CURATED_DATASET_MODULES), eine Konstante
-      #             in diesem Skript selbst
-      #         authority_explorers, entry_points
-      #             re.findall auf playground/index.html (collect_code_counts())
-      #
-      #       curated_datasets ist damit gedeckt: es aendert sich nur mit
-      #       scripts/audit/**, und das steht in den Filtern.
-      #
-      # In beiden Faellen faellt die Drift erst beim naechsten Datenlauf auf,
-      # bei (b) also in einem PR, der damit nichts zu tun hat. Der Befund ist
-      # dann trotzdem echt, nur spaet und beim Falschen.
-      #
-      # Wer sofortige Erkennung will, braucht ZWEI Eintraege in den Filtern,
-      # playground/js/ui/** UND playground/index.html. Der zweite ist leicht
-      # zu uebersehen und deckt gerade den Fall, der ohne Codeaenderung
-      # eintritt: wer eine der sechs show*Btn-Ids in playground/index.html
-      # umbenennt, senkt authority_explorers und entry_points, ohne eine
-      # .js-Datei anzufassen. Beides kostet diesen 45-Minuten-Lauf bei jeder
-      # Playground-Aenderung und ist deshalb hier bewusst NICHT getan.
-      # docs/** aufzunehmen waere derselbe Handel bei jeder Doku-Aenderung.
-      #
-      # Nebenbei, weil es beim Nachmessen auffiel: playground/index.html
-      # steht auf BEIDEN Seiten dieses Gates, als gemessene Quelle (collect_code_counts())
-      # und als Doku-Ziel fuer variants_normalized (DOC_TARGETS).
-      #
-      # Der Fall vom 06.09. faellt unter keine der beiden Grenzen: er faengt
+      # Der Fall vom 06.09. faellt nicht unter diese Grenze: er faengt
       # an einer Datenaenderung an und loest diesen Workflow immer aus.
       - name: Dokumentierte Zahlen gegen die Daten (#382/#398)
         run: python scripts/audit/doc-count-audit.py --check
