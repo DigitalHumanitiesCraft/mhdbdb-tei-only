@@ -265,4 +265,72 @@ test.describe('Search Engine', () => {
         expect(firstResult.wordCount).toBeGreaterThan(0);
     });
 
+    // #463: ein Stufe-1-Treffer ohne Korpusbeleg schneidet Stufe 2 nicht mehr ab.
+    // Die Faelle stammen aus der Vorab-Messung vom 10.10.2026; Zeilenzahlen
+    // wachsen mit jedem Ingest und stehen deshalb nicht fest im Test, wohl aber
+    // die Lemmata, auf die es ankommt.
+    test.describe('Stufe 1 ohne Beleg (#463)', () => {
+        async function aufloesen(page, eingabe) {
+            return page.evaluate(async e => {
+                const se = window._mhdbdbApp.searchEngine;
+                const results = await se.searchLemma(e);
+                return {
+                    ids: se.resolveSearchTerm(e),
+                    zeilenLemmata: [...new Set(results.map(r => r.lemmaId))],
+                    zeilen: results.length,
+                    belegt: se.resolveSearchTerm(e).map(id => se.isAttested(id))
+                };
+            }, eingabe);
+        }
+
+        test('rosse: unbelegtes Rosse bleibt in der Liste, ros bringt die Zeilen', async ({ page }) => {
+            const r = await aufloesen(page, 'rosse');
+            expect(r.ids).toContain('lemma_20697');
+            expect(r.ids).toContain('lemma_4973');
+            expect(r.zeilenLemmata).toEqual(['lemma_4973']);
+            expect(r.zeilen).toBeGreaterThan(0);
+        });
+
+        test('gat: Stufe 2 liefert gan und gate', async ({ page }) => {
+            const r = await aufloesen(page, 'gat');
+            expect(r.ids).toContain('lemma_64730');
+            expect(r.zeilenLemmata).toEqual(expect.arrayContaining(['lemma_1844']));
+            expect(r.zeilenLemmata).not.toContain('lemma_64730');
+        });
+
+        test('hanc: ohne Stufe 2 fragt Stufe 3, das unbelegte hanc bleibt in der Liste', async ({ page }) => {
+            const r = await aufloesen(page, 'hanc');
+            expect(r.ids[0]).toBe('lemma_2636');
+            expect(r.ids.length).toBeGreaterThan(1);
+            expect(r.zeilen).toBeGreaterThan(0);
+        });
+
+        test('roz: ein belegter Stufe-1-Treffer (rôz) haelt, Stufe 2 bleibt ungefragt', async ({ page }) => {
+            const r = await aufloesen(page, 'roz');
+            expect(r.ids).toEqual(['lemma_18443', 'lemma_52489']);
+            expect(r.zeilenLemmata).toEqual(['lemma_18443']);
+        });
+
+        test('lenden: belegter, aber falscher Stufe-1-Treffer bleibt unveraendert (eigener Fall)', async ({ page }) => {
+            const r = await aufloesen(page, 'lenden');
+            expect(r.ids).toEqual(['lemma_3702']);
+            expect(r.zeilenLemmata).toEqual(['lemma_3702']);
+        });
+
+        test('got: belegter Stufe-1-Treffer, keine Stufe-2-Ergaenzung', async ({ page }) => {
+            const r = await aufloesen(page, 'got');
+            expect(r.belegt.every(Boolean)).toBe(true);
+            expect(r.ids).toEqual(['lemma_2465']);
+        });
+
+        test('hasAmbiguousVariant: der Hinweis folgt demselben Massstab', async ({ page }) => {
+            const r = await page.evaluate(() => {
+                const se = window._mhdbdbApp.searchEngine;
+                return { gat: se.hasAmbiguousVariant('gat'), got: se.hasAmbiguousVariant('got') };
+            });
+            expect(r.gat).toBe(true);
+            expect(r.got).toBe(false);
+        });
+    });
+
 });

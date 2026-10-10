@@ -134,60 +134,85 @@ class SearchEngine {
     /**
      * Ob die Eingabe in Stufe 2 auf mehrere Kandidaten zeigt (ADR-021, #378).
      * Nur dann steht der Hinweis "kann zu mehreren Lemmata gehoeren" da: eine
-     * Lemma-Nummer und ein Stufe-1-Treffer fragen die Variantenliste nie.
+     * Lemma-Nummer und ein belegter Stufe-1-Treffer fragen die Variantenliste nie.
      * @param {string} searchTerm
      * @returns {boolean}
      */
     hasAmbiguousVariant(searchTerm) {
         if (parseLemmaIdInput(searchTerm)) return false;
         const normalized = TextNormalizer.normalizeMHG(searchTerm);
-        const stage1 = this.authorityIndex.lemmata.some(lemma => lemma.normalized === normalized);
-        return !stage1 && Array.isArray(this.authorityIndex.variantCandidates?.[normalized]);
+        // Ein unbelegter Stufe-1-Treffer haelt Stufe 2 nicht mehr fern (#463)
+        const stage1Holds = this.stage1Ids(normalized).some(id => this.isAttested(id));
+        return !stage1Holds && Array.isArray(this.authorityIndex.variantCandidates?.[normalized]);
     }
 
     /**
      * Resolve search term to lemma IDs
      */
     resolveLemmaIds(normalized) {
-        const lemmaIds = [];
+        const lemmaIds = this.stage1Ids(normalized);
 
-        // Strategy 1: Exact match on normalized lemma
-        this.authorityIndex.lemmata.forEach(lemma => {
-            if (lemma.normalized === normalized) {
-                lemmaIds.push(lemma.id);
-            }
-        });
-
-        if (lemmaIds.length > 0) {
+        // Stufe 1 haelt nur, wenn mindestens ein Treffer im Korpus belegt ist
+        // (#463). Ein Lemma ohne Beleg (z.B. "Rosse" fuer die Eingabe "rosse")
+        // schnitt sonst Stufe 2 und 3 ab, und die Suche endete leer, obwohl
+        // das belegte Lemma (ros) in der Variantenliste stand. Die Stufe-1-
+        // Treffer bleiben in der Liste; das Lexikon ist mehr als der Korpus.
+        if (lemmaIds.length > 0 && lemmaIds.some(id => this.isAttested(id))) {
             return lemmaIds;
         }
+        const stage1Unattested = lemmaIds.length > 0;
 
         // Strategy 2: Check variants index. Eine Schreibform mit mehreren
         // Kandidaten steht in variantCandidates, geordnet nach Vorschrift B
         // (ADR-021, #378); sonst traegt variants genau ein Lemma.
         const candidates = this.authorityIndex.variantCandidates?.[normalized];
-        if (Array.isArray(candidates)) {
-            return [...candidates];
-        }
         const variantLemmaId = this.authorityIndex.variants[normalized];
-        if (variantLemmaId) {
-            lemmaIds.push(variantLemmaId);
-            return lemmaIds;
+        const stage2 = Array.isArray(candidates)
+            ? [...candidates]
+            : (variantLemmaId ? [variantLemmaId] : []);
+        if (stage2.length > 0 && !stage1Unattested) {
+            return stage2;
+        }
+        if (stage2.some(id => this.isAttested(id))) {
+            return this.unionIds(lemmaIds, stage2);
         }
 
         // Strategy 3: Partial match fallback. Prefix-oriented in both directions
         // (stem input → lemma, inflected input → lemma), never an unbounded
         // substring test: that is what made "böses" resolve to ês/ô/sê (#224).
         // Rule and rationale live in lib/lemma-resolve.js, contract in
-        // CONTRACTS.md §C.
+        // CONTRACTS.md §C. Erreicht nur, wer in Stufe 1 und 2 nichts Belegtes
+        // fand; unbelegte Treffer der Stufen 1 und 2 bleiben in der Liste.
         const partial = this.authorityIndex.lemmata
             .filter(lemma => isStage3Match(lemma.normalized, normalized))
             .sort((a, b) =>
                 stage3Distance(a.normalized, normalized) - stage3Distance(b.normalized, normalized)
             );
-        partial.forEach(lemma => lemmaIds.push(lemma.id));
+        return this.unionIds(this.unionIds(lemmaIds, stage2), partial.map(lemma => lemma.id));
+    }
 
-        return lemmaIds;
+    /** Stufe 1: alle Lemmata, deren normalisierte Ansetzung der Eingabe gleicht. */
+    stage1Ids(normalized) {
+        return this.authorityIndex.lemmata
+            .filter(lemma => lemma.normalized === normalized)
+            .map(lemma => lemma.id);
+    }
+
+    /**
+     * Traegt das Lemma mindestens einen Korpusbeleg? Massstab ist der
+     * Reverse-Index (Eintrag nur bei Beleg, 0 leere Eintraege, gemessen
+     * 10.10.2026). Fehlt der Index (alte Staende), gilt alles als belegt,
+     * damit die Stufen sich verhalten wie vor #463.
+     */
+    isAttested(lemmaId) {
+        const index = this.corpusIndex?.lemmaIndex;
+        return index ? Array.isArray(index[lemmaId]) && index[lemmaId].length > 0 : true;
+    }
+
+    /** a gefolgt von den Elementen aus b, die noch nicht in a stehen. */
+    unionIds(a, b) {
+        const seen = new Set(a);
+        return [...a, ...b.filter(id => !seen.has(id))];
     }
 
     /**

@@ -295,7 +295,7 @@ Validated on real corpus data: PL1 689 → 57, OVG 369 → 26 (matches the resul
 
 ## C. 3-Stage Lemma Resolution Algorithm
 
-**Contract:** Search resolves user input to lemma IDs through exactly 3 stages, in order, with early return. Two inputs skip all three: a component that already holds an exact lemma id can pin it (§C.1.1), and a user who types a lemma number gets that id (§C.1.2). Those two paths exist in the places named there and nowhere else.
+**Contract:** Search resolves user input to lemma IDs through exactly 3 stages, in order, with early return. Stage 1 returns early only if at least one of its hits has a corpus attestation (#463). Two inputs skip all three: a component that already holds an exact lemma id can pin it (§C.1.1), and a user who types a lemma number gets that id (§C.1.2). Those two paths exist in the places named there and nowhere else.
 
 **Why:** MHG has extensive orthographic variation. A single lemma can appear as dozens of attested forms. The 3-stage approach balances precision (exact first) with recall (fuzzy last).
 
@@ -314,29 +314,42 @@ function resolveLemmaIds(normalized):
     for each lemma in authorityIndex.lemmata:
         if lemma.normalized === normalized:
             results.push(lemma.id)
-    if results.length > 0:
+    if any id in results is attested:        // corpusIndex.lemmaIndex has an entry (#463)
         return results                       // EARLY RETURN — skip stages 2-3
+    // (results empty, or every hit unattested: continue; unattested hits stay in the list)
 
     // Stage 2: Variants dictionary lookup (O(1) hash map). A form claimed by
     // several lemmata has an entry in variantCandidates (ADR-021, #378):
     // all of them, best first by Vorschrift B (see "Variant Dictionary Structure")
     candidates = authorityIndex.variantCandidates[normalized]
-    if candidates:
-        return candidates                    // EARLY RETURN, 2..N ids, ranked
-    variantMatch = authorityIndex.variants[normalized]
-    if variantMatch:
-        return [variantMatch]                // EARLY RETURN — skip stage 3
+    stage2 = candidates ?? (variants[normalized] ? [variants[normalized]] : [])
+    if stage2 is not empty AND results is empty:
+        return stage2                        // EARLY RETURN, 1..N ids, ranked
+    if any id in stage2 is attested:         // only reachable with unattested stage-1 hits
+        return results + stage2 (without duplicates)
 
     // Stage 3: Partial match fallback (bidirectional PREFIX, see #224)
-    results = []
+    partial = []
     for each lemma in authorityIndex.lemmata:
         if lemma.normalized.startsWith(normalized)                  // stem input
            OR (lemma.normalized.length >= 3
                AND normalized.startsWith(lemma.normalized)):        // inflected input
-            results.push(lemma)
-    sort results by abs(len(lemma.normalized) - len(normalized))    // closest first
-    return results.map(lemma => lemma.id)                          // May be empty
+            partial.push(lemma)
+    sort partial by abs(len(lemma.normalized) - len(normalized))    // closest first
+    return results + stage2 + partial.map(lemma => lemma.id)       // without duplicates, may be empty
 ```
+
+### Stage 1 holds only with a corpus attestation (#463)
+
+Stage 1 compares against the lexicon, not against corpus usage, so a lemma with no corpus token won against an attested one as soon as its spelling matched the input. Measured on 2026-10-10 (Authority Index 1.9.22, Corpus Index 4.2.31): 1,285 of 43,710 lemmata have no corpus token, and `corpusIndex.lemmaIndex` has an entry for exactly the other 42,425 (0 empty entries, 0 deviations from the token sum over `texts[].lemmata`). An unattested hit never produces a result row on the main site, but it cut off stages 2 and 3.
+
+Decided by chsteiner on 2026-10-10: **if stage 1 yields no attested hit, stage 2 is asked as well** (and, if that has nothing attested either, stage 3 as before). Stage-1 hits stay in the id list. The lexicon is more than the corpus index and is meant to be, so unattested lemmata are not excluded, only they no longer stop the resolution.
+
+- **Attested means: has an entry in `lemmaIndex`**, corpus-wide, not within the current text selection or author filter.
+- **Without `lemmaIndex`** (old index states) everything counts as attested, which is the pre-#463 behaviour.
+- **`hasAmbiguousVariant` follows the same predicate**: the note appears when stage 1 holds no attested hit and stage 2 has candidates.
+- **Not covered:** a stage-1 hit that is attested but wrong (`lenden`: verb lemma `lemma_3702` wins over the noun `lemma_3701`) is a separate question. Nor does an attested stage-1 hit change anything, so `roz` (`rôz` has 1 token) still yields 1 row.
+- **Playground:** `searchLemmaByOrthography` has the same early return after stage 1 and is **not** changed by #463 (own decision pending, see the issue).
 
 ### Stage Behavior
 
