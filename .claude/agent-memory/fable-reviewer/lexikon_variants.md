@@ -27,3 +27,8 @@ Verdichtet 08.10.2026. Zahlen sind Eingabe, vor Gebrauch nachmessen.
 - `lemma.id` und `etymology[].lemmaRef` tragen beide `lemma_N` ohne `#`/`lexicon.xml#`. Kontrollfall Mur `lemma_66692` (von Mûrouwe und Murstetten genannt, selbst unbelegt). `noCorpus` gibt es erst seit 1.9.18; die Spec mockt es per `page.route`; veralteter Browser-Cache ist kein Loch (`corpus-loader.js` verwirft ihn bei Versionsabweichung). `renderOccurrences` kehrt ohne `lemmaIndex[lemmaKey]` früh zurück.
 - `hilfe-korpussuche.html` ~Z. 445-446 („Jeder Eintrag besteht aus dem Lemma und einem Wortart-Kürzel") ist nach #228 eine Allaussage mit Ausnahmen.
 - Frontend-Anführungszeichen: ausgelieferte HTML-Seiten tragen 0 U+201E/U+201C/U+201D (Grep-Tool, glob `{*.html,lemma/*.html,playground/*.html}`, count).
+
+**Tokens zwischen Lemmata umhängen (#460/#461/#462, 10.10.2026)**
+- Variantentypen werden nicht umgehängt (#367), neue Nummern geprägt (höchste vorher `type_372854`); `n` der alten Typen sinkt, ein Typ ohne Rest entfällt. Das Flip-Gate verlangt die gitignorierte `scripts/audit/variants-flips-ack.json` (`git add -f`): den Grund je Form lesen, eine Form ohne zweiten Kandidaten darf nicht „bleibt zweiter Kandidat“ tragen.
+- Sense-IDs sind global (höchste vorher 119195), ein neuer Sense trägt kein `@ana`. `extract-variants.py --help` läuft als Trockenlauf und schreibt `authority-files/variants.regen.xml`: vor dem Commit löschen.
+- Zerlegte Tags zählen für beide Teile (`NEG VRB`): ein „häufigste Wortart“ aus Korpuszählung hat bei Gleichstand keinen Sieger. Die Grundmenge zerlegen, bevor eine Regel darauf steht (#462: 1.537 abweichende `pos` nach der Wortlaut-Lesart, 5.653 nach „Inhaltswort gewinnt“, beide von 9.987 mehrwertigen Lemmata mit Korpusbeleg).
