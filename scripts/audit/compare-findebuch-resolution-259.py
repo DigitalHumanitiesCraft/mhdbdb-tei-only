@@ -38,6 +38,11 @@ gefragt wird. Wo das Findebuch die Schreibform als Variante fuehrt und wir sie
 als eigenes Lemma, gewinnt bei uns immer die Lemma-Lesart, auch wenn
 variants.xml dieselbe Zuordnung kennt.
 
+**Stand vor #463:** Das Skript bildet die Aufloesung vor #463 nach, in der
+Stufe 1 bedingungslos gewinnt. Seit #463 fragt die Produktion bei einem
+Stufe-1-Treffer ohne Korpusbeleg Stufe 2 mit; das Skript wendet diese Regel
+noch nicht an (Folgearbeit in #259).
+
 **Genau deshalb testet Teil 1 aber nur Stufe 1, und zwar per Konstruktion.**
 Das Auswahlkriterium lautet "die Schreibform ist eines unserer Lemmata", und
 das ist die Bedingung, unter der Stufe 1 immer trifft. Gemessen: alle Faelle

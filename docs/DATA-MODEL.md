@@ -640,7 +640,7 @@ Search resolves user input to lemma IDs through 3 stages with early return:
 | 2 | Variants dictionary lookup (normalized variant mappings, deduplicated from the raw forms; figures with a date in [CONTRACTS §C](CONTRACTS.md#c-3-stage-lemma-resolution-algorithm)) | 1..N: one lemma, or every candidate of an ambiguous form ranked by Vorschrift B (ADR-021) | O(1) hash |
 | 3 | Bidirectional PREFIX fallback, sorted by length distance (#224) | 0..N (fuzzy) | O(n) scan |
 
-Stages are mutually exclusive, first match wins. **Full pseudocode with worked example:** see [CONTRACTS.md](CONTRACTS.md#c-3-stage-lemma-resolution-algorithm)
+Stage 2 is also asked when no stage-1 hit has a corpus attestation (#463, CONTRACTS §C); otherwise the first stage with a hit wins. **Full pseudocode with worked example:** see [CONTRACTS.md](CONTRACTS.md#c-3-stage-lemma-resolution-algorithm)
 
 **Why 3 stages?** Historical spelling variations in Middle High German are extensive. Variants dictionary captures actual corpus attestations, while fallback handles edge cases.
 
