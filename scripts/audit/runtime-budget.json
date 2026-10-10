@@ -100,9 +100,8 @@
       "budget_s": 3,
       "n": 5,
       "date": "2026-10-10",
-      "basis": "p90 der 5 Laeufe, in denen der Schritt existiert; n unter 10, vorlaeufig",
-      "reason": "liegt unter der Untergrenze, die Grenze ist daher 10 s",
-      "provisional_since": "2026-10-10T13:57:23Z"
+      "basis": "p90 der 5 Laeufe, in denen der Schritt existiert; n unter 10, aber ohne Nachkalibrierung: der Schritt laeuft nur bei geaenderten Namensdateien (if: naming_changed), die letzten 8 Laeufe hatten ihn alle skipped, und eine Zaehlung nach Laeufen kaeme nie zu Messungen",
+      "reason": "liegt unter der Untergrenze, die Grenze ist daher 10 s und haengt nicht am Budget"
     },
     "data-integrity.yml/Freshness variants.xml (#125)": {
       "budget_s": 45,

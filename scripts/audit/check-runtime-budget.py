@@ -250,8 +250,9 @@ def erinnere(args, cfg, token, zaehle=None, marken=None, kommentar=None):
                             f'--repo {args.repo} --workflow {args.workflow} --since {seit}`, die Eintraege in '
                             '`scripts/audit/runtime-budget.json` ersetzen und `provisional_since` streichen.']
             kommentar('\n'.join(koerper))
-    except (urllib.error.URLError, OSError, ValueError, KeyError, TypeError) as exc:
-        print(f'::warning title=Laufzeitbudget::Erinnerung an die Nachkalibrierung nicht moeglich: {exc}')
+    except Exception as exc:  # bewusst breit: die Erinnerung darf den Exit-Code nie kippen
+        print(f'::warning title=Laufzeitbudget::Erinnerung an die Nachkalibrierung nicht moeglich: '
+              f'{type(exc).__name__}: {exc}')
 
 
 def grenze(workflow, name, cfg):
@@ -440,7 +441,7 @@ def messen(args, cfg_floor):
 
 
 def selftest():
-    cfg = {'factor': 1.5, 'checkout_factor': 1.3, 'floor_s': 10, 'collector_issue': 1,
+    cfg = {'factor': 1.5, 'checkout_factor': 1.3, 'floor_s': 10, 'collector_issue': 1, 'calibration_issue': 2,
            'excluded': ['w.yml/Run Claude Code Review'],
            'steps': {
                'w.yml/Checkout': {'budget_s': 100, 'n': 1, 'date': 'd', 'basis': 'b', 'reason': 'r'},
@@ -560,11 +561,20 @@ def selftest():
     cases.append(('Kommentar ins Sammelticket nur bei Ueberschreitung auf push in main',
                   len(gesendet) == 1 and 'Bauen' in gesendet[0]))
 
-    for kaputt, text in (
-            ({k: v for k, v in cfg.items() if k != 'floor_s'}, 'fehlendes Feld floor_s'),
-            (dict(cfg, steps={'w.yml/X': {'budget_s': 5}}), 'Eintrag ohne Begruendung'),
-            (dict(cfg, steps={'ohne-schraegstrich': cfg['steps']['w.yml/Bauen']}), 'Schluessel ohne Workflow'),
-            (dict(cfg, collector_issue='574'), 'Sammelticket keine Zahl')):
+    # je Fall der Grund, an dem er scheitern muss: ein neues Pflichtfeld darf die
+    # aelteren Faelle nicht still am falschen Grund scheitern lassen
+    for kaputt, text, grund in (
+            ({k: v for k, v in cfg.items() if k != 'floor_s'}, 'fehlendes Feld floor_s', "'floor_s'"),
+            ({k: v for k, v in cfg.items() if k != 'calibration_issue'}, 'fehlendes Feld calibration_issue',
+             "'calibration_issue'"),
+            (dict(cfg, steps={'w.yml/X': {'budget_s': 5}}), 'Eintrag ohne Begruendung', "ohne 'n'"),
+            (dict(cfg, steps={'ohne-schraegstrich': cfg['steps']['w.yml/Bauen']}), 'Schluessel ohne Workflow',
+             'ohne "<workflow>/<schritt>"'),
+            (dict(cfg, collector_issue='574'), 'Sammelticket keine Zahl', 'collector_issue ist keine'),
+            (dict(cfg, steps={'w.yml/X': dict(cfg['steps']['w.yml/Bauen'], basis='n unter 10, vorlaeufig')}),
+             'vorlaeufig ohne provisional_since', 'ohne provisional_since'),
+            (dict(cfg, steps={'w.yml/X': dict(cfg['steps']['w.yml/Bauen'], provisional_since='gestern')}),
+             'provisional_since kein Zeitpunkt', 'kein ISO-Zeitpunkt')):
         import tempfile
         with tempfile.TemporaryDirectory() as t:
             p = Path(t) / 'b.json'
@@ -572,26 +582,10 @@ def selftest():
             try:
                 lade_budget(p)
                 ok = False
-            except MessungFehlt:
-                ok = True
+            except MessungFehlt as exc:
+                ok = grund in str(exc)
         cases.append((f'Budgetdatei wird abgelehnt: {text}', ok))
-    for kaputt, text in (
-            (dict(cfg, steps={'w.yml/X': dict(cfg['steps']['w.yml/Bauen'], basis='n unter 10, vorlaeufig')}),
-             'vorlaeufig ohne provisional_since'),
-            (dict(cfg, steps={'w.yml/X': dict(cfg['steps']['w.yml/Bauen'], provisional_since='gestern')}),
-             'provisional_since kein Zeitpunkt')):
-        import tempfile
-        with tempfile.TemporaryDirectory() as t:
-            p = Path(t) / 'b.json'
-            p.write_text(json.dumps(dict(kaputt, calibration_issue=2)), encoding='utf-8')
-            try:
-                lade_budget(p)
-                ok = False
-            except MessungFehlt:
-                ok = True
-        cases.append((f'Budgetdatei wird abgelehnt: {text}', ok))
-
-    vor = dict(cfg, calibration_issue=2, steps={
+    vor = dict(cfg, steps={
         'w.yml/A': {'provisional_since': '2026-10-10T13:57:23Z'},
         'w.yml/B': {'provisional_since': '2026-10-10T13:57:23Z'},
         'w.yml/C': {'provisional_since': '2026-10-11T00:00:00Z'},
@@ -624,9 +618,19 @@ def selftest():
                  kommentar=gesendet3.append)
         n_rest = len(gesendet3) - n_main - n_doppelt
 
-        def kaputt(seit):
-            raise urllib.error.URLError('weg')
-        erinnere(args(event='push'), vor, 't', zaehle=kaputt, marken=lambda: '', kommentar=gesendet3.append)
+        import http.client
+        geworfen = 0
+        for fehler in (urllib.error.URLError('weg'), http.client.IncompleteRead(b''), AttributeError('str')):
+            def kaputt(seit, fehler=fehler):
+                raise fehler
+            try:
+                erinnere(args(event='pull_request'), vor, 't', zaehle=kaputt)
+            except Exception:
+                geworfen += 1
+        try:
+            erinnere(args(event='push'), vor, 't', zaehle=immer10, marken=lambda: 1 / 0, kommentar=gesendet3.append)
+        except Exception:
+            geworfen += 1
         ausgabe = stumm.getvalue()
     finally:
         sys.stdout, sys.stderr = alt_out, alt_err
@@ -635,8 +639,8 @@ def selftest():
     cases.append(('Kalibrierung: vorhandene Marke verhindert den zweiten Kommentar', n_doppelt == 0))
     cases.append(('Kalibrierung: auf PR und anderem Zweig nur Warnung, kein Kommentar',
                   n_rest == 0 and ausgabe.count('faellig zur Nachkalibrierung') >= 6))
-    cases.append(('Kalibrierung: API-Fehler ist nur eine Warnung',
-                  'Erinnerung an die Nachkalibrierung nicht moeglich' in ausgabe))
+    cases.append(('Kalibrierung: jeder Fehler (URLError, IncompleteRead, AttributeError, auch in marken) ist nur eine Warnung',
+                  geworfen == 0 and ausgabe.count('Erinnerung an die Nachkalibrierung nicht moeglich') == 4))
     cases.append(('p90 von 25 Werten ist der 23. Wert', p90(list(range(1, 26))) == 23))
 
     echt = lade_budget(BUDGET_FILE) if BUDGET_FILE.exists() else None
