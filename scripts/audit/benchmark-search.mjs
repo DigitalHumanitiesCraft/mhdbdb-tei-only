@@ -19,7 +19,10 @@
  *
  * Budget: scripts/audit/search-budget.json, je Schluessel ein Wert in ms.
  * Rot (Exit 1) bei Median > Budget. Ein Budget wird nur bewusst und im Diff
- * erhoeht (Entscheidung chsteiner in #564).
+ * erhoeht (Entscheidung chsteiner in #564). Die Budgets sind Werte des CI-
+ * Runners; lokal auf einem belasteten Rechner kann es ohne Rueckfall rot sein
+ * (gemessen 10.10.2026: 5 von 24). Dann neu messen oder den CI-Lauf ansehen,
+ * nicht das Budget anheben.
  *
  * Aufruf:
  *   node scripts/audit/benchmark-search.mjs                 pruefen
