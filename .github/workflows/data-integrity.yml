@@ -1,9 +1,27 @@
 name: Data Integrity
 
 # Ein konsolidiertes Daten-Gate (#125): prueft Quellen UND abgeleitete
-# Schicht (Indexe, variants.xml) in einem Job, Steps von billig nach
-# teuer (fail fast). Konsolidiert das fruehere index-version-check.yml
-# (Step 1) und schema-validation.yml (Steps 2-3, 7-8).
+# Schicht (Indexe, variants.xml), Steps von billig nach teuer (fail fast).
+# Konsolidiert das fruehere index-version-check.yml (Step 1) und
+# schema-validation.yml (Steps 2-3, 7-8).
+#
+# Zwei Jobs seit #564 (E2), parallel auf getrennten Runnern. Vorher lief alles
+# in einem Job und summierte sich auf median 475 s (letzte 25 erfolgreiche
+# Laeufe): Checkout 72, RelaxNG-Validierung 212, Index-Rebuild 74, variants-
+# Freshness 43, Cross-Refs 35, Rest unter 15 je Schritt. Die Schritte der
+# beiden Gruppen haengen nicht voneinander ab, die Reihenfolge INNERHALB jeder
+# Gruppe ist unveraendert (die MUSS-VOR-Step-6-Regeln unten gelten im Job
+# freshness, wo der Rebuild data/ ueberschreibt).
+#   Job validate:  Steps 1, 1a, 1b, 2, 3, 7b, 7c, 8
+#                  (Schema- und Spiegel-Gates auf dem committeten Stand)
+#   Job freshness: Steps 0, 1c, 1d, 4, 5, 5b, 6, 6b, 6c, 7
+#                  (Variants-Flip-Gate und Index-Budget-Selbsttest gehoeren
+#                  zu 1c/1d; alles, was Dateien neu baut und vergleicht)
+# Rot ist, wenn ein Job rot ist. Jede Pruefung steht in genau einem Job;
+# Checkout, Python-Setup und Dependency-Install stehen in beiden (voller
+# Baum: sparse war hier langsamer). Zahlen: Dauer je Schritt aus der Actions-
+# API (completed_at minus started_at je Job), letzte 25 Laeufe mit
+# conclusion=success am 10.10.2026, Median.
 #
 #   0. Diff-Base bestimmen (PR: erster Elternteil des Merge-Refs,
 #      Push: event.before) —
@@ -80,8 +98,9 @@ name: Data Integrity
 #      als ID-Set-Ratsche gegen die committete Baseline-Datei
 #      (scripts/audit/lexicon-baseline.json) gegated: jede ID ausserhalb
 #      der Baseline = rot, tolerierter Altbestand = gruen, geschrumpfter
-#      Ist-Stand = ::warning mit --update-baseline-Hinweis. Vor der
-#      RelaxNG-Validierung, weil deutlich billiger (plain parse).
+#      Ist-Stand = ::warning mit --update-baseline-Hinweis.
+#      Deutlich billiger als die RelaxNG-Validierung (plain parse); seit
+#      #564 steht diese im anderen Job und beide laufen parallel.
 #   7b. Personennamen im Header gegen persons.xml (#228/#308): der
 #      zweite Spiegel neben dem msIdentifier aus Step 1b. Geprueft
 #      werden titleStmt/author (leer, toter @ref, Praefixform) und
@@ -185,9 +204,151 @@ concurrency:
 jobs:
   validate:
     runs-on: ubuntu-latest
-    # Checkout ~2 min (grosses Repo) + Index-Builds (~5 min lokal) +
-    # RelaxNG-Validierung. 45 min lassen Luft fuer langsame Runner;
-    # nach den ersten realen Laeufen ggf. nachjustieren.
+    # Checkout (grosses Repo, bis ~4 min) + RelaxNG-Validierung (rund
+    # 3,5 min). 45 min lassen Luft fuer langsame Runner.
+    timeout-minutes: 45
+    steps:
+      - name: Checkout
+        # Voller Baum, ohne History: dieser Job liest tei/, authority-files/ und
+        # schema/ ganz. Ein sparse-Checkout war hier langsamer (#564, E1).
+        uses: actions/checkout@v6
+
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install --quiet -r requirements.txt
+
+      - name: Index version consistency (#47.3)
+        run: python scripts/audit/check-index-versions.py
+
+      # Dokumentierte Zahlen gegen die Daten, die sie beschreiben.
+      #
+      # Position: frueh, weil billig. Sechs Sekunden lokal gemessen
+      # (06.09.2026), und der Schritt haengt an keinem Vorgaenger:
+      # doc-count-audit.py liest authority-files/*.xml und die Dateiliste aus
+      # corpus_files() (nicht den geparsten Korpus).
+      # Nach "Install dependencies" ist alles da. Der Workflow-Kopf schreibt
+      # "Steps von billig nach teuer (fail fast)" aus; eine falsche Zahl auf
+      # index.html darf nicht erst hinter der RelaxNG-Validierung auffallen.
+      #
+      # Seit 01.10.2026 laeuft derselbe Schritt AUCH in no-cdn-check.yml.
+      # Frueher stand hier, warum nicht dort: das Skript brauchte lxml, und
+      # no-cdn-check.yml ist stdlib-only. Es zaehlt jetzt mit ElementTree.
+      # Hier bleibt es trotzdem, weil no-cdn-check.yml auf tei/** und
+      # authority-files/** nicht anspringt: eine Datenaenderung ohne
+      # Doku-Anteil faengt nur dieser Workflow.
+      #
+      # Warum ueberhaupt: das Skript gibt es seit Monaten und lief in keinem
+      # Workflow. Am 06.09. hat der neu gepraegte type_372365 die
+      # Variantenzahl von 256.761 auf 256.762 gehoben, und die alte Zahl
+      # blieb an zehn Stellen stehen, zwei davon auf ausgelieferten Seiten
+      # (index.html und hilfe-daten.html, beide fuer Besucher sichtbar).
+      # Gefunden hat es der Review-Bot, nicht die CI.
+      #
+      # GRENZE dieses Workflows: Die Pfadfilter hier nennen weder docs/**
+      # noch *.html. Ein PR, der nur Dokumentation anfasst, aendert die
+      # BEHAUPTETE Zahl und loest den Lauf nicht aus; dann faellt die Drift
+      # erst beim naechsten Datenlauf auf, in einem PR, der damit nichts zu
+      # tun hat. Geschlossen ist das seit 01.10.2026 durch den Schritt in
+      # no-cdn-check.yml, dessen Filter **.md und **/*.html nennen. Die
+      # Beschreibung bleibt, weil sie erklaert, warum das Gate an zwei Stellen
+      # steht. docs/** hier aufzunehmen kostete diesen 45-Minuten-Lauf bei
+      # jeder Doku-Aenderung.
+      #
+      # Eine zweite Grenze (Aenderungen am Playground, die die GEMESSENE Zahl
+      # verschoben) gab es, solange das Gate Werkzeug- und Modulzahlen aus
+      # playground/ zaehlte. Seit #451 zaehlt es keine Zahl mehr, die aus dem
+      # Playground-Code kommt.
+      #
+      # Der Fall vom 06.09. faellt nicht unter diese Grenze: er faengt
+      # an einer Datenaenderung an und loest diesen Workflow immer aus.
+      - name: Dokumentierte Zahlen gegen die Daten (#382/#398)
+        run: python scripts/audit/doc-count-audit.py --check
+
+      # Haelt den msIdentifier jeder Korpusdatei gegen works.xml (#399).
+      # Verglichen wird der INHALT der gespiegelten idno, nicht die
+      # Formatierung: ein "Sync laufen lassen und diffen" waere dauerhaft rot,
+      # weil der lxml-Schreibpfad jede Datei neu serialisiert (gemessen
+      # 07.09.2026: alle 667 geaendert, Korpus 1.432,5 -> 1.430,6 MB).
+      # Billig und offline: liest je Datei nur bis zum Ende des
+      # msIdentifier (iterparse), rund eine Sekunde ueber alle 667.
+      - name: Werk-Identifier gegen works.xml (#399)
+        run: python scripts/sync/sync_tei_headers.py --works --check
+
+      - name: Regenerate RNG from RNC (P2-14 drift check)
+        run: |
+          python -m rnc2rng schema/mhdbdb.rnc schema/mhdbdb.rng
+          python -m rnc2rng schema/mhdbdb-authority.rnc schema/mhdbdb-authority.rng
+
+      - name: Fail if committed .rng differs from regenerated .rng
+        run: |
+          if ! git diff --exit-code schema/mhdbdb.rng schema/mhdbdb-authority.rng; then
+            echo "::error title=RNG drift::Committete .rng-Dateien sind nicht synchron mit ihren .rnc-Quellen. Lokal 'python -m rnc2rng schema/mhdbdb.rnc schema/mhdbdb.rng && python -m rnc2rng schema/mhdbdb-authority.rnc schema/mhdbdb-authority.rng' ausfuehren und das Ergebnis committen."
+            exit 1
+          fi
+
+      - name: Verify TEI P5 version pin
+        # tei_all.rng is committed to the repo (schema/tei_all.rng, see
+        # schema/README.md) — NO download from tei-c.org at build time, so
+        # the CI does not depend on upstream reachability (reproducible
+        # builds, #125; previously a tei-c.org outage failed every run).
+        # This step is a sanity check that the committed schema still
+        # carries the pinned version; it catches an accidental replacement
+        # with a different P5 version. Upgrading P5 is a deliberate act:
+        # replace schema/tei_all.rng and bump EXPECTED + schema/README.md.
+        #
+        # NOTE: the version header in tei_all.rng contains a literal
+        # NBSP (U+00A0, UTF-8 bytes C2 A0) between "Version" and the
+        # number, so a naive `grep -oE 'Version [0-9.]+'` with a
+        # regular space does NOT match. Python's re.search with \s
+        # handles that correctly since Python 3.
+        run: |
+          if [ ! -f schema/tei_all.rng ]; then
+            echo "::error title=TEI schema missing::schema/tei_all.rng fehlt im Repo. Die Datei muss committet sein (siehe schema/README.md)."
+            exit 1
+          fi
+          TEI_VERSION=$(python3 -c "import re; m = re.search(r'TEI Edition: P5 Version\s+([0-9]+\.[0-9]+\.[0-9]+)', open('schema/tei_all.rng', encoding='utf-8').read()); print(m.group(1) if m else '')")
+          EXPECTED="4.11.0"
+          if [ -z "$TEI_VERSION" ]; then
+            echo "::error title=TEI P5 version pin::TEI-P5-Version konnte nicht aus schema/tei_all.rng extrahiert werden. Header-Format hat sich evtl. geaendert."
+            exit 1
+          fi
+          if [ "$TEI_VERSION" != "$EXPECTED" ]; then
+            echo "::error title=TEI P5 version drift::Committetes schema/tei_all.rng ist Version $TEI_VERSION, erwartet $EXPECTED (siehe schema/README.md). Beim bewussten P5-Upgrade EXPECTED + schema/README.md mitbumpen."
+            exit 1
+          fi
+          echo "TEI P5 version: $TEI_VERSION (matches pin, committed schema)"
+
+      # Zweiter Header-Spiegel neben dem msIdentifier aus Step 1b (#308):
+      # titleStmt/author und particDesc/listPerson spiegeln persons.xml.
+      # Lief bis heute bewusst nicht mit, solange der tote @ref in VOR offen
+      # war (so in scripts/README.md vermerkt); der ist mit #308 behoben, das
+      # Skript steht auf exit 0, damit faellt die Begruendung weg.
+      # Stand frueher hier und nicht oben bei 1b, weil es jede der 667 Dateien
+      # ganz parste (1 min 47 s); seit 01.10.2026 liest es per iterparse nur
+      # den teiHeader wie 1b, die Position ist seither keine Kostenfrage.
+      - name: Personennamen im Header gegen persons.xml (#228/#308)
+        run: python scripts/audit/check-author-refs.py --check
+
+      # Gattungen im Header gegen works.xml (#495). Fuenf Frauendienst-Koepfe
+      # sind als Ausnahme benannt, bis KZW ueber work_6 entschieden hat; das
+      # Skript meldet die Ausnahme als veraltet, sobald sie nicht mehr passt.
+      - name: Gattungen im Header gegen works.xml (#495)
+        run: python scripts/audit/check-header-genres.py --check
+
+      - name: Validate corpus and authority files (P2-13)
+        run: python scripts/audit/validate-corpus.py --fail-fast
+
+  # Zweiter Job (#564, E2): die Rebuild-and-Compare-Pruefungen laufen parallel zu
+  # den Schema- und Spiegel-Gates oben, auf einem eigenen Runner. Die Schritte
+  # stehen in der Reihenfolge, die ihre Abhaengigkeiten verlangen (Kopf der Datei).
+  freshness:
+    runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
       - name: Checkout
@@ -260,63 +421,6 @@ jobs:
       - name: Install dependencies
         run: pip install --quiet -r requirements.txt
 
-      - name: Index version consistency (#47.3)
-        run: python scripts/audit/check-index-versions.py
-
-      # Dokumentierte Zahlen gegen die Daten, die sie beschreiben.
-      #
-      # Position: frueh, weil billig. Sechs Sekunden lokal gemessen
-      # (06.09.2026), und der Schritt haengt an keinem Vorgaenger:
-      # doc-count-audit.py liest authority-files/*.xml und die Dateiliste aus
-      # corpus_files() (nicht den geparsten Korpus).
-      # Nach "Install dependencies" ist alles da. Der Workflow-Kopf schreibt
-      # "Steps von billig nach teuer (fail fast)" aus; eine falsche Zahl auf
-      # index.html darf nicht erst hinter der RelaxNG-Validierung auffallen.
-      #
-      # Seit 01.10.2026 laeuft derselbe Schritt AUCH in no-cdn-check.yml.
-      # Frueher stand hier, warum nicht dort: das Skript brauchte lxml, und
-      # no-cdn-check.yml ist stdlib-only. Es zaehlt jetzt mit ElementTree.
-      # Hier bleibt es trotzdem, weil no-cdn-check.yml auf tei/** und
-      # authority-files/** nicht anspringt: eine Datenaenderung ohne
-      # Doku-Anteil faengt nur dieser Workflow.
-      #
-      # Warum ueberhaupt: das Skript gibt es seit Monaten und lief in keinem
-      # Workflow. Am 06.09. hat der neu gepraegte type_372365 die
-      # Variantenzahl von 256.761 auf 256.762 gehoben, und die alte Zahl
-      # blieb an zehn Stellen stehen, zwei davon auf ausgelieferten Seiten
-      # (index.html und hilfe-daten.html, beide fuer Besucher sichtbar).
-      # Gefunden hat es der Review-Bot, nicht die CI.
-      #
-      # GRENZE dieses Workflows: Die Pfadfilter hier nennen weder docs/**
-      # noch *.html. Ein PR, der nur Dokumentation anfasst, aendert die
-      # BEHAUPTETE Zahl und loest den Lauf nicht aus; dann faellt die Drift
-      # erst beim naechsten Datenlauf auf, in einem PR, der damit nichts zu
-      # tun hat. Geschlossen ist das seit 01.10.2026 durch den Schritt in
-      # no-cdn-check.yml, dessen Filter **.md und **/*.html nennen. Die
-      # Beschreibung bleibt, weil sie erklaert, warum das Gate an zwei Stellen
-      # steht. docs/** hier aufzunehmen kostete diesen 45-Minuten-Lauf bei
-      # jeder Doku-Aenderung.
-      #
-      # Eine zweite Grenze (Aenderungen am Playground, die die GEMESSENE Zahl
-      # verschoben) gab es, solange das Gate Werkzeug- und Modulzahlen aus
-      # playground/ zaehlte. Seit #451 zaehlt es keine Zahl mehr, die aus dem
-      # Playground-Code kommt.
-      #
-      # Der Fall vom 06.09. faellt nicht unter diese Grenze: er faengt
-      # an einer Datenaenderung an und loest diesen Workflow immer aus.
-      - name: Dokumentierte Zahlen gegen die Daten (#382/#398)
-        run: python scripts/audit/doc-count-audit.py --check
-
-      # Haelt den msIdentifier jeder Korpusdatei gegen works.xml (#399).
-      # Verglichen wird der INHALT der gespiegelten idno, nicht die
-      # Formatierung: ein "Sync laufen lassen und diffen" waere dauerhaft rot,
-      # weil der lxml-Schreibpfad jede Datei neu serialisiert (gemessen
-      # 07.09.2026: alle 667 geaendert, Korpus 1.432,5 -> 1.430,6 MB).
-      # Billig und offline: liest je Datei nur bis zum Ende des
-      # msIdentifier (iterparse), rund eine Sekunde ueber alle 667.
-      - name: Werk-Identifier gegen works.xml (#399)
-        run: python scripts/sync/sync_tei_headers.py --works --check
-
       - name: Index-Versions-Bump-Gate (#154)
         # MUSS vor dem Index-Rebuild (Step 6 der Liste im Kopf) laufen:
         # der ueberschreibt data/*.json.gz im Working Tree.
@@ -349,50 +453,6 @@ jobs:
         # Splitting gebaut hat. Rot wird der Schritt nur, wenn die Messung
         # selbst scheitert.
         run: python scripts/audit/check-index-budget.py
-
-      - name: Regenerate RNG from RNC (P2-14 drift check)
-        run: |
-          python -m rnc2rng schema/mhdbdb.rnc schema/mhdbdb.rng
-          python -m rnc2rng schema/mhdbdb-authority.rnc schema/mhdbdb-authority.rng
-
-      - name: Fail if committed .rng differs from regenerated .rng
-        run: |
-          if ! git diff --exit-code schema/mhdbdb.rng schema/mhdbdb-authority.rng; then
-            echo "::error title=RNG drift::Committete .rng-Dateien sind nicht synchron mit ihren .rnc-Quellen. Lokal 'python -m rnc2rng schema/mhdbdb.rnc schema/mhdbdb.rng && python -m rnc2rng schema/mhdbdb-authority.rnc schema/mhdbdb-authority.rng' ausfuehren und das Ergebnis committen."
-            exit 1
-          fi
-
-      - name: Verify TEI P5 version pin
-        # tei_all.rng is committed to the repo (schema/tei_all.rng, see
-        # schema/README.md) — NO download from tei-c.org at build time, so
-        # the CI does not depend on upstream reachability (reproducible
-        # builds, #125; previously a tei-c.org outage failed every run).
-        # This step is a sanity check that the committed schema still
-        # carries the pinned version; it catches an accidental replacement
-        # with a different P5 version. Upgrading P5 is a deliberate act:
-        # replace schema/tei_all.rng and bump EXPECTED + schema/README.md.
-        #
-        # NOTE: the version header in tei_all.rng contains a literal
-        # NBSP (U+00A0, UTF-8 bytes C2 A0) between "Version" and the
-        # number, so a naive `grep -oE 'Version [0-9.]+'` with a
-        # regular space does NOT match. Python's re.search with \s
-        # handles that correctly since Python 3.
-        run: |
-          if [ ! -f schema/tei_all.rng ]; then
-            echo "::error title=TEI schema missing::schema/tei_all.rng fehlt im Repo. Die Datei muss committet sein (siehe schema/README.md)."
-            exit 1
-          fi
-          TEI_VERSION=$(python3 -c "import re; m = re.search(r'TEI Edition: P5 Version\s+([0-9]+\.[0-9]+\.[0-9]+)', open('schema/tei_all.rng', encoding='utf-8').read()); print(m.group(1) if m else '')")
-          EXPECTED="4.11.0"
-          if [ -z "$TEI_VERSION" ]; then
-            echo "::error title=TEI P5 version pin::TEI-P5-Version konnte nicht aus schema/tei_all.rng extrahiert werden. Header-Format hat sich evtl. geaendert."
-            exit 1
-          fi
-          if [ "$TEI_VERSION" != "$EXPECTED" ]; then
-            echo "::error title=TEI P5 version drift::Committetes schema/tei_all.rng ist Version $TEI_VERSION, erwartet $EXPECTED (siehe schema/README.md). Beim bewussten P5-Upgrade EXPECTED + schema/README.md mitbumpen."
-            exit 1
-          fi
-          echo "TEI P5 version: $TEI_VERSION (matches pin, committed schema)"
 
       - name: Freshness variants.xml (#125)
         run: |
@@ -500,23 +560,3 @@ jobs:
 
       - name: Authority cross-reference integrity (#44/#115/#152)
         run: python scripts/audit/check-authority-cross-refs.py --check
-
-      # Zweiter Header-Spiegel neben dem msIdentifier aus Step 1b (#308):
-      # titleStmt/author und particDesc/listPerson spiegeln persons.xml.
-      # Lief bis heute bewusst nicht mit, solange der tote @ref in VOR offen
-      # war (so in scripts/README.md vermerkt); der ist mit #308 behoben, das
-      # Skript steht auf exit 0, damit faellt die Begruendung weg.
-      # Stand frueher hier und nicht oben bei 1b, weil es jede der 667 Dateien
-      # ganz parste (1 min 47 s); seit 01.10.2026 liest es per iterparse nur
-      # den teiHeader wie 1b, die Position ist seither keine Kostenfrage.
-      - name: Personennamen im Header gegen persons.xml (#228/#308)
-        run: python scripts/audit/check-author-refs.py --check
-
-      # Gattungen im Header gegen works.xml (#495). Fuenf Frauendienst-Koepfe
-      # sind als Ausnahme benannt, bis KZW ueber work_6 entschieden hat; das
-      # Skript meldet die Ausnahme als veraltet, sobald sie nicht mehr passt.
-      - name: Gattungen im Header gegen works.xml (#495)
-        run: python scripts/audit/check-header-genres.py --check
-
-      - name: Validate corpus and authority files (P2-13)
-        run: python scripts/audit/validate-corpus.py --fail-fast
