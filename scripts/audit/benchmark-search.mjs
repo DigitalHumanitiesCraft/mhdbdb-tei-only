@@ -198,8 +198,10 @@ if (dumpPfad) {
 
 // Jede Oberflaeche in einem eigenen Prozess. Gemessen am 10.10.2026 (Review):
 // dieselbe Playground-Aufloesung brauchte allein 1,0 ms, im selben Prozess nach
-// der Hauptseite 2,8 bis 3,6 ms, und zwar in jedem Block. Der Zustand des
-// Heaps haengt an der Reihenfolge; die Bloecke oben filtern das nicht.
+// der Hauptseite 2,8 bis 3,6 ms, und zwar in jedem Block. Der Prozesszustand
+// haengt an der Reihenfolge (Ursache nicht geklaert: Muell und frische
+// Manager-Instanz sind es nach Messung nicht); die Bloecke oben filtern das
+// nicht.
 const oberflaeche = (key) => (key.startsWith('main:') ? 'main' : 'pg');
 if (nur) {
   const gewaehlt = faelle.filter((f) => oberflaeche(f.key) === nur);
@@ -218,7 +220,9 @@ for (const art of ['main', 'pg']) {
   });
   const zeile = (kind.stdout || '').split('\n').find((z) => z.startsWith('KIND '));
   if (kind.status !== 0 || !zeile) {
-    abbruch(`Kindprozess ${art} ohne Ergebnis (Status ${kind.status}): ${(kind.stderr || '').trim().split('\n')[0]}`);
+    // Voller stderr des Kindes: die erste Zeile einer Exception ist nur der Ort
+    console.error(kind.stderr || '');
+    abbruch(`Kindprozess ${art} ohne Ergebnis (Status ${kind.status})`);
   }
   const antwort = JSON.parse(zeile.slice(5));
   Object.assign(gemessen, antwort.gemessen);
