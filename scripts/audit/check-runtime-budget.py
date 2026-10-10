@@ -249,6 +249,9 @@ def pruefe(args, cfg, antwort, kommentar=None):
                  and s.get('conclusion') != 'skipped']
         for s in fehlt:
             print(f'  nicht gemessen: {s["name"]} (status {s.get("status")}, conclusion {s.get("conclusion")})')
+        if fehlt and not (erzwingend and not job_rot):
+            print(f'::warning title=Laufzeitbudget::{len(fehlt)} Schritt(e) vor dem Gate nicht messbar, '
+                  'der Rest wird ausgewertet')
         if fehlt and erzwingend and not job_rot:
             raise MessungFehlt(f'{len(fehlt)} Schritt(e) vor dem Gate nicht messbar: '
                                + ', '.join(s['name'] for s in fehlt))
@@ -444,7 +447,7 @@ def selftest():
     cases.append(('PR, ein Schritt vor dem Gate nicht messbar: Exit 2', r_ungemessen == 2))
     cases.append(('push, ein Schritt nicht messbar: Bericht und Kommentar bleiben',
                   r_push_ungemessen == 0 and len(gesendet2) == 1 and 'Bauen' in gesendet2[0]))
-    cases.append(('Wartezeit zaehlt nicht: args.jetzt zu Beginn, spaetere Auswertung aendert nichts',
+    cases.append(('pruefe() nutzt ein uebergebenes args.jetzt (das Setzen am Anfang von main() deckt dieser Fall nicht ab)',
                   r_jetzt == 0))
     cases.append(('PR, ein Schritt wegen if uebersprungen (skipped): Exit 0', r_uebersprungen == 0))
     cases.append(('Kommentar ins Sammelticket nur bei Ueberschreitung auf push in main',
