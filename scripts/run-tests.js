@@ -202,7 +202,10 @@ function testsMitStatus(knoten, status, treffer = []) {
  * Testdauer je Spec-Datei aus dem Suite-Baum (#564): Summe der `duration` aller
  * Versuche (`results`) aller Tests, also auch der Retries, denn die Zeit wurde
  * verbraucht. Schluessel ist die `file`-Angabe der obersten Suite. Die Summe ist
- * Rechenzeit ueber alle Worker und deshalb groesser als die Wanduhr.
+ * Rechenzeit ueber alle Worker: bei mehreren Workern meist groesser als die
+ * Wanduhr, mit einem einzigen hoechstens so gross. Die Workerzahl ist die
+ * tatsaechliche (`config.metadata.actualWorkers`), nicht das konfigurierte
+ * Maximum.
  */
 function dauerJeDatei(suites) {
   const jeDatei = new Map();
@@ -332,9 +335,11 @@ for (const datei of fehlendeDateien) {
   console.log('');
   console.log(
     `Dauer: Summe der Testdauern ${(summe / 1000).toFixed(0)} s (alle Versuche, ${jeDatei.size} Dateien),` +
-      ` Wanduhr ${(zahlen.duration / 1000 || 0).toFixed(0)} s mit ${bericht.config?.workers ?? '?'} Worker(n)`
+      ` Wanduhr ${(zahlen.duration / 1000 || 0).toFixed(0)} s mit ${bericht.config?.metadata?.actualWorkers ?? bericht.config?.workers ?? '?'} Worker(n)`
   );
-  console.log(`Die ${langsamste.length} langsamsten Spec-Dateien (Summe der Testdauern, Tests):`);
+  if (langsamste.length > 0) {
+    console.log(`Die ${langsamste.length} langsamsten Spec-Dateien (Summe der Testdauern, Tests):`);
+  }
   for (const [datei, d] of langsamste) {
     console.log(`  ${sek(d.ms)} s  ${String(d.tests).padStart(3)} Tests  ${datei}`);
   }
