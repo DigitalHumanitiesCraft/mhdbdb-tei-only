@@ -24,6 +24,7 @@ on:
     paths:
       - 'tei/**'
       - 'assets/js/rendering/tei-text-reader.js'
+      - 'assets/css/korpus.css'
       - 'docs/FEATURES.md'
       - 'docs/TEI-MODEL.md'
       - 'scripts/audit/check-measured-counts.py'
@@ -37,6 +38,7 @@ on:
     paths:
       - 'tei/**'
       - 'assets/js/rendering/tei-text-reader.js'
+      - 'assets/css/korpus.css'
       - 'docs/FEATURES.md'
       - 'docs/TEI-MODEL.md'
       - 'scripts/audit/check-measured-counts.py'

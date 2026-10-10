@@ -4,16 +4,18 @@ Fundstellen halten, auch in .js-Kommentaren.
 
 Warum ein eigenes Gate neben doc-count-audit.py: die beiden Zaehlskripte
 (count-verse-numbering-resets.py, count-editorial-notes-and-div-heads.py)
-bauen die Renderreihenfolge bzw. parsen alle Korpusdateien und brauchen
-zusammen rund fuenf Minuten, doc-count-audit.py rund fuenf Sekunden. In jeden
-Audit-Lauf passen sie nicht. Das Gate laeuft deshalb woechentlich und bei
+bauen die Renderreihenfolge bzw. parsen alle Korpusdateien; der ganze Lauf
+braucht rund vier Minuten (263 s, ein Lauf am 10.10.2026), doc-count-audit.py
+rund fuenf Sekunden. In jeden Audit-Lauf passen sie nicht. Das Gate laeuft deshalb woechentlich und bei
 Aenderungen unter tei/ (.github/workflows/measured-counts.yml).
 
 Was es prueft: jede Fundstelle in CLAIMS steht als woertlicher Satz mit
 Platzhaltern fuer die gemessenen Zahlen. Das Gate misst, setzt ein, normalisiert
 den Text der Datei (Kommentarzeichen und Zeilenumbrueche weg) und verlangt den
-Satz darin. Fehlt er, steht die Zahl falsch oder der Satz wurde umformuliert;
-die Meldung nennt beides auseinander (Anker nicht gefunden / Zahl weicht ab).
+Satz darin, mit Zahlengrenze (500 trifft nicht in 1.500). Fehlt er, steht die
+Zahl falsch oder der Satz wurde umformuliert: passt der Satz mit beliebigen
+Zahlen, meldet das Gate "Zahl weicht ab" mit der gefundenen Stelle, sonst
+"Anker nicht gefunden".
 
 Was es NICHT prueft: Zahlen ausserhalb der Liste CLAIMS. Eine neue Fundstelle
 gehoert hier eingetragen, sonst ist sie ungegatet (#414). Die Lemma-Gesamtzahlen
@@ -73,6 +75,8 @@ def measure():
         'texts_with_head': h['texts_with_head'],
         'has_n': h['has_n'],
         'carries': h['carries'],
+        'first_child_true': h['first_child_true'],
+        'first_child_false': h['first_child_false'],
     }
     # Typaufschluesselung der qualifizierenden divs der Verszaehlung
     for key, label in (('v_chapter', 'chapter'), ('v_song', 'song'),
@@ -87,6 +91,10 @@ def measure():
         m['h_' + t] = sum(h['per_type'].get(t, {}).values())
     for t in ('song', 'chapter', 'recipe', 'section', 'number', 'parallel', 'colophon'):
         m['t_' + t] = h['total_labelled'].get(t, 0)
+    # typisierte divs ausserhalb dieser sieben Typen (Voraussetzung von "no further types")
+    m['t_other'] = h['labelled_total'] - sum(
+        m['t_' + t] for t in ('song', 'chapter', 'recipe', 'section', 'number',
+                              'parallel', 'colophon'))
     # Spitzentexte der Kopfzaehlung
     tops = dict(h['top_texts'])
     for sigle in ('NEI', 'NEIC', 'WZB', 'KBL4', 'SUB1'):
@@ -121,6 +129,7 @@ def normalize(text, is_js):
 TR = 'assets/js/rendering/tei-text-reader.js'
 FE = 'docs/FEATURES.md'
 TM = 'docs/TEI-MODEL.md'
+CSS = 'assets/css/korpus.css'
 
 # (Datei, Name, Satz mit Platzhaltern). Satzbau und Zeichensetzung muessen mit
 # der Fundstelle uebereinstimmen; Zahlen kommen aus measure().
@@ -130,6 +139,8 @@ CLAIMS = [
      'Korpusweit hält (b) {qualifying_total:de} divs und verwirft '
      '{rejected_by_b_total:de} strophenlokale in {texts_rejected_by_b} Texten, '
      'was {unmotiviert:de} unmotivierte Randeinsen verhindert'),
+    (TR, 'divRestartsNumbering: divs ohne @type',
+     '{v_none} der qualifizierenden divs haben gar kein @type'),
     (TR, 'isInNestedParallel: heutiger Stand',
      'heute liefert dasselbe Skript {qualifying_total:de} qualifizierende divs '
      'und {extra_total:de} zusätzliche Randnummern in {texts_with_extra} Texten'),
@@ -173,6 +184,9 @@ CLAIMS = [
      'which entered this statistic only with the Willehalm rebuild in #358), '
      'FR3 (+{x_FR3}), CHH (+{x_CHH}), TKR (+{x_TKR}) and HUG (+{x_HUG}, '
      'Julia\'s original case).'),
+    (FE, 'Verse numbering: Wirkung von (b)',
+     'It discards {rejected_by_b_total:en} `<div>`s in {texts_rejected_by_b} texts '
+     'corpus-wide and thereby prevents {unmotiviert:en} unmotivated margin ones.'),
     (FE, 'Section label: Zähler, Nenner, Texte, Typen',
      'This affects {with_head:en} of the {labelled_total:en} typed `<div>`s in '
      '{texts_with_head} texts ({h_song} `song`, {h_chapter} `chapter`, '
@@ -184,6 +198,11 @@ CLAIMS = [
      'and {has_n} of the divs have an `@n`'),
 
     # --- docs/TEI-MODEL.md, Typentabelle und Summe ---
+    # --- assets/css/korpus.css, Kommentar am Nachbarselektor ---
+    (CSS, 'Nachbarselektor: erstes Kind',
+     'Das trifft auf {first_child_true:de} der {with_head:de} Fälle zu; bei den '
+     'übrigen {first_child_false} steht ein anderes Element davor'),
+
     (TM, 'div/@type: song', '| **`song`** | {t_song:en} |'),
     (TM, 'div/@type: chapter', '| **`chapter`** | {t_chapter:en} |'),
     (TM, 'div/@type: recipe', '| **`recipe`** | {t_recipe:en} |'),
@@ -196,13 +215,41 @@ CLAIMS = [
 ]
 
 
+NUM = r'[\d.,]+'
+
+
+def exact_pattern(want):
+    """Der erwartete Satz als Regex; eine Zahl am Rand darf nicht Teil einer
+    laengeren sein (500 in 1.500, 15 in 159)."""
+    pat = re.escape(want)
+    if want[0].isdigit():
+        pat = r'(?<![\d.,])' + pat
+    if want[-1].isdigit():
+        pat += r'(?!\d|[.,]\d)'
+    return re.compile(pat)
+
+
+def loose_pattern(template):
+    """Derselbe Satz mit beliebiger Zahl an jedem Platzhalter (Diagnose)."""
+    parts = FIELD.split(template)
+    # split mit zwei Gruppen: [Text, Name, Stil, Text, Name, Stil, ..., Text]
+    pat = ''.join(re.escape(parts[i]) if i % 3 == 0 else (NUM if i % 3 == 1 else '')
+                  for i in range(len(parts)))
+    return re.compile(pat)
+
+
 def check(m):
     """Liste der Befunde (Datei, Name, Meldung); leer = gruen."""
     problems = []
+    # Voraussetzungen von Saetzen, die eine Allaussage tragen
     if m['carries'] != 0:
         problems.append((TR, 'hasOwnHeading: Nummer im head',
                          f'der Kommentar sagt "in keinem dieser Faelle", gemessen '
                          f'sind {m["carries"]}'))
+    if m['t_other'] != 0:
+        problems.append((TM, 'div/@type: Summe',
+                         f'die Tabelle sagt "no further types", gemessen sind '
+                         f'{m["t_other"]} typisierte divs anderer Typen'))
     texts = {}
     for path, name, template in CLAIMS:
         if path not in texts:
@@ -217,19 +264,17 @@ def check(m):
             problems.append((path, name, 'Datei fehlt'))
             continue
         want = render(template, m)
-        if want in text:
+        if exact_pattern(want).search(text):
             continue
-        prefix = template.split('{', 1)[0]
-        at = text.find(prefix) if prefix else -1
-        if at < 0:
+        hit = loose_pattern(template).search(text)
+        if hit is None:
             problems.append((path, name,
                              f'Anker nicht gefunden (Satz umformuliert?): '
                              f'erwartet "{want}"'))
         else:
-            found = text[at:at + len(want) + 20]
             problems.append((path, name,
                              f'Zahl weicht ab:\n        erwartet "{want}"\n'
-                             f'        steht     "{found}"'))
+                             f'        steht     "{hit.group(0)}"'))
     return problems
 
 
