@@ -1,0 +1,138 @@
+{
+  "_comment": "Laufzeitbudget der CI-Schritte (#564), gelesen von check-runtime-budget.py. Grenze = budget_s mal factor, Checkout-Schritte mal checkout_factor; ein Budget unter floor_s gilt als floor_s, ein Schritt ohne Eintrag auch. Ein Budget wird nur im selben PR erhoeht, der die Verlangsamung rechtfertigt, mit neuer reason.",
+  "factor": 1.5,
+  "checkout_factor": 1.3,
+  "floor_s": 10,
+  "collector_issue": 574,
+  "excluded": [
+    "claude-code-review.yml/Run Claude Code Review"
+  ],
+  "steps": {
+    "no-cdn-check.yml/Checkout": {
+      "budget_s": 12,
+      "n": 3,
+      "date": "2026-10-10",
+      "basis": "p90 der erfolgreichen Laeufe seit dem Merge von E1 (#571, 12:38 UTC); n unter 10, vorlaeufig, Nachkalibrierung angekuendigt in #564",
+      "reason": "schlanker Checkout nach E1; vorher median 124 s im Gesamtlauf"
+    },
+    "no-cdn-check.yml/Dokumentierte Zahlen gegen die Daten (#382/#398)": {
+      "budget_s": 5,
+      "n": 3,
+      "date": "2026-10-10",
+      "basis": "p90 der erfolgreichen Laeufe seit dem Merge von E1 (#571); n unter 10, vorlaeufig",
+      "reason": "liegt unter der Untergrenze, die Grenze ist daher 10 s"
+    },
+    "file-size-check.yml/Checkout": {
+      "budget_s": 2,
+      "n": 3,
+      "date": "2026-10-10",
+      "basis": "p90 der erfolgreichen Laeufe seit dem Merge von E1 (#571); n unter 10, vorlaeufig",
+      "reason": "Checkout nur eines Skripts; die Grenze ist die Untergrenze 10 s"
+    },
+    "data-integrity.yml/Checkout": {
+      "budget_s": 226,
+      "n": 30,
+      "date": "2026-10-10",
+      "basis": "p90 der letzten 25 erfolgreichen Laeufe (30 Checkout-Schritte, E2-Pruefzweig eingeschlossen); voller Checkout, E2 noch nicht auf main",
+      "reason": "voller Checkout mit tei/ und data/; streut stark (median 120 s)"
+    },
+    "data-integrity.yml/Set up Python": {
+      "budget_s": 5,
+      "n": 30,
+      "date": "2026-10-10",
+      "basis": "p90 der letzten 25 erfolgreichen Laeufe",
+      "reason": "liegt unter der Untergrenze, die Grenze ist daher 10 s"
+    },
+    "data-integrity.yml/Install dependencies": {
+      "budget_s": 5,
+      "n": 30,
+      "date": "2026-10-10",
+      "basis": "p90 der letzten 25 erfolgreichen Laeufe",
+      "reason": "liegt unter der Untergrenze, die Grenze ist daher 10 s"
+    },
+    "data-integrity.yml/Validate corpus and authority files (P2-13)": {
+      "budget_s": 214,
+      "n": 25,
+      "date": "2026-10-10",
+      "basis": "p90 der letzten 25 erfolgreichen Laeufe",
+      "reason": "RelaxNG-Validierung des Korpus, groesster Einzelschritt"
+    },
+    "data-integrity.yml/Authority cross-reference integrity (#44/#115/#152)": {
+      "budget_s": 36,
+      "n": 25,
+      "date": "2026-10-10",
+      "basis": "p90 der letzten 25 erfolgreichen Laeufe",
+      "reason": "Querverweis-Gate ueber alle Authority-Dateien"
+    },
+    "data-integrity.yml/Dokumentierte Zahlen gegen die Daten (#382/#398)": {
+      "budget_s": 7,
+      "n": 25,
+      "date": "2026-10-10",
+      "basis": "p90 der letzten 25 erfolgreichen Laeufe",
+      "reason": "liegt unter der Untergrenze, die Grenze ist daher 10 s"
+    },
+    "data-integrity.yml/Freshness API (#45)": {
+      "budget_s": 5,
+      "n": 25,
+      "date": "2026-10-10",
+      "basis": "p90 der letzten 25 erfolgreichen Laeufe",
+      "reason": "liegt unter der Untergrenze, die Grenze ist daher 10 s"
+    },
+    "data-integrity.yml/Freshness Begriffshilfe (#498)": {
+      "budget_s": 15,
+      "n": 25,
+      "date": "2026-10-10",
+      "basis": "p90 der letzten 25 erfolgreichen Laeufe",
+      "reason": "Rebuild und Vergleich der Begriffshilfe"
+    },
+    "data-integrity.yml/Freshness Indexe — Rebuild-and-Compare (#125)": {
+      "budget_s": 76,
+      "n": 25,
+      "date": "2026-10-10",
+      "basis": "p90 der letzten 25 erfolgreichen Laeufe",
+      "reason": "Rebuild beider Indexe und Vergleich mit dem committeten Stand"
+    },
+    "data-integrity.yml/Freshness naming-index — Rebuild-and-Compare (#152)": {
+      "budget_s": 3,
+      "n": 5,
+      "date": "2026-10-10",
+      "basis": "p90 der 5 Laeufe, in denen der Schritt existiert; n unter 10, vorlaeufig",
+      "reason": "liegt unter der Untergrenze, die Grenze ist daher 10 s"
+    },
+    "data-integrity.yml/Freshness variants.xml (#125)": {
+      "budget_s": 45,
+      "n": 25,
+      "date": "2026-10-10",
+      "basis": "p90 der letzten 25 erfolgreichen Laeufe",
+      "reason": "Rebuild von variants.xml aus dem Korpus"
+    },
+    "measured-counts.yml/Checkout": {
+      "budget_s": 222,
+      "n": 6,
+      "date": "2026-10-10",
+      "basis": "p90 der 6 vorhandenen erfolgreichen Laeufe; n unter 10, vorlaeufig",
+      "reason": "voller Checkout; streut stark (median 111 s)"
+    },
+    "measured-counts.yml/Set up Python": {
+      "budget_s": 5,
+      "n": 6,
+      "date": "2026-10-10",
+      "basis": "p90 der 6 vorhandenen erfolgreichen Laeufe; n unter 10, vorlaeufig",
+      "reason": "liegt unter der Untergrenze, die Grenze ist daher 10 s"
+    },
+    "measured-counts.yml/Install dependencies": {
+      "budget_s": 4,
+      "n": 6,
+      "date": "2026-10-10",
+      "basis": "p90 der 6 vorhandenen erfolgreichen Laeufe; n unter 10, vorlaeufig",
+      "reason": "liegt unter der Untergrenze, die Grenze ist daher 10 s"
+    },
+    "measured-counts.yml/Gemessene Zahlen gegen ihre Fundstellen (#414)": {
+      "budget_s": 128,
+      "n": 6,
+      "date": "2026-10-10",
+      "basis": "p90 der 6 vorhandenen erfolgreichen Laeufe; n unter 10, vorlaeufig",
+      "reason": "Zaehlskripte ueber das ganze Korpus"
+    }
+  }
+}

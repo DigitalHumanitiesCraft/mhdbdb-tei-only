@@ -82,6 +82,12 @@ jobs:
   check:
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    # Fuer den Schritt Laufzeitbudget (#564): Dauern lesen (actions), auf
+    # push in main einen Kommentar ins Sammelticket schreiben (issues).
+    permissions:
+      contents: read
+      actions: read
+      issues: write
     steps:
       - name: Checkout
         # fetch-depth: 2, damit der Diff-Base-Schritt unten den ersten
@@ -203,6 +209,9 @@ jobs:
       - name: Inventar-Gate Selbsttest (#329)
         run: python3 scripts/audit/check-doc-inventories.py --selftest
 
+      - name: Laufzeitbudget Selbsttest (#564)
+        run: python3 scripts/audit/check-runtime-budget.py --selftest
+
       - name: Specs und Audit-Skripte stehen in ihren Inventaren (#329)
         run: python3 scripts/audit/check-doc-inventories.py
 
@@ -241,3 +250,18 @@ jobs:
 
       - name: Dokumentierte Zahlen gegen die Daten (#382/#398)
         run: python3 scripts/audit/doc-count-audit.py --check
+
+      # Laufzeitbudget (#564): letzter Schritt, liest die Dauern der Schritte
+      # oben ueber die Actions-API und haelt sie gegen
+      # scripts/audit/runtime-budget.json. Rot nur am PR; auf push und dispatch
+      # geht eine Ueberschreitung als Kommentar ins Sammelticket #574. Laeuft
+      # auch nach einem roten Schritt (always), dann nur als Warnung.
+      - name: Laufzeitbudget (#564)
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >
+          python3 scripts/audit/check-runtime-budget.py --check
+          --workflow no-cdn-check.yml --job check
+          --job-status "${{ job.status }}"
+          --run-url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"

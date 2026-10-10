@@ -56,6 +56,7 @@ scripts/
 │   ├── check-doc-inventories.py  # Specs und Audit-Skripte stehen in DEVELOPMENT.md, Skripte auch in diesem Baum (#329)
 │   ├── check-file-sizes.py      # Einzeldateien vor GitHubs harter 100-MiB-Wand stoppen (#350)
 │   ├── check-header-genres.py   # Gattungen im TEI-Kopf (classDecl) gegen die Gattungen des Werks in works.xml (#495)
+│   ├── check-runtime-budget.py  # Laufzeitbudget der CI-Schritte, letzter Schritt je Job (#564)
 │   ├── check-index-budget.py    # Index-Größenbudget gz und roh, warnt nur (#111, ADR-019)
 │   ├── check-index-version-bump.py # Inhalt geändert => Version gebumpt (#154)
 │   ├── check-variants-flips.py # keine still umgeklappte variants-Zuordnung (#378)

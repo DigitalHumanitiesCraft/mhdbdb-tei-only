@@ -43,6 +43,10 @@ jobs:
   check:
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    permissions:
+      contents: read
+      actions: read
+      issues: write
     steps:
       - name: Checkout
         # Nur das Skript im Arbeitsbaum (#564). fetch-depth: 1 genuegt, der
@@ -57,6 +61,8 @@ jobs:
         with:
           sparse-checkout: |
             scripts/audit/check-file-sizes.py
+            scripts/audit/check-runtime-budget.py
+            scripts/audit/runtime-budget.json
           sparse-checkout-cone-mode: false
 
       # Dieses Gate wird jahrelang gruen sein (Abstand zur Schwelle heute
@@ -78,3 +84,14 @@ jobs:
 
       - name: Keine committete Datei nahe GitHubs 100-MiB-Wand (#350)
         run: python3 scripts/audit/check-file-sizes.py --github-tree "$RUNNER_TEMP/tree.json"
+
+      # Laufzeitbudget (#564), siehe no-cdn-check.yml.
+      - name: Laufzeitbudget (#564)
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >
+          python3 scripts/audit/check-runtime-budget.py --check
+          --workflow file-size-check.yml --job check
+          --job-status "${{ job.status }}"
+          --run-url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"

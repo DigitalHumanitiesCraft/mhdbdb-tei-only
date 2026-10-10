@@ -107,6 +107,9 @@ data/audit/
 # Und das Laufzeitbudget der Suche (#564): committete Vorgabe des Benchmarks,
 # kein Report.
 !scripts/audit/search-budget.json
+# Und das Laufzeitbudget der CI-Schritte (#564), gelesen von
+# check-runtime-budget.py.
+!scripts/audit/runtime-budget.json
 scripts/audit/*-REPORT.md
 scripts/audit/lexicon-backfill-*.md
 scripts/audit/lexicon-backfill-*.xml
