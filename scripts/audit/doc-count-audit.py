@@ -162,8 +162,7 @@ INTENTIONALLY_SILENT = {
     # Mit #316 dazu, und die Uebersetzung hat hier nichts kaputtgemacht,
     # sondern etwas sichtbar: die bisherige Bindung traf "43.879 Eintraege",
     # also die Lexikonzahl, und wurde nur vom Drift-Fenster verworfen. Von
-    # variants.xml nennt die Datei die Zahl der Formen (Zeile 169), nie die
-    # der Eintraege.
+    # variants.xml nennt die Datei die Zahl der Formen, nie die der Eintraege.
     ('docs/DATA-MODEL.md', 'variants_entries'):
         'nennt von variants.xml nur die Formenzahl, nie die Zahl der Eintraege',
 }
@@ -208,9 +207,9 @@ DOC_TARGETS = [
     # A4-Runde 1).
     ('docs/DESIGN.md', ['lexicon_entries']),
     ('docs/FEATURES.md', ['lexicon_entries']),
-    # CONTRACTS.md:315 beschreibt den Ist-Aufbau des Variants-Dictionary; der
+    # CONTRACTS.md beschreibt den Ist-Aufbau des Variants-Dictionary; ein
     # Datumsstempel dort macht die Zeile nicht historisch.
-    # lexicon_entries seit 2026-09-24: Zeile 394 nennt die Lexikongroesse als
+    # lexicon_entries seit 2026-09-24: die Datei nennt die Lexikongroesse als
     # Nenner der Homographen-Messung (Review der Anker-Runde).
     ('docs/CONTRACTS.md', ['variants_forms', 'variants_normalized', 'lexicon_entries']),
     # ARCHITECTURE.md und DECISIONS.md standen bis 2026-07-31 in KEINER
@@ -275,8 +274,8 @@ DOC_TARGETS = [
     # hilfe-daten.html. Die drei Seiten darunter tragen die Lemma-Zahl
     # ebenfalls, waren dafuer aber blind, und #363 hat genau das vorgefuehrt:
     # der Sweep zog in playground/index.html die eine gegatete Zahl nach
-    # (234.243 in Zeile 477) und liess die ungegatete 369 Zeilen darueber
-    # stehen (43.879 in Zeile 108). Gefunden hat es der Review-Bot, nicht der
+    # (234.243 weiter unten auf der Seite) und liess die ungegatete 43.879
+    # weiter oben stehen. Gefunden hat es der Review-Bot, nicht der
     # Gate. Dieselbe Falle wie bei index.html 2026-07-28, eine Zeile darueber.
     ('hilfe-korpussuche.html', ['lexicon_entries', 'variants_normalized']),
     ('hilfe-playground.html', ['lexicon_entries', 'variants_normalized']),
@@ -302,8 +301,8 @@ NEAR_KEYWORDS = {
     # (±2 %) und der Rundungs-/Arrow-Skip False Positives abfangen.
     # Mit #342 nachgetragen: "TEI-codierte Texte" (das alte Muster verlangte
     # "TEI" direkt vor "Texte") und "[Cc]orpus", das gar nicht vorkam. Beide
-    # Formen stehen im Bestand unmittelbar hinter der 667, README.md Zeile 21
-    # und ROADMAP.md Zeile 118; die Selbstpruefung meldete die zwei Dateien
+    # Formen stehen im Bestand unmittelbar hinter der 667, README.md (Korpus-Inhalt)
+    # und ROADMAP.md; die Selbstpruefung meldete die zwei Dateien
     # deshalb als ungeprueft, obwohl sie die Zahl fuehren.
     'corpus_files': r'(?:TEI(?:-XML)?[-\s](?:files?|Dateien|Texte)|TEI-[a-zäöüß]+e\s+Texte|Korpus(?:-?[Dd]ateien)?|(?:mittelhochdeutsche\s+)?TEI-Texte|[Cc]orpus\b|Dateien|[Ff]iles)',
     # Kleinschreibung, weil ARCHITECTURE.md die Zahl als "43,879 `lemmata`
@@ -314,8 +313,8 @@ NEAR_KEYWORDS = {
     # nicht als Bequemlichkeit: ohne sie sind zwei der drei an diesem Tag
     # ergaenzten DOC_TARGETS-Bindungen wirkungslos, weil der Anker unmittelbar
     # hinter der Zahl ansetzen muss und ANCHOR_SEP keinen Wortbestandteil
-    # zulaesst. playground/index.html:108 schreibt "43.878 Lexikoneintraege",
-    # hilfe-korpussuche.html:419 "43.878 Lemma-Seiten"; beide beginnen nicht
+    # zulaesst. playground/index.html schreibt "43.878 Lexikoneintraege",
+    # hilfe-korpussuche.html "43.878 Lemma-Seiten"; beide beginnen nicht
     # mit "Lemmata". Alle drei tragen im Drift-Scan, je mit Mutationsprobe
     # geprueft (Zahl auf 43.879 zurueckgesetzt, Gate rot mit Fundstelle, nach
     # Ruecknahme gruen).
@@ -379,7 +378,7 @@ NEAR_KEYWORDS = {
     # Alternative blieb die Stelle jahrelang ungeprueft.
     # "variant mappings" ist die englische Entsprechung von
     # "Varianten-Schluessel": beim Umstellen von CONTRACTS.md auf Englisch
-    # (#316) verlor CONTRACTS.md Zeile 90 sonst ihre einzige Bindung, weil
+    # (#316) verlor eine Zeile in CONTRACTS.md sonst ihre einzige Bindung, weil
     # ANCHOR_SEP zwischen Zahl und Anker kein Wort zulaesst und "[Mm]appings"
     # damit erst hinter "variant" beginnt.
     'variants_normalized': r'(?:[Nn]ormalisierte\w*\s+(?:Schreibvarianten|Varianten)|[Ee]indeutige\s+Zuordnungen|[Nn]ormalized\s+entries|[Vv]arianten-Schl[üu]ssel|[Vv]ariant\s+mappings|[Mm]appings)',
