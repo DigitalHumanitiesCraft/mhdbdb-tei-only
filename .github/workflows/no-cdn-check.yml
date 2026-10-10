@@ -89,7 +89,7 @@ jobs:
         # kappt die shallow-Grenze die Elternliste, und `HEAD^1` scheitert.
         #
         # sparse-checkout laesst die Korpusdateien und die Index-Archive
-        # weg (#564): tei/ ist 1.366 von 1.651 MB des Baums, und der
+        # weg (#564): tei/ ist 1.366 von 1.651 MiB des Baums, und der
         # Checkout war mit median 117 s der groesste Posten dieses Jobs.
         # Die Action holt bei sparse-checkout nur die Blobs der
         # ausgecheckten Pfade (--filter=blob:none).
@@ -116,13 +116,17 @@ jobs:
       # unten eine kleinere Menge und melden trotzdem gruen.
       - name: Arbeitsbaum vollstaendig ausser tei/*.tei.xml und data/*.json.gz (#564)
         run: |
-          git ls-tree -r --name-only HEAD \
-            | grep -v -E '^(tei/[^/]+\.tei\.xml|data/[^/]+\.json\.gz)$' > "$RUNNER_TEMP/soll.txt"
-          soll=$(wc -l < "$RUNNER_TEMP/soll.txt")
+          # NUL-getrennt (-z): ohne den Schalter quotet git Pfade mit
+          # Nicht-ASCII ("Zus\303\244tzlich.html"), [ -e ] findet sie nicht,
+          # und die Ausschlussmuster treffen "tei/\303\204.tei.xml" nicht mehr.
+          # Heute gibt es keinen solchen Pfad im Baum, in der History ueber 20.
+          git ls-tree -r -z --name-only HEAD \
+            | grep -z -v -E '^(tei/[^/]+\.tei\.xml|data/[^/]+\.json\.gz)$' > "$RUNNER_TEMP/soll.bin" || true
+          soll=$(tr -cd '\0' < "$RUNNER_TEMP/soll.bin" | wc -c)
           fehlt=0
-          while IFS= read -r f; do
+          while IFS= read -r -d '' f; do
             [ -e "$f" ] || { echo "fehlt im Arbeitsbaum: $f"; fehlt=$((fehlt + 1)); }
-          done < "$RUNNER_TEMP/soll.txt"
+          done < "$RUNNER_TEMP/soll.bin"
           echo "$soll Dateien erwartet, $fehlt fehlen"
           if [ "$soll" -lt 1000 ] || [ "$fehlt" -ne 0 ]; then
             echo "::error title=sparse-checkout::Arbeitsbaum unvollstaendig oder Sollliste zu klein."
@@ -226,9 +230,9 @@ jobs:
       - name: tei/-Dateinamen fuer doc-count-audit (#564)
         run: |
           mkdir -p tei
-          git ls-tree -r --name-only HEAD tei/ | while IFS= read -r f; do : > "$f"; done
-          erwartet=$(git ls-tree -r --name-only HEAD tei/ | grep -c '\.tei\.xml$' || true)
-          vorhanden=$(find tei -maxdepth 1 -name '*.tei.xml' | wc -l)
+          git ls-tree -r -z --name-only HEAD tei/ | while IFS= read -r -d '' f; do : > "$f"; done
+          erwartet=$(git ls-tree -r -z --name-only HEAD tei/ | grep -z -c '\.tei\.xml$' || true)
+          vorhanden=$(find tei -maxdepth 1 -name '*.tei.xml' -print0 | tr -cd '\0' | wc -c)
           echo "tei/*.tei.xml: $vorhanden Platzhalter, $erwartet im Git-Baum"
           if [ "$erwartet" -lt 1 ] || [ "$erwartet" != "$vorhanden" ]; then
             echo "::error title=Platzhalter::Platzhalter und Git-Baum weichen ab oder tei/ ist leer."
