@@ -41,6 +41,10 @@
  *    hat berechtigterweise weniger, und dann sagt das Verdikt TEILLAUF statt
  *    Vollstaendigkeit zu behaupten.
  *
+ * Vor dem Verdikt steht seit #564 eine Dauertabelle: Summe der Testdauern,
+ * Wanduhr, und die zehn langsamsten Spec-Dateien. Sie ist Information und
+ * beeinflusst weder Verdikt noch Exit-Code.
+ *
  * Die letzte Zeile der Ausgabe ist das Ergebnis. Sie nennt den geprueften
  * Pfad, damit auch im Nachhinein erkennbar bleibt, welcher Arbeitsbaum
  * gemessen wurde. Der Exit-Code wird aus dem Verdikt gebildet, nicht
@@ -194,6 +198,40 @@ function testsMitStatus(knoten, status, treffer = []) {
   return treffer;
 }
 
+/**
+ * Testdauer je Spec-Datei aus dem Suite-Baum (#564): Summe der `duration` aller
+ * Versuche (`results`) aller Tests, also auch der Retries, denn die Zeit wurde
+ * verbraucht. Schluessel ist die `file`-Angabe der obersten Suite. Die Summe ist
+ * Rechenzeit ueber alle Worker: bei mehreren Workern meist groesser als die
+ * Wanduhr, mit einem einzigen hoechstens so gross. Die Workerzahl ist die
+ * tatsaechliche (`config.metadata.actualWorkers`), nicht das konfigurierte
+ * Maximum.
+ */
+function dauerJeDatei(suites) {
+  const jeDatei = new Map();
+  let summe = 0;
+  const lauf = (knoten, datei) => {
+    for (const eintrag of knoten ?? []) {
+      const name = datei ?? eintrag.file ?? '?';
+      for (const spec of eintrag.specs ?? []) {
+        for (const test of spec.tests ?? []) {
+          const eintragDatei = jeDatei.get(name) ?? { ms: 0, tests: 0 };
+          eintragDatei.tests += 1;
+          for (const ergebnis of test.results ?? []) {
+            const ms = Number.isFinite(ergebnis.duration) ? ergebnis.duration : 0;
+            eintragDatei.ms += ms;
+            summe += ms;
+          }
+          jeDatei.set(name, eintragDatei);
+        }
+      }
+      lauf(eintrag.suites, name);
+    }
+  };
+  lauf(suites, null);
+  return { jeDatei, summe };
+}
+
 // --- Ablauf ---------------------------------------------------------------
 
 if (!existsSync(playwrightCli)) {
@@ -286,6 +324,25 @@ for (const titel of testsMitStatus(bericht.suites, 'flaky')) {
 }
 for (const datei of fehlendeDateien) {
   console.log(`  NICHT GELAUFEN: ${datei}`);
+}
+
+// Dauer je Spec-Datei (#564), vor der VERDICT-Zeile, damit diese die letzte
+// bleibt. Kein Gate: nichts davon beeinflusst Verdikt oder Exit-Code.
+{
+  const { jeDatei, summe } = dauerJeDatei(bericht.suites);
+  const langsamste = [...jeDatei.entries()].sort((a, b) => b[1].ms - a[1].ms).slice(0, 10);
+  const sek = (ms) => (ms / 1000).toFixed(1).padStart(6);
+  console.log('');
+  console.log(
+    `Dauer: Summe der Testdauern ${(summe / 1000).toFixed(0)} s (alle Versuche, ${jeDatei.size} Dateien),` +
+      ` Wanduhr ${(zahlen.duration / 1000 || 0).toFixed(0)} s mit ${bericht.config?.metadata?.actualWorkers ?? bericht.config?.workers ?? '?'} Worker(n)`
+  );
+  if (langsamste.length > 0) {
+    console.log(`Die ${langsamste.length} langsamsten Spec-Dateien (Summe der Testdauern, Tests):`);
+  }
+  for (const [datei, d] of langsamste) {
+    console.log(`  ${sek(d.ms)} s  ${String(d.tests).padStart(3)} Tests  ${datei}`);
+  }
 }
 
 // Playwrights eigener Exit-Code ist kein Ergebnis, das ist die Lehre der
