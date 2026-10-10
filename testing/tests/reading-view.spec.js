@@ -386,16 +386,15 @@ test.describe('Reading View', () => {
         await page.goto('/korpus.html?textId=NONEXISTENT_TEXT&lemmaIds=lemma_879');
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
 
-        // Wait for error to appear in reading body
-        await page.waitForTimeout(3000);
-
-        // Reading body or error display should show an error message
-        const bodyText = await page.locator('#readingBody').textContent();
-        const hasError = bodyText.toLowerCase().includes('error') ||
-                         bodyText.toLowerCase().includes('nicht gefunden') ||
-                         bodyText.toLowerCase().includes('not found') ||
-                         bodyText.includes('Text not found');
-        expect(hasError).toBeTruthy();
+        // Reading body or error display should show an error message. Statt
+        // fester 3 s wird dieselbe Aussage abgefragt, bis sie zutrifft (#564).
+        await expect.poll(async () => {
+            const bodyText = (await page.locator('#readingBody').textContent()) || '';
+            return bodyText.toLowerCase().includes('error') ||
+                   bodyText.toLowerCase().includes('nicht gefunden') ||
+                   bodyText.toLowerCase().includes('not found') ||
+                   bodyText.includes('Text not found');
+        }, { timeout: 15000 }).toBeTruthy();
     });
 
 });

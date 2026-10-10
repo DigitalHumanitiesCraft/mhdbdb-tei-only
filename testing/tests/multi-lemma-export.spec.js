@@ -6,6 +6,11 @@
  * statt der angezeigten, dazu Suchparameter und Korpusauswahl. Ground-Truth
  * fuer den Versmodus aus multi-lemma-verse.spec.js: BUH Vers 98 ("dâ bî ûz
  * ir herzen blüejet || diu vil süeze minne").
+ *
+ * Laufzeit (#564): der Export laedt jeden Text mit einem Treffer nach, bei
+ * minne + herze sind das Hunderte. Deshalb gibt es diese Suche nur einmal
+ * (eine Seite, ein Nachladen), und die uebrigen Faelle laufen auf kleinen
+ * Suchen mit wenigen Texten.
  */
 
 import { test, expect } from '@playwright/test';
@@ -51,34 +56,98 @@ test.describe('Multi-Lemma-Export (#448)', () => {
   // Der Export laedt jeden Text mit einem Treffer nach
   test.setTimeout(240000);
 
-  test('Im selben Vers: CSV mit allen Treffern, Stelle und Kontext', async ({ page }) => {
-    await page.goto('/playground/#multi-lemma&lemmata=minne,herze&mode=verse');
-    await page.waitForSelector('#mlExportCsv', { state: 'visible', timeout: 120000 });
-    const n = await fundstellenZahl(page);
+  // Eine Seite fuer die drei Faelle der grossen Suche. Die Reihenfolge ist
+  // Teil des Aufbaus: der Fehlerfall zuerst, solange noch nichts geladen und
+  // zwischengespeichert ist (ctx.zeilen entsteht erst nach einem erfolgreichen
+  // Nachladen), dann das einzige volle Nachladen fuer die CSV, danach liest
+  // das XLSX dieselben Zeilen aus dem Zwischenspeicher der Suche.
+  test.describe('minne + herze im selben Vers', () => {
+    test.describe.configure({ mode: 'serial' });
+    let page;
 
-    const csv = await lade(page, 'mlExportCsv');
-    expect(csv.name).toMatch(new RegExp(`^mhdbdb-multilemma-verse-minne-herze-${DATUM}\\.csv$`));
-    const [kopf, ...zeilen] = parseCsv(csv.bytes);
-    expect(kopf).toEqual(['Sigle', 'Titel', 'Autor*in', 'Stelle', 'Wort-IDs', 'Belegwörter', 'Kontext', 'Suche', 'Korpusauswahl']);
-    expect(zeilen.length).toBe(n);
-    expect(zeilen.every(z => z.length === kopf.length)).toBe(true);
+    test.beforeAll(async ({ browser }) => {
+      page = await browser.newPage();
+      await page.goto('/playground/#multi-lemma&lemmata=minne,herze&mode=verse');
+      await page.waitForSelector('#mlExportCsv', { state: 'visible', timeout: 120000 });
+    });
 
-    // BUH zaehlt die Verse je Strophe: "V. 12" ist dort mehrdeutig, die
-    // Wort-ID des Belegworts nicht
-    const buh = zeilen.find(z => z[4].split(' / ').includes('BUH_401012000_9'));
-    expect(buh, 'BUH_401012000_9 fehlt').toBeTruthy();
-    expect(buh.slice(0, 4)).toEqual(['BUH', buh[1], buh[2], 'V. 12']);
-    expect(buh[5]).toBe('herzen / minne');
-    expect(buh[6]).toContain('blüejet diu vil süeze minne');
-    expect(zeilen.every(z => z[7].startsWith('Im selben Vers: ') && z[7].includes('+'))).toBe(true);
-    expect(zeilen.every(z => /^alle \d+ Texte$/.test(z[8]))).toBe(true);
-    expect(zeilen.every(z => z[3] !== '' && z[6] !== '' && /^[A-Z0-9]+_\d+_\d+ \/ /.test(z[4]))).toBe(true);
+    test.afterAll(async () => {
+      await page.close();
+    });
+
+    test('Fehler beim Nachladen bleibt stehen, der Fortschritt ueberschreibt ihn nicht', async () => {
+      // AXR ist die erste Datei der Liste; die drei anderen Arbeiter laufen
+      // zu diesem Zeitpunkt schon
+      await page.route('**/tei/AXR.tei.xml', route => route.fulfill({ status: 500, body: '' }));
+      let downloads = 0;
+      const zaehle = () => { downloads++; };
+      page.on('download', zaehle);
+      try {
+        await page.click('#mlExportCsv');
+        const status = page.locator('#mlExportStatus');
+        await expect(status).toContainText('Export fehlgeschlagen: AXR.tei.xml: HTTP 500', { timeout: 60000 });
+        await expect(page.locator('#mlExportCsv')).toBeEnabled();
+        // Warten, bis die restlichen Dateien fertig geladen sind (keine
+        // Anfrage mehr unterwegs), statt einer festen Frist: erst dann steht
+        // fest, dass ihr Fortschritt die Meldung nicht mehr ueberschreibt.
+        await page.waitForLoadState('networkidle');
+        await expect(status).toContainText('Export fehlgeschlagen');
+        expect(downloads).toBe(0);
+      } finally {
+        page.off('download', zaehle);
+        await page.unroute('**/tei/AXR.tei.xml');
+      }
+    });
+
+    test('Im selben Vers: CSV mit allen Treffern, Stelle und Kontext', async () => {
+      const n = await fundstellenZahl(page);
+
+      const csv = await lade(page, 'mlExportCsv');
+      expect(csv.name).toMatch(new RegExp(`^mhdbdb-multilemma-verse-minne-herze-${DATUM}\\.csv$`));
+      const [kopf, ...zeilen] = parseCsv(csv.bytes);
+      expect(kopf).toEqual(['Sigle', 'Titel', 'Autor*in', 'Stelle', 'Wort-IDs', 'Belegwörter', 'Kontext', 'Suche', 'Korpusauswahl']);
+      expect(zeilen.length).toBe(n);
+      expect(zeilen.every(z => z.length === kopf.length)).toBe(true);
+
+      // BUH zaehlt die Verse je Strophe: "V. 12" ist dort mehrdeutig, die
+      // Wort-ID des Belegworts nicht
+      const buh = zeilen.find(z => z[4].split(' / ').includes('BUH_401012000_9'));
+      expect(buh, 'BUH_401012000_9 fehlt').toBeTruthy();
+      expect(buh.slice(0, 4)).toEqual(['BUH', buh[1], buh[2], 'V. 12']);
+      expect(buh[5]).toBe('herzen / minne');
+      expect(buh[6]).toContain('blüejet diu vil süeze minne');
+      expect(zeilen.every(z => z[7].startsWith('Im selben Vers: ') && z[7].includes('+'))).toBe(true);
+      expect(zeilen.every(z => /^alle \d+ Texte$/.test(z[8]))).toBe(true);
+      expect(zeilen.every(z => z[3] !== '' && z[6] !== '' && /^[A-Z0-9]+_\d+_\d+ \/ /.test(z[4]))).toBe(true);
+    });
+
+    test('XLSX: gueltiges Paket mit Fundstellen- und Suchblatt', async () => {
+      const n = await fundstellenZahl(page);
+
+      const xlsx = await lade(page, 'mlExportXlsx');
+      expect(xlsx.name).toMatch(new RegExp(`^mhdbdb-multilemma-verse-minne-herze-${DATUM}\\.xlsx$`));
+      expect([...xlsx.bytes.subarray(0, 4)]).toEqual([0x50, 0x4B, 0x03, 0x04]);
+      // Die Eintraege sind unkomprimiert ("stored"), der XML-Text steht lesbar
+      // in der Datei
+      const inhalt = xlsx.bytes.toString('utf8');
+      expect(inhalt).toContain('<sheet name="Fundstellen" sheetId="1"');
+      expect(inhalt).toContain('<sheet name="Suche" sheetId="2"');
+      const blatt1 = inhalt.slice(inhalt.indexOf('<worksheet'), inhalt.indexOf('</worksheet>'));
+      expect(blatt1.match(/<row /g).length).toBe(n + 1);
+      expect(blatt1).toContain('süeze minne');
+      await expect(page.locator('#mlExportStatus')).toContainText(`als XLSX exportiert`);
+    });
   });
 
   test('Nähe-Analyse: Abstand-Spalte, kein Wert über dem Fenster', async ({ page }) => {
-    await page.goto('/playground/#multi-lemma&lemmata=minne,herze&mode=proximity&dist=3');
+    // Kleine Suche (Wîcher, Wîcnant: 3 Texte): minne + herze lud hier rund 60
+    // Sekunden lang Hunderte von Texten nach. Gemessen am 10.10.2026: mit
+    // Fenster 3 sind es 5 Zeilen, mit Fenster 40 sechs, die sechste liegt also
+    // ausserhalb des Fensters, und genau die darf hier nicht erscheinen.
+    await page.goto('/playground/#multi-lemma&lemmata=W%C3%AEcher,W%C3%AEcnant&mode=proximity&dist=3');
     await page.waitForSelector('#mlExportCsv', { state: 'visible', timeout: 120000 });
     const n = await fundstellenZahl(page);
+    expect(n).toBeGreaterThan(0);
 
     const [kopf, ...zeilen] = parseCsv((await lade(page, 'mlExportCsv')).bytes);
     expect(kopf).toContain('Abstand (Wörter)');
@@ -106,42 +175,5 @@ test.describe('Multi-Lemma-Export (#448)', () => {
       jeSigle.get(z[0]).add(z[3]);
     }
     expect([...jeSigle.values()].every(s => s.size === 2)).toBe(true);
-  });
-
-  test('Fehler beim Nachladen bleibt stehen, der Fortschritt ueberschreibt ihn nicht', async ({ page }) => {
-    await page.goto('/playground/#multi-lemma&lemmata=minne,herze&mode=verse');
-    await page.waitForSelector('#mlExportCsv', { state: 'visible', timeout: 120000 });
-    // AXR ist die erste Datei der Liste; die drei anderen Arbeiter laufen
-    // zu diesem Zeitpunkt schon
-    await page.route('**/tei/AXR.tei.xml', route => route.fulfill({ status: 500, body: '' }));
-    let downloads = 0;
-    page.on('download', () => { downloads++; });
-    await page.click('#mlExportCsv');
-    const status = page.locator('#mlExportStatus');
-    await expect(status).toContainText('Export fehlgeschlagen: AXR.tei.xml: HTTP 500', { timeout: 60000 });
-    await expect(page.locator('#mlExportCsv')).toBeEnabled();
-    // Laenger warten, als die restlichen Dateien zum Laden brauchen
-    await page.waitForTimeout(8000);
-    await expect(status).toContainText('Export fehlgeschlagen');
-    expect(downloads).toBe(0);
-  });
-
-  test('XLSX: gueltiges Paket mit Fundstellen- und Suchblatt', async ({ page }) => {
-    await page.goto('/playground/#multi-lemma&lemmata=minne,herze&mode=verse');
-    await page.waitForSelector('#mlExportXlsx', { state: 'visible', timeout: 120000 });
-    const n = await fundstellenZahl(page);
-
-    const xlsx = await lade(page, 'mlExportXlsx');
-    expect(xlsx.name).toMatch(new RegExp(`^mhdbdb-multilemma-verse-minne-herze-${DATUM}\\.xlsx$`));
-    expect([...xlsx.bytes.subarray(0, 4)]).toEqual([0x50, 0x4B, 0x03, 0x04]);
-    // Die Eintraege sind unkomprimiert ("stored"), der XML-Text steht lesbar
-    // in der Datei
-    const inhalt = xlsx.bytes.toString('utf8');
-    expect(inhalt).toContain('<sheet name="Fundstellen" sheetId="1"');
-    expect(inhalt).toContain('<sheet name="Suche" sheetId="2"');
-    const blatt1 = inhalt.slice(inhalt.indexOf('<worksheet'), inhalt.indexOf('</worksheet>'));
-    expect(blatt1.match(/<row /g).length).toBe(n + 1);
-    expect(blatt1).toContain('süeze minne');
-    await expect(page.locator('#mlExportStatus')).toContainText(`als XLSX exportiert`);
   });
 });
