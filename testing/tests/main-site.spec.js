@@ -194,8 +194,10 @@ test.describe('Such-Deep-Link ?search= (#144)', () => {
         const inputValue = await page.inputValue('#searchInput');
         expect(inputValue).toBe('brôt');
 
-        // URL ist bereinigt (gleiche Konvention wie der textId-Pfad)
-        expect(page.url()).not.toContain('search=');
+        // Der Suchbegriff bleibt in der Adresse (#434): Neuladen, Lesezeichen
+        // und Weitergeben führen zur selben Trefferliste. Bis #434 wurde hier
+        // das Gegenteil verlangt (URL bereinigt).
+        expect(new URL(page.url()).searchParams.get('search')).toBe('brôt');
     });
 
     test('Lemma-Seiten-Button "Im Korpus suchen" führt zu Treffern', async ({ page, context }) => {

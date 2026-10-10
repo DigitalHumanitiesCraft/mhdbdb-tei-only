@@ -1587,6 +1587,37 @@ class TEITextReader {
     }
 
     /**
+     * Schliesst die Leseansicht (#434, Browser-Zurueck aus einem geoeffneten
+     * Text). Ein laufender Ladevorgang wird verworfen: openReadingView prueft
+     * nach seinem await die Generation und rendert dann nichts mehr, das
+     * Schliessen waehrend des Ladens oeffnet das Panel also nicht nachtraeglich.
+     * Den Platzhalter im Lesebereich setzt der Aufrufer (app.js showEmptyState).
+     */
+    closeReadingView() {
+        this._loadSeq = (this._loadSeq || 0) + 1;
+        this.currentTextId = null;
+        this.currentLemmaId = null;
+        this.currentLemmaIds = [];
+        this.currentHighlights = [];
+        this.currentHighlightIndex = 0;
+        // Vor dem ersten openReadingView kennt der Reader seine Elemente noch nicht
+        if (this.elements) {
+            this.showNavigation(false);
+            this.showLoading(false);
+            // Kopf, den populateModal gesetzt hat: Titel setzt der Aufrufer
+            // (showEmptyState), der Autor und die Metadaten bleiben sonst stehen
+            if (this.elements.readingAuthor) {
+                this.elements.readingAuthor.textContent = '';
+            }
+            if (this.elements.readingMetadata) {
+                this.elements.readingMetadata.innerHTML = '';
+                this.elements.readingMetadata.classList.add('hidden');
+            }
+        }
+        this.highlightTextInList(null);
+    }
+
+    /**
      * Highlight the currently viewed text in the text list
      */
     highlightTextInList(textId) {

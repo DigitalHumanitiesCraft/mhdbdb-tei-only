@@ -731,7 +731,7 @@ Response: {                              // illustrative shape, IDs schematic
 |--------|------------|--------|
 | Old MHDBDB | `https://mhdbdb-old.sbg.ac.at/mhdbdb/App?action=Dic&lid={numericId}` | `lemma-page.js` `renderExternalLinks()` |
 | REALonline (IMAREAL) | `https://realonline.imareal.sbg.ac.at/suche#{json}` where json = `{"s":"{normalized}"}` | `lemma-page.js` `renderExternalLinks()` |
-| Corpus search | `../korpus.html?search={lemma.lemma}` – evaluated in `app.js` `handleURLParameters()` (#144): fills the search field and triggers the normal search | `lemma-page.js` `renderExternalLinks()` |
+| Corpus search | `../korpus.html?search={lemma.lemma}` – evaluated in `app.js` `handleURLParameters()` (#144): fills the search field and triggers the normal search; since #434 the address keeps `?search=` (FEATURES.md, URL state of the corpus search) | `lemma-page.js` `renderExternalLinks()` |
 | GND (person/work) | `https://d-nb.info/gnd/{gndId}` | `tei-text-reader.js` |
 | Wikidata (person/work) | `https://www.wikidata.org/wiki/{wikidataId}` | `tei-text-reader.js` |
 | Handschriftencensus | URL stored in authority index `work.handschriftencensus` | `tei-text-reader.js` |
