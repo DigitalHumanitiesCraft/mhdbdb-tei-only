@@ -107,7 +107,8 @@ def sekunden(schritt, jetzt=None):
     """Dauer eines erfolgreichen Schritts in Sekunden, sonst None.
 
     Ein Schritt, den die Jobs-API noch als `in_progress` fuehrt, zaehlt mit
-    `jetzt` als Ende. Das ist der Schritt unmittelbar vor diesem Gate: beim
+    `jetzt` als Ende (der Start des Gate-Skripts, nicht der Moment der Auswertung).
+    Das ist der Schritt unmittelbar vor diesem Gate: beim
     ersten PR-Lauf (#575) meldete die API ihn noch nicht als abgeschlossen, und
     ohne diese Regel fehlte in jedem Job genau der letzte, oft groesste Schritt.
     """
@@ -248,7 +249,7 @@ def pruefe(args, cfg, antwort, kommentar=None):
                  and s.get('conclusion') != 'skipped']
         for s in fehlt:
             print(f'  nicht gemessen: {s["name"]} (status {s.get("status")}, conclusion {s.get("conclusion")})')
-        if fehlt and not job_rot:
+        if fehlt and erzwingend and not job_rot:
             raise MessungFehlt(f'{len(fehlt)} Schritt(e) vor dem Gate nicht messbar: '
                                + ', '.join(s['name'] for s in fehlt))
     except MessungFehlt as exc:
@@ -402,6 +403,7 @@ def selftest():
         return {'jobs': [{'name': 'check', 'steps': list(schritte)}]}
 
     gut = antwort(schritt('Bauen', 100))
+    laufend_neu = {'name': 'Neu', 'status': 'in_progress', 'conclusion': None, 'started_at': '2026-10-10T12:00:00Z'}
     schlecht = antwort(schritt('Bauen', 200))
     stumm = io.StringIO()
     alt_out, alt_err = sys.stdout, sys.stderr
@@ -417,6 +419,13 @@ def selftest():
         r_fehlt_rot = pruefe(args(job_status='failure', job='gibt-es-nicht'), cfg, gut)
         r_ungemessen = pruefe(args(), cfg, antwort(schritt('Bauen', 100), {'name': 'Haengt', 'status': 'queued', 'conclusion': None},
                                                    {'name': 'Laufzeitbudget', 'status': 'in_progress', 'conclusion': None, 'started_at': 'x'}))
+        gesendet2 = []
+        r_push_ungemessen = pruefe(args(event='push'), cfg, antwort(schritt('Bauen', 200), {'name': 'Haengt', 'status': 'queued', 'conclusion': None},
+                                                                    {'name': 'Laufzeitbudget', 'status': 'in_progress', 'conclusion': None, 'started_at': 'x'}),
+                                   kommentar=gesendet2.append)
+        # laufender Schritt, Start 12:00:00, jetzt 12:00:05: 5 s gegen die Grenze 10 s ist ok, auch wenn die Uhr weiterlaeuft
+        r_jetzt = pruefe(args(jetzt=zeit('2026-10-10T12:00:05Z'), job='lauf'), cfg,
+                         {'jobs': [{'name': 'lauf', 'steps': [laufend_neu, {'name': 'Laufzeitbudget', 'status': 'in_progress', 'conclusion': None, 'started_at': '2026-10-10T12:00:05Z'}]}]})
         r_uebersprungen = pruefe(args(), cfg, antwort(schritt('Bauen', 100), {'name': 'Bedingt', 'status': 'completed', 'conclusion': 'skipped'}))
         gesendet = []
         pruefe(args(event='push'), cfg, schlecht, kommentar=gesendet.append)
@@ -433,6 +442,10 @@ def selftest():
     cases.append(('push, Job nicht gefunden: nur Warnung, Exit 0', r_keinjob_push == 0))
     cases.append(('PR mit rotem Job und fehlender Messung: Exit 0 (verdeckt nichts)', r_fehlt_rot == 0))
     cases.append(('PR, ein Schritt vor dem Gate nicht messbar: Exit 2', r_ungemessen == 2))
+    cases.append(('push, ein Schritt nicht messbar: Bericht und Kommentar bleiben',
+                  r_push_ungemessen == 0 and len(gesendet2) == 1 and 'Bauen' in gesendet2[0]))
+    cases.append(('Wartezeit zaehlt nicht: args.jetzt zu Beginn, spaetere Auswertung aendert nichts',
+                  r_jetzt == 0))
     cases.append(('PR, ein Schritt wegen if uebersprungen (skipped): Exit 0', r_uebersprungen == 0))
     cases.append(('Kommentar ins Sammelticket nur bei Ueberschreitung auf push in main',
                   len(gesendet) == 1 and 'Bauen' in gesendet[0]))
@@ -488,6 +501,9 @@ def main():
     ap.add_argument('--branch', default='')
     ap.add_argument('--max-runs', type=int, default=25)
     args = ap.parse_args()
+    # Der Start dieses Skripts ist die obere Schranke fuer das Ende des Schritts
+    # davor; die Wartezeit der Wiederholungen unten gehoert nicht zu ihm.
+    args.jetzt = datetime.now(timezone.utc)
 
     if args.selftest:
         return selftest()
