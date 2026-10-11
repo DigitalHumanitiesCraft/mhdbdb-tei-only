@@ -548,41 +548,43 @@ def kurztitel(issue, laenge=70):
 
 def baue_personen(issues):
     """Der Block ganz oben in #44: was bei wem liegt, fuer Menschen lesbar."""
+    # Tabellen statt Saetzen (chsteiner, 11.10.2026): keine Prosa, die je
+    # nach Anzahl ihre Grammatik wechseln muss ("1 aeltere Vorgaenge").
     eingeordnet = einordnen(issues)
-    aus = ['## Wer ist gerade dran?\n',
-           'Hier steht nur, was gerade bei dir liegt, mit der Frage selbst als '
-           'Link. Hast du geantwortet, verschwindet der Punkt beim nächsten '
-           'täglichen Lauf von selbst. Erzeugt von '
-           '`scripts/audit/build-issue-matrix.py`.\n']
+    sichtbar = []
     for wait, name in PERSONEN.items():
         listen = eingeordnet['person'][wait]
-        if wait not in IMMER_SICHTBAR and not any(listen.values()):
-            continue
-        aus.append(f'### Für {name}\n')
-        # Ohne diese Zeile stuende bei leeren Listen "Derzeit nichts", obwohl
-        # Vorgaenge auf die Person warten, deren Frage nur noch nicht in der
-        # neuen Form gestellt ist. Am 09.10. waren das 47 bei Katharina.
+        if wait in IMMER_SICHTBAR or any(listen.values()):
+            sichtbar.append((wait, name, listen))
+    aus = ['## Wer ist gerade dran?\n',
+           '| | |', '|---|---|',
+           '| Was hier steht | nur, was gerade bei dir liegt; die Frage ist der Link |',
+           '| Wann es verschwindet | beim nächsten täglichen Lauf nach deiner Antwort |',
+           '| Erzeugt von | `scripts/audit/build-issue-matrix.py` |', '',
+           '| Person | Abnehmen | Entscheiden | Frage noch nicht gestellt, nichts zu tun |',
+           '|---|---:|---:|---:|']
+    for wait, name, listen in sichtbar:
+        # Die letzte Spalte: Vorgaenge, die auf die Person warten, deren Frage
+        # nur noch nicht in der neuen Form gestellt ist. Ohne sie stuende bei
+        # leeren Listen eine 0, obwohl etwas wartet (am 09.10. 47 bei Katharina).
         offen = sum(1 for _, w, _ in eingeordnet['fehlt'] if w == wait)
-        if offen:
-            if offen == 1:
-                menge, folge = 'kommt ein älterer Vorgang, bei dem', 'Er kommt'
-            else:
-                menge, folge = f'kommen {offen} ältere Vorgänge, bei denen', 'Sie kommen'
-            aus.append(f'_Dazu {menge} wir '
-                       f'die Frage an dich noch nicht in dieser Form gestellt '
-                       f'haben. {folge} nach und nach hierher; bis dahin '
-                       f'musst du dort nichts tun._\n')
-        for was, kopf in (('abnahme', 'Abnehmen'), ('frage', 'Entscheiden')):
-            eintraege = listen[was]
-            aus.append(f'**{kopf} ({len(eintraege)})**, älteste zuerst\n')
-            if not eintraege:
-                aus.append('Derzeit nichts.\n')
-                continue
-            for i, k in eintraege:
-                aus.append(f'- [{frage_text(k, WAIT_KONTEN[wait])}]({k["url"]}) · '
-                           f'#{i["number"]} {kurztitel(i)} · '
-                           f'seit {k["createdAt"][:10]}')
-            aus.append('')
+        aus.append(f'| {name} | {len(listen["abnahme"])} | {len(listen["frage"])} | {offen} |')
+    aus.append('')
+    for wait, name, listen in sichtbar:
+        aus.append(f'### Für {name}\n')
+        zeilen = [(kopf, i, k) for was, kopf in (('abnahme', 'Abnehmen'), ('frage', 'Entscheiden'))
+                  for i, k in listen[was]]
+        if not zeilen:
+            aus.append('Nichts offen.\n')
+            continue
+        # Nur die Nummer: die Frage ist fuer sich verstaendlich, und GitHub
+        # zeigt den Titel beim Ueberfahren von #N.
+        aus.append('| Art | seit | Ticket | Frage |')
+        aus.append('|---|---|---|---|')
+        for kopf, i, k in zeilen:
+            aus.append(f'| {kopf} | {k["createdAt"][:10]} | #{i["number"]} | '
+                       f'[{frage_text(k, WAIT_KONTEN[wait])}]({k["url"]}) |')
+        aus.append('')
     return '\n'.join(aus).rstrip() + '\n'
 
 
@@ -789,36 +791,32 @@ def baue(issues, heute=None):
                        f'{FRIST_TAGE} Tage bei uns:** {nummern}. Die Person '
                        f'hat geantwortet, und niemand hat reagiert.\n')
         aus.append('### Wer ist am Zug\n')
-        aus.append(f'{len(blockierte)} Tickets warten auf einen Menschen. Was '
-                   f'bei Katharina, Julia oder Linda liegt, steht ganz oben '
-                   f'im Body; hier steht, was bei uns liegt. Messvorschrift '
-                   f'im Docstring des Skripts.\n')
+        aus.append(f'{len(blockierte)} Tickets warten auf einen Menschen. Was bei '
+                   f'Katharina, Julia oder Linda liegt: ganz oben. Hier: was bei '
+                   f'uns liegt. Messvorschrift: Docstring des Skripts.\n')
+        aus.append('| Liste | heisst | zu tun | Tickets |')
+        aus.append('|---|---|---|---|')
         bei_uns = eingeordnet['bei_uns']
-        aus.append(f'**Ball bei uns ({len(bei_uns)})**: die Person hat nach '
-                   f'unserer letzten Frage an sie geschrieben. Neu fragen, '
-                   f'umlabeln oder schliessen; ein Statuskommentar allein '
-                   f'nimmt den Vorgang nicht von hier.\n')
+        zellen = []
         for i, wait, k in bei_uns:
             frist = (f' **seit mehr als {FRIST_TAGE} Tagen**'
                      if (i['number'], wait) in spaet else '')
-            aus.append(f'- #{i["number"]} {kurztitel(i)}: {PERSONEN[wait]} am '
-                       f'{k["createdAt"][:10]} ([Antwort]({k["url"]})){frist}')
-        if bei_uns:
-            aus.append('')
+            zellen.append(f'#{i["number"]} {kurztitel(i, 50)}: {PERSONEN[wait]} am '
+                          f'{k["createdAt"][:10]} ([Antwort]({k["url"]})){frist}')
+        aus.append(f'| **Ball bei uns ({len(bei_uns)})** | die Person hat nach unserer '
+                   f'letzten Frage geschrieben | neu fragen, umlabeln oder schliessen; '
+                   f'ein Statuskommentar reicht nicht | {"<br>".join(zellen)} |')
         fehlt = eingeordnet['fehlt']
-        aus.append(f'**Frage fehlt ({len(fehlt)})**: wartet auf eine Person, '
-                   f'aber kein Kommentar von uns fragt sie mit `Frage:` oder '
-                   f'`Abnahme:`. Steht deshalb in keiner Liste oben. '
-                   f'Beheben mit einem Kommentar, der die Frage stellt, oder '
-                   f'mit anderen Labels, wenn nichts mehr gebraucht wird.\n')
+        zellen = []
         for i, wait, k in fehlt:
             seit = k['createdAt'][:10] if k else 'keiner'
             hinweis = (', vermutlich Abnahme (Live-Link)'
                        if k and LIVE in (k.get('body') or '') else '')
-            aus.append(f'- #{i["number"]} {kurztitel(i)} ({PERSONEN[wait]}), '
-                       f'unser letzter Kommentar: {seit}{hinweis}')
-        if fehlt:
-            aus.append('')
+            zellen.append(f'#{i["number"]} {kurztitel(i, 50)} ({PERSONEN[wait]}), '
+                          f'unser letzter Kommentar: {seit}{hinweis}')
+        aus.append(f'| **Frage fehlt ({len(fehlt)})** | wartet auf eine Person, kein '
+                   f'Kommentar von uns beginnt mit `Frage:` oder `Abnahme:` | '
+                   f'Frage stellen oder Labels ändern | {"<br>".join(zellen)} |')
         # Externe haben kein Konto, an dem sich messen liesse, wer am Zug ist.
         # Fuer sie bleibt eine Zeile mit der laengsten Stille zuerst.
         extern = [(letzte_wortmeldung(i, UNSERE_SEITE), i)
@@ -826,9 +824,10 @@ def baue(issues, heute=None):
         if extern:
             extern.sort(key=lambda t: (t[0], t[1]['number']))
             liste = ', '.join(f'#{i["number"]} ({seit})' for seit, i in extern)
-            aus.append(f'**{WAIT_NAMEN["wait:extern"]} ({len(extern)})**, '
-                       f'laengste Stille zuerst; das Datum ist der letzte '
-                       f'Kommentar, der nicht von uns stammt: {liste}\n')
+            aus.append(f'| **{WAIT_NAMEN["wait:extern"]} ({len(extern)})** | Datum = '
+                       f'letzter Kommentar von aussen, laengste Stille zuerst | '
+                       f'nachhaken, wenn es zu lange still ist | {liste} |')
+        aus.append('')
 
     for stufe, was in AUTO_STUFEN:
         treffer = [i for i in zaehlbar if stufe in i['labels']]
@@ -913,7 +912,7 @@ def selftest():
                    '`auto:pair` (0)' in block and 'Derzeit keins.' in block))
     faelle.append(('Wartesache ohne unseren Kommentar steht unter Frage fehlt',
                    '**Frage fehlt (1)**' in block
-                   and '- #2 T (Katharina), unser letzter Kommentar: keiner'
+                   and '#2 T (Katharina), unser letzter Kommentar: keiner'
                    in block))
 
     # `auto:frozen` muss beides koennen: eine eigene Tabelle bekommen, damit
@@ -972,25 +971,25 @@ def selftest():
         ('2026-10-01', 'wachauer', 'Ja.'),
         ('2026-10-02', 'chsteiner', 'Frage: Gilt das auch fuer Y? Rest.')]))
     faelle.append(('Unsere Frage legt den Ball zu ihr, mit dem ersten Satz',
-                   '**Entscheiden (1)**' in p
-                   and '[Gilt das auch fuer Y?](https://x/61#c1)' in p
-                   and 'seit 2026-10-02' in p and '#61' not in m))
+                   '| Katharina | 0 | 1 | 0 |' in p
+                   and '| Entscheiden | 2026-10-02 | #61 | [Gilt das auch fuer Y?](https://x/61#c1) |' in p
+                   and '#61' not in m))
 
     # Abnahme, fett und nach einer Erwaehnung.
     p, _ = wo(iss(62, W + ['wait:kzw'], kommentare=[
         ('2026-10-03', 'chsteiner', '@wachauer **Abnahme:** Bitte X pruefen.')]))
     faelle.append(('Abnahme fett nach @-Erwaehnung wird erkannt',
-                   '**Abnehmen (1)**' in p and 'Bitte X pruefen.' in p))
+                   '| Katharina | 1 | 0 | 0 |' in p and '| Abnehmen |' in p
+                   and 'Bitte X pruefen.' in p))
 
     # Das Anfangswort zaehlt nur am Anfang.
     p, m = wo(iss(63, W + ['wait:kzw'], kommentare=[
         ('2026-10-03', 'chsteiner', 'Das ist noch keine Abnahme: erst morgen.')]))
     faelle.append(('Abnahme: mitten im Satz trifft nicht', '#63' not in p
                    and '**Frage fehlt (1)**' in m))
-    faelle.append(('Frage fehlt wird in ihrer Liste mitgezaehlt, statt '
-                   '"Derzeit nichts" stehen zu lassen',
-                   'Dazu kommt ein älterer Vorgang' in p.partition('### Für Julia')[0]
-                   and 'Er kommt nach und nach' in p.partition('### Für Julia')[0]))
+    faelle.append(('Frage fehlt wird in ihrer Zeile mitgezaehlt, statt nur '
+                   '"Nichts offen" stehen zu lassen',
+                   '| Katharina | 0 | 0 | 1 |' in p and 'Nichts offen.' in p))
 
     # Statusmeldung ohne Anfangswort: Frage fehlt, mit Live-Hinweis.
     p, m = wo(iss(64, W + ['wait:kzw'], kommentare=[
@@ -1017,7 +1016,7 @@ def selftest():
     kat, _, jul = p.partition('### Für Julia')
     faelle.append(('Julia-Abnahme steht nur bei Julia, bei KZW nirgends',
                    '#66' in jul and '#66' not in kat and '#66' not in m
-                   and 'Dazu komm' not in kat))
+                   and '| Katharina | 0 | 0 | 0 |' in kat))
     # Der uebliche Lebenslauf: Frage an KZW, sie antwortet, wir setzen um,
     # Abnahme an Julia mit cc. KZW steht danach nirgends, auch nicht rot.
     p, m = wo(iss(77, W + ['wait:kzw', 'wait:julia'], kommentare=[
