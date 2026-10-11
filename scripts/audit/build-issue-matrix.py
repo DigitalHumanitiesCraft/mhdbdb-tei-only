@@ -979,7 +979,7 @@ def selftest():
     p, _ = wo(iss(62, W + ['wait:kzw'], kommentare=[
         ('2026-10-03', 'chsteiner', '@wachauer **Abnahme:** Bitte X pruefen.')]))
     faelle.append(('Abnahme fett nach @-Erwaehnung wird erkannt',
-                   '| Katharina | 1 | 0 | 0 |' in p and '| Abnehmen |' in p
+                   '| Katharina | 1 | 0 | 0 |' in p and '| Abnehmen | 2026-10-03 | #62 |' in p
                    and 'Bitte X pruefen.' in p))
 
     # Das Anfangswort zaehlt nur am Anfang.
@@ -989,7 +989,8 @@ def selftest():
                    and '**Frage fehlt (1)**' in m))
     faelle.append(('Frage fehlt wird in ihrer Zeile mitgezaehlt, statt nur '
                    '"Nichts offen" stehen zu lassen',
-                   '| Katharina | 0 | 0 | 1 |' in p and 'Nichts offen.' in p))
+                   '| Katharina | 0 | 0 | 1 |' in p
+                   and 'Nichts offen.' in p.partition('### Für Julia')[0]))
 
     # Statusmeldung ohne Anfangswort: Frage fehlt, mit Live-Hinweis.
     p, m = wo(iss(64, W + ['wait:kzw'], kommentare=[
