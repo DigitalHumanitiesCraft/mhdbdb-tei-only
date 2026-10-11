@@ -172,9 +172,11 @@ import argparse
 import contextlib
 import io
 import json
+import os
 import re
 import subprocess
 import sys
+import tempfile
 from datetime import date, timedelta
 from pathlib import Path
 
@@ -562,9 +564,13 @@ def baue_personen(issues):
         # neuen Form gestellt ist. Am 09.10. waren das 47 bei Katharina.
         offen = sum(1 for _, w, _ in eingeordnet['fehlt'] if w == wait)
         if offen:
-            aus.append(f'_Dazu kommen {offen} ältere Vorgänge, bei denen wir '
+            if offen == 1:
+                menge, folge = 'kommt ein älterer Vorgang, bei dem', 'Er kommt'
+            else:
+                menge, folge = f'kommen {offen} ältere Vorgänge, bei denen', 'Sie kommen'
+            aus.append(f'_Dazu {menge} wir '
                        f'die Frage an dich noch nicht in dieser Form gestellt '
-                       f'haben. Sie kommen nach und nach hierher; bis dahin '
+                       f'haben. {folge} nach und nach hierher; bis dahin '
                        f'musst du dort nichts tun._\n')
         for was, kopf in (('abnahme', 'Abnehmen'), ('frage', 'Entscheiden')):
             eintraege = listen[was]
@@ -983,7 +989,8 @@ def selftest():
                    and '**Frage fehlt (1)**' in m))
     faelle.append(('Frage fehlt wird in ihrer Liste mitgezaehlt, statt '
                    '"Derzeit nichts" stehen zu lassen',
-                   'Dazu kommen 1 ältere' in p.partition('### Für Julia')[0]))
+                   'Dazu kommt ein älterer Vorgang' in p.partition('### Für Julia')[0]
+                   and 'Er kommt nach und nach' in p.partition('### Für Julia')[0]))
 
     # Statusmeldung ohne Anfangswort: Frage fehlt, mit Live-Hinweis.
     p, m = wo(iss(64, W + ['wait:kzw'], kommentare=[
@@ -1010,7 +1017,7 @@ def selftest():
     kat, _, jul = p.partition('### Für Julia')
     faelle.append(('Julia-Abnahme steht nur bei Julia, bei KZW nirgends',
                    '#66' in jul and '#66' not in kat and '#66' not in m
-                   and 'Dazu kommen' not in kat))
+                   and 'Dazu komm' not in kat))
     # Der uebliche Lebenslauf: Frage an KZW, sie antwortet, wir setzen um,
     # Abnahme an Julia mit cc. KZW steht danach nirgends, auch nicht rot.
     p, m = wo(iss(77, W + ['wait:kzw', 'wait:julia'], kommentare=[
@@ -1467,7 +1474,17 @@ def main():
 
     if args.apply:
         neu = ersetze_beide(hole_body(), block, personen)
-        gh(['issue', 'edit', str(MATRIX_ISSUE), '--body', neu])
+        # Ueber eine Datei, nicht als Argument: der Body ist laenger, als
+        # Windows eine Kommandozeile erlaubt (WinError 206, gemessen 11.10.2026)
+        # newline='\n': sonst schreibt Windows CRLF, und --check liest den
+        # Body danach als veraltet
+        with tempfile.NamedTemporaryFile('w', encoding='utf-8', suffix='.md',
+                                         newline='\n', delete=False) as datei:
+            datei.write(neu)
+        try:
+            gh(['issue', 'edit', str(MATRIX_ISSUE), '--body-file', datei.name])
+        finally:
+            os.unlink(datei.name)
         zaehlbar = sum(1 for i in issues if 'evergreen' not in i['labels'])
         print(f'#{MATRIX_ISSUE} aktualisiert: {zaehlbar} Issues gelistet, '
               f'{len(issues)} geprueft.')
