@@ -67,6 +67,7 @@ hier statt in den Phasentabellen.
 |--------|-------|
 | `wzb-breve-backfill.py` | #235 Punkt 3: Tokens mit o/u-Breve nachannotieren, soweit `variants.xml` genau ein Lemma mit genau einer Wortart trifft; alles andere in ein Review-Artefakt |
 | `wzb-breve-wortart.py` | #235 Punkt 3, Rest: die 98 zurückgehaltenen Fälle mit mehrdeutiger Wortart, entschieden am Vers nach einer offenliegenden Tafel im Skript |
+| `wzb-wortgrenzen-390.py` | #390: 16 über einen Kolumnentitel hinweg zerrissene Wörter zusammenführen, nach Klaus M. Schmidts Durchsicht; Protokoll in `ingest/wzb/390-wortgrenzen/` |
 
 ## Endzustand WZB (2026-04-15)
 
