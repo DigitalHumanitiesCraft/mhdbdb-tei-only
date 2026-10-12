@@ -11,7 +11,7 @@
  * Lemma), Wortlaut und Stellenangabe aus dem TEI. Das TEI wird erst beim
  * Aufklappen geladen und ueber ladeTei/collectPositionTokens gelesen, das nach
  * CONTRACTS §B zaehlt wie der Index; derselbe Weg wie im Export (#448). Zeigt
- * eine Position im TEI auf ein anderes Lemma als im Index, wirft
+ * eine angezeigte Position (hoechstens 50 je Lemma) im TEI auf ein anderes Lemma als im Index, wirft
  * pruefePosition, und die Karte meldet den Fehler, statt eine falsche
  * Fundstelle zu verlinken.
  *

@@ -344,7 +344,9 @@ function createSummaryCard(summary, index) {
   `;
   }
 
-  // Ohne Details und ohne lazyDetails: statische Karte ohne Aufklapp-Symbol
+  // Ohne Details und ohne lazyDetails: statische Karte ohne Aufklapp-Symbol.
+  // Derzeit ohne Aufrufer: die Dokumentsuche nutzt seit #58 lazyDetails, die
+  // Naehe-Suche uebergibt immer Details.
   if (!hasDetails) {
     return `
       <article class="result-summary-static group overflow-hidden rounded-2xl border border-slate-200 bg-white/95 p-5 shadow-sm" data-summary-id="${index}">
