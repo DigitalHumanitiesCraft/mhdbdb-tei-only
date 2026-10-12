@@ -502,7 +502,7 @@ npm run serve
 npm test
 
 # 4. Before committing: the gates the change touches, a green VERDICT line,
-# and a fable-reviewer round with no open finding that changes behaviour. Once those have run, no
+# and a reviewer round with no open finding that changes behaviour. Once those have run, no
 # separate approval is needed (CLAUDE.md → Git Rules, first bullet).
 
 # 5. Commit with descriptive message
@@ -571,7 +571,7 @@ For autonomous issue work and PR merge sessions there are reusable procedures wi
 - [ ] Manual testing complete
 - [ ] Pre-built indexes rebuilt (if XML sources changed)
 - [ ] Documentation updated
-- [ ] `fable-reviewer` round with no open finding that changes behaviour
+- [ ] `reviewer` round with no open finding that changes behaviour
 
 ### Post-Deployment Verification
 

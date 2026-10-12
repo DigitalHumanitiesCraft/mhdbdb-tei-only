@@ -1,4 +1,4 @@
-# fable-reviewer Memory (mhdbdb-tei-only)
+# reviewer Memory (mhdbdb-tei-only)
 
 Verdichtet am 08.10. und 10.10.2026. Zahlen in den Dateien sind Eingabe, keine Messung.
 

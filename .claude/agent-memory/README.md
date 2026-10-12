@@ -2,7 +2,7 @@
 
 Was hier liegt, hat kein Mensch geschrieben.
 
-`fable-reviewer` ist der Review-Subagent, den dieses Projekt vor dem ersten Push jedes PR-Zweigs laufen lässt (`CLAUDE.md` → Git Rules, `docs/playbooks/BETRIEBSVERTRAG.md` Regel 11). Prüft er einen Diff und lernt dabei etwas, das beim nächsten Mal wieder gilt, schreibt er es hierher: eine Datei je Lehre, dazu `MEMORY.md` als Index. Beim nächsten Lauf bekommt er den Index wieder in seinen Systemprompt und liest die Einzeldateien über dessen Verweise bei Bedarf.
+`reviewer` ist der Review-Subagent, den dieses Projekt vor dem ersten Push jedes PR-Zweigs laufen lässt (`CLAUDE.md` → Git Rules, `docs/playbooks/BETRIEBSVERTRAG.md` Regel 11). Prüft er einen Diff und lernt dabei etwas, das beim nächsten Mal wieder gilt, schreibt er es hierher: eine Datei je Lehre, dazu `MEMORY.md` als Index. Beim nächsten Lauf bekommt er den Index wieder in seinen Systemprompt und liest die Einzeldateien über dessen Verweise bei Bedarf.
 
 Er tut das selbst und ungefragt. Das Feld `memory: project` in seiner Definition schaltet ihm Schreibrechte für genau dieses Verzeichnis frei, auch wenn seine Werkzeugliste sie nicht nennt.
 
