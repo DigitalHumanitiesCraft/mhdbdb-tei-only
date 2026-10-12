@@ -592,4 +592,42 @@ test.describe('Issue #250: Label ueber einer eigenen head-Ueberschrift', () => {
         await expect(kapitel.locator('.verse-line[data-core="7714"]')).toHaveCount(1);
     });
 
+    test('WZB: ueber den Kolumnentitel zerrissene Woerter stehen ganz (#390)', async ({ page }) => {
+        // Bis 2026-10-12 stand zwischen den Haelften dieser 16 Woerter ein
+        // laufender Kolumnentitel als <w>, gelesen wurde "tŏch EXO ter".
+        // Zusammengefuehrt nach Klaus M. Schmidts Durchsicht; das Wort steht
+        // vor Umbruch und Kolumnentitel, ein folgendes Komma wandert mit.
+        // Die WZB ist mit 27 MB die groesste Datei des Korpus.
+        test.setTimeout(180000);
+        await page.goto('/korpus.html?textId=WZB');
+        await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
+        await expect(page.locator('#readingTitle')).not.toBeEmpty({ timeout: 90000 });
+
+        const text = (await page.locator('#readingBody').textContent())
+            .normalize('NFC').replace(/\s+/g, ' ');
+        const paare = [
+            ['geschep', 'fet'], ['zukunf', 'tig'], ['tŏch', 'tern'], ['tŏch', 'ter'],
+            ['czou', 'berei'], ['wis', 'sen'], ['erwer', 'fen'], ['ei', 'nes'],
+            ['op', 'ferten'], ['ma', 'chte'], ['veisti', 'keit'], ['isra', 'hel'],
+            ['Wen', 'ne'], ['vorkou', 'fen'], ['besa', 'gunge'], ['ho', 'rende'],
+        ];
+        const titel = '(?:ESIS|SIS|GENE|EXO|DUS|LEUITICUS|ERI|NOMIUS|DEUTRO)';
+        for (const [vorn, hinten] of paare) {
+            const wort = vorn + hinten;
+            expect(text, wort).toMatch(new RegExp(`(?<!\\p{L})${wort}(?!\\p{L})`, 'u'));
+            // die zerrissene Lesart; dazwischen standen hoechstens Umbruchnummern,
+            // Kapitelzahl und Trennstrich, daher die Grenze von acht Tokens
+            const zerrissen = new RegExp(
+                `(?<!\\p{L})${vorn}-? (?:\\S+ ){0,8}?${titel} (?:\\S+ ){0,2}?${hinten}(?!\\p{L})`, 'u');
+            expect(text, `${vorn}|${hinten}`).not.toMatch(zerrissen);
+        }
+        // Ein Komma oder Punkt nach dem Wort wandert mit. Bliebe es stehen, hinge
+        // es (join="left") am Kolumnentitel ("DUS 2,").
+        for (const [wort, punkt, kopf] of [['tŏchtern', ',', 'GENE'], ['tŏchter', ',|', 'EXO'],
+            ['wissen', ',|', 'DUS'], ['erwerfen', '.', 'DUS']]) {
+            const p = punkt.replace(/[|.]/g, '\\$&');
+            expect(text, wort).toMatch(new RegExp(`${wort}${p} (?:\\S+ ){0,8}?${kopf} 2 (?![,.|])`, 'u'));
+        }
+    });
+
 });
