@@ -522,8 +522,8 @@ jobs:
           fi
 
       - name: Freshness lemma-pos (#462)
-        # Reiner Vergleich im Speicher, schreibt nichts. Liest tei/ (rund fuenf
-        # Sekunden auf mehreren Prozessen) und die committete Datei.
+        # Reiner Vergleich im Speicher, schreibt nichts. Liest tei/ (lokal rund
+        # zwoelf Sekunden auf vier Prozessen) und die committete Datei.
         run: python scripts/build-lemma-pos.py --check
 
       - name: Freshness Indexe — Rebuild-and-Compare (#125)

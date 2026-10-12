@@ -103,7 +103,7 @@ python scripts/build-corpus-index.py
 
 # Count the parts of speech per lemma in the corpus (#462); build-authority-index.py aborts without the result
 python scripts/build-lemma-pos.py
-# Output: data/lemma-pos.json.gz (~0.2 MB, about 5 s). Run it after every change to @lemmaRef or @pos in tei/, before the authority index.
+# Output: data/lemma-pos.json.gz (~0.2 MB, about 12 s). Run it after every change to @lemmaRef or @pos in tei/, before the authority index.
 
 # Build authority index (consumes authority-files/variants.xml and data/lemma-pos.json.gz, no extraction step)
 python scripts/build-authority-index.py

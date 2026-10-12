@@ -133,7 +133,7 @@ Die Build-Scripts werden über `npm run` aufgerufen und dürfen nicht verschoben
 Verarbeitet die 7 inhaltstragenden Authority Files und generiert `data/authority-index.json.gz` (~3 MB). Enthält Lemmata, Personen, Werke, Konzepte, Gattungen, Namen und Varianten. `contributors.xml` (8. Authority-File seit 2026-04-14) wird bewusst **nicht** indiziert: es ist Projekt-interne Editor-Attribution, kein Suchinhalt. Seit #270 liest der Build die Datei trotzdem, um den Urheber einer kuratierten Angabe neben deren `@resp` zu schreiben: `commentRespName` (Kommentar), `definitionRespName` (Definition), `origin.respName` (Herkunftserklärung).
 
 ### `build-lemma-pos.py`
-Zählt je Lemma, wie viele Tokens jeden Teil-Tag von `@pos` tragen (Kompositum-Tags zerlegt), und schreibt `data/lemma-pos.json.gz` (~0,2 MB, rund 5 s). Der Authority-Build liest tei/ nicht und holt sich die Häufigkeiten aus dieser Datei; fehlt sie, bricht er ab. `--check` baut im Speicher und vergleicht mit der committeten Datei (CI, #462). Vor `build-authority-index.py` laufen lassen.
+Zählt je Lemma, wie viele Tokens jeden Teil-Tag von `@pos` tragen (Kompositum-Tags zerlegt), und schreibt `data/lemma-pos.json.gz` (~0,2 MB, rund 12 s). Der Authority-Build liest tei/ nicht und holt sich die Häufigkeiten aus dieser Datei; fehlt sie, bricht er ab. `--check` baut im Speicher und vergleicht mit der committeten Datei (CI, #462). Vor `build-authority-index.py` laufen lassen.
 
 ### `build-corpus-index.py`
 Parst alle TEI-Dateien in `tei/` und generiert `data/corpus-index.json.gz` (~42 MB). Extrahiert Lemma-Positionen, Wortzählung und Metadaten. Die aktuelle Index-Version steht im `'version'`-Literal des Skripts und in `docs/TEI-MODEL.md` §11, nicht hier: zwei Stellen halten sich in Sync, drei driften.
