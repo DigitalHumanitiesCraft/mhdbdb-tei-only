@@ -602,8 +602,8 @@ test.describe('Issue #390: WZB-Wortgrenzen ueber dem Kolumnentitel', () => {
         // Bis 2026-10-12 stand zwischen den Haelften dieser 16 Woerter ein
         // laufender Kolumnentitel als <w>, gelesen wurde "tŏch EXO ter".
         // Zusammengefuehrt nach Klaus M. Schmidts Durchsicht; das Wort steht
-        // vor Umbruch und Kolumnentitel, ein folgendes Komma wandert mit.
-        // Die WZB ist mit 27 MB die groesste Datei des Korpus.
+        // vor Umbruch und Kolumnentitel, ein folgendes Satzzeichen wandert mit.
+        // Die WZB hat 27 MB.
         test.setTimeout(180000);
         await page.goto('/korpus.html?textId=WZB');
         await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
