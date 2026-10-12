@@ -9,7 +9,7 @@ description: >-
   mechanischen Diff (Bezeichner ersetzt, Tippfehler, Umbruch, Formatierung).
   Mit `model: fable` nur bei Regeltext, Hooks (auch Git-Hooks, auch mit
   grüner Suite) und einem schwer umkehrbaren Schritt (`rules/modelle.md` in
-  `claude-code-setup`, Probelauf in `chsteiner/claude-code-setup#82`). Folgerunden auf dem Modell der ersten. Nicht für
+  `claude-code-setup`, Probelauf in `chsteiner/claude-code-setup#82`). Folgerunde nach einem A-Befund auf dem Modell der ersten Runde, sonst nur über die Korrektur-Commits und ihre Nachbarschaft, ohne Modellangabe; eine Projektregel kann die Stufe anheben, nie senken. Nicht für
   Architektur-, Design- oder „sollen wir X überhaupt tun"-Fragen: dafür ist fable-advisor
   zuständig. Beim Aufruf mitgeben, der Reviewer sieht die Konversation nicht:
   Branch und Basis, ob ein Commit oder der uncommittete Arbeitsbaum geprüft

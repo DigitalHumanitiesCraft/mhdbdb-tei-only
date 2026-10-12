@@ -17,7 +17,7 @@ Auf einem Rechner mit eigenem Claude-Code-Setup ändert das etwas, und zwar mehr
 
 ## Die Kopie und ihr Preis
 
-Diese zwei Dateien sind **eine Kopie**. Sie stammen aus `chsteiner/claude-code-setup` (privat, `agents/`), Stand `2549de5` vom 12.10.2026, kopiert am 12.10.2026 (vorher `9b033c8` vom 02.09.2026, kopiert am 07.09.2026; seit `8b51c33` heißt der Reviewer `reviewer` statt `fable-reviewer` und läuft per Vorgabe auf Opus), und dort werden sie gepflegt. Maßgeblich für den Abgleich ist der Quell-Commit, nicht der Kopiertag: wer später vergleicht, will wissen, welcher Stand der Sammlung hier liegt, und nicht, wann jemand `cp` getippt hat. Beide Bestände können auseinanderlaufen, und nichts prüft das: das Herkunftsrepositorium ist privat und steht der CI nicht zur Verfügung.
+Diese zwei Dateien sind **eine Kopie**. Sie stammen aus `chsteiner/claude-code-setup` (privat, `agents/`), Stand `8b7d068` vom 12.10.2026, kopiert am 12.10.2026 (vorher `9b033c8` vom 02.09.2026, kopiert am 07.09.2026; seit `8b51c33` heißt der Reviewer `reviewer` statt `fable-reviewer` und läuft per Vorgabe auf Opus), und dort werden sie gepflegt. Maßgeblich für den Abgleich ist der Quell-Commit, nicht der Kopiertag: wer später vergleicht, will wissen, welcher Stand der Sammlung hier liegt, und nicht, wann jemand `cp` getippt hat. Beide Bestände können auseinanderlaufen, und nichts prüft das: das Herkunftsrepositorium ist privat und steht der CI nicht zur Verfügung.
 
 Das ist der Preis, der bei der Entscheidung bekannt war. Er wird bezahlt, weil die Alternative kein zweiter Bestand war, sondern gar keiner.
 
