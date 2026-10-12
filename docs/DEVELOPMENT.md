@@ -402,7 +402,7 @@ The rules a session has to follow are in [CLAUDE.md → Git Rules](../CLAUDE.md#
 
 **Do not rerun, and do not split the PR.** A run that genuinely aborted aborts identically on a rerun; comment the situation on the PR instead, so the red check does not get read as a finding. Splitting a data PR into a corpus commit and an index commit buys a bot pass at the price of a state in which the index does not match the corpus, which is what the Data-Change-Lifecycle forbids. What actually matters is gated anyway: `data-integrity.yml` rebuilds `variants.xml`, both indexes and the static API and compares them against the committed state, a stronger statement about a data PR than any reading of the diff.
 
-**The bot cannot execute Python, and that holds whether or not the run completes.** It said so itself on #386 on 2026-09-02: „Python ist in diesem Job nicht ausführbar (`python3 …` wird von der Berechtigungsschicht abgelehnt). Ich konnte das Skript also nicht laufen lassen." It listed the numbers it could not check (227.652, 7.546.243, 210.262, the 430, 92,4 %), declared them neither confirmed nor disputed, and used `grep` for whatever was checkable without a run. **On a measurement PR the bot therefore reviews the code and not the result.** That is not a defect, it is the reason the local `fable-reviewer` stands beside it rather than instead of it: that one has Bash and can recompute. On #391 it recomputed fifteen numbers from a prose entry with command and result, and flagged the three it could not measure as unchecked instead of passing over them.
+**The bot cannot execute Python, and that holds whether or not the run completes.** It said so itself on #386 on 2026-09-02: „Python ist in diesem Job nicht ausführbar (`python3 …` wird von der Berechtigungsschicht abgelehnt). Ich konnte das Skript also nicht laufen lassen." It listed the numbers it could not check (227.652, 7.546.243, 210.262, the 430, 92,4 %), declared them neither confirmed nor disputed, and used `grep` for whatever was checkable without a run. **On a measurement PR the bot therefore reviews the code and not the result.** That is not a defect, it is the reason the local `reviewer` stands beside it rather than instead of it: that one has Bash and can recompute. On #391 it recomputed fifteen numbers from a prose entry with command and result, and flagged the three it could not measure as unchecked instead of passing over them.
 
 **Green runs are not an all-clear, and the plausible explanations have been ruled out one by one.** Measured in the job logs as of 2026-09-02: #377 (34 files) 59 turns red, #382 (13) 56 red, #386 (9) 28 then 27 green, #388 (5) 28 green, #389 (18) 46 green, #391 (1) green, #381 green. The obvious explanation, the raise of `--max-turns` to 100, does **not** hold: every run in that list stayed below the old budget of 50 and would have been green without it. Neither does diff size: 18 files took fewer turns than 13. What aborted #368 and #379 is still open, so do not adopt a fresh explanation without measuring it.
 
@@ -502,7 +502,7 @@ npm run serve
 npm test
 
 # 4. Before committing: the gates the change touches, a green VERDICT line,
-# and a fable-reviewer round with no open finding that changes behaviour. Once those have run, no
+# and a reviewer round with no open finding that changes behaviour. Once those have run, no
 # separate approval is needed (CLAUDE.md → Git Rules, first bullet).
 
 # 5. Commit with descriptive message
@@ -571,7 +571,7 @@ For autonomous issue work and PR merge sessions there are reusable procedures wi
 - [ ] Manual testing complete
 - [ ] Pre-built indexes rebuilt (if XML sources changed)
 - [ ] Documentation updated
-- [ ] `fable-reviewer` round with no open finding that changes behaviour
+- [ ] `reviewer` round with no open finding that changes behaviour
 
 ### Post-Deployment Verification
 
