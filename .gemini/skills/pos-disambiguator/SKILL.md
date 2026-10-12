@@ -307,7 +307,7 @@ Keep compound POS **only** when a single token genuinely contains BOTH grammatic
 |----------|------------|-----------|
 | `DET NUM` | Usually `DET` | *ein* as indefinite article, not numeral |
 | `ADJ ADV` | Context | Modifies noun → ADJ; modifies verb → ADV |
-| `NOM ADJ` | Context | Substantivized → NOM; attributive → ADJ |
+| `NOM ADJ` | Context | Substantivized → NOM; attributive → ADJ. Only a genuinely undecidable case stays `ADJ NOM` with `@reason` (POS-TAGSET.md §2, #387) |
 | `DET CNJ` | Context | *daz* is either determiner OR conjunction, not both |
 | `DET PRO` | Context | Attribuierend → DET; substituierend → PRO |
 | `VRB VEX` | Context | With Partizip II → VEX; lexical meaning → VRB |
@@ -377,7 +377,7 @@ When *daz* points deictically to previously mentioned content WITHOUT introducin
 | Pattern | Tag |
 |---------|-----|
 | DET + X + noun | ADJ (attributive) |
-| DET + X (no noun) | NOM (substantivized) |
+| DET + X (no noun) | NOM (substantivized), but only as an indication: read the context; if adjectival and nominal reading stay undecidable, `ADJ NOM` with `@reason` (POS-TAGSET.md §2, #387) |
 | After copula | ADJ (predicative) |
 
 ### Confidence Levels
