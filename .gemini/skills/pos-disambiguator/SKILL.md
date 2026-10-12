@@ -288,7 +288,7 @@ Most compound tags represent ambiguity that context resolves. Choose ONE tag.
 
 ### EXCEPTION: Keep TWO tags only for morphological fusions
 
-Keep compound POS **only** when a single token genuinely contains BOTH grammatical functions fused together. Always add `reason="..."` attribute.
+Keep compound POS **only** when a single token genuinely contains BOTH grammatical functions fused together, or (one case, not a fusion) `ADJ NOM` where the adjectival and nominal reading stay undecidable, see the `NOM ADJ` row below. Always add `reason="..."` attribute.
 
 **1. Verb + Enclitic Pronoun contractions:**
 - *färbs* = färbe + ez → `VRB PRO` with `reason="färbe+ez"`
@@ -301,7 +301,7 @@ Keep compound POS **only** when a single token genuinely contains BOTH grammatic
 - *zem* = ze + dem → `PRP DET` with `reason="ze+dem"`
 - *inme* = in + dem → `PRP DET` with `reason="in+dem"`
 
-### NOT Exceptions (always resolve to single):
+### NOT Exceptions (always resolve to single; the one exception is noted in the `NOM ADJ` row):
 
 | Compound | Resolution | Reasoning |
 |----------|------------|-----------|
