@@ -289,8 +289,21 @@
                 <p class="text-sm text-slate-700 leading-relaxed">
                     Listet alle Texte auf, die sämtliche angegebenen Lemmata irgendwo enthalten –
                     unabhängig vom Abstand. Ideal für Fragen wie: "Welche Texte behandeln sowohl
-                    <em>triuwe</em> als auch <em>zwîvel</em>?" Das Ergebnis ist dokumentbasiert,
-                    nicht stellenbasiert.
+                    <em>triuwe</em> als auch <em>zwîvel</em>?" Die Suche wählt Texte aus, nicht
+                    Stellen: jede Karte steht für einen Text und nennt die Zahl der Belege darin,
+                    bei mehreren Lemmata auch die Zahl je Lemma.
+                </p>
+                <p class="text-sm text-slate-700 leading-relaxed mt-2">
+                    Ein Klick auf die Karte klappt sie auf und zeigt die <strong>Fundstellen</strong>:
+                    je Beleg Vers oder Zeile und ein paar Wörter Kontext, das gesuchte Wort
+                    hervorgehoben. Bei mehreren Lemmata stehen die Fundstellen nach Lemma getrennt,
+                    jedes in seiner Farbe. Ein Klick auf eine Fundstelle öffnet die Leseansicht
+                    genau an dieser Stelle. Je Lemma und Text zeigt die Karte bis zu 50 Fundstellen;
+                    hat ein Text mehr, sagt ein Hinweis, wie viele es insgesamt sind. Der Knopf
+                    <strong>Gesamten Text öffnen</strong> auf jeder Karte öffnet den ganzen Text
+                    in der Leseansicht, mit allen Belegen der gesuchten Lemmata hervorgehoben; dort
+                    springen Sie mit den Pfeilen von Beleg zu Beleg. Der Text wird erst beim
+                    Aufklappen geladen, bei sehr umfangreichen Texten dauert das einen Moment.
                 </p>
             </div>
 
@@ -299,14 +312,15 @@
                 Jedes Lemma bekommt eine eigene Farbe. In der Trefferliste sehen Sie die
                 Belegstelle mit Kontext und farblich hervorgehobenen Lemmata. Ein Klick auf einen
                 Treffer öffnet die Leseansicht der Hauptseite mit allen Lemmata in denselben Farben
-                und springt direkt zur Fundstelle.
+                und springt direkt zur Fundstelle. In der Dokument-Suche stehen die Fundstellen
+                in der aufgeklappten Karte des Textes.
             </p>
 
             <h3 class="text-lg font-semibold text-slate-900 mt-6 mb-2">Fundstellen exportieren</h3>
             <p class="text-slate-700 leading-relaxed mb-3">
                 Über der Trefferliste stehen die Knöpfe <strong>CSV-Export</strong> und
                 <strong>XLSX-Export</strong>. Die Datei enthält alle Treffer der Suche, nicht nur
-                die bis zu 50 angezeigten je Text, und eine Zeile je Fundstelle: Sigle, Titel,
+                die bis zu 50 angezeigten je Text (in der Dokument-Suche je Lemma und Text), und eine Zeile je Fundstelle: Sigle, Titel,
                 Autor*in, Vers oder Zeile, die Wort-IDs der Belegwörter und den Kontext. Die
                 Wort-ID macht die Stelle eindeutig, auch wo ein Text seine Verse abschnittsweise
                 neu zählt. In der Dokument-Suche ist jede Zeile ein einzelner Beleg eines der
@@ -854,11 +868,16 @@
             </p>
             <ol class="space-y-2 text-sm text-slate-700 mb-4 ml-4 list-decimal list-inside">
                 <li>Im Playground eine Multi-Lemma-Suche starten.</li>
-                <li>Eine interessante Kookkurrenz in der Trefferliste auswählen.</li>
+                <li>Eine interessante Kookkurrenz in der Trefferliste auswählen, in der Dokument-Suche die Karte eines Textes aufklappen und eine Fundstelle wählen.</li>
                 <li>Klick auf das Ergebnis – die Korpussuche öffnet sich in einem neuen Tab.</li>
                 <li>Der Text ist geladen, alle Lemmata sind farblich hervorgehoben, die Ansicht scrollt automatisch zur Fundstelle.</li>
                 <li>Im Reading View weiterlesen, zwischen Belegen springen, Metadaten aufklappen.</li>
             </ol>
+            <p class="text-slate-700 leading-relaxed mb-4">
+                Wer einen Text als Ganzes lesen will statt einer einzelnen Stelle, nimmt in der
+                Dokument-Suche den Knopf <strong>Gesamten Text öffnen</strong> auf der Karte: der
+                Text öffnet sich am Anfang, alle Belege der gesuchten Lemmata sind hervorgehoben.
+            </p>
             <p class="text-slate-700 leading-relaxed">
                 So bleiben Analyse und Lektüre getrennt: der Playground liefert die
                 Korpusstatistik, die Korpussuche den Volltext im Kontext.

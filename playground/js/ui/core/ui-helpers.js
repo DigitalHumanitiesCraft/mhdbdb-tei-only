@@ -274,6 +274,9 @@ export function displayHinweis(titel, grund, rat) {
 // Store raw results for lazy TEI loading
 let storedRawResults = null;
 let storedLemmaIds = null;
+// Kartenbeschreibungen der letzten Anzeige, damit setupSummaryExpansion
+// lazyDetails (Dokumentsuche, #58) ueber data-summary-id findet.
+let storedSummaryData = null;
 
 export function displaySummaryResults(title, summaryData, rawResults = null, lemmaIds = null) {
   const container = document.getElementById('resultsContainer');
@@ -282,6 +285,7 @@ export function displaySummaryResults(title, summaryData, rawResults = null, lem
   // Store raw results for later enrichment
   storedRawResults = rawResults;
   storedLemmaIds = lemmaIds;
+  storedSummaryData = summaryData;
 
   if (!summaryData || summaryData.length === 0) {
     container.innerHTML = `
@@ -313,8 +317,34 @@ function createSummaryCard(summary, index) {
   const previewText = summary.preview || 'Klicken für Details…';
   const hasDetails = summary.details && Array.isArray(summary.details) && summary.details.length > 0;
   const detailsHTML = hasDetails ? createDetailsHTML(summary.details) : '';
+  // Optionaler Link im Kartenkopf, z. B. „Gesamten Text öffnen“ (#58)
+  const headerLinkHTML = summary.headerLink
+    ? `<a href="${escapeHtml(summary.headerLink.href)}" target="_blank" rel="noopener" class="summary-header-link whitespace-nowrap rounded-lg border border-slate-200 bg-white px-2.5 py-1 text-xs font-medium text-slate-600 transition hover:border-brand-400 hover:text-brand-700" title="${escapeHtml(summary.headerLink.title || '')}">${escapeHtml(summary.headerLink.label)}</a>`
+    : '';
 
-  // For document search (no details), don't show expand icon or hint
+  // Dokumentsuche (#58): die Fundstellen kommen erst beim Aufklappen, weil
+  // dafuer das TEI des Textes geladen werden muss (lazyDetails).
+  if (typeof summary.lazyDetails === 'function') {
+    return `
+    <article class="result-summary result-summary-dokument group overflow-hidden rounded-2xl border border-slate-200 bg-white/95 p-5 shadow-sm transition hover:border-brand-200" data-summary-id="${index}">
+      <div class="summary-header flex items-start justify-between gap-4">
+        <div class="flex-1">
+          <h4 class="text-sm font-semibold text-slate-900">${summary.title}</h4>
+          <p class="summary-preview mt-2 text-sm text-slate-600">${previewText}</p>
+        </div>
+        <div class="flex items-center gap-2">
+          ${headerLinkHTML}
+          <span class="summary-count">${summary.count}</span>
+          <span class="expand-icon text-lg">⌄</span>
+        </div>
+      </div>
+      <p class="summary-expand-hint mt-3 text-sm font-medium uppercase tracking-wide text-slate-500">Klicken für Fundstellen</p>
+      <div class="result-details"></div>
+    </article>
+  `;
+  }
+
+  // Ohne Details und ohne lazyDetails: statische Karte ohne Aufklapp-Symbol
   if (!hasDetails) {
     return `
       <article class="result-summary-static group overflow-hidden rounded-2xl border border-slate-200 bg-white/95 p-5 shadow-sm" data-summary-id="${index}">
@@ -377,9 +407,39 @@ function setupSummaryExpansion() {
 
   document.querySelectorAll('.result-summary').forEach((summary) => {
     summary.addEventListener('click', async (event) => {
+      // Links in der Karte (Fundstellen, „Gesamten Text öffnen“) navigieren
+      // selbst und klappen die Karte nicht um (#58)
+      if (event.target.closest('a')) return;
       event.preventDefault();
 
       const isExpanding = !summary.classList.contains('expanded');
+
+      // Dokumentsuche (#58): Fundstellen beim ersten Aufklappen nachladen
+      const cardData = storedSummaryData?.[Number(summary.dataset.summaryId)];
+      if (typeof cardData?.lazyDetails === 'function') {
+        if (summary.dataset.loading) return; // Klick waehrend des Ladens
+        if (isExpanding && !summary.dataset.enriched) {
+          const hint = summary.querySelector('.summary-expand-hint');
+          const detailsContainer = summary.querySelector('.result-details');
+          summary.dataset.loading = 'true';
+          hint.textContent = 'Lade Text…';
+          try {
+            detailsContainer.innerHTML = await cardData.lazyDetails();
+            summary.dataset.enriched = 'true';
+            hint.textContent = 'Klicken zum Zuklappen';
+          } catch (error) {
+            console.error('Fundstellen konnten nicht geladen werden:', error);
+            detailsContainer.innerHTML = `<p class="beleg-fehler text-sm text-red-700">Fundstellen konnten nicht geladen werden: ${escapeHtml(String(error.message))}</p>`;
+            hint.textContent = 'Fehler beim Laden';
+          } finally {
+            delete summary.dataset.loading;
+          }
+        } else if (summary.dataset.enriched) {
+          summary.querySelector('.summary-expand-hint').textContent = isExpanding ? 'Klicken zum Zuklappen' : 'Klicken für Fundstellen';
+        }
+        summary.classList.toggle('expanded');
+        return;
+      }
 
       if (isExpanding && storedRawResults && !summary.dataset.enriched) {
         // First time expanding - fetch TEI text
@@ -567,8 +627,8 @@ function createDetailsFromEnrichedResults(results) {
   });
 }
 
-// Color palette for multi-lemma highlighting
-const LEMMA_COLORS = [
+// Color palette for multi-lemma highlighting (auch Dokumentsuche, #58)
+export const LEMMA_COLORS = [
   { bg: '#fecaca', text: '#991b1b', border: '#ef4444' },  // Red
   { bg: '#bfdbfe', text: '#1e3a8a', border: '#3b82f6' },  // Blue
   { bg: '#bbf7d0', text: '#14532d', border: '#22c55e' },  // Green

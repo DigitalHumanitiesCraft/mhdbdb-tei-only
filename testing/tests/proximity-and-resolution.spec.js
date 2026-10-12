@@ -260,13 +260,19 @@ test.describe('#327: der unerreichbare proximity-Pfad im TEIExplorer ist weg', (
         await page.waitForFunction(() => window.playground?.ui?.multiLemmaSearch !== undefined, null,
             { timeout: 60000 });
 
-        // Function.length zählt die deklarierten Parameter. Zwei statt drei ist
-        // die Zusicherung, dass der Modus nicht wieder zur Verzweigungsvariable
-        // wird: entschieden wird er in tei-manager.js, eine Schicht tiefer.
-        const stelligkeit = await page.evaluate(() =>
-            window.playground.ui.multiLemmaSearch.teiExplorer.displayMultiLemmaResults.length);
+        // Die Zusicherung ist, dass der Modus nicht wieder zur
+        // Verzweigungsvariable wird: entschieden wird er in tei-manager.js,
+        // eine Schicht tiefer. Bis #58 prüfte das Function.length === 2; seit
+        // #58 ist der dritte Parameter die Liste der gesuchten Lemma-IDs (mit
+        // Default, also von length nicht gezählt). Geprüft wird deshalb die
+        // Parameterliste selbst, sonst hinge die Aussage am Default.
+        const parameter = await page.evaluate(() => {
+            const quelle = window.playground.ui.multiLemmaSearch.teiExplorer.displayMultiLemmaResults.toString();
+            return quelle.slice(quelle.indexOf('(') + 1, quelle.indexOf(')'))
+                .split(',').map(p => p.split('=')[0].trim());
+        });
 
-        expect(stelligkeit).toBe(2);
+        expect(parameter).toEqual(['results', 'searchTerms', 'lemmaIds']);
     });
 });
 
