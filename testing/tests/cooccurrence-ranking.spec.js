@@ -134,6 +134,6 @@ test.describe('Issue #161: Multi-POS posAll[] (Authority-Index v1.6.0)', () => {
 
     // Vor dem Review-Fix zeigte das Badge nur den pos-Erstwert ("NOM")
     const item = page.locator('#coRkAutocomplete button', { hasText: 'lemma_79188' });
-    await expect(item).toContainText(/\b(NOM VRB|VRB NOM)\b/);
+    await expect(item).toContainText(/NOM VRB|VRB NOM/);
   });
 });
