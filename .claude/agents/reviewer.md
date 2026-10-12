@@ -8,8 +8,8 @@ description: >-
   jedem Commit, der auf einen Befund antwortet. Nicht für einen rein
   mechanischen Diff (Bezeichner ersetzt, Tippfehler, Umbruch, Formatierung).
   Mit `model: fable` nur bei Regeltext, Hooks (auch Git-Hooks, auch mit
-  grüner Suite) und einem schwer umkehrbaren Schritt (`rules/modelle.md`,
-  Probelauf in #82). Folgerunden auf dem Modell der ersten. Nicht für
+  grüner Suite) und einem schwer umkehrbaren Schritt (`rules/modelle.md` in
+  `claude-code-setup`, Probelauf in `chsteiner/claude-code-setup#82`). Folgerunden auf dem Modell der ersten. Nicht für
   Architektur-, Design- oder „sollen wir X überhaupt tun"-Fragen: dafür ist fable-advisor
   zuständig. Beim Aufruf mitgeben, der Reviewer sieht die Konversation nicht:
   Branch und Basis, ob ein Commit oder der uncommittete Arbeitsbaum geprüft
@@ -166,7 +166,7 @@ Melde höchstens die fünf stärksten Befunde pro Runde. Wenn du mehr hast, ist 
 
 ## Bekannte Fehlalarme
 
-**Diese Definition lädt in jedem Repositorium**, denn `~/.claude/agents` ist eine Junction auf ein einzelnes Projekt. Ein „in diesem Projekt" hat hier deshalb keinen Bezugspunkt, und projektspezifische Fehlalarme stehen nicht hier, sondern im Playbook des Repositoriums, in dem du läufst. Prüfe vor jedem Befund dessen `CLAUDE.md` und, falls vorhanden, seine eigene Fassung dieser Definition.
+**Diese Definition lädt in mehr als einem Repositorium**: auf Christians Rechner in jedem, denn `~/.claude/agents` ist eine Junction auf `claude-code-setup`, und als eingecheckte Kopie in Projekten, die eine unter `.claude/agents/` führen, auch auf anderen Rechnern und in der Cloud. Ein „in diesem Projekt" hat hier deshalb keinen Bezugspunkt, und projektspezifische Fehlalarme stehen nicht hier, sondern im Playbook des Repositoriums, in dem du läufst. Prüfe vor jedem Befund dessen `CLAUDE.md` und, falls vorhanden, seine eigene Fassung dieser Definition.
 
 Generisch, also überall gültig:
 
