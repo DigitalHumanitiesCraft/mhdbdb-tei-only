@@ -21,7 +21,7 @@ Verdichtet 08.10.2026. Zahlen sind Eingabe, vor Gebrauch nachmessen.
 
 **Vers und Prosa:** Reader-Deep-Link `?verseId=` löst nur in Texten mit `<l>` auf; Prosa hat nur `lb`, `lb@n` wiederholt sich je Seite (Kochbücher: je Rezept neu).
 
-**WZB:** Eigennamen fehlen im TEI (Lücken im Kontext sind kein Extraktionsfehler). Kolumnentitel und Buchzahlen stehen als unannotierte `<w>` im Fluss und zerreißen Wörter. `<l>` ohne `@n`; kombinierende Breve zerfallen bei flachem `\w`-Vergleich. Vulgata-Zitate: Folio gegen Kolumnentitel (pb), Kapitel-`head` des div, dann biblegateway `version=VULGATE`.
+**WZB:** Eigennamen fehlen im TEI (Lücken im Kontext sind kein Extraktionsfehler). Kolumnentitel und Buchzahlen stehen als unannotierte `<w>` im Fluss und zerreißen Wörter. Seit #390 (12.10.2026, `scripts/ingest/wzb/wzb-wortgrenzen-390.py`) sind 16 davon zusammengeführt (Wort unter der xml:id der ersten Hälfte, Umbrüche und Titel dahinter; 6 `pc join=left` mitgewandert, deren id-Folio nicht mehr zur Position passt); nach der Logik von `build-review-klaus.py` bleiben 6 Grenzen, der Generator bricht an `== 22` ab. Breve: 607 Tokens zerlegt (o+U+0306), 26 vorkomponiert (U+014F), also nicht „überall zerlegt“; `|` ist mit 5.651 `<pc join="left">` eine normale Interpunktion. `<l>` ohne `@n`; kombinierende Breve zerfallen bei flachem `\w`-Vergleich. Vulgata-Zitate: Folio gegen Kolumnentitel (pb), Kapitel-`head` des div, dann biblegateway `version=VULGATE`.
 
 **Header**
 - msIdentifier-Reihenfolge: sigle, handschriftencensus, GND, wikidata, [mwb-sigle], msName+; im Header nackte IDs, in works.xml URLs.

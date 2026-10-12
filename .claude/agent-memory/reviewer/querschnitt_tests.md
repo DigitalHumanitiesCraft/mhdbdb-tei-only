@@ -18,6 +18,7 @@ Verdichtet 08.10.2026.
 **Proben ohne Spec**
 - Playwright: `.mjs` in $TEMP, `import { chromium } from 'file:///C:/.../node_modules/playwright/index.mjs'` (ohne `file:///` ERR_UNSUPPORTED_ESM_URL_SCHEME), `page.evaluate` auf `window.playground.ui.<tool>.state`. Echter Klick statt `dispatchEvent('mousedown')`.
 - Bei belegtem 8080 startet die `.mjs` selbst `spawn(process.execPath, [<wt>/node_modules/http-server/bin/http-server, <wt>, '-p','8097','-s'])`, pollt per `fetch` bis 200, `server.kill()` im `finally`. Ausgabe in eine Datei umleiten, `| tail` frisst die ersten Datensätze.
+- Reader-Spec ohne Browser prüfen (Playwright gesperrt, #390): `#readingBody.textContent` lässt sich aus dem TEI nachbauen, `tei-text-reader.js` ist die Vorlage: `w` -> Text + Leerzeichen, numerisches `lb@n` -> die Zahl, `pb` -> `[27r]`, `cb` -> `[Sp. a]`, `pc` -> Span mit `data-join`, Text-Knoten bleiben; danach die drei join-Regexes aus `processChildren`-Aufrufer, Tags strippen, NFC, Whitespace kollabieren. Die Spec-Regexes mit `\p{L}` -> `[^\W\d_]` in Python `re`. Auf Basis UND HEAD fahren: nur wenn die Negativ-Regex auf der Basis greift, unterscheidet der Test etwas.
 - Nach `page.fill('#ldQuery', …)` fängt das Autocomplete-Dropdown den `page.click('#ldSearchBtn')` ab; Knopf per `page.evaluate(b => document.getElementById(b).click(), …)` auslösen.
 
 **Locator-Fallen**

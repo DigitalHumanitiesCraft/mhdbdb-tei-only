@@ -592,6 +592,12 @@ test.describe('Issue #250: Label ueber einer eigenen head-Ueberschrift', () => {
         await expect(kapitel.locator('.verse-line[data-core="7714"]')).toHaveCount(1);
     });
 
+});
+
+test.describe('Issue #390: WZB-Wortgrenzen ueber dem Kolumnentitel', () => {
+
+    test.setTimeout(180000);
+
     test('WZB: ueber den Kolumnentitel zerrissene Woerter stehen ganz (#390)', async ({ page }) => {
         // Bis 2026-10-12 stand zwischen den Haelften dieser 16 Woerter ein
         // laufender Kolumnentitel als <w>, gelesen wurde "tŏch EXO ter".
@@ -621,7 +627,7 @@ test.describe('Issue #250: Label ueber einer eigenen head-Ueberschrift', () => {
                 `(?<!\\p{L})${vorn}-? (?:\\S+ ){0,8}?${titel} (?:\\S+ ){0,2}?${hinten}(?!\\p{L})`, 'u');
             expect(text, `${vorn}|${hinten}`).not.toMatch(zerrissen);
         }
-        // Ein Komma oder Punkt nach dem Wort wandert mit. Bliebe es stehen, hinge
+        // Ein Satzzeichen nach dem Wort (Komma, Punkt, |) wandert mit. Bliebe es stehen, hinge
         // es (join="left") am Kolumnentitel ("DUS 2,").
         for (const [wort, punkt, kopf] of [['tŏchtern', ',', 'GENE'], ['tŏchter', ',|', 'EXO'],
             ['wissen', ',|', 'DUS'], ['erwerfen', '.', 'DUS']]) {

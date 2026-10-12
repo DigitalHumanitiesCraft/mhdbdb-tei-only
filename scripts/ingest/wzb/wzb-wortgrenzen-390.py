@@ -30,8 +30,8 @@ Kolumnentitel, bleibt unveraendert und in derselben Reihenfolge stehen, nur
 eben nach dem Wort statt mitten darin. Zwei Ausnahmen:
 - bei isra|hel steht nach der ersten Haelfte ein Trennstrich als <pc>, der
   mit der Trennung wegfaellt;
-- ein <pc join="left">, das direkt auf die zweite Haelfte folgte (Komma oder
-  Punkt nach dem Wort, bei toech|tern, toech|ter, wis|sen, erwer|fen), wandert
+- ein <pc join="left">, das direkt auf die zweite Haelfte folgte (Komma, Punkt
+  oder Strich | nach dem Wort, bei toech|tern, toech|ter, wis|sen, erwer|fen), wandert
   mit dem Wort und steht danach direkt hinter ihm, mit seiner xml:id. Bliebe
   es stehen, haengte die Leseansicht es an den Kolumnentitel ("EXO,").
 
@@ -44,8 +44,8 @@ der Positionszaehlung: beide Haelften tragen kein @lemmaRef, und gezaehlt
 werden nur <w> mit @lemmaRef.
 
 Die Wortform ist die Verkettung der beiden Haelften so, wie sie in der Datei
-stehen (bei toechter/toechtern also o plus U+0306 zerlegt, wie ueberall in
-der WZB); geprueft wird sie in NFC gegen Klaus' Wortform.
+stehen (bei toechter/toechtern also o plus U+0306 zerlegt, wie in diesen
+Haelften vorgefunden); geprueft wird sie in NFC gegen Klaus' Wortform.
 
 Aufruf: python scripts/ingest/wzb/wzb-wortgrenzen-390.py [--apply]
 Ohne --apply: Trockenlauf, prueft alles und schreibt das Protokoll in
@@ -96,7 +96,7 @@ CHANGE = ('<change when="2026-10-12" who="#editor">#390: {n} ueber den Kolumnen-
           'vom 2026-09-02: ohne Markierung; Wortformen bestaetigt von Klaus M. Schmidt, '
           '2026-10-09). Das Wort steht an der Stelle und unter der xml:id seiner ersten '
           'Haelfte, die zweite Haelfte entfaellt, Umbrueche und Kolumnentitel bleiben '
-          'dahinter stehen; ein direkt folgendes Komma oder ein Punkt (pc join=left) '
+          'dahinter stehen; ein direkt folgendes Satzzeichen (pc join=left) '
           'wandert mit dem Wort, bei israhel entfaellt der Trennstrich. Tafel in '
           'scripts/ingest/wzb/wzb-wortgrenzen-390.py.</change>')
 
