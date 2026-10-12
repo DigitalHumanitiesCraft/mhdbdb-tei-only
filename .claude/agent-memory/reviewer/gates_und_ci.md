@@ -47,6 +47,7 @@ Verdichtet 08. und 10.10.2026. Zahlen sind Eingabe, vor Gebrauch nachmessen.
 **check-runtime-budget.py (#564)**
 - Neues Pflichtfeld in `lade_budget` macht Ablehnungsfälle im Selbsttest still leer, wenn die Basis-`cfg` des Selbsttests es nicht trägt: Ablehnungsgrund je Fall per importlib ausgeben, nicht nur „abgelehnt ja/nein" (10.10.: 3 von 4 Altfällen fielen nur noch an `calibration_issue`).
 - `erinnere` fängt `HTTPException` (IncompleteRead) und AttributeError nicht; „Exit-Code nie" daran proben.
+- **Neuer Workflow-Schritt ohne Eintrag in `runtime-budget.json` hat die Grenze 10 s** (floor_s), rot auf PR darüber. Bei jedem PR, der einen Step in einen PR-Workflow einfügt: `python -c` über `steps` nach dem Step-Namen suchen und den Schritt lokal timen (`date +%s.%N`, kein `/usr/bin/time` auf dieser Maschine). 12.10.: `build-lemma-pos.py --check` 12,4 s bei 4 Prozessen, 28,6 s bei 1, kein Eintrag, Workflow-Kommentar sagte „rund fuenf Sekunden".
 - Lauf-Zählung (`total_count`) ist nicht Schritt-Zählung: „Freshness naming-index" läuft nur bei `naming_changed`, 8 von 8 Läufen am 10.10. skipped.
 
 **main-Schutz** ist nur ein Ruleset (`deletion`, `non_fast_forward`): `branches/main .protected=true` heißt nicht PR-Pflicht. `rules/branches/main` und `rulesets/<id>` lesen.
