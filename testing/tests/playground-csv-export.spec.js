@@ -143,9 +143,10 @@ test.describe('CSV-Export im Playground (#448)', () => {
   test('Arthurische Pferde: eine Zeile je angezeigtem Beleg', async ({ page }) => {
     await page.goto('/playground/#horses');
     await page.waitForSelector('#hxHorseSelect', { state: 'visible', timeout: 60000 });
-    // Erst nach dem Korpus handeln: faellt das Ende seines Ladens
-    // (populateFileBrowser) in die Aktion, braucht waitForSelector unten
-    // bis 7 s, obwohl der Knopf schon im DOM steht (gemessen 13.10.2026).
+    // Erst nach dem Korpus handeln: ungzip, JSON.parse und das IndexedDB-
+    // Schreiben des Korpus-Index blockieren den Hauptthread sekundenlang am
+    // Stueck; faellt eine Aktion hinein, reisst die 5-s-Frist danach (bis 7 s
+    // gemessen, obwohl das Element schon im DOM stand; 13.10.2026).
     await page.waitForSelector('#fileBrowserSection', { state: 'visible', timeout: 60000 });
     await page.selectOption('#hxHorseSelect', 'Gringuljete');
     await page.waitForSelector('#hxHorseCsvExport', { state: 'visible', timeout: 5000 });
@@ -161,9 +162,10 @@ test.describe('CSV-Export im Playground (#448)', () => {
   test('Bezeichnungen: Figur- und Lemma-Perspektive exportieren ihre Tabelle', async ({ page }) => {
     await page.goto('/playground/#naming');
     await page.waitForSelector('#neWorkSelect', { state: 'visible', timeout: 60000 });
-    // Erst nach dem Korpus handeln: faellt das Ende seines Ladens
-    // (populateFileBrowser) in die Aktion, braucht waitForSelector unten
-    // bis 7 s, obwohl der Knopf schon im DOM steht (gemessen 13.10.2026).
+    // Erst nach dem Korpus handeln: ungzip, JSON.parse und das IndexedDB-
+    // Schreiben des Korpus-Index blockieren den Hauptthread sekundenlang am
+    // Stueck; faellt eine Aktion hinein, reisst die 5-s-Frist danach (bis 7 s
+    // gemessen, obwohl das Element schon im DOM stand; 13.10.2026).
     await page.waitForSelector('#fileBrowserSection', { state: 'visible', timeout: 60000 });
 
     await page.selectOption('#neWorkSelect', 'IW');

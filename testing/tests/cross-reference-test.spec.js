@@ -23,9 +23,10 @@ test.describe('Cross-Reference Functionality', () => {
         // Registerzugaenge fuer die fachwissenschaftliche Nutzung der
         // Einstieg sind. Das frueher noetige Aufklappen entfaellt deshalb;
         // ein Klick auf den Umschalter wuerde den Block jetzt schliessen.
-        // Erst nach dem Korpus handeln: faellt das Ende seines Ladens
-        // (populateFileBrowser) in die Aktion, braucht waitForSelector unten
-        // bis 7 s, obwohl der Knopf schon im DOM steht (gemessen 13.10.2026).
+        // Erst nach dem Korpus handeln: ungzip, JSON.parse und das IndexedDB-
+        // Schreiben des Korpus-Index blockieren den Hauptthread sekundenlang am
+        // Stueck; faellt eine Aktion hinein, reisst die 5-s-Frist danach (bis 7 s
+        // gemessen, obwohl das Element schon im DOM stand; 13.10.2026).
         await page.waitForSelector('#fileBrowserSection', { state: 'visible', timeout: 60000 });
         await expect(page.locator('#authorityQueriesPanel')).toBeVisible();
         await page.click('button:has-text("Werke anzeigen")');
