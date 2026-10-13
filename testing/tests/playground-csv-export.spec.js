@@ -143,6 +143,10 @@ test.describe('CSV-Export im Playground (#448)', () => {
   test('Arthurische Pferde: eine Zeile je angezeigtem Beleg', async ({ page }) => {
     await page.goto('/playground/#horses');
     await page.waitForSelector('#hxHorseSelect', { state: 'visible', timeout: 60000 });
+    // Erst nach dem Korpus handeln: faellt das Ende seines Ladens
+    // (populateFileBrowser) in die Aktion, braucht waitForSelector unten
+    // bis 7 s, obwohl der Knopf schon im DOM steht (gemessen 13.10.2026).
+    await page.waitForSelector('#fileBrowserSection', { state: 'visible', timeout: 60000 });
     await page.selectOption('#hxHorseSelect', 'Gringuljete');
     await page.waitForSelector('#hxHorseCsvExport', { state: 'visible', timeout: 5000 });
     const tabelle = await page.locator('#resultsContainer table tbody tr').count();
@@ -157,6 +161,10 @@ test.describe('CSV-Export im Playground (#448)', () => {
   test('Bezeichnungen: Figur- und Lemma-Perspektive exportieren ihre Tabelle', async ({ page }) => {
     await page.goto('/playground/#naming');
     await page.waitForSelector('#neWorkSelect', { state: 'visible', timeout: 60000 });
+    // Erst nach dem Korpus handeln: faellt das Ende seines Ladens
+    // (populateFileBrowser) in die Aktion, braucht waitForSelector unten
+    // bis 7 s, obwohl der Knopf schon im DOM steht (gemessen 13.10.2026).
+    await page.waitForSelector('#fileBrowserSection', { state: 'visible', timeout: 60000 });
 
     await page.selectOption('#neWorkSelect', 'IW');
     await page.selectOption('#neFigureSelect', 'Iwein');
