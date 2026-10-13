@@ -50,6 +50,7 @@ ingest/              # Review artefacts of the ingest and disambiguation runs (a
 includes/            # Nav/footer/Matomo fragments, injected into the pages by build-pages.py
 playground/          # Research tool (self-contained sub-app)
 lemma/               # Persistent lemma pages (Issue #42)
+textreihen/          # Text-series typology subsite (moved from marketext.at, SKOS state 2023, not genres.xml; #93)
 testing/             # Playwright tests (results in testing/test-results/, gitignored)
 docs/                # Knowledge documentation
 publications/        # Blog posts, reports

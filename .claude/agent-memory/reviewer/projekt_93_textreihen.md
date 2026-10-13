@@ -33,6 +33,16 @@ roh, einziger Direktlink ist `browser.html#c_624b0297`). Schnappschuss gegen Zot
 `Object.prototype`. `--check` des Bibliografie-Skripts ist der lesende Lauf (Exit 0, 190/168).
 "17 Seiten" steht nur noch in der Commit-Nachricht c0b891310 (PAGES hatte 15, jetzt 26).
 
+**Nachtrag 13.10.2026 (CLAUDE.md-Zeile für `textreihen/`, Arbeitsbaum auf 28a624c02):** die
+drei Behauptungen der Baumzeile sind je mit einem Kommando belegbar: Herkunft über
+`textreihen/README.md` Z. 3-4, Datenstand über `git hash-object` gegen die README-Tabelle plus
+`curl api.github.com/repos/Middle-High-German-Conceptual-Database/textseries/commits/86c233f08…`
+(Datum 2023-06-12), "kein Abgleich mit genres.xml" über `gh issue view 93 --json comments`
+(wachauer, 2026-10-08) und `scripts/build-textreihen.py` Z. 10. `marketext.at/Textreihentypologie/`
+antwortet weiter mit 200, "former" meint die Herkunft, nicht die Abschaltung. Kein Skript unter
+`scripts/audit/` liest den Verzeichnisbaum in `CLAUDE.md`; sein Spiegel ist der Baum in
+`docs/DEVELOPMENT.md` (dort steht auch `examples/`, in `CLAUDE.md` nicht).
+
 **Why:** Runde 2 soll die Befunde von Runde 1 nachsehen, nicht die Messung neu erfinden.
 **How to apply:** Befunde Runde 1: greedy `ENTRY_RE` in `build-textreihen-bibliography.py`
 (jeder Eintrag endet auf `</div>`), `decodeURIComponent` in `fromHash` ohne try/catch,
