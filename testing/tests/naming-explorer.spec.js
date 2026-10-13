@@ -36,10 +36,10 @@ test.describe('Naming Explorer (#59)', () => {
     // erst nach dem Korpus-Index; danach laedt das Modul seinen eigenen Index
     // lazy (fetch+pako, ~110 KB)
     await page.waitForSelector('#neWorkSelect', { state: 'visible', timeout: 60000 });
-    // Erst nach dem Korpus handeln: ungzip, JSON.parse und das IndexedDB-
-    // Schreiben des Korpus-Index blockieren den Hauptthread sekundenlang am
-    // Stueck; faellt eine Aktion hinein, reisst die 5-s-Frist danach (bis 7 s
-    // gemessen, obwohl das Element schon im DOM stand; 13.10.2026).
+    // Erst nach dem Korpus handeln: im warmen Context (#488) blockiert das
+    // Lesen des Korpus-Index aus IndexedDB den Hauptthread rund 3 s am Stueck,
+    // kalt bis 7 s mit ungzip, JSON.parse und IndexedDB-Schreiben; faellt eine
+    // Aktion hinein, reisst die 5-s-Frist danach (13.10.2026).
     await page.waitForSelector('#fileBrowserSection', { state: 'visible', timeout: 60000 });
   });
 
