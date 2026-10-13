@@ -1191,3 +1191,13 @@ Auto-Mode-Classifier abgelehnt, und die Blockade ging an Christian.
 **Was es getragen hat:** eine weitere CI-Runde auf dem PR. Behoben im Commit nach `002f65a86`.
 
 **Mechanismus: zweite Zeile, noch keine dritte.** Bei der nächsten Zeile zu dieser Lehre wird gewechselt; Vorschlag: eine Schleife über alle `run:`-Schritte der drei Workflows als Skript in `scripts/audit/`, die ein Mensch oder eine Session vor dem Push einmal aufruft.
+
+### 119. Rot: `flex-shrink-0` als regellos in `tailwind-output.css` gemeldet, mit einem Kontrollwert, der den Fehlermodus nicht teilen konnte (13.10.2026, #584).
+
+**Rot.** Für den Layout-Fix in `korpus.html` habe ich geprüft, welche Tailwind-Klassen in der vorgebauten CSS Regeln haben, mit `grep -o "\.<klasse>{"`, und `flex-shrink-0` als regellos gemeldet: an Christian und im Prüfauftrag an den Reviewer. Die Regel steht als gruppierter Selektor `.flex-shrink-0,.shrink-0{flex-shrink:0}` in der Datei; mein Muster verlangte die geschweifte Klammer direkt hinter dem Namen und konnte sie nicht treffen. Das ist derselbe Fall wie Eintrag 95, dieselbe Klasse, dieselbe Datei, zehn Tage später.
+
+**Die Lehre steht in `dateisuche.md`: ein leerer Abruf ist kein Nullbefund, vor dem Schreiben einen Kontrollwert mitsuchen, der treffen muss, und er liegt außerhalb des Zuschnitts.** Ich hatte Kontrollwerte (`justify-between`, `gap-2`), und beide trafen. Sie standen aber als einzelne Selektoren in der Datei, teilten also den blinden Fleck des Musters nicht: ein Kontrollwert prüft eine Suche nur, wenn er dort liegt, wo die Suche versagen könnte. Hier wäre es `shrink-0` gewesen, dessen Regel ich zwei Zeilen weiter gefunden hatte, mit der Frage, warum zwei Namen derselben Eigenschaft verschieden antworten. Die letzte Zeile zu dieser Lehre ist Eintrag 106.
+
+**Was es getragen hat:** nichts im Diff, weil `shrink-0` auf dieselbe Regel geht. Die falsche Aussage stand in einer Nachricht an Christian und im Prüfauftrag; der Reviewer hat sie in Runde 1 gefunden und angemerkt, dass sie in keine Bereinigung der bestehenden `flex-shrink-0`-Verwendungen wandern darf, die nicht tot sind.
+
+**Mechanismus:** keiner neu. Das Reviewer-Memory führt den Fall seit #228 mit tragfähigem Muster (`[.,]klasse[,{]`), und es hat gegriffen; mir fehlte der Blick dorthin vor dem Senden.
