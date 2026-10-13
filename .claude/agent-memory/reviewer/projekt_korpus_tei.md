@@ -1,5 +1,5 @@
 ---
-name: korpus-tei
+name: projekt-korpus-tei
 description: Strukturtatsachen des TEI-Korpus fürs Review: was der Korpus-Index liest, pc/caesura/gap, Vers vs. Prosa, WZB-Eigenheiten, Header-Konventionen, Reset-Zahlen, Trierer Findebuch-Dump (#259)
 metadata:
   type: project

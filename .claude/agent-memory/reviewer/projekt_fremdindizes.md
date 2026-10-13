@@ -1,5 +1,5 @@
 ---
-name: fremdindizes
+name: projekt-fremdindizes
 description: Fremdindizes im Review: Naming-Index (#420, Nachbau, Blob-Hash, Lindas Repo, Zitationskopien, Term-Perspektive, Diakritika-Filter) und Pferde-Index (#193, zwei Vers-Einheiten, Zenodo)
 metadata:
   type: project

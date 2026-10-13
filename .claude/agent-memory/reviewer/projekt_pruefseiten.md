@@ -1,5 +1,5 @@
 ---
-name: pruefseiten
+name: projekt-pruefseiten
 description: Prüfseiten-Generatoren im Review (review_page.py, build-359-page.py, build-review-364/klaus, Archiv #469, build-526-pruefseite.py): was das Gate nicht sieht, markup vs. e(), Laufzeiten, datengebundene Specs
 metadata:
   type: project

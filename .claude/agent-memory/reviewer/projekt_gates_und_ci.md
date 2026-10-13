@@ -1,5 +1,5 @@
 ---
-name: gates-und-ci
+name: projekt-gates-und-ci
 description: Was die Gates prüfen und was nicht: doc-count-audit, data-integrity.yml, Einzelgates, extract-variants, Begriffshilfe-Generator, issue-matrix, Review-Bot, main-Schutz
 metadata:
   type: project
