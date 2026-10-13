@@ -4,6 +4,16 @@ Chronological log of development decisions, dead ends, and savepoints. Not a cha
 
 ---
 
+## 2026-10-13: #93, Bilder der Textreihentypologie nachgezogen, PR #555 rebased
+
+KZW hat die drei offenen Bildfragen aus #93 über Christian beantwortet: Logos, Startbild und Screenshots dürfen übernommen werden. Alle elf Dateien liegen jetzt unter `textreihen/img/` (Startbild als JPEG in der 1024-px-Fassung, die Logos einmal auf der Startseite statt im Fuß jeder Seite). PR #555 stand vier Tage offen, ohne dass jemand etwas sagte, und war inzwischen `CONFLICTING`; nach dem Rebase lagen die Konflikte im umbenannten Reviewer-Memory (`fable-reviewer/` zu `reviewer/`, #593) und in den beiden Journalen.
+
+**Was über den Einzelfall hinausgilt:** Die Frage in #93 nannte zu Punkt 3 die "Reinmar-Tabelle", die schon übernommen war; die drei Screenshots zeigen die MHDBDB-Oberfläche. Ein Fehler in einer Frage an einen Menschen wandert in jede Nachricht, die aus ihr abgeschrieben wird (hier in den Entwurf einer Signal-Nachricht an KZW).
+
+**Rote Zeilen:** Eine, Nr. 120 (Punkt 3 aus dem Kommentar abgeschrieben statt an README und Zweig geprüft).
+
+---
+
 ## 2026-10-10 (Spur D, #564 D3): langsamste Tests schneller, ohne Abdeckung zu verlieren
 
 **Was:** `main-site`, `lemma-page` und `results-table` laufen im warmen Context (#488), zwei Tests in `main-site` bleiben kalt. In `multi-lemma-export` gibt es die große Suche (minne + herze, 66 Dateien im Versmodus) nur noch einmal auf einer gemeinsamen Seite (Fehlerfall, CSV, XLSX aus dem Zwischenspeicher der Suche); Nähe- und Dokumentfall laufen auf kleinen Suchen. Feste Wartezeiten in `main-site` und `reading-view` sind Ereignissen gewichen.
@@ -111,6 +121,36 @@ Vier, Nr. 115 bis 118: zweimal die unvollständige Gate-Liste vor dem Push (115 
 ### Was zurück an Christian geht
 
 Die Abnahme geht nach dem Merge an @wachauer allein, mit der Frage nach HOF und VDH (Stricker allein, der Anonym-Rest in `particDesc` bleibt mit veralteten Werklisten stehen) und der Frage, ob die Analysewerkzeuge alle Zuschreibungen zeigen sollen. Die Reviews liefen ausnahmsweise auf Opus statt Fable (Fable-Limit, Freigabe 09.10.); der erste volle Testlauf lief ohne gesetzten `MHDBDB_TEST_PORT`, also vermutlich auf dem Standardport 8080 statt auf dem zugeteilten 8083; die Koordination hat deshalb einen zweiten verlangt, der mit `MHDBDB_TEST_PORT=8083` auf dem Code-Endstand grün lief (473 Tests, 50 Dateien).
+
+---
+
+## 2026-10-09 (Spur 93): #93, Umzug der Textreihentypologie auf `textreihen/`
+
+Die alte Website `marketext.at/Textreihentypologie` liegt als Unterseite unter `textreihen/`: elf Seiten (Start, About, How To, Visualization & Browser, Use cases, Outreach, Bibliography mit Literatursuche, Download, "Gattungs-Explorer in MHDBDB Next", die zwei Beiträge), erreichbar über einen Footer-Link und eine Kachel auf `hilfe.html`, ohne Menüpunkt. Datenbasis ist der unveränderte SKOS-Stand `86c233f08` (12.06.2023, CC BY 4.0 laut README des Quellrepos), nicht `genres.xml`; der SKOS-Browser zeigt die 618 Kategorien mit 894 `broader`-Aussagen, und eine Kategorie mit mehreren direkten Eltern steht unter jedem (193 von 618, "Beschwörung" unter zwölf). Die Bibliografie (190 Zotero-Einträge) ist statisch gebaut. Zwei Review-Runden, Volllauf grün (466 Tests). Offen: KZW hat nicht beantwortet, ob Logos, Startbild und drei Screenshots übernommen werden dürfen (Kommentar vom 09.10. in #93); der Merge wartet darauf.
+
+### Was über den Einzelfall hinausgilt
+
+**(a) Die Lizenz stand im README, nicht in einer Lizenzdatei.** GitHub zeigte `license: null`, und der Kommentar vom 10.08. in #93 schloss daraus "keine Lizenz". Wer die Rechte eines Repos prüft, liest die README und die Datensätze an anderer Stelle (hier die Hamburger DOI-Einträge, ebenfalls CC BY 4.0), nicht nur das Lizenzfeld.
+
+**(b) Eine Zählung am Dateitext ist keine Zählung der Aussagen.** 881 Zeilen mit `skos:broader`, 894 Aussagen (siehe Fehlerjournal 109). Dasselbe bei Zotero: 205 Items über `/items`, 190 Bibliografieeinträge über `/items/top`; das Skript muss sagen, welchen Endpunkt es holt.
+
+**(c) Die Beispiele einer Anleitung tragen Alternativbezeichnungen, nicht die Vorzugsbezeichnung.** "Dietrichsepik" im How To ist `altLabel` von "Dietrichsepos". Der Browser findet beides; ein Test, der den Titel einer Beispiel-ID aus der Anleitung erwartet, scheitert sonst.
+
+**(d) Ein gieriger Regex im Bauskript hat 190 von 190 Einträgen ein `</div>` mitgegeben, unsichtbar, weil `<main>` kein offenes `<div>` hatte** (Runde 1). Ein Test, der nur Zahlen zählt, merkt das nicht; die Spec prüft jetzt die Zeile.
+
+**(e) Die Mutationsprobe der Linkspec traf beim ersten Versuch beide eingebauten Fehler** (kaputter Anker, fehlendes Bild); damit ist belegt, dass sie Anker und Bildquellen wirklich prüft und nicht nur Seiten abruft.
+
+**(f) Die alte Website hatte zwei eigene Fehler**, die beim Umzug nicht mitgewandert sind: einen internen Link auf `dokument.html#MHDBDB` (Seite existiert nicht) und den Platzhalter "#DOI (wird nachgeliefert)". Beides steht in `textreihen/README.md`.
+
+### Rote Zeilen
+
+Eine, Nr. 109: die Zeilenzahl der Turtle-Datei als Zahl der Aussagen gemeldet.
+
+### Was zurück an Christian geht
+
+Nichts, was er entscheiden müsste. Für KZW (und zuerst Julia, einfache Abnahme) nach dem Merge: die drei Bildgruppen (Antwort auf den Kommentar in #93 steht aus), und die Prüfschritte der Unterseite. In `CLAUDE.md` fehlt `textreihen/` im Verzeichnisbaum (Inbox an die Koordination).
+
+---
 
 ## 2026-10-04 (Koordination): Lauf vom 02.10. abgeschlossen, Parzival-Bücher und „Strophe“ auf `main`
 

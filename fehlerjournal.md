@@ -1142,6 +1142,16 @@ Auto-Mode-Classifier abgelehnt, und die Blockade ging an Christian.
 
 **Was es getragen hat:** zwei Benachrichtigungen an Julia zu erledigten Vorgängen. Richtiggestellt in derselben Stunde: beide Kommentare als gegenstandslos überschrieben, `wait:julia` wieder entfernt; die übrigen neun angefassten Tickets waren noch offen.
 
+### 109. Rot: die Zeilenzahl einer Turtle-Datei (881) als Zahl der `skos:broader`-Aussagen an die Koordination gemeldet (09.10.2026).
+
+**Rot.** Im P1-Bericht der Spur 93 steht „881 skos:broader", gemessen mit `rg -c "skos:broader"` über die `.ttl` des SKOS-Repos. `rg -c` zählt Zeilen, und eine Zeile der Turtle-Datei trägt mehrere Objekte: gezählt als Aussagen sind es 894 (am `.rj` und mit rdflib am `.ttl` nachgemessen, vom `fable-reviewer` in Runde 1 unabhängig bestätigt). Der Kommentar vom 10.08. in #93 nennt ebenfalls 881; ich habe sie als „stimmt" gemeldet, weil meine Zeilenzahl dieselbe war. Aufgefallen ist es, als ich für den Browser die Aussagen einzeln lesen musste und rdflib 894 lieferte.
+
+**Die Lehre steht in `mengen.md`: eine Zahl am falschen Bezugswort macht den Satz falsch, auch wenn Zahl und Bezugswort einzeln stimmen.** Die 881 stimmt als Zeilenzahl; der Satz sprach von Aussagen. Die letzte Zeile zu dieser Lehre ist Eintrag 107.
+
+**Was es getragen hat:** eine Gegenprobe, die keine war (meine Messung „bestätigte" die Zahl, weil beide dieselbe Menge zählten), und einen Kommentar der Koordination an KZW in #93, der die 881 übernommen hatte; die Koordination zieht ihn nach. Auf den Seiten und in der Doku steht 894; die 881 kommt nur in `textreihen/README.md` vor, ausdrücklich als Zeilenzahl der Turtle-Datei.
+
+**Mechanismus:** offen, siehe Eintrag 107.
+
 ### 114. Rot: Christian eine Entscheidung zu #225 vorgelegt, deren Prämisse („die Liste muss noch verschickt werden") seit zwei Monaten falsch war (09.10.2026).
 
 **Rot.** Der Kommentar an #225 vom 07.09. sagt, die aktualisierte Lemmaliste für Trier liege in Christians Downloads und müsse von ihm verschickt werden. Issue-Audit und `/entscheiden` vom 09.10. haben das übernommen, und Christian hat daraufhin „Liste neu erzeugen und Mailentwurf anlegen“ entschieden. Christian hatte die Datei aber am 07.08. um 15:14 UTC an Thomas Burch geschickt, mit genau dem Absatz über die 129 gestrichenen Verweise, den der Kommentar als fehlend führt. Aufgefallen ist es, als ich im Postfach Burchs Adresse für den Entwurf suchte: nicht als Gegenprobe, sondern weil der Entwurf einen Empfänger brauchte.
@@ -1201,3 +1211,13 @@ Auto-Mode-Classifier abgelehnt, und die Blockade ging an Christian.
 **Was es getragen hat:** nichts im Diff, weil `shrink-0` auf dieselbe Regel geht. Die falsche Aussage stand in einer Nachricht an Christian und im Prüfauftrag; der Reviewer hat sie in Runde 1 gefunden und angemerkt, dass sie in keine Bereinigung der bestehenden `flex-shrink-0`-Verwendungen wandern darf, die nicht tot sind.
 
 **Mechanismus:** keiner neu. Das Reviewer-Memory führt den Fall seit #228 mit tragfähigem Muster (`[.,]klasse[,{]`), und es hat gegriffen; mir fehlte der Blick dorthin vor dem Senden.
+
+### 120. Rot: Christian einen Signal-Text an KZW entworfen, dessen dritte Bildfrage die schon übernommene Reinmar-Tabelle nannte statt der drei Screenshots der MHDBDB-Oberfläche (13.10.2026, #93).
+
+**Rot.** Christian wollte KZW die offenen Bildfragen aus #93 direkt schreiben. Ich habe den Text aus dem Kommentar vom 09.10. in #93 verdichtet und dabei dessen Klammer zu Punkt 3 übernommen ("Reinmar-Tabelle"). Die Tabelle lag aber schon im PR (`textreihen/img/tabelle-reinmar-e.jpg`), und die drei Screenshots zeigen Filter und Werkansicht der MHDBDB, wie `textreihen/README.md` im selben Zweig sagt. Aufgefallen ist es erst auf Christians Folgefrage "hast du alle bilder?", als ich die Dateinamen gegen die alte Seite hielt; korrigiert habe ich in der Antwort darauf.
+
+**Die Lehre steht in `agentenbefunde.md`: ein Agentenbefund wird erst zur Aussage, wenn ich seine Quelle selbst geöffnet habe; eine frühere eigene Sitzung ist ein Agentenbericht.** Der Kommentar in #93 ist so ein Bericht, und die Quelle (README und Platzhalterkommentare im PR-Zweig) war mit einem Aufruf erreichbar. Die letzte Zeile zu dieser Lehre ist Eintrag 114.
+
+**Was es getragen hat:** eine Frage an KZW, die womöglich mit der falschen Beschreibung verschickt wurde; ihre Antwort ("dürfen verwendet werden") deckt alle drei Gruppen ab, also keine falsche Übernahme. Richtiggestellt in #93 mit dem Kommentar zur Antwort.
+
+**Kein neuer Mechanismus:** `agentenbefunde.md` ist ausgesetzt; die Aussetzung ist der Mechanismus.

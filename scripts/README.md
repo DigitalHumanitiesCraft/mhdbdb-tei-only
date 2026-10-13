@@ -12,6 +12,8 @@ scripts/
 ├── build-corpus-index.py        # Korpus-Index generieren
 ├── build-lemma-pos.py           # Wortart-Zählung je Lemma aus tei/ (data/lemma-pos.json.gz), Quelle für lemma.pos und lemma.posAll im Authority-Index; deterministisch, CI-Freshness-Gate (#462)
 ├── build-pages.py               # Nav/Footer/Matomo aus includes/ in alle Seiten injizieren (--check Drift-Gate)
+├── build-textreihen.py          # Textreihentypologie: SKOS (RDF/JSON, unverändert aus textseries 86c233f08) -> textreihen/data/textreihen.json für den SKOS-Browser (--check Drift-Gate, #93)
+├── build-textreihen-bibliography.py # Textreihentypologie: Zotero-Gruppe 4876216 -> statische Bibliografie in textreihen/bibliography.html samt Schnappschuss (--offline, --check, #93)
 ├── build-vendor.js              # Vendored JS-Dependencies bündeln
 ├── python-bin.js                # Python-Interpreter auflösen statt raten (#318)
 ├── run-python.js                # Wrapper, über den die npm-Skripte Python starten (#318)
