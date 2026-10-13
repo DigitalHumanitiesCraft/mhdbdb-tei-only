@@ -1,5 +1,5 @@
 ---
-name: playground-frontend
+name: projekt-playground-frontend
 description: Playground und Frontend im Review: Hash-Pfad bis innerHTML, Multi-Lemma-Suche, Nummernpfad, Werkzeugzustand nach Korpusauswahl, Zählungen, Hilfe/Landing mitlesen, CSV-Grenzen
 metadata:
   type: project
@@ -11,7 +11,7 @@ Verdichtet 02. und 10.10.2026. Zahlen sind Eingabe, vor Gebrauch nachmessen.
 **Multi-Lemma-Suche**
 - `fetch` sitzt in ui-helpers.js (Klick auf `.result-summary`, `enrichFileResults`), nicht in multi-lemma-search.js; „bis zu 50 Fundstellen je Karte" = tei-ui.js `fileResults.slice(0, 50)`. Kein Zustand (filtert je Aufruf per includedTexts).
 - Nummer als Eingabe (#467): `assets/js/lib/lemma-id-input.js` `parseLemmaIdInput` (auch `lexicon.xml#lemma_N`, führende Nullen weg) für search-engine.js `resolveSearchTerm` und tei-ui.js `resolveLemmaIds`. `authority-manager.js` `resolveLemmaNames` hat 0 Aufrufer.
-- **Ziffernlemmata gegen den Nummernpfad messen:** Prüfbeispiel `1` (lemma_1 *a* gegen lemma_53328, lexikon_variants.md). Jede Übergabe per Schreibform (`lemma-page.js` `korpus.html?search=<lemma.lemma>` und Varianten-Chips, cooccurrence-ranking.js `lemmata=<lemma.lemma>`) landet für sie beim Nummern-Lemma; Übergaben per `ids=` (lemma-explorer.js `sendLemmaToOccurrenceSearch`) sind gepinnt.
+- **Ziffernlemmata gegen den Nummernpfad messen:** Prüfbeispiel `1` (lemma_1 *a* gegen lemma_53328, projekt_lexikon_variants.md). Jede Übergabe per Schreibform (`lemma-page.js` `korpus.html?search=<lemma.lemma>` und Varianten-Chips, cooccurrence-ranking.js `lemmata=<lemma.lemma>`) landet für sie beim Nummern-Lemma; Übergaben per `ids=` (lemma-explorer.js `sendLemmaToOccurrenceSearch`) sind gepinnt.
 - **ID-Eingabe in den sechs Registern und der Begriffs-Verteilung** (#545, `assets/js/lib/authority-id-input.js` `findByIdInput`/`withIdHit`): in den Registern ADDITIV vor den Texttreffern, in concept-distribution `resolveQuery` ERSETZEND. ID-Formen im Index uneinheitlich (Gattungen hex, `work_WZB`, UUIDs, `person_anonym`): vor einem Befund die Formen zählen.
 - Der Lemma-Klick im Begriffe-Explorer setzt `window.location.hash = lemmata&q=lemma_N`; der Router füllt `#lemmaSearch`. `switchLemmaSearchMode('component')` übersetzt eine Lemma-ID im Feld per `findByIdInput` in die Schreibform. Gleicher-Hash-Falle: die Lemmaliste eines Begriffs (`showLemmasWithConcept`) rendert nur unter `#concepts` und `#names`. Die Begriffshilfe-Download (`scripts/build-begriffshilfe.py` SCOPE_B, byte-gleich gegatet) beschreibt das Suchfeld des Begriffe-Explorers: Satz dort gegen das Verhalten halten.
 - **Dokumentsuche seit #58 (12.10.2026):** Karte `.result-summary-dokument` (die `.result-summary-static`-Verzweigung in `createSummaryCard` hat keinen Aufrufer mehr), Fundstellen lazy über `dokument-belege.js` (`ladeTei`/`collectPositionTokens`, nur die angezeigten <=50 je Lemma laufen durch `pruefePosition`). Links `korpus.html?textId&lemmaIds&position=<§B-Position>`; der Reader zählt in `processWord` gleich (w mit lemmaRef und Text).

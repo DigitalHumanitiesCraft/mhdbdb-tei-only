@@ -1,5 +1,5 @@
 ---
-name: lexikon-variants
+name: projekt-lexikon-variants
 description: lexicon.xml und variants.xml im Review: Vorschrift B (form/@n, variantCandidates), Dangling-Filter, sense/@ana ohne Konsument, Schreiber außerhalb Lifecycle, Komposita und noCorpus (#228), Ziffernlemmata
 metadata:
   type: project
@@ -10,7 +10,7 @@ Verdichtet 08.10.2026. Zahlen sind Eingabe, vor Gebrauch nachmessen.
 - `variants.xml` trägt je `<form>` ein Pflichtattribut `n` (Tokens des Typs unter dem Lemma, aus `extract-variants.py`; Schema verlangt es). `parse_variants(known_lemma_ids)` summiert `n` je (Normalform, Lemma), rangiert absteigend, Gleichstand = Dokumentordnung (= Lemmanummer). `variants[form]` = erster Kandidat, `variantCandidates[form]` nur bei >1. Fehlendes `n` = harter Build-Abbruch. Gegenprobe (iterparse-Scan, ~3,5 min): `@n`-Summen == corresp-Tokenzahlen je (Normalform, Lemma).
 - Der Dangling-Filter ist die eine Stelle, an der der Index von lexicon.xml abhängt: ein Backfill (#115), der ein hängendes Lemma anlegt, kann eine Form umklappen (halap).
 - Inversionen (`app.js getVariantFormsFor`, `lemma-page.js renderVariants`) listen eine Form weiter nur unter dem ersten Kandidaten; ADR-021 führt das als offen.
-- `extract-variants.py` zählt Typen, nicht Formen; ein neuer Typ für eine anderswo existierende Form kann die Rangfolge drehen, sichtbar in `check-variants-flips.py` (gates_und_ci). Typ-Id -> Lemma ist eindeutig. Typ-Träger korpusweit: `re.finditer(r'<w xml:id="([^"]+)"[^>]*corresp="variants\.xml#(type_\d+)"')`, ~30 s.
+- `extract-variants.py` zählt Typen, nicht Formen; ein neuer Typ für eine anderswo existierende Form kann die Rangfolge drehen, sichtbar in `check-variants-flips.py` (projekt_gates_und_ci). Typ-Id -> Lemma ist eindeutig. Typ-Träger korpusweit: `re.finditer(r'<w xml:id="([^"]+)"[^>]*corresp="variants\.xml#(type_\d+)"')`, ~30 s.
 - Zählung der beanspruchten Formen: parse_variants-Logik mit `mhg_normalizer.normalize_mhg` nachbauen, nicht NFC-lower.
 
 **sense/@ana**

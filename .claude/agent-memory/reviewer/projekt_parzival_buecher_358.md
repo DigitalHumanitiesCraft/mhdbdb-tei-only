@@ -1,5 +1,5 @@
 ---
-name: parzival-buecher-358
+name: projekt-parzival-buecher-358
 description: Parzival-Buchgrenzen (#358, A3/B2): Messrezept am OCR von Bartsch und Martin, Fallen (VIII = 398,1, Redezeichen-pc, TEI-gegen-TEI-Vergleich), Proben für Skript und Spec
 metadata:
   type: project

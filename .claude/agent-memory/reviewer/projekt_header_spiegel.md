@@ -1,5 +1,5 @@
 ---
-name: header-spiegel
+name: projekt-header-spiegel
 description: TEI-Header als Kopien von works.xml/persons.xml (msIdentifier, biblStruct, particDesc): wer schreibt, wer liest (niemand), sync_tei_headers.py-Fallen, Zotero-Sync, Messwege
 metadata:
   type: project
