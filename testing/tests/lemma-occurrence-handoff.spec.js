@@ -105,7 +105,7 @@ async function belegeFuer(page, hash) {
   // ist also ein Signal für „Suche fertig", nicht für „Suche erfolgreich".
   await expect(page.locator('#resultsContainer'))
     .toContainText(`Multi-Lemma-Suche: ${FORM}`, { timeout: 90000 });
-  return page.locator('#resultsContainer .result-summary-static h4').allTextContents();
+  return page.locator('#resultsContainer .result-summary-dokument h4').allTextContents();
 }
 
 /** Hash der Seite in { view, params } zerlegen, wie parseHash() im Router. */
@@ -278,7 +278,7 @@ test.describe('#58: der Knopf in der Trefferliste des Lemmata-Explorers', () => 
 
     await expect(page.locator('#resultsContainer'))
       .toContainText(`Multi-Lemma-Suche: ${FORM}`, { timeout: 90000 });
-    const texte = await page.locator('#resultsContainer .result-summary-static h4').allTextContents();
+    const texte = await page.locator('#resultsContainer .result-summary-dokument h4').allTextContents();
     const { nurA, nurB } = await zeugen(page, ID_KOERPERTEIL, ID_ADJEKTIV);
 
     erwarteAufloesung(texte, nurA, nurB, 'Klick auf die Karte von lemma_286');
@@ -385,7 +385,7 @@ test.describe('#58: die Karte zeigt Belege, nicht die Länge des Textes', () => 
       return m;
     }, ID_KOERPERTEIL);
 
-    const karten = await page.locator('#resultsContainer .result-summary-static').evaluateAll(
+    const karten = await page.locator('#resultsContainer .result-summary-dokument').evaluateAll(
       els => els.map(el => ({
         titel: el.querySelector('h4').textContent.trim(),
         zahl: Number(el.querySelector('.summary-count').textContent.trim()),

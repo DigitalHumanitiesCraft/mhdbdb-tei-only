@@ -221,7 +221,8 @@ Until 2026-09 only the multi-lemma search read the selection at all; the other t
 - Find texts containing ALL lemmata (anywhere in document)
 - Automatic variant resolution
 - A lemma number (`879`, `lemma_879`) is taken as that id in all three modes; its chip shows the lemma it resolves to (`lemma_879 = brôt`) or „unbekannte Lemma-Nummer" (#467)
-- Results: List of matching texts
+- Results: one card per matching text with the attestation count, per lemma when several are searched
+- A card expands into its attestations (#58): verse or line, a few words of context, the searched word highlighted, grouped per lemma in its colour, at most 50 per lemma with a note giving the total; each row opens the reading view at that position. „Gesamten Text öffnen“ on every card opens the whole text with all searched lemmata highlighted. The TEI is loaded only when the card is expanded
 
 **Multi-Lemma Proximity Search:**
 - Input multiple lemmata

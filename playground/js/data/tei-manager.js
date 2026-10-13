@@ -214,11 +214,18 @@ export class TEIFilesManager {
                 // Zustand hat #58 erzeugt: ein rein schreibendes Feld, das beim
                 // nächsten Aufräumen als Anzeigequelle einsprang. Wer die Textlänge
                 // braucht, findet sie in corpusData.texts[*].wordCount.
+                //
+                // matchCounts traegt dieselben Zahlen je Lemma (Schluessel
+                // lemma_X): bei mehreren Lemmata weist die Karte sie einzeln
+                // aus, statt nur die Summe zu zeigen (#58, Leser:
+                // createMultiLemmaSummary in tei-ui.js).
                 let matchCount = 0;
+                const matchCounts = {};
                 lemmaIds.forEach(lemmaId => {
                     const cleanId = lemmaId.toString().replace('lemma_', '');
                     const positions = text.lemmata[`lemma_${cleanId}`] || text.lemmata[cleanId] || [];
                     matchCount += positions.length;
+                    matchCounts[`lemma_${cleanId}`] = positions.length;
                 });
 
                 results.push({
@@ -226,7 +233,8 @@ export class TEIFilesManager {
                     title: text.title,
                     author: text.author || 'Unbekannt',
                     context: 'document',
-                    matchCount
+                    matchCount,
+                    matchCounts
                 });
             }
         });

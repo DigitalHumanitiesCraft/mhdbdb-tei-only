@@ -381,7 +381,7 @@ export class MultiLemmaSearchUI {
                 // Dokumentweite Suche über den Index
                 results = await teiManager.searchMultipleLemmasUsingIndex(lemmaIds, searchMode);
                 if (getNavigationEpoch() !== myEpoch) return;
-                this.teiExplorer.displayMultiLemmaResults(results, searchTerms);
+                this.teiExplorer.displayMultiLemmaResults(results, searchTerms, lemmaIds);
             }
             exportCtx.results = results;
             this.renderExportLeiste(exportCtx);

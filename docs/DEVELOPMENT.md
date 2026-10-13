@@ -249,6 +249,7 @@ Completeness against `testing/tests/` is gated by `scripts/audit/check-doc-inven
 | `hapax-legomena.spec.js` | Playground | Corpus-wide hapax/dis/tris aggregation, filter toolbar, detail panel (#196) |
 | `word-component-search.spec.js` | Playground | Word-component mode in the lemma explorer, for research on compounds (#239) |
 | `lemma-occurrence-handoff.spec.js` | Playground | „Belege suchen" from the lemma explorer: the `ids` route parameter and its pinned resolution against a homograph group (#58) |
+| `document-search-belege.spec.js` | Playground | Document search, from the result card to the attestations (#58): a card expands into its attestations with context, each linking to its position in the reading view, „Gesamten Text öffnen“ without a jump target, and with several lemmata one group per lemma, capped at 50 with a note |
 | `naming-explorer.spec.js` | Playground | Character naming: route, work/character selection, category tabs, mandatory attribution (#59) |
 | `horses-explorer.spec.js` | Playground | Arthurian horses: route, horse selection, event filter, attribution, and the `?verseId=` deep link into the reading view (#193) |
 | `genre-explorer.spec.js` | Playground | Genre tree: `genres[].parents` as the transitive reduction, the two roots, empty branches marked, and categories with several parents opening independently at each of their positions (#361) |
