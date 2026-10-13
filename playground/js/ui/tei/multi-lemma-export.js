@@ -101,7 +101,7 @@ function stelle(positions, tei) {
     return refs.join(', ');
 }
 
-function pruefePosition(tei, p, lemmaId, datei) {
+export function pruefePosition(tei, p, lemmaId, datei) {
     const eintrag = tei.positions[p];
     if (!eintrag) {
         throw new Error(`${datei}: Position ${p} fehlt im TEI (${tei.positions.length} Positionen). Index und TEI passen nicht zusammen.`);
@@ -160,7 +160,7 @@ function zeilenDokumentModus(ctx, text, tei, meta) {
     });
 }
 
-async function ladeTei(filename) {
+export async function ladeTei(filename) {
     const antwort = await fetch(`../tei/${encodeURIComponent(filename)}`);
     if (!antwort.ok) throw new Error(`${filename}: HTTP ${antwort.status}`);
     const doc = new DOMParser().parseFromString(await antwort.text(), 'application/xml');

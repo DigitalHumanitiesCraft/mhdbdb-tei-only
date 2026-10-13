@@ -1,6 +1,6 @@
 # Kickoff-Vorlage für autonome Sessions
 
-Eine autonome Session startet nur mit einem Kickoff-Prompt von chsteiner. Kein Playbook autorisiert sich selbst. Diese Vorlage sagt, was in den Prompt gehört, damit die Session nicht auf halbem Weg nachfragen muss; das Nachfragen ist ihr ja gerade untersagt. Ein Lauf, den chsteiner am Terminal begleitet, braucht diese Vorlage nicht: er läuft ohne Betriebsvertrag, darf fragen, und für ihn gelten `CLAUDE.md` und die globale Regel `~/.claude/rules/modelle.md` (chsteiner, 2026-10-13).
+Eine autonome Session startet nur mit einem Kickoff-Prompt von chsteiner. Kein Playbook autorisiert sich selbst. Diese Vorlage sagt, was in den Prompt gehört, damit die Session nicht auf halbem Weg nachfragen muss; das Nachfragen ist ihr ja gerade untersagt. Ein Lauf, bei dem ein Mensch am Terminal sitzt, braucht diese Vorlage nicht: er läuft ohne Betriebsvertrag, darf fragen, und für ihn gelten `CLAUDE.md` und für den Review die Auslöserliste in der `description` von `.claude/agents/reviewer.md` (chsteiner, 2026-10-13).
 
 **Die wichtigste Regel dieser Vorlage:** der Betriebsvertrag wird **in den Prompt kopiert**, nicht verlinkt. `BETRIEBSVERTRAG.md` ist die eine Quelle, aus der kopiert wird, und ein Verweis darauf wäre ein Ladevorgang, der ausfallen kann, ohne dass jemand es merkt. Redundanz zur Laufzeit ist hier ein Sicherheitsmerkmal; Redundanz im Repo war die Driftquelle, die diese Trennung überhaupt nötig gemacht hat.
 

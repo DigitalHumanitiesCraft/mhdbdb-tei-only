@@ -15,6 +15,7 @@ Verdichtet 08.10.2026.
 **Rebase / Cherry-pick**
 - `git range-diff <altbasis>..<altkopf> <neubasis>..HEAD`: `=` identisch; `!` an JOURNAL/MEMORY-Commits sind meist nur fremde Kontextzeilen.
 - Nullprobe: `git diff <alt> <neu> -- <dateien> | wc -l` = 0 (gleiche `--stat` reicht nicht). Konfliktmarker: `git grep -n -E '^(<<<<<<<|=======|>>>>>>>)' HEAD -- <dateien>`. Mergbarkeit vorab: `git merge-tree --write-tree --name-only origin/main HEAD`.
+- **Auto-Merge-Commit auf Kohärenz (12.10.2026, #58/#581):** je Datei beide Seiten gegenhalten: `diff <(git diff $(git merge-base <branch-elter> origin/main) <branch-elter> -- f) <(git diff <main-elter> <merge> -- f)` und spiegelbildlich; nur `@@`-Offsets dürfen abweichen. Dazu Dubletten zählen (`grep -c` auf je einen Satz beider Seiten, `grep -o '<h[23]…' | sort | uniq -d`); html.parser-Mismatches an `<path/>`/`<img/>` sind Altbestand, erst gegen `git show origin/main:f` halten.
 - Daten-PR nach Rebase mit `--ours`: Versionskollision über alle Refs prüfen (je Ref `INDEX_VERSION` aus `git show <ref>:assets/js/lib/corpus-loader.js`; Reservierungen im PR-Body überleben keinen Rebase), Verlust auf JSON-Ebene.
 
 **Herkunft und Zuschreibung**

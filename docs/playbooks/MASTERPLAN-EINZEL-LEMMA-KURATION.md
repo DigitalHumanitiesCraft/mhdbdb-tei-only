@@ -4,7 +4,7 @@
 **Typ:** Playbook (wiederverwendbares Session-Verfahren, dauerhaft). Kein session-spezifischer Teil, dieses Playbook wird nicht pro Lauf befüllt.
 **Gilt für:** einen Auftrag der Form „nimm dieses eine Wort und trag X dazu ein". Nicht für Ingest (dafür `docs/DATA-MODEL.md` → Ingest procedure) und nicht für Massen-Nachannotation (#216 und Verwandte sind eigene Arbeitspakete).
 
-**Dieses Playbook autorisiert nichts.** Es beschreibt, was gilt, nachdem ein Auftrag von chsteiner oder KZW eine Session eröffnet hat. Der gemeinsame Teil steht in [`BETRIEBSVERTRAG.md`](BETRIEBSVERTRAG.md) und wird beim Kickoff wörtlich in den Prompt kopiert; hier stehen nur die Abweichungen. **Begleitet chsteiner die Kuration am Terminal, läuft sie ohne Betriebsvertrag** (chsteiner, 2026-10-13): die Schritte unten gelten, aber Rückfragen sind erlaubt, wo das Playbook einen Stopp mit Vorschlag vorsieht, und der Review vor dem Push folgt der globalen Regel statt Regel 11.
+**Dieses Playbook autorisiert nichts.** Es beschreibt, was gilt, nachdem ein Auftrag von chsteiner oder KZW eine Session eröffnet hat. Der gemeinsame Teil steht in [`BETRIEBSVERTRAG.md`](BETRIEBSVERTRAG.md) und wird beim Kickoff wörtlich in den Prompt kopiert; hier stehen nur die Abweichungen. **Begleitet ein Mensch die Kuration am Terminal, läuft sie ohne Betriebsvertrag** (chsteiner, 2026-10-13): die Schritte unten gelten, aber Rückfragen sind erlaubt, wo das Playbook einen Stopp mit Vorschlag vorsieht, und der Review vor dem Push folgt der Auslöserliste des eingecheckten `reviewer` (`.claude/agents/reviewer.md`, `description`) statt Regel 11.
 
 ---
 
