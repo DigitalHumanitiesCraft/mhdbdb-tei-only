@@ -8,9 +8,11 @@ Gegenstück zum `MASTERPLAN-AUTONOME-ISSUE-SESSION.md`: Während die Issue-Sessi
 
 Dieser Plan autorisiert NICHTS. Eine Merge-Session startet erst mit einem Kickoff-Prompt, und dessen Bausteine stehen in [`KICKOFF-VORLAGE.md`](KICKOFF-VORLAGE.md). Der gemeinsame Teil des Vertrags steht in [`BETRIEBSVERTRAG.md`](BETRIEBSVERTRAG.md) und wird in den Prompt kopiert; bis zum 2026-08-05 stand er hier abgeschrieben, mit dem Vermerk „unverändert aus dem Issue-Session-Vertrag", was er nach einer Weile nicht mehr war.
 
+**Begleitet chsteiner die Merge-Arbeit am Terminal, gilt dieser Abschnitt nicht** (chsteiner, 2026-10-13): der Lauf braucht keinen Kickoff, läuft ohne Betriebsvertrag und unter `CLAUDE.md`, dessen erster Git-Rules-Punkt ihm den Merge freigibt. Alles Folgende gilt für die autonome Merge-Session.
+
 Drei Angaben braucht der Kickoff zusätzlich, und ohne sie startet die Session nicht:
 
-1. **Merge-Autorisierung nach main** für die benannten PRs. Der Kickoff IST die Approval. Die allgemeine Freigabe in CLAUDE.md (Git Rules, erster Punkt, seit 2026-10-07) gilt in einer Playbook-Session unter dem Betriebsvertrag nicht über den Kickoff hinaus; ein von chsteiner begleiteter Lauf läuft ohne Vertrag und unter `CLAUDE.md` (chsteiner, 2026-10-13). Ohne ihn bleibt `main` tabu. Autorisiert sind Merges, keine direkten Pushes.
+1. **Merge-Autorisierung nach main** für die benannten PRs. Der Kickoff IST die Approval. Die allgemeine Freigabe in CLAUDE.md (Git Rules, erster Punkt, seit 2026-10-07) gilt in einer Playbook-Session unter dem Betriebsvertrag nicht über den Kickoff hinaus. Ohne ihn bleibt `main` tabu. Autorisiert sind Merges, keine direkten Pushes.
 2. **Umfang:** alle offenen `claude/*`-PRs oder eine explizite Teilmenge, in Merge-Reihenfolge.
 3. **Live-Smoke-Checks** nach dem Deploy: Teil der Session, ja oder nein (empfohlen: ja).
 
