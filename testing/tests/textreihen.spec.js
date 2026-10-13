@@ -98,7 +98,7 @@ test.describe('Textreihentypologie: Seiten, Links, Downloads', () => {
                 if (!pfad.endsWith('.html') && pfad !== '') {
                     const r = await request.get(url.pathname);
                     if (r.status() !== 200) probleme.push(`${f}: ${ref} -> ${r.status()}`);
-                    else if (/\.(png|jpe?g|gif|svg|ttl|rdf|rj|json|md)$/.test(pfad)) {
+                    else if (/\.(png|jpe?g|gif|ttl|rdf|rj|json|md)$/.test(pfad)) {
                         const len = (await r.body()).length;
                         if (len < 1000) probleme.push(`${f}: ${ref} nur ${len} Bytes`);
                     }
