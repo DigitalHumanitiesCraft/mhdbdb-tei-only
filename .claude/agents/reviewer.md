@@ -8,7 +8,8 @@ description: >-
   jedem Commit, der auf einen Befund antwortet, außer nach der zweiten
   schmalen Runde ohne A-Befund: dann wird behoben und ohne weitere Runde
   gepusht. Nicht für einen rein
-  mechanischen Diff (Bezeichner ersetzt, Tippfehler, Umbruch, Formatierung).
+  mechanischen Diff (Bezeichner ersetzt, Tippfehler, Umbruch, Formatierung)
+  und nicht für Einträge im Verzeichnisbaum einer `CLAUDE.md`.
   Mit `model: fable` bei Regeltext, Hooks (auch Git-Hooks, auch mit
   grüner Suite) und einem schwer umkehrbaren Schritt, als zusätzliche Runde 1
   auch im Probelauf (`rules/modelle.md` in
