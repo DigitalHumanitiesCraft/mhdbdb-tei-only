@@ -93,7 +93,9 @@ Startbild und Screenshots am 13.10.2026 bestätigt (Anfrage in #93). Quelle ist 
 - die sieben Logos (MHDBDB, Offenes Mittelalter, CLARIAH-AT, CSMC, UWA Cluster of
   Excellence, Universität Hamburg, DFG), in der alten Fassung im Fuß jeder Seite, hier
   einmal auf der Startseite neben dem Förderhinweis, mit denselben Links (UWA ohne Link,
-  wie dort). Ausnahme: `offenesmittelalter.org` leitet auf `offenesmittelalter.de` um und
+  wie dort). Das CLARIAH-AT-Logo der alten Seite ist veraltet; an seiner Stelle steht das
+  aktuelle aus dem Seitenfuß der MHDBDB (`assets/images/clariah-logo.svg`, Hinweis von
+  Christian am 13.10.2026). Weitere Ausnahme: `offenesmittelalter.org` leitet auf `offenesmittelalter.de` um und
   hat unter HTTPS ein Zertifikat, das curl ablehnt (gemessen 13.10.2026); der Link zeigt
   direkt auf `.de`.
 
