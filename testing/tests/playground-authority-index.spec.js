@@ -97,6 +97,11 @@ test.describe('Playground Authority Index Loading', () => {
         // Files)" ist ausgeliefert aufgeklappt, das frueher noetige Oeffnen
         // entfaellt.
 
+        // Erst nach dem Korpus handeln: ungzip, JSON.parse und das IndexedDB-
+        // Schreiben des Korpus-Index blockieren den Hauptthread sekundenlang am
+        // Stueck; faellt eine Aktion hinein, reisst die 5-s-Frist danach (bis 7 s
+        // gemessen, obwohl das Element schon im DOM stand; 13.10.2026).
+        await page.waitForSelector('#fileBrowserSection', { state: 'visible', timeout: 60000 });
         // Click "Lemmata anzeigen"
         await page.click('#showLemmataBtn');
 
