@@ -47,6 +47,7 @@ sources/             # Legacy ingest sources (Linecode), not normative, #248, pl
 schema/              # RELAX NG (mhdbdb.rnc/.rng, mhdbdb-authority.rnc/.rng) + examples
 scripts/             # Python build scripts + data wrangling (topology: scripts/README.md)
 ingest/              # Review artefacts of the ingest and disambiguation runs (ari, pos-disambig, wvv, wzb)
+examples/            # Archived example review pages (see docs/INDEX.md)
 includes/            # Nav/footer/Matomo fragments, injected into the pages by build-pages.py
 playground/          # Research tool (self-contained sub-app)
 lemma/               # Persistent lemma pages (Issue #42)
