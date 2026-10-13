@@ -8,7 +8,7 @@ Gegenstück zum `MASTERPLAN-AUTONOME-ISSUE-SESSION.md`: Während die Issue-Sessi
 
 Dieser Plan autorisiert NICHTS. Eine Merge-Session startet erst mit einem Kickoff-Prompt, und dessen Bausteine stehen in [`KICKOFF-VORLAGE.md`](KICKOFF-VORLAGE.md). Der gemeinsame Teil des Vertrags steht in [`BETRIEBSVERTRAG.md`](BETRIEBSVERTRAG.md) und wird in den Prompt kopiert; bis zum 2026-08-05 stand er hier abgeschrieben, mit dem Vermerk „unverändert aus dem Issue-Session-Vertrag", was er nach einer Weile nicht mehr war.
 
-**Begleitet chsteiner die Merge-Arbeit am Terminal, gilt dieser Abschnitt nicht** (chsteiner, 2026-10-13): der Lauf braucht keinen Kickoff, läuft ohne Betriebsvertrag und unter `CLAUDE.md`, dessen erster Git-Rules-Punkt ihm den Merge freigibt. Alles Folgende gilt für die autonome Merge-Session.
+**Begleitet ein Mensch die Merge-Arbeit am Terminal, gilt dieser Abschnitt nicht** (chsteiner, 2026-10-13): der Lauf braucht keinen Kickoff, läuft ohne Betriebsvertrag und unter `CLAUDE.md`, dessen erster Git-Rules-Punkt ihm den Merge freigibt. Alles Folgende gilt für die autonome Merge-Session.
 
 Drei Angaben braucht der Kickoff zusätzlich, und ohne sie startet die Session nicht:
 
