@@ -4,6 +4,16 @@ Chronological log of development decisions, dead ends, and savepoints. Not a cha
 
 ---
 
+## 2026-10-13: #93, Bilder der Textreihentypologie nachgezogen, PR #555 rebased
+
+KZW hat die drei offenen Bildfragen aus #93 über Christian beantwortet: Logos, Startbild und Screenshots dürfen übernommen werden. Alle elf Dateien liegen jetzt unter `textreihen/img/` (Startbild als JPEG in der 1024-px-Fassung, die Logos einmal auf der Startseite statt im Fuß jeder Seite). PR #555 stand vier Tage offen, ohne dass jemand etwas sagte, und war inzwischen `CONFLICTING`; nach dem Rebase lagen die Konflikte im umbenannten Reviewer-Memory (`fable-reviewer/` zu `reviewer/`, #593) und in den beiden Journalen.
+
+**Was über den Einzelfall hinausgilt:** Die Frage in #93 nannte zu Punkt 3 die "Reinmar-Tabelle", die schon übernommen war; die drei Screenshots zeigen die MHDBDB-Oberfläche. Ein Fehler in einer Frage an einen Menschen wandert in jede Nachricht, die aus ihr abgeschrieben wird (hier in den Entwurf einer Signal-Nachricht an KZW).
+
+**Rote Zeilen:** Eine, Nr. 120 (Punkt 3 aus dem Kommentar abgeschrieben statt an README und Zweig geprüft).
+
+---
+
 ## 2026-10-10 (Spur D, #564 D3): langsamste Tests schneller, ohne Abdeckung zu verlieren
 
 **Was:** `main-site`, `lemma-page` und `results-table` laufen im warmen Context (#488), zwei Tests in `main-site` bleiben kalt. In `multi-lemma-export` gibt es die große Suche (minne + herze, 66 Dateien im Versmodus) nur noch einmal auf einer gemeinsamen Seite (Fehlerfall, CSV, XLSX aus dem Zwischenspeicher der Suche); Nähe- und Dokumentfall laufen auf kleinen Suchen. Feste Wartezeiten in `main-site` und `reading-view` sind Ereignissen gewichen.

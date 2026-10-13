@@ -1211,3 +1211,13 @@ Auto-Mode-Classifier abgelehnt, und die Blockade ging an Christian.
 **Was es getragen hat:** nichts im Diff, weil `shrink-0` auf dieselbe Regel geht. Die falsche Aussage stand in einer Nachricht an Christian und im Prüfauftrag; der Reviewer hat sie in Runde 1 gefunden und angemerkt, dass sie in keine Bereinigung der bestehenden `flex-shrink-0`-Verwendungen wandern darf, die nicht tot sind.
 
 **Mechanismus:** keiner neu. Das Reviewer-Memory führt den Fall seit #228 mit tragfähigem Muster (`[.,]klasse[,{]`), und es hat gegriffen; mir fehlte der Blick dorthin vor dem Senden.
+
+### 120. Rot: Christian einen Signal-Text an KZW entworfen, dessen dritte Bildfrage die schon übernommene Reinmar-Tabelle nannte statt der drei Screenshots der MHDBDB-Oberfläche (13.10.2026, #93).
+
+**Rot.** Christian wollte KZW die offenen Bildfragen aus #93 direkt schreiben. Ich habe den Text aus dem Kommentar vom 09.10. in #93 verdichtet und dabei dessen Klammer zu Punkt 3 übernommen ("Reinmar-Tabelle"). Die Tabelle lag aber schon im PR (`textreihen/img/tabelle-reinmar-e.jpg`), und die drei Screenshots zeigen Filter und Werkansicht der MHDBDB, wie `textreihen/README.md` im selben Zweig sagt. Aufgefallen ist es erst auf Christians Folgefrage "hast du alle bilder?", als ich die Dateinamen gegen die alte Seite hielt; korrigiert habe ich in der Antwort darauf.
+
+**Die Lehre steht in `agentenbefunde.md`: ein Agentenbefund wird erst zur Aussage, wenn ich seine Quelle selbst geöffnet habe; eine frühere eigene Sitzung ist ein Agentenbericht.** Der Kommentar in #93 ist so ein Bericht, und die Quelle (README und Platzhalterkommentare im PR-Zweig) war mit einem Aufruf erreichbar. Die letzte Zeile zu dieser Lehre ist Eintrag 114.
+
+**Was es getragen hat:** eine Frage an KZW, die womöglich mit der falschen Beschreibung verschickt wurde; ihre Antwort ("dürfen verwendet werden") deckt alle drei Gruppen ab, also keine falsche Übernahme. Richtiggestellt in #93 mit dem Kommentar zur Antwort.
+
+**Kein neuer Mechanismus:** `agentenbefunde.md` ist ausgesetzt; die Aussetzung ist der Mechanismus.
