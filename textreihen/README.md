@@ -78,24 +78,24 @@ es holt die Haupteinträge der öffentlichen Zotero-Gruppe (`/items/top`) neu, 1
 Items, nämlich diese 190 plus 12 Anhänge und 3 Notizen; die gehören nicht in ein
 Literaturverzeichnis.) Ein Hintergrundabruf im Browser gibt es nicht.
 
-## Was nicht übernommen ist, und warum
+## Abbildungen
 
-Bis KZW geantwortet hat, ob die Bestandteile frei übernommen werden dürfen (Anfrage in
-#93), fehlen:
+Alle Abbildungen der alten Website sind übernommen; KZW hat die Übernahme von Logos,
+Startbild und Screenshots am 13.10.2026 bestätigt (Anfrage in #93). Quelle ist jeweils
+`https://www.marketext.at/Textreihentypologie/wp-content/uploads/2023/...`:
 
-- die sieben Logos im Fuß der alten Website (MHDBDB, Offenes Mittelalter, CLARIAH-AT, CSMC,
-  UWA Cluster of Excellence, Universität Hamburg, DFG); der Förderhinweis steht als Text auf
-  der Startseite (nach der README des Quellrepositoriums, mit beiden Projektnummern);
-- das Startbild (Royal MS 6 E VI, f 329r);
-- drei Screenshots der MHDBDB-Oberfläche vom 17.05.2023 auf "Use cases".
-
-An den Stellen stehen HTML-Kommentare im Quelltext (`Bild ... nicht übernommen`, auf der
-Startseite ein Sammelkommentar). Die Dateien lassen sich von der alten Website laden:
-`https://www.marketext.at/Textreihentypologie/wp-content/uploads/2023/...`.
-
-Übernommen sind die erkennbar eigenen Abbildungen: die Tabellenausschnitte zu Hausbuch
-und Reinmar-Korpus, die Grafik der bibliografischen Metadaten, die beiden SKOS-Play-
-Beispielabbildungen und das Poster (Vorschau in `img/`, Volldatei über die DOI).
+- die Tabellenausschnitte zu Hausbuch und Reinmar-Korpus, die Grafik der bibliografischen
+  Metadaten, die beiden SKOS-Play-Beispielabbildungen und das Poster (Vorschau, Volldatei
+  über die DOI);
+- das Startbild (Royal MS 6 E VI, f 329r), in der 1024 px breiten Fassung der alten Seite,
+  als JPEG statt PNG (2,1 MB auf 0,3 MB);
+- drei Screenshots der MHDBDB-Oberfläche vom 17.05.2023 auf "Use cases" (`mhdbdb-2023-*`);
+- die sieben Logos (MHDBDB, Offenes Mittelalter, CLARIAH-AT, CSMC, UWA Cluster of
+  Excellence, Universität Hamburg, DFG), in der alten Fassung im Fuß jeder Seite, hier
+  einmal auf der Startseite neben dem Förderhinweis, mit denselben Links (UWA ohne Link,
+  wie dort). Ausnahme: `offenesmittelalter.org` leitet auf `offenesmittelalter.de` um und
+  hat unter HTTPS ein Zertifikat, das curl ablehnt (gemessen 13.10.2026); der Link zeigt
+  direkt auf `.de`.
 
 ## Korrigierte Fehler der alten Website
 
@@ -115,7 +115,7 @@ textreihen/
 │                                #   Bibliography, Download, Gattungs-Explorer, 2 Beiträge)
 ├── textreihen.css / .js         # Stil und SKOS-Browser
 ├── bibliografie.js              # Literatursuche über die statische Bibliografie
-├── img/                         # übernommene eigene Abbildungen
+├── img/                         # Abbildungen und Logos der alten Website
 └── data/
     ├── skos/                    # Quelle, unverändert (siehe oben)
     ├── textreihen.json          # abgeleitet für den Browser

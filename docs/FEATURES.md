@@ -451,7 +451,7 @@ The former website of the MHDBDB text-series typology, a controlled SKOS vocabul
 - **SKOS browser (`textreihen/browser.html`):** collapsible hierarchy with search over labels in all languages, alternative labels and ids, and a detail panel per category (labels, editorial note, parents, children, all paths from the root, id, dates). A category with several direct parents stands under every one of them (193 of 618; "Beschwörung" has 12). A category can be called directly: `browser.html#c_624b0297`. Historical URIs are shown as identifiers only.
 - **Data state:** the SKOS data of the original repository, commit `86c233f08`, licence CC BY 4.0. It is **not** reconciled with `genres.xml`, which the MHDBDB keeps as its own TEI data state; the page "Gattungs-Explorer in MHDBDB Next" says so and links to the [Genre Explorer](#authority-file-exploration).
 - **Bibliography:** 190 entries from the public Zotero group, filterable by text and by text-series tag; static, rebuilt with `scripts/build-textreihen-bibliography.py`.
-- **Not carried over:** the logos of the funders and partners, the start image and three screenshots of the use cases, until KZW has answered whether they may be reused. The funding notice stands as text.
+- **Images:** all images of the content pages, the start image and the seven logos of the partners and funders are carried over (reuse confirmed by KZW on 2026-10-13). The logos, which stood in the footer of every page of the old site, appear once on the start page next to the funding notice.
 
 ---
 

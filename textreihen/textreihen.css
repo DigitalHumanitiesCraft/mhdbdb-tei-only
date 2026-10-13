@@ -46,6 +46,11 @@
 .tr-note { background: #f8fafc; border: 1px solid #e2e8f0; border-left: 4px solid rgb(38, 92, 196); border-radius: 0.5rem; padding: 1rem 1.25rem; margin: 1.5rem 0; }
 .tr-note p:last-child { margin-bottom: 0; }
 .tr-funding { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid #e2e8f0; font-size: 0.9rem; color: #475569; }
+.tr-hero { margin: 0 0 2rem; max-width: 26rem; }
+.tr-hero img { display: block; width: 100%; height: auto; border-radius: 0.5rem; border: 1px solid #e2e8f0; }
+.tr-hero figcaption { color: #64748b; font-size: 0.8rem; margin-top: 0.4rem; }
+.tr-logos { list-style: none; margin: 1.5rem 0 0; padding: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 1.25rem 2rem; }
+.tr-logos img { display: block; height: 3.5rem; width: auto; max-width: 13rem; object-fit: contain; }
 .tr-title-row { display: flex; align-items: center; gap: 0.6rem; }
 .tr-title-row svg { width: 1.5rem; height: 1.5rem; color: rgb(38, 92, 196); flex: none; }
 
