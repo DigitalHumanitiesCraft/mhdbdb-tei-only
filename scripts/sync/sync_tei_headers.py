@@ -845,9 +845,8 @@ def _luecken(h, w, pfad: str = ''):
     for wi, hi in gepaart.items():
         wc, hc = wk[wi], hk[hi]
         p = f'{pfad}/{_lokal(wc)}'
-        # gemischter Inhalt gehoert zum Element: Text hinter dem Element und,
-        # bei Containern, Text vor dem ersten Kind (gleiche Paare vergleicht
-        # _sig schon)
+        # Text neben Elementen (gemischter Inhalt) bei gepaarten Elementen;
+        # heute gibt es keinen, bei gleichen Paaren sieht ihn das Gate nicht
         if _norm(wc.tail) != _norm(hc.tail):
             probleme.append(f'{p}: Text hinter dem Element weicht ab')
         if _kinder(wc):
