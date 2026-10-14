@@ -20,20 +20,21 @@ Die 120 zugeordneten Einträge teilen sich so auf:
 
 | Verbleib | Einträge |
 |---|---|
-| als Notiz in `lexicon.xml` (Authority-Index 1.9.25) | 96 |
-| Prüfseite, Gruppe B (größere Kürzung) | 19 |
+| als Notiz in `lexicon.xml` | 93 |
+| Prüfseite, Gruppe B (größere Kürzung) | 22 |
 | Prüfseite, Gruppe D (sachliche Rückfrage: 867 grandmangerie) | 1 |
 | Prüfseite, Gruppe E (1905 huon, 2253 rëphuon) | 2 |
 | zusammengeführt in einen anderen Eintrag (1900 henne in 1905, 2264 rëphenne in 2253) | 2 |
 | **Summe** | **120** |
 
 Die Prüfseite [`examples/review-pages/Glossar-554-Pruefung.html`](../../examples/review-pages/Glossar-554-Pruefung.html)
-hat 44 Fälle: A 17, B 19, C 5 (nicht übernommene Einträge, die Katharina entscheiden soll), D 1, E 2.
+hat 47 Fälle: A 17, B 22, C 5 (nicht übernommene Einträge, die Katharina entscheiden soll), D 1, E 2.
 Was dort steht, geht nicht in die Daten, bevor sie geantwortet hat.
 
-Bedeutung der Zahl 96: Lemma-Records mit nichtleerem `origin.resp`, `senses[].definitionResp`
-oder `senses[].commentResp` im gebauten Authority-Index (ADR-018): vorher 1 von 43.710,
-nachher 97 von 43.710. Gemessen mit demselben Zähler am Index von `origin/main` und am neuen.
+Zählregel für die Lemmata mit kuratierter Aussage (ADR-018): Lemma-Records mit nichtleerem
+`origin.resp`, `senses[].definitionResp` oder `senses[].commentResp` im gebauten Authority-Index.
+Vorher 1 von 43.710, nachher 94 von 43.710 (1 Bestand plus 93). Gemessen mit demselben Zähler am
+Index von `origin/main` (vor dem Rebase) und am neuen.
 
 ## Kriterien
 
@@ -53,11 +54,17 @@ Teil ist eingeordnet:
 Nur (a) und (b): **gestrafft**, geht in die Daten, gleich wie stark der Text schrumpft. Mindestens
 ein (c): **gekürzt**, geht auf die Prüfseite (Gruppe B), gleich wie wenig entfällt. Die Einordnung
 steht in [`einordnung.json`](einordnung.json) (Schlüssel Glossar-ID, `c` = Nummern der Stücke aus
-`entfallenes-suchen.py`). Die Suche nach entfallenen Stücken ist ein Hilfsmittel (Wort-Dreiergruppen
-und Inhaltswörter); sie meldet Umformuliertes als entfallen und kann stark Umformuliertes übersehen.
-Deshalb ist die Einordnung eine Stichprobenfrage für die Prüfung, kein Beweis.
+`entfallenes-suchen.py`; `c_text` = von Hand gefundene (c)-Stücke im Wortlaut, die die Suche nicht
+meldet). Die Suche nach entfallenen Stücken ist ein Hilfsmittel (Wort-Dreiergruppen und
+Inhaltswörter); sie meldet Umformuliertes als entfallen und kann stark Umformuliertes übersehen.
+Sie hat eine bekannte Lücke: Sätze trennt sie nur vor Großbuchstaben, nicht vor einem geraden
+Anführungszeichen, und ein Stück mit Fußnotenanker oder Seitenzahl gilt selbsttätig als (b). So
+blieb in brâte (606) der Satz zum „Armen Heinrich“, in brâten (621) die Îwein-Fundstelle und in ei
+(2074) die Aussage zu den Gedichten des Königs vom Odenwald unsichtbar; die erste Prüfungsrunde hat
+sie gefunden, die drei Einträge liegen deshalb auf der Prüfseite (Gruppe B). Die Einordnung ist
+eine Stichprobenfrage für die Prüfung, kein Beweis.
 
-Kennzahl, kein Kriterium: Die 118 Kommentartexte zusammen haben 192.544 Zeichen gegenüber 289.860
+Kennzahl, kein Kriterium: Die 118 Kommentartexte zusammen haben 192.554 Zeichen gegenüber 289.860
 in der mechanischen Vorstufe (Enzyklopädie plus übernommene Poetisierung).
 
 Formatregeln: Kursivierungen werden zu Anführungszeichen („…“ für mhd. Formen und Zitate, ‚…‘ für
@@ -65,6 +72,10 @@ Bedeutungsglossen); Varianten, Literatur und externe Links sind keine Felder; di
 („Quelle: Glossar Kochbuchforschung dig_ESTivum von Katharina Zeppezauer-Wachauer (2016-2026)“)
 hängt `kommentare-einfuegen.py` an, nie von Hand. Urheberin ist allein
 `contributors.xml#contrib_003`. Je Bedeutung gibt das Schema höchstens eine Kommentarnotiz her.
+Der Wortlaut bleibt der des Glossars; `kommentare-pruefen.py` prüft nur Zeichen, nicht Wörter. Die
+erste Prüfungsrunde fand in einer Stichprobe zwei Umformulierungen („er besteigt deswegen …“ statt
+„bzw. er deswegen …“ in ei, „Nutzer*innen“ statt „jede/r/m Nutzer/in“ in brâte), beide sind auf den
+Wortlaut des Glossars zurückgesetzt. Ob weitere stecken, ist über die Stichprobe hinaus nicht geprüft.
 
 ## Nicht übernommen, ohne Prüfseite
 
@@ -131,10 +142,11 @@ Ein Lemma trägt je Bedeutung nur eine Notiz. Zwei Paare zeigen auf dieselbe Bed
 
 ## B4: Einklappfunktion (Vorschlag, kein Code)
 
-Länge der Kommentartexte (Zeichen), gemessen an `kommentare/*.json`: 96 Texte für die Daten, Median
-967, Dezile 185 / 396 / 553 / 711 / 967 / 1.178 / 1.700 / 2.011 / 2.700, Maximum 6.035. Über 600
-Zeichen: 64 von 96; über 1.000: 47; über 2.500: 10. Zählt man die 22 Texte der Prüfseite hinzu
-(118 Texte mit Text), liegt der Median bei 1.143, das Maximum bei 10.191 und 22 Texte über 2.500.
+Länge der Kommentartexte (Zeichen), gemessen an `kommentare/*.json`: 93 Texte für die Daten, Median
+882, Dezile 181 / 378 / 550 / 697 / 882 / 1.140 / 1.514 / 1.851 / 2.424, Maximum 5.982. Über 600
+Zeichen: 61 von 93; über 1.000: 44; über 2.500: 8. Zählt man die 25 Texte der Prüfseite hinzu (22 in
+Gruppe B, 3 in D und E; zusammen 118 Texte mit Text), liegt der Median bei 1.143, das Maximum bei
+10.191 und 22 Texte über 2.500.
 
 Die Lemmaseite setzt den Kommentar als einen Absatz in einen Container von ungefähr 110 Zeichen
 je Zeile (Schätzung aus `max-w-4xl` und `text-sm`, nicht im Browser gemessen), 1.000 Zeichen sind

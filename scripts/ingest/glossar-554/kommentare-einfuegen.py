@@ -5,7 +5,9 @@ entschiedenen <sense> eine Notiz
 
     <note type="comment" xml:lang="de" resp="contributors.xml#contrib_003">TEXT Quelle: ...</note>
 
-unmittelbar nach <def> (Schema: def, note, ptr). Nicht eingefuegt werden Eintraege,
+vor den <ptr>-Zeilen der Bedeutung und, falls die Bedeutung ein <def> traegt,
+unmittelbar danach (Schema: def, note, ptr; bei den eingefuegten Bedeutungen
+fehlt <def> durchweg, die Notiz steht dann direkt unter <sense>). Nicht eingefuegt werden Eintraege,
 die in einordnung.json Teile der Kategorie (c) verloren haben (sie gehen auf die
 Pruefseite), und zusammengefuehrte Eintraege ohne eigenen Text.
 
@@ -45,7 +47,7 @@ def main():
     schreiben = '--schreiben' in sys.argv
     kom = lade_kommentare()
     einordnung = json.load(open('ingest/glossar-554/einordnung.json', encoding='utf-8'))
-    gekuerzt = {k for k, v in einordnung.items() if not k.startswith('_') and v.get('c')}
+    gekuerzt = {k for k, v in einordnung.items() if not k.startswith('_') and (v.get('c') or v.get('c_text'))}
     zuordnung = [r for r in csv.DictReader(
         open('ingest/glossar-554/zuordnung.tsv', encoding='utf-8'), delimiter='\t')
         if r['ausgang'] == 'zugeordnet']

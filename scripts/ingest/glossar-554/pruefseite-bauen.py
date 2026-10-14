@@ -1,6 +1,6 @@
 """Baut die Pruefseite fuer Katharina (#554) aus pruefseite.template.html.
 
-Vier Gruppen:
+Fuenf Gruppen:
   A Zuordnung      17 Eintraege, bei denen offen ist, an welche Bedeutung (oder welches Lemma)
                    der Kommentar gehoert (Ausgang "pruefseite" in zuordnung.tsv)
   B Kuerzung       Eintraege, bei denen beim Straffen mindestens ein Teil der Kategorie (c)
@@ -208,14 +208,22 @@ def main():
              senses=sinne, options=opts)
 
     # ---------------- B ----------------
-    for gid in sorted((k for k, v in einordnung.items() if not k.startswith('_') and v.get('c')), key=int):
+    for gid in sorted((k for k, v in einordnung.items() if not k.startswith('_') and (v.get('c') or v.get('c_text'))), key=int):
         o = vor[gid]
         k = kom[gid]
         auto_b, offen = ent.entfallene(o, k)
-        c = einordnung[gid]['c']
-        if max(c) > len(offen):
+        c = einordnung[gid].get('c', [])
+        if c and max(c) > len(offen):
             sys.exit('FEHLER: Einordnung %s verweist auf Stueck %d, Suche liefert nur %d' % (gid, max(c), len(offen)))
         dropped = [offen[i - 1].strip() for i in c]
+        # (c)-Stuecke, die die Hilfssuche nicht gemeldet hat und die von Hand eingetragen sind:
+        # sie muessen woertlich in der Vorstufe stehen und duerfen nicht im Kommentar stehen.
+        for stueck in einordnung[gid].get('c_text', []):
+            if stueck not in o['enz_t'] + '\n' + o['poet_t']:
+                sys.exit('FEHLER: c_text von %s steht nicht woertlich in der Vorstufe: %s' % (gid, stueck[:60]))
+            if stueck in k['text']:
+                sys.exit('FEHLER: c_text von %s steht im Kommentartext, ist also nicht entfallen' % gid)
+            dropped.append(stueck)
         zeile = next(r for r in zuordnung if r['glossar_id'] == gid)
         lem = info.get(zeile['lemma_id'])
         quelle = o['enz_t'] + ('\n\n' + o['poet_t'] if k.get('poet') == 'uebernommen' else '')

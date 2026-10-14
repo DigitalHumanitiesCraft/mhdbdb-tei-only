@@ -16,13 +16,13 @@ async function exported(page) {
   return JSON.parse(await readFile(await d.path(), 'utf8'));
 }
 
-test('offline: 44 Fälle in fünf Gruppen, nichts vorbelegt, Pflichtfelder und Persistenz', async ({ page, context }) => {
+test('offline: 47 Fälle in fünf Gruppen, nichts vorbelegt, Pflichtfelder und Persistenz', async ({ page, context }) => {
   await context.setOffline(true);
   await page.reload();
   const start = await exported(page);
   const je = g => start.decisions.filter(d => d.group === g).length;
-  expect([je('A'), je('B'), je('C'), je('D'), je('E')]).toEqual([17, 19, 5, 1, 2]);
-  expect(start.decisions).toHaveLength(44);
+  expect([je('A'), je('B'), je('C'), je('D'), je('E')]).toEqual([17, 22, 5, 1, 2]);
+  expect(start.decisions).toHaveLength(47);
   expect(start.decisions.every(d => d.status === 'unreviewed' && !d.choice && !d.text)).toBe(true);
   await expect(page.locator('#introGrid section')).toHaveCount(5);
 
@@ -56,7 +56,7 @@ test('offline: 44 Fälle in fünf Gruppen, nichts vorbelegt, Pflichtfelder und P
 
 test('B zeigt die entfallenen Teile, D nennt den Beleg, brôt hat die Schels-Fragen', async ({ page }) => {
   await page.locator('#area').selectOption('B');
-  await expect(page.locator('#casePick option')).toHaveCount(19);
+  await expect(page.locator('#casePick option')).toHaveCount(22);
   await expect(page.locator('details ol.dropped li').first()).toBeAttached();
   await page.locator('#casePick').selectOption('B-2084');
   await expect(page.locator('.question')).toContainText('Schels');
@@ -96,7 +96,7 @@ test('Export, HTML-Bericht ohne Skripte, JSON-Rundlauf und fremde Datei', async 
   expect(html).toContain('&lt;script&gt;window.injected=1&lt;/script&gt;');
   const report = await page.context().newPage();
   await report.setContent(html);
-  await expect(report.locator('article.card')).toHaveCount(44);
+  await expect(report.locator('article.card')).toHaveCount(47);
   await expect(report.locator('script')).toHaveCount(0);
   expect(await report.evaluate(() => window.injected)).toBeUndefined();
   expect(errors).toEqual([]);

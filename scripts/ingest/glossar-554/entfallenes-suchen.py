@@ -8,9 +8,17 @@ Satzzeichen und Anfuehrungszeichen, kleingeschrieben) und zugleich weniger als
 Einordnung: Stuecke, die nach Literaturangabe, Link, Abrufdatum oder Bruchstueck
 aussehen, werden selbsttaetig als (b) gezaehlt. Alle uebrigen tragen eine
 laufende Nummer je Eintrag; die Einordnung steht in
-ingest/glossar-554/einordnung.json (je Eintrag: "ab" = Nummern, die nur
-Wiederholung, Randbemerkung oder Umformuliertes sind; alle uebrigen Nummern
-gelten als (c): eigenstaendige Aussage, Differenzierung, Beleg oder Beispiel).
+ingest/glossar-554/einordnung.json (je Eintrag: "c" = Nummern der Stuecke, die
+(c) sind, also eigenstaendige Aussage, Differenzierung, Beleg oder Beispiel; alle
+uebrigen gemeldeten Stuecke gelten als (a) Wiederholung oder (b) Randbemerkung
+oder Umformuliertes; "c_text" = woertliche (c)-Stuecke, die diese Suche nicht
+meldet).
+
+Bekannte Luecke: Saetze werden nur vor Grossbuchstaben, "oder ‚ getrennt, nicht
+vor einem geraden Anfuehrungszeichen, und ein Stueck mit Fussnotenanker "[n]"
+oder Seitenzahl ("S. 315") gilt selbsttaetig als (b). Dadurch bleibt ein Satz
+vor einem so zitierten Beleg unsichtbar (brâte 606, brâten 621). Die Nummern in
+einordnung.json haengen an dieser Zerlegung; sie wird deshalb nicht geaendert.
 
 Aufruf (aus der Repositoriumswurzel):
     python -X utf8 -E -P scripts/ingest/glossar-554/entfallenes-suchen.py <gmh189c.json> [glossar_id ...]
