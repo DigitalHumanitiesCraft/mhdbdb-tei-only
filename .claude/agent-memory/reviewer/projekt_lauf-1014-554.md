@@ -32,3 +32,15 @@ Geschrieben 14.10.2026 (Runde 1 zu 92933ebd6). Zahlen sind Eingabe, vor Gebrauch
 **Docstring-Falle:** eine Aufzählung von Anführungszeichen in einem ASCII-Docstring (`scripts/` schreibt ASCII) verliert das `„` leicht zum geraden `"`; bei Aussagen über Trennzeichen die Bytes mit `hex(ord(c))` prüfen, nicht die Konsole lesen.
 
 **Nicht gemessen:** Laufzeit der Stichprobe (9 Seitenaufrufe je Test) in comment-attribution.spec.js; `npm test` lief beim Aufrufer parallel, darum keine eigene Playwright-Probe (Port 8080, gemeinsame Ergebnisdatei).
+
+## Runde 3 (14.10.2026, zu cb90bd0e9, Delta ab da3ee57fc)
+
+**Zahlen über `auto_b` hängen am Textstand.** `entfallene()` meldet nur, was im Text fehlt; wer einen Text ergänzt und danach die Nachprüfungszahlen aus der Zeit davor stehen lässt, hat Zahlen, die am Commit nicht mehr herauskommen (hier 61/5.587/34 vor, 58/5.389/31 nach der Ergänzung, Differenz genau die ergänzten Einleitungssätze). Vor dem Übernehmen einer solchen Zahl `entfallene()` am geprüften Stand laufen lassen, nicht die Vorrunde zitieren.
+
+**Zählfalle bei lexicon.xml-Greps:** wîn (1444) und brôt (2084) liegen auf der Prüfseite, nicht in den Daten; ein Satz, der in fünf Glossartexten steht, trifft in lexicon.xml nur dreimal. „nicht in daten" heißt nicht „Drift".
+
+**Abgleich JSON gegen Lexikon und Index in einem Lauf:** je Eintrag der 93 ist die Notiz unter `<sense xml:id=sense_id>` gleich `xml.sax.saxutils.escape(text) + ' ' + QUELLE`, der Index-`comment` gleich `text + ' ' + QUELLE` ohne Escape; `zuordnung.tsv` liefert `sense_id` und `lemma_id`. In Runde 3 93 von 93 gleich, unter einer Minute.
+
+**Spitze Klammern im Kommentartext** (`<und>` in der Hofmeister-Definition) sind sicher: `lemma/lemma-page.js` rendert `sense.comment` über `escapeHtml`, `playground/js/ui/authority/lemma-explorer.js` über `escapeText`; in lexicon.xml steht `&lt;und&gt;`.
+
+**„Wörtlich" prüfen heißt Präfixvergleich ab der Fundstelle**, nicht Stichwortsuche: der Hofmeister-Block war 513 Zeichen gleich und wich dann in der Form der Literaturangabe ab („Vgl. Hofmeister (2009), Sp." gegen „(Hofmeister 2009, Sp."). `orig.startswith(neu)` und erste Abweichungsstelle ausgeben.
