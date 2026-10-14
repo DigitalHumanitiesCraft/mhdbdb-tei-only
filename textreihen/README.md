@@ -1,7 +1,8 @@
 # Textreihentypologie (Unterseite)
 
 Die Unterseite führt die bisherige Website der MHDBDB-Textreihentypologie
-(`https://www.marketext.at/Textreihentypologie/`) in die MHDBDB ein (#93). Sie
+(`mhdbdb.plus.ac.at/textreihen`, ein Redirect auf
+`https://www.marketext.at/Textreihentypologie/`) in die MHDBDB ein (#93). Sie
 liegt unter `https://dhcraft.org/mhdbdb-tei-only/textreihen/` und ist über den
 Footer-Link "Textreihentypologie" und die Kachel auf der Hilfe-Übersicht
 erreichbar.
