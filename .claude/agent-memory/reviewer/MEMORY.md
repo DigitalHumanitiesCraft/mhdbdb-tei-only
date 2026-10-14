@@ -7,7 +7,7 @@ Verdichtet am 08.10. und 10.10.2026. Zahlen in den Dateien sind Eingabe, keine M
 - [Messrezepte](querschnitt_messen.md): importlib in-process, Mutationsproben, Rebuild-and-Compare, Zählfallen
 - [Tests](querschnitt_tests.md): run-tests.js, Port, report.json, Playwright-Probe, Tailwind, warmer Context, Warte-Fallen
 - [Review-Denkfallen](querschnitt_review_fallen.md): #397-Frage, Gates, Auftrag und Laufplan prüfen, Fehlerjournal-Ketten
-- [Gates und CI](projekt_gates_und_ci.md): was jedes Gate nicht prüft, Begriffshilfe-Generator, Review-Bot, main-Schutz
+- [Gates und CI](projekt_gates_und_ci.md): was jedes Gate nicht prüft, Begriffshilfe-Generator, Review-Bot, main-Schutz, Laufzeitbudget `--measure` und floor-Falle
 - [TEI-Korpus](projekt_korpus_tei.md): Korpus-Index, caesura/gap, Vers/Prosa, WZB, Header, Findebuch-Dump #259
 - [Lexikon und Variants](projekt_lexikon_variants.md): Vorschrift B, Dangling-Filter, sense/@ana, #228, Ziffernlemmata
 - [Authority-Dateien](projekt_authority_dateien.md): concepts kein Baum, genre-Felder, Schema an vier Orten, Siglen
