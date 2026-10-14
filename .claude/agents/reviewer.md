@@ -7,7 +7,9 @@ description: >-
   PROACTIVELY vor dem ersten Push eines Branches, vor `gh pr create` und nach
   jedem Commit, der auf einen Befund antwortet, außer nach der zweiten
   schmalen Runde ohne A-Befund: dann wird behoben und ohne weitere Runde
-  gepusht. Nicht für einen rein
+  gepusht. Nicht für Kleines (eine Stelle, in einem Zug fertig, nichts, was
+  läuft oder anweist; nie Code, Daten, Hooks, Regeltext, ein schwer
+  umkehrbarer Schritt), nicht für einen rein
   mechanischen Diff (Bezeichner ersetzt, Tippfehler, Umbruch, Formatierung)
   und nicht für Einträge im Verzeichnisbaum einer `CLAUDE.md`.
   Mit `model: fable` bei Regeltext, Hooks (auch Git-Hooks, auch mit
