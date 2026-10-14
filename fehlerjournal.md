@@ -1222,6 +1222,16 @@ Auto-Mode-Classifier abgelehnt, und die Blockade ging an Christian.
 
 **Kein neuer Mechanismus:** `agentenbefunde.md` ist ausgesetzt; die Aussetzung ist der Mechanismus.
 
+### 121. Rot: im Kickoff einer Spur die Frauenlob-Korrektur aus #236 an FR1 (NCQNST4V) festgemacht, obwohl sie an FR3 (MVWV5QYG) hängt (Koordination, 14.10.2026, #486).
+
+**Rot.** Für den Kickoff von `lauf-486` habe ich aus dem Body von #486 und aus dem Kommentar vom 14.10. übernommen, die Handkorrektur `115c3a01f` betreffe FR1 und gehöre in Zotero nach NCQNST4V. Beide Texte stammen aus früheren Sitzungen dieses Projekts. `git show 115c3a01f -- authority-files/works.xml` zeigt, dass der Commit den Block `key="FR3"` ändert. Der Befehl wäre ein einziger Aufruf gewesen, und ich hatte den Commit vorher sogar auf Existenz geprüft (`git cat-file -t`), aber nicht darauf, was er ändert. Aufgefallen ist es der Spur beim Sync-Lauf, über die Widerspruchsklausel des Kickoffs.
+
+**Die Lehre steht in `agentenbefunde.md`: ein Agentenbefund wird erst zur Aussage, wenn ich seine Quelle selbst geöffnet habe; eine Verdichtung oder frühere eigene Sitzung ist ein Agentenbericht.** Ein Ticket-Body aus einer früheren Sitzung ist genau das. Die letzte Zeile zu dieser Lehre ist Eintrag 120.
+
+**Was es getragen hat:** eine Frage an KZW, die seit 14:18 mit dem falschen Zotero-Eintrag im Ticket stand, gestellt von der Sitzung vor diesem Lauf, aus derselben ungeprüften Angabe. Die Daten hat es nicht erreicht: Die Spur hat vor dem Schreiben gemessen. Richtiggestellt in #486 (Body und Kommentar 6172453940).
+
+**Kein neuer Mechanismus:** `agentenbefunde.md` ist ausgesetzt; die Aussetzung ist der Mechanismus. Gehalten hat hier der Mechanismus aus dem Operator-Skill, die Widerspruchsklausel im Kickoff.
+
 ### 130. Rot: ein `cd` in das Scratchpad, mitten in der Arbeit, und danach lief die Arbeit eine Weile im falschen Verzeichnis (Spur lauf-554, 14.10.2026, #554).
 
 **Rot.** Beim Suchen in den abgerufenen Rohseiten habe ich ein `cd` auf das Scratchpad abgesetzt, um mit relativen Dateinamen zu suchen. Der Befehl lief durch, das Arbeitsverzeichnis der Sitzung wechselte, und ein folgender Git-Aufruf wurde vom Worktree-Schutz abgelehnt. Zurückgekommen bin ich wieder mit `cd`.
