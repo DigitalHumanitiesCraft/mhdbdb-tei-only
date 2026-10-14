@@ -35,7 +35,8 @@ name: Data Integrity
 #      und ohne Abhaengigkeit von einem Vorgaenger. Die Pfadfilter hier
 #      nennen docs/** (behauptete Zahl) nicht; seit 01.10.2026 deckt das
 #      derselbe Schritt in no-cdn-check.yml ab, Begruendung am Step.
-#   1b. Werk-Identifier gegen works.xml (#399): fuer
+#   1b. Werk-Identifier und Editionsnachweis gegen works.xml
+#      (#399/#486): fuer
 #      handschriftencensus, GND und wikidata ist works.xml Master, der
 #      msIdentifier jedes TEI-Headers ist Spiegel. Verglichen wird
 #      INHALT, nicht Formatierung: ein Sync-und-diff wuerde alle 667
@@ -45,9 +46,11 @@ name: Data Integrity
 #      anlegen kann. Frueh, weil billig (rund eine Sekunde ueber alle
 #      667, gemessen 08.09.2026) und ohne Vorgaenger-Abhaengigkeit.
 #      Seit #486 (14.10.2026) prueft derselbe Befehl auch den
-#      Editionsnachweis: jeder biblStruct aus works.xml muss im
-#      Header-listBibl mit gleichem Inhalt enthalten sein; Zusaetze im
-#      Header (etwa der AK-Ausschnitt aus #134) sind erlaubt.
+#      Editionsnachweis: der biblStruct aus works.xml, auf den das
+#      @corresp eines Header-biblStruct zeigt, muss dort mit gleichem
+#      Inhalt enthalten sein; Zusaetze im Header (etwa der AK-Ausschnitt
+#      aus #134) sind erlaubt, ein Header-Block ohne @corresp (WZB)
+#      bleibt ausserhalb der Kette.
 #   1c. Versions-Bump-Gate (#154): hat sich der dekomprimierte Inhalt
 #      von corpus-/authority-index gegenueber der Diff-Base geaendert,
 #      MUSS der version-String mitgebumpt sein — sonst invalidiert der
@@ -295,7 +298,7 @@ jobs:
       # 07.09.2026: alle 667 geaendert, Korpus 1.432,5 -> 1.430,6 MB).
       # Billig und offline: liest je Datei nur den Header (msIdentifier
       # per iterparse, listBibl bis </teiHeader>).
-      - name: Werk-Identifier und Editionsnachweis gegen works.xml (#399, #486)
+      - name: Werk-Identifier und Editionsnachweis gegen works.xml (#399/#486)
         run: python scripts/sync/sync_tei_headers.py --works --check
 
       - name: Regenerate RNG from RNC (P2-14 drift check)

@@ -1228,7 +1228,7 @@ Auto-Mode-Classifier abgelehnt, und die Blockade ging an Christian.
 
 **Die Lehre steht in `agentenbefunde.md`: ein Agentenbefund wird erst zur Aussage, wenn ich seine Quelle selbst geöffnet habe; eine Verdichtung oder frühere eigene Sitzung ist ein Agentenbericht.** Ein Ticket-Body aus einer früheren Sitzung ist genau das. Die letzte Zeile zu dieser Lehre ist Eintrag 120.
 
-**Was es getragen hat:** eine Frage an KZW, die seit 14:18 mit dem falschen Zotero-Eintrag im Ticket stand, gestellt von der Sitzung vor diesem Lauf, aus derselben ungeprüften Angabe. Die Daten hat es nicht erreicht: Die Spur hat vor dem Schreiben gemessen. Richtiggestellt in #486 (Body und Kommentar 6172453940).
+**Was es getragen hat:** eine Frage an KZW, die seit 14:18 UTC mit dem falschen Zotero-Eintrag im Ticket stand, gestellt von der Sitzung vor diesem Lauf, aus derselben ungeprüften Angabe. Die Daten hat es nicht erreicht: Die Spur hat vor dem Schreiben gemessen. Richtiggestellt in #486 (Body und Kommentar 6172453940).
 
 **Kein neuer Mechanismus:** `agentenbefunde.md` ist ausgesetzt; die Aussetzung ist der Mechanismus. Gehalten hat hier der Mechanismus aus dem Operator-Skill, die Widerspruchsklausel im Kickoff.
 
