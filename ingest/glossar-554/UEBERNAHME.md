@@ -65,17 +65,30 @@ Odenwald unsichtbar; die erste Prüfungsrunde hat sie gefunden, die drei Einträ
 der Prüfseite (Gruppe B). Die Einordnung ist eine Stichprobenfrage für die Prüfung, kein Beweis.
 
 **Nachprüfung über alle 93 übernommenen Einträge** (Auflage der Koordination): Die Regel „Fußnote,
-URL, Seitenzahl, Literatur“ hat in 31 der 93 Einträge zusammen 61 Stücke mit 5.587 Zeichen selbsttätig
-als (b) aussortiert. Alle 61 sind von Hand gegen die Fassung gelesen (34 Stücke ab 60 Zeichen in 20
-Einträgen, 27 kürzere Einleitungssätze und Bruchstücke). Ergebnis: Fundstellen, URLs und
-Literaturangaben in allen bis auf drei Einträge. In 1983 wilt, 1996 wiltbrât und 2009 zam (nom)
-fehlten die Definition der Zwillingsformel nach Hofmeister und der Satz zu Synonymen und Antonymen
-aus Fußnote [1]; beides steht jetzt wörtlich im Text, mit Zuschreibung („Wernfried Hofmeister
-definiert eine Zwillingsformel wie folgt“), wie schon in wîn (1444) und brôt (2084). In sat (1525)
-und slinden (1643) fehlt nur die englische Übersetzung der Redewendung; Entstehungszeit und
-Gebräuchlichkeit stehen im Text. Zusammen mit den drei von der Prüfungsrunde gefundenen Einträgen
-(606, 621, 2074, auf der Prüfseite) sind es sechs Einträge, in denen die Regel mehr als eine Fundstelle
-verschluckt hat; drei davon liegen jetzt auf der Prüfseite, drei sind im Text ergänzt.
+URL, Seitenzahl, Literatur“ hat in 31 der 93 Einträge Stücke selbsttätig als (b) aussortiert: vor der
+Ergänzung unten 61 Stücke mit 5.587 Zeichen, am heutigen Stand 58 Stücke mit 5.389 Zeichen (31 ab 60
+Zeichen in 20 Einträgen, 27 kürzere Einleitungssätze und Bruchstücke; die Differenz sind die drei
+Einleitungssätze „[1] Wernfried Hofmeister definiert eine Zwillingsformel wie folgt:“, die jetzt im Text
+stehen). Alle 61 sind von Hand gegen die Fassung gelesen. Ergebnis: In 26 der 31 Einträge sind es
+Fundstellen, URLs, Literaturangaben und Einleitungssätze, deren Inhalt im Text steht. Anders in fünf
+Einträgen:
+
+- 1983 wilt, 1996 wiltbrât, 2009 zam (nom): Die Definition der Zwillingsformel nach Hofmeister und der
+  Satz zu Synonymen und Antonymen aus Fußnote [1] fehlten. Beides steht jetzt im Text, mit Zuschreibung
+  („Wernfried Hofmeister definiert eine Zwillingsformel wie folgt“), wie schon in wîn (1444) und
+  brôt (2084). Der Wortlaut ist der des Glossars bis auf die Literaturangabe, die in Klammerform
+  „(Hofmeister 2009, Sp. 1584–1585)“ statt „Vgl. Hofmeister (2009), Sp. 1584–1585.“ steht.
+- 1643 slinden: Es fehlt nur die englische Übersetzung der Redewendung; Entstehungszeit und
+  Gebräuchlichkeit stehen im Text.
+- 1525 sat: Es fehlen die englische Übersetzung und die Angabe „Gebräuchlichkeit: umgangssprachlich“;
+  die Entstehungszeit und deren Korrektur stehen im Text. Ob „umgangssprachlich“ eine eigenständige
+  Aussage ist, bleibt eine Einordnungsfrage; hier gilt sie als (b), weil sie nur die Quelle
+  (DURW) wiedergibt.
+
+Zusammen mit den drei von der Prüfungsrunde gefundenen Einträgen (606, 621, 2074, auf der
+Prüfseite) sind es sechs Einträge, in denen die Regel mehr als eine Fundstelle verschluckt hat und
+etwas Inhaltliches fehlte; drei davon liegen jetzt auf der Prüfseite, drei sind im Text ergänzt.
+Bei sat und slinden fehlen nur Übersetzung und Quellenangabe.
 
 Kennzahl, kein Kriterium: Die 118 Kommentartexte zusammen haben 194.198 Zeichen gegenüber 289.860
 in der mechanischen Vorstufe (Enzyklopädie plus übernommene Poetisierung).
@@ -159,7 +172,7 @@ Ein Lemma trägt je Bedeutung nur eine Notiz. Zwei Paare zeigen auf dieselbe Bed
 ## B4: Einklappfunktion (Vorschlag, kein Code)
 
 Länge der Kommentartexte (Zeichen), gemessen an `kommentare/*.json`: 93 Texte für die Daten, Median
-882, Dezile 181 / 378 / 550 / 697 / 882 / 1.140 / 1.514 / 2.009 / 2.597, Maximum 5.982. Über 600
+882, Dezile 181 / 378 / 550 / 697 / 882 / 1.140 / 1.514 / 2.009 / 2.598, Maximum 5.982. Über 600
 Zeichen: 61 von 93; über 1.000: 44; über 2.500: 9. Zählt man die 25 Texte der Prüfseite hinzu (22 in
 Gruppe B, 3 in D und E; zusammen 118 Texte mit Text), liegt der Median bei 1.143, das Maximum bei
 10.191 und 23 Texte über 2.500.
