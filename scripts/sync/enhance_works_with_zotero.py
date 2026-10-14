@@ -68,6 +68,28 @@ ZOTERO_GROUP_ID = "5043625"
 ZOTERO_COLLECTION_ID = "7JU362QV"
 ZOTERO_CACHE_FILE = Path("scripts/sync/.zotero_cache.json")
 
+# Zuordnung ueber den Zotero-Schluessel statt ueber die Signatur (#486,
+# Entscheidung von KZW am 12.10.2026). FLG steht in Zotero als callNumber am
+# Item MLJUUSLC (Harsch, digitale Vorlage), die Edition von works.xml ist aber
+# die Neumann/Vollmann-Profe-Ausgabe, die Zotero unter ATWPNQPS fuehrt
+# (callNumber FLG1, dort bereits fuer FLG1 in Gebrauch). Die Signaturen in
+# Zotero bleiben unveraendert; die Regel steht hier und nicht in einer
+# Handkorrektur nach dem Lauf, damit ein kuenftiger Sync sie ohne Zutun traegt.
+SIGLE_ZU_ZOTERO_SCHLUESSEL = {'FLG': 'ATWPNQPS'}
+
+# Zotero-Items, die nie als Edition einer Signatur eingesetzt werden, auch
+# wenn ihre callNumber die Signatur traegt. MLJUUSLC: Harsch (FLG) bleibt
+# digitale Vorlage, nicht zugrundeliegende Edition.
+ZOTERO_ITEMS_OHNE_EDITION = {'MLJUUSLC'}
+
+# FLG und FLG1 zeigen auf dasselbe Zotero-Item, unterscheiden sich in
+# works.xml aber im Textumfang (FLG: Buch 1-2, Bd. I, 1990; FLG1: Buch 1-7,
+# 1990-1993). Zotero kennt diesen Unterschied nicht. Fuer diese Signaturen
+# werden die Elemente aus dem Bestand von works.xml uebernommen, die den
+# Umfang tragen; alles andere (Item-Verweis, Typ, Werktitel, Reihe) kommt aus
+# Zotero. Pfade relativ zum biblStruct.
+BESTAND_BEHALTEN = {'FLG': ('analytic', 'monogr/editor', 'monogr/imprint', 'note')}
+
 # Rate limiting
 REQUEST_DELAY = 0.3  # seconds between requests (~3 requests/second)
 MAX_RETRIES = 3
@@ -514,6 +536,7 @@ def extract_zotero_data(items: List[dict]) -> Dict[str, List[etree._Element]]:
     # Second pass: process bibliographic items
     items_processed = 0
     items_with_call_number = 0
+    items_by_key = {}
 
     for item in items:
         data = item.get('data', {})
@@ -533,6 +556,11 @@ def extract_zotero_data(items: List[dict]) -> Dict[str, List[etree._Element]]:
         # Get notes for this item
         item_key = item.get('key', '')
         item_notes = notes_map.get(item_key, [])
+        items_by_key[item_key] = (data, item_notes)
+
+        if item_key in ZOTERO_ITEMS_OHNE_EDITION:
+            logger.info(f"Item {item_key} ({call_number}) nicht als Edition eingesetzt (ZOTERO_ITEMS_OHNE_EDITION)")
+            continue
 
         # Convert to biblStruct (now always returns a biblStruct, never None)
         biblstruct = api_item_to_biblstruct(data, call_number, item_notes)
@@ -540,6 +568,21 @@ def extract_zotero_data(items: List[dict]) -> Dict[str, List[etree._Element]]:
         zotero_data[call_number].append(biblstruct)
         items_processed += 1
         logger.debug(f"Added biblStruct for callNumber: {call_number}")
+
+    # Zuordnung ueber den Schluessel: harter Fehler, wenn das Item fehlt, damit
+    # ein Sync nie still auf eine andere Edition zurueckfaellt.
+    for sigle, item_key in SIGLE_ZU_ZOTERO_SCHLUESSEL.items():
+        if item_key not in items_by_key:
+            raise RuntimeError(
+                f"Zotero-Item {item_key} fuer die Signatur {sigle} fehlt in der "
+                f"Abfrage (SIGLE_ZU_ZOTERO_SCHLUESSEL); Sync abgebrochen.")
+        data, item_notes = items_by_key[item_key]
+        # Die callNumber des Items traegt eine andere Signatur (FLG1); das
+        # biblStruct soll die Signatur der Zuordnung tragen.
+        data = dict(data, callNumber=sigle)
+        zotero_data[sigle] = [api_item_to_biblstruct(data, sigle, item_notes)]
+        items_processed += 1
+        logger.info(f"{sigle}: ueber Zotero-Schluessel {item_key} zugeordnet")
 
     logger.info(f"Processed {items_with_call_number} items with callNumber")
     logger.info(f"Generated {items_processed} biblStruct elements")
@@ -599,6 +642,32 @@ def make_xml_id_unique(original_id, used_ids, sigle=None):
     return unique_id
 
 
+def uebernimm_aus_bestand(neu, alt, pfade):
+    """Elemente an den Pfaden aus dem alten biblStruct in das neue setzen (BESTAND_BEHALTEN).
+
+    Die Elemente des Bestands ersetzen die neuen an derselben Stelle. Fehlt
+    dem neuen biblStruct ein Gegenstueck, ist die Stelle nicht eindeutig
+    und der Lauf bricht ab, statt zu raten.
+    """
+    ns = {'tei': TEI_NS_URI}
+    for pfad in pfade:
+        xp = './' + '/'.join(f'tei:{teil}' for teil in pfad.split('/'))
+        alte = alt.xpath(xp, namespaces=ns)
+        neue = neu.xpath(xp, namespaces=ns)
+        if not alte:
+            continue
+        if not neue:
+            raise RuntimeError(
+                f"{neu.get('key')}: kein {pfad} im Zotero-biblStruct, Einsetzstelle "
+                f"fuer den Bestand nicht eindeutig (BESTAND_BEHALTEN)")
+        eltern = neue[0].getparent()
+        pos = eltern.index(neue[0])
+        for e in neue:
+            eltern.remove(e)
+        for i, e in enumerate(alte):
+            eltern.insert(pos + i, deepcopy(e))
+
+
 def replace_editions_with_biblstructs(works_tree, zotero_data, dry_run=False):
     """
     Replace bibl type='edition' elements with matching biblStruct elements.
@@ -645,6 +714,17 @@ def replace_editions_with_biblstructs(works_tree, zotero_data, dry_run=False):
         # Check if we have Zotero matches for this work
         has_zotero_match = any(sigle in zotero_data for sigle in sigles)
 
+        # Bestand merken, bevor er entfernt wird (BESTAND_BEHALTEN, #486)
+        bestand = {}
+        for sigle in sigles:
+            if sigle in BESTAND_BEHALTEN:
+                alt = work.xpath(f'.//tei:biblStruct[@key="{sigle}"]', namespaces=ns)
+                if len(alt) != 1:
+                    raise RuntimeError(
+                        f"{work_id}: {len(alt)} biblStruct mit key {sigle} im Bestand, "
+                        f"erwartet genau 1 (BESTAND_BEHALTEN)")
+                bestand[sigle] = deepcopy(alt[0])
+
         # Remove existing relatedItem elements containing biblStruct FIRST
         # (before creating new ones). This frees up their xml:ids for reuse.
         # Note: biblStruct lives inside <relatedItem> per TEI model (2026-04-09).
@@ -669,6 +749,8 @@ def replace_editions_with_biblstructs(works_tree, zotero_data, dry_run=False):
             if sigle in zotero_data:
                 for biblstruct in zotero_data[sigle]:
                     biblstruct_copy = deepcopy(biblstruct)
+                    if sigle in bestand:
+                        uebernimm_aus_bestand(biblstruct_copy, bestand[sigle], BESTAND_BEHALTEN[sigle])
 
                     # Fix xml:id conflicts (should not happen now since we freed IDs above)
                     original_id = biblstruct_copy.get('{http://www.w3.org/XML/1998/namespace}id')
