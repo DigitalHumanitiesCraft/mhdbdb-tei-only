@@ -753,7 +753,8 @@ def pruefe_werk_identifier() -> int:
 # Alles andere im Header bleibt byteweise stehen, Zeilenenden eingeschlossen.
 # Nicht erfasst: ein Element, das in works.xml VERSCHWINDET, bleibt als
 # Zusatzelement im Header stehen, denn vom Handzusatz (AK) unterscheidet es
-# sich nicht; das Gate sieht es nicht. Ein Block im Header ohne @corresp
+# sich nicht; das Gate sieht es nicht. Ebenso eines, dessen Attribute sich in
+# works.xml aendern: danach stehen altes und neues nebeneinander. Ein Block im Header ohne @corresp
 # (WZB) steht ausserhalb der Kette: dort fuehren works.xml und der Header je
 # einen von Hand geschriebenen biblStruct ohne Zotero-Verweis; beide bleiben
 # unberuehrt.
@@ -844,6 +845,12 @@ def _luecken(h, w, pfad: str = ''):
         wc, hc = wk[wi], hk[hi]
         p = f'{pfad}/{_lokal(wc)}'
         if _kinder(wc):
+            # gemischter Inhalt (Text neben Kindern) gehoert zum Element
+            if (_norm(wc.text) != _norm(hc.text)
+                    or sorted(_norm(c.tail) for c in _kinder(wc))
+                    != sorted(_norm(c.tail) for c in _kinder(hc) if _schluessel(c, False) in
+                              {_schluessel(x, True) for x in _kinder(wc)})):
+                probleme.append(f'{p}: Text neben den Kindern weicht ab')
             sub, z = _luecken(hc, wc, p)
             probleme += sub
             n_zusatz += z
@@ -922,19 +929,29 @@ def _emit(el, ind: str, unit: str, nl: str) -> str:
     return f'<{name}{attrs}>{innen}{nl}{ind}</{name}>'
 
 
-def _edits(h, w, sh, block: str, nl: str, edits: list):
-    """Edits (start, ende, text) am Block sammeln, damit h die Elemente von w enthaelt."""
+def _edits(h, w, sh, block: str, nl: str, edits: list, unit: str):
+    """Edits (start, ende, text) am Block sammeln, damit h die Elemente von w enthaelt.
+
+    unit ist eine Einrueckungsstufe des Headers, einmal je Block bestimmt.
+    """
     hk, wk, gleich, gepaart, fehlend, _zusatz = _abgleich(h, w)
     sk = sh['kinder']
     if len(sk) != len(hk):
         raise ValueError('Scanner und Parser sehen verschiedene Kinder')
     for wi, hi in gepaart.items():
         wc = wk[wi]
-        if _kinder(wc):
-            _edits(hk[hi], wc, sk[hi], block, nl, edits)
+        s = sk[hi]
+        if not _kinder(hk[hi]):
+            # Blatt oder leerer Container im Header (auch selbstschliessend,
+            # <forename/>): das ganze Element durch das works.xml-Element ersetzen
+            ind = _einzug(block, s['start'])
+            if ind is None:
+                ind = ''
+            edits.append((s['start'], s['end'], _emit(wc, ind, unit, nl)))
+        elif _kinder(wc):
+            _edits(hk[hi], wc, s, block, nl, edits, unit)
         else:
-            s = sk[hi]
-            if s['eten'] is None or _kinder(hk[hi]):
+            if s['eten'] is None:
                 raise ValueError(f'{_lokal(wc)}: Blatt im Header nicht ersetzbar')
             edits.append((s['sten'], s['eten'], _esc(_norm(wc.text))))
     if not fehlend:
@@ -944,8 +961,6 @@ def _edits(h, w, sh, block: str, nl: str, edits: list):
     ind = _einzug(block, sk[0]['start'])
     if ind is None:
         raise ValueError(f'{_lokal(h)}: Kinder nicht zeilenweise gesetzt')
-    eigener = _einzug(block, sh['start']) or ''
-    unit = ind[len(eigener):] if ind.startswith(eigener) and len(ind) > len(eigener) else '  '
     for wi in fehlend:
         vorher = [j for j in range(wi) if j in gleich or j in gepaart]
         text = _emit(wk[wi], ind, unit, nl)
@@ -1033,7 +1048,15 @@ def _datei_bibliographie(head: str, daten: dict, schreiben: bool):
             continue
         nl = '\r\n' if '\r\n' in block else '\n'
         edits = []
-        _edits(h, w, _scan(block), block, nl, edits)
+        scan = _scan(block)
+        # Eine Einrueckungsstufe: Spalte der Kinder minus Spalte des biblStruct
+        # im Kopf (im Block beginnt dieser bei Spalte 0, daher aus head)
+        basis = head[:bm.start()].rsplit('\n', 1)[-1]
+        basis = basis if basis.strip() == '' else ''
+        kind_ind = _einzug(block, scan['kinder'][0]['start']) if scan['kinder'] else None
+        unit = (kind_ind[len(basis):] if kind_ind and kind_ind.startswith(basis)
+                and len(kind_ind) > len(basis) else '  ')
+        _edits(h, w, scan, block, nl, edits, unit)
         neu = block
         # von hinten nach vorn, damit die Positionen vorn gueltig bleiben; bei
         # gleicher Position steht die spaeter gesammelte Einfuegung hinten
@@ -1157,7 +1180,8 @@ Examples:
     parser.add_argument('--all', action='store_true',
                        help='Sync all authority files')
     parser.add_argument('--works', action='store_true',
-                       help='Sync works.xml (work metadata: external IDs, biblStruct elements)')
+                       help='Sync works.xml (work metadata: external IDs in the msIdentifier, '
+                            'edition evidence in the listBibl biblStruct; both surgical)')
     parser.add_argument('--persons', action='store_true',
                        help='Sync persons.xml (author data) [NOT YET IMPLEMENTED]')
     parser.add_argument('--genres', action='store_true',
