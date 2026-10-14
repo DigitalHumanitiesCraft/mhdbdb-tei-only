@@ -4,7 +4,7 @@ description: Prüfseiten-Generatoren im Review (review_page.py, build-359-page.p
 metadata:
   type: project
 ---
-Verdichtet 08.10.2026.
+Verdichtet 14.10.2026.
 
 **review_page.py / build-359-page.py (#359, #443)**
 - Zitat-Gate `zitate_pruefen` liest nur `begruendung`; `kurz`, `nebenbefund`, `stichprobe`, `vorschlag.*` tragen auch Backtick-Zitate und laufen ungeprüft.
@@ -16,7 +16,7 @@ Verdichtet 08.10.2026.
 - `build-review-364.py` braucht >10 min und 1,6 GB: nur im Hintergrund mit Logdatei. Beide Generatoren brechen per assert ab, wenn der Issue-Umfang nicht mehr stimmt. Regeneration bettet HEAD und heutiges Datum ein; Specs können datengebunden sein, ein neuer Datenstand bricht sie ohne Vorlagenänderung. Vorlage gegen Archiv: difflib zeilenweise ohne die Zeile mit `id="review-data"`.
 
 **build-526-pruefseite.py (#526 Punkt 4)**
-- Probe ohne Worktree-Berührung: Quelltext lesen, `ROOT`/`sys.path` auf den Worktree, `ZIEL` ins Scratchpad ersetzen, `exec` unter `__name__ == '__main__'`. Der `print` am Ende wirft `ValueError` an `ZIEL.relative_to(ROOT)`, die Datei ist da schon geschrieben: diese Exception heißt „durchgelaufen“, nicht „Gate“.
-- `pruefe_kandidaten()` prüft nur `orth`, nicht die Wortart. `fundstelle()` schrieb „Wort N“ mit dem Suffix der xml:id (zählt `<w>` und `<pc>`, projekt_526_breve_makron); dieselbe Zeile steht noch in `build-370-pruefseite.py`.
+- Probe ohne Worktree-Berührung: Quelltext lesen, `ROOT`/`sys.path` auf den Worktree, `ZIEL` ins Scratchpad ersetzen, `exec` unter `__name__ == '__main__'`. Der `print` am Ende wirft `ValueError` an `ZIEL.relative_to(ROOT)`, die Datei ist da schon geschrieben: diese Exception heißt „durchgelaufen", nicht „Gate".
+- `pruefe_kandidaten()` prüft nur `orth`, nicht die Wortart. `fundstelle()` schrieb „Wort N" mit dem Suffix der xml:id (zählt `<w>` und `<pc>`, projekt_526_breve_makron); dieselbe Zeile steht noch in `build-370-pruefseite.py`.
 
 **Anführungszeichen und Scope (#440):** Prüfseiten unter `ingest/` sind ausgelieferte Seiten; ob sie im Geltungsbereich sind, vorher klären. Kommentar vs. Code in JS: eigener Zeichenscanner (kein Parser verfügbar). **Widerspruch im Bestand:** `docs/playbooks/kickoffs/2026-09-21-kickoff-spur-b-pruefseite.md:92` schreibt U+201C vor, gegen die Entscheidung für gerade Zeichen.
