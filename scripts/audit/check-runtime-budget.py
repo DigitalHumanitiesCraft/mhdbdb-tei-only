@@ -293,7 +293,7 @@ def zeile_text(name, dauer, g, budget, faktor):
         return f'{name}: {dauer:.0f} s gegen die feste Grenze {g:g} s (kein Budget eingetragen)'
     if faktor is None:
         return f'{name}: {dauer:.0f} s gegen die feste Grenze {g:g} s (Budget {budget:g} s mal Faktor liegt darunter)'
-    return f'{name}: {dauer:.0f} s gegen Grenze {g:.0f} s (Budget {budget:g} s mal {faktor:g})'
+    return f'{name}: {dauer:.0f} s gegen Grenze {g:.1f} s (Budget {budget:g} s mal {faktor:g})'
 
 
 def hole_jobs(repo, run_id, attempt, token):
