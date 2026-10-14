@@ -14,8 +14,8 @@ uebrigen gemeldeten Stuecke gelten als (a) Wiederholung oder (b) Randbemerkung
 oder Umformuliertes; "c_text" = woertliche (c)-Stuecke, die diese Suche nicht
 meldet).
 
-Bekannte Luecke: Saetze werden nur vor Grossbuchstaben, "oder ‚ getrennt, nicht
-vor einem geraden Anfuehrungszeichen, und ein Stueck mit Fussnotenanker "[n]"
+Bekannte Luecke: Saetze werden nur vor Grossbuchstaben und vor den Zeichen
+U+201E und U+201A getrennt, nicht vor einem geraden Anfuehrungszeichen, und ein Stueck mit Fussnotenanker "[n]"
 oder Seitenzahl ("S. 315") gilt selbsttaetig als (b). Dadurch bleibt ein Satz
 vor einem so zitierten Beleg unsichtbar (brâte 606, brâten 621). Die Nummern in
 einordnung.json haengen an dieser Zerlegung; sie wird deshalb nicht geaendert.

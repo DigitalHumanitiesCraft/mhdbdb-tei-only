@@ -57,14 +57,27 @@ steht in [`einordnung.json`](einordnung.json) (Schlüssel Glossar-ID, `c` = Numm
 `entfallenes-suchen.py`; `c_text` = von Hand gefundene (c)-Stücke im Wortlaut, die die Suche nicht
 meldet). Die Suche nach entfallenen Stücken ist ein Hilfsmittel (Wort-Dreiergruppen und
 Inhaltswörter); sie meldet Umformuliertes als entfallen und kann stark Umformuliertes übersehen.
-Sie hat eine bekannte Lücke: Sätze trennt sie nur vor Großbuchstaben, nicht vor einem geraden
-Anführungszeichen, und ein Stück mit Fußnotenanker oder Seitenzahl gilt selbsttätig als (b). So
-blieb in brâte (606) der Satz zum „Armen Heinrich“, in brâten (621) die Îwein-Fundstelle und in ei
-(2074) die Aussage zu den Gedichten des Königs vom Odenwald unsichtbar; die erste Prüfungsrunde hat
-sie gefunden, die drei Einträge liegen deshalb auf der Prüfseite (Gruppe B). Die Einordnung ist
-eine Stichprobenfrage für die Prüfung, kein Beweis.
+Sie hat eine bekannte Lücke: Sätze trennt sie nur vor Großbuchstaben und vor den Zeichen U+201E und
+U+201A, nicht vor einem geraden Anführungszeichen, und ein Stück mit Fußnotenanker, URL, Seitenzahl
+oder Literaturangabe gilt selbsttätig als (b). So blieb in brâte (606) der Satz zum „Armen Heinrich“,
+in brâten (621) die Îwein-Fundstelle und in ei (2074) die Aussage zu den Gedichten des Königs vom
+Odenwald unsichtbar; die erste Prüfungsrunde hat sie gefunden, die drei Einträge liegen deshalb auf
+der Prüfseite (Gruppe B). Die Einordnung ist eine Stichprobenfrage für die Prüfung, kein Beweis.
 
-Kennzahl, kein Kriterium: Die 118 Kommentartexte zusammen haben 192.554 Zeichen gegenüber 289.860
+**Nachprüfung über alle 93 übernommenen Einträge** (Auflage der Koordination): Die Regel „Fußnote,
+URL, Seitenzahl, Literatur“ hat in 31 der 93 Einträge zusammen 61 Stücke mit 5.587 Zeichen selbsttätig
+als (b) aussortiert. Alle 61 sind von Hand gegen die Fassung gelesen (34 Stücke ab 60 Zeichen in 20
+Einträgen, 27 kürzere Einleitungssätze und Bruchstücke). Ergebnis: Fundstellen, URLs und
+Literaturangaben in allen bis auf drei Einträge. In 1983 wilt, 1996 wiltbrât und 2009 zam (nom)
+fehlten die Definition der Zwillingsformel nach Hofmeister und der Satz zu Synonymen und Antonymen
+aus Fußnote [1]; beides steht jetzt wörtlich im Text, mit Zuschreibung („Wernfried Hofmeister
+definiert eine Zwillingsformel wie folgt“), wie schon in wîn (1444) und brôt (2084). In sat (1525)
+und slinden (1643) fehlt nur die englische Übersetzung der Redewendung; Entstehungszeit und
+Gebräuchlichkeit stehen im Text. Zusammen mit den drei von der Prüfungsrunde gefundenen Einträgen
+(606, 621, 2074, auf der Prüfseite) sind es sechs Einträge, in denen die Regel mehr als eine Fundstelle
+verschluckt hat; drei davon liegen jetzt auf der Prüfseite, drei sind im Text ergänzt.
+
+Kennzahl, kein Kriterium: Die 118 Kommentartexte zusammen haben 194.198 Zeichen gegenüber 289.860
 in der mechanischen Vorstufe (Enzyklopädie plus übernommene Poetisierung).
 
 Formatregeln: Kursivierungen werden zu Anführungszeichen („…“ für mhd. Formen und Zitate, ‚…‘ für
@@ -76,6 +89,9 @@ Der Wortlaut bleibt der des Glossars; `kommentare-pruefen.py` prüft nur Zeichen
 erste Prüfungsrunde fand in einer Stichprobe zwei Umformulierungen („er besteigt deswegen …“ statt
 „bzw. er deswegen …“ in ei, „Nutzer*innen“ statt „jede/r/m Nutzer/in“ in brâte), beide sind auf den
 Wortlaut des Glossars zurückgesetzt. Ob weitere stecken, ist über die Stichprobe hinaus nicht geprüft.
+Das Feld `kuerzung` der ersten Entwürfe in `kommentare/*.json` ist entfernt (es widersprach an sieben
+Einträgen der Einordnung); maßgeblich ist allein `einordnung.json`. Das Feld `kuerz_grund` ist ein
+Entwurfsvermerk ohne Gewicht.
 
 ## Nicht übernommen, ohne Prüfseite
 
@@ -143,10 +159,10 @@ Ein Lemma trägt je Bedeutung nur eine Notiz. Zwei Paare zeigen auf dieselbe Bed
 ## B4: Einklappfunktion (Vorschlag, kein Code)
 
 Länge der Kommentartexte (Zeichen), gemessen an `kommentare/*.json`: 93 Texte für die Daten, Median
-882, Dezile 181 / 378 / 550 / 697 / 882 / 1.140 / 1.514 / 1.851 / 2.424, Maximum 5.982. Über 600
-Zeichen: 61 von 93; über 1.000: 44; über 2.500: 8. Zählt man die 25 Texte der Prüfseite hinzu (22 in
+882, Dezile 181 / 378 / 550 / 697 / 882 / 1.140 / 1.514 / 2.009 / 2.597, Maximum 5.982. Über 600
+Zeichen: 61 von 93; über 1.000: 44; über 2.500: 9. Zählt man die 25 Texte der Prüfseite hinzu (22 in
 Gruppe B, 3 in D und E; zusammen 118 Texte mit Text), liegt der Median bei 1.143, das Maximum bei
-10.191 und 22 Texte über 2.500.
+10.191 und 23 Texte über 2.500.
 
 Die Lemmaseite setzt den Kommentar als einen Absatz in einen Container von ungefähr 110 Zeichen
 je Zeile (Schätzung aus `max-w-4xl` und `text-sm`, nicht im Browser gemessen), 1.000 Zeichen sind
