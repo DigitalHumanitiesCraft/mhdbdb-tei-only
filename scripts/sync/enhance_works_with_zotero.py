@@ -88,7 +88,16 @@ ZOTERO_ITEMS_OHNE_EDITION = {'MLJUUSLC'}
 # werden die Elemente aus dem Bestand von works.xml uebernommen, die den
 # Umfang tragen; alles andere (Item-Verweis, Typ, Werktitel, Reihe) kommt aus
 # Zotero. Pfade relativ zum biblStruct.
-BESTAND_BEHALTEN = {'FLG': ('analytic', 'monogr/editor', 'monogr/imprint', 'note')}
+#
+# FR3 ist die zweite, befristete Ausnahme: das Zotero-Item MVWV5QYG traegt
+# bis heute den Inhalt von FR1/FR2 (Leichs, Sangsprüche, Lieder; Bertau; 1981),
+# die Korrektur auf den Supplementband 2000 (#236, 115c3a01f) steht nur in
+# works.xml. Ein Sync wuerde sie zuruecknehmen. Der Eintrag faellt, sobald
+# MVWV5QYG in Zotero korrigiert ist (Frage an KZW in #486).
+BESTAND_BEHALTEN = {
+    'FLG': ('analytic', 'monogr/editor', 'monogr/imprint', 'note'),
+    'FR3': ('analytic', 'monogr', 'series', 'note'),
+}
 
 # Rate limiting
 REQUEST_DELAY = 0.3  # seconds between requests (~3 requests/second)
@@ -436,9 +445,11 @@ def api_item_to_biblstruct(item_data: dict, sigle: str, notes: List[str] = None)
         editor = etree.SubElement(monogr, f"{{{TEI_NS_URI}}}editor")
         if 'firstName' in editor_data and 'lastName' in editor_data:
             forename = etree.SubElement(editor, f"{{{TEI_NS_URI}}}forename")
-            forename.text = editor_data['firstName']
+            # `or None`: ein leerer Vorname soll als <forename/> stehen, wie im
+            # Bestand, nicht als <forename></forename> (zwei Zeilen Diff je Lauf).
+            forename.text = editor_data['firstName'] or None
             surname = etree.SubElement(editor, f"{{{TEI_NS_URI}}}surname")
-            surname.text = editor_data['lastName']
+            surname.text = editor_data['lastName'] or None
         elif 'name' in editor_data:
             editor.text = editor_data['name']
 
