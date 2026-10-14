@@ -29,7 +29,9 @@ QUELLE = 'Quelle: Glossar Kochbuchforschung dig_ESTivum von Katharina Zeppezauer
 RESP = 'contributors.xml#contrib_003'
 # Sachliche Rueckfrage auf der Pruefseite (Gruppe D), geht erst nach KZWs Antwort in die Daten:
 # 867 grandmangerie nennt Ulrich von dem Tuerlin als Verfasser der Crone (works.xml: Heinrich, person_867).
-RUECKFRAGE = {'867'}
+# Dazu 1905 huon und 2253 rëphuon: ihr Text fasst die Poetisierungsteile von henne (1900) bzw.
+# rëphenne (2264) zusammen (Gruppe E); das war mehr als gleicher Text.
+RUECKFRAGE = {'867', '1905', '2253'}
 
 
 def lade_kommentare():

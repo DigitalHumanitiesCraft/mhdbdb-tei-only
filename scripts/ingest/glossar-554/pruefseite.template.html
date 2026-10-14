@@ -22,7 +22,9 @@ h2{font:700 1.5rem Georgia,serif}
 h3{font-size:1.1rem;margin:.4rem 0}
 .eyebrow{text-transform:uppercase;letter-spacing:.13em;font-size:.8rem;color:var(--accent);font-weight:750}
 .muted,small{color:var(--muted)}
-.intro-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.intro-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+.dropped{margin:6px 0;padding-left:20px;max-height:26rem;overflow:auto;font:1rem/1.55 Georgia,serif}
+.dropped li{margin:6px 0}
 .intro-grid section{padding:16px 20px;background:var(--paper);border:1px solid var(--line);border-radius:10px}
 .toolbar{position:sticky;top:0;z-index:10;background:var(--paper);border-block:1px solid var(--line);padding:10px 24px;box-shadow:0 3px 15px #0001}
 .tools{display:flex;gap:10px;flex-wrap:wrap;align-items:center;max-width:1440px;margin:auto}
@@ -82,15 +84,11 @@ dialog::backdrop{background:#0007}
 <div class="eyebrow">MHDBDB · Glossar Kochbuchforschung im Lexikon</div>
 <h1>Liebe Katharina, hier ist Deine Prüfmappe.</h1>
 <p id="intro"></p>
-<div class="intro-grid">
-<section><h2>A · Zuordnung</h2><p id="introA"></p></section>
-<section><h2>B · Größere Kürzung</h2><p id="introB"></p></section>
-<section><h2>C · Nicht übernommen</h2><p id="introC"></p></section>
-</div>
+<div class="intro-grid" id="introGrid"></div>
 <h2>So gehst Du vor</h2>
 <ol>
 <li><strong>Namen eintragen</strong> und links eine Gruppe wählen.</li>
-<li><strong>Fall lesen:</strong> oben der Glossartext im Original, darunter der Vorschlag mit Grund. Bei A siehst Du die Bedeutungen des Lemmas mit Begriffen und Belegen.</li>
+<li><strong>Fall lesen:</strong> die Frage, der Grund und der Textvorschlag. Bei A siehst Du die Bedeutungen des Lemmas mit Begriffen und Belegen, bei B die entfallenen Teile im Wortlaut; der Originaltext im Glossar lässt sich jeweils aufklappen.</li>
 <li><strong>Antwort wählen</strong> und mit „Entscheidung festhalten“ bestätigen. Wenn Du unsicher bist, wähle „Geprüft, bleibt offen“ und schreibe dazu, was noch zu klären ist.</li>
 <li><strong>Am Ende beide Dateien exportieren</strong> (JSON und HTML-Bericht) und zurückschicken. Ein Zwischenstand ist willkommen.</li>
 </ol>
@@ -194,7 +192,7 @@ function nav() {
 function paragraphs(t) { return t ? '<div class="orig">' + esc(t) + '</div>' : '<p class="muted">(leer)</p>'; }
 function senseHTML(s) {
   const ex = s.examples.map(b => '<li class="ctx"><small>' + esc(b.sigle) + '</small> ' + esc(b.before) + ' <mark>' + esc(b.form) + '</mark> ' + esc(b.after) + '</li>').join('');
-  return '<div class="sense"><strong>Bedeutung ' + s.nr + '</strong> · ' + s.count + ' Belege<br><small>' + esc(s.concepts.join(' · ') || 'keine Begriffe') + '</small>' + (ex ? '<ul>' + ex + '</ul>' : '') + '</div>';
+  return '<div class="sense"><strong>' + esc(s.label || 'Bedeutung ' + s.nr) + '</strong> · ' + s.count + ' Belege<br><small>' + esc(s.concepts.join(' · ') || 'keine Begriffe') + '</small>' + (ex ? '<ul>' + ex + '</ul>' : '') + '</div>';
 }
 function editor(c) {
   const a = answer(c.id);
@@ -220,11 +218,12 @@ function render() {
   if (c.nhd.length) body += '<p class="muted">Neuhochdeutsch laut Glossar: ' + esc(c.nhd.join(', ')) + '</p>';
   body += '<p class="question">' + esc(c.question) + '</p>';
   if (c.lemma) body += '<p>Lemma im Lexikon: <strong>' + esc(c.lemma.orth) + '</strong> (' + esc(c.lemma.pos.join(', ')) + ') · <a target="_blank" rel="noopener" href="https://dhcraft.org/mhdbdb-tei-only/lemma/?id=' + encodeURIComponent(c.lemma.id) + '">Lemmaseite</a> <small class="muted">' + esc(c.lemma.id) + '</small></p>';
-  body += '<div class="suggestion"><strong>Vorschlag · keine Entscheidung</strong><p>' + esc(c.reason) + '</p>' + (c.proposalText ? '<details open><summary>Vorgeschlagener Kommentartext (' + c.proposalText.length + ' Zeichen)</summary><div class="orig">' + esc(c.proposalText) + '</div></details>' : '') + '</div>';
-  if (c.senses.length) body += '<details open><summary>Bedeutungen des Lemmas (' + c.senses.length + ')</summary>' + c.senses.map(senseHTML).join('') + '</details>';
+  body += '<div class="suggestion"><strong>' + esc(c.reasonLabel) + ' · keine Entscheidung</strong><p>' + esc(c.reason) + '</p>' + (c.vermerk ? '<p>' + esc(c.vermerk) + '</p>' : '') + (c.proposalText ? '<details open><summary>' + esc(c.proposalLabel || 'Vorgeschlagener Kommentartext') + ' (' + c.proposalText.length + ' Zeichen)</summary><div class="orig">' + esc(c.proposalText) + '</div></details>' : '') + '</div>';
+  if (c.dropped.length) body += '<details open><summary>Entfallene Teile im Wortlaut (' + c.dropped.length + ')</summary><ol class="dropped">' + c.dropped.map(t => '<li>' + esc(t) + '</li>').join('') + '</ol></details>';
+  if (c.senses.length) body += '<details open><summary>Bedeutungen des Lemmas (' + c.senses.length + ')</summary>' + (c.lemmaNote ? '<p class="muted">' + esc(c.lemmaNote) + '</p>' : '') + c.senses.map(senseHTML).join('') + '</details>';
   body += '<details><summary>Originaltext im Glossar: Enzyklopädische Information (' + c.enzOriginal.length + ' Zeichen)</summary>' + paragraphs(c.enzOriginal) + '</details>';
   body += '<details><summary>Originaltext im Glossar: Poetisierung des Wortes (' + c.poetOriginal.length + ' Zeichen)</summary>' + paragraphs(c.poetOriginal) + '</details>';
-  if (c.fullText) body += '<details><summary>Fassung nur in Ausdruck und Format bereinigt, ohne Kürzung (' + c.fullText.length + ' Zeichen)</summary>' + paragraphs(c.fullText) + '</details>';
+  if (c.fullText) body += '<details><summary>' + esc(c.fullLabel || 'Fassung nur in Ausdruck und Format bereinigt, ohne Kürzung') + ' (' + c.fullText.length + ' Zeichen)</summary>' + paragraphs(c.fullText) + '</details>';
   body += '<div class="answer-fields">' + editor(c) + '</div><div class="actions"><button type="button" data-step="1">Nächster Fall</button><button type="button" data-return>Ergebnisse zurückgeben</button></div></article>';
   $('main').innerHTML = top + stepper + body;
 }
@@ -299,9 +298,7 @@ $('importBackup').addEventListener('click', exportJson);
 $('importAccept').addEventListener('click', () => { acceptImport(pendingImport); pendingImport = null; $('importConfirm').close(); });
 $('importCancel').addEventListener('click', () => { pendingImport = null; $('importConfirm').close(); });
 $('intro').textContent = DATA.intro;
-$('introA').textContent = DATA.groups.find(g => g.id === 'A').text;
-$('introB').textContent = DATA.groups.find(g => g.id === 'B').text;
-$('introC').textContent = DATA.groups.find(g => g.id === 'C').text;
+$('introGrid').innerHTML = DATA.groups.map(g => '<section><h2>' + esc(g.id) + ' · ' + esc(g.title) + '</h2><p>' + esc(g.text) + '</p></section>').join('');
 $('source-note').textContent = 'Stand vom ' + DATA.date + ', Commit ' + DATA.commit.slice(0, 12) + '. Alle Texte, Bedeutungen und Belege sind in dieser Datei enthalten; Internet ist nur für angeklickte Links nötig.';
 render();
 </script>
