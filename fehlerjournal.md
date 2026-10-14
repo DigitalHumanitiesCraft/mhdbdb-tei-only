@@ -1221,3 +1221,33 @@ Auto-Mode-Classifier abgelehnt, und die Blockade ging an Christian.
 **Was es getragen hat:** eine Frage an KZW, die womöglich mit der falschen Beschreibung verschickt wurde; ihre Antwort ("dürfen verwendet werden") deckt alle drei Gruppen ab, also keine falsche Übernahme. Richtiggestellt in #93 mit dem Kommentar zur Antwort.
 
 **Kein neuer Mechanismus:** `agentenbefunde.md` ist ausgesetzt; die Aussetzung ist der Mechanismus.
+
+### 130. Rot: ein `cd` in das Scratchpad, mitten in der Arbeit, und danach lief die Arbeit eine Weile im falschen Verzeichnis (Spur lauf-554, 14.10.2026, #554).
+
+**Rot.** Beim Suchen in den abgerufenen Rohseiten habe ich ein `cd` auf das Scratchpad abgesetzt, um mit relativen Dateinamen zu suchen. Der Befehl lief durch, das Arbeitsverzeichnis der Sitzung wechselte, und ein folgender Git-Aufruf wurde vom Worktree-Schutz abgelehnt. Zurückgekommen bin ich wieder mit `cd`.
+
+**Die Lehre steht in `shell-konventionen.md`: kein `cd`, an keiner Trennstelle; Ersatz sind absolute Pfade oder `git -C`.** Die letzte Zeile zu dieser Lehre ist Eintrag 100.
+
+**Was es getragen hat:** nichts im Ergebnis; ein Suchlauf scheiterte am Muster (`rg` mit Glob), nicht am Verzeichnis, und die Funde habe ich mit dem Grep-Werkzeug auf absolutem Pfad wiederholt. Der Hook sperrt nur das `cd` in das eigene Arbeitsverzeichnis, nicht das in ein fremdes (Beobachtung aus Eintrag 100, hier zum zweiten Mal getroffen).
+
+**Kein neuer Mechanismus:** gleicher Befund wie in Eintrag 100; die Lücke (kein Hook für ein `cd` in ein fremdes Verzeichnis) bleibt dokumentiert. Eintrag 100 und dieser sind zwei Zeilen zur Lehre; bei der dritten wechselt der Mechanismus.
+
+### 131. Rot: die schmale Reviewrunde ohne Modellangabe gestartet, obwohl der Betriebsvertrag in jeder Runde `model: fable` verlangt (Spur lauf-554, 14.10.2026, #554).
+
+**Rot.** Nach Runde 2 (Fable, ohne A-Befund) habe ich Runde 3 als "schmale Runde" gestartet und dabei die Regel der kuratierten Sitzungen angewendet (ohne Modellangabe, also Opus). Der Kickoff und Regel 11 des Betriebsvertrags sagen für Läufe unter dem Vertrag: jede Runde und jede Folgerunde auf Fable, die Grenze gilt trotzdem. Die Koordination hat es bemerkt; ich habe die Opus-Runde abgebrochen und auf Fable neu gestartet.
+
+**Die Lehre steht in Regel 11 des Betriebsvertrags und im Kickoff 10.3 (Ausnahme zur reviewer-Definition für autonome Läufe).** Mein eigenes Briefing hatte sie am Anfang der Sitzung festgehalten ("jede Runde und Folgerunde mit `model: fable`"). Die letzte Zeile zu dieser Lehre ist keine.
+
+**Was es getragen hat:** eine kurz laufende Opus-Runde (abgebrochen, ohne Befund und ohne Änderung am Baum) und eine Runde Verzug. Abgewendet hat es die Koordination, nicht ein Mechanismus vor dem Start; deshalb gezählt.
+
+**Kein neuer Mechanismus:** der Kickoff steht an der richtigen Stelle; mir fehlte der Blick dorthin beim Wechsel von der vollen zur schmalen Runde.
+
+### 132. Rot: in Docstring und README Aussagen über den eigenen Text gemacht, die die Stelle nicht hergab, mehrfach in einer Sitzung (Spur lauf-554, 14.10.2026, #554).
+
+**Rot.** Der Reviewer hat nacheinander gefunden: (1) "nach `<def>`" im Docstring des Einfügeskripts, während keine der 96 Bedeutungen ein `<def>` trug; (2) in `entfallenes-suchen.py` die Semantik von `einordnung.json` invertiert beschrieben ("ab" statt "c"); (3) im neuen README-Absatz "beides steht jetzt wörtlich im Text" (die Literaturangabe stand in Klammerform), "Entstehungszeit und Gebräuchlichkeit stehen im Text" bei sat (Gebräuchlichkeit fehlte) und Zahlen, die den Stand vor der Ergänzung maßen (61 statt 58 Stücke). In keinem Fall hatte ich die Stelle vor dem Satz noch einmal aufgeschlagen.
+
+**Die Lehre steht in `eigene-quellen.md` (vor einer Aussage über eine Stelle in Reichweite wird die Stelle geöffnet, gerade wenn sie von mir stammt) und in `mengen.md` (Zahlen und Allaussagen tragen ihre Menge).** Die letzte Zeile zu dieser Lehre ist Eintrag 117.
+
+**Was es getragen hat:** nichts, die Aussagen standen in Doku und Docstrings, und der Reviewer hat sie in den Runden 1 bis 3 gefunden, bevor ein Leser sie benutzt hat. Gezählt wird es trotzdem, weil jede Aussage an dem Schreibtisch geprüft werden konnte, an dem sie entstand.
+
+**Kein neuer Mechanismus:** beim Schreiben von Zahlen und "wörtlich"-Aussagen in ein README lasse ich künftig das Messskript die Zahl ausgeben und kopiere sie aus der Ausgabe, statt sie aus dem Kopf zu setzen.

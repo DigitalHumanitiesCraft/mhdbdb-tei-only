@@ -8,9 +8,9 @@
  * Der Build loest sense.commentResp (contributors.xml#contrib_N) beim Bauen
  * zu sense.commentRespName auf. Das Orakel liest den Index von der Platte:
  * jeder Kommentar mit commentResp muss einen Namen tragen, und jeder Name
- * muss auf beiden Oberflaechen im Label stehen. Heute ist das genau ein
- * Kommentar (lemma_37818 Abba); die Tests verlangen die Menge nicht, nur
- * dass die Seite dem Index folgt.
+ * muss auf beiden Oberflaechen im Label stehen. Bis zum Glossar
+ * Kochbuchforschung (#554) war das genau ein Kommentar (lemma_37818 Abba);
+ * die Tests verlangen die Menge nicht, nur dass die Seite dem Index folgt.
  *
  * KZW am 2026-09-25: dieselbe Angabe auch bei Definition und
  * Herkunftserklaerung ("Definition von ...", "Herkunftserklärung von ...");
@@ -40,6 +40,20 @@ const definitionen = auth.lemmata.flatMap(l => (l.senses || [])
 const herkuenfte = auth.lemmata
     .filter(l => l.origin && l.origin.attribution && l.origin.resp)
     .map(l => ({ id: l.id, lemma: l.lemma, resp: l.origin.resp, name: l.origin.respName }));
+
+/**
+ * Seit dem Glossar Kochbuchforschung (#554) tragen ueber 90 Lemmata einen
+ * Kommentar. Die Seitentests laufen deshalb auf einer festen Stichprobe: Abba
+ * (Kontrollwert) und acht gleichmaessig ueber die Index-Reihenfolge verteilte
+ * weitere Lemmata. Der Indextest oben prueft weiterhin alle.
+ */
+function stichprobe(liste) {
+    const abba = liste.filter(x => x.id === 'lemma_37818');
+    const rest = liste.filter(x => x.id !== 'lemma_37818');
+    const n = Math.min(8, rest.length);
+    const schritt = rest.length / (n || 1);
+    return [...abba, ...Array.from({ length: n }, (_, i) => rest[Math.floor(i * schritt)])];
+}
 
 test.describe('Urheberangabe am kuratierten Kommentar (#270)', () => {
     test('der Index traegt zu jedem commentResp einen Namen', () => {
@@ -80,7 +94,7 @@ test.describe('Urheberangabe am kuratierten Kommentar (#270)', () => {
     });
 
     test('die Lemma-Seite nennt den Urheber des Kommentars', async ({ page }) => {
-        for (const k of kommentare) {
+        for (const k of stichprobe(kommentare)) {
             const nummer = k.id.replace('lemma_', '');
             await page.goto(`/lemma/?id=${nummer}`);
             await page.waitForSelector('#lemmaContent:not(.hidden)', { timeout: 30000 });
@@ -89,12 +103,14 @@ test.describe('Urheberangabe am kuratierten Kommentar (#270)', () => {
     });
 
     test('ein Lemma ohne Kommentar zeigt kein Urheber-Label', async ({ page }) => {
-        // lemma_879 ist ein unkuratiertes Lemma (in lemma-page.spec.js
-        // benutzt); ein Label ohne Kommentar waere eine Zuschreibung ohne
+        // Ein unkuratiertes Lemma (bevorzugt lemma_879, in lemma-page.spec.js
+        // benutzt; traegt es spaeter einen Kommentar, nimmt der Test das erste
+        // Lemma ohne); ein Label ohne Kommentar waere eine Zuschreibung ohne
         // Gegenstand.
-        const lemma = auth.lemmata.find(l => l.id === 'lemma_879');
+        const ohneKommentar = l => (l.senses || []).length > 0 && !l.senses.some(s => s.comment);
+        const lemma = auth.lemmata.find(l => l.id === 'lemma_879' && ohneKommentar(l)) || auth.lemmata.find(ohneKommentar);
         expect((lemma.senses || []).some(s => s.comment)).toBe(false);
-        await page.goto('/lemma/?id=879');
+        await page.goto(`/lemma/?id=${lemma.id.replace('lemma_', '')}`);
         await page.waitForSelector('#lemmaContent:not(.hidden)', { timeout: 30000 });
         await expect(page.locator('#sensesContent')).not.toContainText('Kommentar von');
     });
@@ -108,7 +124,7 @@ test.describe('Urheberangabe am kuratierten Kommentar (#270)', () => {
             if (!erwartet.has(x.id)) erwartet.set(x.id, { lemma: x.lemma, labels: [] });
             erwartet.get(x.id).labels.push(`${label} von ${x.name}:`);
         };
-        kommentare.forEach(k => merke(k, 'Kommentar'));
+        stichprobe(kommentare).forEach(k => merke(k, 'Kommentar'));
         definitionen.forEach(d => merke(d, 'Definition'));
         herkuenfte.forEach(h => merke(h, 'Herkunftserklärung'));
 
