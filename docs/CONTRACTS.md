@@ -913,6 +913,28 @@ The older route through `etree.parse(remove_blank_text=True)` plus `tree.write(p
 
 `--all` therefore routes `works` through the surgical writer as well. Until the review round of 2026-09-07 it fell into the old path silently, which would have deleted the 19 `mwb-sigle` with no gate saying a word: the invariant „the generator never touches `mwb-sigle`" held for the new path only, while the old one stood next to it looking like an option.
 
+### F.4a Edition Evidence: Zotero → `works.xml` → TEI Header
+
+**Contract (chsteiner, 2026-09-24, #486):** the chain runs Zotero → `works.xml` → TEI header, and the `biblStruct` in the header (`sourceDesc/msDesc/additional/listBibl`) is a **copy** of the one in `works.xml`. A correction to an edition therefore starts in Zotero. `enhance_works_with_zotero.py` carries it into `works.xml`, `sync_tei_headers.py --works` carries it into the headers.
+
+**The gate checks containment, not equality.** `sync_tei_headers.py --works --check` requires every element of the `works.xml` `biblStruct` to be present in the header `biblStruct` with the same content (NFC, whitespace collapsed), per `@corresp`; the order of the children does not matter. Elements that exist only in the header are allowed and are counted in the report. The header may carry text-specific additions: AK has a `biblScope unit="verse"` and a `note type="context"` that describe the excerpt and not the edition (#134). Equality would make that a permanent finding, and a writer that replaces the whole block would delete it. Measured 2026-10-14 over all 667 headers: 678 blocks matched to `works.xml` by `@corresp`, 119 of them in a different child order, 2 additional elements (both AK). The 679th block is WZB's (below).
+
+**Two rules in the comparison, and both are exceptions to byte equality:**
+
+- `@xml:id` is never compared and never written. `works.xml` assigns it uniquely across the whole file and appends a suffix on collision (`HZ_HZ_HZ`); a header assigns it per file. In HZ and LUU the suffixes of the two blocks are swapped relative to `works.xml`, with no difference in content.
+- A local pointer `#x` in `works.xml` corresponds to `works.xml#x` in the header, because from inside `tei/` a bare `#x` would dangle. This rule hangs on a single case today: the `<ref>` in the FR3 `biblStruct` (the supplement pointing at FR1), the only `<ref>` in `works.xml`.
+
+A `biblStruct` without `@corresp` has no Zotero item and is outside the chain. That is WZB: `works.xml` and the header each carry a hand-written `biblStruct`, and they differ in content. Neither side is checked or written.
+
+**The writer is as surgical as the one for the `msIdentifier`** (F.4). It replaces changed leaf elements (as a whole element, so a leaf carrying its own `@xml:id` would lose it; there is none today) and inserts missing elements after their predecessor, and leaves every other byte alone, line endings included. On the unchanged state it changes 0 files; on the sync of 2026-10-14 it changed 183 files, 187 lines each way, all of them `<title>` lines (capitalisation only). **Not covered:** an element that disappears from `works.xml` stays in the header as an additional element, since it cannot be told from a hand-made addition like AK's, and the gate does not see it. That includes an element whose attributes change in `works.xml` (`level="a"` to `level="m"`): the header then carries the old and the new one side by side.
+
+**Two named exceptions to "the edition is what Zotero says", both in `enhance_works_with_zotero.py` and not in a hand correction after a run:**
+
+- **FLG** is assigned by Zotero key, not by call number (KZW, 2026-10-12, #486). Zotero carries `FLG` as call number on `MLJUUSLC` (Harsch, the digital source), but the edition in `works.xml` is Neumann/Vollmann-Profe, which Zotero holds as `ATWPNQPS` (call number `FLG1`, also in use for FLG1). The script reads `ATWPNQPS` for FLG, never `MLJUUSLC` as an edition, and aborts if the item is missing. FLG and FLG1 differ in the extent of the text (Books 1 to 2 of the 1990 volume against Books 1 to 7, 1990–1993), which Zotero does not know. `BESTAND_BEHALTEN` therefore keeps the `analytic`, `editor`, `imprint` and `note` of the FLG entry from `works.xml`: this is information that does not come from Zotero.
+- **FR3** stays at the state of `115c3a01f` (#236, the supplement volume of 2000) until the Zotero item `MVWV5QYG` is corrected. Today that item carries the content of FR1 and FR2, and a sync would overwrite the correction. The entry in `BESTAND_BEHALTEN` is deleted as soon as Zotero is right.
+
+**What F.4 says about the five files** (AK, FR3, HZ, LUU, WZB) is explained here: AK is the text-specific addition, FR3 the pointer rule, HZ and LUU the `@xml:id` suffixes, WZB the entry without a Zotero item. None of them is drift.
+
 ### F.5 Name Forms: the Historical Form Leads, the Modernized One Stays as an Alternative
 
 **Contract:** where a person is attested under two name forms and both are defensible in the literature, `persons.xml` carries the historical or Middle High German form as `<persName type="preferred">` and the modernized one as `<persName type="alternative">`. Every other occurrence follows the preferred form. The alternative is never deleted: it is attested, and deleting it makes the person unfindable under the name a reader is likely to know.
