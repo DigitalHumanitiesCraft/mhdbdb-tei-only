@@ -1,5 +1,5 @@
 {
-  "_comment": "Laufzeitbudget der CI-Schritte (#564), gelesen von check-runtime-budget.py. Grenze = budget_s mal factor, Checkout-Schritte mal checkout_factor; ein Budget unter floor_s gilt als floor_s, ein Schritt ohne Eintrag auch. Ein Budget wird nur im selben PR erhoeht, der die Verlangsamung rechtfertigt, mit neuer reason. provisional_since: Zeitpunkt, ab dem die erfolgreichen Laeufe fuer die Nachkalibrierung gezaehlt werden; ab 10 erinnert das Gate (calibration_issue).",
+  "_comment": "Laufzeitbudget der CI-Schritte (#564), gelesen von check-runtime-budget.py. Grenze = budget_s mal factor, Checkout-Schritte mal checkout_factor; eine Grenze unter floor_s gilt als floor_s (seit 14.10., vorher ein Budget unter floor_s), ein Schritt ohne Eintrag hat die Grenze floor_s. Ein Budget wird nur im selben PR erhoeht, der die Verlangsamung rechtfertigt, mit neuer reason. provisional_since: Zeitpunkt, ab dem die erfolgreichen Laeufe fuer die Nachkalibrierung gezaehlt werden; ab 10 erinnert das Gate (calibration_issue).",
   "factor": 1.5,
   "checkout_factor": 1.3,
   "floor_s": 10,
@@ -70,7 +70,7 @@
       "n": 25,
       "date": "2026-10-10",
       "basis": "p90 der letzten 25 erfolgreichen Laeufe",
-      "reason": "liegt unter der Untergrenze, die Grenze ist daher 10 s"
+      "reason": "kleiner Schritt; 7 mal 1,5 = 10,5 s liegt knapp ueber der Untergrenze (bis 14.10. galt dafuer die Grenze 10 s)"
     },
     "data-integrity.yml/Freshness API (#45)": {
       "budget_s": 5,

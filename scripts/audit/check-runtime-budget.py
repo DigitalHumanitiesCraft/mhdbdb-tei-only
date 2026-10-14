@@ -19,9 +19,11 @@ dem PR lesen und waere erst nach dem Merge testbar.
 ## Die Regel (Entscheidung chsteiner, 10.10.2026, #564)
 
 - Grenze = Budget mal 1,5. Checkout-Schritte: Budget mal 1,3.
-- Ein Schritt mit Budget unter 10 s hat die feste Grenze 10 s. Ein Schritt ohne
-  Eintrag hat sie auch: er darf bis 10 s laufen, darueber ist er rot ("kein
-  Budget"), bis jemand einen Eintrag mit Begruendung schreibt.
+- Ergibt Budget mal Faktor weniger als 10 s, ist die Grenze 10 s (seit 14.10.2026,
+  chsteiner, #564; vorher galt das fuer ein Budget unter 10 s, was kleine
+  Checkout-Grenzen senkte: Budget 9 gab 10 s, Budget 10 gab 13 s). Ein Schritt
+  ohne Eintrag hat die Grenze 10 s auch: er darf bis 10 s laufen, darueber ist
+  er rot ("kein Budget"), bis jemand einen Eintrag mit Begruendung schreibt.
 - Der LLM-Review-Schritt ist nicht im Gate (`excluded`; der Workflow selbst
   traegt das Gate nicht, siehe unten).
 - Rot auf einem PR heisst: kein Merge, bis die Verlangsamung behoben oder das
@@ -261,9 +263,11 @@ def grenze(workflow, name, cfg):
     if eintrag is None:
         return cfg['floor_s'], None, None
     budget = eintrag['budget_s']
-    if budget < cfg['floor_s']:
-        return cfg['floor_s'], budget, None
     faktor = cfg['checkout_factor'] if name.startswith('Checkout') else cfg['factor']
+    # Die Untergrenze gilt fuer die Grenze, nicht fuer das Budget (chsteiner, 14.10., #564):
+    # sonst ergaebe Checkout-Budget 9 die Grenze 10 s, Budget 10 aber 13 s.
+    if budget * faktor < cfg['floor_s']:
+        return cfg['floor_s'], budget, None
     return budget * faktor, budget, faktor
 
 
@@ -288,7 +292,7 @@ def zeile_text(name, dauer, g, budget, faktor):
     if budget is None:
         return f'{name}: {dauer:.0f} s gegen die feste Grenze {g:g} s (kein Budget eingetragen)'
     if faktor is None:
-        return f'{name}: {dauer:.0f} s gegen die feste Grenze {g:g} s (Budget {budget:g} s liegt darunter)'
+        return f'{name}: {dauer:.0f} s gegen die feste Grenze {g:g} s (Budget {budget:g} s mal Faktor liegt darunter)'
     return f'{name}: {dauer:.0f} s gegen Grenze {g:.0f} s (Budget {budget:g} s mal {faktor:g})'
 
 
@@ -447,6 +451,7 @@ def selftest():
                'w.yml/Checkout': {'budget_s': 100, 'n': 1, 'date': 'd', 'basis': 'b', 'reason': 'r'},
                'w.yml/Bauen': {'budget_s': 100, 'n': 1, 'date': 'd', 'basis': 'b', 'reason': 'r'},
                'w.yml/Klein': {'budget_s': 5, 'n': 1, 'date': 'd', 'basis': 'b', 'reason': 'r'},
+               'w.yml/Mittel': {'budget_s': 8, 'n': 1, 'date': 'd', 'basis': 'b', 'reason': 'r'},
                'w.yml/Freshness Indexe — Rebuild': {'budget_s': 80, 'n': 1, 'date': 'd', 'basis': 'b', 'reason': 'r'},
            }}
 
@@ -465,8 +470,18 @@ def selftest():
     cases.append(('Schritt ueber Budget mal 1,5 ist rot', ueber([schritt('Bauen', 151)]) == ['Bauen']))
     cases.append(('Checkout hat Faktor 1,3: 131 s ist rot, derselbe Wert bei anderem Schritt ok',
                   ueber([schritt('Checkout', 131), schritt('Bauen', 131)]) == ['Checkout']))
-    cases.append(('Budget unter 10 s: feste Grenze 10 s, 10 s ok', ueber([schritt('Klein', 10)]) == []))
-    cases.append(('Budget unter 10 s: 11 s rot', ueber([schritt('Klein', 11)]) == ['Klein']))
+    cases.append(('Budget 5 mal 1,5 unter 10 s: feste Grenze 10 s, 10 s ok', ueber([schritt('Klein', 10)]) == []))
+    cases.append(('Budget 5 mal 1,5 unter 10 s: 11 s rot', ueber([schritt('Klein', 11)]) == ['Klein']))
+    cases.append(('Budget 8 mal 1,5 = 12 s liegt ueber der Untergrenze: 12 s ok, 13 s rot',
+                  ueber([schritt('Mittel', 12)]) == [] and ueber([schritt('Mittel', 13)]) == ['Mittel']))
+    klein_co = dict(cfg, steps=dict(cfg['steps'], **{
+        'w.yml/Checkout': {'budget_s': 9, 'n': 1, 'date': 'd', 'basis': 'b', 'reason': 'r'}}))
+    cases.append(('Checkout-Budget 9 mal 1,3 = 11,7 s: 11 s ok, 12 s rot (nicht auf 10 s gesenkt)',
+                  ueber([schritt('Checkout', 11)], cfg=klein_co) == []
+                  and ueber([schritt('Checkout', 12)], cfg=klein_co) == ['Checkout']))
+    cases.append(('Checkout-Budget 7 mal 1,3 = 9,1 s: Grenze ist die Untergrenze 10 s',
+                  grenze('w.yml', 'Checkout', dict(klein_co, steps={'w.yml/Checkout': dict(
+                      klein_co['steps']['w.yml/Checkout'], budget_s=7)}))[0] == 10))
     cases.append(('Schritt ohne Eintrag: 10 s ok', ueber([schritt('Neu', 10)]) == []))
     cases.append(('Schritt ohne Eintrag: 11 s rot (kein Budget)', ueber([schritt('Neu', 11)]) == ['Neu']))
     cases.append(('ausgenommener Schritt zaehlt nie', ueber([schritt('Run Claude Code Review', 9999)]) == []))
