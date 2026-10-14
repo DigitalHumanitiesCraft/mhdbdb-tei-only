@@ -17,3 +17,4 @@ Verdichtet am 08.10., 10.10. und 14.10.2026. Zahlen in den Dateien sind Eingabe,
 - [Prüfseiten](projekt_pruefseiten.md): Prüfseiten-Generatoren und archivierte Beispiele prüfen
 - [Parzival-Bücher #358](projekt_parzival_buecher_358.md): Buchgrenzen gegen die Quellen messen
 - [WZB-Nachannotierung #370/#526](projekt_526_breve_makron.md): Tafelskripte auf einer Kopie nachfahren
+- [Glossar #554 (lauf-554)](projekt_lauf-1014-554.md): zwei Einordnungsartefakte, Splitter-Lücke, comment-attribution.spec.js skaliert mit Kommentaren, Prüfseite nachbauen
