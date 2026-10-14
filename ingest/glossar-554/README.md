@@ -1,5 +1,8 @@
 # Glossar Kochbuchforschung gegen das Lexikon (#554, Schritt 2)
 
+Die Übernahme in `lexicon.xml` (Zuordnung, Kommentare, Prüfseite, Klug-Verweise) steht in
+[UEBERNAHME.md](UEBERNAHME.md); diese Datei beschreibt die Prüfliste davor.
+
 Prüfmaterial, keine Entscheidung. Nichts davon steht in `authority-files/` oder `tei/`, und
 nichts davon ist ein Beschluss darüber, welcher Glossar-Eintrag zu welchem Lemma gehört.
 Quelle: [`sources/glossar-kochbuchforschung/`](../../sources/glossar-kochbuchforschung/README.md)
