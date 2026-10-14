@@ -7,7 +7,7 @@ metadata:
 Verdichtet 14.10.2026 (#395, #399, #237, #308, #452).
 
 **Kette und Leser**
-- Zotero -> works.xml (`enhance_works_with_zotero.py`) -> Header (`sync_tei_headers.py --bibl-struct`); der Header ist Kopie (entschieden 24.09.).
+- Zotero -> works.xml (`enhance_works_with_zotero.py`) -> Header (`sync_tei_headers.py --works`, seit #486 chirurgisch auch für die listBibl; `--bibl-struct` ist der alte lxml-Weg); der Header ist Kopie (entschieden 24.09., CONTRACTS F.4a).
 - Reader, API und Playground nehmen biblStructs, hc/GND/wikidata und preferredName aus dem Authority-Index, nie aus dem Header. Reader liest Header-Titel nur bei `biblScope unit=verse`.
 - Spiegel ohne Leser: msIdentifier-idno, listBibl/biblStruct, `particDesc/.../persName[@type="preferred"]` (Kopie von persons.xml; kein Sync-Skript, Namensentscheidungen von Hand nachziehen) und `publicationStmt/authority` (`rg publicationStmt|<authority` über scripts/ assets/js playground/js testing/tests; nur `_archived/` und `ingest/ari` schreiben ihn; eine Ergänzung dort ändert data/ und api/ nicht, kein Versions-Bump).
 
@@ -18,7 +18,9 @@ Verdichtet 14.10.2026 (#395, #399, #237, #308, #452).
 - Alter lxml-Pfad (`--works --bibl-struct`, `--all`) serialisiert alle 667 Dateien neu, löscht alle mwb-sigle und überschreibt listBibl mit Inhaltsverlust.
 - Regex-Schreiber: idno mit Zusatzattribut oder auf der sigle-Zeile wird dupliziert statt entfernt. Schreibblock vor dem Stub-Guard: schreibt erst, endet dann mit Exit 1.
 
-**Zotero-Sync:** `--cache` = online + Cache schreiben, `--offline` liest ihn. Ein Online-Sync hebt Titel an; die Header laufen nicht mit, und die Handkorrekturen FR1/FLG werden jedes Mal überschrieben.
+**Zotero-Sync:** `--cache` = online + Cache schreiben, `--offline` liest ihn. Bis #486 liefen die Header nicht mit und die Handkorrekturen FR3/FLG wurden jedes Mal überschrieben; seit dem Zweig `claude/486-listbibl-kette` (14.10.) hält `BESTAND_BEHALTEN` in `enhance_works_with_zotero.py` FLG (Schlüssel ATWPNQPS) und FR3 (bis MVWV5QYG in Zotero korrigiert ist). Die Handkorrektur aus #236 steht in FR3, nicht FR1.
+
+**listBibl-Schreiber (#486, `schreibe_werk_bibliographie`):** `--works` schreibt seit dem Zweig auch die listBibl, Gate `--works --check` auf Enthaltensein je @corresp. Probe ohne Dateischreiben: Modul importieren, Block per `_header_text`/`LISTBIBL`/`BIBL_BLOCK` holen, String mutieren, `_scan`/`_edits` laufen lassen und Edits selbst anwenden (Skript war in `%TEMP%/rev486_probe*.py`, Konsole braucht `PYTHONIOENCODING=utf-8`). Gemessen 14.10.: ein selbstschließendes Blatt im Header (`<forename/>` in MSB1 und NEI) ist nicht ersetzbar, der Schreiber bricht mit ValueError ab; ein fehlendes Element mit Kindern auf biblStruct-Ebene wird mit der ganzen Kind-Einrückung als Einheit eingerückt (16 Leerzeichen je Stufe), eine Stufe tiefer korrekt. Zählfallen: works.xml 680 biblStruct mit @corresp gegen 678 Header-Blöcke, die Differenz sind WG (kein tei/WG.tei.xml) und TRO (zwei Werke, derselbe Schlüssel und dasselbe @corresp); meine Reihenfolgezählung ergab 120, davon 1 AK (Zusatzelemente), also 119 wie behauptet.
 
 **Messen:** Header-biblStruct gegen works.xml per @corresp, c14n per lxml, `>\s+<` kollabiert, NFC. MWB-Siglen: `https://www.mhdwb-online.de/quellenverzeichnis.php?buchstabe=N`.
 
