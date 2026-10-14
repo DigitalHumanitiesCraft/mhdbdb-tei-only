@@ -599,10 +599,13 @@ Scripts for enriching authority files with external data:
    - Transform titles to German Title Case (capitalize words except articles/prepositions)
    - Update works.xml with complete biblStruct elements
    - Three modes: live API, cache, offline
+   - Two named exceptions to "the edition is whatever Zotero says": FLG is assigned by Zotero key (ATWPNQPS) instead of by call number, and FR3 stays at the state of `115c3a01f` until its Zotero item is corrected; both in [CONTRACTS.md F.4a](CONTRACTS.md#f4a-edition-evidence-zotero--worksxml--tei-header)
 
 2. **`sync_tei_headers.py`** - Propagate authority metadata to TEI headers
-   - Read authority file changes (works.xml, persons.xml)
-   - Update corresponding TEI file headers
+   - Read authority file changes (only `works.xml` is implemented; persons, genres and concepts are declared stubs)
+   - `--works` writes two things into each header, both by string replacement so that every other byte stays: the mirrored identifiers in the `msIdentifier` (#399) and the edition evidence in the `biblStruct` of the `listBibl` (#486)
+   - The `biblStruct` writer changes only the text of changed leaf elements and inserts missing elements; elements that exist only in the header (text-specific additions such as AK, #134) and the order of the children stay as they are
+   - `--works --check` is the gate: every element of the `works.xml` `biblStruct` has to be present in the header (see [CONTRACTS.md F.4a](CONTRACTS.md#f4a-edition-evidence-zotero--worksxml--tei-header))
    - Maintain intentional redundancy for accessibility
 
 **Title Case Transformation:** Zotero stores titles in sentence case, but German bibliographic style requires Title Case. The script converts automatically:

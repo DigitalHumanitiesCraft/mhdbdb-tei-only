@@ -570,7 +570,9 @@ def schreibe_werk_identifier(dry_run: bool = False) -> int:
     ebenso msName, @corresp und alles ausserhalb des Blocks. Zeilenenden
     bleiben erhalten (WZB ist eine CRLF-Datei).
 
-    Die listBibl wird NICHT angefasst, siehe --bibl-struct.
+    Die listBibl fasst diese Funktion nicht an; das macht seit #486
+    schreibe_werk_bibliographie, im selben --works-Lauf. --bibl-struct ist der
+    alte Weg, der die ganze Datei neu serialisiert.
     """
     syncer = WorksSyncer(AUTHORITY_DIR / 'works.xml', TEI_DIR)
     nach_sigle = syncer.load_authority_data()
@@ -1167,17 +1169,20 @@ Examples:
     parser.add_argument('--dry-run', action='store_true',
                        help='Show what would be changed without modifying files')
     parser.add_argument('--bibl-struct', action='store_true',
-                       help='Zusaetzlich die listBibl aus works.xml ziehen. '
-                            'ACHTUNG: dieser Weg laeuft ueber lxml und '
+                       help='Die listBibl als ganzen Block aus works.xml ziehen '
+                            '(alter Weg; --works gleicht die listBibl seit #486 '
+                            'chirurgisch an). ACHTUNG: dieser Weg laeuft ueber lxml und '
                             'serialisiert jede Datei neu (gemessen: alle 667 '
                             'geaendert, Korpus 1.432,5 -> 1.430,6 MB). Er '
                             'LOESCHT dabei die 19 mwb-sigle und aendert bei '
                             'AK, FR3, HZ, LUU und WZB die Bibliographie '
                             'inhaltlich. Nur bewusst benutzen.')
     parser.add_argument('--check', action='store_true',
-                       help='Gate (#399): Header gegen works.xml pruefen, nichts '
-                            'schreiben, Exit 1 bei Abweichung. Vergleicht Inhalte, '
-                            'nicht Formatierung. Nur fuer works.')
+                       help='Gate (#399, #486): Header gegen works.xml pruefen, nichts '
+                            'schreiben, Exit 1 bei Abweichung. Identifier im '
+                            'msIdentifier und Editionsnachweis in der listBibl '
+                            '(Enthaltensein). Vergleicht Inhalte, nicht '
+                            'Formatierung. Nur fuer works.')
 
     args = parser.parse_args()
 

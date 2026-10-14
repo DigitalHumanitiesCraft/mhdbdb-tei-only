@@ -18,6 +18,12 @@ Workflow:
 The script can be run multiple times safely - it removes any existing biblStruct
 elements before adding new ones, preventing duplicates.
 
+Chain direction (#486): Zotero -> works.xml -> TEI header. The biblStruct in the
+header is a copy; corrections to an edition start in Zotero. Two named
+exceptions, see SIGLE_ZU_ZOTERO_SCHLUESSEL / BESTAND_BEHALTEN below: FLG (assigned
+by Zotero key ATWPNQPS, permanent, KZW 12.10.2026) and FR3 (kept at the state of
+115c3a01f until Zotero item MVWV5QYG is corrected).
+
 Usage:
     # Fetch from API and update works.xml
     python scripts/sync/enhance_works_with_zotero.py
@@ -311,8 +317,9 @@ def convert_to_title_case(text: str) -> str:
 #
 # Der Fix in works.xml allein haelt nicht: dieses Skript loescht bestehende
 # relatedItem/biblStruct und baut sie aus der API neu (siehe
-# replace_editions_with_biblstructs), und sync_tei_headers.py traegt sie von
-# works.xml aus wieder in die 21 TEI-Header. Ein Sync-Lauf haette die kaputten
+# replace_editions_with_biblstructs), und sync_tei_headers.py --works traegt
+# sie seit #486 (listBibl-Schreiber) von works.xml aus wieder in die TEI-Header
+# der betroffenen Werke. Ein Sync-Lauf haette die kaputten
 # URLs also zurueckgeschrieben. Der gitignorierte .zotero_cache.json macht das
 # noch wahrscheinlicher: ein --offline-Lauf reintroduziert sie garantiert,
 # selbst wenn die Gruppenbibliothek irgendwann korrigiert wird.
