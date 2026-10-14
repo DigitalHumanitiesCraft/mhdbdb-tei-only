@@ -22,3 +22,13 @@ Geschrieben 14.10.2026 (Runde 1 zu 92933ebd6). Zahlen sind Eingabe, vor Gebrauch
 **Korpus-Sense-Zählung:** `ana="lexicon.xml#lemma_N_sense_M"` (mit Präfix; `#lemma_` allein trifft nichts). `rg -o --no-filename 'ana="lexicon\.xml#lemma_(N|M)_sense_[0-9]+"' tei | sort | uniq -c`.
 
 **Billige Gates für Lexikon-Diffs:** `check-index-versions.py`, `check-index-version-bump.py --base origin/main`, `check-doc-inventories.py`, `build-pages.py --check`, `doc-count-audit.py --check`, `check-no-em-dash.py --diff-base origin/main`, alle unter 2 min. Index-Delta: Base-Index per `git show origin/main:data/authority-index.json.gz`, je Lemma Felddifferenz zählen (hier nur `senses.comment/commentResp/commentRespName` an 96 Lemmata).
+
+## Runde 2 (14.10.2026, zu da3ee57fc, nach Rebase auf 0258eb9db)
+
+**Zählfallen an diesem Diff.** Abbas Bestandskommentar trägt ebenfalls `contrib_003`: `contrib_003`-Notizen in lexicon.xml = Glossar-Notizen + 1, Lemmata mit Kommentar im Index = Glossar-Lemmata + 1. Die Dezile in UEBERNAHME.md B4 sind `statistics.quantiles(n=10, method='exclusive')` (inclusive weicht ab 181/191). Die Vorstufen-Zeichenzahl (289.860) zählt `enz_t` plus `poet_t` ohne den `\n\n`-Trenner; mit Trenner liegt sie um 2 je übernommener Poetisierung höher. Vorstufe: `vorstufe-bauen.py <scratch>.json` läuft in Sekunden, lxml-Probe über lexicon.xml ebenso; Index- und API-Vergleich gegen `git show origin/main:...` in-process unter einer Minute.
+
+**Das zweite Einordnungsartefakt besteht weiter.** `kuerzung` in `kommentare/*.json` (72 gestrafft, 17 gekuerzt, 31 ohne Feld) widerspricht `einordnung.json` an 382, 387, 518, 579 (dort `c`, im JSON gestrafft), 1905 (Rückfrage E, nicht gekürzt), 2074 und 2084 (Feld fehlt). Steuert nichts; in Runde 2 als B gemeldet.
+
+**Docstring-Falle:** eine Aufzählung von Anführungszeichen in einem ASCII-Docstring (`scripts/` schreibt ASCII) verliert das `„` leicht zum geraden `"`; bei Aussagen über Trennzeichen die Bytes mit `hex(ord(c))` prüfen, nicht die Konsole lesen.
+
+**Nicht gemessen:** Laufzeit der Stichprobe (9 Seitenaufrufe je Test) in comment-attribution.spec.js; `npm test` lief beim Aufrufer parallel, darum keine eigene Playwright-Probe (Port 8080, gemeinsame Ergebnisdatei).
