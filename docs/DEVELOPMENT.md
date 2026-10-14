@@ -547,7 +547,7 @@ gh pr create --fill
 gh pr merge --squash
 ```
 
-Small documentation changes are the exception and go straight to `main`, see CLAUDE.md → Git Rules.
+Small changes are the exception and go straight to `main`; what counts as small, see CLAUDE.md → Git Rules.
 
 ### Commit Guidelines
 
