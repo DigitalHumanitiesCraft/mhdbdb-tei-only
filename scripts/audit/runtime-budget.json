@@ -10,28 +10,25 @@
   ],
   "steps": {
     "no-cdn-check.yml/Checkout": {
-      "budget_s": 12,
-      "n": 3,
-      "date": "2026-10-10",
-      "basis": "p90 der erfolgreichen Laeufe seit dem Merge von E1 (#571, 12:38 UTC); n unter 10, vorlaeufig, Nachkalibrierung angekuendigt in #564",
-      "reason": "schlanker Checkout nach E1; vorher median 124 s im Gesamtlauf",
-      "provisional_since": "2026-10-10T13:57:23Z"
+      "budget_s": 10,
+      "n": 25,
+      "date": "2026-10-14",
+      "basis": "p90 der letzten 25 erfolgreichen Laeufe seit 2026-10-10T13:57:23Z (median 9 s, max 11 s); Nachkalibrierung aus #564",
+      "reason": "schlanker Checkout nach E1; vorher median 124 s im Gesamtlauf. Budget gleich der Untergrenze, Grenze 13 s"
     },
     "no-cdn-check.yml/Dokumentierte Zahlen gegen die Daten (#382/#398)": {
-      "budget_s": 5,
-      "n": 3,
-      "date": "2026-10-10",
-      "basis": "p90 der erfolgreichen Laeufe seit dem Merge von E1 (#571), nicht der letzten 25, damit alle Schritte des Workflows dieselbe Grundmenge haben; n unter 10, vorlaeufig",
-      "reason": "liegt unter der Untergrenze, die Grenze ist daher 10 s",
-      "provisional_since": "2026-10-10T13:57:23Z"
+      "budget_s": 6,
+      "n": 25,
+      "date": "2026-10-14",
+      "basis": "p90 der letzten 25 erfolgreichen Laeufe seit 2026-10-10T13:57:23Z (median 5 s, max 6 s); Nachkalibrierung aus #564",
+      "reason": "liegt unter der Untergrenze, die Grenze ist daher 10 s"
     },
     "file-size-check.yml/Checkout": {
       "budget_s": 2,
-      "n": 3,
-      "date": "2026-10-10",
-      "basis": "p90 der erfolgreichen Laeufe seit dem Merge von E1 (#571); n unter 10, vorlaeufig",
-      "reason": "Checkout nur eines Skripts; die Grenze ist die Untergrenze 10 s",
-      "provisional_since": "2026-10-10T13:57:23Z"
+      "n": 25,
+      "date": "2026-10-14",
+      "basis": "p90 der letzten 25 erfolgreichen Laeufe seit 2026-10-10T13:57:23Z (median 1 s, max 3 s); Nachkalibrierung aus #564",
+      "reason": "Checkout nur eines Skripts; die Grenze ist die Untergrenze 10 s"
     },
     "data-integrity.yml/Checkout": {
       "budget_s": 226,
@@ -119,36 +116,32 @@
       "reason": "Rebuild von variants.xml aus dem Korpus"
     },
     "measured-counts.yml/Checkout": {
-      "budget_s": 222,
-      "n": 6,
-      "date": "2026-10-10",
-      "basis": "p90 der 6 vorhandenen erfolgreichen Laeufe; n unter 10, vorlaeufig",
-      "reason": "voller Checkout; streut stark (median 111 s)",
-      "provisional_since": "2026-10-10T13:57:23Z"
+      "budget_s": 267,
+      "n": 11,
+      "date": "2026-10-14",
+      "basis": "p90 der 11 erfolgreichen Laeufe seit 2026-10-10T13:57:23Z (median 215 s, max 270 s); Nachkalibrierung aus #564",
+      "reason": "voller Checkout; streut stark. Bei der vorlaeufigen Messung (n=6) lag der Median bei 111 s, jetzt bei 215 s; Ursache nicht untersucht, kein Lauf ueberschritt die alte Grenze (289 s)"
     },
     "measured-counts.yml/Set up Python": {
       "budget_s": 5,
-      "n": 6,
-      "date": "2026-10-10",
-      "basis": "p90 der 6 vorhandenen erfolgreichen Laeufe; n unter 10, vorlaeufig",
-      "reason": "liegt unter der Untergrenze, die Grenze ist daher 10 s",
-      "provisional_since": "2026-10-10T13:57:23Z"
+      "n": 11,
+      "date": "2026-10-14",
+      "basis": "p90 der 11 erfolgreichen Laeufe seit 2026-10-10T13:57:23Z (median 3 s, max 5 s); Nachkalibrierung aus #564",
+      "reason": "liegt unter der Untergrenze, die Grenze ist daher 10 s"
     },
     "measured-counts.yml/Install dependencies": {
       "budget_s": 4,
-      "n": 6,
-      "date": "2026-10-10",
-      "basis": "p90 der 6 vorhandenen erfolgreichen Laeufe; n unter 10, vorlaeufig",
-      "reason": "liegt unter der Untergrenze, die Grenze ist daher 10 s",
-      "provisional_since": "2026-10-10T13:57:23Z"
+      "n": 11,
+      "date": "2026-10-14",
+      "basis": "p90 der 11 erfolgreichen Laeufe seit 2026-10-10T13:57:23Z (median 3 s, max 4 s); Nachkalibrierung aus #564",
+      "reason": "liegt unter der Untergrenze, die Grenze ist daher 10 s"
     },
     "measured-counts.yml/Gemessene Zahlen gegen ihre Fundstellen (#414)": {
-      "budget_s": 128,
-      "n": 6,
-      "date": "2026-10-10",
-      "basis": "p90 der 6 vorhandenen erfolgreichen Laeufe; n unter 10, vorlaeufig",
-      "reason": "Zaehlskripte ueber das ganze Korpus",
-      "provisional_since": "2026-10-10T13:57:23Z"
+      "budget_s": 127,
+      "n": 11,
+      "date": "2026-10-14",
+      "basis": "p90 der 11 erfolgreichen Laeufe seit 2026-10-10T13:57:23Z (median 108 s, max 128 s); Nachkalibrierung aus #564",
+      "reason": "Zaehlskripte ueber das ganze Korpus"
     }
   }
 }
