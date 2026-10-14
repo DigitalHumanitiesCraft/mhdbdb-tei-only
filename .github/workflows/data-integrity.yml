@@ -35,7 +35,8 @@ name: Data Integrity
 #      und ohne Abhaengigkeit von einem Vorgaenger. Die Pfadfilter hier
 #      nennen docs/** (behauptete Zahl) nicht; seit 01.10.2026 deckt das
 #      derselbe Schritt in no-cdn-check.yml ab, Begruendung am Step.
-#   1b. Werk-Identifier gegen works.xml (#399): fuer
+#   1b. Werk-Identifier und Editionsnachweis gegen works.xml
+#      (#399/#486): fuer
 #      handschriftencensus, GND und wikidata ist works.xml Master, der
 #      msIdentifier jedes TEI-Headers ist Spiegel. Verglichen wird
 #      INHALT, nicht Formatierung: ein Sync-und-diff wuerde alle 667
@@ -44,6 +45,13 @@ name: Data Integrity
 #      mit eigener Meldung, weil --works einen fehlenden Block nicht
 #      anlegen kann. Frueh, weil billig (rund eine Sekunde ueber alle
 #      667, gemessen 08.09.2026) und ohne Vorgaenger-Abhaengigkeit.
+#      Seit #486 (14.10.2026) prueft derselbe Befehl auch den
+#      Editionsnachweis: jeder biblStruct aus works.xml mit @corresp
+#      (Zotero-Item) muss im Header-biblStruct mit demselben @corresp
+#      mit gleichem Inhalt enthalten sein, und ein fehlender Header-Block
+#      ist rot; Zusaetze im Header (etwa der AK-Ausschnitt aus #134) sind
+#      erlaubt. Bloecke ohne @corresp (WZB, auf beiden Seiten) bleiben
+#      ausserhalb der Kette.
 #   1c. Versions-Bump-Gate (#154): hat sich der dekomprimierte Inhalt
 #      von corpus-/authority-index gegenueber der Diff-Base geaendert,
 #      MUSS der version-String mitgebumpt sein — sonst invalidiert der
@@ -282,14 +290,16 @@ jobs:
       - name: Dokumentierte Zahlen gegen die Daten (#382/#398)
         run: python scripts/audit/doc-count-audit.py --check
 
-      # Haelt den msIdentifier jeder Korpusdatei gegen works.xml (#399).
+      # Haelt den msIdentifier und den Editionsnachweis (biblStruct der
+      # listBibl, Enthaltensein) jeder Korpusdatei gegen works.xml
+      # (#399, #486).
       # Verglichen wird der INHALT der gespiegelten idno, nicht die
       # Formatierung: ein "Sync laufen lassen und diffen" waere dauerhaft rot,
       # weil der lxml-Schreibpfad jede Datei neu serialisiert (gemessen
       # 07.09.2026: alle 667 geaendert, Korpus 1.432,5 -> 1.430,6 MB).
-      # Billig und offline: liest je Datei nur bis zum Ende des
-      # msIdentifier (iterparse), rund eine Sekunde ueber alle 667.
-      - name: Werk-Identifier gegen works.xml (#399)
+      # Billig und offline: liest je Datei nur den Header (msIdentifier
+      # per iterparse, listBibl bis </teiHeader>).
+      - name: Werk-Identifier und Editionsnachweis gegen works.xml (#399/#486)
         run: python scripts/sync/sync_tei_headers.py --works --check
 
       - name: Regenerate RNG from RNC (P2-14 drift check)
