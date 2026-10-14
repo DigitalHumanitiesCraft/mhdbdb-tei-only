@@ -749,7 +749,8 @@ def pruefe_werk_identifier() -> int:
 #     einzigen Fall: dem <ref> in FR3 (works.xml, Supplement-Verweis auf FR1).
 #
 # Der Schreiber arbeitet chirurgisch wie schreibe_werk_identifier: er ersetzt
-# nur den Text geaenderter Blattelemente und setzt fehlende Elemente ein.
+# geaenderte Blattelemente (das Element als Ganzes, ein Blatt mit eigener
+# @xml:id verliert sie dabei; heute gibt es keines) und setzt fehlende Elemente ein.
 # Alles andere im Header bleibt byteweise stehen, Zeilenenden eingeschlossen.
 # Nicht erfasst: ein Element, das in works.xml VERSCHWINDET, bleibt als
 # Zusatzelement im Header stehen, denn vom Handzusatz (AK) unterscheidet es
@@ -844,13 +845,14 @@ def _luecken(h, w, pfad: str = ''):
     for wi, hi in gepaart.items():
         wc, hc = wk[wi], hk[hi]
         p = f'{pfad}/{_lokal(wc)}'
+        # gemischter Inhalt gehoert zum Element: Text hinter dem Element und,
+        # bei Containern, Text vor dem ersten Kind (gleiche Paare vergleicht
+        # _sig schon)
+        if _norm(wc.tail) != _norm(hc.tail):
+            probleme.append(f'{p}: Text hinter dem Element weicht ab')
         if _kinder(wc):
-            # gemischter Inhalt (Text neben Kindern) gehoert zum Element
-            if (_norm(wc.text) != _norm(hc.text)
-                    or sorted(_norm(c.tail) for c in _kinder(wc))
-                    != sorted(_norm(c.tail) for c in _kinder(hc) if _schluessel(c, False) in
-                              {_schluessel(x, True) for x in _kinder(wc)})):
-                probleme.append(f'{p}: Text neben den Kindern weicht ab')
+            if _norm(wc.text) != _norm(hc.text):
+                probleme.append(f'{p}: Text vor den Kindern weicht ab')
             sub, z = _luecken(hc, wc, p)
             probleme += sub
             n_zusatz += z
@@ -950,10 +952,13 @@ def _edits(h, w, sh, block: str, nl: str, edits: list, unit: str):
             edits.append((s['start'], s['end'], _emit(wc, ind, unit, nl)))
         elif _kinder(wc):
             _edits(hk[hi], wc, s, block, nl, edits, unit)
-        else:
-            if s['eten'] is None:
-                raise ValueError(f'{_lokal(wc)}: Blatt im Header nicht ersetzbar')
-            edits.append((s['sten'], s['eten'], _esc(_norm(wc.text))))
+        elif _norm(wc.text) != _norm(hk[hi].text):
+            # works.xml fuehrt ein Blatt mit anderem Text, der Header einen
+            # Container mit Kindern: Ersetzen wuerde die Kinder loeschen, also
+            # hart abbrechen. Bei gleichem Text ist das Blatt im Container
+            # enthalten (so zaehlt es auch das Gate) und es bleibt alles stehen.
+            raise ValueError(f'{_lokal(wc)}: im Header ein Container, in works.xml ein Blatt; '
+                             f'nicht angleichbar')
     if not fehlend:
         return
     if not sk:
@@ -1094,7 +1099,14 @@ def schreibe_werk_bibliographie(dry_run: bool = False) -> tuple:
         daten = _werk_daten(head, sigle, nach_id_und_sigle, nach_sigle)
         if daten is None:
             continue
-        neu_head, probleme, _z, _g, _o = _datei_bibliographie(head, daten, schreiben=True)
+        try:
+            neu_head, probleme, _z, _g, _o = _datei_bibliographie(head, daten, schreiben=True)
+        except ValueError as exc:
+            # eine Datei, die der Schreiber nicht angleichen kann, wird gemeldet
+            # und uebersprungen; die uebrigen laufen weiter, der Exit-Status ist 1
+            fehler += 1
+            logger.error(f"[works] {sigle}: listBibl nicht angleichbar: {exc}")
+            continue
         if probleme:
             fehler += 1
             logger.error(f"[works] {sigle}: listBibl nicht angleichbar: {'; '.join(probleme)}")
