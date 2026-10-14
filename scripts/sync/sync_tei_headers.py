@@ -38,6 +38,7 @@ import sys
 import re
 import argparse
 import logging
+import unicodedata
 from pathlib import Path
 from lxml import etree
 from typing import Dict, List, Set
@@ -724,6 +725,407 @@ def pruefe_werk_identifier() -> int:
     return len(abweichend) + len(ohne_msid)
 
 
+# ---------------------------------------------------------------------------
+# listBibl: der Editionsnachweis im Header (#486)
+#
+# Kettenrichtung: Zotero -> works.xml -> TEI-Header. Der biblStruct im Header
+# ist eine KOPIE des works.xml-Nachweises, darf aber textspezifische
+# Ergaenzungen tragen (AK: biblScope unit="verse" und note type="context",
+# #134). Deshalb gilt hier keine Gleichheit, sondern ENTHALTENSEIN: jedes
+# Element des works.xml-biblStruct muss im Header-biblStruct mit gleichem
+# Inhalt stehen. Zusatzelemente im Header sind erlaubt und werden gezaehlt.
+#
+# Verglichen wird je Element (Tag, Attribute, Text, Kinder) nach NFC und mit
+# zusammengezogenem Whitespace; die Reihenfolge der Kinder ist egal (119 von
+# 678 Header-Bloecken stehen in anderer Reihenfolge als in works.xml, ohne
+# dass sich etwas aendert, gemessen 14.10.2026). Zwei Regeln:
+#   - @xml:id wird nie verglichen und nie geschrieben: works.xml vergibt sie
+#     dateiuebergreifend eindeutig (HZ_HZ_HZ), der Header je Datei (bei HZ
+#     und LUU sind die Suffixe zwischen den zwei Bloecken vertauscht).
+#   - ein lokaler Verweis "#x" in works.xml entspricht "works.xml#x" im
+#     Header, weil "#x" dort ins Leere zeigte. Die Regel haengt heute an einem
+#     einzigen Fall: dem <ref> in FR3 (works.xml, Supplement-Verweis auf FR1).
+#
+# Der Schreiber arbeitet chirurgisch wie schreibe_werk_identifier: er ersetzt
+# nur den Text geaenderter Blattelemente und setzt fehlende Elemente ein.
+# Alles andere im Header bleibt byteweise stehen, Zeilenenden eingeschlossen.
+# Nicht erfasst: ein Element, das in works.xml VERSCHWINDET, bleibt als
+# Zusatzelement im Header stehen, denn vom Handzusatz (AK) unterscheidet es
+# sich nicht; das Gate sieht es nicht. Ein Block im Header ohne @corresp
+# (WZB) steht ausserhalb der Kette: dort fuehren works.xml und der Header je
+# einen von Hand geschriebenen biblStruct ohne Zotero-Verweis; beide bleiben
+# unberuehrt.
+# ---------------------------------------------------------------------------
+
+XML_ID = '{http://www.w3.org/XML/1998/namespace}id'
+XML_PREFIX_URI = 'http://www.w3.org/XML/1998/namespace'
+
+
+def _norm(s) -> str:
+    return re.sub(r'\s+', ' ', unicodedata.normalize('NFC', s or '')).strip()
+
+
+def _lokal(el) -> str:
+    return etree.QName(el).localname
+
+
+def _kinder(el) -> list:
+    return [c for c in el if isinstance(c.tag, str)]
+
+
+def _attrs(el, werk_seite: bool) -> dict:
+    """Attribute ohne @xml:id; auf der works-Seite wird "#x" zu "works.xml#x"."""
+    out = {}
+    for k, v in el.attrib.items():
+        if k == XML_ID:
+            continue
+        if werk_seite and k == 'target' and _lokal(el) == 'ref' and v.startswith('#'):
+            v = 'works.xml' + v
+        out[k] = v
+    return out
+
+
+def _schluessel(el, werk_seite: bool):
+    return (_lokal(el), tuple(sorted(_attrs(el, werk_seite).items())))
+
+
+def _sig(el, werk_seite: bool):
+    ks = _kinder(el)
+    return (_schluessel(el, werk_seite), _norm(el.text),
+            tuple(sorted(_sig(c, werk_seite) for c in ks)),
+            tuple(sorted(_norm(c.tail) for c in ks)))
+
+
+def _abgleich(h, w):
+    """Kinder von h (Header) und w (works.xml) einander zuordnen.
+
+    Erst gleiche Signatur, dann gleicher Schluessel (Tag und Attribute) bei
+    abweichendem Inhalt. Returns (hk, wk, gleich, gepaart, fehlend, zusatz):
+    gleich und gepaart bilden Index von wk auf Index von hk ab, fehlend
+    ist die Liste der wk-Indizes ohne Gegenstueck, zusatz die der
+    hk-Indizes, die nur im Header stehen.
+    """
+    hk, wk = _kinder(h), _kinder(w)
+    h_frei = list(range(len(hk)))
+    hsig = [_sig(c, False) for c in hk]
+    gleich, gepaart = {}, {}
+    for wi, wc in enumerate(wk):
+        s = _sig(wc, True)
+        for hi in h_frei:
+            if hsig[hi] == s:
+                gleich[wi] = hi
+                h_frei.remove(hi)
+                break
+    for wi, wc in enumerate(wk):
+        if wi in gleich:
+            continue
+        key = _schluessel(wc, True)
+        for hi in h_frei:
+            if _schluessel(hk[hi], False) == key:
+                gepaart[wi] = hi
+                h_frei.remove(hi)
+                break
+    fehlend = [wi for wi in range(len(wk)) if wi not in gleich and wi not in gepaart]
+    return hk, wk, gleich, gepaart, fehlend, h_frei
+
+
+def _luecken(h, w, pfad: str = ''):
+    """Was aus w im Header-Element h fehlt oder abweicht.
+
+    Returns (probleme, zusatz): probleme ist eine Liste von Texten, zusatz die
+    Zahl der Elemente, die nur im Header stehen.
+    """
+    hk, wk, _gleich, gepaart, fehlend, zusatz = _abgleich(h, w)
+    probleme = []
+    n_zusatz = len(zusatz)
+    for wi, hi in gepaart.items():
+        wc, hc = wk[wi], hk[hi]
+        p = f'{pfad}/{_lokal(wc)}'
+        if _kinder(wc):
+            sub, z = _luecken(hc, wc, p)
+            probleme += sub
+            n_zusatz += z
+        elif _norm(wc.text) != _norm(hc.text):
+            probleme.append(f'{p}: Header "{_norm(hc.text)}" gegen works.xml "{_norm(wc.text)}"')
+    for wi in fehlend:
+        probleme.append(f'{pfad}/{_lokal(wk[wi])}: fehlt im Header ("{_norm(wk[wi].text)[:60]}")')
+    return probleme, n_zusatz
+
+
+def _kopf_pruefen(h, w):
+    """Attribute des biblStruct selbst: was works.xml fuehrt, muss im Header stehen."""
+    ist, soll = _attrs(h, False), _attrs(w, True)
+    return [f'@{k}: Header "{ist.get(k)}" gegen works.xml "{v}"'
+            for k, v in soll.items() if ist.get(k) != v]
+
+
+def _scan(block: str):
+    """Elementbaum des Blocks mit Textpositionen (fuer die chirurgischen Edits).
+
+    Kommentare, CDATA und Verarbeitungsanweisungen kommen im Block nicht vor
+    und fuehren zum harten Fehler, statt falsche Positionen zu liefern.
+    """
+    if '<!--' in block or '<![CDATA[' in block or '<?' in block:
+        raise ValueError('biblStruct mit Kommentar, CDATA oder PI: Schreiber kennt das nicht')
+    tag = re.compile(r'<(/?)([^\s/>!?]+)((?:[^>"\']|"[^"]*"|\'[^\']*\')*?)(/?)>')
+    wurzel, stapel = None, []
+    for m in tag.finditer(block):
+        schliessend, name, _rest, selbst = m.groups()
+        if schliessend:
+            knoten = stapel.pop()
+            if knoten['tag'] != name:
+                raise ValueError(f'Tag-Reihenfolge gestoert bei {name}')
+            knoten['eten'], knoten['end'] = m.start(), m.end()
+            continue
+        knoten = {'tag': name, 'start': m.start(), 'sten': m.end(),
+                  'eten': None, 'end': m.end() if selbst else None, 'kinder': []}
+        if stapel:
+            stapel[-1]['kinder'].append(knoten)
+        else:
+            wurzel = knoten
+        if not selbst:
+            stapel.append(knoten)
+    if stapel or wurzel is None:
+        raise ValueError('biblStruct nicht wohlgeformt')
+    return wurzel
+
+
+def _einzug(text: str, pos: int) -> str:
+    zeile = text[:pos].rsplit('\n', 1)[-1]
+    return zeile if zeile.strip() == '' else None
+
+
+def _esc(s: str) -> str:
+    return s.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
+
+
+def _emit(el, ind: str, unit: str, nl: str) -> str:
+    """Ein works.xml-Element als Header-Text (ohne @xml:id, #-Verweise umgesetzt)."""
+    name = _lokal(el)
+    attrs = ''
+    for k, v in _attrs(el, True).items():
+        if k.startswith('{'):
+            uri, lokal = k[1:].split('}')
+            if uri != XML_PREFIX_URI:
+                raise ValueError(f'Attribut {k} in einem fremden Namensraum')
+            k = 'xml:' + lokal
+        attrs += f' {k}="{_esc(v).replace(chr(34), "&quot;")}"'
+    ks = _kinder(el)
+    if not ks:
+        t = _norm(el.text)
+        return f'<{name}{attrs}>{_esc(t)}</{name}>' if t else f'<{name}{attrs}/>'
+    if _norm(el.text) or any(_norm(c.tail) for c in ks):
+        raise ValueError(f'{name}: gemischter Inhalt, Schreiber kennt das nicht')
+    innen = ''.join(nl + ind + unit + _emit(c, ind + unit, unit, nl) for c in ks)
+    return f'<{name}{attrs}>{innen}{nl}{ind}</{name}>'
+
+
+def _edits(h, w, sh, block: str, nl: str, edits: list):
+    """Edits (start, ende, text) am Block sammeln, damit h die Elemente von w enthaelt."""
+    hk, wk, gleich, gepaart, fehlend, _zusatz = _abgleich(h, w)
+    sk = sh['kinder']
+    if len(sk) != len(hk):
+        raise ValueError('Scanner und Parser sehen verschiedene Kinder')
+    for wi, hi in gepaart.items():
+        wc = wk[wi]
+        if _kinder(wc):
+            _edits(hk[hi], wc, sk[hi], block, nl, edits)
+        else:
+            s = sk[hi]
+            if s['eten'] is None or _kinder(hk[hi]):
+                raise ValueError(f'{_lokal(wc)}: Blatt im Header nicht ersetzbar')
+            edits.append((s['sten'], s['eten'], _esc(_norm(wc.text))))
+    if not fehlend:
+        return
+    if not sk:
+        raise ValueError(f'{_lokal(h)}: leer im Header, Einsetzstelle unklar')
+    ind = _einzug(block, sk[0]['start'])
+    if ind is None:
+        raise ValueError(f'{_lokal(h)}: Kinder nicht zeilenweise gesetzt')
+    eigener = _einzug(block, sh['start']) or ''
+    unit = ind[len(eigener):] if ind.startswith(eigener) and len(ind) > len(eigener) else '  '
+    for wi in fehlend:
+        vorher = [j for j in range(wi) if j in gleich or j in gepaart]
+        text = _emit(wk[wi], ind, unit, nl)
+        if vorher:
+            hi = (gleich.get(vorher[-1]) if vorher[-1] in gleich else gepaart[vorher[-1]])
+            pos = sk[hi]['end']
+            edits.append((pos, pos, nl + ind + text))
+        else:
+            pos = sk[0]['start']
+            edits.append((pos, pos, text + nl + ind))
+
+
+def _header_text(tei_datei: Path) -> str:
+    """Den Text bis </teiHeader> lesen, ohne die ganze Datei zu laden."""
+    ende = b'</teiHeader>'
+    puffer = b''
+    with open(tei_datei, 'rb') as f:
+        while ende not in puffer:
+            stueck = f.read(1 << 20)
+            if not stueck:
+                raise ValueError(f'{tei_datei.name}: kein </teiHeader>')
+            puffer += stueck
+    return puffer[:puffer.index(ende) + len(ende)].decode('utf-8')
+
+
+BIBL_BLOCK = re.compile(r'<biblStruct\b[^>]*>.*?</biblStruct>', re.S)
+LISTBIBL = re.compile(r'<listBibl\b[^>]*>.*?</listBibl>', re.S)
+
+
+def _bibl_parsen(block: str):
+    if block.count('<biblStruct') != 1:
+        raise ValueError('verschachtelter biblStruct')
+    return etree.fromstring(block.replace('<biblStruct', f'<biblStruct xmlns="{TEI_NS_URI}"', 1))
+
+
+def _werk_daten(head: str, sigle: str, nach_id_und_sigle: dict, nach_sigle: dict):
+    ms = MSID_BLOCK.search(head)
+    if not ms:
+        return None
+    m = re.search(r'\bcorresp="([^"]*)"', ms.group(0))
+    work_id = m.group(1).split('#')[-1] if m and '#' in m.group(1) else ''
+    return nach_id_und_sigle.get((work_id, sigle)) or nach_sigle.get(sigle)
+
+
+def _datei_bibliographie(head: str, daten: dict, schreiben: bool):
+    """Header-biblStruct einer Datei gegen works.xml halten.
+
+    Returns (neuer_head oder None, probleme, zusatz, geprueft, ohne_gegenstueck).
+    neuer_head ist nur gesetzt, wenn schreiben=True und sich etwas aendert.
+    """
+    lb = LISTBIBL.search(head)
+    if not lb:
+        return None, ['keine listBibl im Header'], 0, 0, 0
+    if len(LISTBIBL.findall(head)) != 1:
+        raise ValueError('mehr als eine listBibl im Header')
+    probleme, zusatz, geprueft, ohne = [], 0, 0, 0
+    # Ohne @corresp gibt es keinen Zotero-Item-Verweis, also keine Kette: WZB
+    # fuehrt in works.xml und im Header je einen von Hand geschriebenen
+    # biblStruct, die sich auch inhaltlich unterscheiden. Beide Seiten bleiben
+    # aus Gate und Schreiber heraus.
+    soll = {w.get('corresp'): w for w in daten['biblStructs'] if w.get('corresp')}
+    gesehen = set()
+    ersetzungen = []   # (abs_start, abs_ende, neuer_block)
+    for bm in BIBL_BLOCK.finditer(head, lb.start(), lb.end()):
+        block = bm.group(0)
+        h = _bibl_parsen(block)
+        corresp = h.get('corresp')
+        if corresp is None or corresp not in soll:
+            ohne += 1
+            continue
+        w = soll[corresp]
+        gesehen.add(corresp)
+        geprueft += 1
+        kopf = _kopf_pruefen(h, w)
+        if kopf:
+            probleme += [f'{corresp} {k}' for k in kopf]
+            continue
+        luecken, z = _luecken(h, w)
+        if not luecken:
+            zusatz += z
+            continue
+        if not schreiben:
+            probleme += [f'{corresp} {p}' for p in luecken]
+            zusatz += z
+            continue
+        nl = '\r\n' if '\r\n' in block else '\n'
+        edits = []
+        _edits(h, w, _scan(block), block, nl, edits)
+        neu = block
+        # von hinten nach vorn, damit die Positionen vorn gueltig bleiben; bei
+        # gleicher Position steht die spaeter gesammelte Einfuegung hinten
+        for _i, (s, e, t) in sorted(enumerate(edits), key=lambda x: (x[1][0], x[0]), reverse=True):
+            neu = neu[:s] + t + neu[e:]
+        rest, z2 = _luecken(_bibl_parsen(neu), w)
+        if rest:
+            raise ValueError(f'{corresp}: nach dem Schreiben bleiben Luecken: {rest}')
+        zusatz += z2
+        ersetzungen.append((bm.start(), bm.end(), neu))
+    for corresp in soll:
+        if corresp not in gesehen:
+            probleme.append(f'{corresp}: works.xml-Nachweis ohne Block im Header')
+    if not ersetzungen:
+        return None, probleme, zusatz, geprueft, ohne
+    neu_head = head
+    for s, e, t in reversed(ersetzungen):
+        neu_head = neu_head[:s] + t + neu_head[e:]
+    return neu_head, probleme, zusatz, geprueft, ohne
+
+
+def schreibe_werk_bibliographie(dry_run: bool = False) -> tuple:
+    """--works: fehlende oder geaenderte works.xml-Elemente in die Header-biblStruct setzen.
+
+    Returns (geaenderte Dateien, Zahl der Dateien mit unloesbaren Problemen).
+    Siehe den Kommentar oben zu Enthaltensein, Regeln und Grenzen.
+    """
+    syncer = WorksSyncer(AUTHORITY_DIR / 'works.xml', TEI_DIR)
+    nach_sigle = syncer.load_authority_data()
+    nach_id_und_sigle = syncer.work_by_id_and_sigle
+    geaendert = fehler = 0
+    for tei_datei in corpus_files(TEI_DIR):
+        sigle = tei_datei.stem.replace('.tei', '')
+        head = _header_text(tei_datei)
+        daten = _werk_daten(head, sigle, nach_id_und_sigle, nach_sigle)
+        if daten is None:
+            continue
+        neu_head, probleme, _z, _g, _o = _datei_bibliographie(head, daten, schreiben=True)
+        if probleme:
+            fehler += 1
+            logger.error(f"[works] {sigle}: listBibl nicht angleichbar: {'; '.join(probleme)}")
+        if neu_head is None:
+            continue
+        geaendert += 1
+        if dry_run:
+            logger.info(f"[works] {sigle}: listBibl wuerde geaendert")
+            continue
+        text = tei_datei.read_text(encoding='utf-8', newline='')
+        if not text.startswith(head):
+            raise ValueError(f'{sigle}: Datei hat sich waehrend des Laufs veraendert')
+        tei_datei.write_text(neu_head + text[len(head):], encoding='utf-8', newline='')
+        logger.info(f"[works] {sigle}: listBibl aktualisiert")
+    logger.info(f"[works] listBibl {'wuerde aendern' if dry_run else 'geaendert'}: "
+                f"{geaendert} Datei(en), {fehler} mit unloesbaren Abweichungen")
+    return geaendert, fehler
+
+
+def pruefe_werk_bibliographie() -> int:
+    """--check: enthaelt jeder Header-biblStruct den works.xml-Nachweis?
+
+    Returns die Zahl der beanstandeten Dateien. Zusatzelemente im Header
+    (textspezifische Ergaenzungen) sind erlaubt und werden nur gezaehlt.
+    """
+    syncer = WorksSyncer(AUTHORITY_DIR / 'works.xml', TEI_DIR)
+    nach_sigle = syncer.load_authority_data()
+    nach_id_und_sigle = syncer.work_by_id_and_sigle
+    beanstandet = []
+    geprueft = zusatz = ohne = dateien = 0
+    for tei_datei in corpus_files(TEI_DIR):
+        sigle = tei_datei.stem.replace('.tei', '')
+        head = _header_text(tei_datei)
+        daten = _werk_daten(head, sigle, nach_id_und_sigle, nach_sigle)
+        if daten is None:
+            continue
+        dateien += 1
+        _n, probleme, z, g, o = _datei_bibliographie(head, daten, schreiben=False)
+        geprueft += g
+        zusatz += z
+        ohne += o
+        if probleme:
+            beanstandet.append((sigle, probleme))
+    logger.info(f"[check] listBibl: {geprueft} Header-biblStruct in {dateien} Dateien gegen "
+                f"works.xml geprueft; {zusatz} Zusatzelement(e) nur im Header (erlaubt), "
+                f"{ohne} Block/Bloecke ohne Gegenstueck in works.xml (bleiben unberuehrt)")
+    if not beanstandet:
+        logger.info("[check] OK: jeder Header-biblStruct enthaelt den works.xml-Nachweis")
+        return 0
+    logger.error(f"[check] {len(beanstandet)} Datei(en) enthalten den works.xml-Nachweis nicht:")
+    for sigle, probleme in beanstandet:
+        for p in probleme:
+            logger.error(f"  {sigle}: {p}")
+    logger.error("Beheben mit: python scripts/sync/sync_tei_headers.py --works")
+    return len(beanstandet)
+
 
 def main():
     """Main execution"""
@@ -785,7 +1187,10 @@ Examples:
         if args.persons or args.genres or args.concepts:
             parser.error('--check gibt es nur fuer works (die uebrigen Syncer '
                          'sind deklarierte Stubs).')
-        return 1 if pruefe_werk_identifier() else 0
+        # beide Pruefungen laufen immer, damit ein Lauf alle Befunde zeigt
+        rot_identifier = pruefe_werk_identifier()
+        rot_bibliographie = pruefe_werk_bibliographie()
+        return 1 if (rot_identifier or rot_bibliographie) else 0
 
     # Determine which syncers to run
     syncers_to_run = []
@@ -845,11 +1250,11 @@ Examples:
     werke_geschrieben = 0
     if (args.works or args.all) and not args.bibl_struct:
         werke_geschrieben = schreibe_werk_identifier(dry_run=args.dry_run)
-        logger.info("Hinweis: die listBibl wurde nicht angefasst (dafuer "
-                    "--bibl-struct, siehe dessen Hilfetext).")
+        bibl_geschrieben, bibl_fehler = schreibe_werk_bibliographie(dry_run=args.dry_run)
+        werke_geschrieben += bibl_geschrieben
         syncers_to_run = [s for s in syncers_to_run if s != 'works']
         if not syncers_to_run:
-            return 0
+            return 1 if bibl_fehler else 0
     
     # Display mode
     if args.dry_run:
