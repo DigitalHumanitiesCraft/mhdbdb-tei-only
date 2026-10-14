@@ -1062,9 +1062,11 @@ def _datei_bibliographie(head: str, daten: dict, schreiben: bool):
                 and len(kind_ind) > len(basis) else '  ')
         _edits(h, w, scan, block, nl, edits, unit)
         neu = block
-        # von hinten nach vorn, damit die Positionen vorn gueltig bleiben; bei
-        # gleicher Position steht die spaeter gesammelte Einfuegung hinten
-        for _i, (s, e, t) in sorted(enumerate(edits), key=lambda x: (x[1][0], x[0]), reverse=True):
+        # von hinten nach vorn, damit die Positionen vorn gueltig bleiben. Bei
+        # gleichem Anfang kommt zuerst das laengere Edit (die Ersetzung des
+        # ersten Kindes), dann die reine Einfuegung davor; unter den
+        # Einfuegungen bleibt die Sammelreihenfolge erhalten.
+        for _i, (s, e, t) in sorted(enumerate(edits), key=lambda x: (x[1][0], x[1][1], x[0]), reverse=True):
             neu = neu[:s] + t + neu[e:]
         rest, z2 = _luecken(_bibl_parsen(neu), w)
         if rest:
@@ -1100,7 +1102,7 @@ def schreibe_werk_bibliographie(dry_run: bool = False) -> tuple:
             continue
         try:
             neu_head, probleme, _z, _g, _o = _datei_bibliographie(head, daten, schreiben=True)
-        except ValueError as exc:
+        except (ValueError, etree.XMLSyntaxError) as exc:
             # eine Datei, die der Schreiber nicht angleichen kann, wird gemeldet
             # und uebersprungen; die uebrigen laufen weiter, der Exit-Status ist 1
             fehler += 1
