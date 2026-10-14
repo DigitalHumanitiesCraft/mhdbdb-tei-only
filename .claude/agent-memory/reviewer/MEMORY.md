@@ -11,7 +11,7 @@ Verdichtet am 08.10., 10.10. und 14.10.2026. Zahlen in den Dateien sind Eingabe,
 - [TEI-Korpus](projekt_korpus_tei.md): was der Korpus-Index liest, Strukturtatsachen des TEI, Header, Findebuch-Dump
 - [Lexikon und Variants](projekt_lexikon_variants.md): variants.xml, lexicon.xml, Wörterbuch-Rangfolge, Umhängen von Tokens
 - [Authority-Dateien](projekt_authority_dateien.md): Authority-Index, concepts, works-Siglen, contributors
-- [Header-Spiegel](projekt_header_spiegel.md): Header als Kopie von works/persons, Sync-Skripte, listBibl-Schreiber #486 (Probe in-process, Zählfallen WG/TRO, Tail-Filter und else-Zweig Runde 2, `_sig` ohne eigenen Tail Runde 3), Zuschreibungsstatus
+- [Header-Spiegel](projekt_header_spiegel.md): Header als Kopie von works/persons, Sync-Skripte, listBibl-Schreiber #486 (Probe in-process, Zählfallen WG/TRO, Tail-Filter und else-Zweig Runde 2, `_sig` ohne eigenen Tail Runde 3, Edit-Sortierschlüssel und Zählrezept gleich/Reihenfolge/anders Runde 4), Zuschreibungsstatus
 - [Playground/Frontend](projekt_playground_frontend.md): Frontend-Pfade, Suche, Werkzeugzustand, Reader, Hilfetexte mitlesen
 - [Fremdquellen](projekt_fremdquellen.md): Naming-Index, Pferde-Index, Glossar-Export (PII), Textreihen-Unterseite
 - [Prüfseiten](projekt_pruefseiten.md): Prüfseiten-Generatoren und archivierte Beispiele prüfen

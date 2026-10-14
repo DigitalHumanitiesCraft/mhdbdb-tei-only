@@ -1063,8 +1063,8 @@ def _datei_bibliographie(head: str, daten: dict, schreiben: bool):
         _edits(h, w, scan, block, nl, edits, unit)
         neu = block
         # von hinten nach vorn, damit die Positionen vorn gueltig bleiben. Bei
-        # gleichem Anfang kommt zuerst das laengere Edit (die Ersetzung des
-        # ersten Kindes), dann die reine Einfuegung davor; unter den
+        # gleichem Anfang kommt zuerst das laengere Edit (die Ersetzung, die
+        # dort beginnt), dann die reine Einfuegung davor; unter den
         # Einfuegungen bleibt die Sammelreihenfolge erhalten.
         for _i, (s, e, t) in sorted(enumerate(edits), key=lambda x: (x[1][0], x[1][1], x[0]), reverse=True):
             neu = neu[:s] + t + neu[e:]
