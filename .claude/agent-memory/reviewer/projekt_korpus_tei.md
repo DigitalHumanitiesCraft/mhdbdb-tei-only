@@ -4,7 +4,7 @@ description: Strukturtatsachen des TEI-Korpus fürs Review: was der Korpus-Index
 metadata:
   type: project
 ---
-Verdichtet 08.10.2026. Zahlen sind Eingabe, vor Gebrauch nachmessen.
+Verdichtet 14.10.2026. Zahlen sind Eingabe, vor Gebrauch nachmessen.
 
 **Was `build-corpus-index.py` liest:** nur `w` und `l` (iterwalk; Frames ohne `w` fallen weg) plus Header `idno[@type=sigle]`, titleStmt title/author, `msIdentifier/@corresp`, keywords. Nicht: revisionDesc, availability, gap/caesura, particDesc, Header-biblStruct, `@pos`. Änderungen dort sind ohne Rebuild und Bump prüfbar. `corpus-index.json.gz` enthält keine xml:ids und keine Versnummern-Stämme (gegen einen `lemma_N`-Kontrollwert gemessen): eine gelöschte `pc`-/`caesura`-id kann dort nicht hängen.
 
@@ -15,18 +15,18 @@ Verdichtet 08.10.2026. Zahlen sind Eingabe, vor Gebrauch nachmessen.
 **caesura/gap (#252)**
 - gap immer `reason="lost"`, kein `extent`. Zwei Kopien der caesura-Zahl in TEI-MODEL.md, kein Gate.
 - Rohmuster inline: `<pc[^>]*>\(</pc>\s*<caesura[^>]*/>\s*<pc[^>]*>\)</pc>`; `find(T+'caesura')` sieht nur direkte Kinder.
-- Linecode-Gegenprobe nur für Siglen in `sources/linecode-manifest.csv` (nachsehen, nicht dem Thread glauben). Die Zeilennummer im Linecode-Präfix ist nicht überall die TEI-`@n` (RVBR um eins niedriger): Versatz am Wortlaut der Nachbarzeilen ermitteln.
+- Linecode-Gegenprobe nur für Siglen in `sources/linecode-manifest.csv`; die Zeilennummer im Linecode-Präfix ist nicht überall die TEI-`@n` (RVBR um eins niedriger): Versatz am Wortlaut der Nachbarzeilen ermitteln.
 - revisionDesc-Präzedenz bei #252 ist gespalten (#426 ohne `<change>`, #477 mit je einem pro Datei): ein fehlender Eintrag bei einer Handkorrektur ist Klasse C.
-- Resttabelle TEI-MODEL §6.5a zählt die nicht migrierten Fälle; jede Handkorrektur daraus macht die Zeile falsch, der Diff fasst sie nicht an. Messgerät: `python scripts/migrate-caesura-to-gap-252.py` ohne `--apply`. Der Skriptkopf („nur unlemmatisierter Wortlaut“ für Klasse C) stimmt nicht: EIL 2866 trug beide `@lemmaRef`.
+- Resttabelle TEI-MODEL §6.5a zählt die nicht migrierten Fälle; jede Handkorrektur daraus macht die Zeile falsch, der Diff fasst sie nicht an. Messgerät: `python scripts/migrate-caesura-to-gap-252.py` ohne `--apply`.
 
 **Vers und Prosa:** Reader-Deep-Link `?verseId=` löst nur in Texten mit `<l>` auf; Prosa hat nur `lb`, `lb@n` wiederholt sich je Seite (Kochbücher: je Rezept neu).
 
-**WZB:** Eigennamen fehlen im TEI (Lücken im Kontext sind kein Extraktionsfehler). Kolumnentitel und Buchzahlen stehen als unannotierte `<w>` im Fluss und zerreißen Wörter. Seit #390 (12.10.2026, `scripts/ingest/wzb/wzb-wortgrenzen-390.py`) sind 16 davon zusammengeführt (Wort unter der xml:id der ersten Hälfte, Umbrüche und Titel dahinter; 6 `pc join=left` mitgewandert, deren id-Folio nicht mehr zur Position passt); nach der Logik von `build-review-klaus.py` bleiben 6 Grenzen, der Generator bricht an `== 22` ab. Breve: 607 Tokens zerlegt (o+U+0306), 26 vorkomponiert (U+014F), also nicht „überall zerlegt“; `|` ist mit 5.651 `<pc join="left">` eine normale Interpunktion. `<l>` ohne `@n`; kombinierende Breve zerfallen bei flachem `\w`-Vergleich. Vulgata-Zitate: Folio gegen Kolumnentitel (pb), Kapitel-`head` des div, dann biblegateway `version=VULGATE`.
+**WZB:** Eigennamen fehlen im TEI (Lücken im Kontext sind kein Extraktionsfehler). Kolumnentitel und Buchzahlen stehen als unannotierte `<w>` im Fluss und zerreißen Wörter. Seit #390 (`scripts/ingest/wzb/wzb-wortgrenzen-390.py`) sind 16 davon zusammengeführt (Wort unter der xml:id der ersten Hälfte; 6 `pc join=left` mitgewandert, deren id-Folio nicht mehr zur Position passt); der Generator `build-review-klaus.py` bricht an `== 22` ab. Breve: 607 Tokens zerlegt (o+U+0306), 26 vorkomponiert (U+014F), also nicht „überall zerlegt"; `|` ist mit 5.651 `<pc join="left">` normale Interpunktion. `<l>` ohne `@n`; kombinierende Breve zerfallen bei flachem `\w`-Vergleich. Vulgata-Zitate: Folio gegen Kolumnentitel (pb), Kapitel-`head` des div, dann biblegateway `version=VULGATE`.
 
 **Header**
 - msIdentifier-Reihenfolge: sigle, handschriftencensus, GND, wikidata, [mwb-sigle], msName+; im Header nackte IDs, in works.xml URLs.
 - `status="restricted"` = `n="no-print"`; kein Konsument von excerpt-only/restricted/`@media print` außerhalb der Prüfseiten.
-- **NEIM-Liedkonkordanz steht zweimal** (#453): im Header `editorialDecl/normalization` („Lied N = C Str. a-b“) und je Lied als `<note n="1">` im Body (Ziffern als `<w lemmaRef=lemma_53328 pos=NUM>`). Ein Header-Fix ohne die Note erzeugt Widerspruch; die Note anzufassen ist ein `<w>`-Wortlaut-Change (volle Korpus-Checkliste). Bei Header-Korrekturen immer nach einer Body-Kopie suchen.
+- **NEIM-Liedkonkordanz steht zweimal** (#453): im Header `editorialDecl/normalization` und je Lied als `<note n="1">` im Body (Ziffern als `<w lemmaRef=lemma_53328 pos=NUM>`). Ein Header-Fix ohne die Note erzeugt Widerspruch; die Note anzufassen ist ein `<w>`-Wortlaut-Change (volle Korpus-Checkliste). Bei Header-Korrekturen immer nach einer Body-Kopie suchen.
 - revisionDesc trägt je-Datei-Zahlen der Annotationsserien (#216, #369): damit lassen sich fremde Zählungen rekonstruieren. Kombinierende Diakritika sind in Headern verbreitet: vor Vergleichen NFC.
 
 **Reset-Zahlen** (`count-verse-numbering-resets.py`) stehen dreimal in tei-text-reader.js und in FEATURES.md, kein Gate. Alt/neu per `git archive`; Regel abschalten per Patch `in_nested_parallel` -> False. tei/ ist 1,4 GB.

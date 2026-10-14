@@ -1,21 +1,19 @@
 # reviewer Memory (mhdbdb-tei-only)
 
-Verdichtet am 08.10. und 10.10.2026. Zahlen in den Dateien sind Eingabe, keine Messung.
+Verdichtet am 08.10., 10.10. und 14.10.2026. Zahlen in den Dateien sind Eingabe, keine Messung.
 
-- [Umgebung](querschnitt_umgebung.md): Worktree-Guard, Classifier, Windows, GitHub ohne gh, Cloud-Session
-- [Git-Rezepte](querschnitt_git.md): Altstand, Basis, range-diff, Herkunft, Squash und Stack, EOL-Probeklon
-- [Messrezepte](querschnitt_messen.md): importlib in-process, Mutationsproben, Rebuild-and-Compare, Zählfallen
-- [Tests](querschnitt_tests.md): run-tests.js, Port, report.json, Playwright-Probe, Tailwind, warmer Context, Warte-Fallen
-- [Review-Denkfallen](querschnitt_review_fallen.md): #397-Frage, Gates, Auftrag und Laufplan prüfen, Fehlerjournal-Ketten
-- [Gates und CI](projekt_gates_und_ci.md): was jedes Gate nicht prüft, Begriffshilfe-Generator, Review-Bot, main-Schutz
-- [TEI-Korpus](projekt_korpus_tei.md): Korpus-Index, caesura/gap, Vers/Prosa, WZB, Header, Findebuch-Dump #259
-- [Lexikon und Variants](projekt_lexikon_variants.md): Vorschrift B, Dangling-Filter, sense/@ana, #228, Ziffernlemmata
-- [Authority-Dateien](projekt_authority_dateien.md): concepts kein Baum, genre-Felder, Schema an vier Orten, Siglen
-- [Header-Spiegel](projekt_header_spiegel.md): Header als Kopie, sync_tei_headers-Fallen, Zuschreibungsstatus #452
-- [Playground/Frontend](projekt_playground_frontend.md): Hash-Pfad, Multi-Lemma, Nummernpfad, Werkzeugzustand, Router-Start
-- [Fremdindizes](projekt_fremdindizes.md): Naming #420 und Pferde #193
-- [Prüfseiten](projekt_pruefseiten.md): Zitat-Gate, markup vs. e(), Generator-Laufzeit, 526-Prüfseite
-- [Parzival-Bücher #358](projekt_parzival_buecher_358.md): OCR-Messrezept Bartsch/Martin, Fallen, Proben
-- [WZB-Nachannotierung #370/#526](projekt_526_breve_makron.md): Tafelskripte, ANLEGEN-Falle, Guard-Grenzen, Index-Abgleich
-- [Glossar-Export #554](projekt_glossar_554.md): PII-Rezept für WordPress-Exporte, öffentliche Attachments
-- [Textreihen-Unterseite #93](projekt_93_textreihen.md): alte Site per curl + Textvergleich prüfen, Zotero-Endpunkte (`format=versions`), Befunde Runde 1 und 2
+- [Umgebung](querschnitt_umgebung.md): wenn ein Kommando abgelehnt wird oder die Umgebung (Windows, Cloud, GitHub ohne gh) querkommt
+- [Git-Rezepte](querschnitt_git.md): Altstand, Basis, Rebase, Squash und Stack prüfen, ohne den Arbeitsbaum anzufassen
+- [Messrezepte](querschnitt_messen.md): Skripte und JS in-process nachfahren, Mutationsproben, Zählfallen
+- [Tests](querschnitt_tests.md): Playwright und run-tests.js bedienen, Proben ohne Spec, Tailwind, Warte-Fallen
+- [Review-Denkfallen](querschnitt_review_fallen.md): was ein Diff nicht zeigt, Auftrag als Behauptung, Fehlerjournal-Ketten
+- [Gates und CI](projekt_gates_und_ci.md): was jedes Gate nicht prüft, Review-Bot, Laufzeitbudget, main-Schutz
+- [TEI-Korpus](projekt_korpus_tei.md): was der Korpus-Index liest, Strukturtatsachen des TEI, Header, Findebuch-Dump
+- [Lexikon und Variants](projekt_lexikon_variants.md): variants.xml, lexicon.xml, Wörterbuch-Rangfolge, Umhängen von Tokens
+- [Authority-Dateien](projekt_authority_dateien.md): Authority-Index, concepts, works-Siglen, contributors
+- [Header-Spiegel](projekt_header_spiegel.md): Header als Kopie von works/persons, Sync-Skripte, Zuschreibungsstatus
+- [Playground/Frontend](projekt_playground_frontend.md): Frontend-Pfade, Suche, Werkzeugzustand, Reader, Hilfetexte mitlesen
+- [Fremdquellen](projekt_fremdquellen.md): Naming-Index, Pferde-Index, Glossar-Export (PII), Textreihen-Unterseite
+- [Prüfseiten](projekt_pruefseiten.md): Prüfseiten-Generatoren und archivierte Beispiele prüfen
+- [Parzival-Bücher #358](projekt_parzival_buecher_358.md): Buchgrenzen gegen die Quellen messen
+- [WZB-Nachannotierung #370/#526](projekt_526_breve_makron.md): Tafelskripte auf einer Kopie nachfahren
