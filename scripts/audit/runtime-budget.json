@@ -10,24 +10,24 @@
   ],
   "steps": {
     "no-cdn-check.yml/Checkout": {
-      "budget_s": 10,
-      "n": 25,
+      "budget_s": 13,
+      "n": 56,
       "date": "2026-10-14",
-      "basis": "p90 der letzten 25 erfolgreichen Laeufe seit 2026-10-10T13:57:23Z (median 9 s, max 11 s); Nachkalibrierung aus #564",
-      "reason": "schlanker Checkout nach E1; vorher median 124 s im Gesamtlauf. Budget gleich der Untergrenze, Grenze 13 s"
+      "basis": "p90 aller 56 erfolgreichen Laeufe seit 2026-10-10T13:57:23Z (median 12 s, max 15 s; --max-runs 100); Nachkalibrierung aus #564",
+      "reason": "schlanker Checkout nach E1; vorher median 124 s im Gesamtlauf. Nur die neuesten 25 Laeufe (--measure ohne --max-runs) ergaeben p90 10 s, max 11 s; die Fensterregel fuer E1-Checkouts verlangt alle Laeufe seit dem Zeitpunkt"
     },
     "no-cdn-check.yml/Dokumentierte Zahlen gegen die Daten (#382/#398)": {
       "budget_s": 6,
-      "n": 25,
+      "n": 56,
       "date": "2026-10-14",
-      "basis": "p90 der letzten 25 erfolgreichen Laeufe seit 2026-10-10T13:57:23Z (median 5 s, max 6 s); Nachkalibrierung aus #564",
+      "basis": "p90 aller 56 erfolgreichen Laeufe seit 2026-10-10T13:57:23Z (median 5 s, max 6 s; --max-runs 100), dieselbe Grundmenge wie der Checkout; Nachkalibrierung aus #564",
       "reason": "liegt unter der Untergrenze, die Grenze ist daher 10 s"
     },
     "file-size-check.yml/Checkout": {
       "budget_s": 2,
-      "n": 25,
+      "n": 57,
       "date": "2026-10-14",
-      "basis": "p90 der letzten 25 erfolgreichen Laeufe seit 2026-10-10T13:57:23Z (median 1 s, max 3 s); Nachkalibrierung aus #564",
+      "basis": "p90 aller 57 erfolgreichen Laeufe seit 2026-10-10T13:57:23Z (median 2 s, max 3 s; --max-runs 100); Nachkalibrierung aus #564",
       "reason": "Checkout nur eines Skripts; die Grenze ist die Untergrenze 10 s"
     },
     "data-integrity.yml/Checkout": {
