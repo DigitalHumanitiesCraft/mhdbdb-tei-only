@@ -29,7 +29,8 @@ Die 120 zugeordneten Einträge teilen sich so auf:
 
 Die Prüfseite [`examples/review-pages/Glossar-554-Pruefung.html`](../../examples/review-pages/Glossar-554-Pruefung.html)
 hat 47 Fälle: A 17, B 22, C 5 (nicht übernommene Einträge, die Katharina entscheiden soll), D 1, E 2.
-Was dort steht, geht nicht in die Daten, bevor sie geantwortet hat.
+Was dort steht, ging nicht in die Daten, bevor sie geantwortet hatte; ihre Antworten vom
+15.10.2026 sind unten eingearbeitet (Abschnitt „Einarbeitung der Prüfergebnisse“).
 
 Zählregel für die Lemmata mit kuratierter Aussage (ADR-018): Lemma-Records mit nichtleerem
 `origin.resp`, `senses[].definitionResp` oder `senses[].commentResp` im gebauten Authority-Index.
@@ -251,6 +252,100 @@ Ob Klug `dornber` in einer anderen Sprachstufe (Frühneuhochdeutsch, Deutsch) f�
 Eintragstext nennt, wurde **nicht** untersucht; das wären weitere Abrufe.
 
 Nicht Teil dieses PR: Datenmodell für einen Klug-Link an der Lemmaseite (Schema- und Frontend-Entscheidung).
+
+## Einarbeitung der Prüfergebnisse (15.10.2026)
+
+Quelle: Katharinas Antwortdatei zur Prüfseite (Kommentar 6190765649 in #554), unverändert
+abgelegt in [`kzw-2026-10-15/`](kzw-2026-10-15/) (JSON, HTML-Ergebnisbericht). Sie hat alle 47
+Fälle der Prüfseite beantwortet, davon 46 mit Entscheidung und einen (A, `abebîʒen`) mit dem
+Status „ungeprüft“ plus Kommentar. Umgesetzt hat es die Sitzung `lauf-554b`
+(`scripts/ingest/glossar-554/antworten-einarbeiten.py`, `briech-anlegen.py`).
+
+| Gruppe | Fälle | Antwort | Umsetzung in `lexicon.xml` |
+|---|--:|---|---|
+| A | 17 | 13 × Bedeutung gewählt, 3 × „anderes“ (briech, wanne, schale), 1 × ungeprüft (abebîʒen) | 12 Notizen (die 13 gewählten ohne slunthart), abebîʒen 1, wanne 2, schale 4: 19 Notizen; briech als neues Lemma |
+| B | 22 | 12 × „passt“, 3 × „teile“, 1 × „eigener Teil“ (brôt), 6 × „anderes“ | 22 Notizen: 12 + 3 + 1, barn 1, fünf neu gefasst (eʒʒich, apfelbiʒ, wîn, brâte, klamirre) |
+| C | 5 | 4 × „nicht nötig“ (atze, slëc, hërrenëʒʒen, blancmanger), 1 × „anderes“ (lêrchenvuoʒ) | nichts eingefügt; lêrchenvuoʒ siehe unten |
+| D | 1 | grandmangerie: Heinrichs Fassung | 1 Notiz |
+| E | 2 | huon, rëphuon: zusammen | 2 Notizen |
+
+Eingefügt sind damit 44 Notizen (19 + 22 + 1 + 2). Notizen von `contrib_003` in `lexicon.xml`:
+vorher 94, jetzt 138 (94 + 44). Lemmata mit kuratierter Aussage nach der Zählregel oben: jetzt
+135 von 43.711 im neu gebauten Authority-Index (43.710 + briech; vorher 94 von 43.710). Die
+Zahlen sind zwei Mengen: 138 Notizen verteilen sich auf weniger Lemmata, weil wanne und schale
+mehrere Notizen tragen (wanne 2, schale 4, je ein Lemma) und briech über seine Definition zählt,
+ohne Notiz.
+
+**Katharinas eigener Text.** Wo sie den Vorschlag der Prüfseite änderte, steht ihr Text in den
+Daten: in 3 der 22 Texte mit freiem Textfeld (letzen, latech, vînæger). Bei `ber` („teile“)
+lieferte sie den gestrafften Text ohne die Belegverse zu „niht ein ber“; die Verse sind aus dem
+Entwurf wieder eingefügt, weil „teile“ den Rest bestehen lässt.
+
+**Straffung der A-Texte** nur nach der Regel von #600: Links, Abrufdaten, Verweise ins Leere
+(„s. u.“ / „s. o.“), ein Bibelzitat in kërne, Leerzeichen und Satzzeichen. Länge vorher und
+nachher je Notiz steht in [`kzw-2026-10-15/umsetzung.tsv`](kzw-2026-10-15/umsetzung.tsv).
+
+**Zu einzelnen Fällen**
+
+- **slunthart (A, Eintrag 1759):** nicht eingefügt. Die gewählte Bedeutung
+  `lemma_25919_sense_41481` trägt schon die Zwillingsnotiz aus #600 (Eintrag 1753 slinthart);
+  eine Notiz je Bedeutung. Offene Frage an Katharina: 1759 ergänzen oder weglassen?
+- **letzen:** Bedeutung `lemma_3725_sense_5899` gelöscht (0 exakte Belege in `tei/`, nur in
+  `lexicon.xml`, im abgeleiteten API und auf der archivierten Prüfseite genannt),
+  `concept_23132000` (Etikette/Zeremoniell) als letzter Verweis an `sense_5896`.
+- **naschen:** `sense_93122` (Ernährung) steht jetzt vor `sense_93121` (Erotik). Die Nummer der
+  Bedeutung ist die Position im Array (`lemma/lemma-page.js`), die IDs bleiben. Fünf Korpusbelege
+  verweisen nur auf das Lemma, ihre Bedeutungszuordnung ist #602.
+- **wanne:** Kornschwinge und Viehtrog hängen an `lemma_18414_sense_30995`, Gefäß und Bildlichkeit
+  an `…_30998`; keine neue Bedeutung „Kornschwinge“. Der Beleg „von wannen“ (JT) ist ein Adverb
+  (woher), vermutlich falsch annotiert.
+- **schale:** vier Notizen an `lemma_5158_sense_8016` (Tafelgeschirr), `…_80569` (Eierschale),
+  `…_42552` (Krebs, Muschel) und `…_8017` (Pflanzenhülse, Marner, Lexer).
+- **abebîʒen:** Katharina schrieb, die Erklärung könne bei Bedeutung 1 bleiben; so umgesetzt
+  (`lemma_27894_sense_44181`), Text unverändert. Ihr Hinweis auf ein größeres Fach „Ernährung von
+  Menschen … Tiere?“ ist #603, ebenso der Hunde-Beleg bei lëcken.
+- **briech:** neues Lemma `lemma_79829` (ADJ) mit `sense_119197`, `<def>` „breiig“ (resp
+  `contrib_003`), den drei Konzepten von brî (`concept_21111300` Lebensmittel, `21111304`
+  Nahrungszubereitung, `21111306` Speisen) und der Komponente brî in der `etym`. Das einzige
+  Token `ZUK_76100_5` hängt von brî auf das neue Lemma um (Position unverändert); der Typ
+  `type_202823` (n = 1) wandert in `variants.xml` von brî nach briech. Das Flip-Gate meldet
+  diesen einen Wechsel, quittiert in `scripts/audit/variants-flips-ack.json`. Ein Verweis auf das
+  MWB steht nicht in den Daten (es gibt kein Feld dafür).
+- **lêrchenvuoʒ (C, „anderes“):** nicht angelegt. Katharina wollte das Lemma mit Verweisen auf
+  die Textstellen, auch wenn sie getrennt geschrieben sind. Gemessen: 63 Lerchen-Formen in
+  `tei/` (Muster lerch/lerk/lerich), keine mit einer fuoz-Form danach; die Stricker-Stelle
+  („Des Gastes Hofzucht“, V. 287–292) steht nicht im Korpus (Stricker kommt in `works.xml` nur
+  mit ALL und BMG vor). Es gäbe also ein Lemma ohne Beleg. Die Notiz bei lêrche (#69) enthält
+  „vgl. lêrchenvuoʒ“ und verweist damit ins Leere. Rückfrage an Katharina: (a) Lemma ohne
+  Korpusbeleg mit Glossarnotiz anlegen oder (b) bis zum Ingest des Strickers zurückstellen.
+
+**Nicht gemacht.** Die Mehrdeutigkeit der Disambiguierung bei naschen (#602) und das Fach
+„Ernährung von Menschen/Tiere“ (#603) sind eigene Vorgänge. Kein Schema, kein Frontend, keine
+neue Funktion für ein Literaturverzeichnis oder Einklappen langer Notizen (Abschnitt B4 bleibt
+Vorschlag).
+
+**Befund aus dem Lesen aller 138 Notizen (ungeprüft, nicht behoben).** Mehrere „passt“-Texte
+tragen Stand- und Abrufdaten von 2015 bis 2017, MHDBDB-Trefferzahlen mit Suchsyntax und
+Ich-Form („nach meiner Ansicht“, „musste ich“). Beispiele: hunger (Stand 28.10.2016, 71 und 84
+Belege), salse (113 Ergebnisse, Stand 26.01.2017), ei (31 Beispiele, Stand 03.10.2017), brôt
+(214 Belege, Stand 17.11.2017), huon (14 Belege, Stand 13.05.2017), wîn zweiter Absatz (257
+Belege, Stand 17.11.2017), dazu hungerc, brâmber, jeroffel, visch. Eine grobe Textsuche über die
+138 Notizen findet 12 mit Stand- oder Abrufdatum, 10 mit Trefferzahl und 19 mit Ich-Form; das
+ist ein Hinweis, keine geprüfte Zählung. Die Zahlen sind nicht am heutigen Korpus nachgemessen
+und stehen deshalb als Stand ihres Datums da. Eine eigene Frage an Katharina, ob sie so bleiben.
+
+### Literatur in den Kommentaren
+
+[`literatur.tsv`](literatur.tsv) listet die in den 138 Notizen zitierten Werke, eine Zeile je
+Werk und Notiz mit wörtlichem Satzausschnitt (erzeugt von
+[`literatur-erfassen.py`](../../scripts/ingest/glossar-554/literatur-erfassen.py)). Primärquellen
+(Dichtung, Rezepttexte) zählen nicht. Gemessen am 15.10.2026: 193 Zeilen, 76 Werke, 74 der 138
+Notizen mit mindestens einem Zitat (Werke je Art laut Einordnung der Sitzung: Forschung 40,
+Nachschlagewerk 19, Edition 12, Web 5; die Einordnung ist nicht von Katharina). **Ungeprüft:** die
+Werkeliste ist Handarbeit nach Lektüre und eine Untergrenze (ein Werk ohne Muster fehlt); Jahr und
+Seite stehen nur, wo sie im selben Satz stehen. Wie viele dieser Werke schon in der
+Zotero-Gruppe des Projekts stehen, ist nicht gemessen: `works.xml` enthält Editionsdaten der
+Korpustexte, keine Forschungsliteratur, und ein Zotero-Abruf war in diesem Lauf nicht vorgesehen.
 
 ## Nachmessen
 
