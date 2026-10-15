@@ -605,7 +605,7 @@ Scripts for enriching authority files with external data:
    - Read authority file changes (only `works.xml` is implemented; persons, genres and concepts are declared stubs)
    - `--works` writes two things into each header, both by string replacement so that every other byte stays: the mirrored identifiers in the `msIdentifier` (#399) and the edition evidence in the `biblStruct` of the `listBibl` (#486)
    - The `biblStruct` writer changes only the text of changed leaf elements and inserts missing elements; elements that exist only in the header (text-specific additions such as AK, #134) and the order of the children stay as they are
-   - `--works --check` is the gate: every element of the `works.xml` `biblStruct` has to be present in the header (see [CONTRACTS.md F.4a](CONTRACTS.md#f4a-edition-evidence-zotero--worksxml--tei-header))
+   - `--works --check` is the gate: every element of the `works.xml` `biblStruct` has to be present in the header, and an element that exists only in the header has to be listed in `ERLAUBTE_ZUSAETZE` (see [CONTRACTS.md F.4a](CONTRACTS.md#f4a-edition-evidence-zotero--worksxml--tei-header))
    - Maintain intentional redundancy for accessibility
 
 **Title Case Transformation:** Zotero stores titles in sentence case, but German bibliographic style requires Title Case. The script converts automatically:

@@ -752,16 +752,30 @@ def pruefe_werk_identifier() -> int:
 # geaenderte Blattelemente (das Element als Ganzes, ein Blatt mit eigener
 # @xml:id verliert sie dabei; heute gibt es keines) und setzt fehlende Elemente ein.
 # Alles andere im Header bleibt byteweise stehen, Zeilenenden eingeschlossen.
-# Nicht erfasst: ein Element, das in works.xml VERSCHWINDET, bleibt als
-# Zusatzelement im Header stehen, denn vom Handzusatz (AK) unterscheidet es
-# sich nicht; das Gate sieht es nicht. Ebenso eines, dessen Attribute sich in
-# works.xml aendern: danach stehen altes und neues nebeneinander. Ein Block im Header ohne @corresp
+# Zusatzelemente (nur im Header, nicht in works.xml) sind nur erlaubt, wenn
+# sie in ERLAUBTE_ZUSAETZE stehen (#486, Entscheidung chsteiner 15.10.2026).
+# Jedes andere macht das Gate rot. So faellt auch ein Element auf, das in
+# works.xml VERSCHWINDET (es bleibt im Header stehen) oder dessen Attribute
+# sich dort aendern (der Schreiber setzt das neue ein, das alte bleibt stehen).
+# Der Schreiber loescht nie; er meldet solche Elemente, und sie werden von Hand
+# entfernt oder, wenn sie textspezifisch gewollt sind, in die Liste
+# eingetragen. Ein Block im Header ohne @corresp
 # (WZB) steht ausserhalb der Kette: dort fuehren works.xml und der Header je
 # einen von Hand geschriebenen biblStruct ohne Zotero-Verweis; beide bleiben
 # unberuehrt.
 # ---------------------------------------------------------------------------
 
 XML_ID = '{http://www.w3.org/XML/1998/namespace}id'
+
+# Gewollte textspezifische Ergaenzungen im Header-biblStruct, je Zotero-URI
+# (@corresp) als (Pfad, (Tag, Attribute ohne @xml:id)). Der Text wird nicht
+# verglichen. AK: Ausschnitt aus der Steirischen Reimchronik (#134, c592b619b).
+ERLAUBTE_ZUSAETZE = {
+    'http://zotero.org/groups/5043625/items/2DYZ3DUR': {
+        ('/monogr/imprint/biblScope', ('biblScope', (('unit', 'verse'),))),
+        ('/note', ('note', (('type', 'context'),))),
+    },
+}
 XML_PREFIX_URI = 'http://www.w3.org/XML/1998/namespace'
 
 
@@ -837,11 +851,11 @@ def _luecken(h, w, pfad: str = ''):
     """Was aus w im Header-Element h fehlt oder abweicht.
 
     Returns (probleme, zusatz): probleme ist eine Liste von Texten, zusatz die
-    Zahl der Elemente, die nur im Header stehen.
+    Liste der Elemente, die nur im Header stehen, je als (Pfad, Schluessel).
     """
-    hk, wk, _gleich, gepaart, fehlend, zusatz = _abgleich(h, w)
+    hk, wk, _gleich, gepaart, fehlend, frei = _abgleich(h, w)
     probleme = []
-    n_zusatz = len(zusatz)
+    zusatz = [(f'{pfad}/{_lokal(hk[hi])}', _schluessel(hk[hi], False)) for hi in frei]
     for wi, hi in gepaart.items():
         wc, hc = wk[wi], hk[hi]
         p = f'{pfad}/{_lokal(wc)}'
@@ -854,12 +868,20 @@ def _luecken(h, w, pfad: str = ''):
                 probleme.append(f'{p}: Text vor den Kindern weicht ab')
             sub, z = _luecken(hc, wc, p)
             probleme += sub
-            n_zusatz += z
+            zusatz += z
         elif _norm(wc.text) != _norm(hc.text):
             probleme.append(f'{p}: Header "{_norm(hc.text)}" gegen works.xml "{_norm(wc.text)}"')
     for wi in fehlend:
         probleme.append(f'{pfad}/{_lokal(wk[wi])}: fehlt im Header ("{_norm(wk[wi].text)[:60]}")')
-    return probleme, n_zusatz
+    return probleme, zusatz
+
+
+def _zusatz_pruefen(corresp: str, zusatz: list) -> list:
+    """Zusatzelemente gegen ERLAUBTE_ZUSAETZE halten; jedes andere ist ein Problem."""
+    erlaubt = ERLAUBTE_ZUSAETZE.get(corresp, set())
+    return [f'{corresp} {p}: steht nur im Header {dict(k[1]) or ""} (nicht in works.xml und '
+            f'nicht in ERLAUBTE_ZUSAETZE; aus works.xml verschwunden oder Attribute geaendert?)'
+            for p, k in zusatz if (p, k) not in erlaubt]
 
 
 def _kopf_pruefen(h, w):
@@ -1044,11 +1066,13 @@ def _datei_bibliographie(head: str, daten: dict, schreiben: bool):
             continue
         luecken, z = _luecken(h, w)
         if not luecken:
-            zusatz += z
+            zusatz += len(z)
+            probleme += _zusatz_pruefen(corresp, z)
             continue
         if not schreiben:
             probleme += [f'{corresp} {p}' for p in luecken]
-            zusatz += z
+            zusatz += len(z)
+            probleme += _zusatz_pruefen(corresp, z)
             continue
         nl = '\r\n' if '\r\n' in block else '\n'
         edits = []
@@ -1071,7 +1095,8 @@ def _datei_bibliographie(head: str, daten: dict, schreiben: bool):
         rest, z2 = _luecken(_bibl_parsen(neu), w)
         if rest:
             raise ValueError(f'{corresp}: nach dem Schreiben bleiben Luecken: {rest}')
-        zusatz += z2
+        zusatz += len(z2)
+        probleme += _zusatz_pruefen(corresp, z2)
         ersetzungen.append((bm.start(), bm.end(), neu))
     for corresp in soll:
         if corresp not in gesehen:
@@ -1128,10 +1153,12 @@ def schreibe_werk_bibliographie(dry_run: bool = False) -> tuple:
 
 
 def pruefe_werk_bibliographie() -> int:
-    """--check: enthaelt jeder Header-biblStruct den works.xml-Nachweis?
+    """--check: stimmen Header-listBibl und works.xml-Nachweis ueberein?
 
-    Returns die Zahl der beanstandeten Dateien. Zusatzelemente im Header
-    (textspezifische Ergaenzungen) sind erlaubt und werden nur gezaehlt.
+    Drei Richtungen: jeder Header-biblStruct mit @corresp aus works.xml enthaelt
+    den works.xml-Block; jeder works.xml-Block mit @corresp hat einen Block im
+    Header; was nur im Header steht, steht in ERLAUBTE_ZUSAETZE.
+    Returns die Zahl der beanstandeten Dateien.
     """
     syncer = WorksSyncer(AUTHORITY_DIR / 'works.xml', TEI_DIR)
     nach_sigle = syncer.load_authority_data()
@@ -1152,16 +1179,19 @@ def pruefe_werk_bibliographie() -> int:
         if probleme:
             beanstandet.append((sigle, probleme))
     logger.info(f"[check] listBibl: {geprueft} Header-biblStruct in {dateien} Dateien gegen "
-                f"works.xml geprueft; {zusatz} Zusatzelement(e) nur im Header (erlaubt), "
+                f"works.xml geprueft; {zusatz} Zusatzelement(e) nur im Header (gegen ERLAUBTE_ZUSAETZE geprueft), "
                 f"{ohne} Block/Bloecke ohne Gegenstueck in works.xml (bleiben unberuehrt)")
     if not beanstandet:
-        logger.info("[check] OK: jeder Header-biblStruct enthaelt den works.xml-Nachweis")
+        logger.info("[check] OK: jeder Header-biblStruct enthaelt den works.xml-Nachweis, "
+                    "Zusatzelemente nur aus ERLAUBTE_ZUSAETZE")
         return 0
-    logger.error(f"[check] {len(beanstandet)} Datei(en) enthalten den works.xml-Nachweis nicht:")
+    logger.error(f"[check] {len(beanstandet)} Datei(en) weichen vom works.xml-Nachweis ab:")
     for sigle, probleme in beanstandet:
         for p in probleme:
             logger.error(f"  {sigle}: {p}")
-    logger.error("Beheben mit: python scripts/sync/sync_tei_headers.py --works")
+    logger.error("Beheben mit: python scripts/sync/sync_tei_headers.py --works (fehlende und "
+                 "geaenderte Elemente); was nur im Header steht, von Hand entfernen oder in "
+                 "ERLAUBTE_ZUSAETZE eintragen")
     return len(beanstandet)
 
 
