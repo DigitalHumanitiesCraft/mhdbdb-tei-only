@@ -4,10 +4,10 @@ description: Wiederkehrende Denkfallen im Review: #397-Frage, Zwillinge und Kopi
 metadata:
   type: project
 ---
-Verdichtet 14.10.2026. Dieses Memory ist Eingabe, keine Messung: Zahlen daraus vor Gebrauch nachmessen.
+Verdichtet 14.10. und 15.10.2026. Dieses Memory ist Eingabe, keine Messung: Zahlen daraus vor Gebrauch nachmessen.
 
 **Was der Diff nicht zeigt**
-- #397-Frage: was macht der Fix wahr, woran hing etwas am Gegenteil? Auch Schreiber und Kopien suchen. Bringt ein Diff einen neuen Dateityp, die Endungslisten der Gates greppen und prüfen, ob der neue Fall den Zweig erreicht (`textreihen.spec.js`: jeder `../`-Pfad verlässt die Schleife vor der Größenprobe per `continue`, `svg` im Regex war tot, #93). Frühere Treffer: verengter Thunk -> Werkzeugzustand; neuer Typ -> Wörterbuch-Flip; e() -> markup() -> Textkopie im Export; Stempel nur bei Ergebnis -> Rückweg aus „Kein Text ausgewählt“ (#539).
+- #397-Frage: was macht der Fix wahr, woran hing etwas am Gegenteil? Auch Schreiber und Kopien suchen. Bringt ein Diff einen neuen Dateityp, die Endungslisten der Gates greppen und prüfen, ob der neue Fall den Zweig erreicht (`textreihen.spec.js`: jeder `../`-Pfad verlässt die Schleife vor der Größenprobe per `continue`, `svg` im Regex war tot, #93).
 - **Das Dokument, das die Änderung motiviert, beschreibt oft das alte Verhalten** (#545). Nach dem Auslöser im Issue greppen (`grep -rn "nicht IDs"`), nicht nur nach dem Bezeichner; generierte Artefakte haben Generator und Byte-Gate.
 - Ein „der Konsistenz halber" mitgeänderter Nachbarzweig (Leer-Guard, Fehlerast) ist der Ort, an dem #397 trifft: unveränderte Geschwistermodule mit derselben Folge durchspielen.
 - **Ein Datenfix, der einen offenen Fall erledigt, lässt `docs/ROADMAP.md` und die Recherche-README unter `ingest/<fall>/` stehen** (#28/#216/#228). Token-, Lemma- und Sense-ID über beide greppen; JOURNAL und Kickoffs sind datiert und zählen nicht.
@@ -25,12 +25,13 @@ Verdichtet 14.10.2026. Dieses Memory ist Eingabe, keine Messung: Zahlen daraus v
 - Zahlen und Daten im Auftrag stammen oft aus Verdichtungen: im Thread nachlesen (UTC beachten); wachsende Zahlen nur als damals <= jetzt prüfbar. Vorher-Zahlen von der Live-Seite gehören zum dort aufgelösten Lemma (Homograph `arm`). Personennamen gegen contributors.xml.
 - **„Ich habe selbst nachgemessen" im Auftrag wiederholt meine Methode, keine Gegenprobe** (#228). Einen eigenen Vorrundenbefund mit einer ANDEREN Messung prüfen (Kontextausgabe statt Zählung).
 - **Der Laufplan ist Anforderungsquelle und bewegt sich nach dem Abzweig** (`docs/playbooks/kickoffs/<datum>-lauf.md`). `git diff <basis> origin/main` auf den Kickoff zeigt die Pflicht; Allaussagen im Diff gegen den Paragraphen halten. **Auch während der Runde:** vor dem Bericht erneut `git fetch` und `git log <basis>..origin/main -- docs/playbooks/kickoffs/`.
-- **Ein Datum im Diff und im Auftrag gegen drei Uhren halten:** `git log -1 --format=%ad --date=iso HEAD`, `date`, Serverzeit `curl -sI https://api.github.com/ | grep -i '^date'`, dazu das Ereignisdatum (`gh pr view N --json mergedAt`). Am 15.10.2026 stand in Kickoff, Commit und Auftrag der 16.10.
+- **Ein Datum im Diff und im Auftrag gegen drei Uhren halten:** `git log -1 --format=%ad --date=iso HEAD`, `date`, Serverzeit `curl -sI https://api.github.com/ | grep -i '^date'`, dazu das Ereignisdatum (`gh pr view N --json mergedAt`).
 - **„origin/main hat seither nur X geändert" im Auftrag ist eine Behauptung:** `git log <Basis>..origin/main --stat` selbst. Nach jedem Rebase die Gates (Versionen, `doc-count-audit --check`, Em-Dash) erneut fahren.
 - **Nach einem Rebase zitieren JOURNAL und PR-Body oft den Vor-Rebase-SHA als Prüfstand.** Gegenprobe: `gh api repos/<o>/<r>/commits/<sha>` gibt 422, Kontrollwert ein gepushter SHA desselben Zweigs; den Nachfolger zeigt `git range-diff`.
 - Kickoffs und `docs/JOURNAL.md`-Einträge sind datierte Protokolle: zitieren sie eine inzwischen geänderte CLAUDE.md-Regel, ist das kein Befund. Die `CLAUDE.md` im Session-Kontext kann älter sein als HEAD: jeden Verweis „steht in CLAUDE.md" mit `git grep` auf HEAD messen.
 - **Eine Regel aus einem Issue-Kommentar hat eine zweite Quelle: die Label-Ereignisse der Autorin Sekunden danach** (`gh api .../issues/N/timeline --jq 'select(.event=="labeled" or .event=="unlabeled")'`). #378: KZW schrieb „Julia vorreihen" und setzte `wait:julia` **dazu**, ohne `wait:kzw` zu entfernen; „statt" war damit widerlegt.
 - **Ein Zitat mit „mich"/„ich" gehört dem Sprecher, den der Auftrag nennt.** Eine Paraphrase kann das Pronomen still umhängen; jede Zuschreibung gegen das Pronomen im Wortlaut halten.
+- **Eine Belegzeile, deren Befehl ein Zitat findet, belegt das Zitat, nicht die Tatsache:** ist die Quelle ein Abschlusskommentar oder eine Verdichtung, den Primärkommentar der Entscheidung öffnen (`claude-code-setup` #66 „zu reizbar“ gegen #53 „nicht sinnvoll“).
 
 **Fehlerjournal**
 - `claude-code-setup/hooks/lehren-zaehlen.py` parst dieses Journal nicht (Format `### N. Rot:`): Ketten von Hand über den Absatz „Die Lehre, die nicht gegriffen hat". Nummern werden je Spur vorab reserviert: Sprünge sind kein Befund. Kette messen: `grep -n -o "Die letzte Zeile zu dieser Lehre ist Eintrag [0-9]*"`, rückwärts folgen; der Satz kann umbrochen sein.
