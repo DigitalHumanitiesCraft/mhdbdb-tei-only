@@ -1,6 +1,6 @@
 {
-  "from": "1.9.22",
-  "to": "1.9.23",
-  "flips": 3,
-  "reason": "#460: die Formen jaget, jeit und jait loesen nicht mehr auf lemma_3103 jagat (NOM) auf, sondern auf lemma_3102 jagen (VRB). Das ist der Zweck des Tickets: 145 der 185 Tokens des Substantivlemmas sind Verbformen (jaget 109 von 122, jeit 35 von 39, jait 1 von 1) und stehen jetzt unter drei neu gepraegten Typen type_372855 bis type_372857. Bei jaget (109 gegen 13) und jeit (35 gegen 4) entscheidet nach Vorschrift B (ADR-021) die groessere Belegzahl; bei jait (1 gegen 0) ist der Typ unter lemma_3103 entfallen. Die uebrigen Substantiv-Belege behalten ihre Typen type_10674 und type_10676; jaget und jeit fuehren lemma_3103 deshalb weiter als zweiten Eintrag in variantCandidates, jait hat keinen zweiten Kandidaten mehr."
+  "from": "1.9.26",
+  "to": "1.9.27",
+  "flips": 1,
+  "reason": "#554: KZW verlangt ein eigenes Lemma briech (breiig) statt der Form unter bri. Das einzige Korpus-Token ZUK_76100_5 haengt von lemma_32468 (bri) auf das neue Lemma lemma_79829 um; der Typ type_202823 (n=1) verlaesst bri damit mit seinem einzigen Token, wandert zu briech und bri verliert die Form briech. Das ist sanktioniertes Umhaengen (n=1, kein anderes Token der Nummer), kein Fall wie #367."
 }

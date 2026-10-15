@@ -341,7 +341,7 @@ function resolveLemmaIds(normalized):
 
 ### Stage 1 holds only with a corpus attestation (#463)
 
-Stage 1 compares against the lexicon, not against corpus usage, so a lemma with no corpus token won against an attested one as soon as its spelling matched the input. Measured on 2026-10-10 (Authority Index 1.9.22, Corpus Index 4.2.31): 1,285 of 43,710 lemmata have no corpus token, and for the lemmata of the lexicon `corpusIndex.lemmaIndex` has an entry for exactly the other 42,425 (0 empty entries, 0 deviations from the token sum over `texts[].lemmata`; the index has 42,460 keys, 35 of them without a lexicon entry). An unattested hit never produces a result row on the main site, but it cut off stage 2.
+Stage 1 compares against the lexicon, not against corpus usage, so a lemma with no corpus token won against an attested one as soon as its spelling matched the input. Measured on 2026-10-10 (Authority Index 1.9.22, Corpus Index 4.2.31): 1,285 of 43,710 lemmata (not today's count) have no corpus token, and for the lemmata of the lexicon `corpusIndex.lemmaIndex` has an entry for exactly the other 42,425 (0 empty entries, 0 deviations from the token sum over `texts[].lemmata`; the index has 42,460 keys, 35 of them without a lexicon entry). An unattested hit never produces a result row on the main site, but it cut off stage 2.
 
 Decided by chsteiner on 2026-10-10: **if stage 1 yields no attested hit, stage 2 is asked as well.** Stage 3 is not part of that decision: it runs as before only for inputs that find nothing in stages 1 and 2 (`Cordoba`, spelled like its own unattested lemma, would otherwise resolve to `cor` by prefix; `hanc` stays at 0 rows). Stage-1 hits stay in the id list. The lexicon is more than the corpus index and is meant to be, so unattested lemmata are not excluded, only they no longer stop the resolution.
 
@@ -415,8 +415,8 @@ Handing over the label alone would send that click back through stage 1, where a
 homograph group returns `matches[0]`, which can be a different lemma than the one
 on screen.
 
-Measured on 2026-09-24 against `authority-files/lexicon.xml` (43,710 entries with a
-`form/orth` today; the measurement still included three digit lemmas that #228 removed on 2026-10-01, none of which shared a written form, so the figures below are unchanged): 102 written forms carry more than one entry (216 lemmata), and after
+Measured on 2026-09-24 against `authority-files/lexicon.xml` (43,710 entries, not today's count, with a
+`form/orth` at the time; the measurement still included three digit lemmas that #228 removed on 2026-10-01, none of which shared a written form, so the figures below are unchanged): 102 written forms carry more than one entry (216 lemmata), and after
 normalization 476 forms do (991 lemmata, 2.27 percent). `sin`, `wal`, `mal` and `de`
 are in that set. Counting rule, because the number depends on it: group by
 `normalize_mhg()` from `scripts/mhg_normalizer.py`, the canonical normalizer, not by a

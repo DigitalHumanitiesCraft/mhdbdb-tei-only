@@ -1281,3 +1281,11 @@ Auto-Mode-Classifier abgelehnt, und die Blockade ging an Christian.
 **Was es getragen hat:** nichts, die Aussagen standen in Doku und Docstrings, und der Reviewer hat sie in den Runden 1 bis 3 gefunden, bevor ein Leser sie benutzt hat. Gezählt wird es trotzdem, weil jede Aussage an dem Schreibtisch geprüft werden konnte, an dem sie entstand.
 
 **Kein neuer Mechanismus:** beim Schreiben von Zahlen und "wörtlich"-Aussagen in ein README lasse ich künftig das Messskript die Zahl ausgeben und kopiere sie aus der Ausgabe, statt sie aus dem Kopf zu setzen.
+
+### 125. Rot: Zahlen und Befunde aus der eigenen Verdichtung in die Übernahmedoku geschrieben, ohne die Quelle erneut zu messen (Spur lauf-554b, 15.10.2026, #554).
+
+**Rot.** Der Reviewer fand in `UEBERNAHME.md` drei Aussagen, die die Stelle nicht hergab: "in 3 der 22 Texte" mit freiem Textfeld (gemessen: 2 von 21, letzen steht wörtlich auf der Prüfseite, nur ein führendes Leerzeichen unterschied sich), "63 Lerchen-Formen" (gemessen: 62 mit Präfix, 75 als Teilstring; die Zahl 83 aus dem Laufplan ist keine von beiden) und "Stricker kommt in works.xml nur mit ALL und BMG vor" (gemessen: 145 Werke). Alle drei Werte stammten aus der Zusammenfassung meiner früheren Sitzung beziehungsweise aus einer Zahl der Koordination, nicht aus einer Messung am Tag des Schreibens.
+
+**Die Lehre steht in `agentenbefunde.md` (eine Verdichtungszusammenfassung und eine frühere eigene Sitzung sind Agentenberichte) und in `mengen.md`.** Die letzte Zeile zu dieser Lehre ist Eintrag 132; davor 117, davor 116. Das ist damit die vierte Zeile zur selben Lehre (Kette 116, 117, 132, 125, an den Zeigern der Einträge gemessen); der Mechanismuswechsel nach `wiederholte-fehler.md` war schon bei 132, der dritten, fällig und ist ausgeblieben. Welcher, entscheidet nicht diese Spur (siehe Journal, "Was zurück an Christian geht").
+
+**Was es getragen hat:** nichts, der Reviewer fand alle drei in Runde 1, bevor ein Leser sie benutzt hat. Gezählt wird es, weil jede Zahl am Schreibtisch mit einem Einzeiler nachzumessen war.
