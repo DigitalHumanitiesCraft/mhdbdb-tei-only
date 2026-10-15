@@ -1040,7 +1040,9 @@ def _werk_daten(head: str, sigle: str, nach_id_und_sigle: dict, nach_sigle: dict
 def _datei_bibliographie(head: str, daten: dict, schreiben: bool):
     """Header-biblStruct einer Datei gegen works.xml halten.
 
-    Returns (neuer_head oder None, probleme, zusatz, geprueft, ohne_gegenstueck).
+    Returns (neuer_head oder None, probleme, zusatz, geprueft, ohne_corresp).
+    ohne_corresp zaehlt nur Bloecke ohne @corresp (WZB); ein Block, dessen
+    @corresp works.xml nicht fuehrt, steht in probleme.
     neuer_head ist nur gesetzt, wenn schreiben=True und sich etwas aendert.
     """
     lb = LISTBIBL.search(head)
