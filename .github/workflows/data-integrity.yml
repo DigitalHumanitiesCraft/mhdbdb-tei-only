@@ -49,9 +49,11 @@ name: Data Integrity
 #      Editionsnachweis: jeder biblStruct aus works.xml mit @corresp
 #      (Zotero-Item) muss im Header-biblStruct mit demselben @corresp
 #      mit gleichem Inhalt enthalten sein, und ein fehlender Header-Block
-#      ist rot; Zusaetze im Header (etwa der AK-Ausschnitt aus #134) sind
-#      erlaubt. Bloecke ohne @corresp (WZB, auf beiden Seiten) bleiben
-#      ausserhalb der Kette.
+#      ist rot. Seit #605 (15.10.2026) ist auch ein Header-Block mit
+#      @corresp ohne works.xml-Block rot, und was nur im Header steht, ist
+#      nur erlaubt, wenn es in ERLAUBTE_ZUSAETZE in sync_tei_headers.py
+#      steht (heute nur der AK-Ausschnitt aus #134). Bloecke ohne @corresp
+#      (WZB, auf beiden Seiten) bleiben ausserhalb der Kette.
 #   1c. Versions-Bump-Gate (#154): hat sich der dekomprimierte Inhalt
 #      von corpus-/authority-index gegenueber der Diff-Base geaendert,
 #      MUSS der version-String mitgebumpt sein — sonst invalidiert der

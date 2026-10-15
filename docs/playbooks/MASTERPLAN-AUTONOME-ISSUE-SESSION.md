@@ -357,7 +357,9 @@ die §2 Punkt 4 an dieser Stelle verlangt: ohne sie steht nach dem Überschreibe
    `gh api .../pulls/377 -q .changed_files` gibt 0, `gh pr view 377 --json files`
    gibt 34. Für die anderen drei PRs stimmen beide überein. Wer behaupten will,
    GitHub habe den Diff nicht berechnet, liest den `<changed_files>`-Block im
-   Job-Log oder nimmt `--json files`.
+   Job-Log. Die Dateiliste selbst kommt aus `git diff --name-only`, nicht aus
+   `--json files`: gh kappt das Feld still bei 100 Einträgen (#604, Befehle in
+   `CLAUDE.md` → Git Rules).
 4. **Was ein Filter nicht zeigt, ist nicht abwesend.** Ich hatte behauptet, der
    `changed_files`-Block auf #382 sei leer, weil mein `grep` die Dateizeilen
    zwischen den Tags nicht treffen konnte und Öffnungs- plus Schlusszeile
