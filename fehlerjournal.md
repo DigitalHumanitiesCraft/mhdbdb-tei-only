@@ -1234,13 +1234,23 @@ Auto-Mode-Classifier abgelehnt, und die Blockade ging an Christian.
 
 ### 122. Rot: Christian die Klug-Link-Frage mit „KZW hat am 13.10. nur das Linkziel genannt“ vorgelegt, obwohl sie dort die Verweise unter „Weitere Verweise“ verlangt (15.10.2026, #554).
 
-**Rot.** In der `/entscheiden`-Runde vom 15.10. stand als bisheriger Stand zum Klug-Link nur das Linkziel. Der Kommentar 6142854399 vom 13.10., Abschnitt 2, verlangt aber, fachlich passende Verweise auf den Medieval Plant Survey unter „Weitere Verweise“ am passenden Lemma zu sammeln, mit `brestelinc` als Beispiel. Den Stand hatte ich aus der Verdichtung und aus `UEBERNAHME.md` B5 genommen, nicht aus dem Thread. Christian hat auf diese Darstellung hin „nicht weiter verfolgen“ entschieden, und ich habe das als Entscheidung in #554 gepostet (6185169429), ohne die Abweichung von KZWs Vorgabe zu nennen. Dieselbe Lücke hatte am 16.10. die Einklappfrage: Ihr Satz, ein langer Kommentar dürfe die Bedeutungen nicht verdrängen, fehlte. Aufgefallen ist es mir selbst, als ich ihre Aussagen zu „Literatur“ für die nächste Frage im Thread nachgelesen habe.
+**Rot.** In der `/entscheiden`-Runde vom 15.10. stand als bisheriger Stand zum Klug-Link nur das Linkziel. Der Kommentar 6142854399 vom 13.10., Abschnitt 2, verlangt aber, fachlich passende Verweise auf den Medieval Plant Survey unter „Weitere Verweise“ am passenden Lemma zu sammeln, mit `brestelinc` als Beispiel. Den Stand hatte ich aus der Verdichtung und aus `UEBERNAHME.md` B5 genommen, nicht aus dem Thread. Christian hat auf diese Darstellung hin „nicht weiter verfolgen“ entschieden, und ich habe das als Entscheidung in #554 gepostet (6185169429), ohne die Abweichung von KZWs Vorgabe zu nennen. Dieselbe Lücke hatte am selben Tag die Einklappfrage: Ihr Satz, ein langer Kommentar dürfe die Bedeutungen nicht verdrängen, fehlte. Aufgefallen ist es mir selbst, als ich ihre Aussagen zu „Literatur“ für die nächste Frage im Thread nachgelesen habe.
 
 **Die Lehre steht in `entscheidungsfragen.md`: eine Entscheidungsfrage nur mit dem bisherigen Stand daneben, und ein Issue ist Body und Kommentare.** Die letzte Zeile zu dieser Lehre ist Eintrag 37.
 
-**Was es getragen hat:** eine Entscheidung Christians gegen eine ausdrückliche Vorgabe von KZW und einen Kommentar an sie, der diese Entscheidung ohne Hinweis darauf meldet. Christian hat am 16.10. mit dem richtigen Stand neu entschieden (KZW fragen). Der Kommentar wird in #554 richtiggestellt.
+**Was es getragen hat:** eine Entscheidung Christians gegen eine ausdrückliche Vorgabe von KZW und einen Kommentar an sie, der diese Entscheidung ohne Hinweis darauf meldet. Christian hat noch am 15.10. mit dem richtigen Stand neu entschieden (KZW fragen). Der Kommentar ist in #554 richtiggestellt.
 
 **Kein neuer Mechanismus:** zweite Zeile zu dieser Lehre. Kein Hook sieht, ob der Stand in einer AskUserQuestion aus dem Thread stammt oder aus einer Verdichtung.
+
+### 123. Rot: aus Christians „es ist ein Tag vergangen“ den 16.10. erschlossen, statt das Datum zu messen; es war der 15.10. (15.10.2026, #554).
+
+**Rot.** Christian schrieb am Nachmittag des 15.10., es sei ein Tag vergangen; gemeint war der Abstand zum Lauf vom 14.10. Ich habe daraus den 16.10. gemacht und ihn ungeprüft geschrieben: in zwei Kommentaren in #554 (darunter an KZW „Gestern hast du mehrfach begründet“ über ihre Antwort vom selben Tag), in den Bodys von #602 und #603, in Fehlerjournal 122, in Laufplan und Kickoff samt Dateinamen (`2026-10-16-*.md`) und in den Nachrichten an die Spur `lauf-554b`. Der Sitzungskontext nannte den 15.10., die Commits trugen ihn. Gefangen vom `reviewer` (Opus) in Runde 1 des PR zur Dateiliste, der das Datum gegen `date`, Commit-Datum und GitHub-Serverzeit gehalten hat.
+
+**Die Lehre steht in Eintrag 29: ein Datum wird abgelesen, nicht erschlossen.** Die letzte Zeile zu dieser Lehre ist Eintrag 29.
+
+**Was es getragen hat:** einen Kommentar an KZW mit falscher Zeitangabe über ihre eigene Antwort, zwei Issues und einen Kickoff, nach dem eine Spur Daten schreibt. Korrigiert am selben Tag: die vier GitHub-Texte per Bearbeitung, die Dateien mit diesem Commit (umbenannt auf `2026-10-15-*.md`), die Spur per Nachricht.
+
+**Kein neuer Mechanismus:** zweite Zeile zu dieser Lehre, die erste liegt sieben Wochen zurück. Ein Hook, der Daten in geschriebenem Text gegen `date` hält, wäre der Mechanismus bei der dritten.
 
 ### 130. Rot: ein `cd` in das Scratchpad, mitten in der Arbeit, und danach lief die Arbeit eine Weile im falschen Verzeichnis (Spur lauf-554, 14.10.2026, #554).
 
