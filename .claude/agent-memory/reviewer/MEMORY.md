@@ -3,7 +3,7 @@
 Verdichtet am 08.10., 10.10. und 14.10.2026. Zahlen in den Dateien sind Eingabe, keine Messung.
 
 - [Umgebung](querschnitt_umgebung.md): wenn ein Kommando abgelehnt wird oder die Umgebung (Windows, Cloud, GitHub ohne gh) querkommt
-- [Git-Rezepte](querschnitt_git.md): Altstand, Basis, Rebase, Squash und Stack prüfen, ohne den Arbeitsbaum anzufassen
+- [Git-Rezepte](querschnitt_git.md): Altstand, Basis, Rebase, Squash und Stack prüfen, Dateiliste eines PR (gh `files` kappt bei 100), ohne den Arbeitsbaum anzufassen
 - [Messrezepte](querschnitt_messen.md): Skripte und JS in-process nachfahren, Mutationsproben, Zählfallen
 - [Tests](querschnitt_tests.md): Playwright und run-tests.js bedienen, Proben ohne Spec, Tailwind, Warte-Fallen
 - [Review-Denkfallen](querschnitt_review_fallen.md): was ein Diff nicht zeigt, Auftrag als Behauptung, Fehlerjournal-Ketten
