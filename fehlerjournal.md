@@ -1232,6 +1232,16 @@ Auto-Mode-Classifier abgelehnt, und die Blockade ging an Christian.
 
 **Kein neuer Mechanismus:** `agentenbefunde.md` ist ausgesetzt; die Aussetzung ist der Mechanismus. Gehalten hat hier der Mechanismus aus dem Operator-Skill, die Widerspruchsklausel im Kickoff.
 
+### 122. Rot: Christian die Klug-Link-Frage mit „KZW hat am 13.10. nur das Linkziel genannt“ vorgelegt, obwohl sie dort die Verweise unter „Weitere Verweise“ verlangt (15.10.2026, #554).
+
+**Rot.** In der `/entscheiden`-Runde vom 15.10. stand als bisheriger Stand zum Klug-Link nur das Linkziel. Der Kommentar 6142854399 vom 13.10., Abschnitt 2, verlangt aber, fachlich passende Verweise auf den Medieval Plant Survey unter „Weitere Verweise“ am passenden Lemma zu sammeln, mit `brestelinc` als Beispiel. Den Stand hatte ich aus der Verdichtung und aus `UEBERNAHME.md` B5 genommen, nicht aus dem Thread. Christian hat auf diese Darstellung hin „nicht weiter verfolgen“ entschieden, und ich habe das als Entscheidung in #554 gepostet (6185169429), ohne die Abweichung von KZWs Vorgabe zu nennen. Dieselbe Lücke hatte am 16.10. die Einklappfrage: Ihr Satz, ein langer Kommentar dürfe die Bedeutungen nicht verdrängen, fehlte. Aufgefallen ist es mir selbst, als ich ihre Aussagen zu „Literatur“ für die nächste Frage im Thread nachgelesen habe.
+
+**Die Lehre steht in `entscheidungsfragen.md`: eine Entscheidungsfrage nur mit dem bisherigen Stand daneben, und ein Issue ist Body und Kommentare.** Die letzte Zeile zu dieser Lehre ist Eintrag 37.
+
+**Was es getragen hat:** eine Entscheidung Christians gegen eine ausdrückliche Vorgabe von KZW und einen Kommentar an sie, der diese Entscheidung ohne Hinweis darauf meldet. Christian hat am 16.10. mit dem richtigen Stand neu entschieden (KZW fragen). Der Kommentar wird in #554 richtiggestellt.
+
+**Kein neuer Mechanismus:** zweite Zeile zu dieser Lehre. Kein Hook sieht, ob der Stand in einer AskUserQuestion aus dem Thread stammt oder aus einer Verdichtung.
+
 ### 130. Rot: ein `cd` in das Scratchpad, mitten in der Arbeit, und danach lief die Arbeit eine Weile im falschen Verzeichnis (Spur lauf-554, 14.10.2026, #554).
 
 **Rot.** Beim Suchen in den abgerufenen Rohseiten habe ich ein `cd` auf das Scratchpad abgesetzt, um mit relativen Dateinamen zu suchen. Der Befehl lief durch, das Arbeitsverzeichnis der Sitzung wechselte, und ein folgender Git-Aufruf wurde vom Worktree-Schutz abgelehnt. Zurückgekommen bin ich wieder mit `cd`.
