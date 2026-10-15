@@ -14,5 +14,4 @@ Verdichtet 15.10.2026, ergänzt um lauf-554b. Zahlen vor Gebrauch nachmessen.
 - **Abgleich:** Notiz unter `<sense>` = `escape(text) + ' ' + QUELLE`, Index-`comment` ohne Escape; `zuordnung.tsv` liefert `sense_id`. Prüfseite nachbauen: `pruefseite-bauen.py <vorstufe.json> <tmp>.html` (~2 min), Fingerprint bleibt bei gleichen Fällen gleich.
 - **Sense-IDs sind nicht global eindeutig:** `sense_N` nur mit `lemma_M_` davor suchen. Nach einer Löschung Präsens-Sätze im Journal prüfen.
 - **KZWs Antwort-JSON** (`kzw-2026-10-15/`): eigener Text = `text` ≠ Seitenvorschlag, nach Streichen von `"`, `\` und Leerraum (die Prüfseite escaped).
-- **Fehlerjournal-Kette an den Zeigern messen:** `rg -o "letzte Zeile zu dieser Lehre ist [^.]*"` rückwärts folgen; Nummern sind nicht monoton.
 - **`lemmaIndex[l]` ist eine Siglenliste**, keine Tokenzahl; Zählregeln (Präfix oder Teilstring) gehören neben jede Zahl.

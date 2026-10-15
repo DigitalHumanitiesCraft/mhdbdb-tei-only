@@ -4,7 +4,7 @@ description: Was die Gates prüfen und was nicht: doc-count-audit, data-integrit
 metadata:
   type: project
 ---
-Verdichtet 14.10.2026. Zahlen vor Gebrauch nachmessen.
+Verdichtet 14.10. und 15.10.2026. Zahlen vor Gebrauch nachmessen.
 
 **doc-count-audit.py --check**
 - Steht in data-integrity.yml VOR allen Datengates (rot = der Rest läuft nicht) und zuletzt in no-cdn-check.yml; `count_xml_elements` erlaubt nur `//tei:<tag>[@xml:id|@corresp]`.
@@ -17,12 +17,12 @@ Verdichtet 14.10.2026. Zahlen vor Gebrauch nachmessen.
 **Einzelgates**
 - `check-index-versions.py` gatet fünf Dateien, nur vier tragen die Korpusversion. `check-no-em-dash.py --diff-base origin/main` meldet auf einem älteren Branch Zeilen, die main geändert hat.
 - `check-authority-cross-refs.py`: überspringt Tokens ohne Dateiteil (`#type_N`), scannt nur tei/; `--check` schreibt `scripts/audit/authority-cross-refs-audit.json` (gitignoriert, wegräumen); die Ratsche feuert nur bei Anstieg.
-- `check-author-refs.py` vergleicht keine Alternativformen. `sync_tei_headers.py --works --check`: nur die drei msIdentifier-Typen. `check-header-genres.py --check`: blind für Köpfe ohne Hauptgattung, gelöschte Elternkategorien, doppelte ids. `validate-corpus.py --corpus-only --sample SIGLE ...` läuft in Sekunden.
+- `check-author-refs.py` vergleicht keine Alternativformen. `sync_tei_headers.py --works --check`: msIdentifier und seit #486/#605 listBibl (siehe Header-Spiegel). `check-header-genres.py --check`: blind für Köpfe ohne Hauptgattung, gelöschte Elternkategorien, doppelte ids. `validate-corpus.py --corpus-only --sample SIGLE ...` läuft in Sekunden.
 - `check-variants-flips.py --base <rev>`: rot bei jeder umgeklappten Form gegenüber `<base>:data/authority-index.json.gz`, außer `scripts/audit/variants-flips-ack.json` (force-added, das Verzeichnis ist gitignoriert) nennt genau (from-Version, to-Version, Anzahl).
 - `build-authority-index.py` bricht ohne passenden `data/corpus-index.json.gz` ab (fehlt, falsche Version, lemmaIndex < 10.000): Korpus vor Authority.
 - `schema/examples/*.xml` validiert nichts: eine Pflichtattribut-Änderung lässt die Beispieldatei still ungültig (Probe mit lxml RelaxNG).
 - `check-measured-counts.py` (#414): Allaussagen sind eine Messbedingung, die rot bleibt, bis der Gate-Eintrag geändert wird; Datumsstempel und einzelne Zahlen ungegatet. Probe: `g.normalize` per Lambda umhängen, `g.check(m)` mit `--use-measured`-JSON.
-- Kein Gate: tailwind-output.css, sense/@ana, Header-Spiegel gegen works.xml außer Gattungen.
+- Kein Gate: tailwind-output.css, sense/@ana, Header-Spiegel gegen works.xml außer msIdentifier, listBibl und Gattungen.
 - **Syntaxfehler im Textteil:** 7b/7c fangen ihn nicht (iterparse bricht nach `</teiHeader>` ab); fangen tun Step 4, Step 6 (build-corpus-index überspringt die Datei mit Exit 0, der Rebuild-Vergleich wird rot), Step 7.
 
 **extract-variants.py:** „Typ mit >1 Lemma" endet mit return 0, kein Gate. Ohne `--apply` schreibt es `authority-files/variants.regen.xml` (nicht gitignoriert, löschen). `--apply` bereinigt auch sense/@ana in lexicon.xml; der Textanker-Abbruch kommt erst NACH dem variants-Write. Jede Umannotierung eines corresp-Tokens ändert `form/@n` in variants.xml, der Freshness-Step wird ohne Regeneration rot.
@@ -36,8 +36,7 @@ Verdichtet 14.10.2026. Zahlen vor Gebrauch nachmessen.
 - Der handgepflegte Teil von #44 trägt eigene CRLF, die `--apply` roh lässt (CR/LF in `gh issue view 44 --json body` zählen). Der Selbsttest hat nur einen Einzahl-Fall für „Dazu kommt"; Plural per importlib proben. Der Tabellenkopf `| Person | Abnehmen | … |` steht immer in `p`: Teilstring-Proben darauf sind stumm, auf Zeilen mit Nummer oder per `partition('### Für Julia')` proben.
 
 **Review-Bot (claude-code-review.yml):** Log ohne `show_full_output: true` oder `ACTIONS_STEP_DEBUG=true` nur `init` plus Result. Rote Läufe: `gh run view <id> --log | grep -o '"is_error": [^,]*'`.
-- **Dateiliste eines PR (15.10.2026, gh 2.102.0):** gh kappt `--json files` bei 100 (`files(first: 100)` in gh.exe, `rg -a -o 'files\(first: ?[0-9]+\)'`), `changedFiles` nicht (#556: git 632, changedFiles 632, files 100). Die Plattform liefert für manche gemergte PRs 0 auf allen Feldern (#368, #548, #599), auch wenn der Diff offen berechnet war (#599, offen files 100). „Berechnet“ belegt nur der `<changed_files>`-Block im Job-Log, und der kappt selbst bei 100 (#599-Lauf `38599914875`, Head `fbc7106a1`: 100 von 370; Regex `Z - \S+ \((MODIFIED|ADDED|...)\)`). Zählen am Squash-Commit: `git diff-tree --no-commit-id --name-only -r <sha> | wc -l` (GraphQL `pr list` gab 502).
-- `MASTERPLAN-AUTONOME-ISSUE-SESSION.md` Punkt 3 nachgezogen auf `claude/nachzug-605-604` (`edd757465`, 15.10.); ob auf main, mit `git grep -n "oder nimmt .--json files" origin/main -- docs/playbooks` prüfen. Übrige `--json files`-Stellen (journal-archive Z. 3170, EINZEL-LEMMA Z. 15, 20 Dateien) sind historisch und unter 100, kein Befund.
+- **Dateiliste eines PR:** gh kappt `--json files` bei 100 (in gh.exe: `rg -a -o 'files\(first: ?[0-9]+\)'`), `changedFiles` nicht. Für manche gemergte PRs liefert die Plattform 0 auf allen Feldern. „Diff berechnet“ belegt nur der `<changed_files>`-Block im Job-Log, der selbst bei 100 kappt. Zählen: offen `git diff --name-only origin/main...<branch>`, gemergt `git diff-tree --no-commit-id --name-only -r <squash>`. Alte `--json files`-Stellen in journal-archive und EINZEL-LEMMA sind historisch, kein Befund.
 
 **check-runtime-budget.py (#564)**
 - Neues Pflichtfeld in `lade_budget` macht Ablehnungsfälle im Selbsttest still leer, wenn die Basis-`cfg` es nicht trägt: Ablehnungsgrund je Fall ausgeben. `erinnere` fängt `HTTPException` und AttributeError nicht. Gegenprobe zu `--jobs`: `--jobs=1` gegen Vorgabe per `cmp`, `--out`-Dateien per `git hash-object` gegen `git rev-parse HEAD:<pfad>`.
