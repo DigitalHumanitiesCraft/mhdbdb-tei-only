@@ -18,4 +18,3 @@ Verdichtet am 08.10., 10.10. und 14.10.2026. Zahlen in den Dateien sind Eingabe,
 - [Parzival-Bücher #358](projekt_parzival_buecher_358.md): Buchgrenzen gegen die Quellen messen
 - [WZB-Nachannotierung #370/#526](projekt_526_breve_makron.md): Tafelskripte auf einer Kopie nachfahren
 - [Glossar #554 (lauf-554)](projekt_lauf-1014-554.md): Einordnung, Lücke der Entfallen-Suche, Zählfallen
-- [Glossar #554 KZW-Antworten (lauf-554b)](projekt_lauf-1016-554b.md): Antwort-JSON, eigene Edits erkennen, Anhang-Hashes, Sense-IDs nicht global eindeutig, Stricker/Lerchen-Zählfallen
