@@ -277,7 +277,8 @@ mehrere Notizen tragen (wanne 2, schale 4, je ein Lemma) und briech über seine 
 ohne Notiz.
 
 **Katharinas eigener Text.** Wo sie den Vorschlag der Prüfseite änderte, steht ihr Text in den
-Daten: in 3 der 22 Texte mit freiem Textfeld (letzen, latech, vînæger). Bei `ber` („teile“)
+Daten: in 2 der 21 Texte mit freiem Textfeld (latech, vînæger; die übrigen 19 stehen wörtlich
+auf der Prüfseite, gemessen nach Streichen von Anführungszeichen, Backslashes und Leerraum). Bei `ber` („teile“)
 lieferte sie den gestrafften Text ohne die Belegverse zu „niht ein ber“; die Verse sind aus dem
 Entwurf wieder eingefügt, weil „teile“ den Rest bestehen lässt.
 
@@ -312,10 +313,11 @@ nachher je Notiz steht in [`kzw-2026-10-15/umsetzung.tsv`](kzw-2026-10-15/umsetz
   diesen einen Wechsel, quittiert in `scripts/audit/variants-flips-ack.json`. Ein Verweis auf das
   MWB steht nicht in den Daten (es gibt kein Feld dafür).
 - **lêrchenvuoʒ (C, „anderes“):** nicht angelegt. Katharina wollte das Lemma mit Verweisen auf
-  die Textstellen, auch wenn sie getrennt geschrieben sind. Gemessen: 63 Lerchen-Formen in
-  `tei/` (Muster lerch/lerk/lerich), keine mit einer fuoz-Form danach; die Stricker-Stelle
-  („Des Gastes Hofzucht“, V. 287–292) steht nicht im Korpus (Stricker kommt in `works.xml` nur
-  mit ALL und BMG vor). Es gäbe also ein Lemma ohne Beleg. Die Notiz bei lêrche (#69) enthält
+  die Textstellen, auch wenn sie getrennt geschrieben sind. Gemessen: 62 `<w>`-Tokens in
+  `tei/`, die mit lerch, lerk oder lerich beginnen (ohne Groß-/Kleinschreibung; 75 als
+  Teilstring), keines mit einer fuoz-Form als Folgetoken; die Stricker-Stelle
+  („Des Gastes Hofzucht“, V. 287–292) steht nicht im Korpus (`works.xml` führt 145 Werke des
+  Strickers, keines mit „Hofzucht“ im Titel). Es gäbe also ein Lemma ohne Beleg. Die Notiz bei lêrche (#69) enthält
   „vgl. lêrchenvuoʒ“ und verweist damit ins Leere. Rückfrage an Katharina: (a) Lemma ohne
   Korpusbeleg mit Glossarnotiz anlegen oder (b) bis zum Ingest des Strickers zurückstellen.
 
