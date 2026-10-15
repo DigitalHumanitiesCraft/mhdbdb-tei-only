@@ -4,6 +4,28 @@ Chronological log of development decisions, dead ends, and savepoints. Not a cha
 
 ---
 
+## 2026-10-15 (Spur lauf-554b): KZWs Prüfergebnisse zum Glossar Kochbuchforschung eingearbeitet, briech als neues Lemma (#554)
+
+**Was:** Katharinas 47 Antworten zur Prüfseite (JSON vom 15.10.2026) sind in `lexicon.xml` umgesetzt: 44 Notizen (19 aus Gruppe A, 22 aus B, 1 D, 2 E), letzen verliert eine Bedeutung, naschen tauscht zwei, briech ist ein eigenes Lemma (`lemma_79829`), das einzige Token ZUK_76100_5 hängt von brî darauf um. Authority Index 1.9.27, Corpus Index 4.2.33; die Lemmazahl steigt auf 43.711, Varianteneinträge 42.460, und die Zahl steht in zwölf Doku- und Seitendateien nach. Dazu `ingest/glossar-554/literatur.tsv` (193 Zeilen, 76 Werke, 74 von 138 Notizen mit mindestens einem Zitat; Untergrenze, ungeprüft). Umsetzung je Fall: `ingest/glossar-554/UEBERNAHME.md`, Abschnitt "Einarbeitung der Prüfergebnisse".
+
+**Was über den Einzelfall hinausgilt:**
+- Ein neues Lemma ist eine Änderung an der Lemmazahl in zwölf Dateien; `doc-count-audit.py --check` fand sie erst nach der Datenänderung. Datierte Messungen (CONTRACTS L344/L418) behalten ihre Zahl und bekommen den Vermerk "not today's count" hinter der Zahl, auf derselben Zeile (das Audit liest nur bis zum Zeilenende, höchstens 120 Zeichen).
+- Sense-Nummern sind nicht global eindeutig (`sense_5899` gibt es an drei Lemmata); wer eine gelöschte Bedeutung sucht, sucht mit Lemma-Präfix.
+- Die wîn-Zählung (mete 63, môraz 57, klârêt 50, lûtertranc 26, malvasier 8, sinôpel 6, alantwîn 1) ist am Korpus-Index nachgemessen und trägt den Stand 15.10.2026.
+- Die Kommentare enthalten Altzählungen, Suchsyntax und Ich-Form von 2015 bis 2017 (grobe Textsuche: 12 mit Stand- oder Abrufdatum, 10 mit Trefferzahl, 19 mit Ich-Form; ungeprüft). Kein Eingriff in diesem PR, eigene Frage an Katharina.
+
+**Rote Zeilen:** Eine, Nr. 125 (Zahlen aus der eigenen Verdichtung ungeprüft in die Doku geschrieben; dritte Zeile zu dieser Lehre, 117 und 132 davor).
+
+**Was zurück an Christian geht:**
+- Der Mechanismus zu Eintrag 125: dritte Zeile zur Lehre "Zahl neu messen, bevor sie in eine Doku kommt" (117, 132, 125), nach der Regel wechselt er. Vorschlag: Zahlen in Übernahmedokumenten erzeugt ein Skript (`literatur-erfassen.py` macht es vor), die Doku zitiert dessen Ausgabe.
+- brî führt nach dem Umhängen `<pos>ADJ</pos>` ohne ein ADJ-Token (Reviewer-Beobachtung, kein Gate sieht es); ob die Wortart am Lemma dem Korpus folgen soll, ist eine Entwurfsfrage.
+- Offene Fragen an Katharina (nach Merge und Deploy im Abnahmekommentar): slunthart 1759 ergänzen oder weglassen, lêrchenvuoʒ (a) ohne Beleg anlegen oder (b) bis zum Ingest des Strickers zurückstellen, eigene Bedeutung "Kornschwinge" bei wanne, Fehlannotation "von wannen" (JT), die briech-Konzepte, die Altzählungen in den "passt"-Texten.
+- Die Laufplan-Zahl 83 Lerchen-Formen (G5) ist mit keiner Zählregel reproduzierbar (62 Präfix, 75 Teilstring).
+
+**Review:** Fable, Runde 1 auf 488e64e14: kein A-Befund, drei Zahlenbefunde (B1 bis B3) von der Spur nachgemessen und behoben, B4 betraf nur die Basisangabe im Auftrag.
+
+---
+
 ## 2026-10-13: #93, Bilder der Textreihentypologie nachgezogen, PR #555 rebased
 
 KZW hat die drei offenen Bildfragen aus #93 über Christian beantwortet: Logos, Startbild und Screenshots dürfen übernommen werden. Alle elf Dateien liegen jetzt unter `textreihen/img/` (Startbild als JPEG in der 1024-px-Fassung, die Logos einmal auf der Startseite statt im Fuß jeder Seite). PR #555 stand vier Tage offen, ohne dass jemand etwas sagte, und war inzwischen `CONFLICTING`; nach dem Rebase lagen die Konflikte im umbenannten Reviewer-Memory (`fable-reviewer/` zu `reviewer/`, #593) und in den beiden Journalen.
