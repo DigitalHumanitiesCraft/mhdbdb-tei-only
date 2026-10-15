@@ -331475,7 +331475,7 @@
             <pos>ADJ</pos>
             <pos>NOM</pos>
           </gramGrp>
-          <sense xml:id="lemma_32468_sense_50850" ana="#type_169158 #type_179355 #type_195558 #type_202823 #type_272711 #type_273238">
+          <sense xml:id="lemma_32468_sense_50850" ana="#type_169158 #type_179355 #type_195558 #type_272711 #type_273238">
             <note type="comment" xml:lang="de" resp="contributors.xml#contrib_003">Im europäischen Mittelalter waren dicke Breie und Muse die wichtigsten Grundnahrungsmittel der einfachen Bevölkerung. Das erklärt sich aus den verfügbaren Lebensmitteln und Kochutensilien (zum Brotbacken braucht man einen Backofen und viel Brennmaterial) und aus der Konsistenz des Breis; auch mangelnde Zahnhygiene machte vielen älteren Menschen das Kauen schwer. Anne Schulz weist zudem darauf hin, dass die irdenen Kochtöpfe, die direkt an die Feuerglut gestellt wurden, eine Zubereitung ‚al dente‘ kaum zuließen und viele Gerichte heiß, aber verkocht gewesen sein dürften. Das ‚Zahnproblem‘ gilt jedoch nur als Randbedeutung. Der Hauptgrund war wohl der Aufwand, fein zerkleinerte Speisen zuzubereiten: Dem mittelalterlichen Koch standen weder Pürierstab noch Mixer zur Verfügung, und je mehr Mühe eine Speise machte, desto geschätzter war sie. Deshalb sind „brî“-, „muos“- und „latwerge“-Rezepte in der Kochbuchliteratur des Mittelalters und der frühen Neuzeit besonders häufig. Breie bestanden aus zerstoßenem Gemüse (häufig verschiedene Rüben), geschrotetem oder gemahlenem Getreide (Dinkel, Gerste, Hafer, Roggen, Hirse, ab dem späten 15. Jahrhundert auch Reis und Buchweizen), Hülsenfrüchten (Erbsen, Bohnen, Linsen) oder zerkochtem Obst und Wildobst. Die Zubereitung war stets ähnlich: Die Zutaten wurden zerstoßen, mit Wasser oder Milch (seltener Bier oder Wein) verrührt, gewürzt, gekocht und eingedickt; seltener machte man den Brei mit Eiern, Speck, Schmalz, Butter oder kleingeschnittenem Fleisch gehaltvoller. Nicht immer waren Breie einfache Speisen: Überliefert sind etwa „wahtelbrî“ (Salzburger Kochbuch), ein exquisites Gericht aus Wachtelfleisch, Fenchel und Käse, sowie „kæsemuos“, „rêchmuos“ (mit Wildfleisch; Basler Rezeptsammlung) und „krebezmuos“. Die Konsistenz konnte breiig sein, bei Getreidebreien aber auch schnittfest, vergleichbar mit dem Sterz, der noch heute in Bayern, Österreich und Slowenien üblich ist. Brei wurde auch angeröstet und als Fladen gegessen, ähnlich den Polenta-Schnitten. In der Dichtung hat „brî“ als Alltagsspeise den Charakter des Einfachen, so bei Hugo von Montfort: „ir schlahent brey fúr gebratens dar“ (HUG 29,49). Im Streitgespräch mit Helmbrecht sagt dessen Vater, die Mutter könne jeden Tag der Woche „guoten brîen kochen“ (HBR 453–454); Helmbrecht könne also auf standesfremde Luxusnahrung wie Gänse verzichten. Oswald von Wolkenstein verwendet „süssen breie“ als Ausdruck für eine angenehme Vorstellung: Er wünscht schadenfroh, Sebastian müsse als Ochse unter Schmerzen täglich einen Mistwagen ziehen, und das wäre für ihn ein ‚süßer Brei‘ (OVW 1,103,4,4). Quelle: Glossar Kochbuchforschung dig_ESTivum von Katharina Zeppezauer-Wachauer (2016-2026)</note>
             <ptr target="concepts.xml#concept_21111300"/>
             <ptr target="concepts.xml#concept_21111304"/>
@@ -737664,6 +737664,23 @@
             <pos>NOM</pos>
           </gramGrp>
           <sense xml:id="lemma_79828_sense_119183"/>
+        </entry>
+        <entry xml:id="lemma_79829">
+          <form type="lemma">
+            <orth>briech</orth>
+          </form>
+          <gramGrp>
+            <pos>ADJ</pos>
+          </gramGrp>
+          <etym type="morphological">
+            <seg type="component" corresp="lexicon.xml#lemma_32468">brî</seg>
+          </etym>
+          <sense xml:id="lemma_79829_sense_119197" ana="#type_202823">
+            <def xml:lang="de" resp="contributors.xml#contrib_003">breiig</def>
+            <ptr target="concepts.xml#concept_21111300"/>
+            <ptr target="concepts.xml#concept_21111304"/>
+            <ptr target="concepts.xml#concept_21111306"/>
+          </sense>
         </entry>
         <entry xml:id="lemma_7983">
           <form type="lemma">
