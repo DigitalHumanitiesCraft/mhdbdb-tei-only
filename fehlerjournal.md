@@ -1290,6 +1290,8 @@ Auto-Mode-Classifier abgelehnt, und die Blockade ging an Christian.
 
 **Was es getragen hat:** nichts, der Reviewer fand alle drei in Runde 1, bevor ein Leser sie benutzt hat. Gezählt wird es, weil jede Zahl am Schreibtisch mit einem Einzeiler nachzumessen war.
 
+**Nachtrag 16.10.2026, entschieden von chsteiner:** kein Wechsel offen. `agentenbefunde.md` trägt "Kein Hook, begründet ausgesetzt (#58)", und nach `wiederholte-fehler.md` ist die begründete Aussetzung der Mechanismus (so auch die Einträge 120 und 121). Der Satz oben, der Wechsel sei fällig und ausgeblieben, ist damit überholt.
+
 ### 138. Rot: eine Herkunftsfrage am Lesefenster beantwortet, nicht am Anfang der Episode, und als Befund an die Koordination gemeldet (Spur lauf-1016-daten, 16.10.2026, #461).
 
 **Rot.** Für die drei "Würfelknochen" in DRE (`DRE_177_1`, `DRE_180_1`, `DRE_181_2`) habe ich V. 137 bis 217 gelesen und der Koordination gemeldet, der Text nenne keine Tierart und die Herkunft des Knochens bleibe offen, deshalb gelte KZWs Auffangregel. Der Reviewer fand, dass die Würfel aus den Stockzähnen des Ritters gemacht sind (V. 36, 117, 122 bis 126). Das Ergebnis (`sense_49690`) war richtig, die Begründung in Tabelle, README und Meldung nicht.
@@ -1308,4 +1310,4 @@ Auto-Mode-Classifier abgelehnt, und die Blockade ging an Christian.
 
 **Was es getragen hat:** eine falsche Aussage an Christian über seinen eigenen Eingriff; er hat sie sofort richtiggestellt. Sonst nichts, die Arbeit der Spur lief weiter.
 
-**Kein neuer Mechanismus von hier aus:** der Wechsel ist nach 125 schon offen und liegt bei Christian (siehe dort).
+**Kein neuer Mechanismus:** `agentenbefunde.md` ist ausgesetzt; die Aussetzung ist der Mechanismus (Nachtrag zu 125, chsteiner 16.10.2026).
