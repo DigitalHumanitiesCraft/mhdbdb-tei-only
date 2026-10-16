@@ -53,11 +53,6 @@
     });
     rootIds = Object.keys(C).filter(function (id) { return !C[id].p; });
     Object.keys(C).forEach(function (id) {
-      var parts = [id, label(id)];
-      Object.keys(C[id].l).forEach(function (lg) { parts.push(C[id].l[lg]); });
-      Object.keys(C[id].a || {}).forEach(function (lg) { parts = parts.concat(C[id].a[lg]); });
-      var all = parts.join(' | ');
-      C[id]._s = normalize(all) + '\u0001' + translit(all);
       /* ID und Bezeichnungen ohne Alternativbezeichnungen: entscheidet, ob die Kategorie selbst vorgeschlagen wird */
       var own = [id, label(id)];
       Object.keys(C[id].l).forEach(function (lg) { own.push(C[id].l[lg]); });
@@ -285,7 +280,7 @@
     var n = pathCount(id);
     box.appendChild(section('Wege von der obersten Kategorie (' + n + ')'));
     box.appendChild(h('p', { 'class': 'tr-muted', text: n > 1
-      ? 'Jede Zeile ist ein Weg von einer obersten Kategorie bis zur gewählten Kategorie (fett). Es sind mehrere, weil sie unter mehreren Eltern steht. Eine Kategorie auf dem Weg anklicken, um zu ihr zu springen.'
+      ? 'Jede Zeile ist ein Weg von einer obersten Kategorie bis zur gewählten Kategorie (fett). ' + (ps.length > 1 ? 'Es sind mehrere, weil sie unter mehreren Eltern steht.' : 'Es sind mehrere, weil eine ihrer übergeordneten Kategorien unter mehreren Eltern steht.') + ' Eine Kategorie auf dem Weg anklicken, um zu ihr zu springen.'
       : 'Die Zeile zeigt den Weg von der obersten Kategorie bis zur gewählten Kategorie (fett). Eine Kategorie auf dem Weg anklicken, um zu ihr zu springen.' }));
     var paths = rootPaths(id);
     var pl = h('ol', { 'class': 'tr-paths' });
@@ -347,9 +342,11 @@
     var hits = [];
     Object.keys(C).forEach(function (id) {
       var alts = [];
+      /* eine Alternativbezeichnung, die einer eigenen Bezeichnung gleicht, ist schon ueber die Kategorie selbst da */
+      var own = Object.keys(C[id].l).map(function (lg) { return C[id].l[lg]; });
       Object.keys(C[id].a || {}).forEach(function (lg) {
         C[id].a[lg].forEach(function (a) {
-          if (a !== label(id) && alts.indexOf(a) === -1 && matches(normalize(a) + '\u0001' + translit(a))) alts.push(a);
+          if (own.indexOf(a) === -1 && alts.indexOf(a) === -1 && matches(normalize(a) + '\u0001' + translit(a))) alts.push(a);
         });
       });
       if (matches(C[id]._o)) hits.push({ id: id });

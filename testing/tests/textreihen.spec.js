@@ -216,9 +216,22 @@ test.describe('Textreihentypologie: SKOS-Browser', () => {
         await haushalt.click();
         await expect(page).toHaveURL(/#c_84ab7ac8$/);
         await expect(page.locator('#trDetail .tr-detail-title')).toHaveText('Hauswirtschaft');
+
+        // eine Alternativbezeichnung gleich der lateinischen Bezeichnung gibt keine zweite Zeile
+        await page.fill('#trSearch', 'herbarium');
+        await expect(page.locator('#trResults .tr-result', { has: page.locator('.tr-result-name', { hasText: /^Kräuterbuch$/ }) })).toHaveCount(1);
     });
 
-    test('ein kaputter oder unbekannter Hash stoert den Start nicht',async ({ page }) => {
+    test('Erklaerung der Wege nennt den richtigen Grund', async ({ page }) => {
+        // Absagelied: ein Elter, zwei Wege ueber einen Vorfahren mit mehreren Eltern
+        await page.goto('/textreihen/browser.html#c_e7231075');
+        await expect(page.locator('html[data-tr-ready="1"]')).toBeAttached();
+        await expect(page.locator('#trDetail')).toContainText('Wege von der obersten Kategorie (2)');
+        await expect(page.locator('#trDetail')).toContainText('weil eine ihrer übergeordneten Kategorien unter mehreren Eltern steht');
+        await expect(page.locator('#trDetail')).not.toContainText('weil sie unter mehreren Eltern steht');
+    });
+
+    test('ein kaputter oder unbekannter Hash stoert den Start nicht', async ({ page }) => {
         for (const hash of ['%E0', '%', 'c_00000000', 'constructor']) {
             await page.goto(`/textreihen/browser.html#${hash}`);
             await expect(page.locator('html[data-tr-ready="1"]'), hash).toBeAttached();
