@@ -1,16 +1,20 @@
 # -*- coding: utf-8 -*-
 """Vorsortierung der Belege von Senses mit concept_21111000 (Ernaehrung von Menschen), Issue #603.
 
-Aufruf (liest nur, aendert im Repo nichts):
+Aufruf (liest das Repo, aendert darin nichts; der Ausgabeordner ist Pflicht und darf
+nicht im Repo liegen, ausser unter temp/, das gitignoriert ist):
     python scripts/review/vorsortieren-603.py <repo-wurzel> <ausgabeordner>
 
+Eingabe: ingest/review/603-ernaehrung/agent-faelle.tsv (Urteile eines Agenten zu den
+39 Belegen von abebizen/lecken). Fehlt die Datei, hat eine Zeile nicht drei Felder, ist
+ein Urteil nicht tier/mensch/unklar, eine w_id doppelt oder ohne Fallbeleg, oder ein
+Fallbeleg ohne Urteil, bricht der Lauf ab.
+
 Schreibt: senses-21111000.tsv, belege-tier.tsv, lemmata-ohne-ana.tsv, konzepte-tier.tsv,
-faelle-abebizen-lecken.tsv (maschinell; manuelle Urteile aus manuell-faelle.tsv im
-Ausgabeordner, falls vorhanden), stichprobe.tsv (je Klasse 10 Belege, Seed 603),
+faelle-abebizen-lecken.tsv, stichprobe.tsv (je Klasse 10 Belege, Seed 603),
 zusammenfassung.txt und alle-belege-vorsortiert.tsv (7,5 MB, nicht im Repo, wird von
-stichprobe2-603.py gelesen). Zum Nachlaufen einen leeren Ordner nehmen (nicht
-ingest/review/603-ernaehrung/, die Dateien dort wuerden ueberschrieben),
-manuell-faelle.tsv hineinkopieren und die Ausgabe mit dem Repo vergleichen.
+stichprobe2-603.py gelesen). Wer die eingecheckten Dateien erneuern will, vergleicht
+die Ausgabe und kopiert sie bewusst nach ingest/review/603-ernaehrung/.
 """
 import sys, os, re, glob, random, collections
 from lxml import etree
@@ -18,6 +22,11 @@ from lxml import etree
 sys.stdout.reconfigure(encoding='utf8')
 REPO = sys.argv[1].rstrip('/\\')
 OUT = sys.argv[2].rstrip('/\\')
+AGENT_FAELLE = REPO + '/ingest/review/603-ernaehrung/agent-faelle.tsv'
+_o, _r = os.path.realpath(OUT), os.path.realpath(REPO)
+if (_o == _r or _o.startswith(_r + os.sep)) and not _o.startswith(os.path.join(_r, 'temp') + os.sep):
+    sys.exit('FEHLER: Ausgabeordner liegt im Repo (erlaubt nur unter temp/): ' + OUT)
+os.makedirs(OUT, exist_ok=True)
 T = '{http://www.tei-c.org/ns/1.0}'
 XID = '{http://www.w3.org/XML/1998/namespace}id'
 NS = {'t': 'http://www.tei-c.org/ns/1.0'}
@@ -64,7 +73,10 @@ FOOD_SET = subtree('concept_21111300')          # Lebensmittel (Fleisch, Speisen
 MENSCH_SET = subtree('concept_21010000') | subtree('concept_21103000') | subtree('concept_23112000')
 MENSCH_SET.discard('concept_23112500')  # Personennamen/Familiennamen: kommt gleich wieder rein
 MENSCH_SET |= subtree('concept_23112500')
-PRON_ORTH = {'ich', 'wir', 'du', 'ir'}
+# Regel M1: nur diese drei. 'du' fehlt mit Absicht: im Lexikon ist lemma_1241 'du' PRP
+# (Praeposition), das Pronomen heisst 'dû' (lemma_1242) und loest M1 nicht aus. Die
+# Stichproben beruhen auf diesem Stand; dû aufzunehmen aendert die Klassenzahlen.
+PRON_ORTH = {'ich', 'wir', 'ir'}
 
 # ---------- Lexikon ----------
 ltree = etree.parse(REPO + '/authority-files/lexicon.xml')
@@ -252,26 +264,40 @@ for s in target_senses:
                  ' '.join(sorted(sense_c[s] - {'concept_21111000'}))])
 wr('senses-21111000.tsv', ['sense_id', 'lemma_id', 'orth', 'belege_gesamt', 'tier', 'mensch', 'unklar', 'tier_davon_auch_mensch_treffer', 'weitere_konzepte'], rows)
 
-wr('lemmata-ohne-ana.tsv', ['lemma_id', 'orth', 'belege_ohne_ana', 'tier', 'mensch', 'unklar', 'belege_lemma_gesamt_mit_lemmaRef'],
-   [[l, orth[l], ana_missing[l], ana_missing_cls[l]['tier'], ana_missing_cls[l]['mensch'], ana_missing_cls[l]['unklar'], ''] for l in target_lemmas])
+wr('lemmata-ohne-ana.tsv', ['lemma_id', 'orth', 'belege_ohne_ana', 'tier', 'mensch', 'unklar'],
+   [[l, orth[l], ana_missing[l], ana_missing_cls[l]['tier'], ana_missing_cls[l]['mensch'], ana_missing_cls[l]['unklar']] for l in target_lemmas])
 
 H = ['sigle', 'w_id', 'sense_ids_im_ana', 'lemma_id', 'lemma', 'form', 'klasse', 'tier_und_mensch_treffer', 'tierwoerter_im_fenster', 'mensch_treffer', 'kontext']
 wr('belege-tier.tsv', H, tier_rows)
 wr('alle-belege-vorsortiert.tsv', H, [r for r in all_rows])
 
 # Faelle
-manual = {}
-mp = OUT + '/manuell-faelle.tsv'
-if os.path.exists(mp):
-    for ln in open(mp, encoding='utf8').read().splitlines()[1:]:
-        p = ln.split('\t')
-        if len(p) >= 3:
-            manual[p[0]] = (p[1], p[2])
+# Eingabe: die Agentenurteile aus dem Repo. Jede Abweichung ist ein harter Fehler.
+agent = {}
+if not os.path.exists(AGENT_FAELLE):
+    sys.exit('FEHLER: Eingabe fehlt: ' + AGENT_FAELLE)
+alle = open(AGENT_FAELLE, encoding='utf8').read().splitlines()
+if not alle or alle[0].split('\t') != ['w_id', 'urteil', 'begruendung']:
+    sys.exit('FEHLER: Kopfzeile von agent-faelle.tsv ist nicht w_id/urteil/begruendung')
+for nr, ln in enumerate(alle[1:], 2):
+    p = ln.split('\t')
+    if len(p) != 3:
+        sys.exit('FEHLER: agent-faelle.tsv Zeile %d hat %d statt 3 Felder' % (nr, len(p)))
+    if p[1] not in ('tier', 'mensch', 'unklar'):
+        sys.exit('FEHLER: agent-faelle.tsv Zeile %d: unbekanntes Urteil %r' % (nr, p[1]))
+    if p[0] in agent:
+        sys.exit('FEHLER: agent-faelle.tsv Zeile %d: w_id doppelt: %s' % (nr, p[0]))
+    agent[p[0]] = (p[1], p[2])
+case_ids = {r[1] for r in case_rows}
+if agent.keys() - case_ids:
+    sys.exit('FEHLER: agent-faelle.tsv nennt w_id ohne Fallbeleg: %s' % sorted(agent.keys() - case_ids))
+if case_ids - agent.keys():
+    sys.exit('FEHLER: Fallbelege ohne Agentenurteil: %s' % sorted(case_ids - agent.keys()))
 fr = []
 for r in case_rows:
-    m = manual.get(r[1], ('', ''))
+    m = agent[r[1]]
     fr.append([r[3], r[4], r[0], r[1], r[2], r[5], r[6], r[8], r[9], r[10], m[0], m[1], r[11]])
-wr('faelle-abebizen-lecken.tsv', ['lemma_id', 'lemma', 'sigle', 'w_id', 'sense_ids_im_ana', 'form', 'maschinell', 'tierwoerter_im_fenster', 'mensch_treffer', 'kontext', 'urteil_manuell', 'begruendung', 'ana_roh'], fr)
+wr('faelle-abebizen-lecken.tsv', ['lemma_id', 'lemma', 'sigle', 'w_id', 'sense_ids_im_ana', 'form', 'maschinell', 'tierwoerter_im_fenster', 'mensch_treffer', 'kontext', 'urteil_agent', 'begruendung', 'ana_roh'], fr)
 
 # Stichprobe
 random.seed(603)

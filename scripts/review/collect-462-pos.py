@@ -2,13 +2,15 @@
 # -*- coding: utf-8 -*-
 """Sammelt alle Korpusbelege der 25 Lemmata aus #462 (22 Widersprueche + 3 Gleichstaende).
 
-Aufruf (Wurzel und Ausgabeordner sind optional):
-    python scripts/review/collect-462-pos.py [repo-wurzel] [ausgabeordner]
+Aufruf (der Ausgabeordner ist Pflicht und darf nicht im Repo liegen, ausser unter
+temp/, das gitignoriert ist; die Wurzel ist optional, Standard: dieses Repositorium):
+    python scripts/review/collect-462-pos.py <ausgabeordner> [repo-wurzel]
 
-Standard: die Wurzel dieses Repositoriums, Ausgabe nach ingest/pos-disambig/462-pos/.
-Schreibt belege.tsv, lexikon.json und zaehlung.txt dorthin; im Repo wird sonst nichts
-geaendert. Von diesen dreien liegen belege.tsv im Repo; lexikon.json und zaehlung.txt
-sind regenerierbar. vorschlaege.tsv ist Handarbeit und wird hier nicht erzeugt.
+Schreibt belege.tsv, lexikon.json und zaehlung.txt in den Ausgabeordner; im Repo wird
+nichts geaendert. Davon liegt belege.tsv in ingest/pos-disambig/462-pos/; lexikon.json
+und zaehlung.txt sind regenerierbar. Wer belege.tsv erneuern will, vergleicht und
+kopiert bewusst. vorschlaege.tsv ist die Lesung eines Agenten und wird hier nicht
+erzeugt.
 """
 import sys, os, json, re, glob, collections
 from lxml import etree
@@ -17,8 +19,13 @@ from lxml import etree
 sys.stdout.reconfigure(encoding="utf-8")
 
 _HIER = os.path.dirname(os.path.abspath(__file__))
-REPO = sys.argv[1] if len(sys.argv) > 1 else os.path.dirname(os.path.dirname(_HIER))
-OUT = sys.argv[2] if len(sys.argv) > 2 else os.path.join(REPO, "ingest", "pos-disambig", "462-pos")
+if len(sys.argv) < 2:
+    sys.exit("FEHLER: Ausgabeordner fehlt. Aufruf: collect-462-pos.py <ausgabeordner> [repo-wurzel]")
+OUT = sys.argv[1]
+REPO = sys.argv[2] if len(sys.argv) > 2 else os.path.dirname(os.path.dirname(_HIER))
+_o, _r = os.path.realpath(OUT), os.path.realpath(REPO)
+if (_o == _r or _o.startswith(_r + os.sep)) and not _o.startswith(os.path.join(_r, "temp") + os.sep):
+    sys.exit("FEHLER: Ausgabeordner liegt im Repo (erlaubt nur unter temp/): " + OUT)
 os.makedirs(OUT, exist_ok=True)
 IDS = """17456 21642 28722 35938 36303 36513 36569 36619 39197 40349 48265 48743 52645
 54948 54949 55290 62410 67668 67689 67708 70735 78454 23289 24478 29486""".split()

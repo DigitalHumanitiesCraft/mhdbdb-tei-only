@@ -2,7 +2,7 @@
 """Klug-Verweise (#554): Pruefliste Lemma x Pflanzenseite. Aendert nichts im Repo.
 
 Aufruf:
-    python scripts/review/klug-links-554.py [--nur-urteile] [--aus ORDNER] [--seiten ORDNER]
+    python scripts/review/klug-links-554.py --aus ORDNER [--nur-urteile] [--seiten ORDNER]
 
 Phase 1 (ohne --nur-urteile): Kandidaten bilden, Lexikon, Konzepte, Korpusbelege, Seiten
   holen (curl ueber http, sequenziell, 1 s Pause, Cache im Seitenordner), Dossier nach
@@ -11,10 +11,14 @@ Phase 2: klug-links.tsv schreiben, aus klug-urteile.tsv im Repo (ingest/glossar-
   Mit --nur-urteile laeuft nur diese Phase, ohne Netz: der Seitentitel kommt dann aus dem
   Seitenordner, wenn die Seite dort liegt, sonst aus der vorhandenen klug-links.tsv (die
   Spalte pflanzenseite_titel, nach Kennung). Fehlt er auch dort, bricht der Lauf ab.
-klug-urteile.tsv: lemma_id, kennung, urteil, begruendung, belege_ids (Tab-getrennt, von
-  Hand gefuehrt, Eingabe).
+klug-urteile.tsv: lemma_id, kennung, urteil, begruendung, belege_ids (Tab-getrennt, Eingabe,
+  Urteile eines Agenten; keine CSV-Anfuehrungszeichen, ein " im Text ist ein "). Urteil nur
+  passt, passt nicht oder unklar; ein Paar nur einmal; vier oder fuenf Felder. Sonst bricht
+  der Lauf ab.
 
---aus ORDNER    Ausgabeordner fuer klug-links.tsv und dossier.txt (Standard: ingest/glossar-554/)
+--aus ORDNER    Pflicht. Ausgabeordner fuer klug-links.tsv und dossier.txt; darf nicht im Repo
+                liegen, ausser unter temp/ (gitignoriert). Wer die eingecheckte
+                klug-links.tsv erneuern will, vergleicht und kopiert bewusst.
 --seiten ORDNER Seitencache (Standard: temp/klug-seiten, gitignoriert)
 """
 import csv
@@ -37,8 +41,15 @@ def _arg(name, std):
     return std
 
 
+URTEIL_WORTE = {"passt", "passt nicht", "unklar"}
 NUR_URTEILE = "--nur-urteile" in sys.argv
-OUT = _arg("--aus", GLOSSAR)
+OUT = _arg("--aus", None)
+if OUT is None:
+    sys.exit("FEHLER: --aus ORDNER fehlt (Ausgabeordner, nicht im Repo ausser unter temp/)")
+_o, _r = os.path.realpath(OUT), os.path.realpath(REPO)
+if (_o == _r or _o.startswith(_r + os.sep)) and not _o.startswith(os.path.join(_r, "temp") + os.sep):
+    sys.exit("FEHLER: Ausgabeordner liegt im Repo (erlaubt nur unter temp/): " + OUT)
+os.makedirs(OUT, exist_ok=True)
 SEITEN = _arg("--seiten", os.path.join(REPO, "temp", "klug-seiten"))
 PFL = os.path.join(GLOSSAR, "klug-pflanzen.tsv")
 ABG = os.path.join(GLOSSAR, "klug-abgleich.tsv")
@@ -139,7 +150,7 @@ def korpus(lids):
 
 
 def kontext(zeilen, i, lid):
-    """Text der Vers-/Satzumgebung: von 7 Zeilen davor bis 7 danach, Treffer in [[ ]]."""
+    """Text der Vers-/Satzumgebung: bis zu 10 Zeilen davor und danach, Treffer in [[ ]]."""
     out = []
     for j in range(max(0, i - 10), min(len(zeilen), i + 11)):
         z = zeilen[j]
@@ -259,7 +270,7 @@ def titel_offline(paare):
         pv = os.path.join(GLOSSAR, "klug-links.tsv")
     if os.path.exists(pv):
         with open(pv, encoding="utf-8", newline="") as f:
-            for r in csv.DictReader(f, delimiter="\t"):
+            for r in csv.DictReader(f, delimiter="\t", quoting=csv.QUOTE_NONE):
                 alt[r["kennung"]] = r["pflanzenseite_titel"]
     titel = {}
     for k, d in paare.items():
@@ -282,25 +293,40 @@ def phase2(paare, titel, hits):
         return
     kon = konzepte()
     urteile = {}
+    # Reine Tab-Trennung ohne CSV-Anfuehrungszeichen: ein " im Text bleibt ein "
     with open(p, encoding="utf-8", newline="") as f:
-        for r in csv.reader(f, delimiter="\t"):
-            if r and not r[0].startswith("#"):
-                urteile[(r[0], r[1])] = r
+        for nr, zeile in enumerate(f.read().split("\n"), 1):
+            if not zeile.strip() or zeile.startswith("#"):
+                continue
+            r = zeile.rstrip("\r").split("\t")
+            if len(r) not in (4, 5):
+                sys.exit("klug-urteile.tsv Zeile %d: %d statt 4 bis 5 Felder" % (nr, len(r)))
+            if r[2] not in URTEIL_WORTE:
+                sys.exit("klug-urteile.tsv Zeile %d: unbekanntes Urteil %r (erlaubt: %s)" % (nr, r[2], ", ".join(sorted(URTEIL_WORTE))))
+            if (r[0], r[1]) in urteile:
+                sys.exit("klug-urteile.tsv Zeile %d: Paar doppelt: %s %s" % (nr, r[0], r[1]))
+            urteile[(r[0], r[1])] = r
     fehlt = [k for k in paare if k not in urteile]
     zuviel = [k for k in urteile if k not in paare]
     if fehlt or zuviel:
         sys.exit("Urteile passen nicht zu den Kandidaten: fehlt %s, zuviel %s" % (fehlt, zuviel))
     zaehl = {}
+    os.makedirs(OUT, exist_ok=True)
+    kopf = ["lemma_id", "orth", "pflanzenseite_titel", "kennung", "url", "urteil", "begruendung", "konzepte", "belege_ids"]
     with open(os.path.join(OUT, "klug-links.tsv"), "w", encoding="utf-8", newline="") as f:
-        w = csv.writer(f, delimiter="\t", lineterminator="\n")
-        w.writerow(["lemma_id", "orth", "pflanzenseite_titel", "kennung", "url", "urteil", "begruendung", "konzepte", "belege_ids"])
+        def schreibe(feld):
+            for x in feld:
+                if "\t" in x or "\n" in x or "\r" in x:
+                    sys.exit("Tab oder Zeilenumbruch in einem Feld: %r" % x[:60])
+            f.write("\t".join(feld) + "\n")
+        schreibe(kopf)
         for k in sorted(paare):
             d = paare[k]
             u = urteile[k]
             lex = lexikon(d["lemma_id"], kon)
             kz = " | ".join("%s: %s" % (s[0].split("_sense_")[-1], "; ".join(s[2])) for s in lex[2])
             ti = titel[k].split(" - ")[0].split(" | ")[0].strip()
-            w.writerow([d["lemma_id"], d["orth"], ti, "mps:" + d["kennung"], d["url"], u[2], u[3], kz, u[4] if len(u) > 4 else ""])
+            schreibe([d["lemma_id"], d["orth"], ti, "mps:" + d["kennung"], d["url"], u[2], u[3], kz, u[4] if len(u) > 4 else ""])
             zaehl[u[2]] = zaehl.get(u[2], 0) + 1
     print("Urteile:", zaehl, "Summe", sum(zaehl.values()))
 

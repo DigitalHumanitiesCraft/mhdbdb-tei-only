@@ -2,10 +2,12 @@
 
 Nur GET auf die oeffentliche Zotero-API, ohne Schluessel, sequenziell, >= 1,2 s Pause.
 Jede Antwort ausser 200 bricht den Lauf ab (kein Retry, kein anderer Weg).
-Aufruf: python scripts/review/zotero-abgleich-554.py [ausgabeordner]
+Aufruf: python scripts/review/zotero-abgleich-554.py <ausgabeordner>
+Der Ausgabeordner ist Pflicht und darf nicht im Repo liegen, ausser unter temp/ (gitignoriert).
 Liest ingest/glossar-554/literatur.tsv; schreibt zotero-abgleich.tsv und
-zotero-rohantworten.json in den Ausgabeordner (Standard: ingest/glossar-554/; die
-Rohantworten liegen nicht im Repo). Der Lauf ruft die Zotero-API
+zotero-rohantworten.json in den Ausgabeordner; im Repo aendert es nichts. Wer die
+eingecheckte zotero-abgleich.tsv erneuern will, vergleicht und kopiert bewusst; die
+Rohantworten liegen nicht im Repo. Der Lauf ruft die Zotero-API
 je Werk, Gruppe und Suchanfrage ab (mit Pause); zum Nachpruefen deshalb einen Ordner ausserhalb des Repos angeben.
 """
 import csv, json, re, sys, time, unicodedata, urllib.parse, urllib.request
@@ -14,7 +16,11 @@ from pathlib import Path
 sys.stdout.reconfigure(encoding="utf-8")
 REPO = Path(__file__).resolve().parents[2]
 LIT = REPO / "ingest" / "glossar-554" / "literatur.tsv"
-HERE = Path(sys.argv[1]).resolve() if len(sys.argv) > 1 else REPO / "ingest" / "glossar-554"
+if len(sys.argv) < 2:
+    sys.exit("FEHLER: Ausgabeordner fehlt. Aufruf: zotero-abgleich-554.py <ausgabeordner>")
+HERE = Path(sys.argv[1]).resolve()
+if (HERE == REPO or REPO in HERE.parents) and REPO / "temp" not in HERE.parents and HERE != REPO / "temp":
+    sys.exit("FEHLER: Ausgabeordner liegt im Repo (erlaubt nur unter temp/): %s" % HERE)
 HERE.mkdir(parents=True, exist_ok=True)
 GRUPPEN = {"5043625": "Werk-Editionen", "4876216": "Textreihen"}
 PAUSE = 1.2

@@ -75,7 +75,7 @@ Die drei Gleichstände außerhalb des Lexikons: `lemma_23289` Cristeleison (INJ 
 | Datei | Inhalt | Zeilen |
 |---|---|--:|
 | `vorschlaege.tsv` | ein Vorschlag je Lemma für die 25 Lemmata oben (22 Widersprüche und 3 Gleichstände außerhalb des Lexikons) | 25 |
-| `belege.tsv` | alle Korpusbelege dieser 25 Lemmata (`<w>` im `<body>` mit dem Lemma als Token in `@lemmaRef`) mit Kontext von je acht Wörtern und der umgebenden Verszeile oder dem Absatz | 66 |
+| `belege.tsv` | alle Korpusbelege dieser 25 Lemmata (`<w>` im `<body>` mit dem Lemma als Token in `@lemmaRef`) mit Kontext von je acht Tokens (Satzzeichen eingeschlossen) und der umgebenden Verszeile oder dem Absatz | 66 |
 
 Spalten von `vorschlaege.tsv`: `lemma_id`, `orth`, `lexikon_pos` (Wortarten im Lexikon), `korpus_pos_verteilung` (Token-`@pos` roh, in Klammern zerlegt in Teil-Tags), `vorschlag` (Code), `detail` (was zu tun wäre), `begruendung`, `belege_ids` (`xml:id` der gelesenen Belege, durch `;` getrennt). Spalten von `belege.tsv`: `lemma_id`, `sigle`, `xml_id`, `pos`, `ana`, `form`, `reason`, `mehrfach_lemma`, `kontext` (Beleg in `[[ ]]`), `vers`.
 
@@ -90,4 +90,4 @@ Die Codes, wie `detail` sie verwendet (die Zuordnung der Buchstaben ist aus den 
 | e | kein Eingriff, die Konvention deckt den Befund | 2 |
 
 Die Zählung je Code steht in der Spalte `vorschlag` und ist aus der Datei gezählt (15 + 3 + 2 + 3 + 2 = 25). Zwei Zeilen tragen einen Nebenbefund über das Hauptergebnis hinaus: bei `enbewegen` (a) ein Token, das eher ADJ wäre (b), bei `ungenuoc` (e) ein Token mit unaufgelöstem Mehrfachtag `ADJ ADV NEG`.
-Erzeugt wird `belege.tsv` von `scripts/review/collect-462-pos.py` (Aufruf im Docstring); `vorschlaege.tsv` ist Handarbeit auf diesen Belegen.
+Erzeugt wird `belege.tsv` von `scripts/review/collect-462-pos.py` (Aufruf im Docstring); `vorschlaege.tsv` ist die Lesung eines Agenten auf diesen Belegen. Das Skript schreibt in einen Ausgabeordner außerhalb des Repos (Pflichtargument, oder unter `temp/`); wer `belege.tsv` erneuern will, vergleicht und kopiert bewusst.

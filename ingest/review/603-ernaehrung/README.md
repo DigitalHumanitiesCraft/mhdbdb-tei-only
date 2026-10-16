@@ -15,9 +15,9 @@ KZW am 15.10.2026 zu den Fällen abebîʒen (A-432) und lëcken (A-1146) aus #55
 | `senses-21111000.tsv` | jede Bedeutung mit `concept_21111000` (Lexikon, `ptr`), mit der Zahl ihrer Belege je Klasse | 485 |
 | `belege-tier.tsv` | alle Belege der Klasse `tier`, mit und ohne `@ana` | 2.867 |
 | `lemmata-ohne-ana.tsv` | je Lemma dieser Bedeutungen die Belege ohne `@ana`, nach Klasse | 471 |
-| `faelle-abebizen-lecken.tsv` | alle Belege der beiden Lemmata, maschinelle Klasse und Handurteil | 39 |
-| `manuell-faelle.tsv` | **Eingabe:** die Handurteile zu diesen 39 Belegen (`w_id`, `urteil`, `begruendung`), von einem Agenten gelesen, nicht von KZW | 39 |
-| `konzepte-tier.tsv` | 28 Konzepte (Tier- und Nachbarkonzepte) mit Zahl der Bedeutungen im Lexikon und davon zusammen mit 21111000 | 28 |
+| `faelle-abebizen-lecken.tsv` | alle Belege der beiden Lemmata, maschinelle Klasse und Agentenurteil (Spalte `urteil_agent`) | 39 |
+| `agent-faelle.tsv` | **Eingabe:** die Urteile eines Agenten zu diesen 39 Belegen (`w_id`, `urteil`, `begruendung`), von einem Agenten gelesen, nicht von KZW | 39 |
+| `konzepte-tier.tsv` | 28 Konzepte, davon 10 aus der Tierkonzeptliste (`in_tierwortliste` = ja) und 18 Nachbarkonzepte, mit Zahl der Bedeutungen im Lexikon und davon zusammen mit 21111000 | 28 |
 | `stichprobe.tsv` | Stichprobe 1: je Klasse 10 Belege, Seed 603 | 30 |
 | `stichprobe2-tier-ohne-mensch.tsv` | Stichprobe 2: 10 Belege der Klasse `tier` ohne Mensch-Treffer, Seed 604 | 10 |
 | `stichprobe-urteile.tsv` | **Eingabe:** die Urteile zu beiden Stichproben (40 Zeilen), von einem Agenten gelesen | 40 |
@@ -35,13 +35,13 @@ Stand des Lexikons und des Korpus bei dem Lauf (`zusammenfassung.txt`): 667 Date
 
 ## Die Regeln der Vorsortierung
 
-Für jeden Beleg werden die Wörter im Fenster von acht links und acht rechts angesehen (der Beleg selbst nicht).
+Für jeden Beleg werden die `<w>`-Elemente im Fenster von acht links und acht rechts angesehen (der Beleg selbst nicht; Satzzeichen `<pc>` zählen nicht mit).
 
 | Regel | Treffer, wenn ein Wort im Fenster ... |
 |---|---|
 | T1 | per `@ana` eine Bedeutung mit einem der 28 Tierkonzepte trägt und diese Bedeutung kein Lebensmittelkonzept (Teilbaum 21111300, 9 Konzepte) hat |
 | T2 | kein `@ana` hat und sein Lemma irgendeine Bedeutung mit Tierkonzept und keine mit Lebensmittelkonzept hat |
-| M1 | eines der Pronomen ich, wir, du, ir mit `@pos` PRO ist |
+| M1 | eines der Pronomen ich, wir, ir mit `@pos` PRO ist |
 | M2 | per `@ana` eine Bedeutung mit einem Menschkonzept trägt (13 Konzepte: Teilbäume 21010000, 21103000, 23112000, 23112500) |
 | M3 | kein `@ana` hat und sein Lemma irgendeine Bedeutung mit Menschkonzept hat |
 
@@ -49,11 +49,13 @@ Trägt die Bedeutung eines Fensterworts ein Tier- und ein Lebensmittelkonzept, z
 
 Gezählt an den 11.491 Belegen mit `@ana` (ein Beleg kann mehrere Regeln auslösen): M1 2.875, M2 5.863, M3 2.962, T1 926, T2 347.
 
-Die Tierkonzepte sind eine feste Liste von 28 Konzepten (Säugetiere, Vögel, Fische, Reptilien und weitere, mit den zugehörigen Namenskonzepten; Körper, Organe, Stoffwechsel, Verarbeitung, Krankheiten und Zucht sind ausgeschlossen). Die Liste steht in `zusammenfassung.txt` und in `scripts/review/vorsortieren-603.py`; `konzepte-tier.tsv` zeigt sie neben Nachbarkonzepten, die nicht auf ihr stehen.
+**`dû` ist kein Auslöser von M1.** Im Lexikon ist `lemma_1241` du eine Präposition (PRP); das Pronomen ist `lemma_1242` dû, und es steht nicht in der Liste. Die Stichproben beruhen auf diesem Stand, deshalb ist die Liste nicht geändert worden. Eine Probe mit `dû` in der Liste (Mutationsprobe des Reviewers am 16.10.2026, nicht eingecheckt, am selben Tag nachgemessen) ergab, jeweils an denselben 11.491 Belegen mit `@ana`, M1 3.143 statt 2.875, `mensch` 7.853 statt 7.745 und `unklar` 2.415 statt 2.523; `tier` blieb bei 1.223, die `tier`-Belege mit Mensch-Treffer stiegen von 943 auf 953.
+
+Die Tierkonzepte sind eine feste Liste von 28 Konzepten (Säugetiere, Vögel, Fische, Reptilien und weitere, mit den zugehörigen Namenskonzepten; Körper, Organe, Stoffwechsel, Verarbeitung, Krankheiten und Zucht sind ausgeschlossen). Die Liste steht in `zusammenfassung.txt` und in `scripts/review/vorsortieren-603.py`. `konzepte-tier.tsv` ist eine andere Liste von ebenfalls 28 Konzepten: 10 davon stehen auf der Tierkonzeptliste (`in_tierwortliste` = ja), 18 sind Nachbarkonzepte (etwa Stoffwechsel von Säugetieren), die nicht auf ihr stehen.
 
 ## Der Fall abebîʒen und lëcken
 
-`faelle-abebizen-lecken.tsv`: 39 Belege (lëcken 36, abebîʒen 3). Maschinell: `mensch` 22, `tier` 13, `unklar` 4. Handurteil (`manuell-faelle.tsv`): `mensch` 17, `tier` 16, `unklar` 6. Die Handurteile weichen also vom Maschinenurteil ab; sie sind die Grundlage für die Frage nach einer Bedeutung „Ernährung von Tieren“, nicht deren Beschluss.
+`faelle-abebizen-lecken.tsv`: 39 Belege (lëcken 36, abebîʒen 3). Maschinell: `mensch` 22, `tier` 13, `unklar` 4. Agentenurteil (`agent-faelle.tsv`): `mensch` 17, `tier` 16, `unklar` 6. Die Agentenurteile weichen also vom Maschinenurteil ab; sie sind die Grundlage für die Frage nach einer Bedeutung „Ernährung von Tieren“, nicht deren Beschluss.
 
 ## Ergebnisse der Stichproben
 
@@ -70,12 +72,12 @@ Bei `unklar` ist keine Trefferangabe vergeben; der Agent las alle zehn als Nahru
 
 ## Regenerieren
 
-Die Skripte lesen nur und ändern im Repo nichts. In einen leeren Ordner schreiben (nicht in diesen), `manuell-faelle.tsv` vorher hineinkopieren, dann vergleichen:
+Die Skripte lesen nur und ändern im Repo nichts. Der Ausgabeordner ist Pflicht und darf nicht im Repo liegen, außer unter `temp/` (gitignoriert); `vorsortieren-603.py` liest die Eingabe `agent-faelle.tsv` aus diesem Ordner im Repo und bricht ab, wenn sie nicht zu den Fallbelegen passt. Wer die Dateien hier erneuern will, vergleicht die Ausgabe und kopiert sie bewusst:
 
 ```
-python scripts/review/vorsortieren-603.py <repo> <leerer-ordner>
-python scripts/review/stichprobe2-603.py <leerer-ordner>
+python scripts/review/vorsortieren-603.py <repo> <ausgabeordner>
+python scripts/review/stichprobe2-603.py <ausgabeordner>
 python scripts/review/ana-603.py ingest/review/603-ernaehrung
 ```
 
-`vorsortieren-603.py` liest `lexicon.xml`, `concepts.xml` und alle 667 TEI-Dateien. Beim Nachlauf am 16.10.2026 waren acht Ausgaben byte-gleich mit den Dateien hier (`senses-21111000`, `belege-tier`, `lemmata-ohne-ana`, `faelle-abebizen-lecken`, `konzepte-tier`, `stichprobe`, `stichprobe2-tier-ohne-mensch`, `zusammenfassung`); `stichprobe-urteile.tsv` und `manuell-faelle.tsv` sind Eingaben und werden nicht erzeugt. Ändert sich Lexikon oder Korpus, ändern sich Zahlen und Stichproben.
+`vorsortieren-603.py` liest `lexicon.xml`, `concepts.xml` und alle 667 TEI-Dateien. Beim Nachlauf am 16.10.2026 waren acht Ausgaben byte-gleich mit den Dateien hier (`senses-21111000`, `belege-tier`, `lemmata-ohne-ana`, `faelle-abebizen-lecken`, `konzepte-tier`, `stichprobe`, `stichprobe2-tier-ohne-mensch`, `zusammenfassung`); `stichprobe-urteile.tsv` und `agent-faelle.tsv` sind Eingaben und werden nicht erzeugt. Ändert sich Lexikon oder Korpus, ändern sich Zahlen und Stichproben.
