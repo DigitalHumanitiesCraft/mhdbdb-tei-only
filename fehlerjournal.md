@@ -1299,3 +1299,13 @@ Auto-Mode-Classifier abgelehnt, und die Blockade ging an Christian.
 **Was es getragen hat:** eine Bestätigung der Koordination ("Deine Lesung trägt") und drei Dateien im Commit; abgewendet hat es der Reviewer in Runde 1, bevor ein Kommentar an KZW es zitierte. Gezählt wird es, weil die Frage "woraus ist es gemacht" mit einer Suche nach `stockz` im ganzen Text in einer Minute zu beantworten war.
 
 **Kein neuer Mechanismus, die begründete Aussetzung gilt:** sie steht im Fuß von `rules/dateisuche.md` (für die Abwesenheitsbehauptung ohne Messung läuft nur ein Trockenlauf, #73). Dieser Fall ist eine solche Behauptung über einen Text; was ich daraus mache, ist eine Gewohnheit und kein Mechanismus: das Stichwort im ganzen Text suchen und in der Aussage das Fenster nennen, das ich gelesen habe.
+
+### 133. Rot: eine gemessene Blockade der Spur auf ihre Selbstauskunft hin zurückgenommen (Koordination lauf-1016, 16.10.2026, #460/#461).
+
+**Rot.** `claude agents --json` und `claude logs` zeigten die Spur lauf-1016-daten mit `waitingFor: permission prompt` vor einer EnterWorktree-Abfrage; Christian wurde gebeten, sie per `attach` zu lösen. Er tat es. Danach antwortete die Spur "ich warte auf nichts von dir, ich arbeite", und die Koordination schrieb Christian, sie habe sich geirrt, die Spur hänge an keiner Freigabe und `attach` sei nicht nötig. Falsch: die Spur antwortete, weil Christian die Abfrage gelöst hatte. Die Auskunft der Spur betraf ihren Stand nach dem Lösen, nicht den davor.
+
+**Die Lehre steht in `agentenbefunde.md`: ein Agentenbefund wird erst zur Aussage, wenn ich seine Quelle selbst geöffnet habe; Selbstauskunft ist keine Messung.** Hier hat die Selbstauskunft eine Messung verdrängt, statt gegen sie gehalten zu werden; ein zweiter Blick in `claude agents --json` hätte den geänderten Status und damit die Reihenfolge gezeigt. Die letzte Zeile zu dieser Lehre ist Eintrag 125.
+
+**Was es getragen hat:** eine falsche Aussage an Christian über seinen eigenen Eingriff; er hat sie sofort richtiggestellt. Sonst nichts, die Arbeit der Spur lief weiter.
+
+**Kein neuer Mechanismus von hier aus:** der Wechsel ist nach 125 schon offen und liegt bei Christian (siehe dort).
