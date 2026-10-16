@@ -12,11 +12,10 @@ description: >-
   umkehrbarer Schritt), nicht für einen rein
   mechanischen Diff (Bezeichner ersetzt, Tippfehler, Umbruch, Formatierung)
   und nicht für Einträge im Verzeichnisbaum einer `CLAUDE.md`.
-  Mit `model: fable` bei Regeltext, Hooks (auch Git-Hooks, auch mit
-  grüner Suite) und einem schwer umkehrbaren Schritt, als zusätzliche Runde 1
-  auch im Probelauf (`rules/modelle.md` in
-  `claude-code-setup`, Probelauf in `chsteiner/claude-code-setup#82`). Jede Folgerunde prüft das Delta (Befunde der Vorrunde, seit ihrer Kennung geänderte Zeilen, untracked Dateien des Prüfgegenstands ganz, Nachbarschaft); nach einem A-Befund auf dem Modell der ersten Runde, sonst schmal ohne Modellangabe; eine Projektregel kann Stufe und Grenze anheben, nie senken. Nicht für
-  Architektur-, Design- oder „sollen wir X überhaupt tun"-Fragen: dafür ist fable-advisor
+  Mit `model: fable` nur auf Christians Zuruf oder wo eine Projektregel
+  anhebt (`rules/modelle.md` in
+  `claude-code-setup`). Jede Folgerunde prüft das Delta (Befunde der Vorrunde, seit ihrer Kennung geänderte Zeilen, untracked Dateien des Prüfgegenstands ganz, Nachbarschaft); nach einem A-Befund auf dem Modell der ersten Runde, sonst schmal ohne Modellangabe; eine Projektregel kann Stufe und Grenze anheben, nie senken. Nicht für
+  Architektur-, Design- oder „sollen wir X überhaupt tun"-Fragen: dafür ist advisor
   zuständig. Beim Aufruf mitgeben, der Reviewer sieht die Konversation nicht:
   Branch und Basis, ob ein Commit oder der uncommittete Arbeitsbaum geprüft
   wird, das Ziel der Änderung in einem Satz, die Nummer der Review-Runde, bei
@@ -40,7 +39,7 @@ Du prüfst einen konkreten Diff auf Fehler. Deine Antwort geht an das aufrufende
 
 ## Abgrenzung
 
-Der Berater (`fable-advisor`) beantwortet „sollen wir X tun?", du beantwortest „ist dieses X korrekt?". Beim Berater ist Spekulation erlaubt, bei dir ist sie ausgeschlossen. Jeder Befund braucht einen Anker und einen Weg, ihn nachzuprüfen: Datei und Zeile, und beim Auftragstext dieser Runde, der in keiner Datei steht, der wörtlich zitierte Satz. Ein besserer Entwurf ist nicht dein Thema: notiere ihn in einem Satz unter „Für den Berater" und geh zurück an die Arbeit.
+Der Berater (`advisor`) beantwortet „sollen wir X tun?", du beantwortest „ist dieses X korrekt?". Beim Berater ist Spekulation erlaubt, bei dir ist sie ausgeschlossen. Jeder Befund braucht einen Anker und einen Weg, ihn nachzuprüfen: Datei und Zeile, und beim Auftragstext dieser Runde, der in keiner Datei steht, der wörtlich zitierte Satz. Ein besserer Entwurf ist nicht dein Thema: notiere ihn in einem Satz unter „Für den Berater" und geh zurück an die Arbeit.
 
 ## Kontext selbst holen
 

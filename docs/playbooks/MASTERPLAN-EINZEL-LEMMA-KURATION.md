@@ -140,7 +140,7 @@ Dieselbe Liste, dieselbe Reihenfolge, unabhängig von der Stufe:
 3. Cross-Ref-Audit
 4. Em-Dash-Gate mit `--diff-base origin/main`
 5. `npm test`, die VERDICT-Zeile unverändert in den PR
-6. Fable-Review vor dem ersten Push (Betriebsvertrag Regel 11)
+6. Review mit dem `reviewer` vor dem ersten Push (Betriebsvertrag Regel 11)
 7. JOURNAL-Eintrag, datiert. Berichtenswert ist nicht, dass ein Wort kuratiert wurde, sondern welche Entscheidung dabei anfiel und was verworfen wurde
 8. Ein Statuskommentar am Ticket, und wenn KZW oder Julia abnehmen: das Issue bleibt offen (Betriebsvertrag Regel 17)
 
