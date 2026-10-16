@@ -230,9 +230,12 @@ Die Liste wird aus §1 abgeleitet und nennt alle Issues, die diese Session NICHT
    Messung, dann die zwei Skript-Wellen, dann der Datenlauf, dann das Meta.
    Begründung in §3.
 2. **Der Merge nach `main` ist wieder freigegeben**, für die Session-PRs, jeden
-   einzeln, an denselben vier Bedingungen wie am 31.08.: `npm test` gelaufen und
-   die VERDICT-Zeile unverändert im PR, `fable-reviewer`-Runde abgeschlossen und
-   jeder übernommene Befund nachgemessen, CI grün (auf dem Daten-PR besonders
+   einzeln, an den vier Bedingungen vom 31.08., die zweite seit dem 16.10.2026
+   geändert: `npm test` gelaufen und die VERDICT-Zeile unverändert im PR,
+   `reviewer`-Runde abgeschlossen (bis zum 16.10.2026 hieß es hier
+   `fable-reviewer`; seither läuft der `reviewer` auch in autonomen Läufen
+   ohne Modellangabe auf Opus, Regel 11 im Betriebsvertrag) und jeder
+   übernommene Befund nachgemessen, CI grün (auf dem Daten-PR besonders
    `data-integrity.yml`), und `Closes #N` nur für wirklich Fertiges. **Direkte
    Pushes auf `main` und jeder Force-Push dorthin bleiben tabu.** Dritte Session
    mit dieser Konstruktion.
@@ -308,7 +311,7 @@ Was die alte Fassung dieses Abschnitts an dieser Stelle sagte, gilt unverändert
 
 ### Der Lauf vom 2026-09-01 ist pausiert, nicht abgeschlossen
 
-Angehalten nach Welle 1, weil das Fable-Kontingent zur Neige ging und `fable-reviewer` vor dem ersten Push jedes PR-Zweigs Pflicht ist: Welle 1 war die einzige Welle ohne PR, ein Schnitt dort verbraucht keine Review-Runde. Die Wellen 2 bis 5 sind nicht angefangen.
+Angehalten nach Welle 1, weil das Fable-Kontingent zur Neige ging und `fable-reviewer` vor dem ersten Push jedes PR-Zweigs Pflicht war (seit dem 16.10.2026 läuft der `reviewer` auf Opus, siehe §5 Punkt 2): Welle 1 war die einzige Welle ohne PR, ein Schnitt dort verbraucht keine Review-Runde. Die Wellen 2 bis 5 sind nicht angefangen.
 
 **Der Wiederaufnahmepunkt steht im Zwischenstand auf #44** ([`issuecomment-5492094055`](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/44#issuecomment-5492094055)), mit Zweig, Commit, Worktree-Pfad, dem Ergebnis von Welle 1 samt Messvorschrift, fünf Fallen für die nächste Session und drei offenen Fragen an einen Menschen. Er ist die maßgebliche Quelle; hier steht nur der Zeiger darauf.
 
