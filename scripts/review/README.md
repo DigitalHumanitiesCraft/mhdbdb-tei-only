@@ -17,10 +17,22 @@ Angelegt am 21.09.2026 für #443 (das Format) und #359 (die erste Anwendung).
 | `build-370-pruefseite.py` | #370 Punkt 2: die Prüfseite `pruefseite-370.html` für die PRUEFSEITE-Paare |
 | `build-526-pruefseite.py` | #526 Punkt 4: die Prüfseite `ingest/pos-disambig/526-breve-wn/pruefseite-526.html` für die WZB-Breve-Tokens, die #536 nicht annotiert hat. Die Kandidaten stehen im Skript und werden beim Lauf gegen `lexicon.xml` geprüft |
 
-Das Material und die erzeugte Seite liegen unter
-[`ingest/review/359-borek/`](../../ingest/review/359-borek/README.md), nicht
-hier: erzeugte Artefakte gehören neben ihre Daten und nicht neben ihren
-Generator.
+Dazu kommen Skripte vom 16.10.2026, die **Prüflisten als TSV** statt Prüfseiten erzeugen. Sie benutzen `review_page.py` nicht; jedes Skript sagt in seinem Docstring, wohin es schreibt, und liest nur:
+
+| Datei | Rolle |
+|---|---|
+| `collect-462-pos.py` | #462: Korpusbelege der 25 Lemmata, bei denen Lexikon und Korpus in der Wortart auseinanderliegen, nach `ingest/pos-disambig/462-pos/belege.tsv` (dazu `lexikon.json` und `zaehlung.txt`) |
+| `vorsortieren-603.py` | #603: Belege der Bedeutungen mit `concept_21111000` nach Tier, Mensch oder unklar vorsortiert, Regeln T1/T2/M1-M3; Ausgabe in `ingest/review/603-ernaehrung/` |
+| `stichprobe2-603.py` | #603: zweite Stichprobe (Klasse `tier` ohne Mensch-Treffer), liest die große Ausgabe von `vorsortieren-603.py` |
+| `ana-603.py` | #603: Kennzahlen zu den Bedeutungen aus `senses-21111000.tsv` und `lemmata-ohne-ana.tsv` auf der Konsole |
+| `zotero-abgleich-554.py` | #554: Abgleich der Literatur aus `literatur.tsv` gegen zwei Zotero-Gruppen nach `ingest/glossar-554/zotero-abgleich.tsv`. **Braucht das Netz** (Zotero-API) |
+| `klug-links-554.py` | #554: Klug-Verweise. Phase 1 holt Pflanzenseiten (**Netz**) und schreibt ein Dossier; Phase 2 (`--nur-urteile`, ohne Netz) schreibt `klug-links.tsv` aus `klug-urteile.tsv` |
+
+Bei beiden Gruppen liegen Material und Ausgabe nicht hier, sondern neben ihren
+Daten, etwa für #359 unter
+[`ingest/review/359-borek/`](../../ingest/review/359-borek/README.md) und für
+#603 unter [`ingest/review/603-ernaehrung/`](../../ingest/review/603-ernaehrung/README.md):
+erzeugte Artefakte gehören neben ihre Daten und nicht neben ihren Generator.
 
 ## Die eine Entscheidung, die das Format trägt
 
