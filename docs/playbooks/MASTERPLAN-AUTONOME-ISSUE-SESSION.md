@@ -231,8 +231,11 @@ Die Liste wird aus §1 abgeleitet und nennt alle Issues, die diese Session NICHT
    Begründung in §3.
 2. **Der Merge nach `main` ist wieder freigegeben**, für die Session-PRs, jeden
    einzeln, an denselben vier Bedingungen wie am 31.08.: `npm test` gelaufen und
-   die VERDICT-Zeile unverändert im PR, `fable-reviewer`-Runde abgeschlossen und
-   jeder übernommene Befund nachgemessen, CI grün (auf dem Daten-PR besonders
+   die VERDICT-Zeile unverändert im PR, `reviewer`-Runde abgeschlossen (bis
+   zum 16.10.2026 hieß es hier `fable-reviewer`; seither läuft der `reviewer`
+   auch in autonomen Läufen ohne Modellangabe auf Opus, Regel 11 im
+   Betriebsvertrag) und jeder übernommene Befund nachgemessen,
+   CI grün (auf dem Daten-PR besonders
    `data-integrity.yml`), und `Closes #N` nur für wirklich Fertiges. **Direkte
    Pushes auf `main` und jeder Force-Push dorthin bleiben tabu.** Dritte Session
    mit dieser Konstruktion.
