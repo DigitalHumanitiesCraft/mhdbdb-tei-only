@@ -19,7 +19,7 @@ Angelegt am 21.09.2026 für #443 (das Format) und #359 (die erste Anwendung).
 | `build-370-pruefseite.py` | #370 Punkt 2: die Prüfseite `pruefseite-370.html` für die PRUEFSEITE-Paare |
 | `build-526-pruefseite.py` | #526 Punkt 4: die Prüfseite `ingest/pos-disambig/526-breve-wn/pruefseite-526.html` für die WZB-Breve-Tokens, die #536 nicht annotiert hat. Die Kandidaten stehen im Skript und werden beim Lauf gegen `lexicon.xml` geprüft |
 
-Dazu kommen Skripte vom 16.10.2026, die **Prüflisten als TSV** statt Prüfseiten erzeugen. Sie benutzen `review_page.py` nicht; jedes Skript verlangt einen Ausgabeordner außerhalb des Repos (oder unter `temp/`, gitignoriert), schreibt nur dorthin und bricht bei einem Ordner im Repo ab. Die eingecheckten Dateien erneuert man, indem man die Ausgabe vergleicht und bewusst kopiert. Wo die eingecheckte Fassung liegt, steht in der Rolle:
+Dazu kommen Skripte vom 16.10.2026, die **Prüflisten als TSV** statt Prüfseiten erzeugen. Sie benutzen `review_page.py` nicht. Die vier Skripte, die Dateien erzeugen (`collect-462-pos.py`, `vorsortieren-603.py`, `zotero-abgleich-554.py`, `klug-links-554.py`), verlangen einen Ausgabeordner außerhalb des Repos oder in einem Unterordner von `temp/` (gitignoriert), schreiben nur dorthin und brechen bei jedem anderen Ordner im Repo ab (`zotero-abgleich-554.py` nimmt auch `temp/` selbst). `stichprobe2-603.py` und `ana-603.py` haben diese Sperre nicht: sie lesen den Ordner, den man ihnen gibt, und `stichprobe2-603.py` schreibt seine Stichprobe dorthin; man gibt ihnen den Ausgabeordner von `vorsortieren-603.py`. Die eingecheckten Dateien erneuert man, indem man die Ausgabe vergleicht und bewusst kopiert. Wo die eingecheckte Fassung liegt, steht in der Rolle:
 
 | Datei | Rolle |
 |---|---|

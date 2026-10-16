@@ -83,7 +83,7 @@ Spalten: `werk` (Werk und `werk_id`), `anzahl_zitate`, `klasse`, `gruppe`, `item
 | Klasse | Zeilen | Bedeutung |
 |---|--:|---|
 | `vorhanden` | 5 | genau ein Kandidat, und der Titel enthält die Titelstichwörter des Werks oder Nachname und ein Jahr aus dem Satz der Glossarstelle passen; oder mehrere Kandidaten, von denen genau einer das Jahr trägt (dann steht er zuerst) |
-| `wahrscheinlich` | 40 | der Nachname kommt als Teilstring im Nachnamen eines Zotero-Eintrags vor (ohne Jahr), oder bei Werken ohne Nachname ein Titelstichwort im Titel, oder mehrere Kandidaten ohne eindeutigen Treffer |
+| `wahrscheinlich` | 40 | der Nachname kommt als Teilstring im Nachnamen eines Zotero-Eintrags vor (ohne Jahr), oder mehrere Kandidaten ohne eindeutigen Treffer, auch über Titelstichwörter bei Werken ohne Nachname (gezählt aus der Spalte `bemerkung`: 11 Zeilen „nur Nachname trifft“, 29 „N Kandidaten, nicht eindeutig“) |
 | `fehlt` | 107 | kein Kandidat passt auf Nachname oder Titelstichwort; in 102 Zeilen hat die Suche gar nichts gefunden, in 5 etwas (Falke 3, Alfred Neumann 3, Steinbauer 1, Zeppezauer 48 und 1), das auf kein Kriterium passt |
 
 5 + 40 + 107 = 152. Nach Gruppe: Werk-Editionen 5 `vorhanden`, 33 `wahrscheinlich`, 38 `fehlt` (= 76); Textreihen 0 `vorhanden`, 7 `wahrscheinlich`, 69 `fehlt` (= 76).

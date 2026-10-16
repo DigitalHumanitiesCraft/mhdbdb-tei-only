@@ -72,7 +72,7 @@ Bei `unklar` ist keine Trefferangabe vergeben; der Agent las alle zehn als Nahru
 
 ## Regenerieren
 
-Die Skripte lesen nur und ändern im Repo nichts. Der Ausgabeordner ist Pflicht und darf nicht im Repo liegen, außer unter `temp/` (gitignoriert); `vorsortieren-603.py` liest die Eingabe `agent-faelle.tsv` aus diesem Ordner im Repo und bricht ab, wenn sie nicht zu den Fallbelegen passt. Wer die Dateien hier erneuern will, vergleicht die Ausgabe und kopiert sie bewusst:
+Die Skripte lesen nur und ändern im Repo nichts. Der Ausgabeordner von `vorsortieren-603.py` ist Pflicht und darf nicht im Repo liegen, außer in einem Unterordner von `temp/` (gitignoriert); `stichprobe2-603.py` schreibt in denselben Ordner, `ana-603.py` liest nur und gibt auf der Konsole aus. `vorsortieren-603.py` liest die Eingabe `agent-faelle.tsv` aus diesem Ordner im Repo und bricht ab, wenn sie nicht zu den Fallbelegen passt. Wer die Dateien hier erneuern will, vergleicht die Ausgabe und kopiert sie bewusst:
 
 ```
 python scripts/review/vorsortieren-603.py <repo> <ausgabeordner>
