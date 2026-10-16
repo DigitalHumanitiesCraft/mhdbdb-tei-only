@@ -1,6 +1,6 @@
 {
-  "from": "1.9.26",
-  "to": "1.9.27",
+  "from": "1.9.27",
+  "to": "1.9.28",
   "flips": 1,
-  "reason": "#554: KZW verlangt ein eigenes Lemma briech (breiig) statt der Form unter bri. Das einzige Korpus-Token ZUK_76100_5 haengt von lemma_32468 (bri) auf das neue Lemma lemma_79829 um; der Typ type_202823 (n=1) verlaesst bri damit mit seinem einzigen Token, wandert zu briech und bri verliert die Form briech. Das ist sanktioniertes Umhaengen (n=1, kein anderes Token der Nummer), kein Fall wie #367."
+  "reason": "#460: KZW (15.10.2026) liest JT_43134000_4 (jagennes) als Verb. Das einzige Korpus-Token der Form haengt von lemma_3103 jagat (NOM) auf lemma_3102 jagen (VRB) um; die Form jagennes hatte nur dieses eine Token, ihr Typ type_319550 entfaellt und type_372858 entsteht unter lemma_3102 (Regel aus #367: neue Nummer praegen, keine umhaengen). Gewollt, kein Fall wie #367."
 }

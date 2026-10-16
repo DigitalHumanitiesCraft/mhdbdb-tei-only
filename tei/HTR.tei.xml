@@ -131,6 +131,7 @@
       <change when="2026-09-30" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization an den Stand der Annotation angeglichen (84731 von 113350 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;Teilweise lemmatisiert, nicht disambiguiert.&#34;</change>
       <change when="2026-10-10" who="#editor">#460 jagen: 4 Tokens als Verbform gelesen, von lemma_3103 jagât (NOM) auf lemma_3102 jagen (VRB) umgehängt, @ana entfällt; neu geprägte Variantentypen nach der Regel aus #367.</change>
       <change when="2026-10-10" who="#editor">#461 gebeine: 2 Tokens mit Säugetierknochen auf den neuen Sense lemma_1958_sense_119196 (concept_14011100) gesetzt.</change>
+      <change when="2026-10-16" who="#editor">#461 gebeine: 1 Token nach KZWs Antwort vom 2026-10-15 mit @ana auf ihren Sense gesetzt.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -220112,7 +220113,7 @@
             </hi>
             <w xml:id="HTR_201620_1" lemmaRef="lexicon.xml#lemma_2895" pos="NOM" corresp="variants.xml#type_9891">holz</w>
             <pc xml:id="HTR_201620_2" join="left">,</pc>
-            <w xml:id="HTR_201620_3" lemmaRef="lexicon.xml#lemma_1958" pos="NOM" corresp="variants.xml#type_6602">gebeine</w>
+            <w xml:id="HTR_201620_3" lemmaRef="lexicon.xml#lemma_1958" pos="NOM" ana="lexicon.xml#lemma_1958_sense_49690" corresp="variants.xml#type_6602">gebeine</w>
             <w xml:id="HTR_201620_4" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
             <w xml:id="HTR_201620_5" lemmaRef="lexicon.xml#lemma_4523" pos="CNJ" ana="lexicon.xml#lemma_4523_sense_7060" corresp="variants.xml#type_15677">ouch</w>
             <w xml:id="HTR_201620_6">gewant</w>

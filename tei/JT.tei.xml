@@ -138,6 +138,7 @@
       <change when="2026-09-11" who="#editor">#198 Schritt 2: Token JT_6192000_1 (habe) verbal gelesen, @pos NOM VRB VEX zu VRB VEX; @lemmaRef und @ana unveraendert. Grundlage: Konjunktiv mit Akkusativobjekt (diu werch).</change>
       <change when="2026-09-30" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization an den Stand der Annotation angeglichen (232434 von 235853 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;Voll lemmatisiert und disambiguiert.&#34;</change>
       <change when="2026-10-10" who="#editor">#460 jagen: 1 Token als Verbform gelesen, von lemma_3103 jagât (NOM) auf lemma_3102 jagen (VRB) umgehängt, @ana entfällt; neu geprägte Variantentypen nach der Regel aus #367.</change>
+      <change when="2026-10-16" who="#editor">#460 jagen: 1 Token als Verbform gelesen (KZW 2026-10-15), von lemma_3103 jagât (NOM) auf lemma_3102 jagen (VRB) umgehängt, @ana entfällt.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -260638,7 +260639,7 @@
             <w xml:id="JT_43134000_1" lemmaRef="lexicon.xml#lemma_1288" pos="ADJ NUM" ana="lexicon.xml#lemma_1288_sense_2017" corresp="variants.xml#type_4192">erste</w>
             <w xml:id="JT_43134000_2">was</w>
             <w xml:id="JT_43134000_3" lemmaRef="lexicon.xml#lemma_1517" pos="PRO" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_4999">er</w>
-            <w xml:id="JT_43134000_4" lemmaRef="lexicon.xml#lemma_3103" pos="NOM" ana="lexicon.xml#lemma_3103_sense_4930" corresp="variants.xml#type_319550">jagennes</w>
+            <w xml:id="JT_43134000_4" lemmaRef="lexicon.xml#lemma_3102" pos="VRB" corresp="variants.xml#type_372858">jagennes</w>
             <pc xml:id="JT_43134000_5" join="left">,</pc>
             <caesura/>
             <w xml:id="JT_43134000_6" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>

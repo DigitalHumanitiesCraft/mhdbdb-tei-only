@@ -155,6 +155,7 @@
       <change when="2026-09-06" who="#editor">#387 (fro): 3 homographie-ambige Tokens der Form fro kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260) bzw. vrô ADJ/ADV (lemma_7250); LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/387-fro/).</change>
       <change when="2026-09-21" who="#editor">#371 stat, drittes Lemma: 1 bislang unlemmatisierte Tokens der Form stat/stât annotiert (lemmaRef/pos/corresp nach dem actions-Array in KZWs Review vom 15.09.2026; drei neu gepraegte Variantentypen; kein @ana, weil die Sense-Zuordnung kuratorisch ist; die 17 Faelle mit option OFFEN und die 2 mit NEU_STAND bleiben unangetastet; Provenienz-Log: ingest/pos-disambig/371-stat/).</change>
       <change when="2026-09-30" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization an den Stand der Annotation angeglichen (25824 von 34583 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;Lemmatisiert, aber nicht disambiguiert.&#34;</change>
+      <change when="2026-10-16" who="#editor">#461 gebeine: 1 Token nach KZWs Antwort vom 2026-10-15 mit @ana auf ihren Sense gesetzt.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -63894,7 +63895,7 @@
             </hi>
             <w xml:id="NAR_9303540_1" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
             <w xml:id="NAR_9303540_2" lemmaRef="lexicon.xml#lemma_1517" pos="POS" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_93063">sym</w>
-            <w xml:id="NAR_9303540_3" lemmaRef="lexicon.xml#lemma_1958" pos="NOM" corresp="variants.xml#type_264444">gbeyn</w>
+            <w xml:id="NAR_9303540_3" lemmaRef="lexicon.xml#lemma_1958" pos="NOM" ana="lexicon.xml#lemma_1958_sense_49690" corresp="variants.xml#type_264444">gbeyn</w>
             <w xml:id="NAR_9303540_4" lemmaRef="lexicon.xml#lemma_4441" pos="NOM" corresp="variants.xml#type_264672">nüsß</w>
             <w xml:id="NAR_9303540_5" lemmaRef="lexicon.xml#lemma_7490" pos="VRB" corresp="variants.xml#type_71796">werffen</w>
             <w xml:id="NAR_9303540_6" lemmaRef="lexicon.xml#lemma_29" pos="ADV PRP" ana="lexicon.xml#lemma_29_sense_39" corresp="variants.xml#type_86">ab</w>

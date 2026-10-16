@@ -129,6 +129,7 @@
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 38 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/). 2 weitere Tokens der Form stat blieben bewusst unannotiert (Review).</change>
       <change when="2026-09-21" who="#editor">#371 stat, drittes Lemma: 2 bislang unlemmatisierte Tokens der Form stat/stât annotiert (lemmaRef/pos/corresp nach dem actions-Array in KZWs Review vom 15.09.2026; drei neu gepraegte Variantentypen; kein @ana, weil die Sense-Zuordnung kuratorisch ist; die 17 Faelle mit option OFFEN und die 2 mit NEU_STAND bleiben unangetastet; Provenienz-Log: ingest/pos-disambig/371-stat/).</change>
       <change when="2026-09-30" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization an den Stand der Annotation angeglichen (48371 von 61636 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;Lemmatisiert, aber nicht disambiguiert.&#34;</change>
+      <change when="2026-10-16" who="#editor">#460 jagen: 1 Token als Verbform gelesen (KZW 2026-10-15), von lemma_3103 jagât (NOM) auf lemma_3102 jagen (VRB) umgehängt, @ana entfällt.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -68840,7 +68841,7 @@
         </l>
         <l n="26">
           <w xml:id="WH_28126_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-          <w xml:id="WH_28126_1" lemmaRef="lexicon.xml#lemma_3103" pos="NOM" ana="lexicon.xml#lemma_3103_sense_4930" corresp="variants.xml#type_10674">jaget</w>
+          <w xml:id="WH_28126_1" lemmaRef="lexicon.xml#lemma_3102" pos="VRB" corresp="variants.xml#type_372855">jaget</w>
           <w xml:id="WH_28126_2" lemmaRef="lexicon.xml#lemma_1517" pos="PRO" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_4999">er</w>
           <w xml:id="WH_28126_3" lemmaRef="lexicon.xml#lemma_3962" pos="ADJ" ana="lexicon.xml#lemma_3962_sense_6245" corresp="variants.xml#type_13833">manigen</w>
           <w xml:id="WH_28126_4" lemmaRef="lexicon.xml#lemma_106" pos="ADJ ADV" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_256">al</w>

@@ -139,6 +139,7 @@
       <change when="2026-09-06" who="#editor">#387 (fro): 3 homographie-ambige Tokens der Form fro kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260) bzw. vrô ADJ/ADV (lemma_7250); LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/387-fro/).</change>
       <change when="2026-09-30" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization an den Stand der Annotation angeglichen (42416 von 53601 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;Nur teilweise lemmatisiert, nicht disambiguiert.&#34;</change>
       <change when="2026-10-10" who="#editor">#460 jagen: 4 Tokens als Verbform gelesen, von lemma_3103 jagât (NOM) auf lemma_3102 jagen (VRB) umgehängt, @ana entfällt; neu geprägte Variantentypen nach der Regel aus #367.</change>
+      <change when="2026-10-16" who="#editor">#461 gebeine: 1 Token nach KZWs Antwort vom 2026-10-15 mit @ana auf ihren Sense gesetzt.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -29240,7 +29241,7 @@
                 <w xml:id="FLG1_4135180940_0" lemmaRef="lexicon.xml#lemma_1169" pos="DET" ana="lexicon.xml#lemma_1169_sense_1850" corresp="variants.xml#type_3687">dis</w>
               </hi>
               <w xml:id="FLG1_4135180940_1" lemmaRef="lexicon.xml#lemma_6080" pos="NOM" ana="lexicon.xml#lemma_6080_sense_9605" corresp="variants.xml#type_21391">tieres</w>
-              <w xml:id="FLG1_4135180940_2" lemmaRef="lexicon.xml#lemma_1958" pos="NOM" corresp="variants.xml#type_6602">gebeine</w>
+              <w xml:id="FLG1_4135180940_2" lemmaRef="lexicon.xml#lemma_1958" pos="NOM" ana="lexicon.xml#lemma_1958_sense_119199" corresp="variants.xml#type_6602">gebeine</w>
               <w xml:id="FLG1_4135180940_3" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18956">ist</w>
               <supplied>
                 <w xml:id="FLG1_4135180940_4">eins</w>

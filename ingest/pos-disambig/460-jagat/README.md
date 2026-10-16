@@ -47,3 +47,17 @@ Die 5 unklaren Belege bleiben unberührt (Kontext in `belege.tsv`):
 | `WH_28126_1` | `jaget` | „der jaget er manigen al den tac“, Neigung Verb |
 | `JT_48611000_4` | `jagenes` | Genitiv des substantivierten Infinitivs, der Form nach eher `lemma_3102` |
 | `JT_43134000_4` | `jagennes` | wie `JT_48611000_4` |
+
+## Nachtrag 2026-10-16: KZWs Antworten vom 15.10.2026
+
+Umsetzung: `scripts/ingest/pos-disambig/apply-460-461-rest.py`. Die Spalten `Entscheidung` und `Quelle` in `belege.tsv` tragen die Antwort je Token; `Einstufung` bleibt der Stand vom 10.10.
+
+| xml:id | Form | Antwort KZW (15.10.) | Folge |
+|---|---|---|---|
+| `WH_28126_1` | `jaget` | Verb | auf `lemma_3102` (`@pos="VRB"`, ohne `@ana`), Variantentyp `type_372855` (aus der ersten Runde, `jaget` unter `lemma_3102`) |
+| `JT_43134000_4` | `jagennes` | Verb | wie oben, neuer Variantentyp `type_372858`; `type_319550` verliert seinen einzigen Beleg und entfällt |
+| `WVW_6542_4` | `jaget` | Nomen | unverändert |
+| `AXU_18452_5` | `jaget` | braucht mehr Kontext | unverändert, Frage mit breiterem Fenster im Ticket |
+| `JT_48611000_4` | `jagenes` | vermutlich Verb + Pronomen (jagen + ez), braucht mehr Kontext | unverändert, Frage wie oben |
+
+Stand danach, gemessen am 2026-10-16 (alle `<w>` in `tei/`, in deren `@lemmaRef` der Lemma-Bezeichner als ganzes Token steht): `lemma_3103` 38 Tokens (35 Substantive, 3 offene: `WVW_6542_4` als Nomen entschieden, `AXU_18452_5` und `JT_48611000_4` offen), `lemma_3102` 1.553 Tokens (1.406 vor der ersten Runde, +145, +2).

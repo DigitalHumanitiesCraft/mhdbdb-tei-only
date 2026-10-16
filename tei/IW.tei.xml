@@ -133,6 +133,7 @@
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 15 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
       <change when="2026-09-30" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization an den Stand der Annotation angeglichen (28888 von 36562 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;Voll lemmatisiert, aber nicht disambiguiert.&#34;</change>
       <change when="2026-10-10" who="#editor">#460 jagen: 2 Tokens als Verbform gelesen, von lemma_3103 jagât (NOM) auf lemma_3102 jagen (VRB) umgehängt, @ana entfällt; neu geprägte Variantentypen nach der Regel aus #367.</change>
+      <change when="2026-10-16" who="#editor">#461 gebeine: 1 Token nach KZWs Antwort vom 2026-10-15 mit @ana auf ihren Sense gesetzt.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -47288,7 +47289,7 @@
           <w xml:id="IW_5852_1" lemmaRef="lexicon.xml#lemma_3770" pos="VRB" ana="lexicon.xml#lemma_3770_sense_5960" corresp="variants.xml#type_13157">lît</w>
           <w xml:id="IW_5852_2" lemmaRef="lexicon.xml#lemma_4415" pos="ADV NEG CNJ" corresp="variants.xml#type_15400">noch</w>
           <w xml:id="IW_5852_3">sîn</w>
-          <w xml:id="IW_5852_4" lemmaRef="lexicon.xml#lemma_1958" pos="NOM" corresp="variants.xml#type_6602">gebeine</w>
+          <w xml:id="IW_5852_4" lemmaRef="lexicon.xml#lemma_1958" pos="NOM" ana="lexicon.xml#lemma_1958_sense_49690" corresp="variants.xml#type_6602">gebeine</w>
           <w xml:id="IW_5852_5" lemmaRef="lexicon.xml#lemma_7194" pos="ADV PRP" ana="lexicon.xml#lemma_7194_sense_11657" corresp="variants.xml#type_25545">vor</w>
           <pc xml:id="IW_5852_6" join="left">.</pc>
         </l>
