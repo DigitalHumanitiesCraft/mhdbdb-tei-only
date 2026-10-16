@@ -224,7 +224,7 @@ Die Liste wird aus §1 abgeleitet und nennt alle Issues, die diese Session NICHT
 
 ---
 
-## 5. Getroffene Entscheidungen (Stand 2026-09-01, vor der nächsten Session überschreiben)
+## 5. Getroffene Entscheidungen (Stand 2026-09-01, Punkt 2 nachgezogen am 2026-10-16; vor der nächsten Session überschreiben)
 
 1. **Reihenfolge nach Kosten und Risiko**, nicht nach Ticketnummer: erst die
    Messung, dann die zwei Skript-Wellen, dann der Datenlauf, dann das Meta.
