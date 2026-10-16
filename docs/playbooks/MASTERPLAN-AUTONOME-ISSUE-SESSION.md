@@ -311,7 +311,7 @@ Was die alte Fassung dieses Abschnitts an dieser Stelle sagte, gilt unverändert
 
 ### Der Lauf vom 2026-09-01 ist pausiert, nicht abgeschlossen
 
-Angehalten nach Welle 1, weil das Fable-Kontingent zur Neige ging und `fable-reviewer` vor dem ersten Push jedes PR-Zweigs Pflicht ist: Welle 1 war die einzige Welle ohne PR, ein Schnitt dort verbraucht keine Review-Runde. Die Wellen 2 bis 5 sind nicht angefangen.
+Angehalten nach Welle 1, weil das Fable-Kontingent zur Neige ging und `fable-reviewer` vor dem ersten Push jedes PR-Zweigs Pflicht war (seit dem 16.10.2026 läuft der `reviewer` auf Opus, siehe §5 Punkt 2): Welle 1 war die einzige Welle ohne PR, ein Schnitt dort verbraucht keine Review-Runde. Die Wellen 2 bis 5 sind nicht angefangen.
 
 **Der Wiederaufnahmepunkt steht im Zwischenstand auf #44** ([`issuecomment-5492094055`](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/44#issuecomment-5492094055)), mit Zweig, Commit, Worktree-Pfad, dem Ergebnis von Welle 1 samt Messvorschrift, fünf Fallen für die nächste Session und drei offenen Fragen an einen Menschen. Er ist die maßgebliche Quelle; hier steht nur der Zeiger darauf.
 
