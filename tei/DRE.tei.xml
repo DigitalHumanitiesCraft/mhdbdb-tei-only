@@ -134,6 +134,7 @@
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 1 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
       <change when="2026-09-06" who="#editor">#387 (vrouwe, mechanischer Teil): 4 Tokens der Form vrouwe erstmals annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260)). Kein LLM-Lauf: annotiert wurde nur, wo die MHG-normalisierte Schreibung im gesamten Korpus ein einziges Lemma traegt, dieses genau eine Wortart fuehrt und die Schreibung dafuer genug Belege hat. Kontextpflichtige Faelle sind unangetastet geblieben (Provenienz-Log: ingest/pos-disambig/387-vrouwe/).</change>
       <change when="2026-09-30" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization an den Stand der Annotation angeglichen (1691 von 2234 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;Lemmatisiert, nicht disambiguiert.&#34;</change>
+      <change when="2026-10-16" who="#editor">#461 gebeine: 3 Tokens nach KZWs Antwort vom 2026-10-15 mit @ana auf ihren Sense gesetzt.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -1678,7 +1679,7 @@
         </l>
         <l n="177">
           <w xml:id="DRE_177_0" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3397">das</w>
-          <w xml:id="DRE_177_1" lemmaRef="lexicon.xml#lemma_1958" pos="NOM" corresp="variants.xml#type_155861">gepain</w>
+          <w xml:id="DRE_177_1" lemmaRef="lexicon.xml#lemma_1958" pos="NOM" ana="lexicon.xml#lemma_1958_sense_49690" corresp="variants.xml#type_155861">gepain</w>
           <pc xml:id="DRE_177_2" join="left">,</pc>
           <w xml:id="DRE_177_3" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3397">das</w>
           <w xml:id="DRE_177_4" lemmaRef="lexicon.xml#lemma_1082" pos="ADV" ana="lexicon.xml#lemma_1082_sense_1725" corresp="variants.xml#type_3348">darin</w>
@@ -1703,7 +1704,7 @@
         </l>
         <l n="180">
           <w xml:id="DRE_180_0" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3504">dem</w>
-          <w xml:id="DRE_180_1" lemmaRef="lexicon.xml#lemma_1958" pos="NOM" corresp="variants.xml#type_155861">gepain</w>
+          <w xml:id="DRE_180_1" lemmaRef="lexicon.xml#lemma_1958" pos="NOM" ana="lexicon.xml#lemma_1958_sense_49690" corresp="variants.xml#type_155861">gepain</w>
           <pc xml:id="DRE_180_2" join="left">,</pc>
           <w xml:id="DRE_180_3" lemmaRef="lexicon.xml#lemma_148" pos="CNJ" ana="lexicon.xml#lemma_148_sense_183" corresp="variants.xml#type_369">als</w>
           <w xml:id="DRE_180_4" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
@@ -1714,7 +1715,7 @@
         <l n="181">
           <w xml:id="DRE_181_0">wann</w>
           <w xml:id="DRE_181_1" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
-          <w xml:id="DRE_181_2" lemmaRef="lexicon.xml#lemma_1958" pos="NOM" corresp="variants.xml#type_155861">gepain</w>
+          <w xml:id="DRE_181_2" lemmaRef="lexicon.xml#lemma_1958" pos="NOM" ana="lexicon.xml#lemma_1958_sense_49690" corresp="variants.xml#type_155861">gepain</w>
           <w xml:id="DRE_181_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
           <w xml:id="DRE_181_4" lemmaRef="lexicon.xml#lemma_7717" pos="NOM" corresp="variants.xml#type_27959">würfel</w>
           <w xml:id="DRE_181_5" lemmaRef="lexicon.xml#lemma_2573" pos="NOM ADJ ADV" corresp="variants.xml#type_8633">guot</w>

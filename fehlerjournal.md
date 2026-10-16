@@ -1289,3 +1289,13 @@ Auto-Mode-Classifier abgelehnt, und die Blockade ging an Christian.
 **Die Lehre steht in `agentenbefunde.md` (eine Verdichtungszusammenfassung und eine frühere eigene Sitzung sind Agentenberichte) und in `mengen.md`.** Die letzte Zeile zu dieser Lehre ist Eintrag 132; davor 117, davor 116. Das ist damit die vierte Zeile zur selben Lehre (Kette 116, 117, 132, 125, an den Zeigern der Einträge gemessen); der Mechanismuswechsel nach `wiederholte-fehler.md` war schon bei 132, der dritten, fällig und ist ausgeblieben. Welcher, entscheidet nicht diese Spur (siehe Journal, "Was zurück an Christian geht").
 
 **Was es getragen hat:** nichts, der Reviewer fand alle drei in Runde 1, bevor ein Leser sie benutzt hat. Gezählt wird es, weil jede Zahl am Schreibtisch mit einem Einzeiler nachzumessen war.
+
+### 138. Rot: eine Herkunftsfrage am Lesefenster beantwortet, nicht am Anfang der Episode, und als Befund an die Koordination gemeldet (Spur lauf-1016-daten, 16.10.2026, #461).
+
+**Rot.** Für die drei "Würfelknochen" in DRE (`DRE_177_1`, `DRE_180_1`, `DRE_181_2`) habe ich V. 137 bis 217 gelesen und der Koordination gemeldet, der Text nenne keine Tierart und die Herkunft des Knochens bleibe offen, deshalb gelte KZWs Auffangregel. Der Reviewer fand, dass die Würfel aus den Stockzähnen des Ritters gemacht sind (V. 36, 117, 122 bis 126). Das Ergebnis (`sense_49690`) war richtig, die Begründung in Tabelle, README und Meldung nicht.
+
+**Die Lehre steht in `dateisuche.md` (vor dem Nullbefund fragen: warum dieser Suchpfad und nicht der ganze Bestand?) und in `eigene-quellen.md`.** Die letzte Zeile zu dieser Lehre ist Eintrag 119 (am Wortlaut `dateisuche.md` in der Lehrenzeile gemessen; ein Zeiger auf 61, den ich zuerst geschrieben hatte, war zu früh abgebrochen). Damit ist 138 weit hinter der dritten Zeile.
+
+**Was es getragen hat:** eine Bestätigung der Koordination ("Deine Lesung trägt") und drei Dateien im Commit; abgewendet hat es der Reviewer in Runde 1, bevor ein Kommentar an KZW es zitierte. Gezählt wird es, weil die Frage "woraus ist es gemacht" mit einer Suche nach `stockz` im ganzen Text in einer Minute zu beantworten war.
+
+**Kein neuer Mechanismus, die begründete Aussetzung gilt:** sie steht im Fuß von `rules/dateisuche.md` (für die Abwesenheitsbehauptung ohne Messung läuft nur ein Trockenlauf, #73). Dieser Fall ist eine solche Behauptung über einen Text; was ich daraus mache, ist eine Gewohnheit und kein Mechanismus: das Stichwort im ganzen Text suchen und in der Aussage das Fenster nennen, das ich gelesen habe.
