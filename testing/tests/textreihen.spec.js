@@ -204,7 +204,21 @@ test.describe('Textreihentypologie: SKOS-Browser', () => {
         await expect(page.locator('#trResults')).toContainText('Keine Treffer');
     });
 
-    test('ein kaputter oder unbekannter Hash stoert den Start nicht', async ({ page }) => {
+    test('passende Alternativbezeichnungen sind eigene Vorschlaege (Haushalt -> Hauswirtschaft)', async ({ page }) => {
+        await page.goto('/textreihen/browser.html');
+        await expect(page.locator('html[data-tr-ready="1"]')).toBeAttached();
+        await page.fill('#trSearch', 'haus');
+        const haushalt = page.locator('#trResults .tr-result', { has: page.locator('.tr-result-alt', { hasText: /^Haushalt →/ }) });
+        await expect(haushalt).toHaveCount(1);
+        await expect(page.locator('#trResults .tr-result-alt', { hasText: /^Haushaltsführung →/ })).toHaveCount(1);
+        await expect(haushalt.locator('.tr-result-name')).toHaveText('Hauswirtschaft');
+        await expect(haushalt.locator('.tr-result-sub')).toContainText('Alternativbezeichnung');
+        await haushalt.click();
+        await expect(page).toHaveURL(/#c_84ab7ac8$/);
+        await expect(page.locator('#trDetail .tr-detail-title')).toHaveText('Hauswirtschaft');
+    });
+
+    test('ein kaputter oder unbekannter Hash stoert den Start nicht',async ({ page }) => {
         for (const hash of ['%E0', '%', 'c_00000000', 'constructor']) {
             await page.goto(`/textreihen/browser.html#${hash}`);
             await expect(page.locator('html[data-tr-ready="1"]'), hash).toBeAttached();

@@ -74,6 +74,8 @@
 .tr-result { display: block; width: 100%; text-align: left; background: none; border: 0; border-bottom: 1px solid #e2e8f0; padding: 0.45rem 0.75rem; cursor: pointer; }
 .tr-result:hover, .tr-result:focus-visible { background: #e8effc; }
 .tr-result-name { display: block; font-weight: 600; color: #0f172a; }
+.tr-result-alt { display: inline; font-weight: 500; color: #475569; }
+.tr-result-alt + .tr-result-name { display: inline; }
 .tr-result-sub { display: block; font-size: 0.8rem; color: #64748b; }
 .tr-results mark { background: #fde68a; color: inherit; border-radius: 0.15rem; }
 
