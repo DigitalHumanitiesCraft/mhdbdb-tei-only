@@ -17,6 +17,7 @@ Verdichtet 14.10.2026.
 
 **build-526-pruefseite.py (#526 Punkt 4)**
 - Probe ohne Worktree-Berührung: Quelltext lesen, `ROOT`/`sys.path` auf den Worktree, `ZIEL` ins Scratchpad ersetzen, `exec` unter `__name__ == '__main__'`. Der `print` am Ende wirft `ValueError` an `ZIEL.relative_to(ROOT)`, die Datei ist da schon geschrieben: diese Exception heißt „durchgelaufen", nicht „Gate".
-- `pruefe_kandidaten()` prüft nur `orth`, nicht die Wortart. `fundstelle()` schrieb „Wort N" mit dem Suffix der xml:id (zählt `<w>` und `<pc>`, projekt_526_breve_makron); dieselbe Zeile steht noch in `build-370-pruefseite.py`.
+- `pruefe_kandidaten()` prüft nur `orth`, nicht die Wortart. `fundstelle()` schrieb „Wort N" mit dem Suffix der xml:id (zählt `<w>` und `<pc>`, siehe projekt-korpus-tei); dieselbe Zeile steht noch in `build-370-pruefseite.py`.
+- Ein „Sinn"-Satz über ein Lemma ist nur über `concepts.xml` prüfbar: `lexicon.xml`-Senses tragen keine `<def>`, nur `<ptr target="concepts.xml#concept_N">`.
 
 **Anführungszeichen und Scope (#440):** Prüfseiten unter `ingest/` sind ausgelieferte Seiten; ob sie im Geltungsbereich sind, vorher klären. Kommentar vs. Code in JS: eigener Zeichenscanner (kein Parser verfügbar). **Widerspruch im Bestand:** `docs/playbooks/kickoffs/2026-09-21-kickoff-spur-b-pruefseite.md:92` schreibt U+201C vor, gegen die Entscheidung für gerade Zeichen.

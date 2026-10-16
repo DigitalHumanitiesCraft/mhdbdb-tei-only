@@ -24,7 +24,7 @@ Verdichtet 14.10.2026.
 
 **Tailwind**
 - `tailwind-output.css` ist committet, kein Gate, kein Workflow baut CSS. Frische: `npx tailwindcss -i assets/css/tailwind-input.css -o $TEMP/x.css --minify`, `cmp`.
-- **Klasse im minifizierten CSS nicht mit `rg -c` zählen (Ein-Zeilen-Datei) und nicht mit `\.klasse\{`:** das verfehlt gruppierte Selektoren `.a,.b{` (`.flex-shrink-0,.shrink-0{flex-shrink:0}`, Tailwind 3.4.19). Tragfähig: `grep -o '[.,]klasse[,{]' assets/css/tailwind-output.css | wc -l`; Mengendifferenz: `grep -o "}[^{}]*{" x.css | sed 's/^}//;s/{$//' | tr ',' '\n' | sort -u` je Datei, dann `comm`. Nur die Mengendifferenz trägt.
+- **Klasse im minifizierten CSS nicht mit `rg -c` (Ein-Zeilen-Datei) und nicht mit `\.klasse\{` zählen:** das verfehlt gruppierte Selektoren `.a,.b{`. Tragfähig: `grep -o '[.,]klasse[,{]' assets/css/tailwind-output.css | wc -l`; Mengendifferenz: `grep -o "}[^{}]*{" x.css | sed 's/^}//;s/{$//' | tr ',' '\n' | sort -u` je Datei, dann `comm`.
 
 **Warmer Worker-Context (#488, `testing/warm-page.js`, Playwright 1.55.1, bei Update neu prüfen)**
 - Der Worker-Context erbt `use` und Timeout 0 (`actionTimeout || 0`) ohne eigenes Merging; nach einem Fehlschlag läuft der Retry kalt. Der Teardown-`localStorage.clear()` deckt `mhdbdb-results-view` und `mhdbdb-playground-section-<panel>`; kein Service Worker. Neue Opt-in-Specs auf Storage-Asserts, `page.route` und `context`-Fixture greppen (`grep -rl warm-page testing/tests`). Zwei Volläufe streuen um ~30 s.
@@ -32,4 +32,4 @@ Verdichtet 14.10.2026.
 **Warte-Fallen (Playwright 1.55.1, #564 D3)**
 - `page.waitForLoadState('networkidle')` nach dem ersten networkidle der Seite ist ein No-op und ersetzt keine feste Frist nach einem Klick.
 - `beforeAll`/`afterAll` laufen mit `project.timeout`; ihre Zeit fehlt in `result.duration` und der Dauertabelle von run-tests.js. Request-Zähler mit `url().includes('/tei/')` trifft auch `playground/js/ui/tei/*.js`.
-- **Korpusladen blockiert den Hauptthread einmal am Stück** (kalter Context ~10 bis 12 s, warmer ~3 s); `#fileBrowserSection` wird im selben synchronen Block sichtbar (playground-main.js 276 bis 288), eine 5-s-Frist davor kann in den Block fallen. Der Log „locator resolved to visible" vor einem Timeout heißt „Roundtrips im Block hängen geblieben", nicht „Element unsichtbar". **Die Longtask-API meldet den Block nicht**; messen mit rAF-Lücken (>100 ms) plus Wrapper um `JSON.parse`/`window.pako.ungzip`/`window.playground.populateFileBrowser`.
+- **Korpusladen blockiert den Hauptthread einmal am Stück** (kalter Context ~10 bis 12 s, warmer ~3 s); `#fileBrowserSection` wird im selben Block sichtbar (playground-main.js), eine 5-s-Frist davor kann hineinfallen. „locator resolved to visible" vor einem Timeout heißt „im Block hängen geblieben", nicht „unsichtbar". **Die Longtask-API meldet den Block nicht**; messen mit rAF-Lücken (>100 ms) plus Wrapper um `JSON.parse`/`window.pako.ungzip`/`populateFileBrowser`.

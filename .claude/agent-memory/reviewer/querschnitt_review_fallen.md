@@ -7,7 +7,7 @@ metadata:
 Verdichtet 14.10. und 15.10.2026. Dieses Memory ist Eingabe, keine Messung: Zahlen daraus vor Gebrauch nachmessen.
 
 **Was der Diff nicht zeigt**
-- #397-Frage: was macht der Fix wahr, woran hing etwas am Gegenteil? Auch Schreiber und Kopien suchen. Bringt ein Diff einen neuen Dateityp, die Endungslisten der Gates greppen und prüfen, ob der neue Fall den Zweig erreicht (`textreihen.spec.js`: jeder `../`-Pfad verlässt die Schleife vor der Größenprobe per `continue`, `svg` im Regex war tot, #93).
+- #397-Frage: was macht der Fix wahr, woran hing etwas am Gegenteil? Auch Schreiber und Kopien suchen. Bringt ein Diff einen neuen Dateityp, die Endungslisten der Gates greppen und prüfen, ob der neue Fall den Zweig erreicht (#93: ein `continue` vor der Größenprobe machte `svg` im Regex tot).
 - **Das Dokument, das die Änderung motiviert, beschreibt oft das alte Verhalten** (#545). Nach dem Auslöser im Issue greppen (`grep -rn "nicht IDs"`), nicht nur nach dem Bezeichner; generierte Artefakte haben Generator und Byte-Gate.
 - Ein „der Konsistenz halber" mitgeänderter Nachbarzweig (Leer-Guard, Fehlerast) ist der Ort, an dem #397 trifft: unveränderte Geschwistermodule mit derselben Folge durchspielen.
 - **Ein Datenfix, der einen offenen Fall erledigt, lässt `docs/ROADMAP.md` und die Recherche-README unter `ingest/<fall>/` stehen** (#28/#216/#228). Token-, Lemma- und Sense-ID über beide greppen; JOURNAL und Kickoffs sind datiert und zählen nicht.
@@ -29,7 +29,7 @@ Verdichtet 14.10. und 15.10.2026. Dieses Memory ist Eingabe, keine Messung: Zahl
 - **„origin/main hat seither nur X geändert" im Auftrag ist eine Behauptung:** `git log <Basis>..origin/main --stat` selbst. Nach jedem Rebase die Gates (Versionen, `doc-count-audit --check`, Em-Dash) erneut fahren.
 - **Nach einem Rebase zitieren JOURNAL und PR-Body oft den Vor-Rebase-SHA als Prüfstand.** Gegenprobe: `gh api repos/<o>/<r>/commits/<sha>` gibt 422, Kontrollwert ein gepushter SHA desselben Zweigs; den Nachfolger zeigt `git range-diff`.
 - Kickoffs und `docs/JOURNAL.md`-Einträge sind datierte Protokolle: zitieren sie eine inzwischen geänderte CLAUDE.md-Regel, ist das kein Befund. Die `CLAUDE.md` im Session-Kontext kann älter sein als HEAD: jeden Verweis „steht in CLAUDE.md" mit `git grep` auf HEAD messen.
-- **Eine Regel aus einem Issue-Kommentar hat eine zweite Quelle: die Label-Ereignisse der Autorin Sekunden danach** (`gh api .../issues/N/timeline --jq 'select(.event=="labeled" or .event=="unlabeled")'`). #378: KZW schrieb „Julia vorreihen" und setzte `wait:julia` **dazu**, ohne `wait:kzw` zu entfernen; „statt" war damit widerlegt.
+- **Eine Regel aus einem Issue-Kommentar hat eine zweite Quelle: die Label-Ereignisse der Autorin Sekunden danach** (`gh api .../issues/N/timeline --jq 'select(.event=="labeled" or .event=="unlabeled")'`). (#378: „Julia vorreihen" hieß `wait:julia` **dazu**, nicht statt `wait:kzw`.)
 - **Ein Zitat mit „mich"/„ich" gehört dem Sprecher, den der Auftrag nennt.** Eine Paraphrase kann das Pronomen still umhängen; jede Zuschreibung gegen das Pronomen im Wortlaut halten.
 - **Eine Belegzeile, deren Befehl ein Zitat findet, belegt das Zitat, nicht die Tatsache:** ist die Quelle ein Abschlusskommentar oder eine Verdichtung, den Primärkommentar der Entscheidung öffnen (`claude-code-setup` #66 „zu reizbar“ gegen #53 „nicht sinnvoll“).
 
