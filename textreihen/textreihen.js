@@ -53,11 +53,11 @@
     });
     rootIds = Object.keys(C).filter(function (id) { return !C[id].p; });
     Object.keys(C).forEach(function (id) {
-      var parts = [id, label(id)];
-      Object.keys(C[id].l).forEach(function (lg) { parts.push(C[id].l[lg]); });
-      Object.keys(C[id].a || {}).forEach(function (lg) { parts = parts.concat(C[id].a[lg]); });
-      var all = parts.join(' | ');
-      C[id]._s = normalize(all) + '\u0001' + translit(all);
+      /* ID und Bezeichnungen ohne Alternativbezeichnungen: entscheidet, ob die Kategorie selbst vorgeschlagen wird */
+      var own = [id, label(id)];
+      Object.keys(C[id].l).forEach(function (lg) { own.push(C[id].l[lg]); });
+      var ownAll = own.join(' | ');
+      C[id]._o = normalize(ownAll) + '\u0001' + translit(ownAll);
     });
   }
 
@@ -279,6 +279,9 @@
 
     var n = pathCount(id);
     box.appendChild(section('Wege von der obersten Kategorie (' + n + ')'));
+    box.appendChild(h('p', { 'class': 'tr-muted', text: n > 1
+      ? 'Jede Zeile ist ein Weg von einer obersten Kategorie bis zur gewählten Kategorie (fett). ' + (ps.length > 1 ? 'Es sind mehrere, weil sie unter mehreren Eltern steht.' : 'Es sind mehrere, weil eine ihrer übergeordneten Kategorien unter mehreren Eltern steht.') + ' Eine Kategorie auf dem Weg anklicken, um zu ihr zu springen.'
+      : 'Die Zeile zeigt den Weg von der obersten Kategorie bis zur gewählten Kategorie (fett). Eine Kategorie auf dem Weg anklicken, um zu ihr zu springen.' }));
     var paths = rootPaths(id);
     var pl = h('ol', { 'class': 'tr-paths' });
     paths.forEach(function (p) {
@@ -334,19 +337,38 @@
     var q = normalize(raw);
     var variants = [q];
     if (translit(raw) !== q) variants.push(translit(raw));
-    var hits = Object.keys(C).filter(function (id) {
-      return variants.some(function (v) { return C[id]._s.indexOf(v) !== -1; });
+    function matches(str) { return variants.some(function (v) { return str.indexOf(v) !== -1; }); }
+    /* Eintraege: die Kategorie selbst (ID oder Bezeichnung passt) und jede passende Alternativbezeichnung als eigener Vorschlag */
+    var hits = [];
+    Object.keys(C).forEach(function (id) {
+      var alts = [];
+      /* eine Alternativbezeichnung, die einer eigenen Bezeichnung gleicht, ist schon ueber die Kategorie selbst da */
+      var own = Object.keys(C[id].l).map(function (lg) { return C[id].l[lg]; });
+      Object.keys(C[id].a || {}).forEach(function (lg) {
+        C[id].a[lg].forEach(function (a) {
+          if (own.indexOf(a) === -1 && alts.indexOf(a) === -1 && matches(normalize(a) + '\u0001' + translit(a))) alts.push(a);
+        });
+      });
+      if (matches(C[id]._o)) hits.push({ id: id });
+      alts.forEach(function (a) { hits.push({ id: id, alt: a }); });
     });
     box.hidden = false;
     var info = hits.length === 0 ? 'Keine Treffer' : hits.length + (hits.length === 1 ? ' Treffer' : ' Treffer') + (hits.length > MAX_RESULTS ? ' (die ersten ' + MAX_RESULTS + ' sind aufgelistet)' : '');
     box.appendChild(h('p', { 'class': 'tr-results-info', role: 'status', text: info }));
     var ul = h('ul', { 'class': 'tr-results-list' });
-    hits.slice(0, MAX_RESULTS).forEach(function (id) {
+    hits.slice(0, MAX_RESULTS).forEach(function (hit) {
+      var id = hit.id;
       var b = h('button', { type: 'button', 'class': 'tr-result' });
-      b.appendChild(h('span', { 'class': 'tr-result-name' }, mark(label(id), q)));
+      if (hit.alt) {
+        b.appendChild(h('span', { 'class': 'tr-result-alt', title: 'Alternativbezeichnung' }, mark(hit.alt, q), ' → '));
+        b.appendChild(h('span', { 'class': 'tr-result-name' }, label(id)));
+      } else {
+        b.appendChild(h('span', { 'class': 'tr-result-name' }, mark(label(id), q)));
+      }
       var sub = [];
       if (C[id].l.en && C[id].l.en !== C[id].l.de) sub.push(C[id].l.en);
       var ps = C[id].p || [];
+      if (hit.alt) sub.unshift('Alternativbezeichnung');
       sub.push(ps.length ? 'unter: ' + ps.map(label).join(', ') : 'oberste Kategorie');
       b.appendChild(h('span', { 'class': 'tr-result-sub', text: sub.join(' · ') }));
       b.addEventListener('click', function () { select(id, true); });
