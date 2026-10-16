@@ -20,6 +20,8 @@ Verdichtet 14.10. und 16.10.2026. Zahlen sind Eingabe, vor Gebrauch nachmessen.
 
 **Wortart:** kein Skript vergleicht Token-@pos mit gramGrp; Legacy-Tag ART fällt aus NP-Start-Mengen heraus.
 
+**Pronomen nach `orth` suchen:** das Personalpronomen 2. Sg. ist `dû` (`lemma_1242`, ART/POS/PRO), `du` (`lemma_1241`) ist PRP. Eine Liste `{'ich','wir','du','ir'}` trifft deshalb nur ich/ir/wir (#603 `vorsortieren-603.py`, Regel M1). Jede orth-Liste gegen den Lexikonbestand ausgeben lassen, bevor eine Regel darauf steht.
+
 **Ziffernlemmata:** seit `claude/228-ziffern` nur noch lemma_53328 „1" (Belege alle NEIM, #453); alle Ziffernschlüssel im Laufzeit-Wörterbuch zeigen darauf. hapax-legomena.spec.js ankert auf ein Orakel aus den Indexen. Außerhalb des Diffs veraltend: CONTRACTS.md C.1.2 („4 lemmata ... 78 keys"), Kommentar `passesFilters` in hapax-legomena.js.
 
 **Reine Wortbestandteile (#228, `component-only.js`, `noCorpus`)**
