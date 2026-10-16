@@ -5,7 +5,7 @@ Zwei Subagenten, die dieses Projekt in seinen Regeln namentlich nennt:
 | Datei | Agent | Wofür |
 |---|---|---|
 | `reviewer.md` | `reviewer` | Der Review-Lauf vor dem ersten Push jedes PR-Zweigs (`CLAUDE.md` → Git Rules, `docs/playbooks/BETRIEBSVERTRAG.md` Regel 11) |
-| `fable-advisor.md` | `fable-advisor` | Zweitmeinung bei offenen Entwurfsfragen. **Nicht** auf einem fertigen Diff: dort erzeugt er Runden ohne Verhaltensänderung |
+| `advisor.md` | `advisor` | Zweitmeinung bei offenen Entwurfsfragen, per Vorgabe auf Opus (bis 16.10.2026 `fable-advisor` auf Fable). **Nicht** auf einem fertigen Diff: dort erzeugt er Runden ohne Verhaltensänderung |
 
 ## Warum das eingecheckt ist
 
@@ -17,7 +17,7 @@ Auf einem Rechner mit eigenem Claude-Code-Setup ändert das etwas, und zwar mehr
 
 ## Die Kopie und ihr Preis
 
-Diese zwei Dateien sind **eine Kopie**. Sie stammen aus `chsteiner/claude-code-setup` (privat, `agents/`), Stand `ef3abe9` vom 15.10.2026, kopiert am 15.10.2026 (seit `9f133d4` verlangt die Beschreibung des Reviewers zu jeder Zahl, jedem „wörtlich“ und jeder Allaussage, die ein Diff neu schreibt, eine Zeile Belegtabelle mit Befehl und Ausgabe, und der Reviewer meldet eine fehlende Zeile als „Beleg fehlt“, Vorgang `chsteiner/claude-code-setup#85`; davor `bf4f6ef` vom 14.10.2026, seit dem nimmt die Beschreibung des Reviewers auch Kleines vom Gate aus: eine Stelle, in einem Zug fertig, nichts, was läuft oder anweist, nie Code, Daten, Hooks, Regeltext oder ein schwer umkehrbarer Schritt; davor `ddfc600` vom 13.10.2026, seit dem nimmt die Beschreibung des Reviewers Einträge im Verzeichnisbaum einer `CLAUDE.md` vom Gate aus; davor `e5868be` vom 13.10.2026; davor `8b7d068` vom 12.10.2026; seit `fae60a3` prüft jede Folgerunde das Delta von der Kennung aus, die die Vorrunde gemeldet hat, und die Fallgeschichten liegen in `agents/belege/reviewer.md` der Sammlung, das nicht mitkopiert wird; vorher `9b033c8` vom 02.09.2026, kopiert am 07.09.2026; seit `8b51c33` heißt der Reviewer `reviewer` statt `fable-reviewer` und läuft per Vorgabe auf Opus), und dort werden sie gepflegt. Maßgeblich für den Abgleich ist der Quell-Commit, nicht der Kopiertag: wer später vergleicht, will wissen, welcher Stand der Sammlung hier liegt, und nicht, wann jemand `cp` getippt hat. Beide Bestände können auseinanderlaufen, und nichts prüft das: das Herkunftsrepositorium ist privat und steht der CI nicht zur Verfügung.
+Diese zwei Dateien sind **eine Kopie**. Sie stammen aus `chsteiner/claude-code-setup` (privat, `agents/`), Stand `006520f` vom 16.10.2026, kopiert am 16.10.2026 (seit `a144823` heißt der Berater `advisor` statt `fable-advisor` und läuft per Vorgabe auf Opus, sein Memory liegt unter `~/.claude/agent-memory/advisor/`; seit demselben Commit bekommt der Reviewer `model: fable` nur noch auf Christians Zuruf statt bei Regeltext, Hooks und schwer umkehrbaren Schritten, seit `afcea5b` auch, wo eine Projektregel anhebt; seit `f66477a` gibt es keine zusätzliche Fable-Runde 1 im Probelauf mehr, `chsteiner/claude-code-setup#82` ist beendet; davor `ef3abe9` vom 15.10.2026, seit `9f133d4` verlangt die Beschreibung des Reviewers zu jeder Zahl, jedem „wörtlich“ und jeder Allaussage, die ein Diff neu schreibt, eine Zeile Belegtabelle mit Befehl und Ausgabe, und der Reviewer meldet eine fehlende Zeile als „Beleg fehlt“, Vorgang `chsteiner/claude-code-setup#85`; davor `bf4f6ef` vom 14.10.2026, seit dem nimmt die Beschreibung des Reviewers auch Kleines vom Gate aus: eine Stelle, in einem Zug fertig, nichts, was läuft oder anweist, nie Code, Daten, Hooks, Regeltext oder ein schwer umkehrbarer Schritt; davor `ddfc600` vom 13.10.2026, seit dem nimmt die Beschreibung des Reviewers Einträge im Verzeichnisbaum einer `CLAUDE.md` vom Gate aus; davor `e5868be` vom 13.10.2026; davor `8b7d068` vom 12.10.2026; seit `fae60a3` prüft jede Folgerunde das Delta von der Kennung aus, die die Vorrunde gemeldet hat, und die Fallgeschichten liegen in `agents/belege/reviewer.md` der Sammlung, das nicht mitkopiert wird; vorher `9b033c8` vom 02.09.2026, kopiert am 07.09.2026; seit `8b51c33` heißt der Reviewer `reviewer` statt `fable-reviewer` und läuft per Vorgabe auf Opus), und dort werden sie gepflegt. Maßgeblich für den Abgleich ist der Quell-Commit, nicht der Kopiertag: wer später vergleicht, will wissen, welcher Stand der Sammlung hier liegt, und nicht, wann jemand `cp` getippt hat. Beide Bestände können auseinanderlaufen, und nichts prüft das: das Herkunftsrepositorium ist privat und steht der CI nicht zur Verfügung.
 
 Das ist der Preis, der bei der Entscheidung bekannt war. Er wird bezahlt, weil die Alternative kein zweiter Bestand war, sondern gar keiner.
 
@@ -25,7 +25,7 @@ Wer beide Repositorien offen hat, gleicht so ab:
 
 ```bash
 diff -u <setup>/agents/reviewer.md .claude/agents/reviewer.md
-diff -u <setup>/agents/fable-advisor.md  .claude/agents/fable-advisor.md
+diff -u <setup>/agents/advisor.md  .claude/agents/advisor.md
 ```
 
 Ist die Sammlung weiter, kopieren und den Stand oben mitziehen. Ist diese Kopie weiter, was vorkommen kann, wenn jemand hier etwas projektspezifisch geschärft hat, gehört die Änderung zurück in die Sammlung, sonst ist sie beim nächsten Abgleich weg.
