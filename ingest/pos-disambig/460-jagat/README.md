@@ -60,4 +60,4 @@ Umsetzung: `scripts/ingest/pos-disambig/apply-460-461-rest.py`. Die Spalten `Ent
 | `AXU_18452_5` | `jaget` | braucht mehr Kontext | unverändert, Frage mit breiterem Fenster im Ticket |
 | `JT_48611000_4` | `jagenes` | vermutlich Verb + Pronomen (jagen + ez), braucht mehr Kontext | unverändert, Frage wie oben |
 
-Stand danach, gemessen am 2026-10-16 (alle `<w>` in `tei/`, in deren `@lemmaRef` der Lemma-Bezeichner als ganzes Token steht): `lemma_3103` 38 Tokens (35 Substantive, 3 offene: `WVW_6542_4` als Nomen entschieden, `AXU_18452_5` und `JT_48611000_4` offen), `lemma_3102` 1.553 Tokens (1.406 vor der ersten Runde, +145, +2).
+Stand danach, gemessen am 2026-10-16 (alle `<w>` in `tei/`, in deren `@lemmaRef` der Lemma-Bezeichner als ganzes Token steht): `lemma_3103` 38 Tokens (36 Substantive, davon `WVW_6542_4` von KZW als Nomen entschieden; 2 offene: `AXU_18452_5` und `JT_48611000_4`), `lemma_3102` 1.553 Tokens (1.406 vor der ersten Runde, +145, +2).
