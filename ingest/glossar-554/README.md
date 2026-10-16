@@ -73,3 +73,34 @@ python -E -P scripts/ingest/glossar-554/ordne-lemmata-zu.py sources/glossar-koch
 Der zweite Lauf liest alle 667 Korpusdateien und braucht gut drei Minuten. Er ist
 deterministisch; ändert sich der Lemmabestand oder der Korpus, ändern sich Belegzahlen und
 Kandidaten, und die Dateien hier sind dann ein Stand von gestern.
+
+## Zotero-Abgleich der zitierten Literatur (`zotero-abgleich.tsv`, 16.10.2026)
+
+Prüfmaterial, keine Entscheidung. Für jedes Werk aus [`literatur.tsv`](literatur.tsv) (76 `werk_id`) wurde in den beiden Zotero-Gruppen gesucht, ob es dort schon steht: 5043625 (Werk-Editionen) und 4876216 (Textreihen). Je Werk und Gruppe eine Zeile, zusammen 152. Der Abgleich ist lesend (nur GET auf die öffentliche API, Pause zwischen den Anfragen); es wurde nichts in Zotero angelegt oder geändert.
+
+Spalten: `werk` (Werk und `werk_id`), `anzahl_zitate`, `klasse`, `gruppe`, `item_key` (Zotero-Schlüssel der Kandidaten, durch ` | ` getrennt, höchstens sechs), `zotero_titel`, `zotero_jahr`, `bemerkung` (warum diese Klasse).
+
+| Klasse | Zeilen | Bedeutung |
+|---|--:|---|
+| `vorhanden` | 5 | genau ein Kandidat, und der Titel enthält die Titelstichwörter des Werks oder Nachname und ein Jahr aus dem Satz der Glossarstelle passen; oder mehrere Kandidaten, von denen genau einer das Jahr trägt (dann steht er zuerst) |
+| `wahrscheinlich` | 40 | der Nachname kommt als Teilstring im Nachnamen eines Zotero-Eintrags vor (ohne Jahr), oder mehrere Kandidaten ohne eindeutigen Treffer, auch über Titelstichwörter bei Werken ohne Nachname (gezählt aus der Spalte `bemerkung`: 11 Zeilen „nur Nachname trifft“, 29 „N Kandidaten, nicht eindeutig“) |
+| `fehlt` | 107 | kein Kandidat passt auf Nachname oder Titelstichwort; in 102 Zeilen hat die Suche gar nichts gefunden, in 5 etwas (Falke 3, Alfred Neumann 3, Steinbauer 1, Zeppezauer 48 und 1), das auf kein Kriterium passt |
+
+5 + 40 + 107 = 152. Nach Gruppe: Werk-Editionen 5 `vorhanden`, 33 `wahrscheinlich`, 38 `fehlt` (= 76); Textreihen 0 `vorhanden`, 7 `wahrscheinlich`, 69 `fehlt` (= 76).
+
+**Grenzen.** `wahrscheinlich` ist ein Teilstring-Treffer und kein Fund: Bech trifft Bechstein, Kern trifft Wackernagel, Klug trifft Kluge, Olt trifft Hetzbolt und Holtorf, und bei Werken ohne Nachnamen trifft ein Titelstichwort fremde Titel (dwb trifft auch das Mittelhochdeutsche Wörterbuch). Es ist kein Beleg dafür, dass es dasselbe Werk ist. Auch `vorhanden` ist eine Heuristik (Titelstichwort oder Nachname plus Jahr), keine Prüfung des Eintrags. Die Suche nutzt `qmode=titleCreatorYear` mit höchstens 50 Treffern je Anfrage; ein Werk mit anderer Schreibung des Namens fällt durch (`fehlt`). Wer eines übernimmt, schlägt den Eintrag in Zotero auf. Die Rohantworten der API liegen nicht im Repo. Erzeugt von `scripts/review/zotero-abgleich-554.py`, das beim Prüfen nicht neu gelaufen ist, weil es das Netz braucht.
+
+## Klug-Verweise: Urteile je Lemma und Pflanzenseite (`klug-links.tsv`, `klug-urteile.tsv`, 16.10.2026)
+
+Zu B5 in [UEBERNAHME.md](UEBERNAHME.md): für Lemmata aus [`klug-pflanzen.tsv`](klug-pflanzen.tsv) (plus ein Kontrollwert aus [`klug-abgleich.tsv`](klug-abgleich.tsv), brestelinc zu gartenerdbeere) ein Urteil, ob das Lemma zur Pflanzenseite des Portals „Pflanzen des Mittelalters“ passt. Prüfmaterial, keine Entscheidung; die Urteile sind maschinell vorbereitet und nicht von KZW geprüft.
+
+| Datei | Inhalt | Zeilen |
+|---|---|--:|
+| `klug-urteile.tsv` | **Eingabe, Urteile eines Agenten:** `lemma_id`, `kennung`, `urteil`, `begruendung`, `belege_ids` (durch Leerzeichen getrennt). Die erste Zeile mit `#` ist Kopf | 28 |
+| `klug-links.tsv` | **Ausgabe** aus den Urteilen: `lemma_id`, `orth`, `pflanzenseite_titel`, `kennung` (`mps:<Seitenkennung>`), `url`, `urteil`, `begruendung`, `konzepte` (Bedeutungen des Lemmas mit ihren Konzepten), `belege_ids` | 28 |
+
+28 Paare aus Lemma und Pflanzenseite, 27 verschiedene Lemmata (`lemma_261` apfel steht mit zwei Seiten, `apfel-3` und `apfel-eine-art-von`) auf 13 verschiedene Pflanzenseiten. Urteile: `passt` 24, `passt nicht` 2 (koste, wolgemuot: beide gegen die Seite gewöhnlicher Dost), `unklar` 2 (lantwîn, wîn: gegen die Seite Echter Weinstock; gemeint ist überwiegend das Getränk, nicht die Pflanze). 24 + 2 + 2 = 28.
+
+**Grenzen.** Ein Urteil beruht auf einer Stichprobe von Belegen: in 17 Zeilen drei, in 9 einer, in einer zwei, in einer keiner (`lemma_47136`, 0 Belege im Korpus, Urteil nur aus dem Lexikon), also nicht auf allen Belegen des Lemmas. `passt` heißt: die gelesenen Belege meinen die Pflanze, nicht dass jeder Beleg es tut. Die Seitentitel stammen von den Pflanzenseiten selbst.
+
+**Entschieden ist die Form des Verweises, nicht die Übernahme von Daten:** Wird später ein Verweis gebaut, trägt er die Kennung der Pflanzenseite (`mps:...`), nicht die URL; die URL steht in `klug-links.tsv` nur als Prüfhilfe. Es werden keine Inhalte der Seiten übernommen (UEBERNAHME.md B5: nur Titel, URLs und unsere Zuordnungen). Festgelegt von chsteiner am 16.10.2026, festgehalten in [#554, Kommentar vom 16.10.](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/554#issuecomment-6209772625); in diesem Lauf wird nur die Prüfliste gebaut, kein Schema und keine Anzeige. Erzeugt von `scripts/review/klug-links-554.py`. Der Schritt Urteile zu `klug-links.tsv` läuft ohne Netz (`--nur-urteile --aus <Ordner außerhalb des Repos>`; der Ordner ist Pflicht, das Ergebnis wird bewusst nach hier kopiert). Das Skript bricht ab, wenn ein Urteil nicht `passt`, `passt nicht` oder `unklar` heißt, ein Paar doppelt steht oder eine Zeile nicht vier bis fünf Felder hat; die Tabellen tragen keine CSV-Anführungszeichen, ein `"` im Text ist ein `"`. Der Abruf der Seiten (Phase 1) braucht Netz und ist beim Prüfen nicht gelaufen.

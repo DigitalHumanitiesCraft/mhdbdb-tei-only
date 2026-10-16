@@ -96,7 +96,7 @@ scripts/
 │   ├── find-mentions.py         # Erwähnende Publikationen suchen → Zotero „Zu prüfen"
 │   └── sync_tei_headers.py      # Authority Files → TEI-Header
 │
-├── review/                      # Kuratorische Prüfseiten, eine HTML-Datei zum Verschicken (#443)
+├── review/                      # Kuratorische Prüfseiten (eine HTML-Datei zum Verschicken, #443) und Prüflisten als TSV
 │                                # Dateien siehe review/README.md
 │
 └── _archived/                   # Referenz, nicht ausführen
@@ -211,16 +211,19 @@ Spiegelt aus `works.xml` in die TEI-Header (667 Dateien): die Werk-Identifier im
 - `--all` läuft für `works` über denselben chirurgischen Pfad wie `--works`. Das ist kein Detail: bis zur Reviewrunde vom 07.09. fiel `--all` still in den alten lxml-Weg und hätte die 19 `mwb-sigle` gelöscht, ohne dass ein Gate angeschlagen hätte.
 - `--persons`, `--genres`, `--concepts` sind deklarierte Stubs. `main()` weist sie ab, bevor eine Klasse instanziiert wird: Fehlermeldung, Exit 1, kein Traceback. Unter `--all` werden sie mit einer Warnung übersprungen. Das `NotImplementedError` in den Klassen ist nur beim direkten Aufruf erreichbar.
 
-## review/: Kuratorische Prüfseiten
+## review/: Kuratorische Prüfseiten und Prüflisten
 
 Generatoren für Seiten, die an eine Fachwissenschaftlerin gehen und dort ohne
-Installation im Browser geöffnet werden. Das Gegenstück zu `audit/`: dort steht,
-was eine Maschine entscheiden kann, hier das, was eine Person entscheiden muss.
+Installation im Browser geöffnet werden, dazu Skripte, die Prüflisten als TSV
+erzeugen. Das Gegenstück zu `audit/`: dort steht, was eine Maschine entscheiden
+kann, hier das, was eine Person entscheiden muss.
 
 Die ausführliche Beschreibung des Formats, seiner Spec-Felder und der einen
 Entscheidung, die es trägt, steht in [`review/README.md`](review/README.md).
 Das erzeugte Material liegt nicht hier, sondern neben seinen Daten unter
-`ingest/review/<vorgang>/`.
+`ingest/review/<vorgang>/` oder, bei den TSV-Prüflisten, unter
+`ingest/<bereich>/<vorgang>/` (etwa `ingest/pos-disambig/462-pos/`,
+`ingest/glossar-554/`).
 
 ### `review_page.py`
 Das Prüfseiten-Format aus #443. Nimmt eine Fallliste entgegen und gibt eine
