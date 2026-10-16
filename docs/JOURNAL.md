@@ -22,7 +22,7 @@ Chronological log of development decisions, dead ends, and savepoints. Not a cha
 - Hinweis an KZW: `JSG_410_1` (Riesin) verliert mit dem Sensewechsel das Tod-Konzept, obwohl sie als Tote gemeint ist; das gehört zu Frage 3.
 - `trockenlauf-auswerten.py` lief vor diesem Eintrag, der Kontrollwert hat gefeuert (73 Zeilen nicht auswertbar); die Zahlen dort sind eine Untergrenze, keine Messung, und der Hook ist nachzusehen, bevor jemand sie zitiert.
 
-**Review:** Fable. Runde 1 auf 5af8af2ba: kein A-Befund; B (DRE-Begründung) und C (Zählung in README 460) nachgemessen und behoben. Runde 2 (erste schmale) auf fe2ea471f: kein A-Befund, drei B-Befunde (Versangabe zu kurz, behoben; Spaltennummer im Auftrag verschoben und fehlende Belegtabelle im Auftrag, beides ohne Änderung im Diff). Runde 3 (zweite schmale) auf dem Stand mit Versangabe und Journal: siehe unten.
+**Review:** Fable. Runde 1 auf 5af8af2ba: kein A-Befund; B (DRE-Begründung) und C (Zählung in README 460) nachgemessen und behoben. Runde 2 (erste schmale) auf fe2ea471f: kein A-Befund, drei B-Befunde (Versangabe zu kurz, behoben; Spaltennummer im Auftrag verschoben und fehlende Belegtabelle im Auftrag, beides ohne Änderung im Diff). Runde 3 (zweite schmale) auf 49bb8d8bc: kein A-Befund, drei B-Befunde (der Kettenzeiger in Fehlerjournal 138 war mit 61 statt 119 falsch und zu früh abgebrochen, behoben; ein Platzhalter in diesem Absatz, behoben; eine unvollständige Belegtabelle im Auftrag). Nach der zweiten schmalen Runde ohne A-Befund ist ohne weitere Runde gepusht.
 
 ---
 
