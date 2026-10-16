@@ -4,6 +4,28 @@ Chronological log of development decisions, dead ends, and savepoints. Not a cha
 
 ---
 
+## 2026-10-16 (Spur lauf-1016-daten): jagât-Rest und gebeine nach KZWs Antworten (#460, #461)
+
+**Was:** KZWs Antworten vom 15.10.2026 sind umgesetzt. #460: `WH_28126_1` (jaget) und `JT_43134000_4` (jagennes) von `lemma_3103` jagât auf `lemma_3102` jagen (`@pos="VRB"`, ohne `@ana`); `WVW_6542_4` bleibt Nomen, `AXU_18452_5` und `JT_48611000_4` bleiben unverändert (KZW braucht mehr Kontext). `lemma_3103` trägt danach 38 Tokens, `lemma_3102` 1.553. #461: `lemma_1958` gebeine hat zwei neue Senses, `sense_119198` (Vögel, `concept_14021100`, Hahn `AMI_972_3`) und `sense_119199` (Fische, `concept_14031100`, `FLG1_4135180940_2`); die 9 offenen Belege kommen nach KZWs Regel an `sense_49690` (8 Tokens ändern sich, `NAR_9400900_3` trug ihn schon; `JSG_410_1` wechselt von `sense_3004` und verliert das Tod-Konzept). Drache und Phönix bleiben unverändert. Corpus Index 4.2.34, Authority Index 1.9.28; 12 Tokens in 10 TEI-Dateien. Umsetzung: `scripts/ingest/pos-disambig/apply-460-461-rest.py`, Belege mit Entscheidung und Quelle in den Tabellen der beiden `ingest/`-Ordner.
+
+**Was über den Einzelfall hinausgilt:**
+- Die drei "Würfelknochen" in DRE sind menschlich: die Würfel sind aus den Stockzähnen des Ritters gemacht (`tei/DRE.tei.xml`, V. 36, 117 und 122 bis 126). Die Einstufung vom 10.10. las nur V. 137 bis 217 und hielt die Herkunft für nicht genannt; meine Bestätigung ("kein Tier genannt") stützte sich auf dasselbe Fenster. Ergebnis (`sense_49690`) bleibt, die Begründung war falsch. Eine Herkunftsfrage ("woraus ist es gemacht") wird am Anfang der Episode gesucht, nicht in dem Fenster, in dem das Wort vorkommt.
+- Die Tabelle vom 10.10. behauptete für `NAR_9303540_3` "Sense 49690 gesetzt"; im TEI trug nur `NAR_9400900_3` den Sense. Eine Zustandsangabe in einer Arbeitstabelle ist eine Behauptung, bis das TEI sie trägt.
+- Der Auftrag nannte "Authority 1.9.27, Corpus 4.2.33" als Ziel der Basis + 1; das war der Stand von `origin/main`. Die Koordination hat es bestätigt (G2), die Versionen sind 1.9.28 und 4.2.34.
+- Die Flip-Quittung `scripts/audit/variants-flips-ack.json` liegt unter dem eingefrorenen `scripts/audit/`, ist aber gitignoriert und wird mit `git add -f` aufgenommen, wie bei #554; die Koordination hat sie als benannte Ausnahme bestätigt.
+- Sense-Nummern: die höchste war nicht mehr 119196, sondern 119197 (`lemma_79829_sense_119197`, #554). Vor dem Vergeben messen, nicht aus der Vorgängerarbeit übernehmen.
+
+**Rote Zeilen:** Eine, Nr. 138 (Herkunft am Fenster statt an der Episode gesucht und der Koordination als Befund gemeldet).
+
+**Was zurück an Christian geht:**
+- Die Fragen an KZW (nach Merge und Deploy): Drache und Phönix direkt an `concept_14100000` "Fantastische Tiere" oder ein neues Körper-Unterkonzept; Frage 3 (Tod-Konzept an `sense_3004`) mit Belegen eines lebenden Körpers; in #460 der längere Kontext zu `AXU_18452_5` und `JT_48611000_4`.
+- Hinweis an KZW: `JSG_410_1` (Riesin) verliert mit dem Sensewechsel das Tod-Konzept, obwohl sie als Tote gemeint ist; das gehört zu Frage 3.
+- `trockenlauf-auswerten.py` lief vor diesem Eintrag, der Kontrollwert hat gefeuert (73 Zeilen nicht auswertbar); die Zahlen dort sind eine Untergrenze, keine Messung, und der Hook ist nachzusehen, bevor jemand sie zitiert.
+
+**Review:** Fable. Runde 1 auf 5af8af2ba: kein A-Befund; B (DRE-Begründung) und C (Zählung in README 460) nachgemessen und behoben. Runde 2 (erste schmale) auf fe2ea471f: kein A-Befund, drei B-Befunde (Versangabe zu kurz, behoben; Spaltennummer im Auftrag verschoben und fehlende Belegtabelle im Auftrag, beides ohne Änderung im Diff). Runde 3 (zweite schmale) auf dem Stand mit Versangabe und Journal: siehe unten.
+
+---
+
 ## 2026-10-15 (Spur lauf-554b): KZWs Prüfergebnisse zum Glossar Kochbuchforschung eingearbeitet, briech als neues Lemma (#554)
 
 **Was:** Katharinas 47 Antworten zur Prüfseite (JSON vom 15.10.2026) sind in `lexicon.xml` umgesetzt: 44 Notizen (19 aus Gruppe A, 22 aus B, 1 D, 2 E), letzen verliert eine Bedeutung, naschen tauscht zwei, briech ist ein eigenes Lemma (`lemma_79829`), das einzige Token ZUK_76100_5 hängt von brî darauf um. Authority Index 1.9.27, Corpus Index 4.2.33; die Lemmazahl steigt auf 43.711, Varianteneinträge 42.460, und die Zahl steht in zwölf Doku- und Seitendateien nach. Dazu `ingest/glossar-554/literatur.tsv` (193 Zeilen, 76 Werke, 74 von 138 Notizen mit mindestens einem Zitat; Untergrenze, ungeprüft). Umsetzung je Fall: `ingest/glossar-554/UEBERNAHME.md`, Abschnitt "Einarbeitung der Prüfergebnisse".
