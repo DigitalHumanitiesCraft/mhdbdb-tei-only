@@ -1,6 +1,6 @@
 ---
 name: projekt-playground-frontend
-description: Playground und Frontend im Review: Hash-Pfad bis innerHTML, Multi-Lemma-Suche, Nummernpfad, Werkzeugzustand nach Korpusauswahl, Zählungen, Hilfe/Landing mitlesen, Reader, Auswahlzeile
+description: Playground und Frontend im Review: Hash-Pfad bis innerHTML, Multi-Lemma-Suche, Nummernpfad, Werkzeugzustand nach Korpusauswahl, Zählungen, Hilfe/Landing mitlesen, Reader, Auswahlzeile, Seitenfuß-Logos
 metadata:
   type: project
 ---
@@ -20,6 +20,8 @@ Verdichtet 18.10.2026. Zahlen sind Eingabe, vor Gebrauch nachmessen.
 **Korpusauswahl (#204):** `selectedTextsThunk` liefert nur die Auswahl; Instanzzustand (`state.scope`, `state.result`, `this.selected`) überlebt die Verengung. Bei jeder Änderung an Thunks oder includedTexts `this.state`/`this._*` je Werkzeug durchgehen. `_corpusAgg` (Hapax) und `_textById` (Reim) hängen am ungefilterten Thunk. Leer-Guard „Kein Text ausgewählt" (#539): Werkzeuge mit Suchfeld löschen dort, die ohne stempeln davor.
 
 
+
+**Seitenfuß und Logos (#93, 18.10.):** Footer-Quelle ist `includes/_footer.html`; `build-pages.py --check` zählt alle Seiten mit Chrome-Region (auch Matomo-only), die Footer-Seiten zählt `rg -l "FOOTER" -g "*.html"`. Logodateien sind nur `assets/images/*-logo.*` und `textreihen/img/logo-*`; die Logozeile der Textreihen-Startseite (`tr-logos`) trägt Breite/Höhe als Attribute, der Footer nicht. Altes Logo im Hauptbaum lesbar, solange er nicht vorgespult ist; PNG-Maße per `git show <rev>:<pfad> | python -I -c` mit struct aus Bytes 16-24.
 
 **Lesepanel der Hauptseite schließen (#434):** der Kopf hat vier Felder, die populateModal setzt (`readingTitle`, `readingAuthor`, `readingMetadata`, `readingBody`); app.js `showEmptyState` leert nur Titel und Body. Jeder neue Schließ-/Reset-Pfad: alle vier gegen populateModal halten. `lastSearchTerm` wird in `handleSearch` VOR dem `try` gesetzt: jeder neue Leser gegen beide Rückgabe-false-Pfade halten. Specs mit `minne` öffnen einen Großtext: feste `waitForTimeout` sind dort als Negativprobe nicht trennscharf.
 
