@@ -4,6 +4,24 @@ Chronological log of development decisions, dead ends, and savepoints. Not a cha
 
 ---
 
+## 2026-10-18 (Spur lauf-1018-daten, D4): Glossar #554, Datenteil
+
+**Was:** Nach KZWs Entscheidungen vom 16.10.2026: brî ohne ADJ, der Verweis auf lêrchenvuoʒ bei lêrche entfällt (kein Korpusbeleg, auch nicht getrennt), 9 nagel-Belege im Gewürzkontext tragen jetzt `@ana` auf `lemma_4302_sense_6725`, 17 Tokens von trûbe sind am Token geprüft und umgehängt (13 Adjektive auf trüebe, 4 Verben auf trüeben, altes `@ana` entfällt; 4 Belege bleiben offen: HIS_98_2, WZB_79rb_15_5, FR1_2007050_8, ROT_19160_2). 11 historische MHDBDB-Trefferzahlen in 9 Glossarkommentaren sind durch Messungen am heutigen Korpus ersetzt (`scripts/review/messen-554-zahlen.py`). lôr/lôrber: Befund, nichts umgehängt (lôrber, 7 Belege, ist das Ziel, ergänzt um lôrboum). Indexe Authority 1.9.31, Corpus 4.2.36, fünf neue Variantentypen `type_372861` bis `type_372865`, ein Flip (trube) quittiert.
+
+**Was über den Einzelfall hinausgilt:**
+- Eine Zählung über `@lemmaRef` ist keine Zählung des Textes. Die Messung rôt+rôse ergibt 48 Verszeilen, die alte MHDBDB-Zahl 116; die Differenz sind rôse-Belege neben unannotierten rôt-Formen. Die Kommentarsätze sagen deshalb, dass nur mit Lemma annotierte Wörter gezählt sind.
+- WZB ist Prosa und nutzt `<l>` als Satzeinheit (Handschriftenzeile in `<lb/>`): eine "Verszeile" ist ein `<l>` in einem Text ohne `<lb/>`. Sonst steht hungerc mit 41 statt 39 in Verszeilen.
+- Die Aufteilung "innerhalb der Dichtung" bei wîn und brôt entfällt: sie hat keine reproduzierbare Definition.
+- Aus dem Satz im Kommentar zu wîn ("brôt zählt zu den häufigsten Wörtern in Zwillingsformeln", gefolgt von "wîn und") ist ersichtlich, dass der Text aus dem brôt-Kommentar übernommen wurde; nicht verändert.
+
+**Rote Zeilen:** keine.
+
+**Was zurück an Christian geht:** nichts; die offenen Belege und zwei nicht angefasste Altzahlen (salse: MPS-Suche; visch+haben: Lesung der Stellen) gehen als Frage an KZW in #554.
+
+**Review:** Runde 1 (Opus, voll) auf `0160e7125`: kein A, vier B (Zählsätze, "unmittelbar vor", hungerc, CONTRACTS-Zahlen), behoben. Runde 2 (schmal): kein A, drei B (WZB als Prosa, DATA-MODEL 4,976, Kopfzeile), behoben. Runde 3 (schmal) auf `b80f823f2`: kein Befund. Voller `npm test` auf `0160e7125` grün (528 Tests), Teillauf nach den Folgecommits grün (76 Tests, 8 Specs: Lemmaseite, Kommentare, Lemma-ID-Suche, Varianten, Playground, Wörterbuch). Der Reviewer beendete in Runde 1 mit `taskkill /IM python.exe` einen eigenen Lauf und möglicherweise Python-Läufe anderer Spuren.
+
+---
+
 ## 2026-10-18 (Spur lauf-1018-daten, D5): Zotero-Kette FR3 und FLG/FLG1 (#486)
 
 **Was:** Nach KZWs Entscheidungen vom 16.10.2026 sind die zwei Zotero-Einträge geschrieben: `MVWV5QYG` (FR3) auf das Supplement von 2000 (Haustein/Stackmann, ISBN 3-525-82504-8, Reihe 232; Version 1563 auf 2962) und `ATWPNQPS` (FLG1/FLG) auf den Textband 1990 mit Gisela Vollmann-Profe (Artemis, München; 1563 auf 2963). Danach Online-Sync: in `works.xml` ändern sich nur die drei `biblStruct` FLG, FLG1, FR3; Header-Sync auf `tei/FLG`, `FLG1`, `FR3`. `BESTAND_BEHALTEN` ist `{'FLG': ('analytic','note'), 'FR3': ('analytic','note')}`, Authority-Index 1.9.30 (Corpus unverändert 4.2.35). Rückweg: das Item-JSON beider Einträge vor dem Schreiben steht im PR-Body.
