@@ -1,0 +1,51 @@
+/* ONAMA-Narrativ-Explorer (Pilot, #609). Eigene Klassen mit Praefix on-, damit
+   die vorgebaute Tailwind-Ausgabe (assets/css) nicht neu gebaut werden muss.
+   Farben wie die Marke (brand) und slate in tailwind.config.js. */
+
+.on-wrap { display: flex; flex-direction: column; gap: 1rem; }
+.on-box { border: 1px solid #e2e8f0; border-radius: 1rem; background: #fff; padding: 1rem; }
+.on-box-soft { border: 1px solid #e2e8f0; border-radius: 1rem; background: rgba(248, 250, 252, 0.7); padding: 1rem; }
+.on-h { font-size: 0.875rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #64748b; margin: 0; }
+.on-h2 { font-size: 1rem; font-weight: 600; color: #0f172a; margin: 0; }
+.on-h3 { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #64748b; margin: 0 0 0.375rem 0; }
+.on-text { font-size: 0.8125rem; color: #334155; line-height: 1.5; }
+.on-small { font-size: 0.75rem; color: #64748b; line-height: 1.45; }
+.on-mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.75rem; }
+.on-stack { display: flex; flex-direction: column; gap: 0.75rem; }
+.on-row { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+.on-grid { display: grid; gap: 0.75rem; grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)); }
+.on-banner { border: 1px solid #fcd34d; background: #fffbeb; color: #78350f; border-radius: 0.75rem; padding: 0.625rem 0.875rem; font-size: 0.75rem; line-height: 1.5; }
+.on-badge { display: inline-block; border: 1px solid #cbd5e1; border-radius: 0.375rem; padding: 0.0625rem 0.375rem; font-size: 0.6875rem; background: #f8fafc; color: #475569; }
+.on-badge-brand { border-color: #c0d3f4; background: #f1f5fd; color: #1f4aa2; }
+.on-badge-ok { border-color: #a7f3d0; background: #ecfdf5; color: #065f46; }
+.on-badge-warn { border-color: #fcd34d; background: #fffbeb; color: #92400e; }
+.on-badge-bad { border-color: #fca5a5; background: #fef2f2; color: #991b1b; }
+.on-tabs { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.on-tab { border: 1px solid #e2e8f0; border-radius: 9999px; padding: 0.25rem 0.75rem; font-size: 0.75rem; font-weight: 500; background: #fff; color: #475569; cursor: pointer; }
+.on-tab:hover { border-color: #96b3ec; }
+.on-tab[aria-pressed="true"] { border-color: #6690e3; background: #f1f5fd; color: #1f4aa2; }
+.on-input { width: 100%; border: 1px solid #e2e8f0; border-radius: 0.5rem; background: #fff; padding: 0.5rem 0.75rem; font-size: 0.875rem; }
+.on-input:focus { outline: none; border-color: #6690e3; }
+.on-list { list-style: none; margin: 0; padding: 0; max-height: 18rem; overflow-y: auto; border: 1px solid #e2e8f0; border-radius: 0.75rem; background: #fff; }
+.on-list li { margin: 0; }
+.on-item { display: flex; width: 100%; justify-content: space-between; gap: 0.75rem; text-align: left; border: 0; border-top: 1px solid #f1f5f9; background: transparent; padding: 0.4375rem 0.75rem; font-size: 0.8125rem; color: #334155; cursor: pointer; }
+.on-list li:first-child .on-item { border-top: 0; }
+.on-item:hover { background: #f1f5fd; color: #1f4aa2; }
+.on-item[aria-current="true"] { background: #f1f5fd; color: #1f4aa2; font-weight: 600; }
+.on-count { color: #94a3b8; font-variant-numeric: tabular-nums; }
+.on-card { border: 1px solid #e2e8f0; border-radius: 1rem; background: #fff; overflow: hidden; }
+.on-card-head { padding: 0.75rem 1rem; background: #f8fafc; border-bottom: 1px solid #e2e8f0; }
+.on-card-body { padding: 0.75rem 1rem; display: flex; flex-direction: column; gap: 0.75rem; }
+.on-layer { border-left: 3px solid #cbd5e1; padding-left: 0.75rem; }
+.on-layer-concept { border-left-color: #6690e3; }
+.on-layer-real { border-left-color: #34d399; }
+.on-table { width: 100%; border-collapse: collapse; font-size: 0.8125rem; }
+.on-table th { text-align: left; font-size: 0.6875rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.04em; color: #64748b; padding: 0.25rem 0.5rem; background: #f8fafc; }
+.on-table td { padding: 0.3125rem 0.5rem; border-top: 1px solid #f1f5f9; vertical-align: top; }
+.on-link { color: #1f4aa2; text-decoration: none; }
+.on-link:hover { text-decoration: underline; }
+.on-btn { border: 1px solid #e2e8f0; border-radius: 0.5rem; background: #fff; padding: 0.1875rem 0.5rem; font-size: 0.75rem; color: #1f4aa2; cursor: pointer; }
+.on-btn:hover { border-color: #96b3ec; }
+.on-details > summary { cursor: pointer; font-size: 0.8125rem; font-weight: 500; color: #334155; }
+.on-fn-gen { border-color: #c4b5fd; background: #f5f3ff; color: #5b21b6; }
+.on-fn-tmp { border-color: #fdba74; background: #fff7ed; color: #9a3412; }

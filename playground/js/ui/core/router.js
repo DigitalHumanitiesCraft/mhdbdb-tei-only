@@ -59,6 +59,7 @@ const ROUTES = {
   'verse-ending-profile': ()     => window.playground.ui.verseEndingProfile.show(),
   'naming':             ()       => window.playground.ui.namingExplorer.show(),
   'horses':             ()       => window.playground.ui.horsesExplorer.show(),
+  'onama':              ()       => window.playground.ui.onamaExplorer.show(),
 };
 
 /**
