@@ -23,3 +23,5 @@ Verdichtet 18.10.2026. Zahlen sind Eingabe, vor Gebrauch nachmessen.
 
 **Lesepanel der Hauptseite schließen (#434):** der Kopf hat vier Felder, die populateModal setzt (`readingTitle`, `readingAuthor`, `readingMetadata`, `readingBody`); app.js `showEmptyState` leert nur Titel und Body. Jeder neue Schließ-/Reset-Pfad: alle vier gegen populateModal halten. `lastSearchTerm` wird in `handleSearch` VOR dem `try` gesetzt: jeder neue Leser gegen beide Rückgabe-false-Pfade halten. Specs mit `minne` öffnen einen Großtext: feste `waitForTimeout` sind dort als Negativprobe nicht trennscharf.
 
+**Messen nach dem Einfügen (#554, 18.10.2026):** eine Funktion, die nach `innerHTML` Layout misst (`clientHeight`, `scrollHeight`), ist auf der Lemmaseite wirkungslos, solange `#lemmaContent` die Klasse `hidden` trägt: `renderLemma` (lemma-page.js ~125) läuft vor dem Aufdecken (~153). Bei jeder Mess-Nachbearbeitung den Aufrufpfad bis zum `classList.remove('hidden')` des Elternteils verfolgen; im Playground deckt `toggleDetails` (SearchHelpers.js) synchron auf, dort greift sie. Specs prüfen meist nur lange Fälle und sehen den Ausfall nicht.
+
