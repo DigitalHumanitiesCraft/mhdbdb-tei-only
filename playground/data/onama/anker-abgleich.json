@@ -1,0 +1,9248 @@
+{
+ "eingaben": {
+  "onama_corpus_commit": "b87468b96e49a8899f15efc8ccb281ac11bb7e07",
+  "onama_datei": "onamaObjects.ttl",
+  "mhdbdb_commit": "a89aaf788c5873eaf48d6720b5fc78dc47c2b2df",
+  "tripel": 27490
+ },
+ "zaehlung": {
+  "textpassagen": 308,
+  "klassen": {
+   "nicht_gefunden": 7,
+   "nichtwort_anker": 9,
+   "umgekehrt": 1,
+   "wortanker": 291
+  },
+  "nichtwort_endpunkte_je_element": {
+   "caesura": 2,
+   "pc": 7
+  },
+  "mit_ungezaehltem_wort_als_endpunkt": {
+   "wortanker": 93,
+   "nichtwort_anker": 1
+  },
+  "von_bis_aussagen_gesamt": 309,
+  "ausserhalb_textpassage": 1,
+  "passagen_an_visueller_realisierung": [
+   "http://onama.sbg.ac.at/object/Q1053-b61afa8d-4857-2ea3-87c9-4c90aa9bcd7f"
+  ]
+ },
+ "passagen": [
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1045-14c84154-4949-f13c-7987-05c2c40a01a7",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1045"
+   ],
+   "von": {
+    "original": "TRH_34000_0",
+    "sigle": "TRH",
+    "gefunden": true,
+    "element": "w",
+    "index": 23808,
+    "wortposition": 14765
+   },
+   "bis": {
+    "original": "TRH_34380_3",
+    "sigle": "TRH",
+    "gefunden": true,
+    "element": "w",
+    "index": 24064,
+    "wortposition": 14932
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    14765,
+    14932
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1053-b61afa8d-4857-2ea3-87c9-4c90aa9bcd7f",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1053"
+   ],
+   "von": {
+    "original": "IW_1202_0",
+    "sigle": "IW",
+    "gefunden": true,
+    "element": "w",
+    "index": 8405,
+    "wortposition": null
+   },
+   "bis": {
+    "original": "IW_1207_2",
+    "sigle": "IW",
+    "gefunden": true,
+    "element": "w",
+    "index": 8447,
+    "wortposition": 5502
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    5477,
+    5502
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1084-499671eb-482e-f3d1-cfc5-968d9782f38e",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1084"
+   ],
+   "von": {
+    "original": "WDB_1644_0",
+    "sigle": "WDB",
+    "gefunden": true,
+    "element": "w",
+    "index": 7773,
+    "wortposition": 4963
+   },
+   "bis": {
+    "original": "WDB_1664_11",
+    "sigle": "WDB",
+    "gefunden": true,
+    "element": "w",
+    "index": 7884,
+    "wortposition": 5034
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    4963,
+    5034
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1088-8c47ad86-42ba-cd9b-52cc-44dc9ea613c4",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1088"
+   ],
+   "von": {
+    "original": "TRO_41699_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 280174,
+    "wortposition": 178555
+   },
+   "bis": {
+    "original": "TRO_41711_7",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 280267,
+    "wortposition": 178619
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    178555,
+    178619
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1120-2e5d47cc-40b3-5f24-b359-a7f231c01785",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1120"
+   ],
+   "von": {
+    "original": "CRO_1514600_0",
+    "sigle": "CRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 119721,
+    "wortposition": null
+   },
+   "bis": {
+    "original": "CRO_1514800_4",
+    "sigle": "CRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 119741,
+    "wortposition": 54932
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    54922,
+    54932
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q117-9231a25c-4a2e-c02e-f169-667467b5ac40",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q117"
+   ],
+   "von": {
+    "original": "TRO_6840_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 46320,
+    "wortposition": 29226
+   },
+   "bis": {
+    "original": "TRO_6848_4",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 46384,
+    "wortposition": 29270
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    29226,
+    29270
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1222-75fa5ea8-4e7e-7860-6760-48a743b01b79",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1222"
+   ],
+   "von": {
+    "original": "TRO_7312_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 49542,
+    "wortposition": 31251
+   },
+   "bis": {
+    "original": "TRO_7315_4",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 49565,
+    "wortposition": 31269
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    31251,
+    31269
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1223-a6f41274-4d6b-ffd8-c3b5-2362049f685d",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1223"
+   ],
+   "von": {
+    "original": "TRO_7346_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 49787,
+    "wortposition": null
+   },
+   "bis": {
+    "original": "TRO_7351_4",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 49826,
+    "wortposition": 31428
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    31407,
+    31428
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1234-fe111814-4721-d3be-e9de-8cd77a32bcc9",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1234"
+   ],
+   "von": {
+    "original": "TRO_9134_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 62209,
+    "wortposition": 39113
+   },
+   "bis": {
+    "original": "TRO_9139_4",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 62242,
+    "wortposition": 39138
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    39113,
+    39138
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1238-106be421-46eb-12fa-449e-0e67276aa070",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1238"
+   ],
+   "von": {
+    "original": "TRO _9617_0",
+    "sigle": "TRO ",
+    "gefunden": false,
+    "grund": "keine TEI-Datei zur Sigle"
+   },
+   "bis": {
+    "original": "TRO_9631_3",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 65617,
+    "wortposition": 41285
+   },
+   "status": "nicht_gefunden"
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1240-457ee432-4f1d-4d6f-756b-a5d89aab9dc5",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1240"
+   ],
+   "von": {
+    "original": "TRO_9634_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 65633,
+    "wortposition": 41295
+   },
+   "bis": {
+    "original": "TRO_9647_3",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 65722,
+    "wortposition": 41357
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    41295,
+    41357
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1243-0e84517f-48ac-9489-9ae4-9374a3622c8e",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1243"
+   ],
+   "von": {
+    "original": "TRO_9664_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 65829,
+    "wortposition": 41430
+   },
+   "bis": {
+    "original": "TRO_9666_3",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 65845,
+    "wortposition": 41443
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    41430,
+    41443
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1248-e615efdd-4cdd-d345-211b-8e623c199832",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1248"
+   ],
+   "von": {
+    "original": "TRO_9727_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 66269,
+    "wortposition": 41724
+   },
+   "bis": {
+    "original": "TRO_9737_2",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 66336,
+    "wortposition": 41775
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    41724,
+    41775
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q125-126a9046-4e84-f731-0d74-094f1762bc65",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q125"
+   ],
+   "von": {
+    "original": "TRY_296_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 2079,
+    "wortposition": 1236
+   },
+   "bis": {
+    "original": "TRY_304_4",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 2135,
+    "wortposition": 1274
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    1236,
+    1274
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1251-aa8f67cc-480f-8a5e-15a4-532f637e1da9",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1251"
+   ],
+   "von": {
+    "original": "TRO_9759_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 66479,
+    "wortposition": 41866
+   },
+   "bis": {
+    "original": "TRO_9764_2",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 66512,
+    "wortposition": 41892
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    41866,
+    41892
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1253-1b9cf8d6-4026-5f39-ea29-e1c6c07b7abc",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1253"
+   ],
+   "von": {
+    "original": "TRO_9764_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 66510,
+    "wortposition": 41890
+   },
+   "bis": {
+    "original": "TRO_9765_5",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 66519,
+    "wortposition": 41898
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    41890,
+    41898
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1254-4e93a4e5-4090-0f0e-7917-aebe1ee22cb0",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1254"
+   ],
+   "von": {
+    "original": "TRO_9958_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 67796,
+    "wortposition": 42745
+   },
+   "bis": {
+    "original": "TRO_9960_4",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 67815,
+    "wortposition": 42762
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    42745,
+    42762
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1256-7d6f3419-4570-2496-4e53-da26583b6d7e",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1256"
+   ],
+   "von": {
+    "original": "TRO_9968_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 67869,
+    "wortposition": 42798
+   },
+   "bis": {
+    "original": "TRO_9975_3",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 67913,
+    "wortposition": null
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    42798,
+    42827
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1258-d6b24bd7-4bcc-f6fc-b62a-4e6954a38670",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1258"
+   ],
+   "von": {
+    "original": "TRO_ 9990_0",
+    "sigle": "TRO",
+    "gefunden": false,
+    "grund": "kein exakter xml:id-Treffer"
+   },
+   "bis": {
+    "original": "TRO_9995_4",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 68041,
+    "wortposition": 42918
+   },
+   "status": "nicht_gefunden"
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1265-c6628587-4f2c-2fb3-0acc-de9534214c66",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1265"
+   ],
+   "von": {
+    "original": "TRO_10175_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 69246,
+    "wortposition": 43678
+   },
+   "bis": {
+    "original": "TRO_10183_5",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 69310,
+    "wortposition": 43722
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    43678,
+    43722
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1266-f6c6545d-42b7-2841-05fa-c996b73a9a87",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1266"
+   ],
+   "von": {
+    "original": "TRO_10245_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 69736,
+    "wortposition": 43994
+   },
+   "bis": {
+    "original": "TRO_10249_3",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 69770,
+    "wortposition": 44017
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    43994,
+    44017
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1271-2b67c7b7-41cb-8a5a-e97f-33353fba9b4d",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1271"
+   ],
+   "von": {
+    "original": "TRO_10272_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 69917,
+    "wortposition": 44112
+   },
+   "bis": {
+    "original": "TRO_10285_3",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 69996,
+    "wortposition": 44164
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    44112,
+    44164
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1360-68a4e762-401c-dbc9-0027-1da3a984900a",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1360"
+   ],
+   "von": {
+    "original": "TRY_209_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 1472,
+    "wortposition": 880
+   },
+   "bis": {
+    "original": "TRY_213_4",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 1505,
+    "wortposition": 900
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    880,
+    900
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1362-ceca5903-422e-990a-9a75-ec812c7b942e",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1362"
+   ],
+   "von": {
+    "original": "TRY_268_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 1876,
+    "wortposition": 1116
+   },
+   "bis": {
+    "original": "TRY_272_5",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 1910,
+    "wortposition": 1141
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    1116,
+    1141
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q139-6363531c-4cea-0719-afbf-441a892c07cc",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q139"
+   ],
+   "von": {
+    "original": "TRY_274_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 1920,
+    "wortposition": 1146
+   },
+   "bis": {
+    "original": "TRY_286_3",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 2012,
+    "wortposition": 1200
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    1146,
+    1200
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1396-a1a38215-4599-a504-cb2e-d290715f45f8",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1396"
+   ],
+   "von": {
+    "original": "IW_3911_0",
+    "sigle": "IW",
+    "gefunden": true,
+    "element": "w",
+    "index": 27503,
+    "wortposition": null
+   },
+   "bis": {
+    "original": "IW_3913_5",
+    "sigle": "IW",
+    "gefunden": true,
+    "element": "w",
+    "index": 27522,
+    "wortposition": null
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    17612,
+    17624
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1399-143e115b-4531-cab0-88a7-0060728bf6dc",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1399"
+   ],
+   "von": {
+    "original": "IW_3920_0",
+    "sigle": "IW",
+    "gefunden": true,
+    "element": "w",
+    "index": 27565,
+    "wortposition": 17649
+   },
+   "bis": {
+    "original": "IW_3922_2",
+    "sigle": "IW",
+    "gefunden": true,
+    "element": "w",
+    "index": 27579,
+    "wortposition": 17660
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    17649,
+    17660
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q140-5db8c32e-479e-a07c-dc27-3250907ef401",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q140"
+   ],
+   "von": {
+    "original": "TRO_6840_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 46320,
+    "wortposition": 29226
+   },
+   "bis": {
+    "original": "TRO_6843_6",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 46348,
+    "wortposition": 29246
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    29226,
+    29246
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1402-bbcb942d-467a-b39d-41c5-81d8c1df3fc1",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1402"
+   ],
+   "von": {
+    "original": "IW_5050_0",
+    "sigle": "IW",
+    "gefunden": true,
+    "element": "w",
+    "index": 35537,
+    "wortposition": 22817
+   },
+   "bis": {
+    "original": "IW_5052_2",
+    "sigle": "IW",
+    "gefunden": true,
+    "element": "w",
+    "index": 35552,
+    "wortposition": 22829
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    22817,
+    22829
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1406-0956b036-4d1d-2004-c0f3-6c5852cca34a",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1406"
+   ],
+   "von": {
+    "original": "DDL_1400_0",
+    "sigle": "DDL",
+    "gefunden": true,
+    "element": "w",
+    "index": 1108,
+    "wortposition": 533
+   },
+   "bis": {
+    "original": "DDL_1430_5",
+    "sigle": "DDL",
+    "gefunden": true,
+    "element": "w",
+    "index": 1139,
+    "wortposition": 552
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    533,
+    552
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1420-48c69f4c-427f-f8e8-0056-0105079adbaa",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1420"
+   ],
+   "von": {
+    "original": "TRO_47475_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 319103,
+    "wortposition": 202972
+   },
+   "bis": {
+    "original": "TRO_47486_4",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 319189,
+    "wortposition": 203024
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    202972,
+    203024
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1423-beeb7b03-4eb3-0c6e-9ff2-23d9aac1711e",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1423"
+   ],
+   "von": {
+    "original": "TRO_47484_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 319166,
+    "wortposition": 203010
+   },
+   "bis": {
+    "original": "TRO_47486_4",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 319189,
+    "wortposition": 203024
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    203010,
+    203024
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1425-4dd863cb-421b-3095-53b0-f75b66669959",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1425"
+   ],
+   "von": {
+    "original": "TRO_47500_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 319279,
+    "wortposition": 203074
+   },
+   "bis": {
+    "original": "TRO_47505_6",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 319323,
+    "wortposition": null
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    203074,
+    203104
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1426-7691a15b-45fb-5a3d-d9c7-f08c1cd330d3",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1426"
+   ],
+   "von": {
+    "original": "TRO_47504_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 319309,
+    "wortposition": 203093
+   },
+   "bis": {
+    "original": "TRO_47506_6",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 319331,
+    "wortposition": null
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    203093,
+    203110
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1430-8696b79e-4f92-b309-9e40-3b2bb8afe21e",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1430"
+   ],
+   "von": {
+    "original": "TRO_47505_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 319317,
+    "wortposition": 203099
+   },
+   "bis": {
+    "original": "TRO_47508_4",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 319344,
+    "wortposition": 203119
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    203099,
+    203119
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1431-47835eff-47cc-d4fa-efbb-669f89b0ab3c",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1431"
+   ],
+   "von": {
+    "original": "TR_9086_0",
+    "sigle": "TR",
+    "gefunden": true,
+    "element": "w",
+    "index": 64277,
+    "wortposition": 39794
+   },
+   "bis": {
+    "original": "TR_9091_5",
+    "sigle": "TR",
+    "gefunden": true,
+    "element": "w",
+    "index": 64322,
+    "wortposition": 39825
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    39794,
+    39825
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1435-7e0493c4-428b-71fa-693a-42b480f7c840",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1435"
+   ],
+   "von": {
+    "original": "TRY_446_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 3126,
+    "wortposition": null
+   },
+   "bis": {
+    "original": "TRY_447_6",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 3138,
+    "wortposition": null
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    1848,
+    1856
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1439-93a50e2d-4fef-78de-f9ef-1dfc5b151cb7",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1439"
+   ],
+   "von": {
+    "original": "TRY_923_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 6407,
+    "wortposition": 3724
+   },
+   "bis": {
+    "original": "TRY_935_5",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 6499,
+    "wortposition": 3787
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    3724,
+    3787
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q144-80522edd-49ab-e6dd-ee3a-5d9226573b34",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q144"
+   ],
+   "von": {
+    "original": "TRY_274_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 1920,
+    "wortposition": 1146
+   },
+   "bis": {
+    "original": "TRY_280_4",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 1968,
+    "wortposition": 1174
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    1146,
+    1174
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1442-b056e856-40e6-1304-7ee9-d91ceaed03ad",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1442"
+   ],
+   "von": {
+    "original": "TRY_983_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 6846,
+    "wortposition": 3991
+   },
+   "bis": {
+    "original": "TRY_987_4",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 6881,
+    "wortposition": 4015
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    3991,
+    4015
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1443-ab1b4237-4fa9-c59a-6805-4b4faf1d04a2",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1443"
+   ],
+   "von": {
+    "original": "TRY_1015_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 7077,
+    "wortposition": 4143
+   },
+   "bis": {
+    "original": "TRY_1020_5",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 7114,
+    "wortposition": 4166
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    4143,
+    4166
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1444-b1c5273c-47de-bdcf-cdba-480f8b4f78cf",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1444"
+   ],
+   "von": {
+    "original": "TRY_1021_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 7117,
+    "wortposition": null
+   },
+   "bis": {
+    "original": "TRY_1025_5",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 7149,
+    "wortposition": 4189
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    4167,
+    4189
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1445-8e10c0e7-4f37-a102-51e5-e1de7548550e",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1445"
+   ],
+   "von": {
+    "original": "TRY_1020_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 7109,
+    "wortposition": null
+   },
+   "bis": {
+    "original": "TRY_1034_2",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 7218,
+    "wortposition": 4235
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    4162,
+    4235
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1447-9d3671e1-4855-9ed2-3c8d-a42bd8f270ce",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1447"
+   ],
+   "von": {
+    "original": "TRY_1037_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 7233,
+    "wortposition": 4243
+   },
+   "bis": {
+    "original": "TRY_1044_3",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 7290,
+    "wortposition": 4275
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    4243,
+    4275
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1448-acaec440-4614-7dcc-2fa5-63c3d6a7159d",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1448"
+   ],
+   "von": {
+    "original": "TRY_1047_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 7306,
+    "wortposition": 4285
+   },
+   "bis": {
+    "original": "TRY_1056_4",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 7374,
+    "wortposition": 4325
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    4285,
+    4325
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1452-092c334a-4965-f3a2-9bcd-6925c9ed3ac0",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1452"
+   ],
+   "von": {
+    "original": "TRY_1071_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 7475,
+    "wortposition": 4380
+   },
+   "bis": {
+    "original": "TRY_1075_5",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 7506,
+    "wortposition": 4398
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    4380,
+    4398
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1454-f674e02c-4d3e-e366-e78c-ce58af254f70",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1454"
+   ],
+   "von": {
+    "original": "TRY_1076_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 7509,
+    "wortposition": 4399
+   },
+   "bis": {
+    "original": "TRY_1082_5",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 7558,
+    "wortposition": 4426
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    4399,
+    4426
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1457-8fc42659-441a-1cdf-df04-89663a398e41",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1457"
+   ],
+   "von": {
+    "original": "TRY_1092_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 7627,
+    "wortposition": 4468
+   },
+   "bis": {
+    "original": "TRY_1095_4",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 7652,
+    "wortposition": 4487
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    4468,
+    4487
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1459-2b2d313a-40b8-c6ae-1960-676372dc60d9",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1459"
+   ],
+   "von": {
+    "original": "TRY_1102_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 7701,
+    "wortposition": 4518
+   },
+   "bis": {
+    "original": "TRY_1106_5",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 7735,
+    "wortposition": null
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    4518,
+    4538
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1461-2fa31136-416d-33f8-d324-ed6aa0c9a6b7",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1461"
+   ],
+   "von": {
+    "original": "TRY_1128_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 7896,
+    "wortposition": 4638
+   },
+   "bis": {
+    "original": "TRY_1128_6",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 7902,
+    "wortposition": 4643
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    4638,
+    4643
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1463-57d8e42a-40ba-e9c6-50f0-048700a95a4b",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1463"
+   ],
+   "von": {
+    "original": "TRY_1129_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 7905,
+    "wortposition": 4644
+   },
+   "bis": {
+    "original": "TRY_1134_5",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 7943,
+    "wortposition": null
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    4644,
+    4666
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1464-bcc0753d-4b0f-e354-2733-0460e5507721",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1464"
+   ],
+   "von": {
+    "original": "TRY_1139_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 7973,
+    "wortposition": 4682
+   },
+   "bis": {
+    "original": "TRY_1142_3",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 7997,
+    "wortposition": 4694
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    4682,
+    4694
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q149-b4f8177b-470a-e2e5-1a92-7d716b202079",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q149"
+   ],
+   "von": {
+    "original": "TRY_183_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 1292,
+    "wortposition": 774
+   },
+   "bis": {
+    "original": "TRY_186_4",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 1315,
+    "wortposition": 788
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    774,
+    788
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q150-31fa31ea-4a74-0215-4976-083247aa11c5",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q150"
+   ],
+   "von": {
+    "original": "TRO_6894_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 46696,
+    "wortposition": 29470
+   },
+   "bis": {
+    "original": "TRO_6895_5",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 46708,
+    "wortposition": 29480
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    29470,
+    29480
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q150-4f378782-4108-4721-811d-fdc19492dccf",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q150"
+   ],
+   "von": {
+    "original": "TRO_6612_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 44744,
+    "wortposition": 28202
+   },
+   "bis": {
+    "original": "TRO_6616_4",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 44774,
+    "wortposition": 28224
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    28202,
+    28224
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q150-7dd71da5-4a07-647e-3793-bd52602763b5",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q150"
+   ],
+   "von": {
+    "original": "TRO_6812_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 46128,
+    "wortposition": 29105
+   },
+   "bis": {
+    "original": "TRO_6817_3",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 46161,
+    "wortposition": 29128
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    29105,
+    29128
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q150-c46cb802-4561-a6c6-afd5-f88faa852655",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q150"
+   ],
+   "von": {
+    "original": "TRO_6626_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 44838,
+    "wortposition": 28261
+   },
+   "bis": {
+    "original": "TRO_6629_3",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 44860,
+    "wortposition": null
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    28261,
+    28275
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1518-91738e05-4184-c408-740e-bf546a8214c6",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1518"
+   ],
+   "von": {
+    "original": "TRY_1127_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 7889,
+    "wortposition": 4633
+   },
+   "bis": {
+    "original": "TRY_1127_4",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 7893,
+    "wortposition": 4637
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    4633,
+    4637
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1527-d1323596-49b7-e7f0-52fe-d1c24ff475cd",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1527"
+   ],
+   "von": {
+    "original": "OSW_347_0",
+    "sigle": "OSW",
+    "gefunden": true,
+    "element": "w",
+    "index": 2712,
+    "wortposition": null
+   },
+   "bis": {
+    "original": "OSW_350_4",
+    "sigle": "OSW",
+    "gefunden": true,
+    "element": "w",
+    "index": 2741,
+    "wortposition": null
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    1376,
+    1391
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1533-0aab9e63-4f4b-1f06-d4cf-f0358a33ef48",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1533"
+   ],
+   "von": {
+    "original": "OSW_355_0",
+    "sigle": "OSW",
+    "gefunden": true,
+    "element": "w",
+    "index": 2783,
+    "wortposition": null
+   },
+   "bis": {
+    "original": "OSW_357_5",
+    "sigle": "OSW",
+    "gefunden": true,
+    "element": "w",
+    "index": 2809,
+    "wortposition": 1429
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    1413,
+    1429
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1533-6bfd3161-4f62-5117-0c81-9473716d25c5",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1533"
+   ],
+   "von": {
+    "original": "OSW_419_0",
+    "sigle": "OSW",
+    "gefunden": true,
+    "element": "w",
+    "index": 3305,
+    "wortposition": 1670
+   },
+   "bis": {
+    "original": "OSW_424_7",
+    "sigle": "OSW",
+    "gefunden": true,
+    "element": "w",
+    "index": 3350,
+    "wortposition": 1697
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    1670,
+    1697
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1535-e44ebbd3-4391-3fce-fe12-144903b52f08",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1535"
+   ],
+   "von": {
+    "original": "OSW_377_0",
+    "sigle": "OSW",
+    "gefunden": true,
+    "element": "w",
+    "index": 2961,
+    "wortposition": 1507
+   },
+   "bis": {
+    "original": "OSW_378_4",
+    "sigle": "OSW",
+    "gefunden": true,
+    "element": "w",
+    "index": 2971,
+    "wortposition": 1513
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    1507,
+    1513
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1538-b0171b6a-4458-0cda-589c-94e47d2014f5",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1538"
+   ],
+   "von": {
+    "original": "OSW_426_0",
+    "sigle": "OSW",
+    "gefunden": true,
+    "element": "w",
+    "index": 3361,
+    "wortposition": null
+   },
+   "bis": {
+    "original": "OSW_430_7",
+    "sigle": "OSW",
+    "gefunden": true,
+    "element": "w",
+    "index": 3400,
+    "wortposition": null
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    1701,
+    1722
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1542-f2904a29-4009-0261-ad85-4cd8eac19264",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1542"
+   ],
+   "von": {
+    "original": "OSW_435_0",
+    "sigle": "OSW",
+    "gefunden": true,
+    "element": "w",
+    "index": 3438,
+    "wortposition": null
+   },
+   "bis": {
+    "original": "OSW_442_4",
+    "sigle": "OSW",
+    "gefunden": true,
+    "element": "w",
+    "index": 3492,
+    "wortposition": null
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    1735,
+    1758
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1545-586617a4-4cb2-b680-9456-863d297d7816",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1545"
+   ],
+   "von": {
+    "original": "OSW_431_0",
+    "sigle": "OSW",
+    "gefunden": true,
+    "element": "w",
+    "index": 3404,
+    "wortposition": null
+   },
+   "bis": {
+    "original": "OSW_432_6",
+    "sigle": "OSW",
+    "gefunden": true,
+    "element": "w",
+    "index": 3416,
+    "wortposition": 1726
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    1723,
+    1726
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1549-759ac64d-4f21-924d-588e-c4c02065fb87",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1549"
+   ],
+   "von": {
+    "original": "OSW_531_0",
+    "sigle": "OSW",
+    "gefunden": true,
+    "element": "w",
+    "index": 4234,
+    "wortposition": null
+   },
+   "bis": {
+    "original": "OSW_542_4",
+    "sigle": "OSW",
+    "gefunden": true,
+    "element": "w",
+    "index": 4322,
+    "wortposition": 2158
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    2112,
+    2158
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1552-0ccf3ee0-408f-ca96-a653-4ae8b05a5ed5",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1552"
+   ],
+   "von": {
+    "original": "OSW_583_0",
+    "sigle": "OSW",
+    "gefunden": true,
+    "element": "w",
+    "index": 4631,
+    "wortposition": 2323
+   },
+   "bis": {
+    "original": "OSW_588_5",
+    "sigle": "OSW",
+    "gefunden": true,
+    "element": "caesura",
+    "index": 4673,
+    "wortposition": null
+   },
+   "status": "nichtwort_anker",
+   "wortspanne": [
+    2323,
+    2344
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1555-b6be83c4-41c2-d77d-89fe-88f3757cfc62",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1555"
+   ],
+   "von": {
+    "original": "OSW_583_0",
+    "sigle": "OSW",
+    "gefunden": true,
+    "element": "w",
+    "index": 4631,
+    "wortposition": 2323
+   },
+   "bis": {
+    "original": "OSW_588_5",
+    "sigle": "OSW",
+    "gefunden": true,
+    "element": "caesura",
+    "index": 4673,
+    "wortposition": null
+   },
+   "status": "nichtwort_anker",
+   "wortspanne": [
+    2323,
+    2344
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1557-bdb9bbc7-40af-301a-bd5a-bebbec6968b6",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1557"
+   ],
+   "von": {
+    "original": "OSW_613_0",
+    "sigle": "OSW",
+    "gefunden": true,
+    "element": "w",
+    "index": 4890,
+    "wortposition": null
+   },
+   "bis": {
+    "original": "OSW_618_5",
+    "sigle": "OSW",
+    "gefunden": true,
+    "element": "w",
+    "index": 4939,
+    "wortposition": 2477
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    2448,
+    2477
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q156-102cbd95-462f-9ed2-e97a-b798ee721776",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q156"
+   ],
+   "von": {
+    "original": "TRO_6684_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 45249,
+    "wortposition": 28531
+   },
+   "bis": {
+    "original": "TRO_6730_3",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 45554,
+    "wortposition": 28737
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    28531,
+    28737
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1560-8c28fe18-49d7-fd8b-3dc2-3131a06c4ac7",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1560"
+   ],
+   "von": {
+    "original": "OSW_623_0",
+    "sigle": "OSW",
+    "gefunden": true,
+    "element": "w",
+    "index": 4976,
+    "wortposition": 2492
+   },
+   "bis": {
+    "original": "OSW_624_7",
+    "sigle": "OSW",
+    "gefunden": true,
+    "element": "w",
+    "index": 4990,
+    "wortposition": 2502
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    2492,
+    2502
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1564-14aadcb7-4703-ff3c-ca3a-4f2b4796fcca",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1564"
+   ],
+   "von": {
+    "original": "OSW_629_0",
+    "sigle": "OSW",
+    "gefunden": true,
+    "element": "w",
+    "index": 5024,
+    "wortposition": null
+   },
+   "bis": {
+    "original": "OSW_634_6",
+    "sigle": "OSW",
+    "gefunden": true,
+    "element": "w",
+    "index": 5069,
+    "wortposition": 2541
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    2519,
+    2541
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1567-82fe5fbf-4f9a-e199-648e-1858036f1216",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1567"
+   ],
+   "von": {
+    "original": "OSW_636_0",
+    "sigle": "OSW",
+    "gefunden": true,
+    "element": "w",
+    "index": 5077,
+    "wortposition": 2543
+   },
+   "bis": {
+    "original": "OSW_643_5",
+    "sigle": "OSW",
+    "gefunden": true,
+    "element": "w",
+    "index": 5135,
+    "wortposition": 2571
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    2543,
+    2571
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q157-ca420b5e-4cd8-568a-5fa2-c8ccdd06d3b0",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q157"
+   ],
+   "von": {
+    "original": "TRY_245_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 1718,
+    "wortposition": 1029
+   },
+   "bis": {
+    "original": "TRY_260_4",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 1827,
+    "wortposition": 1093
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    1029,
+    1093
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1570-cc7691c3-463d-950a-46c8-d6f6d2b58730",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1570"
+   ],
+   "von": {
+    "original": "OSW_644_0",
+    "sigle": "OSW",
+    "gefunden": true,
+    "element": "w",
+    "index": 5138,
+    "wortposition": null
+   },
+   "bis": {
+    "original": "OSW_646_3",
+    "sigle": "OSW",
+    "gefunden": true,
+    "element": "w",
+    "index": 5156,
+    "wortposition": 2584
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    2572,
+    2584
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1573-1aa1581d-4389-685d-a92d-21971779a2d6",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1573"
+   ],
+   "von": {
+    "original": "OSW_647_0",
+    "sigle": "OSW",
+    "gefunden": true,
+    "element": "w",
+    "index": 5159,
+    "wortposition": null
+   },
+   "bis": {
+    "original": "OSW_651_6",
+    "sigle": "OSW",
+    "gefunden": true,
+    "element": "w",
+    "index": 5197,
+    "wortposition": 2603
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    2585,
+    2603
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1575-27483108-4907-d6f6-e12d-9cf2497ce56e",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1575"
+   ],
+   "von": {
+    "original": "OSW_652_0",
+    "sigle": "OSW",
+    "gefunden": true,
+    "element": "w",
+    "index": 5200,
+    "wortposition": 2604
+   },
+   "bis": {
+    "original": "OSW_654_4",
+    "sigle": "OSW",
+    "gefunden": true,
+    "element": "w",
+    "index": 5218,
+    "wortposition": 2614
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    2604,
+    2614
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1579-ad3a81ea-42c9-2326-b976-c0ed154bdbf0",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1579"
+   ],
+   "von": {
+    "original": "OSW_655_0",
+    "sigle": "OSW",
+    "gefunden": true,
+    "element": "w",
+    "index": 5221,
+    "wortposition": 2615
+   },
+   "bis": {
+    "original": "OSW_660_6",
+    "sigle": "OSW",
+    "gefunden": true,
+    "element": "w",
+    "index": 5263,
+    "wortposition": null
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    2615,
+    2637
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1581-b14d1ada-4c04-c0de-e4f5-d314f05a4b2d",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1581"
+   ],
+   "von": {
+    "original": "OSW_661_0",
+    "sigle": "OSW",
+    "gefunden": true,
+    "element": "w",
+    "index": 5266,
+    "wortposition": null
+   },
+   "bis": {
+    "original": "OSW_662_5",
+    "sigle": "OSW",
+    "gefunden": true,
+    "element": "w",
+    "index": 5279,
+    "wortposition": null
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    2638,
+    2644
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1583-ad653b08-4110-af81-e2fa-ec39c32b64fa",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1583"
+   ],
+   "von": {
+    "original": "OSW_663_0",
+    "sigle": "OSW",
+    "gefunden": true,
+    "element": "w",
+    "index": 5282,
+    "wortposition": null
+   },
+   "bis": {
+    "original": "OSW_668_5",
+    "sigle": "OSW",
+    "gefunden": true,
+    "element": "w",
+    "index": 5330,
+    "wortposition": 2667
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    2645,
+    2667
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1586-b2a9c1dd-40a3-1922-8a29-5688b77f819f",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1586"
+   ],
+   "von": {
+    "original": "OSW_669_0",
+    "sigle": "OSW",
+    "gefunden": true,
+    "element": "w",
+    "index": 5334,
+    "wortposition": null
+   },
+   "bis": {
+    "original": "OSW_674_5",
+    "sigle": "OSW",
+    "gefunden": true,
+    "element": "w",
+    "index": 5378,
+    "wortposition": null
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    2668,
+    2686
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1588-4e392f25-44d2-eb4d-5742-0f2bab31a17b",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1588"
+   ],
+   "von": {
+    "original": "OSW_691_0",
+    "sigle": "OSW",
+    "gefunden": true,
+    "element": "w",
+    "index": 5521,
+    "wortposition": 2756
+   },
+   "bis": {
+    "original": "OSW_698_6",
+    "sigle": "OSW",
+    "gefunden": true,
+    "element": "w",
+    "index": 5586,
+    "wortposition": 2798
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    2756,
+    2798
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1590-fb847efa-4d8e-1edf-c51a-f11df52d0a1e",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1590"
+   ],
+   "von": {
+    "original": "OSW_699_0",
+    "sigle": "OSW",
+    "gefunden": true,
+    "element": "w",
+    "index": 5590,
+    "wortposition": 2799
+   },
+   "bis": {
+    "original": "OSW_706_4",
+    "sigle": "OSW",
+    "gefunden": true,
+    "element": "w",
+    "index": 5640,
+    "wortposition": 2827
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    2799,
+    2827
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1592-1a2f9a1d-4293-db8c-c5a2-ab3340f9547a",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1592"
+   ],
+   "von": {
+    "original": "OSW_707_0",
+    "sigle": "OSW",
+    "gefunden": true,
+    "element": "w",
+    "index": 5644,
+    "wortposition": 2829
+   },
+   "bis": {
+    "original": "OSW_707-5",
+    "sigle": "OSW",
+    "gefunden": false,
+    "grund": "kein exakter xml:id-Treffer"
+   },
+   "status": "nicht_gefunden"
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1596-4815fb58-4b2c-f507-167f-95d57f37352c",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1596"
+   ],
+   "von": {
+    "original": "OSW_708_0",
+    "sigle": "OSW",
+    "gefunden": true,
+    "element": "w",
+    "index": 5652,
+    "wortposition": null
+   },
+   "bis": {
+    "original": "OSW_710_3",
+    "sigle": "OSW",
+    "gefunden": true,
+    "element": "w",
+    "index": 5668,
+    "wortposition": 2843
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    2835,
+    2843
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1598-79cb054e-4cd5-2236-b448-bb4c1c508cb3",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1598"
+   ],
+   "von": {
+    "original": "OSW_711_0",
+    "sigle": "OSW",
+    "gefunden": true,
+    "element": "w",
+    "index": 5671,
+    "wortposition": null
+   },
+   "bis": {
+    "original": "OSW_722_6",
+    "sigle": "OSW",
+    "gefunden": true,
+    "element": "w",
+    "index": 5771,
+    "wortposition": null
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    2844,
+    2891
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1600-d470aa5c-4513-3f37-87f0-181ceb6a5b71",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1600"
+   ],
+   "von": {
+    "original": "OSW_723_0",
+    "sigle": "OSW",
+    "gefunden": true,
+    "element": "w",
+    "index": 5774,
+    "wortposition": 2892
+   },
+   "bis": {
+    "original": "OSW_730_6",
+    "sigle": "OSW",
+    "gefunden": true,
+    "element": "w",
+    "index": 5832,
+    "wortposition": 2921
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    2892,
+    2921
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1603-014f731e-4701-e0a2-b44a-769874f992e9",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1603"
+   ],
+   "von": {
+    "original": "OSW_731_0",
+    "sigle": "OSW",
+    "gefunden": true,
+    "element": "w",
+    "index": 5835,
+    "wortposition": 2922
+   },
+   "bis": {
+    "original": "OSW_736_5",
+    "sigle": "OSW",
+    "gefunden": true,
+    "element": "w",
+    "index": 5886,
+    "wortposition": 2948
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    2922,
+    2948
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1606-b8739838-4950-93f1-9f02-5166514a436e",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1606"
+   ],
+   "von": {
+    "original": "OSW_749_0",
+    "sigle": "OSW",
+    "gefunden": true,
+    "element": "w",
+    "index": 5989,
+    "wortposition": null
+   },
+   "bis": {
+    "original": "OSW_761_3",
+    "sigle": "OSW",
+    "gefunden": true,
+    "element": "w",
+    "index": 6096,
+    "wortposition": null
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    2998,
+    3055
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1609-68da3e21-4c7b-2070-4a45-3b8f68f20349",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1609"
+   ],
+   "von": {
+    "original": "OSW_762_0",
+    "sigle": "OSW",
+    "gefunden": true,
+    "element": "w",
+    "index": 6098,
+    "wortposition": 3056
+   },
+   "bis": {
+    "original": "OSW_770_3",
+    "sigle": "OSW",
+    "gefunden": true,
+    "element": "w",
+    "index": 6160,
+    "wortposition": 3089
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    3056,
+    3089
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q161-11f83cbd-4bc5-664a-e6d5-4b5b653f518a",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q161"
+   ],
+   "von": {
+    "original": "TRO_6740_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 45622,
+    "wortposition": 28777
+   },
+   "bis": {
+    "original": "TRO_6772_5",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 45867,
+    "wortposition": 28942
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    28777,
+    28942
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1612-74607776-4e7a-be7b-fb19-6d7f85d4d80a",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1612"
+   ],
+   "von": {
+    "original": "OSW_771_0",
+    "sigle": "OSW",
+    "gefunden": true,
+    "element": "w",
+    "index": 6164,
+    "wortposition": 3090
+   },
+   "bis": {
+    "original": "OSW_774_6",
+    "sigle": "OSW",
+    "gefunden": true,
+    "element": "w",
+    "index": 6193,
+    "wortposition": 3111
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    3090,
+    3111
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q162-b3da1bcf-4d1d-e8b2-f9d9-f0c11ea43729",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q162"
+   ],
+   "von": {
+    "original": "TRY_262_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 1836,
+    "wortposition": null
+   },
+   "bis": {
+    "original": "TRY_267_4",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 1873,
+    "wortposition": null
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    1098,
+    1115
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q171-e89ead47-4a42-738f-33d0-1d80094dce0a",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q171"
+   ],
+   "von": {
+    "original": "TRO_6860_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 46466,
+    "wortposition": 29327
+   },
+   "bis": {
+    "original": "TRO_6864_4",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 46499,
+    "wortposition": 29348
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    29327,
+    29348
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q172-30a653dc-4b23-52dd-fe74-78c927fc2fe9",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q172"
+   ],
+   "von": {
+    "original": "TRY_305_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 2138,
+    "wortposition": 1275
+   },
+   "bis": {
+    "original": "TRY_311_4",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 2183,
+    "wortposition": null
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    1275,
+    1299
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1737-a6949359-4237-2dbf-a2dc-6a1c535c3818",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1737"
+   ],
+   "von": {
+    "original": "CHH_353_0",
+    "sigle": "CHH",
+    "gefunden": false,
+    "grund": "kein exakter xml:id-Treffer"
+   },
+   "bis": {
+    "original": "CHH_354_5",
+    "sigle": "CHH",
+    "gefunden": false,
+    "grund": "kein exakter xml:id-Treffer"
+   },
+   "status": "nicht_gefunden"
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q1739-d570dc99-441c-3188-288b-368017871a21",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q1739"
+   ],
+   "von": {
+    "original": "CHH_354_0",
+    "sigle": "CHH",
+    "gefunden": false,
+    "grund": "kein exakter xml:id-Treffer"
+   },
+   "bis": {
+    "original": "CHH_354_4",
+    "sigle": "CHH",
+    "gefunden": false,
+    "grund": "kein exakter xml:id-Treffer"
+   },
+   "status": "nicht_gefunden"
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q181-4e893f38-4cfa-ac8a-b5ce-cbb2c917c2b1",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q181"
+   ],
+   "von": {
+    "original": "TRY_312_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 2186,
+    "wortposition": 1300
+   },
+   "bis": {
+    "original": "TRY_325_5",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 2276,
+    "wortposition": null
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    1300,
+    1352
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q187-72eb2f57-4f92-c0e0-b4b7-cbf067aa7ca3",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q187"
+   ],
+   "von": {
+    "original": "TRY_164_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 1160,
+    "wortposition": null
+   },
+   "bis": {
+    "original": "TRY_182_4",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 1289,
+    "wortposition": null
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    700,
+    773
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q189-1433f005-4223-88b1-b13a-c1228f2f2f1c",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q189"
+   ],
+   "von": {
+    "original": "TRO_6580_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 44512,
+    "wortposition": 28060
+   },
+   "bis": {
+    "original": "TRO_6583_4",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 44536,
+    "wortposition": null
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    28060,
+    28075
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q189-369be32a-4d79-e7da-e7a3-f8a8bc6fe427",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q189"
+   ],
+   "von": {
+    "original": "TRO_6506_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 44017,
+    "wortposition": 27735
+   },
+   "bis": {
+    "original": "TRO_6515_5",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "pc",
+    "index": 44091,
+    "wortposition": null
+   },
+   "status": "nichtwort_anker",
+   "wortspanne": [
+    27735,
+    27784
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q199-f87fb94f-4427-38a1-bd6a-e3334d4fd58a",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q199"
+   ],
+   "von": {
+    "original": "TRY_264_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 1848,
+    "wortposition": null
+   },
+   "bis": {
+    "original": "TRY_267_4",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 1873,
+    "wortposition": null
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    1105,
+    1115
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q200-136b63aa-4b32-7494-7be9-69d732ad3f67",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q200"
+   ],
+   "von": {
+    "original": "TRO_6884_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 46625,
+    "wortposition": 29426
+   },
+   "bis": {
+    "original": "TRO_6885_2",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 46635,
+    "wortposition": 29434
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    29426,
+    29434
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q208-013aea78-48cc-abed-7277-185be2572239",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q208"
+   ],
+   "von": {
+    "original": "TRO_6896_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 46711,
+    "wortposition": 29481
+   },
+   "bis": {
+    "original": "TRO_6904_5",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 46764,
+    "wortposition": 29517
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    29481,
+    29517
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q208-706db435-47d2-292c-8a16-f0a441232440",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q208"
+   ],
+   "von": {
+    "original": "TRO_6886_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 46638,
+    "wortposition": 29435
+   },
+   "bis": {
+    "original": "TRO_6891_4",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 46679,
+    "wortposition": 29459
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    29435,
+    29459
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q209-273f25b2-4ebd-2ebd-a49a-bc2b1c91cc89",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q209"
+   ],
+   "von": {
+    "original": "TRY_337_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 2357,
+    "wortposition": null
+   },
+   "bis": {
+    "original": "TRY_339_6",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 2376,
+    "wortposition": 1408
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    1398,
+    1408
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q211-7c1a46a5-4e0d-34a1-90f7-17a4e9bb50f6",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q211"
+   ],
+   "von": {
+    "original": "TRO_6902_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 46748,
+    "wortposition": 29506
+   },
+   "bis": {
+    "original": "TRO_6904_5",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 46764,
+    "wortposition": 29517
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    29506,
+    29517
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q216-367e684b-44d1-3793-3bab-fed61edf88c1",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q216"
+   ],
+   "von": {
+    "original": "TRO_6908_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 46785,
+    "wortposition": 29528
+   },
+   "bis": {
+    "original": "TRO_6911_4",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 46808,
+    "wortposition": 29542
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    29528,
+    29542
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q217-d27edd30-405c-1640-3aba-5add0eb867df",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q217"
+   ],
+   "von": {
+    "original": "TRY_344_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 2409,
+    "wortposition": 1427
+   },
+   "bis": {
+    "original": "TRY_355_4",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 2486,
+    "wortposition": 1472
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    1427,
+    1472
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q222-9932058c-480f-aa00-973e-3d20dc564458",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q222"
+   ],
+   "von": {
+    "original": "TRO_6912_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 46811,
+    "wortposition": 29543
+   },
+   "bis": {
+    "original": "TRO_6923_4",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 46877,
+    "wortposition": 29586
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    29543,
+    29586
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q223-913f0259-4329-62c5-c376-60c2a2803e12",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q223"
+   ],
+   "von": {
+    "original": "TRY_350_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 2449,
+    "wortposition": null
+   },
+   "bis": {
+    "original": "TRY_354_3",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 2479,
+    "wortposition": 1468
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    1451,
+    1468
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q228-10dbd7d9-4cb2-f5dc-f97d-3bea7713936c",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q228"
+   ],
+   "von": {
+    "original": "TRY_355_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 2482,
+    "wortposition": 1469
+   },
+   "bis": {
+    "original": "TRY_363_4",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 2539,
+    "wortposition": 1502
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    1469,
+    1502
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q236-0131c51b-4f16-77b1-4937-5e560a5302c3",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q236"
+   ],
+   "von": {
+    "original": "TRO_6940_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 46986,
+    "wortposition": 29654
+   },
+   "bis": {
+    "original": "TRO_6943_3",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 47008,
+    "wortposition": 29669
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    29654,
+    29669
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q236-c94a65e7-493c-756e-6927-25e8abaf8245",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q236"
+   ],
+   "von": {
+    "original": "TRO_6970_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 47179,
+    "wortposition": 29779
+   },
+   "bis": {
+    "original": "TRO_6977_5",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 47235,
+    "wortposition": 29813
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    29779,
+    29813
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q237-6d74ce1f-47e3-5399-a381-362201815f84",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q237"
+   ],
+   "von": {
+    "original": "TRY_368_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 2569,
+    "wortposition": 1519
+   },
+   "bis": {
+    "original": "TRY_370_5",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 2588,
+    "wortposition": null
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    1519,
+    1530
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q240-17b732e9-4cdf-ace5-8cb1-8e3864fef358",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q240"
+   ],
+   "von": {
+    "original": "TRO_7050_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 47736,
+    "wortposition": 30111
+   },
+   "bis": {
+    "original": "TRO_7055_4",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 47776,
+    "wortposition": null
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    30111,
+    30138
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q240-8b4b28d2-4aa4-7c29-ebae-386b1383b20c",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q240"
+   ],
+   "von": {
+    "original": "TRO_6933_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 46938,
+    "wortposition": 29623
+   },
+   "bis": {
+    "original": "TRO_6935_4",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 46955,
+    "wortposition": 29636
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    29623,
+    29636
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q240-d3660f46-4332-c79e-aaf3-9fd293209146",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q240"
+   ],
+   "von": {
+    "original": "TRO_6962_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 47125,
+    "wortposition": 29744
+   },
+   "bis": {
+    "original": "TRO_6968_4",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 47168,
+    "wortposition": 29775
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    29744,
+    29775
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q240-eab02c64-4bd9-c240-7b46-83fbde450495",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q240"
+   ],
+   "von": {
+    "original": "TRO_6996_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 47362,
+    "wortposition": null
+   },
+   "bis": {
+    "original": "TRO_7004_4",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 47423,
+    "wortposition": 29920
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    29885,
+    29920
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q241-c5117dec-4174-383d-d351-e10e60b4e4c5",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q241"
+   ],
+   "von": {
+    "original": "TRY_395_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 2764,
+    "wortposition": 1633
+   },
+   "bis": {
+    "original": "TRY_404_4",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 2827,
+    "wortposition": 1666
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    1633,
+    1666
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q241-c770f967-4213-3cb0-47a2-88fd8425b851",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q241"
+   ],
+   "von": {
+    "original": "TRY_387_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 2703,
+    "wortposition": 1594
+   },
+   "bis": {
+    "original": "TRY_388_4",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 2714,
+    "wortposition": 1602
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    1594,
+    1602
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q244-5f27e9b8-4fc8-e476-3073-0bf69b19502b",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q244"
+   ],
+   "von": {
+    "original": "TRO_7020_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "pc",
+    "index": 47527,
+    "wortposition": null
+   },
+   "bis": {
+    "original": "TRO_7076_3",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 47910,
+    "wortposition": null
+   },
+   "status": "nichtwort_anker",
+   "wortspanne": [
+    29981,
+    30218
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q246-c3e2430f-4de1-9ac2-308d-c2ffce6502d9",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q246"
+   ],
+   "von": {
+    "original": "TRY_406_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 2838,
+    "wortposition": 1671
+   },
+   "bis": {
+    "original": "TRY_412_3",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 2886,
+    "wortposition": null
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    1671,
+    1699
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q251-d956857d-4b74-6308-bd29-7182d035b503",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q251"
+   ],
+   "von": {
+    "original": "TRY_413_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 2889,
+    "wortposition": 1700
+   },
+   "bis": {
+    "original": "TRY_421_5",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 2952,
+    "wortposition": null
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    1700,
+    1742
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q258-0c11e1ed-4557-5a5f-8efc-c49507bc6718",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q258"
+   ],
+   "von": {
+    "original": "TRY_425_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 2976,
+    "wortposition": 1756
+   },
+   "bis": {
+    "original": "TRY_431_2",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 3022,
+    "wortposition": null
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    1756,
+    1785
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q261-82bbb10d-465c-5212-cfbe-41a9c0396db9",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q261"
+   ],
+   "von": {
+    "original": "TRY_432_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 3025,
+    "wortposition": 1786
+   },
+   "bis": {
+    "original": "TRY_444_5",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 3116,
+    "wortposition": null
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    1786,
+    1844
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q264-1277e268-4fbb-d9f6-6a48-80eff43e8e9c",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q264"
+   ],
+   "von": {
+    "original": "TRO_7216_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 48903,
+    "wortposition": 30851
+   },
+   "bis": {
+    "original": "TRO_7219_4",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 48927,
+    "wortposition": 30864
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    30851,
+    30864
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q264-51f2c54c-486f-275c-4d7b-95dab7c47fe1",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q264"
+   ],
+   "von": {
+    "original": "TRO_7227_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 48981,
+    "wortposition": 30898
+   },
+   "bis": {
+    "original": "TRO_7229_3",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 48997,
+    "wortposition": 30910
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    30898,
+    30910
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q265-24c1de55-4fbd-ffcf-ff91-a766ad314561",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q265"
+   ],
+   "von": {
+    "original": "TRY_448_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 3141,
+    "wortposition": 1857
+   },
+   "bis": {
+    "original": "TRY_452_4",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 3170,
+    "wortposition": 1872
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    1857,
+    1872
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q276-49eb714b-4cb5-bc5c-daa2-9457a7f4ea74",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q276"
+   ],
+   "von": {
+    "original": "TRO_7227_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 48981,
+    "wortposition": 30898
+   },
+   "bis": {
+    "original": "TRO_7229_3",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 48997,
+    "wortposition": 30910
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    30898,
+    30910
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q276-b154495e-437d-d7e9-f954-43f0c73ca715",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q276"
+   ],
+   "von": {
+    "original": "TRO_7256_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 49165,
+    "wortposition": null
+   },
+   "bis": {
+    "original": "TRO_7271_3",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 49271,
+    "wortposition": 31081
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    31011,
+    31081
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q277-4a251232-48fc-0651-b5ec-2b9a19076157",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q277"
+   ],
+   "von": {
+    "original": "TRY_494_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 3427,
+    "wortposition": 2017
+   },
+   "bis": {
+    "original": "TRY_495_3",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 3438,
+    "wortposition": 2025
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    2017,
+    2025
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q277-5bc7aad4-4dab-027d-e297-3b58b7d60085",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q277"
+   ],
+   "von": {
+    "original": "TRY_454_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 3179,
+    "wortposition": 1875
+   },
+   "bis": {
+    "original": "TRY_458_3",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 3212,
+    "wortposition": 1896
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    1875,
+    1896
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q277-72a7de1e-4784-c3fc-ac1f-b3eec73078bf",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q277"
+   ],
+   "von": {
+    "original": "TRY_472_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 3288,
+    "wortposition": 1938
+   },
+   "bis": {
+    "original": "TRY_477_2",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 3322,
+    "wortposition": 1957
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    1938,
+    1957
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q280-e41ca120-4132-76b9-781d-393bf5a3dd6f",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q280"
+   ],
+   "von": {
+    "original": "TRO_7328_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 49653,
+    "wortposition": 31321
+   },
+   "bis": {
+    "original": "TRO_7340_5",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 49745,
+    "wortposition": 31381
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    31321,
+    31381
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q281-d6637471-4332-4204-5729-20edaeac1e1d",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q281"
+   ],
+   "von": {
+    "original": "TRY_521_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 3611,
+    "wortposition": 2112
+   },
+   "bis": {
+    "original": "TRY_535_3",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 3709,
+    "wortposition": null
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    2112,
+    2167
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q286-cc941f2f-43f1-832f-8270-840d2e2d7ac9",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q286"
+   ],
+   "von": {
+    "original": "TRO_7375_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 49979,
+    "wortposition": 31519
+   },
+   "bis": {
+    "original": "TRO_7383_5",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 50044,
+    "wortposition": 31560
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    31519,
+    31560
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q288-135cc7dd-4395-b3cf-8ddd-0628988b1213",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q288"
+   ],
+   "von": {
+    "original": "TRO_7408_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 50226,
+    "wortposition": 31680
+   },
+   "bis": {
+    "original": "TRO_7411_3",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 50250,
+    "wortposition": null
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    31680,
+    31696
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q288-7e41eb26-495e-fc72-f87a-432c529527f1",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q288"
+   ],
+   "von": {
+    "original": "TRO_7414_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 50274,
+    "wortposition": 31707
+   },
+   "bis": {
+    "original": "TRO_7419_3",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 50311,
+    "wortposition": 31733
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    31707,
+    31733
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q288-b806b9ac-4a75-30ef-dbb5-c4c0245176f8",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q288"
+   ],
+   "von": {
+    "original": "TRO_7454_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 50525,
+    "wortposition": null
+   },
+   "bis": {
+    "original": "TRO_7457_4",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 50547,
+    "wortposition": 31872
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    31858,
+    31872
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q288-df1bb384-412c-c354-91e8-b5886fe46ad1",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q288"
+   ],
+   "von": {
+    "original": "TRO_7416_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 50290,
+    "wortposition": 31718
+   },
+   "bis": {
+    "original": "TRO_7419_3",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 50311,
+    "wortposition": 31733
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    31718,
+    31733
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q288-e1023cb6-4763-b2bb-391f-aaa245ba3259",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q288"
+   ],
+   "von": {
+    "original": "TRO_7996_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 54188,
+    "wortposition": 34091
+   },
+   "bis": {
+    "original": "TRO_999_3",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 6663,
+    "wortposition": 4196
+   },
+   "status": "umgekehrt"
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q291-5fd5609f-4a46-3b27-dd8b-96ac484ceb50",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q291"
+   ],
+   "von": {
+    "original": "TRY_612_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 4226,
+    "wortposition": null
+   },
+   "bis": {
+    "original": "TRY_623_3",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 4294,
+    "wortposition": 2500
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    2458,
+    2500
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q297-1d874fd6-4974-532d-f8bf-b8fe369a8bbf",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q297"
+   ],
+   "von": {
+    "original": "TRO_7768_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 52639,
+    "wortposition": null
+   },
+   "bis": {
+    "original": "TRO_7891_4",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 53456,
+    "wortposition": 33646
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    33158,
+    33646
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q297-2c239fc2-4d77-fa6d-d4cd-d6854b1ddf60",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q297"
+   ],
+   "von": {
+    "original": "TRO_7694_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 52117,
+    "wortposition": 32853
+   },
+   "bis": {
+    "original": "TRO_7707_6",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 52219,
+    "wortposition": 32921
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    32853,
+    32921
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q298-2dcb8a2e-499c-7838-ee58-671e6ea2c306",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q298"
+   ],
+   "von": {
+    "original": "TRY_630_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 4335,
+    "wortposition": 2525
+   },
+   "bis": {
+    "original": "TRY_647_5",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 4453,
+    "wortposition": 2585
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    2525,
+    2585
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q300-26d479c8-4bd5-96bb-0bda-07520df13f7e",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q300"
+   ],
+   "von": {
+    "original": "TRO_7708_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 52222,
+    "wortposition": 32922
+   },
+   "bis": {
+    "original": "TRO_7765_3",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 52620,
+    "wortposition": 33149
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    32922,
+    33149
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q300-f9a90b5b-43ef-02c9-0476-ad9ed2a5493d",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q300"
+   ],
+   "von": {
+    "original": "TRO_7659_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 51885,
+    "wortposition": 32714
+   },
+   "bis": {
+    "original": "TRO_7677_4",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 52009,
+    "wortposition": 32786
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    32714,
+    32786
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q302-03851464-41d6-3bd1-ca07-48926da327db",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q302"
+   ],
+   "von": {
+    "original": "TRO_7678_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 52011,
+    "wortposition": 32787
+   },
+   "bis": {
+    "original": "TRO_7691_5",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 52098,
+    "wortposition": 32842
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    32787,
+    32842
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q303-02486e09-4bb1-5f7f-74ea-cb5820753cfa",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q303"
+   ],
+   "von": {
+    "original": "TRY_663_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 4564,
+    "wortposition": null
+   },
+   "bis": {
+    "original": "TRY_692_5",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 4776,
+    "wortposition": 2758
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    2643,
+    2758
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q307-258fb363-49bf-c60c-25d4-a78306ba16be",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q307"
+   ],
+   "von": {
+    "original": "TRO_7892_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 53459,
+    "wortposition": null
+   },
+   "bis": {
+    "original": "TRO_7906_4",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 53547,
+    "wortposition": 33699
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    33647,
+    33699
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q308-0c2b20ff-46c9-1c1a-46ff-aa970cbb2cdc",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q308"
+   ],
+   "von": {
+    "original": "TRY_756_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 5230,
+    "wortposition": 3018
+   },
+   "bis": {
+    "original": "TRY_788_3",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 5466,
+    "wortposition": 3168
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    3018,
+    3168
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q324-5b8499b0-44a0-c6be-d419-7ff7bc0ae58e",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q324"
+   ],
+   "von": {
+    "original": "TRO_10132_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 68953,
+    "wortposition": null
+   },
+   "bis": {
+    "original": "TRO_10141_4",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 69019,
+    "wortposition": 43542
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    43501,
+    43542
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q324-bd175941-442c-391f-a8d7-04e043b9a5b7",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q324"
+   ],
+   "von": {
+    "original": "TRO_8440_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 57328,
+    "wortposition": 36037
+   },
+   "bis": {
+    "original": "TRO_8447_3",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 57375,
+    "wortposition": 36066
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    36037,
+    36066
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q328-de6bd4c4-4915-9fc9-3ee7-ee0b6b561c43",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q328"
+   ],
+   "von": {
+    "original": "TRO_8900_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 60563,
+    "wortposition": 38074
+   },
+   "bis": {
+    "original": "TRO_8901_5",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 60576,
+    "wortposition": 38083
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    38074,
+    38083
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q331-0acb766a-487b-fa94-97da-d1a615f07b84",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q331"
+   ],
+   "von": {
+    "original": "TRO_8500_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "pc",
+    "index": 57758,
+    "wortposition": null
+   },
+   "bis": {
+    "original": "TRO_8503_5",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 57788,
+    "wortposition": 36313
+   },
+   "status": "nichtwort_anker",
+   "wortspanne": [
+    36299,
+    36313
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q331-b57b34b2-429e-4aa9-11cc-da857651fe09",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q331"
+   ],
+   "von": {
+    "original": "TRO_8960_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 60978,
+    "wortposition": 38329
+   },
+   "bis": {
+    "original": "TRO_8967_3",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 61036,
+    "wortposition": 38366
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    38329,
+    38366
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q333-650e97ee-4e64-d2dc-c3bc-d0385eb20f8d",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q333"
+   ],
+   "von": {
+    "original": "TRO_9032_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 61467,
+    "wortposition": 38642
+   },
+   "bis": {
+    "original": "TRO_9039_4",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 61515,
+    "wortposition": 38674
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    38642,
+    38674
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q333-7fc0dbf1-47bb-faf2-293d-429fa1ca37d1",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q333"
+   ],
+   "von": {
+    "original": "TRO_8982_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 61141,
+    "wortposition": 38434
+   },
+   "bis": {
+    "original": "TRO_8987_5",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 61178,
+    "wortposition": null
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    38434,
+    38459
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q338-6c7fc3a2-4efd-d209-ebde-479278329bcf",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q338"
+   ],
+   "von": {
+    "original": "TRO_8330_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 56561,
+    "wortposition": null
+   },
+   "bis": {
+    "original": "TRO_8341_4",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 56634,
+    "wortposition": 35609
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    35561,
+    35609
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q342-791236e5-41a7-e21e-1773-8b3b492f6eb2",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q342"
+   ],
+   "von": {
+    "original": "TRO_8402_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 57070,
+    "wortposition": 35875
+   },
+   "bis": {
+    "original": "TRO_8405_3",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 57095,
+    "wortposition": 35890
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    35875,
+    35890
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q342-84cd536c-42e7-e479-fd21-304e620c3170",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q342"
+   ],
+   "von": {
+    "original": "TRO_8415_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 57156,
+    "wortposition": 35931
+   },
+   "bis": {
+    "original": "TRO_8419_5",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 57189,
+    "wortposition": 35952
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    35931,
+    35952
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q342-c5050f62-43b7-0ebc-b9d4-93cb535ccc07",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q342"
+   ],
+   "von": {
+    "original": "TRO_8426_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 57239,
+    "wortposition": null
+   },
+   "bis": {
+    "original": "TRO_8430_2",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 57264,
+    "wortposition": 36002
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    35985,
+    36002
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q343-b224f90e-4d19-3747-a359-ea589b2ccaa4",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q343"
+   ],
+   "von": {
+    "original": "TRY_963_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 6705,
+    "wortposition": 3906
+   },
+   "bis": {
+    "original": "TRY_971_4",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 6765,
+    "wortposition": 3943
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    3906,
+    3943
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q348-e0488daf-4adb-bf4b-804e-856c4ac4ce70",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q348"
+   ],
+   "von": {
+    "original": "TRO_8402_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 57070,
+    "wortposition": 35875
+   },
+   "bis": {
+    "original": "TRO_8405_3",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 57095,
+    "wortposition": 35890
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    35875,
+    35890
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q349-f1e8b341-4228-5438-0729-c8f474937fad",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q349"
+   ],
+   "von": {
+    "original": "TRY_963_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 6705,
+    "wortposition": 3906
+   },
+   "bis": {
+    "original": "TRY_971_4",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 6765,
+    "wortposition": 3943
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    3906,
+    3943
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q353-0ecf3b99-49e6-0358-f68a-944bfb7957b5",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q353"
+   ],
+   "von": {
+    "original": "TRO_9108_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 62018,
+    "wortposition": 38987
+   },
+   "bis": {
+    "original": "TRO_9111_6",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 62043,
+    "wortposition": null
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    38987,
+    39003
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q353-9b6c8ebc-4e39-12be-afe9-3b2090634f82",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q353"
+   ],
+   "von": {
+    "original": "TRO_9120_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 62112,
+    "wortposition": 39047
+   },
+   "bis": {
+    "original": "TRO_9126_4",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 62159,
+    "wortposition": 39079
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    39047,
+    39079
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q357-20b9be48-4479-5251-143a-7e1e72361da8",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q357"
+   ],
+   "von": {
+    "original": "TRO_9134_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 62209,
+    "wortposition": 39113
+   },
+   "bis": {
+    "original": "TRO_9141_3",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 62254,
+    "wortposition": 39147
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    39113,
+    39147
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q357-97e74aed-4818-7722-85d8-e2df1c2cef16",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q357"
+   ],
+   "von": {
+    "original": "TRO_10176_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 69254,
+    "wortposition": 43684
+   },
+   "bis": {
+    "original": "TRO_10183_5",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 69310,
+    "wortposition": 43722
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    43684,
+    43722
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q357-f87e6f3f-4c27-637c-3403-580777deac87",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q357"
+   ],
+   "von": {
+    "original": "TRO_9156_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 62352,
+    "wortposition": 39207
+   },
+   "bis": {
+    "original": "TRO_9159_3",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 62372,
+    "wortposition": null
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    39207,
+    39219
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q359-02b2238b-424c-d3f4-5bec-9f6c9af6c493",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q359"
+   ],
+   "von": {
+    "original": "TRY_973_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 6774,
+    "wortposition": 3946
+   },
+   "bis": {
+    "original": "TRY_976_3",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 6799,
+    "wortposition": null
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    3946,
+    3961
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q363-b2fe5869-4a9e-06c3-81b8-a37777fcafff",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q363"
+   ],
+   "von": {
+    "original": "TRO_9140_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 62245,
+    "wortposition": 39139
+   },
+   "bis": {
+    "original": "TRO_9149_5",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 62305,
+    "wortposition": 39178
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    39139,
+    39178
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q366-28fdaf26-44f4-755d-4f05-40512bf4286c",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q366"
+   ],
+   "von": {
+    "original": "TRO_9180_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 62503,
+    "wortposition": 39305
+   },
+   "bis": {
+    "original": "TRO_9184_4",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 62534,
+    "wortposition": 39325
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    39305,
+    39325
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q366-eb23707b-4cfd-1ece-8e20-6c789509a556",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q366"
+   ],
+   "von": {
+    "original": "TRO_10182_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 69299,
+    "wortposition": null
+   },
+   "bis": {
+    "original": "TRO_10185_4",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 69325,
+    "wortposition": 43732
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    43714,
+    43732
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q370-d030e749-4828-85ba-dba1-2f89cc4ad954",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q370"
+   ],
+   "von": {
+    "original": "TRO_9233_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 62866,
+    "wortposition": 39534
+   },
+   "bis": {
+    "original": "TRO_9261_4",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 63056,
+    "wortposition": null
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    39534,
+    39659
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q373-0a6387e0-4392-a4b2-f5c1-b7366ef549e7",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q373"
+   ],
+   "von": {
+    "original": "TRO_929_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 6203,
+    "wortposition": 3897
+   },
+   "bis": {
+    "original": "TRO_9247_5",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 62959,
+    "wortposition": 39593
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    3897,
+    39593
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q373-ba0af083-43c3-9db0-4a34-d3b8076f5dcd",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q373"
+   ],
+   "von": {
+    "original": "TRO_9282_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 63205,
+    "wortposition": 39752
+   },
+   "bis": {
+    "original": "TRO_9285_5",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 63234,
+    "wortposition": 39775
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    39752,
+    39775
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q373-ddc40c67-4e08-dfbc-3ebd-3159edef0622",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q373"
+   ],
+   "von": {
+    "original": "TRO_9890_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 67340,
+    "wortposition": 42438
+   },
+   "bis": {
+    "original": "TRO_9899_3",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 67401,
+    "wortposition": 42482
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    42438,
+    42482
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q376-cac4704c-45c1-1564-aec6-3ace9f777bb2",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q376"
+   ],
+   "von": {
+    "original": "TRO_9202_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 62658,
+    "wortposition": 39400
+   },
+   "bis": {
+    "original": "TRO_9203_3",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 62666,
+    "wortposition": 39406
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    39400,
+    39406
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q379-f64604ab-427e-1156-80c7-ca69c42a4402",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q379"
+   ],
+   "von": {
+    "original": "TRO_9204_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "pc",
+    "index": 62671,
+    "wortposition": null
+   },
+   "bis": {
+    "original": "TRO_9209_3",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 62708,
+    "wortposition": 39434
+   },
+   "status": "nichtwort_anker",
+   "wortspanne": [
+    39408,
+    39434
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q382-5ef0de36-4aa9-9a11-09a4-b27facc46050",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q382"
+   ],
+   "von": {
+    "original": "TRO_9942_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 67687,
+    "wortposition": 42673
+   },
+   "bis": {
+    "original": "TRO_9945_5",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 67712,
+    "wortposition": 42691
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    42673,
+    42691
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q382-6c61e8c1-450e-84db-88db-3542b941b6ef",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q382"
+   ],
+   "von": {
+    "original": "TRO_9210_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 62711,
+    "wortposition": 39435
+   },
+   "bis": {
+    "original": "TRO_9219_3",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 62777,
+    "wortposition": 39475
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    39435,
+    39475
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q382-fa02244d-4257-139f-fd3c-d1e5a96c73ee",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q382"
+   ],
+   "von": {
+    "original": "TRO_9920_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 67531,
+    "wortposition": 42567
+   },
+   "bis": {
+    "original": "TRO_9930_3",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 67605,
+    "wortposition": 42618
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    42567,
+    42618
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q386-351cf206-4d5b-5cbd-7ea9-e64fd3c05353",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q386"
+   ],
+   "von": {
+    "original": "TRO_9645_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 65704,
+    "wortposition": 41345
+   },
+   "bis": {
+    "original": "TRO_9655_5",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 65773,
+    "wortposition": 41391
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    41345,
+    41391
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q386-4b11fefc-44b6-b46f-33a2-ca0b411dd329",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q386"
+   ],
+   "von": {
+    "original": "TRO_9299_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 63338,
+    "wortposition": 39844
+   },
+   "bis": {
+    "original": "TRO_9321_4",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 63494,
+    "wortposition": 39939
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    39844,
+    39939
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q395-a8d03a0c-4430-00f2-f5cf-4f8b39746da6",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q395"
+   ],
+   "von": {
+    "original": "TRO_9290_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 63268,
+    "wortposition": 39799
+   },
+   "bis": {
+    "original": "TRO_9298_4",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 63334,
+    "wortposition": 39843
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    39799,
+    39843
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q395-d5fcc64b-4995-ead6-dbb4-3b821b5c1cd3",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q395"
+   ],
+   "von": {
+    "original": "TRO_9632_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 65621,
+    "wortposition": 41286
+   },
+   "bis": {
+    "original": "TRO_9647_3",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 65722,
+    "wortposition": 41357
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    41286,
+    41357
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q399-caf78877-474e-5198-7c6d-ae6593c96de7",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q399"
+   ],
+   "von": {
+    "original": "TRO_9383_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 63934,
+    "wortposition": 40226
+   },
+   "bis": {
+    "original": "TRO_9423_4",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 64227,
+    "wortposition": 40403
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    40226,
+    40403
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q401-ca38a5f9-4ec5-2cd0-2f1d-46d63721111a",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q401"
+   ],
+   "von": {
+    "original": "TRO_9425_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "pc",
+    "index": 64242,
+    "wortposition": null
+   },
+   "bis": {
+    "original": "TRO_9437_5",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 64338,
+    "wortposition": 40470
+   },
+   "status": "nichtwort_anker",
+   "wortspanne": [
+    40409,
+    40470
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q404-8b2cd8d4-431e-3c7b-32d9-09d7f8a5c1af",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q404"
+   ],
+   "von": {
+    "original": "TRO_9464_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 64511,
+    "wortposition": 40582
+   },
+   "bis": {
+    "original": "TRO_9466_3",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 64526,
+    "wortposition": 40593
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    40582,
+    40593
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q407-064f323b-4a5a-fb76-608e-7d4d90d50601",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q407"
+   ],
+   "von": {
+    "original": "TRO_9474_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 64580,
+    "wortposition": 40627
+   },
+   "bis": {
+    "original": "TRO_9477_5",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 64602,
+    "wortposition": 40641
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    40627,
+    40641
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q412-9846607d-4471-08af-44c3-9f4dda1f3f75",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q412"
+   ],
+   "von": {
+    "original": "TRO_9537_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 65014,
+    "wortposition": 40888
+   },
+   "bis": {
+    "original": "TRO_9547_4",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 65088,
+    "wortposition": 40938
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    40888,
+    40938
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q415-065689aa-4059-53f3-40c5-8183e344230f",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q415"
+   ],
+   "von": {
+    "original": "TRO_9598_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 65407,
+    "wortposition": 41144
+   },
+   "bis": {
+    "original": "TRO_9625_4",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 65575,
+    "wortposition": 41260
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    41144,
+    41260
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q415-1f18045b-415e-2551-3c6f-25baa9be4583",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q415"
+   ],
+   "von": {
+    "original": "TRO_9990_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 68004,
+    "wortposition": 42889
+   },
+   "bis": {
+    "original": "TRO_10039_3",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 68322,
+    "wortposition": 43105
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    42889,
+    43105
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q441-9ae94155-4226-1054-4d96-08a66b775a7b",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q441"
+   ],
+   "von": {
+    "original": "TRO_9667_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 65849,
+    "wortposition": 41444
+   },
+   "bis": {
+    "original": "TRO_9671_4",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 65883,
+    "wortposition": 41468
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    41444,
+    41468
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q441-9bbd8e1c-45a2-5c2d-0b56-725b57ddfe6e",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q441"
+   ],
+   "von": {
+    "original": "TRO_8157_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 55374,
+    "wortposition": 34789
+   },
+   "bis": {
+    "original": "TRO_8169_4",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 55458,
+    "wortposition": 34845
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    34789,
+    34845
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q443-6548fbbf-4bf8-49db-98c6-1da1e29c7e88",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q443"
+   ],
+   "von": {
+    "original": "TRY_992_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 6914,
+    "wortposition": 4037
+   },
+   "bis": {
+    "original": "TRY_993_6",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 6926,
+    "wortposition": 4046
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    4037,
+    4046
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q445-05b4c4f0-4bb0-dcd4-d725-274777305206",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q445"
+   ],
+   "von": {
+    "original": "TRO_9684_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 65960,
+    "wortposition": 41515
+   },
+   "bis": {
+    "original": "TRO_9745_3",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 66390,
+    "wortposition": 41813
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    41515,
+    41813
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q448-51f8e83c-4d9b-abe7-8c0c-c652c974ea0f",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q448"
+   ],
+   "von": {
+    "original": "TRO_9746_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 66393,
+    "wortposition": null
+   },
+   "bis": {
+    "original": "TRO_9753_5",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 66442,
+    "wortposition": 41842
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    41814,
+    41842
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q448-9d298062-4885-1c32-60dc-7fd39102e762",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q448"
+   ],
+   "von": {
+    "original": "TRO_8170_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 55461,
+    "wortposition": null
+   },
+   "bis": {
+    "original": "TRO_8178_4",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 55519,
+    "wortposition": 34885
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    34846,
+    34885
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q450-cd50b114-4a9e-8e9d-076b-dec6e5ea2d9a",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q450"
+   ],
+   "von": {
+    "original": "TRO_8170_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 55461,
+    "wortposition": null
+   },
+   "bis": {
+    "original": "TRO_8178_4",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 55519,
+    "wortposition": 34885
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    34846,
+    34885
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q455-59704622-44b5-f801-7171-268480219d12",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q455"
+   ],
+   "von": {
+    "original": "TRO_8183_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 55549,
+    "wortposition": 34902
+   },
+   "bis": {
+    "original": "TRO_8187_4",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 55579,
+    "wortposition": 34924
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    34902,
+    34924
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q456-fa104156-46ea-7497-3619-2f08f8ab1f3d",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q456"
+   ],
+   "von": {
+    "original": "TRY_998_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 6954,
+    "wortposition": 4063
+   },
+   "bis": {
+    "original": "TRY_1005_5",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 7011,
+    "wortposition": 4103
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    4063,
+    4103
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q458-733b0817-417c-0933-aff6-073a41b5b083",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q458"
+   ],
+   "von": {
+    "original": "TRO_8200_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 55659,
+    "wortposition": 34972
+   },
+   "bis": {
+    "original": "TRO_8201_3",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 55668,
+    "wortposition": 34980
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    34972,
+    34980
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q458-a4420199-401c-1ddc-4481-60818d0d9523",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q458"
+   ],
+   "von": {
+    "original": "TRO_9766_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 66522,
+    "wortposition": 41899
+   },
+   "bis": {
+    "original": "TRO_9773_3",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 66568,
+    "wortposition": 41930
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    41899,
+    41930
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q459-c3246946-4d92-5df1-3987-c49104aeae17",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q459"
+   ],
+   "von": {
+    "original": "TRY_1098_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 7669,
+    "wortposition": 4497
+   },
+   "bis": {
+    "original": "TRY_1098_6",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 7675,
+    "wortposition": 4503
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    4497,
+    4503
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q462-a6bc0e09-433b-abc2-97ca-62055528b2ba",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q462"
+   ],
+   "von": {
+    "original": "TRO_8183_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 55549,
+    "wortposition": 34902
+   },
+   "bis": {
+    "original": "TRO_8187_4",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 55579,
+    "wortposition": 34924
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    34902,
+    34924
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q464-02041514-463e-5d35-0fc7-52cf374d64ab",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q464"
+   ],
+   "von": {
+    "original": "TRO_9798_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 66729,
+    "wortposition": 42036
+   },
+   "bis": {
+    "original": "TRO_9801_5",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 66756,
+    "wortposition": null
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    42036,
+    42055
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q464-2e4a6d63-4b45-0d1b-df62-362518c1bc75",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q464"
+   ],
+   "von": {
+    "original": "TRO_9855_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 67104,
+    "wortposition": 42284
+   },
+   "bis": {
+    "original": "TRO_9915_3",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 67500,
+    "wortposition": 42548
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    42284,
+    42548
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q465-8082e695-4b52-39ce-2134-583942bb5466",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q465"
+   ],
+   "von": {
+    "original": "TRY_1093_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 7634,
+    "wortposition": 4473
+   },
+   "bis": {
+    "original": "TRY_1097_3",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 7666,
+    "wortposition": 4496
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    4473,
+    4496
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q468-d2a3197c-4920-ee94-ec7f-cd3fa53ab2f9",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q468"
+   ],
+   "von": {
+    "original": "TRO_9931_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 67609,
+    "wortposition": 42619
+   },
+   "bis": {
+    "original": "TRO_9941_4",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 67684,
+    "wortposition": null
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    42619,
+    42672
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q469-534fb675-4442-b547-f544-ad8c58c42c75",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q469"
+   ],
+   "von": {
+    "original": "TRY_1116_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 7807,
+    "wortposition": 4584
+   },
+   "bis": {
+    "original": "TRY_1118_4",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 7830,
+    "wortposition": null
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    4584,
+    4599
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q469-c127ccae-4357-ba7c-9efb-d1f88bfeabcf",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q469"
+   ],
+   "von": {
+    "original": "TRY_1107_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 7738,
+    "wortposition": 4539
+   },
+   "bis": {
+    "original": "TRY_1110_6",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 7768,
+    "wortposition": 4562
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    4539,
+    4562
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q473-c4d02ccf-40b0-8c46-f009-75d62bd17309",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q473"
+   ],
+   "von": {
+    "original": "TRO_9322_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 63498,
+    "wortposition": 39940
+   },
+   "bis": {
+    "original": "TRO_9324_6",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 63517,
+    "wortposition": 39954
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    39940,
+    39954
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q473-d3e028c9-42f2-f453-a8d1-0ab7b0705f36",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q473"
+   ],
+   "von": {
+    "original": "TRO_9950_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 67740,
+    "wortposition": 42707
+   },
+   "bis": {
+    "original": "TRO_9960_4",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 67815,
+    "wortposition": 42762
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    42707,
+    42762
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q474-3dba4acb-4d42-0386-8054-d5e784b975d4",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q474"
+   ],
+   "von": {
+    "original": "TRY_1126_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 7882,
+    "wortposition": 4628
+   },
+   "bis": {
+    "original": "TRY_1127_4",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 7893,
+    "wortposition": 4637
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    4628,
+    4637
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q477-eb9e6b77-4aa3-c845-a889-1be0c159141c",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q477"
+   ],
+   "von": {
+    "original": "TRO_9956_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 67783,
+    "wortposition": 42735
+   },
+   "bis": {
+    "original": "TRO_9957_3",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 67793,
+    "wortposition": 42744
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    42735,
+    42744
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q481-063310dc-41de-07a2-f0eb-42953085d00b",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q481"
+   ],
+   "von": {
+    "original": "TRO_8220_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 55799,
+    "wortposition": 35066
+   },
+   "bis": {
+    "original": "TRO_8223_5",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 55823,
+    "wortposition": 35084
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    35066,
+    35084
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q481-37b38147-4196-64a5-f1bc-f6f9caeb02f3",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q481"
+   ],
+   "von": {
+    "original": "TRO_9961_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 67819,
+    "wortposition": 42763
+   },
+   "bis": {
+    "original": "TRO_9965_5",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 67853,
+    "wortposition": 42787
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    42763,
+    42787
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q481-5509f1c9-4a68-1856-7c8b-433870f547de",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q481"
+   ],
+   "von": {
+    "original": "TRO_9326_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 63527,
+    "wortposition": 39959
+   },
+   "bis": {
+    "original": "TRO_9328_5",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 63546,
+    "wortposition": 39974
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    39959,
+    39974
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q486-8868e583-4a9c-4633-e58a-07c49f04a8ec",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q486"
+   ],
+   "von": {
+    "original": "TRO_8226_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 55841,
+    "wortposition": 35094
+   },
+   "bis": {
+    "original": "TRO_8231_4",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 55878,
+    "wortposition": 35122
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    35094,
+    35122
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q486-cd772a09-44b9-22d5-b657-cff78678c878",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q486"
+   ],
+   "von": {
+    "original": "TRO_9966_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 67856,
+    "wortposition": 42788
+   },
+   "bis": {
+    "original": "TRO_9975_3",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 67913,
+    "wortposition": null
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    42788,
+    42827
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q486-e3edb3e2-483a-3c46-b31a-16cc8f852c3f",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q486"
+   ],
+   "von": {
+    "original": "TRO_9329_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 63549,
+    "wortposition": 39975
+   },
+   "bis": {
+    "original": "TRO_9333_4",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 63584,
+    "wortposition": 40001
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    39975,
+    40001
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q489-118870ba-493d-3b2e-abe8-641666d1eb26",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q489"
+   ],
+   "von": {
+    "original": "TRO_9976_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 67916,
+    "wortposition": 42828
+   },
+   "bis": {
+    "original": "TRO_9985_3",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 67974,
+    "wortposition": null
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    42828,
+    42870
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q573-67e8ce39-4006-f1d9-d1f9-d5cbcf001ac4",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q573"
+   ],
+   "von": {
+    "original": "TRO_10004_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 68094,
+    "wortposition": 42953
+   },
+   "bis": {
+    "original": "TRO_10005_5",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 68105,
+    "wortposition": 42962
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    42953,
+    42962
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q573-c3e5dc84-4da7-1860-8cc6-bbe441f92e3c",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q573"
+   ],
+   "von": {
+    "original": "TRO_10048_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 68374,
+    "wortposition": 43138
+   },
+   "bis": {
+    "original": "TRO_10049_5",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 68387,
+    "wortposition": 43147
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    43138,
+    43147
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q576-80b91588-40c0-cf19-2d4f-424b97a49f1c",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q576"
+   ],
+   "von": {
+    "original": "TRO_9990_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 68004,
+    "wortposition": 42889
+   },
+   "bis": {
+    "original": "TRO_10039_3",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 68322,
+    "wortposition": 43105
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    42889,
+    43105
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q579-2fa7f860-43be-0bc8-7209-9289cbcf1d40",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q579"
+   ],
+   "von": {
+    "original": "TRO_10068_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 68512,
+    "wortposition": 43224
+   },
+   "bis": {
+    "original": "TRO_10079_4",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 68594,
+    "wortposition": 43280
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    43224,
+    43280
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q582-e03fed15-4214-ad5f-03a3-88e93b530d02",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q582"
+   ],
+   "von": {
+    "original": "TRO_10068_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 68512,
+    "wortposition": 43224
+   },
+   "bis": {
+    "original": "TRO_10079_4",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 68594,
+    "wortposition": 43280
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    43224,
+    43280
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q585-747e4c5e-4056-8772-8f37-10119bfb39b1",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q585"
+   ],
+   "von": {
+    "original": "TRO_10080_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 68597,
+    "wortposition": 43281
+   },
+   "bis": {
+    "original": "TRO_10105_04",
+    "sigle": "TRO",
+    "gefunden": false,
+    "grund": "kein exakter xml:id-Treffer"
+   },
+   "status": "nicht_gefunden"
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q589-301d987f-4c4b-1313-7c5e-1b4d53714f90",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q589"
+   ],
+   "von": {
+    "original": "TRO_10085_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 68629,
+    "wortposition": 43301
+   },
+   "bis": {
+    "original": "TRO_10107_6",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 68783,
+    "wortposition": 43405
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    43301,
+    43405
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q594-52e5386c-4124-b005-b47e-a49c70e7b466",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q594"
+   ],
+   "von": {
+    "original": "TRO_10108_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 68787,
+    "wortposition": 43406
+   },
+   "bis": {
+    "original": "TRO_10119_4",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 68868,
+    "wortposition": null
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    43406,
+    43453
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q599-a68d2e71-40e1-c9e5-5ab9-6397e372f086",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q599"
+   ],
+   "von": {
+    "original": "TRO_10189_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 69347,
+    "wortposition": 43747
+   },
+   "bis": {
+    "original": "TRO_10196_4",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 69397,
+    "wortposition": null
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    43747,
+    43781
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q601-f9752d41-4cf8-2875-4ffe-7876879a7176",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q601"
+   ],
+   "von": {
+    "original": "TRO10197_0",
+    "sigle": "TRO10197",
+    "gefunden": false,
+    "grund": "keine TEI-Datei zur Sigle"
+   },
+   "bis": {
+    "original": "TRO_10201_3",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 69430,
+    "wortposition": null
+   },
+   "status": "nicht_gefunden"
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q638-cb3a6143-4a11-98de-8f59-e5cc1596d9ef",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q638"
+   ],
+   "von": {
+    "original": "TRY_1146_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 8019,
+    "wortposition": 4707
+   },
+   "bis": {
+    "original": "TRY_1154_3",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 8082,
+    "wortposition": 4745
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    4707,
+    4745
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q639-712df13e-44ca-1abd-763e-36023546ba34",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q639"
+   ],
+   "von": {
+    "original": "TRO_10202_0",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 69433,
+    "wortposition": 43806
+   },
+   "bis": {
+    "original": "TRO_10205_5",
+    "sigle": "TRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 69455,
+    "wortposition": null
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    43806,
+    43821
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q641-79d9f868-49c9-faf0-e3a3-f7fec865e389",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q641"
+   ],
+   "von": {
+    "original": "TRY_1160_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 8119,
+    "wortposition": 4763
+   },
+   "bis": {
+    "original": "TRY_1165_4",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 8157,
+    "wortposition": 4785
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    4763,
+    4785
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q666-8c84df73-4cc6-ac6e-8041-92a41f842d23",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q666"
+   ],
+   "von": {
+    "original": "NLB_9021_0",
+    "sigle": "NLB",
+    "gefunden": true,
+    "element": "w",
+    "index": 41711,
+    "wortposition": 29481
+   },
+   "bis": {
+    "original": "NLB_9024_10",
+    "sigle": "NLB",
+    "gefunden": true,
+    "element": "w",
+    "index": 41755,
+    "wortposition": 29519
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    29481,
+    29519
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q666-95ca6db4-4dbf-1cfa-06f5-3b23a96d3b20",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q666"
+   ],
+   "von": {
+    "original": "NLB_8993_0",
+    "sigle": "NLB",
+    "gefunden": true,
+    "element": "w",
+    "index": 41594,
+    "wortposition": 29394
+   },
+   "bis": {
+    "original": "NLB_8994_8",
+    "sigle": "NLB",
+    "gefunden": true,
+    "element": "w",
+    "index": 41614,
+    "wortposition": 29412
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    29394,
+    29412
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q666-e5d7c579-4a7f-1eab-c305-9e21ad940332",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q666"
+   ],
+   "von": {
+    "original": "NLB_1003_0",
+    "sigle": "NLB",
+    "gefunden": true,
+    "element": "w",
+    "index": 4507,
+    "wortposition": 3196
+   },
+   "bis": {
+    "original": "NLB_1003_9",
+    "sigle": "NLB",
+    "gefunden": true,
+    "element": "w",
+    "index": 4516,
+    "wortposition": 3204
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    3196,
+    3204
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q667-375eef8d-40db-80e4-d911-3455b9b71c82",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q667"
+   ],
+   "von": {
+    "original": "NLB_9021_0",
+    "sigle": "NLB",
+    "gefunden": true,
+    "element": "w",
+    "index": 41711,
+    "wortposition": 29481
+   },
+   "bis": {
+    "original": "NLB_9024_10",
+    "sigle": "NLB",
+    "gefunden": true,
+    "element": "w",
+    "index": 41755,
+    "wortposition": 29519
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    29481,
+    29519
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q667-9b71f45c-494a-6d51-2453-68ae82d1cff2",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q667"
+   ],
+   "von": {
+    "original": "NLB_1003_0",
+    "sigle": "NLB",
+    "gefunden": true,
+    "element": "w",
+    "index": 4507,
+    "wortposition": 3196
+   },
+   "bis": {
+    "original": "NLB_1003_9",
+    "sigle": "NLB",
+    "gefunden": true,
+    "element": "w",
+    "index": 4516,
+    "wortposition": 3204
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    3196,
+    3204
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q667-af702402-4b21-c36a-cb63-821e71c994c9",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q667"
+   ],
+   "von": {
+    "original": "NLB_8993_0",
+    "sigle": "NLB",
+    "gefunden": true,
+    "element": "w",
+    "index": 41594,
+    "wortposition": 29394
+   },
+   "bis": {
+    "original": "NLB_8994_8",
+    "sigle": "NLB",
+    "gefunden": true,
+    "element": "w",
+    "index": 41614,
+    "wortposition": 29412
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    29394,
+    29412
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q669-51e78e7d-4a94-dd64-b918-790d1b4d034a",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q669"
+   ],
+   "von": {
+    "original": "NLB_1002_0",
+    "sigle": "NLB",
+    "gefunden": true,
+    "element": "w",
+    "index": 4498,
+    "wortposition": 3189
+   },
+   "bis": {
+    "original": "NLB_1002_6",
+    "sigle": "NLB",
+    "gefunden": true,
+    "element": "w",
+    "index": 4504,
+    "wortposition": 3195
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    3189,
+    3195
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q669-73c63fbe-4354-34d8-02a3-5ef44ff9e5c1",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q669"
+   ],
+   "von": {
+    "original": "NLB_8992_0",
+    "sigle": "NLB",
+    "gefunden": true,
+    "element": "w",
+    "index": 41584,
+    "wortposition": 29386
+   },
+   "bis": {
+    "original": "NLB_8992_7",
+    "sigle": "NLB",
+    "gefunden": true,
+    "element": "w",
+    "index": 41591,
+    "wortposition": 29393
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    29386,
+    29393
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q675-99234de3-4de0-abe4-6dc3-6ff05b98b6d5",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q675"
+   ],
+   "von": {
+    "original": "LAU_1850_0",
+    "sigle": "LAU",
+    "gefunden": true,
+    "element": "w",
+    "index": 1265,
+    "wortposition": null
+   },
+   "bis": {
+    "original": "LAU_1890_3",
+    "sigle": "LAU",
+    "gefunden": true,
+    "element": "w",
+    "index": 1298,
+    "wortposition": 785
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    768,
+    785
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q676-71bfdff6-4301-ad5a-e309-cc3924263fa6",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q676"
+   ],
+   "von": {
+    "original": "NLB_1003_0",
+    "sigle": "NLB",
+    "gefunden": true,
+    "element": "w",
+    "index": 4507,
+    "wortposition": 3196
+   },
+   "bis": {
+    "original": "NLB_1003_9",
+    "sigle": "NLB",
+    "gefunden": true,
+    "element": "w",
+    "index": 4516,
+    "wortposition": 3204
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    3196,
+    3204
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q676-d4ec09ad-49b6-9612-c581-6fb4b9d61c2d",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q676"
+   ],
+   "von": {
+    "original": "NLB_8993_0",
+    "sigle": "NLB",
+    "gefunden": true,
+    "element": "w",
+    "index": 41594,
+    "wortposition": 29394
+   },
+   "bis": {
+    "original": "NLB_8994_8",
+    "sigle": "NLB",
+    "gefunden": true,
+    "element": "w",
+    "index": 41614,
+    "wortposition": 29412
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    29394,
+    29412
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q680-dbe33240-4ca2-0e80-f910-405ea571de7a",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q680"
+   ],
+   "von": {
+    "original": "TR_8969_0",
+    "sigle": "TR",
+    "gefunden": true,
+    "element": "w",
+    "index": 63462,
+    "wortposition": 39228
+   },
+   "bis": {
+    "original": "TR_8972_3",
+    "sigle": "TR",
+    "gefunden": true,
+    "element": "w",
+    "index": 63482,
+    "wortposition": 39244
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    39228,
+    39244
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q682-ce222083-4a42-6f65-b384-924cc58e823b",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q682"
+   ],
+   "von": {
+    "original": "TR_8975_0",
+    "sigle": "TR",
+    "gefunden": true,
+    "element": "w",
+    "index": 63499,
+    "wortposition": 39255
+   },
+   "bis": {
+    "original": "TR_8983_5",
+    "sigle": "TR",
+    "gefunden": true,
+    "element": "w",
+    "index": 63569,
+    "wortposition": 39309
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    39255,
+    39309
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q690-435abaab-4c79-2a9f-982b-f47963b70aa4",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q690"
+   ],
+   "von": {
+    "original": "TR_8977_0",
+    "sigle": "TR",
+    "gefunden": true,
+    "element": "w",
+    "index": 63516,
+    "wortposition": 39268
+   },
+   "bis": {
+    "original": "TR_8979_5",
+    "sigle": "TR",
+    "gefunden": true,
+    "element": "w",
+    "index": 63539,
+    "wortposition": null
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    39268,
+    39284
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q697-e04e99ab-4d58-73de-fe41-a2ffed39e59b",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q697"
+   ],
+   "von": {
+    "original": "TR_9004_0",
+    "sigle": "TR",
+    "gefunden": true,
+    "element": "w",
+    "index": 63704,
+    "wortposition": 39405
+   },
+   "bis": {
+    "original": "TR_9019_2",
+    "sigle": "TR",
+    "gefunden": true,
+    "element": "w",
+    "index": 63815,
+    "wortposition": null
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    39405,
+    39475
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q699-0cb18626-4087-57c3-b3b4-4875a25924db",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q699"
+   ],
+   "von": {
+    "original": "TR_9044_0",
+    "sigle": "TR",
+    "gefunden": true,
+    "element": "w",
+    "index": 63978,
+    "wortposition": 39585
+   },
+   "bis": {
+    "original": "TR_9057_4",
+    "sigle": "TR",
+    "gefunden": true,
+    "element": "w",
+    "index": 64070,
+    "wortposition": 39649
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    39585,
+    39649
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q708-1884d317-4278-35c7-2bf5-e1ec56df8a62",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q708"
+   ],
+   "von": {
+    "original": "TR_9058_0",
+    "sigle": "TR",
+    "gefunden": true,
+    "element": "w",
+    "index": 64073,
+    "wortposition": 39650
+   },
+   "bis": {
+    "original": "TR_9064_5",
+    "sigle": "TR",
+    "gefunden": true,
+    "element": "w",
+    "index": 64121,
+    "wortposition": 39683
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    39650,
+    39683
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q716-93f1d777-48af-3bf7-1933-571b9449954b",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q716"
+   ],
+   "von": {
+    "original": "TR_8960_0",
+    "sigle": "TR",
+    "gefunden": true,
+    "element": "w",
+    "index": 63399,
+    "wortposition": 39187
+   },
+   "bis": {
+    "original": "TR_8962_3",
+    "sigle": "TR",
+    "gefunden": true,
+    "element": "w",
+    "index": 63418,
+    "wortposition": 39199
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    39187,
+    39199
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q716-b7636570-4ace-6806-450a-d659d8eeae6f",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q716"
+   ],
+   "von": {
+    "original": "TR_8942_0",
+    "sigle": "TR",
+    "gefunden": true,
+    "element": "w",
+    "index": 63281,
+    "wortposition": 39112
+   },
+   "bis": {
+    "original": "TR_8947_1",
+    "sigle": "TR",
+    "gefunden": true,
+    "element": "w",
+    "index": 63314,
+    "wortposition": 39137
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    39112,
+    39137
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q722-f74922da-402b-c431-b3d1-4341da31133c",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q722"
+   ],
+   "von": {
+    "original": "TR_8985_0",
+    "sigle": "TR",
+    "gefunden": true,
+    "element": "w",
+    "index": 63579,
+    "wortposition": 39316
+   },
+   "bis": {
+    "original": "TR_8987_4",
+    "sigle": "TR",
+    "gefunden": true,
+    "element": "w",
+    "index": 63595,
+    "wortposition": 39329
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    39316,
+    39329
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q726-318edea1-48af-f2cc-3e51-ec4b067e09b1",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q726"
+   ],
+   "von": {
+    "original": "TR_9430_0",
+    "sigle": "TR",
+    "gefunden": true,
+    "element": "w",
+    "index": 66796,
+    "wortposition": 41348
+   },
+   "bis": {
+    "original": "TR_9431_3",
+    "sigle": "TR",
+    "gefunden": true,
+    "element": "w",
+    "index": 66806,
+    "wortposition": null
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    41348,
+    41355
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q726-8378b319-4010-cd0d-bf0a-d39526655d9a",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q726"
+   ],
+   "von": {
+    "original": "TR_9441_0",
+    "sigle": "TR",
+    "gefunden": true,
+    "element": "w",
+    "index": 66874,
+    "wortposition": 41395
+   },
+   "bis": {
+    "original": "TR_9443_6",
+    "sigle": "TR",
+    "gefunden": true,
+    "element": "w",
+    "index": 66896,
+    "wortposition": 41411
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    41395,
+    41411
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q726-8d7fedbc-49df-16ed-02cc-8842739910c2",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q726"
+   ],
+   "von": {
+    "original": "TR_9085_0",
+    "sigle": "TR",
+    "gefunden": true,
+    "element": "w",
+    "index": 64267,
+    "wortposition": 39786
+   },
+   "bis": {
+    "original": "TR_9092_5",
+    "sigle": "TR",
+    "gefunden": true,
+    "element": "w",
+    "index": 64330,
+    "wortposition": 39830
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    39786,
+    39830
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q731-9c1347ae-42a1-b5d1-8b24-1b915739190d",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q731"
+   ],
+   "von": {
+    "original": "TR_9078_0",
+    "sigle": "TR",
+    "gefunden": true,
+    "element": "w",
+    "index": 64216,
+    "wortposition": 39750
+   },
+   "bis": {
+    "original": "TR_9085_7",
+    "sigle": "TR",
+    "gefunden": true,
+    "element": "w",
+    "index": 64274,
+    "wortposition": 39793
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    39750,
+    39793
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q733-fe1951c9-49f6-a783-b27f-ad1325808280",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q733"
+   ],
+   "von": {
+    "original": "TR_9122_0",
+    "sigle": "TR",
+    "gefunden": true,
+    "element": "w",
+    "index": 64538,
+    "wortposition": 39962
+   },
+   "bis": {
+    "original": "TR_9143_5",
+    "sigle": "TR",
+    "gefunden": true,
+    "element": "w",
+    "index": 64690,
+    "wortposition": 40064
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    39962,
+    40064
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q737-ed7eed1d-4d2d-d92d-d61c-d1c8881e8229",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q737"
+   ],
+   "von": {
+    "original": "TR_9194_0",
+    "sigle": "TR",
+    "gefunden": true,
+    "element": "w",
+    "index": 65061,
+    "wortposition": 40290
+   },
+   "bis": {
+    "original": "TR_9210_5",
+    "sigle": "TR",
+    "gefunden": true,
+    "element": "w",
+    "index": 65192,
+    "wortposition": null
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    40290,
+    40379
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q737-f2e585b1-40e4-cfa0-3357-930863e6739b",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q737"
+   ],
+   "von": {
+    "original": "TR_9160_0",
+    "sigle": "TR",
+    "gefunden": true,
+    "element": "w",
+    "index": 64814,
+    "wortposition": null
+   },
+   "bis": {
+    "original": "TR_9169_4",
+    "sigle": "TR",
+    "gefunden": true,
+    "element": "w",
+    "index": 64877,
+    "wortposition": 40182
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    40144,
+    40182
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q741-72c83daa-4b8b-e677-8ebd-331667c89f1b",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q741"
+   ],
+   "von": {
+    "original": "TR_9253_0",
+    "sigle": "TR",
+    "gefunden": true,
+    "element": "w",
+    "index": 65497,
+    "wortposition": 40565
+   },
+   "bis": {
+    "original": "TR_9253_6",
+    "sigle": "TR",
+    "gefunden": true,
+    "element": "pc",
+    "index": 65503,
+    "wortposition": null
+   },
+   "status": "nichtwort_anker",
+   "wortspanne": [
+    40565,
+    40570
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q741-f1143280-4a78-20ab-af16-182e96623d83",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q741"
+   ],
+   "von": {
+    "original": "TR_9202_0",
+    "sigle": "TR",
+    "gefunden": true,
+    "element": "w",
+    "index": 65123,
+    "wortposition": 40334
+   },
+   "bis": {
+    "original": "TR_9206_4",
+    "sigle": "TR",
+    "gefunden": true,
+    "element": "w",
+    "index": 65160,
+    "wortposition": 40357
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    40334,
+    40357
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q746-8990f227-4975-82c2-2fb0-fde133ab8091",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q746"
+   ],
+   "von": {
+    "original": "TR_9797_0",
+    "sigle": "TR",
+    "gefunden": true,
+    "element": "pc",
+    "index": 69488,
+    "wortposition": null
+   },
+   "bis": {
+    "original": "TR_9817_3",
+    "sigle": "TR",
+    "gefunden": true,
+    "element": "w",
+    "index": 69632,
+    "wortposition": 43072
+   },
+   "status": "nichtwort_anker",
+   "wortspanne": [
+    42981,
+    43072
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q775-24488a14-445e-72d4-fe03-e0a00431e226",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q775"
+   ],
+   "von": {
+    "original": "GRG_4650_0",
+    "sigle": "GRG",
+    "gefunden": true,
+    "element": "w",
+    "index": 3187,
+    "wortposition": 2005
+   },
+   "bis": {
+    "original": "GRG_4670_2",
+    "sigle": "GRG",
+    "gefunden": true,
+    "element": "w",
+    "index": 3204,
+    "wortposition": 2016
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    2005,
+    2016
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q778-98b4ac4c-41b6-32be-2df8-1026504287b1",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q778"
+   ],
+   "von": {
+    "original": "EID_16680_0",
+    "sigle": "EID",
+    "gefunden": true,
+    "element": "w",
+    "index": 224,
+    "wortposition": 127
+   },
+   "bis": {
+    "original": "EID_16690_3",
+    "sigle": "EID",
+    "gefunden": true,
+    "element": "w",
+    "index": 235,
+    "wortposition": 134
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    127,
+    134
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q778-b232ff7d-4336-3925-7a0d-5dc8eea1ab97",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q778"
+   ],
+   "von": {
+    "original": "EID_16780_0",
+    "sigle": "EID",
+    "gefunden": true,
+    "element": "w",
+    "index": 306,
+    "wortposition": 173
+   },
+   "bis": {
+    "original": "EID_16790_4",
+    "sigle": "EID",
+    "gefunden": true,
+    "element": "w",
+    "index": 317,
+    "wortposition": 181
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    173,
+    181
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q779-f79ee56d-4c47-ab30-d5d5-11b1d3a72d30",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q779"
+   ],
+   "von": {
+    "original": "EID_16600_0",
+    "sigle": "EID",
+    "gefunden": true,
+    "element": "w",
+    "index": 154,
+    "wortposition": null
+   },
+   "bis": {
+    "original": "EID_16630_4",
+    "sigle": "EID",
+    "gefunden": true,
+    "element": "w",
+    "index": 186,
+    "wortposition": 110
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    88,
+    110
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q780-ddabbe33-45d7-ebb0-ce53-3650f8bdc49f",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q780"
+   ],
+   "von": {
+    "original": "EID_16700_0",
+    "sigle": "EID",
+    "gefunden": true,
+    "element": "w",
+    "index": 239,
+    "wortposition": 135
+   },
+   "bis": {
+    "original": "EID_16720_5",
+    "sigle": "EID",
+    "gefunden": true,
+    "element": "w",
+    "index": 257,
+    "wortposition": 147
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    135,
+    147
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q781-10829a9b-4d4a-ee9b-4796-87a5e52caec5",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q781"
+   ],
+   "von": {
+    "original": "EID_16720_0",
+    "sigle": "EID",
+    "gefunden": true,
+    "element": "w",
+    "index": 252,
+    "wortposition": 143
+   },
+   "bis": {
+    "original": "EID_16720_5",
+    "sigle": "EID",
+    "gefunden": true,
+    "element": "w",
+    "index": 257,
+    "wortposition": 147
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    143,
+    147
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q793-53791485-43f9-1e44-72bb-de9121d72a31",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q793"
+   ],
+   "von": {
+    "original": "CRO_1277800_0",
+    "sigle": "CRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 100121,
+    "wortposition": 45716
+   },
+   "bis": {
+    "original": "CRO_1278800_0",
+    "sigle": "CRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 100200,
+    "wortposition": 45757
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    45716,
+    45757
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q794-2a57aa99-4114-4c5c-44ae-c9ae02b0d069",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q794"
+   ],
+   "von": {
+    "original": "CRO_1340100_0",
+    "sigle": "CRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 105357,
+    "wortposition": 48207
+   },
+   "bis": {
+    "original": "CRO_1340600_3",
+    "sigle": "CRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 105396,
+    "wortposition": 48226
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    48207,
+    48226
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q794-6d71b78a-4035-e6a2-08a4-15138e3e143a",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q794"
+   ],
+   "von": {
+    "original": "CRO_1278800_0",
+    "sigle": "CRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 100200,
+    "wortposition": 45757
+   },
+   "bis": {
+    "original": "CRO_1279200_5",
+    "sigle": "CRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 100229,
+    "wortposition": 45772
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    45757,
+    45772
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q797-a3fc40f7-47dc-357f-f689-d3bb8fbcdf56",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q797"
+   ],
+   "von": {
+    "original": "CRO_1348400_0",
+    "sigle": "CRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 106051,
+    "wortposition": 48515
+   },
+   "bis": {
+    "original": "CRO_1348700_4",
+    "sigle": "CRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 106084,
+    "wortposition": null
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    48515,
+    48532
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q798-a281b478-4260-a52b-02d7-70a8c7039d86",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q798"
+   ],
+   "von": {
+    "original": "CRO_1348800_0",
+    "sigle": "CRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 106088,
+    "wortposition": 48533
+   },
+   "bis": {
+    "original": "CRO_1349800_5",
+    "sigle": "CRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 106176,
+    "wortposition": 48578
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    48533,
+    48578
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q800-fde69e12-4b2d-12e5-3aad-1a4383304928",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q800"
+   ],
+   "von": {
+    "original": "CRO_1350000_0",
+    "sigle": "CRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 106188,
+    "wortposition": null
+   },
+   "bis": {
+    "original": "CRO_1350200_5",
+    "sigle": "CRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 106210,
+    "wortposition": 48596
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    48584,
+    48596
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q801-f2e05553-4fbd-e383-8ebc-0186661c3509",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q801"
+   ],
+   "von": {
+    "original": "CRO_1347800_0",
+    "sigle": "CRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 105996,
+    "wortposition": null
+   },
+   "bis": {
+    "original": "CRO_1348200_5",
+    "sigle": "CRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 106038,
+    "wortposition": 48510
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    48492,
+    48510
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q804-73adc18d-4f25-fe05-4dca-916e2d425042",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q804"
+   ],
+   "von": {
+    "original": "CRO_2672000_0",
+    "sigle": "CRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 211059,
+    "wortposition": 96823
+   },
+   "bis": {
+    "original": "CRO_2672400_5",
+    "sigle": "CRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 211100,
+    "wortposition": 96845
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    96823,
+    96845
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q806-c76edcaf-480f-29d2-5e34-69f11f141033",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q806"
+   ],
+   "von": {
+    "original": "CRO_2672400_0",
+    "sigle": "CRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 211095,
+    "wortposition": 96841
+   },
+   "bis": {
+    "original": "CRO_2672900_4",
+    "sigle": "CRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 211135,
+    "wortposition": 96862
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    96841,
+    96862
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q808-ff2d1f10-494f-d0f1-6c3d-7a527038450d",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q808"
+   ],
+   "von": {
+    "original": "CRO_1345200_0",
+    "sigle": "CRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 105778,
+    "wortposition": 48394
+   },
+   "bis": {
+    "original": "CRO_1346400_4",
+    "sigle": "CRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 105882,
+    "wortposition": 48443
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    48394,
+    48443
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q810-058257a8-4c14-f7e2-c1b4-655cf95b6bc2",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q810"
+   ],
+   "von": {
+    "original": "CRO_1350500_0",
+    "sigle": "CRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 106233,
+    "wortposition": 48606
+   },
+   "bis": {
+    "original": "CRO_1351300_4",
+    "sigle": "CRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 106302,
+    "wortposition": null
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    48606,
+    48639
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q813-a6484e98-4bb9-43ae-b88c-111fec0f7d5d",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q813"
+   ],
+   "von": {
+    "original": "CRO_2675500_0",
+    "sigle": "CRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 211335,
+    "wortposition": 96950
+   },
+   "bis": {
+    "original": "CRO_2676400_4",
+    "sigle": "CRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 211411,
+    "wortposition": 96991
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    96950,
+    96991
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q814-8b5a3bd0-4521-99b4-811b-f6618c6ff105",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q814"
+   ],
+   "von": {
+    "original": "CRO_2670300_0",
+    "sigle": "CRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 210926,
+    "wortposition": 96752
+   },
+   "bis": {
+    "original": "CRO_2671100_6",
+    "sigle": "CRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 210993,
+    "wortposition": 96789
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    96752,
+    96789
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q817-e0f31753-41ef-be6d-e457-4d028f1b07df",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q817"
+   ],
+   "von": {
+    "original": "TR_8936_0",
+    "sigle": "TR",
+    "gefunden": true,
+    "element": "w",
+    "index": 63238,
+    "wortposition": 39083
+   },
+   "bis": {
+    "original": "TR_8942_5",
+    "sigle": "TR",
+    "gefunden": true,
+    "element": "w",
+    "index": 63286,
+    "wortposition": 39116
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    39083,
+    39116
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q837-bf8f095b-46cc-7bdd-1ec0-ebfe1841f06d",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q837"
+   ],
+   "von": {
+    "original": "TRY_337_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 2357,
+    "wortposition": null
+   },
+   "bis": {
+    "original": "TRY_338_4",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 2367,
+    "wortposition": 1404
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    1398,
+    1404
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q839-086eb827-467b-f27b-6320-e3ac8c5060d0",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q839"
+   ],
+   "von": {
+    "original": "TRY_339_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 2370,
+    "wortposition": null
+   },
+   "bis": {
+    "original": "TRY_347_4",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 2433,
+    "wortposition": 1442
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    1405,
+    1442
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q844-966b94d8-4df8-01ba-ec43-d62e7d119f69",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q844"
+   ],
+   "von": {
+    "original": "TRY_341_0",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 2387,
+    "wortposition": null
+   },
+   "bis": {
+    "original": "TRY_347_4",
+    "sigle": "TRY",
+    "gefunden": true,
+    "element": "w",
+    "index": 2433,
+    "wortposition": 1442
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    1415,
+    1442
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q857-bcb9a050-4186-b93f-faf7-15501a124c4a",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q857"
+   ],
+   "von": {
+    "original": "ADP_103500_0",
+    "sigle": "ADP",
+    "gefunden": true,
+    "element": "w",
+    "index": 498,
+    "wortposition": 302
+   },
+   "bis": {
+    "original": "ADP_103700_10",
+    "sigle": "ADP",
+    "gefunden": true,
+    "element": "w",
+    "index": 533,
+    "wortposition": 329
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    302,
+    329
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q858-17c91da4-4d1c-cd9d-fa2e-5373896340f6",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q858"
+   ],
+   "von": {
+    "original": "PKP_2291000030_0",
+    "sigle": "PKP",
+    "gefunden": true,
+    "element": "w",
+    "index": 124395,
+    "wortposition": 76739
+   },
+   "bis": {
+    "original": "PKP_2291000060_5",
+    "sigle": "PKP",
+    "gefunden": true,
+    "element": "w",
+    "index": 124439,
+    "wortposition": null
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    76739,
+    76768
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q883-de6a043a-4d49-86d6-3907-d8bdf2a6bfc1",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q883"
+   ],
+   "von": {
+    "original": "TR_8980_0",
+    "sigle": "TR",
+    "gefunden": true,
+    "element": "w",
+    "index": 63541,
+    "wortposition": 39285
+   },
+   "bis": {
+    "original": "TR_8982_6",
+    "sigle": "TR",
+    "gefunden": true,
+    "element": "w",
+    "index": 63562,
+    "wortposition": 39303
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    39285,
+    39303
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q891-c8705d03-4b03-24e3-094c-a659a19fc49c",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q891"
+   ],
+   "von": {
+    "original": "IW_3840_0",
+    "sigle": "IW",
+    "gefunden": true,
+    "element": "w",
+    "index": 26996,
+    "wortposition": 17263
+   },
+   "bis": {
+    "original": "IW_3840_5",
+    "sigle": "IW",
+    "gefunden": true,
+    "element": "w",
+    "index": 27001,
+    "wortposition": 17268
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    17263,
+    17268
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q892-b792516d-4ee8-2d09-ec0b-17b9093e3c3a",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q892"
+   ],
+   "von": {
+    "original": "IW_3841_0",
+    "sigle": "IW",
+    "gefunden": true,
+    "element": "w",
+    "index": 27004,
+    "wortposition": 17269
+   },
+   "bis": {
+    "original": "IW_3842_6",
+    "sigle": "IW",
+    "gefunden": true,
+    "element": "w",
+    "index": 27018,
+    "wortposition": null
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    17269,
+    17279
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q894-49f3cb2b-4e64-9269-fb91-c0cf7af36668",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q894"
+   ],
+   "von": {
+    "original": "IW_3862_0",
+    "sigle": "IW",
+    "gefunden": true,
+    "element": "w",
+    "index": 27150,
+    "wortposition": 17363
+   },
+   "bis": {
+    "original": "IW_3863_5",
+    "sigle": "IW",
+    "gefunden": true,
+    "element": "w",
+    "index": 27163,
+    "wortposition": 17374
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    17363,
+    17374
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q896-78f1825a-42bb-0314-5004-fc6ce0e5c90b",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q896"
+   ],
+   "von": {
+    "original": "IW_3862_0",
+    "sigle": "IW",
+    "gefunden": true,
+    "element": "w",
+    "index": 27150,
+    "wortposition": 17363
+   },
+   "bis": {
+    "original": "IW_3862_6",
+    "sigle": "IW",
+    "gefunden": true,
+    "element": "w",
+    "index": 27156,
+    "wortposition": 17369
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    17363,
+    17369
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q900-e7528cf8-41c7-5ba3-58e4-a560edf36e8b",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q900"
+   ],
+   "von": {
+    "original": "IW_3846_0",
+    "sigle": "IW",
+    "gefunden": true,
+    "element": "w",
+    "index": 27044,
+    "wortposition": null
+   },
+   "bis": {
+    "original": "IW_3849_3",
+    "sigle": "IW",
+    "gefunden": true,
+    "element": "w",
+    "index": 27067,
+    "wortposition": 17313
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    17297,
+    17313
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q904-c9f0eb3a-44fa-257d-bc6a-718988fb794c",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q904"
+   ],
+   "von": {
+    "original": "IW_3862_0",
+    "sigle": "IW",
+    "gefunden": true,
+    "element": "w",
+    "index": 27150,
+    "wortposition": 17363
+   },
+   "bis": {
+    "original": "IW_3864_6",
+    "sigle": "IW",
+    "gefunden": true,
+    "element": "w",
+    "index": 27171,
+    "wortposition": 17381
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    17363,
+    17381
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q922-791ddc68-4325-6f7a-699f-265baf29ee48",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q922"
+   ],
+   "von": {
+    "original": "CRO_1505900_0",
+    "sigle": "CRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 119018,
+    "wortposition": 54581
+   },
+   "bis": {
+    "original": "CRO_1506400_4",
+    "sigle": "CRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 119063,
+    "wortposition": 54606
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    54581,
+    54606
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q925-e9036aea-4145-f794-9e70-aa49dff95477",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q925"
+   ],
+   "von": {
+    "original": "CRO_1510200_0",
+    "sigle": "CRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 119368,
+    "wortposition": 54754
+   },
+   "bis": {
+    "original": "CRO_1510800_5",
+    "sigle": "CRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 119424,
+    "wortposition": 54780
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    54754,
+    54780
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q927-4ca2b3b4-428c-24ac-9d12-7b71ac013e23",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q927"
+   ],
+   "von": {
+    "original": "CRO_1511100_0",
+    "sigle": "CRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 119442,
+    "wortposition": null
+   },
+   "bis": {
+    "original": "CRO_1511600_4",
+    "sigle": "CRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 119485,
+    "wortposition": 54810
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    54789,
+    54810
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q930-bd518626-4e6b-a348-1865-a875b75c947e",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q930"
+   ],
+   "von": {
+    "original": "CRO_1512700_0",
+    "sigle": "CRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 119563,
+    "wortposition": 54846
+   },
+   "bis": {
+    "original": "CRO_1513600_5",
+    "sigle": "CRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 119640,
+    "wortposition": null
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    54846,
+    54885
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q931-ffec644d-4636-bf33-54ad-7c184d167838",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q931"
+   ],
+   "von": {
+    "original": "CRO_1517100_0",
+    "sigle": "CRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 119921,
+    "wortposition": null
+   },
+   "bis": {
+    "original": "CRO_1517500_4",
+    "sigle": "CRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 119959,
+    "wortposition": 55040
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    55018,
+    55040
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q933-8faeab2b-4ddf-a02a-df9b-e7dfd191ada7",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q933"
+   ],
+   "von": {
+    "original": "CRO_1519100_0",
+    "sigle": "CRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 120095,
+    "wortposition": 55096
+   },
+   "bis": {
+    "original": "CRO_1519600_5",
+    "sigle": "CRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 120150,
+    "wortposition": 55124
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    55096,
+    55124
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q935-c1def636-43f6-3959-b9f9-914af8cb3888",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q935"
+   ],
+   "von": {
+    "original": "CRO_1519900_0",
+    "sigle": "CRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 120172,
+    "wortposition": 55133
+   },
+   "bis": {
+    "original": "CRO_1520300_6",
+    "sigle": "CRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 120206,
+    "wortposition": 55152
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    55133,
+    55152
+   ]
+  },
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q937-86c362f3-4a28-b977-2f19-93a541cfc3d2",
+   "typen": [
+    "TextPassage"
+   ],
+   "realisierungen": [
+    "http://onama.sbg.ac.at/object/Q937"
+   ],
+   "von": {
+    "original": "CRO_1520400_0",
+    "sigle": "CRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 120210,
+    "wortposition": 55153
+   },
+   "bis": {
+    "original": "CRO_1520500_4",
+    "sigle": "CRO",
+    "gefunden": true,
+    "element": "w",
+    "index": 120221,
+    "wortposition": 55160
+   },
+   "status": "wortanker",
+   "wortspanne": [
+    55153,
+    55160
+   ]
+  }
+ ],
+ "ausserhalb": [
+  {
+   "uri": "http://onama.sbg.ac.at/object/Q67",
+   "typen": [
+    "TextualRealisation"
+   ],
+   "realisierungen": [],
+   "von": {
+    "original": "AXU_XXXX",
+    "sigle": "AXU",
+    "gefunden": false,
+    "grund": "kein exakter xml:id-Treffer"
+   },
+   "bis": {
+    "original": "AXU_XXXX",
+    "sigle": "AXU",
+    "gefunden": false,
+    "grund": "kein exakter xml:id-Treffer"
+   },
+   "status": "ausserhalb_textpassage",
+   "label": [
+    "AXU David fights Goliath",
+    "AXU David kämpft gegen Goliath"
+   ]
+  }
+ ]
+}

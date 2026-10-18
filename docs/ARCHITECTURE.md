@@ -221,6 +221,8 @@ playground/js/ui/
 │   ├── verse-ending-profile.js    # Verse-ending profile, top-N verse-final lemmata + rhyme pressure (#106, items 2/3)
 │   ├── naming-explorer.js         # Extended character naming, curated for 4 works (#59, Beta)
 │   └── horses-explorer.js         # Arthurian horses, curated for 5 works (#193, Beta)
+├── onama/
+│   └── onama-explorer.js          # ONAMA narrative explorer, Argonaut pilot (#609, Beta)
 └── search/
     └── SearchHelpers.js
 ```
@@ -231,7 +233,7 @@ playground/js/ui/
 - Easier testing and maintenance
 - Net reduction: 5,536 lines removed
 
-**Playground TEI module convention:** `playground/js/ui/tei/` holds the router, the shared helpers, the modal and the analysis modules. The analysis modules share one constructor/`show()`/`render()` pattern, with thunks instead of direct data references, a state-driven `renderBody()`, per-module escape helpers, and a MessageChannel yield for large aggregations. Some files are exempt from the pattern: `tei-ui.js` is the router, `corpus-scope.js` is a shared helper for the corpus selection (#204), `multi-lemma-search.js` is a documented modal outlier, and `multi-lemma-export.js` is its export helper (#448). `naming-explorer.js` (#59) and `horses-explorer.js` (#193) are a special case of their own: they do not read the corpus index but lazily fetch their own small index (`data/naming-index.json.gz`, `data/horses-index.json.gz`) via fetch plus pako, without an IndexedDB cache. Both belong to the playground's third group, "Experimentelle Forschungsdaten" (#194), which collects curated datasets from external research projects; the entry convention is in that issue. The pattern is documented as a template in [DESIGN.md §Playground TEI-Analysis Module Pattern](DESIGN.md#playground-tei-analysis-module-pattern).
+**Playground TEI module convention:** `playground/js/ui/tei/` holds the router, the shared helpers, the modal and the analysis modules. The analysis modules share one constructor/`show()`/`render()` pattern, with thunks instead of direct data references, a state-driven `renderBody()`, per-module escape helpers, and a MessageChannel yield for large aggregations. Some files are exempt from the pattern: `tei-ui.js` is the router, `corpus-scope.js` is a shared helper for the corpus selection (#204), `multi-lemma-search.js` is a documented modal outlier, and `multi-lemma-export.js` is its export helper (#448). `naming-explorer.js` (#59) and `horses-explorer.js` (#193) are a special case of their own: they do not read the corpus index but lazily fetch their own small index (`data/naming-index.json.gz`, `data/horses-index.json.gz`) via fetch plus pako, without an IndexedDB cache. Both belong to the playground's third group, "Experimentelle Forschungsdaten" (#194), which collects curated datasets from external research projects; the entry convention is in that issue. The ONAMA explorer (#609) sits in the same group but in its own folder `playground/js/ui/onama/` with its own `playground/css/onama.css` (classes prefixed `on-`, so the prebuilt Tailwind output stays untouched); it lazily fetches the plain JSON `playground/data/onama/argonauten.json` without pako and without an IndexedDB cache. The pattern is documented as a template in [DESIGN.md §Playground TEI-Analysis Module Pattern](DESIGN.md#playground-tei-analysis-module-pattern).
 
 **Authority Explorers:**
 Each explorer follows consistent pattern:
@@ -284,6 +286,7 @@ Each explorer follows consistent pattern:
 | Versendings-Profil | `#verse-ending-profile` | Top-N verse-final lemmata per scope, with a "Reim-Druck" column (#106 items 2 and 3) |
 | Erweiterte Figurenbezeichnungen | `#naming` | Curated proper names, antonomasias and epithets per character in 4 works (#59, beta) |
 | Arthurische Pferde | `#horses` | Curated horse attestations in 5 works, with event filter and `?verseId=` reader deep link (#193, beta) |
+| ONAMA: Argonautensage | `#onama` | Curated ONAMA excerpt: entry via thing, action, entity or concept; concept, realisation, role and function kept apart; anchors checked against the TEI (#609, beta) |
 
 **Corpus scope of these views (#204).** Most analysis tools read the text selection from the Corpus Browser; hapax legomena, text comparison and the rhyme dictionary stay corpus-wide, each for a reason stated in its own UI header. Which tool does what, and why, is in [FEATURES.md → TEI Text Analysis](FEATURES.md#tei-text-analysis) rather than repeated per row here. Mechanically the split is two thunks in `playground-main.js`, `selectedTextsThunk` and `corpusTextsThunk`; a tool whose stored scope (`state.scope`, table checkboxes) points outside the current selection resets it on the next `show()`.
 
@@ -313,7 +316,7 @@ Each explorer follows consistent pattern:
 | `navigate(view, params)` | Updates hash and dispatches (suppresses listener to prevent double-fire) |
 | `initRouter()` | Wires `hashchange` listener, called once after the authority index loads; the corpus index keeps loading in the background (#535) |
 
-**Which routes wait for the corpus index** (`CORPUS_ROUTES`, #535): the multi-lemma search and the TEI analysis tools that read the corpus. The authority registers read only the authority index, and `naming` and `horses` load their own files, so they render while the corpus index is still on its way. A new route whose module reads the corpus belongs in that set, or it renders against an empty text list.
+**Which routes wait for the corpus index** (`CORPUS_ROUTES`, #535): the multi-lemma search and the TEI analysis tools that read the corpus. The authority registers read only the authority index, and `naming`, `horses` and `onama` load their own files, so they render while the corpus index is still on its way. A new route whose module reads the corpus belongs in that set, or it renders against an empty text list.
 
 **Known limitation:** `triggerExpand(itemId)` only works for items in the currently visible result set (typically top 50).
 

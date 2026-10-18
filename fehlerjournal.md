@@ -1321,3 +1321,43 @@ Auto-Mode-Classifier abgelehnt, und die Blockade ging an Christian.
 **Was es getragen hat:** die 13 in einer Meldung an die Koordination, die sie notierte und mit Runde 1 auf 17 richtigstellte. Der README-Text mit 431 und 55 stand nur in einem lokalen, nicht gepushten Commit; abgewendet hat es der Reviewer vor dem Push.
 
 **Kein neuer Mechanismus, die begründete Aussetzung gilt:** sie steht in `rules/agentenbefunde.md` ("Kein Hook, begründet ausgesetzt (#58)"). Ein Skript hätte die Differenz gefangen, die ich nicht als Differenz erkannt habe; das Nachzählen mit einem Befehl pro README-Zahl (die Belegtabelle im Reviewer-Auftrag) hat sie hier gefangen, bevor sie trug.
+
+### 157. Rot: eine Zuordnung als Tatsache an die Koordination gemeldet, die ich nicht gemessen hatte (Spur lauf-1018-onama, 18.10.2026, #609).
+
+**Rot.** Im Checkin schrieb ich, die 84 Bildrealisierungen ohne Sammlung "gehören nach RO-Nummer zu cod. 2773". Gemessen war nur, dass ihr Label mit "RO " beginnt; der Vergleich der Nummernkreise kam eine Stunde später und ergab 9 von 41 gemeinsam. Die Koordination hatte die Zuordnung auf meine Aussage hin freigegeben.
+
+**Die Lehre steht in `mengen.md`: vor jeder Zahl und Allaussage fragen, über welche Menge der Satz spricht und woher ich weiß, dass er für alle gilt.** Die letzte Zeile zu dieser Lehre ist Eintrag 55.
+
+**Was es getragen hat:** die Freigabe der Koordination für "abgeleitet über RO-Nummer". Abgewendet hat es meine eigene Messung vor dem Bau von O2 und vor jedem Text; die Korrektur ging mit der Meldung zur router.js-Zeile hinaus, die Quelle heißt jetzt `REALONLINE`.
+
+**Kein neuer Mechanismus von mir:** für Mengenaussagen läuft der Trockenlauf `mengenaussagen` (#73), der auf dieser Spur 17 Treffer meldete und nichts sperrt. Gefangen hat es das Nachzählen mit einem Befehl, bevor ein Satz im Paket stand.
+
+### 158. Rot: ein Spec-Titel versprach, was die Assertion nicht prüfte (Spur lauf-1018-onama, 18.10.2026, #609).
+
+**Rot.** Der Test "Nicht gefundene Anker werden benannt und nicht verlinkt" prüfte nur zwei Textstellen und nirgends den fehlenden Link; die gewählte Realisierung (Q1238) hatte außerdem `text: null`, ein Mutant hätte dort nie einen Link erzeugt. `docs/DEVELOPMENT.md` trug dieselbe Behauptung.
+
+**Die Lehre steht in `CLAUDE.md` (Self-Inflicted Overhead): eine Aussage darüber, was ein Gate tut, wird durch Ausführen belegt, mit einer Mutationsprobe, die vorher prüft, dass sie die Stelle trifft.** Die letzte Zeile zu dieser Lehre ist Eintrag 54.
+
+**Was es getragen hat:** eine grüne Spec mit einem Titel, der mehr behauptete, als sie prüfte. Abgewendet hat es der Reviewer in Runde 1 vor dem Push.
+
+**Kein neuer Mechanismus, die Mutationsprobe ist der Mechanismus:** nach der Korrektur habe ich den Mutanten (`const springen = pa.text`) gebaut, die Spec lief rot, das Original wiederhergestellt und grün gefahren.
+
+### 159. Rot: ein Flag an der falschen Eigenschaft gebunden und dabei einen Schutz entfernt, ohne die #397-Frage zu stellen (Spur lauf-1018-onama, 18.10.2026, #609).
+
+**Rot.** Für die Markierung "umgerechnet" band ich das Flag an `bool(wortspanne)`. Fiel die Spanne in sich zusammen, wäre eine Passage mit Nichtwort-Anker still als "geprüft" eingestuft worden; vor der Änderung hieß `nichtwort_anker` ohne Bedingung "abgeleitet". In den gepinnten Daten trat es nicht auf.
+
+**Die Lehre steht in `CLAUDE.md` (Git Rules, Frage aus #397): was hat diese Änderung wahr gemacht, das vorher falsch sein konnte?** Die letzte Zeile zu dieser Lehre ist Eintrag 56.
+
+**Was es getragen hat:** nichts in den Daten (0 betroffene Passagen, gemessen vom Reviewer), aber ein falscher Status wäre mit anderer Eingabe grün gewesen. Abgewendet hat es der Reviewer in Runde 2 mit einer Mutationsprobe vor dem Push.
+
+**Kein neuer Mechanismus von mir:** ob die vierte Zeile zur #397-Lehre einen Wechsel verlangt (`wiederholte-fehler.md`, dritte Zeile), entscheidet die Koordination. Der Fall selbst ist jetzt ein harter Abbruch im Skript (fehlende Wortspanne bei Wort- oder Nichtwort-Anker) statt eines stillen Durchlaufs.
+
+### 160. Rot: Statusdefinition, Hilfetext und README-Satz ohne Nachzählen geschrieben (Spur lauf-1018-onama, 18.10.2026, #609).
+
+**Rot.** Die Hilfe sagte "offen" gelte für nicht gefundene oder umgekehrte Anker (von 14 offenen waren 9 Bilder ohne Bildlink); die Auswahl sei "Konzept im Teilbaum" (es braucht zusätzlich Sammlung oder RO-Label); das README sagte, die Skripte nennten beide Input-Commits im Docstring (`build-paket.py` nennt keinen). Zwei Definitionen überlappten ohne Vorrang.
+
+**Die Lehre steht in `mengen.md`: Allaussagen sind Mengenangaben ohne Zahl; vor jeder prüfen, über welche Menge sie sprechen.** Die letzte Zeile zu dieser Lehre ist Eintrag 55.
+
+**Was es getragen hat:** drei Textstellen in einem lokalen Commit; abgewendet hat es der Reviewer in Runde 1 und 2, bevor etwas gepusht war.
+
+**Kein neuer Mechanismus von mir:** derselbe Trockenlauf `mengenaussagen` (#73) sperrt nichts. Gefangen hat es die Belegtabelle im Reviewer-Auftrag mit einer Zählung je Zahl.
