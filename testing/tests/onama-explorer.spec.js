@@ -128,21 +128,27 @@ test.describe('ONAMA-Narrativ-Explorer (#609)', () => {
     await page.locator(`[data-on-wahl="konzept:${r.konzepte[0]}"]`).first().click();
     const karte = page.locator(`[data-on-real="${r.id}"]`);
     await expect(karte.locator('.on-badge-warn', { hasText: 'umgerechnet' }).first()).toBeVisible();
-    await expect(karte.locator('.on-badge-warn', { hasText: 'abgeleitet' }).first()).toBeVisible();
+    // Kopf der Realisierung (erste .on-row der Karte), nicht die Passagenzeile.
+    const kopf = karte.locator('.on-row').first();
+    await expect(kopf.locator('.on-badge-warn', { hasText: /^abgeleitet$/ })).toBeVisible();
   });
 
-  test('Umgerechnete Passage zeigt abgeleitet, kein Anker geprueft und keinen Sprung', async ({ page }) => {
-    // Auf Passagenebene gilt dieselbe Regel wie auf Realisierungsebene (#609).
-    const r = paket.realisierungen.find(x => x.passagen.some(p => p.status === 'wortanker' && p.umgerechnet));
-    const pa = r.passagen.find(p => p.status === 'wortanker' && p.umgerechnet);
-    await page.click('[data-on-modus="konzept"]');
-    await page.locator(`[data-on-wahl="konzept:${r.konzepte[0]}"]`).first().click();
-    const zeile = page.locator(`[data-on-real="${r.id}"] tbody tr`, { hasText: pa.von }).first();
-    await expect(zeile).toBeVisible();
-    await expect(zeile).not.toContainText('Anker geprüft');
-    await expect(zeile.locator('.on-badge-warn', { hasText: 'abgeleitet' })).toBeVisible();
-    await expect(zeile.locator('a')).toHaveCount(0);
-  });
+  for (const status of ['wortanker', 'nichtwort_anker']) {
+    test(`Umgerechnete ${status}-Passage zeigt abgeleitet, kein Anker geprueft und keinen Sprung`, async ({ page }) => {
+      // Auf Passagenebene gilt dieselbe Regel wie auf Realisierungsebene (#609).
+      const r = paket.realisierungen.find(x => x.passagen.some(p => p.status === status && p.umgerechnet));
+      expect(r).toBeTruthy();
+      const pa = r.passagen.find(p => p.status === status && p.umgerechnet);
+      await page.click('[data-on-modus="konzept"]');
+      await page.locator(`[data-on-wahl="konzept:${r.konzepte[0]}"]`).first().click();
+      const zeile = page.locator(`[data-on-real="${r.id}"] tbody tr`, { hasText: pa.von }).first();
+      await expect(zeile).toBeVisible();
+      await expect(zeile).not.toContainText('Anker geprüft');
+      await expect(zeile.locator('.on-badge-warn', { hasText: /^abgeleitet$/ })).toBeVisible();
+      await expect(zeile.locator('a')).toHaveCount(0);
+      if (status === 'nichtwort_anker') await expect(zeile).toContainText('Endpunkt ist kein Wort');
+    });
+  }
 
   test('Randfaelle stehen in einer eigenen, zugeklappten Liste', async ({ page }) => {
     const summary = page.locator('summary', { hasText: 'Nicht im Ausschnitt' });

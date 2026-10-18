@@ -385,16 +385,20 @@ export class OnamaExplorer {
   renderPassagen(r) {
     if (!r.passagen.length) return '<div class="on-small">Keine Textpassage gespeichert (Status offen).</div>';
     const zeilen = r.passagen.map(pa => {
-      // Gleiche Regel wie auf Realisierungsebene: umgerechnete Spanne heisst abgeleitet, nicht geprueft.
-      const [txt, cls] = pa.status === 'wortanker' && pa.umgerechnet ? PRUEF_BADGE.abgeleitet : PASSAGE_STATUS[pa.status];
-      const springen = pa.status === 'wortanker' && !pa.umgerechnet && pa.text
+      // Gleiche Regel wie auf Realisierungsebene: umgerechnete Spanne heisst abgeleitet, nicht geprueft
+      // (gilt fuer wortanker und nichtwort_anker). Die Angabe "Endpunkt ist kein Wort" bleibt als Zusatz.
+      const abgeleitet = (pa.status === 'wortanker' || pa.status === 'nichtwort_anker') && pa.umgerechnet;
+      const [txt, cls] = abgeleitet ? PRUEF_BADGE.abgeleitet : PASSAGE_STATUS[pa.status];
+      const zusatz = abgeleitet && pa.status === 'nichtwort_anker'
+        ? ` <div class="on-small">${esc(PASSAGE_STATUS.nichtwort_anker[0])}</div>` : '';
+      const springen = (pa.status === 'wortanker' || pa.status === 'nichtwort_anker') && !pa.umgerechnet && pa.text
         ? `<a class="on-link" href="../korpus.html?textId=${encodeURIComponent(pa.text)}&verseId=${encodeURIComponent(pa.von)}" target="_blank" rel="noopener" title="Anfang der Passage in der Leseansicht öffnen">Leseansicht</a>`
         : '<span class="on-small">kein Sprung</span>';
       const span = pa.wortspanne
         ? `Wörter ${pa.wortspanne[0].toLocaleString('de-DE')}–${pa.wortspanne[1].toLocaleString('de-DE')}`
         : '';
       return `<tr><td class="on-mono">${esc(pa.von)}</td><td class="on-mono">${esc(pa.bis)}</td>
-        <td><span class="on-badge ${cls}">${esc(txt)}</span></td>
+        <td><span class="on-badge ${cls}">${esc(txt)}</span>${zusatz}</td>
         <td class="on-small">${esc(span)}${pa.umgerechnet ? ' <span class="on-badge on-badge-warn" title="Ein Endpunkt ist kein Wort mit Lemma-Annotation; Start und Ende sind auf das nächste gezählte Wort verschoben.">umgerechnet</span>' : ''}</td><td>${springen}</td></tr>`;
     }).join('');
     return `
