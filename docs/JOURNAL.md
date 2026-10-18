@@ -4,6 +4,27 @@ Chronological log of development decisions, dead ends, and savepoints. Not a cha
 
 ---
 
+## 2026-10-18 (Spur lauf-1018-daten, D1 bis D3): Lexikon gegen Korpus, naschen, Fabeltiere (#462, #602, #461)
+
+**Was:** #462 nach KZWs Antwort vom 16.10.2026: 16 Lexikoneinträge bekommen 17 Wortarten (Codes a und günlich), 6 Token-`@pos` sind geändert (zedolne ×2, alwirdic, immo, deprofundis, ungenuoge), 2 Tokens umgehängt (aditus auf `lemma_67813`, standime auf `lemma_70734`, neue Typen `type_372859` und `type_372860`). #602: 4 naschen-Belege auf `lemma_57919_sense_93122` (Essen), `OVW_1025010230_4` bleibt offen. #461: `concept_14101100` und `lemma_1958_sense_119200` für Drache und Phönix (4 Belege); Messung an `sense_3004`: 55 Belege, 38 tot, 12 lebend, 3 lebend mit Zweifel, 2 Tier, nichts umgehängt. Indexe Authority 1.9.29, Corpus 4.2.35. Skripte `apply-462-602.py`, `apply-461-fabeltiere.py`, `messen-461-sense3004.py`; Belege unter `ingest/pos-disambig/462-pos/`, `602-naschen/` und `ingest/review/461-gebeine/`.
+
+**Was über den Einzelfall hinausgilt:**
+- Ein `@reason` auf `<w>` macht die Datei für `tei_all` ungültig und lässt sie aus der Baseline in `validate-corpus.py` fallen (JT: 35 statt 34 Dateien). Der Vorschlag für zedolne sah eines vor; es fehlt bewusst und ist ein offener Rest für nach dem Freeze.
+- Zwei Umhängungen, bei denen eine Form nur ein Token hat, lassen den Eintrag des alten Lemmas in `variants.xml` verschwinden: das senkt die Zahl der Einträge (42.460 auf 42.458) und löst den Flip-Gate aus. Beides gehört in dieselbe Datenänderung wie die Quittung und die Zählzeilen in den Docs.
+- Die Einstufung vom 10.10. zu gebeine hielt die Ochsen in Pharaos Traum (`JEW_556900000_3`, `JEW_557800000_0`) für menschlich; sie stehen im selben Traum wie `JEW_566800000_5` (tierisch). Eine Einstufung am Fenster statt am Zusammenhang übersieht das.
+- MWB: die Suche über Lemma, Wortform und Artikelstichwort ist schnell, die Volltextsuche läuft in einen Timeout. Ergebnisse wie "0 Treffer" brauchen einen Kontrollwert (`minne`: 6 Treffer).
+
+**Rote Zeilen:** keine. (`trockenlauf-auswerten.py` lief vor diesem Eintrag, der Kontrollwert hat gefeuert: 73 Zeilen nicht auswertbar.)
+
+**Was zurück an Christian geht:**
+- Fragen an KZW (nach Merge und Deploy): indelicius (Satz, MWB ohne Treffer, Wohin gehört ihr Kommentartext zu Ezechiel 28,13), unpeweglich (Satz, MWB: un-bewëgelich Adj.), `OVW_1025010230_4` (Essen oder Erotik), die Messung an `sense_3004` mit dem Vorschlag eines eigenen Sense für lebende Gebeine.
+- Ob die Hunde bei NEI, NEIC und NEIR unter "Ernährung von Menschen" (`concept_21111000`) fallen.
+- Die zwei Ochsen-Belege an `sense_3004` gehören sachlich an `sense_119196`; nicht umgehängt.
+
+**Review:** Runde 1 auf `184715a94`, Urteil mergefähig, kein A-Befund; B-Befund (README 462-pos datiert) in `9de0a0b63` ohne weitere Runde behoben. Volllauf `npm test` grün auf der Basis `111aef2b1` (512 Tests), danach auf `origin/main` die drei neuen Specs aus #619 (37 Tests) grün.
+
+---
+
 ## 2026-10-18 (Spur lauf-1018-lesung, L2): zweite Lesung zu Ernährung von Menschen oder Tieren (#603)
 
 **Was:** KZWs Wunsch vom 16.10.2026, die Vorsortierung sprachlich gegenzulesen, ist umgesetzt. 13.135 Belege (tier 2.867, unklar 2.523, mensch 7.745) von 42 Sonnet-Agenten in fünf Workflows gelesen, blind gegen die Klasse der Vorsortierung, Kontext 30 Token links und rechts. Lesung: mensch 8.037, keine_nahrung 3.908 (Lemma-Rauschen der Vorsortierung), tier 955 (Säugetier 433, Vogel 239, andere 171, unbestimmt 95, Fisch 17), unklar 235. Nicht gelesen: 20.023 Belege ohne `@ana`, die nicht `tier` sind. Ergebnis in `ingest/review/603-ernaehrung/` (`zweite-lesung.tsv`, `senses-lesung.tsv`, `lemmata-lesung.tsv`, `konzeptfrage.txt`, `pruefen-603.tsv`, README-Abschnitt), Skripte `stapel-603.py`, `verbinden-lesung-603.py`, `auswerten-lesung-603.py`. Nichts in `tei/` oder `authority-files/`; die Konzeptfrage steht bei KZW.
