@@ -101,7 +101,9 @@ test.describe('Hilfe-Unterseite Demnächst im Korpus', () => {
         expect(wartend.length).toBeGreaterThan(2);
         const text = await page.locator('main').innerText();
         for (const i of wartend) {
-            expect(text, `#${i.nummer}`).not.toContain(i.titel);
+            // wie bereinigt() in scripts/build-demnaechst.py: die Seite zeigt den Titel ohne das Ingest-Präfix
+            const titel = i.titel.replace(/^(Ingest-Kandidat(en)?( \(Sammel\))?|Ingest):\s*/, '');
+            expect(text, `#${i.nummer}`).not.toContain(titel);
         }
 
         expect(anfragen.filter((u) => /api\.github\.com/.test(u))).toEqual([]);
