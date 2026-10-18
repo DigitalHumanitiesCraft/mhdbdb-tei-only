@@ -156,7 +156,7 @@ python scripts/build-textreihen-bibliography.py # Zotero group 4876216 -> textre
 python scripts/build-publikationen.py           # Zotero group 5043625, collections WB4HTUGC + Z2N4SWWI -> data/zotero-publikationen.json -> hilfe-publikationen.html
 python scripts/build-demnaechst.py              # open `ingest` issues -> data/demnaechst-issues.json; only issues listed under "freigegeben" in data/demnaechst-zeitplan.json (by hand, quarter optional: without one the entry reads "Zeitpunkt offen") appear -> hilfe-demnaechst.html; `--selftest` checks the rule offline
                                                 # (both: --offline rebuilds the page from the file; --check compares page and file without network.
-                                                # --check runs inside the monthly workflow and by hand, not in the PR checks, like the Textreihen bibliography)
+                                                # --check runs inside the monthly workflow and, since 2026-10-18, in no-cdn-check.yml on every PR that touches a page or one of the two states)
 
 # Build the full derived layer in dependency order: corpus index, variants.xml, authority index, API
 npm run build:data       # build:corpus && extract-variants --apply && build:authority && build-api --allow-dirty && build:begriffshilfe

@@ -11,7 +11,8 @@ trotzdem zur Zeile mit dieser nr (am Text geprueft). Jede Korrektur dieses Skrip
 in der Meldung: unbekannte nr, doppelte w_id, Wert ausserhalb der erlaubten Mengen, tier ohne
 Tierklasse, Tierklasse ohne tier, dazu Kopf, Feldzahl und leere Datei. Jeder Formfehler wird mit
 Datei und Zeile gemeldet; bei mindestens einem endet das Skript mit Exit 1, ohne eine Ausgabedatei zu
-schreiben. Sonst schreibt es <stapeldir>/../teil-<teilname>.tsv. Mit n_agenten
+schreiben. Ebenso, wenn fuer eine Zeile der Eingabe kein Urteil vorliegt (alle fehlenden w_id
+werden ausgegeben). Sonst schreibt es <stapeldir>/../teil-<teilname>.tsv. Mit n_agenten
 zieht es je Agent (stapel_je_agent Stapel) eine Stichprobe zum Nachlesen am Text.
 """
 import sys, glob, collections, random, os
@@ -70,9 +71,9 @@ print('w_id aus nr korrigiert (Datei:Zeile, nr, Agent, richtig):', len(korrigier
 for k in korrigiert: print('  ', k[0], k[1], '->', k[2])
 print('Eingabe', len(rows), 'Urteile', len(res), 'fehlt', len(fehlt), 'fremd', len(fremd), 'Formfehler', len(fehler))
 for x in fehler: print('  ', x)
-for w in fehlt[:10]: print('  fehlt', w)
-if fehler:
-    print('ABBRUCH: %d Formfehler, es wurde keine Ausgabedatei geschrieben.' % len(fehler), file=sys.stderr)
+for w in fehlt: print('  fehlt', w)
+if fehler or fehlt:
+    print('ABBRUCH: %d Formfehler, %d fehlende Urteile, es wurde keine Ausgabedatei geschrieben.' % (len(fehler), len(fehlt)), file=sys.stderr)
     sys.exit(1)
 out = open(D + '/../teil-' + NAME + '.tsv', 'w', encoding='utf8', newline='')
 out.write('\t'.join(['sigle', 'w_id', 'lemma_id', 'lemma', 'form', 'sense_ids_im_ana', 'klasse_vorsortierung', 'wer', 'tierklasse', 'art', 'begruendung']) + '\n')

@@ -27,6 +27,12 @@
 # (doc-count-audit.py, #382/#398), zusätzlich zu data-integrity.yml.
 # Begründung am Schritt.
 #
+# Seit 18.10.2026 ein fünftes: die beiden Hilfe-Unterseiten Publikationen
+# und Demnächst im Korpus gegen ihre eingefrorenen Stände in data/
+# (--check, ohne Netz, stdlib). Vorher lief das nur im Monatslauf und von
+# Hand; eine Handänderung an Seite oder Datei fiel erst am Monatsersten
+# auf (Entscheidung chsteiner, 18.10.2026).
+#
 # Die Trigger-Pfade nennen scripts/audit/** als Glob und nicht die einzelnen
 # Skripte. Das ist seit dem zweiten Inventar Pflicht und nicht Bequemlichkeit:
 # ein NEU angelegtes Audit-Skript muss den Lauf auslösen, sonst fällt genau
@@ -58,6 +64,10 @@ on:
       - 'scripts/audit/**'
       - 'testing/tests/**'
       - '**.md'
+      - 'data/zotero-publikationen.json'
+      - 'data/demnaechst-*.json'
+      - 'scripts/build-publikationen.py'
+      - 'scripts/build-demnaechst.py'
       - '.github/workflows/no-cdn-check.yml'
   push:
     branches:
@@ -71,6 +81,10 @@ on:
       - 'scripts/audit/**'
       - 'testing/tests/**'
       - '**.md'
+      - 'data/zotero-publikationen.json'
+      - 'data/demnaechst-*.json'
+      - 'scripts/build-publikationen.py'
+      - 'scripts/build-demnaechst.py'
       - '.github/workflows/no-cdn-check.yml'
   workflow_dispatch:
 
@@ -214,6 +228,11 @@ jobs:
 
       - name: Specs und Audit-Skripte stehen in ihren Inventaren (#329)
         run: python3 scripts/audit/check-doc-inventories.py
+
+      - name: Hilfe-Unterseiten gegen ihre Stände (#417/#537)
+        run: |
+          python3 scripts/build-publikationen.py --check
+          python3 scripts/build-demnaechst.py --check
 
       # Seit 01.10.2026 auch hier, nicht nur in data-integrity.yml. Dort
       # loesen docs/** und *.html keinen Lauf aus, und das war als Grenze
