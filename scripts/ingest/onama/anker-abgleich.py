@@ -11,7 +11,7 @@ Reproduktionsprinzip (Manifest 16.10.2026, Abschnitt 8):
   2. Alle Ressourcen mit rdf:type onama:TextPassage (Namensraum
      http://onama.sbg.ac.at/ontology#), je fromToken und toToken.
   3. TEI-Datei aus der Sigle (Teil vor dem ersten "_"), exakter xml:id-Treffer
-     auf <w> oder <pc> im <body>. Keine Leerzeichen entfernt, keine IDs
+     auf einem beliebigen Element im <body> (gemessen: <w>, <pc>, <caesura>). Keine Leerzeichen entfernt, keine IDs
      ergaenzt, nichts repariert.
   4. Elementtyp und Dokumentreihenfolge; Umrechnung in MHDBDB-Wortpositionen
      nur ueber <w> mit nicht-leerem @lemmaRef und nicht-leerem Text
@@ -51,7 +51,7 @@ TEI_DIR = REPO / "tei"
 
 
 def lade_tei(sigle, cache):
-    """xml:id -> (dokumentindex, tag, wortposition oder None) fuer <w>/<pc> im body.
+    """xml:id -> (dokumentindex, tag, wortposition oder None) fuer alle Elemente im body.
 
     Die Wortposition zaehlt wie build-corpus-index.py: nur <w> mit lemmaRef und Text.
     Zusaetzlich naechste_pos[i]: Position des ersten gezaehlten Wortes ab Index i

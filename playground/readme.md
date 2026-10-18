@@ -35,7 +35,7 @@ Mediävist:innen haben kein flexibles, exploratives Tool, um ihre TEI-Textkorpor
 5. **Gattungen** - Literary genre classification
 6. **Namen** - Proper names with semantic relations
 
-**TEI Text Analysis (analysis tools, plus curated research datasets):** from the multi-lemma search with proximity analysis to the rhyme dictionary and the verse-ending profile. The curated datasets (character naming #59, arthurian horses #193) are listed separately, because #194 moved them into a group of their own.
+**TEI Text Analysis (analysis tools, plus curated research datasets):** from the multi-lemma search with proximity analysis to the rhyme dictionary and the verse-ending profile. The curated datasets (character naming #59, arthurian horses #193, ONAMA Argonaut pilot #609) are listed separately, because #194 moved them into a group of their own.
 
 The list of tools is deliberately **not repeated here**. It already lives in [FEATURES.md](../docs/FEATURES.md), with counts, examples and issue references, and every new tool would otherwise have to be entered in a fourth place. This section carried exactly one of them until 2026-08-06, which is what a duplicated catalog looks like once nobody keeps it in step. The modules themselves are the ground truth: one file per tool in `playground/js/ui/tei/`, one per explorer in `playground/js/ui/authority/`.
 

@@ -34,7 +34,6 @@ Abhaengigkeit: rdflib (nicht in requirements.txt, die pinnt nur die Build-Kette)
 import argparse
 import collections
 import json
-import re
 import sys
 from pathlib import Path
 
@@ -100,12 +99,6 @@ def main():
     # --- Realisierungen einordnen
     alle = sorted(set(g.subjects(RDF_TYPE, O.TextualRealisation)) |
                   set(g.subjects(RDF_TYPE, O.VisualRealisation)), key=str)
-    sammlung_ro = set()
-    for r in alle:
-        if any(str(c) in SAMMLUNGEN for c in g.objects(r, O.partOfCollection)):
-            m = re.match(r"RO (\S+)", labels(r).get("de", ""))
-            if m:
-                sammlung_ro.add(m.group(1))
     aufgenommen = {}
     randfaelle = []
     ausgeschlossen = []
@@ -241,17 +234,24 @@ def main():
                 "uri": a["uri"], "von": a["von"]["original"], "bis": a["bis"]["original"],
                 "status": a["status"], "wortspanne": a.get("wortspanne"),
                 "text": a["von"]["sigle"] if a["von"]["gefunden"] else None,
+                # Die Spanne ist umgerechnet, wenn ein Endpunkt kein gezaehltes Wort ist
+                # (anderes Element oder <w> ohne lemmaRef): Start rueckt vor, Ende zurueck.
+                "umgerechnet": bool(a.get("wortspanne")) and (
+                    a["von"].get("wortposition") is None or a["bis"].get("wortposition") is None),
             })
         eintrag["passagen"] = passagen
-        # Pruefstatus: "geprueft" heisst technisch (Zuordnung ueber Sammlung, Anker exakt
-        # gefunden und in richtiger Reihenfolge), nicht fachlich bestaetigt.
+        # Pruefstatus (technisch, nie fachlich). "geprueft": Zuordnung ueber die Sammlung, bei
+        # Text jede Passage mit zwei gezaehlten Wortankern in richtiger Reihenfolge, bei Bild
+        # ein gespeicherter Bildlink. "abgeleitet": Zuordnung ohne Sammlung oder mindestens
+        # eine Passage mit umgerechneter Spanne. "offen": Anker nicht gefunden oder umgekehrt,
+        # Text ohne Passage, Bild ohne Bildlink.
         if zuordnung == "abgeleitet":
             ps = "abgeleitet"
         elif eintrag["art"] == "text" and not passagen:
             ps = "offen"
         elif any(p["status"] in ("nicht_gefunden", "umgekehrt") for p in passagen):
             ps = "offen"
-        elif any(p["status"] == "nichtwort_anker" for p in passagen):
+        elif any(p["umgerechnet"] for p in passagen):
             ps = "abgeleitet"
         elif eintrag["art"] == "bild" and not eintrag.get("bildlink"):
             ps = "offen"
@@ -304,9 +304,11 @@ def main():
             },
             "hinweise": {
                 "namensraum": "ONAMA-Q-Nummern sind keine Wikidata-Q-Nummern.",
-                "pruefstatus": "geprueft = technisch (Zuordnung ueber Sammlung, Anker exakt gefunden, "
-                               "Reihenfolge stimmt); abgeleitet = Zuordnung oder Spanne nur abgeleitet; "
-                               "offen = Anker oder Quelle unklar. Fachlich bestaetigt ist keiner.",
+                "pruefstatus": "geprueft = technisch: Zuordnung ueber Sammlung und bei Text jede Passage mit "
+                               "zwei gezaehlten Wortankern in richtiger Reihenfolge, bei Bild ein Bildlink; "
+                               "abgeleitet = Zuordnung ohne Sammlung oder eine Passage mit umgerechneter "
+                               "Spanne; offen = Anker nicht gefunden oder umgekehrt, Text ohne Passage, "
+                               "Bild ohne Bildlink. Fachlich bestaetigt ist keiner.",
                 "wortspanne": "Wortpositionen zaehlen nur <w> mit lemmaRef und Text; liegt ein Endpunkt "
                               "auf einem anderen Element oder einem nicht gezaehlten <w>, rueckt der Start "
                               "auf das naechste, das Ende auf das vorige gezaehlte Wort.",

@@ -207,8 +207,10 @@ export class OnamaExplorer {
           Datenversion: ONAMA-Korpus <span class="on-mono">${esc(m.quellen.korpus_commit.slice(0, 7))}</span>,
           Ontologie <span class="on-mono">${esc(m.quellen.ontologie_commit.slice(0, 7))}</span>,
           MHDBDB-Anker <span class="on-mono">${esc(m.quellen.mhdbdb_commit.slice(0, 7))}</span>.
-          Der Status "technisch geprüft" bedeutet: Zuordnung über die Sammlung und Textanker im Korpus gefunden;
-          fachlich bestätigt ist noch nichts.
+          Der Status "technisch geprüft" bedeutet: Zuordnung über die Sammlung und bei Texten zwei Wortanker im
+          Korpus in richtiger Reihenfolge, bei Bildern ein Bildlink; "abgeleitet" gilt bei fehlender Sammlung oder
+          umgerechneter Wortspanne, "offen" bei fehlendem oder unauffindbarem Anker oder fehlendem Bildlink.
+          Fachlich bestätigt ist noch nichts.
         </div>
       </div>`;
   }
@@ -230,7 +232,7 @@ export class OnamaExplorer {
       ding: 'Dinge (Gegenstände, auch Orte mit Dingcharakter), nach Zahl der Realisierungen, in denen sie eine Rolle haben.',
       handlung: 'Verben der annotierten Handlungen.',
       entitaet: 'Personen, Tiere, Fabelwesen, Orte und Gruppen, die an Handlungen beteiligt sind.',
-      konzept: 'Abstrakte Konzepte aus dem Teilbaum "Geschichte von den Argonauten".'
+      konzept: 'Abstrakte Konzepte, die in diesem Ausschnitt realisiert sind (überwiegend aus dem Teilbaum "Geschichte von den Argonauten").'
     }[this.state.modus];
     return `
       <div class="on-box-soft on-stack">
@@ -335,7 +337,7 @@ export class OnamaExplorer {
           <span class="on-badge on-badge-brand">${esc(quelle)}</span>
           <span class="on-badge ${pCls}">${esc(pTxt)}</span>${zuordnung}
           ${r.nebenhandlung ? '<span class="on-badge">Nebenhandlung</span>' : ''}
-          <span class="on-mono on-small">${esc(r.id)}</span>
+          <span class="on-mono on-small" title="${esc(r.uri)}">${esc(r.id)}</span>
         </div>
         ${r.labels.en ? `<div class="on-small">${esc(r.labels.en)}</div>` : ''}
         ${sammlung}
@@ -388,7 +390,8 @@ export class OnamaExplorer {
         ? `Wörter ${pa.wortspanne[0].toLocaleString('de-DE')}–${pa.wortspanne[1].toLocaleString('de-DE')}`
         : '';
       return `<tr><td class="on-mono">${esc(pa.von)}</td><td class="on-mono">${esc(pa.bis)}</td>
-        <td><span class="on-badge ${cls}">${esc(txt)}</span></td><td class="on-small">${esc(span)}</td><td>${springen}</td></tr>`;
+        <td><span class="on-badge ${cls}">${esc(txt)}</span></td>
+        <td class="on-small">${esc(span)}${pa.umgerechnet ? ' <span class="on-badge on-badge-warn" title="Ein Endpunkt ist kein Wort mit Lemma-Annotation; Start und Ende sind auf das nächste gezählte Wort verschoben.">umgerechnet</span>' : ''}</td><td>${springen}</td></tr>`;
     }).join('');
     return `
       <div>

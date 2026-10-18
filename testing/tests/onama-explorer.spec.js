@@ -37,7 +37,7 @@ test.describe('ONAMA-Narrativ-Explorer (#609)', () => {
     await expect(box).toContainText(paket.meta.quellen.korpus_commit.slice(0, 7));
     await expect(box).toContainText(paket.meta.quellen.mhdbdb_commit.slice(0, 7));
     await expect(box).toContainText(`${paket.meta.statistik.realisierungen_gesamt}`);
-    await expect(box).toContainText('fachlich bestätigt ist noch nichts');
+    await expect(box).toContainText('Fachlich bestätigt ist noch nichts');
     await expect(box).toContainText('ONAMA-Q-Nummern sind keine Wikidata-Q-Nummern');
   });
 
@@ -95,12 +95,27 @@ test.describe('ONAMA-Narrativ-Explorer (#609)', () => {
   });
 
   test('Nicht gefundene Anker werden benannt und nicht verlinkt', async ({ page }) => {
-    const r = paket.realisierungen.find(x => x.passagen.some(p => p.status === 'nicht_gefunden'));
+    // Eine Passage mit gefundenem Startpunkt (nur der Endpunkt fehlt): hier koennte ein
+    // fehlerhafter Code einen Sprung anbieten, bei text:null gaebe es nie einen Link.
+    const r = paket.realisierungen.find(x => x.passagen.some(p => p.status === 'nicht_gefunden' && p.text));
+    expect(r).toBeTruthy();
     await page.click('[data-on-modus="konzept"]');
     await page.locator(`[data-on-wahl="konzept:${r.konzepte[0]}"]`).first().click();
     const karte = page.locator(`[data-on-real="${r.id}"]`);
-    await expect(karte).toContainText('Anker nicht gefunden');
-    await expect(karte).toContainText('offen');
+    const zeile = karte.locator('tbody tr', { hasText: 'Anker nicht gefunden' }).first();
+    await expect(zeile).toBeVisible();
+    await expect(zeile.locator('a')).toHaveCount(0);
+    await expect(karte.locator('.on-badge-bad', { hasText: 'offen' })).toBeVisible();
+  });
+
+  test('Umgerechnete Spannen sind gekennzeichnet', async ({ page }) => {
+    const r = paket.realisierungen.find(x => x.passagen.some(p => p.umgerechnet));
+    expect(r).toBeTruthy();
+    await page.click('[data-on-modus="konzept"]');
+    await page.locator(`[data-on-wahl="konzept:${r.konzepte[0]}"]`).first().click();
+    const karte = page.locator(`[data-on-real="${r.id}"]`);
+    await expect(karte.locator('.on-badge-warn', { hasText: 'umgerechnet' }).first()).toBeVisible();
+    await expect(karte.locator('.on-badge-warn', { hasText: 'abgeleitet' }).first()).toBeVisible();
   });
 
   test('Randfaelle stehen in einer eigenen, zugeklappten Liste', async ({ page }) => {
