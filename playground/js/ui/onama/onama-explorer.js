@@ -385,8 +385,9 @@ export class OnamaExplorer {
   renderPassagen(r) {
     if (!r.passagen.length) return '<div class="on-small">Keine Textpassage gespeichert (Status offen).</div>';
     const zeilen = r.passagen.map(pa => {
-      const [txt, cls] = PASSAGE_STATUS[pa.status];
-      const springen = (pa.status === 'wortanker' || pa.status === 'nichtwort_anker') && pa.text
+      // Gleiche Regel wie auf Realisierungsebene: umgerechnete Spanne heisst abgeleitet, nicht geprueft.
+      const [txt, cls] = pa.status === 'wortanker' && pa.umgerechnet ? PRUEF_BADGE.abgeleitet : PASSAGE_STATUS[pa.status];
+      const springen = pa.status === 'wortanker' && !pa.umgerechnet && pa.text
         ? `<a class="on-link" href="../korpus.html?textId=${encodeURIComponent(pa.text)}&verseId=${encodeURIComponent(pa.von)}" target="_blank" rel="noopener" title="Anfang der Passage in der Leseansicht öffnen">Leseansicht</a>`
         : '<span class="on-small">kein Sprung</span>';
       const span = pa.wortspanne

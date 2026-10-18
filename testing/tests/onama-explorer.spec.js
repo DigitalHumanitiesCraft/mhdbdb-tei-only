@@ -94,8 +94,8 @@ test.describe('ONAMA-Narrativ-Explorer (#609)', () => {
   });
 
   test('Geprueftes Anker fuehrt ueber verseId in die Leseansicht', async ({ page }) => {
-    const r = paket.realisierungen.find(x => x.art === 'text' && x.passagen.some(p => p.status === 'wortanker'));
-    const pa = r.passagen.find(p => p.status === 'wortanker');
+    const r = paket.realisierungen.find(x => x.art === 'text' && x.passagen.some(p => p.status === 'wortanker' && !p.umgerechnet));
+    const pa = r.passagen.find(p => p.status === 'wortanker' && !p.umgerechnet);
     await page.click('[data-on-modus="konzept"]');
     await page.locator(`[data-on-wahl="konzept:${r.konzepte[0]}"]`).first().click();
     const karte = page.locator(`[data-on-real="${r.id}"]`);
@@ -129,6 +129,19 @@ test.describe('ONAMA-Narrativ-Explorer (#609)', () => {
     const karte = page.locator(`[data-on-real="${r.id}"]`);
     await expect(karte.locator('.on-badge-warn', { hasText: 'umgerechnet' }).first()).toBeVisible();
     await expect(karte.locator('.on-badge-warn', { hasText: 'abgeleitet' }).first()).toBeVisible();
+  });
+
+  test('Umgerechnete Passage zeigt abgeleitet, kein Anker geprueft und keinen Sprung', async ({ page }) => {
+    // Auf Passagenebene gilt dieselbe Regel wie auf Realisierungsebene (#609).
+    const r = paket.realisierungen.find(x => x.passagen.some(p => p.status === 'wortanker' && p.umgerechnet));
+    const pa = r.passagen.find(p => p.status === 'wortanker' && p.umgerechnet);
+    await page.click('[data-on-modus="konzept"]');
+    await page.locator(`[data-on-wahl="konzept:${r.konzepte[0]}"]`).first().click();
+    const zeile = page.locator(`[data-on-real="${r.id}"] tbody tr`, { hasText: pa.von }).first();
+    await expect(zeile).toBeVisible();
+    await expect(zeile).not.toContainText('Anker geprüft');
+    await expect(zeile.locator('.on-badge-warn', { hasText: 'abgeleitet' })).toBeVisible();
+    await expect(zeile.locator('a')).toHaveCount(0);
   });
 
   test('Randfaelle stehen in einer eigenen, zugeklappten Liste', async ({ page }) => {
