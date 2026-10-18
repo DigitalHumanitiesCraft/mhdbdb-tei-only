@@ -4,6 +4,21 @@ Chronological log of development decisions, dead ends, and savepoints. Not a cha
 
 ---
 
+## 2026-10-18 (Koordination lauf-1018): vier Spuren, Nachzug, Abnahme
+
+**Was:** Issue-Audit (78 offene Issues, 471 von 471 Kommentaren), daraus vier Sonnet-Spuren (daten, frontend, lesung, onama) unter dem Laufplan `docs/playbooks/kickoffs/2026-10-18-lauf.md`, dort auch die Grenzverhandlungen G1 bis G8 und die Abnahme. 14 PRs gemergt (#617 bis #630), davon vier als Nachzug auf chsteiners Zuruf über einen Workflow der Koordination (Freigabeliste für "Demnächst im Korpus", ONAMA-Status umgerechneter Passagen, harte Fehler statt stillem Weiterlaufen, Klick in die Fundstellen). Geschlossen: #440, #448, #463, #535, #545.
+
+**Was über den Einzelfall hinausgilt:**
+- Zwei Zweige, die denselben Satz wahr machen müssen, haben eine Merge-Reihenfolge: der Kommentar in `monatslauf-seiten.yml` zu Formatfehlern stimmte für `build-publikationen.py` erst nach #627; #628 ging deshalb danach.
+- Workflow-Worktrees unter `.claude/worktrees/` haben kein `node_modules`; eine Junction auf den Hauptbaum reicht für `npm test`, und sie wird vor `git worktree remove` als Verweis gelöscht (`[System.IO.Directory]::Delete(p, $false)`), nicht rekursiv.
+- `claude agents --json` meldet "blocked" auch für eine Spur, die nur wartet; nur die daten-Spur stand wirklich am Nutzungslimit.
+
+**Rote Zeilen:** keine.
+
+**Was zurück an Christian geht:** die Berater-Punkte der Runden (Liste im Abschlussbericht der Sitzung) und chsteiner/claude-code-setup#88 (Reviewer setzte `taskkill /IM python.exe` ab).
+
+---
+
 ## 2026-10-18 (Spur lauf-1018-daten, D4): Glossar #554, Datenteil
 
 **Was:** Nach KZWs Entscheidungen vom 16.10.2026: brî ohne ADJ, der Verweis auf lêrchenvuoʒ bei lêrche entfällt (kein Korpusbeleg, auch nicht getrennt), 9 nagel-Belege im Gewürzkontext tragen jetzt `@ana` auf `lemma_4302_sense_6725`, 17 Tokens von trûbe sind am Token geprüft und umgehängt (13 Adjektive auf trüebe, 4 Verben auf trüeben, altes `@ana` entfällt; 4 Belege bleiben offen: HIS_98_2, WZB_79rb_15_5, FR1_2007050_8, ROT_19160_2). 11 historische MHDBDB-Trefferzahlen in 9 Glossarkommentaren sind durch Messungen am heutigen Korpus ersetzt (`scripts/review/messen-554-zahlen.py`). lôr/lôrber: Befund, nichts umgehängt (lôrber, 7 Belege, ist das Ziel, ergänzt um lôrboum). Indexe Authority 1.9.31, Corpus 4.2.36, fünf neue Variantentypen `type_372861` bis `type_372865`, ein Flip (trube) quittiert.
