@@ -55,6 +55,10 @@ ZEITLIMIT = 30
 AUSGESCHLOSSEN = {"attachment", "note"}
 
 
+class AbrufAusgefallen(RuntimeError):
+    """Der Abruf lief, lieferte aber erkennbar keinen brauchbaren Bestand (HTTP-Status, leer, Einbruch): alter Stand bleibt."""
+
+
 def abrufen(sammlung):
     """Alle Eintraege oberster Ebene einer Sammlung, seitenweise. Wirft bei jedem Fehler."""
     eintraege = []
@@ -66,7 +70,7 @@ def abrufen(sammlung):
         anfrage = urllib.request.Request(url, headers={"User-Agent": "mhdbdb-tei-only/publikationen"})
         with urllib.request.urlopen(anfrage, timeout=ZEITLIMIT) as antwort:
             if antwort.status != 200:
-                raise RuntimeError(f"{sammlung}: HTTP {antwort.status}")
+                raise AbrufAusgefallen(f"{sammlung}: HTTP {antwort.status}")
             if antwort.headers.get("Total-Results") is None:
                 raise RuntimeError(f"{sammlung}: Kopf Total-Results fehlt")
             gesamt = int(antwort.headers["Total-Results"])
@@ -129,9 +133,9 @@ def aktualisieren(alt):
             roh = abrufen(sammlung)
             liste = sortiert([normalisieren(x) for x in roh if x["data"]["itemType"] not in AUSGESCHLOSSEN])
             if not liste:
-                raise RuntimeError("leere Antwort")
+                raise AbrufAusgefallen("leere Antwort")
             if vorher and len(liste) < MINDESTANTEIL * len(vorher["eintraege"]):
-                raise RuntimeError(f"nur {len(liste)} Eintraege gegen bisher {len(vorher['eintraege'])}")
+                raise AbrufAusgefallen(f"nur {len(liste)} Eintraege gegen bisher {len(vorher['eintraege'])}")
             # Das Datum gehoert zum Abschnitt: es wandert nur mit seinem Inhalt, sonst oeffnete jeder
             # Monat einen PR, und ein ausgefallener Abschnitt behaelt sein altes Datum.
             heute = date.today().isoformat()
@@ -140,7 +144,7 @@ def aktualisieren(alt):
             else:
                 abgerufen = heute
             neu["abschnitte"][sammlung] = {"titel": titel, "abgerufen": abgerufen, "eintraege": liste}
-        except Exception as fehler:  # jeder Ausfall (auch IncompleteRead, TypeError) laesst den alten Stand liegen
+        except (urllib.error.URLError, TimeoutError, OSError, AbrufAusgefallen) as fehler:  # nur Netz und HTTP (HTTPError ist URLError, socket-Fehler sind OSError) lassen den alten Stand liegen; ein unerwartetes Format ist ein harter Fehler
             print(f"::warning::Zotero-Sammlung {sammlung} ({titel}) nicht aktualisiert: {type(fehler).__name__}: {fehler}")
             if vorher is None:
                 print(f"  kein bisheriger Stand fuer {sammlung}: Abschnitt bleibt leer")
