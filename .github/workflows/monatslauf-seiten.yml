@@ -5,6 +5,12 @@ name: Monatslauf Seiten
 # im Korpus) in ihre eingefrorenen Stände und baut die Seiten daraus. Bei
 # einer Änderung öffnet der Lauf einen PR; gemergt wird nach Sichtprüfung.
 #
+# Der PR wird nie automatisch gemergt: dieser Workflow schaltet kein Auto-Merge
+# ein (kein Treffer für "auto-merge" in .github/workflows), und die Seite
+# "Demnächst im Korpus" ist öffentlich. Ein neues ingest-Issue erscheint dort
+# ohne Eintrag in data/demnaechst-zeitplan.json mit "Zeitpunkt offen", sofern
+# es niemand ausschließt; nur die Sichtprüfung im PR fängt das ab.
+#
 # Ein Ausfall von Zotero oder der GitHub-API bricht den Lauf nicht: die
 # Skripte behalten den alten Stand, melden eine Warnung und enden mit Exit 0
 # (scripts/build-publikationen.py, scripts/build-demnaechst.py). Fällt alles
@@ -102,7 +108,9 @@ jobs:
             Einträge, und bei Demnächst im Korpus, ob ein neues Issue einen
             Eintrag in `data/demnaechst-zeitplan.json` braucht (ohne Eintrag
             steht es mit „Zeitpunkt offen" auf der Seite) und ob es eine
-            offene Rechtefrage trägt, die das Label nicht zeigt.
+            offene Rechtefrage trägt, die das Label nicht zeigt, oder noch nicht
+            beschlossen ist: ohne Ausschluss erscheint es nach dem Merge öffentlich.
+            **Dieser PR wird nie automatisch gemergt**, er braucht eine Sichtprüfung.
 
             **Build-Log** (eine Zeile `::warning::` heißt: dieser Teil blieb auf dem alten Stand):
             ```
