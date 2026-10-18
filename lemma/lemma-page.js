@@ -151,6 +151,8 @@ class LemmaPage {
             this.updateLoading('Fertig!', 100);
             this.elements.loadingScreen.style.display = 'none';
             this.elements.lemmaContent.classList.remove('hidden');
+            // Erst jetzt messbar: vorher trägt #lemmaContent `hidden`, und jede Höhe ist 0.
+            enhanceCollapsibles(this.elements.sensesContent);
 
         } catch (error) {
             console.error('[LemmaPage] Init failed:', error);
@@ -255,7 +257,6 @@ class LemmaPage {
                     </div>
                 `;
             }).join('');
-            enhanceCollapsibles(this.elements.sensesContent);
         }
     }
 

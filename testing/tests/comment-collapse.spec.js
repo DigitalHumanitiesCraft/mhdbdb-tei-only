@@ -82,6 +82,23 @@ test.describe('Einklappen langer Kommentare (#554)', () => {
         await expect(page.locator('#sensesContent .clamp-toggle')).toHaveCount(0);
     });
 
+    test('Lemmaseite: knapp über der Schwelle steht ein Knopf nur, wo wirklich gekürzt wird', async ({ page }) => {
+        // Reviewrunde 1: die Nachmessung lief vor dem Aufdecken von #lemmaContent
+        // (Höhe 0) und nahm nie einen Knopf zurück. Nur ein Text zwischen der
+        // Schwelle und sechs vollen Zeilen unterscheidet beide Fälle.
+        const l = auth.lemmata.find(x => (x.senses || []).some(
+            s => s.comment && s.comment.length > COLLAPSE_MIN_CHARS && s.comment.length <= COLLAPSE_MIN_CHARS + 90));
+        expect(l, 'kein Lemma mit Kommentar knapp über der Schwelle').toBeTruthy();
+        await lemmaSeite(page, l.id);
+        const texte = page.locator('#sensesContent .clamp-text');
+        await expect(texte).toHaveCount(1);
+        const knoepfe = await page.locator('#sensesContent .clamp-toggle').count();
+        const gekuerzt = await texte.evaluate(el =>
+            el.classList.contains('clamp-collapsed') && el.scrollHeight > el.clientHeight + 1);
+        // Knopf und tatsächliche Kürzung gehören zusammen
+        expect(knoepfe === 1, 'Knopf nur bei echter Kürzung').toBe(gekuerzt);
+    });
+
     test('Lemma-Explorer im Playground: wîn klappt auf und zu', async ({ page }) => {
         const b = lang[0];
         // Über die ID, nicht über die Schreibform: "wîn" trifft 345 Lemmata, die
