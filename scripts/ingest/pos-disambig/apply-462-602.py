@@ -11,7 +11,7 @@ insgesamt (ater: PRP und PRO). Nichts wird entfernt. Die Reihenfolge in
 `<gramGrp>` ist alphabetisch (10.158 von 10.160 Eintraegen mit mehr als einer
 Wortart, gemessen am 18.10.2026), neue Werte werden dort einsortiert.
 
-TOKEN (b, deprofundis, ungenuoge): 8 Tokens aendern `@pos`. Das `@reason`
+TOKEN (b, deprofundis, ungenuoge): 6 Tokens aendern `@pos`. Das `@reason`
 fuer die Fusion ze+dolne (Vorschlag in vorschlaege.tsv) entfaellt: ein `@reason`
 auf <w> macht die Datei fuer tei_all ungueltig, JT stuende dann neu ausserhalb
 der Baseline in validate-corpus.py (gemessen am 18.10.2026). #602: 4 Tokens
