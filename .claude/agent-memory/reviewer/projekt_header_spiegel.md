@@ -4,36 +4,29 @@ description: TEI-Header als Kopien von works.xml/persons.xml (msIdentifier, bibl
 metadata:
   type: project
 ---
-Verdichtet 14.10. und 16.10.2026 (#395, #399, #237, #308, #452, #486).
+Verdichtet 18.10.2026 (#395, #399, #237, #308, #452, #486).
 
 **Kette und Leser**
 - Zotero -> works.xml (`enhance_works_with_zotero.py`) -> Header (`sync_tei_headers.py --works`, seit #486 chirurgisch auch für die listBibl; `--bibl-struct` ist der alte lxml-Weg); der Header ist Kopie (entschieden 24.09., CONTRACTS F.4a).
 - Reader, API und Playground nehmen biblStructs, hc/GND/wikidata und preferredName aus dem Authority-Index, nie aus dem Header. Reader liest Header-Titel nur bei `biblScope unit=verse`.
-- Spiegel ohne Leser: msIdentifier-idno, listBibl/biblStruct, `particDesc/.../persName[@type="preferred"]` (Kopie von persons.xml; kein Sync-Skript, Namensentscheidungen von Hand nachziehen) und `publicationStmt/authority` (`rg publicationStmt|<authority` über scripts/ assets/js playground/js testing/tests; nur `_archived/` und `ingest/ari` schreiben ihn; eine Ergänzung dort ändert data/ und api/ nicht, kein Versions-Bump).
+- Spiegel ohne Leser: msIdentifier-idno, listBibl/biblStruct, `particDesc/.../persName[@type="preferred"]` (kein Sync-Skript, Namensentscheidungen von Hand nachziehen) und `publicationStmt/authority` (nur `_archived/` und `ingest/ari` schreiben ihn; eine Ergänzung dort ändert data/ und api/ nicht, kein Versions-Bump).
 
-**WZB-Zeilenenden:** WZB ist die einzige CRLF-Datei in tei/, im Blob selbst (`*.xml -text`, autocrlf wirkungslos); vor und nach einer Header-Änderung reine LF-Zeilen mit `(?<!\r)\n` zählen (Rezept in projekt-korpus-tei). PZ ist LF, ein „byte-identisch aus PZ" gilt nur modulo CR.
-- Gegenprobe auf Zeilenenden siehe WZB-Tafelskripte dort (difflib auf `split(b"\n")`).
+**WZB-Zeilenenden:** WZB ist die einzige CRLF-Datei in tei/, im Blob selbst (`*.xml -text`); vor und nach einer Header-Änderung reine LF-Zeilen mit `(?<!\r)\n` zählen (Gegenprobe: projekt-korpus-tei). PZ ist LF, ein „byte-identisch aus PZ" gilt nur modulo CR.
 
 **sync_tei_headers.py**
 - Schlüssel seit #395 (work_id, sigle); vorher gewann je Sigle der letzte Eintrag (TRO).
 - Alter lxml-Pfad (`--works --bibl-struct`, `--all`) serialisiert alle 667 Dateien neu, löscht alle mwb-sigle und überschreibt listBibl mit Inhaltsverlust.
 - Regex-Schreiber: idno mit Zusatzattribut oder auf der sigle-Zeile wird dupliziert statt entfernt. Schreibblock vor dem Stub-Guard: schreibt erst, endet dann mit Exit 1.
 
-**Zotero-Sync:** `--cache` = online + Cache schreiben, `--offline` liest ihn. Handkorrekturen FLG (Schlüssel ATWPNQPS) und FR3 hält `BESTAND_BEHALTEN` in `enhance_works_with_zotero.py`, bis FR3 (MVWV5QYG) in Zotero korrigiert ist; die Handkorrektur aus #236 steht in FR3, nicht FR1.
 
 **listBibl-Schreiber (#486, `schreibe_werk_bibliographie`):** `--works` schreibt auch die listBibl, Gate `--works --check` auf Enthaltensein je @corresp.
-- Probe ohne Dateischreiben: Modul importieren, Block per `_header_text`/`LISTBIBL`/`BIBL_BLOCK` holen, String mutieren, `_scan`/`_edits` laufen lassen (Altstand per `exec` aus `git show <rev>:pfad`; `python -I` verliert dabei lxml). Schreiber-Abbruch ohne Repo-Schreiben: `mod.corpus_files = lambda d: [tempkopie]`, dann gibt `schreibe_werk_bibliographie()` `(geaendert, fehler)`.
-- Prüfliste für jede Änderung daran: selbstschließendes Blatt im Header (`<forename/>` in MSB1, NEI); Einrückung eines eingefügten Containers; `_luecken` darf Tails nicht per Schlüssel filtern (zweiter `<editor>` machte das Gate rot und `--works` starb); der `else`-Zweig in `_edits` braucht den Guard gegen das Löschen der Kinder (#397-Muster); Text hinter einem gleichen Kind und Tails auf biblStruct-Ebene sind nur an gepaarten Kindern sichtbar.
-- Edits werden nach `(Anfang, Ende, Sammelindex)` absteigend angewendet; ohne das Ende im Schlüssel zerschnitt eine Einfügung an derselben Stelle die Ersetzung. Überlappende Spannen kann `_edits` nach Bauart nicht erzeugen; eine Prüfung darauf gibt es nicht.
-- Zählfallen: works.xml hat mehr biblStruct mit @corresp als es Header-Blöcke gibt, die Differenz sind WG (keine Korpusdatei) und TRO (zwei Werke, derselbe Schlüssel und dasselbe @corresp); der AK-Block mit Zusatz ist eine eigene Gruppe neben „nur Reihenfolge“. Eine Prosa-Aufschlüsselung „gleich / nur Reihenfolge / anders“ strikt (mit `@xml:id`, rohem `@target`, Reihenfolge) gegen `_sig` und gegen eine reihenfolgetreue `_sig`-Variante messen.
+- Zählfallen: works.xml hat mehr biblStruct mit @corresp als es Header-Blöcke gibt, die Differenz sind WG (keine Korpusdatei) und TRO (zwei Werke, derselbe Schlüssel und dasselbe @corresp); der AK-Block mit Zusatz ist eine eigene Gruppe neben „nur Reihenfolge“.
 
-**listBibl-Gate (#486, seit #605):** Header-Block mit @corresp ohne works-Block ist rot („ohne works.xml-Nachweis"), jeder works-Block mit @corresp braucht einen Header-Block, nur Blöcke ohne @corresp (WZB) bleiben draußen; alle Header-@corresp sind Zotero-URIs (`rg`).
+**listBibl-Gate (#486, seit #605):** Header-Block mit @corresp ohne works-Block ist rot („ohne works.xml-Nachweis"), jeder works-Block mit @corresp braucht einen Header-Block, nur Blöcke ohne @corresp (WZB) bleiben draußen. Vor #605 zählte `_datei_bibliographie` den Header-Block als `ohne` (grün): Prosa, die die Regel einem früheren Vorgang zuschreibt, ist B.
 - `ERLAUBTE_ZUSAETZE` prüft freie Kinder gepaarter Container und Kinder eines Header-Containers gegen works-Blatt; blind bleibt die Anzahl (zweiter `note type=context` in AK: grün). Probe: FB ohne Block K2L9LPVV, Container in works.xml leeren.
 - Mitlesen: Kommentarkopf in `sync_tei_headers.py`, `scripts/README.md`, CONTRACTS F.4a, Rückgabe-Docstring von `_datei_bibliographie`, Kommentar in `data-integrity.yml`.
-- **Herkunft:** „Header-Block mit @corresp ohne works-Block rot“ kam erst mit #605; vorher zählte `_datei_bibliographie` ihn als `ohne` (grün). Gegenprobe: Quelle beider Revisionen per `git show <rev>:` in ein `types.ModuleType` exec'en, im AK-Head einen zweiten Block mit fremdem @corresp einfügen (nicht den vorhandenen umschreiben, sonst erscheint „works.xml-Nachweis ohne Block“ als Störbefund). Prosa, die die Regel einem früheren Vorgang zuschreibt, ist B.
 
-**Messen:** Header-biblStruct gegen works.xml per @corresp, c14n per lxml, `>\s+<` kollabiert, NFC. MWB-Siglen: `https://www.mhdwb-online.de/quellenverzeichnis.php?buchstabe=N`.
 
-**check-author-refs.py:** Die Ausnahme `LEERE_LISTPERSON` war per Sigle geschlüsselt und schaltete die Prüfung für VOR ab; Fix `sigle in LEERE_LISTPERSON and not corresp_ids`. Ein zusätzlicher Nicht-Autor im particDesc ist gewollt. check-author-refs und check-header-genres lesen nur den Kopf (`corpus_files.tei_header`); classDecl, particDesc, msIdentifier stehen innerhalb des teiHeader. particDesc-Zählung: doc-count-audit kennt die Zahl nicht; Messvorschrift: `check-author-refs.py` druckt „particDesc-Spiegel geprüft N".
+**check-author-refs.py:** Die Ausnahme `LEERE_LISTPERSON` war per Sigle geschlüsselt und schaltete die Prüfung für VOR ab; Fix `sigle in LEERE_LISTPERSON and not corresp_ids`. Ein zusätzlicher Nicht-Autor im particDesc ist gewollt. check-author-refs und check-header-genres lesen nur den Kopf (`corpus_files.tei_header`). particDesc-Zählung: Messvorschrift ist die Zeile „particDesc-Spiegel geprüft N" von `check-author-refs.py`.
 
-**Zuschreibungsstatus #452:** `titleStmt/author` trägt `@ana` (disputed|uncertain|rejected) und `@role="adapter"`; `text.author` = erster zählender. Folgen außerhalb des Diffs: ein verworfener Autor hat keinen particDesc-Eintrag, sein `ref="#person_N"` zeigt ins Leere; `particDesc/person/note[@type="works"]` ist RDF-Altbestand ohne Leser und Sync; `text.author` liest auch die Hauptseite (`app.js`). Header-Autorfolge gegen works.xml-attributions prüft kein Gate. Autor-Suchfelder rückwärts vom Eingabefeld finden (`rg addEventListener\(['"]input`, `setupSearchInput(`).
+**Zuschreibungsstatus #452:** `titleStmt/author` trägt `@ana` (disputed|uncertain|rejected) und `@role="adapter"`; `text.author` = erster zählender. Außerhalb des Diffs: ein verworfener Autor hat keinen particDesc-Eintrag, sein `ref="#person_N"` zeigt ins Leere; `particDesc/person/note[@type="works"]` ist RDF-Altbestand ohne Leser; `text.author` liest auch die Hauptseite (`app.js`). Header-Autorfolge gegen works.xml-attributions prüft kein Gate.
