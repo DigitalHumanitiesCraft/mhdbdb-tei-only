@@ -125,6 +125,23 @@ test.describe('#58: Fundstellen der Dokumentsuche', () => {
     await expect(zeilen).toHaveCount(soll.length);
   });
 
+  test('ein Klick auf eine freie Stelle der Fundstellenliste klappt die Karte nicht zu', async ({ page }) => {
+    await dokumentSuche(page, ['arm'], [ARM_KOERPERTEIL]);
+    const text = await waehleText(page, [ARM_KOERPERTEIL], [2]);
+    expect(text).toBeTruthy();
+    const k = karte(page, text.filename);
+    await aufklappen(page, k);
+
+    // Der Gruppenkopf liegt im aufgeklappten Bereich und ist kein Link
+    await k.locator('.beleg-gruppe h5').first().click();
+    await expect(k).toHaveClass(/expanded/);
+    await expect(k.locator('.beleg-link').first()).toBeVisible();
+
+    // Der Kopf der Karte klappt weiterhin zu
+    await k.locator('h4').click();
+    await expect(k).not.toHaveClass(/expanded/);
+  });
+
   test('eine Fundstelle öffnet die Leseansicht genau an dieser Stelle', async ({ page }) => {
     await dokumentSuche(page, ['arm'], [ARM_KOERPERTEIL]);
     const text = await waehleText(page, [ARM_KOERPERTEIL], [2]);

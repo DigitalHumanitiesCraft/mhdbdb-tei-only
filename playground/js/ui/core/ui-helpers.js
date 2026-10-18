@@ -412,6 +412,10 @@ function setupSummaryExpansion() {
       // Links in der Karte (Fundstellen, „Gesamten Text öffnen“) navigieren
       // selbst und klappen die Karte nicht um (#58)
       if (event.target.closest('a')) return;
+      // Auch ein Klick auf eine freie Stelle im aufgeklappten Bereich der
+      // Dokumentsuche (Gruppenkopf, Zwischenraum, Hinweis) laesst die Karte
+      // offen; umgeklappt wird nur ueber den Kopf der Karte (#58)
+      if (summary.classList.contains('result-summary-dokument') && event.target.closest('.result-details')) return;
       event.preventDefault();
 
       const isExpanding = !summary.classList.contains('expanded');
