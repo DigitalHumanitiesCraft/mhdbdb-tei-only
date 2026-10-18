@@ -39,3 +39,12 @@ Umsetzung: `scripts/ingest/pos-disambig/apply-460-461-rest.py`. Die Spalten `Ent
 - **Richtigstellung zur Tabelle vom 10.10.:** die Begründung von `NAR_9303540_3` sagte „Sense 49690 gesetzt“. Im TEI trug dieses Token kein `@ana` (nur `NAR_9400900_3`); die Angabe ist aus der Tabelle gestrichen und der Sense jetzt wirklich gesetzt.
 
 Stand danach, gemessen am 2026-10-16 (207 Tokens, `@ana` je Token): `sense_3004` 55, `sense_49690` 10, `sense_119196` 21, `sense_119198` 1, `sense_119199` 1, ohne `@ana` 119; Summe 207.
+
+## Nachtrag 2026-10-18: Fabeltiere und Messung an sense_3004
+
+Umsetzung: `scripts/ingest/pos-disambig/apply-461-fabeltiere.py`, Messung: `scripts/review/messen-461-sense3004.py`.
+
+- **Neues Konzept** `concept_14101100` "Körper/Gliedmaßen von Fantastischen Tieren" ("Body/Limbs of fantastic animals"), `broader` `concept_14100000`. KZW (16.10.): "Leg ein neues Körper-Unterkonzept auch bei Fantastischen Tieren an, wenn es das im Korpus gibt." Die ID folgt dem Muster der Geschwister, Klassenziffern plus `1100`: Säugetiere `14010000` zu `14011100`, Vögel `14020000` zu `14021100`, Fische `14030000` zu `14031100`, Fantastische Tiere `14100000` zu `14101100`; sie war frei (unter `141…` gibt es nur `14100000` und `14110000`).
+- **Neuer Sense** `lemma_1958_sense_119200` mit diesem Konzept (höchste Sense-Nummer vorher 119199). Ihn tragen `PL3_312606_7` (Drache), `VIR_17403_4` und `VIR_30008_4` (Drachenkampf), `TRO_37_4` (Phönix); alle vier im Kontext gelesen, keiner meint etwas anderes als ein Fabeltier. `lemma_1958` hat damit 6 Senses.
+- **Messung an `sense_3004`** (`sense3004-lebend.tsv`): 55 Belege, gelesen am 18.10.2026, **38 tot** (Gebeine Verstorbener, Reliquien, Leichen), **12 lebend**, **3 lebend mit Zweifel** (`HTR_214570_5`, `JEW_2330900000_1`, `ROL_3841_3`), **2 Tier** (`JEW_556900000_3` und `JEW_557800000_0`, die Ochsen in Pharaos Traum). Die Einstufung ist ein Leseurteil. Nichts ist umgehängt.
+- **Berichtigung der Tabelle vom 10.10.:** `JEW_556900000_3` und `JEW_557800000_0` galten als "menschlich"; sie stehen im selben Traum wie `JEW_566800000_5` (dort "tierisch", auf `sense_119196`). Ebenso gelten `LGR_6062000_7` und `LGR_6066000_3` zu Recht als menschlich: es sind die Leichen der toten Könige, deren Fleisch vom Gebein gesotten wird.

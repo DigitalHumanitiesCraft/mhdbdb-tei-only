@@ -137,6 +137,7 @@
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 12 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/). 4 weitere Tokens der Form minne blieben bewusst unannotiert (Review).</change>
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 32 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
       <change when="2026-09-30" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization an den Stand der Annotation angeglichen (48480 von 63924 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;Lemmatisiert, aber nicht disambiguiert.&#34;</change>
+      <change when="2026-10-18" who="#editor">#461 gebeine: 2 Tokens (Fabeltier) mit @ana auf lemma_1958_sense_119200 gesetzt, neues Körperkonzept concept_14101100.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -19132,7 +19133,7 @@
           <w xml:id="VIR_17403_1" lemmaRef="lexicon.xml#lemma_2912" pos="NOM" corresp="variants.xml#type_9934">houbte</w>
           <w xml:id="VIR_17403_2" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
           <w xml:id="VIR_17403_3" lemmaRef="lexicon.xml#lemma_6330" pos="ADV PRP" ana="lexicon.xml#lemma_6330_sense_9973" corresp="variants.xml#type_22474">ûf</w>
-          <w xml:id="VIR_17403_4" lemmaRef="lexicon.xml#lemma_1958" pos="NOM" corresp="variants.xml#type_6602">gebeine</w>
+          <w xml:id="VIR_17403_4" lemmaRef="lexicon.xml#lemma_1958" pos="NOM" ana="lexicon.xml#lemma_1958_sense_119200" corresp="variants.xml#type_6602">gebeine</w>
           <pc xml:id="VIR_17403_5" join="left">.</pc>
         </l>
         <l n="4">
@@ -33022,7 +33023,7 @@
           <w xml:id="VIR_30008_1" lemmaRef="lexicon.xml#lemma_2912" pos="NOM" corresp="variants.xml#type_9934">houbte</w>
           <w xml:id="VIR_30008_2" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
           <w xml:id="VIR_30008_3">in</w>
-          <w xml:id="VIR_30008_4" lemmaRef="lexicon.xml#lemma_1958" pos="NOM" corresp="variants.xml#type_6602">gebeine</w>
+          <w xml:id="VIR_30008_4" lemmaRef="lexicon.xml#lemma_1958" pos="NOM" ana="lexicon.xml#lemma_1958_sense_119200" corresp="variants.xml#type_6602">gebeine</w>
           <pc xml:id="VIR_30008_5" join="left">.</pc>
         </l>
         <l n="9">

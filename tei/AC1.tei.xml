@@ -135,6 +135,7 @@
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 3 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
       <change when="2026-09-06" who="#editor">#387 (fro): 2 homographie-ambige Tokens der Form fro kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260) bzw. vrô ADJ/ADV (lemma_7250); LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/387-fro/).</change>
       <change when="2026-09-30" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization an den Stand der Annotation angeglichen (6163 von 8104 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;Lemmatisiert, nicht disambiguiert.&#34;</change>
+      <change when="2026-10-18" who="#editor">#462 Lexikon gegen Korpus: 2 Tokens nach KZWs Antwort vom 2026-10-16 in @pos oder Lemma angepasst.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -13860,7 +13861,7 @@
           <pc xml:id="AC1_34620_3" join="left">!</pc>
           <lb n="63"/>
           <hi rend="initial">
-            <w xml:id="AC1_34630_0" lemmaRef="lexicon.xml#lemma_36619" pos="NOM" ana="lexicon.xml#lemma_36619_sense_57192" corresp="variants.xml#type_189527">allerwirdigister</w>
+            <w xml:id="AC1_34630_0" lemmaRef="lexicon.xml#lemma_36619" pos="ADJ" ana="lexicon.xml#lemma_36619_sense_57192" corresp="variants.xml#type_189527">allerwirdigister</w>
           </hi>
           <w xml:id="AC1_34630_1" lemmaRef="lexicon.xml#lemma_1292" pos="ADJ" ana="lexicon.xml#lemma_1292_sense_2021" corresp="variants.xml#type_64786">ewiger</w>
           <w xml:id="AC1_34630_2" lemmaRef="lexicon.xml#lemma_2684" pos="NOM" corresp="variants.xml#type_9039">herre</w>
@@ -14197,7 +14198,7 @@
           <w xml:id="AC1_35150_1" lemmaRef="lexicon.xml#lemma_46227" pos="ADV" ana="lexicon.xml#lemma_46227_sense_72468" corresp="variants.xml#type_253517">jbidem</w>
           <w xml:id="AC1_35150_2" lemmaRef="lexicon.xml#lemma_45773" pos="NOM" corresp="variants.xml#type_251442">rerum</w>
           <pc xml:id="AC1_35150_3" join="left">,</pc>
-          <w xml:id="AC1_35150_4" lemmaRef="lexicon.xml#lemma_78454" pos="CNJ" ana="lexicon.xml#lemma_78454_sense_117010" corresp="variants.xml#type_367451">ymmo</w>
+          <w xml:id="AC1_35150_4" lemmaRef="lexicon.xml#lemma_78454" pos="ADV" ana="lexicon.xml#lemma_78454_sense_117010" corresp="variants.xml#type_367451">ymmo</w>
           <w xml:id="AC1_35150_5" lemmaRef="lexicon.xml#lemma_78455" pos="CNJ" ana="lexicon.xml#lemma_78455_sense_117011" corresp="variants.xml#type_367453">quandoque</w>
           <w xml:id="AC1_35150_6" lemmaRef="lexicon.xml#lemma_24460" pos="NUM" ana="lexicon.xml#lemma_24460_sense_39405" corresp="variants.xml#type_367455">vnius</w>
           <w xml:id="AC1_35150_7" lemmaRef="lexicon.xml#lemma_1732" pos="CNJ" ana="lexicon.xml#lemma_1732_sense_2721" corresp="variants.xml#type_5898">et</w>
