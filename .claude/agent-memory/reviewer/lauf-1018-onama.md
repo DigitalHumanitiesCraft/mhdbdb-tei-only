@@ -14,4 +14,6 @@ Runde 1 am 18.10.2026 auf 6f211c556. Zahlen hier sind Eingabe, vor Gebrauch nach
 
 Runde 3 (98e5c4252): Vorrang offen > abgeleitet > geprueft. Probe in einem Skript: alte elif-Regel auf das committete Paket anwenden und die Wechsel nach (art, zuordnung, bildlink) gruppieren; dazu eine geprueft-Invariante per assert (Sammlung, Text nur wortanker ohne umgerechnet, Bild mit Link). Die Wortspannen-Mutation per JSON-Walk über `uri` setzen, je Status (wortanker, nichtwort_anker) einmal; harter Fehler, kein Paket geschrieben. TTL lag noch in `%TEMP%/rev-onama-dl/`. Basis im Auftrag war der Merge-Base, origin/main war weitergerückt: `git merge-base` und `git merge-tree --write-tree` gegen origin/main fahren.
 
+Runde 4 (d32ca7d88, Gruppierung im Konzept-Einstieg): `nachKonzept` ist direkt (konzepte + nebenhandlungs_konzepte, keine Hülle), also trägt im Konzept-Einstieg jeder Treffer das gewählte Konzept, es gibt immer genau eine Gruppe, und der Fallback-Zweig ist dort unerreichbar. Ob ein Spec-Fall trennt, ohne Mutation an den Daten messen: welche Realisierungen das Konzept tragen und bei welchen es das erste ist (Q460 nur Q456, nirgends erstes).
+
 Neue Playground-Route: Modulbaum und Routentabelle in ARCHITECTURE.md sowie playground/readme.md mitlesen, das Inventar-Gate deckt sie nicht ab.
