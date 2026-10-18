@@ -134,6 +134,7 @@
       <change when="2026-10-10" who="#editor">#460 jagen: 5 Tokens als Verbform gelesen, von lemma_3103 jagât (NOM) auf lemma_3102 jagen (VRB) umgehängt, @ana entfällt; neu geprägte Variantentypen nach der Regel aus #367.</change>
       <change when="2026-10-10" who="#editor">#461 gebeine: 2 Tokens mit Säugetierknochen auf den neuen Sense lemma_1958_sense_119196 (concept_14011100) gesetzt.</change>
       <change when="2026-10-18" who="#editor">#462 Lexikon gegen Korpus: 1 Token nach KZWs Antwort vom 2026-10-16 in @pos oder Lemma angepasst.</change>
+      <change when="2026-10-18" who="#editor">#554 nagel: 1 Token im Gewuerzkontext mit @ana auf lemma_4302_sense_6725 gesetzt.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -119831,7 +119832,7 @@
           <w xml:id="AXU_14617_2">ir</w>
           <w xml:id="AXU_14617_3" lemmaRef="lexicon.xml#lemma_774" pos="NOM" ana="lexicon.xml#lemma_774_sense_1254" corresp="variants.xml#type_2436">bluomen</w>
           <w xml:id="AXU_14617_4" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
-          <w xml:id="AXU_14617_5" lemmaRef="lexicon.xml#lemma_4302" pos="NOM" corresp="variants.xml#type_57476">negelîn</w>
+          <w xml:id="AXU_14617_5" lemmaRef="lexicon.xml#lemma_4302" pos="NOM" ana="lexicon.xml#lemma_4302_sense_6725" corresp="variants.xml#type_57476">negelîn</w>
         </l>
         <l n="14618">
           <w xml:id="AXU_14618_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>

@@ -131,6 +131,7 @@
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 182 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
       <change when="2026-09-30" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization an den Stand der Annotation angeglichen (123698 von 153175 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;Vollständig lemmatisiert, aber noch nicht disambiguiert.&#34;</change>
       <change when="2026-10-18" who="#editor">#461 gebeine: 1 Token (Fabeltier) mit @ana auf lemma_1958_sense_119200 gesetzt, neues Körperkonzept concept_14101100.</change>
+      <change when="2026-10-18" who="#editor">#554 trûbe: 1 Token (Adjektiv trüebe 0, Verb trüeben 1) von lemma_15282 umgehaengt, @ana entfaellt.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -128751,7 +128752,7 @@
           <w xml:id="PL3_336512_8" lemmaRef="lexicon.xml#lemma_446" pos="VRB" ana="lexicon.xml#lemma_446_sense_612" corresp="variants.xml#type_1231">begunde</w>
           <w xml:id="PL3_336512_9" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
           <w xml:id="PL3_336512_10" lemmaRef="lexicon.xml#lemma_2830" pos="NOM" ana="lexicon.xml#lemma_2830_sense_90142" corresp="variants.xml#type_65043">hymmel</w>
-          <w xml:id="PL3_336512_11" lemmaRef="lexicon.xml#lemma_15282" pos="NOM" ana="lexicon.xml#lemma_15282_sense_25272" corresp="variants.xml#type_154215">trüben</w>
+          <w xml:id="PL3_336512_11" lemmaRef="lexicon.xml#lemma_6252" pos="VRB" corresp="variants.xml#type_372865">trüben</w>
           <w xml:id="PL3_336512_12" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
           <w xml:id="PL3_336512_13" lemmaRef="lexicon.xml#lemma_13126" pos="NOM ADJ" ana="lexicon.xml#lemma_13126_sense_20613" corresp="variants.xml#type_311576">duonckel</w>
         

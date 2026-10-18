@@ -142,6 +142,7 @@
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 37 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
       <change when="2026-09-30" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization an den Stand der Annotation angeglichen (18232 von 24112 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;Voll lemmatisiert, aber noch nicht disambiguiert.&#34;</change>
       <change when="2026-10-10" who="#editor">#461 gebeine: 2 Tokens mit Säugetierknochen auf den neuen Sense lemma_1958_sense_119196 (concept_14011100) gesetzt.</change>
+      <change when="2026-10-18" who="#editor">#554 trûbe: 2 Tokens (Adjektiv trüebe 0, Verb trüeben 2) von lemma_15282 umgehaengt, @ana entfaellt.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -38104,13 +38105,13 @@
           <w xml:id="AXS_4879000_2" lemmaRef="lexicon.xml#lemma_4377" pos="ADJ ADV NEG" ana="lexicon.xml#lemma_4377_sense_6838" corresp="variants.xml#type_15281">ne</w>
           <w xml:id="AXS_4879000_3">mac</w>
           <w xml:id="AXS_4879000_4" lemmaRef="lexicon.xml#lemma_4366" pos="ADJ PRO NEG" ana="lexicon.xml#lemma_4366_sense_6823" corresp="variants.xml#type_15233">nieman</w>
-          <w xml:id="AXS_4879000_5" lemmaRef="lexicon.xml#lemma_15282" pos="NOM" ana="lexicon.xml#lemma_15282_sense_25272" corresp="variants.xml#type_63158">trûben</w>
+          <w xml:id="AXS_4879000_5" lemmaRef="lexicon.xml#lemma_6252" pos="VRB" corresp="variants.xml#type_372863">trûben</w>
           <pc xml:id="AXS_4879000_6" join="left">,</pc>
         </l>
         <l n="4880">
           <w xml:id="AXS_4880000_0">iz</w>
           <w xml:id="AXS_4880000_1" lemmaRef="lexicon.xml#lemma_4377" pos="ADJ ADV NEG" ana="lexicon.xml#lemma_4377_sense_6838" corresp="variants.xml#type_15281">ne</w>
-          <w xml:id="AXS_4880000_2" lemmaRef="lexicon.xml#lemma_15282" pos="NOM" ana="lexicon.xml#lemma_15282_sense_25272" corresp="variants.xml#type_63159">trûbe</w>
+          <w xml:id="AXS_4880000_2" lemmaRef="lexicon.xml#lemma_6252" pos="VRB" corresp="variants.xml#type_372864">trûbe</w>
           <w xml:id="AXS_4880000_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
           <w xml:id="AXS_4880000_4">wint</w>
           <pc xml:id="AXS_4880000_5" join="left">:</pc>

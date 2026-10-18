@@ -143,6 +143,7 @@
       <change when="2026-09-23" who="#editor">#418 hawe: 1 Token nach der Zuordnung von KZW vom 11.09.2026 auf lemma_2923 houwen bzw. lemma_9644 houwe gesetzt (lemmaRef/pos/corresp, @ana beim Substantiv). Im ganzen Lauf: zwei Belege auf den neuen Sense lemma_9644_sense_119194 „Schlag“; hawe erhält unter beiden Lemmata einen neu geprägten Variantentyp, type_117159 von lemma_2598 haben entfällt damit.</change>
       <change when="2026-09-30" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization an den Stand der Annotation angeglichen (3017 von 3992 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;- Voll lemmatisiert aber nicht disambiguiert.&#34;</change>
       <change when="2026-10-10" who="#editor">#461 gebeine: 1 Token mit Säugetierknochen auf den neuen Sense lemma_1958_sense_119196 (concept_14011100) gesetzt.</change>
+      <change when="2026-10-18" who="#editor">#554 nagel: 2 Tokens im Gewuerzkontext mit @ana auf lemma_4302_sense_6725 gesetzt.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -297,7 +298,7 @@
           <w xml:id="DES2_21241050_3" lemmaRef="lexicon.xml#lemma_14366" pos="NOM" ana="lexicon.xml#lemma_14366_sense_23811" corresp="variants.xml#type_57473">ingeber</w>
           <w xml:id="DES2_21241050_4" lemmaRef="lexicon.xml#lemma_14368" pos="NOM" ana="lexicon.xml#lemma_14368_sense_23813" corresp="variants.xml#type_57486">galgan</w>
           <w xml:id="DES2_21241050_5" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_38749">vnd</w>
-          <w xml:id="DES2_21241050_6" lemmaRef="lexicon.xml#lemma_4302" pos="NOM" corresp="variants.xml#type_131697">negellein</w>
+          <w xml:id="DES2_21241050_6" lemmaRef="lexicon.xml#lemma_4302" pos="NOM" ana="lexicon.xml#lemma_4302_sense_6725" corresp="variants.xml#type_131697">negellein</w>
           <lb n="6"/>
           <w xml:id="DES2_21241060_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
           <w xml:id="DES2_21241060_1" lemmaRef="lexicon.xml#lemma_5782" pos="NOM" corresp="variants.xml#type_71869">stoß</w>
@@ -3471,7 +3472,7 @@
           <w xml:id="DES2_281281120_1" lemmaRef="lexicon.xml#lemma_4280" pos="NOM" ana="lexicon.xml#lemma_4280_sense_6694" corresp="variants.xml#type_68226">muschat</w>
           <w xml:id="DES2_281281120_2" lemmaRef="lexicon.xml#lemma_774" pos="NOM" ana="lexicon.xml#lemma_774_sense_1254" corresp="variants.xml#type_67024">blumen</w>
           <w xml:id="DES2_281281120_3" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_38749">vnd</w>
-          <w xml:id="DES2_281281120_4" lemmaRef="lexicon.xml#lemma_4302" pos="NOM" corresp="variants.xml#type_131697">negellein</w>
+          <w xml:id="DES2_281281120_4" lemmaRef="lexicon.xml#lemma_4302" pos="NOM" ana="lexicon.xml#lemma_4302_sense_6725" corresp="variants.xml#type_131697">negellein</w>
           <lb n="13"/>
           <w xml:id="DES2_281281130_0" lemmaRef="lexicon.xml#lemma_9050" pos="PRO VEM" corresp="variants.xml#type_30688">wiltu</w>
           <w xml:id="DES2_281281130_1">es</w>
