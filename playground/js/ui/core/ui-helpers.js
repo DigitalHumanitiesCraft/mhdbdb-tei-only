@@ -326,7 +326,7 @@ function createSummaryCard(summary, index) {
   // dafuer das TEI des Textes geladen werden muss (lazyDetails).
   if (typeof summary.lazyDetails === 'function') {
     return `
-    <article class="result-summary result-summary-dokument group overflow-hidden rounded-2xl border border-slate-200 bg-white/95 p-5 shadow-sm transition hover:border-brand-200" data-summary-id="${index}">
+    <article class="result-summary result-summary-dokument group overflow-hidden rounded-2xl border border-slate-200 bg-white/95 p-5 shadow-sm transition" data-summary-id="${index}">
       <div class="summary-header flex items-start justify-between gap-4">
         <div class="flex-1">
           <h4 class="text-sm font-semibold text-slate-900">${summary.title}</h4>
@@ -429,6 +429,14 @@ function setupSummaryExpansion() {
       header.setAttribute('role', 'button');
       header.setAttribute('tabindex', '0');
       header.setAttribute('aria-expanded', summary.classList.contains('expanded') ? 'true' : 'false');
+      // Name des Knopfs nur aus Titel und Hinweis, nicht aus dem ganzen Kopf:
+      // sonst hiesse er nach dem Link "Gesamten Text öffnen", der darin steht.
+      const titel = header.querySelector('h4');
+      const hinweis = summary.querySelector('.summary-expand-hint');
+      const ids = [];
+      if (titel) { titel.id = `summary-titel-${summary.dataset.summaryId}`; ids.push(titel.id); }
+      if (hinweis) { hinweis.id = `summary-hinweis-${summary.dataset.summaryId}`; ids.push(hinweis.id); }
+      if (ids.length) header.setAttribute('aria-labelledby', ids.join(' '));
       header.addEventListener('keydown', (event) => {
         if (event.target !== header) return;
         if (event.key !== 'Enter' && event.key !== ' ') return;

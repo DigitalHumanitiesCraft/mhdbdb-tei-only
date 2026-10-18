@@ -158,6 +158,8 @@ test.describe('#58: Fundstellen der Dokumentsuche', () => {
     await expect(kopf).toHaveAttribute('role', 'button');
     await expect(kopf).toHaveAttribute('tabindex', '0');
     await expect(kopf).toHaveAttribute('aria-expanded', 'false');
+    // Der Name kommt aus Titel und Hinweis, nicht aus dem Link im Kopf
+    await expect(kopf).toHaveAccessibleName(`${text.filename} Klicken für Fundstellen`);
 
     // Enter klappt auf; die Fundstellen kommen ueber lazyDetails nach
     await kopf.focus();
@@ -192,6 +194,15 @@ test.describe('#58: Fundstellen der Dokumentsuche', () => {
     expect(await cursor('.summary-expand-hint')).toBe('pointer');
     expect(await cursor('.result-details')).not.toBe('pointer');
     expect(await cursor('.beleg-gruppe h5')).not.toBe('pointer');
+
+    // Hover ueber der Liste laesst Rand und Schatten in Ruhelage
+    // Ohne Transition gemessen, sonst faengt der erste Wert den Rueckweg vom Kopf-Hover
+    await k.evaluate(el => { el.style.transition = 'none'; });
+    const stil = () => k.evaluate(el => { const s = getComputedStyle(el); return [s.borderTopColor, s.boxShadow, s.transform].join('|'); });
+    await page.mouse.move(0, 0);
+    const ruhe = await stil();
+    await k.locator('.beleg-gruppe h5').first().hover();
+    expect(await stil()).toBe(ruhe);
   });
 
   test('eine Fundstelle öffnet die Leseansicht genau an dieser Stelle', async ({ page }) => {

@@ -150,7 +150,7 @@
   cursor: pointer;
 }
 
-.result-summary:hover {
+.result-summary:not(.result-summary-dokument):hover {
   border-color: var(--border-secondary);
   box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
   transform: translateY(-2px);
@@ -162,17 +162,13 @@
   cursor: default;
 }
 
-.result-summary-dokument:hover {
-  box-shadow: none;
-  transform: none;
-}
-
 .result-summary-dokument .summary-header,
 .result-summary-dokument .summary-expand-hint {
   cursor: pointer;
 }
 
 .result-summary-dokument:has(.summary-header:hover, .summary-expand-hint:hover) {
+  border-color: var(--border-secondary);
   box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
   transform: translateY(-2px);
 }
