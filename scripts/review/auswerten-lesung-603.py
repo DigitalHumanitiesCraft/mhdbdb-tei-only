@@ -8,10 +8,11 @@ Die Teildateien haben die Spalten sigle, w_id, lemma_id, lemma, form, sense_ids_
 klasse_vorsortierung, wer, tierklasse, art, begruendung (Urteile von Agenten, Eingabe).
 Schreibt zweite-lesung.tsv (alle Teile, Spalte pruefen aus pruefen-603.tsv), senses-lesung.tsv
 (je Bedeutung mit concept_21111000 die Lesung ihrer Belege), lemmata-lesung.tsv (je Lemma) und
-konzeptfrage.txt (Zaehlung zu den beiden Optionen). Ein Beleg mit Urteil, aber ohne Eintrag
-in senses-21111000.tsv bei gesetztem Sense, ist ein harter Fehler.
+konzeptfrage.txt (Zaehlung zu den beiden Optionen). Ein Beleg mit gesetztem @ana, dessen
+Bedeutungen alle nicht in senses-21111000.tsv stehen, ist ein harter Fehler.
 """
 import sys, re, glob, os, collections
+from lxml import etree
 sys.stdout.reconfigure(encoding='utf8')
 REPO = sys.argv[1].rstrip('/\\')
 TEILE = sys.argv[2:5]
@@ -42,9 +43,9 @@ if len(ids) != len(set(ids)):
     sys.exit('FEHLER: doppelte w_id ueber die Teile')
 for r in rows:
     r['pruefen'] = pruefen.get(r['w_id'], '')
-    for s in r['sense_ids_im_ana'].split(','):
-        if s.startswith('lemma_') and s not in SENSE:
-            pass  # ana-Token auf eine Bedeutung ohne 21111000 (weitere Bedeutung desselben Worts)
+    toks = r['sense_ids_im_ana'].split(',')
+    if toks[0].startswith('lemma_') and not any(s in SENSE for s in toks):
+        sys.exit('FEHLER: %s hat @ana %s, aber keine dieser Bedeutungen steht in senses-21111000.tsv (Lexikon seit der Vorsortierung geaendert?)' % (r['w_id'], r['sense_ids_im_ana']))
 H = ['sigle', 'w_id', 'lemma_id', 'lemma', 'form', 'sense_ids_im_ana', 'klasse_vorsortierung', 'wer', 'tierklasse', 'art', 'begruendung', 'pruefen']
 with open(OUT + '/zweite-lesung.tsv', 'w', encoding='utf8', newline='') as fh:
     fh.write('\t'.join(H) + '\n')
@@ -97,11 +98,12 @@ S.append('Davon Bedeutungen, in denen mehr als die Haelfte der gelesenen Belege 
 S.append('Pruefen-Liste: %d Belege' % sum(1 for r in rows if r['pruefen']))
 
 # Korpusbelege auf die Bedeutungen unter concept_14011240 (Option A)
-lex = open(REPO + '/authority-files/lexicon.xml', encoding='utf8').read()
+T = '{http://www.tei-c.org/ns/1.0}'
+XID = '{http://www.w3.org/XML/1998/namespace}id'
 sid14 = set()
-for m in re.finditer(r'<sense\b[^>]*xml:id="([^"]+)"[^>]*>(.*?)</sense>', lex, re.S):
-    if 'concepts.xml#concept_14011240"' in m.group(2):
-        sid14.add(m.group(1))
+for sn in etree.parse(REPO + '/authority-files/lexicon.xml').iter(T + 'sense'):
+    if any(p.get('target') == 'concepts.xml#concept_14011240' for p in sn.findall(T + 'ptr')):
+        sid14.add(sn.get(XID))
 S.append('Optionsrechnung A (Umbenennen von concept_14011240): Bedeutungen im Lexikon mit diesem Konzept: %d' % len(sid14))
 n14 = collections.Counter()
 for f in glob.glob(REPO + '/tei/*.xml'):
@@ -112,7 +114,7 @@ for f in glob.glob(REPO + '/tei/*.xml'):
             if s in sid14:
                 n14[s] += 1
 S.append('Korpusbelege (w mit @ana) auf diese Bedeutungen: %d, auf %d der %d Bedeutungen' % (sum(n14.values()), len(n14), len(sid14)))
-both = [s for s in sid14 if s in SENSE]
+both = sorted(s for s in sid14 if s in SENSE)
 S.append('Davon Bedeutungen, die auch concept_21111000 tragen: %d (%s)' % (len(both), ', '.join(both)))
 open(OUT + '/konzeptfrage.txt', 'w', encoding='utf8').write('\n'.join(S) + '\n')
 print('\n'.join(S))
