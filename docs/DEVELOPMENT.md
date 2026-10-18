@@ -154,7 +154,7 @@ python scripts/build-textreihen-bibliography.py # Zotero group 4876216 -> textre
 # states under data/, never live; .github/workflows/monatslauf-seiten.yml refreshes both on the 1st of the
 # month and opens a PR on change. A Zotero or GitHub outage keeps the old state and does not fail the run.
 python scripts/build-publikationen.py           # Zotero group 5043625, collections WB4HTUGC + Z2N4SWWI -> data/zotero-publikationen.json -> hilfe-publikationen.html
-python scripts/build-demnaechst.py              # open `ingest` issues -> data/demnaechst-issues.json; quarters by hand in data/demnaechst-zeitplan.json -> hilfe-demnaechst.html
+python scripts/build-demnaechst.py              # open `ingest` issues -> data/demnaechst-issues.json; only issues listed under "freigegeben" in data/demnaechst-zeitplan.json (by hand, with quarter) appear -> hilfe-demnaechst.html; `--selftest` checks the rule offline
                                                 # (both: --offline rebuilds the page from the file; --check compares page and file without network.
                                                 # --check runs inside the monthly workflow and by hand, not in the PR checks, like the Textreihen bibliography)
 

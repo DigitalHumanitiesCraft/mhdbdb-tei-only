@@ -7,9 +7,10 @@ name: Monatslauf Seiten
 #
 # Der PR wird nie automatisch gemergt: dieser Workflow schaltet kein Auto-Merge
 # ein (kein Treffer für "auto-merge" in .github/workflows), und die Seite
-# "Demnächst im Korpus" ist öffentlich. Ein neues ingest-Issue erscheint dort
-# ohne Eintrag in data/demnaechst-zeitplan.json mit "Zeitpunkt offen", sofern
-# es niemand ausschließt; nur die Sichtprüfung im PR fängt das ab.
+# "Demnächst im Korpus" ist öffentlich. Dort erscheint nur, was in
+# data/demnaechst-zeitplan.json unter "freigegeben" steht (Entscheidung vom
+# 18.10.2026); ein neues ingest-Issue bleibt ohne Eintrag unsichtbar und steht
+# im Build-Log als "nicht freigegeben: #N".
 #
 # Ein Ausfall von Zotero oder der GitHub-API bricht den Lauf nicht: die
 # Skripte behalten den alten Stand, melden eine Warnung und enden mit Exit 0
@@ -106,11 +107,11 @@ jobs:
             Geändert sind die eingefrorenen Stände unter `data/` und die beiden
             Seiten `hilfe-publikationen.html` und `hilfe-demnaechst.html`. Bitte
             vor dem Merge den Diff der Stände ansehen: neue oder verschwundene
-            Einträge, und bei Demnächst im Korpus, ob ein neues Issue einen
-            Eintrag in `data/demnaechst-zeitplan.json` braucht (ohne Eintrag
-            steht es mit „Zeitpunkt offen" auf der Seite) und ob es eine
-            offene Rechtefrage trägt, die das Label nicht zeigt, oder noch nicht
-            beschlossen ist: ohne Ausschluss erscheint es nach dem Merge öffentlich.
+            Einträge. Auf Demnächst im Korpus erscheint nur, was in
+            `data/demnaechst-zeitplan.json` unter „freigegeben" steht; ein neues
+            Issue ohne Eintrag bleibt unsichtbar und steht im Build-Log als
+            „nicht freigegeben: #N". Soll es erscheinen, braucht es einen
+            Eintrag dort, nachdem Rechtefrage und Beschluss geklärt sind.
             **Dieser PR wird nie automatisch gemergt**, er braucht eine Sichtprüfung.
 
             **Build-Log** (eine Zeile `::warning::` heißt: dieser Teil blieb auf dem alten Stand):

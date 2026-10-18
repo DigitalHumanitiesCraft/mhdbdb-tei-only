@@ -78,7 +78,7 @@ test.describe('Hilfe-Unterseite Demnächst im Korpus', () => {
     const plan = lesen('demnaechst-zeitplan.json');
 
     // Dieselbe Regel wie scripts/build-demnaechst.py, hier aus den Dateien nachgerechnet
-    const sichtbar = issues.filter((i) => !(String(i.nummer) in plan.ausgeschlossen) && !i.labels.includes('wait:extern'));
+    const sichtbar = issues.filter((i) => String(i.nummer) in plan.freigegeben && !i.labels.includes('wait:extern'));
 
     test('Kachel auf der Hilfeseite fuehrt hin', async ({ page }) => {
         await page.goto('/hilfe.html');
@@ -98,9 +98,9 @@ test.describe('Hilfe-Unterseite Demnächst im Korpus', () => {
             await expect(page.locator('.pub-leer')).toContainText('keine Aufnahme fest');
         }
 
-        // Der Kontrollwert liegt ausserhalb der Regel: ein Issue, das wartet, darf nicht erscheinen
-        // und jedes, das die Zeitplan-Datei ausschliesst (etwa weil die Rechtefrage offen ist, #537)
-        const wartend = issues.filter((i) => i.labels.includes('wait:extern') || String(i.nummer) in plan.ausgeschlossen);
+        // Der Kontrollwert liegt ausserhalb der Regel: ein Issue, das wartet, darf nicht erscheinen,
+        // und keines ohne Freigabe (auch nicht ein neues ohne jeden Eintrag, #537)
+        const wartend = issues.filter((i) => i.labels.includes('wait:extern') || !(String(i.nummer) in plan.freigegeben));
         expect(wartend.length).toBeGreaterThan(2);
         const text = await page.locator('main').innerText();
         for (const i of wartend) {
@@ -122,7 +122,7 @@ test.describe('Hilfe-Unterseite Demnächst im Korpus', () => {
         const raenge = zeiten.map(rang);
         expect(raenge).toEqual([...raenge].sort((a, b) => a - b));
         // Jeder sichtbare Eintrag ohne Quartal im Zeitplan steht als "Zeitpunkt offen" da
-        const ohneQuartal = sichtbar.filter((i) => !plan.zeitplan[String(i.nummer)]?.quartal).length;
+        const ohneQuartal = sichtbar.filter((i) => !plan.freigegeben[String(i.nummer)]?.quartal).length;
         expect(zeiten.filter((t) => t === 'Zeitpunkt offen').length).toBe(ohneQuartal);
         await expect(page.locator('main')).toContainText('Zeitangaben sind Schätzungen');
     });
