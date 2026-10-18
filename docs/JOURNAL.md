@@ -4,6 +4,23 @@ Chronological log of development decisions, dead ends, and savepoints. Not a cha
 
 ---
 
+## 2026-10-18 (Spur lauf-1018-daten, D5): Zotero-Kette FR3 und FLG/FLG1 (#486)
+
+**Was:** Nach KZWs Entscheidungen vom 16.10.2026 sind die zwei Zotero-Einträge geschrieben: `MVWV5QYG` (FR3) auf das Supplement von 2000 (Haustein/Stackmann, ISBN 3-525-82504-8, Reihe 232; Version 1563 auf 2962) und `ATWPNQPS` (FLG1/FLG) auf den Textband 1990 mit Gisela Vollmann-Profe (Artemis, München; 1563 auf 2963). Danach Online-Sync: in `works.xml` ändern sich nur die drei `biblStruct` FLG, FLG1, FR3; Header-Sync auf `tei/FLG`, `FLG1`, `FR3`. `BESTAND_BEHALTEN` ist `{'FLG': ('analytic','note'), 'FR3': ('analytic','note')}`, Authority-Index 1.9.30 (Corpus unverändert 4.2.35). Rückweg: das Item-JSON beider Einträge vor dem Schreiben steht im PR-Body.
+
+**Was über den Einzelfall hinausgilt:**
+- Vor dem Schreiben nach außen den Sync lokal gegen einen gepatchten Cache simulieren: die Simulation zeigte, dass die Vorgabe "FR3 fällt ganz heraus" den Supplement-Verweis und die Mitarbeit der Notiz gekostet hätte (Zotero hat dafür kein Feld). Die Koordination entschied daraufhin, beides dauerhaft zu behalten.
+- Der Header-Sync entfernt ein Element nicht, das aus `works.xml` verschwunden ist (hier `biblScope unit="volume"` bei FR3); das Gate meldet es, die Handänderung ist einmalig. Ein erneuter `--offline`-Sync und `--works` erzeugten danach keinen Diff, die Handänderung wird also nicht zurückgeholt.
+- Der Werktitel von FLG1 "(Buch 3-7 / Neumann MTU 1990)" und sein `analytic` "Buch 1-7" widersprechen sich weiterhin; als Nebenbefund in #486, nicht aufgelöst.
+
+**Rote Zeilen:** keine.
+
+**Was zurück an Christian geht:** nichts über die Fragen in #486 hinaus (Werktitel FLG1, für KZW).
+
+**Review:** Runde 1 auf `cedee251a`, mergefähig, kein A-Befund; B-Befund (CONTRACTS F.4a und DATA-MODEL beschrieben die alte Lage) in einem Folgecommit ohne weitere Runde behoben. Teillauf `npm test` auf Port 8084 grün (reading-view, genre-explorer, genre-filter-suggestion, authority-id-search, lemma-id-search, variant-candidates; sie lesen Header-Metadaten, Werk- und Gattungsdaten des Authority-Index).
+
+---
+
 ## 2026-10-18 (Spur lauf-1018-daten, D1 bis D3): Lexikon gegen Korpus, naschen, Fabeltiere (#462, #602, #461)
 
 **Was:** #462 nach KZWs Antwort vom 16.10.2026: 16 Lexikoneinträge bekommen 17 Wortarten (Codes a und günlich), 6 Token-`@pos` sind geändert (zedolne ×2, alwirdic, immo, deprofundis, ungenuoge), 2 Tokens umgehängt (aditus auf `lemma_67813`, standime auf `lemma_70734`, neue Typen `type_372859` und `type_372860`). #602: 4 naschen-Belege auf `lemma_57919_sense_93122` (Essen), `OVW_1025010230_4` bleibt offen. #461: `concept_14101100` und `lemma_1958_sense_119200` für Drache und Phönix (4 Belege); Messung an `sense_3004`: 55 Belege, 38 tot, 12 lebend, 3 lebend mit Zweifel, 2 Tier, nichts umgehängt. Indexe Authority 1.9.29, Corpus 4.2.35. Skripte `apply-462-602.py`, `apply-461-fabeltiere.py`, `messen-461-sense3004.py`; Belege unter `ingest/pos-disambig/462-pos/`, `602-naschen/` und `ingest/review/461-gebeine/`.
