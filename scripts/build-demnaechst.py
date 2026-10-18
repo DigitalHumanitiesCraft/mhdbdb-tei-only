@@ -148,13 +148,13 @@ def region_bauen(stand, zeitplan):
             f'<li><p class="pub-titel">{e(titel)}</p><p class="pub-meta">{e(zeit)}</p></li>'
             for _, titel, zeit in sichtbar)
     else:
-        liste = '<li class="pub-leer">Zurzeit ist keine Aufnahme geplant.</li>'
+        liste = '<li class="pub-leer">Zurzeit steht keine Aufnahme fest, die hier genannt werden kann.</li>'
     vorschlag = ""
     if zeitplan.get("vorschlag"):
         vorschlag = ('<p class="text-sm text-slate-600 mb-3"><strong>Vorschlag:</strong> '
                      'Die Quartale sind noch nicht abgestimmt.</p>\n')
     return (f'<section class="mb-10">\n'
-            f'<h2 class="text-2xl font-bold text-slate-900 mb-1">Geplante Aufnahmen ({len(sichtbar)})</h2>\n'
+            f'<h2 class="text-2xl font-bold text-slate-900 mb-1">Geplante Aufnahmen{f" ({len(sichtbar)})" if sichtbar else ""}</h2>\n'
             f'<p class="text-slate-600 mb-3">Zeitangaben sind Schätzungen und können sich verschieben.</p>\n'
             f'{vorschlag}'
             f'<ul class="pub-liste">\n{liste}\n</ul>\n</section>\n'

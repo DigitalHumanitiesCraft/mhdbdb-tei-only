@@ -92,8 +92,11 @@ test.describe('Hilfe-Unterseite Demnächst im Korpus', () => {
         page.on('request', (r) => anfragen.push(r.url()));
         await page.goto('/hilfe-demnaechst.html');
 
-        await expect(page.locator('.pub-liste > li')).toHaveCount(sichtbar.length);
-        expect(sichtbar.length).toBeGreaterThan(0);
+        // Ohne sichtbares Issue steht eine Leerzeile da (am 18.10.2026 ist keine Aufnahme beschlossen)
+        await expect(page.locator('.pub-liste > li')).toHaveCount(Math.max(sichtbar.length, 1));
+        if (sichtbar.length === 0) {
+            await expect(page.locator('.pub-leer')).toContainText('keine Aufnahme fest');
+        }
 
         // Der Kontrollwert liegt ausserhalb der Regel: ein Issue, das wartet, darf nicht erscheinen
         // und jedes, das die Zeitplan-Datei ausschliesst (etwa weil die Rechtefrage offen ist, #537)
@@ -118,7 +121,9 @@ test.describe('Hilfe-Unterseite Demnächst im Korpus', () => {
         };
         const raenge = zeiten.map(rang);
         expect(raenge).toEqual([...raenge].sort((a, b) => a - b));
-        expect(zeiten.some((t) => t === 'Zeitpunkt offen')).toBe(true);
+        // Jeder sichtbare Eintrag ohne Quartal im Zeitplan steht als "Zeitpunkt offen" da
+        const ohneQuartal = sichtbar.filter((i) => !plan.zeitplan[String(i.nummer)]?.quartal).length;
+        expect(zeiten.filter((t) => t === 'Zeitpunkt offen').length).toBe(ohneQuartal);
         await expect(page.locator('main')).toContainText('Zeitangaben sind Schätzungen');
     });
 });
