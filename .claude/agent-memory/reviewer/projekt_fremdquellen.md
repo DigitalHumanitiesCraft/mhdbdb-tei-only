@@ -1,6 +1,6 @@
 ---
 name: projekt-fremdquellen
-description: Fremdquellen und Fremdindizes im Review: Naming-Index (#420), Pferde-Index (#193), Glossar Kochbuchforschung (#554: PII, Einordnung, Entfallen-Suche, Kommentarnotizen), Textreihen-Unterseite (#93)
+description: Fremdquellen und Fremdindizes im Review: Naming-Index (#420), Pferde-Index (#193), Glossar Kochbuchforschung (#554: PII, Einordnung, Entfallen-Suche, Kommentarnotizen), Textreihen-Unterseite (#93), Zotero-/Issue-Monatslauf (#417, #537: DOI-Freitext, urllib-Ausfallproben, Label als Entscheidungsersatz)
 metadata:
   type: project
 ---
@@ -21,6 +21,11 @@ Bei jedem weiteren Fremdexport nach `sources/` die ersten Punkte vorab abarbeite
 - **Original** nur bei KZW: Bytes und SHA-256 gegen die Glossar-README, dann `bereinige-export.py` (mit `-E -P`, nicht `-I`) und `cmp` gegen den Blob.
 - **Nur `einordnung.json` (Feld `c`) steuert die Kürzungen.** Tragen zwei Felder dieselbe Aussage, beide Mengen gegeneinander zählen.
 - **Entfallen-Suche (`entfallenes-suchen.py`):** `stuecke()` trennt nur vor Großbuchstabe, „ oder ‚; `AUTO_B` (Fußnote, URL, `S. N`) stuft still als (b) ein, nie in `offen`. Messen: `vorstufe-bauen.py <tmp>.json`, `m.entfallene(o, k)` auf `enz_t`/`poet_t` neben `kommentare[gid].text`; nach jeder Textänderung neu.
+
+## Zotero- und Issue-Abrufe mit Monatslauf (#417, #537, 18.10.2026)
+- **Zotero-Felder `DOI` und `url` sind Freitext:** in Gruppe 5043625 standen volle URLs (doi.org, dx.doi, hdl, jstor) im DOI-Feld und `10.…`, `urn:…`, nackte Hosts im url-Feld. Jeder Seitenbau aus Zotero: alle Werte gegen `^10\.\d{4,9}/\S+$` bzw. `^https?://` prüfen und die gerenderten `href` greppen.
+- **Ausfallfestigkeit von urllib-Skripten per In-Process-Probe** (Modul per `importlib.util.spec_from_file_location` laden, `modul.urllib.request.urlopen` ersetzen, nur `aktualisieren()` rufen, nichts schreibt): `http.client.IncompleteRead` ist weder OSError noch ValueError, `int(HTTPMessage()["fehlt"])` ist TypeError; beide fallen durch übliche except-Tupel.
+- **Label als Stellvertreter einer Entscheidung gegen den Thread prüfen:** #537 setzte „offene Rechtefrage = `wait:extern`", aber #262 wurde am 06.10. auf `wait:kzw` umgelabelt, obwohl die Nachnutzungsfrage an Trier offen blieb.
 
 ## Textreihen-Unterseite (#93, `textreihen/`)
 - **Treue gegen die alte Site messen, nicht lesen** (WebFetch liefert Zusammenfassungen): `curl -s -L -A "Mozilla/5.0" "https://www.marketext.at/Textreihentypologie/?page_id=N"`, Textvergleich per Skript (Tags weg, Anführungszeichen und nbsp normalisieren, Fragmente ab 25 Zeichen als Substring). Erwartete Lücken: WP-Kommentarformulare, „Links noch nicht anklicken", `#DOI (wird nachgeliefert)`, `dokument.html#MHDBDB`.
