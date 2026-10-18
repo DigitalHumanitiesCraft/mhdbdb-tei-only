@@ -4,6 +4,25 @@ Chronological log of development decisions, dead ends, and savepoints. Not a cha
 
 ---
 
+## 2026-10-18 (Spur lauf-1018-lesung, L2): zweite Lesung zu Ernährung von Menschen oder Tieren (#603)
+
+**Was:** KZWs Wunsch vom 16.10.2026, die Vorsortierung sprachlich gegenzulesen, ist umgesetzt. 13.135 Belege (tier 2.867, unklar 2.523, mensch 7.745) von 42 Sonnet-Agenten in fünf Workflows gelesen, blind gegen die Klasse der Vorsortierung, Kontext 30 Token links und rechts. Lesung: mensch 8.037, keine_nahrung 3.908 (Lemma-Rauschen der Vorsortierung), tier 955 (Säugetier 433, Vogel 239, andere 171, unbestimmt 95, Fisch 17), unklar 235. Nicht gelesen: 20.023 Belege ohne `@ana`, die nicht `tier` sind. Ergebnis in `ingest/review/603-ernaehrung/` (`zweite-lesung.tsv`, `senses-lesung.tsv`, `lemmata-lesung.tsv`, `konzeptfrage.txt`, `pruefen-603.tsv`, README-Abschnitt), Skripte `stapel-603.py`, `verbinden-lesung-603.py`, `auswerten-lesung-603.py`. Nichts in `tei/` oder `authority-files/`; die Konzeptfrage steht bei KZW.
+
+**Was über den Einzelfall hinausgilt:**
+- Die Tierbelege sind meist eine Minderheit innerhalb von Bedeutungen, die sonst Menschen meinen (23 von 78 Bedeutungen mit Tierbelegen haben Tier-Mehrheit); ein zusätzliches Konzept an der Bedeutung allein trennt sie nicht. Das Korpus gibt auch Vögel (239) und andere Tierklassen her, nicht nur Säugetiere.
+- Agenten schreiben Schlüssel falsch ab (17 von 13.135 w_id, 0,13 %) und flicken sie mit eigenen Hilfsskripten, ohne es zu melden. Verbunden wird über die Zeilennummer, und der Stand der Eingabe wird nicht aus dem Bericht des Agenten, sondern aus den Workflow-Transkripten gelesen (`rg 'fix [0-9]+ [0-9]+'`).
+- Eine Regex über `<sense>...</sense>` im Lexikon ist falsch, weil 124 Senses selbstschließend sind; Lexikon immer mit lxml lesen.
+
+**Rote Zeilen:** Eine, Nr. 154 (Differenz subtrahiert statt die fehlenden Elemente zu benennen: "431" statt 331 plus 100 ohne `@ana`, im README bis zur Review-Runde 1). `trockenlauf-auswerten.py` lief vor diesem Eintrag, der Kontrollwert hat gefeuert (73 Zeilen nicht auswertbar); die Zahlen sind eine Untergrenze und der Hook ist nachzusehen.
+
+**Was zurück an Christian geht:**
+- Die Konzeptfrage an KZW (Umbenennen von "Stoffwechsel von Säugetieren" oder neue Kategorie "Ernährung von Säugetieren") nach Merge und Deploy im #603-Kommentar, mit der Prüfliste der fünf Belege.
+- Berater-Punkt des Reviewers: `verbinden-lesung-603.py` schreibt auch bei gemeldeten Formfehlern `teil-*.tsv` und endet mit Exit 0. Ob Prüfmaterial einen harten Abbruch braucht, ist eine Entwurfsfrage, nicht umgesetzt. Ebenso: der neue Abbruch in `auswerten-lesung-603.py` vergleicht gegen die eingecheckte `senses-21111000.tsv` und fängt ein geändertes Lexikon nur, wenn jemand sie neu erzeugt hat.
+
+**Review:** Opus. Runde 1 auf b859cd41e: zwei A-Befunde (Regex über `<sense>` kennt keine selbstschließenden Senses; Docstring versprach einen harten Fehler, der Code tat `pass`), drei B-Befunde (17 statt 13 Korrekturen, 331 statt 431, 52 Minderheit statt 55), alle nachgemessen und behoben. Runde 2 auf aea8b8f67 (Delta, Opus nach einem A-Befund): kein Befund, mergefähig.
+
+---
+
 ## 2026-10-18 (Spur lauf-1018-lesung, L1): Prüfseiten auf gerade Anführungszeichen (#440)
 
 **Was:** Auf KZWs Antwort vom 16.10.2026 sind die schrägen Anführungszeichen (U+201E, U+201C) in den drei Prüfseiten aus #440 und in ihren Generatoren durch das gerade `"` ersetzt: `359-pruefseite.html` 8 Zeichen in 3 Zeilen, `418-houwen/pruefseite.html` 1 in 1, `pruefseite-526.html` 66 in 19, `build-359-page.py` 2, `build-526-pruefseite.py` 66, dazu `vorschlaege.json` (6, als `\"`), die Eingabe des 359-Generators und Quelle von zwei der drei Zeilen der Seite. Rückzählung in allen sechs Dateien: 0. Die Seiten sind nicht neu generiert, denn ein Lauf von `build-359-page.py` hätte Stand-Datum und Index-Version mitgeändert und setzt `&quot;` statt `"` (gleiche Darstellung).
