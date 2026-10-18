@@ -19,6 +19,7 @@ Verdichtet 18.10.2026. Dieses Memory ist Eingabe, keine Messung: Zahlen daraus v
 - Prüft das Gate den Wert oder nur die Konsistenz zweier Stellen desselben Autors?
 - Vor Klasse A über eine Invariante die Basis mitmessen: hält sie dort nicht, ist es Vorbestand.
 - Zahlen stehen oft mehrfach: nach dem Gate-Lauf `grep -rn` über die alte Zahl; die Zweitzeile neben einem Anker selbst lesen.
+- **Ein nachgetragener Ausnahmesatz erbt den Geltungsbereich seines Absatzes** (#537, Runde 2): „Ausnahme ist ein Formatfehler" im Absatz über Zotero UND GitHub galt nur für ein Skript; das Geschwisterskript fängt jede Exception als Warnung. Jedes im Absatz genannte Skript in-process mit kaputter Antwort sondieren.
 - Harter Fehler NACH dem ersten Schreibvorgang ist kein Guard: Zeile des `raise SystemExit` gegen die des ersten `write_text` halten (sync_tei_headers; `update-disambig-status-493.py`). Sonde: Kopie mit kaputter Liste, `--apply`, Hash vor/nach.
 
 **Auftrag, JOURNAL, Threads**
@@ -28,6 +29,7 @@ Verdichtet 18.10.2026. Dieses Memory ist Eingabe, keine Messung: Zahlen daraus v
 - **„origin/main hat seither nur X geändert" im Auftrag ist eine Behauptung:** `git log <Basis>..origin/main --stat` selbst. Nach jedem Rebase die Gates (Versionen, `doc-count-audit --check`, Em-Dash) erneut fahren.
 - Kickoffs und `docs/JOURNAL.md`-Einträge sind datierte Protokolle: zitieren sie eine inzwischen geänderte CLAUDE.md-Regel, ist das kein Befund. Die `CLAUDE.md` im Session-Kontext kann älter sein als HEAD: jeden Verweis „steht in CLAUDE.md" mit `git grep` auf HEAD messen.
 - **Eine Regel aus einem Issue-Kommentar hat eine zweite Quelle: die Label-Ereignisse der Autorin Sekunden danach** (`gh api .../issues/N/timeline --jq 'select(.event=="labeled" or .event=="unlabeled")'`). (#378: „Julia vorreihen" hieß `wait:julia` **dazu**, nicht statt `wait:kzw`.)
+- **Schlägt der Auftrag Text für eine Datei vor, die ein Parallelzweig ändert, erst `git diff origin/main...<zweig> -- <datei>` lesen** (#603/#537, 18.10.2026: der vorgeschlagene Satz für `monatslauf-seiten.yml` stand dort schon als Ausnahmesatz, und erst der geprüfte Zweig machte ihn für beide Skripte wahr).
 - **Eine Belegzeile, deren Befehl ein Zitat findet, belegt das Zitat, nicht die Tatsache:** ist die Quelle ein Abschlusskommentar oder eine Verdichtung, den Primärkommentar der Entscheidung öffnen (`claude-code-setup` #66 „zu reizbar“ gegen #53 „nicht sinnvoll“).
 
 **Prüfmaterial für KZW (Prüflisten, Vorschläge)**
