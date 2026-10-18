@@ -45,7 +45,7 @@ for r in rows:
     r['pruefen'] = pruefen.get(r['w_id'], '')
     toks = r['sense_ids_im_ana'].split(',')
     if toks[0].startswith('lemma_') and not any(s in SENSE for s in toks):
-        sys.exit('FEHLER: %s hat @ana %s, aber keine dieser Bedeutungen steht in senses-21111000.tsv (Lexikon seit der Vorsortierung geaendert?)' % (r['w_id'], r['sense_ids_im_ana']))
+        sys.exit('FEHLER: %s hat @ana %s, aber keine dieser Bedeutungen steht in der eingecheckten senses-21111000.tsv (verglichen wird nur mit dieser Datei; ob und wann sich das Lexikon geaendert hat, sagt der Vergleich nicht)' % (r['w_id'], r['sense_ids_im_ana']))
 H = ['sigle', 'w_id', 'lemma_id', 'lemma', 'form', 'sense_ids_im_ana', 'klasse_vorsortierung', 'wer', 'tierklasse', 'art', 'begruendung', 'pruefen']
 with open(OUT + '/zweite-lesung.tsv', 'w', encoding='utf8', newline='') as fh:
     fh.write('\t'.join(H) + '\n')

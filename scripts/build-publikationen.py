@@ -14,10 +14,12 @@ automatisiert nach"); die Seite entsteht nur aus ihm, nie live. Ein monatlicher
 Lauf (.github/workflows/monatslauf-seiten.yml) ruft dieses Skript auf und
 oeffnet einen PR, wenn sich der Stand aendert.
 
-Ein Zotero-Ausfall bricht nichts: antwortet die API nicht, mit einem Fehler
-oder mit weniger als der Haelfte der bisherigen Eintraege, bleibt der alte
-Stand liegen, das Skript meldet es und endet mit Exit 0. Die Seite wird in
-jedem Fall aus dem Stand auf der Platte gebaut.
+Ein Zotero-Ausfall bricht nichts: antwortet die API nicht (Netz, Zeitlimit,
+abgerissene Antwort), mit einem HTTP-Fehler oder mit weniger als der Haelfte
+der bisherigen Eintraege, bleibt der alte Stand liegen und das Skript meldet
+es. Ein unerwartetes Format (kaputtes JSON, fehlender Kopf Total-Results,
+abweichende Eintragszahl) ist dagegen ein harter Fehler mit Exit 1. Die Seite
+wird bei einem Ausfall aus dem Stand auf der Platte gebaut.
 
 Aufruf:
   python scripts/build-publikationen.py            # abrufen und bauen
@@ -27,6 +29,7 @@ Aufruf:
 
 import argparse
 import html
+import http.client
 import json
 import re
 import sys
@@ -55,6 +58,10 @@ ZEITLIMIT = 30
 AUSGESCHLOSSEN = {"attachment", "note"}
 
 
+class AbrufAusgefallen(RuntimeError):
+    """Der Abruf lief, lieferte aber erkennbar keinen brauchbaren Bestand (HTTP-Status, leer, Einbruch): alter Stand bleibt."""
+
+
 def abrufen(sammlung):
     """Alle Eintraege oberster Ebene einer Sammlung, seitenweise. Wirft bei jedem Fehler."""
     eintraege = []
@@ -66,7 +73,7 @@ def abrufen(sammlung):
         anfrage = urllib.request.Request(url, headers={"User-Agent": "mhdbdb-tei-only/publikationen"})
         with urllib.request.urlopen(anfrage, timeout=ZEITLIMIT) as antwort:
             if antwort.status != 200:
-                raise RuntimeError(f"{sammlung}: HTTP {antwort.status}")
+                raise AbrufAusgefallen(f"{sammlung}: HTTP {antwort.status}")
             if antwort.headers.get("Total-Results") is None:
                 raise RuntimeError(f"{sammlung}: Kopf Total-Results fehlt")
             gesamt = int(antwort.headers["Total-Results"])
@@ -120,7 +127,7 @@ def stand_lesen():
 
 
 def aktualisieren(alt):
-    """Neuen Stand abrufen; je Abschnitt bei Fehler oder Einbruch den alten behalten."""
+    """Neuen Stand abrufen; je Abschnitt bei Netz-/HTTP-Ausfall oder Einbruch den alten behalten, bei unerwartetem Format hart abbrechen."""
     neu = {"quelle": f"https://www.zotero.org/groups/{GRUPPE}/mittelhochdeutsche_begriffsdatenbank/library",
            "abschnitte": {}}
     for sammlung, titel, _ in ABSCHNITTE:
@@ -129,9 +136,9 @@ def aktualisieren(alt):
             roh = abrufen(sammlung)
             liste = sortiert([normalisieren(x) for x in roh if x["data"]["itemType"] not in AUSGESCHLOSSEN])
             if not liste:
-                raise RuntimeError("leere Antwort")
+                raise AbrufAusgefallen("leere Antwort")
             if vorher and len(liste) < MINDESTANTEIL * len(vorher["eintraege"]):
-                raise RuntimeError(f"nur {len(liste)} Eintraege gegen bisher {len(vorher['eintraege'])}")
+                raise AbrufAusgefallen(f"nur {len(liste)} Eintraege gegen bisher {len(vorher['eintraege'])}")
             # Das Datum gehoert zum Abschnitt: es wandert nur mit seinem Inhalt, sonst oeffnete jeder
             # Monat einen PR, und ein ausgefallener Abschnitt behaelt sein altes Datum.
             heute = date.today().isoformat()
@@ -140,7 +147,7 @@ def aktualisieren(alt):
             else:
                 abgerufen = heute
             neu["abschnitte"][sammlung] = {"titel": titel, "abgerufen": abgerufen, "eintraege": liste}
-        except Exception as fehler:  # jeder Ausfall (auch IncompleteRead, TypeError) laesst den alten Stand liegen
+        except (urllib.error.URLError, TimeoutError, OSError, http.client.HTTPException, AbrufAusgefallen) as fehler:  # nur Netz und HTTP (HTTPError ist URLError, socket-Fehler sind OSError, IncompleteRead ist HTTPException) lassen den alten Stand liegen; ein unerwartetes Format ist ein harter Fehler
             print(f"::warning::Zotero-Sammlung {sammlung} ({titel}) nicht aktualisiert: {type(fehler).__name__}: {fehler}")
             if vorher is None:
                 print(f"  kein bisheriger Stand fuer {sammlung}: Abschnitt bleibt leer")

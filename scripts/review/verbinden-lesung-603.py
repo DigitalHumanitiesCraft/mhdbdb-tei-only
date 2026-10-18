@@ -7,9 +7,11 @@ Aufruf:
 Liest stapel-NN.tsv und urteil-NN.tsv aus <stapeldir> (Ausgabe von stapel-603.py und der
 lesenden Agenten) und die Eingabe-TSV, aus der die Stapel gebaut wurden. Verbunden wird ueber
 nr, nicht ueber w_id: Agenten haben w_id vereinzelt falsch abgeschrieben, das Urteil gehoert
-trotzdem zur Zeile mit dieser nr (am Text geprueft). Jede Korrektur dieses Skripts wird gemeldet (was Hilfsskripte der Agenten vorher in den Urteildateien geflickt haben, sieht es nicht). Harter Fehler
+trotzdem zur Zeile mit dieser nr (am Text geprueft). Jede Korrektur dieses Skripts (w_id aus nr, kein Abbruch) wird mit Datei und Zeile gemeldet (was Hilfsskripte der Agenten vorher in den Urteildateien geflickt haben, sieht es nicht). Harter Fehler
 in der Meldung: unbekannte nr, doppelte w_id, Wert ausserhalb der erlaubten Mengen, tier ohne
-Tierklasse, Tierklasse ohne tier. Schreibt <stapeldir>/../teil-<teilname>.tsv. Mit n_agenten
+Tierklasse, Tierklasse ohne tier, dazu Kopf, Feldzahl und leere Datei. Jeder Formfehler wird mit
+Datei und Zeile gemeldet; bei mindestens einem endet das Skript mit Exit 1, ohne eine Ausgabedatei zu
+schreiben. Sonst schreibt es <stapeldir>/../teil-<teilname>.tsv. Mit n_agenten
 zieht es je Agent (stapel_je_agent Stapel) eine Stichprobe zum Nachlesen am Text.
 """
 import sys, glob, collections, random, os
@@ -38,32 +40,40 @@ fehler = []
 korrigiert = []
 for f in sorted(glob.glob(D + '/urteil-*.tsv')):
     ls = open(f, encoding='utf8').read().splitlines()
+    name = os.path.basename(f)
+    if not ls:
+        fehler.append('%s:1: Datei leer' % name); continue
     if ls[0].split('\t')[:5] != ['nr', 'w_id', 'wer', 'tierklasse', 'art']:
-        fehler.append('Kopf ' + f)
-    for l in ls[1:]:
+        fehler.append('%s:1: Kopf' % name)
+    for z, l in enumerate(ls[1:], 2):
+        ort = '%s:%d: ' % (name, z)
         p = l.split('\t')
         if len(p) != 6:
-            fehler.append('Felder %d: %s' % (len(p), l[:80])); continue
+            fehler.append(ort + 'Felder %d: %s' % (len(p), l[:80])); continue
         if p[0] not in nrctx:
-            fehler.append('nr unbekannt ' + p[0]); continue
+            fehler.append(ort + 'nr unbekannt ' + p[0]); continue
         if nrctx[p[0]][1] != p[1]:
-            korrigiert.append((p[0], p[1], nrctx[p[0]][1]))
+            korrigiert.append((ort + 'nr ' + p[0], p[1], nrctx[p[0]][1]))
             p[1] = nrctx[p[0]][1]
         if p[1] in res:
-            fehler.append('doppelt ' + p[1])
+            fehler.append(ort + 'doppelt ' + p[1])
         if p[2] not in WER or p[3] not in TK or p[4] not in ART:
-            fehler.append('Wert ' + l[:120])
+            fehler.append(ort + 'Wert ' + l[:120])
         if p[2] == 'tier' and p[3] == '-':
-            fehler.append('tier ohne Klasse ' + p[1])
+            fehler.append(ort + 'tier ohne Klasse ' + p[1])
         if p[2] != 'tier' and p[3] != '-':
-            fehler.append('Klasse ohne tier ' + p[1])
+            fehler.append(ort + 'Klasse ohne tier ' + p[1])
         res[p[1]] = p
 fehlt = [r['w_id'] for r in rows if r['w_id'] not in res]
 fremd = [w for w in res if w not in {r['w_id'] for r in rows}]
-print('w_id aus nr korrigiert:', korrigiert)
+print('w_id aus nr korrigiert (Datei:Zeile, nr, Agent, richtig):', len(korrigiert))
+for k in korrigiert: print('  ', k[0], k[1], '->', k[2])
 print('Eingabe', len(rows), 'Urteile', len(res), 'fehlt', len(fehlt), 'fremd', len(fremd), 'Formfehler', len(fehler))
-for x in fehler[:15]: print('  ', x)
+for x in fehler: print('  ', x)
 for w in fehlt[:10]: print('  fehlt', w)
+if fehler:
+    print('ABBRUCH: %d Formfehler, es wurde keine Ausgabedatei geschrieben.' % len(fehler), file=sys.stderr)
+    sys.exit(1)
 out = open(D + '/../teil-' + NAME + '.tsv', 'w', encoding='utf8', newline='')
 out.write('\t'.join(['sigle', 'w_id', 'lemma_id', 'lemma', 'form', 'sense_ids_im_ana', 'klasse_vorsortierung', 'wer', 'tierklasse', 'art', 'begruendung']) + '\n')
 c = collections.Counter(); kreuz = collections.Counter()
