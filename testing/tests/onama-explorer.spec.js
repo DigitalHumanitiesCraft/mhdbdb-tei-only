@@ -109,7 +109,9 @@ test.describe('ONAMA-Narrativ-Explorer (#609)', () => {
   });
 
   test('Umgerechnete Spannen sind gekennzeichnet', async ({ page }) => {
-    const r = paket.realisierungen.find(x => x.passagen.some(p => p.umgerechnet));
+    // Vorrang offen vor abgeleitet: eine umgekehrte Passage macht die Realisierung offen, also eine
+    // mit abgeleitetem Status waehlen.
+    const r = paket.realisierungen.find(x => x.pruefstatus === 'abgeleitet' && x.passagen.some(p => p.umgerechnet));
     expect(r).toBeTruthy();
     await page.click('[data-on-modus="konzept"]');
     await page.locator(`[data-on-wahl="konzept:${r.konzepte[0]}"]`).first().click();

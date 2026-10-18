@@ -208,8 +208,9 @@ export class OnamaExplorer {
           Ontologie <span class="on-mono">${esc(m.quellen.ontologie_commit.slice(0, 7))}</span>,
           MHDBDB-Anker <span class="on-mono">${esc(m.quellen.mhdbdb_commit.slice(0, 7))}</span>.
           Der Status "technisch geprüft" bedeutet: Zuordnung über die Sammlung und bei Texten zwei Wortanker im
-          Korpus in richtiger Reihenfolge, bei Bildern ein Bildlink; "abgeleitet" gilt bei fehlender Sammlung oder
-          umgerechneter Wortspanne, "offen" bei fehlendem oder unauffindbarem Anker oder fehlendem Bildlink.
+          Korpus in richtiger Reihenfolge, bei Bildern ein Bildlink. Es gilt der Vorrang offen vor abgeleitet vor
+          geprüft: "offen" bei unauffindbarem oder umgekehrtem Anker, fehlender Textpassage oder fehlendem
+          Bildlink; "abgeleitet" bei fehlender Sammlung oder umgerechneter Wortspanne.
           Fachlich bestätigt ist noch nichts.
         </div>
       </div>`;

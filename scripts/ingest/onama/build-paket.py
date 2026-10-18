@@ -230,31 +230,29 @@ def main():
         passagen = []
         for p in sorted(g.objects(r, O.hasTextPassage), key=str):
             a = passage[str(p)]
+            if a["status"] in ("wortanker", "nichtwort_anker") and not a.get("wortspanne"):
+                sys.exit(f"harter Fehler: Passage {a['uri']} ohne Wortspanne trotz Status {a['status']}")
             passagen.append({
                 "uri": a["uri"], "von": a["von"]["original"], "bis": a["bis"]["original"],
                 "status": a["status"], "wortspanne": a.get("wortspanne"),
                 "text": a["von"]["sigle"] if a["von"]["gefunden"] else None,
                 # Die Spanne ist umgerechnet, wenn ein Endpunkt kein gezaehltes Wort ist
                 # (anderes Element oder <w> ohne lemmaRef): Start rueckt vor, Ende zurueck.
-                "umgerechnet": bool(a.get("wortspanne")) and (
+                "umgerechnet": a["status"] in ("wortanker", "nichtwort_anker") and (
                     a["von"].get("wortposition") is None or a["bis"].get("wortposition") is None),
             })
         eintrag["passagen"] = passagen
-        # Pruefstatus (technisch, nie fachlich). "geprueft": Zuordnung ueber die Sammlung, bei
-        # Text jede Passage mit zwei gezaehlten Wortankern in richtiger Reihenfolge, bei Bild
-        # ein gespeicherter Bildlink. "abgeleitet": Zuordnung ohne Sammlung oder mindestens
-        # eine Passage mit umgerechneter Spanne. "offen": Anker nicht gefunden oder umgekehrt,
-        # Text ohne Passage, Bild ohne Bildlink.
-        if zuordnung == "abgeleitet":
+        # Pruefstatus (technisch, nie fachlich), Vorrang offen vor abgeleitet vor geprueft.
+        # "offen": Anker nicht gefunden oder umgekehrt, Text ohne Passage, Bild ohne Bildlink.
+        # "abgeleitet": Zuordnung ohne Sammlung oder mindestens eine Passage mit umgerechneter
+        # Spanne. "geprueft": der Rest, also Zuordnung ueber die Sammlung, bei Text jede
+        # Passage mit zwei gezaehlten Wortankern in richtiger Reihenfolge, bei Bild ein Bildlink.
+        if (eintrag["art"] == "text" and not passagen) \
+                or any(p["status"] in ("nicht_gefunden", "umgekehrt") for p in passagen) \
+                or (eintrag["art"] == "bild" and not eintrag.get("bildlink")):
+            ps = "offen"
+        elif zuordnung == "abgeleitet" or any(p["umgerechnet"] for p in passagen):
             ps = "abgeleitet"
-        elif eintrag["art"] == "text" and not passagen:
-            ps = "offen"
-        elif any(p["status"] in ("nicht_gefunden", "umgekehrt") for p in passagen):
-            ps = "offen"
-        elif any(p["umgerechnet"] for p in passagen):
-            ps = "abgeleitet"
-        elif eintrag["art"] == "bild" and not eintrag.get("bildlink"):
-            ps = "offen"
         else:
             ps = "geprueft"
         eintrag["pruefstatus"] = ps
@@ -304,11 +302,12 @@ def main():
             },
             "hinweise": {
                 "namensraum": "ONAMA-Q-Nummern sind keine Wikidata-Q-Nummern.",
-                "pruefstatus": "geprueft = technisch: Zuordnung ueber Sammlung und bei Text jede Passage mit "
-                               "zwei gezaehlten Wortankern in richtiger Reihenfolge, bei Bild ein Bildlink; "
-                               "abgeleitet = Zuordnung ohne Sammlung oder eine Passage mit umgerechneter "
-                               "Spanne; offen = Anker nicht gefunden oder umgekehrt, Text ohne Passage, "
-                               "Bild ohne Bildlink. Fachlich bestaetigt ist keiner.",
+                "pruefstatus": "Vorrang offen vor abgeleitet vor geprueft. offen = Anker nicht gefunden "
+                               "oder umgekehrt, Text ohne Passage, Bild ohne Bildlink; abgeleitet = Zuordnung "
+                               "ohne Sammlung oder eine Passage mit umgerechneter Spanne; geprueft (technisch) "
+                               "= der Rest: Zuordnung ueber Sammlung und bei Text jede Passage mit zwei "
+                               "gezaehlten Wortankern in richtiger Reihenfolge, bei Bild ein Bildlink. "
+                               "Fachlich bestaetigt ist keiner.",
                 "wortspanne": "Wortpositionen zaehlen nur <w> mit lemmaRef und Text; liegt ein Endpunkt "
                               "auf einem anderen Element oder einem nicht gezaehlten <w>, rueckt der Start "
                               "auf das naechste, das Ende auf das vorige gezaehlte Wort.",
