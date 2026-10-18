@@ -15,6 +15,9 @@ Verdichtet 18.10.2026.
 
 **Vergleichen:** gz nie auf Bytes (lokales zlib != Runner): dekomprimieren, JSON-Walk bzw. `json.dumps(sort_keys=True)`. Nach lxml-Serialisierung c14n vergleichen (`remove_blank_text`/`pretty_print` ändern alle 667 Dateien). CRLF-Befund an einer Spec erst mit Probe: JS `$` mit `m`-Flag matcht auch vor `\r`; `node -e` auf einer CRLF-Kopie entkräftet den Fehlalarm.
 
+**Korpus-Trefferzahlen über Lemmata (#554, 18.10.2026):** rund ein Fünftel der `<w>` hat kein `@lemmaRef` (am 18.10. 1.885.493 von 9.431.295). Eine Zählung „A und B in einer Zeile“ über Lemmata verliert die unannotierten Formen (rôt+rôse: 48 annotiert plus 68 Zeilen mit unannotierter rot-Form), und „hintereinander“ über die annotierten Tokens springt über unannotierte Wörter (`wein pern vnd`). Gegenprobe: Formen-Regex über alle `<w>` und die Folge über alle `<w>`.
+- **Nie `taskkill //IM python.exe`** zum Abbrechen eines eigenen Hintergrundlaufs: das trifft jeden Python-Prozess auf der Maschine, auch die anderer Sessions. Gezielt per PID oder den Lauf auslaufen lassen.
+
 **Zählfallen**
 - @ana, @corresp, @lemmaRef per `split()`, nie per `attr="#id"`-Regex (trifft nur einwertige). `@lemmaRef` = `lexicon.xml#lemma_N`: `split('#')[-1]`, nicht `lstrip('#')`.
 - `findall` statt `find` (Doppelsiglen); lxml `find('x')` = nur direkte Kinder; `id(elem)` ist keine Identität (Proxies): `tree.getpath()` + Datei.
