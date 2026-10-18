@@ -15,7 +15,9 @@ Zwei Dateien, zwei Zustaendigkeiten:
                                 Issues mit Grund (und optional "vorgeschlagen")
 
 Die Seite zeigt nur, was unter "freigegeben" steht. Ein Issue ohne Eintrag
-erscheint nicht und wird im Build-Log als "nicht freigegeben: #N" gezaehlt.
+erscheint nicht und wird im Build-Log als "nicht freigegeben: #N" genannt.
+Die Schlusszeile gibt zwei Zahlen: "freigegeben" (Freigabeliste und offene
+Issues) und "sichtbar" (davon ohne wait:extern).
 Ausgeschlossen bleibt jedes Issue mit dem Label `wait:extern`, auch wenn es
 freigegeben ist. Texte mit offener Rechtefrage nennt die Seite erst nach der
 Freigabe (KZW, #537, 08.10.2026). Der Grund ist nur fuer die Pflege, die Seite
@@ -183,6 +185,14 @@ def zeilen(stand, zeitplan, melden=True):
     return sorted(ergebnis)
 
 
+def zaehlzeile(stand, zeitplan, offene):
+    """Zwei Zahlen: freigegeben (Freigabeliste mal offene Issues) und sichtbar (ohne wait:extern)."""
+    nummern = {str(i["nummer"]) for i in stand.get("issues", [])}
+    frei = len(set(zeitplan.get("freigegeben", {})) & nummern)
+    sichtbar = len(zeilen(stand, zeitplan, melden=False))
+    return f"freigegeben: {frei} von {offene} offenen ingest-Issues, sichtbar: {sichtbar}"
+
+
 def region_bauen(stand, zeitplan):
     sichtbar = zeilen(stand, zeitplan)
     if sichtbar:
@@ -229,6 +239,8 @@ def selftest():
     for t in ("gesperrter Text", "Neuer Text ohne jeden Eintrag", "wartet extern"):
         assert t not in region, t
     assert "Freigegebener Text" in region
+    zl = zaehlzeile(stand, plan, len(stand["issues"]))
+    assert zl == "freigegeben: 2 von 4 offenen ingest-Issues, sichtbar: 1", zl
     assert "pub-leer" in region_bauen(stand, {"freigegeben": {}, "nicht_freigegeben": {}})
     # Antwortformat: fehlendes Feld und falscher Typ sind harte Fehler, eine leere Liste ist gueltig
     assert normalisieren([]) == []
@@ -281,7 +293,8 @@ def main():
     if neu != alt:
         SEITE.write_text(neu, encoding="utf-8", newline="")
         print("Seite geschrieben:", SEITE.name)
-    print(f"{len(zeilen(stand, zeitplan, melden=False))} von {len(stand.get('issues', []))} offenen ingest-Issues freigegeben")
+    offene = len(stand.get("issues", []))
+    print(zaehlzeile(stand, zeitplan, offene))
 
 
 if __name__ == "__main__":

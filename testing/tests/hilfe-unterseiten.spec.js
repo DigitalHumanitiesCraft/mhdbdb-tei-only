@@ -6,7 +6,8 @@
  * die Kacheln der Hilfeseite und der Fusslink fuehren hin, jeder Eintrag des
  * Standes steht auf der Seite (mit DOI oder Link, wo es einen gibt), die Seite
  * ruft zur Laufzeit weder Zotero noch GitHub auf, und auf "Demnächst" steht
- * nichts, was auf `wait:extern` wartet, und "Zeitpunkt offen" steht hinten.
+ * nur, was in data/demnaechst-zeitplan.json unter "freigegeben" steht und nicht
+ * auf `wait:extern` wartet; "Zeitpunkt offen" steht hinten.
  */
 
 import { test, expect } from '@playwright/test';

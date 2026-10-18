@@ -18,6 +18,9 @@ name: Monatslauf Seiten
 # aus, gibt es keine Änderung und keinen PR. Fällt nur ein Teil aus (eine
 # Sammlung), kann der Rest einen PR auslösen; die Warnung steht dann im
 # Build-Log des PR-Bodys, und der ausgefallene Abschnitt behält sein altes Datum.
+# Ausnahme ist ein unerwartetes Antwortformat (fehlendes Feld, falscher Typ):
+# das ist kein Ausfall, sondern ein harter Fehler, und der ganze Lauf endet mit
+# Exit 1, auch der Teil, der sonst durchgelaufen wäre.
 #
 # Hinweis: PRs aus dem GITHUB_TOKEN triggern keine weiteren Workflows; die
 # übrigen CI-Checks laufen erst nach menschlichem Push/Re-Trigger.
