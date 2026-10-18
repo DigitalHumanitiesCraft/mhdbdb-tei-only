@@ -14,10 +14,12 @@ automatisiert nach"); die Seite entsteht nur aus ihm, nie live. Ein monatlicher
 Lauf (.github/workflows/monatslauf-seiten.yml) ruft dieses Skript auf und
 oeffnet einen PR, wenn sich der Stand aendert.
 
-Ein Zotero-Ausfall bricht nichts: antwortet die API nicht, mit einem Fehler
-oder mit weniger als der Haelfte der bisherigen Eintraege, bleibt der alte
-Stand liegen, das Skript meldet es und endet mit Exit 0. Die Seite wird in
-jedem Fall aus dem Stand auf der Platte gebaut.
+Ein Zotero-Ausfall bricht nichts: antwortet die API nicht (Netz, Zeitlimit,
+abgerissene Antwort), mit einem HTTP-Fehler oder mit weniger als der Haelfte
+der bisherigen Eintraege, bleibt der alte Stand liegen und das Skript meldet
+es. Ein unerwartetes Format (kaputtes JSON, fehlender Kopf Total-Results,
+abweichende Eintragszahl) ist dagegen ein harter Fehler mit Exit 1. Die Seite
+wird bei einem Ausfall aus dem Stand auf der Platte gebaut.
 
 Aufruf:
   python scripts/build-publikationen.py            # abrufen und bauen
@@ -27,6 +29,7 @@ Aufruf:
 
 import argparse
 import html
+import http.client
 import json
 import re
 import sys
@@ -124,7 +127,7 @@ def stand_lesen():
 
 
 def aktualisieren(alt):
-    """Neuen Stand abrufen; je Abschnitt bei Fehler oder Einbruch den alten behalten."""
+    """Neuen Stand abrufen; je Abschnitt bei Netz-/HTTP-Ausfall oder Einbruch den alten behalten, bei unerwartetem Format hart abbrechen."""
     neu = {"quelle": f"https://www.zotero.org/groups/{GRUPPE}/mittelhochdeutsche_begriffsdatenbank/library",
            "abschnitte": {}}
     for sammlung, titel, _ in ABSCHNITTE:
@@ -144,7 +147,7 @@ def aktualisieren(alt):
             else:
                 abgerufen = heute
             neu["abschnitte"][sammlung] = {"titel": titel, "abgerufen": abgerufen, "eintraege": liste}
-        except (urllib.error.URLError, TimeoutError, OSError, AbrufAusgefallen) as fehler:  # nur Netz und HTTP (HTTPError ist URLError, socket-Fehler sind OSError) lassen den alten Stand liegen; ein unerwartetes Format ist ein harter Fehler
+        except (urllib.error.URLError, TimeoutError, OSError, http.client.HTTPException, AbrufAusgefallen) as fehler:  # nur Netz und HTTP (HTTPError ist URLError, socket-Fehler sind OSError, IncompleteRead ist HTTPException) lassen den alten Stand liegen; ein unerwartetes Format ist ein harter Fehler
             print(f"::warning::Zotero-Sammlung {sammlung} ({titel}) nicht aktualisiert: {type(fehler).__name__}: {fehler}")
             if vorher is None:
                 print(f"  kein bisheriger Stand fuer {sammlung}: Abschnitt bleibt leer")
