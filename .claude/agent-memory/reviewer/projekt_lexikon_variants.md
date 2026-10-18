@@ -27,6 +27,8 @@ Verdichtet 18.10.2026, zusammengelegt mit dem früheren Authority-Dateien-Memory
 - Trägt Variantentypen, hat keinen Konsumenten (build-authority-index liest `ana` nur am Konzept-`title`, cross-refs überspringt `#type_N`, kein Spec/Frontend lädt lexicon.xml): Änderungen sind index-, API- und testneutral. Konzepte eines Sense stehen in `sense/ptr/@target`.
 - Hängende Typverweise je Revision: lexicon + variants per `git show`, `split()` über sense/@ana gegen die variants-xml:id-Menge. Eine belegfrei gehaltene Waise verliert ihren variants-Eintrag und behält sense/@ana; `extract-variants.py --apply` räumt sie ab.
 
+**Selbstschließende `<sense xml:id="…"/>` in lexicon.xml (124 am 18.10.2026, `rg -c '<sense\b[^>]*/>'`):** jede Regex der Form `<sense\b[^>]*xml:id="…"[^>]*>(.*?)</sense>` frisst damit den Inhalt des Folge-Sense (106 bekamen fremde Konzepte, 124 Senses fehlten in der Treffermenge; #603 `auswerten-lesung-603.py`). Gegenprobe immer mit lxml `iter(TEI+'sense')` und `ptr/@target`.
+
 **Schreiber von lexicon.xml außerhalb des Lifecycle:** apply-228.py (löscht Einträge), backfill-lexicon.py (Stubs). „Der eine Ort, an dem eine tei/-Änderung lexicon.xml ändern kann" (DATA-MODEL) gilt nur für die Lifecycle-Skripte. Kein Skript vergleicht Token-@pos mit gramGrp.
 
 

@@ -1311,3 +1311,13 @@ Auto-Mode-Classifier abgelehnt, und die Blockade ging an Christian.
 **Was es getragen hat:** eine falsche Aussage an Christian über seinen eigenen Eingriff; er hat sie sofort richtiggestellt. Sonst nichts, die Arbeit der Spur lief weiter.
 
 **Kein neuer Mechanismus:** `agentenbefunde.md` ist ausgesetzt; die Aussetzung ist der Mechanismus (Nachtrag zu 125, chsteiner 16.10.2026).
+
+### 154. Rot: eine Differenz subtrahiert statt die fehlenden Elemente zu benennen, und eine Agentenmenge als vollständig gezählt (Spur lauf-1018-lesung, 18.10.2026, #603).
+
+**Rot.** Im README der zweiten Lesung stand "von den 433 als Säugetier gelesenen Belegen erreichen nur 2 die Umbenennung, die übrigen 431 stehen an anderen Bedeutungen". Richtig sind 331 an anderen Bedeutungen und 100 ohne `@ana`, die an gar keiner hängen; 433 − 2 hatte die 100 verschluckt. Im selben Absatz stand "13 Korrekturen der `w_id`, nie in `tier` und `unklar`", gemessen an den Fehlern, die mein eigenes Verbindungsskript sah; vier weitere hatten Hilfsskripte der Agenten vorher in den Urteildateien geflickt, es sind 17. Beides fand der Reviewer in Runde 1 und maß es nach.
+
+**Die Lehre steht in `agentenbefunde.md`: bei einer Differenz die fehlenden Elemente benennen, nicht subtrahieren; ein Agentenbefund wird erst zur Aussage, wenn die Quelle geöffnet ist.** Die letzte Zeile zu dieser Lehre ist Eintrag 133.
+
+**Was es getragen hat:** die 13 in einer Meldung an die Koordination, die sie notierte und mit Runde 1 auf 17 richtigstellte. Der README-Text mit 431 und 55 stand nur in einem lokalen, nicht gepushten Commit; abgewendet hat es der Reviewer vor dem Push.
+
+**Kein neuer Mechanismus, die begründete Aussetzung gilt:** sie steht in `rules/agentenbefunde.md` ("Kein Hook, begründet ausgesetzt (#58)"). Ein Skript hätte die Differenz gefangen, die ich nicht als Differenz erkannt habe; das Nachzählen mit einem Befehl pro README-Zahl (die Belegtabelle im Reviewer-Auftrag) hat sie hier gefangen, bevor sie trug.
