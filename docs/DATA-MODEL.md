@@ -166,7 +166,7 @@ Notes: Multiple sigles per work (editions). GND/Wikidata may be full URLs or bar
 | genres.xml | `genre_{hex}` | – (but many broader pointers, polyhierarchical) |
 | names.xml | `name_{numeric}` | `exactMatch`, `closeMatch` → `concepts.xml#...` |
 
-#### variants.xml (~16 MB, 256,961 variant forms)
+#### variants.xml (~16 MB, 256,966 variant forms)
 
 ```xml
 <TEI><text><body><div type="orthographicVariants">
@@ -295,7 +295,7 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
     // the value is the first candidate by Vorschrift B (v1.9.18, ADR-021, #378)
   },
 
-  variantCandidates: {               // v1.9.18: only forms with more than one candidate (4,976)
+  variantCandidates: {               // v1.9.18: only forms with more than one candidate
     "hab": ["lemma_2598", "lemma_2593"]   // ranked: corpus tokens of THIS form under the lemma
   },
 

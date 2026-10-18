@@ -143,6 +143,7 @@
       <change when="2026-09-23" who="#editor">#267: Anzeigemarker excerpt-only in no-print umbenannt und den Lizenzsatz korrigiert, nach den Entscheidungen von KZW vom 10.09.2026. Der Text wird vollständig zum Lesen angeboten, von ihm werden aber keine ausdruckbaren Fassungen erzeugt.</change>
       <change when="2026-09-30" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization an den Stand der Annotation angeglichen (59218 von 60375 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;Lemmatisiert und disambiguiert.&#34;</change>
       <change when="2026-10-18" who="#editor">#602 naschen: 1 Token mit @ana auf lemma_57919_sense_93122 (Essen) gesetzt.</change>
+      <change when="2026-10-18" who="#editor">#554 trûbe: 2 Tokens (Adjektiv trüebe 2, Verb trüeben 0) von lemma_15282 umgehaengt, @ana entfaellt.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -62632,7 +62633,7 @@
               <hi rend="initial">
                 <w xml:id="NEI_9701010_0" lemmaRef="lexicon.xml#lemma_1169" pos="DET" ana="lexicon.xml#lemma_1169_sense_1850" corresp="variants.xml#type_73793">diese</w>
               </hi>
-              <w xml:id="NEI_9701010_1" lemmaRef="lexicon.xml#lemma_15282" pos="NOM" ana="lexicon.xml#lemma_15282_sense_25272" corresp="variants.xml#type_67873">trube</w>
+              <w xml:id="NEI_9701010_1" lemmaRef="lexicon.xml#lemma_6251" pos="ADJ" corresp="variants.xml#type_372862">trube</w>
               <w xml:id="NEI_9701010_2" lemmaRef="lexicon.xml#lemma_5994" pos="NOM" ana="lexicon.xml#lemma_5994_sense_9496" corresp="variants.xml#type_21151">tag</w>
             </l>
             <l n="2">
@@ -71850,7 +71851,7 @@
               <w xml:id="NEI_11102110_2" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10237">mir</w>
               <w xml:id="NEI_11102110_3">nye</w>
               <w xml:id="NEI_11102110_4" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
-              <w xml:id="NEI_11102110_5" lemmaRef="lexicon.xml#lemma_15282" pos="NOM" ana="lexicon.xml#lemma_15282_sense_25272" corresp="variants.xml#type_67873">trube</w>
+              <w xml:id="NEI_11102110_5" lemmaRef="lexicon.xml#lemma_6251" pos="ADJ" corresp="variants.xml#type_372862">trube</w>
               <w xml:id="NEI_11102110_6" lemmaRef="lexicon.xml#lemma_7489" pos="VRB VEX" ana="lexicon.xml#lemma_7489_sense_12208" corresp="variants.xml#type_27046">ward</w>
               <w xml:id="NEI_11102110_8" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
               <w xml:id="NEI_11102110_9" lemmaRef="lexicon.xml#lemma_56117" pos="PRO" ana="lexicon.xml#lemma_56117_sense_90961" corresp="variants.xml#type_304773">euch</w>

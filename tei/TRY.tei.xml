@@ -135,6 +135,7 @@
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 179 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/). 14 weitere Tokens der Form stat blieben bewusst unannotiert (Review).</change>
       <change when="2026-09-21" who="#editor">#371 stat, drittes Lemma: 14 bislang unlemmatisierte Tokens der Form stat/stât annotiert (lemmaRef/pos/corresp nach dem actions-Array in KZWs Review vom 15.09.2026; drei neu gepraegte Variantentypen; kein @ana, weil die Sense-Zuordnung kuratorisch ist; die 17 Faelle mit option OFFEN und die 2 mit NEU_STAND bleiben unangetastet; Provenienz-Log: ingest/pos-disambig/371-stat/).</change>
       <change when="2026-09-30" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization an den Stand der Annotation angeglichen (54907 von 71354 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;Lemmatisiert, noch nicht disambiguiert.&#34;</change>
+      <change when="2026-10-18" who="#editor">#554 trûbe: 4 Tokens (Adjektiv trüebe 4, Verb trüeben 0) von lemma_15282 umgehaengt, @ana entfaellt.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -38181,7 +38182,7 @@
           </hi>
           <w xml:id="TRY_4343_1">gemenge</w>
           <w xml:id="TRY_4343_2" lemmaRef="lexicon.xml#lemma_7489" pos="VRB VEX" corresp="variants.xml#type_49215">wart</w>
-          <w xml:id="TRY_4343_3" lemmaRef="lexicon.xml#lemma_15282" pos="NOM" ana="lexicon.xml#lemma_15282_sense_25272" corresp="variants.xml#type_67873">trube</w>
+          <w xml:id="TRY_4343_3" lemmaRef="lexicon.xml#lemma_6251" pos="ADJ" corresp="variants.xml#type_372862">trube</w>
         </l>
         <l n="4344">
           <hi rend="initial">
@@ -64080,7 +64081,7 @@
           <w xml:id="TRY_7374_1" lemmaRef="lexicon.xml#lemma_7807" pos="VRB" corresp="variants.xml#type_167496">zuginc</w>
           <w xml:id="TRY_7374_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
           <w xml:id="TRY_7374_3" lemmaRef="lexicon.xml#lemma_7689" pos="NOM" ana="lexicon.xml#lemma_7689_sense_12601" corresp="variants.xml#type_27833">wolken</w>
-          <w xml:id="TRY_7374_4" lemmaRef="lexicon.xml#lemma_15282" pos="NOM" ana="lexicon.xml#lemma_15282_sense_25272" corresp="variants.xml#type_67873">trube</w>
+          <w xml:id="TRY_7374_4" lemmaRef="lexicon.xml#lemma_6251" pos="ADJ" corresp="variants.xml#type_372862">trube</w>
         </l>
         <l n="7375">
           <hi rend="initial">
@@ -90342,7 +90343,7 @@
           </hi>
           <w xml:id="TRY_10404_1" lemmaRef="lexicon.xml#lemma_4524" pos="NOM" ana="lexicon.xml#lemma_4524_sense_7061" corresp="variants.xml#type_15680">ougen</w>
           <w xml:id="TRY_10404_2" lemmaRef="lexicon.xml#lemma_7489" pos="VRB VEX" corresp="variants.xml#type_27068">wurden</w>
-          <w xml:id="TRY_10404_3" lemmaRef="lexicon.xml#lemma_15282" pos="NOM" ana="lexicon.xml#lemma_15282_sense_25272" corresp="variants.xml#type_67873">trube</w>
+          <w xml:id="TRY_10404_3" lemmaRef="lexicon.xml#lemma_6251" pos="ADJ" corresp="variants.xml#type_372862">trube</w>
         </l>
         <l n="10405">
           <hi rend="initial">
@@ -148183,7 +148184,7 @@
           </hi>
           <w xml:id="TRY_17088_1" lemmaRef="lexicon.xml#lemma_2830" pos="NOM" ana="lexicon.xml#lemma_2830_sense_90142" corresp="variants.xml#type_9575">himel</w>
           <w xml:id="TRY_17088_2" lemmaRef="lexicon.xml#lemma_7489" pos="VRB VEX" corresp="variants.xml#type_49215">wart</w>
-          <w xml:id="TRY_17088_3" lemmaRef="lexicon.xml#lemma_15282" pos="NOM" ana="lexicon.xml#lemma_15282_sense_25272" corresp="variants.xml#type_67873">trube</w>
+          <w xml:id="TRY_17088_3" lemmaRef="lexicon.xml#lemma_6251" pos="ADJ" corresp="variants.xml#type_372862">trube</w>
         </l>
         <l n="17089">
           <hi rend="initial">

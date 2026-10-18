@@ -138,6 +138,7 @@
       <change when="2026-09-23" who="#editor">#228: 2.058 Tokens in den neuhochdeutschen Inhaltsangaben der Noten mit @n entannotiert: lemmaRef, pos, ana und corresp entfallen. Entscheidung KZW 11.09.2026: Herausgeberprosa gehört nicht ins mittelhochdeutsche Korpus.</change>
       <change when="2026-10-08" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization ergänzt (55166 von 79328 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;&#34;</change>
       <change when="2026-10-10" who="#editor">#461 gebeine: 1 Token mit Säugetierknochen auf den neuen Sense lemma_1958_sense_119196 (concept_14011100) gesetzt.</change>
+      <change when="2026-10-18" who="#editor">#554 trûbe: 1 Token (Adjektiv trüebe 1, Verb trüeben 0) von lemma_15282 umgehaengt, @ana entfaellt.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -247776,7 +247777,7 @@
                 <w xml:id="GWTK_419122444200_0">sach</w>
               </hi>
             <w xml:id="GWTK_419122444200_1">man</w>
-            <w xml:id="GWTK_419122444200_2" lemmaRef="lexicon.xml#lemma_15282" pos="NOM" ana="lexicon.xml#lemma_15282_sense_25272" corresp="variants.xml#type_154215">trüben</w>
+            <w xml:id="GWTK_419122444200_2" lemmaRef="lexicon.xml#lemma_6251" pos="ADJ" corresp="variants.xml#type_372861">trüben</w>
             <w xml:id="GWTK_419122444200_3" lemmaRef="lexicon.xml#lemma_6157" pos="NOM ADJ ADV" corresp="variants.xml#type_21697">tougen</w>
             <pc xml:id="GWTK_419122444200_4" join="left">,</pc>
           </l>

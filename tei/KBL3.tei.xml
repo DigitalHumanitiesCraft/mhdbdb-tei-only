@@ -138,6 +138,7 @@
       <change when="2026-09-21" who="#editor">#366 fyndling-Beitrag: 1 unlemmatisierte Tokens annotiert (lemmaRef/pos/corresp; editorische Entscheidungen KZW vom 11.09. und 17.09.2026; je Schreibung ein neu gepraegter Variantentyp nach der Regel aus #367; kein @ana, weil die Sense-Zuordnung kuratorisch ist; Provenienz-Log: ingest/pos-disambig/366-fyndling/).</change>
       <change when="2026-09-30" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization an den Stand der Annotation angeglichen (1503 von 2058 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;- Voll lemmatisiert aber nicht disambiguiert.&#34;</change>
       <change when="2026-10-10" who="#editor">#461 gebeine: 1 Token mit Säugetierknochen auf den neuen Sense lemma_1958_sense_119196 (concept_14011100) gesetzt.</change>
+      <change when="2026-10-18" who="#editor">#554 nagel: 1 Token im Gewuerzkontext mit @ana auf lemma_4302_sense_6725 gesetzt.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -1414,7 +1415,7 @@
             <w xml:id="KBL3_18282030_3" lemmaRef="lexicon.xml#lemma_4330" pos="VRB" corresp="variants.xml#type_15091">nim</w>
             <w xml:id="KBL3_18282030_4" lemmaRef="lexicon.xml#lemma_26776" pos="NOM" ana="lexicon.xml#lemma_26776_sense_42630" corresp="variants.xml#type_272762">zymatrintten</w>
             <w xml:id="KBL3_18282030_5" lemmaRef="lexicon.xml#lemma_29400" pos="ADV" ana="lexicon.xml#lemma_29400_sense_46128" corresp="variants.xml#type_272763">annstat</w>
-            <w xml:id="KBL3_18282030_6" lemmaRef="lexicon.xml#lemma_4302" pos="NOM" corresp="variants.xml#type_272316">nägel</w>
+            <w xml:id="KBL3_18282030_6" lemmaRef="lexicon.xml#lemma_4302" pos="NOM" ana="lexicon.xml#lemma_4302_sense_6725" corresp="variants.xml#type_272316">nägel</w>
             <pc xml:id="KBL3_18282030_7" join="left">.</pc>
           </p>
         </div>

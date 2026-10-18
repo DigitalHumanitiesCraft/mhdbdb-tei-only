@@ -136,6 +136,7 @@
       <change when="2026-09-30" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization an den Stand der Annotation angeglichen (159901 von 213245 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;Noch nicht lemmatisiert und disambiguiert.&#34;</change>
       <change when="2026-10-10" who="#editor">#460 jagen: 5 Tokens als Verbform gelesen, von lemma_3103 jagât (NOM) auf lemma_3102 jagen (VRB) umgehängt, @ana entfällt; neu geprägte Variantentypen nach der Regel aus #367.</change>
       <change when="2026-10-18" who="#editor">#461 gebeine: 1 Token (Fabeltier) mit @ana auf lemma_1958_sense_119200 gesetzt, neues Körperkonzept concept_14101100.</change>
+      <change when="2026-10-18" who="#editor">#554 nagel: 1 Token im Gewuerzkontext mit @ana auf lemma_4302_sense_6725 gesetzt.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -220396,7 +220397,7 @@
           <w xml:id="TRO_28297_1" lemmaRef="lexicon.xml#lemma_4280" pos="NOM" ana="lexicon.xml#lemma_4280_sense_6694" corresp="variants.xml#type_14877">muscât</w>
           <w xml:id="TRO_28297_2" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
           <w xml:id="TRO_28297_3" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
-          <w xml:id="TRO_28297_4" lemmaRef="lexicon.xml#lemma_4302" pos="NOM" corresp="variants.xml#type_57481">negellîn</w>
+          <w xml:id="TRO_28297_4" lemmaRef="lexicon.xml#lemma_4302" pos="NOM" ana="lexicon.xml#lemma_4302_sense_6725" corresp="variants.xml#type_57481">negellîn</w>
           <pc xml:id="TRO_28297_5" join="left">;</pc>
         </l>
         <l n="28298">

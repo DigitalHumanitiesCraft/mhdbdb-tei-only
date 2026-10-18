@@ -153,6 +153,7 @@
       <change when="2026-10-06" who="#editor">#252: 1 wortloser Vers mit vollständigem Auslassungsmuster ( caesura ) und einem weiteren Zeichen auf &lt;gap reason="lost"/&gt; migriert, nach der Freigabe von KZW vom 02.10.2026. Das Zeichen daneben unverändert.</change>
       <change when="2026-10-08" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization ergänzt (19510 von 19533 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;&#34;</change>
       <change when="2026-10-18" who="#editor">#602 naschen: 1 Token mit @ana auf lemma_57919_sense_93122 (Essen) gesetzt.</change>
+      <change when="2026-10-18" who="#editor">#554 trûbe: 1 Token (Adjektiv trüebe 1, Verb trüeben 0) von lemma_15282 umgehaengt, @ana entfaellt.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -25640,7 +25641,7 @@
               <w xml:id="NEIR_4201080_1" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3567">di</w>
               <w xml:id="NEIR_4201080_2" lemmaRef="lexicon.xml#lemma_5994" pos="NOM" ana="lexicon.xml#lemma_5994_sense_9496" corresp="variants.xml#type_21152">tage</w>
               <gap reason="lost"/>
-              <w xml:id="NEIR_4201080_6" lemmaRef="lexicon.xml#lemma_15282" pos="NOM" ana="lexicon.xml#lemma_15282_sense_25272" corresp="variants.xml#type_67873">trube</w>
+              <w xml:id="NEIR_4201080_6" lemmaRef="lexicon.xml#lemma_6251" pos="ADJ" corresp="variants.xml#type_372862">trube</w>
               <pc xml:id="NEIR_4201080_7" join="left">.</pc>
             </l>
             <l n="9">

@@ -161,6 +161,7 @@
       <change when="2026-09-23" who="#editor">#252 zweiter Durchgang: 520 Stellen des Auslassungsmusters ( caesura ) innerhalb einer Zeile mit Wortlaut auf &lt;gap reason="lost"/&gt; migriert, nach der Freigabe von KZW vom 22.09.2026. Nur das Muster ersetzt, umliegender Text sowie Satz- und Redezeichen unverändert.</change>
       <change when="2026-09-30" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization an den Stand der Annotation angeglichen (19595 von 26983 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;Lemmatisiert, aber noch nicht disambiguiert.&#34;</change>
       <change when="2026-10-10" who="#editor">#460 jagen: 8 Tokens als Verbform gelesen, von lemma_3103 jagât (NOM) auf lemma_3102 jagen (VRB) umgehängt, @ana entfällt; neu geprägte Variantentypen nach der Regel aus #367.</change>
+      <change when="2026-10-18" who="#editor">#554 trûbe: 3 Tokens (Adjektiv trüebe 2, Verb trüeben 1) von lemma_15282 umgehaengt, @ana entfaellt.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -6628,7 +6629,7 @@
               <w xml:id="FR1_2013050_1" lemmaRef="lexicon.xml#lemma_7287" pos="ADJ NUM" ana="lexicon.xml#lemma_7287_sense_11819" corresp="variants.xml#type_26206">fünfte</w>
               <w xml:id="FR1_2013050_2">in</w>
               <w xml:id="FR1_2013050_3" lemmaRef="lexicon.xml#lemma_1401" pos="ADJ NEG" corresp="variants.xml#type_4577">endeloser</w>
-              <w xml:id="FR1_2013050_4" lemmaRef="lexicon.xml#lemma_15282" pos="NOM" ana="lexicon.xml#lemma_15282_sense_25272" corresp="variants.xml#type_154215">trüben</w>
+              <w xml:id="FR1_2013050_4" lemmaRef="lexicon.xml#lemma_6251" pos="ADJ" corresp="variants.xml#type_372861">trüben</w>
               <w xml:id="FR1_2013050_5" lemmaRef="lexicon.xml#lemma_6764" pos="NOM ADJ" ana="lexicon.xml#lemma_6764_sense_10759" corresp="variants.xml#type_47294">varben</w>
               <w xml:id="FR1_2013050_6">weit</w>
               <pc xml:id="FR1_2013050_7" join="left">,</pc>
@@ -27073,7 +27074,7 @@
               <w xml:id="FR1_5067170_0">wes</w>
               <w xml:id="FR1_5067170_1">solt</w>
               <w xml:id="FR1_5067170_2" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
-              <w xml:id="FR1_5067170_3" lemmaRef="lexicon.xml#lemma_15282" pos="NOM" ana="lexicon.xml#lemma_15282_sense_25272" corresp="variants.xml#type_154215">trüben</w>
+              <w xml:id="FR1_5067170_3" lemmaRef="lexicon.xml#lemma_6252" pos="VRB" corresp="variants.xml#type_372865">trüben</w>
               <w xml:id="FR1_5067170_4" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10226">mich</w>
               <w xml:id="FR1_5067170_5" lemmaRef="lexicon.xml#lemma_1258" pos="PRP" ana="lexicon.xml#lemma_1258_sense_1977" corresp="variants.xml#type_4044">durch</w>
               <w xml:id="FR1_5067170_6" lemmaRef="lexicon.xml#lemma_3022" pos="NOM ADJ" ana="lexicon.xml#lemma_3022_sense_4827" corresp="variants.xml#type_42908">icht</w>
@@ -64749,7 +64750,7 @@
             </l>
             <l n="6">
               <w xml:id="FR1_13013060_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
-              <w xml:id="FR1_13013060_1" lemmaRef="lexicon.xml#lemma_15282" pos="NOM" ana="lexicon.xml#lemma_15282_sense_25272" corresp="variants.xml#type_154215">trüben</w>
+              <w xml:id="FR1_13013060_1" lemmaRef="lexicon.xml#lemma_6251" pos="ADJ" corresp="variants.xml#type_372861">trüben</w>
               <w xml:id="FR1_13013060_2">lachen</w>
               <w xml:id="FR1_13013060_3" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
               <w xml:id="FR1_13013060_4" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
