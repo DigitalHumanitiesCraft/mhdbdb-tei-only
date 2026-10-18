@@ -71,6 +71,17 @@ test.describe('ONAMA-Narrativ-Explorer (#609)', () => {
     await expect(box.locator('.on-fn-tmp', { hasText: tmp }).first()).toBeAttached();
   });
 
+  test('Konzept-Einstieg zeigt das gewaehlte Konzept, auch wenn es nicht das erste der Realisierung ist', async ({ page }) => {
+    const r = paket.realisierungen.find(x => x.konzepte.length > 1);
+    expect(r).toBeTruthy();
+    const gewaehlt = r.konzepte[1];
+    await page.click('[data-on-modus="konzept"]');
+    await page.locator(`[data-on-wahl="konzept:${gewaehlt}"]`).first().click();
+    const titel = paket.konzepte[gewaehlt].labels.de;
+    await expect(page.locator('.on-card-head .on-h2', { hasText: titel }).first()).toBeAttached();
+    await expect(page.locator(`.on-card:has(.on-card-head .on-h2:text-is("${titel}")) [data-on-real="${r.id}"]`)).toHaveCount(1);
+  });
+
   test('Filter Nur Bild zeigt keine Textrealisierung', async ({ page }) => {
     await page.click('[data-on-modus="konzept"]');
     await page.locator('#onListe .on-item').first().click();

@@ -259,7 +259,9 @@ export class OnamaExplorer {
     // Nach Konzept gruppieren: ein Konzept, darunter seine Realisierungen.
     const gruppen = new Map();
     for (const r of treffer) {
-      const k = r.konzepte[0] || r.nebenhandlungs_konzepte[0] || '';
+      // Im Konzept-Einstieg unter dem gewählten Konzept, sonst zeigte die Karte ein anderes als das angeklickte.
+      const alle = [...r.konzepte, ...r.nebenhandlungs_konzepte];
+      const k = (a.art === 'konzept' && alle.includes(a.id)) ? a.id : (alle[0] || '');
       if (!gruppen.has(k)) gruppen.set(k, []);
       gruppen.get(k).push(r);
     }
