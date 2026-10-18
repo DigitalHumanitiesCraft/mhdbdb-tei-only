@@ -779,7 +779,7 @@ Two concrete cases forced the decision on 2026-04-15:
 
 ### Decision
 
-**Approach B** is the project default for all future schema/data conflicts. Schema relaxation is only acceptable as a documented `GAP` comment in the RNC source when a data migration would be disproportionately expensive or semantically dangerous (e.g., the 34 corpus files currently covered by GAPs 1 to 9 and 11, which represent intentional encoding choices for specific text genres).
+**Approach B** is the project default for all future schema/data conflicts. Schema relaxation is only acceptable as a documented `GAP` comment in the RNC source when a data migration would be disproportionately expensive or semantically dangerous (e.g., the 35 corpus files currently covered by GAPs 1 to 9 and 11, which represent intentional encoding choices for specific text genres).
 
 The policy is codified in `CLAUDE.md` under "Hard Constraints":
 

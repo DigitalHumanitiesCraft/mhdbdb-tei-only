@@ -913,20 +913,20 @@ Validation script: `scripts/audit/validate-corpus.py`, a two-stage RelaxNG valid
 
 **mhdbdb.rnc:** 667/667 files valid against the project-specific schema (`schema/mhdbdb.rnc`).
 
-**tei_all.rng:** 633/667 files valid against TEI P5 4.11.0. 34 files carry deliberately documented deviations that our custom schema covers explicitly through GAP comments 1-11. Categories:
+**tei_all.rng:** 632/667 files valid against TEI P5 4.11.0. 35 files carry deliberately documented deviations that our custom schema covers explicitly through GAP comments 1-11. Categories:
 
 | Category | Files | Count |
 |-----------|---------|-------:|
-| `@reason` on `<w>` (compound POS split such as `wiltu = wilt + du`) | ABS, AC1, AC2, AC3, ADP, AGS, ENE, FLG, FR1, FR3, ROT | 11 |
+| `@reason` on `<w>` (compound POS split such as `wiltu = wilt + du`) | ABS, AC1, AC2, AC3, ADP, AGS, ENE, FLG, FR1, FR3, JT, ROT | 12 |
 | `<hi>` directly in block context without a wrapper | DAL, DBK, DBS, DKA, DKF, DKI, DKM, DKR | 8 |
 | `<div>` in a position tei_all does not expect | DES2, DJEM, LVS, PUL, RDS, RDV, RVB | 7 |
 | `<w>` directly in block context without a wrapper | DDE, FDS, KAA, PKP, PUC | 5 |
 | `<p>` in an unexpected position | LZT | 1 |
 | `<head>` missing or unexpected | TKR, VOR | 2 |
 
-These 34 files are **not bugs** but documented deviations in the existing data. The MHDBDB model is deliberately more permissive than strict tei_all on these points: the GAP comments in the schema justify every deviation. (The former feature doc `032-schema-followup.md` was deleted when the issue closed; details in the git history.)
+These 35 files are **not bugs** but documented deviations in the existing data. The MHDBDB model is deliberately more permissive than strict tei_all on these points: the GAP comments in the schema justify every deviation. (The former feature doc `032-schema-followup.md` was deleted when the issue closed; details in the git history.)
 
-**Note on WZB (ingested 2026-05-08):** the 667th file, added with the Wenzelsbibel, conforms to both stage 1 (tei_all) and stage 2 (mhdbdb) and therefore does not fall under the baseline of 34. WZB uses none of the GAP patterns from the table above.
+**Note on WZB (ingested 2026-05-08):** the 667th file, added with the Wenzelsbibel, conforms to both stage 1 (tei_all) and stage 2 (mhdbdb) and therefore does not fall under the baseline of 35. WZB uses none of the GAP patterns from the table above.
 
 Earlier errors (all fixed by migration):
 
@@ -950,8 +950,8 @@ Earlier errors (all fixed by migration):
 | 5 | documented via ODD or an equivalent | ✓ (TEI-MODEL.md + mhdbdb.rnc) |
 
 **Two-stage validation:**
-- **Stage 1:** `tei_all.rng` = the TEI P5 conformance test (criteria 1-4). Baseline: 633/667 green.
-- **Stage 2:** `mhdbdb.rnc` = the MHDBDB stamp. It covers all patterns in the existing data, including the 34 tei_all deviations (GAPs 1 to 9 and 11). Baseline: 667/667 green.
+- **Stage 1:** `tei_all.rng` = the TEI P5 conformance test (criteria 1-4). Baseline: 632/667 green.
+- **Stage 2:** `mhdbdb.rnc` = the MHDBDB stamp. It covers all patterns in the existing data, including the 35 tei_all deviations (GAPs 1 to 9 and 11). Baseline: 667/667 green.
 
 `mhdbdb.rnc` is **not a strict subset** of `tei_all.rng`: it is stricter on some points (enumerated `@type` values, more restrictive child elements) and more permissive on others (the GAPs). The two stages check different properties and are complementary, not redundant.
 
@@ -985,7 +985,7 @@ A consolidated list of all deliberately non-normalized islands of data and of th
 
 | Exception / gap | Affected | Reason | Status / tracking |
 |------------------|-----------|-------|-------------------|
-| schema GAPs 1 to 9 and 11 (`schema/mhdbdb.rnc`) | 34 corpus files (category table above) | existing data; migration disproportionately expensive or semantically risky: documented exceptions to the data-before-schema rule | permanent; every GAP is commented in the schema |
+| schema GAPs 1 to 9 and 11 (`schema/mhdbdb.rnc`) | 35 corpus files (category table above) | existing data; migration disproportionately expensive or semantically risky: documented exceptions to the data-before-schema rule | permanent; every GAP is commented in the schema |
 | ARI/PD-001 domain elements | 6 ARITHMETIC manuscripts (not yet in the corpus) | 12 non-schema element classes + 24 `div/@type` + 7 `hi/@rend` values from Carina's arithmetic books; without PD-001 they would fail stage-2 validation | decided 2026-05-08: domain tags go into the schema (DECISIONS.md § PD-001); the schema extension is on `main` since `b59350bb5` and the six converted files lie in `ingest/ari/`; only the ingest is pending, waiting on Carina's metadata → #92 |
 | lexicon.xml backfill | remaining 396 dangling refs / 109 IDs (category B: sense curation, category C: typos/homographs) | the WZB forward ingest stamped lemma IDs into the corpus only; category A (125 entries) was stubbed on 2026-07-02 via `backfill-lexicon.py` | open → #115 (B/C curatorial, KZW/Julia) |
 | WVV stanza anchors | WVV, 23 stanzas | unusual Linecode template, anchors missing (#23 follow-up) | **solved** 2026-07-08 (#110): the 4 open places contained 11 header-separated verse blocks, each is now an `<lg type="stanza">` of its own; WVV has 489 stanzas, token stream byte-identical |
