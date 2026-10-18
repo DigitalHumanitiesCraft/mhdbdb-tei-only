@@ -56,18 +56,18 @@ ERSETZUNGEN = [
     ('lemma_2954', 'hunger',
      '(71 Belege in der MHDBDB, Stand 28.10.2016)',
      '(24 Belege, in denen die mit Lemma annotierten Wörter „hunger“ und „nôt“ aufeinander folgen, '
-     'Stand 18.10.2026)'),
+     'nicht annotierte Wörter dazwischen übersprungen, Stand 18.10.2026)'),
     ('lemma_2954', 'hunger',
      '(84 Belege im Kontext von zwei Zeilen, Stand 28.10.2016)',
-     '(35 Belege von „hunger“ mit „durst“ in derselben oder in einer der zwei davor oder dahinter liegenden '
+     '(33 Belege von „hunger“ mit „durst“ in derselben oder in einer der zwei davor oder dahinter liegenden '
      'Verszeilen, Stand 18.10.2026; gezählt werden nur Wörter mit Lemma-Annotation)'),
     ('lemma_2955', 'hungerc',
      '(41 Textbelege in der MHDBDB, Stand 10.11.2016)',
-     '(41 der 78 Belege im Korpus stehen in Verszeilen, Stand 18.10.2026)'),
+     '(39 der 78 Belege im Korpus stehen in Verszeilen, Stand 18.10.2026)'),
     ('lemma_2961', 'huon',
      'die Textstellensuche der MHDBDB findet in 658 Texten 14 Belege (Stand 13.05.2017)',
      'im Korpus folgen die mit Lemma annotierten Wörter „huon“, „unde“ und „visch“ in 4 Fällen aufeinander '
-     '(Stand 18.10.2026)'),
+     '(nicht annotierte Wörter dazwischen übersprungen, Stand 18.10.2026)'),
     ('lemma_3122', 'jeroffel',
      'liefert die MHDBDB 245 Treffer von zahlreichen Dichtern (zum Zeitpunkt der Recherche, 08.03.2017, noch '
      'nicht vollständig disambiguiert; einige Treffer, vor allem in der religiösen Dichtung, bezeichnen den '
@@ -79,13 +79,15 @@ ERSETZUNGEN = [
      'innerhalb der Dichtung 98 (Stand 17.11.2017); die umgekehrte Suche nach „und brôt“ („*,unde,brôt“) '
      'ergibt 129 Belege im Gesamtkorpus und 96 in den poetischen Texten.',
      'Im Korpus folgen die mit Lemma annotierten Wörter „wîn“ und „und“ 371-mal in dieser Reihenfolge '
-     'aufeinander, „und“ und „wîn“ 200-mal (Stand 18.10.2026).'),
+     'aufeinander, „und“ und „wîn“ 200-mal (nicht annotierte Wörter dazwischen übersprungen, '
+     'Stand 18.10.2026).'),
     ('lemma_879', 'brôt',
      'Die Suche nach „brôt und“ (Suchstring „brôt,unde,*“) in allen 664 Texten der MHDBDB liefert 214 Belege, '
      'innerhalb der Dichtung 98 (Stand 17.11.2017); die umgekehrte Suche nach „und brôt“ („*,unde,brôt“) '
      'ergibt 129 Belege im Gesamtkorpus und 96 in den poetischen Texten.',
      'Im Korpus folgen die mit Lemma annotierten Wörter „brôt“ und „und“ 284-mal in dieser Reihenfolge '
-     'aufeinander, „und“ und „brôt“ 127-mal (Stand 18.10.2026).'),
+     'aufeinander, „und“ und „brôt“ 127-mal (nicht annotierte Wörter dazwischen übersprungen, '
+     'Stand 18.10.2026).'),
 ]
 
 

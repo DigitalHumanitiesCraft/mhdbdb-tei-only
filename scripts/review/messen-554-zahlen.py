@@ -8,9 +8,10 @@ Zahlen am heutigen Korpus treten an ihre Stelle.
 
 Zaehlregeln (in jeder Ausgabezeile mit Menge):
 - Gezaehlt werden nur Woerter mit Lemma-Annotation: ein <w> ohne @lemmaRef zaehlt nirgends mit
-  und ueberbrueckt keine Folge. Formen, die im Text stehen, aber nicht annotiert sind, fehlen.
+  und wird in einer Folge uebersprungen (A, unannotiertes Wort, B zaehlt als A B). Formen, die im Text stehen, aber nicht annotiert sind, fehlen.
 - Token: <w> mit @lemmaRef, das die Lemma-ID als eigenes Element der Liste enthaelt.
-- "Zeile": ein <l>-Element. Prosatexte ohne <l> tragen zu Zeilenmessungen nichts bei.
+- "Zeile": ein <l>-Element in einem Text ohne <lb/>. Texte mit <lb/> (Prosa, auch WZB, wo <l> eine
+  Satzeinheit ist) und Prosatexte ohne <l> tragen zu Zeilenmessungen nichts bei.
 - "A + B in einer Zeile": beide Lemmata kommen in demselben <l> vor. Bei zwei Lemmata in
   beliebiger Reihenfolge, bei drei (niht + ein + ei, umbe + ein + ei) in der genannten.
 - "A B hintereinander": aufeinanderfolgende <w> mit @lemmaRef in Dokumentreihenfolge.
@@ -59,7 +60,9 @@ def laden():
             if w.get('lemmaRef'):
                 folge.append(ks)
         zeilen = []
-        for l in tree.iter(TEI + 'l'):
+        # Prosatexte (WZB): <l> ist dort eine Satzeinheit, die Handschriftenzeile steht in <lb/>
+        ist_prosa = next(tree.iter(TEI + 'lb'), None) is not None
+        for l in ([] if ist_prosa else tree.iter(TEI + 'l')):
             ks = [ID2KEY[i] for w in l.iter(TEI + 'w') for i in ids_of(w) if i in ID2KEY]
             zeilen.append(ks)
         yield p.name.split('.')[0], folge, zeilen

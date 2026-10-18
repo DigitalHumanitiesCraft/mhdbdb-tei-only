@@ -295,7 +295,7 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
     // the value is the first candidate by Vorschrift B (v1.9.18, ADR-021, #378)
   },
 
-  variantCandidates: {               // v1.9.18: only forms with more than one candidate (4,976)
+  variantCandidates: {               // v1.9.18: only forms with more than one candidate
     "hab": ["lemma_2598", "lemma_2593"]   // ranked: corpus tokens of THIS form under the lemma
   },
 
