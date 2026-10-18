@@ -101,12 +101,11 @@
       "reason": "liegt unter der Untergrenze, die Grenze ist daher 10 s und haengt nicht am Budget"
     },
     "data-integrity.yml/Freshness lemma-pos (#462)": {
-      "budget_s": 13,
-      "n": 2,
-      "date": "2026-10-12",
-      "basis": "lokal gemessen, 4 Kerne unter Last: --jobs 4 12,4 s, --jobs 2 12,6 s (fable-reviewer, #462); noch kein CI-Lauf, n unter 10, vorlaeufig",
-      "reason": "neuer Schritt aus #462, liest tei/ (@lemmaRef und @pos) mit Regex",
-      "provisional_since": "2026-10-12T17:43:11Z"
+      "budget_s": 18,
+      "n": 21,
+      "date": "2026-10-18",
+      "basis": "p90 aller 21 Laeufe des Schritts in den 22 erfolgreichen Laeufen seit 2026-10-12T17:43:11Z (median 13 s, max 18 s; --max-runs 100); Nachkalibrierung aus #564",
+      "reason": "neuer Schritt aus #462, liest tei/ (@lemmaRef und @pos) mit Regex; vorlaeufiges Budget 13 s war lokal gemessen (n 2)"
     },
     "data-integrity.yml/Freshness variants.xml (#125)": {
       "budget_s": 45,
