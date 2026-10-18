@@ -32,6 +32,7 @@ Verdichtet 18.10.2026. Dieses Memory ist Eingabe, keine Messung: Zahlen daraus v
 
 **Prüfmaterial für KZW (Prüflisten, Vorschläge)**
 - **„Handarbeit", „Handurteil", „manuell" heißen für die Leserin „ein Mensch hat es gelesen".** Stammen Urteile von einem Agenten, widerspricht das Wort dem Satz „maschinell vorbereitet" daneben. `grep -n -i "hand\|manuell"` über README, Docstrings und Spaltennamen; Docstrings brechen „von\nHand" um.
+- **Agentenläufe mit Stapeln: Workflow-Agenten flicken Eingaben in place, bevor das eingecheckte Skript läuft, das „jede Korrektur meldet“** (#603, 18.10.2026: `fix_wid.py`, `fix_check.py` im Job-`tmp/` korrigierten 4 w_id, das README zählte nur die 13 des Skripts). Das Job-Verzeichnis nach `fix*.py`/`korr*.py` listen und deren Ausgabe in `~/.claude/projects/<proj>/<session>/subagents/workflows/` greppen (`rg -o --no-filename 'fix [0-9]+ [0-9]+ \S+ -> \S+'`). Reproduktion: Stapelordner nach `$TEMP` kopieren und Verbinden plus Auswerten dort fahren; Ausgaben CRLF-normalisiert vergleichen.
 - **Bekommt eine Teilmenge der Skripte einen Guard, schreibt der Fix den Sammelsatz über die ganze Tabelle** (`scripts/review/README.md`: `ana-603.py` und `stichprobe2-603.py` ohne Guard). Je Tabellenzeile `grep -c realpath <skript>`.
 
 **Fehlerjournal**
