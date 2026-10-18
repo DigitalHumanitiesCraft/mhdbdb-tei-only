@@ -11,10 +11,12 @@ Zwei Dateien, zwei Zustaendigkeiten:
                                 ("2026-Q4") oder ein Ausschluss mit Grund; ein
                                 Issue ohne Eintrag erscheint mit "Zeitpunkt offen"
 
-Ausgeschlossen ist ohne Eintrag jedes Issue mit dem Label `wait:extern` (die
-Rechtefrage ist dort offen, #537). Arbeit an Texten, die schon im Korpus
-stehen, und Issues ohne neuen Text stehen mit Grund unter "ausgeschlossen" in
-der Zeitplan-Datei. Der Grund ist nur fuer die Pflege, die Seite zeigt ihn nicht.
+Ausgeschlossen ist jedes Issue mit dem Label `wait:extern`, auch wenn es im
+Zeitplan steht. Texte mit offener Rechtefrage nennt die Seite erst nach der
+Freigabe (KZW, #537, 08.10.2026); wo das Label das nicht abbildet (#262, #263),
+steht das Issue mit Grund unter "ausgeschlossen" und kommt erst auf die Seite,
+wenn die Freigabe da ist. Ebenso Arbeit an Texten, die schon im Korpus stehen,
+und Issues ohne neuen Text. Der Grund ist nur fuer die Pflege, die Seite zeigt ihn nicht.
 
 Ein Ausfall der GitHub-API bricht nichts: das Skript meldet es, behaelt den
 alten Stand und endet mit Exit 0. Die Seite entsteht in jedem Fall aus den
@@ -85,8 +87,8 @@ def aktualisieren(alt):
         liste = abrufen()
         if not liste:
             raise RuntimeError("leere Antwort")
-    except (urllib.error.URLError, OSError, RuntimeError, ValueError, KeyError) as fehler:
-        print(f"::warning::Issues nicht aktualisiert: {fehler}")
+    except Exception as fehler:  # jeder Ausfall (auch IncompleteRead, TypeError) laesst den alten Stand liegen
+        print(f"::warning::Issues nicht aktualisiert: {type(fehler).__name__}: {fehler}")
         return alt, False
     geaendert = liste != alt.get("issues")
     # Das Abrufdatum aendert sich nur mit dem Inhalt, sonst oeffnete jeder Monat einen PR.
@@ -127,7 +129,9 @@ def zeilen(stand, zeitplan):
     ergebnis = []
     for i in stand.get("issues", []):
         n = str(i["nummer"])
-        if n in aus or (AUSSCHLUSS_LABEL in i["labels"] and n not in plan):
+        if AUSSCHLUSS_LABEL in i["labels"] and n in plan:
+            print(f"::warning::#{n} trägt {AUSSCHLUSS_LABEL} und steht im Zeitplan: wird nicht gezeigt, Eintrag prüfen")
+        if n in aus or AUSSCHLUSS_LABEL in i["labels"]:
             continue
         eintrag = plan.get(n, {})
         q = eintrag.get("quartal")

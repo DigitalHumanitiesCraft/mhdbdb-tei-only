@@ -39,9 +39,18 @@ test.describe('Hilfe-Unterseite Publikationen', () => {
         for (const [sammlung, abschnitt] of Object.entries(stand.abschnitte)) {
             const liste = page.locator(`#${sammlung.toLowerCase()} li`);
             await expect(liste, sammlung).toHaveCount(abschnitt.eintraege.length);
-            const mitLink = abschnitt.eintraege.filter((x) => x.doi || x.url).length;
+            // Das DOI-Feld ist Freitext: nur eine echte DOI oder eine Web-Adresse gibt einen Link
+            const mitLink = abschnitt.eintraege.filter((x) => {
+                const doi = x.doi.replace(/^(?:https?:\/\/(?:dx\.)?doi\.org\/|doi:\s*)/i, '').trim();
+                return /^10\.\d{4,9}\/\S+$/.test(doi) || /^https?:\/\/\S+$/i.test(x.doi) || /^https?:\/\/\S+$/i.test(x.url);
+            }).length;
             await expect(page.locator(`#${sammlung.toLowerCase()} li a`), sammlung).toHaveCount(mitLink);
         }
+
+        // Kein Link ist relativ, und keiner traegt doi.org doppelt
+        const hrefs = await page.locator('.pub-liste a').evaluateAll((as) => as.map((a) => a.getAttribute('href')));
+        expect(hrefs.filter((h) => !/^https?:\/\//.test(h))).toEqual([]);
+        expect(hrefs.filter((h) => /doi\.org\/https?:/.test(h))).toEqual([]);
 
         // Ein DOI-Eintrag fuehrt auf doi.org, nicht auf die Zotero-Bibliothek
         const mitDoi = stand.abschnitte.WB4HTUGC.eintraege.find((x) => x.doi);
@@ -69,11 +78,7 @@ test.describe('Hilfe-Unterseite Demnächst im Korpus', () => {
     const plan = lesen('demnaechst-zeitplan.json');
 
     // Dieselbe Regel wie scripts/build-demnaechst.py, hier aus den Dateien nachgerechnet
-    const sichtbar = issues.filter((i) => {
-        const n = String(i.nummer);
-        if (n in plan.ausgeschlossen) return false;
-        return !(i.labels.includes('wait:extern') && !(n in plan.zeitplan));
-    });
+    const sichtbar = issues.filter((i) => !(String(i.nummer) in plan.ausgeschlossen) && !i.labels.includes('wait:extern'));
 
     test('Kachel auf der Hilfeseite fuehrt hin', async ({ page }) => {
         await page.goto('/hilfe.html');
@@ -91,12 +96,15 @@ test.describe('Hilfe-Unterseite Demnächst im Korpus', () => {
         expect(sichtbar.length).toBeGreaterThan(0);
 
         // Der Kontrollwert liegt ausserhalb der Regel: ein Issue, das wartet, darf nicht erscheinen
-        const wartend = issues.filter((i) => i.labels.includes('wait:extern') && !(String(i.nummer) in plan.zeitplan));
-        expect(wartend.length).toBeGreaterThan(0);
+        // und eines, dessen Rechtefrage das Label nicht abbildet (#262, #263: erst nach Freigabe, #537)
+        const wartend = issues.filter((i) => i.labels.includes('wait:extern') || [262, 263].includes(i.nummer));
+        expect(wartend.length).toBeGreaterThan(2);
         const text = await page.locator('main').innerText();
         for (const i of wartend) {
             expect(text, `#${i.nummer}`).not.toContain(i.titel);
         }
+        expect(text).not.toContain('Hesler');
+        expect(text).not.toContain('Gloning');
 
         expect(anfragen.filter((u) => /api\.github\.com/.test(u))).toEqual([]);
     });

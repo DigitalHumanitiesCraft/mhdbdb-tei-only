@@ -7,8 +7,10 @@ name: Monatslauf Seiten
 #
 # Ein Ausfall von Zotero oder der GitHub-API bricht den Lauf nicht: die
 # Skripte behalten den alten Stand, melden eine Warnung und enden mit Exit 0
-# (scripts/build-publikationen.py, scripts/build-demnaechst.py). Dann gibt es
-# keine Änderung und keinen PR.
+# (scripts/build-publikationen.py, scripts/build-demnaechst.py). Fällt alles
+# aus, gibt es keine Änderung und keinen PR. Fällt nur ein Teil aus (eine
+# Sammlung), kann der Rest einen PR auslösen; die Warnung steht dann im
+# Build-Log des PR-Bodys, und der ausgefallene Abschnitt behält sein altes Datum.
 #
 # Hinweis: PRs aus dem GITHUB_TOKEN triggern keine weiteren Workflows; die
 # übrigen CI-Checks laufen erst nach menschlichem Push/Re-Trigger.
@@ -39,13 +41,23 @@ jobs:
         with:
           python-version: '3.13'
 
-      - name: Publikationen aus Zotero nachziehen
-        run: python scripts/build-publikationen.py
-
-      - name: Demnächst im Korpus aus den ingest-Issues nachziehen
+      - name: Beide Seiten nachziehen
+        id: build
+        # Das Build-Log wandert in den PR-Body: bei einem Teilausfall (ein Abschnitt
+        # bleibt auf altem Stand, der andere ändert sich) steht dort die Warnung.
         env:
           GITHUB_TOKEN: ${{ github.token }}
-        run: python scripts/build-demnaechst.py
+        run: |
+          set -o pipefail
+          {
+            python scripts/build-publikationen.py
+            python scripts/build-demnaechst.py
+          } 2>&1 | tee build.log
+          {
+            echo 'log<<BUILDLOG'
+            cat build.log
+            echo 'BUILDLOG'
+          } >> "$GITHUB_OUTPUT"
 
       - name: Seiten gegen die Stände prüfen
         run: |
@@ -89,6 +101,12 @@ jobs:
             vor dem Merge den Diff der Stände ansehen: neue oder verschwundene
             Einträge, und bei Demnächst im Korpus, ob ein neues Issue einen
             Eintrag in `data/demnaechst-zeitplan.json` braucht (ohne Eintrag
-            steht es mit „Zeitpunkt offen" auf der Seite).
+            steht es mit „Zeitpunkt offen" auf der Seite) und ob es eine
+            offene Rechtefrage trägt, die das Label nicht zeigt.
+
+            **Build-Log** (eine Zeile `::warning::` heißt: dieser Teil blieb auf dem alten Stand):
+            ```
+            ${{ steps.build.outputs.log }}
+            ```
 
             Bezug: #417, #537, bleiben offen

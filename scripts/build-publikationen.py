@@ -67,6 +67,8 @@ def abrufen(sammlung):
         with urllib.request.urlopen(anfrage, timeout=ZEITLIMIT) as antwort:
             if antwort.status != 200:
                 raise RuntimeError(f"{sammlung}: HTTP {antwort.status}")
+            if antwort.headers.get("Total-Results") is None:
+                raise RuntimeError(f"{sammlung}: Kopf Total-Results fehlt")
             gesamt = int(antwort.headers["Total-Results"])
             seite = json.loads(antwort.read().decode("utf-8"))
         if not seite:
@@ -130,19 +132,23 @@ def aktualisieren(alt):
                 raise RuntimeError("leere Antwort")
             if vorher and len(liste) < MINDESTANTEIL * len(vorher["eintraege"]):
                 raise RuntimeError(f"nur {len(liste)} Eintraege gegen bisher {len(vorher['eintraege'])}")
-            neu["abschnitte"][sammlung] = {"titel": titel, "eintraege": liste}
-        except (urllib.error.URLError, OSError, RuntimeError, ValueError, KeyError) as fehler:
-            print(f"::warning::Zotero-Sammlung {sammlung} ({titel}) nicht aktualisiert: {fehler}")
+            # Das Datum gehoert zum Abschnitt: es wandert nur mit seinem Inhalt, sonst oeffnete jeder
+            # Monat einen PR, und ein ausgefallener Abschnitt behaelt sein altes Datum.
+            heute = date.today().isoformat()
+            if vorher and vorher["eintraege"] == liste:
+                abgerufen = vorher.get("abgerufen") or alt.get("abgerufen") or heute
+            else:
+                abgerufen = heute
+            neu["abschnitte"][sammlung] = {"titel": titel, "abgerufen": abgerufen, "eintraege": liste}
+        except Exception as fehler:  # jeder Ausfall (auch IncompleteRead, TypeError) laesst den alten Stand liegen
+            print(f"::warning::Zotero-Sammlung {sammlung} ({titel}) nicht aktualisiert: {type(fehler).__name__}: {fehler}")
             if vorher is None:
                 print(f"  kein bisheriger Stand fuer {sammlung}: Abschnitt bleibt leer")
                 continue
             neu["abschnitte"][sammlung] = vorher
     inhalt_alt = json.dumps(alt.get("abschnitte", {}), ensure_ascii=False, sort_keys=True)
     inhalt_neu = json.dumps(neu["abschnitte"], ensure_ascii=False, sort_keys=True)
-    geaendert = inhalt_alt != inhalt_neu
-    # Das Abrufdatum aendert sich nur mit dem Inhalt, sonst oeffnete jeder Monat einen PR.
-    neu["abgerufen"] = date.today().isoformat() if geaendert else alt.get("abgerufen", date.today().isoformat())
-    return neu, geaendert
+    return neu, inhalt_alt != inhalt_neu
 
 
 def e(text):
@@ -153,14 +159,29 @@ def deutsches_datum(iso):
     return date.fromisoformat(iso).strftime("%d.%m.%Y") if iso else ""
 
 
+DOI_VORSATZ = re.compile(r"^(?:https?://(?:dx\.)?doi\.org/|doi:\s*)", re.I)
+DOI_FORM = re.compile(r"^10\.\d{4,9}/\S+$")
+WEB = re.compile(r"^https?://\S+$", re.I)
+
+
+def ziel_von(eintrag):
+    """(href, Beschriftung) oder None. Das DOI-Feld in Zotero ist Freitext: auch eine volle
+    doi.org-Adresse, eine andere Web-Adresse oder eine URN kommen darin vor."""
+    doi = DOI_VORSATZ.sub("", eintrag["doi"]).strip()
+    if DOI_FORM.match(doi):
+        return f"https://doi.org/{doi}", f"DOI {doi}"
+    if WEB.match(eintrag["doi"]):
+        return eintrag["doi"], "Link"
+    if WEB.match(eintrag["url"]):
+        return eintrag["url"], "Link"
+    return None
+
+
 def eintrag_html(eintrag):
-    if eintrag["doi"]:
-        link = f"https://doi.org/{eintrag['doi']}"
-        ziel = (f'<a href="{e(link)}" class="text-brand-600 hover:text-brand-700 font-medium" '
-                f'target="_blank" rel="noopener">DOI {e(eintrag["doi"])}</a>')
-    elif eintrag["url"]:
-        ziel = (f'<a href="{e(eintrag["url"])}" class="text-brand-600 hover:text-brand-700 font-medium" '
-                f'target="_blank" rel="noopener">Link</a>')
+    ziel = ziel_von(eintrag)
+    if ziel:
+        ziel = (f'<a href="{e(ziel[0])}" class="text-brand-600 hover:text-brand-700 font-medium" '
+                f'target="_blank" rel="noopener">{e(ziel[1])}</a>')
     else:
         ziel = "kein Link hinterlegt"
     zusatz = ", ".join(x for x in (e(eintrag["autoren"]) if eintrag["autoren"] else "",
@@ -169,6 +190,12 @@ def eintrag_html(eintrag):
     titel = " ".join(eintrag["titel"].replace(chr(0x2014), " - ").split())
     return (f'<li><p class="pub-titel">{e(titel)}</p>'
             f'<p class="pub-meta">{zusatz} &middot; {ziel}</p></li>')
+
+
+def aeltester_stand(stand):
+    """Das aelteste Abschnittsdatum: ein ausgefallener Abschnitt soll die Seite nicht frischer machen."""
+    daten = [a.get("abgerufen") or stand.get("abgerufen") or "" for a in stand.get("abschnitte", {}).values()]
+    return min((d for d in daten if d), default="")
 
 
 def region_bauen(stand):
@@ -184,7 +211,7 @@ def region_bauen(stand):
             f'<p class="text-slate-600 mb-3">{e(erklaerung)}</p>\n'
             f'<ul class="pub-liste">\n{liste}\n</ul>\n</section>')
     teile.append(
-        f'<p class="text-sm text-slate-500">Stand der Bibliothek: {deutsches_datum(stand.get("abgerufen", ""))}. '
+        f'<p class="text-sm text-slate-500">Stand der Bibliothek: {deutsches_datum(aeltester_stand(stand))}. '
         f'Die Liste wird einmal im Monat aus der <a href="{e(stand.get("quelle", ""))}" '
         f'class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">'
         f'Zotero-Bibliothek der MHDBDB</a> übernommen.</p>')
