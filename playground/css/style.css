@@ -559,9 +559,13 @@ textarea:focus {
     min-width: 48px;
   }
 
-  /* Remove hover effects on touch devices */
+  /* Remove hover effects on touch devices. Die Karten-Selektoren stehen hier
+     in derselben Spezifitaet wie ihre Hover-Regeln oben (:not und :has zaehlen
+     ihr Argument mit), sonst gewinnt der Hover gegen diese Ausnahme. */
   .file-item:hover,
   .result-summary:hover,
+  .result-summary:not(.result-summary-dokument):hover,
+  .result-summary-dokument:has(.summary-header:hover, .summary-expand-hint:hover),
   .file-group:hover {
     transform: none;
     box-shadow: initial;
@@ -570,6 +574,8 @@ textarea:focus {
   /* Add active state instead */
   .file-item:active,
   .result-summary:active,
+  .result-summary:not(.result-summary-dokument):active,
+  .result-summary-dokument:has(.summary-header:hover, .summary-expand-hint:hover):active,
   .file-group:active {
     transform: scale(0.98);
     opacity: 0.9;

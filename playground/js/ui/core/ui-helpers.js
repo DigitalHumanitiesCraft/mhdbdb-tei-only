@@ -519,6 +519,9 @@ async function runSummaryToggle(summary) {
         summary.querySelector('.summary-expand-hint').textContent = 'Fehler beim Laden';
       }
     }
+  } else if (summary.dataset.enriched) {
+    // Hinweis folgt dem Zustand; er ist zugleich der Name des Kopf-Knopfs
+    summary.querySelector('.summary-expand-hint').textContent = isExpanding ? 'Klicken zum Zuklappen' : 'Klicken zum Erweitern';
   }
 
   summary.classList.toggle('expanded');
