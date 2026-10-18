@@ -92,7 +92,7 @@ test.describe('Hilfe-Unterseite Demnächst im Korpus', () => {
         page.on('request', (r) => anfragen.push(r.url()));
         await page.goto('/hilfe-demnaechst.html');
 
-        // Ohne sichtbares Issue steht eine Leerzeile da (am 18.10.2026 ist keine Aufnahme beschlossen)
+        // Ohne sichtbares Issue steht eine Leerzeile da (am 18.10.2026 darf noch keine Aufnahme genannt werden)
         await expect(page.locator('.pub-liste > li')).toHaveCount(Math.max(sichtbar.length, 1));
         if (sichtbar.length === 0) {
             await expect(page.locator('.pub-leer')).toContainText('keine Aufnahme fest');
