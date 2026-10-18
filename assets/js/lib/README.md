@@ -213,6 +213,22 @@ import { authorLineOfText } from '../../lib/attributions.js';
 authorLineOfText(text, authorityData.works); // 'Anonym; Konrad von Würzburg (umstritten)'
 ```
 
+### `collapsible-text.js`
+Einklappbare lange Texte (#554): ein Text über 600 Zeichen steht zunächst auf sechs Zeilen gekürzt, darunter der Knopf "Weiterlesen" (`aria-expanded`, `aria-controls`); kürzere Texte bleiben unverändert. Die Kürzung ist CSS (`.clamp-collapsed` in `assets/css/shared.css`), ein einziger Click-Listener am Dokument schaltet um. Genutzt für die Lexikonkommentare auf der Lemmaseite und im Lemma-Explorer des Playgrounds.
+
+**Exports:**
+- `COLLAPSE_MIN_CHARS`, `COLLAPSE_LINES`: Schwelle und Zeilenzahl
+- `collapsibleHtml(innerHtml, zeichen)` → HTML, gekürzt mit Knopf oder unverändert
+- `enhanceCollapsibles(root)`: nach dem Einfügen aufrufen, entfernt den Knopf, wo die Kürzung nichts verdeckt
+
+**Usage:**
+```javascript
+import { collapsibleHtml, enhanceCollapsibles } from '../../lib/collapsible-text.js';
+
+container.innerHTML = collapsibleHtml(`<p>${escapeHtml(kommentar)}</p>`, kommentar.length);
+enhanceCollapsibles(container);
+```
+
 ## Design Principles
 
 1. **DRY (Don't Repeat Yourself)**: All shared code lives here

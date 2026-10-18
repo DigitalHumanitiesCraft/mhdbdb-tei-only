@@ -6,6 +6,7 @@
 
 import { CorpusLoader } from '../assets/js/lib/corpus-loader.js';
 import { escapeHtml } from '../assets/js/lib/escape.js';
+import { collapsibleHtml, enhanceCollapsibles } from '../assets/js/lib/collapsible-text.js';
 import { fetchWbnetzEntries, decodeHtmlEntities, dictionaryTitle } from '../assets/js/lib/woerterbuchnetz.js';
 import { parseLemmaIdInput } from '../assets/js/lib/lemma-id-input.js';
 import { COMPONENT_ONLY_NOTE, buildComponentRefSet, isComponentOnly } from '../assets/js/lib/component-only.js';
@@ -150,6 +151,8 @@ class LemmaPage {
             this.updateLoading('Fertig!', 100);
             this.elements.loadingScreen.style.display = 'none';
             this.elements.lemmaContent.classList.remove('hidden');
+            // Erst jetzt messbar: vorher trägt #lemmaContent `hidden`, und jede Höhe ist 0.
+            enhanceCollapsibles(this.elements.sensesContent);
 
         } catch (error) {
             console.error('[LemmaPage] Init failed:', error);
@@ -238,7 +241,7 @@ class LemmaPage {
                 const comment = sense.comment
                     ? `<div class="mb-2">
                            <div class="text-xs text-slate-400 mb-0.5">${commentLabel}</div>
-                           <p class="text-sm text-slate-600 leading-relaxed">${escapeHtml(sense.comment)}</p>
+                           ${collapsibleHtml(`<p class="text-sm text-slate-600 leading-relaxed">${escapeHtml(sense.comment)}</p>`, sense.comment.length)}
                        </div>`
                     : '';
                 return `

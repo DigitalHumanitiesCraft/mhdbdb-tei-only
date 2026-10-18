@@ -137,7 +137,7 @@ export function dokumentBelegeHtml(gruppen, textId, lemmaIds) {
                 <span class="font-mono text-xs font-normal text-slate-500">${escapeHtml(g.lemmaId)}</span>
                 <span class="beleg-zahl text-xs font-normal text-slate-600">${zahl}</span>
             </h5>
-            <div class="space-y-2">${zeilen}</div>
+            <div class="beleg-liste space-y-2" role="region" tabindex="0" aria-label="Fundstellen von ${escapeHtml(lemmaName(g.lemmaId))}">${zeilen}</div>
             ${gekuerzt}
         </section>`;
     }).join('');

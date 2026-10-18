@@ -16,6 +16,7 @@ Verdichtet 18.10.2026.
 
 **Proben ohne Spec**
 - Playwright: `.mjs` in $TEMP, `import { chromium } from 'file:///C:/.../node_modules/playwright/index.mjs'` (ohne `file:///` ERR_UNSUPPORTED_ESM_URL_SCHEME), `page.evaluate` auf `window.playground.ui.<tool>.state`. Echter Klick statt `dispatchEvent`. Bei belegtem 8080 startet die `.mjs` selbst `http-server` auf 8097, pollt bis 200, `server.kill()` im `finally`. Ausgabe in eine Datei, `| tail` frisst die ersten Datensätze.
+- **Mutationsprobe ohne Baum anzufassen:** in der `.mjs` `page.route('**/<pfad>.js', async r => { const resp = await r.fetch(); ... r.fulfill({ response: resp, body }) })` und den Body per String-Ersatz mutieren; Trefferzahl je Ersatz mitausgeben (ein mehrzeiliger Anker verfehlte am 18.10. still, einzeiliger Anker nehmen). Ersetzt die Rücknahme per git, wenn der Aufrufer „still halten" verlangt.
 - Reader-Spec ohne Browser (#390): `#readingBody.textContent` aus dem TEI nachbauen (Vorlage `tei-text-reader.js`), die Spec-Regexes mit `\p{L}` -> `[^\W\d_]` in Python `re`. Auf Basis UND HEAD fahren: nur wenn die Negativ-Regex auf der Basis greift, unterscheidet der Test etwas.
 
 **Locator-Fallen:** ID-Grep reicht nicht, Textlocator (`button:has-text("...")`) mitsuchen und auf der Basis gegen das HTML greppen (kann dort schon tot sein). Ein `isVisible()`-Guard wird nach Verstecken nie mehr wahr: Test bleibt grün und tut nichts.
