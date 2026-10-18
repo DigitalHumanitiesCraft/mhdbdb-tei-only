@@ -42,6 +42,28 @@ Chronological log of development decisions, dead ends, and savepoints. Not a cha
 
 ---
 
+## 2026-10-18 (Spur lauf-1018-onama): ONAMA-Anker-Abgleich und Narrativ-Explorer, Pilot Argonautensage (#609)
+
+**Was:** KZWs Manifest vom 16.10. umgesetzt, soweit es Abgleich und Pilot betrifft. O1: `scripts/ingest/onama/anker-abgleich.py` liest `onamaObjects.ttl` (onama-corpus `b87468b`) und prüft die 308 `TextPassage`-Ressourcen gegen die `xml:id` im TEI (MHDBDB `a89aaf788`): 291 Wortanker, 9 Nichtwort-Anker (7 `pc`, 2 `caesura`), 1 umgekehrt (Q288), 7 nicht gefunden, dazu die 309. Aussage Q67 (`AXU_XXXX`) in eigener Liste. Das sind die Manifestzahlen. O2: `scripts/ingest/onama/build-paket.py` erzeugt aus dem RDF `playground/data/onama/argonauten.json` (Teilbaum Q1309, Sammlungen TRO, TRY, ÖNB cod. 2773; 179 Realisierungen), der Explorer steht unter `playground/#onama` (`playground/js/ui/onama/`, `playground/css/onama.css`), dazu ein Hilfeabschnitt. Nichts in `tei/`, `authority-files/` oder an Annotationen.
+
+**Was über den Einzelfall hinausgilt:**
+- Der Konzeptbaum trägt die Auswahl nur halb: mehrere TRO- und TRY-Konzepte mit Argonautenbezug (etwa Q163 "Jason wählt Argonauten aus"; gesichtet, nicht abschließend gezählt) haben kein `broader` und hängen nicht an Q1309. Eine Auswahl über `narrower` allein hätte sie still ausgelassen; sie stehen als Randfälle (49 insgesamt, mit Grund) beim Pilot, die Entscheidung liegt bei KZW.
+- Von 41 Bildrealisierungen ohne `partOfCollection` teilen nur 9 den RO-Nummernkreis (erste fünf Zeichen) mit Sammlungsmitgliedern. Die Handschrift ist für sie nicht belegt; sie stehen als Quelle `REALONLINE`, Zuordnung "abgeleitet".
+- Bei 93 Wortanker-Passagen und einer Nichtwort-Passage ist ein Endpunkt ein `<w>` ohne `@lemmaRef`, das die Positionszählung nicht zählt. Die Wortspanne wird auf das nächste bzw. vorige gezählte Wort umgerechnet und je Passage als "umgerechnet" markiert (51 von 163 Passagen mit Wortspanne). Das Manifest hatte die Frage gestellt, die Zahl stand nicht darin.
+- Ein `<caesura xml:id>` kann Endpunkt einer Passage sein; der erste Lader kannte nur `w` und `pc` und zählte 9 statt 7 nicht gefundene Anker. Der Abgleich gegen die Manifestzahl hat es gefangen.
+- Der Prüfstatus hat festen Vorrang offen vor abgeleitet vor geprüft; "geprüft" heißt technisch, nie fachlich. Verteilung am Ende 78 geprüft, 74 abgeleitet, 27 offen (179). Frühere Stände: 119/46/14 (erste Regel), 78/87/14 (ohne Vorrang). Die Verschiebung von 87/14 auf 74/27 sind 13 Bilder ohne Bildlink.
+
+**Rote Zeilen:** Vier, Nr. 157 bis 160 (RO-Zuordnung als Allaussage ohne Messung; Spec-Titel verspricht, was die Assertion nicht prüft; `umgerechnet` an der Wortspanne statt am Status, #397; Statusdefinitionen und README-Satz ohne Nachzählen). `trockenlauf-auswerten.py` lief vor diesem Eintrag, der Kontrollwert hat gefeuert (73 Zeilen nicht auswertbar), die Zahlen sind eine Untergrenze: der Spur zugeordnete Zeilen shell-konventionen 125 (davon 20 Treffer), mengenaussagen 70 (17 Treffer).
+
+**Was zurück an Christian geht:**
+- Die Berater-Punkte des Reviewers: Die Oberfläche zeigt nur die Q-Kurzform (die volle Quell-URI steht im Tooltip und im Paket; ob das Kriterium 2 genügt, entscheidet KZW), das exportierte Feld `gleichzeitig` (23 Realisierungen) wird nicht angezeigt, und die Passagenebene hat bei umgerechneter Spanne weiter das grüne "Anker geprüft", daneben die Markierung "umgerechnet".
+- Im Kommentar in #609 nach Merge und Deploy: die 93 plus 1 umgerechneten Spannen mit der Regel, die 49 Randfälle, die Quellenauswahl, und für Peter das Exportformat (DATA-MODEL.md, Abschnitt ONAMA pilot package).
+- Der volle Lauf vor dem Merge: im ersten Lauf auf dem Stand vor den Fixes `VERDICT: ROT (1 flaky ...)`, 0 unexpected; der Flaky-Fall war `playground-router-start.spec.js` ("#naming rendert, waehrend der Korpus-Index noch laedt"), mit `--repeat-each=3` grün.
+
+**Review:** Opus. Runde 1 auf 6f211c556 (vor Rebase): ein A-Befund (Spec "nicht verlinkt" prüfte den Link nicht), vier B-Befunde (Statusdefinitionen, Auswahltext, README, Inventare). Runde 2 auf 76389aa0d (Delta): ein A-Befund (`umgerechnet` hing an `bool(wortspanne)`, #397), drei B. Runde 3 auf 98e5c4252 (Delta nach A, Opus): kein A-Befund, mergefähig. Danach ein rein mechanischer Commit ohne Review (Umlaute in einem Anzeigetext, Zeile `Ohne Review:` im Commit), nach dem Rebase auf `9eaf1fd78` ohne Konflikt und mit Chrome-Prüfung am Endstand (Einstieg über Ding, über Entität, Filter Nur Bild). Ein zweiter Rebase auf `d6d7b51f3` (#621, Index 1.9.29/4.2.35) hatte nur im Journal einen Konflikt (beide Einträge behalten).
+
+---
+
 ## 2026-10-18 (Spur lauf-1018-lesung, L2): zweite Lesung zu Ernährung von Menschen oder Tieren (#603)
 
 **Was:** KZWs Wunsch vom 16.10.2026, die Vorsortierung sprachlich gegenzulesen, ist umgesetzt. 13.135 Belege (tier 2.867, unklar 2.523, mensch 7.745) von 42 Sonnet-Agenten in fünf Workflows gelesen, blind gegen die Klasse der Vorsortierung, Kontext 30 Token links und rechts. Lesung: mensch 8.037, keine_nahrung 3.908 (Lemma-Rauschen der Vorsortierung), tier 955 (Säugetier 433, Vogel 239, andere 171, unbestimmt 95, Fisch 17), unklar 235. Nicht gelesen: 20.023 Belege ohne `@ana`, die nicht `tier` sind. Ergebnis in `ingest/review/603-ernaehrung/` (`zweite-lesung.tsv`, `senses-lesung.tsv`, `lemmata-lesung.tsv`, `konzeptfrage.txt`, `pruefen-603.tsv`, README-Abschnitt), Skripte `stapel-603.py`, `verbinden-lesung-603.py`, `auswerten-lesung-603.py`. Nichts in `tei/` oder `authority-files/`; die Konzeptfrage steht bei KZW.
