@@ -4,6 +4,22 @@ Chronological log of development decisions, dead ends, and savepoints. Not a cha
 
 ---
 
+## 2026-10-18 (Spur lauf-1018-lesung, L1): Prüfseiten auf gerade Anführungszeichen (#440)
+
+**Was:** Auf KZWs Antwort vom 16.10.2026 sind die schrägen Anführungszeichen (U+201E, U+201C) in den drei Prüfseiten aus #440 und in ihren Generatoren durch das gerade `"` ersetzt: `359-pruefseite.html` 8 Zeichen in 3 Zeilen, `418-houwen/pruefseite.html` 1 in 1, `pruefseite-526.html` 66 in 19, `build-359-page.py` 2, `build-526-pruefseite.py` 66, dazu `vorschlaege.json` (6, als `\"`), die Eingabe des 359-Generators und Quelle von zwei der drei Zeilen der Seite. Rückzählung in allen sechs Dateien: 0. Die Seiten sind nicht neu generiert, denn ein Lauf von `build-359-page.py` hätte Stand-Datum und Index-Version mitgeändert und setzt `&quot;` statt `"` (gleiche Darstellung).
+
+**Nicht berührt (Zählung, Zeichen):** `examples/review-pages/` (364: 28, 371: 208, Klaus: 43, Glossar-554: 7.563), Vorlagen `scripts/audit/review-364.template.html` 28 und `review-klaus.template.html` 39, `scripts/ingest/glossar-554/pruefseite.template.html` 12, dazu `359-borek/folgebefunde.md` 16, `359-borek/evidence.json` 5 (« » in Quelltext, Daten) und `418-houwen/README.md` 3.
+
+**Was über den Einzelfall hinausgilt:** Ein Generator hat oft mehr Eingaben als sein Skript: die 359-Seite bezieht Text aus `vorschlaege.json`, und ein Ersetzen nur im Skript hätte beim nächsten Lauf die schrägen Zeichen zurückgebracht. Vor dem Ersetzen die Eingaben des Generators mitzählen.
+
+**Rote Zeilen:** keine.
+
+**Was zurück an Christian geht:** nichts. `trockenlauf-auswerten.py` lief vor diesem Eintrag, der Kontrollwert hat gefeuert (73 Zeilen nicht auswertbar); die Zahlen sind eine Untergrenze und der Hook ist nachzusehen, bevor jemand sie zitiert.
+
+**Review:** keine Runde, rein mechanische Zeichenersetzung (`Ohne Review:` im Commit); Syntaxcheck `ast`/`json` grün.
+
+---
+
 ## 2026-10-16 (Spur lauf-1016-daten): jagât-Rest und gebeine nach KZWs Antworten (#460, #461)
 
 **Was:** KZWs Antworten vom 15.10.2026 sind umgesetzt. #460: `WH_28126_1` (jaget) und `JT_43134000_4` (jagennes) von `lemma_3103` jagât auf `lemma_3102` jagen (`@pos="VRB"`, ohne `@ana`); `WVW_6542_4` bleibt Nomen, `AXU_18452_5` und `JT_48611000_4` bleiben unverändert (KZW braucht mehr Kontext). `lemma_3103` trägt danach 38 Tokens, `lemma_3102` 1.553. #461: `lemma_1958` gebeine hat zwei neue Senses, `sense_119198` (Vögel, `concept_14021100`, Hahn `AMI_972_3`) und `sense_119199` (Fische, `concept_14031100`, `FLG1_4135180940_2`); die 9 offenen Belege kommen nach KZWs Regel an `sense_49690` (8 Tokens ändern sich, `NAR_9400900_3` trug ihn schon; `JSG_410_1` wechselt von `sense_3004` und verliert das Tod-Konzept). Drache und Phönix bleiben unverändert. Corpus Index 4.2.34, Authority Index 1.9.28; 12 Tokens in 10 TEI-Dateien. Umsetzung: `scripts/ingest/pos-disambig/apply-460-461-rest.py`, Belege mit Entscheidung und Quelle in den Tabellen der beiden `ingest/`-Ordner.

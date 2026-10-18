@@ -559,7 +559,7 @@ def vorab_panel(zahl):
         'fremde Ansetzung zufällig so aussieht wie eine solche Form, trifft der Abgleich das '
         'falsche Wort. <span class="mono">oren</span> trifft dann das Fabelvolk der '
         '<span class="mono">Ôren</span> statt das Ohr, <span class="mono">lenden</span> das Verb '
-        '„landen“ statt die Lende, <span class="mono">gorre</span> das Königreich Gorre aus dem '
+        '"landen" statt die Lende, <span class="mono">gorre</span> das Königreich Gorre aus dem '
         'Prosa-Lancelot statt die Gurre.</p>'
         '<p>Das ist an den Belegstellen geprüft, Fall für Fall. Übrig bleiben <b>%d Fälle, die '
         'wirklich eine Entscheidung brauchen</b>. Die anderen %d stehen trotzdem hier, mit ihren '
