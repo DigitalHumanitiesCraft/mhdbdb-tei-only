@@ -413,7 +413,7 @@ function setupSummaryExpansion() {
       // selbst und klappen die Karte nicht um (#58)
       if (event.target.closest('a')) return;
       // Dokumentsuche (#58): umgeklappt wird nur ueber den Kopf der Karte
-      // (oder den Hinweis "Klicken zum Zuklappen"). Jeder andere Klick, auch
+      // (oder den Hinweis darunter). Jeder andere Klick, auch
       // auf den Rand um die Fundstellenliste, laesst die Karte offen. Die
       // anderen Suchmodi behalten ihr Verhalten.
       if (summary.classList.contains('result-summary-dokument') &&
