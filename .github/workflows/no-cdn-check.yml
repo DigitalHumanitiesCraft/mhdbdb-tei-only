@@ -31,9 +31,7 @@
 # und Demnächst im Korpus gegen ihre eingefrorenen Stände in data/
 # (--check, ohne Netz, stdlib; Entscheidung chsteiner, 18.10.2026). Der
 # --check im Monatslauf fängt keine Handänderung: er läuft erst, nachdem
-# der Lauf beide Seiten neu gebaut hat, und überschreibt sie damit vorher.
-# Den Monats-PR selbst prüft dieser Schritt erst nach einem menschlichen
-# Push, weil PRs aus dem GITHUB_TOKEN keine Workflows auslösen.
+# der Neubau beide Seiten überschrieben hat.
 #
 # Die Trigger-Pfade nennen scripts/audit/** als Glob und nicht die einzelnen
 # Skripte. Das ist seit dem zweiten Inventar Pflicht und nicht Bequemlichkeit:
