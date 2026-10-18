@@ -308,9 +308,9 @@ def main():
                                "= der Rest: Zuordnung ueber Sammlung und bei Text jede Passage mit zwei "
                                "gezaehlten Wortankern in richtiger Reihenfolge, bei Bild ein Bildlink. "
                                "Fachlich bestaetigt ist keiner.",
-                "wortspanne": "Wortpositionen zaehlen nur <w> mit lemmaRef und Text; liegt ein Endpunkt "
-                              "auf einem anderen Element oder einem nicht gezaehlten <w>, rueckt der Start "
-                              "auf das naechste, das Ende auf das vorige gezaehlte Wort.",
+                "wortspanne": "Wortpositionen zählen nur <w> mit lemmaRef und Text; liegt ein Endpunkt "
+                              "auf einem anderen Element oder einem nicht gezählten <w>, rückt der Start "
+                              "auf das nächste, das Ende auf das vorige gezählte Wort.",
             },
             "statistik": stat,
         },
