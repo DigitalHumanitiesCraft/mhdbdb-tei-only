@@ -599,7 +599,7 @@ Scripts for enriching authority files with external data:
    - Transform titles to German Title Case (capitalize words except articles/prepositions)
    - Update works.xml with complete biblStruct elements
    - Three modes: live API, cache, offline
-   - Two named exceptions to "the edition is whatever Zotero says": FLG is assigned by Zotero key (ATWPNQPS) instead of by call number, and FR3 stays at the state of `115c3a01f` until its Zotero item is corrected; both in [CONTRACTS.md F.4a](CONTRACTS.md#f4a-edition-evidence-zotero--worksxml--tei-header)
+   - Two named exceptions to "the edition is whatever Zotero says": FLG is assigned by Zotero key (ATWPNQPS) instead of by call number, and FR3 keeps its `analytic` and `note` from `works.xml` (Zotero has no place for the supplement reference and the acknowledgement); both in [CONTRACTS.md F.4a](CONTRACTS.md#f4a-edition-evidence-zotero--worksxml--tei-header)
 
 2. **`sync_tei_headers.py`** - Propagate authority metadata to TEI headers
    - Read authority file changes (only `works.xml` is implemented; persons, genres and concepts are declared stubs)

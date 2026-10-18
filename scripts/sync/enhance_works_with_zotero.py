@@ -21,8 +21,10 @@ elements before adding new ones, preventing duplicates.
 Chain direction (#486): Zotero -> works.xml -> TEI header. The biblStruct in the
 header is a copy; corrections to an edition start in Zotero. Two named
 exceptions, see SIGLE_ZU_ZOTERO_SCHLUESSEL / BESTAND_BEHALTEN below: FLG (assigned
-by Zotero key ATWPNQPS, permanent, KZW 12.10.2026) and FR3 (kept at the state of
-115c3a01f until Zotero item MVWV5QYG is corrected).
+by Zotero key ATWPNQPS, permanent, KZW 12.10.2026; keeps its own analytic title and
+note) and FR3 (keeps analytic and note, permanent: Zotero MVWV5QYG carries the
+corrected edition data since 18.10.2026, but not the supplement reference or the
+acknowledgement of collaborators).
 
 Usage:
     # Fetch from API and update works.xml
@@ -88,21 +90,21 @@ SIGLE_ZU_ZOTERO_SCHLUESSEL = {'FLG': 'ATWPNQPS'}
 # digitale Vorlage, nicht zugrundeliegende Edition.
 ZOTERO_ITEMS_OHNE_EDITION = {'MLJUUSLC'}
 
-# FLG und FLG1 zeigen auf dasselbe Zotero-Item, unterscheiden sich in
-# works.xml aber im Textumfang (FLG: Buch 1-2, Bd. I, 1990; FLG1: Buch 1-7,
-# 1990-1993). Zotero kennt diesen Unterschied nicht. Fuer diese Signaturen
-# werden die Elemente aus dem Bestand von works.xml uebernommen, die den
-# Umfang tragen; alles andere (Item-Verweis, Typ, Werktitel, Reihe) kommt aus
-# Zotero. Pfade relativ zum biblStruct.
+# FLG und FLG1 zeigen auf dasselbe Zotero-Item (ATWPNQPS, seit 18.10.2026 auf
+# den Textband von 1990 mit Gisela Vollmann-Profe ausgerichtet) und
+# unterscheiden sich in works.xml im Textumfang (FLG: Buch 1-2, FLG1: Buch
+# 1-7). Zotero kennt diesen Unterschied nicht; FLG behaelt deshalb seinen
+# eigenen analytic-Titel und die Typografie seiner note, alles andere
+# (Editoren, Imprint, Werktitel, Reihe) kommt aus Zotero. FLG1 braucht keine
+# Ausnahme: sein Zotero-Titel traegt "Buch 1-7". Pfade relativ zum biblStruct.
 #
-# FR3 ist die zweite, befristete Ausnahme: das Zotero-Item MVWV5QYG traegt
-# bis heute den Inhalt von FR1/FR2 (Leichs, Sangsprüche, Lieder; Bertau; 1981),
-# die Korrektur auf den Supplementband 2000 (#236, 115c3a01f) steht nur in
-# works.xml. Ein Sync wuerde sie zuruecknehmen. Der Eintrag faellt, sobald
-# MVWV5QYG in Zotero korrigiert ist (Frage an KZW in #486).
+# FR3 behaelt analytic und note dauerhaft: das Zotero-Item MVWV5QYG traegt
+# seit 18.10.2026 die Angaben des Supplementbands 2000 (#236, 115c3a01f), aber
+# Zotero bildet weder den Verweis auf FR1 (analytic/ref type="supplement") noch
+# die Mitarbeit (Riebe, Fasbender) und den Satz zu Teil 2 der note ab.
 BESTAND_BEHALTEN = {
-    'FLG': ('analytic', 'monogr/editor', 'monogr/imprint', 'note'),
-    'FR3': ('analytic', 'monogr', 'series', 'note'),
+    'FLG': ('analytic', 'note'),
+    'FR3': ('analytic', 'note'),
 }
 
 # Rate limiting
