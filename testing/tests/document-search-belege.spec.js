@@ -211,5 +211,21 @@ test.describe('#58: Fundstellen der Dokumentsuche', () => {
         await expect(hinweis).toHaveCount(0);
       }
     }
+
+    // Julia 16.10.: bei sehr vielen Belegen scrollt die Liste in sich, die Karte
+    // wächst nicht mit. minne hat hier mehr als 50 Belege, also muss die Liste
+    // scrollen; der Fokus kommt per Tastatur hinein (role=region, tabindex=0).
+    const liste = gruppen.first().locator('.beleg-liste');
+    const mass = await liste.evaluate(el => ({
+      overflowY: getComputedStyle(el).overflowY,
+      scrollt: el.scrollHeight > el.clientHeight,
+      hoehe: el.getBoundingClientRect().height,
+      maxHoehe: parseFloat(getComputedStyle(el).maxHeight)
+    }));
+    expect(mass.overflowY).toBe('auto');
+    expect(mass.scrollt, 'Liste mit über 50 Belegen scrollt in sich').toBe(true);
+    expect(mass.hoehe).toBeLessThanOrEqual(mass.maxHoehe + 1);
+    await expect(liste).toHaveAttribute('role', 'region');
+    await expect(liste).toHaveAttribute('tabindex', '0');
   });
 });

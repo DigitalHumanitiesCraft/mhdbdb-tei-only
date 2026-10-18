@@ -221,6 +221,20 @@
   line-height: 1.5;
 }
 
+/* Fundstellen je Lemma in der Karte der Dokumentsuche (#58): bei vielen Belegen
+   scrollt die Liste in sich, statt die Karte endlos zu verlängern. */
+.beleg-liste {
+  max-height: 36rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-right: var(--space-2);
+}
+
+.beleg-liste:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
 .file-group {
   border-radius: var(--radius-lg);
   background: var(--bg-secondary);

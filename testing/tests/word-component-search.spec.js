@@ -248,14 +248,19 @@ test.describe('#239: Belegte Wortbildungen aus lemma.etymology', () => {
         await page.locator('#component-group-ende .component-pick[value="ôsterwîn"]').check();
         await page.locator('#component-group-anfang .component-pick[value="winter"]').check();
         await expect(page.locator('#componentPickCount')).toHaveText('2 Schreibformen ausgewählt');
+        // Julia 16.10.: die Zahl allein sagt nicht, WAS gewählt ist. Die Namen
+        // stehen daneben und bleiben auch dann, wenn der Filter die Boxen ausblendet.
+        await expect(page.locator('#componentPickList')).toHaveText('ôsterwîn, winter');
 
         await page.locator('#componentOnlyMorph').check();
         await expect(page.locator('#component-group-anfang .component-pick[value="winter"]'))
             .toHaveCount(0);
         // Der Zähler beweist, dass die Auswahl weiterlebt, obwohl sie unsichtbar ist.
         await expect(page.locator('#componentPickCount')).toHaveText('2 Schreibformen ausgewählt');
+        await expect(page.locator('#componentPickList')).toHaveText('ôsterwîn, winter');
 
         await page.locator('#componentOnlyMorph').uncheck();
+        await expect(page.locator('#componentPickList')).toHaveText('ôsterwîn, winter');
         await expect(page.locator('#component-group-anfang .component-pick[value="winter"]'))
             .toBeChecked();
         await expect(page.locator('#component-group-ende .component-pick[value="ôsterwîn"]'))

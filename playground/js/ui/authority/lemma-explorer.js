@@ -17,6 +17,7 @@ import {
 } from "../search/SearchHelpers.js";
 import { TextNormalizer } from "../../../../assets/js/lib/text-normalizer.js";
 import { findByIdInput, withIdHit } from "../../../../assets/js/lib/authority-id-input.js";
+import { collapsibleHtml, enhanceCollapsibles } from "../../../../assets/js/lib/collapsible-text.js";
 
 /**
  * Mindestlänge der Eingabe im Wortbestandteil-Modus (#239 Anforderung 5).
@@ -606,10 +607,22 @@ export class LemmaExplorer {
     return n === 1 ? "1 Schreibform ausgewählt" : `${n} Schreibformen ausgewählt`;
   }
 
+  /**
+   * Namen der gewählten Schreibformen neben dem Zähler (#251, Julia 16.10.):
+   * die Auswahl überlebt den Filter, aber bei 400 Einträgen findet niemand die
+   * zwei Häkchen wieder, und die Zahl allein sagt nicht, WAS gewählt ist.
+   * Reihenfolge wie im Modell (Klickfolge).
+   */
+  static pickListLabel(formen) {
+    return Array.from(formen).join(", ");
+  }
+
   updateComponentPickCount() {
     const el = document.getElementById("componentPickCount");
     if (!el) return;
     el.textContent = LemmaExplorer.pickCountLabel(this.componentPicked.size);
+    const liste = document.getElementById("componentPickList");
+    if (liste) liste.textContent = LemmaExplorer.pickListLabel(this.componentPicked);
   }
 
   rememberComponentViewState() {
@@ -765,6 +778,9 @@ export class LemmaExplorer {
           <span id="componentPickCount" role="status" aria-live="polite"
             class="text-xs font-medium text-brand-700">${
             LemmaExplorer.pickCountLabel(this.componentPicked.size)
+          }</span>
+          <span id="componentPickList" class="text-xs text-slate-700">${
+            this.escapeText(LemmaExplorer.pickListLabel(this.componentPicked))
           }</span>
           <span id="componentPickHint" class="text-xs text-slate-500">
             Lemmata ankreuzen und übergeben, um ihre Belege im Korpus zu suchen.
@@ -950,6 +966,7 @@ export class LemmaExplorer {
 
       return this.generateLemmaSenseContent(lemma, lemmaId);
     });
+    enhanceCollapsibles(document.getElementById(`senses-${lemmaId}`) || document);
   }
 
   showComponentLemma(originalLemmaId, componentLemmaId, componentText) {
@@ -979,6 +996,7 @@ export class LemmaExplorer {
         </div>
         ${content}
     `;
+    enhanceCollapsibles(container);
   }
 
   // #167 Finding 17: „← Zurück" bei Etymologie-Komponenten darf das sichtbare
@@ -991,6 +1009,7 @@ export class LemmaExplorer {
     container.innerHTML = lemma
       ? this.generateLemmaSenseContent(lemma, lemmaId)
       : "Lemma nicht gefunden";
+    enhanceCollapsibles(container);
   }
 
   generateLemmaSenseContent(lemma, lemmaId, originalLemmaId = null) {
@@ -1108,7 +1127,10 @@ export class LemmaExplorer {
           : "Kommentar:";
         const commentHTML = sense.comment
           ? `<div style="margin-top: 4px; font-size: 0.85rem; color: #475569; line-height: 1.5;">
-               <strong>${commentLabel}</strong> ${this.escapeText(sense.comment)}
+               ${collapsibleHtml(
+                 `<strong>${commentLabel}</strong> ${this.escapeText(sense.comment)}`,
+                 sense.comment.length
+               )}
              </div>`
           : "";
 
