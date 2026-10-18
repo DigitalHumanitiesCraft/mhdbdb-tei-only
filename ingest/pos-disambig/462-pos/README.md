@@ -91,3 +91,21 @@ Die Codes, wie `detail` sie verwendet (die Zuordnung der Buchstaben ist aus den 
 
 Die Zählung je Code steht in der Spalte `vorschlag` und ist aus der Datei gezählt (15 + 3 + 2 + 3 + 2 = 25). Zwei Zeilen tragen einen Nebenbefund über das Hauptergebnis hinaus: bei `enbewegen` (a) ein Token, das eher ADJ wäre (b), bei `ungenuoc` (e) ein Token mit unaufgelöstem Mehrfachtag `ADJ ADV NEG`.
 Erzeugt wird `belege.tsv` von `scripts/review/collect-462-pos.py` (Aufruf im Docstring); `vorschlaege.tsv` ist die Lesung eines Agenten auf diesen Belegen. Das Skript schreibt in einen Ausgabeordner außerhalb des Repos (Pflichtargument, oder unter `temp/`); wer `belege.tsv` erneuern will, vergleicht und kopiert bewusst.
+
+## Umsetzung (18.10.2026), nach KZWs Antwort vom 16.10.2026
+
+Umsetzung: `scripts/ingest/pos-disambig/apply-462-602.py` (Lauf vom 18.10.2026). KZW hat a, b und c übernommen, dazu günlich (Gunst als NOM), deprofundis (NOM) und ungenuoge (ADV).
+
+| Was | Menge | Stellen |
+|---|--:|---|
+| Lexikon um Wortart ergänzt (Code a und günlich) | 16 Lemmata, 17 Wortarten | `lexicon.xml`, `<pos>` alphabetisch einsortiert wie in 10.158 von 10.160 Einträgen mit mehreren Wortarten; `ater` bekommt PRO und PRP |
+| Token-`@pos` geändert (Code b, deprofundis, ungenuoge) | 6 Tokens | `JT_48512000_3` und `JT_48672000_3` (zedolne, `CNJ VRB` zu `PRP VRB`), `AC1_34630_0` (alwirdic, NOM zu ADJ), `AC1_35150_4` (immo, CNJ zu ADV), `ADP_8507000_12` (deprofundis, NAM zu NOM), `AXU_8247_3` (ungenuoge, `ADJ ADV NEG` zu ADV) |
+| umgehängt (Code c) | 2 Tokens | `ADP_201100_7` aditus von `lemma_67689` adire auf `lemma_67813` aditus (NOM, `@ana` auf `lemma_67813_sense_105127`, dessen einziger Sense); `ADP_701000_13` standime von `lemma_70735` stêter auf `lemma_70734` stânder (ADJ, ohne `@ana`, stânder hat zwei Senses). Neue Variantentypen `type_372859` und `type_372860` nach der Regel aus #367, die alten Typen `type_341714` und `type_350509` entfallen |
+
+Nicht umgesetzt:
+
+- **Code e** (iniustus, ungenuoc): kein Eingriff, wie vorgeschlagen.
+- **`@reason` an zedolne:** der Vorschlag sah für die Fusion ze+dolne ein `@reason` vor. Es fehlt bewusst: ein `@reason` auf `<w>` macht die Datei für `tei_all` ungültig, und JT stünde dann neu außerhalb der Baseline in `scripts/audit/validate-corpus.py` (gemessen am 18.10.2026, 35 statt 34 Dateien). Das Nachziehen ist ein offener Rest für nach dem Freeze.
+- **Kommentartext unter deprofundis:** KZWs Text zu Ezechiel 28,13 erklärt den Beleg `ADP_104900_10` ("indeliciis paradisi dei fuisti"), nicht deprofundis. Er ist nicht eingetragen, solange die Lemmatisierung von indelicius offen ist.
+- **indelicius** (`ADP_104900_10`): offen. MWB-Suche (18.10.2026): kein Treffer für `indelicius`, `indel*` und `delici*` in Lemmaliste, Wortformenliste und Artikelstichwörtern (Kontrollwert: `minne` 6 Treffer). Das Wörterbuch führt nur Mittelhochdeutsches, die lateinische Fügung ist dort nicht zu erwarten. Der Satz im Kontext: "tu signaculum similitudinis plenus sapientia et perfectus decore indeliciis paradisi dei fuisti, daz spricht alsus daz er ware ein insigile nach demo frone bilide". Das ist lateinisch `in deliciis`; `delicius` (`lemma_67669`) hat 0 Belege, ein Lemma deliciae fehlt im Lexikon.
+- **unpeweglich** (`LZT_2360_0`): offen, KZW wollte den Satz sehen. Satz: "nach herschall strebt ir herz zu allen stunden / unpeweglich fürsichtig / auch senftes muets gen frembden unde kunden". MWB-Suche: `unpeweglich` und `unbeweglich` keine Treffer; `unbewegelich` 1 Treffer in der Lemmaliste, **un-bewëgelich Adj.** mit 21 Belegen im Belegarchiv (`konkordanz.php?lid=182883000`). Das Token ist `NEG VRB` getaggt und steht auf `lemma_24478` enbewegen; nach Satz und MWB ist es ein Adjektiv. Nach der Ergänzung von ADJ am Lemma enbewegen (Code a, oben) fehlt nur noch der Token-`@pos`.

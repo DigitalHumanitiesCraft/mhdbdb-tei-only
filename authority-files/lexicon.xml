@@ -139294,6 +139294,9 @@
           <sense xml:id="lemma_1958_sense_119199">
             <ptr target="concepts.xml#concept_14031100"/>
           </sense>
+          <sense xml:id="lemma_1958_sense_119200">
+            <ptr target="concepts.xml#concept_14101100"/>
+          </sense>
         </entry>
         <entry xml:id="lemma_19580">
           <form type="lemma">
@@ -169018,6 +169021,7 @@
           <gramGrp>
             <pos>ADJ</pos>
             <pos>ADV</pos>
+            <pos>NOM</pos>
           </gramGrp>
           <etym type="morphological">
             <seg type="component" corresp="lexicon.xml#lemma_2570">gunnen</seg>
@@ -194871,6 +194875,7 @@
             <orth>Cristeleison</orth>
           </form>
           <gramGrp>
+            <pos>INJ</pos>
             <pos>NAM</pos>
             <pos>VRB</pos>
           </gramGrp>
@@ -213080,6 +213085,7 @@
             <orth>enbewegen</orth>
           </form>
           <gramGrp>
+            <pos>ADJ</pos>
             <pos>NEG</pos>
             <pos>VRB</pos>
           </gramGrp>
@@ -275952,6 +275958,7 @@
             <orth>ordenter</orth>
           </form>
           <gramGrp>
+            <pos>ADJ</pos>
             <pos>PRO</pos>
             <pos>VRB</pos>
           </gramGrp>
@@ -374916,6 +374923,7 @@
             <orth>enzerrîzen</orth>
           </form>
           <gramGrp>
+            <pos>ADJ</pos>
             <pos>ADV</pos>
             <pos>NEG</pos>
             <pos>VRB</pos>
@@ -381288,6 +381296,7 @@
           <gramGrp>
             <pos>ADJ</pos>
             <pos>ADV</pos>
+            <pos>NOM</pos>
           </gramGrp>
           <etym type="morphological">
             <seg type="component" corresp="lexicon.xml#lemma_13">âne</seg>
@@ -383832,6 +383841,7 @@
             <orth>gewiʒʒenlôs</orth>
           </form>
           <gramGrp>
+            <pos>ADJ</pos>
             <pos>ADV</pos>
             <pos>NEG</pos>
           </gramGrp>
@@ -384763,6 +384773,7 @@
             <orth>enerleschen</orth>
           </form>
           <gramGrp>
+            <pos>ADJ</pos>
             <pos>NEG</pos>
             <pos>VRB</pos>
           </gramGrp>
@@ -416023,6 +416034,7 @@
             <orth>enfirmen</orth>
           </form>
           <gramGrp>
+            <pos>ADJ</pos>
             <pos>ADV</pos>
             <pos>NEG</pos>
             <pos>VRB</pos>
@@ -530198,6 +530210,7 @@
           </form>
           <gramGrp>
             <pos>ADJ</pos>
+            <pos>ADV</pos>
             <pos>GRA</pos>
           </gramGrp>
           <etym type="morphological">
@@ -535084,6 +535097,7 @@
             <orth>enwunden</orth>
           </form>
           <gramGrp>
+            <pos>ADJ</pos>
             <pos>ADV</pos>
             <pos>NEG</pos>
             <pos>VRB</pos>
@@ -576195,6 +576209,7 @@
           <gramGrp>
             <pos>ADV</pos>
             <pos>ART</pos>
+            <pos>PRP</pos>
           </gramGrp>
           <etym type="morphological">
             <seg type="component" corresp="lexicon.xml#lemma_1139">die</seg>
@@ -589643,6 +589658,7 @@
           <gramGrp>
             <pos>ADJ</pos>
             <pos>ADV</pos>
+            <pos>NUM</pos>
           </gramGrp>
           <etym type="morphological">
             <seg type="component" corresp="lexicon.xml#lemma_25420">decim</seg>
@@ -589660,6 +589676,7 @@
           <gramGrp>
             <pos>ADJ</pos>
             <pos>ADV</pos>
+            <pos>NUM</pos>
           </gramGrp>
           <etym type="morphological">
             <seg type="component" corresp="lexicon.xml#lemma_18294">septus</seg>
@@ -638392,6 +638409,7 @@
           </form>
           <gramGrp>
             <pos>ADJ</pos>
+            <pos>ADV</pos>
             <pos>GRA</pos>
           </gramGrp>
           <sense xml:id="lemma_62410_sense_99033" ana="#type_326168">
@@ -666994,7 +667012,7 @@
             <seg type="component" corresp="lexicon.xml#lemma_30659">ire</seg>
             <seg type="component" corresp="lexicon.xml#lemma_35002">ad</seg>
           </etym>
-          <sense xml:id="lemma_67689_sense_105013" ana="#type_341714">
+          <sense xml:id="lemma_67689_sense_105013">
             <ptr target="concepts.xml#concept_21071000"/>
             <ptr target="concepts.xml#concept_23123100"/>
             <ptr target="concepts.xml#concept_31500000"/>
@@ -667109,6 +667127,8 @@
           <gramGrp>
             <pos>ADJ</pos>
             <pos>NOM</pos>
+            <pos>PRO</pos>
+            <pos>PRP</pos>
           </gramGrp>
           <sense xml:id="lemma_67708_sense_105024" ana="#type_341746">
             <ptr target="concepts.xml#concept_21061000"/>

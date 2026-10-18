@@ -126,6 +126,7 @@
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 57 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/). 3 weitere Tokens der Form stat blieben bewusst unannotiert (Review).</change>
       <change when="2026-09-21" who="#editor">#371 stat, drittes Lemma: 3 bislang unlemmatisierte Tokens der Form stat/stât annotiert (lemmaRef/pos/corresp nach dem actions-Array in KZWs Review vom 15.09.2026; drei neu gepraegte Variantentypen; kein @ana, weil die Sense-Zuordnung kuratorisch ist; die 17 Faelle mit option OFFEN und die 2 mit NEU_STAND bleiben unangetastet; Provenienz-Log: ingest/pos-disambig/371-stat/).</change>
       <change when="2026-09-30" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization an den Stand der Annotation angeglichen (60049 von 76353 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;Nur teilweise lemmatisiert, nicht disambiguiert.&#34;</change>
+      <change when="2026-10-18" who="#editor">#462 Lexikon gegen Korpus: 3 Tokens nach KZWs Antwort vom 2026-10-16 in @pos oder Lemma angepasst.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -2056,7 +2057,7 @@
           <w xml:id="ADP_201100_4" pos="PRP">per</w>
           <w xml:id="ADP_201100_5" lemmaRef="lexicon.xml#lemma_20592" pos="NOM" ana="lexicon.xml#lemma_20592_sense_34106" corresp="variants.xml#type_341713">carnem</w>
           <w xml:id="ADP_201100_6" lemmaRef="lexicon.xml#lemma_3472" pos="NAM" ana="lexicon.xml#lemma_3472_sense_5499" corresp="variants.xml#type_50098">christi</w>
-          <w xml:id="ADP_201100_7" lemmaRef="lexicon.xml#lemma_67689" pos="NOM" ana="lexicon.xml#lemma_67689_sense_105013" corresp="variants.xml#type_341714">aditus</w>
+          <w xml:id="ADP_201100_7" lemmaRef="lexicon.xml#lemma_67813" pos="NOM" ana="lexicon.xml#lemma_67813_sense_105127" corresp="variants.xml#type_372859">aditus</w>
           <w xml:id="ADP_201100_8" lemmaRef="lexicon.xml#lemma_14025" pos="NOM" ana="lexicon.xml#lemma_14025_sense_23199" corresp="variants.xml#type_144188">celi</w>
           <pc xml:id="ADP_201100_9" join="left">.</pc>
           <w xml:id="ADP_201100_10" pos="PRP">per</w>
@@ -7825,7 +7826,7 @@
           <w xml:id="ADP_701000_10" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_33195">vone</w>
           <w xml:id="ADP_701000_11" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3505">deme</w>
           <w xml:id="ADP_701000_12" pos="PRP">ane</w>
-          <w xml:id="ADP_701000_13" lemmaRef="lexicon.xml#lemma_70735" pos="ADJ" corresp="variants.xml#type_350509">standime</w>
+          <w xml:id="ADP_701000_13" lemmaRef="lexicon.xml#lemma_70734" pos="ADJ" corresp="variants.xml#type_372860">standime</w>
           <lb n="11"/>
           <w xml:id="ADP_701100_0" lemmaRef="lexicon.xml#lemma_6535" pos="NOM" corresp="variants.xml#type_220486">vngemache</w>
           <pc xml:id="ADP_701100_1" join="left">.</pc>
@@ -107587,7 +107588,7 @@
             <pc xml:id="ADP_8507000_9" join="left">.</pc>
             <w xml:id="ADP_8507000_10" pos="PRP">per</w>
             <pc xml:id="ADP_8507000_11" join="left">.</pc>
-            <w xml:id="ADP_8507000_12" lemmaRef="lexicon.xml#lemma_55290" pos="NAM" ana="lexicon.xml#lemma_55290_sense_89987" corresp="variants.xml#type_302410">deprofundis</w>
+            <w xml:id="ADP_8507000_12" lemmaRef="lexicon.xml#lemma_55290" pos="NOM" ana="lexicon.xml#lemma_55290_sense_89987" corresp="variants.xml#type_302410">deprofundis</w>
             <pc xml:id="ADP_8507000_13" join="left">.</pc>
             <lb n="71"/>
             <hi rend="initial">

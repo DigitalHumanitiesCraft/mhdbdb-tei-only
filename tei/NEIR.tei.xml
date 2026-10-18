@@ -152,6 +152,7 @@
       <change when="2026-09-23" who="#editor">#252 zweiter Durchgang: 10 Stellen des Auslassungsmusters ( caesura ) innerhalb einer Zeile mit Wortlaut auf &lt;gap reason="lost"/&gt; migriert, nach der Freigabe von KZW vom 22.09.2026. Nur das Muster ersetzt, umliegender Text sowie Satz- und Redezeichen unverändert.</change>
       <change when="2026-10-06" who="#editor">#252: 1 wortloser Vers mit vollständigem Auslassungsmuster ( caesura ) und einem weiteren Zeichen auf &lt;gap reason="lost"/&gt; migriert, nach der Freigabe von KZW vom 02.10.2026. Das Zeichen daneben unverändert.</change>
       <change when="2026-10-08" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization ergänzt (19510 von 19533 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;&#34;</change>
+      <change when="2026-10-18" who="#editor">#602 naschen: 1 Token mit @ana auf lemma_57919_sense_93122 (Essen) gesetzt.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -9595,7 +9596,7 @@
               <w xml:id="NEIR_1607110_7" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
               <w xml:id="NEIR_1607110_8" lemmaRef="lexicon.xml#lemma_1545" pos="NOM" ana="lexicon.xml#lemma_1545_sense_2397" corresp="variants.xml#type_5165">erde</w>
               <w xml:id="NEIR_1607110_9" lemmaRef="lexicon.xml#lemma_4238" pos="VRB VEM" ana="lexicon.xml#lemma_4238_sense_6631" corresp="variants.xml#type_278696">muzzen</w>
-              <w xml:id="NEIR_1607110_10" lemmaRef="lexicon.xml#lemma_57919" pos="VRB" corresp="variants.xml#type_310733">naschen</w>
+              <w xml:id="NEIR_1607110_10" lemmaRef="lexicon.xml#lemma_57919" pos="VRB" ana="lexicon.xml#lemma_57919_sense_93122" corresp="variants.xml#type_310733">naschen</w>
               <pc xml:id="NEIR_1607110_11" join="left">.</pc>
             </l>
           </lg>

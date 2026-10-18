@@ -1,6 +1,6 @@
 {
-  "from": "1.9.27",
-  "to": "1.9.28",
-  "flips": 1,
-  "reason": "#460: KZW (15.10.2026) liest JT_43134000_4 (jagennes) als Verb. Das einzige Korpus-Token der Form haengt von lemma_3103 jagat (NOM) auf lemma_3102 jagen (VRB) um; die Form jagennes hatte nur dieses eine Token, ihr Typ type_319550 entfaellt und type_372858 entsteht unter lemma_3102 (Regel aus #367: neue Nummer praegen, keine umhaengen). Gewollt, kein Fall wie #367."
+  "from": "1.9.28",
+  "to": "1.9.29",
+  "flips": 2,
+  "reason": "#462: KZW (16.10.2026, Code c) hat zwei Umhaengungen uebernommen: ADP_201100_7 (aditus) von lemma_67689 adire auf lemma_67813 aditus, ADP_701000_13 (standime) von lemma_70735 stêter auf lemma_70734 stânder. Beide Formen hatten nur dieses eine Token; die Typen type_341714 und type_350509 entfallen, type_372859 und type_372860 entstehen unter dem Ziellemma (Regel aus #367: neue Nummer praegen, keine umhaengen). Gewollt, kein Fall wie #367."
 }

@@ -124,11 +124,11 @@ Für die 8 XML-Dateien in `authority-files/`, die als kontrollierte Vokabulare d
 | Datei | Inhalt | Body-Struktur |
 |-------|--------|---------------|
 | `lexicon.xml` | 43.711 Lemmata mit Bedeutungen | `<div>/<entry>` |
-| `variants.xml` | 256.961 Wortformen (42.460 Lemma-Gruppen) | `<div>/<entry>/<form>` |
+| `variants.xml` | 256.961 Wortformen (42.458 Lemma-Gruppen) | `<div>/<entry>/<form>` |
 | `persons.xml` | 211 Personen (Autoren, Herausgeber) | `<listPerson>/<person>` |
 | `works.xml` | 585 Werke mit bibliographischen Daten | `<listBibl>/<bibl>` |
 | `contributors.xml` | 52 MHDBDB-Mitwirkende + 2 Organisationen | `<listOrg>` + `<listPerson>` |
-| `concepts.xml` | 567 semantische Konzepte | `<taxonomy>` in `<encodingDesc>` |
+| `concepts.xml` | 568 semantische Konzepte | `<taxonomy>` in `<encodingDesc>` |
 | `genres.xml` | 615 Gattungskategorien (hierarchisch) | `<taxonomy>` in `<encodingDesc>` |
 | `names.xml` | 90 Namensformen des Mittelalters | `<taxonomy>` in `<encodingDesc>` |
 

@@ -141,6 +141,7 @@
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 314 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
       <change when="2026-09-30" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization an den Stand der Annotation angeglichen (93608 von 121397 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;Noch nicht lemmatisiert und disambiguiert.&#34;</change>
       <change when="2026-10-10" who="#editor">#461 gebeine: 1 Token mit Säugetierknochen auf den neuen Sense lemma_1958_sense_119196 (concept_14011100) gesetzt.</change>
+      <change when="2026-10-18" who="#editor">#602 naschen: 1 Token mit @ana auf lemma_57919_sense_93122 (Essen) gesetzt.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -239591,7 +239592,7 @@
           <w xml:id="JEW_2743000000_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
           <w xml:id="JEW_2743000000_1" lemmaRef="lexicon.xml#lemma_1844" pos="VRB" corresp="variants.xml#type_6304">gênt</w>
           <w xml:id="JEW_2743000000_2" lemmaRef="lexicon.xml#lemma_6422" pos="ADV PRP" corresp="variants.xml#type_22719">umb</w>
-          <w xml:id="JEW_2743000000_3" lemmaRef="lexicon.xml#lemma_57919" pos="VRB" corresp="variants.xml#type_310733">naschen</w>
+          <w xml:id="JEW_2743000000_3" lemmaRef="lexicon.xml#lemma_57919" pos="VRB" ana="lexicon.xml#lemma_57919_sense_93122" corresp="variants.xml#type_310733">naschen</w>
         </l>
         <l n="27431">
           <w xml:id="JEW_2743100000_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>

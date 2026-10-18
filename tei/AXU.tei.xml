@@ -133,6 +133,7 @@
       <change when="2026-09-30" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization an den Stand der Annotation angeglichen (91789 von 123861 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;Noch nicht lemmatisiert und nicht disambiguiert.&#34;</change>
       <change when="2026-10-10" who="#editor">#460 jagen: 5 Tokens als Verbform gelesen, von lemma_3103 jagât (NOM) auf lemma_3102 jagen (VRB) umgehängt, @ana entfällt; neu geprägte Variantentypen nach der Regel aus #367.</change>
       <change when="2026-10-10" who="#editor">#461 gebeine: 2 Tokens mit Säugetierknochen auf den neuen Sense lemma_1958_sense_119196 (concept_14011100) gesetzt.</change>
+      <change when="2026-10-18" who="#editor">#462 Lexikon gegen Korpus: 1 Token nach KZWs Antwort vom 2026-10-16 in @pos oder Lemma angepasst.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -67910,7 +67911,7 @@
           <w xml:id="AXU_8247_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
           <w xml:id="AXU_8247_1" lemmaRef="lexicon.xml#lemma_1517" pos="PRO" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_4999">er</w>
           <w xml:id="AXU_8247_2" lemmaRef="lexicon.xml#lemma_1185" pos="CNJ" ana="lexicon.xml#lemma_1185_sense_1872" corresp="variants.xml#type_3758">doch</w>
-          <w xml:id="AXU_8247_3" lemmaRef="lexicon.xml#lemma_29486" pos="ADJ ADV NEG" ana="lexicon.xml#lemma_29486_sense_3333" corresp="variants.xml#type_147751">ungenuoge</w>
+          <w xml:id="AXU_8247_3" lemmaRef="lexicon.xml#lemma_29486" pos="ADV" ana="lexicon.xml#lemma_29486_sense_3333" corresp="variants.xml#type_147751">ungenuoge</w>
           <w xml:id="AXU_8247_4" lemmaRef="lexicon.xml#lemma_4823" pos="VRB" ana="lexicon.xml#lemma_4823_sense_7461" corresp="variants.xml#type_16564">rach</w>
           <pc xml:id="AXU_8247_5" join="left">.</pc>
         </l>

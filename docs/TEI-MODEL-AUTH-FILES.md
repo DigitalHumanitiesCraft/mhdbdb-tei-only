@@ -17,11 +17,11 @@ Counterpart to `docs/TEI-MODEL.md` (corpus files).
 | File | Content | Entries | Size |
 |-------|--------|-----------|---------|
 | `lexicon.xml` | Lemmata with senses, POS, etymology | 43,711 lemmata | 33 MB |
-| `variants.xml` | Orthographic variants per lemma | 42,460 variant entries, 256,961 forms | 16 MB |
+| `variants.xml` | Orthographic variants per lemma | 42,458 variant entries, 256,961 forms | 16 MB |
 | `persons.xml` | Authors/persons with authority data | 211 | 74 KB |
 | `works.xml` | Works with bibliography and genre | 585 | 1.4 MB |
 | `contributors.xml` | MHDBDB contributors (founders, coordination, editors) | 52 persons + 2 orgs | 15 KB |
-| `concepts.xml` | Semantic concept ontology | 567 categories | 207 KB |
+| `concepts.xml` | Semantic concept ontology | 568 categories | 207 KB |
 | `genres.xml` | Genre taxonomy | 615 categories | 405 KB |
 | `names.xml` | Onomastic system (proper names) | 90 categories | 33 KB |
 
