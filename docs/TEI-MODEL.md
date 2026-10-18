@@ -291,6 +291,7 @@ TEI P5 requires in `<monogr>`: `(author|editor)*, title+, editor*, (idno|imprint
 - line breaks as `<lb/>` (line beginning) with `@n`
 - chapters/sections as `<div type="chapter">` with `<head>`
 - `<l>` is reserved for verse texts, `<lb/>` for prose line breaks
+- **exception WZB:** the Wenzelsbibel is prose but uses `<l>` as a sentence unit, with the manuscript line in `<lb/>`; it is the only corpus file carrying both (measured 2026-10-18: `grep -l "<lb[ />]" tei/*.tei.xml | xargs grep -l "<l[ >]"` returns `WZB.tei.xml` alone). So a script that counts verse lines counts an `<l>` only in a text without `<lb/>`; otherwise the WZB sentences count as verses (#554: hungerc 41 instead of 39 verse lines, `scripts/review/messen-554-zahlen.py`)
 - the 18 prose texts of the existing corpus have been migrated (`<l>` → `<lb/>`, phase C2; re-measured 2026-09-02), see [Section 8.1](#81-l-vs-lb-in-prose-migration)
 
 ### 3.3 Recipe texts (cookbooks, medical texts)
