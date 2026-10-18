@@ -27,11 +27,13 @@
 # (doc-count-audit.py, #382/#398), zusätzlich zu data-integrity.yml.
 # Begründung am Schritt.
 #
-# Seit 18.10.2026 ein fünftes: die beiden Hilfe-Unterseiten Publikationen
+# Seit 18.10.2026 ein weiteres: die beiden Hilfe-Unterseiten Publikationen
 # und Demnächst im Korpus gegen ihre eingefrorenen Stände in data/
-# (--check, ohne Netz, stdlib). Vorher lief das nur im Monatslauf und von
-# Hand; eine Handänderung an Seite oder Datei fiel erst am Monatsersten
-# auf (Entscheidung chsteiner, 18.10.2026).
+# (--check, ohne Netz, stdlib; Entscheidung chsteiner, 18.10.2026). Der
+# --check im Monatslauf fängt keine Handänderung: er läuft erst, nachdem
+# der Lauf beide Seiten neu gebaut hat, und überschreibt sie damit vorher.
+# Den Monats-PR selbst prüft dieser Schritt erst nach einem menschlichen
+# Push, weil PRs aus dem GITHUB_TOKEN keine Workflows auslösen.
 #
 # Die Trigger-Pfade nennen scripts/audit/** als Glob und nicht die einzelnen
 # Skripte. Das ist seit dem zweiten Inventar Pflicht und nicht Bequemlichkeit:
