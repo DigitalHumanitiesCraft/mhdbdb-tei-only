@@ -1,8 +1,8 @@
 # #462: pos und posAll im Authority-Index aus dem Korpus
 
-Arbeitsnotiz zu #462. Kein Batch-Log: kein Token wird umannotiert, `lexicon.xml` bleibt unverändert. Geändert wird nur, wie der Authority-Index `lemma.pos` und `lemma.posAll` aus den Lexikonangaben ableitet.
+Arbeitsnotiz zu #462. Stand bis 16.10.2026 (der Abschnitt "Umsetzung (18.10.2026)" unten ändert das): Kein Batch-Log, kein Token wird umannotiert, `lexicon.xml` bleibt unverändert. Geändert wurde nur, wie der Authority-Index `lemma.pos` und `lemma.posAll` aus den Lexikonangaben ableitet.
 
-## Stand
+## Stand (Index-Umbau, 12.10.2026)
 
 - **Umgesetzt** auf `claude/462-posall` (auf `main` 6036dbe), Authority-Index 1.9.24. Korpus-Index unverändert (4.2.32).
 - Übernommen aus dem Zweig `claude/462-lemma-pos` sind nur die Commits der Lesart 1 (`e07dee4`, `35a1941`). Die dort zuletzt gebaute Inhaltswort-Rangfolge (`ec6433c`, Lesart 2) ist verworfen und nicht enthalten. Der alte Zweig wird nicht gemergt.
@@ -70,7 +70,7 @@ Die drei Gleichstände außerhalb des Lexikons: `lemma_23289` Cristeleison (INJ 
 
 ## Vorschläge (16.10.2026)
 
-**Alle Urteile dieses Abschnitts sind maschinell vorbereitete Vorschläge. KZW entscheidet; nichts davon ist in `lexicon.xml` oder `tei/` eingetragen.** Sie stammen aus einer Lesung der Belege durch einen Agenten und sind bisher von keinem Menschen geprüft. Die Begründungen nennen ihre Sicherheit selbst, wo sie geschätzt ist.
+**Alle Urteile dieses Abschnitts sind maschinell vorbereitete Vorschläge. KZW entscheidet; am 16.10.2026 war nichts davon in `lexicon.xml` oder `tei/` eingetragen (Umsetzung nach ihrer Antwort: Abschnitt "Umsetzung (18.10.2026)").** Sie stammen aus einer Lesung der Belege durch einen Agenten und sind bisher von keinem Menschen geprüft. Die Begründungen nennen ihre Sicherheit selbst, wo sie geschätzt ist.
 
 | Datei | Inhalt | Zeilen |
 |---|---|--:|
