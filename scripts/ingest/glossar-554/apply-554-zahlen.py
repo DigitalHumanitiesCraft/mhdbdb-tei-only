@@ -30,40 +30,44 @@ APPLY = '--apply' in sys.argv
 ERSETZUNGEN = [
     ('lemma_1324', 'ei',
      'Auszüge aus 31 Beispielen der MHDBDB (Stand 03.10.2017, Suchstring @niht + @ein + @ei):',
-     'Auszüge aus den 31 Verszeilen des Korpus, in denen „niht“, „ein“ und „ei“ in dieser Reihenfolge '
-     'stehen (Stand 18.10.2026):'),
+     'Auszüge aus den 31 Verszeilen des Korpus, in denen die mit Lemma annotierten Wörter „niht“, „ein“ und '
+     '„ei“ in dieser Reihenfolge stehen (Stand 18.10.2026):'),
     ('lemma_1324', 'ei',
      'Der Suchstring @umbe + @ein + @ei liefert 31 Belege (darunter einige, die nicht mit „niht“ gebildet werden)',
-     'Die Folge „umbe“, „ein“, „ei“ in einer Verszeile ist 29-mal belegt (Stand 18.10.2026; darunter einige, '
+     'Die Folge der mit Lemma annotierten Wörter „umbe“, „ein“, „ei“ in einer Verszeile ist 29-mal belegt '
+     '(Stand 18.10.2026; darunter einige, '
      'die nicht mit „niht“ gebildet werden)'),
     ('lemma_1383', 'enbîʒen',
      '„hunger“ (4 Belege in der MHDBDB innerhalb von drei Kontextzeilen), „spîse“ (16 Belege innerhalb von '
      'drei Zeilen) und „ezzen“ (9 Belege).',
      '„hunger“ (6 Belege), „spîse“ (18) und „ezzen“ (11), gezählt als Belege von „enbîʒen“, bei denen das '
      'Nahrungswort in derselben oder in einer der drei davor oder dahinter liegenden Verszeilen steht '
-     '(Stand 18.10.2026).'),
+     '(Stand 18.10.2026; gezählt werden nur Wörter mit Lemma-Annotation).'),
     ('lemma_22022', 'brâmber',
      '(„rôt + rôse“ innerhalb einer Verszeile liefert mit Stand 04.01.2018 genau 116 Belege in der MHDBDB), '
      'weiße Lilien („wîz + lilje“: 18 Belege), grünen Lauch („grüene + louch“: 3 Belege, alle im '
      '„Trojanischen Krieg“ Konrads von Würzburg) und grünen Fenchel („grüene + venichel“: 1 Beleg im '
      '„Trojanischen Krieg“)',
-     '(„rôt“ und „rôse“ stehen im Korpus in 48 Verszeilen zusammen, Stand 18.10.2026), weiße Lilien („wîʒ“ und '
+     '(Stand 18.10.2026, gezählt werden nur Wörter mit Lemma-Annotation: „rôt“ und „rôse“ stehen in 48 '
+     'Verszeilen zusammen), weiße Lilien („wîʒ“ und '
      '„lilje“: 8 Verszeilen), grünen Lauch („grüene“ und „louch“: 3 Verszeilen, alle im „Trojanischen Krieg“ '
      'Konrads von Würzburg) und grünen Fenchel („grüene“ und „venchelkrût“: 1 Verszeile im „Trojanischen '
      'Krieg“)'),
     ('lemma_2954', 'hunger',
      '(71 Belege in der MHDBDB, Stand 28.10.2016)',
-     '(24 Belege, in denen „hunger“ unmittelbar vor „nôt“ steht, Stand 18.10.2026)'),
+     '(24 Belege, in denen die mit Lemma annotierten Wörter „hunger“ und „nôt“ aufeinander folgen, '
+     'Stand 18.10.2026)'),
     ('lemma_2954', 'hunger',
      '(84 Belege im Kontext von zwei Zeilen, Stand 28.10.2016)',
      '(35 Belege von „hunger“ mit „durst“ in derselben oder in einer der zwei davor oder dahinter liegenden '
-     'Verszeilen, Stand 18.10.2026)'),
+     'Verszeilen, Stand 18.10.2026; gezählt werden nur Wörter mit Lemma-Annotation)'),
     ('lemma_2955', 'hungerc',
      '(41 Textbelege in der MHDBDB, Stand 10.11.2016)',
-     '(78 Belege im Korpus, Stand 18.10.2026)'),
+     '(41 der 78 Belege im Korpus stehen in Verszeilen, Stand 18.10.2026)'),
     ('lemma_2961', 'huon',
      'die Textstellensuche der MHDBDB findet in 658 Texten 14 Belege (Stand 13.05.2017)',
-     'im Korpus steht „huon“ unmittelbar vor „unde“ und „visch“ in 4 Fällen (Stand 18.10.2026)'),
+     'im Korpus folgen die mit Lemma annotierten Wörter „huon“, „unde“ und „visch“ in 4 Fällen aufeinander '
+     '(Stand 18.10.2026)'),
     ('lemma_3122', 'jeroffel',
      'liefert die MHDBDB 245 Treffer von zahlreichen Dichtern (zum Zeitpunkt der Recherche, 08.03.2017, noch '
      'nicht vollständig disambiguiert; einige Treffer, vor allem in der religiösen Dichtung, bezeichnen den '
@@ -74,14 +78,14 @@ ERSETZUNGEN = [
      'Die Suche nach „wîn und“ (Suchstring „@wîn,unde,*“) in allen 664 Texten der MHDBDB liefert 257 Belege, '
      'innerhalb der Dichtung 98 (Stand 17.11.2017); die umgekehrte Suche nach „und brôt“ („*,unde,brôt“) '
      'ergibt 129 Belege im Gesamtkorpus und 96 in den poetischen Texten.',
-     'Im Korpus steht „wîn“ 371-mal unmittelbar vor „und“ und „und“ 200-mal unmittelbar vor „wîn“ '
-     '(Stand 18.10.2026).'),
+     'Im Korpus folgen die mit Lemma annotierten Wörter „wîn“ und „und“ 371-mal in dieser Reihenfolge '
+     'aufeinander, „und“ und „wîn“ 200-mal (Stand 18.10.2026).'),
     ('lemma_879', 'brôt',
      'Die Suche nach „brôt und“ (Suchstring „brôt,unde,*“) in allen 664 Texten der MHDBDB liefert 214 Belege, '
      'innerhalb der Dichtung 98 (Stand 17.11.2017); die umgekehrte Suche nach „und brôt“ („*,unde,brôt“) '
      'ergibt 129 Belege im Gesamtkorpus und 96 in den poetischen Texten.',
-     'Im Korpus steht „brôt“ 284-mal unmittelbar vor „und“ und „und“ 127-mal unmittelbar vor „brôt“ '
-     '(Stand 18.10.2026).'),
+     'Im Korpus folgen die mit Lemma annotierten Wörter „brôt“ und „und“ 284-mal in dieser Reihenfolge '
+     'aufeinander, „und“ und „brôt“ 127-mal (Stand 18.10.2026).'),
 ]
 
 

@@ -7,6 +7,8 @@ KZW hat am 16.10.2026 beides freigegeben: historische Ergebnisse entfallen, heut
 Zahlen am heutigen Korpus treten an ihre Stelle.
 
 Zaehlregeln (in jeder Ausgabezeile mit Menge):
+- Gezaehlt werden nur Woerter mit Lemma-Annotation: ein <w> ohne @lemmaRef zaehlt nirgends mit
+  und ueberbrueckt keine Folge. Formen, die im Text stehen, aber nicht annotiert sind, fehlen.
 - Token: <w> mit @lemmaRef, das die Lemma-ID als eigenes Element der Liste enthaelt.
 - "Zeile": ein <l>-Element. Prosatexte ohne <l> tragen zu Zeilenmessungen nichts bei.
 - "A + B in einer Zeile": beide Lemmata kommen in demselben <l> vor. Bei zwei Lemmata in
@@ -110,6 +112,10 @@ def main():
         folge_mit('und', 'brot')
         folge_mit('brot', 'und')
         folge_mit('und', 'win')
+
+        for ks in zeilen:
+            if 'hungerc' in ks:
+                add('token hungerc in einer Verszeile', sigle, ks.count('hungerc'))
 
         # A nahe B (±k Zeilen)
         def nahe(a, b, k):
