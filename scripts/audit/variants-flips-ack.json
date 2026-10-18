@@ -1,6 +1,6 @@
 {
-  "from": "1.9.28",
-  "to": "1.9.29",
-  "flips": 2,
-  "reason": "#462: KZW (16.10.2026, Code c) hat zwei Umhaengungen uebernommen: ADP_201100_7 (aditus) von lemma_67689 adire auf lemma_67813 aditus, ADP_701000_13 (standime) von lemma_70735 stêter auf lemma_70734 stânder. Beide Formen hatten nur dieses eine Token; die Typen type_341714 und type_350509 entfallen, type_372859 und type_372860 entstehen unter dem Ziellemma (Regel aus #367: neue Nummer praegen, keine umhaengen). Gewollt, kein Fall wie #367."
+  "from": "1.9.30",
+  "to": "1.9.31",
+  "flips": 1,
+  "reason": "#554: KZW (16.10.2026) hat die Pruefung der Fehlzuordnungen des Adjektivs trueebe unter truebe (Weintraube) verlangt. Am Token geprueft, 17 von 56 Belegen von lemma_15282 gehoeren zu trueebe (lemma_6251, 13) oder trueeben (lemma_6252, 4). Die Form trube hatte vorher 14 Tokens unter lemma_15282; jetzt stehen 9 davon unter lemma_6251 (type_372862) und 5 bleiben unter lemma_15282. Die Mehrheit der Belege der Schreibform ist damit das Adjektiv, der Umklapp der ersten Kandidatin ist die gewollte Folge. Kein Fall wie #367: keine Typnummer wurde umgehaengt, die fuenf Typen type_372861 bis type_372865 sind neu gepraegt."
 }
