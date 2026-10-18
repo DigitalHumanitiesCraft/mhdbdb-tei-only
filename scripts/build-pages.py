@@ -60,6 +60,8 @@ PAGES = {
     "hilfe-korpussuche.html": ("hilfe", ""),
     "hilfe-playground.html": ("hilfe", ""),
     "hilfe-schema.html": ("hilfe", ""),
+    "hilfe-publikationen.html": ("hilfe", ""),
+    "hilfe-demnaechst.html": ("hilfe", ""),
     "lemma/index.html": (None, "../"),
     "playground/index.html": ("playground", "../"),
     # Unterseite Textreihentypologie (#93): hat keinen eigenen Menuepunkt, der Zugang laeuft ueber Footer und Hilfe-Kachel

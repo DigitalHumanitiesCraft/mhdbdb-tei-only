@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Publikationen der MHDBDB und Arbeiten, die die MHDBDB nennen oder nutzen, aus der Zotero-Bibliothek des Projekts.">
+    <meta name="author" content="Universität Salzburg">
+
+    <title>Publikationen – MHDBDB Hilfe</title>
+
+    <link rel="stylesheet" href="assets/css/tailwind-output.css">
+    <link rel="icon" type="image/png" href="assets/images/mhdbdb-logo.png">
+    <link rel="stylesheet" href="assets/css/shared.css">
+    <link rel="stylesheet" href="assets/css/hilfe.css">
+<!-- MATOMO:START -->
+<script>
+  (function() {
+    var optedOut = false;
+    try { optedOut = window.localStorage && localStorage.getItem('mhdbdb-matomo-optout') === '1'; } catch (e) {}
+    if (optedOut) return;
+    var _paq = window._paq = window._paq || [];
+    _paq.push(['disableCookies']);
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    var u="https://webstatistics.sbg.ac.at/";
+    _paq.push(['setTrackerUrl', u+'matomo.php']);
+    _paq.push(['setSiteId', '15']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<!-- MATOMO:END -->
+</head>
+<body class="bg-slate-100 text-slate-900">
+
+<!-- NAV:START key=hilfe -->
+<header class="border-b border-slate-200 bg-white/90 backdrop-blur sticky top-0 z-50">
+    <div class="container mx-auto px-6 py-4">
+        <nav class="flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-3">
+                <img src="assets/images/mhdbdb-logo.png" alt="MHDBDB Logo" class="w-40">
+                <span class="text-lg font-bold text-brand-600">MHDBDB</span>
+            </a>
+
+            <!-- Desktop Navigation -->
+            <div class="hidden md:flex items-center gap-6">
+                <a href="index.html" data-nav="start" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                    Startseite
+                </a>
+                <a href="korpus.html" data-nav="korpus" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                    Korpussuche
+                </a>
+                <a href="playground/index.html" data-nav="playground" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                    Playground
+                </a>
+                <a href="woerterbuch.html" data-nav="woerterbuch" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                    Wörterbuch
+                </a>
+                <a aria-current="page" href="hilfe.html" data-nav="hilfe" class="text-sm text-slate-900 font-semibold hover:text-slate-900 transition">
+                    Hilfe
+                </a>
+                <a href="index.html#contact" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition">
+                    Kontakt
+                </a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobileMenuButton" class="md:hidden p-2 text-slate-600 hover:text-slate-900 transition" aria-label="Toggle menu">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </nav>
+
+        <!-- Mobile Navigation (Hidden by default, only visible on mobile) -->
+        <div id="mobileMenu" class="hidden md:hidden mt-4 pb-4 border-t border-slate-200">
+            <div class="flex flex-col gap-3 pt-4">
+                <a href="index.html" data-nav="start" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                    Startseite
+                </a>
+                <a href="korpus.html" data-nav="korpus" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                    Korpussuche
+                </a>
+                <a href="playground/index.html" data-nav="playground" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                    Playground
+                </a>
+                <a href="woerterbuch.html" data-nav="woerterbuch" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                    Wörterbuch
+                </a>
+                <a aria-current="page" href="hilfe.html" data-nav="hilfe" class="text-sm text-slate-900 font-semibold hover:text-slate-900 transition py-2">
+                    Hilfe
+                </a>
+                <a href="index.html#contact" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition py-2">
+                    Kontakt
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- NAV:END -->
+
+    <!-- Hilfe-interne Nav-Leiste -->
+    <nav class="bg-white border-b border-slate-200" aria-label="Hilfe-Bereiche">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-wrap gap-x-8 gap-y-2 -mb-px">
+                <a href="hilfe.html" class="py-3 border-b-2 border-transparent text-slate-600 hover:text-slate-900 hover:border-slate-300 transition text-sm font-medium">Quick-Start</a>
+                <a href="hilfe-korpussuche.html" class="py-3 border-b-2 border-transparent text-slate-600 hover:text-slate-900 hover:border-slate-300 transition text-sm font-medium">Korpussuche-Hilfe</a>
+                <a href="hilfe-playground.html" class="py-3 border-b-2 border-transparent text-slate-600 hover:text-slate-900 hover:border-slate-300 transition text-sm font-medium">Playground-Hilfe</a>
+                <a href="hilfe-daten.html" class="py-3 border-b-2 border-transparent text-slate-600 hover:text-slate-900 hover:border-slate-300 transition text-sm font-medium">Daten</a>
+                <a href="hilfe-schema.html" class="py-3 border-b-2 border-transparent text-slate-600 hover:text-slate-900 hover:border-slate-300 transition text-sm font-medium">Schema</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-6 py-12 max-w-4xl">
+
+        <!-- Brotkrume -->
+        <nav aria-label="Pfad" class="mb-6 text-sm text-slate-500">
+            <a href="hilfe.html" class="hover:text-brand-600 transition">Hilfe</a>
+            <span class="mx-2">›</span>
+            <span class="text-slate-700">Publikationen</span>
+        </nav>
+
+        <section class="mb-10">
+            <h1 class="text-4xl font-bold text-slate-900 mb-4">Publikationen</h1>
+            <p class="text-lg text-slate-600 leading-relaxed">
+                Was aus dem Projekt veröffentlicht wurde, und welche Arbeiten die MHDBDB
+                nennen oder nutzen. Zu jedem Eintrag stehen Titel, Jahr und, wo es
+                sie gibt, ein DOI oder ein Link.
+            </p>
+        </section>
+
+<!-- PUBLIKATIONEN:START -->
+<section class="mb-10" id="wb4htugc">
+<h2 class="text-2xl font-bold text-slate-900 mb-1">Eigene Publikationen (88)</h2>
+<p class="text-slate-600 mb-3">Veröffentlichungen aus dem Projekt und seinem Umfeld.</p>
+<ul class="pub-liste">
+<li><p class="pub-titel">&#x27;Der Borte&#x27; Dietrichs von der Glezze - Mittelhochdeutscher Text mit neuhochdeutscher Übersetzung</p><p class="pub-meta">Haase, Schmidbaur, Stein u. a., 2026 &middot; <a href="https://doi.org/10.5281/zenodo.20626546" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.5281/zenodo.20626546</a></p></li>
+<li><p class="pub-titel">Bias Detection in der historischen Textanalyse: Prompting, Perspektiven und semantische Präzision in der AI-Readiness der MHDBDB</p><p class="pub-meta">2026 &middot; <a href="https://doi.org/10.5281/zenodo.19332294" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.5281/zenodo.19332294</a></p></li>
+<li><p class="pub-titel">Book of Abstracts - DHd 2026</p><p class="pub-meta">Schwandt, Viehhauser, Andrews u. a., 2026 &middot; <a href="https://doi.org/10.5281/zenodo.18591948" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.5281/zenodo.18591948</a></p></li>
+<li><p class="pub-titel">Die Daten sind nicht weg – sie sind nur woanders. Über Verantwortung, Wartbarkeit und Langzeitdenken am Beispiel eines DH-Urgesteins</p><p class="pub-meta">Steiner, Zeppezauer-Wachauer, 2026 &middot; <a href="https://doi.org/10.5281/ZENODO.19000396" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.5281/ZENODO.19000396</a></p></li>
+<li><p class="pub-titel">Die KI als wissenschaftlicher Projektmitarbeiter in der Mittelhochdeutschen Begriffsdatenbank (MHDBDB)</p><p class="pub-meta">Zeppezauer-Wachauer, 2026 &middot; <a href="https://dhsalzburg.hypotheses.org/7559" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">Link</a></p></li>
+<li><p class="pub-titel">Figuren digital: Neues WEAVE-Projekt zur computergestützten Figurenanalyse in mittelhochdeutschen Texten</p><p class="pub-meta">Zeppezauer-Wachauer, 2026 &middot; <a href="https://doi.org/10.58079/16AQX" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.58079/16AQX</a></p></li>
+<li><p class="pub-titel">From Punch Cards to Prompt Engineering: The MHDBDB and the Future of Semantic Annotation with LLMs</p><p class="pub-meta">2026 &middot; <a href="https://doi.org/10.5281/zenodo.18412225" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.5281/zenodo.18412225</a></p></li>
+<li><p class="pub-titel">From Users to Co-Creators. Learning from and with the Middle High German Conceptual Database</p><p class="pub-meta">Hintersteiner, 2026 &middot; <a href="https://doi.org/10.5281/zenodo.19335166" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.5281/zenodo.19335166</a></p></li>
+<li><p class="pub-titel">HALF A CENTURY OF MODELING MEDIEVAL MEANING. What Endures When Technologies Change?</p><p class="pub-meta">Zeppezauer-Wachauer, 2026 &middot; <a href="https://doi.org/10.5281/ZENODO.20036481" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.5281/ZENODO.20036481</a></p></li>
+<li><p class="pub-titel">Lessons Learned eines der ältesten DH-Projekte der Welt: Paradigmenwechsel von RDF-Strukturen zu AI-gestützter Erschließung in der MHDBDB</p><p class="pub-meta">Zeppezauer-Wachauer, Hintersteiner, van Beek u. a., 2026 &middot; <a href="https://doi.org/10.5281/zenodo.18591948" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.5281/zenodo.18591948</a></p></li>
+<li><p class="pub-titel">LLMs in the Service of Medieval Text Integration: WB meets MHDBDB</p><p class="pub-meta">2026 &middot; <a href="https://doi.org/10.5281/zenodo.21277766" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.5281/zenodo.21277766</a></p></li>
+<li><p class="pub-titel">MHDBDB Next: Forschen ohne Datenbankserver</p><p class="pub-meta">Zeppezauer-Wachauer, van Beek, Hintersteiner, 2026 &middot; <a href="https://doi.org/10.58079/16jkg" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.58079/16jkg</a></p></li>
+<li><p class="pub-titel">Mittelhochdeutsche Begriffsdatenbank</p><p class="pub-meta">Zeppezauer-Wachauer, 2026 &middot; <a href="https://de.wikipedia.org/w/index.php?title=Mittelhochdeutsche_Begriffsdatenbank&amp;oldid=270941681" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">Link</a></p></li>
+<li><p class="pub-titel">Mittelhochdeutsche Begriffsdatenbank (MHDBDB) – TEI-XML Repository: Mittelhochdeutsche Texte mit semantischen Annotationen</p><p class="pub-meta">Zeppezauer-Wachauer, Schmidt, 2026 &middot; <a href="https://doi.org/10.5281/zenodo.20627657" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.5281/zenodo.20627657</a></p></li>
+<li><p class="pub-titel">Naming-Analysis joins the Mittelhochdeutsche Begriffsdatenbank</p><p class="pub-meta">Beutel-Thurow, 2026 &middot; <a href="https://doi.org/10.58079/16QO7" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.58079/16QO7</a></p></li>
+<li><p class="pub-titel">WB-DEA meets MHDBDB: Die Wenzelsbibel als Pilotmodell für interoperable Editionen</p><p class="pub-meta">Hintersteiner, 2026 &middot; <a href="https://doi.org/10.58079/16u1d" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.58079/16u1d</a></p></li>
+<li><p class="pub-titel">&#x27;Balmung&#x27; oder &#x27;palmunch&#x27;?</p><p class="pub-meta">Beek, 2025 &middot; <a href="https://doi.org/10.58079/13ozd" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.58079/13ozd</a></p></li>
+<li><p class="pub-titel">Aufgezeichnete Vorträge des KI-Workshops auf uniTV verfügbar</p><p class="pub-meta">Döring, 2025 &middot; <a href="https://doi.org/10.58079/15a0f" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.58079/15a0f</a></p></li>
+<li><p class="pub-titel">Buchvorstellung Schnittstelle Mediävistik</p><p class="pub-meta">Döring, 2025 &middot; <a href="https://doi.org/10.58079/15aoj" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.58079/15aoj</a></p></li>
+<li><p class="pub-titel">Das Mittelalter. Perspektiven mediävistischer Forschung, Bd. 30 Nr. 1 (2025): Schnittstelle Mediävistik. Kollaborationen der Mittelalterforschung im digitalen Zeitalter</p><p class="pub-meta">Das Mittelalter. Perspektiven Mediävistischer Forschung, 2025 &middot; <a href="https://doi.org/10.17885/HEIUP.MIAL.2025.1" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.17885/HEIUP.MIAL.2025.1</a></p></li>
+<li><p class="pub-titel">Die Mittelhochdeutsche Begriffsdatenbank (MHDBDB) aus infrastruktureller Perspektive</p><p class="pub-meta">Zeppezauer-Wachauer, Hafner, 2025 &middot; <a href="https://doi.org/10.58079/15emt" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.58079/15emt</a></p></li>
+<li><p class="pub-titel">Einleitung</p><p class="pub-meta">Borek, Busch, Döring u. a., 2025 &middot; <a href="https://doi.org/10.17885/HEIUP.MIAL.2025.1.25117" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.17885/HEIUP.MIAL.2025.1.25117</a></p></li>
+<li><p class="pub-titel">Singen unde sagen: Qualitative und quantitative Studien zum ästhetischen Wortschatz der Vormoderne</p><p class="pub-meta">Braun, Darilek, Gerok-Reiter, 2025 &middot; <a href="https://doi.org/10.1515/9783111406251" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.1515/9783111406251</a></p></li>
+<li><p class="pub-titel">User Acceptance Testing in den Digitalen Geisteswissenschaften</p><p class="pub-meta">Katharina Zeppezauer-Wachauer, 2025 &middot; <a href="https://doi.org/10.58079/13zui" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.58079/13zui</a></p></li>
+<li><p class="pub-titel">User Acceptance Testings Mittelhochdeutsche Begriffsdatenbank</p><p class="pub-meta">van Beek, 2025 &middot; <a href="https://zenodo.org/records/15364070" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">Link</a></p></li>
+<li><p class="pub-titel">Vergiftet, verspeist, verschwurbelt. Pilze in Mittelalter und Mittelalterrezeption</p><p class="pub-meta">Zeppezauer-Wachauer, Neuhauser, 2025 &middot; <a href="https://doi.org/10.5281/ZENODO.19000613" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.5281/ZENODO.19000613</a></p></li>
+<li><p class="pub-titel">Von historischen Daten zu KI – Bericht zum interdisziplinären Workshop</p><p class="pub-meta">Beek, 2025 &middot; <a href="https://doi.org/10.58079/155ob" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.58079/155ob</a></p></li>
+<li><p class="pub-titel">Wie annotiert man eigentlich den Pegasus?</p><p class="pub-meta">Katharina Zeppezauer-Wachauer, 2025 &middot; <a href="https://doi.org/10.58079/13pru" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.58079/13pru</a></p></li>
+<li><p class="pub-titel">„Poc, the Black Knight“ – Wie voreingenommen sind LLMs bei mittelalterlicher Literatur?</p><p class="pub-meta">Hintersteiner, 2025 &middot; <a href="https://doi.org/10.58079/153my" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.58079/153my</a></p></li>
+<li><p class="pub-titel">Der Relaunch der Mittelhochdeutschen Begriffsdatenbank (MHDBDB) ist als Open Beta gestartet</p><p class="pub-meta">Beek, 2024 &middot; <a href="https://doi.org/10.58079/vz5d" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.58079/vz5d</a></p></li>
+<li><p class="pub-titel">Mittelhochdeutsche Begriffsdatenbank (MHDBDB) im KONDE Weißbuch</p><p class="pub-meta">Zeppezauer-Wachauer, Färberböck, 2024 &middot; <a href="https://doi.org/10.5281/ZENODO.20613061" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.5281/ZENODO.20613061</a></p></li>
+<li><p class="pub-titel">Von der Datenpflege zur Schnittstellenentwicklung: Eine Evaluation des Datenkolosses MHDBDB</p><p class="pub-meta">Hintersteiner, Göggelmann, van Beek u. a., 2024 &middot; <a href="https://doi.org/10.58079/12P9N" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.58079/12P9N</a></p></li>
+<li><p class="pub-titel">Death Matters - Dead Matter: Materialität und Immaterialität des Todes im Mittelalter</p><p class="pub-meta">Schmitz-Esser, Zeppezauer-Wachauer, 2023 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Editionen und Graphentechnologie: Vorteile und Hürden digitaler Editionstechniken abseits von TEI-XML</p><p class="pub-meta">Hinkelmanns, Bleier, Klug, 2023 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Eine digitale Textreihentypologie für deutschsprachige Texte des Mittelalters und der Frühen Neuzeit. Showcase eines kontrollierten Vokabulars in SKOS</p><p class="pub-meta">Zeppezauer-Wachauer, Heiles, 2023 &middot; <a href="https://doi.org/10.26012/mittelalter-30680" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.26012/mittelalter-30680</a></p></li>
+<li><p class="pub-titel">Gesamtkommentar, Anmerkungen und Korrekturen zum Teil »Deutsche Terminologie«</p><p class="pub-meta">Zeppezauer-Wachauer, 2023 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Geschichte der philosophischen Terminologie im Umriss dargestellt</p><p class="pub-meta">Eucken, Schlüter, Zeppezauer-Wachauer u. a., 2023 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Insekten / Amphibien: Tiere und Pilze 1: Insekten. Tiere und Pilze 2: Amphibien</p><p class="pub-meta">Zeppezauer-Wachauer, Färberböck, 2023 &middot; <a href="https://www.imareal.sbg.ac.at/ingrids-tierleben-insekten-amphibien/" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">Link</a></p></li>
+<li><p class="pub-titel">MHDBDB-Textreihentypologie - Bibliography</p><p class="pub-meta">Heiles, Zeppezauer-Wachauer, 2023 &middot; <a href="https://doi.org/10.25592/UHHFDM.12416" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.25592/UHHFDM.12416</a></p></li>
+<li><p class="pub-titel">MHDBDB-Textreihentypologie - Dataset</p><p class="pub-meta">Heiles, Zeppezauer-Wachauer, 2023 &middot; <a href="https://doi.org/10.25592/UHHFDM.12414" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.25592/UHHFDM.12414</a></p></li>
+<li><p class="pub-titel">Mittelhochdeutsche Begriffsdatenbank (MHDBDB)</p><p class="pub-meta">Zeppezauer-Wachauer, Hinkelmanns, Bleier u. a., 2023 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Mittelhochdeutsche Begriffsdatenbank 2023</p><p class="pub-meta">van Beek, Zeppezauer-Wachauer, 2023 &middot; <a href="https://doi.org/10.5281/zenodo.8375554" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.5281/zenodo.8375554</a></p></li>
+<li><p class="pub-titel">Poster: MHDBDB-Textreihentypologie. Ein kontrolliertes SKOS-Vokabular zur Annotation mediävistischer Datenbestände</p><p class="pub-meta">Heiles, Zeppezauer-Wachauer, 2023 &middot; <a href="https://doi.org/10.25592/UHHFDM.13381" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.25592/UHHFDM.13381</a></p></li>
+<li><p class="pub-titel">Tabellen zu den Textreihen im Hausbuch Michaels de Leone</p><p class="pub-meta">Heiles, Zeppezauer-Wachauer, 2023 &middot; <a href="https://doi.org/10.25592/UHHFDM.12418" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.25592/UHHFDM.12418</a></p></li>
+<li><p class="pub-titel">Wortschatz des Todes: Studie zum Wortgebrauch von Totschlag-Narrativen mit der Mittelhochdeutschen Begriffsdatenbank (MHDBDB)</p><p class="pub-meta">Zeppezauer-Wachauer, 2023 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">50 Jahre Mittelhochdeutsche Begriffsdatenbank (MHDBDB). Eine Jubiläums-Zeitreise zwischen Lochkarten, Pixel-Drachen, relationaler Datenbank und Graphdaten</p><p class="pub-meta">Zeppezauer-Wachauer, 2022 &middot; <a href="https://doi.org/10.25619/BME20223203" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.25619/BME20223203</a></p></li>
+<li><p class="pub-titel">Die Mittelhochdeutsche Begriffsdatenbank (MHDBDB). Rückschau auf 50 Jahre digitale Mediävistik</p><p class="pub-meta">Zeppezauer-Wachauer, 2022 &middot; <a href="https://doi.org/10.14220/mdge.2022.69.2.135" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.14220/mdge.2022.69.2.135</a></p></li>
+<li><p class="pub-titel">Eindeutig Uneindeutig: Zur Modellierung von Unschärfe in der Mediävistik</p><p class="pub-meta">Zeppezauer-Wachauer, Borek, Ketschik, 2022 &middot; <a href="https://doi.org/10.58079/rha5" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.58079/rha5</a></p></li>
+<li><p class="pub-titel">Figuren und ihr Handeln. Eine computergestützte Untersuchung von Figurenaktivitäten im Kontext von Figurenreferenzen mit Hilfe des Begriffssystems der MHDBDB</p><p class="pub-meta">Dimpel, Blessing, Hinkelmanns u. a., 2022 &middot; <a href="https://doi.org/10.25619/BME20223208" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.25619/BME20223208</a></p></li>
+<li><p class="pub-titel">Beyond the Plot: Der Vergleich mittelalterlicher Narrative im Semantic Web mit ONAMA</p><p class="pub-meta">Hinkelmanns, Landkammer, Nicka u. a., 2021 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Erotische Narrative: Mit der Mittelhochdeutschen Begriffsdatenbank (MHDBDB) auf den Spuren kulinarischer Sexualmimesis</p><p class="pub-meta">Zeppezauer-Wachauer, Leppin, Raiser, 2021 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Erzählende Dinge: Vorwort zur achten Ausgabe von MEMO</p><p class="pub-meta">Schwembacher, Zeppezauer-Wachauer, Nicka u. a., 2021 &middot; <a href="https://doi.org/10.25536/20210801" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">Link</a></p></li>
+<li><p class="pub-titel">Linked Open Data in Medieval Studies</p><p class="pub-meta">Borek, Zeppezauer-Wachauer, 2021 &middot; <a href="https://doi.org/10.5281/zenodo.5111602" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.5281/zenodo.5111602</a></p></li>
+<li><p class="pub-titel">Mittelhochdeutsche Begriffsdatenbank (MHDBDB)</p><p class="pub-meta">Hinkelmanns, Zeppezauer-Wachauer, 2021 &middot; <a href="https://doi.org/hdl.handle.net/11471/562.50.52" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">Link</a></p></li>
+<li><p class="pub-titel">Needful Things: Die Relationen der Dinge in einer Ontologie mittelalterlicher Narrative</p><p class="pub-meta">Zeppezauer-Wachauer, Schwembacher, Nicka u. a., 2021 &middot; <a href="https://doi.org/10.25536/20210805" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.25536/20210805</a></p></li>
+<li><p class="pub-titel">Universität Salzburg</p><p class="pub-meta">Zangerl, Zeppezauer-Wachauer, 2021 &middot; <a href="http://hdl.handle.net/11471/562.50.203" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">Link</a></p></li>
+<li><p class="pub-titel">Dichtung und Nahrung Im Mittelalter: Motivgeschichtliche Untersuchung Zur Poetisierung des Begriffsfeldes «Speise» in der Aelteren Deutschsprachigen Literatur</p><p class="pub-meta">Zeppezauer-Wachauer, 2020 &middot; <a href="https://ebookcentral.proquest.com/lib/kxp/detail.action?docID=6378635" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">Link</a></p></li>
+<li><p class="pub-titel">digital humanities austria 2018: empowering researchers</p><p class="pub-meta">Ernst, Hinkelmanns, Zangerl u. a., 2020 &middot; <a href="https://epub.oeaw.ac.at/?arp=0x003b3d14" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">Link</a></p></li>
+<li><p class="pub-titel">ONAMA – Ontology Of Narratives Of The Middle Ages</p><p class="pub-meta">Hinkelmanns, Schwembacher, 2020 &middot; <a href="https://doi.org/10.5281/ZENODO.4048034" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.5281/ZENODO.4048034</a></p></li>
+<li><p class="pub-titel">Der Streit um die Birne: Autorschafts-Attributionstest mit Burrows’ Delta und dessen Optimierung für Kurztexte am Beispiel der ‚Halben Birne‘ des Konrad von Würzburg</p><p class="pub-meta">Dimpel, Zeppezauer-Wachauer, Schlager, 2019 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Die Mittelhochdeutsche Begriffsdatenbank als ein vielseitiges Arbeitsinstrument zur Analyse älterer deutschsprachiger Texte</p><p class="pub-meta">Brom, 2019 &middot; <a href="https://doi.org/10.5817/BBGN2019-S-13" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.5817/BBGN2019-S-13</a></p></li>
+<li><p class="pub-titel">Mittelhochdeutsche Lexikographie und Semantic Web. Die Anbindung der ‚Mittelhochdeutschen Begriffsdatenbank‘ an Linked Open Data</p><p class="pub-meta">Hinkelmanns, 2019 &middot; <a href="https://doi.org/10.1515/mial-2019-0009" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.1515/mial-2019-0009</a></p></li>
+<li><p class="pub-titel">Krisen, Gewalt und Kriege der Liebe in der mittelalterlichen Literatur</p><p class="pub-meta">Müller, Zeppezauer-Wachauer, Rohr u. a., 2018 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Lexikon und Onomastikon. Stand und Perspektiven des Begriffssystems der Mittelhochdeutschen Begriffsdatenbank</p><p class="pub-meta">2018 &middot; <a href="https://doi.org/10.13140/RG.2.2.34031.94886" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.13140/RG.2.2.34031.94886</a></p></li>
+<li><p class="pub-titel">Neidhart in der Mittelhochdeutschen Begriffsdatenbank (MHDBDB): Sachregister</p><p class="pub-meta">Schlager, Springeth, Zeppezauer-Wachauer u. a., 2018 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Psycholexikologische Annäherungen an Gewalt und Krieg im Mittelalter: Suchstrategien mit der Mittelhochdeutschen Begriffsdatenbank (MHDBDB)</p><p class="pub-meta">Schmidt, Rohr, Bieber u. a., 2018 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Wunderspil: Citizen science at the Middle High German Concept Database (MHDBDB)</p><p class="pub-meta">Hinkelmanns, Heigl, Dörler u. a., 2018 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">„Ûf wîʒen tuochen“ und „ûf ungewaschen secken“: Vom Suchen und Finden arrangierter Tafeln und Antitafeln in der deutschsprachigen Literatur des Mittelalters mit Hilfe der MHDBDB</p><p class="pub-meta">Zeppezauer-Wachauer, Hofmeister-Winter, 2017 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Macho-Ethik: Rage - Ruin im Nibelungenlied</p><p class="pub-meta">Schmidt, Springeth, Zeppezauer-Wachauer u. a., 2015 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Concepts and Grammar: Thoughts about an Integrated System</p><p class="pub-meta">Schmidt, Dershowitz, Nissan, 2014 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Lirica Europea [LiEu]. TrobVers - MHDBDB</p><p class="pub-meta">Schmidt, 2012 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Der analytische Weg ist das Ziel: Die Mittelhochdeutsche Begriffsdatenbank als Online-Textarchiv</p><p class="pub-meta">Springeth, Hofmeister, Hofmeister-Winter, 2009 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Herzogenburger Urkunden in der mittelhochdeutschen Begriffsdatenbank (MHDBDB)</p><p class="pub-meta">Springeth, Vogeler, 2009 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Nibelungenlied goes online: Die mittelhochdeutsche Begriffsdatenbank (MHDBDB) als Instrumentarium der Textanalyse</p><p class="pub-meta">Springeth, Marci-Boehncke, Riecke, 2006 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Auf der Suche nach Begriffen und Motiven: Die Mittelhochdeutsche Begriffsdatenbank (MHDBDB) an der Universität Salzburg</p><p class="pub-meta">Springeth, Schubert, 2005 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Die Texte Oswalds von Wolkenstein in der Mittelhochdeutschen Begriffsdatenbank</p><p class="pub-meta">Springeth, 2005 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Mittelalter virtuell: Mediävistik im Internet</p><p class="pub-meta">Weichselbaumer, 2005 &middot; <a href="http://deposit.ddb.de/cgi-bin/dokserv?id=2614282&amp;prov=M&amp;dok_var=1&amp;dok_ext=htm" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">Link</a></p></li>
+<li><p class="pub-titel">Von Herzeloyde zu Cundrie: Mittelalterliche Frauengestalten direkt aus dem Web. Arbeiten mit der mittelhochdeutschen Begriffsdatenbank (MHDBDB)</p><p class="pub-meta">Schmidt, Springeth, Kronberger u. a., 2003 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Die mittelhochdeutsche Begriffsdatenbank</p><p class="pub-meta">Schmidt, Pütz, 2001 &middot; <a href="http://www.zfda.de/beitrag.php?id=14" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">Link</a></p></li>
+<li><p class="pub-titel">Ein Datenbanksystem für das Begriffswörterbuch mittelhochdeutscher Epik und Fortschritte bei der automatischen Disambiguierung</p><p class="pub-meta">Schmidt, Gärtner, Sappler u. a., 1991 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Der Beitrag der begriffsorientierten Lexikographie zur systematischen Erfassung von Sprachwandel und das Begriffswörterbuch zur mittelhochdeutschen Epik</p><p class="pub-meta">Schmidt, Bachofer, 1988 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">An Algorithmic Approach to a Parser For Automatic Disambiguation of Homographs in Middle High German on the Basis of the Conceptual Dictionary Project</p><p class="pub-meta">Schmidt, Hamesse, Zampolli, 1985 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Begriffsglossare und Indices zu Ulrich von Lichtenstein</p><p class="pub-meta">Schmidt, 1980 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Errungenschaften, Zukunftsmusik und Holzwege auf dem Gebiet der inhaltlichen Textanalyse mit Hilfe des Elektronenrechners</p><p class="pub-meta">Schmidt, Sappler, Straßner, 1978 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Maschinelle Hilfe bei der Herstellung von Glossaren zu mittelhochdeutschen Werken nach Begriffsbereichen</p><p class="pub-meta">Scholler, Schmidt, Lenders u. a., 1978 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Wege zu Begriffsglossaren und einem Begriffswörterbuch mittelhochdeutscher Epik</p><p class="pub-meta">Schmidt, Lenders, Moser, 1978 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Tendenzen zum Realismus in der ritterlichen Epik der nachklassischen Periode: Untersuchungen zu Ulrichs von Liechtenstein Frauendienst</p><p class="pub-meta">Schmidt, 1972 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Information on Text Import</p><p class="pub-meta">o. J. &middot; <a href="https://mhdbdb-old.sbg.ac.at/help/editor/text-import.html" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">Link</a></p></li>
+</ul>
+</section>
+<section class="mb-10" id="z2n4swwi">
+<h2 class="text-2xl font-bold text-slate-900 mb-1">Erwähnende Publikationen (205)</h2>
+<p class="text-slate-600 mb-3">Arbeiten, die die MHDBDB nennen oder nutzen.</p>
+<ul class="pub-liste">
+<li><p class="pub-titel">buoch‐geschichte(n) – Semantische Deutungsebenen mittelalterlicher Buchkultur</p><p class="pub-meta">Ohlendorf, 2026 &middot; <a href="https://doi.org/10.14361/9783839448090-017" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.14361/9783839448090-017</a></p></li>
+<li><p class="pub-titel">Contrasting Perfect and Past Semantics: Diachronic Data, Dialect and the Classroom</p><p class="pub-meta">Braun, 2026 &middot; <a href="https://doi.org/10.15496/publikation-118944" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.15496/publikation-118944</a></p></li>
+<li><p class="pub-titel">Der VM-Cluster als Infrastrukturangebot an der Universität Salzburg im Testszenario des Projekts „Discovery of Things“</p><p class="pub-meta">Landkammer Miriam, 2026 &middot; <a href="https://doi.org/10.58079/16fup" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.58079/16fup</a></p></li>
+<li><p class="pub-titel">ein buoch niuwe unde vrisch</p><p class="pub-meta">Borek, 2026 &middot; <a href="https://doi.org/10.14361/9783839448090-243" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.14361/9783839448090-243</a></p></li>
+<li><p class="pub-titel">Explainable AI: Das Projekt DIA-XAI erprobt ein System für KI-gestützte Workflows und ihre fachwissenschaftliche Validierung durch Experts-in-the-Loop</p><p class="pub-meta">Döring, 2026 &middot; <a href="https://doi.org/10.58079/16lli" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.58079/16lli</a></p></li>
+<li><p class="pub-titel">Faculty Salon on Gold Features Three Speakers</p><p class="pub-meta">2026 &middot; <a href="https://cst.princeton.edu/news/2026/faculty-salon-gold-features-three-speakers" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">Link</a></p></li>
+<li><p class="pub-titel">Middle High German Contextual String Embeddings (Backward)</p><p class="pub-meta">Schonhardt, 2026 &middot; <a href="https://doi.org/10.5281/zenodo.18659437" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.5281/zenodo.18659437</a></p></li>
+<li><p class="pub-titel">Naming-analysis v0.1.0-beta - Public BETA Release</p><p class="pub-meta">2026 &middot; <a href="https://doi.org/10.5281/ZENODO.18770138" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.5281/ZENODO.18770138</a></p></li>
+<li><p class="pub-titel">Studierende testen die Open-Source-Tools Kiln und Ollama</p><p class="pub-meta">Rechenmacher, 2026 &middot; <a href="https://doi.org/10.58079/15kmp" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.58079/15kmp</a></p></li>
+<li><p class="pub-titel">Understanding the System in its Entirety?</p><p class="pub-meta">Viehhauser, 2026 &middot; <a href="https://doi.org/10.14361/9783839478462-267" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.14361/9783839478462-267</a></p></li>
+<li><p class="pub-titel">Wissen, Diskussion und Praxis auf der SALZ 2026</p><p class="pub-meta">Döring, 2026 &middot; <a href="https://doi.org/10.58079/15tbe" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.58079/15tbe</a></p></li>
+<li><p class="pub-titel">Buchpräsentation des IZMF</p><p class="pub-meta">Döring, 2025 &middot; <a href="https://doi.org/10.58079/1592z" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.58079/1592z</a></p></li>
+<li><p class="pub-titel">buoch als Quelle, buoch als Medium, buoch als Text – ein interferenzsemantisches Netzwerk</p><p class="pub-meta">Lake, 2025 &middot; <a href="https://doi.org/10.1007/s41244-025-00371-8" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.1007/s41244-025-00371-8</a></p></li>
+<li><p class="pub-titel">Gib mir Tiernamen! Das Namenssystem der Mittelhochdeutschen Begriffsdatenbank</p><p class="pub-meta">Döring, 2025 &middot; <a href="https://doi.org/10.58079/13bqp" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.58079/13bqp</a></p></li>
+<li><p class="pub-titel">Lexicon Orbis Terrarum: un dizionario per il lessico ambientale latino</p><p class="pub-meta">Michelone, 2025 &middot; <a href="https://doi.org/10.20373/uniupo/openthesis/235922" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.20373/uniupo/openthesis/235922</a></p></li>
+<li><p class="pub-titel">Quantifizierende historische Semantik</p><p class="pub-meta">Schultz-Balluff, 2025 &middot; <a href="https://doi.org/10.1007/s41244-025-00374-5" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.1007/s41244-025-00374-5</a></p></li>
+<li><p class="pub-titel">Wissensplattform zu medieval-LOD des Netzwerks Offenes Mittelalter</p><p class="pub-meta">Döring, 2025 &middot; <a href="https://doi.org/10.58079/14lcp" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.58079/14lcp</a></p></li>
+<li><p class="pub-titel">Abstract: Mittelhochdeutsche Begriffsdatenbank Reloaded</p><p class="pub-meta">Döring, 2024 &middot; <a href="https://doi.org/10.58079/voxx" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.58079/voxx</a></p></li>
+<li><p class="pub-titel">Adapting Measures of Literality for Use with Historical Language Data</p><p class="pub-meta">Roussel, 2024 &middot; <a href="https://doi.org/10.18653/v1/2024.nlp4dh-1.20" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.18653/v1/2024.nlp4dh-1.20</a></p></li>
+<li><p class="pub-titel">Buchpräsentation und Relaunch der MHDBDB am 29. Jänner</p><p class="pub-meta">Döring, 2024 &middot; <a href="https://doi.org/10.58079/vkdp" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.58079/vkdp</a></p></li>
+<li><p class="pub-titel">CLARIAH-AT-Roadshow, 13. September 2024</p><p class="pub-meta">Döring, 2024 &middot; <a href="https://doi.org/10.58079/11wcf" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.58079/11wcf</a></p></li>
+<li><p class="pub-titel">Die CLARIAH-AT-Roadshow: 12 Projekte haben sich vorgestellt</p><p class="pub-meta">stefaniegrundner, 2024 &middot; <a href="https://doi.org/10.58079/12yol" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.58079/12yol</a></p></li>
+<li><p class="pub-titel">Digitale Methoden für die Altgermanistik. Eine exemplarische Bestandsaufnahme.</p><p class="pub-meta">Viehhauser, 2024 &middot; <a href="https://doi.org/10.3790/ljb.2024.1445301" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.3790/ljb.2024.1445301</a></p></li>
+<li><p class="pub-titel">Diskursmorphologie diachron. Suffixderivation mit -mäßig im sprachgeschichtlichen Längsschnitt</p><p class="pub-meta">Bücker, 2024 &middot; <a href="https://doi.org/10.1515/9783111363936-013" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.1515/9783111363936-013</a></p></li>
+<li><p class="pub-titel">Entwicklung eines mittelhochdeutschen Sentiment-Wörterbuchs aus korpushermeneutischer Perspektive</p><p class="pub-meta">Dimpel, 2024 &middot; <a href="https://doi.org/10.1007/s41244-024-00339-0" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.1007/s41244-024-00339-0</a></p></li>
+<li><p class="pub-titel">Figurennetzwerke im mittelhochdeutschen Artusroman: Möglichkeiten und Grenzen der sozialen Netzwerkanalyse als Methode für literaturwissenschaftliche Analysen</p><p class="pub-meta">Ketschik, 2024 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Historische lexikalische Semantik und Linked Data: Modellierung von Ressourcen der mittelalterlichen Galloromania für das Semantic Web</p><p class="pub-meta">Tittel, 2024 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">How to explain linguistic variation and its role in language change</p><p class="pub-meta">Weiß, 2024 &middot; <a href="https://doi.org/10.1515/zfs-2024-2008" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.1515/zfs-2024-2008</a></p></li>
+<li><p class="pub-titel">Krönen - Mehren - Weitergeben: Individualisierungspraktiken und Erinnerungssicherung auf spätmittelalterlichen Schützenketten (1450-1550)</p><p class="pub-meta">Dudar, 2024 &middot; <a href="https://doi.org/10.7788/9783412529338" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.7788/9783412529338</a></p></li>
+<li><p class="pub-titel">Nachlese zum Vortrag von Alan van Beek, MHDBDB Reloaded</p><p class="pub-meta">Döring, 2024 &middot; <a href="https://doi.org/10.58079/vvtp" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.58079/vvtp</a></p></li>
+<li><p class="pub-titel">Rituals of Female (Dis)Empowerment</p><p class="pub-meta">Darilek, 2024 &middot; <a href="https://doi.org/10.54103/2975-0989/2024/25230" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.54103/2975-0989/2024/25230</a></p></li>
+<li><p class="pub-titel">ИДЕЯ ТАЙНЫ В «ТРИСТРАНТЕ» ЭЙЛЬХАРТА ФОН ОБЕРГА: ЛЕКСИКОЛОГИЧЕСКИЕ АСПЕКТЫ</p><p class="pub-meta">Головкова, 2024 &middot; <a href="https://doi.org/10.5281/zenodo.15533141" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.5281/zenodo.15533141</a></p></li>
+<li><p class="pub-titel">Arthurische Pferde als Bedeutungsträger: Eine Fallstudie zu ihrer digitalen Klassifizierung</p><p class="pub-meta">Borek, 2023 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Computer im Musenhain. Von träumenden Büchern und der Aura des Digitalen. Festschrift für Prof. Dr. Andrea Rapp</p><p class="pub-meta">Bartsch, Borek, Hegel, 2023 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Controlling Voices in Fourteenth-Century Salzburg: Singing and Identity in the ‘MÖnch von Salzburg’ Songs</p><p class="pub-meta">Murray, 2023 &middot; <a href="https://doi.org/10.1093/ml/gcac062" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.1093/ml/gcac062</a></p></li>
+<li><p class="pub-titel">Digitale Edition in Österreich. Digital Scholarly Edition in Austria</p><p class="pub-meta">Bleier, Klug, 2023 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">HeldenMänner. Zum Verhältnis von neuen und alten Theorien bei digitalen literaturwissenschaftlichen Arbeitstechniken</p><p class="pub-meta">Holzschuh, 2023 &middot; <a href="https://doi.org/10.1111/gequ.12348" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.1111/gequ.12348</a></p></li>
+<li><p class="pub-titel">Linguistische Berichte Heft 273</p><p class="pub-meta">Steinbach, Meister, Grewendorf u. a., 2023 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Otto II. von Freising, Barlaam und Josaphat (Der Laubacher Barlaam): Stabreimende Wortpaare im Umfeld vor allem frühmittelhochdeutscher Rhetorik</p><p class="pub-meta">Jeep, 2023 &middot; <a href="https://doi.org/10.1163/18756719-12340282" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.1163/18756719-12340282</a></p></li>
+<li><p class="pub-titel">Simone Schultz-Balluff, Wissenswelt ‚triuwe‘. Kollokationen – Semantisierung – Konzeptualisierung. (Germanistische Bibliothek 59) Winter, Heidelberg 2018. 434 S., € 48,–.</p><p class="pub-meta">Braun, 2023 &middot; <a href="https://doi.org/10.1515/arb-2023-0006" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.1515/arb-2023-0006</a></p></li>
+<li><p class="pub-titel">Sprechendes Metall?: Die Rüstung als Objekt und Bedeutungsträger in Gesellschaft und Kunst des Spätmittellalters</p><p class="pub-meta">Christopher, 2023 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Winli: ein Dichter aus dem Codex Manesse</p><p class="pub-meta">Tomaschko, Gabriela, 2023 &middot; <a href="https://eplus.uni-salzburg.at/urn/urn:nbn:at:at-ubs:1-41941" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">Link</a></p></li>
+<li><p class="pub-titel">Auszählen und Ausdeuten. Quantitative und qualitative Zugänge zum ästhetischen Wortschatz der mittelhochdeutschen Literatur</p><p class="pub-meta">Braun, Darilek, 2022 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Cognition and Contrast: Festschrift for / für Prof. Dr. Sabine De Knop</p><p class="pub-meta">Collectif, 2022 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Corpora and datasets</p><p class="pub-meta">POSTDATA Project (LINHD, UNED), 2022 &middot; <a href="https://postdata.linhd.uned.es/corpus-y-datasets/" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">Link</a></p></li>
+<li><p class="pub-titel">Einleitung – Digitale Germanistik an der Schnittstelle zwischen hermeneutischer Interpretation und maschinellen Erschließungs- und Analyseprozessen</p><p class="pub-meta">Bender, Jacob, 2022 &middot; <a href="https://doi.org/10.14220/mdge.2022.69.2.111" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.14220/mdge.2022.69.2.111</a></p></li>
+<li><p class="pub-titel">Frühmittelhochdeutsche stabreimende Wortpaare im Pilatus</p><p class="pub-meta">Jeep, 2022 &middot; <a href="https://doi.org/10.1163/18756719-12340264" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.1163/18756719-12340264</a></p></li>
+<li><p class="pub-titel">Gerichte mit Geschichte: transkulturelle Quellenstudien zur historischen Kulinarik und Diätetik: Beiträge der interdisziplinären Fachtagung Graz, 19.-21. September 2019</p><p class="pub-meta">Hofmeister-Winter, Karl-Franzens-Universität Graz, 2022 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">KONRADS VON WÜRZBURG „PARTONOPIER UND MELIUR“</p><p class="pub-meta">Runow, Bleuler, Primavesi, 2022 &middot; <a href="https://doi.org/10.37307/b.978-3-503-19487-2.12" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.37307/b.978-3-503-19487-2.12</a></p></li>
+<li><p class="pub-titel">Metaphor Detection for Low Resource Languages: From Zero-Shot to Few-Shot Learning in Middle High German</p><p class="pub-meta">Schneider, Sickert, Brandes u. a., 2022 &middot; <a href="https://aclanthology.org/2022.mwe-1.11" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">Link</a></p></li>
+<li><p class="pub-titel">Mit süezer andâcht: Quantitative und qualitative Beobachtungen zur Semantik und Ästhetik der Süße in Hugos von Trimberg Lehrdichtung Der Renner</p><p class="pub-meta">Darilek, 2022 &middot; <a href="https://doi.org/10.14220/mdge.2022.69.1.65" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.14220/mdge.2022.69.1.65</a></p></li>
+<li><p class="pub-titel">Rosenplüt als Autor der Nürnberger Weingrüße. Philologische und computerphilologische Analysen</p><p class="pub-meta">Dimpel, Wagner, 2022 &middot; <a href="https://doi.org/10.25619/BmE20221165" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.25619/BmE20221165</a></p></li>
+<li><p class="pub-titel">Satzadverbien und Evidentialität</p><p class="pub-meta">Müller, 2022 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Stilfiguren aus der Distanz gelesen. Zur automatischen Detektion von Wortstellungsfiguren und deren Nutzen für die qualitative Analyse</p><p class="pub-meta">Brandes, Marshall, Schneider, 2022 &middot; <a href="https://doi.org/10.25619/BME20223207" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.25619/BME20223207</a></p></li>
+<li><p class="pub-titel">Süeze (er-)zählen im Fließenden Licht der Gottheit. Historische Semantik zwischen Annotation, Hermeneutik und Performativität</p><p class="pub-meta">Gerok-Reiter, 2022 &middot; <a href="https://doi.org/10.14220/mdge.2022.69.1.45" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.14220/mdge.2022.69.1.45</a></p></li>
+<li><p class="pub-titel">Varianz vermitteln: Zur editorischen Aufarbeitung abweichender Textfassungen in Redaktionen von Der Heiligen Leben</p><p class="pub-meta">Herberichs, Viehhauser, 2022 &middot; <a href="https://doi.org/10.1515/editio-2022-0008" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.1515/editio-2022-0008</a></p></li>
+<li><p class="pub-titel">Wald und Kunst: die Natur als transdisziplinäres Phänomen im Kontext der Kulturwissenschaften : Festschrift für Margit Stadlober zum 65. Geburtstag</p><p class="pub-meta">Klein, Koiner, Pichler u. a., 2022 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Wirnt von Grafenberg, Wigalois: Stabreimende Wortpaare</p><p class="pub-meta">Jeep, 2022 &middot; <a href="https://doi.org/10.1163/18756719-12340231" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.1163/18756719-12340231</a></p></li>
+<li><p class="pub-titel">XIX. Allgemeines zur Literaturwissenschaft</p><p class="pub-meta">2022 &middot; <a href="https://doi.org/10.1515/germ-2022-633-421" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.1515/germ-2022-633-421</a></p></li>
+<li><p class="pub-titel">Ästhetische Reflexion in nuce</p><p class="pub-meta">Darilek, 2022 &middot; <a href="https://doi.org/10.3790/ljb.63.1.9" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.3790/ljb.63.1.9</a></p></li>
+<li><p class="pub-titel">&quot;daz ist auch ein sonders lustigs hirschgjaid fůr ein landsfůrsten&quot; : Herausforderungen beim Erstellen eines frühneuhochdeutschen Korpus anhand des Jagdbuches von Kaiser Maximilian I.</p><p class="pub-meta">El Attal, Mirjam, 2021 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Darstellung und Geheimnis in Mittelalter und Früher Neuzeit</p><p class="pub-meta">Eming, Wels, 2021 &middot; <a href="https://doi.org/10.17169/refubium-30744" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.17169/refubium-30744</a></p></li>
+<li><p class="pub-titel">Die Verwendung von Korpora zur Erschließung grammatisch-funktionaler Aspekte im DaF-Unterricht in Italien am Beispiel der weil-V2 Konstruktion im gesprochenen Deutsch</p><p class="pub-meta">Pugliese, 2021 &middot; <a href="https://hdl.handle.net/20.500.11770/332423" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">Link</a></p></li>
+<li><p class="pub-titel">Einführung · Grundbegriffe · 14. bis 16. Jahrhundert</p><p class="pub-meta">Moulin, 2021 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Intertextualität in der Sangspruchdichtung: der Kanzler im Kontext</p><p class="pub-meta">Knapp, Universität Heidelberg, 2021 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Kostbare Steine, singende Vögel und kreisende Gestirne</p><p class="pub-meta">Bülters, 2021 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Poetische Inventio und literarische Inventare: Zur Kunst des ‚listenreichen Erzählens‘</p><p class="pub-meta">Kern, 2021 &middot; <a href="https://doi.org/10.25365/oezg-2021-32-3-5" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.25365/oezg-2021-32-3-5</a></p></li>
+<li><p class="pub-titel">Räume erzählen–erzählende Räume. Raumdarstellung als Poetik. Mit einer examplarischen Analyse des Nibelungenliedes by Franziska Hammer (review)</p><p class="pub-meta">Oberlin, 2021 &middot; <a href="https://muse.jhu.edu/pub/34/article/795064" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">Link</a></p></li>
+<li><p class="pub-titel">Satzadverbien und Evidentialität</p><p class="pub-meta">Müller, 2021 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Schaffen und Nachahmen: Kreative Prozesse im Mittelalter</p><p class="pub-meta">Leppin, 2021 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Stabreimende Wortpaare in Deutsche Versnovellistik des 13. bis 15. Jahrhunderts: Fortsetzung und Innovation</p><p class="pub-meta">Jeep, 2021 &middot; <a href="https://doi.org/10.1163/18756719-12340217" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.1163/18756719-12340217</a></p></li>
+<li><p class="pub-titel">sô lebt doch iemer sîn name : Namen und Antonomasien im Iwein und deren Einfluss auf die Wahrnehmung einer Figurenidentität</p><p class="pub-meta">Beutel-Thurow, Linda, 2021 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Ästhetiken der Fülle</p><p class="pub-meta">Glasner, Karin, Müller u. a., 2021 &middot; <a href="https://doi.org/10.31267/978-3-7574-0055-2" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.31267/978-3-7574-0055-2</a></p></li>
+<li><p class="pub-titel">‚Original‘ und ‚Kopie‘ des ›Rappoltsteiner Parzifal‹. Kopistische Interventionen in der Abschrift Roma, Biblioteca Casanatense, Ms. 1409</p><p class="pub-meta">Stolz, Stolz, Leppin u. a., 2021 &middot; <a href="https://boris.unibe.ch/152267/" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">Link</a></p></li>
+<li><p class="pub-titel">“Non-coordinating UND” in Middle and Early New High German</p><p class="pub-meta">Oppermann, 2021 &middot; <a href="https://doi.org/10.1075/jhl.19011.opp" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.1075/jhl.19011.opp</a></p></li>
+<li><p class="pub-titel">&#x27;In vriuntschaft als es was gedâht&#x27;: Freundschaftsschrift für Hans-Joachim Solms</p><p class="pub-meta">Ammer, Meiser, Link u. a., 2020 &middot; <a href="https://doi.org/10.37307/b.978-3-503-19135-2" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.37307/b.978-3-503-19135-2</a></p></li>
+<li><p class="pub-titel">Die Affrikate &lt;em&gt;tsch&lt;/em&gt; in den Varianten des Deutschen - The Affricate &lt;em&gt;tsch&lt;/em&gt; in the Variants of German: Wortstruktur und Wortschatzstruktur</p><p class="pub-meta">Lötscher, 2020 &middot; <a href="https://www.jstor.org/stable/48604068" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">Link</a></p></li>
+<li><p class="pub-titel">Einleitung</p><p class="pub-meta">Fischer, 2020 &middot; <a href="https://doi.org/10.20378/irb-56075" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.20378/irb-56075</a></p></li>
+<li><p class="pub-titel">Flüche in der mittelalterlichen Literatur: Verfluchungen als expressiv performative Sprechakte in der mittelhochdeutschen Literatur : ein Kategorisierungsversuch durch die Zusammenstellung eines Korpus basierend auf der Mittelhochdeutschen Begriffsdatenbank / vorgelegt von Teresa Eibl</p><p class="pub-meta">Eibl, 2020 &middot; <a href="https://resolver.obvsg.at/urn:nbn:at:at-ubg:1-159038" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">Link</a></p></li>
+<li><p class="pub-titel">Gleiches zu Gleichem: Figurenähnlichkeit in der späthöfischen Epik: ‚Flore und Blanscheflur‘, ‚Engelhard‘, ‚Barlaam und Josaphat‘, ‚Wilhalm von Wenden‘</p><p class="pub-meta">Urban, 2020 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Handbook of Skills: For Just and Thorough Use by All Craftsmen in the Arts</p><p class="pub-meta">gerechten gründtlichen Gebrauchs aller kunstbaren Werckleut, 2020 &middot; <a href="https://doi.org/10.1080/17561310.2020.1769922" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.1080/17561310.2020.1769922</a></p></li>
+<li><p class="pub-titel">Jahrblatt der Interessengemeinschaft Historische Armbrust: 2020</p><p class="pub-meta">Sensfelder, 2020 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Klingende Schwertnamen : motiv- und mythenanalytische Studie zu Geschichte, Einsatz und Weiterleben namentragender Schwerter in der deutschsprachigen Dichtung des Mittelalters</p><p class="pub-meta">Niederkrottenthaler, Johanna, 2020 &middot; <a href="https://permalink.obvsg.at/UGR/AC16114918" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">Link</a></p></li>
+<li><p class="pub-titel">Mittelalterliche Texte als Modellierungsaufgabe : Digitale Zugänge zur mittelhochdeutschen Literatur</p><p class="pub-meta">Viehhauser, 2020 &middot; <a href="https://doi.org/10.20378/irb-56076" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.20378/irb-56076</a></p></li>
+<li><p class="pub-titel">Ontology of Narratives of the Middle Ages: Corpus 1.0</p><p class="pub-meta">Landkammer, Schwembacher, 2020 &middot; <a href="https://doi.org/10.5281/zenodo.4285960" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.5281/zenodo.4285960</a></p></li>
+<li><p class="pub-titel">Towards an Ontology Based on Hallig-Wartburg&#x27;s Begriffssystem for Historical Linguistic Linked Data</p><p class="pub-meta">Tittel, Gillis-Webber, Nannini, 2020 &middot; <a href="https://aclanthology.org/2020.ldl-1.1" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">Link</a></p></li>
+<li><p class="pub-titel">Wachsmut von Künzingen : das poetische Profil Wachsmuts im Codex Manesse</p><p class="pub-meta">Klonner, Sigrid, 2020 &middot; <a href="https://permalink.obvsg.at/AC16124890" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">Link</a></p></li>
+<li><p class="pub-titel">Weather, Metaphor, and the Lexicon: A Corpus Study of Medieval German</p><p class="pub-meta">Oberlin, 2020 &middot; <a href="https://doi.org/10.3726/med.2020.01.07" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.3726/med.2020.01.07</a></p></li>
+<li><p class="pub-titel">‘Ju, ich jag’: A Three-part Song in the Mönch von Salzburg Corpus in Translingual Perspective</p><p class="pub-meta">Murray, 2020 &middot; <a href="https://doi.org/10.1080/00787191.2020.1735212" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.1080/00787191.2020.1735212</a></p></li>
+<li><p class="pub-titel">Constructing Poetic Identity: Iberia as a Heterotopia in Oswald von Wolkenstein&#x27;s Songs</p><p class="pub-meta">Zerka, 2019 &middot; <a href="https://doi.org/10.5699/modelangrevi.114.2.0274" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.5699/modelangrevi.114.2.0274</a></p></li>
+<li><p class="pub-titel">Die Urkunde: Text – Bild – Objekt</p><p class="pub-meta">Stieldorf, 2019 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Digitale Mediävistik und der deutschsprachige Raum</p><p class="pub-meta">Bleier, Fischer, Hiltmann u. a., 2019 &middot; <a href="https://doi.org/10.1515/mial-2019-0001" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.1515/mial-2019-0001</a></p></li>
+<li><p class="pub-titel">From 0 to 10 million annotated words: part-of-speech tagging for Middle High German</p><p class="pub-meta">Schulz, Ketschik, 2019 &middot; <a href="https://doi.org/10.1007/s10579-019-09462-8" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.1007/s10579-019-09462-8</a></p></li>
+<li><p class="pub-titel">Historische Korpuslinguistik: 10. Jahrestagung der Gesellschaft für germanistische Sprachgeschichte in Bamberg, 20. bis 22.09.2018</p><p class="pub-meta">Dücker, 2019 &middot; <a href="https://doi.org/10.1515/zgl-2019-0009" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.1515/zgl-2019-0009</a></p></li>
+<li><p class="pub-titel">Lessicografia e critica del testo: Esperienze di filologia informatica applicata alla lirica romanza</p><p class="pub-meta">Viel, 2019 &middot; <a href="https://www.jstor.org/stable/26821534" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">Link</a></p></li>
+<li><p class="pub-titel">Paradoxon und Pointe</p><p class="pub-meta">Kragl, Lienert, 2019 &middot; <a href="https://doi.org/10.1007/978-3-658-24163-6_9" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.1007/978-3-658-24163-6_9</a></p></li>
+<li><p class="pub-titel">Should a conditional marker arise … The diachronic development of conditional sollte in German</p><p class="pub-meta">Breitbarth, 2019 &middot; <a href="https://doi.org/10.5334/gjgl.599" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.5334/gjgl.599</a></p></li>
+<li><p class="pub-titel">Soziale Netzwerkanalysen zum mittelhochdeutschen Artusroman oder: Vorgreiflicher Versuch, Märchenhaftigkeit des Erzählens zu messen</p><p class="pub-meta">Braun, Ketschik, 2019 &middot; <a href="https://doi.org/10.1515/mial-2019-0005" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.1515/mial-2019-0005</a></p></li>
+<li><p class="pub-titel">Sprachwissenschaftliche Erschließungsmethoden für digitale Editionen mittelhochdeutscher Texte</p><p class="pub-meta">Griesinger, Stolz, 2019 &middot; <a href="https://doi.org/10.1515/mial-2019-0008" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.1515/mial-2019-0008</a></p></li>
+<li><p class="pub-titel">Tierische Häute – Menschliche Träger : Mensch-Tier-Analogien über die materielle Sachkultur anhand ausgewählter Beispiele im Werk Wolframs von Eschenbach</p><p class="pub-meta">Grundtner, 2019 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Träume über Geburt (und Tod) in mittelhochdeutschen Erzähltexten</p><p class="pub-meta">Miedema, 2019 &middot; <a href="https://doi.org/10.30965/9783846764503_003" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.30965/9783846764503_003</a></p></li>
+<li><p class="pub-titel">Verbstellungsvariation bei Exklamativen aus diachroner Perspektive</p><p class="pub-meta">Schallert, 2019 &middot; <a href="https://doi.org/10.1515/bgsl-2019-0030" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.1515/bgsl-2019-0030</a></p></li>
+<li><p class="pub-titel">Wortwelten: Lexikographie, Historische Semantik und Kulturwissenschaft</p><p class="pub-meta">Harm, Lobenstein-Reichmann, Diehl, 2019 &middot; <a href="https://doi.org/10.1515/9783110632866" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.1515/9783110632866</a></p></li>
+<li><p class="pub-titel">»das thier friszt, der mensch iszt«: Zur Genese der lexikalischen Mensch-Tier-Segregation im Deutschen</p><p class="pub-meta">Griebel, 2019 &middot; <a href="https://doi.org/10.1515/bgsl-2019-0021" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.1515/bgsl-2019-0021</a></p></li>
+<li><p class="pub-titel">&quot;Unritterlich&quot; in ritterlich: Merkmale der Zusammensetzung der lexikalisch-thematischen Gruppe &quot;Waffen&quot; im Mittelhochdeutschen. &quot;Нерыцарское&quot; в рыцарском: особенности состава лексико-тематической группы&quot; оружие&quot; в средневерхненемецкой</p><p class="pub-meta">Fomicheva, 2018 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">A Metrical Analysis of Medieval German Poetry Using Supervised Learning</p><p class="pub-meta">Hench, Estes, 2018 &middot; <a href="https://doi.org/10.3389/fdigh.2018.00019" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.3389/fdigh.2018.00019</a></p></li>
+<li><p class="pub-titel">Clause Structure and Word Order in the History of German</p><p class="pub-meta">Jäger, Ferraresi, Weiß, 2018 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Duft auf dem Schlachtfeld und schlechter Atem als Trennungsgrund: Olfaktorische Phänomene in der mittelhochdeutschen Literatur</p><p class="pub-meta">Albrecht, 2018 &middot; <a href="https://core.ac.uk/reader/233129000" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">Link</a></p></li>
+<li><p class="pub-titel">Gottes frúnde : zur Semantik der Gottesfreundschaft in deutschsprachigen Handschriften des Klosters Engelberg</p><p class="pub-meta">Thali, 2018 &middot; <a href="https://doi.org/10.1400/263481" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.1400/263481</a></p></li>
+<li><p class="pub-titel">Handschriften als Quellen der Sprach- und Kulturwissenschaft: Aktuelle Fragestellungen – Methoden – Probleme ; Akten der Nachwuchstagung, Bamberg, 4. - 5.12.2015</p><p class="pub-meta">Kremer, Schwab, 2018 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Herzog Ernst: Stabreimende Wortpaare im Umfeld des Frühmittelhochdeutschen</p><p class="pub-meta">Jeep, 2018 &middot; <a href="https://doi.org/10.1163/18756719-12340124" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.1163/18756719-12340124</a></p></li>
+<li><p class="pub-titel">Indien, Mirabilienorient</p><p class="pub-meta">Renz, Hanauska, Herweg u. a., 2018 &middot; <a href="https://doi.org/10.1515/9783050093918-021" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.1515/9783050093918-021</a></p></li>
+<li><p class="pub-titel">Narratologische Textauszeichnung in Märe und Novelle</p><p class="pub-meta">Dimpel, Bernhart, Willand u. a., 2018 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Prologe statistisch</p><p class="pub-meta">Braun, Reiter, 2018 &middot; <a href="https://doi.org/10.1007/s41244-017-0081-3" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.1007/s41244-017-0081-3</a></p></li>
+<li><p class="pub-titel">Reorganising Grammatical Variation</p><p class="pub-meta">Dammel, 2018 &middot; <a href="https://www.torrossa.com/en/resources/an/5016488" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">Link</a></p></li>
+<li><p class="pub-titel">Text trifft Ton. Editionskritische Gedanken zur Wechselwirkung zwischen der Werkneuausgabe zu Hugo von Montfort (2005) und der CD-Ersteinspielung ihrer Lieder (2007)</p><p class="pub-meta">Hofmeister, 2018 &middot; <a href="https://doi.org/10.1515/editio-2018-0007" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.1515/editio-2018-0007</a></p></li>
+<li><p class="pub-titel">The Taming of the Shrew: Non-Standard Text Processing in the Digital Humanities</p><p class="pub-meta">Schulz, 2018 &middot; <a href="https://doi.org/10.18419/opus-9685" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.18419/opus-9685</a></p></li>
+<li><p class="pub-titel">Variations on the theme of variation: Dealing with spelling variation for ﬁne-grained POS tagging of historical texts</p><p class="pub-meta">Barteld, Biemann, Zinsmeister, 2018 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Vom senen zur Sehnsucht</p><p class="pub-meta">Czajkowski, Ulbrich-Bösch, Waldvogel u. a., 2018 &middot; <a href="https://doi.org/10.1515/9783110526585-012" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.1515/9783110526585-012</a></p></li>
+<li><p class="pub-titel">Weg, Straße, Pfad</p><p class="pub-meta">Renz, Hanauska, Herweg u. a., 2018 &middot; <a href="https://doi.org/10.1515/9783050093918-041" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.1515/9783050093918-041</a></p></li>
+<li><p class="pub-titel">Arthurische Pferde als Bedeutungsträger: Eine Fallstudie zu ihrer digitalen Klassifizierung</p><p class="pub-meta">Borek, 2017 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Automatic Layout Analysis and Storage of Digitized Medieval Books</p><p class="pub-meta">Busch, Hegel, 2017 &middot; <a href="https://doi.org/10.1353/dph.2017.0010" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.1353/dph.2017.0010</a></p></li>
+<li><p class="pub-titel">Digitale Gattungsgeschichten. Minnesang zwischen generischer Konstanz und Wende</p><p class="pub-meta">Viehhauser, 2017 &middot; <a href="https://doi.org/10.17175/2017_003" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.17175/2017_003</a></p></li>
+<li><p class="pub-titel">Ein PoS-Tagger für &quot;das&quot; Mittelhochdeutsche</p><p class="pub-meta">Echelmeyer, Reiter, Schulz u. a., 2017 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Infinitives at the Syntax-Semantics Interface: A Diachronic Perspective</p><p class="pub-meta">Jedrzejowski, Demske, 2017 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Infinitives at the Syntax-Semantics Interface: A Diachronic Perspective</p><p class="pub-meta">Jedrzejowski, Demske, 2017 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Magical (and Maligned) Metalworkers: Understanding Representations of Early and High Medieval Blacksmiths</p><p class="pub-meta">Classen, Tormey, 2017 &middot; <a href="https://doi.org/10.1515/9783110557725-002" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.1515/9783110557725-002</a></p></li>
+<li><p class="pub-titel">Phonological Soundscapes in Medieval Poetry</p><p class="pub-meta">Hench, 2017 &middot; <a href="https://doi.org/10.18653/v1/W17-2207" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.18653/v1/W17-2207</a></p></li>
+<li><p class="pub-titel">Phraseology, Metaphor, and Sensory Disability in Middle High German</p><p class="pub-meta">Oberlin, 2017 &middot; <a href="https://doi.org/10.3726/med.2017.01.04" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.3726/med.2017.01.04</a></p></li>
+<li><p class="pub-titel">POS Tagger für mittelhochdeutsche Texte</p><p class="pub-meta">Schulz, Echelmeyer, Reiter, 2017 &middot; <a href="http://www.ims.uni-stuttgart.de/forschung/ressourcen/werkzeuge/PoS_Tag_MHG.html" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">Link</a></p></li>
+<li><p class="pub-titel">Stimme und Performanz in der mittelalterlichen Literatur</p><p class="pub-meta">Unzeitig, Schrott, Miedema, 2017 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">The Bitter and Biting Humor of Sarcasm in Medieval and Early Modern Literature</p><p class="pub-meta">Classen, 2017 &middot; <a href="https://doi.org/10.1007/s11061-017-9526-8" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.1007/s11061-017-9526-8</a></p></li>
+<li><p class="pub-titel">Zur Begrifflichkeit und sprachlichen Erfassung von &quot;Herrschaft&quot; als einer der zentralen konzeptuellen Domänen der historiographischen Werke des Mittelalters</p><p class="pub-meta">Brom, 2017 &middot; <a href="http://publikationen.ub.uni-frankfurt.de/frontdoor/index/index/docId/47012" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">Link</a></p></li>
+<li><p class="pub-titel">Cyclical Change Continued</p><p class="pub-meta">Gelderen, 2016 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Das Konzil von Konstanz und Ungarn</p><p class="pub-meta">Bárány, Bacsa, 2016 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Der am-Progressiv und parallele am V-en sein-Konstruktionen:: Kompositionalität, Variabilität und Netzwerkbildung</p><p class="pub-meta">Flick, 2016 &middot; <a href="https://doi.org/10.1515/bgsl-2016-0017" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.1515/bgsl-2016-0017</a></p></li>
+<li><p class="pub-titel">Die Beziehung zwischen Mensch und Hund in der höfischen Literatur des Mittelalters : kulturgeschichtlicher Abriss, Analyse und Interpretation ausgewählter epischer Texte / vorgelegt von Manuela Kienler</p><p class="pub-meta">Kienler, 2016 &middot; <a href="https://resolver.obvsg.at/urn:nbn:at:at-ubg:1-98673" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">Link</a></p></li>
+<li><p class="pub-titel">Die Söhne des Adlermannes. Ein Adelsgeschlecht in der Gefolgschaft König Sigismunds von Ungarn</p><p class="pub-meta">Novák, 2016 &middot; <a href="http://real.mtak.hu/90732/" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">Link</a></p></li>
+<li><p class="pub-titel">Es leben die Riesenschildkröten! Plädoyer für die wissenschaftlich-historische Lexikographie des Deutschen</p><p class="pub-meta">Kirkness, 2016 &middot; <a href="https://doi.org/10.1515/lexi-2016-0004" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.1515/lexi-2016-0004</a></p></li>
+<li><p class="pub-titel">Pejoration</p><p class="pub-meta">Finkbeiner, 2016 &middot; <a href="https://www.torrossa.com/en/resources/an/5016283" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">Link</a></p></li>
+<li><p class="pub-titel">Quantitative Approaches to Grammar and Grammatical Change: Perspectives from Germanic</p><p class="pub-meta">Featherston, Versley, 2016 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Regularität und Irregularität in Phonologie und Morphologie: Diachron, kontrastiv, typologisch</p><p class="pub-meta">Bittner, Köpcke, 2016 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">AcI and control infinitives: How different are they?: A diachronic approach</p><p class="pub-meta">Speyer, 2015 &middot; <a href="https://doi.org/10.1075/jhl.5.1.02spe" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.1075/jhl.5.1.02spe</a></p></li>
+<li><p class="pub-titel">Ahi-Effekte. Zur Interjektionalisierung vormoderner Texte</p><p class="pub-meta">Schöller, 2015 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Diachronic Perspectives on the Phraseology of Premodern German</p><p class="pub-meta">Oberlin, 2015 &middot; <a href="https://doi.org/10.1007/s11061-014-9415-3" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.1007/s11061-014-9415-3</a></p></li>
+<li><p class="pub-titel">Historische Stilometrie? Methodische Vorschläge für eine Annäherung textanalytischer Zugänge an die mediävistische Textualitätsdebatte.</p><p class="pub-meta">Viehhauser, Baum, Stäcker, 2015 &middot; <a href="https://doi.org/10.17175/sb001_009" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.17175/sb001_009</a></p></li>
+<li><p class="pub-titel">Möglichkeiten der semantischen Auswertung von spätmittelalterlichen historiographischen Texten: Stichproben zum Themenbereich ‚Herrschaft‘</p><p class="pub-meta">Brom, Kusová, Malechová u. a., 2015 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Pflanzen in deutschsprachigen Texten des Mittelalters: Konzeption und Erstellung eines Online-Portals zur Analyse literatur-, sprach- und kulturwissenschaftlicher Zusammenhänge</p><p class="pub-meta">Klug, 2015 &middot; <a href="http://unipub.uni-graz.at/392673" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">Link</a></p></li>
+<li><p class="pub-titel">The Forest in Medieval German Literature: Ecocritical Readings from a Historical Perspective</p><p class="pub-meta">Classen, 2015 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Beim Vorwort genommen. Historisch-kritischer Blick auf explizite Nutzwert-Reflexionen in Vorworten und sonstigen Selbsterläuterungen altgermanistischer Textausgaben auf Basis eines Grazer editionswissenschaftlichen Seminars</p><p class="pub-meta">Hofmeister, 2014 &middot; <a href="https://doi.org/10.1515/editio-2014-006" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.1515/editio-2014-006</a></p></li>
+<li><p class="pub-titel">Die erzählte Welt als Spiegel : Reflexionen des analytischen Erzählens im &#x27;Parzival&#x27; Wolframs von Eschenbach</p><p class="pub-meta">Schumacher, 2014 &middot; <a href="https://media.suub.uni-bremen.de/handle/elib/872" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">Link</a></p></li>
+<li><p class="pub-titel">Die Parzivalrezeption von Wolfram von Eschenbach im Kaiserreich. Tumpheit, triuwe und diemüete</p><p class="pub-meta">Trautwein, 2014 &middot; <a href="https://www.grin.com/document/1009413" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">Link</a></p></li>
+<li><p class="pub-titel">Ein bote von Yspani : das Bild &#x27;Spaniens&#x27; in der deutschsprachigen Dichtung des Mittelalters / vorgelegt von Bettina Steinbauer</p><p class="pub-meta">Steinbauer, 2014 &middot; <a href="https://resolver.obvsg.at/urn:nbn:at:at-ubg:1-69188" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">Link</a></p></li>
+<li><p class="pub-titel">El concepto Spanien en el centro y norte de Europa durante la Edad Media</p><p class="pub-meta">Riutort Riutort, 2014 &middot; <a href="https://www.torrossa.com/en/resources/an/3577415" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">Link</a></p></li>
+<li><p class="pub-titel">Irony in Medieval and Early Modern German Literature: Nibelungenlied, Mauritius von Craûn, Johannes von Tepl&#x27;s Ackermann: The Encounter of the Menschlich-Allzumenschlich in a Medieval Context</p><p class="pub-meta">Classen, 2014 &middot; <a href="https://doi.org/10.5406/jenglgermphil.113.2.0184" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.5406/jenglgermphil.113.2.0184</a></p></li>
+<li><p class="pub-titel">Sprachkorpora in Unterricht und Forschung DaF/DaZ</p><p class="pub-meta">Tomáš Káňa, 2014 &middot; <a href="https://www.ceeol.com/search/book-detail?id=837505" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">Link</a></p></li>
+<li><p class="pub-titel">217. BEITRAG: Vil lieben schriber chomt ovch her. Neue Fragmente des eschatologischen Gedichts ‘Von dem jungesten tage’</p><p class="pub-meta">Prinz, Lübbers, 2013 &middot; <a href="https://www.jstor.org/stable/43671932" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">Link</a></p></li>
+<li><p class="pub-titel">&lt;i&gt;Vil lieben schriber chomt ovch her&lt;/i&gt;: Neue Fragmente des eschatologischen Gedichts ‘Von dem jungesten tage’</p><p class="pub-meta">Prinz, Lübbers, 2013 &middot; <a href="https://doi.org/10.3813/zfda-2013-0023" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.3813/zfda-2013-0023</a></p></li>
+<li><p class="pub-titel">German Studies: Medieval Literature</p><p class="pub-meta">Kellett, 2013 &middot; <a href="https://doi.org/10.5699/yearworkmodlang.73.2011.0310" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.5699/yearworkmodlang.73.2011.0310</a></p></li>
+<li><p class="pub-titel">Linking elements in German Origin, Change, Functionalization</p><p class="pub-meta">Nübling, Szczepaniak, 2013 &middot; <a href="https://doi.org/10.1007/s11525-013-9213-9" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.1007/s11525-013-9213-9</a></p></li>
+<li><p class="pub-titel">Literaturwissenschaft per Suchmaschine: Auf der Suche nach fiktionalen Inschriften mit der „Mittelhochdeutschen Begriffsdatenbank“</p><p class="pub-meta">Ott, 2013 &middot; <a href="http://www.materiale-textkulturen.de/mtc_blog/2013_005_Ott.pdf" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">Link</a></p></li>
+<li><p class="pub-titel">Per un portale del lessico poetico europeo (TrobVers/MHDBDB)</p><p class="pub-meta">Distilo, 2013 &middot; <a href="https://doi.org/10.1400/214359" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.1400/214359</a></p></li>
+<li><p class="pub-titel">ZUM PROZESS DES MITTELALTERLICHEN ‘UMSCHREIBENS’. Ein Beitrag zur ältesten Überlieferung des ‘Wigalois’</p><p class="pub-meta">Bertelsmeier-Kierst, 2013 &middot; <a href="https://www.jstor.org/stable/43671931" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">Link</a></p></li>
+<li><p class="pub-titel">Zur heutigen Aussprache der Texte Oswalds von Wolkenstein</p><p class="pub-meta">Müller, Moser, 2013 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Artusromane bis 1230</p><p class="pub-meta">Eikelmann, Reuvekamp, 2012 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Autor und Autorschaft im Mittelalter: Kolloquium Meißen 1995</p><p class="pub-meta">Andersen, Haustein, Simon u. a., 2012 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Conversio deutsch: Studien zur Geschichte von Wort und Konzept ›bekehren‹, insbesondere in der deutschen Sprache des Mittelalters</p><p class="pub-meta">Rein, 2012 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Lancelot: Der mittelhochdeutsche Roman im europäischen Kontext</p><p class="pub-meta">Ridder, Huber, 2012 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Sandra Linden u. Christopher Young (Hgg.): Ulrich von Liechtenstein. Leben – Zeit – Werk – Forschung</p><p class="pub-meta">Müller, 2012 &middot; <a href="https://doi.org/10.1515/pbb-2012-0003" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.1515/pbb-2012-0003</a></p></li>
+<li><p class="pub-titel">Computer-Based Medieval Research (with an Emphasis on Middle High German)</p><p class="pub-meta">Müller, Classen, 2011 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Eine vergleichende Analyse von historischen und diachronen digitalen Korpora. Projekt „DeutschDiachronDigital“. Technical Report 174 des Instituts für Informatik der Humboldt-Universität zu Berlin</p><p class="pub-meta">Kroymann, Thiebes, Lüdeling u. a., 2011 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Farbadjektive In Mittelhochdeutschen Sprachdenkmälern: Eine Quantitative Analyse</p><p class="pub-meta">Oguy, 2011 &middot; <a href="https://www.researchgate.net/profile/Artur-Kubacki-2/publication/333802711_Makro-_und_Mikrostruktur_deutscher_und_polnischer_Geschaftsberichte/links/5d051725458515b055d4e35c/Makro-und-Mikrostruktur-deutscher-und-polnischer-Geschaeftsberichte.pdf" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">Link</a></p></li>
+<li><p class="pub-titel">Produktivität in der deutschen Derivationsmorphologie</p><p class="pub-meta">Schneider-Wiejowski, 2011 &middot; <a href="https://pub.uni-bielefeld.de/record/2473126" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">Link</a></p></li>
+<li><p class="pub-titel">TEI-basierte Modellierung von Retrodigitalisaten (am Beispiel des Trierer Wörterbuchnetzes)</p><p class="pub-meta">Hildenbrandt, Klosa, Müller-Spitzer, 2011 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Die Anwendung des Modells “Lexemático Funcional” für die Übersetzung deutscher mittelalterlicher Texte: eine Untersuchung/Studie basiert auf Korpus</p><p class="pub-meta">Torezano, 2010 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Die Darstellung des Fuchses in der mittelalterlichen Dichtung</p><p class="pub-meta">Müllneritsch, 2010 &middot; <a href="https://doi.org/10.11588/cma.2010.0.77569" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.11588/cma.2010.0.77569</a></p></li>
+<li><p class="pub-titel">Emergenz und Grammatikalisierung von V1-Konditionalen: ein Rekonstruktionsversuch am Beispiel des Deutschen und Englischen</p><p class="pub-meta">Van den Nest, 2010 &middot; <a href="http://hdl.handle.net/1854/LU-4123411" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">Link</a></p></li>
+<li><p class="pub-titel">Grammaticalization</p><p class="pub-meta">Stathi, König, Gehweiler, 2010 &middot; <a href="http://digital.casalini.it/9789027288004" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">Link</a></p></li>
+<li><p class="pub-titel">On the Emergence of an Eighth Ablaut Class in German and Dutch</p><p class="pub-meta">Nowak, 2010 &middot; <a href="https://doi.org/10.1017/S1470542710000103" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.1017/S1470542710000103</a></p></li>
+<li><p class="pub-titel">From Phonology to Syntax: Pronominal Cliticization in Otfrid&#x27;s Evangelienbuch</p><p class="pub-meta">Somers, 2009 &middot; <a href="https://doi.org/10.1515/9783484971554" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.1515/9783484971554</a></p></li>
+<li><p class="pub-titel">Lanzelet: Text - Übersetzung - Kommentar. Studienausgabe</p><p class="pub-meta">Zatzikhoven, 2009 &middot; <a href="https://doi.org/10.1515/9783110215533" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.1515/9783110215533</a></p></li>
+<li><p class="pub-titel">Minneklage als Nachdenken über eine ungewisse Zukunft: Walthers stæte-Lied 66 (L 96, 29 ff.) aus kontingenztheoretischen Perspektiven des Mittelalters</p><p class="pub-meta">Herberichs, Reichlin, Kundert, 2009 &middot; <a href="https://doi.org/10.13109/9783666367137.304" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.13109/9783666367137.304</a></p></li>
+<li><p class="pub-titel">Präpositionen und Präpositionalphrasen im Mittelhochdeutschen</p><p class="pub-meta">Waldenberger, 2009 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Review of Die Bibliothek des Klosters Bursfelde im Spätmittelalter</p><p class="pub-meta">Schneider, 2009 &middot; <a href="https://www.jstor.org/stable/20658660" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">Link</a></p></li>
+<li><p class="pub-titel">Slâftrinken und twalm. Schlaflosigkeit, Schlafmittel und deren Anwendung in der Literatur des Mittelalters1</p><p class="pub-meta">Klug, 2007 &middot; <a href="https://doi.org/10.1007/s11818-007-0318-4" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.1007/s11818-007-0318-4</a></p></li>
+<li><p class="pub-titel">XXV. Hochmittelalter (1170–1250)</p><p class="pub-meta">2007 &middot; <a href="https://doi.org/10.1515/GERM.2007.208" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.1515/GERM.2007.208</a></p></li>
+<li><p class="pub-titel">Mauritius von Craûn and Otto von Freising&#x27;s &quot;The Two Cities&quot;: 12th- and 13th-Century Scepticism about Historical Progress and the Metaphor of the Ship</p><p class="pub-meta">Classen, 2006 &middot; <a href="https://www.jstor.org/stable/27675883" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">Link</a></p></li>
+<li><p class="pub-titel">But What Has Really Changed?</p><p class="pub-meta">Boethius, Firchow, Hotchkiss u. a., 2005 &middot; <a href="https://www.jstor.org/stable/27712514" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">Link</a></p></li>
+<li><p class="pub-titel">Die Stift Zwettler Fragmente: Beschreibung und Transkription</p><p class="pub-meta">Springeth, Ziegler, Gärtner u. a., 2005 &middot; <a href="https://doi.org/10.1515/BGSL.2005.33" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.1515/BGSL.2005.33</a></p></li>
+<li><p class="pub-titel">Kräuter in der deutschsprachigen Dichtung des Hochmittelalters: Vorkommen, Anwendung und Wirkung in ausgewählten Texten: Zugl.: Graz, Univ., Diplomarbeit, 2004</p><p class="pub-meta">Klug, 2005 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Neue Medien, alte Texte? Überlegungen zum Ertrag digitaler Ressourcen für die Altgermanistik</p><p class="pub-meta">Glauch, Stolz, Gisi u. a., 2005 &middot; <a href="https://www.germanistik.ch/publikation.php?id=neue_medien_alte_texte" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">Link</a></p></li>
+<li><p class="pub-titel">Storing and Querying Historical Texts in a Relational Database</p><p class="pub-meta">Faulstich, Leser, Lüdeling u. a., 2005 &middot; <a href="https://doi.org/10.18452/2436" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.18452/2436</a></p></li>
+<li><p class="pub-titel">Begriffsglossar und Index zu Albrechts »Jüngerem Titurel«: Alphabetischer Index</p><p class="pub-meta">Woesner, 2003 &middot; <a href="https://doi.org/10.1515/9783110962208" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.1515/9783110962208</a></p></li>
+<li><p class="pub-titel">Medieval Literature</p><p class="pub-meta">Harris, Archibald, Hasty, 2003 &middot; <a href="https://www.jstor.org/stable/25833838" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">Link</a></p></li>
+<li><p class="pub-titel">Nu huete wol der verte: auf dem Weg zu einem Begriffsglossar zum &quot;Jüngeren Titurel&quot;</p><p class="pub-meta">Woesner, 2003 &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Developing Conceptual Glossaries for the Latin Vulgate Bible</p><p class="pub-meta">Wilson, 2002 &middot; <a href="https://doi.org/10.1093/llc/17.4.413" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">DOI 10.1093/llc/17.4.413</a></p></li>
+<li><p class="pub-titel">Ein neues Fragment von Reinbots &#x27;Georg&#x27;</p><p class="pub-meta">Klein, 2001 &middot; <a href="https://www.jstor.org/stable/20659174" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">Link</a></p></li>
+<li><p class="pub-titel">&quot;Mit grôzen listen wart gestalt&quot;: The Element of List in Thirteenth-Century Courtly Romances, with Emphasis on Heinrich von dem Türlin&#x27;s Diu Crône</p><p class="pub-meta">Shockey, 2000 &middot; <a href="https://escholarship.org/uc/item/4d44q4rv" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">Link</a></p></li>
+<li><p class="pub-titel">Tristans erbeminne. Versuch über vier Hapax legomena bei Gottfried von Straβburg</p><p class="pub-meta">Steinmetz, 2000 &middot; <a href="https://www.jstor.org/stable/20659157" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">Link</a></p></li>
+<li><p class="pub-titel">Recke. Zur althochdeutschen Vorgeschichte eines Schlüsselwortes der mittelhochdeutschen Heldendichtung</p><p class="pub-meta">Gottschall, 1999 &middot; <a href="https://www.jstor.org/stable/20659063" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">Link</a></p></li>
+<li><p class="pub-titel">Analyzing Middle High German Syntax with RDF and SPARQL</p><p class="pub-meta">Chiarcos, Kosmehl, Fath u. a., o. J. &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">HISTORISCHE LEXIKOGRAFIE ZWISCHEN ZETTELKASTEN UND INTERNET. DIE NEUBEARBEITUNG DES DEUTSCHEN FREMDWÖRTERBUCHS (DFWB) AM INSTITUT FÜR DEUTSCHE SPRACHE. EIN WERKSTATTBERICHT</p><p class="pub-meta">Schmidt, o. J. &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">Micro- and Macro-variation of Causal Clauses</p><p class="pub-meta">Jedrzejowski, o. J. &middot; <a href="https://benjamins.com/catalog/slcs.231" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">Link</a></p></li>
+<li><p class="pub-titel">Räume der Erinnerung und der Liebe</p><p class="pub-meta">Müll, o. J. &middot; kein Link hinterlegt</p></li>
+<li><p class="pub-titel">The Critics Remain Silent at the Banquet of Words: Marchand on the Names in Wolfram Von Eschenbach&#x27;s Parzival</p><p class="pub-meta">Carey, o. J. &middot; kein Link hinterlegt</p></li>
+</ul>
+</section>
+<p class="text-sm text-slate-500">Stand der Bibliothek: 18.10.2026. Die Liste wird einmal im Monat aus der <a href="https://www.zotero.org/groups/5043625/mittelhochdeutsche_begriffsdatenbank/library" class="text-brand-600 hover:text-brand-700 font-medium" target="_blank" rel="noopener">Zotero-Bibliothek der MHDBDB</a> übernommen.</p>
+<!-- PUBLIKATIONEN:END -->
+
+    </main>
+
+<!-- FOOTER:START -->
+<footer class="bg-slate-100 text-slate-900 py-8">
+  <div class="container mx-auto px-6">
+    <!-- Logos Row -->
+    <div
+      class="flex flex-wrap items-center justify-center gap-8 mb-6 pb-6 border-b border-slate-300"
+    >
+      <img
+        src="assets/images/mhdbdb-logo.png"
+        alt="MHDBDB Logo"
+        class="h-16 w-auto"
+      />
+      <img
+        src="assets/images/university-logo.png"
+        alt="Universität Salzburg"
+        class="h-16 w-auto"
+      />
+      <img
+        src="assets/images/clariah-logo.svg"
+        alt="CLARIAH-AT"
+        class="h-16 w-auto"
+      />
+    </div>
+
+    <!-- Info and Button Row -->
+    <div
+      class="flex flex-col md:flex-row justify-between items-center gap-6"
+    >
+      <div class="text-center md:text-left">
+        <p class="text-sm mb-2">
+          Universität Salzburg, 2025–<span class="current-year">2026</span> |
+          <a
+            href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
+            class="hover:text-brand-600 transition"
+            target="_blank"
+            rel="noopener"
+          >
+            CC BY-NC-SA 4.0
+          </a>
+        </p>
+        <div
+          class="flex flex-wrap justify-center md:justify-start gap-4 text-sm text-slate-600"
+        >
+          <a
+            href="mailto:mhdbdb@plus.ac.at"
+            class="hover:text-brand-600 transition"
+            >mhdbdb@plus.ac.at</a
+          >
+          <span>|</span>
+          <a
+            href="https://mhdbdb.plus.ac.at"
+            class="hover:text-brand-600 transition"
+            target="_blank"
+            rel="noopener"
+          >
+            mhdbdb.plus.ac.at
+          </a>
+          <span>|</span>
+          <a
+            href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only"
+            class="hover:text-brand-600 transition"
+            target="_blank"
+            rel="noopener"
+          >
+            GitHub
+          </a>
+          <span>|</span>
+          <a
+            href="textreihen/index.html"
+            class="hover:text-brand-600 transition"
+          >
+            Textreihentypologie
+          </a>
+          <span>|</span>
+          <a
+            href="hilfe-publikationen.html"
+            class="hover:text-brand-600 transition"
+          >
+            Publikationen
+          </a>
+          <span>|</span>
+          <a
+            href="impressum.html"
+            class="hover:text-brand-600 transition"
+          >
+            Impressum
+          </a>
+          <span>|</span>
+          <a
+            href="barrierefreiheit.html"
+            class="hover:text-brand-600 transition"
+          >
+            Barrierefreiheit
+          </a>
+        </div>
+      </div>
+      <button
+        id="clearSiteDataBtn"
+        class="btn-secondary text-sm flex items-center gap-2"
+        title="Alle gespeicherten Daten löschen (Cache, IndexedDB, etc.)"
+      >
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+        </svg>
+        <span>Website-Daten löschen</span>
+      </button>
+    </div>
+  </div>
+</footer>
+<script src="assets/js/site-chrome.js" defer></script>
+<!-- FOOTER:END -->
+
+</body>
+</html>
