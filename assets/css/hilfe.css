@@ -168,3 +168,28 @@
     color: rgb(38, 92, 196); /* brand-600 */
     text-decoration-color: currentColor;
 }
+
+/* ============================================================
+ * Listen der Unterseiten Publikationen (#417) und Demnächst (#537)
+ * ============================================================ */
+.pub-liste {
+    list-style: none;
+    margin: 0;
+    padding: 0.25rem 1.25rem;
+    background: #fff;
+    border: 1px solid rgb(226, 232, 240); /* slate-200 */
+    border-radius: 1rem;
+}
+.pub-liste > li {
+    padding: 0.75rem 0;
+    border-bottom: 1px solid rgb(241, 245, 249); /* slate-100 */
+}
+.pub-liste > li:last-child { border-bottom: 0; }
+.pub-titel { color: rgb(15, 23, 42); } /* slate-900 */
+.pub-meta {
+    margin-top: 0.125rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    color: rgb(71, 85, 105); /* slate-600 */
+}
+.pub-leer { color: rgb(100, 116, 139); } /* slate-500 */

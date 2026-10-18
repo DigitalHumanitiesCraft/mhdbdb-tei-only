@@ -1,0 +1,94 @@
+name: Monatslauf Seiten
+
+# Monatlicher Nachzug der beiden Hilfe-Unterseiten (#417, #537): zieht die
+# Zotero-Sammlungen (Publikationen) und die offenen ingest-Issues (Demnächst
+# im Korpus) in ihre eingefrorenen Stände und baut die Seiten daraus. Bei
+# einer Änderung öffnet der Lauf einen PR; gemergt wird nach Sichtprüfung.
+#
+# Ein Ausfall von Zotero oder der GitHub-API bricht den Lauf nicht: die
+# Skripte behalten den alten Stand, melden eine Warnung und enden mit Exit 0
+# (scripts/build-publikationen.py, scripts/build-demnaechst.py). Dann gibt es
+# keine Änderung und keinen PR.
+#
+# Hinweis: PRs aus dem GITHUB_TOKEN triggern keine weiteren Workflows; die
+# übrigen CI-Checks laufen erst nach menschlichem Push/Re-Trigger.
+
+on:
+  schedule:
+    - cron: '23 5 1 * *'   # am 1. jedes Monats, 05:23 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: monatslauf-seiten
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+
+      - name: Publikationen aus Zotero nachziehen
+        run: python scripts/build-publikationen.py
+
+      - name: Demnächst im Korpus aus den ingest-Issues nachziehen
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python scripts/build-demnaechst.py
+
+      - name: Seiten gegen die Stände prüfen
+        run: |
+          python scripts/build-publikationen.py --check
+          python scripts/build-demnaechst.py --check
+
+      - name: Auf Änderung prüfen
+        id: diff
+        run: |
+          if git diff --quiet -- data/zotero-publikationen.json data/demnaechst-issues.json hilfe-publikationen.html hilfe-demnaechst.html; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "Stände unverändert, kein PR."
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: PR erstellen oder aktualisieren
+        if: steps.diff.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          add-paths: |
+            data/zotero-publikationen.json
+            data/demnaechst-issues.json
+            hilfe-publikationen.html
+            hilfe-demnaechst.html
+          branch: chore/monatslauf-seiten
+          delete-branch: true
+          commit-message: |
+            chore: Publikationen und Demnächst im Korpus nachgezogen (#417, #537)
+
+            ## Changes
+            - Zotero-Stand und ingest-Issues neu abgerufen, Seiten daraus gebaut
+
+            Co-Authored-By: Claude <noreply@anthropic.com>
+          title: 'Monatslauf: Publikationen und Demnächst im Korpus (#417, #537)'
+          body: |
+            Automatischer Monatslauf (Workflow `monatslauf-seiten.yml`, siehe #417 und #537).
+
+            Geändert sind die eingefrorenen Stände unter `data/` und die beiden
+            Seiten `hilfe-publikationen.html` und `hilfe-demnaechst.html`. Bitte
+            vor dem Merge den Diff der Stände ansehen: neue oder verschwundene
+            Einträge, und bei Demnächst im Korpus, ob ein neues Issue einen
+            Eintrag in `data/demnaechst-zeitplan.json` braucht (ohne Eintrag
+            steht es mit „Zeitpunkt offen" auf der Seite).
+
+            Bezug: #417, #537, bleiben offen

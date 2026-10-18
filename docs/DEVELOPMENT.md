@@ -148,6 +148,13 @@ python scripts/build-textreihen.py              # textreihen/data/skos/*.rj -> t
 python scripts/build-textreihen-bibliography.py # Zotero group 4876216 -> textreihen/bibliography.html + data/zotero-schnappschuss.json
                                                 # (--offline: rebuild from the snapshot; --check: drift gate, no network)
 
+# Help subpages "Publikationen" (#417) and "Demnächst im Korpus" (#537). Both pages are built from frozen
+# states under data/, never live; .github/workflows/monatslauf-seiten.yml refreshes both on the 1st of the
+# month and opens a PR on change. A Zotero or GitHub outage keeps the old state and does not fail the run.
+python scripts/build-publikationen.py           # Zotero group 5043625, collections WB4HTUGC + Z2N4SWWI -> data/zotero-publikationen.json -> hilfe-publikationen.html
+python scripts/build-demnaechst.py              # open `ingest` issues -> data/demnaechst-issues.json; quarters by hand in data/demnaechst-zeitplan.json -> hilfe-demnaechst.html
+                                                # (both: --offline rebuilds the page from the file, --check is the drift gate, no network)
+
 # Build the full derived layer in dependency order: corpus index, variants.xml, authority index, API
 npm run build:data       # build:corpus && extract-variants --apply && build:authority && build-api --allow-dirty && build:begriffshilfe
 # build-api runs with --allow-dirty here because the just-rebuilt indexes in data/ are still uncommitted (dirty)
@@ -275,6 +282,7 @@ Completeness against `testing/tests/` is gated by `scripts/audit/check-doc-inven
 | `lemma-matching.spec.js` | Cross-cutting | Lemma highlight matching exactness, #130 (see [CONTRACTS.md](CONTRACTS.md#b1-lemma-highlight-matching-contract)) |
 | `position-parity.spec.js` | Cross-cutting | Python/JS word-position agreement, #131 (see [CONTRACTS.md](CONTRACTS.md#b-position-counting-contract)) |
 | `site-chrome.spec.js` | Cross-cutting | Build-injected nav/footer + mobile-menu (`build-pages.py`) |
+| `hilfe-unterseiten.spec.js` | Help subpages | The two help subpages "Publikationen" (#417) and "Demnächst im Korpus" (#537): reachable from the tiles on `hilfe.html` and (Publikationen) from the footer, every entry of the frozen state rendered with a DOI or link, the quarter list sorted with "Zeitpunkt offen" last, and no entry for an issue that is `wait:extern` |
 | `textreihen.spec.js` | Subsite | The `textreihen/` subsite (#93): all 11 pages reachable from the start page with no orphan file, every internal link, image, anchor and download resolving, the SKOS tree showing a category with several direct parents (Beschwörung, 12) under every one of them, search and direct link, the bibliography filter, and no request to the unreachable `dhplus.sbg.ac.at` |
 | `vendor.spec.js` | Cross-cutting | Runtime libraries come from `assets/vendor/`, no CDN dependency: no external `<script src>` and no external `<link>` that triggers a fetch (runtime counterpart to `no-cdn-check.yml`, same rules) |
 | `result-header-escaping.spec.js` | Cross-cutting | The playground result header escapes the search input: markup arriving through a shared `#multi-lemma&…&ids=…` link must not become an element (#427) |

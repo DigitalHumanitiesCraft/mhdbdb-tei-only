@@ -460,6 +460,14 @@ The former website of the MHDBDB text-series typology, a controlled SKOS vocabul
 - **Bibliography:** 190 entries from the public Zotero group, filterable by text and by text-series tag; static, rebuilt with `scripts/build-textreihen-bibliography.py`.
 - **Images:** all images of the content pages, the start image and the seven logos of the partners and funders are carried over (reuse confirmed by KZW on 2026-10-13). The logos, which stood in the footer of every page of the old site, appear once on the start page next to the funding notice.
 
+## Help subpages: Publikationen and Demnächst im Korpus (#417, #537)
+
+Two subpages of the help area, each reached from a tile on the help hub, with no menu entry; "Publikationen" also from the footer.
+
+- **Publikationen (`hilfe-publikationen.html`):** two sections from the public Zotero group 5043625, "Eigene Publikationen" (collection `WB4HTUGC`) and "Erwähnende Publikationen" (`Z2N4SWWI`). Per entry the title, authors and year, and a DOI link or, without a DOI, the entry's link. The page is built from the frozen state `data/zotero-publikationen.json` and never queries Zotero in the browser.
+- **Demnächst im Korpus (`hilfe-demnaechst.html`):** the planned ingests, taken from the open issues with the label `ingest`. Issues that wait on external parties (`wait:extern`, the rights question is open there) are left out, as are those listed under `ausgeschlossen` in `data/demnaechst-zeitplan.json` (work on texts already in the corpus, issues without a new text, parked ones). Each entry carries a quarter from that file or "Zeitpunkt offen"; the page says that times are estimates. While the file carries `"vorschlag": true`, the page also says the quarters are not yet agreed.
+- **Upkeep:** `.github/workflows/monatslauf-seiten.yml` refreshes both states on the 1st of the month (or by hand via `workflow_dispatch`) and opens a PR when something changed. A Zotero or GitHub outage leaves the old state in place and fails nothing.
+
 ---
 
 For technical implementation, see [ARCHITECTURE.md](ARCHITECTURE.md).

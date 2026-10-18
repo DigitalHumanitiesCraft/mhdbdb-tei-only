@@ -1520,3 +1520,11 @@ KZW hat am 16.10. geschrieben, das alte PLUS-Logo dürfe seit 1.10.2026 nicht me
 **Rote Zeilen.** Keine.
 
 **Was zurück an Christian geht.** (1) KZW: soll das MHDBDB-Logo durch eine der sechs neuen Varianten ersetzt werden? (2) Julia hat vermutlich eine zwischengespeicherte oder blockierte Ansicht gesehen; ohne Bildschirmfoto bleibt es eine Vermutung.
+
+## 2026-10-18 – Spur lauf-1018-frontend, PR 3: Unterseiten Publikationen und Demnächst im Korpus (#417, #537)
+
+Zwei Hilfe-Unterseiten, beide aus eingefrorenen Ständen unter `data/` gebaut, nie live: `hilfe-publikationen.html` aus den Zotero-Sammlungen WB4HTUGC (88 Einträge) und Z2N4SWWI (205) der Gruppe 5043625, `hilfe-demnaechst.html` aus den offenen `ingest`-Issues (15, davon 6 sichtbar) und einer von Hand gepflegten Zeitplan-Datei. Ein Monatslauf (`monatslauf-seiten.yml`, Muster `naming-index-update.yml`) zieht beide nach und öffnet bei Änderung einen PR.
+
+**Entscheidungen.** (1) Wie der Vorgänger `build-textreihen-bibliography.py`: Marker-Region in der Seite, Stand als JSON, `--offline` und `--check`. (2) Ein Ausfall von Zotero oder GitHub lässt den alten Stand liegen und endet mit Exit 0; auch weniger als die Hälfte der bisherigen Einträge gilt als misslungener Abruf. Probe mit totem Proxy: beide Skripte Exit 0, Stand und Seite unverändert. (3) Das Abrufdatum ändert sich nur mit dem Inhalt, sonst öffnete jeder Monat einen PR. (4) Der Em-Dash eines Zotero-Titels (Naming-analysis) wird erst beim Bauen der Seite ersetzt; der Stand behält den Titel. (5) Ausgeschlossen sind `wait:extern` per Label und fünf Issues per Eintrag in der Zeitplan-Datei (Pipeline, WZB schon im Korpus, Zusammenarbeit ohne Text, zwei zurückgestellte). Die ersten drei Quartale stehen als Vorschlag da und die Seite sagt es (`"vorschlag": true`).
+
+**Rote Zeilen.** Keine.
