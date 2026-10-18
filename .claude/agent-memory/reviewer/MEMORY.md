@@ -14,3 +14,4 @@ Verdichtet am 08.10., 10.10., 14.10., 16.10. und 18.10.2026. Zahlen in den Datei
 - [Playground/Frontend](projekt_playground_frontend.md): Frontend-Pfade, Suche, Werkzeugzustand, Reader, Hilfetexte mitlesen
 - [Fremdquellen](projekt_fremdquellen.md): Naming-Index, Pferde-Index, Glossar-Export #554, Textreihen-Unterseite
 - [Prüfseiten](projekt_pruefseiten.md): Prüfseiten-Generatoren und archivierte Beispiele prüfen
+- [ONAMA-Pilot #609](lauf-1018-onama.md): TTL-Reproduktion, Positionsparität per importlib, Prüfstatus an drei Stellen gegenlesen, Spec-Titel gegen Assertions
