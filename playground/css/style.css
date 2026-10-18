@@ -150,10 +150,33 @@
   cursor: pointer;
 }
 
-.result-summary:hover {
+.result-summary:not(.result-summary-dokument):hover {
   border-color: var(--border-secondary);
   box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
   transform: translateY(-2px);
+}
+
+/* Dokumentsuche (#58): umgeklappt wird nur ueber Kopf und Hinweis, also nur
+   dort Zeiger und Hover-Lift; die Fundstellenliste zeigt den normalen Zeiger. */
+.result-summary-dokument {
+  cursor: default;
+}
+
+.result-summary-dokument .summary-header,
+.result-summary-dokument .summary-expand-hint {
+  cursor: pointer;
+}
+
+.result-summary-dokument:has(.summary-header:hover, .summary-expand-hint:hover) {
+  border-color: var(--border-secondary);
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
+  transform: translateY(-2px);
+}
+
+.result-summary .summary-header:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 4px;
+  border-radius: var(--radius-md);
 }
 
 .result-summary .summary-preview {
@@ -536,9 +559,13 @@ textarea:focus {
     min-width: 48px;
   }
 
-  /* Remove hover effects on touch devices */
+  /* Remove hover effects on touch devices. Die Karten-Selektoren stehen hier
+     in derselben Spezifitaet wie ihre Hover-Regeln oben (:not und :has zaehlen
+     ihr Argument mit), sonst gewinnt der Hover gegen diese Ausnahme. */
   .file-item:hover,
   .result-summary:hover,
+  .result-summary:not(.result-summary-dokument):hover,
+  .result-summary-dokument:has(.summary-header:hover, .summary-expand-hint:hover),
   .file-group:hover {
     transform: none;
     box-shadow: initial;
@@ -547,6 +574,8 @@ textarea:focus {
   /* Add active state instead */
   .file-item:active,
   .result-summary:active,
+  .result-summary:not(.result-summary-dokument):active,
+  .result-summary-dokument:has(.summary-header:hover, .summary-expand-hint:hover):active,
   .file-group:active {
     transform: scale(0.98);
     opacity: 0.9;
