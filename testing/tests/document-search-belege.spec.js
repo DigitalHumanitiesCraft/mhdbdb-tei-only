@@ -148,6 +148,52 @@ test.describe('#58: Fundstellen der Dokumentsuche', () => {
     await expect(k).not.toHaveClass(/expanded/);
   });
 
+  test('Kartenkopf per Tastatur: Rolle, aria-expanded, Enter auf, Leertaste zu', async ({ page }) => {
+    await dokumentSuche(page, ['arm'], [ARM_KOERPERTEIL]);
+    const text = await waehleText(page, [ARM_KOERPERTEIL], [2]);
+    expect(text).toBeTruthy();
+    const k = karte(page, text.filename);
+    const kopf = k.locator('.summary-header');
+
+    await expect(kopf).toHaveAttribute('role', 'button');
+    await expect(kopf).toHaveAttribute('tabindex', '0');
+    await expect(kopf).toHaveAttribute('aria-expanded', 'false');
+
+    // Enter klappt auf; die Fundstellen kommen ueber lazyDetails nach
+    await kopf.focus();
+    await expect(k.locator('.beleg-link')).toHaveCount(0);
+    await page.keyboard.press('Enter');
+    await expect(k).toHaveClass(/expanded/);
+    await expect(k.locator('.beleg-gruppe').first()).toBeVisible({ timeout: 60000 });
+    await expect(kopf).toHaveAttribute('aria-expanded', 'true');
+
+    // Leertaste klappt zu und scrollt die Seite nicht
+    const scrollVorher = await page.evaluate(() => window.scrollY);
+    await page.keyboard.press('Space');
+    await expect(k).not.toHaveClass(/expanded/);
+    await expect(kopf).toHaveAttribute('aria-expanded', 'false');
+    expect(await page.evaluate(() => window.scrollY)).toBe(scrollVorher);
+
+    // Leertaste klappt auch wieder auf, ohne Neuladen
+    await page.keyboard.press('Space');
+    await expect(k).toHaveClass(/expanded/);
+    await expect(kopf).toHaveAttribute('aria-expanded', 'true');
+  });
+
+  test('Zeiger: nur der Kopf einer Dokumentkarte zeigt die Hand, nicht die Fundstellenliste', async ({ page }) => {
+    await dokumentSuche(page, ['arm'], [ARM_KOERPERTEIL]);
+    const text = await waehleText(page, [ARM_KOERPERTEIL], [2]);
+    expect(text).toBeTruthy();
+    const k = karte(page, text.filename);
+    await aufklappen(page, k);
+
+    const cursor = sel => k.locator(sel).first().evaluate(el => getComputedStyle(el).cursor);
+    expect(await cursor('.summary-header')).toBe('pointer');
+    expect(await cursor('.summary-expand-hint')).toBe('pointer');
+    expect(await cursor('.result-details')).not.toBe('pointer');
+    expect(await cursor('.beleg-gruppe h5')).not.toBe('pointer');
+  });
+
   test('eine Fundstelle öffnet die Leseansicht genau an dieser Stelle', async ({ page }) => {
     await dokumentSuche(page, ['arm'], [ARM_KOERPERTEIL]);
     const text = await waehleText(page, [ARM_KOERPERTEIL], [2]);

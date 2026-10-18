@@ -408,7 +408,7 @@ function setupSummaryExpansion() {
   });
 
   document.querySelectorAll('.result-summary').forEach((summary) => {
-    summary.addEventListener('click', async (event) => {
+    summary.addEventListener('click', (event) => {
       // Links in der Karte (Fundstellen, „Gesamten Text öffnen“) navigieren
       // selbst und klappen die Karte nicht um (#58)
       if (event.target.closest('a')) return;
@@ -419,73 +419,101 @@ function setupSummaryExpansion() {
       if (summary.classList.contains('result-summary-dokument') &&
           !event.target.closest('.summary-header, .summary-expand-hint')) return;
       event.preventDefault();
-
-      const isExpanding = !summary.classList.contains('expanded');
-
-      // Dokumentsuche (#58): Fundstellen beim ersten Aufklappen nachladen
-      const cardData = storedSummaryData?.[Number(summary.dataset.summaryId)];
-      if (typeof cardData?.lazyDetails === 'function') {
-        if (summary.dataset.loading) return; // Klick waehrend des Ladens
-        if (isExpanding && !summary.dataset.enriched) {
-          const hint = summary.querySelector('.summary-expand-hint');
-          const detailsContainer = summary.querySelector('.result-details');
-          summary.dataset.loading = 'true';
-          hint.textContent = 'Lade Text…';
-          try {
-            detailsContainer.innerHTML = await cardData.lazyDetails();
-            summary.dataset.enriched = 'true';
-            hint.textContent = 'Klicken zum Zuklappen';
-          } catch (error) {
-            console.error('Fundstellen konnten nicht geladen werden:', error);
-            detailsContainer.innerHTML = `<p class="beleg-fehler text-sm text-red-700">Fundstellen konnten nicht geladen werden: ${escapeHtml(String(error.message))}</p>`;
-            hint.textContent = 'Fehler beim Laden';
-          } finally {
-            delete summary.dataset.loading;
-          }
-        } else if (summary.dataset.enriched) {
-          summary.querySelector('.summary-expand-hint').textContent = isExpanding ? 'Klicken zum Zuklappen' : 'Klicken für Fundstellen';
-        }
-        summary.classList.toggle('expanded');
-        return;
-      }
-
-      if (isExpanding && storedRawResults && !summary.dataset.enriched) {
-        // First time expanding - fetch TEI text
-        const filename = summary.querySelector('h4').textContent;
-        const fileResults = storedRawResults.filter(r => r.filename === filename);
-
-        if (fileResults.length > 0 && !fileResults[0].text) {
-          // Show loading indicator
-          summary.querySelector('.summary-expand-hint').textContent = 'Lade Text...';
-
-          try {
-            // Fetch TEI and enrich results
-            await enrichFileResults(fileResults, storedLemmaIds);
-
-            // Rebuild the details HTML with enriched data
-            const details = createDetailsFromEnrichedResults(fileResults);
-            const detailsHTML = createDetailsHTML(details);
-            const detailsContainer = summary.querySelector('.result-details');
-            if (detailsContainer) {
-              detailsContainer.innerHTML = detailsHTML;
-
-              // Add click handlers to detail items to open main site reader
-              setupDetailItemClickHandlers(detailsContainer, fileResults);
-            }
-
-            // Mark as enriched
-            summary.dataset.enriched = 'true';
-            summary.querySelector('.summary-expand-hint').textContent = 'Klicken zum Zuklappen';
-          } catch (error) {
-            console.error('Failed to enrich results:', error);
-            summary.querySelector('.summary-expand-hint').textContent = 'Fehler beim Laden';
-          }
-        }
-      }
-
-      summary.classList.toggle('expanded');
+      toggleSummary(summary);
     });
+
+    // Tastatur: der Kopf ist ein Knopf (Enter, Leertaste), dieselbe Funktion
+    // wie beim Klick. Nur wenn der Kopf selbst den Fokus hat, nicht ein Link darin.
+    const header = summary.querySelector('.summary-header');
+    if (header) {
+      header.setAttribute('role', 'button');
+      header.setAttribute('tabindex', '0');
+      header.setAttribute('aria-expanded', summary.classList.contains('expanded') ? 'true' : 'false');
+      header.addEventListener('keydown', (event) => {
+        if (event.target !== header) return;
+        if (event.key !== 'Enter' && event.key !== ' ') return;
+        event.preventDefault(); // Leertaste scrollt sonst die Seite
+        toggleSummary(summary);
+      });
+    }
   });
+}
+
+/** Klappt eine Karte um und fuehrt aria-expanded des Kopfes nach. */
+async function toggleSummary(summary) {
+  try {
+    await runSummaryToggle(summary);
+  } finally {
+    summary.querySelector('.summary-header')
+      ?.setAttribute('aria-expanded', summary.classList.contains('expanded') ? 'true' : 'false');
+  }
+}
+
+async function runSummaryToggle(summary) {
+  const isExpanding = !summary.classList.contains('expanded');
+
+  // Dokumentsuche (#58): Fundstellen beim ersten Aufklappen nachladen
+  const cardData = storedSummaryData?.[Number(summary.dataset.summaryId)];
+  if (typeof cardData?.lazyDetails === 'function') {
+    if (summary.dataset.loading) return; // Klick waehrend des Ladens
+    if (isExpanding && !summary.dataset.enriched) {
+      const hint = summary.querySelector('.summary-expand-hint');
+      const detailsContainer = summary.querySelector('.result-details');
+      summary.dataset.loading = 'true';
+      hint.textContent = 'Lade Text…';
+      try {
+        detailsContainer.innerHTML = await cardData.lazyDetails();
+        summary.dataset.enriched = 'true';
+        hint.textContent = 'Klicken zum Zuklappen';
+      } catch (error) {
+        console.error('Fundstellen konnten nicht geladen werden:', error);
+        detailsContainer.innerHTML = `<p class="beleg-fehler text-sm text-red-700">Fundstellen konnten nicht geladen werden: ${escapeHtml(String(error.message))}</p>`;
+        hint.textContent = 'Fehler beim Laden';
+      } finally {
+        delete summary.dataset.loading;
+      }
+    } else if (summary.dataset.enriched) {
+      summary.querySelector('.summary-expand-hint').textContent = isExpanding ? 'Klicken zum Zuklappen' : 'Klicken für Fundstellen';
+    }
+    summary.classList.toggle('expanded');
+    return;
+  }
+
+  if (isExpanding && storedRawResults && !summary.dataset.enriched) {
+    // First time expanding - fetch TEI text
+    const filename = summary.querySelector('h4').textContent;
+    const fileResults = storedRawResults.filter(r => r.filename === filename);
+
+    if (fileResults.length > 0 && !fileResults[0].text) {
+      // Show loading indicator
+      summary.querySelector('.summary-expand-hint').textContent = 'Lade Text...';
+
+      try {
+        // Fetch TEI and enrich results
+        await enrichFileResults(fileResults, storedLemmaIds);
+
+        // Rebuild the details HTML with enriched data
+        const details = createDetailsFromEnrichedResults(fileResults);
+        const detailsHTML = createDetailsHTML(details);
+        const detailsContainer = summary.querySelector('.result-details');
+        if (detailsContainer) {
+          detailsContainer.innerHTML = detailsHTML;
+
+          // Add click handlers to detail items to open main site reader
+          setupDetailItemClickHandlers(detailsContainer, fileResults);
+        }
+
+        // Mark as enriched
+        summary.dataset.enriched = 'true';
+        summary.querySelector('.summary-expand-hint').textContent = 'Klicken zum Zuklappen';
+      } catch (error) {
+        console.error('Failed to enrich results:', error);
+        summary.querySelector('.summary-expand-hint').textContent = 'Fehler beim Laden';
+      }
+    }
+  }
+
+  summary.classList.toggle('expanded');
 }
 
 // Enrich file results with TEI text

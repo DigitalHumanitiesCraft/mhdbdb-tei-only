@@ -156,6 +156,33 @@
   transform: translateY(-2px);
 }
 
+/* Dokumentsuche (#58): umgeklappt wird nur ueber Kopf und Hinweis, also nur
+   dort Zeiger und Hover-Lift; die Fundstellenliste zeigt den normalen Zeiger. */
+.result-summary-dokument {
+  cursor: default;
+}
+
+.result-summary-dokument:hover {
+  box-shadow: none;
+  transform: none;
+}
+
+.result-summary-dokument .summary-header,
+.result-summary-dokument .summary-expand-hint {
+  cursor: pointer;
+}
+
+.result-summary-dokument:has(.summary-header:hover, .summary-expand-hint:hover) {
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
+  transform: translateY(-2px);
+}
+
+.result-summary .summary-header:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 4px;
+  border-radius: var(--radius-md);
+}
+
 .result-summary .summary-preview {
   color: var(--text-secondary);
 }
