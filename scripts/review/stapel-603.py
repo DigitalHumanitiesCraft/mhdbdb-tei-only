@@ -8,7 +8,7 @@ oder unter temp/):
 Eingabe: TSV mit den Spalten sigle und w_id (wie belege-tier.tsv / alle-belege-vorsortiert.tsv).
 Schreibt stapel-NN.tsv (nr, w_id, lemma, form, kontext; die Klasse der Vorsortierung steht
 absichtlich nicht darin, damit das Lesen nicht an ihr haengt) und schluessel.tsv (nr -> Eingabezeile).
-Kontext: 30 Woerter links und rechts, der Beleg als [[...]]. Fehlt eine w_id im TEI, bricht der Lauf ab.
+Kontext: 30 Token (<w> und <pc>, also Woerter und Satzzeichen) links und rechts, der Beleg als [[...]]. Fehlt eine w_id im TEI, bricht der Lauf ab.
 """
 import sys, os, random, collections
 from lxml import etree

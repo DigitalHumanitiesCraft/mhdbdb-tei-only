@@ -7,7 +7,7 @@ Aufruf:
 Liest stapel-NN.tsv und urteil-NN.tsv aus <stapeldir> (Ausgabe von stapel-603.py und der
 lesenden Agenten) und die Eingabe-TSV, aus der die Stapel gebaut wurden. Verbunden wird ueber
 nr, nicht ueber w_id: Agenten haben w_id vereinzelt falsch abgeschrieben, das Urteil gehoert
-trotzdem zur Zeile mit dieser nr (am Text geprueft). Jede Korrektur wird gemeldet. Harter Fehler
+trotzdem zur Zeile mit dieser nr (am Text geprueft). Jede Korrektur dieses Skripts wird gemeldet (was Hilfsskripte der Agenten vorher in den Urteildateien geflickt haben, sieht es nicht). Harter Fehler
 in der Meldung: unbekannte nr, doppelte w_id, Wert ausserhalb der erlaubten Mengen, tier ohne
 Tierklasse, Tierklasse ohne tier. Schreibt <stapeldir>/../teil-<teilname>.tsv. Mit n_agenten
 zieht es je Agent (stapel_je_agent Stapel) eine Stichprobe zum Nachlesen am Text.
