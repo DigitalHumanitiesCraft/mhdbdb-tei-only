@@ -137,6 +137,12 @@ test.describe('#58: Fundstellen der Dokumentsuche', () => {
     await expect(k).toHaveClass(/expanded/);
     await expect(k.locator('.beleg-link').first()).toBeVisible();
 
+    // Der Rand der Karte unter der Fundstellenliste ist ebenfalls kein Kopf
+    const liste = await k.locator('.result-details').boundingBox();
+    const rahmen = await k.boundingBox();
+    await k.click({ position: { x: 10, y: liste.y + liste.height - rahmen.y + 6 } });
+    await expect(k).toHaveClass(/expanded/);
+
     // Der Kopf der Karte klappt weiterhin zu
     await k.locator('h4').click();
     await expect(k).not.toHaveClass(/expanded/);
