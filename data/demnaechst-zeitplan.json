@@ -1,17 +1,35 @@
 {
  "vorschlag": false,
- "zeitplan": {},
- "ausgeschlossen": {
-  "262": "Rechtefrage offen (Mail an Trier), erst nach Freigabe nennen (KZW, #537, 08.10.2026); Quartalsvorschlag danach: 2026-Q4, Titel: Apokalypse Heinrichs von Hesler",
-  "263": "Rechtefrage offen, erst nach Freigabe nennen (KZW, #537, 08.10.2026); Quartalsvorschlag danach: 2027-Q1, Titel: Fünfzehn frühneuhochdeutsche Koch- und Diätetik-Texte (Editionen Thomas Gloning)",
-  "265": "Aufnahme nicht beschlossen: Frage an KZW vom 09.10.2026 (Roethe 1887 oder neuere Edition) offen; Quartalsvorschlag danach: 2027-Q2, Titel: Reinmar von Zweter, vollständige Transkription",
-  "264": "Aufnahme nicht beschlossen: die Entscheidung zu Altausgaben fällt zuerst in #265; Titel danach: Lyrik und Spruchdichtung aus dem Altbestand",
-  "266": "Aufnahme nicht beschlossen: Sammel-Issue ohne Beschluss, Gloning-Anfrage in #263 offen; Titel danach: Prosa, Chroniken und Fachtexte aus dem Altbestand",
-  "139": "Aufnahme beschlossen (KZW 29.05.2026, Pilot ab 09.07.), aber Lizenz von CoReMA laut Body noch zu klären und die Kochbuchwahl für den Pilot offen (auto:pair, 09.10.2026); erst nennen, wenn beides steht; Titel danach: CoReMA, Koch- und Rezepttexte",
-  "495": "Pipeline-Arbeit, kein neuer Text",
-  "370": "WZB steht schon im Korpus; die Arbeit betrifft vorhandene Tokens",
-  "237": "Zusammenarbeit ohne benannten Text",
-  "421": "zurückgestellt (auto:frozen)",
-  "191": "zurückgestellt (auto:frozen)"
+ "freigegeben": {},
+ "nicht_freigegeben": {
+  "262": {
+   "grund": "Rechtefrage offen (Mail an Trier), erst nach Freigabe nennen (KZW, #537, 08.10.2026)",
+   "vorgeschlagen": {"quartal": "2026-Q4", "titel": "Apokalypse Heinrichs von Hesler"}
+  },
+  "263": {
+   "grund": "Rechtefrage offen, erst nach Freigabe nennen (KZW, #537, 08.10.2026)",
+   "vorgeschlagen": {"quartal": "2027-Q1", "titel": "Fünfzehn frühneuhochdeutsche Koch- und Diätetik-Texte (Editionen Thomas Gloning)"}
+  },
+  "265": {
+   "grund": "Aufnahme nicht beschlossen: Frage an KZW vom 09.10.2026 (Roethe 1887 oder neuere Edition) offen",
+   "vorgeschlagen": {"quartal": "2027-Q2", "titel": "Reinmar von Zweter, vollständige Transkription"}
+  },
+  "264": {
+   "grund": "Aufnahme nicht beschlossen: die Entscheidung zu Altausgaben fällt zuerst in #265",
+   "vorgeschlagen": {"titel": "Lyrik und Spruchdichtung aus dem Altbestand"}
+  },
+  "266": {
+   "grund": "Aufnahme nicht beschlossen: Sammel-Issue ohne Beschluss, Gloning-Anfrage in #263 offen",
+   "vorgeschlagen": {"titel": "Prosa, Chroniken und Fachtexte aus dem Altbestand"}
+  },
+  "139": {
+   "grund": "Aufnahme beschlossen (KZW 29.05.2026, Pilot ab 09.07.), aber Lizenz von CoReMA laut Body noch zu klären und die Kochbuchwahl für den Pilot offen (auto:pair, 09.10.2026); erst nennen, wenn beides steht",
+   "vorgeschlagen": {"titel": "CoReMA, Koch- und Rezepttexte"}
+  },
+  "495": {"grund": "Pipeline-Arbeit, kein neuer Text"},
+  "370": {"grund": "WZB steht schon im Korpus; die Arbeit betrifft vorhandene Tokens"},
+  "237": {"grund": "Zusammenarbeit ohne benannten Text"},
+  "421": {"grund": "zurückgestellt (auto:frozen)"},
+  "191": {"grund": "zurückgestellt (auto:frozen)"}
  }
 }
