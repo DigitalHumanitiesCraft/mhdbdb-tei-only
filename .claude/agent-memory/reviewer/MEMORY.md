@@ -15,3 +15,4 @@ Verdichtet am 08.10., 10.10., 14.10. und 16.10.2026. Zahlen in den Dateien sind 
 - [Playground/Frontend](projekt_playground_frontend.md): Frontend-Pfade, Suche, Werkzeugzustand, Reader, Hilfetexte mitlesen
 - [Fremdquellen](projekt_fremdquellen.md): Naming-Index, Pferde-Index, Glossar-Export #554 (PII, Entfallen-Suche), Textreihen-Unterseite
 - [Prüfseiten](projekt_pruefseiten.md): Prüfseiten-Generatoren und archivierte Beispiele prüfen
+- [Lauf 18.10. Koordination](projekt_lauf-1018-koord.md): Eingang des Laufs, Nachkalibrierung lemma-pos; beim Abschluss nach projekt_gates_und_ci.md
