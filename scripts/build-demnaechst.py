@@ -115,13 +115,13 @@ def bereinigt(titel):
     return re.sub(r"^(Ingest-Kandidat(en)?( \(Sammel\))?|Ingest):\s*", "", titel)
 
 
-def zeilen(stand, zeitplan):
+def zeilen(stand, zeitplan, melden=True):
     """Sichtbare Eintraege: (sortschluessel, titel, zeitangabe). Meldet unbekannte Issues im Plan."""
     plan = zeitplan.get("zeitplan", {})
     aus = zeitplan.get("ausgeschlossen", {})
     nummern = {str(i["nummer"]) for i in stand.get("issues", [])}
     for n in list(plan) + list(aus):
-        if n not in nummern:
+        if melden and n not in nummern:
             print(f"::warning::Zeitplan nennt #{n}, das kein offenes ingest-Issue ist (Eintrag veraltet)")
     for n in plan:
         if n in aus:
@@ -129,7 +129,7 @@ def zeilen(stand, zeitplan):
     ergebnis = []
     for i in stand.get("issues", []):
         n = str(i["nummer"])
-        if AUSSCHLUSS_LABEL in i["labels"] and n in plan:
+        if melden and AUSSCHLUSS_LABEL in i["labels"] and n in plan:
             print(f"::warning::#{n} trägt {AUSSCHLUSS_LABEL} und steht im Zeitplan: wird nicht gezeigt, Eintrag prüfen")
         if n in aus or AUSSCHLUSS_LABEL in i["labels"]:
             continue
@@ -196,7 +196,7 @@ def main():
     if neu != alt:
         SEITE.write_text(neu, encoding="utf-8", newline="")
         print("Seite geschrieben:", SEITE.name)
-    print(f"Sichtbar: {len(zeilen(stand, zeitplan))} von {len(stand.get('issues', []))} offenen ingest-Issues")
+    print(f"Sichtbar: {len(zeilen(stand, zeitplan, melden=False))} von {len(stand.get('issues', []))} offenen ingest-Issues")
 
 
 if __name__ == "__main__":

@@ -25,6 +25,7 @@ Bei jedem weiteren Fremdexport nach `sources/` die ersten Punkte vorab abarbeite
 ## Zotero- und Issue-Abrufe mit Monatslauf (#417, #537, 18.10.2026)
 - **Zotero-Felder `DOI` und `url` sind Freitext:** in Gruppe 5043625 standen volle URLs (doi.org, dx.doi, hdl, jstor) im DOI-Feld und `10.…`, `urn:…`, nackte Hosts im url-Feld. Jeder Seitenbau aus Zotero: alle Werte gegen `^10\.\d{4,9}/\S+$` bzw. `^https?://` prüfen und die gerenderten `href` greppen.
 - **Ausfallfestigkeit von urllib-Skripten per In-Process-Probe** (Modul per `importlib.util.spec_from_file_location` laden, `modul.urllib.request.urlopen` ersetzen, nur `aktualisieren()` rufen, nichts schreibt): `http.client.IncompleteRead` ist weder OSError noch ValueError, `int(HTTPMessage()["fehlt"])` ist TypeError; beide fallen durch übliche except-Tupel.
+- **#397 an Specs über eingefrorene Fremdstände:** nach einer Normalisierung (DOI-Vorsatz abziehen) prüfen, ob die Spec noch Rohfeld = gerenderter Wert annimmt (`find(x => x.doi)` + `href="doi.org/${doi}"`), und ob sie Issue-Nummern oder Wörter eines Zwischenstands fest verdrahtet; beides wird beim nächsten Monatslauf rot, obwohl die Seite stimmt.
 - **Label als Stellvertreter einer Entscheidung gegen den Thread prüfen:** #537 setzte „offene Rechtefrage = `wait:extern`", aber #262 wurde am 06.10. auf `wait:kzw` umgelabelt, obwohl die Nachnutzungsfrage an Trier offen blieb.
 
 ## Textreihen-Unterseite (#93, `textreihen/`)

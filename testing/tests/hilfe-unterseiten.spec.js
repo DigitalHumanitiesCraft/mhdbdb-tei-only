@@ -53,7 +53,7 @@ test.describe('Hilfe-Unterseite Publikationen', () => {
         expect(hrefs.filter((h) => /doi\.org\/https?:/.test(h))).toEqual([]);
 
         // Ein DOI-Eintrag fuehrt auf doi.org, nicht auf die Zotero-Bibliothek
-        const mitDoi = stand.abschnitte.WB4HTUGC.eintraege.find((x) => x.doi);
+        const mitDoi = stand.abschnitte.WB4HTUGC.eintraege.find((x) => /^10\.\d{4,9}\/\S+$/.test(x.doi));
         await expect(page.locator(`a[href="https://doi.org/${mitDoi.doi}"]`).first()).toBeVisible();
 
         expect(anfragen.filter((u) => /zotero\.org\/(groups|api)|api\.zotero/.test(u))).toEqual([]);
@@ -96,15 +96,13 @@ test.describe('Hilfe-Unterseite Demnächst im Korpus', () => {
         expect(sichtbar.length).toBeGreaterThan(0);
 
         // Der Kontrollwert liegt ausserhalb der Regel: ein Issue, das wartet, darf nicht erscheinen
-        // und eines, dessen Rechtefrage das Label nicht abbildet (#262, #263: erst nach Freigabe, #537)
-        const wartend = issues.filter((i) => i.labels.includes('wait:extern') || [262, 263].includes(i.nummer));
+        // und jedes, das die Zeitplan-Datei ausschliesst (etwa weil die Rechtefrage offen ist, #537)
+        const wartend = issues.filter((i) => i.labels.includes('wait:extern') || String(i.nummer) in plan.ausgeschlossen);
         expect(wartend.length).toBeGreaterThan(2);
         const text = await page.locator('main').innerText();
         for (const i of wartend) {
             expect(text, `#${i.nummer}`).not.toContain(i.titel);
         }
-        expect(text).not.toContain('Hesler');
-        expect(text).not.toContain('Gloning');
 
         expect(anfragen.filter((u) => /api\.github\.com/.test(u))).toEqual([]);
     });
