@@ -253,14 +253,23 @@ Nutze die vollständige Begriffsliste am Ende dieser Datei als verbindliche Quel
 1. Prüfe, ob mein Suchbegriff als Haupt- oder alternative Benennung vorkommt. Falls nicht, sage ausdrücklich „Kein gleichnamiger Eintrag in der beigefügten Liste“. Daraus folgt nicht, dass das Thema im Korpus fehlt.
 2. Suche auch nach inhaltlich verwandten Einträgen. Berücksichtige ihre Oberbegriffe und, soweit hilfreich, die Einträge, die ihnen untergeordnet sind. Orientiere dich vorrangig an den deutschen Benennungen; englische Benennungen können ergänzen, sind aber keine präzisen Definitionen.{step2_extra}
 3. Empfiehl bis zu fünf brauchbare Einstiegspunkte, nach Eignung geordnet. Nenne weniger, wenn nur wenige überzeugen. Unterscheide nahe begriffliche Zugänge von solchen, die nur für eine bestimmte Lesart oder einen bestimmten Kontext passen. Erzwinge keine Gleichsetzung und verenge ein offenes Thema nicht stillschweigend auf einen einzigen Kontext.{step3_extra}
-4. Prüfe vor der Ausgabe, dass jede empfohlene ID und deutsche Hauptbenennung exakt zu derselben Zeile der Liste gehören. Erfinde keine Kategorien, Synonyme, Hierarchiebeziehungen oder Links.
+4. Prüfe vor der Ausgabe, dass jede empfohlene ID und deutsche Hauptbenennung exakt zu derselben Zeile der Liste gehören. Erfinde keine Kategorien, Synonyme, Hierarchiebeziehungen oder Links; Links gibt es nur nach den zwei Mustern im Abschnitt „Links zum Nachschlagen“.
 
 ### Gewünschte Antwort
 
 - Beginne mit einer kurzen Einschätzung, ob ein gleichnamiger Eintrag existiert und welcher Einstieg am ehesten passt. Wenn kein brauchbarer Einstieg erkennbar ist, sage das offen.
 - Gib eine kompakte Tabelle aus: **Priorität | vorhandener Begriff und ID | warum für meine Suche interessant | Grenze oder nötige Eingrenzung**. Begründe die Auswahl mit den gelieferten Benennungen und gegebenenfalls deren hierarchischem Kontext; kennzeichne deine thematische Deutung als Vorschlag.{answer_extra}
-- Schließe mit zwei oder drei konkreten nächsten Schritten unter Nutzung der unten beschriebenen Bedienmöglichkeiten. Nenne dabei zum Nachschlagen die ID und die exakte deutsche Hauptbenennung.
+- Schließe mit zwei oder drei konkreten nächsten Schritten unter Nutzung der unten beschriebenen Bedienmöglichkeiten. Nenne dabei zum Nachschlagen die ID und die exakte deutsche Hauptbenennung und gib die Links aus dem folgenden Abschnitt als anklickbare Links aus.
 - Stelle am Ende höchstens eine hilfreiche Rückfrage zur Eingrenzung. Liefere bei einem offenen Thema trotzdem zuerst die Einstiegsvorschläge.
+
+### Links zum Nachschlagen
+
+Es gibt genau zwei Muster. Ersetze nur die Platzhalter in spitzen Klammern und verwende keine anderen Adressen.
+
+- Ein Begriff im Begriffe-Explorer, je empfohlenem Begriff ein Link: `https://dhcraft.org/mhdbdb-tei-only/playground/#concepts&q=<ID>`. Setze für `<ID>` die ID aus der Liste ein, etwa `concept_22930000`.
+- Zwei Lemmata, die im Text nahe beieinander stehen, wenn du eine solche Kombination als Suchweg vorschlägst: `https://dhcraft.org/mhdbdb-tei-only/playground/#multi-lemma&lemmata=<Lemma1>,<Lemma2>&dist=<Abstand>`. Setze für `<Lemma1>` und `<Lemma2>` nur Lemmata ein, die genau in dieser Schreibung in der Spalte „Häufigste Lemmata“ stehen, ohne die Zahl in Klammern, getrennt nur durch ein Komma ohne Leerzeichen. `<Abstand>` ist eine ganze Zahl von 1 bis 50: so viele Wörter dürfen die beiden höchstens auseinander stehen.
+
+Ein Lemma, das nicht in der Spalte „Häufigste Lemmata“ steht, nennst du als Suchhypothese ohne Link, zum Nachschlagen im Lemmata-Explorer. Der zweite Link findet Textstellen, an denen beide Wörter nahe beieinander stehen, gleich in welcher ihrer Bedeutungen. Er fragt nicht ab, ob eine Bedeutung zwei Begriffe zugleich trägt; das kann die Website heute nicht.
 
 ### Was diese Datei aussagen kann
 
@@ -277,6 +286,8 @@ Nenne Zahlen, Lemmata und Mitbegriffe nur so, wie sie in der Liste stehen, und b
 1. Öffne den [Begriffe-Explorer](https://dhcraft.org/mhdbdb-tei-only/playground/#concepts).
 2. Gib die empfohlene ID in das Suchfeld ein, ganz (`concept_12040000`) oder nur die Nummer (`12040000`). Der Begriff mit dieser ID steht dann oben. Prüfe, ob seine Benennung zur Empfehlung passt. Die Suche nach der deutschen Hauptbenennung geht ebenso.
 3. Wähle beim passenden Eintrag „Lemmata anzeigen“. Die Liste zeigt höchstens 20 Lemmata in alphabetischer Reihenfolge, bei großen Begriffen also nur einen kleinen Ausschnitt. Gib ein genanntes Lemma in das zusätzliche Suchfeld ein, um es zu finden, und klicke es an, um seine Details zu öffnen.
+
+Enthält die Antwort Links, öffnet der erste Typ den Begriffe-Explorer mit der ID schon im Suchfeld, der zweite startet die Suche nach zwei Lemmata im Text. Diese Suche lädt beim ersten Mal den Korpus und kann eine Weile dauern. Über den Ergebnissen steht, nach welchen Schreibungen gesucht wurde. Das Lemma zu einer Schreibung wählt die Suche selbst, bei gleich geschriebenen Wörtern kann es ein anderes sein als gemeint; welche Wörter gefunden wurden, zeigen die Belege.
 
 Prüfe mehrere vorgeschlagene Begriffe zunächst einzeln. Ob eine Bedeutung zwei Begriffe zugleich trägt, lässt sich auf der Website heute nicht direkt abfragen; das zeigen nur die Lemma-Details. Ein sprachlich passender Einstieg garantiert noch keine passenden Belege.
 '''

@@ -49,6 +49,39 @@ test.describe('Begriffshilfe (#498)', () => {
             .toHaveAttribute('href', '../hilfe-begriffe-finden.html');
     });
 
+    // Die Datei gibt der KI zwei Linkmuster vor (Abschnitt "Links zum
+    // Nachschlagen"). Gelesen werden die Muster aus der Datei, nicht hier
+    // nachgeschrieben: aendert sich eine Route, sollen die Links in kuenftigen
+    // KI-Antworten nicht still ins Leere fuehren.
+    const LIVE = 'https://dhcraft.org/mhdbdb-tei-only/';
+
+    async function muster(page, route) {
+        const text = await (await page.request.get('/assets/downloads/mhdbdb-begriffshilfe.md')).text();
+        const re = new RegExp('`(' + LIVE.replace(/[.\/]/g, '\\$&') + 'playground/#' + route + '[^`]*)`');
+        const treffer = text.match(re);
+        expect(treffer, `Linkmuster #${route} fehlt in der Begriffshilfe`).not.toBeNull();
+        return treffer[1].replace(LIVE, '/');
+    }
+
+    test('Linkmuster Begriff oeffnet den Begriffe-Explorer mit dieser ID', async ({ page }) => {
+        const url = await muster(page, 'concepts');
+        expect(url).toBe('/playground/#concepts&q=<ID>');
+        await page.goto(url.replace('<ID>', 'concept_22930000'));
+        const treffer = page.locator('#conceptResults');
+        await expect(treffer).toContainText('ID: concept_22930000', { timeout: 60000 });
+        await expect(treffer).toContainText('Ehre/Unehre');
+    });
+
+    test('Linkmuster Lemma-Paar startet die Naehe-Suche mit Abstand', async ({ page }) => {
+        const url = await muster(page, 'multi-lemma');
+        expect(url).toBe('/playground/#multi-lemma&lemmata=<Lemma1>,<Lemma2>&dist=<Abstand>');
+        // Abstand ungleich 10: reset() stellt auf 10 zurueck, mit 10 waere der
+        // Test auch bei verlorenem dist-Parameter gruen.
+        await page.goto(url.replace('<Lemma1>', 'schande').replace('<Lemma2>', 'vürhten').replace('<Abstand>', '20'));
+        await expect(page.locator('#resultsContainer'))
+            .toContainText('Kookkurrenz-Analyse: schande + vürhten (max. 20 Wörter Abstand)', { timeout: 90000 });
+    });
+
     test('Begriffs-Verteilung verweist auf die Hilfeseite', async ({ page }) => {
         await page.goto('/playground/#concept-distribution');
         await page.waitForSelector('#cdQuery', { state: 'visible', timeout: 60000 });

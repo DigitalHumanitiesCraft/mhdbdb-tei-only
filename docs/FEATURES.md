@@ -446,6 +446,8 @@ A researcher arrives with a topic of their own (the test case was „Wachsamkeit
 
 **What it is not:** a search. The AI returns suggestions, which the user looks up in the Concept Explorer and checks against the attestations; there is no AND query over two concepts.
 
+**Links in the answer (since 2026-10-19):** the task gives the AI exactly two URL patterns, `playground/#concepts&q=<ID>` per suggested concept and `playground/#multi-lemma&lemmata=<Lemma1>,<Lemma2>&dist=<Abstand>` for a pair of lemmata it proposes as a proximity search. Only spellings that appear in the "Häufigste Lemmata" column may go into a lemma link, because the multi-lemma search resolves a written form to its first match without saying so. The pair link finds two words near each other in the text, which is not the concept intersection of #546. The occasion was an external test in ChatGPT (#498): the model proposed lemma pairs with distances but could not run them, and the reader had to type each search by hand.
+
 **How it stays current:** `scripts/build-begriffshilfe.py` writes `assets/downloads/mhdbdb-begriffshilfe.md` deterministically from `concepts.xml`, `lexicon.xml` and `w/@ana`, it is part of `npm run build:data`, and a CI freshness check turns red when the committed file no longer matches the data (see [DATA-MODEL.md → Data-Change-Lifecycle](DATA-MODEL.md#data-change-lifecycle)).
 
 Linked from the help hub, the playground guide, the Concept Explorer and the concept distribution.

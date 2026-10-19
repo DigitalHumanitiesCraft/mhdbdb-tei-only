@@ -460,10 +460,12 @@ tooltip) were both inert. Whoever adds a fifth piece of state to this modal copi
 in the same place; the test that guards this uses a distance other than 10, because
 `dist=10` is green either way.
 
-Stages 1 to 3 are untouched (ADR-016 stands); this sits in front of them. Two
-other producers of `#multi-lemma&lemmata=...` do **not** pin yet and still resolve
-by written form: `cooccurrence-ranking.js` (the "Belege" link) and
-`sendWordComponentSelection()` in the lemma explorer. Any claim that the hand-over
+Stages 1 to 3 are untouched (ADR-016 stands); this sits in front of them. Three
+other producers of `#multi-lemma&lemmata=...` do **not** pin and resolve
+by written form: `cooccurrence-ranking.js` (the "Belege" link),
+`sendWordComponentSelection()` in the lemma explorer, and the link pattern that
+`scripts/build-begriffshilfe.py` hands to an external AI (it has no lemma ids to
+give, so it restricts the AI to spellings from its own table). Any claim that the hand-over
 is id-exact holds for the explorer button only.
 
 ### C.1.2 Lemma number as input (#467)
