@@ -335,9 +335,18 @@ def _zahlwort(n, einzahl, mehrzahl):
 
 
 def fundstelle(b):
-    if b['kontextart'] == 'vers' and b['zeile_n']:
-        return 'Vers %s' % b['zeile_n']
-    return 'Prosa, ohne Verszählung'
+    """Jede `kontextart` aus collect-359-evidence.py ausdruecklich.
+
+    `satz` ist ein <l> in einem Text mit <lb/> (WZB, #634): ein Satz, keine
+    Verszeile. Ein unbekannter Wert ist ein harter Fehler und faellt nicht
+    still auf "Prosa" zurueck.
+    """
+    art = b['kontextart']
+    if art == 'vers':
+        return ('Vers %s' % b['zeile_n']) if b['zeile_n'] else 'Prosa, ohne Verszählung'
+    if art in ('satz', 'prosa'):
+        return 'Prosa, ohne Verszählung'
+    sys.exit('%s: unbekannte kontextart %r' % (b.get('xml_id', '?'), art))
 
 
 def bau_fall(schluessel, f, b):
