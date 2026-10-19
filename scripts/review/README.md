@@ -30,7 +30,17 @@ Dazu kommen Skripte vom 16.10.2026, die **Prüflisten als TSV** statt Prüfseite
 | `zotero-abgleich-554.py` | #554: Abgleich der Literatur aus `literatur.tsv` gegen zwei Zotero-Gruppen; eingecheckt ist `ingest/glossar-554/zotero-abgleich.tsv`. **Braucht das Netz** (Zotero-API) |
 | `klug-links-554.py` | #554: Klug-Verweise. Phase 1 holt Pflanzenseiten (**Netz**) und schreibt ein Dossier; Phase 2 (`--nur-urteile`, ohne Netz) schreibt `klug-links.tsv` aus `klug-urteile.tsv` (beide eingecheckt unter `ingest/glossar-554/`); `--aus <Ordner>` ist Pflicht, falsche Urteile oder Doppelte brechen ab |
 
-Bei beiden Gruppen liegen Material und Ausgabe nicht hier, sondern neben ihren
+Vom Lauf am 18.10.2026 kommen fünf Skripte dazu, drei für die zweite Lesung zu #603 und zwei Messungen. Aufruf, Eingaben und Ausgaben stehen jeweils im Docstring:
+
+| Datei | Rolle |
+|---|---|
+| `stapel-603.py` | #603: Lesestapel mit weitem Kontext aus dem TEI, ohne die Klasse der Vorsortierung; fehlt eine `w_id` im TEI, bricht der Lauf ab |
+| `verbinden-lesung-603.py` | #603: verbindet die Urteile der Lesenden über `nr` mit der Eingabe und prüft sie; ein Formfehler oder eine Zeile ohne Urteil endet mit Exit 1 ohne Ausgabedatei |
+| `auswerten-lesung-603.py` | #603: fügt die Teile zusammen und zählt je Bedeutung und Lemma für die Konzeptfrage |
+| `messen-461-sense3004.py` | #461: wie viele der Belege an `lemma_1958_sense_3004` einen lebenden Körper meinen; die Einstufung steht als Leseurteil im Skript, das Skript prüft die Menge |
+| `messen-554-zahlen.py` | #554: heutige Trefferzahlen für die Glossarkommentare am heutigen Korpus; zählt `<l>` nur in Texten ohne `<lb/>` (WZB-Regel aus `docs/TEI-MODEL.md` §3.2) |
+
+Bei allen drei Gruppen liegen Material und Ausgabe nicht hier, sondern neben ihren
 Daten, etwa für #359 unter
 [`ingest/review/359-borek/`](../../ingest/review/359-borek/README.md) und für
 #603 unter [`ingest/review/603-ernaehrung/`](../../ingest/review/603-ernaehrung/README.md):
