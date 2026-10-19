@@ -30,7 +30,10 @@ Tokens des Lemmas, unabhaengig von der Schreibung.
 Der Beleg ist die Verszeile und nicht ein Wortfenster. Ausgegeben werden die
 Zeile davor, die Trefferzeile in drei Teilen (davor, Treffer, danach) und die
 Zeile danach. Steht das Token nicht in einem <l> (Prosa), faellt die Ausgabe
-auf ein Wortfenster zurueck und sagt das im Feld `kontextart`.
+auf ein Wortfenster zurueck und sagt das im Feld `kontextart`. Traegt der Text
+neben <l> auch <lb/> (die Wenzelsbibel, TEI-MODEL.md 3.2), ist das <l> ein
+Satz und keine Verszeile: der Kontext bleibt derselbe, `kontextart` sagt
+`satz` (#634).
 
 Usage:
     python scripts/review/collect-359-evidence.py --counts
@@ -189,7 +192,7 @@ def zeile_geteilt(l, treffer):
     return ' '.join(davor), token_text(treffer), ' '.join(danach)
 
 
-def beleg(w, i, alle_texte, ls, w_zu_l, sigle, meta):
+def beleg(w, i, alle_texte, ls, w_zu_l, sigle, meta, l_ist_satz=False):
     """Ein Beleg mit Kontext. Verszeile, wo es eine gibt, sonst Wortfenster."""
     li = w_zu_l.get(id(w))
     gemeinsam = dict(
@@ -216,7 +219,7 @@ def beleg(w, i, alle_texte, ls, w_zu_l, sigle, meta):
         return gemeinsam
     davor, tr, danach = zeile_geteilt(ls[li], w)
     gemeinsam.update(
-        kontextart='vers',
+        kontextart='satz' if l_ist_satz else 'vers',
         zeile_n=ls[li].get('n') or '',
         zeilen_davor=[dict(n=ls[j].get('n') or '', text=zeilen_text(ls[j]))
                       for j in range(max(0, li - VERS_FENSTER), li)],
@@ -267,6 +270,7 @@ def scan(faelle, nur_zaehlen):
         ws = list(body.iter(TEI + 'w'))
         texte = [token_text(w) for w in ws]
         ls, w_zu_l = ([], {}) if nur_zaehlen else zeilen_karte(body)
+        l_ist_satz = body.find('.//%slb' % TEI) is not None
 
         for i, w in enumerate(ws):
             lids = lemma_ids(w)
@@ -281,14 +285,14 @@ def scan(faelle, nur_zaehlen):
                     paar_texte[schluessel].add(sigle)
                     if not nur_zaehlen and len(paar_belege[schluessel]) < BELEG_CAP:
                         paar_belege[schluessel].append(
-                            beleg(w, i, texte, ls, w_zu_l, sigle, meta))
+                            beleg(w, i, texte, ls, w_zu_l, sigle, meta, l_ist_satz))
                 if lid in lemma_gesucht:
                     lemma_tokens[lid] += 1
                     lemma_texte[lid].add(sigle)
                     lemma_formen[lid][texte[i]] += 1
                     if not nur_zaehlen and len(lemma_belege[lid]) < BELEG_CAP:
                         lemma_belege[lid].append(
-                            beleg(w, i, texte, ls, w_zu_l, sigle, meta))
+                            beleg(w, i, texte, ls, w_zu_l, sigle, meta, l_ist_satz))
 
     return dict(paar_tokens=paar_tokens, paar_texte=paar_texte, paar_belege=paar_belege,
                 lemma_tokens=lemma_tokens, lemma_texte=lemma_texte,
