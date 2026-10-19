@@ -152,7 +152,8 @@ python scripts/build-textreihen-bibliography.py # Zotero group 4876216 -> textre
 
 # Help subpages "Publikationen" (#417) and "Demnächst im Korpus" (#537). Both pages are built from frozen
 # states under data/, never live; .github/workflows/monatslauf-seiten.yml refreshes both on the 1st of the
-# month and opens a PR on change. A Zotero or GitHub outage keeps the old state and does not fail the run.
+# month and opens a PR on change. A Zotero or GitHub outage keeps the old state and does not fail the run;
+# an unexpected response format is a hard error with exit 1 (#627).
 python scripts/build-publikationen.py           # Zotero group 5043625, collections WB4HTUGC + Z2N4SWWI -> data/zotero-publikationen.json -> hilfe-publikationen.html
 python scripts/build-demnaechst.py              # open `ingest` issues -> data/demnaechst-issues.json; only issues listed under "freigegeben" in data/demnaechst-zeitplan.json (by hand, quarter optional: without one the entry reads "Zeitpunkt offen") appear -> hilfe-demnaechst.html; `--selftest` checks the rule offline
                                                 # (both: --offline rebuilds the page from the file; --check compares page and file without network.
@@ -273,7 +274,7 @@ Completeness against `testing/tests/` is gated by `scripts/audit/check-doc-inven
 | `hapax-legomena.spec.js` | Playground | Corpus-wide hapax/dis/tris aggregation, filter toolbar, detail panel (#196) |
 | `word-component-search.spec.js` | Playground | Word-component mode in the lemma explorer, for research on compounds (#239) |
 | `lemma-occurrence-handoff.spec.js` | Playground | „Belege suchen" from the lemma explorer: the `ids` route parameter and its pinned resolution against a homograph group (#58) |
-| `document-search-belege.spec.js` | Playground | Document search, from the result card to the attestations (#58): a card expands into its attestations with context, each linking to its position in the reading view, „Gesamten Text öffnen“ without a jump target, and with several lemmata one group per lemma, capped at 50 with a note |
+| `document-search-belege.spec.js` | Playground | Document search, from the result card to the attestations (#58): a card expands into its attestations with context, each linking to its position in the reading view, „Gesamten Text öffnen“ without a jump target, and with several lemmata one group per lemma, capped at 50 with a note; the card header as a keyboard-operable button, the pointer only over header and hint, the list scrolling inside the card (#619, #630, #633) |
 | `naming-explorer.spec.js` | Playground | Character naming: route, work/character selection, category tabs, mandatory attribution (#59) |
 | `horses-explorer.spec.js` | Playground | Arthurian horses: route, horse selection, event filter, attribution, and the `?verseId=` deep link into the reading view (#193) |
 | `onama-explorer.spec.js` | Playground | ONAMA narrative explorer (Argonaut pilot): route, selectivity banner with data version, entry via thing/action/entity/concept, concept and realisation kept apart, general and temporary function in separate columns, text/image filter, deep link for checked anchors, unresolved anchors named and without a link, converted spans marked, edge-case list (#609) |

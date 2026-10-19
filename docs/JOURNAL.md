@@ -4,6 +4,17 @@ Chronological log of development decisions, dead ends, and savepoints. Not a cha
 
 ---
 
+## 2026-10-19 (Koordination): Nachschau zum Lauf vom 18.10.
+
+**Was:** Nach dem Lauf sind fünf weitere PRs gemergt, #631 bis #633 am Abend des 18.10. und #635, #636 am 19.10. (Tabelle im Laufplan, Abschnitt Abnahme); die Nachschau prüfte danach Aufräumen, Doku und Issues. Elf Drift-Gates grün. Neun alte lokale Zweige von vor dem Lauf (#583 bis #608) gegen ihren Squash abgeglichen (0 abweichende Dateien) und gelöscht. Zwei Sonnet-Agenten lasen Doku gegen die Commits seit 18.10. und 28 Issues gegen ihre Threads; nachgezogen sind ROADMAP (geschlossene #123, #404, #406, #228, #369 und der Stand von #58, #251, #93), FEATURES und DEVELOPMENT (Kartenkopf, Einklappen, ONAMA "abgeleitet", Formatfehler als harter Fehler), `scripts/review/README.md` (fünf Skripte des Laufs fehlten) und dieser Laufplan.
+
+**Was über den Einzelfall hinausgilt:**
+- Die tägliche Issue-Matrix war seit dem 16.10. rot, und niemand im Lauf hat es gesehen: #358 trug `wait:kzw`, obwohl Katharina am 11.09. geantwortet hatte und keine Frage an sie folgte, und Julias Antwort vom 15.10. stand ohne Erwiderung. Behoben am 19.10.: Antwort an Julia, `wait:kzw` entfernt. Ein roter Matrixlauf steht nur in der Actions-Liste, nicht in einem Ticket; vor einem Lauf und nach ihm gehört `gh run list --workflow issue-matrix.yml --limit 3` in die Prüfung.
+- Ein PR, der ein Ticket nur im Commit nennt ("Bezug: #N"), lässt das Ticket stumm: #564 trug nach #618 als letzten Kommentar die Bot-Erinnerung, die #618 abgearbeitet hatte.
+- Eine Prüfseite, die bei einer Person liegt, wird bei Korpusdrift nicht neu gebaut, sondern eingegrenzt: bei #359 betrafen die Änderungen seit 21.09. vier von 17 offenen Fällen, alle aus schon umgesetzten Entscheidungen (#460, #461, #471).
+
+---
+
 ## 2026-10-18 (Koordination lauf-1018): vier Spuren, Nachzug, Abnahme
 
 **Was:** Issue-Audit (78 offene Issues, 471 von 471 Kommentaren), daraus vier Sonnet-Spuren (daten, frontend, lesung, onama) unter dem Laufplan `docs/playbooks/kickoffs/2026-10-18-lauf.md`, dort auch die Grenzverhandlungen G1 bis G8 und die Abnahme. 14 PRs gemergt (#617 bis #630), davon vier als Nachzug auf chsteiners Zuruf über einen Workflow der Koordination (Freigabeliste für "Demnächst im Korpus", ONAMA-Status umgerechneter Passagen, harte Fehler statt stillem Weiterlaufen, Klick in die Fundstellen). Geschlossen: #440, #448, #463, #535, #545.
