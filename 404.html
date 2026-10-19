@@ -1,8 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="de">
 <head>
     <meta charset="utf-8">
-    <title>MHDBDB</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex">
+    <title>Seite nicht gefunden - MHDBDB</title>
     <script>
         // GitHub Pages SPA redirect
         // Converts path-based URLs to query parameters so index.html can handle routing
@@ -23,7 +25,10 @@
             window.location.replace(newUrl + window.location.search.slice(1) + window.location.hash);
         } else {
             // Not a lemma URL: show 404
-            document.write('<h1>Seite nicht gefunden</h1><p><a href="/">Zurück zur MHDBDB</a></p>');
+            // The site lives under /mhdbdb-tei-only/ on Pages and under / on the dev server;
+            // "/" alone led to the domain root, not to the MHDBDB.
+            var home = window.location.pathname.indexOf('/mhdbdb-tei-only/') === 0 ? '/mhdbdb-tei-only/' : '/';
+            document.write('<h1>Seite nicht gefunden</h1><p><a href="' + home + '">Zurück zur MHDBDB</a></p>');
         }
     </script>
 <!-- MATOMO:START -->

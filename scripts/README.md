@@ -12,7 +12,7 @@ scripts/
 ├── build-corpus-index.py        # Korpus-Index generieren
 ├── build-demnaechst.py          # Hilfe-Unterseite "Demnächst im Korpus": offene ingest-Issues (data/demnaechst-issues.json) plus Freigabeliste von Hand (data/demnaechst-zeitplan.json, nur Freigegebenes erscheint) -> hilfe-demnaechst.html (--offline, --check, --selftest, monatlicher Lauf, #537)
 ├── build-lemma-pos.py           # Wortart-Zählung je Lemma aus tei/ (data/lemma-pos.json.gz), Quelle für lemma.pos und lemma.posAll im Authority-Index; deterministisch, CI-Freshness-Gate (#462)
-├── build-pages.py               # Nav/Footer/Matomo aus includes/ in alle Seiten injizieren (--check Drift-Gate)
+├── build-pages.py               # Nav/Footer/Matomo aus includes/ und den SEO-Block in die registrierten Seiten injizieren (--check Drift-Gate)
 ├── build-publikationen.py       # Hilfe-Unterseite "Publikationen": Zotero-Gruppe 5043625 (Sammlungen WB4HTUGC, Z2N4SWWI) -> eingefrorener Stand data/zotero-publikationen.json -> hilfe-publikationen.html; ein Zotero-Ausfall lässt den Stand liegen (--offline, --check, monatlicher Lauf, #417)
 ├── build-textreihen.py          # Textreihentypologie: SKOS (RDF/JSON, unverändert aus textseries 86c233f08) -> textreihen/data/textreihen.json für den SKOS-Browser (--check Drift-Gate, #93)
 ├── build-textreihen-bibliography.py # Textreihentypologie: Zotero-Gruppe 4876216 -> statische Bibliografie in textreihen/bibliography.html samt Schnappschuss (--offline, --check, #93)
@@ -146,6 +146,8 @@ Parst alle TEI-Dateien in `tei/` und generiert `data/corpus-index.json.gz` (~42 
 
 ### `build-pages.py`
 Injiziert die geteilte Navigation + Footer + Matomo-Snippet aus `includes/_nav.html` / `includes/_footer.html` / `includes/_matomo.html` in die Marker-Regionen (`NAV:START`/`FOOTER:START`/`MATOMO:START`) der Seiten. Idempotent; `{{ROOT}}`-Token wird pro Seitentiefe ersetzt; aktive Nav-Seite bekommt `aria-current="page"`. Zwei Seitenlisten: `PAGES` bekommt die volle Chrome (Nav+Footer+Matomo); `MATOMO_PAGES` (Standalone-Seiten mit eigenem Layout wie `api/index.html`, `404.html`) bekommt nur das Matomo-Snippet vor `</head>`, ohne Header/Footer anzufassen. `--check` ist ein Drift-Gate (exit 1 bei Out-of-Sync, keine Writes). Nach Änderung an `includes/` ausführen — nicht die Seiten direkt editieren.
+
+Seit 19.10.2026 schreibt es zusätzlich die Region `SEO:START`/`SEO:END` (Canonical-URL und Open-Graph-Angaben) aus dem eigenen `<title>` und der `description` jeder Seite in `PAGES` und in `api/index.html`; fehlt einer Seite eines von beiden, bricht der Lauf ab. `korpus.html`, `woerterbuch.html` und `lemma/index.html` bekommen keine Canonical-URL (`NO_CANONICAL`), weil ihr Inhalt über URL-Parameter gewählt wird. Wer Titel oder Beschreibung einer Seite ändert, baut danach neu. `--check` läuft seit demselben Tag in `no-cdn-check.yml`.
 
 ### `validate-indices.py`
 Validiert Struktur und Integrität der generierten Index-Dateien.
