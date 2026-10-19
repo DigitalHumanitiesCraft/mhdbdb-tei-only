@@ -147,6 +147,8 @@ Parst alle TEI-Dateien in `tei/` und generiert `data/corpus-index.json.gz` (~42 
 ### `build-pages.py`
 Injiziert die geteilte Navigation + Footer + Matomo-Snippet aus `includes/_nav.html` / `includes/_footer.html` / `includes/_matomo.html` in die Marker-Regionen (`NAV:START`/`FOOTER:START`/`MATOMO:START`) der Seiten. Idempotent; `{{ROOT}}`-Token wird pro Seitentiefe ersetzt; aktive Nav-Seite bekommt `aria-current="page"`. Zwei Seitenlisten: `PAGES` bekommt die volle Chrome (Nav+Footer+Matomo); `MATOMO_PAGES` (Standalone-Seiten mit eigenem Layout wie `api/index.html`, `404.html`) bekommt nur das Matomo-Snippet vor `</head>`, ohne Header/Footer anzufassen. `--check` ist ein Drift-Gate (exit 1 bei Out-of-Sync, keine Writes). Nach Änderung an `includes/` ausführen — nicht die Seiten direkt editieren.
 
+Seit 19.10.2026 schreibt es zusätzlich die Region `SEO:START`/`SEO:END` (Canonical-URL und Open-Graph-Angaben) aus dem eigenen `<title>` und der `description` jeder Seite in `PAGES` und in `api/index.html`; eine Seite ohne beides bricht ab. `korpus.html`, `woerterbuch.html` und `lemma/index.html` bekommen keine Canonical-URL (`NO_CANONICAL`), weil ihr Inhalt über URL-Parameter gewählt wird. Wer Titel oder Beschreibung einer Seite ändert, baut danach neu. `--check` läuft seit demselben Tag in `no-cdn-check.yml`.
+
 ### `validate-indices.py`
 Validiert Struktur und Integrität der generierten Index-Dateien.
 

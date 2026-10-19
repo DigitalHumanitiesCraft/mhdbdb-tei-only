@@ -141,7 +141,10 @@ npm run build:vendor     # node scripts/build-vendor.js
 # Re-inject the shared nav + footer into every registered page after editing
 # includes/_nav.html or includes/_footer.html (NOT the pages directly):
 python scripts/build-pages.py            # rewrite changed pages (idempotent)
-python scripts/build-pages.py --check    # exit 1 if any page is out of sync (drift gate)
+python scripts/build-pages.py --check    # exit 1 if any page is out of sync (drift gate; in no-cdn-check.yml since 2026-10-19)
+# Since 2026-10-19 it also writes the SEO region (canonical URL, Open Graph) from each page's own
+# <title> and description: after changing either, rebuild. Pages chosen by URL parameters
+# (korpus.html, woerterbuch.html, lemma/index.html) get no canonical (NO_CANONICAL in the script).
 
 # Textreihentypologie subsite (textreihen/, #93). The SKOS source files in textreihen/data/skos/ are
 # the unchanged commit 86c233f08 of Middle-High-German-Conceptual-Database/textseries (CC BY 4.0);

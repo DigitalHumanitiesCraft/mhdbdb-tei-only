@@ -952,6 +952,7 @@ def render(spec):
 <html lang="de" data-theme="light">
 <head>
 <meta charset="utf-8">
+<meta name="robots" content="noindex">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>%(titel)s</title>
 <meta name="generator" content="mhdbdb review_page.py %(fv)s">

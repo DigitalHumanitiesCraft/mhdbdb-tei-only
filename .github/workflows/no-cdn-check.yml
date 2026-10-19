@@ -27,6 +27,11 @@
 # (doc-count-audit.py, #382/#398), zusätzlich zu data-integrity.yml.
 # Begründung am Schritt.
 #
+# Seit 19.10.2026 auch build-pages.py --check: Nav, Footer, Matomo und der
+# SEO-Block (Canonical, Open Graph) aller registrierten Seiten gegen
+# includes/ und den eigenen <title> und die Beschreibung der Seite. Das
+# Drift-Gate gab es seit dem Site-Chrome-Refactor, verdrahtet war es nie.
+#
 # Seit 18.10.2026 ein weiteres: die beiden Hilfe-Unterseiten Publikationen
 # und Demnächst im Korpus gegen ihre eingefrorenen Stände in data/
 # (--check, ohne Netz, stdlib; Entscheidung chsteiner, 18.10.2026). Der
@@ -68,6 +73,8 @@ on:
       - 'data/demnaechst-*.json'
       - 'scripts/build-publikationen.py'
       - 'scripts/build-demnaechst.py'
+      - 'scripts/build-pages.py'
+      - 'includes/**'
       - '.github/workflows/no-cdn-check.yml'
   push:
     branches:
@@ -85,6 +92,8 @@ on:
       - 'data/demnaechst-*.json'
       - 'scripts/build-publikationen.py'
       - 'scripts/build-demnaechst.py'
+      - 'scripts/build-pages.py'
+      - 'includes/**'
       - '.github/workflows/no-cdn-check.yml'
   workflow_dispatch:
 
@@ -233,6 +242,9 @@ jobs:
         run: |
           python3 scripts/build-publikationen.py --check
           python3 scripts/build-demnaechst.py --check
+
+      - name: Seitenchrome und SEO-Block gegen includes/ und die Seiten (build-pages --check)
+        run: python3 scripts/build-pages.py --check
 
       # Seit 01.10.2026 auch hier, nicht nur in data-integrity.yml. Dort
       # loesen docs/** und *.html keinen Lauf aus, und das war als Grenze

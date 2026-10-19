@@ -552,7 +552,7 @@ npm run test:headed   # Visible browser
 
 **Problem:** Nav + footer were hand-maintained per page, drifting out of sync
 **Solution:** Single-source partials (`includes/_nav.html`, `includes/_footer.html`) injected into the marked region (`NAV:START`/`FOOTER:START`) of every registered page by `scripts/build-pages.py` (idempotent, `--check` drift gate); shared behavior (mobile menu, current-year, cross-browser clear-site-data) in `assets/js/site-chrome.js`, loaded on every page via the footer partial
-**Result:** One nav/footer source; active page gets `aria-current="page"` automatically
+**Result:** One nav/footer source; active page gets `aria-current="page"` automatically. Since 2026-10-19 the same build writes a `SEO:START`/`SEO:END` region (canonical URL and Open Graph tags) from each page's own `<title>` and description, and its `--check` runs in `no-cdn-check.yml`
 
 ---
 

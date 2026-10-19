@@ -8,6 +8,12 @@ Single source of truth:
   includes/_footer.html  -> page region between <!-- FOOTER:START --> / <!-- FOOTER:END -->
   includes/_matomo.html  -> page region between <!-- MATOMO:START --> / <!-- MATOMO:END -->
                             injected just inside </head> (cookieless Matomo, #124)
+  the page's own <title> and <meta name="description">
+                         -> page region between <!-- SEO:START --> / <!-- SEO:END -->
+                            (canonical URL and Open Graph tags), injected before the
+                            Matomo region. A page whose content is chosen by URL
+                            parameters (NO_CANONICAL) gets no canonical and no og:url,
+                            or every text and lemma would collapse into one URL.
 
 {{ROOT}} in the partials is replaced per page ('' for root pages, '../' for pages
 one directory deep). The active nav item (the <a data-nav="..."> matching the page
@@ -87,11 +93,25 @@ MATOMO_PAGES = [
     "404.html",
 ]
 
+# Pages that get the SEO region: every PAGES entry plus api/index.html. 404.html
+# does not (it answers with status 404 and is never indexed).
+SITE_URL = "https://dhcraft.org/mhdbdb-tei-only/"
+SEO_PAGES = list(PAGES) + ["api/index.html"]
+# Content chosen by URL parameters: korpus.html?textId=, woerterbuch.html?q=,
+# lemma/?id=. A canonical to the bare page would tell search engines that every
+# text and every lemma is a duplicate of it.
+NO_CANONICAL = {"korpus.html", "woerterbuch.html", "lemma/index.html"}
+OG_IMAGE = SITE_URL + "assets/images/mhdbdb-logo.png"
+
 NAV_START_RE = re.compile(r"<!-- NAV:START[^>]*-->", re.I)
 NAV_BLOCK_RE = re.compile(r"<!-- NAV:START[^>]*-->.*?<!-- NAV:END -->", re.S | re.I)
 FOOTER_BLOCK_RE = re.compile(r"<!-- FOOTER:START -->.*?<!-- FOOTER:END -->", re.S | re.I)
 MATOMO_BLOCK_RE = re.compile(r"<!-- MATOMO:START -->.*?<!-- MATOMO:END -->", re.S | re.I)
 HEAD_CLOSE_RE = re.compile(r"(?P<indent>[ \t]*)</head>", re.I)
+SEO_BLOCK_RE = re.compile(r"<!-- SEO:START -->.*?<!-- SEO:END -->", re.S | re.I)
+MATOMO_START_RE = re.compile(r"<!-- MATOMO:START -->", re.I)
+TITLE_RE = re.compile(r"<title>(.*?)</title>", re.S | re.I)
+DESCRIPTION_RE = re.compile(r'<meta\s+name="description"\s+content="([^"]*)"', re.S | re.I)
 HEADER_MIGRATE_RE = re.compile(r"[ \t]*<header\b.*?</header>", re.S | re.I)
 FOOTER_MIGRATE_RE = re.compile(r"[ \t]*<footer\b.*?</footer>", re.S | re.I)
 LEADING_COMMENT_RE = re.compile(r"\s*<!--.*?-->\s*", re.S)
@@ -158,6 +178,54 @@ def inject_matomo(text, matomo, root=""):
     if HEAD_CLOSE_RE.search(text):
         return HEAD_CLOSE_RE.sub(lambda m: f"{block}\n{m.group('indent')}</head>", text, count=1)
     raise ValueError("no MATOMO markers and no </head> to inject Matomo into")
+
+
+def page_url(rel):
+    """Public URL of a page: index.html files are addressed by their directory."""
+    if rel == "index.html":
+        return SITE_URL
+    if rel.endswith("/index.html"):
+        return SITE_URL + rel[: -len("index.html")]
+    return SITE_URL + rel
+
+
+def inject_seo(text, rel):
+    """(Re)generate the SEO region from the page's own <title> and description. Idempotent.
+
+    Title and description are taken as they stand in the source (already HTML),
+    whitespace collapsed; the region sits before the Matomo region, or before
+    </head> on a page without one. A page without <title> or description is an
+    error: the region would carry nothing to say.
+    """
+    m_title = TITLE_RE.search(text)
+    m_desc = DESCRIPTION_RE.search(text)
+    if not m_title or not m_title.group(1).strip():
+        raise ValueError("no <title> to derive the SEO region from")
+    if not m_desc or not m_desc.group(1).strip():
+        raise ValueError('no <meta name="description"> to derive the SEO region from')
+    title = " ".join(m_title.group(1).split()).replace('"', "&quot;")
+    desc = " ".join(m_desc.group(1).split())
+    lines = []
+    if rel not in NO_CANONICAL:
+        lines.append(f'<link rel="canonical" href="{page_url(rel)}">')
+    lines += [
+        '<meta property="og:type" content="website">',
+        '<meta property="og:site_name" content="MHDBDB">',
+        '<meta property="og:locale" content="de_AT">',
+        f'<meta property="og:title" content="{title}">',
+        f'<meta property="og:description" content="{desc}">',
+    ]
+    if rel not in NO_CANONICAL:
+        lines.append(f'<meta property="og:url" content="{page_url(rel)}">')
+    lines.append(f'<meta property="og:image" content="{OG_IMAGE}">')
+    block = "<!-- SEO:START -->\n" + "\n".join(lines) + "\n<!-- SEO:END -->"
+    if SEO_BLOCK_RE.search(text):
+        return SEO_BLOCK_RE.sub(lambda m: block, text, count=1)
+    if MATOMO_START_RE.search(text):
+        return MATOMO_START_RE.sub(lambda m: f"{block}\n{m.group(0)}", text, count=1)
+    if HEAD_CLOSE_RE.search(text):
+        return HEAD_CLOSE_RE.sub(lambda m: f"{block}\n{m.group('indent')}</head>", text, count=1)
+    raise ValueError("no SEO markers, no Matomo region and no </head> to inject SEO into")
 
 
 def build_page(text, active_key, root, nav, footer, matomo):
@@ -233,12 +301,12 @@ def main():
 
     for rel, (active_key, root) in PAGES.items():
         process(rel,
-                lambda norm, ak=active_key, r=root: build_page(norm, ak, r, nav, footer, matomo),
+                lambda norm, ak=active_key, r=root, p=rel: inject_seo(build_page(norm, ak, r, nav, footer, matomo), p),
                 args.check, changed, drift, errors)
 
     for rel in MATOMO_PAGES:
         process(rel,
-                lambda norm: inject_matomo(norm, matomo),
+                lambda norm, p=rel: inject_seo(inject_matomo(norm, matomo), p) if p in SEO_PAGES else inject_matomo(norm, matomo),
                 args.check, changed, drift, errors)
 
     if errors:
@@ -253,7 +321,8 @@ def main():
                 print(f"  {d}")
             print("Run `python scripts/build-pages.py` and commit the result.")
             return 1
-        print(f"OK — all {total} pages in sync with includes/_nav.html + includes/_footer.html + includes/_matomo.html")
+        print(f"OK — all {total} pages in sync with includes/_nav.html + includes/_footer.html + includes/_matomo.html "
+              f"(SEO region on {len(SEO_PAGES)})")
         return 0
 
     if changed:
