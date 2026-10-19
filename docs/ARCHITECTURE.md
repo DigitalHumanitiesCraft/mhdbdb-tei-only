@@ -434,7 +434,7 @@ Corpus and authority data were never stored here. The playground reads them thro
 
 ## Begriffshilfe download (`assets/downloads/`)
 
-**Generator:** `scripts/build-begriffshilfe.py` (#498) – reads `authority-files/concepts.xml`, `authority-files/lexicon.xml` and the `w/@ana` of every TEI file (not the indexes), emits one Markdown file, `assets/downloads/mhdbdb-begriffshilfe.md`: a fixed task for an external AI plus the full concept table. Offered on `hilfe-begriffe-finden.html`; no site code reads it.
+**Generator:** `scripts/build-begriffshilfe.py` (#498) – reads `authority-files/concepts.xml`, `authority-files/lexicon.xml` and the `w/@ana` of every TEI file (not the indexes), emits one Markdown file, `assets/downloads/mhdbdb-begriffshilfe.md`: a fixed task for an external AI plus the full concept table. Offered on `hilfe-begriffe-finden.html`; no site code reads it. It is coupled to the playground's hash routes, though: it tells the AI to emit `#concepts&q=` and `#multi-lemma&lemmata=…&dist=` links, so a change to either route breaks links in AI answers already given. `begriffshilfe.spec.js` reads both patterns from the file and opens them.
 
 **Freshness:** same pattern as the API. The build is deterministic (no date, no commit hash, LF, the only provenance is the SHA-256 of `concepts.xml`), `npm run build:data` runs it last, and the CI step "Freshness Begriffshilfe" in `data-integrity.yml` rebuilds it and fails on any difference under `assets/downloads/`.
 

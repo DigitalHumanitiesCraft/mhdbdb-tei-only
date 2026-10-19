@@ -4,6 +4,18 @@ Chronological log of development decisions, dead ends, and savepoints. Not a cha
 
 ---
 
+## 2026-10-19 (Koordination): Suchlinks in der Begriffshilfe (#498)
+
+Anlass ist ein externer Praxistest. Ein Fachkollege hat die Begriffshilfe in ChatGPT hochgeladen, die Antwort fand er brauchbar. Seine Kritik: das Modell sucht nicht selbst. Es schlug Lemma-Paare mit Abständen vor, die man dann von Hand eintippen musste.
+
+Selbst suchen kann es auch nicht. Der Playground ist eine JS-App, und die API liefert keine Treffer. Die Hash-Routen nehmen aber vorbelegte Suchen an. Die Datei gibt der KI deshalb jetzt zwei Linkmuster vor (`#concepts&q=`, `#multi-lemma&lemmata=…&dist=`).
+
+Zwei Prüfungen vor dem Start (Fable als Berater, Opus) haben zwei Dinge gekippt, die ich vorhatte:
+- Der Satz „prüfe die Lemma-Chips“: `executeSearch()` setzt die Suche über `reset()` zurück, nach einem Link gibt es also keine Chips mehr.
+- Lemma-Links ohne Einschränkung: Die Suche nimmt bei einer Schreibung still `matches[0]`. In einen Link dürfen deshalb nur Schreibungen aus der Spalte „Häufigste Lemmata“. Die Lemmata des Testfalls stehen alle dort.
+
+Lemma-IDs in die Tabelle aufzunehmen, um zu pinnen, ist verworfen: Das deckte nur die Top 5 je Begriff ab.
+
 ## 2026-10-19 (Koordination): Nachschau zum Lauf vom 18.10.
 
 **Was:** Nach dem Lauf sind fünf weitere PRs gemergt, #631 bis #633 am Abend des 18.10. und #635, #636 am 19.10. (Tabelle im Laufplan, Abschnitt Abnahme); die Nachschau prüfte danach Aufräumen, Doku und Issues. Elf Drift-Gates grün. Neun alte lokale Zweige von vor dem Lauf (#583 bis #608) gegen ihren Squash abgeglichen (0 abweichende Dateien) und gelöscht. Zwei Sonnet-Agenten lasen Doku gegen die Commits seit 18.10. und 28 Issues gegen ihre Threads; nachgezogen sind ROADMAP (geschlossene #123, #404, #406, #228, #369 und der Stand von #58, #251, #93), FEATURES und DEVELOPMENT (Kartenkopf, Einklappen, ONAMA "abgeleitet", Formatfehler als harter Fehler), `scripts/review/README.md` (fünf Skripte des Laufs fehlten) und dieser Laufplan.
