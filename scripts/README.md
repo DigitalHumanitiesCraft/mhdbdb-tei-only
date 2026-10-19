@@ -12,7 +12,7 @@ scripts/
 ├── build-corpus-index.py        # Korpus-Index generieren
 ├── build-demnaechst.py          # Hilfe-Unterseite "Demnächst im Korpus": offene ingest-Issues (data/demnaechst-issues.json) plus Freigabeliste von Hand (data/demnaechst-zeitplan.json, nur Freigegebenes erscheint) -> hilfe-demnaechst.html (--offline, --check, --selftest, monatlicher Lauf, #537)
 ├── build-lemma-pos.py           # Wortart-Zählung je Lemma aus tei/ (data/lemma-pos.json.gz), Quelle für lemma.pos und lemma.posAll im Authority-Index; deterministisch, CI-Freshness-Gate (#462)
-├── build-pages.py               # Nav/Footer/Matomo aus includes/ und den SEO-Block in alle Seiten injizieren (--check Drift-Gate)
+├── build-pages.py               # Nav/Footer/Matomo aus includes/ und den SEO-Block in die registrierten Seiten injizieren (--check Drift-Gate)
 ├── build-publikationen.py       # Hilfe-Unterseite "Publikationen": Zotero-Gruppe 5043625 (Sammlungen WB4HTUGC, Z2N4SWWI) -> eingefrorener Stand data/zotero-publikationen.json -> hilfe-publikationen.html; ein Zotero-Ausfall lässt den Stand liegen (--offline, --check, monatlicher Lauf, #417)
 ├── build-textreihen.py          # Textreihentypologie: SKOS (RDF/JSON, unverändert aus textseries 86c233f08) -> textreihen/data/textreihen.json für den SKOS-Browser (--check Drift-Gate, #93)
 ├── build-textreihen-bibliography.py # Textreihentypologie: Zotero-Gruppe 4876216 -> statische Bibliografie in textreihen/bibliography.html samt Schnappschuss (--offline, --check, #93)
