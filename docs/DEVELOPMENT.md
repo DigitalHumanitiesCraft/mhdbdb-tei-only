@@ -4,7 +4,7 @@ This document describes the development workflow, build processes, and deploymen
 
 ## Prerequisites
 
-- **Node.js 16+** (for npm scripts and testing)
+- **Node.js 18+** (for npm scripts and testing; Playwright 1.55 requires it)
 - **Python 3.13+** with lxml (for building pre-built indexes)
 - **Web Browser** (Chrome/Chromium preferred for testing)
 - **Git** (for version control)
