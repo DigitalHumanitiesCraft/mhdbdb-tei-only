@@ -910,7 +910,7 @@ npm test
 Migration scripts: run once in phases A-E, since the close of #32 they live in `scripts/_archived/` or in the git history.
 Validation script: `scripts/audit/validate-corpus.py`, a two-stage RelaxNG validation (stage 1 `tei_all.rng`, stage 2 `mhdbdb.rng`/`mhdbdb-authority.rng`). The earlier structural Python check (5 checks) was retired on 2026-04-15 and is covered by `schema/mhdbdb.rnc`.
 
-### Validation result (as of 2026-05-11)
+### Validation result (last full run 2026-10-18, #631; no change to `tei/` or `schema/` since)
 
 **mhdbdb.rnc:** 667/667 files valid against the project-specific schema (`schema/mhdbdb.rnc`).
 
@@ -956,7 +956,7 @@ Earlier errors (all fixed by migration):
 
 `mhdbdb.rnc` is **not a strict subset** of `tei_all.rng`: it is stricter on some points (enumerated `@type` values, more restrictive child elements) and more permissive on others (the GAPs). The two stages check different properties and are complementary, not redundant.
 
-### Authority files status (8 files, as of 2026-05-11)
+### Authority files status (8 files, entries counted 2026-10-20)
 
 | File | Entries | Validation |
 |-------|----------|-------------|
