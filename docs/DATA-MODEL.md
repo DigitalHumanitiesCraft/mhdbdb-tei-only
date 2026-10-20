@@ -515,7 +515,7 @@ Three core build scripts:
 
 ### Static JSON API (`api/`)
 
-**Script:** `scripts/build-api.py` (alias: `npm run build:api`, not part of the `npm run build` aggregate)
+**Script:** `scripts/build-api.py` (alias: `npm run build:api`; also run by `npm run build:data`, and with it by `npm run build`)
 
 Third derived layer beside the two indexes. Reads **only** the two pre-built indexes (`data/authority-index.json.gz` + `data/corpus-index.json.gz`), never the XML sources, and emits a static JSON API into `api/` (one file per record except the lemmata; record counts in `api/index.json`), served as plain files by GitHub Pages:
 
