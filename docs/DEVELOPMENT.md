@@ -165,8 +165,10 @@ python scripts/build-demnaechst.py              # open `ingest` issues -> data/d
                                                 # in the monthly workflow it runs only after the rebuild and cannot catch a hand edit)
 
 # Build the full derived layer in dependency order: corpus index, variants.xml, lemma-pos, authority index, API, Begriffshilfe
-npm run build:data       # build:corpus && extract-variants --apply && build:lemma-pos && build:authority && build-api --allow-dirty && build:begriffshilfe
-# build-api runs with --allow-dirty here because the just-rebuilt indexes in data/ are still uncommitted (dirty)
+npm run build:data       # build:corpus && extract-variants --apply && build:lemma-pos && build-authority-index --allow-dirty && build-api --allow-dirty && build:begriffshilfe
+# Both run with --allow-dirty because an earlier step of the same chain leaves their input dirty:
+# extract-variants --apply rewrites authority-files/variants.xml, and the just-rebuilt indexes in data/
+# are still uncommitted. build:corpus keeps its pre-flight on tei/, so uncommitted TEI still stops the chain.
 
 # Aggregate: CSS + vendor + the full data chain (npm run build now includes build:data)
 npm run build            # build:css && build:vendor && build:data
