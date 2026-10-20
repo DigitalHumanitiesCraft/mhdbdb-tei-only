@@ -524,7 +524,7 @@ The format varies for historical reasons. New texts should use a consistent sche
 
 **Priority:** `@meaningRef` → `@ana` and `@wordRef` → `@corresp` are both needed for TEI conformance. Both are batch renames (change the attribute name). For `@wordRef` the URI has to be corrected as well (see sec. 4.4).
 
-**Code adjustment `@meaningRef` → `@ana`** (✓ done): the active playground JS already reads `@ana` (querySelectorAll `[ana]`/`getAttribute('ana')`). There are **0** places in the active JS code that read `meaningRef`/`wordRef` (confirmed by grep across `assets/` + `playground/`, 2026-06-05). Python references only in the archived `_ARCHIVED_tei-transformation.py` (not active).
+**Code adjustment `@meaningRef` → `@ana`** (✓ done): the active playground JS already reads `@ana` (querySelectorAll `[ana]`/`getAttribute('ana')`). There are **0** places in the active JS code that read `meaningRef`/`wordRef` (confirmed by grep across `assets/` + `playground/`, 2026-06-05). Python references only in the archived `scripts/_archived/tei-transformation.py` (not active), otherwise only in comments, in audits that look for the old names and in one-off WZB ingest scripts that strip them.
 
 **`@lemma` deliberately not implemented:** TEI P5 allows `@lemma` (att.linguistic) as a human-readable base form directly on the word. We do not set it. Reasons:
 
