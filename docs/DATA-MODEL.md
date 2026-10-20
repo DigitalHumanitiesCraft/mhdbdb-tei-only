@@ -734,18 +734,7 @@ Build scripts perform integrity checks:
 - TEI corpus modified (new orthographic forms)
 - Usually paired with corpus index rebuild
 
-**Rebuild workflow:**
-```bash
-# The binding sequence with every gate is the Data-Change-Lifecycle below. Locally the
-# changed sources and fresh indexes are uncommitted, so the three pre-flights need --allow-dirty.
-python scripts/build-corpus-index.py --allow-dirty     # pre-flight on tei/
-python scripts/sync/extract-variants.py --apply        # regenerate variants.xml from the corpus (#44/#115)
-python scripts/build-lemma-pos.py                      # part-of-speech counts, read by the authority build (#462)
-python scripts/build-authority-index.py --allow-dirty  # pre-flight on authority-files/; reads all three outputs above and aborts on a missing or stale corpus index and a missing lemma-pos file
-python scripts/validate-indices.py
-python scripts/build-api.py --allow-dirty              # pre-flight on data/; static JSON API from the two indexes (#45)
-python scripts/build-begriffshilfe.py                  # concept-help download from concepts.xml, lexicon.xml and w/@ana (#498)
-```
+**Rebuild workflow:** the step sequence with every gate is the [Data-Change-Lifecycle](#data-change-lifecycle) below, and it is kept only there. `npm run build:data` runs its build steps in that order (the chain is spelled out in [DEVELOPMENT.md](DEVELOPMENT.md)).
 
 **Cache invalidation:**
 - Increment version number in build script
