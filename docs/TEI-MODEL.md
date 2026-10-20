@@ -1,6 +1,6 @@
 # MHDBDB TEI Target Model
 
-Defines the normative TEI encoding for all texts in the MHDBDB corpus. New texts **must** conform to this model. Existing texts are migrated incrementally (see Issue #30).
+Defines the normative TEI encoding for all texts in the MHDBDB corpus. New texts **must** conform to this model. Existing texts are migrated incrementally.
 
 > **Audience:** This file is a technical reference specification, written primarily for development and automated tooling (precise, machine-oriented). A general introduction is offered by the help pages of the website, for example [Daten & Downloads](https://dhcraft.org/mhdbdb-tei-only/hilfe-daten.html) and [Eigene Texte beitragen](https://dhcraft.org/mhdbdb-tei-only/hilfe-daten-beitragen.html).
 
@@ -263,7 +263,7 @@ TEI P5 requires `<author>` **before** `<title>` in `<monogr>`; after the title, 
 - for songs: `<div type="song">` > `<lg type="stanza">` > `<l>`
 - caesuras as `<caesura/>` inside `<l>` (optional; dated count in 6.5)
 
-**Current state:** most verse texts have `<l>` without an `<lg>` wrapper. The migration happens step by step (issue #30, stage 2).
+**Current state:** most verse texts have `<l>` without an `<lg>` wrapper. There is no open ticket for adding the wrappers (#30, which carried it, was closed on 2026-06-09).
 
 ### 3.2 Prose texts
 
