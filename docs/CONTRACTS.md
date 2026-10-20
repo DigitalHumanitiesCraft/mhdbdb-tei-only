@@ -363,7 +363,7 @@ Decided by chsteiner on 2026-10-10: **if stage 1 yields no attested hit, stage 2
 
 ### Stage 3: why prefix and not substring (#224)
 
-Until July 2026 stage 3 was a bidirectional **substring** test. The direction "input contains lemma" hit every short lemma that sat anywhere inside the input. The lexicon holds 5 one-letter, 98 two-letter and 598 three-letter normalized forms; they matched practically every input that reached stage 3 at all. For `minnecl` it returned 16 hits, led by `i`, `unminneclîche` and `nec`; for `schwertkampf` 14, among them `a`, `êr`, `wert`, `kamp`.
+Until July 2026 stage 3 was a bidirectional **substring** test. The direction "input contains lemma" hit every short lemma that sat anywhere inside the input. The lexicon held 5 one-letter, 98 two-letter and 598 three-letter normalized forms (July 2026; 5, 93 and 598 on 2026-10-20); they matched practically every input that reached stage 3 at all. For `minnecl` it returned 16 hits, led by `i`, `unminneclîche` and `nec`; for `schwertkampf` 14, among them `a`, `êr`, `wert`, `kamp`.
 
 Middle High German inflection is suffixal, so a prefix test keeps both useful cases (stem input finds the full lemma, inflected input finds the lemma) and drops the noise. The minimum length of 3 applies only in the direction "input begins with lemma"; in the other direction the lemma is longer than the input by construction.
 
