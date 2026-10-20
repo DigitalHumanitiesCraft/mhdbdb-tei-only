@@ -99,7 +99,7 @@ been since its relabelling on 2026-09-23.
 | #141 | Borte ingest: task 0 (the borte.md metadata template) is delivered in the issue | Alan's metadata; scheduled after #139 |
 | #118 | language stages in the TEI headers: the two first-ranked sources of the concept are empty (no header dating, only print years in `works.xml`), the virgule marks 16 texts as a calibration set | KZW's four format and threshold questions; then it is a procurement project |
 | #93 | moving the text series typology: the subsite is live since 2026-10-13 (#555) on the SKOS state, without a reconciliation against `genres.xml` (KZW, 2026-10-08); the footer logo followed on 2026-10-18 (#624) | none left in the thread: KZW allowed the logos, start image and screenshots on 2026-10-13, Julia accepted the footer logo on 2026-10-19; whether the ticket can close |
-| #109 | FWF single project (deep corpus analysis, NER pipeline, phonetic rhyme analysis, visualizations): proposal by KZW, small budget, max. 50 % external funds | a scope note for the proposal text |
+| #109 | FWF single project (deep corpus analysis, NER pipeline, phonetic rhyme analysis, visualizations): proposal by KZW, small budget, max. 50 % external funds | whether the proposal has been submitted and still needs technical clarifications from us (asked 2026-10-09) |
 
 **Index size and a splitting strategy** stands here without an issue number, and
 that is deliberate: the budget question of #111 is **decided and gated**, and the
