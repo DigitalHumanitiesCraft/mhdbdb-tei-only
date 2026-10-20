@@ -143,7 +143,7 @@ The reading view converts TEI XML elements to HTML. Source: `extractAndFormatBod
 
 **Multi-lemma color assignment:** `lemmaColorMap[lemmaId] = colors[idx % 5]` – sequential assignment, wraps at 5.
 
-**`<hi rend>` token-based rendering:** `@rend` is space-separated (CSS-class style). The renderer splits on whitespace and emits `hi-{token}` per token. Compound values like `rend="initial upper_case_first_letter"` produce `class="hi hi-initial hi-upper_case_first_letter"`, with rules stacking from CSS. ~43k compound values that previously fell through to the single-class default are now correctly styled. Source: [DESIGN.md §TEI Reading View CSS Classes](DESIGN.md).
+**`<hi rend>` token-based rendering:** `@rend` is space-separated (CSS-class style). The renderer splits on whitespace and emits `hi-{token}` per token. Compound values like `rend="initial upper_case_first_letter"` produce `class="hi hi-initial hi-upper_case_first_letter"`, with rules stacking from CSS. Compound values that previously fell through to the single-class default are now correctly styled. Source: [DESIGN.md §TEI Reading View CSS Classes](DESIGN.md).
 
 **Position counting contract:** see [CONTRACTS.md](CONTRACTS.md#b-position-counting-contract)
 
