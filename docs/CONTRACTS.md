@@ -1182,7 +1182,7 @@ Four properties that decide whether a comparison across texts is valid:
 
    The per-thousand rates carry the same latent asymmetry H.4 records for rhyme pressure. With zero multi-reference tokens today (H.2a) both sides agree exactly; they diverge the moment that changes. `hapaxRate` and the verse-position `ratio` are unaffected in principle, not just today.
 
-3. **The verse-position search is the symmetric counterpart to H.4 and worth knowing about.** It answers the same shape of question ("how much of this lemma's usage sits at a verse boundary?") but reads **both** sides from `text.lemmata`, deliberately and with a comment saying why (`verse-position-search.js:61-69`, the #170 review finding). Rhyme pressure in H.4 reads its numerator from `text.words[]`. After an ingest that introduces multi-reference tokens, the two views will report different percentages for the same lemma, and this is the reason: the verse-position figure is the correct one.
+3. **The verse-position search is the symmetric counterpart to H.4 and worth knowing about.** It answers the same shape of question ("how much of this lemma's usage sits at a verse boundary?") but reads **both** sides from `text.lemmata`, deliberately and with a comment saying why (`findHits` in `verse-position-search.js`, the #170 review finding). Rhyme pressure in H.4 reads its numerator from `text.words[]`. After an ingest that introduces multi-reference tokens, the two views will report different percentages for the same lemma, and this is the reason: the verse-position figure is the correct one.
 
 `hapaxRate` is a within-text rate over types and is unrelated to the corpus-wide hapax tool in H.2. The two answer different questions and their numbers must never be compared.
 
