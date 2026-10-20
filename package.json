@@ -20,7 +20,7 @@
     "build:api": "node scripts/run-python.js scripts/build-api.py",
     "build:begriffshilfe": "node scripts/run-python.js scripts/build-begriffshilfe.py",
     "build:lemma-pos": "node scripts/run-python.js scripts/build-lemma-pos.py",
-    "build:data": "npm run build:corpus && node scripts/run-python.js scripts/sync/extract-variants.py --apply && npm run build:lemma-pos && node scripts/run-python.js scripts/build-authority-index.py --allow-dirty && node scripts/run-python.js scripts/build-api.py --allow-dirty && npm run build:begriffshilfe",
+    "build:data": "node scripts/run-python.js scripts/build-corpus-index.py --allow-dirty && node scripts/run-python.js scripts/sync/extract-variants.py --apply && npm run build:lemma-pos && node scripts/run-python.js scripts/build-authority-index.py --allow-dirty && node scripts/run-python.js scripts/build-api.py --allow-dirty && npm run build:begriffshilfe",
     "build": "npm run build:css && npm run build:vendor && npm run build:data",
     "validate:indices": "node scripts/run-python.js scripts/validate-indices.py"
   },

@@ -165,10 +165,13 @@ python scripts/build-demnaechst.py              # open `ingest` issues -> data/d
                                                 # in the monthly workflow it runs only after the rebuild and cannot catch a hand edit)
 
 # Build the full derived layer in dependency order: corpus index, variants.xml, lemma-pos, authority index, API, Begriffshilfe
-npm run build:data       # build:corpus && extract-variants --apply && build:lemma-pos && build-authority-index --allow-dirty && build-api --allow-dirty && build:begriffshilfe
-# Both run with --allow-dirty because an earlier step of the same chain leaves their input dirty:
-# extract-variants --apply rewrites authority-files/variants.xml, and the just-rebuilt indexes in data/
-# are still uncommitted. build:corpus keeps its pre-flight on tei/, so uncommitted TEI still stops the chain.
+npm run build:data       # build-corpus-index --allow-dirty && extract-variants --apply && build:lemma-pos && build-authority-index --allow-dirty && build-api --allow-dirty && build:begriffshilfe
+# All three pre-flights run with --allow-dirty. The Data-Change-Lifecycle builds from uncommitted
+# sources and commits TEI and indexes together (its step 11), and within the chain extract-variants
+# --apply rewrites authority-files/variants.xml and the just-rebuilt indexes in data/ are uncommitted.
+# The pre-flights still list what is dirty. An index that bundles a file left out of the commit is
+# caught by the rebuild-and-compare step in data-integrity.yml, which builds from the committed tree.
+# `npm run build:corpus` on its own keeps the pre-flight that stops on uncommitted TEI (#100).
 
 # Aggregate: CSS + vendor + the full data chain (npm run build now includes build:data)
 npm run build            # build:css && build:vendor && build:data
