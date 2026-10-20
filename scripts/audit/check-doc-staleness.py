@@ -44,8 +44,8 @@ er ruhig und der letzte markierte Kommentar meldete etwas, geht eine kurze
 Entwarnung raus. Ohne `--apply` zeigt der Lauf nur, was gepostet wuerde.
 
 Usage:
-    python scripts/audit/check-doc-staleness.py                 # Bericht a) bis e)
-    python scripts/audit/check-doc-staleness.py --faellig       # nur die Faelligkeit
+    python scripts/audit/check-doc-staleness.py                 # Bericht a) bis c)
+    python scripts/audit/check-doc-staleness.py --faellig       # nur a): Statuszeile und Zahlenzeile
     python scripts/audit/check-doc-staleness.py --kommentar --issue 641            # zeigen
     python scripts/audit/check-doc-staleness.py --kommentar --issue 641 --apply    # posten
     python scripts/audit/check-doc-staleness.py --selftest
@@ -282,7 +282,7 @@ def lade_state_datei(pfad):
 
 
 def messe_faelligkeit(repo):
-    """Alles fuer Teil c): (sha, datum, n_commits, tage, zustand, nummer, pr_nummern)."""
+    """Alles fuer Teil a): (sha, datum, n_commits, tage, zustand, nummer, pr_nummern)."""
     sha, datum = lade_state_datei(STATE_FILE)
     if git('cat-file', '-e', f'{sha}^{{commit}}').returncode != 0:
         raise Fehler(f'Commit {sha[:9]} der Markerdatei liegt nicht in der History '
@@ -304,7 +304,7 @@ def messe_faelligkeit(repo):
 
 
 def feature_befunde(repo):
-    """([Befundzeilen], Anzahl geprueft) fuer Teil d)."""
+    """([Befundzeilen], Anzahl geprueft) fuer Teil b)."""
     ordner = REPO_DIR / 'docs' / 'features'
     dateien = sorted(ordner.glob('*.md')) if ordner.is_dir() else []
     befunde = []
@@ -531,7 +531,7 @@ def selftest():
 def main():
     ap = argparse.ArgumentParser(description='Doku-Health-Check: Faelligkeit und liegen gebliebene Doku-Artefakte.')
     ap.add_argument('--selftest', action='store_true')
-    ap.add_argument('--faellig', action='store_true', help='nur die Faelligkeit, Exit 0 in allen Faellen')
+    ap.add_argument('--faellig', action='store_true', help='nur die Faelligkeit (Status- und Zahlenzeile); Exit 0 bei ja, nein und pr-offen, Exit 2 bei einem Fehler')
     ap.add_argument('--kommentar', action='store_true', help='Bericht und Kommentar ins Sammelticket (mit --issue)')
     ap.add_argument('--issue', type=int, help='Sammelticket fuer --kommentar')
     ap.add_argument('--apply', action='store_true', help='mit --kommentar: wirklich posten')
