@@ -172,7 +172,7 @@ The last row is corpus-wide unique and deliberate, not an omission (#315): WZB n
 
 ### 2.1a `<monogr>` element order
 
-The content model of `<monogr>` in tei_all has two branches. If `<author>` or `<editor>` comes before the title, `<idno>` and `<editor>` may follow the title in either order. If the title comes first, every `<idno>` has to precede the first `<author>` or `<editor>`: `title, idno, editor` is valid, `title, editor, idno` and `title, author, idno` are not (probe against `schema/tei_all.rng`, 2026-10-20). 436 headers carry `title, idno, editor, imprint`. Phase A2 corrected the files that broke this order (§10); on 2026-10-20 none of the 679 `<monogr>` in the corpus does.
+The content model of `<monogr>` in tei_all places the title in two ways (a third branch, `authority, idno`, does not occur here). If `<author>` or `<editor>` comes before the title, `<idno>` and `<editor>` may follow the title in either order. If the title comes first, every `<idno>` has to precede the first `<author>` or `<editor>`: `title, idno, editor` is valid, `title, editor, idno` and `title, author, idno` are not (probe against `schema/tei_all.rng`, 2026-10-20). 436 headers carry `title, idno, editor, imprint`. Phase A2 corrected the files that broke this order (§10); on 2026-10-20 none of the 679 `<monogr>` in the corpus does.
 
 ### 2.2 `<encodingDesc>`
 
