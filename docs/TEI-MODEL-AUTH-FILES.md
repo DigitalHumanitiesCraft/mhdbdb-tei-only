@@ -527,7 +527,7 @@ works.xml ──author @ref──> persons.xml
 |-----|------|-----------------|---------------|
 | lexicon → concepts | `<ptr target="concepts.xml#..."/>` | a sense has 0-N concept pointers |
 | lexicon → lexicon | `<seg corresp="lexicon.xml#...">` | etymology components |
-| variants → lexicon | `@corresp="lexicon.xml#..."` | 1:1 (one entry per lemma) |
+| variants → lexicon | `@corresp="lexicon.xml#..."` | 0..1 entries per lemma (only lemmata with corpus forms) |
 | works → persons | `<author ref="persons.xml#...">` | 1:N, with attribution status and role on the relation itself (see "Attribution status" in §3.4); 3 works carry two `<author>` elements since #452 (`work_5`, `work_325`, `work_462`), `work_408` carries one |
 | works → genres | `<ptr target="genres.xml#..."/>` | 1:N (one work, several genres) |
 | names → concepts | `<ptr type="exactMatch\|closeMatch" target="concepts.xml#..."/>` | 0-N |

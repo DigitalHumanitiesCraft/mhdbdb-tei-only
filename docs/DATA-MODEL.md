@@ -176,7 +176,7 @@ Notes: Multiple sigles per work (editions). GND/Wikidata may be full URLs or bar
 </div></body></text></TEI>
 ```
 
-Notes: Flat list of variants grouped by lemma cross-reference. Forms preserve MHG diacritics. One entry per lexicon lemma; multiple forms per entry. `@n` (required since the authority schema 1.2.0, #378) is the number of corpus tokens of this type under the entry's lemma, written by `extract-variants.py`. It is the only frequency in the authority layer and the sole input of the candidate ranking (Vorschrift B, ADR-021).
+Notes: Flat list of variants grouped by lemma cross-reference. Forms preserve MHG diacritics. At most one entry per lemma, and only for lemmata with corpus forms (`extract-variants.py` writes them from the corpus); multiple forms per entry. `@n` (required since the authority schema 1.2.0, #378) is the number of corpus tokens of this type under the entry's lemma, written by `extract-variants.py`. It is the only frequency in the authority layer and the sole input of the candidate ranking (Vorschrift B, ADR-021).
 
 ## Pre-Built Index Architecture
 
