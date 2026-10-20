@@ -290,7 +290,10 @@ def messe_faelligkeit(repo):
     docs_dir = REPO_DIR / 'docs'
     pruefe_docs_liste([p.name for p in docs_dir.glob('*.md')])
     pfade = [f'docs/{n}.md' for n in STABILE_DOCS]
-    p = git('log', '--format=%H', f'{sha}..HEAD', '--', *pfade)
+    # --first-parent: ein ohne Squash gemergter Zweig zaehlt als ein Commit
+    # (der Merge), nicht mit jedem Einzelcommit; sonst machte ein Doku-Check-PR
+    # mit einem Commit je Befund den naechsten Check sofort faellig.
+    p = git('log', '--first-parent', '--format=%H', f'{sha}..HEAD', '--', *pfade)
     if p.returncode != 0:
         raise Fehler(f'git log endete mit Exit {p.returncode}: {p.stderr.strip()}')
     n_commits = len([z for z in p.stdout.splitlines() if z.strip()])
