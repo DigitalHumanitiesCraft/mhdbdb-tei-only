@@ -393,7 +393,7 @@ TEI Ch. 2.3.7 (The Classification Declaration / Taxonomy). Data in `<encodingDes
 </body>
 ```
 
-**`<term type="alternative">`**: optional synonyms alongside the primary term. Several `type="alternative"` entries per language are allowed; 263 of 567 concepts currently have at least one German synonym, 266 an English one. The build script (`scripts/build-authority-index.py:parse_concepts()`) separates primary (`termDE`/`termEN`) from alternative (`altDE[]`/`altEN[]`), see DATA-MODEL.md §Concepts. **Quirk:** some entries use slash-separated strings inside a single `<term type="alternative">` (for example `Abendessen/Nachtmahl/Festmahl`); the editorial follow-up that splits them into separate `<term>` elements is still open.
+**`<term type="alternative">`**: optional synonyms alongside the primary term. Several `type="alternative"` entries per language are allowed; 263 of 568 concepts currently have at least one German synonym, 266 an English one. The build script (`scripts/build-authority-index.py:parse_concepts()`) separates primary (`termDE`/`termEN`) from alternative (`altDE[]`/`altEN[]`), see DATA-MODEL.md §Concepts. **Quirk:** some entries use slash-separated strings inside a single `<term type="alternative">` (for example `Abendessen/Nachtmahl/Festmahl`); the editorial follow-up that splits them into separate `<term>` elements is still open.
 
 ### 3.6 genres.xml: genre taxonomy
 
