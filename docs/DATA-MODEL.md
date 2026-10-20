@@ -60,7 +60,7 @@ Eight authority files – seven content-bearing controlled vocabularies (in the 
 
 All files use namespace `xmlns="http://www.tei-c.org/ns/1.0"`.
 
-#### lexicon.xml (~33 MB, 43,711 entries)
+#### lexicon.xml (~34 MB, 43,711 entries)
 
 ```xml
 <TEI><text><body><div type="lexicon">
@@ -81,7 +81,7 @@ All files use namespace `xmlns="http://www.tei-c.org/ns/1.0"`.
 
 Notes: Multiple `<pos>` per entry possible. Multiple `<sense>` per entry (verb entries often have 2+). `@ana` contains space-separated semantic type references.
 
-#### persons.xml (~74 KB)
+#### persons.xml (~57 KB)
 
 ```xml
 <TEI><text><body><listPerson>
@@ -97,7 +97,7 @@ Notes: Multiple `<pos>` per entry possible. Multiple `<sense>` per entry (verb e
 
 Notes: IDs are numeric (`person_N`) except `person_anonym`. GND and Wikidata are optional.
 
-#### works.xml (~1.4 MB)
+#### works.xml (~1.2 MB)
 
 ```xml
 <TEI><text><body><listBibl>
@@ -166,7 +166,7 @@ Notes: Multiple sigles per work (editions). GND/Wikidata may be full URLs or bar
 | genres.xml | `genre_{hex}` | – (but many broader pointers, polyhierarchical) |
 | names.xml | `name_{numeric}` | `exactMatch`, `closeMatch` → `concepts.xml#...` |
 
-#### variants.xml (~16 MB, 256,966 variant forms)
+#### variants.xml (~18 MB, 256,966 variant forms)
 
 ```xml
 <TEI><text><body><div type="orthographicVariants">

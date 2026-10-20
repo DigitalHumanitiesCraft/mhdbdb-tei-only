@@ -14,16 +14,16 @@ Counterpart to `docs/TEI-MODEL.md` (corpus files).
 
 ## 1. Overview
 
-| File | Content | Entries | Size |
+| File | Content | Entries | Size (2026-10-20, `ls -l`, decimal units) |
 |-------|--------|-----------|---------|
-| `lexicon.xml` | Lemmata with senses, POS, etymology | 43,711 lemmata | 33 MB |
-| `variants.xml` | Orthographic variants per lemma | 42,458 variant entries, 256,966 forms | 16 MB |
-| `persons.xml` | Authors/persons with authority data | 211 | 74 KB |
-| `works.xml` | Works with bibliography and genre | 585 | 1.4 MB |
-| `contributors.xml` | MHDBDB contributors (founders, coordination, editors) | 52 persons + 2 orgs | 15 KB |
-| `concepts.xml` | Semantic concept ontology | 568 categories | 207 KB |
-| `genres.xml` | Genre taxonomy | 615 categories | 405 KB |
-| `names.xml` | Onomastic system (proper names) | 90 categories | 33 KB |
+| `lexicon.xml` | Lemmata with senses, POS, etymology | 43,711 lemmata | 34 MB |
+| `variants.xml` | Orthographic variants per lemma | 42,458 variant entries, 256,966 forms | 18 MB |
+| `persons.xml` | Authors/persons with authority data | 211 | 57 KB |
+| `works.xml` | Works with bibliography and genre | 585 | 1.2 MB |
+| `contributors.xml` | MHDBDB contributors (founders, coordination, editors) | 52 persons + 2 orgs | 9 KB |
+| `concepts.xml` | Semantic concept ontology | 568 categories | 217 KB |
+| `genres.xml` | Genre taxonomy | 615 categories | 424 KB |
+| `names.xml` | Onomastic system (proper names) | 90 categories | 35 KB |
 
 ### Functional groups
 
