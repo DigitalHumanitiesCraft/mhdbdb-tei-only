@@ -70,8 +70,9 @@ The MHDBDB project follows a **client-only architecture** with no backend server
 4. Filter corpus by selected texts
 5. Search for lemma in filtered texts
 6. **Multi-lemma deduplication:** When search resolves to multiple lemmata, aggregate results by textId
-7. Extract context windows (±10 words)
-8. Return results with positions and all matched lemmaIds
+7. Return results with positions and all matched lemmaIds
+
+The KWIC lines (±10 words) are not part of the SearchEngine: `assets/js/search/kwic-service.js` (`extractKwicHits`, #129) reads them on demand from the TEI when a result row is expanded, called from app.js; the playground imports the same module.
 
 **Multi-Lemma Deduplication:**
 - Problem: Variant resolution may map one term to multiple lemmata (e.g., "hab" → `lemma_2598` and `lemma_2593`, CONTRACTS §C)
@@ -81,7 +82,6 @@ The MHDBDB project follows a **client-only architecture** with no backend server
 
 **Key features:**
 - Variant resolution via flat dictionary lookup (O(1))
-- Context extraction with surrounding words
 - Text filtering respects user selection
 - Deduplication by textId for multi-lemma results
 
