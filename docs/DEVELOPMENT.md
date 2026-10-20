@@ -20,6 +20,7 @@ cd mhdbdb-tei-only
 
 # Install dependencies
 npm install
+pip install -r requirements.txt   # pinned lxml and rnc2rng, needed for byte-identical rebuilds (#125)
 
 # Start development server
 npm run serve
