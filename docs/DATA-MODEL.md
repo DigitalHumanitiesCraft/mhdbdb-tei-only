@@ -669,7 +669,7 @@ All cross-references validated during build:
 
 ### Performance Maps
 
-Three pre-computed maps accelerate common queries:
+Two pre-computed maps accelerate common queries:
 
 **conceptToLemmas:** Find all lemmata for a concept
 - Avoids scanning entire lexicon
