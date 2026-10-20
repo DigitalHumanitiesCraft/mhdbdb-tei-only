@@ -631,19 +631,19 @@ With the ARITHMETIC ingest the following TEI P5 standard elements were taken int
 
 ### 6.1 Punctuation
 
-**Current** (existing data):
+**Before phase C1** (legacy data):
 ```xml
 <seg xml:id="{SIGLE}_{page}{line}_{pos}" type="pc">,</seg>
 ```
 
-**Target** (TEI P5 has a dedicated element):
+**Target and current state** (TEI P5 has a dedicated element):
 ```xml
 <pc join="left">.</pc>
 ```
 
 TEI P5 provides `<pc>` (punctuation character) as the counterpart to `<w>`. It is a member of `att.linguistic` and therefore supports `@pos`, `@lemma` and so on, unlike `<seg type="pc">`. The `@join` attribute (`left`, `right`, `both`, `no`) governs whitespace adjacency.
 
-**Migration:** 1,370,191 occurrences. A simple batch rename (`<seg type="pc">` → `<pc join="left">`). The JS rendering has to treat `<pc>` as an inline element (as it does `<seg type="pc">`).
+**Migration (done, phase C1, §10):** a batch rename (`<seg type="pc">` → `<pc join="left">`); no `<seg type="pc">` is left in the corpus. The JS rendering treats `<pc>` as an inline element.
 
 **Careful:** `&lt;` and `&gt;` inside `<seg type="pc">` (and inside `<pc>` in future) are correct XML entities (angle brackets in the source text), not bugs.
 
