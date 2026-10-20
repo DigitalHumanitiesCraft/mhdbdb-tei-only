@@ -105,6 +105,11 @@ Pre-built indexes are included in repository. Rebuild only when modifying source
 python scripts/build-corpus-index.py
 # Output: data/corpus-index.json.gz (~42 MB; current version in TEI-MODEL.md §11)
 
+# Regenerate the corpus-derived variants.xml (#44/#115); also drops orphaned #type_N from lexicon.xml sense/@ana
+python scripts/sync/extract-variants.py --apply
+# Output: authority-files/variants.xml (and lexicon.xml where tokens drop out). Run it after the corpus index
+# when the Data-Change-Lifecycle calls for it (step 5 of its `tei/` table); the authority build below reads variants.xml.
+
 # Count the parts of speech per lemma in the corpus (#462); build-authority-index.py aborts without the result
 python scripts/build-lemma-pos.py
 # Output: data/lemma-pos.json.gz (~0.2 MB, about 12 s). Run it after every change to @lemmaRef or @pos in tei/, before the authority index.

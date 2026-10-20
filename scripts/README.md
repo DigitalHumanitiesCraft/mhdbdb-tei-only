@@ -267,25 +267,12 @@ Originales Transformationsscript aus dem `initial-data-wrangling`-Branch (~2000 
 
 ## Verwendung
 
-**Der verbindliche Ablauf nach einer Änderung in `tei/` oder `authority-files/` steht in [`docs/DATA-MODEL.md` → Data-Change-Lifecycle](../docs/DATA-MODEL.md#data-change-lifecycle)**, samt Routing-Tabelle (welche Schritte der konkrete Fall überhaupt braucht) und der Angabe, welche davon die CI abfängt. Die Zeilen hier sind die Aufrufe, nicht das Verfahren: wer nur sie liest, vergisst den Versions-Bump und `api/`, und die Suche liefert dann bis zu 30 Tage lang den alten Stand aus dem IndexedDB-Cache.
+**Der verbindliche Ablauf nach einer Änderung in `tei/` oder `authority-files/` steht in [`docs/DATA-MODEL.md` → Data-Change-Lifecycle](../docs/DATA-MODEL.md#data-change-lifecycle)**, samt Routing-Tabelle (welche Schritte der konkrete Fall überhaupt braucht) und der Angabe, welche davon die CI abfängt. Die Schrittfolge steht nur dort, hier keine zweite Fassung. Wer nur die Builds anstößt, vergisst den Versions-Bump, und die Suche liefert dann bis zu 30 Tage lang den alten Stand aus dem IndexedDB-Cache.
 
 ```bash
-# Nach Aenderung in tei/, vollstaendiger Fall, Reihenfolge zaehlt
-# 1. Version bumpen (build-*-index.py + assets/js/lib/corpus-loader.js), dann:
-python scripts/audit/check-index-versions.py
-python scripts/build-corpus-index.py
-python scripts/sync/extract-variants.py --apply     # nur bei neuen Formen
-python scripts/build-lemma-pos.py                  # nach Aenderung von @lemmaRef oder @pos, vor dem Authority-Index
-python scripts/build-authority-index.py             # nur nach --apply oder geaenderter lemma-pos
-python scripts/build-api.py
-python scripts/build-begriffshilfe.py               # nur bei geaendertem w/@ana
-python scripts/audit/check-authority-cross-refs.py --check
-
-# Nach Aenderung in authority-files/
-# 1. Version bumpen, dann (data/lemma-pos.json.gz muss zum Korpus passen: python scripts/build-lemma-pos.py --check):
-python scripts/build-authority-index.py
-python scripts/build-api.py
-python scripts/build-begriffshilfe.py               # bei lexicon.xml oder concepts.xml
+# Nach Aenderung in tei/ oder authority-files/: Bump, Gates und Commit nach dem Lifecycle (Link oben).
+# Alle Builds der abgeleiteten Schicht in dessen Reihenfolge, mit --allow-dirty fuer die uncommitteten Quellen:
+npm run build:data
 
 # Indexe validieren, Korpus gegen Schema validieren
 python scripts/validate-indices.py

@@ -13,7 +13,8 @@ Verdichtet 18.10.2026. Zahlen vor Gebrauch nachmessen.
 
 **data-integrity.yml:** zwei Nummernschemata (Workflow-Kopf 0, 1, 1a..1d gegen DEVELOPMENT.md 1..15, von Hand gespiegelt): bei einer Step-Nummer im Auftrag erst das Schema klären. Der `pull_request`-Lauf nimmt die Workflow-Datei des PR-Merge-Refs.
 - **Freshness-Reihenfolge im zweiten Job:** variants (+lexicon) → API → Begriffshilfe → lemma-pos `--check` → Index-Rebuild-and-Compare, keiner mit `if:`. Ein Satz „X wird vom Rebuild-and-Compare gefangen" stimmt nur, wenn keiner der früheren Schritte schon rot wird; bei fremder annotierter TEI wird meist variants zuerst rot (20.10., Prüfung build:data --allow-dirty). Alle Fehlermeldungen raten „lokal neu bauen", was mit der fremden Datei im Baum dasselbe Ergebnis reproduziert.
-- **Zweite Lifecycle-Kopie:** `scripts/README.md` → „Verwendung" hält eine Befehlsfolge „vollständiger Fall, Reihenfolge zählt" samt Gates; DEVELOPMENT.md → Build Commands eine dritte ohne extract-variants. Ein „nur im Lifecycle" dagegen halten.
+- **Zweite Lifecycle-Kopie:** `scripts/README.md` → „Verwendung" hält eine Befehlsfolge „vollständiger Fall, Reihenfolge zählt" samt Gates; DEVELOPMENT.md → Build Commands eine dritte ohne extract-variants. Ein „nur im Lifecycle" dagegen halten. (Zweig claude/doku-pflege-befehlslisten ersetzt beides, Stand 20.10. ungemergt.)
+- **Lifecycle hat zwei nummerierte Tabellen** (DATA-MODEL `tei/` 1..12 mit 5b, `authority-files/` 1..7): „Schritt 5" ist dort zweimal belegt (extract-variants bzw. Begriffshilfe). Jeden Verweis „step N" auf die Tabelle prüfen, die er meint.
 
 **Einzelgates**
 - `check-index-versions.py` gatet fünf Dateien, nur vier tragen die Korpusversion. `check-no-em-dash.py --diff-base origin/main` meldet auf einem älteren Branch Zeilen, die main geändert hat.
