@@ -306,7 +306,7 @@ Completeness against `testing/tests/` is gated by `scripts/audit/check-doc-inven
 ### CI: Data Integrity
 
 **Workflow:** `.github/workflows/data-integrity.yml` (since #125 it consolidates the former `schema-validation.yml` + `index-version-check.yml`)
-**Triggers:** PRs + main pushes touching `schema/`, `tei/`, `authority-files/`, the three index `.json.gz` files (corpus/authority/naming), `api/**`, `assets/downloads/**`, the build scripts (`build-*-index.py`, `build-api.py`, `build-begriffshilfe.py`, `build-lemma-pos.py`, `mhg_normalizer.py`), `scripts/sync/`, `scripts/audit/`, `scripts/ingest/naming/`, `corpus-loader.js` or `requirements.txt`. Plus `workflow_dispatch`.
+**Triggers:** PRs + main pushes touching `schema/`, `tei/`, `authority-files/`, every `data/*.json.gz` (today corpus, authority, naming, horses and lemma-pos), `api/**`, `assets/downloads/**`, the build scripts (`build-*-index.py`, `build-api.py`, `build-begriffshilfe.py`, `build-lemma-pos.py`, `mhg_normalizer.py`), `scripts/sync/`, `scripts/audit/`, `scripts/ingest/naming/`, `corpus-loader.js` or `requirements.txt`. Plus `workflow_dispatch`.
 
 **The workflow file carries a second numbering of its own, and the two do not correspond.** Its header comment runs `0, 1, 1a … 1d, 2 … 8`, with letters so that a step inserted later shows its position without renumbering the digits below it. Inserting one does shift the letters, as #399 shifted `1b` to `1c` and `1c` to `1d`; what stays put is `2` to `8`. What is check 12 here (freshness of the indexes) is Step 6 there. Compare the two lists by name, never by number.
 
