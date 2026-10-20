@@ -59,6 +59,7 @@ scripts/
 │   ├── compare-findebuch-resolution-259.py # dreistufige Auflösung gegen den Findebuch-Verweisgraph (#259)
 │   ├── check-author-refs.py     # Personennamen im Header gegen persons.xml: titleStmt/author (#228) und particDesc/listPerson (#308)
 │   ├── check-doc-inventories.py  # Specs und Audit-Skripte stehen in DEVELOPMENT.md, Skripte auch in diesem Baum (#329)
+│   ├── check-doc-staleness.py   # Fälligkeit des Doku-Health-Checks und liegen gebliebene Feature-Docs, nur lesend, wöchentlich in doc-health.yml (#641)
 │   ├── check-file-sizes.py      # Einzeldateien vor GitHubs harter 100-MiB-Wand stoppen (#350)
 │   ├── check-header-genres.py   # Gattungen im TEI-Kopf (classDecl) gegen die Gattungen des Werks in works.xml (#495)
 │   ├── check-runtime-budget.py  # Laufzeitbudget der CI-Schritte, letzter Schritt je Job (#564)
@@ -88,6 +89,7 @@ scripts/
 │   ├── validate-corpus.py       # Zwei-Stufen-Schema-Validierung
 │   ├── lexicon-baseline.json    # committete Referenzmenge des #152-Gates, per !-Regel vom *.json-Ignore ausgenommen
 │   ├── corresp-coverage-baseline.json # lemmatisierte Tokens ohne @corresp je Sigle, Ratsche im selben Gate (#370)
+│   ├── doc-health-state.json    # Stand des letzten Doku-Health-Checks (Commit, Datum), vom Doku-Check-PR fortgeschrieben (#641)
 │   └── TEXT_DATA_TABLE.xlsx     # Legacy-Linecode-Mapping
 │
 ├── sync/                        # Externe Daten / Korpus → TEI/Authority

@@ -14,7 +14,7 @@ python scripts/audit/check-doc-staleness.py --faellig
 Die Statuszeile sagt `FAELLIG: ja`, `nein` oder `pr-offen #N`.
 
 - **Bezugspunkt** ist `scripts/audit/doc-health-state.json`: der Commit und das Datum des letzten abgeschlossenen Checks. Das JOURNAL wird dafür nicht gelesen, seine Formate und seine Reihenfolge wechseln.
-- **Fällig** ab 40 Commits an den 14 stabilen Docs (die 15 promptotyping-Dokumente aus `docs/INDEX.md` ohne `JOURNAL.md`) oder nach 60 Tagen. JOURNAL-, Playbook- und Feature-Doc-Commits zählen nicht, weil sie keine Drift in der Doku erzeugen. Entschieden von chsteiner am 2026-10-20; gemessen waren 69 solche Commits in den 15 Tagen nach dem Check vom 05.10.
+- **Fällig** ab 40 Commits an den 14 stabilen Docs oder nach 60 Tagen. "Stabil" heißt hier: die 15 promptotyping-Dokumente aus `docs/INDEX.md` ohne `JOURNAL.md`, also die 13 Stable-Knowledge-Dokumente plus `ROADMAP.md`. Die Schwelle hat chsteiner am 2026-10-20 entschieden. Dass JOURNAL-, Archiv-, Playbook- und Feature-Doc-Commits nicht mitzählen, hat die Session festgelegt, die den Lauf gebaut hat: Fast jede Session schreibt ins JOURNAL, und das ist keine Drift der Doku. Nach dieser Zählung gab es 69 Commits in den 15 Tagen nach dem Check vom 05.10. (`git log --oneline 621bcf749..9a7346539 -- <14 Dateien>`).
 - **Ist ein PR `claude/doku-check-*` offen**, ist nichts zu tun, bis er gemergt oder geschlossen ist.
 
 Bei `nein` und `pr-offen` endet ein Routinenlauf sofort, ohne Branch, Kommentar oder Ausgabe.
