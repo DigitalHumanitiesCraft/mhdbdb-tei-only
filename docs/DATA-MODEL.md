@@ -641,7 +641,7 @@ Scripts for enriching authority files with external data:
 **Cache strategy:**
 - Authority index: 30-day expiration (reference data)
 - Corpus index: 30-day expiration (corpus data)
-- TEI files: No expiration (user content)
+- TEI files: revalidated against the server on every load (conditional GET, #151); entries are purged after 30 days
 
 ## Data Relationships
 
