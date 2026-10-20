@@ -204,7 +204,7 @@ Browse and search the controlled vocabularies with consistent interface patterns
 
 ### TEI Text Analysis
 
-Corpus-wide text analysis using pre-built indexes. The analysis tools have playground entries of their own (multi-lemma offers document, proximity and verse mode in one entry), all of them in place in the results panel as form plus body (except multi-lemma, which is a modal). The curated external datasets described at the end of this section, character naming (#59) and arthurian horses (#193), are listed separately: with #194 they moved into a group of their own, "Experimentelle Forschungsdaten".
+Corpus-wide text analysis using pre-built indexes. The analysis tools have playground entries of their own (multi-lemma offers document, proximity and verse mode in one entry), all of them in place in the results panel as form plus body (except multi-lemma, which is a modal). The curated external datasets described at the end of this section, character naming (#59), arthurian horses (#193) and the ONAMA narrative explorer (#609), are listed separately: with #194 they moved into a group of their own, "Experimentelle Forschungsdaten".
 
 **Which tools the corpus selection governs (#204).** The text selection in the Corpus Browser (Step 1) is the analysis basis for these tools: multi-lemma search plus co-occurrence ranking, verse-position search, concept distribution, lemma distribution, word frequency, text statistics, verse-ending profile. Some tools stand apart, each for a stated reason, and each says so in its own header:
 
