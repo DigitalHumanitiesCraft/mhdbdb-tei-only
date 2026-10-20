@@ -601,7 +601,7 @@ The legacy data uses an older tagset (`ART` instead of `DET`, `CNJ` instead of `
 
 ### 5.2 Compound tags
 
-Many `<w>` elements in the legacy data carry compound tags (~35-40%) (for example `pos="VRB VEX"`, `pos="ART NUM"`) that express ambiguity. The disambiguation workflow resolves them to a single tag; only genuine morphological fusions (for example `wiltu` = wilt + du -> `VEM PRO`) keep two tags. Rules and exceptions: [POS-TAGSET.md §2](POS-TAGSET.md#2-compound-tags).
+Many `<w>` elements in the legacy data carry compound tags (about 28 % of the `@pos` values on 2026-10-20) (for example `pos="VRB VEX"`, `pos="ART NUM"`) that express ambiguity. The disambiguation workflow resolves them to a single tag; only genuine morphological fusions (for example `wiltu` = wilt + du -> `VEM PRO`) keep two tags. Rules and exceptions: [POS-TAGSET.md §2](POS-TAGSET.md#2-compound-tags).
 
 ---
 

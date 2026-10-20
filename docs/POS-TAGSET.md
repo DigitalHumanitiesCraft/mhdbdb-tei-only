@@ -38,7 +38,7 @@ The detailed linguistic distinctions (DET against PRO, VRB against VEX, the cont
 
 ## 2. Compound tags
 
-In the older stock many `<w>` elements (~35 to 40 %) carry space-separated compound values (e.g. `pos="VRB VEX"`, `pos="ADJ ADV"`) expressing an unresolved ambiguity. **The standard rule:** the disambiguation workflow resolves them to a single tag depending on context.
+In the older stock many `<w>` elements (about 28 % of the `@pos` values, 2,140,125 of 7,595,604 on 2026-10-20) carry space-separated compound values (e.g. `pos="VRB VEX"`, `pos="ADJ ADV"`) expressing an unresolved ambiguity. **The standard rule:** the disambiguation workflow resolves them to a single tag depending on context.
 
 **Exception:** genuine morphological fusions keep two tags and receive a `reason` attribute:
 
@@ -138,7 +138,7 @@ The classes are sorted by how far they can be automated, in descending order, an
 | K1: leftovers (`-`, KOKOM, FM, PTK, X, SCJN) | < 100 | a deterministic table (SCJN→SCNJ; for the rest a case-by-case list in the PR) | P-MUSS, deterministic |
 | K2: ART → DET | 1,064,439 | batch rename, NO context needed (articles are DET by the definition in §1) | P-MUSS, deterministic |
 | K3: GRA → ADJ | 60,278 | batch according to §3 (gradation and superlative are ADJ) | P-MUSS, deterministic; the deviation in the issue body („GRA→ADV/PART") is OLD, see 6.5 |
-| K4: compound resolution (ADJ ADV, VRB VEX, ART CNJ, …) | ~35 to 40 % of the tokens | LLM, context-dependent (the skill workflow), EXCEPT genuine fusions (§2: they stay two-valued plus `@reason`) | P-MUSS, LLM plus the gates in 6.3 |
+| K4: compound resolution (ADJ ADV, VRB VEX, ART CNJ, …) | 2,140,125 tokens (2026-10-20) | LLM, context-dependent (the skill workflow), EXCEPT genuine fusions (§2: they stay two-valued plus `@reason`) | P-MUSS, LLM plus the gates in 6.3 |
 | K5: CNJ → CCNJ/SCNJ | 943,199 | LLM, context-dependent; CNJ stays allowed as a fallback under genuine ambiguity | P-SOLL (fallback allowed) |
 | K6: known misannotation patterns (issue §2: enhaben, wiest, morphology as a second tag, unifying NEG, NAM overreach) | scattered | LLM with a watch list (the skill's „Known Error Patterns") | P-MUSS, LLM plus the gates in 6.3 |
 
