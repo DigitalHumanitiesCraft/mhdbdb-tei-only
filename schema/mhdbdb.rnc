@@ -188,7 +188,8 @@ encodingDesc = element encodingDesc {
     element projectDesc { p.header+ },
     element editorialDecl {
         p.header*,
-        # <interpretation> present in some files
+        # <interpretation> allowed, but no file carries it (2026-10-20: 0 of 667;
+        # all 667 carry <normalization>, see TEI-MODEL.md §2.2)
         element interpretation { p.header+ }?,
         element normalization { p.header+ }?
     },
