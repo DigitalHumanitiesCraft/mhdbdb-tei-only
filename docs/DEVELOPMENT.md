@@ -163,8 +163,8 @@ python scripts/build-demnaechst.py              # open `ingest` issues -> data/d
                                                 # --check runs in no-cdn-check.yml since 2026-10-18 (its path filters include both pages, both states and both scripts);
                                                 # in the monthly workflow it runs only after the rebuild and cannot catch a hand edit)
 
-# Build the full derived layer in dependency order: corpus index, variants.xml, authority index, API
-npm run build:data       # build:corpus && extract-variants --apply && build:authority && build-api --allow-dirty && build:begriffshilfe
+# Build the full derived layer in dependency order: corpus index, variants.xml, lemma-pos, authority index, API, Begriffshilfe
+npm run build:data       # build:corpus && extract-variants --apply && build:lemma-pos && build:authority && build-api --allow-dirty && build:begriffshilfe
 # build-api runs with --allow-dirty here because the just-rebuilt indexes in data/ are still uncommitted (dirty)
 
 # Aggregate: CSS + vendor + the full data chain (npm run build now includes build:data)
