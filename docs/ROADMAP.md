@@ -44,7 +44,7 @@ One is done: the unattested sense copies at `engebrechen` and `gebrechenhaft`
 **Some tickets carry no work of ours any more, only an acceptance or one
 answer:** #251 and #58 had their remaining work merged on 2026-10-18 (#619
 shows the selected word forms for #251; #619, #630 and #633 changed the
-document search cards for #58) and wait on Julia's acceptance, and each has one
+document search cards for #58); #251 waits on Julia's acceptance, Julia accepted #58 on 2026-10-19, and each has one
 question to KZW: for #251 whether the counter question of 2026-07-30 can be
 dropped, for #58 where the link to the full text sits on the card. #193 was
 closed on 2026-10-05 with release v1.1.0.
