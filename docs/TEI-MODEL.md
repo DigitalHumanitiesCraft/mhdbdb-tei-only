@@ -643,7 +643,7 @@ With the ARITHMETIC ingest the following TEI P5 standard elements were taken int
 
 TEI P5 provides `<pc>` (punctuation character) as the counterpart to `<w>`. It is a member of `att.linguistic` and therefore supports `@pos`, `@lemma` and so on, unlike `<seg type="pc">`. The `@join` attribute (`left`, `right`, `both`, `no`) governs whitespace adjacency.
 
-**Migration (done, phase C1, §10):** a batch rename (`<seg type="pc">` → `<pc join="left">`); no `<seg type="pc">` is left in the corpus. The JS rendering treats `<pc>` as an inline element.
+**Migration (done, phase C1, §10):** a batch rename (`<seg type="pc">` → `<pc join="left|right">`, on 2026-10-20 1,325,044 `left` and 78,663 `right`); no `<seg type="pc">` is left in the corpus. The JS rendering treats `<pc>` as an inline element.
 
 **Careful:** `&lt;` and `&gt;` inside `<seg type="pc">` (and inside `<pc>` in future) are correct XML entities (angle brackets in the source text), not bugs.
 
