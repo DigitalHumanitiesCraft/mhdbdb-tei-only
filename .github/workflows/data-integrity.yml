@@ -497,14 +497,14 @@ jobs:
         run: |
           python scripts/sync/extract-variants.py --apply
           if ! git diff --exit-code -- authority-files/variants.xml; then
-            echo "::error file=authority-files/variants.xml::variants.xml ist nicht mit dem Korpus synchron. Lokal 'python scripts/sync/extract-variants.py --apply' ausfuehren und mitcommitten (DATA-MODEL.md -> Data-Change-Lifecycle)."
+            echo "::error file=authority-files/variants.xml::variants.xml ist nicht mit dem Korpus synchron. Lokal 'python scripts/sync/extract-variants.py --apply' ausfuehren und mitcommitten (DATA-MODEL.md -> Data-Change-Lifecycle). Vorher git status -- tei/ authority-files/ pruefen: was nicht im Commit ist, nicht mitbauen."
             exit 1
           fi
           # --apply bereinigt auch verwaiste #type_N in lexicon.xml sense/@ana.
           # Ohne diesen Diff saehe das Cross-Ref-Gate weiter unten nur noch den
           # hier bereinigten Stand und bliebe auf einem verwaisten Commit gruen.
           if ! git diff --exit-code -- authority-files/lexicon.xml; then
-            echo "::error file=authority-files/lexicon.xml::lexicon.xml fuehrt in sense/@ana Typ-Tokens, die variants.xml nicht kennt. Lokal 'python scripts/sync/extract-variants.py --apply' ausfuehren und lexicon.xml mitcommitten (DATA-MODEL.md -> Data-Change-Lifecycle)."
+            echo "::error file=authority-files/lexicon.xml::lexicon.xml fuehrt in sense/@ana Typ-Tokens, die variants.xml nicht kennt. Lokal 'python scripts/sync/extract-variants.py --apply' ausfuehren und lexicon.xml mitcommitten (DATA-MODEL.md -> Data-Change-Lifecycle). Vorher git status -- tei/ authority-files/ pruefen: was nicht im Commit ist, nicht mitbauen."
             exit 1
           fi
 
@@ -516,7 +516,7 @@ jobs:
           # git diff ignoriert (spiegelt das #100-Pre-flight-Muster in
           # build-api.py check_working_tree()).
           if [ -n "$(git status --porcelain -- api/)" ]; then
-            echo "::error file=api/index.json::api/ ist nicht mit den Indexen synchron (geaenderte ODER untracked Files). Lokal python scripts/build-api.py ausfuehren und mitcommitten (DATA-MODEL.md -> Data-Change-Lifecycle)."
+            echo "::error file=api/index.json::api/ ist nicht mit den Indexen synchron (geaenderte ODER untracked Files). Lokal python scripts/build-api.py ausfuehren und mitcommitten (DATA-MODEL.md -> Data-Change-Lifecycle). Vorher git status -- tei/ authority-files/ pruefen: was nicht im Commit ist, nicht mitbauen."
             git status --porcelain -- api/
             exit 1
           fi
@@ -528,7 +528,7 @@ jobs:
           # untracked Files. Die Datei ist deterministisch (kein Datum, kein
           # Commit, LF), abhaengig von concepts.xml, lexicon.xml und w/@ana.
           if [ -n "$(git status --porcelain -- assets/downloads/)" ]; then
-            echo "::error file=assets/downloads/mhdbdb-begriffshilfe.md::Die Begriffshilfe ist nicht mit concepts.xml, lexicon.xml und dem Korpus synchron. Lokal python scripts/build-begriffshilfe.py ausfuehren und mitcommitten (DATA-MODEL.md -> Data-Change-Lifecycle)."
+            echo "::error file=assets/downloads/mhdbdb-begriffshilfe.md::Die Begriffshilfe ist nicht mit concepts.xml, lexicon.xml und dem Korpus synchron. Lokal python scripts/build-begriffshilfe.py ausfuehren und mitcommitten (DATA-MODEL.md -> Data-Change-Lifecycle). Vorher git status -- tei/ authority-files/ pruefen: was nicht im Commit ist, nicht mitbauen."
             git status --porcelain -- assets/downloads/
             exit 1
           fi
@@ -559,7 +559,8 @@ jobs:
                   print(f'::error file=data/{name}::{name} ist nicht mit dem Quellstand '
                         'synchron: Rebuild aus den aktuellen Quellen liefert anderen Inhalt. '
                         'Lokal rebuilden, Version bumpen und mitcommitten '
-                        '(DATA-MODEL.md -> Data-Change-Lifecycle).')
+                        '(DATA-MODEL.md -> Data-Change-Lifecycle). '
+                        'Vorher git status -- tei/ authority-files/ pruefen: was nicht im Commit ist, nicht mitbauen.')
                   ok = False
           sys.exit(0 if ok else 1)
           EOF
