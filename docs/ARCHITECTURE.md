@@ -549,6 +549,12 @@ npm run test:headed   # Visible browser
 **Solution:** Single `lemmaRefMatchesId()` in `assets/js/lib/lemma-match.js`, shared by main site and playground (like `text-normalizer.js`)
 **Result:** One tested source of truth (CONTRACTS §B.1); no copy can silently regress
 
+### Shared Library Modules (`assets/js/lib/`)
+
+**Problem:** Main site, playground and lemma pages need the same logic, and copies drift (see the previous pattern)
+**Solution:** One module per concern in `assets/js/lib/`, imported wherever it is needed. Three came after the check of 2026-10-05: `attributions.js` (every `<author>` of a work with status and role, #452; reading view, SearchEngine and the playground), `authority-id-input.js` (authority IDs as input in the playground registers and the concept distribution, #545) and `collapsible-text.js` (long lexicon comments collapsed on the lemma page and in the lemma explorer, #554)
+**Result:** The complete list with usage examples is `assets/js/lib/README.md`; `check-doc-inventories.py` keeps it in step with the folder
+
 ### Build-Injected Site Chrome
 
 **Problem:** Nav + footer were hand-maintained per page, drifting out of sync

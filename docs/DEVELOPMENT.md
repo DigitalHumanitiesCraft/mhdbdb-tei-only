@@ -39,7 +39,7 @@ mhdbdb-tei-only/
 │   │   ├── search/        # Search engine
 │   │   ├── rendering/     # TEI text reader, text renderer
 │   │   ├── storage/       # TEI cache manager
-│   │   └── lib/           # Shared utilities (corpus-loader, text-normalizer, lemma-match)
+│   │   └── lib/           # Shared modules for main site, playground and lemma pages (each one documented in lib/README.md)
 │   └── images/            # Static images
 ├── includes/              # Nav/footer/matomo single-source partials (_nav.html, _footer.html, _matomo.html), build-injected by scripts/build-pages.py
 ├── authority-files/       # 8 XML authority files (incl. contributors.xml)
