@@ -245,13 +245,13 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
       conceptIds: ["concept_1234"],
       // the three curated fields below exist only where lexicon.xml carries them
       // (#248, authority index 1.7.0; the *RespName fields are resolved from
-      // contributors.xml, #270: comment 1.9.10, definition 1.9.15). As of 2026-08-03 that is a single sense,
-      // lemma_37818 "Abba": one <def> and one <note type="comment">, each with
-      // its @resp. Curation is ongoing, so expect this count to grow.
+      // contributors.xml, #270: comment 1.9.10, definition 1.9.15). As of 2026-10-20:
+      // a comment on 138 senses of 134 lemmata (all but one from #554), a
+      // definition on 2 senses, each with its @resp.
       definition: "...", definitionResp: "contributors.xml#contrib_003", definitionRespName: "Katharina Zeppezauer-Wachauer",
       comment: "...",    commentResp: "contributors.xml#contrib_003", commentRespName: "Katharina Zeppezauer-Wachauer"
     }],
-    // likewise curated, likewise a single lemma as of 2026-08-03: the borrowing
+    // likewise curated, a single lemma (lemma_37818 "Abba") as of 2026-10-20: the borrowing
     // chain from <etym type="borrowing">
     origin: {languages: [{name, code}], attribution: "...", resp: "...", respName: "..."},
     normalized: "brot",
@@ -574,7 +574,7 @@ Build properties: deterministic on the #125 principle (no timestamps, compact JS
 
 #### Curated lexicon fields (#268, since authority index v1.7.0)
 
-The three productions marked „curated" (`etym[@type="borrowing"]`, `def`, `note[@type="comment"]`) are the only ones in the lexicon carrying editorial prose instead of classification. The build writes the corresponding index fields **only where they actually stand in the XML**: empty keys on every lemma entry would inflate index and API for nothing. As of 2026-07-31 exactly one lemma is curated (`lemma_37818` „Abba"), so consumers have to treat the fields as optional, never as a promise per record. Normative: [CONTRACTS.md §G.3](CONTRACTS.md#g3-field-schemas). The `@resp` values land in the index unchanged as `contributors.xml#contrib_N`. Since authority index 1.9.10 (#270, ADR-018) the build also resolves the comment's `@resp` through `contributors.xml` and writes the display name next to it as `sense.commentRespName`; an id it cannot resolve stops the build. Since 1.9.15 it does the same for `definitionResp` (`sense.definitionRespName`) and `origin.resp` (`origin.respName`), with the same stop. `contributors.xml` itself is still not indexed as a collection.
+The three productions marked „curated" (`etym[@type="borrowing"]`, `def`, `note[@type="comment"]`) are the only ones in the lexicon carrying editorial prose instead of classification. The build writes the corresponding index fields **only where they actually stand in the XML**: empty keys on every lemma entry would inflate index and API for nothing. As of 2026-10-20 a comment stands on 134 of 43,711 lemmata, a definition on 2 and an origin on 1, so consumers have to treat the fields as optional, never as a promise per record. Normative: [CONTRACTS.md §G.3](CONTRACTS.md#g3-field-schemas). The `@resp` values land in the index unchanged as `contributors.xml#contrib_N`. Since authority index 1.9.10 (#270, ADR-018) the build also resolves the comment's `@resp` through `contributors.xml` and writes the display name next to it as `sense.commentRespName`; an id it cannot resolve stops the build. Since 1.9.15 it does the same for `definitionResp` (`sense.definitionRespName`) and `origin.resp` (`origin.respName`), with the same stop. `contributors.xml` itself is still not indexed as a collection.
 
 #### Namespace Handling
 

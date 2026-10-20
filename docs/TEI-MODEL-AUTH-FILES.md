@@ -218,7 +218,7 @@ The RDF migration brought classification only (POS, concept pointers, compound c
 
 **Index mapping:** `lemma.origin = {languages[{name, code}], attribution?, resp?, respName?}` plus `sense.definition` / `sense.comment` (and `definitionResp` / `commentResp`, plus the names resolved from contributors.xml: `commentRespName` from v1.9.10 on, `definitionRespName` and `origin.respName` from v1.9.15 on), each only where present in the lexicon: empty fields on every lemma would inflate index and API for no gain. Authority index from v1.7.0 on.
 
-**Current state:** 1 entry (`lemma_37818` Abba, 2026-07-30). The rest follows via #28 phase 2/3.
+**Current state (2026-10-20):** an origin on 1 lemma (`lemma_37818` Abba), a definition on 2 senses, a comment on 138 senses of 134 lemmata; all comments but Abba's came from the cookbook glossary (#554).
 
 ### 3.2 variants.xml: orthographic variants
 
