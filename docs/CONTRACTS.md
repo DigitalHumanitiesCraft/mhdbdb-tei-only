@@ -358,7 +358,7 @@ Decided by chsteiner on 2026-10-10: **if stage 1 yields no attested hit, stage 2
 | Stage | Input Type | Return | Performance | Example |
 |-------|-----------|--------|-------------|---------|
 | 1 | Canonical or normalized form | 0..N lemma IDs (homographs) | O(n) scan | `brot` → `[lemma_879]` |
-| 2 | Attested orthographic variant | 1..N lemma IDs: exactly one unless the form is ambiguous, then all candidates ranked by Vorschrift B; with unattested stage-1 hits, those follow the candidates | O(1) lookup | `brott` → normalize → `brot` → variants[`brot`] → `lemma_879`; `hab` → variantCandidates[`hab`] → `lemma_2598`, `lemma_2593` |
+| 2 | Attested orthographic variant | 1..N lemma IDs: exactly one unless the form is ambiguous, then all candidates ranked by Vorschrift B; with unattested stage-1 hits, those follow the candidates | O(1) lookup | `brott` → variants[`brott`] → `lemma_879`; `hab` → variantCandidates[`hab`] → `lemma_2598`, `lemma_2593` |
 | 3 | Prefix match, both directions | 0..N lemma IDs, closest first | O(n) scan + sort | `minnecl` → `minnec`, `minne`, `minneclîch`, …; `schwertkampf` → none |
 
 ### Stage 3: why prefix and not substring (#224)
