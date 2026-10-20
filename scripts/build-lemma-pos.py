@@ -129,7 +129,8 @@ def main():
             return 0
         print('::error file=data/lemma-pos.json.gz::lemma-pos.json.gz ist nicht mit dem Korpus synchron '
               '(DATA-MODEL.md -> Data-Change-Lifecycle). Lokal python scripts/build-lemma-pos.py '
-              'ausfuehren, danach build-authority-index.py, und mitcommitten.')
+              'ausfuehren, danach build-authority-index.py, und mitcommitten. '
+              'Vorher git status -- tei/ authority-files/ pruefen: was nicht im Commit ist, nicht mitbauen.')
         return 1
 
     OUTPUT_FILE.parent.mkdir(exist_ok=True)

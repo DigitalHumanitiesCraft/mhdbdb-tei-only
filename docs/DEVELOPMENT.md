@@ -108,7 +108,7 @@ python scripts/build-corpus-index.py
 # Regenerate the corpus-derived variants.xml (#44/#115); also drops orphaned #type_N from lexicon.xml sense/@ana
 python scripts/sync/extract-variants.py --apply
 # Output: authority-files/variants.xml (and lexicon.xml where tokens drop out). Run it after the corpus index
-# whenever forms appear or vanish; the authority build below reads variants.xml.
+# when the Data-Change-Lifecycle calls for it (its step 5); the authority build below reads variants.xml.
 
 # Count the parts of speech per lemma in the corpus (#462); build-authority-index.py aborts without the result
 python scripts/build-lemma-pos.py
