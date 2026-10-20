@@ -1,8 +1,8 @@
 # Doku-Health: Faelligkeit des Doku-Checks und liegen gebliebene Doku-Artefakte (#641).
 #
-# Eigener, woechentlicher Workflow und kein Schritt in no-cdn-check.yml oder
-# data-integrity.yml. Die Doku-Gates dort (Inventare, dokumentierte Zahlen,
-# Em-Dashes) laufen bei jedem Push nach main, der eine .md beruehrt, und
+# Eigener, woechentlicher Workflow und kein Schritt in no-cdn-check.yml. Die
+# Doku-Gates dort (Inventare, dokumentierte Zahlen, Em-Dashes) laufen bei
+# jedem Push nach main, der eine .md beruehrt, und
 # pruefen den Zustand EINER Aenderung. Was sie nicht sehen, ist das, was
 # zwischen den Aenderungen vergeht: wie viele Commits die stabilen Docs seit
 # dem letzten Health-Check bekommen haben, wie alt dieser Check ist, ob ein
