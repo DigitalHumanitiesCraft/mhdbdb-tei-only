@@ -92,7 +92,7 @@ Aus der allgemeinen promptotyping-Prüfung, soweit die Liste oben sie nicht abde
 2. **Ein Commit je Befund.**
 3. **Markerdatei fortschreiben:** In `scripts/audit/doc-health-state.json` kommen `commit` (der geprüfte Stand, also `origin/main` beim Start), `date` (heute) und `scorecard` (`docs/JOURNAL.md, **Scorecard Doku-Check JJJJ-MM-TT**`, passend zu Punkt 5), als eigener Commit.
 4. **`reviewer` vor dem Push**, wie es seine Definition in `.claude/agents/reviewer.md` vorgibt. Schreibt er in sein Memory, gehen diese Dateien als eigener Commit in denselben PR.
-5. **JOURNAL-Scorecard als letzter Commit:** ein neuer Abschnitt `## JJJJ-MM-TT – Doku-Check (Scorecard)` am Ende von `docs/JOURNAL.md`, der Absatz beginnt mit `**Scorecard Doku-Check JJJJ-MM-TT**`, drei bis sechs Sätze. Steht er als letzter Commit, trifft ein Konflikt mit parallelen Sessions nur ihn.
+5. **JOURNAL-Scorecard als letzter Commit:** ein neuer Abschnitt `## JJJJ-MM-TT – Doku-Check (Scorecard)` am Ende von `docs/JOURNAL.md`, der Absatz beginnt mit `**Scorecard Doku-Check JJJJ-MM-TT**`, drei bis sechs Sätze. Bis zum 2026-10-20 waren es drei bis vier Zeilen. Der Abschnitt nennt auch die Lehren, die über den Einzelfall hinausgehen. Steht er als letzter Commit, trifft ein Konflikt mit parallelen Sessions nur ihn. **Kein Report als `.md` in `docs/`:** der Bericht ist mit der Scorecard und dem PR erledigt.
 6. **PR über REST:** `gh api repos/DigitalHumanitiesCraft/mhdbdb-tei-only/pulls -f head=<branch> -f base=main -f title=... -F body=@<datei>`. Der Body enthält:
    - die Scorecard;
    - je Befund eine Zeile;
