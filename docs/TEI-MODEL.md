@@ -871,7 +871,7 @@ New texts have to meet the following minimum requirements:
 # schema/tei_all.rng sits in the repo (committed, TEI P5 4.11.0) -- no download needed
 jing schema/tei_all.rng tei/{SIGLE}.tei.xml
 
-# stage 2: MHDBDB conformance (stricter, subset of tei_all)
+# stage 2: MHDBDB conformance (stricter on some points, more permissive on the GAPs)
 jing schema/mhdbdb.rnc tei/{SIGLE}.tei.xml
 
 # 3. referential integrity (corpus -> authority): dangling @lemmaRef/@ana/@corresp/@ref/@target
