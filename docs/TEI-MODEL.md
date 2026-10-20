@@ -768,7 +768,7 @@ Marks a column break. Rare (1,956 occurrences in 4 files on 2026-10-05: WZB 960,
 
 ### 6.8 Known errors in the existing data
 
-- **`<suppplied>`** (typo, 1 occurrence in 1 file): has to be corrected to `<supplied>`.
+- None known on 2026-10-20. The one listed here before, the typo `<suppplied>`, was corrected to `<supplied>` in phase A3 (§10).
 
 ---
 
