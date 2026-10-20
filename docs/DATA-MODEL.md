@@ -734,7 +734,7 @@ Build scripts perform integrity checks:
 - TEI corpus modified (new orthographic forms)
 - Usually paired with corpus index rebuild
 
-**Rebuild workflow:** the step sequence with every gate is the [Data-Change-Lifecycle](#data-change-lifecycle) below, and it is kept only there. `npm run build:data` runs its build steps in that order (the chain is spelled out in [DEVELOPMENT.md](DEVELOPMENT.md)).
+**Rebuild workflow:** the step sequence with every gate is the [Data-Change-Lifecycle](#data-change-lifecycle) below. `npm run build:data` runs its build steps in that order (the chain is spelled out in [DEVELOPMENT.md](DEVELOPMENT.md)).
 
 **Cache invalidation:**
 - Increment version number in build script

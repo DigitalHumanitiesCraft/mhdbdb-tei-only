@@ -169,8 +169,8 @@ npm run build:data       # build-corpus-index --allow-dirty && extract-variants 
 # All three pre-flights run with --allow-dirty. The Data-Change-Lifecycle builds from uncommitted
 # sources and commits TEI and indexes together (its step 11), and within the chain extract-variants
 # --apply rewrites authority-files/variants.xml and the just-rebuilt indexes in data/ are uncommitted.
-# The pre-flights still list what is dirty. An index that bundles a file left out of the commit is
-# caught by the rebuild-and-compare step in data-integrity.yml, which builds from the committed tree.
+# The pre-flights still list what is dirty. Output that bundles a file left out of the commit is
+# caught by the freshness steps in data-integrity.yml, which rebuild from the committed tree.
 # `npm run build:corpus` on its own keeps the pre-flight that stops on uncommitted TEI (#100).
 
 # Aggregate: CSS + vendor + the full data chain (npm run build now includes build:data)
