@@ -172,7 +172,7 @@ The last row is corpus-wide unique and deliberate, not an omission (#315): WZB n
 
 ### 2.1a `<monogr>` element order
 
-TEI P5 requires in `<monogr>`: `(author|editor)*, title+, editor*, (idno|imprint)*`. That means `<author>` **before** `<title>`, `<idno>` **after** `<editor>`. A few existing files (WUT for example) have the wrong order and fail tei_all validation.
+TEI P5 requires `<author>` **before** `<title>` in `<monogr>`; after the title, `<idno>` and `<editor>` may come in either order (436 headers carry `title, idno, editor, imprint` and pass tei_all). Phase A2 corrected the files that had `<author>` after `<title>` (§10); on 2026-10-20 there are none left.
 
 ### 2.2 `<encodingDesc>`
 
