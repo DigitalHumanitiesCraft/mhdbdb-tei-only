@@ -38,11 +38,15 @@ scripts/
 │
 ├── ingest/                      # Korpus-Ingest je Vorhaben
 │   ├── ari/                     # ARITHMETIC, 6 Rechenbuch-Handschriften (#92)
+│   ├── entannotate-228/         # Modernen Apparat und nhd. Inhaltsangaben entannotieren, hängende sense/@ana-Verweise entfernen (#228)
 │   ├── frauenlob/               # Frauenlob-Revision (#236)
+│   ├── gap-252/                 # '( caesura )' innerhalb eines Verses mit Wörtern wird <gap reason="lost"/> (#252)
 │   ├── glossar-554/             # WordPress-Export des Glossars Kochbuchforschung: bereinigen, nachmessen, Lemmata zuordnen (#554)
 │   ├── horses/                  # Arthurische Pferde (Borek), horses-index bauen (#193)
 │   ├── legacy-sources/          # Linecode-Quellen ins Repo spiegeln (#248)
 │   ├── naming/                  # Figurenbezeichnungen, naming-index bauen (#59)
+│   ├── no-print-267/            # Marker excerpt-only auf no-print umstellen, Lizenzsatz korrigieren (#267)
+│   ├── onama/                   # ONAMA-Anker-Abgleich und Datenpaket für den Narrativ-Explorer (#609)
 │   ├── parzival-358/            # Dreißiger-subtype und Buchgrenzen-milestone in PZ und WH (#358)
 │   ├── pos-disambig/            # PoS-/Lemma-Disambiguierung in Batches (#189/#198)
 │   └── wzb/                     # Wenzelsbibel (#224 und Vorläufer)
