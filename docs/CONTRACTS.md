@@ -805,7 +805,7 @@ Parse order: ?id > #hash > path segment (first match wins)
 
 **These two databases are the only ones.** Until #314 the playground kept a third, `MHDBDB_Playground`, with a single store `tei_files` for the uploaded files. With the upload path removed it has no writer left; `playground-main.js` deletes it once at startup (`dropLegacyPlaygroundDatabase()`, a no-op on a database that does not exist). That replaces the v3 schema migration from #280, which cleared three writer-less legacy stores and, after the removal, would no longer run for lack of a manager instance. Corpus and authority data were never stored there but in the shared `CorpusLoader` (`MHDBDBMainSite`). **A second cache path must not reappear.**
 
-The name `MHDBDB_Playground` therefore remains in the code in two places, and both are deliberate: `dropLegacyPlaygroundDatabase()` only takes effect if someone opens the playground, and `KNOWN_DB_NAMES` in `assets/js/site-chrome.js` is the second chance, via the „Site-Daten zurücksetzen" button on every page. The two may only disappear together, realistically from mid-2027 on.
+The name `MHDBDB_Playground` therefore remains in the code in two places, and both are deliberate: `dropLegacyPlaygroundDatabase()` only takes effect if someone opens the playground, and `KNOWN_DB_NAMES` in `assets/js/site-chrome.js` is the second chance, via the „Website-Daten löschen" button in the footer of every page. The two may only disappear together, realistically from mid-2027 on.
 
 ### Index Cache (MHDBDBMainSite)
 
@@ -851,7 +851,7 @@ Structurally anchored: `scripts/audit/check-index-versions.py` plus the CI workf
 |--------|---------------|------|
 | Corpus version bump | `INDEX_VERSION` in `corpus-loader.js` + `version` constant in `build-corpus-index.py` | After rebuilding corpus index with schema changes |
 | Authority version bump | `AUTHORITY_INDEX_VERSION` in `corpus-loader.js` + `version` in `build-authority-index.py` | After rebuilding authority index with schema changes |
-| User manual clear | "Alle Daten löschen" button on index.html | Clears all IndexedDB + localStorage |
+| User manual clear | „Website-Daten löschen" button in the footer of every page | Clears all IndexedDB + localStorage |
 | Developer clear | Browser DevTools → Application → IndexedDB → delete databases | Debugging |
 
 ### TEI File Cache (MHDBDB_TEI_Cache)
