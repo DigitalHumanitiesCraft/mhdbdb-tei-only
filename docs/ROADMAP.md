@@ -78,7 +78,7 @@ carry a label:
   ParzivAI is the nearest answer and interesting for both sides. State of play in
   [RESEARCH.md → Downstream Reuse and Related Projects](RESEARCH.md#downstream-reuse-and-related-projects)
 
-## Frozen until December 2026
+## Frozen
 
 **#27** (POS workflow) and **#18** (multi-lemma plus PoS search) are
 `auto:frozen`. KZW set the next pass over the undifferentiated CNJ tokens for
@@ -88,6 +88,8 @@ compound tag. Nobody owes anything on either until
 then. Until 2026-10-05 #18 stood here as a decision cluster, which it has not
 been since its relabelling on 2026-09-23.
 
+**#63** (update of the concept system) is `auto:frozen` until 2027-05-01, the start of the character project whose work package 4 is the revision of the concept system (2026-10-10). The gaps from #498 and #423 stay noted in the issue.
+
 ## Future: needs design, or waiting for a trigger
 
 | # | What | Key question |
@@ -96,7 +98,6 @@ been since its relabelling on 2026-09-23.
 | #139 | ingest the CoReMA corpus: pilot of five cookbooks (Bs1, GR1, H2, M11, W1) as proposed by Helmut Klug; H2 has no published recipe objects | a joint session with Chris |
 | #141 | Borte ingest: task 0 (the borte.md metadata template) is delivered in the issue | Alan's metadata; scheduled after #139 |
 | #118 | language stages in the TEI headers: the two first-ranked sources of the concept are empty (no header dating, only print years in `works.xml`), the virgule marks 16 texts as a calibration set | KZW's four format and threshold questions; then it is a procurement project |
-| #63 | update of the concept system: Julia is planning the WSD gold standard, gaps from #498 and #423 are noted | scope (Julia) |
 | #93 | moving the text series typology: the subsite is live since 2026-10-13 (#555) on the SKOS state, without a reconciliation against `genres.xml` (KZW, 2026-10-08); the footer logo followed on 2026-10-18 (#624) | Julia's acceptance of the logo, and KZW's answer on the logos, start image and screenshots asked 2026-10-09 |
 | #109 | FWF single project (deep corpus analysis, NER pipeline, phonetic rhyme analysis, visualizations): proposal by KZW, small budget, max. 50 % external funds | a scope note for the proposal text |
 
