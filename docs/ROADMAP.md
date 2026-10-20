@@ -95,7 +95,7 @@ been since its relabelling on 2026-09-23.
 | # | What | Key question |
 |---|------|-------------|
 | #92 | ARITHMETIC ingest: stage 0 is built and the six manuscripts are converted in `ingest/ari/`, the schema extension (PD-001) is on `main` | Carina's metadata per manuscript, open since 2026-05-16 |
-| #139 | ingest the CoReMA corpus: pilot of five cookbooks (Bs1, GR1, H2, M11, W1) as proposed by Helmut Klug; H2 has no published recipe objects | a joint session with Chris |
+| #139 | ingest the CoReMA corpus: pilot of Bs1, GR1, M11 and W1 as proposed by Helmut Klug; H2 left the pilot on 2026-10-09 (no recipe objects on GAMS) | which cookbook replaces H2 and whether the `COR_*` sigles stay, in a joint session with Chris |
 | #141 | Borte ingest: task 0 (the borte.md metadata template) is delivered in the issue | Alan's metadata; scheduled after #139 |
 | #118 | language stages in the TEI headers: the two first-ranked sources of the concept are empty (no header dating, only print years in `works.xml`), the virgule marks 16 texts as a calibration set | KZW's four format and threshold questions; then it is a procurement project |
 | #93 | moving the text series typology: the subsite is live since 2026-10-13 (#555) on the SKOS state, without a reconciliation against `genres.xml` (KZW, 2026-10-08); the footer logo followed on 2026-10-18 (#624) | none left in the thread: KZW allowed the logos, start image and screenshots on 2026-10-13, Julia accepted the footer logo on 2026-10-19; whether the ticket can close |
