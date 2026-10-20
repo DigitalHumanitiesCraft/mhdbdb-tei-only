@@ -811,7 +811,7 @@ The name `MHDBDB_Playground` therefore remains in the code in two places, and bo
 
 **Store schema:** `{ name, version, timestamp, data }`
 
-**Version check flow** (source: `getCachedData()` in `corpus-loader.js`, the `cached.version !== expectedVersion` branch; line anchors drift, look it up by name):
+**Version check flow** (source: `getCachedIndex()` in `corpus-loader.js`, the `cached.version !== expectedVersion` branch; line anchors drift, look it up by name):
 
 ```
 getCachedIndex(name):
