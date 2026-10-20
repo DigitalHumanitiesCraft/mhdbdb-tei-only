@@ -736,9 +736,10 @@ Build scripts perform integrity checks:
 
 **Rebuild workflow:**
 ```bash
-python scripts/sync/extract-variants.py --apply   # regenerate variants.xml from the corpus (#44/#115)
-python scripts/build-authority-index.py
 python scripts/build-corpus-index.py
+python scripts/sync/extract-variants.py --apply   # regenerate variants.xml from the corpus (#44/#115)
+python scripts/build-lemma-pos.py                 # part-of-speech counts, read by the authority build (#462)
+python scripts/build-authority-index.py           # reads all three outputs above; aborts on a missing or stale corpus index and a missing lemma-pos file
 python scripts/validate-indices.py
 python scripts/build-api.py                       # static JSON API from the two indexes (#45)
 python scripts/build-begriffshilfe.py             # concept-help download from concepts.xml, lexicon.xml and w/@ana (#498)
