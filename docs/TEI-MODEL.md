@@ -183,10 +183,10 @@ TEI P5 requires `<author>` **before** `<title>` in `<monogr>`; after the title, 
   </projectDesc>
   <editorialDecl>
     <!-- standard block: explanation of the local file references DE + EN -->
-    <interpretation>
-      <p>Part-of-Speech-Tags folgen dem MHDBDB-Tagset (19 Tags).
-         Dokumentation: .gemini/skills/pos-disambiguator/SKILL.md</p>
-    </interpretation>
+    <normalization>
+      <!-- per-text notes in German: extent of the edition used, degree of
+           disambiguation, capitalization (present in all 667 headers on 2026-10-20) -->
+    </normalization>
   </editorialDecl>
   <classDecl>
     <taxonomy xml:id="genres">
