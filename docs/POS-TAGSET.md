@@ -167,9 +167,10 @@ Why that order: K1 to K3 are context-free and shrink the problem space measurabl
 - **No 20th tag PART** (KZW's decision of 2026-07-08, #27): particles of particle verbs are marked by convention as ADV plus `@ana`. A technical constraint before implementing this: `@ana` is already taken as a sense reference (`lexicon.xml#lemma_{N}_sense_{M}`, see DATA-MODEL.md → Phase 3: sense resolution), so the POS marking needs a value schema of its own that can be told apart from it (to be fixed before the first K4 batch, in the same way as the `@comp`/`@needsSplit` caveat in 6.4).
 - **Double tagging is admissible for contractions** (KZW's decision of 2026-07-08, #27): genuine MHG contraction words, two lemmata drawn together into one token for economy of speech (*wiltu* = wilt + du), keep two tags (§2). What is expressly NOT meant are ordinary compounds (*hûsmûs* is simply NOM). This confirms the §2 exception as policy.
 
-**P-OFFEN (a decision by KZW is needed, but it does NOT block the class as a whole):**
-1. **The remaining CNJ share:** „undifferentiated CNJ" means tokens that still carry the unspecific `CNJ` after the K5 campaign instead of `CCNJ`/`SCNJ`, that is, exactly the cases where the context too does not decide whether they coordinate or subordinate (which answers KZW's question of 2026-07-08 in the affirmative). The open question: how much of that is acceptable as a K5 fallback? Proposal: ≤ 10 % of the original CNJ amount (943,199 tokens, so ≤ ~94,000).
-2. **Finalize the list of fusion pairs:** the principle is decided (see above), what stays open is the final list of admissible tag pairs, in particular whether modal verb contractions such as *wiltu* are tagged `VEM PRO` (as in §2) or generically `VRB PRO`.
+- **No quota for undifferentiated CNJ** (KZW's decision of 2026-07-10, #27): „undifferentiated CNJ" means tokens that still carry the unspecific `CNJ` after the K5 campaign instead of `CCNJ`/`SCNJ`, the cases where the context does not decide whether they coordinate or subordinate. They stay `CNJ`, with no threshold; the proposal of ≤ 10 % is off the table. The next pass over the CNJ tokens is set for December 2026, which is why #27 is parked as `auto:frozen` until then.
+- **Modal verb contractions stay `VEM PRO`** (KZW's decision of 2026-07-10, #27): *wiltu* is tagged as in §2, not generically `VRB PRO`.
+
+**Still open (P-OFFEN, does NOT block the class as a whole):** the complete list of admissible fusion pairs beyond the modal verb case.
 
 ### 6.6 Expressly NOT part of this policy
 
