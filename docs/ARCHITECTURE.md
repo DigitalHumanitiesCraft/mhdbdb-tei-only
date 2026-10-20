@@ -74,7 +74,7 @@ The MHDBDB project follows a **client-only architecture** with no backend server
 8. Return results with positions and all matched lemmaIds
 
 **Multi-Lemma Deduplication:**
-- Problem: Variant resolution may map one term to multiple lemmata (e.g., "brot" → both "brôt" and "brot")
+- Problem: Variant resolution may map one term to multiple lemmata (e.g., "hab" → `lemma_2598` and `lemma_2593`, CONTRACTS §C)
 - Solution: Use Map keyed by textId to deduplicate results
 - Result: Each text appears once with aggregated match counts and all lemmaIds for multi-lemma highlighting
 - Benefits: Cleaner UI, accurate counts, transparent disambiguation with lemma badges
