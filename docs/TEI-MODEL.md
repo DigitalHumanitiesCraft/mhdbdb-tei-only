@@ -433,7 +433,7 @@ No effect on the indexes: the corpus index reads `<w>` and `<l>` in document ord
 
 The `<w>` element is the central unit of annotation. In the target model all its attributes come from TEI P5 `att.linguistic` and `att.global.analytic` (since TEI 3.3.0, Jan 2018).
 
-> **Status (phase B1/B2, 2026-04, completed):** the migrations `@meaningRef → @ana` and `@wordRef → @corresp` that were once needed have been carried out across the corpus (WZB included). There are **0** remaining `@meaningRef`/`@wordRef` attributes, **667/667** files use `@ana`, and no active JS or Python code reads the old names (the `@meaningRef` hit in `WZB.tei.xml` is only a `revisionDesc` log entry, not an attribute). §§4.1, 4.3 and 4.4 document the migrated model and the migration history; compare §10 "Earlier errors (all fixed by migration)".
+> **Status (phase B1/B2, 2026-04, completed):** the migrations `@meaningRef → @ana` and `@wordRef → @corresp` that were once needed have been carried out across the corpus (WZB included). There are **0** remaining `@meaningRef`/`@wordRef` attributes, **667/667** files use `@ana`, and no active JS or Python code reads the old names. §§4.1, 4.3 and 4.4 document the migrated model and the migration history; compare §10 "Earlier errors (all fixed by migration)".
 
 **Before** (existing data up to phase B1/B2):
 ```xml
@@ -535,7 +535,7 @@ The format varies for historical reasons. New texts should use a consistent sche
 
 The human-readable base form stays accessible through the lookup `@lemmaRef` → `lexicon.xml`: for debug inspection via `xmllint`/`grep`, for tooling via the authority index.
 
-**WZB:** WZB is migrated as well and uses `@ana` (141,978 occurrences). The only `@meaningRef` hit in `WZB.tei.xml` is a `<change>` log entry in the `revisionDesc`, not an attribute.
+**WZB:** WZB is migrated as well and uses `@ana` (141,978 occurrences).
 
 ### 4.4 `@wordRef` → `@corresp`: keeping the word-form reference (✓ completed)
 
@@ -992,7 +992,7 @@ A consolidated list of all deliberately non-normalized islands of data and of th
 | WVV stanza anchors | WVV, 23 stanzas | unusual Linecode template, anchors missing (#23 follow-up) | **solved** 2026-07-08 (#110): the 4 open places contained 11 header-separated verse blocks, each is now an `<lg type="stanza">` of its own; WVV has 489 stanzas, token stream byte-identical |
 | editorial `<div>` shell | HUG, KLA, PL1-PL3, MBS series | follow-up from the manual TEI review (#30) | open → #138 (needs-clarification) |
 | prose policy `<l>` vs. `<lb/>` | 3 texts (APO, HMT, HH) | phase C2 converted 18 texts, for the remaining candidates the policy was unclear | **solved** 2026-07-03 (#143): the 3 are converted, the other candidates are verified verse composition and keep `<l>` (§8.1) |
-| WZB `@meaningRef` (historical) | WZB | legacy annotation of the first delivery | **solved**: migrated to `@ana`; only a `revisionDesc` log entry remains |
+| WZB `@meaningRef` (historical) | WZB | legacy annotation of the first delivery | **solved**: migrated to `@ana` |
 
 ---
 
