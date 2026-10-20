@@ -60,7 +60,7 @@ Eight authority files – seven content-bearing controlled vocabularies (in the 
 
 All files use namespace `xmlns="http://www.tei-c.org/ns/1.0"`.
 
-#### lexicon.xml (~33 MB, 43,711 entries)
+#### lexicon.xml (~34 MB, 43,711 entries)
 
 ```xml
 <TEI><text><body><div type="lexicon">
@@ -81,7 +81,7 @@ All files use namespace `xmlns="http://www.tei-c.org/ns/1.0"`.
 
 Notes: Multiple `<pos>` per entry possible. Multiple `<sense>` per entry (verb entries often have 2+). `@ana` contains space-separated semantic type references.
 
-#### persons.xml (~74 KB)
+#### persons.xml (~57 KB)
 
 ```xml
 <TEI><text><body><listPerson>
@@ -97,7 +97,7 @@ Notes: Multiple `<pos>` per entry possible. Multiple `<sense>` per entry (verb e
 
 Notes: IDs are numeric (`person_N`) except `person_anonym`. GND and Wikidata are optional.
 
-#### works.xml (~1.4 MB)
+#### works.xml (~1.2 MB)
 
 ```xml
 <TEI><text><body><listBibl>
@@ -166,7 +166,7 @@ Notes: Multiple sigles per work (editions). GND/Wikidata may be full URLs or bar
 | genres.xml | `genre_{hex}` | – (but many broader pointers, polyhierarchical) |
 | names.xml | `name_{numeric}` | `exactMatch`, `closeMatch` → `concepts.xml#...` |
 
-#### variants.xml (~16 MB, 256,966 variant forms)
+#### variants.xml (~18 MB, 256,966 variant forms)
 
 ```xml
 <TEI><text><body><div type="orthographicVariants">
@@ -176,7 +176,7 @@ Notes: Multiple sigles per work (editions). GND/Wikidata may be full URLs or bar
 </div></body></text></TEI>
 ```
 
-Notes: Flat list of variants grouped by lemma cross-reference. Forms preserve MHG diacritics. One entry per lexicon lemma; multiple forms per entry. `@n` (required since the authority schema 1.2.0, #378) is the number of corpus tokens of this type under the entry's lemma, written by `extract-variants.py`. It is the only frequency in the authority layer and the sole input of the candidate ranking (Vorschrift B, ADR-021).
+Notes: Flat list of variants grouped by lemma cross-reference. Forms preserve MHG diacritics. At most one entry per lemma, and only for lemmata with corpus forms (`extract-variants.py` writes them from the corpus); multiple forms per entry. `@n` (required since the authority schema 1.2.0, #378) is the number of corpus tokens of this type under the entry's lemma, written by `extract-variants.py`. It is the only frequency in the authority layer and the sole input of the candidate ranking (Vorschrift B, ADR-021).
 
 ## Pre-Built Index Architecture
 
@@ -245,13 +245,13 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
       conceptIds: ["concept_1234"],
       // the three curated fields below exist only where lexicon.xml carries them
       // (#248, authority index 1.7.0; the *RespName fields are resolved from
-      // contributors.xml, #270: comment 1.9.10, definition 1.9.15). As of 2026-08-03 that is a single sense,
-      // lemma_37818 "Abba": one <def> and one <note type="comment">, each with
-      // its @resp. Curation is ongoing, so expect this count to grow.
+      // contributors.xml, #270: comment 1.9.10, definition 1.9.15). As of 2026-10-20:
+      // a comment on 138 senses of 134 lemmata (all but one from #554), a
+      // definition on 2 senses, each with its @resp.
       definition: "...", definitionResp: "contributors.xml#contrib_003", definitionRespName: "Katharina Zeppezauer-Wachauer",
       comment: "...",    commentResp: "contributors.xml#contrib_003", commentRespName: "Katharina Zeppezauer-Wachauer"
     }],
-    // likewise curated, likewise a single lemma as of 2026-08-03: the borrowing
+    // likewise curated, a single lemma (lemma_37818 "Abba") as of 2026-10-20: the borrowing
     // chain from <etym type="borrowing">
     origin: {languages: [{name, code}], attribution: "...", resp: "...", respName: "..."},
     normalized: "brot",
@@ -515,7 +515,7 @@ Three core build scripts:
 
 ### Static JSON API (`api/`)
 
-**Script:** `scripts/build-api.py` (alias: `npm run build:api`, not part of the `npm run build` aggregate)
+**Script:** `scripts/build-api.py` (alias: `npm run build:api`; also run by `npm run build:data`, and with it by `npm run build`)
 
 Third derived layer beside the two indexes. Reads **only** the two pre-built indexes (`data/authority-index.json.gz` + `data/corpus-index.json.gz`), never the XML sources, and emits a static JSON API into `api/` (one file per record except the lemmata; record counts in `api/index.json`), served as plain files by GitHub Pages:
 
@@ -558,7 +558,7 @@ Build properties: deterministic on the #125 principle (no timestamps, compact JS
 | | genres.xml | `//tei:category` (filter ID starts with `genre_`) | Genre entries |
 | | names.xml | `//tei:category` (filter ID starts with `name_`) | Name entries |
 | | (all three) | `.//tei:catDesc//tei:term` (filter `@xml:lang`) | DE/EN labels. For concepts and genres additionally `@type="alternative"` → `altDE`/`altEN`/`altNormalized` (that is what index versions 1.3.0 and 1.5.0 were for). `names.xml` has no such handling: there the last `de` term overwrites the previous one, dormant today because no name category carries more than one |
-| | genres.xml | `./tei:catDesc/tei:ptr[@type="broader"]` *(direct children throughout; the only reader is `build_performance_maps`, not `parse_genres`)* | Genre hierarchy, 3,175 pointers |
+| | genres.xml | `./tei:catDesc/tei:ptr[@type="broader"]` *(direct children throughout; the only reader is `parse_genres`, which reduces them to `parents`, #361)* | Genre hierarchy, 3,175 pointers |
 | | genres.xml | `tei:catDesc/tei:term` *(direct child, first `de` wins)* in `_build_genre_names()` | `work.genres[].text`, the label shown for a genre pointer. Different axis **and** different selection logic from the `.//tei:catDesc//tei:term` row above |
 | | names.xml | `.//tei:ptr[contains(@target,"concepts.xml#")]` | Concept cross-references |
 | | variants.xml | `.//tei:entry` (TEI namespace hard-coded) | Variant groups |
@@ -574,7 +574,7 @@ Build properties: deterministic on the #125 principle (no timestamps, compact JS
 
 #### Curated lexicon fields (#268, since authority index v1.7.0)
 
-The three productions marked „curated" (`etym[@type="borrowing"]`, `def`, `note[@type="comment"]`) are the only ones in the lexicon carrying editorial prose instead of classification. The build writes the corresponding index fields **only where they actually stand in the XML**: empty keys on every lemma entry would inflate index and API for nothing. As of 2026-07-31 exactly one lemma is curated (`lemma_37818` „Abba"), so consumers have to treat the fields as optional, never as a promise per record. Normative: [CONTRACTS.md §G.3](CONTRACTS.md#g3-field-schemas). The `@resp` values land in the index unchanged as `contributors.xml#contrib_N`. Since authority index 1.9.10 (#270, ADR-018) the build also resolves the comment's `@resp` through `contributors.xml` and writes the display name next to it as `sense.commentRespName`; an id it cannot resolve stops the build. Since 1.9.15 it does the same for `definitionResp` (`sense.definitionRespName`) and `origin.resp` (`origin.respName`), with the same stop. `contributors.xml` itself is still not indexed as a collection.
+The three productions marked „curated" (`etym[@type="borrowing"]`, `def`, `note[@type="comment"]`) are the only ones in the lexicon carrying editorial prose instead of classification. The build writes the corresponding index fields **only where they actually stand in the XML**: empty keys on every lemma entry would inflate index and API for nothing. As of 2026-10-20 a comment stands on 134 of 43,711 lemmata, a definition on 2 and an origin on 1, so consumers have to treat the fields as optional, never as a promise per record. Normative: [CONTRACTS.md §G.3](CONTRACTS.md#g3-field-schemas). The `@resp` values land in the index unchanged as `contributors.xml#contrib_N`. Since authority index 1.9.10 (#270, ADR-018) the build also resolves the comment's `@resp` through `contributors.xml` and writes the display name next to it as `sense.commentRespName`; an id it cannot resolve stops the build. Since 1.9.15 it does the same for `definitionResp` (`sense.definitionRespName`) and `origin.resp` (`origin.respName`), with the same stop. `contributors.xml` itself is still not indexed as a collection.
 
 #### Namespace Handling
 
@@ -641,7 +641,7 @@ Scripts for enriching authority files with external data:
 **Cache strategy:**
 - Authority index: 30-day expiration (reference data)
 - Corpus index: 30-day expiration (corpus data)
-- TEI files: No expiration (user content)
+- TEI files: revalidated against the server on every load (conditional GET, #151); entries are purged after 30 days
 
 ## Data Relationships
 
@@ -669,7 +669,7 @@ All cross-references validated during build:
 
 ### Performance Maps
 
-Three pre-computed maps accelerate common queries:
+Two pre-computed maps accelerate common queries:
 
 **conceptToLemmas:** Find all lemmata for a concept
 - Avoids scanning entire lexicon
@@ -736,12 +736,15 @@ Build scripts perform integrity checks:
 
 **Rebuild workflow:**
 ```bash
-python scripts/sync/extract-variants.py --apply   # regenerate variants.xml from the corpus (#44/#115)
-python scripts/build-authority-index.py
-python scripts/build-corpus-index.py
+# The binding sequence with every gate is the Data-Change-Lifecycle below. Locally the
+# changed sources and fresh indexes are uncommitted, so the three pre-flights need --allow-dirty.
+python scripts/build-corpus-index.py --allow-dirty     # pre-flight on tei/
+python scripts/sync/extract-variants.py --apply        # regenerate variants.xml from the corpus (#44/#115)
+python scripts/build-lemma-pos.py                      # part-of-speech counts, read by the authority build (#462)
+python scripts/build-authority-index.py --allow-dirty  # pre-flight on authority-files/; reads all three outputs above and aborts on a missing or stale corpus index and a missing lemma-pos file
 python scripts/validate-indices.py
-python scripts/build-api.py                       # static JSON API from the two indexes (#45)
-python scripts/build-begriffshilfe.py             # concept-help download from concepts.xml, lexicon.xml and w/@ana (#498)
+python scripts/build-api.py --allow-dirty              # pre-flight on data/; static JSON API from the two indexes (#45)
+python scripts/build-begriffshilfe.py                  # concept-help download from concepts.xml, lexicon.xml and w/@ana (#498)
 ```
 
 **Cache invalidation:**
@@ -952,7 +955,7 @@ The version bump (corpus checklist step 3, authority checklist step 2) is droppe
 
 The converse also holds: do not set a bump without a change of content. It forces every returning person to reload the index although nothing changed, and no CI notices.
 
-**A version number is a resource two open branches can claim at the same time, and nothing notices.** Before you bump, look at the open pull requests and take the next number above the highest one already claimed there. Neither gate covers this: `check-index-versions.py` checks that the four places agree **within one working state**, and the #154 bump gate checks only that a bump happened at all. Both are green on both sides of a collision. It happened on 2026-09-10: #363 was merged with corpus 4.2.14 and authority 1.9.4 while the open PR #416 had claimed exactly those two numbers in its rebase of 2026-09-09. Cost, measured with `git merge-tree`: eight conflicting files in the older PR, all of them the derived layer plus the version literals (`api/index.json`, `api/lemmata/index.json`, `corpus-loader.js`, both `data/*.json.gz`, `docs/INDEX.md`, `docs/TEI-MODEL.md`, both build scripts), and a renumber plus a full rebuild on someone else's branch. The source data merged cleanly, `lexicon.xml` included, because the two changes sat in different lemmata. The cheap version of the rule: `gh pr list` (or `list_pull_requests`) and one `grep` for `'version':` in the open heads, before the bump and not after.
+**A version number is a resource two open branches can claim at the same time, and nothing notices.** Before you bump, look at the open pull requests and take the next number above the highest one already claimed there. Neither gate covers this: `check-index-versions.py` checks that the five places agree **within one working state**, and the #154 bump gate checks only that a bump happened at all. Both are green on both sides of a collision. It happened on 2026-09-10: #363 was merged with corpus 4.2.14 and authority 1.9.4 while the open PR #416 had claimed exactly those two numbers in its rebase of 2026-09-09. Cost, measured with `git merge-tree`: eight conflicting files in the older PR, all of them the derived layer plus the version literals (`api/index.json`, `api/lemmata/index.json`, `corpus-loader.js`, both `data/*.json.gz`, `docs/INDEX.md`, `docs/TEI-MODEL.md`, both build scripts), and a renumber plus a full rebuild on someone else's branch. The source data merged cleanly, `lexicon.xml` included, because the two changes sat in different lemmata. The cheap version of the rule: `gh pr list` (or `list_pull_requests`) and one `grep` for `'version':` in the open heads, before the bump and not after.
 
 Individual times, measured on 2026-07-31 over 667 corpus files on a Windows laptop with 16 cores, using the default of 8 parallel processes set in #284: `build-corpus-index.py` 46 s, `extract-variants.py --apply` 23 s, `build-authority-index.py` 12 s, `build-api.py` 4 s. Sequentially (`--jobs 1`) it was 184 s, 97 s, 12 s and 4 s, so 297 s in total instead of 85 s. On machines with fewer cores the value lies in between, the default being `min(8, cpu_count)`. Orders of magnitude for planning, not a guarantee. `build-begriffshilfe.py` (single-process pass over all 667 files) took 18 s on 2026-09-29 on the same laptop (second run, files cached); the tables above say about 25 s as a planning value.
 
@@ -978,7 +981,7 @@ Row 2 against row 3 can be measured instead of guessed: run `extract-variants.py
 | 4 | Corpus index: `python scripts/build-corpus-index.py` (the pre-flight aborts on a dirty tree, otherwise `--allow-dirty`) | search, hit counts, proximity, verse position and the playground analyses go stale; a new text is missing entirely | CI (freshness gate in data-integrity.yml) |
 | 5 | **For new or vanished forms, and for every added, removed or re-annotated `<w>` carrying `@corresp` (it changes `form/@n`, #378):** `python scripts/sync/extract-variants.py --apply` (`variants.xml` is corpus-derived). The same run removes every `#type_N` from `sense/@ana` in `lexicon.xml` whose type the new `variants.xml` no longer carries, so a type that drops out takes its lexicon pointers with it | new word forms do not resolve to their lemma (stage 2 resolution); the lemma page chips are incomplete; `sense/@ana` points at types that do not exist (no build reads it, so nothing else notices) | CI (freshness gate on `variants.xml` and `lexicon.xml`; the cross-ref audit requires 0 orphaned tokens) |
 | 5b | `python scripts/build-lemma-pos.py` (about 12 s; **for every added, removed or re-annotated `<w>` carrying a `@lemmaRef` and for every `@pos` change on such a `<w>`**, #462; it reads `@lemmaRef` and `@pos`, not the indexes, so its place among steps 4 to 5 is free but it has to precede step 6) | `lemma.pos` and `posAll` in the authority index count an outdated corpus; step 6 aborts on a missing file but cannot see a stale one | CI (freshness step in data-integrity.yml, `build-lemma-pos.py --check`) |
-| 6 | After steps 5 and 5b: `python scripts/build-authority-index.py` | the variant map in the index stays stale | CI (freshness gate) |
+| 6 | After steps 5 and 5b: `python scripts/build-authority-index.py` (its pre-flight aborts on uncommitted changes under `authority-files/`, which step 5 usually leaves, so locally `--allow-dirty`) | the variant map in the index stays stale | CI (freshness gate) |
 | 7 | Regenerate the API: `python scripts/build-api.py` (it reads both `data/*.json.gz`, hence after steps 4 and 6; the freshly built, still uncommitted indexes require `--allow-dirty` locally) | the static JSON API under `api/` serves stale or orphaned records | CI (freshness gate in data-integrity.yml) |
 | 8 | Regenerate the Begriffshilfe: `python scripts/build-begriffshilfe.py` (about 25 s; it reads `concepts.xml`, the `sense/ptr` of `lexicon.xml` and `w/@ana`, not the indexes and not `variants.xml`, so its place in the order is free) | the downloadable concept help under `assets/downloads/` carries stale attestation counts or lemmata | CI (freshness gate in data-integrity.yml) |
 | 9 | Cross-ref audit: `python scripts/audit/check-authority-cross-refs.py --check` | dangling refs (lemma or variant not found, empty panels) | CI (in `data-integrity.yml`) |

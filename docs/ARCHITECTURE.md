@@ -70,18 +70,18 @@ The MHDBDB project follows a **client-only architecture** with no backend server
 4. Filter corpus by selected texts
 5. Search for lemma in filtered texts
 6. **Multi-lemma deduplication:** When search resolves to multiple lemmata, aggregate results by textId
-7. Extract context windows (±10 words)
-8. Return results with positions and all matched lemmaIds
+7. Return results with positions and all matched lemmaIds
+
+The KWIC lines (±10 words) are not part of the SearchEngine: `assets/js/search/kwic-service.js` (`extractKwicHits`, #129) reads them on demand from the TEI when a result row is expanded, called from app.js; the playground imports the same module.
 
 **Multi-Lemma Deduplication:**
-- Problem: Variant resolution may map one term to multiple lemmata (e.g., "brot" → both "brôt" and "brot")
+- Problem: Variant resolution may map one term to multiple lemmata (e.g., "hab" → `lemma_2598` and `lemma_2593`, CONTRACTS §C)
 - Solution: Use Map keyed by textId to deduplicate results
 - Result: Each text appears once with aggregated match counts and all lemmaIds for multi-lemma highlighting
 - Benefits: Cleaner UI, accurate counts, transparent disambiguation with lemma badges
 
 **Key features:**
 - Variant resolution via flat dictionary lookup (O(1))
-- Context extraction with surrounding words
 - Text filtering respects user selection
 - Deduplication by textId for multi-lemma results
 
@@ -143,7 +143,7 @@ The reading view converts TEI XML elements to HTML. Source: `extractAndFormatBod
 
 **Multi-lemma color assignment:** `lemmaColorMap[lemmaId] = colors[idx % 5]` – sequential assignment, wraps at 5.
 
-**`<hi rend>` token-based rendering:** `@rend` is space-separated (CSS-class style). The renderer splits on whitespace and emits `hi-{token}` per token. Compound values like `rend="initial upper_case_first_letter"` produce `class="hi hi-initial hi-upper_case_first_letter"`, with rules stacking from CSS. ~43k compound values that previously fell through to the single-class default are now correctly styled. Source: [DESIGN.md §TEI Reading View CSS Classes](DESIGN.md).
+**`<hi rend>` token-based rendering:** `@rend` is space-separated (CSS-class style). The renderer splits on whitespace and emits `hi-{token}` per token. Compound values like `rend="initial upper_case_first_letter"` produce `class="hi hi-initial hi-upper_case_first_letter"`, with rules stacking from CSS. Compound values that previously fell through to the single-class default are now correctly styled. Source: [DESIGN.md §TEI Reading View CSS Classes](DESIGN.md).
 
 **Position counting contract:** see [CONTRACTS.md](CONTRACTS.md#b-position-counting-contract)
 
@@ -209,6 +209,7 @@ playground/js/ui/
 │   ├── corpus-scope.js            # Shared helper for the corpus selection (#204), not an analysis tool
 │   ├── multi-lemma-search.js      # Modal outlier (DESIGN.md §Multi-Lemma, documented as such)
 │   ├── multi-lemma-export.js      # CSV/XLSX export of the multi-lemma search (#448), not an analysis tool
+│   ├── dokument-belege.js         # Attestations behind a document-search card (#58), not an analysis tool
 │   ├── word-frequency.js          # Word frequency analysis (#88, R1)
 │   ├── text-statistics.js         # Text statistics (#89, R1)
 │   ├── lemma-distribution.js      # Lemma distribution (#90, R1)
@@ -233,7 +234,7 @@ playground/js/ui/
 - Easier testing and maintenance
 - Net reduction: 5,536 lines removed
 
-**Playground TEI module convention:** `playground/js/ui/tei/` holds the router, the shared helpers, the modal and the analysis modules. The analysis modules share one constructor/`show()`/`render()` pattern, with thunks instead of direct data references, a state-driven `renderBody()`, per-module escape helpers, and a MessageChannel yield for large aggregations. Some files are exempt from the pattern: `tei-ui.js` is the router, `corpus-scope.js` is a shared helper for the corpus selection (#204), `multi-lemma-search.js` is a documented modal outlier, and `multi-lemma-export.js` is its export helper (#448). `naming-explorer.js` (#59) and `horses-explorer.js` (#193) are a special case of their own: they do not read the corpus index but lazily fetch their own small index (`data/naming-index.json.gz`, `data/horses-index.json.gz`) via fetch plus pako, without an IndexedDB cache. Both belong to the playground's third group, "Experimentelle Forschungsdaten" (#194), which collects curated datasets from external research projects; the entry convention is in that issue. The ONAMA explorer (#609) sits in the same group but in its own folder `playground/js/ui/onama/` with its own `playground/css/onama.css` (classes prefixed `on-`, so the prebuilt Tailwind output stays untouched); it lazily fetches the plain JSON `playground/data/onama/argonauten.json` without pako and without an IndexedDB cache. The pattern is documented as a template in [DESIGN.md §Playground TEI-Analysis Module Pattern](DESIGN.md#playground-tei-analysis-module-pattern).
+**Playground TEI module convention:** `playground/js/ui/tei/` holds the router, the shared helpers, the modal and the analysis modules. The analysis modules share one constructor/`show()`/`render()` pattern, with thunks instead of direct data references, a state-driven `renderBody()`, per-module escape helpers, and a MessageChannel yield for large aggregations. Some files are exempt from the pattern: `tei-ui.js` is the router, `corpus-scope.js` is a shared helper for the corpus selection (#204), `multi-lemma-search.js` is a documented modal outlier, and `multi-lemma-export.js` is its export helper (#448); `dokument-belege.js` lists the attestations behind a card of the document search (#58). `naming-explorer.js` (#59) and `horses-explorer.js` (#193) are a special case of their own: they do not read the corpus index but lazily fetch their own small index (`data/naming-index.json.gz`, `data/horses-index.json.gz`) via fetch plus pako, without an IndexedDB cache. Both belong to the playground's third group, "Experimentelle Forschungsdaten" (#194), which collects curated datasets from external research projects; the entry convention is in that issue. The ONAMA explorer (#609) sits in the same group but in its own folder `playground/js/ui/onama/` with its own `playground/css/onama.css` (classes prefixed `on-`, so the prebuilt Tailwind output stays untouched); it lazily fetches the plain JSON `playground/data/onama/argonauten.json` without pako and without an IndexedDB cache. The pattern is documented as a template in [DESIGN.md §Playground TEI-Analysis Module Pattern](DESIGN.md#playground-tei-analysis-module-pattern).
 
 **Authority Explorers:**
 Each explorer follows consistent pattern:
@@ -438,6 +439,14 @@ Corpus and authority data were never stored here. The playground reads them thro
 
 **Freshness:** same pattern as the API. The build is deterministic (no date, no commit hash, LF, the only provenance is the SHA-256 of `concepts.xml`), `npm run build:data` runs it last, and the CI step "Freshness Begriffshilfe" in `data-integrity.yml` rebuilds it and fails on any difference under `assets/downloads/`.
 
+## Part-of-speech counts (`data/lemma-pos.json.gz`)
+
+**Generator:** `scripts/build-lemma-pos.py` (#462) – reads `@lemmaRef` and `@pos` of every `<w>` in `tei/`, splits compound tags into their parts and writes, per lemma, how often each tag occurs. `build-authority-index.py` reads the file to order `lemma.posAll` by corpus frequency and derive `lemma.pos`, because the authority build itself does not read `tei/`; it aborts if the file is missing. Order in the lifecycle: this script before the authority index (DATA-MODEL step 5b). **Freshness:** `build-lemma-pos.py --check` in `data-integrity.yml`.
+
+## Help subpages built from frozen states (`hilfe-publikationen.html`, `hilfe-demnaechst.html`)
+
+**Generators:** `scripts/build-publikationen.py` (#417, two collections of the public Zotero group 5043625) and `scripts/build-demnaechst.py` (#537, the open `ingest` issues plus the hand-kept `data/demnaechst-zeitplan.json`). Each writes a frozen state under `data/` and builds the page region from that state only, never live; the monthly workflow `monatslauf-seiten.yml` refreshes the states and opens a PR when they change. An outage of Zotero or GitHub leaves the old state in place. `--offline` rebuilds from the file, `--check` compares page and file and runs in `no-cdn-check.yml`. Same pattern as the text-series bibliography below.
+
 ## Textreihentypologie subsite (`textreihen/`)
 
 **What it is:** the moved website of the MHDBDB text-series typology (#93, formerly `marketext.at/Textreihentypologie`): 11 static pages in the shared site chrome (registered in `build-pages.py`, reached through the footer link and a tile on `hilfe.html`, no menu entry), its own `textreihen.css` with `tr-` classes so that the compiled Tailwind stylesheet stays untouched, and two small scripts: `textreihen.js` (the SKOS browser) and `bibliografie.js` (the bibliography filter).
@@ -547,6 +556,12 @@ npm run test:headed   # Visible browser
 **Problem:** The exact-token `@lemmaRef` match was inline-duplicated at 6 sites across 4 files; one copy used a substring test (#126), highlighting wrong words
 **Solution:** Single `lemmaRefMatchesId()` in `assets/js/lib/lemma-match.js`, shared by main site and playground (like `text-normalizer.js`)
 **Result:** One tested source of truth (CONTRACTS §B.1); no copy can silently regress
+
+### Shared Library Modules (`assets/js/lib/`)
+
+**Problem:** Main site, playground and lemma pages need the same logic, and copies drift (see the previous pattern)
+**Solution:** One module per concern in `assets/js/lib/`, imported wherever it is needed. Three came after the check of 2026-10-05: `attributions.js` (every `<author>` of a work with status and role, #452; reading view, SearchEngine and the playground), `authority-id-input.js` (authority IDs as input in the playground registers and the concept distribution, #545) and `collapsible-text.js` (long lexicon comments collapsed on the lemma page and in the lemma explorer, #554)
+**Result:** The complete list with usage examples is `assets/js/lib/README.md`; `check-doc-inventories.py` keeps it in step with the folder
 
 ### Build-Injected Site Chrome
 

@@ -1,6 +1,6 @@
 # MHDBDB TEI Target Model
 
-Defines the normative TEI encoding for all texts in the MHDBDB corpus. New texts **must** conform to this model. Existing texts are migrated incrementally (see Issue #30).
+Defines the normative TEI encoding for all texts in the MHDBDB corpus. New texts **must** conform to this model. Existing texts are migrated incrementally.
 
 > **Audience:** This file is a technical reference specification, written primarily for development and automated tooling (precise, machine-oriented). A general introduction is offered by the help pages of the website, for example [Daten & Downloads](https://dhcraft.org/mhdbdb-tei-only/hilfe-daten.html) and [Eigene Texte beitragen](https://dhcraft.org/mhdbdb-tei-only/hilfe-daten-beitragen.html).
 
@@ -172,7 +172,7 @@ The last row is corpus-wide unique and deliberate, not an omission (#315): WZB n
 
 ### 2.1a `<monogr>` element order
 
-TEI P5 requires in `<monogr>`: `(author|editor)*, title+, editor*, (idno|imprint)*`. That means `<author>` **before** `<title>`, `<idno>` **after** `<editor>`. A few existing files (WUT for example) have the wrong order and fail tei_all validation.
+The content model of `<monogr>` in tei_all places the title in two ways (a third branch, `authority, idno`, does not occur here). If `<author>` or `<editor>` comes before the title, `<idno>` and `<editor>` may follow the title in either order. If the title comes first, every `<idno>` has to precede the first `<author>` or `<editor>`: `title, idno, editor` is valid, `title, editor, idno` and `title, author, idno` are not (probe against `schema/tei_all.rng`, 2026-10-20). 436 headers carry `title, idno, editor, imprint`. Phase A2 corrected the files that broke this order (§10); on 2026-10-20 none of the 679 `<monogr>` in the corpus does.
 
 ### 2.2 `<encodingDesc>`
 
@@ -183,10 +183,10 @@ TEI P5 requires in `<monogr>`: `(author|editor)*, title+, editor*, (idno|imprint
   </projectDesc>
   <editorialDecl>
     <!-- standard block: explanation of the local file references DE + EN -->
-    <interpretation>
-      <p>Part-of-Speech-Tags folgen dem MHDBDB-Tagset (19 Tags).
-         Dokumentation: .gemini/skills/pos-disambiguator/SKILL.md</p>
-    </interpretation>
+    <normalization>
+      <!-- per-text notes in German: extent of the edition used, degree of
+           disambiguation, capitalization (present in all 667 headers on 2026-10-20) -->
+    </normalization>
   </editorialDecl>
   <classDecl>
     <taxonomy xml:id="genres">
@@ -263,7 +263,7 @@ TEI P5 requires in `<monogr>`: `(author|editor)*, title+, editor*, (idno|imprint
 - for songs: `<div type="song">` > `<lg type="stanza">` > `<l>`
 - caesuras as `<caesura/>` inside `<l>` (optional; dated count in 6.5)
 
-**Current state:** most verse texts have `<l>` without an `<lg>` wrapper. The migration happens step by step (issue #30, stage 2).
+**Current state:** most verse texts have `<l>` without an `<lg>` wrapper. There is no open ticket for adding the wrappers (#30, which carried it, was closed on 2026-06-09).
 
 ### 3.2 Prose texts
 
@@ -433,7 +433,7 @@ No effect on the indexes: the corpus index reads `<w>` and `<l>` in document ord
 
 The `<w>` element is the central unit of annotation. In the target model all its attributes come from TEI P5 `att.linguistic` and `att.global.analytic` (since TEI 3.3.0, Jan 2018).
 
-> **Status (phase B1/B2, 2026-04, completed):** the migrations `@meaningRef → @ana` and `@wordRef → @corresp` that were once needed have been carried out across the corpus (WZB included). There are **0** remaining `@meaningRef`/`@wordRef` attributes, **667/667** files use `@ana`, and no active JS or Python code reads the old names (the `@meaningRef` hit in `WZB.tei.xml` is only a `revisionDesc` log entry, not an attribute). §§4.1, 4.3 and 4.4 document the migrated model and the migration history; compare §10 "Earlier errors (all fixed by migration)".
+> **Status (phase B1/B2, 2026-04, completed):** the migrations `@meaningRef → @ana` and `@wordRef → @corresp` that were once needed have been carried out across the corpus (WZB included). There are **0** remaining `@meaningRef`/`@wordRef` attributes, **667/667** files use `@ana`, and no active JS or Python code reads the old names. §§4.1, 4.3 and 4.4 document the migrated model and the migration history; compare §10 "Earlier errors (all fixed by migration)".
 
 **Before** (existing data up to phase B1/B2):
 ```xml
@@ -524,7 +524,7 @@ The format varies for historical reasons. New texts should use a consistent sche
 
 **Priority:** `@meaningRef` → `@ana` and `@wordRef` → `@corresp` are both needed for TEI conformance. Both are batch renames (change the attribute name). For `@wordRef` the URI has to be corrected as well (see sec. 4.4).
 
-**Code adjustment `@meaningRef` → `@ana`** (✓ done): the active playground JS already reads `@ana` (querySelectorAll `[ana]`/`getAttribute('ana')`). There are **0** places in the active JS code that read `meaningRef`/`wordRef` (confirmed by grep across `assets/` + `playground/`, 2026-06-05). Python references only in the archived `_ARCHIVED_tei-transformation.py` (not active).
+**Code adjustment `@meaningRef` → `@ana`** (✓ done): the active playground JS already reads `@ana` (querySelectorAll `[ana]`/`getAttribute('ana')`). There are **0** places in the active JS code that read `meaningRef`/`wordRef` (confirmed by grep across `assets/` + `playground/`, 2026-06-05). Python references only in the archived `scripts/_archived/tei-transformation.py` (not active), otherwise only in comments, in audits that look for the old names and in one-off WZB ingest scripts that strip them.
 
 **`@lemma` deliberately not implemented:** TEI P5 allows `@lemma` (att.linguistic) as a human-readable base form directly on the word. We do not set it. Reasons:
 
@@ -535,7 +535,7 @@ The format varies for historical reasons. New texts should use a consistent sche
 
 The human-readable base form stays accessible through the lookup `@lemmaRef` → `lexicon.xml`: for debug inspection via `xmllint`/`grep`, for tooling via the authority index.
 
-**WZB:** WZB is migrated as well and uses `@ana` (141,978 occurrences). The only `@meaningRef` hit in `WZB.tei.xml` is a `<change>` log entry in the `revisionDesc`, not an attribute.
+**WZB:** WZB is migrated as well and uses `@ana` (141,978 occurrences).
 
 ### 4.4 `@wordRef` → `@corresp`: keeping the word-form reference (✓ completed)
 
@@ -601,7 +601,7 @@ The legacy data uses an older tagset (`ART` instead of `DET`, `CNJ` instead of `
 
 ### 5.2 Compound tags
 
-Many `<w>` elements in the legacy data carry compound tags (~35-40%) (for example `pos="VRB VEX"`, `pos="ART NUM"`) that express ambiguity. The disambiguation workflow resolves them to a single tag; only genuine morphological fusions (for example `wiltu` = wilt + du -> `VEM PRO`) keep two tags. Rules and exceptions: [POS-TAGSET.md §2](POS-TAGSET.md#2-compound-tags).
+Many `<w>` elements in the legacy data carry compound tags (about 28 % of the `@pos` values on 2026-10-20) (for example `pos="VRB VEX"`, `pos="ART NUM"`) that express ambiguity. The disambiguation workflow resolves them to a single tag; only genuine morphological fusions (for example `wiltu` = wilt + du -> `VEM PRO`) keep two tags. Rules and exceptions: [POS-TAGSET.md §2](POS-TAGSET.md#2-compound-tags).
 
 ---
 
@@ -631,19 +631,19 @@ With the ARITHMETIC ingest the following TEI P5 standard elements were taken int
 
 ### 6.1 Punctuation
 
-**Current** (existing data):
+**Before phase C1** (legacy data):
 ```xml
 <seg xml:id="{SIGLE}_{page}{line}_{pos}" type="pc">,</seg>
 ```
 
-**Target** (TEI P5 has a dedicated element):
+**Target and current state** (TEI P5 has a dedicated element):
 ```xml
 <pc join="left">.</pc>
 ```
 
 TEI P5 provides `<pc>` (punctuation character) as the counterpart to `<w>`. It is a member of `att.linguistic` and therefore supports `@pos`, `@lemma` and so on, unlike `<seg type="pc">`. The `@join` attribute (`left`, `right`, `both`, `no`) governs whitespace adjacency.
 
-**Migration:** 1,370,191 occurrences. A simple batch rename (`<seg type="pc">` → `<pc join="left">`). The JS rendering has to treat `<pc>` as an inline element (as it does `<seg type="pc">`).
+**Migration (done, phase C1, §10):** a batch rename (`<seg type="pc">` → `<pc join="left|right">`, on 2026-10-20 1,325,044 `left` and 78,663 `right`); no `<seg type="pc">` is left in the corpus. The JS rendering treats `<pc>` as an inline element.
 
 **Careful:** `&lt;` and `&gt;` inside `<seg type="pc">` (and inside `<pc>` in future) are correct XML entities (angle brackets in the source text), not bugs.
 
@@ -768,7 +768,7 @@ Marks a column break. Rare (1,956 occurrences in 4 files on 2026-10-05: WZB 960,
 
 ### 6.8 Known errors in the existing data
 
-- **`<suppplied>`** (typo, 1 occurrence in 1 file): has to be corrected to `<supplied>`.
+- None known on 2026-10-20. The one listed here before, the typo `<suppplied>`, was corrected to `<supplied>` in phase A3 (§10).
 
 ---
 
@@ -871,7 +871,7 @@ New texts have to meet the following minimum requirements:
 # schema/tei_all.rng sits in the repo (committed, TEI P5 4.11.0) -- no download needed
 jing schema/tei_all.rng tei/{SIGLE}.tei.xml
 
-# stage 2: MHDBDB conformance (stricter, subset of tei_all)
+# stage 2: MHDBDB conformance (stricter on some points, more permissive on the GAPs)
 jing schema/mhdbdb.rnc tei/{SIGLE}.tei.xml
 
 # 3. referential integrity (corpus -> authority): dangling @lemmaRef/@ana/@corresp/@ref/@target
@@ -910,11 +910,11 @@ npm test
 Migration scripts: run once in phases A-E, since the close of #32 they live in `scripts/_archived/` or in the git history.
 Validation script: `scripts/audit/validate-corpus.py`, a two-stage RelaxNG validation (stage 1 `tei_all.rng`, stage 2 `mhdbdb.rng`/`mhdbdb-authority.rng`). The earlier structural Python check (5 checks) was retired on 2026-04-15 and is covered by `schema/mhdbdb.rnc`.
 
-### Validation result (as of 2026-05-11)
+### Validation result (last full run 2026-10-18, #631; no change to `tei/` or `schema/` since)
 
 **mhdbdb.rnc:** 667/667 files valid against the project-specific schema (`schema/mhdbdb.rnc`).
 
-**tei_all.rng:** 632/667 files valid against TEI P5 4.11.0. 35 files carry deliberately documented deviations that our custom schema covers explicitly through GAP comments 1-11. Categories:
+**tei_all.rng:** 632/667 files valid against TEI P5 4.11.0. 35 files carry deliberately documented deviations that our custom schema covers explicitly through GAP comments (GAPs 1 to 9 and 11, as in stage 2 below). Categories:
 
 | Category | Files | Count |
 |-----------|---------|-------:|
@@ -956,7 +956,7 @@ Earlier errors (all fixed by migration):
 
 `mhdbdb.rnc` is **not a strict subset** of `tei_all.rng`: it is stricter on some points (enumerated `@type` values, more restrictive child elements) and more permissive on others (the GAPs). The two stages check different properties and are complementary, not redundant.
 
-### Authority files status (8 files, as of 2026-05-11)
+### Authority files status (8 files, entries counted 2026-10-20)
 
 | File | Entries | Validation |
 |-------|----------|-------------|
@@ -990,9 +990,9 @@ A consolidated list of all deliberately non-normalized islands of data and of th
 | ARI/PD-001 domain elements | 6 ARITHMETIC manuscripts (not yet in the corpus) | 12 non-schema element classes + 24 `div/@type` + 7 `hi/@rend` values from Carina's arithmetic books; without PD-001 they would fail stage-2 validation | decided 2026-05-08: domain tags go into the schema (DECISIONS.md § PD-001); the schema extension is on `main` since `b59350bb5` and the six converted files lie in `ingest/ari/`; only the ingest is pending, waiting on Carina's metadata → #92 |
 | lexicon.xml backfill | remaining 396 dangling refs / 109 IDs (category B: sense curation, category C: typos/homographs) | the WZB forward ingest stamped lemma IDs into the corpus only; category A (125 entries) was stubbed on 2026-07-02 via `backfill-lexicon.py` | open → #115 (B/C curatorial, KZW/Julia) |
 | WVV stanza anchors | WVV, 23 stanzas | unusual Linecode template, anchors missing (#23 follow-up) | **solved** 2026-07-08 (#110): the 4 open places contained 11 header-separated verse blocks, each is now an `<lg type="stanza">` of its own; WVV has 489 stanzas, token stream byte-identical |
-| editorial `<div>` shell | HUG, KLA, PL1-PL3, MBS series | follow-up from the manual TEI review (#30) | open → #138 (needs-clarification) |
+| editorial `<div>` shell | HUG, KLA, PL1-PL3, MBS series | follow-up from the manual TEI review (#30) | open → #138 |
 | prose policy `<l>` vs. `<lb/>` | 3 texts (APO, HMT, HH) | phase C2 converted 18 texts, for the remaining candidates the policy was unclear | **solved** 2026-07-03 (#143): the 3 are converted, the other candidates are verified verse composition and keep `<l>` (§8.1) |
-| WZB `@meaningRef` (historical) | WZB | legacy annotation of the first delivery | **solved**: migrated to `@ana`; only a `revisionDesc` log entry remains |
+| WZB `@meaningRef` (historical) | WZB | legacy annotation of the first delivery | **solved**: migrated to `@ana` |
 
 ---
 

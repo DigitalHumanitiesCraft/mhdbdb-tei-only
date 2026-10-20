@@ -4,7 +4,7 @@ This document describes the development workflow, build processes, and deploymen
 
 ## Prerequisites
 
-- **Node.js 16+** (for npm scripts and testing)
+- **Node.js 18+** (for npm scripts and testing; Playwright 1.55 requires it)
 - **Python 3.13+** with lxml (for building pre-built indexes)
 - **Web Browser** (Chrome/Chromium preferred for testing)
 - **Git** (for version control)
@@ -20,6 +20,7 @@ cd mhdbdb-tei-only
 
 # Install dependencies
 npm install
+pip install -r requirements.txt   # pinned lxml and rnc2rng, needed for byte-identical rebuilds (#125)
 
 # Start development server
 npm run serve
@@ -38,7 +39,7 @@ mhdbdb-tei-only/
 │   │   ├── search/        # Search engine
 │   │   ├── rendering/     # TEI text reader, text renderer
 │   │   ├── storage/       # TEI cache manager
-│   │   └── lib/           # Shared utilities (corpus-loader, text-normalizer, lemma-match)
+│   │   └── lib/           # Shared modules for main site, playground and lemma pages (each one documented in lib/README.md)
 │   └── images/            # Static images
 ├── includes/              # Nav/footer/matomo single-source partials (_nav.html, _footer.html, _matomo.html), build-injected by scripts/build-pages.py
 ├── authority-files/       # 8 XML authority files (incl. contributors.xml)
@@ -163,8 +164,8 @@ python scripts/build-demnaechst.py              # open `ingest` issues -> data/d
                                                 # --check runs in no-cdn-check.yml since 2026-10-18 (its path filters include both pages, both states and both scripts);
                                                 # in the monthly workflow it runs only after the rebuild and cannot catch a hand edit)
 
-# Build the full derived layer in dependency order: corpus index, variants.xml, authority index, API
-npm run build:data       # build:corpus && extract-variants --apply && build:authority && build-api --allow-dirty && build:begriffshilfe
+# Build the full derived layer in dependency order: corpus index, variants.xml, lemma-pos, authority index, API, Begriffshilfe
+npm run build:data       # build:corpus && extract-variants --apply && build:lemma-pos && build:authority && build-api --allow-dirty && build:begriffshilfe
 # build-api runs with --allow-dirty here because the just-rebuilt indexes in data/ are still uncommitted (dirty)
 
 # Aggregate: CSS + vendor + the full data chain (npm run build now includes build:data)
@@ -305,7 +306,7 @@ Completeness against `testing/tests/` is gated by `scripts/audit/check-doc-inven
 ### CI: Data Integrity
 
 **Workflow:** `.github/workflows/data-integrity.yml` (since #125 it consolidates the former `schema-validation.yml` + `index-version-check.yml`)
-**Triggers:** PRs + main pushes touching `schema/`, `tei/`, `authority-files/`, the three index `.json.gz` files (corpus/authority/naming), `api/**`, `assets/downloads/**`, the build scripts (`build-*-index.py`, `build-api.py`, `build-begriffshilfe.py`, `build-lemma-pos.py`, `mhg_normalizer.py`), `scripts/sync/`, `scripts/audit/`, `scripts/ingest/naming/`, `corpus-loader.js` or `requirements.txt`. Plus `workflow_dispatch`.
+**Triggers:** PRs + main pushes touching `schema/`, `tei/`, `authority-files/`, every `data/*.json.gz` (today corpus, authority, naming, horses and lemma-pos), `api/**`, `assets/downloads/**`, the build scripts (`build-*-index.py`, `build-api.py`, `build-begriffshilfe.py`, `build-lemma-pos.py`, `mhg_normalizer.py`), `scripts/sync/`, `scripts/audit/`, `scripts/ingest/naming/`, `corpus-loader.js` or `requirements.txt`. Plus `workflow_dispatch`.
 
 **The workflow file carries a second numbering of its own, and the two do not correspond.** Its header comment runs `0, 1, 1a … 1d, 2 … 8`, with letters so that a step inserted later shows its position without renumbering the digits below it. Inserting one does shift the letters, as #399 shifted `1b` to `1c` and `1c` to `1d`; what stays put is `2` to `8`. What is check 12 here (freshness of the indexes) is Step 6 there. Compare the two lists by name, never by number.
 
@@ -500,7 +501,7 @@ Two kinds are mixed here, and the difference is the important one: **gates** hav
 | `compare-findebuch-resolution-259.py` | Checks our three-stage lemma resolution against the Findebuch reference graph (#259), an independently curated mapping of attested spellings onto lemmata. Read-only, needs the Trier dump via `--dump` (it lives under gitignored `temp/`, not in the repo, and never enters one). Reports two partitions, because only the second tests anything: where the spelling is a lemma of ours as well, stage 1 wins by construction in the resolution this script replicates, which is the one before #463 (it does not apply the attestation rule yet; follow-up in #259), so stages 2 and 3 are only exercised on the complement. The finding list it writes carries Trier spellings and must not be committed; the report on stdout counts and names none |
 | `build-foreign-candidates-28.py` | Candidate set for the origin annotation of #28, track 1: every lemma whose senses point at `concept_23123000` or one of its 17 language categories, with corpus attestations. Read-only, writes `ingest/foreign-lang/28-gleis1-kandidaten.csv`, no workflow calls it. Two things it does deliberately: it builds the set over `@lemmaRef` and never over string search in `lexicon.xml` (the token form does not occur there, see #28 of 2026-08-10), and it includes the root of the hull, because 27 lemmata hang on it alone and they are the vocabulary the texts use to speak about language itself |
 | `foreign-sense-contradictions-28.py` | Phase 2 of #28: the two sets to start a review with, instead of a frequency cutoff. Read-only, writes `ingest/foreign-lang/28-phase2-ana-widerspruch.csv` and `28-phase2-handpruefung.csv`, no workflow calls it. The first set is the tokens whose `@ana` points at a sense that carries no language concept: there the annotated stock says outright that the language reading is not meant here, which makes it the sharpest purely mechanical exclusion criterion track 1 has, and a small one. The second is the lemmata above 500 attestations, which decide more than three quarters of the non-name tokens and are few enough to read one by one; a frequency cutoff would be wrong, because `niht` (noise) and `bischof`, `klâr`, `engel` (real loanwords) sit in the same class. It imports the concept hull from `build-foreign-candidates-28.py` rather than rebuilding it: that hull is where track 1 once went wrong, silently losing the 27 lemmata that hang on the root |
-| `measure-216-vrouwe-minne.py` | Sizing measurement for #216 track 3, continued in #387: how many `<w>` are formally *vrouwe* without a `@lemmaRef`, and how many of those stand immediately before a *minne* form. Read-only. It reports two adjacency counts side by side on purpose, over the `<w>` sequence and over the direct children of the verse line, because the second finds only 40 of the 155 pairs measured on 2026-09-01: `<w>` frequently sits inside a `<hi>`. Both numbers are that day's state and not what a run prints today: the batch `ingest/pos-disambig/216-vrouwe155/` annotated 152 of those tokens on 2026-09-06, so they now carry a `@lemmaRef` and drop out of a measurement that asks for the ones without. A run against today's corpus finds 3 pairs |
+| `measure-216-vrouwe-minne.py` | Sizing measurement for #216 track 3, continued in #387: how many `<w>` are formally *vrouwe* without a `@lemmaRef`, and how many of those stand immediately before a *minne* form. Read-only. It reports two adjacency counts side by side on purpose, over the `<w>` sequence and over the direct children of the verse line, because the second finds only 40 of the 155 pairs measured on 2026-09-01: `<w>` frequently sits inside a `<hi>`. Both numbers are that day's state and not what a run prints today: the batch `ingest/pos-disambig/216-vrouwe155/` annotated 152 of those tokens on 2026-09-06, so they now carry a `@lemmaRef` and drop out of a measurement that asks for the ones without. A run on 2026-10-20 finds none |
 | `measure-498-concept-cross-sections.py` | Cross sections over the concept system (#498): senses that carry a base concept and at least one axis concept, with tokens and texts, plus a PMI ranking of concept pairs and the spread of co-occurring concepts. Read-only, no workflow calls it. Its default is the "Wachsamkeit" test case (Aufmerksamkeit crossed with seven axes) |
 | `measure-stage3-resolution.py` | Impact measurement for stage 3 of the lemma resolution (#224): how many short lemmata the earlier bidirectional substring matching washed into every search |
 | `parallel-witness-bias.py` | Per-tool measurement for #255: recomputes every counting rule in CONTRACTS §H with and without the tokens inside a `<div type="parallel">`, in two scenarios (every parallel div, or only the numbered ones). Read-only, no workflow calls it. Two guards make it more than an estimate: a parity check against the built index (`wordCount` and `lineEnds` per text, abort on mismatch), and control figures next to the two results that would otherwise be unreadable, namely the within-block rhyme rate beside the seam rhyme count and a length-matched random sample beside the type-token ratio |

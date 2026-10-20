@@ -1,6 +1,6 @@
 # Roadmap
 
-Strategic priorities for the MHDBDB TEI Repository. Last full pass 2026-10-05; the #28 and #216 lines updated 2026-10-09; the lines on #58, #251, #93, #123, #404, #406, #228 and #369 updated 2026-10-19.
+Strategic priorities for the MHDBDB TEI Repository. Last full pass 2026-10-05; the #28 and #216 lines updated 2026-10-09; the lines on #58, #251, #93, #123, #404, #406, #228 and #369 updated 2026-10-19; the lines on #58, #63, #93, #109 and #139 updated 2026-10-20 (doc check).
 
 See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/44) for the full triage matrix with per-issue status.
 
@@ -44,7 +44,7 @@ One is done: the unattested sense copies at `engebrechen` and `gebrechenhaft`
 **Some tickets carry no work of ours any more, only an acceptance or one
 answer:** #251 and #58 had their remaining work merged on 2026-10-18 (#619
 shows the selected word forms for #251; #619, #630 and #633 changed the
-document search cards for #58) and wait on Julia's acceptance, and each has one
+document search cards for #58); #251 waits on Julia's acceptance, Julia accepted #58 on 2026-10-19, and each has one
 question to KZW: for #251 whether the counter question of 2026-07-30 can be
 dropped, for #58 where the link to the full text sits on the card. #193 was
 closed on 2026-10-05 with release v1.1.0.
@@ -78,7 +78,7 @@ carry a label:
   ParzivAI is the nearest answer and interesting for both sides. State of play in
   [RESEARCH.md → Downstream Reuse and Related Projects](RESEARCH.md#downstream-reuse-and-related-projects)
 
-## Frozen until December 2026
+## Frozen
 
 **#27** (POS workflow) and **#18** (multi-lemma plus PoS search) are
 `auto:frozen`. KZW set the next pass over the undifferentiated CNJ tokens for
@@ -88,17 +88,18 @@ compound tag. Nobody owes anything on either until
 then. Until 2026-10-05 #18 stood here as a decision cluster, which it has not
 been since its relabelling on 2026-09-23.
 
+**#63** (update of the concept system) is `auto:frozen` until 2027-05-01, the start of the character project whose work package 4 is the revision of the concept system (2026-10-10). The gaps from #498 and #423 stay noted in the issue.
+
 ## Future: needs design, or waiting for a trigger
 
 | # | What | Key question |
 |---|------|-------------|
 | #92 | ARITHMETIC ingest: stage 0 is built and the six manuscripts are converted in `ingest/ari/`, the schema extension (PD-001) is on `main` | Carina's metadata per manuscript, open since 2026-05-16 |
-| #139 | ingest the CoReMA corpus: pilot of five cookbooks (Bs1, GR1, H2, M11, W1) as proposed by Helmut Klug; H2 has no published recipe objects | a joint session with Chris |
+| #139 | ingest the CoReMA corpus: pilot of Bs1, GR1, M11 and W1 as proposed by Helmut Klug; H2 left the pilot on 2026-10-09 (no recipe objects on GAMS) | which cookbook replaces H2 and whether the `COR_*` sigles stay, in a joint session with Chris |
 | #141 | Borte ingest: task 0 (the borte.md metadata template) is delivered in the issue | Alan's metadata; scheduled after #139 |
 | #118 | language stages in the TEI headers: the two first-ranked sources of the concept are empty (no header dating, only print years in `works.xml`), the virgule marks 16 texts as a calibration set | KZW's four format and threshold questions; then it is a procurement project |
-| #63 | update of the concept system: Julia is planning the WSD gold standard, gaps from #498 and #423 are noted | scope (Julia) |
-| #93 | moving the text series typology: the subsite is live since 2026-10-13 (#555) on the SKOS state, without a reconciliation against `genres.xml` (KZW, 2026-10-08); the footer logo followed on 2026-10-18 (#624) | Julia's acceptance of the logo, and KZW's answer on the logos, start image and screenshots asked 2026-10-09 |
-| #109 | FWF single project (deep corpus analysis, NER pipeline, phonetic rhyme analysis, visualizations): proposal by KZW, small budget, max. 50 % external funds | a scope note for the proposal text |
+| #93 | moving the text series typology: the subsite is live since 2026-10-13 (#555) on the SKOS state, without a reconciliation against `genres.xml` (KZW, 2026-10-08); the footer logo followed on 2026-10-18 (#624) | none left in the thread: KZW allowed the logos, start image and screenshots on 2026-10-13, Julia accepted the footer logo on 2026-10-19; whether the ticket can close |
+| #109 | FWF single project (deep corpus analysis, NER pipeline, phonetic rhyme analysis, visualizations): proposal by KZW, small budget, max. 50 % external funds | whether the proposal has been submitted and still needs technical clarifications from us (asked 2026-10-09) |
 
 **Index size and a splitting strategy** stands here without an issue number, and
 that is deliberate: the budget question of #111 is **decided and gated**, and the

@@ -38,7 +38,7 @@ The detailed linguistic distinctions (DET against PRO, VRB against VEX, the cont
 
 ## 2. Compound tags
 
-In the older stock many `<w>` elements (~35 to 40 %) carry space-separated compound values (e.g. `pos="VRB VEX"`, `pos="ADJ ADV"`) expressing an unresolved ambiguity. **The standard rule:** the disambiguation workflow resolves them to a single tag depending on context.
+In the older stock many `<w>` elements (about 28 % of the `@pos` values, 2,140,125 of 7,595,604 on 2026-10-20) carry space-separated compound values (e.g. `pos="VRB VEX"`, `pos="ADJ ADV"`) expressing an unresolved ambiguity. **The standard rule:** the disambiguation workflow resolves them to a single tag depending on context.
 
 **Exception:** genuine morphological fusions keep two tags and receive a `reason` attribute:
 
@@ -138,7 +138,7 @@ The classes are sorted by how far they can be automated, in descending order, an
 | K1: leftovers (`-`, KOKOM, FM, PTK, X, SCJN) | < 100 | a deterministic table (SCJN→SCNJ; for the rest a case-by-case list in the PR) | P-MUSS, deterministic |
 | K2: ART → DET | 1,064,439 | batch rename, NO context needed (articles are DET by the definition in §1) | P-MUSS, deterministic |
 | K3: GRA → ADJ | 60,278 | batch according to §3 (gradation and superlative are ADJ) | P-MUSS, deterministic; the deviation in the issue body („GRA→ADV/PART") is OLD, see 6.5 |
-| K4: compound resolution (ADJ ADV, VRB VEX, ART CNJ, …) | ~35 to 40 % of the tokens | LLM, context-dependent (the skill workflow), EXCEPT genuine fusions (§2: they stay two-valued plus `@reason`) | P-MUSS, LLM plus the gates in 6.3 |
+| K4: compound resolution (ADJ ADV, VRB VEX, ART CNJ, …) | 2,140,125 tokens (2026-10-20) | LLM, context-dependent (the skill workflow), EXCEPT genuine fusions (§2: they stay two-valued plus `@reason`) | P-MUSS, LLM plus the gates in 6.3 |
 | K5: CNJ → CCNJ/SCNJ | 943,199 | LLM, context-dependent; CNJ stays allowed as a fallback under genuine ambiguity | P-SOLL (fallback allowed) |
 | K6: known misannotation patterns (issue §2: enhaben, wiest, morphology as a second tag, unifying NEG, NAM overreach) | scattered | LLM with a watch list (the skill's „Known Error Patterns") | P-MUSS, LLM plus the gates in 6.3 |
 
@@ -167,9 +167,10 @@ Why that order: K1 to K3 are context-free and shrink the problem space measurabl
 - **No 20th tag PART** (KZW's decision of 2026-07-08, #27): particles of particle verbs are marked by convention as ADV plus `@ana`. A technical constraint before implementing this: `@ana` is already taken as a sense reference (`lexicon.xml#lemma_{N}_sense_{M}`, see DATA-MODEL.md → Phase 3: sense resolution), so the POS marking needs a value schema of its own that can be told apart from it (to be fixed before the first K4 batch, in the same way as the `@comp`/`@needsSplit` caveat in 6.4).
 - **Double tagging is admissible for contractions** (KZW's decision of 2026-07-08, #27): genuine MHG contraction words, two lemmata drawn together into one token for economy of speech (*wiltu* = wilt + du), keep two tags (§2). What is expressly NOT meant are ordinary compounds (*hûsmûs* is simply NOM). This confirms the §2 exception as policy.
 
-**P-OFFEN (a decision by KZW is needed, but it does NOT block the class as a whole):**
-1. **The remaining CNJ share:** „undifferentiated CNJ" means tokens that still carry the unspecific `CNJ` after the K5 campaign instead of `CCNJ`/`SCNJ`, that is, exactly the cases where the context too does not decide whether they coordinate or subordinate (which answers KZW's question of 2026-07-08 in the affirmative). The open question: how much of that is acceptable as a K5 fallback? Proposal: ≤ 10 % of the original CNJ amount (943,199 tokens, so ≤ ~94,000).
-2. **Finalize the list of fusion pairs:** the principle is decided (see above), what stays open is the final list of admissible tag pairs, in particular whether modal verb contractions such as *wiltu* are tagged `VEM PRO` (as in §2) or generically `VRB PRO`.
+- **No quota for undifferentiated CNJ** (KZW's decision of 2026-07-10, #27): „undifferentiated CNJ" means tokens that still carry the unspecific `CNJ` after the K5 campaign instead of `CCNJ`/`SCNJ`, the cases where the context does not decide whether they coordinate or subordinate. They stay `CNJ`, with no threshold; the proposal of ≤ 10 % is off the table. The next pass over the CNJ tokens is set for December 2026, which is why #27 is parked as `auto:frozen` until then.
+- **Modal verb contractions stay `VEM PRO`** (KZW's decision of 2026-07-10, #27): *wiltu* is tagged as in §2, not generically `VRB PRO`.
+
+**Still open (P-OFFEN, does NOT block the class as a whole):** the complete list of admissible fusion pairs beyond the modal verb case.
 
 ### 6.6 Expressly NOT part of this policy
 
