@@ -20,8 +20,9 @@
 # Bericht an der API scheitern, das ist hier kein Gate.
 #
 # Der Checkout holt die ganze History ohne Blobs (fetch-depth 0, filter
-# blob:none) und nur docs, scripts und .github. `git log <sha>..HEAD -- <Pfade>`
-# braucht Commits und Trees, keine Blobs.
+# blob:none) und nur docs, scripts und .github.
+# `git log --first-parent <sha>..HEAD -- <Pfade>` braucht Commits und Trees,
+# keine Blobs.
 
 name: doc-health
 

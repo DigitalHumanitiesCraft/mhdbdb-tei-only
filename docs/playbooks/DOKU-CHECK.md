@@ -14,7 +14,7 @@ python scripts/audit/check-doc-staleness.py --faellig
 Die Statuszeile sagt `FAELLIG: ja`, `nein` oder `pr-offen #N`.
 
 - **Bezugspunkt** ist `scripts/audit/doc-health-state.json`: der Commit und das Datum des letzten abgeschlossenen Checks. Das JOURNAL wird dafür nicht gelesen, seine Formate und seine Reihenfolge wechseln.
-- **Fällig** ab 40 Commits an den 14 stabilen Docs oder nach 60 Tagen. "Stabil" heißt hier: die 15 promptotyping-Dokumente aus `docs/INDEX.md` ohne `JOURNAL.md`, also die 13 Stable-Knowledge-Dokumente plus `ROADMAP.md`. Die Schwelle hat chsteiner am 2026-10-20 entschieden. Dass JOURNAL-, Archiv-, Playbook- und Feature-Doc-Commits nicht mitzählen, hat die Session festgelegt, die den Lauf gebaut hat: Fast jede Session schreibt ins JOURNAL, und das ist keine Drift der Doku. Nach dieser Zählung gab es 69 Commits in den 15 Tagen nach dem Check vom 05.10. (`git log --oneline 621bcf749..9a7346539 -- <14 Dateien>`).
+- **Fällig** ab 40 Commits an den 14 stabilen Docs oder nach 60 Tagen. "Stabil" heißt hier: die 15 promptotyping-Dokumente aus `docs/INDEX.md` ohne `JOURNAL.md`, also die 13 Stable-Knowledge-Dokumente plus `ROADMAP.md`. Die Schwelle hat chsteiner am 2026-10-20 entschieden. Dass JOURNAL-, Archiv-, Playbook- und Feature-Doc-Commits nicht mitzählen, hat die Session festgelegt, die den Lauf gebaut hat: Fast jede Session schreibt ins JOURNAL, und das ist keine Drift der Doku. Nach dieser Zählung gab es 69 Commits in den 15 Tagen nach dem Check vom 05.10. (`git log --first-parent --oneline 621bcf749..9a7346539 -- <14 Dateien>`). Gezählt wird mit `--first-parent`, also nur auf der Linie von `main`: Ein ohne Squash gemergter Zweig zählt als ein Commit, nicht mit jedem Einzelcommit. Ohne das Flag zählte ein ohne Squash gemergter Check-PR jeden seiner Commits: #644 hätte 57 an den 14 Docs gebracht, die Schwelle liegt bei 40.
 - **Ist ein PR `claude/doku-check-*` offen**, ist nichts zu tun, bis er gemergt oder geschlossen ist.
 
 Bei `nein` und `pr-offen` endet ein Routinenlauf sofort, ohne Branch, Kommentar oder Ausgabe.
@@ -41,7 +41,7 @@ python scripts/build-pages.py --check
 python scripts/audit/check-no-em-dash.py
 ```
 
-Ein rotes Gate ist der erste Befund. Ein grünes Gate sagt nur etwas über seine eigene Liste: `doc-count-audit` zählt Korpus- und Authority-Dateien und sonst nichts (#451).
+Ein rotes Gate ist der erste Befund. Ein grünes Gate sagt nur etwas über seine eigene Liste: `doc-count-audit` zählt Korpus- und Authority-Dateien und sonst nichts (#451). Das Em-Dash-Gate prüft hier nur HTML, JS und CSS. Markdown prüft es nur in Zeilen, die ein Diff hinzufügt, und vor dem ersten Befund gibt es keinen. Deshalb läuft es vor dem Push noch einmal (Abschnitt 4, Punkt 4).
 
 ### 3.2 Gegenstand bestimmen
 
@@ -91,14 +91,14 @@ Aus der allgemeinen promptotyping-Prüfung, soweit die Liste oben sie nicht abde
 1. **Branch** `claude/doku-check-JJJJ-MM-TT` von `origin/main`, die Basis gemessen nach Regel 7 des Betriebsvertrags.
 2. **Ein Commit je Befund.**
 3. **Markerdatei fortschreiben:** In `scripts/audit/doc-health-state.json` kommen `commit` (der geprüfte Stand, also `origin/main` beim Start), `date` (heute) und `scorecard` (`docs/JOURNAL.md, **Scorecard Doku-Check JJJJ-MM-TT**`, passend zu Punkt 5), als eigener Commit.
-4. **`reviewer` vor dem Push**, wie es seine Definition in `.claude/agents/reviewer.md` vorgibt. Schreibt er in sein Memory, gehen diese Dateien als eigener Commit in denselben PR.
+4. **Gates noch einmal, dann `reviewer` vor dem Push.** Die Gates aus 3.1 laufen auf dem fertigen Zweig erneut, das Em-Dash-Gate als `python scripts/audit/check-no-em-dash.py --diff-base origin/main`. Erst so prüft es die Markdown-Zeilen, die der Lauf geschrieben hat. Diese Ausgabe kommt in den PR-Body. Der `reviewer` läuft, wie es seine Definition in `.claude/agents/reviewer.md` vorgibt. Schreibt er in sein Memory, gehen diese Dateien als eigener Commit in denselben PR.
 5. **JOURNAL-Scorecard als letzter Commit:** ein neuer Abschnitt `## JJJJ-MM-TT – Doku-Check (Scorecard)` am Ende von `docs/JOURNAL.md`, der Absatz beginnt mit `**Scorecard Doku-Check JJJJ-MM-TT**`, drei bis sechs Sätze. Bis zum 2026-10-20 waren es drei bis vier Zeilen. Der Abschnitt nennt auch die Lehren, die über den Einzelfall hinausgehen. Steht er als letzter Commit, trifft ein Konflikt mit parallelen Sessions nur ihn. **Kein Report als `.md` in `docs/`:** der Bericht ist mit der Scorecard und dem PR erledigt.
 6. **PR über REST:** `gh api repos/DigitalHumanitiesCraft/mhdbdb-tei-only/pulls -f head=<branch> -f base=main -f title=... -F body=@<datei>`. Der Body enthält:
    - die Scorecard;
    - je Befund eine Zeile;
    - eine **Belegtabelle** mit einer Zeile je geänderter Zahl oder Zustandsaussage: die Aussage, der Befehl, der sie heute ausgibt, und seine Ausgabe;
    - die Liste **"sah falsch aus, stimmt"** mit Grund;
-   - die Ausgabe der Gates aus 3.1.
+   - die Ausgabe der Gates aus Punkt 4.
 
    Kein Closing-Keyword vor einer Issue-Nummer. Gemergt wird von Hand.
 7. **Kein Kommentar in #641.** Den schreibt der Wochenlauf `doc-health.yml`.

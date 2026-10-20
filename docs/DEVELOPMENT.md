@@ -165,8 +165,10 @@ python scripts/build-demnaechst.py              # open `ingest` issues -> data/d
                                                 # in the monthly workflow it runs only after the rebuild and cannot catch a hand edit)
 
 # Build the full derived layer in dependency order: corpus index, variants.xml, lemma-pos, authority index, API, Begriffshilfe
-npm run build:data       # build:corpus && extract-variants --apply && build:lemma-pos && build:authority && build-api --allow-dirty && build:begriffshilfe
-# build-api runs with --allow-dirty here because the just-rebuilt indexes in data/ are still uncommitted (dirty)
+npm run build:data       # build:corpus && extract-variants --apply && build:lemma-pos && build-authority-index --allow-dirty && build-api --allow-dirty && build:begriffshilfe
+# Both run with --allow-dirty because an earlier step of the same chain leaves their input dirty:
+# extract-variants --apply rewrites authority-files/variants.xml, and the just-rebuilt indexes in data/
+# are still uncommitted. build:corpus keeps its pre-flight on tei/, so uncommitted TEI still stops the chain.
 
 # Aggregate: CSS + vendor + the full data chain (npm run build now includes build:data)
 npm run build            # build:css && build:vendor && build:data
@@ -417,11 +419,11 @@ Completeness against `testing/tests/` is gated by `scripts/audit/check-doc-inven
 **Workflow:** `.github/workflows/doc-health.yml`
 **Triggers:** weekly (Monday 04:41 UTC) and `workflow_dispatch`; on a PR only when it touches the script, the state file or the workflow itself (self-test plus a report without `--apply`, nothing is posted).
 
-**What it holds:** what happens *between* changes, which the doc gates in `no-cdn-check.yml` (they run on every push to `main` that touches a `.md`) cannot see: how many commits the 14 stable promptotyping docs (the 15 of `docs/INDEX.md` without `JOURNAL.md`) received since the last doc health check, how old that check is, whether a feature doc outlived its issue, and how long the JOURNAL has grown. The check is due at 40 commits or 60 days, whichever comes first (chsteiner, 2026-10-20). The state of the last check is the marker file `scripts/audit/doc-health-state.json` (commit, date, scorecard location); the doc check PR advances it. An open PR whose head branch starts with `claude/doku-check-` turns "due" into "due, PR open".
+**What it holds:** what happens *between* changes, which the doc gates in `no-cdn-check.yml` (they run on every push to `main` that touches a `.md`) cannot see: how many commits the 14 stable promptotyping docs (the 15 of `docs/INDEX.md` without `JOURNAL.md`) received since the last doc health check, how old that check is, whether a feature doc outlived its issue, and how long the JOURNAL has grown. The check is due at 40 commits or 60 days, whichever comes first (chsteiner, 2026-10-20). Commits are counted with `--first-parent`, so a branch merged without squashing counts once, as its merge commit. Without the flag a doc check PR merged without squashing counted each of its commits: #644 would have brought 57 to the 14 docs, against a threshold of 40. The state of the last check is the marker file `scripts/audit/doc-health-state.json` (commit, date, scorecard location); the doc check PR advances it. An open PR whose head branch starts with `claude/doku-check-` turns "due" into "due, PR open".
 
 **What it posts:** one comment in the collector issue #641, only when the state changes. The comment carries `<!-- doc-health: HASH -->`; the hash covers the due status (without the running count), the set of feature-doc findings and the JOURNAL notice. A quiet state after a reported one gets a short all-clear. It changes no file, closes no issue and starts no check.
 
-**Checkout:** `fetch-depth: 0` with `filter: blob:none` and a sparse checkout of `docs`, `scripts` and `.github`. `git log <sha>..HEAD -- <paths>` needs commits and trees, not blobs.
+**Checkout:** `fetch-depth: 0` with `filter: blob:none` and a sparse checkout of `docs`, `scripts` and `.github`. `git log --first-parent <sha>..HEAD -- <paths>` needs commits and trees, not blobs.
 
 **Locally:** `python scripts/audit/check-doc-staleness.py` (report), `--faellig` (only the due status: status line plus count line), `--selftest`. Needs `gh` logged in; a clone that lacks the commit of the state file (shallow, for instance) is exit 2 with the hint "fetch-depth 0?".
 
