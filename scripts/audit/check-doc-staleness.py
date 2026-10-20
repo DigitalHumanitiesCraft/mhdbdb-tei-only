@@ -291,8 +291,8 @@ def messe_faelligkeit(repo):
     pruefe_docs_liste([p.name for p in docs_dir.glob('*.md')])
     pfade = [f'docs/{n}.md' for n in STABILE_DOCS]
     # --first-parent: ein ohne Squash gemergter Zweig zaehlt als ein Commit
-    # (der Merge), nicht mit jedem Einzelcommit. Ohne das Flag zaehlte ein
-    # Doku-Check-PR jeden Befund-Commit einzeln (bei #644: 52, Schwelle 40).
+    # (der Merge), nicht mit jedem Einzelcommit. Ohne das Flag haette ein
+    # ungesquashter #644 57 Commits an den stabilen Docs gebracht (Schwelle 40).
     p = git('log', '--first-parent', '--format=%H', f'{sha}..HEAD', '--', *pfade)
     if p.returncode != 0:
         raise Fehler(f'git log endete mit Exit {p.returncode}: {p.stderr.strip()}')
