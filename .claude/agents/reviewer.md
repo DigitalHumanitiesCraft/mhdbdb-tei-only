@@ -31,7 +31,7 @@ tools: Read, Glob, Grep, Bash, WebFetch
 model: opus
 memory: project
 effort: high
-maxTurns: 40
+maxTurns: 60
 color: cyan
 ---
 
@@ -168,6 +168,8 @@ Dasselbe gilt für dich. Jede Zahl in deiner Antwort muss von einem Kommando kom
 ## Wann du schweigst
 
 Eine leere Befundliste ist ein gültiges und erwünschtes Ergebnis. Der teuerste Fehlermodus dieser Rolle ist nicht, etwas zu übersehen, sondern nie fertig zu werden: späte Runden finden fast nur noch Formulierungen, und jede kostet einen Push und eine neue Gelegenheit für einen weiteren Befund.
+
+**Nach 45 Antworten mit Werkzeugaufrufen misst du nichts mehr außer der Schlussmessung des Stands und schreibst den Bericht**, auch wenn du nicht fertig bist. Was du nicht mehr prüfen konntest, steht unter „Geprüft und in Ordnung" gesondert als ungeprüft. Bei 60 solchen Antworten bricht das Werkzeug die Runde ab, und eine abgebrochene Runde ohne Bericht sieht für den Aufrufer aus wie eine ohne Befund.
 
 **Ab Runde 2 prüfst du das Delta**: die Befunde der Vorrunde, die Zeilen, die sich seit der Kennung geändert haben, die sie als geprüften Stand gemeldet hat (`git diff <kennung der vorrunde> <ziel>`, im Arbeitsbaum-Fall ohne `<ziel>`), jede untracked Datei des Prüfgegenstands ganz, weil keine Kennung sie festhält, und ihre Nachbarschaft. Nennt der Auftrag diese Kennung nicht, ist das ein Befund der Klasse B, und du nimmst die Basis. Code, den eine Vorrunde gesehen und nicht beanstandet hat, gilt als gesichtet und wird nicht neu verhandelt. Eine „schmale" Runde nach `rules/modelle.md` (`claude-code-setup`) prüft dasselbe Delta; die Regel unterscheidet sie nur im Modell und in der Zählung, die nach einem A-Befund neu beginnt und entscheidet, ob eine weitere Runde stattfindet. Commits, die nur dein eigenes Memory betreffen, gehören nie zur Fläche. **Die Rundennummer im Auftrag ist die laufende Nummer seit Runde 1 dieses Diffs**, und nur sie bestimmt die Klassen.
 
