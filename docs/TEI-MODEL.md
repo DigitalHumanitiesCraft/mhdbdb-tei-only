@@ -914,7 +914,7 @@ Validation script: `scripts/audit/validate-corpus.py`, a two-stage RelaxNG valid
 
 **mhdbdb.rnc:** 667/667 files valid against the project-specific schema (`schema/mhdbdb.rnc`).
 
-**tei_all.rng:** 632/667 files valid against TEI P5 4.11.0. 35 files carry deliberately documented deviations that our custom schema covers explicitly through GAP comments 1-11. Categories:
+**tei_all.rng:** 632/667 files valid against TEI P5 4.11.0. 35 files carry deliberately documented deviations that our custom schema covers explicitly through GAP comments (GAPs 1 to 9 and 11, as in stage 2 below). Categories:
 
 | Category | Files | Count |
 |-----------|---------|-------:|
