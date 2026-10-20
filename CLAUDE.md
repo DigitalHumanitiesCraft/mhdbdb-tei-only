@@ -179,19 +179,8 @@ Rebuilt on 2026-08-05, down from 28 labels. **No count is given here**, because 
 
 - **Feature docs** (`docs/features/`): live while the issue is open. On completion, extract the critical knowledge into the stable docs (CONTRACTS.md, ARCHITECTURE.md and so on), then delete. Git history is the archive.
 - **Playbooks** (`docs/playbooks/`): a deliberate exception to the deletion rule, being reusable rather than ticket-bound. After each session: work in the lessons, refill the session-specific appendix, move the core knowledge into the JOURNAL. They authorize NOTHING by themselves and run only after an explicit kickoff by the user. The shared operating contract lives in `docs/playbooks/BETRIEBSVERTRAG.md` and is copied verbatim into the kickoff prompt; `docs/playbooks/README.md` is the entry point.
-- **Health check reports**: run via `/promptotyping check` (skill in `~/.claude/skills/promptotyping/`). Full report → scorecard in JOURNAL.md (3-4 lines, dated). Action items → separate issues. **No .md file in `docs/`**: the report is disposable once the action items are extracted.
-
-### Health check list (MHDBDB-specific)
-
-After larger documentation changes, and quarterly even without them, against creeping drift.
-
-- **Flow check:** read every modified doc end to end. Does it flow logically?
-- **Algorithm spot check:** pick 3 algorithms, compare the pseudocode in the docs against the actual code
-- **XPath spot check:** verify 3 XPaths from the docs against the build scripts
-- **Rebuild test:** ask "could I delete every `.js`/`.py` and reconstruct them from the docs?" If yes for the critical paths (search, build pipeline, reader), we are at 85%+
-- **Meta questions:** are the .md names self-explanatory? Are there too many or too few promptotyping docs (overlap vs. mixed concerns)? Always list structural doc changes with a reason.
-
-**Triggers:** after PRs touching `docs/`, after new build scripts or changed algorithms, after new authority files or TEI elements, quarterly.
+- **Health check reports**: the check list, the procedure and what a check delivers live in **`docs/playbooks/DOKU-CHECK.md`**, the one place for them since 2026-10-20 (until then the list stood here and the procedure came from the personal `/promptotyping check` skill, which a cloud run cannot see). Scorecard → JOURNAL.md, action items → separate issues above the issue threshold, **no .md report in `docs/`**.
+- **When it runs:** a weekly Claude Code routine runs it once it is due (40 commits to the stable docs or 60 days since `scripts/audit/doc-health-state.json`) and opens a PR; the weekly workflow `doc-health.yml` reports due checks, stale feature docs and JOURNAL length in #641 (chsteiner, 2026-10-20). Out of turn on request, after new build scripts, changed algorithms, new authority files or TEI elements.
 
 ## Gotchas
 

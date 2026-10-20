@@ -8,7 +8,7 @@
 
 ## 1. Zweck und Abgrenzung
 
-Wiederkehrende Repo-Pflege statt Feature-Arbeit: toten Code entfernen, verwaiste Scripts und Leftover-Dateien aufräumen, Zähler-/Versions-Drift in Doku und Hilfeseiten beheben, formaler Doku-Health-Check nach der CLAUDE.md-Checkliste. Sinnvoller Rhythmus: quartalsweise oder nach größeren Feature-Wellen (der Haupt-Drift entsteht, wenn Features schneller shippen als Zählwörter nachgezogen werden).
+Wiederkehrende Repo-Pflege statt Feature-Arbeit: toten Code entfernen, verwaiste Scripts und Leftover-Dateien aufräumen, Zähler-/Versions-Drift in Doku und Hilfeseiten beheben, formaler Doku-Health-Check nach [`DOKU-CHECK.md`](DOKU-CHECK.md). Sinnvoller Rhythmus: quartalsweise oder nach größeren Feature-Wellen (der Haupt-Drift entsteht, wenn Features schneller shippen als Zählwörter nachgezogen werden).
 
 NICHT Teil dieses Playbooks: Feature-Arbeit, Ingest (eigene Verfahren in DATA-MODEL.md), Issue-Abarbeitung (`MASTERPLAN-AUTONOME-ISSUE-SESSION.md`), PR-Merges (`MASTERPLAN-AUTONOME-MERGE-SESSION.md`).
 
@@ -48,7 +48,7 @@ Parallel: `gh issue list` für den Bestand nach Betriebsvertrag Regel 17 (geship
 - **WP A Doku-/Hilfe-Staleness** (geringstes Risiko zuerst): Zähler, Versionen, Stand-Zeilen.
 - **WP B Dead Code** (chirurgisch): je Kandidat Gegenprüfung nach §4; `npm test` direkt nach den Code-Edits im Hintergrund starten und parallel weiterarbeiten, aber ohne Branchwechsel (Issue-Playbook §2.1 Regel 6). Die frühere Angabe „~15 min" stammte aus der Ein-Worker-Zeit vor #323 und stand hier nur, um das Nebenherlaufen zu begründen; die Dauer misst der Lauf jetzt selbst und druckt sie.
 - **WP C Scripts-/Repo-Hygiene**: Löschungen, Verschiebungen (Pfad-Logik anpassen + Dry-Run), READMEs, .gitignore.
-- **WP D Health-Check**: `/promptotyping check` als Rahmen; 3 Algorithmen-Spot-Checks (CONTRACTS-Pseudocode vs. Code) und 3 XPath-Spot-Checks (Docs vs. Build-Skripte) als zwei parallele Explore-Agents; Scorecard (3-4 Zeilen, datiert) + Session-Eintrag mit Lehren ins JOURNAL. Kein Report als .md in `docs/`.
+- **WP D Health-Check**: nach [`DOKU-CHECK.md`](DOKU-CHECK.md) (seit 2026-10-20 die einzige Prüfliste); Algorithmen- und XPath-Stichproben dürfen als zwei parallele Explore-Agents laufen. Läuft die wöchentliche Routine und ist gerade ein Doku-Check-PR offen, entfällt WP D.
 - **WP E Issues** für das, was die Issue-Schwelle des Betriebsvertrags (Regel 16) wirklich überschreitet.
 
 **Verifikation:** Gates aus Phase 1 erneut, `npm test` mit grüner VERDICT-Zeile (Issue-Playbook §2.1 Regel 6; sie nennt Testzahl, Dateizahl und geprüften Pfad und gehört so in den PR), `git diff --stat` pro Commit, PR mit Verifikations-Block. Bei neuen Utility-Klassen `npm run build:css` (in reinen Text-/Zahlen-Fixes nicht nötig).
