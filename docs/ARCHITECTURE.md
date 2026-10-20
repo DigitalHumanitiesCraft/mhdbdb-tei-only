@@ -439,6 +439,14 @@ Corpus and authority data were never stored here. The playground reads them thro
 
 **Freshness:** same pattern as the API. The build is deterministic (no date, no commit hash, LF, the only provenance is the SHA-256 of `concepts.xml`), `npm run build:data` runs it last, and the CI step "Freshness Begriffshilfe" in `data-integrity.yml` rebuilds it and fails on any difference under `assets/downloads/`.
 
+## Part-of-speech counts (`data/lemma-pos.json.gz`)
+
+**Generator:** `scripts/build-lemma-pos.py` (#462) – reads `@lemmaRef` and `@pos` of every `<w>` in `tei/`, splits compound tags into their parts and writes, per lemma, how often each tag occurs. `build-authority-index.py` reads the file to order `lemma.posAll` by corpus frequency and derive `lemma.pos`, because the authority build itself does not read `tei/`; it aborts if the file is missing. Order in the lifecycle: this script before the authority index (DATA-MODEL step 5b). **Freshness:** `build-lemma-pos.py --check` in `data-integrity.yml`.
+
+## Help subpages built from frozen states (`hilfe-publikationen.html`, `hilfe-demnaechst.html`)
+
+**Generators:** `scripts/build-publikationen.py` (#417, two collections of the public Zotero group 5043625) and `scripts/build-demnaechst.py` (#537, the open `ingest` issues plus the hand-kept `data/demnaechst-zeitplan.json`). Each writes a frozen state under `data/` and builds the page region from that state only, never live; the monthly workflow `monatslauf-seiten.yml` refreshes the states and opens a PR when they change. An outage of Zotero or GitHub leaves the old state in place. `--offline` rebuilds from the file, `--check` compares page and file and runs in `no-cdn-check.yml`. Same pattern as the text-series bibliography below.
+
 ## Textreihentypologie subsite (`textreihen/`)
 
 **What it is:** the moved website of the MHDBDB text-series typology (#93, formerly `marketext.at/Textreihentypologie`): 11 static pages in the shared site chrome (registered in `build-pages.py`, reached through the footer link and a tile on `hilfe.html`, no menu entry), its own `textreihen.css` with `tr-` classes so that the compiled Tailwind stylesheet stays untouched, and two small scripts: `textreihen.js` (the SKOS browser) and `bibliografie.js` (the bibliography filter).
