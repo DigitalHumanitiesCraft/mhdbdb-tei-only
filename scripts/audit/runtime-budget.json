@@ -141,6 +141,38 @@
       "date": "2026-10-14",
       "basis": "p90 der 11 erfolgreichen Laeufe seit 2026-10-10T13:57:23Z (median 108 s, max 128 s); Nachkalibrierung aus #564",
       "reason": "Zaehlskripte ueber das ganze Korpus"
+    },
+    "doc-health.yml/Checkout": {
+      "budget_s": 60,
+      "n": 0,
+      "date": "2026-10-20",
+      "basis": "nicht gemessen, vorlaeufig: Schaetzung vor dem ersten Lauf (n unter 10, vorlaeufig)",
+      "reason": "ganze History ohne Blobs (fetch-depth 0, filter blob:none) und nur docs, scripts, .github; der sparse-Checkout von no-cdn-check.yml (fetch-depth 2) braucht p90 13 s, die volle History kostet Zeit fuer Commits und Trees, wie viel ist ungemessen; grosszuegig, bis zehn Laeufe vorliegen",
+      "provisional_since": "2026-10-20T00:00:00Z"
+    },
+    "doc-health.yml/Set up Python": {
+      "budget_s": 5,
+      "n": 0,
+      "date": "2026-10-20",
+      "basis": "nicht gemessen, vorlaeufig: gleicher Schritt wie in measured-counts.yml (p90 5 s, n 11), ohne pip-Cache (n unter 10, vorlaeufig)",
+      "reason": "liegt unter der Untergrenze, die Grenze ist daher 10 s",
+      "provisional_since": "2026-10-20T00:00:00Z"
+    },
+    "doc-health.yml/Doku-Health Selbsttest (#641)": {
+      "budget_s": 5,
+      "n": 0,
+      "date": "2026-10-20",
+      "basis": "lokal gemessen am 2026-10-20 unter einer Sekunde, nicht auf dem Runner (n unter 10, vorlaeufig)",
+      "reason": "reine Logik ohne Netz und ohne git; die Grenze ist die Untergrenze 10 s",
+      "provisional_since": "2026-10-20T00:00:00Z"
+    },
+    "doc-health.yml/Doku-Health Bericht (#641)": {
+      "budget_s": 20,
+      "n": 0,
+      "date": "2026-10-20",
+      "basis": "nicht gemessen, vorlaeufig: Schaetzung vor dem ersten Lauf (n unter 10, vorlaeufig)",
+      "reason": "ein git log ueber 14 Pfade, drei bis fuenf gh-api-Aufrufe (PRs, Issues der Feature-Docs, Kommentare des Sammeltickets); lokal gemessen am 2026-10-20 mit gh auf diesem Rechner, nicht auf dem Runner",
+      "provisional_since": "2026-10-20T00:00:00Z"
     }
   }
 }

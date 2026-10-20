@@ -1,0 +1,90 @@
+# Doku-Health: Faelligkeit des Doku-Checks und liegen gebliebene Doku-Artefakte (#641).
+#
+# Eigener, woechentlicher Workflow und kein Schritt in no-cdn-check.yml. Die
+# Doku-Gates dort (Inventare, dokumentierte Zahlen, Em-Dashes) laufen bei
+# jedem Push nach main, der eine .md beruehrt, und
+# pruefen den Zustand EINER Aenderung. Was sie nicht sehen, ist das, was
+# zwischen den Aenderungen vergeht: wie viele Commits die stabilen Docs seit
+# dem letzten Health-Check bekommen haben, wie alt dieser Check ist, ob ein
+# Feature-Doc zu einem laengst geschlossenen Issue liegen geblieben ist und
+# wie lang das JOURNAL geworden ist. Das aendert sich ohne jeden Anlass, also
+# braucht es einen Zeitgeber und keinen Push-Trigger.
+#
+# Was er tut: check-doc-staleness.py misst (Markerdatei
+# scripts/audit/doc-health-state.json, git log, gh api) und kommentiert im
+# Sammelticket #641, aber nur bei Zustandswechsel (Marker mit Hash im
+# Kommentar). Er aendert keine Datei und startet keinen Check.
+#
+# Auf dem Pull Request laufen nur der Selbsttest und der Bericht ohne --apply:
+# nichts wird gepostet. Ein PR aus einem Fork hat weniger Rechte, dort kann der
+# Bericht an der API scheitern, das ist hier kein Gate.
+#
+# Der Checkout holt die ganze History ohne Blobs (fetch-depth 0, filter
+# blob:none) und nur docs, scripts und .github. `git log <sha>..HEAD -- <Pfade>`
+# braucht Commits und Trees, keine Blobs.
+
+name: doc-health
+
+on:
+  schedule:
+    - cron: '41 4 * * 1'
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'scripts/audit/check-doc-staleness.py'
+      - 'scripts/audit/doc-health-state.json'
+      - '.github/workflows/doc-health.yml'
+
+concurrency:
+  group: doc-health-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  doc-health:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      issues: write
+      pull-requests: read
+      actions: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          filter: blob:none
+          sparse-checkout: |
+            docs
+            scripts
+            .github
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+
+      - name: Doku-Health Selbsttest (#641)
+        run: python3 scripts/audit/check-doc-staleness.py --selftest
+
+      # Auf schedule und workflow_dispatch wird gepostet, auf dem PR nur gezeigt.
+      - name: Doku-Health Bericht (#641)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            python3 scripts/audit/check-doc-staleness.py --kommentar --issue 641
+          else
+            python3 scripts/audit/check-doc-staleness.py --kommentar --issue 641 --apply
+          fi
+
+      # Laufzeitbudget (#564), siehe no-cdn-check.yml.
+      - name: Laufzeitbudget (#564)
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >
+          python3 scripts/audit/check-runtime-budget.py --check
+          --workflow doc-health.yml --job doc-health
+          --job-status "${{ job.status }}"
+          --run-url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
