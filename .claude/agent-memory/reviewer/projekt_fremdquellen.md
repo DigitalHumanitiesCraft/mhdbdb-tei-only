@@ -1,6 +1,6 @@
 ---
 name: projekt-fremdquellen
-description: Fremdquellen und Fremdindizes im Review: Naming-Index (#420), Pferde-Index (#193), Glossar Kochbuchforschung (#554: PII, Einordnung, Entfallen-Suche, Kommentarnotizen), Textreihen-Unterseite (#93), Zotero-/Issue-Monatslauf (#417, #537: DOI-Freitext, urllib-Ausfallproben, Label als Entscheidungsersatz)
+description: Fremdquellen und Fremdindizes im Review: Naming-Index (#420), Pferde-Index (#193), Glossar Kochbuchforschung (#554: PII, Einordnung, Entfallen-Suche, Kommentarnotizen), Textreihen-Unterseite (#93), Zotero-/Issue-Monatslauf (#417, #537: DOI-Freitext, urllib-Ausfallproben, Label als Entscheidungsersatz), Handschriftencensus-Datierung (#118: Cache-Struktur, zu frühes notAfter, Werk-Mehrfachzuordnung)
 metadata:
   type: project
 ---
@@ -29,6 +29,12 @@ Bei jedem weiteren Fremdexport nach `sources/` die ersten Punkte vorab abarbeite
 - **„nicht beschlossen" am ganzen Thread messen, nicht am letzten Kommentar:** #139 (CoReMA) trug am 18.10. den Grund „Aufnahme nicht abgestimmt", der Body zitiert aber KZW 29.05. („danach können wir gerne mit dem CoReMA-Korpus starten") und ihr Kommentar 09.07. die Phase-1-Auswahl; offen war nur das nachrückende Kochbuch.
 - **Das `--check` im Monatslauf ist tautologisch:** `monatslauf-seiten.yml` baut die Seiten erst (ohne `--offline`) und prüft danach; eine Handänderung im Markenbereich wird überschrieben, das `--check` bleibt grün (Probe 18.10. an Kopie in scratchpad: vor Bau Exit 1, nach `--offline`-Bau Exit 0, Änderung weg). Ein Satz „lief im Monatslauf, fiel dort auf" ist daher falsch. Seit cf25b8d (18.10.) läuft es auch in `no-cdn-check.yml`; Monatslauf-PRs aus dem GITHUB_TOKEN lösen diesen Workflow nicht aus. Mutationsprobe im Markenbereich setzen (`<!-- PUBLIKATIONEN:START -->`), das erste `<li` der Seite steht in der Navigation; bei Demnächst ein Issue ohne `wait:extern` freigeben (#92 trägt es).
 - **Label als Stellvertreter einer Entscheidung gegen den Thread prüfen:** #537 setzte „offene Rechtefrage = `wait:extern`", aber #262 wurde am 06.10. auf `wait:kzw` umgelabelt, obwohl die Nachnutzungsfrage an Trier offen blieb.
+
+## Handschriftencensus-Datierung (#118, `scripts/ingest/datierung-118/`, 21.10.2026)
+- **Nie selbst abrufen** (robots.txt sperrt KI-Agenten); offline gegen `temp/hsc-cache` im Hauptbaum lesen. Werkseite: alle Handschrift-Links `href="/N"` stehen in einer `<ol class="signaturen">` unter `h3#hss`, ohne Paginierung (17 Seiten gemessen). Handschrift-JSON: `gnd` ist Liste, `standorte` Dict, Feldtexte tragen HTML-Entities (`&amp;`).
+- **taq-Prüfung: die gefährliche Richtung ist ein zu frühes notAfter.** Verworfene Klammerzusätze mit eigener Datierung („Anfang 14. Jh. (um 1325)") erzeugen genau das; Proben mit konstruierten Freitexten über `normalisiere()` per `sys.path`-Import.
+- **Eine Wortliste „Datierung in der Klammer" gegen das Vokabular von `REGELN` halten** (Runde 2): der Fix nannte jh/Viertel/Hälfte/um/vor/nach, aber nicht anfang/mitte/ende/oder; „Ende 13. Jh. (oder Anfang 14.)" lief auf bis 1299 statt 1320. Untergrenzen-Prüfungen mit `float("nan")` proben (`nan < 1.0` ist False).
+- **10 HSC-Werke tragen mehrere works.xml-Werke** (Fassungen wie AXS/AXV/BAX, KC1/KC2/KCR, dazu work_133/work_126 auf 5720): der Werk-taq geht dann an jede Sigle.
 
 ## Textreihen-Unterseite (#93, `textreihen/`)
 - **Treue gegen die alte Site messen, nicht lesen** (WebFetch liefert Zusammenfassungen): `curl -s -L -A "Mozilla/5.0" "https://www.marketext.at/Textreihentypologie/?page_id=N"`, Textvergleich per Skript (Tags weg, Anführungszeichen und nbsp normalisieren, Fragmente ab 25 Zeichen als Substring). Erwartete Lücken: WP-Kommentarformulare, „Links noch nicht anklicken", `#DOI (wird nachgeliefert)`, `dokument.html#MHDBDB`.
