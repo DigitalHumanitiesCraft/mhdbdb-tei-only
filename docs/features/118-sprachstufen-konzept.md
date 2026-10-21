@@ -107,8 +107,22 @@ Werk und Handschrift werden getrennt erfasst:
    `Datum bis` und `Datum Abweichung` mit Zitaten aus VL und GND, befüllt in
    22 von 665 Zeilen (21.10.2026). Keine Raumspalte (`ORIGIN` ist
    Stoffgeschichte).
-6. **Verfasserlexikon (²VL):** Hauptquelle für die Werkdatierung, De
-   Gruyter. Ob und wie es genutzt werden darf, ist offen.
+6. **Verfasserlexikon (²VL):** Hauptquelle für die Werkdatierung. Es ist
+   Teil der Verfasser-Datenbank (VDB) von De Gruyter Brill, dort als
+   Publikation „Die deutsche Literatur des Mittelalters", neben dem Killy
+   (Probe 21.10.2026 über den Zugang der Universität Graz). Die Fundstelle
+   je Werk liefert der Handschriftencensus in `vlverweis`, wo er eine führt.
+   Übernommen werden nur Datierungs- und Raumangaben als Tatsachen mit
+   Fundstelle, kein Artikeltext. Maschinelle Auswertung nach § 42h UrhG
+   (Abs. 1: wer rechtmäßig Zugang hat, darf für eine Forschungseinrichtung
+   automatisiert auswerten, Abs. 5: vertraglich nicht abdingbar,
+   Schutzmaßnahmen nur soweit für Sicherheit und Integrität nötig). Die
+   Probe stieß nach vier Seitenaufrufen auf eine Verifizierungsseite, die
+   nicht umgangen wird. Anfrage an De Gruyter und an den Handschriftencensus
+   über KZW (21.10.2026). Bis zur Antwort nur Erhebung von Hand. Die
+   Rechtsangaben sind am Gesetzestext gelesen, nicht juristisch geprüft.
+   Die 312 Header ohne HSC-ID sind die zweite Welle, über die Suche in der
+   VDB.
 7. **Korpus-Empirie als Plausibilitätscheck:** FNHD-Indikatorformen
    (Diphthongierung: ei/au/eu-Schreibungen für mhd. î/û/iu) pro Text zählen;
    rein diagnostisch, keine automatische Zuweisung.
