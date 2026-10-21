@@ -21,7 +21,9 @@ legacy_bis = groesstes Datum bis; widerspruch = ja, wenn legacy_von > taq_notAft
 Normalisierung: Regeltabelle REGELN unten. Was keine Regel vollstaendig trifft,
 bekommt kein notBefore/notAfter (nie raten). Ein Klammerzusatz am Ende wird
 abgetrennt, ausser er traegt selbst eine Datierung (Jahr 700-1700, Jh, Viertel,
-Haelfte, um/vor/nach): dann ist der ganze Text unnormalisiert.
+Haelfte, Anfang/Mitte/Ende, um/vor/nach, oder, frueher/spaeter, Ordinalzahl mit
+Punkt): dann ist der ganze Text unnormalisiert. Die Wortliste haelt der Test
+gegen die Namen in REGELN.
 
 Aufruf:
   python scripts/ingest/datierung-118/normalisieren.py [--cache-dir temp/hsc-cache]
@@ -73,8 +75,9 @@ RE_KLAMMER_ENDE = re.compile(r"\s*\([^()]*\)\s*$")
 # Klammerzusatz mit eigener Datierungsangabe (Jahr 700-1700 oder Datierungswort)
 RE_DATIERUNG_IN_KLAMMER = re.compile(
     r"\b(?:[7-9]\d\d|1[0-6]\d\d|1700)\b|jh|jahrhundert|viertel|h(?:ä|ae)lfte"
-    r"|\bum\b|\bvor\b|\bnach\b")
-RE_JH_WORT =re.compile(r"\b(?:jh\.?|jhd\.?|jahrhunderts?)")
+    r"|\b(?:um|vor|nach|anfang|mitte|ende|oder)\b|\bfr(?:ü|ue)her\b|\bsp(?:ä|ae)ter\b"
+    r"|\b\d{1,2}\.(?!\d)")
+RE_JH_WORT = re.compile(r"\b(?:jh\.?|jhd\.?|jahrhunderts?)")
 RE_TRENNER = re.compile(r"\s*/\s*|\s+oder\s+")
 
 

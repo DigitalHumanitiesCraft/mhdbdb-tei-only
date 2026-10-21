@@ -17,8 +17,10 @@ erreicht wurde. Fehlt es, bricht das Skript nicht ab, sondern fuehrt das Paar
 (werk_id, hs_id) in gegenprobe_fehlt und zaehlt es (Sammelhandschriften).
 
 Schreibt nichts ausser in den Cache. Unbekannte Struktur (Schluessel
-entstehungszeit, schreibsprache, gnd fehlt), 0 Handschrift-Links oder ein
-Cache-Fehltreffer im --offline-Lauf sind harte Fehler.
+entstehungszeit, schreibsprache, gnd fehlt; werke_N.json ohne id), 0 Handschrift-Links,
+gnd keine Liste (auch null), werke_N.json mit id != N (Weiterleitung), ein --abstand
+unter 1.0 oder nicht endlich (nan, inf) und ein Cache-Fehltreffer im --offline-Lauf sind
+harte Fehler.
 
 Aufruf:
   python scripts/ingest/datierung-118/hsc_abruf.py --nur-zaehlen
@@ -28,6 +30,7 @@ Aufruf:
 import argparse
 import collections
 import json
+import math
 import re
 import sys
 import time
@@ -132,8 +135,9 @@ class Cache:
     """Datei-Cache mit hoeflichem Abruf; jede Datei wird hoechstens einmal geladen."""
 
     def __init__(self, verzeichnis, offline, abstand=MIN_ABSTAND):
-        if abstand < MIN_ABSTAND:
-            raise HarterFehler(f"--abstand {abstand} unter der Untergrenze {MIN_ABSTAND}")
+        if not (math.isfinite(abstand) and abstand >= MIN_ABSTAND):
+            raise HarterFehler(f"--abstand {abstand} ist nicht endlich oder unter der "
+                               f"Untergrenze {MIN_ABSTAND}")
         self.abstand = abstand
         self.verz = Path(verzeichnis)
         self.offline = offline
@@ -221,7 +225,7 @@ def hs_stufe3(cache, hs_id):
 
 
 def gnd_werk_ids(hs):
-    """Menge der werk_id aus gnd[] (leer bei null/Liste ohne Eintraege)."""
+    """Menge der werk_id aus gnd[]. gnd ist Pflicht-Liste: hs_stufe3 hat vorher geprueft."""
     return {int(g["werk_id"]) for g in hs["gnd"] if isinstance(g, dict) and g.get("werk_id") is not None}
 
 
@@ -267,7 +271,7 @@ def main(argv=None):
     ap.add_argument("--cache-dir", default=str(REPO / "temp" / "hsc-cache"))
     ap.add_argument("--offline", action="store_true", help="kein Netz, Cache-Fehltreffer = Abbruch")
     ap.add_argument("--abstand", type=float, default=5.0,
-                    help="Sekunden zwischen Anfragen (Vorgabe 5.0, Untergrenze 1.0); "
+                    help="Sekunden zwischen Anfragen (Vorgabe 5.0, endlich und mindestens 1.0); "
                          "die Wartezeit der Wiederholungen waechst von hier aus")
     ap.add_argument("--limit", type=int, help="nur die ersten K Werke (numerisch nach HSC-ID)")
     ap.add_argument("--werk", type=int, help="nur dieses HSC-Werk")

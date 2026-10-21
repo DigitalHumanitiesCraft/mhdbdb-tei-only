@@ -53,6 +53,7 @@ FAELLE = [
     ("14. Jahrhundert", 1300, 1399, "jh", False),
     # Klammer ohne eigene Datierung (Jahr 2007 liegt ausserhalb 700-1700) bleibt abtrennbar
     ("13. Jh. (Hinweis vom 30.11.2007)", 1200, 1299, "jh", False),
+    ("13. Jh. (Bonath/Lomnitzer S. 112)", 1200, 1299, "jh", False),
     ("13. Jh. (lt. Schneider, Bl. 12 am Rand)", 1200, 1299, "jh", False),
 ]
 
@@ -81,6 +82,11 @@ UNNORMALISIERT = [
     "13. Jh. (vor 1250)",
     "13. Jh. (nach 1250)",
     "13. Jh. (1250)",
+    "Ende 13. Jh. (oder Anfang 14.)",
+    "13. Jh. (Mitte 14.)",
+    "13. Jh. (wohl später)",
+    "13. Jh. (wohl früher)",
+    "13. Jh. (oder 14.)",
 ]
 
 LEER = [None, "", "   "]
@@ -112,6 +118,19 @@ def test_negativ():
     for text in LEER:
         pruefe(nm.normalisiere(text)["zustand"] == "leer", f"{text!r} ist leer")
     pruefe(nm.normalisiere("kurz vor 1300 (?)")["unsicher"], "? in Klammer setzt unsicher auch bei unnormalisiert")
+
+
+def test_klammerwortliste_gegen_regeln():
+    """Jedes Wort aus den Regelnamen und dem Trenner muss eine Klammer als datierend erkennen."""
+    woerter = set()
+    for name, _, _, _ in nm.REGELN:
+        woerter.update(t for t in name.split("_") if t not in ("jahr", "bereich"))
+    woerter.update(["oder"])
+    pruefe({"anfang", "mitte", "ende", "viertel", "haelfte", "jh", "um", "oder"} <= woerter,
+           f"Regelnamen liefern andere Woerter als erwartet: {sorted(woerter)}")
+    for w in sorted(woerter):
+        pruefe(nm.RE_DATIERUNG_IN_KLAMMER.search(w) is not None,
+               f"Klammer-Regex kennt das Regelwort {w!r} nicht")
 
 
 def test_hilfen():
@@ -219,6 +238,9 @@ def test_cli(tmp):
     kopiere_testdaten(cache)
     r = lauf(ABRUF, "--werk", "437", "--offline", "--abstand", "0.5", "--cache-dir", str(cache))
     pruefe(r.returncode != 0 and "Untergrenze" in r.stderr, r.stderr)
+    for schlecht in ("nan", "inf"):
+        r = lauf(ABRUF, "--werk", "437", "--offline", "--abstand", schlecht, "--cache-dir", str(cache))
+        pruefe(r.returncode != 0 and "nicht endlich" in r.stderr, f"--abstand {schlecht}: {r.stderr}")
 
     # Gegenprobe: 1051 verweist auf ein anderes Werk -> zaehlt, bricht nicht ab
     kopiere_testdaten(cache)
@@ -236,6 +258,7 @@ def test_cli(tmp):
 def main():
     test_regeltabelle()
     test_negativ()
+    test_klammerwortliste_gegen_regeln()
     test_hilfen()
     tmp = Path(tempfile.mkdtemp(prefix="datierung118-"))
     try:
