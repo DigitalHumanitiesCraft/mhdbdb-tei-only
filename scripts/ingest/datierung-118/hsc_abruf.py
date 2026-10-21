@@ -23,7 +23,7 @@ Cache-Fehltreffer im --offline-Lauf sind harte Fehler.
 Aufruf:
   python scripts/ingest/datierung-118/hsc_abruf.py --nur-zaehlen
   python scripts/ingest/datierung-118/hsc_abruf.py [--cache-dir temp/hsc-cache]
-      [--offline] [--limit K] [--werk N]
+      [--offline] [--abstand 5.0] [--limit K] [--werk N]
 """
 import argparse
 import collections
@@ -131,7 +131,10 @@ def werkliste(repo=REPO):
 class Cache:
     """Datei-Cache mit hoeflichem Abruf; jede Datei wird hoechstens einmal geladen."""
 
-    def __init__(self, verzeichnis, offline):
+    def __init__(self, verzeichnis, offline, abstand=MIN_ABSTAND):
+        if abstand < MIN_ABSTAND:
+            raise HarterFehler(f"--abstand {abstand} unter der Untergrenze {MIN_ABSTAND}")
+        self.abstand = abstand
         self.verz = Path(verzeichnis)
         self.offline = offline
         self.letzte = 0.0
@@ -156,7 +159,7 @@ class Cache:
     def _netz(self, url):
         letzter = None
         for versuch in range(VERSUCHE):
-            warte = self.letzte + MIN_ABSTAND * (2 ** versuch) - time.monotonic()
+            warte = self.letzte + self.abstand * (2 ** versuch) - time.monotonic()
             if warte > 0:
                 time.sleep(warte)
             self.letzte = time.monotonic()
@@ -201,20 +204,25 @@ def werk_stufe12(cache, werk_id):
         raise HarterFehler(f"Werk {werk_id}: kein Handschrift-Link in {cache.pfad(name)}")
     name_j = f"werke_{werk_id}.json"
     wj = lade_json(cache.hole(name_j, f"{BASIS}/werke/{werk_id}.json"),
-                   cache.pfad(name_j), ["titel", "vlverweis"])
+                   cache.pfad(name_j), ["id", "titel", "vlverweis"])
+    if wj["id"] != werk_id:
+        raise HarterFehler(f"Werk {werk_id}: JSON traegt id {wj['id']!r} (Weiterleitung?): "
+                           f"{cache.pfad(name_j)}")
     return [int(i) for i in ids], wj
 
 
 def hs_stufe3(cache, hs_id):
     name = f"{hs_id}.json"
-    return lade_json(cache.hole(name, f"{BASIS}/{hs_id}.json"), cache.pfad(name),
-                     ["entstehungszeit", "schreibsprache", "gnd"])
+    hs = lade_json(cache.hole(name, f"{BASIS}/{hs_id}.json"), cache.pfad(name),
+                   ["entstehungszeit", "schreibsprache", "gnd"])
+    if not isinstance(hs["gnd"], list):
+        raise HarterFehler(f"gnd ist keine Liste: {cache.pfad(name)}")
+    return hs
 
 
 def gnd_werk_ids(hs):
     """Menge der werk_id aus gnd[] (leer bei null/Liste ohne Eintraege)."""
-    gnd = hs["gnd"] or []
-    return {int(g["werk_id"]) for g in gnd if isinstance(g, dict) and g.get("werk_id") is not None}
+    return {int(g["werk_id"]) for g in hs["gnd"] if isinstance(g, dict) and g.get("werk_id") is not None}
 
 
 def lauf(werke, cache):
@@ -258,6 +266,9 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description="Handschriftencensus-Abruf (#118)")
     ap.add_argument("--cache-dir", default=str(REPO / "temp" / "hsc-cache"))
     ap.add_argument("--offline", action="store_true", help="kein Netz, Cache-Fehltreffer = Abbruch")
+    ap.add_argument("--abstand", type=float, default=5.0,
+                    help="Sekunden zwischen Anfragen (Vorgabe 5.0, Untergrenze 1.0); "
+                         "die Wartezeit der Wiederholungen waechst von hier aus")
     ap.add_argument("--limit", type=int, help="nur die ersten K Werke (numerisch nach HSC-ID)")
     ap.add_argument("--werk", type=int, help="nur dieses HSC-Werk")
     ap.add_argument("--nur-zaehlen", action="store_true", help="nur die Werkliste zaehlen")
@@ -270,7 +281,7 @@ def main(argv=None):
                   f"von {len(texte)} Texten, {len(texte) - mit} ohne)")
             return 0
         auswahl = waehle_werke(werke, a.limit, a.werk)
-        cache = Cache(a.cache_dir, a.offline)
+        cache = Cache(a.cache_dir, a.offline, a.abstand)
         erg = lauf(auswahl, cache)
     except HarterFehler as e:
         print(f"FEHLER: {e}", file=sys.stderr)

@@ -19,7 +19,9 @@ Legacy-Spalten eines Werks mit mehreren Siglen: legacy_von = kleinstes Datum von
 legacy_bis = groesstes Datum bis; widerspruch = ja, wenn legacy_von > taq_notAfter.
 
 Normalisierung: Regeltabelle REGELN unten. Was keine Regel vollstaendig trifft,
-bekommt kein notBefore/notAfter (nie raten).
+bekommt kein notBefore/notAfter (nie raten). Ein Klammerzusatz am Ende wird
+abgetrennt, ausser er traegt selbst eine Datierung (Jahr 700-1700, Jh, Viertel,
+Haelfte, um/vor/nach): dann ist der ganze Text unnormalisiert.
 
 Aufruf:
   python scripts/ingest/datierung-118/normalisieren.py [--cache-dir temp/hsc-cache]
@@ -68,7 +70,11 @@ REGELN = [
 REGELN_KOMPILIERT = [(n, re.compile(m + r"$"), art, einheit) for n, m, art, einheit in REGELN]
 
 RE_KLAMMER_ENDE = re.compile(r"\s*\([^()]*\)\s*$")
-RE_JH_WORT = re.compile(r"\b(?:jh\.?|jhd\.?|jahrhunderts?)")
+# Klammerzusatz mit eigener Datierungsangabe (Jahr 700-1700 oder Datierungswort)
+RE_DATIERUNG_IN_KLAMMER = re.compile(
+    r"\b(?:[7-9]\d\d|1[0-6]\d\d|1700)\b|jh|jahrhundert|viertel|h(?:ä|ae)lfte"
+    r"|\bum\b|\bvor\b|\bnach\b")
+RE_JH_WORT =re.compile(r"\b(?:jh\.?|jhd\.?|jahrhunderts?)")
 RE_TRENNER = re.compile(r"\s*/\s*|\s+oder\s+")
 
 
@@ -119,10 +125,12 @@ def normalisiere(text):
     ergebnis["unsicher"] = "?" in roh
     s = roh
     while True:
-        neu = RE_KLAMMER_ENDE.sub("", s)
-        if neu == s:
+        m = RE_KLAMMER_ENDE.search(s)
+        if not m:
             break
-        s = neu
+        if RE_DATIERUNG_IN_KLAMMER.search(m.group(0).lower()):
+            return ergebnis  # die Klammer traegt selbst eine Datierung: nicht raten
+        s = s[:m.start()]
     s = s.replace("?", "").lower()
     hat_jh = bool(RE_JH_WORT.search(s))
     s = RE_JH_WORT.sub("", s)
@@ -198,6 +206,11 @@ def bereinige_vl(text):
     return re.sub(r"\s+", " ", html.unescape(text)).strip()
 
 
+def txt(x):
+    """Textfeld aus dem HSC-JSON: None -> "", HTML-Entities aufloesen."""
+    return html.unescape(x) if x else ""
+
+
 def signaturen(hs):
     st = hs.get("standorte") or {}
     eintraege = st.values() if isinstance(st, dict) else st
@@ -205,7 +218,8 @@ def signaturen(hs):
     for e in eintraege:
         if not isinstance(e, dict):
             continue
-        felder = [str(e.get(k)).strip() for k in ("ort", "bibliothek", "signatur") if e.get(k)]
+        felder = [html.unescape(str(e.get(k))).strip() for k in ("ort", "bibliothek", "signatur")
+                  if e.get(k)]
         if felder:
             teile.append(", ".join(felder))
     return " | ".join(teile)
@@ -243,7 +257,7 @@ def baue(werke, texte, erg, legacy):
     """Berechnet alle Tabellen; -> dict mit handschriften, werke, siglen, unnorm, zaehler."""
     norm = {}  # hs_id -> normalisiere()-Ergebnis
     for hid, hs in erg["hs_json"].items():
-        norm[hid] = normalisiere(hs["entstehungszeit"])
+        norm[hid] = normalisiere(txt(hs["entstehungszeit"]))
     fehlt = set(erg["gegenprobe_fehlt"])
 
     hs_zeilen = []
@@ -252,7 +266,7 @@ def baue(werke, texte, erg, legacy):
             hs, n = erg["hs_json"][hid], norm[hid]
             hs_zeilen.append([
                 wid, hid, f"https://handschriftencensus.de/{hid}", signaturen(hs),
-                hs["entstehungszeit"] or "", hs["schreibsprache"] or "",
+                txt(hs["entstehungszeit"]), txt(hs["schreibsprache"]),
                 leer_wenn_none(n["von"]), leer_wenn_none(n["bis"]), n["regel"],
                 "ja" if n["unsicher"] else "",
                 "fehlt" if (wid, hid) in fehlt else "ok"])
@@ -283,12 +297,11 @@ def baue(werke, texte, erg, legacy):
         werk_zeilen.append([
             wid, f"https://handschriftencensus.de/werke/{wid}",
             " | ".join(info["work_xml_ids"]), " | ".join(info["siglen"]),
-            erg["werk_json"][wid]["titel"] or "", len(hids), zustaende["normalisiert"],
+            txt(erg["werk_json"][wid]["titel"]), len(hids), zustaende["normalisiert"],
             n_unnorm, n_leer, leer_wenn_none(taq), leer_wenn_none(taq_hs),
-            erg["hs_json"][taq_hs]["entstehungszeit"] if taq_hs else "",
+            txt(erg["hs_json"][taq_hs]["entstehungszeit"]) if taq_hs else "",
             n_unnorm + n_leer, bereinige_vl(erg["werk_json"][wid]["vlverweis"]),
             leer_wenn_none(lv), leer_wenn_none(lb), sammle("Datum Abweichung"),
-            sammle("Datum Zitat VL"),
             "ja" if (lv is not None and taq is not None and lv > taq) else ""])
 
     sig_zeilen = []
@@ -302,7 +315,7 @@ def baue(werke, texte, erg, legacy):
                            leer_wenn_none(lv), leer_wenn_none(lb)])
 
     unnorm = collections.Counter(
-        erg["hs_json"][h]["entstehungszeit"] for h, n in norm.items()
+        txt(erg["hs_json"][h]["entstehungszeit"]) for h, n in norm.items()
         if n["zustand"] == "unnormalisiert")
     z = collections.Counter(n["zustand"] for n in norm.values())
     return {"handschriften": hs_zeilen, "werke": werk_zeilen, "siglen": sig_zeilen,
@@ -314,7 +327,7 @@ KOPF_HS = ["werk_id", "hs_id", "hs_url", "signaturen", "entstehungszeit", "schre
 KOPF_WERKE = ["werk_id", "hsc_url", "work_xml_ids", "siglen", "titel", "n_hss", "n_datiert",
               "n_unnormalisiert", "n_leer", "taq_notAfter", "taq_hs_id", "taq_entstehungszeit",
               "taq_unsicher", "vlverweis", "legacy_von", "legacy_bis", "legacy_abweichung",
-              "legacy_zitat_vl", "widerspruch"]
+              "widerspruch"]
 KOPF_SIGLEN = ["sigle", "work_xml_id", "werk_id", "taq_notAfter", "n_hss", "legacy_von",
                "legacy_bis"]
 

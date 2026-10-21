@@ -51,6 +51,9 @@ FAELLE = [
     ("1280 / 1300", 1280, 1300, "vereinigung:jahr+jahr", False),
     ("ENDE 13. JH.", 1280, 1299, "ende_jh", False),
     ("14. Jahrhundert", 1300, 1399, "jh", False),
+    # Klammer ohne eigene Datierung (Jahr 2007 liegt ausserhalb 700-1700) bleibt abtrennbar
+    ("13. Jh. (Hinweis vom 30.11.2007)", 1200, 1299, "jh", False),
+    ("13. Jh. (lt. Schneider, Bl. 12 am Rand)", 1200, 1299, "jh", False),
 ]
 
 # Freitext, der keine Regel vollstaendig trifft: nie raten
@@ -69,6 +72,15 @@ UNNORMALISIERT = [
     "Mitte 14. Jh., vermutlich",
     "13. Jh. / ",               # leerer Teil der Vereinigung
     "kurz vor 1300 (?)",
+    # Klammer traegt eine eigene Datierung: nicht abtrennen, nicht raten
+    "Anfang 14. Jh. (um 1325)",
+    "1453 (?) (Wasserzeichen 1460)",
+    "13. Jh. (2. Hälfte)",
+    "13. Jh. (1. Viertel)",
+    "13. Jh. (14. Jh.)",
+    "13. Jh. (vor 1250)",
+    "13. Jh. (nach 1250)",
+    "13. Jh. (1250)",
 ]
 
 LEER = [None, "", "   "]
@@ -157,10 +169,14 @@ def test_cli(tmp):
     pruefe((hss["1037"]["notBefore"], hss["1037"]["notAfter"]) == ("1225", "1260"), str(hss["1037"]))
     pruefe((hss["1051"]["notBefore"], hss["1051"]["notAfter"]) == ("1320", "1324"), str(hss["1051"]))
     pruefe(hss["1051"]["entstehungszeit"].startswith("Ende 1. Viertel 14. Jh. (Karin"), "woertlich")
+    pruefe(hss["1051"]["signaturen"] == "Schloss Anholt, Fürstl. Salm-Salm'sches Archiv, Membra disiecta Nr. 3"
+           " | Köln, Auktionshaus Venator & Hanstein, ohne Sign.", hss["1051"]["signaturen"])
     pruefe(hss["1037"]["gegenprobe"] == "ok" and hss["1037"]["hs_url"] == "https://handschriftencensus.de/1037", "hs")
     pruefe(hss["1037"]["signaturen"] == "Amberg, Provinzialbibl., 8 Ms. 1 | Berlin, Staatsbibl., mgf 734 Nr. 8", hss["1037"]["signaturen"])
     siglen = lies_csv(out / "siglen.csv")
-    pruefe(len(siglen) == 667, f"siglen.csv: {len(siglen)} Zeilen")
+    n_tei = len(list((HIER.parents[2] / "tei").glob("*.tei.xml")))
+    pruefe(len(siglen) == n_tei, f"siglen.csv: {len(siglen)} Zeilen, {n_tei} TEI-Dateien")
+    pruefe("legacy_zitat_vl" not in lies_csv(out / "werke.csv")[0], "legacy_zitat_vl entfernt")
     pz = [s for s in siglen if s["werk_id"] == "437"]
     pruefe(pz and all(s["taq_notAfter"] == "1260" and s["n_hss"] == "2" for s in pz), str(pz))
     pruefe((out / "unnormalisiert.txt").read_text(encoding="utf-8") == "", "unnormalisiert.txt leer")
@@ -186,6 +202,23 @@ def test_cli(tmp):
     (cache / "1037.json").write_text(json.dumps(d), encoding="utf-8")
     r = lauf(ABRUF, "--werk", "437", "--offline", "--cache-dir", str(cache))
     pruefe(r.returncode != 0 and "schreibsprache" in r.stderr and "1037.json" in r.stderr, r.stderr)
+
+    # gnd keine Liste, Werk-JSON mit fremder id, --abstand unter der Untergrenze
+    kopiere_testdaten(cache)
+    d = json.loads((cache / "1037.json").read_text(encoding="utf-8"))
+    d["gnd"] = None
+    (cache / "1037.json").write_text(json.dumps(d), encoding="utf-8")
+    r = lauf(ABRUF, "--werk", "437", "--offline", "--cache-dir", str(cache))
+    pruefe(r.returncode != 0 and "gnd ist keine Liste" in r.stderr, r.stderr)
+    kopiere_testdaten(cache)
+    d = json.loads((cache / "werke_437.json").read_text(encoding="utf-8"))
+    d["id"] = 438
+    (cache / "werke_437.json").write_text(json.dumps(d), encoding="utf-8")
+    r = lauf(ABRUF, "--werk", "437", "--offline", "--cache-dir", str(cache))
+    pruefe(r.returncode != 0 and "Weiterleitung" in r.stderr, r.stderr)
+    kopiere_testdaten(cache)
+    r = lauf(ABRUF, "--werk", "437", "--offline", "--abstand", "0.5", "--cache-dir", str(cache))
+    pruefe(r.returncode != 0 and "Untergrenze" in r.stderr, r.stderr)
 
     # Gegenprobe: 1051 verweist auf ein anderes Werk -> zaehlt, bricht nicht ab
     kopiere_testdaten(cache)
