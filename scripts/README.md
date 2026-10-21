@@ -38,6 +38,7 @@ scripts/
 │
 ├── ingest/                      # Korpus-Ingest je Vorhaben
 │   ├── ari/                     # ARITHMETIC, 6 Rechenbuch-Handschriften (#92)
+│   ├── datierung-118/           # Handschriftencensus-Abruf und Normalisierung der Handschriftendatierungen zu Werk-Datierungen (terminus ante quem) (#118)
 │   ├── entannotate-228/         # Modernen Apparat und nhd. Inhaltsangaben entannotieren, hängende sense/@ana-Verweise entfernen (#228)
 │   ├── frauenlob/               # Frauenlob-Revision (#236)
 │   ├── gap-252/                 # '( caesura )' innerhalb eines Verses mit Wörtern wird <gap reason="lost"/> (#252)
