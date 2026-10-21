@@ -1361,3 +1361,23 @@ Auto-Mode-Classifier abgelehnt, und die Blockade ging an Christian.
 **Was es getragen hat:** drei Textstellen in einem lokalen Commit; abgewendet hat es der Reviewer in Runde 1 und 2, bevor etwas gepusht war.
 
 **Kein neuer Mechanismus von mir:** derselbe Trockenlauf `mengenaussagen` (#73) sperrt nichts. Gefangen hat es die Belegtabelle im Reviewer-Auftrag mit einer Zählung je Zahl.
+
+### 161. Rot: aus der Existenz von Handschriftencensus-IDs auf beschaffbare Handschriftendaten geschlossen und das in #118 geschrieben (21.10.2026, #118).
+
+**Rot.** Im Kommentar 6315624072 stand: „Der Census nennt je Handschrift Datierung und Schreibsprache, das ist für diese 355 eine mechanische Beschaffung." Gemessen hatte ich nur, dass 355 Header eine `idno type="handschriftencensus"` tragen. Es sind Werk-IDs (`works.xml`: `/werke/N`), die Werkseite enthält keine Datierung, und welche Handschrift der Edition zugrunde liegt, steht nirgends. Übernommen hatte ich den Satz aus der eigenen Konzeptvorlage vom 12.07. („Handschriftencensus (via vorhandener HSC-Verweise in den Headern): Datierung + Schreibsprache").
+
+**Die Lehre steht in `agentenbefunde.md`: wer aus einem Feldwert auf ein Verhalten schließt, hat das Feld gemessen und das Verhalten behauptet; eine frühere eigene Sitzung ist ein Agentenbericht.** Die letzte Zeile zu dieser Lehre ist Eintrag 154.
+
+**Was es getragen hat:** einen Issue-Kommentar mit `@wachauer Frage:` und die Konzeptdatei (Commit `9fdf1d319`), auf denen der Arbeitsplan des Laufs aufbaute. Gefunden habe ich es selbst beim Planen, ein Blick in `works.xml` zeigte die `/werke/`-URLs. Richtiggestellt im Kommentar 6317284684 und in der Konzeptdatei.
+
+**Kein neuer Mechanismus, die begründete Aussetzung gilt:** `rules/agentenbefunde.md` ("Kein Hook, begründet ausgesetzt (#58)").
+
+### 162. Rot: dem Legacy-Export eine Normalisierungskonvention zugeschrieben, die seine Daten nicht zeigen (21.10.2026, #118).
+
+**Rot.** In die Konzeptdatei schrieb ich, „um 1200" werde in `notBefore`/`notAfter` übersetzt, „wie im Legacy-Export mit der Spalte `Datum Abweichung`". Der Export weitet nicht auf, er lässt `Datum von`/`Datum bis` eng und führt die Unschärfe getrennt (FH: 1255, 1255, 5). Meine eigene Ausgabe derselben Sitzung zeigte genau das.
+
+**Die Lehre steht in `agentenbefunde.md`: die gelesene Quelle muss die Aussage hergeben, die auf ihr steht.** Die letzte Zeile zu dieser Lehre ist Eintrag 161.
+
+**Was es getragen hat:** eine Regel im Arbeitsplan, die sich auf einen nicht vorhandenen Präzedenzfall berief, gepusht in Commit `9fdf1d319`. Gefunden hat es der Prüfer (Opus) in der Planprüfung, richtiggestellt in der Konzeptdatei.
+
+**Kein neuer Mechanismus, die begründete Aussetzung gilt:** wie Eintrag 161.

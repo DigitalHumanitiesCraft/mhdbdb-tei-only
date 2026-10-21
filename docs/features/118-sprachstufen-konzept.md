@@ -61,14 +61,29 @@ Werk und Handschrift werden getrennt erfasst:
   `<origPlace source="…">`. Gepflegt in `works.xml` und in die Header
   generiert, nach dem Muster der Identifier aus #399.
 - **Handschrift (Überlieferung, Schreibsprache):** `msDesc/history/origin`.
+  Gemeint ist die Leithandschrift der Edition. Sie steht nirgends
+  maschinenlesbar, das Feld bleibt bis dahin leer.
+- **Was der Handschriftencensus für das Werk hergibt:** nur eine Obergrenze
+  (`notAfter` = späteste Grenze der ältesten datierten Handschrift), keine
+  Untergrenze. Die Schreibsprachen der Überlieferung sind ein
+  Überlieferungsprofil, nicht der Entstehungsraum.
 - Die Editionen sind oft normalisiert. Aus der Sprachgestalt des Korpustexts
   wird deshalb kein Raum abgeleitet.
-- **Zwischenlager:** eine Tabelle je Sigle, jede Zeile mit Quelle und Zitat.
-  Ohne Beleg kommt nichts ins TEI. Unbekannt bleibt leer.
+- **Zwischenlager:** `ingest/datierung-118/`, zwei Tabellen: Handschriften
+  mit den wörtlichen Angaben (primär) und Werke mit der abgeleiteten
+  Obergrenze, dazu eine Sicht je Sigle. Schlüssel ist das Werk über
+  `msIdentifier/@corresp`, nicht die Sigle (CONTRACTS §F.4, TRO). Ohne Beleg
+  kommt nichts ins TEI. Unbekannt bleibt leer.
+- **Lizenz des Zwischenlagers:** der Handschriftencensus ist CC BY-SA 4.0,
+  nicht unter `LICENSE-DATA` (CC BY-NC-SA) weitergebbar (RESEARCH.md →
+  License compatibility). Entschieden (chsteiner, 2026-10-21): Dual-Lizenz,
+  `ingest/datierung-118/` steht unter CC BY-SA 4.0 mit eigener LICENSE.
 - **Normalisierung per Skript:** Angaben wie „um 1200" werden nach fester
-  Konvention in `notBefore`/`notAfter` übersetzt, wie im Legacy-Export mit der
-  Spalte `Datum Abweichung` (5 oder 10 Jahre). Datiert eine Quelle nur den
-  Autor und nicht den Einzeltext, ist das eine eigene Unsicherheitsstufe.
+  Konvention in `notBefore`/`notAfter` aufgeweitet, der Name der Regel steht
+  in einer eigenen Spalte. Der Legacy-Export macht es anders: er lässt
+  `Datum von`/`Datum bis` eng und führt die Unschärfe getrennt in
+  `Datum Abweichung` (FH: 1255, 1255, 5). Datiert eine Quelle nur den Autor
+  und nicht den Einzeltext, ist das eine eigene Unsicherheitsstufe.
 - **Schema:** `schema/mhdbdb.rnc` kennt heute weder `creation` in
   `profileDesc` noch `history` in `msDesc` noch `@usage` an `language`. Die
   Erweiterung kommt mit dem ersten Daten-PR.
@@ -81,9 +96,12 @@ Werk und Handschrift werden getrennt erfasst:
 2. **works.xml:** Entstehungszeit des Werks, Gattungszuordnung. Gemessen:
    keine Entstehungsdaten, nur Druckjahre.
 3. **Handschriftencensus** (via vorhandener HSC-Verweise in den Headern):
-   Datierung + Schreibsprache; nur lesend, als Evidenz protokolliert.
-   355 von 667 Headern tragen eine HSC-ID (21.10.2026). Ein Probeabruf ist
-   noch nicht gemacht.
+   355 von 667 Headern tragen eine HSC-ID, 311 verschiedene (21.10.2026).
+   Das sind **Werk-IDs**. Die Werkseite listet nur die Überlieferung
+   (Parzival: 88 Handschriften), `/werke/N.json` trägt die VL-Fundstelle
+   (`vlverweis`). Datierung und Schreibsprache stehen erst je Handschrift
+   (`/N.json`: `entstehungszeit`, `schreibsprache`, Freitext mit
+   Literaturverweis). Nur lesend, als Evidenz protokolliert.
 4. **Wikidata/GND:** nur als Anstoß (Issue-Vorgabe), nie allein entscheidend.
 5. **Legacy-Export** `docs/data/linecode-templates.csv`: `Datum von`,
    `Datum bis` und `Datum Abweichung` mit Zitaten aus VL und GND, befüllt in
