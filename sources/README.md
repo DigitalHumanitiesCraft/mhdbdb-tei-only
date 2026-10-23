@@ -41,6 +41,7 @@ existiert genau dafür.
 | [`INVENTAR-ARCHIV.md`](INVENTAR-ARCHIV.md) | Was das Archiv sonst noch enthält (Scans, OCR-Projekte, Volltextexport 2017, Ingest-Kandidaten) und wie man lokal darauf zugreift |
 | [`archiv-inventar.csv`](archiv-inventar.csv) | Dateiweises Verzeichnis des Archivs, 5.037 Zeilen (alles außer den 14.771 FineReader-Projektdateien) |
 | [`glossar-kochbuchforschung/`](glossar-kochbuchforschung/README.md) | **Kein Legacy-Bestand und nicht aus dem Archiv:** bereinigter WordPress-Export des Glossars Kochbuchforschung (5.790.889 Bytes, ohne Mailadressen, Telefonnummer und Logins), von KZW am 08.10.2026 geliefert, CC BY-NC-SA 4.0 (#554). Gleiche Einstufung wie der Rest dieses Ordners: nicht normativ, nicht indexiert |
+| `weingruesse/` | **Nur lokal, gitignoriert:** `Druckfahnen endgültig.pdf`, die Druckfahnen der Hirzel-Ausgabe der Weingrüße mit Einleitung (114 Seiten, 2.591.482 Bytes), von Silvan Wagner am 23.10.2026 geschickt (#147). Die Verlagsrechte sind ungeklärt, deshalb nicht im Repository. Wer die Datei braucht, fragt Christian |
 
 Die Unterordner von `linecode/` spiegeln die Archivstruktur: `erledigt/` (302 Dateien) und
 `neue-texte-klaus/` (4 Dateien).
