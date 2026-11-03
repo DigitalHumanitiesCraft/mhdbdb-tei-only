@@ -779,7 +779,7 @@ All references to controlled vocabularies use relative paths:
 | Reference | TEI status | Target | Example |
 |----------|------------|------|----------|
 | `@lemmaRef` | standard | lexicon.xml | `lexicon.xml#lemma_879` |
-| `@ana` (target) | standard | lexicon.xml (sense) | `lexicon.xml#lemma_879_sense_1234` |
+| `@ana` (target) | standard | lexicon.xml (sense) | `lexicon.xml#lemma_879_sense_1449` |
 | ~~`@meaningRef`~~ (current) | not standard | lexicon.xml (sense) | → becomes `@ana` |
 | `@corresp` (target) | standard | variants.xml (type) | `variants.xml#type_8717` |
 | ~~`@wordRef`~~ (current) | not standard | lexicon.xml (synthetic) | → becomes `@corresp` |

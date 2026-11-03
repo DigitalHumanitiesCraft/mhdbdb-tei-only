@@ -91,7 +91,7 @@ TEI [@xml:id = Sigle]
 <w xml:id="ABG_101_0"
    lemmaRef="lexicon.xml#lemma_879"
    pos="NOM"
-   ana="lexicon.xml#lemma_879_sense_1234"
+   ana="lexicon.xml#lemma_879_sense_1449"
    corresp="variants.xml#type_5678">brôt</w>
 ```
 
@@ -108,7 +108,7 @@ Querverweise zwischen Korpus- und Authority-Dateien verwenden relative URIs:
 
 ```
 lexicon.xml#lemma_879              — Lemma-Eintrag
-lexicon.xml#lemma_879_sense_1234   — Bedeutung innerhalb eines Lemmas
+lexicon.xml#lemma_879_sense_1449   — Bedeutung innerhalb eines Lemmas
 variants.xml#type_5678             — orthographischer Variantentyp
 persons.xml#person_445             — Person
 works.xml#work_89                  — Werk
