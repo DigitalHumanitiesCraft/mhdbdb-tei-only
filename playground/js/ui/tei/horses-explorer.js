@@ -27,7 +27,7 @@
 
 import { TextNormalizer } from '../../../../assets/js/lib/text-normalizer.js';
 import { getNavigationEpoch } from '../core/router.js';
-import { csvButton } from '../core/ui-helpers.js';
+import { csvButton, pl } from '../core/ui-helpers.js';
 import { toCsv, downloadCsv, csvDateStamp, csvFilenamePart, csvSourcePart } from '../../../../assets/js/lib/csv-export.js';
 
 const DEFAULT_STATE = Object.freeze({
@@ -161,7 +161,7 @@ export class HorsesExplorer {
     const abweichend = attestations.filter(a => a.match && a.match !== 'exact').length;
     const options = horses.map(h => {
       const works = h.works.map(w => WORK_LABEL[w] || w).join(', ');
-      return `<option value="${escapeAttr(h.id)}"${h.id === this.state.horseId ? ' selected' : ''}>${escapeHtml(this.horseLabel(h))} - ${escapeHtml(works)} (${h.attestations.toLocaleString('de-DE')} Belege)</option>`;
+      return `<option value="${escapeAttr(h.id)}"${h.id === this.state.horseId ? ' selected' : ''}>${escapeHtml(this.horseLabel(h))} - ${escapeHtml(works)} (${h.attestations.toLocaleString('de-DE')} ${pl(h.attestations, 'Beleg', 'Belege')})</option>`;
     }).join('');
 
     return `
@@ -184,7 +184,7 @@ export class HorsesExplorer {
         </label>
         <p class="text-[11px] text-slate-500">
           Angegeben ist immer Boreks Stellenangabe. Sie folgt einer anderen Textgrundlage als unser Korpus:
-          bei ${abweichend.toLocaleString('de-DE')} der ${attestations.length.toLocaleString('de-DE')} Belege weicht die Verszählung ab, dort ist die Stelle über den Wortlaut zugeordnet und der Beleg entsprechend markiert.
+          bei ${abweichend.toLocaleString('de-DE')} der ${attestations.length.toLocaleString('de-DE')} ${pl(attestations.length, 'Beleg', 'Belege')} weicht die Verszählung ab, dort ist die Stelle über den Wortlaut zugeordnet und der Beleg entsprechend markiert.
         </p>
       </div>
     `;
@@ -194,7 +194,7 @@ export class HorsesExplorer {
     const horse = this.getHorse(this.state.horseId);
     if (!horse) {
       const total = this.index?.attestations.length || 0;
-      return `<div class="rounded-2xl border border-dashed border-slate-200 bg-white p-8 text-center text-sm text-slate-500">${total.toLocaleString('de-DE')} Belegstellen zu ${(this.index?.horses.length || 0)} Pferden. Bitte ein Pferd auswählen.</div>`;
+      return `<div class="rounded-2xl border border-dashed border-slate-200 bg-white p-8 text-center text-sm text-slate-500">${total.toLocaleString('de-DE')} ${pl(total, 'Belegstelle', 'Belegstellen')} zu ${(this.index?.horses.length || 0)} Pferden. Bitte ein Pferd auswählen.</div>`;
     }
 
     const all = this.getAttestations(horse.id);

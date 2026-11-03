@@ -79,7 +79,7 @@
 
 import { TextNormalizer } from '../../../../assets/js/lib/text-normalizer.js';
 import { getNavigationEpoch } from '../core/router.js';
-import { csvButton } from '../core/ui-helpers.js';
+import { csvButton, pl } from '../core/ui-helpers.js';
 import { toCsv, downloadCsv, csvDateStamp, csvFilenamePart, csvSourcePart } from '../../../../assets/js/lib/csv-export.js';
 
 const DEFAULT_STATE = Object.freeze({
@@ -89,7 +89,8 @@ const DEFAULT_STATE = Object.freeze({
   speaker: '',           // 'named' und 'lemma': '' | 'erz' | 'self' | 'fig' | 'fig:<key>'
   target: '',            // nur 'namer': '' | Name der genannten Figur
   category: 'all',       // 'all' | einer der CATS
-  nameFilter: ''
+  nameFilter: '',
+  subjectFilter: ''
 });
 
 // Kategorien in Anzeigereihenfolge, identisch mit CATS im Build-Skript.
@@ -322,10 +323,14 @@ export class NamingExplorer {
   /** Auswahlliste der zweiten Selectbox, je nach Perspektive. */
   getSubjects(work) {
     if (this.state.perspective === 'lemma') {
-      return this.getTerms(work).map(e => ({
-        value: e.term, label: e.term, count: e.count,
-        hint: `${e.figures.size} ${e.figures.size === 1 ? 'Figur' : 'Figuren'}`
-      }));
+      // Dropdown alphabetisch (#643). getTerms bleibt nach Belegzahl sortiert
+      // und gecacht, hier wird nur eine Kopie umgeordnet.
+      return [...this.getTerms(work)]
+        .sort((a, b) => a.term.localeCompare(b.term, 'de'))
+        .map(e => ({
+          value: e.term, label: e.term, count: e.count,
+          hint: `${e.figures.size} ${e.figures.size === 1 ? 'Figur' : 'Figuren'}`
+        }));
     }
     if (this.state.perspective === 'namer') {
       return this.getNamers(work).map(n => ({
@@ -564,6 +569,25 @@ export class NamingExplorer {
     `;
   }
 
+  /**
+   * Optionen der Auswahlbox. Das Filterfeld (#643) faltet Diakritika wie der
+   * Lemma-Filter der Tabelle: "ere" findet "êre". Die gewählte Option bleibt
+   * auch dann stehen, wenn der Filter sie ausblendete.
+   */
+  renderSubjectOptions(work) {
+    let subjects = this.getSubjects(work);
+    const filter = (this.state.subjectFilter || '').trim();
+    if (filter) {
+      subjects = subjects.filter(s => s.value === this.state.subject
+        || TextNormalizer.matchesNormalized(s.label, filter)
+        || TextNormalizer.matchesFolded(s.label, filter));
+    }
+    return subjects.map(s => {
+      const suffix = s.hint ? `, ${s.hint}` : '';
+      return `<option value="${escapeAttr(s.value)}"${s.value === this.state.subject ? ' selected' : ''}>${escapeHtml(s.label)} (${s.count.toLocaleString('de-DE')} ${pl(s.count, 'Beleg', 'Belege')}${suffix})</option>`;
+    }).join('');
+  }
+
   renderForm() {
     const works = this.index?.works || [];
     const workOptions = works.map(w =>
@@ -573,11 +597,7 @@ export class NamingExplorer {
     const work = this.getWork(this.state.workSigle);
     const namerMode = this.state.perspective === 'namer';
     const lemmaMode = this.state.perspective === 'lemma';
-    const subjects = this.getSubjects(work);
-    const subjectOptions = subjects.map(s => {
-      const suffix = s.hint ? `, ${s.hint}` : '';
-      return `<option value="${escapeAttr(s.value)}"${s.value === this.state.subject ? ' selected' : ''}>${escapeHtml(s.label)} (${s.count.toLocaleString('de-DE')} Belege${suffix})</option>`;
-    }).join('');
+    const subjectOptions = this.renderSubjectOptions(work);
 
     return `
       <div class="rounded-2xl border border-slate-200 bg-slate-50/70 p-4 space-y-3">
@@ -601,13 +621,17 @@ export class NamingExplorer {
               ${workOptions}
             </select>
           </label>
-          <label class="block">
-            <span class="text-xs font-medium text-slate-600">${namerMode ? 'Nennende Instanz (nach Belegzahl)' : lemmaMode ? 'Lemma (nach Belegzahl)' : 'Figur (nach Belegzahl)'}</span>
+          <div class="block">
+            <label for="neFigureSelect" class="text-xs font-medium text-slate-600">${namerMode ? 'Nennende Instanz (nach Belegzahl)' : lemmaMode ? 'Lemma (alphabetisch)' : 'Figur (nach Belegzahl)'}</label>
+            ${lemmaMode ? `<input id="neSubjectFilter" type="text" autocomplete="off" aria-label="Lemma-Auswahl filtern"
+              value="${escapeAttr(this.state.subjectFilter)}"${work ? '' : ' disabled'}
+              placeholder="Lemma filtern, z.B. ere (findet êre)"
+              class="mt-1 w-full rounded-lg border border-slate-200 bg-white px-2 py-1 text-xs focus:border-brand-400 focus:outline-none" />` : ''}
             <select id="neFigureSelect" class="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm focus:border-brand-400 focus:outline-none"${work ? '' : ' disabled'}>
               <option value="">${namerMode ? 'Nenner wählen ...' : lemmaMode ? 'Lemma wählen ...' : 'Figur wählen ...'}</option>
               ${subjectOptions}
             </select>
-          </label>
+          </div>
         </div>
         ${this.renderNotationHint(work)}
         <p class="text-[11px] text-slate-500">
@@ -739,7 +763,7 @@ export class NamingExplorer {
       <div class="rounded-2xl border border-slate-200 bg-white p-4">
         <div class="text-xs uppercase tracking-wide text-slate-500">${escapeHtml(work.sigle)} - ${escapeHtml(work.bookName)}</div>
         <div data-ne-heading class="text-lg font-semibold text-slate-800">${escapeHtml(term)}</div>
-        <div class="text-xs text-slate-500">benennt ${figuren.toLocaleString('de-DE')} ${figuren === 1 ? 'Figur' : 'Figuren'} in ${teil}${von} kuratierten Belegstellen</div>
+        <div class="text-xs text-slate-500">benennt ${figuren.toLocaleString('de-DE')} ${figuren === 1 ? 'Figur' : 'Figuren'} in ${teil}${von} kuratierten ${pl(von ? gesamtImWerk : angezeigt, 'Belegstelle', 'Belegstellen')}</div>
       </div>
     `;
   }
@@ -852,13 +876,15 @@ export class NamingExplorer {
       const genannte = new Set(pairs.map(p => p.figure)).size;
       heading = namer ? namer.label : this.state.subject;
       const von = this.state.target && namer ? ` von ${namer.count.toLocaleString('de-DE')}` : '';
-      sub = `benennt ${genannte.toLocaleString('de-DE')} ${genannte === 1 ? 'Figur' : 'Figuren'} in ${teil}${von} kuratierten Belegstellen`;
+      const letzte = this.state.target && namer ? namer.count : pairs.length;
+      sub = `benennt ${genannte.toLocaleString('de-DE')} ${genannte === 1 ? 'Figur' : 'Figuren'} in ${teil}${von} kuratierten ${pl(letzte, 'Belegstelle', 'Belegstellen')}`;
       const roh = namer && namer.variants.size > 1 ? [...namer.variants.keys()].join(', ') : '';
       if (roh) sub += ` <span class="cursor-help underline decoration-dotted" title="Schreibungen in der Quelle: ${escapeAttr(roh)}">(${namer.variants.size} Schreibungen)</span>`;
     } else {
       const gesamt = (work.figures[this.state.subject] || []).length;
       heading = this.state.subject;
-      sub = `${teil}${this.state.speaker ? ` von ${gesamt.toLocaleString('de-DE')}` : ''} kuratierte Belegstellen`;
+      const letzte = this.state.speaker ? gesamt : pairs.length;
+      sub = `${teil}${this.state.speaker ? ` von ${gesamt.toLocaleString('de-DE')}` : ''} kuratierte ${pl(letzte, 'Belegstelle', 'Belegstellen')}`;
     }
 
     return `
@@ -1200,6 +1226,7 @@ export class NamingExplorer {
         // Die Auswahl ist perspektivgebunden: ein Figurenname ist kein
         // Nenner-Schluessel, und ein Nenner ist oft gar keine benannte Figur.
         this.resetSelection();
+        this.state.subjectFilter = '';
         this.render();
       });
     });
@@ -1207,6 +1234,7 @@ export class NamingExplorer {
     document.getElementById('neWorkSelect')?.addEventListener('change', (e) => {
       this.state.workSigle = e.target.value;
       this.resetSelection();
+      this.state.subjectFilter = '';
       this.render();
     });
 
@@ -1215,6 +1243,17 @@ export class NamingExplorer {
       this.resetSelection();
       this.state.subject = subject;
       this.render();
+    });
+
+    // Nur die Optionen neu bauen, nicht die ganze Seite: sonst verlöre das
+    // Feld beim Tippen den Fokus.
+    document.getElementById('neSubjectFilter')?.addEventListener('input', (e) => {
+      this.state.subjectFilter = e.target.value;
+      const select = document.getElementById('neFigureSelect');
+      if (!select) return;
+      const work = this.getWork(this.state.workSigle);
+      select.innerHTML = `<option value="">Lemma wählen ...</option>${this.renderSubjectOptions(work)}`;
+      select.value = this.state.subject;
     });
 
     document.getElementById('neSubFilter')?.addEventListener('change', (e) => {
