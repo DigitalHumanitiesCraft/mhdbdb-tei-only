@@ -33,10 +33,8 @@ es nicht freistellt. Eigener allgemeiner User-Agent ohne E-Mail.
 
 ## Allowlist
 
-`scripts/audit/link-check-allowlist.json` nennt Domains, die dem Skript mit
-generischem User-Agent eine Sperre statt der Seite liefern (Verlage, doi.org; auf
-dem GitHub-Runner auch Behoerden- und Katalogseiten, die lokal erreichbar sind);
-was davon im Browser geprueft ist, steht je Eintrag in der Datei. Eintrag: `domain` (trifft auch Subdomains), `status` (Liste von HTTP-Status
+`scripts/audit/link-check-allowlist.json` nennt Domains mit bekannten
+Fehlalarmen (meist Sperren gegen Skripte, etwa Verlage hinter doi.org). Eintrag: `domain` (trifft auch Subdomains), `status` (Liste von HTTP-Status
 oder der Netzfehlerklassen DNS, TIMEOUT, SSL, FEHLER), `grund`. Eine Antwort, die
 zu einem Eintrag passt, zaehlt als freigestellt und nicht als tot. Alles andere
 nicht Erfolgreiche ist tot. Ohne diese Datei waere der Lauf dauerhaft rot.

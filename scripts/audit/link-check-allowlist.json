@@ -1,5 +1,5 @@
 {
-  "_comment": "Allowlist fuer check-external-links.py (#653): Hosts, die einem Skript mit generischem User-Agent eine Sperre statt der Seite liefern. Freigestellt wird je Eintrag nur der genannte Status; jede andere Antwort bleibt ein toter Link. doi.org gilt fuer den Status der Weiterleitung auf den Verlag, nicht fuer doi.org selbst. Stand 2026-11-03, zwei Messungen: lokal (Vormessung von Hand) und der erste Lauf auf dem GitHub-Runner (Lauf 41663640241), der fuer manche Hosts anders gesperrt wird. Eintraege mit 'nur Runner' waren lokal mit demselben Skript erreichbar (200). Ob die Seiten im Browser laden, ist nur fuer die 'nur Runner'-Eintraege belegt (lokal 200), sonst nicht geprueft.",
+  "_comment": "Allowlist fuer check-external-links.py (#653): Hosts mit bekannten Fehlalarmen, meist Sperren gegen Skripte. Freigestellt wird je Eintrag nur der genannte Status; jede andere Antwort bleibt ein toter Link. doi.org gilt fuer den Status der Weiterleitung auf den Verlag, nicht fuer doi.org selbst. Stand 2026-11-03, zwei Messungen: lokal (Vormessung von Hand) und der erste Lauf auf dem GitHub-Runner (Lauf 41663640241), der fuer manche Hosts anders gesperrt wird. Eintraege mit 'nur Runner' waren lokal mit demselben Skript erreichbar (200).",
   "eintraege": [
     {
       "domain": "doi.org",
