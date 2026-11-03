@@ -15,7 +15,7 @@ Verdichtet 18.10.2026.
 - 14.10. durch: `git -C "<pfad>"`-Ketten und Probeskripte per Write in ein Scratch-Verzeichnis ohne „Git" im Pfad, mit `python -X utf8 -E -P <Skriptpfad>`. 16.10. durch: `git -C "<pfad>"`-Ketten mit `;` und `echo`, ein einzelnes `gh issue view … --comments | grep`, `python -I <Temp-Skript> <Worktree-Pfad>`; abgelehnt: `python -c` mit Worktree-Pfad als Argument, `gh … | grep` hinter einem `;`, `cmd >/dev/null; echo $?`. Exit-Code also nicht per `echo $?` messen, sondern am Tool-Fehler „Exit code N" ablesen.
 
 **Windows**
-- `python -X utf8`: cp1252 bricht an ł, w̆ und Emoji; ASCII-safe drucken (Umlaute als `�` sind cp1252, kein Datenbefund). Unter `python -I` wirkt `PYTHONIOENCODING`/`PYTHONUTF8` nicht, nur `-I -X utf8`; `-I` kappt die User-Site-Packages (`lxml` fehlt): Projektskripte und eigene Proben ohne `-I`, `-I` nur für fremde Downloads.
+- `python -X utf8`: cp1252 bricht an ł, w̆ und Emoji; ASCII-safe drucken (Umlaute als `�` sind cp1252, kein Datenbefund). Unter `python -I` wirkt `PYTHONIOENCODING`/`PYTHONUTF8` nicht, nur `-I -X utf8`; `-I` kappt die User-Site-Packages (`lxml` fehlt): Projektskripte und eigene Proben ohne `-I`, `-I` nur für fremde Downloads. **`-E` schluckt auch `PYTHONDONTWRITEBYTECODE`** (03.11.): Proben mit `-B -P -E`, sonst entsteht `__pycache__` im Skriptordner (gitignoriert, also im `status` unsichtbar).
 - In Git Bash zerlegt die MSYS-Pfadkonvertierung `git show origin/main:<pfad>` („ambiguous argument“); Abhilfe: `MSYS_NO_PATHCONV=1` vor dem Aufruf.
 - `rg -c` summieren mit `awk -F: '{s+=$NF}'` (`$2` trifft Laufwerk C). Exit-Code nie hinter `| tail` messen. rg über die Wurzel hängt an tei/: je Verzeichnis suchen.
 
