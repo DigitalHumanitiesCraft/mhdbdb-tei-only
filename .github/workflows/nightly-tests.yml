@@ -104,6 +104,19 @@ jobs:
           node-version: '22'
           cache: 'npm'
 
+      # Die Paritaetstests (position-parity, normalization-parity) rufen Python
+      # auf und verlangen 3.13+ mit lxml (scripts/python-bin.js); der Runner
+      # bringt 3.12. Ohne diese zwei Schritte waren im ersten Lauf (03.11.) 7
+      # von 541 Tests rot.
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+          cache: 'pip'
+
+      - name: Install Python dependencies
+        run: pip install --quiet -r requirements.txt
+
       - name: Install dependencies
         run: npm ci
 
