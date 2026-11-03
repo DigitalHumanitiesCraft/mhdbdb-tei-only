@@ -23,6 +23,14 @@ gleichmäßig: Laufzählung 2 bis 7 liegen auf Eintrag 3 bis 8, Laufzählung 8
 aber auf Eintrag 12, weil dazwischen Zeilen ohne eigene Laufzählung stehen.
 Wo ein Eintrag so verweist, ist die Nummer in Klammern danebengesetzt.
 
+**Ab Nummer 124 hat die Folge Lücken, und das ist kein Verlust.** Seit den
+parallelen Läufen im Oktober 2026 reserviert die Koordination je Spur einen
+Nummernblock, und eine Spur ohne rote Zeile lässt ihren Block frei. Deshalb
+fehlen Nummern, und ein Eintrag aus einem späteren Block kann vor einem aus
+einem früheren stehen. Nachgesehen am 03.11.2026 in den Session-Transkripten
+und über alle Refs: zu keiner der fehlenden Nummern gibt es einen Eintragstext
+(#640).
+
 **Und eine Kette zu derselben Lehre wird über die Rückverweise gezählt,
 nicht über den Dateinamen der Regel.** Ein Grep nach `eigene-quellen.md`
 findet auch Einträge, die sie im Fließtext erwähnen, und findet die nicht,
