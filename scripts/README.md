@@ -97,7 +97,7 @@ scripts/
 │   ├── validate-corpus.py       # Zwei-Stufen-Schema-Validierung
 │   ├── lexicon-baseline.json    # committete Referenzmenge des #152-Gates, per !-Regel vom *.json-Ignore ausgenommen
 │   ├── corresp-coverage-baseline.json # lemmatisierte Tokens ohne @corresp je Sigle, Ratsche im selben Gate (#370)
-│   ├── link-check-allowlist.json # Domains mit bekannter Bot-Sperre (403) für den Link-Check, mit Grund und Stand (#653)
+│   ├── link-check-allowlist.json # Domains mit bekannten Fehlalarmen (je Eintrag die freigestellten Status) für den Link-Check, mit Grund und Stand (#653)
 │   ├── doc-health-state.json    # Stand des letzten Doku-Health-Checks (Commit, Datum) und des letzten Zahlen-Nachlaufs (daten_commit, daten_date), vom jeweiligen PR fortgeschrieben (#641)
 │   └── TEXT_DATA_TABLE.xlsx     # Legacy-Linecode-Mapping
 │

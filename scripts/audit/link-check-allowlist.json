@@ -1,10 +1,10 @@
 {
-  "_comment": "Allowlist fuer check-external-links.py (#653): Domains, die einem Skript mit generischem User-Agent 403 liefern. Stand 2026-11-03, Vormessung von Hand: alle hier genannten Antworten kamen mit 403 (nie 404) beim Lauf mit generischem User-Agent; ob die Seiten im Browser laden, ist fuer keinen Eintrag geprueft. Nur der Status 403 wird freigestellt: ein 404 oder ein Netzfehler auf diesen Domains bleibt ein toter Link. doi.org gilt fuer den Status der Weiterleitung auf den Verlag, nicht fuer doi.org selbst.",
+  "_comment": "Allowlist fuer check-external-links.py (#653): Hosts mit bekannten Fehlalarmen, meist Sperren gegen Skripte. Freigestellt wird je Eintrag nur der genannte Status; jede andere Antwort bleibt ein toter Link. doi.org gilt fuer den Status der Weiterleitung auf den Verlag, nicht fuer doi.org selbst. Stand 2026-11-03, zwei Messungen: lokal (Vormessung von Hand) und der erste Lauf auf dem GitHub-Runner (Lauf 41663640241), der fuer manche Hosts anders gesperrt wird. Eintraege mit 'nur Runner' waren lokal mit demselben Skript erreichbar (200).",
   "eintraege": [
     {
       "domain": "doi.org",
-      "status": [403],
-      "grund": "Der Abruf folgt der Weiterleitung auf die Zielseite, und 29 Ziele antworteten mit 403; 29 von 210 doi.org-URLs am 2026-11-03"
+      "status": [403, 405],
+      "grund": "Der Abruf folgt der Weiterleitung auf die Zielseite. Lokal 403 bei 29 doi.org-URLs in der Erstmessung; auf dem Runner antworteten 8 Brill-Ziele (10.1163, 10.30965), die lokal 403 geben, mit 405. 503 bleibt bewusst tot: am 2026-11-03 gaben 2 Bamberger Ziele (10.20378) 503, weil fis.uni-bamberg.de fuer alle Leser ausserhalb des Uninetzes gesperrt war, also keine Bot-Sperre. Gilt fuer alle doi.org-URLs, weil der Abgleich auf den Host der Link-URL geht, nicht auf das Ziel"
     },
     {
       "domain": "hdl.handle.net",
@@ -13,8 +13,8 @@
     },
     {
       "domain": "opac.regesta-imperii.de",
-      "status": [403],
-      "grund": "403; 18 von 18 URLs am 2026-11-03"
+      "status": [403, "TIMEOUT"],
+      "grund": "Lokal 403 bei 18 von 18 URLs; auf dem Runner 1 TIMEOUT"
     },
     {
       "domain": "researchgate.net",
@@ -35,6 +35,36 @@
       "domain": "cst.princeton.edu",
       "status": [403],
       "grund": "403 fuer Skripte; 1 URL am 2026-11-03"
+    },
+    {
+      "domain": "permalink.obvsg.at",
+      "status": [403],
+      "grund": "nur Runner: 403 bei 2 URLs, lokal 200"
+    },
+    {
+      "domain": "ffg.at",
+      "status": [403],
+      "grund": "nur Runner: 403 bei 1 URL, lokal 200"
+    },
+    {
+      "domain": "ris.bka.gv.at",
+      "status": [503],
+      "grund": "nur Runner: 503 bei 1 URL, lokal 200"
+    },
+    {
+      "domain": "artesliteratur.de",
+      "status": ["TIMEOUT"],
+      "grund": "nur Runner: TIMEOUT bei 1 URL, lokal 200"
+    },
+    {
+      "domain": "real.mtak.hu",
+      "status": ["FEHLER"],
+      "grund": "Netzfehler bei 1 URL auf dem Runner; lokal wechselnd: am 2026-11-03 zwei Skriptlaeufe mit FEHLER, spaeter 5 von 5 Abfragen mit 200 (Reviewer), curl 200"
+    },
+    {
+      "domain": "materiale-textkulturen.de",
+      "status": ["SSL"],
+      "grund": "nur Runner: SSL-Fehler bei 1 URL, lokal 200; der Server liefert nur das Leaf-Zertifikat ohne Kette (openssl s_client, Reviewer), Windows ergaenzt die Kette"
     }
   ]
 }

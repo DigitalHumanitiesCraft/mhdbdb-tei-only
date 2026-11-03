@@ -3,9 +3,10 @@
 # scripts/audit/check-external-links.py liest alle <a href="http(s)://...">
 # der HTML-Seiten (Wurzel, textreihen/, playground/, lemma/), fragt jede
 # eindeutige URL einmal ab (gedrosselt, HEAD mit GET-Rueckfall) und nennt je toter
-# URL die Datei(en). Domains, die Skripten mit 403 antworten (Verlage, doi.org),
-# stehen in scripts/audit/link-check-allowlist.json; ob diese Seiten im Browser
-# laden, ist dort ungeprueft vermerkt. Ohne die Datei waere der Lauf dauerhaft rot.
+# URL die Datei(en). Domains mit bekannten Fehlalarmen (meist Sperren gegen
+# Skripte) stehen je mit den freigestellten Status in
+# scripts/audit/link-check-allowlist.json. Ohne die Datei
+# waere der Lauf dauerhaft rot.
 #
 # Ein Zeitgeber und kein Push-Trigger, weil sich ein Link ohne jede Aenderung im
 # Repo aendert: die Gegenseite verschwindet. Ein Link-Check auf jedem Push wuerde

@@ -33,9 +33,8 @@ es nicht freistellt. Eigener allgemeiner User-Agent ohne E-Mail.
 
 ## Allowlist
 
-`scripts/audit/link-check-allowlist.json` nennt Domains, die dem Skript mit
-generischem User-Agent 403 liefern (Verlage, doi.org); ob diese Seiten im Browser
-laden, ist in der Datei als ungeprueft vermerkt. Eintrag: `domain` (trifft auch Subdomains), `status` (Liste von HTTP-Status
+`scripts/audit/link-check-allowlist.json` nennt Domains mit bekannten
+Fehlalarmen (meist Sperren gegen Skripte, etwa Verlage hinter doi.org). Eintrag: `domain` (trifft auch Subdomains), `status` (Liste von HTTP-Status
 oder der Netzfehlerklassen DNS, TIMEOUT, SSL, FEHLER), `grund`. Eine Antwort, die
 zu einem Eintrag passt, zaehlt als freigestellt und nicht als tot. Alles andere
 nicht Erfolgreiche ist tot. Ohne diese Datei waere der Lauf dauerhaft rot.
