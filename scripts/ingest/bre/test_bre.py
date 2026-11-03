@@ -178,6 +178,7 @@ pruefe("Quellzeilennummer 1-basiert", len(gruess) == 1 and gruess[0]["lines"][0]
        and "üß dich got" in zeilen_fix[7], str([g["lines"] for g in gruess]))
 try:
     baue(s_titel, ROWS, "B")
+    pruefe("Zeilennummer in der Meldung", False, "kein Fehler")
 except conv.bc.HarterFehler as e:
     pruefe("Zeilennummer in der Meldung", "Zeilen [7]" in str(e) and zeilen_fix[6].startswith("<span"), str(e)[:120])
 
