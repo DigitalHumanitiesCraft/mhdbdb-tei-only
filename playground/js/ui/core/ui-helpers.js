@@ -148,6 +148,14 @@ export function enableAuthorityQueries() {
   });
 }
 
+/**
+ * Singular oder Plural zur Zahl: 1 Beleg, 2 Belege (#643). Gibt nur das Wort
+ * zurueck, die Zahl formatiert die Aufrufstelle selbst.
+ */
+export function pl(n, einzahl, mehrzahl) {
+  return n === 1 ? einzahl : mehrzahl;
+}
+
 // ==================== CSV-EXPORT (#448) ====================
 
 /**
