@@ -1381,3 +1381,13 @@ Auto-Mode-Classifier abgelehnt, und die Blockade ging an Christian.
 **Was es getragen hat:** eine Regel im Arbeitsplan, die sich auf einen nicht vorhandenen Präzedenzfall berief, gepusht in Commit `9fdf1d319`. Gefunden hat es der Prüfer (Opus) in der Planprüfung, richtiggestellt in der Konzeptdatei.
 
 **Kein neuer Mechanismus, die begründete Aussetzung gilt:** wie Eintrag 161.
+
+### 163. Rot: im Hauptbaum committet, ohne den ausgecheckten Branch zu prüfen, und „gefixt“ gemeldet (03.11.2026).
+
+**Rot.** Zwei kleine Fixes für `main` (FFG-Link in `barrierefreiheit.html`, Beispiel-Sense-ID) habe ich im Hauptbaum committet und mit `git push origin main` gepusht. Der Hauptbaum stand seit 13:50 aber auf `claude/147-bre-stage0` einer parallelen Session: Beide Commits landeten auf deren Branch, der Push schob den unveränderten lokalen `main` und meldete nichts. Christian bekam „FFG-Link ist gefixt (`51690ed92`)“ zu lesen, `origin/main` stand weiter auf `da53949c4`. Bemerkt hat es die andere Session, nicht ich.
+
+**Die Lehre steht in `CLAUDE.md` unter Git Rules: „Concurrent sessions share the working directory“,** dazu Regel 6 des Betriebsvertrags (der Hauptordner ist kein Arbeitsplatz). Gegriffen hat sie nur beim Staging, nicht beim Branch. Die letzte Zeile zu dieser Lehre: keine.
+
+**Was es getragen hat:** eine falsche Erfolgsmeldung an Christian und zwei Fremdcommits auf einem fremden Branch. Behoben per Cherry-Pick aus einem eigenen Worktree (`fbc41b122`, `77ff4f651`), die andere Session hat ihren Branch zurückgebaut.
+
+**Kein neuer Mechanismus:** erste Zeile. Ab jetzt committe ich nur aus einem eigenen Worktree.
