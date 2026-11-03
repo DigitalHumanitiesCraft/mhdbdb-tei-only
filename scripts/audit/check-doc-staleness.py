@@ -430,8 +430,8 @@ def kommentar_text(d, modus, neuer_hash):
         zeilen += ['', 'Naechster Schritt: Doku-Check nach docs/playbooks/DOKU-CHECK.md; der Check-PR '
                        'schreibt scripts/audit/doc-health-state.json fort.']
     if d['zustand'] == 'zahlen':
-        zeilen += ['', 'Naechster Schritt: Zahlen-Nachlauf nach docs/playbooks/DOKU-CHECK.md; der PR '
-                       'schreibt daten_commit und daten_date in scripts/audit/doc-health-state.json fort.']
+        zeilen += ['', 'Naechster Schritt: Zahlen-Nachlauf nach docs/playbooks/DOKU-CHECK.md, Abschnitt 5; '
+                       'nur ein PR mit Befund schreibt daten_commit und daten_date fort.']
     return '\n'.join(zeilen)
 
 
