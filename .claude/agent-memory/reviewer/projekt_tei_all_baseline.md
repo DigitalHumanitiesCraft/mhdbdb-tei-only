@@ -9,6 +9,8 @@ Die Zahl der tei_all-Baseline (`KNOWN_TEI_ALL_BASELINE` in `scripts/audit/valida
 
 **Why:** jede Datei mit ihrem ersten `@reason` auf `<w>` waechst die Baseline um eins (POS-TAGSET.md, Absatz nach der Fusionstabelle); das passiert bei jeder Fusionsentscheidung wieder.
 
+**Seit 03.11.2026 (Zweig claude/stage1-neu-rot) ist ein Stage-1-NEW rot** (Exit 1 im vollen Lauf, auch mit `--fail-fast`, so in CI); die Saetze "WARN" und "toleriert" in README und Hilfeseite sind dort neu gefasst. Eine neue `@reason`-Datei ohne Baseline-Eintrag bricht damit den Build, statt nur zu warnen.
+
 **How to apply:** bei jeder Baseline-Aenderung `git grep -n -E "\b<alt>\b" -- '*.md' '*.html' schema/` und nach Kontext filtern, nicht nach Phrase. Dazu: `validate-corpus.py --corpus-only` (und `--sample`) ueberspringt den NEW/GONE-Namensabgleich (Zeilen um 251-270); nur der Lauf ohne Filter belegt, dass die Menge stimmt, nicht nur die Zahl (~140 s lokal mit 8 Workern).
 
 **Inhaltsmodell `<monogr>` ohne jing pruefen (20.10.2026, Doku-Check-PR):** `define name="monogr"` in `schema/tei_all.rng` hat in der optionalen `choice` DREI Alternativen (author/editor-zuerst, title/idno-zuerst, `authority, idno`), nicht zwei. Im title-zuerst-Zweig muss jedes `idno` vor dem ersten author/editor stehen. Probe: Kindfolgen per lxml sammeln (`tei/*.xml`, 679 monogr) und gegen eine Regex aus den drei Zweigen plus Schwanz (`availability* note* (edition ...)* imprint ...`) halten; Altstand per `git cat-file --batch` und Header bis `</teiHeader>` (schnell). Phase A2 (`415e70147`) hat genau die 131 vorher ungueltigen monogr repariert, alle mit author nach title.

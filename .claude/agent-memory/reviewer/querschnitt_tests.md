@@ -27,6 +27,9 @@ Verdichtet 18.10.2026.
 - **Klasse im minifizierten CSS nicht mit `rg -c` (Ein-Zeilen-Datei) und nicht mit `\.klasse\{` zählen** (verfehlt gruppierte Selektoren). Tragfähig: `grep -o '[.,]klasse[,{]' assets/css/tailwind-output.css | wc -l`; Mengendifferenz: `grep -o "}[^{}]*{" x.css | sed 's/^}//;s/{$//' | tr ',' '\n' | sort -u` je Datei, dann `comm`.
 
 
+**"Kein Test deckt Seite X ab" (03.11.2026)**
+- Ein Grep nach dem Seitennamen in `testing/` ist kein Beleg: `vendor.spec.js` (`htmlFiles`) laeuft ueber jede `.html` im Repo ausser `tei/`, `data/`, `.claude/` u. a. Gegenprobe: `rg -n readdirSync testing/tests`.
+
 **Warte-Fallen (Playwright 1.55.1, #564 D3)**
 - `page.waitForLoadState('networkidle')` nach dem ersten networkidle der Seite ist ein No-op und ersetzt keine feste Frist nach einem Klick.
 - `beforeAll`/`afterAll` laufen mit `project.timeout`; ihre Zeit fehlt in `result.duration` und der Dauertabelle von run-tests.js. Request-Zähler mit `url().includes('/tei/')` trifft auch `playground/js/ui/tei/*.js`.
