@@ -3,8 +3,8 @@
   "eintraege": [
     {
       "domain": "doi.org",
-      "status": [403, 405, 503],
-      "grund": "Der Abruf folgt der Weiterleitung auf die Zielseite. Lokal 403 bei 29 von 210 doi.org-URLs; auf dem Runner antworteten 8 Brill-Ziele (10.1163, 10.30965) mit 405 statt 403 und 2 Bamberger Ziele (10.20378, fis.uni-bamberg.de) mit 503, diese auch lokal mit Browser-Kennung"
+      "status": [403, 405],
+      "grund": "Der Abruf folgt der Weiterleitung auf die Zielseite. Lokal 403 bei 29 doi.org-URLs in der Erstmessung; auf dem Runner antworteten 8 Brill-Ziele (10.1163, 10.30965), die lokal 403 geben, mit 405. 503 bleibt bewusst tot: am 2026-11-03 gaben 2 Bamberger Ziele (10.20378) 503, weil fis.uni-bamberg.de fuer alle Leser ausserhalb des Uninetzes gesperrt war, also keine Bot-Sperre. Gilt fuer alle doi.org-URLs, weil der Abgleich auf den Host der Link-URL geht, nicht auf das Ziel"
     },
     {
       "domain": "hdl.handle.net",
@@ -59,12 +59,12 @@
     {
       "domain": "real.mtak.hu",
       "status": ["FEHLER"],
-      "grund": "nur Runner: Netzfehler bei 1 URL, lokal 200"
+      "grund": "Netzfehler bei 1 URL auf dem Runner und lokal (HEAD 200, GET bricht die Verbindung ab); curl und Browser laden die Seite"
     },
     {
       "domain": "materiale-textkulturen.de",
       "status": ["SSL"],
-      "grund": "nur Runner: SSL-Fehler bei 1 URL, lokal 200 (vermutlich unvollstaendige Zertifikatskette, die Windows ergaenzt, ungeprueft)"
+      "grund": "nur Runner: SSL-Fehler bei 1 URL, lokal 200; der Server liefert nur das Leaf-Zertifikat ohne Kette (openssl s_client, Reviewer), Windows ergaenzt die Kette"
     }
   ]
 }
