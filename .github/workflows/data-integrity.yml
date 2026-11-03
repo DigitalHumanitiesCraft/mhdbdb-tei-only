@@ -237,7 +237,12 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: data-integrity-${{ github.ref }}
+  group: data-integrity-${{ github.ref }}${{ github.event_name == 'schedule' && '-schedule' || '' }}
+  # Der Wochenlauf (#653) hat eine eigene Gruppe: je Gruppe gibt es nur einen
+  # wartenden Lauf, ein neuer verdraengt ihn auch ohne cancel-in-progress. In
+  # derselben Gruppe koennte der Wochenlauf einen wartenden Push-Lauf auf main
+  # verdraengen, dessen Commit-Range dann kein Lauf prueft (der Wochenlauf hat
+  # keine Diff-Base). Serialisiert mit den Push-Laeufen muss er nicht werden.
   # Nur PR-Laeufe canceln: bei main-Pushes vergleicht das Bump-Gate gegen
   # event.before — ein gecancelter Zwischen-Lauf liesse dessen Commit-Range
   # ungeprueft (Push1 aendert Index ohne Bump, Push2 cancelt Lauf1, Lauf2
