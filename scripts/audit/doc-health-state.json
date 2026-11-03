@@ -1,6 +1,8 @@
 {
   "commit": "ede78bca3b8b5cbbf1d55c6fc2e5506878a9f3c2",
   "date": "2026-10-20",
+  "daten_commit": "ede78bca3b8b5cbbf1d55c6fc2e5506878a9f3c2",
+  "daten_date": "2026-10-20",
   "scorecard": "docs/JOURNAL.md, **Scorecard Doku-Check 2026-10-20**",
-  "_comment": "Stand des letzten Doku-Health-Checks, gelesen von check-doc-staleness.py. commit ist der Stand, gegen den der Check lief; date sein Tag. Fortgeschrieben wird die Datei vom Doku-Check-PR selbst (docs/playbooks/DOKU-CHECK.md), in demselben Commit-Satz wie die Scorecard im JOURNAL. Faellig wird der naechste Check an den Commits auf den stabilen Docs seit diesem Stand oder an den Tagen seit diesem Datum."
+  "_comment": "Stand des letzten Doku-Health-Checks, gelesen von check-doc-staleness.py. commit ist der Stand, gegen den der Check lief; date sein Tag. daten_commit und daten_date sind der Stand des letzten Zahlen-Nachlaufs (schmaler Nachlauf nach Datenaenderungen in tei/ und authority-files/). Ein voller Check schreibt nur commit/date fort, ein Zahlen-Nachlauf nur daten_commit/daten_date: der volle Check liest nur geaenderte Docs und ersetzt den Nachlauf nicht. Fortgeschrieben wird die Datei vom Doku-Check-PR selbst (docs/playbooks/DOKU-CHECK.md), in demselben Commit-Satz wie die Scorecard im JOURNAL. Faellig wird der naechste volle Check an den Commits auf den stabilen Docs seit commit oder an den Tagen seit date, ein Zahlen-Nachlauf an mindestens einem Commit auf tei/ oder authority-files/ seit daten_commit."
 }

@@ -11,11 +11,12 @@ Diese Datei ist die **einzige** Prüfliste für den Doku-Check in diesem Repo. S
 python scripts/audit/check-doc-staleness.py --faellig
 ```
 
-Die Statuszeile sagt `FAELLIG: ja`, `nein` oder `pr-offen #N`.
+Die Statuszeile sagt `FAELLIG: ja`, `zahlen`, `nein` oder `pr-offen #N`. `ja` ist der volle Check nach Abschnitt 3 und 4, `zahlen` der schmale Zahlen-Nachlauf nach Abschnitt 5. Ist beides fällig, gilt `ja`.
 
 - **Bezugspunkt** ist `scripts/audit/doc-health-state.json`: der Commit und das Datum des letzten abgeschlossenen Checks. Das JOURNAL wird dafür nicht gelesen, seine Formate und seine Reihenfolge wechseln.
 - **Fällig** ab 40 Commits an den 14 stabilen Docs oder nach 60 Tagen. "Stabil" heißt hier: die 15 promptotyping-Dokumente aus `docs/INDEX.md` ohne `JOURNAL.md`, also die 13 Stable-Knowledge-Dokumente plus `ROADMAP.md`. Die Schwelle hat chsteiner am 2026-10-20 entschieden. Dass JOURNAL-, Archiv-, Playbook- und Feature-Doc-Commits nicht mitzählen, hat die Session festgelegt, die den Lauf gebaut hat: Fast jede Session schreibt ins JOURNAL, und das ist keine Drift der Doku. Nach dieser Zählung gab es 69 Commits in den 15 Tagen nach dem Check vom 05.10. (`git log --first-parent --oneline 621bcf749..9a7346539 -- <14 Dateien>`). Gezählt wird mit `--first-parent`, also nur auf der Linie von `main`: Ein ohne Squash gemergter Zweig zählt als ein Commit, nicht mit jedem Einzelcommit. Ohne das Flag zählte ein ohne Squash gemergter Check-PR jeden seiner Commits: #644 hätte 57 an den 14 Docs gebracht, die Schwelle liegt bei 40.
-- **Ist ein PR `claude/doku-check-*` offen**, ist nichts zu tun, bis er gemergt oder geschlossen ist.
+- **`zahlen`** heißt: kein voller Check fällig, aber seit `daten_commit` in derselben Markerdatei liegt mindestens ein Commit an `tei/` oder `authority-files/` auf `main` (`--first-parent`). Eine Datenänderung macht Zahlen auch in Docs falsch, die sich selbst nicht geändert haben, und die sieht der volle Check nicht, weil er nur geänderte Docs liest (3.2). Entschieden von chsteiner am 2026-11-03.
+- **Ist ein PR `claude/doku-check-*` offen**, ist nichts zu tun, bis er gemergt oder geschlossen ist. Das gilt für beide Arten.
 
 Bei `nein` und `pr-offen` endet ein Routinenlauf sofort, ohne Branch, Kommentar oder Ausgabe.
 
@@ -90,7 +91,7 @@ Aus der allgemeinen promptotyping-Prüfung, soweit die Liste oben sie nicht abde
 
 1. **Branch** `claude/doku-check-JJJJ-MM-TT` von `origin/main`, die Basis gemessen nach Regel 7 des Betriebsvertrags.
 2. **Ein Commit je Befund.**
-3. **Markerdatei fortschreiben:** In `scripts/audit/doc-health-state.json` kommen `commit` (der geprüfte Stand, also `origin/main` beim Start), `date` (heute) und `scorecard` (`docs/JOURNAL.md, **Scorecard Doku-Check JJJJ-MM-TT**`, passend zu Punkt 5), als eigener Commit.
+3. **Markerdatei fortschreiben:** In `scripts/audit/doc-health-state.json` kommen `commit` (der geprüfte Stand, also `origin/main` beim Start), `date` (heute) und `scorecard` (`docs/JOURNAL.md, **Scorecard Doku-Check JJJJ-MM-TT**`, passend zu Punkt 5), als eigener Commit. `daten_commit` und `daten_date` bleiben stehen: Der volle Check liest nur geänderte Docs (3.2) und keine Hilfeseiten, er ersetzt den Zahlen-Nachlauf also nicht. Liegen Datencommits offen, wird der Nachlauf in der Woche danach fällig.
 4. **Gates noch einmal, dann `reviewer` vor dem Push.** Die Gates aus 3.1 laufen auf dem fertigen Zweig erneut, das Em-Dash-Gate als `python scripts/audit/check-no-em-dash.py --diff-base origin/main`. Erst so prüft es die Markdown-Zeilen, die der Lauf geschrieben hat. Diese Ausgabe kommt in den PR-Body. Der `reviewer` läuft, wie es seine Definition in `.claude/agents/reviewer.md` vorgibt. Schreibt er in sein Memory, gehen diese Dateien als eigener Commit in denselben PR.
 5. **JOURNAL-Scorecard als letzter Commit:** ein neuer Abschnitt `## JJJJ-MM-TT – Doku-Check (Scorecard)` am Ende von `docs/JOURNAL.md`, der Absatz beginnt mit `**Scorecard Doku-Check JJJJ-MM-TT**`, drei bis sechs Sätze. Bis zum 2026-10-20 waren es drei bis vier Zeilen. Der Abschnitt nennt auch die Lehren, die über den Einzelfall hinausgehen. Steht er als letzter Commit, trifft ein Konflikt mit parallelen Sessions nur ihn. **Kein Report als `.md` in `docs/`:** der Bericht ist mit der Scorecard und dem PR erledigt.
 6. **PR über REST:** `gh api repos/DigitalHumanitiesCraft/mhdbdb-tei-only/pulls -f head=<branch> -f base=main -f title=... -F body=@<datei>`. Der Body enthält:
@@ -102,3 +103,19 @@ Aus der allgemeinen promptotyping-Prüfung, soweit die Liste oben sie nicht abde
 
    Kein Closing-Keyword vor einer Issue-Nummer. Gemergt wird von Hand.
 7. **Kein Kommentar in #641.** Den schreibt der Wochenlauf `doc-health.yml`.
+
+## 5. Zahlen-Nachlauf (`FAELLIG: zahlen`)
+
+Ein schmaler Lauf, nur Prüfung 6 aus 3.3, dafür über alle Docs statt nur über die geänderten. Vertrag wie in Abschnitt 2.
+
+1. **Gates zuerst**, wie in 3.1.
+2. **Was sich an den Daten geändert hat:** `git log --first-parent --stat <daten_commit>..origin/main -- tei authority-files`. Daraus folgt, welche Mengen sich bewegt haben können: Texte, Token, Lemmata, Bedeutungen, Personen, Werke, Varianten und was die Commits sonst zählbar ändern.
+3. **Gegenstand:** die 14 stabilen Docs und die ausgelieferten Hilfeseiten `hilfe-*.html`, jeweils ganz. Gesucht wird jede Zahl und jeder Zustandssatz ("alle", "keiner", "noch nicht"), der über eine der Mengen aus Schritt 2 spricht. Eine Zahl mit Datum und Messweg ist datierte Chronik und bleibt (3.4). Eine undatierte wird gemessen.
+4. **Befundregeln** wie in 3.4, besonders: erst die Menge, dann die Zahl.
+5. **Ergebnis:**
+   - **Ohne Befund kein PR und kein Commit.** Die Markerdatei bleibt stehen, der nächste Lauf prüft die Datencommits dann noch einmal, zusammen mit den neuen. Ein PR, der nur den Marker verschiebt, wäre jede Woche Merge-Arbeit ohne Inhalt.
+   - **Mit Befund** wie Abschnitt 4, mit diesen Abweichungen:
+     - **Punkt 3:** In die Markerdatei kommen nur `daten_commit` (der geprüfte Stand, also `origin/main` beim Start, nie ein Commit des eigenen Zweigs, der nach dem Squash-Merge nicht mehr existiert) und `daten_date` (heute). `commit`, `date` und `scorecard` bleiben stehen.
+     - **Punkt 5 entfällt:** keine JOURNAL-Scorecard.
+     - **Punkt 6:** Der Titel beginnt mit `Doku-Check (Zahlen):`, der Body hat keine Scorecard, der Rest bleibt.
+     - Punkte 1, 2, 4 und 7 gelten unverändert, also auch: kein Kommentar in #641.
