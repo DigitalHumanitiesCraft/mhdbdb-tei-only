@@ -17,18 +17,18 @@ Wie `DOKU-CHECK.md` muss diese Datei ohne persönliche Skills und Regeln auskomm
 
 1. **Eingabe ist der generierte Teil von #44:** `gh api repos/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/44 --jq .body`, zwischen `PERSONEN:BEGIN` und `PERSONEN:END` der Abschnitt „Für Katharina“. Jede Zeile hat Art, Datum (`seit`), Ticket und die Frage als Link auf ihren Kommentar.
 2. **Gegenstand sind die Zeilen mit der Art `Entscheiden`, deren Datum mehr als 14 Tage zurückliegt.** Abnahmen nicht, die prüft sie am laufenden System. Julia und Linda nicht, entschieden am 03.11.2026 für Katharina, weil der Stau bei ihr liegt.
-3. **Schon vorgeprüft:** Eine Frage, deren Link in einer früheren Datei `docs/playbooks/kickoffs/*vorpruefung-*.md` auf `main` schon steht, wird übersprungen, wenn das Ticket seither keinen neuen Kommentar hat.
+3. **Schon vorgeprüft:** Eine Frage, deren Link in einer früheren Ergebnisdatei `docs/playbooks/routinen/*-vorpruefung.md` auf `main` schon steht, wird übersprungen, wenn das Ticket nach dem Laufdatum dieser Datei (in ihrem Namen und ihrer ersten Zeile) keinen neuen Kommentar bekommen hat.
 4. **Ende ohne Ausgabe**, wenn danach nichts übrig ist oder ein PR mit dem Kopf `claude/vorpruefung-*` offen ist (`gh api "repos/.../pulls?state=open" --jq '.[].head.ref'`).
 
 ## 2. Vertrag
 
-Wie `BALL-RUECKGABE.md` Abschnitt 2: Betriebsvertrag vollständig, die drei Cloud-Abweichungen aus `DOKU-CHECK.md` Abschnitt 2, und der Lauf schreibt nichts außerhalb seines PRs, keine Kommentare, keine Labels, keine Daten.
+Wie `BALL-RUECKGABE.md` Abschnitt 2: Betriebsvertrag vollständig, die drei Cloud-Abweichungen aus `DOKU-CHECK.md` Abschnitt 2, und der Lauf schreibt nichts außerhalb seines PRs und darin nur seine Ergebnisdatei, keine Kommentare, keine Labels, keine Daten.
 
 ## 3. Ablauf je Frage
 
 1. **Den Thread ganz lesen**, Body und alle Kommentare über `gh api --paginate`.
 2. **Die Quellen in dieser Reihenfolge:**
-   - **Andere Threads und Commits:** Ist die Frage anderswo schon entschieden? `gh api "search/issues?q=repo:DigitalHumanitiesCraft/mhdbdb-tei-only+<Stichwort>"`, `git log origin/main --grep=<Stichwort>`, und jedes Ticket, das der Thread verlinkt. Das ist der Fall aus #406.
+   - **Andere Threads und Commits:** Ist die Frage anderswo schon entschieden? `gh api "search/issues?q=repo:DigitalHumanitiesCraft/mhdbdb-tei-only+<Stichwort>"`, `git log origin/main --grep=<Stichwort>` (eine Issue-Nummer mit Wortgrenze, `-E --grep="#N([^0-9]|$)"`), und jedes Ticket, das der Thread verlinkt. Das ist der Fall aus #406.
    - **Die Daten:** Belege **mit Kontext**, nicht das Stichwort allein. Für ein Lemma die Belegstellen in `tei/` über `@lemmaRef` samt Vers davor und danach, die bestehende Annotation (`@ana`, `@pos`), den Eintrag in `authority-files/lexicon.xml`. Für Werke und Personen `works.xml` und `persons.xml`. Der Fall „Alanya“ in `CLAUDE.md` zeigt, was ein Urteil vom Stichwort allein kostet.
    - **Die Doku:** `docs/`, besonders `TEI-MODEL.md`, `POS-TAGSET.md`, `DECISIONS.md`.
 3. **Einordnen in genau eine Klasse:**
@@ -41,8 +41,8 @@ Wie `BALL-RUECKGABE.md` Abschnitt 2: Betriebsvertrag vollständig, die drei Clou
 ## 4. Ergebnis
 
 1. **Branch** `claude/vorpruefung-JJJJ-MM-TT` von `origin/main`, die Basis gemessen nach Regel 7 des Betriebsvertrags.
-2. **Eine Datei** `docs/playbooks/kickoffs/FORTSETZUNG-vorpruefung-JJJJ-MM-TT.md`:
-   - Erste Zeile: dass die Datei ein vorbereiteter Auftrag aus dem Lauf vom JJJJ-MM-TT ist, mit dem Stand von #44 und der Zahl der Fragen samt Menge (`9 von 34 Fragen geprüft, 25 jünger als 14 Tage oder schon vorgeprüft`).
+2. **Eine Datei** `docs/playbooks/routinen/JJJJ-MM-TT-vorpruefung.md` mit dem Laufdatum:
+   - Erste Zeile: dass die Datei das Ergebnis des Laufs vom JJJJ-MM-TT ist, mit dem Datum des #44-Stands (wie in `BALL-RUECKGABE.md` Abschnitt 1 gemessen) und der Zahl der Fragen samt Menge (`9 von 34 Fragen geprüft, 25 jünger als 14 Tage oder schon vorgeprüft`).
    - Je Klasse ein Abschnitt, je Frage: Ticket, die heutige Fragezeile, Klasse, Belege, Vorschlag. Für Klasse 3 die neue Zeile fertig zum Einsetzen. Hinweis aus `CLAUDE.md`: Eine Frage wird nur dann oben auf unseren letzten Kommentar editiert, wenn der neuer ist als ihre letzte Antwort, sonst als neuer Kommentar gepostet.
 3. **Gates und Review vor dem Push** wie in `DOKU-CHECK.md` Abschnitt 4, Punkt 4.
 4. **PR über REST**, Titel `Vorprüfung JJJJ-MM-TT: <Zahl> Fragen`, Body mit einer Tabelle Ticket, Klasse und ein Satz. Kein Closing-Keyword vor einer Issue-Nummer. Gemergt wird von Hand.
