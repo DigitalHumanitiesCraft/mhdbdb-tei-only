@@ -1,51 +1,51 @@
 ---
 name: projekt-gates-und-ci
-description: Was die Gates prüfen und was nicht: doc-count-audit, data-integrity.yml, Einzelgates, extract-variants, Begriffshilfe-Generator, issue-matrix, Review-Bot, Laufzeitbudget (floor_s-Abfolge, Nachkalibrierung), main-Schutz
+description: Was die Gates prüfen und was nicht: doc-count-audit, data-integrity.yml, Einzelgates, tei_all-Baseline, extract-variants, issue-matrix, Review-Bot, Laufzeitbudget, Workflow-Semantik, main-Schutz
 metadata:
   type: project
 ---
-Verdichtet 18.10.2026. Zahlen vor Gebrauch nachmessen.
+Verdichtet 03.11.2026, mit dem früheren Memory zur tei_all-Baseline. Zahlen vor Gebrauch nachmessen.
 
-**doc-count-audit.py --check**
-- Steht in data-integrity.yml VOR allen Datengates (rot = der Rest läuft nicht) und zuletzt in no-cdn-check.yml; `count_xml_elements` erlaubt nur `//tei:<tag>[@xml:id|@corresp]`.
-- Prüft je Datei nur die Schlüssel aus `DOC_TARGETS`. Bei geänderter Zahl: Gate laufen UND `grep -rn` über die alte Zahl. Eine Lemma-Löschung berührt `lexicon_entries`, `variants_forms`, `variants_entries`, `variants_normalized`; ein neuer `type_N` hebt `variants_forms` um 1. Ein Anker bindet nur seine Zeile; Katalogzahlen in Prosa sind ungegatet (seit #451).
-- **Cwd:** cwd-relativ sind `enhance_works_with_zotero.py`, `find-mentions.py`, die archivierten apply-Skripte (`env -C <wt>`). Ein Vergleich „Exit + letzte Zeile aus zwei cwds" ist blind für ein Skript, das aus fremdem cwd null Dateien findet und grün meldet; `grep -c __file__` je Skript lesen.
+**`doc-count-audit.py --check`**
+- In data-integrity.yml früh (nach `check-index-versions.py`, vor den Datengates), in no-cdn-check.yml als letzter Schritt. Prüft je Datei nur die Schlüssel aus `DOC_TARGETS`, `count_xml_elements` erlaubt nur `//tei:<tag>[@xml:id|@corresp]`. Ein Anker bindet nur seine Zeile, Katalogzahlen in Prosa sind ungegatet (#451).
+- Bei geänderter Zahl: Gate laufen UND `grep -rn` über die alte Zahl. Eine Lemma-Löschung berührt `lexicon_entries` und `variants_*`, ein neuer `type_N` hebt `variants_forms`.
+- **Cwd-relativ** sind `enhance_works_with_zotero.py`, `find-mentions.py`, die archivierten apply-Skripte (`env -C <wt>`). „Exit plus letzte Zeile aus zwei cwds" ist blind für ein Skript, das aus fremdem cwd null Dateien findet und grün meldet: `grep -c __file__` je Skript.
 
-**data-integrity.yml:** zwei Nummernschemata (Workflow-Kopf 0, 1, 1a..1d gegen DEVELOPMENT.md 1..15, von Hand gespiegelt): bei einer Step-Nummer im Auftrag erst das Schema klären. Der `pull_request`-Lauf nimmt die Workflow-Datei des PR-Merge-Refs.
-- **Freshness-Reihenfolge im zweiten Job:** variants (+lexicon) → API → Begriffshilfe → lemma-pos `--check` → Index-Rebuild-and-Compare, keiner mit `if:`. Ein Satz „X wird vom Rebuild-and-Compare gefangen" stimmt nur, wenn keiner der früheren Schritte schon rot wird; bei fremder annotierter TEI wird meist variants zuerst rot (20.10., Prüfung build:data --allow-dirty). Alle Fehlermeldungen raten „lokal neu bauen", was mit der fremden Datei im Baum dasselbe Ergebnis reproduziert.
-- **Zweite Lifecycle-Kopie:** `scripts/README.md` → „Verwendung" hält eine Befehlsfolge „vollständiger Fall, Reihenfolge zählt" samt Gates; DEVELOPMENT.md → Build Commands eine dritte ohne extract-variants. Ein „nur im Lifecycle" dagegen halten. (Zweig claude/doku-pflege-befehlslisten ersetzt beides, Stand 20.10. ungemergt.)
-- **Lifecycle hat zwei nummerierte Tabellen** (DATA-MODEL `tei/` 1..12 mit 5b, `authority-files/` 1..7): „Schritt 5" ist dort zweimal belegt (extract-variants bzw. Begriffshilfe). Jeden Verweis „step N" auf die Tabelle prüfen, die er meint.
+**data-integrity.yml und Lifecycle**
+- Zwei Nummernschemata (Workflow-Kopf 0, 1, 1a..1d gegen DEVELOPMENT.md 1..15): bei einer Step-Nummer erst das Schema klären. Der `pull_request`-Lauf nimmt die Workflow-Datei des Merge-Refs.
+- Freshness-Reihenfolge im zweiten Job: variants (+lexicon), API, Begriffshilfe, lemma-pos, Rebuild-and-Compare, keiner mit `if:`. „X fängt der Rebuild-and-Compare" stimmt nur, wenn kein früherer Schritt rot wird (bei fremder annotierter TEI meist variants).
+- Der Lifecycle hat zwei nummerierte Tabellen (DATA-MODEL `tei/` 1..12 mit 5b, `authority-files/` 1..7), „Schritt 5" ist zweimal belegt. Befehlsfolgen stehen außerdem in `docs/DEVELOPMENT.md` → Build Commands und in `npm run build:data` (Stand 03.11.2026, `scripts/README.md` verweist nur noch): ein „nur im Lifecycle" gegen alle halten.
 
 **Einzelgates**
 - `check-index-versions.py` gatet fünf Dateien, nur vier tragen die Korpusversion. `check-no-em-dash.py --diff-base origin/main` meldet auf einem älteren Branch Zeilen, die main geändert hat.
-- `check-authority-cross-refs.py`: überspringt Tokens ohne Dateiteil (`#type_N`), scannt nur tei/; `--check` schreibt `scripts/audit/authority-cross-refs-audit.json` (gitignoriert, wegräumen); die Ratsche feuert nur bei Anstieg.
-- `check-author-refs.py` vergleicht keine Alternativformen. `sync_tei_headers.py --works --check`: msIdentifier und listBibl. `check-header-genres.py --check`: blind für Köpfe ohne Hauptgattung, gelöschte Elternkategorien, doppelte ids. `validate-corpus.py --corpus-only --sample SIGLE ...` läuft in Sekunden.
-- `check-variants-flips.py --base <rev>`: rot bei jeder umgeklappten Form gegenüber `<base>:data/authority-index.json.gz`, außer `scripts/audit/variants-flips-ack.json` (force-added, das Verzeichnis ist gitignoriert) nennt genau (from-Version, to-Version, Anzahl).
-- `build-authority-index.py` bricht ohne passenden `data/corpus-index.json.gz` ab (fehlt, falsche Version, lemmaIndex < 10.000): Korpus vor Authority.
+- `check-authority-cross-refs.py` überspringt `#type_N`, scannt nur tei/, `--check` schreibt das gitignorierte `scripts/audit/authority-cross-refs-audit.json` (wegräumen), die Ratsche feuert nur bei Anstieg.
+- `check-author-refs.py` vergleicht keine Alternativformen. `check-header-genres.py` ist blind für Köpfe ohne Hauptgattung, gelöschte Elternkategorien, doppelte ids.
+- `check-variants-flips.py --base <rev>`: rot bei jeder umgeklappten Form, außer `scripts/audit/variants-flips-ack.json` (force-added) nennt genau (from-Version, to-Version, Anzahl).
+- `build-authority-index.py` bricht ohne passenden `data/corpus-index.json.gz` ab: Korpus vor Authority.
 - Kein Gate: tailwind-output.css, sense/@ana, Header-Spiegel gegen works.xml außer msIdentifier, listBibl und Gattungen.
 
-**extract-variants.py:** „Typ mit >1 Lemma" endet mit return 0, kein Gate. Ohne `--apply` schreibt es `authority-files/variants.regen.xml` (nicht gitignoriert, löschen). `--apply` bereinigt auch sense/@ana in lexicon.xml; der Textanker-Abbruch kommt erst NACH dem variants-Write. Jede Umannotierung eines corresp-Tokens ändert `form/@n` in variants.xml, der Freshness-Step wird ohne Regeneration rot.
+**validate-corpus.py und die tei_all-Baseline**
+- `--corpus-only`, `--authority-only` und `--sample` überspringen den NEW/GONE-Abgleich gegen `KNOWN_TEI_ALL_BASELINE` (`is_full_run`): nur der volle Lauf belegt die Menge, nicht nur die Zahl. Seit 03.11.2026 ist NEW rot, GONE ein Hinweis. Eine Datei mit erstem `@reason` an `<w>` braucht den Baseline-Eintrag.
+- **Die Baselinezahl steht auch deutsch** (`schema/README.md`, `hilfe-daten-beitragen.html`), neben TEI-MODEL.md §10 und DECISIONS.md. Ein Grep nach englischen Phrasen verfehlt beide: `git grep -n -E "\b<alt>\b" -- '*.md' '*.html' schema/`.
 
+**extract-variants.py:** „Typ mit >1 Lemma" endet mit return 0, kein Gate. Ohne `--apply` (auch bei `--help`) schreibt es `authority-files/variants.regen.xml` (nicht gitignoriert, löschen). `--apply` bereinigt auch sense/@ana in lexicon.xml, der Textanker-Abbruch kommt erst NACH dem variants-Write. Jede Umannotierung eines corresp-Tokens ändert `form/@n`.
 
-**build-issue-matrix.py** (PERSONEN-Marker, „wer ist am Zug" aus dem Thread)
-- Proben in-process per importlib mit `GH_REPO=DigitalHumanitiesCraft/mhdbdb-tei-only`; Zustandsproben als ganzer Lebenslauf eines Vorgangs.
-- **Der Julia-Vorrang-Skip ist der einzige Pfad, der einen Vorgang unsichtbar macht**; kein Gate zählt, ob jeder wait:*-Vorgang landet. Bei Änderung an einem `continue` vor den Listen proben: offene KZW-Frage; `@wachauer Abnahme:`; dritte Person, die die Bedingung mittrifft (`wait != 'wait:julia'` trifft Linda); zwei Abnahme-Zeilen in einem Kommentar.
-- **Eine Invariante mit Ausnahme gegen den Mutanten „Ausnahme immer nehmen" proben;** bleibt sie grün, ist die Ausnahme ihr ganzer Gegenstand. Die Selbsttest-Invariante deckt nur KZW.
-- **Rot heißt nicht „Ball liegt“:** Exit 1 kommt auch von Label-Lücken; Grund je Lauf `gh run view <id> --log-failed | grep "##\[error\]"`. Startzeit weicht stundenweit vom Cron 04:23 UTC ab: wer den Body „nach dem Tageslauf“ liest, misst `createdAt` (`gh run list --limit 500 --json createdAt,event`). Ein Zeitfenster ohne Anfang über die ganze Historie messen.
+**build-issue-matrix.py**
+- Proben in-process per importlib mit `GH_REPO=DigitalHumanitiesCraft/mhdbdb-tei-only`, als ganzer Lebenslauf eines Vorgangs.
+- **Der Julia-Vorrang-Skip ist der einzige Pfad, der einen Vorgang unsichtbar macht**, kein Gate zählt, ob jeder wait:*-Vorgang landet. Bei Änderung an einem `continue` vor den Listen proben: offene KZW-Frage, `@wachauer Abnahme:`, dritte Person (`wait != 'wait:julia'` trifft Linda), zwei Abnahme-Zeilen in einem Kommentar. Eine Invariante mit Ausnahme gegen den Mutanten „Ausnahme immer nehmen" proben.
+- Rot heißt nicht „Ball liegt" (auch Label-Lücken): `gh run view <id> --log-failed | grep "##\[error\]"`. Die Startzeit weicht stundenweit vom Cron ab: über `createdAt` messen.
 
-**Review-Bot (claude-code-review.yml):** Log ohne `show_full_output: true` oder `ACTIONS_STEP_DEBUG=true` nur `init` plus Result. Rote Läufe: `gh run view <id> --log | grep -o '"is_error": [^,]*'`. **Dateiliste eines PR:** Befehle in querschnitt-git. gh kappt `--json files` bei 100, `changedFiles` nicht; „Diff berechnet“ belegt nur der `<changed_files>`-Block im Job-Log, der selbst bei 100 kappt.
+**Review-Bot:** Log ohne `show_full_output: true` nur `init` plus Result. Rote Läufe: `gh run view <id> --log | grep -o '"is_error": [^,]*'`. „Diff berechnet" belegt nur der `<changed_files>`-Block im Job-Log.
 
 **check-runtime-budget.py (#564)**
-- **Neuer Workflow-Schritt ohne Eintrag in `runtime-budget.json` hat die Grenze 10 s** (floor_s), rot auf PR darüber. Bei jedem PR, der einen Step in einen PR-Workflow einfügt: Eintrag in `steps` suchen und lokal timen (`date +%s.%N`, kein `/usr/bin/time`); eine Laufzeitangabe im Workflow-Kommentar nachmessen.
-- **`floor_s`, datierte Abfolge:** bis 14.10.2026 ersetzte der Floor die Grenze; seither gilt max(Budget × Faktor, floor_s). Falle `zeile_text()`: `{g:.0f}` zeigt 10,5 als „10 s“.
-- **Nachkalibrierung (Diff an `runtime-budget.json`):** `laeufe` größer als `n` des Schritts ist erklärbar, nicht übernehmen, sondern je Lauf zeigen. Beispiel 18.10. (`Freshness lemma-pos (#462)`: 22 Läufe, n 21): der fehlende Lauf war ein PR-Lauf eines Zweigs von vor dem Merge des Schritts. Läufe listen über `actions/workflows/<wf>/runs?status=success&created=>=<seit>`, dann je Lauf `actions/runs/<id>/jobs` nach dem Schrittnamen. Die Dauern waren zweigipflig (9–10 s oder 17–18 s), p90 = max.
-- **Budget-Anhebung wegen Drift: Grundmenge gegen die dokumentierte Regel halten** (`docs/DEVELOPMENT.md` „Where the numbers come from“: p90 der erfolgreichen Läufe, Checkouts seit E1, „Aborted runs never enter a base set“). Ein Zählskript ohne Filter auf `conclusion` nimmt rote und abgebrochene Läufe mit; am 03.11. (#659) 39 Werte, davon 2 failure und 1 cancelled, p90 zufällig gleich. Zeilenrezept: Läufe ohne `status=`-Filter holen, `run.conclusion` und `job.conclusion` mitdrucken, Statistik je Teilmenge.
-- **`provisional_since`:** seit der Nachkalibrierung vom 18.10. trägt kein Eintrag mehr eines; `erinnere()` kehrt dann immer nach `faellige_kalibrierung` leer zurück, geprüft ist der Pfad nur noch im Selbsttest. Ein neuer vorläufiger Eintrag weckt ihn: dann prüfen, ob `basis` "vorlaeufig" enthält (Substring, `lade_budget`); `reason` zählt nicht.
+- Neuer Workflow-Schritt ohne Eintrag in `runtime-budget.json` hat die Grenze `floor_s` (10 s): Eintrag suchen und lokal timen (`date +%s.%N`). Datierte Abfolge: bis 14.10.2026 ersetzte der Floor die Grenze, seither max(Budget × Faktor, floor_s). `zeile_text()` zeigt 10,5 als „10 s".
+- Nachkalibrierung und Anhebung: Grundmenge gegen `docs/DEVELOPMENT.md` „Where the numbers come from" halten (p90 der erfolgreichen Läufe, abgebrochene nie). Läufe ohne `status=`-Filter holen, `run.conclusion` und `job.conclusion` mitdrucken, Statistik je Teilmenge. `laeufe` > `n` ist erklärbar (PR-Lauf von vor dem Merge des Schritts): je Lauf zeigen.
+- `provisional_since`: ohne vorläufigen Eintrag kehrt `erinnere()` immer leer zurück. Kommt einer dazu, prüfen, ob `basis` "vorlaeufig" enthält (Substring), `reason` zählt nicht.
 
-**Workflow-Semantik, die lokal probbar ist (Zeitplanläufe #653, 03.11.2026)**
-- **Default-Shell ohne `shell:` ist `bash -e` ohne pipefail:** `skript | tail` verschluckt jeden Exit des Skripts. Probe ohne Baumänderung: Skript plus kaputte Eingabe in eine Scratch-Kopie, dann `bash -e -c "... | tail -n 1"; echo $?`. Der Repo-Beleg steht in `naming-index-update.yml` (Kommentar zu pipefail).
-- **`X=$(cmd)` bricht unter `bash -e` ab, wenn cmd scheitert;** ein Gate-Job davor lässt `needs`-Jobs ohne `always()` überspringen, und ein Meldeschritt in ihnen läuft dann nie.
-- **Zustandsmelder, je Endzustand zwei Fragen:** Welcher spätere Lauf hebt dieses Rot auf (ein „nichts melden"-Zweig lässt ein Infrastruktur-Rot stehen)? Und ist das Grün wahr (ein Gate auf den letzten *erfolgreichen* Lauf übersieht ein späteres Rot auf derselben SHA; tragfähig: letzter *abgeschlossener* Lauf, SHA gleich und success)? Ein Skip-Vorgänger kann selbst ein Skip sein.
-- **`workflow_dispatch` läuft hier praktisch nur auf Zweigen:** ein Meldeweg „auf main" braucht die `github.ref`-Bedingung; der API-Filter `runs?branch=main` schließt Zweig-Dispatches aus (`event=workflow_dispatch&branch=main` gegen ohne `branch` vergleichen).
+**Workflow-Semantik, lokal probbar**
+- Default-Shell ohne `shell:` ist `bash -e` ohne pipefail: `skript | tail` verschluckt jeden Exit. Probe `bash -e -c "... | tail -n 1"; echo $?` auf einer Scratch-Kopie.
+- `X=$(cmd)` bricht unter `bash -e` ab, wenn cmd scheitert. Ein Gate-Job davor lässt `needs`-Jobs ohne `always()` überspringen, ein Meldeschritt darin läuft nie.
+- Zustandsmelder je Endzustand: welcher spätere Lauf hebt dieses Rot auf, und ist das Grün wahr (tragfähig ist der letzte *abgeschlossene* Lauf mit gleicher SHA und success, nicht der letzte erfolgreiche)?
+- `workflow_dispatch` läuft hier praktisch nur auf Zweigen: ein Meldeweg „auf main" braucht die `github.ref`-Bedingung, `runs?branch=main` schließt Zweig-Dispatches aus.
 
-**main-Schutz** ist nur ein Ruleset (`deletion`, `non_fast_forward`): `branches/main .protected=true` heißt nicht PR-Pflicht. `rules/branches/main` und `rulesets/<id>` lesen.
+**main-Schutz** ist nur ein Ruleset (`deletion`, `non_fast_forward`): `branches/main .protected=true` heißt nicht PR-Pflicht.

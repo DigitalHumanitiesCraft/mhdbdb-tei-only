@@ -1,15 +1,21 @@
 ---
 name: projekt-onama
-description: ONAMA-Pilot (#609) im Review: Reproduktion von anker-abgleich.py/build-paket.py, Positionsparität gegen build-corpus-index, Prüfstatus-Definitionen, Spec-Schwächen, Doku-Inventare
+description: ONAMA-Pilot (#609) im Review: Reproduktion von anker-abgleich.py und build-paket.py, Positionsparität, Prüfstatus-Definitionen, Explorer-Badges und Spec-Locatoren, Doku-Inventare
 metadata:
   type: project
 ---
-Verdichtet 03.11.2026 aus vier Runden (18.10.). Zahlen sind Eingabe, vor Gebrauch nachmessen.
+Verdichtet 03.11.2026, mit dem ONAMA-Abschnitt des früheren Frontend-Memorys. Zahlen sind Eingabe, vor Gebrauch nachmessen.
 
-- **Reproduktion:** TTL per `curl -sL` aus raw.githubusercontent.com (onama-corpus, gepinnter Commit) nach `%TEMP%`, beide Skripte mit `env -C <wt> python -X utf8 ...` und `--mhdbdb-commit <basis>` in einen Temp-Ordner, dann `cmp` gegen `playground/data/onama/`. rdflib läuft ohne `-I`.
+**Paket**
+- **Reproduktion:** TTL per `curl -sL` aus raw.githubusercontent.com (onama-corpus, gepinnter Commit) nach Temp, beide Skripte mit `env -C <wt> python -X utf8 ...` und `--mhdbdb-commit <basis>` in einen Temp-Ordner, dann `cmp` gegen `playground/data/onama/`. rdflib läuft ohne `-I`. Paket am Commit: `git show <rev>:playground/data/onama/argonauten.json`.
 - **Positionsparität:** per importlib `lade_tei` (anker-abgleich.py) gegen `extract_word_data` (build-corpus-index.py) je Sigle (Wortzahl) und je Endpunkt `words[wortposition] == erstes lemmaRef`.
-- **Prüfstatus-Definition steht an drei Stellen** (Paket meta.hinweise, Kopfbanner im Explorer, Hilfe) und muss zur Zuordnung in build-paket.py passen. Die Regel ist eine Vorrangkette (offen > abgeleitet > geprueft), die Texte nennen Bedingungen ohne Vorrang: an überlappenden Fällen messen (Bild ohne Link, abgeleitete Zuordnung, umgerechnet). Alte gegen neue Regel auf das committete Paket anwenden, Wechsel nach (art, zuordnung, bildlink) gruppieren.
+- **Die Prüfstatus-Definition steht an drei Stellen** (Paket meta.hinweise, Kopfbanner im Explorer, Hilfe) und muss zur Zuordnung in build-paket.py passen. Die Regel ist eine Vorrangkette (offen > abgeleitet > geprueft), die Texte nennen Bedingungen ohne Vorrang: an überlappenden Fällen messen (Bild ohne Link, abgeleitete Zuordnung, umgerechnet). Alte gegen neue Regel aufs committete Paket anwenden, Wechsel nach (art, zuordnung, bildlink) gruppieren. `nichtwort_anker` ist per Definition immer `umgerechnet`.
 - **Ein Flag an `bool(wortspanne)` fällt bei kollabierter Spanne (None) still auf False:** Mutation per JSON-Walk über `uri` in einer Kopie, je Status einmal, build-paket.py dagegen fahren.
-- **Spec-Titel gegen Assertions:** bei „nicht verlinkt" im Titel prüfen, ob die Abwesenheit des Links gemessen wird. Ob ein Spec-Fall trennt, an den Daten messen (welche Realisierungen das Konzept tragen, bei welchen es das erste ist); im Konzept-Einstieg ist `nachKonzept` direkt, der Fallback-Zweig dort unerreichbar.
-- **Basis im Auftrag kann der Merge-Base sein**, während origin/main weiterrückt: `git merge-base` und `git merge-tree --write-tree` gegen origin/main.
-- **Neue Playground-Route:** Modulbaum und Routentabelle in ARCHITECTURE.md sowie playground/readme.md mitlesen, das Inventar-Gate deckt sie nicht ab.
+
+**Explorer und Specs**
+- Realisierungs- und Passagenbadge teilen Text und Klasse (`PRUEF_BADGE.abgeleitet`, `on-badge-warn`), daneben steht bei Bildern ohne Sammlung „Zuordnung abgeleitet" mit derselben Klasse. Ein Locator `.on-badge-warn` mit String-`hasText` über `[data-on-real]` trennt die Ebenen nicht: auf den Kopf (`.on-row` in `renderRealisierung`) einschränken und `hasText: /^abgeleitet$/` nehmen. Passagenzeilen per `hasText: pa.von` sind Teilstring über von und bis: Eindeutigkeit messen.
+- Spec-Titel gegen Assertions: steht „nicht verlinkt" im Titel, prüfen, ob die Abwesenheit des Links gemessen wird. Ob ein Spec-Fall trennt, an den Daten messen (welche Realisierungen das Konzept tragen, bei welchen es das erste ist). Im Konzept-Einstieg ist `nachKonzept` direkt, der Fallback-Zweig dort unerreichbar.
+
+**Umfeld**
+- Die Basis im Auftrag kann der Merge-Base sein, während origin/main weiterrückt: `git merge-base` und `git merge-tree --write-tree` gegen origin/main.
+- Neue Playground-Route: Modulbaum und Routentabelle in ARCHITECTURE.md sowie playground/readme.md mitlesen, das Inventar-Gate deckt sie nicht ab.

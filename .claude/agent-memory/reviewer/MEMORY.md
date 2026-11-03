@@ -1,18 +1,17 @@
 # reviewer Memory (mhdbdb-tei-only)
 
-Verdichtet am 08.10., 10.10., 14.10., 16.10., 18.10. und 03.11.2026 (teilweise). Zahlen in den Dateien sind Eingabe, keine Messung.
+Verdichtet zuletzt am 03.11.2026. Zahlen in den Dateien sind Eingabe, keine Messung.
 
-- [Umgebung](querschnitt_umgebung.md): wenn ein Kommando abgelehnt wird oder die Umgebung (Windows, Cloud, GitHub ohne gh) querkommt
+- [Umgebung](querschnitt_umgebung.md): wenn ein Kommando abgelehnt wird oder Windows, Cloud oder GitHub ohne gh querkommt
 - [Git-Rezepte](querschnitt_git.md): Altstand, Basis, Rebase, Squash und Stack prüfen, Dateiliste eines PR, ohne den Arbeitsbaum anzufassen
-- [Messrezepte](querschnitt_messen.md): Skripte und JS in-process nachfahren, Mutationsproben, Zählfallen
-- [Tests](querschnitt_tests.md): Playwright und run-tests.js bedienen, Proben ohne Spec, Tailwind, Warte-Fallen
-- [Review-Denkfallen](querschnitt_review_fallen.md): was ein Diff nicht zeigt, Auftrag als Behauptung, Fehlerjournal-Ketten
-- [Gates und CI](projekt_gates_und_ci.md): was jedes Gate nicht prüft, Review-Bot, Laufzeitbudget samt Nachkalibrierung, main-Schutz
-- [TEI-Korpus](projekt_korpus_tei.md): Strukturtatsachen des Korpus, WZB-Tafelskripte, Parzival-Buchgrenzen, Findebuch-Dump
-- [Authority, Lexikon und Variants](projekt_lexikon_variants.md): Authority-Index, variants.xml, lexicon.xml, Umhängen von Tokens, WZB-Paare
-- [Header-Spiegel](projekt_header_spiegel.md): Header als Kopie von works/persons, Sync-Skripte, listBibl-Schreiber und -Gate
-- [Playground/Frontend](projekt_playground_frontend.md): Frontend-Pfade, Suche, Werkzeugzustand, Reader, Hilfetexte mitlesen
-- [Fremdquellen](projekt_fremdquellen.md): Naming-Index, Pferde-Index, Glossar-Export #554, Textreihen-Unterseite, Zotero-/Issue-Monatslauf #417/#537, HSC-Datierung #118, Weingrüße BRE #147
-- [Prüfseiten](projekt_pruefseiten.md): Prüfseiten-Generatoren und archivierte Beispiele prüfen
-- [ONAMA-Pilot #609](projekt_onama.md): wenn ONAMA-Paket, Anker-Abgleich oder Explorer im Diff sind
-- [tei_all-Baseline: alle Fundorte](projekt_tei_all_baseline.md): Zahl steht auch deutsch in schema/README.md und hilfe-daten-beitragen.html; --corpus-only prueft keine Namen
+- [Messrezepte](querschnitt_messen.md): Skripte und JS in-process nachfahren, Mutations- und Ausfallproben, Zählfallen
+- [Tests](querschnitt_tests.md): Playwright und run-tests.js bedienen, Proben ohne Spec, CSS-Zustände, Tailwind
+- [Review-Denkfallen](querschnitt_review_fallen.md): was ein Diff nicht zeigt, Auftrag als Behauptung, Prüfmaterial für KZW, Fehlerjournal-Ketten
+- [Gates und CI](projekt_gates_und_ci.md): bevor du sagst, ein Gate fange etwas, oder einen Workflow-Schritt, ein Budget oder die tei_all-Baseline prüfst
+- [TEI-Korpus](projekt_korpus_tei.md): wenn tei/ im Diff ist, besonders WZB, Parzival oder Header
+- [Authority, Lexikon und Variants](projekt_lexikon_variants.md): wenn authority-files/, der Authority-Index oder Tokens zwischen Lemmata im Diff sind
+- [Header-Spiegel](projekt_header_spiegel.md): wenn Header-Kopien von works.xml/persons.xml oder ihre Sync-Skripte im Diff sind
+- [Playground/Frontend](projekt_playground_frontend.md): wenn Suche, Ergebniskarten, Reader oder Playground-Werkzeuge im Diff sind
+- [Fremdquellen](projekt_fremdquellen.md): wenn ein Fremdexport, ein Fremdindex oder ein Monatslauf aus Zotero oder Issues im Diff ist
+- [Prüfseiten](projekt_pruefseiten.md): wenn ein Prüfseiten-Generator oder ein archiviertes Beispiel im Diff ist
+- [ONAMA-Pilot](projekt_onama.md): wenn ONAMA-Paket, Anker-Abgleich oder Explorer im Diff sind

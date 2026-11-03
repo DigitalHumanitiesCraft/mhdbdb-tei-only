@@ -1,50 +1,33 @@
 ---
 name: projekt-fremdquellen
-description: Fremdquellen und Fremdindizes im Review: Naming-Index (#420), Pferde-Index (#193), Glossar Kochbuchforschung (#554: PII, Einordnung, Entfallen-Suche, Kommentarnotizen), Textreihen-Unterseite (#93), Zotero-/Issue-Monatslauf (#417, #537: DOI-Freitext, urllib-Ausfallproben, Label als Entscheidungsersatz), Handschriftencensus-Datierung (#118: Cache-Struktur, zu frühes notAfter, Werk-Mehrfachzuordnung)
+description: Fremdquellen und Fremdindizes im Review: Naming- und Pferde-Index, Fremdexporte unter sources/, Zotero- und Issue-Monatslauf, Handschriftencensus-Datierung, Weingrüße BRE, Textreihen
 metadata:
   type: project
 ---
-Verdichtet 18.10.2026. Zahlen sind Eingabe, vor Gebrauch nachmessen.
+Verdichtet 03.11.2026. Zahlen sind Eingabe, vor Gebrauch nachmessen.
 
-## Naming-Index (#420)
-- **Nachbau und Pin-Prüfung:** `01-fetch-and-build-index.py` (PROJECT_ROOT = `parents[3]`, schreibt nach data/): Skript + `alias-overrides.json` nach `<scratch>/scripts/ingest/naming/`, `naming-explorer.js` nach `<scratch>/playground/js/ui/tei/`, `--ref <sha>`. Byte-Vergleich lokal wertlos (zlib): Blob-Hash gegen `refs/pull/<N>/head`; nur er sagt bei einem Bot-PR, ob der Runner gebaut hat.
-- **Term-Perspektive nachrechnen:** Record einmal je Term (Set über eig/deck/ant/epi); `bez` = Term in eig|deck|ant, `epi` = Term in epi; `share` mit `math.floor(x + 0.5)`; bez + epi > mentions nur, wenn ein Term im SELBEN Record in beiden Gruppen steht.
+**Naming-Index (#420):** Nachbau mit `01-fetch-and-build-index.py` (PROJECT_ROOT = `parents[3]`) plus `alias-overrides.json` und `naming-explorer.js` in gleicher Tiefe ins Scratch, `--ref <sha>`. Byte-Vergleich lokal wertlos (zlib): Blob-Hash gegen `refs/pull/<N>/head`. Term-Perspektive: `share` mit `math.floor(x + 0.5)`, bez + epi > mentions nur bei einem Term im selben Record in beiden Gruppen.
 
-## Pferde-Index (#193, Borek)
-- **„Verse" hat zwei Einheiten:** `02-map-citations.py` zählt `verse=len(belege[werk])` (Boreks verschiedene Zitatnummern); die verschiedenen Sprungziele (`target`) sind eine andere Zahl. Einheit nennen: `Counter((work, citation))` und `Counter(target)` getrennt zählen.
+**Pferde-Index (#193):** „Verse" hat zwei Einheiten, `Counter((work, citation))` und `Counter(target)` getrennt zählen.
 
-## Glossar Kochbuchforschung (#554, WordPress-Export in sources/)
-Bei jedem weiteren Fremdexport nach `sources/` die ersten Punkte vorab abarbeiten; Personendaten im Korpus: projekt-header-spiegel.
-- **PII nicht an der Mail-Regex aufhängen** (das Impressum behielt die Telefonnummer). Zeilendiff Original gegen Bereinigt, dann gezielt `Telefon`, `\+\d{2}`, `<address>`, `credit` in `_wp_attachment_metadata`, `/author/`, `?author=`; Ort über das umschließende `<item>`. `PHONE_RE` trifft die nationale Form ohne `Tel:` nicht.
-- **GitHub-`user-attachments` eines öffentlichen Repos sind ohne Login abrufbar**; Löschen des Kommentars löscht die Datei nicht. Die Datei-ID gehört nie in Notizen, Commits oder Issues.
-- **#397 an `sources/`:** `sources/README.md` nennt „historische Ingest-Vorlagen" und „Auszug aus dem 9,1-GB-Archiv"; jeder neue Nicht-Legacy-Bestand macht das falsch, ohne dass der Diff die Zeilen berührt.
-- **Original** nur bei KZW: Bytes und SHA-256 gegen die Glossar-README, dann `bereinige-export.py` (mit `-E -P`, nicht `-I`) und `cmp` gegen den Blob.
-- **Nur `einordnung.json` (Feld `c`) steuert die Kürzungen.** Tragen zwei Felder dieselbe Aussage, beide Mengen gegeneinander zählen.
-- **Entfallen-Suche (`entfallenes-suchen.py`):** `stuecke()` trennt nur vor Großbuchstabe, „ oder ‚; `AUTO_B` (Fußnote, URL, `S. N`) stuft still als (b) ein, nie in `offen`. Messen: `vorstufe-bauen.py <tmp>.json`, `m.entfallene(o, k)` auf `enz_t`/`poet_t` neben `kommentare[gid].text`; nach jeder Textänderung neu.
+**Fremdexporte nach `sources/` (Glossar #554)**
+- **PII nicht an der Mail-Regex aufhängen:** Zeilendiff Original gegen Bereinigt, dann `Telefon`, `\+\d{2}`, `<address>`, `credit` in `_wp_attachment_metadata`, `/author/`, `?author=`. `PHONE_RE` trifft die nationale Form ohne `Tel:` nicht.
+- **GitHub-`user-attachments` eines öffentlichen Repos sind ohne Login abrufbar**, Löschen des Kommentars löscht die Datei nicht: die Datei-ID nie in Notizen, Commits, Issues.
+- **#397 an `sources/README.md`:** es zählt die Bestände auf (Legacy-Vorlagen, Archiv-„Auszug", Fremdexporte „bisher `glossar-kochbuchforschung/`"). Jeder neue Bestand macht das falsch, ohne dass der Diff die Zeilen berührt.
+- Original nur bei KZW: Bytes und SHA-256 gegen die Glossar-README, `bereinige-export.py` (mit `-E -P`), `cmp` gegen den Blob. Nur `einordnung.json` (Feld `c`) steuert die Kürzungen. `entfallenes-suchen.py`: `AUTO_B` stuft still als (b) ein, nie in `offen`.
 
-## Zotero- und Issue-Abrufe mit Monatslauf (#417, #537, 18.10.2026)
-- **Zotero-Felder `DOI` und `url` sind Freitext:** in Gruppe 5043625 standen volle URLs (doi.org, dx.doi, hdl, jstor) im DOI-Feld und `10.…`, `urn:…`, nackte Hosts im url-Feld. Jeder Seitenbau aus Zotero: alle Werte gegen `^10\.\d{4,9}/\S+$` bzw. `^https?://` prüfen und die gerenderten `href` greppen.
-- **Ausfallfestigkeit von urllib-Skripten per In-Process-Probe** (Modul per `importlib.util.spec_from_file_location` laden, `modul.urllib.request.urlopen` ersetzen, nur `aktualisieren()` rufen, nichts schreibt): `http.client.IncompleteRead` ist weder OSError noch ValueError, `int(HTTPMessage()["fehlt"])` ist TypeError; beide fallen durch übliche except-Tupel.
-- **#397 an Specs über eingefrorene Fremdstände:** nach einer Normalisierung (DOI-Vorsatz abziehen) prüfen, ob die Spec noch Rohfeld = gerenderter Wert annimmt (`find(x => x.doi)` + `href="doi.org/${doi}"`), und ob sie Issue-Nummern oder Wörter eines Zwischenstands fest verdrahtet; beides wird beim nächsten Monatslauf rot, obwohl die Seite stimmt. Umgekehrt läuft `not.toContain(rohtitel)` leer, wo die Seite einen bereinigten oder Plan-Titel zeigt (Demnächst: 5 von 11 am 18.10.); Mutationsprobe über `region_bauen()` mit geleertem Ausschluss.
-- **„nicht beschlossen" am ganzen Thread messen, nicht am letzten Kommentar:** #139 (CoReMA) trug am 18.10. den Grund „Aufnahme nicht abgestimmt", der Body zitiert aber KZW 29.05. („danach können wir gerne mit dem CoReMA-Korpus starten") und ihr Kommentar 09.07. die Phase-1-Auswahl; offen war nur das nachrückende Kochbuch.
-- **Das `--check` im Monatslauf ist tautologisch:** `monatslauf-seiten.yml` baut die Seiten erst (ohne `--offline`) und prüft danach; eine Handänderung im Markenbereich wird überschrieben, das `--check` bleibt grün (Probe 18.10. an Kopie in scratchpad: vor Bau Exit 1, nach `--offline`-Bau Exit 0, Änderung weg). Ein Satz „lief im Monatslauf, fiel dort auf" ist daher falsch. Seit cf25b8d (18.10.) läuft es auch in `no-cdn-check.yml`; Monatslauf-PRs aus dem GITHUB_TOKEN lösen diesen Workflow nicht aus. Mutationsprobe im Markenbereich setzen (`<!-- PUBLIKATIONEN:START -->`), das erste `<li` der Seite steht in der Navigation; bei Demnächst ein Issue ohne `wait:extern` freigeben (#92 trägt es).
-- **Label als Stellvertreter einer Entscheidung gegen den Thread prüfen:** #537 setzte „offene Rechtefrage = `wait:extern`", aber #262 wurde am 06.10. auf `wait:kzw` umgelabelt, obwohl die Nachnutzungsfrage an Trier offen blieb.
+**Zotero- und Issue-Abrufe mit Monatslauf (#417, #537)**
+- **Zotero `DOI` und `url` sind Freitext** (volle URLs im DOI-Feld, `10.…` und nackte Hosts im url-Feld): alle Werte gegen `^10\.\d{4,9}/\S+$` bzw. `^https?://` prüfen, gerenderte `href` greppen. Ausfallproben: querschnitt-messen.
+- **#397 an Specs über eingefrorene Fremdstände:** nimmt die Spec nach einer Normalisierung noch Rohfeld = gerenderter Wert an, oder verdrahtet sie Issue-Nummern eines Zwischenstands? Beides wird beim nächsten Monatslauf rot. `not.toContain(rohtitel)` läuft leer, wo die Seite einen bereinigten Titel zeigt.
+- **Das `--check` in `monatslauf-seiten.yml` ist tautologisch** (baut erst, prüft dann): „fiel im Monatslauf auf" ist falsch. Das Gate ist der `--check` in `no-cdn-check.yml`, den Monatslauf-PRs aus dem GITHUB_TOKEN nicht auslösen. Mutationsprobe im Markenbereich (`<!-- PUBLIKATIONEN:START -->`, das erste `<li` steht in der Navigation).
+- **„Nicht beschlossen" und Labels als Entscheidungsersatz am ganzen Thread messen**, nicht am letzten Kommentar oder am Label (#139, #262).
 
-## Handschriftencensus-Datierung (#118, `scripts/ingest/datierung-118/`, 21.10.2026)
-- **Nie selbst abrufen** (robots.txt sperrt KI-Agenten); offline gegen `temp/hsc-cache` im Hauptbaum lesen. Werkseite: alle Handschrift-Links `href="/N"` stehen in einer `<ol class="signaturen">` unter `h3#hss`, ohne Paginierung (17 Seiten gemessen). Handschrift-JSON: `gnd` ist Liste, `standorte` Dict, Feldtexte tragen HTML-Entities (`&amp;`).
-- **taq-Prüfung: die gefährliche Richtung ist ein zu frühes notAfter.** Verworfene Klammerzusätze mit eigener Datierung („Anfang 14. Jh. (um 1325)") erzeugen genau das; Proben mit konstruierten Freitexten über `normalisiere()` per `sys.path`-Import.
-- **Eine Wortliste „Datierung in der Klammer" gegen das Vokabular von `REGELN` halten** (Runde 2): der Fix nannte jh/Viertel/Hälfte/um/vor/nach, aber nicht anfang/mitte/ende/oder; „Ende 13. Jh. (oder Anfang 14.)" lief auf bis 1299 statt 1320. Untergrenzen-Prüfungen mit `float("nan")` proben (`nan < 1.0` ist False).
-- **10 HSC-Werke tragen mehrere works.xml-Werke** (Fassungen wie AXS/AXV/BAX, KC1/KC2/KCR, dazu work_133/work_126 auf 5720): der Werk-taq geht dann an jede Sigle.
+**Handschriftencensus-Datierung (#118, `scripts/ingest/datierung-118/`)**
+- **Nie selbst abrufen** (robots.txt sperrt KI-Agenten), offline gegen `temp/hsc-cache` im Hauptbaum. Werkseite: Handschrift-Links in `<ol class="signaturen">` unter `h3#hss`. JSON: `gnd` Liste, `standorte` Dict, HTML-Entities im Text.
+- **Gefährlich ist ein zu frühes notAfter** (verworfene Klammerzusätze mit eigener Datierung). Proben mit konstruierten Freitexten über `normalisiere()`, Wortlisten gegen das ganze Vokabular von `REGELN`, Untergrenzen mit `float("nan")` (`nan < 1.0` ist False). Mehrere works.xml-Werke je HSC-Werk (Fassungen) geben den taq an jede Sigle.
 
-## Weingrüße BRE (#147, `scripts/ingest/bre/`, 03.11.2026)
-- **Proben ohne Schreiben nach `ingest/bre/`:** 00 `--offline` schreibt nichts (02 kennt kein `--offline`); 01 schreibt `segmentierung.tsv` hart, darum in-process mit umgebogenem `bc.SEGMENTIERUNG`/`bc.INGEST_DIR` per `runpy`; 02 mit `--ausgabe-dir <scratch> --datum <change-Datum>` nachbauen und gegen das eingecheckte TEI diffen. Quellzeilen: `bc.lade_seite(bc.transkriptions_titel(sig))["inhalt"].split("\n")`.
-- **Zeilennummern aus 02 gegen die Quelle zählen, nicht aus dem Log** (lagen einmal alle um +1 daneben).
-- **Kopfzeilen-Rückgriff in `segmentiere()` läuft vor der Vorspann-Prüfung:** fette/rote Zeilen vor dem ersten Text dürfen `bc.VORSPANN` nicht umgehen (d5/d6). Kopfzahl je Text gegen Spalte `ueberschrift` halten.
-- **`[...]` am Spaltenanfang einer Synopse heißt meist „eingebettet in einen anderen Text"**, nicht „fehlt".
-- Header-Template aus ARI: bei BRE baut der Konverter die `<div>`-Gliederung selbst, `=== Teil A ===` (D, W1) fällt weg.
-- **Alt-gegen-Neu über alle 21 Zeugen** mit Schein-Repo im Scratch (`bre_common.REPO = parents[3]`: `scripts/ingest/bre/` aus `git show <alt>:`, dazu `temp/bre-wiki`, `ingest/bre/*.tsv`, `schema/mhdbdb.rng`); Diff nach Einrückung normalisieren (Teil-`<div>` bei D/W1).
-- **Rot/fett = `<head>` in `ist_kopfartig` entscheidet im Bestand keinen Kopf** (alle `segmentiere`-Köpfe stehen in der Synopse; dazu Vorspann-Köpfe außerhalb). Messen: Quelltext mit `if False:` per `exec` laden, `segmentiere` je Zeuge. Test seit 03.11. in test_bre.py; überlebende Mutanten: `isspace`-Filter weg, `if not zeichen` weg (ein Span je Wort, im Bestand 0 Zeilen).
+**Weingrüße BRE (#147, `scripts/ingest/bre/`)**
+- Proben ohne Schreiben nach `ingest/bre/`: 00 `--offline`, 01 in-process mit umgebogenem `bc.SEGMENTIERUNG`/`bc.INGEST_DIR` per `runpy`, 02 mit `--ausgabe-dir <scratch> --datum <change-Datum>` gegen das eingecheckte TEI diffen. Alt gegen neu über alle Zeugen mit Schein-Repo (`bre_common.REPO = parents[3]`, dazu `temp/bre-wiki`, `ingest/bre/*.tsv`, `schema/mhdbdb.rng`).
+- Zeilennummern aus 02 gegen die Quelle zählen, nicht aus dem Log. Der Kopfzeilen-Rückgriff in `segmentiere()` darf `bc.VORSPANN` nicht umgehen. `[...]` am Spaltenanfang einer Synopse heißt meist „eingebettet", nicht „fehlt".
 
-## Textreihen-Unterseite (#93, `textreihen/`)
-- **Treue gegen die alte Site messen, nicht lesen** (WebFetch liefert Zusammenfassungen): `curl -s -L -A "Mozilla/5.0" "https://www.marketext.at/Textreihentypologie/?page_id=N"`, Textvergleich per Skript (Tags weg, Anführungszeichen und nbsp normalisieren, Fragmente ab 25 Zeichen als Substring). Erwartete Lücken: WP-Kommentarformulare, „Links noch nicht anklicken", `#DOI (wird nachgeliefert)`, `dokument.html#MHDBDB`.
-- **Verzeichnisbaum-Zeile in `CLAUDE.md`:** kein Skript unter `scripts/audit/` liest den Baum; sein Spiegel ist der Baum in `docs/DEVELOPMENT.md`. „kein Abgleich mit genres.xml": `gh issue view 93 --json comments` (wachauer, 2026-10-08).
+**Textreihen (#93, `textreihen/`):** Treue gegen marketext.at per `curl` und Skriptvergleich messen, nicht per WebFetch (fasst zusammen). Den Verzeichnisbaum in `CLAUDE.md` liest kein Skript, sein Spiegel ist der Baum in `docs/DEVELOPMENT.md`.
