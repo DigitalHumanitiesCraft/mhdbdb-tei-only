@@ -1,6 +1,6 @@
 ---
 name: projekt-playground-frontend
-description: Playground und Hauptseite im Review: Hash-Pfad bis innerHTML, Suche und Nummernpfad, Ergebniskarten, Reader, Werkzeugzustand nach Korpusauswahl, Lesepanel, Footer und SEO-Region
+description: Playground und Hauptseite im Review: Hash-Pfad bis innerHTML, Suche und Nummernpfad, Ergebniskarten, Reader, Werkzeugzustand nach Korpusauswahl, Lesepanel, Singular/Plural-Fundlisten, Footer und SEO-Region
 metadata:
   type: project
 ---
@@ -23,6 +23,7 @@ Verdichtet 03.11.2026. Zahlen sind Eingabe, vor Gebrauch nachmessen.
 - **Spezifität gegen die Touch-Ausnahme:** `@media (pointer: coarse)` nimmt Hover mit `.result-summary:hover` (0,2,0) zurück. Hover-Regeln mit `:not(.x)` oder `:has(...)` haben (0,3,0) und schlagen sie (`:where()` senkt). `box-shadow:none` im Hover löscht auch das `shadow-sm` der Ruhe.
 - Der Hinweistext ist über `aria-labelledby` Teil des Knopfnamens: jeden Pfad prüfen, der ihn zurücksetzt. Der Guard `!fileResults[0].text` ist bei Nähe- und Vers-Ergebnissen immer wahr (`tei-manager.js` legt nie `text` an).
 - `collapsible-text.js`: 600 Zeichen sind Vorauswahl, `enhanceCollapsibles` nimmt den Knopf zurück, wenn nichts verdeckt ist.
+- **Scrollen auf Lemmaseite und Playground (03.11.2026, #554):** beide laden `shared.css`, beide haben den sticky `<header>` aus `_nav.html` (gemessen 72,5 px bei 1200, 1280 und 1920 Breite). Der Lemma-Explorer scrollt das Fenster, `#resultsContainer` ist `overflow-hidden` ohne Höhe und bleibt bei `scrollTop` 0. Messen per Playwright-Skript im Scratchpad gegen `node testing/serve.js` (Port per `MHDBDB_TEST_PORT`); Ausfallprobe ohne Dateiänderung: `Element.prototype.scrollIntoView` per `page.evaluate` stummschalten.
 
 **Reader ohne `position`** springt nach 600 ms zum ersten Beleg: „öffnet sich am Anfang" ist dann falsch. `hilfe-playground.html` nennt „Gesamten Text öffnen" zweimal.
 
@@ -31,5 +32,7 @@ Verdichtet 03.11.2026. Zahlen sind Eingabe, vor Gebrauch nachmessen.
 **Korpusauswahl (#204):** `selectedTextsThunk` liefert nur die Auswahl, Instanzzustand (`state.scope`, `state.result`, `this.selected`) überlebt die Verengung: `this.state`/`this._*` je Werkzeug durchgehen. `_corpusAgg` (Hapax) und `_textById` (Reim) hängen am ungefilterten Thunk. Leer-Guard (#539): Werkzeuge mit Suchfeld löschen, die ohne stempeln.
 
 **Lesepanel (#434):** populateModal setzt vier Kopffelder, `showEmptyState` leert nur Titel und Body: neue Schließpfade gegen alle vier halten. `lastSearchTerm` wird vor dem `try` gesetzt.
+
+**Singular/Plural-Fundlisten (#643):** eine Suche nach `${n} Belege` verpasst ein Adjektiv dazwischen (horses-explorer `Die ${n} angezeigten Belege`, im Tooltip) und den Dativ (`${a} von ${b} Belegen`, rhyme-dictionary bei `minCount` 1). Andere Nomen derselben Ansicht (`Lemmata`, `Reimpartner`) mitprüfen. Erreichbarkeit von n=1 am Index zählen (`data/naming-index.json.gz`, `data/horses-index.json.gz` per Python), nicht behaupten. Neuer Faltungs-Aufruf auf MHD-Text: CONTRACTS.md §Fold nennt die Ausnahmen einzeln.
 
 **Footer, Logos, SEO:** Footer-Quelle `includes/_footer.html`. `build-pages.py --check` zählt alle Seiten mit Chrome-Region und meldet SEO-Seiten getrennt (`SEO_PAGES` = `PAGES` + `api/index.html`). og:description wird aus `name="description"` kopiert: eine ungegatete Zahl dort steht doppelt. Logos: `assets/images/*-logo.*`, `textreihen/img/logo-*`, PNG-Maße per struct aus Bytes 16-24.

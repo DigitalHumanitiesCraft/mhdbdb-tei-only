@@ -19,4 +19,6 @@ Verdichtet 03.11.2026.
 
 **check-author-refs.py:** eine Ausnahme per Sigle (`LEERE_LISTPERSON`) schaltete die Prüfung für VOR ab, richtig ist `sigle in LEERE_LISTPERSON and not corresp_ids`. Ein zusätzlicher Nicht-Autor im particDesc ist gewollt. Es liest wie check-header-genres nur den Kopf. Messvorschrift ist die Zeile „particDesc-Spiegel geprüft N".
 
+**Gattungen an Altständen (#495):** works.xml trug Werkgattungen bis 90e5cc604 (#32, 2026-04-10) als `<ref target="genres.xml#...">` je Sprache, erst danach als `<ptr>`; eine Messung an älteren Commits, die nur `ptr` liest, findet null Gattungen. Die Header-Zeiger der FD-Sigel zogen erst in 20243d284 (#71) auf work_6, nicht im Split-Commit. `check-header-genres.py` hat seit #495 leere `AUSNAHMEN`, die Klasse `veraltet` ist damit ohne Gegenstand; Prosa über die Ausnahme steht in `data-integrity.yml` und DEVELOPMENT.md Punkt 17.
+
 **Zuschreibungsstatus (#452):** `titleStmt/author` trägt `@ana` (disputed|uncertain|rejected) und `@role="adapter"`, `text.author` = erster zählender (auch `app.js` liest ihn). Ein verworfener Autor hat keinen particDesc-Eintrag, sein `ref` zeigt ins Leere. `particDesc/person/note[@type="works"]` ist Altbestand ohne Leser. Header-Autorfolge gegen works.xml prüft kein Gate.

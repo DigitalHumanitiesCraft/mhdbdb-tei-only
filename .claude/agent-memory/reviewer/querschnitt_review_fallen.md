@@ -30,6 +30,9 @@ Verdichtet 03.11.2026. Dieses Memory ist Eingabe, keine Messung.
 - Eine Regel aus einem Issue-Kommentar hat eine zweite Quelle, die Label-Ereignisse der Autorin danach (`gh api .../issues/N/timeline`). #378: `wait:julia` dazu, nicht statt `wait:kzw`.
 - Text für eine Datei, die ein Parallelzweig ändert: erst `git diff origin/main...<zweig> -- <datei>`.
 - Eine Belegzeile, die ein Zitat findet, belegt das Zitat: bei einer Verdichtung den Primärkommentar öffnen.
+- **Textvorschlag eines Menschen „wörtlich übernehmen" (#537, 03.11.2026):** Wortlaut UND Absatzfolge prüfen. `gh api repos/<o>/<r>/issues/comments/<id> --jq .body`, an Leerzeilen splitten, Whitespace normalisieren, gegen den getaggten Seitentext `in` und `find()`-Reihenfolge. Dazu `meta description`/`og:description` greppen, die alter Wortlaut bleiben.
+- **Ball-Rückgabe (A-Pakete, 03.11.2026):** nicht nur die Einordnung, sondern jede Bedingungsverzweigung im Plan („liegt der Fehler in X, dann ändern“) gegen den Thread halten: schreibt sie, wo KZW X schon bestätigt hat? Und eine Option, die wir ihr zur Wahl gestellt haben, ist nach einer Gegenfrage nicht gewählt. Label-Vorschläge setzt die Koordination oft Minuten nach dem Commit um (Timeline), das ist kein Befund an der Datei.
+- **„Seit <Entscheidungsdatum> ist X" in einem Fix-PR (#495, 03.11.2026):** datiert den Zustand auf die Entscheidung, nicht auf den Merge. Gegen `git show origin/main:<datei>` halten: steht X dort noch anders, gilt der Satz erst ab diesem PR.
 
 **Prüfmaterial für KZW**
 - „Handarbeit", „Handurteil", „manuell" heißen für die Leserin „ein Mensch hat es gelesen". Bei Agenten-Urteilen `grep -n -i "hand\|manuell"` über README, Docstrings, Spalten (Umbruch „von\nHand").
