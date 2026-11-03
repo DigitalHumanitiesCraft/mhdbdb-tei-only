@@ -91,7 +91,7 @@ Aus der allgemeinen promptotyping-Prüfung, soweit die Liste oben sie nicht abde
 
 1. **Branch** `claude/doku-check-JJJJ-MM-TT` von `origin/main`, die Basis gemessen nach Regel 7 des Betriebsvertrags.
 2. **Ein Commit je Befund.**
-3. **Markerdatei fortschreiben:** In `scripts/audit/doc-health-state.json` kommen `commit` (der geprüfte Stand, also `origin/main` beim Start), `date` (heute) und `scorecard` (`docs/JOURNAL.md, **Scorecard Doku-Check JJJJ-MM-TT**`, passend zu Punkt 5), als eigener Commit. Dieselben Werte für Stand und Datum gehen auch nach `daten_commit` und `daten_date`: Der volle Check schließt den Zahlen-Nachlauf ein.
+3. **Markerdatei fortschreiben:** In `scripts/audit/doc-health-state.json` kommen `commit` (der geprüfte Stand, also `origin/main` beim Start), `date` (heute) und `scorecard` (`docs/JOURNAL.md, **Scorecard Doku-Check JJJJ-MM-TT**`, passend zu Punkt 5), als eigener Commit. `daten_commit` und `daten_date` bleiben stehen: Der volle Check liest nur geänderte Docs (3.2) und keine Hilfeseiten, er ersetzt den Zahlen-Nachlauf also nicht. Liegen Datencommits offen, wird der Nachlauf in der Woche danach fällig.
 4. **Gates noch einmal, dann `reviewer` vor dem Push.** Die Gates aus 3.1 laufen auf dem fertigen Zweig erneut, das Em-Dash-Gate als `python scripts/audit/check-no-em-dash.py --diff-base origin/main`. Erst so prüft es die Markdown-Zeilen, die der Lauf geschrieben hat. Diese Ausgabe kommt in den PR-Body. Der `reviewer` läuft, wie es seine Definition in `.claude/agents/reviewer.md` vorgibt. Schreibt er in sein Memory, gehen diese Dateien als eigener Commit in denselben PR.
 5. **JOURNAL-Scorecard als letzter Commit:** ein neuer Abschnitt `## JJJJ-MM-TT – Doku-Check (Scorecard)` am Ende von `docs/JOURNAL.md`, der Absatz beginnt mit `**Scorecard Doku-Check JJJJ-MM-TT**`, drei bis sechs Sätze. Bis zum 2026-10-20 waren es drei bis vier Zeilen. Der Abschnitt nennt auch die Lehren, die über den Einzelfall hinausgehen. Steht er als letzter Commit, trifft ein Konflikt mit parallelen Sessions nur ihn. **Kein Report als `.md` in `docs/`:** der Bericht ist mit der Scorecard und dem PR erledigt.
 6. **PR über REST:** `gh api repos/DigitalHumanitiesCraft/mhdbdb-tei-only/pulls -f head=<branch> -f base=main -f title=... -F body=@<datei>`. Der Body enthält:
@@ -110,8 +110,12 @@ Ein schmaler Lauf, nur Prüfung 6 aus 3.3, dafür über alle Docs statt nur übe
 
 1. **Gates zuerst**, wie in 3.1.
 2. **Was sich an den Daten geändert hat:** `git log --first-parent --stat <daten_commit>..origin/main -- tei authority-files`. Daraus folgt, welche Mengen sich bewegt haben können: Texte, Token, Lemmata, Bedeutungen, Personen, Werke, Varianten und was die Commits sonst zählbar ändern.
-3. **Gegenstand:** die 14 stabilen Docs und die ausgelieferten Hilfeseiten `hilfe-*.html`, jeweils ganz. Gesucht wird jede Zahl und jeder Zustandssatz („alle“, „keiner“, „noch nicht“), der über eine der Mengen aus Schritt 2 spricht. Eine Zahl mit Datum und Messweg ist datierte Chronik und bleibt (3.4). Eine undatierte wird gemessen.
+3. **Gegenstand:** die 14 stabilen Docs und die ausgelieferten Hilfeseiten `hilfe-*.html`, jeweils ganz. Gesucht wird jede Zahl und jeder Zustandssatz ("alle", "keiner", "noch nicht"), der über eine der Mengen aus Schritt 2 spricht. Eine Zahl mit Datum und Messweg ist datierte Chronik und bleibt (3.4). Eine undatierte wird gemessen.
 4. **Befundregeln** wie in 3.4, besonders: erst die Menge, dann die Zahl.
 5. **Ergebnis:**
    - **Ohne Befund kein PR und kein Commit.** Die Markerdatei bleibt stehen, der nächste Lauf prüft die Datencommits dann noch einmal, zusammen mit den neuen. Ein PR, der nur den Marker verschiebt, wäre jede Woche Merge-Arbeit ohne Inhalt.
-   - **Mit Befund** wie Abschnitt 4, Punkte 1, 2, 4 und 6, mit drei Abweichungen. Die Markerdatei bekommt nur `daten_commit` und `daten_date`, `commit`, `date` und `scorecard` bleiben stehen. Es gibt keine JOURNAL-Scorecard, der PR-Body ist der Bericht. Sein Titel beginnt mit `Doku-Check (Zahlen):`.
+   - **Mit Befund** wie Abschnitt 4, mit diesen Abweichungen:
+     - **Punkt 3:** In die Markerdatei kommen nur `daten_commit` (der geprüfte Stand, also `origin/main` beim Start, nie ein Commit des eigenen Zweigs, der nach dem Squash-Merge nicht mehr existiert) und `daten_date` (heute). `commit`, `date` und `scorecard` bleiben stehen.
+     - **Punkt 5 entfällt:** keine JOURNAL-Scorecard.
+     - **Punkt 6:** Der Titel beginnt mit `Doku-Check (Zahlen):`, der Body hat keine Scorecard, der Rest bleibt.
+     - Punkte 1, 2, 4 und 7 gelten unverändert, also auch: kein Kommentar in #641.
