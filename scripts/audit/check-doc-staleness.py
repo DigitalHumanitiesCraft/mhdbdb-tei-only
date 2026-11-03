@@ -7,7 +7,9 @@ war bisher an eine Erinnerung gebunden. Dieses Skript macht die Faelligkeit zu e
 Messung und fasst zwei Arten von Liegengebliebenem mit an:
 
     a) Faelligkeit: Commits auf den 14 stabilen Docs seit dem letzten Check
-       (Markerdatei doc-health-state.json) und Tage seit dessen Datum.
+       (Markerdatei doc-health-state.json) und Tage seit dessen Datum (voller
+       Check, Vorrang). Dazu ein schmaler Zahlen-Nachlauf: mindestens ein Commit
+       (--first-parent) auf tei/ oder authority-files/ seit daten_commit.
     b) Feature-Docs (docs/features/*.md), deren Issue geschlossen ist: laut
        CLAUDE.md "Temporal Artifacts" leben sie nur, solange das Issue offen ist.
     c) docs/JOURNAL.md ueber der Zeilenschwelle (Verdichten ist Sache von chsteiner).
@@ -45,7 +47,8 @@ Entwarnung raus. Ohne `--apply` zeigt der Lauf nur, was gepostet wuerde.
 
 Usage:
     python scripts/audit/check-doc-staleness.py                 # Bericht a) bis c)
-    python scripts/audit/check-doc-staleness.py --faellig       # nur a): Statuszeile und Zahlenzeile
+    python scripts/audit/check-doc-staleness.py --faellig       # nur a): Statuszeile und Zaehlzeile
+                                                                # (FAELLIG: ja | zahlen | nein | pr-offen #N)
     python scripts/audit/check-doc-staleness.py --kommentar --issue 641            # zeigen
     python scripts/audit/check-doc-staleness.py --kommentar --issue 641 --apply    # posten
     python scripts/audit/check-doc-staleness.py --selftest
@@ -93,7 +96,12 @@ STABILE_DOCS = (
 # Bekannt ausgenommen: das 15. promptotyping-Dokument und sein Archiv.
 AUSGENOMMEN = ('JOURNAL.md', 'journal-archive.md')
 
-STATE_FELDER = ('commit', 'date', 'scorecard', '_comment')
+STATE_FELDER = ('commit', 'date', 'daten_commit', 'daten_date', 'scorecard', '_comment')
+
+# Pfade, deren Aenderung einen Zahlen-Nachlauf faellig macht (entschieden von
+# chsteiner am 03.11.2026): Daten aendern Zahlen auch in unveraenderten Docs.
+DATEN_PFADE = ('tei/', 'authority-files/')
+SCHWELLE_DATEN_COMMITS = 1
 MARKER = re.compile(r'<!-- doc-health: ([0-9a-f]+) -->')
 
 
@@ -104,45 +112,63 @@ class Fehler(Exception):
 # ---------------------------------------------------------------- reine Logik
 
 def lade_state(daten):
-    """Prueft den Inhalt der Markerdatei; gibt (commit, datum) zurueck."""
+    """Prueft den Inhalt der Markerdatei; gibt (commit, datum, daten_commit, daten_datum) zurueck."""
     if not isinstance(daten, dict):
         raise Fehler('Markerdatei: oberste Ebene ist kein Objekt')
     fehlt = [f for f in STATE_FELDER if f not in daten]
     if fehlt:
-        raise Fehler('Markerdatei ohne Feld ' + ', '.join(repr(f) for f in fehlt))
+        raise Fehler('Markerdatei ohne Feld ' + ', '.join(repr(f) for f in fehlt)
+                     + ' (kein Fallback: daten_commit und daten_date muessen gesetzt sein, '
+                       'Stand des letzten Zahlen-Nachlaufs)')
     unbekannt = sorted(set(daten) - set(STATE_FELDER))
     if unbekannt:
         raise Fehler('Markerdatei mit unbekanntem Feld ' + ', '.join(repr(f) for f in unbekannt))
     for f in STATE_FELDER:
         if not isinstance(daten[f], str) or not daten[f].strip():
             raise Fehler(f'Markerdatei: Feld {f!r} ist kein nichtleerer Text')
-    if not re.fullmatch(r'[0-9a-f]{40}', daten['commit']):
-        raise Fehler(f"Markerdatei: commit {daten['commit']!r} ist keine volle SHA (40 Hex-Zeichen)")
-    if not re.fullmatch(r'\d{4}-\d{2}-\d{2}', daten['date']):
-        raise Fehler(f"Markerdatei: date {daten['date']!r} ist kein ISO-Datum (JJJJ-MM-TT)")
-    try:
-        datum = date.fromisoformat(daten['date'])
-    except ValueError:
-        raise Fehler(f"Markerdatei: date {daten['date']!r} ist kein gueltiges Datum")
-    return daten['commit'], datum
+    for f in ('commit', 'daten_commit'):
+        if not re.fullmatch(r'[0-9a-f]{40}', daten[f]):
+            raise Fehler(f"Markerdatei: {f} {daten[f]!r} ist keine volle SHA (40 Hex-Zeichen)")
+    daten_datum = []
+    for f in ('date', 'daten_date'):
+        if not re.fullmatch(r'\d{4}-\d{2}-\d{2}', daten[f]):
+            raise Fehler(f"Markerdatei: {f} {daten[f]!r} ist kein ISO-Datum (JJJJ-MM-TT)")
+        try:
+            daten_datum.append(date.fromisoformat(daten[f]))
+        except ValueError:
+            raise Fehler(f"Markerdatei: {f} {daten[f]!r} ist kein gueltiges Datum")
+    return daten['commit'], daten_datum[0], daten['daten_commit'], daten_datum[1]
 
 
 def ist_faellig(n_commits, tage):
     return n_commits >= SCHWELLE_COMMITS or tage >= SCHWELLE_TAGE
 
 
-def faelligkeit_zustand(n_commits, tage, pr_nummern):
-    """('nein' | 'faellig' | 'pr-offen', Nummer oder None). Ein offener PR gilt nur, wenn faellig."""
-    if not ist_faellig(n_commits, tage):
+def ist_zahlen_faellig(n_daten):
+    return n_daten >= SCHWELLE_DATEN_COMMITS
+
+
+def faelligkeit_zustand(n_commits, tage, pr_nummern, n_daten=0):
+    """('nein' | 'faellig' | 'zahlen' | 'pr-offen', Nummer oder None).
+
+    Der volle Check hat Vorrang vor dem Zahlen-Nachlauf. Ein offener PR gilt fuer
+    beide Arten, aber nur, wenn eine von ihnen faellig ist."""
+    if ist_faellig(n_commits, tage):
+        art = 'faellig'
+    elif ist_zahlen_faellig(n_daten):
+        art = 'zahlen'
+    else:
         return 'nein', None
     if pr_nummern:
         return 'pr-offen', min(pr_nummern)
-    return 'faellig', None
+    return art, None
 
 
 def statuszeile(zustand, nummer):
     if zustand == 'ja' or zustand == 'faellig':
         return 'FAELLIG: ja'
+    if zustand == 'zahlen':
+        return 'FAELLIG: zahlen'
     if zustand == 'pr-offen':
         return f'FAELLIG: pr-offen #{nummer}'
     return 'FAELLIG: nein'
@@ -151,6 +177,11 @@ def statuszeile(zustand, nummer):
 def zahlenzeile(n_commits, n_docs, sha, datum, tage):
     return (f'{n_commits} Commits an {n_docs} stabilen Docs seit {sha[:9]} ({datum.isoformat()}), '
             f'{tage} Tage; Schwelle {SCHWELLE_COMMITS} Commits oder {SCHWELLE_TAGE} Tage')
+
+
+def datenzeile(n_daten, sha, datum):
+    return (f'{n_daten} Commits an {" und ".join(p.rstrip("/") + "/" for p in DATEN_PFADE)} '
+            f'seit {sha[:9]} ({datum.isoformat()})')
 
 
 def issue_nummer_aus_h1(text, name):
@@ -282,11 +313,13 @@ def lade_state_datei(pfad):
 
 
 def messe_faelligkeit(repo):
-    """Alles fuer Teil a): (sha, datum, n_commits, tage, zustand, nummer, pr_nummern)."""
-    sha, datum = lade_state_datei(STATE_FILE)
-    if git('cat-file', '-e', f'{sha}^{{commit}}').returncode != 0:
-        raise Fehler(f'Commit {sha[:9]} der Markerdatei liegt nicht in der History '
-                     '(flacher Klon? fetch-depth 0?)')
+    """Alles fuer Teil a): (sha, datum, n_commits, tage, zustand, nummer, pr_nummern, daten),
+    daten = (daten_sha, daten_datum, n_daten)."""
+    sha, datum, daten_sha, daten_datum = lade_state_datei(STATE_FILE)
+    for name, s in (('commit', sha), ('daten_commit', daten_sha)):
+        if git('cat-file', '-e', f'{s}^{{commit}}').returncode != 0:
+            raise Fehler(f'{name} {s[:9]} der Markerdatei liegt nicht in der History '
+                         '(flacher Klon? fetch-depth 0?)')
     docs_dir = REPO_DIR / 'docs'
     pruefe_docs_liste([p.name for p in docs_dir.glob('*.md')])
     pfade = [f'docs/{n}.md' for n in STABILE_DOCS]
@@ -297,13 +330,24 @@ def messe_faelligkeit(repo):
     if p.returncode != 0:
         raise Fehler(f'git log endete mit Exit {p.returncode}: {p.stderr.strip()}')
     n_commits = len([z for z in p.stdout.splitlines() if z.strip()])
+    p = git('log', '--first-parent', '--format=%H', f'{daten_sha}..HEAD', '--', *DATEN_PFADE)
+    if p.returncode != 0:
+        raise Fehler(f'git log (Daten) endete mit Exit {p.returncode}: {p.stderr.strip()}')
+    n_daten = len([z for z in p.stdout.splitlines() if z.strip()])
     heute = datetime.now(timezone.utc).date()
     tage = (heute - datum).days
     if tage < 0:
         raise Fehler(f'Datum der Markerdatei {datum.isoformat()} liegt in der Zukunft (heute {heute.isoformat()} UTC)')
     prs = offene_doku_prs(repo)
-    zustand, nummer = faelligkeit_zustand(n_commits, tage, prs)
-    return sha, datum, n_commits, tage, zustand, nummer, prs
+    zustand, nummer = faelligkeit_zustand(n_commits, tage, prs, n_daten)
+    return sha, datum, n_commits, tage, zustand, nummer, prs, (daten_sha, daten_datum, n_daten)
+
+
+def zaehlzeile(zustand, n, sha, datum, tage, daten):
+    """Zweite Zeile: bei 'zahlen' die Datenzaehlung, sonst die Zaehlung der stabilen Docs."""
+    if zustand == 'zahlen':
+        return datenzeile(daten[2], daten[0], daten[1])
+    return zahlenzeile(n, len(STABILE_DOCS), sha, datum, tage)
 
 
 def feature_befunde(repo):
@@ -330,19 +374,19 @@ def journal_zeilen():
 # ------------------------------------------------------------------- Berichte
 
 def faellig_modus(repo):
-    sha, datum, n, tage, zustand, nummer, _ = messe_faelligkeit(repo)
+    sha, datum, n, tage, zustand, nummer, _, daten = messe_faelligkeit(repo)
     print(statuszeile(zustand, nummer))
-    print(zahlenzeile(n, len(STABILE_DOCS), sha, datum, tage))
+    print(zaehlzeile(zustand, n, sha, datum, tage, daten))
     return 0
 
 
 def sammle(repo):
     """Alles, was Bericht und Kommentar brauchen."""
-    sha, datum, n, tage, zustand, nummer, prs = messe_faelligkeit(repo)
+    sha, datum, n, tage, zustand, nummer, prs, daten = messe_faelligkeit(repo)
     befunde, geprueft = feature_befunde(repo)
     zeilen = journal_zeilen()
     hinweis = zeilen > SCHWELLE_JOURNAL
-    return dict(sha=sha, datum=datum, n=n, tage=tage, zustand=zustand, nummer=nummer, prs=prs,
+    return dict(sha=sha, datum=datum, n=n, tage=tage, zustand=zustand, nummer=nummer, prs=prs, daten=daten,
                 befunde=befunde, geprueft=geprueft, journal=zeilen, hinweis=hinweis)
 
 
@@ -350,7 +394,7 @@ def bericht_text(d):
     heute = datetime.now(timezone.utc).date().isoformat()
     z = [f'Doku-Health-Check, Stand {heute} (UTC)', '']
     z.append(statuszeile(d['zustand'], d['nummer']))
-    z.append(zahlenzeile(d['n'], len(STABILE_DOCS), d['sha'], d['datum'], d['tage']))
+    z.append(zaehlzeile(d['zustand'], d['n'], d['sha'], d['datum'], d['tage'], d['daten']))
     if d['zustand'] == 'pr-offen':
         z.append('Offene Doku-Check-PRs: ' + ', '.join(f'#{p}' for p in d['prs'])
                  + f' (Kopf-Branch {PR_PRAEFIX}*)')
@@ -379,12 +423,15 @@ def kommentar_text(d, modus, neuer_hash):
     kopf = f'<!-- doc-health: {neuer_hash} -->'
     if modus == 'entwarnung':
         return '\n'.join([kopf, 'Doku-Health: Entwarnung. ' + statuszeile(d['zustand'], d['nummer'])
-                          + '; ' + zahlenzeile(d['n'], len(STABILE_DOCS), d['sha'], d['datum'], d['tage'])
+                          + '; ' + zaehlzeile(d['zustand'], d['n'], d['sha'], d['datum'], d['tage'], d['daten'])
                           + f", keine Feature-Docs zu geschlossenen Issues, JOURNAL {d['journal']} Zeilen."])
     zeilen = [kopf, 'Doku-Health meldet:', '', '```', bericht_text(d), '```']
     if d['zustand'] == 'faellig':
         zeilen += ['', 'Naechster Schritt: Doku-Check nach docs/playbooks/DOKU-CHECK.md; der Check-PR '
                        'schreibt scripts/audit/doc-health-state.json fort.']
+    if d['zustand'] == 'zahlen':
+        zeilen += ['', 'Naechster Schritt: Zahlen-Nachlauf nach docs/playbooks/DOKU-CHECK.md; der PR '
+                       'schreibt daten_commit und daten_date in scripts/audit/doc-health-state.json fort.']
     return '\n'.join(zeilen)
 
 
@@ -441,8 +488,28 @@ def selftest():
     cases.append(('faellig mit PR #7 und #3: pr-offen #3', faelligkeit_zustand(40, 1, [7, 3]) == ('pr-offen', 3)))
     cases.append(('nicht faellig mit offenem PR: nein', faelligkeit_zustand(1, 1, [3]) == ('nein', None)))
     cases.append(('Statuszeilen', [statuszeile('faellig', None), statuszeile('nein', None),
-                                   statuszeile('pr-offen', 12)]
-                  == ['FAELLIG: ja', 'FAELLIG: nein', 'FAELLIG: pr-offen #12']))
+                                   statuszeile('pr-offen', 12), statuszeile('zahlen', None)]
+                  == ['FAELLIG: ja', 'FAELLIG: nein', 'FAELLIG: pr-offen #12', 'FAELLIG: zahlen']))
+    # Zahlen-Nachlauf: dritte Faelligkeit, voller Check hat Vorrang
+    cases.append(('1 Datencommit, sonst nichts faellig: zahlen', faelligkeit_zustand(1, 1, [], 1) == ('zahlen', None)))
+    cases.append(('0 Datencommits: nein', faelligkeit_zustand(1, 1, [], 0) == ('nein', None)))
+    cases.append(('Vorrang: voller Check (40 Commits) und Datencommits: faellig, nicht zahlen',
+                  faelligkeit_zustand(40, 1, [], 5) == ('faellig', None)))
+    cases.append(('Vorrang: voller Check (60 Tage) und Datencommits: faellig, nicht zahlen',
+                  faelligkeit_zustand(0, 60, [], 5) == ('faellig', None)))
+    cases.append(('zahlen mit offenem PR #4: pr-offen #4', faelligkeit_zustand(1, 1, [4], 2) == ('pr-offen', 4)))
+    cases.append(('offener PR ohne jede Faelligkeit: nein', faelligkeit_zustand(1, 1, [4], 0) == ('nein', None)))
+    cases.append(('Standardwert n_daten=0 aendert den alten Aufruf nicht',
+                  faelligkeit_zustand(40, 1, []) == ('faellig', None) and faelligkeit_zustand(1, 1, []) == ('nein', None)))
+    cases.append(('zahlen ist nicht ruhig', not ist_ruhig('zahlen', [], False)))
+    cases.append(('Datenzeile traegt Menge, Pfade und Stand',
+                  datenzeile(3, 'c' * 40, date(2026, 10, 20))
+                  == '3 Commits an tei/ und authority-files/ seit ccccccccc (2026-10-20)'))
+    cases.append(('zaehlzeile: zahlen nimmt die Datenzeile, faellig die Doc-Zeile',
+                  zaehlzeile('zahlen', 41, 'a' * 40, date(2026, 10, 5), 15, ('c' * 40, date(2026, 10, 20), 3))
+                  .startswith('3 Commits an tei/')
+                  and zaehlzeile('faellig', 41, 'a' * 40, date(2026, 10, 5), 15, ('c' * 40, date(2026, 10, 20), 3))
+                  .startswith('41 Commits an 14 stabilen Docs')))
     cases.append(('Zahlenzeile traegt Menge, Stand und Schwellen',
                   zahlenzeile(41, 14, 'a' * 40, date(2026, 10, 5), 15)
                   == '41 Commits an 14 stabilen Docs seit aaaaaaaaa (2026-10-05), 15 Tage; '
@@ -490,8 +557,17 @@ def selftest():
                   and json_folge('') == [] and json_folge('[]\n[]') == []))
 
     # Markerdatei
-    gut = {'commit': 'a' * 40, 'date': '2026-10-05', 'scorecard': 's', '_comment': 'c'}
-    cases.append(('Markerdatei gueltig', lade_state(gut) == ('a' * 40, date(2026, 10, 5))))
+    gut = {'commit': 'a' * 40, 'date': '2026-10-05', 'daten_commit': 'b' * 40,
+           'daten_date': '2026-10-12', 'scorecard': 's', '_comment': 'c'}
+    cases.append(('Markerdatei gueltig', lade_state(gut)
+                  == ('a' * 40, date(2026, 10, 5), 'b' * 40, date(2026, 10, 12))))
+    cases.append(('Markerdatei ohne daten_commit: harter Fehler, kein Fallback',
+                  wirft(lambda: lade_state({k: v for k, v in gut.items() if k != 'daten_commit'}),
+                        "ohne Feld 'daten_commit'")))
+    cases.append(('Markerdatei: daten_date nicht ISO',
+                  wirft(lambda: lade_state(dict(gut, daten_date='12.10.2026')), 'daten_date')))
+    cases.append(('Markerdatei: kurze daten_commit-SHA',
+                  wirft(lambda: lade_state(dict(gut, daten_commit='abc')), 'daten_commit')))
     cases.append(('Markerdatei: fehlendes Feld',
                   wirft(lambda: lade_state({k: v for k, v in gut.items() if k != 'scorecard'}), "ohne Feld 'scorecard'")))
     cases.append(('Markerdatei: unbekanntes Feld',
