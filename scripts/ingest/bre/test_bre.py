@@ -217,6 +217,30 @@ try:
 except conv.bc.HarterFehler:
     pruefe("Klammer ohne Buchstaben = Fehler", True)
 
+# Kopfregel zwischen Texten: ganz rote oder ganz fette Zeile vor Text B wird dessen <head>,
+# auch ohne Eintrag in der Spalte ueberschrift (Text B hat dort keinen). Heute entscheidet die
+# Regel keinen Kopf im Bestand; sie greift erst bei einer Rubrik, die die Synopse nicht fuehrt.
+for formatiert in ('<span style="color:#FF0000">Wein segen</span>', "'''Wein segen'''"):
+    s_kopf = SEITE.replace('<span style="color:#FF0000">N</span>u grüß dich zwei',
+                           f'{formatiert}<br />\n<span style="color:#FF0000">N</span>u grüß dich zwei')
+    _, texte_k, tei_kopf, info_k, _ = baue(s_kopf, ROWS, "B")
+    kopf_b = tei_kopf.xpath("//t:div[@n='2']/t:head", namespaces=ns)
+    pruefe(f"Kopfregel: {formatiert[:12]} wird head von Text B",
+           len(texte_k[1]["heads"]) == 1 and len(kopf_b) == 1
+           and kopf_b[0].xpath("string(.)") == "Weinsegen"
+           and len(tei_kopf.xpath("//t:div[@n='1']/t:l", namespaces=ns)) == 4
+           and len(tei_kopf.xpath("//t:l", namespaces=ns)) + len(tei_kopf.xpath("//t:head", namespaces=ns))
+           + info_k["fortsetzungen"] == info_k["stuecke"],
+           conv.etree.tostring(tei_kopf.xpath("//t:div[@n='2']", namespaces=ns)[0]).decode()[:200])
+# Gegenprobe: nur teilweise rote Zeile (Lombarde) vor Text B bleibt Vers von Text A
+s_teilrot = SEITE.replace('<span style="color:#FF0000">N</span>u grüß dich zwei',
+                          '<span style="color:#FF0000">W</span>ein segen<br />\n'
+                          '<span style="color:#FF0000">N</span>u grüß dich zwei')
+_, texte_tr, tei_tr, _, _ = baue(s_teilrot, ROWS, "B")
+pruefe("Kopfregel: Lombarde allein macht keinen head",
+       not texte_tr[1]["heads"] and not tei_tr.xpath("//t:div[@n='2']/t:head", namespaces=ns)
+       and len(tei_tr.xpath("//t:div[@n='1']/t:l", namespaces=ns)) == 5)
+
 if fehler:
     print(f"{len(fehler)} Test(s) fehlgeschlagen")
     sys.exit(1)
