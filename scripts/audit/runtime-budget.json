@@ -13,7 +13,7 @@
       "budget_s": 16,
       "n": 35,
       "date": "2026-11-03",
-      "basis": "p90 der 35 erfolgreichen Laeufe seit 2026-10-19T09:36:00Z (median 14 s, max 16 s; Filter wie --measure). Abweichung von der Fensterregel (seit E1): der Checkout ist um den 19.10. stufenartig langsamer geworden, das E1-Fenster ergab p90 14 (Reviewer, 181 Laeufe) bzw. 15 (die neuesten 100). Der Erfolgsfilter laesst genau die Laeufe ueber der alten Grenze weg, weil sie rot sind: mit ihnen (39 Checkouts der letzten 40 Laeufe, abgebrochene und rote eingeschlossen) bleibt p90 16, max 20 s, 3 von 39 ueber 16.9 s",
+      "basis": "p90 der 35 erfolgreichen Laeufe seit 2026-10-19T09:36:00Z (median 14 s, max 16 s; Filter wie --measure). Abweichung von der Fensterregel (seit E1): der Checkout ist um den 19.10. stufenartig langsamer geworden, das E1-Fenster ergab p90 14 (Reviewer, 181 Laeufe) bzw. 15 (die neuesten 100). Der Filter sieht keinen der 3 Laeufe ueber der alten Grenze 16.9 s (2 PR-Laeufe rot am Budgetschritt; 1 push auf main gruen, 18 s, fehlt dennoch in status=success der API, Ursache ungeklaert). Mit allen 39 Checkouts der letzten 40 Laeufe bleibt p90 16, max 20 s",
       "reason": "Checkout ist seit der Kalibrierung vom 14.10. langsamer geworden (median 12 s auf 14 s, am 03.11. 15 s ueber 13 Laeufe), ohne Aenderung am Checkout-Schritt; vermutlich Wachstum des Repos. Bis 03.11.: budget 13 s, n 56, basis p90 aller erfolgreichen Laeufe seit 2026-10-10 (median 12 s, max 15 s). Angehoben in #659, wo der Schritt mit 17 s rot wurde, wie zuvor in #656 (20 s)"
     },
     "no-cdn-check.yml/Dokumentierte Zahlen gegen die Daten (#382/#398)": {
