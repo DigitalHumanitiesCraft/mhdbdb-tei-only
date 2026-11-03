@@ -55,8 +55,9 @@ XID = '{http://www.w3.org/XML/1998/namespace}id'
 # Bekannte kopf-mehr-Faelle, benannt statt gezaehlt: Sigle -> (Menge zusaetzlicher
 # Gattungen, Grund). Die Ausnahme haengt an genau dieser Menge: kommt eine dazu oder
 # faellt eine weg, greift sie nicht mehr und der Fall wird als veraltet gemeldet.
-# Leer seit #495: KZW hat am 20.10.2026 entschieden, dass work_6 (Frauendienst)
-# Minnesang und Brief selbst fuehrt, die fuenf Koepfe also stimmen.
+# Leer nach der Entscheidung in #495: KZW hat am 20.10.2026 entschieden, dass
+# work_6 (Frauendienst) Minnesang und Brief selbst fuehrt; der PR dazu traegt beide
+# Gattungen in works.xml ein, damit stimmen die fuenf Koepfe.
 AUSNAHMEN = {}
 
 

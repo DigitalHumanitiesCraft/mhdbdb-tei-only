@@ -392,10 +392,10 @@ jobs:
       - name: Personennamen im Header gegen persons.xml (#228/#308)
         run: python scripts/audit/check-author-refs.py --check
 
-      # Gattungen im Header gegen works.xml (#495). Seit der Entscheidung von
-      # KZW (20.10.2026, work_6 fuehrt Minnesang und Brief) ist keine Ausnahme
-      # mehr benannt; eine kuenftige meldet das Skript als veraltet, sobald sie
-      # nicht mehr passt.
+      # Gattungen im Header gegen works.xml (#495). Nach der Entscheidung von
+      # KZW (20.10.2026) fuehrt work_6 Minnesang und Brief, und keine Ausnahme
+      # ist mehr benannt; eine kuenftige meldet das Skript als veraltet, sobald
+      # sie nicht mehr passt.
       - name: Gattungen im Header gegen works.xml (#495)
         run: python scripts/audit/check-header-genres.py --check
 
