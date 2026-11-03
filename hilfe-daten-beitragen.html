@@ -847,8 +847,9 @@ print('Stage 2 (MHDBDB):  ', 'PASS' if mhdbdb.validate(doc) else mhdbdb.error_lo
             <p class="text-sm text-slate-700 leading-relaxed mb-4">
                 Mit <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">--sample</code> vergleicht das Skript nicht
                 mit der Baseline. Den Vergleich, den die CI macht, zeigt erst der volle Lauf ohne Argumente
-                (etwa eine Minute).
+                (auf einem Rechner mit 8 Prozessorkernen etwa eine Minute, mit weniger Kernen entsprechend länger):
             </p>
+            <pre class="bg-slate-50 border border-slate-200 rounded-lg p-4 text-xs overflow-x-auto mb-4"><code>python scripts/audit/validate-corpus.py</code></pre>
 
             <h3 class="text-lg font-semibold text-slate-800 mb-2">CI-Validierung</h3>
             <p class="text-sm text-slate-700 leading-relaxed">
