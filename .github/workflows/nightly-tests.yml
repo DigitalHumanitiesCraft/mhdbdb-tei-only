@@ -46,7 +46,9 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: nightly-tests
+  # Mit Ref: ein Handstart auf einem Zweig verdraengt sonst einen wartenden
+  # Nachtlauf auf main (je Gruppe nur ein wartender Lauf).
+  group: nightly-tests-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
