@@ -10,11 +10,11 @@
   ],
   "steps": {
     "no-cdn-check.yml/Checkout": {
-      "budget_s": 13,
-      "n": 56,
-      "date": "2026-10-14",
-      "basis": "p90 aller 56 erfolgreichen Laeufe seit 2026-10-10T13:57:23Z (median 12 s, max 15 s; --max-runs 100); Nachkalibrierung aus #564",
-      "reason": "schlanker Checkout nach E1; vorher median 124 s im Gesamtlauf. Nur die neuesten 25 Laeufe (--measure ohne --max-runs) ergaeben p90 10 s, max 11 s; die Fensterregel fuer E1-Checkouts verlangt alle Laeufe seit dem Zeitpunkt"
+      "budget_s": 16,
+      "n": 39,
+      "date": "2026-11-03",
+      "basis": "p90 der Checkout-Schritte der letzten 40 Laeufe (39 mit Checkout, 2026-10-19 bis 2026-11-03, alle nach der Kalibrierung vom 14.10., rote eingeschlossen): median 14 s, max 20 s, 3 von 39 ueber der alten Grenze 16.9 s, davon 1 auf main; gemessen ueber actions/runs/<id>/jobs, Schritt Checkout",
+      "reason": "Checkout ist seit der Kalibrierung vom 14.10. langsamer geworden (median 12 s auf 14 s, am 03.11. 15 s ueber 13 Laeufe), ohne Aenderung am Checkout-Schritt; vermutlich Wachstum des Repos. Bis 03.11.: budget 13 s, n 56, basis p90 aller erfolgreichen Laeufe seit 2026-10-10 (median 12 s, max 15 s). Angehoben in #659, wo der Schritt mit 17 s rot wurde, wie zuvor in #656 (20 s)"
     },
     "no-cdn-check.yml/Dokumentierte Zahlen gegen die Daten (#382/#398)": {
       "budget_s": 6,
