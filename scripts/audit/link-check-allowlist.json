@@ -59,7 +59,7 @@
     {
       "domain": "real.mtak.hu",
       "status": ["FEHLER"],
-      "grund": "Netzfehler bei 1 URL auf dem Runner und lokal (HEAD 200, GET bricht die Verbindung ab); curl und Browser laden die Seite"
+      "grund": "Netzfehler bei 1 URL auf dem Runner; lokal wechselnd: am 2026-11-03 zwei Skriptlaeufe mit FEHLER, spaeter 5 von 5 Abfragen mit 200 (Reviewer), curl 200"
     },
     {
       "domain": "materiale-textkulturen.de",
