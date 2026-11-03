@@ -162,7 +162,9 @@ def seite_mit_synopse(titel, inhalt, eintraege):
         if not verse:
             leer += 1
             continue
-        if verse[0] == "[...]":  # Fehlstelle am Textanfang: der Zeuge bietet den Text nicht
+        if verse[0] == "[...]":
+            # Text in einen anderen eingebettet, sein Anfang steht in der Synopse nicht als eigener
+            # erster Vers (Infobox z.B. "Cgm 713, 194v (8 Verse aus [[Weinsegen Allerliebster Trost]])")
             FEHLSTELLEN.append(f"{titel} / {sig}")
             continue
         rows.append([titel, sig, label, blatt_zu(label, eintraege, titel), verse[0],
@@ -237,7 +239,8 @@ def lauf():
     je_zeuge = {}
     for r in alle:
         je_zeuge[r[1]] = je_zeuge.get(r[1], 0) + 1
-    print(f"Fehlstellen ([...] statt Text, keine Zeile): {len(FEHLSTELLEN)}: {FEHLSTELLEN}")
+    print(f"Zellen mit '[...]' am Anfang (Text in einen anderen eingebettet, Anfang in der Synopse "
+          f"nicht als eigener erster Vers; keine Zeile): {len(FEHLSTELLEN)}: {FEHLSTELLEN}")
     print(f"Seiten: {len(titel_liste)} ({n_synopse} mit Synopse, {n_ohne} ohne)")
     print(f"Zeilen: {len(alle)} (Einzeltext x Zeuge) in {bc.SEGMENTIERUNG}")
     print("Texte je Zeuge: " + ", ".join(f"{s}={n}" for s, n in sorted(je_zeuge.items())))

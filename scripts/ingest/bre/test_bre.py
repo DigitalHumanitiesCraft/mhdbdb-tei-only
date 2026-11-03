@@ -40,7 +40,7 @@ zweite zeile<br />
 
 ROWS = [
     {"text_titel": "A", "editionssigle": "B", "signatur_label": "Cgm 713", "blatt": "188r",
-     "erster_vers": "Grüß dich got", "ueberschrift": ""},
+     "erster_vers": "Grüß dich got", "ueberschrift": "Der Segen"},
     {"text_titel": "B", "editionssigle": "B", "signatur_label": "Cgm 713", "blatt": "188v",
      "erster_vers": "Nu grüß dich zwei", "ueberschrift": ""},
 ]
@@ -170,6 +170,35 @@ try:
     pruefe("ohne Treffer keine Faltung", False, "kein Fehler")
 except conv.bc.HarterFehler:
     pruefe("ohne Treffer keine Faltung", True)
+
+# A1: Zeilennummern 1-basiert gegen die Quelle (Fixture: "Grüß dich got" steht in Zeile 8)
+zeilen_fix = SEITE.split("\n")
+gruess = [it for it in items if it["kind"] == "verse" and it["raw"].endswith("üß dich got")]
+pruefe("Quellzeilennummer 1-basiert", len(gruess) == 1 and gruess[0]["lines"][0] == 8
+       and "üß dich got" in zeilen_fix[7], str([g["lines"] for g in gruess]))
+try:
+    baue(s_titel, ROWS, "B")
+except conv.bc.HarterFehler as e:
+    pruefe("Zeilennummer in der Meldung", "Zeilen [7]" in str(e) and zeilen_fix[6].startswith("<span"), str(e)[:120])
+
+# A2: fetter/roter Vorspann ohne Tabelleneintrag = harter Fehler (nicht <head> des ersten Textes)
+for formatiert in ("'''Fetter Titel'''", '<span style="color:#FF0000">Roter Titel</span>'):
+    s_fett = SEITE.replace("[188r]<br />\n", f"[188r]<br />\n{formatiert}<br />\n", 1).replace(
+        '<span style="color:#FF0000">Der Segen</span><br />\n', "", 1)
+    try:
+        baue(s_fett, ROWS, "B")
+        pruefe(f"Vorspann ohne Tabelle: {formatiert[:12]}", False, "kein Fehler")
+    except conv.bc.HarterFehler as e:
+        pruefe(f"Vorspann ohne Tabelle: {formatiert[:12]}", "Vorspann weicht" in str(e))
+
+# B3b: Teil-Marker -> umschliessendes <div n="B"> ohne type, Abschnitt darin
+s_teil = SEITE.replace('<span style="color:#FF0000">N</span>u grüß dich zwei',
+                       '=== Teil B ===\n<span style="color:#FF0000">N</span>u grüß dich zwei')
+_, _, tei_t, _, _ = baue(s_teil, ROWS, "B")
+teil = tei_t.xpath("//t:body/t:div/t:div[@n='B']", namespaces=ns)
+pruefe("Teil-Marker als div/@n", len(teil) == 1 and teil[0].get("type") is None
+       and len(teil[0].xpath("t:div[@type='section']", namespaces=ns)) == 1
+       and len(tei_t.xpath("//t:body/t:div/t:div[@type='section']", namespaces=ns)) == 1)
 
 # Klammern ohne Buchstaben: (?) -> note nach dem Token, (...) -> gap zwischen den <w>, sonst Fehler
 s_k = SEITE.replace("Mit her(r) v(er)stoppffen", "Mit her(?) st(...) v(er)stoppffen")

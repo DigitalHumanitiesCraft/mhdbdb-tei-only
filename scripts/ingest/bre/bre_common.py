@@ -70,6 +70,8 @@ VORSPANN = {
     "d2": ("reihentitel", ["Ain schöner Spruch von Lobung Wein, Met und Byer"]),
     "d3": ("reihentitel", ["Raͤbhaͤnszlin"]),
     "d4": ("reihentitel", ["Ein hübscher spruch von dem edlen weyn"]),
+    "d5": ("reihentitel", ["Rebhenßlins segen"]),
+    "d6": ("reihentitel", ["Rebhenssleins Grus und Segen"]),
     "N2": ("text_ohne_einzelseite", [
         "Ain spruch vom rebhänßlin",
         "Gott hatt geschaff(e)n mich so rechtt",

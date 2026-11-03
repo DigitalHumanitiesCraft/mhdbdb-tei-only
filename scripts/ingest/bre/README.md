@@ -41,19 +41,20 @@ Eine Transkriptionsseite enthält alle Weingrüße eines Zeugen hintereinander, 
 
 Verlässlich ist die Synopse jeder Einzeltextseite: sie nennt je Zeuge den ersten Vers. `02` sucht diesen Vers in der Transkription, und jede Zeile muss genau einem Text zugeordnet sein. Was davor steht, muss in der Vorspann-Tabelle in `bre_common.py` stehen, sonst bricht das Skript ab. Dort stehen drei Arten:
 
-- **Reihentitel** (S, d1, d2, d3, d4): eine Titelzeile vor dem ersten Weingruß, wird `<head>` des äußeren `<div>`.
+- **Reihentitel** (S, d1 bis d6): eine Titelzeile vor dem ersten Weingruß, wird `<head>` des äußeren `<div>`. Vor dem ersten Text gilt eine Zeile nur dann als dessen Überschrift, wenn die Synopse sie als Überschrift dieses Zeugen führt. Eine fette oder rote Zeile allein genügt dort nicht, sonst rutschte der fett gesetzte Drucktitel von d5 und d6 in den ersten Einzeltext.
 - **Text ohne Einzeltextseite** (N²): „Ain spruch vom rebhänßlin“ mit vier Versen, den die Einleitung der Druckfahnen in Kapitel V.3 zitiert. Eigenes `<div>`.
 - **Fragment** (R): drei Verse vor dem ersten Text der Synopse, keiner Einzeltextseite zugeordnet. Eigenes `<div>`, ohne Aussage darüber, ob der Anfang in der Handschrift fehlt.
 
-Eine **Faltungstabelle** gleicht beim Vergleich, nie in der Ausgabe, eine Zeichenabweichung zwischen Synopse und Transkription aus: „ů“ gegen „uͦ“ (u mit U+0366), einmal bei W¹, Zeile 332. Das Skript gibt jede Anwendung aus.
+Eine **Faltungstabelle** gleicht beim Vergleich, nie in der Ausgabe, eine Zeichenabweichung zwischen Synopse und Transkription aus: „ů“ gegen „uͦ“ (u mit U+0366). Sie greift zweimal, beim ersten Vers von „Weingruß Neczen Gumen“ in W¹ (Zeile 331 der Wikiseite) und bei der Kopfzeile „Gůten wein gruͤsz ich“ in d5 (Zeile 10). Das Skript gibt jede Anwendung aus.
 
 ## Abbildung
 
 | Wikitext | TEI |
 |---|---|
 | `[188v]` | `<pb n="188v"/>` |
+| `===A:===`, `=== Teil A ===` (D, W¹) | `<div n="A">` um die Einzeltexte dieses Teils |
 | Zeile mit `<br />` | `<l n>` |
-| `<span style="color:#FF0000">` | `<hi rend="inkRed">` (Konvention im Korpus), Lombarde im Wort: `<w><hi rend="inkRed">Gr</hi>üß</w>` |
+| `<span style="color:#FF0000">` | `<hi rend="inkRed">` wie in WZB, dem bisher einzigen Text mit diesem Wert (die Leseansicht stellt ihn nicht rot dar, `docs/DESIGN.md`). Lombarde im Wort: `<w><hi rend="inkRed">Gr</hi>üß</w>` |
 | rote oder fette Ganzzeile, Synopsen-Überschrift | `<head>` |
 | `'''x'''`, `''x''` | `<hi rend="bold">`, `<hi rend="italic">` |
 | `<s>`, `<del>`, `<u>`, `<sup>` | `<hi rend="line-through">`, `"underline"`, `"superscript"` |
@@ -72,7 +73,7 @@ Ein Weingruß ist ein `<div type="section">`. Die xml:id folgt dem WZB-Muster `{
 - **Siglen.** `BRE_<Signatur>` für die Handschriften und `BRE_D1` bis `BRE_D6` für die Drucke folgen dem Vorschlag vom 10.07.2026 in #147, bestätigt sind sie nicht.
 - **Werk, Gattung, Sprachstufe** stehen als `work_TBD`, `genre_TBD` und `TBD` im Header. Die Sprachstufe entscheidet #118.
 - **Segmentierung (Punkt 5 in #147).** Silvan hat die Frage noch nicht beantwortet. Die Synopsen tragen sie bis dahin.
-- **Epoche.** Der zweite Teil der Weingrüße in D (Bl. 217r–221v) stammt laut Druckfahnen aus dem 17. Jahrhundert und liegt außerhalb des Korpusumfangs. `02` konvertiert D heute noch vollständig.
+- **Epoche.** Der zweite Teil der Weingrüße in D (Bl. 217r–221v) stammt laut Druckfahnen aus dem 17. Jahrhundert und liegt außerhalb des Korpusumfangs. Er ist in der Transkription Teil B und steht damit als `<div n="B">` für sich, `02` konvertiert D aber heute noch vollständig.
 
 ## Warum `ingest/bre/` und nicht `tei/`
 
@@ -83,3 +84,4 @@ Solange die Header Platzhalter tragen, würde `build-corpus-index.py` sie aus `t
 - Druckfahnen, Kapitel V.3: N² „zwischen 1424 und 1426“, die Zeugenliste in Kapitel IV (S. XIII) und sein Steckbrief von 2022 sagen 1524–1526.
 - Druckfahnen, S. XIV: „Weinmar“ statt Weimar bei W¹.
 - Wiki: „Weingruß Neczen Gumen“, erster Vers in W¹, Synopse „guͦmen“, Transkription „gůmen“.
+- Wiki: „Vorspruch Weingruß“, Überschrift in d5, Synopse „Guͦten“, Transkription „Gůten“.

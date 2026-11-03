@@ -15,7 +15,7 @@ Quellformat -> TEI (mechanisch, ohne Eingriff in Wortgrenzen):
   place="margin"; <x> oder &lt;x&gt; = <supplied>; <ref>t</ref> = <note
   type="transcription">t</note> nach dem Wort. Zeile auf "-" + Folio-Marker +
   Fortsetzung = EIN Vers, EIN <w> ("schen<pb/>ken").
-Nicht Schema-konformes (expan, supplied, add, pb, note im <w>) bleibt stehen
+Nicht Schema-konformes (expan, supplied, add, pb im <w>) bleibt stehen
 (PD-001/"Daten vor Schema"); die Validierung gegen schema/mhdbdb.rng am Ende
 gibt die Fehler nach Klasse aus. Exit 0 auch bei Schemafehlern, Exit 1 bei
 Parse- oder Segmentierungsfehlern oder fehlgeschlagener Gegenprobe.
@@ -230,7 +230,9 @@ def lies_transkription(inhalt):
     if not ma:
         raise QuellFehler("keine Anmerkungen-Ueberschrift hinter der Transkription")
     block = rest[:ma.start()]
-    erste_zeile = inhalt[:mt.start()].count("\n") + 1 + 1  # Zeile hinter der Ueberschrift
+    # block beginnt VOR dem Zeilenende der Ueberschrift: split("\n")[0] ist deren Rest,
+    # also 1-basierte Zeilennummer der Ueberschrift (nicht +1 dahinter)
+    erste_zeile = inhalt[:mt.start()].count("\n") + 1
     noten = []
 
     def merk(m):
@@ -341,7 +343,21 @@ def segmentiere(items, lex, rows, sigle):
         raise bc.HarterFehler("Segmentierung geht nicht auf:\n  " + "\n  ".join(fehler))
     starts.sort(key=lambda x: x[0])
 
-    def ist_kopfartig(i, kopfzeilen):
+    def in_kopfzeilen(i, kopfzeilen):
+        if cmp_[i] in kopfzeilen:
+            return True
+        if falte(cmp_[i]) in {falte(z) for z in kopfzeilen}:  # Faltung nur im Vergleich
+            faltungen.append(f"Faltung angewandt: {sigle} Zeile {items[i]['lines'][0]}, "
+                             f"{'/'.join(a + '~' + b for a, b in bc.FALTUNG.items())} "
+                             f"(Kopfzeile {cmp_[i]!r})")
+            return True
+        return False
+
+    def ist_kopfartig(i, kopfzeilen, erster_text):
+        if erster_text:
+            # vor dem ersten Text gilt nur die Spalte ueberschrift der Synopse; rote/fette
+            # Zeilen davor muessen durch bre_common.VORSPANN erklaert sein
+            return in_kopfzeilen(i, kopfzeilen)
         toks, meta = lex[i]
         zeichen = [t for t in toks if t[0] == "c" and not t[1].isspace()]
         if not zeichen:
@@ -349,7 +365,7 @@ def segmentiere(items, lex, rows, sigle):
         arten = lambda t: {meta[s] for s in t[2]}  # noqa: E731
         if all("red" in arten(t) for t in zeichen) or all("bold" in arten(t) for t in zeichen):
             return True
-        return cmp_[i] in kopfzeilen
+        return in_kopfzeilen(i, kopfzeilen)
 
     texte = []
     for k, (s, r) in enumerate(starts):
@@ -361,7 +377,7 @@ def segmentiere(items, lex, rows, sigle):
             if it["kind"] == "part":
                 break
             if it["kind"] == "verse":
-                if ist_kopfartig(j, kopfzeilen):
+                if ist_kopfartig(j, kopfzeilen, k == 0):
                     heads.insert(0, j)
                 else:
                     break
@@ -634,8 +650,8 @@ HEADER_TEMPLATE = """<teiHeader xmlns="http://www.tei-c.org/ns/1.0">
                   <name>Silvan Wagner</name>
                 </respStmt>
                 <ref target="{source_url}"/>
-                <note type="provenance">Transkription aus dem Brevitas-Wiki (wiki.brevitas.org), Seite "{wiki_titel}", Revision {revid} vom {timestamp}. Konvertiert in das MHDBDB-Schema durch automatische Transformation (scripts/ingest/bre/02-convert-wiki-to-mhdbdb.py, 2026-10).</note>
-                <note type="fidelity">Mechanische Schema-Konversion ohne Eingriff in Wortgrenzen, Auszeichnungs-Semantik oder Strukturhierarchie.</note>
+                <note type="provenance">Transkription aus dem Brevitas-Wiki (wiki.brevitas.org), Seite "{wiki_titel}", Revision {revid} vom {timestamp}. Konvertiert in das MHDBDB-Schema durch automatische Transformation (scripts/ingest/bre/02-convert-wiki-to-mhdbdb.py, {heute}).</note>
+                <note type="fidelity">Mechanische Konversion ohne Eingriff in Wortgrenzen und Auszeichnungs-Semantik. Die Gliederung in Einzeltexte folgt den Synopsen der Einzeltextseiten des Brevitas-Wikis, Teile einer Transkription (Teil A/B) als div/@n.</note>
               </bibl>
             </listBibl>
           </additional>
@@ -742,12 +758,30 @@ def baue_tei(sigle, signatur, seite, items, lex, texte, stat, vorspann=None, dat
         emit(div, vor_indices, heads)
     elif any(items[i]["kind"] == "folio" for i in vor_indices):
         raise QuellFehler("Folio-Marker vor dem ersten Textanfang ohne Vorspann (nicht zugeordnet)")
+    if any(items[i]["kind"] == "part" for i in vor_indices):
+        raise QuellFehler("Teil-Marker (===...===) im Vorspann: nicht vorgesehen")
+    elter = aussen  # aeusseres <div> der Reihe, oder das <div n="A"> des laufenden Teils
     for k, t in enumerate(texte):
         r = t["row"]
+        region = range(grenzen[k], grenzen[k + 1])
+        fuehrend = []
+        for i in region:
+            if items[i]["kind"] == "part":
+                fuehrend.append(i)
+            elif items[i]["kind"] != "folio":
+                break
+        if any(items[i]["kind"] == "part" and i not in fuehrend for i in region):
+            raise QuellFehler("Teil-Marker (===...===) mitten in einem Text")
+        if fuehrend:
+            label = re.sub(r"^Teil\s+", "", items[fuehrend[-1]]["label"]).rstrip(":").strip()
+            if not re.fullmatch(r"\w+", label):
+                raise QuellFehler(f"Teil-Marker {items[fuehrend[-1]]['label']!r} nicht lesbar")
+            elter = E(aussen, "div", n=label)
+            containers.add(id(elter))
         n_abschnitt += 1
-        aussen.append(etree.Comment(
+        elter.append(etree.Comment(
             f" Text {n_abschnitt}: {r['text_titel']} ({r['signatur_label']}, {r['blatt']}) "))
-        div = E(aussen, "div", type="section", n=str(n_abschnitt))
+        div = E(elter, "div", type="section", n=str(n_abschnitt))
         containers.add(id(div))
         emit(div, range(grenzen[k], grenzen[k + 1]), set(t["heads"]))
     return tei, containers, erwartet_zeilen
