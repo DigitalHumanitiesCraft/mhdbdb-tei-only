@@ -76,6 +76,45 @@ test.describe('Einklappen langer Kommentare (#554)', () => {
         });
     }
 
+    // Julia, 19.10.2026: "beim Einklappen wieder nach oben geworfen", sonst hängt man im Footer.
+    // Der Test stellt die Seite so, dass der Kommentaranfang `abstand` Pixel unter dem
+    // oberen Rand des Fensters steht (negativ: darüber), klickt "Weniger anzeigen" und
+    // liefert Anfang und Scrollposition davor und danach.
+    async function zuklappenBei(page, abstand) {
+        // Polster, damit der Browser die Scrollposition nach dem Zuklappen nicht selbst
+        // auf die kürzere Seite zurückstutzt und so eine Verschiebung vortäuscht.
+        await page.evaluate(() => { document.body.style.paddingBottom = '3000px'; });
+        const wrap = page.locator('#sensesContent .clamp-wrap').first();
+        const knopf = wrap.locator('.clamp-toggle');
+        await knopf.click();
+        await expect(knopf).toHaveText('Weniger anzeigen');
+        await wrap.evaluate((el, a) => window.scrollBy(0, el.getBoundingClientRect().top - a), abstand);
+        const messen = () => wrap.evaluate(el => ({ top: el.getBoundingClientRect().top, y: window.scrollY }));
+        const davor = await messen();
+        await knopf.click();
+        await expect(knopf).toHaveText('Weiterlesen');
+        return { davor, danach: await messen() };
+    }
+
+    test('Lemmaseite: Zuklappen springt an den Kommentaranfang, wenn er oberhalb liegt (#554)', async ({ page }) => {
+        await page.setViewportSize({ width: 1280, height: 1600 });
+        await lemmaSeite(page, lang[0].id);
+        const { davor, danach } = await zuklappenBei(page, -40);
+        expect(davor.top).toBeLessThan(0);
+        // Im Fenster und unterhalb der festen Kopfleiste
+        const kopf = await page.locator('header').first().evaluate(el => el.getBoundingClientRect().bottom);
+        expect(danach.top).toBeGreaterThanOrEqual(kopf - 1);
+        expect(danach.top).toBeLessThan(300);
+    });
+
+    test('Lemmaseite: Zuklappen verschiebt nichts, wenn der Anfang sichtbar ist (#554)', async ({ page }) => {
+        await page.setViewportSize({ width: 1280, height: 1600 });
+        await lemmaSeite(page, lang[0].id);
+        const { davor, danach } = await zuklappenBei(page, 200);
+        expect(davor.y).toBeGreaterThan(0);
+        expect(danach.y).toBe(davor.y);
+    });
+
     test('Lemmaseite: ein kurzer Kommentar bekommt keinen Knopf', async ({ page }) => {
         await lemmaSeite(page, kurz.id);
         await expect(page.locator('#sensesContent')).toContainText('Kommentar');
