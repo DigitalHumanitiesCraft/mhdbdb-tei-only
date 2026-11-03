@@ -32,8 +32,8 @@
 #
 # Checkout: voller Baum ohne History. Die Suite liest tei/, data/, api/ und die
 # Seiten ueber einen lokalen http-server. Laufzeit: Playwright lokal rund fuenf
-# Minuten mit sechs Workern; in der CI zwei Worker, daher der grosszuegige
-# timeout-minutes (Messung des ersten Laufs steht aus).
+# Minuten mit sechs Workern; in der CI zwei Worker, im ersten Lauf (03.11.)
+# 25 Minuten Wanduhr, daher der grosszuegige timeout-minutes.
 #
 # Cron: UTC, ungerade Minute (die volle Stunde ist die ueberlaufene Minute der
 # Actions-Warteschlange).
@@ -103,6 +103,18 @@ jobs:
         with:
           node-version: '22'
           cache: 'npm'
+
+      # Die Paritaetstests (position-parity, normalization-parity) rufen Python
+      # 3.13+ auf, position-parity dazu lxml; der Runner bringt 3.12. Ohne diese
+      # zwei Schritte waren im ersten Lauf (03.11.) 7 von 541 Tests rot.
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+          cache: 'pip'
+
+      - name: Install Python dependencies
+        run: pip install --quiet -r requirements.txt
 
       - name: Install dependencies
         run: npm ci
