@@ -464,6 +464,16 @@ test.describe('Naming Explorer (#59)', () => {
     expect(optionen.some(o => /\(1 Belege/.test(o))).toBe(false);
   });
 
+  test('Steuerleiste nennt bei einem Lemma den Singular (#643)', async ({ page }) => {
+    // Der Bote von Breziljan hat in IW genau ein Lemma (bote)
+    await page.selectOption('#neWorkSelect', 'IW');
+    await page.selectOption('#neFigureSelect', 'Bote von Breziljan');
+    await page.waitForSelector('[data-ne-term]', { state: 'visible', timeout: 5000 });
+    const text = await page.locator('#resultsContainer').innerText();
+    expect(text).toMatch(/\b1 Lemma\b(?!ta)/);
+    expect(text).not.toMatch(/\b1 Lemmata/);
+  });
+
   test('Lemma-Perspektive: Filterfeld faltet Diakritika (#643)', async ({ page }) => {
     await page.click('[data-ne-persp="lemma"]');
     await page.selectOption('#neWorkSelect', 'IW');

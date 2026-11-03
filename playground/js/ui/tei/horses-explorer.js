@@ -207,7 +207,7 @@ export class HorsesExplorer {
 
     return this.renderSummary(horse, all)
       + this.renderEventTabs(counts, all.length)
-      + (visible.length > 0 ? `<div class="flex">${csvButton('hxHorseCsvExport', `Die ${visible.length} angezeigten Belege, die Auszeichnung je Art in einer eigenen Spalte. Quelle (Borek) und Lizenz stehen im Dateinamen`)}</div>` : '')
+      + (visible.length > 0 ? `<div class="flex">${csvButton('hxHorseCsvExport', `${visible.length === 1 ? 'Der angezeigte Beleg' : `Die ${visible.length} angezeigten Belege`}, die Auszeichnung je Art in einer eigenen Spalte. Quelle (Borek) und Lizenz stehen im Dateinamen`)}</div>` : '')
       + this.renderAttestations(visible, horse);
   }
 

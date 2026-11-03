@@ -625,7 +625,7 @@ export class NamingExplorer {
             <label for="neFigureSelect" class="text-xs font-medium text-slate-600">${namerMode ? 'Nennende Instanz (nach Belegzahl)' : lemmaMode ? 'Lemma (alphabetisch)' : 'Figur (nach Belegzahl)'}</label>
             ${lemmaMode ? `<input id="neSubjectFilter" type="text" autocomplete="off" aria-label="Lemma-Auswahl filtern"
               value="${escapeAttr(this.state.subjectFilter)}"${work ? '' : ' disabled'}
-              placeholder="Lemma filtern, z.B. ere (findet êre)"
+              placeholder="Lemma filtern (ohne Diakritika)"
               class="mt-1 w-full rounded-lg border border-slate-200 bg-white px-2 py-1 text-xs focus:border-brand-400 focus:outline-none" />` : ''}
             <select id="neFigureSelect" class="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm focus:border-brand-400 focus:outline-none"${work ? '' : ' disabled'}>
               <option value="">${namerMode ? 'Nenner wählen ...' : lemmaMode ? 'Lemma wählen ...' : 'Figur wählen ...'}</option>
@@ -679,9 +679,9 @@ export class NamingExplorer {
       if (namerMode) {
         hint = `${this.getNamers(work).length.toLocaleString('de-DE')} nennende Instanzen (Erzähler, Figurenrede, Selbstnennung). Bitte einen Nenner auswählen.`;
       } else if (lemmaMode) {
-        hint = `${this.getTerms(work).length.toLocaleString('de-DE')} Lemmata in kuratierten Bezeichnungen. Bitte ein Lemma auswählen.`;
+        hint = `${this.getTerms(work).length.toLocaleString('de-DE')} ${pl(this.getTerms(work).length, 'Lemma', 'Lemmata')} in kuratierten Bezeichnungen. Bitte ein Lemma auswählen.`;
       } else {
-        hint = `${Object.keys(work.figures).length.toLocaleString('de-DE')} Figuren mit kuratierten Bezeichnungen. Bitte eine Figur auswählen.`;
+        hint = `${Object.keys(work.figures).length.toLocaleString('de-DE')} ${pl(Object.keys(work.figures).length, 'Figur', 'Figuren')} mit kuratierten Bezeichnungen. Bitte eine Figur auswählen.`;
       }
       return `<div class="rounded-2xl border border-dashed border-slate-200 bg-white p-8 text-center text-sm text-slate-500">${escapeHtml(work.bookName)}: ${hint}</div>`;
     }
@@ -1027,7 +1027,7 @@ export class NamingExplorer {
             placeholder="z.B. tore (findet tôre)"
             class="w-full rounded-lg border border-slate-200 bg-white px-2 py-1 text-xs focus:border-brand-400 focus:outline-none" />
         </label>
-        <span class="text-xs text-slate-500">${visibleCount.toLocaleString('de-DE')} Lemmata</span>
+        <span class="text-xs text-slate-500">${visibleCount.toLocaleString('de-DE')} ${pl(visibleCount, 'Lemma', 'Lemmata')}</span>
         ${visibleCount > 0 ? csvButton('neCsvExport', 'Die angezeigten Lemmata mit Kategorie und Häufigkeit, ohne die Belegstellen. Quelle (Beutel-Thurow, Naming-analysis) und Lizenz stehen im Dateinamen') : ''}
       </div>
     `;

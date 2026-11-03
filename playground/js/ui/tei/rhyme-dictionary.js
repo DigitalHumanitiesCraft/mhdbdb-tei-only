@@ -30,7 +30,7 @@
 import { getNavigationEpoch } from '../core/router.js';
 import { authorLineOfText } from '../../../../assets/js/lib/attributions.js';
 import { singleSelectedTextId } from './corpus-scope.js';
-import { csvButton } from '../core/ui-helpers.js';
+import { csvButton, pl } from '../core/ui-helpers.js';
 import { toCsv, downloadCsv, csvDateStamp, csvFilenamePart } from '../../../../assets/js/lib/csv-export.js';
 
 const DEFAULT_STATE = Object.freeze({
@@ -707,7 +707,7 @@ export class RhymeDictionary {
       : '';
     footer.innerHTML = `
       <div class="flex items-center gap-3">
-        <span class="text-xs text-slate-500">${newShown} von ${stored.toLocaleString('de-DE')} Belegen${capNote}</span>
+        <span class="text-xs text-slate-500">${newShown} von ${stored.toLocaleString('de-DE')} ${pl(stored, 'Beleg', 'Belegen')}${capNote}</span>
         ${newShown < stored
           ? `<button type="button" data-rd-belege-more class="rounded border border-brand-200 bg-white px-2 py-1 text-xs text-brand-700 hover:bg-brand-50">Weitere ${Math.min(BELEGE_PAGE_SIZE, stored - newShown)} laden</button>`
           : ''}
