@@ -5,19 +5,22 @@ name: Data Integrity
 # Konsolidiert das fruehere index-version-check.yml (Step 1) und
 # schema-validation.yml (Steps 2-3, 7-8).
 #
-# Zwei Jobs seit #564 (E2), parallel auf getrennten Runnern. Vorher lief alles
+# Zwei Pruefjobs seit #564 (E2), parallel auf getrennten Runnern. Vorher lief alles
 # in einem Job und summierte sich auf median 475 s (letzte 25 erfolgreiche
 # Laeufe): Checkout 72, RelaxNG-Validierung 212, Index-Rebuild 74, variants-
 # Freshness 43, Cross-Refs 35, Rest unter 15 je Schritt. Die Schritte der
 # beiden Gruppen haengen nicht voneinander ab, die Reihenfolge INNERHALB jeder
 # Gruppe ist unveraendert (die MUSS-VOR-Step-6-Regeln unten gelten im Job
 # freshness, wo der Rebuild data/ ueberschreibt).
-#   Job validate:  Steps 1, 1a, 1b, 2, 3, 7b, 7c, 8
+#   Job validate:  Steps 1, 1a, 1b, 2, 3, 7b, 7c, 7d, 8
 #                  (Schema- und Spiegel-Gates auf dem committeten Stand)
 #   Job freshness: Steps 0, 1c, 1d, 4, 5, 5b, 6, 6b, 6c, 7
 #                  (Variants-Flip-Gate und Index-Budget-Selbsttest gehoeren
 #                  zu 1c/1d; alles, was Dateien neu baut und vergleicht)
-# Rot ist, wenn ein Job rot ist. Jede Pruefung steht in genau einem Job;
+# Seit #653 gibt es einen dritten Job, melden (ganz unten): er prueft nichts,
+# sondern kommentiert bei Zustandswechsel in #653, nur auf schedule und
+# workflow_dispatch und nur auf refs/heads/main.
+# Rot ist, wenn ein Pruefjob rot ist. Jede Pruefung steht in genau einem Job;
 # Checkout, Python-Setup, Dependency-Install und der Budgetschritt am Ende
 # stehen in beiden (voller Baum: sparse war hier langsamer). Zahlen: Dauer je Schritt aus der Actions-
 # API (completed_at minus started_at je Job), letzte 25 Laeufe mit
@@ -131,6 +134,10 @@ name: Data Integrity
 #      Elterngattung). Eine Gattung nur im Kopf kommt im Index nirgends
 #      an. Neben 7b, als zweites Header-Gate; liest ebenfalls nur den
 #      teiHeader.
+#   7d. Struktur der committeten Indexe (#653): scripts/validate-indices.py,
+#      bisher nur von Hand (Lifecycle-Schritt 10 in DATA-MODEL.md). Billig
+#      (rund drei Sekunden), steht darum im Job validate vor der RelaxNG-
+#      Validierung (Step 8) und nach den beiden Header-Gates.
 #   8. Zweistufige RelaxNG-Validierung (P2-13): Stage 2
 #      (mhdbdb.rng / mhdbdb-authority.rng) ist das harte Gate;
 #      Stage-1-Baseline-Fails (#30) sind nur Warnungen.
@@ -171,6 +178,12 @@ on:
       - 'scripts/build-lemma-pos.py'
       - 'assets/downloads/**'
       - 'scripts/mhg_normalizer.py'
+      # Gemeinsame Module der Build- und Gate-Skripte (corpus_files: Korpus-
+      # dateiliste und Jobzahl, tei_namespaces: Namespace-Tabelle) und das
+      # Struktur-Gate fuer die committeten Indexe (Step 7d).
+      - 'scripts/corpus_files.py'
+      - 'scripts/tei_namespaces.py'
+      - 'scripts/validate-indices.py'
       # Globs statt Einzeldateien: jedes hier ausgefuehrte Gate-Skript
       # soll seinen eigenen Aenderungs-Trigger haben (Review #146).
       - 'scripts/sync/**'
@@ -202,12 +215,25 @@ on:
       - 'scripts/build-lemma-pos.py'
       - 'assets/downloads/**'
       - 'scripts/mhg_normalizer.py'
+      - 'scripts/corpus_files.py'
+      - 'scripts/tei_namespaces.py'
+      - 'scripts/validate-indices.py'
       - 'scripts/sync/**'
       - 'scripts/audit/**'
       - 'scripts/ingest/naming/**'
       - 'assets/js/lib/corpus-loader.js'
       - 'requirements.txt'
       - '.github/workflows/data-integrity.yml'
+  # Woechentlicher Volllauf (#653), Montag 05:13 UTC. Die Pfadfilter oben nennen
+  # nur, was eine Aenderung beruehrt; was ohne Aenderung kippt (eine neue
+  # Bibliotheksversion, ein Fehler im Zusammenspiel zweier frueherer Commits,
+  # die jeder fuer sich nichts ausgeloest haben), sieht nur ein Zeitgeber.
+  # Beide Jobs laufen ganz. Im Job freshness bleibt der Diff-Base leer (wie bei
+  # workflow_dispatch): das Bump-Gate meldet einen Hinweis, das Flip-Gate wird
+  # uebersprungen, und der naming-index-Rebuild laeuft konservativ mit (ein Fetch
+  # aus lindabeutel/Naming-analysis). Der dritte Job (melden) kommentiert bei Zustandswechsel in #653.
+  schedule:
+    - cron: '13 5 * * 1'
   workflow_dispatch:
 
 concurrency:
@@ -364,6 +390,17 @@ jobs:
       # Skript meldet die Ausnahme als veraltet, sobald sie nicht mehr passt.
       - name: Gattungen im Header gegen works.xml (#495)
         run: python scripts/audit/check-header-genres.py --check
+
+      # Struktur der committeten Indexe (Step 7d, #653): Pflichtfelder, Typen,
+      # Version gegen die Konstanten in corpus-loader.js, Zaehlungen im Index
+      # gegen seine eigenen Angaben. Liest nur data/corpus-index.json.gz und
+      # data/authority-index.json.gz, die im Repo liegen (keine lokalen Daten),
+      # und braucht nur die Standardbibliothek. Lokal rund drei Sekunden
+      # (03.11.2026, real 2,9 s). Steht hier und nicht im Job freshness, weil
+      # dort der Index-Rebuild data/ ueberschreibt und gemessen werden soll,
+      # was ausgeliefert wird.
+      - name: Struktur der committeten Indexe (validate-indices.py, #653)
+        run: python scripts/validate-indices.py
 
       - name: Validate corpus and authority files (P2-13)
         run: python scripts/audit/validate-corpus.py --fail-fast
@@ -616,3 +653,44 @@ jobs:
           --workflow data-integrity.yml --job freshness
           --job-status "${{ job.status }}"
           --run-url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+
+  # Dritter Job (#653): Meldung bei Zustandswechsel in #653, nur bei schedule und
+  # workflow_dispatch, nie auf Push oder PR, und nur auf refs/heads/main (12 von
+  # 12 dispatch-Laeufen dieses Workflows liefen auf Zweigen, darunter
+  # absichtlich rote Proben). Der Zustand ist rot, wenn einer der
+  # beiden Jobs nicht erfolgreich war, auch bei cancelled (ein Timeout kommt so
+  # an). Der Job hat keine eigene Pruefung und kein Laufzeitbudget.
+  melden:
+    needs: [validate, freshness]
+    if: always() && github.ref == 'refs/heads/main' && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      issues: write
+      actions: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          sparse-checkout: |
+            scripts/audit
+            .github
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+
+      - name: Zustandswechsel melden (#653)
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ERGEBNIS_VALIDATE: ${{ needs.validate.result }}
+          ERGEBNIS_FRESHNESS: ${{ needs.freshness.result }}
+        run: |
+          printf 'validate: %s\nfreshness: %s\n' "$ERGEBNIS_VALIDATE" "$ERGEBNIS_FRESHNESS" > "$RUNNER_TEMP/detail.txt"
+          if [ "$ERGEBNIS_VALIDATE" = "success" ] && [ "$ERGEBNIS_FRESHNESS" = "success" ]; then STATE=gruen; else STATE=rot; fi
+          python3 scripts/audit/report-schedule-state.py --name data-integrity --state "$STATE" \
+            --detail-file "$RUNNER_TEMP/detail.txt" \
+            --run-url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+            --ref "${{ github.ref }}" --issue 653 --apply

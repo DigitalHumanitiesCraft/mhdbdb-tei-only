@@ -1,0 +1,229 @@
+# Nachtlicher Testlauf: npm test gegen main (#653).
+#
+# Bis zu diesem Workflow rief kein Workflow Playwright auf; die Suite lief nur
+# lokal vor einem Push. Ein Test, den eine Aenderung an Daten oder Indexen
+# bricht, ohne dass ein Spec angefasst wurde, faellt sonst erst auf, wenn
+# jemand die Suite von Hand startet.
+#
+# Gate: laeuft nur, wenn der letzte ABGESCHLOSSENE Lauf dieses Workflows auf main
+# nicht (gleiche SHA und conclusion success) ist (Actions-API, status=completed).
+# Ein roter Lauf, ein Gate-Ausfall oder ein abgebrochener Lauf auf derselben SHA
+# oeffnet das Gate in der naechsten Nacht also wieder, auch ein roter
+# workflow_dispatch. Ein Lauf, der nur aus dem Gate-Skip bestand, endet mit
+# success; das ist stimmig, weil ein Skip einen success auf derselben SHA als
+# letzten abgeschlossenen Lauf voraussetzt. workflow_dispatch laeuft immer, ohne
+# Gate.
+#
+# Massgeblich ist die VERDICT-Zeile von scripts/run-tests.js, nicht der Exit-Code
+# allein: gruen ist nur "VERDICT: VOLLLAUF GRUEN" UND Exit 0. Jedes andere Verdikt
+# (ROT, KEIN ERGEBNIS, TEILLAUF, NICHTS GELAUFEN) ist rot. Aufruf wie lokal,
+# `npm test`; nie `npx playwright test` aus dem Root. Mit CI=true (setzt Actions)
+# nimmt testing/playwright.config.js zwei Worker, forbidOnly und keinen
+# wiederverwendeten Server.
+#
+# Meldung: bei Zustandswechsel (gruen nach rot, rot nach gruen) ein Kommentar in
+# #653 ueber scripts/audit/report-schedule-state.py, im eigenen Job `melden`
+# (nur auf refs/heads/main). Rot ist jedes Ergebnis ausser success, auch ein
+# ausgefallenes Gate und ein Timeout (cancelled). Ein uebersprungener Testlauf
+# bei unveraendertem main (letzter abgeschlossener Lauf war ein success auf
+# derselben SHA) meldet Gruen. Das ist ein No-op, weil das Skript nur bei einem
+# Wechsel postet und der Vorgaenger auf derselben SHA schon gruen gemeldet hat;
+# die Kette solcher Erfolge beginnt immer mit einem echten Testlauf. Was rot auf main bedeutet, regelt #564 (blockiert nichts).
+#
+# Checkout: voller Baum ohne History. Die Suite liest tei/, data/, api/ und die
+# Seiten ueber einen lokalen http-server. Laufzeit: Playwright lokal rund fuenf
+# Minuten mit sechs Workern; in der CI zwei Worker, daher der grosszuegige
+# timeout-minutes (Messung des ersten Laufs steht aus).
+#
+# Cron: UTC, ungerade Minute (die volle Stunde ist die ueberlaufene Minute der
+# Actions-Warteschlange).
+
+name: nightly-tests
+
+on:
+  schedule:
+    - cron: '17 2 * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: nightly-tests
+  cancel-in-progress: false
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      actions: read
+    outputs:
+      run: ${{ steps.gate.outputs.run }}
+    steps:
+      - name: War der letzte abgeschlossene Lauf ein success auf derselben SHA?
+        id: gate
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          HEAD_SHA="${{ github.sha }}"
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+            echo "workflow_dispatch: laeuft ohne Gate (HEAD $HEAD_SHA)"
+            exit 0
+          fi
+          # Der letzte ABGESCHLOSSENE Lauf auf main (ein laufender, auch der eigene,
+          # ist nicht abgeschlossen), nicht der letzte erfolgreiche: ein roter
+          # workflow_dispatch auf derselben SHA muss das Gate in der naechsten Nacht
+          # oeffnen. Uebersprungen wird nur bei gleicher SHA UND conclusion success.
+          LAST=$(gh api "repos/${{ github.repository }}/actions/workflows/nightly-tests.yml/runs?status=completed&branch=main&per_page=1" --jq '.workflow_runs[0] | if . == null then "" else "\(.head_sha) \(.conclusion)" end')
+          if [ "$LAST" = "$HEAD_SHA success" ]; then
+            echo "run=false" >> "$GITHUB_OUTPUT"
+            echo "Letzter abgeschlossener Lauf auf main war erfolgreich auf derselben SHA ($HEAD_SHA): nichts zu tun."
+            echo "Nachtlauf uebersprungen: letzter abgeschlossener Lauf auf main war erfolgreich auf \`$HEAD_SHA\`." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "run=true" >> "$GITHUB_OUTPUT"
+            echo "HEAD $HEAD_SHA, letzter abgeschlossener Lauf (SHA und Ergebnis): ${LAST:-<keiner>}: laeuft."
+          fi
+
+  test:
+    needs: gate
+    if: needs.gate.outputs.run == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    permissions:
+      contents: read
+    outputs:
+      verdict: ${{ steps.verdikt.outputs.verdict }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browser (chromium, passend zur Config)
+        run: npx playwright install --with-deps chromium
+
+      # Die Ausgabe geht in eine Datei, der Exit-Code in den Output: so bleibt
+      # beides fuer die Schritte danach lesbar, und der Schritt selbst faerbt
+      # den Job erst im Verdikt-Schritt rot.
+      - name: npm test
+        id: test
+        run: |
+          set +e
+          npm test > "$RUNNER_TEMP/npm-test.log" 2>&1
+          echo "exit=$?" >> "$GITHUB_OUTPUT"
+          tail -n 80 "$RUNNER_TEMP/npm-test.log"
+
+      - name: Verdikt
+        id: verdikt
+        run: |
+          VERDICT=$(grep '^VERDICT:' "$RUNNER_TEMP/npm-test.log" | tail -n 1 || true)
+          if [ -z "$VERDICT" ]; then VERDICT="VERDICT: KEIN ERGEBNIS (keine VERDICT-Zeile in der Ausgabe)"; fi
+          EXIT="${{ steps.test.outputs.exit }}"
+          echo "verdict=$VERDICT" >> "$GITHUB_OUTPUT"
+          printf '%s\n' "$VERDICT" > "$RUNNER_TEMP/detail.txt"
+          printf 'npm test Exit-Code: %s\n' "$EXIT" >> "$RUNNER_TEMP/detail.txt"
+          {
+            echo "### Nachtlauf npm test gegen \`${{ github.sha }}\`"
+            echo
+            echo '```'
+            cat "$RUNNER_TEMP/detail.txt"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+          case "$VERDICT" in
+            "VERDICT: VOLLLAUF GRUEN"*) GRUEN=1 ;;
+            *) GRUEN=0 ;;
+          esac
+          if [ "$GRUEN" = "1" ] && [ "$EXIT" = "0" ]; then
+            echo "state=gruen" >> "$GITHUB_OUTPUT"
+          else
+            echo "state=rot" >> "$GITHUB_OUTPUT"
+            echo "::error title=Nachtlauf rot::$VERDICT (Exit-Code $EXIT)"
+            exit 1
+          fi
+
+      - name: Testergebnisse als Artefakt
+        if: always()
+        uses: actions/upload-artifact@v5
+        with:
+          name: test-results
+          path: |
+            testing/test-results/report.json
+            testing/test-results/html-report
+            testing/test-results/artifacts
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Konsolenausgabe hochladen
+        if: always()
+        uses: actions/upload-artifact@v5
+        with:
+          name: npm-test-log
+          path: ${{ runner.temp }}/npm-test.log
+          if-no-files-found: ignore
+          retention-days: 14
+
+  # Eigener Job fuer die Meldung (#653), nicht ein Schritt im Testjob: scheitert
+  # das Gate (etwa gh api), wird der Testjob uebersprungen, und ein Schritt dort
+  # liefe nie. Der Zustand kommt aus den Ergebnissen der Jobs davor:
+  #   gate nicht success             -> rot (der Nachtlauf konnte nicht entscheiden)
+  #   gate success, run=false        -> gruen (der letzte abgeschlossene Lauf war
+  #                                     ein success auf derselben SHA, test ist
+  #                                     uebersprungen; ein No-op, weil dort schon
+  #                                     gruen gemeldet wurde)
+  #   gate success, run=true         -> test success = gruen, alles andere rot,
+  #                                     auch cancelled (ein Timeout kommt so an)
+  # Nur auf refs/heads/main (siehe data-integrity.yml, Job melden).
+  melden:
+    needs: [gate, test]
+    if: always() && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      issues: write
+      actions: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          sparse-checkout: |
+            scripts/audit
+            .github
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+
+      - name: Zustandswechsel melden (#653)
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ERGEBNIS_GATE: ${{ needs.gate.result }}
+          GATE_RUN: ${{ needs.gate.outputs.run }}
+          ERGEBNIS_TEST: ${{ needs.test.result }}
+          VERDIKT: ${{ needs.test.outputs.verdict }}
+        run: |
+          if [ "$ERGEBNIS_GATE" != "success" ]; then
+            STATE=rot
+            printf 'Gate-Job: %s (der Nachtlauf konnte nicht entscheiden, ob getestet wird)\n' "$ERGEBNIS_GATE" > "$RUNNER_TEMP/detail.txt"
+          elif [ "$GATE_RUN" != "true" ]; then
+            # Der letzte abgeschlossene Lauf war ein success auf derselben SHA, dort
+            # wurde schon gruen gemeldet: ein No-op, weil das Skript nur bei einem
+            # Wechsel postet. Ein Rot dazwischen (roter Lauf, Gate-Ausfall) macht den
+            # letzten abgeschlossenen Lauf zum Nicht-success und oeffnet das Gate.
+            STATE=gruen
+            printf 'Gate: letzter abgeschlossener Lauf auf main war erfolgreich auf derselben SHA (Testjob uebersprungen: %s).\n' "$ERGEBNIS_TEST" > "$RUNNER_TEMP/detail.txt"
+          else
+            if [ "$ERGEBNIS_TEST" = "success" ]; then STATE=gruen; else STATE=rot; fi
+            printf 'Test-Job: %s\n%s\n' "$ERGEBNIS_TEST" "${VERDIKT:-<keine VERDICT-Zeile ausgegeben>}" > "$RUNNER_TEMP/detail.txt"
+          fi
+          python3 scripts/audit/report-schedule-state.py --name nightly-tests --state "$STATE" \
+            --detail-file "$RUNNER_TEMP/detail.txt" \
+            --run-url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+            --ref "${{ github.ref }}" --issue 653 --apply

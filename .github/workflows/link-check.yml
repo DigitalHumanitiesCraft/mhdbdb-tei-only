@@ -1,0 +1,159 @@
+# Woechentlicher Link-Check: externe Links der ausgelieferten Seiten (#653).
+#
+# scripts/audit/check-external-links.py liest alle <a href="http(s)://...">
+# der HTML-Seiten (Wurzel, textreihen/, playground/, lemma/), fragt jede
+# eindeutige URL einmal ab (gedrosselt, HEAD mit GET-Rueckfall) und nennt je toter
+# URL die Datei(en). Domains, die Skripten mit 403 antworten (Verlage, doi.org),
+# stehen in scripts/audit/link-check-allowlist.json; ob diese Seiten im Browser
+# laden, ist dort ungeprueft vermerkt. Ohne die Datei waere der Lauf dauerhaft rot.
+#
+# Ein Zeitgeber und kein Push-Trigger, weil sich ein Link ohne jede Aenderung im
+# Repo aendert: die Gegenseite verschwindet. Ein Link-Check auf jedem Push wuerde
+# ausserdem die Gegenseiten und den Runner mit rund vierhundert Abfragen belasten.
+#
+# Auf dem Pull Request laufen nur der Selbsttest und die Pruefung der Allowlist
+# (--liste liest Dateien und Allowlist, fragt nichts ab). Im Netz wird nur bei
+# schedule und workflow_dispatch gefragt, und nur dort wird gemeldet.
+#
+# Meldung: Zustandswechsel (gruen nach rot, rot nach gruen) als Kommentar in
+# #653 ueber scripts/audit/report-schedule-state.py, im eigenen Job `melden`
+# (nur auf refs/heads/main). Was rot auf main bedeutet, regelt #564
+# (blockiert nichts).
+#
+# Checkout: nur die Seiten und die Skripte (sparse), kein Korpus. Reines Python
+# ohne Abhaengigkeiten.
+#
+# Cron: UTC, ungerade Minute.
+
+name: link-check
+
+on:
+  schedule:
+    - cron: '23 3 * * 3'
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'scripts/audit/check-external-links.py'
+      - 'scripts/audit/link-check-allowlist.json'
+      - 'scripts/audit/report-schedule-state.py'
+      - '.github/workflows/link-check.yml'
+
+concurrency:
+  group: link-check-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  link-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          sparse-checkout: |
+            scripts
+            textreihen
+            playground
+            lemma
+            .github
+          sparse-checkout-cone-mode: true
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+
+      - name: Link-Check Selbsttest (#653)
+        run: python3 scripts/audit/check-external-links.py --selftest
+
+      - name: Selbsttest der Meldung (#653)
+        run: python3 scripts/audit/report-schedule-state.py --selftest
+
+      # Auf dem PR nur die Menge der URLs und die Allowlist (kein Netz). Ohne Pipe:
+      # der Default-Shell fehlt pipefail, ein Exit 2 (kaputte Allowlist, href mit
+      # unbekanntem Schema) ginge sonst im `tail` unter. Die letzte Zeile der Liste
+      # nennt die Menge.
+      - name: Links einsammeln (PR)
+        if: github.event_name == 'pull_request'
+        run: python3 scripts/audit/check-external-links.py --liste
+
+      # Das Skript endet mit 1 bei toten Links und mit 2 bei harter Eingabe. Beides
+      # ist rot. Die Ausgabe geht in eine Datei fuer Summary und Kommentar.
+      - name: Externe Links pruefen (#653)
+        if: github.event_name != 'pull_request'
+        run: |
+          set +e
+          python3 scripts/audit/check-external-links.py --bericht "$RUNNER_TEMP/detail.txt"
+          CODE=$?
+          if [ ! -f "$RUNNER_TEMP/detail.txt" ]; then
+            echo "check-external-links.py endete mit Exit $CODE ohne Bericht (harter Fehler, siehe Log)." > "$RUNNER_TEMP/detail.txt"
+          fi
+          {
+            echo "### Externe Links"
+            echo
+            echo '```'
+            head -n 60 "$RUNNER_TEMP/detail.txt"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+          exit $CODE
+
+      - name: Bericht als Artefakt
+        if: always() && github.event_name != 'pull_request'
+        uses: actions/upload-artifact@v5
+        with:
+          name: link-check-bericht
+          path: ${{ runner.temp }}/detail.txt
+          if-no-files-found: ignore
+          retention-days: 30
+
+  # Eigener Job fuer die Meldung (#653), nicht ein Schritt im Pruefjob. Rot ist
+  # jedes Ergebnis ausser success, auch cancelled (ein Timeout kommt so an). Nur
+  # auf refs/heads/main und nie auf dem PR (siehe data-integrity.yml, Job melden).
+  # Den Bericht holt der Job aus dem Artefakt des Pruefjobs; fehlt es (der Job
+  # endete vor dem Bericht), steht nur das Ergebnis im Kommentar.
+  melden:
+    needs: link-check
+    if: always() && github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      issues: write
+      actions: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          sparse-checkout: |
+            scripts/audit
+            .github
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+
+      - name: Bericht holen
+        continue-on-error: true
+        uses: actions/download-artifact@v5
+        with:
+          name: link-check-bericht
+          path: ${{ runner.temp }}/bericht
+
+      - name: Zustandswechsel melden (#653)
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ERGEBNIS: ${{ needs.link-check.result }}
+        run: |
+          if [ "$ERGEBNIS" = "success" ]; then STATE=gruen; else STATE=rot; fi
+          if [ -f "$RUNNER_TEMP/bericht/detail.txt" ]; then
+            cp "$RUNNER_TEMP/bericht/detail.txt" "$RUNNER_TEMP/detail.txt"
+          else
+            echo "Link-Check-Job: $ERGEBNIS, ohne Bericht (der Job endete vor dem Bericht)." > "$RUNNER_TEMP/detail.txt"
+          fi
+          python3 scripts/audit/report-schedule-state.py --name link-check --state "$STATE" \
+            --detail-file "$RUNNER_TEMP/detail.txt" \
+            --run-url "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+            --ref "${{ github.ref }}" --issue 653 --apply

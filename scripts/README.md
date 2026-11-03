@@ -66,6 +66,7 @@ scripts/
 │   ├── check-author-refs.py     # Personennamen im Header gegen persons.xml: titleStmt/author (#228) und particDesc/listPerson (#308)
 │   ├── check-doc-inventories.py  # Specs und Audit-Skripte stehen in DEVELOPMENT.md, Skripte auch in diesem Baum (#329)
 │   ├── check-doc-staleness.py   # Fälligkeit des Doku-Health-Checks und liegen gebliebene Feature-Docs, nur lesend, wöchentlich in doc-health.yml (#641)
+│   ├── check-external-links.py  # externe Links der ausgelieferten HTML-Seiten abfragen, gedrosselt, mit Allowlist; wöchentlich in link-check.yml (#653)
 │   ├── check-file-sizes.py      # Einzeldateien vor GitHubs harter 100-MiB-Wand stoppen (#350)
 │   ├── check-header-genres.py   # Gattungen im TEI-Kopf (classDecl) gegen die Gattungen des Werks in works.xml (#495)
 │   ├── check-runtime-budget.py  # Laufzeitbudget der CI-Schritte, letzter Schritt je Job (#564)
@@ -90,11 +91,13 @@ scripts/
 │   ├── measure-stage3-resolution.py # Wirkung von Stufe 3 der Lemma-Auflösung (#224)
 │   ├── parallel-witness-bias.py # Verzerrung je Werkzeug durch Parallelüberlieferung (#255)
 │   ├── quantify-unannotated-tokens.py # unannotierte Wortformen korpusweit zählen (#189)
+│   ├── report-schedule-state.py # Zustandswechsel eines Zeitplanlaufs als Kommentar in #653 melden, von nightly-tests.yml, link-check.yml, data-integrity.yml gerufen (#653)
 │   ├── review-rounds.py         # Review-Runden pro gemergtem PR, mit Baseline vom 02.08.
 │   ├── survey-concept-distribution.py # Concepts für die Begriffs-Verteilung (#47)
 │   ├── validate-corpus.py       # Zwei-Stufen-Schema-Validierung
 │   ├── lexicon-baseline.json    # committete Referenzmenge des #152-Gates, per !-Regel vom *.json-Ignore ausgenommen
 │   ├── corresp-coverage-baseline.json # lemmatisierte Tokens ohne @corresp je Sigle, Ratsche im selben Gate (#370)
+│   ├── link-check-allowlist.json # Domains mit bekannter Bot-Sperre (403) für den Link-Check, mit Grund und Stand (#653)
 │   ├── doc-health-state.json    # Stand des letzten Doku-Health-Checks (Commit, Datum) und des letzten Zahlen-Nachlaufs (daten_commit, daten_date), vom jeweiligen PR fortgeschrieben (#641)
 │   └── TEXT_DATA_TABLE.xlsx     # Legacy-Linecode-Mapping
 │
