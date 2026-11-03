@@ -140,7 +140,8 @@ name: Data Integrity
 #      Validierung (Step 8) und nach den beiden Header-Gates.
 #   8. Zweistufige RelaxNG-Validierung (P2-13): Stage 2
 #      (mhdbdb.rng / mhdbdb-authority.rng) ist das harte Gate;
-#      Stage-1-Baseline-Fails (#30) sind nur Warnungen.
+#      Stage-1-Baseline-Fails (#30) sind nur Warnungen, ein
+#      Stage-1-Fail ausserhalb der Baseline ist seit 03.11.2026 rot.
 #
 # Die Nummerierung oben ist die dieser Datei und laeuft mit Buchstaben,
 # damit ein spaeter eingefuegter Step seine Position zeigt, ohne die
