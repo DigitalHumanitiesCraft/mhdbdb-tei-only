@@ -113,6 +113,9 @@ data/audit/
 # Und der Stand des Doku-Health-Checks (#641), gelesen von
 # check-doc-staleness.py: ein Marker, kein Report.
 !scripts/audit/doc-health-state.json
+# Und die Allowlist des Link-Checks (#653), gelesen von check-external-links.py:
+# eine Vorgabe mit Begruendung je Eintrag, kein Report.
+!scripts/audit/link-check-allowlist.json
 scripts/audit/*-REPORT.md
 scripts/audit/lexicon-backfill-*.md
 scripts/audit/lexicon-backfill-*.xml

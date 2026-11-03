@@ -1,0 +1,40 @@
+{
+  "_comment": "Allowlist fuer check-external-links.py (#653): Domains, die einem Skript mit generischem User-Agent 403 liefern. Stand 2026-11-03, Vormessung von Hand: alle hier genannten Antworten kamen mit 403 (nie 404) beim Lauf mit generischem User-Agent; ob die Seiten im Browser laden, ist fuer keinen Eintrag geprueft. Nur der Status 403 wird freigestellt: ein 404 oder ein Netzfehler auf diesen Domains bleibt ein toter Link. doi.org gilt fuer den Status der Weiterleitung auf den Verlag, nicht fuer doi.org selbst.",
+  "eintraege": [
+    {
+      "domain": "doi.org",
+      "status": [403],
+      "grund": "Der Abruf folgt der Weiterleitung auf die Zielseite, und 29 Ziele antworteten mit 403; 29 von 210 doi.org-URLs am 2026-11-03"
+    },
+    {
+      "domain": "hdl.handle.net",
+      "status": [403],
+      "grund": "Der Abruf endete mit 403; 1 URL am 2026-11-03"
+    },
+    {
+      "domain": "opac.regesta-imperii.de",
+      "status": [403],
+      "grund": "403; 18 von 18 URLs am 2026-11-03"
+    },
+    {
+      "domain": "researchgate.net",
+      "status": [403],
+      "grund": "403; 1 URL am 2026-11-03"
+    },
+    {
+      "domain": "escholarship.org",
+      "status": [403],
+      "grund": "403 fuer Skripte; 1 URL am 2026-11-03"
+    },
+    {
+      "domain": "core.ac.uk",
+      "status": [403],
+      "grund": "403 fuer Skripte; 1 URL am 2026-11-03"
+    },
+    {
+      "domain": "cst.princeton.edu",
+      "status": [403],
+      "grund": "403 fuer Skripte; 1 URL am 2026-11-03"
+    }
+  ]
+}
