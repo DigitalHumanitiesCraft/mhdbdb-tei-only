@@ -126,6 +126,9 @@ testing/test-debug.html
 # Source-ZIPs in Ingest-Ordnern (Original-Daten von Beitragenden, untracked)
 ingest/**/*.zip
 
-# Druckfahnen der Hirzel-Ausgabe Weingrüße (Silvan Wagner, #147): Verlagsrechte
-# ungeklärt, nur lokal als Kontext
+# Weingrüße (Silvan Wagner, #147), nur lokal: Druckfahnen der Hirzel-Ausgabe
+# (Verlagsrechte ungeklärt), seine Word-Transkriptionen als Zip und deren
+# docling-Umwandlung
 /sources/weingruesse/*.pdf
+/sources/weingruesse/*.zip
+/sources/weingruesse/docling/
