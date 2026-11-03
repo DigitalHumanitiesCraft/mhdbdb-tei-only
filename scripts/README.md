@@ -38,6 +38,7 @@ scripts/
 │
 ├── ingest/                      # Korpus-Ingest je Vorhaben
 │   ├── ari/                     # ARITHMETIC, 6 Rechenbuch-Handschriften (#92)
+│   ├── bre/                     # Weingrüße aus dem Brevitas-Wiki (Silvan Wagner): Abruf, Segmentierung, Stage 0 (#147)
 │   ├── datierung-118/           # Handschriftencensus-Abruf und Normalisierung der Handschriftendatierungen zu Werk-Datierungen (terminus ante quem) (#118)
 │   ├── entannotate-228/         # Modernen Apparat und nhd. Inhaltsangaben entannotieren, hängende sense/@ana-Verweise entfernen (#228)
 │   ├── frauenlob/               # Frauenlob-Revision (#236)
