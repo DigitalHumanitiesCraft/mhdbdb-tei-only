@@ -537,7 +537,7 @@ export class RhymeDictionary {
             <div>${r.verseTextCount.toLocaleString('de-DE')} Verstexte gescannt</div>
           </div>
         </header>
-        ${filtered.length > 0 ? `<div class="flex">${csvButton('rdCsvExport', `Alle ${filtered.length} Reimpartner ab Mindest-Reimpaare ${this.state.minCount}, mit allen Texten je Partner`)}</div>` : ''}
+        ${filtered.length > 0 ? `<div class="flex">${csvButton('rdCsvExport', `${filtered.length === 1 ? 'Der eine' : `Alle ${filtered.length}`} Reimpartner ab Mindest-Reimpaare ${this.state.minCount}, mit allen Texten je Partner`)}</div>` : ''}
 
         <div class="overflow-x-auto rounded-2xl border border-slate-200">
           <table class="w-full text-sm">

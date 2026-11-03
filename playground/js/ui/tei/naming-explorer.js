@@ -677,7 +677,7 @@ export class NamingExplorer {
     if (!this.state.subject) {
       let hint;
       if (namerMode) {
-        hint = `${this.getNamers(work).length.toLocaleString('de-DE')} nennende Instanzen (Erzähler, Figurenrede, Selbstnennung). Bitte einen Nenner auswählen.`;
+        hint = `${this.getNamers(work).length.toLocaleString('de-DE')} ${pl(this.getNamers(work).length, 'nennende Instanz', 'nennende Instanzen')} (Erzähler, Figurenrede, Selbstnennung). Bitte einen Nenner auswählen.`;
       } else if (lemmaMode) {
         hint = `${this.getTerms(work).length.toLocaleString('de-DE')} ${pl(this.getTerms(work).length, 'Lemma', 'Lemmata')} in kuratierten Bezeichnungen. Bitte ein Lemma auswählen.`;
       } else {
