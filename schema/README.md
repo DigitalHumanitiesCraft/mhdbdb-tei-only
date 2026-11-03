@@ -20,7 +20,7 @@ Jede MHDBDB-Datei muss beide Stufen bestehen:
 1. **TEI-P5-Konformität** (`tei_all.rng`) — die Datei ist valides TEI
 2. **MHDBDB-Constraints** (`mhdbdb.rnc` oder `mhdbdb-authority.rnc`) — die Datei folgt den MHDBDB-Konventionen
 
-Stufe 2 ist das maßgebliche Schema (hartes Gate in der CI). Stufe 1 stellt die Interoperabilität mit dem TEI-Ökosystem sicher und wird in der CI als Drift-Wache mitgeprüft: 35 Korpus-Files sind als #30-Baseline (GAPs 1 bis 9 und 11 in `mhdbdb.rnc`) absichtlich nicht TEI-Standard-konform. Ein 36. Fail würde als WARN im CI-Log erscheinen.
+Stufe 2 ist das maßgebliche Schema (hartes Gate in der CI). Stufe 1 stellt die Interoperabilität mit dem TEI-Ökosystem sicher und wird in der CI als Drift-Wache mitgeprüft: 35 Korpus-Files sind als #30-Baseline (GAPs 1 bis 9 und 11 in `mhdbdb.rnc`) absichtlich nicht TEI-Standard-konform. Seit dem 03.11.2026 macht eine Datei außerhalb dieser Baseline, die Stufe 1 nicht besteht, den vollen Lauf in der CI rot: entweder die Daten korrigieren oder die Datei mit ihrer GAP-Kategorie in die Baseline aufnehmen (`KNOWN_TEI_ALL_BASELINE` in `scripts/audit/validate-corpus.py` und `docs/TEI-MODEL.md` §10).
 
 ### Editor-Validation: nur Stufe 2 als `<?xml-model?>`-PI
 

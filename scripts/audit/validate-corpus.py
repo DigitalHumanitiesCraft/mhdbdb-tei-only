@@ -56,7 +56,8 @@ Usage:
 
 Exit code: 1 on any Stage-2 failure, and on a full run also on a
 Stage-1 failure of a file outside the known #30-baseline
-(docs/TEI-MODEL.md §10); 0 otherwise. Baseline files do not fail the
+(docs/TEI-MODEL.md §10); 2 if the schemas do not load or there is
+nothing to validate; 0 otherwise. Baseline files do not fail the
 run: they carry deliberate GAP patterns the custom schema accepts. A
 file that newly fails tei_all (NEW) is red since 2026-11-03 (chsteiner;
 until then only a printed hint): fix the data, or add the file to

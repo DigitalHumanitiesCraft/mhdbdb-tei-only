@@ -358,6 +358,7 @@ Completeness against `testing/tests/` is gated by `scripts/audit/check-doc-inven
 - Begriffshilfe freshness (#498) → `python scripts/build-begriffshilfe.py` locally, commit `assets/downloads/mhdbdb-begriffshilfe.md` along
 - Part-of-speech counts (#462) → `python scripts/build-lemma-pos.py`, then `python scripts/build-authority-index.py`, commit `data/lemma-pos.json.gz` and the authority index along
 - Stage 2 failure → `python scripts/audit/validate-corpus.py --sample <SIGLE>` locally
+- Stage 1 `+ NEW` (since 2026-11-03) → a file outside the #30 baseline fails `tei_all`; fix the data, or add it to `KNOWN_TEI_ALL_BASELINE` and `TEI-MODEL.md` §10 with its GAP category. `--sample` does not compare against the baseline, so locally run the full script
 - TEI version mismatch → bump `EXPECTED` in the workflow and `schema/README.md`
 
 ### CI: Release Version Check (Zenodo)

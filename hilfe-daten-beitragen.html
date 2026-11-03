@@ -826,8 +826,9 @@ L105: Element body has extra content: div    ← Cascade-Spitze</code></pre>
                 <strong>Stufe&nbsp;2</strong>
                 gegen <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">mhdbdb.rng</code>
                 (MHDBDB-Konventionen). Stufe&nbsp;2 ist das harte Gate: 0&nbsp;Fails sind erforderlich.
-                Stufe&nbsp;1 wird mit einer dokumentierten Baseline von 35 toleranten GAP-Files verglichen
-                (Drift-Wache).
+                Stufe&nbsp;1 wird mit einer dokumentierten Baseline von 35 Dateien verglichen, die bewusst
+                von TEI&nbsp;P5 abweichen. Eine neue Datei steht nicht in dieser Baseline: Besteht sie
+                Stufe&nbsp;1 nicht, ist die CI rot.
             </p>
 
             <h3 class="text-lg font-semibold text-slate-800 mb-2">Lokal validieren</h3>
@@ -837,12 +838,17 @@ from lxml import etree
 tei_all = etree.RelaxNG(etree.parse('schema/tei_all.rng'))
 mhdbdb  = etree.RelaxNG(etree.parse('schema/mhdbdb.rng'))
 doc = etree.parse('tei/SIGLE.tei.xml')
-print('Stage 1 (TEI P5):  ', 'PASS' if tei_all.validate(doc) else 'FAIL: toleriert (siehe GAP-Baseline)')
+print('Stage 1 (TEI P5):  ', 'PASS' if tei_all.validate(doc) else 'FAIL: rot, außer die Datei steht in der GAP-Baseline')
 print('Stage 2 (MHDBDB):  ', 'PASS' if mhdbdb.validate(doc) else mhdbdb.error_log)
 "</code></pre>
 
             <h3 class="text-lg font-semibold text-slate-800 mb-2">Volles Skript</h3>
             <pre class="bg-slate-50 border border-slate-200 rounded-lg p-4 text-xs overflow-x-auto mb-4"><code>python scripts/audit/validate-corpus.py --sample SIGLE</code></pre>
+            <p class="text-sm text-slate-700 leading-relaxed mb-4">
+                Mit <code class="px-2 py-0.5 bg-slate-100 rounded text-sm">--sample</code> vergleicht das Skript nicht
+                mit der Baseline. Den Vergleich, den die CI macht, zeigt erst der volle Lauf ohne Argumente
+                (etwa eine Minute).
+            </p>
 
             <h3 class="text-lg font-semibold text-slate-800 mb-2">CI-Validierung</h3>
             <p class="text-sm text-slate-700 leading-relaxed">
