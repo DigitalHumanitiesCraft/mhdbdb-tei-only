@@ -32,6 +32,7 @@ Verdichtet 03.11.2026. Dieses Memory ist Eingabe, keine Messung.
 - Eine Belegzeile, die ein Zitat findet, belegt das Zitat: bei einer Verdichtung den Primärkommentar öffnen.
 - **Textvorschlag eines Menschen „wörtlich übernehmen" (#537, 03.11.2026):** Wortlaut UND Absatzfolge prüfen. `gh api repos/<o>/<r>/issues/comments/<id> --jq .body`, an Leerzeilen splitten, Whitespace normalisieren, gegen den getaggten Seitentext `in` und `find()`-Reihenfolge. Dazu `meta description`/`og:description` greppen, die alter Wortlaut bleiben.
 - **Ball-Rückgabe (A-Pakete, 03.11.2026):** nicht nur die Einordnung, sondern jede Bedingungsverzweigung im Plan („liegt der Fehler in X, dann ändern“) gegen den Thread halten: schreibt sie, wo KZW X schon bestätigt hat? Und eine Option, die wir ihr zur Wahl gestellt haben, ist nach einer Gegenfrage nicht gewählt. Label-Vorschläge setzt die Koordination oft Minuten nach dem Commit um (Timeline), das ist kein Befund an der Datei.
+- **Neue Fundstelle als Antwort auf einen Zuschreibungsbefund (#44-Labels, 04.11.2026):** die Belegzeile zitiert die stützenden Zeilen. Die ganze zitierte Tabelle lesen, nicht nur die genannten Zeilen: Regel 2 derselben Tabelle widersprach („ohne Halt nur full und brief"). Dazu `git grep` über Kickoffs nach Gegenfällen.
 - **„Seit <Entscheidungsdatum> ist X" in einem Fix-PR (#495, 03.11.2026):** datiert den Zustand auf die Entscheidung, nicht auf den Merge. Gegen `git show origin/main:<datei>` halten: steht X dort noch anders, gilt der Satz erst ab diesem PR.
 
 **Prüfmaterial für KZW**

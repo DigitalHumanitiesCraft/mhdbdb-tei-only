@@ -33,6 +33,7 @@ Verdichtet 03.11.2026, mit dem früheren Memory zur tei_all-Baseline. Zahlen vor
 **build-issue-matrix.py**
 - Proben in-process per importlib mit `GH_REPO=DigitalHumanitiesCraft/mhdbdb-tei-only`, als ganzer Lebenslauf eines Vorgangs.
 - **Der Julia-Vorrang-Skip ist der einzige Pfad, der einen Vorgang unsichtbar macht**, kein Gate zählt, ob jeder wait:*-Vorgang landet. Bei Änderung an einem `continue` vor den Listen proben: offene KZW-Frage, `@wachauer Abnahme:`, dritte Person (`wait != 'wait:julia'` trifft Linda), zwei Abnahme-Zeilen in einem Kommentar. Eine Invariante mit Ausnahme gegen den Mutanten „Ausnahme immer nehmen" proben.
+- **Eine Änderung am Label-Vokabular hat lebende Stellen außerhalb des Repos**, die das Skript nicht schreibt: der Handteil des #44-Body außerhalb der Marker (Legende, Arbeitsregeln), die Beschreibungen in `gh label list`, das Auto-Memory `project_label_schema.md`. Im Repo selbst lebt das Vokabular nur in `AUTO_STUFEN` und CLAUDE.md; Treffer in MASTERPLAN §1/§3–§6, `kickoffs/`, ROADMAP und `journal-archive.md` sind datiert (Runde zu auto-zwei-stufen, 04.11.2026).
 - Rot heißt nicht „Ball liegt" (auch Label-Lücken): `gh run view <id> --log-failed | grep "##\[error\]"`. Die Startzeit weicht stundenweit vom Cron ab: über `createdAt` messen.
 
 **Review-Bot:** Log ohne `show_full_output: true` nur `init` plus Result. Rote Läufe: `gh run view <id> --log | grep -o '"is_error": [^,]*'`. „Diff berechnet" belegt nur der `<changed_files>`-Block im Job-Log.
