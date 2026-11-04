@@ -11,7 +11,7 @@ Begriffsdatenbank), ohne Schluessel lesbar. Zwei Sammlungen, je ein Abschnitt:
 Der Stand liegt in data/zotero-publikationen.json. Das ist der eingefrorene
 Stand (KZW 10.09.2026: "Wir frieren einen Stand ein und ziehen ihn 1x pro Monat
 automatisiert nach"); die Seite entsteht nur aus ihm, nie live. Ein monatlicher
-Lauf (.github/workflows/monatslauf-seiten.yml) ruft dieses Skript auf und
+Lauf (.github/workflows/monthly-pages.yml) ruft dieses Skript auf und
 oeffnet einen PR, wenn sich der Stand aendert.
 
 Ein Zotero-Ausfall bricht nichts: antwortet die API nicht (Netz, Zeitlimit,

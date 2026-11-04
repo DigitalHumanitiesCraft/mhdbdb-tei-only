@@ -445,7 +445,7 @@ Corpus and authority data were never stored here. The playground reads them thro
 
 ## Help subpages built from frozen states (`hilfe-publikationen.html`, `hilfe-demnaechst.html`)
 
-**Generators:** `scripts/build-publikationen.py` (#417, two collections of the public Zotero group 5043625) and `scripts/build-demnaechst.py` (#537, the open `ingest` issues plus the hand-kept `data/demnaechst-zeitplan.json`). Each writes a frozen state under `data/` and builds the page region from that state only, never live; the monthly workflow `monatslauf-seiten.yml` refreshes the states and opens a PR when they change. An outage of Zotero or GitHub leaves the old state in place. `--offline` rebuilds from the file, `--check` compares page and file and runs in `no-cdn-check.yml`. Same pattern as the text-series bibliography below.
+**Generators:** `scripts/build-publikationen.py` (#417, two collections of the public Zotero group 5043625) and `scripts/build-demnaechst.py` (#537, the open `ingest` issues plus the hand-kept `data/demnaechst-zeitplan.json`). Each writes a frozen state under `data/` and builds the page region from that state only, never live; the monthly workflow `monthly-pages.yml` refreshes the states and opens a PR when they change. An outage of Zotero or GitHub leaves the old state in place. `--offline` rebuilds from the file, `--check` compares page and file and runs in `no-cdn-check.yml`. Same pattern as the text-series bibliography below.
 
 ## Textreihentypologie subsite (`textreihen/`)
 
