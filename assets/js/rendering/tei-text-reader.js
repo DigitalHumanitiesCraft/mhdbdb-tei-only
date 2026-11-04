@@ -1691,6 +1691,9 @@ class TEITextReader {
                 this.elements.readingMetadata.innerHTML = '';
                 this.elements.readingMetadata.classList.add('hidden');
             }
+            // Sprungfeld (#655): sonst bliebe es über dem leeren Bereich stehen
+            // und spränge auf Zeilen des geschlossenen Texts
+            this.resetVerseJump();
         }
         this.highlightTextInList(null);
     }

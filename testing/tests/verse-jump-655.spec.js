@@ -111,6 +111,21 @@ test.describe('Sprung zu Vers (#655)', () => {
         }
     });
 
+    test('Schließen des Texts (Browser-Zurück, #434) verbirgt das Feld', async ({ page }) => {
+        await openText(page, 'ROL');
+        const input = page.locator('#verseJumpInput');
+        await input.fill('99999');
+        await input.press('Enter');
+        await expect(page.locator('#verseJumpMessage')).not.toHaveText('');
+
+        // Derselbe Weg wie handlePopState: closeText() schließt das Panel
+        await page.evaluate(() => window._mhdbdbApp.closeText());
+        await expect(page.locator('#readingTitle')).toBeEmpty({ timeout: 10000 });
+        await expect(page.locator('#verseJumpForm')).toBeHidden();
+        await expect(page.locator('#verseJumpMessage')).toHaveText('');
+        await expect(input).toHaveValue('');
+    });
+
     test('Textwechsel setzt Feld und Meldung zurück', async ({ page }) => {
         await openText(page, 'ROL');
         const input = page.locator('#verseJumpInput');
