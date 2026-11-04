@@ -7,6 +7,7 @@
  */
 
 import { lemmaRefMatchesId } from '../lib/lemma-match.js';
+import { buildVerseJumpIndex, parseVerseInput } from '../lib/verse-jump.js';
 import { ADAPTER_LABEL, STATUS_LABEL, formatAttributionList, isCountingAuthor, personIdOf } from '../lib/attributions.js';
 
 /**
@@ -86,6 +87,7 @@ class TEITextReader {
         this.targetVerse = options.targetVerse || null;
         this.targetVerseId = options.targetVerseId || null;
         this.elements = elements;
+        this.resetVerseJump();
 
         const lemmaInfo = this.currentLemmaIds.length > 0
             ? ` (highlighting ${this.currentLemmaIds.length} lemmas)`
@@ -1238,10 +1240,86 @@ class TEITextReader {
             highlight.element = document.getElementById(highlight.id);
         });
 
+        this.setupVerseJump();
+
         // Asynchronously fetch and display Wikidata image if available
         if (metadata.workWikidata) {
             this.loadWikidataImage(metadata.workWikidata, metadata.title);
         }
+    }
+
+    /**
+     * Sprungfeld "Zu Vers" zurücksetzen und verbergen (#655). Beim Öffnen
+     * eines Texts, damit Eingabe und Meldung des vorigen nicht stehen bleiben.
+     */
+    resetVerseJump() {
+        this.verseJump = null;
+        const els = this.elements || {};
+        if (els.verseJumpForm) els.verseJumpForm.classList.add('hidden');
+        if (els.verseJumpInput) els.verseJumpInput.value = '';
+        if (els.verseJumpMessage) els.verseJumpMessage.textContent = '';
+    }
+
+    /**
+     * Sprungindex über den gerenderten Text bauen und das Feld nur dort
+     * zeigen, wo die Versnummer (oder Abschnitt.Vers) eindeutig ist (#655).
+     * Die Zählung steht in lib/verse-jump.js.
+     */
+    setupVerseJump() {
+        const els = this.elements || {};
+        if (!els.verseJumpForm || !els.verseJumpInput || !els.readingBody) return;
+        this.verseJump = buildVerseJumpIndex(els.readingBody);
+        if (!this.verseJump.mode) return;
+
+        els.verseJumpInput.placeholder = this.verseJump.mode === 'plain'
+            ? `z. B. ${this.verseJump.example}`
+            : `Abschnitt.Vers, z. B. ${this.verseJump.example}`;
+        els.verseJumpInput.setAttribute('inputmode', this.verseJump.mode === 'plain' ? 'numeric' : 'text');
+        els.verseJumpInput.setAttribute('aria-label', this.verseJump.mode === 'plain'
+            ? 'Versnummer'
+            : 'Abschnitt und Vers, getrennt durch Punkt');
+        els.verseJumpForm.classList.remove('hidden');
+
+        if (!els.verseJumpForm.dataset.bound) {
+            els.verseJumpForm.dataset.bound = '1';
+            els.verseJumpForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                this.jumpToVerseInput();
+            });
+        }
+    }
+
+    /**
+     * Eingabe des Sprungfelds auswerten und anspringen oder melden (#655).
+     */
+    jumpToVerseInput() {
+        const els = this.elements;
+        const jump = this.verseJump;
+        if (!jump || !jump.mode) return;
+        const say = (text) => { els.verseJumpMessage.textContent = text; };
+        const raw = els.verseJumpInput.value.trim();
+        if (!raw) {
+            say(jump.mode === 'plain'
+                ? 'Bitte eine Versnummer eingeben.'
+                : 'Bitte Abschnitt und Vers eingeben, z. B. ' + jump.example + '.');
+            return;
+        }
+        const parsed = parseVerseInput(jump.mode, raw);
+        if (!parsed) {
+            say(jump.mode === 'plain'
+                ? 'Bitte nur eine Versnummer eingeben, z. B. ' + jump.example + '.'
+                : 'In diesem Text gilt Abschnitt.Vers, z. B. ' + jump.example + '.');
+            return;
+        }
+        const line = jump.lookup.get(parsed.key);
+        if (!line) {
+            say(jump.mode === 'plain'
+                ? `Vers ${parsed.label} gibt es in diesem Text nicht.`
+                : `Abschnitt.Vers ${parsed.label} gibt es in diesem Text nicht.`);
+            return;
+        }
+        say('');
+        this.pulseLine(line, parsed.label);
     }
 
     /**
@@ -1613,6 +1691,9 @@ class TEITextReader {
                 this.elements.readingMetadata.innerHTML = '';
                 this.elements.readingMetadata.classList.add('hidden');
             }
+            // Sprungfeld (#655): sonst bliebe es über dem leeren Bereich stehen
+            // und spränge auf Zeilen des geschlossenen Texts
+            this.resetVerseJump();
         }
         this.highlightTextInList(null);
     }

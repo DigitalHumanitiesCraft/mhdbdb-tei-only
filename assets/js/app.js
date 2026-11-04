@@ -213,6 +213,9 @@ class MainSiteApp {
                 // Reading panel elements (no longer modal)
                 readingTitle: document.getElementById('readingTitle'),
                 readingAuthor: document.getElementById('readingAuthor'),
+                verseJumpForm: document.getElementById('verseJumpForm'),
+                verseJumpInput: document.getElementById('verseJumpInput'),
+                verseJumpMessage: document.getElementById('verseJumpMessage'),
                 readingLoading: document.getElementById('readingLoading'),
                 readingMetadata: document.getElementById('readingMetadata'),
                 readingBody: document.getElementById('readingBody'),

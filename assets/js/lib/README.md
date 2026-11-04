@@ -231,6 +231,22 @@ container.innerHTML = collapsibleHtml(`<p>${escapeHtml(kommentar)}</p>`, komment
 enhanceCollapsibles(container);
 ```
 
+### `verse-jump.js`
+Sprungfeld "Zu Vers" der Leseansicht (#655). Zählt auf dem gerenderten Text, ob eine Versnummer allein eindeutig ist (`'plain'`), erst mit dem `@n` des nächsten `div` (`'div'`) oder des nächsten `div` oder `lg` (`'section'`), sonst `null`: dann bleibt das Feld verborgen. Nur von `tei-text-reader.js` genutzt.
+
+**Exports:**
+- `classifyVerses(entries)` → Modus, reine Funktion ohne DOM
+- `buildVerseJumpIndex(root)` → `{ mode, lookup, example }` über `#readingBody`
+- `parseVerseInput(mode, text)` → `{ key, label }` oder `null`
+
+**Usage:**
+```javascript
+import { buildVerseJumpIndex, parseVerseInput } from '../lib/verse-jump.js';
+
+const jump = buildVerseJumpIndex(readingBody);   // ROL: mode 'plain'; PZ: mode 'div'
+const hit = jump.lookup.get(parseVerseInput(jump.mode, '339.26')?.key);
+```
+
 ## Design Principles
 
 1. **DRY (Don't Repeat Yourself)**: All shared code lives here
