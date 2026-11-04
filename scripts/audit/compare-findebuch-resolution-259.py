@@ -327,7 +327,7 @@ def resolve(query, lemmata, lookup, by_norm, coverage):
 def main():
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument('--dump', type=Path, default=DEFAULT_DUMP,
-                    help='Verzeichnis mit den 22 Findebuch-XML (Vorgabe: temp/...)')
+                    help='Verzeichnis mit den 22 Findebuch-XML (Vorgabe: ~/.cache/mhdbdb/woerterbuchnetz2015/FindeB/P5)')
     ap.add_argument('--out', type=Path, default=DEFAULT_OUT,
                     help='Befundliste als CSV. Vorgabe temp/, gitignoriert. NICHT committen.')
     ap.add_argument('--ohne-trier-regeln', action='store_true',
