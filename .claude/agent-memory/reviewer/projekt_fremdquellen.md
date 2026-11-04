@@ -19,7 +19,7 @@ Verdichtet 03.11.2026. Zahlen sind Eingabe, vor Gebrauch nachmessen.
 **Zotero- und Issue-Abrufe mit Monatslauf (#417, #537)**
 - **Zotero `DOI` und `url` sind Freitext** (volle URLs im DOI-Feld, `10.…` und nackte Hosts im url-Feld): alle Werte gegen `^10\.\d{4,9}/\S+$` bzw. `^https?://` prüfen, gerenderte `href` greppen. Ausfallproben: querschnitt-messen.
 - **#397 an Specs über eingefrorene Fremdstände:** nimmt die Spec nach einer Normalisierung noch Rohfeld = gerenderter Wert an, oder verdrahtet sie Issue-Nummern eines Zwischenstands? Beides wird beim nächsten Monatslauf rot. `not.toContain(rohtitel)` läuft leer, wo die Seite einen bereinigten Titel zeigt.
-- **Das `--check` in `monatslauf-seiten.yml` ist tautologisch** (baut erst, prüft dann): „fiel im Monatslauf auf" ist falsch. Das Gate ist der `--check` in `no-cdn-check.yml`, den Monatslauf-PRs aus dem GITHUB_TOKEN nicht auslösen. Mutationsprobe im Markenbereich (`<!-- PUBLIKATIONEN:START -->`, das erste `<li` steht in der Navigation).
+- **Das `--check` in `monthly-pages.yml` ist tautologisch** (baut erst, prüft dann): „fiel im Monatslauf auf" ist falsch. Das Gate ist der `--check` in `no-cdn-check.yml`, den Monatslauf-PRs aus dem GITHUB_TOKEN nicht auslösen. Mutationsprobe im Markenbereich (`<!-- PUBLIKATIONEN:START -->`, das erste `<li` steht in der Navigation).
 - **„Nicht beschlossen" und Labels als Entscheidungsersatz am ganzen Thread messen**, nicht am letzten Kommentar oder am Label (#139, #262).
 
 **Handschriftencensus-Datierung (#118, `scripts/ingest/datierung-118/`)**
