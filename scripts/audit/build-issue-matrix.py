@@ -53,8 +53,9 @@ Listen je Person bleiben Listen der Schulden.
 
 Bis zum 04.11.2026 hatte die Achse zwischen `auto:full` und `auto:pair` noch
 `auto:brief` (Fragen vorab) und `auto:checkin` (Entscheidungen unterwegs).
-chsteiner hat sie an dem Tag zu `auto:pair` zusammengelegt: fuer eine Session
-ohne ihn hiessen alle drei dasselbe, naemlich nicht anfangen. Die
+chsteiner hat sie an dem Tag zu `auto:pair` zusammengelegt ("entweder
+vollautonom oder nicht"). Ohne ihn am Rechner war schon vorher keine der drei
+startbar (#44, Legende und Regel 3). Die
 Autonomiestufe ist seither zweistufig, vollautonom oder nicht; `auto:blocked`
 und `auto:frozen` sagen, worauf ein Ticket wartet, nicht wie autonom es ist.
 
