@@ -96,7 +96,7 @@ test.describe('Hilfe-Unterseite Demnächst im Korpus', () => {
         // Ohne sichtbares Issue steht eine Leerzeile da (am 18.10.2026 darf noch keine Aufnahme genannt werden)
         await expect(page.locator('.pub-liste > li')).toHaveCount(Math.max(sichtbar.length, 1));
         if (sichtbar.length === 0) {
-            await expect(page.locator('.pub-leer')).toContainText('keine Aufnahme fest');
+            await expect(page.locator('.pub-leer')).toContainText('Aktuell stehen keine neuen Aufnahmen fest');
         }
 
         // Der Kontrollwert liegt ausserhalb der Regel: ein Issue, das wartet, darf nicht erscheinen,
@@ -125,6 +125,6 @@ test.describe('Hilfe-Unterseite Demnächst im Korpus', () => {
         // Jeder sichtbare Eintrag ohne Quartal im Zeitplan steht als "Zeitpunkt offen" da
         const ohneQuartal = sichtbar.filter((i) => !plan.freigegeben[String(i.nummer)]?.quartal).length;
         expect(zeiten.filter((t) => t === 'Zeitpunkt offen').length).toBe(ohneQuartal);
-        await expect(page.locator('main')).toContainText('Zeitangaben sind Schätzungen');
+        await expect(page.locator('main')).toContainText('Alle Zeitangaben sind Richtwerte');
     });
 });
