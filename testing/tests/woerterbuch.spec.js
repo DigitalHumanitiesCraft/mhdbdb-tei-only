@@ -24,6 +24,20 @@ test.describe('Wörterbuch-Einstiegsseite', () => {
         expect(entries).toBe(200);
     });
 
+    test('Buchstaben-Tooltips: Singular bei genau einem Lemma (#643)', async ({ page }) => {
+        await page.goto('/woerterbuch.html');
+        await page.waitForSelector('#woerterbuchContent:not(.hidden)', { timeout: 30000 });
+
+        const titel = await page.locator('#letterBar button').evaluateAll(
+            btns => btns.map(b => b.title));
+        expect(titel).toHaveLength(27);
+        for (const t of titel) {
+            const m = t.match(/^([\d.]+) (Lemma|Lemmata)$/);
+            expect(m, t).not.toBeNull();
+            expect(m[2], t).toBe(m[1] === '1' ? 'Lemma' : 'Lemmata');
+        }
+    });
+
     test('Buchstabenwechsel auf S aktualisiert Einträge und URL', async ({ page }) => {
         await page.goto('/woerterbuch.html');
         await page.waitForSelector('#woerterbuchContent:not(.hidden)', { timeout: 30000 });
