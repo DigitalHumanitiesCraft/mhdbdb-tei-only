@@ -36,7 +36,7 @@ permissions:
   issues: read
 
 concurrency:
-  group: monatslauf-seiten
+  group: monthly-pages
   cancel-in-progress: false
 
 jobs:
@@ -94,7 +94,7 @@ jobs:
             data/demnaechst-issues.json
             hilfe-publikationen.html
             hilfe-demnaechst.html
-          branch: chore/monatslauf-seiten
+          branch: chore/monthly-pages
           delete-branch: true
           commit-message: |
             chore: Publikationen und Demnächst im Korpus nachgezogen (#417, #537)
@@ -105,7 +105,7 @@ jobs:
             Co-Authored-By: Claude <noreply@anthropic.com>
           title: 'Monatslauf: Publikationen und Demnächst im Korpus (#417, #537)'
           body: |
-            Automatischer Monatslauf (Workflow `monatslauf-seiten.yml`, siehe #417 und #537).
+            Automatischer Monatslauf (Workflow `monthly-pages.yml`, siehe #417 und #537).
 
             Geändert sind die eingefrorenen Stände unter `data/` und die beiden
             Seiten `hilfe-publikationen.html` und `hilfe-demnaechst.html`. Bitte

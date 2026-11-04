@@ -160,7 +160,7 @@ python scripts/build-textreihen-bibliography.py # Zotero group 4876216 -> textre
                                                 # (--offline: rebuild from the snapshot; --check: drift gate, no network)
 
 # Help subpages "Publikationen" (#417) and "Demnächst im Korpus" (#537). Both pages are built from frozen
-# states under data/, never live; .github/workflows/monatslauf-seiten.yml refreshes both on the 1st of the
+# states under data/, never live; .github/workflows/monthly-pages.yml refreshes both on the 1st of the
 # month and opens a PR on change. A Zotero or GitHub outage keeps the old state and does not fail the run;
 # an unexpected response format is a hard error with exit 1 (#627).
 python scripts/build-publikationen.py           # Zotero group 5043625, collections WB4HTUGC + Z2N4SWWI -> data/zotero-publikationen.json -> hilfe-publikationen.html
