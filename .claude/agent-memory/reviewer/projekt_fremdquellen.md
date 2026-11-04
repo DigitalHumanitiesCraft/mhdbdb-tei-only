@@ -21,6 +21,7 @@ Verdichtet 03.11.2026. Zahlen sind Eingabe, vor Gebrauch nachmessen.
 - **#397 an Specs über eingefrorene Fremdstände:** nimmt die Spec nach einer Normalisierung noch Rohfeld = gerenderter Wert an, oder verdrahtet sie Issue-Nummern eines Zwischenstands? Beides wird beim nächsten Monatslauf rot. `not.toContain(rohtitel)` läuft leer, wo die Seite einen bereinigten Titel zeigt.
 - **Das `--check` in `monthly-pages.yml` ist tautologisch** (baut erst, prüft dann): „fiel im Monatslauf auf" ist falsch. Das Gate ist der `--check` in `no-cdn-check.yml`, den Monatslauf-PRs aus dem GITHUB_TOKEN nicht auslösen. Mutationsprobe im Markenbereich (`<!-- PUBLIKATIONEN:START -->`, das erste `<li` steht in der Navigation).
 - **„Nicht beschlossen" und Labels als Entscheidungsersatz am ganzen Thread messen**, nicht am letzten Kommentar oder am Label (#139, #262).
+- **Wandert ein Issue zwischen `freigegeben` und `nicht_freigegeben`:** `docs/FEATURES.md` (Absatz „Demnächst im Korpus") zählt Beispiele beider Listen mit Nummern auf und wird still falsch (04.11.2026, #139). Specs mit `if (sichtbar.length === 0)` und eine Rangfolge über leere Liste prüfen nichts, solange `freigegeben` leer ist.
 
 **Handschriftencensus-Datierung (#118, `scripts/ingest/datierung-118/`)**
 - **Nie selbst abrufen** (robots.txt sperrt KI-Agenten), offline gegen `temp/hsc-cache` im Hauptbaum. Werkseite: Handschrift-Links in `<ol class="signaturen">` unter `h3#hss`. JSON: `gnd` Liste, `standorte` Dict, HTML-Entities im Text.
