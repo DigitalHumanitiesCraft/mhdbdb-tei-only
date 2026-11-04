@@ -245,7 +245,10 @@ def selftest():
     assert sichtbar[0][2] == "1. Quartal 2027", sichtbar
     # Zeitraum: Text und Sortierung nach dem Anfang (vor dem Folgequartal, nach dem Anfangsquartal)
     assert quartal_text("2026-Q4/2027-Q1") == "4. Quartal 2026 bis 1. Quartal 2027"
-    assert sorted(["2027-Q1", "2026-Q4/2027-Q1", "2026-Q4"]) == ["2026-Q4", "2026-Q4/2027-Q1", "2027-Q1"]
+    drei = {"issues": [{"nummer": n, "titel": f"Ingest: T{n}", "labels": ["ingest"]} for n in (5, 6, 7)]}
+    reihe = zeilen(drei, {"freigegeben": {"5": {"quartal": "2027-Q1"}, "6": {"quartal": "2026-Q4/2027-Q1"},
+                                          "7": {"quartal": "2026-Q4"}}}, melden=False)
+    assert [t for _, t, _ in reihe] == ["T7", "T6", "T5"], reihe
     for falsch in ("2027-Q1/2026-Q4", "2026-Q4/2026-Q4", "2026-Q5", "2026-Q4-2027-Q1"):
         try:
             quartal_text(falsch)
