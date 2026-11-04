@@ -169,7 +169,7 @@ class WoerterbuchPage {
             const btn = document.createElement('button');
             btn.type = 'button';
             btn.textContent = letter === '#' ? '#' : letter.toUpperCase();
-            btn.title = `${count.toLocaleString('de-DE')} Lemmata`;
+            btn.title = `${count.toLocaleString('de-DE')} ${count === 1 ? 'Lemma' : 'Lemmata'}`;
             btn.dataset.letter = letter;
             btn.disabled = count === 0;
             const isActive = !this.searchQuery && letter === this.activeLetter;
@@ -192,7 +192,7 @@ class WoerterbuchPage {
 
         const label = this.activeLetter === '#' ? '#' : this.activeLetter.toUpperCase();
         this.elements.letterHeading.textContent =
-            `${label} – ${list.length.toLocaleString('de-DE')} Lemmata`;
+            `${label} – ${list.length.toLocaleString('de-DE')} ${list.length === 1 ? 'Lemma' : 'Lemmata'}`;
 
         this.renderEntryList(pageEntries);
     }
