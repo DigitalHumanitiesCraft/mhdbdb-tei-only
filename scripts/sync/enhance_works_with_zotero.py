@@ -93,10 +93,11 @@ ZOTERO_ITEMS_OHNE_EDITION = {'MLJUUSLC'}
 # FLG und FLG1 zeigen auf dasselbe Zotero-Item (ATWPNQPS, seit 18.10.2026 auf
 # den Textband von 1990 mit Gisela Vollmann-Profe ausgerichtet) und
 # unterscheiden sich in works.xml im Textumfang (FLG: Buch 1-2, FLG1: Buch
-# 1-7). Zotero kennt diesen Unterschied nicht; FLG behaelt deshalb seinen
-# eigenen analytic-Titel und die Typografie seiner note, alles andere
-# (Editoren, Imprint, Werktitel, Reihe) kommt aus Zotero. FLG1 braucht keine
-# Ausnahme: sein Zotero-Titel traegt "Buch 1-7". Pfade relativ zum biblStruct.
+# 3-7, KZW in #486 am 20.10.2026). Zotero kennt diesen Unterschied nicht: sein
+# Titel "Text: Buch 1-7" beschreibt den ganzen Textband, nicht den Ausschnitt
+# im Korpus. Beide behalten deshalb ihren eigenen analytic-Titel, FLG dazu
+# seine note (Bd. I und Bd. II), alles andere (Editoren, Imprint, Werktitel,
+# Reihe) kommt aus Zotero. Pfade relativ zum biblStruct.
 #
 # FR3 behaelt analytic und note dauerhaft: das Zotero-Item MVWV5QYG traegt
 # seit 18.10.2026 die Angaben des Supplementbands 2000 (#236, 115c3a01f), aber
@@ -104,6 +105,7 @@ ZOTERO_ITEMS_OHNE_EDITION = {'MLJUUSLC'}
 # die Mitarbeit (Riebe, Fasbender) und den Satz zu Teil 2 der note ab.
 BESTAND_BEHALTEN = {
     'FLG': ('analytic', 'note'),
+    'FLG1': ('analytic',),
     'FR3': ('analytic', 'note'),
 }
 
