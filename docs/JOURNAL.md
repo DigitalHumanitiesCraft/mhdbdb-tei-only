@@ -67,7 +67,7 @@ Lemma-IDs in die Tabelle aufzunehmen, um zu pinnen, ist verworfen: Das deckte nu
 **Was über den Einzelfall hinausgilt:**
 - Vor dem Schreiben nach außen den Sync lokal gegen einen gepatchten Cache simulieren: die Simulation zeigte, dass die Vorgabe "FR3 fällt ganz heraus" den Supplement-Verweis und die Mitarbeit der Notiz gekostet hätte (Zotero hat dafür kein Feld). Die Koordination entschied daraufhin, beides dauerhaft zu behalten.
 - Der Header-Sync entfernt ein Element nicht, das aus `works.xml` verschwunden ist (hier `biblScope unit="volume"` bei FR3); das Gate meldet es, die Handänderung ist einmalig. Ein erneuter `--offline`-Sync und `--works` erzeugten danach keinen Diff, die Handänderung wird also nicht zurückgeholt.
-- Der Werktitel von FLG1 "(Buch 3-7 / Neumann MTU 1990)" und sein `analytic` "Buch 1-7" widersprechen sich weiterhin; als Nebenbefund in #486, nicht aufgelöst.
+- Der Werktitel von FLG1 "(Buch 3-7 / Neumann MTU 1990)" und sein `analytic` "Buch 1-7" widersprechen sich weiterhin; als Nebenbefund in #486, nicht aufgelöst. (Aufgelöst am 04.11.2026 nach KZWs Klarstellung vom 20.10.: FLG1 ist Buch 3-7, `analytic` berichtigt und über `BESTAND_BEHALTEN` gegen den Sync gesichert.)
 
 **Rote Zeilen:** keine.
 

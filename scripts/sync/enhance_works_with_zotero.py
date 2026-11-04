@@ -22,7 +22,9 @@ Chain direction (#486): Zotero -> works.xml -> TEI header. The biblStruct in the
 header is a copy; corrections to an edition start in Zotero. Two named
 exceptions, see SIGLE_ZU_ZOTERO_SCHLUESSEL / BESTAND_BEHALTEN below: FLG (assigned
 by Zotero key ATWPNQPS, permanent, KZW 12.10.2026; keeps its own analytic title and
-note) and FR3 (keeps analytic and note, permanent: Zotero MVWV5QYG carries the
+note, and so does FLG1, which shares ATWPNQPS; FLG1 counts under FLG here: the
+extent of the text, Buch 1-2 and Buch 3-7, is not in Zotero, KZW 20.10.2026)
+and FR3 (keeps analytic and note, permanent: Zotero MVWV5QYG carries the
 corrected edition data since 18.10.2026, but not the supplement reference or the
 acknowledgement of collaborators).
 
@@ -93,10 +95,15 @@ ZOTERO_ITEMS_OHNE_EDITION = {'MLJUUSLC'}
 # FLG und FLG1 zeigen auf dasselbe Zotero-Item (ATWPNQPS, seit 18.10.2026 auf
 # den Textband von 1990 mit Gisela Vollmann-Profe ausgerichtet) und
 # unterscheiden sich in works.xml im Textumfang (FLG: Buch 1-2, FLG1: Buch
-# 1-7). Zotero kennt diesen Unterschied nicht; FLG behaelt deshalb seinen
-# eigenen analytic-Titel und die Typografie seiner note, alles andere
-# (Editoren, Imprint, Werktitel, Reihe) kommt aus Zotero. FLG1 braucht keine
-# Ausnahme: sein Zotero-Titel traegt "Buch 1-7". Pfade relativ zum biblStruct.
+# 3-7, KZW in #486 am 20.10.2026). Zotero kennt diesen Unterschied nicht: sein
+# Titel "Text: Buch 1-7" beschreibt den ganzen Textband, nicht den Ausschnitt
+# im Korpus. Beide behalten deshalb ihren eigenen analytic-Titel. Dazu
+# behalten beide ihre note: FLG, weil Zotero Bd. II nicht fuehrt; FLG1, weil
+# die Zotero-Kindnotiz dieselbe Angabe nur typografisch abweichend traegt
+# ("Bd. I:Text", ohne Schlusspunkt) und works.xml KZWs Wortlaut vom 20.10.
+# fuehrt. Korrigiert jemand die Kindnotiz in Zotero, kann FLG1 'note' wieder
+# abgeben. Alles andere (Editoren, Imprint, Werktitel, Reihe) kommt aus
+# Zotero. Pfade relativ zum biblStruct.
 #
 # FR3 behaelt analytic und note dauerhaft: das Zotero-Item MVWV5QYG traegt
 # seit 18.10.2026 die Angaben des Supplementbands 2000 (#236, 115c3a01f), aber
@@ -104,6 +111,7 @@ ZOTERO_ITEMS_OHNE_EDITION = {'MLJUUSLC'}
 # die Mitarbeit (Riebe, Fasbender) und den Satz zu Teil 2 der note ab.
 BESTAND_BEHALTEN = {
     'FLG': ('analytic', 'note'),
+    'FLG1': ('analytic', 'note'),
     'FR3': ('analytic', 'note'),
 }
 

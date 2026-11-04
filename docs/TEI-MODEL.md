@@ -390,7 +390,7 @@ HZU (36 date notes + 19 year notes) and HZU2 (241 date notes + 100 year notes) c
 
 Katharina: "volume and part had purely obsolete technical reasons. This can move into the metadata."
 
-- **FLG** (books 1-2, edition 2009) + **FLG1** (books 3-7, edition 1990-93): merging is **not recommended**, the editions differ. Remove `div type="volume"`, keep the book numbers as `div type="section"`.
+- **FLG** (books 1-2) + **FLG1** (books 3-7): merging was **not recommended** because the editions were taken to differ. That premise no longer holds: both follow the same edition (Neumann, Bd. I: Text, ed. Vollmann-Profe, München 1990), and Harsch 2009 is only the digital source of FLG (KZW, 2026-10-16 and 2026-10-20, #486). Remove `div type="volume"`, keep the book numbers as `div type="section"`.
 - **PL1/PL2/PL3** (Prosa-Lancelot): merging is **possible**, the structure is identical (same author, flat `<body><p>`), only the text differs. But: 822k `<w>` in total makes for a huge file. Separate files with `section` divs instead of `volume` is the more pragmatic option.
 
 **All `div/@type` decisions in full:**
@@ -1006,7 +1006,7 @@ A consolidated list of all deliberately non-normalized islands of data and of th
 | RELAX NG schema (`schema/mhdbdb.rnc`) | 1.0.0 | 2026-04-09 |
 | POS tagset | 1.0 (19 tags) | 2026-03 |
 | Corpus Index | 4.2.36 | 2026-10-18 |
-| Authority Index | 1.9.32 | 2026-11-03 |
+| Authority Index | 1.9.33 | 2026-11-04 |
 | authority schema (`schema/mhdbdb-authority.rnc`) | 1.2.0 | 2026-10-02 |
 
 ---
