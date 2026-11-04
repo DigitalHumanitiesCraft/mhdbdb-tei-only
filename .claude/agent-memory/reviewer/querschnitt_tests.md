@@ -16,6 +16,8 @@ Verdichtet 03.11.2026.
 
 **Proben ohne Spec**
 - `.mjs` in Temp, `import { chromium } from 'file:///C:/.../node_modules/playwright/index.mjs'` (ohne `file:///` ERR_UNSUPPORTED_ESM_URL_SCHEME), `page.evaluate` auf `window.playground.ui.<tool>.state`, echter Klick statt `dispatchEvent`. Bei belegtem 8080 eigenen `http-server` starten, `server.kill()` im `finally`. Ausgabe in eine Datei.
+- Ohne Datei: `node -e "const {chromium}=require('<wt>/node_modules/playwright');..."` (CommonJS, einzeilig) gegen einen schon laufenden Testserver (`curl` auf dessen Port, z. B. 8093 eines parallelen Volllaufs).
+- **Natives `<select>`:** headless prüft nur die Typeahead im geschlossenen Zustand (`focus` + `keyboard.type`); das aufgeklappte Popup ist nicht erreichbar. Rendert der `change`-Handler das Formular neu, verliert das Select nach dem ersten Buchstaben den Fokus (#643, 04.11.2026: „ritaere" und „rîtaere" landen beide auf „reine").
 - Mutation ohne Baum: `page.route('**/<pfad>.js', ...)` mit `r.fetch()` und `r.fulfill({ response, body })`, Body per String-Ersatz, Trefferzahl je Ersatz ausgeben (mehrzeilige Anker verfehlen still).
 - **CSS-Zustände je Revision:** `git show <rev>:<css>`, `page.setContent`, Hover/Active per CDP `CSS.forcePseudoState`, dann `getComputedStyle`. `(pointer: coarse)` matcht unter `hasTouch: true` nur bis zum ersten `cdp.detach()`: je Revision ein frischer Kontext, `matchMedia` mit ausgeben. `forcePseudoState` wirkt nur auf den einen Knoten (`:has(.kopf:hover)` am Kind und an der Karte getrennt erzwingen).
 - Reader-Spec ohne Browser: `#readingBody.textContent` aus dem TEI nachbauen, `\p{L}` -> `[^\W\d_]`. Auf Basis UND HEAD fahren: nur wenn die Negativ-Regex auf der Basis greift, trennt der Test.
