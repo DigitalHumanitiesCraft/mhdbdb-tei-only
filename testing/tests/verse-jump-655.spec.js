@@ -118,11 +118,26 @@ test.describe('Sprung zu Vers (#655)', () => {
         await input.press('Enter');
         await expect(page.locator('#verseJumpMessage')).not.toHaveText('');
 
-        // Zweiter Text über die Seite selbst: neues Laden mit PZ
-        await page.goto('/korpus.html?textId=PZ');
-        await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 30000 });
-        await page.waitForSelector('#readingBody .verse-line', { timeout: 90000 });
-        await expect(page.locator('#verseJumpInput')).toHaveValue('');
+        // Zweiter Text in derselben Seite, wie beim Sigle-Link im Lesekopf.
+        // Ein page.goto lüde ein neues Dokument und wäre ohne Reset genauso leer.
+        const openInApp = (sigle) => page.evaluate(async (s) => {
+            const app = window._mhdbdbApp;
+            await app.teiReader.openReadingView(s, {}, app.elements);
+        }, sigle);
+
+        await openInApp('PZ');
+        await expect(page.locator('#readingTitle')).not.toHaveText(/Rolandslied/i, { timeout: 90000 });
+        await expect(page.locator('#verseJumpForm')).toBeVisible();
+        await expect(input).toHaveValue('');
+        await expect(page.locator('#verseJumpMessage')).toHaveText('');
+        await expect(input).toHaveAttribute('placeholder', /^Abschnitt\.Vers/);
+
+        // Wechsel zu einem Text ohne Versnummern verbirgt das Feld wieder
+        await input.fill('339.99');
+        await input.press('Enter');
+        await expect(page.locator('#verseJumpMessage')).not.toHaveText('');
+        await openInApp('ABG');
+        await expect(page.locator('#verseJumpForm')).toBeHidden();
         await expect(page.locator('#verseJumpMessage')).toHaveText('');
     });
 
