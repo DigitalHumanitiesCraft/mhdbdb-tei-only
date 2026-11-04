@@ -1011,7 +1011,7 @@ Chosen: **option 2**, together with NFC composition in the normalizer against ca
 
 ### Decision
 
-Stage 3 accepts a candidate if `lemma.normalized` begins with the input (stem input) or the input begins with `lemma.normalized` (inflected input) and the lemma has at least 3 normalized characters. Results are sorted by length difference to the input; the playground breaks ties by corpus frequency (ADR context #163/#164).
+Stage 3 accepts a candidate if `lemma.normalized` begins with the input (stem input) or the input begins with `lemma.normalized` (inflected input) and the lemma has at least 3 normalized characters. Since #259 (KZW, 2026-10-20) the inflected-input direction also requires the lemma to cover at least half of the input (`MIN_STAGE3_COVERAGE = 0.5`), see CONTRACTS.md §C. Results are sorted by length difference to the input; the playground breaks ties by corpus frequency (ADR context #163/#164).
 
 The predicate and the ranking distance live as pure functions in `assets/js/lib/lemma-resolve.js` and are imported by both interfaces. Deliberately shared is **only stage 3**, not the whole orchestration: the main site reads a precomputed `lemma.normalized`, the playground normalizes at runtime and additionally ranks homographs by frequency. The pattern follows `lemma-match.js` (ADR context #126/#130).
 

@@ -86,9 +86,9 @@ export const MIN_LEMMA_PREFIX_LENGTH = 3;
  * long input resolved to whatever short lemma sat at its start (`hel` for
  * "heldentum", 3 of 9 letters). Measured against the Trier Findebuch on
  * 2026-11-04 (scripts/audit/compare-findebuch-resolution-259.py, Authority
- * Index 1.9.33): of the stage-3 cases whose best hit missed the Findebuch
- * lemma, 217 of 538 now return nothing; of those whose best hit was right,
- * 1 of 32 does too. Not applied to
+ * Index 1.9.33): of the stage-3 cases whose list did not contain the
+ * Findebuch lemma at all, 217 of 538 now return nothing; of those whose best
+ * hit was right, 1 of 32 does too. Not applied to
  * direction 1, and stage 2 (known spelling variants) is untouched.
  * Keep in sync with MIN_STAGE3_COVERAGE in
  * scripts/audit/measure-stage3-resolution.py and

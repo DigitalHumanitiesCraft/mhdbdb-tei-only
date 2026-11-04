@@ -35,8 +35,8 @@ ein Lemma und im Findebuch die Variante eines anderen. Hier kann unsere
 Stufenfolge auf eine Art danebengreifen, die im Betrieb unsichtbar ist: Stufe
 1 (exakter Treffer) greift, bevor Stufe 2 (Variantenwoerterbuch) ueberhaupt
 gefragt wird. Wo das Findebuch die Schreibform als Variante fuehrt und wir sie
-als eigenes Lemma, gewinnt bei uns immer die Lemma-Lesart, auch wenn
-variants.xml dieselbe Zuordnung kennt.
+als eigenes Lemma, gewinnt bei uns die Lemma-Lesart, auch wenn
+variants.xml dieselbe Zuordnung kennt, sobald das Lemma im Korpus belegt ist.
 
 **Seit #463** bildet resolve() die Produktion nach: Stufe 1 haelt nur, wenn
 mindestens ein Treffer im Korpus belegt ist (lemmaIndex aus
@@ -54,7 +54,8 @@ sagt diese Teilmenge nichts.
 **Teil 2 ist die Gegenmenge und der eigentliche Test:** die Schreibform ist
 bei uns *kein* Lemma, das Findebuch-Lemma aber schon. Dort laeuft die
 Aufloesung in Stufe 2 oder 3 und kann gegen ein unabhaengiges Urteil geprueft
-werden. Diese Menge ist gut fuenfmal so gross wie Teil 1 (2.781 gegen 543),
+werden. Diese Menge ist gut fuenfmal so gross wie Teil 1 (gemessen am
+04.11.2026: 2.782 gegen 542, dedupliziert),
 und sie ist die, in der die Fehlerklasse aus #224 (Praefix-Fallback)
 ueberhaupt auftreten kann. Das Skript weist beide getrennt aus.
 
@@ -338,8 +339,8 @@ def main():
 
     if not args.dump.is_dir():
         print('FEHLER: %s ist kein Verzeichnis.' % args.dump, file=sys.stderr)
-        print('Der Dump liegt gitignoriert unter temp/ im Hauptbaum, nicht im Worktree.',
-              file=sys.stderr)
+        print('Der Dump liegt ausserhalb des Arbeitsbaums, Vorgabe %s; '
+              'Bezug siehe sources/INVENTAR-ARCHIV.md.' % DEFAULT_DUMP, file=sys.stderr)
         return 2
 
     apply_rules = not args.ohne_trier_regeln
