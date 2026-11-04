@@ -333,6 +333,7 @@ function resolveLemmaIds(normalized):
     for each lemma in authorityIndex.lemmata:
         if lemma.normalized.startsWith(normalized)                  // stem input
            OR (lemma.normalized.length >= 3
+               AND lemma.normalized.length >= 0.5 * normalized.length  // #259
                AND normalized.startsWith(lemma.normalized)):        // inflected input
             partial.push(lemma)
     sort partial by abs(len(lemma.normalized) - len(normalized))    // closest first
@@ -359,7 +360,7 @@ Decided by chsteiner on 2026-10-10: **if stage 1 yields no attested hit, stage 2
 |-------|-----------|--------|-------------|---------|
 | 1 | Canonical or normalized form | 0..N lemma IDs (homographs) | O(n) scan | `brot` → `[lemma_879]` |
 | 2 | Attested orthographic variant | 1..N lemma IDs: exactly one unless the form is ambiguous, then all candidates ranked by Vorschrift B; with unattested stage-1 hits, those follow the candidates | O(1) lookup | `brott` → variants[`brott`] → `lemma_879`; `hab` → variantCandidates[`hab`] → `lemma_2598`, `lemma_2593` |
-| 3 | Prefix match, both directions | 0..N lemma IDs, closest first | O(n) scan + sort | `minnecl` → `minnec`, `minne`, `minneclîch`, …; `schwertkampf` → none |
+| 3 | Prefix match, both directions | 0..N lemma IDs, closest first | O(n) scan + sort | `minnecl` → `minnec`, `minne`, `minneclîch`, …; `schwertkampf` → none; `heldentum` → none (#259) |
 
 ### Stage 3: why prefix and not substring (#224)
 
@@ -383,6 +384,12 @@ Measured over 300 variant forms with a known target lemma, drawn with a fixed se
 The recall loss of 2 cases out of 300 concerns prefix breakers: `gewieren` → `wieren` (prefix `ge-`) and the Roman numeral `ccccxli`. Both are attested variants in real use and are already resolved by stage 2; the measurement bypasses stage 2 on purpose. A median of 0 means: for a random unknown form, stage 3 now usually returns nothing instead of eight false hits. That is intended, the interface then shows its no-hit state.
 
 **Bias of the measurement:** real stage-3 inputs are more often New High German words and typos than Middle High German inflected forms. The sample measures whether the fix costs recall, not how often stage 3 finds the right thing in everyday use.
+
+### Stage 3: the lemma has to cover half the input (#259)
+
+Decided by KZW on 2026-10-20: in the direction "input begins with lemma" the lemma must be at least half as long as the input (`MIN_STAGE3_COVERAGE = 0.5` in `lemma-resolve.js`, normalized lengths). Before, `heldentum` resolved to `hel` alone (3 of 9 characters) and `minnecl` additionally to `min`. The other direction and stage 2 (known spelling variants) are not affected. KZW also asked that explicit wildcards stay unrestricted; the lemma resolution has no wildcard syntax, so there is nothing the threshold could restrict.
+
+Measured on 2026-11-04 against the Trier Findebuch (`scripts/audit/compare-findebuch-resolution-259.py`, Authority Index 1.9.33, resolution as since #463), over the 2,782 deduplicated pairs whose spelling is not one of our lemmata: 218 pairs change category, all of them to "stage 3 returns nothing". 217 come from "stage 3 misses the Findebuch lemma" (538 → 321), 1 from "best stage-3 hit is the Findebuch lemma" (32 → 31). The spellings stay out of this document under the Trier licence condition. Over the 300-form sample of `measure-stage3-resolution.py` (stages 1 and 2 bypassed) recall goes from 33 to 32 and top-1 from 30 to 29; the form lost there, `tiefosten` → `tief`, is a variant that stage 2 resolves in production.
 
 **Side effect beyond stage 3:** `resolveLemmaIds` also supplies the reference set for the keyness column of the table view (#114, `app.js`). For search terms that reach stage 3, the log-likelihood values therefore change, because the reference sum runs over fewer lemmata.
 

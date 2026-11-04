@@ -55,6 +55,7 @@ Bewusst NICHT geteilt wird die Orchestrierung der drei Stufen: beide Aufrufer ha
 - `isStage3Match(lemmaNormalized, queryNormalized)` → boolean
 - `stage3Distance(lemmaNormalized, queryNormalized)` → number (Längendifferenz, kleiner ist näher)
 - `MIN_LEMMA_PREFIX_LENGTH` → 3 (Mindestlänge nur in der Richtung „Eingabe beginnt mit Lemma")
+- `MIN_STAGE3_COVERAGE` → 0.5 (in derselben Richtung deckt das Lemma mindestens die halbe Eingabe ab, #259)
 
 **Usage:**
 ```javascript
@@ -63,6 +64,7 @@ import { isStage3Match, stage3Distance } from '../../lib/lemma-resolve.js';
 isStage3Match('minnecl', 'minnecl');   // true (Präfix)
 isStage3Match('minneclich', 'minnecl'); // true (Lemma beginnt mit der Eingabe)
 isStage3Match('mi', 'minnecl');         // false (zu kurz für die Rückrichtung)
+isStage3Match('min', 'minnecl');        // false (deckt weniger als die halbe Eingabe ab, #259)
 ```
 
 ### `lemma-id-input.js`

@@ -73,12 +73,28 @@ export function stage1Holds(stage1Ids, lemmaIndex) {
  * Minimum normalized lemma length for the "input starts with lemma" direction.
  * Without it, `ô`/`o` and `ês`/`es` match almost any input. Not applied to the
  * other direction, where the lemma is longer than the query by construction.
- * Note the flip side: at exactly 3 a fragment like `hel` can be the single hit
- * for "heldentum", and `matches[0]` consumers take it silently.
+ * On its own it let a fragment like `hel` be the single hit for "heldentum";
+ * MIN_STAGE3_COVERAGE below closes that.
  * Keep in sync with MIN_LEMMA_PREFIX_LENGTH in
  * scripts/audit/measure-stage3-resolution.py.
  */
 export const MIN_LEMMA_PREFIX_LENGTH = 3;
+
+/**
+ * Minimum coverage for the same direction (#259, decided by KZW on
+ * 2026-10-20): the lemma must cover at least half of the input. Without it a
+ * long input resolved to whatever short lemma sat at its start (`hel` for
+ * "heldentum", 3 of 9 letters). Measured against the Trier Findebuch on
+ * 2026-11-04 (scripts/audit/compare-findebuch-resolution-259.py, Authority
+ * Index 1.9.33): of the stage-3 cases whose best hit missed the Findebuch
+ * lemma, 217 of 538 now return nothing; of those whose best hit was right,
+ * 1 of 32 does too. Not applied to
+ * direction 1, and stage 2 (known spelling variants) is untouched.
+ * Keep in sync with MIN_STAGE3_COVERAGE in
+ * scripts/audit/measure-stage3-resolution.py and
+ * scripts/audit/compare-findebuch-resolution-259.py.
+ */
+export const MIN_STAGE3_COVERAGE = 0.5;
 
 /**
  * Is a lemma a stage-3 candidate for a search term? Both arguments must already
@@ -88,6 +104,7 @@ export const MIN_LEMMA_PREFIX_LENGTH = 3;
  *   1. lemma starts with query   — truncation search, "minn" → "minne"
  *   2. query starts with lemma   — inflected input, "boeses" → "bœse";
  *                                  only for lemmata of MIN_LEMMA_PREFIX_LENGTH+
+ *                                  that cover MIN_STAGE3_COVERAGE of the query
  *
  * @param {string|null} lemmaNormalized - normalized lemma form
  * @param {string} queryNormalized - normalized search term
@@ -97,6 +114,7 @@ export function isStage3Match(lemmaNormalized, queryNormalized) {
     if (!lemmaNormalized || !queryNormalized) return false;
     if (lemmaNormalized.startsWith(queryNormalized)) return true;
     return lemmaNormalized.length >= MIN_LEMMA_PREFIX_LENGTH
+        && lemmaNormalized.length >= MIN_STAGE3_COVERAGE * queryNormalized.length
         && queryNormalized.startsWith(lemmaNormalized);
 }
 
