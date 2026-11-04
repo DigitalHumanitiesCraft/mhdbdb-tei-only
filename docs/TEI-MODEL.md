@@ -390,7 +390,7 @@ HZU (36 date notes + 19 year notes) and HZU2 (241 date notes + 100 year notes) c
 
 Katharina: "volume and part had purely obsolete technical reasons. This can move into the metadata."
 
-- **FLG** (books 1-2, edition 2009) + **FLG1** (books 3-7, edition 1990-93): merging is **not recommended**, the editions differ. Remove `div type="volume"`, keep the book numbers as `div type="section"`.
+- **FLG** (books 1-2) + **FLG1** (books 3-7): merging was **not recommended** because the editions were taken to differ. That premise no longer holds: both follow the same edition (Neumann, Bd. I: Text, ed. Vollmann-Profe, München 1990), and Harsch 2009 is only the digital source of FLG (KZW, 2026-10-16 and 2026-10-20, #486). Remove `div type="volume"`, keep the book numbers as `div type="section"`.
 - **PL1/PL2/PL3** (Prosa-Lancelot): merging is **possible**, the structure is identical (same author, flat `<body><p>`), only the text differs. But: 822k `<w>` in total makes for a huge file. Separate files with `section` divs instead of `volume` is the more pragmatic option.
 
 **All `div/@type` decisions in full:**
