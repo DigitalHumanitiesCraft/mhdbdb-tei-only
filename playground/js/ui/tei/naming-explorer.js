@@ -89,8 +89,7 @@ const DEFAULT_STATE = Object.freeze({
   speaker: '',           // 'named' und 'lemma': '' | 'erz' | 'self' | 'fig' | 'fig:<key>'
   target: '',            // nur 'namer': '' | Name der genannten Figur
   category: 'all',       // 'all' | einer der CATS
-  nameFilter: '',
-  subjectFilter: ''
+  nameFilter: ''
 });
 
 // Kategorien in Anzeigereihenfolge, identisch mit CATS im Build-Skript.
@@ -570,19 +569,12 @@ export class NamingExplorer {
   }
 
   /**
-   * Optionen der Auswahlbox. Das Filterfeld (#643) faltet Diakritika wie der
-   * Lemma-Filter der Tabelle: "ere" findet "êre". Die gewählte Option bleibt
-   * auch dann stehen, wenn der Filter sie ausblendete.
+   * Optionen der Auswahlbox. Ein eigenes Filterfeld darüber gab es kurz
+   * (#643); es ist wieder entfernt, weil Tippen im aufgeklappten Dropdown
+   * schon reicht (Linda Beutel, 04.11.2026).
    */
   renderSubjectOptions(work) {
-    let subjects = this.getSubjects(work);
-    const filter = (this.state.subjectFilter || '').trim();
-    if (filter) {
-      subjects = subjects.filter(s => s.value === this.state.subject
-        || TextNormalizer.matchesNormalized(s.label, filter)
-        || TextNormalizer.matchesFolded(s.label, filter));
-    }
-    return subjects.map(s => {
+    return this.getSubjects(work).map(s => {
       const suffix = s.hint ? `, ${s.hint}` : '';
       return `<option value="${escapeAttr(s.value)}"${s.value === this.state.subject ? ' selected' : ''}>${escapeHtml(s.label)} (${s.count.toLocaleString('de-DE')} ${pl(s.count, 'Beleg', 'Belege')}${suffix})</option>`;
     }).join('');
@@ -621,17 +613,13 @@ export class NamingExplorer {
               ${workOptions}
             </select>
           </label>
-          <div class="block">
-            <label for="neFigureSelect" class="text-xs font-medium text-slate-600">${namerMode ? 'Nennende Instanz (nach Belegzahl)' : lemmaMode ? 'Lemma (alphabetisch)' : 'Figur (nach Belegzahl)'}</label>
-            ${lemmaMode ? `<input id="neSubjectFilter" type="text" autocomplete="off" aria-label="Lemma-Auswahl filtern"
-              value="${escapeAttr(this.state.subjectFilter)}"${work ? '' : ' disabled'}
-              placeholder="Lemma filtern (ohne Diakritika)"
-              class="mt-1 w-full rounded-lg border border-slate-200 bg-white px-2 py-1 text-xs focus:border-brand-400 focus:outline-none" />` : ''}
+          <label class="block">
+            <span class="text-xs font-medium text-slate-600">${namerMode ? 'Nennende Instanz (nach Belegzahl)' : lemmaMode ? 'Lemma (alphabetisch)' : 'Figur (nach Belegzahl)'}</span>
             <select id="neFigureSelect" class="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm focus:border-brand-400 focus:outline-none"${work ? '' : ' disabled'}>
               <option value="">${namerMode ? 'Nenner wählen ...' : lemmaMode ? 'Lemma wählen ...' : 'Figur wählen ...'}</option>
               ${subjectOptions}
             </select>
-          </div>
+          </label>
         </div>
         ${this.renderNotationHint(work)}
         <p class="text-[11px] text-slate-500">
@@ -1226,7 +1214,6 @@ export class NamingExplorer {
         // Die Auswahl ist perspektivgebunden: ein Figurenname ist kein
         // Nenner-Schluessel, und ein Nenner ist oft gar keine benannte Figur.
         this.resetSelection();
-        this.state.subjectFilter = '';
         this.render();
       });
     });
@@ -1234,7 +1221,6 @@ export class NamingExplorer {
     document.getElementById('neWorkSelect')?.addEventListener('change', (e) => {
       this.state.workSigle = e.target.value;
       this.resetSelection();
-      this.state.subjectFilter = '';
       this.render();
     });
 
@@ -1243,17 +1229,6 @@ export class NamingExplorer {
       this.resetSelection();
       this.state.subject = subject;
       this.render();
-    });
-
-    // Nur die Optionen neu bauen, nicht die ganze Seite: sonst verlöre das
-    // Feld beim Tippen den Fokus.
-    document.getElementById('neSubjectFilter')?.addEventListener('input', (e) => {
-      this.state.subjectFilter = e.target.value;
-      const select = document.getElementById('neFigureSelect');
-      if (!select) return;
-      const work = this.getWork(this.state.workSigle);
-      select.innerHTML = `<option value="">Lemma wählen ...</option>${this.renderSubjectOptions(work)}`;
-      select.value = this.state.subject;
     });
 
     document.getElementById('neSubFilter')?.addEventListener('change', (e) => {

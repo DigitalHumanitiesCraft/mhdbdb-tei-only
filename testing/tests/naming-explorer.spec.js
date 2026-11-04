@@ -474,16 +474,13 @@ test.describe('Naming Explorer (#59)', () => {
     expect(text).not.toMatch(/\b1 Lemmata/);
   });
 
-  test('Lemma-Perspektive: Filterfeld faltet Diakritika (#643)', async ({ page }) => {
+  test('Lemma-Perspektive: kein eigenes Filterfeld, Auswahl direkt im Dropdown (#643)', async ({ page }) => {
+    // Das Filterfeld ueber dem Dropdown ist wieder entfernt (Linda, 04.11.2026):
+    // Tippen im aufgeklappten Dropdown reicht.
     await page.click('[data-ne-persp="lemma"]');
     await page.selectOption('#neWorkSelect', 'IW');
-    const filter = page.locator('#neSubjectFilter');
-    await filter.fill('ritaere');
-    const optionen = await page.locator('#neFigureSelect option').allTextContents();
-    expect(optionen.some(o => o.startsWith('rîtaere ('))).toBe(true);
-    expect(optionen.length).toBeLessThan(10);
-    // Das Feld behält den Fokus und die Auswahl funktioniert danach
-    await expect(filter).toBeFocused();
+    await expect(page.locator('#neFigureSelect')).toBeVisible();
+    await expect(page.locator('#neSubjectFilter')).toHaveCount(0);
     await page.selectOption('#neFigureSelect', 'rîtaere');
     await page.waitForSelector('[data-ne-term]', { state: 'visible', timeout: 5000 });
     await expect(page.locator('[data-ne-heading]')).toHaveText('rîtaere');
