@@ -14,7 +14,7 @@ Verdichtet 03.11.2026. Was der Classifier zulässt, wechselt je Session: probier
 - **Der Memory-Pfad des Vorspanns kann in einen fremden Worktree oder in den Hauptbaum zeigen** (18.10. und 03.11.2026): Memory in den geprüften Worktree schreiben, git mit `git -C <geprüfter Worktree>`.
 
 **Windows und Python**
-- `python -X utf8` (cp1252 bricht an ł, w̆, Emoji, `�` ist kein Datenbefund). `-I` kappt die User-Site-Packages (`lxml` fehlt) und die Encoding-Variablen: nur für fremde Downloads. `-E` schluckt auch `PYTHONDONTWRITEBYTECODE`: Proben mit `-B -P -E`, sonst entsteht ein unsichtbares `__pycache__`.
+- `python -X utf8` (cp1252 bricht an ł, w̆, Emoji, `�` ist kein Datenbefund). `-I` kappt die User-Site-Packages (`lxml` fehlt) und die Encoding-Variablen: nur für fremde Downloads. `-E` schluckt auch `PYTHONDONTWRITEBYTECODE`: Proben mit `-B -P -E`, sonst entsteht ein unsichtbares `__pycache__`. `python -m py_compile` schreibt die .pyc trotz `-B` (04.11.): Syntaxcheck mit `ast.parse`.
 - Git Bash zerlegt `git show origin/main:<pfad>` („ambiguous argument"): `MSYS_NO_PATHCONV=1`. `rg -c` summieren mit `awk -F: '{s+=$NF}'`. Exit-Code nie hinter `| tail`. rg über die Wurzel hängt an tei/.
 - Eigenen Hintergrundlauf nie per `taskkill //IM python.exe` abbrechen (trifft andere Sessions), nur per PID.
 

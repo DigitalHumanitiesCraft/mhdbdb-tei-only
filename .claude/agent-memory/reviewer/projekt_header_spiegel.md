@@ -9,6 +9,9 @@ Verdichtet 03.11.2026.
 **Kette und Leser**
 - Zotero -> works.xml (`enhance_works_with_zotero.py`) -> Header (`sync_tei_headers.py --works`, chirurgisch auch für die listBibl, `--bibl-struct` ist der alte lxml-Weg). Der Header ist Kopie (CONTRACTS F.4a).
 - Reader, API und Playground nehmen biblStructs, Normdaten und preferredName aus dem Authority-Index, nie aus dem Header (Reader-Titel nur bei `biblScope unit=verse`). Spiegel ohne Leser: msIdentifier-idno, listBibl, `particDesc/.../persName[@type="preferred"]` (kein Sync-Skript, von Hand nachziehen), `publicationStmt/authority` (ändert data/ und api/ nicht).
+- Ausnahmen von Zotero stehen in `enhance_works_with_zotero.py` (`SIGLE_ZU_ZOTERO_SCHLUESSEL`, `BESTAND_BEHALTEN`, seit #486/04.11. mit FLG1) und werden an drei Stellen aufgezählt: Modul-Docstring (Z. 21ff.), Kommentar über `BESTAND_BEHALTEN`, CONTRACTS F.4a „Two named exceptions". Wächst die Menge, die Aufzählungen nachzählen. Kommentare dort sind umbrochen: `rg "Buch 1-7"` fand „Buch\n# 1-7" nicht.
+- Die `note` eines biblStruct kommt aus der Zotero-Kindnotiz des Items (`notes_map`); „kommt nicht aus Zotero" an einer `note` prüfen per `curl https://api.zotero.org/groups/5043625/items/<KEY>/children?format=json` (öffentlich). Hält `BESTAND_BEHALTEN` die note fest, erreicht eine Zotero-Korrektur das Werk nicht mehr (ATWPNQPS seit 04.11. für FLG und FLG1).
+- Sync-Probe ohne Schreiben: Modul per `runpy.run_path`, `fetch_zotero_data_from_api` → `extract_zotero_data` → `replace_editions_with_biblstructs(dry_run=False)` am geparsten Baum, `etree.tostring(..., xml_declaration=True, pretty_print=True)` gegen die Dateibytes (04.11. byte-gleich, Länge 1203068).
 - WZB ist CRLF: Zeilenenden vor und nach einer Header-Änderung zählen (projekt-korpus-tei).
 
 **sync_tei_headers.py**
