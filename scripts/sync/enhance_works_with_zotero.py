@@ -22,8 +22,9 @@ Chain direction (#486): Zotero -> works.xml -> TEI header. The biblStruct in the
 header is a copy; corrections to an edition start in Zotero. Two named
 exceptions, see SIGLE_ZU_ZOTERO_SCHLUESSEL / BESTAND_BEHALTEN below: FLG (assigned
 by Zotero key ATWPNQPS, permanent, KZW 12.10.2026; keeps its own analytic title and
-note, and so does FLG1, which shares ATWPNQPS: the extent of the text, Buch 1-2
-and Buch 3-7, is not in Zotero, KZW 20.10.2026; FLG1 counts under FLG here) and FR3 (keeps analytic and note, permanent: Zotero MVWV5QYG carries the
+note, and so does FLG1, which shares ATWPNQPS; FLG1 counts under FLG here: the
+extent of the text, Buch 1-2 and Buch 3-7, is not in Zotero, KZW 20.10.2026)
+and FR3 (keeps analytic and note, permanent: Zotero MVWV5QYG carries the
 corrected edition data since 18.10.2026, but not the supplement reference or the
 acknowledgement of collaborators).
 
@@ -96,10 +97,13 @@ ZOTERO_ITEMS_OHNE_EDITION = {'MLJUUSLC'}
 # unterscheiden sich in works.xml im Textumfang (FLG: Buch 1-2, FLG1: Buch
 # 3-7, KZW in #486 am 20.10.2026). Zotero kennt diesen Unterschied nicht: sein
 # Titel "Text: Buch 1-7" beschreibt den ganzen Textband, nicht den Ausschnitt
-# im Korpus. Beide behalten deshalb ihren eigenen analytic-Titel und ihre
-# note (FLG: Bd. I und Bd. II; FLG1: Bd. I, Wortlaut KZW 20.10.), alles andere
-# (Editoren, Imprint, Werktitel, Reihe) kommt aus Zotero. Pfade relativ zum
-# biblStruct.
+# im Korpus. Beide behalten deshalb ihren eigenen analytic-Titel. Dazu
+# behalten beide ihre note: FLG, weil Zotero Bd. II nicht fuehrt; FLG1, weil
+# die Zotero-Kindnotiz dieselbe Angabe nur typografisch abweichend traegt
+# ("Bd. I:Text", ohne Schlusspunkt) und works.xml KZWs Wortlaut vom 20.10.
+# fuehrt. Korrigiert jemand die Kindnotiz in Zotero, kann FLG1 'note' wieder
+# abgeben. Alles andere (Editoren, Imprint, Werktitel, Reihe) kommt aus
+# Zotero. Pfade relativ zum biblStruct.
 #
 # FR3 behaelt analytic und note dauerhaft: das Zotero-Item MVWV5QYG traegt
 # seit 18.10.2026 die Angaben des Supplementbands 2000 (#236, 115c3a01f), aber
