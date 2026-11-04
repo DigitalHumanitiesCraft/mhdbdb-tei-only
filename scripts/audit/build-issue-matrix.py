@@ -30,8 +30,7 @@ Arbeitsregeln und die Befundliste. Das ist Urteil und keine Zaehlung.
 
 Drei Achsen mit genau einem Label je Achse und Ticket:
 
-    auto:full | auto:brief | auto:checkin | auto:pair | auto:blocked
-              | auto:frozen
+    auto:full | auto:pair | auto:blocked | auto:frozen
     area:data | area:frontend | area:playground | area:pipeline
               | area:docs | area:orga
     effort:small | effort:medium | effort:large
@@ -51,6 +50,13 @@ obwohl sie geantwortet hatte. Das war im Vorgang selbst vermerkt, statt es zu
 beheben, und wurde am 17.09. in #406 zu Recht geruegt. Ein eingefrorener
 Vorgang traegt deshalb **kein** `wait:*`: niemand schuldet etwas, und die
 Listen je Person bleiben Listen der Schulden.
+
+Bis zum 04.11.2026 hatte die Achse zwischen `auto:full` und `auto:pair` noch
+`auto:brief` (Fragen vorab) und `auto:checkin` (Entscheidungen unterwegs).
+chsteiner hat sie an dem Tag zu `auto:pair` zusammengelegt ("entweder
+vollautonom oder nicht"). Die
+Autonomiestufe ist seither zweistufig, vollautonom oder nicht; `auto:blocked`
+und `auto:frozen` sagen, worauf ein Ticket wartet, nicht wie autonom es ist.
 
 `evergreen` ist die einzige Ausnahme von der Achsenpflicht. #44 traegt kein
 `auto:*` und kein `effort:*`, weil es nicht abgearbeitet, sondern gepflegt
@@ -195,9 +201,8 @@ PEND = '<!-- PERSONEN:END -->'
 # Menschen". Wer die Matrix liest, um Arbeit zu finden, liest von oben.
 AUTO_STUFEN = [
     ('auto:full', 'sofort machbar, keine offene Frage'),
-    ('auto:brief', 'kurze Klaerung vorab, dann am Stueck durchziehbar'),
-    ('auto:checkin', 'semiautonom, Zwischenentscheidungen unterwegs'),
-    ('auto:pair', 'nur gemeinsam mit Chris in einer Session'),
+    ('auto:pair', 'nicht vollautonom, braucht Chris (vorab, unterwegs oder '
+                  'in einer gemeinsamen Session)'),
     ('auto:blocked', 'wartet auf einen Menschen, nicht auf Arbeit'),
     ('auto:frozen', 'bewusst stillgelegt bis zu einem Termin, wartet auf '
                     'niemanden'),
