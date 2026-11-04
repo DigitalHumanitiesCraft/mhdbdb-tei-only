@@ -52,14 +52,13 @@ from corpus_files import corpus_files, tei_header  # noqa: E402
 NS = {'tei': 'http://www.tei-c.org/ns/1.0'}
 XID = '{http://www.w3.org/XML/1998/namespace}id'
 
-# Bekannte kopf-mehr-Faelle, benannt statt gezaehlt. Die Ausnahme haengt an
-# genau dieser Menge zusaetzlicher Gattungen: kommt eine dazu oder faellt eine
-# weg, greift sie nicht mehr und der Fall wird als veraltet gemeldet.
-FRAUENDIENST = frozenset({'genre_4ecfe25e', 'genre_e513a99c'})  # Minnesang, Brief
-_GRUND_FD = ('Frauendienst (work_6): der Kopf fuehrt Minnesang und Brief, das Werk '
-             'nur Liebesroman und Abenteuerroman. Ob work_6 die beiden bekommt oder '
-             'die Koepfe gekuerzt werden, liegt bei KZW (#495).')
-AUSNAHMEN = {s: (FRAUENDIENST, _GRUND_FD) for s in ('FD', 'FDS', 'FH', 'FLD', 'FP')}
+# Bekannte kopf-mehr-Faelle, benannt statt gezaehlt: Sigle -> (Menge zusaetzlicher
+# Gattungen, Grund). Die Ausnahme haengt an genau dieser Menge: kommt eine dazu oder
+# faellt eine weg, greift sie nicht mehr und der Fall wird als veraltet gemeldet.
+# Leer nach der Entscheidung in #495: KZW hat am 20.10.2026 entschieden, dass
+# work_6 (Frauendienst) Minnesang und Brief selbst fuehrt; der PR dazu traegt beide
+# Gattungen in works.xml ein, damit stimmen die fuenf Koepfe.
+AUSNAHMEN = {}
 
 
 def werk_gattungen(root: Path) -> dict:
