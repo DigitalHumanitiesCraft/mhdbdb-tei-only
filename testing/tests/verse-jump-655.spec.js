@@ -118,7 +118,7 @@ test.describe('Sprung zu Vers (#655)', () => {
         await input.press('Enter');
         await expect(page.locator('#verseJumpMessage')).not.toHaveText('');
 
-        // Zweiter Text in derselben Seite, wie beim Sigle-Link im Lesekopf.
+        // Zweiter Text in derselben Seite, wie beim Sigle-Link in den Metadaten.
         // Ein page.goto lüde ein neues Dokument und wäre ohne Reset genauso leer.
         const openInApp = (sigle) => page.evaluate(async (s) => {
             const app = window._mhdbdbApp;
