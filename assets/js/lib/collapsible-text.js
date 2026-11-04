@@ -54,6 +54,20 @@ function umschalten(knopf) {
     const offen = text.classList.toggle('clamp-collapsed') === false;
     knopf.setAttribute('aria-expanded', String(offen));
     knopf.textContent = offen ? 'Weniger anzeigen' : 'Weiterlesen';
+    if (!offen) zumAnfang(text.closest('.clamp-wrap') || text);
+}
+
+/**
+ * Nach dem Zuklappen an den Anfang springen, aber nur wenn der Anfang oberhalb
+ * des sichtbaren Bereichs liegt (Julia, #554: sonst hängt man im Footer).
+ * Sichtbar heißt unterhalb von scroll-margin-top (feste Kopfleiste, shared.css).
+ * Sofort, nicht sanft: die Seite ist durch das Zuklappen ohnehin gesprungen.
+ */
+function zumAnfang(wrap) {
+    const grenze = parseFloat(getComputedStyle(wrap).scrollMarginTop) || 0;
+    if (wrap.getBoundingClientRect().top < grenze) {
+        wrap.scrollIntoView({ block: 'start', behavior: 'instant' });
+    }
 }
 
 // Ein Listener für alle Texte; überlebt jedes erneute Einfügen per innerHTML.

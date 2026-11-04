@@ -294,6 +294,10 @@ body {
   line-clamp: 6;
   overflow: hidden;
 }
+/* Abstand zur festen Kopfleiste (sticky, z-50), wenn nach dem Zuklappen an den Anfang gesprungen wird */
+.clamp-wrap {
+  scroll-margin-top: 5rem;
+}
 .clamp-toggle {
   margin-top: 0.25rem;
   padding: 0;
