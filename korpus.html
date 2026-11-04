@@ -340,9 +340,20 @@
                             <h3 id="readingTitle" class="text-2xl font-semibold text-slate-900"></h3>
                             <p id="readingAuthor" class="text-sm text-slate-600 mt-1"></p>
                         </div>
-                        <a href="hilfe-korpussuche.html#reading-view" target="_blank" rel="noopener" class="help-icon" aria-label="Hilfe zum Reading View" title="Hilfe zum Reading View">
-                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                        </a>
+                        <div class="flex items-start gap-3 shrink-0">
+                            <!-- Sprung zur Versnummer (#655): nur sichtbar, wo die Zählung des Texts eine eindeutige Eingabe erlaubt -->
+                            <form id="verseJumpForm" class="hidden" novalidate>
+                                <div class="flex items-center gap-2">
+                                    <label for="verseJumpInput" class="text-sm text-slate-600">Zu Vers</label>
+                                    <input id="verseJumpInput" type="text" autocomplete="off" class="w-56 px-2 py-1 text-sm border border-slate-300 rounded-lg focus:border-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-200" aria-describedby="verseJumpMessage">
+                                    <button type="submit" class="px-3 py-1 text-sm font-medium text-white bg-brand-600 rounded-lg hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-200">Springen</button>
+                                </div>
+                                <p id="verseJumpMessage" class="text-xs text-red-700 mt-1 min-h-4" role="status" aria-live="polite"></p>
+                            </form>
+                            <a href="hilfe-korpussuche.html#reading-view" target="_blank" rel="noopener" class="help-icon" aria-label="Hilfe zum Reading View" title="Hilfe zum Reading View">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                            </a>
+                        </div>
                     </div>
                 </div>
 
