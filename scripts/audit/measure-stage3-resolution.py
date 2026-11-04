@@ -89,6 +89,10 @@ AUTHORITY_INDEX = REPO / "data" / "authority-index.json.gz"
 # MIN_LEMMA_PREFIX_LENGTH in assets/js/lib/lemma-resolve.js uebereinstimmen.
 MIN_LEMMA_PREFIX_LENGTH = 3
 
+# Mindestabdeckung fuer dieselbe Richtung (#259). Muss mit
+# MIN_STAGE3_COVERAGE in assets/js/lib/lemma-resolve.js uebereinstimmen.
+MIN_STAGE3_COVERAGE = 0.5
+
 
 def stage3_old(query, lemmata):
     """Bisherige Regel: bidirektionales Substring-Matching."""
@@ -96,8 +100,9 @@ def stage3_old(query, lemmata):
             if l["normalized"] and (query in l["normalized"] or l["normalized"] in query)]
 
 
-def stage3_new(query, lemmata):
-    """Neue Regel: beidseitig praefixorientiert, Mindestlaenge nur suffixseitig."""
+def stage3_new(query, lemmata, coverage=MIN_STAGE3_COVERAGE):
+    """Neue Regel: beidseitig praefixorientiert, Mindestlaenge und
+    Mindestabdeckung (#259) nur suffixseitig."""
     out = []
     for l in lemmata:
         norm = l["normalized"]
@@ -105,7 +110,8 @@ def stage3_new(query, lemmata):
             continue
         if norm.startswith(query):
             out.append(l)
-        elif len(norm) >= MIN_LEMMA_PREFIX_LENGTH and query.startswith(norm):
+        elif (len(norm) >= MIN_LEMMA_PREFIX_LENGTH and query.startswith(norm)
+              and len(norm) >= coverage * len(query)):
             out.append(l)
     return out
 
@@ -188,6 +194,7 @@ def report(rows, genuine_total, trivial_total, sample_size, seed):
     print(f"                  gleich, wuerden also Stufe 1 treffen (nicht in der Stichprobe)")
     print(f"Stichprobe:       {n} Formen, Seed {seed}")
     print(f"Mindestlaenge:    {MIN_LEMMA_PREFIX_LENGTH} (nur Richtung 'Eingabe beginnt mit Lemma')")
+    print(f"Mindestabdeckung: {MIN_STAGE3_COVERAGE} (dieselbe Richtung, #259)")
     print()
     print("                              alt      alt + Ranking            neu")
     print(f"  Recall (Ziel in Liste)   {pct(sum(r['old_recall'] for r in rows)):>14}  "

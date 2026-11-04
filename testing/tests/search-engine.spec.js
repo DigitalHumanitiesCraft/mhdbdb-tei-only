@@ -142,6 +142,44 @@ test.describe('Search Engine', () => {
         }
     });
 
+    test('resolveLemmaIds() - Stufe 3 verlangt die halbe Eingabe als Lemma (#259)', async ({ page }) => {
+        // KZW 20.10.2026: in der Richtung "Eingabe beginnt mit Lemma" muss das
+        // Lemma mindestens die Haelfte der Eingabe abdecken. "heldentum" lieferte
+        // vorher allein "hel" (3 von 9 Zeichen), "minnecl" zusaetzlich "min".
+        const r = await page.evaluate(() => {
+            const se = window._mhdbdbApp.searchEngine;
+            const byId = new Map(se.authorityIndex.lemmata.map(l => [l.id, l]));
+            const norms = q => se.resolveLemmaIds(q).map(id => byId.get(id)?.normalized || '');
+            return {
+                heldentumStufe12: se.authorityIndex.lemmata.some(l => l.normalized === 'heldentum')
+                    || !!se.authorityIndex.variants['heldentum'],
+                helIstLemma: se.authorityIndex.lemmata.some(l => l.normalized === 'hel'),
+                heldentum: norms('heldentum'),
+                minnecl: norms('minnecl')
+            };
+        });
+        // Vorbedingungen: "heldentum" erreicht Stufe 3, und "hel" waere ohne
+        // Schwelle ein Kandidat.
+        expect(r.heldentumStufe12).toBe(false);
+        expect(r.helIstLemma).toBe(true);
+        expect(r.heldentum).toEqual([]);
+        expect(r.minnecl).not.toContain('min');
+        expect(r.minnecl).toContain('minne');
+    });
+
+    test('isStage3Match: Mindestabdeckung nur in Richtung "Eingabe beginnt mit Lemma" (#259)', async ({ page }) => {
+        const r = await page.evaluate(async () => {
+            const m = await import('/assets/js/lib/lemma-resolve.js');
+            return {
+                wert: m.MIN_STAGE3_COVERAGE,
+                genauHalb: m.isStage3Match('tief', 'tiefoste'),
+                knappDarunter: m.isStage3Match('tief', 'tiefosten'),
+                kurzeEingabe: m.isStage3Match('heldentum', 'hel')
+            };
+        });
+        expect(r).toEqual({ wert: 0.5, genauHalb: true, knappDarunter: false, kurzeEingabe: true });
+    });
+
     test('resolveLemmaIds() - zerlegtes Umlaut-ö wird komponiert (#224)', async ({ page }) => {
         // Die eigentliche Ursache im Bug-Report: "böses" mit o + U+0308 verfehlte
         // Stufe 1 UND Stufe 2 und fiel in den Fallback. Beide Schreibweisen

@@ -35,25 +35,27 @@ ein Lemma und im Findebuch die Variante eines anderen. Hier kann unsere
 Stufenfolge auf eine Art danebengreifen, die im Betrieb unsichtbar ist: Stufe
 1 (exakter Treffer) greift, bevor Stufe 2 (Variantenwoerterbuch) ueberhaupt
 gefragt wird. Wo das Findebuch die Schreibform als Variante fuehrt und wir sie
-als eigenes Lemma, gewinnt bei uns immer die Lemma-Lesart, auch wenn
-variants.xml dieselbe Zuordnung kennt.
+als eigenes Lemma, gewinnt bei uns die Lemma-Lesart, auch wenn
+variants.xml dieselbe Zuordnung kennt, sobald das Lemma im Korpus belegt ist.
 
-**Stand vor #463:** Das Skript bildet die Aufloesung vor #463 nach, in der
-Stufe 1 bedingungslos gewinnt. Seit #463 fragt die Produktion bei einem
-Stufe-1-Treffer ohne Korpusbeleg Stufe 2 mit; das Skript wendet diese Regel
-noch nicht an (Folgearbeit in #259).
+**Seit #463** bildet resolve() die Produktion nach: Stufe 1 haelt nur, wenn
+mindestens ein Treffer im Korpus belegt ist (lemmaIndex aus
+data/corpus-index.json.gz); sonst wird Stufe 2 mitgefragt und die unbelegten
+Treffer haengen hinten an. Stufe 2 liest variantCandidates vor variants.
+Stufe 3 laeuft nur, wenn Stufe 1 und 2 leer sind.
 
-**Genau deshalb testet Teil 1 aber nur Stufe 1, und zwar per Konstruktion.**
-Das Auswahlkriterium lautet "die Schreibform ist eines unserer Lemmata", und
-das ist die Bedingung, unter der Stufe 1 immer trifft. Gemessen: alle Faelle
-in Teil 1 loesen auf Stufe 1 auf, ausnahmslos. Ueber die Stufen 2 und 3, also
-ueber das Variantenwoerterbuch und den Praefix-Fallback, sagt diese Teilmenge
-nichts.
+**Genau deshalb testet Teil 1 aber fast nur Stufe 1, und zwar per
+Konstruktion.** Das Auswahlkriterium lautet "die Schreibform ist eines unserer
+Lemmata", und das ist die Bedingung, unter der Stufe 1 trifft. Ausnahme seit
+#463: ist keiner dieser Treffer im Korpus belegt, entscheidet Stufe 2
+(Kategorie E; gemessen am 04.11.2026: 20 von 542). Ueber den Praefix-Fallback
+sagt diese Teilmenge nichts.
 
 **Teil 2 ist die Gegenmenge und der eigentliche Test:** die Schreibform ist
 bei uns *kein* Lemma, das Findebuch-Lemma aber schon. Dort laeuft die
 Aufloesung in Stufe 2 oder 3 und kann gegen ein unabhaengiges Urteil geprueft
-werden. Diese Menge ist gut fuenfmal so gross wie Teil 1 (2.781 gegen 543),
+werden. Diese Menge ist gut fuenfmal so gross wie Teil 1 (gemessen am
+04.11.2026: 2.782 gegen 542, dedupliziert),
 und sie ist die, in der die Fehlerklasse aus #224 (Praefix-Fallback)
 ueberhaupt auftreten kann. Das Skript weist beide getrennt aus.
 
@@ -130,6 +132,7 @@ if sys.stdout.encoding and sys.stdout.encoding.lower() not in ('utf-8', 'utf8'):
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', line_buffering=True)
 
 AUTHORITY_INDEX = PROJECT_ROOT / 'data' / 'authority-index.json.gz'
+CORPUS_INDEX = PROJECT_ROOT / 'data' / 'corpus-index.json.gz'
 # Der Dump liegt seit dem 22.09.2026 ausserhalb des Arbeitsbaums, weil er
 # Trierer Copyright traegt und temp/ nur eine Gitignore-Zeile von einem Commit
 # trennt. Der Bestand liegt im DHCraft-Drive, hier steht nur eine lokale
@@ -143,6 +146,12 @@ DEFAULT_OUT = PROJECT_ROOT / 'temp' / '259-findebuch-befunde.csv'
 # MIN_LEMMA_PREFIX_LENGTH in assets/js/lib/lemma-resolve.js uebereinstimmen
 # (dieselbe Auflage traegt scripts/audit/measure-stage3-resolution.py).
 MIN_LEMMA_PREFIX_LENGTH = 3
+
+# Mindestabdeckung fuer dieselbe Richtung (#259, KZW 20.10.2026): das Lemma
+# muss mindestens diesen Anteil der Eingabe abdecken. Muss mit
+# MIN_STAGE3_COVERAGE in assets/js/lib/lemma-resolve.js uebereinstimmen; mit
+# --mindestabdeckung 0 misst das Skript den Stand ohne Schwelle.
+MIN_STAGE3_COVERAGE = 0.5
 
 # Zusatzregeln fuer die Trierer Schreibung, vor unserer Normalisierung. Die
 # Akute stehen dabei, weil sie die Zahlen der Vorabmessung erklaeren: mit ihnen
@@ -267,14 +276,20 @@ def load_ours():
         data = json.load(fh)
     lemmata = data['lemmata']
     variants = data.get('variants', {})
+    candidates = data.get('variantCandidates', {})
     by_norm = defaultdict(list)
     for l in lemmata:
         if l.get('normalized'):
             by_norm[l['normalized']].append(l)
-    return lemmata, variants, by_norm
+    if not CORPUS_INDEX.exists():
+        print('FEHLER: %s fehlt. Erst den Index bauen.' % CORPUS_INDEX, file=sys.stderr)
+        sys.exit(2)
+    with gzip.open(CORPUS_INDEX, 'rt', encoding='utf-8') as fh:
+        lemma_index = json.load(fh)['lemmaIndex']
+    return lemmata, (variants, candidates, lemma_index), by_norm
 
 
-def stage3(query, lemmata):
+def stage3(query, lemmata, coverage):
     """Stufe 3, gespiegelt aus assets/js/lib/lemma-resolve.js (isStage3Match),
     Rangfolge nach Laengendistanz wie stage3Distance. Der Tiebreak nach Id ist
     eine Messkonvention: produktiv bricht die Hauptseite Gleichstaende gar
@@ -286,38 +301,46 @@ def stage3(query, lemmata):
             continue
         if n.startswith(query):
             out.append(l)
-        elif len(n) >= MIN_LEMMA_PREFIX_LENGTH and query.startswith(n):
+        elif (len(n) >= MIN_LEMMA_PREFIX_LENGTH and query.startswith(n)
+              and len(n) >= coverage * len(query)):
             out.append(l)
     return sorted(out, key=lambda l: (abs(len(l['normalized']) - len(query)), l['id']))
 
 
-def resolve(query, lemmata, variants, by_norm):
-    """Die dreistufige Aufloesung vor #463 (Stufe 1 gewinnt bedingungslos, die
-    Belegregel aus #463 fehlt noch, siehe Modul-Docstring). Rueckgabe: (stufe,
-    liste der Lemma-Ids)."""
-    hit = by_norm.get(query)
-    if hit:
-        return 1, [l['id'] for l in hit]
-    v = variants.get(query)
-    if v:
-        return 2, [v]
-    return 3, [l['id'] for l in stage3(query, lemmata)]
+def resolve(query, lemmata, lookup, by_norm, coverage):
+    """Die dreistufige Aufloesung seit #463, wie resolveLemmaIds in
+    assets/js/search/search-engine.js. Rueckgabe: (stufe, liste der Lemma-Ids);
+    ein unbelegter Stufe-1-Treffer, der Stufe 2 mitfragt, zaehlt als Stufe 2."""
+    variants, candidates, lemma_index = lookup
+    stage1 = [l['id'] for l in by_norm.get(query, [])]
+    if any(lemma_index.get(i) for i in stage1):
+        return 1, stage1
+    c = candidates.get(query)
+    stage2 = list(c) if isinstance(c, list) else ([variants[query]] if variants.get(query) else [])
+    if stage1:
+        return 2, stage2 + [i for i in stage1 if i not in stage2]
+    if stage2:
+        return 2, stage2
+    return 3, [l['id'] for l in stage3(query, lemmata, coverage)]
 
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument('--dump', type=Path, default=DEFAULT_DUMP,
-                    help='Verzeichnis mit den 22 Findebuch-XML (Vorgabe: temp/...)')
+                    help='Verzeichnis mit den 22 Findebuch-XML (Vorgabe: ~/.cache/mhdbdb/woerterbuchnetz2015/FindeB/P5)')
     ap.add_argument('--out', type=Path, default=DEFAULT_OUT,
                     help='Befundliste als CSV. Vorgabe temp/, gitignoriert. NICHT committen.')
     ap.add_argument('--ohne-trier-regeln', action='store_true',
                     help='Die acht Zusatzregeln weglassen, um ihre Wirkung zu messen')
+    ap.add_argument('--mindestabdeckung', type=float, default=MIN_STAGE3_COVERAGE,
+                    help='Mindestabdeckung in Stufe 3, Richtung "Eingabe beginnt mit '
+                         'Lemma" (Vorgabe %(default)s wie produktiv; 0 = ohne Schwelle)')
     args = ap.parse_args()
 
     if not args.dump.is_dir():
         print('FEHLER: %s ist kein Verzeichnis.' % args.dump, file=sys.stderr)
-        print('Der Dump liegt gitignoriert unter temp/ im Hauptbaum, nicht im Worktree.',
-              file=sys.stderr)
+        print('Der Dump liegt ausserhalb des Arbeitsbaums, Vorgabe %s; '
+              'Bezug siehe sources/INVENTAR-ARCHIV.md.' % DEFAULT_DUMP, file=sys.stderr)
         return 2
 
     apply_rules = not args.ohne_trier_regeln
@@ -334,7 +357,8 @@ def main():
         print('Erwartet werden die 22 P5-Dateien des Findebuchs; '
               'die Vorgabe endet auf FindeB/P5.', file=sys.stderr)
         return 2
-    lemmata, variants, by_norm = load_ours()
+    lemmata, lookup, by_norm = load_ours()
+    variants = lookup[0]
 
     print('#259: Findebuch-Verweisgraph gegen unsere dreistufige Aufloesung')
     print('=' * 66)
@@ -350,6 +374,7 @@ def main():
           ' Stufe treffen)' % stats['mehrwort'])
     print('  Paare Schreibform -> Lemma : %d' % len(pairs))
     print('  Trierer Zusatzregeln       : %s' % ('an' if apply_rules else 'aus'))
+    print('  Mindestabdeckung Stufe 3   : %s' % args.mindestabdeckung)
     print()
 
     # Beide Seiten normalisiert. Die Findebuch-Seite bekommt die Zusatzregeln,
@@ -388,7 +413,7 @@ def main():
     kat = Counter()
     rows = []
     for nf, nl, form, lemma in both:
-        stufe, ids = resolve(nf, lemmata, variants, by_norm)
+        stufe, ids = resolve(nf, lemmata, lookup, by_norm, args.mindestabdeckung)
         ziel_ids = [l['id'] for l in by_norm.get(nl, [])]
         v = variants.get(nf)
         stimmt_ueberein = bool(set(ids) & set(ziel_ids))
@@ -434,14 +459,15 @@ def main():
     print('Schreibform bei uns selbst ein Lemma ist. Das ist kein Fehler in den')
     print('Daten, sondern eine Folge der Stufenordnung, und im Betrieb unsichtbar.')
     print()
-    print('Und Teil 1 prueft nur Stufe 1, per Konstruktion: das Auswahlkriterium')
-    print('ist genau die Bedingung, unter der Stufe 1 trifft. Dafuer Teil 2.')
+    print('Und Teil 1 prueft fast nur Stufe 1, per Konstruktion: das Auswahlkriterium')
+    print('ist die Bedingung, unter der Stufe 1 trifft; nur ohne Korpusbeleg')
+    print('entscheidet seit #463 Stufe 2 (Kategorie E). Dafuer Teil 2.')
     print()
 
     # --- Teil 2: hier laufen Stufe 2 und 3 wirklich ---
     kat2 = Counter()
     for nf, nl, form, lemma in other:
-        stufe, ids = resolve(nf, lemmata, variants, by_norm)
+        stufe, ids = resolve(nf, lemmata, lookup, by_norm, args.mindestabdeckung)
         ziel_ids = [l['id'] for l in by_norm.get(nl, [])]
         treffer = set(ids) & set(ziel_ids)
         if stufe == 2 and treffer:
