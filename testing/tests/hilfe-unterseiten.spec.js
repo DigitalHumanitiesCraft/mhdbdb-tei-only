@@ -117,8 +117,10 @@ test.describe('Hilfe-Unterseite Demnächst im Korpus', () => {
         await page.goto('/hilfe-demnaechst.html');
         const zeiten = await page.locator('.pub-liste .pub-meta').allTextContents();
         const rang = (t) => {
-            const m = t.match(/^(\d)\. Quartal (\d{4})$/);
-            return m ? Number(m[2]) * 10 + Number(m[1]) : Infinity;
+            // Ein Zeitraum ("4. Quartal 2026 bis 1. Quartal 2027") rangiert nach seinem Anfang,
+            // knapp hinter dem einzelnen Anfangsquartal (wie die Sortierung im Generator)
+            const m = t.match(/^(\d)\. Quartal (\d{4})( bis (\d)\. Quartal (\d{4}))?$/);
+            return m ? Number(m[2]) * 10 + Number(m[1]) + (m[3] ? 0.5 : 0) : Infinity;
         };
         const raenge = zeiten.map(rang);
         expect(raenge).toEqual([...raenge].sort((a, b) => a - b));

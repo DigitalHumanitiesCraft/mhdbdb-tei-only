@@ -10,7 +10,8 @@ Zwei Dateien, zwei Zustaendigkeiten:
   data/demnaechst-zeitplan.json von Hand gepflegt, eine Freigabeliste (chsteiner,
                                 18.10.2026): unter "freigegeben" steht je Issue,
                                 das die Seite nennen darf, ein Quartal ("2026-Q4")
-                                und/oder ein Titel; ohne Quartal erscheint es mit
+                                oder ein Zeitraum ("2026-Q4/2027-Q1") und/oder ein
+                                Titel; ohne Quartal erscheint es mit
                                 "Zeitpunkt offen". Unter "nicht_freigegeben" stehen
                                 Issues mit Grund (und optional "vorgeschlagen")
 
@@ -60,7 +61,7 @@ REPO = "DigitalHumanitiesCraft/mhdbdb-tei-only"
 LABEL = "ingest"
 AUSSCHLUSS_LABEL = "wait:extern"
 ZEITLIMIT = 30
-QUARTAL = re.compile(r"^(\d{4})-Q([1-4])$")
+QUARTAL = re.compile(r"^(\d{4})-Q([1-4])(?:/(\d{4})-Q([1-4]))?$")
 
 
 class Antwortformat(Exception):
@@ -142,10 +143,17 @@ def deutsches_datum(iso):
 
 
 def quartal_text(q):
+    """'2026-Q4' oder ein Zeitraum '2026-Q4/2027-Q1' (KZW, #537, 21.10.2026)."""
     treffer = QUARTAL.match(q)
     if not treffer:
-        sys.exit(f"Zeitplan: '{q}' ist kein Quartal der Form 2026-Q4")
-    return f"{treffer.group(2)}. Quartal {treffer.group(1)}"
+        sys.exit(f"Zeitplan: '{q}' ist kein Quartal der Form 2026-Q4 oder 2026-Q4/2027-Q1")
+    j1, q1, j2, q2 = treffer.groups()
+    anfang = f"{q1}. Quartal {j1}"
+    if j2 is None:
+        return anfang
+    if (int(j2), int(q2)) <= (int(j1), int(q1)):
+        sys.exit(f"Zeitplan: '{q}' endet nicht nach seinem Anfang")
+    return f"{anfang} bis {q2}. Quartal {j2}"
 
 
 def bereinigt(titel):
@@ -235,6 +243,18 @@ def selftest():
     sichtbar = zeilen(stand, plan, melden=False)
     assert [t for _, t, _ in sichtbar] == ["Freigegebener Text"], sichtbar
     assert sichtbar[0][2] == "1. Quartal 2027", sichtbar
+    # Zeitraum: Text und Sortierung nach dem Anfang (vor dem Folgequartal, nach dem Anfangsquartal)
+    assert quartal_text("2026-Q4/2027-Q1") == "4. Quartal 2026 bis 1. Quartal 2027"
+    drei = {"issues": [{"nummer": n, "titel": f"Ingest: T{n}", "labels": ["ingest"]} for n in (5, 6, 7)]}
+    reihe = zeilen(drei, {"freigegeben": {"5": {"quartal": "2027-Q1"}, "6": {"quartal": "2026-Q4/2027-Q1"},
+                                          "7": {"quartal": "2026-Q4"}}}, melden=False)
+    assert [t for _, t, _ in reihe] == ["T7", "T6", "T5"], reihe
+    for falsch in ("2027-Q1/2026-Q4", "2026-Q4/2026-Q4", "2026-Q5", "2026-Q4-2027-Q1"):
+        try:
+            quartal_text(falsch)
+        except SystemExit:
+            continue
+        raise AssertionError(f"Zeitangabe {falsch} wurde angenommen")
     region = region_bauen(stand, plan)
     for t in ("gesperrter Text", "Neuer Text ohne jeden Eintrag", "wartet extern"):
         assert t not in region, t
