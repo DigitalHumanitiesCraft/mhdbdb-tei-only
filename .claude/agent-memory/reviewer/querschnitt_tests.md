@@ -22,6 +22,7 @@ Verdichtet 03.11.2026.
 
 **Locator- und Warte-Fallen**
 - ID-Grep reicht nicht, Textlocatoren (`button:has-text("...")`) mitsuchen und auf der Basis gegen das HTML greppen. Ein `isVisible()`-Guard wird nach Verstecken nie mehr wahr: grün, tut nichts. String-`hasText` ist Teilstring, nur `/^…$/` trennt.
+- Ein Test „Textwechsel setzt X zurück" mit `page.goto` prüft nichts: neues Dokument, jeder JS-Zustand ist ohnehin weg. In-App-Wechsel im Reader: `window._mhdbdbApp.teiReader.openReadingView(id, {}, window._mhdbdbApp.elements)` oder ein `.sigle-link` (#655). Die `.sigle-link` stehen im eingeklappten `#readingMetadata`, nicht in `.reading-header` (korpus.html).
 - `waitForLoadState('networkidle')` nach dem ersten networkidle ist ein No-op. Feste `waitForTimeout` sind bei Großtexten (`minne`) als Negativprobe nicht trennscharf. `beforeAll`/`afterAll` fehlen in `result.duration`. `url().includes('/tei/')` trifft auch `playground/js/ui/tei/*.js`.
 
 **Tailwind:** `tailwind-output.css` ist committet, kein Gate baut sie. Frische: `npx tailwindcss -i assets/css/tailwind-input.css -o <temp>/x.css --minify`, `cmp`. Klassen im minifizierten CSS mit `grep -o '[.,]klasse[,{]' ... | wc -l` zählen, nicht `rg -c` (eine Zeile) oder `\.klasse\{` (verfehlt Gruppen).
