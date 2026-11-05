@@ -92,7 +92,7 @@ test.describe('Einklappen langer Kommentare (#554)', () => {
         // Vorbedingung (#653): der Knopf muss ganz im Fenster liegen. Sonst scrollt
         // Playwrights click() ihn vorher ins Bild, der Kommentaranfang rutscht nach
         // oben, und die App springt zu Recht. So im Nachtlauf vom 05.11.2026 bei
-        // 1600 px Fensterhoehe (Trace: scrollY 168, nach dem Autoscroll 1082, danach 288).
+        // 1600 px Fensterhöhe (Trace: scrollY 168, nach dem Autoscroll 1082, danach 288).
         const imFenster = await knopf.evaluate(el => {
             const r = el.getBoundingClientRect();
             return r.top >= 0 && r.bottom <= window.innerHeight;
@@ -105,8 +105,8 @@ test.describe('Einklappen langer Kommentare (#554)', () => {
         return { davor, danach: await messen() };
     }
 
-    // Hoch genug, dass der aufgeklappte Kommentar samt Knopf auch mit den Schriften
-    // des CI-Runners ins Fenster passt (#653); die Vorbedingung oben prueft das.
+    // Hoch genug, dass der aufgeklappte Kommentar samt Knopf auch auf dem CI-Runner
+    // ins Fenster passt (#653); die Vorbedingung oben prüft das.
     const FENSTER = { width: 1280, height: 2600 };
 
     test('Lemmaseite: Zuklappen springt an den Kommentaranfang, wenn er oberhalb liegt (#554)', async ({ page }) => {
