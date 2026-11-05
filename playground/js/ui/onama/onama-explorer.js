@@ -236,8 +236,9 @@ export class OnamaExplorer {
             vor dem Ende. Bei einem Bild ist ein Link zu REALonline gespeichert.</dd>
           <dt><span class="on-badge on-badge-warn">abgeleitet</span></dt>
           <dd>Ein Bild hat keine Sammlung gespeichert und steht nur wegen seines Themas hier. Oder Anfang oder Ende
-            einer Textstelle liegen nicht auf einem Wort mit Lemma-Annotation, etwa auf einem Satzzeichen. Dann
-            ist die Stelle auf das nächste Wort verschoben und mit "umgerechnet" markiert.</dd>
+            einer Textstelle liegen nicht auf einem Wort mit Lemma-Annotation, meist auf einem Wort ohne Lemma,
+            seltener auf einem Satzzeichen. Dann ist die Stelle auf die annotierten Wörter innerhalb der Stelle
+            eingegrenzt und mit "umgerechnet" markiert.</dd>
           <dt><span class="on-badge on-badge-bad">offen</span></dt>
           <dd>Anfang oder Ende der Textstelle fehlen im Text der MHDBDB oder stehen in falscher Reihenfolge. Oder
             es ist gar keine Textstelle oder kein Bildlink gespeichert.</dd>
