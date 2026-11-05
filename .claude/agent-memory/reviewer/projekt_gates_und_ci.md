@@ -49,4 +49,6 @@ Verdichtet 03.11.2026, mit dem früheren Memory zur tei_all-Baseline. Zahlen vor
 - Zustandsmelder je Endzustand: welcher spätere Lauf hebt dieses Rot auf, und ist das Grün wahr (tragfähig ist der letzte *abgeschlossene* Lauf mit gleicher SHA und success, nicht der letzte erfolgreiche)?
 - `workflow_dispatch` läuft hier praktisch nur auf Zweigen: ein Meldeweg „auf main" braucht die `github.ref`-Bedingung, `runs?branch=main` schließt Zweig-Dispatches aus.
 
+**Playwright in der CI (05.11.2026):** nur `nightly-tests.yml` fährt `npm test` (Gegenprobe `rg -l "playwright|npm test|run-tests" .github/workflows`), Trigger `schedule` und `workflow_dispatch`. Ein PR-Push prüft also keinen Spec; ein CI-only-Fehler ist vor dem Merge nur per Dispatch auf dem Zweig belegbar (Concurrency je Ref, `melden` nur auf main). Linux-Runner rendert höher als Windows: aufgeklappter wîn-Kommentar lokal 1319 px bis Knopfunterkante, im Trace des Laufs 42002409117 rund 15 % mehr (abgeleitet über die Zentrierung von `DOM.scrollIntoViewIfNeeded`).
+
 **main-Schutz** ist nur ein Ruleset (`deletion`, `non_fast_forward`): `branches/main .protected=true` heißt nicht PR-Pflicht.
