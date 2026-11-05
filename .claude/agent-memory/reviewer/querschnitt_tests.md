@@ -1,6 +1,6 @@
 ---
 name: querschnitt-tests
-description: Tests im Review: Einzelspec über run-tests.js, report.json und Reporter-Falle, Port-Konflikt, Specs auf einer Kopie, Proben ohne Spec, CSS-Zustände, Locator- und Warte-Fallen, Tailwind
+description: Tests im Review: Einzelspec über run-tests.js, report.json und Reporter-Falle, Port-Konflikt, Specs auf einer Kopie, Proben ohne Spec, CSS-Zustände, Locator- und Warte-Fallen, Tailwind, Layout- und Schriftproben
 metadata:
   type: project
 ---
@@ -27,4 +27,6 @@ Verdichtet 03.11.2026.
 - Ein Test „Textwechsel setzt X zurück" mit `page.goto` prüft nichts: neues Dokument, jeder JS-Zustand ist ohnehin weg. In-App-Wechsel im Reader: `window._mhdbdbApp.teiReader.openReadingView(id, {}, window._mhdbdbApp.elements)` oder ein `.sigle-link` (#655). Die `.sigle-link` stehen im eingeklappten `#readingMetadata`, nicht in `.reading-header` (korpus.html).
 - `waitForLoadState('networkidle')` nach dem ersten networkidle ist ein No-op. Feste `waitForTimeout` sind bei Großtexten (`minne`) als Negativprobe nicht trennscharf. `beforeAll`/`afterAll` fehlen in `result.duration`. `url().includes('/tei/')` trifft auch `playground/js/ui/tei/*.js`.
 
-**Tailwind:** `tailwind-output.css` ist committet, kein Gate baut sie. Frische: `npx tailwindcss -i assets/css/tailwind-input.css -o <temp>/x.css --minify`, `cmp`. Klassen im minifizierten CSS mit `grep -o '[.,]klasse[,{]' ... | wc -l` zählen, nicht `rg -c` (eine Zeile) oder `\.klasse\{` (verfehlt Gruppen).
+**Tailwind:** `tailwind-output.css` ist committet, kein Gate baut sie. Frische: `npx tailwindcss -i assets/css/tailwind-input.css -o <temp>/x.css --minify`, `cmp`. Klassen im minifizierten CSS mit `grep -o '[.,]klasse[,{]' ... | wc -l` zählen, nicht `rg -c` (eine Zeile) oder `\.klasse\{` (verfehlt Gruppen). Jede neue Klasse im Diff einzeln zählen, auch wenn der Auftrag „keine neuen Klassen" sagt (#585, 05.11.2026: `gap-y-1` fehlte, `row-gap` blieb `normal`; der Frischbau unterschied sich um genau diese 24 Byte).
+
+**Layout-Proben (#585):** Basis-HTML ohne Baumänderung per `page.route('**/korpus.html', r => r.fulfill({body: <git show origin/main:korpus.html>}))`, Klasse probeweise per `addStyleTag`. Selektor dann nicht über eine ID, die erst der Zweig einführt (Basis-`korpus.html` hat kein `#textSelectionHeader`, Timeout), sondern über `:has(#selectAllTexts)`. Zeilen eines Flex-Labels über `Range.getClientRects()` je Textknoten zählen, nicht über die Höhe (Icons sind eigene Flexreihen). Schriftproxy für den Linux-Nachtlauf: `body *{font-family:Verdana !important}` (DejaVu-artig breit); ungemessen auf Linux selbst, als Risiko melden, nicht als Befund.
