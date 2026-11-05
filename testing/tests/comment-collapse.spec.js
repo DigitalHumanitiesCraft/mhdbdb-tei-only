@@ -89,6 +89,15 @@ test.describe('Einklappen langer Kommentare (#554)', () => {
         await knopf.click();
         await expect(knopf).toHaveText('Weniger anzeigen');
         await wrap.evaluate((el, a) => window.scrollBy(0, el.getBoundingClientRect().top - a), abstand);
+        // Vorbedingung (#653): der Knopf muss ganz im Fenster liegen. Sonst scrollt
+        // Playwrights click() ihn vorher ins Bild, der Kommentaranfang rutscht nach
+        // oben, und die App springt zu Recht. So im Nachtlauf vom 05.11.2026 bei
+        // 1600 px Fensterhoehe (Trace: scrollY 168, nach dem Autoscroll 1082, danach 288).
+        const imFenster = await knopf.evaluate(el => {
+            const r = el.getBoundingClientRect();
+            return r.top >= 0 && r.bottom <= window.innerHeight;
+        });
+        expect(imFenster, 'Knopf vor dem Zuklappen ganz im Fenster').toBe(true);
         const messen = () => wrap.evaluate(el => ({ top: el.getBoundingClientRect().top, y: window.scrollY }));
         const davor = await messen();
         await knopf.click();
@@ -96,8 +105,12 @@ test.describe('Einklappen langer Kommentare (#554)', () => {
         return { davor, danach: await messen() };
     }
 
+    // Hoch genug, dass der aufgeklappte Kommentar samt Knopf auch mit den Schriften
+    // des CI-Runners ins Fenster passt (#653); die Vorbedingung oben prueft das.
+    const FENSTER = { width: 1280, height: 2600 };
+
     test('Lemmaseite: Zuklappen springt an den Kommentaranfang, wenn er oberhalb liegt (#554)', async ({ page }) => {
-        await page.setViewportSize({ width: 1280, height: 1600 });
+        await page.setViewportSize(FENSTER);
         await lemmaSeite(page, lang[0].id);
         const { davor, danach } = await zuklappenBei(page, -40);
         expect(davor.top).toBeLessThan(0);
@@ -108,7 +121,7 @@ test.describe('Einklappen langer Kommentare (#554)', () => {
     });
 
     test('Lemmaseite: Zuklappen verschiebt nichts, wenn der Anfang sichtbar ist (#554)', async ({ page }) => {
-        await page.setViewportSize({ width: 1280, height: 1600 });
+        await page.setViewportSize(FENSTER);
         await lemmaSeite(page, lang[0].id);
         const { davor, danach } = await zuklappenBei(page, 200);
         expect(davor.y).toBeGreaterThan(0);
