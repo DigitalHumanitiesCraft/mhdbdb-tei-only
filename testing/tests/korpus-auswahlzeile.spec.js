@@ -1,0 +1,44 @@
+/**
+ * #585: Auswahlzeile in der schmalen Suchspalte
+ *
+ * Bei 1280 px, nach einer Suche (dreispaltiges Raster 1fr 1fr 2fr) und mit
+ * Text im Textfilter blieben dem Label "Texte auswählen, TEI anzeigen und Text
+ * lesen" neben "Alle | Keine | Nur diese" etwa 83 px: sieben Zeilen. Die Zeile
+ * darf jetzt umbrechen, das Label höchstens zwei Zeilen brauchen.
+ *
+ * Relative Pfade gegen baseURL.
+ */
+
+import { test, expect } from '@playwright/test';
+
+for (const breite of [1280, 1568, 1920]) {
+  test(`#585: Label höchstens zwei Zeilen bei ${breite} px, Knöpfe sichtbar`, async ({ page }) => {
+    test.setTimeout(120000);
+    await page.setViewportSize({ width: breite, height: 900 });
+    await page.goto('/korpus.html');
+    await page.waitForSelector('#loadingScreen', { state: 'hidden', timeout: 90000 });
+
+    await page.fill('#searchInput', 'minne');
+    await page.click('#searchButton');
+    await page.waitForSelector('#resultsTable tbody tr, .results-table tbody tr, table tbody tr', { timeout: 60000 });
+
+    await page.fill('#textFilter', 'Parzival');
+    // "Nur diese" erscheint erst, wenn der Filter wirkt
+    await expect(page.locator('#selectOnlyVisible')).toBeVisible();
+
+    const label = page.locator('#textSelectionHeader label');
+    const m = await label.evaluate(el => {
+      const lh = parseFloat(getComputedStyle(el).lineHeight) || 20;
+      // Zeilen zählen über die Höhe der Textknoten- und Icon-Boxen: Höhe / Zeilenhöhe
+      return { h: el.getBoundingClientRect().height, lh };
+    });
+    console.log(`Label ${breite}px: Höhe ${m.h}, Zeilenhöhe ${m.lh}`);
+    expect(m.h).toBeLessThanOrEqual(m.lh * 2 + 2);
+
+    for (const id of ['#selectAllTexts', '#selectNoneTexts', '#selectOnlyVisible']) {
+      const b = page.locator(id);
+      await expect(b).toBeVisible();
+      await b.click({ trial: true });
+    }
+  });
+}
