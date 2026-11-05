@@ -449,7 +449,7 @@ export class OnamaExplorer {
         : '';
       return `<tr><td class="on-mono">${esc(pa.von)}</td><td class="on-mono">${esc(pa.bis)}</td>
         <td><span class="on-badge ${cls}">${esc(txt)}</span>${zusatz}</td>
-        <td class="on-small">${esc(span)}${pa.umgerechnet ? ' <span class="on-badge on-badge-warn" title="Ein Endpunkt ist kein Wort mit Lemma-Annotation; Start und Ende sind auf das nächste gezählte Wort verschoben.">umgerechnet</span>' : ''}</td><td>${springen}</td></tr>`;
+        <td class="on-small">${esc(span)}${pa.umgerechnet ? ' <span class="on-badge on-badge-warn" title="Anfang oder Ende liegen nicht auf einem Wort mit Lemma-Annotation. Die Stelle ist auf die annotierten Wörter innerhalb der Stelle eingegrenzt.">umgerechnet</span>' : ''}</td><td>${springen}</td></tr>`;
     }).join('');
     return `
       <div>
