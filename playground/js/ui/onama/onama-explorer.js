@@ -260,8 +260,8 @@ export class OnamaExplorer {
     return `
       <p class="on-text on-prosa" style="margin:0"><strong>Was sind die Q-Nummern?</strong> Nummern wie
         <span class="on-mono">Q1190</span> sind Kennungen von ONAMA, keine Wikidata-Nummern.${bspKonzept}
-        ONAMA hat seine Daten mit Wikibase erfasst, der Software, auf der auch Wikidata läuft. Daher haben die
-        Nummern dieselbe Form, aber jede Wikibase zählt für sich. Eine Verbindung zu Wikidata besteht nur dort,
+        Die Nummern sehen aus wie die von Wikidata, gezählt werden sie aber in ONAMA. (Erfasst wurden die Daten
+        in einer Wikibase-Instanz, der Software, auf der auch Wikidata läuft.) Eine Verbindung zu Wikidata besteht nur dort,
         wo ONAMA sie ausdrücklich gespeichert hat, und dann mit eigener Nummer.${bspWd}</p>`;
   }
 
