@@ -296,7 +296,7 @@ def main():
                        "siehe Docstring von build-paket.py",
             "lizenz": {
                 "festlegung": "Nachnutzung der ONAMA-Daten im Playground unter der MHDBDB-Lizenz "
-                              "(Projektleitung, 15.10.2026)",
+                              "(Katharina Zeppezauer-Wachauer, 15.10.2026)",
                 "herkunft": "GitHub-Korpus und Ontologie: CC BY-SA 4.0; Website und Teile des Endberichts: "
                             "CC BY-NC-SA; Frontend und Backend: GPL-3.0. Bilder sind nur verlinkt (REALonline).",
             },

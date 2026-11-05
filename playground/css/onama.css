@@ -14,7 +14,20 @@
 .on-stack { display: flex; flex-direction: column; gap: 0.75rem; }
 .on-row { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
 .on-grid { display: grid; gap: 0.75rem; grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)); }
-.on-banner { border: 1px solid #fcd34d; background: #fffbeb; color: #78350f; border-radius: 0.75rem; padding: 0.625rem 0.875rem; font-size: 0.75rem; line-height: 1.5; }
+/* Hinweisbox: Warnfarben aus DESIGN.md (yellow-50/200/800), Fliesstext in text-sm wie sonst Body copy,
+   Zeilenlaenge begrenzt, Aufzaehlung statt Textblock (#609, Lesbarkeit). */
+.on-banner { border: 1px solid #fef08a; background: #fefce8; color: #854d0e; border-radius: 0.75rem; padding: 0.875rem 1.125rem; font-size: 0.875rem; line-height: 1.6; max-width: 48rem; }
+.on-banner p { margin: 0; }
+.on-banner ul { margin: 0.5rem 0 0 0; padding-left: 1.25rem; list-style: disc; }
+.on-banner li { margin: 0.25rem 0; }
+.on-banner-titel { font-weight: 600; }
+.on-banner .on-banner-fuss { margin-top: 0.625rem; font-size: 0.8125rem; }
+.on-banner .on-mono { font-size: 0.8125rem; }
+.on-prosa { max-width: 48rem; }
+.on-text.on-prosa { font-size: 0.875rem; line-height: 1.6; }
+.on-dl { margin: 0.5rem 0; display: grid; grid-template-columns: max-content 1fr; gap: 0.5rem 0.75rem; font-size: 0.8125rem; color: #334155; line-height: 1.55; }
+.on-dl dt { margin: 0; }
+.on-dl dd { margin: 0; }
 .on-badge { display: inline-block; border: 1px solid #cbd5e1; border-radius: 0.375rem; padding: 0.0625rem 0.375rem; font-size: 0.6875rem; background: #f8fafc; color: #475569; }
 .on-badge-brand { border-color: #c0d3f4; background: #f1f5fd; color: #1f4aa2; }
 .on-badge-ok { border-color: #a7f3d0; background: #ecfdf5; color: #065f46; }

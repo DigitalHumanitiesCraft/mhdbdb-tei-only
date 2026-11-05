@@ -190,30 +190,79 @@ export class OnamaExplorer {
     const bild = z(r => r.art === 'bild');
     const abgeleitet = z(r => r.zuordnung === 'abgeleitet');
     const neben = z(r => r.nebenhandlung);
+    const kurz = (sha) => `<span class="on-mono">${esc(sha.slice(0, 7))}</span>`;
     return `
       <div class="on-box-soft on-stack">
         <h3 class="on-h">ONAMA: Argonautensage <span class="on-badge on-badge-warn">Beta</span></h3>
-        <p class="on-text">
-          Wer tut was mit welchem Ding? ONAMA hat Handlungen in mittelalterlichen Texten und Bildern annotiert.
-          Dieser Pilot zeigt die Geschichte von Jason und dem Goldenen Vlies in Konrads <em>Trojanischem Krieg</em>,
-          Herborts <em>Liet von Troye</em> und in Bildern aus REALonline.
+        <p class="on-text on-prosa">
+          Wer tut was mit welchem Ding? Das Projekt ONAMA hat Handlungen in mittelalterlichen Texten und Bildern
+          beschrieben. Hier sehen Sie einen Ausschnitt daraus: die Geschichte von Jason und dem Goldenen Vlies.
+          Sie steht in Konrads <em>Trojanischem Krieg</em>, in Herborts <em>Liet von Troye</em> und in Bildern
+          aus REALonline. Wählen Sie unten einen Einstieg, etwa ein Ding oder eine Person wie Jason. Sie sehen
+          dann, an welchen Stellen sie vorkommt, wer dort beteiligt ist und welche Rolle jede Figur und jedes Ding
+          in der Handlung spielt.
         </p>
         <div class="on-banner">
-          <strong>Selektiver Bestand.</strong> Das ist ein kuratierter Ausschnitt, kein Gesamtbestand der
-          mittelalterlichen Narrative; was hier nicht steht, ist nicht annotiert oder nicht ausgewählt, aber nicht
-          nachweislich abwesend. Gezählt wird nach Realisierungen:
-          ${s.realisierungen_gesamt} (${text} Text, ${bild} Bild; davon ${abgeleitet} Bilder nur über Konzept und
-          RO-Label zugeordnet, ${neben} Nebenhandlungen).
-          Datenversion: ONAMA-Korpus <span class="on-mono">${esc(m.quellen.korpus_commit.slice(0, 7))}</span>,
-          Ontologie <span class="on-mono">${esc(m.quellen.ontologie_commit.slice(0, 7))}</span>,
-          MHDBDB-Anker <span class="on-mono">${esc(m.quellen.mhdbdb_commit.slice(0, 7))}</span>.
-          Der Status "technisch geprüft" bedeutet: Zuordnung über die Sammlung und bei Texten zwei Wortanker im
-          Korpus in richtiger Reihenfolge, bei Bildern ein Bildlink. Es gilt der Vorrang offen vor abgeleitet vor
-          geprüft: "offen" bei unauffindbarem oder umgekehrtem Anker, fehlender Textpassage oder fehlendem
-          Bildlink; "abgeleitet" bei fehlender Sammlung oder umgerechneter Wortspanne.
-          Fachlich bestätigt ist noch nichts.
+          <p class="on-banner-titel">Selektiver Bestand: Das ist eine Auswahl, nicht alles.</p>
+          <ul>
+            <li>Gezeigt werden ${s.realisierungen_gesamt} ausgewählte Stellen: ${text} in Texten, ${bild} in Bildern.
+              ONAMA nennt eine solche Stelle eine <em>Realisierung</em>.</li>
+            <li>Was hier fehlt, kann in den Quellen trotzdem vorkommen. Es wurde dann nur nicht annotiert oder
+              nicht ausgewählt.</li>
+            <li>"Technisch geprüft" heißt: Die Stelle ließ sich im Text der MHDBDB wiederfinden, oder für das Bild
+              ist ein Link gespeichert. Fachlich bestätigt ist noch nichts.</li>
+            <li>${abgeleitet} Bilder haben in ONAMA keine Sammlung gespeichert. Sie stehen nur wegen ihres Themas
+              hier, die Handschrift ist nicht belegt. ${neben} Stellen zeigen die Szene nur als Nebenhandlung,
+              etwa im Bildhintergrund.</li>
+          </ul>
+          <p class="on-banner-fuss">Datenstand: ONAMA-Korpus ${kurz(m.quellen.korpus_commit)},
+            ONAMA-Ontologie ${kurz(m.quellen.ontologie_commit)}, MHDBDB-Texte ${kurz(m.quellen.mhdbdb_commit)}.</p>
         </div>
+        ${this.renderStatusErklaerung()}
+        ${this.renderQNummern()}
       </div>`;
+  }
+
+  /** Die Statusregel aus build-paket.py, in Worten. Vorrang offen vor abgeleitet vor geprueft. */
+  renderStatusErklaerung() {
+    return `
+      <details class="on-details on-prosa">
+        <summary>Was bedeuten "technisch geprüft", "abgeleitet" und "offen"?</summary>
+        <dl class="on-dl">
+          <dt><span class="on-badge on-badge-ok">technisch geprüft</span></dt>
+          <dd>Die Stelle gehört laut ONAMA zur Sammlung einer der drei ausgewählten Quellen (TRO, TRY oder der
+            Bildzyklus der ÖNB cod. 2773).
+            Bei einem Text stehen Anfang und Ende der Stelle als Wörter im Text der MHDBDB, und der Anfang kommt
+            vor dem Ende. Bei einem Bild ist ein Link zu REALonline gespeichert.</dd>
+          <dt><span class="on-badge on-badge-warn">abgeleitet</span></dt>
+          <dd>Ein Bild hat keine Sammlung gespeichert und steht nur wegen seines Themas hier. Oder Anfang oder Ende
+            einer Textstelle liegen nicht auf einem Wort mit Lemma-Annotation, etwa auf einem Satzzeichen. Dann
+            ist die Stelle auf das nächste Wort verschoben und mit "umgerechnet" markiert.</dd>
+          <dt><span class="on-badge on-badge-bad">offen</span></dt>
+          <dd>Anfang oder Ende der Textstelle fehlen im Text der MHDBDB oder stehen in falscher Reihenfolge. Oder
+            es ist gar keine Textstelle oder kein Bildlink gespeichert.</dd>
+        </dl>
+        <p class="on-small">Trifft mehr als eine Angabe zu, gilt die schwächere: "offen" vor "abgeleitet" vor
+          "technisch geprüft". Keine dieser Angaben sagt, ob die Deutung fachlich richtig ist.</p>
+      </details>`;
+  }
+
+  /** Erklaert die Q-Nummern (#609, Frage von KZW am 20.10.2026). Beispiele aus dem Paket, nicht fest verdrahtet. */
+  renderQNummern() {
+    const p = this.paket;
+    const konzept = p.konzepte.Q1190;
+    const mitWd = Object.values(p.entitaeten).find(e => e.wikidata.length && e.labels.de === 'Jason');
+    const bspKonzept = konzept
+      ? ` In ONAMA ist zum Beispiel <span class="on-mono">Q1190</span> das Konzept "${esc(konzept.labels.de)}".` : '';
+    const bspWd = mitWd
+      ? ` So hat Jason in ONAMA die Nummer <span class="on-mono">${esc(mitWd.id)}</span> und ist mit dem
+         Wikidata-Eintrag <span class="on-mono">${esc(mitWd.wikidata[0].split('/').pop())}</span> verknüpft.` : '';
+    return `
+      <p class="on-text on-prosa" style="margin:0"><strong>Was sind die Q-Nummern?</strong> Nummern wie
+        <span class="on-mono">Q1190</span> sind Kennungen von ONAMA, keine Wikidata-Nummern.${bspKonzept}
+        ONAMA hat seine Daten mit Wikibase erfasst, der Software, auf der auch Wikidata läuft. Daher haben die
+        Nummern dieselbe Form, aber jede Wikibase zählt für sich. Eine Verbindung zu Wikidata besteht nur dort,
+        wo ONAMA sie ausdrücklich gespeichert hat, und dann mit eigener Nummer.${bspWd}</p>`;
   }
 
   renderEinstieg() {
@@ -440,10 +489,11 @@ export class OnamaExplorer {
       <details class="on-box-soft on-details">
         <summary>Nicht im Ausschnitt: ${rf.length} Randfälle zur fachlichen Entscheidung, ${aus.length} ausgeschlossen</summary>
         <div class="on-stack" style="margin-top:0.5rem">
-          <p class="on-small" style="margin:0">Randfälle haben möglicherweise Argonautenbezug, hängen aber nicht am Konzeptbaum
-            oder haben keine Sammlung. Sie werden nicht stillschweigend aufgenommen; die Entscheidung liegt bei der
-            Projektleitung. Ausgeschlossen sind Realisierungen aus Sammlungen außerhalb des Piloten
-            (${aus.map(a => esc(a.label)).join('; ')}).</p>
+          <p class="on-small on-prosa" style="margin:0">Randfälle haben vielleicht mit der Argonautensage zu tun. Sie
+            hängen aber nicht am Konzeptbaum "Geschichte von den Argonauten" oder haben keine Sammlung. Deshalb
+            sind sie nicht aufgenommen. Ob sie dazugehören, entscheidet Katharina Zeppezauer-Wachauer.
+            Ausgeschlossen sind Stellen aus Sammlungen außerhalb des Piloten
+            (${aus.map(a => esc(a.label)).join(', ')}).</p>
           ${teile}
         </div>
       </details>`;
