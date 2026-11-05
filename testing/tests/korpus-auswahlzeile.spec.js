@@ -20,7 +20,7 @@ for (const breite of [1280, 1568, 1920]) {
 
     await page.fill('#searchInput', 'minne');
     await page.click('#searchButton');
-    await page.waitForSelector('#resultsTable tbody tr, .results-table tbody tr, table tbody tr', { timeout: 60000 });
+    await expect(page.locator('#resultsSection')).toBeVisible({ timeout: 60000 });
 
     await page.fill('#textFilter', 'Parzival');
     // "Nur diese" erscheint erst, wenn der Filter wirkt
@@ -30,10 +30,12 @@ for (const breite of [1280, 1568, 1920]) {
     const m = await label.evaluate(el => {
       const lh = parseFloat(getComputedStyle(el).lineHeight) || 20;
       // Zeilen zählen über die Höhe der Textknoten- und Icon-Boxen: Höhe / Zeilenhöhe
-      return { h: el.getBoundingClientRect().height, lh };
+      // Das Label ist selbst ein Flex-Container (gap-2): zwei Zeilen = 2 Zeilenhöhen + 1 Zeilenabstand
+      const gap = parseFloat(getComputedStyle(el).rowGap) || 0;
+      return { h: el.getBoundingClientRect().height, lh, gap };
     });
-    console.log(`Label ${breite}px: Höhe ${m.h}, Zeilenhöhe ${m.lh}`);
-    expect(m.h).toBeLessThanOrEqual(m.lh * 2 + 2);
+    console.log(`Label ${breite}px: Höhe ${m.h}, Zeilenhöhe ${m.lh}, Zeilenabstand ${m.gap}`);
+    expect(m.h).toBeLessThanOrEqual(m.lh * 2 + m.gap + 2);
 
     for (const id of ['#selectAllTexts', '#selectNoneTexts', '#selectOnlyVisible']) {
       const b = page.locator(id);
