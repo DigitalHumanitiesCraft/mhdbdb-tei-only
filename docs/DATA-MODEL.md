@@ -481,7 +481,7 @@ Two plain JSON files under `playground/data/onama/`, both generated from the pub
   - A **role** is `{klasse, beteiligte, temporaere_funktionen}` with the explicit `rdf:type` of the role node (no inheritance). `temporaere_funktionen` hang on the role node; the entity's `allgemeine_funktionen` hang on the entity. The two are separate fields on purpose.
   - Counts are of resources (realisations), never of edges: forward and inverse edges (`next`/`previous`) are one relation.
 - Selection: the concept Q1309 and everything reachable over `onama:narrower`; realisations from the collections TRO (Q271), TRY (Q272) and ÖNB cod. 2773 (Q1155) whose concept lies in that subtree, plus picture realisations without any collection whose concept lies in it and whose label starts with `RO ` (marked `abgeleitet`). Realisations that look relevant but fall outside are listed in `randfaelle` with the reason; they are not taken in.
-- Reuse (ONAMA 2.0): the files are self-describing through `meta`; the reading view needs only `?textId=<sigle>&verseId=<xml:id>`. Licence block as stored: reuse under the MHDBDB licence (project lead, 2026-10-15); GitHub corpus and ontology CC BY-SA 4.0, website and parts of the final report CC BY-NC-SA.
+- Reuse (ONAMA 2.0): the files are self-describing through `meta`; the reading view needs only `?textId=<sigle>&verseId=<xml:id>`. Licence block as stored: reuse under the MHDBDB licence (Katharina Zeppezauer-Wachauer, 2026-10-15); GitHub corpus and ontology CC BY-SA 4.0, website and parts of the final report CC BY-NC-SA.
 
 ## Data Processing Pipeline
 

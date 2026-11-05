@@ -39,6 +39,11 @@ test.describe('ONAMA-Narrativ-Explorer (#609)', () => {
     await expect(box).toContainText(`${paket.meta.statistik.realisierungen_gesamt}`);
     await expect(box).toContainText('Fachlich bestätigt ist noch nichts');
     await expect(box).toContainText('ONAMA-Q-Nummern sind keine Wikidata-Q-Nummern');
+    // Sichtbare Erklaerung der Q-Nummern im Kopf und die Ansprechperson statt "Projektleitung" (KZW, 20.10.2026).
+    await expect(box.locator('p', { hasText: 'Was sind die Q-Nummern?' })).toBeVisible();
+    await expect(box).toContainText('Kennungen von ONAMA, keine Wikidata-Nummern');
+    await expect(box).toContainText('Katharina Zeppezauer-Wachauer');
+    await expect(box).not.toContainText('Projektleitung');
   });
 
   test('Einstieg ueber Handlung: Trefferzahl stimmt mit dem Paket', async ({ page }) => {
