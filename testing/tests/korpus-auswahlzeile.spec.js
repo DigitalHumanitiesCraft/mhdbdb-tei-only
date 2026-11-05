@@ -3,7 +3,8 @@
  *
  * Bei 1280 px, nach einer Suche (dreispaltiges Raster 1fr 1fr 2fr) und mit
  * Text im Textfilter blieben dem Label "Texte auswählen, TEI anzeigen und Text
- * lesen" neben "Alle | Keine | Nur diese" etwa 83 px: sieben Zeilen. Die Zeile
+ * lesen" neben "Alle | Keine | Nur diese" so wenig Platz, dass es in
+ * sechs Reihen umbrach (140 px hoch, gemessen 05.11.2026). Die Zeile
  * darf jetzt umbrechen, das Label höchstens zwei Zeilen brauchen.
  *
  * Relative Pfade gegen baseURL.
@@ -29,7 +30,6 @@ for (const breite of [1280, 1568, 1920]) {
     const label = page.locator('#textSelectionHeader label');
     const m = await label.evaluate(el => {
       const lh = parseFloat(getComputedStyle(el).lineHeight) || 20;
-      // Zeilen zählen über die Höhe der Textknoten- und Icon-Boxen: Höhe / Zeilenhöhe
       // Das Label ist selbst ein Flex-Container (gap-2): zwei Zeilen = 2 Zeilenhöhen + 1 Zeilenabstand
       const gap = parseFloat(getComputedStyle(el).rowGap) || 0;
       return { h: el.getBoundingClientRect().height, lh, gap };
