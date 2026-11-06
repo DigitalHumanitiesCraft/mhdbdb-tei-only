@@ -70,6 +70,13 @@ python scripts/build-corpus-index.py      # Rebuild corpus index
 python scripts/build-api.py               # Rebuild static JSON API
 ```
 
+### Frontend work is verified in Chrome by the session itself
+
+**Every frontend change, whether made by the session or by one of its agents, is looked at in Chrome (Claude in Chrome, `mcp__claude-in-chrome__*`) by the session itself before it reports the work as done** (chsteiner, 2026-11-06: „bei frontend arbeit sollst du selbst chrome nutzen um deine arbeit oder die deiner agents zu verifizieren“). `npm test` stays mandatory; Chrome does not replace it, it catches what no spec asserts. Nor does it replace an acceptance by KZW or Julia (see "Working an Issue"): it is the session's own check, not theirs. Do not hand a visual check to chsteiner that the session can do itself. The occasion was #585 on 2026-11-05, where exactly that check was left to him.
+
+- **Where:** locally (`npm run serve`, `http://localhost:8080/...`) before the push, the live site after merge and deploy. Report what was measured and attach a screenshot where the change is visual.
+- **Viewport width:** `resize_window` has no effect on a maximized window (measured 2026-11-06: `innerWidth` stayed 2560 after a resize to 1280). Load the page into a same-origin iframe of the exact width instead (`width:1280px; border:0`, an `outline` if it should be visible) and measure inside `contentDocument`. A border counts against the width: 1276 px inside falls below Tailwind's `xl` breakpoint (1280 px) and gives a different layout.
+
 ## Hard Constraints
 
 - **TEI namespace**: `http://www.tei-c.org/ns/1.0`, always
