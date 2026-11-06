@@ -27,6 +27,7 @@ Verdichtet 03.11.2026. Dieses Memory ist Eingabe, keine Messung.
 - „Ich habe selbst nachgemessen" wiederholt meine Methode: eigene Vorrundenbefunde mit einer ANDEREN Messung prüfen.
 - **Der Laufplan (`docs/playbooks/kickoffs/<datum>-lauf.md`) bewegt sich nach dem Abzweig:** `git diff <basis> origin/main` darauf, vor dem Bericht erneut `git fetch`. „origin/main hat seither nur X geändert" selbst per `git log <basis>..origin/main --stat` messen, nach jedem Rebase die Gates erneut.
 - Kickoffs und JOURNAL sind datierte Protokolle, ein Zitat einer später geänderten Regel ist kein Befund. Die `CLAUDE.md` im Session-Kontext kann älter sein als HEAD: per `git grep` messen.
+- **Eine Freigabe aus einem Kickoff ist laufgebunden:** zitiert Regeltext sie als stehende („keeps ... valid"), den Zuschnitt im Kickoff nachlesen (Cloud-Übergabe 03.10.: „zwei offene PRs und den Abschluss des Laufs"). Neue Ausnahme unter einem Leitsatz mit „Every": Leitsatz und BETRIEBSVERTRAG-Regel gleichen Inhalts mitlesen (06.11.2026).
 - Eine Regel aus einem Issue-Kommentar hat eine zweite Quelle, die Label-Ereignisse der Autorin danach (`gh api .../issues/N/timeline`). #378: `wait:julia` dazu, nicht statt `wait:kzw`.
 - Text für eine Datei, die ein Parallelzweig ändert: erst `git diff origin/main...<zweig> -- <datei>`.
 - Eine Belegzeile, die ein Zitat findet, belegt das Zitat: bei einer Verdichtung den Primärkommentar öffnen.
