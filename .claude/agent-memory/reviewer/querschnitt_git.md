@@ -20,6 +20,8 @@ Verdichtet 03.11.2026.
 - **Lokales Zusammenfassen auf neue Basis revertiert main still:** Probe `git diff --stat HEAD^ HEAD` und `git diff --stat origin/main HEAD -- <Pfade außerhalb des Auftrags>`.
 - „Spurkopf inhaltsgleich mit Squash" per `git patch-id --stable` beider Diffs messen, nicht per Baumdiff. Lokaler Kopf gleich `headRefOid` heißt gepusht, auch bei `[gone]`.
 - **Dateiliste eines PR:** offen `git diff --name-only origin/main...<branch>`, gemergt `git diff --name-only <sq>~1 <sq>` (`gh pr view N --json mergeCommit`). Nie `--json files` (kappt bei 100).
+- **Eine Regel, die einen Vermerk per `git log --grep` auf `main` wiederfinden will, trägt nur über die Squash-Message:** Zweig-Commits erreichen `main` nie, und gesquasht wird „with a message of its own". Fragen: sagt die Regel, dass der Mergende die Zeile übernimmt? Und zwar für jede Vermerkzeile einzeln: in Runde 2 war die Schuldzeile repariert, die Gegenzeile (`nachgeholt:`) hatte dieselbe Lücke. (06.11.2026, Chrome-Vermerk; `Ohne Review:` steht dagegen meist auf Direkt-Commits.)
+- **Message eines einzelnen Commits: `git show -s --format=%B <sha>`**, nie `git log origin/main -1 <sha>`: zwei Revisionen sind eine Vereinigung, `-1` zeigt die neueste, also den main-Kopf (06.11.2026, ergab falsches 0). `git log --grep` und `| grep` mit Umlaut tragen in Git Bash (gemessen am selben Tag).
 - Eine Zahl aus einem Squash-Betreff zählt keine Commits: Zweigkopf holen (`gh pr view N --json headRefOid,commits`), `git rev-list --count <marker>..<kopf> -- <pfade>`.
 
 **`git log -- <pfade>` an einem `--no-ff`-Merge:** ohne `--first-parent` erscheinen die Zweig-Commits, der Merge nicht (TREESAME zum zweiten Elternteil), mit Flag nur der Merge. Eine umgestellte Pfadzählung im Probe-Repo nachmessen.
