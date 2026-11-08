@@ -121,7 +121,10 @@ export function getNavigationEpoch() {
 
 /** Parse the current hash into { view, params }, or null if empty. */
 export function parseHash() {
-  const hash = window.location.hash.slice(1); // strip leading '#'
+  // HTML-escapte Trenner (&amp; / &#38;) wie & behandeln: so entstehen Links
+  // beim Kopieren aus HTML-Ausgaben (#498). Ein literales & im Wert steht
+  // als %26 im Hash und bleibt unberührt.
+  const hash = window.location.hash.slice(1).replace(/&(?:amp|#0*38|#x0*26);/gi, '&'); // strip leading '#'
   if (!hash) return null;
 
   const parts = hash.split('&');
