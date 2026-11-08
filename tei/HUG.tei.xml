@@ -145,6 +145,7 @@
       <change when="2026-09-06" who="#editor">#387 (vrouwe, mechanischer Teil): 27 Tokens der Form vrouwe erstmals annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260)). Kein LLM-Lauf: annotiert wurde nur, wo die MHG-normalisierte Schreibung im gesamten Korpus ein einziges Lemma traegt, dieses genau eine Wortart fuehrt und die Schreibung dafuer genug Belege hat. Kontextpflichtige Faelle sind unangetastet geblieben (Provenienz-Log: ingest/pos-disambig/387-vrouwe/).</change>
       <change when="2026-09-06" who="#editor">#387 (fro): 9 homographie-ambige Tokens der Form fro kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260) bzw. vrô ADJ/ADV (lemma_7250); LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/387-fro/).</change>
       <change when="2026-09-30" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization an den Stand der Annotation angeglichen (16117 von 21532 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;Lemmatisiert, nicht disambiguiert.&#34;</change>
+      <change when="2026-11-08" who="#editor">#138: sechs um einen Vers verschobene Strophengrenzen nach Hofmeister 2005 korrigiert (Nr. 3 Str. 4, Nr. 6 Str. 2, Nr. 18 Str. 2, Nr. 26 Str. 9 und 10, Nr. 28 Str. 178); nur lg-Grenzen, Verse und Verszaehlung unveraendert. Skript scripts/hug-strophengrenzen-138.py.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -2185,8 +2186,6 @@
           <w xml:id="HUG_30110_2" lemmaRef="lexicon.xml#lemma_756" pos="NOM" ana="lexicon.xml#lemma_756_sense_1232" corresp="variants.xml#type_193455">blikh</w>
           <w xml:id="HUG_30110_3" lemmaRef="lexicon.xml#lemma_2030" pos="ADJ" ana="lexicon.xml#lemma_2030_sense_3134" corresp="variants.xml#type_193456">gehúr</w>
         </l>
-        </lg>
-        <lg type="stanza" n="4">
         <l n="12">
           <w xml:id="HUG_30120_0" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10237">mir</w>
           <w xml:id="HUG_30120_1" lemmaRef="lexicon.xml#lemma_5484" pos="NOM" corresp="variants.xml#type_193164">sínn</w>
@@ -2198,6 +2197,8 @@
           <w xml:id="HUG_30120_7" lemmaRef="lexicon.xml#lemma_1511" pos="VRB" corresp="variants.xml#type_4990">enzunt</w>
           <pc xml:id="HUG_30120_8" join="left">.</pc>
         </l>
+        </lg>
+        <lg type="stanza" n="4">
         <l n="13">
           <w xml:id="HUG_30130_0" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
           <w xml:id="HUG_30130_1" lemmaRef="lexicon.xml#lemma_7355" pos="VRB" corresp="variants.xml#type_193457">wánd</w>
@@ -8099,6 +8100,8 @@
           <w xml:id="HUG_60160_6" lemmaRef="lexicon.xml#lemma_3377" pos="NOM" ana="lexicon.xml#lemma_3377_sense_5319" corresp="variants.xml#type_42731">knecht</w>
           <pc xml:id="HUG_60160_7" join="left">.</pc>
         </l>
+        </lg>
+        <lg type="stanza" n="2">
         <l n="17">
           <w xml:id="HUG_60170_0" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3397">das</w>
           <w xml:id="HUG_60170_1" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
@@ -8107,8 +8110,6 @@
           <w xml:id="HUG_60170_4" lemmaRef="lexicon.xml#lemma_3004" pos="ADV" ana="lexicon.xml#lemma_3004_sense_4808" corresp="variants.xml#type_44654">ye</w>
           <w xml:id="HUG_60170_5" lemmaRef="lexicon.xml#lemma_1992" pos="VRB" ana="lexicon.xml#lemma_1992_sense_3062" corresp="variants.xml#type_46310">gedacht</w>
         </l>
-        </lg>
-        <lg type="stanza" n="2">
         <l n="18">
           <w xml:id="HUG_60180_0">mitt</w>
           <w xml:id="HUG_60180_1" lemmaRef="lexicon.xml#lemma_2540" pos="ADJ" corresp="variants.xml#type_194381">grúnen</w>
@@ -14148,8 +14149,6 @@
           <w xml:id="HUG_180030_3" lemmaRef="lexicon.xml#lemma_6171" pos="VRB" corresp="variants.xml#type_21757">tragen</w>
           <pc xml:id="HUG_180030_4" join="left">:</pc>
         </l>
-        </lg>
-        <lg type="stanza" n="2">
         <l n="4">
           <pc xml:id="HUG_180040_0" join="right">&lt;</pc>
           <w xml:id="HUG_180040_1">sy</w>
@@ -14162,6 +14161,8 @@
           <pc xml:id="HUG_180040_8" join="left">!</pc>
           <pc xml:id="HUG_180040_9" join="left">&gt;</pc>
         </l>
+        </lg>
+        <lg type="stanza" n="2">
         <l n="5">
           <w xml:id="HUG_180050_0" lemmaRef="lexicon.xml#lemma_7385" pos="ADV CNJ" ana="lexicon.xml#lemma_7385_sense_11998" corresp="variants.xml#type_26646">wenn</w>
           <w xml:id="HUG_180050_1" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
@@ -22032,8 +22033,6 @@
           <w xml:id="HUG_260310_4">reichen</w>
           <pc xml:id="HUG_260310_5" join="left">,</pc>
         </l>
-        </lg>
-        <lg type="stanza" n="9">
         <l n="32">
           <w xml:id="HUG_260320_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
           <w xml:id="HUG_260320_1" lemmaRef="lexicon.xml#lemma_2542" pos="VRB" corresp="variants.xml#type_195262">grússent</w>
@@ -22042,6 +22041,8 @@
           <w xml:id="HUG_260320_4" lemmaRef="lexicon.xml#lemma_5798" pos="NOM" corresp="variants.xml#type_194557">stráss</w>
           <pc xml:id="HUG_260320_5" join="left">;</pc>
         </l>
+        </lg>
+        <lg type="stanza" n="9">
         <l n="33">
           <w xml:id="HUG_260330_0" lemmaRef="lexicon.xml#lemma_37346" pos="NOM ADJ" ana="lexicon.xml#lemma_37346_sense_58253" corresp="variants.xml#type_195199">hochfart</w>
           <pc xml:id="HUG_260330_1" join="left">,</pc>
@@ -22062,8 +22063,6 @@
           <w xml:id="HUG_260350_3" lemmaRef="lexicon.xml#lemma_4377" pos="ADJ ADV NEG" ana="lexicon.xml#lemma_4377_sense_6838" corresp="variants.xml#type_15283">nicht</w>
           <w xml:id="HUG_260350_4" lemmaRef="lexicon.xml#lemma_6963" pos="VRB" corresp="variants.xml#type_165370">verschneiden</w>
         </l>
-        </lg>
-        <lg type="stanza" n="10">
         <l n="36">
           <w xml:id="HUG_260360_0" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
           <w xml:id="HUG_260360_1" lemmaRef="lexicon.xml#lemma_2920" pos="NOM" ana="lexicon.xml#lemma_2920_sense_4691" corresp="variants.xml#type_195264">haubtsúnd</w>
@@ -22075,6 +22074,8 @@
           <w xml:id="HUG_260360_7" lemmaRef="lexicon.xml#lemma_653" pos="VRB" ana="lexicon.xml#lemma_653_sense_1043" corresp="variants.xml#type_195265">bewéren</w>
           <pc xml:id="HUG_260360_8" join="left">,</pc>
         </l>
+        </lg>
+        <lg type="stanza" n="10">
         <l n="37">
           <w xml:id="HUG_260370_0">won</w>
           <w xml:id="HUG_260370_1" lemmaRef="lexicon.xml#lemma_3886" pos="NAM" ana="lexicon.xml#lemma_3886_sense_6135" corresp="variants.xml#type_13578">lucifer</w>
@@ -30884,6 +30885,8 @@
           <w xml:id="HUG_287080_9" lemmaRef="lexicon.xml#lemma_7346" pos="VRB" corresp="variants.xml#type_26476">wachen</w>
           <pc xml:id="HUG_287080_10" join="left">!</pc>
         </l>
+        </lg>
+        <lg type="stanza" n="178">
         <l n="709">
           <w xml:id="HUG_287090_0" lemmaRef="lexicon.xml#lemma_1331" pos="ART NUM" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4316">ain</w>
           <w xml:id="HUG_287090_1" lemmaRef="lexicon.xml#lemma_3507" pos="NOM" ana="lexicon.xml#lemma_3507_sense_5555" corresp="variants.xml#type_194472">kúng</w>
@@ -30891,8 +30894,6 @@
           <w xml:id="HUG_287090_3" lemmaRef="lexicon.xml#lemma_3507" pos="NOM" ana="lexicon.xml#lemma_3507_sense_5555" corresp="variants.xml#type_194472">kúng</w>
           <pc xml:id="HUG_287090_4" join="left">,</pc>
         </l>
-        </lg>
-        <lg type="stanza" n="178">
         <l n="710">
           <w xml:id="HUG_287100_0" lemmaRef="lexicon.xml#lemma_1242" pos="POS" ana="lexicon.xml#lemma_1242_sense_1958" corresp="variants.xml#type_67142">dein</w>
           <w xml:id="HUG_287100_1">macht</w>
