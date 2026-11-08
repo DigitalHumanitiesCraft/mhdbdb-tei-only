@@ -19,33 +19,44 @@ Woertern luckenhaft).
 
 Je Beleg werden die Nachbarn +-4 <w> (das Zielwort selbst nicht) angesehen.
 Ein Nachbar zaehlt einmal, wenn mindestens eins gilt:
-  (a) er traegt kein @lemmaRef,
   (b) seine kleingeschriebene Form steht auf der Liste LATEIN_FUNKTION
       (`in`, `ad`, `me`, `nos` u.a. gibt es auch mhd.),
   (c) er haengt an einem ZITAT-Lemma (ZITAT_LEMMAS),
-  (d) er haengt an einem Lemma, das in lexicon.xml das Sprachkonzept
-      Lateinisch (concept_23123100) traegt. Ausgenommen: Namen (gross
-      geschriebene Lemmata), die im Thread als entlehnt oder nicht fremd
-      geklaerten Lemmata (D_AUSSCHLUSS, u.a. niht, in, name) und die
-      Homographen in/ad/a/me/nos/an (D_HOMOGRAPH).
-Messbefund, der (d) noetig machte: in PKP sind die lateinischen Nachbarn
-fast immer lemmatisiert, (a) und (b) allein trennen PKP nicht von PZ.
+  (d) seine kleingeschriebene FORM steht in LATEIN_FORMEN. Das ist die Menge
+      der Formen, die im Korpus an Lemmata mit dem Sprachkonzept Lateinisch
+      (concept_23123100, lexicon.xml) haengen, MINUS jeder Form, die an
+      irgendeiner Stelle auch an einem Lemma ohne dieses Konzept haengt
+      (ein erster Korpusdurchlauf sammelt das). Das schliesst deutsche
+      Homographe aus. Namen (grossgeschriebene Lemmata) und die im Thread
+      als entlehnt oder nicht fremd geklaerten Lemmata (D_AUSSCHLUSS) zaehlen
+      nicht als lateinisch.
+Gestrichen: das Kriterium "Nachbar ohne @lemmaRef". Es traf deutsche
+Funktionswoerter (er, was, do, der, ich, ...), die im Korpus oft
+unlemmatisiert stehen, und machte alle 11 MAI-et und deutsche engel-Belege
+zu `ja` (gemessen am PRUEFSET). Die lateinischen Nachbarn in PKP sind dagegen
+fast immer lemmatisiert, (d) ersetzt (a) deshalb durch ein Formen-Kriterium.
 Weil (b) allein mhd. Zufallstreffer liefert, zaehlt ein einzelner Nachbar,
 der NUR ueber (b) trifft, nur dann, wenn der Beleg insgesamt mindestens zwei
 Treffernachbarn hat: ein Gesamtscore von genau 1 wird zu 0 gesetzt, wenn der
 eine Treffer ein reiner (b)-Treffer ist.
 
-Schwelle (festgelegt nach Messung an PKP und an den Negativkontrollen):
-  score >= SCHWELLE_JA (4)       -> `ja`
-  score == SCHWELLE_GRENZ (3)    -> `grenzfall`
+Selbsttest (`--selbsttest`): PRUEFSET im Skript nennt Faelle mit erwartetem
+Ergebnis (u.a. alle MAI-et nein, deutsche engel-Belege nein, lateinische
+Zitate ja); bei Abweichung harter Fehler. Die Schwelle wurde nach diesem Set
+gesetzt, nicht umgekehrt.
+
+Schwelle:
+  score >= SCHWELLE_JA (3)       -> `ja`
+  score == SCHWELLE_GRENZ (2)    -> `grenzfall`
   sonst                          -> `nein`
 `dominus` ist immer `ja` (Fall ZITAT laut Thread, ABG_407050_3). Der Score
 wird trotzdem berechnet und ausgegeben.
 
 Der Vorschlag ist heuristisch. Er sieht keine Grammatik, nur Nachbarschaft:
-ein Zitat in einer Handschrift ohne Lemmatisierung der Umgebung wird hoch
-bewertet, ein kurzes lateinisches Zitat in dicht lemmatisierter Umgebung
-niedrig. Entscheiden tut KZW.
+ein kurzes lateinisches Zitat (ein Wort, eine Formel) in deutscher Umgebung
+wird niedrig bewertet, auch wenn es echtes Latein ist. Eine Form, die nur
+an Latein-Lemmata vorkommt, aber im Korpus nie an einem anderen Lemma
+auftaucht, kann trotzdem ein deutsches Wort sein. Entscheiden tut KZW.
 
 ## Ausgabe
 
@@ -125,22 +136,44 @@ LATEIN_FUNKTION = set(
     'populus populi populo viri vir homo hominis hominem hominum mulier '
     'dicite dicam dico dixerunt respondit autem etc'.split())
 
-# (d) Nachbar haengt an einem Lemma mit Sprachkonzept Lateinisch
+# (d) Formen an Lemmata mit Sprachkonzept Lateinisch (Menge wird im ersten
+# Korpusdurchlauf gefuellt, siehe sammle_formen)
 KONZEPT_LATEIN = 'concept_23123100'
 LATEIN_LEMMAS = set()   # wird in pruefe_lexikon gefuellt
+LATEIN_FORMEN = set()   # wird in sammle_formen gefuellt
 # Lemmata mit Konzept Lateinisch, die kein Zitat anzeigen: die im Thread
 # (Kommentar 09.10.2026) als "sicher entlehnt" und "sicher nicht fremd"
 # gefuehrten Lemmata sowie schrift und nase (Gleis-1-Rauschen). Grossgeschriebene
 # Lemmata (Namen) zaehlen ohnehin nicht.
 D_AUSSCHLUSS = set('niht in name minner mort zunge engel lewe creatura item '
                    'bischof schrîben klâr natûre kriuze missa marter abbet '
-                   'schrift nase kriuze rote baniere soldân fîn'.split())
-D_HOMOGRAPH = set('in ad a me nos an'.split())
+                   'schrift nase rote baniere soldân fîn'.split())
 
 FENSTER_SCORE = 4
 FENSTER_KONTEXT = 8
-SCHWELLE_JA = 4
-SCHWELLE_GRENZ = 3
+SCHWELLE_JA = 3
+SCHWELLE_GRENZ = 2
+
+# Pruefset fuer --selbsttest: (art, schluessel, erwartet).
+# art 'lemma': schluessel (sigle, lemma), gilt fuer JEDEN Beleg dieses Lemmas
+# in dieser Sigle; art 'id': schluessel ist die xml:id des Belegs.
+# Quelle: Durchsicht der Koordination (Kontext gelesen), 2026-11-08.
+PRUEFSET = [
+    ('lemma', ('MAI', 'et'), 'nein'),   # alle 11: mhd. Partikel eht
+    ('id', 'FLG1_5174230170_18', 'nein'),   # engel, deutsch
+    ('id', 'FR3_113203141060_3', 'nein'),
+    ('id', 'MNB_3033940_3', 'nein'),
+    ('id', 'FR3_111209020180_7', 'nein'),
+    ('id', 'FLG1_7272190070_7', 'nein'),
+    ('id', 'ECK_78351001_3', 'ja'),     # missus est gabriel angelus
+    ('id', 'ADP_103500_8', 'ja'),
+    ('id', 'ADP_104900_6', 'ja'),
+    ('id', 'CL_850_0', 'ja'),
+    ('id', 'HUL_569_0', 'ja'),
+    ('id', 'BVSN_63100_0', 'ja'),
+    ('id', 'LZT_45040_7', 'nein'),
+    ('id', 'WGA_401900_1', 'nein'),
+]
 
 
 def lemma_ids(w):
@@ -185,19 +218,48 @@ def norm(form):
     return form.lower().strip('.,;:!?()[]"\'')
 
 
+def lade(pfad):
+    """(sigle, ws, elems): ws = Liste (form, ids) ueber alle <w> in Dokumentreihenfolge."""
+    sigle = pfad.name[:-len('.tei.xml')]
+    root = etree.parse(str(pfad)).getroot()
+    ws, elems = [], []
+    for w in root.iter(TEI + 'w'):
+        ws.append((''.join(w.itertext()).strip(), lemma_ids(w)))
+        elems.append(w)
+    return sigle, ws, elems
+
+
+def sammle_formen(dateien):
+    """Erster Korpusdurchlauf: LATEIN_FORMEN = Formen an Latein-Lemmata minus
+    jede Form, die auch an einem Lemma ohne Lateinkonzept haengt."""
+    lat, andere = set(), set()
+    for pfad in dateien:
+        _, ws, _ = lade(pfad)
+        for form, ids in ws:
+            if not ids:
+                continue
+            f = norm(form)
+            if ids & LATEIN_LEMMAS:
+                lat.add(f)
+            if ids - LATEIN_LEMMAS:
+                andere.add(f)
+    LATEIN_FORMEN.clear()
+    LATEIN_FORMEN.update(lat - andere)
+
+
 def score(ws, i):
-    """(score, a, b, c) fuer das Wort an Index i; ws = Liste (form, ids)."""
+    """Zahl der Latein-Nachbarn im Fenster um Index i; ws = Liste (form, ids)."""
     gesamt = 0
     nur_b = 0
     for j in range(max(0, i - FENSTER_SCORE), min(len(ws), i + FENSTER_SCORE + 1)):
         if j == i:
             continue
         form, ids = ws[j]
-        a = ids is None
+        nf = norm(form)
         c = bool(ids) and bool(ids & ZITAT_LEMMAS)
-        d = bool(ids) and bool(ids & LATEIN_LEMMAS) and norm(form) not in D_HOMOGRAPH
-        b = norm(form) in LATEIN_FUNKTION
-        if a or c or d:
+        d = nf in LATEIN_FORMEN
+        b = nf in LATEIN_FUNKTION
+        if c or d:
             gesamt += 1
         elif b:
             gesamt += 1
@@ -218,48 +280,90 @@ def vorschlag(lid, sc):
     return 'nein'
 
 
+def belege(pfad):
+    """Alle Belege der Ziel-Lemmata einer Datei: dict je Beleg."""
+    sigle, ws, elems = lade(pfad)
+    for i, (form, ids) in enumerate(ws):
+        if not ids:
+            continue
+        for lid in sorted(ids & set(ZIELE)):
+            sc = score(ws, i)
+            lo = max(0, i - FENSTER_KONTEXT)
+            teile = [f for f, _ in ws[lo:i]] + ['**' + form + '**'] + \
+                    [f for f, _ in ws[i + 1:i + 1 + FENSTER_KONTEXT]]
+            yield {'sigle': sigle, 'xml_id': elems[i].get(XML_ID), 'lemma': ZIELE[lid],
+                   'lemma_id': lid, 'form': form, 'score': sc,
+                   'vs': vorschlag(lid, sc), 'kontext': ' '.join(teile)}
+
+
+def selbsttest(dateien):
+    """Hartes Abbrechen, wenn ein Fall des PRUEFSET abweicht oder fehlt."""
+    sigles = {'MAI', 'FLG1', 'FR3', 'MNB', 'ECK', 'ADP', 'CL', 'HUL', 'BVSN', 'LZT', 'WGA'}
+    id_erw = {k: e for a, k, e in PRUEFSET if a == 'id'}
+    lem_erw = {k: e for a, k, e in PRUEFSET if a == 'lemma'}
+    gesehen = set()
+    fehler = []
+    nlem = Counter()
+    for pfad in dateien:
+        if pfad.name[:-len('.tei.xml')] not in sigles:
+            continue
+        for b in belege(pfad):
+            if b['xml_id'] in id_erw:
+                gesehen.add(b['xml_id'])
+                if b['vs'] != id_erw[b['xml_id']]:
+                    fehler.append(f"{b['xml_id']}: erwartet {id_erw[b['xml_id']]}, Score {b['score']} -> {b['vs']}")
+            k = (b['sigle'], b['lemma'])
+            if k in lem_erw:
+                nlem[k] += 1
+                if b['vs'] != lem_erw[k]:
+                    fehler.append(f"{b['xml_id']} ({k[0]} {k[1]}): erwartet {lem_erw[k]}, Score {b['score']} -> {b['vs']}")
+    for k in id_erw:
+        if k not in gesehen:
+            fehler.append(f'{k}: Beleg nicht gefunden (kein Beleg eines Ziel-Lemmas?)')
+    for k in lem_erw:
+        if nlem[k] == 0:
+            fehler.append(f'{k}: keine Belege gefunden')
+    if fehler:
+        print('SELBSTTEST FEHLGESCHLAGEN:')
+        for f in fehler:
+            print('  ' + f)
+        sys.exit(1)
+    nfaelle = len(id_erw) + sum(nlem.values())
+    print(f'Selbsttest bestanden: {nfaelle} Faelle ({len(id_erw)} einzeln, '
+          f'{sum(nlem.values())} aus {len(lem_erw)} Gruppe)')
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--out', default=str(OUT))
-    ap.add_argument('--verteilung', metavar='LEMMA',
+    ap.add_argument('--verteilung', metavar='LEMMA', action='append', default=[],
                     help='zusaetzlich die Verteilung dieses Lemmas je Sigle ausgeben')
+    ap.add_argument('--selbsttest', action='store_true',
+                    help='nur das PRUEFSET pruefen, keine CSV schreiben')
     args = ap.parse_args()
     pruefe_lexikon()
-
-    zeilen = []
-    # Zaehler je Anzeigename; et fasst lemma_1732 und lemma_78608 zusammen
-    zaehl = {}
-    je_sigle = {}
     dateien = sorted((REPO / 'tei').glob('*.tei.xml'))
     if not dateien:
         sys.exit('FEHLER: keine TEI-Dateien gefunden')
+    sammle_formen(dateien)
+    print(f'LATEIN_FORMEN: {len(LATEIN_FORMEN)} Formen aus {len(LATEIN_LEMMAS)} Latein-Lemmata')
+    if args.selbsttest:
+        selbsttest(dateien)
+        return
+
+    zeilen = []
+    zaehl = {}
+    je_sigle = {}
     for pfad in dateien:
-        sigle = pfad.name[:-len('.tei.xml')]
-        root = etree.parse(str(pfad)).getroot()
-        ws = []
-        elems = []
-        for w in root.iter(TEI + 'w'):
-            form = ''.join(w.itertext()).strip()
-            ws.append((form, lemma_ids(w)))
-            elems.append(w)
-        for i, (form, ids) in enumerate(ws):
-            if not ids:
+        for b in belege(pfad):
+            z = zaehl.setdefault(b['lemma'], Counter())
+            z['gesamt'] += 1
+            z[b['vs']] += 1
+            je_sigle.setdefault((b['lemma'], b['sigle']), Counter())[b['vs']] += 1
+            if b['vs'] == 'nein':
                 continue
-            for lid in sorted(ids & set(ZIELE)):
-                lemma = ZIELE[lid]
-                sc = score(ws, i)
-                vs = vorschlag(lid, sc)
-                z = zaehl.setdefault(lemma, Counter())
-                z['gesamt'] += 1
-                z[vs] += 1
-                je_sigle.setdefault((lemma, sigle), Counter())[vs] += 1
-                if vs == 'nein':
-                    continue
-                lo = max(0, i - FENSTER_KONTEXT)
-                teile = [f for f, _ in ws[lo:i]] + ['**' + form + '**'] + \
-                        [f for f, _ in ws[i + 1:i + 1 + FENSTER_KONTEXT]]
-                zeilen.append([sigle, elems[i].get(XML_ID), lemma, lid, form, vs, sc,
-                               ' '.join(teile)])
+            zeilen.append([b['sigle'], b['xml_id'], b['lemma'], b['lemma_id'], b['form'],
+                           b['vs'], b['score'], b['kontext']])
 
     with open(args.out, 'w', encoding='utf-8', newline='') as f:
         wr = csv.writer(f, lineterminator='\n')
@@ -270,12 +374,12 @@ def main():
     for lemma in ['dominus', 'et', 'engel', 'lewe', 'creatura', 'item']:
         z = zaehl.get(lemma, Counter())
         print(f"{lemma}: {z['gesamt']} Belege, ja {z['ja']}, grenzfall {z['grenzfall']}, nein {z['nein']}")
-    if args.verteilung:
+    for lem in args.verteilung:
         for (lemma, sigle), z in sorted(je_sigle.items()):
-            if lemma == args.verteilung:
+            if lemma == lem:
                 n = sum(z.values())
                 print(f"  {lemma} {sigle}: {n} Belege, ja {z['ja']}, grenzfall {z['grenzfall']}, nein {z['nein']}")
-    print(f"CSV:{len(zeilen)} Zeilen (ja plus grenzfall) nach {args.out}")
+    print(f"CSV: {len(zeilen)} Zeilen (ja plus grenzfall) nach {args.out}")
 
 
 if __name__ == '__main__':
