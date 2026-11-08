@@ -29,6 +29,7 @@ scripts/
 ├── insert-div-wrappers-138.py   # Editorische <div>-Hüllen für HUG und MBS (#138)
 ├── insert-lg-stanzas-138.py     # <lg type="stanza"> in HUG-Lieder einfügen (#138)
 ├── remove-stanza-numerals-138.py # Strophenziffern aus dem Verstext entfernen (#138)
+├── hug-strophengrenzen-138.py   # Sechs verschobene Strophengrenzen in HUG nach Hofmeister 2005 (#138)
 ├── insert-div-chapters-358.py   # Willehalm-Dreißiger: `<pb n>` zu `<div type="chapter" n>` (#358)
 ├── migrate-caesura-to-gap-252.py # Ueberlieferungsluecken von '( caesura )' auf <gap/> (#252)
 ├── apply-308-375-432.py         # Die drei entschiedenen Korrekturen einer Nacht: Namensansetzung, waeren als ADJ, WH_6214_3 (#308/#375/#432)
