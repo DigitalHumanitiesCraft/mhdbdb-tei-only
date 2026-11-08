@@ -48,3 +48,12 @@ Umsetzung: `scripts/ingest/pos-disambig/apply-461-fabeltiere.py`, Messung: `scri
 - **Neuer Sense** `lemma_1958_sense_119200` mit diesem Konzept (höchste Sense-Nummer vorher 119199). Ihn tragen `PL3_312606_7` (Drache), `VIR_17403_4` und `VIR_30008_4` (Drachenkampf), `TRO_37_4` (Phönix); alle vier im Kontext gelesen, keiner meint etwas anderes als ein Fabeltier. `lemma_1958` hat damit 6 Senses.
 - **Messung an `sense_3004`** (`sense3004-lebend.tsv`): 55 Belege, gelesen am 18.10.2026, **38 tot** (Gebeine Verstorbener, Reliquien, Leichen), **12 lebend**, **3 lebend mit Zweifel** (`HTR_214570_5`, `JEW_2330900000_1`, `ROL_3841_3`), **2 Tier** (`JEW_556900000_3` und `JEW_557800000_0`, die Ochsen in Pharaos Traum). Die Einstufung ist ein Leseurteil. Nichts ist umgehängt.
 - **Berichtigung der Tabelle vom 10.10.:** `JEW_556900000_3` und `JEW_557800000_0` galten als "menschlich"; sie stehen im selben Traum wie `JEW_566800000_5` (dort "tierisch", auf `sense_119196`). Ebenso gelten `LGR_6062000_7` und `LGR_6066000_3` zu Recht als menschlich: es sind die Leichen der toten Könige, deren Fleisch vom Gebein gesotten wird.
+
+## Nachtrag 2026-11-08: die Ochsen umgehängt
+
+Umsetzung: `scripts/ingest/pos-disambig/apply-461-ochsen.py`. Entscheidung @chsteiner am 08.11.2026: die beiden Ochsen jetzt nach dem Zuschnitt vom 10.10. umhängen, die Frage nach einem Sense für die lebenden Gebeine bleibt bei KZW.
+
+- `JEW_556900000_3` und `JEW_557800000_0` wechseln von `lemma_1958_sense_3004` auf `lemma_1958_sense_119196` und verlieren damit `concept_21104000`. Die Spalten `Entscheidung` und `Quelle` in `belege.tsv` tragen das.
+- Unverändert: die 12 lebenden und 3 lebenden mit Zweifel aus `sense3004-lebend.tsv`.
+
+Stand danach, gemessen am 2026-11-08 (207 Tokens, `@ana` je Token): `sense_3004` 53, `sense_49690` 10, `sense_119196` 23, `sense_119198` 1, `sense_119199` 1, `sense_119200` 4, ohne `@ana` 115; Summe 207.
