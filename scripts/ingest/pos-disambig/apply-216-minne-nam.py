@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""#216 Phase 1: Frau Minne als eigenes NAM-Lemma. TROCKENLAUF-STAND, nichts angewendet.
+"""#216: Frau Minne als eigenes NAM-Lemma. ANGEWENDET in 69082a5d5 (2026-11-08).
+
+Ein neuer Lauf bricht an der Vorbedingung ab (hoechstes Lemma ist dann lemma_79830, nicht
+lemma_79829); das Skript bleibt als Protokoll des Verfahrens und fuer den Trockenlauf-Vergleich
+auf dem Stand vor 69082a5d5.
 
 Entscheidungsgrundlage (alles in #216):
   - chsteiner 2026-08-31: eigenes NAM-Lemma "Minne"; Regel: unmittelbar
@@ -433,7 +437,7 @@ def main():
                  'Provenienz-Log: ingest/pos-disambig/216-minne-nam/).')
         eintrag = f'<change when="{DATUM}" who="#editor">{satz}</change>'
         # m wurde im Kopf gesucht; die Offsets gelten im selben Text
-        text =text[:m.end(2)] + enl + m.group(1) + eintrag + text[m.end(2):]
+        text = text[:m.end(2)] + enl + m.group(1) + eintrag + text[m.end(2):]
         neu_texte[pfad] = text
 
     # ---- Lexikon-Eintrag

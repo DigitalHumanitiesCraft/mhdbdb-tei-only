@@ -61,7 +61,7 @@ einem der späteren Batches; die Namenslesart ist damit schon einmal gesetzt wor
 **Orth-Schreibung, VORSCHLAG `Minne`.** Begründung: 99,0 % der NAM-Einträge sind groß
 geschrieben, und der Schreibunterschied hält die beiden `minne` auseinander. Die
 Normalisierung (`normalize_mhg`) macht aus beiden `minne`; das ist bei 215 von 11.043
-großgeschriebenen NAM-Einträgen schon so (z. B. `lemma_14269` Lûne neben `lemma_16709`
+großgeschriebenen Einträgen, deren einzige Wortart NAM ist, schon so (z. B. `lemma_14269` Lûne neben `lemma_16709`
 lûne, ebenso Elbe, Warte). Alternative: `minne` klein, dann zwei Einträge mit
 identischer orth, was nirgends vorkommt und die Anzeige nicht unterscheidet.
 
@@ -107,9 +107,12 @@ Sense gehört dem Abstraktum). Zwei Wege:
 
 - **VORSCHLAG (Schalter `--ana alle`, Vorgabe):** alle 321 Tokens bekommen `@ana` auf den
   einen Sense des neuen Lemmas. Begründung: bei einem Einzelsense-NAM-Lemma ist die
-  Sense-Frage nicht offen, und die Konvention ist ausnahmslos: 179.550 von 179.550 Tokens
-  mit `pos="NAM"` auf einem NAM-Lemma mit genau einem Sense tragen `@ana` (gemessen per
-  Regex über `tei/`, Attributreihenfolge `lemmaRef`/`pos` in beiden Richtungen); bei
+  Sense-Frage nicht offen, und die Konvention ist ausnahmslos: 180.733 von 180.733 Tokens
+  mit `pos="NAM"` auf einem Lemma, das NAM unter seinen Wortarten führt und genau einen Sense
+  hat (11.118 Lemmata in `lexicon.xml`), tragen `@ana` (gemessen am Stand nach dem
+  Anwenden, ohne die 321 neuen Tokens; Regex `<w [^>]*>` über `tei/`, `lemmaRef` auf diese
+  Lemmata, `pos="NAM"` und ` ana="` im selben Tag; die erste Messung mit nur-NAM-Lemmata
+  ergab 179.550, ist hiermit ersetzt); bei
   Fortuna 31 von 31, Venus 378 von 378, Cupido 32 von 32. Folge für die Begriffshilfe:
   `sense_6485` verliert 20 Belege (1.010 auf 990), `sense_83291` verliert seinen einzigen
   (1 auf 0), der neue Sense hat 321.
@@ -172,8 +175,10 @@ und bleibt unangetastet, das Skript ändert keinen anderen Teil der Datei.
 ## 5. Positionszählung und Lifecycle
 
 **Positionen:** gezählt werden nur `<w>` mit `@lemmaRef`. 271 + 1 (MR2) Tokens bekommen es
-neu (gemessen: 272 in 55 Dateien), die 50 `lemma_4130`-Tokens haben es schon. In den 55
-Dateien verschieben sich die Positionen aller folgenden Tokens; `@n`-Verszählung und
+neu (gemessen: 272 in 40 Dateien), die 50 `lemma_4130`-Tokens haben es schon. In den 40
+Dateien verschieben sich die Positionen aller folgenden Tokens (die übrigen 15 der 55
+geänderten Dateien, BUH, DA, ER, FB, FH, GR, HSB, HZ, IW, JT, NEIR, NIU, OBP, PZ, SDT,
+enthalten nur Umhängungen und behalten alle Positionen; nachgezählt an `protokoll.tsv`); `@n`-Verszählung und
 `?verse=`-Links bleiben unberührt (nur `@n` bindet sie).
 
 **Zeile der Routing-Tabelle** (`docs/DATA-MODEL.md`, "Routing by type of change"): "`tei/`:
@@ -265,7 +270,7 @@ Skript und wird beim Anwenden nachgezogen.
 
 Die sechs offenen Punkte des Blatts sind entschieden, die Vorschläge oben gelten:
 
-1. `--ana alle`. Begründung: Präzedenz, 179.550 von 179.550 Tokens bei Einzelsense-NAM tragen `@ana`.
+1. `--ana alle`. Begründung: Präzedenz, 180.733 von 180.733 Tokens bei Einzelsense-NAM-Lemmata tragen `@ana` (Messvorschrift in Abschnitt 2).
 2. Sense-Konzepte 21011000, 22704010, 23112500, ohne 24421000. Begründung: Muster Fortuna (`lemma_15703`) und Venus (`lemma_6810`) mit Weiblich/Frau plus Personennamen. Frau Minne ist eine allegorische Figur, keine Gestalt nichtchristlicher Mythologie.
 3. orth `Minne`, groß wie 99 % der NAM-Einträge.
 4. Der `mynn`-Umschlag ist gewollt (Vorschrift B: 123 gegen 54). Quittung in `scripts/audit/variants-flips-ack.json`.
@@ -274,7 +279,7 @@ Die sechs offenen Punkte des Blatts sind entschieden, die Vorschläge oben gelte
 
 ## Gemessene Endzahlen (angewendet 2026-11-08)
 
-- Angewendet: 322 Tokens in 55 Korpusdateien (321 NAM, 1 Verb), 272 davon mit neuem `@lemmaRef`, 50 von `lemma_4130` umgehängt. `lexicon.xml` +1 Eintrag.
+- Angewendet: 322 Tokens in 55 Korpusdateien (321 NAM, 1 Verb), 272 davon mit neuem `@lemmaRef` (in 40 Dateien, 15 Dateien nur Umhängungen), 50 von `lemma_4130` umgehängt. `lexicon.xml` +1 Eintrag.
 - `extract-variants.py` (Trockenlauf vor dem `--apply`): added 4, removed 0, form text changed 0, lemma assignment changed 0, token count n changed 3, type ids with >1 lemma 0, verwaiste Typ-Tokens 0. Formen 256.966 auf 256.970, Lemmata mit Varianten 42.459 (Eintrag `lemma_79830` neu), Gesamtzahl der Korpuslemmata laut `validate-indices.py` 42.460.
 - `check-variants-flips.py --base origin/main`: umgeklappt 1 (`mynn`: `lemma_3001` auf `lemma_79830`), durch die Quittung gedeckt.
 - `validate-corpus.py` (alle 675 Dateien): Stage-2-Fehler 0, Stage-1-Fehler 35 (bekannte Baseline).
