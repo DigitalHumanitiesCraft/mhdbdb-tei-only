@@ -599,9 +599,9 @@ test.describe('Issue #390: WZB-Wortgrenzen ueber dem Kolumnentitel', () => {
     test.setTimeout(180000);
 
     test('WZB: ueber den Kolumnentitel zerrissene Woerter stehen ganz (#390)', async ({ page }) => {
-        // Bis 2026-10-12 stand zwischen den Haelften dieser 16 Woerter ein
-        // laufender Kolumnentitel als <w>, gelesen wurde "tŏch EXO ter".
-        // Zusammengefuehrt nach Klaus M. Schmidts Durchsicht; das Wort steht
+        // Bis 2026-10-12 (mache: bis 2026-11-08) stand zwischen den Haelften
+        // dieser Woerter ein laufender Kolumnentitel als <w>, gelesen wurde
+        // "tŏch EXO ter". Zusammengefuehrt nach Klaus M. Schmidts Durchsicht; das Wort steht
         // vor Umbruch und Kolumnentitel, ein folgendes Satzzeichen wandert mit.
         // Die WZB hat 27 MB.
         test.setTimeout(180000);
@@ -616,6 +616,7 @@ test.describe('Issue #390: WZB-Wortgrenzen ueber dem Kolumnentitel', () => {
             ['czou', 'berei'], ['wis', 'sen'], ['erwer', 'fen'], ['ei', 'nes'],
             ['op', 'ferten'], ['ma', 'chte'], ['veisti', 'keit'], ['isra', 'hel'],
             ['Wen', 'ne'], ['vorkou', 'fen'], ['besa', 'gunge'], ['ho', 'rende'],
+            ['ma', 'che'],
         ];
         const titel = '(?:ESIS|SIS|GENE|EXO|DUS|LEUITICUS|ERI|NOMIUS|DEUTRO)';
         for (const [vorn, hinten] of paare) {
