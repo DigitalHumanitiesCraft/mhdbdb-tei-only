@@ -3,8 +3,8 @@
  *
  * Die Begriffshilfe lässt eine KI Links bauen nach
  * `playground/#multi-lemma&lemmata=<L1>,<L2>&dist=<N>` (ohne `&mode=`).
- * Diese Spec öffnet genau diese Form frisch, dazu die Varianten mit
- * HTML-escaptem `&amp;` und `&#38;` und ein Umlaut-Lemma. Geprüft wird Kopfzeile (beide Wörter, Abstand) und eine
+ * Diese Spec öffnet genau diese Form frisch, dazu die Varianten
+ * mit HTML-escaptem `&amp;` und `&#38;` und ein Umlaut-Lemma. Geprüft wird Kopfzeile (beide Wörter, Abstand) und eine
  * Trefferzahl > 0, nicht eine feste Zahl.
  */
 
