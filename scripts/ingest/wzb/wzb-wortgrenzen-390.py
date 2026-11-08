@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""#390: 16 ueber den Kolumnen- oder Seitenwechsel zerrissene Woerter zusammenfuehren.
+"""#390: ueber den Kolumnen- oder Seitenwechsel zerrissene Woerter zusammenfuehren
+(Tafel 1: 16 Woerter, 2026-10-12; Tafel 2: ma|che, 2026-11-08).
 
 In tei/WZB.tei.xml steht bei diesen Woertern zwischen den beiden Haelften ein
 laufender Kolumnentitel als <w> (GENE, ESIS, EXO, DUS, LEUITICUS, ERI,
@@ -14,9 +15,13 @@ ENTSCHEIDUNGEN
 - Philologische Durchsicht (Klaus M. Schmidt, 2026-10-09, uebertragen von
   @wachauer am 2026-10-12 in #390): diese 16 ausdruecklich als
   "Zu einem Wort zusammenfuehren" bestaetigt, mit der hier gesetzten Wortform.
+- Tafel 2, ma|che: in Klaus' Pruefseite mit Wortform "mache" eingetragen,
+  aber ohne Bestaetigungsklick (@wachauer vermutete am 2026-10-12 einen
+  vergessenen Klick). chsteiner hat am 2026-11-08 entschieden, ihn als
+  bestaetigt zu werten und zusammenzufuehren.
 - Nicht hier: Nui|czig (Klaus schreibt "Nuinczig", das ist eine andere Form
   als die Zusammensetzung der Haelften und braucht eine eigene Entscheidung),
-  ma|che (nur Entwurf, Bestaetigungsklick fehlt), die drei "andere Antwort"
+  die drei "andere Antwort"
   (c|egiptische, rrym|chende, xl|czeuknusses) und ouslegers|nOch (zwei
   Woerter). Ebenso nicht die Kodierung der Kolumnentitel und Kapitelzahlen
   (<fw>, <milestone>): braucht eine Schemaerweiterung, eigenes Paket.
@@ -47,10 +52,13 @@ Die Wortform ist die Verkettung der beiden Haelften so, wie sie in der Datei
 stehen (bei toechter/toechtern also o plus U+0306 zerlegt, wie in diesen
 Haelften vorgefunden); geprueft wird sie in NFC gegen Klaus' Wortform.
 
-Aufruf: python scripts/ingest/wzb/wzb-wortgrenzen-390.py [--apply]
+Aufruf: python scripts/ingest/wzb/wzb-wortgrenzen-390.py --tafel {1,2} [--apply]
+Tafel 1 sind die 16 Woerter vom 2026-10-12 (#592, Protokoll diff-liste.csv),
+Tafel 2 ist ma|che vom 2026-11-08 (Protokoll diff-liste-2.csv).
 Ohne --apply: Trockenlauf, prueft alles und schreibt das Protokoll in
-ingest/wzb/390-wortgrenzen/. Nach dem Anwenden bricht jeder weitere Lauf an
-der Formpruefung ab; das Protokoll im Repository ist dann der letzte Stand.
+ingest/wzb/390-wortgrenzen/. Nach dem Anwenden bricht jeder weitere Lauf
+derselben Tafel an der Formpruefung ab; das Protokoll im Repository ist dann
+der letzte Stand.
 """
 
 import argparse
@@ -89,6 +97,10 @@ TAFEL = [
     ("horende",    "WZB_209rb_20_5", "WZB_209va_2_0", None),
 ]
 
+TAFEL_2 = [
+    ("mache",      "WZB_80ra_21_5",  "WZB_80rb_2_0",  None),
+]
+
 ERLAUBT_DAZWISCHEN = {"lb", "pb", "cb", "w", "pc"}
 
 CHANGE = ('<change when="2026-10-12" who="#editor">#390: {n} ueber den Kolumnen- oder '
@@ -99,6 +111,17 @@ CHANGE = ('<change when="2026-10-12" who="#editor">#390: {n} ueber den Kolumnen-
           'dahinter stehen; ein direkt folgendes Satzzeichen (pc join=left) '
           'wandert mit dem Wort, bei israhel entfaellt der Trennstrich. Tafel in '
           'scripts/ingest/wzb/wzb-wortgrenzen-390.py.</change>')
+
+CHANGE_2 = ('<change when="2026-11-08" who="#editor">#390: ma|che ueber den '
+            'Kolumnenwechsel zu mache zusammengefuehrt, wie die 16 Woerter vom '
+            '2026-10-12 (Wortform von Klaus M. Schmidt, 2026-10-09, ohne '
+            'Bestaetigungsklick; als bestaetigt gewertet von chsteiner, 2026-11-08). '
+            'Tafel 2 in scripts/ingest/wzb/wzb-wortgrenzen-390.py.</change>')
+
+TAFELN = {
+    1: (TAFEL, 16, CHANGE, "diff-liste.csv"),
+    2: (TAFEL_2, 1, CHANGE_2, "diff-liste-2.csv"),
+}
 
 
 def nackt(tag):
@@ -175,16 +198,18 @@ def zeile_entfernen(text, element_re, xid):
 
 def main():
     ap = argparse.ArgumentParser()
+    ap.add_argument("--tafel", type=int, choices=sorted(TAFELN), required=True)
     ap.add_argument("--apply", action="store_true")
     args = ap.parse_args()
 
-    if len(TAFEL) != 16 or len({a for _, a, _, _ in TAFEL}) != 16:
-        sys.exit("FEHLER: die Tafel deckt nicht genau 16 Woerter ab.")
+    tafel, soll, change_vorlage, logname = TAFELN[args.tafel]
+    if len(tafel) != soll or len({a for _, a, _, _ in tafel}) != soll:
+        sys.exit("FEHLER: Tafel %d deckt nicht genau %d Woerter ab." % (args.tafel, soll))
 
-    dazwischen, mitwandernd = strukturpruefung(TAFEL)
+    dazwischen, mitwandernd = strukturpruefung(tafel)
     text = DATEI.read_text(encoding="utf-8", newline="")
     zeilen = []
-    for form, a, b, strich in TAFEL:
+    for form, a, b, strich in tafel:
         ma = re.search(r'<w xml:id="%s">(?P<t>[^<]*)</w>' % re.escape(a), text)
         mb = re.search(r'<w xml:id="%s">(?P<t>[^<]*)</w>' % re.escape(b), text)
         if not ma or not mb:
@@ -211,7 +236,7 @@ def main():
                            dazwischen=dazwischen[a],
                            pc_mitgewandert=" ".join(mitwandernd[a]), action="MERGE"))
 
-    change = CHANGE.format(n=len(TAFEL))
+    change = change_vorlage.format(n=len(tafel))
     if change in text:
         sys.exit("FEHLER: der revisionDesc-Eintrag steht schon in der Datei.")
     ende = text.index("</revisionDesc>")
@@ -228,7 +253,7 @@ def main():
         DATEI.write_text(text, encoding="utf-8", newline="")
 
     LOG.mkdir(parents=True, exist_ok=True)
-    with open(LOG / "diff-liste.csv", "w", encoding="utf-8-sig", newline="") as fh:
+    with open(LOG / logname, "w", encoding="utf-8-sig", newline="") as fh:
         wr = csv.DictWriter(fh, fieldnames=list(zeilen[0]), delimiter=";")
         wr.writeheader()
         wr.writerows(zeilen)
