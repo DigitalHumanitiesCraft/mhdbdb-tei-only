@@ -430,7 +430,10 @@ are in that set. Counting rule, because the number depends on it: group by
 hand-written character map. On the first measurement (2026-08-07, 43,879 entries, not today's count;
 477/993) a shorter map yielded 475/988, and that is how the wrong pair got into the
 first draft of this section. The step from 477/993 to 476/991 is #228: it deleted
-`lemma_64413`, and the group `erklaeren` is left with `lemma_14608` alone.
+`lemma_64413`, and the group `erklaeren` is left with `lemma_14608` alone. The step from
+476/991 back to 477/993 is #216 (2026-11-08, 43,712 entries): the proper-name lemma
+`lemma_79830` (*Minne*) joins `lemma_4130` in the group `minne`; the raw count stays 102/216,
+because the two differ in case.
 
 The `ids` parameter of the `multi-lemma` route therefore pins the resolution.
 `MultiLemmaSearchUI.lemmaIdHints` maps written form to id, and `resolveTerms()`

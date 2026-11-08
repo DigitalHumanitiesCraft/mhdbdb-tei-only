@@ -186,14 +186,14 @@ This is not a new rule, it is the one the tagset already implies, and it was wri
 
 ## 8. Personified Minne as `NAM` (#216)
 
-*minne* directly preceded by a token of `lemma_7260` (*vrouwe*, any spelling) whose own form does not end in -n is the allegorical figure Frau Minne. It is tagged `NAM` under the proper-name lemma `lemma_79830` (*Minne*), with its own sense and its own variant types (chsteiner and KZW, 2026-08-31, applied 2026-11-08). "Directly preceding" is the next `<w>` in document order, across `<pc>`, `<lb>` and `<hi>`. Where the preceding form ends in -n (*vrouwen minne*), the token stays with the abstract noun `lemma_4130` as `NOM`.
+*minne* directly preceded by a token of `lemma_7260` (*vrouwe*, any spelling) whose own form does not end in -n is the allegorical figure Frau Minne. It is tagged `NAM` under the proper-name lemma `lemma_79830` (*Minne*), with its own sense and its own variant types (chsteiner and KZW, 2026-08-31, applied 2026-11-08). "Directly preceding" is the next `<w>` in document order, across `<pc>`, `<lb>` and `<hi>`. Where the preceding form ends in -n (*vrouwen minne*), the token is not Frau Minne and keeps its existing annotation; the one change among these is MR2_27022210102100_5, set to the verb `lemma_4133` (`VRB`).
 
 The rule is deliberately formal. It is applied with these exceptions, which keep their annotation:
 - The two tokens JT_42944000_1 and WGL_42150_6 meet the rule but stay with the verb `lemma_4133` (`VRB`).
 - The three RVBR cases after *frô* (RVBR_4826_6, RVBR_6310_5, RVBR_8687_6) meet the rule and are held back.
 - The GWTK cases are held back; at the time of application no GWTK token met the rule.
 
-The four reading cases WGA_118600_5, RLS_140304_1, FR1_3026030_4 and FR1_3001060_7 do not meet the rule (the preceding form ends in -n), so by the rule they stay with the abstract noun `lemma_4130`; they are still with KZW for a decision. The other personified abstractions (*âventiure*, *sælde*, *êre*, *werlt*) remain `NOM`; no `NAM` lemma exists for them.
+The four reading cases WGA_118600_5, RLS_140304_1, FR1_3026030_4 and FR1_3001060_7 do not meet the rule (the preceding form ends in -n) and keep their annotation: RLS_140304_1 and FR1_3001060_7 carry the abstract noun `lemma_4130`, WGA_118600_5 and FR1_3026030_4 carry no lemma. All four are still with KZW for a decision. The other personified abstractions (*âventiure*, *sælde*, *êre*, *werlt*) remain `NOM`; no `NAM` lemma exists for them.
 
 ## Cross-references
 
