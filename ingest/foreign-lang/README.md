@@ -14,6 +14,7 @@ wird; geschrieben wird erst in Phase 3.
 | `28-gleis1-kandidaten.csv` | Quelle A aus Phase 1 Punkt 1: 6.246 Lemmata, deren Senses auf `concept_23123000` oder eine seiner 17 Sprachkategorien zeigen, mit Belegzahl, Streuung und Belegklasse |
 | `28-phase2-ana-widerspruch.csv` | Phase 2: **424 Belege**, deren `@ana` auf einen Sense ohne Sprachkonzept zeigt, mit Kontext. Dort sagt der annotierte Bestand ausdrücklich, dass hier nicht die sprachbezogene Lesart gemeint ist |
 | `28-phase2-handpruefung.csv` | Phase 2: die **26 belegstärksten Nicht-Namen** mit allem, was für ein Urteil nötig ist, plus zwei leeren Spalten `urteil` und `begruendung` |
+| `28-schicht-a-belegliste.csv` | Schicht A: Belege von `dominus` (immer `ja`), den lateinischen `et` und der lateinischen Zitatstellen unter `engel`, `lewe`, `creatura`, `item` mit heuristischem `vorschlag_latein` (`ja`/`grenzfall`, kein Urteil), Score und Kontext. Erzeugt von `scripts/audit/build-28-schicht-a-belegliste.py` (Aufruf im Docstring) |
 
 Erzeugt von
 [`scripts/audit/build-foreign-candidates-28.py`](../../scripts/audit/build-foreign-candidates-28.py)
