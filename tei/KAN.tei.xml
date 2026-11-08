@@ -141,6 +141,7 @@
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 25 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/). 12 weitere Tokens der Form minne blieben bewusst unannotiert (Review).</change>
       <change when="2026-09-30" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization an den Stand der Annotation angeglichen (3358 von 4792 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;Lemmatisiert, nicht disambiguiert.&#34;</change>
+      <change when="2026-11-08" who="#editor">#216 Frau Minne: 2 Tokens auf das Namenlemma lexicon.xml#lemma_79830 (Minne, NAM) gesetzt (2 neu annotiert). Regel: unmittelbar vorangehendes Token mit lemma_7260, Form ohne -n (Entscheidung chsteiner und K. Zeppezauer-Wachauer 2026-08-31, Umsetzung 2026-11-08; Provenienz-Log: ingest/pos-disambig/216-minne-nam/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -4789,7 +4790,7 @@
               <hi rend="initial">
                 <w xml:id="KAN_70300100_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25983">frouwe</w>
               </hi>
-              <w xml:id="KAN_70300100_1">minne</w>
+              <w xml:id="KAN_70300100_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
               <pc xml:id="KAN_70300100_2" join="left">,</pc>
               <w xml:id="KAN_70300100_3" lemmaRef="lexicon.xml#lemma_5434" pos="ADV PRP CNJ" ana="lexicon.xml#lemma_5434_sense_8481" corresp="variants.xml#type_18992">sît</w>
               <w xml:id="KAN_70300100_4">du</w>
@@ -10301,7 +10302,7 @@
               <hi rend="initial">
                 <w xml:id="KAN_170100101_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25981">frou</w>
               </hi>
-              <w xml:id="KAN_170100101_1">minne</w>
+              <w xml:id="KAN_170100101_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
               <pc xml:id="KAN_170100101_2" join="left">,</pc>
               <w xml:id="KAN_170100101_3" lemmaRef="lexicon.xml#lemma_6100" pos="VRB" corresp="variants.xml#type_21464">getiuret</w>
               <w xml:id="KAN_170100101_4">sî</w>

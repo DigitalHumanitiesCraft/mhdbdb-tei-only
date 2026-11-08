@@ -137,6 +137,7 @@
       <change when="2026-09-06" who="#editor">#387 (vrouwe, mechanischer Teil): 42 Tokens der Form vrouwe erstmals annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260)). Kein LLM-Lauf: annotiert wurde nur, wo die MHG-normalisierte Schreibung im gesamten Korpus ein einziges Lemma traegt, dieses genau eine Wortart fuehrt und die Schreibung dafuer genug Belege hat. Kontextpflichtige Faelle sind unangetastet geblieben (Provenienz-Log: ingest/pos-disambig/387-vrouwe/).</change>
       <change when="2026-09-06" who="#editor">#387 (fro): 3 homographie-ambige Tokens der Form fro kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260) bzw. vrô ADJ/ADV (lemma_7250); LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/387-fro/).</change>
       <change when="2026-09-30" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization an den Stand der Annotation angeglichen (16545 von 21577 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;Teilweise lemmatisiert, nicht disambiguiert.&#34;</change>
+      <change when="2026-11-08" who="#editor">#216 Frau Minne: 14 Tokens auf das Namenlemma lexicon.xml#lemma_79830 (Minne, NAM) gesetzt (14 neu annotiert). Regel: unmittelbar vorangehendes Token mit lemma_7260, Form ohne -n (Entscheidung chsteiner und K. Zeppezauer-Wachauer 2026-08-31, Umsetzung 2026-11-08; Provenienz-Log: ingest/pos-disambig/216-minne-nam/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -6816,7 +6817,7 @@
             <w xml:id="MNB_3005640_4" lemmaRef="lexicon.xml#lemma_1242" pos="PRO" ana="lexicon.xml#lemma_1242_sense_1958" corresp="variants.xml#type_3956">dich</w>
             <pc xml:id="MNB_3005640_5" join="left">,</pc>
             <w xml:id="MNB_3005640_6" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
-            <w xml:id="MNB_3005640_7">mynne</w>
+            <w xml:id="MNB_3005640_7" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372868">mynne</w>
             <pc xml:id="MNB_3005640_8" join="left">)</pc>
             <pc xml:id="MNB_3005640_9" join="left">,</pc>
           </l>
@@ -40890,7 +40891,7 @@
             <hi rend="initial">
               <w xml:id="MNB_3038930_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             </hi>
-            <w xml:id="MNB_3038930_1">mynn</w>
+            <w xml:id="MNB_3038930_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             <pc xml:id="MNB_3038930_2" join="left">,</pc>
             <w xml:id="MNB_3038930_3">fur</w>
             <w xml:id="MNB_3038930_4" lemmaRef="lexicon.xml#lemma_7537" pos="ADJ ADV" ana="lexicon.xml#lemma_7537_sense_12305" corresp="variants.xml#type_44140">wys</w>
@@ -41766,7 +41767,7 @@
             <w xml:id="MNB_3039750_1" lemmaRef="lexicon.xml#lemma_56117" pos="PRO" ana="lexicon.xml#lemma_56117_sense_90961" corresp="variants.xml#type_305363">uch</w>
             <pc xml:id="MNB_3039750_2" join="left">,</pc>
             <w xml:id="MNB_3039750_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
-            <w xml:id="MNB_3039750_4">mynne</w>
+            <w xml:id="MNB_3039750_4" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372868">mynne</w>
             <pc xml:id="MNB_3039750_5" join="left">,</pc>
             <w xml:id="MNB_3039750_6">an</w>
             <w xml:id="MNB_3039750_7" lemmaRef="lexicon.xml#lemma_5005" pos="VRB" corresp="variants.xml#type_67721">rueret</w>
@@ -42251,7 +42252,7 @@
             <pc xml:id="MNB_3040220_2" join="left">:</pc>
             <pc xml:id="MNB_3040220_3" join="right">&lt;</pc>
             <w xml:id="MNB_3040220_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
-            <w xml:id="MNB_3040220_5">mynne</w>
+            <w xml:id="MNB_3040220_5" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372868">mynne</w>
             <pc xml:id="MNB_3040220_6" join="left">,</pc>
             <w xml:id="MNB_3040220_7">syt</w>
             <w xml:id="MNB_3040220_8" lemmaRef="lexicon.xml#lemma_3966" pos="VRB" ana="lexicon.xml#lemma_3966_sense_6250" corresp="variants.xml#type_13862">gemant</w>
@@ -43488,7 +43489,7 @@
             <pc xml:id="MNB_3041400_2" join="left">:</pc>
             <pc xml:id="MNB_3041400_3" join="right">&lt;</pc>
             <w xml:id="MNB_3041400_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
-            <w xml:id="MNB_3041400_5">mynne</w>
+            <w xml:id="MNB_3041400_5" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372868">mynne</w>
             <pc xml:id="MNB_3041400_6" join="left">,</pc>
             <w xml:id="MNB_3041400_7" lemmaRef="lexicon.xml#lemma_678" pos="PRP" ana="lexicon.xml#lemma_678_sense_1096" corresp="variants.xml#type_44499">by</w>
             <w xml:id="MNB_3041400_8" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3504">dem</w>
@@ -44629,7 +44630,7 @@
             <hi rend="initial">
               <w xml:id="MNB_3042470_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             </hi>
-            <w xml:id="MNB_3042470_1">mynne</w>
+            <w xml:id="MNB_3042470_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372868">mynne</w>
             <pc xml:id="MNB_3042470_2" join="left">,</pc>
             <w xml:id="MNB_3042470_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
             <w xml:id="MNB_3042470_4" lemmaRef="lexicon.xml#lemma_3284" pos="VRB" ana="lexicon.xml#lemma_3284_sense_5160" corresp="variants.xml#type_49969">kennet</w>
@@ -48552,7 +48553,7 @@
             <hi rend="initial">
               <w xml:id="MNB_3046140_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             </hi>
-            <w xml:id="MNB_3046140_1">minne</w>
+            <w xml:id="MNB_3046140_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
             <pc xml:id="MNB_3046140_2" join="left">,</pc>
             <w xml:id="MNB_3046140_3" lemmaRef="lexicon.xml#lemma_2598" pos="VRB VEX" corresp="variants.xml#type_8746">habt</w>
             <w xml:id="MNB_3046140_4">ir</w>
@@ -48586,7 +48587,7 @@
             <hi rend="initial">
               <w xml:id="MNB_3046170_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             </hi>
-            <w xml:id="MNB_3046170_1">mynn</w>
+            <w xml:id="MNB_3046170_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             <pc xml:id="MNB_3046170_2" join="left">,</pc>
             <w xml:id="MNB_3046170_3" lemmaRef="lexicon.xml#lemma_1258" pos="PRP" ana="lexicon.xml#lemma_1258_sense_1977" corresp="variants.xml#type_4044">durch</w>
             <w xml:id="MNB_3046170_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
@@ -48662,7 +48663,7 @@
             <hi rend="initial">
               <w xml:id="MNB_3046240_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             </hi>
-            <w xml:id="MNB_3046240_1">mynne</w>
+            <w xml:id="MNB_3046240_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372868">mynne</w>
             <pc xml:id="MNB_3046240_2" join="left">,</pc>
             <w xml:id="MNB_3046240_3">last</w>
             <w xml:id="MNB_3046240_4" lemmaRef="lexicon.xml#lemma_1055" pos="ADV" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3258">dar</w>
@@ -48725,7 +48726,7 @@
             <hi rend="initial">
               <w xml:id="MNB_3046300_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             </hi>
-            <w xml:id="MNB_3046300_1">mynne</w>
+            <w xml:id="MNB_3046300_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372868">mynne</w>
             <pc xml:id="MNB_3046300_2" join="left">,</pc>
             <w xml:id="MNB_3046300_3">last</w>
             <w xml:id="MNB_3046300_4" lemmaRef="lexicon.xml#lemma_1680" pos="VRB" corresp="variants.xml#type_338214">dervaren</w>
@@ -48897,7 +48898,7 @@
             <hi rend="initial">
               <w xml:id="MNB_3046460_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             </hi>
-            <w xml:id="MNB_3046460_1">mynne</w>
+            <w xml:id="MNB_3046460_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372868">mynne</w>
             <w xml:id="MNB_3046460_2" lemmaRef="lexicon.xml#lemma_5693" pos="VRB" ana="lexicon.xml#lemma_5693_sense_8912" corresp="variants.xml#type_19957">sprach</w>
             <pc xml:id="MNB_3046460_3" join="left">:</pc>
             <pc xml:id="MNB_3046460_4" join="right">&lt;</pc>
@@ -52754,7 +52755,7 @@
             <hi rend="initial">
               <w xml:id="MNB_3050000_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             </hi>
-            <w xml:id="MNB_3050000_2">mynne</w>
+            <w xml:id="MNB_3050000_2" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372868">mynne</w>
             <pc xml:id="MNB_3050000_3" join="left">,</pc>
             <w xml:id="MNB_3050000_4" lemmaRef="lexicon.xml#lemma_4432" pos="ADV CNJ" ana="lexicon.xml#lemma_4432_sense_6912" corresp="variants.xml#type_15441">nu</w>
             <w xml:id="MNB_3050000_5">syt</w>
@@ -52844,7 +52845,7 @@
             <hi rend="initial">
               <w xml:id="MNB_3050080_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             </hi>
-            <w xml:id="MNB_3050080_1">mynne</w>
+            <w xml:id="MNB_3050080_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372868">mynne</w>
             <w xml:id="MNB_3050080_2" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
             <w xml:id="MNB_3050080_3" lemmaRef="lexicon.xml#lemma_5693" pos="VRB" ana="lexicon.xml#lemma_5693_sense_8912" corresp="variants.xml#type_19957">sprach</w>
             <pc xml:id="MNB_3050080_4" join="left">:</pc>
@@ -56622,7 +56623,7 @@
             <hi rend="initial">
               <w xml:id="MNB_3053520_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_43131">fraw</w>
             </hi>
-            <w xml:id="MNB_3053520_2">mynne</w>
+            <w xml:id="MNB_3053520_2" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372868">mynne</w>
             <pc xml:id="MNB_3053520_3" join="left">,</pc>
             <w xml:id="MNB_3053520_4" lemmaRef="lexicon.xml#lemma_1258" pos="PRP" ana="lexicon.xml#lemma_1258_sense_1977" corresp="variants.xml#type_4044">durch</w>
             <w xml:id="MNB_3053520_5" lemmaRef="lexicon.xml#lemma_1912" pos="ADJ" ana="lexicon.xml#lemma_1912_sense_2937" corresp="variants.xml#type_65220">gantze</w>

@@ -184,6 +184,7 @@
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 33 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/). 2 weitere Tokens der Form stat blieben bewusst unannotiert (Review).</change>
       <change when="2026-09-30" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization an den Stand der Annotation angeglichen (33854 von 43018 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;Voll lemmatisiert, aber nicht disambiguiert.&#34;</change>
       <change when="2026-10-10" who="#editor">#461 gebeine: 2 Tokens mit Säugetierknochen auf den neuen Sense lemma_1958_sense_119196 (concept_14011100) gesetzt.</change>
+      <change when="2026-11-08" who="#editor">#216 Frau Minne: 1 Token auf das Namenlemma lexicon.xml#lemma_79830 (Minne, NAM) gesetzt (1 von lemma_4130 umgehängt). Regel: unmittelbar vorangehendes Token mit lemma_7260, Form ohne -n (Entscheidung chsteiner und K. Zeppezauer-Wachauer 2026-08-31, Umsetzung 2026-11-08; Provenienz-Log: ingest/pos-disambig/216-minne-nam/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -28476,7 +28477,7 @@
           <w xml:id="ER_371800_0" lemmaRef="lexicon.xml#lemma_7385" pos="ADV CNJ" ana="lexicon.xml#lemma_7385_sense_11998" corresp="variants.xml#type_26640">wan</w>
           <w xml:id="ER_371800_1">in</w>
           <w xml:id="ER_371800_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25989">vrou</w>
-          <w xml:id="ER_371800_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
+          <w xml:id="ER_371800_3" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
           <w xml:id="ER_371800_4" lemmaRef="lexicon.xml#lemma_640" pos="NOM VRB" ana="lexicon.xml#lemma_640_sense_1012" corresp="variants.xml#type_1912">betwanc</w>
         </l>
         <l n="3719">

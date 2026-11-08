@@ -129,6 +129,7 @@
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 57 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/). 7 weitere Tokens der Form minne blieben bewusst unannotiert (Review).</change>
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 3 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
       <change when="2026-09-30" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization an den Stand der Annotation angeglichen (7299 von 9864 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;Lemmatisiert, nicht disambiguiert.&#34;</change>
+      <change when="2026-11-08" who="#editor">#216 Frau Minne: 2 Tokens auf das Namenlemma lexicon.xml#lemma_79830 (Minne, NAM) gesetzt (1 neu annotiert, 1 von lemma_4130 umgehängt). Regel: unmittelbar vorangehendes Token mit lemma_7260, Form ohne -n (Entscheidung chsteiner und K. Zeppezauer-Wachauer 2026-08-31, Umsetzung 2026-11-08; Provenienz-Log: ingest/pos-disambig/216-minne-nam/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -2305,7 +2306,7 @@
           <w xml:id="UVL_70400100_2" lemmaRef="lexicon.xml#lemma_4533" pos="INJ" ana="lexicon.xml#lemma_4533_sense_7071" corresp="variants.xml#type_15698">owê</w>
           <pc xml:id="UVL_70400100_3" join="left">,</pc>
           <w xml:id="UVL_70400100_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25983">frouwe</w>
-          <w xml:id="UVL_70400100_5">minne</w>
+          <w xml:id="UVL_70400100_5" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
           <pc xml:id="UVL_70400100_6" join="left">,</pc>
         </l>
         <l n="2">
@@ -11199,7 +11200,7 @@
             <w xml:id="UVL_300300100_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25983">frouwe</w>
           </hi>
           <pc xml:id="UVL_300300100_1" join="left">,</pc>
-          <w xml:id="UVL_300300100_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
+          <w xml:id="UVL_300300100_2" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
           <w xml:id="UVL_300300100_3" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18956">ist</w>
           <w xml:id="UVL_300300100_4" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19597">sô</w>
           <w xml:id="UVL_300300100_5" lemmaRef="lexicon.xml#lemma_2326" pos="ADJ ADV" ana="lexicon.xml#lemma_2326_sense_3724" corresp="variants.xml#type_7860">gewaltec</w>

@@ -128,6 +128,7 @@
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
       <change when="2026-09-23" who="#editor">#228: 1 Tokens im editorischen Apparat der Noten mit @n (Sigel, Strophenzähler, Rubriken und Überschriften der Edition) entannotiert: lemmaRef, pos, ana und corresp entfallen. Entscheidung KZW 11.09.2026: moderner Apparat ist kein mittelhochdeutscher Text.</change>
       <change when="2026-09-30" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization an den Stand der Annotation angeglichen (330 von 330 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;Lemmatisiert, nicht disambiguiert.&#34;</change>
+      <change when="2026-11-08" who="#editor">#216 Frau Minne: 1 Token auf das Namenlemma lexicon.xml#lemma_79830 (Minne, NAM) gesetzt (1 von lemma_4130 umgehängt). Regel: unmittelbar vorangehendes Token mit lemma_7260, Form ohne -n (Entscheidung chsteiner und K. Zeppezauer-Wachauer 2026-08-31, Umsetzung 2026-11-08; Provenienz-Log: ingest/pos-disambig/216-minne-nam/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -466,7 +467,7 @@
               <w xml:id="NIU_30200700_1" lemmaRef="lexicon.xml#lemma_6327" pos="VRB" ana="lexicon.xml#lemma_6327_sense_9965" corresp="variants.xml#type_22466">twinget</w>
               <pc xml:id="NIU_30200700_2" join="left">,</pc>
               <w xml:id="NIU_30200700_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25983">frouwe</w>
-              <w xml:id="NIU_30200700_4" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" ana="lexicon.xml#lemma_4130_sense_6485" corresp="variants.xml#type_14385">minne</w>
+              <w xml:id="NIU_30200700_4" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
               <pc xml:id="NIU_30200700_5" join="left">,</pc>
               <w xml:id="NIU_30200700_6" lemmaRef="lexicon.xml#lemma_56116" pos="PRO" ana="lexicon.xml#lemma_56116_sense_90960" corresp="variants.xml#type_304739">sie</w>
               <pc xml:id="NIU_30200700_7" join="left">.</pc>

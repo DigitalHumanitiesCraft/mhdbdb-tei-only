@@ -157,6 +157,7 @@
       <change when="2026-09-06" who="#editor">#216 Punkt 3 (vrouwe vor minne): 2 Tokens der Anredeform vrouwe unmittelbar vor minne erstmals annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260)). Kein LLM-Lauf; Verfahren, Herkunft der einzelnen Entscheidungen und zurueckgehaltene Faelle im Provenienz-Log: ingest/pos-disambig/216-vrouwe155/.</change>
       <change when="2026-09-30" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization an den Stand der Annotation angeglichen (12527 von 16264 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;Lemmatisiert, aber nicht disambiguiert.&#34;</change>
       <change when="2026-10-10" who="#editor">#460 jagen: 1 Token als Verbform gelesen, von lemma_3103 jagât (NOM) auf lemma_3102 jagen (VRB) umgehängt, @ana entfällt; neu geprägte Variantentypen nach der Regel aus #367.</change>
+      <change when="2026-11-08" who="#editor">#216 Frau Minne: 3 Tokens auf das Namenlemma lexicon.xml#lemma_79830 (Minne, NAM) gesetzt (3 neu annotiert). Regel: unmittelbar vorangehendes Token mit lemma_7260, Form ohne -n (Entscheidung chsteiner und K. Zeppezauer-Wachauer 2026-08-31, Umsetzung 2026-11-08; Provenienz-Log: ingest/pos-disambig/216-minne-nam/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -2192,7 +2193,7 @@
             <w xml:id="TRU_23500_1" lemmaRef="lexicon.xml#lemma_7784" pos="VRB" ana="lexicon.xml#lemma_7784_sense_12759" corresp="variants.xml#type_28172">zeige</w>
             <w xml:id="TRU_23500_2" lemmaRef="lexicon.xml#lemma_35" pos="ADV CNJ" ana="lexicon.xml#lemma_35_sense_48" corresp="variants.xml#type_98">aber</w>
             <w xml:id="TRU_23500_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25989">vrou</w>
-            <w xml:id="TRU_23500_4">minne</w>
+            <w xml:id="TRU_23500_4" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
           </l>
           <l n="236">
             <w xml:id="TRU_23600_0">ir</w>
@@ -2281,7 +2282,7 @@
             <w xml:id="TRU_24700_0" lemmaRef="lexicon.xml#lemma_3659" pos="VRB" ana="lexicon.xml#lemma_3659_sense_5776" corresp="variants.xml#type_12723">lebet</w>
             <w xml:id="TRU_24700_1" lemmaRef="lexicon.xml#lemma_3004" pos="ADV" ana="lexicon.xml#lemma_3004_sense_4808" corresp="variants.xml#type_10247">ie</w>
             <w xml:id="TRU_24700_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25989">vrou</w>
-            <w xml:id="TRU_24700_3">minne</w>
+            <w xml:id="TRU_24700_3" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
             <pc xml:id="TRU_24700_4" join="left">.</pc>
           </l>
           <l n="248">
@@ -15530,7 +15531,7 @@
             <hi rend="initial">
               <w xml:id="TRU_179600_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25991">vrouwe</w>
             </hi>
-            <w xml:id="TRU_179600_1">minne</w>
+            <w xml:id="TRU_179600_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
             <pc xml:id="TRU_179600_2" join="left">,</pc>
             <w xml:id="TRU_179600_3" lemmaRef="lexicon.xml#lemma_1169" pos="DET" ana="lexicon.xml#lemma_1169_sense_1850" corresp="variants.xml#type_3698">diz</w>
             <w xml:id="TRU_179600_4">wunder</w>

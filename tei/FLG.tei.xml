@@ -154,6 +154,7 @@
       <change when="2026-09-06" who="#editor">#387 (vrouwe, mechanischer Teil): 2 Tokens der Form vrouwe erstmals annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260)). Kein LLM-Lauf: annotiert wurde nur, wo die MHG-normalisierte Schreibung im gesamten Korpus ein einziges Lemma traegt, dieses genau eine Wortart fuehrt und die Schreibung dafuer genug Belege hat. Kontextpflichtige Faelle sind unangetastet geblieben (Provenienz-Log: ingest/pos-disambig/387-vrouwe/).</change>
       <change when="2026-09-23" who="#editor">#387 vrouwe/vrô, Resttokens: 1 Token annotiert nach den Einzelentscheidungen von KZW vom 17.09.2026 (lemmaRef/pos/corresp; kein @ana, weil die Sense-Zuordnung kuratorisch ist). Im ganzen Lauf: zwei Doppeltags ADJ NOM mit erklärendem @reason, wo KZW die Lesart für unentscheidbar erklärt hat, und drei neu geprägte Variantentypen nach der Regel aus #367.</change>
       <change when="2026-09-30" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization an den Stand der Annotation angeglichen (9575 von 12053 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;Lemmatisiert, nicht disambiguiert.&#34;</change>
+      <change when="2026-11-08" who="#editor">#216 Frau Minne: 9 Tokens auf das Namenlemma lexicon.xml#lemma_79830 (Minne, NAM) gesetzt (9 neu annotiert). Regel: unmittelbar vorangehendes Token mit lemma_7260, Form ohne -n (Entscheidung chsteiner und K. Zeppezauer-Wachauer 2026-08-31, Umsetzung 2026-11-08; Provenienz-Log: ingest/pos-disambig/216-minne-nam/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -1718,7 +1719,7 @@
             <pc xml:id="FLG_1041100_7" join="left">&gt;</pc>
             <pc xml:id="FLG_1041100_8" join="right">&lt;</pc>
             <w xml:id="FLG_1041100_9" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_80906">frov</w>
-            <w xml:id="FLG_1041100_10" pos="NAM">minne</w>
+            <w xml:id="FLG_1041100_10" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
             <pc xml:id="FLG_1041100_11" join="left">,</pc>
             <supplied>
               <w xml:id="FLG_1041100_12" lemmaRef="lexicon.xml#lemma_4432" pos="ADV" ana="lexicon.xml#lemma_4432_sense_6912" corresp="variants.xml#type_15441">nu</w>
@@ -1764,7 +1765,7 @@
             <pc xml:id="FLG_1041120_9" join="left">&gt;</pc>
             <pc xml:id="FLG_1041120_10" join="right">&lt;</pc>
             <w xml:id="FLG_1041120_11" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_80904">frovwe</w>
-            <w xml:id="FLG_1041120_12" pos="NAM">minne</w>
+            <w xml:id="FLG_1041120_12" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
             <pc xml:id="FLG_1041120_13" join="left">,</pc>
             <w xml:id="FLG_1041120_14" pos="PRO">ir</w>
             <w xml:id="FLG_1041120_15" pos="VEX">hant</w>
@@ -1792,7 +1793,7 @@
             <pc xml:id="FLG_1041140_4" join="left">&gt;</pc>
             <pc xml:id="FLG_1041140_5" join="right">&lt;</pc>
             <w xml:id="FLG_1041140_6" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_80904">frovwe</w>
-            <w xml:id="FLG_1041140_7" pos="NAM">minne</w>
+            <w xml:id="FLG_1041140_7" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
             <pc xml:id="FLG_1041140_8" join="left">,</pc>
             <w xml:id="FLG_1041140_9" pos="PRO">ir</w>
             <w xml:id="FLG_1041140_10" pos="VEX">hant</w>
@@ -1822,7 +1823,7 @@
             <pc xml:id="FLG_1041160_3" join="left">&gt;</pc>
             <pc xml:id="FLG_1041160_4" join="right">&lt;</pc>
             <w xml:id="FLG_1041160_5" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_80904">frovwe</w>
-            <w xml:id="FLG_1041160_6" pos="NAM">minne</w>
+            <w xml:id="FLG_1041160_6" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
             <pc xml:id="FLG_1041160_7" join="left">,</pc>
             <w xml:id="FLG_1041160_8" pos="PRO">ir</w>
             <w xml:id="FLG_1041160_9" pos="VEX">hant</w>
@@ -1850,7 +1851,7 @@
             <pc xml:id="FLG_1041170_14" join="left">&gt;</pc>
             <pc xml:id="FLG_1041170_15" join="right">&lt;</pc>
             <w xml:id="FLG_1041170_16" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_80904">frovwe</w>
-            <w xml:id="FLG_1041170_17" pos="NAM">minne</w>
+            <w xml:id="FLG_1041170_17" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
             <pc xml:id="FLG_1041170_18" join="left">,</pc>
             <lb n="18"/>
             <w xml:id="FLG_1041180_0" pos="PRO">ir</w>
@@ -1897,7 +1898,7 @@
             <pc xml:id="FLG_1041200_11" join="right">&lt;</pc>
             <w xml:id="FLG_1041200_12" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_80904">frovwe</w>
             <lb n="21"/>
-            <w xml:id="FLG_1041210_0" pos="NAM">minne</w>
+            <w xml:id="FLG_1041210_0" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
             <pc xml:id="FLG_1041210_1" join="left">,</pc>
             <w xml:id="FLG_1041210_2" pos="PRO">ir</w>
             <w xml:id="FLG_1041210_3" pos="VEX">hant</w>
@@ -1935,7 +1936,7 @@
             <pc xml:id="FLG_1041230_4" join="left">&gt;</pc>
             <pc xml:id="FLG_1041230_5" join="right">&lt;</pc>
             <w xml:id="FLG_1041230_6" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_80904">frovwe</w>
-            <w xml:id="FLG_1041230_7" pos="NAM">minne</w>
+            <w xml:id="FLG_1041230_7" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
             <pc xml:id="FLG_1041230_8" join="left">,</pc>
             <w xml:id="FLG_1041230_9" pos="PRO">ir</w>
             <w xml:id="FLG_1041230_10" pos="VEX">hant</w>
@@ -1966,7 +1967,7 @@
             <pc xml:id="FLG_1041250_2" join="left">&gt;</pc>
             <pc xml:id="FLG_1041250_3" join="right">&lt;</pc>
             <w xml:id="FLG_1041250_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_80904">frovwe</w>
-            <w xml:id="FLG_1041250_5" pos="NAM">minne</w>
+            <w xml:id="FLG_1041250_5" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
             <pc xml:id="FLG_1041250_6" join="left">,</pc>
             <w xml:id="FLG_1041250_7" pos="PRO">ir</w>
             <w xml:id="FLG_1041250_8" pos="VRB">sint</w>
@@ -1996,7 +1997,7 @@
             <pc xml:id="FLG_1041260_10" join="left">&gt;</pc>
             <pc xml:id="FLG_1041260_11" join="right">&lt;</pc>
             <w xml:id="FLG_1041260_12" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_80904">frovwe</w>
-            <w xml:id="FLG_1041260_13" pos="NAM">minne</w>
+            <w xml:id="FLG_1041260_13" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
             <pc xml:id="FLG_1041260_14" join="left">,</pc>
             <w xml:id="FLG_1041260_15" lemmaRef="lexicon.xml#lemma_4432" pos="ADV" ana="lexicon.xml#lemma_4432_sense_6912" corresp="variants.xml#type_15441">nu</w>
             <w xml:id="FLG_1041260_16" pos="VEX">hant</w>

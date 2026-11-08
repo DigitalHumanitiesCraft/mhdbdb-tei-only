@@ -160,6 +160,7 @@
     <revisionDesc>
       <change when="2025-07-11" who="#editor">Version 1.0 (11.07.2025): Ergänzt um Editionsangaben, Ontologieverweise, Rollenkennzeichnung der Editor:innen, Klassifikationen, URI sowie GND- und Wikidata-Verlinkung des Autors.</change>
       <change when="2026-10-01" who="#editor">#495: Gattungsklassifikation an das Werk angeglichen (works.xml work_7 Frauenbuch: Minnelehre, Streitgedicht). Der Kopf trug die Gattungen des Frauendiensts (Minnesang, Liebesroman und Abenteuerroman, Brief) samt deren Elternkategorien Höfischer Roman, Mediale Sonderform und Lyrik; Dialogische Kurzform bleibt als Elternkategorie von Streitgedicht.</change>
+      <change when="2026-11-08" who="#editor">#216 Frau Minne: 1 Token auf das Namenlemma lexicon.xml#lemma_79830 (Minne, NAM) gesetzt (1 von lemma_4130 umgehängt). Regel: unmittelbar vorangehendes Token mit lemma_7260, Form ohne -n (Entscheidung chsteiner und K. Zeppezauer-Wachauer 2026-08-31, Umsetzung 2026-11-08; Provenienz-Log: ingest/pos-disambig/216-minne-nam/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -4833,7 +4834,7 @@
         <l n="9">
           <w xml:id="FB_612009_0">sol</w>
           <w xml:id="FB_612009_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25981">frou</w>
-          <w xml:id="FB_612009_2" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
+          <w xml:id="FB_612009_2" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
           <w xml:id="FB_612009_3" lemmaRef="lexicon.xml#lemma_6788" pos="ADJ ADV" ana="lexicon.xml#lemma_6788_sense_10811" corresp="variants.xml#type_23782">veile</w>
           <w xml:id="FB_612009_4">sîn</w>
         </l>

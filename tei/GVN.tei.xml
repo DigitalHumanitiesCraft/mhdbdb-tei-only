@@ -130,6 +130,7 @@
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 3 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
       <change when="2026-09-06" who="#editor">#216 Punkt 3 (vrouwe vor minne): 1 Token der Anredeform vrouwe unmittelbar vor minne erstmals annotiert (lemmaRef/pos/corresp zu vrouwe NOM (lemma_7260)). Kein LLM-Lauf; Verfahren, Herkunft der einzelnen Entscheidungen und zurueckgehaltene Faelle im Provenienz-Log: ingest/pos-disambig/216-vrouwe155/.</change>
       <change when="2026-09-30" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization an den Stand der Annotation angeglichen (5296 von 7126 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;Lemmatisiert, nicht disambiguiert.&#34;</change>
+      <change when="2026-11-08" who="#editor">#216 Frau Minne: 11 Tokens auf das Namenlemma lexicon.xml#lemma_79830 (Minne, NAM) gesetzt (11 neu annotiert). Regel: unmittelbar vorangehendes Token mit lemma_7260, Form ohne -n (Entscheidung chsteiner und K. Zeppezauer-Wachauer 2026-08-31, Umsetzung 2026-11-08; Provenienz-Log: ingest/pos-disambig/216-minne-nam/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -438,7 +439,7 @@
           <hi rend="initial">
             <w xml:id="GVN_104001001_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25983">frouwe</w>
           </hi>
-          <w xml:id="GVN_104001001_1">minne</w>
+          <w xml:id="GVN_104001001_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
           <pc xml:id="GVN_104001001_2" join="left">,</pc>
           <w xml:id="GVN_104001001_3" lemmaRef="lexicon.xml#lemma_6301" pos="VRB" ana="lexicon.xml#lemma_6301_sense_9929" corresp="variants.xml#type_22331">tuot</w>
           <caesura/>
@@ -2027,7 +2028,7 @@
         </l>
         <l n="8">
           <w xml:id="GVN_501008000_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25983">frouwe</w>
-          <w xml:id="GVN_501008000_1">minne</w>
+          <w xml:id="GVN_501008000_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
           <pc xml:id="GVN_501008000_2" join="left">,</pc>
           <w xml:id="GVN_501008000_3" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
           <w xml:id="GVN_501008000_4" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18956">ist</w>
@@ -2264,7 +2265,7 @@
         </l>
         <l n="7">
           <w xml:id="GVN_504007000_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25983">frouwe</w>
-          <w xml:id="GVN_504007000_1">minne</w>
+          <w xml:id="GVN_504007000_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
           <pc xml:id="GVN_504007000_2" join="left">,</pc>
           <w xml:id="GVN_504007000_3" lemmaRef="lexicon.xml#lemma_6223" pos="VRB" corresp="variants.xml#type_21997">troestet</w>
           <w xml:id="GVN_504007000_4" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10226">mich</w>
@@ -5181,7 +5182,7 @@
         </l>
         <l n="9">
           <w xml:id="GVN_1402009000_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25981">frou</w>
-          <w xml:id="GVN_1402009000_1">minne</w>
+          <w xml:id="GVN_1402009000_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
           <pc xml:id="GVN_1402009000_2" join="left">,</pc>
           <w xml:id="GVN_1402009000_3" lemmaRef="lexicon.xml#lemma_722" pos="VRB" corresp="variants.xml#type_2232">bit</w>
           <w xml:id="GVN_1402009000_4" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
@@ -5945,7 +5946,7 @@
           <pc xml:id="GVN_1504007000_2" join="left">,</pc>
           <caesura/>
           <w xml:id="GVN_1504007000_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25983">frouwe</w>
-          <w xml:id="GVN_1504007000_4">minne</w>
+          <w xml:id="GVN_1504007000_4" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
           <pc xml:id="GVN_1504007000_5" join="left">,</pc>
           <w xml:id="GVN_1504007000_6" lemmaRef="lexicon.xml#lemma_9077" pos="PRO IPA" ana="lexicon.xml#lemma_9077_sense_4805" corresp="variants.xml#type_30730">wiech</w>
           <w xml:id="GVN_1504007000_7">si</w>
@@ -5991,7 +5992,7 @@
         </l>
         <l n="3">
           <w xml:id="GVN_1505003000_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25981">frou</w>
-          <w xml:id="GVN_1505003000_1">minne</w>
+          <w xml:id="GVN_1505003000_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
           <w xml:id="GVN_1505003000_2" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
           <w xml:id="GVN_1505003000_3">ir</w>
           <w xml:id="GVN_1505003000_4" lemmaRef="lexicon.xml#lemma_7075" pos="ADJ ADV" ana="lexicon.xml#lemma_7075_sense_11459" corresp="variants.xml#type_25008">vil</w>
@@ -8118,7 +8119,7 @@
         </l>
         <l n="7">
           <w xml:id="GVN_2102007000_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25983">frouwe</w>
-          <w xml:id="GVN_2102007000_1">minne</w>
+          <w xml:id="GVN_2102007000_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
           <pc xml:id="GVN_2102007000_2" join="left">,</pc>
           <w xml:id="GVN_2102007000_3" lemmaRef="lexicon.xml#lemma_1961" pos="VRB" ana="lexicon.xml#lemma_1961_sense_3008" corresp="variants.xml#type_6644">gip</w>
           <w xml:id="GVN_2102007000_4" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10237">mir</w>
@@ -14586,7 +14587,7 @@
         </l>
         <l n="12">
           <w xml:id="GVN_4502012001_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25983">frouwe</w>
-          <w xml:id="GVN_4502012001_1">minne</w>
+          <w xml:id="GVN_4502012001_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
           <pc xml:id="GVN_4502012001_2" join="left">,</pc>
           <w xml:id="GVN_4502012001_3" lemmaRef="lexicon.xml#lemma_1055" pos="ADV" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3258">dar</w>
           <w xml:id="GVN_4502012001_4" lemmaRef="lexicon.xml#lemma_7770" pos="PRP CNJ" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_196209">zuo</w>
@@ -15538,7 +15539,7 @@
           <w xml:id="GVN_4804001001_3" lemmaRef="lexicon.xml#lemma_7292" pos="PRP" ana="lexicon.xml#lemma_7292_sense_11824" corresp="variants.xml#type_26224">für</w>
           <pc xml:id="GVN_4804001001_4" join="left">,</pc>
           <w xml:id="GVN_4804001001_5" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25981">frou</w>
-          <w xml:id="GVN_4804001001_6">minne</w>
+          <w xml:id="GVN_4804001001_6" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
           <pc xml:id="GVN_4804001001_7" join="left">,</pc>
           <w xml:id="GVN_4804001001_8">ob</w>
           <w xml:id="GVN_4804001001_9" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
@@ -15575,7 +15576,7 @@
           <w xml:id="GVN_4804004001_3" lemmaRef="lexicon.xml#lemma_7292" pos="PRP" ana="lexicon.xml#lemma_7292_sense_11824" corresp="variants.xml#type_26224">für</w>
           <pc xml:id="GVN_4804004001_4" join="left">,</pc>
           <w xml:id="GVN_4804004001_5" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25981">frou</w>
-          <w xml:id="GVN_4804004001_6">minne</w>
+          <w xml:id="GVN_4804004001_6" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
           <pc xml:id="GVN_4804004001_7" join="left">,</pc>
           <w xml:id="GVN_4804004001_8">ob</w>
           <w xml:id="GVN_4804004001_9" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
@@ -15879,7 +15880,7 @@
         </l>
         </lg><lg type="stanza" n="187"><l n="1">
           <hi rend="initial">
-            <w xml:id="GVN_4903001001_0">minne</w>
+            <w xml:id="GVN_4903001001_0" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
           </hi>
           <pc xml:id="GVN_4903001001_1" join="left">,</pc>
           <pc xml:id="GVN_4903001001_2" join="right">&lt;</pc>

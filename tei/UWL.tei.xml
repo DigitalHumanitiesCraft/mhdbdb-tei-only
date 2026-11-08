@@ -134,6 +134,7 @@
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 10 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/). 29 weitere Tokens der Form minne blieben bewusst unannotiert (Review).</change>
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 1 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
       <change when="2026-09-30" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization an den Stand der Annotation angeglichen (2266 von 3078 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;Lemmatisiert, nicht disambiguiert.&#34;</change>
+      <change when="2026-11-08" who="#editor">#216 Frau Minne: 2 Tokens auf das Namenlemma lexicon.xml#lemma_79830 (Minne, NAM) gesetzt (2 neu annotiert). Regel: unmittelbar vorangehendes Token mit lemma_7260, Form ohne -n (Entscheidung chsteiner und K. Zeppezauer-Wachauer 2026-08-31, Umsetzung 2026-11-08; Provenienz-Log: ingest/pos-disambig/216-minne-nam/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -250,7 +251,7 @@
           <hi rend="initial">
             <w xml:id="UWL_10000700_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25983">frouwe</w>
           </hi>
-          <w xml:id="UWL_10000700_1">minne</w>
+          <w xml:id="UWL_10000700_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
           <pc xml:id="UWL_10000700_2" join="left">,</pc>
           <w xml:id="UWL_10000700_3" lemmaRef="lexicon.xml#lemma_6327" pos="VRB" corresp="variants.xml#type_22462">twinge</w>
           <w xml:id="UWL_10000700_4">ir</w>
@@ -1200,7 +1201,7 @@
         </l>
         <l n="35">
           <w xml:id="UWL_20003500_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25983">frouwe</w>
-          <w xml:id="UWL_20003500_1">minne</w>
+          <w xml:id="UWL_20003500_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
           <pc xml:id="UWL_20003500_2" join="left">,</pc>
           <w xml:id="UWL_20003500_3">sî</w>
           <w xml:id="UWL_20003500_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>

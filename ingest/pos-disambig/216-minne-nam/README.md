@@ -1,8 +1,10 @@
-# #216 Frau Minne als eigenes NAM-Lemma: Entscheidungsblatt (Phase 1, nichts angewendet)
+# #216 Frau Minne als eigenes NAM-Lemma: Entscheidungsblatt
 
-Stand 2026-11-08, gemessen an `02eb7ebea` (origin/main). Das Skript
-`scripts/ingest/pos-disambig/apply-216-minne-nam.py` läuft als Trockenlauf und
-reproduziert die Menge; `--apply` schreibt, ist aber in diesem Stand nicht gelaufen.
+Stand 2026-11-08. Die Messung stammt von `02eb7ebea` (origin/main), angewendet wurde auf
+`8399c8124`. Das Skript `scripts/ingest/pos-disambig/apply-216-minne-nam.py` läuft als
+Trockenlauf und reproduziert die Menge; `--apply` ist am Ende gelaufen, siehe die
+Abschnitte "Entschieden 08.11." und "Gemessene Endzahlen" unten. Der Text bis dahin ist
+der Stand vor dem Anwenden ("nichts angewendet" dort meint diesen Stand).
 Protokolle dieses Ordners: `protokoll.tsv` (322 Zeilen: 321 NAM plus 1 Verb, jeweils
 Ist-Zustand und Soll-Zustand je Token), `zurueckgehalten.tsv` (3 frô, 2 Verb, 4 Lesefälle
 mit ihrem heutigen Zustand).
@@ -259,11 +261,22 @@ Datei mit 3 neuen und 2 umgehängten Tokens:
 In MR2 kommt der Verbsatz dazu. Das Datum `2026-11-08` ist die Konstante `DATUM` im
 Skript und wird beim Anwenden nachgezogen.
 
-## Für die Entscheidung offen
+## Entschieden 08.11. (Koordination)
 
-1. `--ana alle` (Vorschlag) oder `keine`.
-2. Konzepte des Sense (drei vorgeschlagen), ob 24421000 dazukommt.
-3. orth `Minne` (Vorschlag) oder `minne`.
-4. Quittung für den Umschlag von `mynn` (ich → Minne).
-5. `lemma_4130_sense_83291` stehen lassen (Vorschlag) oder löschen.
-6. Bumpnummern erst unmittelbar vor dem Bump festlegen.
+Die sechs offenen Punkte des Blatts sind entschieden, die Vorschläge oben gelten:
+
+1. `--ana alle`. Begründung: Präzedenz, 179.550 von 179.550 Tokens bei Einzelsense-NAM tragen `@ana`.
+2. Sense-Konzepte 21011000, 22704010, 23112500, ohne 24421000. Begründung: Muster Fortuna (`lemma_15703`) und Venus (`lemma_6810`) mit Weiblich/Frau plus Personennamen. Frau Minne ist eine allegorische Figur, keine Gestalt nichtchristlicher Mythologie.
+3. orth `Minne`, groß wie 99 % der NAM-Einträge.
+4. Der `mynn`-Umschlag ist gewollt (Vorschrift B: 123 gegen 54). Quittung in `scripts/audit/variants-flips-ack.json`.
+5. `lemma_4130_sense_83291` bleibt stehen, keine Löschung. Er hat danach keinen Beleg mehr (`REN_249200_1` war sein einziger).
+6. Bumps erst unmittelbar vor dem Bump festgelegt: offener Kopf PR #690 (HUG) trägt 4.2.36/1.9.33, also Corpus 4.2.37 und Authority 1.9.34.
+
+## Gemessene Endzahlen (angewendet 2026-11-08)
+
+- Angewendet: 322 Tokens in 55 Korpusdateien (321 NAM, 1 Verb), 272 davon mit neuem `@lemmaRef`, 50 von `lemma_4130` umgehängt. `lexicon.xml` +1 Eintrag.
+- `extract-variants.py` (Trockenlauf vor dem `--apply`): added 4, removed 0, form text changed 0, lemma assignment changed 0, token count n changed 3, type ids with >1 lemma 0, verwaiste Typ-Tokens 0. Formen 256.966 auf 256.970, Lemmata mit Varianten 42.459 (Eintrag `lemma_79830` neu), Gesamtzahl der Korpuslemmata laut `validate-indices.py` 42.460.
+- `check-variants-flips.py --base origin/main`: umgeklappt 1 (`mynn`: `lemma_3001` auf `lemma_79830`), durch die Quittung gedeckt.
+- `validate-corpus.py` (alle 675 Dateien): Stage-2-Fehler 0, Stage-1-Fehler 35 (bekannte Baseline).
+- `check-authority-cross-refs.py --check`: OK, Tokens ohne `@corresp` unverändert 652.
+- Versionen: Corpus 4.2.36 auf 4.2.37, Authority 1.9.33 auf 1.9.34.

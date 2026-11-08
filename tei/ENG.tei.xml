@@ -145,6 +145,7 @@
       <change when="2026-08-31" who="#editor">#367 (wâren als Adjektiv): 1 Token der Fügung „der/die wâren minne“ von lemma_7505 wesen (VRB) auf lemma_7338 wâr (ADJ) umannotiert (lemmaRef, pos und corresp; philologische Einzelentscheidung von K. Zeppezauer-Wachauer vom 2026-08-25, kein LLM-Batch; Provenienz-Log: ingest/pos-disambig/367-waeren/).</change>
       <change when="2026-09-30" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization an den Stand der Annotation angeglichen (20792 von 27567 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;Lemmatisiert, aber noch nicht disambiguiert.&#34;</change>
       <change when="2026-10-10" who="#editor">#460 jagen: 3 Tokens als Verbform gelesen, von lemma_3103 jagât (NOM) auf lemma_3102 jagen (VRB) umgehängt, @ana entfällt; neu geprägte Variantentypen nach der Regel aus #367.</change>
+      <change when="2026-11-08" who="#editor">#216 Frau Minne: 2 Tokens auf das Namenlemma lexicon.xml#lemma_79830 (Minne, NAM) gesetzt (2 neu annotiert). Regel: unmittelbar vorangehendes Token mit lemma_7260, Form ohne -n (Entscheidung chsteiner und K. Zeppezauer-Wachauer 2026-08-31, Umsetzung 2026-11-08; Provenienz-Log: ingest/pos-disambig/216-minne-nam/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -7564,7 +7565,7 @@
         <l n="977">
           <w xml:id="ENG_977_0" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
           <w xml:id="ENG_977_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25981">frou</w>
-          <w xml:id="ENG_977_2">minne</w>
+          <w xml:id="ENG_977_2" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
           <w xml:id="ENG_977_3" lemmaRef="lexicon.xml#lemma_1436" pos="VRB" corresp="variants.xml#type_63334">enpfenget</w>
           <pc xml:id="ENG_977_4" join="left">,</pc>
         </l>
@@ -24254,7 +24255,7 @@
           <hi rend="initial">
             <w xml:id="ENG_3171_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25981">frou</w>
           </hi>
-          <w xml:id="ENG_3171_1">minne</w>
+          <w xml:id="ENG_3171_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
           <w xml:id="ENG_3171_2" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
           <w xml:id="ENG_3171_3" lemmaRef="lexicon.xml#lemma_4377" pos="ADJ ADV NEG" ana="lexicon.xml#lemma_4377_sense_6838" corresp="variants.xml#type_15286">niht</w>
           <w xml:id="ENG_3171_4" lemmaRef="lexicon.xml#lemma_7473" pos="VRB VEM" corresp="variants.xml#type_26937">wolte</w>

@@ -133,6 +133,7 @@
       <change when="2026-09-11" who="#editor">#198 Schritt 2: Token DA_8222_3 (habe) von lemma_2598 haben auf lemma_2593 habe umannotiert (@pos NOM VRB VEX zu NOM, @ana auf lemma_2593_sense_4159, @corresp type_8730 zu type_8699). Grundlage: "dehein habe" als NP, Kongruenz des femininen diu mit habe.</change>
       <change when="2026-09-30" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization an den Stand der Annotation angeglichen (39912 von 41033 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;Voll lemmatisiert und disambiguiert.&#34;</change>
       <change when="2026-10-10" who="#editor">#460 jagen: 1 Token als Verbform gelesen, von lemma_3103 jagât (NOM) auf lemma_3102 jagen (VRB) umgehängt, @ana entfällt; neu geprägte Variantentypen nach der Regel aus #367.</change>
+      <change when="2026-11-08" who="#editor">#216 Frau Minne: 1 Token auf das Namenlemma lexicon.xml#lemma_79830 (Minne, NAM) gesetzt (1 von lemma_4130 umgehängt). Regel: unmittelbar vorangehendes Token mit lemma_7260, Form ohne -n (Entscheidung chsteiner und K. Zeppezauer-Wachauer 2026-08-31, Umsetzung 2026-11-08; Provenienz-Log: ingest/pos-disambig/216-minne-nam/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -12586,7 +12587,7 @@
           </hi>
           <w xml:id="DA_1581_1" lemmaRef="lexicon.xml#lemma_1710" pos="VRB" ana="lexicon.xml#lemma_1710_sense_2689" corresp="variants.xml#type_5842">erzeigte</w>
           <w xml:id="DA_1581_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25981">frou</w>
-          <w xml:id="DA_1581_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" ana="lexicon.xml#lemma_4130_sense_6485" corresp="variants.xml#type_14385">minne</w>
+          <w xml:id="DA_1581_3" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
         </l>
         <l n="1582">
           <w xml:id="DA_1582_0" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>

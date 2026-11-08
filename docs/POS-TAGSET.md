@@ -184,6 +184,12 @@ So in *Joie de la Court* (`lemma_3141`) the four tokens read `NAM PRP ART NAM`, 
 
 This is not a new rule, it is the one the tagset already implies, and it was written down after #363 assigned 32 such tags without a sentence in this document to point at. Which tag is right per token follows sec. 1 to sec. 3 as for any other `<w>`.
 
+## 8. Personified Minne as `NAM` (#216)
+
+*minne* directly preceded by a token of `lemma_7260` (*vrouwe*, any spelling) whose own form does not end in -n is the allegorical figure Frau Minne. It is tagged `NAM` under the proper-name lemma `lemma_79830` (*Minne*), with its own sense and its own variant types (chsteiner and KZW, 2026-08-31, applied 2026-11-08). "Directly preceding" is the next `<w>` in document order, across `<pc>`, `<lb>` and `<hi>`. Where the preceding form ends in -n (*vrouwen minne*), the token stays with the abstract noun `lemma_4130` as `NOM`.
+
+The rule is deliberately formal. Cases a reader would have to decide (the reading cases WGA_118600_5, RLS_140304_1, FR1_3026030_4 and FR1_3001060_7, and the three RVBR cases after *frô*) are not covered and stay as annotated. The other personified abstractions (*âventiure*, *sælde*, *êre*, *werlt*) remain `NOM`; no `NAM` lemma exists for them.
+
 ## Cross-references
 
 - [TEI-MODEL.md §4.1a](TEI-MODEL.md#41a-multi-word-lemma-units-425) – how a multi-word lemma unit is encoded, and why `@pos` is per token
