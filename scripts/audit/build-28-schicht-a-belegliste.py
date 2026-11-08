@@ -160,15 +160,16 @@ LATEIN_ERW = set(
 LATEIN_FUNKTION = set(LATEIN_MIN) | set(LATEIN_ERW)
 
 # Eindeutig lateinische Flexionsformen der Ziellemmata. Gelesen am
-# Formeninventar der Beleg-Token je Lemma (engel 32 Formen, lewe 46, creatura
-# 59, item 3, et 3; Inventar mit dem Skript im Docstring nachpruefbar), nur
-# Formen mit lateinischer Endung, die kein mhd. Wort sind. Nicht LATEIN_FORMEN:
+# Formeninventar der Beleg-Token je Lemma (verschiedene normalisierte Formen:
+# engel 32, lewe 46, creatura 59, item 3, et lemma_1732 3), nur Formen mit
+# lateinischer Endung, die kein mhd. Wort sind. Nicht LATEIN_FORMEN:
 # dort stuende auch `et` selbst, und jedes et waere `ja`. Mehrdeutiges
-# (angel, angels, leon, leu, item) bleibt dem Score ueberlassen.
+# (angel, angels, leo, leon, leu, item) bleibt dem Score ueberlassen; `leo`
+# steht auch in deutschen Saetzen ("do der leo daz enphant", LUM_870080_2).
 ZIEL_LATEIN_FORMEN = {
     'lemma_1411': {'angeli', 'angelice', 'angelicis', 'angelis', 'angelo',
                    'angelorum', 'angelum', 'angelus'},
-    'lemma_3726': {'leo', 'leonis', 'leonum', 'leone'},
+    'lemma_3726': {'leonis', 'leonum', 'leone'},
     'lemma_1033': {'creatura'},
 }
 
@@ -222,6 +223,8 @@ PRUEFSET = [
     ('id', 'ADP_107800_6', 'ja'),     # angeli
     ('id', 'MML_110214_1', 'ja'),     # angelus
     ('id', 'WGA_401900_1', 'nein'),
+    ('id', 'FDS_507001_3', 'nein'),   # "da von golde ein leo gechroenet"
+    ('id', 'LUM_870080_2', 'nein'),   # "do der leo daz enphant"
 ]
 
 
@@ -307,7 +310,7 @@ def sammle_formen(dateien):
 def bereite_vor(dateien):
     """Pass 1 plus Bereinigung der Erweiterungsliste von mhd. Homographen."""
     andere = sammle_formen(dateien)
-    raus = sorted(LATEIN_ERW & andere)
+    raus = sorted((LATEIN_ERW & andere) - LATEIN_MIN)
     LATEIN_FUNKTION.clear()
     LATEIN_FUNKTION.update(LATEIN_MIN | (LATEIN_ERW - andere))
     print(f'LATEIN_FORMEN: {len(LATEIN_FORMEN)} Formen aus {len(LATEIN_LEMMAS)} Latein-Lemmata')
