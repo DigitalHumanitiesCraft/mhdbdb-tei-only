@@ -285,6 +285,7 @@ Completeness against `testing/tests/` is gated by `scripts/audit/check-doc-inven
 | `cooccurrence-ranking.spec.js` | Playground | Co-occurrence ranking and homograph resolution of the multi-lemma search (#163/#164) |
 | `proximity-and-resolution.spec.js` | Playground | Proximity window for three or more lemmata, overlap dedup, lemma resolution (#169) |
 | `multi-lemma-verse.spec.js` | Playground | Search mode „Im selben Vers" over `lineStarts[]`/`lineEnds[]` (#106) |
+| `multi-lemma-link-vorlage.spec.js` | Playground | Begriffshilfe link pattern (#498): the multi-lemma link without `&mode=` opens a proximity search with both words and the distance, also when its separators arrive HTML-escaped as `&amp;` or `&#38;`, and with an umlaut lemma |
 | `rhyme-dictionary.spec.js` | Playground | Rhyme dictionary: verse-ending scan plus suffix heuristic (#106) |
 | `verse-ending-profile.spec.js` | Playground | Verse-ending profile: top-N lemmata at verse ends, scope selector (#106) |
 | `hapax-legomena.spec.js` | Playground | Corpus-wide hapax/dis/tris aggregation, filter toolbar, detail panel (#196) |
