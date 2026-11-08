@@ -13,7 +13,7 @@ Mechanisch, ohne Eingriff in Wortgrenzen:
   (household, kitchenTip, medicinal, ...), verschachtelte <ab> als verschachteltes
   <div>; ein Titel am Rezeptanfang = <head>; <pb n> = <pb n>; Titel, Einleitung
   (seg ana=intro/close) und Datumszeile auf Ebene des aeusseren <div> = <head>
-  bzw. <ab type>; <note xml:lang="de"> = <note type="editorial-de"> (das Schema
+  bzw. <ab type>; <note xml:lang="de|en"> = <note type="editorial-de|editorial-en"> (das Schema
   kennt an <note> kein @xml:lang), nicht tokenisiert, ein <ref target> darin als
   Zeile "note/ref" in der Tabelle; <foreign xml:lang> setzt @xml:lang an den <w>.
 Die semantische Auszeichnung (ingredient, tool, dish, instruction, opener, closer,

@@ -15,9 +15,9 @@ Artefakte der Stufe 0 für den CoReMA-Pilot aus Issue [#139](https://github.com/
 |---|---:|---:|---:|---:|---:|---:|---|
 | COR_BS1 | 1 | 24 031 | 627 | 306 (269 + 37) | 183 | 7 622 | ja |
 | COR_GR1 | 1 | 24 300 | 111 | 284 (254 + 30) | 154 | 7 750 | ja |
-| COR_M11 | 1 | 8 046 | 666 | 101 (98 + 3) | 20 | 2 770 | ja |
+| COR_M11 | 1 | 8 046 | 666 | 101 (98 + 3) | 20 | 2 771 | ja |
 | COR_W1 | 1 | 18 729 | 24 | 278 (263 + 15) | 58 | 6 492 | ja |
-| zusammen | 4 | 75 106 | 1 428 | 969 (884 + 85) | 415 | 24 634 | 4 von 4 |
+| zusammen | 4 | 75 106 | 1 428 | 969 (884 + 85) | 415 | 24 635 | 4 von 4 |
 
 Stand 2026-11-08, gemessen mit `01-convert-corema-to-mhdbdb.py --buch alle`. Die Quelle stammt aus dem lokalen CoReMA-Datenrepository, das sich laufend ändert, `quellen.tsv` nennt die gelesenen Stände.
 
