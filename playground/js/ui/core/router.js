@@ -121,10 +121,9 @@ export function getNavigationEpoch() {
 
 /** Parse the current hash into { view, params }, or null if empty. */
 export function parseHash() {
-  // HTML-escapte Trenner (&amp; / &#38;) wie & behandeln: so entstehen Links
-  // beim Kopieren aus HTML-Ausgaben (#498). Ein literales & im Wert steht
-  // als %26 im Hash und bleibt unberührt.
-  const hash = window.location.hash.slice(1).replace(/&(?:amp|#0*38|#x0*26);/gi, '&'); // strip leading '#'
+  // Leading '#' weg; HTML-escapte Trenner (&amp;, &#38;, &#x26;) wie & behandeln (#498).
+  // Werte schreibt der Playground mit encodeURIComponent, ein & darin steht als %26.
+  const hash = window.location.hash.slice(1).replace(/&(?:amp|#0*38|#x0*26);/gi, '&');
   if (!hash) return null;
 
   const parts = hash.split('&');
