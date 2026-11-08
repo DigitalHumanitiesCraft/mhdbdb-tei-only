@@ -60,7 +60,7 @@ Eight authority files – seven content-bearing controlled vocabularies (in the 
 
 All files use namespace `xmlns="http://www.tei-c.org/ns/1.0"`.
 
-#### lexicon.xml (~34 MB, 43,711 entries)
+#### lexicon.xml (~34 MB, 43,712 entries)
 
 ```xml
 <TEI><text><body><div type="lexicon">
@@ -166,7 +166,7 @@ Notes: Multiple sigles per work (editions). GND/Wikidata may be full URLs or bar
 | genres.xml | `genre_{hex}` | – (but many broader pointers, polyhierarchical) |
 | names.xml | `name_{numeric}` | `exactMatch`, `closeMatch` → `concepts.xml#...` |
 
-#### variants.xml (~18 MB, 256,966 variant forms)
+#### variants.xml (~18 MB, 256,970 variant forms)
 
 ```xml
 <TEI><text><body><div type="orthographicVariants">
@@ -520,7 +520,7 @@ Three core build scripts:
 Third derived layer beside the two indexes. Reads **only** the two pre-built indexes (`data/authority-index.json.gz` + `data/corpus-index.json.gz`), never the XML sources, and emits a static JSON API into `api/` (one file per record except the lemmata; record counts in `api/index.json`), served as plain files by GitHub Pages:
 
 - `api/index.json` – root manifest (collection counts, source index versions)
-- `api/lemmata/index.json` – full lemma records as one bundle (43,711 records, no individual files)
+- `api/lemmata/index.json` – full lemma records as one bundle (43,712 records, no individual files)
 - `api/<coll>/{id}.json` + `api/<coll>/index.json` (summary list) for persons, works, concepts, genres, names, texts (texts stripped of the heavy `words`/`lemmata`/`lineStarts`/`lineEnds` arrays)
 - every emitted file carries `"license": "CC BY-NC-SA 4.0"`; `persons.works` is normalized from comma-string to array
 
@@ -574,7 +574,7 @@ Build properties: deterministic on the #125 principle (no timestamps, compact JS
 
 #### Curated lexicon fields (#268, since authority index v1.7.0)
 
-The three productions marked „curated" (`etym[@type="borrowing"]`, `def`, `note[@type="comment"]`) are the only ones in the lexicon carrying editorial prose instead of classification. The build writes the corresponding index fields **only where they actually stand in the XML**: empty keys on every lemma entry would inflate index and API for nothing. As of 2026-10-20 a comment stands on 134 of 43,711 lemmata, a definition on 2 and an origin on 1, so consumers have to treat the fields as optional, never as a promise per record. Normative: [CONTRACTS.md §G.3](CONTRACTS.md#g3-field-schemas). The `@resp` values land in the index unchanged as `contributors.xml#contrib_N`. Since authority index 1.9.10 (#270, ADR-018) the build also resolves the comment's `@resp` through `contributors.xml` and writes the display name next to it as `sense.commentRespName`; an id it cannot resolve stops the build. Since 1.9.15 it does the same for `definitionResp` (`sense.definitionRespName`) and `origin.resp` (`origin.respName`), with the same stop. `contributors.xml` itself is still not indexed as a collection.
+The three productions marked „curated" (`etym[@type="borrowing"]`, `def`, `note[@type="comment"]`) are the only ones in the lexicon carrying editorial prose instead of classification. The build writes the corresponding index fields **only where they actually stand in the XML**: empty keys on every lemma entry would inflate index and API for nothing. As of 2026-10-20 a comment stands on 134 lemmata, a definition on 2 and an origin on 1, so consumers have to treat the fields as optional, never as a promise per record. Normative: [CONTRACTS.md §G.3](CONTRACTS.md#g3-field-schemas). The `@resp` values land in the index unchanged as `contributors.xml#contrib_N`. Since authority index 1.9.10 (#270, ADR-018) the build also resolves the comment's `@resp` through `contributors.xml` and writes the display name next to it as `sense.commentRespName`; an id it cannot resolve stops the build. Since 1.9.15 it does the same for `definitionResp` (`sense.definitionRespName`) and `origin.resp` (`origin.respName`), with the same stop. `contributors.xml` itself is still not indexed as a collection.
 
 #### Namespace Handling
 

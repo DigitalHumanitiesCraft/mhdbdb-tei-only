@@ -135,6 +135,7 @@
       <change when="2026-09-21" who="#editor">#371 stat, drittes Lemma: 4 bislang unlemmatisierte Tokens der Form stat/stât annotiert (lemmaRef/pos/corresp nach dem actions-Array in KZWs Review vom 15.09.2026; drei neu gepraegte Variantentypen; kein @ana, weil die Sense-Zuordnung kuratorisch ist; die 17 Faelle mit option OFFEN und die 2 mit NEU_STAND bleiben unangetastet; Provenienz-Log: ingest/pos-disambig/371-stat/).</change>
       <change when="2026-09-30" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization an den Stand der Annotation angeglichen (85595 von 111684 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;Voll lemmatisiert, aber nicht disambiguiert.&#34;</change>
       <change when="2026-10-10" who="#editor">#460 jagen: 8 Tokens als Verbform gelesen, von lemma_3103 jagât (NOM) auf lemma_3102 jagen (VRB) umgehängt, @ana entfällt; neu geprägte Variantentypen nach der Regel aus #367.</change>
+      <change when="2026-11-08" who="#editor">#216 Frau Minne: 18 Tokens auf das Namenlemma lexicon.xml#lemma_79830 (Minne, NAM) gesetzt (18 von lemma_4130 umgehängt). Regel: unmittelbar vorangehendes Token mit lemma_7260, Form ohne -n (Entscheidung chsteiner und K. Zeppezauer-Wachauer 2026-08-31, Umsetzung 2026-11-08; Provenienz-Log: ingest/pos-disambig/216-minne-nam/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -71589,7 +71590,7 @@
         </l>
           <l n="4">
           <w xml:id="PZ_28804_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25989">vrou</w>
-          <w xml:id="PZ_28804_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
+          <w xml:id="PZ_28804_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
           <w xml:id="PZ_28804_2" lemmaRef="lexicon.xml#lemma_1517" pos="PRO" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_32780">im</w>
           <w xml:id="PZ_28804_3" lemmaRef="lexicon.xml#lemma_207" pos="ADV" ana="lexicon.xml#lemma_207_sense_259" corresp="variants.xml#type_556">anders</w>
           <w xml:id="PZ_28804_4" lemmaRef="lexicon.xml#lemma_3530" pos="NOM" corresp="variants.xml#type_12257">kumbers</w>
@@ -71801,7 +71802,7 @@
         </l>
           <l n="30">
           <w xml:id="PZ_28830_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25989">vrou</w>
-          <w xml:id="PZ_28830_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
+          <w xml:id="PZ_28830_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
           <w xml:id="PZ_28830_2">in</w>
           <w xml:id="PZ_28830_3" lemmaRef="lexicon.xml#lemma_5824" pos="VRB" corresp="variants.xml#type_20529">stricte</w>
           <w xml:id="PZ_28830_4" lemmaRef="lexicon.xml#lemma_199" pos="PRP" ana="lexicon.xml#lemma_199_sense_248" corresp="variants.xml#type_522">an</w>
@@ -72340,7 +72341,7 @@
         <div type="chapter" subtype="dreissiger" n="291">
           <l n="1">
           <w xml:id="PZ_29101_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25989">vrou</w>
-          <w xml:id="PZ_29101_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
+          <w xml:id="PZ_29101_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
           <pc xml:id="PZ_29101_2" join="left">,</pc>
           <w xml:id="PZ_29101_3" lemmaRef="lexicon.xml#lemma_7608" pos="ADV IPA" ana="lexicon.xml#lemma_7608_sense_12462" corresp="variants.xml#type_27506">wie</w>
           <w xml:id="PZ_29101_4" lemmaRef="lexicon.xml#lemma_6301" pos="VRB" ana="lexicon.xml#lemma_6301_sense_9929" corresp="variants.xml#type_22331">tuot</w>
@@ -72378,7 +72379,7 @@
           <w xml:id="PZ_29105_3" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3398">daz</w>
           <pc xml:id="PZ_29105_4" join="left">,</pc>
           <w xml:id="PZ_29105_5" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25989">vrou</w>
-          <w xml:id="PZ_29105_6" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
+          <w xml:id="PZ_29105_6" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
           <pc xml:id="PZ_29105_7" join="left">,</pc>
         </l>
           <l n="6">
@@ -72448,7 +72449,7 @@
         </l>
           <l n="15">
           <w xml:id="PZ_29115_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25989">vrou</w>
-          <w xml:id="PZ_29115_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
+          <w xml:id="PZ_29115_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
           <pc xml:id="PZ_29115_2" join="left">,</pc>
           <w xml:id="PZ_29115_3">ir</w>
           <w xml:id="PZ_29115_4" lemmaRef="lexicon.xml#lemma_2598" pos="VRB VEX" corresp="variants.xml#type_8740">habet</w>
@@ -72481,7 +72482,7 @@
         </l>
           <l n="19">
           <w xml:id="PZ_29119_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25989">vrou</w>
-          <w xml:id="PZ_29119_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
+          <w xml:id="PZ_29119_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
           <pc xml:id="PZ_29119_2" join="left">,</pc>
           <w xml:id="PZ_29119_3">ir</w>
           <w xml:id="PZ_29119_4" lemmaRef="lexicon.xml#lemma_4649" pos="VRB" corresp="variants.xml#type_16030">phleget</w>
@@ -72551,7 +72552,7 @@
         </l>
           <l n="28">
           <w xml:id="PZ_29128_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25989">vrou</w>
-          <w xml:id="PZ_29128_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
+          <w xml:id="PZ_29128_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
           <pc xml:id="PZ_29128_2" join="left">,</pc>
           <w xml:id="PZ_29128_3" lemmaRef="lexicon.xml#lemma_56117" pos="PRO" ana="lexicon.xml#lemma_56117_sense_90961" corresp="variants.xml#type_304930">iu</w>
           <w xml:id="PZ_29128_4">solde</w>
@@ -72580,7 +72581,7 @@
         <div type="chapter" subtype="dreissiger" n="292">
           <l n="1">
           <w xml:id="PZ_29201_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25989">vrou</w>
-          <w xml:id="PZ_29201_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
+          <w xml:id="PZ_29201_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
           <pc xml:id="PZ_29201_2" join="left">,</pc>
           <w xml:id="PZ_29201_3" lemmaRef="lexicon.xml#lemma_5434" pos="ADV PRP CNJ" ana="lexicon.xml#lemma_5434_sense_8481" corresp="variants.xml#type_18992">sît</w>
           <w xml:id="PZ_29201_4">ir</w>
@@ -72810,7 +72811,7 @@
           <w xml:id="PZ_29227_3" lemmaRef="lexicon.xml#lemma_56117" pos="PRO" ana="lexicon.xml#lemma_56117_sense_90961" corresp="variants.xml#type_304930">iu</w>
           <pc xml:id="PZ_29227_4" join="left">,</pc>
           <w xml:id="PZ_29227_5" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25989">vrou</w>
-          <w xml:id="PZ_29227_6" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
+          <w xml:id="PZ_29227_6" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
           <pc xml:id="PZ_29227_7" join="left">.</pc>
         </l>
           <l n="28">
@@ -72879,7 +72880,7 @@
         </l>
           <l n="5">
           <w xml:id="PZ_29305_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25989">vrou</w>
-          <w xml:id="PZ_29305_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
+          <w xml:id="PZ_29305_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
           <pc xml:id="PZ_29305_2" join="left">,</pc>
           <w xml:id="PZ_29305_3">ir</w>
           <w xml:id="PZ_29305_4" lemmaRef="lexicon.xml#lemma_6301" pos="VRB" ana="lexicon.xml#lemma_6301_sense_9929" corresp="variants.xml#type_22311">tâtet</w>
@@ -73272,7 +73273,7 @@
         </l>
           <l n="21">
           <w xml:id="PZ_29421_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25989">vrou</w>
-          <w xml:id="PZ_29421_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
+          <w xml:id="PZ_29421_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
           <pc xml:id="PZ_29421_2" join="left">,</pc>
           <w xml:id="PZ_29421_3">hie</w>
           <w xml:id="PZ_29421_4" lemmaRef="lexicon.xml#lemma_5366" pos="VRB" ana="lexicon.xml#lemma_5366_sense_8382" corresp="variants.xml#type_18716">seht</w>
@@ -73320,7 +73321,7 @@
         </l>
           <l n="26">
           <w xml:id="PZ_29426_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25989">vrou</w>
-          <w xml:id="PZ_29426_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
+          <w xml:id="PZ_29426_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
           <pc xml:id="PZ_29426_2" join="left">,</pc>
           <w xml:id="PZ_29426_3" lemmaRef="lexicon.xml#lemma_3567" pos="VRB" corresp="variants.xml#type_12420">lât</w>
           <w xml:id="PZ_29426_4" lemmaRef="lexicon.xml#lemma_5445" pos="PRO" ana="lexicon.xml#lemma_5445_sense_8495" corresp="variants.xml#type_19017">sich</w>
@@ -74716,7 +74717,7 @@
           <w xml:id="PZ_30014_0" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3256">dâ</w>
           <w xml:id="PZ_30014_1" lemmaRef="lexicon.xml#lemma_6301" pos="NOM VRB" ana="lexicon.xml#lemma_6301_sense_9929" corresp="variants.xml#type_22319">tet</w>
           <w xml:id="PZ_30014_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25989">vrou</w>
-          <w xml:id="PZ_30014_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
+          <w xml:id="PZ_30014_3" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
           <w xml:id="PZ_30014_4">ir</w>
           <w xml:id="PZ_30014_5">ellen</w>
           <w xml:id="PZ_30014_6" lemmaRef="lexicon.xml#lemma_5226" pos="NOM" corresp="variants.xml#type_18156">schîn</w>
@@ -98970,7 +98971,7 @@
           <w xml:id="PZ_39621_0" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3256">dâ</w>
           <w xml:id="PZ_39621_1" lemmaRef="lexicon.xml#lemma_4063" pos="VRB" corresp="variants.xml#type_14179">meisterte</w>
           <w xml:id="PZ_39621_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25989">vrou</w>
-          <w xml:id="PZ_39621_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
+          <w xml:id="PZ_39621_3" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
         </l>
           <l n="22">
           <w xml:id="PZ_39622_0" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
@@ -146283,7 +146284,7 @@
           <w xml:id="PZ_58426_0" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3256">dâ</w>
           <w xml:id="PZ_58426_1" lemmaRef="lexicon.xml#lemma_6301" pos="VRB" ana="lexicon.xml#lemma_6301_sense_9929" corresp="variants.xml#type_22331">tuot</w>
           <w xml:id="PZ_58426_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25989">vrou</w>
-          <w xml:id="PZ_58426_3" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
+          <w xml:id="PZ_58426_3" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
           <w xml:id="PZ_58426_4">ir</w>
           <w xml:id="PZ_58426_5" lemmaRef="lexicon.xml#lemma_7914" pos="NOM VRB" ana="lexicon.xml#lemma_7914_sense_12977" corresp="variants.xml#type_28760">zürnen</w>
           <w xml:id="PZ_58426_6" lemmaRef="lexicon.xml#lemma_5226" pos="NOM" corresp="variants.xml#type_18156">schîn</w>
@@ -146351,7 +146352,7 @@
         </l>
           <l n="5">
           <w xml:id="PZ_58505_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25989">vrou</w>
-          <w xml:id="PZ_58505_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
+          <w xml:id="PZ_58505_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
           <pc xml:id="PZ_58505_2" join="left">,</pc>
           <w xml:id="PZ_58505_3">welt</w>
           <w xml:id="PZ_58505_4">ir</w>
@@ -146758,7 +146759,7 @@
         </l>
           <l n="26">
           <w xml:id="PZ_58626_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25989">vrou</w>
-          <w xml:id="PZ_58626_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
+          <w xml:id="PZ_58626_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
           <pc xml:id="PZ_58626_2" join="left">,</pc>
           <w xml:id="PZ_58626_3">ir</w>
           <w xml:id="PZ_58626_4" lemmaRef="lexicon.xml#lemma_6042" pos="VRB" corresp="variants.xml#type_21297">teiltet</w>
@@ -146790,7 +146791,7 @@
         </l>
           <l n="30">
           <w xml:id="PZ_58630_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25989">vrou</w>
-          <w xml:id="PZ_58630_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" corresp="variants.xml#type_14385">minne</w>
+          <w xml:id="PZ_58630_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
           <pc xml:id="PZ_58630_2" join="left">,</pc>
           <w xml:id="PZ_58630_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
           <w xml:id="PZ_58630_4" lemmaRef="lexicon.xml#lemma_7473" pos="VRB VEM" corresp="variants.xml#type_26934">woldet</w>

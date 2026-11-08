@@ -132,6 +132,7 @@
       <change when="2026-09-23" who="#editor">#357: REN_242090_0 'ingligar von jelezie' zeigt mit @ana auf den neuen Sense lemma_3036_sense_119195 (Menschenname) statt auf den Pferdenamen-Sense von Ingliart. Lemma und Variantentyp bleiben (Entscheidung KZW 14.09.2026, ADR-020: ein Name, mehrere Entitäten, Unterscheidung im Sense); das Konzept folgt den Nachbarn im selben Namenkatalog.</change>
       <change when="2026-09-30" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization an den Stand der Annotation angeglichen (122439 von 161760 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;Noch nicht lemmatisiert und disambiguiert.&#34;</change>
       <change when="2026-10-10" who="#editor">#460 jagen: 4 Tokens als Verbform gelesen, von lemma_3103 jagât (NOM) auf lemma_3102 jagen (VRB) umgehängt, @ana entfällt; neu geprägte Variantentypen nach der Regel aus #367.</change>
+      <change when="2026-11-08" who="#editor">#216 Frau Minne: 6 Tokens auf das Namenlemma lexicon.xml#lemma_79830 (Minne, NAM) gesetzt (5 neu annotiert, 1 von lemma_4130 umgehängt). Regel: unmittelbar vorangehendes Token mit lemma_7260, Form ohne -n (Entscheidung chsteiner und K. Zeppezauer-Wachauer 2026-08-31, Umsetzung 2026-11-08; Provenienz-Log: ingest/pos-disambig/216-minne-nam/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -207440,7 +207441,7 @@
         </l>
         <l n="24920">
           <w xml:id="REN_249200_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25988">vrawe</w>
-          <w xml:id="REN_249200_1" lemmaRef="lexicon.xml#lemma_4130" pos="NOM" ana="lexicon.xml#lemma_4130_sense_83291" corresp="variants.xml#type_14385">minne</w>
+          <w xml:id="REN_249200_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
           <pc xml:id="REN_249200_2" join="left">,</pc>
           <w xml:id="REN_249200_3" lemmaRef="lexicon.xml#lemma_4330" pos="VRB" corresp="variants.xml#type_15091">nim</w>
           <w xml:id="REN_249200_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
@@ -263402,7 +263403,7 @@
           <hi rend="initial">
             <w xml:id="REN_316400_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_112363">vrau</w>
           </hi>
-          <w xml:id="REN_316400_1">minne</w>
+          <w xml:id="REN_316400_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
           <pc xml:id="REN_316400_2" join="left">,</pc>
           <w xml:id="REN_316400_3" lemmaRef="lexicon.xml#lemma_1242" pos="PRO" ana="lexicon.xml#lemma_1242_sense_1958" corresp="variants.xml#type_3956">dich</w>
           <w xml:id="REN_316400_4" lemmaRef="lexicon.xml#lemma_5863" pos="NOM VRB" ana="lexicon.xml#lemma_5863_sense_9282" corresp="variants.xml#type_72542">suene</w>
@@ -263646,7 +263647,7 @@
         </l>
         <l n="31671">
           <w xml:id="REN_316710_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_112363">vrau</w>
-          <w xml:id="REN_316710_1">minne</w>
+          <w xml:id="REN_316710_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
           <pc xml:id="REN_316710_2" join="left">,</pc>
           <w xml:id="REN_316710_3">heiz</w>
           <w xml:id="REN_316710_4" lemmaRef="lexicon.xml#lemma_5295" pos="VRB" corresp="variants.xml#type_105447">shawen</w>
@@ -263969,7 +263970,7 @@
           <hi rend="initial">
             <w xml:id="REN_317100_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_112363">vrau</w>
           </hi>
-          <w xml:id="REN_317100_1">minne</w>
+          <w xml:id="REN_317100_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
           <pc xml:id="REN_317100_2" join="left">,</pc>
           <w xml:id="REN_317100_3" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
           <w xml:id="REN_317100_4" lemmaRef="lexicon.xml#lemma_7473" pos="VRB VEM" corresp="variants.xml#type_26922">wil</w>
@@ -266471,7 +266472,7 @@
           <w xml:id="REN_320130_1">riet</w>
           <w xml:id="REN_320130_2" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10237">mir</w>
           <w xml:id="REN_320130_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_112363">vrau</w>
-          <w xml:id="REN_320130_4">minne</w>
+          <w xml:id="REN_320130_4" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
           <pc xml:id="REN_320130_5" join="left">,</pc>
         </l>
         <l n="32014">
@@ -268494,7 +268495,7 @@
           <w xml:id="REN_322600_3" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3255">da</w>
           <w xml:id="REN_322600_4" lemmaRef="lexicon.xml#lemma_3400" pos="VRB" ana="lexicon.xml#lemma_3400_sense_5361" corresp="variants.xml#type_11688">kam</w>
           <w xml:id="REN_322600_5" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_112363">vrau</w>
-          <w xml:id="REN_322600_6">minne</w>
+          <w xml:id="REN_322600_6" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
         </l>
         <l n="32261">
           <w xml:id="REN_322610_0" lemmaRef="lexicon.xml#lemma_7677" pos="NOM ADV" ana="lexicon.xml#lemma_7677_sense_12586" corresp="variants.xml#type_27811">wol</w>

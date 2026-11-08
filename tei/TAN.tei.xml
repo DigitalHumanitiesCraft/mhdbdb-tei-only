@@ -128,6 +128,7 @@
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 96 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
       <change when="2026-09-30" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization an den Stand der Annotation angeglichen (60793 von 80520 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;Lemmatisiert, aber nicht disambiguiert.&#34;</change>
       <change when="2026-10-10" who="#editor">#460 jagen: 2 Tokens als Verbform gelesen, von lemma_3103 jagât (NOM) auf lemma_3102 jagen (VRB) umgehängt, @ana entfällt; neu geprägte Variantentypen nach der Regel aus #367.</change>
+      <change when="2026-11-08" who="#editor">#216 Frau Minne: 3 Tokens auf das Namenlemma lexicon.xml#lemma_79830 (Minne, NAM) gesetzt (3 neu annotiert). Regel: unmittelbar vorangehendes Token mit lemma_7260, Form ohne -n (Entscheidung chsteiner und K. Zeppezauer-Wachauer 2026-08-31, Umsetzung 2026-11-08; Provenienz-Log: ingest/pos-disambig/216-minne-nam/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -6630,7 +6631,7 @@
         </l>
         <l n="829">
           <w xml:id="TAN_8290_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25999">vrow</w>
-          <w xml:id="TAN_8290_1">minne</w>
+          <w xml:id="TAN_8290_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
           <pc xml:id="TAN_8290_2" join="left">,</pc>
           <w xml:id="TAN_8290_3" lemmaRef="lexicon.xml#lemma_7505" pos="VRB" corresp="variants.xml#type_27180">wis</w>
           <w xml:id="TAN_8290_4" lemmaRef="lexicon.xml#lemma_3001" pos="POS" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10218">mîn</w>
@@ -6741,7 +6742,7 @@
         </l>
         <l n="842">
           <w xml:id="TAN_8420_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25999">vrow</w>
-          <w xml:id="TAN_8420_1">minne</w>
+          <w xml:id="TAN_8420_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
           <pc xml:id="TAN_8420_2" join="left">,</pc>
           <w xml:id="TAN_8420_3" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
           <w xml:id="TAN_8420_4" lemmaRef="lexicon.xml#lemma_6250" pos="VRB" corresp="variants.xml#type_37431">trowe</w>
@@ -114011,7 +114012,7 @@
         </l>
         <l n="14237">
           <w xml:id="TAN_142370_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25989">vrou</w>
-          <w xml:id="TAN_142370_1">minne</w>
+          <w xml:id="TAN_142370_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
           <w xml:id="TAN_142370_2">ir</w>
           <w xml:id="TAN_142370_3" lemmaRef="lexicon.xml#lemma_4065" pos="NOM" ana="lexicon.xml#lemma_4065_sense_6388" corresp="variants.xml#type_14181">meisterschaft</w>
           <w xml:id="TAN_142370_4" lemmaRef="lexicon.xml#lemma_4377" pos="ADJ ADV NEG" ana="lexicon.xml#lemma_4377_sense_6838" corresp="variants.xml#type_15286">niht</w>

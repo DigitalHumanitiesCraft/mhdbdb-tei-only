@@ -153,6 +153,7 @@
       <change when="2026-09-21" who="#editor">#371 stat, drittes Lemma: 1 bislang unlemmatisierte Tokens der Form stat/stât annotiert (lemmaRef/pos/corresp nach dem actions-Array in KZWs Review vom 15.09.2026; drei neu gepraegte Variantentypen; kein @ana, weil die Sense-Zuordnung kuratorisch ist; die 17 Faelle mit option OFFEN und die 2 mit NEU_STAND bleiben unangetastet; Provenienz-Log: ingest/pos-disambig/371-stat/).</change>
       <change when="2026-09-30" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization an den Stand der Annotation angeglichen (263524 von 344497 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;Nur teilweise lemmatisiert und nicht disambiguiert.&#34;</change>
       <change when="2026-10-10" who="#editor">#461 gebeine: 1 Token mit Säugetierknochen auf den neuen Sense lemma_1958_sense_119196 (concept_14011100) gesetzt.</change>
+      <change when="2026-11-08" who="#editor">#216 Frau Minne: 2 Tokens auf das Namenlemma lexicon.xml#lemma_79830 (Minne, NAM) gesetzt (2 neu annotiert). Regel: unmittelbar vorangehendes Token mit lemma_7260, Form ohne -n (Entscheidung chsteiner und K. Zeppezauer-Wachauer 2026-08-31, Umsetzung 2026-11-08; Provenienz-Log: ingest/pos-disambig/216-minne-nam/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -140373,7 +140374,7 @@
         <l n="18185">
           <w xml:id="OVG_1818500_0" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10226">mich</w>
           <w xml:id="OVG_1818500_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25983">frouwe</w>
-          <w xml:id="OVG_1818500_2">minne</w>
+          <w xml:id="OVG_1818500_2" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
           <w xml:id="OVG_1818500_3">unde</w>
           <w xml:id="OVG_1818500_4" lemmaRef="lexicon.xml#lemma_5693" pos="VRB" ana="lexicon.xml#lemma_5693_sense_8912" corresp="variants.xml#type_19957">sprach</w>
           <pc xml:id="OVG_1818500_5" join="left">:</pc>
@@ -140823,7 +140824,7 @@
           <pc xml:id="OVG_1824100_4" join="left">,</pc>
           <w xml:id="OVG_1824100_5" lemmaRef="lexicon.xml#lemma_3001" pos="POS" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10218">mîn</w>
           <w xml:id="OVG_1824100_6" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25983">frouwe</w>
-          <w xml:id="OVG_1824100_7">minne</w>
+          <w xml:id="OVG_1824100_7" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
           <pc xml:id="OVG_1824100_8" join="left">,</pc>
         </l>
         <l n="18242">

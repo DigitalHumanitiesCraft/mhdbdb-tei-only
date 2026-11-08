@@ -128,6 +128,7 @@
       <change when="2026-09-30" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization an den Stand der Annotation angeglichen (26353 von 36054 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;Teilweise lemmatisiert, nicht disambiguiert.&#34;</change>
       <change when="2026-10-01" who="#editor">#228: 15 Ziffern in supplied (Zählung der Edition) entannotiert: lemmaRef, pos, ana und corresp entfallen, die Ziffer bleibt stehen. Entscheidung KZW 25.09.2026: Ziffern sind keine Lemmata.</change>
       <change when="2026-10-10" who="#editor">#460 jagen: 1 Token als Verbform gelesen, von lemma_3103 jagât (NOM) auf lemma_3102 jagen (VRB) umgehängt, @ana entfällt; neu geprägte Variantentypen nach der Regel aus #367.</change>
+      <change when="2026-11-08" who="#editor">#216 Frau Minne: 98 Tokens auf das Namenlemma lexicon.xml#lemma_79830 (Minne, NAM) gesetzt (98 neu annotiert). Regel: unmittelbar vorangehendes Token mit lemma_7260, Form ohne -n (Entscheidung chsteiner und K. Zeppezauer-Wachauer 2026-08-31, Umsetzung 2026-11-08; Provenienz-Log: ingest/pos-disambig/216-minne-nam/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -63732,7 +63733,7 @@
             <w xml:id="MR1_110141021700_1" lemmaRef="lexicon.xml#lemma_2326" pos="ADJ ADV" ana="lexicon.xml#lemma_2326_sense_3724" corresp="variants.xml#type_7866">gewaltig</w>
             <w xml:id="MR1_110141021700_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_110141021700_3">mynn</w>
+              <w xml:id="MR1_110141021700_3" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <pc xml:id="MR1_110141021700_4" join="left">,</pc>
           </l>
@@ -66723,7 +66724,7 @@
           <l n="131">
             <w xml:id="MR1_120231013100_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120231013100_1">mynn</w>
+              <w xml:id="MR1_120231013100_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <w xml:id="MR1_120231013100_2" lemmaRef="lexicon.xml#lemma_6330" pos="ADV PRP" ana="lexicon.xml#lemma_6330_sense_9973" corresp="variants.xml#type_43643">uff</w>
             <w xml:id="MR1_120231013100_3" lemmaRef="lexicon.xml#lemma_1169" pos="DET" ana="lexicon.xml#lemma_1169_sense_1850" corresp="variants.xml#type_3691">disen</w>
@@ -66802,7 +66803,7 @@
           <l n="139">
             <w xml:id="MR1_120231013900_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120231013900_1">mynn</w>
+              <w xml:id="MR1_120231013900_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <w xml:id="MR1_120231013900_2">dor</w>
             <w xml:id="MR1_120231013900_3">her</w>
@@ -66835,7 +66836,7 @@
           <l n="143">
             <w xml:id="MR1_120231014300_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120231014300_1">mynn</w>
+              <w xml:id="MR1_120231014300_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <pc xml:id="MR1_120231014300_2" join="left">,</pc>
             <w xml:id="MR1_120231014300_3" lemmaRef="lexicon.xml#lemma_4432" pos="ADV CNJ" ana="lexicon.xml#lemma_4432_sense_6912" corresp="variants.xml#type_15443">nun</w>
@@ -66880,7 +66881,7 @@
             <pc xml:id="MR1_120231014700_3" join="left">,</pc>
             <w xml:id="MR1_120231014700_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120231014700_5">mynn</w>
+              <w xml:id="MR1_120231014700_5" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <pc xml:id="MR1_120231014700_6" join="left">,</pc>
             <w xml:id="MR1_120231014700_7">für</w>
@@ -66934,7 +66935,7 @@
             <pc xml:id="MR1_120231015100_4" join="left">,</pc>
             <w xml:id="MR1_120231015100_5" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120231015100_6">mynn</w>
+              <w xml:id="MR1_120231015100_6" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <pc xml:id="MR1_120231015100_7" join="left">;</pc>
           </l>
@@ -66980,7 +66981,7 @@
             <pc xml:id="MR1_120232015800_2" join="left">,</pc>
             <w xml:id="MR1_120232015800_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120232015800_4">mynn</w>
+              <w xml:id="MR1_120232015800_4" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <pc xml:id="MR1_120232015800_5" join="left">,</pc>
             <w xml:id="MR1_120232015800_6">ir</w>
@@ -67138,7 +67139,7 @@
           <l n="177">
             <w xml:id="MR1_120232017700_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120232017700_1">mynn</w>
+              <w xml:id="MR1_120232017700_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <pc xml:id="MR1_120232017700_2" join="left">,</pc>
             <w xml:id="MR1_120232017700_3" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3397">das</w>
@@ -67156,7 +67157,7 @@
           <l n="179">
             <w xml:id="MR1_120232017900_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120232017900_1">mynn</w>
+              <w xml:id="MR1_120232017900_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <pc xml:id="MR1_120232017900_2" join="left">,</pc>
             <w xml:id="MR1_120232017900_3" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
@@ -67189,7 +67190,7 @@
           <l n="182">
             <w xml:id="MR1_120232018200_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120232018200_1">mynn</w>
+              <w xml:id="MR1_120232018200_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <w xml:id="MR1_120232018200_2">sprach</w>
             <pc xml:id="MR1_120232018200_3" join="left">:</pc>
@@ -67355,7 +67356,7 @@
             <pc xml:id="MR1_120241019800_3" join="right">&lt;</pc>
             <w xml:id="MR1_120241019800_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120241019800_5">mynn</w>
+              <w xml:id="MR1_120241019800_5" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <pc xml:id="MR1_120241019800_6" join="left">,</pc>
             <w xml:id="MR1_120241019800_7" lemmaRef="lexicon.xml#lemma_106" pos="ADJ ADV" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_263">alles</w>
@@ -67385,7 +67386,7 @@
           <l n="201">
             <w xml:id="MR1_120241020100_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120241020100_1">mynn</w>
+              <w xml:id="MR1_120241020100_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <pc xml:id="MR1_120241020100_2" join="left">,</pc>
             <w xml:id="MR1_120241020100_3" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3397">das</w>
@@ -67899,7 +67900,7 @@
             <w xml:id="MR1_120251025400_1" lemmaRef="lexicon.xml#lemma_7211" pos="VRB" ana="lexicon.xml#lemma_7211_sense_11684" corresp="variants.xml#type_51025">fragt</w>
             <w xml:id="MR1_120251025400_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120251025400_3">mynn</w>
+              <w xml:id="MR1_120251025400_3" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <pc xml:id="MR1_120251025400_4" join="left">,</pc>
             <w xml:id="MR1_120251025400_5" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
@@ -67988,7 +67989,7 @@
             <pc xml:id="MR1_120252026300_6" join="left">,</pc>
             <w xml:id="MR1_120252026300_7" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120252026300_8">mynn</w>
+              <w xml:id="MR1_120252026300_8" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <pc xml:id="MR1_120252026300_9" join="left">:</pc>
           </l>
@@ -68017,7 +68018,7 @@
             <pc xml:id="MR1_120252026600_4" join="left">,</pc>
             <w xml:id="MR1_120252026600_5" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120252026600_6">mynn</w>
+              <w xml:id="MR1_120252026600_6" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <w xml:id="MR1_120252026600_7" lemmaRef="lexicon.xml#lemma_2573" pos="NOM ADJ ADV" corresp="variants.xml#type_8633">guot</w>
             <pc xml:id="MR1_120252026600_8" join="left">,</pc>
@@ -68121,7 +68122,7 @@
             <pc xml:id="MR1_120252027800_3" join="left">,</pc>
             <w xml:id="MR1_120252027800_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120252027800_5">mynn</w>
+              <w xml:id="MR1_120252027800_5" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <pc xml:id="MR1_120252027800_6" join="left">,</pc>
             <w xml:id="MR1_120252027800_7" lemmaRef="lexicon.xml#lemma_5385" pos="ADJ" ana="lexicon.xml#lemma_5385_sense_8406" corresp="variants.xml#type_30937">selber</w>
@@ -68297,7 +68298,7 @@
             <w xml:id="MR1_120261029600_2" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
             <w xml:id="MR1_120261029600_3" lemmaRef="lexicon.xml#lemma_7211" pos="VRB" ana="lexicon.xml#lemma_7211_sense_11684" corresp="variants.xml#type_44680">fraugt</w>
             <w xml:id="MR1_120261029600_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
-            <w xml:id="MR1_120261029600_5">mynn</w>
+            <w xml:id="MR1_120261029600_5" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
           </l>
           <l n="297">
             <w xml:id="MR1_120261029700_0">ob</w>
@@ -68331,7 +68332,7 @@
             <w xml:id="MR1_120261030000_1" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10226">mich</w>
             <w xml:id="MR1_120261030000_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120261030000_3">mynn</w>
+              <w xml:id="MR1_120261030000_3" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <w xml:id="MR1_120261030000_4" lemmaRef="lexicon.xml#lemma_6301" pos="VRB" ana="lexicon.xml#lemma_6301_sense_9929" corresp="variants.xml#type_22331">tuot</w>
             <w xml:id="MR1_120261030000_5" lemmaRef="lexicon.xml#lemma_3656" pos="VRB" ana="lexicon.xml#lemma_3656_sense_5771" corresp="variants.xml#type_12693">lern</w>
@@ -68410,7 +68411,7 @@
           <l n="308">
             <w xml:id="MR1_120261030800_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120261030800_1">mynn</w>
+              <w xml:id="MR1_120261030800_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <w xml:id="MR1_120261030800_2">sprach</w>
             <pc xml:id="MR1_120261030800_3" join="left">:</pc>
@@ -68646,7 +68647,7 @@
             <w xml:id="MR1_120262033500_0" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
             <w xml:id="MR1_120262033500_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120262033500_2">mynn</w>
+              <w xml:id="MR1_120262033500_2" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <w xml:id="MR1_120262033500_3" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
             <w xml:id="MR1_120262033500_4" lemmaRef="lexicon.xml#lemma_4523" pos="CNJ" ana="lexicon.xml#lemma_4523_sense_7060" corresp="variants.xml#type_15677">ouch</w>
@@ -68736,7 +68737,7 @@
             <pc xml:id="MR1_120271034400_3" join="right">&lt;</pc>
             <w xml:id="MR1_120271034400_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120271034400_5">mynn</w>
+              <w xml:id="MR1_120271034400_5" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <pc xml:id="MR1_120271034400_6" join="left">,</pc>
             <w xml:id="MR1_120271034400_7">es</w>
@@ -69316,7 +69317,7 @@
             <w xml:id="MR1_120281040800_1">kan</w>
             <w xml:id="MR1_120281040800_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120281040800_3">mynn</w>
+              <w xml:id="MR1_120281040800_3" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <w xml:id="MR1_120281040800_4" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
             <w xml:id="MR1_120281040800_5" lemmaRef="lexicon.xml#lemma_4840" pos="NOM ADJ ADV" corresp="variants.xml#type_42728">recht</w>
@@ -69417,7 +69418,7 @@
           <l n="417">
             <w xml:id="MR1_120282041700_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120282041700_1">mynn</w>
+              <w xml:id="MR1_120282041700_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <w xml:id="MR1_120282041700_2" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
             <hi rend="upper_case_first_letter">
@@ -69480,7 +69481,7 @@
             <w xml:id="MR1_120282042400_2" lemmaRef="lexicon.xml#lemma_4523" pos="CNJ" ana="lexicon.xml#lemma_4523_sense_7060" corresp="variants.xml#type_15677">ouch</w>
             <w xml:id="MR1_120282042400_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120282042400_4">mynn</w>
+              <w xml:id="MR1_120282042400_4" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <w xml:id="MR1_120282042400_5" lemmaRef="lexicon.xml#lemma_5061" pos="VRB" ana="lexicon.xml#lemma_5061_sense_7886" corresp="variants.xml#type_17542">sagen</w>
           </l>
@@ -69568,7 +69569,7 @@
             <w xml:id="MR1_120282043300_1" lemmaRef="lexicon.xml#lemma_6301" pos="VRB" ana="lexicon.xml#lemma_6301_sense_9929" corresp="variants.xml#type_44719">tett</w>
             <w xml:id="MR1_120282043300_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120282043300_3">mynn</w>
+              <w xml:id="MR1_120282043300_3" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <w xml:id="MR1_120282043300_4" lemmaRef="lexicon.xml#lemma_3767" pos="ADJ ADV" ana="lexicon.xml#lemma_3767_sense_5957" corresp="variants.xml#type_13127">lieplich</w>
             <w xml:id="MR1_120282043300_5" lemmaRef="lexicon.xml#lemma_1436" pos="VRB" corresp="variants.xml#type_4708">enpfahen</w>
@@ -69589,7 +69590,7 @@
             <pc xml:id="MR1_120282043500_3" join="right">&lt;</pc>
             <w xml:id="MR1_120282043500_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120282043500_5">mynn</w>
+              <w xml:id="MR1_120282043500_5" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <pc xml:id="MR1_120282043500_6" join="left">,</pc>
           </l>
@@ -69699,7 +69700,7 @@
             <pc xml:id="MR1_120291044800_0" join="right">&lt;</pc>
             <w xml:id="MR1_120291044800_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120291044800_2">mynn</w>
+              <w xml:id="MR1_120291044800_2" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <pc xml:id="MR1_120291044800_3" join="left">,</pc>
             <w xml:id="MR1_120291044800_4" lemmaRef="lexicon.xml#lemma_5061" pos="NOM VRB" ana="lexicon.xml#lemma_5061_sense_7886" corresp="variants.xml#type_17540">sag</w>
@@ -69852,7 +69853,7 @@
             <pc xml:id="MR1_120291046200_0" join="right">&lt;</pc>
             <w xml:id="MR1_120291046200_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120291046200_2">mynn</w>
+              <w xml:id="MR1_120291046200_2" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <pc xml:id="MR1_120291046200_3" join="left">,</pc>
             <w xml:id="MR1_120291046200_4" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3397">das</w>
@@ -69953,7 +69954,7 @@
             <w xml:id="MR1_120292047200_1">denn</w>
             <w xml:id="MR1_120292047200_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120292047200_3">mynn</w>
+              <w xml:id="MR1_120292047200_3" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <w xml:id="MR1_120292047200_4" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18956">ist</w>
             <w xml:id="MR1_120292047200_5" lemmaRef="lexicon.xml#lemma_3400" pos="VRB" ana="lexicon.xml#lemma_3400_sense_5361" corresp="variants.xml#type_11703">komen</w>
@@ -69982,7 +69983,7 @@
             <w xml:id="MR1_120292047500_1">sprach</w>
             <w xml:id="MR1_120292047500_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120292047500_3">mynn</w>
+              <w xml:id="MR1_120292047500_3" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <w xml:id="MR1_120292047500_4" lemmaRef="lexicon.xml#lemma_2866" pos="ADJ ADV" corresp="variants.xml#type_9673">hoch</w>
             <w xml:id="MR1_120292047500_5" lemmaRef="lexicon.xml#lemma_2108" pos="ADJ" ana="lexicon.xml#lemma_2108_sense_3266" corresp="variants.xml#type_7116">gemuot</w>
@@ -70083,7 +70084,7 @@
           <l n="486">
             <w xml:id="MR1_120292048600_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120292048600_1">mynn</w>
+              <w xml:id="MR1_120292048600_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <w xml:id="MR1_120292048600_2">sprach</w>
             <pc xml:id="MR1_120292048600_3" join="left">:</pc>
@@ -70250,7 +70251,7 @@
             <w xml:id="MR1_120301050100_2" lemmaRef="lexicon.xml#lemma_5423" pos="VRB" corresp="variants.xml#type_53303">setzt</w>
             <w xml:id="MR1_120301050100_3">sich</w>
             <w xml:id="MR1_120301050100_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
-            <w xml:id="MR1_120301050100_5">mynn</w>
+            <w xml:id="MR1_120301050100_5" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
           </l>
           <l n="502">
             <w xml:id="MR1_120301050200_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
@@ -70295,7 +70296,7 @@
           <l n="506">
             <w xml:id="MR1_120301050600_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120301050600_1">mynn</w>
+              <w xml:id="MR1_120301050600_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <pc xml:id="MR1_120301050600_2" join="left">,</pc>
             <w xml:id="MR1_120301050600_3" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
@@ -70309,7 +70310,7 @@
           <l n="507">
             <w xml:id="MR1_120301050700_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120301050700_1">mynn</w>
+              <w xml:id="MR1_120301050700_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <w xml:id="MR1_120301050700_2">sprach</w>
             <pc xml:id="MR1_120301050700_3" join="left">:</pc>
@@ -70338,7 +70339,7 @@
             <pc xml:id="MR1_120301050900_0" join="right">&lt;</pc>
             <w xml:id="MR1_120301050900_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120301050900_2">mynn</w>
+              <w xml:id="MR1_120301050900_2" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <pc xml:id="MR1_120301050900_3" join="left">,</pc>
             <w xml:id="MR1_120301050900_4" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
@@ -70464,7 +70465,7 @@
           <l n="521">
             <w xml:id="MR1_120302052100_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120302052100_1">mynn</w>
+              <w xml:id="MR1_120302052100_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <pc xml:id="MR1_120302052100_2" join="left">:</pc>
             <pc xml:id="MR1_120302052100_3" join="right">&lt;</pc>
@@ -70498,7 +70499,7 @@
             <pc xml:id="MR1_120302052400_0" join="right">&lt;</pc>
             <w xml:id="MR1_120302052400_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120302052400_2">mynn</w>
+              <w xml:id="MR1_120302052400_2" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <pc xml:id="MR1_120302052400_3" join="left">,</pc>
             <w xml:id="MR1_120302052400_4" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
@@ -70548,7 +70549,7 @@
           <l n="529">
             <w xml:id="MR1_120302052900_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120302052900_1">mynn</w>
+              <w xml:id="MR1_120302052900_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <w xml:id="MR1_120302052900_2">sprach</w>
             <pc xml:id="MR1_120302052900_3" join="left">:</pc>
@@ -70578,7 +70579,7 @@
           <l n="531">
             <w xml:id="MR1_120302053100_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120302053100_1">mynn</w>
+              <w xml:id="MR1_120302053100_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <pc xml:id="MR1_120302053100_2" join="left">,</pc>
             <w xml:id="MR1_120302053100_3" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
@@ -70680,7 +70681,7 @@
           <l n="542">
             <w xml:id="MR1_120311054200_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120311054200_1">mynn</w>
+              <w xml:id="MR1_120311054200_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <pc xml:id="MR1_120311054200_2" join="left">,</pc>
             <w xml:id="MR1_120311054200_3">sie</w>
@@ -70802,7 +70803,7 @@
           <l n="554">
             <w xml:id="MR1_120311055400_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120311055400_1">mynn</w>
+              <w xml:id="MR1_120311055400_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <pc xml:id="MR1_120311055400_2" join="left">,</pc>
             <w xml:id="MR1_120311055400_3" lemmaRef="lexicon.xml#lemma_1055" pos="ADV" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3258">dar</w>
@@ -70824,7 +70825,7 @@
           <l n="556">
             <w xml:id="MR1_120311055600_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120311055600_1">mynn</w>
+              <w xml:id="MR1_120311055600_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <pc xml:id="MR1_120311055600_2" join="left">,</pc>
             <w xml:id="MR1_120311055600_3">sie</w>
@@ -70846,7 +70847,7 @@
           <l n="558">
             <w xml:id="MR1_120311055800_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120311055800_1">mynn</w>
+              <w xml:id="MR1_120311055800_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <pc xml:id="MR1_120311055800_2" join="left">,</pc>
             <w xml:id="MR1_120311055800_3" lemmaRef="lexicon.xml#lemma_4432" pos="ADV CNJ" ana="lexicon.xml#lemma_4432_sense_6912" corresp="variants.xml#type_15443">nun</w>
@@ -70913,7 +70914,7 @@
             <pc xml:id="MR1_120311056400_0" join="right">&lt;</pc>
             <w xml:id="MR1_120311056400_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120311056400_2">mynn</w>
+              <w xml:id="MR1_120311056400_2" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <pc xml:id="MR1_120311056400_3" join="left">,</pc>
             <w xml:id="MR1_120311056400_4" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
@@ -71017,7 +71018,7 @@
           <l n="574">
             <w xml:id="MR1_120312057400_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120312057400_1">mynn</w>
+              <w xml:id="MR1_120312057400_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <w xml:id="MR1_120312057400_2" lemmaRef="lexicon.xml#lemma_1913" pos="ADJ ADV" ana="lexicon.xml#lemma_1913_sense_2938" corresp="variants.xml#type_6476">gar</w>
             <w xml:id="MR1_120312057400_3" lemmaRef="lexicon.xml#lemma_7911" pos="ADJ ADV" ana="lexicon.xml#lemma_7911_sense_12974" corresp="variants.xml#type_69483">zuchticlichen</w>
@@ -71076,7 +71077,7 @@
             <pc xml:id="MR1_120312058000_0" join="right">&lt;</pc>
             <w xml:id="MR1_120312058000_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120312058000_2">mynn</w>
+              <w xml:id="MR1_120312058000_2" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <pc xml:id="MR1_120312058000_3" join="left">,</pc>
             <w xml:id="MR1_120312058000_4" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
@@ -71161,7 +71162,7 @@
             <pc xml:id="MR1_120312058900_0" join="right">&lt;</pc>
             <w xml:id="MR1_120312058900_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120312058900_2">mynn</w>
+              <w xml:id="MR1_120312058900_2" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <pc xml:id="MR1_120312058900_3" join="left">,</pc>
             <w xml:id="MR1_120312058900_4" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
@@ -71276,7 +71277,7 @@
             <pc xml:id="MR1_120321060000_0" join="right">&lt;</pc>
             <w xml:id="MR1_120321060000_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120321060000_2">mynn</w>
+              <w xml:id="MR1_120321060000_2" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <pc xml:id="MR1_120321060000_3" join="left">,</pc>
             <w xml:id="MR1_120321060000_4" lemmaRef="lexicon.xml#lemma_5434" pos="ADV PRP CNJ" ana="lexicon.xml#lemma_5434_sense_8481" corresp="variants.xml#type_116621">sid</w>
@@ -71316,7 +71317,7 @@
           <l n="604">
             <w xml:id="MR1_120321060400_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120321060400_1">mynn</w>
+              <w xml:id="MR1_120321060400_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <w xml:id="MR1_120321060400_2">sprach</w>
             <pc xml:id="MR1_120321060400_3" join="left">:</pc>
@@ -71364,7 +71365,7 @@
             <pc xml:id="MR1_120321060800_4" join="left">,</pc>
             <w xml:id="MR1_120321060800_5" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120321060800_6">mynn</w>
+              <w xml:id="MR1_120321060800_6" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <pc xml:id="MR1_120321060800_7" join="left">!</pc>
           </l>
@@ -71466,7 +71467,7 @@
           <l n="620">
             <w xml:id="MR1_120321062000_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120321062000_1">mynn</w>
+              <w xml:id="MR1_120321062000_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <pc xml:id="MR1_120321062000_2" join="left">,</pc>
             <w xml:id="MR1_120321062000_3">send</w>
@@ -71958,7 +71959,7 @@
             <pc xml:id="MR1_120331067300_2" join="left">,</pc>
             <w xml:id="MR1_120331067300_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120331067300_4">mynn</w>
+              <w xml:id="MR1_120331067300_4" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <pc xml:id="MR1_120331067300_5" join="left">,</pc>
           </l>
@@ -72089,7 +72090,7 @@
             <pc xml:id="MR1_120332068600_0" join="right">&lt;</pc>
             <w xml:id="MR1_120332068600_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120332068600_2">mynn</w>
+              <w xml:id="MR1_120332068600_2" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <pc xml:id="MR1_120332068600_3" join="left">,</pc>
             <w xml:id="MR1_120332068600_4" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10237">mir</w>
@@ -72201,7 +72202,7 @@
             <pc xml:id="MR1_120332069800_0" join="right">&lt;</pc>
             <w xml:id="MR1_120332069800_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120332069800_2">mynn</w>
+              <w xml:id="MR1_120332069800_2" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <pc xml:id="MR1_120332069800_3" join="left">,</pc>
             <w xml:id="MR1_120332069800_4" lemmaRef="lexicon.xml#lemma_2885" pos="VRB" corresp="variants.xml#type_304736">hornd</w>
@@ -72273,7 +72274,7 @@
           <l n="706">
             <w xml:id="MR1_120341070600_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120341070600_1">mynn</w>
+              <w xml:id="MR1_120341070600_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <pc xml:id="MR1_120341070600_2" join="left">,</pc>
             <w xml:id="MR1_120341070600_3" lemmaRef="lexicon.xml#lemma_6301" pos="VRB" ana="lexicon.xml#lemma_6301_sense_9929" corresp="variants.xml#type_22331">tuot</w>
@@ -72300,7 +72301,7 @@
                 <w xml:id="MR1_120341070800_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
               </hi>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120341070800_1">mynn</w>
+              <w xml:id="MR1_120341070800_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <pc xml:id="MR1_120341070800_2" join="left">,</pc>
             <w xml:id="MR1_120341070800_3" lemmaRef="lexicon.xml#lemma_1139" pos="ART" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
@@ -72346,7 +72347,7 @@
             <pc xml:id="MR1_120341071200_0" join="right">&lt;</pc>
             <w xml:id="MR1_120341071200_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120341071200_2">mynn</w>
+              <w xml:id="MR1_120341071200_2" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <pc xml:id="MR1_120341071200_3" join="left">,</pc>
             <w xml:id="MR1_120341071200_4" lemmaRef="lexicon.xml#lemma_5434" pos="ADV PRP CNJ" ana="lexicon.xml#lemma_5434_sense_8481" corresp="variants.xml#type_116621">sid</w>
@@ -72454,7 +72455,7 @@
           <l n="723">
             <w xml:id="MR1_120341072300_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120341072300_1">mynn</w>
+              <w xml:id="MR1_120341072300_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <w xml:id="MR1_120341072300_2" lemmaRef="lexicon.xml#lemma_7211" pos="VRB" ana="lexicon.xml#lemma_7211_sense_11684" corresp="variants.xml#type_44680">fraugt</w>
             <w xml:id="MR1_120341072300_3">an</w>
@@ -72650,7 +72651,7 @@
           <l n="744">
             <w xml:id="MR1_120342074400_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120342074400_1">mynn</w>
+              <w xml:id="MR1_120342074400_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <pc xml:id="MR1_120342074400_2" join="left">,</pc>
             <w xml:id="MR1_120342074400_3" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3397">das</w>
@@ -72691,7 +72692,7 @@
             <pc xml:id="MR1_120342074700_0" join="right">&lt;</pc>
             <w xml:id="MR1_120342074700_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120342074700_2">mynn</w>
+              <w xml:id="MR1_120342074700_2" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <pc xml:id="MR1_120342074700_3" join="left">,</pc>
             <w xml:id="MR1_120342074700_4">als</w>
@@ -72765,7 +72766,7 @@
           <l n="754">
             <w xml:id="MR1_120351075400_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120351075400_1">mynn</w>
+              <w xml:id="MR1_120351075400_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <pc xml:id="MR1_120351075400_2" join="left">,</pc>
             <w xml:id="MR1_120351075400_3" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3397">das</w>
@@ -72799,7 +72800,7 @@
             <pc xml:id="MR1_120351075600_0" join="right">&lt;</pc>
             <w xml:id="MR1_120351075600_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120351075600_2">mynn</w>
+              <w xml:id="MR1_120351075600_2" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <pc xml:id="MR1_120351075600_3" join="left">,</pc>
             <w xml:id="MR1_120351075600_4" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
@@ -72871,7 +72872,7 @@
           <l n="764">
             <w xml:id="MR1_120351076400_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120351076400_1">mynn</w>
+              <w xml:id="MR1_120351076400_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <pc xml:id="MR1_120351076400_2" join="left">,</pc>
             <w xml:id="MR1_120351076400_3" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3397">das</w>
@@ -72922,7 +72923,7 @@
             <pc xml:id="MR1_120351076800_0" join="right">&lt;</pc>
             <w xml:id="MR1_120351076800_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120351076800_2">mynn</w>
+              <w xml:id="MR1_120351076800_2" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <pc xml:id="MR1_120351076800_3" join="left">,</pc>
             <w xml:id="MR1_120351076800_4" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10237">mir</w>
@@ -73021,7 +73022,7 @@
           <l n="779">
             <w xml:id="MR1_120352077900_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120352077900_1">mynn</w>
+              <w xml:id="MR1_120352077900_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <pc xml:id="MR1_120352077900_2" join="left">,</pc>
             <w xml:id="MR1_120352077900_3">ir</w>
@@ -73069,7 +73070,7 @@
           <l n="784">
             <w xml:id="MR1_120352078400_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120352078400_1">mynn</w>
+              <w xml:id="MR1_120352078400_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <pc xml:id="MR1_120352078400_2" join="left">,</pc>
             <w xml:id="MR1_120352078400_3">ir</w>
@@ -73156,7 +73157,7 @@
             <pc xml:id="MR1_120352079200_0" join="right">&lt;</pc>
             <w xml:id="MR1_120352079200_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120352079200_2">mynn</w>
+              <w xml:id="MR1_120352079200_2" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <pc xml:id="MR1_120352079200_3" join="left">,</pc>
             <w xml:id="MR1_120352079200_4" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3397">das</w>
@@ -73400,7 +73401,7 @@
             <w xml:id="MR1_120361082000_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <supplied>
               <hi rend="upper_case_first_letter">
-                <w xml:id="MR1_120361082000_1">mynn</w>
+                <w xml:id="MR1_120361082000_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
               </hi>
             </supplied>
             <pc xml:id="MR1_120361082000_2" join="left">,</pc>
@@ -73418,7 +73419,7 @@
                 <w xml:id="MR1_120361082100_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
               </hi>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120361082100_1">mynn</w>
+              <w xml:id="MR1_120361082100_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <w xml:id="MR1_120361082100_2">sprach</w>
             <pc xml:id="MR1_120361082100_3" join="left">:</pc>
@@ -73507,7 +73508,7 @@
           <l n="830">
             <w xml:id="MR1_120362083000_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120362083000_1">mynn</w>
+              <w xml:id="MR1_120362083000_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <pc xml:id="MR1_120362083000_2" join="left">,</pc>
             <w xml:id="MR1_120362083000_3" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
@@ -73543,7 +73544,7 @@
           <l n="834">
             <w xml:id="MR1_120362083400_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_120362083400_1">mynn</w>
+              <w xml:id="MR1_120362083400_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <w xml:id="MR1_120362083400_2">sprach</w>
             <pc xml:id="MR1_120362083400_3" join="left">:</pc>
@@ -78834,7 +78835,7 @@
           <supplied>
             <hi rend="upper_case_first_letter">
               <w xml:id="MR1_140482000001_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_93248">frau</w>
-              <w xml:id="MR1_140482000001_3">minne</w>
+              <w xml:id="MR1_140482000001_3" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
             </hi>
             <w xml:id="MR1_140482000001_4">weiß</w>
             <hi rend="upper_case_first_letter">
@@ -79452,7 +79453,7 @@
             <w xml:id="MR1_140492007000_6" lemmaRef="lexicon.xml#lemma_4377" pos="ADJ ADV NEG" ana="lexicon.xml#lemma_4377_sense_6838" corresp="variants.xml#type_158951">nit</w>
             <w xml:id="MR1_140492007000_7" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_140492007000_8">mynn</w>
+              <w xml:id="MR1_140492007000_8" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <pc xml:id="MR1_140492007000_9" join="left">?</pc>
             <pc xml:id="MR1_140492007000_10" join="left">&gt;</pc>
@@ -79547,7 +79548,7 @@
           <l n="79">
             <w xml:id="MR1_140501007900_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_140501007900_1">mynn</w>
+              <w xml:id="MR1_140501007900_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <pc xml:id="MR1_140501007900_2" join="left">,</pc>
             <w xml:id="MR1_140501007900_3" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3397">das</w>
@@ -79624,7 +79625,7 @@
                 <w xml:id="MR1_140501008700_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
               </hi>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_140501008700_1">mynn</w>
+              <w xml:id="MR1_140501008700_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <w xml:id="MR1_140501008700_2" lemmaRef="lexicon.xml#lemma_260" pos="NOM VRB" ana="lexicon.xml#lemma_260_sense_328" corresp="variants.xml#type_133129">antwúrt</w>
             <w xml:id="MR1_140501008700_3" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10237">mir</w>
@@ -79714,7 +79715,7 @@
             <pc xml:id="MR1_140501009700_0" join="right">&lt;</pc>
             <w xml:id="MR1_140501009700_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_140501009700_2">mynn</w>
+              <w xml:id="MR1_140501009700_2" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <pc xml:id="MR1_140501009700_3" join="left">,</pc>
             <w xml:id="MR1_140501009700_4">ir</w>
@@ -79754,7 +79755,7 @@
           <l n="101">
             <w xml:id="MR1_140502010100_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_140502010100_1">mynn</w>
+              <w xml:id="MR1_140502010100_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <pc xml:id="MR1_140502010100_2" join="left">,</pc>
             <w xml:id="MR1_140502010100_3" lemmaRef="lexicon.xml#lemma_562" pos="VRB" corresp="variants.xml#type_102122">beschaid</w>
@@ -80418,7 +80419,7 @@
           <l n="173">
             <w xml:id="MR1_140521017300_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_140521017300_1">mynn</w>
+              <w xml:id="MR1_140521017300_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <pc xml:id="MR1_140521017300_2" join="left">,</pc>
             <w xml:id="MR1_140521017300_3" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
@@ -81602,7 +81603,7 @@
           <l n="302">
             <w xml:id="MR1_140542030200_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_140542030200_1">mynn</w>
+              <w xml:id="MR1_140542030200_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <w xml:id="MR1_140542030200_2">sprach</w>
             <pc xml:id="MR1_140542030200_3" join="left">:</pc>
@@ -81652,7 +81653,7 @@
             <pc xml:id="MR1_140542030600_0" join="right">&lt;</pc>
             <w xml:id="MR1_140542030600_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_140542030600_2">mynn</w>
+              <w xml:id="MR1_140542030600_2" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <pc xml:id="MR1_140542030600_3" join="left">,</pc>
             <w xml:id="MR1_140542030600_4" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
@@ -81727,7 +81728,7 @@
           <l n="314">
             <w xml:id="MR1_140542031400_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_140542031400_1">mynn</w>
+              <w xml:id="MR1_140542031400_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <w xml:id="MR1_140542031400_2">sprach</w>
             <pc xml:id="MR1_140542031400_3" join="left">:</pc>
@@ -81939,7 +81940,7 @@
           <l n="334">
             <w xml:id="MR1_140551033400_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_140551033400_1">mynn</w>
+              <w xml:id="MR1_140551033400_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <pc xml:id="MR1_140551033400_2" join="left">,</pc>
             <w xml:id="MR1_140551033400_3" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
@@ -82104,7 +82105,7 @@
             <pc xml:id="MR1_140552035200_2" join="left">,</pc>
             <w xml:id="MR1_140552035200_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_140552035200_4">mynn</w>
+              <w xml:id="MR1_140552035200_4" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <pc xml:id="MR1_140552035200_5" join="left">,</pc>
             <w xml:id="MR1_140552035200_6" lemmaRef="lexicon.xml#lemma_4786" pos="NOM" corresp="variants.xml#type_45625">raut</w>
@@ -82128,7 +82129,7 @@
           <l n="354">
             <w xml:id="MR1_140552035400_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_140552035400_1">mynn</w>
+              <w xml:id="MR1_140552035400_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <w xml:id="MR1_140552035400_2">sprach</w>
             <pc xml:id="MR1_140552035400_3" join="left">:</pc>
@@ -82274,7 +82275,7 @@
             <pc xml:id="MR1_140552037000_0" join="right">&lt;</pc>
             <w xml:id="MR1_140552037000_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_140552037000_2">mynn</w>
+              <w xml:id="MR1_140552037000_2" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <pc xml:id="MR1_140552037000_3" join="left">,</pc>
             <w xml:id="MR1_140552037000_4" lemmaRef="lexicon.xml#lemma_4240" pos="VRB VEM" corresp="variants.xml#type_44517">möcht</w>
@@ -82406,7 +82407,7 @@
             <w xml:id="MR1_140561038400_1">o</w>
             <w xml:id="MR1_140561038400_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_140561038400_3">mynn</w>
+              <w xml:id="MR1_140561038400_3" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <pc xml:id="MR1_140561038400_4" join="left">,</pc>
             <w xml:id="MR1_140561038400_5" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
@@ -82572,7 +82573,7 @@
             <w xml:id="MR1_140562040200_1" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10237">mir</w>
             <w xml:id="MR1_140562040200_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_140562040200_3">mynn</w>
+              <w xml:id="MR1_140562040200_3" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <w xml:id="MR1_140562040200_4" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
             <w xml:id="MR1_140562040200_5" lemmaRef="lexicon.xml#lemma_7621" pos="ADJ ADV" ana="lexicon.xml#lemma_7621_sense_12490" corresp="variants.xml#type_41924">willig</w>
@@ -82684,7 +82685,7 @@
             <pc xml:id="MR1_140562041300_3" join="right">&lt;</pc>
             <w xml:id="MR1_140562041300_4" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_140562041300_5">mynn</w>
+              <w xml:id="MR1_140562041300_5" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <pc xml:id="MR1_140562041300_6" join="left">,</pc>
             <w xml:id="MR1_140562041300_7" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
@@ -83738,7 +83739,7 @@
             <w xml:id="MR1_150612004500_2" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
             <w xml:id="MR1_150612004500_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_150612004500_4">mynn</w>
+              <w xml:id="MR1_150612004500_4" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <w xml:id="MR1_150612004500_5">clagen</w>
             <pc xml:id="MR1_150612004500_6" join="left">.</pc>
@@ -83974,7 +83975,7 @@
             <w xml:id="MR1_150621007000_1">ir</w>
             <w xml:id="MR1_150621007000_2" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_150621007000_3">mynn</w>
+              <w xml:id="MR1_150621007000_3" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <w xml:id="MR1_150621007000_4" lemmaRef="lexicon.xml#lemma_2598" pos="VRB VEX" corresp="variants.xml#type_42501">hett</w>
             <w xml:id="MR1_150621007000_5" lemmaRef="lexicon.xml#lemma_1586" pos="VRB" corresp="variants.xml#type_305508">erkort</w>
@@ -84327,7 +84328,7 @@
           <l n="107">
             <w xml:id="MR1_150622010700_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_150622010700_1">mynn</w>
+              <w xml:id="MR1_150622010700_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <pc xml:id="MR1_150622010700_2" join="left">,</pc>
             <w xml:id="MR1_150622010700_3" lemmaRef="lexicon.xml#lemma_5693" pos="VRB" ana="lexicon.xml#lemma_5693_sense_8912" corresp="variants.xml#type_42549">sprech</w>
@@ -84388,7 +84389,7 @@
           <l n="113">
             <w xml:id="MR1_150622011300_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_150622011300_1">mynn</w>
+              <w xml:id="MR1_150622011300_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <w xml:id="MR1_150622011300_2">sprach</w>
             <pc xml:id="MR1_150622011300_3" join="left">:</pc>
@@ -84528,7 +84529,7 @@
           <l n="128">
             <w xml:id="MR1_150631012800_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_150631012800_1">mynn</w>
+              <w xml:id="MR1_150631012800_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <pc xml:id="MR1_150631012800_2" join="left">,</pc>
             <w xml:id="MR1_150631012800_3">ob</w>
@@ -84596,7 +84597,7 @@
                 <w xml:id="MR1_150631013500_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
               </hi>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_150631013500_1">mynn</w>
+              <w xml:id="MR1_150631013500_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <w xml:id="MR1_150631013500_2" lemmaRef="lexicon.xml#lemma_7211" pos="VRB" ana="lexicon.xml#lemma_7211_sense_11684" corresp="variants.xml#type_44680">fraugt</w>
             <w xml:id="MR1_150631013500_3" lemmaRef="lexicon.xml#lemma_1055" pos="ADV" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3258">dar</w>
@@ -84680,7 +84681,7 @@
                 <w xml:id="MR1_150632014300_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
               </hi>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_150632014300_1">mynn</w>
+              <w xml:id="MR1_150632014300_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <w xml:id="MR1_150632014300_2" lemmaRef="lexicon.xml#lemma_7211" pos="VRB" ana="lexicon.xml#lemma_7211_sense_11684" corresp="variants.xml#type_44680">fraugt</w>
             <w xml:id="MR1_150632014300_3" lemmaRef="lexicon.xml#lemma_1055" pos="ADV CNJ" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3255">da</w>
@@ -84759,7 +84760,7 @@
                 <w xml:id="MR1_150632015100_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
               </hi>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_150632015100_1">mynn</w>
+              <w xml:id="MR1_150632015100_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <supplied>
               <w xml:id="MR1_150632015100_2" lemmaRef="lexicon.xml#lemma_7211" pos="VRB" ana="lexicon.xml#lemma_7211_sense_11684" corresp="variants.xml#type_44680">fraugt</w>
@@ -85035,7 +85036,7 @@
           <l n="182">
             <w xml:id="MR1_150641018200_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_150641018200_1">mynn</w>
+              <w xml:id="MR1_150641018200_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <pc xml:id="MR1_150641018200_2" join="left">,</pc>
             <w xml:id="MR1_150641018200_3" lemmaRef="lexicon.xml#lemma_1097" pos="ART CNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3397">das</w>
@@ -85118,7 +85119,7 @@
                 <w xml:id="MR1_150642019100_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" corresp="variants.xml#type_25985">frow</w>
               </hi>
             <hi rend="upper_case_first_letter">
-              <w xml:id="MR1_150642019100_1">mynn</w>
+              <w xml:id="MR1_150642019100_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372867">mynn</w>
             </hi>
             <w xml:id="MR1_150642019100_2" lemmaRef="lexicon.xml#lemma_7211" pos="VRB" ana="lexicon.xml#lemma_7211_sense_11684" corresp="variants.xml#type_44680">fraugt</w>
             <w xml:id="MR1_150642019100_3" lemmaRef="lexicon.xml#lemma_1055" pos="ADV" ana="lexicon.xml#lemma_1055_sense_1689" corresp="variants.xml#type_3258">dar</w>

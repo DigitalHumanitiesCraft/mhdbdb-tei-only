@@ -131,6 +131,7 @@
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 9 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/). 8 weitere Tokens der Form minne blieben bewusst unannotiert (Review).</change>
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 1 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
       <change when="2026-10-08" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization ergänzt (1642 von 2158 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;&#34;</change>
+      <change when="2026-11-08" who="#editor">#216 Frau Minne: 4 Tokens auf das Namenlemma lexicon.xml#lemma_79830 (Minne, NAM) gesetzt (4 neu annotiert). Regel: unmittelbar vorangehendes Token mit lemma_7260, Form ohne -n (Entscheidung chsteiner und K. Zeppezauer-Wachauer 2026-08-31, Umsetzung 2026-11-08; Provenienz-Log: ingest/pos-disambig/216-minne-nam/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -1859,7 +1860,7 @@
           <hi rend="initial">
             <w xml:id="SMT_503010_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25983">frouwe</w>
           </hi>
-          <w xml:id="SMT_503010_1">minne</w>
+          <w xml:id="SMT_503010_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
           <pc xml:id="SMT_503010_2" join="left">,</pc>
           <w xml:id="SMT_503010_3" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
           <w xml:id="SMT_503010_4">wil</w>
@@ -2740,7 +2741,7 @@
           <hi rend="initial">
             <w xml:id="SMT_801010_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25983">frouwe</w>
           </hi>
-          <w xml:id="SMT_801010_1">minne</w>
+          <w xml:id="SMT_801010_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
           <pc xml:id="SMT_801010_2" join="left">,</pc>
           <w xml:id="SMT_801010_3" lemmaRef="lexicon.xml#lemma_4281" pos="ADJ ADV" corresp="variants.xml#type_14882">nâch</w>
           <w xml:id="SMT_801010_4" lemmaRef="lexicon.xml#lemma_1119" pos="ART" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
@@ -2892,7 +2893,7 @@
           <hi rend="initial">
             <w xml:id="SMT_802010_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25983">frouwe</w>
           </hi>
-          <w xml:id="SMT_802010_1">minne</w>
+          <w xml:id="SMT_802010_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
           <pc xml:id="SMT_802010_2" join="left">,</pc>
           <w xml:id="SMT_802010_3" lemmaRef="lexicon.xml#lemma_2326" pos="ADJ ADV" ana="lexicon.xml#lemma_2326_sense_3724" corresp="variants.xml#type_7866">gewaltig</w>
           <w xml:id="SMT_802010_4" lemmaRef="lexicon.xml#lemma_4060" pos="NOM" corresp="variants.xml#type_14168">meisterinne</w>
@@ -3041,7 +3042,7 @@
           <hi rend="initial">
             <w xml:id="SMT_803010_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25983">frouwe</w>
           </hi>
-          <w xml:id="SMT_803010_1">minne</w>
+          <w xml:id="SMT_803010_1" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
           <pc xml:id="SMT_803010_2" join="left">,</pc>
           <w xml:id="SMT_803010_3" lemmaRef="lexicon.xml#lemma_7677" pos="NOM ADV" ana="lexicon.xml#lemma_7677_sense_12586" corresp="variants.xml#type_27811">wol</w>
           <w xml:id="SMT_803010_4" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10226">mich</w>

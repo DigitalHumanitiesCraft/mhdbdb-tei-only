@@ -169,6 +169,7 @@
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 34 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
       <change when="2026-08-31" who="#editor">Werktitel korrigiert: titleStmt/title und msName trugen "Frauenbuch" (= work_7), die Datei referenziert aber works.xml#work_6 = "Frauendienst". Ebenso die drei Werk-Identifier im selben msIdentifier: handschriftencensus 763, GND 7611035-7 und wikidata Q1451637 gehören zu work_7; work_6 trägt 386, 4558793-0 und Q1451651. Befund von Klaus Schmidt (30.08.2026), korpusweit gegen works.xml geprüft; betroffen waren FD, FDS, FH, FLD, FP.</change>
       <change when="2026-09-30" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization an den Stand der Annotation angeglichen (8138 von 11286 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;Lemmatisiert, aber nicht disambiguiert.&#34;</change>
+      <change when="2026-11-08" who="#editor">#216 Frau Minne: 2 Tokens auf das Namenlemma lexicon.xml#lemma_79830 (Minne, NAM) gesetzt (2 neu annotiert). Regel: unmittelbar vorangehendes Token mit lemma_7260, Form ohne -n (Entscheidung chsteiner und K. Zeppezauer-Wachauer 2026-08-31, Umsetzung 2026-11-08; Provenienz-Log: ingest/pos-disambig/216-minne-nam/).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -2454,7 +2455,7 @@
               <pc xml:id="FLD_74010_1" join="left">,</pc>
               <w xml:id="FLD_74010_2">owe</w>
               <w xml:id="FLD_74010_3" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_25986">frowe</w>
-              <w xml:id="FLD_74010_4">minne</w>
+              <w xml:id="FLD_74010_4" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
               <pc xml:id="FLD_74010_5" join="left">,</pc>
             </l>
             <l n="2">
@@ -12006,7 +12007,7 @@
                 <w xml:id="FLD_303010_0" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_26000">vrowe</w>
               </hi>
               <pc xml:id="FLD_303010_1" join="left">,</pc>
-              <w xml:id="FLD_303010_2">minne</w>
+              <w xml:id="FLD_303010_2" lemmaRef="lexicon.xml#lemma_79830" pos="NAM" ana="lexicon.xml#lemma_79830_sense_119201" corresp="variants.xml#type_372866">minne</w>
               <w xml:id="FLD_303010_3" lemmaRef="lexicon.xml#lemma_5432" pos="VRB VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18956">ist</w>
               <w xml:id="FLD_303010_4" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
               <w xml:id="FLD_303010_5" lemmaRef="lexicon.xml#lemma_2326" pos="ADJ ADV" ana="lexicon.xml#lemma_2326_sense_3724" corresp="variants.xml#type_7863">gewaltic</w>
