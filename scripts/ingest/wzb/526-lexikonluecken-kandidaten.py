@@ -24,13 +24,17 @@ FESTE REGEL (steht auch als Kopfkommentar in der Ausgabe-CSV):
 Einstufung je Zeile:
   kandidat-eindeutig   Distanzklasse trifft genau ein Lemma
   kandidat-mehrdeutig  Distanzklasse trifft mehrere Lemmata
-  nur-flexion          Distanzklasse leer, Flexionsklasse trifft mindestens eins
+  nur-flexion          nur, wenn die Distanzklasse leer ist und die Flexionsklasse
+                       trifft (heute 0 Zeilen; Flexionstreffer neben einem
+                       Distanzkandidaten stehen nicht in der Ausgabe)
   kein-kandidat        beides leer
 Eine Einstufung ist ein Kandidatenhinweis, keine Zuordnung: Praezision liest
 der Mensch an der Fundstelle.
 
 Harte Fehler: Summe der Zeilen ungleich 109, ein Token fehlt im TEI oder traegt
-inzwischen @lemmaRef.
+inzwischen @lemmaRef, ein lexicon-entry ohne xml:id, ein variants-entry ohne
+@corresp/@lemmaRef, ein Kandidat ohne Eintrag in lexicon.xml. Ein mehrteiliges
+@corresp wird in Tokens zerlegt, alle Lemmata zaehlen.
 
 Usage:
     python scripts/ingest/wzb/526-lexikonluecken-kandidaten.py
@@ -96,19 +100,20 @@ def lade_kandidatenquellen():
     for entry in etree.parse(str(LEXICON)).iter("{%s}entry" % TEI):
         lid = entry.get(XML_ID)
         if not lid:
-            continue
+            sys.exit("FEHLER: lexicon.xml: entry ohne xml:id (Zeile %s)" % entry.sourceline)
         for o in entry.iter("{%s}orth" % TEI):
             if o.text and o.text.strip():
                 norm[normalize_mhg(o.text.strip())].add(lid)
                 orth_von.setdefault(lid, nfc(o.text))
     for entry in etree.parse(str(VARIANTS)).iter("{%s}entry" % TEI):
-        ref = entry.get("corresp") or entry.get("lemmaRef") or ""
-        lid = ref.split("#")[-1]
-        if not lid:
-            continue
+        ref = entry.get("corresp") or entry.get("lemmaRef")
+        if not ref or not ref.strip():
+            sys.exit("FEHLER: variants.xml: entry ohne @corresp/@lemmaRef (Zeile %s)"
+                     % entry.sourceline)
+        lids = {t.split("#")[-1] for t in ref.split()}
         for f in entry.iter("{%s}form" % TEI):
             if f.text and f.text.strip():
-                norm[normalize_mhg(f.text.strip())].add(lid)
+                norm[normalize_mhg(f.text.strip())] |= lids
     kan = defaultdict(set)
     for k, ls in norm.items():
         kan[kanon(k)] |= ls
@@ -163,8 +168,10 @@ def main():
         return int(l.split("_")[-1]) if l.split("_")[-1].isdigit() else 0
 
     def fmt(ls):
-        return "|".join("%s:%s" % (l, orth_von.get(l, "?"))
-                        for l in sorted(ls, key=lemma_nr))
+        fehlt = sorted(l for l in ls if l not in orth_von)
+        if fehlt:
+            sys.exit("FEHLER: Kandidat ohne Eintrag in lexicon.xml: %s" % fehlt[:5])
+        return "|".join("%s:%s" % (l, orth_von[l]) for l in sorted(ls, key=lemma_nr))
 
     ausgabe = []
     for z in faelle:
@@ -184,6 +191,7 @@ def main():
 
     summe = len(ausgabe)
     formen = len({a[1] for a in ausgabe})
+    formen_norm = len({a[2] for a in ausgabe})
     if summe != ERWARTET:
         sys.exit("FEHLER: %d Zeilen statt %d" % (summe, ERWARTET))
 
@@ -197,8 +205,9 @@ def main():
 
     for k in ("kandidat-eindeutig", "kandidat-mehrdeutig", "nur-flexion", "kein-kandidat"):
         zl = [a for a in ausgabe if a[3] == k]
-        print("%s: %d Zeilen (%d Formen)" % (k, len(zl), len({a[1] for a in zl})))
-    print("Gesamt: %d Zeilen (%d Formen)" % (summe, formen))
+        print("%s: %d Zeilen (%d Schreibungen, %d normalisiert)"
+              % (k, len(zl), len({a[1] for a in zl}), len({a[2] for a in zl})))
+    print("Gesamt: %d Zeilen (%d Schreibungen, %d normalisiert)" % (summe, formen, formen_norm))
 
 
 if __name__ == "__main__":
