@@ -40,7 +40,7 @@ TOKENS = ['JEW_556900000_3', 'JEW_557800000_0']
 CORRESP = 'variants.xml#type_6601'
 FORM = 'gebein'
 ENTSCHEIDUNG = (f'{SENSE} (Ochsen in Pharaos Traum, wie {VORBILD}); '
-                f'vorher {VORHER}, verliert damit concept_21104000')
+                f'vorher {VORHER}, verliert damit concept_21030000 und concept_21104000')
 QUELLE = 'chsteiner 2026-10-10 und 2026-11-08, Kommentare in #461'
 ANKER = re.compile(
     r'([ \t]*)(<change when="[^"]*" who="#editor">(?:(?!</change>).)*</change>)(\s*)</revisionDesc>',

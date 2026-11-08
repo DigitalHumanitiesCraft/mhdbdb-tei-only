@@ -53,7 +53,8 @@ Umsetzung: `scripts/ingest/pos-disambig/apply-461-fabeltiere.py`, Messung: `scri
 
 Umsetzung: `scripts/ingest/pos-disambig/apply-461-ochsen.py`. Entscheidung @chsteiner am 08.11.2026: die beiden Ochsen jetzt nach dem Zuschnitt vom 10.10. umhängen, die Frage nach einem Sense für die lebenden Gebeine bleibt bei KZW.
 
-- `JEW_556900000_3` und `JEW_557800000_0` wechseln von `lemma_1958_sense_3004` auf `lemma_1958_sense_119196` und verlieren damit `concept_21104000`. Die Spalten `Entscheidung` und `Quelle` in `belege.tsv` tragen das.
+- `JEW_556900000_3` und `JEW_557800000_0` wechseln von `lemma_1958_sense_3004` auf `lemma_1958_sense_119196` und verlieren damit `concept_21030000` und `concept_21104000` (der neue Sense trägt nur `concept_14011100`). Die Spalten `Entscheidung` und `Quelle` in `belege.tsv` tragen das.
 - Unverändert: die 12 lebenden und 3 lebenden mit Zweifel aus `sense3004-lebend.tsv`.
+- `scripts/review/messen-461-sense3004.py` erwartet die 55 Belege vom 18.10. und bricht seit dem Umhängen ab („53 Belege im Korpus, 55 eingestuft“). Das ist so gewollt: das Skript dokumentiert den Stand vom 18.10., die Liste für die offene Frage an KZW steht in `sense3004-lebend.tsv`.
 
 Stand danach, gemessen am 2026-11-08 (207 Tokens, `@ana` je Token): `sense_3004` 53, `sense_49690` 10, `sense_119196` 23, `sense_119198` 1, `sense_119199` 1, `sense_119200` 4, ohne `@ana` 115; Summe 207.

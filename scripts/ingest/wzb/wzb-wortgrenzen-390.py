@@ -57,8 +57,8 @@ Tafel 1 sind die 16 Woerter vom 2026-10-12 (#592, Protokoll diff-liste.csv),
 Tafel 2 ist ma|che vom 2026-11-08 (Protokoll diff-liste-2.csv).
 Ohne --apply: Trockenlauf, prueft alles und schreibt das Protokoll in
 ingest/wzb/390-wortgrenzen/. Nach dem Anwenden bricht jeder weitere Lauf
-derselben Tafel an der Formpruefung ab; das Protokoll im Repository ist dann
-der letzte Stand.
+derselben Tafel schon in der Strukturpruefung ab (die zweite Haelfte fehlt);
+das Protokoll im Repository ist dann der letzte Stand.
 """
 
 import argparse
