@@ -58,6 +58,7 @@ scripts/
 │   ├── audit-authority-files.py # Struktur-Audit der Authority Files (authority→authority)
 │   ├── build-foreign-candidates-28.py # Kandidatenmenge Fremdsprachigkeit aus dem Begriffssystem (#28)
 │   ├── foreign-sense-contradictions-28.py # #28 Phase 2: Belege, deren @ana der Sprachzuordnung widerspricht, plus die Lemmata zur Handpruefung
+│   ├── build-28-schicht-a-belegliste.py # #28 Schicht A: alle Belege von dominus, et, engel, lewe, creatura und item mit heuristischem Latein-Vorschlag (ja/grenzfall/nein)
 │   ├── build-issue-matrix.py    # Triage-Matrix #44 aus den Issue-Labels bauen (#44)
 │   ├── build-review-364.py      # Offline-Prüfseite #364 (fehlende Lemma-Ziele) aus Korpus und Authority-Files erzeugen (variants.xml gegen lexicon.xml) (#443)
 │   ├── build-review-klaus.py    # Offline-Prüfmappe #390/#115 (Wortgrenzen WZB, fehlende Bedeutungen) erzeugen (#443)
