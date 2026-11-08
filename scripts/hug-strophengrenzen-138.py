@@ -3,8 +3,12 @@
 
 Befund (chsteiner, 2026-07-28, #138): Abgleich von tei/HUG.tei.xml mit der
 Ausgabe Hofmeister 2005 (Hugo von Montfort, Das poetische Werk, de Gruyter).
-In fuenf Liedern (Nr. 26 mit zwei Grenzen) steht bei uns eine Strophengrenze einen Vers zu frueh oder zu
-spaet; die Verszaehlung (l/@n) stimmt ueberall. KZW stimmte am 2026-07-28 dem
+In fuenf Liedern (Nr. 26 mit zwei Grenzen) steht bei uns eine Strophengrenze
+einen Vers zu frueh oder zu spaet. Die Verszaehlung (l/@n) stimmt mit dem Druck
+ueberein, ausser in Nr. 6: dort springt die Zaehlung des Drucks am
+Repeticio-Refrain, Strophe II beginnt im Druck bei V. 18, bei uns bei V. 17
+(dieselbe Zeile, "das ich der pender ye gedacht"). Die Tabelle unten nennt
+deshalb durchweg unsere Verszahlen. KZW stimmte am 2026-07-28 dem
 Vorschlag zu, die Grenzen zu korrigieren, "wenn ihr sie bestaetigt".
 Bestaetigt am 2026-11-08 am Druck (S. 33 fuer Nr. 6, S. 61 fuer Nr. 18; die
 beiden Faelle, die am 28.07. Zweifel trugen) und fuer alle fuenf ueber das
@@ -12,7 +16,8 @@ Reimschema der Nachbarstrophen (fuer Nr. 3, 26 und 28 war der Abgleich vom
 28.07. schon eindeutig). Entscheidung, sie jetzt umzusetzen: chsteiner,
 2026-11-08.
 
-  Nr.  Grenze im Druck  bei uns vorher        Korrektur
+  Nr.  Grenze nach Druck  bei uns vorher      Korrektur
+       (unsere Verszahl)
   3    Str. 4 ab V. 13  Str. 4 ab V. 12       V. 12 an das Ende von Str. 3
   6    Str. 2 ab V. 17  Str. 2 ab V. 18       V. 17 an den Anfang von Str. 2
   18   Str. 2 ab V. 5   Str. 2 ab V. 4        V. 4 an das Ende von Str. 1
