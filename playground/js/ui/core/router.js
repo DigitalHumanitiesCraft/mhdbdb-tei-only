@@ -121,7 +121,9 @@ export function getNavigationEpoch() {
 
 /** Parse the current hash into { view, params }, or null if empty. */
 export function parseHash() {
-  const hash = window.location.hash.slice(1); // strip leading '#'
+  // Leading '#' weg; HTML-escapte Trenner (&amp;, &#38;, &#x26;) wie & behandeln (#498).
+  // Werte schreibt der Playground mit encodeURIComponent, ein & darin steht als %26.
+  const hash = window.location.hash.slice(1).replace(/&(?:amp|#0*38|#x0*26);/gi, '&');
   if (!hash) return null;
 
   const parts = hash.split('&');
