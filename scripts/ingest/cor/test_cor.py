@@ -60,6 +60,17 @@ def test_rezept_mit_kopf_und_pb():
     assert zeile["von"] == zeile["bis"] == "COR_T_1r_5" and zeile["attribute"] == "commodity=Q1 | en=x"
 
 
+def test_element_in_notiz():
+    b, z = lauf('<ab xml:id="t.1" n="1" type="recipe">a b<note xml:lang="en">Siehe <ref target="#t.2">x</ref>.</note></ab>')
+    assert z.note_texte == ["Siehe x."]
+    zeile = next(r for r in z.zeilen if r["art"] == "note/ref")
+    assert zeile["von"] == zeile["bis"] == "COR_T_0_2" and zeile["attribute"] == "target=#t.2" and zeile["text"] == "x"
+    assert "unbekanntes Element <name> in <note>" in fehler(
+        '<ab xml:id="t.1" n="1" type="recipe">a<note>n <name>x</name></note></ab>')
+    assert "unbekanntes Attribut 'foo'" in fehler(
+        '<ab xml:id="t.1" n="1" type="recipe">a<note>n <ref foo="1">x</ref></note></ab>')
+
+
 def test_pb_im_wort_hinter_das_wort():
     b, z = lauf('<ab xml:id="t.1" n="1" type="recipe"><instruction>ge<pb n="2r"/>soten ist</instruction></ab>')
     p = b[0][0][0]

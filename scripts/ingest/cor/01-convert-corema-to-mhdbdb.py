@@ -13,8 +13,9 @@ Mechanisch, ohne Eingriff in Wortgrenzen:
   (household, kitchenTip, medicinal, ...), verschachtelte <ab> als verschachteltes
   <div>; ein Titel am Rezeptanfang = <head>; <pb n> = <pb n>; Titel, Einleitung
   (seg ana=intro/close) und Datumszeile auf Ebene des aeusseren <div> = <head>
-  bzw. <ab type>; <note xml:lang> = <note type="editorial" xml:lang>, nicht
-  tokenisiert; <foreign xml:lang> setzt @xml:lang an den <w>.
+  bzw. <ab type>; <note xml:lang="de"> = <note type="editorial-de"> (das Schema
+  kennt an <note> kein @xml:lang), nicht tokenisiert, ein <ref target> darin als
+  Zeile "note/ref" in der Tabelle; <foreign xml:lang> setzt @xml:lang an den <w>.
 Die semantische Auszeichnung (ingredient, tool, dish, instruction, opener, closer,
 alternative, kitchenTip, servingTip, householdTip, time, dietetics, religion, name,
 ref, date, sp, foreign, unclear, title, ab) hat im Schema keinen Platz. Sie bleibt
@@ -82,6 +83,10 @@ TEXT_IM_TSV = {"ingredient", "tool", "dish", "name", "ref", "date", "religion",
 AB_ATTRS = {"n", "xml:id", "xml:lang", "type", "subtype"}
 PB_ATTRS = {"n", "xml:id"}
 NOTE_ATTRS = {"xml:lang"}
+# Kindelemente in <note>: <note> erlaubt im Schema nur Text und Inline-Elemente
+# ohne <ref>, darum Zeile in der Tabelle (art "note/ref"), verankert am
+# letzten Token vor der Notiz. Alles andere ist ein harter Fehler.
+NOTE_KINDER = {"ref": {"target"}}
 DIV_KINDER = {"pb", "note", "title", "seg", "dateline", "ab"}
 SEG_ATTRS = {"ana"}
 SEG_TYPEN = {"intro", "close"}
@@ -192,7 +197,16 @@ def kind(ch, run, einheit_id, zaehler):
         run.event("pb", n)
     elif name == "note":
         pruefe_attribute(ch, NOTE_ATTRS)
-        run.event("note", (ch.get(f"{{{XML_NS}}}lang"), kollabiere("".join(ch.itertext()))))
+        kinder = []
+        for d in ch.iterdescendants():
+            if not isinstance(d.tag, str):
+                continue
+            dn = lokal(d)
+            if dn not in NOTE_KINDER:
+                raise HarterFehler(f"unbekanntes Element <{dn}> in <note>")
+            pruefe_attribute(d, NOTE_KINDER[dn], " in <note>")
+            kinder.append((dn, attribute_dict(d), kollabiere("".join(d.itertext()))))
+        run.event("note", (ch.get(f"{{{XML_NS}}}lang"), kollabiere("".join(ch.itertext())), kinder))
         zaehler["note"] += 1
     elif name == "ab":
         run.event("sub", baue_ab(ch, zaehler))
@@ -308,6 +322,8 @@ class Zustand:
         self.texte = []  # emittierter Text in Dokumentreihenfolge
         self.verklebt = []  # (Einheit, Kontext) an Elementgrenzen ohne Leerraum
         self.pb_im_wort = []  # (Blatt, Kontext) fuer <pb> mitten im Wort
+        self.note_texte = []  # Text der <note>, fuer den eigenen Rundlauf
+        self.letzte_id = ""  # xml:id des zuletzt geschriebenen w/pc (Anker fuer note/ref)
 
     def neue_id(self):
         f = self.folio if self.folio is not None else "0"
@@ -405,6 +421,7 @@ def emittiere_lauf(run, einheit_id, wurzel_div, kopf_erlaubt, z, ab_zeile):
             art, text, b, e = units[i]
             xid = z.neue_id()
             ids[i] = xid
+            z.letzte_id = xid
             if art == "w":
                 el = E(cont, "w")
                 el.set(f"{{{XML_NS}}}id", xid)
@@ -435,7 +452,7 @@ def emittiere_lauf(run, einheit_id, wurzel_div, kopf_erlaubt, z, ab_zeile):
                 z.folio = nutzlast
                 z.stat["pb"] += 1
             elif art == "note":
-                schreibe_note(container(gruppe), nutzlast, z)
+                schreibe_note(container(gruppe), nutzlast, z, einheit_id)
             else:  # sub
                 zustand["p"] = None
                 emittiere_ab(nutzlast, wurzel_div, z)
@@ -459,13 +476,17 @@ def emittiere_lauf(run, einheit_id, wurzel_div, kopf_erlaubt, z, ab_zeile):
                          "n_w": nw, "attribute": attr_text(sp["attribute"]), "text": text})
 
 
-def schreibe_note(parent, nutzlast, z):
+def schreibe_note(parent, nutzlast, z, einheit_id):
     """Editorische Notiz der Quelle. <note> hat im Schema kein @xml:lang, die
     Sprache steht darum im @type (editorial-de, editorial-en)."""
-    lang, text = nutzlast
+    lang, text, kinder = nutzlast
     el = E(parent, "note", type=f"editorial-{lang}" if lang else "editorial")
     el.text = text
     z.stat["note"] += 1
+    z.note_texte.append(text)
+    for name, attrs, ktext in kinder:
+        z.zeilen.append({"einheit": einheit_id, "art": f"note/{name}", "von": z.letzte_id,
+                         "bis": z.letzte_id, "n_w": 0, "attribute": attr_text(attrs), "text": ktext})
 
 
 def attr_text(d):
@@ -493,7 +514,7 @@ def baue_body(einheiten, z):
             z.folio = nutz
             z.stat["pb"] += 1
         elif art == "note":
-            schreibe_note(aussen, nutz, z)
+            schreibe_note(aussen, nutz, z, "-")
         else:
             e = nutz
             if e.form == "ab":
@@ -678,6 +699,9 @@ def schema_pruefen(tei, rng):
 def zaehle_quelle(body):
     c = collections.Counter(lokal(e) for e in body.iter() if isinstance(e.tag, str)
                             and not any(a.tag == q("note") for a in e.iterancestors()))
+    for e in body.iter():
+        if isinstance(e.tag, str) and any(a.tag == q("note") for a in e.iterancestors()):
+            c["note/" + lokal(e)] += 1
     return c
 
 
@@ -735,7 +759,11 @@ def konvertiere(buch, corema_dir, ausgabe_dir, trocken, heute, rng):
     if n_note != quell_zaehler["note"]:
         probleme.append(f"{n_note} <note> gegen {quell_zaehler['note']} in der Quelle")
     je_art = collections.Counter(r["art"] for r in z.zeilen)
-    for art in list(SPAN_ATTRS) + ["seg", "ab"]:
+    erwartet_note = "".join(re.sub(r"\s+", "", t) for t in
+                            body_q.xpath(".//text()[ancestor::t:note]", namespaces={"t": TEI_NS}))
+    if erwartet_note != "".join(re.sub(r"\s+", "", t) for t in z.note_texte):
+        probleme.append("Notiz-Rundlauf: Text der <note> in Quelle und Ausgabe verschieden")
+    for art in list(SPAN_ATTRS) + ["seg", "ab"] + [f"note/{k}" for k in NOTE_KINDER]:
         soll = quell_zaehler[art]
         if je_art[art] != soll:
             probleme.append(f"Tabelle: {je_art[art]} Zeilen {art} gegen {soll} Elemente in der Quelle")

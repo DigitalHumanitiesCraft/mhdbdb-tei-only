@@ -35,7 +35,7 @@ Die letzte Zeile der Ausgabe (`VERDICT`) nennt je Buch Wörter und Schemastatus.
 | Titel am Rezeptanfang (vor ihm kein Wort) | `<head>` |
 | `div/title`, `div/seg ana=intro\|close`, `div/dateline` | `<head>`, `<ab type="intro">`, `<ab type="close">`, `<ab type="dateline">` im äußeren `<div>` |
 | `<pb n>` | `<pb n>` |
-| `<note xml:lang>` | `<note type="editorial-de\|editorial-en">`, nicht tokenisiert. Das Schema kennt an `<note>` kein `@xml:lang`, deshalb steht die Sprache im Typ |
+| `<note xml:lang>` | `<note type="editorial-de\|editorial-en">`, nicht tokenisiert. Das Schema kennt an `<note>` kein `@xml:lang`, deshalb steht die Sprache im Typ. Ein `<ref target>` in der Notiz (M11: 1, sonst keines in den vier Büchern) steht als Zeile `note/ref` in der Tabelle, verankert am letzten Token vor der Notiz. Ein anderes Element in der Notiz bricht ab |
 | `<foreign xml:lang>` | `@xml:lang` an den betroffenen `<w>` |
 | alle übrigen Elemente | Zeile in `annotationen.tsv` |
 
@@ -43,9 +43,9 @@ Die letzte Zeile der Ausgabe (`VERDICT`) nennt je Buch Wörter und Schemastatus.
 
 ## annotationen.tsv
 
-Die semantische Auszeichnung der Quelle hat im Schema keinen Platz und geht nicht verloren. Eine Zeile je Element, Spalten `einheit` (xml:id der umgebenden Quell-`<ab>`, `-` auf Ebene des äußeren `<div>`), `art` (Elementname, dazu `ab` und `seg`), `von` und `bis` (erste und letzte `xml:id` von `<w>`/`<pc>`, leer bei einem Element ohne Token), `n_w`, `attribute` (`name=wert`, getrennt durch ` | `) und `text` (nur bei kurzen Begriffen wie ingredient, tool, dish, name, ref, date, title, time). Bei `art=ab` ist `von`/`bis` der Bereich des eigenen Textflusses ohne verschachtelte Unterrezepte.
+Die semantische Auszeichnung der Quelle hat im Schema keinen Platz und geht nicht verloren. Eine Zeile je Element, Spalten `einheit` (xml:id der umgebenden Quell-`<ab>`, `-` auf Ebene des äußeren `<div>`), `art` (Elementname, dazu `ab` und `seg`), `von` und `bis` (erste und letzte `xml:id` von `<w>`/`<pc>`, leer bei einem Element ohne Token), `n_w`, `attribute` (`name=wert`, getrennt durch ` | `) und `text` (nur bei kurzen Begriffen wie ingredient, tool, dish, name, ref, date, title, time). Bei `art=ab` ist `von`/`bis` das erste und letzte Token des Rezepts. Läuft der Text des Elternrezepts nach einem Unterrezept weiter, liegen die Token des Unterrezepts dazwischen und gehören zu `von..bis` (gemessen: Bs1 4 von 306, GR1 1 von 284, M11 0, W1 1). Nur `n_w` zählt den eigenen Umfang ohne Unterrezepte. Bei `art=note/ref` sind `von` und `bis` das Token vor der Notiz.
 
-Gegenprobe im Skript: die Zeilenzahl je `art` ist gleich der Elementzahl in der Quelle (ohne Elemente in `<note>`).
+Gegenprobe im Skript: die Zeilenzahl je `art` ist gleich der Elementzahl in der Quelle, Elemente in `<note>` zählen als `note/<name>`. Zusätzlich ein eigener Zeichenrundlauf über den Text der Notizen.
 
 ## Gegenproben und harte Fehler
 
