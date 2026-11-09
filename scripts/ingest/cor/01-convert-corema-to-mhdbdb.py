@@ -319,10 +319,8 @@ class Zustand:
         self.zaehler = collections.Counter()  # je Folio-Bezeichnung
         self.stat = collections.Counter()
         self.zeilen = []  # Zeilen der annotationen.tsv
-        self.texte = []  # emittierter Text in Dokumentreihenfolge
         self.verklebt = []  # (Einheit, Kontext) an Elementgrenzen ohne Leerraum
         self.pb_im_wort = []  # (Blatt, Kontext) fuer <pb> mitten im Wort
-        self.note_texte = []  # Text der <note>, fuer den eigenen Rundlauf
         self.letzte_id = ""  # xml:id des zuletzt geschriebenen w/pc (Anker fuer note/ref)
 
     def neue_id(self):
@@ -443,7 +441,6 @@ def emittiere_lauf(run, einheit_id, wurzel_div, kopf_erlaubt, z, ab_zeile):
                     el.set("join", "left")
                 el.text = text
                 z.stat["pc"] += 1
-            z.texte.append(text)
             erste = False
         else:
             _, gruppe, art, nutzlast = item
@@ -483,7 +480,6 @@ def schreibe_note(parent, nutzlast, z, einheit_id):
     el = E(parent, "note", type=f"editorial-{lang}" if lang else "editorial")
     el.text = text
     z.stat["note"] += 1
-    z.note_texte.append(text)
     for name, attrs, ktext in kinder:
         z.zeilen.append({"einheit": einheit_id, "art": f"note/{name}", "von": z.letzte_id,
                          "bis": z.letzte_id, "n_w": 0, "attribute": attr_text(attrs), "text": ktext})
@@ -741,12 +737,14 @@ def konvertiere(buch, corema_dir, ausgabe_dir, trocken, heute, rng):
         probleme.append(f"{len(dup)} doppelte xml:id, z.B. {dup[:5]}")
     erwartet = "".join(re.sub(r"\s+", "", t) for t in
                        body_q.xpath(".//text()[not(ancestor::t:note)]", namespaces={"t": TEI_NS}))
-    erzeugt = "".join(re.sub(r"\s+", "", t) for t in z.texte)
+    # gegen die Ausgabe, nicht gegen eine Liste, die der Konverter beim Schreiben selbst fuehrt
+    erzeugt = "".join(re.sub(r"\s+", "", t) for t in
+                      text.xpath(".//t:w//text() | .//t:pc//text()", namespaces={"t": TEI_NS}))
     if erwartet != erzeugt:
         d = next((i for i, (a, b) in enumerate(zip(erwartet, erzeugt)) if a != b),
                  min(len(erwartet), len(erzeugt)))
         probleme.append(f"Zeichenrundlauf: {len(erwartet)} Zeichen Quelle, {len(erzeugt)} in w/pc, "
-                        f"erste Abweichung bei {d}: {erwartet[d - 10:d + 10]!r} gegen {erzeugt[d - 10:d + 10]!r}")
+                        f"erste Abweichung bei {d}: {erwartet[max(0, d - 10):d + 10]!r} gegen {erzeugt[max(0, d - 10):d + 10]!r}")
     n_div = len(tei.xpath("//t:div[@type]", namespaces={"t": TEI_NS}))
     if n_div != zaehler["ab"]:
         probleme.append(f"{n_div} <div type> gegen {zaehler['ab']} verarbeitete <ab>")
@@ -761,7 +759,9 @@ def konvertiere(buch, corema_dir, ausgabe_dir, trocken, heute, rng):
     je_art = collections.Counter(r["art"] for r in z.zeilen)
     erwartet_note = "".join(re.sub(r"\s+", "", t) for t in
                             body_q.xpath(".//text()[ancestor::t:note]", namespaces={"t": TEI_NS}))
-    if erwartet_note != "".join(re.sub(r"\s+", "", t) for t in z.note_texte):
+    erzeugt_note = "".join(re.sub(r"\s+", "", t) for t in
+                           text.xpath(".//t:note//text()", namespaces={"t": TEI_NS}))
+    if erwartet_note != erzeugt_note:
         probleme.append("Notiz-Rundlauf: Text der <note> in Quelle und Ausgabe verschieden")
     for art in list(SPAN_ATTRS) + ["seg", "ab"] + [f"note/{k}" for k in NOTE_KINDER]:
         soll = quell_zaehler[art]

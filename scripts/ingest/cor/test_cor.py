@@ -62,7 +62,7 @@ def test_rezept_mit_kopf_und_pb():
 
 def test_element_in_notiz():
     b, z = lauf('<ab xml:id="t.1" n="1" type="recipe">a b<note xml:lang="en">Siehe <ref target="#t.2">x</ref>.</note></ab>')
-    assert z.note_texte == ["Siehe x."]
+    assert [n.text for n in b.iter("{http://www.tei-c.org/ns/1.0}note")] == ["Siehe x."]
     zeile = next(r for r in z.zeilen if r["art"] == "note/ref")
     assert zeile["von"] == zeile["bis"] == "COR_T_0_2" and zeile["attribute"] == "target=#t.2" and zeile["text"] == "x"
     assert "unbekanntes Element <name> in <note>" in fehler(
