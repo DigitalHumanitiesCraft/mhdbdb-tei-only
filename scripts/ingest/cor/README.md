@@ -52,6 +52,7 @@ Gegenprobe im Skript: die Zeilenzahl je `art` ist gleich der Elementzahl in der 
 - Ein Element oder Attribut außerhalb der Tabellen im Skript bricht ab (`HarterFehler`), ebenso Text zwischen den Kindern des äußeren `<div>`.
 - Zeichenrundlauf: die Zeichen aller `<w>`/`<pc>` (ohne Leerraum) sind gleich dem Text der Quelle ohne `<note>`.
 - Gleiche Zahl `<ab>`, `<pb>`, `<note>` und Datumszeilen in Quelle und Ausgabe, keine doppelte `xml:id`.
+- Noch nicht geprüft, für Stufe 1 vorgemerkt (chsteiner, 09.11.2026): Text, der außerhalb von `<w>`, `<pc>` und `<note>` im `<text>` landet, sieht kein Rundlauf (Hinweis des Reviewers zu #696). Die Gegenprobe wäre, dass dort nur Leerraum steht. In den vier Pilotdateien ist das so (gemessen 09.11.2026: kein nicht leerer Textknoten außerhalb).
 
 ## Offen für die Sitzung
 
