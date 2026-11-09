@@ -47,7 +47,8 @@ andere nicht Erfolgreiche ist tot. Ohne diese Datei waere der Lauf dauerhaft rot
 
 Eine unbekannte Eingabe ist ein harter Fehler (Exit 2), kein stilles Ueberspringen:
 ein href mit unbekanntem Schema (nicht http, https, mailto, tel, javascript), ein
-protokollrelativer href (`//host`), eine nicht lesbare HTML-Datei, ein Fehler in der
+protokollrelativer href (`//host`), ein href, den urlsplit nicht zerlegen kann (etwa
+`https://[abc`), eine nicht lesbare HTML-Datei, ein Fehler in der
 Allowlist (fehlendes oder unbekanntes Feld, unbekannte Statusklasse, doppelte Domain
 oder URL, ein Eintrag mit beiden oder keinem von `domain` und `url`, eine `url` ohne
 http(s), ohne Host oder mit Fragment).
@@ -141,7 +142,10 @@ def externe_url(href, quelle):
     h = href.strip()
     if h.startswith('//'):
         raise Fehler(f'{quelle}: protokollrelativer href {href!r}')
-    teile = urlsplit(h)
+    try:
+        teile = urlsplit(h)
+    except ValueError as exc:  # etwa 'https://[abc' (Invalid IPv6 URL)
+        raise Fehler(f'{quelle}: href nicht lesbar {href!r}: {exc}')
     if not teile.scheme:
         return None  # relativ, Anker oder leer
     schema = teile.scheme.lower()
@@ -195,7 +199,10 @@ def lade_allowlist(daten):
             schluessel = domain
         else:
             url = e['url']
-            teile = urlsplit(url) if isinstance(url, str) else None
+            try:
+                teile = urlsplit(url) if isinstance(url, str) else None
+            except ValueError:  # etwa 'https://[abc'
+                teile = None
             if (teile is None or teile.scheme not in ('http', 'https') or not teile.hostname
                     or urldefrag(url)[0] != url or url != url.strip()):
                 raise Fehler(f'Allowlist-Eintrag {i}: url {url!r} ist keine http(s)-URL mit Host ohne Fragment')
@@ -525,7 +532,9 @@ def selftest():
     cases.append(('Allowlist: url mit Fragment, ohne Schema, ohne Host, kein Text',
                   all(wirft(lambda u=u: lade_allowlist({'eintraege': [{'url': u, 'status': [403], 'grund': 'g'}]}),
                             'keine http(s)-URL')
-                      for u in ('https://a.de/x#f', 'a.de/x', 'https:///x', 5, ' https://a.de/x'))))
+                      for u in ('https://a.de/x#f', 'a.de/x', 'https:///x', 5, ' https://a.de/x', 'https://[abc'))))
+    cases.append(('href, den urlsplit nicht lesen kann: harter Fehler',
+                  wirft(lambda: externe_url('https://[abc', 'x.html'), 'nicht lesbar')))
     cases.append(('Allowlist: doppelte URL',
                   wirft(lambda: lade_allowlist({'eintraege': [{'url': 'https://a.de/x', 'status': [403], 'grund': 'g'},
                                                               {'url': 'https://a.de/x', 'status': [404], 'grund': 'g'}]}),
