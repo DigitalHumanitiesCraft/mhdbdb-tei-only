@@ -24,10 +24,12 @@ them are decisions plus a few named repairs.**
   `stät`, `stát` still carry no `@lemmaRef`, in 13 files. They are the 17 cases
   KZW left open and the 2 that would need a new lemma, and both groups sit with
   her. #371 stays open for her acceptance.
-- `minne` (#216) applied 5,435 tokens and held back 1,547. What is still ours
-  is listed in the thread, among it the NAM lemma "Minne", the repair case
-  `MR2_27022210102100_5` (`SAX_24200_4` was fixed on 2026-10-09), the WVV address cases, the
-  `GWTK` suspects and a rule for POS-TAGSET.md.
+- `minne` (#216) applied 5,435 tokens and held back 1,547. The NAM lemma
+  "Minne" (`lemma_79830`, 321 tokens in 55 texts, the seven WVV address cases
+  among them), the repair case `MR2_27022210102100_5` and the rule in
+  POS-TAGSET.md §8 followed on 2026-11-08 with #691. Still open: four reading
+  cases and a variant type for `frô`, both with KZW, and the held-back `GWTK`
+  suspects.
 - Series 3 (`sere`, `not`, `nam`, `leit` and the rest of the list from PR #210)
   does not start while two series wait on editorial feedback.
 
