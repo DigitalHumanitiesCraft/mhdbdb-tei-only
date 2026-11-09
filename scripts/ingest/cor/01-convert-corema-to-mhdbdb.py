@@ -571,8 +571,8 @@ HEADER_TEMPLATE = """<teiHeader xmlns="http://www.tei-c.org/ns/1.0">
           </persName>
         </authority>
         <availability>
-          <licence target="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</licence>
-          <p>Textdaten der Quelle (CoReMA, ZIM-ACDH Universität Graz) unter CC BY 4.0, Namensnennung erforderlich. Faksimiles der Quelle sind nicht übernommen. Förderhinweis der Quelle: {funder}.</p>
+          <licence target="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</licence>
+          <p>Daten und Annotationen unter CC BY 4.0, der Lizenz der Textdaten der Quelle (CoReMA, ZIM-ACDH Universität Graz). Namensnennung erforderlich. Faksimiles der Quelle sind nicht übernommen. Förderhinweis der Quelle: {funder}.</p>
         </availability>
         <date when="2026">2026</date>
       </publicationStmt>
