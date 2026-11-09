@@ -35,16 +35,23 @@ es nicht freistellt. Eigener allgemeiner User-Agent ohne E-Mail.
 
 `scripts/audit/link-check-allowlist.json` nennt Domains mit bekannten
 Fehlalarmen (meist Sperren gegen Skripte, etwa Verlage hinter doi.org). Eintrag: `domain` (trifft auch Subdomains), `status` (Liste von HTTP-Status
-oder der Netzfehlerklassen DNS, TIMEOUT, SSL, FEHLER), `grund`. Eine Antwort, die
-zu einem Eintrag passt, zaehlt als freigestellt und nicht als tot. Alles andere
-nicht Erfolgreiche ist tot. Ohne diese Datei waere der Lauf dauerhaft rot.
+oder der Netzfehlerklassen DNS, TIMEOUT, SSL, FEHLER), `grund`. Statt `domain` kann
+ein Eintrag `url` tragen (genau eines von beiden): er trifft nur diese eine URL
+(ohne Fragment, zeichengleich) und wird vor den Domain-Eintraegen geprueft; einen
+Status, den er nicht nennt, prueft danach der Domain-Eintrag. Das ist fuer einen
+Ausfall hinter doi.org, den ein Domain-Eintrag fuer jede DOI freistellen wuerde. Eine
+Antwort, die zu einem Eintrag passt, zaehlt als freigestellt und nicht als tot. Alles
+andere nicht Erfolgreiche ist tot. Ohne diese Datei waere der Lauf dauerhaft rot.
 
 ## Defensiv
 
 Eine unbekannte Eingabe ist ein harter Fehler (Exit 2), kein stilles Ueberspringen:
 ein href mit unbekanntem Schema (nicht http, https, mailto, tel, javascript), ein
-protokollrelativer href (`//host`), eine nicht lesbare HTML-Datei, ein Fehler in der
-Allowlist (fehlendes oder unbekanntes Feld, unbekannte Statusklasse, doppelte Domain).
+protokollrelativer href (`//host`), ein href, den urlsplit nicht zerlegen kann (etwa
+`https://[abc`), eine nicht lesbare HTML-Datei, ein Fehler in der
+Allowlist (fehlendes oder unbekanntes Feld, unbekannte Statusklasse, doppelte Domain
+oder URL, ein Eintrag mit beiden oder keinem von `domain` und `url`, eine `url` ohne
+http(s), ohne Host oder mit Fragment).
 
 ## Ausgabe
 
@@ -96,7 +103,8 @@ WIEDERHOLUNG_PAUSE_S = 5.0
 ERLAUBTE_SCHEMATA = ('http', 'https', 'mailto', 'tel', 'javascript')
 # Netzfehlerklassen, die ein Allowlist-Eintrag nennen darf, neben ganzen HTTP-Status.
 FEHLERKLASSEN = ('DNS', 'TIMEOUT', 'SSL', 'FEHLER')
-ALLOW_FELDER = ('domain', 'status', 'grund')
+ALLOW_FELDER = ('domain', 'url', 'status', 'grund')
+ALLOW_PFLICHT = ('status', 'grund')  # dazu genau eines von domain und url
 
 
 class Fehler(Exception):
@@ -134,7 +142,10 @@ def externe_url(href, quelle):
     h = href.strip()
     if h.startswith('//'):
         raise Fehler(f'{quelle}: protokollrelativer href {href!r}')
-    teile = urlsplit(h)
+    try:
+        teile = urlsplit(h)
+    except ValueError as exc:  # etwa 'https://[abc' (Invalid IPv6 URL)
+        raise Fehler(f'{quelle}: href nicht lesbar {href!r}: {exc}')
     if not teile.scheme:
         return None  # relativ, Anker oder leer
     schema = teile.scheme.lower()
@@ -159,7 +170,10 @@ def sammle_urls(dateien, lies):
 
 
 def lade_allowlist(daten):
-    """Prueft den Inhalt der Allowlist; gibt [(domain, frozenset(status), grund)] zurueck."""
+    """Prueft den Inhalt der Allowlist; gibt [(schluessel, frozenset(status), grund)] zurueck.
+
+    Der Schluessel ist die Domain oder, bei einem URL-Eintrag, die URL (ist_url_eintrag).
+    """
     if not isinstance(daten, dict) or set(daten) - {'_comment', 'eintraege'} or 'eintraege' not in daten:
         raise Fehler("Allowlist: erwartet wird ein Objekt mit '_comment' (optional) und 'eintraege'")
     if not isinstance(daten['eintraege'], list):
@@ -168,30 +182,51 @@ def lade_allowlist(daten):
     for i, e in enumerate(daten['eintraege']):
         if not isinstance(e, dict):
             raise Fehler(f'Allowlist-Eintrag {i}: kein Objekt')
-        fehlt = [f for f in ALLOW_FELDER if f not in e]
+        fehlt = [f for f in ALLOW_PFLICHT if f not in e]
         if fehlt:
             raise Fehler(f'Allowlist-Eintrag {i} ohne Feld ' + ', '.join(repr(f) for f in fehlt))
         unbekannt = sorted(set(e) - set(ALLOW_FELDER))
         if unbekannt:
             raise Fehler(f'Allowlist-Eintrag {i} mit unbekanntem Feld ' + ', '.join(repr(f) for f in unbekannt))
-        domain = e['domain']
-        if not isinstance(domain, str) or not domain or domain != domain.lower() or '/' in domain:
-            raise Fehler(f'Allowlist-Eintrag {i}: domain {domain!r} ist kein kleingeschriebener Hostname')
-        if domain in gesehen:
-            raise Fehler(f'Allowlist: domain {domain!r} doppelt')
-        gesehen.add(domain)
+        art = [f for f in ('domain', 'url') if f in e]
+        if len(art) != 1:
+            raise Fehler(f"Allowlist-Eintrag {i}: genau eines von 'domain' und 'url' erwartet, "
+                         f"vorhanden {len(art)} von 2")
+        if art == ['domain']:
+            domain = e['domain']
+            if not isinstance(domain, str) or not domain or domain != domain.lower() or '/' in domain:
+                raise Fehler(f'Allowlist-Eintrag {i}: domain {domain!r} ist kein kleingeschriebener Hostname')
+            schluessel = domain
+        else:
+            url = e['url']
+            try:
+                teile = urlsplit(url) if isinstance(url, str) else None
+            except ValueError:  # etwa 'https://[abc'
+                teile = None
+            if (teile is None or teile.scheme not in ('http', 'https') or not teile.hostname
+                    or urldefrag(url)[0] != url or url != url.strip()):
+                raise Fehler(f'Allowlist-Eintrag {i}: url {url!r} ist keine http(s)-URL mit Host ohne Fragment')
+            schluessel = url
+        if schluessel in gesehen:
+            raise Fehler(f'Allowlist: {art[0]} {schluessel!r} doppelt')
+        gesehen.add(schluessel)
         status = e['status']
         if not isinstance(status, list) or not status:
-            raise Fehler(f'Allowlist-Eintrag {domain}: status ist keine nichtleere Liste')
+            raise Fehler(f'Allowlist-Eintrag {schluessel}: status ist keine nichtleere Liste')
         for s in status:
             ok_int = isinstance(s, int) and not isinstance(s, bool) and 100 <= s <= 599
             if not ok_int and s not in FEHLERKLASSEN:
-                raise Fehler(f'Allowlist-Eintrag {domain}: unbekannter status {s!r} '
+                raise Fehler(f'Allowlist-Eintrag {schluessel}: unbekannter status {s!r} '
                              f'(erlaubt: HTTP-Status 100 bis 599 oder {", ".join(FEHLERKLASSEN)})')
         if not isinstance(e['grund'], str) or not e['grund'].strip():
-            raise Fehler(f'Allowlist-Eintrag {domain}: grund ist kein nichtleerer Text')
-        ergebnis.append((domain, frozenset(status), e['grund']))
+            raise Fehler(f'Allowlist-Eintrag {schluessel}: grund ist kein nichtleerer Text')
+        ergebnis.append((schluessel, frozenset(status), e['grund']))
     return ergebnis
+
+
+def ist_url_eintrag(schluessel):
+    """Ein Domain-Schluessel enthaelt kein '/' (lade_allowlist prueft das), eine URL schon."""
+    return '://' in schluessel
 
 
 def host_passt(host, domain):
@@ -203,16 +238,19 @@ def ist_erfolg(status):
 
 
 def allowlist_treffer(url, status, allowlist):
-    """Domain des passenden Eintrags oder None."""
+    """Schluessel des passenden Eintrags oder None; ein URL-Eintrag geht einem Domain-Eintrag vor."""
+    for schluessel, stati, _ in allowlist:
+        if ist_url_eintrag(schluessel) and schluessel == url and status in stati:
+            return schluessel
     host = (urlsplit(url).hostname or '').lower()
-    for domain, stati, _ in allowlist:
-        if host_passt(host, domain) and status in stati:
-            return domain
+    for schluessel, stati, _ in allowlist:
+        if not ist_url_eintrag(schluessel) and host_passt(host, schluessel) and status in stati:
+            return schluessel
     return None
 
 
 def klassifiziere(ergebnisse, allowlist):
-    """ergebnisse {url: status} -> (tot {url: status}, frei {url: (status, domain)}, ok [url])."""
+    """ergebnisse {url: status} -> (tot {url: status}, frei {url: (status, schluessel)}, ok [url]); schluessel ist Domain oder URL des Eintrags."""
     tot, frei, ok = {}, {}, []
     for url, status in ergebnisse.items():
         if ist_erfolg(status):
@@ -233,13 +271,13 @@ def bericht_zeilen(urls, ergebnisse, allowlist, n_dateien):
          f'{len(tot)} von {n} tot, {len(frei)} von {n} durch die Allowlist freigestellt, '
          f'{len(ok)} von {n} erreichbar']
     if frei:
-        je_domain = {}
-        for _, d in frei.values():
-            je_domain[d] = je_domain.get(d, 0) + 1
-        z.append('Freigestellt nach Domain: ' + ', '.join(f'{d} {c} von {len(frei)}'
-                                                          for d, c in sorted(je_domain.items())))
-    benutzt = {d for _, d in frei.values()}
-    ungenutzt = [d for d, _, _ in allowlist if d not in benutzt]
+        je_eintrag = {}
+        for _, k in frei.values():
+            je_eintrag[k] = je_eintrag.get(k, 0) + 1
+        z.append('Freigestellt nach Eintrag (Domain oder URL): ' + ', '.join(f'{k} {c} von {len(frei)}'
+                                                                           for k, c in sorted(je_eintrag.items())))
+    benutzt = {k for _, k in frei.values()}
+    ungenutzt = [k for k, _, _ in allowlist if k not in benutzt]
     if ungenutzt:
         z.append(f'Allowlist-Eintraege ohne Treffer ({len(ungenutzt)} von {len(allowlist)}): ' + ', '.join(ungenutzt))
     for url, status in sorted(tot.items()):
@@ -465,6 +503,47 @@ def selftest():
                   len(schlaf) == 1 and abs(schlaf[0] - 0.7) < 1e-9))
     cases.append(('Subdomain trifft, Namensendung ohne Punkt nicht',
                   host_passt('www.doi.org', 'doi.org') and not host_passt('notdoi.org', 'doi.org')))
+    # URL-Eintraege: nur die genannte URL mit dem genannten Status, vor dem Domain-Eintrag
+    al_url = lade_allowlist({'eintraege': [
+        {'domain': 'doi.org', 'status': [403, 405], 'grund': 'g'},
+        {'url': 'https://doi.org/10.9/z', 'status': [503, 403], 'grund': 'g'}]})
+    erg_url = {
+        'https://doi.org/10.9/z': 503,       # URL-Eintrag
+        'https://doi.org/10.9/z2': 503,      # gleiche Domain, andere URL: tot
+        'https://doi.org/10.9/zz': 404,      # Status nicht genannt: tot
+        'https://doi.org/10.9/a': 403,       # Domain-Eintrag
+    }
+    tot_u, frei_u, _ = klassifiziere(erg_url, al_url)
+    cases.append(('URL-Eintrag: nur genau diese URL und dieser Status',
+                  sorted(tot_u) == ['https://doi.org/10.9/z2', 'https://doi.org/10.9/zz']
+                  and frei_u == {'https://doi.org/10.9/z': (503, 'https://doi.org/10.9/z'),
+                                 'https://doi.org/10.9/a': (403, 'doi.org')}))
+    cases.append(('URL-Eintrag: dieselbe URL mit nicht genanntem Status bleibt tot',
+                  klassifiziere({'https://doi.org/10.9/z': 404}, al_url)[0] == {'https://doi.org/10.9/z': 404}))
+    cases.append(('URL-Eintrag: nicht genannter Status faellt auf den Domain-Eintrag durch',
+                  allowlist_treffer('https://doi.org/10.9/z', 405, al_url) == 'doi.org'))
+    cases.append(('URL-Eintrag geht dem Domain-Eintrag vor',
+                  allowlist_treffer('https://doi.org/10.9/z', 403, al_url) == 'https://doi.org/10.9/z'))
+    cases.append(('Allowlist: domain und url zugleich',
+                  wirft(lambda: lade_allowlist({'eintraege': [{'domain': 'a.de', 'url': 'https://a.de/x',
+                                                              'status': [403], 'grund': 'g'}]}), 'genau eines')))
+    cases.append(('Allowlist: weder domain noch url',
+                  wirft(lambda: lade_allowlist({'eintraege': [{'status': [403], 'grund': 'g'}]}), 'genau eines')))
+    cases.append(('Allowlist: url mit Fragment, ohne Schema, ohne Host, kein Text',
+                  all(wirft(lambda u=u: lade_allowlist({'eintraege': [{'url': u, 'status': [403], 'grund': 'g'}]}),
+                            'keine http(s)-URL')
+                      for u in ('https://a.de/x#f', 'a.de/x', 'https:///x', 5, ' https://a.de/x', 'https://[abc'))))
+    cases.append(('href, den urlsplit nicht lesen kann: harter Fehler',
+                  wirft(lambda: externe_url('https://[abc', 'x.html'), 'nicht lesbar')))
+    cases.append(('Allowlist: doppelte URL',
+                  wirft(lambda: lade_allowlist({'eintraege': [{'url': 'https://a.de/x', 'status': [403], 'grund': 'g'},
+                                                              {'url': 'https://a.de/x', 'status': [404], 'grund': 'g'}]}),
+                        "url 'https://a.de/x' doppelt")))
+    z_url, _ = bericht_zeilen({u: ['d.html'] for u in erg_url}, erg_url, al_url, 1)
+    cases.append(('Bericht: URL-Eintrag erscheint unter den Freistellungen',
+                  'Freigestellt nach Eintrag (Domain oder URL): doi.org 1 von 2, https://doi.org/10.9/z 1 von 2'
+                  in '\n'.join(z_url)))
+
     urls = {u: ['d.html'] for u in ergebnisse}
     zeilen, n_tot = bericht_zeilen(urls, ergebnisse, al, 3)
     text = '\n'.join(zeilen)

@@ -1,10 +1,20 @@
 {
-  "_comment": "Allowlist fuer check-external-links.py (#653): Hosts mit bekannten Fehlalarmen, meist Sperren gegen Skripte. Freigestellt wird je Eintrag nur der genannte Status; jede andere Antwort bleibt ein toter Link. doi.org gilt fuer den Status der Weiterleitung auf den Verlag, nicht fuer doi.org selbst. Stand 2026-11-03, zwei Messungen: lokal (Vormessung von Hand) und der erste Lauf auf dem GitHub-Runner (Lauf 41663640241), der fuer manche Hosts anders gesperrt wird. Eintraege mit 'nur Runner' waren lokal mit demselben Skript erreichbar (200).",
+  "_comment": "Allowlist fuer check-external-links.py (#653): Hosts mit bekannten Fehlalarmen, meist Sperren gegen Skripte; seit 2026-11-09 auch einzelne URLs (Feld url statt domain), fuer einen Ausfall hinter doi.org. Freigestellt wird je Eintrag nur der genannte Status; einen Status, den ein URL-Eintrag nicht nennt, prueft danach der Domain-Eintrag, und eine Antwort, die kein passender Eintrag nennt, bleibt ein toter Link. doi.org gilt fuer den Status der Weiterleitung auf den Verlag, nicht fuer doi.org selbst. Domain-Eintraege Stand 2026-11-03 (die URL-Eintraege nennen ihre eigenen Messungen), zwei Messungen: lokal (Vormessung von Hand) und der erste Lauf auf dem GitHub-Runner (Lauf 41663640241), der fuer manche Hosts anders gesperrt wird. Eintraege mit 'nur Runner' waren lokal mit demselben Skript erreichbar (200).",
   "eintraege": [
     {
       "domain": "doi.org",
       "status": [403, 405],
-      "grund": "Der Abruf folgt der Weiterleitung auf die Zielseite. Lokal 403 bei 29 doi.org-URLs in der Erstmessung; auf dem Runner antworteten 8 Brill-Ziele (10.1163, 10.30965), die lokal 403 geben, mit 405. 503 bleibt bewusst tot: am 2026-11-03 gaben 2 Bamberger Ziele (10.20378) 503, weil fis.uni-bamberg.de fuer alle Leser ausserhalb des Uninetzes gesperrt war, also keine Bot-Sperre. Gilt fuer alle doi.org-URLs, weil der Abgleich auf den Host der Link-URL geht, nicht auf das Ziel"
+      "grund": "Der Abruf folgt der Weiterleitung auf die Zielseite. Lokal 403 bei 29 doi.org-URLs in der Erstmessung; auf dem Runner antworteten 8 Brill-Ziele (10.1163, 10.30965), die lokal 403 geben, mit 405. 503 bleibt fuer doi.org tot; die 2 Bamberger Ziele (10.20378) mit 503 stehen als eigene URL-Eintraege unten. Gilt fuer alle doi.org-URLs, weil der Abgleich auf den Host der Link-URL geht, nicht auf das Ziel"
+    },
+    {
+      "url": "https://doi.org/10.20378/irb-56075",
+      "status": [503],
+      "grund": "Fischer 2020, Einleitung zu Bamberger interdisziplinaere Mittelalterstudien 15 (hilfe-publikationen.html, aus Zotero). Ziel fis.uni-bamberg.de antwortet 503 (Erstmessung 03.11., Runner-Lauf 41819556202 am 04.11., lokal mit curl am 08.11.2026, #653). Die DOI ist der richtige Verweis, ein anderer Open-Access-Ort des Bandes fand die Suche am 2026-11-09 nicht. Freigestellt auf Entscheidung chsteiner 2026-11-09: 503 ueber diesen Eintrag, 403 und 405 wie bei jeder doi.org-URL ueber den doi.org-Eintrag, jede andere Antwort bleibt tot"
+    },
+    {
+      "url": "https://doi.org/10.20378/irb-56076",
+      "status": [503],
+      "grund": "Viehhauser 2020, Mittelalterliche Texte als Modellierungsaufgabe, im selben Band wie irb-56075. Messung, Suche und Entscheidung wie dort"
     },
     {
       "domain": "hdl.handle.net",
