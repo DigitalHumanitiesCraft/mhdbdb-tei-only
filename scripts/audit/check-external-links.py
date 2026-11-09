@@ -37,7 +37,8 @@ es nicht freistellt. Eigener allgemeiner User-Agent ohne E-Mail.
 Fehlalarmen (meist Sperren gegen Skripte, etwa Verlage hinter doi.org). Eintrag: `domain` (trifft auch Subdomains), `status` (Liste von HTTP-Status
 oder der Netzfehlerklassen DNS, TIMEOUT, SSL, FEHLER), `grund`. Statt `domain` kann
 ein Eintrag `url` tragen (genau eines von beiden): er trifft nur diese eine URL
-(ohne Fragment, zeichengleich) und geht den Domain-Eintraegen vor. Das ist fuer einen
+(ohne Fragment, zeichengleich) und wird vor den Domain-Eintraegen geprueft; einen
+Status, den er nicht nennt, prueft danach der Domain-Eintrag. Das ist fuer einen
 Ausfall hinter doi.org, den ein Domain-Eintrag fuer jede DOI freistellen wuerde. Eine
 Antwort, die zu einem Eintrag passt, zaehlt als freigestellt und nicht als tot. Alles
 andere nicht Erfolgreiche ist tot. Ohne diese Datei waere der Lauf dauerhaft rot.
@@ -497,7 +498,7 @@ def selftest():
                   host_passt('www.doi.org', 'doi.org') and not host_passt('notdoi.org', 'doi.org')))
     # URL-Eintraege: nur die genannte URL mit dem genannten Status, vor dem Domain-Eintrag
     al_url = lade_allowlist({'eintraege': [
-        {'domain': 'doi.org', 'status': [403], 'grund': 'g'},
+        {'domain': 'doi.org', 'status': [403, 405], 'grund': 'g'},
         {'url': 'https://doi.org/10.9/z', 'status': [503, 403], 'grund': 'g'}]})
     erg_url = {
         'https://doi.org/10.9/z': 503,       # URL-Eintrag
@@ -512,6 +513,8 @@ def selftest():
                                  'https://doi.org/10.9/a': (403, 'doi.org')}))
     cases.append(('URL-Eintrag: dieselbe URL mit nicht genanntem Status bleibt tot',
                   klassifiziere({'https://doi.org/10.9/z': 404}, al_url)[0] == {'https://doi.org/10.9/z': 404}))
+    cases.append(('URL-Eintrag: nicht genannter Status faellt auf den Domain-Eintrag durch',
+                  allowlist_treffer('https://doi.org/10.9/z', 405, al_url) == 'doi.org'))
     cases.append(('URL-Eintrag geht dem Domain-Eintrag vor',
                   allowlist_treffer('https://doi.org/10.9/z', 403, al_url) == 'https://doi.org/10.9/z'))
     cases.append(('Allowlist: domain und url zugleich',
