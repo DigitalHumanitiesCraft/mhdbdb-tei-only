@@ -1,6 +1,6 @@
 # Roadmap
 
-Strategic priorities for the MHDBDB TEI Repository. Last full pass 2026-10-05; the #28 and #216 lines updated 2026-10-09; the lines on #58, #251, #93, #123, #404, #406, #228 and #369 updated 2026-10-19; the lines on #58, #63, #93, #109 and #139 updated 2026-10-20 (doc check).
+Strategic priorities for the MHDBDB TEI Repository. Last full pass 2026-10-05; the #28 and #216 lines updated 2026-10-09; the lines on #58, #251, #93, #123, #404, #406, #228 and #369 updated 2026-10-19; the lines on #58, #63, #93, #109 and #139 updated 2026-10-20 (doc check); the #216 line updated 2026-11-09 (doc check, numbers).
 
 See [Issue #44](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/44) for the full triage matrix with per-issue status.
 
@@ -28,7 +28,8 @@ them are decisions plus a few named repairs.**
   "Minne" (`lemma_79830`, 321 tokens in 55 texts, the seven WVV address cases
   among them), the repair case `MR2_27022210102100_5` and the rule in
   POS-TAGSET.md §8 followed on 2026-11-08 with #691. Still open: four reading
-  cases and a variant type for `frô`, both with KZW, and the held-back `GWTK`
+  cases with KZW, the three *minne* after *frô* in RVBR (held back by #691; the
+  *frô* tokens themselves carry `lemma_7260` since 2026-09-07) and the `GWTK`
   suspects.
 - Series 3 (`sere`, `not`, `nam`, `leit` and the rest of the list from PR #210)
   does not start while two series wait on editorial feedback.
