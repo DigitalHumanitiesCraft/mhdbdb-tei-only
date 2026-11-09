@@ -8,7 +8,8 @@ Verdichtet 03.11.2026, mit dem früheren Memory zur tei_all-Baseline. Zahlen vor
 
 **`doc-count-audit.py --check`**
 - In data-integrity.yml früh (nach `check-index-versions.py`, vor den Datengates), in no-cdn-check.yml als letzter Schritt. Prüft je Datei nur die Schlüssel aus `DOC_TARGETS`, `count_xml_elements` erlaubt nur `//tei:<tag>[@xml:id|@corresp]`. Ein Anker bindet nur seine Zeile, Katalogzahlen in Prosa sind ungegatet (#451).
-- Bei geänderter Zahl: Gate laufen UND `grep -rn` über die alte Zahl. Eine Lemma-Löschung berührt `lexicon_entries` und `variants_*`, ein neuer `type_N` hebt `variants_forms`.
+- Bei geänderter Zahl: Gate laufen UND `grep -rn` über die alte Zahl. Eine Lemma-Löschung berührt `lexicon_entries` und `variants_*`, ein neuer `type_N` hebt `variants_forms`. **Ein neues Lemma ebenso** (#216, 08.11.2026: 34 Treffer in rund 20 Dateien, darunter hilfe-*.html; die Belegtabelle des Aufrufers führte das Gate nicht). Vergleich gegen die Basis ohne Worktree: `git archive origin/main -- . ':!data' ':!api' ':!sources' | tar -x -C <scratch>`, dort `--check`.
+- **Wer den gegateten Nenner nachzieht, lässt den ungegateten Zähler daneben stehen.** #216 Runde 2: „991 der 43.712 Lemmata" (`hilfe-playground.html`), die Homographenzahl nach `normalize_mhg()` (CONTRACTS §Homographs) stieg mit dem Namenlemma `Minne` auf 993. Bei jedem bewegten Lemma die Zeilen des Nachzugs nach einer zweiten Zahl absuchen und sie nach ihrer Zählregel nachfahren. Das Gate meldet auch datierte Sätze („As of <datum> … 134 of 43,711 lemmata"), nur Vor-Marker wie „time of the audit" und nachgestelltes „not today's" schirmen ab.
 - **Cwd-relativ** sind `enhance_works_with_zotero.py`, `find-mentions.py`, die archivierten apply-Skripte (`env -C <wt>`). „Exit plus letzte Zeile aus zwei cwds" ist blind für ein Skript, das aus fremdem cwd null Dateien findet und grün meldet: `grep -c __file__` je Skript.
 
 **data-integrity.yml und Lifecycle**
@@ -17,7 +18,7 @@ Verdichtet 03.11.2026, mit dem früheren Memory zur tei_all-Baseline. Zahlen vor
 - Der Lifecycle hat zwei nummerierte Tabellen (DATA-MODEL `tei/` 1..12 mit 5b, `authority-files/` 1..7), „Schritt 5" ist zweimal belegt. Befehlsfolgen stehen außerdem in `docs/DEVELOPMENT.md` → Build Commands und in `npm run build:data` (Stand 03.11.2026, `scripts/README.md` verweist nur noch): ein „nur im Lifecycle" gegen alle halten.
 
 **Einzelgates**
-- `check-index-versions.py` gatet fünf Dateien, nur vier tragen die Korpusversion. `check-no-em-dash.py --diff-base origin/main` meldet auf einem älteren Branch Zeilen, die main geändert hat.
+- `check-index-versions.py` gatet fünf Dateien, nur vier tragen die Korpusversion. `check-no-em-dash.py --diff-base origin/main` meldet auf einem älteren Branch Zeilen, die main geändert hat. Ihr `REPO` hängt am Skriptpfad: auf einem Sparse-Worktree ohne `scripts/` per `importlib` laden, `mod.REPO = Path(<worktree>)`, dann `mod.main()` (08.11.2026). Kein Klon dafür: `file:///` mit `--filter=blob:none` wird ignoriert, nach 3 min lag 1 GB da.
 - `check-authority-cross-refs.py` überspringt `#type_N`, scannt nur tei/, `--check` schreibt das gitignorierte `scripts/audit/authority-cross-refs-audit.json` (wegräumen), die Ratsche feuert nur bei Anstieg.
 - `check-author-refs.py` vergleicht keine Alternativformen. `check-header-genres.py` ist blind für Köpfe ohne Hauptgattung, gelöschte Elternkategorien, doppelte ids.
 - `check-variants-flips.py --base <rev>`: rot bei jeder umgeklappten Form, außer `scripts/audit/variants-flips-ack.json` (force-added) nennt genau (from-Version, to-Version, Anzahl).

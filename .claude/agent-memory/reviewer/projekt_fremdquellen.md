@@ -1,6 +1,6 @@
 ---
 name: projekt-fremdquellen
-description: Fremdquellen und Fremdindizes im Review: Naming- und Pferde-Index, Fremdexporte unter sources/, Zotero- und Issue-Monatslauf, Handschriftencensus-Datierung, Weingrüße BRE, Textreihen
+description: Fremdquellen und Fremdindizes im Review: Naming- und Pferde-Index, Fremdexporte unter sources/, Zotero- und Issue-Monatslauf, Handschriftencensus-Datierung, Weingrüße BRE, CoReMA-Pilot COR, Textreihen
 metadata:
   type: project
 ---
@@ -30,5 +30,9 @@ Verdichtet 03.11.2026. Zahlen sind Eingabe, vor Gebrauch nachmessen.
 **Weingrüße BRE (#147, `scripts/ingest/bre/`)**
 - Proben ohne Schreiben nach `ingest/bre/`: 00 `--offline`, 01 in-process mit umgebogenem `bc.SEGMENTIERUNG`/`bc.INGEST_DIR` per `runpy`, 02 mit `--ausgabe-dir <scratch> --datum <change-Datum>` gegen das eingecheckte TEI diffen. Alt gegen neu über alle Zeugen mit Schein-Repo (`bre_common.REPO = parents[3]`, dazu `temp/bre-wiki`, `ingest/bre/*.tsv`, `schema/mhdbdb.rng`).
 - Zeilennummern aus 02 gegen die Quelle zählen, nicht aus dem Log. Der Kopfzeilen-Rückgriff in `segmentiere()` darf `bc.VORSPANN` nicht umgehen. `[...]` am Spaltenanfang einer Synopse heißt meist „eingebettet", nicht „fehlt".
+
+**CoReMA-Pilot COR (#139, `scripts/ingest/cor/`, Stufe 0 seit 08.11.2026)**
+- Quelle ist das Nachbar-Repo `../corema` (`data/published/annotated/<buch>.recipes.xml`), nicht GAMS: zuerst `sha256sum` gegen `ingest/cor/quellen.tsv`, dann 01 mit `--ausgabe-dir <scratch> --datum <change-Datum>` und `cmp` aller neun Ausgaben (war am 08.11. bytegleich). Der Konverter vergleicht selbst keine Hashes, er schreibt neue.
+- `<note>`-Inhalt seit ee9098053 geprüft (`NOTE_KINDER`, Zeile `note/ref`); Mutationsproben am Fixture-Helfer `test_cor.lauf()` per Scratch-Skript mit `sys.path` auf den Skriptordner. Kommentare in `<note>` bleiben ungezählt. `ingest/cor/README.md` trägt eine Zeilentabelle je TSV (Datenzeilen = `wc -l` minus 1), die bei jeder neuen `art` mitwachsen muss. Lizenzvorbild: ARI übernimmt die Quellizenz, BRE ebenso; `tei/` steht auf BY-NC-SA, DATA-MODEL.md „Stage 0" verlangt die Klärung vorab.
 
 **Textreihen (#93, `textreihen/`):** Treue gegen marketext.at per `curl` und Skriptvergleich messen, nicht per WebFetch (fasst zusammen). Den Verzeichnisbaum in `CLAUDE.md` liest kein Skript, sein Spiegel ist der Baum in `docs/DEVELOPMENT.md`.

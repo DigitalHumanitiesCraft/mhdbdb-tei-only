@@ -12,6 +12,6 @@ Verdichtet zuletzt am 03.11.2026. Zahlen in den Dateien sind Eingabe, keine Mess
 - [Authority, Lexikon und Variants](projekt_lexikon_variants.md): wenn authority-files/, der Authority-Index oder Tokens zwischen Lemmata im Diff sind
 - [Header-Spiegel](projekt_header_spiegel.md): wenn Header-Kopien von works.xml/persons.xml oder ihre Sync-Skripte im Diff sind
 - [Playground/Frontend](projekt_playground_frontend.md): wenn Suche, Ergebniskarten, Reader oder Playground-Werkzeuge im Diff sind
-- [Fremdquellen](projekt_fremdquellen.md): wenn ein Fremdexport, ein Fremdindex oder ein Monatslauf aus Zotero oder Issues im Diff ist
+- [Fremdquellen](projekt_fremdquellen.md): wenn ein Fremdexport, ein Fremdindex, ein Ingest aus Fremdquelle (BRE, COR) oder ein Monatslauf aus Zotero oder Issues im Diff ist
 - [Prüfseiten](projekt_pruefseiten.md): wenn ein Prüfseiten-Generator oder ein archiviertes Beispiel im Diff ist
 - [ONAMA-Pilot](projekt_onama.md): wenn ONAMA-Paket, Anker-Abgleich oder Explorer im Diff sind
