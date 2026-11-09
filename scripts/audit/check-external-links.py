@@ -250,7 +250,7 @@ def allowlist_treffer(url, status, allowlist):
 
 
 def klassifiziere(ergebnisse, allowlist):
-    """ergebnisse {url: status} -> (tot {url: status}, frei {url: (status, domain)}, ok [url])."""
+    """ergebnisse {url: status} -> (tot {url: status}, frei {url: (status, schluessel)}, ok [url]); schluessel ist Domain oder URL des Eintrags."""
     tot, frei, ok = {}, {}, []
     for url, status in ergebnisse.items():
         if ist_erfolg(status):
@@ -271,13 +271,13 @@ def bericht_zeilen(urls, ergebnisse, allowlist, n_dateien):
          f'{len(tot)} von {n} tot, {len(frei)} von {n} durch die Allowlist freigestellt, '
          f'{len(ok)} von {n} erreichbar']
     if frei:
-        je_domain = {}
-        for _, d in frei.values():
-            je_domain[d] = je_domain.get(d, 0) + 1
-        z.append('Freigestellt nach Eintrag (Domain oder URL): ' +', '.join(f'{d} {c} von {len(frei)}'
-                                                          for d, c in sorted(je_domain.items())))
-    benutzt = {d for _, d in frei.values()}
-    ungenutzt = [d for d, _, _ in allowlist if d not in benutzt]
+        je_eintrag = {}
+        for _, k in frei.values():
+            je_eintrag[k] = je_eintrag.get(k, 0) + 1
+        z.append('Freigestellt nach Eintrag (Domain oder URL): ' + ', '.join(f'{k} {c} von {len(frei)}'
+                                                                           for k, c in sorted(je_eintrag.items())))
+    benutzt = {k for _, k in frei.values()}
+    ungenutzt = [k for k, _, _ in allowlist if k not in benutzt]
     if ungenutzt:
         z.append(f'Allowlist-Eintraege ohne Treffer ({len(ungenutzt)} von {len(allowlist)}): ' + ', '.join(ungenutzt))
     for url, status in sorted(tot.items()):
