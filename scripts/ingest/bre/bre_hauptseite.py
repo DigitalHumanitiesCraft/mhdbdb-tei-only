@@ -163,8 +163,9 @@ def abgleich(sigle, haupt_liste, texte_titel, vorspann_art):
     Listen dieselben Texte in derselben Reihenfolge fuehren. Ein Text, den die Hauptseite
     in Klammern setzt (in einen anderen Text aufgenommen), ist kein eigener Text des Zeugen:
     steht er in der Segmentierung als Abschnitt, ist das die Abweichung "klammer_aber_abschnitt"
-    (Anzahl der Abschnitte in "bisher", wie bei "nur_bisher" und, als Anzahl der fehlenden
-    Vorkommen, bei "nur_hauptseite"; "reihenfolge" traegt Stellen und Folge).
+    (Anzahl der Abschnitte in "bisher", ebenso bei "nur_bisher"; bei "nur_hauptseite" steht
+    "bisher" auf "fehlt" und die Anzahl der fehlenden Vorkommen mit den Anmerkungen in
+    "hauptseite"; "reihenfolge" traegt Stellen und Folge).
     Ein Fragment steht bei der Hauptseite ohne Klammer vor dem Link, mit Anmerkung dahinter.
     """
     eigene = [h for h in haupt_liste if not h["klammer"]]
