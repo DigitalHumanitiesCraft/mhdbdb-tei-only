@@ -95,14 +95,14 @@ def jahr(datum):
     return int(treffer.group(1)) if treffer else None
 
 
-# Die Rollen, die die Autorenzeile zeigt; der Teamfilter zaehlt nur sie (sonst traegt ein gefilterter Eintrag
-# den Namen nicht sichtbar: Vortragende und Programmierende stehen nicht in der Zeile)
+# Die Rollen, die die Autorenzeile zeigt; der Teamfilter und verdeckte_team zaehlen nur sie. Eine Regel fuer
+# alle drei: sonst stuende ein gefilterter Eintrag ohne sichtbaren Namen da (Vortragende, Programmierende).
 ROLLEN = ("author", "editor", "contributor")
 
 
 def autoren(creators):
     namen = [c.get("lastName") or c.get("name") or "" for c in creators
-             if c.get("creatorType") in ROLLEN or "name" in c]
+             if c.get("creatorType") in ROLLEN]
     namen = [n for n in namen if n]
     if len(namen) > 3:
         return ", ".join(namen[:3]) + " u. a."
