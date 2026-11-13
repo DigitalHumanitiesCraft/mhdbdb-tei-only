@@ -95,9 +95,14 @@ def jahr(datum):
     return int(treffer.group(1)) if treffer else None
 
 
+# Die Rollen, die die Autorenzeile zeigt; der Teamfilter zaehlt nur sie (sonst traegt ein gefilterter Eintrag
+# den Namen nicht sichtbar: Vortragende und Programmierende stehen nicht in der Zeile)
+ROLLEN = ("author", "editor", "contributor")
+
+
 def autoren(creators):
     namen = [c.get("lastName") or c.get("name") or "" for c in creators
-             if c.get("creatorType") in ("author", "editor", "contributor") or "name" in c]
+             if c.get("creatorType") in ROLLEN or "name" in c]
     namen = [n for n in namen if n]
     if len(namen) > 3:
         return ", ".join(namen[:3]) + " u. a."
@@ -223,7 +228,9 @@ def team_treffer(eintrag, team):
     Dass Vor- und Nachname im selben Feld stehen oder ein Feld mehrere Personen traegt (in Zotero
     vorkommend), stoert nicht: gesucht wird im Text der ganzen Person."""
     treffer = []
-    for nach_, vor_, _typ in eintrag.get("personen", []):
+    for nach_, vor_, typ in eintrag.get("personen", []):
+        if typ not in ROLLEN:
+            continue
         w = worte(f"{vor_} {nach_}")
         for kid, _name, vor, nach in team:
             if vor <= w and nach & w and kid not in treffer:
@@ -301,7 +308,7 @@ def filter_bauen(stand, team):
         '<button type="button" id="pub-zurueck">Zurücksetzen</button>\n'
         '</div>\n'
         '<p id="pub-status" class="pub-status" role="status" aria-live="polite"></p>\n'
-        '<p class="pub-filter-hinweis">Das Teammitglied ist als Autorin, Autor oder Herausgeber eines Eintrags genannt '
+        '<p class="pub-filter-hinweis">Das Teammitglied ist als Autorin, Autor, Herausgeber oder Mitwirkende eines Eintrags genannt '
         '(Register der Mitwirkenden der MHDBDB). Bei gesetztem Jahresfilter entfallen Einträge ohne Jahr.</p>\n'
         '</form>')
 

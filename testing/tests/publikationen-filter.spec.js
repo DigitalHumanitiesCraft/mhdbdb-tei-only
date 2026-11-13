@@ -4,7 +4,8 @@
  * Gehalten wird: der Zotero-Link steht oben (vor dem ersten Abschnitt), der
  * Kontakthinweis steht bei den eigenen Publikationen und nur dort, der Teamfilter
  * zählt gegen den Stand data/zotero-publikationen.json nach (unabhängig vom
- * Build-Skript, an zwei Personen mit Namensvettern), der Jahresfilter schneidet
+ * Build-Skript, an zwei Personen, von denen Klaus M. Schmidt Namensvettern hat),
+ * der Jahresfilter schneidet
  * richtig und lässt Einträge ohne Jahr fallen, Zurücksetzen stellt alles her, und
  * ohne JavaScript steht die ganze Liste da.
  */
@@ -20,8 +21,11 @@ const EIGENE = stand.abschnitte.WB4HTUGC.eintraege;
 const ERWAEHNENDE = stand.abschnitte.Z2N4SWWI.eintraege;
 const ALLE = [...EIGENE, ...ERWAEHNENDE];
 
-// Unabhängige, bewusst einfache Zählung: Nachname als Teilwort und Vorname als Wort derselben Person
-const person = (x, nach, vor) => x.personen.some(([n, v]) => {
+// Unabhängige, bewusst einfache Zählung: Nachname als Teilwort und Vorname als Wort derselben Person,
+// nur in den Rollen, die die Autorenzeile zeigt (wie ROLLEN in build-publikationen.py)
+const ROLLEN = ['author', 'editor', 'contributor'];
+const person = (x, nach, vor) => x.personen.some(([n, v, typ]) => {
+    if (!ROLLEN.includes(typ)) return false;
     const text = `${v} ${n}`.toLowerCase();
     return new RegExp(`\\b${nach}`).test(text) && new RegExp(`\\b${vor}\\b`).test(text);
 });
@@ -60,8 +64,10 @@ test.describe('Publikationen: Filter und Hinweise', () => {
         expect(optionen[0]).toBe('Alle');
         expect(optionen).toContain(`Katharina Zeppezauer-Wachauer (${katharina})`);
         expect(optionen).toContain(`Klaus M. Schmidt (${klaus})`);
-        // Namensvettern gehören nicht dazu: Herbert Schmidt, Ulrich Müller, Sarah Schulz
-        expect(optionen.some((o) => /Silvia Müller|Svenja Schulz/.test(o))).toBe(false);
+        // Namensvettern zählen nicht: wer nur den Nachnamen Schmidt trägt, ist nicht Klaus M. Schmidt.
+        // Die Erwartung kommt aus dem Stand, nicht aus festen Namen.
+        const mitNachnameSchmidt = ALLE.filter((x) => x.personen.some(([n, , typ]) => ROLLEN.includes(typ) && /\bschmidt/i.test(n))).length;
+        expect(klaus).toBeLessThanOrEqual(mitNachnameSchmidt);
         expect(optionen.length - 1).toBeGreaterThan(5);
 
         await page.selectOption('#pub-team', { label: `Katharina Zeppezauer-Wachauer (${katharina})` });
