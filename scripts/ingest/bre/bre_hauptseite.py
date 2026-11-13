@@ -196,24 +196,18 @@ def abgleich(sigle, haupt_liste, texte_titel, vorspann_art):
 
     a_, b_ = filtere(unser), filtere(ht)
     if a_ != b_:
-        abw.append({"art": "reihenfolge", "titel": "", "bisher": " > ".join(a_),
-                    "hauptseite": " > ".join(b_)})
+        # der Befund traegt die Stellen, an denen die Folgen auseinandergehen (erste bis letzte
+        # Abweichung), damit eine weitere Vertauschung eine andere Abweichung ist
+        von = next(i for i, (x, y) in enumerate(zip(a_, b_)) if x != y)
+        bis = max(i for i, (x, y) in enumerate(zip(a_, b_)) if x != y)
+        abw.append({"art": "reihenfolge", "titel": "",
+                    "bisher": f"ab Stelle {von + 1}: " + " > ".join(a_[von:bis + 1]),
+                    "hauptseite": f"ab Stelle {von + 1}: " + " > ".join(b_[von:bis + 1])})
     return abw
-    fehlt_haupt = collections.Counter(unser) - collections.Counter(ht)
-    fehlt_unser = collections.Counter(ht) - collections.Counter(unser)
-    for t, n in fehlt_haupt.items():
-        abw.append({"art": "nur_bisher", "titel": t, "bisher": f"{n}x", "hauptseite": "fehlt"})
-    for h in haupt_liste:
-        if fehlt_unser.get(h["titel"], 0) > 0:
-            fehlt_unser[h["titel"]] -= 1
-            ann = ("in Klammern" if h["klammer"] else "ohne Klammer") + (
-                f", {h['anmerkung']}" if h["anmerkung"] else "")
-            abw.append({"art": "nur_hauptseite", "titel": h["titel"], "bisher": "fehlt",
-                        "hauptseite": ann})
-    if not abw and sorted(ht) == sorted(unser):
-        abw.append({"art": "reihenfolge", "titel": "", "bisher": " > ".join(unser),
-                    "hauptseite": " > ".join(ht)})
-    elif not abw:
-        abw.append({"art": "anzahl", "titel": "", "bisher": str(len(unser)),
-                    "hauptseite": str(len(ht))})
-    return abw
+
+
+def schluessel(sigle, abw):
+    """Schluessel einer Abweichung in bre_common.ABWEICHUNG_ERKLAERT: Zeuge, Art, Text und
+    der Inhalt der Abweichung (bisher, laut Hauptseite). Eine andere Abweichung der gleichen
+    Art ist ein anderer Schluessel."""
+    return (sigle, abw["art"], abw["titel"], abw["bisher"], abw["hauptseite"])

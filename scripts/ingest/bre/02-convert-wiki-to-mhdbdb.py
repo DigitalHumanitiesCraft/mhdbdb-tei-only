@@ -904,7 +904,7 @@ def konvertiere(sigle, trocken, ausgabe_dir, datum):
     if vorspann and vorspann.get("werk"):
         unsere = [vorspann["werk"]] + unsere
     abw = bh.abgleich(sigle, haupt[sigle], unsere, None)
-    offen = [x for x in abw if (sigle, x["art"], x["titel"]) not in bc.ABWEICHUNG_ERKLAERT]
+    offen = [x for x in abw if bh.schluessel(sigle, x) not in bc.ABWEICHUNG_ERKLAERT]
     if offen:
         raise bc.HarterFehler(
             f"Abweichung zur Hauptseite (rev {haupt_seite['revid']}), nicht in "
@@ -980,7 +980,7 @@ def konvertiere(sigle, trocken, ausgabe_dir, datum):
     print(f"Hauptseite (rev {haupt_seite['revid']}): {len(haupt[sigle])} Eintraege, "
           + ("keine Abweichung" if not abw else f"{len(abw)} geprueft erklaerte Abweichung(en)"))
     for x in abw:
-        print(f"  Abweichung {x['art']} {x['titel']!r}: {bc.ABWEICHUNG_ERKLAERT[(sigle, x['art'], x['titel'])]}")
+        print(f"  Abweichung {x['art']} {x['titel']!r}: {bc.ABWEICHUNG_ERKLAERT[bh.schluessel(sigle, x)]}")
     for f in faltungen:
         print(f)
     for k, t in enumerate(texte):

@@ -241,6 +241,26 @@ try:
     pruefe("Hauptseite: Listenzeile ohne Link", False, "kein Fehler")
 except conv.bc.HarterFehler:
     pruefe("Hauptseite: Listenzeile ohne Link", True)
+# Schluessel einer geprueften Abweichung tragen den Inhalt (Probe des Reviewers, Runde 1):
+# die B2-Abweichung aus ABWEICHUNG_ERKLAERT ist erklaert, dieselbe Folge mit einer zusaetzlichen
+# Vertauschung der letzten beiden Texte ist eine andere Abweichung und nicht erklaert.
+fuell = [{"teil": 1, "titel": f"Weingruß F{i}", "anmerkung": "", "klammer": False} for i in range(14)]
+nach = ["Weingruß Allerliebster Trunck", "Weinsegen Allerliebster Trost", "Biergruß Liebes Pir",
+        "Biersegen Liebe Gerstenprü"]
+h_b2 = fuell + [{"teil": 1, "titel": t, "anmerkung": "", "klammer": False} for t in nach]
+u_b2 = [h["titel"] for h in fuell] + ["Weinsegen Allerliebster Trost"] + nach
+ab_b2 = bh.abgleich("B2", h_b2, u_b2, None)
+pruefe("Schluessel: B2-Abweichungen sind erklaert (Positivkontrolle)",
+       len(ab_b2) == 2 and all(bh.schluessel("B2", x) in conv.bc.ABWEICHUNG_ERKLAERT for x in ab_b2),
+       str([bh.schluessel("B2", x) for x in ab_b2]))
+ab_b2_x = bh.abgleich("B2", h_b2, u_b2[:-2] + u_b2[-2:][::-1], None)
+pruefe("Schluessel: zusaetzliche Vertauschung ist nicht erklaert",
+       [x["art"] for x in ab_b2_x] == ["nur_bisher", "reihenfolge"]
+       and bh.schluessel("B2", ab_b2_x[1]) not in conv.bc.ABWEICHUNG_ERKLAERT, str(ab_b2_x))
+ab_zwei = bh.abgleich("B2", h_b2, u_b2 + ["Weinsegen Allerliebster Trost"], None)
+pruefe("Schluessel: zweiter Fehlansatz (Anzahl) ist nicht erklaert",
+       any(x["art"] == "nur_bisher" and x["bisher"] == "2x"
+           and bh.schluessel("B2", x) not in conv.bc.ABWEICHUNG_ERKLAERT for x in ab_zwei), str(ab_zwei))
 MATRIX = HAUPT + """
 {|
 |-

@@ -70,7 +70,7 @@ def main():
         for s in zeugen:
             abw, titel = abgleich_zeuge(c02, haupt, s)
             for x in abw:
-                grund = bc.ABWEICHUNG_ERKLAERT.get((s, x["art"], x["titel"]), "NICHT GEPRUEFT")
+                grund = bc.ABWEICHUNG_ERKLAERT.get(bh.schluessel(s, x), "NICHT GEPRUEFT")
                 zeilen.append((s, x["art"], x["titel"], x["bisher"], x["hauptseite"], grund))
             n_ok += not abw
             print(f"{s:3s} {len(titel):2d} Texte bisher, {len(haupt[s]):2d} laut Hauptseite: "
