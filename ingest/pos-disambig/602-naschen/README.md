@@ -13,8 +13,12 @@ Alle 5 Belege im Kontext von mindestens 40 Wörtern davor und danach gelesen (OV
 | Einstufung | Belege |
 |---|--:|
 | Essen (`sense_93122`) | 4 (JEW, NEI, NEIC, NEIR) |
-| offen | 1 (OVW) |
+| offen (am 13.11.2026 entschieden, siehe unten) | 1 (OVW) |
 
-NEI, NEIC und NEIR sind drei Überlieferungen derselben Neidhart-Strophe. Gesetzt ist `@ana` auf `lemma_57919_sense_93122` an den 4 Essens-Belegen; `@lemmaRef`, `@pos` und `@corresp` bleiben. Der OVW-Beleg bleibt ohne `@ana` und geht als Frage an KZW.
+NEI, NEIC und NEIR sind drei Überlieferungen derselben Neidhart-Strophe. Gesetzt ist `@ana` auf `lemma_57919_sense_93122` an den 4 Essens-Belegen; `@lemmaRef`, `@pos` und `@corresp` bleiben.
+
+## Nachtrag 13.11.2026: OVW
+
+KZW hat am 10.11.2026 entschieden: `OVW_1025010230_4` ist absichtlich doppeldeutig und trägt beide Bedeutungen. `@ana` steht seitdem auf `lemma_57919_sense_93122 lemma_57919_sense_93121` (Essen zuerst, wie die Reihenfolge der Bedeutungen in `lexicon.xml`; die Reihenfolge ist für die Auswertung ohne Belang). Die Erklärung mit Quellen steht in KZWs Wortlaut aus ihrem Kommentar vom 10.11.2026 (Satz und die beiden Quellenangaben ohne ihr Hofmeister-Zitat und ohne ihre Marold-Paraphrase) als `<note type="comment">` an `lemma_57919_sense_93121`, das bis dahin keinen Kommentar hatte; der Kommentar an `sense_93122` bleibt unverändert, weil ein `<sense>` nur einen Kommentar trägt.
 
 Der Tausch der Bedeutungen in der Darstellung (Essen zuerst), den KZW am 15.10.2026 beschlossen hat, steht schon in `lexicon.xml` (`sense_93122` vor `sense_93121`); dieses Ticket ändert daran nichts.

@@ -139,6 +139,7 @@
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 20 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/). 1 weitere Tokens der Form stat blieben bewusst unannotiert (Review).</change>
       <change when="2026-09-21" who="#editor">#371 stat, drittes Lemma: 1 bislang unlemmatisierte Tokens der Form stat/stât annotiert (lemmaRef/pos/corresp nach dem actions-Array in KZWs Review vom 15.09.2026; drei neu gepraegte Variantentypen; kein @ana, weil die Sense-Zuordnung kuratorisch ist; die 17 Faelle mit option OFFEN und die 2 mit NEU_STAND bleiben unangetastet; Provenienz-Log: ingest/pos-disambig/371-stat/).</change>
       <change when="2026-09-30" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization an den Stand der Annotation angeglichen (25183 von 34002 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;Vollständig lemmatisiert, aber noch nicht disambiguiert.&#34;</change>
+      <change when="2026-11-13" who="#editor">#602 naschen: 1 Token (OVW_1025010230_4) mit @ana auf lemma_57919_sense_93122 (Essen) und lemma_57919_sense_93121 (Erotik) gesetzt, absichtlich doppeldeutig (KZW, 10.11.2026).</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -19833,7 +19834,7 @@
                 <w xml:id="OVW_1025010230_1" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764" corresp="variants.xml#type_19596">so</w>
                 <w xml:id="OVW_1025010230_2">lass</w>
                 <w xml:id="OVW_1025010230_3" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_10212">ich</w>
-                <w xml:id="OVW_1025010230_4" lemmaRef="lexicon.xml#lemma_57919" pos="VRB" corresp="variants.xml#type_310733">naschen</w>
+                <w xml:id="OVW_1025010230_4" lemmaRef="lexicon.xml#lemma_57919" pos="VRB" ana="lexicon.xml#lemma_57919_sense_93122 lexicon.xml#lemma_57919_sense_93121" corresp="variants.xml#type_310733">naschen</w>
                 <pc xml:id="OVW_1025010230_5" join="left">,</pc>
               </l>
               <l n="24">

@@ -43,9 +43,11 @@ const herkuenfte = auth.lemmata
 
 /**
  * Seit dem Glossar Kochbuchforschung (#554) tragen ueber 90 Lemmata einen
- * Kommentar. Die Seitentests laufen deshalb auf einer festen Stichprobe: Abba
+ * Kommentar. Die Seitentests laufen deshalb auf einer Stichprobe: Abba
  * (Kontrollwert) und acht gleichmaessig ueber die Index-Reihenfolge verteilte
- * weitere Lemmata. Der Indextest oben prueft weiterhin alle.
+ * weitere Lemmata. Fest ist sie nur bei unveraendertem Index: jeder neue oder
+ * entfallene Kommentar verschiebt die Positionen und damit die Auswahl. Der
+ * Indextest oben prueft weiterhin alle.
  */
 function stichprobe(liste) {
     const abba = liste.filter(x => x.id === 'lemma_37818');
@@ -137,8 +139,13 @@ test.describe('Urheberangabe am kuratierten Kommentar (#270)', () => {
             const knopf = page.locator(`#lemmaResults [onclick*="showLemmaSenses('${id}')"]`);
             await expect(knopf).toHaveCount(1, { timeout: 30000 });
             await knopf.click();
-            for (const label of labels) {
-                await expect(page.getByText(label)).toBeVisible({ timeout: 30000 });
+            // Ein Lemma kann mehrere Kommentare mit demselben Urheber tragen
+            // (schal, lemma_5158: vier Kommentare von KZW): dasselbe Label steht
+            // dann mehrfach, es genuegt, dass es sichtbar ist. schal kam in die
+            // Stichprobe, weil sie nach Index-Position waehlt und der neue
+            // naschen-Kommentar (#602) die Positionen verschob.
+            for (const label of new Set(labels)) {
+                await expect(page.getByText(label).first()).toBeVisible({ timeout: 30000 });
             }
         }
     });
