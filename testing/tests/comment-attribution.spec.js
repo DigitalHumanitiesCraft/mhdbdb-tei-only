@@ -137,8 +137,11 @@ test.describe('Urheberangabe am kuratierten Kommentar (#270)', () => {
             const knopf = page.locator(`#lemmaResults [onclick*="showLemmaSenses('${id}')"]`);
             await expect(knopf).toHaveCount(1, { timeout: 30000 });
             await knopf.click();
-            for (const label of labels) {
-                await expect(page.getByText(label)).toBeVisible({ timeout: 30000 });
+            // Ein Lemma kann mehrere Kommentare mit demselben Urheber tragen
+            // (naschen seit #602: zwei Bedeutungen, zwei Kommentare): dasselbe
+            // Label steht dann mehrfach, es genuegt, dass es sichtbar ist.
+            for (const label of new Set(labels)) {
+                await expect(page.getByText(label).first()).toBeVisible({ timeout: 30000 });
             }
         }
     });
