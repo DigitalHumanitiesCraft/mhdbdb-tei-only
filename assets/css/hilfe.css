@@ -193,3 +193,75 @@
     color: rgb(71, 85, 105); /* slate-600 */
 }
 .pub-leer { color: rgb(100, 116, 139); } /* slate-500 */
+.pub-liste > li[hidden] { display: none; }
+
+/* Publikationen (#417): Zotero-Hinweis, Filter, Kontakthinweis */
+.pub-zotero {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem 1.5rem;
+    margin-bottom: 1.5rem;
+    padding: 1rem 1.25rem;
+    background: rgb(239, 246, 255); /* blue-50 */
+    border: 1px solid rgb(191, 219, 254); /* blue-200 */
+    border-radius: 1rem;
+    color: rgb(51, 65, 85); /* slate-700 */
+}
+.pub-zotero-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    background: rgb(38, 92, 196); /* brand-600 */
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+.pub-zotero-link:hover { background: rgb(30, 74, 160); }
+.pub-filter {
+    margin-bottom: 2rem;
+    padding: 1rem 1.25rem;
+    background: #fff;
+    border: 1px solid rgb(226, 232, 240); /* slate-200 */
+    border-radius: 1rem;
+}
+.pub-filter[hidden] { display: none; }
+.pub-filter-zeile {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    color: rgb(51, 65, 85); /* slate-700 */
+}
+.pub-filter select,
+.pub-filter input {
+    padding: 0.375rem 0.625rem;
+    border: 1px solid rgb(203, 213, 225); /* slate-300 */
+    border-radius: 0.5rem;
+    background: #fff;
+    font-size: 0.875rem;
+}
+.pub-filter input { width: 6rem; }
+.pub-filter button {
+    padding: 0.375rem 0.75rem;
+    border: 1px solid rgb(203, 213, 225);
+    border-radius: 0.5rem;
+    background: #fff;
+    font-size: 0.875rem;
+    color: rgb(51, 65, 85);
+}
+.pub-filter button:hover { background: rgb(241, 245, 249); }
+.pub-status { margin-top: 0.5rem; min-height: 1.25rem; font-size: 0.875rem; font-weight: 600; color: rgb(30, 41, 59); }
+.pub-filter-hinweis { margin-top: 0.25rem; font-size: 0.8125rem; color: rgb(100, 116, 139); }
+.pub-hinweis {
+    margin-bottom: 0.75rem;
+    padding: 0.625rem 1rem;
+    border-left: 3px solid rgb(38, 92, 196);
+    background: rgb(248, 250, 252); /* slate-50 */
+    font-size: 0.875rem;
+    color: rgb(51, 65, 85);
+}

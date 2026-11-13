@@ -33,12 +33,15 @@ import http.client
 import json
 import re
 import sys
+import unicodedata
 import urllib.error
 import urllib.request
 from datetime import date
 from pathlib import Path
+from xml.etree import ElementTree as ET
 
 WURZEL = Path(__file__).resolve().parents[1]
+TEAM_XML = WURZEL / "authority-files" / "contributors.xml"
 STAND = WURZEL / "data" / "zotero-publikationen.json"
 SEITE = WURZEL / "hilfe-publikationen.html"
 MARKE_AN = "<!-- PUBLIKATIONEN:START -->"
@@ -112,6 +115,9 @@ def normalisieren(eintrag):
         "jahr": jahr(d.get("date")),
         "doi": doi,
         "url": (d.get("url") or "").strip(),
+        # Alle Personen wie in Zotero, fuer den Teamfilter (autoren oben ist auf drei gekuerzt)
+        "personen": [[c.get("lastName") or c.get("name") or "", c.get("firstName") or "", c.get("creatorType") or ""]
+                     for c in d.get("creators", [])],
     }
 
 
@@ -184,7 +190,48 @@ def ziel_von(eintrag):
     return None
 
 
-def eintrag_html(eintrag):
+def falten(text):
+    """Kleinschreibung, Umlaute als Digraph: 'Wösner' und 'Woesner' werden eins."""
+    for a, b in (("ä", "ae"), ("ö", "oe"), ("ü", "ue"), ("ß", "ss")):
+        text = text.casefold().replace(a, b)
+    text = unicodedata.normalize("NFKD", text)
+    return "".join(c for c in text if not unicodedata.combining(c))
+
+
+def worte(text):
+    return set(re.findall(r"[a-z]+", falten(text)))
+
+
+def team_lesen():
+    """Das Register authority-files/contributors.xml: [(xml:id, Name, Vorname-Wort, Nachnamen-Woerter)]."""
+    ns = {"t": "http://www.tei-c.org/ns/1.0"}
+    xml_id = "{http://www.w3.org/XML/1998/namespace}id"
+    team = []
+    for p in ET.parse(TEAM_XML).getroot().findall(".//t:person", ns):
+        name = " ".join("".join(p.find("t:persName", ns).itertext()).split())
+        teile = name.split()
+        vor = worte(teile[0])
+        # Nachname = letztes Wort; bei Doppelnamen (Zeppezauer-Wachauer, Beutel-Thurow) genuegt ein Teil
+        nach = {w for w in worte(teile[-1].replace("-", " ")) if len(w) >= 4}
+        team.append((p.get(xml_id), name, vor, nach))
+    return team
+
+
+def team_treffer(eintrag, team):
+    """IDs der Teammitglieder unter den Personen eines Eintrags. Ein Treffer braucht Vornamen UND
+    Nachnamen als ganze Woerter derselben Person: 'Schmidt, Herbert' ist nicht Klaus M. Schmidt.
+    Dass Vor- und Nachname im selben Feld stehen oder ein Feld mehrere Personen traegt (in Zotero
+    vorkommend), stoert nicht: gesucht wird im Text der ganzen Person."""
+    treffer = []
+    for nach_, vor_, _typ in eintrag.get("personen", []):
+        w = worte(f"{vor_} {nach_}")
+        for kid, _name, vor, nach in team:
+            if vor <= w and nach & w and kid not in treffer:
+                treffer.append(kid)
+    return treffer
+
+
+def eintrag_html(eintrag, team):
     ziel = ziel_von(eintrag)
     if ziel:
         ziel = (f'<a href="{e(ziel[0])}" class="text-brand-600 hover:text-brand-700 font-medium" '
@@ -195,7 +242,8 @@ def eintrag_html(eintrag):
                                    str(eintrag["jahr"]) if eintrag["jahr"] else "o. J.") if x)
     # Das Em-Dash-Gate (check-no-em-dash.py) gilt fuer die Seite; der Stand behaelt den Titel wie in Zotero.
     titel = " ".join(eintrag["titel"].replace(chr(0x2014), " - ").split())
-    return (f'<li><p class="pub-titel">{e(titel)}</p>'
+    return (f'<li data-jahr="{eintrag["jahr"] or ""}" data-team="{" ".join(team_treffer(eintrag, team))}">'
+            f'<p class="pub-titel">{e(titel)}</p>'
             f'<p class="pub-meta">{zusatz} &middot; {ziel}</p></li>')
 
 
@@ -205,17 +253,75 @@ def aeltester_stand(stand):
     return min((d for d in daten if d), default="")
 
 
+ICON_EXTERN = ('<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">'
+               '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" '
+               'd="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5'
+               'm-10.5 6L21 3m0 0h-5.25M21 3v5.25"></path></svg>')
+
+
+def zotero_kasten(stand):
+    return (
+        '<div class="pub-zotero">\n'
+        '<p>Alle Einträge mit Abstracts und Schlagwörtern liegen in der Zotero-Bibliothek der MHDBDB.</p>\n'
+        f'<a href="{e(stand.get("quelle", ""))}" class="pub-zotero-link" target="_blank" rel="noopener">'
+        f'Zotero-Bibliothek öffnen {ICON_EXTERN}</a>\n'
+        '</div>')
+
+
+def filter_bauen(stand, team):
+    """Das Filterformular. Es bleibt per hidden unsichtbar, bis assets/js/publikationen-filter.js es
+    einblendet: ohne Skript steht die ganze Liste da. Zur Auswahl stehen nur Teammitglieder mit mindestens
+    einem Treffer, mit der Zahl der Eintraege (beide Abschnitte zusammen)."""
+    zaehler = {}
+    namen = {}
+    for kid, name, _vor, _nach in team:
+        namen[kid] = name
+    for abschnitt in stand.get("abschnitte", {}).values():
+        for x in abschnitt["eintraege"]:
+            for kid in team_treffer(x, team):
+                zaehler[kid] = zaehler.get(kid, 0) + 1
+    optionen = sorted(zaehler, key=lambda k: falten(namen[k].split()[-1] + " " + namen[k]))
+    teamoptionen = "\n".join(f'<option value="{e(k)}">{e(namen[k])} ({zaehler[k]})</option>' for k in optionen)
+    jahre = [x["jahr"] for a in stand.get("abschnitte", {}).values() for x in a["eintraege"] if x["jahr"]]
+    return (
+        '<form class="pub-filter" id="pub-filter" hidden aria-label="Publikationen filtern" onsubmit="return false">\n'
+        '<div class="pub-filter-zeile">\n'
+        '<label for="pub-team">Teammitglied</label>\n'
+        f'<select id="pub-team"><option value="">Alle</option>\n{teamoptionen}\n</select>\n'
+        '<label for="pub-von">Jahr von</label>\n'
+        f'<input type="number" id="pub-von" inputmode="numeric" min="{min(jahre)}" max="{max(jahre)}" placeholder="{min(jahre)}">\n'
+        '<label for="pub-bis">bis</label>\n'
+        f'<input type="number" id="pub-bis" inputmode="numeric" min="{min(jahre)}" max="{max(jahre)}" placeholder="{max(jahre)}">\n'
+        '<button type="button" id="pub-zurueck">Zurücksetzen</button>\n'
+        '</div>\n'
+        '<p id="pub-status" class="pub-status" role="status" aria-live="polite"></p>\n'
+        '<p class="pub-filter-hinweis">Das Teammitglied ist als Autorin, Autor oder Herausgeber eines Eintrags genannt '
+        '(Register der Mitwirkenden der MHDBDB). Bei gesetztem Jahresfilter entfallen Einträge ohne Jahr.</p>\n'
+        '</form>')
+
+
+HINWEISE = {
+    "WB4HTUGC": ('<p class="pub-hinweis" id="pub-hinweis-eigene">Eine dieser Publikationen ist nicht öffentlich zugänglich, '
+                 'und Sie brauchen sie für eigene Forschungszwecke? Kontaktieren Sie das Team per E-Mail: '
+                 '<a href="mailto:mhdbdb@plus.ac.at" class="text-brand-600 hover:text-brand-700 font-medium">'
+                 'mhdbdb@plus.ac.at</a>.</p>\n'),
+}
+
+
 def region_bauen(stand):
-    teile = []
+    team = team_lesen()
+    teile = [zotero_kasten(stand), filter_bauen(stand, team)]
     for sammlung, titel, erklaerung in ABSCHNITTE:
         abschnitt = stand.get("abschnitte", {}).get(sammlung)
         eintraege = abschnitt["eintraege"] if abschnitt else []
-        liste = "\n".join(eintrag_html(x) for x in eintraege) if eintraege else \
+        liste = "\n".join(eintrag_html(x, team) for x in eintraege) if eintraege else \
             '<li class="pub-leer">Zurzeit ist hier nichts aufgeführt.</li>'
         teile.append(
             f'<section class="mb-10" id="{e(sammlung.lower())}">\n'
-            f'<h2 class="text-2xl font-bold text-slate-900 mb-1">{e(titel)} ({len(eintraege)})</h2>\n'
+            f'<h2 class="text-2xl font-bold text-slate-900 mb-1">{e(titel)} '
+            f'(<span class="pub-anzahl" data-gesamt="{len(eintraege)}">{len(eintraege)}</span>)</h2>\n'
             f'<p class="text-slate-600 mb-3">{e(erklaerung)}</p>\n'
+            f'{HINWEISE.get(sammlung, "")}'
             f'<ul class="pub-liste">\n{liste}\n</ul>\n</section>')
     teile.append(
         f'<p class="text-sm text-slate-500">Stand der Bibliothek: {deutsches_datum(aeltester_stand(stand))}. '
