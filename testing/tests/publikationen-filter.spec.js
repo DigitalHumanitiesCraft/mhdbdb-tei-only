@@ -83,10 +83,15 @@ test.describe('Publikationen: Filter und Hinweise', () => {
         await expect(page.locator('#wb4htugc .pub-anzahl')).toHaveText(`${katharinaEigene} von ${EIGENE.length}`);
         await expect(page.locator('#pub-status')).toContainText(`${katharina} von ${ALLE.length} Einträgen`);
 
-        // Jeder gefilterte Eintrag zeigt den Namen, auch wenn die Zeile auf drei Namen "u. a." kürzt
-        const ohneName = await page.locator('li[data-jahr]:not([hidden]) .pub-meta')
-            .evaluateAll((els) => els.filter((el) => !el.textContent.includes('Zeppezauer')).length);
-        expect(ohneName).toBe(0);
+        // Jeder gefilterte Eintrag zeigt den Nachnamen des Mitglieds, auch hinter "u. a." oder wenn
+        // Zotero mehrere Personen in einem Feld trägt; geprüft für jede angebotene Option
+        for (const o of optionen.slice(1)) {
+            await page.selectOption('#pub-team', { label: o });
+            const nach = o.replace(/\s*\(\d+\)$/, '').split(' ').pop();
+            const ohneName = await page.locator('li[data-jahr]:not([hidden]) .pub-meta')
+                .evaluateAll((els, n) => els.filter((el) => !el.textContent.includes(n)).length, nach);
+            expect(ohneName, o).toBe(0);
+        }
     });
 
     test('Jahresfilter schneidet richtig, Einträge ohne Jahr entfallen', async ({ page }) => {

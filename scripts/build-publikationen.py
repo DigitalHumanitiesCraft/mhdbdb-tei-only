@@ -239,14 +239,13 @@ def team_treffer(eintrag, team):
 
 
 def verdeckte_team(eintrag, team):
-    """Nachnamen der Teammitglieder, die die Autorenzeile hinter "u. a." verschwinden laesst: der Filter
-    findet den Eintrag ueber alle Personen, die Zeile zeigt nur drei."""
-    if not eintrag["autoren"].endswith(" u. a."):
-        return []
-    sichtbar = [p for p in eintrag.get("personen", []) if p[2] in ROLLEN and p[0]][:3]
-    gezeigt = set(team_treffer({"personen": sichtbar}, team))
-    namen = {kid: name for kid, name, _vor, _nach in team}
-    return [nachname(namen[kid]) for kid in team_treffer(eintrag, team) if kid not in gezeigt]
+    """Nachnamen der Teammitglieder, die der Filter findet, die Autorenzeile aber nicht zeigt: hinter
+    "u. a." (die Zeile zeigt drei Personen) oder in einem Zotero-Feld, das mehrere Personen traegt."""
+    # Sichtbar ist, wessen Nachname in der Zeile steht. Das deckt auch Zotero-Felder mit mehreren Personen
+    # ("Alan van Beek und Julia Hintersteiner" als Vorname), deren Namen die Zeile nicht zeigt.
+    in_zeile = worte(eintrag["autoren"])
+    info = {kid: (name, nach) for kid, name, _vor, nach in team}
+    return [nachname(info[kid][0]) for kid in team_treffer(eintrag, team) if not info[kid][1] & in_zeile]
 
 
 def nachname(name):
