@@ -15,10 +15,12 @@ Ingest der Weingrüße aus der Hybridedition von Silvan Wagner (Issue [#147](htt
 
 | Skript | Was es tut | Schreibt |
 |---|---|---|
-| `00-fetch-wiki.py` | Lädt Dokumentationsseite, die 21 Transkriptionen und die Einzeltextseiten in den Cache `temp/bre-wiki/`. Mit Manifest gepinnt per Revisions-ID, sha256-Abweichung ist ein harter Fehler. `--offline`: nur Cache. `--neu`: Manifest aus den aktuellen Revisionen | `ingest/bre/revisionen.tsv` |
+| `00-fetch-wiki.py` | Lädt Dokumentationsseite, Hauptseite, die 21 Transkriptionen und die Einzeltextseiten in den Cache `temp/bre-wiki/`. Mit Manifest gepinnt per Revisions-ID, sha256-Abweichung ist ein harter Fehler. `--offline`: nur Cache. `--neu`: Manifest aus den aktuellen Revisionen | `ingest/bre/revisionen.tsv` |
 | `01-segmentierung.py` | Liest aus jeder Einzeltextseite die Infobox (Blattangabe je Zeuge) und die Synopse (erster Vers und Überschrift je Zeuge) | `ingest/bre/segmentierung.tsv` |
 | `02-convert-wiki-to-mhdbdb.py` | Konvertiert einen Zeugen nach MHDBDB-TEI und validiert gegen `schema/mhdbdb.rng`. `--zeuge alle --trocken` fährt alle 21 ohne Ausgabedatei | `ingest/bre/<SIGLE>.tei.xml` |
-| `bre_common.py` | Zeugentabelle (Editionssigle, Wiki-Seite, MHDBDB-Sigle), Vorspann-Tabelle, Faltungstabelle, API und Cache | |
+| `03-hauptseite-abgleich.py` | Gleicht die Werkzuordnung je Zeuge mit der Überlieferungsbeschreibung der Hauptseite ab (Abschnitt „Werkzuordnung“ unten). Exit 2, wenn eine Abweichung nicht in `ABWEICHUNG_ERKLAERT` steht | `ingest/bre/hauptseite-abgleich.tsv` |
+| `bre_common.py` | Zeugentabelle (Editionssigle, Wiki-Seite, MHDBDB-Sigle), Vorspann-Tabelle, Faltungstabelle, geprüfte Abweichungen zur Hauptseite, API und Cache | |
+| `bre_hauptseite.py` | Liest Liste und Übersichtstabelle der Hauptseite und vergleicht sie mit der Segmentierung | |
 | `bre_wikitext.py` | Hilfsfunktionen für den Wikitext | |
 | `test_bre.py` | Mini-Fixtures aus Cgm 713 und konstruierte Fehlerfälle | |
 
@@ -27,6 +29,7 @@ python -P -E scripts/ingest/bre/00-fetch-wiki.py --offline
 python -P -E scripts/ingest/bre/01-segmentierung.py
 python -P -E scripts/ingest/bre/02-convert-wiki-to-mhdbdb.py --zeuge B
 python -P -E scripts/ingest/bre/02-convert-wiki-to-mhdbdb.py --zeuge alle --trocken
+python -P -E scripts/ingest/bre/03-hauptseite-abgleich.py
 python -P -E scripts/ingest/bre/test_bre.py
 ```
 
@@ -43,9 +46,18 @@ Verlässlich ist die Synopse jeder Einzeltextseite: sie nennt je Zeuge den erste
 
 - **Reihentitel** (S, d1 bis d6): eine Titelzeile vor dem ersten Weingruß, wird `<head>` des äußeren `<div>`. Vor dem ersten Text gilt eine Zeile nur dann als dessen Überschrift, wenn die Synopse sie als Überschrift dieses Zeugen führt. Eine fette oder rote Zeile allein genügt dort nicht, sonst rutschte der fett gesetzte Drucktitel von d5 und d6 in den ersten Einzeltext.
 - **Text ohne Einzeltextseite** (N²): „Ain spruch vom rebhänßlin“ mit vier Versen, den die Einleitung der Druckfahnen in Kapitel V.3 zitiert. Eigenes `<div>`.
-- **Fragment** (R): drei Verse vor dem ersten Text der Synopse, keiner Einzeltextseite zugeordnet. Eigenes `<div>`, ohne Aussage darüber, ob der Anfang in der Handschrift fehlt.
+- **Fragment** (R): die ersten drei Verse auf Bl. 13r sind die letzten drei Verse von „Weinsegen Allerliebster Trost“, fragmentarisch überliefert. Die Hauptseite sagt das ausdrücklich („nur die letzten drei Verse“, siehe unten), in der Synopse und der Infobox der Einzeltextseite fehlt R. Eigenes `<div>`, `VORSPANN_WERK` in `bre_common.py` benennt das Werk. Bis zum 12.11.2026 stand hier und in `VORSPANN_NOTIZ`, die drei Verse seien „keiner Einzeltextseite zugeordnet“: aus dem Fehlen in der Synopse war auf eine fehlende Werkzuordnung geschlossen worden (#147, Kommentar vom 12.11.).
 
 Eine **Faltungstabelle** gleicht beim Vergleich, nie in der Ausgabe, eine Zeichenabweichung zwischen Synopse und Transkription aus: „ů“ gegen „uͦ“ (u mit U+0366). Sie greift zweimal, beim ersten Vers von „Weingruß Neczen Gumen“ in W¹ (Zeile 331 der Wikiseite) und bei der Kopfzeile „Gůten wein gruͤsz ich“ in d5 (Zeile 10). Das Skript gibt jede Anwendung aus.
+
+## Werkzuordnung: die Hauptseite ist maßgeblich
+
+Silvan Wagner empfiehlt (Rückmeldung an KZW, festgehalten in #147 am 12.11.2026) den Abschnitt „Überlieferung“ der [Hauptseite](https://wiki.brevitas.org/wiki/Kategorie:Quelle_Weingru%C3%9F#%C3%9Cberlieferung) als Grundlage für die Identifikation der Einzeltexte: Werkzuordnung und Überlieferungsbesonderheiten je Zeuge. Die Synopsen sind ergänzend (Textvergleich, Auffinden von Stellen), die Transkriptionsseiten tragen den Wortlaut und die Reihenfolge im Zeugen. Dass jede Quellzeile genau einem Abschnitt zugeordnet ist, belegt die vollständige Verarbeitung der Zeilen, nicht die philologische Richtigkeit der Zuordnung.
+
+- **Gepinnt:** `00-fetch-wiki.py` lädt die Hauptseite „Kategorie:Quelle Weingruß“ wie die anderen Seiten und führt sie im Manifest (Revision 31127 vom 11.11.2026; der Abschnitt „Überlieferung“ ist mit Revision 30019 vom 15.06.2026 wortgleich, die beiden Revisionen unterscheiden sich nur in der Kopfzeile der Seite).
+- **Gelesen** wird zweierlei, beides in `bre_hauptseite.py`: die Liste je Zeuge (nummerierte Listen unter `;Sigle`, Anmerkungen wie „nur die letzten drei Verse“, Klammern für in andere Texte aufgenommene Abschnitte) und die „Übersicht der Überlieferung“ (Tabelle Text × Zeuge mit Stellung).
+- **Abgleich:** `03-hauptseite-abgleich.py` vergleicht je Zeuge die Texte der Transkription mit der Liste (Titel, Menge, Reihenfolge) und schreibt die Abweichungen nach `ingest/bre/hauptseite-abgleich.tsv`. `02` ruft denselben Abgleich auf: eine Abweichung, die nicht in `ABWEICHUNG_ERKLAERT` (`bre_common.py`) mit Begründung steht, bricht die Konversion ab. Der Eintrag dort erklärt oder hält eine offene Frage fest, er korrigiert nichts.
+- **Stand 13.11.2026:** 15 von 21 Zeugen stimmen mit der Liste überein (Titel, Menge, Reihenfolge), R nach der Korrektur oben. Die übrigen sechs (B2, N², W¹, d4, d5, d6) stehen in `hauptseite-abgleich.tsv` mit Befund. Die Liste der Hauptseite ist selbst nicht widerspruchsfrei: sie weicht bei d4 (Reihenfolge) und d5 (zwei Texte fehlen) von der Übersichtstabelle derselben Seite ab, und in B2 nennt der Satz 19 Weingrüße bei 18 Einträgen.
 
 ## Abbildung
 
@@ -69,10 +81,10 @@ Ein Weingruß ist ein `<div type="section">`. Die xml:id folgt dem WZB-Muster `{
 
 ## Offene Entscheidungen
 
-- **Schema (für KZW, nach dem Muster PD-001).** `<w>` erlaubt nur Text und `<hi>`. Die Transkriptionen tragen im Wort Abkürzungsauflösungen (`<expan>`), Ergänzungen (`<supplied>`), Nachträge (`<add>`) und in zwei Fällen einen Seitenwechsel (`<pb>`): bei Cgm 713 über eine Worttrennung („schen-“ / „ken“), bei d4 als Blattmarke mitten im Wort („wein[9]reben“). Nach „Daten vor Schema“ bleibt das stehen, statt wegtransformiert zu werden. Die Validierung zählt es je Zeuge aus. Zu entscheiden ist, ob das Inhaltsmodell von `<w>` erweitert wird oder ob die Auszeichnung im Wort entfällt.
+- **Schema: entschieden (Weg 1, KZW am 11.11.2026).** `<w>` erlaubt seit dem 11.11.2026 zusätzlich `<expan>`, `<supplied>`, `<add>` und `<pb>` (`schema/mhdbdb.rnc`, `.rng` neu erzeugt). Die Transkriptionen tragen im Wort Abkürzungsauflösungen, Ergänzungen, Nachträge und in zwei Fällen einen Seitenwechsel: bei Cgm 713 über eine Worttrennung („schen-“ / „ken“), bei d4 als Blattmarke mitten im Wort („wein[9]reben“). Mit dem erweiterten Schema validieren alle 21 Zeugen (`02 --zeuge alle --trocken`, gemessen 13.11.2026); vorher validierte nur d2. Die Leseansicht zeigt die Auszeichnung im Wort nicht, sie ist nicht angefasst.
 - **Siglen.** `BRE_<Signatur>` für die Handschriften und `BRE_D1` bis `BRE_D6` für die Drucke folgen dem Vorschlag vom 10.07.2026 in #147, bestätigt sind sie nicht.
 - **Werk, Gattung, Sprachstufe** stehen als `work_TBD`, `genre_TBD` und `TBD` im Header. Die Sprachstufe entscheidet #118.
-- **Segmentierung (Punkt 5 in #147).** Silvan hat die Frage noch nicht beantwortet. Die Synopsen tragen sie bis dahin.
+- **Segmentierung (Punkt 5 in #147).** Silvans Antwort (12.11.2026) benennt die Hauptseite als Grundlage für die Werkzuordnung, die Synopsen sind ergänzend (Abschnitt „Werkzuordnung“ oben). Die Abweichungen zwischen beiden stehen in `ingest/bre/hauptseite-abgleich.tsv`, offene Fälle sind dort als „offen“ vermerkt: B2 (Fehlansatz), d4 (Reihenfolge), d6 (in Klammern gesetzte Texte als eigene Abschnitte).
 - **Epoche.** Der zweite Teil der Weingrüße in D (Bl. 217r–221v) stammt laut Druckfahnen aus dem 17. Jahrhundert und liegt außerhalb des Korpusumfangs. Er ist in der Transkription Teil B und steht damit als `<div n="B">` für sich, `02` konvertiert D aber heute noch vollständig.
 
 ## Warum `ingest/bre/` und nicht `tei/`
