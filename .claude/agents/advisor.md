@@ -2,7 +2,7 @@
 name: advisor
 description: >-
   Skeptischer Zweitmeinungs-Advisor, ohne Modellangabe auf Opus, mit
-  `model: fable` auf Christians Zuruf, fest in Schritt 3 von
+  `model: fable` auf Christians Wort, fest in Schritt 3 von
   `planen-und-machen` und aus einer Fable-Session am Terminal vor einer
   Architekturentscheidung oder einem schwer umkehrbaren Schritt, nach
   `rules/modelle.md` in `claude-code-setup` (liest und bewertet, implementiert nie, ändert keine

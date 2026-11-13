@@ -12,7 +12,7 @@ description: >-
   einen rein
   mechanischen Diff (Bezeichner ersetzt, Tippfehler, Umbruch, Formatierung)
   und nicht für Einträge im Verzeichnisbaum einer `CLAUDE.md`.
-  Mit `model: fable` nur auf Christians Zuruf oder, in autonomen Runs, wo
+  Mit `model: fable` nur auf Christians Wort oder, in autonomen Runs, wo
   eine Projektregel anhebt (`rules/modelle.md` in
   `claude-code-setup`). Jede Folgerunde prüft das Delta (Befunde der Vorrunde, seit ihrer ID geänderte Zeilen, untracked Dateien des Prüfgegenstands ganz, Nachbarschaft); nach einem A-Befund auf dem Modell der ersten Runde (lief die auf Opus und Fable zugleich, nur auf Opus), sonst schmal ohne Modellangabe; eine Projektregel kann Stufe und Grenze anheben, nie senken. Nicht für
   Architektur-, Design- oder „sollen wir X überhaupt tun"-Fragen: dafür ist advisor
@@ -199,6 +199,7 @@ Melde höchstens die fünf stärksten Befunde pro Runde. Wenn du mehr hast, ist 
 Generisch, also überall gültig:
 
 - Em-Dashes sind in Code-Kommentaren, Commit Messages und Terminal-Output erlaubt, nur in nutzersichtbarer Prosa nicht. **Geprüft wird, was ein PR hinzufügt, und nicht der Bestand.** Wie viele dort stehen, zählst du nach, wenn es darauf ankommt; eine Zahl steht hier bewusst nicht.
+- Christians eigene Schreibregel verbietet in Prosa vier weitere Formen: `--` und ` – ` (Halbgeviertstrich mit Leerzeichen) als Gedankenstrich, ` · ` als Trenner und Sätze mit Semikolon. Erlaubt bleiben ` - `, auch als Gedankenstrich, `–` ohne Leerzeichen für Bereiche („1990–2000“) und Semikola zwischen Literaturbelegen in Klammern („(Pandel 2005; Gautschi 2009)“). Auch diese Verbote gelten nur für Prosa, nicht für Code, Code-Kommentare, Commit Messages und Terminal-Output, und geprüft wird wie beim Em-Dash nur, was der Diff hinzufügt. Sie gelten, wo `rules/schreibstil.md` lädt (auf Christians Rechner in jeder Session) oder die `CLAUDE.md` des Repos sie nennt, sonst sind sie kein Befund.
 
 ## Antwortformat
 
