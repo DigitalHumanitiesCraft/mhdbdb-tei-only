@@ -619,6 +619,7 @@ With the ARITHMETIC ingest the following TEI P5 standard elements were taken int
 
 **Extensions to existing elements:**
 - `<w>` may now contain `<hi>` (initial-letter pattern such as `<hi rend="initial">A</hi>in`)
+- `<w>` may additionally contain `<expan>`, `<supplied>`, `<add>` and `<pb>` since KZW's decision of 2026-11-11 (#147, "Weg 1"): the Weingrüße transcriptions mark an expanded abbreviation (`v<expan>er</expan>stoppffen`), an editorial supplement, a later addition and a page break inside a word. The index builds read the word as text (`itertext()`, `textContent`), so counting and search are unaffected; the reading view shows the word text only, without the markup of these children (the minimal render policy under "Follow-up tasks" below applies to them as it does to `<hi>`)
 - `<lb>` may carry `@break="no"` (TEI P5 standard for a word running across a line end)
 - `<note>` may carry `@place` and contain `<p>`
 - `<hi>` may again contain `<hi>` (a controlled exception to ADR-013, for Carina's struck-through fractions `<hi rend="line-through"><hi rend="superscript">2</hi>/<hi rend="subscript">3</hi></hi>`)
