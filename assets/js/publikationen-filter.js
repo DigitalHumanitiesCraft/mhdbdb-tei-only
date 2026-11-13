@@ -55,7 +55,8 @@
             sichtbar += treffer;
             gesamt += a.eintraege.length;
             a.anzahl.textContent = gefiltert ? treffer + ' von ' + a.eintraege.length : String(a.eintraege.length);
-            if (treffer === 0 && gefiltert) {
+            // Ein Abschnitt ohne Einträge trägt schon seinen eigenen pub-leer-Hinweis (Platzhalter vom Build)
+            if (treffer === 0 && gefiltert && a.eintraege.length > 0) {
                 if (!a.leer) {
                     a.leer = document.createElement('li');
                     a.leer.className = 'pub-leer';

@@ -283,15 +283,21 @@ def filter_bauen(stand, team):
     optionen = sorted(zaehler, key=lambda k: falten(namen[k].split()[-1] + " " + namen[k]))
     teamoptionen = "\n".join(f'<option value="{e(k)}">{e(namen[k])} ({zaehler[k]})</option>' for k in optionen)
     jahre = [x["jahr"] for a in stand.get("abschnitte", {}).values() for x in a["eintraege"] if x["jahr"]]
+    # Ein leerer Stand (alle Abschnitte ausgefallen, noch nie abgerufen) hat keine Jahre: dann keine Grenzen.
+    if jahre:
+        grenzen_von = f' min="{min(jahre)}" max="{max(jahre)}" placeholder="{min(jahre)}"'
+        grenzen_bis = f' min="{min(jahre)}" max="{max(jahre)}" placeholder="{max(jahre)}"'
+    else:
+        grenzen_von = grenzen_bis = ""
     return (
         '<form class="pub-filter" id="pub-filter" hidden aria-label="Publikationen filtern" onsubmit="return false">\n'
         '<div class="pub-filter-zeile">\n'
         '<label for="pub-team">Teammitglied</label>\n'
         f'<select id="pub-team"><option value="">Alle</option>\n{teamoptionen}\n</select>\n'
         '<label for="pub-von">Jahr von</label>\n'
-        f'<input type="number" id="pub-von" inputmode="numeric" min="{min(jahre)}" max="{max(jahre)}" placeholder="{min(jahre)}">\n'
+        f'<input type="number" id="pub-von" inputmode="numeric"{grenzen_von}>\n'
         '<label for="pub-bis">bis</label>\n'
-        f'<input type="number" id="pub-bis" inputmode="numeric" min="{min(jahre)}" max="{max(jahre)}" placeholder="{max(jahre)}">\n'
+        f'<input type="number" id="pub-bis" inputmode="numeric"{grenzen_bis}>\n'
         '<button type="button" id="pub-zurueck">Zurücksetzen</button>\n'
         '</div>\n'
         '<p id="pub-status" class="pub-status" role="status" aria-live="polite"></p>\n'
