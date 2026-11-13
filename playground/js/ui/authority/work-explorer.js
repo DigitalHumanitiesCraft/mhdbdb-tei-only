@@ -360,10 +360,17 @@ export class WorkExplorer {
     return details;
   }
 
+  // Kurzanzeige der Trefferliste (#495): erste Gattung, bei weiteren mit Zähler,
+  // da keine Haupt- und Nebengattungen unterschieden werden. Die vollständige
+  // Liste steht in der Detailansicht.
   getWorkGenre(workId) {
     const workDetails = this.getWorkDetailsFromXML(workId);
     if (workDetails && workDetails.genres && workDetails.genres.length > 0) {
-      return workDetails.genres[0].termDE || workDetails.genres[0].termEN;
+      const first = workDetails.genres[0];
+      const name = first.termDE || first.termEN;
+      const more = workDetails.genres.length - 1;
+      if (!name || more === 0) return name;
+      return `${name} (+${more} ${more === 1 ? "weitere Gattung" : "weitere Gattungen"})`;
     }
     return null;
   }

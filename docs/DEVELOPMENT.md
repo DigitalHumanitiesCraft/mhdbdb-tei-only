@@ -290,6 +290,7 @@ Completeness against `testing/tests/` is gated by `scripts/audit/check-doc-inven
 | `verse-ending-profile.spec.js` | Playground | Verse-ending profile: top-N lemmata at verse ends, scope selector (#106) |
 | `hapax-legomena.spec.js` | Playground | Corpus-wide hapax/dis/tris aggregation, filter toolbar, detail panel (#196) |
 | `word-component-search.spec.js` | Playground | Word-component mode in the lemma explorer, for research on compounds (#239) |
+| `werke-gattungen-uebersicht.spec.js` | Playground | Work explorer result list: first genre plus a count of the others, the detail view lists all (#495) |
 | `lemma-occurrence-handoff.spec.js` | Playground | „Belege suchen" from the lemma explorer: the `ids` route parameter and its pinned resolution against a homograph group (#58) |
 | `document-search-belege.spec.js` | Playground | Document search, from the result card to the attestations (#58): a card expands into its attestations with context, each linking to its position in the reading view, „Gesamten Text öffnen“ without a jump target, and with several lemmata one group per lemma, capped at 50 with a note; the card header as a keyboard-operable button, the toggle pointer and the lift only over header and hint (attestation rows are links and keep theirs), the list scrolling inside the card (#619, #630, #633) |
 | `naming-explorer.spec.js` | Playground | Character naming: route, work/character selection, category tabs, mandatory attribution (#59) |
