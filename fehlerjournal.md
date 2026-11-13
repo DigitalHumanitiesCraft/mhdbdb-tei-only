@@ -1399,3 +1399,13 @@ Auto-Mode-Classifier abgelehnt, und die Blockade ging an Christian.
 **Was es getragen hat:** eine falsche Erfolgsmeldung an Christian und zwei Fremdcommits auf einem fremden Branch. Behoben per Cherry-Pick aus einem eigenen Worktree (`fbc41b122`, `77ff4f651`), die andere Session hat ihren Branch zurückgebaut.
 
 **Kein neuer Mechanismus:** erste Zeile. Ab jetzt committe ich nur aus einem eigenen Worktree.
+
+### 164. Rot: ein `cd` in den Worktree von #417, mitten im Issue-Nachzug (13.11.2026).
+
+**Rot.** Im Nachzug der Issues habe ich einen Befehl mit `cd` in den Worktree `.claude/worktrees/agent-a0ff2bfee55411037` (Branch `claude/417-publikationen-filter`) begonnen. Der Worktree liegt unterhalb des Projektordners, also in Klasse 3 aus `chsteiner/claude-code-setup#56`: das `cd` verschiebt das Primärverzeichnis der Session dauerhaft, und der Hook sperrt es nicht. Danach stand die Session im Worktree, und ein `reviewer`, den ich im Glauben an den Hauptordner startete, schrieb seine Memory-Notizen in den Worktree statt in den Main Worktree.
+
+**Die Lehre steht in `shell-konventionen.md`: kein `cd`, an keiner Trennstelle; Ersatz sind absolute Pfade oder `git -C`.** Die letzte Zeile zu dieser Lehre ist Eintrag 130.
+
+**Was es getragen hat:** fast etwas. Abgefangen hat es mein `git status` vor dem Commit der Reviewer-Memory: die Notizen lagen im falschen Worktree und wären sonst mit dem Branch von #417 statt direkt auf `main` gelandet. Verschoben in den Main Worktree (`faed3a3a0`), die Datei im Worktree per `git restore` zurückgesetzt, ab da nur absolute Pfade.
+
+**Mechanismuswechsel, dritte Zeile (100, 130, 164):** #56 hat am 16.09.2026 gegen eine Sperre für Klasse 3 entschieden, weil im Protokoll außer dem Messbefehl kein Fall lag. Dieser Fall ist einer mit Wirkung, der zweite nach dem Nachtrag zu Fehler 76. Vorgeschlagen als `chsteiner/claude-code-setup#132`: die Sperre auf ein `cd` in ein Unterverzeichnis des Arbeitsverzeichnisses ausdehnen, verkettet und alleinstehend.
