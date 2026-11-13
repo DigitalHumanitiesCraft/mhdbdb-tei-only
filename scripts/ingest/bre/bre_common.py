@@ -113,7 +113,7 @@ VORSPANN_WERK = {"R": "Weinsegen Allerliebster Trost"}
 # zusaetzliche Vertauschung, ist ein anderer Schluessel und bricht 02-convert-wiki-to-mhdbdb.py
 # ab. Der Eintrag erklaert die Abweichung oder haelt sie als offene Frage fest, er korrigiert
 # nichts. Gemessen 2026-11-13 gegen Revision 31127 (03-hauptseite-abgleich.py).
-_KLAMMER = ("eigener Abschnitt", "in Klammern (kein eigener Text)")
+_KLAMMER = ("1x eigener Abschnitt", "in Klammern (kein eigener Text)")
 ABWEICHUNG_ERKLAERT = {
     ("B2", "nur_bisher", "Weinsegen Allerliebster Trost", "1x", "fehlt"):
         "offen: Fehlansatz (2 Verse, 3 gestrichene) vor dem Weingruss Allerliebster Trunck; die "

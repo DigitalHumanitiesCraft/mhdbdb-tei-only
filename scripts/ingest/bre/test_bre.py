@@ -261,6 +261,27 @@ ab_zwei = bh.abgleich("B2", h_b2, u_b2 + ["Weinsegen Allerliebster Trost"], None
 pruefe("Schluessel: zweiter Fehlansatz (Anzahl) ist nicht erklaert",
        any(x["art"] == "nur_bisher" and x["bisher"] == "2x"
            and bh.schluessel("B2", x) not in conv.bc.ABWEICHUNG_ERKLAERT for x in ab_zwei), str(ab_zwei))
+# d6: drei Klammertexte als je ein Abschnitt sind erklaert (Positivkontrolle), ein doppelter
+# Abschnitt desselben Klammertexts ist eine andere Abweichung (Probe des Reviewers, Runde 2)
+h_d6 = [{"teil": 1, "titel": "Weingruß Edels Getranck", "anmerkung": "", "klammer": False}] + [
+    {"teil": 1, "titel": t, "anmerkung": "", "klammer": True}
+    for t in ("Weingruß Allerliebster Trunck", "Weinsegen Allerliebster Trost", "Weinsegen Ein Kron")]
+u_d6 = ["Weingruß Edels Getranck", "Weingruß Allerliebster Trunck", "Weinsegen Allerliebster Trost",
+        "Weinsegen Ein Kron"]
+ab_d6 = bh.abgleich("d6", h_d6, u_d6, None)
+pruefe("Schluessel: d6-Klammerabschnitte sind erklaert (Positivkontrolle)",
+       len(ab_d6) == 3 and all(bh.schluessel("d6", x) in conv.bc.ABWEICHUNG_ERKLAERT for x in ab_d6),
+       str([bh.schluessel("d6", x) for x in ab_d6]))
+ab_d6_x = bh.abgleich("d6", h_d6, u_d6 + ["Weingruß Allerliebster Trunck"], None)
+pruefe("Schluessel: doppelter Klammerabschnitt ist nicht erklaert",
+       len(ab_d6_x) == 3 and sum(bh.schluessel("d6", x) not in conv.bc.ABWEICHUNG_ERKLAERT
+                                  for x in ab_d6_x) == 1
+       and any(x["bisher"] == "2x eigener Abschnitt" for x in ab_d6_x), str(ab_d6_x))
+# nur_hauptseite traegt die Anzahl der fehlenden Vorkommen
+h_zwei = [{"teil": 1, "titel": "Weingruß X", "anmerkung": "", "klammer": False}] * 2
+pruefe("Schluessel: nur_hauptseite traegt die Anzahl",
+       bh.abgleich("B", h_zwei, [], None)[0]["hauptseite"].startswith("2x, ")
+       and bh.abgleich("B", h_zwei[:1], [], None)[0]["hauptseite"].startswith("1x, "))
 MATRIX = HAUPT + """
 {|
 |-

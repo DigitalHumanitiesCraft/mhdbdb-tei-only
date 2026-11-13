@@ -162,7 +162,9 @@ def abgleich(sigle, haupt_liste, texte_titel, vorspann_art):
     -> Liste von Abweichungen (dict: art, titel, bisher, hauptseite). Leer, wenn beide
     Listen dieselben Texte in derselben Reihenfolge fuehren. Ein Text, den die Hauptseite
     in Klammern setzt (in einen anderen Text aufgenommen), ist kein eigener Text des Zeugen:
-    steht er in der Segmentierung als Abschnitt, ist das die Abweichung "klammer_aber_abschnitt".
+    steht er in der Segmentierung als Abschnitt, ist das die Abweichung "klammer_aber_abschnitt"
+    (Anzahl der Abschnitte in "bisher", wie bei "nur_bisher" und, als Anzahl der fehlenden
+    Vorkommen, bei "nur_hauptseite"; "reihenfolge" traegt Stellen und Folge).
     Ein Fragment steht bei der Hauptseite ohne Klammer vor dem Link, mit Anmerkung dahinter.
     """
     eigene = [h for h in haupt_liste if not h["klammer"]]
@@ -174,15 +176,15 @@ def abgleich(sigle, haupt_liste, texte_titel, vorspann_art):
     klammer = {h["titel"]: h for h in haupt_liste if h["klammer"]}
     for t, n in fehlt_haupt.items():
         if t in klammer:
-            abw.append({"art": "klammer_aber_abschnitt", "titel": t, "bisher": "eigener Abschnitt",
+            abw.append({"art": "klammer_aber_abschnitt", "titel": t,
+                        "bisher": f"{n}x eigener Abschnitt",
                         "hauptseite": "in Klammern (kein eigener Text)"})
         else:
             abw.append({"art": "nur_bisher", "titel": t, "bisher": f"{n}x", "hauptseite": "fehlt"})
-    for h in eigene:
-        if fehlt_unser.get(h["titel"], 0) > 0:
-            fehlt_unser[h["titel"]] -= 1
-            abw.append({"art": "nur_hauptseite", "titel": h["titel"], "bisher": "fehlt",
-                        "hauptseite": h["anmerkung"] or "ohne Anmerkung"})
+    for titel, n in fehlt_unser.items():
+        anm = [h["anmerkung"] or "ohne Anmerkung" for h in eigene if h["titel"] == titel]
+        abw.append({"art": "nur_hauptseite", "titel": titel, "bisher": "fehlt",
+                    "hauptseite": f"{n}x, " + " / ".join(dict.fromkeys(anm))})
     # Reihenfolge der gemeinsamen Texte
     gemeinsam = collections.Counter(unser) & collections.Counter(ht)
 
