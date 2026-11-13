@@ -152,6 +152,7 @@
     <change when="2026-10-08" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization ergänzt (141977 von 142412 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;&#34;</change>
     <change when="2026-10-12" who="#editor">#390: 16 ueber den Kolumnen- oder Seitenwechsel zerrissene Woerter zusammengefuehrt (Kodierungsentscheidung vom 2026-09-02: ohne Markierung; Wortformen bestaetigt von Klaus M. Schmidt, 2026-10-09). Das Wort steht an der Stelle und unter der xml:id seiner ersten Haelfte, die zweite Haelfte entfaellt, Umbrueche und Kolumnentitel bleiben dahinter stehen; ein direkt folgendes Satzzeichen (pc join=left) wandert mit dem Wort, bei israhel entfaellt der Trennstrich. Tafel in scripts/ingest/wzb/wzb-wortgrenzen-390.py.</change>
     <change when="2026-11-08" who="#editor">#390: ma|che ueber den Kolumnenwechsel zu mache zusammengefuehrt, wie die 16 Woerter vom 2026-10-12 (Wortform von Klaus M. Schmidt, 2026-10-09, ohne Bestaetigungsklick; als bestaetigt gewertet von chsteiner, 2026-11-08). Tafel 2 in scripts/ingest/wzb/wzb-wortgrenzen-390.py.</change>
+    <change when="2026-11-13" who="#editor">#526: 16 Tokens mit Breve (U+0306) auf w oder n nach den Antworten von Julia (Pruefseite, Export 2026-11-12) mit lemmaRef und pos versehen. Zwei Lexikonluecken (WZB_42vb_3_7, WZB_84vb_4_3) und ein bewusst unannotiertes Token (WZB_78rb_5_6) bleiben unveraendert. Kein corresp und kein ana.</change>
   </revisionDesc>
   </teiHeader>
   <text>
@@ -10673,7 +10674,7 @@
               <w xml:id="WZB_10vb_3_0" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656" corresp="variants.xml#type_25544">von</w>
               <w xml:id="WZB_10vb_3_1" lemmaRef="lexicon.xml#lemma_1073" pos="ADV" ana="lexicon.xml#lemma_1073_sense_1716" corresp="variants.xml#type_3323">danne</w>
               <w xml:id="WZB_10vb_3_2" lemmaRef="lexicon.xml#lemma_7770" pos="PRP" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_31260">zu</w>
-              <w xml:id="WZB_10vb_3_3">strew̆te</w>
+              <w xml:id="WZB_10vb_3_3" lemmaRef="lexicon.xml#lemma_15396" pos="VRB">strew̆te</w>
               <w xml:id="WZB_10vb_3_4" lemmaRef="lexicon.xml#lemma_5454" pos="PRO" ana="lexicon.xml#lemma_5454_sense_8506" corresp="variants.xml#type_19044">sie</w>
               <w xml:id="WZB_10vb_3_5" lemmaRef="lexicon.xml#lemma_7643" pos="POS" ana="lexicon.xml#lemma_7643_sense_12530" corresp="variants.xml#type_45600">vnser</w>
               <lb n="4"/>
@@ -22772,7 +22773,7 @@
               <w xml:id="WZB_21ra_36_1" lemmaRef="lexicon.xml#lemma_6467" pos="CCNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_38749">vnd</w>
               <w xml:id="WZB_21ra_36_2" lemmaRef="lexicon.xml#lemma_1331" pos="DET" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4319">ein</w>
               <w xml:id="WZB_21ra_36_3" lemmaRef="lexicon.xml#lemma_5280" pos="ADJ" ana="lexicon.xml#lemma_5280_sense_8229" corresp="variants.xml#type_372716">schŏne</w>
-              <w xml:id="WZB_21ra_36_4">iuncvrow̆</w>
+              <w xml:id="WZB_21ra_36_4" lemmaRef="lexicon.xml#lemma_3159" pos="NOM">iuncvrow̆</w>
               <cb n="b"/>
               
                 <lb n="1"/>
@@ -23115,7 +23116,7 @@
               <pc xml:id="WZB_21va_18_6" join="right">•</pc>
               <w xml:id="WZB_21va_18_7" lemmaRef="lexicon.xml#lemma_6467" pos="CCNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_38749">vnd</w>
               <lb n="19"/>
-              <w xml:id="WZB_21va_19_0">hew̆es</w>
+              <w xml:id="WZB_21va_19_0" lemmaRef="lexicon.xml#lemma_2816" pos="NOM">hew̆es</w>
               <w xml:id="WZB_21va_19_1" lemmaRef="lexicon.xml#lemma_5432" pos="VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18956">ist</w>
               <w xml:id="WZB_21va_19_2" lemmaRef="lexicon.xml#lemma_7770" pos="PRP" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_31260">zu</w>
               <w xml:id="WZB_21va_19_3" lemmaRef="lexicon.xml#lemma_7643" pos="PRO" ana="lexicon.xml#lemma_7643_sense_12530" corresp="variants.xml#type_43758">vns</w>
@@ -36717,7 +36718,7 @@
               <w xml:id="WZB_34va_9_3" lemmaRef="lexicon.xml#lemma_56117" pos="POS" ana="lexicon.xml#lemma_56117_sense_90961" corresp="variants.xml#type_304810">ewerr</w>
               <w xml:id="WZB_34va_9_4" lemmaRef="lexicon.xml#lemma_2325" pos="NOM" ana="lexicon.xml#lemma_2325_sense_3721" corresp="variants.xml#type_7856">gewalt</w>
               <pc xml:id="WZB_34va_9_5" join="left">,</pc>
-              <w xml:id="WZB_34va_9_6">bow̆t</w>
+              <w xml:id="WZB_34va_9_6" lemmaRef="lexicon.xml#lemma_917" pos="VRB">bow̆t</w>
               <lb n="10"/>
               <w xml:id="WZB_34va_10_0" lemmaRef="lexicon.xml#lemma_5454" pos="PRO" ana="lexicon.xml#lemma_5454_sense_8506" corresp="variants.xml#type_19044">sie</w>
               <w xml:id="WZB_34va_10_1" lemmaRef="lexicon.xml#lemma_6467" pos="CCNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_38749">vnd</w>
@@ -49688,7 +49689,7 @@
               <lb n="33"/>
               <w xml:id="WZB_46vb_33_0" lemmaRef="lexicon.xml#lemma_1097" pos="DET" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3397">das</w>
               <w xml:id="WZB_46vb_33_1" lemmaRef="lexicon.xml#lemma_7643" pos="POS" ana="lexicon.xml#lemma_7643_sense_12530" corresp="variants.xml#type_45600">vnser</w>
-              <w xml:id="WZB_46vb_33_2">min̆ster</w>
+              <w xml:id="WZB_46vb_33_2" lemmaRef="lexicon.xml#lemma_4134" pos="ADV">min̆ster</w>
               <w xml:id="WZB_46vb_33_3" lemmaRef="lexicon.xml#lemma_905" pos="NOM" ana="lexicon.xml#lemma_905_sense_1489" corresp="variants.xml#type_40652">bruder</w>
               <w xml:id="WZB_46vb_33_4" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
               <lb n="34"/>
@@ -49939,7 +49940,7 @@
               <w xml:id="WZB_47ra_22_0" lemmaRef="lexicon.xml#lemma_3157" pos="ADJ" ana="lexicon.xml#lemma_3157_sense_4990" corresp="variants.xml#type_77655">iungen</w>
               <w xml:id="WZB_47ra_22_1" lemmaRef="lexicon.xml#lemma_6330" pos="PRP" ana="lexicon.xml#lemma_6330_sense_9973" corresp="variants.xml#type_65838">ouf</w>
               <w xml:id="WZB_47ra_22_2" lemmaRef="lexicon.xml#lemma_3001" pos="POS" ana="lexicon.xml#lemma_3001_sense_4805" corresp="variants.xml#type_83864">mein</w>
-              <w xml:id="WZB_47ra_22_3">trew̆</w>
+              <w xml:id="WZB_47ra_22_3" lemmaRef="lexicon.xml#lemma_6215" pos="NOM">trew̆</w>
               <w xml:id="WZB_47ra_22_4" lemmaRef="lexicon.xml#lemma_2598" pos="VEX" ana="lexicon.xml#lemma_2598_sense_77622" corresp="variants.xml#type_8729">hab</w>
               <lb n="23"/>
               <w xml:id="WZB_47ra_23_0" lemmaRef="lexicon.xml#lemma_4330" pos="VRB" ana="lexicon.xml#lemma_4330_sense_6767" corresp="variants.xml#type_15064">genomen</w>
@@ -57149,7 +57150,7 @@
               <pc xml:id="WZB_54ra_17_3" join="left">,</pc>
               <lb n="18"/>
               <w xml:id="WZB_54ra_18_0" lemmaRef="lexicon.xml#lemma_30703" pos="ADV" ana="lexicon.xml#lemma_30703_sense_48076" corresp="variants.xml#type_372506">dorumbe</w>
-              <w xml:id="WZB_54ra_18_1">bow̆te</w>
+              <w xml:id="WZB_54ra_18_1" lemmaRef="lexicon.xml#lemma_917" pos="VRB">bow̆te</w>
               <w xml:id="WZB_54ra_18_2" lemmaRef="lexicon.xml#lemma_1517" pos="PRO" ana="lexicon.xml#lemma_1517_sense_2355" corresp="variants.xml#type_78594">her</w>
               <w xml:id="WZB_54ra_18_3" lemmaRef="lexicon.xml#lemma_3028" pos="PRP" ana="lexicon.xml#lemma_3028_sense_4834" corresp="variants.xml#type_10369">in</w>
               <w xml:id="WZB_54ra_18_4" lemmaRef="lexicon.xml#lemma_2933" pos="NOM" ana="lexicon.xml#lemma_2933_sense_28403" corresp="variants.xml#type_151879">heuser</w>
@@ -65043,7 +65044,7 @@
               <w xml:id="WZB_61vb_18_2" lemmaRef="lexicon.xml#lemma_4532" pos="NOM" ana="lexicon.xml#lemma_4532_sense_7070" corresp="variants.xml#type_163068">ouen</w>
               <pc xml:id="WZB_61vb_18_3" join="left">|</pc>
               <w xml:id="WZB_61vb_18_4" lemmaRef="lexicon.xml#lemma_6467" pos="CCNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_38749">vnd</w>
-              <w xml:id="WZB_61vb_18_5">strew̆</w>
+              <w xml:id="WZB_61vb_18_5" lemmaRef="lexicon.xml#lemma_5827" pos="VRB">strew̆</w>
               <w xml:id="WZB_61vb_18_6" lemmaRef="lexicon.xml#lemma_1139" pos="DET" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_3568">die</w>
               <lb n="19"/>
               <w xml:id="WZB_61vb_19_0" lemmaRef="lexicon.xml#lemma_3028" pos="PRP" ana="lexicon.xml#lemma_3028_sense_4834" corresp="variants.xml#type_10369">in</w>
@@ -68220,7 +68221,7 @@
               <w xml:id="WZB_65ra_9_0" lemmaRef="lexicon.xml#lemma_4648" pos="NOM" ana="lexicon.xml#lemma_4648_sense_7213" corresp="variants.xml#type_71144">pflage</w>
               <w xml:id="WZB_65ra_9_1" lemmaRef="lexicon.xml#lemma_4377" pos="NEG" ana="lexicon.xml#lemma_4377_sense_6838" corresp="variants.xml#type_15283">nicht</w>
               <w xml:id="WZB_65ra_9_2" lemmaRef="lexicon.xml#lemma_7770" pos="PRP" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_31260">zu</w>
-              <w xml:id="WZB_65ra_9_3">strew̆ende</w>
+              <w xml:id="WZB_65ra_9_3" lemmaRef="lexicon.xml#lemma_15396" pos="VRB">strew̆ende</w>
               <pc xml:id="WZB_65ra_9_4" join="left">,</pc>
               <pc xml:id="WZB_65ra_9_5" join="left">|</pc>
               <w xml:id="WZB_65ra_9_6" lemmaRef="lexicon.xml#lemma_7385" pos="SCNJ" ana="lexicon.xml#lemma_7385_sense_11998" corresp="variants.xml#type_31024">wenne</w>
@@ -70331,7 +70332,7 @@
               <w xml:id="WZB_67ra_25_3" lemmaRef="lexicon.xml#lemma_8694" pos="PRO" ana="lexicon.xml#lemma_8694_sense_23078" corresp="variants.xml#type_33231">sies</w>
               <w xml:id="WZB_67ra_25_4" lemmaRef="lexicon.xml#lemma_3732" pos="ADV" ana="lexicon.xml#lemma_3732_sense_5912" corresp="variants.xml#type_119180">leichte</w>
               <w xml:id="WZB_67ra_25_5" lemmaRef="lexicon.xml#lemma_3022" pos="NOM" ana="lexicon.xml#lemma_3022_sense_4827" corresp="variants.xml#type_42908">icht</w>
-              <w xml:id="WZB_67ra_25_6">berew̆te</w>
+              <w xml:id="WZB_67ra_25_6" lemmaRef="lexicon.xml#lemma_537" pos="VRB">berew̆te</w>
               <lb n="26"/>
               <pc xml:id="WZB_67ra_26_0" join="left">,</pc>
               <pc xml:id="WZB_67ra_26_1" join="left">|</pc>
@@ -75358,7 +75359,7 @@
               <lb n="21"/>
               <w xml:id="WZB_72va_21_0" lemmaRef="lexicon.xml#lemma_6467" pos="CCNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">Und</w>
               <w xml:id="WZB_72va_21_1" lemmaRef="lexicon.xml#lemma_1119" pos="DET" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
-              <w xml:id="WZB_72va_21_2">vrew̆te</w>
+              <w xml:id="WZB_72va_21_2" lemmaRef="lexicon.xml#lemma_7256" pos="VRB">vrew̆te</w>
               <w xml:id="WZB_72va_21_3" lemmaRef="lexicon.xml#lemma_5445" pos="PRO" ana="lexicon.xml#lemma_5445_sense_8495" corresp="variants.xml#type_19017">sich</w>
               <cb n="b"/>
               
@@ -77919,7 +77920,7 @@
               <pc xml:id="WZB_75rb_6_4" join="left">|</pc>
               <lb n="7"/>
               <w xml:id="WZB_75rb_7_0" lemmaRef="lexicon.xml#lemma_4377" pos="NEG" ana="lexicon.xml#lemma_4377_sense_6838" corresp="variants.xml#type_15283">nicht</w>
-              <w xml:id="WZB_75rb_7_1">bow̆e</w>
+              <w xml:id="WZB_75rb_7_1" lemmaRef="lexicon.xml#lemma_917" pos="VRB">bow̆e</w>
               <w xml:id="WZB_75rb_7_2" lemmaRef="lexicon.xml#lemma_1119" pos="DET" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
               <w xml:id="WZB_75rb_7_3" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
               <w xml:id="WZB_75rb_7_4" lemmaRef="lexicon.xml#lemma_2923" pos="VRB" ana="lexicon.xml#lemma_2923_sense_4694" corresp="variants.xml#type_9961">gehowen</w>
@@ -79993,7 +79994,7 @@
               <lb n="35"/>
               <w xml:id="WZB_76vb_35_0" lemmaRef="lexicon.xml#lemma_3008" pos="PRO" ana="lexicon.xml#lemma_3008_sense_4812" corresp="variants.xml#type_64210">ymant</w>
               <w xml:id="WZB_76vb_35_1" lemmaRef="lexicon.xml#lemma_1331" pos="DET" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4319">ein</w>
-              <w xml:id="WZB_76vb_35_2">iuncvrow̆</w>
+              <w xml:id="WZB_76vb_35_2" lemmaRef="lexicon.xml#lemma_3159" pos="NOM">iuncvrow̆</w>
               <w xml:id="WZB_76vb_35_3">enpfurt</w>
               <pc xml:id="WZB_76vb_35_4" join="left">,</pc>
               <lb n="36"/>
@@ -80001,7 +80002,7 @@
               <w xml:id="WZB_76vb_36_1" lemmaRef="lexicon.xml#lemma_4415" pos="ADV" ana="lexicon.xml#lemma_4415_sense_6892" corresp="variants.xml#type_15400">noch</w>
               <w xml:id="WZB_76vb_36_2" lemmaRef="lexicon.xml#lemma_4377" pos="NEG" ana="lexicon.xml#lemma_4377_sense_6838" corresp="variants.xml#type_15283">nicht</w>
               <w xml:id="WZB_76vb_36_3" lemmaRef="lexicon.xml#lemma_5432" pos="VEX" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18956">ist</w>
-              <w xml:id="WZB_76vb_36_4">vortrew̆et</w>
+              <w xml:id="WZB_76vb_36_4" lemmaRef="lexicon.xml#lemma_6997" pos="VRB">vortrew̆et</w>
               <lb n="37"/>
               <w xml:id="WZB_76vb_37_0" lemmaRef="lexicon.xml#lemma_6467" pos="CCNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_38749">vnd</w>
               <w xml:id="WZB_76vb_37_1" lemmaRef="lexicon.xml#lemma_5517" pos="VRB" ana="lexicon.xml#lemma_5517_sense_8594" corresp="variants.xml#type_69093">slefet</w>
@@ -92507,7 +92508,7 @@
               <w xml:id="WZB_90ra_20_4" lemmaRef="lexicon.xml#lemma_1242" pos="PRO" ana="lexicon.xml#lemma_1242_sense_1958" corresp="variants.xml#type_3956">dich</w>
               <w xml:id="WZB_90ra_20_5" lemmaRef="lexicon.xml#lemma_3022" pos="NOM" ana="lexicon.xml#lemma_3022_sense_4827" corresp="variants.xml#type_42908">icht</w>
               <w xml:id="WZB_90ra_20_6" lemmaRef="lexicon.xml#lemma_7770" pos="PRP" ana="lexicon.xml#lemma_7770_sense_12736" corresp="variants.xml#type_31260">zu</w>
-              <w xml:id="WZB_90ra_20_7">strew̆e</w>
+              <w xml:id="WZB_90ra_20_7" lemmaRef="lexicon.xml#lemma_15396" pos="VRB">strew̆e</w>
               <lb n="21"/>
               <w xml:id="WZB_90ra_21_0" lemmaRef="lexicon.xml#lemma_199" pos="PRP" ana="lexicon.xml#lemma_199_sense_248" corresp="variants.xml#type_522">an</w>
               <w xml:id="WZB_90ra_21_1" lemmaRef="lexicon.xml#lemma_1119" pos="DET" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3504">dem</w>
@@ -230479,7 +230480,7 @@
             <l>
               <w xml:id="WZB_233vb_15_2" lemmaRef="lexicon.xml#lemma_1913" pos="ADV" ana="lexicon.xml#lemma_1913_sense_2938" corresp="variants.xml#type_6476">gar</w>
               <w xml:id="WZB_233vb_15_3" lemmaRef="lexicon.xml#lemma_7677" pos="ADV" ana="lexicon.xml#lemma_7677_sense_12586" corresp="variants.xml#type_27811">wol</w>
-              <w xml:id="WZB_233vb_15_4">gemaw̆erte</w>
+              <w xml:id="WZB_233vb_15_4" lemmaRef="lexicon.xml#lemma_4221" pos="VRB">gemaw̆erte</w>
               <lb n="16"/>
               <w xml:id="WZB_233vb_16_0" lemmaRef="lexicon.xml#lemma_5732" pos="NOM" ana="lexicon.xml#lemma_5732_sense_8995" corresp="variants.xml#type_20165">stete</w>
               <pc xml:id="WZB_233vb_16_1" join="left">,</pc>
