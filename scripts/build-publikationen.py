@@ -238,6 +238,26 @@ def team_treffer(eintrag, team):
     return treffer
 
 
+def verdeckte_team(eintrag, team):
+    """Nachnamen der Teammitglieder, die die Autorenzeile hinter "u. a." verschwinden laesst: der Filter
+    findet den Eintrag ueber alle Personen, die Zeile zeigt nur drei."""
+    if not eintrag["autoren"].endswith(" u. a."):
+        return []
+    sichtbar = [p for p in eintrag.get("personen", []) if p[2] in ROLLEN and p[0]][:3]
+    gezeigt = set(team_treffer({"personen": sichtbar}, team))
+    namen = {kid: name for kid, name, _vor, _nach in team}
+    return [nachname(namen[kid]) for kid in team_treffer(eintrag, team) if kid not in gezeigt]
+
+
+def nachname(name):
+    """Letztes Wort samt kleingeschriebener Partikel davor: 'Alan van Beek' -> 'van Beek'."""
+    teile = name.split()
+    i = len(teile) - 1
+    while i > 1 and teile[i - 1][:1].islower():
+        i -= 1
+    return " ".join(teile[i:])
+
+
 def eintrag_html(eintrag, team):
     ziel = ziel_von(eintrag)
     if ziel:
@@ -245,7 +265,11 @@ def eintrag_html(eintrag, team):
                 f'target="_blank" rel="noopener">{e(ziel[1])}</a>')
     else:
         ziel = "kein Link hinterlegt"
-    zusatz = ", ".join(x for x in (e(eintrag["autoren"]) if eintrag["autoren"] else "",
+    autoren = eintrag["autoren"]
+    verdeckt = verdeckte_team(eintrag, team)
+    if verdeckt:
+        autoren += " (mit " + ", ".join(verdeckt) + ")"
+    zusatz = ", ".join(x for x in (e(autoren) if autoren else "",
                                    str(eintrag["jahr"]) if eintrag["jahr"] else "o. J.") if x)
     # Das Em-Dash-Gate (check-no-em-dash.py) gilt fuer die Seite; der Stand behaelt den Titel wie in Zotero.
     titel = " ".join(eintrag["titel"].replace(chr(0x2014), " - ").split())
