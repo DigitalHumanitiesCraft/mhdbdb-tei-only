@@ -31,6 +31,9 @@ const person = (x, nach, vor) => x.personen.some(([n, v, typ]) => {
     return new RegExp(`\\b${nach}`).test(text) && new RegExp(`\\b${vor}\\b`).test(text);
 });
 
+const falten = (s) => s.toLowerCase().replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/ß/g, 'ss')
+    .normalize('NFKD').replace(/[̀-ͯ]/g, '');
+
 const sichtbar = (page, id) => page.locator(`#${id} li[data-jahr]:not([hidden])`).count();
 
 test.describe('Publikationen: Filter und Hinweise', () => {
@@ -87,9 +90,10 @@ test.describe('Publikationen: Filter und Hinweise', () => {
         // Zotero mehrere Personen in einem Feld trägt; geprüft für jede angebotene Option
         for (const o of optionen.slice(1)) {
             await page.selectOption('#pub-team', { label: o });
-            const nach = o.replace(/\s*\(\d+\)$/, '').split(' ').pop();
-            const ohneName = await page.locator('li[data-jahr]:not([hidden]) .pub-meta')
-                .evaluateAll((els, n) => els.filter((el) => !el.textContent.includes(n)).length, nach);
+            // wie falten() im Build-Skript: Umlaute als Digraph, bei Doppelnamen genügt ein Teil
+            const nach = falten(o.replace(/\s*\(\d+\)$/, '').split(' ').pop()).split('-');
+            const zeilen = await page.locator('li[data-jahr]:not([hidden]) .pub-meta').allTextContents();
+            const ohneName = zeilen.filter((t) => !nach.some((n) => falten(t).includes(n))).length;
             expect(ohneName, o).toBe(0);
         }
     });

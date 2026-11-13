@@ -239,8 +239,9 @@ def team_treffer(eintrag, team):
 
 
 def verdeckte_team(eintrag, team):
-    """Nachnamen der Teammitglieder, die der Filter findet, die Autorenzeile aber nicht zeigt: hinter
-    "u. a." (die Zeile zeigt drei Personen) oder in einem Zotero-Feld, das mehrere Personen traegt."""
+    """Nachnamen der Teammitglieder, die der Filter findet und deren Nachname nicht in der Autorenzeile
+    steht (hinter "u. a." oder in einem Zotero-Feld mit mehreren Personen). Steht ein Namensvetter in der
+    Zeile, gilt das Mitglied als sichtbar; im Stand vom 13.11. kommt das nicht vor."""
     # Sichtbar ist, wessen Nachname in der Zeile steht. Das deckt auch Zotero-Felder mit mehreren Personen
     # ("Alan van Beek und Julia Hintersteiner" als Vorname), deren Namen die Zeile nicht zeigt.
     in_zeile = worte(eintrag["autoren"])
