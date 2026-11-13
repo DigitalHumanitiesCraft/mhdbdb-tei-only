@@ -4,7 +4,8 @@
  * Gehalten wird: der Zotero-Link steht oben (vor dem ersten Abschnitt), der
  * Kontakthinweis steht bei den eigenen Publikationen und nur dort, der Teamfilter
  * zählt gegen den Stand data/zotero-publikationen.json nach (unabhängig vom
- * Build-Skript, an zwei Personen, von denen Klaus M. Schmidt Namensvettern hat),
+ * Build-Skript, an zwei Personen, von denen Klaus M. Schmidt einen Namensvetter hat;
+ * jede angebotene Option nennt mindestens einen Treffer),
  * der Jahresfilter schneidet
  * richtig und lässt Einträge ohne Jahr fallen, Zurücksetzen stellt alles her, und
  * ohne JavaScript steht die ganze Liste da.
@@ -64,11 +65,17 @@ test.describe('Publikationen: Filter und Hinweise', () => {
         expect(optionen[0]).toBe('Alle');
         expect(optionen).toContain(`Katharina Zeppezauer-Wachauer (${katharina})`);
         expect(optionen).toContain(`Klaus M. Schmidt (${klaus})`);
-        // Namensvettern zählen nicht: wer nur den Nachnamen Schmidt trägt, ist nicht Klaus M. Schmidt.
-        // Die Erwartung kommt aus dem Stand, nicht aus festen Namen.
+        // Der Stand enthält mindestens einen Namensvetter (Nachname Schmidt, nicht Klaus);
+        // fällt er weg, wird diese Zeile rot statt still nichts mehr zu prüfen.
         const mitNachnameSchmidt = ALLE.filter((x) => x.personen.some(([n, , typ]) => ROLLEN.includes(typ) && /\bschmidt/i.test(n))).length;
-        expect(klaus).toBeLessThanOrEqual(mitNachnameSchmidt);
+        expect(klaus).toBeLessThan(mitNachnameSchmidt);
+        // Jede Option außer "Alle" nennt mindestens einen Treffer.
         expect(optionen.length - 1).toBeGreaterThan(5);
+        for (const o of optionen.slice(1)) {
+            const m = o.match(/\((\d+)\)$/);
+            expect(m, o).not.toBeNull();
+            expect(Number(m[1]), o).toBeGreaterThan(0);
+        }
 
         await page.selectOption('#pub-team', { label: `Katharina Zeppezauer-Wachauer (${katharina})` });
         expect(await sichtbar(page, 'wb4htugc')).toBe(katharinaEigene);

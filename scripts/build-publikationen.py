@@ -308,7 +308,7 @@ def filter_bauen(stand, team):
         '<button type="button" id="pub-zurueck">Zurücksetzen</button>\n'
         '</div>\n'
         '<p id="pub-status" class="pub-status" role="status" aria-live="polite"></p>\n'
-        '<p class="pub-filter-hinweis">Das Teammitglied ist als Autorin, Autor, Herausgeber oder Mitwirkende eines Eintrags genannt '
+        '<p class="pub-filter-hinweis">Das Teammitglied steht unter den Autorinnen und Autoren, Herausgeberinnen und Herausgebern oder Mitwirkenden eines Eintrags '
         '(Register der Mitwirkenden der MHDBDB). Bei gesetztem Jahresfilter entfallen Einträge ohne Jahr.</p>\n'
         '</form>')
 
