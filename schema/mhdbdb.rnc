@@ -396,8 +396,11 @@ ab = element ab {
 # <w> erlaubt seit 2026-05-08 mixed content mit <hi>. Hintergrund:
 # in den ARI-Daten kommt das Pattern <seg type="token"><hi rend="initial">X</hi>Y</seg>
 # vor (Initial-Buchstaben am Wort-Anfang). Das uebersetzt sich zu
-# <w><hi rend="initial">X</hi>Y</w>. Im Bestand ist <w> rein text-basiert,
-# diese Erweiterung ist additiv (Bestand bleibt valide).
+# <w><hi rend="initial">X</hi>Y</w>. In tei/ hat kein <w> ein Kindelement
+# (gemessen 2026-11-08, #147), die Erweiterung ist additiv (Bestand bleibt valide).
+# Seit 2026-11-11 zusaetzlich <expan>, <supplied>, <add>, <pb> im Wort
+# (BRE/Weingruesse, #147, Schema-Weg 1 von KZW freigegeben): Abkuerzungs-
+# aufloesung, editorische Ergaenzung, Nachtrag und Seitenwechsel mitten im Wort.
 w = element w {
     attribute xml:id { xsd:NCName },
     attribute lemmaRef { text }?,
@@ -406,7 +409,7 @@ w = element w {
     attribute corresp { text }?,
     attribute reason { text }?,
     attribute xml:lang { text }?,
-    mixed { hi* }
+    mixed { (hi | expan | supplied | add | pb)* }
 }
 
 pc = element pc {

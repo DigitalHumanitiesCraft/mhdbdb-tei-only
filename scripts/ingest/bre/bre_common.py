@@ -30,6 +30,14 @@ VERSUCHE = 3
 DOKU_TITEL = "Dokumentation Edition Weingrüße"
 LISTE_MARKE = "=====Einzelne Weingrüße====="
 
+# Hauptseite: Abschnitt "Überlieferung" (Überlieferungsbeschreibung je Zeuge) ist fuer die
+# Werkzuordnung massgeblich (Silvan Wagner ueber KZW, #147, 2026-11-12). HAUPT_REVID ist die
+# Revision, mit der ein Manifest ohne Hauptseite ergaenzt wird (31127 vom 2026-11-11; der
+# Abschnitt "Überlieferung" ist mit Revision 30019 vom 2026-06-15 wortgleich, gemessen
+# 2026-11-13: beide Revisionen unterscheiden sich nur in der Kopfzeile der Seite).
+HAUPT_TITEL = "Kategorie:Quelle Weingruß"
+HAUPT_REVID = 31127
+
 # Editionssigle -> (Transkriptionsseite ohne Praefix "Weingrüße ", MHDBDB-Sigle).
 # Vorlaeufig (Koordination, #147).
 ZEUGEN = {
@@ -87,7 +95,57 @@ VORSPANN = {
 }
 VORSPANN_NOTIZ = {
     "text_ohne_einzelseite": "Keiner Einzeltextseite im Brevitas-Wiki zugeordnet.",
-    "fragment": "Vor dem ersten Text der Synopse, keiner Einzeltextseite zugeordnet.",
+    # {werk}: bre_common.VORSPANN_WERK. Die Hauptseite fuehrt R unter "Weinsegen Allerliebster
+    # Trost (nur die letzten drei Verse)"; in der Synopse der Einzeltextseite fehlt R.
+    "fragment": "Fragment von {werk}: nur die letzten drei Verse. Zuordnung nach der "
+                "Überlieferungsbeschreibung der Hauptseite (Brevitas-Wiki, Abschnitt Überlieferung).",
+}
+
+# Zeuge -> Einzeltext (Seitentitel ohne Autorzusatz), dessen Text der Vorspann ist, wo die
+# Hauptseite das ausdruecklich sagt. R: Hauptseite, Abschnitt Ueberlieferung, R: "Weinsegen
+# Allerliebster Trost (nur die letzten drei Verse)" (Revision 31127; wortgleich in 30019).
+VORSPANN_WERK = {"R": "Weinsegen Allerliebster Trost"}
+
+# Abweichungen zwischen der Hauptseite (Liste unter ";Sigle") und der Segmentierung, die
+# geprueft sind: (Zeuge, art, Text, bisher, laut Hauptseite) -> Befund, der Schluessel ist
+# bre_hauptseite.schluessel() und traegt den Inhalt der Abweichung (Anzahl, bei einer anderen
+# Reihenfolge die Stellen und Folgen). Eine andere Abweichung der gleichen Art, etwa eine
+# zusaetzliche Vertauschung, ist ein anderer Schluessel und bricht 02-convert-wiki-to-mhdbdb.py
+# ab. Der Eintrag erklaert die Abweichung oder haelt sie als offene Frage fest, er korrigiert
+# nichts. Gemessen 2026-11-13 gegen Revision 31127 (03-hauptseite-abgleich.py).
+_KLAMMER = ("1x eigener Abschnitt", "in Klammern (kein eigener Text)")
+ABWEICHUNG_ERKLAERT = {
+    ("B2", "nur_bisher", "Weinsegen Allerliebster Trost", "1x", "fehlt"):
+        "offen: Fehlansatz (2 Verse, 3 gestrichene) vor dem Weingruss Allerliebster Trunck; die "
+        "Einzeltextseite fuehrt ihn als 'falscher Eintrag', Hauptseite (Liste und Uebersicht) kennt "
+        "18 Texte, der Satz dort nennt 19",
+    ("B2", "reihenfolge", "",
+     "ab Stelle 15: Weinsegen Allerliebster Trost > Weingruß Allerliebster Trunck",
+     "ab Stelle 15: Weingruß Allerliebster Trunck > Weinsegen Allerliebster Trost"):
+        "offen: Folge des Fehlansatzes, er steht vor dem Weingruss Allerliebster Trunck, der Weinsegen "
+        "Allerliebster Trost der Hauptseite danach",
+    ("N2", "nur_bisher", "Pseudo-Weingruß Noes Pau", "1x", "fehlt"):
+        "erklaert: Hauptseite nennt ihn im Fliesstext (S. 113v, 'nicht mehr als Weingruss zu zaehlen')",
+    ("W1", "nur_bisher", "Pseudo-Weingruß Her Fein", "1x", "fehlt"):
+        "erklaert: Hauptseite nennt ihn im Fliesstext als siebten Text des ersten Teils",
+    ("d4", "reihenfolge", "",
+     "ab Stelle 2: Weingruß Edels Getranck > Weinsegen Edle Leibsalb",
+     "ab Stelle 2: Weinsegen Edle Leibsalb > Weingruß Edels Getranck"):
+        "offen: Liste der Hauptseite fuehrt Edle Leibsalb vor Edels Getranck, die Uebersicht der "
+        "Hauptseite (Stellung 2 und 3) und die Synopsen fuehren Edels Getranck zuerst; der Fliesstext "
+        "sagt, die ersten Verspaare beider seien vertauscht",
+    ("d5", "nur_bisher", "Weingruß Süsser Geschmack", "1x", "fehlt"):
+        "erklaert: Liste der Hauptseite unvollstaendig (19 Eintraege, Satz nennt 20 Weingruesse und "
+        "den Vorspruch); die Uebersicht fuehrt ihn als Stellung 19",
+    ("d5", "nur_bisher", "Weinsegen Ein Kron", "1x", "fehlt"):
+        "erklaert: wie Suesser Geschmack, Uebersicht Stellung 20",
+    ("d6", "klammer_aber_abschnitt", "Weingruß Allerliebster Trunck") + _KLAMMER:
+        "offen: Hauptseite setzt sechs Texte in Klammern (rudimentaer in Edles Abkuelen assimiliert, "
+        "keine eigenen Texte); die Segmentierung schneidet davon drei als eigene Abschnitte",
+    ("d6", "klammer_aber_abschnitt", "Weinsegen Allerliebster Trost") + _KLAMMER:
+        "offen: wie Allerliebster Trunck",
+    ("d6", "klammer_aber_abschnitt", "Weinsegen Ein Kron") + _KLAMMER:
+        "offen: wie Allerliebster Trunck",
 }
 
 # Faltung NUR fuer den Vergleich erster Vers <-> Transkriptionszeile, nie fuer die Ausgabe.

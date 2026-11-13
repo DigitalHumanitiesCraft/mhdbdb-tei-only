@@ -39,6 +39,7 @@ from lxml import etree
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import bre_common as bc  # noqa: E402
+import bre_hauptseite as bh  # noqa: E402
 import bre_wikitext as bw  # noqa: E402
 
 TEI_NS = "http://www.tei-c.org/ns/1.0"
@@ -397,7 +398,8 @@ def segmentiere(items, lex, rows, sigle):
         raise bc.HarterFehler(
             f"Vorspann weicht von bre_common.VORSPANN ab: {len(ist)} Zeile(n) vor dem ersten Textanfang "
             f"(Zeilen {[items[i]['lines'][0] for i in vor]}) {ist!r}, erwartet {len(soll)}: {soll!r}")
-    return texte, faltungen, ({"art": art, "idx": vor} if vor else None)
+    return texte, faltungen, ({"art": art, "idx": vor, "werk": bc.VORSPANN_WERK.get(sigle)}
+                              if vor else None)
 
 
 # ---------------------------------------------------------------- TEI-Aufbau
@@ -748,11 +750,17 @@ def baue_tei(sigle, signatur, seite, items, lex, texte, stat, vorspann=None, dat
         emit(aussen, vor_indices, {i for i in vor_indices if items[i]["kind"] == "verse"})
     elif vorspann:
         n_abschnitt += 1
-        aussen.append(etree.Comment(f" Text {n_abschnitt}: Vorspann ({vorspann['art']}) "))
+        werk = vorspann.get("werk")
+        if vorspann["art"] == "fragment" and not werk:
+            raise QuellFehler("Fragment ohne Werkzuordnung: bre_common.VORSPANN_WERK nennt den Text "
+                              "laut Hauptseite (Abschnitt Überlieferung)")
+        aussen.append(etree.Comment(
+            f" Text {n_abschnitt}: {werk} (Fragment) " if werk and vorspann["art"] == "fragment"
+            else f" Text {n_abschnitt}: Vorspann ({vorspann['art']}) "))
         div = E(aussen, "div", type="section", n=str(n_abschnitt))
         containers.add(id(div))
         n = E(div, "note", type="editorial")
-        n.text = bc.VORSPANN_NOTIZ[vorspann["art"]]
+        n.text = bc.VORSPANN_NOTIZ[vorspann["art"]].format(werk=werk)
         verse_idx = [i for i in vor_indices if items[i]["kind"] == "verse"]
         heads = {verse_idx[0]} if vorspann["art"] == "text_ohne_einzelseite" else set()
         emit(div, vor_indices, heads)
@@ -889,6 +897,21 @@ def konvertiere(sigle, trocken, ausgabe_dir, datum):
         raise bc.HarterFehler(f"{len(texte)} Texte gefunden statt {len(rows)} in segmentierung.tsv")
     n_vor_text = 1 if vorspann and vorspann["art"] != "reihentitel" else 0
 
+    # Abgleich mit der Hauptseite (Werkzuordnung massgeblich, #147): jede nicht geprueft
+    # erklaerte Abweichung ist ein harter Fehler (bre_common.ABWEICHUNG_ERKLAERT)
+    haupt_seite, haupt = bh.lade_hauptseite()
+    unsere = [t["row"]["text_titel"] for t in texte]
+    if vorspann and vorspann.get("werk"):
+        unsere = [vorspann["werk"]] + unsere
+    abw = bh.abgleich(sigle, haupt[sigle], unsere, None)
+    offen = [x for x in abw if bh.schluessel(sigle, x) not in bc.ABWEICHUNG_ERKLAERT]
+    if offen:
+        raise bc.HarterFehler(
+            f"Abweichung zur Hauptseite (rev {haupt_seite['revid']}), nicht in "
+            f"bre_common.ABWEICHUNG_ERKLAERT: "
+            + "; ".join(f"{x['art']} {x['titel']!r}: bisher {x['bisher']!r}, Hauptseite "
+                        f"{x['hauptseite']!r}" for x in offen))
+
     stat = {"w": 0, "l": 0, "head": 0, "pb": 0, "pb_im_wort": 0, "note": 0,
             "el": collections.Counter(), "span_dupliziert": collections.Counter()}
     tei, containers, erwartet = baue_tei(mhdbdb, signatur, seite, items, lex, texte, stat,
@@ -954,6 +977,10 @@ def konvertiere(sigle, trocken, ausgabe_dir, datum):
     if vorspann:
         print(f"Vorspann ({vorspann['art']}): {len(vorspann['idx'])} Zeile(n), Quellzeilen "
               f"{[items[i]['lines'][0] for i in vorspann['idx']]}")
+    print(f"Hauptseite (rev {haupt_seite['revid']}): {len(haupt[sigle])} Eintraege, "
+          + ("keine Abweichung" if not abw else f"{len(abw)} geprueft erklaerte Abweichung(en)"))
+    for x in abw:
+        print(f"  Abweichung {x['art']} {x['titel']!r}: {bc.ABWEICHUNG_ERKLAERT[bh.schluessel(sigle, x)]}")
     for f in faltungen:
         print(f)
     for k, t in enumerate(texte):

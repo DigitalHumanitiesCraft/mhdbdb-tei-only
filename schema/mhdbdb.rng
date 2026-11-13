@@ -1269,7 +1269,13 @@
       </optional>
       <mixed>
         <zeroOrMore>
-          <ref name="hi"/>
+          <choice>
+            <ref name="hi"/>
+            <ref name="expan"/>
+            <ref name="supplied"/>
+            <ref name="add"/>
+            <ref name="pb"/>
+          </choice>
         </zeroOrMore>
       </mixed>
     </element>

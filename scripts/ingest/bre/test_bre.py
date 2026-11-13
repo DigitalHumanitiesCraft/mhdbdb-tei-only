@@ -156,7 +156,153 @@ d1 = tei_r.xpath("//t:div[@type='section'][1]", namespaces=ns)[0]
 pruefe("Fragment: eigener Abschnitt ohne head, mit Notiz",
        len(texte_r) == 2 and len(tei_r.xpath("//t:div[@type='section']", namespaces=ns)) == 3
        and not d1.xpath("t:head", namespaces=ns) and len(d1.xpath("t:l", namespaces=ns)) == 3
-       and d1.xpath("t:note[@type='editorial']", namespaces=ns)[0].text == conv.bc.VORSPANN_NOTIZ["fragment"])
+       and d1.xpath("t:note[@type='editorial']", namespaces=ns)[0].text
+       == conv.bc.VORSPANN_NOTIZ["fragment"].format(werk="Weinsegen Allerliebster Trost"))
+# R ist laut Hauptseite ein Fragment von Weinsegen Allerliebster Trost (#147, 2026-11-12)
+pruefe("Fragment R: Werk laut Hauptseite statt 'keiner Einzeltextseite zugeordnet'",
+       conv.bc.VORSPANN_WERK["R"] == "Weinsegen Allerliebster Trost"
+       and "Weinsegen Allerliebster Trost" in d1.xpath("t:note", namespaces=ns)[0].text
+       and "zugeordnet" not in conv.bc.VORSPANN_NOTIZ["fragment"]
+       and any("Weinsegen Allerliebster Trost (Fragment)" in c.text for c in
+               tei_r.xpath("//comment()")), str(tei_r.xpath("//comment()")))
+# Fragment ohne Werkzuordnung ist ein harter Fehler
+alt = dict(conv.bc.VORSPANN_WERK)
+conv.bc.VORSPANN_WERK.clear()
+try:
+    baue(s_frag, ROWS, "R")
+    pruefe("Fragment ohne VORSPANN_WERK", False, "kein Fehler")
+except conv.bc.HarterFehler as e:
+    pruefe("Fragment ohne VORSPANN_WERK", "Werkzuordnung" in str(e))
+finally:
+    conv.bc.VORSPANN_WERK.update(alt)
+
+# Hauptseite: Liste je Zeuge, Uebersichtstabelle, Abgleich (Fixture: konstruierter Ausschnitt)
+bh = conv.bh
+HAUPT = """== Überlieferung ==
+
+=== Handschriften ===
+;B
+:[[Weingrüße Cgm 713|X]]; Auf den Seiten 1r sind 2 Weingrüße aufgeführt:
+
+#[[Weingruß Edels Getranck]]
+#[[Weinsegen Edle Leibsalb]] (als Gruß ausgeführt)
+
+;R
+:Text:
+
+#[[Weinsegen Allerliebster Trost]] (nur die letzten drei Verse)
+#[[Weingruß Neczen Gumen]]
+
+:In weitem Abstand:
+
+#[[Biergruß Liebes Pir]]
+
+;d<sup>6</sup>
+:Text:
+
+#[[Weingruß Edels Getranck]]
+#([[Weingruß Allerliebster Trunck]])
+
+;Darüber hinaus sind Weingrüße in einer Handschrift unbekannt.
+
+=== Übersicht der Überlieferung ===
+"""
+hs = bh.parse(HAUPT)
+pruefe("Hauptseite: Zeugen und Listen", list(hs) == ["B", "R", "d6"] and len(hs["B"]) == 2
+       and [h["teil"] for h in hs["R"]] == [1, 1, 2], str({k: len(v) for k, v in hs.items()}))
+pruefe("Hauptseite: Anmerkung und Klammer",
+       hs["R"][0]["anmerkung"] == "(nur die letzten drei Verse)" and not hs["R"][0]["klammer"]
+       and hs["d6"][1]["klammer"] and hs["B"][1]["anmerkung"] == "(als Gruß ausgeführt)")
+pruefe("Abgleich: gleich", bh.abgleich("B", hs["B"], ["Weingruß Edels Getranck (Hans Rosenplüt)",
+                                                      "Weinsegen Edle Leibsalb"], None) == [])
+pruefe("Abgleich: R ohne Fragment = Abweichung nur_hauptseite",
+       [x["art"] for x in bh.abgleich("R", hs["R"], ["Weingruß Neczen Gumen", "Biergruß Liebes Pir"], None)]
+       == ["nur_hauptseite"])
+pruefe("Abgleich: R mit Fragment = gleich",
+       bh.abgleich("R", hs["R"], ["Weinsegen Allerliebster Trost", "Weingruß Neczen Gumen",
+                                  "Biergruß Liebes Pir"], None) == [])
+pruefe("Abgleich: Reihenfolge",
+       [x["art"] for x in bh.abgleich("B", hs["B"], ["Weinsegen Edle Leibsalb",
+                                                     "Weingruß Edels Getranck"], None)] == ["reihenfolge"])
+pruefe("Abgleich: Klammertext als eigener Abschnitt",
+       [x["art"] for x in bh.abgleich("d6", hs["d6"], ["Weingruß Edels Getranck",
+                                                       "Weingruß Allerliebster Trunck"], None)]
+       == ["klammer_aber_abschnitt"])
+pruefe("Abgleich: Text nur in der Segmentierung",
+       [x["art"] for x in bh.abgleich("B", hs["B"], ["Weingruß Edels Getranck", "Weinsegen Edle Leibsalb",
+                                                     "Pseudo-Weingruß X"], None)] == ["nur_bisher"])
+try:
+    bh.parse(HAUPT.replace(";R\n", ";Q\n", 1))
+    pruefe("Hauptseite: unbekannter Zeuge", False, "kein Fehler")
+except conv.bc.HarterFehler:
+    pruefe("Hauptseite: unbekannter Zeuge", True)
+try:
+    bh.parse(HAUPT.replace("#[[Weingruß Neczen Gumen]]", "# Weingruß Neczen Gumen ohne Link", 1))
+    pruefe("Hauptseite: Listenzeile ohne Link", False, "kein Fehler")
+except conv.bc.HarterFehler:
+    pruefe("Hauptseite: Listenzeile ohne Link", True)
+# Schluessel einer geprueften Abweichung tragen den Inhalt (Probe des Reviewers, Runde 1):
+# die B2-Abweichung aus ABWEICHUNG_ERKLAERT ist erklaert, dieselbe Folge mit einer zusaetzlichen
+# Vertauschung der letzten beiden Texte ist eine andere Abweichung und nicht erklaert.
+fuell = [{"teil": 1, "titel": f"Weingruß F{i}", "anmerkung": "", "klammer": False} for i in range(14)]
+nach = ["Weingruß Allerliebster Trunck", "Weinsegen Allerliebster Trost", "Biergruß Liebes Pir",
+        "Biersegen Liebe Gerstenprü"]
+h_b2 = fuell + [{"teil": 1, "titel": t, "anmerkung": "", "klammer": False} for t in nach]
+u_b2 = [h["titel"] for h in fuell] + ["Weinsegen Allerliebster Trost"] + nach
+ab_b2 = bh.abgleich("B2", h_b2, u_b2, None)
+pruefe("Schluessel: B2-Abweichungen sind erklaert (Positivkontrolle)",
+       len(ab_b2) == 2 and all(bh.schluessel("B2", x) in conv.bc.ABWEICHUNG_ERKLAERT for x in ab_b2),
+       str([bh.schluessel("B2", x) for x in ab_b2]))
+ab_b2_x = bh.abgleich("B2", h_b2, u_b2[:-2] + u_b2[-2:][::-1], None)
+pruefe("Schluessel: zusaetzliche Vertauschung ist nicht erklaert",
+       [x["art"] for x in ab_b2_x] == ["nur_bisher", "reihenfolge"]
+       and bh.schluessel("B2", ab_b2_x[1]) not in conv.bc.ABWEICHUNG_ERKLAERT, str(ab_b2_x))
+ab_zwei = bh.abgleich("B2", h_b2, u_b2 + ["Weinsegen Allerliebster Trost"], None)
+pruefe("Schluessel: zweiter Fehlansatz (Anzahl) ist nicht erklaert",
+       any(x["art"] == "nur_bisher" and x["bisher"] == "2x"
+           and bh.schluessel("B2", x) not in conv.bc.ABWEICHUNG_ERKLAERT for x in ab_zwei), str(ab_zwei))
+# d6: drei Klammertexte als je ein Abschnitt sind erklaert (Positivkontrolle), ein doppelter
+# Abschnitt desselben Klammertexts ist eine andere Abweichung (Probe des Reviewers, Runde 2)
+h_d6 = [{"teil": 1, "titel": "Weingruß Edels Getranck", "anmerkung": "", "klammer": False}] + [
+    {"teil": 1, "titel": t, "anmerkung": "", "klammer": True}
+    for t in ("Weingruß Allerliebster Trunck", "Weinsegen Allerliebster Trost", "Weinsegen Ein Kron")]
+u_d6 = ["Weingruß Edels Getranck", "Weingruß Allerliebster Trunck", "Weinsegen Allerliebster Trost",
+        "Weinsegen Ein Kron"]
+ab_d6 = bh.abgleich("d6", h_d6, u_d6, None)
+pruefe("Schluessel: d6-Klammerabschnitte sind erklaert (Positivkontrolle)",
+       len(ab_d6) == 3 and all(bh.schluessel("d6", x) in conv.bc.ABWEICHUNG_ERKLAERT for x in ab_d6),
+       str([bh.schluessel("d6", x) for x in ab_d6]))
+ab_d6_x = bh.abgleich("d6", h_d6, u_d6 + ["Weingruß Allerliebster Trunck"], None)
+pruefe("Schluessel: doppelter Klammerabschnitt ist nicht erklaert",
+       len(ab_d6_x) == 3 and sum(bh.schluessel("d6", x) not in conv.bc.ABWEICHUNG_ERKLAERT
+                                  for x in ab_d6_x) == 1
+       and any(x["bisher"] == "2x eigener Abschnitt" for x in ab_d6_x), str(ab_d6_x))
+# nur_hauptseite traegt die Anzahl der fehlenden Vorkommen
+h_zwei = [{"teil": 1, "titel": "Weingruß X", "anmerkung": "", "klammer": False}] * 2
+pruefe("Schluessel: nur_hauptseite traegt die Anzahl",
+       bh.abgleich("B", h_zwei, [], None)[0]["hauptseite"].startswith("2x, ")
+       and bh.abgleich("B", h_zwei[:1], [], None)[0]["hauptseite"].startswith("1x, "))
+MATRIX = HAUPT + """
+{|
+|-
+|style="x"|
+|style="x"|B
+|-
+|style="white-space: pre; vertical-align:top;"|[[Weingruß Edels Getranck]]
+||1
+|}
+"""
+try:
+    bh.parse_matrix(MATRIX)
+    pruefe("Uebersicht: Spaltenkoepfe muessen die Zeugenliste sein", False, "kein Fehler")
+except conv.bc.HarterFehler:
+    pruefe("Uebersicht: Spaltenkoepfe muessen die Zeugenliste sein", True)
+pruefe("Uebersicht: Zellen", bh.matrix_folge(
+    {"Weingruß A": {"W1": "A2<br />B4"}, "Weingruß B": {"W1": "(3)"}, "Weingruß C": {"W1": "B1*"}}, "W1")
+       == [{"titel": "Weingruß B", "teil": "1", "anmerkung": "(3)", "klammer": True},
+           {"titel": "Weingruß A", "teil": "A", "anmerkung": "A2", "klammer": False},
+           {"titel": "Weingruß C", "teil": "B", "anmerkung": "B1*", "klammer": False},
+           {"titel": "Weingruß A", "teil": "B", "anmerkung": "B4", "klammer": False}])
 
 # Faltung nur im Vergleich: ů in der Transkription, u+U+0366 im ersten Vers; Ausgabe unveraendert
 rows_f = [dict(ROWS[0], erster_vers="Gruͦß dich got"), ROWS[1]]
