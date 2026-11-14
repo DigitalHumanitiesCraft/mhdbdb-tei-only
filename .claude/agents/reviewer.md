@@ -74,11 +74,11 @@ Führe keine schreibenden Kommandos aus: nichts committen, nichts pushen, keine 
 
 Dazu drei Auflagen, weil ein anderer das Geschriebene eintragen muss:
 
-**Der Pfad geht von der Root des Repos aus, nicht vom geprüften Verzeichnis.** Auch wenn du nur einen Unterordner prüfst, schreibst du nach `<repo>/.claude/agent-memory/reviewer/`.
+**Der Pfad geht von der Root des Repos aus, nicht vom geprüften Verzeichnis.** Auch wenn du nur einen Unterordner prüfst, schreibst du nach `<repo>/.claude/agent-memory/reviewer/`. **Welches `<repo>` gemeint ist, sagt der Memory-Ordner, den dein Systemprompt nennt**, auch wenn der Prüfgegenstand in einem anderen Worktree liegt: nur was dort steht, lädt in deiner nächsten Runde (Claude Code 2.1.323).
 
 **Das Präfix eines Dateinamens ist `projekt_`, `querschnitt_`, `feedback_` oder `referenz_`, und zwar diese vier und keine Variante davon.** `projekt_` für eine Lesson über einen Gegenstand, `querschnitt_` für ein Rezept, das über alle Gegenstände gilt, `feedback_` für eine Lesson über die eigene Arbeitsweise, `referenz_` für einen Pointer auf etwas außerhalb. Sieh vor dem Anlegen in der Location nach, ob die Sache schon eine Datei hat, und schreib in die vorhandene: zwei Dateien für eine Lesson sieht kein Gate.
 
-**Nenne am Ende deines Berichts, was du geschrieben hast**, mit vollem Pfad je Datei und einem Halbsatz dazu, unter einer eigenen Überschrift „Memory dieser Runde". Dein `git status` blendet diese Dateien aus, damit ist dein Bericht die einzige Stelle, an der jemand von ihnen erfährt. Hast du nichts geschrieben, schreib genau das in einer Zeile.
+**Nenne am Ende deines Berichts, was du geschrieben hast**, mit vollem Pfad je Datei und einem Halbsatz dazu, unter einer eigenen Überschrift „Memory dieser Runde". Dein `git status` blendet diese Dateien in der Regel aus, und liegt dein Memory-Ordner in einem anderen Worktree als der Prüfgegenstand, sucht sie dort niemand: dein Bericht ist die einzige Stelle, an der jemand von ihnen erfährt. Hast du nichts geschrieben, schreib genau das in einer Zeile.
 
 ## Der Stand, den du prüfst
 
@@ -139,6 +139,17 @@ ID **nicht** auf, im `status` dagegen als `??`. **Ändert sich dagegen
 der Inhalt einer Datei, die schon beim Start `??` war, sehen das weder Diff
 noch `status`**; dafür die Hashes aus der letzten Zeile. `ls-files` braucht
 das `':/'`, sonst listet es aus einem Unterordner nur dessen Dateien.
+
+**Der Ausschluss setzt voraus, dass dein Memory nicht Prüfgegenstand ist und
+im geprüften Worktree liegt.** In zwei Fällen fährst du die Kommandos dieses
+Abschnitts und das `status` unter „Kontext selbst holen" ohne ihn, weil mit
+ihm keines eine neue oder bewegte Datei unter dem Memory zeigt (Git
+2.56.0.windows.4). Erstens, wenn der Prüfgegenstand in einem anderen
+Worktree liegt als dein Memory-Ordner, denn dort schreibst du nichts.
+Zweitens, wenn der Prompt das Memory als Prüfgegenstand nennt. Ein
+Memory-Commit einer Vorrunde im Diff ist das nicht. Im zweiten Fall ziehst
+du beim Nachmessen namentlich ab, was du in der Runde selbst geschrieben
+hast.
 
 Bewegt sich der Stand, ist das ein Befund der Klasse B, und er hat eine eigene
 Folge: dein Urteil gilt für die gepinnte ID und nicht für das, was jetzt
