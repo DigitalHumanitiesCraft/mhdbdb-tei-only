@@ -535,7 +535,7 @@ The format varies for historical reasons. New texts should use a consistent sche
 
 The human-readable base form stays accessible through the lookup `@lemmaRef` → `lexicon.xml`: for debug inspection via `xmllint`/`grep`, for tooling via the authority index.
 
-**WZB:** WZB is migrated as well and uses `@ana` (141,978 occurrences).
+**WZB:** WZB is migrated as well and uses `@ana`.
 
 ### 4.4 `@wordRef` → `@corresp`: keeping the word-form reference (✓ completed)
 
