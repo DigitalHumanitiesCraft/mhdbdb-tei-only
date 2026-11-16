@@ -24,7 +24,10 @@ Archiv stammen und trotzdem außerhalb des Repositoriums liegen.
   Enthält alles außer den 14.771 FineReader-Projektdateien. Spalten: `folder`, `file`, `ext`,
   `kategorie`, `bytes`, `geaendert`.
 - **Was daraus im Repo ist:** 306 codierte Ingest-Dateien (26,0 MB) in
-  [`linecode/`](linecode/) plus `legacy-tooling/linecode-generator.dot`. Alles andere nicht.
+  [`linecode/`](linecode/) plus `legacy-tooling/linecode-generator.dot`, und seit 2026-11
+  die Mantis-Textliste als CSV und Screenshot in
+  [`mantis-textliste-2017/`](mantis-textliste-2017/README.md) (Inventarzeile 5008, das HTML
+  selbst bleibt im Archiv). Alles andere nicht.
 
 ## Was drin ist, nach Kategorie
 
@@ -223,7 +226,8 @@ Kein Text, aber Belege dafür, wie der Alt-Ingest gearbeitet hat.
 - `Ersetzungen.doc` (direkt in `Texte/`, 40 KB) und eine zweite Fassung in
   `Neue Texte (zu bearbeiten)/` (46 KB).
 - `Sicherheitskopie Textliste MANTIS/` – gespeicherte HTML-Ansicht der alten
-  MantisBT-Textliste, also die historische Textplanung.
+  MantisBT-Textliste, also die historische Textplanung. Seit 2026-11 als CSV und Screenshot
+  in [`mantis-textliste-2017/`](mantis-textliste-2017/README.md), Desiderata in #710.
 - `ERLEDIGT/Todo-Liste_9-2013.doc`, `Sonstiges/Todo-Liste_20140117.doc`,
   `Sonstiges/Todo-Liste_20150114.doc` – was damals geplant war.
 - `Sonstiges/Stuttgart_Braun/` – die `*_CodeDel.docx`-Dateien (DJEM, DJUM, FR2, MML, RLS, WLE,

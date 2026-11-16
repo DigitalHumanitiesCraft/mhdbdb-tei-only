@@ -5,7 +5,8 @@
 > Die Linecode-Dateien in diesem Verzeichnis (`linecode/`, `legacy-tooling/` und die
 > Verzeichnisse dazu) sind **historische Ingest-Vorlagen** aus der Zeit vor der TEI-Migration.
 > Dazu kommen Exporte fremder Quellen (bisher `glossar-kochbuchforschung/`, #554), die keine
-> Ingest-Vorlagen sind, und mit `mantis-textliste-2017/` eine projektgeschichtliche Quelle. Alles hier wird **nicht** validiert, **nicht** indexiert, von **keinem**
+> Ingest-Vorlagen sind, und mit `mantis-textliste-2017/` ein weiterer Auszug aus dem Archiv,
+> der keine Ingest-Vorlage ist, sondern die historische Textplanung dokumentiert. Alles hier wird **nicht** validiert, **nicht** indexiert, von **keinem**
 > Build-Skript gelesen und nie als Beleg für den aktuellen Datenstand zitiert. Wer eine Aussage
 > über das Korpus braucht, liest `tei/`. Wer wissen will, was der Ingest verloren hat, liest
 > die Linecode-Dateien.
@@ -41,7 +42,7 @@ existiert genau dafür.
 | [`INVENTAR-ARCHIV.md`](INVENTAR-ARCHIV.md) | Was das Archiv sonst noch enthält (Scans, OCR-Projekte, Volltextexport 2017, Ingest-Kandidaten) und wie man lokal darauf zugreift |
 | [`archiv-inventar.csv`](archiv-inventar.csv) | Dateiweises Verzeichnis des Archivs, 5.037 Zeilen (alles außer den 14.771 FineReader-Projektdateien) |
 | [`glossar-kochbuchforschung/`](glossar-kochbuchforschung/README.md) | **Kein Legacy-Bestand und nicht aus dem Archiv:** bereinigter WordPress-Export des Glossars Kochbuchforschung (5.790.889 Bytes, ohne Mailadressen, Telefonnummer und Logins), von KZW am 08.10.2026 geliefert, CC BY-NC-SA 4.0 (#554). Gleiche Einstufung wie der Rest dieses Ordners: nicht normativ, nicht indexiert |
-| [`mantis-textliste-2017/`](mantis-textliste-2017/README.md) | **Projektgeschichtliche Quelle, nicht aus dem Archiv:** die einzige erhaltene Seite des alten Mantis-Bugtrackers (Projekt `MHDBDB_TEXTE`, Tickets 1 bis 50 von 97, Browser-Sicherung vom 23.02.2017) als CSV und Screenshot. Arbeitsliste der Textaufnahme 2015 bis 2017; die Ticket-Datenbank selbst ist verloren |
+| [`mantis-textliste-2017/`](mantis-textliste-2017/README.md) | **Aus dem Archiv, aber keine Ingest-Vorlage:** die einzige erhaltene Seite des alten Mantis-Bugtrackers (Projekt `MHDBDB_TEXTE`, Einträge 1 bis 50 von 97, Browser-Sicherung vom 23.02.2017, Inventarzeile 5008) als CSV und Screenshot. Arbeitsliste der Textaufnahme 2015 bis 2017; die Ticket-Datenbank selbst ist verloren. Desiderata daraus in #710 |
 | `weingruesse/` | **Nur lokal, gitignoriert**, alles von Silvan Wagner am 23.10.2026 geschickt (#147): `wagner-2023-weingruesse-druckfahnen.pdf` (geschickt als `Druckfahnen endgültig.pdf`), die Druckfahnen der Hirzel-Ausgabe der Weingrüße mit Einleitung (114 Seiten, 2.591.482 Bytes), Verlagsrechte ungeklärt; `Transkriptionen.zip`, seine Word-Transkriptionen der 21 Zeugen vom April 2022 (754.759 Bytes); `docling/`, deren Umwandlung mit docling 2.128.0 in Markdown und docling-JSON. Maßgeblich für den Ingest ist das Wiki, die Word-Dateien sind Gegenprobe. Wer die Dateien braucht, fragt Christian |
 
 Die Unterordner von `linecode/` spiegeln die Archivstruktur: `erledigt/` (302 Dateien) und
