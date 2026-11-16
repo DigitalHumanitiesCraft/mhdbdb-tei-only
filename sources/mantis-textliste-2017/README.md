@@ -38,11 +38,13 @@ alle eine letzte Änderung am oder vor dem 2015-11-25 haben.
 
 Spalten der CSV: `ticket_id`, `prioritaet` (aus dem `title` des Symbols in Spalte „P":
 49 `normal`, 1 `high`), `notizen` (Anzahl Notizen, 48 leer), `anhang` (50 leer),
-`kategorie` (50 mal „Inhaltlich (MHD)"), `schweregrad`, `status`, `bearbeiter`,
-`aktualisiert`, `titel`. Drei Abweichungen von der Quelle, sonst keine: die Status-Zelle
-„assigned (katharina)" ist in `status` und `bearbeiter` zerlegt, die Zeilen sind nach
-`ticket_id` aufsteigend sortiert statt nach Änderungsdatum absteigend, und die zwei leeren
-Spalten links (Auswahlkästchen, Bearbeiten-Symbol) sind weggelassen.
+`kategorie` (50 mal „Inhaltlich (MHD)"), `schweregrad`, `status`, `aufloesung` (aus dem
+`title` des Status-Elements: 3 `fixed` bei den `resolved`, 47 `open`), `bearbeiter`,
+`aktualisiert`, `titel`. Drei Abweichungen von der Quelle, die Werte betreffen: die
+Status-Zelle „assigned (katharina)" ist in `status` und `bearbeiter` zerlegt, die Zeilen
+sind nach `ticket_id` aufsteigend sortiert statt nach Änderungsdatum absteigend, und die
+zwei Spalten links ohne Kopf (Auswahlkästchen mit der Ticketnummer als Wert, Bearbeiten-Link)
+sind weggelassen, weil sie nichts Eigenes tragen.
 
 ## Was die 50 Zeilen sagen (gezählt aus der CSV)
 
