@@ -358,7 +358,7 @@ The evidence sits only in `works.xml`, in a `<note type="attribution" target="#w
   <date when="2026-09-16"/>Ältere Zuschreibung, …</note>
 ```
 
-The four cases of #452 as they stand: `work_5` (CR) Anonym, Bligger von Steinach rejected; `work_462` (BAX) Lamprecht, Anonym as adapter; `work_408` (HOF, VDH) Stricker first, Anonym second (KZW, 2026-11-16, as for `work_325`); `work_325` (RHB) Anonym first, Konrad von Würzburg disputed. What the build derives from it: [CONTRACTS.md → F.6 Attribution Status](CONTRACTS.md#f6-attribution-status-which-author-a-reader-sees-452).
+The four cases of #452 as they stand: `work_5` (CR) Anonym, Bligger von Steinach rejected; `work_462` (BAX) Lamprecht, Anonym as adapter; `work_408` (HOF, VDH) Stricker first, Anonym second (KZW, 2026-11-16: Anonym next to a named author, as in `work_325`); `work_325` (RHB) Anonym first, Konrad von Würzburg disputed. What the build derives from it: [CONTRACTS.md → F.6 Attribution Status](CONTRACTS.md#f6-attribution-status-which-author-a-reader-sees-452).
 
 ### 3.5 concepts.xml: concept ontology
 
