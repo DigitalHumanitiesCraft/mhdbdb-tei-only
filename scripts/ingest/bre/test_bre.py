@@ -438,11 +438,17 @@ pruefe("Satzzeichen: Zeilenbilanz", len(tei_pc.xpath("//t:l", namespaces=ns))
 pruefe("offene Segmentierung: B2, d4, d6", set(conv.bc.SEGMENTIERUNG_OFFEN) == {"B2", "d4", "d6"})
 
 # Druckfahnen (Kickoff #147): kein Wortlaut aus Text, Uebersetzung oder Kommentar der Druckfassung
-# im Repo. Gesucht wird jede Folge von DRUCK_N Woertern aus der Docling-Fassung der Druckfahnen,
-# die nicht auch in der Wiki-Fassung (temp/bre-wiki, die lizenzierte Quelle) oder im Wortlaut der
-# Zeugen steht, in allen Dateien unter ingest/bre und scripts/ingest/bre. Die Druckfahnen liegen
-# nur im Main Worktree und werden nie kopiert; fehlen sie oder der Wiki-Cache, faellt der Test aus
-# und sagt das (er besteht dann nicht stillschweigend).
+# im Repo. Quelle ist der Text der Hirzel-Druckfahnen (PDF, per pdftotext auf stdout gelesen, nie
+# als Datei abgelegt; Silbentrennung am Zeilenende zusammengezogen) und, weil der Kickoff sie zum
+# selben Material zaehlt, Silvans Word-Steckbriefe von 2022 (sources/weingruesse/docling/*.md).
+# Gesucht wird jede Folge von DRUCK_N Woertern daraus, die nicht auch in der Wiki-Fassung
+# (temp/bre-wiki, die lizenzierte Quelle, ohne Wiki-Markup) oder im Wortlaut der Zeugen steht, in
+# allen Dateien unter ingest/bre und scripts/ingest/bre und in den Commit Messages seit origin/main.
+# URLs fallen auf beiden Seiten weg, Folgen aus lauter Ein-Buchstaben-Woertern (Siglenlisten) auch.
+# Ziffern zaehlen nicht als Wort: eine Jahreszahl allein ist kein Wortlaut. Die Quellen liegen nur
+# im Main Worktree und werden nie kopiert; fehlt eine davon, pdftotext oder der Wiki-Cache, faellt
+# der Test aus und sagt das (er besteht dann nicht stillschweigend).
+import os  # noqa: E402
 import re as _re  # noqa: E402
 import subprocess  # noqa: E402
 
@@ -453,30 +459,58 @@ def druck_woerter(text):
     # Diakritika (auch die uebergeschriebenen e/o der Handschriften) fallen auf beiden Seiten weg,
     # sonst zerlegen sie ein Wort und eine Wiki-Folge sieht aus wie eine der Druckfassung
     import unicodedata
+    text = _re.sub(r"https?://\S+", " ", text)
     roh = unicodedata.normalize("NFKD", text.lower())
     return _re.findall(r"[^\W\d_]+", "".join(c for c in roh if not unicodedata.combining(c)))
 
 
 def druck_ngramme(woerter):
-    return {tuple(woerter[i:i + DRUCK_N]) for i in range(len(woerter) - DRUCK_N + 1)}
+    return {g for g in (tuple(woerter[i:i + DRUCK_N]) for i in range(len(woerter) - DRUCK_N + 1))
+            if any(len(w) > 1 for w in g)}
+
+
+def wiki_klartext(inhalt):
+    # Markup weg, sonst zerlegt <span ...>N</span>u ein Wort und der Vers zaehlt nicht als Wiki-Text
+    import html as _html
+    t = _re.sub(r"<[^>]+>|'{2,}", "", _html.unescape(inhalt))
+    return _re.sub(r"\[\[|\]\]|\{\{|\}\}|\|", " ", t)
+
+
+def druck_quellen():
+    """Text der Druckfahnen (PDF) und der Steckbriefe aus dem Main Worktree, oder None."""
+    common = subprocess.run(["git", "-C", str(conv.bc.REPO), "rev-parse", "--path-format=absolute",
+                             "--git-common-dir"], capture_output=True, text=True).stdout.strip()
+    basis = [p for p in (conv.bc.REPO / "sources" / "weingruesse",
+                         Path(common).parent / "sources" / "weingruesse")
+             if (p / "docling").is_dir() and (p / "wagner-2023-weingruesse-druckfahnen.pdf").is_file()]
+    if not basis:
+        return None
+    try:
+        pdf = subprocess.run(["pdftotext", "-enc", "UTF-8",
+                              str(basis[0] / "wagner-2023-weingruesse-druckfahnen.pdf"), "-"],
+                             capture_output=True, check=True).stdout.decode("utf-8")
+    except (OSError, subprocess.CalledProcessError):
+        return None
+    pdf = _re.sub(r"(\w)-\s*\n\s*(\w)", r"\1\2", pdf)
+    if len(pdf) < 100000:  # Plausibilitaet: der Textauszug hat rund 189 KB
+        return None
+    return [pdf] + [md.read_text(encoding="utf-8") for md in sorted((basis[0] / "docling").glob("*.md"))]
 
 
 def druckfahnen_lecks(dateien, texte=()):
     """Liefert [(Datei, Wortfolge)] fuer jede Wortfolge der Druckfahnen, die nur dort steht."""
-    common = subprocess.run(["git", "-C", str(conv.bc.REPO), "rev-parse", "--path-format=absolute",
-                             "--git-common-dir"], capture_output=True, text=True).stdout.strip()
-    ordner = [p for p in (conv.bc.REPO / "sources" / "weingruesse" / "docling",
-                          Path(common).parent / "sources" / "weingruesse" / "docling") if p.is_dir()]
+    quellen = druck_quellen()
     wiki = sorted(conv.bc.CACHE_DIR.glob("rev_*.json")) if conv.bc.CACHE_DIR.is_dir() else []
-    if not ordner or not wiki:
+    if not quellen or not wiki:
         return None
     druck = set()
-    for md in sorted(ordner[0].glob("*.md")):
-        druck |= druck_ngramme(druck_woerter(md.read_text(encoding="utf-8")))
+    for q in quellen:
+        druck |= druck_ngramme(druck_woerter(q))
     erlaubt = set()
     import json as _json
     for j in wiki:
-        erlaubt |= druck_ngramme(druck_woerter(_json.loads(j.read_text(encoding="utf-8"))["inhalt"]))
+        inhalt = _json.loads(j.read_text(encoding="utf-8"))["inhalt"]
+        erlaubt |= druck_ngramme(druck_woerter(inhalt)) | druck_ngramme(druck_woerter(wiki_klartext(inhalt)))
     from lxml import etree as _et
     for tei in sorted(conv.bc.INGEST_DIR.glob("BRE_*.tei.xml")):
         ws = _et.parse(str(tei)).getroot().iter("{http://www.tei-c.org/ns/1.0}w")
@@ -498,13 +532,23 @@ def druckfahnen_lecks(dateien, texte=()):
 
 druck_dateien = [p for basis in (conv.bc.INGEST_DIR, HIER) for p in sorted(basis.rglob("*"))
                  if p.is_file() and p.suffix in {".tsv", ".md", ".py", ".xml", ".txt", ".json"}]
-lecks = druckfahnen_lecks(druck_dateien)
+_basis = subprocess.run(["git", "-C", str(conv.bc.REPO), "merge-base", "HEAD", "origin/main"],
+                       capture_output=True, text=True).stdout.strip()
+_log = subprocess.run(["git", "-C", str(conv.bc.REPO), "log", f"{_basis}..HEAD", "--format=%H%x00%B%x01"],
+                      capture_output=True, text=True, encoding="utf-8").stdout if _basis else ""
+druck_texte = [(f"Commit {e.split(chr(0))[0][:9]}", e.split(chr(0))[1])
+               for e in _log.split("\x01") if "\x00" in e]
+# zusaetzliche Texte (PR-Body, Issue-Kommentar) vor dem Absenden: BRE_DRUCK_PRUEFE=<datei>[;<datei>]
+for _p in filter(None, os.environ.get("BRE_DRUCK_PRUEFE", "").split(";")):
+    druck_texte.append((_p, Path(_p).read_text(encoding="utf-8")))
+lecks = druckfahnen_lecks(druck_dateien, druck_texte)
 if lecks is None:
     pruefe("Druckfahnen: kein Wortlaut im Repo", False,
-           "Druckfahnen (sources/weingruesse/docling) oder Wiki-Cache (temp/bre-wiki) fehlen, "
-           "Pruefung nicht moeglich")
+           "Druckfahnen-PDF, pdftotext, Steckbriefe (sources/weingruesse/docling) oder Wiki-Cache "
+           "(temp/bre-wiki) fehlen, Pruefung nicht moeglich")
 else:
-    pruefe(f"Druckfahnen: kein Wortlaut im Repo ({len(druck_dateien)} Dateien, {DRUCK_N}-Wort-Folgen)",
+    pruefe(f"Druckfahnen: kein Wortlaut im Repo ({len(druck_dateien)} Dateien, "
+           f"{len(druck_texte)} weitere Texte, {DRUCK_N}-Wort-Folgen)",
            not lecks, "; ".join(f"{d}: {g}" for d, g in lecks[:10]))
 
 if fehler:
