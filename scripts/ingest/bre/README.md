@@ -55,7 +55,7 @@ python -P -E scripts/ingest/bre/20-pruefpaket.py
 python -P -E scripts/ingest/bre/21-abdeckung.py --markdown
 ```
 
-Die Assign-Skripte teilen die Wörter unabhängig davon ein, ob ein Attribut schon gesetzt ist: ein zweiter Lauf schreibt dieselbe Pending-TSV, und die Apply-Skripte setzen dieselben Werte noch einmal (idempotent). Ein vorhandener Wert, der der Einteilung widerspricht, ist ein harter Fehler.
+Die Assign-Skripte teilen die Wörter unabhängig davon ein, ob ein Attribut schon gesetzt ist: ein zweiter Lauf schreibt dieselben Zeilen in die Pending-TSV, auch mit `--trocken` (das lässt nur die TEI unberührt), aber mit leeren Auflösungsspalten. Erst das zugehörige Apply-Skript füllt sie wieder und setzt dieselben Werte noch einmal; danach sind TEI und Pending-TSV byte-gleich zum vorigen Stand (gemessen 18.11.2026 für 10 und 13). Ein vorhandener Wert, der der Einteilung widerspricht, ist ein harter Fehler.
 
 Der erste Lauf von `00` braucht das Netz, danach reicht `--offline`.
 
