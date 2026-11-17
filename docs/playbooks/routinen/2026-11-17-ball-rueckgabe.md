@@ -8,7 +8,7 @@ Gelaufen als wöchentliche Cloud-Routine. Geschrieben wurde nichts außer dieser
 
 | Ticket | Person | Klasse | ein Satz |
 |---|---|---|---|
-| #262 | Katharina | B | Katharina hat bestätigt, dass `apk_free.xml` auf ihrem OneDrive liegt; offen ist, wer die Mail nach Trier schickt und wie die Datei zu uns kommt. |
+| #262 | Katharina | B | Katharina hat bestätigt, dass `apk_free.xml` auf ihrem OneDrive liegt; offen ist, wer die Mail nach Trier schickt. |
 
 Zusammen: A 0, B 1, C 0, D 0, Summe 1.
 
@@ -21,15 +21,17 @@ Hinweis aus `CLAUDE.md` ("Who is on turn"): Eine Frage wird nur dann oben auf un
 ### #262 (Katharina)
 
 ```
-@wachauer Frage: Schickst du die Mail an Ute Recker-Hamm (Trier) zu den Nachnutzungsbedingungen selbst, oder soll Christian sie mit dem Entwurf unten schicken, und kannst du `apk_free.xml` bis dahin in den DHCraft-Drive unter `Projekte/mhdbdb/extern/` legen?
+@wachauer Frage: Schreibst du die Mail nach Trier zur Nachnutzung der Hesler-Apokalypse (APK) selbst, oder soll Christian sie schicken?
 ```
 
-Kontext darunter: Katharina hat am 16.11. bestätigt, dass die Datei liegt (Pfad `MHDBDB/Backup SEMD_Sharefolder/MHDBDB_Inhaltliches/Texte/Neue Texte Klaus/apk_free.xml`, 1.565.852 Bytes, 21.02.2013, TEI.2 mit eingebettetem CSS-Block vom Browser-Export) und geschrieben: "Offen bleibt nur die Mail an Ute Recker-Hamm (Trier) zu den Nachnutzungsbedingungen" ([Antwort](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/262#issuecomment-6914924044)). Wer die Mail schickt, sagt der Thread nicht: Christian hat sie am 10.09. vorgeschlagen und `wait:kzw` "für die Mail" gesetzt, das legt sie bei Katharina, ausdrücklich zugesagt hat sie es nicht. Eine Session darf Trier nicht selbst anschreiben (Betriebsvertrag Regel 4), deshalb der Entwurf im Ticket. Der zweite Halbsatz der Frage gehört dazu, weil das Archiv nur auf Katharinas OneDrive liegt (`sources/INVENTAR-ARCHIV.md`): Ohne die Datei kann keine Session Stage 0 vorbereiten, und der Drive-Ordner `extern/` ist genau der Ort für Fremdmaterial ohne geklärte Lizenz (dort gilt die Auflage aus #259: nicht ins Repo).
+Kontext darunter: Katharina hat am 16.11. bestätigt, dass die Datei liegt (Pfad `MHDBDB/Backup SEMD_Sharefolder/MHDBDB_Inhaltliches/Texte/Neue Texte Klaus/apk_free.xml`, 1.565.852 Bytes, 21.02.2013, TEI.2 mit eingebettetem CSS-Block vom Browser-Export) und geschrieben: "Offen bleibt nur die Mail an Ute Recker-Hamm (Trier) zu den Nachnutzungsbedingungen" ([Antwort](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/262#issuecomment-6914924044)). Wer die Mail schickt, sagt der Thread nicht. Christian hat sie am 10.09. vorgeschlagen und dazu geschrieben "`wait:kzw` bleibt für die Mail"; das heutige `wait:kzw` ist aber erst am 06.10. neu gesetzt worden, mit der Begründung, dass die Datei auf ihrem OneDrive liegt (Label-Historie: `wait:kzw` am 23.09. entfernt, am 06.10. wieder gesetzt). Zugesagt hat Katharina die Mail nirgends. Eine Session darf Trier nicht selbst anschreiben (Betriebsvertrag Regel 4), deshalb der Entwurf unten.
+
+Die Fragezeile ist auf die 140 Zeichen gekürzt, die `frage_text()` in `scripts/audit/build-issue-matrix.py` in ihre Liste übernimmt, und stellt deshalb nur eine Frage. Als zweiten Absatz im selben Kommentar, ohne eigene Frage-Zeile (nur die erste zählt): wie `apk_free.xml` zu uns kommt. Das Archiv liegt nur auf Katharinas OneDrive (`sources/INVENTAR-ARCHIV.md`), ohne die Datei kann keine Session Stage 0 vorbereiten. Ob sie in den DHCraft-Drive (`Projekte/mhdbdb/extern/`, Konto office@dhcraft.org) selbst schreiben kann, ist ungeprüft; Datei an Christian schicken ist der Weg, der sicher geht. Nicht ins Repo, solange die Bedingungen aus Trier nicht da sind.
 
 Was die Quellen schon beantworten und deshalb nicht mehr gefragt wird:
 
 - **Zeitraum:** Die Apokalypse Heinrichs von Hesler ist mittelalterlich, die Grenze "vor 1600" (`docs/RESEARCH.md`, Corpus Scope) ist nicht berührt; dort steht auch, dass das Trierer Textarchiv-Material die Grenze nie berührt.
-- **Rechtsfrage zur Edition aus dem Kommentar vom 06.09.:** Nach der Rechtsgrundlage des Projekts (`docs/RESEARCH.md`, Rights Basis, § 76b UrhG-AT, 25 Jahre ab Erstveröffentlichung) ist Helms Ausgabe von 1907 "gänzlich unproblematisch". Der Vorbehalt vom 06.09. (70 Jahre nach Helms Tod) ist damit nach der eigenen Doku erledigt. Offen bleibt nur die Seite der Trierer bzw. Virginia-Konversion von 2002, und das ist genau die Mail.
+- **Rechtsfrage zur Edition aus dem Kommentar vom 06.09.:** Nach der Rechtsgrundlage des Projekts (`docs/RESEARCH.md`, Rights Basis, § 76b UrhG-AT, 25 Jahre ab Erstveröffentlichung) fällt Helms Ausgabe von 1907 unter "Editionen, deren Erstveröffentlichung mehr als 25 Jahre zurückliegt, sind gänzlich unproblematisch". Der Kommentar vom 06.09. hatte das selbst schon so gesehen (die kürzere Frist für wissenschaftliche Ausgaben sei "längst abgelaufen"); sein Vorbehalt war, dass die Freigabe im Header von 2002 eine amerikanische Begründung trägt und nach österreichischem Recht angesehen werden sollte. Für die Edition beantwortet das die Rights Basis. Offen bleibt nur die Seite der Trierer bzw. Virginia-Konversion von 2002, und das ist genau die Mail.
 - **Bytezahl:** stimmt mit `sources/archiv-inventar.csv` überein (`Neue Texte Klaus,apk_free.xml,.xml,text,1565852,2013-02-21`).
 
 Mail-Entwurf zum Mitposten (Kern aus Christians Kommentar vom 10.09., Frage 1 dort ist durch Katharinas Fund beantwortet):
@@ -55,7 +57,7 @@ Absender, Anrede und Unterschrift setzt, wer schickt. Die Lizenzangabe CC BY-NC-
 
 **Labels:** stimmen für die Frage (`auto:blocked`, `wait:kzw`, `ingest`, `area:data`, `effort:large`). Ist die Mail verschickt, wird `wait:kzw` zu `wait:extern` (Trier), solange Katharina nichts mehr schuldet.
 
-Belege: [Antwort](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/262#issuecomment-6914924044); Mail-Vorschlag und Labelbegründung im [Kommentar vom 10.09.](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/262#issuecomment-5621484163); Frage vom 06.10. im [Kommentar 6010143398](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/262#issuecomment-6010143398); Rechtsvorbehalt im [Kommentar vom 06.09.](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/262#issuecomment-5561806808). Thread vollständig gelesen: Body plus 6 Kommentare (`gh api --paginate .../issues/262/comments`).
+Belege: [Antwort](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/262#issuecomment-6914924044); Mail-Vorschlag im [Kommentar vom 10.09.](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/262#issuecomment-5621484163); Frage und heutige Labelbegründung vom 06.10. im [Kommentar 6010143398](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/262#issuecomment-6010143398); Rechtsvorbehalt im [Kommentar vom 06.09.](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/262#issuecomment-5561806808). Label-Historie: `gh api --paginate .../issues/262/events` (labeled/unlabeled). Thread vollständig gelesen: Body plus 6 Kommentare (`gh api --paginate .../issues/262/comments`).
 
 ## Zum Schließen oder Umlabeln (D)
 
