@@ -78,16 +78,16 @@ def main():
                 ziel = f"lexicon.xml#{eindeutig}"
                 if w.get("lemmaRef") and w.get("lemmaRef") != ziel:
                     raise bc.HarterFehler(f"{t['id']}: @lemmaRef {w.get('lemmaRef')} != {ziel}")
+                # Herkunft vor dem Setzen zaehlen, damit ein zweiter Lauf dieselben Zahlen ausgibt
+                if eindeutig == LEMMA_ZAHL:
+                    z["roemisch"] += 1
+                elif n != normalize_mhg(form) and normalize_mhg(form) not in lemmata:
+                    z["dank_faltung"] += 1
                 if w.get("lemmaRef"):
                     z["schon"] += 1
                     continue
                 w.set("lemmaRef", ziel)
                 z["eindeutig"] += 1
-                if eindeutig == LEMMA_ZAHL:
-                    z["roemisch"] += 1
-                    continue
-                if n != normalize_mhg(form) and normalize_mhg(form) not in lemmata:
-                    z["dank_faltung"] += 1
             elif kand:
                 z["mehrdeutig"] += 1
                 pending.append({"xml_id": t["id"], "zeuge": zeuge, "text": t["titel"], "form": form,
