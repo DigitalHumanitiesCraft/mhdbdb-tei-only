@@ -2,12 +2,14 @@
 """14-pos-assign.py: Phase 2, Auto-Inherit der Wortart (BRE, #147), Vorbild wzb-pos-assign.py.
 
 Fuer jedes <w> mit @lemmaRef (nicht in <head>): Wortarten des Lemmas aus lexicon.xml
-(gramGrp/pos, GRA -> ADV und ART -> DET wie in wzb-pos-assign.py, docs/POS-TAGSET.md):
+(gramGrp/pos, auf das 19er-Set abgebildet in bre_annot.lade_lexikon: ART -> DET, GRA faellt weg
+nach docs/POS-TAGSET.md §3, ein Lemma nur mit GRA wird ADJ; wzb-pos-assign.py bildet GRA -> ADV ab):
   genau 1  -> @pos (auto-single)
   mehrere  -> phase2/pos-pending.tsv, Gruppe = Lemma und normalisierte Form (bulk ab 3 Tokens,
               2 instance, 1 hapax zurueckgestellt, wie Phase 1)
   keine    -> gezaehlt und gemeldet, kein @pos
-Jeder geschriebene Tag ist aus dem 19er-Set (harter Fehler sonst). Idempotent.
+Jeder geschriebene Tag ist aus dem 19er-Set (harter Fehler sonst). Idempotent: ein zweiter Lauf nach
+15-apply.py --phase pos teilt gleich ein, 15 fuellt die Aufloesungsspalten wieder.
 
 Aufruf: python -P -E scripts/ingest/bre/14-pos-assign.py [--trocken]
 """
@@ -51,8 +53,11 @@ def main():
             fremd = [p for p in pos if p not in ba.VALID_POS]
             if fremd:
                 raise bc.HarterFehler(f"{lid}: Wortart(en) {fremd} nicht im 19er-Set")
-            if w.get("pos") and w.get("pos") not in pos:
-                raise bc.HarterFehler(f"{t['id']}: @pos {w.get('pos')} nicht unter {pos} von {lid}")
+            # Ein schon gesetztes @pos kommt bei genau einer Wortart von hier (also genau diese),
+            # sonst von 15-apply.py, das auch CCNJ und SCNJ setzt, wenn das Lemma CNJ traegt
+            erlaubt = set(pos) if len(pos) == 1 else ba.pos_kandidaten(" | ".join(pos))
+            if w.get("pos") and w.get("pos") not in erlaubt:
+                raise bc.HarterFehler(f"{t['id']}: @pos {w.get('pos')} nicht unter {sorted(erlaubt)} von {lid}")
             if len(pos) == 1:
                 if w.get("pos"):
                     z["schon"] += 1
