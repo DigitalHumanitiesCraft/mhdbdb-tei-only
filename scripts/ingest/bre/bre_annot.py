@@ -41,7 +41,15 @@ KONTEXT = 5  # Woerter je Seite
 
 VALID_POS = {"NOM", "NAM", "ADJ", "ADV", "DET", "POS", "PRO", "PRP", "NEG", "NUM", "CNJ", "SCNJ",
              "CCNJ", "IPA", "VRB", "VEX", "VEM", "INJ", "DIG"}  # docs/POS-TAGSET.md, 19 Tags
-LEGACY_POS = {"GRA": "ADV", "ART": "DET"}  # wie wzb-pos-assign.py (POS-TAGSET.md, Legacy-Mapping)
+LEGACY_POS = {"GRA": "ADV", "ART": "DET"}  # wie wzb-pos-assign.py; nur fuer die Lemma-Labels
+# der Phase 1, die Wortart-Kandidaten der Phase 2 stehen in lade_lexikon()["pos19"]
+
+
+def pos_kandidaten(text):
+    """Wortart-Kandidaten aus einer Kandidatenspalte; CNJ laesst die Verfeinerung CCNJ/SCNJ zu
+    (docs/POS-TAGSET.md §1 und §3: CNJ ist der Fallback, der Bestand soll differenziert werden)."""
+    k = {t.strip() for t in text.split("|") if t.strip() in VALID_POS}
+    return k | {"CCNJ", "SCNJ"} if "CNJ" in k else k
 DECISION_TYPES = {"auto-single", "bulk-llm", "bulk-human", "instance-llm", "instance-human",
                   "abstain"}
 CONFIDENCE = {"high", "medium", "low"}
@@ -142,18 +150,27 @@ def lade_lexikon():
     for _, e in etree.iterparse(str(LEXIKON), tag=T + "entry"):
         lid = e.get(XML_ID)
         orth = e.findtext(f"{T}form/{T}orth") or ""
-        pos = []
+        pos, pos19 = [], []
         for p in e.findall(f"{T}gramGrp/{T}pos"):
-            t = LEGACY_POS.get((p.text or "").strip(), (p.text or "").strip())
+            roh = (p.text or "").strip()
+            t = LEGACY_POS.get(roh, roh)
             if t and t not in pos:
                 pos.append(t)
+            # Kandidaten fuer Phase 2 nach docs/POS-TAGSET.md §3: ART -> DET; GRA ist eine
+            # Steigerungsmarke und faellt weg (GRA -> ADV aus wzb-pos-assign.py widerspricht
+            # §3), die uebrigen Tags des Lemmas entscheidet der Kontext; nur GRA allein -> ADJ
+            t19 = {"ART": "DET", "GRA": None}.get(roh, roh)
+            if t19 and t19 not in pos19:
+                pos19.append(t19)
+        if not pos19 and pos:
+            pos19 = ["ADJ"]
         senses = []
         for s in e.findall(f"{T}sense"):
             senses.append({"id": s.get(XML_ID),
                            "konzepte": [p.get("target").split("#")[-1] for p in s.findall(f"{T}ptr")
                                         if "concepts.xml#" in (p.get("target") or "")],
                            "typen": {t.lstrip("#") for t in (s.get("ana") or "").split()}})
-        lex[lid] = {"orth": orth, "pos": pos, "senses": senses}
+        lex[lid] = {"orth": orth, "pos": pos, "pos19": pos19, "senses": senses}
         e.clear()
     return lex
 

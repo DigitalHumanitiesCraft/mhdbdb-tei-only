@@ -58,14 +58,18 @@ def zulassen(phase, res, kand, conf, begr, ort):
         return conf, begr
     if phase == "lemma" and res in LEMMATA:
         return "low", AUSSERHALB + begr
+    if phase != "lemma" and (res in ba.VALID_POS or re.fullmatch(r"lemma_\d+_sense_\d+", res)):
+        # ein gueltiger Wert, aber nicht unter den Kandidaten (z.B. PRO fuer ein Lemma, das nur
+        # DET/NUM fuehrt): nicht geschrieben, als abstain mit dem verworfenen Wert gefuehrt
+        print(f"verworfen (kein Kandidat): {ort} {res}")
+        return None, f"[verworfen: {res} ist kein Kandidat] " + begr
     raise bc.HarterFehler(f"{ort}: {res!r} ist kein Kandidat ({sorted(kand)})")
 
 
 def kandidaten(text, muster):
-    ids = muster.findall(text)
     if muster.pattern.startswith(r"\b([A-Z]"):
-        ids = [i for i in ids if i in ba.VALID_POS]
-    return set(ids)
+        return ba.pos_kandidaten(text)
+    return set(muster.findall(text))
 
 
 def main():
@@ -97,6 +101,13 @@ def main():
                                                "begruendung"]), 2):
             ort = f"{p.name}:{i}"
             k = r["schluessel"]
+            if k not in gruppen and a.phase == "pos" and " " in k:
+                # Schluessel "lemma_N form": ein Modell schreibt die normalisierte Form manchmal
+                # mit Umlaut zurueck ("süesser" statt "sueesser"); normalisiert ist sie eindeutig
+                lid, _, f = k.partition(" ")
+                if f"{lid} {ba.norm(f)}" in gruppen:
+                    print(f"Schluessel normalisiert: {ort} {k!r} -> {lid} {ba.norm(f)!r}")
+                    k = f"{lid} {ba.norm(f)}"
             if k not in gruppen or gruppen[k][0]["stufe"] != "bulk":
                 raise bc.HarterFehler(f"{ort}: {k!r} ist keine Bulk-Gruppe der Pending-TSV")
             if k in bulk or k in split:
@@ -110,6 +121,8 @@ def main():
                            "begruendung": "SPLIT: je Token entschieden (patch, quelle split)"}
                 continue
             conf, begr = zulassen(a.phase, res, kand, r["confidence"], r["begruendung"].strip(), ort)
+            if conf is None:
+                res = "abstain"
             bulk[k] = {"schluessel": k, "anzahl": len(gruppen[k]),
                        "resolved": "" if res == "abstain" else res,
                        "decision_type": "abstain" if res == "abstain" else "bulk-llm",
@@ -122,6 +135,8 @@ def main():
                     raise bc.HarterFehler(f"{ort}: Ausnahme {xid!r} gehoert nicht zu {k!r}")
                 aconf, abegr = zulassen(a.phase, lres, kand, r["confidence"],
                                         "Ausnahme zur Bulk-Entscheidung", f"{ort} Ausnahme {xid}")
+                if aconf is None:
+                    lres = "abstain"
                 patch[xid] = {"xml_id": xid, "form": token[xid]["form"],
                               "resolved": "" if lres == "abstain" else lres,
                               "decision_type": "abstain" if lres == "abstain" else "instance-llm",
@@ -148,6 +163,8 @@ def main():
             kand = kandidaten(token[xid]["kandidaten"], muster)
             res = r[spalte].strip()
             conf, begr = zulassen(a.phase, res, kand, r["confidence"], r["begruendung"].strip(), ort)
+            if conf is None:
+                res = "abstain"
             patch[xid] = {"xml_id": xid, "form": token[xid]["form"],
                           "resolved": "" if res == "abstain" else res,
                           "decision_type": "abstain" if res == "abstain" else "instance-llm",
