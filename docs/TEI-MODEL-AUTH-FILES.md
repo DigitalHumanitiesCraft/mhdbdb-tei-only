@@ -358,7 +358,7 @@ The evidence sits only in `works.xml`, in a `<note type="attribution" target="#w
   <date when="2026-09-16"/>Ältere Zuschreibung, …</note>
 ```
 
-The four cases of #452 as they stand: `work_5` (CR) Anonym, Bligger von Steinach rejected; `work_462` (BAX) Lamprecht, Anonym as adapter; `work_408` (HOF, VDH) Stricker alone; `work_325` (RHB) Anonym first, Konrad von Würzburg disputed. What the build derives from it: [CONTRACTS.md → F.6 Attribution Status](CONTRACTS.md#f6-attribution-status-which-author-a-reader-sees-452).
+The four cases of #452 as they stand: `work_5` (CR) Anonym, Bligger von Steinach rejected; `work_462` (BAX) Lamprecht, Anonym as adapter; `work_408` (HOF, VDH) Stricker first, Anonym second (KZW, 2026-11-16, as for `work_325`); `work_325` (RHB) Anonym first, Konrad von Würzburg disputed. What the build derives from it: [CONTRACTS.md → F.6 Attribution Status](CONTRACTS.md#f6-attribution-status-which-author-a-reader-sees-452).
 
 ### 3.5 concepts.xml: concept ontology
 
@@ -528,7 +528,7 @@ works.xml ──author @ref──> persons.xml
 | lexicon → concepts | `<ptr target="concepts.xml#..."/>` | a sense has 0-N concept pointers |
 | lexicon → lexicon | `<seg corresp="lexicon.xml#...">` | etymology components |
 | variants → lexicon | `@corresp="lexicon.xml#..."` | 0..1 entries per lemma (only lemmata with corpus forms) |
-| works → persons | `<author ref="persons.xml#...">` | 1:N, with attribution status and role on the relation itself (see "Attribution status" in §3.4); 3 works carry two `<author>` elements since #452 (`work_5`, `work_325`, `work_462`), `work_408` carries one |
+| works → persons | `<author ref="persons.xml#...">` | 1:N, with attribution status and role on the relation itself (see "Attribution status" in §3.4); 4 works carry two `<author>` elements since #452 (`work_5`, `work_325`, `work_408`, `work_462`) |
 | works → genres | `<ptr target="genres.xml#..."/>` | 1:N (one work, several genres) |
 | names → concepts | `<ptr type="exactMatch\|closeMatch" target="concepts.xml#..."/>` | 0-N |
 | taxonomy-internal | `<ptr type="broader" target="#..."/>` | 0-N (polyhierarchy) |
