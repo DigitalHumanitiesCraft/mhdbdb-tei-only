@@ -47,19 +47,26 @@ def main():
             if not (w.get("lemmaRef") and w.get("ana")):
                 continue
             stat["mit_ana"] += 1
-            if w.get("corresp"):
-                stat["schon"] += 1
-                continue
-            if w.find(ba.T + "supplied") is not None or w.find(f".//{ba.T}supplied") is not None:
+            # Einteilung unabhaengig vom vorhandenen @corresp, damit ein zweiter Lauf dieselben
+            # Zahlen ausgibt; ein vorhandener Wert, der der Einteilung widerspricht, ist ein Fehler
+            if w.find(f".//{ba.T}supplied") is not None:
+                if w.get("corresp"):
+                    raise bc.HarterFehler(f"{t['id']}: @corresp auf einem Wort mit <supplied>")
                 stat["supplied"] += 1
                 continue
             lid = w.get("lemmaRef").split("#")[-1]
             sid = w.get("ana").split("#")[-1]
             treffer = sorted({tid for tid, tl, _ in typen.get(ba.norm(t["form"]), [])
                               if tl == lid and tid in sense_typen.get(sid, set())})
-            if len(treffer) == 1:
-                w.set("corresp", f"variants.xml#{treffer[0]}")
-                stat["gesetzt"] += 1
+            ziel = f"variants.xml#{treffer[0]}" if len(treffer) == 1 else None
+            if w.get("corresp") and w.get("corresp") != ziel:
+                raise bc.HarterFehler(f"{t['id']}: @corresp {w.get('corresp')} != {ziel}")
+            if ziel:
+                if w.get("corresp"):
+                    stat["schon"] += 1
+                else:
+                    w.set("corresp", ziel)
+                    stat["gesetzt"] += 1
                 if w.find(f".//{ba.T}expan") is not None:
                     stat["gesetzt_expan"] += 1
             elif treffer:
