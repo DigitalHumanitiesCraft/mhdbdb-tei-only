@@ -41,7 +41,7 @@ In `lesarten.tsv` steht die Fassung nach der Wörterbuchprüfung, mit den tragen
 
 ## Lizenz
 
-Die Spalte `Kontext` zitiert Text aus `ingest/cor/`, also aus CoReMA (ZIM-ACDH, Universität Graz). Dieser Text steht unter CC BY 4.0 und verlangt die Namensnennung „CoReMA, Universität Graz“. Die eigenen Angaben des Beiträgers (Lemmata, Lesarten, Einstufungen, Hinweise) stehen unter CC BY-NC-SA 4.0.
+Die Spalte `Kontext` zitiert Text aus `ingest/cor/`, also aus CoReMA (ZIM-ACDH, Universität Graz). Dieser Text steht unter CC BY 4.0, Namensnennung erforderlich. Wen sie nennt (Quelle, Herausgeber, Transkription), steht in `ingest/cor/README.md`. Die eigenen Angaben des Beiträgers (Lemmata, Lesarten, Einstufungen, Hinweise) stehen unter CC BY-NC-SA 4.0.
 
 ## Bereinigt am 17.11.2026 durch das Projekt
 
