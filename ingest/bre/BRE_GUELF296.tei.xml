@@ -1,0 +1,742 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?xml-model href="../schema/mhdbdb.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="https://tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng"?><TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="BRE_GUELF296">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title xml:lang="de">Wolfenbüttel, Herzog August Bibliothek: Cod. Guelf. 29.6 Aug. 4°, 13r-14r; 58v</title>
+        <author ref="#person_anonym">Anonym</author>
+        <respStmt>
+          <resp>digitale Zusammenführung, Annotation und semantische Klassifikation</resp>
+          <orgName ref="contributors.xml#mhdbdb-team">MHDBDB-Team (vollständige Liste in contributors.xml)</orgName>
+        </respStmt>
+      </titleStmt>
+      <publicationStmt>
+        <publisher>
+          <orgName>Mittelhochdeutsche Begriffsdatenbank (MHDBDB)</orgName>
+          <orgName>Paris Lodron Universität Salzburg</orgName>
+          <address>
+            <street>Erzabt-Klotz-Straße 1</street>
+            <postCode>5020</postCode>
+            <settlement>Salzburg</settlement>
+            <country>Österreich</country>
+          </address>
+          <email>mhdbdb@plus.ac.at</email>
+          <ptr target="https://mhdbdb.plus.ac.at"/>
+        </publisher>
+        <authority>
+          <persName role="coordinator" ref="contributors.xml#contrib_003">
+            <forename>Katharina</forename>
+            <surname>Zeppezauer-Wachauer</surname>
+          </persName>
+          <persName role="founder" ref="contributors.xml#contrib_001">
+            <forename>Klaus M.</forename>
+            <surname>Schmidt</surname>
+          </persName>
+          <persName role="founder" ref="contributors.xml#contrib_002">
+            <forename>Horst</forename>
+            <surname>Pütz</surname>
+          </persName>
+        </authority>
+        <availability>
+          <licence target="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</licence>
+          <p>Transkription von Silvan Wagner (wiki.brevitas.org), Freigabe unter CC BY-NC-SA 4.0 per Mail an Katharina Zeppezauer-Wachauer, Oktober 2026 (#147).</p>
+        </availability>
+        <date when="2026">2026</date>
+      </publicationStmt>
+      <sourceDesc>
+        <msDesc>
+          <msIdentifier corresp="works.xml#work_TBD">
+            <idno type="sigle">BRE_GUELF296</idno>
+            <msName xml:lang="de">Wolfenbüttel, Herzog August Bibliothek: Cod. Guelf. 29.6 Aug. 4°, 13r-14r; 58v</msName>
+          </msIdentifier>
+          <additional>
+            <listBibl>
+              <bibl type="digitalIntermediary" xml:id="BRE_GUELF296_brevitas_wiki" corresp="#BRE_GUELF296_TBD">
+                <title>Brevitas-Wiki, Hybridedition der Weingrüße (Silvan Wagner)</title>
+                <respStmt>
+                  <resp>Transkription</resp>
+                  <name>Silvan Wagner</name>
+                </respStmt>
+                <ref target="https://wiki.brevitas.org/mediawiki_1_43/index.php?title=Weingr%C3%BC%C3%9Fe_Cod._29.6_Aug._4%C2%B0&amp;oldid=21430"/>
+                <note type="provenance">Transkription aus dem Brevitas-Wiki (wiki.brevitas.org), Seite "Weingrüße Cod. 29.6 Aug. 4°", Revision 21430 vom 2022-04-21T19:22:58Z. Konvertiert in das MHDBDB-Schema durch automatische Transformation (scripts/ingest/bre/02-convert-wiki-to-mhdbdb.py, 2026-11-17).</note>
+                <note type="fidelity">Mechanische Konversion ohne Eingriff in Wortgrenzen und Auszeichnungs-Semantik. Die Gliederung in Einzeltexte folgt den Synopsen der Einzeltextseiten des Brevitas-Wikis, Teile einer Transkription (Teil A/B) als div/@n.</note>
+              </bibl>
+            </listBibl>
+          </additional>
+        </msDesc>
+      </sourceDesc>
+    </fileDesc>
+    <encodingDesc>
+      <projectDesc>
+        <p xml:lang="de">Die Annotationen der MHDBDB basieren auf kontrollierten Vokabularen und domänenspezifischen Ontologien.</p>
+        <p xml:lang="en">The annotations of the MHDBDB are based on controlled vocabularies and domain-specific ontologies.</p>
+      </projectDesc>
+      <editorialDecl>
+        <p xml:lang="de">Lokale Dateireferenzen (z.B. persons.xml#person_anonym, lexicon.xml#lemma_879) verweisen auf kontrollierte Vokabulare im authority-files Verzeichnis dieses Repositorys.</p>
+      </editorialDecl>
+      <classDecl>
+        <taxonomy xml:id="genres">
+          <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
+          <category xml:id="genre_TBD" corresp="genres.xml#genre_TBD">
+            <gloss xml:lang="de">Weingruß (TBD: konkrete Genre-ID)</gloss>
+          </category>
+        </taxonomy>
+      </classDecl>
+    </encodingDesc>
+    <profileDesc>
+      <langUsage>
+        <language ident="TBD">TBD (Sprachstufe offen, #118)</language>
+      </langUsage>
+      <particDesc>
+        <listPerson>
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
+            <persName type="preferred">Anonym</persName>
+          </person>
+        </listPerson>
+      </particDesc>
+    </profileDesc>
+    <revisionDesc>
+      <change when="2026-11-17" who="#mhdbdb-team">Initiale Konversion aus dem Brevitas-Wiki (Revision 21430) via scripts/ingest/bre/02-convert-wiki-to-mhdbdb.py.</change>
+    </revisionDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <div>
+        <!-- Text 1: Weinsegen Allerliebster Trost (Fragment) -->
+        <div type="section" n="1">
+          <note type="editorial">Fragment von Weinsegen Allerliebster Trost: nur die letzten drei Verse. Zuordnung nach der Überlieferungsbeschreibung der Hauptseite (Brevitas-Wiki, Abschnitt Überlieferung).</note>
+          <pb n="13r"/>
+          <l n="1">
+            <w xml:id="BRE_GUELF296_13r_1_0">Du</w>
+            <w xml:id="BRE_GUELF296_13r_1_1">seist</w>
+            <w xml:id="BRE_GUELF296_13r_1_2">pey</w>
+            <w xml:id="BRE_GUELF296_13r_1_3">fraue<expan>n</expan></w>
+            <w xml:id="BRE_GUELF296_13r_1_4">oder</w>
+            <w xml:id="BRE_GUELF296_13r_1_5">pey</w>
+            <w xml:id="BRE_GUELF296_13r_1_6">man<expan>n</expan>en</w>
+          </l>
+          <l n="2">
+            <w xml:id="BRE_GUELF296_13r_2_0"><hi rend="inkRed">S</hi>o</w>
+            <w xml:id="BRE_GUELF296_13r_2_1">kum</w>
+            <w xml:id="BRE_GUELF296_13r_2_2">her</w>
+            <w xml:id="BRE_GUELF296_13r_2_3">wider</w>
+            <w xml:id="BRE_GUELF296_13r_2_4">pey</w>
+            <w xml:id="BRE_GUELF296_13r_2_5">rechten</w>
+            <w xml:id="BRE_GUELF296_13r_2_6">zeiten</w>
+          </l>
+          <l n="3">
+            <w xml:id="BRE_GUELF296_13r_3_0">Wen<expan>n</expan></w>
+            <w xml:id="BRE_GUELF296_13r_3_1">ich</w>
+            <w xml:id="BRE_GUELF296_13r_3_2">den</w>
+            <w xml:id="BRE_GUELF296_13r_3_3">mu<expan>n</expan>d</w>
+            <w xml:id="BRE_GUELF296_13r_3_4">offt</w>
+            <w xml:id="BRE_GUELF296_13r_3_5">in</w>
+            <w xml:id="BRE_GUELF296_13r_3_6">dy</w>
+            <w xml:id="BRE_GUELF296_13r_3_7">swem<expan>m</expan></w>
+            <w xml:id="BRE_GUELF296_13r_3_8">muß</w>
+            <w xml:id="BRE_GUELF296_13r_3_9">reite<expan>n</expan></w>
+          </l>
+        </div>
+        <!-- Text 2: Weingruß Neczen Gumen (Hans Rosenplüt) (Cod. Guelf. 29.6 Aug. 4°, 13r-13v) -->
+        <div type="section" n="2">
+          <head>
+            <hi rend="inkRed">
+              <w xml:id="BRE_GUELF296_13r_4_0">Wein</w>
+              <w xml:id="BRE_GUELF296_13r_4_1">grus</w>
+            </hi>
+          </head>
+          <l n="1">
+            <w xml:id="BRE_GUELF296_13r_5_0"><hi rend="inkRed">N</hi>un</w>
+            <w xml:id="BRE_GUELF296_13r_5_1">grus</w>
+            <w xml:id="BRE_GUELF296_13r_5_2">dich</w>
+            <w xml:id="BRE_GUELF296_13r_5_3">got</w>
+            <w xml:id="BRE_GUELF296_13r_5_4">du</w>
+            <w xml:id="BRE_GUELF296_13r_5_5">lieber</w>
+            <w xml:id="BRE_GUELF296_13r_5_6">netz<expan>e</expan>n</w>
+            <w xml:id="BRE_GUELF296_13r_5_7">gum<expan>m</expan>en</w>
+          </l>
+          <l n="2">
+            <w xml:id="BRE_GUELF296_13r_6_0">Waru<expan>m</expan>b</w>
+            <w xml:id="BRE_GUELF296_13r_6_1">wiltu</w>
+            <w xml:id="BRE_GUELF296_13r_6_2">nit</w>
+            <w xml:id="BRE_GUELF296_13r_6_3">offt</w>
+            <w xml:id="BRE_GUELF296_13r_6_4">zu</w>
+            <w xml:id="BRE_GUELF296_13r_6_5">mir</w>
+            <w xml:id="BRE_GUELF296_13r_6_6">kumen</w>
+          </l>
+          <l n="3">
+            <w xml:id="BRE_GUELF296_13r_7_0"><hi rend="inkRed">W</hi>er</w>
+            <w xml:id="BRE_GUELF296_13r_7_1">hat</w>
+            <w xml:id="BRE_GUELF296_13r_7_2">mich</w>
+            <w xml:id="BRE_GUELF296_13r_7_3">neur</w>
+            <w xml:id="BRE_GUELF296_13r_7_4">verlog<expan>e</expan>n</w>
+            <w xml:id="BRE_GUELF296_13r_7_5">gen</w>
+            <w xml:id="BRE_GUELF296_13r_7_6">dir</w>
+          </l>
+          <l n="4">
+            <w xml:id="BRE_GUELF296_13r_8_0">Doch</w>
+            <w xml:id="BRE_GUELF296_13r_8_1">kumstu</w>
+            <w xml:id="BRE_GUELF296_13r_8_2">manche<expan>m</expan></w>
+            <w xml:id="BRE_GUELF296_13r_8_3">zu</w>
+            <w xml:id="BRE_GUELF296_13r_8_4">schier</w>
+          </l>
+          <l n="5">
+            <w xml:id="BRE_GUELF296_13r_9_0"><hi rend="inkRed">W</hi>an<expan>n</expan></w>
+            <w xml:id="BRE_GUELF296_13r_9_1">du</w>
+            <w xml:id="BRE_GUELF296_13r_9_2">machst</w>
+            <w xml:id="BRE_GUELF296_13r_9_3">daz</w>
+            <w xml:id="BRE_GUELF296_13r_9_4">im</w>
+            <w xml:id="BRE_GUELF296_13r_9_5">sein</w>
+            <w xml:id="BRE_GUELF296_13r_9_6">zu<expan>n</expan>g</w>
+            <w xml:id="BRE_GUELF296_13r_9_7">hinckt</w>
+          </l>
+          <l n="6">
+            <w xml:id="BRE_GUELF296_13r_10_0">Wan<expan>n</expan></w>
+            <w xml:id="BRE_GUELF296_13r_10_1">er</w>
+            <w xml:id="BRE_GUELF296_13r_10_2">offt</w>
+            <w xml:id="BRE_GUELF296_13r_10_3">fur</w>
+            <w xml:id="BRE_GUELF296_13r_10_4">sein</w>
+            <w xml:id="BRE_GUELF296_13r_10_5">gesellen</w>
+            <w xml:id="BRE_GUELF296_13r_10_6">trinckt</w>
+          </l>
+          <l n="7">
+            <w xml:id="BRE_GUELF296_13r_11_0"><hi rend="inkRed">U</hi>n<expan>d</expan></w>
+            <w xml:id="BRE_GUELF296_13r_11_1">machst</w>
+            <w xml:id="BRE_GUELF296_13r_11_2">das</w>
+            <w xml:id="BRE_GUELF296_13r_11_3">ma<expan>n</expan>cher</w>
+            <w xml:id="BRE_GUELF296_13r_11_4">mit</w>
+            <w xml:id="BRE_GUELF296_13r_11_5">red</w>
+            <w xml:id="BRE_GUELF296_13r_11_6">an</w>
+            <w xml:id="BRE_GUELF296_13r_11_7">stöst</w>
+          </l>
+          <l n="8">
+            <w xml:id="BRE_GUELF296_13r_12_0">Wan<expan>n</expan></w>
+            <w xml:id="BRE_GUELF296_13r_12_1">er</w>
+            <w xml:id="BRE_GUELF296_13r_12_2">dich</w>
+            <w xml:id="BRE_GUELF296_13r_12_3">zu</w>
+            <w xml:id="BRE_GUELF296_13r_12_4">lang</w>
+            <w xml:id="BRE_GUELF296_13r_12_5">am</w>
+            <w xml:id="BRE_GUELF296_13r_12_6">mu<expan>n</expan>d</w>
+            <w xml:id="BRE_GUELF296_13r_12_7">lest</w>
+          </l>
+          <l n="9">
+            <w xml:id="BRE_GUELF296_13r_13_0"><hi rend="inkRed">U</hi>n<expan>d</expan></w>
+            <w xml:id="BRE_GUELF296_13r_13_1">machst</w>
+            <w xml:id="BRE_GUELF296_13r_13_2">das</w>
+            <w xml:id="BRE_GUELF296_13r_13_3">ma<expan>n</expan>ch<expan>er</expan></w>
+            <w xml:id="BRE_GUELF296_13r_13_4">sein</w>
+            <w xml:id="BRE_GUELF296_13r_13_5">haubt</w>
+            <w xml:id="BRE_GUELF296_13r_13_6">ser</w>
+            <w xml:id="BRE_GUELF296_13r_13_7">klagt</w>
+          </l>
+          <l n="10">
+            <w xml:id="BRE_GUELF296_13r_14_0">Wan<expan>n</expan></w>
+            <w xml:id="BRE_GUELF296_13r_14_1">er</w>
+            <w xml:id="BRE_GUELF296_13r_14_2">die</w>
+            <w xml:id="BRE_GUELF296_13r_14_3">tru<expan>n</expan>ck</w>
+            <w xml:id="BRE_GUELF296_13r_14_4">zu</w>
+            <w xml:id="BRE_GUELF296_13r_14_5">gros</w>
+            <w xml:id="BRE_GUELF296_13r_14_6">hat</w>
+            <w xml:id="BRE_GUELF296_13r_14_7">gemacht</w>
+          </l>
+          <l n="11">
+            <w xml:id="BRE_GUELF296_13r_15_0"><hi rend="inkRed">S</hi>o</w>
+            <w xml:id="BRE_GUELF296_13r_15_1">machstu</w>
+            <w xml:id="BRE_GUELF296_13r_15_2">daz</w>
+            <w xml:id="BRE_GUELF296_13r_15_3">mange<expan>r</expan></w>
+            <w xml:id="BRE_GUELF296_13r_15_4">sein</w>
+            <w xml:id="BRE_GUELF296_13r_15_5">weib</w>
+            <w xml:id="BRE_GUELF296_13r_15_6">ser</w>
+            <w xml:id="BRE_GUELF296_13r_15_7">fluht</w>
+          </l>
+          <l n="12">
+            <w xml:id="BRE_GUELF296_13r_16_0">Wen<expan>n</expan></w>
+            <w xml:id="BRE_GUELF296_13r_16_1">sy</w>
+            <w xml:id="BRE_GUELF296_13r_16_2">dich</w>
+            <w xml:id="BRE_GUELF296_13r_16_3">offt</w>
+            <w xml:id="BRE_GUELF296_13r_16_4">ym</w>
+            <w xml:id="BRE_GUELF296_13r_16_5">wein</w>
+            <w xml:id="BRE_GUELF296_13r_16_6">hauß</w>
+            <w xml:id="BRE_GUELF296_13r_16_7">sucht</w>
+          </l>
+          <l n="13">
+            <w xml:id="BRE_GUELF296_13r_17_0"><hi rend="inkRed">S</hi>o</w>
+            <w xml:id="BRE_GUELF296_13r_17_1">machstu</w>
+            <w xml:id="BRE_GUELF296_13r_17_2">das</w>
+            <w xml:id="BRE_GUELF296_13r_17_3">weib</w>
+            <w xml:id="BRE_GUELF296_13r_17_4">un<expan>d</expan></w>
+            <w xml:id="BRE_GUELF296_13r_17_5">kint</w>
+            <w xml:id="BRE_GUELF296_13r_17_6">oft</w>
+            <w xml:id="BRE_GUELF296_13r_17_7">prum<expan>m</expan>e<expan>n</expan></w>
+          </l>
+          <l n="14">
+            <w xml:id="BRE_GUELF296_13r_18_0">Wan<expan>n</expan></w>
+            <w xml:id="BRE_GUELF296_13r_18_1">ein<expan>er</expan></w>
+            <w xml:id="BRE_GUELF296_13r_18_2">nit</w>
+            <w xml:id="BRE_GUELF296_13r_18_3">pey</w>
+            <w xml:id="BRE_GUELF296_13r_18_4">zeit</w>
+            <w xml:id="BRE_GUELF296_13r_18_5">vo<expan>n</expan></w>
+            <w xml:id="BRE_GUELF296_13r_18_6">dir</w>
+            <w xml:id="BRE_GUELF296_13r_18_7">wil</w>
+            <w xml:id="BRE_GUELF296_13r_18_8">kumen</w>
+          </l>
+          <l n="15">
+            <w xml:id="BRE_GUELF296_13r_19_0"><hi rend="inkRed">U</hi>n<expan>d</expan></w>
+            <w xml:id="BRE_GUELF296_13r_19_1">heymhin</w>
+            <w xml:id="BRE_GUELF296_13r_19_2">get</w>
+            <w xml:id="BRE_GUELF296_13r_19_3">pey</w>
+            <w xml:id="BRE_GUELF296_13r_19_4">man<expan>n</expan>es</w>
+            <w xml:id="BRE_GUELF296_13r_19_5">schein</w>
+          </l>
+          <l n="16">
+            <w xml:id="BRE_GUELF296_13r_20_0">Doch</w>
+            <w xml:id="BRE_GUELF296_13r_20_1">ist</w>
+            <w xml:id="BRE_GUELF296_13r_20_2">dy</w>
+            <w xml:id="BRE_GUELF296_13r_20_3">schuld</w>
+            <w xml:id="BRE_GUELF296_13r_20_4">nit</w>
+            <w xml:id="BRE_GUELF296_13r_20_5">eytel</w>
+            <w xml:id="BRE_GUELF296_13r_20_6">dein</w>
+          </l>
+          <l n="17">
+            <w xml:id="BRE_GUELF296_13r_21_0"><hi rend="inkRed">D</hi>as</w>
+            <w xml:id="BRE_GUELF296_13r_21_1">ma<expan>n</expan>cher</w>
+            <w xml:id="BRE_GUELF296_13r_21_2">heymhin</w>
+            <w xml:id="BRE_GUELF296_13r_21_3">ku<expan>m</expan>pt</w>
+            <w xml:id="BRE_GUELF296_13r_21_4">als</w>
+            <w xml:id="BRE_GUELF296_13r_21_5">spet</w>
+          </l>
+          <l n="18">
+            <w xml:id="BRE_GUELF296_13r_22_0">Der</w>
+            <w xml:id="BRE_GUELF296_13r_22_1">wurfel</w>
+            <w xml:id="BRE_GUELF296_13r_22_2">die</w>
+            <w xml:id="BRE_GUELF296_13r_22_3">karte<expan>n</expan></w>
+            <w xml:id="BRE_GUELF296_13r_22_4">un<expan>d</expan></w>
+            <w xml:id="BRE_GUELF296_13r_22_5">daz</w>
+            <w xml:id="BRE_GUELF296_13r_22_6">spilpret</w>
+          </l>
+          <l n="19">
+            <w xml:id="BRE_GUELF296_13r_23_0"><hi rend="inkRed">D</hi>ie</w>
+            <w xml:id="BRE_GUELF296_13r_23_1">mache<expan>n</expan></w>
+            <w xml:id="BRE_GUELF296_13r_23_2">daz</w>
+            <w xml:id="BRE_GUELF296_13r_23_3">ma<expan>n</expan>ch<expan>er</expan></w>
+            <w xml:id="BRE_GUELF296_13r_23_4">zu</w>
+            <w xml:id="BRE_GUELF296_13r_23_5">la<expan>n</expan>g</w>
+            <w xml:id="BRE_GUELF296_13r_23_6">offt</w>
+            <w xml:id="BRE_GUELF296_13r_23_7">harrt</w>
+          </l>
+          <pb n="13v"/>
+          <l n="20">
+            <w xml:id="BRE_GUELF296_13v_1_0">Daru<expan>m</expan>b</w>
+            <w xml:id="BRE_GUELF296_13v_1_1">in</w>
+            <w xml:id="BRE_GUELF296_13v_1_2">weib</w>
+            <w xml:id="BRE_GUELF296_13v_1_3">und</w>
+            <w xml:id="BRE_GUELF296_13v_1_4">kint</w>
+            <w xml:id="BRE_GUELF296_13v_1_5">an</w>
+            <w xml:id="BRE_GUELF296_13v_1_6">plarrt</w>
+          </l>
+          <l n="21">
+            <w xml:id="BRE_GUELF296_13v_2_0"><hi rend="inkRed">D</hi>er</w>
+            <w xml:id="BRE_GUELF296_13v_2_1">wil</w>
+            <w xml:id="BRE_GUELF296_13v_2_2">ich</w>
+            <w xml:id="BRE_GUELF296_13v_2_3">dir</w>
+            <w xml:id="BRE_GUELF296_13v_2_4">alles</w>
+            <w xml:id="BRE_GUELF296_13v_2_5">keins</w>
+            <w xml:id="BRE_GUELF296_13v_2_6">zu</w>
+            <w xml:id="BRE_GUELF296_13v_2_7">sach<expan>e</expan>n</w>
+          </l>
+          <l n="22">
+            <w xml:id="BRE_GUELF296_13v_3_0">Wan<expan>n</expan></w>
+            <w xml:id="BRE_GUELF296_13v_3_1">du</w>
+            <w xml:id="BRE_GUELF296_13v_3_2">mich</w>
+            <w xml:id="BRE_GUELF296_13v_3_3">frolich</w>
+            <w xml:id="BRE_GUELF296_13v_3_4">kanst</w>
+            <w xml:id="BRE_GUELF296_13v_3_5">gemach<expan>e</expan>n</w>
+          </l>
+          <l n="23">
+            <w xml:id="BRE_GUELF296_13v_4_0"><hi rend="inkRed">M</hi>it</w>
+            <w xml:id="BRE_GUELF296_13v_4_1">deinem</w>
+            <w xml:id="BRE_GUELF296_13v_4_2">susse<expan>n</expan></w>
+            <w xml:id="BRE_GUELF296_13v_4_3">senften</w>
+            <w xml:id="BRE_GUELF296_13v_4_4">drab</w>
+          </l>
+          <l n="24">
+            <w xml:id="BRE_GUELF296_13v_5_0">Daru<expan>m</expan>b</w>
+            <w xml:id="BRE_GUELF296_13v_5_1">ich</w>
+            <w xml:id="BRE_GUELF296_13v_5_2">freu<expan>n</expan>tschafft</w>
+            <w xml:id="BRE_GUELF296_13v_5_3">zu</w>
+            <w xml:id="BRE_GUELF296_13v_5_4">dir</w>
+            <w xml:id="BRE_GUELF296_13v_5_5">hab</w>
+          </l>
+          <l n="25">
+            <w xml:id="BRE_GUELF296_13v_6_0"><hi rend="inkRed">W</hi>an<expan>n</expan></w>
+            <w xml:id="BRE_GUELF296_13v_6_1">aus</w>
+            <w xml:id="BRE_GUELF296_13v_6_2">eym</w>
+            <w xml:id="BRE_GUELF296_13v_6_3">krug</w>
+            <w xml:id="BRE_GUELF296_13v_6_4">wer</w>
+            <w xml:id="BRE_GUELF296_13v_6_5">mir</w>
+            <w xml:id="BRE_GUELF296_13v_6_6">dei<expan>n</expan></w>
+            <w xml:id="BRE_GUELF296_13v_6_7">lieb<expan>er</expan></w>
+            <w xml:id="BRE_GUELF296_13v_6_8">ey<expan>n</expan></w>
+            <w xml:id="BRE_GUELF296_13v_6_9">süss<expan>er</expan></w>
+            <w xml:id="BRE_GUELF296_13v_6_10"><add place="above">tropf</add></w>
+          </l>
+          <l n="26">
+            <w xml:id="BRE_GUELF296_13v_7_0">Dan<expan>n</expan></w>
+            <w xml:id="BRE_GUELF296_13v_7_1">ey<expan>n</expan></w>
+            <w xml:id="BRE_GUELF296_13v_7_2">ga<expan>n</expan>tz<expan>er</expan></w>
+            <w xml:id="BRE_GUELF296_13v_7_3">emer</w>
+            <w xml:id="BRE_GUELF296_13v_7_4">wass<expan>er</expan>s</w>
+            <w xml:id="BRE_GUELF296_13v_7_5">aus</w>
+            <w xml:id="BRE_GUELF296_13v_7_6">ey<expan>m</expan></w>
+            <w xml:id="BRE_GUELF296_13v_7_7">g<expan>ü</expan>ld<expan>en</expan></w>
+            <w xml:id="BRE_GUELF296_13v_7_8">kopf</w>
+          </l>
+        </div>
+        <!-- Text 3: Weinsegen Creftenreiche Labung (Hans Rosenplüt) (Cod. Guelf. 29.6 Aug. 4°, 13v-14r) -->
+        <div type="section" n="3">
+          <head>
+            <hi rend="inkRed">
+              <w xml:id="BRE_GUELF296_13v_8_0">Weyn</w>
+              <w xml:id="BRE_GUELF296_13v_8_1">segen</w>
+            </hi>
+          </head>
+          <l n="1">
+            <w xml:id="BRE_GUELF296_13v_9_0"><hi rend="inkRed">N</hi>u</w>
+            <w xml:id="BRE_GUELF296_13v_9_1">gesege<expan>n</expan></w>
+            <w xml:id="BRE_GUELF296_13v_9_2">dich</w>
+            <w xml:id="BRE_GUELF296_13v_9_3">got</w>
+            <w xml:id="BRE_GUELF296_13v_9_4">du</w>
+            <w xml:id="BRE_GUELF296_13v_9_5">kreftreiche</w>
+            <w xml:id="BRE_GUELF296_13v_9_6">labu<expan>n</expan>g</w>
+          </l>
+          <l n="2">
+            <w xml:id="BRE_GUELF296_13v_10_0">Du</w>
+            <w xml:id="BRE_GUELF296_13v_10_1">wol</w>
+            <w xml:id="BRE_GUELF296_13v_10_2">zelte<expan>n</expan>de</w>
+            <w xml:id="BRE_GUELF296_13v_10_3">sanft</w>
+            <w xml:id="BRE_GUELF296_13v_10_4">trabung</w>
+          </l>
+          <l n="3">
+            <w xml:id="BRE_GUELF296_13v_11_0"><hi rend="inkRed">D</hi>u</w>
+            <w xml:id="BRE_GUELF296_13v_11_1">süsses</w>
+            <w xml:id="BRE_GUELF296_13v_11_2">mayen</w>
+            <w xml:id="BRE_GUELF296_13v_11_3">pad</w>
+            <w xml:id="BRE_GUELF296_13v_11_4">meiner</w>
+            <w xml:id="BRE_GUELF296_13v_11_5">zunge<expan>n</expan></w>
+          </l>
+          <l n="4">
+            <w xml:id="BRE_GUELF296_13v_12_0">Du</w>
+            <w xml:id="BRE_GUELF296_13v_12_1">frischt</w>
+            <w xml:id="BRE_GUELF296_13v_12_2">mir</w>
+            <w xml:id="BRE_GUELF296_13v_12_3">dy</w>
+            <w xml:id="BRE_GUELF296_13v_12_4">leber</w>
+            <w xml:id="BRE_GUELF296_13v_12_5">un<expan>d</expan></w>
+            <w xml:id="BRE_GUELF296_13v_12_6">feuchst</w>
+            <w xml:id="BRE_GUELF296_13v_12_7">mir</w>
+            <w xml:id="BRE_GUELF296_13v_12_8">dy</w>
+            <w xml:id="BRE_GUELF296_13v_12_9"><add place="below">lunge<expan>n</expan></add></w>
+          </l>
+          <l n="5">
+            <w xml:id="BRE_GUELF296_13v_13_0"><hi rend="inkRed">A</hi>ls</w>
+            <w xml:id="BRE_GUELF296_13v_13_1">wan<expan>n</expan></w>
+            <w xml:id="BRE_GUELF296_13v_13_2">es</w>
+            <w xml:id="BRE_GUELF296_13v_13_3">auf</w>
+            <w xml:id="BRE_GUELF296_13v_13_4">durre<expan>n</expan></w>
+            <w xml:id="BRE_GUELF296_13v_13_5">acker</w>
+            <w xml:id="BRE_GUELF296_13v_13_6">taut</w>
+          </l>
+          <l n="6">
+            <w xml:id="BRE_GUELF296_13v_14_0">Wan<expan>n</expan></w>
+            <w xml:id="BRE_GUELF296_13v_14_1">ma<expan>n</expan></w>
+            <w xml:id="BRE_GUELF296_13v_14_2">dich</w>
+            <w xml:id="BRE_GUELF296_13v_14_3">in</w>
+            <w xml:id="BRE_GUELF296_13v_14_4">eim</w>
+            <w xml:id="BRE_GUELF296_13v_14_5">gleslein</w>
+            <w xml:id="BRE_GUELF296_13v_14_6">schaut</w>
+          </l>
+          <l n="7">
+            <w xml:id="BRE_GUELF296_13v_15_0"><hi rend="inkRed">S</hi>o</w>
+            <w xml:id="BRE_GUELF296_13v_15_1">kan</w>
+            <w xml:id="BRE_GUELF296_13v_15_2">ma<expan>n</expan></w>
+            <w xml:id="BRE_GUELF296_13v_15_3">deins</w>
+            <w xml:id="BRE_GUELF296_13v_15_4">h<expan>err</expan>n</w>
+            <w xml:id="BRE_GUELF296_13v_15_5">fru<expan>m</expan>keit</w>
+            <w xml:id="BRE_GUELF296_13v_15_6">schecz<expan>e</expan>n</w>
+          </l>
+          <l n="8">
+            <w xml:id="BRE_GUELF296_13v_16_0">Ob</w>
+            <w xml:id="BRE_GUELF296_13v_16_1">er</w>
+            <w xml:id="BRE_GUELF296_13v_16_2">dich</w>
+            <w xml:id="BRE_GUELF296_13v_16_3">gefelscht</w>
+            <w xml:id="BRE_GUELF296_13v_16_4">hab</w>
+            <w xml:id="BRE_GUELF296_13v_16_5">mit</w>
+            <w xml:id="BRE_GUELF296_13v_16_6">seine<expan>m</expan></w>
+            <w xml:id="BRE_GUELF296_13v_16_7">fecz<expan>e</expan>n</w>
+          </l>
+          <l n="9">
+            <w xml:id="BRE_GUELF296_13v_17_0"><hi rend="inkRed">D</hi>as</w>
+            <w xml:id="BRE_GUELF296_13v_17_1">er</w>
+            <w xml:id="BRE_GUELF296_13v_17_2">mit</w>
+            <w xml:id="BRE_GUELF296_13v_17_3">dir</w>
+            <w xml:id="BRE_GUELF296_13v_17_4">treibt</w>
+            <w xml:id="BRE_GUELF296_13v_17_5">über</w>
+            <w xml:id="BRE_GUELF296_13v_17_6">jar</w>
+          </l>
+          <l n="10">
+            <w xml:id="BRE_GUELF296_13v_18_0">Mit</w>
+            <w xml:id="BRE_GUELF296_13v_18_1">milch</w>
+            <w xml:id="BRE_GUELF296_13v_18_2">un<expan>d</expan></w>
+            <w xml:id="BRE_GUELF296_13v_18_3">auch</w>
+            <w xml:id="BRE_GUELF296_13v_18_4">mit</w>
+            <w xml:id="BRE_GUELF296_13v_18_5">ayer</w>
+            <w xml:id="BRE_GUELF296_13v_18_6">klar</w>
+          </l>
+          <l n="11">
+            <w xml:id="BRE_GUELF296_13v_19_0"><hi rend="inkRed">M</hi>it</w>
+            <w xml:id="BRE_GUELF296_13v_19_1">stein</w>
+            <w xml:id="BRE_GUELF296_13v_19_2">salcz</w>
+            <w xml:id="BRE_GUELF296_13v_19_3">un<expan>d</expan></w>
+            <w xml:id="BRE_GUELF296_13v_19_4">mit</w>
+            <w xml:id="BRE_GUELF296_13v_19_5">sweine<expan>in</expan></w>
+            <w xml:id="BRE_GUELF296_13v_19_6">swarte<expan>n</expan></w>
+          </l>
+          <l n="12">
+            <w xml:id="BRE_GUELF296_13v_20_0">Domit</w>
+            <w xml:id="BRE_GUELF296_13v_20_1">der</w>
+            <w xml:id="BRE_GUELF296_13v_20_2">kelners</w>
+            <w xml:id="BRE_GUELF296_13v_20_3">knecht</w>
+            <w xml:id="BRE_GUELF296_13v_20_4">dein</w>
+            <w xml:id="BRE_GUELF296_13v_20_5">muß</w>
+            <w xml:id="BRE_GUELF296_13v_20_6">warte<expan>n</expan></w>
+          </l>
+          <l n="13">
+            <w xml:id="BRE_GUELF296_13v_21_0"><hi rend="inkRed">M</hi>it</w>
+            <w xml:id="BRE_GUELF296_13v_21_1">senf</w>
+            <w xml:id="BRE_GUELF296_13v_21_2">mit</w>
+            <w xml:id="BRE_GUELF296_13v_21_3">waidasche<expan>n</expan></w>
+            <w xml:id="BRE_GUELF296_13v_21_4">un<expan>d</expan></w>
+            <w xml:id="BRE_GUELF296_13v_21_5">mit</w>
+            <w xml:id="BRE_GUELF296_13v_21_6">tropfwurcz</w>
+          </l>
+          <l n="14">
+            <w xml:id="BRE_GUELF296_13v_22_0">Davo<expan>n</expan></w>
+            <w xml:id="BRE_GUELF296_13v_22_1">dein</w>
+            <w xml:id="BRE_GUELF296_13v_22_2">edel</w>
+            <w xml:id="BRE_GUELF296_13v_22_3">ny<expan>m</expan>pt</w>
+            <w xml:id="BRE_GUELF296_13v_22_4">offt</w>
+            <w xml:id="BRE_GUELF296_13v_22_5">unter</w>
+            <w xml:id="BRE_GUELF296_13v_22_6">sturcz</w>
+          </l>
+          <l n="15">
+            <w xml:id="BRE_GUELF296_13v_23_0"><hi rend="inkRed">D</hi>er</w>
+            <w xml:id="BRE_GUELF296_13v_23_1">zol</w>
+            <w xml:id="BRE_GUELF296_13v_23_2">der</w>
+            <w xml:id="BRE_GUELF296_13v_23_3">hat</w>
+            <w xml:id="BRE_GUELF296_13v_23_4">dich</w>
+            <w xml:id="BRE_GUELF296_13v_23_5">ubel</w>
+            <w xml:id="BRE_GUELF296_13v_23_6">gesmalcz<expan>e</expan>n</w>
+          </l>
+          <l n="16">
+            <w xml:id="BRE_GUELF296_13v_24_0">Doch</w>
+            <w xml:id="BRE_GUELF296_13v_24_1">so</w>
+            <w xml:id="BRE_GUELF296_13v_24_2">hat</w>
+            <w xml:id="BRE_GUELF296_13v_24_3">dich</w>
+            <w xml:id="BRE_GUELF296_13v_24_4">daz</w>
+            <w xml:id="BRE_GUELF296_13v_24_5">ungelt</w>
+            <w xml:id="BRE_GUELF296_13v_24_6">gar</w>
+            <w xml:id="BRE_GUELF296_13v_24_7">v<expan>er</expan>salcz<expan>e</expan>n</w>
+          </l>
+          <pb n="14r"/>
+          <l n="17">
+            <w xml:id="BRE_GUELF296_14r_1_0"><hi rend="inkRed">D</hi>as</w>
+            <w xml:id="BRE_GUELF296_14r_1_1">prüfen</w>
+            <w xml:id="BRE_GUELF296_14r_1_2">dy</w>
+            <w xml:id="BRE_GUELF296_14r_1_3">arme<expan>n</expan></w>
+            <w xml:id="BRE_GUELF296_14r_1_4">in</w>
+            <w xml:id="BRE_GUELF296_14r_1_5">der</w>
+            <w xml:id="BRE_GUELF296_14r_1_6">tasch<expan>e</expan>n</w>
+          </l>
+          <l n="18">
+            <w xml:id="BRE_GUELF296_14r_2_0">Wan<expan>n</expan></w>
+            <w xml:id="BRE_GUELF296_14r_2_1">ma<expan>n</expan></w>
+            <w xml:id="BRE_GUELF296_14r_2_2">dir</w>
+            <w xml:id="BRE_GUELF296_14r_2_3">da<expan>n</expan>n</w>
+            <w xml:id="BRE_GUELF296_14r_2_4">den</w>
+            <w xml:id="BRE_GUELF296_14r_2_5">spu<expan>n</expan>t</w>
+            <w xml:id="BRE_GUELF296_14r_2_6">sol</w>
+            <w xml:id="BRE_GUELF296_14r_2_7">wasch<expan>e</expan>n</w>
+          </l>
+          <l n="19">
+            <w xml:id="BRE_GUELF296_14r_3_0"><hi rend="inkRed">S</hi>o</w>
+            <w xml:id="BRE_GUELF296_14r_3_1">musse<expan>n</expan></w>
+            <w xml:id="BRE_GUELF296_14r_3_2">zweinczig</w>
+            <w xml:id="BRE_GUELF296_14r_3_3">maß</w>
+            <w xml:id="BRE_GUELF296_14r_3_4">wass<expan>er</expan>s</w>
+            <w xml:id="BRE_GUELF296_14r_3_5">zulaufe<expan>n</expan></w>
+          </l>
+          <l n="20">
+            <w xml:id="BRE_GUELF296_14r_4_0">Wer</w>
+            <w xml:id="BRE_GUELF296_14r_4_1">dan<expan>n</expan></w>
+            <w xml:id="BRE_GUELF296_14r_4_2">das</w>
+            <w xml:id="BRE_GUELF296_14r_4_3">fur</w>
+            <w xml:id="BRE_GUELF296_14r_4_4">wein</w>
+            <w xml:id="BRE_GUELF296_14r_4_5">wil</w>
+            <w xml:id="BRE_GUELF296_14r_4_6">verkauffe<expan>n</expan></w>
+          </l>
+          <l n="21">
+            <w xml:id="BRE_GUELF296_14r_5_0"><hi rend="inkRed">D</hi>er</w>
+            <w xml:id="BRE_GUELF296_14r_5_1">wil</w>
+            <w xml:id="BRE_GUELF296_14r_5_2">sein</w>
+            <w xml:id="BRE_GUELF296_14r_5_3">nechste<expan>n</expan></w>
+            <w xml:id="BRE_GUELF296_14r_5_4">als</w>
+            <w xml:id="BRE_GUELF296_14r_5_5">treulich</w>
+            <w xml:id="BRE_GUELF296_14r_5_6">bezaln</w>
+          </l>
+          <l n="22">
+            <w xml:id="BRE_GUELF296_14r_6_0">Als</w>
+            <w xml:id="BRE_GUELF296_14r_6_1">ein<expan>em</expan></w>
+            <w xml:id="BRE_GUELF296_14r_6_2">d<expan>er</expan></w>
+            <w xml:id="BRE_GUELF296_14r_6_3">gut</w>
+            <w xml:id="BRE_GUELF296_14r_6_4">mel</w>
+            <w xml:id="BRE_GUELF296_14r_6_5">aus</w>
+            <w xml:id="BRE_GUELF296_14r_6_6">meußkot</w>
+            <w xml:id="BRE_GUELF296_14r_6_7">sol</w>
+            <w xml:id="BRE_GUELF296_14r_6_8">maln</w>
+          </l>
+        </div>
+        <!-- Text 4: Biergruß Liebes Pir (Hans Rosenplüt) (Cod. Guelf. 29.6 Aug. 4°, 58v) -->
+        <div type="section" n="4">
+          <pb n="58v"/>
+          <l n="1">
+            <w xml:id="BRE_GUELF296_58v_1_0"><hi rend="inkRed">N</hi>un</w>
+            <w xml:id="BRE_GUELF296_58v_1_1">grüs</w>
+            <w xml:id="BRE_GUELF296_58v_1_2">dich</w>
+            <w xml:id="BRE_GUELF296_58v_1_3">got</w>
+            <w xml:id="BRE_GUELF296_58v_1_4">du</w>
+            <w xml:id="BRE_GUELF296_58v_1_5">liebeß</w>
+            <w xml:id="BRE_GUELF296_58v_1_6">pier</w>
+          </l>
+          <l n="2">
+            <w xml:id="BRE_GUELF296_58v_2_0">Gee</w>
+            <w xml:id="BRE_GUELF296_58v_2_1">her</w>
+            <w xml:id="BRE_GUELF296_58v_2_2">und</w>
+            <w xml:id="BRE_GUELF296_58v_2_3">lesch</w>
+            <w xml:id="BRE_GUELF296_58v_2_4">mir</w>
+            <w xml:id="BRE_GUELF296_58v_2_5">den</w>
+            <w xml:id="BRE_GUELF296_58v_2_6">durst</w>
+            <w xml:id="BRE_GUELF296_58v_2_7">schier</w>
+          </l>
+          <l n="3">
+            <w xml:id="BRE_GUELF296_58v_3_0"><hi rend="inkRed">U</hi>nd</w>
+            <w xml:id="BRE_GUELF296_58v_3_1">mach</w>
+            <w xml:id="BRE_GUELF296_58v_3_2">mich</w>
+            <w xml:id="BRE_GUELF296_58v_3_3">nit</w>
+            <w xml:id="BRE_GUELF296_58v_3_4">zu</w>
+            <w xml:id="BRE_GUELF296_58v_3_5">schande<expan>n</expan></w>
+            <w xml:id="BRE_GUELF296_58v_3_6">vor</w>
+            <w xml:id="BRE_GUELF296_58v_3_7">de<expan>n</expan></w>
+            <w xml:id="BRE_GUELF296_58v_3_8">leute<expan>n</expan></w>
+          </l>
+          <l n="4">
+            <w xml:id="BRE_GUELF296_58v_4_0">Un<expan>d</expan></w>
+            <w xml:id="BRE_GUELF296_58v_4_1">behüt</w>
+            <w xml:id="BRE_GUELF296_58v_4_2">mich</w>
+            <w xml:id="BRE_GUELF296_58v_4_3">auch</w>
+            <w xml:id="BRE_GUELF296_58v_4_4">vor</w>
+            <w xml:id="BRE_GUELF296_58v_4_5">der</w>
+            <w xml:id="BRE_GUELF296_58v_4_6">snelle<expan>n</expan></w>
+            <w xml:id="BRE_GUELF296_58v_4_7">geuten</w>
+          </l>
+          <l n="5">
+            <w xml:id="BRE_GUELF296_58v_5_0"><hi rend="inkRed">W</hi>an<expan>n</expan></w>
+            <w xml:id="BRE_GUELF296_58v_5_1">dey<expan>n</expan></w>
+            <w xml:id="BRE_GUELF296_58v_5_2">nam</w>
+            <w xml:id="BRE_GUELF296_58v_5_3">d<expan>er</expan></w>
+            <w xml:id="BRE_GUELF296_58v_5_4">haist</w>
+            <w xml:id="BRE_GUELF296_58v_5_5">rumpel</w>
+            <w xml:id="BRE_GUELF296_58v_5_6">in</w>
+            <w xml:id="BRE_GUELF296_58v_5_7">die</w>
+            <w xml:id="BRE_GUELF296_58v_5_8">plasen</w>
+          </l>
+          <l n="6">
+            <w xml:id="BRE_GUELF296_58v_6_0">Von</w>
+            <w xml:id="BRE_GUELF296_58v_6_1">dir</w>
+            <w xml:id="BRE_GUELF296_58v_6_2">so</w>
+            <w xml:id="BRE_GUELF296_58v_6_3">wachsen</w>
+            <w xml:id="BRE_GUELF296_58v_6_4">solch</w>
+            <w xml:id="BRE_GUELF296_58v_6_5">rosen</w>
+          </l>
+          <l n="7">
+            <w xml:id="BRE_GUELF296_58v_7_0"><hi rend="inkRed">D</hi>y</w>
+            <w xml:id="BRE_GUELF296_58v_7_1">nyma<expan>n</expan>t</w>
+            <w xml:id="BRE_GUELF296_58v_7_2">mit</w>
+            <w xml:id="BRE_GUELF296_58v_7_3">de<expan>n</expan></w>
+            <w xml:id="BRE_GUELF296_58v_7_4">hend<expan>e</expan>n</w>
+            <w xml:id="BRE_GUELF296_58v_7_5">thar</w>
+            <w xml:id="BRE_GUELF296_58v_7_6">abprech<expan>e</expan>n</w>
+          </l>
+          <l n="8">
+            <w xml:id="BRE_GUELF296_58v_8_0">Darein</w>
+            <w xml:id="BRE_GUELF296_58v_8_1">die</w>
+            <w xml:id="BRE_GUELF296_58v_8_2">Sew</w>
+            <w xml:id="BRE_GUELF296_58v_8_3">unter</w>
+            <w xml:id="BRE_GUELF296_58v_8_4">den</w>
+            <w xml:id="BRE_GUELF296_58v_8_5">zeun</w>
+            <w xml:id="BRE_GUELF296_58v_8_6">zechen</w>
+          </l>
+          <l n="9">
+            <w xml:id="BRE_GUELF296_58v_9_0"><hi rend="inkRed">W</hi>an<expan>n</expan></w>
+            <w xml:id="BRE_GUELF296_58v_9_1">ma<expan>n</expan></w>
+            <w xml:id="BRE_GUELF296_58v_9_2">dich</w>
+            <w xml:id="BRE_GUELF296_58v_9_3">dan<expan>n</expan></w>
+            <w xml:id="BRE_GUELF296_58v_9_4">in</w>
+            <w xml:id="BRE_GUELF296_58v_9_5">einem</w>
+            <w xml:id="BRE_GUELF296_58v_9_6">kessel</w>
+            <w xml:id="BRE_GUELF296_58v_9_7">geseut</w>
+          </l>
+          <l n="10">
+            <w xml:id="BRE_GUELF296_58v_10_0">so</w>
+            <w xml:id="BRE_GUELF296_58v_10_1">heist</w>
+            <w xml:id="BRE_GUELF296_58v_10_2">ma<expan>n</expan></w>
+            <w xml:id="BRE_GUELF296_58v_10_3">dich</w>
+            <w xml:id="BRE_GUELF296_58v_10_4">dan<expan>n</expan></w>
+            <w xml:id="BRE_GUELF296_58v_10_5">pfladergeut</w>
+          </l>
+          <l n="11">
+            <w xml:id="BRE_GUELF296_58v_11_0"><hi rend="inkRed">S</hi>wancken</w>
+            <w xml:id="BRE_GUELF296_58v_11_1">darm</w>
+            <w xml:id="BRE_GUELF296_58v_11_2">und</w>
+            <w xml:id="BRE_GUELF296_58v_11_3">juden</w>
+            <w xml:id="BRE_GUELF296_58v_11_4">swaiß</w>
+          </l>
+          <l n="12">
+            <w xml:id="BRE_GUELF296_58v_12_0">Un<expan>d</expan></w>
+            <w xml:id="BRE_GUELF296_58v_12_1">wer</w>
+            <w xml:id="BRE_GUELF296_58v_12_2">von</w>
+            <w xml:id="BRE_GUELF296_58v_12_3">dir</w>
+            <w xml:id="BRE_GUELF296_58v_12_4">wil</w>
+            <w xml:id="BRE_GUELF296_58v_12_5">lassen</w>
+            <w xml:id="BRE_GUELF296_58v_12_6">ein</w>
+            <w xml:id="BRE_GUELF296_58v_12_7">schaiß</w>
+          </l>
+          <l n="13">
+            <w xml:id="BRE_GUELF296_58v_13_0"><hi rend="inkRed">D</hi>er</w>
+            <w xml:id="BRE_GUELF296_58v_13_1">muß</w>
+            <w xml:id="BRE_GUELF296_58v_13_2">gar</w>
+            <w xml:id="BRE_GUELF296_58v_13_3">seuberlich</w>
+            <w xml:id="BRE_GUELF296_58v_13_4">lassen</w>
+            <w xml:id="BRE_GUELF296_58v_13_5">sleich<expan>e</expan>n</w>
+          </l>
+          <l n="14">
+            <w xml:id="BRE_GUELF296_58v_14_0">Daß</w>
+            <w xml:id="BRE_GUELF296_58v_14_1">nit</w>
+            <w xml:id="BRE_GUELF296_58v_14_2">heffen</w>
+            <w xml:id="BRE_GUELF296_58v_14_3">mit</w>
+            <w xml:id="BRE_GUELF296_58v_14_4">werd<expan>e</expan>n</w>
+            <w xml:id="BRE_GUELF296_58v_14_5">streich<expan>e</expan>n</w>
+          </l>
+        </div>
+      </div>
+    </body>
+  </text>
+</TEI>

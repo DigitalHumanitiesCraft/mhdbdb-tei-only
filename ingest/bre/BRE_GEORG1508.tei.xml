@@ -1,0 +1,2470 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?xml-model href="../schema/mhdbdb.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="https://tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng"?><TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="BRE_GEORG1508">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title xml:lang="de">Dessau, Landesbücherei: Hs. Georg. 150.8°, 150v-158r</title>
+        <author ref="#person_anonym">Anonym</author>
+        <respStmt>
+          <resp>digitale Zusammenführung, Annotation und semantische Klassifikation</resp>
+          <orgName ref="contributors.xml#mhdbdb-team">MHDBDB-Team (vollständige Liste in contributors.xml)</orgName>
+        </respStmt>
+      </titleStmt>
+      <publicationStmt>
+        <publisher>
+          <orgName>Mittelhochdeutsche Begriffsdatenbank (MHDBDB)</orgName>
+          <orgName>Paris Lodron Universität Salzburg</orgName>
+          <address>
+            <street>Erzabt-Klotz-Straße 1</street>
+            <postCode>5020</postCode>
+            <settlement>Salzburg</settlement>
+            <country>Österreich</country>
+          </address>
+          <email>mhdbdb@plus.ac.at</email>
+          <ptr target="https://mhdbdb.plus.ac.at"/>
+        </publisher>
+        <authority>
+          <persName role="coordinator" ref="contributors.xml#contrib_003">
+            <forename>Katharina</forename>
+            <surname>Zeppezauer-Wachauer</surname>
+          </persName>
+          <persName role="founder" ref="contributors.xml#contrib_001">
+            <forename>Klaus M.</forename>
+            <surname>Schmidt</surname>
+          </persName>
+          <persName role="founder" ref="contributors.xml#contrib_002">
+            <forename>Horst</forename>
+            <surname>Pütz</surname>
+          </persName>
+        </authority>
+        <availability>
+          <licence target="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</licence>
+          <p>Transkription von Silvan Wagner (wiki.brevitas.org), Freigabe unter CC BY-NC-SA 4.0 per Mail an Katharina Zeppezauer-Wachauer, Oktober 2026 (#147).</p>
+        </availability>
+        <date when="2026">2026</date>
+      </publicationStmt>
+      <sourceDesc>
+        <msDesc>
+          <msIdentifier corresp="works.xml#work_TBD">
+            <idno type="sigle">BRE_GEORG1508</idno>
+            <msName xml:lang="de">Dessau, Landesbücherei: Hs. Georg. 150.8°, 150v-158r</msName>
+          </msIdentifier>
+          <additional>
+            <listBibl>
+              <bibl type="digitalIntermediary" xml:id="BRE_GEORG1508_brevitas_wiki" corresp="#BRE_GEORG1508_TBD">
+                <title>Brevitas-Wiki, Hybridedition der Weingrüße (Silvan Wagner)</title>
+                <respStmt>
+                  <resp>Transkription</resp>
+                  <name>Silvan Wagner</name>
+                </respStmt>
+                <ref target="https://wiki.brevitas.org/mediawiki_1_43/index.php?title=Weingr%C3%BC%C3%9Fe_Georg._150.8%C2%B0&amp;oldid=21435"/>
+                <note type="provenance">Transkription aus dem Brevitas-Wiki (wiki.brevitas.org), Seite "Weingrüße Georg. 150.8°", Revision 21435 vom 2022-04-22T19:10:45Z. Konvertiert in das MHDBDB-Schema durch automatische Transformation (scripts/ingest/bre/02-convert-wiki-to-mhdbdb.py, 2026-11-17).</note>
+                <note type="fidelity">Mechanische Konversion ohne Eingriff in Wortgrenzen und Auszeichnungs-Semantik. Die Gliederung in Einzeltexte folgt den Synopsen der Einzeltextseiten des Brevitas-Wikis, Teile einer Transkription (Teil A/B) als div/@n.</note>
+              </bibl>
+            </listBibl>
+          </additional>
+        </msDesc>
+      </sourceDesc>
+    </fileDesc>
+    <encodingDesc>
+      <projectDesc>
+        <p xml:lang="de">Die Annotationen der MHDBDB basieren auf kontrollierten Vokabularen und domänenspezifischen Ontologien.</p>
+        <p xml:lang="en">The annotations of the MHDBDB are based on controlled vocabularies and domain-specific ontologies.</p>
+      </projectDesc>
+      <editorialDecl>
+        <p xml:lang="de">Lokale Dateireferenzen (z.B. persons.xml#person_anonym, lexicon.xml#lemma_879) verweisen auf kontrollierte Vokabulare im authority-files Verzeichnis dieses Repositorys.</p>
+      </editorialDecl>
+      <classDecl>
+        <taxonomy xml:id="genres">
+          <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
+          <category xml:id="genre_TBD" corresp="genres.xml#genre_TBD">
+            <gloss xml:lang="de">Weingruß (TBD: konkrete Genre-ID)</gloss>
+          </category>
+        </taxonomy>
+      </classDecl>
+    </encodingDesc>
+    <profileDesc>
+      <langUsage>
+        <language ident="TBD">TBD (Sprachstufe offen, #118)</language>
+      </langUsage>
+      <particDesc>
+        <listPerson>
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
+            <persName type="preferred">Anonym</persName>
+          </person>
+        </listPerson>
+      </particDesc>
+    </profileDesc>
+    <revisionDesc>
+      <change when="2026-11-17" who="#mhdbdb-team">Initiale Konversion aus dem Brevitas-Wiki (Revision 21435) via scripts/ingest/bre/02-convert-wiki-to-mhdbdb.py.</change>
+    </revisionDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <div>
+        <!-- Text 1: Weingruß Neczen Gumen (Hans Rosenplüt) (Hs. Georg. 150.8°, 150v-151r) -->
+        <div type="section" n="1">
+          <pb n="150v"/>
+          <head>
+            <hi rend="inkRed">
+              <hi rend="bold">
+                <w xml:id="BRE_GEORG1508_150v_1_0">Wein</w>
+                <w xml:id="BRE_GEORG1508_150v_1_1">gruß</w>
+              </hi>
+            </hi>
+          </head>
+          <l n="1">
+            <hi rend="inkRed">
+              <w xml:id="BRE_GEORG1508_150v_2_0">Nun</w>
+              <w xml:id="BRE_GEORG1508_150v_2_1">grus</w>
+              <w xml:id="BRE_GEORG1508_150v_2_2">dich</w>
+              <w xml:id="BRE_GEORG1508_150v_2_3">goth</w>
+              <w xml:id="BRE_GEORG1508_150v_2_4">du</w>
+              <w xml:id="BRE_GEORG1508_150v_2_5">liber</w>
+              <w xml:id="BRE_GEORG1508_150v_2_6">necze<expan>n</expan></w>
+              <w xml:id="BRE_GEORG1508_150v_2_7">gummen</w>
+            </hi>
+          </l>
+          <l n="2">
+            <hi rend="inkRed">
+              <w xml:id="BRE_GEORG1508_150v_3_0">Warumb</w>
+              <w xml:id="BRE_GEORG1508_150v_3_1">wiltu</w>
+              <w xml:id="BRE_GEORG1508_150v_3_2">nit</w>
+              <w xml:id="BRE_GEORG1508_150v_3_3">offter</w>
+              <w xml:id="BRE_GEORG1508_150v_3_4">zu</w>
+              <w xml:id="BRE_GEORG1508_150v_3_5">mir</w>
+              <w xml:id="BRE_GEORG1508_150v_3_6">khommen</w>
+            </hi>
+          </l>
+          <l n="3">
+            <w xml:id="BRE_GEORG1508_150v_4_0">Wer</w>
+            <w xml:id="BRE_GEORG1508_150v_4_1">hat</w>
+            <w xml:id="BRE_GEORG1508_150v_4_2">mich</w>
+            <w xml:id="BRE_GEORG1508_150v_4_3">nur</w>
+            <w xml:id="BRE_GEORG1508_150v_4_4">verlogen</w>
+            <w xml:id="BRE_GEORG1508_150v_4_5">gen</w>
+            <w xml:id="BRE_GEORG1508_150v_4_6">dir</w>
+          </l>
+          <l n="4">
+            <w xml:id="BRE_GEORG1508_150v_5_0">Doch</w>
+            <w xml:id="BRE_GEORG1508_150v_5_1">kumpstu</w>
+            <w xml:id="BRE_GEORG1508_150v_5_2">machen</w>
+            <w xml:id="BRE_GEORG1508_150v_5_3">vil</w>
+            <w xml:id="BRE_GEORG1508_150v_5_4">zu</w>
+            <w xml:id="BRE_GEORG1508_150v_5_5">schir</w>
+          </l>
+          <l n="5">
+            <w xml:id="BRE_GEORG1508_150v_6_0">Unnd</w>
+            <w xml:id="BRE_GEORG1508_150v_6_1">magst</w>
+            <w xml:id="BRE_GEORG1508_150v_6_2">das</w>
+            <w xml:id="BRE_GEORG1508_150v_6_3">ym</w>
+            <w xml:id="BRE_GEORG1508_150v_6_4">sein</w>
+            <w xml:id="BRE_GEORG1508_150v_6_5">zcung<expan>en</expan></w>
+            <w xml:id="BRE_GEORG1508_150v_6_6">hinckt</w>
+          </l>
+          <l n="6">
+            <w xml:id="BRE_GEORG1508_150v_7_0">Wen</w>
+            <w xml:id="BRE_GEORG1508_150v_7_1">er</w>
+            <w xml:id="BRE_GEORG1508_150v_7_2">zu</w>
+            <w xml:id="BRE_GEORG1508_150v_7_3">offt</w>
+            <w xml:id="BRE_GEORG1508_150v_7_4">fur</w>
+            <w xml:id="BRE_GEORG1508_150v_7_5">sein</w>
+            <w xml:id="BRE_GEORG1508_150v_7_6">gesellen</w>
+            <w xml:id="BRE_GEORG1508_150v_7_7">trinckt</w>
+          </l>
+          <l n="7">
+            <w xml:id="BRE_GEORG1508_150v_8_0">Und</w>
+            <w xml:id="BRE_GEORG1508_150v_8_1">machst</w>
+            <w xml:id="BRE_GEORG1508_150v_8_2">das</w>
+            <w xml:id="BRE_GEORG1508_150v_8_3">mancher</w>
+            <w xml:id="BRE_GEORG1508_150v_8_4">mit</w>
+            <w xml:id="BRE_GEORG1508_150v_8_5">rede</w>
+            <w xml:id="BRE_GEORG1508_150v_8_6">an</w>
+            <w xml:id="BRE_GEORG1508_150v_8_7">stest</w>
+          </l>
+          <l n="8">
+            <w xml:id="BRE_GEORG1508_150v_9_0">Wen</w>
+            <w xml:id="BRE_GEORG1508_150v_9_1">er</w>
+            <w xml:id="BRE_GEORG1508_150v_9_2">dich</w>
+            <w xml:id="BRE_GEORG1508_150v_9_3">zu</w>
+            <w xml:id="BRE_GEORG1508_150v_9_4">lang</w>
+            <w xml:id="BRE_GEORG1508_150v_9_5">am</w>
+            <w xml:id="BRE_GEORG1508_150v_9_6">mund</w>
+            <w xml:id="BRE_GEORG1508_150v_9_7">lest</w>
+          </l>
+          <l n="9">
+            <w xml:id="BRE_GEORG1508_150v_10_0">Und</w>
+            <w xml:id="BRE_GEORG1508_150v_10_1">magst</w>
+            <w xml:id="BRE_GEORG1508_150v_10_2">das</w>
+            <w xml:id="BRE_GEORG1508_150v_10_3">mancher</w>
+            <w xml:id="BRE_GEORG1508_150v_10_4">sein</w>
+            <w xml:id="BRE_GEORG1508_150v_10_5">haubt</w>
+            <w xml:id="BRE_GEORG1508_150v_10_6">ßo</w>
+            <w xml:id="BRE_GEORG1508_150v_10_7">clagt</w>
+          </l>
+          <l n="10">
+            <w xml:id="BRE_GEORG1508_150v_11_0">Wer</w>
+            <w xml:id="BRE_GEORG1508_150v_11_1">er</w>
+            <w xml:id="BRE_GEORG1508_150v_11_2">die</w>
+            <w xml:id="BRE_GEORG1508_150v_11_3">trunck</w>
+            <w xml:id="BRE_GEORG1508_150v_11_4">zu</w>
+            <w xml:id="BRE_GEORG1508_150v_11_5">gros</w>
+            <w xml:id="BRE_GEORG1508_150v_11_6">hat</w>
+            <w xml:id="BRE_GEORG1508_150v_11_7">gemacht</w>
+          </l>
+          <l n="11">
+            <w xml:id="BRE_GEORG1508_150v_12_0">Und</w>
+            <w xml:id="BRE_GEORG1508_150v_12_1">magst</w>
+            <w xml:id="BRE_GEORG1508_150v_12_2">das</w>
+            <w xml:id="BRE_GEORG1508_150v_12_3">mancher</w>
+            <w xml:id="BRE_GEORG1508_150v_12_4">sein</w>
+            <w xml:id="BRE_GEORG1508_150v_12_5">weib</w>
+            <w xml:id="BRE_GEORG1508_150v_12_6">ser</w>
+            <w xml:id="BRE_GEORG1508_150v_12_7">flucht</w>
+          </l>
+          <l n="12">
+            <w xml:id="BRE_GEORG1508_150v_13_0">Wen</w>
+            <w xml:id="BRE_GEORG1508_150v_13_1">er</w>
+            <w xml:id="BRE_GEORG1508_150v_13_2">dich</w>
+            <w xml:id="BRE_GEORG1508_150v_13_3">off</w>
+            <w xml:id="BRE_GEORG1508_150v_13_4">ym</w>
+            <w xml:id="BRE_GEORG1508_150v_13_5">weinhauß</w>
+            <w xml:id="BRE_GEORG1508_150v_13_6">sucht</w>
+          </l>
+          <l n="13">
+            <w xml:id="BRE_GEORG1508_150v_14_0">Du</w>
+            <w xml:id="BRE_GEORG1508_150v_14_1">machst</w>
+            <w xml:id="BRE_GEORG1508_150v_14_2">das</w>
+            <w xml:id="BRE_GEORG1508_150v_14_3">weib</w>
+            <w xml:id="BRE_GEORG1508_150v_14_4">und</w>
+            <w xml:id="BRE_GEORG1508_150v_14_5">kinnpt</w>
+            <w xml:id="BRE_GEORG1508_150v_14_6">fast</w>
+            <w xml:id="BRE_GEORG1508_150v_14_7">brum<expan>m</expan>en</w>
+          </l>
+          <l n="14">
+            <w xml:id="BRE_GEORG1508_150v_15_0">Wen</w>
+            <w xml:id="BRE_GEORG1508_150v_15_1">er</w>
+            <w xml:id="BRE_GEORG1508_150v_15_2">nit</w>
+            <w xml:id="BRE_GEORG1508_150v_15_3">bezceit</w>
+            <w xml:id="BRE_GEORG1508_150v_15_4">wil</w>
+            <w xml:id="BRE_GEORG1508_150v_15_5">von</w>
+            <w xml:id="BRE_GEORG1508_150v_15_6">dir</w>
+            <w xml:id="BRE_GEORG1508_150v_15_7">khom<expan>m</expan>en</w>
+          </l>
+          <l n="15">
+            <w xml:id="BRE_GEORG1508_150v_16_0">Und</w>
+            <w xml:id="BRE_GEORG1508_150v_16_1">heym</w>
+            <w xml:id="BRE_GEORG1508_150v_16_2">wil</w>
+            <w xml:id="BRE_GEORG1508_150v_16_3">ghen</w>
+            <w xml:id="BRE_GEORG1508_150v_16_4">bey</w>
+            <w xml:id="BRE_GEORG1508_150v_16_5">mannes</w>
+            <w xml:id="BRE_GEORG1508_150v_16_6">scheyn</w>
+          </l>
+          <l n="16">
+            <w xml:id="BRE_GEORG1508_150v_17_0">Doch</w>
+            <w xml:id="BRE_GEORG1508_150v_17_1">ist</w>
+            <w xml:id="BRE_GEORG1508_150v_17_2">die</w>
+            <w xml:id="BRE_GEORG1508_150v_17_3">schuld</w>
+            <w xml:id="BRE_GEORG1508_150v_17_4">nit</w>
+            <w xml:id="BRE_GEORG1508_150v_17_5">eytels</w>
+            <w xml:id="BRE_GEORG1508_150v_17_6">deynn</w>
+          </l>
+          <pb n="151r"/>
+          <l n="17">
+            <w xml:id="BRE_GEORG1508_151r_1_0">Das</w>
+            <w xml:id="BRE_GEORG1508_151r_1_1">mancher</w>
+            <w xml:id="BRE_GEORG1508_151r_1_2">heym</w>
+            <w xml:id="BRE_GEORG1508_151r_1_3">hin</w>
+            <w xml:id="BRE_GEORG1508_151r_1_4">kompt</w>
+            <w xml:id="BRE_GEORG1508_151r_1_5">so</w>
+            <w xml:id="BRE_GEORG1508_151r_1_6">spet</w>
+          </l>
+          <l n="18">
+            <w xml:id="BRE_GEORG1508_151r_2_0">Der</w>
+            <w xml:id="BRE_GEORG1508_151r_2_1">wurffel</w>
+            <w xml:id="BRE_GEORG1508_151r_2_2">die</w>
+            <w xml:id="BRE_GEORG1508_151r_2_3">kartn</w>
+            <w xml:id="BRE_GEORG1508_151r_2_4">und</w>
+            <w xml:id="BRE_GEORG1508_151r_2_5">das</w>
+            <w xml:id="BRE_GEORG1508_151r_2_6">spilbreth</w>
+          </l>
+          <l n="19">
+            <w xml:id="BRE_GEORG1508_151r_3_0">Die</w>
+            <w xml:id="BRE_GEORG1508_151r_3_1">mache<expan>n</expan></w>
+            <w xml:id="BRE_GEORG1508_151r_3_2">das</w>
+            <w xml:id="BRE_GEORG1508_151r_3_3">mancher</w>
+            <w xml:id="BRE_GEORG1508_151r_3_4">zulang</w>
+            <w xml:id="BRE_GEORG1508_151r_3_5">oft</w>
+            <w xml:id="BRE_GEORG1508_151r_3_6">harret</w>
+          </l>
+          <l n="20">
+            <w xml:id="BRE_GEORG1508_151r_4_0">Darumb</w>
+            <w xml:id="BRE_GEORG1508_151r_4_1">yn</w>
+            <w xml:id="BRE_GEORG1508_151r_4_2">weib</w>
+            <w xml:id="BRE_GEORG1508_151r_4_3">und</w>
+            <w xml:id="BRE_GEORG1508_151r_4_4">kinth</w>
+            <w xml:id="BRE_GEORG1508_151r_4_5">anplerret</w>
+          </l>
+          <l n="21">
+            <w xml:id="BRE_GEORG1508_151r_5_0">Der</w>
+            <w xml:id="BRE_GEORG1508_151r_5_1">wil</w>
+            <w xml:id="BRE_GEORG1508_151r_5_2">ich</w>
+            <w xml:id="BRE_GEORG1508_151r_5_3">dir</w>
+            <w xml:id="BRE_GEORG1508_151r_5_4">alles</w>
+            <w xml:id="BRE_GEORG1508_151r_5_5">keins</w>
+            <w xml:id="BRE_GEORG1508_151r_5_6">zu</w>
+            <w xml:id="BRE_GEORG1508_151r_5_7">sagen</w>
+          </l>
+          <l n="22">
+            <w xml:id="BRE_GEORG1508_151r_6_0">Wan</w>
+            <w xml:id="BRE_GEORG1508_151r_6_1">du</w>
+            <w xml:id="BRE_GEORG1508_151r_6_2">mich</w>
+            <w xml:id="BRE_GEORG1508_151r_6_3">frolich</w>
+            <w xml:id="BRE_GEORG1508_151r_6_4">kanst</w>
+            <w xml:id="BRE_GEORG1508_151r_6_5">machen</w>
+          </l>
+          <l n="23">
+            <w xml:id="BRE_GEORG1508_151r_7_0">Mit</w>
+            <w xml:id="BRE_GEORG1508_151r_7_1">deyne<expan>m</expan></w>
+            <w xml:id="BRE_GEORG1508_151r_7_2">sussen</w>
+            <w xml:id="BRE_GEORG1508_151r_7_3">senfften</w>
+            <w xml:id="BRE_GEORG1508_151r_7_4">trab</w>
+          </l>
+          <l n="24">
+            <w xml:id="BRE_GEORG1508_151r_8_0">Darumb</w>
+            <w xml:id="BRE_GEORG1508_151r_8_1">ich</w>
+            <w xml:id="BRE_GEORG1508_151r_8_2">frundtschaft</w>
+            <w xml:id="BRE_GEORG1508_151r_8_3">zu</w>
+            <w xml:id="BRE_GEORG1508_151r_8_4">dir</w>
+            <w xml:id="BRE_GEORG1508_151r_8_5">hab</w>
+          </l>
+          <l n="25">
+            <w xml:id="BRE_GEORG1508_151r_9_0">Aus</w>
+            <w xml:id="BRE_GEORG1508_151r_9_1">ein</w>
+            <w xml:id="BRE_GEORG1508_151r_9_2">glas</w>
+            <w xml:id="BRE_GEORG1508_151r_9_3">wer</w>
+            <w xml:id="BRE_GEORG1508_151r_9_4">mir</w>
+            <w xml:id="BRE_GEORG1508_151r_9_5">dein</w>
+            <w xml:id="BRE_GEORG1508_151r_9_6">lieber</w>
+            <w xml:id="BRE_GEORG1508_151r_9_7">ein</w>
+            <w xml:id="BRE_GEORG1508_151r_9_8">tropff</w>
+          </l>
+          <l n="26">
+            <w xml:id="BRE_GEORG1508_151r_10_0">Den</w>
+            <w xml:id="BRE_GEORG1508_151r_10_1">ein</w>
+            <w xml:id="BRE_GEORG1508_151r_10_2">eymer</w>
+            <w xml:id="BRE_GEORG1508_151r_10_3">wassers</w>
+            <w xml:id="BRE_GEORG1508_151r_10_4">aus</w>
+            <w xml:id="BRE_GEORG1508_151r_10_5">eim</w>
+            <w xml:id="BRE_GEORG1508_151r_10_6">guld<expan>en</expan></w>
+            <w xml:id="BRE_GEORG1508_151r_10_7">kopff</w>
+          </l>
+        </div>
+        <!-- Text 2: Weinsegen Creftenreiche Labung (Hans Rosenplüt) (Hs. Georg. 150.8°, 151r-151v) -->
+        <div type="section" n="2">
+          <head>
+            <w xml:id="BRE_GEORG1508_151r_11_0"><hi rend="inkRed"><hi rend="bold">Segen</hi></hi></w>
+          </head>
+          <l n="1">
+            <hi rend="inkRed">
+              <w xml:id="BRE_GEORG1508_151r_12_0">Nun</w>
+              <w xml:id="BRE_GEORG1508_151r_12_1">gesege</w>
+              <w xml:id="BRE_GEORG1508_151r_12_2">dich</w>
+              <w xml:id="BRE_GEORG1508_151r_12_3">goth</w>
+              <w xml:id="BRE_GEORG1508_151r_12_4">du</w>
+              <w xml:id="BRE_GEORG1508_151r_12_5">krefftige</w>
+              <w xml:id="BRE_GEORG1508_151r_12_6">labung</w>
+            </hi>
+          </l>
+          <l n="2">
+            <w xml:id="BRE_GEORG1508_151r_13_0">Du</w>
+            <w xml:id="BRE_GEORG1508_151r_13_1">wol</w>
+            <w xml:id="BRE_GEORG1508_151r_13_2">gehenthde</w>
+            <w xml:id="BRE_GEORG1508_151r_13_3">senffte</w>
+            <w xml:id="BRE_GEORG1508_151r_13_4">trabung</w>
+          </l>
+          <l n="3">
+            <w xml:id="BRE_GEORG1508_151r_14_0">Du</w>
+            <w xml:id="BRE_GEORG1508_151r_14_1">susses</w>
+            <w xml:id="BRE_GEORG1508_151r_14_2">meyen</w>
+            <w xml:id="BRE_GEORG1508_151r_14_3">bath</w>
+            <w xml:id="BRE_GEORG1508_151r_14_4">meiner</w>
+            <w xml:id="BRE_GEORG1508_151r_14_5">zung<expan>en</expan></w>
+          </l>
+          <l n="4">
+            <w xml:id="BRE_GEORG1508_151r_15_0">Die</w>
+            <w xml:id="BRE_GEORG1508_151r_15_1">frischt</w>
+            <w xml:id="BRE_GEORG1508_151r_15_2">mir</w>
+            <w xml:id="BRE_GEORG1508_151r_15_3">die</w>
+            <w xml:id="BRE_GEORG1508_151r_15_4">leber</w>
+            <w xml:id="BRE_GEORG1508_151r_15_5">und</w>
+            <w xml:id="BRE_GEORG1508_151r_15_6">fleyß</w>
+            <w xml:id="BRE_GEORG1508_151r_15_7">mir</w>
+            <w xml:id="BRE_GEORG1508_151r_15_8">die</w>
+            <w xml:id="BRE_GEORG1508_151r_15_9"><hi rend="line-through">zung<expan>en</expan></hi></w>
+            <w xml:id="BRE_GEORG1508_151r_15_10"><add place="above">lung<expan>en</expan></add></w>
+          </l>
+          <l n="5">
+            <w xml:id="BRE_GEORG1508_151r_16_0">Als</w>
+            <w xml:id="BRE_GEORG1508_151r_16_1">wen</w>
+            <w xml:id="BRE_GEORG1508_151r_16_2">es</w>
+            <w xml:id="BRE_GEORG1508_151r_16_3">auf</w>
+            <w xml:id="BRE_GEORG1508_151r_16_4">durren</w>
+            <w xml:id="BRE_GEORG1508_151r_16_5">acker</w>
+            <w xml:id="BRE_GEORG1508_151r_16_6">dautt</w>
+          </l>
+          <l n="6">
+            <w xml:id="BRE_GEORG1508_151r_17_0">Wen</w>
+            <w xml:id="BRE_GEORG1508_151r_17_1">man</w>
+            <w xml:id="BRE_GEORG1508_151r_17_2">dich</w>
+            <w xml:id="BRE_GEORG1508_151r_17_3">yn</w>
+            <w xml:id="BRE_GEORG1508_151r_17_4">ein</w>
+            <w xml:id="BRE_GEORG1508_151r_17_5">geslein</w>
+            <w xml:id="BRE_GEORG1508_151r_17_6">schaut</w>
+          </l>
+          <pb n="151v"/>
+          <l n="7">
+            <w xml:id="BRE_GEORG1508_151v_1_0">So</w>
+            <w xml:id="BRE_GEORG1508_151v_1_1">kan</w>
+            <w xml:id="BRE_GEORG1508_151v_1_2">man</w>
+            <w xml:id="BRE_GEORG1508_151v_1_3">deins</w>
+            <w xml:id="BRE_GEORG1508_151v_1_4">herren</w>
+            <w xml:id="BRE_GEORG1508_151v_1_5">frumkeyt</w>
+            <w xml:id="BRE_GEORG1508_151v_1_6">scheczen</w>
+          </l>
+          <l n="8">
+            <w xml:id="BRE_GEORG1508_151v_2_0">Das</w>
+            <w xml:id="BRE_GEORG1508_151v_2_1">macht</w>
+            <w xml:id="BRE_GEORG1508_151v_2_2">dein</w>
+            <w xml:id="BRE_GEORG1508_151v_2_3">her</w>
+            <w xml:id="BRE_GEORG1508_151v_2_4">als</w>
+            <w xml:id="BRE_GEORG1508_151v_2_5">mit</w>
+            <w xml:id="BRE_GEORG1508_151v_2_6">seim</w>
+            <w xml:id="BRE_GEORG1508_151v_2_7">feczen</w>
+          </l>
+          <l n="9">
+            <w xml:id="BRE_GEORG1508_151v_3_0">Das</w>
+            <w xml:id="BRE_GEORG1508_151v_3_1">er</w>
+            <w xml:id="BRE_GEORG1508_151v_3_2">mit</w>
+            <w xml:id="BRE_GEORG1508_151v_3_3">dir</w>
+            <w xml:id="BRE_GEORG1508_151v_3_4">treibt</w>
+            <w xml:id="BRE_GEORG1508_151v_3_5">uber</w>
+            <w xml:id="BRE_GEORG1508_151v_3_6">jhar</w>
+          </l>
+          <l n="10">
+            <w xml:id="BRE_GEORG1508_151v_4_0">Mit</w>
+            <w xml:id="BRE_GEORG1508_151v_4_1">milch</w>
+            <w xml:id="BRE_GEORG1508_151v_4_2">und</w>
+            <w xml:id="BRE_GEORG1508_151v_4_3">auch</w>
+            <w xml:id="BRE_GEORG1508_151v_4_4">mit</w>
+            <w xml:id="BRE_GEORG1508_151v_4_5">eyer</w>
+            <w xml:id="BRE_GEORG1508_151v_4_6">clar</w>
+          </l>
+          <l n="11">
+            <w xml:id="BRE_GEORG1508_151v_5_0">Mit</w>
+            <w xml:id="BRE_GEORG1508_151v_5_1">stein</w>
+            <w xml:id="BRE_GEORG1508_151v_5_2">salcz</w>
+            <w xml:id="BRE_GEORG1508_151v_5_3">und</w>
+            <w xml:id="BRE_GEORG1508_151v_5_4">mit</w>
+            <w xml:id="BRE_GEORG1508_151v_5_5">schweynen</w>
+            <w xml:id="BRE_GEORG1508_151v_5_6">schwartn</w>
+          </l>
+          <l n="12">
+            <w xml:id="BRE_GEORG1508_151v_6_0">Damit</w>
+            <w xml:id="BRE_GEORG1508_151v_6_1">dein</w>
+            <w xml:id="BRE_GEORG1508_151v_6_2">der</w>
+            <w xml:id="BRE_GEORG1508_151v_6_3">keller</w>
+            <w xml:id="BRE_GEORG1508_151v_6_4">knecht</w>
+            <w xml:id="BRE_GEORG1508_151v_6_5">muß</w>
+            <w xml:id="BRE_GEORG1508_151v_6_6">wartn</w>
+          </l>
+          <l n="13">
+            <w xml:id="BRE_GEORG1508_151v_7_0">Mit</w>
+            <w xml:id="BRE_GEORG1508_151v_7_1">senf</w>
+            <w xml:id="BRE_GEORG1508_151v_7_2">mit</w>
+            <w xml:id="BRE_GEORG1508_151v_7_3">weidaschen</w>
+            <w xml:id="BRE_GEORG1508_151v_7_4">und</w>
+            <w xml:id="BRE_GEORG1508_151v_7_5">mit</w>
+            <w xml:id="BRE_GEORG1508_151v_7_6">tropfwurcz</w>
+          </l>
+          <l n="14">
+            <w xml:id="BRE_GEORG1508_151v_8_0">Davon</w>
+            <w xml:id="BRE_GEORG1508_151v_8_1">dein</w>
+            <w xml:id="BRE_GEORG1508_151v_8_2">adel</w>
+            <w xml:id="BRE_GEORG1508_151v_8_3">nympt</w>
+            <w xml:id="BRE_GEORG1508_151v_8_4">unther</w>
+            <w xml:id="BRE_GEORG1508_151v_8_5">sturcz</w>
+          </l>
+          <l n="15">
+            <w xml:id="BRE_GEORG1508_151v_9_0">Der</w>
+            <w xml:id="BRE_GEORG1508_151v_9_1">zol</w>
+            <w xml:id="BRE_GEORG1508_151v_9_2">der</w>
+            <w xml:id="BRE_GEORG1508_151v_9_3">hat</w>
+            <w xml:id="BRE_GEORG1508_151v_9_4">dich</w>
+            <w xml:id="BRE_GEORG1508_151v_9_5">ubel</w>
+            <w xml:id="BRE_GEORG1508_151v_9_6">malczen</w>
+          </l>
+          <l n="16">
+            <w xml:id="BRE_GEORG1508_151v_10_0">Szo</w>
+            <w xml:id="BRE_GEORG1508_151v_10_1">hat</w>
+            <w xml:id="BRE_GEORG1508_151v_10_2">dichs</w>
+            <w xml:id="BRE_GEORG1508_151v_10_3">ungelt</w>
+            <w xml:id="BRE_GEORG1508_151v_10_4">gar</w>
+            <w xml:id="BRE_GEORG1508_151v_10_5">versalczen</w>
+          </l>
+          <l n="17">
+            <w xml:id="BRE_GEORG1508_151v_11_0">Das</w>
+            <w xml:id="BRE_GEORG1508_151v_11_1">prüfen</w>
+            <w xml:id="BRE_GEORG1508_151v_11_2">die</w>
+            <w xml:id="BRE_GEORG1508_151v_11_3">armen</w>
+            <w xml:id="BRE_GEORG1508_151v_11_4">yn</w>
+            <w xml:id="BRE_GEORG1508_151v_11_5">der</w>
+            <w xml:id="BRE_GEORG1508_151v_11_6">taschen</w>
+          </l>
+          <l n="18">
+            <w xml:id="BRE_GEORG1508_151v_12_0">Wan</w>
+            <w xml:id="BRE_GEORG1508_151v_12_1">man</w>
+            <w xml:id="BRE_GEORG1508_151v_12_2">dir</w>
+            <w xml:id="BRE_GEORG1508_151v_12_3">dan</w>
+            <w xml:id="BRE_GEORG1508_151v_12_4">den</w>
+            <w xml:id="BRE_GEORG1508_151v_12_5">spunth</w>
+            <w xml:id="BRE_GEORG1508_151v_12_6">sol</w>
+            <w xml:id="BRE_GEORG1508_151v_12_7">wasch<expan>en</expan></w>
+          </l>
+          <l n="19">
+            <w xml:id="BRE_GEORG1508_151v_13_0">So</w>
+            <w xml:id="BRE_GEORG1508_151v_13_1">mussen</w>
+            <w xml:id="BRE_GEORG1508_151v_13_2">zweinzig</w>
+            <w xml:id="BRE_GEORG1508_151v_13_3">mas</w>
+            <w xml:id="BRE_GEORG1508_151v_13_4">wassers</w>
+            <w xml:id="BRE_GEORG1508_151v_13_5">zulauff<expan>en</expan></w>
+          </l>
+          <l n="20">
+            <w xml:id="BRE_GEORG1508_151v_14_0">Wer</w>
+            <w xml:id="BRE_GEORG1508_151v_14_1">das</w>
+            <w xml:id="BRE_GEORG1508_151v_14_2">fur</w>
+            <w xml:id="BRE_GEORG1508_151v_14_3">wein</w>
+            <w xml:id="BRE_GEORG1508_151v_14_4">den</w>
+            <w xml:id="BRE_GEORG1508_151v_14_5">will</w>
+            <w xml:id="BRE_GEORG1508_151v_14_6">verkauffen</w>
+          </l>
+          <l n="21">
+            <w xml:id="BRE_GEORG1508_151v_15_0">Der</w>
+            <w xml:id="BRE_GEORG1508_151v_15_1">wil</w>
+            <w xml:id="BRE_GEORG1508_151v_15_2">sein</w>
+            <w xml:id="BRE_GEORG1508_151v_15_3">nechsten</w>
+            <w xml:id="BRE_GEORG1508_151v_15_4">als</w>
+            <w xml:id="BRE_GEORG1508_151v_15_5">treulich</w>
+            <w xml:id="BRE_GEORG1508_151v_15_6">bezcalen</w>
+          </l>
+          <l n="22">
+            <w xml:id="BRE_GEORG1508_151v_16_0">Als</w>
+            <w xml:id="BRE_GEORG1508_151v_16_1">eyner</w>
+            <w xml:id="BRE_GEORG1508_151v_16_2">der</w>
+            <w xml:id="BRE_GEORG1508_151v_16_3">guth</w>
+            <w xml:id="BRE_GEORG1508_151v_16_4">mehl</w>
+            <w xml:id="BRE_GEORG1508_151v_16_5">aus</w>
+            <w xml:id="BRE_GEORG1508_151v_16_6">meuß</w>
+            <w xml:id="BRE_GEORG1508_151v_16_7">dreck</w>
+            <w xml:id="BRE_GEORG1508_151v_16_8">sol</w>
+            <w xml:id="BRE_GEORG1508_151v_16_9">maln</w>
+          </l>
+        </div>
+        <!-- Text 3: Weingruß Lieber Lantman (Hans Rosenplüt) (Hs. Georg. 150.8°, 152r-152v) -->
+        <div type="section" n="3">
+          <pb n="152r"/>
+          <head>
+            <hi rend="inkRed">
+              <hi rend="bold">
+                <w xml:id="BRE_GEORG1508_152r_1_0">Wein</w>
+                <w xml:id="BRE_GEORG1508_152r_1_1">gruß</w>
+              </hi>
+            </hi>
+          </head>
+          <l n="1">
+            <hi rend="inkRed">
+              <w xml:id="BRE_GEORG1508_152r_2_0">Nun</w>
+              <w xml:id="BRE_GEORG1508_152r_2_1">gruß</w>
+              <w xml:id="BRE_GEORG1508_152r_2_2">dich</w>
+              <w xml:id="BRE_GEORG1508_152r_2_3">goth</w>
+              <w xml:id="BRE_GEORG1508_152r_2_4">du</w>
+              <w xml:id="BRE_GEORG1508_152r_2_5">liber</w>
+              <w xml:id="BRE_GEORG1508_152r_2_6">lanczman</w>
+            </hi>
+          </l>
+          <l n="2">
+            <w xml:id="BRE_GEORG1508_152r_3_0">Kein</w>
+            <w xml:id="BRE_GEORG1508_152r_3_1">bessern</w>
+            <w xml:id="BRE_GEORG1508_152r_3_2">gesellen</w>
+            <w xml:id="BRE_GEORG1508_152r_3_3">ich</w>
+            <w xml:id="BRE_GEORG1508_152r_3_4">nye</w>
+            <w xml:id="BRE_GEORG1508_152r_3_5">gewan</w>
+          </l>
+          <l n="3">
+            <w xml:id="BRE_GEORG1508_152r_4_0">Und</w>
+            <w xml:id="BRE_GEORG1508_152r_4_1">den</w>
+            <w xml:id="BRE_GEORG1508_152r_4_2">ich</w>
+            <w xml:id="BRE_GEORG1508_152r_4_3">liber</w>
+            <w xml:id="BRE_GEORG1508_152r_4_4">bey</w>
+            <w xml:id="BRE_GEORG1508_152r_4_5">mir</w>
+            <w xml:id="BRE_GEORG1508_152r_4_6">wil</w>
+            <w xml:id="BRE_GEORG1508_152r_4_7">wissen</w>
+          </l>
+          <l n="4">
+            <w xml:id="BRE_GEORG1508_152r_5_0">Wen</w>
+            <w xml:id="BRE_GEORG1508_152r_5_1">ich</w>
+            <w xml:id="BRE_GEORG1508_152r_5_2">des</w>
+            <w xml:id="BRE_GEORG1508_152r_5_3">morgens</w>
+            <w xml:id="BRE_GEORG1508_152r_5_4">hab</w>
+            <w xml:id="BRE_GEORG1508_152r_5_5">angepissen</w>
+          </l>
+          <l n="5">
+            <w xml:id="BRE_GEORG1508_152r_6_0">Und</w>
+            <w xml:id="BRE_GEORG1508_152r_6_1">ich</w>
+            <w xml:id="BRE_GEORG1508_152r_6_2">dich</w>
+            <w xml:id="BRE_GEORG1508_152r_6_3">hab</w>
+            <w xml:id="BRE_GEORG1508_152r_6_4">yn</w>
+            <w xml:id="BRE_GEORG1508_152r_6_5">meine<expan>m</expan></w>
+            <w xml:id="BRE_GEORG1508_152r_6_6">trinck</w>
+            <w xml:id="BRE_GEORG1508_152r_6_7">vas</w>
+          </l>
+          <l n="6">
+            <w xml:id="BRE_GEORG1508_152r_7_0">So</w>
+            <w xml:id="BRE_GEORG1508_152r_7_1">dinstu</w>
+            <w xml:id="BRE_GEORG1508_152r_7_2">mir</w>
+            <w xml:id="BRE_GEORG1508_152r_7_3">zu</w>
+            <w xml:id="BRE_GEORG1508_152r_7_4">tisch</w>
+            <w xml:id="BRE_GEORG1508_152r_7_5">vil</w>
+            <w xml:id="BRE_GEORG1508_152r_7_6">paß</w>
+          </l>
+          <l n="7">
+            <w xml:id="BRE_GEORG1508_152r_8_0">Wan</w>
+            <w xml:id="BRE_GEORG1508_152r_8_1">all</w>
+            <w xml:id="BRE_GEORG1508_152r_8_2">dein</w>
+            <w xml:id="BRE_GEORG1508_152r_8_3">truchsessen</w>
+            <w xml:id="BRE_GEORG1508_152r_8_4">die</w>
+            <w xml:id="BRE_GEORG1508_152r_8_5">da</w>
+            <w xml:id="BRE_GEORG1508_152r_8_6">leben</w>
+          </l>
+          <l n="8">
+            <w xml:id="BRE_GEORG1508_152r_9_0">Goth</w>
+            <w xml:id="BRE_GEORG1508_152r_9_1">behut</w>
+            <w xml:id="BRE_GEORG1508_152r_9_2">den</w>
+            <w xml:id="BRE_GEORG1508_152r_9_3">stock</w>
+            <w xml:id="BRE_GEORG1508_152r_9_4">und</w>
+            <w xml:id="BRE_GEORG1508_152r_9_5">auch</w>
+            <w xml:id="BRE_GEORG1508_152r_9_6">die</w>
+            <w xml:id="BRE_GEORG1508_152r_9_7">rebn</w>
+          </l>
+          <l n="9">
+            <w xml:id="BRE_GEORG1508_152r_10_0">Daran</w>
+            <w xml:id="BRE_GEORG1508_152r_10_1">du</w>
+            <w xml:id="BRE_GEORG1508_152r_10_2">heuer</w>
+            <w xml:id="BRE_GEORG1508_152r_10_3">gewachssen</w>
+            <w xml:id="BRE_GEORG1508_152r_10_4">bist</w>
+          </l>
+          <l n="10">
+            <w xml:id="BRE_GEORG1508_152r_11_0">Goth</w>
+            <w xml:id="BRE_GEORG1508_152r_11_1">fug</w>
+            <w xml:id="BRE_GEORG1508_152r_11_2">den</w>
+            <w xml:id="BRE_GEORG1508_152r_11_3">stock</w>
+            <w xml:id="BRE_GEORG1508_152r_11_4">pfel</w>
+            <w xml:id="BRE_GEORG1508_152r_11_5">pfanth</w>
+            <w xml:id="BRE_GEORG1508_152r_11_6">und</w>
+            <w xml:id="BRE_GEORG1508_152r_11_7">mist</w>
+          </l>
+          <l n="11">
+            <w xml:id="BRE_GEORG1508_152r_12_0">Sonnen</w>
+            <w xml:id="BRE_GEORG1508_152r_12_1">und</w>
+            <w xml:id="BRE_GEORG1508_152r_12_2">regen</w>
+            <w xml:id="BRE_GEORG1508_152r_12_3">und</w>
+            <w xml:id="BRE_GEORG1508_152r_12_4">eynen</w>
+            <w xml:id="BRE_GEORG1508_152r_12_5">man</w>
+          </l>
+          <l n="12">
+            <w xml:id="BRE_GEORG1508_152r_13_0">Der</w>
+            <w xml:id="BRE_GEORG1508_152r_13_1">dich</w>
+            <w xml:id="BRE_GEORG1508_152r_13_2">wol</w>
+            <w xml:id="BRE_GEORG1508_152r_13_3">hacken</w>
+            <w xml:id="BRE_GEORG1508_152r_13_4">und</w>
+            <w xml:id="BRE_GEORG1508_152r_13_5">schneiden</w>
+            <w xml:id="BRE_GEORG1508_152r_13_6">kan</w>
+          </l>
+          <l n="13">
+            <w xml:id="BRE_GEORG1508_152r_14_0">Das</w>
+            <w xml:id="BRE_GEORG1508_152r_14_1">du</w>
+            <w xml:id="BRE_GEORG1508_152r_14_2">biß</w>
+            <w xml:id="BRE_GEORG1508_152r_14_3">jar</w>
+            <w xml:id="BRE_GEORG1508_152r_14_4">mugst</w>
+            <w xml:id="BRE_GEORG1508_152r_14_5">wider</w>
+            <w xml:id="BRE_GEORG1508_152r_14_6">geratt<expan>en</expan></w>
+          </l>
+          <l n="14">
+            <w xml:id="BRE_GEORG1508_152r_15_0">Die</w>
+            <w xml:id="BRE_GEORG1508_152r_15_1">grossen</w>
+            <w xml:id="BRE_GEORG1508_152r_15_2">weck</w>
+            <w xml:id="BRE_GEORG1508_152r_15_3">und</w>
+            <w xml:id="BRE_GEORG1508_152r_15_4">feyste</w>
+            <w xml:id="BRE_GEORG1508_152r_15_5">bratt<expan>en</expan></w>
+          </l>
+          <l n="15">
+            <w xml:id="BRE_GEORG1508_152r_16_0">Wen</w>
+            <w xml:id="BRE_GEORG1508_152r_16_1">ir</w>
+            <w xml:id="BRE_GEORG1508_152r_16_2">drey</w>
+            <w xml:id="BRE_GEORG1508_152r_16_3">bey</w>
+            <w xml:id="BRE_GEORG1508_152r_16_4">eynander</w>
+            <w xml:id="BRE_GEORG1508_152r_16_5">seytt</w>
+          </l>
+          <l n="16">
+            <w xml:id="BRE_GEORG1508_152r_17_0">So</w>
+            <w xml:id="BRE_GEORG1508_152r_17_1">lebt</w>
+            <w xml:id="BRE_GEORG1508_152r_17_2">man</w>
+            <w xml:id="BRE_GEORG1508_152r_17_3">frolich</w>
+            <w xml:id="BRE_GEORG1508_152r_17_4">zu</w>
+            <w xml:id="BRE_GEORG1508_152r_17_5">aller</w>
+            <w xml:id="BRE_GEORG1508_152r_17_6">zeith</w>
+          </l>
+          <pb n="152v"/>
+          <l n="17">
+            <w xml:id="BRE_GEORG1508_152v_1_0">Den</w>
+            <w xml:id="BRE_GEORG1508_152v_1_1">harpffen</w>
+            <w xml:id="BRE_GEORG1508_152v_1_2">und</w>
+            <w xml:id="BRE_GEORG1508_152v_1_3">geygen</w>
+            <w xml:id="BRE_GEORG1508_152v_1_4">tanczen</w>
+            <w xml:id="BRE_GEORG1508_152v_1_5">und</w>
+            <w xml:id="BRE_GEORG1508_152v_1_6">paden</w>
+          </l>
+          <l n="18">
+            <w xml:id="BRE_GEORG1508_152v_2_0">Darumb</w>
+            <w xml:id="BRE_GEORG1508_152v_2_1">wil</w>
+            <w xml:id="BRE_GEORG1508_152v_2_2">ich</w>
+            <w xml:id="BRE_GEORG1508_152v_2_3">dich</w>
+            <w xml:id="BRE_GEORG1508_152v_2_4">zu</w>
+            <w xml:id="BRE_GEORG1508_152v_2_5">gast</w>
+            <w xml:id="BRE_GEORG1508_152v_2_6">laden</w>
+          </l>
+          <l n="19">
+            <w xml:id="BRE_GEORG1508_152v_3_0">Spat</w>
+            <w xml:id="BRE_GEORG1508_152v_3_1">und</w>
+            <w xml:id="BRE_GEORG1508_152v_3_2">frue</w>
+            <w xml:id="BRE_GEORG1508_152v_3_3">wil</w>
+            <w xml:id="BRE_GEORG1508_152v_3_4">ich</w>
+            <w xml:id="BRE_GEORG1508_152v_3_5">dich</w>
+            <w xml:id="BRE_GEORG1508_152v_3_6">ein</w>
+            <w xml:id="BRE_GEORG1508_152v_3_7">lassen</w>
+          </l>
+          <l n="20">
+            <w xml:id="BRE_GEORG1508_152v_4_0">Und</w>
+            <w xml:id="BRE_GEORG1508_152v_4_1">wil</w>
+            <w xml:id="BRE_GEORG1508_152v_4_2">dich</w>
+            <w xml:id="BRE_GEORG1508_152v_4_3">nit</w>
+            <w xml:id="BRE_GEORG1508_152v_4_4">lang</w>
+            <w xml:id="BRE_GEORG1508_152v_4_5">fur</w>
+            <w xml:id="BRE_GEORG1508_152v_4_6">der</w>
+            <w xml:id="BRE_GEORG1508_152v_4_7">thur</w>
+            <w xml:id="BRE_GEORG1508_152v_4_8">lassen</w>
+          </l>
+        </div>
+        <!-- Text 4: Weingruß Süsser Himeltau (Hans Rosenplüt) (Hs. Georg. 150.8°, 152v-153r) -->
+        <div type="section" n="4">
+          <head>
+            <hi rend="inkRed">
+              <hi rend="bold">
+                <w xml:id="BRE_GEORG1508_152v_5_0">Wein</w>
+                <w xml:id="BRE_GEORG1508_152v_5_1">grußs</w>
+              </hi>
+            </hi>
+          </head>
+          <l n="1">
+            <hi rend="inkRed">
+              <w xml:id="BRE_GEORG1508_152v_6_0">Nun</w>
+              <w xml:id="BRE_GEORG1508_152v_6_1">grus</w>
+              <w xml:id="BRE_GEORG1508_152v_6_2">dich</w>
+              <w xml:id="BRE_GEORG1508_152v_6_3">goth</w>
+              <w xml:id="BRE_GEORG1508_152v_6_4">du</w>
+              <w xml:id="BRE_GEORG1508_152v_6_5">susser</w>
+              <w xml:id="BRE_GEORG1508_152v_6_6">hymeltau</w>
+            </hi>
+          </l>
+          <l n="2">
+            <w xml:id="BRE_GEORG1508_152v_7_0">Geh</w>
+            <w xml:id="BRE_GEORG1508_152v_7_1">her</w>
+            <w xml:id="BRE_GEORG1508_152v_7_2">und</w>
+            <w xml:id="BRE_GEORG1508_152v_7_3">feucht</w>
+            <w xml:id="BRE_GEORG1508_152v_7_4">mir</w>
+            <w xml:id="BRE_GEORG1508_152v_7_5">meins</w>
+            <w xml:id="BRE_GEORG1508_152v_7_6">herczen</w>
+            <w xml:id="BRE_GEORG1508_152v_7_7">au</w>
+          </l>
+          <l n="3">
+            <w xml:id="BRE_GEORG1508_152v_8_0">Mit</w>
+            <w xml:id="BRE_GEORG1508_152v_8_1">deinem</w>
+            <w xml:id="BRE_GEORG1508_152v_8_2">gesunt<expan>en</expan></w>
+            <w xml:id="BRE_GEORG1508_152v_8_3">heylsamen</w>
+            <w xml:id="BRE_GEORG1508_152v_8_4">risel</w>
+          </l>
+          <l n="4">
+            <w xml:id="BRE_GEORG1508_152v_9_0">Ich</w>
+            <w xml:id="BRE_GEORG1508_152v_9_1">leg</w>
+            <w xml:id="BRE_GEORG1508_152v_9_2">dir</w>
+            <w xml:id="BRE_GEORG1508_152v_9_3">dar</w>
+            <w xml:id="BRE_GEORG1508_152v_9_4">mein</w>
+            <w xml:id="BRE_GEORG1508_152v_9_5">schacz</w>
+            <w xml:id="BRE_GEORG1508_152v_9_6">mein</w>
+            <w xml:id="BRE_GEORG1508_152v_9_7">trisel</w>
+          </l>
+          <l n="5">
+            <w xml:id="BRE_GEORG1508_152v_10_0">Und</w>
+            <w xml:id="BRE_GEORG1508_152v_10_1">alles</w>
+            <w xml:id="BRE_GEORG1508_152v_10_2">das</w>
+            <w xml:id="BRE_GEORG1508_152v_10_3">mein</w>
+            <w xml:id="BRE_GEORG1508_152v_10_4">syn</w>
+            <w xml:id="BRE_GEORG1508_152v_10_5">erfleucht</w>
+          </l>
+          <l n="6">
+            <w xml:id="BRE_GEORG1508_152v_11_0">Du</w>
+            <w xml:id="BRE_GEORG1508_152v_11_1">machst</w>
+            <w xml:id="BRE_GEORG1508_152v_11_2">das</w>
+            <w xml:id="BRE_GEORG1508_152v_11_3">mancher</w>
+            <w xml:id="BRE_GEORG1508_152v_11_4">gemelich</w>
+            <w xml:id="BRE_GEORG1508_152v_11_5">reucht</w>
+          </l>
+          <l n="7">
+            <w xml:id="BRE_GEORG1508_152v_12_0">Doch</w>
+            <w xml:id="BRE_GEORG1508_152v_12_1">ee</w>
+            <w xml:id="BRE_GEORG1508_152v_12_2">er</w>
+            <w xml:id="BRE_GEORG1508_152v_12_3">dein</w>
+            <w xml:id="BRE_GEORG1508_152v_12_4">wolt</w>
+            <w xml:id="BRE_GEORG1508_152v_12_5">lang</w>
+            <w xml:id="BRE_GEORG1508_152v_12_6">entpern</w>
+          </l>
+          <l n="8">
+            <w xml:id="BRE_GEORG1508_152v_13_0">Ee</w>
+            <w xml:id="BRE_GEORG1508_152v_13_1">wurder</w>
+            <w xml:id="BRE_GEORG1508_152v_13_2">schreyn</w>
+            <w xml:id="BRE_GEORG1508_152v_13_3">und</w>
+            <w xml:id="BRE_GEORG1508_152v_13_4">truchen</w>
+            <w xml:id="BRE_GEORG1508_152v_13_5">leren</w>
+          </l>
+          <l n="9">
+            <w xml:id="BRE_GEORG1508_152v_14_0">Sein</w>
+            <w xml:id="BRE_GEORG1508_152v_14_1">lieb</w>
+            <w xml:id="BRE_GEORG1508_152v_14_2">die</w>
+            <w xml:id="BRE_GEORG1508_152v_14_3">helt</w>
+            <w xml:id="BRE_GEORG1508_152v_14_4">er</w>
+            <w xml:id="BRE_GEORG1508_152v_14_5">an</w>
+            <w xml:id="BRE_GEORG1508_152v_14_6">die</w>
+            <w xml:id="BRE_GEORG1508_152v_14_7">stett</w>
+          </l>
+          <l n="10">
+            <w xml:id="BRE_GEORG1508_152v_15_0">Das</w>
+            <w xml:id="BRE_GEORG1508_152v_15_1">er</w>
+            <w xml:id="BRE_GEORG1508_152v_15_2">macht</w>
+            <w xml:id="BRE_GEORG1508_152v_15_3">ler</w>
+            <w xml:id="BRE_GEORG1508_152v_15_4">sein</w>
+            <w xml:id="BRE_GEORG1508_152v_15_5">kandel</w>
+            <w xml:id="BRE_GEORG1508_152v_15_6">breth</w>
+          </l>
+          <l n="11">
+            <w xml:id="BRE_GEORG1508_152v_16_0">Ich</w>
+            <w xml:id="BRE_GEORG1508_152v_16_1">secz</w>
+            <w xml:id="BRE_GEORG1508_152v_16_2">yn</w>
+            <w xml:id="BRE_GEORG1508_152v_16_3">dich</w>
+            <w xml:id="BRE_GEORG1508_152v_16_4">mein</w>
+            <w xml:id="BRE_GEORG1508_152v_16_5">hoffen</w>
+            <w xml:id="BRE_GEORG1508_152v_16_6">und</w>
+            <w xml:id="BRE_GEORG1508_152v_16_7">trauen</w>
+          </l>
+          <l n="12">
+            <w xml:id="BRE_GEORG1508_152v_17_0">Und</w>
+            <w xml:id="BRE_GEORG1508_152v_17_1">solt</w>
+            <w xml:id="BRE_GEORG1508_152v_17_2">ich</w>
+            <w xml:id="BRE_GEORG1508_152v_17_3">nym<expan>m</expan>er</w>
+            <w xml:id="BRE_GEORG1508_152v_17_4">kein</w>
+            <w xml:id="BRE_GEORG1508_152v_17_5">haus</w>
+            <w xml:id="BRE_GEORG1508_152v_17_6">pauen</w>
+          </l>
+          <pb n="153r"/>
+          <l n="13">
+            <w xml:id="BRE_GEORG1508_153r_1_0">Doch</w>
+            <w xml:id="BRE_GEORG1508_153r_1_1">wil</w>
+            <w xml:id="BRE_GEORG1508_153r_1_2">ich</w>
+            <w xml:id="BRE_GEORG1508_153r_1_3">mich</w>
+            <w xml:id="BRE_GEORG1508_153r_1_4">nit</w>
+            <w xml:id="BRE_GEORG1508_153r_1_5">von</w>
+            <w xml:id="BRE_GEORG1508_153r_1_6">dir</w>
+            <w xml:id="BRE_GEORG1508_153r_1_7">scheyden</w>
+          </l>
+          <l n="14">
+            <w xml:id="BRE_GEORG1508_153r_2_0">Auch</w>
+            <w xml:id="BRE_GEORG1508_153r_2_1">kan</w>
+            <w xml:id="BRE_GEORG1508_153r_2_2">dich</w>
+            <w xml:id="BRE_GEORG1508_153r_2_3">nymancz</w>
+            <w xml:id="BRE_GEORG1508_153r_2_4">mit</w>
+            <w xml:id="BRE_GEORG1508_153r_2_5">dir</w>
+            <w xml:id="BRE_GEORG1508_153r_2_6">leyden</w>
+          </l>
+          <l n="15">
+            <w xml:id="BRE_GEORG1508_153r_3_0">Wan</w>
+            <w xml:id="BRE_GEORG1508_153r_3_1">ich</w>
+            <w xml:id="BRE_GEORG1508_153r_3_2">gar</w>
+            <w xml:id="BRE_GEORG1508_153r_3_3">ein</w>
+            <w xml:id="BRE_GEORG1508_153r_3_4">cleyne</w>
+            <w xml:id="BRE_GEORG1508_153r_3_5">feindtschaft</w>
+            <w xml:id="BRE_GEORG1508_153r_3_6">zu</w>
+            <w xml:id="BRE_GEORG1508_153r_3_7">dir</w>
+            <w xml:id="BRE_GEORG1508_153r_3_8">hab</w>
+          </l>
+          <l n="16">
+            <w xml:id="BRE_GEORG1508_153r_4_0">Nun</w>
+            <w xml:id="BRE_GEORG1508_153r_4_1">fleuß</w>
+            <w xml:id="BRE_GEORG1508_153r_4_2">mir</w>
+            <w xml:id="BRE_GEORG1508_153r_4_3">her</w>
+            <w xml:id="BRE_GEORG1508_153r_4_4">yn</w>
+            <w xml:id="BRE_GEORG1508_153r_4_5">meinen</w>
+            <w xml:id="BRE_GEORG1508_153r_4_6">kragen</w>
+          </l>
+        </div>
+        <!-- Text 5: Weinsegen Edles Abkülen (Hans Rosenplüt) (Hs. Georg. 150.8°, 153r-153v) -->
+        <div type="section" n="5">
+          <head>
+            <hi rend="inkRed">
+              <hi rend="bold">
+                <w xml:id="BRE_GEORG1508_153r_5_0">Wein</w>
+                <w xml:id="BRE_GEORG1508_153r_5_1">segen</w>
+              </hi>
+            </hi>
+          </head>
+          <l n="1">
+            <hi rend="inkRed">
+              <w xml:id="BRE_GEORG1508_153r_6_0">Nun</w>
+              <w xml:id="BRE_GEORG1508_153r_6_1">gesegen</w>
+              <w xml:id="BRE_GEORG1508_153r_6_2">dich</w>
+              <w xml:id="BRE_GEORG1508_153r_6_3">goth</w>
+              <w xml:id="BRE_GEORG1508_153r_6_4">du</w>
+              <w xml:id="BRE_GEORG1508_153r_6_5">edles</w>
+              <w xml:id="BRE_GEORG1508_153r_6_6">abkulen</w>
+            </hi>
+          </l>
+          <l n="2">
+            <w xml:id="BRE_GEORG1508_153r_7_0">Die</w>
+            <w xml:id="BRE_GEORG1508_153r_7_1">meister</w>
+            <w xml:id="BRE_GEORG1508_153r_7_2">auf</w>
+            <w xml:id="BRE_GEORG1508_153r_7_3">den</w>
+            <w xml:id="BRE_GEORG1508_153r_7_4">hohen</w>
+            <w xml:id="BRE_GEORG1508_153r_7_5">stulen</w>
+          </l>
+          <l n="3">
+            <w xml:id="BRE_GEORG1508_153r_8_0">Die</w>
+            <w xml:id="BRE_GEORG1508_153r_8_1">haben</w>
+            <w xml:id="BRE_GEORG1508_153r_8_2">dich</w>
+            <w xml:id="BRE_GEORG1508_153r_8_3">fur</w>
+            <w xml:id="BRE_GEORG1508_153r_8_4">ein</w>
+            <w xml:id="BRE_GEORG1508_153r_8_5">gesunthe</w>
+            <w xml:id="BRE_GEORG1508_153r_8_6">erczney</w>
+          </l>
+          <l n="4">
+            <w xml:id="BRE_GEORG1508_153r_9_0">Und</w>
+            <w xml:id="BRE_GEORG1508_153r_9_1">mein</w>
+            <w xml:id="BRE_GEORG1508_153r_9_2">auch</w>
+            <w xml:id="BRE_GEORG1508_153r_9_3">aller</w>
+            <w xml:id="BRE_GEORG1508_153r_9_4">pauern</w>
+            <w xml:id="BRE_GEORG1508_153r_9_5">kyrwey</w>
+          </l>
+          <l n="5">
+            <w xml:id="BRE_GEORG1508_153r_10_0">Sein</w>
+            <w xml:id="BRE_GEORG1508_153r_10_1">gancz</w>
+            <w xml:id="BRE_GEORG1508_153r_10_2">vernicht</w>
+            <w xml:id="BRE_GEORG1508_153r_10_3">wan</w>
+            <w xml:id="BRE_GEORG1508_153r_10_4">du</w>
+            <w xml:id="BRE_GEORG1508_153r_10_5">nit</w>
+            <w xml:id="BRE_GEORG1508_153r_10_6">da</w>
+            <w xml:id="BRE_GEORG1508_153r_10_7">werst</w>
+          </l>
+          <l n="6">
+            <w xml:id="BRE_GEORG1508_153r_11_0">Wiewol</w>
+            <w xml:id="BRE_GEORG1508_153r_11_1">du</w>
+            <w xml:id="BRE_GEORG1508_153r_11_2">yn</w>
+            <w xml:id="BRE_GEORG1508_153r_11_3">die</w>
+            <w xml:id="BRE_GEORG1508_153r_11_4">peutel</w>
+            <w xml:id="BRE_GEORG1508_153r_11_5">lerrst</w>
+          </l>
+          <l n="7">
+            <w xml:id="BRE_GEORG1508_153r_12_0">Und</w>
+            <w xml:id="BRE_GEORG1508_153r_12_1">magst</w>
+            <w xml:id="BRE_GEORG1508_153r_12_2">auch</w>
+            <w xml:id="BRE_GEORG1508_153r_12_3">das</w>
+            <w xml:id="BRE_GEORG1508_153r_12_4">sie</w>
+            <w xml:id="BRE_GEORG1508_153r_12_5">lernen</w>
+            <w xml:id="BRE_GEORG1508_153r_12_6">schirmen</w>
+          </l>
+          <l n="8">
+            <w xml:id="BRE_GEORG1508_153r_13_0">Und</w>
+            <w xml:id="BRE_GEORG1508_153r_13_1">selber</w>
+            <w xml:id="BRE_GEORG1508_153r_13_2">aneynnander</w>
+            <w xml:id="BRE_GEORG1508_153r_13_3">firmen</w>
+          </l>
+          <l n="9">
+            <w xml:id="BRE_GEORG1508_153r_14_0">Und</w>
+            <w xml:id="BRE_GEORG1508_153r_14_1">auch</w>
+            <w xml:id="BRE_GEORG1508_153r_14_2">ir</w>
+            <w xml:id="BRE_GEORG1508_153r_14_3">harr</w>
+            <w xml:id="BRE_GEORG1508_153r_14_4">mit</w>
+            <w xml:id="BRE_GEORG1508_153r_14_5">bencken</w>
+            <w xml:id="BRE_GEORG1508_153r_14_6">strelen</w>
+          </l>
+          <l n="10">
+            <w xml:id="BRE_GEORG1508_153r_15_0">Wan</w>
+            <w xml:id="BRE_GEORG1508_153r_15_1">sie</w>
+            <w xml:id="BRE_GEORG1508_153r_15_2">dir</w>
+            <w xml:id="BRE_GEORG1508_153r_15_3">grossen</w>
+            <w xml:id="BRE_GEORG1508_153r_15_4">trunck</w>
+            <w xml:id="BRE_GEORG1508_153r_15_5">nit</w>
+            <w xml:id="BRE_GEORG1508_153r_15_6">feylen</w>
+          </l>
+          <l n="11">
+            <w xml:id="BRE_GEORG1508_153r_16_0">Wan</w>
+            <w xml:id="BRE_GEORG1508_153r_16_1">man</w>
+            <w xml:id="BRE_GEORG1508_153r_16_2">finth</w>
+            <w xml:id="BRE_GEORG1508_153r_16_3">gar</w>
+            <w xml:id="BRE_GEORG1508_153r_16_4">manchen</w>
+            <w xml:id="BRE_GEORG1508_153r_16_5">groben</w>
+            <w xml:id="BRE_GEORG1508_153r_16_6">dorffman</w>
+          </l>
+          <l n="12">
+            <w xml:id="BRE_GEORG1508_153r_17_0">Der</w>
+            <w xml:id="BRE_GEORG1508_153r_17_1">dich</w>
+            <w xml:id="BRE_GEORG1508_153r_17_2">nit</w>
+            <w xml:id="BRE_GEORG1508_153r_17_3">hubschlich</w>
+            <w xml:id="BRE_GEORG1508_153r_17_4">trincken</w>
+            <w xml:id="BRE_GEORG1508_153r_17_5">khan</w>
+          </l>
+          <l n="13">
+            <w xml:id="BRE_GEORG1508_153r_18_0">Wer</w>
+            <w xml:id="BRE_GEORG1508_153r_18_1">fur</w>
+            <w xml:id="BRE_GEORG1508_153r_18_2">dich</w>
+            <w xml:id="BRE_GEORG1508_153r_18_3">pith</w>
+            <w xml:id="BRE_GEORG1508_153r_18_4">an</w>
+            <w xml:id="BRE_GEORG1508_153r_18_5">perg</w>
+            <w xml:id="BRE_GEORG1508_153r_18_6">und</w>
+            <w xml:id="BRE_GEORG1508_153r_18_7">an</w>
+            <w xml:id="BRE_GEORG1508_153r_18_8">leytten</w>
+          </l>
+          <pb n="153v"/>
+          <l n="14">
+            <w xml:id="BRE_GEORG1508_153v_1_0">Die</w>
+            <w xml:id="BRE_GEORG1508_153v_1_1">wol</w>
+            <w xml:id="BRE_GEORG1508_153v_1_2">goth</w>
+            <w xml:id="BRE_GEORG1508_153v_1_3">eren</w>
+            <w xml:id="BRE_GEORG1508_153v_1_4">zu</w>
+            <w xml:id="BRE_GEORG1508_153v_1_5">allen</w>
+            <w xml:id="BRE_GEORG1508_153v_1_6">zeitten</w>
+          </l>
+          <l n="15">
+            <w xml:id="BRE_GEORG1508_153v_2_0">Mit</w>
+            <w xml:id="BRE_GEORG1508_153v_2_1">hoffnu<expan>n</expan>g</w>
+            <w xml:id="BRE_GEORG1508_153v_2_2">und</w>
+            <w xml:id="BRE_GEORG1508_153v_2_3">mit</w>
+            <w xml:id="BRE_GEORG1508_153v_2_4">gnaden</w>
+            <w xml:id="BRE_GEORG1508_153v_2_5">laben</w>
+          </l>
+          <l n="16">
+            <w xml:id="BRE_GEORG1508_153v_3_0">Und</w>
+            <w xml:id="BRE_GEORG1508_153v_3_1">all</w>
+            <w xml:id="BRE_GEORG1508_153v_3_2">die</w>
+            <w xml:id="BRE_GEORG1508_153v_3_3">dich</w>
+            <w xml:id="BRE_GEORG1508_153v_3_4">geren</w>
+            <w xml:id="BRE_GEORG1508_153v_3_5">getruncken</w>
+            <w xml:id="BRE_GEORG1508_153v_3_6">haben</w>
+          </l>
+          <l n="17">
+            <w xml:id="BRE_GEORG1508_153v_4_0">Das</w>
+            <w xml:id="BRE_GEORG1508_153v_4_1">sie</w>
+            <w xml:id="BRE_GEORG1508_153v_4_2">durch</w>
+            <w xml:id="BRE_GEORG1508_153v_4_3">dein</w>
+            <w xml:id="BRE_GEORG1508_153v_4_4">wallen</w>
+            <w xml:id="BRE_GEORG1508_153v_4_5">under</w>
+            <w xml:id="BRE_GEORG1508_153v_4_6">sturcz</w>
+            <w xml:id="BRE_GEORG1508_153v_4_7">name<expan>n</expan></w>
+          </l>
+          <l n="18">
+            <w xml:id="BRE_GEORG1508_153v_5_0">Wer</w>
+            <w xml:id="BRE_GEORG1508_153v_5_1">dich</w>
+            <w xml:id="BRE_GEORG1508_153v_5_2">gerrn</w>
+            <w xml:id="BRE_GEORG1508_153v_5_3">trinck</w>
+            <w xml:id="BRE_GEORG1508_153v_5_4">der</w>
+            <w xml:id="BRE_GEORG1508_153v_5_5">sprech</w>
+            <w xml:id="BRE_GEORG1508_153v_5_6">amen</w>
+          </l>
+        </div>
+        <!-- Text 6: Weingruß Gesunte Ercznei (Hans Rosenplüt) (Hs. Georg. 150.8°, 153v-154r) -->
+        <div type="section" n="6">
+          <head>
+            <hi rend="inkRed">
+              <hi rend="bold">
+                <w xml:id="BRE_GEORG1508_153v_6_0">Wein</w>
+                <w xml:id="BRE_GEORG1508_153v_6_1">grußs</w>
+              </hi>
+            </hi>
+          </head>
+          <l n="1">
+            <hi rend="inkRed">
+              <w xml:id="BRE_GEORG1508_153v_7_0">Nun</w>
+              <w xml:id="BRE_GEORG1508_153v_7_1">grus</w>
+              <w xml:id="BRE_GEORG1508_153v_7_2">dich</w>
+              <w xml:id="BRE_GEORG1508_153v_7_3">goth</w>
+              <w xml:id="BRE_GEORG1508_153v_7_4">du</w>
+              <w xml:id="BRE_GEORG1508_153v_7_5">gesunde</w>
+              <w xml:id="BRE_GEORG1508_153v_7_6">erczney</w>
+            </hi>
+          </l>
+          <l n="2">
+            <w xml:id="BRE_GEORG1508_153v_8_0">Wo</w>
+            <w xml:id="BRE_GEORG1508_153v_8_1">du</w>
+            <w xml:id="BRE_GEORG1508_153v_8_2">rast</w>
+            <w xml:id="BRE_GEORG1508_153v_8_3">do</w>
+            <w xml:id="BRE_GEORG1508_153v_8_4">ist</w>
+            <w xml:id="BRE_GEORG1508_153v_8_5">gros</w>
+            <w xml:id="BRE_GEORG1508_153v_8_6">kirchwey</w>
+          </l>
+          <l n="3">
+            <w xml:id="BRE_GEORG1508_153v_9_0">Gnad</w>
+            <w xml:id="BRE_GEORG1508_153v_9_1">und</w>
+            <w xml:id="BRE_GEORG1508_153v_9_2">ablas</w>
+            <w xml:id="BRE_GEORG1508_153v_9_3">gelertn</w>
+            <w xml:id="BRE_GEORG1508_153v_9_4">und</w>
+            <w xml:id="BRE_GEORG1508_153v_9_5">leutn</w>
+          </l>
+          <l n="4">
+            <w xml:id="BRE_GEORG1508_153v_10_0">Zu</w>
+            <w xml:id="BRE_GEORG1508_153v_10_1">dir</w>
+            <w xml:id="BRE_GEORG1508_153v_10_2">wil</w>
+            <w xml:id="BRE_GEORG1508_153v_10_3">ich</w>
+            <w xml:id="BRE_GEORG1508_153v_10_4">walln</w>
+            <w xml:id="BRE_GEORG1508_153v_10_5">und</w>
+            <w xml:id="BRE_GEORG1508_153v_10_6">reyttn</w>
+          </l>
+          <l n="5">
+            <w xml:id="BRE_GEORG1508_153v_11_0">Und</w>
+            <w xml:id="BRE_GEORG1508_153v_11_1">grossen</w>
+            <w xml:id="BRE_GEORG1508_153v_11_2">glauben</w>
+            <w xml:id="BRE_GEORG1508_153v_11_3">an</w>
+            <w xml:id="BRE_GEORG1508_153v_11_4">dich</w>
+            <w xml:id="BRE_GEORG1508_153v_11_5">haben</w>
+          </l>
+          <l n="6">
+            <w xml:id="BRE_GEORG1508_153v_12_0">Dein</w>
+            <w xml:id="BRE_GEORG1508_153v_12_1">werck</w>
+            <w xml:id="BRE_GEORG1508_153v_12_2">krafft</w>
+            <w xml:id="BRE_GEORG1508_153v_12_3">thut</w>
+            <w xml:id="BRE_GEORG1508_153v_12_4">manchen</w>
+            <w xml:id="BRE_GEORG1508_153v_12_5">laben</w>
+          </l>
+          <l n="7">
+            <w xml:id="BRE_GEORG1508_153v_13_0">Wan</w>
+            <w xml:id="BRE_GEORG1508_153v_13_1">alle</w>
+            <w xml:id="BRE_GEORG1508_153v_13_2">siropel</w>
+            <w xml:id="BRE_GEORG1508_153v_13_3">unnd</w>
+            <w xml:id="BRE_GEORG1508_153v_13_4">recept</w>
+          </l>
+          <l n="8">
+            <w xml:id="BRE_GEORG1508_153v_14_0">Damit</w>
+            <w xml:id="BRE_GEORG1508_153v_14_1">man</w>
+            <w xml:id="BRE_GEORG1508_153v_14_2">kranck</w>
+            <w xml:id="BRE_GEORG1508_153v_14_3">leuth</w>
+            <w xml:id="BRE_GEORG1508_153v_14_4">flickt</w>
+            <w xml:id="BRE_GEORG1508_153v_14_5">und</w>
+            <w xml:id="BRE_GEORG1508_153v_14_6">stept</w>
+          </l>
+          <l n="9">
+            <w xml:id="BRE_GEORG1508_153v_15_0">Du</w>
+            <w xml:id="BRE_GEORG1508_153v_15_1">wescht</w>
+            <w xml:id="BRE_GEORG1508_153v_15_2">mir</w>
+            <w xml:id="BRE_GEORG1508_153v_15_3">zcen</w>
+            <w xml:id="BRE_GEORG1508_153v_15_4">und</w>
+            <w xml:id="BRE_GEORG1508_153v_15_5">badst</w>
+            <w xml:id="BRE_GEORG1508_153v_15_6">die</w>
+            <w xml:id="BRE_GEORG1508_153v_15_7">zcung<expan>en</expan></w>
+          </l>
+          <l n="10">
+            <w xml:id="BRE_GEORG1508_153v_16_0">Und</w>
+            <w xml:id="BRE_GEORG1508_153v_16_1">frischt</w>
+            <w xml:id="BRE_GEORG1508_153v_16_2">mein</w>
+            <w xml:id="BRE_GEORG1508_153v_16_3">lebern</w>
+            <w xml:id="BRE_GEORG1508_153v_16_4">und</w>
+            <w xml:id="BRE_GEORG1508_153v_16_5">feuchst</w>
+            <w xml:id="BRE_GEORG1508_153v_16_6">die</w>
+            <w xml:id="BRE_GEORG1508_153v_16_7">lung<expan>en</expan></w>
+          </l>
+          <l n="11">
+            <w xml:id="BRE_GEORG1508_153v_17_0">Und</w>
+            <w xml:id="BRE_GEORG1508_153v_17_1">labst</w>
+            <w xml:id="BRE_GEORG1508_153v_17_2">mirs</w>
+            <w xml:id="BRE_GEORG1508_153v_17_3">hercz</w>
+            <w xml:id="BRE_GEORG1508_153v_17_4">und</w>
+            <w xml:id="BRE_GEORG1508_153v_17_5">fulst</w>
+            <w xml:id="BRE_GEORG1508_153v_17_6">die</w>
+            <w xml:id="BRE_GEORG1508_153v_17_7">blasen</w>
+          </l>
+          <l n="12">
+            <w xml:id="BRE_GEORG1508_153v_18_0">Nymant</w>
+            <w xml:id="BRE_GEORG1508_153v_18_1">dein</w>
+            <w xml:id="BRE_GEORG1508_153v_18_2">krafft</w>
+            <w xml:id="BRE_GEORG1508_153v_18_3">kan</w>
+            <w xml:id="BRE_GEORG1508_153v_18_4">aus</w>
+            <w xml:id="BRE_GEORG1508_153v_18_5">gekoßen</w>
+          </l>
+          <pb n="154r"/>
+          <l n="13">
+            <w xml:id="BRE_GEORG1508_154r_1_0">Du</w>
+            <w xml:id="BRE_GEORG1508_154r_1_1">leynst</w>
+            <w xml:id="BRE_GEORG1508_154r_1_2">die</w>
+            <w xml:id="BRE_GEORG1508_154r_1_3">sterck</w>
+            <w xml:id="BRE_GEORG1508_154r_1_4">und</w>
+            <w xml:id="BRE_GEORG1508_154r_1_5">felst</w>
+            <w xml:id="BRE_GEORG1508_154r_1_6">die</w>
+            <w xml:id="BRE_GEORG1508_154r_1_7">schnelln</w>
+          </l>
+          <l n="14">
+            <w xml:id="BRE_GEORG1508_154r_2_0">Und</w>
+            <w xml:id="BRE_GEORG1508_154r_2_1">lerst</w>
+            <w xml:id="BRE_GEORG1508_154r_2_2">ein</w>
+            <w xml:id="BRE_GEORG1508_154r_2_3">sprach</w>
+            <w xml:id="BRE_GEORG1508_154r_2_4">heyst</w>
+            <w xml:id="BRE_GEORG1508_154r_2_5">man</w>
+            <w xml:id="BRE_GEORG1508_154r_2_6">die</w>
+            <w xml:id="BRE_GEORG1508_154r_2_7">lelln</w>
+          </l>
+          <l n="15">
+            <w xml:id="BRE_GEORG1508_154r_3_0">Und</w>
+            <w xml:id="BRE_GEORG1508_154r_3_1">machst</w>
+            <w xml:id="BRE_GEORG1508_154r_3_2">die</w>
+            <w xml:id="BRE_GEORG1508_154r_3_3">weysen</w>
+            <w xml:id="BRE_GEORG1508_154r_3_4">zu</w>
+            <w xml:id="BRE_GEORG1508_154r_3_5">fantast<expan>en</expan></w>
+          </l>
+          <l n="16">
+            <w xml:id="BRE_GEORG1508_154r_4_0">Noch</w>
+            <w xml:id="BRE_GEORG1508_154r_4_1">wil</w>
+            <w xml:id="BRE_GEORG1508_154r_4_2">ich</w>
+            <w xml:id="BRE_GEORG1508_154r_4_3">weder</w>
+            <w xml:id="BRE_GEORG1508_154r_4_4">ruhen</w>
+            <w xml:id="BRE_GEORG1508_154r_4_5">noch</w>
+            <w xml:id="BRE_GEORG1508_154r_4_6">rasten</w>
+          </l>
+          <l n="17">
+            <w xml:id="BRE_GEORG1508_154r_5_0">Ich</w>
+            <w xml:id="BRE_GEORG1508_154r_5_1">wil</w>
+            <w xml:id="BRE_GEORG1508_154r_5_2">dir</w>
+            <w xml:id="BRE_GEORG1508_154r_5_3">thur</w>
+            <w xml:id="BRE_GEORG1508_154r_5_4">und</w>
+            <w xml:id="BRE_GEORG1508_154r_5_5">thor</w>
+            <w xml:id="BRE_GEORG1508_154r_5_6">auf</w>
+            <w xml:id="BRE_GEORG1508_154r_5_7">schlissen</w>
+          </l>
+          <l n="18">
+            <w xml:id="BRE_GEORG1508_154r_6_0">Und</w>
+            <w xml:id="BRE_GEORG1508_154r_6_1">herrein</w>
+            <w xml:id="BRE_GEORG1508_154r_6_2">yn</w>
+            <w xml:id="BRE_GEORG1508_154r_6_3">mein</w>
+            <w xml:id="BRE_GEORG1508_154r_6_4">essigk</w>
+            <w xml:id="BRE_GEORG1508_154r_6_5">vas</w>
+            <w xml:id="BRE_GEORG1508_154r_6_6">gyssen</w>
+          </l>
+        </div>
+        <!-- Text 7: Weinsegen Liber Heylant (Hans Rosenplüt) (Hs. Georg. 150.8°, 154r154v) -->
+        <div type="section" n="7">
+          <head>
+            <w xml:id="BRE_GEORG1508_154r_7_0"><hi rend="inkRed"><hi rend="bold">Segen</hi></hi></w>
+          </head>
+          <l n="1">
+            <w xml:id="BRE_GEORG1508_154r_8_0">Nun</w>
+            <w xml:id="BRE_GEORG1508_154r_8_1">gesege</w>
+            <w xml:id="BRE_GEORG1508_154r_8_2">dich</w>
+            <w xml:id="BRE_GEORG1508_154r_8_3">goth</w>
+            <w xml:id="BRE_GEORG1508_154r_8_4">du</w>
+            <w xml:id="BRE_GEORG1508_154r_8_5">liber</w>
+            <w xml:id="BRE_GEORG1508_154r_8_6">heylandt</w>
+          </l>
+          <l n="2">
+            <w xml:id="BRE_GEORG1508_154r_9_0">Her</w>
+            <w xml:id="BRE_GEORG1508_154r_9_1">noeh</w>
+            <w xml:id="BRE_GEORG1508_154r_9_2">dich</w>
+            <w xml:id="BRE_GEORG1508_154r_9_3">am</w>
+            <w xml:id="BRE_GEORG1508_154r_9_4">ersten</w>
+            <w xml:id="BRE_GEORG1508_154r_9_5">fanth</w>
+          </l>
+          <l n="3">
+            <w xml:id="BRE_GEORG1508_154r_10_0">Der</w>
+            <w xml:id="BRE_GEORG1508_154r_10_1">tunget</w>
+            <w xml:id="BRE_GEORG1508_154r_10_2">dich</w>
+            <w xml:id="BRE_GEORG1508_154r_10_3">mit</w>
+            <w xml:id="BRE_GEORG1508_154r_10_4">vierley</w>
+            <w xml:id="BRE_GEORG1508_154r_10_5">mist</w>
+          </l>
+          <l n="4">
+            <w xml:id="BRE_GEORG1508_154r_11_0">Davon</w>
+            <w xml:id="BRE_GEORG1508_154r_11_1">du</w>
+            <w xml:id="BRE_GEORG1508_154r_11_2">noch</w>
+            <w xml:id="BRE_GEORG1508_154r_11_3">ßo</w>
+            <w xml:id="BRE_GEORG1508_154r_11_4">krefftig</w>
+            <w xml:id="BRE_GEORG1508_154r_11_5">bist</w>
+          </l>
+          <l n="5">
+            <w xml:id="BRE_GEORG1508_154r_12_0">Von</w>
+            <w xml:id="BRE_GEORG1508_154r_12_1">schaffen</w>
+            <w xml:id="BRE_GEORG1508_154r_12_2">affen</w>
+            <w xml:id="BRE_GEORG1508_154r_12_3">leben</w>
+            <w xml:id="BRE_GEORG1508_154r_12_4">und</w>
+            <w xml:id="BRE_GEORG1508_154r_12_5">schwein</w>
+          </l>
+          <l n="6">
+            <w xml:id="BRE_GEORG1508_154r_13_0">Die</w>
+            <w xml:id="BRE_GEORG1508_154r_13_1">vier</w>
+            <w xml:id="BRE_GEORG1508_154r_13_2">kraft</w>
+            <w xml:id="BRE_GEORG1508_154r_13_3">lestu</w>
+            <w xml:id="BRE_GEORG1508_154r_13_4">noch</w>
+            <w xml:id="BRE_GEORG1508_154r_13_5">erschein</w>
+          </l>
+          <l n="7">
+            <w xml:id="BRE_GEORG1508_154r_14_0">An</w>
+            <w xml:id="BRE_GEORG1508_154r_14_1">mannen</w>
+            <w xml:id="BRE_GEORG1508_154r_14_2">und</w>
+            <w xml:id="BRE_GEORG1508_154r_14_3">fraue<expan>n</expan></w>
+            <w xml:id="BRE_GEORG1508_154r_14_4">an</w>
+            <w xml:id="BRE_GEORG1508_154r_14_5">leyen</w>
+            <w xml:id="BRE_GEORG1508_154r_14_6">und</w>
+            <w xml:id="BRE_GEORG1508_154r_14_7">pfaff<expan>en</expan></w>
+          </l>
+          <l n="8">
+            <w xml:id="BRE_GEORG1508_154r_15_0">Die</w>
+            <w xml:id="BRE_GEORG1508_154r_15_1">magstu</w>
+            <w xml:id="BRE_GEORG1508_154r_15_2">offt</w>
+            <w xml:id="BRE_GEORG1508_154r_15_3">zu</w>
+            <w xml:id="BRE_GEORG1508_154r_15_4">narren</w>
+            <w xml:id="BRE_GEORG1508_154r_15_5">und</w>
+            <w xml:id="BRE_GEORG1508_154r_15_6">affen</w>
+          </l>
+          <l n="9">
+            <w xml:id="BRE_GEORG1508_154r_16_0">Wer</w>
+            <w xml:id="BRE_GEORG1508_154r_16_1">dein</w>
+            <w xml:id="BRE_GEORG1508_154r_16_2">zuvil</w>
+            <w xml:id="BRE_GEORG1508_154r_16_3">zugeladen</w>
+            <w xml:id="BRE_GEORG1508_154r_16_4">hat</w>
+          </l>
+          <l n="10">
+            <w xml:id="BRE_GEORG1508_154r_17_0">Den</w>
+            <w xml:id="BRE_GEORG1508_154r_17_1">legstu</w>
+            <w xml:id="BRE_GEORG1508_154r_17_2">zu</w>
+            <w xml:id="BRE_GEORG1508_154r_17_3">den</w>
+            <w xml:id="BRE_GEORG1508_154r_17_4">schweynnen</w>
+            <w xml:id="BRE_GEORG1508_154r_17_5">yns</w>
+            <w xml:id="BRE_GEORG1508_154r_17_6">kath</w>
+          </l>
+          <pb n="154v"/>
+          <l n="11">
+            <w xml:id="BRE_GEORG1508_154v_1_0">Szo</w>
+            <w xml:id="BRE_GEORG1508_154v_1_1">machstu</w>
+            <w xml:id="BRE_GEORG1508_154v_1_2">manchen</w>
+            <w xml:id="BRE_GEORG1508_154v_1_3">ßo</w>
+            <w xml:id="BRE_GEORG1508_154v_1_4">verheith</w>
+          </l>
+          <l n="12">
+            <w xml:id="BRE_GEORG1508_154v_2_0">Das</w>
+            <w xml:id="BRE_GEORG1508_154v_2_1">er</w>
+            <w xml:id="BRE_GEORG1508_154v_2_2">wol</w>
+            <w xml:id="BRE_GEORG1508_154v_2_3">zcehen</w>
+            <w xml:id="BRE_GEORG1508_154v_2_4">krigs</w>
+            <w xml:id="BRE_GEORG1508_154v_2_5">gnug</w>
+            <w xml:id="BRE_GEORG1508_154v_2_6">geyt</w>
+          </l>
+          <l n="13">
+            <w xml:id="BRE_GEORG1508_154v_3_0">Szo</w>
+            <w xml:id="BRE_GEORG1508_154v_3_1">magstu</w>
+            <w xml:id="BRE_GEORG1508_154v_3_2">manchen</w>
+            <w xml:id="BRE_GEORG1508_154v_3_3">wilden</w>
+            <w xml:id="BRE_GEORG1508_154v_3_4">zcam</w>
+          </l>
+          <l n="14">
+            <w xml:id="BRE_GEORG1508_154v_4_0">Sam</w>
+            <w xml:id="BRE_GEORG1508_154v_4_1">weren</w>
+            <w xml:id="BRE_GEORG1508_154v_4_2">ym</w>
+            <w xml:id="BRE_GEORG1508_154v_4_3">al</w>
+            <w xml:id="BRE_GEORG1508_154v_4_4">sein</w>
+            <w xml:id="BRE_GEORG1508_154v_4_5">gelider</w>
+            <w xml:id="BRE_GEORG1508_154v_4_6">lam</w>
+          </l>
+          <l n="15">
+            <w xml:id="BRE_GEORG1508_154v_5_0">Die</w>
+            <w xml:id="BRE_GEORG1508_154v_5_1">vierd</w>
+            <w xml:id="BRE_GEORG1508_154v_5_2">kraft</w>
+            <w xml:id="BRE_GEORG1508_154v_5_3">spurt</w>
+            <w xml:id="BRE_GEORG1508_154v_5_4">man</w>
+            <w xml:id="BRE_GEORG1508_154v_5_5">an</w>
+            <w xml:id="BRE_GEORG1508_154v_5_6">man<expan>n</expan>en</w>
+            <w xml:id="BRE_GEORG1508_154v_5_7">un<expan>d</expan></w>
+            <w xml:id="BRE_GEORG1508_154v_5_8">weiben</w>
+          </l>
+          <l n="16">
+            <w xml:id="BRE_GEORG1508_154v_6_0">Die</w>
+            <w xml:id="BRE_GEORG1508_154v_6_1">kan</w>
+            <w xml:id="BRE_GEORG1508_154v_6_2">kein</w>
+            <w xml:id="BRE_GEORG1508_154v_6_3">arcz</w>
+            <w xml:id="BRE_GEORG1508_154v_6_4">als</w>
+            <w xml:id="BRE_GEORG1508_154v_6_5">wol</w>
+            <w xml:id="BRE_GEORG1508_154v_6_6">vertreiben</w>
+          </l>
+          <l n="17">
+            <w xml:id="BRE_GEORG1508_154v_7_0">Als</w>
+            <w xml:id="BRE_GEORG1508_154v_7_1">ein</w>
+            <w xml:id="BRE_GEORG1508_154v_7_2">krugk</w>
+            <w xml:id="BRE_GEORG1508_154v_7_3">mit</w>
+            <w xml:id="BRE_GEORG1508_154v_7_4">frischen</w>
+            <w xml:id="BRE_GEORG1508_154v_7_5">brunnen</w>
+          </l>
+          <l n="18">
+            <w xml:id="BRE_GEORG1508_154v_8_0">Wen</w>
+            <w xml:id="BRE_GEORG1508_154v_8_1">sie</w>
+            <w xml:id="BRE_GEORG1508_154v_8_2">das</w>
+            <w xml:id="BRE_GEORG1508_154v_8_3">keler</w>
+            <w xml:id="BRE_GEORG1508_154v_8_4">geschos</w>
+            <w xml:id="BRE_GEORG1508_154v_8_5">haben</w>
+            <w xml:id="BRE_GEORG1508_154v_8_6">gewun<expan>n</expan>ehn</w>
+          </l>
+        </div>
+        <!-- Text 8: Weingruß Lieber Rebenknecht (Hans Rosenplüt) (Hs. Georg. 150.8°, 154v-155r) -->
+        <div type="section" n="8">
+          <head>
+            <hi rend="inkRed">
+              <hi rend="bold">
+                <w xml:id="BRE_GEORG1508_154v_9_0">Wein</w>
+                <w xml:id="BRE_GEORG1508_154v_9_1">grußs</w>
+              </hi>
+            </hi>
+          </head>
+          <l n="1">
+            <hi rend="inkRed">
+              <w xml:id="BRE_GEORG1508_154v_10_0">Nun</w>
+              <w xml:id="BRE_GEORG1508_154v_10_1">grus</w>
+              <w xml:id="BRE_GEORG1508_154v_10_2">dich</w>
+              <w xml:id="BRE_GEORG1508_154v_10_3">goth</w>
+              <w xml:id="BRE_GEORG1508_154v_10_4">du</w>
+              <w xml:id="BRE_GEORG1508_154v_10_5">liber</w>
+              <w xml:id="BRE_GEORG1508_154v_10_6">rebn</w>
+              <w xml:id="BRE_GEORG1508_154v_10_7">knecht</w>
+            </hi>
+          </l>
+          <l n="2">
+            <w xml:id="BRE_GEORG1508_154v_11_0">Du</w>
+            <w xml:id="BRE_GEORG1508_154v_11_1">bist</w>
+            <w xml:id="BRE_GEORG1508_154v_11_2">mir</w>
+            <w xml:id="BRE_GEORG1508_154v_11_3">winther</w>
+            <w xml:id="BRE_GEORG1508_154v_11_4">und</w>
+            <w xml:id="BRE_GEORG1508_154v_11_5">sum<expan>m</expan>er</w>
+            <w xml:id="BRE_GEORG1508_154v_11_6">gerecht</w>
+          </l>
+          <l n="3">
+            <w xml:id="BRE_GEORG1508_154v_12_0">Wan</w>
+            <w xml:id="BRE_GEORG1508_154v_12_1">du</w>
+            <w xml:id="BRE_GEORG1508_154v_12_2">magst</w>
+            <w xml:id="BRE_GEORG1508_154v_12_3">munch</w>
+            <w xml:id="BRE_GEORG1508_154v_12_4">und</w>
+            <w xml:id="BRE_GEORG1508_154v_12_5">pfaffen</w>
+            <w xml:id="BRE_GEORG1508_154v_12_6">geyl</w>
+          </l>
+          <l n="4">
+            <w xml:id="BRE_GEORG1508_154v_13_0">Das</w>
+            <w xml:id="BRE_GEORG1508_154v_13_1">sie</w>
+            <w xml:id="BRE_GEORG1508_154v_13_2">oft</w>
+            <w xml:id="BRE_GEORG1508_154v_13_3">zcihen</w>
+            <w xml:id="BRE_GEORG1508_154v_13_4">am</w>
+            <w xml:id="BRE_GEORG1508_154v_13_5">narren</w>
+            <w xml:id="BRE_GEORG1508_154v_13_6">seyhll</w>
+          </l>
+          <l n="5">
+            <w xml:id="BRE_GEORG1508_154v_14_0">Du</w>
+            <w xml:id="BRE_GEORG1508_154v_14_1">trost</w>
+            <w xml:id="BRE_GEORG1508_154v_14_2">die</w>
+            <w xml:id="BRE_GEORG1508_154v_14_3">pauren</w>
+            <w xml:id="BRE_GEORG1508_154v_14_4">yn</w>
+            <w xml:id="BRE_GEORG1508_154v_14_5">eim</w>
+            <w xml:id="BRE_GEORG1508_154v_14_6">henffen</w>
+            <w xml:id="BRE_GEORG1508_154v_14_7">kittel</w>
+          </l>
+          <l n="6">
+            <w xml:id="BRE_GEORG1508_154v_15_0">Du</w>
+            <w xml:id="BRE_GEORG1508_154v_15_1">trost</w>
+            <w xml:id="BRE_GEORG1508_154v_15_2">die</w>
+            <w xml:id="BRE_GEORG1508_154v_15_3">krancken</w>
+            <w xml:id="BRE_GEORG1508_154v_15_4">yn</w>
+            <w xml:id="BRE_GEORG1508_154v_15_5">den</w>
+            <w xml:id="BRE_GEORG1508_154v_15_6">spittel</w>
+          </l>
+          <l n="7">
+            <w xml:id="BRE_GEORG1508_154v_16_0">Du</w>
+            <w xml:id="BRE_GEORG1508_154v_16_1">trost</w>
+            <w xml:id="BRE_GEORG1508_154v_16_2">die</w>
+            <w xml:id="BRE_GEORG1508_154v_16_3">lamen</w>
+            <w xml:id="BRE_GEORG1508_154v_16_4">und</w>
+            <w xml:id="BRE_GEORG1508_154v_16_5">die</w>
+            <w xml:id="BRE_GEORG1508_154v_16_6">blynden</w>
+          </l>
+          <l n="8">
+            <w xml:id="BRE_GEORG1508_154v_17_0">Wen</w>
+            <w xml:id="BRE_GEORG1508_154v_17_1">sie</w>
+            <w xml:id="BRE_GEORG1508_154v_17_2">dich</w>
+            <w xml:id="BRE_GEORG1508_154v_17_3">nur</w>
+            <w xml:id="BRE_GEORG1508_154v_17_4">willk<expan>o</expan>mmen</w>
+            <w xml:id="BRE_GEORG1508_154v_17_5">finden</w>
+          </l>
+          <pb n="155r"/>
+          <l n="9">
+            <w xml:id="BRE_GEORG1508_155r_1_0">Du</w>
+            <w xml:id="BRE_GEORG1508_155r_1_1">trost</w>
+            <w xml:id="BRE_GEORG1508_155r_1_2">auch</w>
+            <w xml:id="BRE_GEORG1508_155r_1_3">alle</w>
+            <w xml:id="BRE_GEORG1508_155r_1_4">kindtbettherin</w>
+          </l>
+          <l n="10">
+            <w xml:id="BRE_GEORG1508_155r_2_0">Es</w>
+            <w xml:id="BRE_GEORG1508_155r_2_1">sey</w>
+            <w xml:id="BRE_GEORG1508_155r_2_2">dan</w>
+            <w xml:id="BRE_GEORG1508_155r_2_3">das</w>
+            <w xml:id="BRE_GEORG1508_155r_2_4">yn</w>
+            <w xml:id="BRE_GEORG1508_155r_2_5">gelt</w>
+            <w xml:id="BRE_GEORG1508_155r_2_6">zuryn</w>
+          </l>
+          <l n="11">
+            <w xml:id="BRE_GEORG1508_155r_3_0">Du</w>
+            <w xml:id="BRE_GEORG1508_155r_3_1">trost</w>
+            <w xml:id="BRE_GEORG1508_155r_3_2">die</w>
+            <w xml:id="BRE_GEORG1508_155r_3_3">nun<expan>n</expan>en</w>
+            <w xml:id="BRE_GEORG1508_155r_3_4">yn</w>
+            <w xml:id="BRE_GEORG1508_155r_3_5">den</w>
+            <w xml:id="BRE_GEORG1508_155r_3_6">clausen</w>
+          </l>
+          <l n="12">
+            <w xml:id="BRE_GEORG1508_155r_4_0">Darumb</w>
+            <w xml:id="BRE_GEORG1508_155r_4_1">wil</w>
+            <w xml:id="BRE_GEORG1508_155r_4_2">ich</w>
+            <w xml:id="BRE_GEORG1508_155r_4_3">dich</w>
+            <w xml:id="BRE_GEORG1508_155r_4_4">gewunlich</w>
+            <w xml:id="BRE_GEORG1508_155r_4_5">ausen</w>
+          </l>
+          <l n="13">
+            <w xml:id="BRE_GEORG1508_155r_5_0">Wan</w>
+            <w xml:id="BRE_GEORG1508_155r_5_1">du</w>
+            <w xml:id="BRE_GEORG1508_155r_5_2">bist</w>
+            <w xml:id="BRE_GEORG1508_155r_5_3">mir</w>
+            <w xml:id="BRE_GEORG1508_155r_5_4">ein</w>
+            <w xml:id="BRE_GEORG1508_155r_5_5">lieber</w>
+            <w xml:id="BRE_GEORG1508_155r_5_6">gast</w>
+          </l>
+          <l n="14">
+            <w xml:id="BRE_GEORG1508_155r_6_0">Mancher</w>
+            <w xml:id="BRE_GEORG1508_155r_6_1">hat</w>
+            <w xml:id="BRE_GEORG1508_155r_6_2">weder</w>
+            <w xml:id="BRE_GEORG1508_155r_6_3">ruhe</w>
+            <w xml:id="BRE_GEORG1508_155r_6_4">noch</w>
+            <w xml:id="BRE_GEORG1508_155r_6_5">rast</w>
+          </l>
+          <l n="15">
+            <w xml:id="BRE_GEORG1508_155r_7_0">Als</w>
+            <w xml:id="BRE_GEORG1508_155r_7_1">lang</w>
+            <w xml:id="BRE_GEORG1508_155r_7_2">bis</w>
+            <w xml:id="BRE_GEORG1508_155r_7_3">das</w>
+            <w xml:id="BRE_GEORG1508_155r_7_4">er</w>
+            <w xml:id="BRE_GEORG1508_155r_7_5">kumpt</w>
+            <w xml:id="BRE_GEORG1508_155r_7_6">zu</w>
+            <w xml:id="BRE_GEORG1508_155r_7_7">dir</w>
+          </l>
+          <l n="16">
+            <w xml:id="BRE_GEORG1508_155r_8_0">Nun</w>
+            <w xml:id="BRE_GEORG1508_155r_8_1">grus</w>
+            <w xml:id="BRE_GEORG1508_155r_8_2">dich</w>
+            <w xml:id="BRE_GEORG1508_155r_8_3">goth</w>
+            <w xml:id="BRE_GEORG1508_155r_8_4">gehe</w>
+            <w xml:id="BRE_GEORG1508_155r_8_5">her</w>
+            <w xml:id="BRE_GEORG1508_155r_8_6">zu</w>
+            <w xml:id="BRE_GEORG1508_155r_8_7">mir</w>
+          </l>
+          <l n="17">
+            <w xml:id="BRE_GEORG1508_155r_9_0">Wen</w>
+            <w xml:id="BRE_GEORG1508_155r_9_1">als</w>
+            <w xml:id="BRE_GEORG1508_155r_9_2">mein</w>
+            <w xml:id="BRE_GEORG1508_155r_9_3">trauren</w>
+            <w xml:id="BRE_GEORG1508_155r_9_4">weicht</w>
+            <w xml:id="BRE_GEORG1508_155r_9_5">von</w>
+            <w xml:id="BRE_GEORG1508_155r_9_6">mir</w>
+            <w xml:id="BRE_GEORG1508_155r_9_7">ab</w>
+          </l>
+          <l n="18">
+            <w xml:id="BRE_GEORG1508_155r_10_0">Wen</w>
+            <w xml:id="BRE_GEORG1508_155r_10_1">ich</w>
+            <w xml:id="BRE_GEORG1508_155r_10_2">dein</w>
+            <w xml:id="BRE_GEORG1508_155r_10_3">ein</w>
+            <w xml:id="BRE_GEORG1508_155r_10_4">moßel</w>
+            <w xml:id="BRE_GEORG1508_155r_10_5">in</w>
+            <w xml:id="BRE_GEORG1508_155r_10_6">eyner</w>
+            <w xml:id="BRE_GEORG1508_155r_10_7">kannen</w>
+            <w xml:id="BRE_GEORG1508_155r_10_8">hab</w>
+          </l>
+        </div>
+        <!-- Text 9: Weingruß Allerliebster Trunck (Hans Rosenplüt) (Hs. Georg. 150.8°, 155r-155v) -->
+        <div type="section" n="9">
+          <head>
+            <hi rend="inkRed">
+              <hi rend="bold">
+                <w xml:id="BRE_GEORG1508_155r_11_0">Wein</w>
+                <w xml:id="BRE_GEORG1508_155r_11_1">gruss</w>
+              </hi>
+            </hi>
+          </head>
+          <l n="1">
+            <hi rend="inkRed">
+              <w xml:id="BRE_GEORG1508_155r_12_0">Nun</w>
+              <w xml:id="BRE_GEORG1508_155r_12_1">grus</w>
+              <w xml:id="BRE_GEORG1508_155r_12_2">dich</w>
+              <w xml:id="BRE_GEORG1508_155r_12_3">goth</w>
+              <w xml:id="BRE_GEORG1508_155r_12_4">du</w>
+              <w xml:id="BRE_GEORG1508_155r_12_5">allerliebster</w>
+              <w xml:id="BRE_GEORG1508_155r_12_6">trunck</w>
+            </hi>
+          </l>
+          <l n="2">
+            <hi rend="inkRed">
+              <w xml:id="BRE_GEORG1508_155r_13_0">Ich</w>
+              <w xml:id="BRE_GEORG1508_155r_13_1">was</w>
+              <w xml:id="BRE_GEORG1508_155r_13_2">dir</w>
+              <w xml:id="BRE_GEORG1508_155r_13_3">holt</w>
+              <w xml:id="BRE_GEORG1508_155r_13_4">da</w>
+              <w xml:id="BRE_GEORG1508_155r_13_5">ich</w>
+              <w xml:id="BRE_GEORG1508_155r_13_6">was</w>
+              <w xml:id="BRE_GEORG1508_155r_13_7">jungk</w>
+            </hi>
+          </l>
+          <l n="3">
+            <w xml:id="BRE_GEORG1508_155r_14_0">Szo</w>
+            <w xml:id="BRE_GEORG1508_155r_14_1">wil</w>
+            <w xml:id="BRE_GEORG1508_155r_14_2">ich</w>
+            <w xml:id="BRE_GEORG1508_155r_14_3">ym</w>
+            <w xml:id="BRE_GEORG1508_155r_14_4">alter</w>
+            <w xml:id="BRE_GEORG1508_155r_14_5">auch</w>
+            <w xml:id="BRE_GEORG1508_155r_14_6">nit</w>
+            <w xml:id="BRE_GEORG1508_155r_14_7">von</w>
+            <w xml:id="BRE_GEORG1508_155r_14_8">dir</w>
+            <w xml:id="BRE_GEORG1508_155r_14_9">weich<expan>en</expan></w>
+          </l>
+          <l n="4">
+            <w xml:id="BRE_GEORG1508_155r_15_0">Ich</w>
+            <w xml:id="BRE_GEORG1508_155r_15_1">wil</w>
+            <w xml:id="BRE_GEORG1508_155r_15_2">nacht</w>
+            <w xml:id="BRE_GEORG1508_155r_15_3">und</w>
+            <w xml:id="BRE_GEORG1508_155r_15_4">tag</w>
+            <w xml:id="BRE_GEORG1508_155r_15_5">dir</w>
+            <w xml:id="BRE_GEORG1508_155r_15_6">nach</w>
+            <w xml:id="BRE_GEORG1508_155r_15_7">schleichen</w>
+          </l>
+          <l n="5">
+            <w xml:id="BRE_GEORG1508_155r_16_0">Und</w>
+            <w xml:id="BRE_GEORG1508_155r_16_1">wo</w>
+            <w xml:id="BRE_GEORG1508_155r_16_2">du</w>
+            <w xml:id="BRE_GEORG1508_155r_16_3">bist</w>
+            <w xml:id="BRE_GEORG1508_155r_16_4">da</w>
+            <w xml:id="BRE_GEORG1508_155r_16_5">bin</w>
+            <w xml:id="BRE_GEORG1508_155r_16_6">ich</w>
+            <w xml:id="BRE_GEORG1508_155r_16_7">auch</w>
+            <w xml:id="BRE_GEORG1508_155r_16_8">geren</w>
+          </l>
+          <l n="6">
+            <w xml:id="BRE_GEORG1508_155r_17_0">Ich</w>
+            <w xml:id="BRE_GEORG1508_155r_17_1">kan</w>
+            <w xml:id="BRE_GEORG1508_155r_17_2">wol</w>
+            <w xml:id="BRE_GEORG1508_155r_17_3">krausen</w>
+            <w xml:id="BRE_GEORG1508_155r_17_4">und</w>
+            <w xml:id="BRE_GEORG1508_155r_17_5">pecher</w>
+            <w xml:id="BRE_GEORG1508_155r_17_6">leren</w>
+          </l>
+          <pb n="155v"/>
+          <l n="7">
+            <w xml:id="BRE_GEORG1508_155v_1_0">Und</w>
+            <w xml:id="BRE_GEORG1508_155v_1_1">auch</w>
+            <w xml:id="BRE_GEORG1508_155v_1_2">wol</w>
+            <w xml:id="BRE_GEORG1508_155v_1_3">schlauchen</w>
+            <w xml:id="BRE_GEORG1508_155v_1_4">aus</w>
+            <w xml:id="BRE_GEORG1508_155v_1_5">dem</w>
+            <w xml:id="BRE_GEORG1508_155v_1_6">glaßs</w>
+          </l>
+          <l n="8">
+            <w xml:id="BRE_GEORG1508_155v_2_0">Das</w>
+            <w xml:id="BRE_GEORG1508_155v_2_1">lernet</w>
+            <w xml:id="BRE_GEORG1508_155v_2_2">ich</w>
+            <w xml:id="BRE_GEORG1508_155v_2_3">da</w>
+            <w xml:id="BRE_GEORG1508_155v_2_4">ich</w>
+            <w xml:id="BRE_GEORG1508_155v_2_5">jungk</w>
+            <w xml:id="BRE_GEORG1508_155v_2_6">was</w>
+          </l>
+          <l n="9">
+            <w xml:id="BRE_GEORG1508_155v_3_0">Mich</w>
+            <w xml:id="BRE_GEORG1508_155v_3_1">dungkt</w>
+            <w xml:id="BRE_GEORG1508_155v_3_2">ich</w>
+            <w xml:id="BRE_GEORG1508_155v_3_3">thu</w>
+            <w xml:id="BRE_GEORG1508_155v_3_4">ym</w>
+            <w xml:id="BRE_GEORG1508_155v_3_5">alter</w>
+            <w xml:id="BRE_GEORG1508_155v_3_6">auch</w>
+            <w xml:id="BRE_GEORG1508_155v_3_7">recht</w>
+          </l>
+          <l n="10">
+            <w xml:id="BRE_GEORG1508_155v_4_0">All</w>
+            <w xml:id="BRE_GEORG1508_155v_4_1">mein</w>
+            <w xml:id="BRE_GEORG1508_155v_4_2">frund</w>
+            <w xml:id="BRE_GEORG1508_155v_4_3">han</w>
+            <w xml:id="BRE_GEORG1508_155v_4_4">dich</w>
+            <w xml:id="BRE_GEORG1508_155v_4_5">nye</w>
+            <w xml:id="BRE_GEORG1508_155v_4_6">verschmecht</w>
+          </l>
+          <l n="11">
+            <w xml:id="BRE_GEORG1508_155v_5_0">Du</w>
+            <w xml:id="BRE_GEORG1508_155v_5_1">zeugst</w>
+            <w xml:id="BRE_GEORG1508_155v_5_2">an</w>
+            <w xml:id="BRE_GEORG1508_155v_5_3">dich</w>
+            <w xml:id="BRE_GEORG1508_155v_5_4">als</w>
+            <w xml:id="BRE_GEORG1508_155v_5_5">der</w>
+            <w xml:id="BRE_GEORG1508_155v_5_6">magnet</w>
+          </l>
+          <l n="12">
+            <w xml:id="BRE_GEORG1508_155v_6_0">Mancher</w>
+            <w xml:id="BRE_GEORG1508_155v_6_1">zu</w>
+            <w xml:id="BRE_GEORG1508_155v_6_2">mittag</w>
+            <w xml:id="BRE_GEORG1508_155v_6_3">zu</w>
+            <w xml:id="BRE_GEORG1508_155v_6_4">dir</w>
+            <w xml:id="BRE_GEORG1508_155v_6_5">ghett</w>
+          </l>
+          <l n="13">
+            <w xml:id="BRE_GEORG1508_155v_7_0">Und</w>
+            <w xml:id="BRE_GEORG1508_155v_7_1">kumpt</w>
+            <w xml:id="BRE_GEORG1508_155v_7_2">kam</w>
+            <w xml:id="BRE_GEORG1508_155v_7_3">von</w>
+            <w xml:id="BRE_GEORG1508_155v_7_4">dir</w>
+            <w xml:id="BRE_GEORG1508_155v_7_5">zu</w>
+            <w xml:id="BRE_GEORG1508_155v_7_6">mitternacht</w>
+          </l>
+          <l n="14">
+            <w xml:id="BRE_GEORG1508_155v_8_0">Das</w>
+            <w xml:id="BRE_GEORG1508_155v_8_1">haben</w>
+            <w xml:id="BRE_GEORG1508_155v_8_2">dein</w>
+            <w xml:id="BRE_GEORG1508_155v_8_3">sus</w>
+            <w xml:id="BRE_GEORG1508_155v_8_4">zieg</w>
+            <w xml:id="BRE_GEORG1508_155v_8_5">als</w>
+            <w xml:id="BRE_GEORG1508_155v_8_6">gemacht</w>
+          </l>
+          <l n="15">
+            <w xml:id="BRE_GEORG1508_155v_9_0">Und</w>
+            <w xml:id="BRE_GEORG1508_155v_9_1">wurffts</w>
+            <w xml:id="BRE_GEORG1508_155v_9_2">sie</w>
+            <w xml:id="BRE_GEORG1508_155v_9_3">nachts</w>
+            <w xml:id="BRE_GEORG1508_155v_9_4">ins</w>
+            <w xml:id="BRE_GEORG1508_155v_9_5">koth</w>
+            <w xml:id="BRE_GEORG1508_155v_9_6">der</w>
+            <w xml:id="BRE_GEORG1508_155v_9_7">nyder</w>
+          </l>
+          <l n="16">
+            <w xml:id="BRE_GEORG1508_155v_10_0">Noch</w>
+            <w xml:id="BRE_GEORG1508_155v_10_1">ging<expan>en</expan></w>
+            <w xml:id="BRE_GEORG1508_155v_10_2">sie</w>
+            <w xml:id="BRE_GEORG1508_155v_10_3">smorgens</w>
+            <w xml:id="BRE_GEORG1508_155v_10_4">gern</w>
+            <w xml:id="BRE_GEORG1508_155v_10_5">hynwider</w>
+          </l>
+          <l n="17">
+            <w xml:id="BRE_GEORG1508_155v_11_0">Wen</w>
+            <w xml:id="BRE_GEORG1508_155v_11_1">sie</w>
+            <w xml:id="BRE_GEORG1508_155v_11_2">groß</w>
+            <w xml:id="BRE_GEORG1508_155v_11_3">frundtschaft</w>
+            <w xml:id="BRE_GEORG1508_155v_11_4">suchen</w>
+            <w xml:id="BRE_GEORG1508_155v_11_5">zu</w>
+            <w xml:id="BRE_GEORG1508_155v_11_6">der</w>
+          </l>
+          <l n="18">
+            <w xml:id="BRE_GEORG1508_155v_12_0">Als</w>
+            <w xml:id="BRE_GEORG1508_155v_12_1">werstu</w>
+            <w xml:id="BRE_GEORG1508_155v_12_2">doch</w>
+            <w xml:id="BRE_GEORG1508_155v_12_3">ir</w>
+            <w xml:id="BRE_GEORG1508_155v_12_4">rechter</w>
+            <w xml:id="BRE_GEORG1508_155v_12_5">bruder</w>
+          </l>
+          <l n="19">
+            <w xml:id="BRE_GEORG1508_155v_13_0">All</w>
+            <w xml:id="BRE_GEORG1508_155v_13_1">juden</w>
+            <w xml:id="BRE_GEORG1508_155v_13_2">heyden</w>
+            <w xml:id="BRE_GEORG1508_155v_13_3">christen</w>
+            <w xml:id="BRE_GEORG1508_155v_13_4">die</w>
+            <w xml:id="BRE_GEORG1508_155v_13_5">bitten</w>
+          </l>
+          <l n="20">
+            <w xml:id="BRE_GEORG1508_155v_14_0">Das</w>
+            <w xml:id="BRE_GEORG1508_155v_14_1">goth</w>
+            <w xml:id="BRE_GEORG1508_155v_14_2">wol</w>
+            <w xml:id="BRE_GEORG1508_155v_14_3">beschirmen</w>
+            <w xml:id="BRE_GEORG1508_155v_14_4">und</w>
+            <w xml:id="BRE_GEORG1508_155v_14_5">befriden</w>
+          </l>
+          <l n="21">
+            <w xml:id="BRE_GEORG1508_155v_15_0">Den</w>
+            <w xml:id="BRE_GEORG1508_155v_15_1">stock</w>
+            <w xml:id="BRE_GEORG1508_155v_15_2">dye</w>
+            <w xml:id="BRE_GEORG1508_155v_15_3">reben</w>
+            <w xml:id="BRE_GEORG1508_155v_15_4">da</w>
+            <w xml:id="BRE_GEORG1508_155v_15_5">du</w>
+            <w xml:id="BRE_GEORG1508_155v_15_6">anhangst</w>
+          </l>
+          <l n="22">
+            <w xml:id="BRE_GEORG1508_155v_16_0">Wen</w>
+            <w xml:id="BRE_GEORG1508_155v_16_1">du</w>
+            <w xml:id="BRE_GEORG1508_155v_16_2">so</w>
+            <w xml:id="BRE_GEORG1508_155v_16_3">liplich</w>
+            <w xml:id="BRE_GEORG1508_155v_16_4">vor</w>
+            <w xml:id="BRE_GEORG1508_155v_16_5">mir</w>
+            <w xml:id="BRE_GEORG1508_155v_16_6">brangst</w>
+          </l>
+          <l n="23">
+            <w xml:id="BRE_GEORG1508_155v_17_0">Wie</w>
+            <w xml:id="BRE_GEORG1508_155v_17_1">mocht</w>
+            <w xml:id="BRE_GEORG1508_155v_17_2">ich</w>
+            <w xml:id="BRE_GEORG1508_155v_17_3">dir</w>
+            <w xml:id="BRE_GEORG1508_155v_17_4">dan</w>
+            <w xml:id="BRE_GEORG1508_155v_17_5">das</w>
+            <w xml:id="BRE_GEORG1508_155v_17_6">versagen</w>
+          </l>
+          <l n="24">
+            <w xml:id="BRE_GEORG1508_155v_18_0">Ich</w>
+            <w xml:id="BRE_GEORG1508_155v_18_1">must</w>
+            <w xml:id="BRE_GEORG1508_155v_18_2">dich</w>
+            <w xml:id="BRE_GEORG1508_155v_18_3">auch</w>
+            <w xml:id="BRE_GEORG1508_155v_18_4">seczen</w>
+            <w xml:id="BRE_GEORG1508_155v_18_5">an</w>
+            <w xml:id="BRE_GEORG1508_155v_18_6">meinen</w>
+            <w xml:id="BRE_GEORG1508_155v_18_7">kragen</w>
+          </l>
+        </div>
+        <!-- Text 10: Weinsegen Allerliebster Trost (Hans Rosenplüt) (Hs. Georg. 150.8°, 156r-156v) -->
+        <div type="section" n="10">
+          <pb n="156r"/>
+          <head>
+            <hi rend="inkRed">
+              <hi rend="bold">
+                <w xml:id="BRE_GEORG1508_156r_1_0">Wein</w>
+                <w xml:id="BRE_GEORG1508_156r_1_1">segen</w>
+              </hi>
+            </hi>
+          </head>
+          <l n="1">
+            <hi rend="inkRed">
+              <w xml:id="BRE_GEORG1508_156r_2_0">Nun</w>
+              <w xml:id="BRE_GEORG1508_156r_2_1">gesegen</w>
+              <w xml:id="BRE_GEORG1508_156r_2_2">dich</w>
+              <w xml:id="BRE_GEORG1508_156r_2_3">goth</w>
+              <w xml:id="BRE_GEORG1508_156r_2_4">du</w>
+              <w xml:id="BRE_GEORG1508_156r_2_5">allerliebster</w>
+              <w xml:id="BRE_GEORG1508_156r_2_6">trost</w>
+            </hi>
+          </l>
+          <l n="2">
+            <w xml:id="BRE_GEORG1508_156r_3_0">Hat</w>
+            <w xml:id="BRE_GEORG1508_156r_3_1">mich</w>
+            <w xml:id="BRE_GEORG1508_156r_3_2">gar</w>
+            <w xml:id="BRE_GEORG1508_156r_3_3">oft</w>
+            <w xml:id="BRE_GEORG1508_156r_3_4">von</w>
+            <w xml:id="BRE_GEORG1508_156r_3_5">grossem</w>
+            <w xml:id="BRE_GEORG1508_156r_3_6">durst</w>
+            <w xml:id="BRE_GEORG1508_156r_3_7">erlost</w>
+          </l>
+          <l n="3">
+            <w xml:id="BRE_GEORG1508_156r_4_0">Du</w>
+            <w xml:id="BRE_GEORG1508_156r_4_1">magst</w>
+            <w xml:id="BRE_GEORG1508_156r_4_2">mir</w>
+            <w xml:id="BRE_GEORG1508_156r_4_3">meyne</w>
+            <w xml:id="BRE_GEORG1508_156r_4_4">glider</w>
+            <w xml:id="BRE_GEORG1508_156r_4_5">kecke</w>
+          </l>
+          <l n="4">
+            <w xml:id="BRE_GEORG1508_156r_5_0">Und</w>
+            <w xml:id="BRE_GEORG1508_156r_5_1">jagst</w>
+            <w xml:id="BRE_GEORG1508_156r_5_2">mir</w>
+            <w xml:id="BRE_GEORG1508_156r_5_3">all</w>
+            <w xml:id="BRE_GEORG1508_156r_5_4">mey<expan>n</expan></w>
+            <w xml:id="BRE_GEORG1508_156r_5_5">sorg</w>
+            <w xml:id="BRE_GEORG1508_156r_5_6">hynwegk</w>
+          </l>
+          <l n="5">
+            <w xml:id="BRE_GEORG1508_156r_6_0">Und</w>
+            <w xml:id="BRE_GEORG1508_156r_6_1">magst</w>
+            <w xml:id="BRE_GEORG1508_156r_6_2">manchen</w>
+            <w xml:id="BRE_GEORG1508_156r_6_3">petler</w>
+            <w xml:id="BRE_GEORG1508_156r_6_4">frolich</w>
+          </l>
+          <l n="6">
+            <w xml:id="BRE_GEORG1508_156r_7_0">Dar</w>
+            <w xml:id="BRE_GEORG1508_156r_7_1">er</w>
+            <w xml:id="BRE_GEORG1508_156r_7_2">al</w>
+            <w xml:id="BRE_GEORG1508_156r_7_3">nacht</w>
+            <w xml:id="BRE_GEORG1508_156r_7_4">leyt</w>
+            <w xml:id="BRE_GEORG1508_156r_7_5">auf</w>
+            <w xml:id="BRE_GEORG1508_156r_7_6">eim</w>
+            <w xml:id="BRE_GEORG1508_156r_7_7">strölich</w>
+          </l>
+          <l n="7">
+            <w xml:id="BRE_GEORG1508_156r_8_0">Du</w>
+            <w xml:id="BRE_GEORG1508_156r_8_1">machst</w>
+            <w xml:id="BRE_GEORG1508_156r_8_2">tanczen</w>
+            <w xml:id="BRE_GEORG1508_156r_8_3">munch</w>
+            <w xml:id="BRE_GEORG1508_156r_8_4">und</w>
+            <w xml:id="BRE_GEORG1508_156r_8_5">no<expan>n</expan>nen</w>
+          </l>
+          <l n="8">
+            <w xml:id="BRE_GEORG1508_156r_9_0">Das</w>
+            <w xml:id="BRE_GEORG1508_156r_9_1">sie</w>
+            <w xml:id="BRE_GEORG1508_156r_9_2">nit</w>
+            <w xml:id="BRE_GEORG1508_156r_9_3">tetten</w>
+            <w xml:id="BRE_GEORG1508_156r_9_4">druncken</w>
+            <w xml:id="BRE_GEORG1508_156r_9_5">sie</w>
+            <w xml:id="BRE_GEORG1508_156r_9_6">brun<expan>n</expan>en</w>
+          </l>
+          <l n="9">
+            <w xml:id="BRE_GEORG1508_156r_10_0">Du</w>
+            <w xml:id="BRE_GEORG1508_156r_10_1">magst</w>
+            <w xml:id="BRE_GEORG1508_156r_10_2">auch</w>
+            <w xml:id="BRE_GEORG1508_156r_10_3">ma<expan>n</expan>gen</w>
+            <w xml:id="BRE_GEORG1508_156r_10_4">handtwergs</w>
+            <w xml:id="BRE_GEORG1508_156r_10_5">man</w>
+          </l>
+          <l n="10">
+            <w xml:id="BRE_GEORG1508_156r_11_0">Das</w>
+            <w xml:id="BRE_GEORG1508_156r_11_1">er</w>
+            <w xml:id="BRE_GEORG1508_156r_11_2">mus</w>
+            <w xml:id="BRE_GEORG1508_156r_11_3">yn</w>
+            <w xml:id="BRE_GEORG1508_156r_11_4">zurissen</w>
+            <w xml:id="BRE_GEORG1508_156r_11_5">kleydern</w>
+            <w xml:id="BRE_GEORG1508_156r_11_6">gan</w>
+          </l>
+          <l n="11">
+            <w xml:id="BRE_GEORG1508_156r_12_0">Das</w>
+            <w xml:id="BRE_GEORG1508_156r_12_1">yn</w>
+            <w xml:id="BRE_GEORG1508_156r_12_2">sein</w>
+            <w xml:id="BRE_GEORG1508_156r_12_3">zcen</w>
+            <w xml:id="BRE_GEORG1508_156r_12_4">mehr</w>
+            <w xml:id="BRE_GEORG1508_156r_12_5">kostn</w>
+            <w xml:id="BRE_GEORG1508_156r_12_6">zu</w>
+            <w xml:id="BRE_GEORG1508_156r_12_7">paden</w>
+          </l>
+          <l n="12">
+            <w xml:id="BRE_GEORG1508_156r_13_0">Den</w>
+            <w xml:id="BRE_GEORG1508_156r_13_1">heubt</w>
+            <w xml:id="BRE_GEORG1508_156r_13_2">handt</w>
+            <w xml:id="BRE_GEORG1508_156r_13_3">fueß</w>
+            <w xml:id="BRE_GEORG1508_156r_13_4">und</w>
+            <w xml:id="BRE_GEORG1508_156r_13_5">waden</w>
+          </l>
+          <l n="13">
+            <w xml:id="BRE_GEORG1508_156r_14_0">Die</w>
+            <w xml:id="BRE_GEORG1508_156r_14_1">alt<expan>en</expan></w>
+            <w xml:id="BRE_GEORG1508_156r_14_2">pauren</w>
+            <w xml:id="BRE_GEORG1508_156r_14_3">yn</w>
+            <w xml:id="BRE_GEORG1508_156r_14_4">den</w>
+            <w xml:id="BRE_GEORG1508_156r_14_5">dörffen</w>
+          </l>
+          <l n="14">
+            <w xml:id="BRE_GEORG1508_156r_15_0">Die</w>
+            <w xml:id="BRE_GEORG1508_156r_15_1">hast</w>
+            <w xml:id="BRE_GEORG1508_156r_15_2">offt</w>
+            <w xml:id="BRE_GEORG1508_156r_15_3">yn</w>
+            <w xml:id="BRE_GEORG1508_156r_15_4">dreck</w>
+            <w xml:id="BRE_GEORG1508_156r_15_5">geworffen</w>
+          </l>
+          <l n="15">
+            <w xml:id="BRE_GEORG1508_156r_16_0">Das</w>
+            <w xml:id="BRE_GEORG1508_156r_16_1">sey</w>
+            <w xml:id="BRE_GEORG1508_156r_16_2">dir</w>
+            <w xml:id="BRE_GEORG1508_156r_16_3">als</w>
+            <w xml:id="BRE_GEORG1508_156r_16_4">fur</w>
+            <w xml:id="BRE_GEORG1508_156r_16_5">goth</w>
+            <w xml:id="BRE_GEORG1508_156r_16_6">vergeben</w>
+          </l>
+          <l n="16">
+            <w xml:id="BRE_GEORG1508_156r_17_0">Wen</w>
+            <w xml:id="BRE_GEORG1508_156r_17_1">sie</w>
+            <w xml:id="BRE_GEORG1508_156r_17_2">sich</w>
+            <w xml:id="BRE_GEORG1508_156r_17_3">nesteln</w>
+            <w xml:id="BRE_GEORG1508_156r_17_4">an</w>
+            <w xml:id="BRE_GEORG1508_156r_17_5">die</w>
+            <w xml:id="BRE_GEORG1508_156r_17_6">rebn</w>
+          </l>
+          <pb n="156v"/>
+          <l n="17">
+            <w xml:id="BRE_GEORG1508_156v_1_0">Ich</w>
+            <w xml:id="BRE_GEORG1508_156v_1_1">beuth</w>
+            <w xml:id="BRE_GEORG1508_156v_1_2">dir</w>
+            <w xml:id="BRE_GEORG1508_156v_1_3">bey</w>
+            <w xml:id="BRE_GEORG1508_156v_1_4">bebstlichen</w>
+            <w xml:id="BRE_GEORG1508_156v_1_5">pannen</w>
+          </l>
+          <l n="18">
+            <w xml:id="BRE_GEORG1508_156v_2_0">Du</w>
+            <w xml:id="BRE_GEORG1508_156v_2_1">seyst</w>
+            <w xml:id="BRE_GEORG1508_156v_2_2">bey</w>
+            <w xml:id="BRE_GEORG1508_156v_2_3">frauen</w>
+            <w xml:id="BRE_GEORG1508_156v_2_4">oder</w>
+            <w xml:id="BRE_GEORG1508_156v_2_5">bey</w>
+            <w xml:id="BRE_GEORG1508_156v_2_6">mannen</w>
+          </l>
+          <l n="19">
+            <w xml:id="BRE_GEORG1508_156v_3_0">Szo</w>
+            <w xml:id="BRE_GEORG1508_156v_3_1">kum</w>
+            <w xml:id="BRE_GEORG1508_156v_3_2">herwider</w>
+            <w xml:id="BRE_GEORG1508_156v_3_3">zu</w>
+            <w xml:id="BRE_GEORG1508_156v_3_4">rechten</w>
+            <w xml:id="BRE_GEORG1508_156v_3_5">zceitt<expan>en</expan></w>
+          </l>
+          <l n="20">
+            <w xml:id="BRE_GEORG1508_156v_4_0">Wan</w>
+            <w xml:id="BRE_GEORG1508_156v_4_1">ich</w>
+            <w xml:id="BRE_GEORG1508_156v_4_2">dein</w>
+            <w xml:id="BRE_GEORG1508_156v_4_3">allzceith</w>
+            <w xml:id="BRE_GEORG1508_156v_4_4">will</w>
+            <w xml:id="BRE_GEORG1508_156v_4_5">peytten</w>
+          </l>
+        </div>
+        <!-- Text 11: Weingruß Edels Getranck (Hans Rosenplüt) (Hs. Georg. 150.8°, 156v-157r) -->
+        <div type="section" n="11">
+          <head>
+            <hi rend="inkRed">
+              <hi rend="bold">
+                <w xml:id="BRE_GEORG1508_156v_5_0">Wein</w>
+                <w xml:id="BRE_GEORG1508_156v_5_1">gruss</w>
+              </hi>
+            </hi>
+          </head>
+          <l n="1">
+            <hi rend="inkRed">
+              <w xml:id="BRE_GEORG1508_156v_6_0">Grus</w>
+              <w xml:id="BRE_GEORG1508_156v_6_1">dich</w>
+              <w xml:id="BRE_GEORG1508_156v_6_2">goth</w>
+              <w xml:id="BRE_GEORG1508_156v_6_3">du</w>
+              <w xml:id="BRE_GEORG1508_156v_6_4">edles</w>
+              <w xml:id="BRE_GEORG1508_156v_6_5">getranck</w>
+            </hi>
+          </l>
+          <l n="2">
+            <w xml:id="BRE_GEORG1508_156v_7_0">Du</w>
+            <w xml:id="BRE_GEORG1508_156v_7_1">frischt</w>
+            <w xml:id="BRE_GEORG1508_156v_7_2">mir</w>
+            <w xml:id="BRE_GEORG1508_156v_7_3">mey<expan>n</expan></w>
+            <w xml:id="BRE_GEORG1508_156v_7_4">leben</w>
+            <w xml:id="BRE_GEORG1508_156v_7_5">dz</w>
+            <w xml:id="BRE_GEORG1508_156v_7_6">was</w>
+            <w xml:id="BRE_GEORG1508_156v_7_7">kranck</w>
+          </l>
+          <l n="3">
+            <w xml:id="BRE_GEORG1508_156v_8_0">Deyn</w>
+            <w xml:id="BRE_GEORG1508_156v_8_1">heylßamme</w>
+            <w xml:id="BRE_GEORG1508_156v_8_2">tropffen</w>
+          </l>
+          <l n="4">
+            <w xml:id="BRE_GEORG1508_156v_9_0">Kanst</w>
+            <w xml:id="BRE_GEORG1508_156v_9_1">mir</w>
+            <w xml:id="BRE_GEORG1508_156v_9_2">mein</w>
+            <w xml:id="BRE_GEORG1508_156v_9_3">trauren</w>
+            <w xml:id="BRE_GEORG1508_156v_9_4">wol</w>
+            <w xml:id="BRE_GEORG1508_156v_9_5">verstopff<expan>en</expan></w>
+          </l>
+          <l n="5">
+            <w xml:id="BRE_GEORG1508_156v_10_0">Selig</w>
+            <w xml:id="BRE_GEORG1508_156v_10_1">sey</w>
+            <w xml:id="BRE_GEORG1508_156v_10_2">der</w>
+            <w xml:id="BRE_GEORG1508_156v_10_3">hecker</w>
+            <w xml:id="BRE_GEORG1508_156v_10_4">der</w>
+            <w xml:id="BRE_GEORG1508_156v_10_5">umb</w>
+            <w xml:id="BRE_GEORG1508_156v_10_6">dich</w>
+            <w xml:id="BRE_GEORG1508_156v_10_7">hackt</w>
+          </l>
+          <l n="6">
+            <w xml:id="BRE_GEORG1508_156v_11_0">Selig</w>
+            <w xml:id="BRE_GEORG1508_156v_11_1">sey</w>
+            <w xml:id="BRE_GEORG1508_156v_11_2">der</w>
+            <w xml:id="BRE_GEORG1508_156v_11_3">leser</w>
+            <w xml:id="BRE_GEORG1508_156v_11_4">der</w>
+            <w xml:id="BRE_GEORG1508_156v_11_5">dich</w>
+            <w xml:id="BRE_GEORG1508_156v_11_6">abzwackt</w>
+          </l>
+          <l n="7">
+            <w xml:id="BRE_GEORG1508_156v_12_0">Selig</w>
+            <w xml:id="BRE_GEORG1508_156v_12_1">sey</w>
+            <w xml:id="BRE_GEORG1508_156v_12_2">der</w>
+            <w xml:id="BRE_GEORG1508_156v_12_3">der</w>
+            <w xml:id="BRE_GEORG1508_156v_12_4">dich</w>
+            <w xml:id="BRE_GEORG1508_156v_12_5">yn</w>
+            <w xml:id="BRE_GEORG1508_156v_12_6">kibel</w>
+            <w xml:id="BRE_GEORG1508_156v_12_7">leckt</w>
+          </l>
+          <l n="8">
+            <w xml:id="BRE_GEORG1508_156v_13_0">Selig</w>
+            <w xml:id="BRE_GEORG1508_156v_13_1">sey</w>
+            <w xml:id="BRE_GEORG1508_156v_13_2">der</w>
+            <w xml:id="BRE_GEORG1508_156v_13_3">der</w>
+            <w xml:id="BRE_GEORG1508_156v_13_4">dich</w>
+            <w xml:id="BRE_GEORG1508_156v_13_5">yn</w>
+            <w xml:id="BRE_GEORG1508_156v_13_6">die</w>
+            <w xml:id="BRE_GEORG1508_156v_13_7">kalter</w>
+            <w xml:id="BRE_GEORG1508_156v_13_8">treckt</w>
+          </l>
+          <l n="9">
+            <w xml:id="BRE_GEORG1508_156v_14_0">Selig</w>
+            <w xml:id="BRE_GEORG1508_156v_14_1">sey</w>
+            <w xml:id="BRE_GEORG1508_156v_14_2">der</w>
+            <w xml:id="BRE_GEORG1508_156v_14_3">putner</w>
+            <w xml:id="BRE_GEORG1508_156v_14_4">und</w>
+            <w xml:id="BRE_GEORG1508_156v_14_5">die</w>
+            <w xml:id="BRE_GEORG1508_156v_14_6">handt</w>
+          </l>
+          <l n="10">
+            <w xml:id="BRE_GEORG1508_156v_15_0">Und</w>
+            <w xml:id="BRE_GEORG1508_156v_15_1">der</w>
+            <w xml:id="BRE_GEORG1508_156v_15_2">die</w>
+            <w xml:id="BRE_GEORG1508_156v_15_3">reyff</w>
+            <w xml:id="BRE_GEORG1508_156v_15_4">zusammen</w>
+            <w xml:id="BRE_GEORG1508_156v_15_5">panth</w>
+          </l>
+          <l n="11">
+            <w xml:id="BRE_GEORG1508_156v_16_0">Selig</w>
+            <w xml:id="BRE_GEORG1508_156v_16_1">sey</w>
+            <w xml:id="BRE_GEORG1508_156v_16_2">der</w>
+            <w xml:id="BRE_GEORG1508_156v_16_3">dich</w>
+            <w xml:id="BRE_GEORG1508_156v_16_4">schencken</w>
+            <w xml:id="BRE_GEORG1508_156v_16_5">hat</w>
+            <w xml:id="BRE_GEORG1508_156v_16_6">erdacht</w>
+          </l>
+          <pb n="157r"/>
+          <l n="12">
+            <w xml:id="BRE_GEORG1508_157r_1_0">Selig</w>
+            <w xml:id="BRE_GEORG1508_157r_1_1">sey</w>
+            <w xml:id="BRE_GEORG1508_157r_1_2">der</w>
+            <w xml:id="BRE_GEORG1508_157r_1_3">both</w>
+            <w xml:id="BRE_GEORG1508_157r_1_4">der</w>
+            <w xml:id="BRE_GEORG1508_157r_1_5">dich</w>
+            <w xml:id="BRE_GEORG1508_157r_1_6">her</w>
+            <w xml:id="BRE_GEORG1508_157r_1_7">bracht</w>
+          </l>
+          <l n="13">
+            <w xml:id="BRE_GEORG1508_157r_2_0">Selig</w>
+            <w xml:id="BRE_GEORG1508_157r_2_1">sey</w>
+            <w xml:id="BRE_GEORG1508_157r_2_2">der</w>
+            <w xml:id="BRE_GEORG1508_157r_2_3">dich</w>
+            <w xml:id="BRE_GEORG1508_157r_2_4">ein</w>
+            <w xml:id="BRE_GEORG1508_157r_2_5">schengkt</w>
+          </l>
+          <l n="14">
+            <w xml:id="BRE_GEORG1508_157r_3_0">Selig</w>
+            <w xml:id="BRE_GEORG1508_157r_3_1">sey</w>
+            <w xml:id="BRE_GEORG1508_157r_3_2">der</w>
+            <w xml:id="BRE_GEORG1508_157r_3_3">der</w>
+            <w xml:id="BRE_GEORG1508_157r_3_4">ein</w>
+            <w xml:id="BRE_GEORG1508_157r_3_5">solchs</w>
+            <w xml:id="BRE_GEORG1508_157r_3_6">erdenckt</w>
+          </l>
+          <l n="15">
+            <w xml:id="BRE_GEORG1508_157r_4_0">Man</w>
+            <w xml:id="BRE_GEORG1508_157r_4_1">macht</w>
+            <w xml:id="BRE_GEORG1508_157r_4_2">die</w>
+            <w xml:id="BRE_GEORG1508_157r_4_3">mas</w>
+            <w xml:id="BRE_GEORG1508_157r_4_4">gar</w>
+            <w xml:id="BRE_GEORG1508_157r_4_5">clein</w>
+          </l>
+          <l n="16">
+            <w xml:id="BRE_GEORG1508_157r_5_0">Behut</w>
+            <w xml:id="BRE_GEORG1508_157r_5_1">dich</w>
+            <w xml:id="BRE_GEORG1508_157r_5_2">goth</w>
+            <w xml:id="BRE_GEORG1508_157r_5_3">fur</w>
+            <w xml:id="BRE_GEORG1508_157r_5_4">dem</w>
+            <w xml:id="BRE_GEORG1508_157r_5_5">hagel</w>
+            <w xml:id="BRE_GEORG1508_157r_5_6">stein</w>
+          </l>
+          <l n="17">
+            <w xml:id="BRE_GEORG1508_157r_6_0">Und</w>
+            <w xml:id="BRE_GEORG1508_157r_6_1">vor</w>
+            <w xml:id="BRE_GEORG1508_157r_6_2">des</w>
+            <w xml:id="BRE_GEORG1508_157r_6_3">kalten</w>
+            <w xml:id="BRE_GEORG1508_157r_6_4">reyffes</w>
+            <w xml:id="BRE_GEORG1508_157r_6_5">frostn</w>
+          </l>
+          <l n="18">
+            <w xml:id="BRE_GEORG1508_157r_7_0">Im</w>
+            <w xml:id="BRE_GEORG1508_157r_7_1">ganczen</w>
+            <w xml:id="BRE_GEORG1508_157r_7_2">laub</w>
+            <w xml:id="BRE_GEORG1508_157r_7_3">und</w>
+            <w xml:id="BRE_GEORG1508_157r_7_4">halbens</w>
+            <w xml:id="BRE_GEORG1508_157r_7_5">kostn</w>
+          </l>
+          <l n="19">
+            <w xml:id="BRE_GEORG1508_157r_8_0">Nun</w>
+            <w xml:id="BRE_GEORG1508_157r_8_1">mussen</w>
+            <w xml:id="BRE_GEORG1508_157r_8_2">alle</w>
+            <w xml:id="BRE_GEORG1508_157r_8_3">die</w>
+            <w xml:id="BRE_GEORG1508_157r_8_4">selige</w>
+            <w xml:id="BRE_GEORG1508_157r_8_5">sein</w>
+          </l>
+          <l n="20">
+            <w xml:id="BRE_GEORG1508_157r_9_0">Die</w>
+            <w xml:id="BRE_GEORG1508_157r_9_1">gern</w>
+            <w xml:id="BRE_GEORG1508_157r_9_2">trincken</w>
+            <w xml:id="BRE_GEORG1508_157r_9_3">wein</w>
+          </l>
+          <l n="21">
+            <w xml:id="BRE_GEORG1508_157r_10_0">Den</w>
+            <w xml:id="BRE_GEORG1508_157r_10_1">sol</w>
+            <w xml:id="BRE_GEORG1508_157r_10_2">goth</w>
+            <w xml:id="BRE_GEORG1508_157r_10_3">wein</w>
+            <w xml:id="BRE_GEORG1508_157r_10_4">bescheren</w>
+          </l>
+          <l n="22">
+            <w xml:id="BRE_GEORG1508_157r_11_0">Damit</w>
+            <w xml:id="BRE_GEORG1508_157r_11_1">sie</w>
+            <w xml:id="BRE_GEORG1508_157r_11_2">iren</w>
+            <w xml:id="BRE_GEORG1508_157r_11_3">leib</w>
+            <w xml:id="BRE_GEORG1508_157r_11_4">erneren</w>
+          </l>
+          <l n="23">
+            <w xml:id="BRE_GEORG1508_157r_12_0">Szo</w>
+            <w xml:id="BRE_GEORG1508_157r_12_1">wil</w>
+            <w xml:id="BRE_GEORG1508_157r_12_2">der</w>
+            <w xml:id="BRE_GEORG1508_157r_12_3">erst</w>
+            <w xml:id="BRE_GEORG1508_157r_12_4">sein</w>
+            <w xml:id="BRE_GEORG1508_157r_12_5">der</w>
+            <w xml:id="BRE_GEORG1508_157r_12_6">anfecht</w>
+          </l>
+          <l n="24">
+            <w xml:id="BRE_GEORG1508_157r_13_0">Und</w>
+            <w xml:id="BRE_GEORG1508_157r_13_1">eynen</w>
+            <w xml:id="BRE_GEORG1508_157r_13_2">gut<expan>en</expan></w>
+            <w xml:id="BRE_GEORG1508_157r_13_3">tru<expan>n</expan>ck</w>
+            <w xml:id="BRE_GEORG1508_157r_13_4">wil</w>
+            <w xml:id="BRE_GEORG1508_157r_13_5">thun</w>
+            <w xml:id="BRE_GEORG1508_157r_13_6">sein</w>
+            <w xml:id="BRE_GEORG1508_157r_13_7">recht</w>
+          </l>
+        </div>
+        <!-- Text 12: Weinsegen Edle Leibsalb (Hans Rosenplüt) (Hs. Georg. 150.8°, 157r-158r) -->
+        <div type="section" n="12">
+          <head>
+            <hi rend="inkRed">
+              <hi rend="bold">
+                <w xml:id="BRE_GEORG1508_157r_14_0">Wein</w>
+                <w xml:id="BRE_GEORG1508_157r_14_1">segen</w>
+              </hi>
+            </hi>
+          </head>
+          <l n="1">
+            <hi rend="inkRed">
+              <w xml:id="BRE_GEORG1508_157r_15_0">Gesegen</w>
+              <w xml:id="BRE_GEORG1508_157r_15_1">dich</w>
+              <w xml:id="BRE_GEORG1508_157r_15_2">goth</w>
+              <w xml:id="BRE_GEORG1508_157r_15_3">du</w>
+              <w xml:id="BRE_GEORG1508_157r_15_4">edle</w>
+              <w xml:id="BRE_GEORG1508_157r_15_5">leib</w>
+              <w xml:id="BRE_GEORG1508_157r_15_6">salb</w>
+            </hi>
+          </l>
+          <l n="2">
+            <w xml:id="BRE_GEORG1508_157r_16_0">Du</w>
+            <w xml:id="BRE_GEORG1508_157r_16_1">ernerst</w>
+            <w xml:id="BRE_GEORG1508_157r_16_2">mein</w>
+            <w xml:id="BRE_GEORG1508_157r_16_3">mehr</w>
+            <w xml:id="BRE_GEORG1508_157r_16_4">den</w>
+            <w xml:id="BRE_GEORG1508_157r_16_5">anderhalb</w>
+          </l>
+          <l n="3">
+            <w xml:id="BRE_GEORG1508_157r_17_0">Du</w>
+            <w xml:id="BRE_GEORG1508_157r_17_1">bist</w>
+            <w xml:id="BRE_GEORG1508_157r_17_2">ganz</w>
+            <w xml:id="BRE_GEORG1508_157r_17_3">ein</w>
+            <w xml:id="BRE_GEORG1508_157r_17_4">susser</w>
+            <w xml:id="BRE_GEORG1508_157r_17_5">Suropel</w>
+          </l>
+          <l n="4">
+            <w xml:id="BRE_GEORG1508_157r_18_0">Der</w>
+            <w xml:id="BRE_GEORG1508_157r_18_1">kayser</w>
+            <w xml:id="BRE_GEORG1508_157r_18_2">von</w>
+            <w xml:id="BRE_GEORG1508_157r_18_3">constantinopell</w>
+          </l>
+          <pb n="157v"/>
+          <l n="5">
+            <w xml:id="BRE_GEORG1508_157v_1_0">Und</w>
+            <w xml:id="BRE_GEORG1508_157v_1_1">der</w>
+            <w xml:id="BRE_GEORG1508_157v_1_2">gros</w>
+            <w xml:id="BRE_GEORG1508_157v_1_3">konig</w>
+            <w xml:id="BRE_GEORG1508_157v_1_4">von</w>
+            <w xml:id="BRE_GEORG1508_157v_1_5">kathey</w>
+          </l>
+          <l n="6">
+            <w xml:id="BRE_GEORG1508_157v_2_0">Und</w>
+            <w xml:id="BRE_GEORG1508_157v_2_1">priester</w>
+            <w xml:id="BRE_GEORG1508_157v_2_2">johan</w>
+            <w xml:id="BRE_GEORG1508_157v_2_3">die</w>
+            <w xml:id="BRE_GEORG1508_157v_2_4">reichen</w>
+            <w xml:id="BRE_GEORG1508_157v_2_5">drey</w>
+          </l>
+          <l n="7">
+            <w xml:id="BRE_GEORG1508_157v_3_0">Kunnen</w>
+            <w xml:id="BRE_GEORG1508_157v_3_1">deynem</w>
+            <w xml:id="BRE_GEORG1508_157v_3_2">adel</w>
+            <w xml:id="BRE_GEORG1508_157v_3_3">nit</w>
+            <w xml:id="BRE_GEORG1508_157v_3_4">vergelt<expan>en</expan></w>
+          </l>
+          <l n="8">
+            <w xml:id="BRE_GEORG1508_157v_4_0">Warumb</w>
+            <w xml:id="BRE_GEORG1508_157v_4_1">wolt</w>
+            <w xml:id="BRE_GEORG1508_157v_4_2">ich</w>
+            <w xml:id="BRE_GEORG1508_157v_4_3">dich</w>
+            <w xml:id="BRE_GEORG1508_157v_4_4">dan</w>
+            <w xml:id="BRE_GEORG1508_157v_4_5">schelt<expan>en</expan></w>
+          </l>
+          <l n="9">
+            <w xml:id="BRE_GEORG1508_157v_5_0">An</w>
+            <w xml:id="BRE_GEORG1508_157v_5_1">freuden</w>
+            <w xml:id="BRE_GEORG1508_157v_5_2">unnd</w>
+            <w xml:id="BRE_GEORG1508_157v_5_3">an</w>
+            <w xml:id="BRE_GEORG1508_157v_5_4">seligkeytt</w>
+          </l>
+          <l n="10">
+            <w xml:id="BRE_GEORG1508_157v_6_0">Selig</w>
+            <w xml:id="BRE_GEORG1508_157v_6_1">sey</w>
+            <w xml:id="BRE_GEORG1508_157v_6_2">der</w>
+            <w xml:id="BRE_GEORG1508_157v_6_3">stock</w>
+            <w xml:id="BRE_GEORG1508_157v_6_4">der</w>
+            <w xml:id="BRE_GEORG1508_157v_6_5">dich</w>
+            <w xml:id="BRE_GEORG1508_157v_6_6">treytt</w>
+          </l>
+          <l n="11">
+            <w xml:id="BRE_GEORG1508_157v_7_0">Es</w>
+            <w xml:id="BRE_GEORG1508_157v_7_1">was</w>
+            <w xml:id="BRE_GEORG1508_157v_7_2">kein</w>
+            <w xml:id="BRE_GEORG1508_157v_7_3">hochhzeith</w>
+            <w xml:id="BRE_GEORG1508_157v_7_4">nye</w>
+            <w xml:id="BRE_GEORG1508_157v_7_5">gros</w>
+          </l>
+          <l n="12">
+            <w xml:id="BRE_GEORG1508_157v_8_0">Bistu</w>
+            <w xml:id="BRE_GEORG1508_157v_8_1">nit</w>
+            <w xml:id="BRE_GEORG1508_157v_8_2">darauf</w>
+            <w xml:id="BRE_GEORG1508_157v_8_3">so</w>
+            <w xml:id="BRE_GEORG1508_157v_8_4">bistu</w>
+            <w xml:id="BRE_GEORG1508_157v_8_5">blos</w>
+          </l>
+          <l n="13">
+            <w xml:id="BRE_GEORG1508_157v_9_0">Man</w>
+            <w xml:id="BRE_GEORG1508_157v_9_1">sagt</w>
+            <w xml:id="BRE_GEORG1508_157v_9_2">vil</w>
+            <w xml:id="BRE_GEORG1508_157v_9_3">von</w>
+            <w xml:id="BRE_GEORG1508_157v_9_4">kulen</w>
+            <w xml:id="BRE_GEORG1508_157v_9_5">brun<expan>n</expan>en</w>
+            <w xml:id="BRE_GEORG1508_157v_9_6">yn</w>
+            <w xml:id="BRE_GEORG1508_157v_9_7">dem</w>
+            <w xml:id="BRE_GEORG1508_157v_9_8">meyen</w>
+          </l>
+          <l n="14">
+            <w xml:id="BRE_GEORG1508_157v_10_0">Wan</w>
+            <w xml:id="BRE_GEORG1508_157v_10_1">knecht</w>
+            <w xml:id="BRE_GEORG1508_157v_10_2">und</w>
+            <w xml:id="BRE_GEORG1508_157v_10_3">fraue<expan>n</expan></w>
+            <w xml:id="BRE_GEORG1508_157v_10_4">daruber</w>
+            <w xml:id="BRE_GEORG1508_157v_10_5">reyen</w>
+          </l>
+          <l n="15">
+            <w xml:id="BRE_GEORG1508_157v_11_0">Kumpstu</w>
+            <w xml:id="BRE_GEORG1508_157v_11_1">den</w>
+            <w xml:id="BRE_GEORG1508_157v_11_2">nit</w>
+            <w xml:id="BRE_GEORG1508_157v_11_3">dar</w>
+            <w xml:id="BRE_GEORG1508_157v_11_4">mit</w>
+            <w xml:id="BRE_GEORG1508_157v_11_5">follen</w>
+            <w xml:id="BRE_GEORG1508_157v_11_6">flaschen</w>
+          </l>
+          <l n="16">
+            <w xml:id="BRE_GEORG1508_157v_12_0">Szo</w>
+            <w xml:id="BRE_GEORG1508_157v_12_1">ist</w>
+            <w xml:id="BRE_GEORG1508_157v_12_2">die</w>
+            <w xml:id="BRE_GEORG1508_157v_12_3">freud</w>
+            <w xml:id="BRE_GEORG1508_157v_12_4">gancz</w>
+            <w xml:id="BRE_GEORG1508_157v_12_5">gefallen</w>
+            <w xml:id="BRE_GEORG1508_157v_12_6">in</w>
+            <w xml:id="BRE_GEORG1508_157v_12_7">die</w>
+            <w xml:id="BRE_GEORG1508_157v_12_8">aschen</w>
+          </l>
+          <l n="17">
+            <w xml:id="BRE_GEORG1508_157v_13_0">Und</w>
+            <w xml:id="BRE_GEORG1508_157v_13_1">wer</w>
+            <w xml:id="BRE_GEORG1508_157v_13_2">der</w>
+            <w xml:id="BRE_GEORG1508_157v_13_3">babst</w>
+            <w xml:id="BRE_GEORG1508_157v_13_4">zu</w>
+            <w xml:id="BRE_GEORG1508_157v_13_5">tisch</w>
+            <w xml:id="BRE_GEORG1508_157v_13_6">gesessen</w>
+          </l>
+          <l n="18">
+            <w xml:id="BRE_GEORG1508_157v_14_0">Und</w>
+            <w xml:id="BRE_GEORG1508_157v_14_1">wolt</w>
+            <w xml:id="BRE_GEORG1508_157v_14_2">der</w>
+            <w xml:id="BRE_GEORG1508_157v_14_3">kayser</w>
+            <w xml:id="BRE_GEORG1508_157v_14_4">mit</w>
+            <w xml:id="BRE_GEORG1508_157v_14_5">ym</w>
+            <w xml:id="BRE_GEORG1508_157v_14_6">essen</w>
+          </l>
+          <l n="19">
+            <w xml:id="BRE_GEORG1508_157v_15_0">Und</w>
+            <w xml:id="BRE_GEORG1508_157v_15_1">hetten</w>
+            <w xml:id="BRE_GEORG1508_157v_15_2">frembt</w>
+            <w xml:id="BRE_GEORG1508_157v_15_3">dreysigk</w>
+            <w xml:id="BRE_GEORG1508_157v_15_4">richt</w>
+          </l>
+          <l n="20">
+            <w xml:id="BRE_GEORG1508_157v_16_0">Szo</w>
+            <w xml:id="BRE_GEORG1508_157v_16_1">weren</w>
+            <w xml:id="BRE_GEORG1508_157v_16_2">sie</w>
+            <w xml:id="BRE_GEORG1508_157v_16_3">doch</w>
+            <w xml:id="BRE_GEORG1508_157v_16_4">gar</w>
+            <w xml:id="BRE_GEORG1508_157v_16_5">vernicht</w>
+          </l>
+          <l n="21">
+            <w xml:id="BRE_GEORG1508_157v_17_0">Wen</w>
+            <w xml:id="BRE_GEORG1508_157v_17_1">du</w>
+            <w xml:id="BRE_GEORG1508_157v_17_2">nit</w>
+            <w xml:id="BRE_GEORG1508_157v_17_3">gegenwertig</w>
+            <w xml:id="BRE_GEORG1508_157v_17_4">werst</w>
+          </l>
+          <pb n="158r"/>
+          <l n="22">
+            <w xml:id="BRE_GEORG1508_158r_1_0">Wan</w>
+            <w xml:id="BRE_GEORG1508_158r_1_1">du</w>
+            <w xml:id="BRE_GEORG1508_158r_1_2">meiner</w>
+            <w xml:id="BRE_GEORG1508_158r_1_3">hilff</w>
+            <w xml:id="BRE_GEORG1508_158r_1_4">begerst</w>
+          </l>
+          <l n="23">
+            <w xml:id="BRE_GEORG1508_158r_2_0">Szo</w>
+            <w xml:id="BRE_GEORG1508_158r_2_1">dinth</w>
+            <w xml:id="BRE_GEORG1508_158r_2_2">dir</w>
+            <w xml:id="BRE_GEORG1508_158r_2_3">alle</w>
+            <w xml:id="BRE_GEORG1508_158r_2_4">meine</w>
+            <w xml:id="BRE_GEORG1508_158r_2_5">glyder</w>
+          </l>
+          <l n="24">
+            <w xml:id="BRE_GEORG1508_158r_3_0">Gesegen</w>
+            <w xml:id="BRE_GEORG1508_158r_3_1">dich</w>
+            <w xml:id="BRE_GEORG1508_158r_3_2">goth</w>
+            <w xml:id="BRE_GEORG1508_158r_3_3">und</w>
+            <w xml:id="BRE_GEORG1508_158r_3_4">khum</w>
+            <w xml:id="BRE_GEORG1508_158r_3_5">schir</w>
+            <w xml:id="BRE_GEORG1508_158r_3_6">herwider</w>
+          </l>
+        </div>
+      </div>
+    </body>
+  </text>
+</TEI>

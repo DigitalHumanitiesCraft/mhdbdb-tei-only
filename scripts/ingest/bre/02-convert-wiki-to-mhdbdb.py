@@ -23,6 +23,11 @@ Parse- oder Segmentierungsfehlern oder fehlgeschlagener Gegenprobe.
 Aufruf:
   python -P -E scripts/ingest/bre/02-convert-wiki-to-mhdbdb.py --zeuge B
   python -P -E scripts/ingest/bre/02-convert-wiki-to-mhdbdb.py --zeuge alle --trocken
+  python -P -E scripts/ingest/bre/02-convert-wiki-to-mhdbdb.py --zeuge alle --datum 2026-11-17
+
+Ohne --trocken schreibt "alle" nur die Zeugen, deren Segmentierung nicht offen ist
+(bre_common.SEGMENTIERUNG_OFFEN: B2, d4, d6). Von D entfaellt Teil B (17. Jh.,
+bre_common.TEIL_AUSGESCHLOSSEN).
 """
 import argparse
 import collections
@@ -427,6 +432,12 @@ def anhaengen_text(el, s):
         el.text = (el.text or "") + s
 
 
+# Satzzeichen (d2, d3, d5 sind interpungiert): eigenes <pc>, nicht Teil des <w> (#66, Tabelle
+# in docs/DATA-MODEL.md -> Structural cleanup). Apostroph (Elision, "mach’") und Bindestrich
+# ("wagen-schmir") bleiben im Wort.
+PUNKT = set(",.;:!?")
+
+
 def zerlege_woerter(toks):
     items, cur, pend = [], None, []
 
@@ -448,6 +459,20 @@ def zerlege_woerter(toks):
         if t[0] == "c":
             if t[1].isspace():
                 flush()
+            elif t[1] in PUNKT:
+                # haengt am vorigen Wort (join=left); nur wenn davor Leerraum steht und direkt
+                # ein Wort folgt, am folgenden (join=right)
+                nz = naechstes_zeichen(i)
+                vorher_wort = cur is not None or (items and items[-1]["kind"] == "pc"
+                                                  and items[-1]["join"] == "left")
+                links = vorher_wort or not (nz is not None and not nz[1].isspace()
+                                            and nz[1] not in PUNKT)
+                flush()
+                if items and items[-1]["kind"] == "pc" and items[-1]["spans"] == t[2]:
+                    items[-1]["text"] += t[1]
+                else:
+                    items.append({"kind": "pc", "text": t[1], "spans": t[2],
+                                  "join": "left" if links else "right"})
             else:
                 if cur is None:
                     cur = []
@@ -524,6 +549,11 @@ def baue_zeile(container, toks, meta, zust, stat, containers, ctx):
         elif it["kind"] == "gap":
             E(parent, "gap", reason="illegible")
             stat["el"]["gap"] += 1
+        elif it["kind"] == "pc":
+            pc = E(parent, "pc", join=it["join"])
+            pc.text = it["text"]
+            stat["el"]["pc"] += 1
+            erwartet.append(it["text"])
         elif it["kind"] == "note":
             n = E(parent, "note", type="transcription")
             n.text = it["text"]
@@ -653,7 +683,7 @@ HEADER_TEMPLATE = """<teiHeader xmlns="http://www.tei-c.org/ns/1.0">
                 </respStmt>
                 <ref target="{source_url}"/>
                 <note type="provenance">Transkription aus dem Brevitas-Wiki (wiki.brevitas.org), Seite "{wiki_titel}", Revision {revid} vom {timestamp}. Konvertiert in das MHDBDB-Schema durch automatische Transformation (scripts/ingest/bre/02-convert-wiki-to-mhdbdb.py, {heute}).</note>
-                <note type="fidelity">Mechanische Konversion ohne Eingriff in Wortgrenzen und Auszeichnungs-Semantik. Die Gliederung in Einzeltexte folgt den Synopsen der Einzeltextseiten des Brevitas-Wikis, Teile einer Transkription (Teil A/B) als div/@n.</note>
+                <note type="fidelity">Mechanische Konversion ohne Eingriff in Wortgrenzen und Auszeichnungs-Semantik. Die Gliederung in Einzeltexte folgt den Synopsen der Einzeltextseiten des Brevitas-Wikis, Teile einer Transkription (Teil A/B) als div/@n.{zusatz}</note>
               </bibl>
             </listBibl>
           </additional>
@@ -695,7 +725,38 @@ HEADER_TEMPLATE = """<teiHeader xmlns="http://www.tei-c.org/ns/1.0">
   </teiHeader>"""
 
 
-def baue_tei(sigle, signatur, seite, items, lex, texte, stat, vorspann=None, datum="1970-01-01"):
+def schneide_teil_ab(sigle, items, texte, info):
+    """Schneidet den ausgeschlossenen Teil (bre_common.TEIL_AUSGESCHLOSSEN) ab.
+
+    Laeuft NACH Segmentierung und Hauptseiten-Abgleich: beide pruefen den ganzen Zeugen, der
+    Ausschluss betrifft nur die Ausgabe. -> (items, texte, ausgeschlossene Texte, Grund oder None);
+    info["stuecke"] und info["fortsetzungen"] werden um den abgeschnittenen Teil verringert,
+    damit die Zeilenbilanz weiter aufgeht.
+    """
+    if sigle not in bc.TEIL_AUSGESCHLOSSEN:
+        return items, texte, [], None
+    teil, grund = bc.TEIL_AUSGESCHLOSSEN[sigle]
+    marken = [i for i, it in enumerate(items) if it["kind"] == "part"
+              and re.sub(r"^Teil\s+", "", it["label"]).rstrip(":").strip() == teil]
+    if len(marken) != 1:
+        raise QuellFehler(f"Teil {teil!r} zum Ausschliessen {len(marken)}x gefunden statt 1")
+    cut = marken[0]
+    if any(it["kind"] == "part" for it in items[cut + 1:]):
+        raise QuellFehler(f"Teil {teil!r} ist nicht der letzte Teil: nur der letzte kann entfallen")
+    weg = items[cut:]
+    n_fort = sum(1 for it in weg if it.get("fortsetzung"))
+    n_vers = sum(1 for it in weg if it["kind"] == "verse")
+    info["stuecke"] -= n_vers + n_fort
+    info["fortsetzungen"] -= n_fort
+    bleiben = [t for t in texte if t["start"] < cut]
+    raus = [t for t in texte if t["start"] >= cut]
+    if not raus or any(t["grenze"] >= cut for t in bleiben):
+        raise QuellFehler(f"Teil {teil!r}: Textgrenzen passen nicht zum Teil-Marker")
+    return items[:cut], bleiben, raus, grund
+
+
+def baue_tei(sigle, signatur, seite, items, lex, texte, stat, vorspann=None, datum="1970-01-01",
+             ausschluss=None):
     """-> (tei_root, containers, erwartete_zeilen)"""
     attr = lambda s: escape(s, {'"': "&quot;"})  # noqa: E731
     quelle = (f"{bc.WIKI_BASIS}?title={urllib.parse.quote(seite['titel'].replace(' ', '_'))}"
@@ -703,7 +764,7 @@ def baue_tei(sigle, signatur, seite, items, lex, texte, stat, vorspann=None, dat
     header = etree.fromstring(HEADER_TEMPLATE.format(
         sigle=sigle, title_de=escape(signatur), source_url=attr(quelle),
         wiki_titel=escape(seite["titel"]), revid=seite["revid"], timestamp=seite["timestamp"],
-        heute=datum))
+        heute=datum, zusatz=(" " + escape(ausschluss)) if ausschluss else ""))
     tei = etree.Element(q("TEI"), nsmap={None: TEI_NS})
     tei.set(f"{{{XML_NS}}}id", sigle)
     tei.append(header)
@@ -792,6 +853,8 @@ def baue_tei(sigle, signatur, seite, items, lex, texte, stat, vorspann=None, dat
         div = E(elter, "div", type="section", n=str(n_abschnitt))
         containers.add(id(div))
         emit(div, range(grenzen[k], grenzen[k + 1]), set(t["heads"]))
+    if ausschluss:
+        aussen.append(etree.Comment(f" {ausschluss} "))
     return tei, containers, erwartet_zeilen
 
 
@@ -912,10 +975,15 @@ def konvertiere(sigle, trocken, ausgabe_dir, datum):
             + "; ".join(f"{x['art']} {x['titel']!r}: bisher {x['bisher']!r}, Hauptseite "
                         f"{x['hauptseite']!r}" for x in offen))
 
+    # Ausgeschlossener Teil (Epoche, bre_common.TEIL_AUSGESCHLOSSEN): erst nach Segmentierung und
+    # Abgleich, die beide den ganzen Zeugen sehen
+    items, texte, raus, ausschluss = schneide_teil_ab(sigle, items, texte, info)
+    n_rows = len(rows) - len(raus)
+
     stat = {"w": 0, "l": 0, "head": 0, "pb": 0, "pb_im_wort": 0, "note": 0,
             "el": collections.Counter(), "span_dupliziert": collections.Counter()}
     tei, containers, erwartet = baue_tei(mhdbdb, signatur, seite, items, lex, texte, stat,
-                                         vorspann, datum)
+                                         vorspann, datum, ausschluss)
 
     # Gegenproben
     n_l = len(tei.xpath("//t:l", namespaces={"t": TEI_NS}))
@@ -926,9 +994,9 @@ def konvertiere(sigle, trocken, ausgabe_dir, datum):
     if n_l + n_head + info["fortsetzungen"] != info["stuecke"]:
         probleme.append(f"Zeilen: {n_l} <l> + {n_head} <head> + {info['fortsetzungen']} Fortsetzung(en) "
                         f"!= {info['stuecke']} Quellzeilen")
-    if n_div != len(rows) + n_vor_text:
+    if n_div != n_rows + n_vor_text:
         probleme.append(f"Texte: {n_div} <div> != {len(rows)} Zeilen in segmentierung.tsv "
-                        f"+ {n_vor_text} Vorspann-Text")
+                        f"- {len(raus)} ausgeschlossen + {n_vor_text} Vorspann-Text")
     if n_w != stat["w"]:
         probleme.append(f"Woerter: {n_w} <w> im Baum != {stat['w']} gebaut")
     ids = tei.xpath("//t:w/@xml:id", namespaces={"t": TEI_NS})
@@ -959,6 +1027,9 @@ def konvertiere(sigle, trocken, ausgabe_dir, datum):
     ok, klassen, im_wort = schema_pruefen(root)
 
     pfad = ausgabe_dir / f"{mhdbdb}.tei.xml"
+    if not trocken and sigle in bc.SEGMENTIERUNG_OFFEN:
+        raise bc.HarterFehler(f"Segmentierung offen ({bc.SEGMENTIERUNG_OFFEN[sigle]}): wird nicht "
+                              f"geschrieben, nur --trocken (bre_common.SEGMENTIERUNG_OFFEN)")
     if not trocken and not probleme:
         pi1 = etree.ProcessingInstruction(
             "xml-model", 'href="../schema/mhdbdb.rng" type="application/xml" '
@@ -972,8 +1043,12 @@ def konvertiere(sigle, trocken, ausgabe_dir, datum):
 
     print(f"== {sigle} ({name}) -> {mhdbdb}  [Seite {titel!r}, rev {seite['revid']}]")
     print(f"Datum im Header: {datum}")
-    print(f"Texte: {len(texte)} (von {len(rows)} in segmentierung.tsv)"
+    print(f"Texte: {len(texte)} (von {len(rows)} in segmentierung.tsv"
+          + (f", {len(raus)} im ausgeschlossenen Teil" if raus else "") + ")"
           + (f" + {n_vor_text} Vorspann-Text" if n_vor_text else ""))
+    if ausschluss:
+        print(f"Ausgeschlossen: {ausschluss} ({len(raus)} Texte: "
+              f"{', '.join(t['row']['text_titel'] for t in raus)})")
     if vorspann:
         print(f"Vorspann ({vorspann['art']}): {len(vorspann['idx'])} Zeile(n), Quellzeilen "
               f"{[items[i]['lines'][0] for i in vorspann['idx']]}")
@@ -1034,6 +1109,9 @@ def main():
     zeugen = list(bc.ZEUGEN) if a.zeuge == "alle" else [a.zeuge]
     rc = 0
     for z in zeugen:
+        if a.zeuge == "alle" and not a.trocken and z in bc.SEGMENTIERUNG_OFFEN:
+            print(f"== {z}: uebersprungen, Segmentierung offen ({bc.SEGMENTIERUNG_OFFEN[z]})")
+            continue
         try:
             konvertiere(z, a.trocken, a.ausgabe_dir, a.datum)
         except bc.HarterFehler as e:

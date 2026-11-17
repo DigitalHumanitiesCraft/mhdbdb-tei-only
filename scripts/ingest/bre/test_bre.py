@@ -387,6 +387,56 @@ pruefe("Kopfregel: Lombarde allein macht keinen head",
        not texte_tr[1]["heads"] and not tei_tr.xpath("//t:div[@n='2']/t:head", namespaces=ns)
        and len(tei_tr.xpath("//t:div[@n='1']/t:l", namespaces=ns)) == 5)
 
+# Epoche: Teil B von D (17. Jh.) entfaellt in der Ausgabe, Segmentierung sieht den ganzen Zeugen
+s_ab = SEITE.replace("[188r]<br />\n", "===A:===\n[188r]<br />\n", 1).replace(
+    '<span style="color:#FF0000">N</span>u grüß dich zwei',
+    '===B:===\n<span style="color:#FF0000">N</span>u grüß dich zwei')
+
+
+def baue_mit_ausschluss(seite, sigle):
+    signatur, its, noten, inf = conv.lies_transkription(seite)
+    lx = {i: conv.lexe(it["raw"], noten, "t") for i, it in enumerate(its) if it["kind"] == "verse"}
+    tx, _, vs = conv.segmentiere(its, lx, ROWS, sigle)
+    its, tx, raus, grund = conv.schneide_teil_ab(sigle, its, tx, inf)
+    st = {"w": 0, "l": 0, "head": 0, "pb": 0, "pb_im_wort": 0, "note": 0,
+          "el": collections.Counter(), "span_dupliziert": collections.Counter()}
+    t, _, _ = conv.baue_tei("BRE_TEST", signatur, SEITE_META, its, lx, tx, st, vs, "2026-01-01", grund)
+    return t, tx, raus, inf
+
+
+tei_d, tx_d, raus_d, inf_d = baue_mit_ausschluss(s_ab, "D")
+pruefe("Ausschluss D Teil B: ein Text bleibt, einer entfaellt",
+       len(tx_d) == 1 and len(raus_d) == 1 and raus_d[0]["row"]["text_titel"] == "B"
+       and len(tei_d.xpath("//t:div[@type='section']", namespaces=ns)) == 1
+       and not tei_d.xpath("//t:div[@n='B']", namespaces=ns)
+       and "zweite" not in conv.etree.tostring(tei_d, encoding="unicode"))
+pruefe("Ausschluss D Teil B: Zeilenbilanz geht auf",
+       len(tei_d.xpath("//t:l", namespaces=ns)) + len(tei_d.xpath("//t:head", namespaces=ns))
+       + inf_d["fortsetzungen"] == inf_d["stuecke"], str(inf_d))
+pruefe("Ausschluss D Teil B: Grund im Header und als Kommentar",
+       "17. Jahrhundert" in "".join(tei_d.xpath("//t:note[@type='fidelity']/text()", namespaces=ns))
+       and any("17. Jahrhundert" in c.text for c in tei_d.xpath("//t:body//comment()", namespaces=ns)))
+tei_b, tx_b, raus_b, _ = baue_mit_ausschluss(s_ab, "B")
+pruefe("Ausschluss nur fuer D: B behaelt beide Teile", len(raus_b) == 0 and len(tx_b) == 2
+       and len(tei_b.xpath("//t:div[@n='B']", namespaces=ns)) == 1)
+try:
+    baue_mit_ausschluss(SEITE, "D")
+    pruefe("Ausschluss ohne Teil-Marker = Fehler", False, "kein Fehler")
+except conv.bc.HarterFehler:
+    pruefe("Ausschluss ohne Teil-Marker = Fehler", True)
+# Satzzeichen (#66): eigenes <pc join="left">, Apostroph und Bindestrich bleiben im Wort
+s_pc = SEITE.replace("Mit her(r) v(er)stoppffen", "Mit her(r), mach’ wagen-schmir. Der.X.")
+_, _, tei_pc, info_pc, _ = baue(s_pc, ROWS, "B")
+pcs = tei_pc.xpath("//t:pc", namespaces=ns)
+woerter_pc = [e.xpath("string(.)") for e in tei_pc.xpath("//t:w", namespaces=ns)]
+pruefe("Satzzeichen als pc", [p.text for p in pcs] == [",", ".", ".", "."]
+       and all(p.get("join") == "left" for p in pcs)
+       and "mach’" in woerter_pc and "wagen-schmir" in woerter_pc and "X" in woerter_pc
+       and not any(c in w for w in woerter_pc for c in ",.;:!?"), str(woerter_pc))
+pruefe("Satzzeichen: Zeilenbilanz", len(tei_pc.xpath("//t:l", namespaces=ns))
+       + len(tei_pc.xpath("//t:head", namespaces=ns)) + info_pc["fortsetzungen"] == info_pc["stuecke"])
+pruefe("offene Segmentierung: B2, d4, d6", set(conv.bc.SEGMENTIERUNG_OFFEN) == {"B2", "d4", "d6"})
+
 if fehler:
     print(f"{len(fehler)} Test(s) fehlgeschlagen")
     sys.exit(1)

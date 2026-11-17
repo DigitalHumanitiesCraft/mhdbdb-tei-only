@@ -1,0 +1,2146 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?xml-model href="../schema/mhdbdb.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="https://tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng"?><TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="BRE_COD13711">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title xml:lang="de">Wien, Österreichische Nationalbibliothek: Cod. 13711, 21r-28r</title>
+        <author ref="#person_anonym">Anonym</author>
+        <respStmt>
+          <resp>digitale Zusammenführung, Annotation und semantische Klassifikation</resp>
+          <orgName ref="contributors.xml#mhdbdb-team">MHDBDB-Team (vollständige Liste in contributors.xml)</orgName>
+        </respStmt>
+      </titleStmt>
+      <publicationStmt>
+        <publisher>
+          <orgName>Mittelhochdeutsche Begriffsdatenbank (MHDBDB)</orgName>
+          <orgName>Paris Lodron Universität Salzburg</orgName>
+          <address>
+            <street>Erzabt-Klotz-Straße 1</street>
+            <postCode>5020</postCode>
+            <settlement>Salzburg</settlement>
+            <country>Österreich</country>
+          </address>
+          <email>mhdbdb@plus.ac.at</email>
+          <ptr target="https://mhdbdb.plus.ac.at"/>
+        </publisher>
+        <authority>
+          <persName role="coordinator" ref="contributors.xml#contrib_003">
+            <forename>Katharina</forename>
+            <surname>Zeppezauer-Wachauer</surname>
+          </persName>
+          <persName role="founder" ref="contributors.xml#contrib_001">
+            <forename>Klaus M.</forename>
+            <surname>Schmidt</surname>
+          </persName>
+          <persName role="founder" ref="contributors.xml#contrib_002">
+            <forename>Horst</forename>
+            <surname>Pütz</surname>
+          </persName>
+        </authority>
+        <availability>
+          <licence target="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</licence>
+          <p>Transkription von Silvan Wagner (wiki.brevitas.org), Freigabe unter CC BY-NC-SA 4.0 per Mail an Katharina Zeppezauer-Wachauer, Oktober 2026 (#147).</p>
+        </availability>
+        <date when="2026">2026</date>
+      </publicationStmt>
+      <sourceDesc>
+        <msDesc>
+          <msIdentifier corresp="works.xml#work_TBD">
+            <idno type="sigle">BRE_COD13711</idno>
+            <msName xml:lang="de">Wien, Österreichische Nationalbibliothek: Cod. 13711, 21r-28r</msName>
+          </msIdentifier>
+          <additional>
+            <listBibl>
+              <bibl type="digitalIntermediary" xml:id="BRE_COD13711_brevitas_wiki" corresp="#BRE_COD13711_TBD">
+                <title>Brevitas-Wiki, Hybridedition der Weingrüße (Silvan Wagner)</title>
+                <respStmt>
+                  <resp>Transkription</resp>
+                  <name>Silvan Wagner</name>
+                </respStmt>
+                <ref target="https://wiki.brevitas.org/mediawiki_1_43/index.php?title=Weingr%C3%BC%C3%9Fe_Cod._13711&amp;oldid=21431"/>
+                <note type="provenance">Transkription aus dem Brevitas-Wiki (wiki.brevitas.org), Seite "Weingrüße Cod. 13711", Revision 21431 vom 2022-04-21T19:38:12Z. Konvertiert in das MHDBDB-Schema durch automatische Transformation (scripts/ingest/bre/02-convert-wiki-to-mhdbdb.py, 2026-11-17).</note>
+                <note type="fidelity">Mechanische Konversion ohne Eingriff in Wortgrenzen und Auszeichnungs-Semantik. Die Gliederung in Einzeltexte folgt den Synopsen der Einzeltextseiten des Brevitas-Wikis, Teile einer Transkription (Teil A/B) als div/@n.</note>
+              </bibl>
+            </listBibl>
+          </additional>
+        </msDesc>
+      </sourceDesc>
+    </fileDesc>
+    <encodingDesc>
+      <projectDesc>
+        <p xml:lang="de">Die Annotationen der MHDBDB basieren auf kontrollierten Vokabularen und domänenspezifischen Ontologien.</p>
+        <p xml:lang="en">The annotations of the MHDBDB are based on controlled vocabularies and domain-specific ontologies.</p>
+      </projectDesc>
+      <editorialDecl>
+        <p xml:lang="de">Lokale Dateireferenzen (z.B. persons.xml#person_anonym, lexicon.xml#lemma_879) verweisen auf kontrollierte Vokabulare im authority-files Verzeichnis dieses Repositorys.</p>
+      </editorialDecl>
+      <classDecl>
+        <taxonomy xml:id="genres">
+          <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
+          <category xml:id="genre_TBD" corresp="genres.xml#genre_TBD">
+            <gloss xml:lang="de">Weingruß (TBD: konkrete Genre-ID)</gloss>
+          </category>
+        </taxonomy>
+      </classDecl>
+    </encodingDesc>
+    <profileDesc>
+      <langUsage>
+        <language ident="TBD">TBD (Sprachstufe offen, #118)</language>
+      </langUsage>
+      <particDesc>
+        <listPerson>
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
+            <persName type="preferred">Anonym</persName>
+          </person>
+        </listPerson>
+      </particDesc>
+    </profileDesc>
+    <revisionDesc>
+      <change when="2026-11-17" who="#mhdbdb-team">Initiale Konversion aus dem Brevitas-Wiki (Revision 21431) via scripts/ingest/bre/02-convert-wiki-to-mhdbdb.py.</change>
+    </revisionDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <div>
+        <pb n="21r"/>
+        <head>
+          <w xml:id="BRE_COD13711_21r_1_0">Wein</w>
+          <w xml:id="BRE_COD13711_21r_1_1">grüs</w>
+          <w xml:id="BRE_COD13711_21r_1_2">pier</w>
+          <w xml:id="BRE_COD13711_21r_1_3">grüs</w>
+          <w xml:id="BRE_COD13711_21r_1_4">und</w>
+          <w xml:id="BRE_COD13711_21r_1_5">met</w>
+          <w xml:id="BRE_COD13711_21r_1_6">grüs</w>
+        </head>
+        <!-- Text 1: Weingruß Lieber Rebenknecht (Hans Rosenplüt) (Cod. 13711, 22r-22v) -->
+        <div type="section" n="1">
+          <pb n="21v"/>
+          <pb n="22r"/>
+          <l n="1">
+            <w xml:id="BRE_COD13711_22r_1_0">Grüs</w>
+            <w xml:id="BRE_COD13711_22r_1_1">dich</w>
+            <w xml:id="BRE_COD13711_22r_1_2">got</w>
+            <w xml:id="BRE_COD13711_22r_1_3">du</w>
+            <w xml:id="BRE_COD13711_22r_1_4">lieber</w>
+            <w xml:id="BRE_COD13711_22r_1_5">rebenknecht</w>
+          </l>
+          <l n="2">
+            <w xml:id="BRE_COD13711_22r_2_0">Du</w>
+            <w xml:id="BRE_COD13711_22r_2_1">pist</w>
+            <w xml:id="BRE_COD13711_22r_2_2">mir</w>
+            <w xml:id="BRE_COD13711_22r_2_3">winter</w>
+            <w xml:id="BRE_COD13711_22r_2_4">und</w>
+            <w xml:id="BRE_COD13711_22r_2_5">sum<expan>m</expan>er</w>
+            <w xml:id="BRE_COD13711_22r_2_6">gerecht</w>
+          </l>
+          <l n="3">
+            <w xml:id="BRE_COD13711_22r_3_0">Wann</w>
+            <w xml:id="BRE_COD13711_22r_3_1">du</w>
+            <w xml:id="BRE_COD13711_22r_3_2">machst</w>
+            <w xml:id="BRE_COD13711_22r_3_3">munich</w>
+            <w xml:id="BRE_COD13711_22r_3_4">und</w>
+            <w xml:id="BRE_COD13711_22r_3_5">pfaffen</w>
+            <w xml:id="BRE_COD13711_22r_3_6">geil</w>
+          </l>
+          <l n="4">
+            <w xml:id="BRE_COD13711_22r_4_0">Das</w>
+            <w xml:id="BRE_COD13711_22r_4_1">sie</w>
+            <w xml:id="BRE_COD13711_22r_4_2">offt</w>
+            <w xml:id="BRE_COD13711_22r_4_3">ziehen</w>
+            <w xml:id="BRE_COD13711_22r_4_4">am</w>
+            <w xml:id="BRE_COD13711_22r_4_5">narrensail</w>
+          </l>
+          <l n="5">
+            <w xml:id="BRE_COD13711_22r_5_0">Du</w>
+            <w xml:id="BRE_COD13711_22r_5_1">tröst</w>
+            <w xml:id="BRE_COD13711_22r_5_2">die</w>
+            <w xml:id="BRE_COD13711_22r_5_3">paurn</w>
+            <w xml:id="BRE_COD13711_22r_5_4">in</w>
+            <w xml:id="BRE_COD13711_22r_5_5">den</w>
+            <w xml:id="BRE_COD13711_22r_5_6">wirrcken</w>
+            <w xml:id="BRE_COD13711_22r_5_7">kittel</w>
+          </l>
+          <l n="6">
+            <w xml:id="BRE_COD13711_22r_6_0">Du</w>
+            <w xml:id="BRE_COD13711_22r_6_1">tröst</w>
+            <w xml:id="BRE_COD13711_22r_6_2">die</w>
+            <w xml:id="BRE_COD13711_22r_6_3">krancken</w>
+            <w xml:id="BRE_COD13711_22r_6_4">in</w>
+            <w xml:id="BRE_COD13711_22r_6_5">dem</w>
+            <w xml:id="BRE_COD13711_22r_6_6">spitel</w>
+          </l>
+          <l n="7">
+            <w xml:id="BRE_COD13711_22r_7_0">Du</w>
+            <w xml:id="BRE_COD13711_22r_7_1">tröst</w>
+            <w xml:id="BRE_COD13711_22r_7_2">die</w>
+            <w xml:id="BRE_COD13711_22r_7_3">lamen</w>
+            <w xml:id="BRE_COD13711_22r_7_4">und</w>
+            <w xml:id="BRE_COD13711_22r_7_5">die</w>
+            <w xml:id="BRE_COD13711_22r_7_6">plinden</w>
+          </l>
+          <l n="8">
+            <w xml:id="BRE_COD13711_22r_8_0">Wenn</w>
+            <w xml:id="BRE_COD13711_22r_8_1">sie</w>
+            <w xml:id="BRE_COD13711_22r_8_2">dich</w>
+            <w xml:id="BRE_COD13711_22r_8_3">neür</w>
+            <w xml:id="BRE_COD13711_22r_8_4">veil</w>
+            <w xml:id="BRE_COD13711_22r_8_5">konnen</w>
+            <w xml:id="BRE_COD13711_22r_8_6">vinden</w>
+          </l>
+          <l n="9">
+            <w xml:id="BRE_COD13711_22r_9_0">Du</w>
+            <w xml:id="BRE_COD13711_22r_9_1">tröst</w>
+            <w xml:id="BRE_COD13711_22r_9_2">auch</w>
+            <w xml:id="BRE_COD13711_22r_9_3">all</w>
+            <w xml:id="BRE_COD13711_22r_9_4">kindelpetterin</w>
+          </l>
+          <l n="10">
+            <w xml:id="BRE_COD13711_22r_10_0">Es</w>
+            <w xml:id="BRE_COD13711_22r_10_1">sey</w>
+            <w xml:id="BRE_COD13711_22r_10_2">dan<expan>n</expan></w>
+            <w xml:id="BRE_COD13711_22r_10_3">das</w>
+            <w xml:id="BRE_COD13711_22r_10_4">in</w>
+            <w xml:id="BRE_COD13711_22r_10_5">gelts</w>
+            <w xml:id="BRE_COD13711_22r_10_6">zü</w>
+            <w xml:id="BRE_COD13711_22r_10_7">ryn</w>
+          </l>
+          <l n="11">
+            <w xml:id="BRE_COD13711_22r_11_0">Du</w>
+            <w xml:id="BRE_COD13711_22r_11_1">tröst</w>
+            <w xml:id="BRE_COD13711_22r_11_2">all</w>
+            <w xml:id="BRE_COD13711_22r_11_3">pilgram</w>
+            <w xml:id="BRE_COD13711_22r_11_4">auf</w>
+            <w xml:id="BRE_COD13711_22r_11_5">walwegen</w>
+          </l>
+          <l n="12">
+            <w xml:id="BRE_COD13711_22r_12_0">Und</w>
+            <w xml:id="BRE_COD13711_22r_12_1">hilffst</w>
+            <w xml:id="BRE_COD13711_22r_12_2">in</w>
+            <w xml:id="BRE_COD13711_22r_12_3">hin</w>
+            <w xml:id="BRE_COD13711_22r_12_4">in</w>
+            <w xml:id="BRE_COD13711_22r_12_5">wind</w>
+            <w xml:id="BRE_COD13711_22r_12_6">und</w>
+            <w xml:id="BRE_COD13711_22r_12_7">in</w>
+            <w xml:id="BRE_COD13711_22r_12_8">regen</w>
+          </l>
+          <l n="13">
+            <w xml:id="BRE_COD13711_22r_13_0">Du</w>
+            <w xml:id="BRE_COD13711_22r_13_1">tröst</w>
+            <w xml:id="BRE_COD13711_22r_13_2">die</w>
+            <w xml:id="BRE_COD13711_22r_13_3">nünen<expan>n</expan></w>
+            <w xml:id="BRE_COD13711_22r_13_4">in</w>
+            <w xml:id="BRE_COD13711_22r_13_5">den</w>
+            <w xml:id="BRE_COD13711_22r_13_6">clausen</w>
+          </l>
+          <l n="14">
+            <w xml:id="BRE_COD13711_22r_14_0">Darumb</w>
+            <w xml:id="BRE_COD13711_22r_14_1">wil</w>
+            <w xml:id="BRE_COD13711_22r_14_2">ich</w>
+            <w xml:id="BRE_COD13711_22r_14_3">dich</w>
+            <w xml:id="BRE_COD13711_22r_14_4">gern</w>
+            <w xml:id="BRE_COD13711_22r_14_5">behausen</w>
+          </l>
+          <l n="15">
+            <w xml:id="BRE_COD13711_22r_15_0">Wan<expan>n</expan></w>
+            <w xml:id="BRE_COD13711_22r_15_1">du</w>
+            <w xml:id="BRE_COD13711_22r_15_2">pist</w>
+            <w xml:id="BRE_COD13711_22r_15_3">mir</w>
+            <w xml:id="BRE_COD13711_22r_15_4">ein</w>
+            <w xml:id="BRE_COD13711_22r_15_5">lieber</w>
+            <w xml:id="BRE_COD13711_22r_15_6">gast</w>
+          </l>
+          <l n="16">
+            <w xml:id="BRE_COD13711_22r_16_0">Manicher</w>
+            <w xml:id="BRE_COD13711_22r_16_1">hat</w>
+            <w xml:id="BRE_COD13711_22r_16_2">weder</w>
+            <w xml:id="BRE_COD13711_22r_16_3">rü</w>
+            <w xml:id="BRE_COD13711_22r_16_4">noch</w>
+            <w xml:id="BRE_COD13711_22r_16_5">rast</w>
+          </l>
+          <l n="17">
+            <w xml:id="BRE_COD13711_22r_17_0">Alslang</w>
+            <w xml:id="BRE_COD13711_22r_17_1">pis</w>
+            <w xml:id="BRE_COD13711_22r_17_2">er</w>
+            <w xml:id="BRE_COD13711_22r_17_3">kombt</w>
+            <w xml:id="BRE_COD13711_22r_17_4">zü</w>
+            <w xml:id="BRE_COD13711_22r_17_5">dir</w>
+          </l>
+          <l n="18">
+            <w xml:id="BRE_COD13711_22r_18_0">Nu</w>
+            <w xml:id="BRE_COD13711_22r_18_1">grüs</w>
+            <w xml:id="BRE_COD13711_22r_18_2">dich</w>
+            <w xml:id="BRE_COD13711_22r_18_3">got</w>
+            <w xml:id="BRE_COD13711_22r_18_4">gee</w>
+            <w xml:id="BRE_COD13711_22r_18_5">her</w>
+            <w xml:id="BRE_COD13711_22r_18_6">zü</w>
+            <w xml:id="BRE_COD13711_22r_18_7">mir</w>
+          </l>
+          <l n="19">
+            <w xml:id="BRE_COD13711_22r_19_0">Wan<expan>n</expan></w>
+            <w xml:id="BRE_COD13711_22r_19_1">all</w>
+            <w xml:id="BRE_COD13711_22r_19_2">mein</w>
+            <w xml:id="BRE_COD13711_22r_19_3">traurn</w>
+            <w xml:id="BRE_COD13711_22r_19_4">weicht</w>
+            <w xml:id="BRE_COD13711_22r_19_5">von</w>
+            <w xml:id="BRE_COD13711_22r_19_6">mir</w>
+            <w xml:id="BRE_COD13711_22r_19_7">ab</w>
+          </l>
+          <pb n="22v"/>
+          <l n="20">
+            <w xml:id="BRE_COD13711_22v_1_0">Wenn</w>
+            <w xml:id="BRE_COD13711_22v_1_1">ich</w>
+            <w xml:id="BRE_COD13711_22v_1_2">dein</w>
+            <w xml:id="BRE_COD13711_22v_1_3">ein</w>
+            <w xml:id="BRE_COD13711_22v_1_4">maß</w>
+            <w xml:id="BRE_COD13711_22v_1_5">in</w>
+            <w xml:id="BRE_COD13711_22v_1_6">ein<expan>er</expan></w>
+            <w xml:id="BRE_COD13711_22v_1_7">viertelkante<expan>l</expan></w>
+            <w xml:id="BRE_COD13711_22v_1_8">hab</w>
+          </l>
+        </div>
+        <!-- Text 2: Weinsegen Libe Rebenprü (Hans Rosenplüt) (Cod. 13711, 22v-23r) -->
+        <div type="section" n="2">
+          <head>
+            <w xml:id="BRE_COD13711_22v_2_0">Das</w>
+            <w xml:id="BRE_COD13711_22v_2_1">gesegnen</w>
+          </head>
+          <l n="1">
+            <w xml:id="BRE_COD13711_22v_3_0">Nu</w>
+            <w xml:id="BRE_COD13711_22v_3_1">gesegen</w>
+            <w xml:id="BRE_COD13711_22v_3_2">dich</w>
+            <w xml:id="BRE_COD13711_22v_3_3">got</w>
+            <w xml:id="BRE_COD13711_22v_3_4">du</w>
+            <w xml:id="BRE_COD13711_22v_3_5">liebe</w>
+            <w xml:id="BRE_COD13711_22v_3_6">rebenprü</w>
+          </l>
+          <l n="2">
+            <w xml:id="BRE_COD13711_22v_4_0">Umb</w>
+            <w xml:id="BRE_COD13711_22v_4_1">dich</w>
+            <w xml:id="BRE_COD13711_22v_4_2">hab</w>
+            <w xml:id="BRE_COD13711_22v_4_3">ich</w>
+            <w xml:id="BRE_COD13711_22v_4_4">groß</w>
+            <w xml:id="BRE_COD13711_22v_4_5">arbeit</w>
+            <w xml:id="BRE_COD13711_22v_4_6">und</w>
+            <w xml:id="BRE_COD13711_22v_4_7">mü</w>
+          </l>
+          <l n="3">
+            <w xml:id="BRE_COD13711_22v_5_0">Pis</w>
+            <w xml:id="BRE_COD13711_22v_5_1">ich</w>
+            <w xml:id="BRE_COD13711_22v_5_2">dich</w>
+            <w xml:id="BRE_COD13711_22v_5_3">wider</w>
+            <w xml:id="BRE_COD13711_22v_5_4">zü</w>
+            <w xml:id="BRE_COD13711_22v_5_5">mir</w>
+            <w xml:id="BRE_COD13711_22v_5_6">breng</w>
+          </l>
+          <l n="4">
+            <w xml:id="BRE_COD13711_22v_6_0">Du</w>
+            <w xml:id="BRE_COD13711_22v_6_1">pist</w>
+            <w xml:id="BRE_COD13711_22v_6_2">mir</w>
+            <w xml:id="BRE_COD13711_22v_6_3">gar</w>
+            <w xml:id="BRE_COD13711_22v_6_4">ein</w>
+            <w xml:id="BRE_COD13711_22v_6_5">süß</w>
+            <w xml:id="BRE_COD13711_22v_6_6">gespreng</w>
+          </l>
+          <l n="5">
+            <w xml:id="BRE_COD13711_22v_7_0">Doch</w>
+            <w xml:id="BRE_COD13711_22v_7_1">wer</w>
+            <w xml:id="BRE_COD13711_22v_7_2">zu</w>
+            <w xml:id="BRE_COD13711_22v_7_3">lang</w>
+            <w xml:id="BRE_COD13711_22v_7_4">bey</w>
+            <w xml:id="BRE_COD13711_22v_7_5">dir</w>
+            <w xml:id="BRE_COD13711_22v_7_6">will</w>
+            <w xml:id="BRE_COD13711_22v_7_7">har<expan>r</expan>en</w>
+          </l>
+          <l n="6">
+            <w xml:id="BRE_COD13711_22v_8_0">Den</w>
+            <w xml:id="BRE_COD13711_22v_8_1">zelen</w>
+            <w xml:id="BRE_COD13711_22v_8_2">die</w>
+            <w xml:id="BRE_COD13711_22v_8_3">weisen</w>
+            <w xml:id="BRE_COD13711_22v_8_4">für</w>
+            <w xml:id="BRE_COD13711_22v_8_5">ein</w>
+            <w xml:id="BRE_COD13711_22v_8_6">narren</w>
+          </l>
+          <l n="7">
+            <w xml:id="BRE_COD13711_22v_9_0">Wer</w>
+            <w xml:id="BRE_COD13711_22v_9_1">dein</w>
+            <w xml:id="BRE_COD13711_22v_9_2">zü</w>
+            <w xml:id="BRE_COD13711_22v_9_3">vil</w>
+            <w xml:id="BRE_COD13711_22v_9_4">auff</w>
+            <w xml:id="BRE_COD13711_22v_9_5">sich</w>
+            <w xml:id="BRE_COD13711_22v_9_6">ledt</w>
+          </l>
+          <l n="8">
+            <w xml:id="BRE_COD13711_22v_10_0">Der</w>
+            <w xml:id="BRE_COD13711_22v_10_1">hat</w>
+            <w xml:id="BRE_COD13711_22v_10_2">sein</w>
+            <w xml:id="BRE_COD13711_22v_10_3">synn</w>
+            <w xml:id="BRE_COD13711_22v_10_4">wol</w>
+            <w xml:id="BRE_COD13711_22v_10_5">hab</w>
+            <w xml:id="BRE_COD13711_22v_10_6">verzedt</w>
+          </l>
+          <l n="9">
+            <w xml:id="BRE_COD13711_22v_11_0">Wer</w>
+            <w xml:id="BRE_COD13711_22v_11_1">dich</w>
+            <w xml:id="BRE_COD13711_22v_11_2">nit</w>
+            <w xml:id="BRE_COD13711_22v_11_3">hübschlich</w>
+            <w xml:id="BRE_COD13711_22v_11_4">trincken</w>
+            <w xml:id="BRE_COD13711_22v_11_5">kan</w>
+          </l>
+          <l n="10">
+            <w xml:id="BRE_COD13711_22v_12_0">Der</w>
+            <w xml:id="BRE_COD13711_22v_12_1">kreigiert</w>
+            <w xml:id="BRE_COD13711_22v_12_2">auff</w>
+            <w xml:id="BRE_COD13711_22v_12_3">den</w>
+            <w xml:id="BRE_COD13711_22v_12_4">narren</w>
+            <w xml:id="BRE_COD13711_22v_12_5">pan</w>
+          </l>
+          <l n="11">
+            <w xml:id="BRE_COD13711_22v_13_0">Wer</w>
+            <w xml:id="BRE_COD13711_22v_13_1">dein</w>
+            <w xml:id="BRE_COD13711_22v_13_2">zü</w>
+            <w xml:id="BRE_COD13711_22v_13_3">vil</w>
+            <w xml:id="BRE_COD13711_22v_13_4">an</w>
+            <w xml:id="BRE_COD13711_22v_13_5">die</w>
+            <w xml:id="BRE_COD13711_22v_13_6">orn</w>
+            <w xml:id="BRE_COD13711_22v_13_7">henckt</w>
+          </l>
+          <l n="12">
+            <w xml:id="BRE_COD13711_22v_14_0">Der</w>
+            <w xml:id="BRE_COD13711_22v_14_1">hat</w>
+            <w xml:id="BRE_COD13711_22v_14_2">sein</w>
+            <w xml:id="BRE_COD13711_22v_14_3">weißheit</w>
+            <w xml:id="BRE_COD13711_22v_14_4">auß</w>
+            <w xml:id="BRE_COD13711_22v_14_5">geschenckt</w>
+          </l>
+          <l n="13">
+            <w xml:id="BRE_COD13711_22v_15_0">Der</w>
+            <w xml:id="BRE_COD13711_22v_15_1">ding</w>
+            <w xml:id="BRE_COD13711_22v_15_2">will</w>
+            <w xml:id="BRE_COD13711_22v_15_3">ich</w>
+            <w xml:id="BRE_COD13711_22v_15_4">keins</w>
+            <w xml:id="BRE_COD13711_22v_15_5">an</w>
+            <w xml:id="BRE_COD13711_22v_15_6">dir</w>
+            <w xml:id="BRE_COD13711_22v_15_7">scheüen</w>
+          </l>
+          <l n="14">
+            <w xml:id="BRE_COD13711_22v_16_0">Und</w>
+            <w xml:id="BRE_COD13711_22v_16_1">will</w>
+            <w xml:id="BRE_COD13711_22v_16_2">all</w>
+            <w xml:id="BRE_COD13711_22v_16_3">tag</w>
+            <w xml:id="BRE_COD13711_22v_16_4">dein</w>
+            <w xml:id="BRE_COD13711_22v_16_5">lob</w>
+            <w xml:id="BRE_COD13711_22v_16_6">verneuen</w>
+          </l>
+          <l n="15">
+            <w xml:id="BRE_COD13711_22v_17_0">Got</w>
+            <w xml:id="BRE_COD13711_22v_17_1">mach</w>
+            <w xml:id="BRE_COD13711_22v_17_2">selig</w>
+            <w xml:id="BRE_COD13711_22v_17_3">all</w>
+            <w xml:id="BRE_COD13711_22v_17_4">man<expan>n</expan></w>
+            <w xml:id="BRE_COD13711_22v_17_5">und</w>
+            <w xml:id="BRE_COD13711_22v_17_6">frauen</w>
+          </l>
+          <l n="16">
+            <w xml:id="BRE_COD13711_22v_18_0">Die</w>
+            <w xml:id="BRE_COD13711_22v_18_1">dich</w>
+            <w xml:id="BRE_COD13711_22v_18_2">an</w>
+            <w xml:id="BRE_COD13711_22v_18_3">hohen</w>
+            <w xml:id="BRE_COD13711_22v_18_4">pergen</w>
+            <w xml:id="BRE_COD13711_22v_18_5">her</w>
+            <w xml:id="BRE_COD13711_22v_18_6">hauen</w>
+          </l>
+          <pb n="23r"/>
+          <l n="17">
+            <w xml:id="BRE_COD13711_23r_1_0">Das</w>
+            <w xml:id="BRE_COD13711_23r_1_1">in</w>
+            <w xml:id="BRE_COD13711_23r_1_2">nym<expan>m</expan>er</w>
+            <w xml:id="BRE_COD13711_23r_1_3">laid</w>
+            <w xml:id="BRE_COD13711_23r_1_4">geschech</w>
+          </l>
+          <l n="18">
+            <w xml:id="BRE_COD13711_23r_2_0">Varhin</w>
+            <w xml:id="BRE_COD13711_23r_2_1">und</w>
+            <w xml:id="BRE_COD13711_23r_2_2">halt</w>
+            <w xml:id="BRE_COD13711_23r_2_3">dich</w>
+            <w xml:id="BRE_COD13711_23r_2_4">in</w>
+            <w xml:id="BRE_COD13711_23r_2_5">der</w>
+            <w xml:id="BRE_COD13711_23r_2_6">nech</w>
+          </l>
+          <l n="19">
+            <w xml:id="BRE_COD13711_23r_3_0">Wan<expan>n</expan></w>
+            <w xml:id="BRE_COD13711_23r_3_1">ich</w>
+            <w xml:id="BRE_COD13711_23r_3_2">dich</w>
+            <w xml:id="BRE_COD13711_23r_3_3">all</w>
+            <w xml:id="BRE_COD13711_23r_3_4">tag</w>
+            <w xml:id="BRE_COD13711_23r_3_5">wider</w>
+            <w xml:id="BRE_COD13711_23r_3_6">will</w>
+            <w xml:id="BRE_COD13711_23r_3_7">süchen</w>
+          </l>
+          <l n="20">
+            <w xml:id="BRE_COD13711_23r_4_0">Und</w>
+            <w xml:id="BRE_COD13711_23r_4_1">solt</w>
+            <w xml:id="BRE_COD13711_23r_4_2">mir</w>
+            <w xml:id="BRE_COD13711_23r_4_3">weib</w>
+            <w xml:id="BRE_COD13711_23r_4_4">und</w>
+            <w xml:id="BRE_COD13711_23r_4_5">kind</w>
+            <w xml:id="BRE_COD13711_23r_4_6">darumb</w>
+            <w xml:id="BRE_COD13711_23r_4_7">flüchen</w>
+          </l>
+        </div>
+        <!-- Text 3: Weingruß Süsser Himeltau (Hans Rosenplüt) (Cod. 13711, 23r-23v) -->
+        <div type="section" n="3">
+          <head>
+            <w xml:id="BRE_COD13711_23r_5_0">Der</w>
+            <w xml:id="BRE_COD13711_23r_5_1">ander</w>
+            <w xml:id="BRE_COD13711_23r_5_2">weingrüs</w>
+          </head>
+          <l n="1">
+            <w xml:id="BRE_COD13711_23r_6_0">Got</w>
+            <w xml:id="BRE_COD13711_23r_6_1">grüs</w>
+            <w xml:id="BRE_COD13711_23r_6_2">dich</w>
+            <w xml:id="BRE_COD13711_23r_6_3">du</w>
+            <w xml:id="BRE_COD13711_23r_6_4">süsser</w>
+            <w xml:id="BRE_COD13711_23r_6_5">himeltau</w>
+          </l>
+          <l n="2">
+            <w xml:id="BRE_COD13711_23r_7_0">Gee</w>
+            <w xml:id="BRE_COD13711_23r_7_1">her</w>
+            <w xml:id="BRE_COD13711_23r_7_2">und</w>
+            <w xml:id="BRE_COD13711_23r_7_3">feücht</w>
+            <w xml:id="BRE_COD13711_23r_7_4">mir</w>
+            <w xml:id="BRE_COD13711_23r_7_5">meins</w>
+            <w xml:id="BRE_COD13711_23r_7_6">herczen</w>
+            <w xml:id="BRE_COD13711_23r_7_7">au</w>
+          </l>
+          <l n="3">
+            <w xml:id="BRE_COD13711_23r_8_0">Mit</w>
+            <w xml:id="BRE_COD13711_23r_8_1">deinem</w>
+            <w xml:id="BRE_COD13711_23r_8_2">gesunten</w>
+            <w xml:id="BRE_COD13711_23r_8_3">heilsamen</w>
+            <w xml:id="BRE_COD13711_23r_8_4">risel</w>
+          </l>
+          <l n="4">
+            <w xml:id="BRE_COD13711_23r_9_0">Ich</w>
+            <w xml:id="BRE_COD13711_23r_9_1">leg</w>
+            <w xml:id="BRE_COD13711_23r_9_2">dir</w>
+            <w xml:id="BRE_COD13711_23r_9_3">dar</w>
+            <w xml:id="BRE_COD13711_23r_9_4">mein</w>
+            <w xml:id="BRE_COD13711_23r_9_5">schancz</w>
+            <w xml:id="BRE_COD13711_23r_9_6">mein</w>
+            <w xml:id="BRE_COD13711_23r_9_7">trisel</w>
+          </l>
+          <l n="5">
+            <w xml:id="BRE_COD13711_23r_10_0">Und</w>
+            <w xml:id="BRE_COD13711_23r_10_1">alles</w>
+            <w xml:id="BRE_COD13711_23r_10_2">das</w>
+            <w xml:id="BRE_COD13711_23r_10_3">mein</w>
+            <w xml:id="BRE_COD13711_23r_10_4">syn</w>
+            <w xml:id="BRE_COD13711_23r_10_5">erschleicht</w>
+          </l>
+          <l n="6">
+            <w xml:id="BRE_COD13711_23r_11_0">Du</w>
+            <w xml:id="BRE_COD13711_23r_11_1">machst</w>
+            <w xml:id="BRE_COD13711_23r_11_2">das</w>
+            <w xml:id="BRE_COD13711_23r_11_3">manich<expan>er</expan></w>
+            <w xml:id="BRE_COD13711_23r_11_4">langksam</w>
+            <w xml:id="BRE_COD13711_23r_11_5">reycht</w>
+          </l>
+          <l n="7">
+            <w xml:id="BRE_COD13711_23r_12_0">Noch</w>
+            <w xml:id="BRE_COD13711_23r_12_1">ee</w>
+            <w xml:id="BRE_COD13711_23r_12_2">er</w>
+            <w xml:id="BRE_COD13711_23r_12_3">dein</w>
+            <w xml:id="BRE_COD13711_23r_12_4">wellt</w>
+            <w xml:id="BRE_COD13711_23r_12_5">lang</w>
+            <w xml:id="BRE_COD13711_23r_12_6">entpern</w>
+          </l>
+          <l n="8">
+            <w xml:id="BRE_COD13711_23r_13_0">Er</w>
+            <w xml:id="BRE_COD13711_23r_13_1">würd</w>
+            <w xml:id="BRE_COD13711_23r_13_2">ee</w>
+            <w xml:id="BRE_COD13711_23r_13_3">schrein</w>
+            <w xml:id="BRE_COD13711_23r_13_4">und</w>
+            <w xml:id="BRE_COD13711_23r_13_5">trühen</w>
+            <w xml:id="BRE_COD13711_23r_13_6">lern</w>
+          </l>
+          <l n="9">
+            <w xml:id="BRE_COD13711_23r_14_0">Sein</w>
+            <w xml:id="BRE_COD13711_23r_14_1">lieb</w>
+            <w xml:id="BRE_COD13711_23r_14_2">hellt</w>
+            <w xml:id="BRE_COD13711_23r_14_3">er</w>
+            <w xml:id="BRE_COD13711_23r_14_4">als</w>
+            <w xml:id="BRE_COD13711_23r_14_5">stett</w>
+          </l>
+          <l n="10">
+            <w xml:id="BRE_COD13711_23r_15_0">Das</w>
+            <w xml:id="BRE_COD13711_23r_15_1">er</w>
+            <w xml:id="BRE_COD13711_23r_15_2">ler</w>
+            <w xml:id="BRE_COD13711_23r_15_3">macht</w>
+            <w xml:id="BRE_COD13711_23r_15_4">sein</w>
+            <w xml:id="BRE_COD13711_23r_15_5">kandel</w>
+            <w xml:id="BRE_COD13711_23r_15_6">pret</w>
+          </l>
+          <l n="11">
+            <w xml:id="BRE_COD13711_23r_16_0">Nu</w>
+            <w xml:id="BRE_COD13711_23r_16_1">secz</w>
+            <w xml:id="BRE_COD13711_23r_16_2">ich</w>
+            <w xml:id="BRE_COD13711_23r_16_3">ye</w>
+            <w xml:id="BRE_COD13711_23r_16_4">auch</w>
+            <w xml:id="BRE_COD13711_23r_16_5">in</w>
+            <w xml:id="BRE_COD13711_23r_16_6">dich</w>
+            <w xml:id="BRE_COD13711_23r_16_7">mein</w>
+            <w xml:id="BRE_COD13711_23r_16_8">trauen</w>
+          </l>
+          <l n="12">
+            <w xml:id="BRE_COD13711_23r_17_0">Und</w>
+            <w xml:id="BRE_COD13711_23r_17_1">solt</w>
+            <w xml:id="BRE_COD13711_23r_17_2">ich</w>
+            <w xml:id="BRE_COD13711_23r_17_3">nym<expan>er</expan></w>
+            <w xml:id="BRE_COD13711_23r_17_4">kein</w>
+            <w xml:id="BRE_COD13711_23r_17_5">stainhäus</w>
+            <w xml:id="BRE_COD13711_23r_17_6">pauen</w>
+          </l>
+          <l n="13">
+            <w xml:id="BRE_COD13711_23r_18_0">Noch</w>
+            <w xml:id="BRE_COD13711_23r_18_1">will</w>
+            <w xml:id="BRE_COD13711_23r_18_2">ich</w>
+            <w xml:id="BRE_COD13711_23r_18_3">mich</w>
+            <w xml:id="BRE_COD13711_23r_18_4">nit</w>
+            <w xml:id="BRE_COD13711_23r_18_5">von</w>
+            <w xml:id="BRE_COD13711_23r_18_6">dir</w>
+            <w xml:id="BRE_COD13711_23r_18_7">scheiden</w>
+          </l>
+          <pb n="23v"/>
+          <l n="14">
+            <w xml:id="BRE_COD13711_23v_1_0">Auch</w>
+            <w xml:id="BRE_COD13711_23v_1_1">kan</w>
+            <w xml:id="BRE_COD13711_23v_1_2">dich</w>
+            <w xml:id="BRE_COD13711_23v_1_3">nyemant</w>
+            <w xml:id="BRE_COD13711_23v_1_4">mich</w>
+            <w xml:id="BRE_COD13711_23v_1_5">der</w>
+            <w xml:id="BRE_COD13711_23v_1_6">laiden</w>
+          </l>
+          <l n="15">
+            <w xml:id="BRE_COD13711_23v_2_0">Das</w>
+            <w xml:id="BRE_COD13711_23v_2_1">ich</w>
+            <w xml:id="BRE_COD13711_23v_2_2">ein</w>
+            <w xml:id="BRE_COD13711_23v_2_3">cleine</w>
+            <w xml:id="BRE_COD13711_23v_2_4">veindtschafft</w>
+            <w xml:id="BRE_COD13711_23v_2_5">zü</w>
+            <w xml:id="BRE_COD13711_23v_2_6">dir</w>
+            <w xml:id="BRE_COD13711_23v_2_7">hab</w>
+          </l>
+          <l n="16">
+            <w xml:id="BRE_COD13711_23v_3_0">fleüß</w>
+            <w xml:id="BRE_COD13711_23v_3_1">herein</w>
+            <w xml:id="BRE_COD13711_23v_3_2">und</w>
+            <w xml:id="BRE_COD13711_23v_3_3">lesch</w>
+            <w xml:id="BRE_COD13711_23v_3_4">mir</w>
+            <w xml:id="BRE_COD13711_23v_3_5">mein</w>
+            <w xml:id="BRE_COD13711_23v_3_6">dur<expan>r</expan>e</w>
+            <w xml:id="BRE_COD13711_23v_3_7">leb<expan>er</expan></w>
+            <w xml:id="BRE_COD13711_23v_3_8">ab</w>
+          </l>
+        </div>
+        <!-- Text 4: Weinsegen Edles Abkülen (Hans Rosenplüt) (Cod. 13711, 23v-24r) -->
+        <div type="section" n="4">
+          <head>
+            <w xml:id="BRE_COD13711_23v_4_0">Das</w>
+            <w xml:id="BRE_COD13711_23v_4_1">gesegnen</w>
+          </head>
+          <l n="1">
+            <w xml:id="BRE_COD13711_23v_5_0">Gesegen</w>
+            <w xml:id="BRE_COD13711_23v_5_1">dich</w>
+            <w xml:id="BRE_COD13711_23v_5_2">got</w>
+            <w xml:id="BRE_COD13711_23v_5_3">du</w>
+            <w xml:id="BRE_COD13711_23v_5_4">edels</w>
+            <w xml:id="BRE_COD13711_23v_5_5">abkülen</w>
+          </l>
+          <l n="2">
+            <w xml:id="BRE_COD13711_23v_6_0">Die</w>
+            <w xml:id="BRE_COD13711_23v_6_1">meister</w>
+            <w xml:id="BRE_COD13711_23v_6_2">auf</w>
+            <w xml:id="BRE_COD13711_23v_6_3">den</w>
+            <w xml:id="BRE_COD13711_23v_6_4">hohen</w>
+            <w xml:id="BRE_COD13711_23v_6_5">stülen</w>
+          </l>
+          <l n="3">
+            <w xml:id="BRE_COD13711_23v_7_0">Die</w>
+            <w xml:id="BRE_COD13711_23v_7_1">haben</w>
+            <w xml:id="BRE_COD13711_23v_7_2">dich</w>
+            <w xml:id="BRE_COD13711_23v_7_3">für</w>
+            <w xml:id="BRE_COD13711_23v_7_4">ein</w>
+            <w xml:id="BRE_COD13711_23v_7_5">gesunte</w>
+            <w xml:id="BRE_COD13711_23v_7_6">erczney</w>
+          </l>
+          <l n="4">
+            <w xml:id="BRE_COD13711_23v_8_0">Und</w>
+            <w xml:id="BRE_COD13711_23v_8_1">v<expan>er</expan>main</w>
+            <w xml:id="BRE_COD13711_23v_8_2">auch</w>
+            <w xml:id="BRE_COD13711_23v_8_3">aller</w>
+            <w xml:id="BRE_COD13711_23v_8_4">paurn</w>
+            <w xml:id="BRE_COD13711_23v_8_5">kirbey</w>
+          </l>
+          <l n="5">
+            <w xml:id="BRE_COD13711_23v_9_0">Wer</w>
+            <w xml:id="BRE_COD13711_23v_9_1">gar</w>
+            <w xml:id="BRE_COD13711_23v_9_2">v<expan>er</expan>nicht</w>
+            <w xml:id="BRE_COD13711_23v_9_3">wann</w>
+            <w xml:id="BRE_COD13711_23v_9_4">du</w>
+            <w xml:id="BRE_COD13711_23v_9_5">nit</w>
+            <w xml:id="BRE_COD13711_23v_9_6">werst</w>
+          </l>
+          <l n="6">
+            <w xml:id="BRE_COD13711_23v_10_0">Wiewol</w>
+            <w xml:id="BRE_COD13711_23v_10_1">du</w>
+            <w xml:id="BRE_COD13711_23v_10_2">in</w>
+            <w xml:id="BRE_COD13711_23v_10_3">den</w>
+            <w xml:id="BRE_COD13711_23v_10_4">seckel</w>
+            <w xml:id="BRE_COD13711_23v_10_5">lerst</w>
+          </l>
+          <l n="7">
+            <w xml:id="BRE_COD13711_23v_11_0">Und</w>
+            <w xml:id="BRE_COD13711_23v_11_1">machst</w>
+            <w xml:id="BRE_COD13711_23v_11_2">das</w>
+            <w xml:id="BRE_COD13711_23v_11_3">sie</w>
+            <w xml:id="BRE_COD13711_23v_11_4">lernen</w>
+            <w xml:id="BRE_COD13711_23v_11_5">schirmen</w>
+          </l>
+          <l n="8">
+            <w xml:id="BRE_COD13711_23v_12_0">Und</w>
+            <w xml:id="BRE_COD13711_23v_12_1">selber</w>
+            <w xml:id="BRE_COD13711_23v_12_2">aneinander</w>
+            <w xml:id="BRE_COD13711_23v_12_3">firmen</w>
+          </l>
+          <l n="9">
+            <w xml:id="BRE_COD13711_23v_13_0">Und</w>
+            <w xml:id="BRE_COD13711_23v_13_1">auch</w>
+            <w xml:id="BRE_COD13711_23v_13_2">ir</w>
+            <w xml:id="BRE_COD13711_23v_13_3">har</w>
+            <w xml:id="BRE_COD13711_23v_13_4">mit</w>
+            <w xml:id="BRE_COD13711_23v_13_5">pencken</w>
+            <w xml:id="BRE_COD13711_23v_13_6">strelen</w>
+          </l>
+          <l n="10">
+            <w xml:id="BRE_COD13711_23v_14_0">Wenn</w>
+            <w xml:id="BRE_COD13711_23v_14_1">sie</w>
+            <w xml:id="BRE_COD13711_23v_14_2">der</w>
+            <w xml:id="BRE_COD13711_23v_14_3">grossen</w>
+            <w xml:id="BRE_COD13711_23v_14_4">trünck</w>
+            <w xml:id="BRE_COD13711_23v_14_5">nit</w>
+            <w xml:id="BRE_COD13711_23v_14_6">felen</w>
+          </l>
+          <l n="11">
+            <w xml:id="BRE_COD13711_23v_15_0">Wan<expan>n</expan></w>
+            <w xml:id="BRE_COD13711_23v_15_1">man</w>
+            <w xml:id="BRE_COD13711_23v_15_2">vindt</w>
+            <w xml:id="BRE_COD13711_23v_15_3">manigen</w>
+            <w xml:id="BRE_COD13711_23v_15_4">groben</w>
+            <w xml:id="BRE_COD13711_23v_15_5">dorfma<expan>n</expan></w>
+          </l>
+          <l n="12">
+            <w xml:id="BRE_COD13711_23v_16_0">Der</w>
+            <w xml:id="BRE_COD13711_23v_16_1">dich</w>
+            <w xml:id="BRE_COD13711_23v_16_2">nit</w>
+            <w xml:id="BRE_COD13711_23v_16_3">hübschlich</w>
+            <w xml:id="BRE_COD13711_23v_16_4">trincken</w>
+            <w xml:id="BRE_COD13711_23v_16_5">kan</w>
+          </l>
+          <l n="13">
+            <w xml:id="BRE_COD13711_23v_17_0">Wan<expan>n</expan></w>
+            <w xml:id="BRE_COD13711_23v_17_1">sein</w>
+            <w xml:id="BRE_COD13711_23v_17_2">ploß</w>
+            <w xml:id="BRE_COD13711_23v_17_3">vol</w>
+            <w xml:id="BRE_COD13711_23v_17_4">ist</w>
+            <w xml:id="BRE_COD13711_23v_17_5">desselben</w>
+            <w xml:id="BRE_COD13711_23v_17_6">strüczel</w>
+          </l>
+          <l n="14">
+            <w xml:id="BRE_COD13711_23v_18_0">So</w>
+            <w xml:id="BRE_COD13711_23v_18_1">fast</w>
+            <w xml:id="BRE_COD13711_23v_18_2">er</w>
+            <w xml:id="BRE_COD13711_23v_18_3">dannoch</w>
+            <w xml:id="BRE_COD13711_23v_18_4">noch</w>
+            <w xml:id="BRE_COD13711_23v_18_5">ein</w>
+            <w xml:id="BRE_COD13711_23v_18_6">maß</w>
+            <w xml:id="BRE_COD13711_23v_18_7">in</w>
+            <w xml:id="BRE_COD13711_23v_18_8">züczel</w>
+          </l>
+          <pb n="24r"/>
+          <l n="15">
+            <w xml:id="BRE_COD13711_24r_1_0">Wer</w>
+            <w xml:id="BRE_COD13711_24r_1_1">für</w>
+            <w xml:id="BRE_COD13711_24r_1_2">dich</w>
+            <w xml:id="BRE_COD13711_24r_1_3">pit</w>
+            <w xml:id="BRE_COD13711_24r_1_4">an</w>
+            <w xml:id="BRE_COD13711_24r_1_5">perg</w>
+            <w xml:id="BRE_COD13711_24r_1_6">und</w>
+            <w xml:id="BRE_COD13711_24r_1_7">an</w>
+            <w xml:id="BRE_COD13711_24r_1_8">leyten</w>
+          </l>
+          <l n="16">
+            <w xml:id="BRE_COD13711_24r_2_0">Die</w>
+            <w xml:id="BRE_COD13711_24r_2_1">wöll</w>
+            <w xml:id="BRE_COD13711_24r_2_2">got</w>
+            <w xml:id="BRE_COD13711_24r_2_3">an</w>
+            <w xml:id="BRE_COD13711_24r_2_4">iren</w>
+            <w xml:id="BRE_COD13711_24r_2_5">leczten</w>
+            <w xml:id="BRE_COD13711_24r_2_6">zeiten</w>
+          </l>
+          <l n="17">
+            <w xml:id="BRE_COD13711_24r_3_0">mit</w>
+            <w xml:id="BRE_COD13711_24r_3_1">erbarmu<expan>n</expan>g</w>
+            <w xml:id="BRE_COD13711_24r_3_2">und</w>
+            <w xml:id="BRE_COD13711_24r_3_3">mit</w>
+            <w xml:id="BRE_COD13711_24r_3_4">gnaden</w>
+            <w xml:id="BRE_COD13711_24r_3_5">laben</w>
+          </l>
+          <l n="18">
+            <w xml:id="BRE_COD13711_24r_4_0">Und</w>
+            <w xml:id="BRE_COD13711_24r_4_1">all</w>
+            <w xml:id="BRE_COD13711_24r_4_2">die</w>
+            <w xml:id="BRE_COD13711_24r_4_3">dich</w>
+            <w xml:id="BRE_COD13711_24r_4_4">als</w>
+            <w xml:id="BRE_COD13711_24r_4_5">gern</w>
+            <w xml:id="BRE_COD13711_24r_4_6">getruncken</w>
+            <w xml:id="BRE_COD13711_24r_4_7">haben</w>
+          </l>
+          <l n="19">
+            <w xml:id="BRE_COD13711_24r_5_0">All</w>
+            <w xml:id="BRE_COD13711_24r_5_1">die</w>
+            <w xml:id="BRE_COD13711_24r_5_2">do</w>
+            <w xml:id="BRE_COD13711_24r_5_3">loben</w>
+            <w xml:id="BRE_COD13711_24r_5_4">deinen</w>
+            <w xml:id="BRE_COD13711_24r_5_5">namen</w>
+          </l>
+          <l n="20">
+            <w xml:id="BRE_COD13711_24r_6_0">Wer</w>
+            <w xml:id="BRE_COD13711_24r_6_1">dich</w>
+            <w xml:id="BRE_COD13711_24r_6_2">gern</w>
+            <w xml:id="BRE_COD13711_24r_6_3">trinck<expan>t</expan></w>
+            <w xml:id="BRE_COD13711_24r_6_4">der</w>
+            <w xml:id="BRE_COD13711_24r_6_5">sprech</w>
+            <w xml:id="BRE_COD13711_24r_6_6">amen</w>
+          </l>
+        </div>
+        <!-- Text 5: Weingruß Neczen Gumen (Hans Rosenplüt) (Cod. 13711, 24r-24v) -->
+        <div type="section" n="5">
+          <head>
+            <w xml:id="BRE_COD13711_24r_7_0">Ein</w>
+            <w xml:id="BRE_COD13711_24r_7_1">ander</w>
+            <w xml:id="BRE_COD13711_24r_7_2">weingrüs</w>
+          </head>
+          <l n="1">
+            <w xml:id="BRE_COD13711_24r_8_0">Grüs</w>
+            <w xml:id="BRE_COD13711_24r_8_1">dich</w>
+            <w xml:id="BRE_COD13711_24r_8_2">got</w>
+            <w xml:id="BRE_COD13711_24r_8_3">du</w>
+            <w xml:id="BRE_COD13711_24r_8_4">lieber</w>
+            <w xml:id="BRE_COD13711_24r_8_5">neczen</w>
+            <w xml:id="BRE_COD13711_24r_8_6">güm<expan>m</expan>en</w>
+          </l>
+          <l n="2">
+            <w xml:id="BRE_COD13711_24r_9_0">Warumb</w>
+            <w xml:id="BRE_COD13711_24r_9_1">willt</w>
+            <w xml:id="BRE_COD13711_24r_9_2">du</w>
+            <w xml:id="BRE_COD13711_24r_9_3">nit</w>
+            <w xml:id="BRE_COD13711_24r_9_4">offt</w>
+            <w xml:id="BRE_COD13711_24r_9_5">zü</w>
+            <w xml:id="BRE_COD13711_24r_9_6">mir</w>
+            <w xml:id="BRE_COD13711_24r_9_7">kum<expan>m</expan>en</w>
+          </l>
+          <l n="3">
+            <w xml:id="BRE_COD13711_24r_10_0">Wer</w>
+            <w xml:id="BRE_COD13711_24r_10_1">hat</w>
+            <w xml:id="BRE_COD13711_24r_10_2">mich</w>
+            <w xml:id="BRE_COD13711_24r_10_3">neür</w>
+            <w xml:id="BRE_COD13711_24r_10_4">verlogen</w>
+            <w xml:id="BRE_COD13711_24r_10_5">gen</w>
+            <w xml:id="BRE_COD13711_24r_10_6">dir</w>
+          </l>
+          <l n="4">
+            <w xml:id="BRE_COD13711_24r_11_0">Doch</w>
+            <w xml:id="BRE_COD13711_24r_11_1">kombstu</w>
+            <w xml:id="BRE_COD13711_24r_11_2">manigem</w>
+            <w xml:id="BRE_COD13711_24r_11_3">all</w>
+            <w xml:id="BRE_COD13711_24r_11_4">zü</w>
+            <w xml:id="BRE_COD13711_24r_11_5">schir</w>
+          </l>
+          <l n="5">
+            <w xml:id="BRE_COD13711_24r_12_0">Und</w>
+            <w xml:id="BRE_COD13711_24r_12_1">machst</w>
+            <w xml:id="BRE_COD13711_24r_12_2">das</w>
+            <w xml:id="BRE_COD13711_24r_12_3">im</w>
+            <w xml:id="BRE_COD13711_24r_12_4">sein</w>
+            <w xml:id="BRE_COD13711_24r_12_5">zungen</w>
+            <w xml:id="BRE_COD13711_24r_12_6">hinckt</w>
+          </l>
+          <l n="6">
+            <w xml:id="BRE_COD13711_24r_13_0">Wenn</w>
+            <w xml:id="BRE_COD13711_24r_13_1">er</w>
+            <w xml:id="BRE_COD13711_24r_13_2">zü</w>
+            <w xml:id="BRE_COD13711_24r_13_3">offt</w>
+            <w xml:id="BRE_COD13711_24r_13_4">für</w>
+            <w xml:id="BRE_COD13711_24r_13_5">sein</w>
+            <w xml:id="BRE_COD13711_24r_13_6">gesellen</w>
+            <w xml:id="BRE_COD13711_24r_13_7">trinckt</w>
+          </l>
+          <l n="7">
+            <w xml:id="BRE_COD13711_24r_14_0">Und</w>
+            <w xml:id="BRE_COD13711_24r_14_1">machst</w>
+            <w xml:id="BRE_COD13711_24r_14_2">das</w>
+            <w xml:id="BRE_COD13711_24r_14_3">maniger</w>
+            <w xml:id="BRE_COD13711_24r_14_4">mit</w>
+            <w xml:id="BRE_COD13711_24r_14_5">red</w>
+            <w xml:id="BRE_COD13711_24r_14_6">ansteßt</w>
+          </l>
+          <l n="8">
+            <w xml:id="BRE_COD13711_24r_15_0">Wenn</w>
+            <w xml:id="BRE_COD13711_24r_15_1">er</w>
+            <w xml:id="BRE_COD13711_24r_15_2">dich</w>
+            <w xml:id="BRE_COD13711_24r_15_3">zü</w>
+            <w xml:id="BRE_COD13711_24r_15_4">lang</w>
+            <w xml:id="BRE_COD13711_24r_15_5">am</w>
+            <w xml:id="BRE_COD13711_24r_15_6">münd</w>
+            <w xml:id="BRE_COD13711_24r_15_7">leßt</w>
+          </l>
+          <l n="9">
+            <w xml:id="BRE_COD13711_24r_16_0">Und</w>
+            <w xml:id="BRE_COD13711_24r_16_1">machst</w>
+            <w xml:id="BRE_COD13711_24r_16_2">das</w>
+            <w xml:id="BRE_COD13711_24r_16_3">maniger</w>
+            <w xml:id="BRE_COD13711_24r_16_4">sein</w>
+            <w xml:id="BRE_COD13711_24r_16_5">haubt</w>
+            <w xml:id="BRE_COD13711_24r_16_6">ser</w>
+            <w xml:id="BRE_COD13711_24r_16_7">clagt</w>
+          </l>
+          <l n="10">
+            <w xml:id="BRE_COD13711_24r_17_0">Wenn</w>
+            <w xml:id="BRE_COD13711_24r_17_1">er</w>
+            <w xml:id="BRE_COD13711_24r_17_2">die</w>
+            <w xml:id="BRE_COD13711_24r_17_3">trünck</w>
+            <w xml:id="BRE_COD13711_24r_17_4">zü</w>
+            <w xml:id="BRE_COD13711_24r_17_5">groß</w>
+            <w xml:id="BRE_COD13711_24r_17_6">hat</w>
+            <w xml:id="BRE_COD13711_24r_17_7">gemacht</w>
+          </l>
+          <l n="11">
+            <w xml:id="BRE_COD13711_24r_18_0">So</w>
+            <w xml:id="BRE_COD13711_24r_18_1">machstü</w>
+            <w xml:id="BRE_COD13711_24r_18_2">das</w>
+            <w xml:id="BRE_COD13711_24r_18_3">manigem</w>
+            <w xml:id="BRE_COD13711_24r_18_4">sein</w>
+            <w xml:id="BRE_COD13711_24r_18_5">weib</w>
+            <w xml:id="BRE_COD13711_24r_18_6">ser</w>
+            <w xml:id="BRE_COD13711_24r_18_7">flüch<supplied>t</supplied></w>
+          </l>
+          <pb n="24v"/>
+          <l n="12">
+            <w xml:id="BRE_COD13711_24v_1_0">So</w>
+            <w xml:id="BRE_COD13711_24v_1_1">er</w>
+            <w xml:id="BRE_COD13711_24v_1_2">dich</w>
+            <w xml:id="BRE_COD13711_24v_1_3">zü</w>
+            <w xml:id="BRE_COD13711_24v_1_4">offt</w>
+            <w xml:id="BRE_COD13711_24v_1_5">im</w>
+            <w xml:id="BRE_COD13711_24v_1_6">weinhaus</w>
+            <w xml:id="BRE_COD13711_24v_1_7">sücht</w>
+          </l>
+          <l n="13">
+            <w xml:id="BRE_COD13711_24v_2_0">So</w>
+            <w xml:id="BRE_COD13711_24v_2_1">machstu</w>
+            <w xml:id="BRE_COD13711_24v_2_2">das</w>
+            <w xml:id="BRE_COD13711_24v_2_3">weib</w>
+            <w xml:id="BRE_COD13711_24v_2_4">und</w>
+            <w xml:id="BRE_COD13711_24v_2_5">kind</w>
+            <w xml:id="BRE_COD13711_24v_2_6">offt</w>
+            <w xml:id="BRE_COD13711_24v_2_7">prüm<expan>m</expan>en</w>
+          </l>
+          <l n="14">
+            <w xml:id="BRE_COD13711_24v_3_0">Wenn</w>
+            <w xml:id="BRE_COD13711_24v_3_1">ein<expan>er</expan></w>
+            <w xml:id="BRE_COD13711_24v_3_2">bey</w>
+            <w xml:id="BRE_COD13711_24v_3_3">zeit</w>
+            <w xml:id="BRE_COD13711_24v_3_4">nit</w>
+            <w xml:id="BRE_COD13711_24v_3_5">von</w>
+            <w xml:id="BRE_COD13711_24v_3_6">dir</w>
+            <w xml:id="BRE_COD13711_24v_3_7">will</w>
+            <w xml:id="BRE_COD13711_24v_3_8">kum<expan>m</expan>en</w>
+          </l>
+          <l n="15">
+            <w xml:id="BRE_COD13711_24v_4_0">Und</w>
+            <w xml:id="BRE_COD13711_24v_4_1">heimhin</w>
+            <w xml:id="BRE_COD13711_24v_4_2">geet</w>
+            <w xml:id="BRE_COD13711_24v_4_3">bey</w>
+            <w xml:id="BRE_COD13711_24v_4_4">monnes</w>
+            <w xml:id="BRE_COD13711_24v_4_5">schein</w>
+          </l>
+          <l n="16">
+            <w xml:id="BRE_COD13711_24v_5_0">Doch</w>
+            <w xml:id="BRE_COD13711_24v_5_1">ist</w>
+            <w xml:id="BRE_COD13711_24v_5_2">die</w>
+            <w xml:id="BRE_COD13711_24v_5_3">schuld</w>
+            <w xml:id="BRE_COD13711_24v_5_4">nit</w>
+            <w xml:id="BRE_COD13711_24v_5_5">eytels</w>
+            <w xml:id="BRE_COD13711_24v_5_6">dein</w>
+          </l>
+          <l n="17">
+            <w xml:id="BRE_COD13711_24v_6_0">Das</w>
+            <w xml:id="BRE_COD13711_24v_6_1">maniger</w>
+            <w xml:id="BRE_COD13711_24v_6_2">heimhin</w>
+            <w xml:id="BRE_COD13711_24v_6_3">kombt</w>
+            <w xml:id="BRE_COD13711_24v_6_4">so</w>
+            <w xml:id="BRE_COD13711_24v_6_5">spet</w>
+          </l>
+          <l n="18">
+            <w xml:id="BRE_COD13711_24v_7_0">Der</w>
+            <w xml:id="BRE_COD13711_24v_7_1">würffel</w>
+            <w xml:id="BRE_COD13711_24v_7_2">die</w>
+            <w xml:id="BRE_COD13711_24v_7_3">karten</w>
+            <w xml:id="BRE_COD13711_24v_7_4">und</w>
+            <w xml:id="BRE_COD13711_24v_7_5">das</w>
+            <w xml:id="BRE_COD13711_24v_7_6">spilbret</w>
+          </l>
+          <l n="19">
+            <w xml:id="BRE_COD13711_24v_8_0">Die</w>
+            <w xml:id="BRE_COD13711_24v_8_1">machen</w>
+            <w xml:id="BRE_COD13711_24v_8_2">das</w>
+            <w xml:id="BRE_COD13711_24v_8_3">manig<expan>er</expan></w>
+            <w xml:id="BRE_COD13711_24v_8_4">zü</w>
+            <w xml:id="BRE_COD13711_24v_8_5">lang</w>
+            <w xml:id="BRE_COD13711_24v_8_6">har<expan>r</expan>t</w>
+          </l>
+          <l n="20">
+            <w xml:id="BRE_COD13711_24v_9_0">Darumb</w>
+            <w xml:id="BRE_COD13711_24v_9_1">in</w>
+            <w xml:id="BRE_COD13711_24v_9_2">weib</w>
+            <w xml:id="BRE_COD13711_24v_9_3">und</w>
+            <w xml:id="BRE_COD13711_24v_9_4">kind</w>
+            <w xml:id="BRE_COD13711_24v_9_5">an</w>
+            <w xml:id="BRE_COD13711_24v_9_6">plar<expan>r</expan>t</w>
+          </l>
+          <l n="21">
+            <w xml:id="BRE_COD13711_24v_10_0">Der</w>
+            <w xml:id="BRE_COD13711_24v_10_1">will</w>
+            <w xml:id="BRE_COD13711_24v_10_2">ich</w>
+            <w xml:id="BRE_COD13711_24v_10_3">dir</w>
+            <w xml:id="BRE_COD13711_24v_10_4">alles</w>
+            <w xml:id="BRE_COD13711_24v_10_5">keins</w>
+            <w xml:id="BRE_COD13711_24v_10_6">zü</w>
+            <w xml:id="BRE_COD13711_24v_10_7">sachen</w>
+          </l>
+          <l n="22">
+            <w xml:id="BRE_COD13711_24v_11_0">Wenn</w>
+            <w xml:id="BRE_COD13711_24v_11_1">du</w>
+            <w xml:id="BRE_COD13711_24v_11_2">mich</w>
+            <w xml:id="BRE_COD13711_24v_11_3">frölich</w>
+            <w xml:id="BRE_COD13711_24v_11_4">kanst</w>
+            <w xml:id="BRE_COD13711_24v_11_5">machen</w>
+          </l>
+          <l n="23">
+            <w xml:id="BRE_COD13711_24v_12_0">Mit</w>
+            <w xml:id="BRE_COD13711_24v_12_1">deinem</w>
+            <w xml:id="BRE_COD13711_24v_12_2">süssen</w>
+            <w xml:id="BRE_COD13711_24v_12_3">senfften</w>
+            <w xml:id="BRE_COD13711_24v_12_4">trab</w>
+          </l>
+          <l n="24">
+            <w xml:id="BRE_COD13711_24v_13_0">Darumb</w>
+            <w xml:id="BRE_COD13711_24v_13_1">ich</w>
+            <w xml:id="BRE_COD13711_24v_13_2">freüntschafft</w>
+            <w xml:id="BRE_COD13711_24v_13_3">zü</w>
+            <w xml:id="BRE_COD13711_24v_13_4">dir</w>
+            <w xml:id="BRE_COD13711_24v_13_5">hab</w>
+          </l>
+          <l n="25">
+            <w xml:id="BRE_COD13711_24v_14_0">Auß</w>
+            <w xml:id="BRE_COD13711_24v_14_1">eim</w>
+            <w xml:id="BRE_COD13711_24v_14_2">krüg</w>
+            <w xml:id="BRE_COD13711_24v_14_3">wer</w>
+            <w xml:id="BRE_COD13711_24v_14_4">mir</w>
+            <w xml:id="BRE_COD13711_24v_14_5">dein</w>
+            <w xml:id="BRE_COD13711_24v_14_6">lieber</w>
+            <w xml:id="BRE_COD13711_24v_14_7">ein</w>
+            <w xml:id="BRE_COD13711_24v_14_8">tropff</w>
+          </l>
+          <l n="26">
+            <w xml:id="BRE_COD13711_24v_15_0">Dan<expan>n</expan></w>
+            <w xml:id="BRE_COD13711_24v_15_1">ein</w>
+            <w xml:id="BRE_COD13711_24v_15_2">eym<expan>er</expan></w>
+            <w xml:id="BRE_COD13711_24v_15_3">wassers</w>
+            <w xml:id="BRE_COD13711_24v_15_4">auß</w>
+            <w xml:id="BRE_COD13711_24v_15_5">eim</w>
+            <w xml:id="BRE_COD13711_24v_15_6">güld<expan>en</expan></w>
+            <w xml:id="BRE_COD13711_24v_15_7">kopff</w>
+          </l>
+        </div>
+        <!-- Text 6: Weinsegen Creftenreiche Labung (Hans Rosenplüt) (Cod. 13711, 24v-25v) -->
+        <div type="section" n="6">
+          <head>
+            <w xml:id="BRE_COD13711_24v_16_0">Das</w>
+            <w xml:id="BRE_COD13711_24v_16_1">gesegnen</w>
+          </head>
+          <l n="1">
+            <w xml:id="BRE_COD13711_24v_17_0">Nu</w>
+            <w xml:id="BRE_COD13711_24v_17_1">gesegen</w>
+            <w xml:id="BRE_COD13711_24v_17_2">dich</w>
+            <w xml:id="BRE_COD13711_24v_17_3">got</w>
+            <w xml:id="BRE_COD13711_24v_17_4">du</w>
+            <w xml:id="BRE_COD13711_24v_17_5">crefftige</w>
+            <w xml:id="BRE_COD13711_24v_17_6">labu<expan>n</expan>g</w>
+          </l>
+          <l n="2">
+            <w xml:id="BRE_COD13711_24v_18_0">Du</w>
+            <w xml:id="BRE_COD13711_24v_18_1">wolzeltende</w>
+            <w xml:id="BRE_COD13711_24v_18_2">sanfft</w>
+            <w xml:id="BRE_COD13711_24v_18_3">trabung</w>
+          </l>
+          <pb n="25r"/>
+          <l n="3">
+            <w xml:id="BRE_COD13711_25r_1_0">Du</w>
+            <w xml:id="BRE_COD13711_25r_1_1">süsses</w>
+            <w xml:id="BRE_COD13711_25r_1_2">mayenpad</w>
+            <w xml:id="BRE_COD13711_25r_1_3">mein<expan>er</expan></w>
+            <w xml:id="BRE_COD13711_25r_1_4">zungen</w>
+          </l>
+          <l n="4">
+            <w xml:id="BRE_COD13711_25r_2_0">Du</w>
+            <w xml:id="BRE_COD13711_25r_2_1">frischt</w>
+            <w xml:id="BRE_COD13711_25r_2_2">mir</w>
+            <w xml:id="BRE_COD13711_25r_2_3">die</w>
+            <w xml:id="BRE_COD13711_25r_2_4">lebern</w>
+            <w xml:id="BRE_COD13711_25r_2_5">und</w>
+            <w xml:id="BRE_COD13711_25r_2_6">feüchst</w>
+            <w xml:id="BRE_COD13711_25r_2_7">die</w>
+            <w xml:id="BRE_COD13711_25r_2_8">lungen</w>
+          </l>
+          <l n="5">
+            <w xml:id="BRE_COD13711_25r_3_0">Als</w>
+            <w xml:id="BRE_COD13711_25r_3_1">wenn</w>
+            <w xml:id="BRE_COD13711_25r_3_2">es</w>
+            <w xml:id="BRE_COD13711_25r_3_3">auff</w>
+            <w xml:id="BRE_COD13711_25r_3_4">dür<expan>r</expan>en</w>
+            <w xml:id="BRE_COD13711_25r_3_5">acker</w>
+            <w xml:id="BRE_COD13711_25r_3_6">taut</w>
+          </l>
+          <l n="6">
+            <w xml:id="BRE_COD13711_25r_4_0">Wenn</w>
+            <w xml:id="BRE_COD13711_25r_4_1">man</w>
+            <w xml:id="BRE_COD13711_25r_4_2">dich</w>
+            <w xml:id="BRE_COD13711_25r_4_3">in</w>
+            <w xml:id="BRE_COD13711_25r_4_4">einem</w>
+            <w xml:id="BRE_COD13711_25r_4_5">gleßlein</w>
+            <w xml:id="BRE_COD13711_25r_4_6">schaut</w>
+          </l>
+          <l n="7">
+            <w xml:id="BRE_COD13711_25r_5_0">So</w>
+            <w xml:id="BRE_COD13711_25r_5_1">kan</w>
+            <w xml:id="BRE_COD13711_25r_5_2">man</w>
+            <w xml:id="BRE_COD13711_25r_5_3">deins</w>
+            <w xml:id="BRE_COD13711_25r_5_4">herren</w>
+            <w xml:id="BRE_COD13711_25r_5_5">frümkeyt</w>
+            <w xml:id="BRE_COD13711_25r_5_6">schetzen</w>
+          </l>
+          <l n="8">
+            <w xml:id="BRE_COD13711_25r_6_0">Ob</w>
+            <w xml:id="BRE_COD13711_25r_6_1">er</w>
+            <w xml:id="BRE_COD13711_25r_6_2">dich</w>
+            <w xml:id="BRE_COD13711_25r_6_3">gefelscht</w>
+            <w xml:id="BRE_COD13711_25r_6_4">hab</w>
+            <w xml:id="BRE_COD13711_25r_6_5">mit</w>
+            <w xml:id="BRE_COD13711_25r_6_6">seinem</w>
+            <w xml:id="BRE_COD13711_25r_6_7">fetzen</w>
+          </l>
+          <l n="9">
+            <w xml:id="BRE_COD13711_25r_7_0">Das</w>
+            <w xml:id="BRE_COD13711_25r_7_1">er</w>
+            <w xml:id="BRE_COD13711_25r_7_2">mit</w>
+            <w xml:id="BRE_COD13711_25r_7_3">dir</w>
+            <w xml:id="BRE_COD13711_25r_7_4">treybt</w>
+            <w xml:id="BRE_COD13711_25r_7_5">uber</w>
+            <w xml:id="BRE_COD13711_25r_7_6">jar</w>
+          </l>
+          <l n="10">
+            <w xml:id="BRE_COD13711_25r_8_0">Mit</w>
+            <w xml:id="BRE_COD13711_25r_8_1">milch</w>
+            <w xml:id="BRE_COD13711_25r_8_2">und</w>
+            <w xml:id="BRE_COD13711_25r_8_3">auch</w>
+            <w xml:id="BRE_COD13711_25r_8_4">mit</w>
+            <w xml:id="BRE_COD13711_25r_8_5">ayer</w>
+            <w xml:id="BRE_COD13711_25r_8_6">clar</w>
+          </l>
+          <l n="11">
+            <w xml:id="BRE_COD13711_25r_9_0">Mit</w>
+            <w xml:id="BRE_COD13711_25r_9_1">stain</w>
+            <w xml:id="BRE_COD13711_25r_9_2">saltz</w>
+            <w xml:id="BRE_COD13711_25r_9_3">und</w>
+            <w xml:id="BRE_COD13711_25r_9_4">auch</w>
+            <w xml:id="BRE_COD13711_25r_9_5">mit</w>
+            <w xml:id="BRE_COD13711_25r_9_6">schweinein</w>
+            <w xml:id="BRE_COD13711_25r_9_7">schwarten</w>
+          </l>
+          <l n="12">
+            <w xml:id="BRE_COD13711_25r_10_0">Damit</w>
+            <w xml:id="BRE_COD13711_25r_10_1">dein</w>
+            <w xml:id="BRE_COD13711_25r_10_2">der</w>
+            <w xml:id="BRE_COD13711_25r_10_3">kelerknecht</w>
+            <w xml:id="BRE_COD13711_25r_10_4">müß</w>
+            <w xml:id="BRE_COD13711_25r_10_5">warten</w>
+          </l>
+          <l n="13">
+            <w xml:id="BRE_COD13711_25r_11_0">Mit</w>
+            <w xml:id="BRE_COD13711_25r_11_1">senff</w>
+            <w xml:id="BRE_COD13711_25r_11_2">mit</w>
+            <w xml:id="BRE_COD13711_25r_11_3">waidäschen</w>
+            <w xml:id="BRE_COD13711_25r_11_4">und</w>
+            <w xml:id="BRE_COD13711_25r_11_5">auch</w>
+            <w xml:id="BRE_COD13711_25r_11_6">mit</w>
+            <w xml:id="BRE_COD13711_25r_11_7">tropfwür<supplied>tz</supplied></w>
+          </l>
+          <l n="14">
+            <w xml:id="BRE_COD13711_25r_12_0">Davon</w>
+            <w xml:id="BRE_COD13711_25r_12_1">dein</w>
+            <w xml:id="BRE_COD13711_25r_12_2">adel</w>
+            <w xml:id="BRE_COD13711_25r_12_3">offt</w>
+            <w xml:id="BRE_COD13711_25r_12_4">nymbt</w>
+            <w xml:id="BRE_COD13711_25r_12_5">unterstürtz</w>
+          </l>
+          <l n="15">
+            <w xml:id="BRE_COD13711_25r_13_0">Der</w>
+            <w xml:id="BRE_COD13711_25r_13_1">zol</w>
+            <w xml:id="BRE_COD13711_25r_13_2">hat</w>
+            <w xml:id="BRE_COD13711_25r_13_3">dich</w>
+            <w xml:id="BRE_COD13711_25r_13_4">ubel</w>
+            <w xml:id="BRE_COD13711_25r_13_5">geschmaltzen</w>
+          </l>
+          <l n="16">
+            <w xml:id="BRE_COD13711_25r_14_0">So</w>
+            <w xml:id="BRE_COD13711_25r_14_1">hat</w>
+            <w xml:id="BRE_COD13711_25r_14_2">dich</w>
+            <w xml:id="BRE_COD13711_25r_14_3">das</w>
+            <w xml:id="BRE_COD13711_25r_14_4">ungelt</w>
+            <w xml:id="BRE_COD13711_25r_14_5">gar</w>
+            <w xml:id="BRE_COD13711_25r_14_6">versaltzen</w>
+          </l>
+          <l n="17">
+            <w xml:id="BRE_COD13711_25r_15_0">Das</w>
+            <w xml:id="BRE_COD13711_25r_15_1">entpfinden</w>
+            <w xml:id="BRE_COD13711_25r_15_2">die</w>
+            <w xml:id="BRE_COD13711_25r_15_3">armen</w>
+            <w xml:id="BRE_COD13711_25r_15_4">in</w>
+            <w xml:id="BRE_COD13711_25r_15_5">der</w>
+            <w xml:id="BRE_COD13711_25r_15_6">taschen</w>
+          </l>
+          <l n="18">
+            <w xml:id="BRE_COD13711_25r_16_0">Wenn</w>
+            <w xml:id="BRE_COD13711_25r_16_1">man</w>
+            <w xml:id="BRE_COD13711_25r_16_2">dir</w>
+            <w xml:id="BRE_COD13711_25r_16_3">den</w>
+            <w xml:id="BRE_COD13711_25r_16_4">spunt</w>
+            <w xml:id="BRE_COD13711_25r_16_5">sol</w>
+            <w xml:id="BRE_COD13711_25r_16_6">waschen</w>
+          </l>
+          <l n="19">
+            <w xml:id="BRE_COD13711_25r_17_0">So</w>
+            <w xml:id="BRE_COD13711_25r_17_1">müsen</w>
+            <w xml:id="BRE_COD13711_25r_17_2">zweintzig</w>
+            <w xml:id="BRE_COD13711_25r_17_3">maß</w>
+            <w xml:id="BRE_COD13711_25r_17_4">wassers</w>
+            <w xml:id="BRE_COD13711_25r_17_5">zü</w>
+            <w xml:id="BRE_COD13711_25r_17_6">lauffen</w>
+          </l>
+          <l n="20">
+            <w xml:id="BRE_COD13711_25r_18_0">Wer</w>
+            <w xml:id="BRE_COD13711_25r_18_1">das</w>
+            <w xml:id="BRE_COD13711_25r_18_2">für</w>
+            <w xml:id="BRE_COD13711_25r_18_3">wein</w>
+            <w xml:id="BRE_COD13711_25r_18_4">will</w>
+            <w xml:id="BRE_COD13711_25r_18_5">verkauffen</w>
+          </l>
+          <l n="21">
+            <w xml:id="BRE_COD13711_25r_19_0">Der</w>
+            <w xml:id="BRE_COD13711_25r_19_1">will</w>
+            <w xml:id="BRE_COD13711_25r_19_2">sein</w>
+            <w xml:id="BRE_COD13711_25r_19_3">nechsten</w>
+            <w xml:id="BRE_COD13711_25r_19_4">als</w>
+            <w xml:id="BRE_COD13711_25r_19_5">treülich</w>
+            <w xml:id="BRE_COD13711_25r_19_6">zalen</w>
+          </l>
+          <pb n="25v"/>
+          <l n="22">
+            <w xml:id="BRE_COD13711_25v_1_0">Als</w>
+            <w xml:id="BRE_COD13711_25v_1_1">der</w>
+            <w xml:id="BRE_COD13711_25v_1_2">ein</w>
+            <w xml:id="BRE_COD13711_25v_1_3">güt</w>
+            <w xml:id="BRE_COD13711_25v_1_4">mel</w>
+            <w xml:id="BRE_COD13711_25v_1_5">auß</w>
+            <w xml:id="BRE_COD13711_25v_1_6">kükot</w>
+            <w xml:id="BRE_COD13711_25v_1_7">wil</w>
+            <w xml:id="BRE_COD13711_25v_1_8">malen</w>
+          </l>
+        </div>
+        <!-- Text 7: Biergruß Liebes Pir (Hans Rosenplüt) (Cod. 13711, 25v-26r) -->
+        <div type="section" n="7">
+          <head>
+            <w xml:id="BRE_COD13711_25v_2_0">Hienach</w>
+            <w xml:id="BRE_COD13711_25v_2_1">so</w>
+            <w xml:id="BRE_COD13711_25v_2_2">volget</w>
+            <w xml:id="BRE_COD13711_25v_2_3">der</w>
+            <w xml:id="BRE_COD13711_25v_2_4">pir</w>
+            <w xml:id="BRE_COD13711_25v_2_5">grüs</w>
+          </head>
+          <head>
+            <w xml:id="BRE_COD13711_25v_3_0">Cervisa</w>
+          </head>
+          <l n="1">
+            <w xml:id="BRE_COD13711_25v_4_0">Grüs</w>
+            <w xml:id="BRE_COD13711_25v_4_1">dich</w>
+            <w xml:id="BRE_COD13711_25v_4_2">got</w>
+            <w xml:id="BRE_COD13711_25v_4_3">du</w>
+            <w xml:id="BRE_COD13711_25v_4_4">liebes</w>
+            <w xml:id="BRE_COD13711_25v_4_5">pir</w>
+          </l>
+          <l n="2">
+            <w xml:id="BRE_COD13711_25v_5_0">Gee</w>
+            <w xml:id="BRE_COD13711_25v_5_1">her</w>
+            <w xml:id="BRE_COD13711_25v_5_2">und</w>
+            <w xml:id="BRE_COD13711_25v_5_3">lesch</w>
+            <w xml:id="BRE_COD13711_25v_5_4">mir</w>
+            <w xml:id="BRE_COD13711_25v_5_5">den</w>
+            <w xml:id="BRE_COD13711_25v_5_6">türst</w>
+            <w xml:id="BRE_COD13711_25v_5_7">schir</w>
+          </l>
+          <l n="3">
+            <w xml:id="BRE_COD13711_25v_6_0">Und</w>
+            <w xml:id="BRE_COD13711_25v_6_1">mach</w>
+            <w xml:id="BRE_COD13711_25v_6_2">mich</w>
+            <w xml:id="BRE_COD13711_25v_6_3">nit</w>
+            <w xml:id="BRE_COD13711_25v_6_4">zü</w>
+            <w xml:id="BRE_COD13711_25v_6_5">schanden</w>
+            <w xml:id="BRE_COD13711_25v_6_6">vor</w>
+            <w xml:id="BRE_COD13711_25v_6_7">den</w>
+            <w xml:id="BRE_COD13711_25v_6_8">leüte<expan>n</expan></w>
+          </l>
+          <l n="4">
+            <w xml:id="BRE_COD13711_25v_7_0">Und</w>
+            <w xml:id="BRE_COD13711_25v_7_1">behüt</w>
+            <w xml:id="BRE_COD13711_25v_7_2">mich</w>
+            <w xml:id="BRE_COD13711_25v_7_3">vor</w>
+            <w xml:id="BRE_COD13711_25v_7_4">der</w>
+            <w xml:id="BRE_COD13711_25v_7_5">schnellen</w>
+            <w xml:id="BRE_COD13711_25v_7_6">geütten</w>
+          </l>
+          <l n="5">
+            <w xml:id="BRE_COD13711_25v_8_0">Wan<expan>n</expan></w>
+            <w xml:id="BRE_COD13711_25v_8_1">dein</w>
+            <w xml:id="BRE_COD13711_25v_8_2">nam</w>
+            <w xml:id="BRE_COD13711_25v_8_3">der</w>
+            <w xml:id="BRE_COD13711_25v_8_4">heist</w>
+            <w xml:id="BRE_COD13711_25v_8_5">der</w>
+            <w xml:id="BRE_COD13711_25v_8_6">rümpel</w>
+            <w xml:id="BRE_COD13711_25v_8_7">in</w>
+            <w xml:id="BRE_COD13711_25v_8_8">plose<expan>n</expan></w>
+          </l>
+          <l n="6">
+            <w xml:id="BRE_COD13711_25v_9_0">Von</w>
+            <w xml:id="BRE_COD13711_25v_9_1">dir</w>
+            <w xml:id="BRE_COD13711_25v_9_2">so</w>
+            <w xml:id="BRE_COD13711_25v_9_3">wachssen</w>
+            <w xml:id="BRE_COD13711_25v_9_4">solche</w>
+            <w xml:id="BRE_COD13711_25v_9_5">rosen</w>
+          </l>
+          <l n="7">
+            <w xml:id="BRE_COD13711_25v_10_0">Die</w>
+            <w xml:id="BRE_COD13711_25v_10_1">man</w>
+            <w xml:id="BRE_COD13711_25v_10_2">nit</w>
+            <w xml:id="BRE_COD13711_25v_10_3">mit</w>
+            <w xml:id="BRE_COD13711_25v_10_4">henden</w>
+            <w xml:id="BRE_COD13711_25v_10_5">ab</w>
+            <w xml:id="BRE_COD13711_25v_10_6">thüt</w>
+            <w xml:id="BRE_COD13711_25v_10_7">prechen</w>
+          </l>
+          <l n="8">
+            <w xml:id="BRE_COD13711_25v_11_0">Daran</w>
+            <w xml:id="BRE_COD13711_25v_11_1">die</w>
+            <w xml:id="BRE_COD13711_25v_11_2">seü</w>
+            <w xml:id="BRE_COD13711_25v_11_3">untern</w>
+            <w xml:id="BRE_COD13711_25v_11_4">zeün</w>
+            <w xml:id="BRE_COD13711_25v_11_5">zechen</w>
+          </l>
+          <l n="9">
+            <w xml:id="BRE_COD13711_25v_12_0">Wan<expan>n</expan></w>
+            <w xml:id="BRE_COD13711_25v_12_1">ich</w>
+            <w xml:id="BRE_COD13711_25v_12_2">dort</w>
+            <w xml:id="BRE_COD13711_25v_12_3">in</w>
+            <w xml:id="BRE_COD13711_25v_12_4">eim</w>
+            <w xml:id="BRE_COD13711_25v_12_5">winckel</w>
+            <w xml:id="BRE_COD13711_25v_12_6">knoch</w>
+          </l>
+          <l n="10">
+            <w xml:id="BRE_COD13711_25v_13_0">So</w>
+            <w xml:id="BRE_COD13711_25v_13_1">heist</w>
+            <w xml:id="BRE_COD13711_25v_13_2">dein</w>
+            <w xml:id="BRE_COD13711_25v_13_3">nam</w>
+            <w xml:id="BRE_COD13711_25v_13_4">der</w>
+            <w xml:id="BRE_COD13711_25v_13_5">praczel</w>
+            <w xml:id="BRE_COD13711_25v_13_6">im</w>
+            <w xml:id="BRE_COD13711_25v_13_7">loch</w>
+          </l>
+          <l n="11">
+            <w xml:id="BRE_COD13711_25v_14_0">Wann</w>
+            <w xml:id="BRE_COD13711_25v_14_1">man</w>
+            <w xml:id="BRE_COD13711_25v_14_2">dich</w>
+            <w xml:id="BRE_COD13711_25v_14_3">in</w>
+            <w xml:id="BRE_COD13711_25v_14_4">einem</w>
+            <w xml:id="BRE_COD13711_25v_14_5">kessel</w>
+            <w xml:id="BRE_COD13711_25v_14_6">geseütt</w>
+          </l>
+          <l n="12">
+            <w xml:id="BRE_COD13711_25v_15_0">So</w>
+            <w xml:id="BRE_COD13711_25v_15_1">heist</w>
+            <w xml:id="BRE_COD13711_25v_15_2">dein</w>
+            <w xml:id="BRE_COD13711_25v_15_3">nam</w>
+            <w xml:id="BRE_COD13711_25v_15_4">auch</w>
+            <w xml:id="BRE_COD13711_25v_15_5">pfladergeütt</w>
+          </l>
+          <l n="13">
+            <w xml:id="BRE_COD13711_25v_16_0">Und</w>
+            <w xml:id="BRE_COD13711_25v_16_1">pist</w>
+            <w xml:id="BRE_COD13711_25v_16_2">ein</w>
+            <w xml:id="BRE_COD13711_25v_16_3">ungesunter</w>
+            <w xml:id="BRE_COD13711_25v_16_4">schwais</w>
+          </l>
+          <l n="14">
+            <w xml:id="BRE_COD13711_25v_17_0">Und</w>
+            <w xml:id="BRE_COD13711_25v_17_1">wer</w>
+            <w xml:id="BRE_COD13711_25v_17_2">von</w>
+            <w xml:id="BRE_COD13711_25v_17_3">dir</w>
+            <w xml:id="BRE_COD13711_25v_17_4">will</w>
+            <w xml:id="BRE_COD13711_25v_17_5">lassen</w>
+            <w xml:id="BRE_COD13711_25v_17_6">ein</w>
+            <w xml:id="BRE_COD13711_25v_17_7">schais</w>
+          </l>
+          <l n="15">
+            <w xml:id="BRE_COD13711_25v_18_0">Der</w>
+            <w xml:id="BRE_COD13711_25v_18_1">müß</w>
+            <w xml:id="BRE_COD13711_25v_18_2">gar</w>
+            <w xml:id="BRE_COD13711_25v_18_3">seüberlich</w>
+            <w xml:id="BRE_COD13711_25v_18_4">herfür</w>
+            <w xml:id="BRE_COD13711_25v_18_5">lan</w>
+            <w xml:id="BRE_COD13711_25v_18_6">schleichen</w>
+          </l>
+          <pb n="26r"/>
+          <l n="16">
+            <w xml:id="BRE_COD13711_26r_1_0">Das</w>
+            <w xml:id="BRE_COD13711_26r_1_1">icht</w>
+            <w xml:id="BRE_COD13711_26r_1_2">heff</w>
+            <w xml:id="BRE_COD13711_26r_1_3">mit</w>
+            <w xml:id="BRE_COD13711_26r_1_4">werd</w>
+            <w xml:id="BRE_COD13711_26r_1_5">streichen</w>
+          </l>
+        </div>
+        <!-- Text 8: Biersegen Liebe Gerstenprü (Hans Rosenplüt) (Cod. 13711, 26r) -->
+        <div type="section" n="8">
+          <head>
+            <w xml:id="BRE_COD13711_26r_2_0">Das</w>
+            <w xml:id="BRE_COD13711_26r_2_1">gesegnen</w>
+          </head>
+          <l n="1">
+            <w xml:id="BRE_COD13711_26r_3_0">Nu</w>
+            <w xml:id="BRE_COD13711_26r_3_1">gesegen</w>
+            <w xml:id="BRE_COD13711_26r_3_2">dich</w>
+            <w xml:id="BRE_COD13711_26r_3_3">got</w>
+            <w xml:id="BRE_COD13711_26r_3_4">du</w>
+            <w xml:id="BRE_COD13711_26r_3_5">liebe</w>
+            <w xml:id="BRE_COD13711_26r_3_6">gerstenprü</w>
+          </l>
+          <l n="2">
+            <w xml:id="BRE_COD13711_26r_4_0">Mach</w>
+            <w xml:id="BRE_COD13711_26r_4_1">mir</w>
+            <w xml:id="BRE_COD13711_26r_4_2">des</w>
+            <w xml:id="BRE_COD13711_26r_4_3">nachts</w>
+            <w xml:id="BRE_COD13711_26r_4_4">im</w>
+            <w xml:id="BRE_COD13711_26r_4_5">pedt</w>
+            <w xml:id="BRE_COD13711_26r_4_6">kein</w>
+            <w xml:id="BRE_COD13711_26r_4_7">mü</w>
+          </l>
+          <l n="3">
+            <w xml:id="BRE_COD13711_26r_5_0">Wenn</w>
+            <w xml:id="BRE_COD13711_26r_5_1">ich</w>
+            <w xml:id="BRE_COD13711_26r_5_2">bey</w>
+            <w xml:id="BRE_COD13711_26r_5_3">mein<expan>er</expan></w>
+            <w xml:id="BRE_COD13711_26r_5_4">frauen</w>
+            <w xml:id="BRE_COD13711_26r_5_5">rü</w>
+          </l>
+          <l n="4">
+            <w xml:id="BRE_COD13711_26r_6_0">Das</w>
+            <w xml:id="BRE_COD13711_26r_6_1">mir</w>
+            <w xml:id="BRE_COD13711_26r_6_2">das</w>
+            <w xml:id="BRE_COD13711_26r_6_3">unter</w>
+            <w xml:id="BRE_COD13711_26r_6_4">loch</w>
+            <w xml:id="BRE_COD13711_26r_6_5">bleib</w>
+            <w xml:id="BRE_COD13711_26r_6_6">zü</w>
+          </l>
+          <l n="5">
+            <w xml:id="BRE_COD13711_26r_7_0">Das</w>
+            <w xml:id="BRE_COD13711_26r_7_1">es</w>
+            <w xml:id="BRE_COD13711_26r_7_2">nit</w>
+            <w xml:id="BRE_COD13711_26r_7_3">pratzel</w>
+            <w xml:id="BRE_COD13711_26r_7_4">und</w>
+            <w xml:id="BRE_COD13711_26r_7_5">uberlauff</w>
+          </l>
+          <l n="6">
+            <w xml:id="BRE_COD13711_26r_8_0">Als</w>
+            <w xml:id="BRE_COD13711_26r_8_1">wan<expan>n</expan></w>
+            <w xml:id="BRE_COD13711_26r_8_2">man</w>
+            <w xml:id="BRE_COD13711_26r_8_3">ein</w>
+            <w xml:id="BRE_COD13711_26r_8_4">ganß</w>
+            <w xml:id="BRE_COD13711_26r_8_5">beym</w>
+            <w xml:id="BRE_COD13711_26r_8_6">ars</w>
+            <w xml:id="BRE_COD13711_26r_8_7">berauff</w>
+          </l>
+          <l n="7">
+            <w xml:id="BRE_COD13711_26r_9_0">Und</w>
+            <w xml:id="BRE_COD13711_26r_9_1">mach</w>
+            <w xml:id="BRE_COD13711_26r_9_2">mir</w>
+            <w xml:id="BRE_COD13711_26r_9_3">kein</w>
+            <w xml:id="BRE_COD13711_26r_9_4">gerümpel</w>
+            <w xml:id="BRE_COD13711_26r_9_5">im</w>
+            <w xml:id="BRE_COD13711_26r_9_6">pauch</w>
+          </l>
+          <l n="8">
+            <w xml:id="BRE_COD13711_26r_10_0">pis</w>
+            <w xml:id="BRE_COD13711_26r_10_1">das</w>
+            <w xml:id="BRE_COD13711_26r_10_2">ich</w>
+            <w xml:id="BRE_COD13711_26r_10_3">hinter</w>
+            <w xml:id="BRE_COD13711_26r_10_4">das</w>
+            <w xml:id="BRE_COD13711_26r_10_5">haus</w>
+            <w xml:id="BRE_COD13711_26r_10_6">gehauch</w>
+          </l>
+          <l n="9">
+            <w xml:id="BRE_COD13711_26r_11_0">So</w>
+            <w xml:id="BRE_COD13711_26r_11_1">gee</w>
+            <w xml:id="BRE_COD13711_26r_11_2">dan<expan>n</expan></w>
+            <w xml:id="BRE_COD13711_26r_11_3">seüberlich</w>
+            <w xml:id="BRE_COD13711_26r_11_4">von</w>
+            <w xml:id="BRE_COD13711_26r_11_5">mir</w>
+            <w xml:id="BRE_COD13711_26r_11_6">unden</w>
+          </l>
+          <l n="10">
+            <w xml:id="BRE_COD13711_26r_12_0">Und</w>
+            <w xml:id="BRE_COD13711_26r_12_1">laß</w>
+            <w xml:id="BRE_COD13711_26r_12_2">mich</w>
+            <w xml:id="BRE_COD13711_26r_12_3">als</w>
+            <w xml:id="BRE_COD13711_26r_12_4">du</w>
+            <w xml:id="BRE_COD13711_26r_12_5">mich</w>
+            <w xml:id="BRE_COD13711_26r_12_6">hast</w>
+            <w xml:id="BRE_COD13711_26r_12_7">fünden</w>
+          </l>
+          <l n="11">
+            <w xml:id="BRE_COD13711_26r_13_0">Und</w>
+            <w xml:id="BRE_COD13711_26r_13_1">eyl</w>
+            <w xml:id="BRE_COD13711_26r_13_2">nit</w>
+            <w xml:id="BRE_COD13711_26r_13_3">unten</w>
+            <w xml:id="BRE_COD13711_26r_13_4">auß</w>
+            <w xml:id="BRE_COD13711_26r_13_5">zü</w>
+            <w xml:id="BRE_COD13711_26r_13_6">schnell</w>
+          </l>
+          <l n="12">
+            <w xml:id="BRE_COD13711_26r_14_0">Das</w>
+            <w xml:id="BRE_COD13711_26r_14_1">mir</w>
+            <w xml:id="BRE_COD13711_26r_14_2">kein</w>
+            <w xml:id="BRE_COD13711_26r_14_3">senff</w>
+            <w xml:id="BRE_COD13711_26r_14_4">in</w>
+            <w xml:id="BRE_COD13711_26r_14_5">der</w>
+            <w xml:id="BRE_COD13711_26r_14_6">prüch</w>
+            <w xml:id="BRE_COD13711_26r_14_7">aufquell</w>
+          </l>
+        </div>
+        <!-- Text 9: Metgruß Süßs Geschleck (Hans Rosenplüt) (Cod. 13711, 26r-27r) -->
+        <div type="section" n="9">
+          <head>
+            <w xml:id="BRE_COD13711_26r_15_0">Hienach</w>
+            <w xml:id="BRE_COD13711_26r_15_1">so</w>
+            <w xml:id="BRE_COD13711_26r_15_2">volget</w>
+            <w xml:id="BRE_COD13711_26r_15_3">der</w>
+            <w xml:id="BRE_COD13711_26r_15_4">met</w>
+            <w xml:id="BRE_COD13711_26r_15_5">grüs</w>
+          </head>
+          <head>
+            <w xml:id="BRE_COD13711_26r_16_0">medo</w>
+          </head>
+          <l n="1">
+            <w xml:id="BRE_COD13711_26r_17_0">Grüs</w>
+            <w xml:id="BRE_COD13711_26r_17_1">dich</w>
+            <w xml:id="BRE_COD13711_26r_17_2">got</w>
+            <w xml:id="BRE_COD13711_26r_17_3">du</w>
+            <w xml:id="BRE_COD13711_26r_17_4">süß</w>
+            <w xml:id="BRE_COD13711_26r_17_5">geschleck</w>
+          </l>
+          <pb n="26v"/>
+          <l n="2">
+            <w xml:id="BRE_COD13711_26v_1_0">Du</w>
+            <w xml:id="BRE_COD13711_26v_1_1">jagst</w>
+            <w xml:id="BRE_COD13711_26v_1_2">mir</w>
+            <w xml:id="BRE_COD13711_26v_1_3">manigen</w>
+            <w xml:id="BRE_COD13711_26v_1_4">dürst</w>
+            <w xml:id="BRE_COD13711_26v_1_5">hinweck</w>
+          </l>
+          <l n="3">
+            <w xml:id="BRE_COD13711_26v_2_0">So</w>
+            <w xml:id="BRE_COD13711_26v_2_1">ich</w>
+            <w xml:id="BRE_COD13711_26v_2_2">dich</w>
+            <w xml:id="BRE_COD13711_26v_2_3">auß</w>
+            <w xml:id="BRE_COD13711_26v_2_4">dem</w>
+            <w xml:id="BRE_COD13711_26v_2_5">kütrolff</w>
+            <w xml:id="BRE_COD13711_26v_2_6">schlauch</w>
+          </l>
+          <l n="4">
+            <w xml:id="BRE_COD13711_26v_3_0">So</w>
+            <w xml:id="BRE_COD13711_26v_3_1">fülstü</w>
+            <w xml:id="BRE_COD13711_26v_3_2">mir</w>
+            <w xml:id="BRE_COD13711_26v_3_3">bed</w>
+            <w xml:id="BRE_COD13711_26v_3_4">augen</w>
+            <w xml:id="BRE_COD13711_26v_3_5">und</w>
+            <w xml:id="BRE_COD13711_26v_3_6">pauch</w>
+          </l>
+          <l n="5">
+            <w xml:id="BRE_COD13711_26v_4_0">Wann</w>
+            <w xml:id="BRE_COD13711_26v_4_1">ich</w>
+            <w xml:id="BRE_COD13711_26v_4_2">dich</w>
+            <w xml:id="BRE_COD13711_26v_4_3">hart</w>
+            <w xml:id="BRE_COD13711_26v_4_4">vom<expan>m</expan></w>
+            <w xml:id="BRE_COD13711_26v_4_5">mund</w>
+            <w xml:id="BRE_COD13711_26v_4_6">mag</w>
+            <w xml:id="BRE_COD13711_26v_4_7">bring<expan>en</expan></w>
+          </l>
+          <l n="6">
+            <w xml:id="BRE_COD13711_26v_5_0">Pis</w>
+            <w xml:id="BRE_COD13711_26v_5_1">mir</w>
+            <w xml:id="BRE_COD13711_26v_5_2">die</w>
+            <w xml:id="BRE_COD13711_26v_5_3">zeher</w>
+            <w xml:id="BRE_COD13711_26v_5_4">die</w>
+            <w xml:id="BRE_COD13711_26v_5_5">packen</w>
+            <w xml:id="BRE_COD13711_26v_5_6">abdringen</w>
+          </l>
+          <l n="7">
+            <w xml:id="BRE_COD13711_26v_6_0">Du</w>
+            <w xml:id="BRE_COD13711_26v_6_1">machst</w>
+            <w xml:id="BRE_COD13711_26v_6_2">das</w>
+            <w xml:id="BRE_COD13711_26v_6_3">manich<expan>er</expan></w>
+            <w xml:id="BRE_COD13711_26v_6_4">sein</w>
+            <w xml:id="BRE_COD13711_26v_6_5">fasten</w>
+            <w xml:id="BRE_COD13711_26v_6_6">pricht</w>
+          </l>
+          <l n="8">
+            <w xml:id="BRE_COD13711_26v_7_0">So</w>
+            <w xml:id="BRE_COD13711_26v_7_1">in</w>
+            <w xml:id="BRE_COD13711_26v_7_2">der</w>
+            <w xml:id="BRE_COD13711_26v_7_3">hunger</w>
+            <w xml:id="BRE_COD13711_26v_7_4">zů</w>
+            <w xml:id="BRE_COD13711_26v_7_5">frü</w>
+            <w xml:id="BRE_COD13711_26v_7_6">an</w>
+            <w xml:id="BRE_COD13711_26v_7_7">vicht</w>
+          </l>
+          <l n="9">
+            <w xml:id="BRE_COD13711_26v_8_0">Und</w>
+            <w xml:id="BRE_COD13711_26v_8_1">in</w>
+            <w xml:id="BRE_COD13711_26v_8_2">ein</w>
+            <w xml:id="BRE_COD13711_26v_8_3">zutzel</w>
+            <w xml:id="BRE_COD13711_26v_8_4">anmacht</w>
+            <w xml:id="BRE_COD13711_26v_8_5">bestat</w>
+          </l>
+          <l n="10">
+            <w xml:id="BRE_COD13711_26v_9_0">So</w>
+            <w xml:id="BRE_COD13711_26v_9_1">er</w>
+            <w xml:id="BRE_COD13711_26v_9_2">dann</w>
+            <w xml:id="BRE_COD13711_26v_9_3">dich</w>
+            <w xml:id="BRE_COD13711_26v_9_4">und</w>
+            <w xml:id="BRE_COD13711_26v_9_5">ein</w>
+            <w xml:id="BRE_COD13711_26v_9_6">semel</w>
+            <w xml:id="BRE_COD13711_26v_9_7">hat</w>
+          </l>
+          <l n="11">
+            <w xml:id="BRE_COD13711_26v_10_0">Und</w>
+            <w xml:id="BRE_COD13711_26v_10_1">drinckts</w>
+            <w xml:id="BRE_COD13711_26v_10_2">in</w>
+            <w xml:id="BRE_COD13711_26v_10_3">dich</w>
+            <w xml:id="BRE_COD13711_26v_10_4">und</w>
+            <w xml:id="BRE_COD13711_26v_10_5">ist</w>
+            <w xml:id="BRE_COD13711_26v_10_6">das</w>
+            <w xml:id="BRE_COD13711_26v_10_7">naß</w>
+          </l>
+          <l n="12">
+            <w xml:id="BRE_COD13711_26v_11_0">So</w>
+            <w xml:id="BRE_COD13711_26v_11_1">dünckt</w>
+            <w xml:id="BRE_COD13711_26v_11_2">in</w>
+            <w xml:id="BRE_COD13711_26v_11_3">dan<expan>n</expan></w>
+            <w xml:id="BRE_COD13711_26v_11_4">er</w>
+            <w xml:id="BRE_COD13711_26v_11_5">faßt</w>
+            <w xml:id="BRE_COD13711_26v_11_6">dester</w>
+            <w xml:id="BRE_COD13711_26v_11_7">paß</w>
+          </l>
+          <l n="13">
+            <w xml:id="BRE_COD13711_26v_12_0">Du</w>
+            <w xml:id="BRE_COD13711_26v_12_1">pist</w>
+            <w xml:id="BRE_COD13711_26v_12_2">der</w>
+            <w xml:id="BRE_COD13711_26v_12_3">juden</w>
+            <w xml:id="BRE_COD13711_26v_12_4">besunder</w>
+            <w xml:id="BRE_COD13711_26v_12_5">getranck</w>
+          </l>
+          <l n="14">
+            <w xml:id="BRE_COD13711_26v_13_0">Du</w>
+            <w xml:id="BRE_COD13711_26v_13_1">machst</w>
+            <w xml:id="BRE_COD13711_26v_13_2">den</w>
+            <w xml:id="BRE_COD13711_26v_13_3">paurn</w>
+            <w xml:id="BRE_COD13711_26v_13_4">ir</w>
+            <w xml:id="BRE_COD13711_26v_13_5">zen</w>
+            <w xml:id="BRE_COD13711_26v_13_6">so</w>
+            <w xml:id="BRE_COD13711_26v_13_7">lanck</w>
+          </l>
+          <l n="15">
+            <w xml:id="BRE_COD13711_26v_14_0">Das</w>
+            <w xml:id="BRE_COD13711_26v_14_1">sie</w>
+            <w xml:id="BRE_COD13711_26v_14_2">gar</w>
+            <w xml:id="BRE_COD13711_26v_14_3">selten</w>
+            <w xml:id="BRE_COD13711_26v_14_4">heim</w>
+            <w xml:id="BRE_COD13711_26v_14_5">kom<expan>m</expan>en</w>
+          </l>
+          <l n="16">
+            <w xml:id="BRE_COD13711_26v_15_0">Sie</w>
+            <w xml:id="BRE_COD13711_26v_15_1">haben</w>
+            <w xml:id="BRE_COD13711_26v_15_2">dann</w>
+            <w xml:id="BRE_COD13711_26v_15_3">dein</w>
+            <w xml:id="BRE_COD13711_26v_15_4">vor</w>
+            <w xml:id="BRE_COD13711_26v_15_5">zü</w>
+            <w xml:id="BRE_COD13711_26v_15_6">in</w>
+            <w xml:id="BRE_COD13711_26v_15_7">genom<expan>m</expan>en</w>
+          </l>
+          <l n="17">
+            <w xml:id="BRE_COD13711_26v_16_0">Ob</w>
+            <w xml:id="BRE_COD13711_26v_16_1">dein</w>
+            <w xml:id="BRE_COD13711_26v_16_2">der</w>
+            <w xml:id="BRE_COD13711_26v_16_3">paur</w>
+            <w xml:id="BRE_COD13711_26v_16_4">vergessen</w>
+            <w xml:id="BRE_COD13711_26v_16_5">wolt</w>
+          </l>
+          <l n="18">
+            <w xml:id="BRE_COD13711_26v_17_0">So</w>
+            <w xml:id="BRE_COD13711_26v_17_1">sein</w>
+            <w xml:id="BRE_COD13711_26v_17_2">die</w>
+            <w xml:id="BRE_COD13711_26v_17_3">die</w>
+            <w xml:id="BRE_COD13711_26v_17_4">peürin</w>
+            <w xml:id="BRE_COD13711_26v_17_5">wol</w>
+            <w xml:id="BRE_COD13711_26v_17_6">so</w>
+            <w xml:id="BRE_COD13711_26v_17_7">holt</w>
+          </l>
+          <l n="19">
+            <w xml:id="BRE_COD13711_26v_18_0">Das</w>
+            <w xml:id="BRE_COD13711_26v_18_1">sie</w>
+            <w xml:id="BRE_COD13711_26v_18_2">sich</w>
+            <w xml:id="BRE_COD13711_26v_18_3">ee</w>
+            <w xml:id="BRE_COD13711_26v_18_4">zü</w>
+            <w xml:id="BRE_COD13711_26v_18_5">dir</w>
+            <w xml:id="BRE_COD13711_26v_18_6">verstelen</w>
+          </l>
+          <l n="20">
+            <w xml:id="BRE_COD13711_26v_19_0">Das</w>
+            <w xml:id="BRE_COD13711_26v_19_1">sie</w>
+            <w xml:id="BRE_COD13711_26v_19_2">dein<expan>e</expan></w>
+            <w xml:id="BRE_COD13711_26v_19_3">süssen</w>
+            <w xml:id="BRE_COD13711_26v_19_4">züg</w>
+            <w xml:id="BRE_COD13711_26v_19_5">nit</w>
+            <w xml:id="BRE_COD13711_26v_19_6">velen</w>
+          </l>
+          <pb n="27r"/>
+          <l n="21">
+            <w xml:id="BRE_COD13711_27r_1_0">Jung</w>
+            <w xml:id="BRE_COD13711_27r_1_1">und</w>
+            <w xml:id="BRE_COD13711_27r_1_2">alt</w>
+            <w xml:id="BRE_COD13711_27r_1_3">lerstü</w>
+            <w xml:id="BRE_COD13711_27r_1_4">nach</w>
+            <w xml:id="BRE_COD13711_27r_1_5">dir</w>
+            <w xml:id="BRE_COD13711_27r_1_6">fragen</w>
+          </l>
+          <l n="22">
+            <w xml:id="BRE_COD13711_27r_2_0">Und</w>
+            <w xml:id="BRE_COD13711_27r_2_1">lerst</w>
+            <w xml:id="BRE_COD13711_27r_2_2">die</w>
+            <w xml:id="BRE_COD13711_27r_2_3">kind</w>
+            <w xml:id="BRE_COD13711_27r_2_4">heimlich</w>
+            <w xml:id="BRE_COD13711_27r_2_5">abtragen</w>
+          </l>
+          <l n="23">
+            <w xml:id="BRE_COD13711_27r_3_0">Und</w>
+            <w xml:id="BRE_COD13711_27r_3_1">lerst</w>
+            <w xml:id="BRE_COD13711_27r_3_2">sie</w>
+            <w xml:id="BRE_COD13711_27r_3_3">kappen</w>
+            <w xml:id="BRE_COD13711_27r_3_4">und</w>
+            <w xml:id="BRE_COD13711_27r_3_5">gürtel</w>
+            <w xml:id="BRE_COD13711_27r_3_6">versetzen</w>
+          </l>
+          <l n="24">
+            <w xml:id="BRE_COD13711_27r_4_0">Das</w>
+            <w xml:id="BRE_COD13711_27r_4_1">sie</w>
+            <w xml:id="BRE_COD13711_27r_4_2">ir</w>
+            <w xml:id="BRE_COD13711_27r_4_3">kel</w>
+            <w xml:id="BRE_COD13711_27r_4_4">neür</w>
+            <w xml:id="BRE_COD13711_27r_4_5">in</w>
+            <w xml:id="BRE_COD13711_27r_4_6">dir</w>
+            <w xml:id="BRE_COD13711_27r_4_7">netzen</w>
+          </l>
+          <l n="25">
+            <w xml:id="BRE_COD13711_27r_5_0">Des</w>
+            <w xml:id="BRE_COD13711_27r_5_1">liebstü</w>
+            <w xml:id="BRE_COD13711_27r_5_2">mir</w>
+            <w xml:id="BRE_COD13711_27r_5_3">vil</w>
+            <w xml:id="BRE_COD13711_27r_5_4">dester</w>
+            <w xml:id="BRE_COD13711_27r_5_5">pas</w>
+          </l>
+          <l n="26">
+            <w xml:id="BRE_COD13711_27r_6_0">Wer</w>
+            <w xml:id="BRE_COD13711_27r_6_1">möcht</w>
+            <w xml:id="BRE_COD13711_27r_6_2">dir</w>
+            <w xml:id="BRE_COD13711_27r_6_3">veindt</w>
+            <w xml:id="BRE_COD13711_27r_6_4">sein</w>
+            <w xml:id="BRE_COD13711_27r_6_5">oder</w>
+            <w xml:id="BRE_COD13711_27r_6_6">gehas</w>
+          </l>
+          <l n="27">
+            <w xml:id="BRE_COD13711_27r_7_0">So</w>
+            <w xml:id="BRE_COD13711_27r_7_1">du</w>
+            <w xml:id="BRE_COD13711_27r_7_2">so</w>
+            <w xml:id="BRE_COD13711_27r_7_3">lieplich</w>
+            <w xml:id="BRE_COD13711_27r_7_4">schmeckst</w>
+            <w xml:id="BRE_COD13711_27r_7_5">nach</w>
+            <w xml:id="BRE_COD13711_27r_7_6">würtzen</w>
+          </l>
+          <l n="28">
+            <w xml:id="BRE_COD13711_27r_8_0">Darumb</w>
+            <w xml:id="BRE_COD13711_27r_8_1">ich</w>
+            <w xml:id="BRE_COD13711_27r_8_2">dich</w>
+            <w xml:id="BRE_COD13711_27r_8_3">gantz</w>
+            <w xml:id="BRE_COD13711_27r_8_4">umb</w>
+            <w xml:id="BRE_COD13711_27r_8_5">möcht</w>
+            <w xml:id="BRE_COD13711_27r_8_6">stürtzen</w>
+          </l>
+        </div>
+        <!-- Text 10: Metsegen Liber Met (Hans Rosenplüt) (Cod. 13711, 27r-28r) -->
+        <div type="section" n="10">
+          <head>
+            <w xml:id="BRE_COD13711_27r_9_0">Das</w>
+            <w xml:id="BRE_COD13711_27r_9_1">gesegnen</w>
+          </head>
+          <l n="1">
+            <w xml:id="BRE_COD13711_27r_10_0">Nu</w>
+            <w xml:id="BRE_COD13711_27r_10_1">gesegen</w>
+            <w xml:id="BRE_COD13711_27r_10_2">dich</w>
+            <w xml:id="BRE_COD13711_27r_10_3">got</w>
+            <w xml:id="BRE_COD13711_27r_10_4">du</w>
+            <w xml:id="BRE_COD13711_27r_10_5">lieber</w>
+            <w xml:id="BRE_COD13711_27r_10_6">met</w>
+          </l>
+          <l n="2">
+            <w xml:id="BRE_COD13711_27r_11_0">Und</w>
+            <w xml:id="BRE_COD13711_27r_11_1">ob</w>
+            <w xml:id="BRE_COD13711_27r_11_2">ich</w>
+            <w xml:id="BRE_COD13711_27r_11_3">mich</w>
+            <w xml:id="BRE_COD13711_27r_11_4">dein</w>
+            <w xml:id="BRE_COD13711_27r_11_5">schon</w>
+            <w xml:id="BRE_COD13711_27r_11_6">gern</w>
+            <w xml:id="BRE_COD13711_27r_11_7">abthet</w>
+          </l>
+          <l n="3">
+            <w xml:id="BRE_COD13711_27r_12_0">Und</w>
+            <w xml:id="BRE_COD13711_27r_12_1">trünck</w>
+            <w xml:id="BRE_COD13711_27r_12_2">ein</w>
+            <w xml:id="BRE_COD13711_27r_12_3">saurs</w>
+            <w xml:id="BRE_COD13711_27r_12_4">pir</w>
+            <w xml:id="BRE_COD13711_27r_12_5">für</w>
+            <w xml:id="BRE_COD13711_27r_12_6">dich</w>
+          </l>
+          <l n="4">
+            <w xml:id="BRE_COD13711_27r_13_0">So</w>
+            <w xml:id="BRE_COD13711_27r_13_1">streichen</w>
+            <w xml:id="BRE_COD13711_27r_13_2">dein</w>
+            <w xml:id="BRE_COD13711_27r_13_3">züg</w>
+            <w xml:id="BRE_COD13711_27r_13_4">so</w>
+            <w xml:id="BRE_COD13711_27r_13_5">süßlich</w>
+          </l>
+          <l n="5">
+            <w xml:id="BRE_COD13711_27r_14_0">Und</w>
+            <w xml:id="BRE_COD13711_27r_14_1">sein</w>
+            <w xml:id="BRE_COD13711_27r_14_2">dein</w>
+            <w xml:id="BRE_COD13711_27r_14_3">trünck</w>
+            <w xml:id="BRE_COD13711_27r_14_4">so</w>
+            <w xml:id="BRE_COD13711_27r_14_5">senfft</w>
+            <w xml:id="BRE_COD13711_27r_14_6">und</w>
+            <w xml:id="BRE_COD13711_27r_14_7">milt</w>
+          </l>
+          <l n="6">
+            <w xml:id="BRE_COD13711_27r_15_0">Das</w>
+            <w xml:id="BRE_COD13711_27r_15_1">mich</w>
+            <w xml:id="BRE_COD13711_27r_15_2">dein<expan>er</expan></w>
+            <w xml:id="BRE_COD13711_27r_15_3">zü</w>
+            <w xml:id="BRE_COD13711_27r_15_4">flüß</w>
+            <w xml:id="BRE_COD13711_27r_15_5">nit</w>
+            <w xml:id="BRE_COD13711_27r_15_6">befilt</w>
+          </l>
+          <l n="7">
+            <w xml:id="BRE_COD13711_27r_16_0">Wiewol</w>
+            <w xml:id="BRE_COD13711_27r_16_1">du</w>
+            <w xml:id="BRE_COD13711_27r_16_2">mir</w>
+            <w xml:id="BRE_COD13711_27r_16_3">lerst</w>
+            <w xml:id="BRE_COD13711_27r_16_4">peütel</w>
+            <w xml:id="BRE_COD13711_27r_16_5">und</w>
+            <w xml:id="BRE_COD13711_27r_16_6">taschen</w>
+          </l>
+          <l n="8">
+            <w xml:id="BRE_COD13711_27r_17_0">So</w>
+            <w xml:id="BRE_COD13711_27r_17_1">will</w>
+            <w xml:id="BRE_COD13711_27r_17_2">ich</w>
+            <w xml:id="BRE_COD13711_27r_17_3">mein</w>
+            <w xml:id="BRE_COD13711_27r_17_4">zung</w>
+            <w xml:id="BRE_COD13711_27r_17_5">lieber</w>
+            <w xml:id="BRE_COD13711_27r_17_6">in</w>
+            <w xml:id="BRE_COD13711_27r_17_7">dir</w>
+            <w xml:id="BRE_COD13711_27r_17_8">waschen</w>
+          </l>
+          <l n="9">
+            <w xml:id="BRE_COD13711_27r_18_0">Dann</w>
+            <w xml:id="BRE_COD13711_27r_18_1">aus</w>
+            <w xml:id="BRE_COD13711_27r_18_2">ein<expan>er</expan></w>
+            <w xml:id="BRE_COD13711_27r_18_3">venedigen</w>
+            <w xml:id="BRE_COD13711_27r_18_4">saiffen</w>
+          </l>
+          <pb n="27v"/>
+          <l n="10">
+            <w xml:id="BRE_COD13711_27v_1_0">Und</w>
+            <w xml:id="BRE_COD13711_27v_1_1">werstü</w>
+            <w xml:id="BRE_COD13711_27v_1_2">gepunden</w>
+            <w xml:id="BRE_COD13711_27v_1_3">mit</w>
+            <w xml:id="BRE_COD13711_27v_1_4">eyserin</w>
+            <w xml:id="BRE_COD13711_27v_1_5">rayffen</w>
+          </l>
+          <l n="11">
+            <w xml:id="BRE_COD13711_27v_2_0">Noch</w>
+            <w xml:id="BRE_COD13711_27v_2_1">möcht</w>
+            <w xml:id="BRE_COD13711_27v_2_2">ich</w>
+            <w xml:id="BRE_COD13711_27v_2_3">dein</w>
+            <w xml:id="BRE_COD13711_27v_2_4">gar</w>
+            <w xml:id="BRE_COD13711_27v_2_5">hart</w>
+            <w xml:id="BRE_COD13711_27v_2_6">entpern</w>
+          </l>
+          <l n="12">
+            <w xml:id="BRE_COD13711_27v_3_0">Und</w>
+            <w xml:id="BRE_COD13711_27v_3_1">solstü</w>
+            <w xml:id="BRE_COD13711_27v_3_2">mir</w>
+            <w xml:id="BRE_COD13711_27v_3_3">halt</w>
+            <w xml:id="BRE_COD13711_27v_3_4">dester</w>
+            <w xml:id="BRE_COD13711_27v_3_5">neher</w>
+            <w xml:id="BRE_COD13711_27v_3_6">schern</w>
+          </l>
+          <l n="13">
+            <w xml:id="BRE_COD13711_27v_4_0">Wiewol</w>
+            <w xml:id="BRE_COD13711_27v_4_1">du</w>
+            <w xml:id="BRE_COD13711_27v_4_2">mir</w>
+            <w xml:id="BRE_COD13711_27v_4_3">den</w>
+            <w xml:id="BRE_COD13711_27v_4_4">pauch</w>
+            <w xml:id="BRE_COD13711_27v_4_5">zü</w>
+            <w xml:id="BRE_COD13711_27v_4_6">plehst</w>
+          </l>
+          <l n="14">
+            <w xml:id="BRE_COD13711_27v_5_0">Und</w>
+            <w xml:id="BRE_COD13711_27v_5_1">oben</w>
+            <w xml:id="BRE_COD13711_27v_5_2">durch</w>
+            <w xml:id="BRE_COD13711_27v_5_3">den</w>
+            <w xml:id="BRE_COD13711_27v_5_4">hals</w>
+            <w xml:id="BRE_COD13711_27v_5_5">ein</w>
+            <w xml:id="BRE_COD13711_27v_5_6">krehst</w>
+          </l>
+          <l n="15">
+            <w xml:id="BRE_COD13711_27v_6_0">Und</w>
+            <w xml:id="BRE_COD13711_27v_6_1">mir</w>
+            <w xml:id="BRE_COD13711_27v_6_2">zum</w>
+            <w xml:id="BRE_COD13711_27v_6_3">hintern</w>
+            <w xml:id="BRE_COD13711_27v_6_4">außhin</w>
+            <w xml:id="BRE_COD13711_27v_6_5">pfeüffst</w>
+          </l>
+          <l n="16">
+            <w xml:id="BRE_COD13711_27v_7_0">Und</w>
+            <w xml:id="BRE_COD13711_27v_7_1">auch</w>
+            <w xml:id="BRE_COD13711_27v_7_2">zü</w>
+            <w xml:id="BRE_COD13711_27v_7_3">tieff</w>
+            <w xml:id="BRE_COD13711_27v_7_4">in</w>
+            <w xml:id="BRE_COD13711_27v_7_5">seckel</w>
+            <w xml:id="BRE_COD13711_27v_7_6">greüfft</w>
+          </l>
+          <l n="17">
+            <w xml:id="BRE_COD13711_27v_8_0">Und</w>
+            <w xml:id="BRE_COD13711_27v_8_1">mir</w>
+            <w xml:id="BRE_COD13711_27v_8_2">auch</w>
+            <w xml:id="BRE_COD13711_27v_8_3">in</w>
+            <w xml:id="BRE_COD13711_27v_8_4">mein</w>
+            <w xml:id="BRE_COD13711_27v_8_5">hirn</w>
+            <w xml:id="BRE_COD13711_27v_8_6">reüchst</w>
+          </l>
+          <l n="18">
+            <w xml:id="BRE_COD13711_27v_9_0">Und</w>
+            <w xml:id="BRE_COD13711_27v_9_1">mir</w>
+            <w xml:id="BRE_COD13711_27v_9_2">ein</w>
+            <w xml:id="BRE_COD13711_27v_9_3">fel</w>
+            <w xml:id="BRE_COD13711_27v_9_4">für</w>
+            <w xml:id="BRE_COD13711_27v_9_5">die</w>
+            <w xml:id="BRE_COD13711_27v_9_6">augen</w>
+            <w xml:id="BRE_COD13711_27v_9_7">zeüchst</w>
+          </l>
+          <l n="19">
+            <w xml:id="BRE_COD13711_27v_10_0">Und</w>
+            <w xml:id="BRE_COD13711_27v_10_1">mir</w>
+            <w xml:id="BRE_COD13711_27v_10_2">mein</w>
+            <w xml:id="BRE_COD13711_27v_10_3">züngen</w>
+            <w xml:id="BRE_COD13711_27v_10_4">machst</w>
+            <w xml:id="BRE_COD13711_27v_10_5">dallen</w>
+          </l>
+          <l n="20">
+            <w xml:id="BRE_COD13711_27v_11_0">Und</w>
+            <w xml:id="BRE_COD13711_27v_11_1">mich</w>
+            <w xml:id="BRE_COD13711_27v_11_2">mit</w>
+            <w xml:id="BRE_COD13711_27v_11_3">halbem</w>
+            <w xml:id="BRE_COD13711_27v_11_4">mund</w>
+            <w xml:id="BRE_COD13711_27v_11_5">machst</w>
+            <w xml:id="BRE_COD13711_27v_11_6">ralle<supplied>n<expan>n</expan></supplied></w>
+          </l>
+          <l n="21">
+            <w xml:id="BRE_COD13711_27v_12_0">Und</w>
+            <w xml:id="BRE_COD13711_27v_12_1">mir</w>
+            <w xml:id="BRE_COD13711_27v_12_2">machst</w>
+            <w xml:id="BRE_COD13711_27v_12_3">schlöttern</w>
+            <w xml:id="BRE_COD13711_27v_12_4">pain</w>
+            <w xml:id="BRE_COD13711_27v_12_5">und</w>
+            <w xml:id="BRE_COD13711_27v_12_6">waden</w>
+          </l>
+          <l n="22">
+            <w xml:id="BRE_COD13711_27v_13_0">Wenn</w>
+            <w xml:id="BRE_COD13711_27v_13_1">ich</w>
+            <w xml:id="BRE_COD13711_27v_13_2">dein</w>
+            <w xml:id="BRE_COD13711_27v_13_3">zü</w>
+            <w xml:id="BRE_COD13711_27v_13_4">vil</w>
+            <w xml:id="BRE_COD13711_27v_13_5">hab</w>
+            <w xml:id="BRE_COD13711_27v_13_6">geladen</w>
+          </l>
+          <l n="23">
+            <w xml:id="BRE_COD13711_27v_14_0">Und</w>
+            <w xml:id="BRE_COD13711_27v_14_1">mich</w>
+            <w xml:id="BRE_COD13711_27v_14_2">des</w>
+            <w xml:id="BRE_COD13711_27v_14_3">morgens</w>
+            <w xml:id="BRE_COD13711_27v_14_4">machst</w>
+            <w xml:id="BRE_COD13711_27v_14_5">v<expan>er</expan>schlaffe<expan>n</expan></w>
+          </l>
+          <l n="24">
+            <w xml:id="BRE_COD13711_27v_15_0">Noch</w>
+            <w xml:id="BRE_COD13711_27v_15_1">kan</w>
+            <w xml:id="BRE_COD13711_27v_15_2">und</w>
+            <w xml:id="BRE_COD13711_27v_15_3">mag</w>
+            <w xml:id="BRE_COD13711_27v_15_4">ich</w>
+            <w xml:id="BRE_COD13711_27v_15_5">dich</w>
+            <w xml:id="BRE_COD13711_27v_15_6">nit</w>
+            <w xml:id="BRE_COD13711_27v_15_7">straffen</w>
+          </l>
+          <l n="25">
+            <w xml:id="BRE_COD13711_27v_16_0">Wann</w>
+            <w xml:id="BRE_COD13711_27v_16_1">du</w>
+            <w xml:id="BRE_COD13711_27v_16_2">pist</w>
+            <w xml:id="BRE_COD13711_27v_16_3">gantz</w>
+            <w xml:id="BRE_COD13711_27v_16_4">nach</w>
+            <w xml:id="BRE_COD13711_27v_16_5">dein<expan>er</expan></w>
+            <w xml:id="BRE_COD13711_27v_16_6">art</w>
+          </l>
+          <l n="26">
+            <w xml:id="BRE_COD13711_27v_17_0">Wann</w>
+            <w xml:id="BRE_COD13711_27v_17_1">ich</w>
+            <w xml:id="BRE_COD13711_27v_17_2">dir</w>
+            <w xml:id="BRE_COD13711_27v_17_3">nye</w>
+            <w xml:id="BRE_COD13711_27v_17_4">tag</w>
+            <w xml:id="BRE_COD13711_27v_17_5">veindt</w>
+            <w xml:id="BRE_COD13711_27v_17_6">wart</w>
+          </l>
+          <l n="27">
+            <w xml:id="BRE_COD13711_27v_18_0">Und</w>
+            <w xml:id="BRE_COD13711_27v_18_1">mechstü</w>
+            <w xml:id="BRE_COD13711_27v_18_2">mich</w>
+            <w xml:id="BRE_COD13711_27v_18_3">noch</w>
+            <w xml:id="BRE_COD13711_27v_18_4">eins</w>
+            <w xml:id="BRE_COD13711_27v_18_5">so</w>
+            <w xml:id="BRE_COD13711_27v_18_6">zü</w>
+            <w xml:id="BRE_COD13711_27v_18_7">treg</w>
+          </l>
+          <l n="28">
+            <w xml:id="BRE_COD13711_27v_19_0">So</w>
+            <w xml:id="BRE_COD13711_27v_19_1">ich</w>
+            <w xml:id="BRE_COD13711_27v_19_2">halt</w>
+            <w xml:id="BRE_COD13711_27v_19_3">bey</w>
+            <w xml:id="BRE_COD13711_27v_19_4">meinem</w>
+            <w xml:id="BRE_COD13711_27v_19_5">weib</w>
+            <w xml:id="BRE_COD13711_27v_19_6">leg</w>
+          </l>
+          <pb n="28r"/>
+          <l n="29">
+            <w xml:id="BRE_COD13711_28r_1_0">Und</w>
+            <w xml:id="BRE_COD13711_28r_1_1">dein</w>
+            <w xml:id="BRE_COD13711_28r_1_2">ein</w>
+            <w xml:id="BRE_COD13711_28r_1_3">güt</w>
+            <w xml:id="BRE_COD13711_28r_1_4">genügen</w>
+            <w xml:id="BRE_COD13711_28r_1_5">hat</w>
+          </l>
+          <l n="30">
+            <w xml:id="BRE_COD13711_28r_2_0">Nu</w>
+            <w xml:id="BRE_COD13711_28r_2_1">gesegen</w>
+            <w xml:id="BRE_COD13711_28r_2_2">dich</w>
+            <w xml:id="BRE_COD13711_28r_2_3">got</w>
+            <w xml:id="BRE_COD13711_28r_2_4">mein</w>
+            <w xml:id="BRE_COD13711_28r_2_5">lieber</w>
+            <w xml:id="BRE_COD13711_28r_2_6">met</w>
+          </l>
+          <l n="31">
+            <w xml:id="BRE_COD13711_28r_3_0">Und</w>
+            <w xml:id="BRE_COD13711_28r_3_1">kom</w>
+            <w xml:id="BRE_COD13711_28r_3_2">her</w>
+            <w xml:id="BRE_COD13711_28r_3_3">wider</w>
+            <w xml:id="BRE_COD13711_28r_3_4">wenn</w>
+            <w xml:id="BRE_COD13711_28r_3_5">ich</w>
+            <w xml:id="BRE_COD13711_28r_3_6">dein</w>
+            <w xml:id="BRE_COD13711_28r_3_7">beger</w>
+          </l>
+          <l n="32">
+            <w xml:id="BRE_COD13711_28r_4_0">Oder</w>
+            <w xml:id="BRE_COD13711_28r_4_1">wenn</w>
+            <w xml:id="BRE_COD13711_28r_4_2">ich</w>
+            <w xml:id="BRE_COD13711_28r_4_3">kom<expan>m</expan></w>
+            <w xml:id="BRE_COD13711_28r_4_4">zü</w>
+            <w xml:id="BRE_COD13711_28r_4_5">dir</w>
+            <w xml:id="BRE_COD13711_28r_4_6">docher</w>
+          </l>
+          <l n="33">
+            <w xml:id="BRE_COD13711_28r_5_0">So</w>
+            <w xml:id="BRE_COD13711_28r_5_1">hilff</w>
+            <w xml:id="BRE_COD13711_28r_5_2">mir</w>
+            <w xml:id="BRE_COD13711_28r_5_3">mein</w>
+            <w xml:id="BRE_COD13711_28r_5_4">türst</w>
+            <w xml:id="BRE_COD13711_28r_5_5">vertreiben</w>
+          </l>
+          <l n="34">
+            <w xml:id="BRE_COD13711_28r_6_0">So</w>
+            <w xml:id="BRE_COD13711_28r_6_1">will</w>
+            <w xml:id="BRE_COD13711_28r_6_2">ich</w>
+            <w xml:id="BRE_COD13711_28r_6_3">dich</w>
+            <w xml:id="BRE_COD13711_28r_6_4">für</w>
+            <w xml:id="BRE_COD13711_28r_6_5">ein</w>
+            <w xml:id="BRE_COD13711_28r_6_6">gesunte</w>
+            <w xml:id="BRE_COD13711_28r_6_7">ertzney</w>
+            <w xml:id="BRE_COD13711_28r_6_8">schreibe<supplied>n<expan>n</expan></supplied></w>
+          </l>
+        </div>
+      </div>
+    </body>
+  </text>
+</TEI>

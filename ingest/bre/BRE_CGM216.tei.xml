@@ -1,0 +1,233 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?xml-model href="../schema/mhdbdb.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="https://tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng"?><TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="BRE_CGM216">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title xml:lang="de">München, Bayerische Staatsbibliothek: Cgm 216, 21r</title>
+        <author ref="#person_anonym">Anonym</author>
+        <respStmt>
+          <resp>digitale Zusammenführung, Annotation und semantische Klassifikation</resp>
+          <orgName ref="contributors.xml#mhdbdb-team">MHDBDB-Team (vollständige Liste in contributors.xml)</orgName>
+        </respStmt>
+      </titleStmt>
+      <publicationStmt>
+        <publisher>
+          <orgName>Mittelhochdeutsche Begriffsdatenbank (MHDBDB)</orgName>
+          <orgName>Paris Lodron Universität Salzburg</orgName>
+          <address>
+            <street>Erzabt-Klotz-Straße 1</street>
+            <postCode>5020</postCode>
+            <settlement>Salzburg</settlement>
+            <country>Österreich</country>
+          </address>
+          <email>mhdbdb@plus.ac.at</email>
+          <ptr target="https://mhdbdb.plus.ac.at"/>
+        </publisher>
+        <authority>
+          <persName role="coordinator" ref="contributors.xml#contrib_003">
+            <forename>Katharina</forename>
+            <surname>Zeppezauer-Wachauer</surname>
+          </persName>
+          <persName role="founder" ref="contributors.xml#contrib_001">
+            <forename>Klaus M.</forename>
+            <surname>Schmidt</surname>
+          </persName>
+          <persName role="founder" ref="contributors.xml#contrib_002">
+            <forename>Horst</forename>
+            <surname>Pütz</surname>
+          </persName>
+        </authority>
+        <availability>
+          <licence target="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</licence>
+          <p>Transkription von Silvan Wagner (wiki.brevitas.org), Freigabe unter CC BY-NC-SA 4.0 per Mail an Katharina Zeppezauer-Wachauer, Oktober 2026 (#147).</p>
+        </availability>
+        <date when="2026">2026</date>
+      </publicationStmt>
+      <sourceDesc>
+        <msDesc>
+          <msIdentifier corresp="works.xml#work_TBD">
+            <idno type="sigle">BRE_CGM216</idno>
+            <msName xml:lang="de">München, Bayerische Staatsbibliothek: Cgm 216, 21r</msName>
+          </msIdentifier>
+          <additional>
+            <listBibl>
+              <bibl type="digitalIntermediary" xml:id="BRE_CGM216_brevitas_wiki" corresp="#BRE_CGM216_TBD">
+                <title>Brevitas-Wiki, Hybridedition der Weingrüße (Silvan Wagner)</title>
+                <respStmt>
+                  <resp>Transkription</resp>
+                  <name>Silvan Wagner</name>
+                </respStmt>
+                <ref target="https://wiki.brevitas.org/mediawiki_1_43/index.php?title=Weingr%C3%BC%C3%9Fe_Cgm_216&amp;oldid=21428"/>
+                <note type="provenance">Transkription aus dem Brevitas-Wiki (wiki.brevitas.org), Seite "Weingrüße Cgm 216", Revision 21428 vom 2022-04-21T18:39:09Z. Konvertiert in das MHDBDB-Schema durch automatische Transformation (scripts/ingest/bre/02-convert-wiki-to-mhdbdb.py, 2026-11-17).</note>
+                <note type="fidelity">Mechanische Konversion ohne Eingriff in Wortgrenzen und Auszeichnungs-Semantik. Die Gliederung in Einzeltexte folgt den Synopsen der Einzeltextseiten des Brevitas-Wikis, Teile einer Transkription (Teil A/B) als div/@n.</note>
+              </bibl>
+            </listBibl>
+          </additional>
+        </msDesc>
+      </sourceDesc>
+    </fileDesc>
+    <encodingDesc>
+      <projectDesc>
+        <p xml:lang="de">Die Annotationen der MHDBDB basieren auf kontrollierten Vokabularen und domänenspezifischen Ontologien.</p>
+        <p xml:lang="en">The annotations of the MHDBDB are based on controlled vocabularies and domain-specific ontologies.</p>
+      </projectDesc>
+      <editorialDecl>
+        <p xml:lang="de">Lokale Dateireferenzen (z.B. persons.xml#person_anonym, lexicon.xml#lemma_879) verweisen auf kontrollierte Vokabulare im authority-files Verzeichnis dieses Repositorys.</p>
+      </editorialDecl>
+      <classDecl>
+        <taxonomy xml:id="genres">
+          <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
+          <category xml:id="genre_TBD" corresp="genres.xml#genre_TBD">
+            <gloss xml:lang="de">Weingruß (TBD: konkrete Genre-ID)</gloss>
+          </category>
+        </taxonomy>
+      </classDecl>
+    </encodingDesc>
+    <profileDesc>
+      <langUsage>
+        <language ident="TBD">TBD (Sprachstufe offen, #118)</language>
+      </langUsage>
+      <particDesc>
+        <listPerson>
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
+            <persName type="preferred">Anonym</persName>
+          </person>
+        </listPerson>
+      </particDesc>
+    </profileDesc>
+    <revisionDesc>
+      <change when="2026-11-17" who="#mhdbdb-team">Initiale Konversion aus dem Brevitas-Wiki (Revision 21428) via scripts/ingest/bre/02-convert-wiki-to-mhdbdb.py.</change>
+    </revisionDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <div>
+        <!-- Text 1: Biersegen Liebe Gerstenprü (Hans Rosenplüt) (Cgm 216, 21r) -->
+        <div type="section" n="1">
+          <pb n="21r"/>
+          <head>
+            <w xml:id="BRE_CGM216_21r_1_0">Amen</w>
+            <w xml:id="BRE_CGM216_21r_1_1">Spruch</w>
+          </head>
+          <l n="1">
+            <w xml:id="BRE_CGM216_21r_2_0">Nu</w>
+            <w xml:id="BRE_CGM216_21r_2_1">gesegen</w>
+            <w xml:id="BRE_CGM216_21r_2_2">dich</w>
+            <w xml:id="BRE_CGM216_21r_2_3">got</w>
+            <w xml:id="BRE_CGM216_21r_2_4">du</w>
+            <w xml:id="BRE_CGM216_21r_2_5">lieb<expan>e</expan>r</w>
+            <w xml:id="BRE_CGM216_21r_2_6">gersten</w>
+            <w xml:id="BRE_CGM216_21r_2_7">preu</w>
+          </l>
+          <l n="2">
+            <w xml:id="BRE_CGM216_21r_3_0">mach</w>
+            <w xml:id="BRE_CGM216_21r_3_1">mir</w>
+            <w xml:id="BRE_CGM216_21r_3_2">des</w>
+            <w xml:id="BRE_CGM216_21r_3_3">nachts</w>
+            <w xml:id="BRE_CGM216_21r_3_4">im</w>
+            <w xml:id="BRE_CGM216_21r_3_5">pet</w>
+            <w xml:id="BRE_CGM216_21r_3_6">kain</w>
+            <w xml:id="BRE_CGM216_21r_3_7">mye</w>
+          </l>
+          <l n="3">
+            <w xml:id="BRE_CGM216_21r_4_0">wen</w>
+            <w xml:id="BRE_CGM216_21r_4_1">ich</w>
+            <w xml:id="BRE_CGM216_21r_4_2">bey</w>
+            <w xml:id="BRE_CGM216_21r_4_3">meiner</w>
+            <w xml:id="BRE_CGM216_21r_4_4">haussfrauen</w>
+            <w xml:id="BRE_CGM216_21r_4_5">ruer</w>
+          </l>
+          <l n="4">
+            <w xml:id="BRE_CGM216_21r_5_0">und</w>
+            <w xml:id="BRE_CGM216_21r_5_1">das</w>
+            <w xml:id="BRE_CGM216_21r_5_2">mir</w>
+            <w xml:id="BRE_CGM216_21r_5_3">das</w>
+            <w xml:id="BRE_CGM216_21r_5_4">under</w>
+            <w xml:id="BRE_CGM216_21r_5_5">loch</w>
+            <w xml:id="BRE_CGM216_21r_5_6">beleib</w>
+            <w xml:id="BRE_CGM216_21r_5_7">zu</w>
+          </l>
+          <l n="5">
+            <w xml:id="BRE_CGM216_21r_6_0">das</w>
+            <w xml:id="BRE_CGM216_21r_6_1">es</w>
+            <w xml:id="BRE_CGM216_21r_6_2">nit</w>
+            <w xml:id="BRE_CGM216_21r_6_3">purtzl</w>
+            <w xml:id="BRE_CGM216_21r_6_4">und</w>
+            <w xml:id="BRE_CGM216_21r_6_5">uber</w>
+            <w xml:id="BRE_CGM216_21r_6_6">lauf</w>
+          </l>
+          <l n="6">
+            <w xml:id="BRE_CGM216_21r_7_0">als</w>
+            <w xml:id="BRE_CGM216_21r_7_1">wan</w>
+            <w xml:id="BRE_CGM216_21r_7_2">man</w>
+            <w xml:id="BRE_CGM216_21r_7_3">ain</w>
+            <w xml:id="BRE_CGM216_21r_7_4">gans</w>
+            <w xml:id="BRE_CGM216_21r_7_5">bey</w>
+            <w xml:id="BRE_CGM216_21r_7_6">dem</w>
+            <w xml:id="BRE_CGM216_21r_7_7">arsch</w>
+            <w xml:id="BRE_CGM216_21r_7_8">berauft</w>
+          </l>
+          <l n="7">
+            <w xml:id="BRE_CGM216_21r_8_0">und</w>
+            <w xml:id="BRE_CGM216_21r_8_1">mach</w>
+            <w xml:id="BRE_CGM216_21r_8_2">mir</w>
+            <w xml:id="BRE_CGM216_21r_8_3">kain</w>
+            <w xml:id="BRE_CGM216_21r_8_4">gerump<expan>e</expan>l</w>
+            <w xml:id="BRE_CGM216_21r_8_5">in</w>
+            <w xml:id="BRE_CGM216_21r_8_6">dem</w>
+            <w xml:id="BRE_CGM216_21r_8_7">pauch</w>
+          </l>
+          <l n="8">
+            <w xml:id="BRE_CGM216_21r_9_0">und</w>
+            <w xml:id="BRE_CGM216_21r_9_1">bis</w>
+            <w xml:id="BRE_CGM216_21r_9_2">ich</w>
+            <w xml:id="BRE_CGM216_21r_9_3">hinder</w>
+            <w xml:id="BRE_CGM216_21r_9_4">das</w>
+            <w xml:id="BRE_CGM216_21r_9_5">haus</w>
+            <w xml:id="BRE_CGM216_21r_9_6">lauf</w>
+          </l>
+          <l n="9">
+            <w xml:id="BRE_CGM216_21r_10_0">so</w>
+            <w xml:id="BRE_CGM216_21r_10_1">ge</w>
+            <w xml:id="BRE_CGM216_21r_10_2">dan</w>
+            <w xml:id="BRE_CGM216_21r_10_3">seiberleich</w>
+            <w xml:id="BRE_CGM216_21r_10_4">von</w>
+            <w xml:id="BRE_CGM216_21r_10_5">mir</w>
+            <w xml:id="BRE_CGM216_21r_10_6">unden</w>
+          </l>
+          <l n="10">
+            <w xml:id="BRE_CGM216_21r_11_0">und</w>
+            <w xml:id="BRE_CGM216_21r_11_1">las</w>
+            <w xml:id="BRE_CGM216_21r_11_2">mich</w>
+            <w xml:id="BRE_CGM216_21r_11_3">als</w>
+            <w xml:id="BRE_CGM216_21r_11_4">du</w>
+            <w xml:id="BRE_CGM216_21r_11_5">mich</w>
+            <w xml:id="BRE_CGM216_21r_11_6">hast</w>
+            <w xml:id="BRE_CGM216_21r_11_7">funden</w>
+          </l>
+          <l n="11">
+            <w xml:id="BRE_CGM216_21r_12_0">und</w>
+            <w xml:id="BRE_CGM216_21r_12_1">eil</w>
+            <w xml:id="BRE_CGM216_21r_12_2">nit</w>
+            <w xml:id="BRE_CGM216_21r_12_3">unden</w>
+            <w xml:id="BRE_CGM216_21r_12_4">hin</w>
+            <w xml:id="BRE_CGM216_21r_12_5">aus</w>
+            <w xml:id="BRE_CGM216_21r_12_6">zu</w>
+            <w xml:id="BRE_CGM216_21r_12_7">schnll</w>
+          </l>
+          <l n="12">
+            <w xml:id="BRE_CGM216_21r_13_0">das</w>
+            <w xml:id="BRE_CGM216_21r_13_1">mir</w>
+            <w xml:id="BRE_CGM216_21r_13_2">kain</w>
+            <w xml:id="BRE_CGM216_21r_13_3">senft</w>
+            <w xml:id="BRE_CGM216_21r_13_4">auf</w>
+            <w xml:id="BRE_CGM216_21r_13_5">quel</w>
+            <w xml:id="BRE_CGM216_21r_13_6">in</w>
+            <w xml:id="BRE_CGM216_21r_13_7">der</w>
+            <w xml:id="BRE_CGM216_21r_13_8">pruech</w>
+          </l>
+        </div>
+      </div>
+    </body>
+  </text>
+</TEI>
