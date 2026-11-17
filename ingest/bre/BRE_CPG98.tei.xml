@@ -1,0 +1,468 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?xml-model href="../schema/mhdbdb.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="https://tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng"?><TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="BRE_CPG98">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title xml:lang="de">Heidelberg, UB: Cpg 98, 199r</title>
+        <author ref="#person_anonym">Anonym</author>
+        <respStmt>
+          <resp>digitale Zusammenführung, Annotation und semantische Klassifikation</resp>
+          <orgName ref="contributors.xml#mhdbdb-team">MHDBDB-Team (vollständige Liste in contributors.xml)</orgName>
+        </respStmt>
+      </titleStmt>
+      <publicationStmt>
+        <publisher>
+          <orgName>Mittelhochdeutsche Begriffsdatenbank (MHDBDB)</orgName>
+          <orgName>Paris Lodron Universität Salzburg</orgName>
+          <address>
+            <street>Erzabt-Klotz-Straße 1</street>
+            <postCode>5020</postCode>
+            <settlement>Salzburg</settlement>
+            <country>Österreich</country>
+          </address>
+          <email>mhdbdb@plus.ac.at</email>
+          <ptr target="https://mhdbdb.plus.ac.at"/>
+        </publisher>
+        <authority>
+          <persName role="coordinator" ref="contributors.xml#contrib_003">
+            <forename>Katharina</forename>
+            <surname>Zeppezauer-Wachauer</surname>
+          </persName>
+          <persName role="founder" ref="contributors.xml#contrib_001">
+            <forename>Klaus M.</forename>
+            <surname>Schmidt</surname>
+          </persName>
+          <persName role="founder" ref="contributors.xml#contrib_002">
+            <forename>Horst</forename>
+            <surname>Pütz</surname>
+          </persName>
+        </authority>
+        <availability>
+          <licence target="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</licence>
+          <p>Transkription von Silvan Wagner (wiki.brevitas.org), Freigabe unter CC BY-NC-SA 4.0 per Mail an Katharina Zeppezauer-Wachauer, Oktober 2026 (#147).</p>
+        </availability>
+        <date when="2026">2026</date>
+      </publicationStmt>
+      <sourceDesc>
+        <msDesc>
+          <msIdentifier corresp="works.xml#work_TBD">
+            <idno type="sigle">BRE_CPG98</idno>
+            <msName xml:lang="de">Heidelberg, UB: Cpg 98, 199r</msName>
+          </msIdentifier>
+          <additional>
+            <listBibl>
+              <bibl type="digitalIntermediary" xml:id="BRE_CPG98_brevitas_wiki" corresp="#BRE_CPG98_TBD">
+                <title>Brevitas-Wiki, Hybridedition der Weingrüße (Silvan Wagner)</title>
+                <respStmt>
+                  <resp>Transkription</resp>
+                  <name>Silvan Wagner</name>
+                </respStmt>
+                <ref target="https://wiki.brevitas.org/mediawiki_1_43/index.php?title=Weingr%C3%BC%C3%9Fe_Cpg_98&amp;oldid=21426"/>
+                <note type="provenance">Transkription aus dem Brevitas-Wiki (wiki.brevitas.org), Seite "Weingrüße Cpg 98", Revision 21426 vom 2022-04-20T18:14:28Z. Konvertiert in das MHDBDB-Schema durch automatische Transformation (scripts/ingest/bre/02-convert-wiki-to-mhdbdb.py, 2026-11-17).</note>
+                <note type="fidelity">Mechanische Konversion ohne Eingriff in Wortgrenzen und Auszeichnungs-Semantik. Die Gliederung in Einzeltexte folgt den Synopsen der Einzeltextseiten des Brevitas-Wikis, Teile einer Transkription (Teil A/B) als div/@n.</note>
+              </bibl>
+            </listBibl>
+          </additional>
+        </msDesc>
+      </sourceDesc>
+    </fileDesc>
+    <encodingDesc>
+      <projectDesc>
+        <p xml:lang="de">Die Annotationen der MHDBDB basieren auf kontrollierten Vokabularen und domänenspezifischen Ontologien.</p>
+        <p xml:lang="en">The annotations of the MHDBDB are based on controlled vocabularies and domain-specific ontologies.</p>
+      </projectDesc>
+      <editorialDecl>
+        <p xml:lang="de">Lokale Dateireferenzen (z.B. persons.xml#person_anonym, lexicon.xml#lemma_879) verweisen auf kontrollierte Vokabulare im authority-files Verzeichnis dieses Repositorys.</p>
+      </editorialDecl>
+      <classDecl>
+        <taxonomy xml:id="genres">
+          <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
+          <category xml:id="genre_TBD" corresp="genres.xml#genre_TBD">
+            <gloss xml:lang="de">Weingruß (TBD: konkrete Genre-ID)</gloss>
+          </category>
+        </taxonomy>
+      </classDecl>
+    </encodingDesc>
+    <profileDesc>
+      <langUsage>
+        <language ident="TBD">TBD (Sprachstufe offen, #118)</language>
+      </langUsage>
+      <particDesc>
+        <listPerson>
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
+            <persName type="preferred">Anonym</persName>
+          </person>
+        </listPerson>
+      </particDesc>
+    </profileDesc>
+    <revisionDesc>
+      <change when="2026-11-17" who="#mhdbdb-team">Initiale Konversion aus dem Brevitas-Wiki (Revision 21426) via scripts/ingest/bre/02-convert-wiki-to-mhdbdb.py.</change>
+    </revisionDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <div>
+        <!-- Text 1: Weingruß Edels Getranck (Hans Rosenplüt) (Cpg 98, 199ra) -->
+        <div type="section" n="1">
+          <pb n="199ra"/>
+          <l n="1">
+            <w xml:id="BRE_CPG98_199ra_1_0" lemmaRef="lexicon.xml#lemma_2550" pos="NOM" ana="lexicon.xml#lemma_2550_sense_4088"><hi rend="inkRed">G</hi>rüß</w>
+            <w xml:id="BRE_CPG98_199ra_1_1" lemmaRef="lexicon.xml#lemma_1242" pos="PRO" ana="lexicon.xml#lemma_1242_sense_1958">dich</w>
+            <w xml:id="BRE_CPG98_199ra_1_2" lemmaRef="lexicon.xml#lemma_2465" pos="NOM" ana="lexicon.xml#lemma_2465_sense_3951">got</w>
+            <w xml:id="BRE_CPG98_199ra_1_3" lemmaRef="lexicon.xml#lemma_1242" pos="PRO" ana="lexicon.xml#lemma_1242_sense_1958">du</w>
+            <w xml:id="BRE_CPG98_199ra_1_4" lemmaRef="lexicon.xml#lemma_1308" pos="ADJ" ana="lexicon.xml#lemma_1308_sense_2042" corresp="variants.xml#type_4259">edels</w>
+            <w xml:id="BRE_CPG98_199ra_1_5" lemmaRef="lexicon.xml#lemma_6175" pos="NOM" ana="lexicon.xml#lemma_6175_sense_9744" corresp="variants.xml#type_112110">getranck</w>
+          </l>
+          <l n="2">
+            <w xml:id="BRE_CPG98_199ra_2_0" lemmaRef="lexicon.xml#lemma_7241" pos="ADJ" ana="lexicon.xml#lemma_7241_sense_11740" corresp="variants.xml#type_25793"><hi rend="inkRed">F</hi>risch</w>
+            <w xml:id="BRE_CPG98_199ra_2_1" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805">mir</w>
+            <w xml:id="BRE_CPG98_199ra_2_2" lemmaRef="lexicon.xml#lemma_3001" pos="POS" ana="lexicon.xml#lemma_3001_sense_4805">mein</w>
+            <w xml:id="BRE_CPG98_199ra_2_3" lemmaRef="lexicon.xml#lemma_10157" pos="NOM" ana="lexicon.xml#lemma_10157_sense_16287" corresp="variants.xml#type_71761">lebern</w>
+            <w xml:id="BRE_CPG98_199ra_2_4" lemmaRef="lexicon.xml#lemma_5454" pos="PRO" ana="lexicon.xml#lemma_5454_sense_8506">sie</w>
+            <w xml:id="BRE_CPG98_199ra_2_5" lemmaRef="lexicon.xml#lemma_5432" pos="VRB" ana="lexicon.xml#lemma_5432_sense_8479">ist</w>
+            <w xml:id="BRE_CPG98_199ra_2_6" lemmaRef="lexicon.xml#lemma_3439" ana="lexicon.xml#lemma_3439_sense_5419">krank</w>
+          </l>
+          <l n="3">
+            <w xml:id="BRE_CPG98_199ra_3_0" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">Mit</w>
+            <w xml:id="BRE_CPG98_199ra_3_1" lemmaRef="lexicon.xml#lemma_1242" pos="POS" ana="lexicon.xml#lemma_1242_sense_1958" corresp="variants.xml#type_101145">deinem</w>
+            <w xml:id="BRE_CPG98_199ra_3_2" lemmaRef="lexicon.xml#lemma_2264" pos="ADJ" ana="lexicon.xml#lemma_2264_sense_3614" corresp="variants.xml#type_7632"><hi rend="inkRed">g</hi>esunden</w>
+            <w xml:id="BRE_CPG98_199ra_3_3" lemmaRef="lexicon.xml#lemma_40133" pos="ADJ" ana="lexicon.xml#lemma_40133_sense_62383" corresp="variants.xml#type_211963">hailsamen</w>
+            <w xml:id="BRE_CPG98_199ra_3_4" lemmaRef="lexicon.xml#lemma_11677" pos="NOM" ana="lexicon.xml#lemma_11677_sense_18524" corresp="variants.xml#type_114696">tropfen</w>
+          </l>
+          <l n="4">
+            <w xml:id="BRE_CPG98_199ra_4_0" lemmaRef="lexicon.xml#lemma_1242" pos="PRO" ana="lexicon.xml#lemma_1242_sense_1958">Du</w>
+            <w xml:id="BRE_CPG98_199ra_4_1" lemmaRef="lexicon.xml#lemma_3538" pos="VEM" ana="lexicon.xml#lemma_3538_sense_5606">kanst</w>
+            <w xml:id="BRE_CPG98_199ra_4_2" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805">mir</w>
+            <w xml:id="BRE_CPG98_199ra_4_3" lemmaRef="lexicon.xml#lemma_3001" pos="POS" ana="lexicon.xml#lemma_3001_sense_4805">mein</w>
+            <w xml:id="BRE_CPG98_199ra_4_4" lemmaRef="lexicon.xml#lemma_6245" pos="NOM" ana="lexicon.xml#lemma_6245_sense_9846" corresp="variants.xml#type_77226">traure<expan>n</expan></w>
+            <w xml:id="BRE_CPG98_199ra_4_5" lemmaRef="lexicon.xml#lemma_27129" pos="VRB" ana="lexicon.xml#lemma_27129_sense_43121">verstopfen</w>
+          </l>
+          <l n="5">
+            <w xml:id="BRE_CPG98_199ra_5_0" lemmaRef="lexicon.xml#lemma_5052" pos="ADJ" ana="lexicon.xml#lemma_5052_sense_7870" corresp="variants.xml#type_84002"><hi rend="inkRed">S</hi>elig</w>
+            <w xml:id="BRE_CPG98_199ra_5_1" lemmaRef="lexicon.xml#lemma_5432" pos="VRB" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_232097">sei</w>
+            <w xml:id="BRE_CPG98_199ra_5_2" lemmaRef="lexicon.xml#lemma_1119" pos="DET" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
+            <w xml:id="BRE_CPG98_199ra_5_3">häcker</w>
+            <w xml:id="BRE_CPG98_199ra_5_4" lemmaRef="lexicon.xml#lemma_1119" pos="DET" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
+            <w xml:id="BRE_CPG98_199ra_5_5" lemmaRef="lexicon.xml#lemma_1242" pos="PRO" ana="lexicon.xml#lemma_1242_sense_1958">dich</w>
+            <w xml:id="BRE_CPG98_199ra_5_6" lemmaRef="lexicon.xml#lemma_6422" pos="ADV" ana="lexicon.xml#lemma_6422_sense_10158">um<expan>b</expan></w>
+            <w xml:id="BRE_CPG98_199ra_5_7" lemmaRef="lexicon.xml#lemma_12459" pos="VRB" ana="lexicon.xml#lemma_12459_sense_19665">hackt</w>
+          </l>
+          <l n="6">
+            <w xml:id="BRE_CPG98_199ra_6_0" lemmaRef="lexicon.xml#lemma_5052" pos="ADJ" ana="lexicon.xml#lemma_5052_sense_7870" corresp="variants.xml#type_84002">Selig</w>
+            <w xml:id="BRE_CPG98_199ra_6_1" lemmaRef="lexicon.xml#lemma_1119" pos="DET" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
+            <w xml:id="BRE_CPG98_199ra_6_2" lemmaRef="lexicon.xml#lemma_13821" pos="NOM" ana="lexicon.xml#lemma_13821_sense_22783" corresp="variants.xml#type_54842">leser</w>
+            <w xml:id="BRE_CPG98_199ra_6_3" lemmaRef="lexicon.xml#lemma_1119" pos="DET" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">d<expan>er</expan></w>
+            <w xml:id="BRE_CPG98_199ra_6_4" lemmaRef="lexicon.xml#lemma_1242" pos="PRO" ana="lexicon.xml#lemma_1242_sense_1958">dich</w>
+            <w xml:id="BRE_CPG98_199ra_6_5">abzwackt</w>
+          </l>
+          <l n="7">
+            <w xml:id="BRE_CPG98_199ra_7_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825"><hi rend="inkRed">U</hi>nd</w>
+            <w xml:id="BRE_CPG98_199ra_7_1" lemmaRef="lexicon.xml#lemma_1242" pos="PRO" ana="lexicon.xml#lemma_1242_sense_1958">dich</w>
+            <w xml:id="BRE_CPG98_199ra_7_2" lemmaRef="lexicon.xml#lemma_3028" pos="PRP" ana="lexicon.xml#lemma_3028_sense_4834" corresp="variants.xml#type_10369">in</w>
+            <w xml:id="BRE_CPG98_199ra_7_3" lemmaRef="lexicon.xml#lemma_1331" pos="DET" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4322">einen</w>
+            <w xml:id="BRE_CPG98_199ra_7_4" lemmaRef="lexicon.xml#lemma_22277" pos="NOM" ana="lexicon.xml#lemma_22277_sense_36299" corresp="variants.xml#type_147179">kubel</w>
+            <w xml:id="BRE_CPG98_199ra_7_5">legtt</w>
+          </l>
+          <l n="8">
+            <w xml:id="BRE_CPG98_199ra_8_0" lemmaRef="lexicon.xml#lemma_5052" pos="ADJ" ana="lexicon.xml#lemma_5052_sense_7870" corresp="variants.xml#type_84002">Selig</w>
+            <w xml:id="BRE_CPG98_199ra_8_1" lemmaRef="lexicon.xml#lemma_5432" pos="VRB" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_232097">sei</w>
+            <w xml:id="BRE_CPG98_199ra_8_2" lemmaRef="lexicon.xml#lemma_1119" pos="DET" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
+            <w xml:id="BRE_CPG98_199ra_8_3" lemmaRef="lexicon.xml#lemma_1242" pos="PRO" ana="lexicon.xml#lemma_1242_sense_1958">dich</w>
+            <w xml:id="BRE_CPG98_199ra_8_4" lemmaRef="lexicon.xml#lemma_3028" pos="PRP" ana="lexicon.xml#lemma_3028_sense_4834" corresp="variants.xml#type_10369">in</w>
+            <w xml:id="BRE_CPG98_199ra_8_5" lemmaRef="lexicon.xml#lemma_1139" pos="DET" ana="lexicon.xml#lemma_1139_sense_1797">die</w>
+            <w xml:id="BRE_CPG98_199ra_8_6">kalt<expan>ern</expan></w>
+            <w xml:id="BRE_CPG98_199ra_8_7" lemmaRef="lexicon.xml#lemma_6171" pos="VRB" ana="lexicon.xml#lemma_6171_sense_9726">tregt</w>
+          </l>
+          <l n="9">
+            <w xml:id="BRE_CPG98_199ra_9_0" lemmaRef="lexicon.xml#lemma_5052" pos="ADJ" ana="lexicon.xml#lemma_5052_sense_7870" corresp="variants.xml#type_84002"><hi rend="inkRed">S</hi>elig</w>
+            <w xml:id="BRE_CPG98_199ra_9_1" lemmaRef="lexicon.xml#lemma_5432" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_198128">seie</w>
+            <w xml:id="BRE_CPG98_199ra_9_2" lemmaRef="lexicon.xml#lemma_1119" pos="DET" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
+            <w xml:id="BRE_CPG98_199ra_9_3">püttn<expan>er</expan></w>
+            <w xml:id="BRE_CPG98_199ra_9_4" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
+            <w xml:id="BRE_CPG98_199ra_9_5" lemmaRef="lexicon.xml#lemma_1139" pos="DET" ana="lexicon.xml#lemma_1139_sense_1797">die</w>
+            <w xml:id="BRE_CPG98_199ra_9_6" lemmaRef="lexicon.xml#lemma_2640" pos="NOM" ana="lexicon.xml#lemma_2640_sense_4250" corresp="variants.xml#type_82474">handt</w>
+          </l>
+          <l n="10">
+            <w xml:id="BRE_CPG98_199ra_10_0" lemmaRef="lexicon.xml#lemma_1139" pos="DET" ana="lexicon.xml#lemma_1139_sense_1797">Die</w>
+            <w xml:id="BRE_CPG98_199ra_10_1" lemmaRef="lexicon.xml#lemma_1242" pos="PRO" ana="lexicon.xml#lemma_1242_sense_1958">dich</w>
+            <w xml:id="BRE_CPG98_199ra_10_2" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
+            <w xml:id="BRE_CPG98_199ra_10_3" lemmaRef="lexicon.xml#lemma_15904" pos="VRB" ana="lexicon.xml#lemma_15904_sense_26177">raiffen</w>
+            <w xml:id="BRE_CPG98_199ra_10_4" lemmaRef="lexicon.xml#lemma_7847" pos="ADV" ana="lexicon.xml#lemma_7847_sense_12865" corresp="variants.xml#type_44381">zusame<expan>n</expan></w>
+            <w xml:id="BRE_CPG98_199ra_10_5" lemmaRef="lexicon.xml#lemma_376" pos="NOM" ana="lexicon.xml#lemma_376_sense_504">bandt</w>
+          </l>
+          <l n="11">
+            <w xml:id="BRE_CPG98_199ra_11_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825"><hi rend="inkRed">U</hi>nd</w>
+            <w xml:id="BRE_CPG98_199ra_11_1" lemmaRef="lexicon.xml#lemma_1242" pos="PRO" ana="lexicon.xml#lemma_1242_sense_1958" corresp="variants.xml#type_3963">dir</w>
+            <w xml:id="BRE_CPG98_199ra_11_2" lemmaRef="lexicon.xml#lemma_3917" pos="VRB" ana="lexicon.xml#lemma_3917_sense_6181" corresp="variants.xml#type_13691">macht</w>
+            <w xml:id="BRE_CPG98_199ra_11_3" lemmaRef="lexicon.xml#lemma_1331" pos="DET" ana="lexicon.xml#lemma_1331_sense_2068">ein</w>
+            <w xml:id="BRE_CPG98_199ra_11_4" lemmaRef="lexicon.xml#lemma_68432" pos="ADJ" ana="lexicon.xml#lemma_68432_sense_105827" corresp="variants.xml#type_343952">hulzen</w>
+            <w xml:id="BRE_CPG98_199ra_11_5" lemmaRef="lexicon.xml#lemma_2933" pos="NOM" ana="lexicon.xml#lemma_2933_sense_28403" corresp="variants.xml#type_146361">hauß</w>
+          </l>
+          <l n="12">
+            <w xml:id="BRE_CPG98_199ra_12_0" lemmaRef="lexicon.xml#lemma_5052" pos="ADJ" ana="lexicon.xml#lemma_5052_sense_7870" corresp="variants.xml#type_84002">Selig</w>
+            <w xml:id="BRE_CPG98_199ra_12_1" lemmaRef="lexicon.xml#lemma_5432" pos="VRB" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_232097">sei</w>
+            <w xml:id="BRE_CPG98_199ra_12_2" lemmaRef="lexicon.xml#lemma_1119" pos="DET" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">d<expan>er</expan></w>
+            <w xml:id="BRE_CPG98_199ra_12_3" lemmaRef="lexicon.xml#lemma_1242" pos="PRO" ana="lexicon.xml#lemma_1242_sense_1958">dich</w>
+            <w xml:id="BRE_CPG98_199ra_12_4" lemmaRef="lexicon.xml#lemma_5028" pos="VRB" ana="lexicon.xml#lemma_5028_sense_7810">rüfft</w>
+            <w xml:id="BRE_CPG98_199ra_12_5" lemmaRef="lexicon.xml#lemma_6342" pos="ADV" ana="lexicon.xml#lemma_6342_sense_9997" corresp="variants.xml#type_68026">auß</w>
+          </l>
+          <l n="13">
+            <w xml:id="BRE_CPG98_199ra_13_0" lemmaRef="lexicon.xml#lemma_5052" pos="ADJ" ana="lexicon.xml#lemma_5052_sense_7870" corresp="variants.xml#type_84002"><hi rend="inkRed">S</hi>elig</w>
+            <w xml:id="BRE_CPG98_199ra_13_1" lemmaRef="lexicon.xml#lemma_5432" pos="VRB" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_232097">sei</w>
+            <w xml:id="BRE_CPG98_199ra_13_2" lemmaRef="lexicon.xml#lemma_1119" pos="DET" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
+            <w xml:id="BRE_CPG98_199ra_13_3" lemmaRef="lexicon.xml#lemma_7652" pos="NOM" ana="lexicon.xml#lemma_7652_sense_12550" corresp="variants.xml#type_27710">wirt</w>
+            <w xml:id="BRE_CPG98_199ra_13_4" lemmaRef="lexicon.xml#lemma_1119" pos="DET" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">d<expan>er</expan></w>
+            <w xml:id="BRE_CPG98_199ra_13_5" lemmaRef="lexicon.xml#lemma_5208" pos="VRB" ana="lexicon.xml#lemma_5208_sense_8106">schenke<expan>n</expan></w>
+            <w xml:id="BRE_CPG98_199ra_13_6" lemmaRef="lexicon.xml#lemma_1546" pos="VRB" ana="lexicon.xml#lemma_1546_sense_2398">erdacht</w>
+          </l>
+          <l n="14">
+            <w xml:id="BRE_CPG98_199ra_14_0" lemmaRef="lexicon.xml#lemma_5052" pos="ADJ" ana="lexicon.xml#lemma_5052_sense_7870" corresp="variants.xml#type_84002">Selig</w>
+            <w xml:id="BRE_CPG98_199ra_14_1" lemmaRef="lexicon.xml#lemma_5432" pos="VRB" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_232097">sei</w>
+            <w xml:id="BRE_CPG98_199ra_14_2" lemmaRef="lexicon.xml#lemma_1119" pos="DET" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">d<expan>er</expan></w>
+            <w xml:id="BRE_CPG98_199ra_14_3" lemmaRef="lexicon.xml#lemma_814" pos="NOM" ana="lexicon.xml#lemma_814_sense_87071">bot</w>
+            <w xml:id="BRE_CPG98_199ra_14_4" lemmaRef="lexicon.xml#lemma_1119" pos="DET" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
+            <w xml:id="BRE_CPG98_199ra_14_5" lemmaRef="lexicon.xml#lemma_1242" pos="PRO" ana="lexicon.xml#lemma_1242_sense_1958">dich</w>
+            <w xml:id="BRE_CPG98_199ra_14_6" lemmaRef="lexicon.xml#lemma_29474" pos="VRB" ana="lexicon.xml#lemma_29474_sense_46282" corresp="variants.xml#type_253868">herpracht</w>
+          </l>
+          <l n="15">
+            <w xml:id="BRE_CPG98_199ra_15_0" lemmaRef="lexicon.xml#lemma_5052" pos="ADJ" ana="lexicon.xml#lemma_5052_sense_7870" corresp="variants.xml#type_84002"><hi rend="inkRed">S</hi>elig</w>
+            <w xml:id="BRE_CPG98_199ra_15_1" lemmaRef="lexicon.xml#lemma_5432" pos="VRB" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_232097">sei</w>
+            <w xml:id="BRE_CPG98_199ra_15_2" lemmaRef="lexicon.xml#lemma_1119" pos="DET" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
+            <w xml:id="BRE_CPG98_199ra_15_3" lemmaRef="lexicon.xml#lemma_1242" pos="PRO" ana="lexicon.xml#lemma_1242_sense_1958">dich</w>
+            <w xml:id="BRE_CPG98_199ra_15_4" lemmaRef="lexicon.xml#lemma_2598" pos="VEX" ana="lexicon.xml#lemma_2598_sense_77622" corresp="variants.xml#type_8723">hat</w>
+            <w xml:id="BRE_CPG98_199ra_15_5">eingeschenckt</w>
+          </l>
+          <l n="16">
+            <w xml:id="BRE_CPG98_199ra_16_0" lemmaRef="lexicon.xml#lemma_6620" pos="ADJ" ana="lexicon.xml#lemma_6620_sense_10502">Unselig</w>
+            <w xml:id="BRE_CPG98_199ra_16_1" lemmaRef="lexicon.xml#lemma_5432" pos="VRB" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_232097">sei</w>
+            <w xml:id="BRE_CPG98_199ra_16_2" lemmaRef="lexicon.xml#lemma_1119" pos="DET" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
+            <w xml:id="BRE_CPG98_199ra_16_3" lemmaRef="lexicon.xml#lemma_1119" pos="DET" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">d<expan>er</expan></w>
+            <w xml:id="BRE_CPG98_199ra_16_4" lemmaRef="lexicon.xml#lemma_1331" pos="DET" ana="lexicon.xml#lemma_1331_sense_2068">ein</w>
+            <w xml:id="BRE_CPG98_199ra_16_5" lemmaRef="lexicon.xml#lemma_5607" pos="ADJ" ana="lexicon.xml#lemma_5607_sense_8770" corresp="variants.xml#type_146236">solichs</w>
+            <w xml:id="BRE_CPG98_199ra_16_6" lemmaRef="lexicon.xml#lemma_1546" pos="VRB" ana="lexicon.xml#lemma_1546_sense_2398" corresp="variants.xml#type_264485">erdenckt</w>
+          </l>
+          <l n="17">
+            <w xml:id="BRE_CPG98_199ra_17_0" lemmaRef="lexicon.xml#lemma_1097" pos="SCNJ" ana="lexicon.xml#lemma_1097_sense_1741" corresp="variants.xml#type_3397"><hi rend="inkRed">D</hi>as</w>
+            <w xml:id="BRE_CPG98_199ra_17_1" lemmaRef="lexicon.xml#lemma_3958" pos="PRO" ana="lexicon.xml#lemma_3958_sense_6240" corresp="variants.xml#type_13805">man</w>
+            <w xml:id="BRE_CPG98_199ra_17_2" lemmaRef="lexicon.xml#lemma_1139" pos="DET" ana="lexicon.xml#lemma_1139_sense_1797">die</w>
+            <w xml:id="BRE_CPG98_199ra_17_3" lemmaRef="lexicon.xml#lemma_3913" pos="NOM" ana="lexicon.xml#lemma_3913_sense_6173">maß</w>
+            <w xml:id="BRE_CPG98_199ra_17_4" lemmaRef="lexicon.xml#lemma_5608" pos="VEM" ana="lexicon.xml#lemma_5608_sense_8771" corresp="variants.xml#type_19651">sol</w>
+            <w xml:id="BRE_CPG98_199ra_17_5" lemmaRef="lexicon.xml#lemma_3917" pos="VRB" ana="lexicon.xml#lemma_3917_sense_6181">machen</w>
+            <w xml:id="BRE_CPG98_199ra_17_6" lemmaRef="lexicon.xml#lemma_3349" pos="ADJ" ana="lexicon.xml#lemma_3349_sense_5259">clain</w>
+          </l>
+          <l n="18">
+            <w xml:id="BRE_CPG98_199ra_18_0" lemmaRef="lexicon.xml#lemma_467" pos="VRB" ana="lexicon.xml#lemma_467_sense_654">Behüt</w>
+            <w xml:id="BRE_CPG98_199ra_18_1" lemmaRef="lexicon.xml#lemma_1242" pos="PRO" ana="lexicon.xml#lemma_1242_sense_1958">dich</w>
+            <w xml:id="BRE_CPG98_199ra_18_2" lemmaRef="lexicon.xml#lemma_2465" pos="NOM" ana="lexicon.xml#lemma_2465_sense_3951">got</w>
+            <w xml:id="BRE_CPG98_199ra_18_3" lemmaRef="lexicon.xml#lemma_7194" pos="PRP" ana="lexicon.xml#lemma_7194_sense_11657" corresp="variants.xml#type_25545">vor</w>
+            <w xml:id="BRE_CPG98_199ra_18_4" lemmaRef="lexicon.xml#lemma_1119" pos="DET" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3504">dem</w>
+            <w xml:id="BRE_CPG98_199ra_18_5" lemmaRef="lexicon.xml#lemma_2610" pos="NOM" ana="lexicon.xml#lemma_2610_sense_4194" corresp="variants.xml#type_8800">hagel</w>
+            <w xml:id="BRE_CPG98_199ra_18_6" lemmaRef="lexicon.xml#lemma_5743" pos="NOM" ana="lexicon.xml#lemma_5743_sense_9025" corresp="variants.xml#type_20213">stein</w>
+          </l>
+          <l n="19">
+            <w xml:id="BRE_CPG98_199ra_19_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825"><hi rend="inkRed">U</hi>nd</w>
+            <w xml:id="BRE_CPG98_199ra_19_1" lemmaRef="lexicon.xml#lemma_7194" pos="PRP" ana="lexicon.xml#lemma_7194_sense_11657" corresp="variants.xml#type_25545">vor</w>
+            <w xml:id="BRE_CPG98_199ra_19_2" lemmaRef="lexicon.xml#lemma_1119" pos="DET" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3510">des</w>
+            <w xml:id="BRE_CPG98_199ra_19_3" lemmaRef="lexicon.xml#lemma_3188" pos="ADJ" ana="lexicon.xml#lemma_3188_sense_5030" corresp="variants.xml#type_10932">kalten</w>
+            <w xml:id="BRE_CPG98_199ra_19_4" lemmaRef="lexicon.xml#lemma_4879" pos="NOM" ana="lexicon.xml#lemma_4879_sense_7568">reiffen</w>
+            <w xml:id="BRE_CPG98_199ra_19_5" lemmaRef="lexicon.xml#lemma_7259" pos="NOM" ana="lexicon.xml#lemma_7259_sense_11762" corresp="variants.xml#type_69646">frost</w>
+          </l>
+          <l n="20">
+            <w xml:id="BRE_CPG98_199ra_20_0" lemmaRef="lexicon.xml#lemma_1242" pos="PRO" ana="lexicon.xml#lemma_1242_sense_1958">Du</w>
+            <w xml:id="BRE_CPG98_199ra_20_1" lemmaRef="lexicon.xml#lemma_1912" ana="lexicon.xml#lemma_1912_sense_2937" corresp="variants.xml#type_6465">ganze</w>
+            <w xml:id="BRE_CPG98_199ra_20_2" lemmaRef="lexicon.xml#lemma_56828" pos="NOM" ana="lexicon.xml#lemma_56828_sense_91802" corresp="variants.xml#type_307480">labung</w>
+            <w xml:id="BRE_CPG98_199ra_20_3" lemmaRef="lexicon.xml#lemma_1242" pos="PRO" ana="lexicon.xml#lemma_1242_sense_1958">du</w>
+            <w xml:id="BRE_CPG98_199ra_20_4" lemmaRef="lexicon.xml#lemma_2617" pos="ADJ" ana="lexicon.xml#lemma_2617_sense_4204" corresp="variants.xml#type_8813">halbe</w>
+            <w xml:id="BRE_CPG98_199ra_20_5" lemmaRef="lexicon.xml#lemma_3414" pos="NOM" ana="lexicon.xml#lemma_3414_sense_5384" corresp="variants.xml#type_11765">kost</w>
+          </l>
+          <l n="21">
+            <w xml:id="BRE_CPG98_199ra_21_0" lemmaRef="lexicon.xml#lemma_4432" pos="ADV" ana="lexicon.xml#lemma_4432_sense_6912"><hi rend="inkRed">N</hi>un</w>
+            <w xml:id="BRE_CPG98_199ra_21_1" lemmaRef="lexicon.xml#lemma_4238" pos="VEM" ana="lexicon.xml#lemma_4238_sense_6631" corresp="variants.xml#type_60635">müssen</w>
+            <w xml:id="BRE_CPG98_199ra_21_2" lemmaRef="lexicon.xml#lemma_1139" pos="DET" ana="lexicon.xml#lemma_1139_sense_1797">die</w>
+            <w xml:id="BRE_CPG98_199ra_21_3" lemmaRef="lexicon.xml#lemma_106" pos="ADJ" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_258">alle</w>
+            <w xml:id="BRE_CPG98_199ra_21_4" lemmaRef="lexicon.xml#lemma_5052" ana="lexicon.xml#lemma_5052_sense_7870">säligk</w>
+            <w xml:id="BRE_CPG98_199ra_21_5" lemmaRef="lexicon.xml#lemma_5432" pos="VRB" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_84193">sein</w>
+          </l>
+          <l n="22">
+            <w xml:id="BRE_CPG98_199ra_22_0" lemmaRef="lexicon.xml#lemma_1139" pos="DET" ana="lexicon.xml#lemma_1139_sense_1797">Die</w>
+            <w xml:id="BRE_CPG98_199ra_22_1" lemmaRef="lexicon.xml#lemma_1055" pos="ADV" ana="lexicon.xml#lemma_1055_sense_1689">da</w>
+            <w xml:id="BRE_CPG98_199ra_22_2" lemmaRef="lexicon.xml#lemma_2175" pos="ADV" ana="lexicon.xml#lemma_2175_sense_3405" corresp="variants.xml#type_7387">gern</w>
+            <w xml:id="BRE_CPG98_199ra_22_3" lemmaRef="lexicon.xml#lemma_6207" pos="VRB" ana="lexicon.xml#lemma_6207_sense_9787" corresp="variants.xml#type_64560">trincken</w>
+            <w xml:id="BRE_CPG98_199ra_22_4" lemmaRef="lexicon.xml#lemma_7532" pos="NOM" ana="lexicon.xml#lemma_7532_sense_12297" corresp="variants.xml#type_67774">wein</w>
+          </l>
+          <l n="23">
+            <w xml:id="BRE_CPG98_199ra_23_0" lemmaRef="lexicon.xml#lemma_1119" pos="DET" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506"><hi rend="inkRed">D</hi>en</w>
+            <w xml:id="BRE_CPG98_199ra_23_1" lemmaRef="lexicon.xml#lemma_4238" pos="VEM" ana="lexicon.xml#lemma_4238_sense_6631">müß</w>
+            <w xml:id="BRE_CPG98_199ra_23_2" lemmaRef="lexicon.xml#lemma_2465" pos="NOM" ana="lexicon.xml#lemma_2465_sense_3951">got</w>
+            <w xml:id="BRE_CPG98_199ra_23_3" lemmaRef="lexicon.xml#lemma_106" pos="ADJ" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_260">allen</w>
+            <w xml:id="BRE_CPG98_199ra_23_4" lemmaRef="lexicon.xml#lemma_7532" pos="NOM" ana="lexicon.xml#lemma_7532_sense_12297" corresp="variants.xml#type_67774">wein</w>
+            <w xml:id="BRE_CPG98_199ra_23_5" lemmaRef="lexicon.xml#lemma_72951" pos="VRB" ana="lexicon.xml#lemma_72951_sense_110766" corresp="variants.xml#type_355733">beschern</w>
+          </l>
+          <l n="24">
+            <w xml:id="BRE_CPG98_199ra_24_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825"><hi rend="inkRed">U</hi>nd</w>
+            <w xml:id="BRE_CPG98_199ra_24_1" lemmaRef="lexicon.xml#lemma_5669" pos="NOM" ana="lexicon.xml#lemma_5669_sense_8870">speis</w>
+            <w xml:id="BRE_CPG98_199ra_24_2" lemmaRef="lexicon.xml#lemma_1053" pos="ADV" ana="lexicon.xml#lemma_1053_sense_1687">damit</w>
+            <w xml:id="BRE_CPG98_199ra_24_3" lemmaRef="lexicon.xml#lemma_5454" pos="PRO" ana="lexicon.xml#lemma_5454_sense_8506">sie</w>
+            <w xml:id="BRE_CPG98_199ra_24_4" lemmaRef="lexicon.xml#lemma_1119" pos="DET" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3506">den</w>
+            <w xml:id="BRE_CPG98_199ra_24_5" lemmaRef="lexicon.xml#lemma_3738" pos="NOM" ana="lexicon.xml#lemma_3738_sense_5924" corresp="variants.xml#type_67139">leib</w>
+            <w xml:id="BRE_CPG98_199ra_24_6" lemmaRef="lexicon.xml#lemma_1626" pos="VRB" ana="lexicon.xml#lemma_1626_sense_2535" corresp="variants.xml#type_5501">ernern</w>
+          </l>
+          <l n="25">
+            <w xml:id="BRE_CPG98_199ra_25_0" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764"><hi rend="inkRed">S</hi>o</w>
+            <w xml:id="BRE_CPG98_199ra_25_1" lemmaRef="lexicon.xml#lemma_7473" pos="VEM" ana="lexicon.xml#lemma_7473_sense_12160">wil</w>
+            <w xml:id="BRE_CPG98_199ra_25_2" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805">ich</w>
+            <w xml:id="BRE_CPG98_199ra_25_3" lemmaRef="lexicon.xml#lemma_1119" pos="DET" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
+            <w xml:id="BRE_CPG98_199ra_25_4" lemmaRef="lexicon.xml#lemma_1288" pos="ADJ" ana="lexicon.xml#lemma_1288_sense_16179" corresp="variants.xml#type_4191">erst</w>
+            <w xml:id="BRE_CPG98_199ra_25_5" lemmaRef="lexicon.xml#lemma_5432" pos="VRB" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_84193">sein</w>
+            <w xml:id="BRE_CPG98_199ra_25_6" lemmaRef="lexicon.xml#lemma_1119" pos="DET" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">d<expan>er</expan></w>
+            <w xml:id="BRE_CPG98_199ra_25_7">anfeht</w>
+          </l>
+          <l n="26">
+            <w xml:id="BRE_CPG98_199ra_26_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">Und</w>
+            <w xml:id="BRE_CPG98_199ra_26_1" lemmaRef="lexicon.xml#lemma_7473" pos="VEM" ana="lexicon.xml#lemma_7473_sense_12160">wil</w>
+            <w xml:id="BRE_CPG98_199ra_26_2" lemmaRef="lexicon.xml#lemma_1331" pos="DET" ana="lexicon.xml#lemma_1331_sense_2068" corresp="variants.xml#type_4317">eim</w>
+            <w xml:id="BRE_CPG98_199ra_26_3" lemmaRef="lexicon.xml#lemma_6207" pos="NOM" ana="lexicon.xml#lemma_6207_sense_9787" corresp="variants.xml#type_103173">trunck</w>
+            <w xml:id="BRE_CPG98_199ra_26_4" lemmaRef="lexicon.xml#lemma_7677" pos="ADV" ana="lexicon.xml#lemma_7677_sense_12586">wol</w>
+            <w xml:id="BRE_CPG98_199ra_26_5" lemmaRef="lexicon.xml#lemma_6301" pos="VRB" ana="lexicon.xml#lemma_6301_sense_9929" corresp="variants.xml#type_47233">ton</w>
+            <w xml:id="BRE_CPG98_199ra_26_6" lemmaRef="lexicon.xml#lemma_4840" pos="ADV" ana="lexicon.xml#lemma_4840_sense_7495">recht</w>
+          </l>
+        </div>
+        <!-- Text 2: Weinsegen Edle Leibsalb (Hans Rosenplüt) (Cpg 98, 199rb) -->
+        <div type="section" n="2">
+          <pb n="199rb"/>
+          <l n="1">
+            <w xml:id="BRE_CPG98_199rb_1_0" lemmaRef="lexicon.xml#lemma_2212" pos="VRB" ana="lexicon.xml#lemma_2212_sense_3509"><hi rend="inkRed">G</hi>esegen</w>
+            <w xml:id="BRE_CPG98_199rb_1_1" lemmaRef="lexicon.xml#lemma_1242" pos="PRO" ana="lexicon.xml#lemma_1242_sense_1958">dich</w>
+            <w xml:id="BRE_CPG98_199rb_1_2" lemmaRef="lexicon.xml#lemma_2465" pos="NOM" ana="lexicon.xml#lemma_2465_sense_3951">got</w>
+            <w xml:id="BRE_CPG98_199rb_1_3" lemmaRef="lexicon.xml#lemma_1242" pos="PRO" ana="lexicon.xml#lemma_1242_sense_1958">du</w>
+            <w xml:id="BRE_CPG98_199rb_1_4" lemmaRef="lexicon.xml#lemma_1308" pos="ADJ" ana="lexicon.xml#lemma_1308_sense_2042" corresp="variants.xml#type_4246">edel</w>
+            <w xml:id="BRE_CPG98_199rb_1_5">leibsalb</w>
+          </l>
+          <l n="2">
+            <w xml:id="BRE_CPG98_199rb_2_0" lemmaRef="lexicon.xml#lemma_1242" pos="PRO" ana="lexicon.xml#lemma_1242_sense_1958">Du</w>
+            <w xml:id="BRE_CPG98_199rb_2_1">erzneiest</w>
+            <w xml:id="BRE_CPG98_199rb_2_2" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805">mich</w>
+            <w xml:id="BRE_CPG98_199rb_2_3" lemmaRef="lexicon.xml#lemma_134" pos="ADV" ana="lexicon.xml#lemma_134_sense_168" corresp="variants.xml#type_56692">allenthalb</w>
+          </l>
+          <l n="3">
+            <w xml:id="BRE_CPG98_199rb_3_0" lemmaRef="lexicon.xml#lemma_7385" pos="CNJ" ana="lexicon.xml#lemma_7385_sense_11998" corresp="variants.xml#type_26643"><hi rend="inkRed">W</hi>an<expan>n</expan></w>
+            <w xml:id="BRE_CPG98_199rb_3_1" lemmaRef="lexicon.xml#lemma_1242" pos="PRO" ana="lexicon.xml#lemma_1242_sense_1958">du</w>
+            <w xml:id="BRE_CPG98_199rb_3_2" lemmaRef="lexicon.xml#lemma_5432" pos="VRB" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_18951">bist</w>
+            <w xml:id="BRE_CPG98_199rb_3_3" lemmaRef="lexicon.xml#lemma_1331" pos="DET" ana="lexicon.xml#lemma_1331_sense_2068">ein</w>
+            <w xml:id="BRE_CPG98_199rb_3_4" lemmaRef="lexicon.xml#lemma_2264" pos="ADJ" ana="lexicon.xml#lemma_2264_sense_3614" corresp="variants.xml#type_7633">gesund<expan>er</expan></w>
+            <w xml:id="BRE_CPG98_199rb_3_5" lemmaRef="lexicon.xml#lemma_5504" pos="NOM" ana="lexicon.xml#lemma_5504_sense_8574" corresp="variants.xml#type_89265">syroppel</w>
+          </l>
+          <l n="4">
+            <w xml:id="BRE_CPG98_199rb_4_0" lemmaRef="lexicon.xml#lemma_1119" pos="DET" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">Der</w>
+            <w xml:id="BRE_CPG98_199rb_4_1" lemmaRef="lexicon.xml#lemma_3274" pos="NOM" ana="lexicon.xml#lemma_3274_sense_5144" corresp="variants.xml#type_11191">kaiser</w>
+            <w xml:id="BRE_CPG98_199rb_4_2" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656">von</w>
+            <w xml:id="BRE_CPG98_199rb_4_3" lemmaRef="lexicon.xml#lemma_10963" pos="NAM" ana="lexicon.xml#lemma_10963_sense_17541">constantinopel</w>
+          </l>
+          <l n="5">
+            <w xml:id="BRE_CPG98_199rb_5_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825"><hi rend="inkRed">U</hi>nd</w>
+            <w xml:id="BRE_CPG98_199rb_5_1" lemmaRef="lexicon.xml#lemma_1119" pos="DET" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
+            <w xml:id="BRE_CPG98_199rb_5_2" lemmaRef="lexicon.xml#lemma_2534" pos="ADJ" ana="lexicon.xml#lemma_2534_sense_4057" corresp="variants.xml#type_43058">gros</w>
+            <w xml:id="BRE_CPG98_199rb_5_3">cham</w>
+            <w xml:id="BRE_CPG98_199rb_5_4" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656">von</w>
+            <w xml:id="BRE_CPG98_199rb_5_5">kathey</w>
+          </l>
+          <l n="6">
+            <w xml:id="BRE_CPG98_199rb_6_0" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">Und</w>
+            <w xml:id="BRE_CPG98_199rb_6_1" lemmaRef="lexicon.xml#lemma_4734" pos="NOM" ana="lexicon.xml#lemma_4734_sense_7329" corresp="variants.xml#type_16280">priester</w>
+            <w xml:id="BRE_CPG98_199rb_6_2" lemmaRef="lexicon.xml#lemma_3137" pos="NAM" ana="lexicon.xml#lemma_3137_sense_4970" corresp="variants.xml#type_217293">johan<expan>n</expan></w>
+            <w xml:id="BRE_CPG98_199rb_6_3" lemmaRef="lexicon.xml#lemma_1139" pos="DET" ana="lexicon.xml#lemma_1139_sense_1797">die</w>
+            <w xml:id="BRE_CPG98_199rb_6_4" lemmaRef="lexicon.xml#lemma_4872" pos="ADJ" ana="lexicon.xml#lemma_4872_sense_7553">reiche<expan>n</expan></w>
+            <w xml:id="BRE_CPG98_199rb_6_5" lemmaRef="lexicon.xml#lemma_1216" pos="NUM" ana="lexicon.xml#lemma_1216_sense_1915" corresp="variants.xml#type_101392">drei</w>
+          </l>
+          <l n="7">
+            <w xml:id="BRE_CPG98_199rb_7_0" lemmaRef="lexicon.xml#lemma_1139" pos="DET" ana="lexicon.xml#lemma_1139_sense_1797" corresp="variants.xml#type_80400"><hi rend="inkRed">D</hi>ye</w>
+            <w xml:id="BRE_CPG98_199rb_7_1" lemmaRef="lexicon.xml#lemma_4240" pos="VEM" ana="lexicon.xml#lemma_4240_sense_6635" corresp="variants.xml#type_43013">mochten</w>
+            <w xml:id="BRE_CPG98_199rb_7_2" lemmaRef="lexicon.xml#lemma_1242" pos="POS" ana="lexicon.xml#lemma_1242_sense_1958">dein</w>
+            <w xml:id="BRE_CPG98_199rb_7_3" lemmaRef="lexicon.xml#lemma_1308" pos="NOM" ana="lexicon.xml#lemma_1308_sense_2042" corresp="variants.xml#type_4246">edel</w>
+            <w xml:id="BRE_CPG98_199rb_7_4" lemmaRef="lexicon.xml#lemma_4377" pos="NEG" ana="lexicon.xml#lemma_4377_sense_6838" corresp="variants.xml#type_158951">nit</w>
+            <w xml:id="BRE_CPG98_199rb_7_5">v<expan>er</expan>geltten</w>
+          </l>
+          <l n="8">
+            <w xml:id="BRE_CPG98_199rb_8_0" lemmaRef="lexicon.xml#lemma_7409" pos="IPA" ana="lexicon.xml#lemma_7409_sense_25378">Warumb</w>
+            <w xml:id="BRE_CPG98_199rb_8_1" lemmaRef="lexicon.xml#lemma_5608" pos="VEM" ana="lexicon.xml#lemma_5608_sense_8771" corresp="variants.xml#type_19660">solt</w>
+            <w xml:id="BRE_CPG98_199rb_8_2" lemmaRef="lexicon.xml#lemma_3001" pos="PRO" ana="lexicon.xml#lemma_3001_sense_4805">ich</w>
+            <w xml:id="BRE_CPG98_199rb_8_3" lemmaRef="lexicon.xml#lemma_1242" pos="PRO" ana="lexicon.xml#lemma_1242_sense_1958">dich</w>
+            <w xml:id="BRE_CPG98_199rb_8_4" lemmaRef="lexicon.xml#lemma_1073" pos="ADV" ana="lexicon.xml#lemma_1073_sense_1716" corresp="variants.xml#type_3322">dan<expan>n</expan></w>
+            <w xml:id="BRE_CPG98_199rb_8_5" lemmaRef="lexicon.xml#lemma_5204" ana="lexicon.xml#lemma_5204_sense_8099" corresp="variants.xml#type_221598">scheltten</w>
+          </l>
+          <l n="9">
+            <w xml:id="BRE_CPG98_199rb_9_0" lemmaRef="lexicon.xml#lemma_3273" pos="NEG" ana="lexicon.xml#lemma_3273_sense_5143" corresp="variants.xml#type_11177"><hi rend="inkRed">K</hi>ein</w>
+            <w xml:id="BRE_CPG98_199rb_9_1" lemmaRef="lexicon.xml#lemma_2875" pos="NOM" ana="lexicon.xml#lemma_2875_sense_4609">hochzeit</w>
+            <w xml:id="BRE_CPG98_199rb_9_2" lemmaRef="lexicon.xml#lemma_7489" pos="VRB" ana="lexicon.xml#lemma_7489_sense_12207">ward</w>
+            <w xml:id="BRE_CPG98_199rb_9_3" lemmaRef="lexicon.xml#lemma_4365" pos="NEG" ana="lexicon.xml#lemma_4365_sense_6822">nie</w>
+            <w xml:id="BRE_CPG98_199rb_9_4" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764">so</w>
+            <w xml:id="BRE_CPG98_199rb_9_5" lemmaRef="lexicon.xml#lemma_2534" pos="ADJ" ana="lexicon.xml#lemma_2534_sense_4057" corresp="variants.xml#type_64079">groß</w>
+          </l>
+          <l n="10">
+            <w xml:id="BRE_CPG98_199rb_10_0" lemmaRef="lexicon.xml#lemma_8005" pos="VRB" ana="lexicon.xml#lemma_8005_sense_22297">Bistu</w>
+            <w xml:id="BRE_CPG98_199rb_10_1" lemmaRef="lexicon.xml#lemma_2" pos="NOM" ana="lexicon.xml#lemma_2_sense_2" corresp="variants.xml#type_80756"><hi rend="line-through">d</hi></w>
+            <w xml:id="BRE_CPG98_199rb_10_2" lemmaRef="lexicon.xml#lemma_4377" pos="NEG" ana="lexicon.xml#lemma_4377_sense_6838" corresp="variants.xml#type_158951">nit</w>
+            <w xml:id="BRE_CPG98_199rb_10_3" lemmaRef="lexicon.xml#lemma_1089" pos="ADV" ana="lexicon.xml#lemma_1089_sense_1732" corresp="variants.xml#type_101399">darauf</w>
+            <w xml:id="BRE_CPG98_199rb_10_4" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764">so</w>
+            <w xml:id="BRE_CPG98_199rb_10_5" lemmaRef="lexicon.xml#lemma_5432" pos="VRB" ana="lexicon.xml#lemma_5432_sense_8479">ist</w>
+            <w xml:id="BRE_CPG98_199rb_10_6" lemmaRef="lexicon.xml#lemma_1762" pos="PRO" ana="lexicon.xml#lemma_1762_sense_2752" corresp="variants.xml#type_6020">es</w>
+            <w xml:id="BRE_CPG98_199rb_10_7" lemmaRef="lexicon.xml#lemma_763" pos="ADJ" ana="lexicon.xml#lemma_763_sense_1242">ploß</w>
+          </l>
+          <l n="11">
+            <w xml:id="BRE_CPG98_199rb_11_0" lemmaRef="lexicon.xml#lemma_199" pos="PRP" ana="lexicon.xml#lemma_199_sense_38122" corresp="variants.xml#type_522"><hi rend="inkRed">A</hi>n</w>
+            <w xml:id="BRE_CPG98_199rb_11_1" lemmaRef="lexicon.xml#lemma_7252" pos="NOM" ana="lexicon.xml#lemma_7252_sense_11755" corresp="variants.xml#type_179545">frauden</w>
+            <w xml:id="BRE_CPG98_199rb_11_2" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
+            <w xml:id="BRE_CPG98_199rb_11_3" lemmaRef="lexicon.xml#lemma_199" pos="PRP" ana="lexicon.xml#lemma_199_sense_38122" corresp="variants.xml#type_522">an</w>
+            <w xml:id="BRE_CPG98_199rb_11_4">frolichkait</w>
+          </l>
+          <l n="12">
+            <w xml:id="BRE_CPG98_199rb_12_0" lemmaRef="lexicon.xml#lemma_3830" pos="VRB" ana="lexicon.xml#lemma_3830_sense_6054" corresp="variants.xml#type_13357">Gelobt</w>
+            <w xml:id="BRE_CPG98_199rb_12_1" lemmaRef="lexicon.xml#lemma_5432" pos="VRB" ana="lexicon.xml#lemma_5432_sense_8479" corresp="variants.xml#type_232097">sei</w>
+            <w xml:id="BRE_CPG98_199rb_12_2" lemmaRef="lexicon.xml#lemma_1119" pos="DET" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
+            <w xml:id="BRE_CPG98_199rb_12_3" lemmaRef="lexicon.xml#lemma_5785" pos="NOM" ana="lexicon.xml#lemma_5785_sense_9121">stock</w>
+            <w xml:id="BRE_CPG98_199rb_12_4" lemmaRef="lexicon.xml#lemma_1119" pos="DET" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3507">der</w>
+            <w xml:id="BRE_CPG98_199rb_12_5" lemmaRef="lexicon.xml#lemma_1242" pos="PRO" ana="lexicon.xml#lemma_1242_sense_1958">dich</w>
+            <w xml:id="BRE_CPG98_199rb_12_6" lemmaRef="lexicon.xml#lemma_6171" pos="VRB" ana="lexicon.xml#lemma_6171_sense_9726">treit</w>
+          </l>
+          <l n="13">
+            <w xml:id="BRE_CPG98_199rb_13_0" lemmaRef="lexicon.xml#lemma_3958" pos="PRO" ana="lexicon.xml#lemma_3958_sense_6240" corresp="variants.xml#type_13805"><hi rend="inkRed">M</hi>an</w>
+            <w xml:id="BRE_CPG98_199rb_13_1" lemmaRef="lexicon.xml#lemma_5061" pos="VRB" ana="lexicon.xml#lemma_5061_sense_7886" corresp="variants.xml#type_17556">sagt</w>
+            <w xml:id="BRE_CPG98_199rb_13_2" lemmaRef="lexicon.xml#lemma_7193" pos="PRP" ana="lexicon.xml#lemma_7193_sense_11656">von</w>
+            <w xml:id="BRE_CPG98_199rb_13_3" lemmaRef="lexicon.xml#lemma_10610" pos="ADJ" ana="lexicon.xml#lemma_10610_sense_17016" corresp="variants.xml#type_106927">kulen</w>
+            <w xml:id="BRE_CPG98_199rb_13_4" lemmaRef="lexicon.xml#lemma_870" pos="VRB">prune<expan>n</expan></w>
+            <w xml:id="BRE_CPG98_199rb_13_5" lemmaRef="lexicon.xml#lemma_10734" pos="PRP" ana="lexicon.xml#lemma_10734_sense_63598">im</w>
+            <w xml:id="BRE_CPG98_199rb_13_6" lemmaRef="lexicon.xml#lemma_4043" pos="NOM" ana="lexicon.xml#lemma_4043_sense_6348" corresp="variants.xml#type_14119">mayen</w>
+          </l>
+          <l n="14">
+            <w xml:id="BRE_CPG98_199rb_14_0" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764">So</w>
+            <w xml:id="BRE_CPG98_199rb_14_1" lemmaRef="lexicon.xml#lemma_7260" pos="NOM" ana="lexicon.xml#lemma_7260_sense_11763" corresp="variants.xml#type_68028">frauen</w>
+            <w xml:id="BRE_CPG98_199rb_14_2" lemmaRef="lexicon.xml#lemma_6467" pos="CNJ" ana="lexicon.xml#lemma_6467_sense_10233" corresp="variants.xml#type_22825">und</w>
+            <w xml:id="BRE_CPG98_199rb_14_3" lemmaRef="lexicon.xml#lemma_3957" pos="NOM" ana="lexicon.xml#lemma_3957_sense_6236" corresp="variants.xml#type_13801">man<expan>n</expan></w>
+            <w xml:id="BRE_CPG98_199rb_14_4" lemmaRef="lexicon.xml#lemma_1091" pos="ADV" ana="lexicon.xml#lemma_1091_sense_1735" corresp="variants.xml#type_65695">darub<expan>er</expan></w>
+            <w xml:id="BRE_CPG98_199rb_14_5" lemmaRef="lexicon.xml#lemma_4843" pos="NOM" ana="lexicon.xml#lemma_4843_sense_7503" corresp="variants.xml#type_67458">rayen</w>
+          </l>
+          <l n="15">
+            <w xml:id="BRE_CPG98_199rb_15_0" lemmaRef="lexicon.xml#lemma_3400" ana="lexicon.xml#lemma_3400_sense_5361" corresp="variants.xml#type_11725"><hi rend="inkRed">K</hi>umst</w>
+            <w xml:id="BRE_CPG98_199rb_15_1" lemmaRef="lexicon.xml#lemma_1242" pos="PRO" ana="lexicon.xml#lemma_1242_sense_1958">du</w>
+            <w xml:id="BRE_CPG98_199rb_15_2" lemmaRef="lexicon.xml#lemma_4377" pos="NEG" ana="lexicon.xml#lemma_4377_sense_6838" corresp="variants.xml#type_158951">nit</w>
+            <w xml:id="BRE_CPG98_199rb_15_3" lemmaRef="lexicon.xml#lemma_1055" pos="ADV" ana="lexicon.xml#lemma_1055_sense_1689">dar</w>
+            <w xml:id="BRE_CPG98_199rb_15_4" lemmaRef="lexicon.xml#lemma_4172" pos="PRP" ana="lexicon.xml#lemma_4172_sense_6544" corresp="variants.xml#type_14531">mit</w>
+            <w xml:id="BRE_CPG98_199rb_15_5" lemmaRef="lexicon.xml#lemma_7163" pos="ADJ" ana="lexicon.xml#lemma_7163_sense_11613">vollen</w>
+            <w xml:id="BRE_CPG98_199rb_15_6" lemmaRef="lexicon.xml#lemma_14276" pos="NOM" ana="lexicon.xml#lemma_14276_sense_23656" corresp="variants.xml#type_103108">flaschen</w>
+          </l>
+          <l n="16">
+            <w xml:id="BRE_CPG98_199rb_16_0" lemmaRef="lexicon.xml#lemma_5601" pos="ADV" ana="lexicon.xml#lemma_5601_sense_8764"><hi rend="inkRed">S</hi>o</w>
+            <w xml:id="BRE_CPG98_199rb_16_1" lemmaRef="lexicon.xml#lemma_5525" pos="VRB" ana="lexicon.xml#lemma_5525_sense_81880">slecht</w>
+            <w xml:id="BRE_CPG98_199rb_16_2" lemmaRef="lexicon.xml#lemma_106" pos="ADJ" ana="lexicon.xml#lemma_106_sense_139" corresp="variants.xml#type_257">all</w>
+            <w xml:id="BRE_CPG98_199rb_16_3" lemmaRef="lexicon.xml#lemma_56116" pos="POS" ana="lexicon.xml#lemma_56116_sense_90960" corresp="variants.xml#type_304869">ir</w>
+            <w xml:id="BRE_CPG98_199rb_16_4">fraud</w>
+            <w xml:id="BRE_CPG98_199rb_16_5" lemmaRef="lexicon.xml#lemma_1912" pos="ADV" ana="lexicon.xml#lemma_1912_sense_2937" corresp="variants.xml#type_6464">ganz</w>
+            <w xml:id="BRE_CPG98_199rb_16_6" lemmaRef="lexicon.xml#lemma_3028" pos="PRP" ana="lexicon.xml#lemma_3028_sense_4834" corresp="variants.xml#type_10369">in</w>
+            <w xml:id="BRE_CPG98_199rb_16_7" lemmaRef="lexicon.xml#lemma_1139" pos="DET" ana="lexicon.xml#lemma_1139_sense_1797">die</w>
+            <w xml:id="BRE_CPG98_199rb_16_8" lemmaRef="lexicon.xml#lemma_312" pos="NOM" ana="lexicon.xml#lemma_312_sense_407">aschen</w>
+          </l>
+        </div>
+      </div>
+    </body>
+  </text>
+</TEI>

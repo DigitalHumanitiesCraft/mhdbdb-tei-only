@@ -148,6 +148,25 @@ ABWEICHUNG_ERKLAERT = {
         "offen: wie Allerliebster Trunck",
 }
 
+# Zeugen, deren Segmentierung auf Silvans Antwort wartet (#147, Kommentar 2026-11-13; in
+# ingest/bre/hauptseite-abgleich.tsv "offen"). 02-convert-wiki-to-mhdbdb.py schreibt sie nicht,
+# --trocken bleibt moeglich. Geschrieben werden sie erst, wenn die Antwort da ist und der
+# Eintrag hier entfernt wird.
+SEGMENTIERUNG_OFFEN = {
+    "B2": "Fehlansatz vor Weingruss Allerliebster Trunck: eigener Abschnitt oder nicht",
+    "d4": "Edels Getranck und Edle Leibsalb: Benennung der Stellen 2 und 3",
+    "d6": "drei in Edles Abkuelen eingearbeitete Texte als eigene Abschnitte",
+}
+
+# Teile einer Transkription, die nicht aufgenommen werden: Zeuge -> (Teil-Label, Grund).
+# D, Teil B (Bl. 217r-221v): laut Druckfahnen, Kapitel IV, 17. Jahrhundert und damit ausserhalb
+# des Korpusumfangs "vor 1600" (wachauer 2026-09-10, #263; docs/RESEARCH.md). Teil A (1460-1462)
+# bleibt. Nur der letzte Teil einer Transkription kann ausgeschlossen werden (harter Fehler sonst).
+TEIL_AUSGESCHLOSSEN = {
+    "D": ("B", "Teil B (Bl. 217r–221v) ist nicht aufgenommen: er stammt aus dem 17. Jahrhundert "
+               "und liegt außerhalb des Korpusumfangs (Texte vor 1600, #263)."),
+}
+
 # Faltung NUR fuer den Vergleich erster Vers <-> Transkriptionszeile, nie fuer die Ausgabe.
 # Jede Anwendung wird ausgegeben (Erratum an Silvan Wagner).
 FALTUNG = {"ů": "uͦ"}  # ů (U+016F) ~ uͦ (u + U+0366)

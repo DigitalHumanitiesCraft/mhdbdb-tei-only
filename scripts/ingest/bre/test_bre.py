@@ -387,6 +387,170 @@ pruefe("Kopfregel: Lombarde allein macht keinen head",
        not texte_tr[1]["heads"] and not tei_tr.xpath("//t:div[@n='2']/t:head", namespaces=ns)
        and len(tei_tr.xpath("//t:div[@n='1']/t:l", namespaces=ns)) == 5)
 
+# Epoche: Teil B von D (17. Jh.) entfaellt in der Ausgabe, Segmentierung sieht den ganzen Zeugen
+s_ab = SEITE.replace("[188r]<br />\n", "===A:===\n[188r]<br />\n", 1).replace(
+    '<span style="color:#FF0000">N</span>u grüß dich zwei',
+    '===B:===\n<span style="color:#FF0000">N</span>u grüß dich zwei')
+
+
+def baue_mit_ausschluss(seite, sigle):
+    signatur, its, noten, inf = conv.lies_transkription(seite)
+    lx = {i: conv.lexe(it["raw"], noten, "t") for i, it in enumerate(its) if it["kind"] == "verse"}
+    tx, _, vs = conv.segmentiere(its, lx, ROWS, sigle)
+    its, tx, raus, grund = conv.schneide_teil_ab(sigle, its, tx, inf)
+    st = {"w": 0, "l": 0, "head": 0, "pb": 0, "pb_im_wort": 0, "note": 0,
+          "el": collections.Counter(), "span_dupliziert": collections.Counter()}
+    t, _, _ = conv.baue_tei("BRE_TEST", signatur, SEITE_META, its, lx, tx, st, vs, "2026-01-01", grund)
+    return t, tx, raus, inf
+
+
+tei_d, tx_d, raus_d, inf_d = baue_mit_ausschluss(s_ab, "D")
+pruefe("Ausschluss D Teil B: ein Text bleibt, einer entfaellt",
+       len(tx_d) == 1 and len(raus_d) == 1 and raus_d[0]["row"]["text_titel"] == "B"
+       and len(tei_d.xpath("//t:div[@type='section']", namespaces=ns)) == 1
+       and not tei_d.xpath("//t:div[@n='B']", namespaces=ns)
+       and "zweite" not in conv.etree.tostring(tei_d, encoding="unicode"))
+pruefe("Ausschluss D Teil B: Zeilenbilanz geht auf",
+       len(tei_d.xpath("//t:l", namespaces=ns)) + len(tei_d.xpath("//t:head", namespaces=ns))
+       + inf_d["fortsetzungen"] == inf_d["stuecke"], str(inf_d))
+pruefe("Ausschluss D Teil B: Grund im Header und als Kommentar",
+       "17. Jahrhundert" in "".join(tei_d.xpath("//t:note[@type='fidelity']/text()", namespaces=ns))
+       and any("17. Jahrhundert" in c.text for c in tei_d.xpath("//t:body//comment()", namespaces=ns)))
+tei_b, tx_b, raus_b, _ = baue_mit_ausschluss(s_ab, "B")
+pruefe("Ausschluss nur fuer D: B behaelt beide Teile", len(raus_b) == 0 and len(tx_b) == 2
+       and len(tei_b.xpath("//t:div[@n='B']", namespaces=ns)) == 1)
+try:
+    baue_mit_ausschluss(SEITE, "D")
+    pruefe("Ausschluss ohne Teil-Marker = Fehler", False, "kein Fehler")
+except conv.bc.HarterFehler:
+    pruefe("Ausschluss ohne Teil-Marker = Fehler", True)
+# Satzzeichen (#66): eigenes <pc join="left">, Apostroph und Bindestrich bleiben im Wort
+s_pc = SEITE.replace("Mit her(r) v(er)stoppffen", "Mit her(r), mach’ wagen-schmir. Der.X.")
+_, _, tei_pc, info_pc, _ = baue(s_pc, ROWS, "B")
+pcs = tei_pc.xpath("//t:pc", namespaces=ns)
+woerter_pc = [e.xpath("string(.)") for e in tei_pc.xpath("//t:w", namespaces=ns)]
+pruefe("Satzzeichen als pc", [p.text for p in pcs] == [",", ".", ".", "."]
+       and all(p.get("join") == "left" for p in pcs)
+       and "mach’" in woerter_pc and "wagen-schmir" in woerter_pc and "X" in woerter_pc
+       and not any(c in w for w in woerter_pc for c in ",.;:!?"), str(woerter_pc))
+pruefe("Satzzeichen: Zeilenbilanz", len(tei_pc.xpath("//t:l", namespaces=ns))
+       + len(tei_pc.xpath("//t:head", namespaces=ns)) + info_pc["fortsetzungen"] == info_pc["stuecke"])
+pruefe("offene Segmentierung: B2, d4, d6", set(conv.bc.SEGMENTIERUNG_OFFEN) == {"B2", "d4", "d6"})
+
+# Druckfahnen (Kickoff #147): kein Wortlaut aus Text, Uebersetzung oder Kommentar der Druckfassung
+# im Repo. Quelle ist der Text der Hirzel-Druckfahnen (PDF, per pdftotext auf stdout gelesen, nie
+# als Datei abgelegt; Silbentrennung am Zeilenende zusammengezogen) und, weil der Kickoff sie zum
+# selben Material zaehlt, Silvans Word-Steckbriefe von 2022 (sources/weingruesse/docling/*.md).
+# Gesucht wird jede Folge von DRUCK_N Woertern daraus, die nicht auch in der Wiki-Fassung
+# (temp/bre-wiki, die lizenzierte Quelle, ohne Wiki-Markup) oder im Wortlaut der Zeugen steht, in
+# allen Dateien unter ingest/bre und scripts/ingest/bre und in den Commit Messages seit origin/main.
+# URLs fallen auf beiden Seiten weg, Folgen aus lauter Ein-Buchstaben-Woertern (Siglenlisten) auch.
+# Ziffern zaehlen nicht als Wort: eine Jahreszahl allein ist kein Wortlaut. Die Quellen liegen nur
+# im Main Worktree und werden nie kopiert; fehlt eine davon, pdftotext oder der Wiki-Cache, faellt
+# der Test aus und sagt das (er besteht dann nicht stillschweigend).
+import os  # noqa: E402
+import re as _re  # noqa: E402
+import subprocess  # noqa: E402
+
+DRUCK_N = 6
+
+
+def druck_woerter(text):
+    # Diakritika (auch die uebergeschriebenen e/o der Handschriften) fallen auf beiden Seiten weg,
+    # sonst zerlegen sie ein Wort und eine Wiki-Folge sieht aus wie eine der Druckfassung
+    import unicodedata
+    text = _re.sub(r"https?://\S+", " ", text)
+    roh = unicodedata.normalize("NFKD", text.lower())
+    return _re.findall(r"[^\W\d_]+", "".join(c for c in roh if not unicodedata.combining(c)))
+
+
+def druck_ngramme(woerter):
+    return {g for g in (tuple(woerter[i:i + DRUCK_N]) for i in range(len(woerter) - DRUCK_N + 1))
+            if any(len(w) > 1 for w in g)}
+
+
+def wiki_klartext(inhalt):
+    # Markup weg, sonst zerlegt <span ...>N</span>u ein Wort und der Vers zaehlt nicht als Wiki-Text
+    import html as _html
+    t = _re.sub(r"<[^>]+>|'{2,}", "", _html.unescape(inhalt))
+    return _re.sub(r"\[\[|\]\]|\{\{|\}\}|\|", " ", t)
+
+
+def druck_quellen():
+    """Text der Druckfahnen (PDF) und der Steckbriefe aus dem Main Worktree, oder None."""
+    common = subprocess.run(["git", "-C", str(conv.bc.REPO), "rev-parse", "--path-format=absolute",
+                             "--git-common-dir"], capture_output=True, text=True).stdout.strip()
+    basis = [p for p in (conv.bc.REPO / "sources" / "weingruesse",
+                         Path(common).parent / "sources" / "weingruesse")
+             if (p / "docling").is_dir() and (p / "wagner-2023-weingruesse-druckfahnen.pdf").is_file()]
+    if not basis:
+        return None
+    try:
+        pdf = subprocess.run(["pdftotext", "-enc", "UTF-8",
+                              str(basis[0] / "wagner-2023-weingruesse-druckfahnen.pdf"), "-"],
+                             capture_output=True, check=True).stdout.decode("utf-8")
+    except (OSError, subprocess.CalledProcessError):
+        return None
+    pdf = _re.sub(r"(\w)-\s*\n\s*(\w)", r"\1\2", pdf)
+    if len(pdf) < 100000:  # Plausibilitaet: der Textauszug hat rund 189 KB
+        return None
+    return [pdf] + [md.read_text(encoding="utf-8") for md in sorted((basis[0] / "docling").glob("*.md"))]
+
+
+def druckfahnen_lecks(dateien, texte=()):
+    """Liefert [(Datei, Wortfolge)] fuer jede Wortfolge der Druckfahnen, die nur dort steht."""
+    quellen = druck_quellen()
+    wiki = sorted(conv.bc.CACHE_DIR.glob("rev_*.json")) if conv.bc.CACHE_DIR.is_dir() else []
+    if not quellen or not wiki:
+        return None
+    druck = set()
+    for q in quellen:
+        druck |= druck_ngramme(druck_woerter(q))
+    erlaubt = set()
+    import json as _json
+    for j in wiki:
+        inhalt = _json.loads(j.read_text(encoding="utf-8"))["inhalt"]
+        erlaubt |= druck_ngramme(druck_woerter(inhalt)) | druck_ngramme(druck_woerter(wiki_klartext(inhalt)))
+    from lxml import etree as _et
+    for tei in sorted(conv.bc.INGEST_DIR.glob("BRE_*.tei.xml")):
+        ws = _et.parse(str(tei)).getroot().iter("{http://www.tei-c.org/ns/1.0}w")
+        erlaubt |= druck_ngramme(druck_woerter(" ".join("".join(w.itertext()) for w in ws)))
+    verboten = druck - erlaubt
+    treffer = []
+    for d in dateien:
+        text = d.read_text(encoding="utf-8", errors="replace")
+        # TSV je Feld: eine Folge ueber die Spaltengrenze (Blatt 221v + Incipit) ist keine Stelle
+        teile = _re.split(r"[\t\n]", text) if d.suffix == ".tsv" else [text]
+        gefunden = set()
+        for t in teile:
+            gefunden |= druck_ngramme(druck_woerter(t)) & verboten
+        treffer += [(str(d), " ".join(g)) for g in sorted(gefunden)]
+    for name, text in texte:
+        treffer += [(name, " ".join(g)) for g in sorted(druck_ngramme(druck_woerter(text)) & verboten)]
+    return treffer
+
+
+druck_dateien = [p for basis in (conv.bc.INGEST_DIR, HIER) for p in sorted(basis.rglob("*"))
+                 if p.is_file() and p.suffix in {".tsv", ".md", ".py", ".xml", ".txt", ".json"}]
+_basis = subprocess.run(["git", "-C", str(conv.bc.REPO), "merge-base", "HEAD", "origin/main"],
+                       capture_output=True, text=True).stdout.strip()
+_log = subprocess.run(["git", "-C", str(conv.bc.REPO), "log", f"{_basis}..HEAD", "--format=%H%x00%B%x01"],
+                      capture_output=True, text=True, encoding="utf-8").stdout if _basis else ""
+druck_texte = [(f"Commit {e.split(chr(0))[0][:9]}", e.split(chr(0))[1])
+               for e in _log.split("\x01") if "\x00" in e]
+# zusaetzliche Texte (PR-Body, Issue-Kommentar) vor dem Absenden: BRE_DRUCK_PRUEFE=<datei>[;<datei>]
+for _p in filter(None, os.environ.get("BRE_DRUCK_PRUEFE", "").split(";")):
+    druck_texte.append((_p, Path(_p).read_text(encoding="utf-8")))
+lecks = druckfahnen_lecks(druck_dateien, druck_texte)
+if lecks is None:
+    pruefe("Druckfahnen: kein Wortlaut im Repo", False,
+           "Druckfahnen-PDF, pdftotext, Steckbriefe (sources/weingruesse/docling) oder Wiki-Cache "
+           "(temp/bre-wiki) fehlen, Pruefung nicht moeglich")
+else:
+    pruefe(f"Druckfahnen: kein Wortlaut im Repo ({len(druck_dateien)} Dateien, "
+           f"{len(druck_texte)} weitere Texte, {DRUCK_N}-Wort-Folgen)",
+           not lecks, "; ".join(f"{d}: {g}" for d, g in lecks[:10]))
+
 if fehler:
     print(f"{len(fehler)} Test(s) fehlgeschlagen")
     sys.exit(1)
