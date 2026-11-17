@@ -437,6 +437,76 @@ pruefe("Satzzeichen: Zeilenbilanz", len(tei_pc.xpath("//t:l", namespaces=ns))
        + len(tei_pc.xpath("//t:head", namespaces=ns)) + info_pc["fortsetzungen"] == info_pc["stuecke"])
 pruefe("offene Segmentierung: B2, d4, d6", set(conv.bc.SEGMENTIERUNG_OFFEN) == {"B2", "d4", "d6"})
 
+# Druckfahnen (Kickoff #147): kein Wortlaut aus Text, Uebersetzung oder Kommentar der Druckfassung
+# im Repo. Gesucht wird jede Folge von DRUCK_N Woertern aus der Docling-Fassung der Druckfahnen,
+# die nicht auch in der Wiki-Fassung (temp/bre-wiki, die lizenzierte Quelle) oder im Wortlaut der
+# Zeugen steht, in allen Dateien unter ingest/bre und scripts/ingest/bre. Die Druckfahnen liegen
+# nur im Main Worktree und werden nie kopiert; fehlen sie oder der Wiki-Cache, faellt der Test aus
+# und sagt das (er besteht dann nicht stillschweigend).
+import re as _re  # noqa: E402
+import subprocess  # noqa: E402
+
+DRUCK_N = 6
+
+
+def druck_woerter(text):
+    # Diakritika (auch die uebergeschriebenen e/o der Handschriften) fallen auf beiden Seiten weg,
+    # sonst zerlegen sie ein Wort und eine Wiki-Folge sieht aus wie eine der Druckfassung
+    import unicodedata
+    roh = unicodedata.normalize("NFKD", text.lower())
+    return _re.findall(r"[^\W\d_]+", "".join(c for c in roh if not unicodedata.combining(c)))
+
+
+def druck_ngramme(woerter):
+    return {tuple(woerter[i:i + DRUCK_N]) for i in range(len(woerter) - DRUCK_N + 1)}
+
+
+def druckfahnen_lecks(dateien, texte=()):
+    """Liefert [(Datei, Wortfolge)] fuer jede Wortfolge der Druckfahnen, die nur dort steht."""
+    common = subprocess.run(["git", "-C", str(conv.bc.REPO), "rev-parse", "--path-format=absolute",
+                             "--git-common-dir"], capture_output=True, text=True).stdout.strip()
+    ordner = [p for p in (conv.bc.REPO / "sources" / "weingruesse" / "docling",
+                          Path(common).parent / "sources" / "weingruesse" / "docling") if p.is_dir()]
+    wiki = sorted(conv.bc.CACHE_DIR.glob("rev_*.json")) if conv.bc.CACHE_DIR.is_dir() else []
+    if not ordner or not wiki:
+        return None
+    druck = set()
+    for md in sorted(ordner[0].glob("*.md")):
+        druck |= druck_ngramme(druck_woerter(md.read_text(encoding="utf-8")))
+    erlaubt = set()
+    import json as _json
+    for j in wiki:
+        erlaubt |= druck_ngramme(druck_woerter(_json.loads(j.read_text(encoding="utf-8"))["inhalt"]))
+    from lxml import etree as _et
+    for tei in sorted(conv.bc.INGEST_DIR.glob("BRE_*.tei.xml")):
+        ws = _et.parse(str(tei)).getroot().iter("{http://www.tei-c.org/ns/1.0}w")
+        erlaubt |= druck_ngramme(druck_woerter(" ".join("".join(w.itertext()) for w in ws)))
+    verboten = druck - erlaubt
+    treffer = []
+    for d in dateien:
+        text = d.read_text(encoding="utf-8", errors="replace")
+        # TSV je Feld: eine Folge ueber die Spaltengrenze (Blatt 221v + Incipit) ist keine Stelle
+        teile = _re.split(r"[\t\n]", text) if d.suffix == ".tsv" else [text]
+        gefunden = set()
+        for t in teile:
+            gefunden |= druck_ngramme(druck_woerter(t)) & verboten
+        treffer += [(str(d), " ".join(g)) for g in sorted(gefunden)]
+    for name, text in texte:
+        treffer += [(name, " ".join(g)) for g in sorted(druck_ngramme(druck_woerter(text)) & verboten)]
+    return treffer
+
+
+druck_dateien = [p for basis in (conv.bc.INGEST_DIR, HIER) for p in sorted(basis.rglob("*"))
+                 if p.is_file() and p.suffix in {".tsv", ".md", ".py", ".xml", ".txt", ".json"}]
+lecks = druckfahnen_lecks(druck_dateien)
+if lecks is None:
+    pruefe("Druckfahnen: kein Wortlaut im Repo", False,
+           "Druckfahnen (sources/weingruesse/docling) oder Wiki-Cache (temp/bre-wiki) fehlen, "
+           "Pruefung nicht moeglich")
+else:
+    pruefe(f"Druckfahnen: kein Wortlaut im Repo ({len(druck_dateien)} Dateien, {DRUCK_N}-Wort-Folgen)",
+           not lecks, "; ".join(f"{d}: {g}" for d, g in lecks[:10]))
+
 if fehler:
     print(f"{len(fehler)} Test(s) fehlgeschlagen")
     sys.exit(1)
