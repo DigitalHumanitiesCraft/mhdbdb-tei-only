@@ -95,7 +95,7 @@ The header is already largely standardized across all 667 files. This section do
 
 **Rules:**
 - `<author ref>` points at the `<person>` entry in the same document (`profileDesc`), which in turn points at `persons.xml` via `@corresp`. One exception since #452: an author with `@ana="rejected"` is not a participant of the text and has no `<person>` entry there (CR: `#person_227` points nowhere inside the file, by design; `check-author-refs.py` skips it). An adapter (`@role`) keeps its entry
-- `titleStmt/author` may repeat, and it may carry `@ana` (`disputed`, `uncertain`, `rejected`; none = accepted) and `@role="adapter"` (#452). The index takes as `text.author` the first author that is neither an adapter nor rejected. The evidence for a status is not copied into the header: it lives in the `<note type="attribution">` of the work in `works.xml` ([TEI-MODEL-AUTH-FILES.md §3.4](TEI-MODEL-AUTH-FILES.md#34-worksxml-register-of-works)). Three headers carry the attributes (CR rejected, BAX adapter, RHB disputed); HOF and VDH carry Stricker alone
+- `titleStmt/author` may repeat, and it may carry `@ana` (`disputed`, `uncertain`, `rejected`; none = accepted) and `@role="adapter"` (#452). The index takes as `text.author` the first author that is neither an adapter nor rejected. The evidence for a status is not copied into the header: it lives in the `<note type="attribution">` of the work in `works.xml` ([TEI-MODEL-AUTH-FILES.md §3.4](TEI-MODEL-AUTH-FILES.md#34-worksxml-register-of-works)). Three headers carry the attributes (CR rejected, BAX adapter, RHB disputed); HOF and VDH carry Stricker first and Anonym second, both without attributes
 - `<msIdentifier corresp>` points at `works.xml` via fragment ID (`works.xml#work_{id}`)
 - the primary edition is always a `<biblStruct>` with a Zotero `corresp`
 - digital intermediaries as `<bibl type="digitalIntermediary">` (ADR-012)
@@ -1007,7 +1007,7 @@ A consolidated list of all deliberately non-normalized islands of data and of th
 | RELAX NG schema (`schema/mhdbdb.rnc`) | 1.0.0 | 2026-04-09 |
 | POS tagset | 1.0 (19 tags) | 2026-03 |
 | Corpus Index | 4.2.38 | 2026-11-13 |
-| Authority Index | 1.9.35 | 2026-11-13 |
+| Authority Index | 1.9.36 | 2026-11-17 |
 | authority schema (`schema/mhdbdb-authority.rnc`) | 1.2.0 | 2026-10-02 |
 
 ---

@@ -7,7 +7,7 @@
  *
  *   CR    Anonym; Bligger von Steinach verworfen  -> "Frühere Zuschreibungen"
  *   BAX   Lamprecht; Anonym als Bearbeiter        -> kein Autor
- *   HOF   Stricker allein (Anonym entfaellt)
+ *   HOF   Stricker zuerst, Anonym als zweiter Autor (KZW 16.11.2026; VDH ebenso)
  *   RHB   Anonym zuerst, Konrad von Würzburg umstritten (zaehlt als Autor)
  *
  * "unsicher zugeschrieben" kommt in den Daten noch nicht vor (kein Werk traegt
@@ -64,12 +64,12 @@ test.describe('Zuschreibungsstatus: Leseansicht', () => {
         await expect(frueher.locator('a')).toHaveCount(0);
     });
 
-    test('HOF und VDH: Stricker allein', async ({ page }) => {
+    test('HOF und VDH: Stricker zuerst, Anonym als zweiter Autor', async ({ page }) => {
         for (const textId of ['HOF', 'VDH']) {
             await openReader(page, textId);
-            await expect(page.locator('#readingAuthor')).toHaveText('Der Stricker');
+            await expect(page.locator('#readingAuthor')).toHaveText('Der Stricker; Anonym');
             const sections = await openMetadata(page);
-            await expect(sections).not.toContainText('Anonym');
+            await expect(sections).toContainText('Anonym');
             await expect(sections).not.toContainText('Frühere Zuschreibungen');
         }
     });
