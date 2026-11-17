@@ -88,7 +88,10 @@ jobs:
   test:
     needs: gate
     if: needs.gate.outputs.run == 'true'
-    runs-on: ubuntu-latest
+    # Fest auf 24.04: ubuntu-latest zeigt seit 16.11.2026 auf 26.04 (erster roter Testlauf 17.11.), und Playwright 1.55.1
+    # bricht dort mit "Playwright does not support chromium on ubuntu26.04-x64" ab (Run 44066893608).
+    # Zurueck auf ubuntu-latest erst mit einer Playwright-Version, die 26.04 unterstuetzt.
+    runs-on: ubuntu-24.04
     timeout-minutes: 90
     permissions:
       contents: read
