@@ -26,7 +26,13 @@ Hinweis aus `CLAUDE.md` ("Who is on turn"): Eine Frage wird nur dann oben auf un
 
 Kontext darunter: Katharina hat am 16.11. bestätigt, dass die Datei liegt (Pfad `MHDBDB/Backup SEMD_Sharefolder/MHDBDB_Inhaltliches/Texte/Neue Texte Klaus/apk_free.xml`, 1.565.852 Bytes, 21.02.2013, TEI.2 mit eingebettetem CSS-Block vom Browser-Export) und geschrieben: "Offen bleibt nur die Mail an Ute Recker-Hamm (Trier) zu den Nachnutzungsbedingungen" ([Antwort](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/262#issuecomment-6914924044)). Wer die Mail schickt, sagt der Thread nicht. Christian hat sie am 10.09. vorgeschlagen und dazu geschrieben "`wait:kzw` bleibt für die Mail"; das heutige `wait:kzw` ist aber erst am 06.10. neu gesetzt worden, mit der Begründung, dass die Datei auf ihrem OneDrive liegt (Label-Historie: `wait:kzw` am 23.09. entfernt, am 06.10. wieder gesetzt). Zugesagt hat Katharina die Mail nirgends. Eine Session darf Trier nicht selbst anschreiben (Betriebsvertrag Regel 4), deshalb der Entwurf unten.
 
-Die Fragezeile ist auf die 140 Zeichen gekürzt, die `frage_text()` in `scripts/audit/build-issue-matrix.py` in ihre Liste übernimmt, und stellt deshalb nur eine Frage. Als zweiten Absatz im selben Kommentar, ohne eigene Frage-Zeile (nur die erste zählt): wie `apk_free.xml` zu uns kommt. Das Archiv liegt nur auf Katharinas OneDrive (`sources/INVENTAR-ARCHIV.md`), ohne die Datei kann keine Session Stage 0 vorbereiten. Ob sie in den DHCraft-Drive (`Projekte/mhdbdb/extern/`, Konto office@dhcraft.org) selbst schreiben kann, ist ungeprüft; Datei an Christian schicken ist der Weg, der sicher geht. Nicht ins Repo, solange die Bedingungen aus Trier nicht da sind.
+Hinweis für den, der postet: Die Fragezeile bleibt unter den 140 Zeichen, die `frage_text()` in `scripts/audit/build-issue-matrix.py` in ihre Liste übernimmt, und stellt deshalb nur eine Frage. Der Dateiweg kommt als zweiter Absatz in denselben Kommentar, ohne eigene Frage-Zeile (gezählt wird nur die erste), postfertig:
+
+```
+Und unabhängig von der Mail: Damit eine Session Stage 0 vorbereiten kann, brauchen wir `apk_free.xml` außerhalb deines OneDrive. Am einfachsten schickst du die Datei an Christian; sie kommt in den DHCraft-Drive unter `Projekte/mhdbdb/extern/` und nicht ins Repo, solange die Bedingungen aus Trier nicht da sind.
+```
+
+Ob Katharina selbst in diesen Drive-Ordner (Konto office@dhcraft.org, `sources/INVENTAR-ARCHIV.md`) schreiben kann, ist ungeprüft, deshalb der Weg über Christian.
 
 Was die Quellen schon beantworten und deshalb nicht mehr gefragt wird:
 
@@ -55,7 +61,7 @@ Mit freundlichen Grüßen
 
 Absender, Anrede und Unterschrift setzt, wer schickt. Die Lizenzangabe CC BY-NC-SA 4.0 steht in `LICENSE-DATA`.
 
-**Labels:** stimmen für die Frage (`auto:blocked`, `wait:kzw`, `ingest`, `area:data`, `effort:large`). Ist die Mail verschickt, wird `wait:kzw` zu `wait:extern` (Trier), solange Katharina nichts mehr schuldet.
+**Labels:** stimmen für die Frage (`auto:blocked`, `wait:kzw`, `ingest`, `area:data`, `effort:large`). Ist die Mail verschickt, wird `wait:kzw` zu `wait:extern` (Trier), sobald Katharina weder die Mail noch die Datei mehr schuldet.
 
 Belege: [Antwort](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/262#issuecomment-6914924044); Mail-Vorschlag im [Kommentar vom 10.09.](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/262#issuecomment-5621484163); Frage und heutige Labelbegründung vom 06.10. im [Kommentar 6010143398](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/262#issuecomment-6010143398); Rechtsvorbehalt im [Kommentar vom 06.09.](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/262#issuecomment-5561806808). Label-Historie: `gh api --paginate .../issues/262/events` (labeled/unlabeled). Thread vollständig gelesen: Body plus 6 Kommentare (`gh api --paginate .../issues/262/comments`).
 
