@@ -314,6 +314,8 @@ class LemmaPage {
     }
 
     renderExternalLinks(numericId, lemma) {
+        const lemmaId = `lemma_${numericId}`;
+        const suchbegriff = korpusSuchbegriff(lemma.lemma, lemmaId);
         const staticLinks = [
             {
                 label: 'MHDBDB (alt)',
@@ -327,7 +329,7 @@ class LemmaPage {
             },
             {
                 label: 'Im Korpus suchen',
-                url: `../korpus.html?search=${encodeURIComponent(korpusSuchbegriff(lemma.lemma, `lemma_${numericId}`))}`,
+                url: `../korpus.html?search=${encodeURIComponent(suchbegriff)}`,
                 icon: '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"></path></svg>'
             }
         ];
@@ -337,6 +339,19 @@ class LemmaPage {
                 ${link.icon} ${link.label}
             </a>`
         ).join('');
+
+        // Was der Button sucht, steht daneben (#698): eine Schreibweise bringt
+        // die Belege aller Lemmata mit, zu denen sie aufloest (CONTRACTS §C,
+        // Rosse -> ros); genau dieses Lemma sucht nur die ID.
+        const hinweis = document.getElementById('korpusSucheHinweis');
+        if (hinweis) {
+            hinweis.innerHTML = suchbegriff === lemmaId
+                ? `"Im Korpus suchen" sucht genau dieses Lemma (<span class="font-mono text-slate-700">${lemmaId}</span>).`
+                : `"Im Korpus suchen" sucht nach der Schreibweise "${escapeHtml(lemma.lemma)}". `
+                  + 'Gehören weitere Lemmata zu dieser Schreibweise, erscheinen ihre Belege mit. '
+                  + `Nur dieses Lemma: <span class="font-mono text-slate-700">${lemmaId}</span> in die Korpussuche eingeben.`;
+            hinweis.classList.remove('hidden');
+        }
 
         // Fetch Wörterbuchnetz entries asynchronously (non-blocking)
         this.fetchWoerterbuchnetz(lemma.normalized);
