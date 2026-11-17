@@ -88,6 +88,11 @@ test.describe('Links der Lemma-Seite in die Korpussuche (#467)', () => {
         await page.waitForSelector('#lemmaContent:not(.hidden)', { timeout: 30000 });
         await expect(page.locator('#externalLinks a', { hasText: 'Im Korpus suchen' }))
             .toHaveAttribute('href', `../korpus.html?search=${encodeURIComponent(MER.lemma)}`);
+        // #698: der Hinweis nennt die gesuchte Schreibweise und den Weg zu genau diesem Lemma
+        const hinweis = page.locator('#korpusSucheHinweis');
+        await expect(hinweis).toBeVisible();
+        await expect(hinweis).toContainText(`nach der Schreibweise "${MER.lemma}"`);
+        await expect(hinweis).toContainText('Nur dieses Lemma: lemma_4086');
     });
 
     test('ein Ziffern-Lemma verlinkt seine ID, nicht die Ziffer', async ({ page }) => {
@@ -97,6 +102,9 @@ test.describe('Links der Lemma-Seite in die Korpussuche (#467)', () => {
         await page.waitForSelector('#lemmaContent:not(.hidden)', { timeout: 30000 });
         await expect(page.locator('#externalLinks a', { hasText: 'Im Korpus suchen' }))
             .toHaveAttribute('href', `../korpus.html?search=${ZIFFERN_LEMMA.id}`);
+        // #698: hier sucht der Button schon die ID, der Hinweis sagt das
+        await expect(page.locator('#korpusSucheHinweis'))
+            .toHaveText(`"Im Korpus suchen" sucht genau dieses Lemma (${ZIFFERN_LEMMA.id}).`);
         // Jeder Varianten-Chip aus Ziffern zeigt auf dieses Lemma
         const chips = page.locator('#variantsContent a');
         const anzahl = await chips.count();
