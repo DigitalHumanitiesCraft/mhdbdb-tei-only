@@ -2,7 +2,7 @@
 
 Ingest der Weingrüße aus der Hybridedition von Silvan Wagner (Issue [#147](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/147)): 21 Überlieferungszeugen, 15 Handschriften und 6 Drucke, transkribiert im [Brevitas-Wiki](https://wiki.brevitas.org/wiki/Dokumentation_Edition_Weingr%C3%BC%C3%9Fe). Aufgenommen wird die Überlieferung je Zeuge, nicht der Editionstext (Silvan, Mail vom 23.10.2026).
 
-> **Stand 2026-11-18: Stufe 0 und Phase 1 bis 3 für 18 von 21 Zeugen**, nach dem Muster in [`docs/DATA-MODEL.md` → Ingest procedure](../../../docs/DATA-MODEL.md#ingest-procedure-taking-in-new-texts). Geschrieben sind die Zeugen in `ingest/bre/BRE_*.tei.xml`. B2, d4 und d6 fehlen, weil ihre Segmentierung auf Silvans Antwort wartet (`SEGMENTIERUNG_OFFEN` in `bre_common.py`). Die maschinellen Zuweisungen sind nicht geprüft, das Prüfpaket liegt in [`ingest/bre/pruefung/`](../../../ingest/bre/pruefung/README.md). Nichts davon ist in `tei/`, und `lexicon.xml` ist nicht verändert.
+> **Stand 2026-11-17: Stufe 0 und Phase 1 bis 3 für 18 von 21 Zeugen**, nach dem Muster in [`docs/DATA-MODEL.md` → Ingest procedure](../../../docs/DATA-MODEL.md#ingest-procedure-taking-in-new-texts). Geschrieben sind die Zeugen in `ingest/bre/BRE_*.tei.xml`. B2, d4 und d6 fehlen, weil ihre Segmentierung auf Silvans Antwort wartet (`SEGMENTIERUNG_OFFEN` in `bre_common.py`). Die maschinellen Zuweisungen sind nicht geprüft, das Prüfpaket liegt in [`ingest/bre/pruefung/`](../../../ingest/bre/pruefung/README.md). Nichts davon ist in `tei/`, und `lexicon.xml` ist nicht verändert.
 
 ## Quelle und Rechte
 
@@ -55,7 +55,7 @@ python -P -E scripts/ingest/bre/20-pruefpaket.py
 python -P -E scripts/ingest/bre/21-abdeckung.py --markdown
 ```
 
-Die Assign-Skripte teilen die Wörter unabhängig davon ein, ob ein Attribut schon gesetzt ist: ein zweiter Lauf schreibt dieselben Zeilen in die Pending-TSV, auch mit `--trocken` (das lässt nur die TEI unberührt), aber mit leeren Auflösungsspalten. Erst das zugehörige Apply-Skript füllt sie wieder und setzt dieselben Werte noch einmal; danach sind TEI und Pending-TSV byte-gleich zum vorigen Stand (gemessen 18.11.2026 für 10 und 13). Ein vorhandener Wert, der der Einteilung widerspricht, ist ein harter Fehler.
+Die Assign-Skripte teilen die Wörter unabhängig davon ein, ob ein Attribut schon gesetzt ist: ein zweiter Lauf schreibt dieselben Zeilen in die Pending-TSV, auch mit `--trocken` (das lässt nur die TEI unberührt), aber mit leeren Auflösungsspalten. Erst das zugehörige Apply-Skript füllt sie wieder und setzt dieselben Werte noch einmal; danach sind TEI und Pending-TSV byte-gleich zum vorigen Stand (gemessen 17.11.2026 für 10 und 13, 14 und 15 `--phase pos` und für 18, das ohne Pending-TSV auskommt und dieselben Zahlen wieder ausgibt). Ein vorhandener Wert, der der Einteilung widerspricht, ist ein harter Fehler.
 
 Der erste Lauf von `00` braucht das Netz, danach reicht `--offline`.
 
@@ -113,7 +113,7 @@ Ein Weingruß ist ein `<div type="section">`. Die xml:id folgt dem WZB-Muster `{
 
 ### Abdeckung
 
-Gemessen am 18.11.2026 mit `python -P -E scripts/ingest/bre/21-abdeckung.py --markdown`, Nenner ist je Zeile die Zahl der lexikalischen `<w>` (ohne die in `<head>`):
+Gemessen am 17.11.2026 mit `python -P -E scripts/ingest/bre/21-abdeckung.py --markdown`, Nenner ist je Zeile die Zahl der lexikalischen `<w>` (ohne die in `<head>`):
 
 | Zeuge | Datei | lexikalische `<w>` | `@lemmaRef` | `@pos` | `@ana` | `@corresp` |
 |---|---|--:|--:|--:|--:|--:|
@@ -151,7 +151,7 @@ Die mehrdeutigen hat Claude Sonnet am Kontext entschieden (Abschnitt „LLM-Ents
 
 Die Kandidaten kommen aus dem Lemma, abgebildet auf das 19er-Set (`docs/POS-TAGSET.md`): `ART` wird `DET`, `GRA` fällt weg (§3: Graduierung ist kein eigenes Tag, `wzb-pos-assign.py` bildet es auf `ADV` ab, das widerspricht §3). Ein Lemma, das nur `GRA` trägt, bekommt `ADJ`. Steht `CNJ` unter den Kandidaten, sind auch `CCNJ` und `SCNJ` erlaubt.
 
-`15-apply.py --phase pos` gibt aus: 12044 Wörter mit genau einer Wortart direkt, von 16200 mehrdeutigen 15320 entschieden (bulk-llm 12754, instance-llm 2566), 387 abstain, 493 Hapaxe (15320 + 387 + 493 = 16200). Zusammen 27364 `@pos`.
+`14-pos-assign.py` gibt 12044 Wörter mit genau einer Wortart aus, `15-apply.py --phase pos` von 16200 mehrdeutigen 15320 entschieden (bulk-llm 12754, instance-llm 2566), 387 abstain, 493 Hapaxe (15320 + 387 + 493 = 16200). Zusammen 27364 `@pos`.
 
 Ein gültiger Tag, der nicht unter den Kandidaten des Lemmas steht, wird nicht geschrieben, sondern abstain mit dem Präfix „[verworfen: X ist kein Kandidat]“ in der Begründung (`12-entscheidungen.py`). **Befund:** 132 der 387 abstain betreffen *zuo* (`lemma_7770`), das im Lexikon nur `CNJ` und `PRP` hat. Als Gradwort („zu vil“) oder Verbpartikel wäre es `ADV`. Das ist eine Lücke im Lemma, kein Fehler der Zuweisung (Zählung: `decision_type` abstain in `phase2/pos-pending.tsv`, nach `lemma_id`).
 
@@ -177,7 +177,9 @@ Ein gültiger Tag, der nicht unter den Kandidaten des Lemmas steht, wird nicht g
 
 ### Druckfahnen
 
-Kein Wortlaut aus Text, Übersetzung oder Kommentar der Hirzel-Druckfassung steht im Repository. `test_bre.py` prüft das mechanisch: jede Folge von sechs Wörtern aus der Docling-Umwandlung der Druckfahnen, die nicht auch im Wiki oder im TEI-Wortlaut vorkommt, darf in keiner Datei unter `ingest/bre/` und `scripts/ingest/bre/` stehen (TSV je Feld). Ohne die Druckfahnen im Main Worktree schlägt der Test fehl, statt still zu bestehen. Dabei gefunden: ein Zitat aus den Druckfahnen in der Spalte `abweichung_steckbrief_2022` von `ingest/bre/zeugen.tsv`, seit #654 auf `main`. Es ist in diesem Branch umformuliert, steht aber weiter in der Git-Geschichte von `main`.
+Kein Wortlaut aus Text, Übersetzung oder Kommentar der Hirzel-Druckfassung steht im Repository. `test_bre.py` prüft das mechanisch. Quelle ist der Text der Druckfahnen-PDF, den `pdftotext` auf stdout liefert (nie als Datei abgelegt, Silbentrennung am Zeilenende zusammengezogen), dazu Silvans Word-Steckbriefe von 2022 (`sources/weingruesse/docling/`), die der Kickoff zum selben Material zählt. Jede Folge von sechs Wörtern daraus, die nicht auch im Wiki oder im TEI-Wortlaut vorkommt, darf in keiner Datei unter `ingest/bre/` und `scripts/ingest/bre/` stehen (TSV je Feld) und in keiner Commit Message seit `origin/main`. Weitere Texte vor dem Absenden (PR-Body, Issue-Kommentar) prüft `BRE_DRUCK_PRUEFE=<datei>[;<datei>]`. Fehlt die PDF, `pdftotext`, die Steckbriefe oder der Wiki-Cache, schlägt der Test fehl, statt still zu bestehen. Nicht erfasst sind Folgen unter sechs Wörtern und Ziffern.
+
+Bis zur ersten Review-Runde las der Test nur die Steckbriefe und hielt sie für die Druckfahnen. Gefunden hatte er damals ein Steckbrief-Zitat in der Spalte `abweichung_steckbrief_2022` von `ingest/bre/zeugen.tsv` (Zeile C, seit #654 auf `main`), das in diesem Branch umformuliert ist. Der Test mit der PDF fand dann eine Wendung der Druckfahnen in der Spalte `ort` derselben Datei (Zeile d4, ebenfalls seit #654), jetzt in eigenen Worten. Beide stehen weiter in der Git-Geschichte von `main`. Gegenprobe am 17.11.2026: eine wörtliche Zeile aus dem PDF-Text und eine Folge über eine Silbentrennung, beide über `BRE_DRUCK_PRUEFE` eingespeist, machen den Test rot.
 
 ## Offene Entscheidungen
 
