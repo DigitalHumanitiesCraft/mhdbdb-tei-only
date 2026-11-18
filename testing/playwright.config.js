@@ -55,10 +55,10 @@ export default defineConfig({
   // Auslieferung der 42 MB pro Seitenaufbau.
   //
   // In der CI zwei: Standard-Runner haben zwei bis vier vCPUs, dort würden
-  // sechs Worker plus single-threaded Server nur noch thrashen. Heute
-  // ohnehin akademisch, weil kein Workflow `npm test` ruft, aber
-  // `forbidOnly` verzweigt hier schon auf CI, und die vCPU-Zahl ist der
-  // einzige Wert, der sich dort wirklich ändert.
+  // sechs Worker plus single-threaded Server nur noch thrashen. Wirksam im
+  // Nachtlauf (`.github/workflows/nightly-tests.yml`, #653), der `npm test`
+  // mit CI=true ruft; die vCPU-Zahl ist der einzige Wert, der sich dort
+  // wirklich ändert.
   //
   // Nichts erzwingt serielle Ausführung, mit einer Ausnahme: der Block
   // 'minne + herze im selben Vers' in `multi-lemma-export.spec.js` (#564)
