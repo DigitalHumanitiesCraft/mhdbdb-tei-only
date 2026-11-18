@@ -4,7 +4,7 @@ Herkunft der Zahlen in dieser Zeile: `gh api repos/DigitalHumanitiesCraft/mhdbdb
 
 Gelaufen als monatliche Cloud-Routine. Geschrieben wurde nichts außer dieser Datei: kein Kommentar, kein Label, kein Ping. Jede Frage wurde gegen Thread, verlinkte Tickets, Commits, Daten und Doku gehalten; die tragenden Datenbefunde (DAR_38101080_4, die *gener*-Stellen der WZB, JT_43134000_4 und JT_48611000_4, LZT_2360_0, die 11 Tokens auf `lemma_74628`, die 104 Lücken in GWTK) hat der Lauf zusätzlich selbst mit `grep` über `tei/` nachgesehen.
 
-**Ergebnis:** Keine Frage ist anderswo ganz entschieden oder ganz aus den Quellen beantwortbar (Klasse 1 und 2: je 0). 13 lassen sich enger fassen, weil Katharinas eigene frühere Antworten, eine ADR oder die Daten einen Teil schon klären. 14 bleiben offen, meist Freigaben, Prioritäten oder editorische Grundsatzentscheidungen.
+**Ergebnis:** Keine Frage ist anderswo ganz entschieden oder ganz aus den Quellen beantwortbar (Klasse 1 und 2: je 0). 11 lassen sich enger fassen, weil Katharinas eigene frühere Antworten, eine ADR oder die Daten einen Teil schon klären. 16 bleiben offen, meist Freigaben, Prioritäten oder editorische Grundsatzentscheidungen.
 
 ## Übersicht
 
@@ -20,10 +20,10 @@ Gelaufen als monatliche Cloud-Routine. Geschrieben wurde nichts außer dieser Da
 | #497 | 3 | Mauricius nach ADR-020 als entschieden behandeln (Split für die weltlichen Träger), nur Pilde bestätigen lassen. |
 | #263 | 4 | offen lassen, wie weit eine Anfrage an ihren Kontakt reicht, ist ihr Ermessen; ERM als Präzedenz für den Mnd.-Punkt mitgeben. |
 | #226 | 4 | offen lassen, Freigabe und Termin sind ihre Entscheidung. |
-| #28 | 3 | die Frage auf UR in Schicht B verengen. |
+| #28 | 4 | offen lassen, die Frage ist schon so eng, wie die Quellen es erlauben. |
 | #109 | 4 | offen lassen, den Stand des Antrags kennt nur Katharina. |
 | #265 | 4 | offen lassen, eine editorische Richtungsentscheidung. Beim nächsten Kommentar erwähnen, dass die Antwort auch #264 entscheidet. |
-| #492 | 3 | ī als erledigt melden, „Gen er“ mit den Parallelen als Bestätigung vorlegen, „salacha“ an #526 hängen. Die zwei *gener*-Stellen bei der Umsetzung mitprüfen. |
+| #492 | 3 | ī als erledigt melden, „Gen er“ mit den Parallelen als Bestätigung vorlegen, „salacha“ der Antwort in #526 folgen lassen. Die zwei *gener*-Stellen bei der Umsetzung mitprüfen. |
 | #526 | 3 | die Frage auf die Wörter ohne jeden Lemma-Kandidaten eingrenzen; die rund 90 mit Kandidat brauchen keine Grundsatzfrage. |
 | #542 | 3 | mit dem Akrostichon-Befund als Bestätigung stellen. |
 | #470 | 4 | offen lassen, eine editorische Grundsatzentscheidung; die Doku-Regel löst sie nicht auf. |
@@ -32,15 +32,15 @@ Gelaufen als monatliche Cloud-Routine. Geschrieben wurde nichts außer dieser Da
 | #460 | 3 | JT_48611000_4 als Bestätigung (zu `lemma_3102` wie jagennes), AXU_18452_5 bleibt die eigentliche Frage. |
 | #251 | 4 | offen lassen, eine Präferenz, die nur sie beantworten kann. |
 | #462 | 3 | Kommentarort und Lesung als geklärt nennen; gefragt bleiben die Freigabe des neuen Lemmas und das Ziellemma für unpeweglich. |
-| #461 | 3 | Den neuen Sense für die 12 sicheren Belege als durch ihren Kommentar vom 16.10. gedeckt behandeln und nur die 3 Zweifelsfälle fragen. |
+| #461 | 4 | offen lassen. Eine Tendenz ist keine Entscheidung, und mit `sense_49690` gibt es eine Alternative zu einem neuen Sense. Beim nächsten Kommentar die drei Zweifelsfälle und die Alternative mitgeben. |
 | #554 | 3 | Die Zählregel als durch den 16.10. entschieden zurückziehen und die Lemmatisierung als Ja/Nein-Frage stellen. |
 | #58 | 4 | offen lassen, eine Gestaltungsentscheidung, die keine Quelle beantwortet. |
 | #118 | 4 | offen lassen, eine fachliche Grundsatzentscheidung; die Spannung zu #81 beim nächsten Kommentar offenlegen. |
 | #649 | 4 | offen lassen, eine Frage der Zuständigkeit, keine Quellenfrage. |
 
-Zusammen: Klasse 1: 0, Klasse 2: 0, Klasse 3: 13, Klasse 4: 14, Summe 27.
+Zusammen: Klasse 1: 0, Klasse 2: 0, Klasse 3: 11, Klasse 4: 16, Summe 27.
 
-**Zum Einsetzen der neuen Zeilen** (Klasse 3), Hinweis aus `CLAUDE.md` („Who is on turn“): Eine Frage wird nur dann oben auf unseren letzten Kommentar editiert, wenn der neuer ist als Katharinas letzte Antwort, sonst als neuer Kommentar gepostet. Bei allen 13 Fragen der Klasse 3 ist unser letzter Kommentar neuer als ihr letzter, oder sie hat im Thread nie geschrieben; die Zeile „Zeitpunkte“ nennt je Frage die Daten. Die neuen Zeilen haben 116 bis 138 Zeichen und bleiben damit unter den 140, die `frage_text()` in `scripts/audit/build-issue-matrix.py` in ihre Liste übernimmt.
+**Zum Einsetzen der neuen Zeilen** (Klasse 3), Hinweis aus `CLAUDE.md` („Who is on turn“): Eine Frage wird nur dann oben auf unseren letzten Kommentar editiert, wenn der neuer ist als Katharinas letzte Antwort, sonst als neuer Kommentar gepostet. Bei allen 11 Fragen der Klasse 3 ist unser letzter Kommentar neuer als ihr letzter, oder sie hat im Thread nie geschrieben; die Zeile „Zeitpunkte“ nennt je Frage die Daten. Die neuen Zeilen haben samt Präfix 105 bis 139 Zeichen, bleiben also unter den 140, die `frage_text()` in `scripts/audit/build-issue-matrix.py` in ihre Liste übernimmt, und enthalten keins der Zeichen, die `frage_text()` streicht (Stern, Unterstrich, Backtick, Raute, spitze Klammer). Deshalb nennen sie Sigle und Stelle statt xml:ids.
 
 ## Klasse 1: anderswo entschieden
 
@@ -60,7 +60,7 @@ Keine.
   - **1 Fall,** PRJ_1981120_1, ist lateinisch: „quia in ore duorum vel trium stat omne verbum“. Nach `docs/POS-TAGSET.md` §6.4 wird Fremdsprachliches über `@xml:lang` erfasst, nicht über Lemma und `@pos`.
   - **Echt offen** bleiben 10 Fälle und die 2 Neulemmata: zu den fünf HZU2-Fällen schreibt sie „das scheint österreichisch zu sein, das kann ich schlecht beurteilen“, zu BRW „muss nochmal bei hennig gucken“, zu DJEM „traue ich mir nicht zu“, zu MSG „ich habe keine ahnung“; DIO und FR1 haben keine Notiz.
 - Vorschlag: die 6 Ufer-Fälle als Bestätigung vorlegen, PRJ als lateinisch aus der Frage nehmen, die übrigen 10 und die 2 Neulemmata als Restfrage stehen lassen.
-- Neue Zeile: `@wachauer Frage: Dürfen die 6 OFFEN-Belege mit deiner Notiz „neutrum NOM 5712“ wie DAR_38101080_4 auf stade (lemma_5712)?`
+- Neue Zeile: `@wachauer Frage: Dürfen die 6 offenen stat-Belege mit deiner Notiz „neutrum NOM 5712“ wie der Beleg in DAR auf stade (Ufer)?`
 - Zeitpunkte: unser letzter Kommentar 2026-09-21 (Fragezeile am 09.10. ergänzt), Katharinas letzter 2026-09-15: auf unseren Kommentar editieren möglich.
 
 ### #359 (seit 2026-09-21)
@@ -68,7 +68,7 @@ Keine.
 - Klasse: 3
 - Belege: Unser Kommentar vom [19.10.](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/359#issuecomment-6263030014) hält fest, dass drei Fälle umgezogen sind: `gebeine` (Konzept fehlt) sowie `jaget` und `jagen` (unsicher) laufen nach Katharinas Antworten vom 15.10. in #461 und #460 weiter (Commits `bef17e9dc`, `7a11b4dd9`). Offen sind hier also 14. Ihre Grundsatzentscheidung zu den Körperteilen vom [16.09.](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/359#issuecomment-5696100083) gilt; danach kam von ihr nichts. Die übrigen Fälle sind philologische Einzelentscheidungen ohne weitere Quelle.
 - Vorschlag: die Fragezeile auf die 14 verbliebenen Fälle umstellen.
-- Neue Zeile: `@wachauer Frage: Wie entscheidest du die 14 noch offenen Fälle der Borek-Prüfseite (gebeine und jaget laufen in #461/#460 weiter)?`
+- Neue Zeile: `@wachauer Frage: Wie entscheidest du die 14 noch offenen Fälle der Borek-Prüfseite (gebeine und jaget laufen in eigenen Tickets weiter)?`
 - Zeitpunkte: unser letzter Kommentar 2026-10-19, Katharinas letzter 2026-09-16: auf unseren Kommentar vom 19.10. editieren möglich.
 
 ### #237 (seit 2026-09-28)
@@ -76,24 +76,16 @@ Keine.
 - Klasse: 3
 - Belege: Nach dem 23.09. hat Katharina nicht geantwortet; die Suche nach WLK findet nur #496 (gemergt, ohne Antwort von ihr) und #487. `work_WLK` in `authority-files/works.xml` trägt bis heute weder Genre-`ptr` noch `relatedItem`. Die „Hystoria nova“ ist keine Gattung: `grep -i "hystoria\|wencesla"` findet in `genres.xml` nichts, sie ist die lateinische Vorlage, also ein Werk. Zur Wahl stehen damit zwei Gattungen: Heiligenlegende, wie VTC (`work_572`, `genres.xml#genre_2292de8a`), oder die Chronik-Gattung nach dem Auftrag AA-3 („Genre analog PUC prüfen“), dem PUC (`work_577`, `genre_00bb7cc9`) folgt. Die Teilfrage GND/Wikidata und Handschriftencensus bleibt davon unberührt.
 - Vorschlag: die Fragezeile auf die zwei echten Gattungsoptionen umstellen, GND, Census und den fehlenden Zotero-Eintrag darunter weiterführen.
-- Neue Zeile: `@wachauer Frage: Soll work_WLK die Gattung Heiligenlegende (genre_2292de8a, wie VTC) tragen, die Chronik-Gattung von PUC oder beide?`
+- Neue Zeile: `@wachauer Frage: Soll der Werkeintrag WLK die Gattung Heiligenlegende tragen (wie VTC), die Chronik-Gattung von PUC oder beide?`
 - Zeitpunkte: unser letzter Kommentar 2026-09-28 (Fragezeile am 09.10. ergänzt), Katharinas letzter 2026-09-23: editieren möglich.
 
 ### #497 (seit 2026-10-08)
 - Frage heute: Pilde bleibt unverändert, und der Sense von Mauricius wird für die weltlichen Namensträger abgespalten oder bleibt? ([Kommentar](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/497#issuecomment-6059342406))
 - Klasse: 3
-- Belege: **Mauricius ist anderswo entschieden.** ADR-020 in `docs/DECISIONS.md` stützt sich auf Katharina in [#357, 14.09.](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/357#issuecomment-5663752448): „Das gilt für alle Namen. Dass ein Namen mehrere Entitäten bezeichnet, ist ja normal.“ Die ADR folgert: „Each referent class gets its own sense … A lemma with one sense and two kinds of referent is the defect.“ `lemma_4028` hat heute einen einzigen Sense `sense_6331` (Konzepte 21012000, 23112500, 23123100, 24411100), weltliche Träger stehen in CR (etwa „mîn her maurîcius von craûn“) und REN V. 24216 („und sin bruoder muris von pilde“). **Pilde:** Katharinas Auflage vom [25.09.](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/357#issuecomment-5829639204) war, vor einer Änderung Herkunft und Quellen zu prüfen; das RDF-Export-CSV hat schon alle vier Konzepte, und 350 Senses mit „Personennamen/Familiennamen“ tragen zusätzlich ein Ortskonzept. Das Namenregister bei Hübner (DTM 39) ist nicht geprüft.
+- Belege: **Mauricius ist anderswo entschieden.** ADR-020 in `docs/DECISIONS.md` stützt sich auf Katharina in [#357, 14.09.](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/357#issuecomment-5663752448): „Das gilt für alle Namen. Dass ein Namen mehrere Entitäten bezeichnet, ist ja normal.“ Die ADR folgert: „Each referent class gets its own sense … A lemma with one sense and two kinds of referent is the defect.“ `lemma_4028` hat heute einen einzigen Sense `sense_6331` (Konzepte 21012000, 23112500, 23123100, 24411100), weltliche Träger stehen in CR (etwa „mîn her maurîcius von craûn“) und REN V. 24216 („und sin bruoder muris von pilde“). **Pilde:** Katharinas Auflage vom [25.09.](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/357#issuecomment-5829639204) war, vor einer Änderung Herkunft und Quellen zu prüfen; das RDF-Export-CSV hat schon alle vier Konzepte, und 350 Senses mit „Personennamen/Familiennamen“ tragen zusätzlich ein Ortskonzept, Pilde selbst eingerechnet. Das Namenregister bei Hübner (DTM 39) ist nicht geprüft.
 - Vorschlag: Mauricius nach ADR-020 als entschieden behandeln (Split für die weltlichen Träger), nur Pilde bestätigen lassen.
-- Neue Zeile: `@wachauer Frage: Bleibt Pilde (REN 24216) unverändert, also Ortskonzepte plus Personennamen wie bei 350 weiteren Senses?`
+- Neue Zeile: `@wachauer Frage: Bleibt Pilde (REN 24216) unverändert, also Ortskonzepte plus Personennamen wie bei 349 weiteren Senses?`
 - Zeitpunkte: unser letzter Kommentar 2026-10-08 (Fragezeile am 09.10. ergänzt), von Katharina kein Kommentar in #497: editieren möglich.
-
-### #28 (seit 2026-10-09)
-- Frage heute: Gilt "UR nein" aus deiner Entscheidung vom 29.07. auch für Schicht B, also darf die Herkunftsangabe im Lexikon auch Kirchenwortschatz wie bischof, engel, missa tragen? ([Kommentar](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/28#issuecomment-6080723878))
-- Klasse: 3
-- Belege: Ihre Entscheidung vom [29.07.](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/28#issuecomment-5117959116) fasst „ZITAT ja, UR nein“ als Regel für die Auszeichnung („Ausgezeichnet wird nur, was 1. keine mhd. Flexion trägt …“), also für Schicht A. Zu INT schreibt sie: „Die Suche [wird] aus beiden Schichten gespeist … `tjoste` erscheint bei ‚Französisch‘ so oder so.“ Der Phasenplan `docs/features/FREMDSPRACHEN-PHASENPLAN-28.md` hält fest: „Auszeichnungsregel für `@xml:lang`: … INT und UR gar nicht.“ Damit steht INT in Schicht B fest; offen ist nur, ob Urlehnwörter in B eine Herkunftsangabe bekommen.
-- Vorschlag: die Frage auf UR in Schicht B verengen.
-- Neue Zeile: `@wachauer Frage: Bekommen auch Urlehnwörter wie bischof, engel, kriuze in Schicht B eine Herkunftsangabe mit Quelle?`
-- Zeitpunkte: unser letzter Kommentar 2026-11-08 (Statusnotiz), Katharinas letzter 2026-09-17: auf die Notiz vom 08.11. editieren.
 
 ### #492 (seit 2026-10-09)
 - Frage heute: Wie sollen drei Split-Tokens der Wenzelsbibel lemmatisiert werden ("Gen er" in Lev 16,26, ī mit Makron, "salacha")? ([Kommentar](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/492#issuecomment-6085809023))
@@ -102,8 +94,8 @@ Keine.
   - **ī ist erledigt:** WZB_143vb_10_4 trägt `lemmaRef="lexicon.xml#lemma_3028" pos="PRP"`, gekommen mit #534 (siehe [#526, 07.10.](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/526#issuecomment-6034297936)).
   - **„Gen er“:** In `tei/WZB.tei.xml` lautet die Stelle „her ouf dem alter Gen er / vor war der do hat gelasen den“ (WZB_116va_14/15), beide Tokens ohne `@lemmaRef`. Die WZB schreibt *jener* auch sonst mit g: „aber gener sach sie an swigende“ (WZB_21rb_22_0), „Ich wart gegeben meinem ampte wider vnd gener wart gehangen“ (WZB_42ra_17_3); die Vulgata ist nicht nachgeschlagen. Beide Parallelstellen hängen heute an `lemma_2122` *genern* (VRB), vermutlich eine Fehlannotation. `lemma_3114` *jener* ist in der WZB 20-mal belegt, alle als ADJ.
   - **„salacha“:** WZB_227ra_19_1b, „perge / vnd in salacha | vnd“, kein Lexikoneintrag. Die WZB annotiert Namen (169 `pos="NAM"`), ob neue Namenslemmata angelegt werden dürfen, ist dieselbe Grundsatzfrage wie in #526.
-- Vorschlag: ī als erledigt melden, „Gen er“ mit den Parallelen als Bestätigung vorlegen, „salacha“ an #526 hängen. Die zwei *gener*-Stellen bei der Umsetzung mitprüfen.
-- Neue Zeile: `@wachauer Frage: Dürfen wir „Gen er“ (Lev 16,26) zu gener (jener) zusammenführen, ī als in bestätigen und „salacha“ als Namen neu anlegen?`
+- Vorschlag: ī als erledigt melden, „Gen er“ mit den Parallelen als Bestätigung vorlegen, „salacha“ der Antwort in #526 folgen lassen. Die zwei *gener*-Stellen bei der Umsetzung mitprüfen.
+- Neue Zeile: `@wachauer Frage: Dürfen wir „Gen er“ in der WZB (Lev 16,26) zu einem Wort gener (= jener) zusammenführen?`
 - Zeitpunkte: unser letzter Kommentar 2026-10-09, von Katharina kein Kommentar im Thread: editieren möglich.
 
 ### #526 (seit 2026-10-09)
@@ -119,7 +111,7 @@ Keine.
 - Klasse: 3
 - Belege: In `tei/MR2.tei.xml` steht V. 1 (`MR2_20155200001100_0` bis `_9`) ganz in `<supplied>`. Das Gedicht ist ein Abecedarius, dessen Alphabet erst mit V. 2 beginnt: „ach edeliu …“, V. 3 „by dir …“, V. 4 „cur haut …“, V. 5 „das sie …“, V. 6 „ein diener …“ bis V. 22 „xius …“, V. 23 „yetz …“, V. 24 „zart frow …“. V. 1 steht außerhalb des Akrostichons, beschreibt die Form und endet auf das lateinische „etc“: das spricht für einen Herausgeberhinweis. `<supplied>` allein entscheidet nichts, denn auch echte Versergänzungen stehen darin (V. 87). Ob die Zeile in der Handschrift steht, sagt nur die Edition, die nicht im Repo liegt.
 - Vorschlag: mit dem Akrostichon-Befund als Bestätigung stellen.
-- Neue Zeile: `@wachauer Frage: V. 1 „das ist das a b c d e f etc“ steht vor dem Akrostichon (a bis z ab V. 2): als Herausgeberzusatz entannotieren?`
+- Neue Zeile: `@wachauer Frage: Ist „das ist das a b c d e f etc“ (MR2, V. 1) ein Herausgeberzusatz, da das Akrostichon a bis z erst mit V. 2 beginnt?`
 - Zeitpunkte: unser letzter Kommentar 2026-10-10, von Katharina kein Kommentar im Thread: editieren möglich.
 
 ### #419 (seit 2026-10-16)
@@ -133,7 +125,7 @@ Keine.
 ### #460 (seit 2026-10-16)
 - Frage heute: Gehören AXU_18452_5 und JT_48611000_4 mit dem längeren Kontext unten zum Verb jagen oder zum Nomen jagât? ([Kommentar](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/460#issuecomment-6212801872))
 - Klasse: 3
-- Belege: Zu JT_48611000_4 („andolt, der meister jagenes“): Katharina hat am [15.10.](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/460#issuecomment-6195157283) die gleiche Form `JT_43134000_4` „der erste was er jagennes“ als „Verb“ entschieden; der Token steht heute auf `lemma_3102` (VRB). Zwei Verse später steht „den baten si do sagenes“ (`JT_48612000_4`, `lemma_5061` VRB). Substantivierte Infinitive hängen im Korpus am Infinitiv-Lemma (36 × `lebenes` in JT auf `lemma_3659` leben). Zu AXU_18452_5 („die wârheit hie dem gelîche jaget :“) liefern die Quellen nichts Neues.
+- Belege: Zu JT_48611000_4 („andolt, der meister jagenes“): Katharina hat am [15.10.](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/460#issuecomment-6195157283) die gleiche Form `JT_43134000_4` „der erste was er jagennes“ als „Verb“ entschieden; der Token steht heute auf `lemma_3102` (VRB). Zwei Verse später steht „den baten si do sagenes“ (`JT_48612000_4`, `lemma_5061` VRB). Zu AXU_18452_5 („die wârheit hie dem gelîche jaget :“) liefern die Quellen nichts Neues.
 - Vorschlag: JT_48611000_4 als Bestätigung (zu `lemma_3102` wie jagennes), AXU_18452_5 bleibt die eigentliche Frage.
 - Neue Zeile: `@wachauer Frage: Kommt jagenes (JT) wie jagennes zu jagen, und gehört jaget in AXU 18452 zum Verb jagen oder zum Nomen jagât?`
 - Zeitpunkte: unser letzter Kommentar 2026-10-16, Katharinas letzter 2026-10-15: editieren möglich.
@@ -146,20 +138,12 @@ Keine.
 - Neue Zeile: `@wachauer Frage: Neues Lemma deliciae für indeliciis (ADP) samt deinem Ez-28,13-Kommentar, und unpeweglich zu unbewëgelich umhängen?`
 - Zeitpunkte: unser letzter Kommentar 2026-10-18, Katharinas letzter 2026-10-16: editieren möglich.
 
-### #461 (seit 2026-10-18)
-- Frage heute: Sollen wir für die lebenden Gebeine eine eigene Bedeutung an `lemma_1958` anlegen und die 12 sicheren (plus 3 zweifelhafte) Belege von `sense_3004` dorthin umhängen, wie du es vermutet hast? ([Kommentar](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/461#issuecomment-6249713487))
-- Klasse: 3
-- Belege: Den Grundsatz hat Katharina vor der Frage selbst geäußert: „Ich tendiere dazu, eine weitere Bedeutung für die lebenden Gebeine anzulegen und diese umzuhängen“ ([16.10.](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/461#issuecomment-6216809576)). Die Frage vom 18.10. bestätigt im Kern ihren eigenen Vorschlag nach der Messung, die sie verlangt hatte (12 lebend, 3 mit Zweifel, `ingest/review/461-gebeine/sense3004-lebend.tsv`). Die 2 Ochsen sind seit #688 erledigt (Commit `eb82b96`). Ihre Regel vom 15.10. („bei unklaren Gebeinen an die menschlichen“) entscheidet Mensch gegen Tier, nicht lebend gegen tot. Die 3 Zweifelsfälle aus der TSV: `HTR_214570_5` „die fleisch do wâren und [[gebein]] / die sint nu holz erde und stein“; `JEW_2330900000_1` „die ammen man ûf ein rat bant / ir [[gebein]] hiez man zerstôzen“; `ROL_3841_3` „wir treten si in den graben / daz ir unraine [[gebaine]] / daz ir lebentic nehaine“. Nebenbefund: `sense_49690` in `lexicon.xml` trägt nur `concept_21030000`, ohne Tod-Konzept, und wäre eine Alternative zu einem neuen Sense.
-- Vorschlag: Den neuen Sense für die 12 sicheren Belege als durch ihren Kommentar vom 16.10. gedeckt behandeln und nur die 3 Zweifelsfälle fragen.
-- Neue Zeile: `@wachauer Frage: Kommen die 3 zweifelhaften lebenden Gebeine (HTR_214570_5, JEW_2330900000_1, ROL_3841_3) mit auf den neuen Sense?`
-- Zeitpunkte: unser letzter Kommentar 2026-11-08, Katharinas letzter 2026-10-16: auf unseren Kommentar vom 08.11. editieren.
-
 ### #554 (seit 2026-10-18)
 - Frage heute: Wie sollen die vier unklaren trûbe-Belege (HIS_98_2, WZB_79rb_15_5, FR1_2007050_8, ROT_19160_2) annotiert werden, und ist es für die ersetzten Trefferzahlen in Ordnung, dass nur Wörter mit Lemma-Annotation gezählt sind? ([Kommentar](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/554#issuecomment-6250915880))
 - Klasse: 3
 - Belege: Die zweite Teilfrage hat Katharina am [16.10.](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/554#issuecomment-6216557849), Punkt 4, beantwortet: „Sie durch heutige Lemmazahlen zu ersetzen, ist ausdrücklich in Ordnung … die aktuellen Zahlen sind am heutigen Korpus zu ermitteln.“ Die erste ist offen. Alle 4 Tokens stehen weiter auf `lemma_15282` (trûbe, Traube), `sense_25272`, `pos="NOM"`. Kontext: HIS_98_2 „ein vakeln hecht so schone quam daz di [[trube]] gar benam di sich e ob dem schiffe truc“; WZB_79rb_15_5 „rufte im vnser herre ous der mitte der [[trube]] Aber die gestalt der eren“; FR1_2007050_8 „wer gap verkoufter joseph heil der [[trüben]] sel“; ROT_19160_2 „manige werlt wunne vnde ovch [[trube]] dar vnder“. `trüebe` (`lemma_6251`) führt nur ADJ/ADV/GRA, kein Substantiv. FR1 liest sich attributiv, HIS, WZB und ROT substantivisch; ein Lexikonnachweis für ein Substantiv (etwa Lexer) ist nicht geprüft.
 - Vorschlag: Die Zählregel als durch den 16.10. entschieden zurückziehen und die Lemmatisierung als Ja/Nein-Frage stellen.
-- Neue Zeile: `@wachauer Frage: Sollen HIS_98_2, WZB_79rb_15_5, ROT_19160_2 ein neues Substantiv trüebe bekommen, FR1_2007050_8 das Adjektiv trüebe?`
+- Neue Zeile: `@wachauer Frage: Sollen die unklaren trûbe-Belege in HIS, WZB und ROT ein neues Substantiv trüebe bekommen, der in FR1 das Adjektiv trüebe?`
 - Zeitpunkte: unser letzter Kommentar 2026-11-04, Katharinas letzter 2026-10-16: editieren möglich.
 
 ## Klasse 4: bleibt offen
@@ -206,6 +190,13 @@ Keine.
 - Vorschlag: offen lassen, Freigabe und Termin sind ihre Entscheidung.
 - Zeitpunkte: unser letzter Kommentar 2026-10-09, von Katharina kein Kommentar im Thread.
 
+### #28 (seit 2026-10-09)
+- Frage heute: Gilt "UR nein" aus deiner Entscheidung vom 29.07. auch für Schicht B, also darf die Herkunftsangabe im Lexikon auch Kirchenwortschatz wie bischof, engel, missa tragen? ([Kommentar](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/28#issuecomment-6080723878))
+- Klasse: 4
+- Belege: Ihre Entscheidung vom [29.07.](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/28#issuecomment-5117959116) fasst „ZITAT ja, UR nein“ als Regel für die Auszeichnung („Ausgezeichnet wird nur, was 1. keine mhd. Flexion trägt …“), also für Schicht A. Zu INT schreibt sie: „Die Suche [wird] aus beiden Schichten gespeist … `tjoste` erscheint bei ‚Französisch‘ so oder so.“ Der Phasenplan `docs/features/FREMDSPRACHEN-PHASENPLAN-28.md` hält fest: „Auszeichnungsregel für `@xml:lang`: … INT und UR gar nicht.“ Das betrifft Schicht A und INT; zu UR in Schicht B, also genau dem, was gefragt ist, sagen die Quellen nichts.
+- Vorschlag: offen lassen, die Frage ist schon so eng, wie die Quellen es erlauben.
+- Zeitpunkte: unser letzter Kommentar 2026-11-08 (Statusnotiz), Katharinas letzter 2026-09-17.
+
 ### #109 (seit 2026-10-09)
 - Frage heute: Ist der FWF-Antrag eingereicht, und braucht er von uns noch technische Klarstellungen? ([Kommentar](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/109#issuecomment-6085793747))
 - Klasse: 4
@@ -240,6 +231,13 @@ Keine.
 - Belege: Katharina schrieb zuletzt am 08.09., zur Zählerfrage nie. Julias Rückmeldung vom 16.10. betrifft die Anzeige, nicht den Zähler. `componentPicked` in `playground/js/ui/authority/lemma-explorer.js` führt weiter Schreibformen, nicht Lemma-IDs.
 - Vorschlag: offen lassen, eine Präferenz, die nur sie beantworten kann.
 - Zeitpunkte: unser letzter Kommentar 2026-10-18, Katharinas letzter 2026-09-08.
+
+### #461 (seit 2026-10-18)
+- Frage heute: Sollen wir für die lebenden Gebeine eine eigene Bedeutung an `lemma_1958` anlegen und die 12 sicheren (plus 3 zweifelhafte) Belege von `sense_3004` dorthin umhängen, wie du es vermutet hast? ([Kommentar](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/461#issuecomment-6249713487))
+- Klasse: 4
+- Belege: Katharina hat vor der Frage eine Tendenz geäußert, unter der Bedingung einer Messung: „Du solltest erst messen … Ich tendiere dazu, eine weitere Bedeutung für die lebenden Gebeine anzulegen und diese umzuhängen“ ([16.10.](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/461#issuecomment-6216809576)). Die Messung liegt vor (12 lebend, 3 mit Zweifel, `ingest/review/461-gebeine/sense3004-lebend.tsv`), entschieden hat sie danach nichts; unsere Statusnotiz vom [08.11.](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/461#issuecomment-6724797893) sagt selbst: „Die Frage vom 18.10. (eigener Sense für die lebenden Gebeine?) bleibt offen.“ Die 2 Ochsen sind seit #688 erledigt (Commit `eb82b96`). Ihre Regel vom 15.10. („bei unklaren Gebeinen an die menschlichen“) entscheidet Mensch gegen Tier, nicht lebend gegen tot. Die 3 Zweifelsfälle aus der TSV: `HTR_214570_5` „die fleisch do wâren und [[gebein]] / die sint nu holz erde und stein“; `JEW_2330900000_1` „die ammen man ûf ein rat bant / ir [[gebein]] hiez man zerstôzen“; `ROL_3841_3` „wir treten si in den graben / daz ir unraine [[gebaine]] / daz ir lebentic nehaine“. Nebenbefund: `sense_49690` in `lexicon.xml` trägt nur `concept_21030000`, ohne Tod-Konzept, und wäre eine Alternative zu einem neuen Sense.
+- Vorschlag: offen lassen. Eine Tendenz ist keine Entscheidung, und mit `sense_49690` gibt es eine Alternative zu einem neuen Sense. Beim nächsten Kommentar die drei Zweifelsfälle und die Alternative mitgeben.
+- Zeitpunkte: unser letzter Kommentar 2026-11-08, Katharinas letzter 2026-10-16.
 
 ### #58 (seit 2026-10-18)
 - Frage heute: Soll der Knopf „Gesamten Text öffnen“ im Kopf der Trefferkarte bleiben, oder lieber in eine eigene Zeile darunter? ([Kommentar](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/58#issuecomment-6253011809))
