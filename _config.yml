@@ -1,0 +1,14 @@
+# GitHub Pages builds this site from the repository root, so every tracked
+# file is served unless excluded here. Agent instructions and the project's
+# internal knowledge stay in the repository but are not part of the site.
+# Setting exclude replaces Jekyll's defaults, so they are repeated.
+exclude:
+  - CLAUDE.md
+  - GEMINI.md
+  - fehlerjournal.md
+  - docs/JOURNAL.md
+  - docs/journal-archive.md
+  - Gemfile
+  - Gemfile.lock
+  - node_modules/
+  - vendor/
