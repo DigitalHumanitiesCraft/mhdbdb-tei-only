@@ -12,6 +12,8 @@ metadata:
 - `git range-diff <altbasis>..<altkopf> <neubasis>..HEAD`: `!` an JOURNAL- oder MEMORY-Commits sind meist fremde Kontextzeilen. Nullprobe `git diff <alt> <neu> -- <dateien> | wc -l` = 0. Konfliktmarker per `git grep -n -E '^(<<<<<<<|=======|>>>>>>>)'`.
 - Relative Revisionen in einer Behauptung („HEAD~1 (vor X)") sind seit ihrer Messung womöglich weitergerückt: `git diff --stat <rev> HEAD -- <datei>` zeigt, ob die Revision die Datei überhaupt anders hat.
 
+**Gitignorierte Nutzlast im Prüfgegenstand** (lokale Fremdquelle unter `sources/`): `stash create`, `status` und `ls-files --others --exclude-standard` sehen sie nicht, die Pinning-ID hält sie also nicht fest. Am Anfang und Ende selbst hashen (`sha256sum`), dazu `git check-ignore -v` und `git ls-files <ordner>` (leer = nichts versehentlich getrackt).
+
 **Herkunft:** „Seit #N kein Leser": `git log --oneline -S"<objekt>.<feld>" -- <pfade>`. „Folgestellen korrigiert": `git log -S <phrase> origin/main..HEAD`. Blob gleich Runner-Build: `git fetch origin refs/pull/<N>/head`, `git rev-parse FETCH_HEAD:<p> HEAD:<p>`.
 
 **Squash (Repo-Konvention)**
