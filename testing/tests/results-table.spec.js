@@ -127,8 +127,14 @@ test.describe('Issue #114: Tabellenansicht für Korpussuche', () => {
 
         await page.click('#resultsList tbody tr:first-child');
 
-        // viewMode wechselt auf list
-        await page.waitForFunction(() => window._mhdbdbApp.viewMode === 'list', null, { timeout: 5000 });
+        // viewMode wechselt auf list. Der Klick-Handler setzt ihn synchron,
+        // danach laedt der Reader den Text asynchron; solange der Main-Thread
+        // belegt ist, kommt die Auswertung dieses Calls nicht dran (Retry-Trace
+        // des Nachtlaufs 44282052200: ein triviales localStorage.clear() im
+        // Teardown brauchte 9,3 s; was den Thread belegt, ist nicht gemessen).
+        // Bis 18.11.2026 stand hier eine eigene Grenze von 5 s, in die dieser
+        // Nachtlauf hineinlief. Jetzt gilt das Testbudget.
+        await page.waitForFunction(() => window._mhdbdbApp.viewMode === 'list');
         const viewMode = await page.evaluate(() => window._mhdbdbApp.viewMode);
         expect(viewMode).toBe('list');
 
