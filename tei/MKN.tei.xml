@@ -103,7 +103,7 @@
                   <orgName>Electronic Text Center, University of Virginia</orgName>
                 </respStmt>
                 <date notBefore="2001" notAfter="2003">2001–2003</date>
-                <ref target="http://etext.lib.virginia.edu/german/mhg"/>
+                <ref target="https://mhdwb-online.de/textarchiv.php"/>
                 <note type="provenance">E-Text aus dem Mittelhochdeutschen Textarchiv (MHGTA), Kooperationsprojekt von Mainz, Trier und Virginia. Von der MHDBDB als elektronische Vorlage übernommen.</note>
                 <note type="fidelity">Keine diplomatische Transkription der Druckedition. Abweichungen sind möglich.</note>
               </bibl>
@@ -159,6 +159,7 @@
       <change when="2026-08-24" who="#editor">#216 Serie 1 (minne): 2 homographie-ambige Tokens der Form minne kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu minne NOM bzw. minnen VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/216-minne/).</change>
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 2 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
       <change when="2026-09-30" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization an den Stand der Annotation angeglichen (723 von 889 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;Lemmatisiert, noch nicht disambiguiert.&#34;</change>
+      <change when="2026-11-19" who="#editor">#262: Toten Link des Electronic Text Center (etext.lib.virginia.edu) in der elektronischen Zwischenstufe durch das Textarchiv des Mittelhochdeutschen Wörterbuchs (mhdwb-online.de) ersetzt, in dem das MHGTA aufgegangen ist.</change>
     </revisionDesc>
   </teiHeader>
   <text>
