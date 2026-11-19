@@ -22,6 +22,7 @@ metadata:
 - `findall` statt `find` (Doppelsiglen), lxml `find('x')` = nur direkte Kinder, `id(elem)` ist keine Identität: `tree.getpath()` plus Datei.
 - JS `Math.round` = `math.floor(x + 0.5)`, nicht `round()`. Tokens (w+pc) sind nicht Wörter.
 - Restsuche nach Katalogzahlen über die Zahlwörter mit `\b`, nicht über das Nomen. CSVs oft `;` plus BOM (`utf-8-sig`). Leere Suche: Control (`type="sigle"` trifft jede Korpusdatei).
+- Entfernte Zeilen eines Diffs nie mit `grep '^-[^-]'` zählen: eine Markdown-Listenzeile wird zu `-- **…` und fällt still heraus (19.11.2026: 7 statt 12 Semikola). `grep '^-' | grep -v '^--- a/'`, dazu je Zeile die Zahl ausgeben und gegen den Diff halten.
 - Treffer über Lemmata verlieren die unannotierten Formen (rund ein Fünftel der `<w>` ohne `@lemmaRef`, Stand Oktober 2026), „hintereinander" über annotierte Tokens springt Wörter. Gegenprobe über alle `<w>`.
 
 **JS ohne Browser**
