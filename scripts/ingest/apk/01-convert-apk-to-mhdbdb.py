@@ -413,6 +413,7 @@ HEADER = """<teiHeader xmlns="http://www.tei-c.org/ns/1.0">
         <p xml:lang="de">Lokale Dateireferenzen (z.B. persons.xml#person_445, lexicon.xml#lemma_879, genres.xml#genre_XXX) verweisen auf kontrollierte Vokabulare im authority-files Verzeichnis dieses Repositorys. Diese internen Querverweise ermöglichen die Verknüpfung mit Personen-, Werk-, Lemma-, Konzept-, Genre- und Namensautoritätsdateien.</p>
         <p xml:lang="en">Local file references (e.g. persons.xml#person_445, lexicon.xml#lemma_879, genres.xml#genre_XXX) point to controlled vocabularies in the authority-files directory of this repository. These internal cross-references enable linking to person, work, lemma, concept, genre, and name authority files.</p>
         <p xml:lang="de">Gesperrt gesetzter Text (hi rend="doublespace") entspricht nach der Vorlage Bibelzitaten. Kursiv (hi rend="italic") steht, wo die Vorlage ein hi ohne rend trägt. Korrekturen (corr resp="editor") stehen mit ihrem Inhalt im Text, die Auszeichnung der Vorlage samt sic wörtlich als Kommentar dahinter.</p>
+        <p xml:lang="de">Die Verse tragen nur @n. Die Vers-ID der Vorlage ist daraus ableitbar (n="1" entspricht id="Apk-00001", Muster Apk- und n fünfstellig mit führenden Nullen). Der Konverter prüft das für jeden Vers und bricht bei einer Abweichung ab.</p>
         <normalization>
           <p>Groß- und Kleinschreibung, Interpunktion und Verszählung folgen der Ausgabe in der Fassung des MHGTA.</p>
           <p>Noch nicht lemmatisiert und disambiguiert.</p>
