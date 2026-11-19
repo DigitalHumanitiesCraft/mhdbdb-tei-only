@@ -35,8 +35,9 @@ und über alle Refs: zu keiner der fehlenden Nummern gibt es einen Eintragstext
 nicht über den Dateinamen der Regel.** Ein Grep nach `eigene-quellen.md`
 findet auch Einträge, die sie im Fließtext erwähnen, und findet die nicht,
 die ihre Lehre in Prosa benennen; beides ist hier vorgekommen. Die
-Zuweisung steckt ausschließlich im Absatz, der mit „Die Lehre" beginnt,
-und eine Nennung darin zählt, auch eine beiläufige. **Ein Eintrag kann
+Zuweisung steckt ausschließlich im Absatz, der mit dem Feld
+`**Welche Lehre nicht gegriffen hat:**` beginnt (bis zum 19.11.2026: mit
+„Die Lehre"), und eine Nennung darin zählt, auch eine beiläufige. **Ein Eintrag kann
 dabei mehr als einen Fall tragen** (Eintrag 39 trägt zwei), und an einem
 Tag mit mehreren Spuren entstehen Zeilen parallel, sodass jede von Hand
 gezählte Ordinalzahl zu niedrig ausfällt, sobald eine Nachbarspur
@@ -46,11 +47,26 @@ dazwischen schreibt.
 Namen lassen sich falsifizieren, eine Anzahl nicht. Am 21.09.2026 trug
 dieser Bestand drei unvereinbare Zählungen für dieselbe Lehre,
 geschrieben von drei Sessions desselben Tages, und aufgelöst werden
-konnten sie erst, als jemand die Nummern nebeneinanderlegte. **Der
-Lehren-Zähler aus `claude-code-setup` hilft dabei nicht:** er erwartet
-das Format `## Fehler N (rot)` und findet in dieser Datei null Zeilen,
-gemessen am 21.09.2026 gegen seinen Kontrollwert von 35 auf seinem eigenen
-Journal. Jede Kettenzahl hier ist Handarbeit.
+konnten sie erst, als jemand die Nummern nebeneinanderlegte.
+
+**Das Format eines Eintrags, seit dem 19.11.2026** (chsteiner/claude-code-setup#151,
+dort `rules/wiederholte-fehler.md`): Kopf `### Fehler N (rot), TT.MM.JJJJ: <Titel>`
+unter der Tagesüberschrift, darin die Felder
+`**Welche Lehre nicht gegriffen hat:**` und
+`**Letzte Zeile zu derselben Lehre:**`, mit Doppelpunkt. Nur so liest der
+Lehren-Zähler aus `claude-code-setup` die Datei:
+
+    python <claude-code-setup>/hooks/lehren-zaehlen.py --ohne-ausgang fehlerjournal.md
+
+Bis zum 19.11.2026 stand hier `### N. Rot: …`, und der Zähler fand null
+Zeilen. Bei der Umstellung kam das Datum im Kopf aus dem Titel, wo er eins
+trug, sonst aus der Tagesüberschrift, und bei 64, 65, 70, 71, 73, 95 und
+96 aus dem Commit, der den Eintrag anlegte. Die Einträge 1 bis 35 außer 7
+haben keinen eigenen Absatz zur Lehre und tragen das Feld deshalb nicht.
+Am 19.11.2026 ergab der Aufruf 106 rote Zeilen, davon 50 keiner Gruppe
+zugeordnet: 34 ohne das Feld, 8 mit der projekteigenen `CLAUDE.md` als
+Fundstelle, 8 mit einer Fundstelle, die der Zähler nicht kennt. Die
+Kettenzahl einer Lehre aus Projektregeln bleibt also Handarbeit.
 
 
 ## 2026-09-01 – Der Lauf, der seriell blieb, weil die abgeleitete Schicht global ist
@@ -904,7 +920,7 @@ Gefangen hat es die eigene Nachmessung wenige Minuten später, also ein
 mitlaufender Kontrollwert und nicht die Lehre. Der Hinweis steht jetzt in
 einem eigenen Absatz und nennt die fremde Gruppe nicht beim Namen.
 
-### Fehler 64 (rot), 21.09.2026: 57 MB lizenzgebundenes Fremdmaterial in ein privates Google-Konto kopiert, weil ich eine Regel geglaubt habe, die sich selbst als ungemessen ausweist.
+### Fehler 64 (rot), 22.09.2026: 57 MB lizenzgebundenes Fremdmaterial in ein privates Google-Konto kopiert, weil ich eine Regel geglaubt habe, die sich selbst als ungemessen ausweist.
 
 **Rot.** Beim Auslagern des Trierer Findebuch-Dumps und einer De-Gruyter-PDF
 aus dem Arbeitsbaum habe ich sie nach `G:\Meine Ablage\MHDBDB\extern\`
@@ -939,7 +955,7 @@ belegt. Eine Regel, die eine ungeprüfte Angabe als Handlungsanweisung
 formuliert, ist gefährlicher als keine Regel, weil ihre Herkunftsangabe im
 Moment des Handelns nicht mitgelesen wird.
 
-### Fehler 65 (rot), 21.09.2026: eine Zahl aus der Störungsseite eines Dienstes gezählt und als Bestandsangabe ins README geschrieben.
+### Fehler 65 (rot), 22.09.2026: eine Zahl aus der Störungsseite eines Dienstes gezählt und als Bestandsangabe ins README geschrieben.
 
 **Rot.** Auf der Suche nach einem Rückfallweg für das verlorene WordPress unter
 `mhdbdb.sbg.ac.at:8300` habe ich die CDX-API des Internet Archive abgefragt und
@@ -978,7 +994,7 @@ ausdrücklich, dass ein Kontrollwert von null eine Störung bedeutet und keine
 Leermenge. `scripts/wayback_pruefen.py` setzt das um und unterscheidet die
 Störungsseite von der echten Leermenge.
 
-### Fehler 70 (rot), 21.09.2026: eine Trefferzeile selbst abgeschnitten und das Abgeschnittene als Nichttreffer gelesen.
+### Fehler 70 (rot), 23.09.2026: eine Trefferzeile selbst abgeschnitten und das Abgeschnittene als Nichttreffer gelesen.
 
 **Rot.** Für #446 („das Korpus“) habe ich die maskulinen Formen richtig gesucht,
 die Ausgabe aber mit `cut -c1-220` gekürzt. Die Zeile
@@ -999,7 +1015,7 @@ sie für den Abschlussbericht vorhält. Korrigiert wurde sie wenige Minuten
 später, bevor sie weiterging, und die Koordination hat bestätigt, die Fünf
 nicht weiterzugeben. Der Code war zu diesem Zeitpunkt nur lokal committet.
 
-### Fehler 71 (rot), 21.09.2026: Port 8080 als frei gemeldet, weil die Gegenprobe auf einem deutschen Windows nach „LISTEN“ suchte.
+### Fehler 71 (rot), 23.09.2026: Port 8080 als frei gemeldet, weil die Gegenprobe auf einem deutschen Windows nach „LISTEN“ suchte.
 
 **Rot.** Nach der Chrome-Prüfung habe ich den Dev-Server über `TaskStop` auf die
 Hintergrund-Shell beendet. Das beendet die bash-Hülle von `npm run serve`,
@@ -1022,7 +1038,7 @@ Gefunden hat es die Messung der Koordination, nicht meine. Beenden konnte ich
 den Prozess danach nicht: `taskkill` und `Stop-Process` hat der
 Auto-Mode-Classifier abgelehnt, und die Blockade ging an Christian.
 
-### Fehler 73 (rot), 21.09.2026: aus einem gemessenen Abbruch auf seine Ursache geschlossen und die Ursache in einen PR-Body geschrieben.
+### Fehler 73 (rot), 23.09.2026: aus einem gemessenen Abbruch auf seine Ursache geschlossen und die Ursache in einen PR-Body geschrieben.
 
 **Rot.** Claude Code hat am 23.09.2026 die Parallelprobe für #465 (zwei Volläufe mit je sechs Workern) wegen Speichermangels beendet. Gemessen war der Abbruch, sonst nichts. Im Body von PR #472 stand danach, die Läufe seien abgebrochen worden, „während auch andere Sessions liefen", und im Inbox-Wortlaut für `docs/DEVELOPMENT.md` hieß es „other sessions active". Belegt ist ein fremder Prozess nur für einen späteren, einzelnen Abbruch: beim ersten Versuch der Spec-Abgleich-Mutation lauschte PID 38672 auf 8080. Für die Parallelprobe selbst habe ich nie nachgesehen, was sonst lief.
 
@@ -1032,7 +1048,7 @@ Auto-Mode-Classifier abgelehnt, und die Blockade ging an Christian.
 
 **Kein neuer Mechanismus:** `agentenbefunde.md` ist seit dem 16.09.2026 ausdrücklich ausgesetzt, weil kein Muster sieht, ob ein Satz mehr behauptet als seine Quelle hergibt. Die Aussetzung ist nach `wiederholte-fehler.md` selbst der Mechanismus.
 
-### Fehler 96 (rot), 21.09.2026: eine Stellenangabe in einen Code-Kommentar geschrieben, die ich nirgends gemessen hatte.
+### Fehler 96 (rot), 04.10.2026: eine Stellenangabe in einen Code-Kommentar geschrieben, die ich nirgends gemessen hatte.
 
 **Rot.** Im div-Zweig von `tei-text-reader.js` stand für #358 der Kommentar „Beginnt ein Buch am Anfang dieses div (Buch V bei 4,1)“. Die Stelle habe ich aus keiner Quelle genommen; sie klang nach einem Beispiel. Die einzigen Buchgrenzen im Repo stehen im Laufplan (II 58,27, III 116,5, IV 179,13, dort als ungeprüft) und sind nicht 4,1: Dreißiger 4 liegt mitten in Buch I.
 
@@ -1052,7 +1068,7 @@ Auto-Mode-Classifier abgelehnt, und die Blockade ging an Christian.
 
 **Kein neuer Mechanismus:** der Hook existiert und hat gegriffen. Die Lücke ist das `cd` in ein Verzeichnis außerhalb des Arbeitsverzeichnisses; sie steht als Beobachtung hier und nicht als eigener Hook.
 
-### Fehler 95 (rot), 21.09.2026: einen Reviewerbefund mit derselben fehlerhaften Messung bestätigt, mit der er entstanden war.
+### Fehler 95 (rot), 02.10.2026: einen Reviewerbefund mit derselben fehlerhaften Messung bestätigt, mit der er entstanden war.
 
 **Rot.** Der `fable-reviewer` meldete in Runde 1 zu #228 B1, `flex-shrink-0` habe in `assets/css/tailwind-output.css` keine Regel. Ich habe nachgemessen und 0 Treffer bekommen, mit `grep -c "flex-shrink-0{"`, also mit der Form, die der Reviewer selbst benutzt hatte. Die Datei führt die Klasse aber als Gruppe: `.flex-shrink-0,.shrink-0{flex-shrink:0}`. Das `{` direkt hinter dem Namen trifft jede Gruppe nicht. Ich habe `flex-shrink-0` an zwei Stellen durch `shrink-0` ersetzt, in die Commit-Nachricht „hat in tailwind-output.css keine Regel“ geschrieben und dieselbe Aussage dem Reviewer von Runde 2 als gemessen mitgegeben. Runde 2 hat sie widerlegt.
 
