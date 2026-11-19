@@ -38,8 +38,9 @@ die ihre Lehre in Prosa benennen; beides ist hier vorgekommen. Die
 Zuweisung steckt im Absatz, der mit dem Feld
 `**Welche Lehre nicht gegriffen hat:**` beginnt (bis zum 19.11.2026: mit
 „Die Lehre"), und eine Nennung darin zählt, auch eine beiläufige. Nennt
-das Feld `**Letzte Zeile zu derselben Lehre:**` eine Gruppe oder
-„Fehler N", geht das für den Lehren-Zähler vor. **Ein Eintrag kann
+das Feld `**Letzte Zeile zu derselben Lehre:**` eine Gruppe des
+Lehren-Zählers (`L<n>`), geht sie für ihn vor. Eine bloße Nummer
+(„Fehler N") entscheidet dort nichts. **Ein Eintrag kann
 dabei mehr als einen Fall tragen** (Eintrag 39 trägt zwei), und an einem
 Tag mit mehreren Spuren entstehen Zeilen parallel, sodass jede von Hand
 gezählte Ordinalzahl zu niedrig ausfällt, sobald eine Nachbarspur
@@ -55,8 +56,11 @@ konnten sie erst, als jemand die Nummern nebeneinanderlegte.
 dort `rules/wiederholte-fehler.md`): Kopf `### Fehler N (rot), TT.MM.JJJJ: <Titel>`
 unter der Tagesüberschrift, darin die Felder
 `**Welche Lehre nicht gegriffen hat:**` und
-`**Letzte Zeile zu derselben Lehre:**`, mit Doppelpunkt. Nur so liest der
-Lehren-Zähler aus `claude-code-setup` die Datei:
+`**Letzte Zeile zu derselben Lehre:**`, mit Doppelpunkt. Das gilt für jeden
+neuen Eintrag. Die Einträge bis zum 19.11.2026 tragen nur das erste Feld,
+ihre Rückverweise stehen im Fließtext („Die letzte Zeile zu dieser Lehre
+ist Eintrag N“). Nur in diesem Format liest der Lehren-Zähler aus
+`claude-code-setup` die Datei:
 
     python <claude-code-setup>/hooks/lehren-zaehlen.py --ohne-ausgang fehlerjournal.md
 
@@ -69,7 +73,9 @@ haben keinen eigenen Absatz zur Lehre und tragen das Feld deshalb nicht.
 Am 19.11.2026 ergab der Aufruf 106 rote Zeilen, davon 50 keiner Gruppe
 zugeordnet: 34 ohne das Feld, 8 mit der projekteigenen `CLAUDE.md` als
 Fundstelle, 8 mit einer Fundstelle, die der Zähler nicht kennt. Die
-Kettenzahl einer Lehre aus Projektregeln bleibt also Handarbeit.
+Kette einer Zeile, die der Zähler keiner Gruppe zuordnet, bleibt also
+Handarbeit. Welche das sind, steht in seinem Output unter
+„Nicht zugeordnet“.
 
 
 ## 2026-09-01 – Der Lauf, der seriell blieb, weil die abgeleitete Schicht global ist
