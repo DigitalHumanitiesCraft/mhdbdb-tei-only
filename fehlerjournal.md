@@ -57,9 +57,10 @@ dort `rules/wiederholte-fehler.md`): Kopf `### Fehler N (rot), TT.MM.JJJJ: <Tite
 unter der Tagesüberschrift, darin die Felder
 `**Welche Lehre nicht gegriffen hat:**` und
 `**Letzte Zeile zu derselben Lehre:**`, mit Doppelpunkt. Das gilt für jeden
-neuen Eintrag. Die Einträge bis zum 19.11.2026 tragen nur das erste Feld,
-ihre Rückverweise stehen im Fließtext („Die letzte Zeile zu dieser Lehre
-ist Eintrag N“). Nur in diesem Format liest der Lehren-Zähler aus
+neuen Eintrag. Die Einträge bis zum 19.11.2026 tragen höchstens das erste
+Feld (1 bis 35 außer 7 auch das nicht, siehe unten), ihre Rückverweise
+stehen im Fließtext, etwa „Die letzte Zeile zu dieser Lehre ist
+Eintrag N“. Nur in diesem Format liest der Lehren-Zähler aus
 `claude-code-setup` die Datei:
 
     python <claude-code-setup>/hooks/lehren-zaehlen.py --ohne-ausgang fehlerjournal.md
