@@ -35,9 +35,11 @@ und über alle Refs: zu keiner der fehlenden Nummern gibt es einen Eintragstext
 nicht über den Dateinamen der Regel.** Ein Grep nach `eigene-quellen.md`
 findet auch Einträge, die sie im Fließtext erwähnen, und findet die nicht,
 die ihre Lehre in Prosa benennen; beides ist hier vorgekommen. Die
-Zuweisung steckt ausschließlich im Absatz, der mit dem Feld
+Zuweisung steckt im Absatz, der mit dem Feld
 `**Welche Lehre nicht gegriffen hat:**` beginnt (bis zum 19.11.2026: mit
-„Die Lehre"), und eine Nennung darin zählt, auch eine beiläufige. **Ein Eintrag kann
+„Die Lehre"), und eine Nennung darin zählt, auch eine beiläufige. Nennt
+das Feld `**Letzte Zeile zu derselben Lehre:**` eine Gruppe oder
+„Fehler N", geht das für den Lehren-Zähler vor. **Ein Eintrag kann
 dabei mehr als einen Fall tragen** (Eintrag 39 trägt zwei), und an einem
 Tag mit mehreren Spuren entstehen Zeilen parallel, sodass jede von Hand
 gezählte Ordinalzahl zu niedrig ausfällt, sobald eine Nachbarspur
@@ -58,10 +60,11 @@ Lehren-Zähler aus `claude-code-setup` die Datei:
 
     python <claude-code-setup>/hooks/lehren-zaehlen.py --ohne-ausgang fehlerjournal.md
 
-Bis zum 19.11.2026 stand hier `### N. Rot: …`, und der Zähler fand null
+Bis zum 19.11.2026 stand hier `### N. Rot…`, und der Zähler fand null
 Zeilen. Bei der Umstellung kam das Datum im Kopf aus dem Titel, wo er eins
-trug, sonst aus der Tagesüberschrift, und bei 64, 65, 70, 71, 73, 95 und
-96 aus dem Commit, der den Eintrag anlegte. Die Einträge 1 bis 35 außer 7
+trug, sonst aus der Tagesüberschrift, und bei 26 bis 34 (Überschrift
+„2026-09-14/15“), 64, 65, 70, 71, 73, 95 und 96 aus dem Commit, der den
+Eintrag anlegte. Die Einträge 1 bis 35 außer 7
 haben keinen eigenen Absatz zur Lehre und tragen das Feld deshalb nicht.
 Am 19.11.2026 ergab der Aufruf 106 rote Zeilen, davon 50 keiner Gruppe
 zugeordnet: 34 ohne das Feld, 8 mit der projekteigenen `CLAUDE.md` als
@@ -395,47 +398,47 @@ Aus `docs/JOURNAL.md`.
 Aus `docs/JOURNAL.md`.
 
 
-### Fehler 26 (rot), 14./15.09.2026: der #252-Kommentar ging mit den Zahlen von vor der Gegenprobe hinaus.
+### Fehler 26 (rot), 15.09.2026: der #252-Kommentar ging mit den Zahlen von vor der Gegenprobe hinaus.
 
 **Rot: der #252-Kommentar ging mit den Zahlen von vor der Gegenprobe hinaus.** Zwei Fehler steckten darunter. Erstens hatte ich die Fälle über `<l n="4">` identifiziert, was in FR1 einmal je Strophe vorkommt und deshalb kein Schlüssel ist. Zweitens hat die Zählung nur die direkten Kinder der Zeile nach `<w>` durchsucht, während FR1 und MSG die Wörter teils in `<supplied>` oder `<hi rend="initial">` verschachteln; dadurch landeten drei Zeilen in der falschen Gruppe (843 statt 846 Fälle, die kleine Gruppe 6 statt 3). Beide Korrekturen stehen offengelegt im ersetzten Kommentar. **Die Lehre, die nicht gegriffen hat, ist die über den Kontrollwert, und zwar ihr zweiter Halbsatz: er kommt vor dem Schreiben und nicht nach dem Commit.** Der Kontrollwert lag bereit und war stark, nämlich die drei Fälle, die der Kommentar vom 10.09. namentlich nennt; nach der Korrektur enthält die kleine Gruppe exakt diese drei. Gezogen habe ich ihn nach dem Absenden. Die letzte Zeile zu dieser Lehre steht am 02.09. (Aufräumlauf, „eine Abwesenheitsabfrage wird zuerst an einem bekannten Positivfall getestet"); dort galt die Verschärfung der Null, hier gilt sie einer Zahl.
 
 
-### Fehler 27 (rot), 14./15.09.2026: zweiter Teil desselben Vorgangs, gegen eine eigene Lehre von vor acht Tagen: Eindeutigkeit aus drei Stichproben.
+### Fehler 27 (rot), 15.09.2026: zweiter Teil desselben Vorgangs, gegen eine eigene Lehre von vor acht Tagen: Eindeutigkeit aus drei Stichproben.
 
 **Rot, zweiter Teil desselben Vorgangs, gegen eine eigene Lehre von vor acht Tagen: Eindeutigkeit aus drei Stichproben.** Dass `<l n="4">` je Strophe genau einmal vorkommt, hätte ein `Counter` über die Datei in einer Zeile gezeigt. Stattdessen habe ich drei Verse angesehen, bei denen es passte. Die letzte Zeile zu dieser Lehre steht am 06.09.: „Eindeutigkeit über einer Menge mit einem Element ist keine Eindeutigkeit". Damals war die Stichprobe einelementig, hier dreielementig, und der Unterschied ändert nichts: **eine Schlüsseleigenschaft wird über der ganzen Menge geprüft oder gar nicht.** Zweite Zeile zu dieser Lehre; bei der dritten wird der Mechanismus gewechselt.
 
 
-### Fehler 28 (rot), 14./15.09.2026: und die unangenehmste: derselbe Fehlermodus zweimal in derselben Nacht, drei Stunden auseinander.
+### Fehler 28 (rot), 15.09.2026: und die unangenehmste: derselbe Fehlermodus zweimal in derselben Nacht, drei Stunden auseinander.
 
 **Rot, und die unangenehmste: derselbe Fehlermodus zweimal in derselben Nacht, drei Stunden auseinander.** Bei #237 hatte der Reviewer gegen 22 Uhr gezeigt, dass mein Fix im TEI-Header sitzt, während der ausgelieferte Stand aus `works.xml` kommt. Um 22:58 ging `af2000a06` hinaus und machte bei #308 dasselbe an einer anderen Spiegelstelle: `persons.xml` und `titleStmt` gezogen, `particDesc` stehen gelassen. Gefangen hat es wieder `fable-reviewer`, Runde 2. **Warum die frische Lehre nicht getragen hat, ist der brauchbare Teil:** ich hatte sie als „prüfe, ob der `biblStruct` woanders steht" gespeichert und genau das bei #308 geprüft, statt die Frage zu stellen, die trägt, nämlich **welche Spiegel diese Änderung überhaupt berührt**. Eine Lehre, die an ihrem Beispiel klebt, ist gegen den nächsten Fall wirkungslos. Die allgemeine Form steht jetzt in CONTRACTS §F.5 und im Docstring des Gates, und das Gate ist der Teil, der auch dann greift, wenn niemand die Lehre liest.
 
 
-### Fehler 29 (rot), 14./15.09.2026: das Datum 2026-09-15 stand an sieben Stellen und war erschlossen, nicht abgelesen.
+### Fehler 29 (rot), 15.09.2026: das Datum 2026-09-15 stand an sieben Stellen und war erschlossen, nicht abgelesen.
 
 **Rot: das Datum 2026-09-15 stand an sieben Stellen und war erschlossen, nicht abgelesen.** Weil der Lauf eine Nachtsitzung ist, habe ich aus „Nacht auf den 15." geschlossen. Gemessen sagen die Uhr, alle vier Commits und `authority-files/variants.xml` selbst den 14.; das Regenerierungsdatum widersprach damit der Datei, deren Regenerierung es beschreibt. Gefangen von `fable-reviewer` in Runde 2. Die Lehre steht seit dem 31.07. im Journal: **wer eine Zahl für historisch erklärt, misst das Datum dazu, statt es aus der Zahl zu erschließen.** Sie stammt aus derselben Klasse wie die Breve-Zahlen in §A, und sie ist hier an der billigsten denkbaren Stelle gerissen, denn das Datum stand im Sitzungskontext.
 
 
-### Fehler 30 (rot), 14./15.09.2026: eigener Regelverstoß, und zwar zweimal in derselben Nacht aus derselben Familie.
+### Fehler 30 (rot), 15.09.2026: eigener Regelverstoß, und zwar zweimal in derselben Nacht aus derselben Familie.
 
 **Rot, eigener Regelverstoß, und zwar zweimal in derselben Nacht aus derselben Familie.** Erstens habe ich für eine Umbenennung in einem Skript ein Heredoc mit mehrzeiligem Python in einen Shell-Befehl gelegt, was `shell-konventionen.md` ausdrücklich verbietet („kein Heredoc-Write, kein mehrzeiliges `python -c`"); alle anderen Ersetzungen dieser Nacht liefen als Skript im Scratchpad, mit Trefferzahl je Stelle und Abbruch bei Abweichung, also genau wie vorgesehen. Zweitens habe ich `npm test` durch `| tail -25` geschickt, obwohl die Projektregel dazu aus einem Satz besteht: nie durch eine Pipe. Der zweite Fall ist innerhalb von Minuten aufgefallen, weil die Pipe die Ausgabe bis zum Ende puffert und damit genau das verhindert, wofür sie gedacht war; der Lauf ist abgebrochen und ohne Pipe wiederholt worden. Die letzte Zeile zu einem eigenen Regelverstoß steht am 02.09. (Command Substitution in einem `gh api`-Aufruf) und trägt dieselbe Begründung: ein Zähler zählt nur, was gemeldet wird. **Beide Verstöße haben eine Gemeinsamkeit, die über sie hinausgeht: sie passierten in Befehlen, die nicht der Gegenstand der Arbeit waren.** Die Sorgfalt lag auf dem, was gemessen wurde, und nicht auf dem Werkzeug, mit dem gemessen wurde.
 
 
-### Fehler 31 (rot), 14./15.09.2026: das Umbauskript hat den Abschnitt aus seinen Teilen neu zusammengesetzt, und was kein Teil war, fiel weg.
+### Fehler 31 (rot), 15.09.2026: das Umbauskript hat den Abschnitt aus seinen Teilen neu zusammengesetzt, und was kein Teil war, fiel weg.
 
 **Rot: das Umbauskript hat den Abschnitt aus seinen Teilen neu zusammengesetzt, und was kein Teil war, fiel weg.** Abschnitt 5 der Hilfeseite ist nicht umsortiert, sondern aus den neun extrahierten Karten plus neuen Überschriften neu gebaut worden. Verloren ging dabei die blaue Box „Kookkurrenz-Ranking vs. Nähe-Analyse", das einzige Element des Abschnitts, das keine Karte war. Die Commit-Message sagte „Die neun Karten sind unverändert umgehängt", und das stimmte sogar: **es war die falsche Menge.** Gegenstand des Umbaus war der Abschnitt, gesprochen habe ich über die Karten. Die Lehre, die nicht gegriffen hat, steht als erste Frage der Mengenregel: über welche Menge spricht dieser Satz, und woher weiß ich, dass er für alle gilt. Gefunden hat es `fable-reviewer` in Runde 2.
 
 
-### Fehler 32 (rot), 14./15.09.2026: gleicher Commit, anderer Fehlermodus: ein Deep-Link hing an einer Eigenschaft, die die Änderung aufgehoben hat.
+### Fehler 32 (rot), 15.09.2026: gleicher Commit, anderer Fehlermodus: ein Deep-Link hing an einer Eigenschaft, die die Änderung aufgehoben hat.
 
 **Rot, gleicher Commit, anderer Fehlermodus: ein Deep-Link hing an einer Eigenschaft, die die Änderung aufgehoben hat.** Der Hilfe-Knopf des Blocks „Weitere Korpusanalysen" zeigte auf `#weitere-werkzeuge`. Das war richtig, solange Abschnitt gleich Block war. Nach der Zerlegung beginnt der Abschnitt mit der Gruppe des anderen Blocks, und wer aus dem zugeklappten Block Hilfe klickte, landete beim Kookkurrenz-Ranking, also bei genau der Verwechslung, gegen die dieser Vorgang gebaut ist. **Das ist die #397-Frage in ihrer unangenehmsten Form: der Link stand nicht im Diff.** Ich habe die Frage dem Reviewer im Auftrag mitgegeben und sie mir selbst nicht gestellt. Die Lehre steht seit #397 in CLAUDE.md, und ihr Kern trifft hier wörtlich: wer einen Umbau prüft, prüft das Neue, und was am Alten hing, prüft niemand.
 
 
-### Fehler 33 (rot), 14./15.09.2026: „Fifteen checks" über einer Liste mit sechzehn Einträgen.
+### Fehler 33 (rot), 15.09.2026: „Fifteen checks" über einer Liste mit sechzehn Einträgen.
 
 **Rot: „Fifteen checks" über einer Liste mit sechzehn Einträgen.** Der neue CI-Schritt ist als Punkt 15 in die nummerierte Liste in `docs/DEVELOPMENT.md` eingefügt worden, die Validierung auf 16 nachgerückt, und der fett gesetzte Leitsatz unmittelbar darüber blieb auf „Fifteen checks" stehen. Gefunden hat es der CI-Review-Bot auf dem PR, nachgezählt habe ich es an der Stelle: die Liste endet bei 16. **Die Lehre, die nicht gegriffen hat, ist die vom 14.09.: wer eine Stelle ändert, liest vor dem Commit ihre Nachbarschaft mit, und zwar namentlich den fett gesetzten Leitsatz über dem Absatz und jede Zahl, die mitwächst.** Sie ist am Vortag aus einem `corema`-Fall entstanden, in dem eine sechste Reviewrunde nur zustande kam, weil die Korrektur der fünften einen Fehler daneben einbaute. Hier ist es dieselbe Geometrie: der Fehler stand nicht in der eingefügten Zeile, sondern zwei Zeilen darüber. Erste Zeile zu dieser Lehre in diesem Projekt.
 
 
-### Fehler 34 (rot), 14./15.09.2026: dritter eigener Regelverstoß derselben Familie, und der erste, der Text beschädigt hat.
+### Fehler 34 (rot), 15.09.2026: dritter eigener Regelverstoß derselben Familie, und der erste, der Text beschädigt hat.
 
 **Rot, dritter eigener Regelverstoß derselben Familie, und der erste, der Text beschädigt hat.** Der Nachtrag oben ist als mehrzeiliges `python -c` in einem Shell-Befehl abgesetzt worden. Die Shell hat die Backticks um `main` als Command Substitution ausgeführt, quittiert mit „main: command not found", und das Wort aus dem Satz entfernt; im selben Aufruf standen ASCII-Ersatzschreibungen in deutscher Prosa, weil ich den Umlauten im Inline-Text ausweichen wollte. `shell-konventionen.md` verbietet beides namentlich: kein mehrzeiliges `python -c`, keine Command Substitution, Textersetzung über ein Skript per Write. Alle anderen Ersetzungen dieser Nacht liefen genau so, mit Trefferzahl je Stelle und Abbruch bei Abweichung. **Die beiden früheren Zeilen stehen oben** (Heredoc für eine Umbenennung, `npm test` durch eine Pipe), und damit ist es die dritte: die Regel sagt, dass jetzt der Mechanismus zu wechseln ist und nicht weiter gezählt wird. **Der Mechanismus ist da und ich habe ihn umgangen**, denn Write plus `python skript.py` kostet keinen Gedanken mehr als der Einzeiler. Was die drei Fälle verbindet: alle drei passierten in Befehlen, die nicht der Gegenstand der Arbeit waren, sondern nur schnell etwas erledigen sollten. Der Vorschlag für den Wechsel steht im Übergabeteil unten.
 
