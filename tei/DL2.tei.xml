@@ -101,7 +101,7 @@
                   <orgName>Electronic Text Center, University of Virginia</orgName>
                 </respStmt>
                 <date notBefore="2001" notAfter="2003">2001–2003</date>
-                <ref target="http://etext.lib.virginia.edu/german/mhg"/>
+                <ref target="https://mhdwb-online.de/textarchiv.php"/>
                 <note type="provenance">E-Text aus dem Mittelhochdeutschen Textarchiv (MHGTA), Kooperationsprojekt von Mainz, Trier und Virginia. Von der MHDBDB als elektronische Vorlage übernommen.</note>
                 <note type="fidelity">Keine diplomatische Transkription der Druckedition. Abweichungen sind möglich.</note>
               </bibl>
@@ -197,6 +197,7 @@
       <change when="2026-08-24" who="#editor">#369 Serie 2 (stat): 12 homographie-ambige Tokens der Form stat kontext-disambiguiert und neu annotiert (lemmaRef/pos/corresp zu stat NOM bzw. stan/sten VRB; LLM-Batch nach POS-TAGSET §6.3; Provenienz-Log: ingest/pos-disambig/369-stat/).</change>
       <change when="2026-09-23" who="#editor">#228: 7 Tokens im editorischen Apparat der Noten mit @n (Sigel, Strophenzähler, Rubriken und Überschriften der Edition) entannotiert: lemmaRef, pos, ana und corresp entfallen. Entscheidung KZW 11.09.2026: moderner Apparat ist kein mittelhochdeutscher Text.</change>
       <change when="2026-10-08" who="#editor">#493: Angabe zur semantischen Disambiguierung in encodingDesc/normalization ergänzt (2891 von 3929 lemmatisierten Tokens tragen einen Begriff in @ana). Vorher: &#34;&#34;</change>
+      <change when="2026-11-19" who="#editor">#262: Toten Link des Electronic Text Center (etext.lib.virginia.edu) in der elektronischen Zwischenstufe durch das Textarchiv des Mittelhochdeutschen Wörterbuchs (mhdwb-online.de) ersetzt, in dem das MHGTA aufgegangen ist.</change>
     </revisionDesc>
   </teiHeader>
   <text>
