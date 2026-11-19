@@ -32,7 +32,7 @@ Die Dateien sind Tabellen (TSV, mit Tabulator getrennt). Sie lassen sich in Exce
 | `nr` | laufende Nummer, zum Verweisen in einer Rückmeldung |
 | `art` | „einzelnes Wort“, „für alle N Belege dieser Form“ (Lemma) oder „für alle N Belege dieser Gruppe“ (Wortart, Bedeutung): dann gilt die Entscheidung für jedes dieser Vorkommen, gezeigt werden bis zu drei Beispiele |
 | `wort` | die Wortform, wie sie im Text steht |
-| `zeuge`, `text` | immer `APK`; dazu die Versnummer |
+| `zeuge`, `text` | immer `APK`, dazu die Versnummer |
 | `kontext` | fünf Wörter davor und danach, das Wort selbst in [eckigen Klammern], bei mehreren Beispielen durch ¶ getrennt |
 | `zuweisung` | was die Maschine gewählt hat: Lemma mit Wortarten, Wortart, oder Bedeutung mit ihren Konzepten |
 | `sicherheit` | `low` oder `medium` |
@@ -50,14 +50,14 @@ Je Zeile in der Spalte `passt` eintragen:
 - `nein`: sie stimmt nicht. In `korrektur` dann die richtige Wahl, wenn sie unter `andere_moeglichkeiten` steht (die Kennung genügt, etwa `lemma_1517` oder `PRO`). Fehlt sie dort, weil dem Lexikon das richtige Wort fehlt, genügt ein Hinweis in `anmerkung`.
 - `?`: nicht zu entscheiden.
 
-Leere Zeilen gelten als nicht geprüft. Die ausgefüllte Datei bitte im Issue #262 anhängen oder zurückschicken. Ein Skript, das die Korrekturen einspielt, gibt es noch nicht; es entsteht mit den ersten Rückmeldungen.
+Leere Zeilen gelten als nicht geprüft. Die ausgefüllte Datei bitte im Issue #262 anhängen oder zurückschicken. Ein Skript, das die Korrekturen einspielt, gibt es noch nicht, es entsteht mit den ersten Rückmeldungen.
 
 ## Was dieses Paket nicht zeigt
 
 - **Wörter, für die das Lexikon gar kein Lemma kennt:** 4.786 Wörter in 2.756 Schreibungen, viele davon ostmitteldeutsche Formen wie „dutet“ (deutet) oder „irkornen“ (erkoren). Sie stehen nach Häufigkeit sortiert in `../phase1/lemma-unmatched.tsv` und sind eine Liste für das Lexikonteam, keine Prüfaufgabe.
 - **Entscheidungen, bei denen das Modell keine der Möglichkeiten für richtig hielt (`abstain`):** Diese Wörter haben die Angabe nicht bekommen. Sie stehen in den Tabellen unter `../phase1/` bis `../phase3/`.
 - **Formen mit mehreren Möglichkeiten, die nur einmal vorkommen:** Sie wurden bewusst nicht entschieden und haben die Angabe nicht.
-- **Gemischte Gruppen bei Wortart und Bedeutung:** Wo eine Schreibung in den Beispielen unterschiedlich gebraucht wird, etwa „daz“ als Artikel und als Nebensatzeinleitung, müsste jedes Wort einzeln entschieden werden. Das ist für Wortart (13.925 Wörter) und Bedeutung (9.014 Wörter) noch nicht geschehen; diese Wörter haben die Angabe nicht. Beim Lemma ist es geschehen. Ein Teil der gemischten Gruppen bei der Bedeutung geht nach den Begründungen des Modells auf falsche Lemmata zurück (etwa „wert“ statt *werden*, „lut“ statt *liute*). Sie stehen deshalb nicht in `lemma-verdacht.tsv`, gehören der Sache nach aber dazu.
-- **Zwei Einträge `sie` im Lexikon:** „ir“ steht teils unter `lemma_5454` (49 Wörter), teils unter `lemma_56116` (465 Wörter), darunter jeweils das besitzanzeigende „ir“ (ihr, ihre); entschieden hat in beiden Fällen dasselbe Modell. Beide heißen *sie*; welcher der richtige ist, ist eine Frage an das Lexikon, nicht an diesen Text.
+- **Gemischte Gruppen bei Wortart und Bedeutung:** Wo eine Schreibung in den Beispielen unterschiedlich gebraucht wird, etwa „daz“ als Artikel und als Nebensatzeinleitung, müsste jedes Wort einzeln entschieden werden. Das ist für Wortart (13.925 Wörter) und Bedeutung (9.014 Wörter) noch nicht geschehen, diese Wörter haben die Angabe nicht. Beim Lemma ist es geschehen. Ein Teil der gemischten Gruppen bei der Bedeutung geht nach den Begründungen des Modells auf falsche Lemmata zurück (etwa „wert“ statt *werden*, „lut“ statt *liute*). Sie stehen deshalb nicht in `lemma-verdacht.tsv`, gehören der Sache nach aber dazu.
+- **Zwei Einträge `sie` im Lexikon:** „ir“ steht teils unter `lemma_5454` (49 Wörter), teils unter `lemma_56116` (465 Wörter), darunter jeweils das besitzanzeigende „ir“ (ihr, ihre). Entschieden hat in beiden Fällen dasselbe Modell. Beide heißen *sie*. Welcher der richtige ist, ist eine Frage an das Lexikon, nicht an diesen Text.
 
 Erzeugt von `scripts/ingest/apk/20-pruefpaket.py` (fester Zufallswert 262, das Paket ist reproduzierbar).

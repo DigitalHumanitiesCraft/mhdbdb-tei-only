@@ -23,8 +23,8 @@ Ob der Text aufgenommen werden darf, ist offen: Ute Recker-Hamm (MWB Trier) soll
 | `18-corresp.py` | Phase 3: `@corresp` auf den Variantentyp, nur bei genau einem Treffer | TEI, `phase3/corresp-mehrdeutig.tsv` |
 | `20-pruefpaket.py` | Prüfpaket: alle low-Zeilen, dazu eine Stichprobe der medium-Zeilen je Phase | `ingest/apk/pruefung/*.tsv` |
 | `21-abdeckung.py` | Abdeckung je Attribut mit Nenner, prüft Referenzen, Tagset, `@ana` passend zu `@lemmaRef`, `<head>` unannotiert, Schema | |
-| `22-header-stand.py` | Schreibt die gemessene Abdeckung in `normalization` und eine `change`-Zeile in den Header; ein zweiter Lauf auf demselben Stand mit demselben `--datum` ändert nichts | TEI |
-| `apk_common.py`, `apk_annot.py` | Pfade, Rohdatei-Prüfung; Helfer der Phasen (übertragen aus `scripts/ingest/bre/`) | |
+| `22-header-stand.py` | Schreibt die gemessene Abdeckung in `normalization` und eine `change`-Zeile in den Header. Ein zweiter Lauf auf demselben Stand mit demselben `--datum` ändert nichts | TEI |
+| `apk_common.py`, `apk_annot.py` | Pfade, Rohdatei-Prüfung, Helfer der Phasen (übertragen aus `scripts/ingest/bre/`) | |
 | `test_apk.py` | Tests für Stufe 0 an einer erfundenen Mini-Fixture, dazu die Versbilanz an der echten Datei, wenn sie da ist (sonst SKIP) | |
 | `anleitungen/ANLEITUNG-*.md` | Anleitungen für die LLM-Batches je Phase | |
 
@@ -50,7 +50,7 @@ Alle LLM-Entscheidungen: Claude Sonnet (`reviewer` = `llm:claude-sonnet-5-5`), B
 
 | Phase | eindeutig aus dem Lexikon | mehrdeutig | davon gesetzt | abstain | offen |
 |---|---|---|---|---|---|
-| 1 Lemma | 58.324 von 115.566 | 52.456 | 51.917 | 207 | 332 Hapaxe; ohne Treffer im Lexikon 4.786 |
+| 1 Lemma | 58.324 von 115.566 | 52.456 | 51.917 | 207 | 332 Hapaxe, ohne Treffer im Lexikon 4.786 |
 | 2 Wortart | 55.586 von 110.241 | 54.655 | 39.089 | 312 | 1.329 Hapaxe, 13.925 aus SPLIT-Gruppen |
 | 3 Bedeutung | 77.134 von 110.241 | 33.107 | 23.451 | 306 | 336 Hapaxe, 9.014 aus SPLIT-Gruppen |
 
@@ -63,10 +63,10 @@ python -P -E scripts/ingest/apk/11-batches.py --phase pos --stufe instance --pra
 
 Eingriffe des Orchestrators, alle in den Arbeitsdateien unter `temp/` vor `12-entscheidungen.py`:
 
-- **`ir` auf SPLIT gesetzt** (Phase 1, `lemma-bulk-01`): Die zwölf Belege des Batches zeigten nur das Possessiv der 3. Person, eine zweite Stichprobe aus 15 Belegen enthielt drei Anreden („sult ir“). Die Form wurde danach je Token entschieden. Der erste Lauf von `lemma-bulk-01` war zuvor verworfen worden, weil die Anleitung `ir` unklar regelte; die Regel ist in `ANLEITUNG-lemma.md` präzisiert.
+- **`ir` auf SPLIT gesetzt** (Phase 1, `lemma-bulk-01`): Die zwölf Belege des Batches zeigten nur das Possessiv der 3. Person, eine zweite Stichprobe aus 15 Belegen enthielt drei Anreden („sult ir“). Die Form wurde danach je Token entschieden. Der erste Lauf von `lemma-bulk-01` war zuvor verworfen worden, weil die Anleitung `ir` unklar regelte. Die Regel ist in `ANLEITUNG-lemma.md` präzisiert.
 - **Formfehler mechanisch behoben**, Inhalt unverändert: drei fehlende Tabs (`lemma-instance-01`, `-02`, `-06`), zwei vertippte xml_ids in derselben Zeile wie ihre Eingabe (`lemma-instance-03`, `lemma-split-69`) und sieben Ausnahmen, deren xml_id nicht unter den Belegen der Zeile stand und für die genau ein Beleg desselben Verses in Frage kam (`lemma-bulk-04`, `-09`, `-10`, `pos-bulk-08`, `-10`, `-26`, `sense-bulk-05`).
 
-Nicht versioniert sind die LLM-Ausgaben selbst (`temp/`); versioniert sind die Entscheidungstabellen in `ingest/apk/phase1/` bis `phase3/`.
+Nicht versioniert sind die LLM-Ausgaben selbst (`temp/`), versioniert sind die Entscheidungstabellen in `ingest/apk/phase1/` bis `phase3/`.
 
 ## Abbildung (Stufe 0)
 
@@ -79,17 +79,25 @@ Nicht versioniert sind die LLM-Ausgaben selbst (`temp/`); versioniert sind die E
 | `lg2` (415) | `div type="section"` | Abschnitte der Ausgabe |
 | `l n id` (23.254) | `l n` | die id ist aus n ableitbar (`Apk-00001`), der Konverter prüft das und dass die Zählung lückenlos von 1 an läuft |
 | `pb n` (342) | `pb type="edition" n` | Seiten der Ausgabe Helm |
-| `fw type="folio"` (706) | `cb type="manuscript" n` | Blatt und Spalte der Handschrift, die die Ausgabe am Rand führt; `n` ist der Text in der eckigen Klammer (`[1ra]` wird `1ra`, `*1r` und `Kb1rb` bleiben) |
+| `fw type="folio"` (706) | `cb type="manuscript" n` | Blatt und Spalte der Handschrift, die die Ausgabe am Rand führt. `n` ist der Text in der eckigen Klammer (`[1ra]` wird `1ra`, `*1r` und `Kb1rb` bleiben) |
 | `milestone unit="column"` (684) | entfällt | Spalten des Drucks, nicht der Handschrift |
-| `hi rend="doublespace"` | `hi rend="doublespace"` | gesperrt; der Header der Vorlage sagt dazu: „Doublespace font in this text corresponds to text quoted from the Bible.“ (`seriesStmt/p/note`) |
+| `hi rend="doublespace"` | `hi rend="doublespace"` | gesperrt, der Header der Vorlage sagt dazu: „Doublespace font in this text corresponds to text quoted from the Bible.“ (`seriesStmt/p/note`) |
 | `hi rend="bold"`, `"superscript"` | gleich | Initialen, Hochstellung |
 | `hi` ohne `rend` | `hi rend="italic"` | so zeigt das MWB-Textarchiv diese Stellen (`volltextanzeige.php?wbsigle=HeslApk`) |
 | `orig reg` (309, Trennung am Druckzeilenende) | ein `w` mit dem verbundenen Text | 3 Fälle, in denen der verbundene Text nicht `@reg` gleicht, druckt der Konverter aus (Offene Fragen) |
-| `lb` im Vers (558) | entfällt | Druckzeilen; mitten im Wort ohne `orig` wäre ein harter Fehler (0 Fälle) |
+| `lb` im Vers (558) | entfällt | Druckzeilen. Mitten im Wort ohne `orig` wäre ein harter Fehler (0 Fälle) |
 | `corr resp="editor" sic` (5) | Inhalt im Text, die Auszeichnung der Vorlage wörtlich als Kommentar hinter dem Wort | das Schema kennt kein `choice/sic/corr` |
 | Satzzeichen `,.;:?!()` und Strich am Wortrand | `pc`, öffnende Klammer und führender Strich mit `join="right"` | |
 
-Bilanzen, die der Konverter hart prüft: Bestand je Element gegen `SOLL`; dieselbe Versliste in Quelle und Ziel; je Vers dieselben Wörter und Satzzeichen wie eine Tokenisierung des Quelltexts, die von der Konverterlogik unabhängig ist; je Vers und `rend` derselbe Text in Quelle und Ziel (`fw` ausgenommen); Schema. Die Zahlen gibt der Lauf aus:
+Bilanzen, die der Konverter hart prüft:
+
+- Bestand je Element gegen `SOLL`
+- dieselbe Versliste in Quelle und Ziel
+- je Vers dieselben Wörter und Satzzeichen wie eine Tokenisierung des Quelltexts, die von der Konverterlogik unabhängig ist
+- je Vers und `rend` derselbe Text in Quelle und Ziel (`fw` ausgenommen)
+- Schema
+
+Die Zahlen gibt der Lauf aus:
 
 ```
 python -P -E scripts/ingest/apk/01-convert-apk-to-mhdbdb.py --trocken --datum 2026-11-19
