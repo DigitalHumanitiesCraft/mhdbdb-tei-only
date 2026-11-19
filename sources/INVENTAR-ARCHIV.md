@@ -269,26 +269,33 @@ FineReader-Artefakte enthalten keinen eigenen Inhalt. Der FnhdC-Ordner müsste o
 ausgenommen werden. Entschieden ist das noch nicht. Bis dahin gilt: Archiv bleibt lokal bei KZW,
 dieses Inventar ist der Zugriffsweg.
 
-## Nicht aus dem Archiv: zwei Bestände im DHCraft-Drive
+## Bestände im DHCraft-Drive
 
 Fremdmaterial ohne offene Lizenz, deshalb außerhalb des Repositoriums, aber anders als das Archiv
 ohne Anfrage erreichbar. Konto **office@dhcraft.org**, Ordner `Projekte/mhdbdb/extern/`
 ([Link](https://drive.google.com/drive/folders/120fF4kdvRbxlQLzKYxauThtgnui3EtLo)), Stand
-2026-09-22.
+2026-09-22, die APK-Zeile 2026-11-19. Die ersten beiden stammen nicht aus dem Archiv, der dritte
+ist eine Kopie daraus.
 
 | Bestand | Umfang | Lizenz | gebraucht von |
 |---|---|---|---|
 | `woerterbuchnetz2015/FindeB/P5/` (Trierer Findebuch, von KZW am 30.07.2026 geliefert) plus das Original-Zip | 22 XML, 27.106.707 Bytes | Copyright 1998 Universität Trier, **keine offene Lizenz** ([#259](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/259)) | `scripts/audit/compare-findebuch-resolution-259.py`, lokale Arbeitskopie unter `~/.cache/mhdbdb/` |
 | `10.1515_9783110890587.pdf` (Hugo von Montfort: Das poetische Werk) | 29.312.370 Bytes | De Gruyter | nichts. Liegt auch noch in `data/audit/`, wird im Repo nirgends erwähnt, gehört der Bibliografie nach zu `tei/HUG.tei.xml` |
+| `apk_free.xml` (Apokalypse Heinrichs von Hesler, TEI.2 aus dem MHGTA, Kopie von `Neue Texte Klaus/apk_free.xml`, am 19.11.2026 hochgeladen) | 1.565.852 Bytes, SHA-256 in `sources/README.md` | Trier/Virginia 2002, Ute Recker-Hamm (MWB Trier) sieht den fertigen Ingest ([#262](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/262)) | Stufe 0 des APK-Ingests, lokale Kopie unter `sources/hesler-apokalypse/` (gitignoriert) |
 
-**Die Auflage aus #259 gilt für beide:** nichts davon in ein Repositorium, einen Commit, einen
+**Die Auflage aus #259 gilt für die ersten beiden:** nichts davon in ein Repositorium, einen Commit, einen
 Issue-Kommentar oder an einen externen Dienst. Aggregierte Zahlen über **unsere** Daten sind frei,
 Trierer Wortformen nicht; eine Befundliste mit fremden Schreibungen wird neu erzeugt statt
 abgelegt.
 
+**Für `apk_free.xml` gilt eine eigene Auflage:** die Rohdatei kommt nicht ins Repositorium, bevor
+Ute Recker-Hamm den fertigen Ingest gesehen hat (#262).
+
 **Beim Hantieren:** `G:\Meine Ablage` ist **nicht** dieses Konto (am 22.09.2026 einmal
-verwechselt, `fehlerjournal.md` Eintrag 64). Der Drive-Connector ist als Uploadweg nur für kleine
-Dateien tauglich, er nimmt Inhalte als base64 im Aufruf. Bytezahlen prüft man im Drive über
+verwechselt, `fehlerjournal.md` Eintrag 64). Der Drive-Connector lädt per Dateireferenz hoch: `create_file`
+nimmt in `base64Content` eine Referenz `sha256:<hash>:<absoluter Pfad>` statt des Inhalts
+(gemessen am 19.11.2026 mit `apk_free.xml`, 1.565.852 Bytes). Wo die Größengrenze liegt, ist nicht
+gemessen. Bytezahlen prüft man im Drive über
 `search_files` mit `parentId` und dem Feld `fileSize`, lokal mit
 `find <pfad> -type f -printf '%s\n' | awk '{s+=$1} END {print s, NR}'`.
 
