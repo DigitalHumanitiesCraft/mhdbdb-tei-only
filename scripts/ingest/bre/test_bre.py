@@ -531,7 +531,7 @@ def druckfahnen_lecks(dateien, texte=()):
 
 
 druck_dateien = [p for basis in (conv.bc.INGEST_DIR, HIER) for p in sorted(basis.rglob("*"))
-                 if p.is_file() and p.suffix in {".tsv", ".md", ".py", ".xml", ".txt", ".json"}]
+                 if p.is_file() and p.suffix in {".tsv", ".md", ".py", ".xml", ".txt", ".json", ".html"}]
 _basis = subprocess.run(["git", "-C", str(conv.bc.REPO), "merge-base", "HEAD", "origin/main"],
                        capture_output=True, text=True).stdout.strip()
 _log = subprocess.run(["git", "-C", str(conv.bc.REPO), "log", f"{_basis}..HEAD", "--format=%H%x00%B%x01"],

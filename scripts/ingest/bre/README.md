@@ -29,6 +29,7 @@ Ingest der Weingrüße aus der Hybridedition von Silvan Wagner (Issue [#147](htt
 | `18-corresp.py` | Phase 3: `@corresp` auf den Variantentyp, nur bei genau einem Treffer | TEI, `ingest/bre/phase3/corresp-mehrdeutig.tsv` |
 | `20-pruefpaket.py` | Prüfpaket für Julia und KZW | `ingest/bre/pruefung/*.tsv` |
 | `21-abdeckung.py` | Abdeckung je Zeuge und Attribut, prüft Referenzen, 19er-Tagset, `@ana` passend zu `@lemmaRef`, `<head>` unannotiert und das Schema; Exit 1 bei Fehlern | |
+| `22-pruefseite.py` | HTML-Prüfseite zum Prüfpaket (alle Zeilen aus `lemma-verdacht.tsv`, aus den drei anderen TSV je eine geschichtete Stichprobe, Seed 147), aus `pruefseite-template.html`; Exportformat im Docstring | `ingest/bre/pruefung/pruefseite.html` |
 | `bre_annot.py` | Gemeinsame Helfer der Phasen: Wortform, Normalisierung, Lexikon, Varianten, TSV | |
 | `bre_common.py` | Zeugentabelle (Editionssigle, Wiki-Seite, MHDBDB-Sigle), Vorspann-Tabelle, Faltungstabelle, geprüfte Abweichungen zur Hauptseite, offene Segmentierung, ausgeschlossene Teile, API und Cache | |
 | `bre_hauptseite.py` | Liest Liste und Übersichtstabelle der Hauptseite und vergleicht sie mit der Segmentierung | |
@@ -53,6 +54,7 @@ python -P -E scripts/ingest/bre/15-apply.py --phase sense
 python -P -E scripts/ingest/bre/18-corresp.py
 python -P -E scripts/ingest/bre/20-pruefpaket.py
 python -P -E scripts/ingest/bre/21-abdeckung.py --markdown
+python -P -E scripts/ingest/bre/22-pruefseite.py
 ```
 
 Die Assign-Skripte teilen die Wörter unabhängig davon ein, ob ein Attribut schon gesetzt ist: ein zweiter Lauf schreibt dieselben Zeilen in die Pending-TSV, auch mit `--trocken` (das lässt nur die TEI unberührt), aber mit leeren Auflösungsspalten. Erst das zugehörige Apply-Skript füllt sie wieder und setzt dieselben Werte noch einmal; danach sind TEI und Pending-TSV byte-gleich zum vorigen Stand (gemessen 17.11.2026 für 10 und 13, 14 und 15 `--phase pos` und für 18, das ohne Pending-TSV auskommt und dieselben Zahlen wieder ausgibt). Ein vorhandener Wert, der der Einteilung widerspricht, ist ein harter Fehler.
