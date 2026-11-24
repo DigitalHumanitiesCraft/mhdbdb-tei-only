@@ -31,7 +31,7 @@ Exportformat (JSON, Schema mhdbdb-bre-147-pruefseite-v1), damit ein Einspielskri
 direkt lesen kann:
   {"schema": "mhdbdb-bre-147-pruefseite-v1", "issue": 147,
    "fingerprint": <sha256-Praefix der eingebetteten Daten>, "sourceCommit": <git HEAD beim Bau>,
-   "sourceDate": <Baudatum>, "seed": 147, "sources": {<Pfad>: <sha256>},  # 4 TSV + TEI
+   "sourceDate": <Baudatum>, "seed": 147, "sources": {<Pfad>: <sha256>},  # 4 TSV + TEI, ueber LF
    "exportedAt": <ISO-Zeit>, "reviewer": <Name>,
    "decisions": [ {
        "id": "<datei-kurz>-<nr>",       # z. B. "verdacht-12", "bedeutung-301"
@@ -96,7 +96,10 @@ def fehler(text):
 
 
 def sha256(pfad):
-    return hashlib.sha256(pfad.read_bytes()).hexdigest()
+    # Ueber LF-Zeilenenden, wie Git die Datei speichert: unter Windows mit core.autocrlf
+    # liegen die TSV als CRLF im Arbeitsbaum, die Summe soll aber auf jedem Rechner gleich sein.
+    # Ein Einspielskript muss genauso normalisieren.
+    return hashlib.sha256(pfad.read_bytes().replace(b"\r\n", b"\n")).hexdigest()
 
 
 def kennung(teil, muster, ort):
