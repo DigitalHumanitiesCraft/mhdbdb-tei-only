@@ -437,6 +437,126 @@ pruefe("Satzzeichen: Zeilenbilanz", len(tei_pc.xpath("//t:l", namespaces=ns))
        + len(tei_pc.xpath("//t:head", namespaces=ns)) + info_pc["fortsetzungen"] == info_pc["stuecke"])
 pruefe("offene Segmentierung: B2, d4, d6", set(conv.bc.SEGMENTIERUNG_OFFEN) == {"B2", "d4", "d6"})
 
+# Normdaten im Header (23-normdaten.py, #147): Autorschaft aus den Texten der TEI-Datei, Header idempotent
+spec_n = importlib.util.spec_from_file_location("norm", HIER / "23-normdaten.py")
+norm = importlib.util.module_from_spec(spec_n)
+spec_n.loader.exec_module(norm)
+PERS, GEN = norm.lade_normdaten()
+ROS = "Hans Rosenplüt"
+
+
+def zeile(titel, ed, blatt="1r"):
+    return {"text_titel": titel, "editionssigle": ed, "signatur_label": "Sig", "blatt": blatt}
+
+
+NROWS = [zeile(f"Weingruß Eins ({ROS})", "B"), zeile(f"Weinsegen Zwei ({ROS})", "B", "2r"),
+         zeile("Vorspruch Weingruß", "B", "3r"), zeile(f"Weinsegen Allerliebster Trost ({ROS})", "B", "4r"),
+         zeile("Weingruß Drei", "N2", "6r")]
+
+
+def mini(*kommentare, abschnitte=None, extra=None):
+    """TEI mit Body, je Kommentar ein Text-Kommentar samt <div type="section">.
+    extra: ein weiterer Kommentar ohne Abschnitt (keiner der Text-Kommentare)."""
+    n = len(kommentare) if abschnitte is None else abschnitte
+    cs = "".join(f"<!-- Text {i}: {k} -->" for i, k in enumerate(kommentare, 1))
+    cs += f"<!-- {extra} -->" if extra else ""
+    ds = "".join(f'<div type="section" n="{i}"/>' for i in range(1, n + 1))
+    return conv.etree.fromstring(f'<TEI xmlns="{conv.TEI_NS}"><text><body><div>{cs}{ds}</div></body></text></TEI>')
+
+
+def autoren(ed, *kommentare, rows=NROWS, **kw):
+    return norm.autoren_des_zeugen(ed, mini(*kommentare, **kw), rows, PERS)
+
+
+def wirft(f):
+    try:
+        f()
+    except conv.bc.HarterFehler:
+        return True
+    return False
+
+
+A1, A2 = f"Weingruß Eins ({ROS}) (Sig, 1r)", f"Weinsegen Zwei ({ROS}) (Sig, 2r)"
+V1 = "Vorspruch Weingruß (Sig, 3r)"
+pids, n_r, n, _ = autoren("B", A1, A2)
+pruefe("Normdaten: Zeuge nur mit Rosenplüt-Texten bekommt nur person_907",
+       pids == ["person_907"] and (n_r, n) == (2, 2), str((pids, n_r, n)))
+pids, n_r, n, _ = autoren("B", V1)
+pruefe("Normdaten: Zeuge ohne Rosenplüt-Text ist anonym", pids == ["person_anonym"] and (n_r, n) == (0, 1))
+pids, n_r, n, _ = autoren("B", V1, A1)
+pruefe("Normdaten: gemischter Zeuge trägt beide, Rosenplüt zuerst",
+       pids == ["person_907", "person_anonym"] and (n_r, n) == (1, 2), str((pids, n_r, n)))
+pids, n_r, n, _ = autoren("R", "Weinsegen Allerliebster Trost (Fragment)")
+pruefe("Normdaten: Fragment erbt vom Werk, das es benennt", pids == ["person_907"] and (n_r, n) == (1, 1),
+       str((pids, n_r, n)))
+pids, n_r, n, _ = autoren("N2", "Vorspann (text_ohne_einzelseite)", "Weingruß Drei (Sig, 6r)")
+pruefe("Normdaten: Vorspann ohne Werk ist anonym", pids == ["person_anonym"] and (n_r, n) == (0, 2),
+       str((pids, n_r, n)))
+pruefe("Normdaten: Text ohne Zeile in der Segmentierung ist ein harter Fehler",
+       wirft(lambda: autoren("B", A1, "Weingruß Unbekannt (Sig, 9r)")))
+pruefe("Normdaten: anderer Autorzusatz ist ein harter Fehler",
+       wirft(lambda: autoren("B", "Weingruß Falsch (Hans Sachs) (Sig, 5r)",
+                             rows=NROWS + [zeile("Weingruß Falsch (Hans Sachs)", "B", "5r")])))
+pruefe("Normdaten: Fragment mit fremdem Werk ist ein harter Fehler",
+       wirft(lambda: autoren("R", "Weingruß Eins (Fragment)")))
+pruefe("Normdaten: unbekannter Kommentar im Body ist ein harter Fehler",
+       wirft(lambda: autoren("B", A1, A2, extra="Irgendwas")))
+pruefe("Normdaten: Kommentare und Abschnitte müssen übereinstimmen",
+       wirft(lambda: autoren("B", A1, A2, abschnitte=3)))
+
+# Werktitel: Kurzform der Aufbewahrung bei Handschriften, "Druck" bei Drucken
+ZT = {"mhdbdb_sigle": "BRE_X", "typ": "Handschrift", "signatur": "Cgm 713",
+      "aufbewahrung": "München, Bayerische Staatsbibliothek"}
+pruefe("Normdaten: Werktitel einer Handschrift mit Kurzform",
+       norm.werktitel_von(ZT) == "Weingrüße (München, BSB, Cgm 713)", norm.werktitel_von(ZT))
+pruefe("Normdaten: Werktitel eines Drucks ohne Aufbewahrung",
+       norm.werktitel_von({**ZT, "typ": "Druck", "signatur": "VD16 R 439"}) == "Weingrüße (Druck, VD16 R 439)")
+pruefe("Normdaten: Handschrift mit unbekannter Aufbewahrung ist ein harter Fehler",
+       wirft(lambda: norm.werktitel_von({**ZT, "aufbewahrung": "Irgendwo, Bibliothek"})))
+pruefe("Normdaten: unbekannter Typ ist ein harter Fehler",
+       wirft(lambda: norm.werktitel_von({**ZT, "typ": "Rolle"})))
+
+# Header: setzen und ein zweites Mal setzen
+_, _, tei_n, _, _ = baue(SEITE, ROWS, "B")
+WT = "Weingrüße (Test, Cgm 713)"
+vorher = conv.etree.tostring(tei_n)
+g1 = norm.setze_header(tei_n, "BRE_TEST", WT, ["person_907", "person_anonym"], PERS, GEN, "2026-11-25")
+nach1 = conv.etree.tostring(tei_n)
+try:
+    g2 = norm.setze_header(tei_n, "BRE_TEST", WT, ["person_907", "person_anonym"], PERS, GEN, "2026-12-31")
+except conv.bc.HarterFehler as e:
+    g2 = f"Fehler: {e}"
+xn = lambda p: tei_n.xpath(p, namespaces=ns)  # noqa: E731
+pruefe("Normdaten: Header setzt alle sieben Felder", len(g1) == 7, str(g1))
+pruefe("Normdaten: Header idempotent, zweiter Lauf ändert kein Byte",
+       g2 == [] and conv.etree.tostring(tei_n) == nach1 and nach1 != vorher, str(g2))
+pruefe("Normdaten: msName behält seinen Wert, nur der title bekommt den Werktitel",
+       xn("//t:msName/text()") == ["Test, Cgm 713, 188r-188v"] and xn("//t:titleStmt/t:title/text()") == [WT])
+pruefe("Normdaten: msIdentifier und digitalIntermediary",
+       xn("//t:msIdentifier/@corresp") == ["works.xml#work_BRE_TEST"]
+       and xn("//t:bibl[@type='digitalIntermediary']/@corresp") == ["#BRE_TEST_BRE_TEST"])
+pruefe("Normdaten: Gattung mit Glossen aus genres.xml",
+       xn("//t:taxonomy[@xml:id='genres']/t:category/@xml:id") == ["genre_315cf46f"]
+       and xn("//t:taxonomy/t:category/@corresp") == ["genres.xml#genre_315cf46f"]
+       and xn("//t:taxonomy/t:category/t:gloss/text()") == ["Weingruß", "Wine Greeting"])
+pruefe("Normdaten: Autoren in titleStmt und particDesc",
+       xn("//t:titleStmt/t:author/@ref") == ["#person_907", "#person_anonym"]
+       and xn("//t:particDesc//t:person/@xml:id") == ["person_907", "person_anonym"]
+       and xn("//t:person[@xml:id='person_907']/t:idno/@type") == ["GND", "wikidata"])
+pruefe("Normdaten: eine Änderungszeile, Sprachstufe unberührt",
+       len([c for c in xn("//t:revisionDesc/t:change/text()") if c.startswith(norm.MARKE)]) == 1
+       and xn("//t:revisionDesc/t:change[last()]/@when") == ["2026-11-25"]
+       and xn("//t:language/@ident") == ["TBD"])
+_, _, tei_r, _, _ = baue(SEITE, ROWS, "B")
+norm.setze_header(tei_r, "BRE_TEST", WT, ["person_907"], PERS, GEN, "2026-11-25")
+pruefe("Normdaten: Zeuge nur mit Rosenplüt hat im particDesc kein person_anonym",
+       tei_r.xpath("//t:particDesc//t:person/@xml:id", namespaces=ns) == ["person_907"]
+       and tei_r.xpath("//t:titleStmt/t:author/@ref", namespaces=ns) == ["#person_907"])
+_, _, tei_f, _, _ = baue(SEITE, ROWS, "B")
+tei_f.xpath("//t:msIdentifier", namespaces=ns)[0].set("corresp", "works.xml#work_ANDERS")
+pruefe("Normdaten: unerwarteter Zustand im Header ist ein harter Fehler",
+       wirft(lambda: norm.setze_header(tei_f, "BRE_TEST", WT, ["person_907"], PERS, GEN, "2026-11-25")))
+
 # Druckfahnen (Kickoff #147): kein Wortlaut aus Text, Uebersetzung oder Kommentar der Druckfassung
 # im Repo. Quelle ist der Text der Hirzel-Druckfahnen (PDF, per pdftotext auf stdout gelesen, nie
 # als Datei abgelegt; Silbentrennung am Zeilenende zusammengezogen) und, weil der Kickoff sie zum

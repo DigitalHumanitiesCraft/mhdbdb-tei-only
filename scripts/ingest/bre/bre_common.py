@@ -65,6 +65,23 @@ ZEUGEN = {
 }
 TRANSKRIPTIONS_PRAEFIX = "Weingrüße "
 
+# Kurzform der Aufbewahrung fuer den Werktitel der Handschriften ("Weingrüße (München, BSB, Cgm 713)",
+# KZW 2026-11-24, #147): Spalte aufbewahrung in zeugen.tsv -> Kurzform. Ein Wert, der fehlt, ist ein
+# harter Fehler (23-normdaten.py). Drucke greifen nicht darauf zu, ihr Titel ist "Weingrüße (Druck, <Signatur>)".
+AUFBEWAHRUNG_KURZ = {
+    "München, Bayerische Staatsbibliothek": "München, BSB",
+    "Berlin, Staatsbibliothek": "Berlin, SBB",
+    "Cambridge/Mass., Harvard Houghton Library": "Cambridge (Mass.), Houghton Library",
+    "Dresden, Landesbibliothek": "Dresden, SLUB",
+    "Nürnberg, Germanisches Nationalmuseum": "Nürnberg, GNM",
+    "Heidelberg, Universitätsbibliothek": "Heidelberg, UB",
+    "Leipzig, Universitätsbibliothek": "Leipzig, UB",
+    "Wolfenbüttel, Herzog August Bibliothek": "Wolfenbüttel, HAB",
+    "Wien, Österreichische Nationalbibliothek": "Wien, ÖNB",
+    "Dessau, Landesbücherei": "Dessau, Landesbücherei",
+    "Weimar, Herzogin Anna Amalia Bibliothek": "Weimar, HAAB",
+}
+
 # Vorspann: Zeilen vor dem ersten Textanfang der Segmentierung, je Zeuge ausdruecklich
 # (bereinigter Text wie bre_wikitext.vergleichstext, exakter Vergleich). Jede Abweichung
 # ist ein harter Fehler, auch ein Vorspann bei einem Zeugen, der hier nicht steht.
