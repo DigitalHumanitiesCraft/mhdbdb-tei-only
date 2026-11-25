@@ -1133,9 +1133,13 @@ def main():
         ap.error(f"--zeuge {a.zeuge!r} ist keine Editionssigle")
     # Sperre vor dem ersten Schreiben ueber alle Ziele, damit nicht die Haelfte geschrieben ist
     gesperrt = []
+    geprueft = 0
+    uebersprungen = []
     for z in zeugen:
         if a.zeuge == "alle" and not a.trocken and z in bc.SEGMENTIERUNG_OFFEN:
+            uebersprungen.append(z)
             continue
+        geprueft += 1
         try:
             sperre_ueberschreiben(z, a.ausgabe_dir, a.trocken, a.ueberschreiben)
         except bc.HarterFehler as e:
@@ -1143,8 +1147,10 @@ def main():
     if gesperrt:
         for z, e in gesperrt:
             print(f"FEHLER ({z}): {e}", file=sys.stderr)
-        print(f"== {len(gesperrt)} von {len(zeugen)} Zielen existieren schon ({', '.join(z for z, _ in gesperrt)}): "
-              f"nichts geschrieben", file=sys.stderr)
+        print(f"== {len(gesperrt)} von {geprueft} geprueften Zielen existieren schon "
+              f"({', '.join(z for z, _ in gesperrt)}): nichts geschrieben", file=sys.stderr)
+        if uebersprungen:
+            print(f"== nicht geprueft, Segmentierung offen: {', '.join(uebersprungen)}", file=sys.stderr)
         return 1
     rc = 0
     for z in zeugen:

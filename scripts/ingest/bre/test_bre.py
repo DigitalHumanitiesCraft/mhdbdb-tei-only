@@ -2,7 +2,9 @@
 """Tests fuer 02-convert-wiki-to-mhdbdb.py (BRE, #147), pytest-frei.
 
 Aufruf: python -P -E scripts/ingest/bre/test_bre.py
-Kein Netz, kein Cache: Mini-Fixture (Ausschnitt aus Cgm 713, Revision 21352).
+Die meisten Tests laufen ohne Netz und ohne Cache auf einer Mini-Fixture (Ausschnitt aus Cgm 713,
+Revision 21352). Den Wiki-Cache `temp/bre-wiki` brauchen das Druckfahnen-Gate und die Sperre-Tests
+(Sperre gegen das Ueberschreiben), die echte Zeugen konvertieren; fehlt er, schlagen sie fehl.
 Beendet mit Exit 1, wenn ein Test fehlschlaegt.
 """
 import collections
@@ -618,6 +620,10 @@ with tempfile.TemporaryDirectory() as td:
     pruefe("Sperre: alle bricht vor dem ersten Schreiben ab",
            rc_alle == 1 and dateien == [vorhanden] and (aus / vorhanden).read_bytes() == ALT,
            f"rc={rc_alle} {dateien}")
+    meldung = se.getvalue()
+    pruefe("Sperre: Nenner zaehlt nur gepruefte Ziele, offene Zeugen eigene Zeile",
+           "1 von 18 geprueften Zielen existieren schon (W)" in meldung
+           and "nicht geprueft, Segmentierung offen: B2, d4, d6" in meldung, meldung[-300:])
 
 # Druckfahnen (Kickoff #147): kein Wortlaut aus Text, Uebersetzung oder Kommentar der Druckfassung
 # im Repo. Quelle ist der Text der Hirzel-Druckfahnen (PDF, per pdftotext auf stdout gelesen, nie
