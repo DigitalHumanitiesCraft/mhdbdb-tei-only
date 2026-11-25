@@ -57,4 +57,6 @@ metadata:
 
 **Link-Check-Allowlist (#653):** „URL-Eintrag geht vor" heißt nur Vorrang bei passendem Status, ein anderer Status fällt auf den Domain-Eintrag durch. Proben mit `allowlist_treffer(url, s, lade_allowlist_datei())` je Status, nach einem Fix die Formel über die ganze Allowlist greppen, auch im `_comment`.
 
+**`scripts/audit/ci-lokal.py` (#726, Runde 1 am 25.11.2026):** fährt die `run:`-Schritte im Working Tree des Aufrufers. `lokal` sind auch Schreiber: `extract-variants.py --apply` (schreibt `variants.xml`, beschneidet `lexicon.xml` sense/@ana), `build-api.py`, `build-begriffshilfe.py`, `rnc2rng`. Die Dateiliste nimmt fremde uncommittete und untracked Dateien mit. Nie im geprüften Worktree fahren, Proben über `git archive` der Skripte plus `--repo <wt> --workflows <kopie> --trocken`. Der Hash deckt nur run, Schritt-if und Job-if (nicht env, working-directory, continue-on-error, `defaults.run.working-directory`). Bei jeder neuen Runde: Tabelle gegen die Workflows zählen (`lade_workflows`), am 25.11. 59 Schritte, 59 Einträge. `node scripts/audit/benchmark-search.mjs` mit `cd` in den Worktree lehnte der Classifier ab.
+
 **main-Schutz** ist nur ein Ruleset (`deletion`, `non_fast_forward`): `branches/main .protected=true` heißt nicht PR-Pflicht.
