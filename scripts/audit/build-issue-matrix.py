@@ -651,20 +651,48 @@ def schema_abweichungen(roh):
 
     Verglichen wird je Praefix, Werte ohne Reihenfolge und mit genauer
     Schreibung: die Reihenfolge ist Darstellung und gehoert dem Skript.
+
+    Dazu fuenf Faelle, in denen der Hook das Schema fuer ungueltig haelt und
+    dann nichts mehr blockt, waehrend der Vergleich allein gleich meldete
+    (gemessen an `schema_lesen` des Hooks, #736): ein unbekannter Schluessel
+    oben oder in einer Achse, ein fehlendes oder doppeltes `name`, ein
+    `version`, das keine Ganzzahl ist (`true` ist in Python gleich 1). Die
+    uebrigen Regeln des Hooks (Zeichensatz und leere Texte, Groesse,
+    Praefix-Ueberlappung, doppelte Schluessel im JSON)
+    stehen bewusst nicht hier, sonst gaebe es seine Spezifikation zweimal.
     """
     try:
         daten = json.loads(roh.decode('utf-8-sig'))
     except (ValueError, UnicodeDecodeError) as exc:
         return [f'kein lesbares JSON: {exc}']
-    if not isinstance(daten, dict) or daten.get('version') != 1:
+    version = daten.get('version') if isinstance(daten, dict) else None
+    if (isinstance(version, bool) or not isinstance(version, int)
+            or version != 1):
         return ['version ist nicht 1, das Skript kennt nur Format v1']
     achsen = daten.get('pflichtachsen')
     if not isinstance(achsen, list):
         return ['pflichtachsen fehlt oder ist keine Liste']
     meldungen = []
+    fremd = sorted(set(daten) - {'version', 'pflichtachsen', 'ausgenommen'})
+    if fremd:
+        meldungen.append(f'unbekannter Schluessel oben: {", ".join(fremd)}. '
+                         f'Der Hook haelt das Schema dann fuer ungueltig')
     im_schema = {}
+    namen = set()
     for a in achsen:
         name = a.get('name', '?') if isinstance(a, dict) else repr(a)
+        if isinstance(a, dict):
+            fremd = sorted(set(a) - {'name', 'praefix', 'werte', 'anzahl'})
+            if fremd:
+                meldungen.append(f'Achse {name}: unbekannter Schluessel '
+                                 f'{", ".join(fremd)}')
+            if not isinstance(a.get('name'), str):
+                meldungen.append(f'Achse mit praefix {a.get("praefix")!r}: '
+                                 f'name fehlt oder ist kein Text')
+            elif a['name'] in namen:
+                meldungen.append(f'Achsenname {a["name"]} steht zweimal im Schema')
+            else:
+                namen.add(a['name'])
         if (not isinstance(a, dict) or not isinstance(a.get('praefix'), str)
                 or not isinstance(a.get('werte'), list)
                 or not all(isinstance(w, str) for w in a['werte'])):
@@ -695,7 +723,9 @@ def schema_abweichungen(roh):
             meldungen.append(f'nur im Skript, nicht im Schema: '
                              f'{", ".join(nur_skript)}')
     ausgenommen = daten.get('ausgenommen', [])
-    if not isinstance(ausgenommen, list) or set(ausgenommen) != {'evergreen'}:
+    if (not isinstance(ausgenommen, list)
+            or not all(isinstance(x, str) for x in ausgenommen)
+            or set(ausgenommen) != {'evergreen'}):
         meldungen.append(f'ausgenommen ist {ausgenommen!r}, das Skript nimmt '
                          f'genau evergreen aus')
     return meldungen
@@ -1522,6 +1552,28 @@ def selftest():
     with tempfile.TemporaryDirectory() as leer:
         faelle.append(('Fehlende Datei faellt auf',
                        pruefe_schema(Path(leer) / 'issue-labels.json') != []))
+    # Die fuenf Faelle, die der Hook fuer ungueltig haelt (Docstring von
+    # schema_abweichungen), dazu ein ausgenommen, das nicht aus Text besteht
+    # und vorher mit TypeError abbrach statt zu melden.
+    faelle.append(('Unbekannter Schluessel oben faellt auf', any(
+        'beschreibung' in m for m in schema_abweichungen(
+            schema(beschreibung='x')))))
+    faelle.append(('Unbekannter Schluessel in einer Achse faellt auf', any(
+        'hinweis' in m for m in schema_abweichungen(schema(
+            aendern=lambda d: d['pflichtachsen'][0].__setitem__('hinweis', 'x'))))))
+    faelle.append(('Fehlendes name faellt auf', any(
+        'name fehlt' in m for m in schema_abweichungen(schema(
+            aendern=lambda d: d['pflichtachsen'][0].pop('name'))))))
+    faelle.append(('Doppeltes name faellt auf', any(
+        'zweimal' in m and 'auto' in m for m in schema_abweichungen(schema(
+            aendern=lambda d: d['pflichtachsen'][1].__setitem__('name', 'auto'))))))
+    faelle.append(('version true faellt auf',
+                   schema_abweichungen(schema(version=True)) != []))
+    faelle.append(('version 1.0 faellt auf',
+                   schema_abweichungen(schema(version=1.0)) != []))
+    faelle.append(('ausgenommen aus Listen faellt auf, ohne Absturz', any(
+        'ausgenommen' in m for m in schema_abweichungen(
+            schema(ausgenommen=[['evergreen']])))))
 
     schlecht = [name for name, ok in faelle if not ok]
     for name, ok in faelle:
