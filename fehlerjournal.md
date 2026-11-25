@@ -1200,11 +1200,11 @@ Auto-Mode-Classifier abgelehnt, und die Blockade ging an Christian.
 
 **Rot.** Vor dem ersten Push auf `claude/452-zuschreibung` habe ich die Gates der Data-Change-Lifecycle lokal laufen lassen, aber aus einer Liste, die ich selbst zusammengestellt hatte, nicht aus `.github/workflows/data-integrity.yml`. `scripts/audit/check-author-refs.py` stand nicht darauf. Es meldete für CR die verworfene Zuschreibung (Bligger von Steinach) als Autor ohne `particDesc`-Spiegel und war in der CI rot.
 
-**Welche Lehre nicht gegriffen hat:** **Die Lehre steht in `docs/DATA-MODEL.md` (Data-Change-Lifecycle): die Gates einer Datenänderung sind die Schritte von `.github/workflows/data-integrity.yml`, nicht eine Liste aus dem Gedächtnis.** Letzte Zeile zu dieser Lehre: keine.
+**Welche Lehre nicht gegriffen hat:** **Die Lehre steht in `docs/DATA-MODEL.md` (Data-Change-Lifecycle): die Gates einer Datenänderung sind die Schritte von `.github/workflows/data-integrity.yml`, nicht eine Liste aus dem Gedächtnis.** Letzte Zeile zu dieser Lehre: Eintrag 103 (nachgetragen am 25.11.2026, #726: dieselbe Lehre unter anderer Fundstelle).
 
 **Was es getragen hat:** eine Runde CI und eine Ausnahme im eingefrorenen Skript, die die Koordination freigeben musste. Behoben in `0e5f1ab6e` (verworfene Zuschreibung braucht keinen Spiegel), mit Mutationsprobe und Messung danach.
 
-**Kein neuer Mechanismus:** eine Zeile. Die Gegenprobe ist, die Schritte aus der Workflow-Datei abzulesen.
+**Mechanismus: am 09.10.2026 keiner, nachgeholt in #726.** Am 09.10.2026 als erste Zeile gezählt. Mit 9 und 103 war es die dritte, der Wechsel war also fällig. Nachgeholt am 25.11.2026 in #726 (siehe Eintrag 118).
 
 ### Fehler 116 (rot), 09.10.2026: Fehlerklasse „Autor als Zeichenkette“ nach der Lehre aus Runde 2 in Runde 3 wieder getroffen (Spur 452, 09.10.2026).
 
@@ -1234,7 +1234,7 @@ Auto-Mode-Classifier abgelehnt, und die Blockade ging an Christian.
 
 **Was es getragen hat:** eine weitere CI-Runde auf dem PR. Behoben im Commit nach `002f65a86`.
 
-**Mechanismus: zweite Zeile, noch keine dritte.** Bei der nächsten Zeile zu dieser Lehre wird gewechselt; Vorschlag: eine Schleife über alle `run:`-Schritte der drei Workflows als Skript in `scripts/audit/`, die ein Mensch oder eine Session vor dem Push einmal aufruft.
+**Mechanismus: zweite Zeile, noch keine dritte.** Bei der nächsten Zeile zu dieser Lehre wird gewechselt; Vorschlag: eine Schleife über alle `run:`-Schritte der drei Workflows als Skript in `scripts/audit/`, die ein Mensch oder eine Session vor dem Push einmal aufruft. Gezählt mit 9 und 103 war 118 schon die vierte Zeile. Gewechselt am 25.11.2026 (#726): `scripts/audit/ci-lokal.py` liest die Workflows selbst, und die Pflicht steht in `CLAUDE.md` (Git Rules) und in Regel 14 des Betriebsvertrags.
 
 ### Fehler 119 (rot), 13.10.2026: `flex-shrink-0` als regellos in `tailwind-output.css` gemeldet, mit einem Kontrollwert, der den Fehlermodus nicht teilen konnte (13.10.2026, #584).
 

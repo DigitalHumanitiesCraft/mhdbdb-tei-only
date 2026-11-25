@@ -64,6 +64,8 @@ scripts/
 │   ├── build-issue-matrix.py    # Triage-Matrix #44 aus den Issue-Labels bauen (#44)
 │   ├── build-review-364.py      # Offline-Prüfseite #364 (fehlende Lemma-Ziele) aus Korpus und Authority-Files erzeugen (variants.xml gegen lexicon.xml) (#443)
 │   ├── build-review-klaus.py    # Offline-Prüfmappe #390/#115 (Wortgrenzen WZB, fehlende Bedeutungen) erzeugen (#443)
+│   ├── ci-lokal.py              # liest die Workflows (pull_request oder --ereignis push), wertet die paths-Filter gegen die geänderten Dateien aus und fährt deren `run:`-Schritte von HEAD in einem eigenen temporären Worktree, ein Schritt ohne Klasse in der Tabelle im Skript ist ein harter Fehler (#726)
+│   ├── test_ci_lokal.py         # Tests dazu: harte Fehler, Pfadfilter, Exit 1 bei rotem Schritt, Ersetzung, Ereignis push, Worktree-Isolation (`python scripts/audit/test_ci_lokal.py`)
 │   ├── check-authority-cross-refs.py # Korpus→Authority Cross-Ref-Integrität (#44/#115)
 │   ├── compare-findebuch-resolution-259.py # dreistufige Auflösung gegen den Findebuch-Verweisgraph (#259)
 │   ├── check-author-refs.py     # Personennamen im Header gegen persons.xml: titleStmt/author (#228) und particDesc/listPerson (#308)
