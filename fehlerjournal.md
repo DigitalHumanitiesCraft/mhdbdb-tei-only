@@ -1204,7 +1204,7 @@ Auto-Mode-Classifier abgelehnt, und die Blockade ging an Christian.
 
 **Was es getragen hat:** eine Runde CI und eine Ausnahme im eingefrorenen Skript, die die Koordination freigeben musste. Behoben in `0e5f1ab6e` (verworfene Zuschreibung braucht keinen Spiegel), mit Mutationsprobe und Messung danach.
 
-**Kein neuer Mechanismus:** eine Zeile. Die Gegenprobe ist, die Schritte aus der Workflow-Datei abzulesen.
+**Kein neuer Mechanismus:** am 09.10.2026 als erste Zeile gezählt. Mit 9 und 103 war es die dritte, der Wechsel war also fällig. Nachgeholt am 25.11.2026 in #726 (siehe Eintrag 118).
 
 ### Fehler 116 (rot), 09.10.2026: Fehlerklasse „Autor als Zeichenkette“ nach der Lehre aus Runde 2 in Runde 3 wieder getroffen (Spur 452, 09.10.2026).
 
