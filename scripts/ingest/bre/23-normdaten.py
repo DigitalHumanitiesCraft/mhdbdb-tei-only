@@ -9,7 +9,7 @@ Entscheidung KZW vom 24.11.2026 (#147):
 
 Was das Skript tut, an Ort und Stelle in ingest/bre/BRE_*.tei.xml, NUR im Header (02 darf
 nicht neu laufen, das verlaere die Annotation der Phasen 1 bis 3):
-  msIdentifier/@corresp, msName und titleStmt/title (= Werktitel), das @corresp des
+  msIdentifier/@corresp, titleStmt/title (= Werktitel; msName bleibt), das @corresp des
   digitalIntermediary, die category der Gattung, die Autoren in titleStmt und particDesc,
   eine <change>-Zeile. Die Sprachstufe (language ident="TBD", #118) bleibt unberuehrt.
 
@@ -99,6 +99,23 @@ def lade_normdaten():
 
 
 # ---------------------------------------------------------------- Autorschaft
+
+def werktitel_von(z):
+    """Werktitel aus einer Zeile von zeugen.tsv: Handschrift "Weingrüße (<Kurzform>, <Signatur>)",
+    Druck "Weingrüße (Druck, <Signatur>)". Unbekannter Typ oder Aufbewahrung ist ein harter Fehler."""
+    sig = z["signatur"].strip()
+    if not sig:
+        raise bc.HarterFehler(f"{z['mhdbdb_sigle']}: signatur leer in zeugen.tsv")
+    if z["typ"] == "Druck":
+        return f"Weingrüße (Druck, {sig})"
+    if z["typ"] != "Handschrift":
+        raise bc.HarterFehler(f"{z['mhdbdb_sigle']}: unbekannter typ {z['typ']!r} in zeugen.tsv")
+    kurz = bc.AUFBEWAHRUNG_KURZ.get(z["aufbewahrung"])
+    if kurz is None:
+        raise bc.HarterFehler(f"{z['mhdbdb_sigle']}: Aufbewahrung {z['aufbewahrung']!r} fehlt in "
+                              f"bre_common.AUFBEWAHRUNG_KURZ")
+    return f"Weingrüße ({kurz}, {sig})"
+
 
 def rosen_flag(titel, personen):
     """True, wenn der Linkname den Autor in Klammern nennt. Ein anderer Name ist ein harter Fehler."""
@@ -252,14 +269,15 @@ def setze_header(root, sigle, werktitel, pids, personen, genre, heute):
             raise bc.HarterFehler(f"{sigle}: {len(r)} x {was} statt 1")
         return r[0]
 
-    # Titel: title und msName tragen denselben Text (02 schreibt beide gleich)
+    # Titel: nur titleStmt/title bekommt den Werktitel. msName bleibt (Blattangabe, Druckdaten);
+    # den Platzhalterzustand von 02 erkennt man daran, dass title und msName gleich lauten.
     ts = genau_eins(".//t:titleStmt", "titleStmt")
     titel = genau_eins("t:fileDesc/t:titleStmt/t:title", "titleStmt/title")
     msname = genau_eins(".//t:msIdentifier/t:msName", "msName")
-    if (titel.text, msname.text) != (werktitel, werktitel):
+    if titel.text != werktitel:
         if titel.text != msname.text:
             raise bc.HarterFehler(f"{sigle}: title {titel.text!r} != msName {msname.text!r}")
-        titel.text = msname.text = werktitel
+        titel.text = werktitel
         geaendert.append("Titel")
 
     # Autoren im titleStmt
@@ -411,7 +429,7 @@ def main():
             raise bc.HarterFehler(f"{mh}: keine passende Zeile in zeugen.tsv")
         if not z["aufbewahrung"].strip() or not z["signatur"].strip():
             raise bc.HarterFehler(f"{mh}: aufbewahrung oder signatur leer in zeugen.tsv")
-        werktitel = f"Weingrüße ({z['aufbewahrung']}, {z['signatur']})"
+        werktitel = werktitel_von(z)
         pids, n_r, n, _ = autoren_des_zeugen(ed, root, rows, personen)
         geaendert = setze_header(root, mh, werktitel, pids, personen, genre, heute)
         ref = root.xpath(".//t:bibl[@type='digitalIntermediary']/t:ref/@target", namespaces=NS)

@@ -504,20 +504,36 @@ pruefe("Normdaten: unbekannter Kommentar im Body ist ein harter Fehler",
 pruefe("Normdaten: Kommentare und Abschnitte müssen übereinstimmen",
        wirft(lambda: autoren("B", A1, A2, abschnitte=3)))
 
+# Werktitel: Kurzform der Aufbewahrung bei Handschriften, "Druck" bei Drucken
+ZT = {"mhdbdb_sigle": "BRE_X", "typ": "Handschrift", "signatur": "Cgm 713",
+      "aufbewahrung": "München, Bayerische Staatsbibliothek"}
+pruefe("Normdaten: Werktitel einer Handschrift mit Kurzform",
+       norm.werktitel_von(ZT) == "Weingrüße (München, BSB, Cgm 713)", norm.werktitel_von(ZT))
+pruefe("Normdaten: Werktitel eines Drucks ohne Aufbewahrung",
+       norm.werktitel_von({**ZT, "typ": "Druck", "signatur": "VD16 R 439"}) == "Weingrüße (Druck, VD16 R 439)")
+pruefe("Normdaten: Handschrift mit unbekannter Aufbewahrung ist ein harter Fehler",
+       wirft(lambda: norm.werktitel_von({**ZT, "aufbewahrung": "Irgendwo, Bibliothek"})))
+pruefe("Normdaten: unbekannter Typ ist ein harter Fehler",
+       wirft(lambda: norm.werktitel_von({**ZT, "typ": "Rolle"})))
+
 # Header: setzen und ein zweites Mal setzen
 _, _, tei_n, _, _ = baue(SEITE, ROWS, "B")
 WT = "Weingrüße (Test, Cgm 713)"
 vorher = conv.etree.tostring(tei_n)
 g1 = norm.setze_header(tei_n, "BRE_TEST", WT, ["person_907", "person_anonym"], PERS, GEN, "2026-11-25")
 nach1 = conv.etree.tostring(tei_n)
-g2 = norm.setze_header(tei_n, "BRE_TEST", WT, ["person_907", "person_anonym"], PERS, GEN, "2026-12-31")
+try:
+    g2 = norm.setze_header(tei_n, "BRE_TEST", WT, ["person_907", "person_anonym"], PERS, GEN, "2026-12-31")
+except conv.bc.HarterFehler as e:
+    g2 = f"Fehler: {e}"
 xn = lambda p: tei_n.xpath(p, namespaces=ns)  # noqa: E731
 pruefe("Normdaten: Header setzt alle sieben Felder", len(g1) == 7, str(g1))
 pruefe("Normdaten: Header idempotent, zweiter Lauf ändert kein Byte",
        g2 == [] and conv.etree.tostring(tei_n) == nach1 and nach1 != vorher, str(g2))
-pruefe("Normdaten: msIdentifier, msName, title und digitalIntermediary",
+pruefe("Normdaten: msName behält seinen Wert, nur der title bekommt den Werktitel",
+       xn("//t:msName/text()") == ["Test, Cgm 713, 188r-188v"] and xn("//t:titleStmt/t:title/text()") == [WT])
+pruefe("Normdaten: msIdentifier und digitalIntermediary",
        xn("//t:msIdentifier/@corresp") == ["works.xml#work_BRE_TEST"]
-       and xn("//t:msName/text()") == [WT] and xn("//t:titleStmt/t:title/text()") == [WT]
        and xn("//t:bibl[@type='digitalIntermediary']/@corresp") == ["#BRE_TEST_BRE_TEST"])
 pruefe("Normdaten: Gattung mit Glossen aus genres.xml",
        xn("//t:taxonomy[@xml:id='genres']/t:category/@xml:id") == ["genre_315cf46f"]
