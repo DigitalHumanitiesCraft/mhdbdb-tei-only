@@ -16,6 +16,7 @@ import importlib.util
 import io
 import os
 import shutil
+import stat
 import subprocess
 import sys
 import tempfile
@@ -65,7 +66,8 @@ class Basis(unittest.TestCase):
 
     def aufraeumen(self):
         subprocess.run(['git', '-C', str(self.tmp), 'worktree', 'prune'], capture_output=True)
-        shutil.rmtree(self.tmp, ignore_errors=True)
+        # Git-Objekte sind schreibgeschuetzt, unter Windows scheitert rmtree sonst still
+        shutil.rmtree(self.tmp, onerror=lambda f, p, e: (os.chmod(p, stat.S_IWRITE), f(p)))
 
     def repo(self, workflows, geaendert=('docs/x.md',), extra_basis=None):
         """Git-Repo: Commit 1 = Workflows und README, Commit 2 = `geaendert`."""
