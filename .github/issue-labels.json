@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "pflichtachsen": [
+    {
+      "name": "auto",
+      "praefix": "auto:",
+      "werte": ["auto:full", "auto:pair", "auto:blocked", "auto:frozen"],
+      "anzahl": "genau-eins"
+    },
+    {
+      "name": "area",
+      "praefix": "area:",
+      "werte": ["area:data", "area:docs", "area:frontend", "area:orga", "area:pipeline", "area:playground"],
+      "anzahl": "genau-eins"
+    },
+    {
+      "name": "effort",
+      "praefix": "effort:",
+      "werte": ["effort:small", "effort:medium", "effort:large"],
+      "anzahl": "genau-eins"
+    }
+  ],
+  "ausgenommen": ["evergreen"]
+}
