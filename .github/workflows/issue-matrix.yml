@@ -42,11 +42,14 @@ jobs:
         # gruen (gefunden vom CI-Review-Bot auf PR #396, 02.09.2026). Wer diese
         # Liste kuerzt, schaltet die Pruefung ab, ohne dass es auffaellt; das
         # Skript warnt seit demselben Tag sichtbar, wenn die Datei fehlt.
+        # .github/issue-labels.json muss mit, seit das Skript seine Achsen
+        # gegen sie haelt (#736); ohne sie bricht schon der Selbsttest ab.
         uses: actions/checkout@v6
         with:
           sparse-checkout: |
             scripts/audit
             docs/ROADMAP.md
+            .github/issue-labels.json
           sparse-checkout-cone-mode: false
 
       - name: Set up Python

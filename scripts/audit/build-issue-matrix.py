@@ -35,6 +35,15 @@ Drei Achsen mit genau einem Label je Achse und Ticket:
               | area:docs | area:orga
     effort:small | effort:medium | effort:large
 
+Maschinenlesbar steht dasselbe Schema in `.github/issue-labels.json`, das
+der Hook `issue-labels-pruefen.py` aus `chsteiner/claude-code-setup` beim
+Anlegen eines Issues liest (#736). Das Skript haelt seine Konstanten gegen
+diese Datei: eine Achse oder ein Wert, der nur an einer der beiden Stellen
+steht, ist ein harter Fehler (Exit 2, im Selbsttest ein roter Fall), kein
+stiller Fallback auf die Konstanten. Die Konstanten bleiben, weil sie die
+Reihenfolge der Tabellen tragen, die das Schema nicht kennt. Ob die Datei
+im Sinn des Hooks gueltig ist, prueft der Hook, nicht dieses Skript.
+
 Dazu die Flags `ingest` und `evergreen` sowie, nur an `auto:blocked`, ein oder
 mehrere `wait:*` (kzw, julia, linda, extern). Mehrere sind erlaubt und
 richtig: #315 wartet auf KZW *und* Julia.
@@ -630,6 +639,76 @@ ROADMAP = 'docs/ROADMAP.md'
 # Gelesen wird an der Repo-Wurzel dieses Skripts, nicht am cwd (fehlerjournal.md
 # 104). Im sparse Checkout von issue-matrix.yml ist das dieselbe Stelle wie vorher.
 REPO = Path(__file__).resolve().parents[2]
+# Im sparse Checkout von issue-matrix.yml steht die Datei ausdruecklich in der
+# Liste; fehlt sie dort, bricht der Lauf mit Exit 2 ab, statt gruen zu
+# melden (#736).
+SCHEMA = REPO / '.github' / 'issue-labels.json'
+
+
+def schema_abweichungen(roh):
+    """Vergleicht das Label-Schema (Bytes) mit ACHSEN. Liefert Klartext-
+    Meldungen, leer heisst: dieselben Achsen mit denselben Werten.
+
+    Verglichen wird je Praefix, Werte ohne Reihenfolge und mit genauer
+    Schreibung: die Reihenfolge ist Darstellung und gehoert dem Skript.
+    """
+    try:
+        daten = json.loads(roh.decode('utf-8-sig'))
+    except (ValueError, UnicodeDecodeError) as exc:
+        return [f'kein lesbares JSON: {exc}']
+    if not isinstance(daten, dict) or daten.get('version') != 1:
+        return ['version ist nicht 1, das Skript kennt nur Format v1']
+    achsen = daten.get('pflichtachsen')
+    if not isinstance(achsen, list):
+        return ['pflichtachsen fehlt oder ist keine Liste']
+    meldungen = []
+    im_schema = {}
+    for a in achsen:
+        name = a.get('name', '?') if isinstance(a, dict) else repr(a)
+        if (not isinstance(a, dict) or not isinstance(a.get('praefix'), str)
+                or not isinstance(a.get('werte'), list)
+                or not all(isinstance(w, str) for w in a['werte'])):
+            meldungen.append(f'Achse {name}: braucht praefix und werte als '
+                             f'Text, sonst kann das Skript sie nicht vergleichen')
+            continue
+        if a.get('anzahl') != 'genau-eins':
+            meldungen.append(f'Achse {name}: anzahl ist {a.get("anzahl")!r}, '
+                             f'das Skript prueft genau eins')
+        if a['praefix'] in im_schema:
+            meldungen.append(f'Praefix {a["praefix"]} steht zweimal im Schema')
+        im_schema[a['praefix']] = a['werte']
+    skript = {praefix: erlaubt for praefix, _, erlaubt in ACHSEN}
+    for praefix in sorted(set(skript) | set(im_schema)):
+        if praefix not in im_schema:
+            meldungen.append(f'Achse {praefix} fehlt im Schema')
+            continue
+        if praefix not in skript:
+            meldungen.append(f'Achse {praefix} steht im Schema, das Skript '
+                             f'kennt sie nicht')
+            continue
+        nur_schema = [w for w in im_schema[praefix] if w not in skript[praefix]]
+        nur_skript = [w for w in skript[praefix] if w not in im_schema[praefix]]
+        if nur_schema:
+            meldungen.append(f'nur im Schema, nicht im Skript: '
+                             f'{", ".join(nur_schema)}')
+        if nur_skript:
+            meldungen.append(f'nur im Skript, nicht im Schema: '
+                             f'{", ".join(nur_skript)}')
+    ausgenommen = daten.get('ausgenommen', [])
+    if not isinstance(ausgenommen, list) or set(ausgenommen) != {'evergreen'}:
+        meldungen.append(f'ausgenommen ist {ausgenommen!r}, das Skript nimmt '
+                         f'genau evergreen aus')
+    return meldungen
+
+
+def pruefe_schema(pfad=SCHEMA):
+    """schema_abweichungen() fuer die Datei unter `pfad`; eine fehlende oder
+    unlesbare Datei ist selbst eine Abweichung."""
+    try:
+        roh = Path(pfad).read_bytes()
+    except OSError as exc:
+        return [f'{pfad} nicht lesbar: {exc}']
+    return schema_abweichungen(roh)
 
 
 def hole_geschlossene():
@@ -1392,6 +1471,57 @@ def selftest():
                    einmal.count(END) == 1 and zweimal.count(END) == 1
                    and zweimal.endswith('unten')))
 
+    # Label-Schema (#736): die echte Datei und erfundene Abweichungen. Der
+    # erste Fall ist der, auf den es ankommt: er laeuft in der CI vor dem
+    # Schreiben und lokal ueber ci-lokal.py.
+    faelle.append(('Echtes Schema stimmt mit den Konstanten ueberein',
+                   pruefe_schema() == []))
+
+    def schema(aendern=None, **setzen):
+        # Ein Schema, das zu ACHSEN passt; `aendern` veraendert es danach an
+        # Ort und Stelle, `setzen` ersetzt Schluessel oben.
+        achsen = [{'name': p.rstrip(':'), 'praefix': p, 'werte': list(e),
+                   'anzahl': 'genau-eins'} for p, _, e in ACHSEN]
+        daten = {'version': 1, 'pflichtachsen': achsen,
+                 'ausgenommen': ['evergreen']}
+        daten.update(setzen)
+        if aendern:
+            aendern(daten)
+        return json.dumps(daten).encode('utf-8')
+
+    faelle.append(('Synthetisch gleiches Schema ist ohne Abweichung',
+                   schema_abweichungen(schema()) == []))
+    faelle.append(('Wert nur im Schema faellt auf', any(
+        'nur im Schema' in m and 'area:datenbank' in m
+        for m in schema_abweichungen(schema(
+            aendern=lambda d: d['pflichtachsen'][1]['werte'].append('area:datenbank'))))))
+    faelle.append(('Wert nur im Skript faellt auf', any(
+        'nur im Skript' in m and 'effort:large' in m
+        for m in schema_abweichungen(schema(
+            aendern=lambda d: d['pflichtachsen'][2]['werte'].remove('effort:large'))))))
+    faelle.append(('Fehlende Achse faellt auf', any(
+        'Achse auto: fehlt' in m for m in schema_abweichungen(schema(
+            aendern=lambda d: d['pflichtachsen'].pop(0))))))
+    faelle.append(('Fremde Achse faellt auf', any(
+        'typ:' in m and 'kennt sie nicht' in m
+        for m in schema_abweichungen(schema(aendern=lambda d: d['pflichtachsen'].append(
+            {'name': 'typ', 'praefix': 'typ:', 'werte': ['typ:x'],
+             'anzahl': 'genau-eins'}))))))
+    faelle.append(('anzahl mindestens-eins faellt auf', any(
+        'anzahl' in m for m in schema_abweichungen(schema(
+            aendern=lambda d: d['pflichtachsen'][0].__setitem__(
+                'anzahl', 'mindestens-eins'))))))
+    faelle.append(('Anderes ausgenommen faellt auf', any(
+        'ausgenommen' in m for m in schema_abweichungen(
+            schema(ausgenommen=[])))))
+    faelle.append(('Version 2 faellt auf',
+                   schema_abweichungen(schema(version=2)) != []))
+    faelle.append(('Kaputtes JSON faellt auf',
+                   schema_abweichungen(b'{"version": 1,') != []))
+    with tempfile.TemporaryDirectory() as leer:
+        faelle.append(('Fehlende Datei faellt auf',
+                       pruefe_schema(Path(leer) / 'issue-labels.json') != []))
+
     schlecht = [name for name, ok in faelle if not ok]
     for name, ok in faelle:
         print(f"  {'OK  ' if ok else 'FAIL'}  {name}")
@@ -1415,6 +1545,14 @@ def main():
 
     if args.selftest:
         return selftest()
+
+    # Vor jedem Netzzugriff: weicht das Schema ab, wird nichts geschrieben.
+    abweichungen = pruefe_schema()
+    if abweichungen:
+        for m in abweichungen:
+            print(f'::error title=Label-Schema::{m}', file=sys.stderr)
+        abbruch(f'{SCHEMA.relative_to(REPO).as_posix()} und die Konstanten '
+                f'des Skripts weichen ab, #{MATRIX_ISSUE} bleibt unberuehrt')
 
     issues = hole_issues()
     if not issues:
