@@ -23,6 +23,7 @@ metadata:
 - Eine Zahl aus einem Squash-Betreff zählt keine Commits: Branch-Kopf holen (`gh pr view N --json headRefOid,commits`), `git rev-list --count <marker>..<kopf> -- <pfade>`.
 - Dateiliste eines PR: Rezept in CLAUDE.md (Git Rules), nie `--json files`.
 - **Eine Regel, die einen Vermerk per `git log --grep` auf `main` wiederfinden will, trägt nur über die Squash-Message:** Branch-Commits erreichen `main` nie. Sagt die Regel, dass der Mergende die Zeile übernimmt, und zwar für jede Vermerkzeile einzeln (Schuld- und `nachgeholt:`-Zeile)?
+- **Nachzug der `.claude/agents/`-Kopie aus claude-code-setup:** Blob-Kette schließen, nicht nur das Ziel: `git rev-parse origin/main:.claude/agents/<f>` gleich `<alter stand>:agents/<f>` der Sammlung, HEAD-Blob gleich `<neuer stand>:agents/<f>`, dazu `merge-base --is-ancestor` und `git log <alt>..<neu> -- agents/` gegen die README-Aufzählung. Git Bash macht aus `origin/main:.claude/x` eine Windows-Pfadliste (`origin\main;...`), und `MSYS_NO_PATHCONV=1` bricht dann `-C /c/...`: stattdessen `git ls-tree origin/main .claude/agents/` (25.11.2026, #727).
 - **Message eines einzelnen Commits: `git show -s --format=%B <sha>`**, nie `git log origin/main -1 <sha>`: zwei Revisionen sind eine Vereinigung, `-1` zeigt den main-Kopf. `git log --grep` mit Umlaut trägt in Git Bash.
 
 **`git log -- <pfade>` an einem `--no-ff`-Merge:** ohne `--first-parent` erscheinen die Branch-Commits, der Merge nicht (TREESAME zum zweiten Elternteil), mit Flag nur der Merge. Eine umgestellte Pfadzählung im Probe-Repo nachmessen.
