@@ -657,7 +657,8 @@ def schema_abweichungen(roh):
     (gemessen an `schema_lesen` des Hooks, #736): ein unbekannter Schluessel
     oben oder in einer Achse, ein fehlendes oder doppeltes `name`, ein
     `version`, das keine Ganzzahl ist (`true` ist in Python gleich 1). Die
-    uebrigen Regeln des Hooks (Zeichensatz, Groesse, Praefix-Ueberlappung)
+    uebrigen Regeln des Hooks (Zeichensatz und leere Texte, Groesse,
+    Praefix-Ueberlappung, doppelte Schluessel im JSON)
     stehen bewusst nicht hier, sonst gaebe es seine Spezifikation zweimal.
     """
     try:
@@ -665,7 +666,8 @@ def schema_abweichungen(roh):
     except (ValueError, UnicodeDecodeError) as exc:
         return [f'kein lesbares JSON: {exc}']
     version = daten.get('version') if isinstance(daten, dict) else None
-    if isinstance(version, bool) or version != 1:
+    if (isinstance(version, bool) or not isinstance(version, int)
+            or version != 1):
         return ['version ist nicht 1, das Skript kennt nur Format v1']
     achsen = daten.get('pflichtachsen')
     if not isinstance(achsen, list):
@@ -1567,6 +1569,8 @@ def selftest():
             aendern=lambda d: d['pflichtachsen'][1].__setitem__('name', 'auto'))))))
     faelle.append(('version true faellt auf',
                    schema_abweichungen(schema(version=True)) != []))
+    faelle.append(('version 1.0 faellt auf',
+                   schema_abweichungen(schema(version=1.0)) != []))
     faelle.append(('ausgenommen aus Listen faellt auf, ohne Absturz', any(
         'ausgenommen' in m for m in schema_abweichungen(
             schema(ausgenommen=[['evergreen']])))))
