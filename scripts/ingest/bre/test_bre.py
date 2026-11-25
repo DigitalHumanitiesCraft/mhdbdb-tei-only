@@ -3,8 +3,10 @@
 
 Aufruf: python -P -E scripts/ingest/bre/test_bre.py
 Die meisten Tests laufen ohne Netz und ohne Cache auf einer Mini-Fixture (Ausschnitt aus Cgm 713,
-Revision 21352). Den Wiki-Cache `temp/bre-wiki` brauchen das Druckfahnen-Gate und die Sperre-Tests
-(Sperre gegen das Ueberschreiben), die echte Zeugen konvertieren; fehlt er, schlagen sie fehl.
+Revision 21352). Den Wiki-Cache `temp/bre-wiki` brauchen das Druckfahnen-Gate und die fuenf
+Sperre-Tests, die `konvertiere` direkt aufrufen; fehlt er, schlagen sie fehl. Die beiden Sperre-Tests
+ueber `main()` (alle, Nenner) bestehen auch ohne Cache und sagen dann nichts: ohne Cache bricht schon
+die erste Konversion ab, bevor geschrieben wird. Ihr Befund zaehlt nur mit Cache.
 Beendet mit Exit 1, wenn ein Test fehlschlaegt.
 """
 import collections
