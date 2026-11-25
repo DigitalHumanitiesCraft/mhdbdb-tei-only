@@ -46,6 +46,10 @@ Je Zeile in der Spalte `passt` eintragen:
 
 Leere Zeilen gelten als nicht geprüft. Die ausgefüllte Datei bitte im Issue #147 anhängen oder zurückschicken. Ein Skript, das die Korrekturen einspielt, gibt es noch nicht, es entsteht mit den ersten Rückmeldungen.
 
+## Prüfseite statt Tabelle
+
+`pruefseite.html` ist dasselbe Paket zum Prüfen im Browser: herunterladen und lokal öffnen, Internet braucht es nur für die Links. Sie zeigt **alle** Zeilen aus `lemma-verdacht.tsv` und aus `lemma.tsv`, `wortart.tsv` und `bedeutung.tsv` je eine **Stichprobe von 50 Zeilen**, geschichtet nach `low` und `medium` im Verhältnis der Datei und mit dem festen Zufallswert 147 gezogen; die Seite nennt bei jeder Stichprobe den Nenner. Je Zeile stehen der Vers mit dem Wort und die Nachbarverse aus der TEI-Datei, der maschinelle Vorschlag mit Begründung, die anderen Möglichkeiten, „ja“ / „nein“ / „? Nicht zu entscheiden“ und die Felder Korrektur und Anmerkung. Der Arbeitsstand bleibt im Browser; zurück kommt der **JSON-Export**, dessen Felder `passt`, `korrektur` und `anmerkung` den Spalten oben entsprechen (Format im Docstring von `scripts/ingest/bre/22-pruefseite.py`, das die Seite neu baut).
+
 ## Was dieses Paket nicht zeigt
 
 - Wörter, für die das Lexikon gar kein Lemma kennt. Sie stehen nach Häufigkeit sortiert in `../phase1/lemma-unmatched.tsv` und sind eine Liste für das Lexikonteam, keine Prüfaufgabe.

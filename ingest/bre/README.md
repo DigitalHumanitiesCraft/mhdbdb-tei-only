@@ -12,7 +12,7 @@ Artefakte des Ingests der Weingrüße aus dem Brevitas-Wiki (Issue [#147](https:
 | `phase1/` | Lemma: mehrdeutige Wörter mit Entscheidung (`lemma-pending.tsv`), Bulk- und Patch-Entscheidungen, Wörter ohne Lemma nach Häufigkeit (`lemma-unmatched.tsv`) | `10`, `12`, `13` |
 | `phase2/` | Wortart: dasselbe für `@pos` | `14`, `12`, `15` |
 | `phase3/` | Bedeutung: dasselbe für `@ana`, dazu die Wörter mit mehreren Variantentypen (`corresp-mehrdeutig.tsv`) | `16`, `12`, `15`, `18` |
-| `pruefung/` | Prüfpaket für Julia und KZW, mit eigenem [README](pruefung/README.md) | `20-pruefpaket.py` |
+| `pruefung/` | Prüfpaket für Julia und KZW, mit eigenem [README](pruefung/README.md), dazu die Prüfseite `pruefseite.html` | `20-pruefpaket.py`, `22-pruefseite.py` |
 
 Die Daten stehen unter CC BY-NC-SA 4.0 (Freigabe Silvan Wagner, 23.10.2026). `zeugen.tsv` gibt Angaben aus der Einleitung der Hirzel-Ausgabe als Fakten mit Seitenbeleg wieder, ohne deren Text zu übernehmen.
 

@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8"><meta name="robots" content="noindex"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Prüfung Weingrüße #147</title>
+<style>
+:root{color-scheme:light;--bg:#f2f4f3;--paper:#fff;--ink:#20332e;--muted:#52665e;--line:#cdd8d2;--accent:#17674f;--soft:#edf5f0;--mark:#ffe3a0;--warn:#835114;--draft:#5b5f9e}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 system-ui,sans-serif}
+body.dark{color-scheme:dark;--bg:#14211d;--paper:#1e3029;--ink:#e8f2ed;--muted:#b6c9bf;--line:#456153;--accent:#9addbe;--soft:#2a4438;--mark:#805c13;--warn:#ffd18f;--draft:#c3c6ff}
+a{color:var(--accent)}
+button,input,select,textarea{font:inherit}
+button,select,input{padding:.45rem .7rem;border:1px solid var(--line);border-radius:7px;background:var(--paper);color:var(--ink)}
+button{cursor:pointer}button:hover{background:var(--soft)}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+button.primary{background:var(--accent);color:var(--paper);font-weight:700}
+header{padding:28px 32px 20px;max-width:1500px;margin:auto}
+h1{font:700 clamp(1.8rem,3vw,2.6rem)/1.15 Georgia,serif;margin:.4rem 0 1rem}
+h2{font:700 1.6rem Georgia,serif;margin:.2rem 0 .6rem}
+h3{font-size:1.05rem;margin:.3rem 0}
+.eyebrow{text-transform:uppercase;letter-spacing:.13em;font-size:.8rem;color:var(--accent);font-weight:750}
+.muted,small{color:var(--muted)}
+.toolbar{position:sticky;top:0;z-index:10;background:var(--paper);border-block:1px solid var(--line);padding:12px 24px;box-shadow:0 3px 15px #0001}
+.tools{display:flex;gap:10px;flex-wrap:wrap;align-items:center;max-width:1440px;margin:auto}
+.tools label{display:flex;align-items:center;gap:8px}.tools input{width:240px}
+.progress-row{max-width:1440px;margin:8px auto 0;display:flex;gap:18px;align-items:center;font-size:.85rem;flex-wrap:wrap}
+progress{width:170px;accent-color:var(--accent)}#save{margin-left:auto}
+.layout{display:grid;grid-template-columns:270px minmax(0,1fr);gap:26px;max-width:1500px;padding:26px 32px;margin:auto}
+aside{align-self:start;position:sticky;top:150px;max-height:calc(100vh - 170px);overflow:auto}
+aside label{display:block;margin-bottom:14px}aside select,aside input{width:100%;font-size:.9rem}
+nav{display:grid;gap:7px;margin-bottom:18px}nav button{text-align:left;font-size:.95rem}
+nav button[aria-current=true]{border:2px solid var(--accent);background:var(--soft)}nav small{display:block}
+.panel,.card{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:22px;margin-bottom:20px}
+.card{border-top:4px solid var(--line);scroll-margin-top:150px}
+.card[data-status=decided]{border-top-color:var(--accent)}.card[data-status=open]{border-top-color:var(--warn)}.card[data-status=draft]{border-top-color:var(--draft)}
+.badge{display:inline-block;font-size:.78rem;font-weight:700;border:1px solid var(--line);border-radius:20px;padding:2px 9px;margin:2px 6px 2px 0}
+.question{font-size:1.15rem;font-weight:650;margin:.6rem 0}
+.suggestion{border-left:4px solid var(--accent);padding:10px 16px;background:var(--soft);margin:14px 0}
+.suggestion p{margin:.3rem 0}
+.context{font:1.1rem/1.75 Georgia,serif;padding:12px 18px;background:var(--soft);border-radius:8px;margin:10px 0;overflow-wrap:anywhere}
+.verse{display:block}.verse.kopf{font-style:italic}
+.verse .num{font:12px system-ui,sans-serif;color:var(--muted);display:inline-block;min-width:4.6em;margin-right:10px}
+.context mark{background:var(--mark);color:var(--ink);padding:2px 3px;border-radius:3px;font-weight:bold}
+.stelle-kopf{font-size:.85rem;color:var(--muted);margin-top:10px}
+details{margin:10px 0}summary{cursor:pointer;color:var(--accent)}
+fieldset{border:0;padding:0;margin:14px 0}legend{font-weight:700;margin-bottom:6px}
+.option{display:inline-block;border:1px solid var(--line);border-radius:7px;margin:4px 8px 4px 0;padding:8px 14px;cursor:pointer}
+.option:has(input:checked){background:var(--soft);border-color:var(--accent)}
+input[type=radio]{accent-color:var(--accent);margin-right:8px}
+.field-label{display:block;font-weight:650;margin-top:12px}
+.korrektur select{width:100%;max-width:100%}.korrektur input{width:100%;margin-top:6px}
+textarea{display:block;width:100%;min-height:80px;resize:vertical;padding:10px;border:1px solid var(--line);border-radius:7px;background:var(--paper);color:var(--ink)}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.notice{color:var(--warn);font-size:.95rem}
+.alts{margin:4px 0;padding-left:22px;font-size:.92rem}
+.technical{font-size:.85rem;overflow-wrap:anywhere}
+footer{max-width:1436px;margin:20px auto 50px;padding:0 24px}
+.empty{padding:30px}.report-value{white-space:pre-wrap}
+.skip{position:absolute;left:-9999px}.skip:focus{left:20px;top:5px;z-index:100;background:var(--paper)}
+@media(max-width:850px){.layout{grid-template-columns:1fr;padding:16px}aside{position:static;max-height:none}.toolbar{position:static}header{padding:20px}.panel,.card{padding:16px}}
+@media print{.toolbar,aside,.actions,.skip{display:none}.layout{display:block}.card{break-inside:avoid}body{background:white;color:black}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Zu den Zeilen</a>
+<header>
+<div class="eyebrow">MHDBDB, Weingrüße-Ingest, Prüfung</div>
+<h1>Stimmen die maschinellen Zuweisungen?</h1>
+<p>Prüfpaket zu <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/147">Issue #147</a>, Prüfseitenformat nach <a href="https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/443">#443</a></p>
+<p id="umfang"></p>
+<p><strong>Ein maschineller Vorschlag ist noch keine Entscheidung.</strong> Keine Antwort ist vorausgewählt. Die Rückmeldung verändert keine Daten; eingespielt wird sie erst später mit einem eigenen Skript.</p>
+<details><summary>Anleitung und Datenstand</summary>
+<ol>
+<li>Oben den Namen eintragen und links einen Bereich wählen.</li>
+<li>Je Zeile Vers und Nachbarverse lesen, dann den maschinellen Vorschlag. „ja“: die Zuweisung stimmt. „nein“: sie stimmt nicht; dann unter „Korrektur“ die richtige Wahl aus den anderen Möglichkeiten, bei einem Lemma auch „kein Lemma“, oder eine eigene Angabe. Fehlt dem Lexikon das richtige Wort, genügt eine Anmerkung.</li>
+<li>Mit „Entscheidung festhalten“ wird die Antwort gültig. Wer nicht entscheiden kann, klickt „? Nicht zu entscheiden“: die Zeile gilt dann als geprüft und bleibt offen.</li>
+<li>Eine geänderte Antwort fällt auf „Entwurf“ zurück, bis sie wieder festgehalten ist. Unberührte Zeilen und Entwürfe gelten als nicht geprüft.</li>
+<li>Am Ende <strong>JSON exportieren</strong> (für das Einspielen) und bei Bedarf den HTML-Bericht (zum Lesen). Zum Fortsetzen diese Seite öffnen und die JSON-Datei importieren.</li>
+</ol>
+<p>Der Arbeitsstand wird in diesem Browser für diesen Dateipfad gespeichert. Vor dem Verschieben der Datei oder dem Wechsel des Browsers bitte JSON exportieren.</p>
+<p>Der Text der Verse stammt aus den Transkriptionen im Brevitas-Wiki (Silvan Wagner, CC BY-NC-SA 4.0), wie sie in <code>ingest/bre/BRE_*.tei.xml</code> stehen. Lemmata, Wortarten und Bedeutungen kommen aus dem MHDBDB-Lexikon. Die Druckausgabe wurde weder für die Zuweisungen noch für diese Seite verwendet.</p>
+<p id="dataset"></p>
+</details>
+</header>
+<section class="toolbar" aria-label="Speichern und Fortschritt">
+<div class="tools">
+<label for="reviewer">Name <input id="reviewer" autocomplete="name" placeholder="Vor- und Nachname"></label>
+<button id="json">JSON exportieren</button>
+<button id="report">HTML-Ergebnisbericht</button>
+<button id="importButton">JSON importieren</button>
+<input type="file" id="importFile" accept=".json,application/json" hidden>
+<button id="theme" aria-pressed="false">Dunkelmodus</button>
+</div>
+<div class="progress-row"><progress id="progress" value="0" aria-label="Geprüfte Zeilen"></progress><span id="progressText" aria-live="polite"></span><span id="save" role="status">Noch keine Eingabe</span></div>
+</section>
+<div class="layout">
+<aside aria-label="Bereiche und Filter">
+<nav id="nav" aria-label="Bereich"></nav>
+<label>Bearbeitungsstand<select id="filter"><option value="all">Alle</option><option value="untouched">Unberührt</option><option value="draft">Entwurf (nicht festgehalten)</option><option value="decided">Entschieden</option><option value="open">Geprüft, bleibt offen</option></select></label>
+<label>Sicherheit<select id="sicherheit"></select></label>
+<label>Wortform enthält<input id="suche" type="search" placeholder="z. B. dorffen"></label>
+</aside>
+<main id="main" tabindex="-1"></main>
+</div>
+<footer>MHDBDB, Stand <span id="date"></span>, Transkriptionen: Brevitas-Wiki (Silvan Wagner), CC BY-NC-SA 4.0, Semantische Annotationen: MHDBDB, CC BY-NC-SA 4.0.</footer>
+<script type="application/json" id="review-data">__REVIEW_DATA__</script>
+<script>
+'use strict';
+const DATA=JSON.parse(document.getElementById('review-data').textContent);
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const STATUS={untouched:'Unberührt',draft:'Entwurf, nicht festgehalten',decided:'Entschieden',open:'Geprüft, bleibt offen'};
+const STORED_STATUS=['unreviewed','decided','open'];
+const GROUP_TITLE={verdacht:'Lemma-Verdacht',lemma:'Lemma',wortart:'Wortart',bedeutung:'Bedeutung'};
+const FRAGE={lemma:'Stimmt das Lemma?',pos:'Stimmt die Wortart?',sense:'Stimmt die Bedeutung?'};
+const SICHERHEIT={low:'niedrig (low)',medium:'mittel (medium)',
+ 'Lemma: auto-single':'Lemma ohne Blick auf den Satz gesetzt: das Lexikon kennt die Schreibung nur unter diesem Lemma',
+ 'Lemma: bulk-llm':'Lemma vom Modell für alle Belege der Form gewählt',
+ 'Lemma: instance-llm':'Lemma vom Modell für dieses einzelne Wort gewählt'};
+const POS={ADJ:'Adjektiv',ADV:'Adverb',CNJ:'Konjunktion',CCNJ:'koordinierende Konjunktion',SCNJ:'subordinierende Konjunktion',DET:'Determinativ',INJ:'Interjektion',NAM:'Eigenname',NEG:'Negation',NOM:'Substantiv',NUM:'Zahlwort',POS:'Possessivum',PRO:'Pronomen',PRP:'Präposition',VEM:'Modalverb',VEX:'Hilfsverb',VRB:'Verb',IPA:'Interrogativpartikel',DIG:'römisches Zahlzeichen'};
+const KEY='mhdbdb-pruefung-bre-147-'+DATA.fingerprint;
+const byId=Object.fromEntries(DATA.cases.map(c=>[c.id,c]));
+const byGroup=Object.fromEntries(DATA.groups.map(g=>[g.id,g]));
+let state={reviewer:'',answers:{}},active=DATA.groups[0].id;
+const blank=()=>({status:'unreviewed',wahl:'',korrekturWahl:'',korrekturFrei:'',anmerkung:'',reviewer:'',updatedAt:null});
+const answer=id=>state.answers[id]||blank();
+const touched=a=>!!(a.wahl||a.korrekturWahl||a.korrekturFrei||a.anmerkung);
+const shown=a=>a.status!=='unreviewed'?a.status:touched(a)?'draft':'untouched';
+const korrektur=a=>a.korrekturWahl==='frei'?a.korrekturFrei.trim():a.korrekturWahl;
+const passt=a=>a.status==='decided'?a.wahl:a.status==='open'?'?':'';
+const posLabel=v=>POS[v]?v+' ('+POS[v]+')':v;
+function lemmaLink(id){const m=/^lemma_(\d+)/.exec(id);return m?', <a target="_blank" rel="noopener" href="https://dhcraft.org/mhdbdb-tei-only/lemma/?id='+m[1]+'">Lemma online</a>':'';}
+function valueLabel(c,v){return c.phase==='pos'?posLabel(v):v;}
+function korrekturOptions(c){return [...c.alternativen.map(a=>({id:a.id,label:c.phase==='pos'?posLabel(a.id):a.label})),...(c.phase==='lemma'?[{id:'kein Lemma',label:'kein Lemma (kein Wort des Lexikons passt)'}]:[]),{id:'frei',label:'andere Angabe (Freitext)'}];}
+
+function groupIntro(g){
+ const datei='<code>'+esc(g.datei)+'</code>';
+ if(!g.stichprobe){
+  const auto=g.ids.filter(id=>byId[id].sicherheit==='Lemma: auto-single').length;
+  return 'Alle '+g.anzahl+' Zeilen aus '+datei+'. Bei diesen Wörtern passte <strong>keine</strong> Bedeutung des zugewiesenen Lemmas: Verdacht auf ein falsches Lemma. '+auto+' davon haben ihr Lemma ohne Blick auf den Satz bekommen, weil das Lexikon die Schreibung nur unter diesem einen Lemma kennt („dorffen“ steht unter <em>durfen</em>, meint aber Dörfer). Bitte prüfen, ob das <strong>Lemma</strong> stimmt; wenn nicht, das richtige Lemma eintragen oder „kein Lemma“ wählen. Die Begründung stammt aus der Bedeutungsphase.';
+ }
+ const s=Object.entries(g.schichten).map(([k,v])=>v.gezogen+' von '+v.gesamt+' '+k).join(', ');
+ return '<strong>Stichprobe: '+g.anzahl+' von '+g.gesamt+' Zeilen</strong> aus '+datei+' ('+s+'), geschichtet nach der Sicherheit des Modells, gezogen mit dem festen Zufallswert '+DATA.seed+'. Die Datei selbst enthält schon nur alle Entscheidungen mit <code>low</code> und eine Auswahl der <code>medium</code>-Entscheidungen, <code>high</code> fehlt ganz. Viele Fehler hier sind ein Zeichen, dass auch der Rest durchgesehen werden muss.';
+}
+function contextHTML(st){
+ return '<div class="stelle-kopf">'+esc(st.zeuge)+' ('+esc(st.sigle)+')'+(st.blatt?', Bl. '+esc(st.blatt):'')+(st.vers?', Vers '+esc(st.vers):'')+', <a target="_blank" rel="noopener" href="'+esc(st.wiki)+'">Transkription im Brevitas-Wiki</a>, <span class="technical">'+esc(st.xmlId)+'</span></div><div class="context">'+st.verse.map(v=>{let h='',prev=null;for(const t of v.tokens){const space=prev&&!t.links&&!(t.pc&&/^[,.;:!?)\]]/.test(t.t))?' ':'';h+=space+(t.ziel?'<mark>'+esc(t.t)+'</mark>':esc(t.t));prev=t;}return '<span class="verse'+(v.kopf?' kopf':'')+'"><span class="num">'+esc(v.n||'·')+'</span>'+h+'</span>';}).join('')+'</div>';
+}
+function meta(c){return '<h3>'+esc(GROUP_TITLE[c.kurz])+' Nr. '+c.nr+', „'+esc(c.wort)+'“ <span class="badge">'+esc(c.zeuge)+'</span></h3><p class="muted">'+esc(c.text)+', <code>'+esc(c.datei)+'</code>, Zeile '+c.nr+'</p>';}
+function suggestionHTML(c){
+ const alt=c.alternativen.length?'<details><summary>Andere Möglichkeiten laut Lexikon ('+c.alternativen.length+')</summary><ul class="alts">'+c.alternativen.map(a=>'<li>'+esc(c.phase==='pos'?posLabel(a.id):a.label)+'</li>').join('')+'</ul></details>':'<p class="muted">Das Lexikon bietet keine andere Möglichkeit an.</p>';
+ return '<div class="suggestion"><strong>Maschineller Vorschlag, nicht bestätigt</strong><p>'+esc(valueLabel(c,c.zuweisung.label))+lemmaLink(c.zuweisung.id)+'</p><p><small>Sicherheit: '+esc(SICHERHEIT[c.sicherheit]||c.sicherheit)+'</small></p>'+(c.begruendung?'<p><small>'+(c.kurz==='verdacht'?'Begründung des Modells in der Bedeutungsphase':'Begründung des Modells')+':</small> '+esc(c.begruendung)+'</p>':'')+alt+'</div>';
+}
+function belegeHTML(c){return c.belege>1?'<p class="notice">Die Entscheidung gilt für <strong>alle '+c.belege+' Belege</strong> ('+esc(c.art)+'); gezeigt werden '+c.stellen.length+' Beispiele.</p>':'';}
+
+function validate(raw){
+ if(!raw||raw.schema!==DATA.schema||raw.issue!==147||raw.fingerprint!==DATA.fingerprint)throw Error('Diese Datei gehört nicht zu diesem Prüfauftrag oder Datenstand.');
+ if(typeof raw.reviewer!=='string'||!Array.isArray(raw.decisions)||raw.decisions.length!==DATA.cases.length)throw Error('Name oder vollständige Zeilenliste fehlt.');
+ const answers={},seen=new Set();
+ for(const a of raw.decisions){
+  if(!a||!byId[a.id]||seen.has(a.id))throw Error('Unbekannte oder doppelte Zeilen-ID.');
+  seen.add(a.id);const c=byId[a.id];
+  if(a.datei!==c.datei||a.nr!==c.nr||a.xml_id!==c.xmlIds.join(' '))throw Error('Zeile passt nicht zum Paket: '+a.id);
+  if(!STORED_STATUS.includes(a.status)||!['','ja','nein'].includes(a.wahl)||['korrekturWahl','korrekturFrei','anmerkung','reviewer'].some(k=>typeof a[k]!=='string')||!(a.updatedAt===null||typeof a.updatedAt==='string'))throw Error('Ungültige Antwort bei '+a.id);
+  if(a.korrekturWahl&&!korrekturOptions(c).some(o=>o.id===a.korrekturWahl))throw Error('Unbekannte Korrektur bei '+a.id);
+  const err=checkFinal(a,a.status);if(err)throw Error(err+' ('+a.id+')');
+  const n={status:a.status,wahl:a.wahl,korrekturWahl:a.korrekturWahl,korrekturFrei:a.korrekturFrei,anmerkung:a.anmerkung,reviewer:a.reviewer,updatedAt:a.updatedAt};
+  if(a.passt!==undefined&&a.passt!==passt(n))throw Error('passt widerspricht dem Status bei '+a.id);
+  answers[a.id]=n;
+ }
+ return {reviewer:raw.reviewer,answers};
+}
+function checkFinal(a,target){
+ if(target==='unreviewed')return '';
+ if(!a.reviewer.trim())return 'Bitte zuerst oben den Namen eintragen.';
+ if(target!=='decided')return '';
+ if(!a.wahl)return 'Bitte „ja“ oder „nein“ wählen.';
+ if(a.wahl==='ja'&&korrektur(a))return 'Bei „ja“ bleibt die Korrektur leer.';
+ if(a.korrekturWahl==='frei'&&!a.korrekturFrei.trim())return 'Bitte die eigene Angabe ausfüllen oder eine andere Korrektur wählen.';
+ if(a.wahl==='nein'&&!korrektur(a)&&!a.anmerkung.trim())return 'Bei „nein“ bitte eine Korrektur wählen oder in der Anmerkung sagen, was fehlt.';
+ return '';
+}
+function payload(){return {schema:DATA.schema,issue:147,fingerprint:DATA.fingerprint,sourceCommit:DATA.commit,sourceDate:DATA.date,seed:DATA.seed,sources:DATA.sources,exportedAt:new Date().toISOString(),reviewer:state.reviewer,
+ decisions:DATA.cases.map(c=>{const a=answer(c.id);return {id:c.id,datei:c.datei,nr:c.nr,xml_id:c.xmlIds.join(' '),wort:c.wort,zuweisung:c.zuweisung.id,passt:passt(a),korrektur:korrektur(a),anmerkung:a.anmerkung,status:a.status,wahl:a.wahl,korrekturWahl:a.korrekturWahl,korrekturFrei:a.korrekturFrei,reviewer:a.reviewer,updatedAt:a.updatedAt};})};}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(payload()));$('save').textContent='Im Browser gespeichert, '+new Date().toLocaleTimeString('de-AT');}catch(e){$('save').textContent='Browserspeicherung nicht verfügbar. Bitte JSON exportieren.';}}
+try{const saved=localStorage.getItem(KEY);if(saved){state=validate(JSON.parse(saved));$('save').textContent='Gespeicherte Antworten wiederhergestellt';}}catch(e){$('save').textContent='Gespeicherter Stand konnte nicht geladen werden. Bitte JSON importieren.';}
+
+function counts(ids){const s=ids.map(id=>shown(answer(id)));return {decided:s.filter(x=>x==='decided').length,open:s.filter(x=>x==='open').length,draft:s.filter(x=>x==='draft').length,total:s.length};}
+function updateProgress(){const all=counts(DATA.cases.map(c=>c.id));$('progress').max=all.total;$('progress').value=all.decided+all.open;$('progressText').textContent=`Alle ${all.total} Zeilen: ${all.decided} entschieden, ${all.open} geprüft, offen, ${all.draft} Entwurf, ${all.total-all.decided-all.open-all.draft} unberührt`;}
+function renderNav(){$('nav').innerHTML=DATA.groups.map(g=>{const n=counts(g.ids);return '<button data-group="'+g.id+'" aria-current="'+(g.id===active)+'">'+esc(GROUP_TITLE[g.id])+(g.stichprobe?' (Stichprobe)':'')+'<small>'+g.anzahl+(g.stichprobe?' von '+g.gesamt:'')+' Zeilen, '+n.decided+' entschieden, '+n.open+' offen</small></button>';}).join('');}
+function renderSicherheit(){const g=byGroup[active],vals=[...new Set(g.ids.map(id=>byId[id].sicherheit))].sort(),cur=$('sicherheit').value;$('sicherheit').innerHTML='<option value="all">Alle</option>'+vals.map(v=>'<option value="'+esc(v)+'">'+esc(v)+'</option>').join('');$('sicherheit').value=vals.includes(cur)?cur:'all';}
+function filtered(g){const f=$('filter').value,s=$('sicherheit').value,q=$('suche').value.trim().toLowerCase();return g.ids.map(id=>byId[id]).filter(c=>(f==='all'||shown(answer(c.id))===f)&&(s==='all'||c.sicherheit===s)&&(!q||c.wort.toLowerCase().includes(q)));}
+function card(c){
+ const a=answer(c.id),st=shown(a),opts=korrekturOptions(c);
+ return '<article class="card" data-case="'+c.id+'" data-status="'+st+'"><span class="badge status">'+STATUS[st]+'</span>'+meta(c)+belegeHTML(c)+c.stellen.map(contextHTML).join('')+'<p class="question">'+FRAGE[c.phase]+'</p>'+suggestionHTML(c)
+ +'<fieldset><legend>Passt der Vorschlag?</legend>'+['ja','nein'].map(v=>'<label class="option"><input type="radio" name="wahl-'+c.id+'" value="'+v+'"'+(a.wahl===v?' checked':'')+'>'+v+'</label>').join('')+'</fieldset>'
+ +'<div class="korrektur"><label class="field-label" for="korr-'+c.id+'">Korrektur (nur bei „nein“)</label><select id="korr-'+c.id+'" data-field="korrekturWahl"><option value="">keine Korrektur</option>'+opts.map(o=>'<option value="'+esc(o.id)+'"'+(a.korrekturWahl===o.id?' selected':'')+'>'+esc(o.label)+'</option>').join('')+'</select><input data-field="korrekturFrei" aria-label="Eigene Angabe" placeholder="'+(c.phase==='lemma'?'richtiges Lemma: Kennung (lemma_…) oder Grundform':c.phase==='pos'?'Wortart, z. B. ADV':'Bedeutung: Kennung oder Beschreibung')+'" value="'+esc(a.korrekturFrei)+'"'+(a.korrekturWahl==='frei'?'':' hidden')+'></div>'
+ +'<label class="field-label" for="anm-'+c.id+'">Anmerkung (immer möglich)</label><textarea id="anm-'+c.id+'" data-field="anmerkung" rows="3" placeholder="Begründung, Rückfrage, fehlendes Wort im Lexikon">'+esc(a.anmerkung)+'</textarea>'
+ +'<div class="actions"><button class="primary" data-action="decided">Entscheidung festhalten</button><button data-action="open">? Nicht zu entscheiden</button><button data-action="unreviewed">Zurück auf Entwurf</button></div><p class="notice feedback" role="status"></p></article>';
+}
+function render(){const g=byGroup[active];renderSicherheit();const cs=filtered(g);renderNav();updateProgress();$('main').innerHTML='<section class="panel"><div class="eyebrow">'+(g.stichprobe?'Stichprobe':'Vollständig')+', '+g.anzahl+(g.stichprobe?' von '+g.gesamt:'')+' Zeilen</div><h2>'+esc(GROUP_TITLE[g.id])+'</h2><p>'+groupIntro(g)+'</p><p class="muted" id="shownCount">'+cs.length+' Zeilen entsprechen dem Filter.</p></section>'+cs.map(card).join('')+(cs.length?'':'<p class="empty">Keine Zeile entspricht dem Filter.</p>');}
+function updateCard(id){const el=document.querySelector('[data-case="'+id+'"]');if(el){const st=shown(answer(id));el.dataset.status=st;el.querySelector('.status').textContent=STATUS[st];}renderNav();updateProgress();save();}
+$('main').addEventListener('input',e=>{const el=e.target.closest('[data-case]');if(!el)return;const id=el.dataset.case,a={...answer(id)},was=a.status!=='unreviewed';
+ if(e.target.type==='radio')a.wahl=e.target.value;else if(e.target.dataset.field)a[e.target.dataset.field]=e.target.value;else return;
+ if(e.target.dataset.field==='korrekturWahl')el.querySelector('[data-field=korrekturFrei]').hidden=a.korrekturWahl!=='frei';
+ a.status='unreviewed';a.updatedAt=new Date().toISOString();a.reviewer=state.reviewer.trim();state.answers[id]=a;
+ el.querySelector('.feedback').textContent=was?'Antwort geändert. Bitte erneut festhalten oder als nicht zu entscheiden markieren.':'';updateCard(id);});
+$('main').addEventListener('click',e=>{const btn=e.target.closest('button[data-action]');if(!btn)return;const el=btn.closest('[data-case]'),id=el.dataset.case,target=btn.dataset.action,a={...answer(id),reviewer:state.reviewer.trim()};
+ const err=checkFinal(a,target);if(err){el.querySelector('.feedback').textContent=err;return;}
+ a.status=target;a.updatedAt=new Date().toISOString();state.answers[id]=a;el.querySelector('.feedback').textContent=target==='unreviewed'?'Zurück auf Entwurf.':STATUS[target]+'.';updateCard(id);});
+$('nav').addEventListener('click',e=>{const b=e.target.closest('[data-group]');if(b){active=b.dataset.group;render();$('main').focus();$('main').scrollIntoView({block:'start'});}});
+for(const id of ['filter','sicherheit'])$(id).addEventListener('change',render);
+$('suche').addEventListener('input',render);
+$('reviewer').value=state.reviewer;$('reviewer').addEventListener('input',()=>{state.reviewer=$('reviewer').value;save();});
+$('theme').addEventListener('click',()=>{document.body.classList.toggle('dark');$('theme').setAttribute('aria-pressed',document.body.classList.contains('dark'));});
+function download(name,text,type){const url=URL.createObjectURL(new Blob([text],{type})),a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),15000);}
+const stamp=()=>new Date().toISOString().slice(0,10);
+$('json').addEventListener('click',()=>download('weingruesse-147-pruefung-'+stamp()+'.json',JSON.stringify(payload(),null,2),'application/json;charset=utf-8'));
+function reportHTML(){
+ return '<!doctype html><html lang="de"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Weingrüße #147 Ergebnisbericht</title><style>'+document.querySelector('style').textContent+'</style><body><header><div class="eyebrow">MHDBDB, Ergebnisbericht</div><h1>Prüfung Weingrüße, #147</h1><p>Exportiert von: '+esc(state.reviewer||'(Name nicht angegeben)')+', '+esc(new Date().toLocaleString('de-AT'))+'</p><p>'+esc($('progressText').textContent)+'</p><p>Datenstand '+esc(DATA.date)+', Commit '+esc(DATA.commit)+', Prüfpaket '+esc(DATA.fingerprint)+', Zufallswert der Stichprobe '+DATA.seed+'</p><p>Maschinelle Vorschläge und menschliche Rückmeldungen sind getrennt ausgewiesen. Dieser Bericht dient zum Lesen; zum Fortsetzen und zum Einspielen die JSON-Datei verwenden.</p></header><main style="max-width:1100px;margin:auto;padding:20px">'
+ +DATA.groups.map(g=>'<section class="panel"><h2>'+esc(GROUP_TITLE[g.id])+', '+esc(g.datei)+'</h2><p>'+groupIntro(g)+'</p>'+g.ids.map(id=>{const c=byId[id],a=answer(id),st=shown(a);return '<article class="card">'+meta(c)+belegeHTML(c)+c.stellen.map(contextHTML).join('')+suggestionHTML(c)+'<h3>Rückmeldung: '+esc(STATUS[st])+'</h3><p>Prüfer/in: '+esc(a.reviewer||'(nicht angegeben)')+', '+esc(a.updatedAt||'')+'</p><p><strong>passt:</strong> '+esc(passt(a)||'(leer, nicht geprüft)')+(st==='draft'&&a.wahl?', Entwurf: '+esc(a.wahl):'')+'</p><p class="report-value"><strong>Korrektur:</strong> '+esc(korrektur(a)||'(keine)')+'</p><p class="report-value"><strong>Anmerkung:</strong> '+esc(a.anmerkung||'(keine)')+'</p></article>';}).join('')+'</section>').join('')+'</main></body></html>';
+}
+$('report').addEventListener('click',()=>download('weingruesse-147-ergebnisbericht-'+stamp()+'.html',reportHTML(),'text/html;charset=utf-8'));
+$('importButton').addEventListener('click',()=>$('importFile').click());
+$('importFile').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{const next=validate(JSON.parse(await f.text()));if(Object.keys(state.answers).length&&!confirm('Der Import ersetzt den derzeitigen Arbeitsstand. Vorher bei Bedarf JSON exportieren. Import fortsetzen?'))return;state=next;$('reviewer').value=state.reviewer;save();render();$('save').textContent='Import vollständig geprüft und übernommen.';}catch(err){$('save').textContent='Import abgelehnt: '+err.message;}finally{e.target.value='';}});
+(function intro(){const g=DATA.groups;$('umfang').innerHTML='Diese Seite zeigt <strong>'+DATA.cases.length+' Zeilen</strong>: '+g.map(x=>x.stichprobe?'eine Stichprobe von '+x.anzahl+' der '+x.gesamt+' Zeilen aus <code>'+esc(x.datei)+'</code>':'alle '+x.anzahl+' Zeilen aus <code>'+esc(x.datei)+'</code>').join(', ')+'. Die Wortformen stammen aus den Weingrüße-Zeugen in <code>ingest/bre/</code>; Lemma, Wortart und Bedeutung hat die Maschine zugewiesen, wo das Lexikon mehrere Möglichkeiten kennt, mit einem Sprachmodell (Claude Sonnet).';})();
+$('dataset').textContent='Gebaut am '+DATA.date+' aus Commit '+DATA.commit.slice(0,12)+', Prüfpaket '+DATA.fingerprint+', Zufallswert der Stichprobe '+DATA.seed+'. Die SHA-256-Prüfsummen der vier TSV-Dateien und der benutzten TEI-Dateien stehen im JSON-Export.';
+$('date').textContent=DATA.date;render();
+</script>
+</body>
+</html>
