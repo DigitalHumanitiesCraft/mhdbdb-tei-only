@@ -454,10 +454,12 @@ NROWS = [zeile(f"Weingruß Eins ({ROS})", "B"), zeile(f"Weinsegen Zwei ({ROS})",
          zeile("Weingruß Drei", "N2", "6r")]
 
 
-def mini(*kommentare, abschnitte=None):
-    """TEI mit Body, je Kommentar ein Text-Kommentar samt <div type="section">."""
+def mini(*kommentare, abschnitte=None, extra=None):
+    """TEI mit Body, je Kommentar ein Text-Kommentar samt <div type="section">.
+    extra: ein weiterer Kommentar ohne Abschnitt (keiner der Text-Kommentare)."""
     n = len(kommentare) if abschnitte is None else abschnitte
     cs = "".join(f"<!-- Text {i}: {k} -->" for i, k in enumerate(kommentare, 1))
+    cs += f"<!-- {extra} -->" if extra else ""
     ds = "".join(f'<div type="section" n="{i}"/>' for i in range(1, n + 1))
     return conv.etree.fromstring(f'<TEI xmlns="{conv.TEI_NS}"><text><body><div>{cs}{ds}</div></body></text></TEI>')
 
@@ -498,7 +500,7 @@ pruefe("Normdaten: anderer Autorzusatz ist ein harter Fehler",
 pruefe("Normdaten: Fragment mit fremdem Werk ist ein harter Fehler",
        wirft(lambda: autoren("R", "Weingruß Eins (Fragment)")))
 pruefe("Normdaten: unbekannter Kommentar im Body ist ein harter Fehler",
-       wirft(lambda: autoren("B", A1, "Irgendwas")))
+       wirft(lambda: autoren("B", A1, A2, extra="Irgendwas")))
 pruefe("Normdaten: Kommentare und Abschnitte müssen übereinstimmen",
        wirft(lambda: autoren("B", A1, A2, abschnitte=3)))
 
