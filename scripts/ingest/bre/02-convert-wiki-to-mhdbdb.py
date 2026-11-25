@@ -958,7 +958,7 @@ def sperre_ueberschreiben(sigle, ausgabe_dir, trocken, ueberschreiben):
         f"{pfad} existiert schon und wuerde durch die rohe Konversion ersetzt. Verloren gingen die "
         f"Annotation der Phasen 1 bis 3 (@lemmaRef, @pos, @ana, @corresp aus den Skripten 10 bis 18) "
         f"und die Normdaten im Header aus 23-normdaten.py. Mit --ueberschreiben ist das gewollt; "
-        f"zurueck zuerst mit git restore {pfad.name} (die Zeugen sind committet), sonst ueber die "
+        f"zurueck zuerst mit git restore \"{pfad}\" (die Zeugen in ingest/bre/ sind committet), sonst ueber die "
         f"Entscheidungen in ingest/bre/phaseN/*.tsv: 10, 13, 14, 15 --phase pos, 16, "
         f"15 --phase sense, 18 und 23 neu fahren (Reihenfolge wie in der README). "
         f"Ohne Schreiben pruefen: --trocken")

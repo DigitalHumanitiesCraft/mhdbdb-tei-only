@@ -4,9 +4,9 @@
 Aufruf: python -P -E scripts/ingest/bre/test_bre.py
 Die meisten Tests laufen ohne Netz und ohne Cache auf einer Mini-Fixture (Ausschnitt aus Cgm 713,
 Revision 21352). Den Wiki-Cache `temp/bre-wiki` brauchen das Druckfahnen-Gate und die fuenf
-Sperre-Tests, die `konvertiere` direkt aufrufen; fehlt er, schlagen sie fehl. Die beiden Sperre-Tests
-ueber `main()` (alle, Nenner) bestehen auch ohne Cache und sagen dann nichts: ohne Cache bricht schon
-die erste Konversion ab, bevor geschrieben wird. Ihr Befund zaehlt nur mit Cache.
+Sperre-Tests, die `konvertiere` direkt aufrufen; fehlt er, schlagen sie fehl. Der Test "alle bricht
+vor dem ersten Schreiben ab" besteht ohne Cache auch dann, wenn die Vorpruefung in `main` fehlt (dann
+bricht die erste Konversion am fehlenden Cache ab), sein Befund zaehlt nur mit Cache.
 Beendet mit Exit 1, wenn ein Test fehlschlaegt.
 """
 import collections
@@ -587,6 +587,9 @@ def sperre_lauf(vorhanden, **kw):
         except conv.bc.HarterFehler as e:
             erg = f"fehler: {e}"
         ziel = aus / ZIEL_B
+        # der Restore-Hinweis muss den vollen Pfad tragen, sonst trifft git restore nur aus ingest/bre
+        if erg.startswith("fehler:") and f'git restore "{ziel}"' not in erg:
+            erg = "fehler ohne vollen Pfad im Restore-Hinweis: " + erg
         return erg, (ziel.read_bytes() if ziel.exists() else None)
 
 
