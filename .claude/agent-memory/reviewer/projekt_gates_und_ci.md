@@ -35,6 +35,8 @@ metadata:
 - Proben in-process per importlib mit gesetztem `GH_REPO`.
 - **Der Julia-Vorrang-Skip ist der einzige Pfad, der ein Issue unsichtbar macht**, kein Gate zählt, ob jedes wait:*-Issue landet. Bei Änderung an einem `continue` vor den Listen proben: offene KZW-Frage, `@wachauer Abnahme:`, dritte Person (`wait != 'wait:julia'` trifft Linda), zwei Abnahme-Zeilen in einem Kommentar.
 - Label-Vokabular lebt außerhalb des Repos weiter: Handteil des #44-Body, `gh label list`, Auto-Memory `project_label_schema.md`. Im Repo nur `AUTO_STUFEN` und CLAUDE.md, andere Treffer sind datiert.
+- `issue-matrix.yml` triggert nur auf schedule/workflow_dispatch: `ci-lokal.py` fährt seine Schritte nie (es nimmt nur pull_request/push), lokal läuft der Selbsttest nur von Hand oder per `--check` im Playbook-Vorflug. Ein „läuft lokal über ci-lokal.py" daran ist falsch (#736).
+- Seit #736 Vergleich gegen `.github/issue-labels.json`: nur was das Skript braucht. Hook-ungültige Schemata (Zusatzschlüssel, `name` fehlt/doppelt, `version: true`) bleiben dort grün; Probe: Hook per importlib laden, `schema_lesen(roh)` neben `schema_abweichungen(roh)`.
 - Rot heißt nicht „Ball liegt" (auch Label-Lücken): `gh run view <id> --log-failed | grep "##\[error\]"`. Die Startzeit weicht stundenweit vom Cron ab: über `createdAt` messen.
 
 **Review-Bot:** Log ohne `show_full_output: true` nur `init` plus Result. Rote Läufe: `gh run view <id> --log | grep -o '"is_error": [^,]*'`.
