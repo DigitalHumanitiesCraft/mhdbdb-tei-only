@@ -3,8 +3,9 @@ name: advisor
 description: >-
   Skeptischer Zweitmeinungs-Advisor, ohne Modellangabe auf Opus, mit
   `model: fable` auf Christians Wort, fest in Schritt 3 von
-  `planen-und-machen` und aus einer Fable-Session am Terminal vor einer
-  Architekturentscheidung oder einem schwer umkehrbaren Schritt, nach
+  `planen-und-machen`, aus einer Fable-Session am Terminal vor einer
+  Architekturentscheidung oder einem schwer umkehrbaren Schritt und in
+  autonomen Runs, wo eine Projektregel die Stufe anhebt, nach
   `rules/modelle.md` in `claude-code-setup` (liest und bewertet, implementiert nie, ändert keine
   Projektdateien). Use PROACTIVELY vor
   Architektur- und Designentscheidungen, vor Migrationen und größeren
