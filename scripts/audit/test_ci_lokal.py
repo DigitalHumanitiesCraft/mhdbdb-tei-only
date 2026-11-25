@@ -303,6 +303,175 @@ class Isolation(Basis):
         self.assertEqual(code, 0, out)
 
 
+def toter_pid():
+    p = subprocess.Popen([sys.executable, '-c', 'pass'])
+    p.wait()
+    return p.pid
+
+
+class Reste(Basis):
+    """Worktrees `ci-lokal-wt-*` aus einem hart abgebrochenen Lauf (#726, Nachtrag)."""
+
+    def setUp(self):
+        super().setUp()
+        self.text = wf('echo hallo')
+        self.repo({'t.yml': self.text})
+        self.tab = [eintrag(self.text)]
+
+    def rest(self, pid):
+        wt = cl.lege_worktree_an(self.tmp, 'HEAD')
+        self.addCleanup(cl.entferne_worktree, self.tmp, wt)
+        cl.pid_datei(Path(wt)).write_text(str(pid), encoding='ascii')
+        return Path(wt).as_posix()  # so nennt `git worktree list` den Pfad
+
+    def anzahl(self):
+        return len(git(self.tmp, 'worktree', 'list').strip().splitlines())
+
+    def test_toter_rest_wird_entfernt(self):
+        wt = self.rest(toter_pid())
+        code, out = self.lauf(self.tab)
+        self.assertEqual(code, 0, out)
+        self.assertIn(f'Rest eines abgebrochenen Laufs entfernt: {wt}', out)
+        self.assertFalse(os.path.exists(wt))
+        self.assertEqual(self.anzahl(), 1)
+
+    def test_rest_mit_lebender_pid_bleibt_und_wird_gemeldet(self):
+        wt = self.rest(os.getpid())
+        code, out = self.lauf(self.tab)
+        self.assertEqual(code, 0, out)
+        self.assertIn(f'(PID {os.getpid()}), nicht entfernt: {wt}', out)
+        self.assertNotIn('entfernt: ' + wt, out.replace('nicht entfernt: ' + wt, ''))
+        self.assertTrue(os.path.exists(wt))
+        self.assertEqual(self.anzahl(), 2)
+
+    def test_unlesbare_pid_datei_wird_nur_gemeldet(self):
+        wt = self.rest(toter_pid())
+        cl.pid_datei(Path(wt)).unlink()
+        code, out = self.lauf(self.tab)
+        self.assertIn(f'PID-Datei nicht lesbar, nicht entfernt: {wt}', out)
+        self.assertTrue(os.path.exists(wt))
+
+    def test_fremder_worktree_ohne_praefix_bleibt_unberuehrt(self):
+        temp_wt = tempfile.mkdtemp(prefix='anderer-wt-')
+        unter_repo = self.tmp / 'ci-lokal-wt-nicht-im-temp-root'
+        for wt in (temp_wt, str(unter_repo)):
+            git(self.tmp, 'worktree', 'add', '--detach', wt, 'HEAD')
+            self.addCleanup(cl.entferne_worktree, self.tmp, wt)
+            cl.pid_datei(Path(wt)).write_text(str(toter_pid()), encoding='ascii')
+        code, out = self.lauf(self.tab)
+        self.assertEqual(code, 0, out)
+        self.assertNotIn('Rest eines', out)
+        self.assertTrue(os.path.exists(temp_wt) and unter_repo.exists())
+        self.assertEqual(self.anzahl(), 3)
+
+    def test_trocken_meldet_aber_entfernt_nicht(self):
+        wt = self.rest(toter_pid())
+        code, out = self.lauf(self.tab, '--trocken')
+        self.assertEqual(code, 0, out)
+        self.assertIn(f'--trocken entfernt nicht: {wt}', out)
+        self.assertTrue(os.path.exists(wt))
+        self.assertEqual(self.anzahl(), 2)
+
+    def tasklist_kaputt(self, wirkung):
+        echt = subprocess.run
+
+        def ersatz(cmd, *a, **kw):
+            if cmd and cmd[0] == 'tasklist':
+                if isinstance(wirkung, Exception):
+                    raise wirkung
+                return wirkung
+            return echt(cmd, *a, **kw)
+        return mock.patch.object(cl.subprocess, 'run', ersatz)
+
+    @unittest.skipUnless(sys.platform == 'win32', 'tasklist gibt es nur unter Windows')
+    def test_tasklist_rc1_gilt_nicht_als_tot(self):
+        wt = self.rest(os.getpid())
+        kaputt = subprocess.CompletedProcess(['tasklist'], 1, b'', b'FEHLER: Der Suchfilter wurde nicht erkannt.\r\n')
+        with self.tasklist_kaputt(kaputt):
+            code, out = self.lauf(self.tab)
+        self.assertEqual(code, 0, out)
+        self.assertIn('unklar (tasklist endete mit rc 1)', out)
+        self.assertTrue(os.path.exists(wt), 'der Worktree eines unklaren Status wurde entfernt')
+
+    @unittest.skipUnless(sys.platform == 'win32', 'tasklist gibt es nur unter Windows')
+    def test_tasklist_fehlt_gilt_nicht_als_tot_und_gibt_keinen_traceback(self):
+        wt = self.rest(os.getpid())
+        with self.tasklist_kaputt(FileNotFoundError('tasklist')):
+            code, out = self.lauf(self.tab)
+        self.assertEqual(code, 0, out)
+        self.assertIn('unklar (tasklist nicht lauffaehig: FileNotFoundError)', out)
+        self.assertTrue(os.path.exists(wt))
+
+    def test_fremder_registrierter_worktree_ohne_ordner_bleibt_registriert(self):
+        fremd = tempfile.mkdtemp(prefix='anderer-wt-')
+        git(self.tmp, 'worktree', 'add', '--detach', fremd, 'HEAD')
+        shutil.rmtree(fremd, onerror=lambda f, p, e: (os.chmod(p, stat.S_IWRITE), f(p)))
+        code, out = self.lauf(self.tab)
+        self.assertEqual(code, 0, out)
+        self.assertIn(Path(fremd).as_posix(), git(self.tmp, 'worktree', 'list', '--porcelain'),
+                      'ein fremder Worktree wurde ausgetragen')
+
+    def test_rest_mit_stehengebliebenem_eintrag_verliert_nur_den_eigenen_admin_ordner(self):
+        wt = self.rest(toter_pid())
+        admin = cl.pid_datei(Path(wt)).parent
+        echt = cl.git
+
+        def git_ohne_remove(repo, *args, **kw):
+            if args[:2] == ('worktree', 'remove'):
+                return subprocess.CompletedProcess(args, 1, b'', b'')
+            return echt(repo, *args, **kw)
+        with mock.patch.object(cl, 'git', git_ohne_remove):
+            cl.entferne_worktree(self.tmp, wt)
+        self.assertFalse(admin.exists(), 'Admin-Ordner des eigenen Worktrees blieb liegen')
+        self.assertNotIn(wt, git(self.tmp, 'worktree', 'list', '--porcelain'))
+
+    def test_lauf_mit_exit_2_raeumt_trotzdem(self):
+        wt = self.rest(toter_pid())
+        code, out = self.lauf([])  # Schritt ohne Klasse: harter Fehler
+        self.assertEqual(code, 2, out)
+        self.assertIn(f'Rest eines abgebrochenen Laufs entfernt: {wt}', out)
+        self.assertFalse(os.path.exists(wt))
+
+    def test_eigener_lauf_schreibt_seine_pid(self):
+        wt = cl.lege_worktree_an(self.tmp, 'HEAD')
+        self.addCleanup(cl.entferne_worktree, self.tmp, wt)
+        self.assertEqual(cl.pid_datei(Path(wt)).read_text(encoding='ascii'), str(os.getpid()))
+        self.assertEqual(git(wt, 'status', '--porcelain'), '', 'die PID-Datei darf nicht im Worktree stehen')
+
+
+class LangWarnung(Basis):
+    TEXT = wf('echo hallo')
+
+    def warnung(self, pfad):
+        self.repo({'t.yml': self.TEXT}, geaendert=[pfad])
+        code, out = self.lauf([eintrag(self.TEXT)])
+        self.assertEqual(code, 0, out)
+        self.assertIn('WARNUNG: der Diff aendert tei/, authority-files/ oder schema/ und --lang fehlt', out)
+        self.assertIn('im Hintergrund fahren', out)
+        self.assertNotIn(';', [z for z in out.splitlines() if 'Pflicht ist --lang' in z][0])
+
+    def test_warnung_bei_tei_ohne_lang(self):
+        self.warnung('tei/a.xml')
+
+    def test_warnung_bei_authority_files_ohne_lang(self):
+        self.warnung('authority-files/b.xml')
+
+    def test_warnung_bei_schema_ohne_lang(self):
+        self.warnung('schema/c.rnc')
+
+    def test_keine_warnung_mit_lang_oder_ohne_diese_pfade(self):
+        self.repo({'t.yml': self.TEXT}, geaendert=['tei/a.xml'])
+        code, out = self.lauf([eintrag(self.TEXT)], '--lang')
+        self.assertNotIn('--lang fehlt', out)
+        code, out = self.lauf([eintrag(self.TEXT)], '--trocken')
+        self.assertIn('--lang fehlt', out, '--trocken warnt auch')
+
+    def test_keine_warnung_fuer_andere_pfade(self):
+        self.repo({'t.yml': self.TEXT}, geaendert=['docs/x.md', 'scripts/teilnehmer.py'])
+        code, out = self.lauf([eintrag(self.TEXT)])
+        self.assertNotIn('--lang fehlt', out)
+
+
 class Umgebung(Basis):
     def test_pyyaml_fehlt_ist_exit_2(self):
         self.repo({'t.yml': wf('echo hallo')})
