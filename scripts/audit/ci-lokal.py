@@ -68,10 +68,12 @@ Liste im Kopf entfaellt.
    meldet, entfernt nie. Andere Worktrees fasst es nicht an.
    Bleibt eine PID nach einem Absturz einem fremden Prozess zugeteilt, bleibt
    der Rest liegen und wird bei jedem Lauf gemeldet.
-5. Trifft die Dateiliste `tei/`, `authority-files/` oder `schema/` und fehlt
-   `--lang`, steht eine Zeile `WARNUNG` davor (Pflicht ist `--lang`, im
-   Hintergrund, CLAUDE.md, #726). Der Exit-Code aendert sich nicht, die Summe
-   nennt die fehlenden `lokal-lang`-Schritte wie sonst.
+5. Loest der Diff ohne `--lang` mindestens einen Schritt der Klasse
+   `lokal-lang` aus (paths-Filter und `if` wie oben), steht eine Zeile
+   `WARNUNG` mit ihrer Zahl davor (Pflicht ist `--lang`, im Hintergrund,
+   CLAUDE.md, #726). Welche Pfade das sind, sagen die Workflows, keine Liste
+   hier. Der Exit-Code aendert sich nicht, die Summe nennt die fehlenden
+   `lokal-lang`-Schritte wie sonst.
 6. Die Schritte laufen in Git Bash (`bash -e <datei>`, wie der GitHub-Default),
    mit der `env` aus Workflow, Job und Schritt. Je Schritt eine Zeile, am Ende
    eine Summe mit Nenner. Exit 1, sobald ein Schritt rot ist, Exit 2 bei
@@ -712,7 +714,6 @@ def main(argv=None, tabelle=None):
 
 WT_PRAEFIX = 'ci-lokal-wt-'
 PID_DATEI = 'ci-lokal.pid'
-LANG_PFADE = ('tei/', 'authority-files/', 'schema/')
 
 
 def lege_worktree_an(repo, rev):
@@ -847,8 +848,9 @@ def _lauf(args, repo, tabelle):
         if n:
             print(f'WARNUNG: {n} uncommittete oder untracked Eintraege im Working Tree werden nicht '
                   'geprueft (geprueft wird HEAD)')
-        if not args.lang and any(d.startswith(LANG_PFADE) for d in dateien):
-            print('WARNUNG: der Diff aendert tei/, authority-files/ oder schema/ und --lang fehlt: '
+        n_lang = sum(1 for z in plan.zeilen if z[0] == 'lang')
+        if n_lang:
+            print(f'WARNUNG: der Diff loest {n_lang} Schritt(e) der Klasse lokal-lang aus und --lang fehlt: '
                   'Pflicht ist --lang (CLAUDE.md, #726), im Hintergrund fahren')
         for w in plan.warnungen:
             print(f'WARNUNG: {w}')
