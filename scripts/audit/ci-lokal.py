@@ -15,8 +15,10 @@ Liste im Kopf entfaellt.
    pull_request`, Default, oder `push` fuer einen direkten Push auf `main`
    ohne PR), und wertet dessen `paths`/`paths-ignore` (bei `push` auch
    `branches`/`tags`) gegen die geaenderten Dateien aus: `git diff
-   --name-only <merge-base>...HEAD`. Geprueft wird HEAD, genau das, was
-   gepusht wird. Was der Filter nicht trifft, steht als "nicht betroffen" in
+   --name-only <merge-base>...<sha>`. Geprueft wird der Commit, auf dem HEAD
+   beim Start steht, genau das, was gepusht wird: HEAD wird einmal zur SHA
+   aufgeloest, Workflows, Dateiliste und Worktree arbeiten alle auf ihr, auch
+   wenn eine andere Session dazwischen committet. Was der Filter nicht trifft, steht als "nicht betroffen" in
    der Ausgabe.
 2. Jeder `run:`-Schritt jedes Workflows mit `pull_request`- oder `push`-Trigger
    muss in der Tabelle KLASSEN stehen (auch in einem Workflow, der gerade nicht
@@ -40,8 +42,9 @@ Liste im Kopf entfaellt.
    wird aus den geaenderten Dateien gerechnet). Jede Ersetzung steht in der
    Ausgabe.
 4. Jeder Lauf ohne `--trocken` legt mit `git worktree add --detach` einen
-   eigenen Worktree von HEAD unter `tempfile.mkdtemp()` an, meldet den Pfad am
-   Anfang und faehrt alle Schritte dort. Am Ende wird er wieder entfernt, auch
+   eigenen Worktree des Commits, auf dem HEAD beim Start steht, unter
+   `tempfile.mkdtemp()` an, meldet Pfad und SHA am Anfang und faehrt alle
+   Schritte dort. Am Ende wird er wieder entfernt, auch
    bei Fehler und bei Ctrl-C. Das Repo des Aufrufers bleibt unberuehrt: die
    Freshness-Schritte schreiben (Rebuild, dann `git diff`), und im Main
    Worktree teilen sich parallele Sessions den Working Tree.
@@ -124,7 +127,9 @@ KLASSEN = []  # wird unten gefuellt (siehe TABELLE am Dateiende)
 # ---------------------------------------------------------------------------
 
 def git(repo, *args, check=True):
-    res = subprocess.run(['git', '-C', str(repo), *args], capture_output=True)
+    # GIT_OPTIONAL_LOCKS=0: `git status` im Repo des Aufrufers nimmt sonst index.lock
+    env = dict(os.environ, GIT_OPTIONAL_LOCKS='0')
+    res = subprocess.run(['git', '-C', str(repo), *args], capture_output=True, env=env)
     if check and res.returncode != 0:
         raise RuntimeError(f'git {" ".join(args)} ist fehlgeschlagen: '
                            f'{res.stderr.decode("utf-8", "replace").strip()}')
@@ -333,14 +338,14 @@ def ereignis_filter(doc, ereignis):
     return True, (filt or None)
 
 
-def workflow_texte(repo, verz=None):
-    """{Dateiname: Text}. Ohne `verz` aus den Blobs von HEAD, also das, was gepusht wird."""
+def workflow_texte(repo, verz=None, rev='HEAD'):
+    """{Dateiname: Text}. Ohne `verz` aus den Blobs von `rev`, also das, was gepusht wird."""
     if verz:
         return {p.name: p.read_text(encoding='utf-8') for p in sorted(Path(verz).glob('*.yml'))}
-    namen = git(repo, 'ls-tree', '-r', '--name-only', '-z', 'HEAD', '--', '.github/workflows/')
+    namen = git(repo, 'ls-tree', '-r', '--name-only', '-z', rev, '--', '.github/workflows/')
     out = {}
     for n in sorted(x for x in namen.stdout.decode('utf-8').split('\0') if x.endswith('.yml')):
-        out[Path(n).name] = git(repo, 'show', f'HEAD:{n}').stdout.decode('utf-8')
+        out[Path(n).name] = git(repo, 'show', f'{rev}:{n}').stdout.decode('utf-8')
     return out
 
 
@@ -387,19 +392,36 @@ def lade_workflows(texte):
 # Geaenderte Dateien und Basis
 # ---------------------------------------------------------------------------
 
-def geaenderte_dateien(repo, basis):
-    """(merge-base-SHA, sortierte Pfade) von `<merge-base>...HEAD`. Nur HEAD, nie der Working Tree."""
+def loese_head(repo):
+    """HEAD einmal zur SHA aufloesen. Alles Weitere arbeitet auf dieser SHA: committet eine
+    andere Session waehrenddessen, bleiben Plan und Schritte auf demselben Commit."""
+    res = git(repo, 'rev-parse', '--verify', '--quiet', 'HEAD^{commit}', check=False)
+    if res.returncode != 0:
+        raise HartFehler('HEAD ist nicht aufloesbar (Repo ohne Commit?)')
+    return res.stdout.decode().strip()
+
+
+def geaenderte_dateien(repo, basis, rev):
+    """(merge-base-SHA, sortierte Pfade) von `<merge-base>...<rev>`. Nur `rev`, nie der Working Tree."""
     if git(repo, 'rev-parse', '--verify', '--quiet', f'{basis}^{{commit}}', check=False).returncode != 0:
         raise HartFehler(f'Basis "{basis}" gibt es nicht (git fetch origin?)')
-    mb = git(repo, 'merge-base', basis, 'HEAD').stdout.decode().strip()
-    res = git(repo, 'diff', '--name-only', '-z', '--no-renames', '--no-ext-diff', f'{mb}...HEAD')
+    mb = git(repo, 'merge-base', basis, rev).stdout.decode().strip()
+    res = git(repo, 'diff', '--name-only', '-z', '--no-renames', '--no-ext-diff', f'{mb}...{rev}')
     return mb, sorted(p for p in res.stdout.decode('utf-8', 'replace').split('\0') if p)
 
 
 def ungepruefte_aenderungen(repo):
-    """Anzahl uncommitteter und untracked Eintraege im Working Tree des Aufrufers."""
+    """Anzahl uncommitteter und untracked Eintraege im Working Tree des Aufrufers.
+
+    Mit -z steht bei einer Umbenennung oder Kopie (Status R oder C) der Quellpfad als
+    eigenes Feld hinter dem Eintrag: es wird uebersprungen, sonst zaehlte sie doppelt."""
     res = git(repo, 'status', '--porcelain', '-z', '--untracked-files=all')
-    return len([x for x in res.stdout.decode('utf-8', 'replace').split('\0') if x])
+    felder = [x for x in res.stdout.decode('utf-8', 'replace').split('\0') if x]
+    n, i = 0, 0
+    while i < len(felder):
+        n += 1
+        i += 2 if ('R' in felder[i][:2] or 'C' in felder[i][:2]) else 1
+    return n
 
 
 # ---------------------------------------------------------------------------
@@ -664,9 +686,9 @@ def main(argv=None, tabelle=None):
         return 130
 
 
-def lege_worktree_an(repo):
+def lege_worktree_an(repo, rev):
     wt = tempfile.mkdtemp(prefix='ci-lokal-wt-')
-    res = git(repo, 'worktree', 'add', '--detach', wt, 'HEAD', check=False)
+    res = git(repo, 'worktree', 'add', '--detach', wt, rev, check=False)
     if res.returncode != 0:
         shutil.rmtree(wt, ignore_errors=True)
         raise HartFehler('git worktree add ist fehlgeschlagen: ' + res.stderr.decode('utf-8', 'replace').strip())
@@ -680,9 +702,10 @@ def entferne_worktree(repo, wt):
 
 
 def _lauf(args, repo, tabelle):
-    texte = workflow_texte(repo, args.workflows)
+    rev = loese_head(repo)
+    texte = workflow_texte(repo, args.workflows, rev)
     workflows = lade_workflows(texte)
-    mb, dateien = geaenderte_dateien(repo, args.basis)
+    mb, dateien = geaenderte_dateien(repo, args.basis, rev)
     if not args.trocken:
         finde_bash()  # fehlt Git Bash, endet der Lauf vor dem Worktree mit Exit 2
     rt = tempfile.mkdtemp(prefix='ci-lokal-')
@@ -692,8 +715,9 @@ def _lauf(args, repo, tabelle):
                'ereignis': args.ereignis, 'branch': args.push_branch,
                'runner_temp': Path(rt).as_posix()}
         plan = plane(workflows, tabelle, mb, dateien, opt)
-        print(f'Basis {args.basis} (merge-base {mb[:12]}), {len(dateien)} geaenderte Datei(en) '
-              f'zwischen merge-base und HEAD, Ereignis {args.ereignis}')
+        print(f'HEAD beim Start: {rev[:12]}. Basis {args.basis} (merge-base {mb[:12]}), '
+              f'{len(dateien)} geaenderte Datei(en) zwischen merge-base und diesem Commit, '
+              f'Ereignis {args.ereignis}')
         n = ungepruefte_aenderungen(repo)
         if n:
             print(f'WARNUNG: {n} uncommittete oder untracked Eintraege im Working Tree werden nicht '
@@ -706,8 +730,8 @@ def _lauf(args, repo, tabelle):
         for datei, grund in plan.nicht_betroffen:
             print(f'  nicht betroffen: {datei} ({grund})')
         if not args.trocken:
-            wt = lege_worktree_an(repo)
-            print(f'Worktree von HEAD fuer den Lauf: {wt} (wird am Ende entfernt)')
+            wt = lege_worktree_an(repo, rev)
+            print(f'Worktree von HEAD ({rev[:12]}) fuer den Lauf: {wt} (wird am Ende entfernt)')
         zaehler = bericht(plan, args.trocken, wt or repo, args.timeout, rt, args.ausfuehrlich)
         return 1 if zaehler['rot'] else 0
     finally:

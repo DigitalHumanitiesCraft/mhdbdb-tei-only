@@ -164,6 +164,13 @@ class Pfadfilter(Basis):
         self.assertIn('nicht betroffen: t.yml', out, 'eine fremde untracked Datei darf den Workflow nicht ausloesen')
         self.assertIn('WARNUNG: 1 uncommittete oder untracked Eintraege', out)
 
+    def test_gestagte_umbenennung_zaehlt_einmal(self):
+        self.repo({'t.yml': wf('echo hallo')}, geaendert=['src/y.txt'])
+        git(self.tmp, 'mv', 'README.md', 'README2.md')
+        self.assertEqual(cl.ungepruefte_aenderungen(self.tmp), 1)
+        code, out = self.lauf([eintrag(wf('echo hallo'))])
+        self.assertIn('WARNUNG: 1 uncommittete oder untracked Eintraege', out)
+
     def test_glob_und_negation(self):
         self.assertTrue(cl.pfad_trifft(['**.md'], 'README.md'))
         self.assertTrue(cl.pfad_trifft(['**.md'], 'docs/a/b.md'))
@@ -238,7 +245,47 @@ class Isolation(Basis):
         self.assertFalse((self.tmp / 'geschrieben.txt').exists())
         self.assertEqual(len(git(self.tmp, 'worktree', 'list').strip().splitlines()), 1,
                          'der temporaere Worktree ist nicht entfernt')
-        self.assertIn('Worktree von HEAD fuer den Lauf:', out)
+        self.assertIn(f'Worktree von HEAD ({git(self.tmp, "rev-parse", "HEAD").strip()[:12]}) fuer den Lauf:', out)
+
+    def test_git_im_repo_des_aufrufers_nimmt_keine_optionalen_locks(self):
+        self.repo({'t.yml': wf('echo hallo')})
+        echt, gesehen = subprocess.run, []
+
+        def spion(cmd, *a, **kw):
+            gesehen.append((cmd, (kw.get('env') or {}).get('GIT_OPTIONAL_LOCKS')))
+            return echt(cmd, *a, **kw)
+        with mock.patch.object(cl.subprocess, 'run', spion):
+            cl.ungepruefte_aenderungen(self.tmp)
+        status = [e for c, e in gesehen if 'status' in c]
+        self.assertEqual(status, ['0'])
+
+    def test_fremder_commit_waehrend_des_laufs_aendert_nichts(self):
+        """Ein anderer Commit zwischen Start und Schritten: Plan und Schritte bleiben auf der Start-SHA."""
+        run = 'git rev-parse HEAD > gesehen.txt\ntest -f docs/x.md'
+        text = wf(run)
+        self.repo({'t.yml': text})
+        start = git(self.tmp, 'rev-parse', 'HEAD').strip()
+        basis = git(self.tmp, 'rev-parse', 'HEAD~1').strip()
+        tab = [eintrag(text)]
+        echt = cl.loese_head
+
+        def mit_fremdem_commit(repo):
+            sha = echt(repo)
+            # eine andere Session: loescht die geaenderte Datei und aendert den Workflow
+            git(self.tmp, 'rm', '-q', 'docs/x.md')
+            (self.tmp / '.github/workflows/t.yml').write_text(text.replace('git rev-parse', 'echo fremd'),
+                                                              encoding='utf-8', newline='\n')
+            git(self.tmp, 'add', '-A')
+            git(self.tmp, 'commit', '-q', '-m', 'fremder Commit')
+            return sha
+        out = io.StringIO()
+        with mock.patch.object(cl, 'loese_head', mit_fremdem_commit), contextlib.redirect_stdout(out):
+            code = cl.main(['--repo', str(self.tmp), '--basis', basis, '-v'], tabelle=tab)
+        self.assertNotEqual(git(self.tmp, 'rev-parse', 'HEAD').strip(), start, 'der fremde Commit fehlt')
+        self.assertEqual(code, 0, out.getvalue())
+        self.assertIn('[1/1]', out.getvalue(), 'Workflow nicht betroffen: die Dateiliste kam aus dem neuen HEAD')
+        self.assertIn(f'HEAD beim Start: {start[:12]}', out.getvalue())
+        self.assertIn(f'Worktree von HEAD ({start[:12]})', out.getvalue())
 
     def test_worktree_wird_auch_bei_abbruch_entfernt(self):
         text = wf('echo hallo')
