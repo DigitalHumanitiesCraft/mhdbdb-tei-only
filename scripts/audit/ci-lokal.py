@@ -49,17 +49,22 @@ Liste im Kopf entfaellt.
    Freshness-Schritte schreiben (Rebuild, dann `git diff`), und im Main
    Worktree teilen sich parallele Sessions den Working Tree.
    Ein Kill oder ein Timeout der Harness laesst den Worktree trotzdem zurueck
-   (registriert, unter %TEMP%). Deshalb liest jeder Lauf vor dem Anlegen
-   `git worktree list --porcelain`, meldet jeden Eintrag `ci-lokal-wt-*`
-   direkt unter `tempfile.gettempdir()` und entfernt ihn (`worktree remove
-   --force`, `rmtree`, `prune`) mit der Zeile `Rest eines abgebrochenen Laufs
-   entfernt: <pfad>`. Schutz vor dem Entfernen eines Worktrees, den eine
+   (registriert, unter %TEMP%). Deshalb liest jeder Lauf gleich nach dem
+   Aufloesen der SHA, vor Workflows und Plan (auch ein Lauf, der danach mit
+   Exit 2 endet), `git worktree list --porcelain`, meldet jeden Eintrag
+   `ci-lokal-wt-*` direkt unter `tempfile.gettempdir()` und entfernt ihn
+   (`worktree remove --force`, `rmtree`, bleibt der Eintrag stehen, nur sein
+   eigener Admin-Ordner unter `<git-common-dir>/worktrees/`; nie ein globales
+   `worktree prune`) mit der Zeile `Rest eines abgebrochenen Laufs entfernt:
+   <pfad>`. Schutz vor dem Entfernen eines Worktrees, den eine
    andere Session gerade nutzt: jeder Lauf schreibt seine PID in
    `ci-lokal.pid` im Git-Verzeichnis seines Worktrees
    (`<repo>/.git/worktrees/<name>/`), nicht in den Worktree, wo sie als
    untracked Datei in `git status` und `git diff` der Freshness-Schritte
-   stuende. Entfernt wird nur, wenn die PID nicht mehr lebt (`tasklist`).
-   Lebt sie, oder ist die Datei nicht lesbar, wird nur gemeldet. `--trocken`
+   stuende. Entfernt wird nur, wenn die PID eindeutig tot ist (`tasklist` mit rc 0 und
+   ohne Zeile fuer die PID, unter POSIX `ProcessLookupError`). Lebt sie, ist
+   ihr Status unklar (rc ungleich 0, Exception, Timeout) oder ist die Datei
+   nicht lesbar, wird nur gemeldet, bei unklarem Status mit Grund. `--trocken`
    meldet, entfernt nie. Andere Worktrees fasst es nicht an.
    Bleibt eine PID nach einem Absturz einem fremden Prozess zugeteilt, bleibt
    der Rest liegen und wird bei jedem Lauf gemeldet.
@@ -736,18 +741,31 @@ def schreibe_pid(wt):
         pfad.write_text(str(os.getpid()), encoding='ascii')
 
 
-def pid_lebt(pid):
+def pid_status(pid):
+    """('lebt' | 'tot' | 'unklar', Grund). Tot ist eine PID nur bei eindeutiger Antwort: `tasklist`
+    mit rc 0 ohne CSV-Zeile `"<pid>"` (der Kein-Treffer-Fall liefert rc 0 und eine lokalisierte
+    INFORMATION-Zeile), unter POSIX `ProcessLookupError`. Alles andere ist unklar, und unklar
+    entfernt nichts."""
     if sys.platform == 'win32':
-        res = subprocess.run(['tasklist', '/FI', f'PID eq {pid}', '/NH', '/FO', 'CSV'],
-                             capture_output=True)
-        return f'"{pid}"' in res.stdout.decode('utf-8', 'replace')
+        try:
+            res = subprocess.run(['tasklist', '/FI', f'PID eq {pid}', '/NH', '/FO', 'CSV'],
+                                 capture_output=True, timeout=30)
+        except (OSError, subprocess.SubprocessError) as ex:
+            return 'unklar', f'tasklist nicht lauffaehig: {type(ex).__name__}'
+        if res.returncode != 0:
+            return 'unklar', f'tasklist endete mit rc {res.returncode}'
+        if f'"{pid}"' in res.stdout.decode('utf-8', 'replace'):
+            return 'lebt', ''
+        return 'tot', ''
     try:
         os.kill(pid, 0)
     except ProcessLookupError:
-        return False
+        return 'tot', ''
     except PermissionError:
-        return True
-    return True
+        return 'unklar', 'keine Berechtigung fuer os.kill'
+    except Exception as ex:
+        return 'unklar', f'os.kill: {type(ex).__name__}'
+    return 'lebt', ''
 
 
 def worktree_pfade(repo):
@@ -759,9 +777,9 @@ def worktree_pfade(repo):
 def raeume_reste(repo, trocken):
     """Reste abgebrochener Laeufe: registrierte Worktrees `ci-lokal-wt-*` direkt unter dem Temp-Ordner.
 
-    Entfernt wird nur, wenn die PID-Datei lesbar ist und die PID nicht mehr lebt. Lebt sie, oder
-    ist die Datei nicht lesbar, wird nur gemeldet. Mit `trocken` wird nie entfernt. Andere Worktrees
-    (ohne das Praefix oder ausserhalb des Temp-Ordners) fasst es nicht an."""
+    Entfernt wird nur, wenn die PID-Datei lesbar ist und die PID eindeutig tot ist. Lebt sie, ist ihr
+    Status unklar oder ist die Datei nicht lesbar, wird nur gemeldet. Mit `trocken` wird nie entfernt.
+    Andere Worktrees (ohne das Praefix oder ausserhalb des Temp-Ordners) fasst es nicht an."""
     temp = os.path.normcase(os.path.realpath(tempfile.gettempdir()))
     for pfad in worktree_pfade(repo):
         p = Path(pfad)
@@ -775,23 +793,41 @@ def raeume_reste(repo, trocken):
             pass
         if pid is None:
             print(f'Rest eines Laufs, PID-Datei nicht lesbar, nicht entfernt: {pfad}')
-        elif pid_lebt(pid):
-            print(f'Worktree eines laufenden Laufs (PID {pid}), nicht entfernt: {pfad}')
-        elif trocken:
-            print(f'Rest eines abgebrochenen Laufs (PID {pid} tot), --trocken entfernt nicht: {pfad}')
         else:
-            entferne_worktree(repo, pfad)
-            print(f'Rest eines abgebrochenen Laufs entfernt: {pfad}')
+            status, grund = pid_status(pid)
+            if status == 'lebt':
+                print(f'Worktree eines laufenden Laufs (PID {pid}), nicht entfernt: {pfad}')
+            elif status == 'unklar':
+                print(f'Rest eines Laufs, Status der PID {pid} unklar ({grund}), nicht entfernt: {pfad}')
+            elif trocken:
+                print(f'Rest eines abgebrochenen Laufs (PID {pid} tot), --trocken entfernt nicht: {pfad}')
+            else:
+                entferne_worktree(repo, pfad)
+                print(f'Rest eines abgebrochenen Laufs entfernt: {pfad}')
 
 
 def entferne_worktree(repo, wt):
+    """Entfernt genau diesen Worktree. Kein globales `git worktree prune`: es truege fremde
+    Worktrees mit fehlendem Ordner still aus. Bleibt der Eintrag nach `remove` und `rmtree`
+    stehen, wird nur sein eigener Admin-Ordner unter `<git-common-dir>/worktrees/` entfernt."""
+    admin = None
+    res = git(wt, 'rev-parse', '--absolute-git-dir', check=False) if os.path.isdir(wt) else None
+    common = git(repo, 'rev-parse', '--path-format=absolute', '--git-common-dir', check=False)
+    if res is not None and res.returncode == 0 and common.returncode == 0:
+        kandidat = Path(res.stdout.decode('utf-8', 'replace').strip())
+        wurzel = Path(common.stdout.decode('utf-8', 'replace').strip()) / 'worktrees'
+        if os.path.normcase(os.path.realpath(kandidat.parent)) == os.path.normcase(os.path.realpath(wurzel)):
+            admin = kandidat
     git(repo, 'worktree', 'remove', '--force', wt, check=False)
     shutil.rmtree(wt, ignore_errors=True)
-    git(repo, 'worktree', 'prune', check=False)
+    ziel = os.path.normcase(os.path.realpath(wt))
+    if admin is not None and any(os.path.normcase(os.path.realpath(x)) == ziel for x in worktree_pfade(repo)):
+        shutil.rmtree(admin, ignore_errors=True)
 
 
 def _lauf(args, repo, tabelle):
     rev = loese_head(repo)
+    raeume_reste(repo, args.trocken)
     texte = workflow_texte(repo, args.workflows, rev)
     workflows = lade_workflows(texte)
     mb, dateien = geaenderte_dateien(repo, args.basis, rev)
@@ -819,7 +855,6 @@ def _lauf(args, repo, tabelle):
         if plan.fehler:
             melde_fehler(plan)
             return 2
-        raeume_reste(repo, args.trocken)
         for datei, grund in plan.nicht_betroffen:
             print(f'  nicht betroffen: {datei} ({grund})')
         if not args.trocken:

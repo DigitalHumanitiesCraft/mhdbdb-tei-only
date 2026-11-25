@@ -372,6 +372,66 @@ class Reste(Basis):
         self.assertTrue(os.path.exists(wt))
         self.assertEqual(self.anzahl(), 2)
 
+    def tasklist_kaputt(self, wirkung):
+        echt = subprocess.run
+
+        def ersatz(cmd, *a, **kw):
+            if cmd and cmd[0] == 'tasklist':
+                if isinstance(wirkung, Exception):
+                    raise wirkung
+                return wirkung
+            return echt(cmd, *a, **kw)
+        return mock.patch.object(cl.subprocess, 'run', ersatz)
+
+    @unittest.skipUnless(sys.platform == 'win32', 'tasklist gibt es nur unter Windows')
+    def test_tasklist_rc1_gilt_nicht_als_tot(self):
+        wt = self.rest(os.getpid())
+        kaputt = subprocess.CompletedProcess(['tasklist'], 1, b'', b'FEHLER: Der Suchfilter wurde nicht erkannt.\r\n')
+        with self.tasklist_kaputt(kaputt):
+            code, out = self.lauf(self.tab)
+        self.assertEqual(code, 0, out)
+        self.assertIn('unklar (tasklist endete mit rc 1)', out)
+        self.assertTrue(os.path.exists(wt), 'der Worktree eines unklaren Status wurde entfernt')
+
+    @unittest.skipUnless(sys.platform == 'win32', 'tasklist gibt es nur unter Windows')
+    def test_tasklist_fehlt_gilt_nicht_als_tot_und_gibt_keinen_traceback(self):
+        wt = self.rest(os.getpid())
+        with self.tasklist_kaputt(FileNotFoundError('tasklist')):
+            code, out = self.lauf(self.tab)
+        self.assertEqual(code, 0, out)
+        self.assertIn('unklar (tasklist nicht lauffaehig: FileNotFoundError)', out)
+        self.assertTrue(os.path.exists(wt))
+
+    def test_fremder_registrierter_worktree_ohne_ordner_bleibt_registriert(self):
+        fremd = tempfile.mkdtemp(prefix='anderer-wt-')
+        git(self.tmp, 'worktree', 'add', '--detach', fremd, 'HEAD')
+        shutil.rmtree(fremd, onerror=lambda f, p, e: (os.chmod(p, stat.S_IWRITE), f(p)))
+        code, out = self.lauf(self.tab)
+        self.assertEqual(code, 0, out)
+        self.assertIn(Path(fremd).as_posix(), git(self.tmp, 'worktree', 'list', '--porcelain'),
+                      'ein fremder Worktree wurde ausgetragen')
+
+    def test_rest_mit_stehengebliebenem_eintrag_verliert_nur_den_eigenen_admin_ordner(self):
+        wt = self.rest(toter_pid())
+        admin = cl.pid_datei(Path(wt)).parent
+        echt = cl.git
+
+        def git_ohne_remove(repo, *args, **kw):
+            if args[:2] == ('worktree', 'remove'):
+                return subprocess.CompletedProcess(args, 1, b'', b'')
+            return echt(repo, *args, **kw)
+        with mock.patch.object(cl, 'git', git_ohne_remove):
+            cl.entferne_worktree(self.tmp, wt)
+        self.assertFalse(admin.exists(), 'Admin-Ordner des eigenen Worktrees blieb liegen')
+        self.assertNotIn(wt, git(self.tmp, 'worktree', 'list', '--porcelain'))
+
+    def test_lauf_mit_exit_2_raeumt_trotzdem(self):
+        wt = self.rest(toter_pid())
+        code, out = self.lauf([])  # Schritt ohne Klasse: harter Fehler
+        self.assertEqual(code, 2, out)
+        self.assertIn(f'Rest eines abgebrochenen Laufs entfernt: {wt}', out)
+        self.assertFalse(os.path.exists(wt))
+
     def test_eigener_lauf_schreibt_seine_pid(self):
         wt = cl.lege_worktree_an(self.tmp, 'HEAD')
         self.addCleanup(cl.entferne_worktree, self.tmp, wt)
