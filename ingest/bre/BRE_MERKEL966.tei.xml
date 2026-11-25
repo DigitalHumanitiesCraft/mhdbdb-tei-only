@@ -3,7 +3,8 @@
   <teiHeader>
     <fileDesc>
       <titleStmt>
-        <title xml:lang="de">Nürnberg, Germanisches Nationalmuseum, Hs. Merkel 2° 966, 105r; 113v</title>
+        <title xml:lang="de">Weingrüße (Nürnberg, Germanisches Nationalmuseum, Hs. Merkel 2° 966)</title>
+        <author ref="#person_907">Hans Rosenplüt</author>
         <author ref="#person_anonym">Anonym</author>
         <respStmt>
           <resp>digitale Zusammenführung, Annotation und semantische Klassifikation</resp>
@@ -45,13 +46,13 @@
       </publicationStmt>
       <sourceDesc>
         <msDesc>
-          <msIdentifier corresp="works.xml#work_TBD">
+          <msIdentifier corresp="works.xml#work_BRE_MERKEL966">
             <idno type="sigle">BRE_MERKEL966</idno>
-            <msName xml:lang="de">Nürnberg, Germanisches Nationalmuseum, Hs. Merkel 2° 966, 105r; 113v</msName>
+            <msName xml:lang="de">Weingrüße (Nürnberg, Germanisches Nationalmuseum, Hs. Merkel 2° 966)</msName>
           </msIdentifier>
           <additional>
             <listBibl>
-              <bibl type="digitalIntermediary" xml:id="BRE_MERKEL966_brevitas_wiki" corresp="#BRE_MERKEL966_TBD">
+              <bibl type="digitalIntermediary" xml:id="BRE_MERKEL966_brevitas_wiki" corresp="#BRE_MERKEL966_BRE_MERKEL966">
                 <title>Brevitas-Wiki, Hybridedition der Weingrüße (Silvan Wagner)</title>
                 <respStmt>
                   <resp>Transkription</resp>
@@ -77,8 +78,9 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_TBD" corresp="genres.xml#genre_TBD">
-            <gloss xml:lang="de">Weingruß (TBD: konkrete Genre-ID)</gloss>
+          <category xml:id="genre_315cf46f" corresp="genres.xml#genre_315cf46f">
+            <gloss xml:lang="de">Weingruß</gloss>
+            <gloss xml:lang="en">Wine Greeting</gloss>
           </category>
         </taxonomy>
       </classDecl>
@@ -89,6 +91,11 @@
       </langUsage>
       <particDesc>
         <listPerson>
+          <person xml:id="person_907" corresp="persons.xml#person_907">
+            <persName type="preferred">Hans Rosenplüt</persName>
+            <idno type="GND">118791176</idno>
+            <idno type="wikidata">Q105816</idno>
+          </person>
           <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
             <persName type="preferred">Anonym</persName>
           </person>
@@ -97,6 +104,7 @@
     </profileDesc>
     <revisionDesc>
       <change when="2026-11-17" who="#mhdbdb-team">Initiale Konversion aus dem Brevitas-Wiki (Revision 21429) via scripts/ingest/bre/02-convert-wiki-to-mhdbdb.py.</change>
+      <change when="2026-11-25" who="#mhdbdb-team">Normdaten im Header gesetzt (#147, Entscheidung KZW vom 24.11.2026): Werk works.xml#work_BRE_MERKEL966, Gattung Weingruß (genre_315cf46f), Autor Hans Rosenplüt und Anonym, vorher Platzhalter und nur Anonym. Setzt scripts/ingest/bre/23-normdaten.py, nur im Header.</change>
     </revisionDesc>
   </teiHeader>
   <text>

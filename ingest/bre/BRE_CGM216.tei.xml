@@ -3,8 +3,8 @@
   <teiHeader>
     <fileDesc>
       <titleStmt>
-        <title xml:lang="de">München, Bayerische Staatsbibliothek: Cgm 216, 21r</title>
-        <author ref="#person_anonym">Anonym</author>
+        <title xml:lang="de">Weingrüße (München, Bayerische Staatsbibliothek, Cgm 216)</title>
+        <author ref="#person_907">Hans Rosenplüt</author>
         <respStmt>
           <resp>digitale Zusammenführung, Annotation und semantische Klassifikation</resp>
           <orgName ref="contributors.xml#mhdbdb-team">MHDBDB-Team (vollständige Liste in contributors.xml)</orgName>
@@ -45,13 +45,13 @@
       </publicationStmt>
       <sourceDesc>
         <msDesc>
-          <msIdentifier corresp="works.xml#work_TBD">
+          <msIdentifier corresp="works.xml#work_BRE_CGM216">
             <idno type="sigle">BRE_CGM216</idno>
-            <msName xml:lang="de">München, Bayerische Staatsbibliothek: Cgm 216, 21r</msName>
+            <msName xml:lang="de">Weingrüße (München, Bayerische Staatsbibliothek, Cgm 216)</msName>
           </msIdentifier>
           <additional>
             <listBibl>
-              <bibl type="digitalIntermediary" xml:id="BRE_CGM216_brevitas_wiki" corresp="#BRE_CGM216_TBD">
+              <bibl type="digitalIntermediary" xml:id="BRE_CGM216_brevitas_wiki" corresp="#BRE_CGM216_BRE_CGM216">
                 <title>Brevitas-Wiki, Hybridedition der Weingrüße (Silvan Wagner)</title>
                 <respStmt>
                   <resp>Transkription</resp>
@@ -77,8 +77,9 @@
       <classDecl>
         <taxonomy xml:id="genres">
           <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
-          <category xml:id="genre_TBD" corresp="genres.xml#genre_TBD">
-            <gloss xml:lang="de">Weingruß (TBD: konkrete Genre-ID)</gloss>
+          <category xml:id="genre_315cf46f" corresp="genres.xml#genre_315cf46f">
+            <gloss xml:lang="de">Weingruß</gloss>
+            <gloss xml:lang="en">Wine Greeting</gloss>
           </category>
         </taxonomy>
       </classDecl>
@@ -89,14 +90,17 @@
       </langUsage>
       <particDesc>
         <listPerson>
-          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
-            <persName type="preferred">Anonym</persName>
+          <person xml:id="person_907" corresp="persons.xml#person_907">
+            <persName type="preferred">Hans Rosenplüt</persName>
+            <idno type="GND">118791176</idno>
+            <idno type="wikidata">Q105816</idno>
           </person>
         </listPerson>
       </particDesc>
     </profileDesc>
     <revisionDesc>
       <change when="2026-11-17" who="#mhdbdb-team">Initiale Konversion aus dem Brevitas-Wiki (Revision 21428) via scripts/ingest/bre/02-convert-wiki-to-mhdbdb.py.</change>
+      <change when="2026-11-25" who="#mhdbdb-team">Normdaten im Header gesetzt (#147, Entscheidung KZW vom 24.11.2026): Werk works.xml#work_BRE_CGM216, Gattung Weingruß (genre_315cf46f), Autor Hans Rosenplüt, vorher Platzhalter und nur Anonym. Setzt scripts/ingest/bre/23-normdaten.py, nur im Header.</change>
     </revisionDesc>
   </teiHeader>
   <text>
