@@ -2,7 +2,11 @@
 """Tests fuer 02-convert-wiki-to-mhdbdb.py (BRE, #147), pytest-frei.
 
 Aufruf: python -P -E scripts/ingest/bre/test_bre.py
-Kein Netz, kein Cache: Mini-Fixture (Ausschnitt aus Cgm 713, Revision 21352).
+Die meisten Tests laufen ohne Netz und ohne Cache auf einer Mini-Fixture (Ausschnitt aus Cgm 713,
+Revision 21352). Den Wiki-Cache `temp/bre-wiki` brauchen das Druckfahnen-Gate und die fuenf
+Sperre-Tests, die `konvertiere` direkt aufrufen; fehlt er, schlagen sie fehl. Der Test "alle bricht
+vor dem ersten Schreiben ab" besteht ohne Cache auch dann, wenn die Vorpruefung in `main` fehlt (dann
+bricht die erste Konversion am fehlenden Cache ab), sein Befund zaehlt nur mit Cache.
 Beendet mit Exit 1, wenn ein Test fehlschlaegt.
 """
 import collections
@@ -556,6 +560,75 @@ _, _, tei_f, _, _ = baue(SEITE, ROWS, "B")
 tei_f.xpath("//t:msIdentifier", namespaces=ns)[0].set("corresp", "works.xml#work_ANDERS")
 pruefe("Normdaten: unerwarteter Zustand im Header ist ein harter Fehler",
        wirft(lambda: norm.setze_header(tei_f, "BRE_TEST", WT, ["person_907"], PERS, GEN, "2026-11-25")))
+
+# Sperre gegen das Ueberschreiben (Entscheidung 25.11.2026): 02 ersetzt eine vorhandene Zieldatei nur
+# mit --ueberschreiben. Arbeitet am echten Wiki-Cache (temp/bre-wiki), schreibt aber nur in einen
+# temporaeren Ausgabeordner, nie nach ingest/bre/.
+import contextlib  # noqa: E402
+import io  # noqa: E402
+import tempfile  # noqa: E402
+
+SPERRE_DATUM = "2026-11-25"
+ZIEL_B = conv.bc.ZEUGEN["B"][1] + ".tei.xml"
+ALT = b"<alt>Annotation</alt>"
+
+
+def sperre_lauf(vorhanden, **kw):
+    """konvertiere('B', ...) in einem frischen Ausgabeordner. Gibt (Ergebnis, Inhalt der Zieldatei)."""
+    with tempfile.TemporaryDirectory() as td:
+        aus = Path(td)
+        if vorhanden:
+            (aus / ZIEL_B).write_bytes(ALT)
+        kw.setdefault("trocken", False)
+        try:
+            with contextlib.redirect_stdout(io.StringIO()):
+                conv.konvertiere("B", ausgabe_dir=aus, datum=SPERRE_DATUM, **kw)
+            erg = "geschrieben"
+        except conv.bc.HarterFehler as e:
+            erg = f"fehler: {e}"
+        ziel = aus / ZIEL_B
+        # der Restore-Hinweis muss den vollen Pfad tragen, sonst trifft git restore nur aus ingest/bre
+        if erg.startswith("fehler:") and f'git restore "{ziel}"' not in erg:
+            erg = "fehler ohne vollen Pfad im Restore-Hinweis: " + erg
+        return erg, (ziel.read_bytes() if ziel.exists() else None)
+
+
+erg, inhalt = sperre_lauf(True)
+pruefe("Sperre: Ziel existiert ohne Flag = harter Fehler, Datei unberuehrt",
+       erg.startswith("fehler:") and "--ueberschreiben" in erg and "Phasen 1 bis 3" in erg
+       and "Normdaten" in erg and inhalt == ALT, erg[:80])
+erg, inhalt = sperre_lauf(True, ueberschreiben=True)
+pruefe("Sperre: Ziel existiert, mit Flag wird geschrieben",
+       erg == "geschrieben" and inhalt is not None and inhalt != ALT and b"<TEI" in inhalt, erg[:80])
+erg, inhalt = sperre_lauf(False)
+pruefe("Sperre: Ziel neu wird ohne Flag geschrieben",
+       erg == "geschrieben" and inhalt is not None and b"<TEI" in inhalt, erg[:80])
+erg, inhalt = sperre_lauf(True, trocken=True)
+pruefe("Sperre: --trocken schreibt nie, auch nicht mit vorhandenem Ziel",
+       erg == "geschrieben" and inhalt == ALT, erg[:80])
+erg, inhalt = sperre_lauf(False, trocken=True)
+pruefe("Sperre: --trocken legt keine Datei an", erg == "geschrieben" and inhalt is None, erg[:80])
+
+# "alle": ist irgendein Ziel gesperrt, bricht main ab, bevor das erste geschrieben wird
+with tempfile.TemporaryDirectory() as td:
+    aus = Path(td)
+    vorhanden = conv.bc.ZEUGEN["W"][1] + ".tei.xml"
+    (aus / vorhanden).write_bytes(ALT)
+    argv_alt = sys.argv
+    sys.argv = ["02", "--zeuge", "alle", "--ausgabe-dir", str(aus), "--datum", SPERRE_DATUM]
+    try:
+        with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()) as se:
+            rc_alle = conv.main()
+    finally:
+        sys.argv = argv_alt
+    dateien = sorted(p.name for p in aus.iterdir())
+    pruefe("Sperre: alle bricht vor dem ersten Schreiben ab",
+           rc_alle == 1 and dateien == [vorhanden] and (aus / vorhanden).read_bytes() == ALT,
+           f"rc={rc_alle} {dateien}")
+    meldung = se.getvalue()
+    pruefe("Sperre: Nenner zaehlt nur gepruefte Ziele, offene Zeugen eigene Zeile",
+           "1 von 18 geprueften Zielen existieren schon (W)" in meldung
+           and "nicht geprueft, Segmentierung offen: B2, d4, d6" in meldung, meldung[-300:])
 
 # Druckfahnen (Kickoff #147): kein Wortlaut aus Text, Uebersetzung oder Kommentar der Druckfassung
 # im Repo. Quelle ist der Text der Hirzel-Druckfahnen (PDF, per pdftotext auf stdout gelesen, nie

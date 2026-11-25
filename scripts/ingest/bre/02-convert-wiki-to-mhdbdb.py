@@ -944,7 +944,27 @@ def runde(text_zeichen):
     return re.sub(r"[\s\\/|()<>]", "", text_zeichen)
 
 
-def konvertiere(sigle, trocken, ausgabe_dir, datum):
+def ziel_pfad(sigle, ausgabe_dir):
+    return ausgabe_dir / f"{bc.ZEUGEN[sigle][1]}.tei.xml"
+
+
+def sperre_ueberschreiben(sigle, ausgabe_dir, trocken, ueberschreiben):
+    """Harter Fehler, wenn die Zieldatei schon existiert (Entscheidung 25.11.2026): sie traegt die
+    Annotation der Phasen 1 bis 3 und die Normdaten aus 23, die der Rohlauf von 02 verwirft."""
+    pfad = ziel_pfad(sigle, ausgabe_dir)
+    if trocken or ueberschreiben or not pfad.exists():
+        return
+    raise bc.HarterFehler(
+        f"{pfad} existiert schon und wuerde durch die rohe Konversion ersetzt. Verloren gingen die "
+        f"Annotation der Phasen 1 bis 3 (@lemmaRef, @pos, @ana, @corresp aus den Skripten 10 bis 18) "
+        f"und die Normdaten im Header aus 23-normdaten.py. Mit --ueberschreiben ist das gewollt; "
+        f"zurueck zuerst mit git restore \"{pfad}\" (die Zeugen in ingest/bre/ sind committet), sonst ueber die "
+        f"Entscheidungen in ingest/bre/phaseN/*.tsv: 10, 13, 14, 15 --phase pos, 16, "
+        f"15 --phase sense, 18 und 23 neu fahren (Reihenfolge wie in der README). "
+        f"Ohne Schreiben pruefen: --trocken")
+
+
+def konvertiere(sigle, trocken, ausgabe_dir, datum, ueberschreiben=False):
     name, mhdbdb = bc.ZEUGEN[sigle]
     titel = bc.transkriptions_titel(sigle)
     seite = bc.lade_seite(titel)
@@ -1030,6 +1050,7 @@ def konvertiere(sigle, trocken, ausgabe_dir, datum):
     if not trocken and sigle in bc.SEGMENTIERUNG_OFFEN:
         raise bc.HarterFehler(f"Segmentierung offen ({bc.SEGMENTIERUNG_OFFEN[sigle]}): wird nicht "
                               f"geschrieben, nur --trocken (bre_common.SEGMENTIERUNG_OFFEN)")
+    sperre_ueberschreiben(sigle, ausgabe_dir, trocken, ueberschreiben)
     if not trocken and not probleme:
         pi1 = etree.ProcessingInstruction(
             "xml-model", 'href="../schema/mhdbdb.rng" type="application/xml" '
@@ -1098,6 +1119,8 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--zeuge", required=True, help="Editionssigle (z.B. B, d3) oder 'alle'")
     ap.add_argument("--trocken", action="store_true", help="nichts schreiben")
+    ap.add_argument("--ueberschreiben", action="store_true",
+                    help="eine vorhandene Zieldatei ersetzen (verwirft Annotation und Normdaten)")
     ap.add_argument("--ausgabe-dir", type=Path, default=bc.INGEST_DIR)
     ap.add_argument("--datum", default=datetime.date.today().isoformat(),
                     help="Datum fuer revisionDesc, JJJJ-MM-TT (Vorgabe: heute)")
@@ -1107,13 +1130,36 @@ def main():
     except ValueError:
         ap.error(f"--datum {a.datum!r} ist kein JJJJ-MM-TT")
     zeugen = list(bc.ZEUGEN) if a.zeuge == "alle" else [a.zeuge]
+    if a.zeuge != "alle" and a.zeuge not in bc.ZEUGEN:
+        ap.error(f"--zeuge {a.zeuge!r} ist keine Editionssigle")
+    # Sperre vor dem ersten Schreiben ueber alle Ziele, damit nicht die Haelfte geschrieben ist
+    gesperrt = []
+    geprueft = 0
+    uebersprungen = []
+    for z in zeugen:
+        if a.zeuge == "alle" and not a.trocken and z in bc.SEGMENTIERUNG_OFFEN:
+            uebersprungen.append(z)
+            continue
+        geprueft += 1
+        try:
+            sperre_ueberschreiben(z, a.ausgabe_dir, a.trocken, a.ueberschreiben)
+        except bc.HarterFehler as e:
+            gesperrt.append((z, e))
+    if gesperrt:
+        for z, e in gesperrt:
+            print(f"FEHLER ({z}): {e}", file=sys.stderr)
+        print(f"== {len(gesperrt)} von {geprueft} geprueften Zielen existieren schon "
+              f"({', '.join(z for z, _ in gesperrt)}): nichts geschrieben", file=sys.stderr)
+        if uebersprungen:
+            print(f"== nicht geprueft, Segmentierung offen: {', '.join(uebersprungen)}", file=sys.stderr)
+        return 1
     rc = 0
     for z in zeugen:
         if a.zeuge == "alle" and not a.trocken and z in bc.SEGMENTIERUNG_OFFEN:
             print(f"== {z}: uebersprungen, Segmentierung offen ({bc.SEGMENTIERUNG_OFFEN[z]})")
             continue
         try:
-            konvertiere(z, a.trocken, a.ausgabe_dir, a.datum)
+            konvertiere(z, a.trocken, a.ausgabe_dir, a.datum, a.ueberschreiben)
         except bc.HarterFehler as e:
             print(f"FEHLER ({z}): {e}", file=sys.stderr)
             print(f"== {z}: HARTER FEHLER, siehe oben/stderr")

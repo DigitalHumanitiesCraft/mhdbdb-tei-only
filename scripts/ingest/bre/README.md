@@ -17,7 +17,7 @@ Ingest der Weingrüße aus der Hybridedition von Silvan Wagner (Issue [#147](htt
 |---|---|---|
 | `00-fetch-wiki.py` | Lädt Dokumentationsseite, Hauptseite, die 21 Transkriptionen und die Einzeltextseiten in den Cache `temp/bre-wiki/`. Mit Manifest gepinnt per Revisions-ID, sha256-Abweichung ist ein harter Fehler. `--offline`: nur Cache. `--neu`: Manifest aus den aktuellen Revisionen | `ingest/bre/revisionen.tsv` |
 | `01-segmentierung.py` | Liest aus jeder Einzeltextseite die Infobox (Blattangabe je Zeuge) und die Synopse (erster Vers und Überschrift je Zeuge) | `ingest/bre/segmentierung.tsv` |
-| `02-convert-wiki-to-mhdbdb.py` | Konvertiert einen Zeugen nach MHDBDB-TEI und validiert gegen `schema/mhdbdb.rng`. `--zeuge alle` schreibt die 18 Zeugen ohne offene Segmentierung, `--zeuge alle --trocken` fährt alle 21 ohne Ausgabedatei | `ingest/bre/<SIGLE>.tei.xml` |
+| `02-convert-wiki-to-mhdbdb.py` | Konvertiert einen Zeugen nach MHDBDB-TEI und validiert gegen `schema/mhdbdb.rng`. `--zeuge alle` schreibt die 18 Zeugen ohne offene Segmentierung, `--zeuge alle --trocken` fährt alle 21 ohne Ausgabedatei. Eine vorhandene Zieldatei ersetzt es nur mit `--ueberschreiben` (Sperre, Abschnitt unter der Befehlsfolge) | `ingest/bre/<SIGLE>.tei.xml` |
 | `03-hauptseite-abgleich.py` | Gleicht die Werkzuordnung je Zeuge mit der Überlieferungsbeschreibung der Hauptseite ab (Abschnitt „Werkzuordnung“ unten). Exit 2, wenn eine Abweichung nicht in `ABWEICHUNG_ERKLAERT` steht | `ingest/bre/hauptseite-abgleich.tsv` |
 | `10-lemma-assign.py` | Phase 1: Auto-Match der Wortformen gegen `variants.xml`, setzt `@lemmaRef` bei genau einem Kandidaten, sortiert die mehrdeutigen nach Stufen | `ingest/bre/phase1/lemma-pending.tsv`, `lemma-unmatched.tsv` |
 | `11-batches.py` | Schneidet die Pending-TSV einer Phase in LLM-Batches zu etwa 50 Zeilen (`temp/bre-batches/`, gitignoriert) | |
@@ -40,7 +40,7 @@ Ingest der Weingrüße aus der Hybridedition von Silvan Wagner (Issue [#147](htt
 ```bash
 python -P -E scripts/ingest/bre/00-fetch-wiki.py --offline
 python -P -E scripts/ingest/bre/01-segmentierung.py
-python -P -E scripts/ingest/bre/02-convert-wiki-to-mhdbdb.py --zeuge B
+python -P -E scripts/ingest/bre/02-convert-wiki-to-mhdbdb.py --zeuge B --trocken
 python -P -E scripts/ingest/bre/02-convert-wiki-to-mhdbdb.py --zeuge alle --trocken
 python -P -E scripts/ingest/bre/03-hauptseite-abgleich.py
 python -P -E scripts/ingest/bre/test_bre.py
@@ -58,6 +58,8 @@ python -P -E scripts/ingest/bre/21-abdeckung.py --markdown
 python -P -E scripts/ingest/bre/22-pruefseite.py
 python -P -E scripts/ingest/bre/23-normdaten.py --trocken
 ```
+
+**Sperre in `02`** (Entscheidung Christian, 25.11.2026): Die 18 vorhandenen Zeugen tragen die Annotation der Phasen 1 bis 3 und die Normdaten aus `23`, die rohe Konversion verwirft beides. Existiert die Zieldatei und läuft `02` nicht mit `--trocken`, ist das ein harter Fehler, und `--zeuge alle` prüft alle Ziele, bevor es die erste Datei schreibt. `--ueberschreiben` erlaubt das Ersetzen ausdrücklich. Zurück geht es zuerst mit `git restore ingest/bre/<SIGLE>.tei.xml`, denn die Zeugen sind committet. Für einen Stand, der nicht committet ist, führt der Weg über die Entscheidungen in `ingest/bre/phaseN/*.tsv`: danach `10`, `13`, `14`, `15 --phase pos`, `16`, `15 --phase sense`, `18` und `23` in dieser Reihenfolge neu fahren. Neue Zeugen ohne Zieldatei (künftig B2, d4, d6) schreibt `02` ohne Flag.
 
 Die Assign-Skripte teilen die Wörter unabhängig davon ein, ob ein Attribut schon gesetzt ist: ein zweiter Lauf schreibt dieselben Zeilen in die Pending-TSV, auch mit `--trocken` (das lässt nur die TEI unberührt), aber mit leeren Auflösungsspalten. Erst das zugehörige Apply-Skript füllt sie wieder und setzt dieselben Werte noch einmal; danach sind TEI und Pending-TSV byte-gleich zum vorigen Stand (gemessen 17.11.2026 für 10 und 13, 14 und 15 `--phase pos` und für 18, das ohne Pending-TSV auskommt und dieselben Zahlen wieder ausgibt). Ein vorhandener Wert, der der Einteilung widerspricht, ist ein harter Fehler.
 
