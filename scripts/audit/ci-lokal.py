@@ -2,41 +2,53 @@
 """
 ci-lokal.py: die Pruefschritte der CI vor dem Push lokal fahren (#726).
 
-Anlass: ein CI-Gate, das vor dem Push nicht lokal lief, hat viermal eine
-Pipeline-Runde gekostet (fehlerjournal.md, Fehler 9, 103, 115, 118; zweimal
-check-doc-inventories.py, einmal check-author-refs.py). Die Ursache war jedes
-Mal dieselbe: die Session zog die Gates aus einer Liste im Kopf. Dieses Skript
-liest die Workflows selbst, waehlt die aus, die bei einem PR liefen, und fuehrt
-deren `run:`-Schritte lokal aus. Die Liste im Kopf entfaellt.
+Anlass: ein CI-Gate, das vor dem Push nicht lokal lief, hat wiederholt eine
+Pipeline-Runde gekostet (fehlerjournal.md, Fehler 9, 103, 115, 118). Die Session
+zog die Gates aus einer Liste im Kopf, oder rief eines ohne seinen `--check`
+auf. Dieses Skript liest die Workflows selbst, waehlt die aus, die beim
+gewaehlten Ereignis liefen, und fuehrt deren `run:`-Schritte lokal aus. Die
+Liste im Kopf entfaellt.
 
 ## Was es tut
 
-1. Es nimmt jeden Workflow, der auf `pull_request` triggert, und wertet dessen
-   `paths`/`paths-ignore` gegen die geaenderten Dateien aus: `git diff
-   --name-only <basis>...HEAD`, dazu uncommittete und untracked Dateien des
-   Working Trees (`--ohne-working-tree` schaltet das ab). Was der Filter nicht
-   trifft, steht als "nicht betroffen" in der Ausgabe.
-2. Jeder `run:`-Schritt jedes PR-Workflows muss in der Tabelle KLASSEN stehen
-   (auch in einem Workflow, der gerade nicht betroffen ist). Schluessel ist
-   Workflow-Datei, Job und Schrittname (ohne Namen `run:<hash>`), dazu ein Hash
-   aus run-Text, Schritt-`if` und Job-`if`. Ein Schritt ohne Eintrag und ein
-   Schritt, dessen Hash nicht mehr passt, sind ein HARTER FEHLER (Exit 2, nichts
-   laeuft). Das ist der Zweck: ein neuer oder geaenderter CI-Schritt darf nicht
-   still durchrutschen. Verwaiste Eintraege (Schritt gibt es nicht mehr) werden
-   nur gemeldet.
+1. Es nimmt jeden Workflow, der auf das Ereignis triggert (`--ereignis
+   pull_request`, Default, oder `push` fuer einen direkten Push auf `main`
+   ohne PR), und wertet dessen `paths`/`paths-ignore` (bei `push` auch
+   `branches`/`tags`) gegen die geaenderten Dateien aus: `git diff
+   --name-only <merge-base>...HEAD`. Geprueft wird HEAD, genau das, was
+   gepusht wird. Was der Filter nicht trifft, steht als "nicht betroffen" in
+   der Ausgabe.
+2. Jeder `run:`-Schritt jedes Workflows mit `pull_request`- oder `push`-Trigger
+   muss in der Tabelle KLASSEN stehen (auch in einem Workflow, der gerade nicht
+   betroffen ist, und auch, wenn er nur in einem der beiden Modi vorkommt).
+   Schluessel ist Workflow-Datei, Job und Schrittname (ohne Namen
+   `run:<hash>`), dazu ein Hash aus run-Text, Schritt-`env`, Job-`env`,
+   `if` von Schritt und Job, `shell`, `working-directory`,
+   `continue-on-error` und `defaults.run` von Workflow und Job. Ein Schritt
+   ohne Eintrag und ein Schritt, dessen Hash nicht mehr passt, sind ein HARTER
+   FEHLER (Exit 2, nichts laeuft). Das ist der Zweck: ein neuer oder
+   geaenderter CI-Schritt darf nicht still durchrutschen. Verwaiste Eintraege
+   (Schritt gibt es nicht mehr) werden nur gemeldet.
 3. Klassen: `lokal` (wird gefahren), `lokal-lang` (ueber etwa eine Minute,
    laeuft nur mit `--lang`), `ersetzt` (das Skript liefert die Ausgaben des
    Schritts selbst, hier der Diff-Base-Schritt), `ausgelassen` (mit Grund).
    Ein `lokal`-Schritt darf keinen `${{ }}`-Ausdruck behalten, der sich nicht
    ersetzen laesst: das ist ein harter Fehler, die Klasse muss dann
-   `ausgelassen` sein. Ersetzt werden `github.event_name` (immer
-   `pull_request`), `runner.temp` und `steps.<id>.outputs.<name>` eines
+   `ausgelassen` sein. Ersetzt werden `github.event_name` (der Wert von
+   `--ereignis`), `runner.temp` und `steps.<id>.outputs.<name>` eines
    `ersetzt`-Schritts (`sha` ist der merge-base mit der Basis, `naming_changed`
    wird aus den geaenderten Dateien gerechnet). Jede Ersetzung steht in der
    Ausgabe.
-4. Die Schritte laufen in Git Bash (`bash -e <datei>`, wie der GitHub-Default),
+4. Jeder Lauf ohne `--trocken` legt mit `git worktree add --detach` einen
+   eigenen Worktree von HEAD unter `tempfile.mkdtemp()` an, meldet den Pfad am
+   Anfang und faehrt alle Schritte dort. Am Ende wird er wieder entfernt, auch
+   bei Fehler und bei Ctrl-C. Das Repo des Aufrufers bleibt unberuehrt: die
+   Freshness-Schritte schreiben (Rebuild, dann `git diff`), und im Main
+   Worktree teilen sich parallele Sessions den Working Tree.
+5. Die Schritte laufen in Git Bash (`bash -e <datei>`, wie der GitHub-Default),
    mit der `env` aus Workflow, Job und Schritt. Je Schritt eine Zeile, am Ende
-   eine Summe mit Nenner. Exit 1, sobald ein Schritt rot ist.
+   eine Summe mit Nenner. Exit 1, sobald ein Schritt rot ist, Exit 2 bei
+   hartem Fehler (auch: PyYAML oder Git Bash fehlen).
 
 ## Aufruf
 
@@ -52,11 +64,10 @@ Tests: python scripts/audit/test_ci_lokal.py
 
 ## Grenzen (bewusst)
 
-- Die Schritte schreiben ins Working Tree, wie in der CI (Freshness-Schritte:
-  Rebuild, dann `git diff` gegen den Index). Ein rotes Freshness-Gate heisst
-  dann: das Ergebnis des Rebuilds ist jetzt im Working Tree und gehoert in den
-  Commit. Uncommittete Quellaenderungen sieht ein solches Gate gegen den Index,
-  nicht gegen den PR-Stand: vor dem Lauf committen.
+- Geprueft wird nur, was committet ist. Uncommittete oder untracked Dateien im
+  Working Tree des Aufrufers werden nicht geprueft, eine Warnzeile sagt das.
+  Ein roter Freshness-Schritt heisst: im eigenen Tree den Rebuild fahren und
+  committen, wie es die Meldung des Schritts sagt.
 - Abhaengigkeiten (lxml, rnc2rng aus requirements.txt) werden nie installiert.
   Fehlt eine, ist der Schritt rot mit der Fehlermeldung des Schritts.
 - `npm test` hat in CLAUDE.md eine eigene Pflicht und steht in keinem
@@ -68,6 +79,7 @@ Tests: python scripts/audit/test_ci_lokal.py
 import argparse
 import hashlib
 import io
+import json
 import os
 import re
 import shutil
@@ -87,9 +99,10 @@ REPO = Path(__file__).resolve().parents[2]
 #
 # (datei, job, schluessel, hash, klasse, grund, extra)
 # `schluessel` ist der Schrittname, ohne Namen `run:<hash12 des run-Texts>`.
-# `hash` ist ein Fingerabdruck aus run-Text, Schritt-if und Job-if. Aendert
-# sich einer davon, ist der Schritt neu zu klassifizieren. Neue Zeilen liefert
-# der harte Fehler selbst (er druckt den Eintrag zum Einfuegen).
+# `hash` ist ein Fingerabdruck aus allem, was die Ausfuehrung bestimmt (siehe
+# Schritt.hash: run, env, if, shell, working-directory, continue-on-error,
+# defaults.run). Aendert sich einer davon, ist der Schritt neu zu klassifizieren.
+# Neue Zeilen liefert der harte Fehler selbst (er druckt den Eintrag mit `?`).
 # `extra`: {'ersatz': '<bash>'} fuehrt statt des run-Texts diesen Befehl aus.
 
 Eintrag = namedtuple('Eintrag', 'datei job schluessel hash klasse grund extra')
@@ -183,8 +196,9 @@ def filter_greift(filt, dateien):
     return bool(treffer), treffer
 
 
-def schritt_hash(run, wenn, job_wenn):
-    roh = f'{run}\n--if--\n{wenn or ""}\n--job-if--\n{job_wenn or ""}'
+def schritt_hash(teile):
+    """Fingerabdruck eines Schritts aus allem, was seine Ausfuehrung bestimmt (dict, sortiert)."""
+    roh = json.dumps(teile, sort_keys=True, ensure_ascii=True)
     return hashlib.sha256(roh.encode('utf-8')).hexdigest()[:12]
 
 
@@ -260,10 +274,18 @@ class Schritt:
     weiter: bool
     wf_env: dict = field(default_factory=dict)
     job_env: dict = field(default_factory=dict)
+    wf_defaults: dict = field(default_factory=dict)   # defaults.run des Workflows (roh)
+    job_defaults: dict = field(default_factory=dict)  # defaults.run des Jobs (roh)
+    shell_schritt: str = ''                           # shell, wie im Schritt selbst geschrieben
+    wd_schritt: str = ''                              # working-directory, wie im Schritt geschrieben
 
     @property
     def hash(self):
-        return schritt_hash(self.run, self.wenn, self.job_wenn)
+        return schritt_hash({
+            'run': self.run, 'env': self.env, 'job_env': self.job_env, 'wf_env': self.wf_env,
+            'if': self.wenn, 'job_if': self.job_wenn, 'shell': self.shell_schritt,
+            'wd': self.wd_schritt, 'continue_on_error': self.weiter,
+            'wf_defaults': self.wf_defaults, 'job_defaults': self.job_defaults})
 
     @property
     def schluessel(self):
@@ -278,12 +300,16 @@ class Workflow:
     schritte: list
 
 
+class HartFehler(Exception):
+    """Eingabe oder Umgebung unbrauchbar: Exit 2, nie Exit 1 (das heisst "Schritt rot")."""
+
+
 def lade_yaml():
     try:
         import yaml
     except ImportError:
-        sys.exit('ci-lokal: PyYAML (import yaml) fehlt. Kein pip install: die aufrufende Session '
-                 'entscheidet, ob ein minimaler eigener Workflow-Leser gebaut wird.')
+        raise HartFehler('PyYAML (import yaml) fehlt. Kein pip install: die aufrufende Session '
+                         'entscheidet, ob ein minimaler eigener Workflow-Leser gebaut wird.')
     return yaml
 
 
@@ -307,20 +333,34 @@ def ereignis_filter(doc, ereignis):
     return True, (filt or None)
 
 
-def lade_workflows(verz):
+def workflow_texte(repo, verz=None):
+    """{Dateiname: Text}. Ohne `verz` aus den Blobs von HEAD, also das, was gepusht wird."""
+    if verz:
+        return {p.name: p.read_text(encoding='utf-8') for p in sorted(Path(verz).glob('*.yml'))}
+    namen = git(repo, 'ls-tree', '-r', '--name-only', '-z', 'HEAD', '--', '.github/workflows/')
+    out = {}
+    for n in sorted(x for x in namen.stdout.decode('utf-8').split('\0') if x.endswith('.yml')):
+        out[Path(n).name] = git(repo, 'show', f'HEAD:{n}').stdout.decode('utf-8')
+    return out
+
+
+def lade_workflows(texte):
     """Alle Workflows mit pull_request- ODER push-Trigger; die Klassifikation gilt fuer beide."""
     yaml = lade_yaml()
     out = []
-    for pfad in sorted(Path(verz).glob('*.yml')):
-        doc = yaml.safe_load(pfad.read_text(encoding='utf-8'))
+    for dateiname, text in sorted(texte.items()):
+        pfad = Path(dateiname)
+        doc = yaml.safe_load(text)
         filt = {e: ereignis_filter(doc, e) for e in EREIGNISSE}
         if not any(hat for hat, _ in filt.values()):
             continue
         wf_env = {k: str(v) for k, v in (doc.get('env') or {}).items()}
-        wf_shell = ((doc.get('defaults') or {}).get('run') or {}).get('shell')
+        wf_def = (doc.get('defaults') or {}).get('run') or {}
         schritte = []
         for jobname, job in (doc.get('jobs') or {}).items():
-            job_shell = ((job.get('defaults') or {}).get('run') or {}).get('shell') or wf_shell
+            job_def = (job.get('defaults') or {}).get('run') or {}
+            job_shell = job_def.get('shell') or wf_def.get('shell')
+            job_wd = job_def.get('working-directory') or wf_def.get('working-directory')
             job_env = {k: str(v) for k, v in (job.get('env') or {}).items()}
             for nr, st in enumerate(job.get('steps') or [], 1):
                 if 'run' not in st:
@@ -333,9 +373,12 @@ def lade_workflows(verz):
                     wenn=str(st['if']) if 'if' in st else '',
                     job_wenn=str(job['if']) if 'if' in job else '',
                     shell=str(st.get('shell') or job_shell or ''),
-                    wd=str(st.get('working-directory') or ''),
+                    wd=str(st.get('working-directory') or job_wd or ''),
                     weiter=bool(st.get('continue-on-error')),
-                    wf_env=wf_env, job_env=job_env))
+                    wf_env=wf_env, job_env=job_env,
+                    wf_defaults=dict(wf_def), job_defaults=dict(job_def),
+                    shell_schritt=str(st.get('shell') or ''),
+                    wd_schritt=str(st.get('working-directory') or '')))
         out.append(Workflow(pfad.name, str(doc.get('name') or pfad.stem), filt, schritte))
     return out
 
@@ -344,19 +387,19 @@ def lade_workflows(verz):
 # Geaenderte Dateien und Basis
 # ---------------------------------------------------------------------------
 
-def geaenderte_dateien(repo, basis, working_tree=True):
-    """(merge-base-SHA, sortierte Pfade). Fehler als RuntimeError."""
+def geaenderte_dateien(repo, basis):
+    """(merge-base-SHA, sortierte Pfade) von `<merge-base>...HEAD`. Nur HEAD, nie der Working Tree."""
     if git(repo, 'rev-parse', '--verify', '--quiet', f'{basis}^{{commit}}', check=False).returncode != 0:
-        raise RuntimeError(f'Basis "{basis}" gibt es nicht (git fetch origin?)')
+        raise HartFehler(f'Basis "{basis}" gibt es nicht (git fetch origin?)')
     mb = git(repo, 'merge-base', basis, 'HEAD').stdout.decode().strip()
-    pfade = set()
-    quellen = [('diff', '--name-only', '-z', '--no-renames', '--no-ext-diff', f'{basis}...HEAD')]
-    if working_tree:
-        quellen.append(('diff', '--name-only', '-z', '--no-renames', '--no-ext-diff', 'HEAD'))
-        quellen.append(('ls-files', '-z', '--others', '--exclude-standard'))
-    for q in quellen:
-        pfade.update(p for p in git(repo, *q).stdout.decode('utf-8', 'replace').split('\0') if p)
-    return mb, sorted(pfade)
+    res = git(repo, 'diff', '--name-only', '-z', '--no-renames', '--no-ext-diff', f'{mb}...HEAD')
+    return mb, sorted(p for p in res.stdout.decode('utf-8', 'replace').split('\0') if p)
+
+
+def ungepruefte_aenderungen(repo):
+    """Anzahl uncommitteter und untracked Eintraege im Working Tree des Aufrufers."""
+    res = git(repo, 'status', '--porcelain', '-z', '--untracked-files=all')
+    return len([x for x in res.stdout.decode('utf-8', 'replace').split('\0') if x])
 
 
 # ---------------------------------------------------------------------------
@@ -405,8 +448,8 @@ def plane(workflows, tabelle, mb, dateien, optionen):
                 plan.fehler.append(f'{s.datei} / {s.job} / {s.schluessel}: unbekannte Klasse {e.klasse!r}')
             elif e.hash != s.hash:
                 plan.fehler.append(f'run-Text geaendert (Hash {e.hash} -> {s.hash}): {s.datei} / {s.job} / '
-                                   f'{s.schluessel}\n      Neu klassifizieren, etwa: '
-                                   f'{vorschlag_zeile(s, e.klasse, e.grund)}')
+                                   f'{s.schluessel}\n      Neu klassifizieren (bisher {e.klasse}), etwa: '
+                                   f'{vorschlag_zeile(s)}')
             else:
                 klasse_von[k] = e
     for k in sorted(set(index) - gesehen):
@@ -502,6 +545,8 @@ def _plane_lokal(plan, s, e, steps_ctx, rt, optionen):
 def finde_bash():
     """Git Bash, nie das WSL-bash aus System32 oder WindowsApps."""
     if os.environ.get('CI_LOKAL_BASH'):
+        if not os.path.exists(os.environ['CI_LOKAL_BASH']):
+            raise HartFehler(f'CI_LOKAL_BASH zeigt auf {os.environ["CI_LOKAL_BASH"]}, das gibt es nicht')
         return os.environ['CI_LOKAL_BASH']
     for kandidat in (r'C:\Program Files\Git\bin\bash.exe', r'C:\Program Files\Git\usr\bin\bash.exe'):
         if os.path.exists(kandidat):
@@ -509,7 +554,7 @@ def finde_bash():
     gefunden = shutil.which('bash')
     if gefunden and not re.search(r'(?i)system32|windowsapps', gefunden):
         return gefunden
-    sys.exit('ci-lokal: keine Git Bash gefunden (CI_LOKAL_BASH setzen).')
+    raise HartFehler('keine Git Bash gefunden (CI_LOKAL_BASH setzen)')
 
 
 def fahre(s, aktion, repo, rt, nr, timeout):
@@ -602,8 +647,6 @@ def main(argv=None, tabelle=None):
                    help='pull_request (Default) oder push: direkter Push auf --push-branch, ohne PR')
     p.add_argument('--push-branch', default='main', help=argparse.SUPPRESS)
     p.add_argument('--ohne-filter', action='store_true', help='paths-Filter ignorieren, alle Workflows des Ereignisses nehmen')
-    p.add_argument('--ohne-working-tree', action='store_true',
-                   help='uncommittete und untracked Dateien nicht in die Dateiliste nehmen')
     p.add_argument('--timeout', type=int, default=1800, help='Sekunden je Schritt (Default 1800)')
     p.add_argument('-v', '--ausfuehrlich', action='store_true', help='Ausgabe auch gruener Schritte zeigen')
     p.add_argument('--repo', default=str(REPO), help=argparse.SUPPRESS)
@@ -611,22 +654,50 @@ def main(argv=None, tabelle=None):
     args = p.parse_args(argv)
     tabelle = KLASSEN if tabelle is None else tabelle
     repo = Path(args.repo)
-    wfdir = Path(args.workflows) if args.workflows else repo / '.github' / 'workflows'
-
-    workflows = lade_workflows(wfdir)
     try:
-        mb, dateien = geaenderte_dateien(repo, args.basis, not args.ohne_working_tree)
-    except RuntimeError as ex:
+        return _lauf(args, repo, tabelle)
+    except (HartFehler, RuntimeError) as ex:
         print(f'HARTER FEHLER: {ex}')
         return 2
+    except KeyboardInterrupt:
+        print('\nabgebrochen')
+        return 130
+
+
+def lege_worktree_an(repo):
+    wt = tempfile.mkdtemp(prefix='ci-lokal-wt-')
+    res = git(repo, 'worktree', 'add', '--detach', wt, 'HEAD', check=False)
+    if res.returncode != 0:
+        shutil.rmtree(wt, ignore_errors=True)
+        raise HartFehler('git worktree add ist fehlgeschlagen: ' + res.stderr.decode('utf-8', 'replace').strip())
+    return wt
+
+
+def entferne_worktree(repo, wt):
+    git(repo, 'worktree', 'remove', '--force', wt, check=False)
+    shutil.rmtree(wt, ignore_errors=True)
+    git(repo, 'worktree', 'prune', check=False)
+
+
+def _lauf(args, repo, tabelle):
+    texte = workflow_texte(repo, args.workflows)
+    workflows = lade_workflows(texte)
+    mb, dateien = geaenderte_dateien(repo, args.basis)
+    if not args.trocken:
+        finde_bash()  # fehlt Git Bash, endet der Lauf vor dem Worktree mit Exit 2
     rt = tempfile.mkdtemp(prefix='ci-lokal-')
+    wt = None
     try:
         opt = {'workflow': args.workflow, 'ohne_filter': args.ohne_filter, 'lang': args.lang,
                'ereignis': args.ereignis, 'branch': args.push_branch,
                'runner_temp': Path(rt).as_posix()}
         plan = plane(workflows, tabelle, mb, dateien, opt)
-        print(f'Basis {args.basis} (merge-base {mb[:12]}), {len(dateien)} geaenderte Datei(en)'
-              + ('' if not args.ohne_working_tree else ' (ohne Working Tree)'))
+        print(f'Basis {args.basis} (merge-base {mb[:12]}), {len(dateien)} geaenderte Datei(en) '
+              f'zwischen merge-base und HEAD, Ereignis {args.ereignis}')
+        n = ungepruefte_aenderungen(repo)
+        if n:
+            print(f'WARNUNG: {n} uncommittete oder untracked Eintraege im Working Tree werden nicht '
+                  'geprueft (geprueft wird HEAD)')
         for w in plan.warnungen:
             print(f'WARNUNG: {w}')
         if plan.fehler:
@@ -634,9 +705,14 @@ def main(argv=None, tabelle=None):
             return 2
         for datei, grund in plan.nicht_betroffen:
             print(f'  nicht betroffen: {datei} ({grund})')
-        zaehler = bericht(plan, args.trocken, repo, args.timeout, rt, args.ausfuehrlich)
+        if not args.trocken:
+            wt = lege_worktree_an(repo)
+            print(f'Worktree von HEAD fuer den Lauf: {wt} (wird am Ende entfernt)')
+        zaehler = bericht(plan, args.trocken, wt or repo, args.timeout, rt, args.ausfuehrlich)
         return 1 if zaehler['rot'] else 0
     finally:
+        if wt:
+            entferne_worktree(repo, wt)
         shutil.rmtree(rt, ignore_errors=True)
 
 
@@ -645,126 +721,127 @@ def main(argv=None, tabelle=None):
 # ---------------------------------------------------------------------------
 
 KLASSEN.extend([
-    E('data-integrity.yml', 'validate', 'Install dependencies', '2a030a1b5d62',
+    E('data-integrity.yml', 'validate', 'Install dependencies', '0d62f8ea7c59',
       'ausgelassen', 'pip install: Abhaengigkeiten werden lokal nie installiert (requirements.txt gilt als vorhanden)'),
-    E('data-integrity.yml', 'validate', 'Index version consistency (#47.3)', '7e8b986ffa46',
+    E('data-integrity.yml', 'validate', 'Index version consistency (#47.3)', '1421c781f48d',
       'lokal', 'Pruefschritt, laeuft in Git Bash'),
-    E('data-integrity.yml', 'validate', 'Dokumentierte Zahlen gegen die Daten (#382/#398)', 'b6a341b93785',
+    E('data-integrity.yml', 'validate', 'Dokumentierte Zahlen gegen die Daten (#382/#398)', '4cd8d1c317e5',
       'lokal', 'Pruefschritt, laeuft in Git Bash'),
-    E('data-integrity.yml', 'validate', 'Werk-Identifier und Editionsnachweis gegen works.xml (#399/#486)', '3466a678fb62',
+    E('data-integrity.yml', 'validate', 'Werk-Identifier und Editionsnachweis gegen works.xml (#399/#486)', 'd3fb7780ec0a',
       'lokal', 'Pruefschritt, laeuft in Git Bash'),
-    E('data-integrity.yml', 'validate', 'Regenerate RNG from RNC (P2-14 drift check)', '4cdc376514c0',
+    E('data-integrity.yml', 'validate', 'Regenerate RNG from RNC (P2-14 drift check)', '6a1b344c91c3',
       'lokal', 'Pruefschritt, laeuft in Git Bash'),
-    E('data-integrity.yml', 'validate', 'Fail if committed .rng differs from regenerated .rng', '07a7476d7e56',
+    E('data-integrity.yml', 'validate', 'Fail if committed .rng differs from regenerated .rng', 'ec12a24dfa8c',
       'lokal', 'Pruefschritt, laeuft in Git Bash'),
-    E('data-integrity.yml', 'validate', 'Verify TEI P5 version pin', '5171003490d2',
+    E('data-integrity.yml', 'validate', 'Verify TEI P5 version pin', 'b6e726b2454e',
       'lokal', 'Pruefschritt, laeuft in Git Bash'),
-    E('data-integrity.yml', 'validate', 'Personennamen im Header gegen persons.xml (#228/#308)', '51e03d315253',
+    E('data-integrity.yml', 'validate', 'Personennamen im Header gegen persons.xml (#228/#308)', '394d5a9bd9ea',
       'lokal', 'Pruefschritt, laeuft in Git Bash'),
-    E('data-integrity.yml', 'validate', 'Gattungen im Header gegen works.xml (#495)', '22552db4c476',
+    E('data-integrity.yml', 'validate', 'Gattungen im Header gegen works.xml (#495)', 'dddb7c6253cb',
       'lokal', 'Pruefschritt, laeuft in Git Bash'),
-    E('data-integrity.yml', 'validate', 'Struktur der committeten Indexe (validate-indices.py,', 'ef0734e3328c',
+    E('data-integrity.yml', 'validate', 'Struktur der committeten Indexe (validate-indices.py,', '020b98c22ae4',
       'lokal', 'Pruefschritt, laeuft in Git Bash'),
-    E('data-integrity.yml', 'validate', 'Validate corpus and authority files (P2-13)', 'eb80c6dfea63',
-      'lokal-lang', 'RelaxNG-Validierung aller Korpusdateien, in der CI median 212 s'),
-    E('data-integrity.yml', 'validate', 'Laufzeitbudget (#564)', '065094f82e50',
+    E('data-integrity.yml', 'validate', 'Validate corpus and authority files (P2-13)', '614bb2dd52d9',
+      'lokal-lang', 'RelaxNG-Validierung aller Korpusdateien, in der CI median 212 s (data-integrity.yml:10)'),
+    E('data-integrity.yml', 'validate', 'Laufzeitbudget (#564)', '3ce47fd1cfc9',
       'ausgelassen', 'Laufzeitbudget liest die Dauern der CI-Schritte ueber die Actions-API (github.token, job.status); lokal ohne Gegenstueck'),
-    E('data-integrity.yml', 'freshness', 'Diff-Base bestimmen (#154/#152)', '118c1329753c',
+    E('data-integrity.yml', 'freshness', 'Diff-Base bestimmen (#154/#152)', '8ce7780a3815',
       'ersetzt', 'Diff-Base: HEAD^1 des Merge-Refs gibt es lokal nicht; ci-lokal setzt sha = merge-base mit der Basis und rechnet naming_changed aus der Dateiliste'),
-    E('data-integrity.yml', 'freshness', 'Install dependencies', '2a030a1b5d62',
+    E('data-integrity.yml', 'freshness', 'Install dependencies', '0d62f8ea7c59',
       'ausgelassen', 'pip install: Abhaengigkeiten werden lokal nie installiert (requirements.txt gilt als vorhanden)'),
-    E('data-integrity.yml', 'freshness', 'Index-Versions-Bump-Gate (#154)', 'dd602e780f83',
+    E('data-integrity.yml', 'freshness', 'Index-Versions-Bump-Gate (#154)', '51658f86ce86',
       'lokal', 'Pruefschritt, laeuft in Git Bash'),
-    E('data-integrity.yml', 'freshness', 'Variants-Flip-Gate (#378, ADR-021)', 'bd124dfe1d36',
+    E('data-integrity.yml', 'freshness', 'Variants-Flip-Gate (#378, ADR-021)', '5dd94d395270',
       'lokal', 'Pruefschritt, laeuft in Git Bash'),
-    E('data-integrity.yml', 'freshness', 'Index-Budget Selbsttest (#111)', '2aa603e4051d',
+    E('data-integrity.yml', 'freshness', 'Index-Budget Selbsttest (#111)', 'a1d2b2dfc7e3',
       'lokal', 'Pruefschritt, laeuft in Git Bash'),
-    E('data-integrity.yml', 'freshness', 'Index-Budget (#111)', '52b5ea415417',
+    E('data-integrity.yml', 'freshness', 'Index-Budget (#111)', '11c637f15950',
       'lokal', 'Pruefschritt, laeuft in Git Bash'),
-    E('data-integrity.yml', 'freshness', 'Freshness variants.xml (#125)', 'f0b7f2a7d0b6',
+    E('data-integrity.yml', 'freshness', 'Freshness variants.xml (#125)', 'd916ceaa3361',
       'lokal', 'Pruefschritt, laeuft in Git Bash'),
-    E('data-integrity.yml', 'freshness', 'Freshness API (#45)', '92af7ed15553',
+    E('data-integrity.yml', 'freshness', 'Freshness API (#45)', '7ade901abe98',
       'lokal', 'Pruefschritt, laeuft in Git Bash'),
-    E('data-integrity.yml', 'freshness', 'Freshness Begriffshilfe (#498)', 'ead27c95ab39',
+    E('data-integrity.yml', 'freshness', 'Freshness Begriffshilfe (#498)', '77726a5157aa',
       'lokal', 'Pruefschritt, laeuft in Git Bash'),
-    E('data-integrity.yml', 'freshness', 'Freshness lemma-pos (#462)', '0eba4fc4b226',
+    E('data-integrity.yml', 'freshness', 'Freshness lemma-pos (#462)', '7939c03ea360',
       'lokal', 'Pruefschritt, laeuft in Git Bash'),
-    E('data-integrity.yml', 'freshness', 'Freshness Indexe \u2014 Rebuild-and-Compare (#125)', '34265d837028',
-      'lokal-lang', 'baut beide Indexe neu, in der CI median 74 s; schreibt data/*.json.gz'),
-    E('data-integrity.yml', 'freshness', 'Naming-Index Konsistenz (#152)', '448d1afbc679',
+    E('data-integrity.yml', 'freshness', 'Freshness Indexe \u2014 Rebuild-and-Compare (#125)', 'b707af070a34',
+      'lokal-lang', 'baut beide Indexe neu, in der CI median 74 s (data-integrity.yml:10); schreibt data/*.json.gz'),
+    E('data-integrity.yml', 'freshness', 'Naming-Index Konsistenz (#152)', 'dec4ef59e33f',
       'lokal', 'Pruefschritt, laeuft in Git Bash'),
-    E('data-integrity.yml', 'freshness', 'Freshness naming-index \u2014 Rebuild-and-Compare (#152)', 'ce6ce03033dc',
+    E('data-integrity.yml', 'freshness', 'Freshness naming-index \u2014 Rebuild-and-Compare (#152)', 'cf803142361f',
       'ausgelassen', 'braucht github.token und einen Abruf an lindabeutel/Naming-analysis; bei Aenderung am naming-Index von Hand: 01-fetch-and-build-index.py'),
-    E('data-integrity.yml', 'freshness', 'Authority cross-reference integrity (#44/#115/#152)', 'a48a3320d203',
+    E('data-integrity.yml', 'freshness', 'Authority cross-reference integrity (#44/#115/#152)', '5a07320ce7a3',
       'lokal', 'Pruefschritt, laeuft in Git Bash'),
-    E('data-integrity.yml', 'freshness', 'Laufzeitbudget (#564)', 'cf3174432ce8',
+    E('data-integrity.yml', 'freshness', 'Laufzeitbudget (#564)', '0142c82dd8ad',
       'ausgelassen', 'Laufzeitbudget liest die Dauern der CI-Schritte ueber die Actions-API (github.token, job.status); lokal ohne Gegenstueck'),
-    E('data-integrity.yml', 'melden', 'Zustandswechsel melden (#653)', 'd7904ab427d5',
+    E('data-integrity.yml', 'melden', 'Zustandswechsel melden (#653)', 'e74d63a9b132',
       'ausgelassen', 'Job laeuft nur auf schedule/workflow_dispatch auf main und meldet in #653; github.*-Kontext, kein Gate am PR'),
-    E('doc-health.yml', 'doc-health', 'Doku-Health Selbsttest (#641)', '8754faa5aa8d',
+    E('doc-health.yml', 'doc-health', 'Doku-Health Selbsttest (#641)', '92fddcc05961',
       'lokal', 'Pruefschritt, laeuft in Git Bash'),
-    E('doc-health.yml', 'doc-health', 'Doku-Health Bericht (#641)', '29ed769aff8d',
+    E('doc-health.yml', 'doc-health', 'Doku-Health Bericht (#641)', '44a77cf0a7ca',
       'ausgelassen', 'braucht github.token und die Actions/Issue-API; am PR ohne --apply, kein Gate'),
-    E('doc-health.yml', 'doc-health', 'Laufzeitbudget (#564)', 'afc324ed78c0',
+    E('doc-health.yml', 'doc-health', 'Laufzeitbudget (#564)', '549306303718',
       'ausgelassen', 'Laufzeitbudget liest die Dauern der CI-Schritte ueber die Actions-API (github.token, job.status); lokal ohne Gegenstueck'),
-    E('file-size-check.yml', 'check', 'Groessenwaechter Selbsttest (#350)', '160d6a6d3ab3',
+    E('file-size-check.yml', 'check', 'Groessenwaechter Selbsttest (#350)', '2ad135c339a9',
       'lokal', 'Pruefschritt, laeuft in Git Bash'),
-    E('file-size-check.yml', 'check', 'Baum mit Groessen aus der API (#564)', 'fdaf09bf482f',
+    E('file-size-check.yml', 'check', 'Baum mit Groessen aus der API (#564)', 'd8e4cdb71693',
       'ausgelassen', 'holt den Baum ueber die GitHub-Trees-API (github.token); der lokale Lauf misst ohne API'),
-    E('file-size-check.yml', 'check', 'Keine committete Datei nahe GitHubs 100-MiB-Wand (#350)', '5f244420a7ca',
+    E('file-size-check.yml', 'check', 'Keine committete Datei nahe GitHubs 100-MiB-Wand (#350)', '143647a81b00',
       'lokal', 'Ersatzbefehl: ohne --github-tree, das Skript liest lokal git ls-tree', ersatz='python3 scripts/audit/check-file-sizes.py'),
-    E('file-size-check.yml', 'check', 'Laufzeitbudget (#564)', '4b4d5ffed79f',
+    E('file-size-check.yml', 'check', 'Laufzeitbudget (#564)', '78b6267c19f5',
       'ausgelassen', 'Laufzeitbudget liest die Dauern der CI-Schritte ueber die Actions-API (github.token, job.status); lokal ohne Gegenstueck'),
-    E('link-check.yml', 'link-check', 'Link-Check Selbsttest (#653)', 'fb34be0a845a',
+    E('link-check.yml', 'link-check', 'Link-Check Selbsttest (#653)', '8928e09761c5',
       'lokal', 'Pruefschritt, laeuft in Git Bash'),
-    E('link-check.yml', 'link-check', 'Selbsttest der Meldung (#653)', 'a75b0503d3a1',
+    E('link-check.yml', 'link-check', 'Selbsttest der Meldung (#653)', 'a01b2e8b9a83',
       'lokal', 'Pruefschritt, laeuft in Git Bash'),
-    E('link-check.yml', 'link-check', 'Links einsammeln (PR)', 'ee5801264eb4',
+    E('link-check.yml', 'link-check', 'Links einsammeln (PR)', 'b36b63b51020',
       'lokal', 'Pruefschritt, laeuft in Git Bash'),
-    E('link-check.yml', 'link-check', 'Externe Links pruefen (#653)', 'b70a458da74e',
+    E('link-check.yml', 'link-check', 'Externe Links pruefen (#653)', '2d06d9823091',
       'ausgelassen', 'fragt das Netz ab und laeuft nur ausserhalb des PR (if); am PR ersetzt es der Schritt "Links einsammeln"'),
-    E('link-check.yml', 'melden', 'Zustandswechsel melden (#653)', '42ae2274d1de',
+    E('link-check.yml', 'melden', 'Zustandswechsel melden (#653)', 'e6ad7ca0b441',
       'ausgelassen', 'Job laeuft nur auf schedule/workflow_dispatch auf main und meldet in #653; github.*-Kontext, kein Gate am PR'),
-    E('measured-counts.yml', 'measured-counts', 'Install dependencies', '2a030a1b5d62',
+    E('measured-counts.yml', 'measured-counts', 'Install dependencies', '0d62f8ea7c59',
       'ausgelassen', 'pip install: Abhaengigkeiten werden lokal nie installiert (requirements.txt gilt als vorhanden)'),
-    E('measured-counts.yml', 'measured-counts', 'Gemessene Zahlen gegen ihre Fundstellen (#414)', 'fa202a81054e',
-      'lokal-lang', 'parst alle Korpusdateien, rund 263 s (gemessen 10.10.2026, laut Workflow-Kopf)'),
-    E('measured-counts.yml', 'measured-counts', 'Laufzeitbudget (#564)', '343a2ed62ba6',
+    E('measured-counts.yml', 'measured-counts', 'Gemessene Zahlen gegen ihre Fundstellen (#414)', '33cf882bc9b2',
+      'lokal-lang', 'parst alle Korpusdateien, rund 263 s (gemessen 10.10.2026, measured-counts.yml:6)'),
+    E('measured-counts.yml', 'measured-counts', 'Laufzeitbudget (#564)', 'b6ca3c740bcb',
       'ausgelassen', 'Laufzeitbudget liest die Dauern der CI-Schritte ueber die Actions-API (github.token, job.status); lokal ohne Gegenstueck'),
-    E('no-cdn-check.yml', 'check', 'Arbeitsbaum vollstaendig ausser tei/*.tei.xml und data/*.json.gz (#564)', '111aaeeb9117',
+    E('no-cdn-check.yml', 'check', 'Arbeitsbaum vollstaendig ausser tei/*.tei.xml und data/*.json.gz (#564)', '4e054cf635fb',
       'ausgelassen', 'Kontrollwert fuer den sparse-Checkout der CI; lokal ist der Baum voll'),
-    E('no-cdn-check.yml', 'check', 'Diff-Base bestimmen (#292)', 'fc1e1895d189',
+    E('no-cdn-check.yml', 'check', 'Diff-Base bestimmen (#292)', '11f87ebc25ab',
       'ersetzt', 'Diff-Base: HEAD^1 des Merge-Refs gibt es lokal nicht; ci-lokal setzt sha = merge-base mit der Basis und rechnet naming_changed aus der Dateiliste'),
-    E('no-cdn-check.yml', 'check', 'No external script src or link href in committed HTML (stdlib only)', 'a67d44c1b036',
+    E('no-cdn-check.yml', 'check', 'No external script src or link href in committed HTML (stdlib only)', 'ab022306dac8',
       'lokal', 'Pruefschritt, laeuft in Git Bash'),
-    E('no-cdn-check.yml', 'check', 'Em-Dash-Gate Selbsttest (#140/#292)', 'c5ba14510383',
+    E('no-cdn-check.yml', 'check', 'Em-Dash-Gate Selbsttest (#140/#292)', '0254103d6d74',
       'lokal', 'Pruefschritt, laeuft in Git Bash'),
-    E('no-cdn-check.yml', 'check', 'Keine Em-Dashes in HTML/JS/CSS und neuer Markdown-Prosa (#140/#292)', 'c51179832a95',
+    E('no-cdn-check.yml', 'check', 'Keine Em-Dashes in HTML/JS/CSS und neuer Markdown-Prosa (#140/#292)', 'e8c3f5459c83',
       'lokal', 'Pruefschritt, laeuft in Git Bash'),
-    E('no-cdn-check.yml', 'check', 'Inventar-Gate Selbsttest (#329)', 'ac31dfa1dde4',
+    E('no-cdn-check.yml', 'check', 'Inventar-Gate Selbsttest (#329)', 'f4563578b63f',
       'lokal', 'Pruefschritt, laeuft in Git Bash'),
-    E('no-cdn-check.yml', 'check', 'Laufzeitbudget Selbsttest (#564)', '9fe2ca4d1251',
+    E('no-cdn-check.yml', 'check', 'Laufzeitbudget Selbsttest (#564)', 'dae7c11483e0',
       'lokal', 'Pruefschritt, laeuft in Git Bash'),
-    E('no-cdn-check.yml', 'check', 'Specs und Audit-Skripte stehen in ihren Inventaren (#329)', '4de00b0a6c50',
+    E('no-cdn-check.yml', 'check', 'Specs und Audit-Skripte stehen in ihren Inventaren (#329)', '3360cbf95db7',
       'lokal', 'Pruefschritt, laeuft in Git Bash'),
-    E('no-cdn-check.yml', 'check', 'Hilfe-Unterseiten gegen ihre Stände (#417/#537)', '8e9f7af555dc',
+    E('no-cdn-check.yml', 'check', 'Hilfe-Unterseiten gegen ihre Stände (#417/#537)', '653e0c14d156',
       'lokal', 'Pruefschritt, laeuft in Git Bash'),
-    E('no-cdn-check.yml', 'check', 'Seitenchrome und SEO-Block gegen includes/ und die Seiten (build-pages --check)', 'e151e994d213',
+    E('no-cdn-check.yml', 'check', 'Seitenchrome und SEO-Block gegen includes/ und die Seiten (build-pages --check)', '7572777f2b91',
       'lokal', 'Pruefschritt, laeuft in Git Bash'),
-    E('no-cdn-check.yml', 'check', 'tei/-Dateinamen fuer doc-count-audit (#564)', '7938597e2558',
+    E('no-cdn-check.yml', 'check', 'tei/-Dateinamen fuer doc-count-audit (#564)', '6a0c67c90d9a',
       'ausgelassen', 'ZERSTOERT lokal die Korpusdateien: leert alle tei/*.tei.xml (Platzhalter fuer den sparse-Baum der CI); der naechste Schritt laeuft lokal ohne Platzhalter'),
-    E('no-cdn-check.yml', 'check', 'Dokumentierte Zahlen gegen die Daten (#382/#398)', 'fd38f967ad76',
+    E('no-cdn-check.yml', 'check', 'Dokumentierte Zahlen gegen die Daten (#382/#398)', '7f224629d901',
       'lokal', 'Pruefschritt, laeuft in Git Bash'),
-    E('no-cdn-check.yml', 'check', 'Laufzeitbudget (#564)', 'aaced77400fe',
+    E('no-cdn-check.yml', 'check', 'Laufzeitbudget (#564)', '12d9ee596ddb',
       'ausgelassen', 'Laufzeitbudget liest die Dauern der CI-Schritte ueber die Actions-API (github.token, job.status); lokal ohne Gegenstueck'),
-    E('search-benchmark.yml', 'benchmark', 'Node-Version', '439306f69f71',
+    E('search-benchmark.yml', 'benchmark', 'Node-Version', '0e19ab2576be',
       'lokal', 'Pruefschritt, laeuft in Git Bash'),
-    E('search-benchmark.yml', 'benchmark', 'Aufloesung gegen Budget (#564)', 'bd7bb956bcb2',
-      'ausgelassen', 'Zeitbudget, auf die CI-Runner kalibriert: lokal waren 12 von 24 Faellen ueber Budget '
-      '(gemessen bei der Erstellung von ci-lokal.py), ohne dass der Code etwas getan haette. '
+    E('search-benchmark.yml', 'benchmark', 'Aufloesung gegen Budget (#564)', 'e2133371973b',
+      'ausgelassen', 'Zeitbudget, auf die CI-Runner kalibriert und lokal nicht vergleichbar: lokal waren 12 von 24 '
+      'Faellen ueber Budget, ohne Code-Aenderung (gemessen 25.11.2026 auf main, '
+      '"BENCHMARK: ROT (12 ueber Budget, 0 ohne Budget oder Fall, von 24 Faellen)"). '
       'Nach einer Aenderung unter assets/js/search, assets/js/lib oder playground/js/data '
       'von Hand: node scripts/audit/benchmark-search.mjs'),
-    E('release-version-check.yml', 'check', 'Check release version consistency', '8be4fc34da97',
+    E('release-version-check.yml', 'check', 'Check release version consistency', 'b86995921b05',
       'ausgelassen', 'laeuft nur beim Tag-Push (v*), braucht GITHUB_REF_NAME; weder PR noch Push auf main'),
 ])
 

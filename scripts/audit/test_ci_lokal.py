@@ -2,7 +2,9 @@
 """
 Tests fuer ci-lokal.py (#726). Jeder Test faehrt main() am echten Pfad gegen ein
 winziges Git-Repo mit Workflow-Fixtures in einem Temp-Verzeichnis; die
-Klassifikationstabelle wird je Test uebergeben.
+Klassifikationstabelle wird je Test uebergeben. Das Repo hat zwei Commits: die
+Basis (Workflows, README) und die "Aenderung" (die Dateien, gegen die der
+paths-Filter laeuft). Geprueft wird nur HEAD.
 
 Aufruf:
     python scripts/audit/test_ci_lokal.py
@@ -12,12 +14,14 @@ Braucht git, PyYAML und Git Bash (wie ci-lokal.py selbst).
 import contextlib
 import importlib.util
 import io
+import os
 import shutil
 import subprocess
 import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 HIER = Path(__file__).resolve().parent
 _spec = importlib.util.spec_from_file_location('ci_lokal', HIER / 'ci-lokal.py')
@@ -41,36 +45,52 @@ def wf(run, name='Schritt A', kopf=WF_KOPF, extra=''):
     return f"{kopf}      - name: {name}\n{extra}        run: |\n{eingerueckt}"
 
 
-def eintrag(run, klasse='lokal', name='Schritt A', datei='t.yml', job='j', wenn='', nl=True, **extra):
-    # `run: |` im YAML endet auf einen Zeilenumbruch, `run: text` in einer Zeile nicht
-    return cl.E(datei, job, name, cl.schritt_hash(run + ('\n' if nl else ''), wenn, ''),
-                klasse, 'Testgrund', **extra)
+def eintrag(yaml_text, name='Schritt A', klasse='lokal', datei='t.yml', **extra):
+    """Eintrag mit dem Hash, den ci-lokal.py fuer genau diesen Workflow-Text ausrechnet."""
+    for w in cl.lade_workflows({datei: yaml_text}):
+        for s in w.schritte:
+            if s.schluessel == name:
+                return cl.E(datei, s.job, name, s.hash, klasse, 'Testgrund', **extra)
+    raise AssertionError(f'Schritt {name!r} nicht im Fixture')
+
+
+def git(repo, *args):
+    return subprocess.run(['git', '-C', str(repo), *args], check=True, capture_output=True, text=True).stdout
 
 
 class Basis(unittest.TestCase):
     def setUp(self):
         self.tmp = Path(tempfile.mkdtemp(prefix='ci-lokal-test-'))
-        self.addCleanup(shutil.rmtree, self.tmp, True)
+        self.addCleanup(self.aufraeumen)
 
-    def repo(self, workflows, geaendert=('docs/x.md',)):
-        """Git-Repo mit den Workflows im ersten Commit; `geaendert` liegt danach untracked da."""
+    def aufraeumen(self):
+        subprocess.run(['git', '-C', str(self.tmp), 'worktree', 'prune'], capture_output=True)
+        shutil.rmtree(self.tmp, ignore_errors=True)
+
+    def repo(self, workflows, geaendert=('docs/x.md',), extra_basis=None):
+        """Git-Repo: Commit 1 = Workflows und README, Commit 2 = `geaendert`."""
         wfdir = self.tmp / '.github' / 'workflows'
         wfdir.mkdir(parents=True)
         for name, text in workflows.items():
             (wfdir / name).write_text(text, encoding='utf-8', newline='\n')
         (self.tmp / 'README.md').write_text('x\n', encoding='utf-8')
+        for pfad, inhalt in (extra_basis or {}).items():
+            (self.tmp / pfad).parent.mkdir(parents=True, exist_ok=True)
+            (self.tmp / pfad).write_text(inhalt, encoding='utf-8')
         for args in (['init', '-q'], ['config', 'user.email', 't@t'], ['config', 'user.name', 't'],
-                     ['add', '-A'], ['commit', '-q', '-m', 'basis']):
-            subprocess.run(['git', '-C', str(self.tmp), *args], check=True, capture_output=True)
+                     ['config', 'core.autocrlf', 'false'], ['add', '-A'], ['commit', '-q', '-m', 'basis']):
+            git(self.tmp, *args)
         for d in geaendert:
             (self.tmp / d).parent.mkdir(parents=True, exist_ok=True)
             (self.tmp / d).write_text('neu\n', encoding='utf-8')
+        git(self.tmp, 'add', '-A')
+        git(self.tmp, 'commit', '-q', '--allow-empty', '-m', 'aenderung')
         return self.tmp
 
     def lauf(self, tabelle, *argumente):
         out = io.StringIO()
         with contextlib.redirect_stdout(out):
-            code = cl.main(['--repo', str(self.tmp), '--basis', 'HEAD', *argumente], tabelle=tabelle)
+            code = cl.main(['--repo', str(self.tmp), '--basis', 'HEAD~1', *argumente], tabelle=tabelle)
         return code, out.getvalue()
 
 
@@ -84,13 +104,37 @@ class Klassifikation(Basis):
 
     def test_geaenderter_run_text_ist_harter_fehler(self):
         self.repo({'t.yml': wf('echo neu')})
-        code, out = self.lauf([eintrag('echo alt')])
+        code, out = self.lauf([eintrag(wf('echo alt'))])
+        self.assertEqual(code, 2, out)
+        self.assertIn('run-Text geaendert', out)
+        self.assertIn("'?', '?'", out, 'der Vorschlag soll die Klasse offen lassen')
+
+    def test_geaenderte_env_ist_harter_fehler(self):
+        alt = wf('echo hallo')
+        neu = wf('echo hallo', extra='        env:\n          X: "1"\n')
+        self.repo({'t.yml': neu})
+        code, out = self.lauf([eintrag(alt)])
         self.assertEqual(code, 2, out)
         self.assertIn('run-Text geaendert', out)
 
+    def test_geaendertes_working_directory_ist_harter_fehler(self):
+        alt = wf('echo hallo')
+        neu = wf('echo hallo', extra='        working-directory: sub\n')
+        self.repo({'t.yml': neu})
+        code, out = self.lauf([eintrag(alt)])
+        self.assertEqual(code, 2, out)
+
+    def test_geaendertes_defaults_run_ist_harter_fehler(self):
+        alt = wf('echo hallo')
+        neu = wf('echo hallo', kopf=WF_KOPF.replace('    runs-on: ubuntu-latest\n',
+                                                    '    runs-on: ubuntu-latest\n    defaults:\n      run:\n        shell: bash\n'))
+        self.repo({'t.yml': neu})
+        code, out = self.lauf([eintrag(alt)])
+        self.assertEqual(code, 2, out)
+
     def test_unveraenderter_schritt_laeuft(self):
         self.repo({'t.yml': wf('echo hallo')})
-        code, out = self.lauf([eintrag('echo hallo')])
+        code, out = self.lauf([eintrag(wf('echo hallo'))])
         self.assertEqual(code, 0, out)
         self.assertIn('1 von 1 gelaufen (davon 0 rot)', out)
 
@@ -98,22 +142,25 @@ class Klassifikation(Basis):
 class Pfadfilter(Basis):
     def test_filter_greift(self):
         self.repo({'t.yml': wf('echo hallo')}, geaendert=['docs/x.md'])
-        code, out = self.lauf([eintrag('echo hallo')])
+        code, out = self.lauf([eintrag(wf('echo hallo'))])
         self.assertEqual(code, 0, out)
         self.assertNotIn('nicht betroffen', out)
         self.assertIn('[1/1]', out)
 
     def test_filter_greift_nicht(self):
         self.repo({'t.yml': wf('echo hallo')}, geaendert=['src/y.txt'])
-        code, out = self.lauf([eintrag('echo hallo')])
+        code, out = self.lauf([eintrag(wf('echo hallo'))])
         self.assertEqual(code, 0, out)
         self.assertIn('nicht betroffen: t.yml', out)
         self.assertNotIn('[1/', out)
 
-    def test_working_tree_abschaltbar(self):
-        self.repo({'t.yml': wf('echo hallo')}, geaendert=['docs/x.md'])
-        code, out = self.lauf([eintrag('echo hallo')], '--ohne-working-tree')
-        self.assertIn('nicht betroffen: t.yml', out)
+    def test_nur_head_zaehlt_nicht_der_working_tree(self):
+        self.repo({'t.yml': wf('echo hallo')}, geaendert=['src/y.txt'])
+        (self.tmp / 'docs').mkdir()
+        (self.tmp / 'docs' / 'fremd.md').write_text('untracked\n', encoding='utf-8')
+        code, out = self.lauf([eintrag(wf('echo hallo'))])
+        self.assertIn('nicht betroffen: t.yml', out, 'eine fremde untracked Datei darf den Workflow nicht ausloesen')
+        self.assertIn('WARNUNG: 1 uncommittete oder untracked Eintraege', out)
 
     def test_glob_und_negation(self):
         self.assertTrue(cl.pfad_trifft(['**.md'], 'README.md'))
@@ -127,7 +174,7 @@ class Pfadfilter(Basis):
 class Ausfuehren(Basis):
     def test_roter_schritt_gibt_exit_1(self):
         self.repo({'t.yml': wf('exit 3')})
-        code, out = self.lauf([eintrag('exit 3')])
+        code, out = self.lauf([eintrag(wf('exit 3'))])
         self.assertEqual(code, 1, out)
         self.assertIn('ROT', out)
         self.assertIn('(davon 1 rot)', out)
@@ -135,23 +182,23 @@ class Ausfuehren(Basis):
     def test_ersetzung_github_event_name(self):
         run = 'test "${{ github.event_name }}" = "pull_request"'
         self.repo({'t.yml': wf(run)})
-        code, out = self.lauf([eintrag(run)])
+        code, out = self.lauf([eintrag(wf(run))])
         self.assertEqual(code, 0, out)
         self.assertIn('Ersetzung: ${{ github.event_name }} -> pull_request', out)
 
     def test_nicht_ersetzbarer_ausdruck_ohne_klasse_ausgelassen(self):
         run = 'echo ${{ github.sha }}'
         self.repo({'t.yml': wf(run)})
-        code, out = self.lauf([eintrag(run, 'lokal')])
+        code, out = self.lauf([eintrag(wf(run), klasse='lokal')])
         self.assertEqual(code, 2, out)
         self.assertIn('nicht ersetzbarer Ausdruck', out)
-        code, out = self.lauf([eintrag(run, 'ausgelassen')])
+        code, out = self.lauf([eintrag(wf(run), klasse='ausgelassen')])
         self.assertEqual(code, 0, out)
         self.assertIn('1 ausgelassen', out)
 
     def test_lokal_lang_nur_mit_flag(self):
         self.repo({'t.yml': wf('exit 3')})
-        tab = [eintrag('exit 3', 'lokal-lang')]
+        tab = [eintrag(wf('exit 3'), klasse='lokal-lang')]
         code, out = self.lauf(tab)
         self.assertEqual(code, 0, out)
         self.assertIn('1 lokal-lang nicht gelaufen (--lang)', out)
@@ -162,11 +209,68 @@ class Ausfuehren(Basis):
         zwei = (WF_KOPF + "      - name: Basis\n        id: base\n        run: echo egal\n"
                           "      - name: Folge\n        run: test -n \"${{ steps.base.outputs.sha }}\"\n")
         self.repo({'t.yml': zwei})
-        tab = [eintrag('echo egal', 'ersetzt', name='Basis', nl=False),
-               eintrag('test -n "${{ steps.base.outputs.sha }}"', 'lokal', name='Folge', nl=False)]
+        tab = [eintrag(zwei, 'Basis', 'ersetzt'), eintrag(zwei, 'Folge', 'lokal')]
         code, out = self.lauf(tab)
         self.assertEqual(code, 0, out)
         self.assertIn('1 ersetzt', out)
+
+    def test_working_directory_aus_defaults_run_wird_angewandt(self):
+        kopf = WF_KOPF.replace('    runs-on: ubuntu-latest\n',
+                               '    runs-on: ubuntu-latest\n    defaults:\n      run:\n        working-directory: sub\n')
+        text = wf('test -f marker.txt', kopf=kopf)
+        self.repo({'t.yml': text}, extra_basis={'sub/marker.txt': 'm\n'})
+        code, out = self.lauf([eintrag(text)])
+        self.assertEqual(code, 0, out)
+
+
+class Isolation(Basis):
+    def test_schritte_laufen_im_temporaeren_worktree_nicht_im_repo(self):
+        run = 'echo x > geschrieben.txt\npwd'
+        text = wf(run)
+        self.repo({'t.yml': text})
+        vorher = git(self.tmp, 'status', '--porcelain')
+        code, out = self.lauf([eintrag(text)], '-v')
+        self.assertEqual(code, 0, out)
+        self.assertEqual(git(self.tmp, 'status', '--porcelain'), vorher, 'das Repo des Aufrufers wurde veraendert')
+        self.assertEqual(git(self.tmp, 'status', '--porcelain'), '')
+        self.assertFalse((self.tmp / 'geschrieben.txt').exists())
+        self.assertEqual(len(git(self.tmp, 'worktree', 'list').strip().splitlines()), 1,
+                         'der temporaere Worktree ist nicht entfernt')
+        self.assertIn('Worktree von HEAD fuer den Lauf:', out)
+
+    def test_worktree_wird_auch_bei_abbruch_entfernt(self):
+        text = wf('echo hallo')
+        self.repo({'t.yml': text})
+        with mock.patch.object(cl, 'fahre', side_effect=KeyboardInterrupt):
+            code, out = self.lauf([eintrag(text)])
+        self.assertEqual(code, 130, out)
+        self.assertEqual(len(git(self.tmp, 'worktree', 'list').strip().splitlines()), 1)
+
+    def test_trocken_legt_keinen_worktree_an(self):
+        text = wf('echo hallo')
+        self.repo({'t.yml': text})
+        with mock.patch.object(cl, 'lege_worktree_an', side_effect=AssertionError('Worktree bei --trocken')):
+            code, out = self.lauf([eintrag(text)], '--trocken')
+        self.assertEqual(code, 0, out)
+
+
+class Umgebung(Basis):
+    def test_pyyaml_fehlt_ist_exit_2(self):
+        self.repo({'t.yml': wf('echo hallo')})
+        with mock.patch.dict(sys.modules, {'yaml': None}):
+            code, out = self.lauf([])
+        self.assertEqual(code, 2, out)
+        self.assertIn('PyYAML', out)
+
+    def test_bash_fehlt_ist_exit_2(self):
+        text = wf('echo hallo')
+        self.repo({'t.yml': text})
+        with mock.patch.dict(os.environ, {'CI_LOKAL_BASH': str(self.tmp / 'gibt-es-nicht.exe')}), \
+                mock.patch.object(cl, 'lege_worktree_an', side_effect=AssertionError('Worktree trotz fehlender Bash')):
+            code, out = self.lauf([eintrag(text)])
+        self.assertEqual(code, 2, out)
+        self.assertIn('CI_LOKAL_BASH', out)
+        self.assertEqual(len(git(self.tmp, 'worktree', 'list').strip().splitlines()), 1)
 
 
 class Ereignis(Basis):
@@ -175,7 +279,7 @@ class Ereignis(Basis):
 
     def test_push_only_workflow_nur_im_modus_push(self):
         self.repo({'p.yml': self.PUSH})
-        tab = [eintrag('echo hallo', datei='p.yml')]
+        tab = [eintrag(self.PUSH, datei='p.yml')]
         code, out = self.lauf(tab)
         self.assertEqual(code, 0, out)
         self.assertIn('nicht betroffen: p.yml (kein pull_request-Trigger)', out)
@@ -193,7 +297,7 @@ class Ereignis(Basis):
     def test_push_filter_branch_und_tags(self):
         tags = self.PUSH.replace('branches:\n      - main', 'tags:\n      - "v*"')
         self.repo({'p.yml': tags})
-        code, out = self.lauf([eintrag('echo hallo', datei='p.yml')], '--ereignis', 'push')
+        code, out = self.lauf([eintrag(tags, datei='p.yml')], '--ereignis', 'push')
         self.assertIn('nicht betroffen: p.yml', out)
 
     def test_event_name_folgt_dem_modus(self):
@@ -201,9 +305,9 @@ class Ereignis(Basis):
         both = WF_KOPF.replace('  pull_request:', '  push:\n    branches: [main]\n  pull_request:') + \
             "      - name: Schritt A\n        run: |\n          " + run + "\n"
         self.repo({'t.yml': both})
-        code, out = self.lauf([eintrag(run)], '--ereignis', 'push')
+        code, out = self.lauf([eintrag(both)], '--ereignis', 'push')
         self.assertEqual(code, 0, out)
-        code, out = self.lauf([eintrag(run)])
+        code, out = self.lauf([eintrag(both)])
         self.assertEqual(code, 1, out)
 
 
