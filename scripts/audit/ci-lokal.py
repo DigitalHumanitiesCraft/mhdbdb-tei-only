@@ -48,7 +48,26 @@ Liste im Kopf entfaellt.
    bei Fehler und bei Ctrl-C. Das Repo des Aufrufers bleibt unberuehrt: die
    Freshness-Schritte schreiben (Rebuild, dann `git diff`), und im Main
    Worktree teilen sich parallele Sessions den Working Tree.
-5. Die Schritte laufen in Git Bash (`bash -e <datei>`, wie der GitHub-Default),
+   Ein Kill oder ein Timeout der Harness laesst den Worktree trotzdem zurueck
+   (registriert, unter %TEMP%). Deshalb liest jeder Lauf vor dem Anlegen
+   `git worktree list --porcelain`, meldet jeden Eintrag `ci-lokal-wt-*`
+   direkt unter `tempfile.gettempdir()` und entfernt ihn (`worktree remove
+   --force`, `rmtree`, `prune`) mit der Zeile `Rest eines abgebrochenen Laufs
+   entfernt: <pfad>`. Schutz vor dem Entfernen eines Worktrees, den eine
+   andere Session gerade nutzt: jeder Lauf schreibt seine PID in
+   `ci-lokal.pid` im Git-Verzeichnis seines Worktrees
+   (`<repo>/.git/worktrees/<name>/`), nicht in den Worktree, wo sie als
+   untracked Datei in `git status` und `git diff` der Freshness-Schritte
+   stuende. Entfernt wird nur, wenn die PID nicht mehr lebt (`tasklist`).
+   Lebt sie, oder ist die Datei nicht lesbar, wird nur gemeldet. `--trocken`
+   meldet, entfernt nie. Andere Worktrees fasst es nicht an.
+   Bleibt eine PID nach einem Absturz einem fremden Prozess zugeteilt, bleibt
+   der Rest liegen und wird bei jedem Lauf gemeldet.
+5. Trifft die Dateiliste `tei/`, `authority-files/` oder `schema/` und fehlt
+   `--lang`, steht eine Zeile `WARNUNG` davor (Pflicht ist `--lang`, im
+   Hintergrund, CLAUDE.md, #726). Der Exit-Code aendert sich nicht, die Summe
+   nennt die fehlenden `lokal-lang`-Schritte wie sonst.
+6. Die Schritte laufen in Git Bash (`bash -e <datei>`, wie der GitHub-Default),
    mit der `env` aus Workflow, Job und Schritt. Je Schritt eine Zeile, am Ende
    eine Summe mit Nenner. Exit 1, sobald ein Schritt rot ist, Exit 2 bei
    hartem Fehler (auch: PyYAML oder Git Bash fehlen).
@@ -686,13 +705,83 @@ def main(argv=None, tabelle=None):
         return 130
 
 
+WT_PRAEFIX = 'ci-lokal-wt-'
+PID_DATEI = 'ci-lokal.pid'
+LANG_PFADE = ('tei/', 'authority-files/', 'schema/')
+
+
 def lege_worktree_an(repo, rev):
-    wt = tempfile.mkdtemp(prefix='ci-lokal-wt-')
+    wt = tempfile.mkdtemp(prefix=WT_PRAEFIX)
     res = git(repo, 'worktree', 'add', '--detach', wt, rev, check=False)
     if res.returncode != 0:
         shutil.rmtree(wt, ignore_errors=True)
         raise HartFehler('git worktree add ist fehlgeschlagen: ' + res.stderr.decode('utf-8', 'replace').strip())
+    schreibe_pid(wt)
     return wt
+
+
+def pid_datei(wt):
+    """Die PID-Datei liegt im Git-Verzeichnis des Worktrees (`<repo>/.git/worktrees/<name>/`),
+    nicht im Worktree: dort stuende sie als untracked Datei in `git status` und `git diff` der
+    Freshness-Schritte. `git worktree remove` und `prune` raeumen sie mit weg."""
+    res = git(wt, 'rev-parse', '--absolute-git-dir', check=False)
+    if res.returncode != 0:
+        return None
+    return Path(res.stdout.decode('utf-8', 'replace').strip()) / PID_DATEI
+
+
+def schreibe_pid(wt):
+    pfad = pid_datei(wt)
+    if pfad is not None:
+        pfad.write_text(str(os.getpid()), encoding='ascii')
+
+
+def pid_lebt(pid):
+    if sys.platform == 'win32':
+        res = subprocess.run(['tasklist', '/FI', f'PID eq {pid}', '/NH', '/FO', 'CSV'],
+                             capture_output=True)
+        return f'"{pid}"' in res.stdout.decode('utf-8', 'replace')
+    try:
+        os.kill(pid, 0)
+    except ProcessLookupError:
+        return False
+    except PermissionError:
+        return True
+    return True
+
+
+def worktree_pfade(repo):
+    res = git(repo, 'worktree', 'list', '--porcelain', check=False)
+    return [z[len('worktree '):] for z in res.stdout.decode('utf-8', 'replace').splitlines()
+            if z.startswith('worktree ')]
+
+
+def raeume_reste(repo, trocken):
+    """Reste abgebrochener Laeufe: registrierte Worktrees `ci-lokal-wt-*` direkt unter dem Temp-Ordner.
+
+    Entfernt wird nur, wenn die PID-Datei lesbar ist und die PID nicht mehr lebt. Lebt sie, oder
+    ist die Datei nicht lesbar, wird nur gemeldet. Mit `trocken` wird nie entfernt. Andere Worktrees
+    (ohne das Praefix oder ausserhalb des Temp-Ordners) fasst es nicht an."""
+    temp = os.path.normcase(os.path.realpath(tempfile.gettempdir()))
+    for pfad in worktree_pfade(repo):
+        p = Path(pfad)
+        if not p.name.startswith(WT_PRAEFIX) or os.path.normcase(os.path.realpath(p.parent)) != temp:
+            continue
+        pid = None
+        datei = pid_datei(p) if p.exists() else None
+        try:
+            pid = int(datei.read_text(encoding='ascii').strip())
+        except (OSError, ValueError, AttributeError):
+            pass
+        if pid is None:
+            print(f'Rest eines Laufs, PID-Datei nicht lesbar, nicht entfernt: {pfad}')
+        elif pid_lebt(pid):
+            print(f'Worktree eines laufenden Laufs (PID {pid}), nicht entfernt: {pfad}')
+        elif trocken:
+            print(f'Rest eines abgebrochenen Laufs (PID {pid} tot), --trocken entfernt nicht: {pfad}')
+        else:
+            entferne_worktree(repo, pfad)
+            print(f'Rest eines abgebrochenen Laufs entfernt: {pfad}')
 
 
 def entferne_worktree(repo, wt):
@@ -722,11 +811,15 @@ def _lauf(args, repo, tabelle):
         if n:
             print(f'WARNUNG: {n} uncommittete oder untracked Eintraege im Working Tree werden nicht '
                   'geprueft (geprueft wird HEAD)')
+        if not args.lang and any(d.startswith(LANG_PFADE) for d in dateien):
+            print('WARNUNG: der Diff aendert tei/, authority-files/ oder schema/ und --lang fehlt: '
+                  'Pflicht ist --lang (CLAUDE.md, #726), im Hintergrund fahren')
         for w in plan.warnungen:
             print(f'WARNUNG: {w}')
         if plan.fehler:
             melde_fehler(plan)
             return 2
+        raeume_reste(repo, args.trocken)
         for datei, grund in plan.nicht_betroffen:
             print(f'  nicht betroffen: {datei} ({grund})')
         if not args.trocken:
