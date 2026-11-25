@@ -640,8 +640,8 @@ ROADMAP = 'docs/ROADMAP.md'
 # 104). Im sparse Checkout von issue-matrix.yml ist das dieselbe Stelle wie vorher.
 REPO = Path(__file__).resolve().parents[2]
 # Im sparse Checkout von issue-matrix.yml steht die Datei ausdruecklich in der
-# Liste; fehlt sie dort, bricht der Lauf mit Exit 2 ab, statt gruen zu
-# melden (#736).
+# Liste; fehlt sie dort, wird schon der Schritt Selbsttest rot (Exit 1), ein
+# direkter Aufruf ohne Flag oder mit --apply endet mit Exit 2 (#736).
 SCHEMA = REPO / '.github' / 'issue-labels.json'
 
 
@@ -1472,8 +1472,9 @@ def selftest():
                    and zweimal.endswith('unten')))
 
     # Label-Schema (#736): die echte Datei und erfundene Abweichungen. Der
-    # erste Fall ist der, auf den es ankommt: er laeuft in der CI vor dem
-    # Schreiben und lokal ueber ci-lokal.py.
+    # erste Fall ist der, auf den es ankommt: er laeuft im Tageslauf vor dem
+    # Schreiben. Ein PR-Gate gibt es dafuer nicht, und ci-lokal.py faehrt
+    # issue-matrix.yml nicht mit (nur schedule und workflow_dispatch).
     faelle.append(('Echtes Schema stimmt mit den Konstanten ueberein',
                    pruefe_schema() == []))
 
