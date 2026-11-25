@@ -304,6 +304,11 @@ class Isolation(Basis):
 
 
 def toter_pid():
+    """Unter Windows eine PID, die nie vergeben wird (Windows vergibt Vielfache von 4; beobachtet,
+    nicht dokumentiert). Die PID eines beendeten Kindprozesses vergibt Windows schnell neu: in der
+    vollen Suite lebte sie zweimal bei der Pruefung wieder (25.11.2026)."""
+    if sys.platform == 'win32':
+        return 999999
     p = subprocess.Popen([sys.executable, '-c', 'pass'])
     p.wait()
     return p.pid
@@ -440,35 +445,45 @@ class Reste(Basis):
 
 
 class LangWarnung(Basis):
-    TEXT = wf('echo hallo')
+    """Die Warnung folgt den Triggern der Workflows, nicht einer Pfadliste im Skript."""
+    KOPF = WF_KOPF.replace("'docs/**'", "'scripts/audit/**'")
+    LANG = wf('echo lang', kopf=KOPF)
+    KURZ = wf('echo kurz')  # Trigger docs/**
 
-    def warnung(self, pfad):
-        self.repo({'t.yml': self.TEXT}, geaendert=[pfad])
-        code, out = self.lauf([eintrag(self.TEXT)])
+    def tabelle(self):
+        return [eintrag(self.LANG, klasse='lokal-lang', datei='l.yml'), eintrag(self.KURZ, datei='k.yml')]
+
+    def lauf_mit(self, geaendert, *argumente):
+        self.repo({'l.yml': self.LANG, 'k.yml': self.KURZ}, geaendert=geaendert)
+        code, out = self.lauf(self.tabelle(), *argumente)
         self.assertEqual(code, 0, out)
-        self.assertIn('WARNUNG: der Diff aendert tei/, authority-files/ oder schema/ und --lang fehlt', out)
+        return out
+
+    def test_warnung_wenn_ein_lang_schritt_ausgeloest_ist(self):
+        out = self.lauf_mit(['scripts/audit/x.py'])
+        self.assertIn('WARNUNG: der Diff loest 1 Schritt(e) der Klasse lokal-lang aus und --lang fehlt', out)
         self.assertIn('im Hintergrund fahren', out)
         self.assertNotIn(';', [z for z in out.splitlines() if 'Pflicht ist --lang' in z][0])
+        self.assertIn('1 lokal-lang nicht gelaufen (--lang)', out)
 
-    def test_warnung_bei_tei_ohne_lang(self):
-        self.warnung('tei/a.xml')
+    def test_trocken_warnt_auch(self):
+        out = self.lauf_mit(['scripts/audit/x.py'], '--trocken')
+        self.assertIn('--lang fehlt', out)
 
-    def test_warnung_bei_authority_files_ohne_lang(self):
-        self.warnung('authority-files/b.xml')
-
-    def test_warnung_bei_schema_ohne_lang(self):
-        self.warnung('schema/c.rnc')
-
-    def test_keine_warnung_mit_lang_oder_ohne_diese_pfade(self):
-        self.repo({'t.yml': self.TEXT}, geaendert=['tei/a.xml'])
-        code, out = self.lauf([eintrag(self.TEXT)], '--lang')
+    def test_keine_warnung_mit_lang(self):
+        out = self.lauf_mit(['scripts/audit/x.py'], '--lang')
         self.assertNotIn('--lang fehlt', out)
-        code, out = self.lauf([eintrag(self.TEXT)], '--trocken')
-        self.assertIn('--lang fehlt', out, '--trocken warnt auch')
 
-    def test_keine_warnung_fuer_andere_pfade(self):
-        self.repo({'t.yml': self.TEXT}, geaendert=['docs/x.md', 'scripts/teilnehmer.py'])
-        code, out = self.lauf([eintrag(self.TEXT)])
+    def test_keine_warnung_ohne_ausgeloesten_lang_schritt(self):
+        out = self.lauf_mit(['docs/x.md', 'tei/a.xml'])
+        self.assertNotIn('--lang fehlt', out, 'tei/ loest hier keinen lokal-lang-Schritt aus')
+
+    def test_keine_warnung_wenn_if_den_lang_schritt_ueberspringt(self):
+        lang = wf('echo lang', kopf=self.KOPF, extra="        if: github.event_name == 'push'\n")
+        self.repo({'l.yml': lang}, geaendert=['scripts/audit/x.py'])
+        code, out = self.lauf([eintrag(lang, klasse='lokal-lang', datei='l.yml')])
+        self.assertEqual(code, 0, out)
+        self.assertIn('1 per if uebersprungen', out)
         self.assertNotIn('--lang fehlt', out)
 
 
