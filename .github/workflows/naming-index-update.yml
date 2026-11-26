@@ -2,7 +2,8 @@ name: Naming Index Update
 
 # Wöchentlicher Abgleich mit Linda Beutel-Thurows Naming-analysis-Repo (#59):
 # baut data/naming-index.json.gz neu und öffnet bei inhaltlicher Änderung
-# einen PR. Merge erst nach Sichtprüfung — extern kuratierte Daten gehen
+# einen PR oder zieht einen offenen nach (Step "Auf inhaltliche Änderung
+# prüfen"). Merge erst nach Sichtprüfung — extern kuratierte Daten gehen
 # nie ungeprüft nach Production (auch als Gate gegen Format-Drift in den
 # Quell-JSONs: neue Spalten/Bücher fallen im PR-Diff bzw. Build-Log auf).
 #
@@ -42,7 +43,9 @@ jobs:
 
       - name: Quell-Commit des bestehenden Index lesen
         id: old
-        run: echo "commit=$(python scripts/audit/check-naming-index.py --print-source-commit)" >> "$GITHUB_OUTPUT"
+        run: |
+          echo "commit=$(python scripts/audit/check-naming-index.py --print-source-commit)" >> "$GITHUB_OUTPUT"
+          cp data/naming-index.json.gz "$RUNNER_TEMP/naming-committed.json.gz"
 
       - name: Index neu bauen
         id: build
@@ -66,10 +69,28 @@ jobs:
 
       - name: Auf inhaltliche Änderung prüfen
         id: diff
+        # Ein neuerer Quell-Commit ändert generatedAt und source.commit auch
+        # dann, wenn er nur Dateien anlegt, die der Build nicht liest (#728).
+        # Solche Rebuilds öffnen keinen PR; der Pin bleibt auf dem alten
+        # Quell-Commit (Begründung in check-naming-index.py, --nur-metadaten).
+        # Ausnahme: ein offener Update-PR. Er trägt einen Stand, der von main
+        # abweicht, und muss auf den aktuellen Quellstand gezogen werden, auch
+        # wenn dieser sich von main nur in den Metadaten unterscheidet.
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           if git diff --quiet -- data/naming-index.json.gz; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
-            echo "Quellstand unverändert — kein PR."
+            echo "Quellstand unverändert, kein PR."
+          elif python scripts/audit/check-naming-index.py --nur-metadaten "$RUNNER_TEMP/naming-committed.json.gz"; then
+            offen=$(gh pr list --repo "$GITHUB_REPOSITORY" --head chore/naming-index-update --state open --json number --jq length)
+            if [ "$offen" = "0" ]; then
+              echo "changed=false" >> "$GITHUB_OUTPUT"
+              echo "Nur Metadaten geändert, kein PR."
+            else
+              echo "changed=true" >> "$GITHUB_OUTPUT"
+              echo "Nur Metadaten gegenüber main, aber Update-PR offen: wird nachgezogen."
+            fi
           else
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
