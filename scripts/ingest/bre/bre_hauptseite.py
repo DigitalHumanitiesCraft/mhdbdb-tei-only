@@ -102,8 +102,10 @@ def parse_matrix(inhalt):
     if a < 0 or b < 0:
         raise bc.HarterFehler("Hauptseite: Tabelle der Uebersicht nicht gefunden")
     zeilen = [z for z in tab[a:b].split("\n|-")[1:]]
-    kopf = [re.sub(r"</?sup>", "", c.split("|")[-1]).strip() for c in
-            re.findall(r"^\|style[^\n]*", zeilen[0], re.M)]
+    # Spaltenkopf: Text oder (seit Revision 31248) Link [[Seite|B]]. Zuerst wird der Link auf seine
+    # Beschriftung gekuerzt, damit sein "|" nicht als Attributstrich ("style=...|Inhalt") zaehlt.
+    kopf = [re.sub(r"</?sup>", "", re.sub(r"\[\[(?:[^\]|]*\|)?([^\]]*)\]\]", r"\1", c).split("|")[-1]).strip()
+            for c in re.findall(r"^\|style[^\n]*", zeilen[0], re.M)]
     kopf = [k for k in kopf if k]
     if kopf != list(bc.ZEUGEN):
         raise bc.HarterFehler(f"Hauptseite: Spaltenkoepfe {kopf} != Zeugenliste {list(bc.ZEUGEN)}")

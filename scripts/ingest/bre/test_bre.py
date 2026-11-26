@@ -265,8 +265,9 @@ ab_zwei = bh.abgleich("B2", h_b2, u_b2 + ["Weinsegen Allerliebster Trost"], None
 pruefe("Schluessel: zweiter Fehlansatz (Anzahl) ist nicht erklaert",
        any(x["art"] == "nur_bisher" and x["bisher"] == "2x"
            and bh.schluessel("B2", x) not in conv.bc.ABWEICHUNG_ERKLAERT for x in ab_zwei), str(ab_zwei))
-# d6: drei Klammertexte als je ein Abschnitt sind erklaert (Positivkontrolle), ein doppelter
-# Abschnitt desselben Klammertexts ist eine andere Abweichung (Probe des Reviewers, Runde 2)
+# d6: ein Klammertext der Hauptseite als eigener Abschnitt ist eine Abweichung und seit der
+# Einarbeitung (bre_common.EINGEARBEITET) nicht mehr erklaert; die Fixture haelt nur die drei
+# eingearbeiteten Klammertexte, die echte Hauptseite fuehrt fuer d6 sechs in Klammern
 h_d6 = [{"teil": 1, "titel": "Weingruß Edels Getranck", "anmerkung": "", "klammer": False}] + [
     {"teil": 1, "titel": t, "anmerkung": "", "klammer": True}
     for t in ("Weingruß Allerliebster Trunck", "Weinsegen Allerliebster Trost", "Weinsegen Ein Kron")]
@@ -276,7 +277,7 @@ ab_d6 = bh.abgleich("d6", h_d6, u_d6, None)
 pruefe("Schluessel: Klammertext als eigener Abschnitt ist nicht erklaert (seit der Einarbeitung)",
        len(ab_d6) == 3 and not any(bh.schluessel("d6", x) in conv.bc.ABWEICHUNG_ERKLAERT for x in ab_d6),
        str([bh.schluessel("d6", x) for x in ab_d6]))
-pruefe("Hauptseite: eingearbeitete Texte sind die drei Klammertexte von d6",
+pruefe("EINGEARBEITET: die drei Texte von d6, gegen die Klammertexte der Fixture",
        {bh.norm_titel(t) for t in conv.bc.EINGEARBEITET["d6"]} == {h["titel"] for h in h_d6 if h["klammer"]}
        and bh.eingearbeitet_in("d6", "Weingruß Allerliebster Trunck (Hans Rosenplüt)")
        == "Weinsegen Edles Abkülen" and bh.eingearbeitet_in("d6", "Weingruß Edels Getranck") is None
@@ -301,6 +302,32 @@ try:
     pruefe("Uebersicht: Spaltenkoepfe muessen die Zeugenliste sein", False, "kein Fehler")
 except conv.bc.HarterFehler:
     pruefe("Uebersicht: Spaltenkoepfe muessen die Zeugenliste sein", True)
+
+
+def matrix_mit_koepfen(mit_link):
+    """Uebersichtstabelle mit allen 21 Spaltenkoepfen, als Text oder (ab Revision 31248) als Link."""
+    def sup(s):  # "B1" -> "B<sup>1</sup>", "d4" -> "d<sup>4</sup>", "B" bleibt
+        return s[0] + "<sup>" + s[1:] + "</sup>" if len(s) == 2 and s[1].isdigit() else s
+    koepfe = [f'|style="border-width: 1px 1px 5px 1px"|'
+              + (f"[[Weingrüße {conv.bc.ZEUGEN[s][0]}|{sup(s)}]]" if mit_link else sup(s))
+              for s in conv.bc.ZEUGEN]
+    zeile = '|style="white-space: pre;"|[[Weingruß Edels Getranck]]\n||1' + "\n||" * (len(koepfe) - 1)
+    return HAUPT + "\n{|\n|-\n|style=\"x\"|\n" + "\n".join(koepfe) + "\n|-\n" + zeile + "\n|}\n"
+
+
+for mit_link in (False, True):
+    try:
+        m_koepfe = bh.parse_matrix(matrix_mit_koepfen(mit_link))
+        pruefe(f"Uebersicht: Spaltenkoepfe {'als Link' if mit_link else 'als Text'} werden gelesen",
+               list(m_koepfe) == ["Weingruß Edels Getranck"] and m_koepfe["Weingruß Edels Getranck"]
+               == {"B": "1"}, str(m_koepfe))
+    except conv.bc.HarterFehler as e:
+        pruefe(f"Uebersicht: Spaltenkoepfe {'als Link' if mit_link else 'als Text'} werden gelesen",
+               False, str(e)[:200])
+m_echt = bh.parse_matrix(conv.bc.lade_seite(conv.bc.HAUPT_TITEL)["inhalt"])
+pruefe("Uebersicht: die gepinnte Hauptseite (Revision 31248) laesst sich lesen, d4 fuehrt Edels vor Leibsalb",
+       m_echt["Weingruß Edels Getranck"]["d4"] == "2" and m_echt["Weinsegen Edle Leibsalb"]["d4"] == "3",
+       str(len(m_echt)))
 pruefe("Uebersicht: Zellen", bh.matrix_folge(
     {"Weingruß A": {"W1": "A2<br />B4"}, "Weingruß B": {"W1": "(3)"}, "Weingruß C": {"W1": "B1*"}}, "W1")
        == [{"titel": "Weingruß B", "teil": "1", "anmerkung": "(3)", "klammer": True},
@@ -677,6 +704,13 @@ pruefe("d6: die Notizen nennen den eingearbeiteten Text und den Zieltext",
 zaehl_d6 = abk.xpath("t:l/@n", namespaces=ns) if abk is not None else []
 pruefe("d6: <l>/@n laeuft im Zieltext ueber die eingearbeiteten Passagen weiter, ohne Wiederholung",
        zaehl_d6 == [str(i) for i in range(1, len(zaehl_d6) + 1)] and len(zaehl_d6) > 40, str(zaehl_d6[:6]))
+schluss_d6 = baum_d6.xpath("//t:note[@type='editorial' and starts-with(., 'Hier enden')]", namespaces=ns)
+folgende = schluss_d6[0].xpath("following-sibling::t:l[1]//t:w/text()", namespaces=ns) if schluss_d6 else []
+pruefe("d6: eine Notiz grenzt ENDE und den Schlussreim von den eingearbeiteten Passagen ab",
+       len(schluss_d6) == 1 and schluss_d6[0].getparent() is abk and folgende == ["ENDE"]
+       and len(schluss_d6[0].xpath("following-sibling::t:l", namespaces=ns)) == 5
+       and len(schluss_d6[0].xpath("preceding-sibling::t:note[starts-with(., 'Ab hier ist')]",
+                                   namespaces=ns)) == 3, str(folgende))
 baum_b2, aus_b2 = zeuge_baum("B2")
 ansaetze = baum_b2.xpath("//t:note[@type='editorial' and starts-with(., 'Abgebrochener Ansatz')]",
                          namespaces=ns)
@@ -710,6 +744,19 @@ pruefe("Eingearbeitet: Zieltext muss der vorangehende eigene Text sein",
 f_fremd = eingearbeitet_fehler("d6", {"d6": {"Weinsegen Gibt Es Nicht": "Weinsegen Edles Abkülen"}})
 pruefe("Eingearbeitet: ein Text, den es in der Segmentierung nicht gibt, ist ein harter Fehler",
        f_fremd is not None and "Segmentierung nicht gibt" in f_fremd, str(f_fremd))
+
+schluss_alt = conv.bc.SCHLUSS
+conv.bc.SCHLUSS = {"BRE_D6": ("DIESE ZEILE GIBT ES NICHT", "x")}
+try:
+    with contextlib.redirect_stdout(io.StringIO()):
+        conv.konvertiere("d6", trocken=True, ausgabe_dir=Path(tempfile.gettempdir()), datum=SPERRE_DATUM)
+    f_schluss = None
+except conv.bc.HarterFehler as e:
+    f_schluss = str(e)
+finally:
+    conv.bc.SCHLUSS = schluss_alt
+pruefe("Schluss: eine Schlusszeile, die es nicht gibt, ist ein harter Fehler",
+       f_schluss is not None and "SCHLUSS" in f_schluss, str(f_schluss))
 
 # Druckfahnen (Kickoff #147): kein Wortlaut aus Text, Uebersetzung oder Kommentar der Druckfassung
 # im Repo. Quelle ist der Text der Hirzel-Druckfahnen (PDF, per pdftotext auf stdout gelesen, nie
@@ -826,6 +873,8 @@ else:
            not lecks, "; ".join(f"{d}: {g}" for d, g in lecks[:10]))
 
 if fehler:
-    print(f"{len(fehler)} Test(s) fehlgeschlagen")
+    print(f"{len(fehler)} Test(s) fehlgeschlagen:")
+    for f in fehler:
+        print("  - " + f[:200])
     sys.exit(1)
 print("alle Tests bestanden")

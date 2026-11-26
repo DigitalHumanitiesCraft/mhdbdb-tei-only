@@ -137,6 +137,21 @@ EINGEARBEITET = {
 }
 EINGEARBEITET_NOTIZ = ("Ab hier ist {text} in den {ziel} eingearbeitet (Hauptseite des "
                        "Brevitas-Wikis: in Klammern, kein eigener Text).")
+# Markiert sind nur die Texte, deren Anfang eine Synopse der Einzeltextseiten als ersten Vers fuehrt
+# (segmentierung.tsv). Die uebrigen Klammertexte von d6 laut Hauptseite (Lieber Rebenknecht, Libe
+# Rebenpruee, Suesser Geschmack) haben dort keine Zeile fuer d6; ihre Ausschnitte stehen unmarkiert
+# im Text. Eine Notiz "Ab hier" hat kein eigenes Ende: das Ende der eingearbeiteten Passagen bei
+# Zeugen mit Schluss markiert SCHLUSS.
+
+# Text am Ende eines Zeugen, der zu keinem Text gehoert: MHDBDB-Sigle -> (Vergleichstext der ersten
+# Zeile, Notiz davor). d6: Hauptseite, Abschnitt Ueberlieferung: "Der Druck wird abgeschlossen mit
+# dem Wort ENDE und einem vierversigen Abschlussgedicht"; die Einzeltextseite "Weinsegen Ein Kron"
+# laesst die Spalte von d6 vor "ENDE" enden. Die Zeilen bleiben im <div> des letzten Texts (wie
+# "S R F" in d3 und d5), die Notiz grenzt sie ab.
+SCHLUSS = {
+    "BRE_D6": ("ENDE", "Hier enden die eingearbeiteten Passagen. Es folgen das Wort „ENDE“ und ein "
+                       "vierversiger Schlussreim (Hauptseite des Brevitas-Wikis, Überlieferung d6)."),
+}
 
 # Abgebrochener Ansatz, den die Einzeltextseite als "falscher Eintrag" fuehrt und der als eigener
 # kurzer Abschnitt aufgenommen wird: (Zeuge, signatur_label der Segmentierung) -> Notiz am Anfang

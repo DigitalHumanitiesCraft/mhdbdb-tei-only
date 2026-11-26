@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """10-lemma-assign.py: Phase 1a, Auto-Match der Lemmata (BRE, #147).
 
-Vorbild: scripts/ingest/wzb/wzb-auto-match.py. Fuer jedes lexikalische <w> der 18 Zeugen
+Vorbild: scripts/ingest/wzb/wzb-auto-match.py. Fuer jedes lexikalische <w> der Zeugen in ingest/bre
 (nicht in <head>, bre_annot.py) wird die Wortform normalisiert (bre_annot.norm: Faltung der
 Fruehdrucke, dann normalize_mhg) und in variants.xml nachgeschlagen, das auf dieselbe Weise
 normalisiert ist:

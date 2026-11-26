@@ -797,6 +797,8 @@ def baue_tei(sigle, signatur, seite, items, lex, texte, stat, vorspann=None, dat
         stat["ohne_folio"] = True
     grenzen = [t["grenze"] for t in texte] + [len(items)]
     erwartet_zeilen = []  # (Quellzeile, erwartete Zeichen)
+    schluss = bc.SCHLUSS.get(sigle)  # (Vergleichstext der ersten Schlusszeile, Notiz) oder None
+    schluss_gesetzt = []
 
     def emit(div, indices, heads, vnr=0):
         """Schreibt die Zeilen in div; vnr = letzte vergebene <l>/@n (bei eingearbeiteten Texten
@@ -813,6 +815,11 @@ def baue_tei(sigle, signatur, seite, items, lex, texte, stat, vorspann=None, dat
                 stat["pb"] += 1
                 continue
             toks, meta = lex[i]
+            if schluss and not schluss_gesetzt and re.sub(
+                    r"\s+", " ", RE_REFPLATZ.sub("", bw.vergleichstext(it["raw"]))).strip() == schluss[0]:
+                # Text am Ende des Zeugen (bre_common.SCHLUSS): die Notiz grenzt ihn ab
+                E(div, "note", type="editorial").text = schluss[1]
+                schluss_gesetzt.append(i)
             if i in heads:
                 el = E(div, "head")
                 stat["head"] += 1
@@ -889,6 +896,8 @@ def baue_tei(sigle, signatur, seite, items, lex, texte, stat, vorspann=None, dat
             n = E(div, "note", type="editorial")
             n.text = ansatz.format(text=bh.norm_titel(r["text_titel"]))
         vnr = emit(div, region, set(t["heads"]))
+    if schluss and len(schluss_gesetzt) != 1:
+        raise QuellFehler(f"bre_common.SCHLUSS: Zeile {schluss[0]!r} nicht gefunden (Notiz nicht gesetzt)")
     if ausschluss:
         aussen.append(etree.Comment(f" {ausschluss} "))
     return tei, containers, erwartet_zeilen
@@ -1037,7 +1046,7 @@ def konvertiere(sigle, trocken, ausgabe_dir, datum, ueberschreiben=False):
     n_eing = sum(1 for t in texte if t["eingearbeitet"])
     n_rows = len(rows) - len(raus) - n_eing
 
-    stat ={"w": 0, "l": 0, "head": 0, "pb": 0, "pb_im_wort": 0, "note": 0,
+    stat = {"w": 0, "l": 0, "head": 0, "pb": 0, "pb_im_wort": 0, "note": 0,
             "el": collections.Counter(), "span_dupliziert": collections.Counter()}
     tei, containers, erwartet = baue_tei(mhdbdb, signatur, seite, items, lex, texte, stat,
                                          vorspann, datum, ausschluss)
