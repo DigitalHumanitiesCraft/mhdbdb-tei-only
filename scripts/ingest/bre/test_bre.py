@@ -766,8 +766,9 @@ pruefe("Schluss: eine Schlusszeile, die es nicht gibt, ist ein harter Fehler",
 # Scope) und scripts/audit/wortlaut_gate.py (Kern), derselbe Aufruf laeuft ohne diese Suite als
 # druckfahnen-gate.py. Geprueft werden alle Dateien unter ingest/bre und scripts/ingest/bre, Commit
 # Message und hinzugefuegte Zeilen jedes Commits seit origin/main und die Texte aus
-# BRE_DRUCK_PRUEFE. Die Quellen liegen nur im Main Worktree (oder unter BRE_DRUCK_QUELLEN) und
-# werden nie kopiert; fehlt eine davon, schlaegt die Pruefung fehl (sie besteht nicht stillschweigend).
+# BRE_DRUCK_PRUEFE. Der Test liest die Quellen aus dem Main Worktree (oder unter BRE_DRUCK_QUELLEN)
+# und kopiert sie nie, die Zweitkopie im DHCraft-Drive nennt sources/INVENTAR-ARCHIV.md. Fehlt eine
+# davon, schlaegt die Pruefung fehl (sie besteht nicht stillschweigend).
 import druck_quelle as dq  # noqa: E402
 from wortlaut_gate import NichtMoeglich  # noqa: E402
 

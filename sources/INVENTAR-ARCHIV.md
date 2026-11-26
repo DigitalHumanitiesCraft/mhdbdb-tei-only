@@ -274,14 +274,17 @@ dieses Inventar ist der Zugriffsweg.
 Fremdmaterial ohne offene Lizenz, deshalb außerhalb des Repositoriums, aber anders als das Archiv
 ohne Anfrage erreichbar. Konto **office@dhcraft.org**, Ordner `Projekte/mhdbdb/extern/`
 ([Link](https://drive.google.com/drive/folders/120fF4kdvRbxlQLzKYxauThtgnui3EtLo)), Stand
-2026-09-22, die APK-Zeile 2026-11-19. Die ersten beiden stammen nicht aus dem Archiv, der dritte
-ist eine Kopie daraus.
+2026-09-22, die APK-Zeile 2026-11-19, die Weingrüße-Zeile 2026-11-26. Die ersten beiden stammen
+nicht aus dem Archiv, der dritte ist eine Kopie daraus. Der vierte ist eine Kopie von
+`sources/weingruesse/` aus dem Main Worktree auf Christians Rechner. PDF und Zip hat Silvan Wagner
+am 23.10.2026 geschickt, `docling/` ist deren Umwandlung (`sources/README.md`).
 
 | Bestand | Umfang | Lizenz | gebraucht von |
 |---|---|---|---|
 | `woerterbuchnetz2015/FindeB/P5/` (Trierer Findebuch, von KZW am 30.07.2026 geliefert) plus das Original-Zip | 22 XML, 27.106.707 Bytes | Copyright 1998 Universität Trier, **keine offene Lizenz** ([#259](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/259)) | `scripts/audit/compare-findebuch-resolution-259.py`, lokale Arbeitskopie unter `~/.cache/mhdbdb/` |
 | `10.1515_9783110890587.pdf` (Hugo von Montfort: Das poetische Werk) | 29.312.370 Bytes | De Gruyter | nichts. Liegt auch noch in `data/audit/`, wird im Repo nirgends erwähnt, gehört der Bibliografie nach zu `tei/HUG.tei.xml` |
 | `apk_free.xml` (Apokalypse Heinrichs von Hesler, TEI.2 aus dem MHGTA, Kopie von `Neue Texte Klaus/apk_free.xml`, am 19.11.2026 hochgeladen) | 1.565.852 Bytes, SHA-256 in `sources/README.md` | Trier/Virginia 2002, Ute Recker-Hamm (MWB Trier) sieht den fertigen Ingest ([#262](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/262)) | Stufe 0 des APK-Ingests, lokale Kopie unter `sources/hesler-apokalypse/` (gitignoriert) |
+| `weingruesse/`: `wagner-2023-weingruesse-druckfahnen.pdf` (Druckfahnen der Hirzel-Ausgabe der Weingrüße mit Text, Übersetzung und Kommentar), `Transkriptionen.zip` (Silvan Wagners Word-Transkriptionen von 2022), `docling/` (deren Umwandlung), am 26.11.2026 hochgeladen | 44 Dateien, 7.966.184 Bytes: PDF 2.591.482, Zip 754.759, `docling/` 4.619.943 in 42 Dateien (lokal gemessen und gegen das `fileSize` der Uploads geprüft, 26.11.2026) | Verlagsrechte ungeklärt ([#147](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/147)) | Kontext für die Annotation der Weingrüße, das Druckfahnen-Gate `scripts/ingest/bre/druckfahnen-gate.py` (auch aus `test_bre.py`), lokale Arbeitskopie unter `sources/weingruesse/` (gitignoriert) |
 
 **Die Auflage aus #259 gilt für die ersten beiden:** nichts davon in ein Repositorium, einen Commit, einen
 Issue-Kommentar oder an einen externen Dienst. Aggregierte Zahlen über **unsere** Daten sind frei,
@@ -290,6 +293,13 @@ abgelegt.
 
 **Für `apk_free.xml` gilt eine eigene Auflage:** die Rohdatei kommt nicht ins Repositorium, bevor
 Ute Recker-Hamm den fertigen Ingest gesehen hat (#262).
+
+**Für `weingruesse/` gilt:** kein Wortlaut daraus in ein Repositorium, einen Commit, einen
+PR-Text, einen Issue-Kommentar oder auf die Website (KZW am 11.11.2026 für Repository und Website,
+am 26.11.2026 erweitert auf Commits, PR-Texte und Kommentare, Regel in
+[#743](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/743)). Auch KZWs Session
+hat die Übersetzung benutzt (#742). Wo ihre Arbeitskopie liegt, ist nicht festgehalten, das Gate
+findet sie über `BRE_DRUCK_QUELLEN=<ordner>`.
 
 **Beim Hantieren:** `G:\Meine Ablage` ist **nicht** dieses Konto (am 22.09.2026 einmal
 verwechselt, `fehlerjournal.md` Eintrag 64). Der Drive-Connector lädt per Dateireferenz hoch: `create_file`
@@ -312,16 +322,3 @@ Bewusst **nicht** dort: die fyndling-Lieferung in `temp/` (Stand 18.08.2026), bi
 Von ihren 990 Formen tragen 754 CoReMA-Transkriptionen, aber 234 stehen unter `kkm`, `saw` und
 `wbd`, also den drei Quellen, deren Transkription Thomas Gloning gehört. Ebenfalls nicht dort:
 `proposals/`, ohne Zweitkopie nach Entscheidung vom 22.09.2026.
-
-## Nur lokal, ohne Kopie im Drive
-
-| Bestand | Umfang | Lizenz | gebraucht von |
-|---|---|---|---|
-| `sources/weingruesse/` (gitignoriert): `wagner-2023-weingruesse-druckfahnen.pdf` (Druckfahnen der Hirzel-Ausgabe der Weingrüße mit Text, Übersetzung und Kommentar), `Transkriptionen.zip` (Silvan Wagners Word-Transkriptionen von 2022), `docling/` (deren Umwandlung) | 44 Dateien, 7.966.184 Bytes: PDF 2.591.482, Zip 754.759, `docling/` 4.619.943 in 42 Dateien (gemessen am 26.11.2026) | Verlagsrechte ungeklärt ([#147](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/147)) | Kontext für die Annotation der Weingrüße, das Druckfahnen-Gate `scripts/ingest/bre/druckfahnen-gate.py` (auch aus `test_bre.py`) |
-
-Die bekannte Kopie liegt im Main Worktree auf Christians Rechner. Auch KZWs Session hat die
-Übersetzung benutzt (#742). Wo ihre Kopie liegt, ist nicht festgehalten, das Gate findet sie über
-`BRE_DRUCK_QUELLEN=<ordner>`. **Auflage:** kein Wortlaut daraus in ein Repositorium, einen Commit,
-einen PR-Text, einen Issue-Kommentar oder auf die Website (KZW am 11.11.2026 für Repository und
-Website, am 26.11.2026 erweitert auf Commits, PR-Texte und Kommentare, Regel in
-[#743](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/743)).
