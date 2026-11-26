@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """22-pruefseite.py: HTML-Pruefseite zum Pruefpaket der Weingruesse (BRE, #147).
 
-Baut aus den vier TSV des Pruefpakets (ingest/bre/pruefung/, erzeugt von 20-pruefpaket.py)
+Baut aus den TSV des Pruefpakets (ingest/bre/pruefung/, erzeugt von 20-pruefpaket.py)
 eine eigenstaendige HTML-Seite, auf der KZW die maschinellen Zuweisungen selbst prueft.
 Pruefseitenmuster nach #443 (wie examples/review-pages/364-lemma-review.html): ein
 maschineller Vorschlag ist keine bestaetigte Antwort, nichts ist vorausgewaehlt, die Zustaende
@@ -37,7 +37,7 @@ Exportformat (JSON, Schema mhdbdb-bre-147-pruefseite-v1), damit ein Einspielskri
 direkt lesen kann:
   {"schema": "mhdbdb-bre-147-pruefseite-v1", "issue": 147,
    "fingerprint": <sha256-Praefix der eingebetteten Daten>, "sourceCommit": <git HEAD beim Bau>,
-   "sourceDate": <Baudatum>, "seed": 147, "sources": {<Pfad>: <sha256>},  # 4 TSV + TEI, ueber LF
+   "sourceDate": <Baudatum>, "seed": 147, "sources": {<Pfad>: <sha256>},  # 5 TSV + TEI, ueber LF
    "exportedAt": <ISO-Zeit>, "reviewer": <Name>,
    "decisions": [ {
        "id": "<datei-kurz>-<nr>",       # z. B. "verdacht-12", "bedeutung-301"
@@ -45,8 +45,9 @@ direkt lesen kann:
        "nr": 12,                        # Spalte nr dieser Datei (Zeilenschluessel)
        "xml_id": "...", "wort": "...", "zuweisung": "<Kennung>",   # zur Gegenprobe
        "passt": "" | "ja" | "nein" | "?",   # -> Spalte passt; "" = nicht geprueft
-       "korrektur": "",                 # -> Spalte korrektur: Kennung aus andere_moeglichkeiten,
-                                        #    "kein Lemma" oder Freitext
+       "korrektur": "",                 # -> Spalte korrektur: Kennung aus andere_moeglichkeiten
+                                        #    oder (nur lemma-verdacht) der Vorschlag aus
+                                        #    vorschlaege-verdacht.tsv, "kein Lemma" oder Freitext
        "anmerkung": "",                 # -> Spalte anmerkung
        "status": "unreviewed" | "decided" | "open",
        "wahl": "" | "ja" | "nein",      # Auswahl, auch als Entwurf
@@ -93,7 +94,8 @@ DATEIEN = [
     ("bedeutung", "bedeutung.tsv", "sense", True, r"lemma_\d+_sense_\d+"),
 ]
 VORSCHLAEGE = PAKET / "vorschlaege-verdacht.tsv"
-VORSCHLAG_FELDER = ["nr", "wort", "zeuge", "urteil", "korrektur", "notiz"]
+VORSCHLAG_FELDER = ["nr", "wort", "zeuge", "urteil", "korrektur", "notiz", "grundlage"]
+GRUNDLAGEN = ["Druck", "Kontext"]  # Druck: Text steht in der Druckausgabe; Kontext: nur Kontext und Lexikon
 URTEILE = ["?", "nein", "ja"]
 N_VORSCHLAG = {"nein": 12, "ja": 12}
 SICHERHEIT_VERDACHT = {"Lemma: auto-single", "Lemma: bulk-llm", "Lemma: instance-llm"}
@@ -212,13 +214,16 @@ def haenge_vorschlaege(faelle):
             fehler(f"{ort}: wort/zeuge weichen von lemma-verdacht.tsv ab")
         if z["urteil"] not in URTEILE:
             fehler(f"{ort}: unbekanntes Urteil {z['urteil']!r}")
+        if z["grundlage"] not in GRUNDLAGEN:
+            fehler(f"{ort}: unbekannte grundlage {z['grundlage']!r}")
         if z["korrektur"].strip():
             kid = kennung(z["korrektur"].strip(), r"lemma_\d+", ort + " korrektur")
             if z["urteil"] == "ja":
                 fehler(f"{ort}: Urteil ja, aber eine Korrektur steht da")
             if kid not in {a["id"] for a in f["alternativen"]}:
                 f["alternativen"].append({"id": kid, "label": "Vorschlag der Session: " + z["korrektur"].strip()})
-        f["vorschlag"] = {"urteil": z["urteil"], "korrektur": z["korrektur"].strip(), "notiz": z["notiz"].strip()}
+        f["vorschlag"] = {"urteil": z["urteil"], "korrektur": z["korrektur"].strip(), "notiz": z["notiz"].strip(),
+                          "grundlage": z["grundlage"]}
 
 
 def baue_zeile(kurz, datei, phase, muster, z, woerter, sigle_zu_zeuge):

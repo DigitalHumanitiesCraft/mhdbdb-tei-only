@@ -78,7 +78,7 @@ footer{max-width:1436px;margin:20px auto 50px;padding:0 24px}
 <li>Am Ende <strong>JSON exportieren</strong> (für das Einspielen) und bei Bedarf den HTML-Bericht (zum Lesen). Zum Fortsetzen diese Seite öffnen und die JSON-Datei importieren.</li>
 </ol>
 <p>Der Arbeitsstand wird in diesem Browser für diesen Dateipfad gespeichert. Vor dem Verschieben der Datei oder dem Wechsel des Browsers bitte JSON exportieren.</p>
-<p>Der Text der Verse stammt aus den Transkriptionen im Brevitas-Wiki (Silvan Wagner, CC BY-NC-SA 4.0), wie sie in <code>ingest/bre/BRE_*.tei.xml</code> stehen. Lemmata, Wortarten und Bedeutungen kommen aus dem MHDBDB-Lexikon. Die Druckausgabe wurde weder für die Zuweisungen noch für diese Seite verwendet.</p>
+<p>Der Text der Verse stammt aus den Transkriptionen im Brevitas-Wiki (Silvan Wagner, CC BY-NC-SA 4.0), wie sie in <code>ingest/bre/BRE_*.tei.xml</code> stehen. Lemmata, Wortarten und Bedeutungen kommen aus dem MHDBDB-Lexikon. Die Druckausgabe wurde für die maschinellen Zuweisungen nicht verwendet. Die Vorschläge der Session im Lemma-Verdacht stützen sich, wo der Text im Druck steht, auch auf dessen Übersetzung (lokal gelesen, ohne Wortlaut auf dieser Seite).</p>
 <p id="dataset"></p>
 </details>
 </header>
@@ -136,7 +136,7 @@ function korrekturOptions(c){return [...c.alternativen.map(a=>({id:a.id,label:c.
 const URTEIL={ja:'Lemma stimmt','nein':'Lemma falsch','?':'nicht zu entscheiden'};
 function vorschlagHTML(c){
  const v=c.vorschlag;if(!v)return '';
- return '<div class="suggestion vorschlag"><strong>Vorschlag der Session nach Durchsicht mit der Druckausgabe, nicht bestätigt: '+esc(URTEIL[v.urteil])+'</strong>'+(v.korrektur?'<p>Passendes Lemma: '+esc(v.korrektur)+lemmaLink(v.korrektur)+'</p>':'')+(v.notiz?'<p><small>'+esc(v.notiz)+'</small></p>':'')+'</div>';
+ return '<div class="suggestion vorschlag"><strong>Vorschlag der Session nach Durchsicht '+(v.grundlage==='Druck'?'mit der Druckausgabe':'des Kontexts (der Text steht nicht im Druck)')+', nicht bestätigt: '+esc(URTEIL[v.urteil])+'</strong>'+(v.korrektur?'<p>Passendes Lemma: '+esc(v.korrektur)+lemmaLink(v.korrektur)+'</p>':'')+(v.notiz?'<p><small>'+esc(v.notiz)+'</small></p>':'')+'</div>';
 }
 function groupIntro(g){
  const datei='<code>'+esc(g.datei)+'</code>';
@@ -233,7 +233,7 @@ $('report').addEventListener('click',()=>download('weingruesse-147-ergebnisberic
 $('importButton').addEventListener('click',()=>$('importFile').click());
 $('importFile').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{const next=validate(JSON.parse(await f.text()));if(Object.keys(state.answers).length&&!confirm('Der Import ersetzt den derzeitigen Arbeitsstand. Vorher bei Bedarf JSON exportieren. Import fortsetzen?'))return;state=next;$('reviewer').value=state.reviewer;save();render();$('save').textContent='Import vollständig geprüft und übernommen.';}catch(err){$('save').textContent='Import abgelehnt: '+err.message;}finally{e.target.value='';}});
 (function intro(){const g=DATA.groups;$('umfang').innerHTML='Diese Seite zeigt <strong>'+DATA.cases.length+' Zeilen</strong>: '+g.map(x=>x.stichprobe?'eine Stichprobe von '+x.anzahl+' der '+x.gesamt+' Zeilen aus <code>'+esc(x.datei)+'</code>':'alle '+x.anzahl+' Zeilen aus <code>'+esc(x.datei)+'</code>').join(', ')+'. Die Wortformen stammen aus den Weingrüße-Zeugen in <code>ingest/bre/</code>; Lemma, Wortart und Bedeutung hat die Maschine zugewiesen, wo das Lexikon mehrere Möglichkeiten kennt, mit einem Sprachmodell (Claude Sonnet).';})();
-$('dataset').textContent='Gebaut am '+DATA.date+' aus Commit '+DATA.commit.slice(0,12)+', Prüfpaket '+DATA.fingerprint+', Zufallswert der Stichprobe '+DATA.seed+'. Die SHA-256-Prüfsummen der vier TSV-Dateien und der benutzten TEI-Dateien stehen im JSON-Export.';
+$('dataset').textContent='Gebaut am '+DATA.date+' aus Commit '+DATA.commit.slice(0,12)+', Prüfpaket '+DATA.fingerprint+', Zufallswert der Stichprobe '+DATA.seed+'. Die SHA-256-Prüfsummen der fünf TSV-Dateien und der benutzten TEI-Dateien stehen im JSON-Export.';
 $('date').textContent=DATA.date;render();
 </script>
 </body>
