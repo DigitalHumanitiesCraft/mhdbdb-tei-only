@@ -32,6 +32,8 @@ TSV = bc.REPO / "ingest" / "bre" / "pruefung" / "lemma-korrekturen.tsv"
 FELDER = ["xml_id", "wort", "zeuge", "nr", "alt", "neu", "neu_form", "quelle", "notiz"]
 ABHAENGIG = ("pos", "ana", "corresp")
 PATCHES = (ba.PHASE2 / "pos-patch.tsv", ba.PHASE3 / "sense-patch.tsv")
+PATCH_FELDER = ["xml_id", "form", "resolved", "decision_type", "confidence", "reviewer", "begruendung",
+                "quelle"]  # wie 12-entscheidungen.py
 
 
 def main():
@@ -51,6 +53,9 @@ def main():
     for z in zeilen:
         if z["neu"] not in lexikon:
             raise bc.HarterFehler(f"{z['xml_id']}: {z['neu']} fehlt in lexicon.xml")
+    # Patch-Dateien vor dem ersten Schreiben lesen: fehlt eine oder stimmt der Kopf nicht, bricht das Skript
+    # ab, bevor etwas geschrieben ist (sonst stuende die TEI korrigiert neben alten Patch-Zeilen)
+    patches = {pfad: ba.lies_tsv(pfad, PATCH_FELDER) for pfad in PATCHES}
     gefunden = set()
     entfernt = collections.Counter()
     for zeuge, pfad in ba.zeugen_dateien():
@@ -74,13 +79,11 @@ def main():
     fehlt = set(ziel) - gefunden
     if fehlt:
         raise bc.HarterFehler(f"{len(fehlt)} xml_id nicht in den Zeugen, z.B. {sorted(fehlt)[:3]}")
-    for pfad in PATCHES:
-        alle = ba.lies_tsv(pfad)
-        felder = list(alle[0].keys())
+    for pfad, alle in patches.items():
         rest = [z for z in alle if z["xml_id"] not in ziel]
         entfernt[pfad.name] = len(alle) - len(rest)
         if not a.trocken:
-            ba.schreibe_tsv(pfad, felder, rest)
+            ba.schreibe_tsv(pfad, PATCH_FELDER, rest)
     print(f"Korrekturen: {len(zeilen)} Tokens, @lemmaRef ersetzt: {len(gefunden)}")
     print("entfernt (haengt am alten Lemma): " + ", ".join(f"@{k} {entfernt[k]}" for k in ABHAENGIG))
     print("Patch-Zeilen entfernt: " + ", ".join(f"{p.name} {entfernt[p.name]}" for p in PATCHES))
