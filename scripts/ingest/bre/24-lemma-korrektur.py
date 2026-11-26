@@ -17,7 +17,7 @@ Die Tokens muessen danach durch 14, 15 --phase pos, 16, 15 --phase sense und 18-
 laufen. Dasselbe Skript zweimal gestartet: harter Fehler beim zweiten Lauf (alt steht nicht mehr
 da), damit nichts doppelt wirkt.
 
-Aufruf: python -P -E scripts/ingest/bre/24-lemma-korrektur.py [--trocken] [--patches-behalten]
+Aufruf: python -P -E scripts/ingest/bre/24-lemma-korrektur.py [--trocken] [--patches-behalten] [--tabelle <tsv>]
 
 --patches-behalten gehoert in jeden Wiederaufbau nach dem ersten Lauf: sobald Phase 2 und 3 neu gelaufen sind,
 stehen in den Patch-Tabellen Zeilen zum NEUEN Lemma, die nicht geloescht werden duerfen.
@@ -43,15 +43,17 @@ def main():
     bc.ausgabe_utf8()
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--trocken", action="store_true")
+    ap.add_argument("--tabelle", type=Path, default=TSV,
+                    help="andere Korrekturtabelle (gleiche Spalten), z.B. fuer eine einmalige Nachkorrektur")
     ap.add_argument("--patches-behalten", action="store_true",
                     help="Wiederaufbau nach neu gelaufener Phase 2 und 3: die Patch-Tabellen enthalten dann Zeilen "
                          "zum neuen Lemma und bleiben unberuehrt (nur TEI)")
     a = ap.parse_args()
-    zeilen = ba.lies_tsv(TSV, FELDER)
+    zeilen = ba.lies_tsv(a.tabelle, FELDER)
     ziel = {}
     for z in zeilen:
         if z["xml_id"] in ziel:
-            raise bc.HarterFehler(f"{z['xml_id']} doppelt in {TSV.name}")
+            raise bc.HarterFehler(f"{z['xml_id']} doppelt in {a.tabelle.name}")
         if z["alt"] == z["neu"]:
             raise bc.HarterFehler(f"{z['xml_id']}: alt gleich neu")
         ziel[z["xml_id"]] = z
