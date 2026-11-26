@@ -9,7 +9,8 @@ Gesucht wird jede Folge von n Woertern aus den geschuetzten Texten, die in keine
 Text vorkommt ("verboten"), in den zu pruefenden Texten. Geprueft wird:
 - Dateien und weitere Texte, die der Aufrufer reicht (`treffer_in_text`),
 - fuer einen Push: die Commit Message und die hinzugefuegten Zeilen jedes Commits seit dem
-  merge-base mit `origin/main` (`push_texte`), nicht der Rest der Dateien.
+  merge-base mit `origin/main` (`push_texte`), nicht der Rest der Dateien. Ein Merge-Commit zaehlt
+  mit dem, was er gegenueber seinem ersten Parent hinzufuegt.
 
 Nicht erfasst sind Folgen unter n Woertern, Paraphrasen und Ziffern (eine Jahreszahl allein ist
 kein Wortlaut). URLs fallen auf beiden Seiten weg, Folgen aus lauter Ein-Buchstaben-Woertern
@@ -86,7 +87,10 @@ def push_texte(repo, basis="origin/main"):
         raise NichtMoeglich(f"merge-base mit {basis} ist leer")
     # Diff-Format festlegen: Nutzer-Config wie diff.noprefix, diff.dstPrefix oder color.ui=always
     # aendert sonst die +++-Zeilen, und die hinzugefuegten Zeilen fielen still weg (Review #743)
-    fest = ("--no-color", "--no-ext-diff", "--no-textconv", "--src-prefix=a/", "--dst-prefix=b/")
+    # --diff-merges=first-parent: ohne zeigt git log fuer Merge-Commits keinen Diff, und was ein
+    # Merge selbst einfuehrt, kaeme an Parser und Gegenprobe vorbei (Review-Runde 2 #743)
+    fest = ("--no-color", "--no-ext-diff", "--no-textconv", "--src-prefix=a/", "--dst-prefix=b/",
+            "--diff-merges=first-parent", "--submodule=short")
     log = _git(repo, "log", "-p", *fest, "--format=%x01%H%x00%B%x02", f"{merge_base}..HEAD")
     soll = _hinzugefuegt_je_commit(repo, fest, f"{merge_base}..HEAD")
     texte = []
@@ -108,7 +112,7 @@ def push_texte(repo, basis="origin/main"):
                 abschluss()
                 pfad, zeilen, im_hunk = None, [], False
             elif not im_hunk and z.startswith("+++ "):
-                ziel = z[4:].rstrip("\r")
+                ziel = z[4:].rstrip("\r").rstrip("\t")  # Pfad mit Leerzeichen: git haengt \t an
                 pfad = ziel[2:] if ziel.startswith("b/") else None  # /dev/null: Datei geloescht
             elif z.startswith("@@"):
                 im_hunk = True
