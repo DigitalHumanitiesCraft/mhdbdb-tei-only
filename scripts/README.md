@@ -100,6 +100,7 @@ scripts/
 │   ├── review-rounds.py         # Review-Runden pro gemergtem PR, mit Baseline vom 02.08.
 │   ├── survey-concept-distribution.py # Concepts für die Begriffs-Verteilung (#47)
 │   ├── validate-corpus.py       # Zwei-Stufen-Schema-Validierung
+│   ├── wortlaut_gate.py         # Kern der Wortlaut-Gates: n-Wort-Folgen geschützter Quellen gegen erlaubte Texte, Dateien, Commit Messages und hinzugefügte Zeilen eines Pushs prüfen, fail-closed (#743)
 │   ├── lexicon-baseline.json    # committete Referenzmenge des #152-Gates, per !-Regel vom *.json-Ignore ausgenommen
 │   ├── corresp-coverage-baseline.json # lemmatisierte Tokens ohne @corresp je Sigle, Ratsche im selben Gate (#370)
 │   ├── link-check-allowlist.json # Domains oder einzelne URLs mit bekannten Fehlalarmen (je Eintrag die freigestellten Status) für den Link-Check, mit Grund und Stand (#653)

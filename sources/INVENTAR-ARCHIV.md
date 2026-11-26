@@ -312,3 +312,16 @@ Bewusst **nicht** dort: die fyndling-Lieferung in `temp/` (Stand 18.08.2026), bi
 Von ihren 990 Formen tragen 754 CoReMA-Transkriptionen, aber 234 stehen unter `kkm`, `saw` und
 `wbd`, also den drei Quellen, deren Transkription Thomas Gloning gehört. Ebenfalls nicht dort:
 `proposals/`, ohne Zweitkopie nach Entscheidung vom 22.09.2026.
+
+## Nur lokal, ohne Kopie im Drive
+
+| Bestand | Umfang | Lizenz | gebraucht von |
+|---|---|---|---|
+| `sources/weingruesse/` (gitignoriert): `wagner-2023-weingruesse-druckfahnen.pdf` (Druckfahnen der Hirzel-Ausgabe der Weingrüße mit Text, Übersetzung und Kommentar), `Transkriptionen.zip` (Silvan Wagners Word-Transkriptionen von 2022), `docling/` (deren Umwandlung) | 44 Dateien, 7.966.184 Bytes: PDF 2.591.482, Zip 754.759, `docling/` 4.619.943 in 42 Dateien (gemessen am 26.11.2026) | Verlagsrechte ungeklärt ([#147](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/147)) | Kontext für die Annotation der Weingrüße, das Druckfahnen-Gate `scripts/ingest/bre/druckfahnen-gate.py` (auch aus `test_bre.py`) |
+
+Die bekannte Kopie liegt im Main Worktree auf Christians Rechner. Auch KZWs Session hat die
+Übersetzung benutzt (#742). Wo ihre Kopie liegt, ist nicht festgehalten, das Gate findet sie über
+`BRE_DRUCK_QUELLEN=<ordner>`. **Auflage:** kein Wortlaut daraus in ein Repositorium, einen Commit,
+einen PR-Text, einen Issue-Kommentar oder auf die Website (KZW am 11.11.2026 für Repository und
+Website, am 26.11.2026 erweitert auf Commits, PR-Texte und Kommentare, Regel in
+[#743](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/743)).

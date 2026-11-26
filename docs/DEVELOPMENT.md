@@ -541,6 +541,7 @@ Two kinds are mixed here, and the difference is the important one: **gates** hav
 | `count-editorial-notes-and-div-heads.py` | Measurement procedure behind the two reader changes from #250 (editorial interventions in the metadata panel, label above an own `head` heading). Both depend on corpus properties that shift with every ingest |
 | `review-rounds.py` | Impact measurement for the local reviewer (2026-08-02): review rounds per merged PR, with the baseline from before the switch. Needs `gh`, no corpus access. The measurement procedure sits in the docstring and depends on two conditions: `use_sticky_comment` stays off (otherwise one comment is no longer one run), and the CI action stays the only LLM commenter |
 | `drop-negative-variant-corresp.py` | One-off migration (#115): removes dead `@corresp="variants.xml#type_-N"` (legacy punctuation codes, never defined in `variants.xml`) from `<w>`. Already applied, the corpus contains 0 such references today; kept as evidence of the change |
+| `wortlaut_gate.py` | Core of the verbatim-text gates (#743), a module without its own entry point and not called by any workflow: n-word sequences of protected sources against allowed texts, over files, commit messages and the added lines of every commit since the merge-base with `origin/main`. Fail-closed (`NichtMoeglich`). Reads no protected source itself; the BRE gate in `scripts/ingest/bre/` (`druckfahnen-gate.py`) supplies them |
 
 ### Skipped Tests (Issue #43 – resolved)
 

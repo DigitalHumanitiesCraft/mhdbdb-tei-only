@@ -236,6 +236,8 @@ The underlying assumption about the `editio princeps` rests on: Melichar, Ferdin
 
 The texts this applies to are marked in the TEI and listed in #267.
 
+**Translations and print proofs with uncleared rights are used, not published.** This is a project decision (#743, 2026-11-26), not a reading of the law, in the same way as the PDF rule above. Where the rights to a translation or a print edition are not cleared, as with the Hirzel print proofs of the Weingrüße (#147), the material may inform our decisions, but none of its wording goes into the repository, onto the website, into a commit message, a PR body or an issue comment. It lies outside the repository and is listed in `sources/INVENTAR-ARCHIV.md`. How it enters the annotation is set out in [DATA-MODEL.md → Ingest procedure](DATA-MODEL.md#ingest-procedure-taking-in-new-texts).
+
 ### License compatibility when taking in outside material
 
 Our data are **CC BY-NC-SA 4.0** (`LICENSE-DATA`). That is a narrower license than it looks when material arrives from elsewhere. CC BY-SA 4.0, section 3(b) ShareAlike:
