@@ -50,6 +50,17 @@ Leere Zeilen gelten als nicht geprüft. Die ausgefüllte Datei bitte im Issue #1
 
 `pruefseite.html` ist dasselbe Paket zum Prüfen im Browser: herunterladen und lokal öffnen, Internet braucht es nur für die Links. Sie zeigt **alle** Zeilen aus `lemma-verdacht.tsv` und aus `lemma.tsv`, `wortart.tsv` und `bedeutung.tsv` je eine **Stichprobe von 50 Zeilen**, geschichtet nach `low` und `medium` im Verhältnis der Datei und mit dem festen Zufallswert 147 gezogen; die Seite nennt bei jeder Stichprobe den Nenner. Je Zeile stehen der Vers mit dem Wort und die Nachbarverse aus der TEI-Datei, der maschinelle Vorschlag mit Begründung, die anderen Möglichkeiten, „ja“ / „nein“ / „? Nicht zu entscheiden“ und die Felder Korrektur und Anmerkung. Der Arbeitsstand bleibt im Browser; zurück kommt der **JSON-Export**, dessen Felder `passt`, `korrektur` und `anmerkung` den Spalten oben entsprechen (Format im Docstring von `scripts/ingest/bre/22-pruefseite.py`, das die Seite neu baut).
 
+## Übernommene Lemma-Korrekturen: lemma-korrekturen.tsv
+
+Am 26.11.2026 hat KZW 50 der 233 Verdachtsfälle auf der Prüfseite entschieden (24 Kontrollzeilen, alle gleich wie der Vorschlag der Session, dazu die 26 offenen). Danach hat sie die übrigen 183 Vorschläge der Session zur Übernahme freigegeben und im Chat sechs weitere Fälle (`wer`) und zwei (`quelen`) entschieden. `lemma-korrekturen.tsv` hält je Token (`xml_id`) das Altlemma, das neue Lemma und die Quelle fest: 155 Tokens, davon 31 nach KZWs Entscheidung (23 Prüfseite, 8 Chat) und 124 nach dem freigegebenen Vorschlag der Session. `scripts/ingest/bre/24-lemma-korrektur.py` hat sie in die Zeugen übernommen. Dabei fielen bei 107 Tokens `@pos` weg (`@ana` und `@corresp` waren bei diesen Tokens nicht gesetzt) und 20 Zeilen in `phase2/pos-patch.tsv` und 83 in `phase3/sense-patch.tsv`. Die Tokens müssen durch Phase 2 und 3 neu laufen. `wer` als Pronomen steht im Korpus weit überwiegend unter `lemma_5961` (swer): 643 `<w>` mit `PRO IPA` in `tei/*.xml`, Zählung des Reviewers per lxml, so auch hier.
+
+Nicht übernommen, weil offen (12 Tokens):
+- `reucht` (nr 70, 71): KZW findet in den Wörterbüchern kein „reuchen“, die Übersetzung sagt „reich werden“. Ein Lemma ist noch zu suchen.
+- `gespreng`, `gespring` (nr 156 bis 163): KZW will ein neues Lemma `gesprinc` stN. im Lexikon (drei Bedeutungen: Quelle/Brunnen, bildlich Ursprung/Ausgangspunkt, Getränk). Das Lemma gibt es noch nicht; das Anlegen ist ein Datenschritt mit dem Data-Change-Lifecycle für `authority-files/`.
+- `denest` (nr 15, 16): vermutlich „dennoch“ (`lemma_1077` dannoch), die Zuordnung hat KZW nicht bestätigt.
+
+Aufruf: `python -P -E scripts/ingest/bre/24-lemma-korrektur.py --trocken`. Ein zweiter Lauf bricht mit einem harten Fehler ab, weil das Altlemma nicht mehr dasteht.
+
 ## Was dieses Paket nicht zeigt
 
 - Wörter, für die das Lexikon gar kein Lemma kennt. Sie stehen nach Häufigkeit sortiert in `../phase1/lemma-unmatched.tsv` und sind eine Liste für das Lexikonteam, keine Prüfaufgabe.
