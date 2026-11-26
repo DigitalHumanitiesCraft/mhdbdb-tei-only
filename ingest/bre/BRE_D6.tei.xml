@@ -1,0 +1,2536 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?xml-model href="../schema/mhdbdb.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="https://tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng"?><TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="BRE_D6">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title xml:lang="de">Druck "Rebhenssleins Grus und Segen", o.O. 1581 (VD16 ZV 30224)</title>
+        <author ref="#person_anonym">Anonym</author>
+        <respStmt>
+          <resp>digitale Zusammenführung, Annotation und semantische Klassifikation</resp>
+          <orgName ref="contributors.xml#mhdbdb-team">MHDBDB-Team (vollständige Liste in contributors.xml)</orgName>
+        </respStmt>
+      </titleStmt>
+      <publicationStmt>
+        <publisher>
+          <orgName>Mittelhochdeutsche Begriffsdatenbank (MHDBDB)</orgName>
+          <orgName>Paris Lodron Universität Salzburg</orgName>
+          <address>
+            <street>Erzabt-Klotz-Straße 1</street>
+            <postCode>5020</postCode>
+            <settlement>Salzburg</settlement>
+            <country>Österreich</country>
+          </address>
+          <email>mhdbdb@plus.ac.at</email>
+          <ptr target="https://mhdbdb.plus.ac.at"/>
+        </publisher>
+        <authority>
+          <persName role="coordinator" ref="contributors.xml#contrib_003">
+            <forename>Katharina</forename>
+            <surname>Zeppezauer-Wachauer</surname>
+          </persName>
+          <persName role="founder" ref="contributors.xml#contrib_001">
+            <forename>Klaus M.</forename>
+            <surname>Schmidt</surname>
+          </persName>
+          <persName role="founder" ref="contributors.xml#contrib_002">
+            <forename>Horst</forename>
+            <surname>Pütz</surname>
+          </persName>
+        </authority>
+        <availability>
+          <licence target="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</licence>
+          <p>Transkription von Silvan Wagner (wiki.brevitas.org), Freigabe unter CC BY-NC-SA 4.0 per Mail an Katharina Zeppezauer-Wachauer, Oktober 2026 (#147).</p>
+        </availability>
+        <date when="2026">2026</date>
+      </publicationStmt>
+      <sourceDesc>
+        <msDesc>
+          <msIdentifier corresp="works.xml#work_TBD">
+            <idno type="sigle">BRE_D6</idno>
+            <msName xml:lang="de">Druck "Rebhenssleins Grus und Segen", o.O. 1581 (VD16 ZV 30224)</msName>
+          </msIdentifier>
+          <additional>
+            <listBibl>
+              <bibl type="digitalIntermediary" xml:id="BRE_D6_brevitas_wiki" corresp="#BRE_D6_TBD">
+                <title>Brevitas-Wiki, Hybridedition der Weingrüße (Silvan Wagner)</title>
+                <respStmt>
+                  <resp>Transkription</resp>
+                  <name>Silvan Wagner</name>
+                </respStmt>
+                <ref target="https://wiki.brevitas.org/mediawiki_1_43/index.php?title=Weingr%C3%BC%C3%9Fe_VD16_ZV_30224_%28d6%29&amp;oldid=21424"/>
+                <note type="provenance">Transkription aus dem Brevitas-Wiki (wiki.brevitas.org), Seite "Weingrüße VD16 ZV 30224 (d6)", Revision 21424 vom 2022-04-20T14:56:26Z. Konvertiert in das MHDBDB-Schema durch automatische Transformation (scripts/ingest/bre/02-convert-wiki-to-mhdbdb.py, 2026-11-26).</note>
+                <note type="fidelity">Mechanische Konversion ohne Eingriff in Wortgrenzen und Auszeichnungs-Semantik. Die Gliederung in Einzeltexte folgt den Synopsen der Einzeltextseiten des Brevitas-Wikis, Teile einer Transkription (Teil A/B) als div/@n.</note>
+              </bibl>
+            </listBibl>
+          </additional>
+        </msDesc>
+      </sourceDesc>
+    </fileDesc>
+    <encodingDesc>
+      <projectDesc>
+        <p xml:lang="de">Die Annotationen der MHDBDB basieren auf kontrollierten Vokabularen und domänenspezifischen Ontologien.</p>
+        <p xml:lang="en">The annotations of the MHDBDB are based on controlled vocabularies and domain-specific ontologies.</p>
+      </projectDesc>
+      <editorialDecl>
+        <p xml:lang="de">Lokale Dateireferenzen (z.B. persons.xml#person_anonym, lexicon.xml#lemma_879) verweisen auf kontrollierte Vokabulare im authority-files Verzeichnis dieses Repositorys.</p>
+      </editorialDecl>
+      <classDecl>
+        <taxonomy xml:id="genres">
+          <bibl>Genreklassifikation gemäß der Textreihentypologie <ptr target="https://www.mhdbdb.sbg.ac.at/textreihen"/></bibl>
+          <category xml:id="genre_TBD" corresp="genres.xml#genre_TBD">
+            <gloss xml:lang="de">Weingruß (TBD: konkrete Genre-ID)</gloss>
+          </category>
+        </taxonomy>
+      </classDecl>
+    </encodingDesc>
+    <profileDesc>
+      <langUsage>
+        <language ident="TBD">TBD (Sprachstufe offen, #118)</language>
+      </langUsage>
+      <particDesc>
+        <listPerson>
+          <person xml:id="person_anonym" corresp="persons.xml#person_anonym">
+            <persName type="preferred">Anonym</persName>
+          </person>
+        </listPerson>
+      </particDesc>
+    </profileDesc>
+    <revisionDesc>
+      <change when="2026-11-26" who="#mhdbdb-team">Initiale Konversion aus dem Brevitas-Wiki (Revision 21424) via scripts/ingest/bre/02-convert-wiki-to-mhdbdb.py.</change>
+    </revisionDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <div>
+        <pb n="1"/>
+        <head>
+          <hi rend="bold">
+            <w xml:id="BRE_D6_1_1_0">Rebhenssleins</w>
+            <w xml:id="BRE_D6_1_1_1">Grus</w>
+            <w xml:id="BRE_D6_1_1_2">und</w>
+            <w xml:id="BRE_D6_1_1_3">Segen</w>
+          </hi>
+        </head>
+        <!-- Text 1: Vorspruch Weingruß (VD16 ZV 30224, 1) -->
+        <div type="section" n="1">
+          <head>
+            <hi rend="bold">
+              <w xml:id="BRE_D6_1_2_0">Rebhenßleins</w>
+              <w xml:id="BRE_D6_1_2_1">segen</w>
+              <w xml:id="BRE_D6_1_2_2">haiß</w>
+              <w xml:id="BRE_D6_1_2_3">ich</w>
+            </hi>
+          </head>
+          <head>
+            <hi rend="bold">
+              <w xml:id="BRE_D6_1_3_0">Guten</w>
+              <w xml:id="BRE_D6_1_3_1">wein</w>
+              <w xml:id="BRE_D6_1_3_2">gruͤsz</w>
+              <w xml:id="BRE_D6_1_3_3">ich</w>
+            </hi>
+          </head>
+          <head>
+            <hi rend="bold">
+              <w xml:id="BRE_D6_1_4_0">Dann</w>
+              <w xml:id="BRE_D6_1_4_1">er</w>
+              <w xml:id="BRE_D6_1_4_2">hat</w>
+              <w xml:id="BRE_D6_1_4_3">offt</w>
+              <w xml:id="BRE_D6_1_4_4">erfreuet</w>
+              <w xml:id="BRE_D6_1_4_5">mich</w>
+            </hi>
+          </head>
+          <head>
+            <hi rend="bold">
+              <w xml:id="BRE_D6_1_5_0">Drumb</w>
+              <w xml:id="BRE_D6_1_5_1">ich</w>
+              <w xml:id="BRE_D6_1_5_2">im</w>
+              <w xml:id="BRE_D6_1_5_3">lob</w>
+              <w xml:id="BRE_D6_1_5_4">und</w>
+              <w xml:id="BRE_D6_1_5_5">ehr</w>
+              <w xml:id="BRE_D6_1_5_6">verjich</w>
+            </hi>
+            <note type="transcription">Holzschnitt: Mann kniet vor Frau.</note>
+          </head>
+          <l n="1">
+            <w xml:id="BRE_D6_1_6_0"><hi rend="bold">N</hi>un</w>
+            <w xml:id="BRE_D6_1_6_1">merckendt</w>
+            <w xml:id="BRE_D6_1_6_2">lieben</w>
+            <w xml:id="BRE_D6_1_6_3">gesellen</w>
+            <w xml:id="BRE_D6_1_6_4">mein</w>
+          </l>
+          <l n="2">
+            <w xml:id="BRE_D6_1_7_0">Alle</w>
+            <w xml:id="BRE_D6_1_7_1">die</w>
+            <w xml:id="BRE_D6_1_7_2">da</w>
+            <w xml:id="BRE_D6_1_7_3">gern</w>
+            <w xml:id="BRE_D6_1_7_4">drincken</w>
+            <w xml:id="BRE_D6_1_7_5">wein</w>
+          </l>
+          <l n="3">
+            <w xml:id="BRE_D6_1_8_0">Last</w>
+            <w xml:id="BRE_D6_1_8_1">euch</w>
+            <w xml:id="BRE_D6_1_8_2">diß</w>
+            <w xml:id="BRE_D6_1_8_3">buͤchlein</w>
+            <w xml:id="BRE_D6_1_8_4">befohlen</w>
+            <w xml:id="BRE_D6_1_8_5">sein</w>
+          </l>
+          <l n="4">
+            <w xml:id="BRE_D6_1_9_0">Dann</w>
+            <w xml:id="BRE_D6_1_9_1">ihr</w>
+            <w xml:id="BRE_D6_1_9_2">darinnen</w>
+            <w xml:id="BRE_D6_1_9_3">findet</w>
+            <w xml:id="BRE_D6_1_9_4">ston</w>
+          </l>
+          <l n="5">
+            <w xml:id="BRE_D6_1_10_0">Wie</w>
+            <w xml:id="BRE_D6_1_10_1">man</w>
+            <w xml:id="BRE_D6_1_10_2">den</w>
+            <w xml:id="BRE_D6_1_10_3">wein</w>
+            <w xml:id="BRE_D6_1_10_4">sol</w>
+            <w xml:id="BRE_D6_1_10_5">gruͤssen</w>
+            <w xml:id="BRE_D6_1_10_6">schon</w>
+          </l>
+          <l n="6">
+            <w xml:id="BRE_D6_1_11_0">Darzu</w>
+            <w xml:id="BRE_D6_1_11_1">auch</w>
+            <w xml:id="BRE_D6_1_11_2">manchen</w>
+            <w xml:id="BRE_D6_1_11_3">guten</w>
+            <w xml:id="BRE_D6_1_11_4">segen</w>
+          </l>
+          <l n="7">
+            <w xml:id="BRE_D6_1_12_0">Des</w>
+            <w xml:id="BRE_D6_1_12_1">dann</w>
+            <w xml:id="BRE_D6_1_12_2">die</w>
+            <w xml:id="BRE_D6_1_12_3">vollen</w>
+            <w xml:id="BRE_D6_1_12_4">bruͤder</w>
+            <w xml:id="BRE_D6_1_12_5">pflegen</w>
+          </l>
+          <l n="8">
+            <w xml:id="BRE_D6_1_13_0">Die</w>
+            <w xml:id="BRE_D6_1_13_1">bey</w>
+            <w xml:id="BRE_D6_1_13_2">ihm</w>
+            <w xml:id="BRE_D6_1_13_3">wonen</w>
+            <w xml:id="BRE_D6_1_13_4">tag</w>
+            <w xml:id="BRE_D6_1_13_5">und</w>
+            <w xml:id="BRE_D6_1_13_6">nacht</w>
+          </l>
+          <l n="9">
+            <w xml:id="BRE_D6_1_14_0">Hab</w>
+            <w xml:id="BRE_D6_1_14_1">ich</w>
+            <w xml:id="BRE_D6_1_14_2">diß</w>
+            <w xml:id="BRE_D6_1_14_3">buͤchlein</w>
+            <w xml:id="BRE_D6_1_14_4">zu</w>
+            <w xml:id="BRE_D6_1_14_5">ehren</w>
+            <w xml:id="BRE_D6_1_14_6">gemacht</w>
+          </l>
+          <l n="10">
+            <w xml:id="BRE_D6_1_15_0">Gedruckt</w>
+            <w xml:id="BRE_D6_1_15_1">im</w>
+            <w xml:id="BRE_D6_1_15_2">jar</w>
+            <w xml:id="BRE_D6_1_15_3">1581</w>
+          </l>
+        </div>
+        <!-- Text 2: Weingruß Edels Getranck (Hans Rosenplüt) (VD16 ZV 30224, 2-3) -->
+        <div type="section" n="2">
+          <pb n="2"/>
+          <head>
+            <hi rend="bold">
+              <w xml:id="BRE_D6_2_1_0">Der</w>
+              <w xml:id="BRE_D6_2_1_1">erste</w>
+              <w xml:id="BRE_D6_2_1_2">Weingrusz</w>
+            </hi>
+          </head>
+          <l n="1">
+            <w xml:id="BRE_D6_2_2_0"><hi rend="bold">N</hi>un</w>
+            <w xml:id="BRE_D6_2_2_1">gruͤs</w>
+            <w xml:id="BRE_D6_2_2_2">dich</w>
+            <w xml:id="BRE_D6_2_2_3">gott</w>
+            <w xml:id="BRE_D6_2_2_4">du</w>
+            <w xml:id="BRE_D6_2_2_5">edles</w>
+            <w xml:id="BRE_D6_2_2_6">tranck</w>
+          </l>
+          <l n="2">
+            <w xml:id="BRE_D6_2_3_0">Frisch</w>
+            <w xml:id="BRE_D6_2_3_1">mir</w>
+            <w xml:id="BRE_D6_2_3_2">mein</w>
+            <w xml:id="BRE_D6_2_3_3">lebern</w>
+            <w xml:id="BRE_D6_2_3_4">sie</w>
+            <w xml:id="BRE_D6_2_3_5">ist</w>
+            <w xml:id="BRE_D6_2_3_6">kranck</w>
+          </l>
+          <l n="3">
+            <w xml:id="BRE_D6_2_4_0">Mit</w>
+            <w xml:id="BRE_D6_2_4_1">deinen</w>
+            <w xml:id="BRE_D6_2_4_2">gesunden</w>
+            <w xml:id="BRE_D6_2_4_3">hailsamen</w>
+            <w xml:id="BRE_D6_2_4_4">tropffen</w>
+          </l>
+          <l n="4">
+            <w xml:id="BRE_D6_2_5_0">Du</w>
+            <w xml:id="BRE_D6_2_5_1">kanst</w>
+            <w xml:id="BRE_D6_2_5_2">mir</w>
+            <w xml:id="BRE_D6_2_5_3">wol</w>
+            <w xml:id="BRE_D6_2_5_4">mein</w>
+            <w xml:id="BRE_D6_2_5_5">trauren</w>
+            <w xml:id="BRE_D6_2_5_6">verstopffen</w>
+          </l>
+          <l n="5">
+            <w xml:id="BRE_D6_2_6_0">Selig</w>
+            <w xml:id="BRE_D6_2_6_1">sey</w>
+            <w xml:id="BRE_D6_2_6_2">der</w>
+            <w xml:id="BRE_D6_2_6_3">hauer</w>
+            <w xml:id="BRE_D6_2_6_4">der</w>
+            <w xml:id="BRE_D6_2_6_5">umb</w>
+            <w xml:id="BRE_D6_2_6_6">dich</w>
+            <w xml:id="BRE_D6_2_6_7">hackt</w>
+          </l>
+          <l n="6">
+            <w xml:id="BRE_D6_2_7_0">Selig</w>
+            <w xml:id="BRE_D6_2_7_1">der</w>
+            <w xml:id="BRE_D6_2_7_2">laͤser</w>
+            <w xml:id="BRE_D6_2_7_3">der</w>
+            <w xml:id="BRE_D6_2_7_4">dich</w>
+            <w xml:id="BRE_D6_2_7_5">erzwackt</w>
+          </l>
+          <l n="7">
+            <w xml:id="BRE_D6_2_8_0">Selig</w>
+            <w xml:id="BRE_D6_2_8_1">sey</w>
+            <w xml:id="BRE_D6_2_8_2">der</w>
+            <w xml:id="BRE_D6_2_8_3">dich</w>
+            <w xml:id="BRE_D6_2_8_4">in</w>
+            <w xml:id="BRE_D6_2_8_5">ein</w>
+            <w xml:id="BRE_D6_2_8_6">khübel</w>
+            <w xml:id="BRE_D6_2_8_7">legt</w>
+          </l>
+          <l n="8">
+            <w xml:id="BRE_D6_2_9_0">Selig</w>
+            <w xml:id="BRE_D6_2_9_1">sey</w>
+            <w xml:id="BRE_D6_2_9_2">der</w>
+            <w xml:id="BRE_D6_2_9_3">dich</w>
+            <w xml:id="BRE_D6_2_9_4">in</w>
+            <w xml:id="BRE_D6_2_9_5">den</w>
+            <w xml:id="BRE_D6_2_9_6">keller</w>
+            <w xml:id="BRE_D6_2_9_7">tregt</w>
+          </l>
+          <l n="9">
+            <w xml:id="BRE_D6_2_10_0">Selig</w>
+            <w xml:id="BRE_D6_2_10_1">sey</w>
+            <w xml:id="BRE_D6_2_10_2">der</w>
+            <w xml:id="BRE_D6_2_10_3">pinder</w>
+            <w xml:id="BRE_D6_2_10_4">und</w>
+            <w xml:id="BRE_D6_2_10_5">sein</w>
+            <w xml:id="BRE_D6_2_10_6">handt</w>
+          </l>
+          <l n="10">
+            <w xml:id="BRE_D6_2_11_0">Der</w>
+            <w xml:id="BRE_D6_2_11_1">dich</w>
+            <w xml:id="BRE_D6_2_11_2">mit</w>
+            <w xml:id="BRE_D6_2_11_3">raiffen</w>
+            <w xml:id="BRE_D6_2_11_4">zusammen</w>
+            <w xml:id="BRE_D6_2_11_5">bant</w>
+          </l>
+          <l n="11">
+            <w xml:id="BRE_D6_2_12_0">Selig</w>
+            <w xml:id="BRE_D6_2_12_1">sey</w>
+            <w xml:id="BRE_D6_2_12_2">der</w>
+            <w xml:id="BRE_D6_2_12_3">dir</w>
+            <w xml:id="BRE_D6_2_12_4">macht</w>
+            <w xml:id="BRE_D6_2_12_5">ein</w>
+            <w xml:id="BRE_D6_2_12_6">huͤltzen</w>
+            <w xml:id="BRE_D6_2_12_7">hausz</w>
+          </l>
+          <l n="12">
+            <w xml:id="BRE_D6_2_13_0">Selig</w>
+            <w xml:id="BRE_D6_2_13_1">sey</w>
+            <w xml:id="BRE_D6_2_13_2">der</w>
+            <w xml:id="BRE_D6_2_13_3">der</w>
+            <w xml:id="BRE_D6_2_13_4">dich</w>
+            <w xml:id="BRE_D6_2_13_5">rueffet</w>
+            <w xml:id="BRE_D6_2_13_6">ausz</w>
+          </l>
+          <l n="13">
+            <w xml:id="BRE_D6_2_14_0">Selig</w>
+            <w xml:id="BRE_D6_2_14_1">sey</w>
+            <w xml:id="BRE_D6_2_14_2">der</w>
+            <w xml:id="BRE_D6_2_14_3">wierd</w>
+            <w xml:id="BRE_D6_2_14_4">der</w>
+            <w xml:id="BRE_D6_2_14_5">schencken</w>
+            <w xml:id="BRE_D6_2_14_6">erdacht</w>
+          </l>
+          <l n="14">
+            <w xml:id="BRE_D6_2_15_0">Selig</w>
+            <w xml:id="BRE_D6_2_15_1">sei</w>
+            <w xml:id="BRE_D6_2_15_2">der</w>
+            <w xml:id="BRE_D6_2_15_3">pott</w>
+            <w xml:id="BRE_D6_2_15_4">der</w>
+            <w xml:id="BRE_D6_2_15_5">dich</w>
+            <w xml:id="BRE_D6_2_15_6">her</w>
+            <w xml:id="BRE_D6_2_15_7">bracht</w>
+          </l>
+          <l n="15">
+            <w xml:id="BRE_D6_2_16_0">Selig</w>
+            <w xml:id="BRE_D6_2_16_1">sei</w>
+            <w xml:id="BRE_D6_2_16_2">der</w>
+            <w xml:id="BRE_D6_2_16_3">der</w>
+            <w xml:id="BRE_D6_2_16_4">dich</w>
+            <w xml:id="BRE_D6_2_16_5">einschenckt</w>
+          </l>
+          <l n="16">
+            <w xml:id="BRE_D6_2_17_0">Unselig</w>
+            <w xml:id="BRE_D6_2_17_1">der</w>
+            <w xml:id="BRE_D6_2_17_2">welcher</w>
+            <w xml:id="BRE_D6_2_17_3">erdenckt</w>
+          </l>
+          <l n="17">
+            <w xml:id="BRE_D6_2_18_0">Wieder</w>
+            <w xml:id="BRE_D6_2_18_1">dich</w>
+            <w xml:id="BRE_D6_2_18_2">boͤses</w>
+            <w xml:id="BRE_D6_2_18_3">in</w>
+            <w xml:id="BRE_D6_2_18_4">seim</w>
+            <w xml:id="BRE_D6_2_18_5">sinn</w>
+          </l>
+          <l n="18">
+            <w xml:id="BRE_D6_2_19_0">Glaub</w>
+            <w xml:id="BRE_D6_2_19_1">nit</w>
+            <w xml:id="BRE_D6_2_19_2">das</w>
+            <w xml:id="BRE_D6_2_19_3">gluͦck</w>
+            <w xml:id="BRE_D6_2_19_4">angehet</w>
+            <w xml:id="BRE_D6_2_19_5">ihn</w>
+          </l>
+          <l n="19">
+            <w xml:id="BRE_D6_2_20_0">Das</w>
+            <w xml:id="BRE_D6_2_20_1">man</w>
+            <w xml:id="BRE_D6_2_20_2">die</w>
+            <w xml:id="BRE_D6_2_20_3">mass</w>
+            <w xml:id="BRE_D6_2_20_4">sol</w>
+            <w xml:id="BRE_D6_2_20_5">machen</w>
+            <w xml:id="BRE_D6_2_20_6">klein</w>
+          </l>
+          <l n="20">
+            <w xml:id="BRE_D6_2_21_0">Gott</w>
+            <w xml:id="BRE_D6_2_21_1">geb</w>
+            <w xml:id="BRE_D6_2_21_2">ihms</w>
+            <w xml:id="BRE_D6_2_21_3">podagra</w>
+            <w xml:id="BRE_D6_2_21_4">an</w>
+            <w xml:id="BRE_D6_2_21_5">seine</w>
+            <w xml:id="BRE_D6_2_21_6">bain</w>
+          </l>
+          <l n="21">
+            <w xml:id="BRE_D6_2_22_0">Gott</w>
+            <w xml:id="BRE_D6_2_22_1">bhuͤt</w>
+            <w xml:id="BRE_D6_2_22_2">dich</w>
+            <w xml:id="BRE_D6_2_22_3">weinlein</w>
+            <w xml:id="BRE_D6_2_22_4">vorm</w>
+            <w xml:id="BRE_D6_2_22_5">hagelstain</w>
+          </l>
+          <l n="22">
+            <w xml:id="BRE_D6_2_23_0">Das</w>
+            <w xml:id="BRE_D6_2_23_1">du</w>
+            <w xml:id="BRE_D6_2_23_2">schoͤn</w>
+            <w xml:id="BRE_D6_2_23_3">wachsest</w>
+            <w xml:id="BRE_D6_2_23_4">in</w>
+            <w xml:id="BRE_D6_2_23_5">der</w>
+            <w xml:id="BRE_D6_2_23_6">gmain</w>
+          </l>
+          <l n="23">
+            <w xml:id="BRE_D6_2_24_0">Und</w>
+            <w xml:id="BRE_D6_2_24_1">vor</w>
+            <w xml:id="BRE_D6_2_24_2">des</w>
+            <w xml:id="BRE_D6_2_24_3">khalten</w>
+            <w xml:id="BRE_D6_2_24_4">reyffen</w>
+            <w xml:id="BRE_D6_2_24_5">frost</w>
+          </l>
+          <l n="24">
+            <w xml:id="BRE_D6_2_25_0">Die</w>
+            <w xml:id="BRE_D6_2_25_1">gantze</w>
+            <w xml:id="BRE_D6_2_25_2">labung</w>
+            <w xml:id="BRE_D6_2_25_3">und</w>
+            <w xml:id="BRE_D6_2_25_4">halbe</w>
+            <w xml:id="BRE_D6_2_25_5">khost</w>
+          </l>
+          <l n="25">
+            <w xml:id="BRE_D6_2_26_0">Nun</w>
+            <w xml:id="BRE_D6_2_26_1">sollen</w>
+            <w xml:id="BRE_D6_2_26_2">sie</w>
+            <w xml:id="BRE_D6_2_26_3">alle</w>
+            <w xml:id="BRE_D6_2_26_4">selig</w>
+            <w xml:id="BRE_D6_2_26_5">sein</w>
+          </l>
+          <l n="26">
+            <w xml:id="BRE_D6_2_27_0">Und</w>
+            <w xml:id="BRE_D6_2_27_1">die</w>
+            <w xml:id="BRE_D6_2_27_2">da</w>
+            <w xml:id="BRE_D6_2_27_3">gerne</w>
+            <w xml:id="BRE_D6_2_27_4">drincken</w>
+            <w xml:id="BRE_D6_2_27_5">wein</w>
+          </l>
+          <pb n="3"/>
+          <l n="27">
+            <w xml:id="BRE_D6_3_1_0">Den</w>
+            <w xml:id="BRE_D6_3_1_1">will</w>
+            <w xml:id="BRE_D6_3_1_2">gott</w>
+            <w xml:id="BRE_D6_3_1_3">alzeit</w>
+            <w xml:id="BRE_D6_3_1_4">wein</w>
+            <w xml:id="BRE_D6_3_1_5">beschern</w>
+          </l>
+          <l n="28">
+            <w xml:id="BRE_D6_3_2_0">Den</w>
+            <w xml:id="BRE_D6_3_2_1">leib</w>
+            <w xml:id="BRE_D6_3_2_2">auch</w>
+            <w xml:id="BRE_D6_3_2_3">mit</w>
+            <w xml:id="BRE_D6_3_2_4">der</w>
+            <w xml:id="BRE_D6_3_2_5">speis</w>
+            <w xml:id="BRE_D6_3_2_6">ernehrn</w>
+          </l>
+        </div>
+        <!-- Text 3: Weinsegen Edle Leibsalb (Hans Rosenplüt) (VD16 ZV 30224, 3) -->
+        <div type="section" n="3">
+          <head>
+            <hi rend="bold">
+              <w xml:id="BRE_D6_3_3_0">Der</w>
+              <w xml:id="BRE_D6_3_3_1">ander</w>
+              <w xml:id="BRE_D6_3_3_2">Wein</w>
+              <w xml:id="BRE_D6_3_3_3">grusz</w>
+            </hi>
+          </head>
+          <l n="1">
+            <w xml:id="BRE_D6_3_4_0">Nun</w>
+            <w xml:id="BRE_D6_3_4_1">gruͤs</w>
+            <w xml:id="BRE_D6_3_4_2">dich</w>
+            <w xml:id="BRE_D6_3_4_3">gott</w>
+            <w xml:id="BRE_D6_3_4_4">du</w>
+            <w xml:id="BRE_D6_3_4_5">edle</w>
+            <w xml:id="BRE_D6_3_4_6">leibsalben</w>
+          </l>
+          <l n="2">
+            <w xml:id="BRE_D6_3_5_0">Du</w>
+            <w xml:id="BRE_D6_3_5_1">artzeneist</w>
+            <w xml:id="BRE_D6_3_5_2">mich</w>
+            <w xml:id="BRE_D6_3_5_3">allenthalben</w>
+          </l>
+          <l n="3">
+            <w xml:id="BRE_D6_3_6_0">Du</w>
+            <w xml:id="BRE_D6_3_6_1">bist</w>
+            <w xml:id="BRE_D6_3_6_2">ein</w>
+            <w xml:id="BRE_D6_3_6_3">gesunder</w>
+            <w xml:id="BRE_D6_3_6_4">syropel</w>
+          </l>
+          <l n="4">
+            <w xml:id="BRE_D6_3_7_0">Der</w>
+            <w xml:id="BRE_D6_3_7_1">kayser</w>
+            <w xml:id="BRE_D6_3_7_2">von</w>
+            <w xml:id="BRE_D6_3_7_3">constantinopel</w>
+          </l>
+          <l n="5">
+            <w xml:id="BRE_D6_3_8_0">Und</w>
+            <w xml:id="BRE_D6_3_8_1">der</w>
+            <w xml:id="BRE_D6_3_8_2">grosse</w>
+            <w xml:id="BRE_D6_3_8_3">cham</w>
+            <w xml:id="BRE_D6_3_8_4">von</w>
+            <w xml:id="BRE_D6_3_8_5">altheyr</w>
+          </l>
+          <l n="6">
+            <w xml:id="BRE_D6_3_9_0">Und</w>
+            <w xml:id="BRE_D6_3_9_1">priester</w>
+            <w xml:id="BRE_D6_3_9_2">johan</w>
+            <w xml:id="BRE_D6_3_9_3">die</w>
+            <w xml:id="BRE_D6_3_9_4">reichen</w>
+            <w xml:id="BRE_D6_3_9_5">drey</w>
+          </l>
+          <l n="7">
+            <w xml:id="BRE_D6_3_10_0">Mochten</w>
+            <w xml:id="BRE_D6_3_10_1">dein</w>
+            <w xml:id="BRE_D6_3_10_2">adl</w>
+            <w xml:id="BRE_D6_3_10_3">nit</w>
+            <w xml:id="BRE_D6_3_10_4">vergelten</w>
+          </l>
+          <l n="8">
+            <w xml:id="BRE_D6_3_11_0">Warumb</w>
+            <w xml:id="BRE_D6_3_11_1">wolt</w>
+            <w xml:id="BRE_D6_3_11_2">dann</w>
+            <w xml:id="BRE_D6_3_11_3">ich</w>
+            <w xml:id="BRE_D6_3_11_4">dich</w>
+            <w xml:id="BRE_D6_3_11_5">schelten</w>
+          </l>
+          <l n="9">
+            <w xml:id="BRE_D6_3_12_0">Keine</w>
+            <w xml:id="BRE_D6_3_12_1">hochzeit</w>
+            <w xml:id="BRE_D6_3_12_2">wardt</w>
+            <w xml:id="BRE_D6_3_12_3">nie</w>
+            <w xml:id="BRE_D6_3_12_4">so</w>
+            <w xml:id="BRE_D6_3_12_5">gros</w>
+          </l>
+          <l n="10">
+            <w xml:id="BRE_D6_3_13_0">Bistu</w>
+            <w xml:id="BRE_D6_3_13_1">nit</w>
+            <w xml:id="BRE_D6_3_13_2">drauff</w>
+            <w xml:id="BRE_D6_3_13_3">so</w>
+            <w xml:id="BRE_D6_3_13_4">ist</w>
+            <w xml:id="BRE_D6_3_13_5">es</w>
+            <w xml:id="BRE_D6_3_13_6">blos</w>
+          </l>
+          <l n="11">
+            <w xml:id="BRE_D6_3_14_0">An</w>
+            <w xml:id="BRE_D6_3_14_1">freuden</w>
+            <w xml:id="BRE_D6_3_14_2">und</w>
+            <w xml:id="BRE_D6_3_14_3">an</w>
+            <w xml:id="BRE_D6_3_14_4">froͤligkeit</w>
+          </l>
+          <l n="12">
+            <w xml:id="BRE_D6_3_15_0">Gelobt</w>
+            <w xml:id="BRE_D6_3_15_1">sey</w>
+            <w xml:id="BRE_D6_3_15_2">der</w>
+            <w xml:id="BRE_D6_3_15_3">stock</w>
+            <w xml:id="BRE_D6_3_15_4">der</w>
+            <w xml:id="BRE_D6_3_15_5">dich</w>
+            <w xml:id="BRE_D6_3_15_6">treidt</w>
+          </l>
+          <l n="13">
+            <w xml:id="BRE_D6_3_16_0">Man</w>
+            <w xml:id="BRE_D6_3_16_1">sagt</w>
+            <w xml:id="BRE_D6_3_16_2">von</w>
+            <w xml:id="BRE_D6_3_16_3">kůlen</w>
+            <w xml:id="BRE_D6_3_16_4">brunn</w>
+            <w xml:id="BRE_D6_3_16_5">im</w>
+            <w xml:id="BRE_D6_3_16_6">mayn</w>
+          </l>
+          <l n="14">
+            <w xml:id="BRE_D6_3_17_0">Wenn</w>
+            <w xml:id="BRE_D6_3_17_1">man</w>
+            <w xml:id="BRE_D6_3_17_2">und</w>
+            <w xml:id="BRE_D6_3_17_3">frauen</w>
+            <w xml:id="BRE_D6_3_17_4">darzu</w>
+            <w xml:id="BRE_D6_3_17_5">reyen</w>
+          </l>
+          <l n="15">
+            <w xml:id="BRE_D6_3_18_0">Kumbstu</w>
+            <w xml:id="BRE_D6_3_18_1">nit</w>
+            <w xml:id="BRE_D6_3_18_2">dar</w>
+            <w xml:id="BRE_D6_3_18_3">mit</w>
+            <w xml:id="BRE_D6_3_18_4">vollen</w>
+            <w xml:id="BRE_D6_3_18_5">flaschen</w>
+          </l>
+          <l n="16">
+            <w xml:id="BRE_D6_3_19_0">So</w>
+            <w xml:id="BRE_D6_3_19_1">feld</w>
+            <w xml:id="BRE_D6_3_19_2">alle</w>
+            <w xml:id="BRE_D6_3_19_3">freydt</w>
+            <w xml:id="BRE_D6_3_19_4">in</w>
+            <w xml:id="BRE_D6_3_19_5">die</w>
+            <w xml:id="BRE_D6_3_19_6">aschen</w>
+          </l>
+          <l n="17">
+            <w xml:id="BRE_D6_3_20_0">Und</w>
+            <w xml:id="BRE_D6_3_20_1">wer</w>
+            <w xml:id="BRE_D6_3_20_2">der</w>
+            <w xml:id="BRE_D6_3_20_3">bapst</w>
+            <w xml:id="BRE_D6_3_20_4">zu</w>
+            <w xml:id="BRE_D6_3_20_5">tisch</w>
+            <w xml:id="BRE_D6_3_20_6">gesessen</w>
+          </l>
+          <l n="18">
+            <w xml:id="BRE_D6_3_21_0">Und</w>
+            <w xml:id="BRE_D6_3_21_1">solte</w>
+            <w xml:id="BRE_D6_3_21_2">der</w>
+            <w xml:id="BRE_D6_3_21_3">kayser</w>
+            <w xml:id="BRE_D6_3_21_4">mit</w>
+            <w xml:id="BRE_D6_3_21_5">im</w>
+            <w xml:id="BRE_D6_3_21_6">essen</w>
+          </l>
+          <l n="19">
+            <w xml:id="BRE_D6_3_22_0">Und</w>
+            <w xml:id="BRE_D6_3_22_1">hetten</w>
+            <w xml:id="BRE_D6_3_22_2">vor</w>
+            <w xml:id="BRE_D6_3_22_3">inen</w>
+            <w xml:id="BRE_D6_3_22_4">dreissig</w>
+            <w xml:id="BRE_D6_3_22_5">richt</w>
+          </l>
+          <l n="20">
+            <w xml:id="BRE_D6_3_23_0">Noch</w>
+            <w xml:id="BRE_D6_3_23_1">wer</w>
+            <w xml:id="BRE_D6_3_23_2">es</w>
+            <w xml:id="BRE_D6_3_23_3">alles</w>
+            <w xml:id="BRE_D6_3_23_4">zu</w>
+            <w xml:id="BRE_D6_3_23_5">mal</w>
+            <w xml:id="BRE_D6_3_23_6">fuͤr</w>
+            <w xml:id="BRE_D6_3_23_7">nicht</w>
+          </l>
+          <l n="21">
+            <w xml:id="BRE_D6_3_24_0">Wenn</w>
+            <w xml:id="BRE_D6_3_24_1">du</w>
+            <w xml:id="BRE_D6_3_24_2">nicht</w>
+            <w xml:id="BRE_D6_3_24_3">gegenwertig</w>
+            <w xml:id="BRE_D6_3_24_4">werst</w>
+          </l>
+          <l n="22">
+            <w xml:id="BRE_D6_3_25_0">Und</w>
+            <w xml:id="BRE_D6_3_25_1">wo</w>
+            <w xml:id="BRE_D6_3_25_2">du</w>
+            <w xml:id="BRE_D6_3_25_3">meiner</w>
+            <w xml:id="BRE_D6_3_25_4">huͤlff</w>
+            <w xml:id="BRE_D6_3_25_5">begerst</w>
+          </l>
+          <l n="23">
+            <w xml:id="BRE_D6_3_26_0">Muͤssen</w>
+            <w xml:id="BRE_D6_3_26_1">dir</w>
+            <w xml:id="BRE_D6_3_26_2">dienen</w>
+            <w xml:id="BRE_D6_3_26_3">all</w>
+            <w xml:id="BRE_D6_3_26_4">mein</w>
+            <w xml:id="BRE_D6_3_26_5">glidr</w>
+          </l>
+          <l n="24">
+            <w xml:id="BRE_D6_3_27_0">Gesegn</w>
+            <w xml:id="BRE_D6_3_27_1">dich</w>
+            <w xml:id="BRE_D6_3_27_2">gott</w>
+            <w xml:id="BRE_D6_3_27_3">kom</w>
+            <w xml:id="BRE_D6_3_27_4">schier</w>
+            <w xml:id="BRE_D6_3_27_5">herwidr</w>
+          </l>
+        </div>
+        <!-- Text 4: Weingruß Din Krafft (VD16 ZV 30224, 4-5) -->
+        <div type="section" n="4">
+          <pb n="4"/>
+          <head>
+            <hi rend="bold">
+              <w xml:id="BRE_D6_4_1_0">Der</w>
+              <w xml:id="BRE_D6_4_1_1">dritte</w>
+              <w xml:id="BRE_D6_4_1_2">grusz</w>
+            </hi>
+          </head>
+          <l n="1">
+            <w xml:id="BRE_D6_4_2_0"><hi rend="bold">G</hi>ot</w>
+            <w xml:id="BRE_D6_4_2_1">gruͤs</w>
+            <w xml:id="BRE_D6_4_2_2">dich</w>
+            <w xml:id="BRE_D6_4_2_3">wein</w>
+            <w xml:id="BRE_D6_4_2_4">und</w>
+            <w xml:id="BRE_D6_4_2_5">auch</w>
+            <w xml:id="BRE_D6_4_2_6">dein</w>
+            <w xml:id="BRE_D6_4_2_7">krafft</w>
+          </l>
+          <l n="2">
+            <w xml:id="BRE_D6_4_3_0">An</w>
+            <w xml:id="BRE_D6_4_3_1">dir</w>
+            <w xml:id="BRE_D6_4_3_2">ligt</w>
+            <w xml:id="BRE_D6_4_3_3">grosse</w>
+            <w xml:id="BRE_D6_4_3_4">maisterschafft</w>
+          </l>
+          <l n="3">
+            <w xml:id="BRE_D6_4_4_0">Unmessig</w>
+            <w xml:id="BRE_D6_4_4_1">gros</w>
+            <w xml:id="BRE_D6_4_4_2">ist</w>
+            <w xml:id="BRE_D6_4_4_3">dein</w>
+            <w xml:id="BRE_D6_4_4_4">gewalt</w>
+          </l>
+          <l n="4">
+            <w xml:id="BRE_D6_4_5_0">Dann</w>
+            <w xml:id="BRE_D6_4_5_1">du</w>
+            <w xml:id="BRE_D6_4_5_2">erfreuest</w>
+            <w xml:id="BRE_D6_4_5_3">jung</w>
+            <w xml:id="BRE_D6_4_5_4">und</w>
+            <w xml:id="BRE_D6_4_5_5">alt</w>
+          </l>
+          <l n="5">
+            <w xml:id="BRE_D6_4_6_0">Und</w>
+            <w xml:id="BRE_D6_4_6_1">gibst</w>
+            <w xml:id="BRE_D6_4_6_2">auch</w>
+            <w xml:id="BRE_D6_4_6_3">sterck</w>
+            <w xml:id="BRE_D6_4_6_4">viel</w>
+            <w xml:id="BRE_D6_4_6_5">manchem</w>
+            <w xml:id="BRE_D6_4_6_6">mann</w>
+          </l>
+          <l n="6">
+            <w xml:id="BRE_D6_4_7_0">Wann</w>
+            <w xml:id="BRE_D6_4_7_1">er</w>
+            <w xml:id="BRE_D6_4_7_2">zum</w>
+            <w xml:id="BRE_D6_4_7_3">sturm</w>
+            <w xml:id="BRE_D6_4_7_4">und</w>
+            <w xml:id="BRE_D6_4_7_5">streit</w>
+            <w xml:id="BRE_D6_4_7_6">sol</w>
+            <w xml:id="BRE_D6_4_7_7">gan</w>
+          </l>
+          <l n="7">
+            <w xml:id="BRE_D6_4_8_0">So</w>
+            <w xml:id="BRE_D6_4_8_1">scheuht</w>
+            <w xml:id="BRE_D6_4_8_2">er</w>
+            <w xml:id="BRE_D6_4_8_3">weder</w>
+            <w xml:id="BRE_D6_4_8_4">wuͤrff</w>
+            <w xml:id="BRE_D6_4_8_5">noch</w>
+            <w xml:id="BRE_D6_4_8_6">schleg</w>
+          </l>
+          <l n="8">
+            <w xml:id="BRE_D6_4_9_0">Er</w>
+            <w xml:id="BRE_D6_4_9_1">steigt</w>
+            <w xml:id="BRE_D6_4_9_2">durch</w>
+            <w xml:id="BRE_D6_4_9_3">stauden</w>
+            <w xml:id="BRE_D6_4_9_4">und</w>
+            <w xml:id="BRE_D6_4_9_5">geheg</w>
+          </l>
+          <l n="9">
+            <w xml:id="BRE_D6_4_10_0">Hat</w>
+            <w xml:id="BRE_D6_4_10_1">er</w>
+            <w xml:id="BRE_D6_4_10_2">den</w>
+            <w xml:id="BRE_D6_4_10_3">wein</w>
+            <w xml:id="BRE_D6_4_10_4">mit</w>
+            <w xml:id="BRE_D6_4_10_5">krafft</w>
+            <w xml:id="BRE_D6_4_10_6">verschlossen</w>
+          </l>
+          <l n="10">
+            <w xml:id="BRE_D6_4_11_0">Er</w>
+            <w xml:id="BRE_D6_4_11_1">ist</w>
+            <w xml:id="BRE_D6_4_11_2">zum</w>
+            <w xml:id="BRE_D6_4_11_3">fechten</w>
+            <w xml:id="BRE_D6_4_11_4">unverdrossen</w>
+          </l>
+          <l n="11">
+            <w xml:id="BRE_D6_4_12_0">Hat</w>
+            <w xml:id="BRE_D6_4_12_1">er</w>
+            <w xml:id="BRE_D6_4_12_2">den</w>
+            <w xml:id="BRE_D6_4_12_3">krausz</w>
+            <w xml:id="BRE_D6_4_12_4">in</w>
+            <w xml:id="BRE_D6_4_12_5">seiner</w>
+            <w xml:id="BRE_D6_4_12_6">stirn</w>
+          </l>
+          <l n="12">
+            <w xml:id="BRE_D6_4_13_0">So</w>
+            <w xml:id="BRE_D6_4_13_1">gelangt</w>
+            <w xml:id="BRE_D6_4_13_2">im</w>
+            <w xml:id="BRE_D6_4_13_3">auch</w>
+            <w xml:id="BRE_D6_4_13_4">wol</w>
+            <w xml:id="BRE_D6_4_13_5">zu</w>
+            <w xml:id="BRE_D6_4_13_6">hoffiern</w>
+          </l>
+          <l n="13">
+            <w xml:id="BRE_D6_4_14_0">Zu</w>
+            <w xml:id="BRE_D6_4_14_1">tantzen</w>
+            <w xml:id="BRE_D6_4_14_2">reyen</w>
+            <w xml:id="BRE_D6_4_14_3">und</w>
+            <w xml:id="BRE_D6_4_14_4">springen</w>
+          </l>
+          <l n="14">
+            <w xml:id="BRE_D6_4_15_0">Den</w>
+            <w xml:id="BRE_D6_4_15_1">stain</w>
+            <w xml:id="BRE_D6_4_15_2">zu</w>
+            <w xml:id="BRE_D6_4_15_3">werffen</w>
+            <w xml:id="BRE_D6_4_15_4">und</w>
+            <w xml:id="BRE_D6_4_15_5">ringen</w>
+          </l>
+          <l n="15">
+            <w xml:id="BRE_D6_4_16_0">Fürwar</w>
+            <w xml:id="BRE_D6_4_16_1">so</w>
+            <w xml:id="BRE_D6_4_16_2">darff</w>
+            <w xml:id="BRE_D6_4_16_3">sein</w>
+            <w xml:id="BRE_D6_4_16_4">niemandt</w>
+            <w xml:id="BRE_D6_4_16_5">beitten</w>
+          </l>
+          <l n="16">
+            <w xml:id="BRE_D6_4_17_0">Er</w>
+            <w xml:id="BRE_D6_4_17_1">ist</w>
+            <w xml:id="BRE_D6_4_17_2">zu</w>
+            <w xml:id="BRE_D6_4_17_3">stürmen</w>
+            <w xml:id="BRE_D6_4_17_4">und</w>
+            <w xml:id="BRE_D6_4_17_5">zu</w>
+            <w xml:id="BRE_D6_4_17_6">streitten</w>
+          </l>
+          <l n="17">
+            <w xml:id="BRE_D6_4_18_0">Gar</w>
+            <w xml:id="BRE_D6_4_18_1">kuͤhn</w>
+            <w xml:id="BRE_D6_4_18_2">und</w>
+            <w xml:id="BRE_D6_4_18_3">darzu</w>
+            <w xml:id="BRE_D6_4_18_4">unverdrossen</w>
+          </l>
+          <l n="18">
+            <w xml:id="BRE_D6_4_19_0">Hat</w>
+            <w xml:id="BRE_D6_4_19_1">er</w>
+            <w xml:id="BRE_D6_4_19_2">des</w>
+            <w xml:id="BRE_D6_4_19_3">weines</w>
+            <w xml:id="BRE_D6_4_19_4">krafft</w>
+            <w xml:id="BRE_D6_4_19_5">genossen</w>
+          </l>
+          <l n="19">
+            <w xml:id="BRE_D6_4_20_0">So</w>
+            <w xml:id="BRE_D6_4_20_1">streit</w>
+            <w xml:id="BRE_D6_4_20_2">er</w>
+            <w xml:id="BRE_D6_4_20_3">kuͤhnlich</w>
+            <w xml:id="BRE_D6_4_20_4">mit</w>
+            <w xml:id="BRE_D6_4_20_5">der</w>
+            <w xml:id="BRE_D6_4_20_6">parten</w>
+          </l>
+          <l n="20">
+            <w xml:id="BRE_D6_4_21_0">Und</w>
+            <w xml:id="BRE_D6_4_21_1">hauet</w>
+            <w xml:id="BRE_D6_4_21_2">manche</w>
+            <w xml:id="BRE_D6_4_21_3">grosse</w>
+            <w xml:id="BRE_D6_4_21_4">scharten</w>
+          </l>
+          <l n="21">
+            <w xml:id="BRE_D6_4_22_0">Durch</w>
+            <w xml:id="BRE_D6_4_22_1">harten</w>
+            <w xml:id="BRE_D6_4_22_2">harnisch</w>
+            <w xml:id="BRE_D6_4_22_3">und</w>
+            <w xml:id="BRE_D6_4_22_4">durch</w>
+            <w xml:id="BRE_D6_4_22_5">blatten</w>
+          </l>
+          <l n="22">
+            <w xml:id="BRE_D6_4_23_0">Auch</w>
+            <w xml:id="BRE_D6_4_23_1">niemandt</w>
+            <w xml:id="BRE_D6_4_23_2">darff</w>
+            <w xml:id="BRE_D6_4_23_3">im</w>
+            <w xml:id="BRE_D6_4_23_4">darzu</w>
+            <w xml:id="BRE_D6_4_23_5">raten</w>
+          </l>
+          <l n="23">
+            <w xml:id="BRE_D6_4_24_0">Allein</w>
+            <w xml:id="BRE_D6_4_24_1">der</w>
+            <w xml:id="BRE_D6_4_24_2">wein</w>
+            <w xml:id="BRE_D6_4_24_3">der</w>
+            <w xml:id="BRE_D6_4_24_4">machet</w>
+            <w xml:id="BRE_D6_4_24_5">in</w>
+            <w xml:id="BRE_D6_4_24_6">starck</w>
+          </l>
+          <l n="24">
+            <w xml:id="BRE_D6_4_25_0">Solt</w>
+            <w xml:id="BRE_D6_4_25_1">er</w>
+            <w xml:id="BRE_D6_4_25_2">verschlagen</w>
+            <w xml:id="BRE_D6_4_25_3">zehen</w>
+            <w xml:id="BRE_D6_4_25_4">marck</w>
+          </l>
+          <l n="25">
+            <w xml:id="BRE_D6_4_26_0">Das</w>
+            <w xml:id="BRE_D6_4_26_1">wer</w>
+            <w xml:id="BRE_D6_4_26_2">im</w>
+            <w xml:id="BRE_D6_4_26_3">als</w>
+            <w xml:id="BRE_D6_4_26_4">ein</w>
+            <w xml:id="BRE_D6_4_26_5">schlehen</w>
+            <w xml:id="BRE_D6_4_26_6">kehrn</w>
+          </l>
+          <l n="26">
+            <w xml:id="BRE_D6_4_27_0">Darumb</w>
+            <w xml:id="BRE_D6_4_27_1">wil</w>
+            <w xml:id="BRE_D6_4_27_2">ich</w>
+            <w xml:id="BRE_D6_4_27_3">dich</w>
+            <w xml:id="BRE_D6_4_27_4">trincken</w>
+            <w xml:id="BRE_D6_4_27_5">gern</w>
+          </l>
+          <pb n="5"/>
+          <l n="27">
+            <w xml:id="BRE_D6_5_1_0">Seydt</w>
+            <w xml:id="BRE_D6_5_1_1">du</w>
+            <w xml:id="BRE_D6_5_1_2">hast</w>
+            <w xml:id="BRE_D6_5_1_3">solch</w>
+            <w xml:id="BRE_D6_5_1_4">sterck</w>
+            <w xml:id="BRE_D6_5_1_5">und</w>
+            <w xml:id="BRE_D6_5_1_6">gewalt</w>
+          </l>
+          <l n="28">
+            <w xml:id="BRE_D6_5_2_0">Deß</w>
+            <w xml:id="BRE_D6_5_2_1">sol</w>
+            <w xml:id="BRE_D6_5_2_2">dir</w>
+            <w xml:id="BRE_D6_5_2_3">dienen</w>
+            <w xml:id="BRE_D6_5_2_4">jung</w>
+            <w xml:id="BRE_D6_5_2_5">und</w>
+            <w xml:id="BRE_D6_5_2_6">alt</w>
+          </l>
+        </div>
+        <!-- Text 5: Weinsegen Dein Güt (VD16 ZV 30224, 5) -->
+        <div type="section" n="5">
+          <head>
+            <hi rend="bold">
+              <w xml:id="BRE_D6_5_3_0">Der</w>
+              <w xml:id="BRE_D6_5_3_1">vierdte</w>
+              <w xml:id="BRE_D6_5_3_2">Gruß</w>
+            </hi>
+          </head>
+          <l n="1">
+            <w xml:id="BRE_D6_5_4_0"><hi rend="bold">G</hi>ot</w>
+            <w xml:id="BRE_D6_5_4_1">gruͤß</w>
+            <w xml:id="BRE_D6_5_4_2">dich</w>
+            <w xml:id="BRE_D6_5_4_3">wein</w>
+            <w xml:id="BRE_D6_5_4_4">und</w>
+            <w xml:id="BRE_D6_5_4_5">auch</w>
+            <w xml:id="BRE_D6_5_4_6">dein</w>
+            <w xml:id="BRE_D6_5_4_7">guͤt</w>
+          </l>
+          <l n="2">
+            <w xml:id="BRE_D6_5_5_0">Sich</w>
+            <w xml:id="BRE_D6_5_5_1">kuͤmmert</w>
+            <w xml:id="BRE_D6_5_5_2">sehr</w>
+            <w xml:id="BRE_D6_5_5_3">des</w>
+            <w xml:id="BRE_D6_5_5_4">mein</w>
+            <w xml:id="BRE_D6_5_5_5">gemuͤt</w>
+          </l>
+          <l n="3">
+            <w xml:id="BRE_D6_5_6_0">Das</w>
+            <w xml:id="BRE_D6_5_6_1">ich</w>
+            <w xml:id="BRE_D6_5_6_2">ein</w>
+            <w xml:id="BRE_D6_5_6_3">wenig</w>
+            <w xml:id="BRE_D6_5_6_4">moͤchte</w>
+            <w xml:id="BRE_D6_5_6_5">dichten</w>
+          </l>
+          <l n="4">
+            <w xml:id="BRE_D6_5_7_0">So</w>
+            <w xml:id="BRE_D6_5_7_1">kan</w>
+            <w xml:id="BRE_D6_5_7_2">ichs</w>
+            <w xml:id="BRE_D6_5_7_3">niergendt</w>
+            <w xml:id="BRE_D6_5_7_4">nicht</w>
+            <w xml:id="BRE_D6_5_7_5">außrichten</w>
+          </l>
+          <l n="5">
+            <w xml:id="BRE_D6_5_8_0">Ich</w>
+            <w xml:id="BRE_D6_5_8_1">will</w>
+            <w xml:id="BRE_D6_5_8_2">mein</w>
+            <w xml:id="BRE_D6_5_8_3">leib</w>
+            <w xml:id="BRE_D6_5_8_4">mit</w>
+            <w xml:id="BRE_D6_5_8_5">dir</w>
+            <w xml:id="BRE_D6_5_8_6">verschrancken</w>
+          </l>
+          <l n="6">
+            <w xml:id="BRE_D6_5_9_0">Du</w>
+            <w xml:id="BRE_D6_5_9_1">troͤstest</w>
+            <w xml:id="BRE_D6_5_9_2">auch</w>
+            <w xml:id="BRE_D6_5_9_3">manchen</w>
+            <w xml:id="BRE_D6_5_9_4">gar</w>
+            <w xml:id="BRE_D6_5_9_5">krancken</w>
+          </l>
+          <l n="7">
+            <w xml:id="BRE_D6_5_10_0">Weib</w>
+            <w xml:id="BRE_D6_5_10_1">und</w>
+            <w xml:id="BRE_D6_5_10_2">man</w>
+            <w xml:id="BRE_D6_5_10_3">priester</w>
+            <w xml:id="BRE_D6_5_10_4">und</w>
+            <w xml:id="BRE_D6_5_10_5">layen</w>
+          </l>
+          <l n="8">
+            <w xml:id="BRE_D6_5_11_0">Ich</w>
+            <w xml:id="BRE_D6_5_11_1">wil</w>
+            <w xml:id="BRE_D6_5_11_2">nach</w>
+            <w xml:id="BRE_D6_5_11_3">dantzen</w>
+            <w xml:id="BRE_D6_5_11_4">biß</w>
+            <w xml:id="BRE_D6_5_11_5">an</w>
+            <w xml:id="BRE_D6_5_11_6">den</w>
+            <w xml:id="BRE_D6_5_11_7">reyen</w>
+          </l>
+          <l n="9">
+            <w xml:id="BRE_D6_5_12_0">Dieweil</w>
+            <w xml:id="BRE_D6_5_12_1">ich</w>
+            <w xml:id="BRE_D6_5_12_2">nur</w>
+            <w xml:id="BRE_D6_5_12_3">mag</w>
+            <w xml:id="BRE_D6_5_12_4">auffgehopffen</w>
+          </l>
+          <l n="10">
+            <w xml:id="BRE_D6_5_13_0">Dann</w>
+            <w xml:id="BRE_D6_5_13_1">deine</w>
+            <w xml:id="BRE_D6_5_13_2">suͦß</w>
+            <w xml:id="BRE_D6_5_13_3">und</w>
+            <w xml:id="BRE_D6_5_13_4">edle</w>
+            <w xml:id="BRE_D6_5_13_5">dropffen</w>
+          </l>
+          <l n="11">
+            <w xml:id="BRE_D6_5_14_0">Schmecken</w>
+            <w xml:id="BRE_D6_5_14_1">mir</w>
+            <w xml:id="BRE_D6_5_14_2">wol</w>
+            <w xml:id="BRE_D6_5_14_3">auff</w>
+            <w xml:id="BRE_D6_5_14_4">meiner</w>
+            <w xml:id="BRE_D6_5_14_5">zungen</w>
+          </l>
+          <l n="12">
+            <w xml:id="BRE_D6_5_15_0">Darumb</w>
+            <w xml:id="BRE_D6_5_15_1">gebeut</w>
+            <w xml:id="BRE_D6_5_15_2">ich</w>
+            <w xml:id="BRE_D6_5_15_3">alt</w>
+            <w xml:id="BRE_D6_5_15_4">und</w>
+            <w xml:id="BRE_D6_5_15_5">jungen</w>
+          </l>
+          <l n="13">
+            <w xml:id="BRE_D6_5_16_0">Das</w>
+            <w xml:id="BRE_D6_5_16_1">sie</w>
+            <w xml:id="BRE_D6_5_16_2">halten</w>
+            <w xml:id="BRE_D6_5_16_3">den</w>
+            <w xml:id="BRE_D6_5_16_4">wein</w>
+            <w xml:id="BRE_D6_5_16_5">in</w>
+            <w xml:id="BRE_D6_5_16_6">ehren</w>
+          </l>
+          <l n="14">
+            <w xml:id="BRE_D6_5_17_0">Der</w>
+            <w xml:id="BRE_D6_5_17_1">kan</w>
+            <w xml:id="BRE_D6_5_17_2">uns</w>
+            <w xml:id="BRE_D6_5_17_3">unser</w>
+            <w xml:id="BRE_D6_5_17_4">laidt</w>
+            <w xml:id="BRE_D6_5_17_5">verkehrn</w>
+          </l>
+        </div>
+        <!-- Text 6: Weingruß Lieber Wein (Hans Rosenplüt) (VD16 ZV 30224, 5) -->
+        <div type="section" n="6">
+          <head>
+            <hi rend="bold">
+              <w xml:id="BRE_D6_5_18_0">Der</w>
+              <w xml:id="BRE_D6_5_18_1">fuͤnffte</w>
+              <w xml:id="BRE_D6_5_18_2">gruͤß</w>
+            </hi>
+          </head>
+          <l n="1">
+            <w xml:id="BRE_D6_5_19_0"><hi rend="bold">N</hi>un</w>
+            <w xml:id="BRE_D6_5_19_1">gruͤß</w>
+            <w xml:id="BRE_D6_5_19_2">dich</w>
+            <w xml:id="BRE_D6_5_19_3">gott</w>
+            <w xml:id="BRE_D6_5_19_4">du</w>
+            <w xml:id="BRE_D6_5_19_5">edler</w>
+            <w xml:id="BRE_D6_5_19_6">wein</w>
+          </l>
+          <l n="2">
+            <w xml:id="BRE_D6_5_20_0">Schmuͤck</w>
+            <w xml:id="BRE_D6_5_20_1">deine</w>
+            <w xml:id="BRE_D6_5_20_2">fuͤß</w>
+            <w xml:id="BRE_D6_5_20_3">und</w>
+            <w xml:id="BRE_D6_5_20_4">gehe</w>
+            <w xml:id="BRE_D6_5_20_5">herein</w>
+          </l>
+          <l n="3">
+            <w xml:id="BRE_D6_5_21_0">Ich</w>
+            <w xml:id="BRE_D6_5_21_1">mag</w>
+            <w xml:id="BRE_D6_5_21_2">dir</w>
+            <w xml:id="BRE_D6_5_21_3">doch</w>
+            <w xml:id="BRE_D6_5_21_4">nit</w>
+            <w xml:id="BRE_D6_5_21_5">feind</w>
+            <w xml:id="BRE_D6_5_21_6">gesein</w>
+          </l>
+          <l n="4">
+            <w xml:id="BRE_D6_5_22_0">Wiewol</w>
+            <w xml:id="BRE_D6_5_22_1">du</w>
+            <w xml:id="BRE_D6_5_22_2">mich</w>
+            <w xml:id="BRE_D6_5_22_3">bringst</w>
+            <w xml:id="BRE_D6_5_22_4">umb</w>
+            <w xml:id="BRE_D6_5_22_5">das</w>
+            <w xml:id="BRE_D6_5_22_6">mein</w>
+          </l>
+          <l n="5">
+            <w xml:id="BRE_D6_5_23_0">Du</w>
+            <w xml:id="BRE_D6_5_23_1">thust</w>
+            <w xml:id="BRE_D6_5_23_2">mir</w>
+            <w xml:id="BRE_D6_5_23_3">offt</w>
+            <w xml:id="BRE_D6_5_23_4">mein</w>
+            <w xml:id="BRE_D6_5_23_5">daschen</w>
+            <w xml:id="BRE_D6_5_23_6">lehrn</w>
+          </l>
+          <l n="6">
+            <w xml:id="BRE_D6_5_24_0">Noch</w>
+            <w xml:id="BRE_D6_5_24_1">wil</w>
+            <w xml:id="BRE_D6_5_24_2">ich</w>
+            <w xml:id="BRE_D6_5_24_3">dein</w>
+            <w xml:id="BRE_D6_5_24_4">doch</w>
+            <w xml:id="BRE_D6_5_24_5">nit</w>
+            <w xml:id="BRE_D6_5_24_6">entbern</w>
+          </l>
+          <l n="7">
+            <w xml:id="BRE_D6_5_25_0">Du</w>
+            <w xml:id="BRE_D6_5_25_1">heilge</w>
+            <w xml:id="BRE_D6_5_25_2">abwaschung</w>
+            <w xml:id="BRE_D6_5_25_3">meiner</w>
+            <w xml:id="BRE_D6_5_25_4">klaider</w>
+          </l>
+          <l n="8">
+            <w xml:id="BRE_D6_5_26_0">Mir</w>
+            <w xml:id="BRE_D6_5_26_1">ist</w>
+            <w xml:id="BRE_D6_5_26_2">nur</w>
+            <w xml:id="BRE_D6_5_26_3">umb</w>
+            <w xml:id="BRE_D6_5_26_4">das</w>
+            <w xml:id="BRE_D6_5_26_5">geld</w>
+            <w xml:id="BRE_D6_5_26_6">destlaider</w>
+          </l>
+          <l n="9">
+            <w xml:id="BRE_D6_5_27_0">Hettest</w>
+            <w xml:id="BRE_D6_5_27_1">du</w>
+            <w xml:id="BRE_D6_5_27_2">mir</w>
+            <w xml:id="BRE_D6_5_27_3">mein</w>
+            <w xml:id="BRE_D6_5_27_4">vattr</w>
+            <w xml:id="BRE_D6_5_27_5">erschlagn</w>
+          </l>
+          <l n="10">
+            <w xml:id="BRE_D6_5_28_0">Noch</w>
+            <w xml:id="BRE_D6_5_28_1">setz</w>
+            <w xml:id="BRE_D6_5_28_2">ich</w>
+            <w xml:id="BRE_D6_5_28_3">dich</w>
+            <w xml:id="BRE_D6_5_28_4">an</w>
+            <w xml:id="BRE_D6_5_28_5">meinen</w>
+            <w xml:id="BRE_D6_5_28_6">kragn</w>
+          </l>
+          <l n="11">
+            <w xml:id="BRE_D6_5_29_0">Laß</w>
+            <w xml:id="BRE_D6_5_29_1">dich</w>
+            <w xml:id="BRE_D6_5_29_2">seuberlich</w>
+            <w xml:id="BRE_D6_5_29_3">einher</w>
+            <w xml:id="BRE_D6_5_29_4">fliessn</w>
+          </l>
+          <l n="12">
+            <w xml:id="BRE_D6_5_30_0">Denn</w>
+            <w xml:id="BRE_D6_5_30_1">du</w>
+            <w xml:id="BRE_D6_5_30_2">kanst</w>
+            <w xml:id="BRE_D6_5_30_3">mir</w>
+            <w xml:id="BRE_D6_5_30_4">mein</w>
+            <w xml:id="BRE_D6_5_30_5">lungn</w>
+            <w xml:id="BRE_D6_5_30_6">begiessn</w>
+          </l>
+          <l n="13">
+            <w xml:id="BRE_D6_5_31_0">Kanst</w>
+            <w xml:id="BRE_D6_5_31_1">mir</w>
+            <w xml:id="BRE_D6_5_31_2">auch</w>
+            <w xml:id="BRE_D6_5_31_3">wol</w>
+            <w xml:id="BRE_D6_5_31_4">mein</w>
+            <w xml:id="BRE_D6_5_31_5">lebern</w>
+            <w xml:id="BRE_D6_5_31_6">kuͤlen</w>
+          </l>
+          <l n="14">
+            <w xml:id="BRE_D6_5_32_0">Deßgleichen</w>
+            <w xml:id="BRE_D6_5_32_1">auch</w>
+            <w xml:id="BRE_D6_5_32_2">den</w>
+            <w xml:id="BRE_D6_5_32_3">kragen</w>
+            <w xml:id="BRE_D6_5_32_4">spuͤlen</w>
+          </l>
+          <l n="15">
+            <w xml:id="BRE_D6_5_33_0">Du</w>
+            <w xml:id="BRE_D6_5_33_1">kanst</w>
+            <w xml:id="BRE_D6_5_33_2">mir</w>
+            <w xml:id="BRE_D6_5_33_3">kriechen</w>
+            <w xml:id="BRE_D6_5_33_4">in</w>
+            <w xml:id="BRE_D6_5_33_5">mein</w>
+            <w xml:id="BRE_D6_5_33_6">stirn</w>
+          </l>
+          <l n="16">
+            <w xml:id="BRE_D6_5_34_0">Und</w>
+            <w xml:id="BRE_D6_5_34_1">kanst</w>
+            <w xml:id="BRE_D6_5_34_2">mir</w>
+            <w xml:id="BRE_D6_5_34_3">wol</w>
+            <w xml:id="BRE_D6_5_34_4">mein</w>
+            <w xml:id="BRE_D6_5_34_5">haupt</w>
+            <w xml:id="BRE_D6_5_34_6">regiern</w>
+          </l>
+          <l n="17">
+            <w xml:id="BRE_D6_5_35_0">Machst</w>
+            <w xml:id="BRE_D6_5_35_1">auch</w>
+            <w xml:id="BRE_D6_5_35_2">das</w>
+            <w xml:id="BRE_D6_5_35_3">ich</w>
+            <w xml:id="BRE_D6_5_35_4">nach</w>
+            <w xml:id="BRE_D6_5_35_5">frauen</w>
+            <w xml:id="BRE_D6_5_35_6">jag</w>
+          </l>
+          <l n="18">
+            <w xml:id="BRE_D6_5_36_0">Mer</w>
+            <w xml:id="BRE_D6_5_36_1">dann</w>
+            <w xml:id="BRE_D6_5_36_2">ich</w>
+            <w xml:id="BRE_D6_5_36_3">untr</w>
+            <w xml:id="BRE_D6_5_36_4">der</w>
+            <w xml:id="BRE_D6_5_36_5">guͤertl</w>
+            <w xml:id="BRE_D6_5_36_6">vermag</w>
+          </l>
+          <l n="19">
+            <w xml:id="BRE_D6_5_37_0">Darumb</w>
+            <w xml:id="BRE_D6_5_37_1">bistu</w>
+            <w xml:id="BRE_D6_5_37_2">der</w>
+            <w xml:id="BRE_D6_5_37_3">freunde</w>
+            <w xml:id="BRE_D6_5_37_4">mein</w>
+          </l>
+          <l n="20">
+            <w xml:id="BRE_D6_5_38_0">Wer</w>
+            <w xml:id="BRE_D6_5_38_1">nit</w>
+            <w xml:id="BRE_D6_5_38_2">von</w>
+            <w xml:id="BRE_D6_5_38_3">frauen</w>
+            <w xml:id="BRE_D6_5_38_4">und</w>
+            <w xml:id="BRE_D6_5_38_5">von</w>
+            <w xml:id="BRE_D6_5_38_6">wein</w>
+          </l>
+          <l n="21">
+            <w xml:id="BRE_D6_5_39_0">Allzeit</w>
+            <w xml:id="BRE_D6_5_39_1">ein</w>
+            <w xml:id="BRE_D6_5_39_2">guten</w>
+            <w xml:id="BRE_D6_5_39_3">mut</w>
+            <w xml:id="BRE_D6_5_39_4">mag</w>
+            <w xml:id="BRE_D6_5_39_5">han</w>
+          </l>
+          <l n="22">
+            <w xml:id="BRE_D6_5_40_0">Woͤllen</w>
+            <w xml:id="BRE_D6_5_40_1">wir</w>
+            <w xml:id="BRE_D6_5_40_2">verkuͤnden</w>
+            <w xml:id="BRE_D6_5_40_3">in</w>
+            <w xml:id="BRE_D6_5_40_4">den</w>
+            <w xml:id="BRE_D6_5_40_5">bann</w>
+          </l>
+        </div>
+        <!-- Text 7: Weinsegen Lieber Rebensafft (Hans Rosenplüt) (VD16 ZV 30224, 5-6) -->
+        <div type="section" n="7">
+          <head>
+            <hi rend="bold">
+              <w xml:id="BRE_D6_5_41_0">Der</w>
+              <w xml:id="BRE_D6_5_41_1">sechste</w>
+              <w xml:id="BRE_D6_5_41_2">gruͤsz</w>
+            </hi>
+          </head>
+          <l n="1">
+            <w xml:id="BRE_D6_5_42_0"><hi rend="bold">G</hi>ott</w>
+            <w xml:id="BRE_D6_5_42_1">gruͤß</w>
+            <w xml:id="BRE_D6_5_42_2">dich</w>
+            <w xml:id="BRE_D6_5_42_3">lieber</w>
+            <w xml:id="BRE_D6_5_42_4">rebensafft</w>
+          </l>
+          <l n="2">
+            <w xml:id="BRE_D6_5_43_0">Du</w>
+            <w xml:id="BRE_D6_5_43_1">hast</w>
+            <w xml:id="BRE_D6_5_43_2">mir</w>
+            <w xml:id="BRE_D6_5_43_3">offt</w>
+            <w xml:id="BRE_D6_5_43_4">gebn</w>
+            <w xml:id="BRE_D6_5_43_5">grosse</w>
+            <w xml:id="BRE_D6_5_43_6">krafft</w>
+          </l>
+          <l n="3">
+            <w xml:id="BRE_D6_5_44_0">Du</w>
+            <w xml:id="BRE_D6_5_44_1">machst</w>
+            <w xml:id="BRE_D6_5_44_2">das</w>
+            <w xml:id="BRE_D6_5_44_3">ich</w>
+            <w xml:id="BRE_D6_5_44_4">froͤlicher</w>
+            <w xml:id="BRE_D6_5_44_5">war</w>
+          </l>
+          <l n="4">
+            <w xml:id="BRE_D6_5_45_0">Dann</w>
+            <w xml:id="BRE_D6_5_45_1">do</w>
+            <w xml:id="BRE_D6_5_45_2">mein</w>
+            <w xml:id="BRE_D6_5_45_3">vatter</w>
+            <w xml:id="BRE_D6_5_45_4">lag</w>
+            <w xml:id="BRE_D6_5_45_5">auff</w>
+            <w xml:id="BRE_D6_5_45_6">der</w>
+            <w xml:id="BRE_D6_5_45_7">bar</w>
+          </l>
+          <l n="5">
+            <w xml:id="BRE_D6_5_46_0">Und</w>
+            <w xml:id="BRE_D6_5_46_1">machest</w>
+            <w xml:id="BRE_D6_5_46_2">mich</w>
+            <w xml:id="BRE_D6_5_46_3">mit</w>
+            <w xml:id="BRE_D6_5_46_4">frauen</w>
+            <w xml:id="BRE_D6_5_46_5">schertzen</w>
+          </l>
+          <l n="6">
+            <w xml:id="BRE_D6_5_47_0">So</w>
+            <w xml:id="BRE_D6_5_47_1">es</w>
+            <w xml:id="BRE_D6_5_47_2">mir</w>
+            <w xml:id="BRE_D6_5_47_3">niergendt</w>
+            <w xml:id="BRE_D6_5_47_4">ist</w>
+            <w xml:id="BRE_D6_5_47_5">im</w>
+            <w xml:id="BRE_D6_5_47_6">hertzen</w>
+          </l>
+          <l n="7">
+            <w xml:id="BRE_D6_5_48_0">Machest</w>
+            <w xml:id="BRE_D6_5_48_1">das</w>
+            <w xml:id="BRE_D6_5_48_2">ich</w>
+            <w xml:id="BRE_D6_5_48_3">mit</w>
+            <w xml:id="BRE_D6_5_48_4">zehen</w>
+            <w xml:id="BRE_D6_5_48_5">wil</w>
+            <w xml:id="BRE_D6_5_48_6">fechten</w>
+          </l>
+          <l n="8">
+            <w xml:id="BRE_D6_5_49_0">Der</w>
+            <w xml:id="BRE_D6_5_49_1">ich</w>
+            <w xml:id="BRE_D6_5_49_2">kain</w>
+            <w xml:id="BRE_D6_5_49_3">fieng</w>
+            <w xml:id="BRE_D6_5_49_4">mit</w>
+            <w xml:id="BRE_D6_5_49_5">all</w>
+            <w xml:id="BRE_D6_5_49_6">mein</w>
+            <w xml:id="BRE_D6_5_49_7">knechten</w>
+          </l>
+          <l n="9">
+            <w xml:id="BRE_D6_5_50_0">Und</w>
+            <w xml:id="BRE_D6_5_50_1">machst</w>
+            <w xml:id="BRE_D6_5_50_2">mich</w>
+            <w xml:id="BRE_D6_5_50_3">offt</w>
+            <w xml:id="BRE_D6_5_50_4">zu</w>
+            <w xml:id="BRE_D6_5_50_5">einem</w>
+            <w xml:id="BRE_D6_5_50_6">stummen</w>
+          </l>
+          <l n="10">
+            <w xml:id="BRE_D6_5_51_0">Das</w>
+            <w xml:id="BRE_D6_5_51_1">keiner</w>
+            <w xml:id="BRE_D6_5_51_2">vor</w>
+            <w xml:id="BRE_D6_5_51_3">mir</w>
+            <w xml:id="BRE_D6_5_51_4">zu</w>
+            <w xml:id="BRE_D6_5_51_5">red</w>
+            <w xml:id="BRE_D6_5_51_6">mag</w>
+            <w xml:id="BRE_D6_5_51_7">kommen</w>
+          </l>
+          <l n="11">
+            <w xml:id="BRE_D6_5_52_0">Ich</w>
+            <w xml:id="BRE_D6_5_52_1">suͤff</w>
+            <w xml:id="BRE_D6_5_52_2">dich</w>
+            <w xml:id="BRE_D6_5_52_3">lieber</w>
+            <w xml:id="BRE_D6_5_52_4">in</w>
+            <w xml:id="BRE_D6_5_52_5">mein</w>
+            <w xml:id="BRE_D6_5_52_6">haupt</w>
+          </l>
+          <l n="12">
+            <w xml:id="BRE_D6_5_53_0">Dan<expan>n</expan></w>
+            <w xml:id="BRE_D6_5_53_1">ein</w>
+            <w xml:id="BRE_D6_5_53_2">kaͤßsuppn</w>
+            <w xml:id="BRE_D6_5_53_3">da</w>
+            <w xml:id="BRE_D6_5_53_4">ein</w>
+            <w xml:id="BRE_D6_5_53_5">kranck</w>
+            <w xml:id="BRE_D6_5_53_6">an</w>
+            <w xml:id="BRE_D6_5_53_7">glaubt</w>
+          </l>
+          <pb n="6"/>
+          <l n="13">
+            <w xml:id="BRE_D6_6_1_0">Ich</w>
+            <w xml:id="BRE_D6_6_1_1">bad</w>
+            <w xml:id="BRE_D6_6_1_2">mein</w>
+            <w xml:id="BRE_D6_6_1_3">zungen</w>
+            <w xml:id="BRE_D6_6_1_4">lieber</w>
+            <w xml:id="BRE_D6_6_1_5">auß</w>
+            <w xml:id="BRE_D6_6_1_6">dir</w>
+          </l>
+          <l n="14">
+            <w xml:id="BRE_D6_6_2_0">Dann</w>
+            <w xml:id="BRE_D6_6_2_1">auß</w>
+            <w xml:id="BRE_D6_6_2_2">einer</w>
+            <w xml:id="BRE_D6_6_2_3">guten</w>
+            <w xml:id="BRE_D6_6_2_4">wagen</w>
+            <w xml:id="BRE_D6_6_2_5">schmier</w>
+          </l>
+          <l n="15">
+            <w xml:id="BRE_D6_6_3_0">Mein</w>
+            <w xml:id="BRE_D6_6_3_1">zaͤn</w>
+            <w xml:id="BRE_D6_6_3_2">ich</w>
+            <w xml:id="BRE_D6_6_3_3">liebr</w>
+            <w xml:id="BRE_D6_6_3_4">auß</w>
+            <w xml:id="BRE_D6_6_3_5">dir</w>
+            <w xml:id="BRE_D6_6_3_6">wil</w>
+            <w xml:id="BRE_D6_6_3_7">netzen</w>
+          </l>
+          <l n="16">
+            <w xml:id="BRE_D6_6_4_0">Dann</w>
+            <w xml:id="BRE_D6_6_4_1">mir</w>
+            <w xml:id="BRE_D6_6_4_2">ein</w>
+            <w xml:id="BRE_D6_6_4_3">alt</w>
+            <w xml:id="BRE_D6_6_4_4">weib</w>
+            <w xml:id="BRE_D6_6_4_5">solt</w>
+            <w xml:id="BRE_D6_6_4_6">den</w>
+            <w xml:id="BRE_D6_6_4_7">arß</w>
+            <w xml:id="BRE_D6_6_4_8">dran</w>
+            <w xml:id="BRE_D6_6_4_9"><add place="below">wetzn</add></w>
+          </l>
+          <l n="17">
+            <w xml:id="BRE_D6_6_5_0">Du</w>
+            <w xml:id="BRE_D6_6_5_1">liebest</w>
+            <w xml:id="BRE_D6_6_5_2">mir</w>
+            <w xml:id="BRE_D6_6_5_3">je</w>
+            <w xml:id="BRE_D6_6_5_4">lenger</w>
+            <w xml:id="BRE_D6_6_5_5">je</w>
+            <w xml:id="BRE_D6_6_5_6">baß</w>
+          </l>
+          <l n="18">
+            <w xml:id="BRE_D6_6_6_0">Wer</w>
+            <w xml:id="BRE_D6_6_6_1">dir</w>
+            <w xml:id="BRE_D6_6_6_2">ist</w>
+            <w xml:id="BRE_D6_6_6_3">feind</w>
+            <w xml:id="BRE_D6_6_6_4">oder</w>
+            <w xml:id="BRE_D6_6_6_5">gehaß</w>
+          </l>
+          <l n="19">
+            <w xml:id="BRE_D6_6_7_0">Den</w>
+            <w xml:id="BRE_D6_6_7_1">woͤllen</w>
+            <w xml:id="BRE_D6_6_7_2">wir</w>
+            <w xml:id="BRE_D6_6_7_3">für</w>
+            <w xml:id="BRE_D6_6_7_4">ein</w>
+            <w xml:id="BRE_D6_6_7_5">narren</w>
+            <w xml:id="BRE_D6_6_7_6">verkuͤndn</w>
+          </l>
+          <l n="20">
+            <w xml:id="BRE_D6_6_8_0">Und</w>
+            <w xml:id="BRE_D6_6_8_1">woͤllen</w>
+            <w xml:id="BRE_D6_6_8_2">ims</w>
+            <w xml:id="BRE_D6_6_8_3">haar</w>
+            <w xml:id="BRE_D6_6_8_4">im</w>
+            <w xml:id="BRE_D6_6_8_5">ars</w>
+            <w xml:id="BRE_D6_6_8_6">anzuͤndn</w>
+          </l>
+        </div>
+        <!-- Text 8: Weingruß Süsser Himeltau (Hans Rosenplüt) (VD16 ZV 30224, 6) -->
+        <div type="section" n="8">
+          <head>
+            <hi rend="bold">
+              <w xml:id="BRE_D6_6_9_0">Der</w>
+              <w xml:id="BRE_D6_6_9_1">sibende</w>
+              <w xml:id="BRE_D6_6_9_2">grusz</w>
+            </hi>
+          </head>
+          <l n="1">
+            <w xml:id="BRE_D6_6_10_0"><hi rend="bold">N</hi>un</w>
+            <w xml:id="BRE_D6_6_10_1">gruͤß</w>
+            <w xml:id="BRE_D6_6_10_2">dich</w>
+            <w xml:id="BRE_D6_6_10_3">gott</w>
+            <w xml:id="BRE_D6_6_10_4">du</w>
+            <w xml:id="BRE_D6_6_10_5">suͤsser</w>
+            <w xml:id="BRE_D6_6_10_6">himel</w>
+            <w xml:id="BRE_D6_6_10_7">thau</w>
+          </l>
+          <l n="2">
+            <w xml:id="BRE_D6_6_11_0">Gehe</w>
+            <w xml:id="BRE_D6_6_11_1">her</w>
+            <w xml:id="BRE_D6_6_11_2">durchfeucht</w>
+            <w xml:id="BRE_D6_6_11_3">meins</w>
+            <w xml:id="BRE_D6_6_11_4">hertze<expan>n</expan></w>
+            <w xml:id="BRE_D6_6_11_5">au</w>
+          </l>
+          <l n="3">
+            <w xml:id="BRE_D6_6_12_0">Mit</w>
+            <w xml:id="BRE_D6_6_12_1">deinem</w>
+            <w xml:id="BRE_D6_6_12_2">gesundten</w>
+            <w xml:id="BRE_D6_6_12_3">heilsamen</w>
+            <w xml:id="BRE_D6_6_12_4">ruͤßl</w>
+          </l>
+          <l n="4">
+            <w xml:id="BRE_D6_6_13_0">Ich</w>
+            <w xml:id="BRE_D6_6_13_1">leg</w>
+            <w xml:id="BRE_D6_6_13_2">dir</w>
+            <w xml:id="BRE_D6_6_13_3">dar</w>
+            <w xml:id="BRE_D6_6_13_4">mein</w>
+            <w xml:id="BRE_D6_6_13_5">schatz</w>
+            <w xml:id="BRE_D6_6_13_6">und</w>
+            <w xml:id="BRE_D6_6_13_7">trüßl</w>
+          </l>
+          <l n="5">
+            <w xml:id="BRE_D6_6_14_0">Und</w>
+            <w xml:id="BRE_D6_6_14_1">alles</w>
+            <w xml:id="BRE_D6_6_14_2">das</w>
+            <w xml:id="BRE_D6_6_14_3">mein</w>
+            <w xml:id="BRE_D6_6_14_4">sinn</w>
+            <w xml:id="BRE_D6_6_14_5">erschleicht</w>
+          </l>
+          <l n="6">
+            <w xml:id="BRE_D6_6_15_0">Du</w>
+            <w xml:id="BRE_D6_6_15_1">machst</w>
+            <w xml:id="BRE_D6_6_15_2">das</w>
+            <w xml:id="BRE_D6_6_15_3">mancher</w>
+            <w xml:id="BRE_D6_6_15_4">gmaͤglich</w>
+            <w xml:id="BRE_D6_6_15_5">reicht</w>
+          </l>
+          <l n="7">
+            <w xml:id="BRE_D6_6_16_0">Doch</w>
+            <w xml:id="BRE_D6_6_16_1">ehe</w>
+            <w xml:id="BRE_D6_6_16_2">er</w>
+            <w xml:id="BRE_D6_6_16_3">dein</w>
+            <w xml:id="BRE_D6_6_16_4">wolt</w>
+            <w xml:id="BRE_D6_6_16_5">lang</w>
+            <w xml:id="BRE_D6_6_16_6">entbern</w>
+          </l>
+          <l n="8">
+            <w xml:id="BRE_D6_6_17_0">Ehe</w>
+            <w xml:id="BRE_D6_6_17_1">wuͤrd</w>
+            <w xml:id="BRE_D6_6_17_2">er</w>
+            <w xml:id="BRE_D6_6_17_3">kaͤsten</w>
+            <w xml:id="BRE_D6_6_17_4">und</w>
+            <w xml:id="BRE_D6_6_17_5">truhen</w>
+            <w xml:id="BRE_D6_6_17_6">lern</w>
+          </l>
+          <l n="9">
+            <w xml:id="BRE_D6_6_18_0">Sein</w>
+            <w xml:id="BRE_D6_6_18_1">lieb</w>
+            <w xml:id="BRE_D6_6_18_2">die</w>
+            <w xml:id="BRE_D6_6_18_3">helt</w>
+            <w xml:id="BRE_D6_6_18_4">er</w>
+            <w xml:id="BRE_D6_6_18_5">an</w>
+            <w xml:id="BRE_D6_6_18_6">dir</w>
+            <w xml:id="BRE_D6_6_18_7">staͤt</w>
+          </l>
+          <l n="10">
+            <w xml:id="BRE_D6_6_19_0">Das</w>
+            <w xml:id="BRE_D6_6_19_1">er</w>
+            <w xml:id="BRE_D6_6_19_2">macht</w>
+            <w xml:id="BRE_D6_6_19_3">laͤr</w>
+            <w xml:id="BRE_D6_6_19_4">sein</w>
+            <w xml:id="BRE_D6_6_19_5">kandelbraͤdt</w>
+          </l>
+          <l n="11">
+            <w xml:id="BRE_D6_6_20_0">Ich</w>
+            <w xml:id="BRE_D6_6_20_1">setz</w>
+            <w xml:id="BRE_D6_6_20_2">in</w>
+            <w xml:id="BRE_D6_6_20_3">dich</w>
+            <w xml:id="BRE_D6_6_20_4">auch</w>
+            <w xml:id="BRE_D6_6_20_5">all</w>
+            <w xml:id="BRE_D6_6_20_6">mein</w>
+            <w xml:id="BRE_D6_6_20_7">trauen</w>
+          </l>
+          <l n="12">
+            <w xml:id="BRE_D6_6_21_0">Und</w>
+            <w xml:id="BRE_D6_6_21_1">solt</w>
+            <w xml:id="BRE_D6_6_21_2">ich</w>
+            <w xml:id="BRE_D6_6_21_3">nimmer</w>
+            <w xml:id="BRE_D6_6_21_4">kein</w>
+            <w xml:id="BRE_D6_6_21_5">hauß</w>
+            <w xml:id="BRE_D6_6_21_6">erbauen</w>
+          </l>
+          <l n="13">
+            <w xml:id="BRE_D6_6_22_0">Doch</w>
+            <w xml:id="BRE_D6_6_22_1">wil</w>
+            <w xml:id="BRE_D6_6_22_2">ich</w>
+            <w xml:id="BRE_D6_6_22_3">mich</w>
+            <w xml:id="BRE_D6_6_22_4">nit</w>
+            <w xml:id="BRE_D6_6_22_5">von</w>
+            <w xml:id="BRE_D6_6_22_6">dir</w>
+            <w xml:id="BRE_D6_6_22_7">scheiden</w>
+          </l>
+          <l n="14">
+            <w xml:id="BRE_D6_6_23_0">Auch</w>
+            <w xml:id="BRE_D6_6_23_1">kan</w>
+            <w xml:id="BRE_D6_6_23_2">dich</w>
+            <w xml:id="BRE_D6_6_23_3">niemandt</w>
+            <w xml:id="BRE_D6_6_23_4">mir</w>
+            <w xml:id="BRE_D6_6_23_5">erleiden</w>
+          </l>
+          <l n="15">
+            <w xml:id="BRE_D6_6_24_0">Kein</w>
+            <w xml:id="BRE_D6_6_24_1">feindschafft</w>
+            <w xml:id="BRE_D6_6_24_2">wil</w>
+            <w xml:id="BRE_D6_6_24_3">ich</w>
+            <w xml:id="BRE_D6_6_24_4">zu</w>
+            <w xml:id="BRE_D6_6_24_5">dir</w>
+            <w xml:id="BRE_D6_6_24_6">tragen</w>
+          </l>
+          <l n="16">
+            <w xml:id="BRE_D6_6_25_0">Nun</w>
+            <w xml:id="BRE_D6_6_25_1">fleuß</w>
+            <w xml:id="BRE_D6_6_25_2">mir</w>
+            <w xml:id="BRE_D6_6_25_3">her</w>
+            <w xml:id="BRE_D6_6_25_4">in</w>
+            <w xml:id="BRE_D6_6_25_5">meinen</w>
+            <w xml:id="BRE_D6_6_25_6">kragen</w>
+          </l>
+        </div>
+        <!-- Text 9: Weinsegen Edles Abkülen (Hans Rosenplüt) (VD16 ZV 30224, 7-8) -->
+        <div type="section" n="9">
+          <pb n="7"/>
+          <head>
+            <hi rend="bold">
+              <w xml:id="BRE_D6_7_1_0">Der</w>
+              <w xml:id="BRE_D6_7_1_1">achte</w>
+              <w xml:id="BRE_D6_7_1_2">grusz</w>
+            </hi>
+          </head>
+          <l n="1">
+            <w xml:id="BRE_D6_7_2_0"><hi rend="bold">N</hi>un</w>
+            <w xml:id="BRE_D6_7_2_1">gruͤß</w>
+            <w xml:id="BRE_D6_7_2_2">dich</w>
+            <w xml:id="BRE_D6_7_2_3">gott</w>
+            <w xml:id="BRE_D6_7_2_4">du</w>
+            <w xml:id="BRE_D6_7_2_5">edles</w>
+            <w xml:id="BRE_D6_7_2_6">abkhulen</w>
+          </l>
+          <l n="2">
+            <w xml:id="BRE_D6_7_3_0">Die</w>
+            <w xml:id="BRE_D6_7_3_1">maister</w>
+            <w xml:id="BRE_D6_7_3_2">auff</w>
+            <w xml:id="BRE_D6_7_3_3">den</w>
+            <w xml:id="BRE_D6_7_3_4">hohen</w>
+            <w xml:id="BRE_D6_7_3_5">schuelen</w>
+          </l>
+          <l n="3">
+            <w xml:id="BRE_D6_7_4_0">Haben</w>
+            <w xml:id="BRE_D6_7_4_1">dich</w>
+            <w xml:id="BRE_D6_7_4_2">für</w>
+            <w xml:id="BRE_D6_7_4_3">ein</w>
+            <w xml:id="BRE_D6_7_4_4">gsunde</w>
+            <w xml:id="BRE_D6_7_4_5">artzney</w>
+          </l>
+          <l n="4">
+            <w xml:id="BRE_D6_7_5_0">Du</w>
+            <w xml:id="BRE_D6_7_5_1">troͤst</w>
+            <w xml:id="BRE_D6_7_5_2">auch</w>
+            <w xml:id="BRE_D6_7_5_3">all</w>
+            <w xml:id="BRE_D6_7_5_4">kindbetterey</w>
+          </l>
+          <l n="5">
+            <w xml:id="BRE_D6_7_6_0">Es</w>
+            <w xml:id="BRE_D6_7_6_1">sey</w>
+            <w xml:id="BRE_D6_7_6_2">dann</w>
+            <w xml:id="BRE_D6_7_6_3">das</w>
+            <w xml:id="BRE_D6_7_6_4">in</w>
+            <w xml:id="BRE_D6_7_6_5">gelts</w>
+            <w xml:id="BRE_D6_7_6_6">zerrin</w>
+          </l>
+          <l n="6">
+            <w xml:id="BRE_D6_7_7_0">Sind</w>
+            <w xml:id="BRE_D6_7_7_1">sie</w>
+            <w xml:id="BRE_D6_7_7_2">betruͤbt</w>
+            <w xml:id="BRE_D6_7_7_3">in</w>
+            <w xml:id="BRE_D6_7_7_4">ihrem</w>
+            <w xml:id="BRE_D6_7_7_5">sinn</w>
+          </l>
+          <l n="7">
+            <w xml:id="BRE_D6_7_8_0">Du</w>
+            <w xml:id="BRE_D6_7_8_1">troͤst</w>
+            <w xml:id="BRE_D6_7_8_2">all</w>
+            <w xml:id="BRE_D6_7_8_3">burgr</w>
+            <w xml:id="BRE_D6_7_8_4">auff</w>
+            <w xml:id="BRE_D6_7_8_5">den</w>
+            <w xml:id="BRE_D6_7_8_6">wolwegen</w>
+          </l>
+          <l n="8">
+            <w xml:id="BRE_D6_7_9_0">Und</w>
+            <w xml:id="BRE_D6_7_9_1">hilffst</w>
+            <w xml:id="BRE_D6_7_9_2">in</w>
+            <w xml:id="BRE_D6_7_9_3">hin</w>
+            <w xml:id="BRE_D6_7_9_4">in</w>
+            <w xml:id="BRE_D6_7_9_5">wind</w>
+            <w xml:id="BRE_D6_7_9_6">und</w>
+            <w xml:id="BRE_D6_7_9_7">regen</w>
+          </l>
+          <l n="9">
+            <w xml:id="BRE_D6_7_10_0">Und</w>
+            <w xml:id="BRE_D6_7_10_1">troͤst</w>
+            <w xml:id="BRE_D6_7_10_2">die</w>
+            <w xml:id="BRE_D6_7_10_3">rainen</w>
+            <w xml:id="BRE_D6_7_10_4">in</w>
+            <w xml:id="BRE_D6_7_10_5">den</w>
+            <w xml:id="BRE_D6_7_10_6">klausen</w>
+          </l>
+          <l n="10">
+            <w xml:id="BRE_D6_7_11_0">Darumb</w>
+            <w xml:id="BRE_D6_7_11_1">wil</w>
+            <w xml:id="BRE_D6_7_11_2">ich</w>
+            <w xml:id="BRE_D6_7_11_3">gern</w>
+            <w xml:id="BRE_D6_7_11_4">bey</w>
+            <w xml:id="BRE_D6_7_11_5">dir</w>
+            <w xml:id="BRE_D6_7_11_6">hausen</w>
+          </l>
+          <l n="11">
+            <w xml:id="BRE_D6_7_12_0">Dann</w>
+            <w xml:id="BRE_D6_7_12_1">du</w>
+            <w xml:id="BRE_D6_7_12_2">bist</w>
+            <w xml:id="BRE_D6_7_12_3">mir</w>
+            <w xml:id="BRE_D6_7_12_4">ein</w>
+            <w xml:id="BRE_D6_7_12_5">lieber</w>
+            <w xml:id="BRE_D6_7_12_6">gast</w>
+          </l>
+          <l n="12">
+            <w xml:id="BRE_D6_7_13_0">Manicher</w>
+            <w xml:id="BRE_D6_7_13_1">hat</w>
+            <w xml:id="BRE_D6_7_13_2">wedr</w>
+            <w xml:id="BRE_D6_7_13_3">rhu</w>
+            <w xml:id="BRE_D6_7_13_4">noch</w>
+            <w xml:id="BRE_D6_7_13_5">rast</w>
+          </l>
+          <l n="13">
+            <w xml:id="BRE_D6_7_14_0">Als</w>
+            <w xml:id="BRE_D6_7_14_1">lang</w>
+            <w xml:id="BRE_D6_7_14_2">biß</w>
+            <w xml:id="BRE_D6_7_14_3">er</w>
+            <w xml:id="BRE_D6_7_14_4">kommet</w>
+            <w xml:id="BRE_D6_7_14_5">zu</w>
+            <w xml:id="BRE_D6_7_14_6">dir</w>
+          </l>
+          <l n="14">
+            <w xml:id="BRE_D6_7_15_0">Nun</w>
+            <w xml:id="BRE_D6_7_15_1">gruͤß</w>
+            <w xml:id="BRE_D6_7_15_2">dich</w>
+            <w xml:id="BRE_D6_7_15_3">gott</w>
+            <w xml:id="BRE_D6_7_15_4">gehe</w>
+            <w xml:id="BRE_D6_7_15_5">her</w>
+            <w xml:id="BRE_D6_7_15_6">zu</w>
+            <w xml:id="BRE_D6_7_15_7">mir</w>
+          </l>
+          <l n="15">
+            <w xml:id="BRE_D6_7_16_0">Alles</w>
+            <w xml:id="BRE_D6_7_16_1">mein</w>
+            <w xml:id="BRE_D6_7_16_2">leidt</w>
+            <w xml:id="BRE_D6_7_16_3">weicht</w>
+            <w xml:id="BRE_D6_7_16_4">von</w>
+            <w xml:id="BRE_D6_7_16_5">mir</w>
+            <w xml:id="BRE_D6_7_16_6">ab</w>
+          </l>
+          <l n="16">
+            <w xml:id="BRE_D6_7_17_0">Wenn</w>
+            <w xml:id="BRE_D6_7_17_1">ich</w>
+            <w xml:id="BRE_D6_7_17_2">dein</w>
+            <w xml:id="BRE_D6_7_17_3">vier</w>
+            <w xml:id="BRE_D6_7_17_4">maß</w>
+            <w xml:id="BRE_D6_7_17_5">in</w>
+            <w xml:id="BRE_D6_7_17_6">mir</w>
+            <w xml:id="BRE_D6_7_17_7">hab</w>
+          </l>
+          <l n="17">
+            <w xml:id="BRE_D6_7_18_0">Hernach</w>
+            <w xml:id="BRE_D6_7_18_1">so</w>
+            <w xml:id="BRE_D6_7_18_2">hab</w>
+            <w xml:id="BRE_D6_7_18_3">ich</w>
+            <w xml:id="BRE_D6_7_18_4">grosse</w>
+            <w xml:id="BRE_D6_7_18_5">muͤhe</w>
+          </l>
+          <l n="18">
+            <w xml:id="BRE_D6_7_19_0">Biß</w>
+            <w xml:id="BRE_D6_7_19_1">ich</w>
+            <w xml:id="BRE_D6_7_19_2">dich</w>
+            <w xml:id="BRE_D6_7_19_3">wider</w>
+            <w xml:id="BRE_D6_7_19_4">bring</w>
+            <w xml:id="BRE_D6_7_19_5">zu</w>
+            <w xml:id="BRE_D6_7_19_6">ruhe</w>
+          </l>
+          <l n="19">
+            <w xml:id="BRE_D6_7_20_0">Du</w>
+            <w xml:id="BRE_D6_7_20_1">bist</w>
+            <w xml:id="BRE_D6_7_20_2">mir</w>
+            <w xml:id="BRE_D6_7_20_3">doch</w>
+            <w xml:id="BRE_D6_7_20_4">ein</w>
+            <w xml:id="BRE_D6_7_20_5">suͤsz</w>
+            <w xml:id="BRE_D6_7_20_6">gespreng</w>
+          </l>
+          <l n="20">
+            <w xml:id="BRE_D6_7_21_0">Es</w>
+            <w xml:id="BRE_D6_7_21_1">wehrt</w>
+            <w xml:id="BRE_D6_7_21_2">aber</w>
+            <w xml:id="BRE_D6_7_21_3">nit</w>
+            <w xml:id="BRE_D6_7_21_4">in</w>
+            <w xml:id="BRE_D6_7_21_5">die</w>
+            <w xml:id="BRE_D6_7_21_6">leng</w>
+          </l>
+          <l n="21">
+            <w xml:id="BRE_D6_7_22_0">Doch</w>
+            <w xml:id="BRE_D6_7_22_1">wer</w>
+            <w xml:id="BRE_D6_7_22_2">zu</w>
+            <w xml:id="BRE_D6_7_22_3">lang</w>
+            <w xml:id="BRE_D6_7_22_4">bey</w>
+            <w xml:id="BRE_D6_7_22_5">dir</w>
+            <w xml:id="BRE_D6_7_22_6">will</w>
+            <w xml:id="BRE_D6_7_22_7">harren</w>
+          </l>
+          <l n="22">
+            <w xml:id="BRE_D6_7_23_0">Den</w>
+            <w xml:id="BRE_D6_7_23_1">haltn</w>
+            <w xml:id="BRE_D6_7_23_2">die</w>
+            <w xml:id="BRE_D6_7_23_3">meisten</w>
+            <w xml:id="BRE_D6_7_23_4">fuͤr</w>
+            <w xml:id="BRE_D6_7_23_5">ein</w>
+            <w xml:id="BRE_D6_7_23_6">narren</w>
+          </l>
+          <l n="23">
+            <w xml:id="BRE_D6_7_24_0">Wer</w>
+            <w xml:id="BRE_D6_7_24_1">dein</w>
+            <w xml:id="BRE_D6_7_24_2">zuviel</w>
+            <w xml:id="BRE_D6_7_24_3">auff</w>
+            <w xml:id="BRE_D6_7_24_4">sich</w>
+            <w xml:id="BRE_D6_7_24_5">gelegt</w>
+          </l>
+          <l n="24">
+            <w xml:id="BRE_D6_7_25_0">Der</w>
+            <w xml:id="BRE_D6_7_25_1">hat</w>
+            <w xml:id="BRE_D6_7_25_2">sein</w>
+            <w xml:id="BRE_D6_7_25_3">sinn</w>
+            <w xml:id="BRE_D6_7_25_4">wol</w>
+            <w xml:id="BRE_D6_7_25_5">halb</w>
+            <w xml:id="BRE_D6_7_25_6">verzehrt</w>
+          </l>
+          <l n="25">
+            <w xml:id="BRE_D6_7_26_0">Wer</w>
+            <w xml:id="BRE_D6_7_26_1">dich</w>
+            <w xml:id="BRE_D6_7_26_2">nicht</w>
+            <w xml:id="BRE_D6_7_26_3">huͤpschlich</w>
+            <w xml:id="BRE_D6_7_26_4">drincken</w>
+            <w xml:id="BRE_D6_7_26_5">kan</w>
+          </l>
+          <l n="26">
+            <w xml:id="BRE_D6_7_27_0">Regiert</w>
+            <w xml:id="BRE_D6_7_27_1">wol</w>
+            <w xml:id="BRE_D6_7_27_2">auff</w>
+            <w xml:id="BRE_D6_7_27_3">der</w>
+            <w xml:id="BRE_D6_7_27_4">narren</w>
+            <w xml:id="BRE_D6_7_27_5">wahn</w>
+          </l>
+          <pb n="8"/>
+          <l n="27">
+            <w xml:id="BRE_D6_8_1_0">Wer</w>
+            <w xml:id="BRE_D6_8_1_1">dein</w>
+            <w xml:id="BRE_D6_8_1_2">zuvil</w>
+            <w xml:id="BRE_D6_8_1_3">an</w>
+            <w xml:id="BRE_D6_8_1_4">dohren</w>
+            <w xml:id="BRE_D6_8_1_5">henckt</w>
+          </l>
+          <l n="28">
+            <w xml:id="BRE_D6_8_2_0">Der</w>
+            <w xml:id="BRE_D6_8_2_1">hat</w>
+            <w xml:id="BRE_D6_8_2_2">sein</w>
+            <w xml:id="BRE_D6_8_2_3">weißheit</w>
+            <w xml:id="BRE_D6_8_2_4">ausgeschenckt</w>
+          </l>
+          <l n="29">
+            <w xml:id="BRE_D6_8_3_0">Der</w>
+            <w xml:id="BRE_D6_8_3_1">stück</w>
+            <w xml:id="BRE_D6_8_3_2">ich</w>
+            <w xml:id="BRE_D6_8_3_3">keins</w>
+            <w xml:id="BRE_D6_8_3_4">an</w>
+            <w xml:id="BRE_D6_8_3_5">dir</w>
+            <w xml:id="BRE_D6_8_3_6">wil</w>
+            <w xml:id="BRE_D6_8_3_7">scheuen</w>
+          </l>
+          <l n="30">
+            <w xml:id="BRE_D6_8_4_0">Und</w>
+            <w xml:id="BRE_D6_8_4_1">wil</w>
+            <w xml:id="BRE_D6_8_4_2">dein</w>
+            <w xml:id="BRE_D6_8_4_3">lob</w>
+            <w xml:id="BRE_D6_8_4_4">all</w>
+            <w xml:id="BRE_D6_8_4_5">tag</w>
+            <w xml:id="BRE_D6_8_4_6">erneuen</w>
+          </l>
+          <l n="31">
+            <w xml:id="BRE_D6_8_5_0">Gott</w>
+            <w xml:id="BRE_D6_8_5_1">mach</w>
+            <w xml:id="BRE_D6_8_5_2">selig</w>
+            <w xml:id="BRE_D6_8_5_3">all</w>
+            <w xml:id="BRE_D6_8_5_4">mann</w>
+            <w xml:id="BRE_D6_8_5_5">und</w>
+            <w xml:id="BRE_D6_8_5_6">frauen</w>
+          </l>
+          <l n="32">
+            <w xml:id="BRE_D6_8_6_0">Die</w>
+            <w xml:id="BRE_D6_8_6_1">dich</w>
+            <w xml:id="BRE_D6_8_6_2">an</w>
+            <w xml:id="BRE_D6_8_6_3">hohen</w>
+            <w xml:id="BRE_D6_8_6_4">bergen</w>
+            <w xml:id="BRE_D6_8_6_5">hauen</w>
+          </l>
+          <l n="33">
+            <w xml:id="BRE_D6_8_7_0">Das</w>
+            <w xml:id="BRE_D6_8_7_1">inen</w>
+            <w xml:id="BRE_D6_8_7_2">nimmer</w>
+            <w xml:id="BRE_D6_8_7_3">laidt</w>
+            <w xml:id="BRE_D6_8_7_4">geschehe</w>
+          </l>
+          <l n="34">
+            <w xml:id="BRE_D6_8_8_0">Fahr</w>
+            <w xml:id="BRE_D6_8_8_1">hin</w>
+            <w xml:id="BRE_D6_8_8_2">und</w>
+            <w xml:id="BRE_D6_8_8_3">halt</w>
+            <w xml:id="BRE_D6_8_8_4">dich</w>
+            <w xml:id="BRE_D6_8_8_5">in</w>
+            <w xml:id="BRE_D6_8_8_6">der</w>
+            <w xml:id="BRE_D6_8_8_7">nehe</w>
+          </l>
+          <l n="35">
+            <w xml:id="BRE_D6_8_9_0">Ich</w>
+            <w xml:id="BRE_D6_8_9_1">wil</w>
+            <w xml:id="BRE_D6_8_9_2">dich</w>
+            <w xml:id="BRE_D6_8_9_3">all</w>
+            <w xml:id="BRE_D6_8_9_4">tag</w>
+            <w xml:id="BRE_D6_8_9_5">wider</w>
+            <w xml:id="BRE_D6_8_9_6">suchen</w>
+          </l>
+          <l n="36">
+            <w xml:id="BRE_D6_8_10_0">Solt</w>
+            <w xml:id="BRE_D6_8_10_1">mich</w>
+            <w xml:id="BRE_D6_8_10_2">halt</w>
+            <w xml:id="BRE_D6_8_10_3">weib</w>
+            <w xml:id="BRE_D6_8_10_4">und</w>
+            <w xml:id="BRE_D6_8_10_5">kind</w>
+            <w xml:id="BRE_D6_8_10_6">verfluchen</w>
+          </l>
+          <note type="editorial">Ab hier ist Weingruß Allerliebster Trunck in den Weinsegen Edles Abkülen eingearbeitet (Hauptseite des Brevitas-Wikis: in Klammern, kein eigener Text).</note>
+          <l n="37">
+            <w xml:id="BRE_D6_8_11_0">Nun</w>
+            <w xml:id="BRE_D6_8_11_1">gruͤsz</w>
+            <w xml:id="BRE_D6_8_11_2">dich</w>
+            <w xml:id="BRE_D6_8_11_3">got</w>
+            <w xml:id="BRE_D6_8_11_4">mein</w>
+            <w xml:id="BRE_D6_8_11_5">lieber</w>
+            <w xml:id="BRE_D6_8_11_6">trunck</w>
+          </l>
+          <l n="38">
+            <w xml:id="BRE_D6_8_12_0">Ich</w>
+            <w xml:id="BRE_D6_8_12_1">war</w>
+            <w xml:id="BRE_D6_8_12_2">dir</w>
+            <w xml:id="BRE_D6_8_12_3">holt</w>
+            <w xml:id="BRE_D6_8_12_4">da</w>
+            <w xml:id="BRE_D6_8_12_5">ich</w>
+            <w xml:id="BRE_D6_8_12_6">was</w>
+            <w xml:id="BRE_D6_8_12_7">jung</w>
+          </l>
+          <l n="39">
+            <w xml:id="BRE_D6_8_13_0">Auch</w>
+            <w xml:id="BRE_D6_8_13_1">wil</w>
+            <w xml:id="BRE_D6_8_13_2">ich</w>
+            <w xml:id="BRE_D6_8_13_3">nimmer</w>
+            <w xml:id="BRE_D6_8_13_4">von</w>
+            <w xml:id="BRE_D6_8_13_5">dir</w>
+            <w xml:id="BRE_D6_8_13_6">weichen</w>
+          </l>
+          <l n="40">
+            <w xml:id="BRE_D6_8_14_0">Ich</w>
+            <w xml:id="BRE_D6_8_14_1">wil</w>
+            <w xml:id="BRE_D6_8_14_2">dir</w>
+            <w xml:id="BRE_D6_8_14_3">tag</w>
+            <w xml:id="BRE_D6_8_14_4">und</w>
+            <w xml:id="BRE_D6_8_14_5">nacht</w>
+            <w xml:id="BRE_D6_8_14_6">nachschleichen</w>
+          </l>
+          <l n="41">
+            <w xml:id="BRE_D6_8_15_0">Und</w>
+            <w xml:id="BRE_D6_8_15_1">wo</w>
+            <w xml:id="BRE_D6_8_15_2">du</w>
+            <w xml:id="BRE_D6_8_15_3">bist</w>
+            <w xml:id="BRE_D6_8_15_4">do</w>
+            <w xml:id="BRE_D6_8_15_5">bin</w>
+            <w xml:id="BRE_D6_8_15_6">ich</w>
+            <w xml:id="BRE_D6_8_15_7">gern</w>
+          </l>
+          <l n="42">
+            <w xml:id="BRE_D6_8_16_0">Ich</w>
+            <w xml:id="BRE_D6_8_16_1">kan</w>
+            <w xml:id="BRE_D6_8_16_2">wol</w>
+            <w xml:id="BRE_D6_8_16_3">krausen</w>
+            <w xml:id="BRE_D6_8_16_4">und</w>
+            <w xml:id="BRE_D6_8_16_5">becher</w>
+            <w xml:id="BRE_D6_8_16_6">lern</w>
+          </l>
+          <l n="43">
+            <w xml:id="BRE_D6_8_17_0">Und</w>
+            <w xml:id="BRE_D6_8_17_1">kan</w>
+            <w xml:id="BRE_D6_8_17_2">wol</w>
+            <w xml:id="BRE_D6_8_17_3">schleichen</w>
+            <w xml:id="BRE_D6_8_17_4">aus</w>
+            <w xml:id="BRE_D6_8_17_5">dem</w>
+            <w xml:id="BRE_D6_8_17_6">glas</w>
+          </l>
+          <l n="44">
+            <w xml:id="BRE_D6_8_18_0">Das</w>
+            <w xml:id="BRE_D6_8_18_1">lernet</w>
+            <w xml:id="BRE_D6_8_18_2">ich</w>
+            <w xml:id="BRE_D6_8_18_3">do</w>
+            <w xml:id="BRE_D6_8_18_4">ich</w>
+            <w xml:id="BRE_D6_8_18_5">jung</w>
+            <w xml:id="BRE_D6_8_18_6">was</w>
+          </l>
+          <l n="45">
+            <w xml:id="BRE_D6_8_19_0">Dunckt</w>
+            <w xml:id="BRE_D6_8_19_1">mich</w>
+            <w xml:id="BRE_D6_8_19_2">im</w>
+            <w xml:id="BRE_D6_8_19_3">alter</w>
+            <w xml:id="BRE_D6_8_19_4">auch</w>
+            <w xml:id="BRE_D6_8_19_5">sein</w>
+            <w xml:id="BRE_D6_8_19_6">recht</w>
+          </l>
+          <l n="46">
+            <w xml:id="BRE_D6_8_20_0">All</w>
+            <w xml:id="BRE_D6_8_20_1">mein</w>
+            <w xml:id="BRE_D6_8_20_2">freundt</w>
+            <w xml:id="BRE_D6_8_20_3">habn</w>
+            <w xml:id="BRE_D6_8_20_4">dich</w>
+            <w xml:id="BRE_D6_8_20_5">nie</w>
+            <w xml:id="BRE_D6_8_20_6">verschmecht</w>
+          </l>
+          <l n="47">
+            <w xml:id="BRE_D6_8_21_0">Du</w>
+            <w xml:id="BRE_D6_8_21_1">zeugst</w>
+            <w xml:id="BRE_D6_8_21_2">an</w>
+            <w xml:id="BRE_D6_8_21_3">dich</w>
+            <w xml:id="BRE_D6_8_21_4">als</w>
+            <w xml:id="BRE_D6_8_21_5">der</w>
+            <w xml:id="BRE_D6_8_21_6">magnet</w>
+          </l>
+          <l n="48">
+            <w xml:id="BRE_D6_8_22_0">Mancher</w>
+            <w xml:id="BRE_D6_8_22_1">zu</w>
+            <w xml:id="BRE_D6_8_22_2">mittag</w>
+            <w xml:id="BRE_D6_8_22_3">zu</w>
+            <w xml:id="BRE_D6_8_22_4">dir</w>
+            <w xml:id="BRE_D6_8_22_5">geht</w>
+          </l>
+          <l n="49">
+            <w xml:id="BRE_D6_8_23_0">Und</w>
+            <w xml:id="BRE_D6_8_23_1">kombt</w>
+            <w xml:id="BRE_D6_8_23_2">kaum</w>
+            <w xml:id="BRE_D6_8_23_3">heim</w>
+            <w xml:id="BRE_D6_8_23_4">zu</w>
+            <w xml:id="BRE_D6_8_23_5">mitternacht</w>
+          </l>
+          <l n="50">
+            <w xml:id="BRE_D6_8_24_0">Das</w>
+            <w xml:id="BRE_D6_8_24_1">habn</w>
+            <w xml:id="BRE_D6_8_24_2">dein</w>
+            <w xml:id="BRE_D6_8_24_3">suͤsse</w>
+            <w xml:id="BRE_D6_8_24_4">zuͤg</w>
+            <w xml:id="BRE_D6_8_24_5">gemacht</w>
+          </l>
+          <l n="51">
+            <w xml:id="BRE_D6_8_25_0">Wirffst</w>
+            <w xml:id="BRE_D6_8_25_1">sie</w>
+            <w xml:id="BRE_D6_8_25_2">des</w>
+            <w xml:id="BRE_D6_8_25_3">nachts</w>
+            <w xml:id="BRE_D6_8_25_4">in</w>
+            <w xml:id="BRE_D6_8_25_5">dreck</w>
+            <w xml:id="BRE_D6_8_25_6">darnider</w>
+          </l>
+          <l n="52">
+            <w xml:id="BRE_D6_8_26_0">Noch</w>
+            <w xml:id="BRE_D6_8_26_1">gehn</w>
+            <w xml:id="BRE_D6_8_26_2">sie</w>
+            <w xml:id="BRE_D6_8_26_3">morgens</w>
+            <w xml:id="BRE_D6_8_26_4">gern</w>
+            <w xml:id="BRE_D6_8_26_5">hinwider</w>
+          </l>
+          <l n="53">
+            <w xml:id="BRE_D6_8_27_0">Suchen</w>
+            <w xml:id="BRE_D6_8_27_1">grosse</w>
+            <w xml:id="BRE_D6_8_27_2">freundschafft</w>
+            <w xml:id="BRE_D6_8_27_3">zu</w>
+            <w xml:id="BRE_D6_8_27_4">dir</w>
+          </l>
+          <l n="54">
+            <w xml:id="BRE_D6_8_28_0">Als</w>
+            <w xml:id="BRE_D6_8_28_1">werstu</w>
+            <w xml:id="BRE_D6_8_28_2">der</w>
+            <w xml:id="BRE_D6_8_28_3">recht</w>
+            <w xml:id="BRE_D6_8_28_4">bruder</w>
+            <w xml:id="BRE_D6_8_28_5">ir</w>
+          </l>
+          <pb n="9"/>
+          <l n="55">
+            <w xml:id="BRE_D6_9_1_0">All</w>
+            <w xml:id="BRE_D6_9_1_1">juden</w>
+            <w xml:id="BRE_D6_9_1_2">christen</w>
+            <w xml:id="BRE_D6_9_1_3">und</w>
+            <w xml:id="BRE_D6_9_1_4">hayden</w>
+            <w xml:id="BRE_D6_9_1_5">bitten</w>
+          </l>
+          <l n="56">
+            <w xml:id="BRE_D6_9_2_0">Das</w>
+            <w xml:id="BRE_D6_9_2_1">gott</w>
+            <w xml:id="BRE_D6_9_2_2">woͤl</w>
+            <w xml:id="BRE_D6_9_2_3">beschirmen</w>
+            <w xml:id="BRE_D6_9_2_4">und</w>
+            <w xml:id="BRE_D6_9_2_5">beschuͤtzen</w>
+          </l>
+          <l n="57">
+            <w xml:id="BRE_D6_9_3_0">Den</w>
+            <w xml:id="BRE_D6_9_3_1">stock</w>
+            <w xml:id="BRE_D6_9_3_2">und</w>
+            <w xml:id="BRE_D6_9_3_3">reben</w>
+            <w xml:id="BRE_D6_9_3_4">da</w>
+            <w xml:id="BRE_D6_9_3_5">du</w>
+            <w xml:id="BRE_D6_9_3_6">an</w>
+            <w xml:id="BRE_D6_9_3_7">hangst</w>
+          </l>
+          <l n="58">
+            <w xml:id="BRE_D6_9_4_0">Und</w>
+            <w xml:id="BRE_D6_9_4_1">du</w>
+            <w xml:id="BRE_D6_9_4_2">so</w>
+            <w xml:id="BRE_D6_9_4_3">lieblich</w>
+            <w xml:id="BRE_D6_9_4_4">vor</w>
+            <w xml:id="BRE_D6_9_4_5">mir</w>
+            <w xml:id="BRE_D6_9_4_6">brangst</w>
+          </l>
+          <l n="59">
+            <w xml:id="BRE_D6_9_5_0">Wie</w>
+            <w xml:id="BRE_D6_9_5_1">moͤcht</w>
+            <w xml:id="BRE_D6_9_5_2">ich</w>
+            <w xml:id="BRE_D6_9_5_3">dir</w>
+            <w xml:id="BRE_D6_9_5_4">dann</w>
+            <w xml:id="BRE_D6_9_5_5">das</w>
+            <w xml:id="BRE_D6_9_5_6">versagen</w>
+          </l>
+          <l n="60">
+            <w xml:id="BRE_D6_9_6_0">Ich</w>
+            <w xml:id="BRE_D6_9_6_1">mus</w>
+            <w xml:id="BRE_D6_9_6_2">dich</w>
+            <w xml:id="BRE_D6_9_6_3">drincken</w>
+            <w xml:id="BRE_D6_9_6_4">in</w>
+            <w xml:id="BRE_D6_9_6_5">meinen</w>
+            <w xml:id="BRE_D6_9_6_6">kragen</w>
+          </l>
+          <note type="editorial">Ab hier ist Weinsegen Allerliebster Trost in den Weinsegen Edles Abkülen eingearbeitet (Hauptseite des Brevitas-Wikis: in Klammern, kein eigener Text).</note>
+          <l n="61">
+            <w xml:id="BRE_D6_9_7_0">Gruͤs</w>
+            <w xml:id="BRE_D6_9_7_1">dich</w>
+            <w xml:id="BRE_D6_9_7_2">got</w>
+            <w xml:id="BRE_D6_9_7_3">mein</w>
+            <w xml:id="BRE_D6_9_7_4">lieber</w>
+            <w xml:id="BRE_D6_9_7_5">trost</w>
+          </l>
+          <l n="62">
+            <w xml:id="BRE_D6_9_8_0">Du</w>
+            <w xml:id="BRE_D6_9_8_1">hast</w>
+            <w xml:id="BRE_D6_9_8_2">mich</w>
+            <w xml:id="BRE_D6_9_8_3">offt</w>
+            <w xml:id="BRE_D6_9_8_4">vom</w>
+            <w xml:id="BRE_D6_9_8_5">durst</w>
+            <w xml:id="BRE_D6_9_8_6">erloͤst</w>
+          </l>
+          <l n="63">
+            <w xml:id="BRE_D6_9_9_0">Du</w>
+            <w xml:id="BRE_D6_9_9_1">machst</w>
+            <w xml:id="BRE_D6_9_9_2">mir</w>
+            <w xml:id="BRE_D6_9_9_3">meine</w>
+            <w xml:id="BRE_D6_9_9_4">glider</w>
+            <w xml:id="BRE_D6_9_9_5">keck</w>
+          </l>
+          <l n="64">
+            <w xml:id="BRE_D6_9_10_0">Und</w>
+            <w xml:id="BRE_D6_9_10_1">jagst</w>
+            <w xml:id="BRE_D6_9_10_2">mir</w>
+            <w xml:id="BRE_D6_9_10_3">all</w>
+            <w xml:id="BRE_D6_9_10_4">mein</w>
+            <w xml:id="BRE_D6_9_10_5">sorg</w>
+            <w xml:id="BRE_D6_9_10_6">hinweg</w>
+          </l>
+          <l n="65">
+            <w xml:id="BRE_D6_9_11_0">Du</w>
+            <w xml:id="BRE_D6_9_11_1">machst</w>
+            <w xml:id="BRE_D6_9_11_2">auch</w>
+            <w xml:id="BRE_D6_9_11_3">mannichen</w>
+            <w xml:id="BRE_D6_9_11_4">baͤtler</w>
+            <w xml:id="BRE_D6_9_11_5">fro</w>
+          </l>
+          <l n="66">
+            <w xml:id="BRE_D6_9_12_0">Er</w>
+            <w xml:id="BRE_D6_9_12_1">lig</w>
+            <w xml:id="BRE_D6_9_12_2">im</w>
+            <w xml:id="BRE_D6_9_12_3">khot</w>
+            <w xml:id="BRE_D6_9_12_4">hay</w>
+            <w xml:id="BRE_D6_9_12_5">oder</w>
+            <w xml:id="BRE_D6_9_12_6">stro</w>
+          </l>
+          <l n="67">
+            <w xml:id="BRE_D6_9_13_0">Da</w>
+            <w xml:id="BRE_D6_9_13_1">trincken</w>
+            <w xml:id="BRE_D6_9_13_2">soltn</w>
+            <w xml:id="BRE_D6_9_13_3">sein</w>
+            <w xml:id="BRE_D6_9_13_4">handt</w>
+            <w xml:id="BRE_D6_9_13_5">genossen</w>
+          </l>
+          <l n="68">
+            <w xml:id="BRE_D6_9_14_0">Des</w>
+            <w xml:id="BRE_D6_9_14_1">herren</w>
+            <w xml:id="BRE_D6_9_14_2">mildkait</w>
+            <w xml:id="BRE_D6_9_14_3">war</w>
+            <w xml:id="BRE_D6_9_14_4">vergossen</w>
+          </l>
+          <l n="69">
+            <w xml:id="BRE_D6_9_15_0">Das</w>
+            <w xml:id="BRE_D6_9_15_1">er</w>
+            <w xml:id="BRE_D6_9_15_2">daraus</w>
+            <w xml:id="BRE_D6_9_15_3">macht</w>
+            <w xml:id="BRE_D6_9_15_4">edlen</w>
+            <w xml:id="BRE_D6_9_15_5">wein</w>
+          </l>
+          <l n="70">
+            <w xml:id="BRE_D6_9_16_0">Den</w>
+            <w xml:id="BRE_D6_9_16_1">trincken</w>
+            <w xml:id="BRE_D6_9_16_2">sie</w>
+            <w xml:id="BRE_D6_9_16_3">froͤlich</w>
+            <w xml:id="BRE_D6_9_16_4">ohne</w>
+            <w xml:id="BRE_D6_9_16_5">pein</w>
+          </l>
+          <l n="71">
+            <w xml:id="BRE_D6_9_17_0">Bis</w>
+            <w xml:id="BRE_D6_9_17_1">das</w>
+            <w xml:id="BRE_D6_9_17_2">sie</w>
+            <w xml:id="BRE_D6_9_17_3">von</w>
+            <w xml:id="BRE_D6_9_17_4">einander</w>
+            <w xml:id="BRE_D6_9_17_5">kamen</w>
+          </l>
+          <l n="72">
+            <w xml:id="BRE_D6_9_18_0">Jeder</w>
+            <w xml:id="BRE_D6_9_18_1">tranck</w>
+            <w xml:id="BRE_D6_9_18_2">sanct</w>
+            <w xml:id="BRE_D6_9_18_3">johannes</w>
+            <w xml:id="BRE_D6_9_18_4">namen</w>
+          </l>
+          <l n="73">
+            <w xml:id="BRE_D6_9_19_0">Etlicher</w>
+            <w xml:id="BRE_D6_9_19_1">hatt</w>
+            <w xml:id="BRE_D6_9_19_2">ein</w>
+            <w xml:id="BRE_D6_9_19_3">trunck</w>
+            <w xml:id="BRE_D6_9_19_4">gespart</w>
+          </l>
+          <l n="74">
+            <w xml:id="BRE_D6_9_20_0">Der</w>
+            <w xml:id="BRE_D6_9_20_1">kam</w>
+            <w xml:id="BRE_D6_9_20_2">und</w>
+            <w xml:id="BRE_D6_9_20_3">tranck</w>
+            <w xml:id="BRE_D6_9_20_4">ein</w>
+            <w xml:id="BRE_D6_9_20_5">wernhart</w>
+          </l>
+          <note type="editorial">Ab hier ist Weinsegen Ein Kron in den Weinsegen Edles Abkülen eingearbeitet (Hauptseite des Brevitas-Wikis: in Klammern, kein eigener Text).</note>
+          <l n="75">
+            <w xml:id="BRE_D6_9_21_0">Gruͤs</w>
+            <w xml:id="BRE_D6_9_21_1">dich</w>
+            <w xml:id="BRE_D6_9_21_2">gott</w>
+            <w xml:id="BRE_D6_9_21_3">alles</w>
+            <w xml:id="BRE_D6_9_21_4">trancks</w>
+            <w xml:id="BRE_D6_9_21_5">ein</w>
+            <w xml:id="BRE_D6_9_21_6">kron</w>
+          </l>
+          <l n="76">
+            <w xml:id="BRE_D6_9_22_0">Dich</w>
+            <w xml:id="BRE_D6_9_22_1">fandt</w>
+            <w xml:id="BRE_D6_9_22_2">von</w>
+            <w xml:id="BRE_D6_9_22_3">erst</w>
+            <w xml:id="BRE_D6_9_22_4">ein</w>
+            <w xml:id="BRE_D6_9_22_5">alter</w>
+            <w xml:id="BRE_D6_9_22_6">mann</w>
+          </l>
+          <l n="77">
+            <w xml:id="BRE_D6_9_23_0">Noe</w>
+            <w xml:id="BRE_D6_9_23_1">der</w>
+            <w xml:id="BRE_D6_9_23_2">in</w>
+            <w xml:id="BRE_D6_9_23_3">der</w>
+            <w xml:id="BRE_D6_9_23_4">archen</w>
+            <w xml:id="BRE_D6_9_23_5">was</w>
+          </l>
+          <l n="78">
+            <w xml:id="BRE_D6_9_24_0">Da</w>
+            <w xml:id="BRE_D6_9_24_1">er</w>
+            <w xml:id="BRE_D6_9_24_2">dein</w>
+            <w xml:id="BRE_D6_9_24_3">suͤsse</w>
+            <w xml:id="BRE_D6_9_24_4">beer</w>
+            <w xml:id="BRE_D6_9_24_5">ablas</w>
+          </l>
+          <l n="79">
+            <w xml:id="BRE_D6_9_25_0">Dein</w>
+            <w xml:id="BRE_D6_9_25_1">suͤsser</w>
+            <w xml:id="BRE_D6_9_25_2">gschmack</w>
+            <w xml:id="BRE_D6_9_25_3">in</w>
+            <w xml:id="BRE_D6_9_25_4">da</w>
+            <w xml:id="BRE_D6_9_25_5">betrug</w>
+          </l>
+          <l n="80">
+            <w xml:id="BRE_D6_9_26_0">Under</w>
+            <w xml:id="BRE_D6_9_26_1">ein</w>
+            <w xml:id="BRE_D6_9_26_2">stock</w>
+            <w xml:id="BRE_D6_9_26_3">er</w>
+            <w xml:id="BRE_D6_9_26_4">sich</w>
+            <w xml:id="BRE_D6_9_26_5">da</w>
+            <w xml:id="BRE_D6_9_26_6">schmug</w>
+          </l>
+          <l n="81">
+            <w xml:id="BRE_D6_9_27_0">Und</w>
+            <w xml:id="BRE_D6_9_27_1">asz</w>
+            <w xml:id="BRE_D6_9_27_2">darab</w>
+            <w xml:id="BRE_D6_9_27_3">suͤsse</w>
+            <w xml:id="BRE_D6_9_27_4">treibelein</w>
+          </l>
+          <l n="82">
+            <w xml:id="BRE_D6_9_28_0">Das</w>
+            <w xml:id="BRE_D6_9_28_1">im</w>
+            <w xml:id="BRE_D6_9_28_2">sincken</w>
+            <w xml:id="BRE_D6_9_28_3">wardt</w>
+            <w xml:id="BRE_D6_9_28_4">sein</w>
+            <w xml:id="BRE_D6_9_28_5">haͤuptlein</w>
+          </l>
+          <pb n="10"/>
+          <l n="83">
+            <w xml:id="BRE_D6_10_1_0">Er</w>
+            <w xml:id="BRE_D6_10_1_1">legt</w>
+            <w xml:id="BRE_D6_10_1_2">sich</w>
+            <w xml:id="BRE_D6_10_1_3">nider</w>
+            <w xml:id="BRE_D6_10_1_4">und</w>
+            <w xml:id="BRE_D6_10_1_5">was</w>
+            <w xml:id="BRE_D6_10_1_6">so</w>
+            <w xml:id="BRE_D6_10_1_7">wreig</w>
+          </l>
+          <l n="84">
+            <w xml:id="BRE_D6_10_2_0">Er</w>
+            <w xml:id="BRE_D6_10_2_1">het</w>
+            <w xml:id="BRE_D6_10_2_2">ain</w>
+            <w xml:id="BRE_D6_10_2_3">pock</w>
+            <w xml:id="BRE_D6_10_2_4">der</w>
+            <w xml:id="BRE_D6_10_2_5">im</w>
+            <w xml:id="BRE_D6_10_2_6">nach</w>
+            <w xml:id="BRE_D6_10_2_7">schleich</w>
+          </l>
+          <l n="85">
+            <w xml:id="BRE_D6_10_3_0">Der</w>
+            <w xml:id="BRE_D6_10_3_1">gundt</w>
+            <w xml:id="BRE_D6_10_3_2">auch</w>
+            <w xml:id="BRE_D6_10_3_3">von</w>
+            <w xml:id="BRE_D6_10_3_4">der</w>
+            <w xml:id="BRE_D6_10_3_5">reben</w>
+            <w xml:id="BRE_D6_10_3_6">prossen</w>
+          </l>
+          <l n="86">
+            <w xml:id="BRE_D6_10_4_0">Das</w>
+            <w xml:id="BRE_D6_10_4_1">er</w>
+            <w xml:id="BRE_D6_10_4_2">kundt</w>
+            <w xml:id="BRE_D6_10_4_3">weder</w>
+            <w xml:id="BRE_D6_10_4_4">gehen</w>
+            <w xml:id="BRE_D6_10_4_5">noch</w>
+            <w xml:id="BRE_D6_10_4_6">hossen</w>
+          </l>
+          <l n="87">
+            <w xml:id="BRE_D6_10_5_0">Du</w>
+            <w xml:id="BRE_D6_10_5_1">betrogst</w>
+            <w xml:id="BRE_D6_10_5_2">den</w>
+            <w xml:id="BRE_D6_10_5_3">herren</w>
+            <w xml:id="BRE_D6_10_5_4">und</w>
+            <w xml:id="BRE_D6_10_5_5">pock</w>
+          </l>
+          <l n="88">
+            <w xml:id="BRE_D6_10_6_0">Das</w>
+            <w xml:id="BRE_D6_10_6_1">im</w>
+            <w xml:id="BRE_D6_10_6_2">entwichen</w>
+            <w xml:id="BRE_D6_10_6_3">was</w>
+            <w xml:id="BRE_D6_10_6_4">sein</w>
+            <w xml:id="BRE_D6_10_6_5">rock</w>
+          </l>
+          <l n="89">
+            <w xml:id="BRE_D6_10_7_0">Und</w>
+            <w xml:id="BRE_D6_10_7_1">man</w>
+            <w xml:id="BRE_D6_10_7_2">herr</w>
+            <w xml:id="BRE_D6_10_7_3">noe</w>
+            <w xml:id="BRE_D6_10_7_4">sach</w>
+            <w xml:id="BRE_D6_10_7_5">die</w>
+            <w xml:id="BRE_D6_10_7_6">scham</w>
+          </l>
+          <l n="90">
+            <w xml:id="BRE_D6_10_8_0">Er</w>
+            <w xml:id="BRE_D6_10_8_1">hat</w>
+            <w xml:id="BRE_D6_10_8_2">drey</w>
+            <w xml:id="BRE_D6_10_8_3">suͤn</w>
+            <w xml:id="BRE_D6_10_8_4">der</w>
+            <w xml:id="BRE_D6_10_8_5">ein</w>
+            <w xml:id="BRE_D6_10_8_6">hieß</w>
+            <w xml:id="BRE_D6_10_8_7">cham</w>
+          </l>
+          <l n="91">
+            <w xml:id="BRE_D6_10_9_0">Der</w>
+            <w xml:id="BRE_D6_10_9_1">decket</w>
+            <w xml:id="BRE_D6_10_9_2">auff</w>
+            <w xml:id="BRE_D6_10_9_3">sein</w>
+            <w xml:id="BRE_D6_10_9_4">vatter</w>
+            <w xml:id="BRE_D6_10_9_5">blos</w>
+          </l>
+          <l n="92">
+            <w xml:id="BRE_D6_10_10_0">Und</w>
+            <w xml:id="BRE_D6_10_10_1">zaigt</w>
+            <w xml:id="BRE_D6_10_10_2">im</w>
+            <w xml:id="BRE_D6_10_10_3">spott</w>
+            <w xml:id="BRE_D6_10_10_4">sein</w>
+            <w xml:id="BRE_D6_10_10_5">bruͤdern</w>
+            <w xml:id="BRE_D6_10_10_6">das</w>
+          </l>
+          <l n="93">
+            <w xml:id="BRE_D6_10_11_0">Wein</w>
+            <w xml:id="BRE_D6_10_11_1">du</w>
+            <w xml:id="BRE_D6_10_11_2">hast</w>
+            <w xml:id="BRE_D6_10_11_3">vil</w>
+            <w xml:id="BRE_D6_10_11_4">wunders</w>
+            <w xml:id="BRE_D6_10_11_5">thon</w>
+          </l>
+          <l n="94">
+            <w xml:id="BRE_D6_10_12_0">Ein</w>
+            <w xml:id="BRE_D6_10_12_1">heiliger</w>
+            <w xml:id="BRE_D6_10_12_2">bapst</w>
+            <w xml:id="BRE_D6_10_12_3">der</w>
+            <w xml:id="BRE_D6_10_12_4">hieß</w>
+            <w xml:id="BRE_D6_10_12_5">urban</w>
+          </l>
+          <l n="95">
+            <w xml:id="BRE_D6_10_13_0">Dem</w>
+            <w xml:id="BRE_D6_10_13_1">thetstu</w>
+            <w xml:id="BRE_D6_10_13_2">auch</w>
+            <w xml:id="BRE_D6_10_13_3">ein</w>
+            <w xml:id="BRE_D6_10_13_4">schabernack</w>
+          </l>
+          <l n="96">
+            <w xml:id="BRE_D6_10_14_0">Er</w>
+            <w xml:id="BRE_D6_10_14_1">hat</w>
+            <w xml:id="BRE_D6_10_14_2">dich</w>
+            <w xml:id="BRE_D6_10_14_3">truncken</w>
+            <w xml:id="BRE_D6_10_14_4">auff</w>
+            <w xml:id="BRE_D6_10_14_5">ein</w>
+            <w xml:id="BRE_D6_10_14_6">tag</w>
+          </l>
+          <l n="97">
+            <w xml:id="BRE_D6_10_15_0">Das</w>
+            <w xml:id="BRE_D6_10_15_1">er</w>
+            <w xml:id="BRE_D6_10_15_2">drey</w>
+            <w xml:id="BRE_D6_10_15_3">sünd</w>
+            <w xml:id="BRE_D6_10_15_4">darein</w>
+            <w xml:id="BRE_D6_10_15_5">erkoß</w>
+          </l>
+          <l n="98">
+            <w xml:id="BRE_D6_10_16_0">Abr</w>
+            <w xml:id="BRE_D6_10_16_1">gottes</w>
+            <w xml:id="BRE_D6_10_16_2">gnade</w>
+            <w xml:id="BRE_D6_10_16_3">was</w>
+            <w xml:id="BRE_D6_10_16_4">so</w>
+            <w xml:id="BRE_D6_10_16_5">gros</w>
+          </l>
+          <l n="99">
+            <w xml:id="BRE_D6_10_17_0">Das</w>
+            <w xml:id="BRE_D6_10_17_1">er</w>
+            <w xml:id="BRE_D6_10_17_2">im</w>
+            <w xml:id="BRE_D6_10_17_3">gabe</w>
+            <w xml:id="BRE_D6_10_17_4">die</w>
+            <w xml:id="BRE_D6_10_17_5">hulde</w>
+            <w xml:id="BRE_D6_10_17_6">sein</w>
+          </l>
+          <l n="100">
+            <w xml:id="BRE_D6_10_18_0">Darumb</w>
+            <w xml:id="BRE_D6_10_18_1">sprich</w>
+            <w xml:id="BRE_D6_10_18_2">ich</w>
+            <w xml:id="BRE_D6_10_18_3">du</w>
+            <w xml:id="BRE_D6_10_18_4">edler</w>
+            <w xml:id="BRE_D6_10_18_5">wein</w>
+          </l>
+          <l n="101">
+            <w xml:id="BRE_D6_10_19_0">Ich</w>
+            <w xml:id="BRE_D6_10_19_1">wil</w>
+            <w xml:id="BRE_D6_10_19_2">mein</w>
+            <w xml:id="BRE_D6_10_19_3">taͤg</w>
+            <w xml:id="BRE_D6_10_19_4">mit</w>
+            <w xml:id="BRE_D6_10_19_5">dir</w>
+            <w xml:id="BRE_D6_10_19_6">vollenden</w>
+          </l>
+          <l n="102">
+            <w xml:id="BRE_D6_10_20_0">Du</w>
+            <w xml:id="BRE_D6_10_20_1">kanst</w>
+            <w xml:id="BRE_D6_10_20_2">mir</w>
+            <w xml:id="BRE_D6_10_20_3">al</w>
+            <w xml:id="BRE_D6_10_20_4">mein</w>
+            <w xml:id="BRE_D6_10_20_5">trauren</w>
+            <w xml:id="BRE_D6_10_20_6">wenden</w>
+          </l>
+          <l n="103">
+            <w xml:id="BRE_D6_10_21_0">ENDE</w>
+          </l>
+          <l n="104">
+            <w xml:id="BRE_D6_10_22_0">O</w>
+            <w xml:id="BRE_D6_10_22_1">wein</w>
+            <w xml:id="BRE_D6_10_22_2">o</w>
+            <w xml:id="BRE_D6_10_22_3">wein</w>
+            <w xml:id="BRE_D6_10_22_4">du</w>
+            <w xml:id="BRE_D6_10_22_5">edler</w>
+            <w xml:id="BRE_D6_10_22_6">gschmack</w>
+          </l>
+          <l n="105">
+            <w xml:id="BRE_D6_10_23_0">Zeuchst</w>
+            <w xml:id="BRE_D6_10_23_1">mir</w>
+            <w xml:id="BRE_D6_10_23_2">die</w>
+            <w xml:id="BRE_D6_10_23_3">kleider</w>
+            <w xml:id="BRE_D6_10_23_4">von</w>
+            <w xml:id="BRE_D6_10_23_5">dem</w>
+            <w xml:id="BRE_D6_10_23_6">nack</w>
+          </l>
+          <l n="106">
+            <w xml:id="BRE_D6_10_24_0">O</w>
+            <w xml:id="BRE_D6_10_24_1">wein</w>
+            <w xml:id="BRE_D6_10_24_2">o</w>
+            <w xml:id="BRE_D6_10_24_3">wein</w>
+            <w xml:id="BRE_D6_10_24_4">du</w>
+            <w xml:id="BRE_D6_10_24_5">edle</w>
+            <w xml:id="BRE_D6_10_24_6">schmeck</w>
+          </l>
+          <l n="107">
+            <w xml:id="BRE_D6_10_25_0">du</w>
+            <w xml:id="BRE_D6_10_25_1">machst</w>
+            <w xml:id="BRE_D6_10_25_2">vil</w>
+            <w xml:id="BRE_D6_10_25_3">hurn</w>
+            <w xml:id="BRE_D6_10_25_4">und</w>
+            <w xml:id="BRE_D6_10_25_5">bettljeck</w>
+            <note type="transcription">Darunter handschriftlich: 29. August. 1581. 4. ch.</note>
+          </l>
+        </div>
+      </div>
+    </body>
+  </text>
+</TEI>

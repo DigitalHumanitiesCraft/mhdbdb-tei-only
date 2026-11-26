@@ -273,14 +273,14 @@ h_d6 = [{"teil": 1, "titel": "Weingruß Edels Getranck", "anmerkung": "", "klamm
 u_d6 = ["Weingruß Edels Getranck", "Weingruß Allerliebster Trunck", "Weinsegen Allerliebster Trost",
         "Weinsegen Ein Kron"]
 ab_d6 = bh.abgleich("d6", h_d6, u_d6, None)
-pruefe("Schluessel: d6-Klammerabschnitte sind erklaert (Positivkontrolle)",
-       len(ab_d6) == 3 and all(bh.schluessel("d6", x) in conv.bc.ABWEICHUNG_ERKLAERT for x in ab_d6),
+pruefe("Schluessel: Klammertext als eigener Abschnitt ist nicht erklaert (seit der Einarbeitung)",
+       len(ab_d6) == 3 and not any(bh.schluessel("d6", x) in conv.bc.ABWEICHUNG_ERKLAERT for x in ab_d6),
        str([bh.schluessel("d6", x) for x in ab_d6]))
-ab_d6_x = bh.abgleich("d6", h_d6, u_d6 + ["Weingruß Allerliebster Trunck"], None)
-pruefe("Schluessel: doppelter Klammerabschnitt ist nicht erklaert",
-       len(ab_d6_x) == 3 and sum(bh.schluessel("d6", x) not in conv.bc.ABWEICHUNG_ERKLAERT
-                                  for x in ab_d6_x) == 1
-       and any(x["bisher"] == "2x eigener Abschnitt" for x in ab_d6_x), str(ab_d6_x))
+pruefe("Hauptseite: eingearbeitete Texte sind die drei Klammertexte von d6",
+       {bh.norm_titel(t) for t in conv.bc.EINGEARBEITET["d6"]} == {h["titel"] for h in h_d6 if h["klammer"]}
+       and bh.eingearbeitet_in("d6", "Weingruß Allerliebster Trunck (Hans Rosenplüt)")
+       == "Weinsegen Edles Abkülen" and bh.eingearbeitet_in("d6", "Weingruß Edels Getranck") is None
+       and bh.eingearbeitet_in("B", "Weinsegen Ein Kron") is None)
 # nur_hauptseite traegt die Anzahl der fehlenden Vorkommen
 h_zwei = [{"teil": 1, "titel": "Weingruß X", "anmerkung": "", "klammer": False}] * 2
 pruefe("Schluessel: nur_hauptseite traegt die Anzahl",
@@ -439,7 +439,7 @@ pruefe("Satzzeichen als pc", [p.text for p in pcs] == [",", ".", ".", "."]
        and not any(c in w for w in woerter_pc for c in ",.;:!?"), str(woerter_pc))
 pruefe("Satzzeichen: Zeilenbilanz", len(tei_pc.xpath("//t:l", namespaces=ns))
        + len(tei_pc.xpath("//t:head", namespaces=ns)) + info_pc["fortsetzungen"] == info_pc["stuecke"])
-pruefe("offene Segmentierung: B2, d4, d6", set(conv.bc.SEGMENTIERUNG_OFFEN) == {"B2", "d4", "d6"})
+pruefe("keine offene Segmentierung mehr (Silvan 2026-11-26)", conv.bc.SEGMENTIERUNG_OFFEN == {})
 
 # Normdaten im Header (23-normdaten.py, #147): Autorschaft aus den Texten der TEI-Datei, Header idempotent
 spec_n = importlib.util.spec_from_file_location("norm", HIER / "23-normdaten.py")
@@ -610,25 +610,106 @@ erg, inhalt = sperre_lauf(False, trocken=True)
 pruefe("Sperre: --trocken legt keine Datei an", erg == "geschrieben" and inhalt is None, erg[:80])
 
 # "alle": ist irgendein Ziel gesperrt, bricht main ab, bevor das erste geschrieben wird
-with tempfile.TemporaryDirectory() as td:
-    aus = Path(td)
-    vorhanden = conv.bc.ZEUGEN["W"][1] + ".tei.xml"
-    (aus / vorhanden).write_bytes(ALT)
+def alle_lauf(offen):
+    """02 --zeuge alle mit einem vorhandenen Ziel (W) und bre_common.SEGMENTIERUNG_OFFEN = offen.
+    -> (Rueckgabe, Dateien im Ausgabeordner, Inhalt von W, Fehlermeldung)"""
+    offen_alt = dict(conv.bc.SEGMENTIERUNG_OFFEN)
+    conv.bc.SEGMENTIERUNG_OFFEN.clear()
+    conv.bc.SEGMENTIERUNG_OFFEN.update(offen)
     argv_alt = sys.argv
-    sys.argv = ["02", "--zeuge", "alle", "--ausgabe-dir", str(aus), "--datum", SPERRE_DATUM]
     try:
-        with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()) as se:
-            rc_alle = conv.main()
+        with tempfile.TemporaryDirectory() as td:
+            aus = Path(td)
+            vorhanden = conv.bc.ZEUGEN["W"][1] + ".tei.xml"
+            (aus / vorhanden).write_bytes(ALT)
+            sys.argv = ["02", "--zeuge", "alle", "--ausgabe-dir", str(aus), "--datum", SPERRE_DATUM]
+            with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()) as se:
+                rc = conv.main()
+            return (rc, sorted(p.name for p in aus.iterdir()), (aus / vorhanden).read_bytes(),
+                    se.getvalue(), vorhanden)
     finally:
         sys.argv = argv_alt
-    dateien = sorted(p.name for p in aus.iterdir())
-    pruefe("Sperre: alle bricht vor dem ersten Schreiben ab",
-           rc_alle == 1 and dateien == [vorhanden] and (aus / vorhanden).read_bytes() == ALT,
-           f"rc={rc_alle} {dateien}")
-    meldung = se.getvalue()
-    pruefe("Sperre: Nenner zaehlt nur gepruefte Ziele, offene Zeugen eigene Zeile",
-           "1 von 18 geprueften Zielen existieren schon (W)" in meldung
-           and "nicht geprueft, Segmentierung offen: B2, d4, d6" in meldung, meldung[-300:])
+        conv.bc.SEGMENTIERUNG_OFFEN.clear()
+        conv.bc.SEGMENTIERUNG_OFFEN.update(offen_alt)
+
+
+rc_alle, dateien, inhalt_w, meldung, vorhanden = alle_lauf({})
+pruefe("Sperre: alle bricht vor dem ersten Schreiben ab",
+       rc_alle == 1 and dateien == [vorhanden] and inhalt_w == ALT, f"rc={rc_alle} {dateien}")
+pruefe("Sperre: Nenner zaehlt alle 21 Ziele, wenn keine Segmentierung offen ist",
+       "1 von 21 geprueften Zielen existieren schon (W)" in meldung
+       and "Segmentierung offen" not in meldung, meldung[-300:])
+# Offene Zeugen (Mechanismus fuer kuenftige Faelle): zaehlen nicht im Nenner, eigene Zeile
+rc_offen, dateien, inhalt_w, meldung, vorhanden = alle_lauf(
+    {"B2": "Probe", "d4": "Probe", "d6": "Probe"})
+pruefe("Sperre: Nenner zaehlt nur gepruefte Ziele, offene Zeugen eigene Zeile",
+       rc_offen == 1 and dateien == [vorhanden] and inhalt_w == ALT
+       and "1 von 18 geprueften Zielen existieren schon (W)" in meldung
+       and "nicht geprueft, Segmentierung offen: B2, d4, d6" in meldung, meldung[-300:])
+
+# B2, d4, d6 nach Silvans Antwort (2026-11-26, #147): arbeitet am echten Wiki-Cache, schreibt nur in
+# einen temporaeren Ordner.
+def zeuge_baum(sigle):
+    """-> (Baum, Konsolenausgabe) von konvertiere(sigle) in einem frischen Ausgabeordner."""
+    with tempfile.TemporaryDirectory() as td:
+        ausgabe = io.StringIO()
+        with contextlib.redirect_stdout(ausgabe):
+            conv.konvertiere(sigle, trocken=False, ausgabe_dir=Path(td), datum=SPERRE_DATUM)
+        return conv.etree.parse(str(Path(td) / (conv.bc.ZEUGEN[sigle][1] + ".tei.xml"))), ausgabe.getvalue()
+
+
+def sektionen(baum):
+    return baum.xpath("//t:div[@type='section']", namespaces=ns)
+
+
+baum_d6, aus_d6 = zeuge_baum("d6")
+noten_d6 = baum_d6.xpath("//t:note[@type='editorial' and starts-with(., 'Ab hier ist')]", namespaces=ns)
+eltern_d6 = {id(n.getparent()) for n in noten_d6}
+abk = noten_d6[0].getparent() if noten_d6 else None
+pruefe("d6: drei Texte eingearbeitet, neun eigene Abschnitte, keine Abweichung zur Hauptseite",
+       len(sektionen(baum_d6)) == 9 and len(noten_d6) == 3 and len(eltern_d6) == 1
+       and "keine Abweichung" in aus_d6 and "3 eingearbeitet" in aus_d6, aus_d6[:400])
+pruefe("d6: die Notizen nennen den eingearbeiteten Text und den Zieltext",
+       [n.text.split(" in den ")[0] for n in noten_d6]
+       == ["Ab hier ist Weingruß Allerliebster Trunck", "Ab hier ist Weinsegen Allerliebster Trost",
+           "Ab hier ist Weinsegen Ein Kron"]
+       and all("Weinsegen Edles Abkülen eingearbeitet" in n.text for n in noten_d6))
+zaehl_d6 = abk.xpath("t:l/@n", namespaces=ns) if abk is not None else []
+pruefe("d6: <l>/@n laeuft im Zieltext ueber die eingearbeiteten Passagen weiter, ohne Wiederholung",
+       zaehl_d6 == [str(i) for i in range(1, len(zaehl_d6) + 1)] and len(zaehl_d6) > 40, str(zaehl_d6[:6]))
+baum_b2, aus_b2 = zeuge_baum("B2")
+ansaetze = baum_b2.xpath("//t:note[@type='editorial' and starts-with(., 'Abgebrochener Ansatz')]",
+                         namespaces=ns)
+pruefe("B2: der Fehlansatz ist ein eigener Abschnitt mit Notiz, 19 Abschnitte, nur dieser trägt sie",
+       len(sektionen(baum_b2)) == 19 and len(ansaetze) == 1
+       and ansaetze[0].getparent().get("n") == "15" and "falscher Eintrag" in ansaetze[0].text
+       and "Weinsegen Allerliebster Trost" in ansaetze[0].text, aus_b2[:300])
+baum_d4, aus_d4 = zeuge_baum("d4")
+pruefe("d4: Edels Getranck vor Edle Leibsalb, keine Abweichung zur Hauptseite (rev 31248)",
+       len(sektionen(baum_d4)) == 4 and "keine Abweichung" in aus_d4 and "rev 31248" in aus_d4
+       and aus_d4.index("Weingruß Edels Getranck") < aus_d4.index("Weinsegen Edle Leibsalb"), aus_d4[:300])
+
+
+def eingearbeitet_fehler(sigle, belegung):
+    """konvertiere(sigle, trocken) mit bre_common.EINGEARBEITET = belegung -> Fehlermeldung oder None."""
+    alt = conv.bc.EINGEARBEITET
+    conv.bc.EINGEARBEITET = belegung
+    try:
+        with contextlib.redirect_stdout(io.StringIO()):
+            conv.konvertiere(sigle, trocken=True, ausgabe_dir=Path(tempfile.gettempdir()), datum=SPERRE_DATUM)
+        return None
+    except conv.bc.HarterFehler as e:
+        return str(e)
+    finally:
+        conv.bc.EINGEARBEITET = alt
+
+
+f_vorher = eingearbeitet_fehler("d6", {"d6": {"Weinsegen Ein Kron": "Weingruß Lieber Wein"}})
+pruefe("Eingearbeitet: Zieltext muss der vorangehende eigene Text sein",
+       f_vorher is not None and "soll in" in f_vorher and "eingearbeitet" in f_vorher, str(f_vorher))
+f_fremd = eingearbeitet_fehler("d6", {"d6": {"Weinsegen Gibt Es Nicht": "Weinsegen Edles Abkülen"}})
+pruefe("Eingearbeitet: ein Text, den es in der Segmentierung nicht gibt, ist ein harter Fehler",
+       f_fremd is not None and "Segmentierung nicht gibt" in f_fremd, str(f_fremd))
 
 # Druckfahnen (Kickoff #147): kein Wortlaut aus Text, Uebersetzung oder Kommentar der Druckfassung
 # im Repo. Quelle ist der Text der Hirzel-Druckfahnen (PDF, per pdftotext auf stdout gelesen, nie

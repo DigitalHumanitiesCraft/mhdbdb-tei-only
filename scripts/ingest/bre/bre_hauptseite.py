@@ -25,6 +25,11 @@ def norm_titel(t):
     return re.sub(r"\s+", " ", re.sub(r"\s*\([^)]*\)\s*$", "", t)).strip()
 
 
+def eingearbeitet_in(sigle, text_titel):
+    """Text, in den der Text des Zeugen eingearbeitet ist (bre_common.EINGEARBEITET), sonst None."""
+    return bc.EINGEARBEITET.get(sigle, {}).get(norm_titel(text_titel))
+
+
 def abschnitt_ueberlieferung(inhalt):
     """Der Abschnitt "== Überlieferung ==" bis zur naechsten Ueberschrift gleicher Ebene,
     ohne die Uebersichtstabelle."""

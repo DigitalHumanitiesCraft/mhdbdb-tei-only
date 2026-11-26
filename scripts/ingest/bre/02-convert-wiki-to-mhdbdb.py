@@ -26,8 +26,10 @@ Aufruf:
   python -P -E scripts/ingest/bre/02-convert-wiki-to-mhdbdb.py --zeuge alle --datum 2026-11-17
 
 Ohne --trocken schreibt "alle" nur die Zeugen, deren Segmentierung nicht offen ist
-(bre_common.SEGMENTIERUNG_OFFEN: B2, d4, d6). Von D entfaellt Teil B (17. Jh.,
-bre_common.TEIL_AUSGESCHLOSSEN).
+(bre_common.SEGMENTIERUNG_OFFEN, seit 2026-11-26 leer). Von D entfaellt Teil B (17. Jh.,
+bre_common.TEIL_AUSGESCHLOSSEN). In d6 sind drei Klammertexte in den Weinsegen Edles Abkuelen
+eingearbeitet (bre_common.EINGEARBEITET), B2 traegt am Fehlansatz eine Notiz
+(bre_common.ANSATZ_NOTIZ).
 """
 import argparse
 import collections
@@ -395,6 +397,23 @@ def segmentiere(items, lex, rows, sigle):
         texte.append({"row": r, "start": s, "heads": heads, "grenze": b})
     if not texte:
         raise bc.HarterFehler("kein Text in segmentierung.tsv fuer diesen Zeugen")
+    # Eingearbeitete Texte (bre_common.EINGEARBEITET): kein eigener Abschnitt, sie gehoeren zum
+    # unmittelbar vorangehenden eigenen Text, und der muss der genannte Zieltext sein
+    letzter_eigener = None
+    for t in texte:
+        titel = bh.norm_titel(t["row"]["text_titel"])
+        ziel = bh.eingearbeitet_in(sigle, titel)
+        t["eingearbeitet"] = ziel
+        if ziel is None:
+            letzter_eigener = titel
+        elif letzter_eigener != ziel:
+            raise bc.HarterFehler(f"{sigle}: {titel!r} soll in {ziel!r} eingearbeitet sein, der "
+                                  f"vorangehende eigene Text ist aber {letzter_eigener!r}")
+    nicht_gefunden = set(bc.EINGEARBEITET.get(sigle, {})) - {bh.norm_titel(t["row"]["text_titel"])
+                                                             for t in texte}
+    if nicht_gefunden:
+        raise bc.HarterFehler(f"{sigle}: bre_common.EINGEARBEITET nennt Texte, die es in der "
+                              f"Segmentierung nicht gibt: {sorted(nicht_gefunden)}")
     # Vorspann: Zeilen vor dem ersten Textanfang muessen der ausdruecklichen Tabelle entsprechen
     vor = [i for i in verse if i < texte[0]["grenze"]]
     ist = [cmp_[i] for i in vor]
@@ -779,8 +798,9 @@ def baue_tei(sigle, signatur, seite, items, lex, texte, stat, vorspann=None, dat
     grenzen = [t["grenze"] for t in texte] + [len(items)]
     erwartet_zeilen = []  # (Quellzeile, erwartete Zeichen)
 
-    def emit(div, indices, heads):
-        vnr = 0
+    def emit(div, indices, heads, vnr=0):
+        """Schreibt die Zeilen in div; vnr = letzte vergebene <l>/@n (bei eingearbeiteten Texten
+        laeuft die Zaehlung im Zieltext weiter). -> letzte vergebene <l>/@n."""
         for i in indices:
             it = items[i]
             if it["kind"] == "part":
@@ -803,6 +823,7 @@ def baue_tei(sigle, signatur, seite, items, lex, texte, stat, vorspann=None, dat
             containers.add(id(el))
             ws = baue_zeile(el, toks, meta, zust, stat, containers, f"Zeile {it['lines'][0]}")
             erwartet_zeilen.append((it["lines"][0], "".join(ws), it["raw"]))
+        return vnr
 
     n_abschnitt = 0
     vor_indices = range(0, grenzen[0])
@@ -830,6 +851,7 @@ def baue_tei(sigle, signatur, seite, items, lex, texte, stat, vorspann=None, dat
     if any(items[i]["kind"] == "part" for i in vor_indices):
         raise QuellFehler("Teil-Marker (===...===) im Vorspann: nicht vorgesehen")
     elter = aussen  # aeusseres <div> der Reihe, oder das <div n="A"> des laufenden Teils
+    div, vnr = None, 0
     for k, t in enumerate(texte):
         r = t["row"]
         region = range(grenzen[k], grenzen[k + 1])
@@ -841,6 +863,16 @@ def baue_tei(sigle, signatur, seite, items, lex, texte, stat, vorspann=None, dat
                 break
         if any(items[i]["kind"] == "part" and i not in fuehrend for i in region):
             raise QuellFehler("Teil-Marker (===...===) mitten in einem Text")
+        if t["eingearbeitet"]:
+            # kein eigener Abschnitt: die Zeilen stehen im <div> des Zieltexts (segmentiere hat
+            # geprueft, dass das der vorangehende eigene Text ist), der Anfang ist markiert
+            if fuehrend:
+                raise QuellFehler("Teil-Marker (===...===) vor einem eingearbeiteten Text")
+            n = E(div, "note", type="editorial")
+            n.text = bc.EINGEARBEITET_NOTIZ.format(text=bh.norm_titel(r["text_titel"]),
+                                                    ziel=t["eingearbeitet"])
+            vnr = emit(div, region, set(t["heads"]), vnr)
+            continue
         if fuehrend:
             label = re.sub(r"^Teil\s+", "", items[fuehrend[-1]]["label"]).rstrip(":").strip()
             if not re.fullmatch(r"\w+", label):
@@ -852,7 +884,11 @@ def baue_tei(sigle, signatur, seite, items, lex, texte, stat, vorspann=None, dat
             f" Text {n_abschnitt}: {r['text_titel']} ({r['signatur_label']}, {r['blatt']}) "))
         div = E(elter, "div", type="section", n=str(n_abschnitt))
         containers.add(id(div))
-        emit(div, range(grenzen[k], grenzen[k + 1]), set(t["heads"]))
+        ansatz = bc.ANSATZ_NOTIZ.get((r["editionssigle"], r["signatur_label"]))
+        if ansatz:
+            n = E(div, "note", type="editorial")
+            n.text = ansatz.format(text=bh.norm_titel(r["text_titel"]))
+        vnr = emit(div, region, set(t["heads"]))
     if ausschluss:
         aussen.append(etree.Comment(f" {ausschluss} "))
     return tei, containers, erwartet_zeilen
@@ -983,7 +1019,7 @@ def konvertiere(sigle, trocken, ausgabe_dir, datum, ueberschreiben=False):
     # Abgleich mit der Hauptseite (Werkzuordnung massgeblich, #147): jede nicht geprueft
     # erklaerte Abweichung ist ein harter Fehler (bre_common.ABWEICHUNG_ERKLAERT)
     haupt_seite, haupt = bh.lade_hauptseite()
-    unsere = [t["row"]["text_titel"] for t in texte]
+    unsere = [t["row"]["text_titel"] for t in texte if not t["eingearbeitet"]]
     if vorspann and vorspann.get("werk"):
         unsere = [vorspann["werk"]] + unsere
     abw = bh.abgleich(sigle, haupt[sigle], unsere, None)
@@ -998,9 +1034,10 @@ def konvertiere(sigle, trocken, ausgabe_dir, datum, ueberschreiben=False):
     # Ausgeschlossener Teil (Epoche, bre_common.TEIL_AUSGESCHLOSSEN): erst nach Segmentierung und
     # Abgleich, die beide den ganzen Zeugen sehen
     items, texte, raus, ausschluss = schneide_teil_ab(sigle, items, texte, info)
-    n_rows = len(rows) - len(raus)
+    n_eing = sum(1 for t in texte if t["eingearbeitet"])
+    n_rows = len(rows) - len(raus) - n_eing
 
-    stat = {"w": 0, "l": 0, "head": 0, "pb": 0, "pb_im_wort": 0, "note": 0,
+    stat ={"w": 0, "l": 0, "head": 0, "pb": 0, "pb_im_wort": 0, "note": 0,
             "el": collections.Counter(), "span_dupliziert": collections.Counter()}
     tei, containers, erwartet = baue_tei(mhdbdb, signatur, seite, items, lex, texte, stat,
                                          vorspann, datum, ausschluss)
@@ -1016,7 +1053,8 @@ def konvertiere(sigle, trocken, ausgabe_dir, datum, ueberschreiben=False):
                         f"!= {info['stuecke']} Quellzeilen")
     if n_div != n_rows + n_vor_text:
         probleme.append(f"Texte: {n_div} <div> != {len(rows)} Zeilen in segmentierung.tsv "
-                        f"- {len(raus)} ausgeschlossen + {n_vor_text} Vorspann-Text")
+                        f"- {len(raus)} ausgeschlossen - {n_eing} eingearbeitet "
+                        f"+ {n_vor_text} Vorspann-Text")
     if n_w != stat["w"]:
         probleme.append(f"Woerter: {n_w} <w> im Baum != {stat['w']} gebaut")
     ids = tei.xpath("//t:w/@xml:id", namespaces={"t": TEI_NS})
@@ -1065,7 +1103,8 @@ def konvertiere(sigle, trocken, ausgabe_dir, datum, ueberschreiben=False):
     print(f"== {sigle} ({name}) -> {mhdbdb}  [Seite {titel!r}, rev {seite['revid']}]")
     print(f"Datum im Header: {datum}")
     print(f"Texte: {len(texte)} (von {len(rows)} in segmentierung.tsv"
-          + (f", {len(raus)} im ausgeschlossenen Teil" if raus else "") + ")"
+          + (f", {len(raus)} im ausgeschlossenen Teil" if raus else "")
+          + (f", {n_eing} eingearbeitet" if n_eing else "") + ")"
           + (f" + {n_vor_text} Vorspann-Text" if n_vor_text else ""))
     if ausschluss:
         print(f"Ausgeschlossen: {ausschluss} ({len(raus)} Texte: "
