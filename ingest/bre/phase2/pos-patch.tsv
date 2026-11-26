@@ -53,7 +53,6 @@ BRE_CGM713_191v_10_2	ein		abstain		llm:claude-sonnet-5-5	Satzbau unklar, Funktio
 BRE_CGM713_191v_11_4	zu	PRP	instance-llm	high	llm:claude-sonnet-5-5	Präposition mit Nominalgruppe	split
 BRE_CGM713_191v_1_5	lieber	ADJ	instance-llm	high	llm:claude-sonnet-5-5	Attribut zu Substantiv	split
 BRE_CGM713_191v_2_4	gute	ADJ	instance-llm	high	llm:claude-sonnet-5-5	Attribut vor Substantiv	instance
-BRE_CGM713_191v_6_8	parr	NOM	instance-llm	high	llm:claude-sonnet-5-5	Substantiv Bahre	instance
 BRE_CGM713_191v_9_7	vechten	VRB	instance-llm	high	llm:claude-sonnet-5-5	Infinitiv nach wil	instance
 BRE_CGM713_192r_1_7	zu		abstain		llm:claude-sonnet-5-5	Verbpartikel in hinzukommen, kein Kandidat passt	split
 BRE_CGM713_192r_2_4	lieber	ADV	instance-llm	high	llm:claude-sonnet-5-5	Komparativ, lieber = lieber trinken	split
@@ -359,7 +358,6 @@ BRE_D1_4r_15_6	leben	VRB	instance-llm	high	llm:claude-sonnet-5-5	Verb im Relativ
 BRE_D1_4r_18_4	pand	NOM	instance-llm	high	llm:claude-sonnet-5-5	Substantiv im Aufzählungsglied Pfand und Mist	split
 BRE_D1_4r_19_6	ein	DET	instance-llm	high	llm:claude-sonnet-5-5	Artikel vor Substantiv	split
 BRE_D1_4r_21_4	muͤgst	VEM	instance-llm	high	llm:claude-sonnet-5-5	Modalverb mit Infinitiv geraten	instance
-BRE_D1_4r_22_2	weck	NOM	instance-llm	high	llm:claude-sonnet-5-5	Wecken als Gebäck	split
 BRE_D1_4r_23_4	ein		abstain		llm:claude-sonnet-5-5	Teil von einander, kein Kandidat passt	split
 BRE_D1_4r_24_4	vil	ADV	instance-llm	high	llm:claude-sonnet-5-5	verstärkt den Komparativ	split
 BRE_D1_4r_26_3	zu	PRP	instance-llm	high	llm:claude-sonnet-5-5	Präposition in zu gast laden	split
@@ -394,7 +392,6 @@ BRE_D1_5r_23_2	aller	ADJ	instance-llm	high	llm:claude-sonnet-5-5	Allquantor vor 
 BRE_D1_5r_24_0	zu	PRP	instance-llm	high	llm:claude-sonnet-5-5	Präposition mit Pronomen	split
 BRE_D1_5r_24_2	weln	VEM	instance-llm	medium	llm:claude-sonnet-5-5	Modalverb wollen mit Infinitiv	instance
 BRE_D1_5r_26_4	vil	ADV	instance-llm	high	llm:claude-sonnet-5-5	verstärkt den Komparativ	split
-BRE_D1_5r_31_5	fulst		abstain		llm:claude-sonnet-5-5	finite Verbform füllen, Kandidaten passen nicht	instance
 BRE_D1_5r_32_2	dein	POS	instance-llm	high	llm:claude-sonnet-5-5	Possessiv vor Substantiv kraft	split
 BRE_D1_5r_32_4	auß	ADV	instance-llm	high	llm:claude-sonnet-5-5	Verbpartikel in auß kosen	split
 BRE_D1_5r_3_4	ein	DET	instance-llm	high	llm:claude-sonnet-5-5	unbestimmter Artikel vor Substantiv	split
@@ -713,7 +710,6 @@ BRE_D3_10_20_4	zuͦ	PRP	instance-llm	high	llm:claude-sonnet-5-5	Präposition mit
 BRE_D3_10_21_1	hand	VEX	instance-llm	high	llm:claude-sonnet-5-5	Hilfsverb mit Partizip	split
 BRE_D3_10_21_2	din	POS	instance-llm	high	llm:claude-sonnet-5-5	Possessiv vor Substantiv	split
 BRE_D3_10_22_0	Würfft	VRB	instance-llm	high	llm:claude-sonnet-5-5	finite Verbform von werfen	instance
-BRE_D3_10_23_1	gen		abstain		llm:claude-sonnet-5-5	Ausnahme zur Bulk-Entscheidung	bulk-ausnahme
 BRE_D3_10_24_4	zuͦder	PRP	instance-llm	medium	llm:claude-sonnet-5-5	zu der, Präposition mit Pronomen verschmolzen	instance
 BRE_D3_10_28_4	da	ADV	instance-llm	medium	llm:claude-sonnet-5-5	Relativpartikel mit da an hangst	split
 BRE_D3_10_33_4	lieber	ADJ	instance-llm	high	llm:claude-sonnet-5-5	Attribut nach Possessiv	split
@@ -731,11 +727,9 @@ BRE_D3_11_26_4	zuͦ	PRP	instance-llm	high	llm:claude-sonnet-5-5	Präposition mit
 BRE_D3_11_27_5	laͤben	VRB	instance-llm	high	llm:claude-sonnet-5-5	finites Verb leben	instance
 BRE_D3_11_29_5	bist	VEX	instance-llm	medium	llm:claude-sonnet-5-5	Perfekt mit Partizip gewachsen	split
 BRE_D3_11_33_4	moͤgst	VEM	instance-llm	high	llm:claude-sonnet-5-5	Modalverb mit Infinitiv geraten	instance
-BRE_D3_11_34_2	weck	NOM	instance-llm	high	llm:claude-sonnet-5-5	Wecken als Gebäck	split
 BRE_D3_11_5_4	uff	PRP	instance-llm	high	llm:claude-sonnet-5-5	mit Nominalgruppe	split
 BRE_D3_11_9_5	nacket	ADJ	instance-llm	medium	llm:claude-sonnet-5-5	Prädikativ neben bloß	instance
 BRE_D3_12_11_0	Dein	POS	instance-llm	high	llm:claude-sonnet-5-5	Possessiv vor Substantiv	split
-BRE_D3_12_11_1	namm	NOM	instance-llm	high	llm:claude-sonnet-5-5	Substantiv Name nach Possessiv	instance
 BRE_D3_12_12_1	bist	VRB	instance-llm	high	llm:claude-sonnet-5-5	Kopula mit Prädikatsnomen	split
 BRE_D3_12_12_4	ein	DET	instance-llm	high	llm:claude-sonnet-5-5	unbestimmter Artikel vor Adjektiv und Substantiv	split
 BRE_D3_12_13_3	ein	DET	instance-llm	high	llm:claude-sonnet-5-5	unbestimmter Artikel vor Adjektiv und Substantiv	split
@@ -837,7 +831,6 @@ BRE_D3_14_51_1	hat	VRB	instance-llm	high	llm:claude-sonnet-5-5	Besitz, Objekt Bo
 BRE_D3_14_51_2	ein	DET	instance-llm	high	llm:claude-sonnet-5-5	unbestimmter Artikel vor Substantiv	split
 BRE_D3_14_51_6	nach	ADV	instance-llm	high	llm:claude-sonnet-5-5	Verbpartikel nach Dativpronomen	split
 BRE_D3_14_53_2	kund	VEM	instance-llm	high	llm:claude-sonnet-5-5	Modalverb mit Infinitiv	instance
-BRE_D3_14_53_4	gen		abstain		llm:claude-sonnet-5-5	Ausnahme zur Bulk-Entscheidung	bulk-ausnahme
 BRE_D3_14_56_4	sach	VRB	instance-llm	high	llm:claude-sonnet-5-5	finites Verb sehen	instance
 BRE_D3_14_57_1	hat	VRB	instance-llm	high	llm:claude-sonnet-5-5	Besitz, Objekt drei Söhne	split
 BRE_D3_14_57_5	ein	NUM	instance-llm	medium	llm:claude-sonnet-5-5	einer von drei Söhnen, Zählung	split
@@ -906,7 +899,6 @@ BRE_D3_3_34_2	zuͦ	PRP	instance-llm	medium	llm:claude-sonnet-5-5	Präposition mi
 BRE_D3_3_34_3	stürmen	VRB	instance-llm	high	llm:claude-sonnet-5-5	Infinitiv nach zu	instance
 BRE_D3_3_34_5	zuͦ	PRP	instance-llm	medium	llm:claude-sonnet-5-5	Präposition mit substantiviertem Infinitiv	split
 BRE_D3_3_3_3	uff	ADV	instance-llm	high	llm:claude-sonnet-5-5	dar uff ohne Nominalgruppe	split
-BRE_D3_3_6_3	quelen	NOM	instance-llm	low	llm:claude-sonnet-5-5	Quellen als Substantiv vor Brunnen	instance
 BRE_D3_3_7_5	zuͦ		abstain		llm:claude-sonnet-5-5	Pronominaladverb dar zuo, kein Kandidat ADV	split
 BRE_D3_4_11_0	Seit		abstain		llm:claude-sonnet-5-5	Ausnahme zur Bulk-Entscheidung	bulk-ausnahme
 BRE_D3_4_11_2	hast	VRB	instance-llm	high	llm:claude-sonnet-5-5	Ausnahme zur Bulk-Entscheidung	bulk-ausnahme
@@ -1391,7 +1383,6 @@ BRE_GEORG1508_151v_8_1	dein	POS	instance-llm	high	llm:claude-sonnet-5-5	Possessi
 BRE_GEORG1508_151v_9_3	hat	VEX	instance-llm	high	llm:claude-sonnet-5-5	Hilfsverb mit Partizip	split
 BRE_GEORG1508_152r_10_4	bist	VEX	instance-llm	high	llm:claude-sonnet-5-5	Perfekt mit Partizip II gewachsen	split
 BRE_GEORG1508_152r_12_4	eynen	DET	instance-llm	medium	llm:claude-sonnet-5-5	Unbestimmter Artikel vor man	instance
-BRE_GEORG1508_152r_15_2	weck	NOM	instance-llm	high	llm:claude-sonnet-5-5	Wecken als Gebäck	split
 BRE_GEORG1508_152r_17_1	lebt	VRB	instance-llm	high	llm:claude-sonnet-5-5	finites Verb leben	instance
 BRE_GEORG1508_152r_17_3	frolich	ADV	instance-llm	high	llm:claude-sonnet-5-5	"bestimmt ""lebt"" näher"	split
 BRE_GEORG1508_152r_17_4	zu	PRP	instance-llm	high	llm:claude-sonnet-5-5	Präposition mit Nominalgruppe, temporal	split
@@ -1422,8 +1413,6 @@ BRE_GEORG1508_153r_9_3	aller	ADJ	instance-llm	high	llm:claude-sonnet-5-5	Allquan
 BRE_GEORG1508_153v_10_0	Zu	PRP	instance-llm	high	llm:claude-sonnet-5-5	Präposition mit Pronomen im Dativ	split
 BRE_GEORG1508_153v_12_0	Dein	POS	instance-llm	high	llm:claude-sonnet-5-5	Possessiv vor Substantiv	split
 BRE_GEORG1508_153v_12_3	thut	VRB	instance-llm	high	llm:claude-sonnet-5-5	finites Verb, Subjekt Kraft	instance
-BRE_GEORG1508_153v_15_3	zcen	NOM	instance-llm	high	llm:claude-sonnet-5-5	Substantiv Zähne	instance
-BRE_GEORG1508_153v_17_5	fulst		abstain		llm:claude-sonnet-5-5	finite Verbform füllen, Kandidaten passen nicht	instance
 BRE_GEORG1508_153v_18_1	dein	POS	instance-llm	high	llm:claude-sonnet-5-5	Possessiv vor Substantiv	split
 BRE_GEORG1508_153v_18_4	aus	ADV	instance-llm	high	llm:claude-sonnet-5-5	Verbpartikel in ausgegossen	split
 BRE_GEORG1508_153v_1_4	zu	PRP	instance-llm	high	llm:claude-sonnet-5-5	Präposition mit Nominalgruppe, temporal	split
@@ -1472,7 +1461,6 @@ BRE_GEORG1508_155v_7_2	kam	VRB	instance-llm	high	llm:claude-sonnet-5-5	Vollverb,
 BRE_GEORG1508_155v_7_5	zu	PRP	instance-llm	high	llm:claude-sonnet-5-5	Präposition mit Nomen, temporal	split
 BRE_GEORG1508_155v_8_2	dein	POS	instance-llm	medium	llm:claude-sonnet-5-5	Possessiv vor Substantiv	split
 BRE_GEORG1508_156r_12_1	yn	PRO	instance-llm	medium	llm:claude-sonnet-5-5	Personalpronomen, Pluralform	instance
-BRE_GEORG1508_156r_12_3	zcen	NOM	instance-llm	high	llm:claude-sonnet-5-5	Substantiv Zähne	instance
 BRE_GEORG1508_156r_12_4	mehr	ADV	instance-llm	medium	llm:claude-sonnet-5-5	Adverb im Sinn von weiterhin	instance
 BRE_GEORG1508_156r_12_6	zu	PRP	instance-llm	low	llm:claude-sonnet-5-5	Infinitivpartikel vor Verb/Nomen, nächstliegend PRP	split
 BRE_GEORG1508_156r_16_4	fur	PRP	instance-llm	high	llm:claude-sonnet-5-5	Präposition vor Gott	instance
@@ -1598,7 +1586,6 @@ BRE_HS5339A_104r_20_3	ein	DET	instance-llm	high	llm:claude-sonnet-5-5	Artikel vo
 BRE_HS5339A_104r_2_6	gute	ADJ	instance-llm	high	llm:claude-sonnet-5-5	Attribut vor Substantiv	instance
 BRE_HS5339A_104r_3_5	vil	ADV	instance-llm	high	llm:claude-sonnet-5-5	verstärkt den Komparativ weher	split
 BRE_HS5339A_104r_8_1	da	SCNJ	instance-llm	medium	llm:claude-sonnet-5-5	temporale Konjunktion, als	split
-BRE_HS5339A_104v_14_2	weck	NOM	instance-llm	high	llm:claude-sonnet-5-5	Wecken als Gebäck	split
 BRE_HS5339A_104v_14_4	veisten	ADJ	instance-llm	high	llm:claude-sonnet-5-5	Attribut vor Substantiv praten	instance
 BRE_HS5339A_104v_16_4	vil	ADV	instance-llm	high	llm:claude-sonnet-5-5	verstärkt den Komparativ	split
 BRE_HS5339A_104v_1_5	lieber	ADJ	instance-llm	high	llm:claude-sonnet-5-5	Attribut zur Anrede	split
@@ -1610,7 +1597,6 @@ BRE_HS5339A_104v_6_5	vil	ADV	instance-llm	high	llm:claude-sonnet-5-5	verstärkt 
 BRE_HS5339A_104v_7_6	leben	VRB	instance-llm	high	llm:claude-sonnet-5-5	Verb im Relativsatz	split
 BRE_HS5339A_104v_9_4	pist	VEX	instance-llm	high	llm:claude-sonnet-5-5	Ausnahme zur Bulk-Entscheidung	bulk-ausnahme
 BRE_HS5339A_105r_10_1	aus	PRP	instance-llm	high	llm:claude-sonnet-5-5	Präposition mit Nominalgruppe	split
-BRE_HS5339A_105r_12_5	sannt	NOM	instance-llm	low	llm:claude-sonnet-5-5	Heiligentitel vor Name, Lemma wohl falsch	instance
 BRE_HS5339A_105r_16_1	frolich	ADV	instance-llm	high	llm:claude-sonnet-5-5	"bestimmt ""gee"" näher"	split
 BRE_HS5339A_105r_16_4	zu	PRP	instance-llm	high	llm:claude-sonnet-5-5	Präposition mit Nominalgruppe	split
 BRE_HS5339A_105r_1_5	lieber	ADJ	instance-llm	high	llm:claude-sonnet-5-5	Attribut zur Anrede	split
@@ -1941,10 +1927,8 @@ BRE_MGQ2370_27v_4_6	vil	ADV	instance-llm	high	llm:claude-sonnet-5-5	steigert Adj
 BRE_MGQ2370_27v_5_6	trunck	VRB	instance-llm	high	llm:claude-sonnet-5-5	finite Verbform im Nebensatz	split
 BRE_MGQ2370_27v_6_5	frolich	ADV	instance-llm	medium	llm:claude-sonnet-5-5	"bestimmt ""geparr"" näher"	split
 BRE_MGQ2370_27v_7_1	da	SCNJ	instance-llm	medium	llm:claude-sonnet-5-5	temporale Konjunktion, als	split
-BRE_MGQ2370_27v_7_8	parr	NOM	instance-llm	high	llm:claude-sonnet-5-5	Substantiv Bahre	instance
 BRE_MGQ2370_28r_10_2	dein	POS	instance-llm	high	llm:claude-sonnet-5-5	Possessiv vor Substantiv stock	split
 BRE_MGQ2370_28r_12_2	woll	ADV	instance-llm	high	llm:claude-sonnet-5-5	Adverb zu schneiden	split
-BRE_MGQ2370_28r_14_2	weck	NOM	instance-llm	high	llm:claude-sonnet-5-5	Wecken als Gebäck	split
 BRE_MGQ2370_28r_15_4	ein		abstain		llm:claude-sonnet-5-5	Teil von beieinander, kein Kandidat passt sicher	split
 BRE_MGQ2370_28r_16_4	vil	ADV	instance-llm	high	llm:claude-sonnet-5-5	steigert Adverb pas	split
 BRE_MGQ2370_28r_18_8	ein		abstain		llm:claude-sonnet-5-5	Verbpartikel (einlassen), kein Kandidat passt	split
@@ -1975,7 +1959,6 @@ BRE_MGQ2370_28v_2_4	ein	DET	instance-llm	high	llm:claude-sonnet-5-5	Artikel vor 
 BRE_MGQ2370_28v_4_1	aus	PRP	instance-llm	high	llm:claude-sonnet-5-5	Präposition mit Nominalgruppe	split
 BRE_MGQ2370_28v_5_6	sag	VRB	instance-llm	high	llm:claude-sonnet-5-5	Verb sagen	instance
 BRE_MGQ2370_28v_6_4	vorr	PRP	instance-llm	high	llm:claude-sonnet-5-5	Präposition vor Heiligenname	instance
-BRE_MGQ2370_28v_6_5	sannt	NOM	instance-llm	low	llm:claude-sonnet-5-5	Heiligentitel vor Name, Lemma wohl falsch	instance
 BRE_MGQ2370_29r_13_4	ein	DET	instance-llm	high	llm:claude-sonnet-5-5	Artikel vor Adjektiv und Substantiv	split
 BRE_MGQ2370_29r_14_3	aller	ADJ	instance-llm	high	llm:claude-sonnet-5-5	Allquantor vor Substantiv	split
 BRE_MGQ2370_29r_19_4	trunck	NOM	instance-llm	high	llm:claude-sonnet-5-5	Substantiv mit attributivem Adjektiv	split
@@ -2278,7 +2261,6 @@ BRE_MSCRM50_145v_7_5	ein	DET	instance-llm	high	llm:claude-sonnet-5-5	Artikel vor
 BRE_MSCRM50_145v_9_1	hat	VEX	instance-llm	high	llm:claude-sonnet-5-5	Hilfsverb mit Partizip	split
 BRE_MSCRM50_146r_10_4	bist	VEX	instance-llm	high	llm:claude-sonnet-5-5	Perfekt mit Partizip II gewachsen	split
 BRE_MSCRM50_146r_12_6	ein	DET	instance-llm	high	llm:claude-sonnet-5-5	Artikel vor Substantiv	split
-BRE_MSCRM50_146r_15_2	weck	NOM	instance-llm	high	llm:claude-sonnet-5-5	Wecken als Gebäck	split
 BRE_MSCRM50_146r_15_4	veisten	ADJ	instance-llm	high	llm:claude-sonnet-5-5	Attribut vor Substantiv praten	instance
 BRE_MSCRM50_146r_17_3	vil	ADV	instance-llm	high	llm:claude-sonnet-5-5	steigert mer	split
 BRE_MSCRM50_146r_21_3	nicht	NEG	instance-llm	high	llm:claude-sonnet-5-5	Negation beim Verb	split
@@ -2523,7 +2505,6 @@ BRE_OCT145_202v_7_3	vil	ADV	instance-llm	medium	llm:claude-sonnet-5-5	zu viel, G
 BRE_OCT145_202v_7_5	hat	VEX	instance-llm	high	llm:claude-sonnet-5-5	Hilfsverb mit Partizip	split
 BRE_OCT145_202v_8_2	zů	PRP	instance-llm	high	llm:claude-sonnet-5-5	Präposition mit Dativgruppe	split
 BRE_OCT145_203r_10_2	dz	SCNJ	instance-llm	medium	llm:claude-sonnet-5-5	Nebensatzeinleiter nach machst	split
-BRE_OCT145_203r_10_5	hapt		abstain		llm:claude-sonnet-5-5	Haupt gemeint, Lemma falsch	instance
 BRE_OCT145_203r_11_3	trinck	NOM	instance-llm	low	llm:claude-sonnet-5-5	Objekt der Nebensatzes, Trunk	split
 BRE_OCT145_203r_11_4	ze		abstain		llm:claude-sonnet-5-5	Gradpartikel vor Adjektiv, keiner der Kandidaten	instance
 BRE_OCT145_203r_11_6	hat	VEX	instance-llm	high	llm:claude-sonnet-5-5	Hilfsverb mit Partizip	split
@@ -2611,7 +2592,6 @@ BRE_OCT145_205v_7_5	zü	PRP	instance-llm	high	llm:claude-sonnet-5-5	Präposition
 BRE_OCT145_205v_8_0	dz	SCNJ	instance-llm	medium	llm:claude-sonnet-5-5	Nebensatzeinleiter	split
 BRE_OCT145_205v_8_5	zü		abstain		llm:claude-sonnet-5-5	Verbpartikel (hinzukommen), ADV nicht Kandidat	split
 BRE_OCT145_205v_9_4	lieber	ADV	instance-llm	high	llm:claude-sonnet-5-5	Komparativ bestimmt Verb näher	split
-BRE_OCT145_205v_9_7	hapt		abstain		llm:claude-sonnet-5-5	Haupt gemeint, Lemma falsch	instance
 BRE_OCT145_206r_10_0	dz	SCNJ	instance-llm	high	llm:claude-sonnet-5-5	Folgesatz mit dz er	split
 BRE_OCT145_206r_11_0	dz	SCNJ	instance-llm	high	llm:claude-sonnet-5-5	Folgesatz	split
 BRE_OCT145_206r_11_1	in	PRO	instance-llm	high	llm:claude-sonnet-5-5	Personalpronomen Dativ	split

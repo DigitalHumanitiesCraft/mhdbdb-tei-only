@@ -6,10 +6,16 @@ ingest/bre/BRE_*.tei.xml das @lemmaRef von alt auf neu. Anders als 13-lemma-appl
 dieses Skript bewusst ein vorhandenes @lemmaRef, aber nur, wenn es genau dem Altwert der Zeile
 entspricht (sonst harter Fehler) und das neue Lemma in lexicon.xml steht.
 
-@pos, @ana und @corresp des Tokens haengen am alten Lemma und werden entfernt; die Tokens muessen
-danach durch Phase 2 und 3 (und 18-corresp.py) neu laufen. Die Liste steht auf der Konsole mit
-der Zahl je Attribut. Dasselbe Skript zweimal gestartet: harter Fehler beim zweiten Lauf (alt steht
-nicht mehr da), damit nichts doppelt wirkt.
+@pos, @ana und @corresp des Tokens haengen am alten Lemma und werden entfernt. Ebenso die Zeilen
+dieser xml_id in phase2/pos-patch.tsv und phase3/sense-patch.tsv: beide sind nur nach xml_id
+geschluesselt, und 15-apply.py wuerde sie sonst nach dem Neulauf auf das neue Lemma anwenden
+(abstain ohne Pruefung, ein Wert, wenn er unter den neuen Kandidaten steht). phase1/lemma-patch.tsv
+bleibt unberuehrt: Phase 1 laeuft in der Wiederaufbau-Reihenfolge vor diesem Skript und setzt das
+Altlemma, das hier geprueft und ersetzt wird.
+
+Die Tokens muessen danach durch 14, 15 --phase pos, 16, 15 --phase sense und 18-corresp.py neu
+laufen. Dasselbe Skript zweimal gestartet: harter Fehler beim zweiten Lauf (alt steht nicht mehr
+da), damit nichts doppelt wirkt.
 
 Aufruf: python -P -E scripts/ingest/bre/24-lemma-korrektur.py [--trocken]
 """
@@ -25,6 +31,7 @@ import bre_common as bc  # noqa: E402
 TSV = bc.REPO / "ingest" / "bre" / "pruefung" / "lemma-korrekturen.tsv"
 FELDER = ["xml_id", "wort", "zeuge", "nr", "alt", "neu", "neu_form", "quelle", "notiz"]
 ABHAENGIG = ("pos", "ana", "corresp")
+PATCHES = (ba.PHASE2 / "pos-patch.tsv", ba.PHASE3 / "sense-patch.tsv")
 
 
 def main():
@@ -67,9 +74,17 @@ def main():
     fehlt = set(ziel) - gefunden
     if fehlt:
         raise bc.HarterFehler(f"{len(fehlt)} xml_id nicht in den Zeugen, z.B. {sorted(fehlt)[:3]}")
+    for pfad in PATCHES:
+        alle = ba.lies_tsv(pfad)
+        felder = list(alle[0].keys())
+        rest = [z for z in alle if z["xml_id"] not in ziel]
+        entfernt[pfad.name] = len(alle) - len(rest)
+        if not a.trocken:
+            ba.schreibe_tsv(pfad, felder, rest)
     print(f"Korrekturen: {len(zeilen)} Tokens, @lemmaRef ersetzt: {len(gefunden)}")
     print("entfernt (haengt am alten Lemma): " + ", ".join(f"@{k} {entfernt[k]}" for k in ABHAENGIG))
-    print("(trocken: nichts geschrieben)" if a.trocken else "Zeugen geschrieben")
+    print("Patch-Zeilen entfernt: " + ", ".join(f"{p.name} {entfernt[p.name]}" for p in PATCHES))
+    print("(trocken: nichts geschrieben)" if a.trocken else "Zeugen und Patch-TSV geschrieben")
 
 
 if __name__ == "__main__":

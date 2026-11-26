@@ -52,14 +52,12 @@ Leere Zeilen gelten als nicht geprüft. Die ausgefüllte Datei bitte im Issue #1
 
 ## Übernommene Lemma-Korrekturen: lemma-korrekturen.tsv
 
-Am 26.11.2026 hat KZW 50 der 233 Verdachtsfälle auf der Prüfseite entschieden (24 Kontrollzeilen, alle gleich wie der Vorschlag der Session, dazu die 26 offenen). Danach hat sie die übrigen 183 Vorschläge der Session zur Übernahme freigegeben. `lemma-korrekturen.tsv` hält je Token (`xml_id`) das Altlemma, das neue Lemma und die Quelle der Entscheidung fest: 149 Tokens, davon 23 nach KZWs Entscheidung und 126 nach dem freigegebenen Vorschlag der Session. `scripts/ingest/bre/24-lemma-korrektur.py` hat sie in die Zeugen übernommen. Dabei fielen bei 108 Tokens `@pos` weg, `@ana` und `@corresp` waren bei diesen Tokens nicht gesetzt; sie müssen durch Phase 2 neu laufen.
+Am 26.11.2026 hat KZW 50 der 233 Verdachtsfälle auf der Prüfseite entschieden (24 Kontrollzeilen, alle gleich wie der Vorschlag der Session, dazu die 26 offenen). Danach hat sie die übrigen 183 Vorschläge der Session zur Übernahme freigegeben und im Chat sechs weitere Fälle (`wer`) und zwei (`quelen`) entschieden. `lemma-korrekturen.tsv` hält je Token (`xml_id`) das Altlemma, das neue Lemma und die Quelle fest: 155 Tokens, davon 31 nach KZWs Entscheidung (23 Prüfseite, 8 Chat) und 124 nach dem freigegebenen Vorschlag der Session. `scripts/ingest/bre/24-lemma-korrektur.py` hat sie in die Zeugen übernommen. Dabei fielen bei 107 Tokens `@pos` weg (`@ana` und `@corresp` waren bei diesen Tokens nicht gesetzt) und 20 Zeilen in `phase2/pos-patch.tsv` und 83 in `phase3/sense-patch.tsv`. Die Tokens müssen durch Phase 2 und 3 neu laufen. `wer` als Pronomen steht im ganzen Korpus unter `lemma_5961` (swer), so auch hier.
 
-Nicht übernommen, weil offen (20 Tokens):
+Nicht übernommen, weil offen (12 Tokens):
 - `reucht` (nr 70, 71): KZW findet in den Wörterbüchern kein „reuchen“, die Übersetzung sagt „reich werden“. Ein Lemma ist noch zu suchen.
 - `gespreng`, `gespring` (nr 156 bis 163): KZW will ein neues Lemma `gesprinc` stN. im Lexikon (drei Bedeutungen: Quelle/Brunnen, bildlich Ursprung/Ausgangspunkt, Getränk). Das Lemma gibt es noch nicht; das Anlegen ist ein Datenschritt mit dem Data-Change-Lifecycle für `authority-files/`.
-- `befilt` (nr 175, 176): KZW hat „nein“ gewählt und als Korrektur `lemma_646` angegeben, das Lemma, das schon steht. Widerspruch, Rückfrage offen.
-- `quelen` (nr 123, 124): „kühl“ im Satz („von kühlem Brunnen“), das Lexikon hat als Verb `lemma_3498` küelen; ein Adjektiv ist nicht gefunden.
-- `Werr`, `werr` (nr 212 bis 214, 216 bis 218): Pronomen „wer“, im Lexikon nur als `swer`.
+- `denest` (nr 15, 16): vermutlich „dennoch“ (`lemma_1077` dannoch), die Zuordnung hat KZW nicht bestätigt.
 
 Aufruf: `python -P -E scripts/ingest/bre/24-lemma-korrektur.py --trocken`. Ein zweiter Lauf bricht mit einem harten Fehler ab, weil das Altlemma nicht mehr dasteht.
 
