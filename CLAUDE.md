@@ -12,7 +12,7 @@ MHDBDB TEI Repository: 667 TEI-encoded Middle High German texts with semantic an
 
 @docs/INDEX.md is imported here, so its catalog of the 15 promptotyping documents is already in context and is not repeated. Not part of that set: `docs/features/` (planning docs, alive only while their issue is open) and `docs/playbooks/` (reusable session procedures).
 
-**Data that belongs to this project but may not live in it is listed in `sources/INVENTAR-ARCHIV.md`**: the 9.1 GB legacy archive at KZW's, and since 2026-09-22 also the holdings in the DHCraft Drive under `Projekte/mhdbdb/extern/` (Trier Findebuch dump for #259, a De Gruyter volume, since 2026-11-19 the Hesler Apokalypse for #262), each with its licence condition and the byte count to check a copy against. A script whose data is missing is answered there rather than by asking KZW again.
+**Data that belongs to this project but may not live in it is listed in `sources/INVENTAR-ARCHIV.md`**: the 9.1 GB legacy archive at KZW's, and since 2026-09-22 also the holdings in the DHCraft Drive under `Projekte/mhdbdb/extern/` (Trier Findebuch dump for #259, a De Gruyter volume, since 2026-11-19 the Hesler Apokalypse for #262), since 2026-11-26 also the Weingrüße print proofs, which exist only locally (#147), each with its licence condition and the byte count to check a copy against. A script whose data is missing is answered there rather than by asking KZW again.
 
 ### Language and constraints
 
@@ -145,6 +145,8 @@ The sentence has two halves and both are load-bearing. Half one forbids writing 
 **The case it was written for.** On 2026-09-10 this project's own session characterised the lemma `Alanya` as a Turkish toponym, from the headword alone. The corpus said otherwise, and it said so cheaply: the lemma has seven attestations, all in `WVO`, and six of them read "der kuenc von alanye". A land with a king, so Alanien, the Iranian people, not the town on the Turkish coast. One minute of looking at the attestations. **Both halves were broken in the same move**: the source data went unchecked, and nothing was asked. A one-text lemma is almost always story-world specific and almost never modern geography, and that alone should have stopped the guess.
 
 The practical form of the rule for a corpus or authority decision: put the **attestations with their context** in front of yourself, not the headword; check what the existing annotation already says; only then form a judgement; and what remains uncertain after that goes on a list for the human rather than into `lexicon.xml`. A run that writes 8,559 names from headwords alone makes the `Alanya` mistake 8,559 times and nobody sees it.
+
+**A modern translation counts among the sources, and one with uncleared rights never leaves the machine** (@wachauer in #147, 2026-11-26, rule in #743). Where the rights note of a source names a New High German translation, it is read before a question goes to a human. If its rights are not cleared, none of its wording goes into the repository, a commit, a PR body or a comment, only our own verdicts. How it enters the phases and what the gate sees: [DATA-MODEL.md → Ingest procedure](docs/DATA-MODEL.md#ingest-procedure-taking-in-new-texts).
 
 The rule does not compete with the issue threshold above, under Self-Inflicted Overhead. That one says which findings become tickets; this one says what you owe before you put a question to a person at all.
 
