@@ -12,6 +12,7 @@ metadata:
 - PII nicht an der Mail-Regex aufhängen: Zeilendiff Original gegen Bereinigt, dann `Telefon`, `\+\d{2}`, `<address>`, `credit` in `_wp_attachment_metadata`, `/author/`, `?author=`. `PHONE_RE` trifft die nationale Form ohne `Tel:` nicht.
 - GitHub-`user-attachments` eines öffentlichen Repos sind ohne Login abrufbar, Löschen des Kommentars löscht die Datei nicht: die Datei-ID nie in Notizen, Commits, Issues.
 - `sources/README.md` zählt die Bestände auf: jeder neue Bestand macht die Aufzählung falsch, ohne dass der Diff sie berührt (#397).
+- `sources/INVENTAR-ARCHIV.md`: zwei Stellen zeigen per Lage auf den Drive-Abschnitt („letzter Abschnitt", `compare-findebuch-resolution-259.py:140`, `fehlerjournal.md` ~956). Ein neuer Abschnitt dahinter bricht sie ohne Diff-Berührung (#744 tat das, #743-Drive heilte es). Zählwörter im Vorsatz („die ersten beiden … der dritte") gegen die Tabellenzeilen zählen. `sources/weingruesse/` ist seit 26.11.2026 auch im Drive.
 - Original nur bei KZW: Bytes und SHA-256 gegen die Glossar-README, `bereinige-export.py` (mit `-E -P`), `cmp` gegen den Blob. Nur `einordnung.json` (Feld `c`) steuert die Kürzungen. `entfallenes-suchen.py`: `AUTO_B` stuft still als (b) ein, nie in `offen`.
 
 **Zotero- und Issue-Monatslauf (#417, #537)**
