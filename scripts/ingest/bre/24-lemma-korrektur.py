@@ -17,7 +17,10 @@ Die Tokens muessen danach durch 14, 15 --phase pos, 16, 15 --phase sense und 18-
 laufen. Dasselbe Skript zweimal gestartet: harter Fehler beim zweiten Lauf (alt steht nicht mehr
 da), damit nichts doppelt wirkt.
 
-Aufruf: python -P -E scripts/ingest/bre/24-lemma-korrektur.py [--trocken]
+Aufruf: python -P -E scripts/ingest/bre/24-lemma-korrektur.py [--trocken] [--patches-behalten]
+
+--patches-behalten gehoert in jeden Wiederaufbau nach dem ersten Lauf: sobald Phase 2 und 3 neu gelaufen sind,
+stehen in den Patch-Tabellen Zeilen zum NEUEN Lemma, die nicht geloescht werden duerfen.
 """
 import argparse
 import collections
@@ -40,6 +43,9 @@ def main():
     bc.ausgabe_utf8()
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--trocken", action="store_true")
+    ap.add_argument("--patches-behalten", action="store_true",
+                    help="Wiederaufbau nach neu gelaufener Phase 2 und 3: die Patch-Tabellen enthalten dann Zeilen "
+                         "zum neuen Lemma und bleiben unberuehrt (nur TEI)")
     a = ap.parse_args()
     zeilen = ba.lies_tsv(TSV, FELDER)
     ziel = {}
@@ -56,6 +62,7 @@ def main():
     # Patch-Dateien vor dem ersten Schreiben lesen: fehlt eine oder stimmt der Kopf nicht, bricht das Skript
     # ab, bevor etwas geschrieben ist (sonst stuende die TEI korrigiert neben alten Patch-Zeilen)
     patches = {pfad: ba.lies_tsv(pfad, PATCH_FELDER) for pfad in PATCHES}
+    baeume = []  # erst alles pruefen, dann schreiben: ein harter Fehler laesst nichts halb geschrieben zurueck
     gefunden = set()
     entfernt = collections.Counter()
     for zeuge, pfad in ba.zeugen_dateien():
@@ -74,16 +81,19 @@ def main():
                     entfernt[att] += 1
             gefunden.add(z["xml_id"])
             geaendert = True
-        if geaendert and not a.trocken:
-            ba.schreibe(baum, pfad)
+        if geaendert:
+            baeume.append((baum, pfad))
     fehlt = set(ziel) - gefunden
     if fehlt:
         raise bc.HarterFehler(f"{len(fehlt)} xml_id nicht in den Zeugen, z.B. {sorted(fehlt)[:3]}")
     for pfad, alle in patches.items():
-        rest = [z for z in alle if z["xml_id"] not in ziel]
+        rest = alle if a.patches_behalten else [z for z in alle if z["xml_id"] not in ziel]
         entfernt[pfad.name] = len(alle) - len(rest)
         if not a.trocken:
             ba.schreibe_tsv(pfad, PATCH_FELDER, rest)
+    if not a.trocken:
+        for baum, pfad in baeume:
+            ba.schreibe(baum, pfad)
     print(f"Korrekturen: {len(zeilen)} Tokens, @lemmaRef ersetzt: {len(gefunden)}")
     print("entfernt (haengt am alten Lemma): " + ", ".join(f"@{k} {entfernt[k]}" for k in ABHAENGIG))
     print("Patch-Zeilen entfernt: " + ", ".join(f"{p.name} {entfernt[p.name]}" for p in PATCHES))
