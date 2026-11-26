@@ -2,9 +2,12 @@
 """Tests fuer 02-convert-wiki-to-mhdbdb.py (BRE, #147), pytest-frei.
 
 Aufruf: python -P -E scripts/ingest/bre/test_bre.py
-Die meisten Tests laufen ohne Netz und ohne Cache auf einer Mini-Fixture (Ausschnitt aus Cgm 713,
-Revision 21352). Den Wiki-Cache `temp/bre-wiki` brauchen das Druckfahnen-Gate und die fuenf
-Sperre-Tests, die `konvertiere` direkt aufrufen; fehlt er, schlagen sie fehl. Der Test "alle bricht
+Der erste Teil laeuft ohne Netz und ohne Cache auf einer Mini-Fixture (Ausschnitt aus Cgm 713,
+Revision 21352). Den Wiki-Cache `temp/bre-wiki` (erzeugt von 00-fetch-wiki.py) brauchen die Sperre-Tests,
+die Tests zu B2, d4 und d6, der Test zur gepinnten Hauptseite und das Druckfahnen-Gate. Fehlt er, bricht
+das Skript an der ersten dieser Stellen mit einem Traceback ab (HarterFehler: Cache fehlt), die
+spaeteren Tests laufen dann nicht. Ausgabe mit `py -u` mitlesen: gepuffert gehen frueh geschriebene
+"ok"-Zeilen verloren, die Fehlerliste am Ende ist vollstaendig. Der Test "alle bricht
 vor dem ersten Schreiben ab" besteht ohne Cache auch dann, wenn die Vorpruefung in `main` fehlt (dann
 bricht die erste Konversion am fehlenden Cache ab), sein Befund zaehlt nur mit Cache.
 Beendet mit Exit 1, wenn ein Test fehlschlaegt.

@@ -35,7 +35,7 @@ Ingest der Weingrüße aus der Hybridedition von Silvan Wagner (Issue [#147](htt
 | `bre_common.py` | Zeugentabelle (Editionssigle, Wiki-Seite, MHDBDB-Sigle), Vorspann-Tabelle, Faltungstabelle, geprüfte Abweichungen zur Hauptseite, eingearbeitete Texte, Ansatz- und Schluss-Notizen, offene Segmentierung, ausgeschlossene Teile, API und Cache | |
 | `bre_hauptseite.py` | Liest Liste und Übersichtstabelle der Hauptseite und vergleicht sie mit der Segmentierung | |
 | `bre_wikitext.py` | Hilfsfunktionen für den Wikitext | |
-| `test_bre.py` | Mini-Fixtures aus Cgm 713 und konstruierte Fehlerfälle | |
+| `test_bre.py` | Mini-Fixtures aus Cgm 713, konstruierte Fehlerfälle und Läufe gegen den Wiki-Cache (Sperre, B2, d4, d6, Hauptseite); ohne `temp/bre-wiki` bricht das Skript ab, vorher `00-fetch-wiki.py` | |
 
 ```bash
 python -P -E scripts/ingest/bre/00-fetch-wiki.py --offline
