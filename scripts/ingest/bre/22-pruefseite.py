@@ -11,7 +11,8 @@ Fortsetzen.
 
 Umfang:
   lemma-verdacht.tsv  vorgesichtet: jede Zeile hat in vorschlaege-verdacht.tsv ein Urteil der Session
-      (ja / nein / ?, nach Durchsicht mit der Druckausgabe und dem Kontext, nicht bestaetigt).
+      (ja / nein / ?, nach Durchsicht von Kontext, Lexikon und, wo der Vers sicher zugeordnet werden
+      konnte, der Druckausgabe, nicht bestaetigt).
       Gezeigt werden alle Zeilen mit ?, dazu je N_VORSCHLAG Zeilen mit ja und mit nein zur Kontrolle
       der Urteile, gezogen mit random.Random(SEED) je Urteil, Zeilen nach `nr` sortiert.
   lemma.tsv, wortart.tsv, bedeutung.tsv  je eine Stichprobe von STICHPROBE Zeilen, geschichtet
@@ -95,7 +96,7 @@ DATEIEN = [
 ]
 VORSCHLAEGE = PAKET / "vorschlaege-verdacht.tsv"
 VORSCHLAG_FELDER = ["nr", "wort", "zeuge", "urteil", "korrektur", "notiz", "grundlage"]
-GRUNDLAGEN = ["Druck", "Kontext"]  # Druck: Text steht in der Druckausgabe; Kontext: nur Kontext und Lexikon
+GRUNDLAGEN = ["Druck", "Kontext"]  # Druck: Vers der Uebersetzung sicher zugeordnet; Kontext: keine sichere Zuordnung
 URTEILE = ["?", "nein", "ja"]
 N_VORSCHLAG = {"nein": 12, "ja": 12}
 SICHERHEIT_VERDACHT = {"Lemma: auto-single", "Lemma: bulk-llm", "Lemma: instance-llm"}

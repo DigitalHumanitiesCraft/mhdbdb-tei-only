@@ -6,8 +6,8 @@ import { resolve } from 'node:path';
 // Prueft die ausgelieferte Pruefseite der Weingruesse (#147) als lokale Datei, ohne Server.
 // Erzeugt von scripts/ingest/bre/22-pruefseite.py; nach einer Aenderung am Template neu bauen.
 const url = pathToFileURL(resolve(import.meta.dirname, '../../ingest/bre/pruefung/pruefseite.html')).href;
-const ZEILEN = { 'lemma-verdacht.tsv': 58, 'lemma.tsv': 50, 'wortart.tsv': 50, 'bedeutung.tsv': 50 };
-const GESAMT = 208;
+const ZEILEN = { 'lemma-verdacht.tsv': 50, 'lemma.tsv': 50, 'wortart.tsv': 50, 'bedeutung.tsv': 50 };
+const GESAMT = 200;
 
 test.beforeEach(async ({ page }) => {
   await page.goto(url);
@@ -35,9 +35,9 @@ test('Zeilenzahlen, Stichprobe mit Nenner und Seed, nichts vorausgewaehlt', asyn
   expect(initial.decisions.every(d => d.status === 'unreviewed' && d.passt === '' && d.wahl === '')).toBe(true);
   expect(Object.keys(initial.sources)).toEqual(expect.arrayContaining(Object.keys(ZEILEN).map(d => 'ingest/bre/pruefung/' + d)));
   await expect(page.locator('#nav button')).toHaveCount(4);
-  await expect(page.locator('[data-case]')).toHaveCount(58);
-  await expect(page.locator('.panel')).toContainText('58 von 233 Zeilen');
-  await expect(page.locator('.suggestion.vorschlag')).toHaveCount(58);
+  await expect(page.locator('[data-case]')).toHaveCount(50);
+  await expect(page.locator('.panel')).toContainText('50 von 233 Zeilen');
+  await expect(page.locator('.suggestion.vorschlag')).toHaveCount(50);
   await expect(page.locator('input[type=radio]:checked')).toHaveCount(0);
   await page.locator('[data-group="lemma"]').click();
   await expect(page.locator('[data-case]')).toHaveCount(50);

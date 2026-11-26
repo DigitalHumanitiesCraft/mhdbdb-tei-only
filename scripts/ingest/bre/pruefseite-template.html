@@ -78,7 +78,7 @@ footer{max-width:1436px;margin:20px auto 50px;padding:0 24px}
 <li>Am Ende <strong>JSON exportieren</strong> (für das Einspielen) und bei Bedarf den HTML-Bericht (zum Lesen). Zum Fortsetzen diese Seite öffnen und die JSON-Datei importieren.</li>
 </ol>
 <p>Der Arbeitsstand wird in diesem Browser für diesen Dateipfad gespeichert. Vor dem Verschieben der Datei oder dem Wechsel des Browsers bitte JSON exportieren.</p>
-<p>Der Text der Verse stammt aus den Transkriptionen im Brevitas-Wiki (Silvan Wagner, CC BY-NC-SA 4.0), wie sie in <code>ingest/bre/BRE_*.tei.xml</code> stehen. Lemmata, Wortarten und Bedeutungen kommen aus dem MHDBDB-Lexikon. Die Druckausgabe wurde für die maschinellen Zuweisungen nicht verwendet. Die Vorschläge der Session im Lemma-Verdacht stützen sich, wo der Text im Druck steht, auch auf dessen Übersetzung (lokal gelesen, ohne Wortlaut auf dieser Seite).</p>
+<p>Der Text der Verse stammt aus den Transkriptionen im Brevitas-Wiki (Silvan Wagner, CC BY-NC-SA 4.0), wie sie in <code>ingest/bre/BRE_*.tei.xml</code> stehen. Lemmata, Wortarten und Bedeutungen kommen aus dem MHDBDB-Lexikon. Die Druckausgabe wurde für die maschinellen Zuweisungen nicht verwendet. Die Vorschläge der Session im Lemma-Verdacht stützen sich, wo sich der Vers sicher zuordnen ließ, auch auf die Übersetzung der Druckausgabe (lokal gelesen, ohne Wortlaut auf dieser Seite).</p>
 <p id="dataset"></p>
 </details>
 </header>
@@ -136,13 +136,13 @@ function korrekturOptions(c){return [...c.alternativen.map(a=>({id:a.id,label:c.
 const URTEIL={ja:'Lemma stimmt','nein':'Lemma falsch','?':'nicht zu entscheiden'};
 function vorschlagHTML(c){
  const v=c.vorschlag;if(!v)return '';
- return '<div class="suggestion vorschlag"><strong>Vorschlag der Session nach Durchsicht '+(v.grundlage==='Druck'?'mit der Druckausgabe':'des Kontexts (der Text steht nicht im Druck)')+', nicht bestätigt: '+esc(URTEIL[v.urteil])+'</strong>'+(v.korrektur?'<p>Passendes Lemma: '+esc(v.korrektur)+lemmaLink(v.korrektur)+'</p>':'')+(v.notiz?'<p><small>'+esc(v.notiz)+'</small></p>':'')+'</div>';
+ return '<div class="suggestion vorschlag"><strong>Vorschlag der Session nach Durchsicht '+(v.grundlage==='Druck'?'mit der Druckausgabe (Vers der Übersetzung zugeordnet)':'des Kontexts (keine sichere Zuordnung zur Druckausgabe)')+', nicht bestätigt: '+esc(URTEIL[v.urteil])+'</strong>'+(v.korrektur?'<p>Passendes Lemma: '+esc(v.korrektur)+lemmaLink(v.korrektur)+'</p>':'')+(v.notiz?'<p><small>'+esc(v.notiz)+'</small></p>':'')+'</div>';
 }
 function groupIntro(g){
  const datei='<code>'+esc(g.datei)+'</code>';
  if(g.vorgesichtet){
   const s=g.schichten;
-  return g.anzahl+' von '+g.gesamt+' Zeilen aus '+datei+'. Bei diesen Wörtern passte <strong>keine</strong> Bedeutung des zugewiesenen Lemmas: Verdacht auf ein falsches Lemma. Die Session hat alle '+g.gesamt+' Zeilen schon durchgesehen (Kontext, Lexikon und die Übersetzung der Druckausgabe) und zu jeder ein Urteil vorgeschlagen. <strong>Gezeigt werden alle '+s['?'].gezogen+' Zeilen, bei denen die Session nicht entscheiden konnte</strong>, dazu zur Kontrolle der Urteile '+s['nein'].gezogen+' von '+s['nein'].gesamt+' „Lemma falsch“ und '+s['ja'].gezogen+' von '+s['ja'].gesamt+' „Lemma stimmt“ (feste Stichprobe, Zufallswert '+DATA.seed+'). Die Urteile sind Vorschläge, nichts ist vorausgewählt. Wenn sich in den Kontrollzeilen Fehler finden, sind auch die übrigen Urteile mit Vorsicht zu lesen. Bitte prüfen, ob das <strong>Lemma</strong> stimmt.';
+  return g.anzahl+' von '+g.gesamt+' Zeilen aus '+datei+'. Bei diesen Wörtern passte <strong>keine</strong> Bedeutung des zugewiesenen Lemmas: Verdacht auf ein falsches Lemma. Die Session hat alle '+g.gesamt+' Zeilen schon durchgesehen (Kontext, Lexikon und, wo sich der Vers sicher der Übersetzung der Druckausgabe zuordnen ließ, diese Übersetzung) und zu jeder ein Urteil vorgeschlagen. <strong>Gezeigt werden alle '+s['?'].gezogen+' Zeilen, bei denen die Session nicht entscheiden konnte</strong>, dazu zur Kontrolle der Urteile '+s['nein'].gezogen+' von '+s['nein'].gesamt+' „Lemma falsch“ und '+s['ja'].gezogen+' von '+s['ja'].gesamt+' „Lemma stimmt“ (feste Stichprobe, Zufallswert '+DATA.seed+'). Die Urteile sind Vorschläge, nichts ist vorausgewählt. Wenn sich in den Kontrollzeilen Fehler finden, sind auch die übrigen Urteile mit Vorsicht zu lesen. Bitte prüfen, ob das <strong>Lemma</strong> stimmt.';
  }
  if(!g.stichprobe){
   const auto=g.ids.filter(id=>byId[id].sicherheit==='Lemma: auto-single').length;
