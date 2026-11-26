@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""23-normdaten.py: Normdaten im Header der 18 BRE-Zeugen setzen (#147).
+"""23-normdaten.py: Normdaten im Header der BRE-Zeugen setzen (#147).
 
 Entscheidung KZW vom 24.11.2026 (#147):
   - ein Werk je Zeuge, "Weingruesse (<Aufbewahrungsort>, <Signatur>)", Sigle BRE_<Zeuge>
@@ -21,7 +21,7 @@ sich keiner Zeile der Segmentierung zuordnen laesst, ein anderer Autorname und e
 unbekannter Kommentar sind harte Fehler. Vorspann (bre_common.VORSPANN): ein Fragment erbt
 von dem Werk, das es benennt (bre_common.VORSPANN_WERK), ein Text ohne Einzelseite ist anonym.
 
-Zweite Ausgabe: ingest/bre/works-eintraege.xml, die 18 Werkeintraege als Fragment (Muster
+Zweite Ausgabe: ingest/bre/works-eintraege.xml, die Werkeintraege als Fragment (Muster
 work_WZB in works.xml). Sie gehen NICHT nach authority-files/works.xml, solange die Zeugen
 nicht in tei/ stehen. Das Fragment wird gegen schema/mhdbdb-authority.rng validiert, in eine
 Kopie von works.xml eingesetzt.

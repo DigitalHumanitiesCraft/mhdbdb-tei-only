@@ -42,7 +42,8 @@ def texte_der_transkription(c02, sigle):
     lex = {i: c02.lexe(it["raw"], noten, f"{seite['titel']} Zeile {it['lines'][0]}")
            for i, it in enumerate(items) if it["kind"] == "verse"}
     texte, _, vorspann = c02.segmentiere(items, lex, c02.lade_segmentierung(sigle), sigle)
-    titel = [t["row"]["text_titel"] for t in texte]
+    # eingearbeitete Texte (bre_common.EINGEARBEITET) sind kein eigener Text des Zeugen
+    titel = [t["row"]["text_titel"] for t in texte if not t["eingearbeitet"]]
     art = vorspann["art"] if vorspann else None
     werk = bc.VORSPANN_WERK.get(sigle)
     if art in ("fragment", "text_ohne_einzelseite") and werk:

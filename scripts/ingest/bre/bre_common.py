@@ -32,11 +32,11 @@ LISTE_MARKE = "=====Einzelne Weingrüße====="
 
 # Hauptseite: Abschnitt "Überlieferung" (Überlieferungsbeschreibung je Zeuge) ist fuer die
 # Werkzuordnung massgeblich (Silvan Wagner ueber KZW, #147, 2026-11-12). HAUPT_REVID ist die
-# Revision, mit der ein Manifest ohne Hauptseite ergaenzt wird (31127 vom 2026-11-11; der
-# Abschnitt "Überlieferung" ist mit Revision 30019 vom 2026-06-15 wortgleich, gemessen
-# 2026-11-13: beide Revisionen unterscheiden sich nur in der Kopfzeile der Seite).
+# Revision, mit der ein Manifest ohne Hauptseite ergaenzt wird (31248 vom 2026-11-26, nach
+# Silvans Korrektur der Liste von d4; die Revisionen 31127 vom 2026-11-11 und 30019 vom
+# 2026-06-15 haben in der Liste von d4 die zwei Zeilen vertauscht).
 HAUPT_TITEL = "Kategorie:Quelle Weingruß"
-HAUPT_REVID = 31127
+HAUPT_REVID = 31248
 
 # Editionssigle -> (Transkriptionsseite ohne Praefix "Weingrüße ", MHDBDB-Sigle).
 # Vorlaeufig (Koordination, #147).
@@ -118,6 +118,53 @@ VORSPANN_NOTIZ = {
                 "Überlieferungsbeschreibung der Hauptseite (Brevitas-Wiki, Abschnitt Überlieferung).",
 }
 
+# Texte, die die Hauptseite in Klammern setzt, weil sie in einen anderen Text des Zeugen
+# eingearbeitet sind (kein eigener Text), obwohl die Synopse der Einzeltextseite sie als
+# eigenen Anfang fuehrt: Zeuge -> {Text (norm_titel) -> Text, in den er eingearbeitet ist}.
+# Sie bekommen keinen eigenen <div>, ihre Zeilen stehen im <div> des Zieltexts, der Anfang der
+# eingearbeiteten Passage ist durch eine <note type="editorial"> markiert. d6: Hauptseite,
+# Abschnitt Ueberlieferung: "sechs weitere Weingruesse rudimentaer assimiliert", der Weinsegen
+# Edles Abkuelen "ist ohne weitere Absaetze verlaengert durch Ausschnitte aus den oben in Klammern
+# gesetzten Weingruessen"; der Druck hat nach dem achten Gruss keine Ueberschrift mehr. Silvan
+# Wagner (ueber KZW, #147, 2026-11-26): alles unter Edles Abkuelen einarbeiten, "so wie es der
+# Druck auch praesentiert". Der Zieltext muss der unmittelbar vorangehende Text sein.
+EINGEARBEITET = {
+    "d6": {
+        "Weingruß Allerliebster Trunck": "Weinsegen Edles Abkülen",
+        "Weinsegen Allerliebster Trost": "Weinsegen Edles Abkülen",
+        "Weinsegen Ein Kron": "Weinsegen Edles Abkülen",
+    },
+}
+EINGEARBEITET_NOTIZ = ("Ab hier ist {text} in den {ziel} eingearbeitet (Hauptseite des "
+                       "Brevitas-Wikis: in Klammern, kein eigener Text).")
+# Markiert sind nur die Texte, deren Anfang eine Synopse der Einzeltextseiten als ersten Vers fuehrt
+# (segmentierung.tsv). Die uebrigen Klammertexte von d6 laut Hauptseite (Lieber Rebenknecht, Libe
+# Rebenpruee, Suesser Geschmack) haben dort keine Zeile fuer d6; ihre Ausschnitte stehen unmarkiert
+# im Text. Eine Notiz "Ab hier" hat kein eigenes Ende: das Ende der eingearbeiteten Passagen bei
+# Zeugen mit Schluss markiert SCHLUSS.
+
+# Text am Ende eines Zeugen, der zu keinem Text gehoert: MHDBDB-Sigle -> (Vergleichstext der ersten
+# Zeile, Notiz davor). d6: Hauptseite, Abschnitt Ueberlieferung: "Der Druck wird abgeschlossen mit
+# dem Wort ENDE und einem vierversigen Abschlussgedicht"; die Einzeltextseite "Weinsegen Ein Kron"
+# laesst die Spalte von d6 vor "ENDE" enden. Die Zeilen bleiben im <div> des letzten Texts (wie
+# "S R F" in d3 und d5), die Notiz grenzt sie ab.
+SCHLUSS = {
+    "BRE_D6": ("ENDE", "Hier enden die eingearbeiteten Passagen. Es folgen das Wort „ENDE“ und ein "
+                       "vierversiger Schlussreim (Hauptseite des Brevitas-Wikis, Überlieferung d6)."),
+}
+
+# Abgebrochener Ansatz, den die Einzeltextseite als "falscher Eintrag" fuehrt und der als eigener
+# kurzer Abschnitt aufgenommen wird: (Zeuge, signatur_label der Segmentierung) -> Notiz am Anfang
+# des Abschnitts. B2: Hauptseite, Abschnitt Ueberlieferung, B2: Der Satz nennt 19 Weingruesse, die
+# Liste fuehrt 18; der Ansatz zaehlt im Satz mit, ausgefuehrt sind 18. Silvan Wagner (ueber KZW,
+# #147, 2026-11-26): als eigener kurzer Abschnitt aufnehmen, gekennzeichnet als abgebrochener Ansatz.
+ANSATZ_NOTIZ = {
+    ("B2", "Mgq 495, falscher Eintrag"):
+        "Abgebrochener Ansatz zum {text} (zwei Verse, drei gestrichene Verse), auf der "
+        "Einzeltextseite des Brevitas-Wikis als „falscher Eintrag“ geführt. Der ausgeführte "
+        "Text folgt später in dieser Handschrift.",
+}
+
 # Zeuge -> Einzeltext (Seitentitel ohne Autorzusatz), dessen Text der Vorspann ist, wo die
 # Hauptseite das ausdruecklich sagt. R: Hauptseite, Abschnitt Ueberlieferung, R: "Weinsegen
 # Allerliebster Trost (nur die letzten drei Verse)" (Revision 31127; wortgleich in 30019).
@@ -129,51 +176,35 @@ VORSPANN_WERK = {"R": "Weinsegen Allerliebster Trost"}
 # Reihenfolge die Stellen und Folgen). Eine andere Abweichung der gleichen Art, etwa eine
 # zusaetzliche Vertauschung, ist ein anderer Schluessel und bricht 02-convert-wiki-to-mhdbdb.py
 # ab. Der Eintrag erklaert die Abweichung oder haelt sie als offene Frage fest, er korrigiert
-# nichts. Gemessen 2026-11-13 gegen Revision 31127 (03-hauptseite-abgleich.py).
-_KLAMMER = ("1x eigener Abschnitt", "in Klammern (kein eigener Text)")
+# nichts. Gemessen 2026-11-26 gegen Revision 31248 (03-hauptseite-abgleich.py). Die Klammertexte
+# von d6 stehen hier nicht mehr: sie sind eingearbeitet (EINGEARBEITET) und kein eigener Abschnitt;
+# ein weiterer Klammertext als eigener Abschnitt waere eine neue, nicht erklaerte Abweichung.
 ABWEICHUNG_ERKLAERT = {
     ("B2", "nur_bisher", "Weinsegen Allerliebster Trost", "1x", "fehlt"):
-        "offen: Fehlansatz (2 Verse, 3 gestrichene) vor dem Weingruss Allerliebster Trunck; die "
-        "Einzeltextseite fuehrt ihn als 'falscher Eintrag', Hauptseite (Liste und Uebersicht) kennt "
-        "18 Texte, der Satz dort nennt 19",
+        "erklaert: abgebrochener Ansatz (2 Verse, 3 gestrichene) vor dem Weingruss Allerliebster "
+        "Trunck, auf der Einzeltextseite 'falscher Eintrag'; die Liste der Hauptseite kennt 18 Texte, "
+        "der Satz dort zaehlt ihn mit (19); als eigener kurzer Abschnitt aufgenommen (ANSATZ_NOTIZ, "
+        "Silvan Wagner ueber KZW 2026-11-26)",
     ("B2", "reihenfolge", "",
      "ab Stelle 15: Weinsegen Allerliebster Trost > Weingruß Allerliebster Trunck",
      "ab Stelle 15: Weingruß Allerliebster Trunck > Weinsegen Allerliebster Trost"):
-        "offen: Folge des Fehlansatzes, er steht vor dem Weingruss Allerliebster Trunck, der Weinsegen "
-        "Allerliebster Trost der Hauptseite danach",
+        "erklaert: Folge des abgebrochenen Ansatzes, er steht vor dem Weingruss Allerliebster Trunck, "
+        "der ausgefuehrte Weinsegen Allerliebster Trost der Hauptseite danach",
     ("N2", "nur_bisher", "Pseudo-Weingruß Noes Pau", "1x", "fehlt"):
         "erklaert: Hauptseite nennt ihn im Fliesstext (S. 113v, 'nicht mehr als Weingruss zu zaehlen')",
     ("W1", "nur_bisher", "Pseudo-Weingruß Her Fein", "1x", "fehlt"):
         "erklaert: Hauptseite nennt ihn im Fliesstext als siebten Text des ersten Teils",
-    ("d4", "reihenfolge", "",
-     "ab Stelle 2: Weingruß Edels Getranck > Weinsegen Edle Leibsalb",
-     "ab Stelle 2: Weinsegen Edle Leibsalb > Weingruß Edels Getranck"):
-        "offen: Liste der Hauptseite fuehrt Edle Leibsalb vor Edels Getranck, die Uebersicht der "
-        "Hauptseite (Stellung 2 und 3) und die Synopsen fuehren Edels Getranck zuerst; der Fliesstext "
-        "sagt, die ersten Verspaare beider seien vertauscht",
     ("d5", "nur_bisher", "Weingruß Süsser Geschmack", "1x", "fehlt"):
         "erklaert: Liste der Hauptseite unvollstaendig (19 Eintraege, Satz nennt 20 Weingruesse und "
         "den Vorspruch); die Uebersicht fuehrt ihn als Stellung 19",
     ("d5", "nur_bisher", "Weinsegen Ein Kron", "1x", "fehlt"):
         "erklaert: wie Suesser Geschmack, Uebersicht Stellung 20",
-    ("d6", "klammer_aber_abschnitt", "Weingruß Allerliebster Trunck") + _KLAMMER:
-        "offen: Hauptseite setzt sechs Texte in Klammern (rudimentaer in Edles Abkuelen assimiliert, "
-        "keine eigenen Texte); die Segmentierung schneidet davon drei als eigene Abschnitte",
-    ("d6", "klammer_aber_abschnitt", "Weinsegen Allerliebster Trost") + _KLAMMER:
-        "offen: wie Allerliebster Trunck",
-    ("d6", "klammer_aber_abschnitt", "Weinsegen Ein Kron") + _KLAMMER:
-        "offen: wie Allerliebster Trunck",
 }
 
-# Zeugen, deren Segmentierung auf Silvans Antwort wartet (#147, Kommentar 2026-11-13; in
-# ingest/bre/hauptseite-abgleich.tsv "offen"). 02-convert-wiki-to-mhdbdb.py schreibt sie nicht,
-# --trocken bleibt moeglich. Geschrieben werden sie erst, wenn die Antwort da ist und der
-# Eintrag hier entfernt wird.
-SEGMENTIERUNG_OFFEN = {
-    "B2": "Fehlansatz vor Weingruss Allerliebster Trunck: eigener Abschnitt oder nicht",
-    "d4": "Edels Getranck und Edle Leibsalb: Benennung der Stellen 2 und 3",
-    "d6": "drei in Edles Abkuelen eingearbeitete Texte als eigene Abschnitte",
-}
+# Zeugen, deren Segmentierung auf eine Antwort wartet: 02-convert-wiki-to-mhdbdb.py schreibt sie
+# nicht, --trocken bleibt moeglich. Zeuge -> offene Frage. Leer seit Silvans Antwort vom
+# 2026-11-26 (B2, d4, d6, #147); der Mechanismus bleibt fuer kuenftige offene Zeugen.
+SEGMENTIERUNG_OFFEN = {}
 
 # Teile einer Transkription, die nicht aufgenommen werden: Zeuge -> (Teil-Label, Grund).
 # D, Teil B (Bl. 217r-221v): laut Druckfahnen, Kapitel IV, 17. Jahrhundert und damit ausserhalb
