@@ -276,8 +276,8 @@ ohne Anfrage erreichbar. Konto **office@dhcraft.org**, Ordner `Projekte/mhdbdb/e
 ([Link](https://drive.google.com/drive/folders/120fF4kdvRbxlQLzKYxauThtgnui3EtLo)), Stand
 2026-09-22, die APK-Zeile 2026-11-19, die Weingrüße-Zeile 2026-11-26. Die ersten beiden stammen
 nicht aus dem Archiv, der dritte ist eine Kopie daraus. Der vierte ist eine Kopie von
-`sources/weingruesse/` aus dem Main Worktree auf Christians Rechner, von Silvan Wagner am
-23.10.2026 geschickt (`sources/README.md`).
+`sources/weingruesse/` aus dem Main Worktree auf Christians Rechner. PDF und Zip hat Silvan Wagner
+am 23.10.2026 geschickt, `docling/` ist deren Umwandlung (`sources/README.md`).
 
 | Bestand | Umfang | Lizenz | gebraucht von |
 |---|---|---|---|
