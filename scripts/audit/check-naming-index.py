@@ -17,10 +17,21 @@ via scripts/audit/** seinen eigenen Workflow-Trigger (Review #146).
 Usage:
     python scripts/audit/check-naming-index.py                       # Konsistenz-Check
     python scripts/audit/check-naming-index.py --print-source-commit # nur Pin ausgeben
+    python scripts/audit/check-naming-index.py --nur-metadaten ALT.json.gz
 
 --print-source-commit dient den Workflows (data-integrity.yml Freshness-
 Step, naming-index-update.yml Quell-Commit-Steps) als einzige Quelle der
 Pin-Extraktion — vorher existierte der gzip/json-Einzeiler dreifach inline.
+
+--nur-metadaten ALT vergleicht den Index mit einem frueheren Stand und
+laesst dabei die Felder weg, die jeder Rebuild aus einem neueren
+Quell-Commit aendert: generatedAt, source.commit und source.ref.
+naming-index-update.yml oeffnet nur bei einer anderen Abweichung einen PR
+(#728: der neue Quell-Commit legte zwei CSVs an, die der Build nicht liest,
+und der PR aenderte allein diese Felder). Der Pin bleibt dann auf dem
+alten Quell-Commit; der Freshness-Step in data-integrity.yml baut aus dem
+Pin neu und bleibt davon unberuehrt.
+Exit 0 = nur diese Felder weichen ab (oder keines), 1 = Inhalt anders.
 
 Exit codes: 0 = ok, 1 = Invariante verletzt / Index fehlt.
 """
@@ -46,15 +57,47 @@ INDEX = PROJECT_ROOT / 'data' / 'naming-index.json.gz'
 TEI_DIR = PROJECT_ROOT / 'tei'
 
 
-def load_index():
-    if not INDEX.exists():
+def load_index(pfad=INDEX):
+    if not pfad.exists():
         sys.exit(f'::error file=data/naming-index.json.gz::naming-index fehlt '
-                 f'({INDEX}).')
-    with gzip.open(INDEX, 'rt', encoding='utf-8') as f:
+                 f'({pfad}).')
+    with gzip.open(pfad, 'rt', encoding='utf-8') as f:
         return json.load(f)
 
 
+# Was ein Rebuild aus einem neueren Quell-Commit immer aendert, auch wenn
+# die Daten gleich bleiben (--nur-metadaten).
+FLUECHTIG_OBEN = ('generatedAt',)
+FLUECHTIG_SOURCE = ('commit', 'ref')
+
+
+def ohne_fluechtige(idx):
+    kopie = {k: v for k, v in idx.items() if k not in FLUECHTIG_OBEN}
+    source = kopie.get('source')
+    if isinstance(source, dict):
+        kopie['source'] = {k: v for k, v in source.items()
+                           if k not in FLUECHTIG_SOURCE}
+    return kopie
+
+
+def nur_metadaten(alt_pfad):
+    neu = load_index()
+    alt = load_index(Path(alt_pfad))
+    if ohne_fluechtige(neu) == ohne_fluechtige(alt):
+        print('naming-index: nur generatedAt/source.commit/source.ref '
+              'abweichend (oder nichts), Inhalt gleich.')
+        return 0
+    print('naming-index: Inhalt abweichend.')
+    return 1
+
+
 def main():
+    if '--nur-metadaten' in sys.argv:
+        i = sys.argv.index('--nur-metadaten')
+        if i + 1 >= len(sys.argv):
+            sys.exit('--nur-metadaten braucht den Pfad des frueheren Index.')
+        return nur_metadaten(sys.argv[i + 1])
+
     idx = load_index()
     commit = idx.get('source', {}).get('commit', '')
 
