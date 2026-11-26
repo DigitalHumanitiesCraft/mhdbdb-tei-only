@@ -16,7 +16,10 @@ kein Wortlaut). URLs fallen auf beiden Seiten weg, Folgen aus lauter Ein-Buchsta
 (Siglenlisten) auch.
 
 Das Gate ist fail-closed: laesst sich etwas nicht pruefen (merge-base leer, ein git-Call
-scheitert, eine genannte Datei fehlt), wirft es `NichtMoeglich`, nie still eine leere Liste.
+scheitert, eine genannte Datei fehlt, die Zahl der gelesenen hinzugefuegten Zeilen eines Commits
+weicht von `git log --numstat` ab), wirft es `NichtMoeglich`, nie still eine leere Liste. Das
+Diff-Format ist im Call festgelegt (Praefixe, keine Farbe, kein externer Diff, kein textconv), damit
+Nutzer-Config wie `diff.noprefix` den Parser nicht aushebelt.
 """
 import os
 import re
@@ -81,7 +84,11 @@ def push_texte(repo, basis="origin/main"):
     merge_base = _git(repo, "merge-base", "HEAD", basis).strip()
     if not merge_base:
         raise NichtMoeglich(f"merge-base mit {basis} ist leer")
-    log = _git(repo, "log", "-p", "--format=%x01%H%x00%B%x02", f"{merge_base}..HEAD")
+    # Diff-Format festlegen: Nutzer-Config wie diff.noprefix, diff.dstPrefix oder color.ui=always
+    # aendert sonst die +++-Zeilen, und die hinzugefuegten Zeilen fielen still weg (Review #743)
+    fest = ("--no-color", "--no-ext-diff", "--no-textconv", "--src-prefix=a/", "--dst-prefix=b/")
+    log = _git(repo, "log", "-p", *fest, "--format=%x01%H%x00%B%x02", f"{merge_base}..HEAD")
+    soll = _hinzugefuegt_je_commit(repo, fest, f"{merge_base}..HEAD")
     texte = []
     for eintrag in log.split("\x01"):
         if "\x00" not in eintrag:
@@ -91,6 +98,7 @@ def push_texte(repo, basis="origin/main"):
         nachricht, _, patch = rest.partition("\x02")
         texte.append((f"Commit {sha9}", nachricht, False))
         pfad, zeilen, im_hunk = None, [], False
+        start = len(texte)
 
         def abschluss():
             if pfad is not None and zeilen:
@@ -107,7 +115,31 @@ def push_texte(repo, basis="origin/main"):
             elif im_hunk and z.startswith("+"):
                 zeilen.append(z[1:])
         abschluss()
+        # Gegenprobe: jede hinzugefuegte Zeile, die --numstat zaehlt, muss in einem Dateitext
+        # stehen; gezaehlt wird, was zu pruefen bleibt, nicht was der Parser gesehen hat
+        gelesen = sum(t[1].count("\n") + 1 for t in texte[start:])
+        if gelesen != soll.get(sha, 0):
+            raise NichtMoeglich(f"Commit {sha9}: {gelesen} hinzugefuegte Zeilen gelesen, "
+                                f"--numstat zaehlt {soll.get(sha, 0)}")
     return texte
+
+
+def _hinzugefuegt_je_commit(repo, fest, bereich):
+    """{sha: Zahl hinzugefuegter Textzeilen} laut --numstat (Binaerdateien, '-', zaehlen nicht)."""
+    aus = _git(repo, "log", "--numstat", *fest, "--format=%x01%H", bereich)
+    zahlen = {}
+    for block in aus.split("\x01"):
+        zeilen = block.strip("\n").split("\n")
+        if not zeilen or not zeilen[0]:
+            continue
+        sha = zeilen[0].strip()
+        summe = 0
+        for z in zeilen[1:]:
+            teile = z.split("\t")
+            if len(teile) >= 3 and teile[0].isdigit():
+                summe += int(teile[0])
+        zahlen[sha] = summe
+    return zahlen
 
 
 def zusatz_texte(env_var):

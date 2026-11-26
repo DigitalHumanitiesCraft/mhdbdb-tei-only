@@ -322,5 +322,6 @@ Von ihren 990 Formen tragen 754 CoReMA-Transkriptionen, aber 234 stehen unter `k
 Die bekannte Kopie liegt im Main Worktree auf Christians Rechner. Auch KZWs Session hat die
 Übersetzung benutzt (#742). Wo ihre Kopie liegt, ist nicht festgehalten, das Gate findet sie über
 `BRE_DRUCK_QUELLEN=<ordner>`. **Auflage:** kein Wortlaut daraus in ein Repositorium, einen Commit,
-einen PR-Text, einen Issue-Kommentar oder auf die Website (KZW, 11.11.2026, Regel in
+einen PR-Text, einen Issue-Kommentar oder auf die Website (KZW am 11.11.2026 für Repository und
+Website, am 26.11.2026 erweitert auf Commits, PR-Texte und Kommentare, Regel in
 [#743](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/743)).
