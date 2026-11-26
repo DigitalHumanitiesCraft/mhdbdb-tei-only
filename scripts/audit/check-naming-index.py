@@ -24,13 +24,16 @@ Step, naming-index-update.yml Quell-Commit-Steps) als einzige Quelle der
 Pin-Extraktion — vorher existierte der gzip/json-Einzeiler dreifach inline.
 
 --nur-metadaten ALT vergleicht den Index mit einem frueheren Stand und
-laesst dabei die Felder weg, die jeder Rebuild aus einem neueren
-Quell-Commit aendert: generatedAt, source.commit und source.ref.
-naming-index-update.yml oeffnet nur bei einer anderen Abweichung einen PR
-(#728: der neue Quell-Commit legte zwei CSVs an, die der Build nicht liest,
-und der PR aenderte allein diese Felder). Der Pin bleibt dann auf dem
-alten Quell-Commit; der Freshness-Step in data-integrity.yml baut aus dem
-Pin neu und bleibt davon unberuehrt.
+laesst dabei generatedAt und source.commit weg, die jeder Rebuild aus
+einem neueren Quell-Commit aendert, dazu source.ref, das der
+Freshness-Step in data-integrity.yml ebenso ausblendet (der Wochenlauf
+baut ohne --ref, dort steht immer master). naming-index-update.yml
+oeffnet nur bei einer anderen Abweichung einen PR, oder wenn schon ein
+Update-PR offen ist, der nachgezogen werden muss (#728: der neue
+Quell-Commit legte zwei CSVs an, die der Build nicht liest, und der PR
+aenderte allein generatedAt und source.commit). Der Pin bleibt dann auf
+dem alten Quell-Commit; der Freshness-Step baut aus dem Pin neu und
+bleibt davon unberuehrt.
 Exit 0 = nur diese Felder weichen ab (oder keines), 1 = Inhalt anders.
 
 Exit codes: 0 = ok, 1 = Invariante verletzt / Index fehlt.
@@ -59,14 +62,15 @@ TEI_DIR = PROJECT_ROOT / 'tei'
 
 def load_index(pfad=INDEX):
     if not pfad.exists():
-        sys.exit(f'::error file=data/naming-index.json.gz::naming-index fehlt '
-                 f'({pfad}).')
+        if pfad == INDEX:
+            sys.exit(f'::error file=data/naming-index.json.gz::naming-index fehlt '
+                     f'({pfad}).')
+        sys.exit(f'::error::Vergleichsstand fuer --nur-metadaten fehlt ({pfad}).')
     with gzip.open(pfad, 'rt', encoding='utf-8') as f:
         return json.load(f)
 
 
-# Was ein Rebuild aus einem neueren Quell-Commit immer aendert, auch wenn
-# die Daten gleich bleiben (--nur-metadaten).
+# Felder, die --nur-metadaten auslaesst (Begruendung im Docstring).
 FLUECHTIG_OBEN = ('generatedAt',)
 FLUECHTIG_SOURCE = ('commit', 'ref')
 
