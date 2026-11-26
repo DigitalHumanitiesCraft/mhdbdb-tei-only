@@ -133,8 +133,17 @@ function lemmaLink(id){const m=/^lemma_(\d+)/.exec(id);return m?', <a target="_b
 function valueLabel(c,v){return c.phase==='pos'?posLabel(v):v;}
 function korrekturOptions(c){return [...c.alternativen.map(a=>({id:a.id,label:c.phase==='pos'?posLabel(a.id):a.label})),...(c.phase==='lemma'?[{id:'kein Lemma',label:'kein Lemma (kein Wort des Lexikons passt)'}]:[]),{id:'frei',label:'andere Angabe (Freitext)'}];}
 
+const URTEIL={ja:'Lemma stimmt','nein':'Lemma falsch','?':'nicht zu entscheiden'};
+function vorschlagHTML(c){
+ const v=c.vorschlag;if(!v)return '';
+ return '<div class="suggestion vorschlag"><strong>Vorschlag der Session nach Durchsicht mit der Druckausgabe, nicht bestätigt: '+esc(URTEIL[v.urteil])+'</strong>'+(v.korrektur?'<p>Passendes Lemma: '+esc(v.korrektur)+lemmaLink(v.korrektur)+'</p>':'')+(v.notiz?'<p><small>'+esc(v.notiz)+'</small></p>':'')+'</div>';
+}
 function groupIntro(g){
  const datei='<code>'+esc(g.datei)+'</code>';
+ if(g.vorgesichtet){
+  const s=g.schichten;
+  return g.anzahl+' von '+g.gesamt+' Zeilen aus '+datei+'. Bei diesen Wörtern passte <strong>keine</strong> Bedeutung des zugewiesenen Lemmas: Verdacht auf ein falsches Lemma. Die Session hat alle '+g.gesamt+' Zeilen schon durchgesehen (Kontext, Lexikon und die Übersetzung der Druckausgabe) und zu jeder ein Urteil vorgeschlagen. <strong>Gezeigt werden alle '+s['?'].gezogen+' Zeilen, bei denen die Session nicht entscheiden konnte</strong>, dazu zur Kontrolle der Urteile '+s['nein'].gezogen+' von '+s['nein'].gesamt+' „Lemma falsch“ und '+s['ja'].gezogen+' von '+s['ja'].gesamt+' „Lemma stimmt“ (feste Stichprobe, Zufallswert '+DATA.seed+'). Die Urteile sind Vorschläge, nichts ist vorausgewählt. Wenn sich in den Kontrollzeilen Fehler finden, sind auch die übrigen Urteile mit Vorsicht zu lesen. Bitte prüfen, ob das <strong>Lemma</strong> stimmt.';
+ }
  if(!g.stichprobe){
   const auto=g.ids.filter(id=>byId[id].sicherheit==='Lemma: auto-single').length;
   return 'Alle '+g.anzahl+' Zeilen aus '+datei+'. Bei diesen Wörtern passte <strong>keine</strong> Bedeutung des zugewiesenen Lemmas: Verdacht auf ein falsches Lemma. '+auto+' davon haben ihr Lemma ohne Blick auf den Satz bekommen, weil das Lexikon die Schreibung nur unter diesem einen Lemma kennt („dorffen“ steht unter <em>durfen</em>, meint aber Dörfer). Bitte prüfen, ob das <strong>Lemma</strong> stimmt; wenn nicht, das richtige Lemma eintragen oder „kein Lemma“ wählen. Die Begründung stammt aus der Bedeutungsphase.';
@@ -147,8 +156,9 @@ function contextHTML(st){
 }
 function meta(c){return '<h3>'+esc(GROUP_TITLE[c.kurz])+' Nr. '+c.nr+', „'+esc(c.wort)+'“ <span class="badge">'+esc(c.zeuge)+'</span></h3><p class="muted">'+esc(c.text)+', <code>'+esc(c.datei)+'</code>, Zeile '+c.nr+'</p>';}
 function suggestionHTML(c){
- const alt=c.alternativen.length?'<details><summary>Andere Möglichkeiten laut Lexikon ('+c.alternativen.length+')</summary><ul class="alts">'+c.alternativen.map(a=>'<li>'+esc(c.phase==='pos'?posLabel(a.id):a.label)+'</li>').join('')+'</ul></details>':'<p class="muted">Das Lexikon bietet keine andere Möglichkeit an.</p>';
- return '<div class="suggestion"><strong>Maschineller Vorschlag, nicht bestätigt</strong><p>'+esc(valueLabel(c,c.zuweisung.label))+lemmaLink(c.zuweisung.id)+'</p><p><small>Sicherheit: '+esc(SICHERHEIT[c.sicherheit]||c.sicherheit)+'</small></p>'+(c.begruendung?'<p><small>'+(c.kurz==='verdacht'?'Begründung des Modells in der Bedeutungsphase':'Begründung des Modells')+':</small> '+esc(c.begruendung)+'</p>':'')+alt+'</div>';
+ const lex=c.alternativen.filter(a=>!a.label.startsWith('Vorschlag der Session'));
+ const alt=lex.length?'<details><summary>Andere Möglichkeiten laut Lexikon ('+lex.length+')</summary><ul class="alts">'+lex.map(a=>'<li>'+esc(c.phase==='pos'?posLabel(a.id):a.label)+'</li>').join('')+'</ul></details>':'<p class="muted">Das Lexikon bietet keine andere Möglichkeit an.</p>';
+ return '<div class="suggestion"><strong>Maschineller Vorschlag, nicht bestätigt</strong><p>'+esc(valueLabel(c,c.zuweisung.label))+lemmaLink(c.zuweisung.id)+'</p><p><small>Sicherheit: '+esc(SICHERHEIT[c.sicherheit]||c.sicherheit)+'</small></p>'+(c.begruendung?'<p><small>'+(c.kurz==='verdacht'?'Begründung des Modells in der Bedeutungsphase':'Begründung des Modells')+':</small> '+esc(c.begruendung)+'</p>':'')+alt+'</div>'+vorschlagHTML(c);
 }
 function belegeHTML(c){return c.belege>1?'<p class="notice">Die Entscheidung gilt für <strong>alle '+c.belege+' Belege</strong> ('+esc(c.art)+'); gezeigt werden '+c.stellen.length+' Beispiele.</p>':'';}
 

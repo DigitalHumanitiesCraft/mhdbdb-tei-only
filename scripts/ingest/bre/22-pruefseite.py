@@ -10,7 +10,10 @@ liegt im localStorage des Browsers, Export als JSON und als HTML-Bericht, JSON-I
 Fortsetzen.
 
 Umfang:
-  lemma-verdacht.tsv  alle Zeilen
+  lemma-verdacht.tsv  vorgesichtet: jede Zeile hat in vorschlaege-verdacht.tsv ein Urteil der Session
+      (ja / nein / ?, nach Durchsicht mit der Druckausgabe und dem Kontext, nicht bestaetigt).
+      Gezeigt werden alle Zeilen mit ?, dazu je N_VORSCHLAG Zeilen mit ja und mit nein zur Kontrolle
+      der Urteile, gezogen mit random.Random(SEED) je Urteil, Zeilen nach `nr` sortiert.
   lemma.tsv, wortart.tsv, bedeutung.tsv  je eine Stichprobe von STICHPROBE Zeilen, geschichtet
       nach der Spalte `sicherheit` (low / medium): jede Schicht bekommt ihren Anteil an der
       Datei (proportional, groesster Rest, bei Gleichstand die Schicht in der Reihenfolge
@@ -20,12 +23,15 @@ Umfang:
 Kontext je Wort: der Vers (<l>) oder die Ueberschrift (<head>), in dem das Wort steht, und
 der Vers davor und danach im selben Abschnitt, aus ingest/bre/BRE_*.tei.xml ueber die xml_id.
 Text kommt nur aus diesen TEI-Dateien (Wiki-Transkriptionen), dem Lexikon und den TSV;
-aus der Druckausgabe steht nichts auf der Seite.
+von der Druckausgabe stehen nur die eigenen, kurzen Urteilsnotizen in vorschlaege-verdacht.tsv
+auf der Seite, kein Wortlaut (das prueft das Druckfahnen-Gate in test_bre.py).
 
 Harte Fehler (Exit 1, keine Ausgabe): eine TSV mit anderen Spalten als 20-pruefpaket.py
 schreibt, eine xml_id, die in keiner TEI-Datei steht, eine unbekannte `sicherheit`, ein Teil
 von `andere_moeglichkeiten` oder `zuweisung`, der nicht mit einer Kennung beginnt, eine
-schon ausgefuellte Spalte passt/korrektur/anmerkung, ein fehlender Platzhalter im Template.
+schon ausgefuellte Spalte passt/korrektur/anmerkung, ein fehlender Platzhalter im Template,
+eine vorschlaege-verdacht.tsv mit anderen Spalten, fehlender oder doppelter nr, abweichendem
+wort/zeuge, unbekanntem Urteil, einer korrektur ohne Lemma-Kennung oder bei Urteil ja.
 
 Exportformat (JSON, Schema mhdbdb-bre-147-pruefseite-v1), damit ein Einspielskript es
 direkt lesen kann:
@@ -86,6 +92,10 @@ DATEIEN = [
     ("wortart", "wortart.tsv", "pos", True, r"[A-Z]{2,4}"),
     ("bedeutung", "bedeutung.tsv", "sense", True, r"lemma_\d+_sense_\d+"),
 ]
+VORSCHLAEGE = PAKET / "vorschlaege-verdacht.tsv"
+VORSCHLAG_FELDER = ["nr", "wort", "zeuge", "urteil", "korrektur", "notiz"]
+URTEILE = ["?", "nein", "ja"]
+N_VORSCHLAG = {"nein": 12, "ja": 12}
 SICHERHEIT_VERDACHT = {"Lemma: auto-single", "Lemma: bulk-llm", "Lemma: instance-llm"}
 T = "{http://www.tei-c.org/ns/1.0}"
 XID = "{http://www.w3.org/XML/1998/namespace}id"
@@ -182,6 +192,35 @@ def stelle(xid, woerter, sigle_zu_zeuge):
             "vers": zeile.get("n") or "", "verse": verse, "wiki": wiki}
 
 
+def haenge_vorschlaege(faelle):
+    """Haengt jedem Fall von lemma-verdacht.tsv das Urteil der Session an (Feld vorschlag).
+
+    Eine vorgeschlagene Korrektur, die nicht schon unter andere_moeglichkeiten steht, wird als
+    weitere Wahl angeboten, damit sie auf der Seite angeklickt werden kann."""
+    zeilen = ba.lies_tsv(VORSCHLAEGE, VORSCHLAG_FELDER)
+    nach_nr = {}
+    for z in zeilen:
+        if z["nr"] in nach_nr:
+            fehler(f"{VORSCHLAEGE.name}: nr {z['nr']} doppelt")
+        nach_nr[z["nr"]] = z
+    if set(nach_nr) != {str(f["nr"]) for f in faelle}:
+        fehler(f"{VORSCHLAEGE.name}: nr-Menge weicht von lemma-verdacht.tsv ab")
+    for f in faelle:
+        z = nach_nr[str(f["nr"])]
+        ort = f"{VORSCHLAEGE.name} nr {z['nr']}"
+        if z["wort"] != f["wort"] or z["zeuge"] != f["zeuge"]:
+            fehler(f"{ort}: wort/zeuge weichen von lemma-verdacht.tsv ab")
+        if z["urteil"] not in URTEILE:
+            fehler(f"{ort}: unbekanntes Urteil {z['urteil']!r}")
+        if z["korrektur"].strip():
+            kid = kennung(z["korrektur"].strip(), r"lemma_\d+", ort + " korrektur")
+            if z["urteil"] == "ja":
+                fehler(f"{ort}: Urteil ja, aber eine Korrektur steht da")
+            if kid not in {a["id"] for a in f["alternativen"]}:
+                f["alternativen"].append({"id": kid, "label": "Vorschlag der Session: " + z["korrektur"].strip()})
+        f["vorschlag"] = {"urteil": z["urteil"], "korrektur": z["korrektur"].strip(), "notiz": z["notiz"].strip()}
+
+
 def baue_zeile(kurz, datei, phase, muster, z, woerter, sigle_zu_zeuge):
     ort = f"{datei} nr {z['nr']}"
     for feld in ("passt", "korrektur", "anmerkung"):
@@ -224,7 +263,19 @@ def main():
         if len({f["nr"] for f in alle}) != len(alle):
             fehler(f"{datei}: nr nicht eindeutig")
         gruppe = {"id": kurz, "datei": datei, "phase": phase, "gesamt": len(alle), "stichprobe": stichprobe}
-        if stichprobe:
+        if kurz == "verdacht":
+            haenge_vorschlaege(alle)
+            gruppe["stichprobe"] = True
+            gruppe["vorgesichtet"] = True
+            rng = random.Random(SEED)
+            gewaehlt, gruppe["schichten"] = [], {}
+            for urteil in URTEILE:
+                teil = sorted((f for f in alle if f["vorschlag"]["urteil"] == urteil), key=lambda f: f["nr"])
+                n = N_VORSCHLAG.get(urteil, len(teil))
+                gewaehlt += teil if n >= len(teil) else rng.sample(teil, n)
+                gruppe["schichten"][urteil] = {"gesamt": len(teil), "gezogen": min(n, len(teil))}
+            gewaehlt.sort(key=lambda f: f["nr"])
+        elif stichprobe:
             schichten = {s: sorted((f for f in alle if f["sicherheit"] == s), key=lambda f: f["nr"])
                          for s in SCHICHTEN}
             zahl = zuteilung({s: len(v) for s, v in schichten.items()}, STICHPROBE)
@@ -241,8 +292,9 @@ def main():
         gruppen.append(gruppe)
         faelle += gewaehlt
         teil = (" = " + " + ".join(f"{v['gezogen']} von {v['gesamt']} {s}" for s, v in gruppe["schichten"].items())
-                if stichprobe else " (alle)")
+                if gruppe["stichprobe"] else " (alle)")
         print(f"{datei}: {len(gewaehlt)} von {len(alle)} Zeilen{teil}")
+    quellen[f"ingest/bre/pruefung/{VORSCHLAEGE.name}"] = sha256(VORSCHLAEGE)
     benutzt = sorted({s["sigle"] for f in faelle for s in f["stellen"]})
     for sig in benutzt:
         p = bc.INGEST_DIR / f"{sig}.tei.xml"
