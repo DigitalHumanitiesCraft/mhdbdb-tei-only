@@ -744,8 +744,8 @@ def pruefe_werk_identifier() -> int:
 # dass sich etwas aendert, gemessen 14.10.2026). Zwei Regeln:
 #   - @xml:id wird nie verglichen und nie geschrieben: works.xml vergibt sie
 #     dateiuebergreifend eindeutig (HZ_HZ_HZ), der Header je Datei (bei zwei
-#     Bloecken einer Sigle koennen die Suffixe vertauscht sein, die Reihenfolge
-#     folgt der Zotero-API).
+#     Bloecken einer Sigle koennen die Suffixe vertauscht sein: works.xml
+#     sortiert seit 27.11.2026 nach Zotero-Item-Key, der Header behaelt seine).
 #   - ein lokaler Verweis "#x" in works.xml entspricht "works.xml#x" im
 #     Header, weil "#x" dort ins Leere zeigte. Die Regel haengt heute an einem
 #     einzigen Fall: dem <ref> in FR3 (works.xml, Supplement-Verweis auf FR1).
