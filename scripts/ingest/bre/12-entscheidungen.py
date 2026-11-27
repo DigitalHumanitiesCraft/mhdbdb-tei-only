@@ -102,16 +102,22 @@ def main():
 
     bulk, patch, split = {}, {}, set()
     if a.ergaenzen:
+        verwaist = 0
         for r in ba.lies_tsv(ziel / f"{a.phase}-bulk.tsv", BULK_FELDER):
             if r["schluessel"] in gruppen:
                 r["anzahl"] = len(gruppen[r["schluessel"]])
             else:
-                r["anzahl"] = int(r["anzahl"])
+                # die Gruppe gibt es nicht mehr (Lemma-Korrekturen haben ihre Tokens verschoben):
+                # eine Bulk-Zeile ohne Gruppe bricht 20-pruefpaket.py ab und wird nicht uebernommen
+                verwaist += 1
+                continue
             bulk[r["schluessel"]] = r
             if r["decision_type"] == "abstain" and r["begruendung"].startswith("SPLIT"):
                 split.add(r["schluessel"])
         for r in ba.lies_tsv(ziel / f"{a.phase}-patch.tsv", PATCH_FELDER):
             patch[r["xml_id"]] = r
+        print(f"--ergaenzen: {len(bulk)} Bulk-Zeilen und {len(patch)} Patch-Zeilen uebernommen, "
+              f"{verwaist} verwaiste Bulk-Zeilen entfernt")
     for p in sorted(QUELLE.glob(f"{a.phase}-bulk-*.tsv")):
         if p.name in verworfen:
             print(f"verworfen: {p.name}")
