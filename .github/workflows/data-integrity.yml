@@ -78,7 +78,9 @@ name: Data Integrity
 #      Index-Vergleich kann variants-Drift prinzipiell nicht erkennen
 #      (der Rebuild nutzt dieselbe committete variants.xml und matcht).
 #      Nie auf advisory herunterstufen. Derselbe Lauf bereinigt verwaiste
-#      #type_N in lexicon.xml sense/@ana; auch dort muss der Diff leer sein.
+#      #type_N in lexicon.xml sense/@ana und ergaenzt die im Korpus
+#      belegten (#753); auch dort muss der Diff leer sein, er ist damit
+#      das Gate fuer "Korpus-Typ fehlt in sense/@ana".
 #   5. Freshness API (#45): build-api.py muss das committete api/
 #      byte-identisch reproduzieren (plain JSON, kein gzip — daher
 #      reicht git diff). MUSS VOR Step 6 (Freshness Indexe) laufen: der

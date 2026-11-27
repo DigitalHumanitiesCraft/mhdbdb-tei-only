@@ -342,9 +342,9 @@ def missing_ana_tokens(lexicon_root, sense_types, type_ids):
 def neue_ana_liste(toks, orphans, fehlt):
     """Neue @ana-Liste: verwaiste Tokens raus, fehlende dazu, sonst nichts.
 
-    Ist die vorhandene Liste aufsteigend sortiert (heute bei allen 21.817
-    Listen mit mehr als einem Token der Fall, Zeichenkettenordnung, nicht
-    numerisch), bleibt das Ergebnis sortiert. Sonst haengen die neuen Tokens
+    Ist die vorhandene Liste aufsteigend sortiert (Zeichenkettenordnung,
+    nicht numerisch; im Bestand bei allen Listen der Fall, gemessen
+    27.11.2026), bleibt das Ergebnis sortiert. Sonst haengen die neuen Tokens
     hinten an, die vorhandene Reihenfolge bleibt.
     """
     rest = [t for t in toks if t not in orphans]
