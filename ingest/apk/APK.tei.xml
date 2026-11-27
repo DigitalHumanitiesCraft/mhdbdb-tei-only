@@ -113,7 +113,7 @@
         <p xml:lang="de">Die Verse tragen nur @n. Die Vers-ID der Vorlage ist daraus ableitbar (n="1" entspricht id="Apk-00001", Muster Apk- und n fünfstellig mit führenden Nullen). Der Konverter prüft das für jeden Vers und bricht bei einer Abweichung ab.</p>
         <normalization>
           <p>Groß- und Kleinschreibung, Interpunktion und Verszählung folgen der Ausgabe in der Fassung des MHGTA.</p>
-          <p>Maschinell annotiert (#262, Stand 2026-11-19): Lemma (@lemmaRef) 110.241, Wortart (@pos) 94.675, Bedeutung (@ana) 100.585, Variantentyp (@corresp) 59.055 von 115.566 Wörtern im Text ohne die Rubrik (95,4 %, 81,9 %, 87,0 %, 51,1 %). Eindeutige Fälle aus dem Lexikon, mehrdeutige durch ein Sprachmodell entschieden (Entscheidungstabellen in ingest/apk/phase1 bis phase3), nicht von Hand geprüft.</p>
+          <p>Maschinell annotiert (#262, Stand 2026-11-19): Lemma (@lemmaRef) 110.241, Wortart (@pos) 94.676, Bedeutung (@ana) 100.585, Variantentyp (@corresp) 59.055 von 115.566 Wörtern im Text ohne die Rubrik (95,4 %, 81,9 %, 87,0 %, 51,1 %). Eindeutige Fälle aus dem Lexikon, mehrdeutige durch ein Sprachmodell entschieden (Entscheidungstabellen in ingest/apk/phase1 bis phase3), nicht von Hand geprüft.</p>
         </normalization>
       </editorialDecl>
       <classDecl>
@@ -140,7 +140,7 @@
     <revisionDesc>
       <change when="2026-11-19" who="#mhdbdb-team">#262: Initiale Konversion aus apk_free.xml (TEI.2, Electronic Text Center 2002) via scripts/ingest/apk/01-convert-apk-to-mhdbdb.py.</change>
       <change when="2026-11-19" who="#mhdbdb-team">#262, Phasen 1 bis 3: Lemma, Wortart, Bedeutung und Variantentyp maschinell gesetzt via scripts/ingest/apk/10 bis 18; keine neuen Lemmata oder Bedeutungen.</change>
-      <change when="2026-11-27" who="#mhdbdb-team">#262: 27 übergeschriebene Vokale und ein Lesefehler nach dem MWB-Textarchiv (Trier) korrigiert, Abgleich vom 27.11.2026; Form der Vorlage je als Kommentar hinter dem Wort; bei zwei Wörtern (APK_3541_3, APK_7857_1) das nicht mehr passende @corresp entfernt.</change>
+      <change when="2026-11-27" who="#mhdbdb-team">#262: 27 übergeschriebene Vokale und ein Lesefehler nach dem MWB-Textarchiv (Trier) korrigiert, Abgleich vom 27.11.2026; Form der Vorlage je als Kommentar hinter dem Wort; bei zwei Wörtern (APK_3541_3, APK_7857_1) das nicht mehr passende @corresp entfernt und das Lemma von ir bzw. ûr auf viur (lemma_7108) gesetzt.</change>
     </revisionDesc>
   </teiHeader>
   <text>
@@ -27645,7 +27645,7 @@
             <w xml:id="APK_3541_0" lemmaRef="lexicon.xml#lemma_2598"><hi rend="doublespace">Hat</hi></w>
             <w xml:id="APK_3541_1" lemmaRef="lexicon.xml#lemma_2065" pos="ADJ" ana="lexicon.xml#lemma_2065_sense_3197"><hi rend="doublespace">glich</hi></w>
             <w xml:id="APK_3541_2" lemmaRef="lexicon.xml#lemma_1331" pos="DET" ana="lexicon.xml#lemma_1331_sense_2068"><hi rend="doublespace">eines</hi></w>
-            <w xml:id="APK_3541_3" lemmaRef="lexicon.xml#lemma_56117" ana="lexicon.xml#lemma_56117_sense_90961"><hi rend="doublespace">vuͤres</hi></w>
+            <w xml:id="APK_3541_3" lemmaRef="lexicon.xml#lemma_7108" pos="NOM" ana="lexicon.xml#lemma_7108_sense_11507"><hi rend="doublespace">vuͤres</hi></w>
             <!-- apk_free.xml: vres; nach MWB-Textarchiv (Trier), Abgleich vom 27.11.2026 -->
             <w xml:id="APK_3541_4"><hi rend="doublespace">luen</hi></w>
           </l>
@@ -61203,7 +61203,7 @@
           <l n="7857">
             <cb type="manuscript" n="60va"/>
             <w xml:id="APK_7857_0" lemmaRef="lexicon.xml#lemma_1119" pos="DET" ana="lexicon.xml#lemma_1119_sense_1770" corresp="variants.xml#type_3504">Dem</w>
-            <w xml:id="APK_7857_1" lemmaRef="lexicon.xml#lemma_6341" pos="NOM" ana="lexicon.xml#lemma_6341_sense_9996">vuͤre</w>
+            <w xml:id="APK_7857_1" lemmaRef="lexicon.xml#lemma_7108" pos="NOM" ana="lexicon.xml#lemma_7108_sense_11507">vuͤre</w>
             <!-- apk_free.xml: vre; nach MWB-Textarchiv (Trier), Abgleich vom 27.11.2026 -->
             <w xml:id="APK_7857_2" lemmaRef="lexicon.xml#lemma_1139" pos="DET" ana="lexicon.xml#lemma_1139_sense_1797">die</w>
             <w xml:id="APK_7857_3" lemmaRef="lexicon.xml#lemma_204" ana="lexicon.xml#lemma_204_sense_256" corresp="variants.xml#type_36981">andere</w>
