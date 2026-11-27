@@ -19,6 +19,7 @@ metadata:
 
 **sense/@ana, w/@ana und lexicon.xml**
 - sense/@ana trägt Variantentypen und hat keinen Konsumenten (Index liest `ana` nur am Konzept-`title`, cross-refs überspringt `#type_N`, kein Spec und kein Frontend lädt lexicon.xml). Konzepte eines Sense stehen in `sense/ptr/@target`. Hängende Typverweise: `split()` über sense/@ana gegen die variants-xml:id-Menge, `extract-variants.py --apply` räumt sie ab.
+- „Muss sense/@ana nach einem Umhängen nachziehen?": kein Gate verlangt es, nur die Phase-3-Regel (DATA-MODEL, Schnittmenge für `@corresp`) und ein Präzedenzfall in journal-archive (Typ mitgewandert, weil einziger Token). Die #461-Schritte haben es nie getan. Messen: je Token `corresp`-Typ in sense/@ana des `w/@ana`-Sense? (27.11.2026 korpusweit 5843396 von 5991321).
 - Kein JS liest `w/@ana` (`git grep -w ana -- '*.js'`), der Korpus-Index auch nicht. Leser sind `build-begriffshilfe.py`, `measure-498-*`, `check-authority-cross-refs.py`, `foreign-sense-contradictions-28.py`, alle trennen an Leerzeichen (mehrere Senses in einem `w/@ana` gibt es, #602).
 - **Selbstschließende `<sense xml:id="…"/>` gibt es:** eine Regex `<sense\b[^>]*xml:id="…"[^>]*>(.*?)</sense>` frisst dann den Folge-Sense. Gegenprobe mit lxml `iter(TEI+'sense')`.
 - Schreiber außerhalb des Lifecycle: apply-228.py (löscht Einträge), backfill-lexicon.py (Stubs). „Der eine Ort, an dem tei/ lexicon.xml ändern kann" (DATA-MODEL) gilt nur für die Lifecycle-Skripte. Kein Skript vergleicht Token-@pos mit gramGrp oder Lexikon-`pos`.
