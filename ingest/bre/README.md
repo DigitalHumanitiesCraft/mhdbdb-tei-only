@@ -9,7 +9,7 @@ Artefakte des Ingests der Weingrüße aus dem Brevitas-Wiki (Issue [#147](https:
 | `segmentierung.tsv` | Je Einzeltext und Zeuge Blattangabe, erster Vers und Überschrift aus den Synopsen | `01-segmentierung.py` |
 | `hauptseite-abgleich.tsv` | Abweichungen zwischen Transkription und Überlieferungsliste der Hauptseite | `03-hauptseite-abgleich.py` |
 | `../../tei/BRE_*.tei.xml` | 21 Zeugen (hier nur genannt, die Dateien liegen in `tei/`) mit `@lemmaRef`, `@pos`, `@ana` und `@corresp`, soweit maschinell zugewiesen; B2, d4 und d6 (`BRE_MGQ495`, `BRE_D4`, `BRE_D6`) sind seit dem 26.11.2026 geschrieben und seit dem 27.11.2026 annotiert. Von D (`BRE_MSCRM50`) nur Teil A | `02`, dann `10` bis `18` |
-| `works-eintraege.xml` | Die 18 Werkeinträge (`work_BRE_*`) als Fragment, noch nicht in `authority-files/works.xml`. Die Header der Zeugen verweisen schon darauf | `23-normdaten.py` |
+| `works-eintraege.xml` | Die 21 Werkeinträge (`work_BRE_*`) als Fragment; sie stehen seit der Registrierung am 27.11.2026 in `authority-files/works.xml`, das Fragment bleibt die Ausgabe von `23` | `23-normdaten.py` |
 | `phase1/` | Lemma: mehrdeutige Wörter mit Entscheidung (`lemma-pending.tsv`), Bulk- und Patch-Entscheidungen, Wörter ohne Lemma nach Häufigkeit (`lemma-unmatched.tsv`) | `10`, `12`, `13` |
 | `phase2/` | Wortart: dasselbe für `@pos` | `14`, `12`, `15` |
 | `phase3/` | Bedeutung: dasselbe für `@ana`, dazu die Wörter mit mehreren Variantentypen (`corresp-mehrdeutig.tsv`) | `16`, `12`, `15`, `18` |

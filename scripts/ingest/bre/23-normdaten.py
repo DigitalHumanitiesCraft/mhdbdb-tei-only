@@ -7,7 +7,7 @@ Entscheidung KZW vom 24.11.2026 (#147):
   - Autor Hans Rosenpluet (persons.xml#person_907), wo das Brevitas-Wiki ihn nennt, sonst
     anonym. Gemischte Zeugen tragen beide. Gengenbach ist nie Autor.
 
-Was das Skript tut, an Ort und Stelle in ingest/bre/BRE_*.tei.xml, NUR im Header (02 darf
+Was das Skript tut, an Ort und Stelle in tei/BRE_*.tei.xml, NUR im Header (02 darf
 nicht neu laufen, das verlaere die Annotation der Phasen 1 bis 3):
   msIdentifier/@corresp, titleStmt/title (= Werktitel; msName bleibt), das @corresp des
   digitalIntermediary, die category der Gattung, die Autoren in titleStmt und particDesc,

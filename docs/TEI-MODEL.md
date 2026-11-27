@@ -911,11 +911,11 @@ npm test
 Migration scripts: run once in phases A-E, since the close of #32 they live in `scripts/_archived/` or in the git history.
 Validation script: `scripts/audit/validate-corpus.py`, a two-stage RelaxNG validation (stage 1 `tei_all.rng`, stage 2 `mhdbdb.rng`/`mhdbdb-authority.rng`). The earlier structural Python check (5 checks) was retired on 2026-04-15 and is covered by `schema/mhdbdb.rnc`.
 
-### Validation result (last full run 2026-10-18, #631; no change to `tei/` or `schema/` since)
+### Validation result (last full run 2026-11-27, #147)
 
-**mhdbdb.rnc:** 667/667 files valid against the project-specific schema (`schema/mhdbdb.rnc`).
+**mhdbdb.rnc:** 688/688 files valid against the project-specific schema (`schema/mhdbdb.rnc`).
 
-**tei_all.rng:** 632/667 files valid against TEI P5 4.11.0. 35 files carry deliberately documented deviations that our custom schema covers explicitly through GAP comments (GAPs 1 to 9 and 11, as in stage 2 below). Categories:
+**tei_all.rng:** 653/688 files valid against TEI P5 4.11.0. 35 files carry deliberately documented deviations that our custom schema covers explicitly through GAP comments (GAPs 1 to 9 and 11, as in stage 2 below). Categories:
 
 | Category | Files | Count |
 |-----------|---------|-------:|
@@ -952,8 +952,8 @@ Earlier errors (all fixed by migration):
 | 5 | documented via ODD or an equivalent | ✓ (TEI-MODEL.md + mhdbdb.rnc) |
 
 **Two-stage validation:**
-- **Stage 1:** `tei_all.rng` = the TEI P5 conformance test (criteria 1-4). Baseline: 632/667 green.
-- **Stage 2:** `mhdbdb.rnc` = the MHDBDB stamp. It covers all patterns in the existing data, including the 35 tei_all deviations (GAPs 1 to 9 and 11). Baseline: 667/667 green.
+- **Stage 1:** `tei_all.rng` = the TEI P5 conformance test (criteria 1-4). Baseline: 653/688 green (632/667 until 2026-11-26; the 21 BRE witnesses validate).
+- **Stage 2:** `mhdbdb.rnc` = the MHDBDB stamp. It covers all patterns in the existing data, including the 35 tei_all deviations (GAPs 1 to 9 and 11). Baseline: 688/688 green.
 
 `mhdbdb.rnc` is **not a strict subset** of `tei_all.rng`: it is stricter on some points (enumerated `@type` values, more restrictive child elements) and more permissive on others (the GAPs). The two stages check different properties and are complementary, not redundant.
 
@@ -961,7 +961,7 @@ Earlier errors (all fixed by migration):
 
 | File | Entries | Validation |
 |-------|----------|-------------|
-| lexicon.xml | 43,713 lemmata (+4 WZB 2026-05-08, +125 #115 stubs 2026-07-02, -1 hasenblâse #363 2026-09-10, -165 #228 2026-09-24, -3 #228 digits 2026-10-01, +1 briech #554 2026-10-15, +1 Minne #216 2026-11-08) | tei_all ✓ · mhdbdb-authority ✓ |
+| lexicon.xml | 43,713 lemmata (+4 WZB 2026-05-08, +125 #115 stubs 2026-07-02, -1 hasenblâse #363 2026-09-10, -165 #228 2026-09-24, -3 #228 digits 2026-10-01, +1 briech #554 2026-10-15, +1 Minne #216 2026-11-08, +1 gesprinc #147 2026-11-27) | tei_all ✓ · mhdbdb-authority ✓ |
 | variants.xml | 42,459 variant entries (256,970 forms) | tei_all ✓ · mhdbdb-authority ✓ |
 | persons.xml | 211 persons | tei_all ✓ · mhdbdb-authority ✓ |
 | works.xml | 585 works (+1 work_WZB, +1 work_WLK #237 2026-09-24) | tei_all ✓ · mhdbdb-authority ✓ |
