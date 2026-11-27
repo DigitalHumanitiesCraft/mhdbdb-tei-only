@@ -261,6 +261,7 @@ Completeness against `testing/tests/` is gated by `scripts/audit/check-doc-inven
 | `search-normalization.spec.js` | Main site | MHG normalization functions in browser context |
 | `search-with-corpus.spec.js` | Main site | Search against real corpus data |
 | `reading-view.spec.js` | Main site | TEI reading view rendering, highlighting, navigation |
+| `reading-view-bre-notizen.spec.js` | Main site | The reading view of the Weingrüße (#147) does not show the transcription and editorial notes (`<note type="transcription">`, `<note type="editorial">`), which stay in the TEI only; checked on BRE_D3 |
 | `verse-jump-655.spec.js` | Main site | „Zu Vers" field in the reading view (#655): plain number, section.verse, hidden where the counting is ambiguous, reset on text change |
 | `results-table.spec.js` | Main site | Corpus search results table view (#114): columns, sorting |
 | `tei-caching.spec.js` | Main site | IndexedDB TEI cache behavior |

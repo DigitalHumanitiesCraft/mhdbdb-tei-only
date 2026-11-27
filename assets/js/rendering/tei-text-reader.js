@@ -755,6 +755,13 @@ class TEITextReader {
                         // alle Highlights dahinter verschieben.
                         return `<span class="note-badge note-${this.escapeHtml(noteType)}" title="${noteType === 'date' ? 'Datum' : 'Jahr'}">${this.escapeHtml(noteN)}</span>${children()}`;
                     }
+                    // Anmerkungen der Transkription in nhd. Prosa (Bild- und Bleistift-
+                    // beschreibungen, Druckvergleiche, aber auch Textkritisches wie
+                    // "Lesung unsicher" oder "von anderer Hand korrigiert"; nur in den
+                    // Weingrüßen BRE_*, 62 Stellen, #147) stehen nicht im Lesetext
+                    // (Entscheidung KZW 27.11.2026). Sie bleiben im TEI und tragen
+                    // kein <w>, die Wortzählung ändert sich also nicht.
+                    if (noteType === 'transcription' || noteType === 'editorial') return '';
                     return children();
                 }
                 case 'pb': {
