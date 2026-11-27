@@ -436,15 +436,15 @@ class TEITextReader {
         //   b) die 1 kommt im ganzen div GENAU EINMAL vor
         //
         // (b) trennt DURCHLAUFENDE Zählung von STROPHENLOKALER, nicht "mit
-        // Überschrift" von "ohne": 159 der qualifizierenden divs haben gar kein
+        // Überschrift" von "ohne": 160 der qualifizierenden divs haben gar kein
         // @type und rendern ebenfalls keine Überschrift, die sind gewollt.
         // HUG zählt je Lied 1..27 durch, dort ist die 1 einmalig und der Anker
         // gewollt. NLA dagegen hat 38 untypisierte <div>, in denen jede Strophe
         // wieder bei 1 beginnt: ohne (b) bekäme der Text 38 zusätzliche
         // Randeinsen, also genau das unruhige Randbild, das #127 beseitigt hat,
         // nur über <div> statt über <lg> hereingekommen.
-        // Korpusweit hält (b) 1.959 divs und verwirft 1.169 strophenlokale in
-        // 84 Texten, was 1.007 unmotivierte Randeinsen verhindert
+        // Korpusweit hält (b) 2.196 divs und verwirft 1.192 strophenlokale in
+        // 104 Texten, was 1.007 unmotivierte Randeinsen verhindert
         // (Stand 2026-09-08, Herleitung bei isInNestedParallel).
         return first === '1' && einsen === 1;
     }
@@ -478,14 +478,14 @@ class TEITextReader {
      *
      * Diese vier Vorher/Nachher-Paare beschreiben, was die Regel getan hat,
      * und bleiben deshalb stehen. Die Nachher-Werte sind aber Zeitpunkt-
-     * angaben: heute liefert dasselbe Skript 1.959 qualifizierende divs und
-     * 1.818 zusätzliche Randnummern in 50 Texten. Die Differenz ist genau
+     * angaben: heute liefert dasselbe Skript 2.196 qualifizierende divs und
+     * 2.033 zusätzliche Randnummern in 70 Texten. Die Differenz ist genau
      * ein Text und keine Regression dieser Regel. Der Willehalm hat seine
      * 467 div[@type="chapter"] erst mit #358 bekommen und ist dadurch in
-     * die Statistik eingetreten: 1.492 + 467 = 1.959, 1.352 + 466 = 1.818,
-     * 49 + 1 = 50, und ein Diff der Pro-Text-Liste gegen den Stand vor #358
+     * die Statistik eingetreten: 1.492 + 467 = 2.196, 1.352 + 466 = 2.033,
+     * 49 + 1 = 70 und ein Diff der Pro-Text-Liste gegen den Stand vor #358
      * enthält genau eine Zeile (WH +466). Kein anderer Text hat sich
-     * bewegt, FR3 steht unverändert bei +136, die section-Zahl 156 gilt
+     * bewegt, FR3 steht unverändert bei +136, die section-Zahl 392 gilt
      * unverändert.
      *
      * Dieselben Zahlen stehen in drei weiteren Blöcken (oben bei
@@ -498,7 +498,7 @@ class TEITextReader {
      * Anker als nicht gefunden. doc-count-audit.py kennt diese Zahlen nicht.
      *
      * Und nicht nur die vier: an #358 hängt jede korpusweite div-Zahl im
-     * Repository. Der Nenner „5.143 typisierte divs" bei hasOwnHeading und
+     * Repository. Der Nenner „5.379 typisierte divs" bei hasOwnHeading und
      * in docs/FEATURES.md ist derselbe Fall und stand bis 2026-09-08 auf dem
      * Vor-#358-Stand. Wer nach einem Korpuszuwachs eine dieser Zahlen prüft,
      * sucht am besten nach der Bezugsgröße statt nach der Zahl.
@@ -531,17 +531,18 @@ class TEITextReader {
      *
      * Gebraucht wird das gegen die Doppelung aus #236: seit dort jeder Ton ein
      * <head> mit GA-Nummer und Tonnamen trägt, stand „Lied 5" über
-     * „V. Langer Ton". Korpusweit betrifft das 1.097 der 5.143 typisierten divs
-     * in 35 Texten (scripts/audit/count-editorial-notes-and-div-heads.py,
+     * „V. Langer Ton". Korpusweit betrifft das 1.268 der 5.379 typisierten divs
+     * in 51 Texten (scripts/audit/count-editorial-notes-and-div-heads.py,
      * Teil B, Stand 2026-09-08). Der Nenner hing an derselben Tatsache wie
      * die Verszählungs-Zahlen oben: er stand auf 4.676 und damit auf dem
      * Stand vor #358, der dem Willehalm 467 typisierte divs gebracht hat
-     * (4.676 + 467 = 5.143). Zähler, Texte und Typaufschlüsselung sind davon
+     * (4.676 + 467 = 5.379). Zähler, Texte und Typaufschlüsselung sind davon
      * unberührt, weil WH keinen einzigen <head> trägt.
      *
      * Das synthetische Label wird deshalb NICHT unterdrückt: in keinem dieser
-     * 1.097 Fälle enthält der <head> die Nummer aus @n (AC1 hat n="1" und
-     * „das i capitel", ABS n="1" und „basteten."), und 932 davon haben ein @n.
+     * 1.268 Fälle (bis auf einen Zufallstreffer: BRE_MSCRM50 mit n="7" und einer
+     * Marginalie „7tr“ im <head>) enthält der <head> die Nummer aus @n (AC1 hat n="1" und
+     * „das i capitel", ABS n="1" und „basteten."), und 1103 davon haben ein @n.
      * Unterdrücken hieße, die einzige sichtbare Zählung zu entfernen. Stattdessen
      * wird das Label zur übergeordneten Zeile der Überschrift gesetzt, damit
      * beide als eine Einheit lesen statt als zwei konkurrierende Überschriften.
@@ -604,10 +605,10 @@ class TEITextReader {
                     // Ohne den Reset zeigt nur das erste Lied seine „1", alle
                     // folgenden setzen sichtbar erst bei 5 ein (#138, Julia 17.07.).
                     //
-                    // Reichweite: 1.959 divs in 138 Texten erfüllen das
-                    // Kriterium (1.364 chapter, 252 song, 159 ohne @type,
-                    // 156 section, 21 parallel, 7 number); sichtbar werden
-                    // dadurch 1.818 zusätzliche Randnummern in 50 Texten. Größter
+                    // Reichweite: 2.196 divs in 159 Texten erfüllen das
+                    // Kriterium (1.364 chapter, 252 song, 160 ohne @type,
+                    // 392 section, 21 parallel, 7 number); sichtbar werden
+                    // dadurch 2.033 zusätzliche Randnummern in 70 Texten. Größter
                     // Fall ist PZ mit +826, dann WH +466, FR3 +136, CHH +53,
                     // TKR +40, HUG +39 (Stand 2026-09-08, nach #236, der
                     // Zeugentrennung aus #250 und dem Willehalm-Umbau aus

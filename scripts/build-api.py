@@ -58,8 +58,8 @@ CONTACT = 'mhdbdb@plus.ac.at'
 # Groß-/Kleinschreibung unterscheiden, würden dieselbe Datei überschreiben.
 # Bindestrich erlaubt: 3 Werke tragen UUID-IDs aus der RDF-Migration
 # (work_f1576278-..., work_c7da236c-..., work_b4cc20a0-...); FS-/URL-sicher.
-AUTHORITY_ID_RE = re.compile(r'^[a-z]+_[A-Za-z0-9-]+$')  # work_WZB ist gültig
-TEXT_ID_RE = re.compile(r'^[A-Z0-9]+$')
+AUTHORITY_ID_RE = re.compile(r'^[a-z]+_[A-Za-z0-9_-]+$')  # work_WZB und work_BRE_CGM216 (Sigle mit Unterstrich, #147) sind gültig
+TEXT_ID_RE = re.compile(r'^[A-Z0-9]+(_[A-Z0-9]+)*$')  # BRE_CGM216 (Sigle mit Unterstrich, #147)
 
 # Schwere Korpus-Felder, die nicht in die per-Text-API gehören
 TEXT_STRIP_KEYS = ('words', 'lemmata', 'lineStarts', 'lineEnds')

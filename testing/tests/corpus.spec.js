@@ -89,7 +89,7 @@ test.describe('Corpus Loading and Management', () => {
     });
 
     expect(result.success).toBe(true);
-    expect(result.textCount).toBe(667);
+    expect(result.textCount).toBe(688);
     expect(result.hasAllFields).toBe(true);
   });
 
@@ -100,7 +100,7 @@ test.describe('Corpus Loading and Management', () => {
     await page.waitForSelector('#fileBrowserSection', { state: 'visible', timeout: 60000 });
 
     const includedCount = await page.locator('#includedCount').textContent();
-    expect(parseInt(includedCount)).toBe(667);
+    expect(parseInt(includedCount)).toBe(688);
   });
 
   test('TEIFilesManager - available in playground', async ({ page }) => {
@@ -137,8 +137,8 @@ test.describe('Corpus Loading and Management', () => {
       const texts = window.playground?.corpusData?.texts;
       if (!texts) throw new Error('No corpusData.texts');
 
-      if (texts.length !== 667) {
-        throw new Error(`Expected 667 loaded texts, got ${texts.length}`);
+      if (texts.length !== 688) {
+        throw new Error(`Expected 688 loaded texts, got ${texts.length}`);
       }
 
       // Verify lemmaIndex is also populated
@@ -149,7 +149,7 @@ test.describe('Corpus Loading and Management', () => {
     });
 
     expect(result.success).toBe(true);
-    expect(result.loaded).toBe(667);
+    expect(result.loaded).toBe(688);
     expect(result.lemmaCount).toBeGreaterThan(0);
   });
 

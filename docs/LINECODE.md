@@ -174,7 +174,7 @@ The second documented case of a lost structural level after DUB in #85 – and t
 ## Source Material
 
 **In the repo since 2026-07-30 (#248): [`sources/linecode/`](../sources/linecode/)** – 306
-Linecoded plaintext files covering 199 of the 667 corpus sigles, byte-verbatim copies from the
+Linecoded plaintext files covering 199 of the 667 corpus sigles (the corpus before the Weingrüße, #147, 2026-11-27), byte-verbatim copies from the
 legacy archive, with per-file provenance and sha256 in
 [`sources/linecode-manifest.csv`](../sources/linecode-manifest.csv). This is the **first
 in-repo Linecode source**: the diagnosis recipes above no longer require a file handover for

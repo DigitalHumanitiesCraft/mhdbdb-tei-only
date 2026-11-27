@@ -87,7 +87,7 @@ def zeugen_dateien():
     """Die geschriebenen Zeugen (alle ausser bre_common.SEGMENTIERUNG_OFFEN), harter Fehler,
     wenn eine Datei fehlt oder eine unerwartete daliegt."""
     soll = {mh: z for z, (_, mh) in bc.ZEUGEN.items() if z not in bc.SEGMENTIERUNG_OFFEN}
-    ist = {p.name[:-len(".tei.xml")]: p for p in bc.INGEST_DIR.glob("BRE_*.tei.xml")}
+    ist = {p.name[:-len(".tei.xml")]: p for p in bc.TEI_DIR.glob("BRE_*.tei.xml")}
     if set(ist) != set(soll):
         raise bc.HarterFehler(f"Zeugendateien weichen ab: fehlen {sorted(set(soll) - set(ist))}, "
                               f"unerwartet {sorted(set(ist) - set(soll))}")

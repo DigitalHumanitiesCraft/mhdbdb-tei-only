@@ -18,7 +18,7 @@ Alle Daten stammen aus der [Mittelhochdeutschen Begriffsdatenbank (MHDBDB)](http
 Dieses Repository ist der alleinige Master der Daten (kein laufender Re-Export aus Salzburg). Es ist kein eingefrorener Export, sondern ein **aktives Projekt** mit laufendem Daten-Ingest (z.B. Wenzelsbibel, ARITHMETIC) und fortlaufender händischer Korpus-Korrektur. Index-gestützte Funktionen (Suche, Lemma-Zählungen, Playground-Analysen) lesen aus den vorgebauten `data/*.json.gz` und benötigen nach jeder Datenänderung einen Neubau; siehe [Data-Change-Lifecycle](docs/DATA-MODEL.md#data-change-lifecycle).
 
 ### Korpus-Inhalt
-- 667 TEI-codierte Texte mittelhochdeutscher Literatur mit Annotation auf Wortebene
+- 688 TEI-codierte Texte mittelhochdeutscher Literatur mit Annotation auf Wortebene
 - 8 Authority Files: Personen, Werke, Lexikon, Konzepte, Gattungen, Namen, Varianten (7 durchsuchbar) plus projektinternes Kontributoren-Register
 - Vorgebaute, komprimierte Indizes für schnelle Suche
 - Statische JSON-API für programmatischen Zugriff
@@ -32,7 +32,7 @@ Dieses Repository ist der alleinige Master der Daten (kein laufender Re-Export a
 | **Suche** | Einzel-Lemma mit Filtern und KWIC-Belegen | Multi-Lemma, Proximity und weitere Korpusanalysen |
 | **Zielgruppe** | Allgemeines Publikum, Studierende | Forschende, Mediävist:innen |
 
-**Hauptseite:** Einzel-Lemma-Suche mit mittelhochdeutscher Normalisierung, ausklappbaren KWIC-Belegen (Keyword-in-Context mit Vers-/Zeilenangabe), Textauswahl per Checkbox, A–Z-[Wörterbuch](woerterbuch.html) zu allen 43.712 Lemmata mit eigenen persistenten [Lemma-Seiten](lemma/) (client-seitig gerendert) sowie eine Reading View mit Multi-Lemma-Highlighting, Metadaten-Panel (Wikidata/GND), Wörterbuch-Links in fünf Wörterbücher des Wörterbuchnetzes (MWB, Lexer, LexerN, BMZ, FindeB) und TEI-Download pro Text.
+**Hauptseite:** Einzel-Lemma-Suche mit mittelhochdeutscher Normalisierung, ausklappbaren KWIC-Belegen (Keyword-in-Context mit Vers-/Zeilenangabe), Textauswahl per Checkbox, A–Z-[Wörterbuch](woerterbuch.html) zu allen 43.713 Lemmata mit eigenen persistenten [Lemma-Seiten](lemma/) (client-seitig gerendert) sowie eine Reading View mit Multi-Lemma-Highlighting, Metadaten-Panel (Wikidata/GND), Wörterbuch-Links in fünf Wörterbücher des Wörterbuchnetzes (MWB, Lexer, LexerN, BMZ, FindeB) und TEI-Download pro Text.
 
 **Playground:** Register und Indizes (Authority Files) plus Korpusanalysen über dem vorgeladenen Korpus: Multi-Lemma-Suche (Dokument- und Proximity-Ebene), Lemmasuche nach Versposition, Wortfrequenz, Echte Hapaxlegomena, Text-Statistiken, Lemma-Verteilung, Begriffs-Verteilung, Textvergleich, Kookkurrenz-Ranking, Reim-Wörterbuch und Versendings-Profil. Dazu kuratierte Forschungsdatensätze in eigener Rubrik (#194): Erweiterte Figurenbezeichnungen und Arthurische Pferde, beide Beta.
 
@@ -135,7 +135,7 @@ Eigene RELAX-NG-Schemas validieren alle TEI-Dateien im Repository:
 
 | Schema | Validiert | Dateien |
 |--------|-----------|---------|
-| [`mhdbdb.rnc`](schema/mhdbdb.rnc) | Korpus-Texte (`tei/*.tei.xml`) | 667 |
+| [`mhdbdb.rnc`](schema/mhdbdb.rnc) | Korpus-Texte (`tei/*.tei.xml`) | 688 |
 | [`mhdbdb-authority.rnc`](schema/mhdbdb-authority.rnc) | Authority Files (`authority-files/*.xml`) | 8 |
 
 Die Schemas verschärfen Standard-TEI-Attribute auf MHDBDB-Konventionen (Pflicht-`@xml:id` auf `<w>`, `@join` auf `<pc>`, erlaubte `div/@type`-Werte etc.). Begründung und Design-Entscheidungen siehe [`schema/README.md`](schema/README.md).

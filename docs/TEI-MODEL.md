@@ -400,12 +400,12 @@ Katharina: "volume and part had purely obsolete technical reasons. This can move
 | **`song`** | 1,406 | BOP, BRH | ✓ accepted |
 | **`chapter`** | 2,107 | AC1, BDK, PZ, WH | ✓ accepted |
 | **`recipe`** | 606 | ABS, BRIX | ✓ accepted |
-| **`section`** | 460 | DL1, DL2, EHB, KVM | ✓ accepted (incl. ex-part/subsection/§) |
+| **`section`** | 696 | DL1, DL2, EHB, KVM | ✓ accepted (incl. ex-part/subsection/§) |
 | **`number`** | 498 | HZU, ADP, BDK, BOP | ✓ accepted (incl. ex-deed/sermon/sigil/paragraph) |
 | **`parallel`** | 51 | BRW, DES2, FR3 | ✓ accepted (parallel transmission) |
 | **`colophon`** | 15 | ALX, APO | ✓ accepted (TEI has `<colophon>`, but `div type` is compatible) |
 
-All numbers recounted on 2026-08-09 across all 667 corpus files (`div[@type]`, 5,143 in total, no further types). Against the count of 2026-07-30 only `chapter` moved, 1,640 → 2,107: #358 gave the Willehalm the 467 `<div type="chapter">` its thirty-line sections had never had. Until then all 14,002 of its `<l>` hung in a single `<p>` and the section number lived only in the word ids plus a `<pb n="77"/>`, which claimed a page beginning where 465 of the 467 units hold exactly 30 verses. The Parzival, same author and same convention, had encoded it as `<div>` from the start and carries no `<pb>` at all. Five of the seven values had been wrong before, and only three of the deviations go back to #236: `song` −13 and `parallel` +36 (FR3 rebuilds 23 equally ranked Töne into 10 Töne with 36 `div[@type="parallel"]`), `section` −36 from the same rehanging. `chapter` 604 → 1,640, `recipe` 452 → 606 and the rest of `section` had already drifted before that, presumably since the WZB ingest; they are corrected here as well, so that the table is not half right.
+All numbers recounted on 2026-08-09 across all 667 corpus files (`div[@type]`, 5,379 in total, no further types). Against the count of 2026-07-30 only `chapter` moved, 1,640 → 2,107: #358 gave the Willehalm the 467 `<div type="chapter">` its thirty-line sections had never had. Until then all 14,002 of its `<l>` hung in a single `<p>` and the section number lived only in the word ids plus a `<pb n="77"/>`, which claimed a page beginning where 465 of the 467 units hold exactly 30 verses. The Parzival, same author and same convention, had encoded it as `<div>` from the start and carries no `<pb>` at all. Five of the seven values had been wrong before, and only three of the deviations go back to #236: `song` −13 and `parallel` +36 (FR3 rebuilds 23 equally ranked Töne into 10 Töne with 36 `div[@type="parallel"]`), `section` −36 from the same rehanging. `chapter` 604 → 1,640, `recipe` 452 → 606 and the rest of `section` had already drifted before that, presumably since the WZB ingest; they are corrected here as well, so that the table is not half right.
 
 **Stanza check (verified):** `div type="stanza"` historically existed only in LZT (1,122) and has been migrated to `lg type="stanza"` since #23/v4.1.1; currently **0** `div type="stanza"` in the corpus (LZT now uses `lg type="stanza"`).
 
@@ -911,11 +911,11 @@ npm test
 Migration scripts: run once in phases A-E, since the close of #32 they live in `scripts/_archived/` or in the git history.
 Validation script: `scripts/audit/validate-corpus.py`, a two-stage RelaxNG validation (stage 1 `tei_all.rng`, stage 2 `mhdbdb.rng`/`mhdbdb-authority.rng`). The earlier structural Python check (5 checks) was retired on 2026-04-15 and is covered by `schema/mhdbdb.rnc`.
 
-### Validation result (last full run 2026-10-18, #631; no change to `tei/` or `schema/` since)
+### Validation result (last full run 2026-11-27, #147)
 
-**mhdbdb.rnc:** 667/667 files valid against the project-specific schema (`schema/mhdbdb.rnc`).
+**mhdbdb.rnc:** 688/688 files valid against the project-specific schema (`schema/mhdbdb.rnc`).
 
-**tei_all.rng:** 632/667 files valid against TEI P5 4.11.0. 35 files carry deliberately documented deviations that our custom schema covers explicitly through GAP comments (GAPs 1 to 9 and 11, as in stage 2 below). Categories:
+**tei_all.rng:** 653/688 files valid against TEI P5 4.11.0. 35 files carry deliberately documented deviations that our custom schema covers explicitly through GAP comments (GAPs 1 to 9 and 11, as in stage 2 below). Categories:
 
 | Category | Files | Count |
 |-----------|---------|-------:|
@@ -952,8 +952,8 @@ Earlier errors (all fixed by migration):
 | 5 | documented via ODD or an equivalent | ✓ (TEI-MODEL.md + mhdbdb.rnc) |
 
 **Two-stage validation:**
-- **Stage 1:** `tei_all.rng` = the TEI P5 conformance test (criteria 1-4). Baseline: 632/667 green.
-- **Stage 2:** `mhdbdb.rnc` = the MHDBDB stamp. It covers all patterns in the existing data, including the 35 tei_all deviations (GAPs 1 to 9 and 11). Baseline: 667/667 green.
+- **Stage 1:** `tei_all.rng` = the TEI P5 conformance test (criteria 1-4). Baseline: 653/688 green (632/667 until 2026-11-26; the 21 BRE witnesses validate).
+- **Stage 2:** `mhdbdb.rnc` = the MHDBDB stamp. It covers all patterns in the existing data, including the 35 tei_all deviations (GAPs 1 to 9 and 11). Baseline: 688/688 green.
 
 `mhdbdb.rnc` is **not a strict subset** of `tei_all.rng`: it is stricter on some points (enumerated `@type` values, more restrictive child elements) and more permissive on others (the GAPs). The two stages check different properties and are complementary, not redundant.
 
@@ -961,10 +961,10 @@ Earlier errors (all fixed by migration):
 
 | File | Entries | Validation |
 |-------|----------|-------------|
-| lexicon.xml | 43,712 lemmata (+4 WZB 2026-05-08, +125 #115 stubs 2026-07-02, -1 hasenblâse #363 2026-09-10, -165 #228 2026-09-24, -3 #228 digits 2026-10-01, +1 briech #554 2026-10-15, +1 Minne #216 2026-11-08) | tei_all ✓ · mhdbdb-authority ✓ |
+| lexicon.xml | 43,713 lemmata (+4 WZB 2026-05-08, +125 #115 stubs 2026-07-02, -1 hasenblâse #363 2026-09-10, -165 #228 2026-09-24, -3 #228 digits 2026-10-01, +1 briech #554 2026-10-15, +1 Minne #216 2026-11-08, +1 gesprinc #147 2026-11-27) | tei_all ✓ · mhdbdb-authority ✓ |
 | variants.xml | 42,459 variant entries (256,970 forms) | tei_all ✓ · mhdbdb-authority ✓ |
 | persons.xml | 211 persons | tei_all ✓ · mhdbdb-authority ✓ |
-| works.xml | 585 works (+1 work_WZB, +1 work_WLK #237 2026-09-24) | tei_all ✓ · mhdbdb-authority ✓ |
+| works.xml | 606 works (+1 work_WZB, +1 work_WLK #237 2026-09-24, +21 work_BRE_* #147 2026-11-27) | tei_all ✓ · mhdbdb-authority ✓ |
 | concepts.xml | 568 categories | tei_all ✓ · mhdbdb-authority ✓ |
 | genres.xml | 615 categories | tei_all ✓ · mhdbdb-authority ✓ |
 | names.xml | 90 categories | tei_all ✓ · mhdbdb-authority ✓ |
@@ -1006,8 +1006,8 @@ A consolidated list of all deliberately non-normalized islands of data and of th
 | this document | 1.0.0 | 2026-04-10 |
 | RELAX NG schema (`schema/mhdbdb.rnc`) | 1.0.0 | 2026-04-09 |
 | POS tagset | 1.0 (19 tags) | 2026-03 |
-| Corpus Index | 4.2.40 | 2026-11-27 |
-| Authority Index | 1.9.39 | 2026-11-27 |
+| Corpus Index | 4.3.0 | 2026-11-27 |
+| Authority Index | 1.10.0 | 2026-11-27 |
 | authority schema (`schema/mhdbdb-authority.rnc`) | 1.2.0 | 2026-10-02 |
 
 ---

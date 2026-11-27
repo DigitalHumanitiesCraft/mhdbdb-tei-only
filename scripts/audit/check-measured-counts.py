@@ -157,7 +157,7 @@ CLAIMS = [
     (TR, 'hasOwnHeading: Herleitung des Nenners',
      '(4.676 + 467 = {labelled_total:de})'),
     (TR, 'hasOwnHeading: Nummer im head',
-     'in keinem dieser {with_head:de} Fälle enthält der <head> die Nummer aus @n'),
+     'in keinem dieser {with_head:de} Fälle (bis auf einen Zufallstreffer: BRE_MSCRM50 mit n="7" und einer Marginalie „7tr“ im <head>) enthält der <head> die Nummer aus @n'),
     (TR, 'hasOwnHeading: davon mit @n',
      'und {has_n} davon haben ein @n'),
     (TR, 'Zählungs-Anker: Reichweite und Typen',
@@ -242,10 +242,12 @@ def check(m):
     """Liste der Befunde (Datei, Name, Meldung); leer = gruen."""
     problems = []
     # Voraussetzungen von Saetzen, die eine Allaussage tragen
-    if m['carries'] != 0:
+    # Erwartet ist genau ein Treffer: BRE_MSCRM50, section n="7", die Marginalie
+    # "7tr" im <head> (Substring-Test, textContent wie im Browser); #147
+    if m['carries'] != 1:
         problems.append((TR, 'hasOwnHeading: Nummer im head',
-                         f'der Kommentar sagt "in keinem dieser Faelle", gemessen '
-                         f'sind {m["carries"]}'))
+                         f'der Kommentar sagt "in keinem dieser Faelle (bis auf einen '
+                         f'Zufallstreffer)", gemessen sind {m["carries"]}'))
     if m['t_other'] != 0:
         problems.append((TM, 'div/@type: Summe',
                          f'die Tabelle sagt "no further types", gemessen sind '

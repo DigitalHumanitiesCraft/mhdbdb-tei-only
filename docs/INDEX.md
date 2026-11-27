@@ -15,11 +15,11 @@ The MHDBDB TEI Repository provides a comprehensive digital corpus of Middle High
 ## Data Basis
 
 ### Curated Corpus
-- **667 TEI files** - Complete Middle High German texts with word-level annotations
+- **688 TEI files** - Complete Middle High German texts with word-level annotations
 - **8 authority files** - 7 searchable controlled vocabularies (persons, works, lexicon, concepts, genres, names, variants) plus `contributors.xml` as project-internal MHDBDB team register (since 2026-04). All are RDF-derived migration snapshots now maintained in-repo (this repo is the sole master, no Salzburg re-export); `variants.xml` is corpus-derived and regenerated after corpus changes. See [TEI-MODEL-AUTH-FILES.md → Provenance](TEI-MODEL-AUTH-FILES.md#provenance-and-currency)
 - **Pre-built indexes** - Compressed JSON (3 MB authority + 40 MB corpus) replacing runtime XML parsing
 - **Static JSON API** - plain JSON files under `/api/`, one per person, work, concept, genre, name and text, the lemmata as one bundle (generated from the indexes; record counts in `api/index.json`) for programmatic access with stable, citable URLs; docs at [`api/index.html`](https://dhcraft.org/mhdbdb-tei-only/api/index.html) (#45)
-- **Legacy Linecode sources** - 306 pre-TEI ingest files under [`sources/linecode/`](../sources/README.md) covering 199 of the 667 sigles, plus a catalog of the 9.1 GB local archive they came from. **Not normative, never indexed, never edited**: they exist to diagnose what the original Linecode-to-TEI conversion flattened (#248). The archive itself stays on KZW's OneDrive; `sources/INVENTAR-ARCHIV.md` is the access path
+- **Legacy Linecode sources** - 306 pre-TEI ingest files under [`sources/linecode/`](../sources/README.md) covering 199 of the 667 sigles the corpus had before the Weingrüße (#147, 2026-11-27), plus a catalog of the 9.1 GB local archive they came from. **Not normative, never indexed, never edited**: they exist to diagnose what the original Linecode-to-TEI conversion flattened (#248). The archive itself stays on KZW's OneDrive; `sources/INVENTAR-ARCHIV.md` is the access path
 
 ### Key Architecture Decision
 The project migrated from runtime XML parsing to pre-built JSON indexes because large XML files caused 30-second browser load times. For the authority files, the pre-built index cut the download by about 15× (47.3 MB of XML to ~3.1 MB, [ADR-001](DECISIONS.md)) and the indexes eliminate parsing overhead. Trade-off: requires Python build step when XML sources change.
@@ -129,7 +129,7 @@ Post-MVP and **in active operation**. Three things every session should know:
 - **Today:** an active project with ongoing data ingest (WZB/Wenzelsbibel, ARITHMETIC #92, more planned) and ongoing manual corpus corrections. Not frozen.
 - **Consequence:** every change in `tei/` or `authority-files/` must carry the derived layer with it (indexes, corpus-derived `variants.xml`). The **corpus leads**, `lexicon.xml` is an index and follows (see [CONTRACTS.md → Authority Source Rules](CONTRACTS.md#f-authority-source-rules)); otherwise it drifts silently. Binding step sequence: [DATA-MODEL.md → Data-Change-Lifecycle](DATA-MODEL.md#data-change-lifecycle).
 
-For the current index versions see [TEI-MODEL.md §11](TEI-MODEL.md#11-versioning) (as of 2026-11-27: Corpus Index v4.2.40, Authority Index v1.9.39).
+For the current index versions see [TEI-MODEL.md §11](TEI-MODEL.md#11-versioning) (as of 2026-11-27: Corpus Index v4.3.0, Authority Index v1.10.0).
 
 ### What was finished recently
 

@@ -46,7 +46,7 @@ test.describe('Concept Distribution Performance Lock', () => {
     await dismissAutocomplete(page);
     await page.click('#cdSearchBtn');
 
-    // Chart muss erscheinen (Worst-Case: 667 Texte mit Treffern -> 30 Top-N-Bars)
+    // Chart muss erscheinen (Worst-Case: 688 Texte mit Treffern -> 30 Top-N-Bars)
     await page.waitForSelector('#resultsContainer svg rect', { state: 'visible', timeout: 30000 });
 
     const longTasks = await page.evaluate(() => {

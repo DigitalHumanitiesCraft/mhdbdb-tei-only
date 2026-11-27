@@ -40,7 +40,7 @@ test.describe('Main Site', () => {
 
         // Text list should have checkboxes (one per corpus text)
         const textCount = await page.locator('#textList label').count();
-        expect(textCount).toBeGreaterThan(100); // 667 texts expected
+        expect(textCount).toBeGreaterThan(100); // 688 texts expected
 
         // Selected text count should be displayed
         const selectedCount = await page.locator('#selectedTextCount').textContent();
@@ -250,7 +250,7 @@ test.describe('Issue #204: Filter vs. Auswahl', () => {
     });
 
     test('Mismatch-Hinweis erscheint bei aktivem Filter + breiter Auswahl, One-Click korrigiert', async ({ page }) => {
-        // Filter setzen, Auswahl bleibt bei allen 667 Texten
+        // Filter setzen, Auswahl bleibt bei allen 688 Texten
         await page.fill('#textFilter', 'Nibelungen');
         await page.fill('#searchInput', 'minne');
         await page.click('#searchButton');
@@ -258,7 +258,7 @@ test.describe('Issue #204: Filter vs. Auswahl', () => {
 
         const note = page.locator('#filterMismatchNote');
         await expect(note).toBeVisible();
-        await expect(page.locator('#mismatchSearchedCount')).toHaveText('667');
+        await expect(page.locator('#mismatchSearchedCount')).toHaveText('688');
 
         // One-Click: Auswahl auf gefilterte Liste einschränken + neu suchen
         await page.click('#mismatchApplyFilter');

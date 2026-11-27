@@ -56,7 +56,7 @@ print('MHDBDB:', 'VALID' if mhdbdb.validate(tree) else mhdbdb.error_log)
 
 ## Korpus-Schema (`mhdbdb.rnc`)
 
-Für die 667 TEI-Texte in `tei/`, also das mittelhochdeutsche Korpus.
+Für die 688 TEI-Texte in `tei/`, also das mittelhochdeutsche Korpus.
 
 ### Dokumentstruktur
 
@@ -123,7 +123,7 @@ Für die 8 XML-Dateien in `authority-files/`, die als kontrollierte Vokabulare d
 
 | Datei | Inhalt | Body-Struktur |
 |-------|--------|---------------|
-| `lexicon.xml` | 43.712 Lemmata mit Bedeutungen | `<div>/<entry>` |
+| `lexicon.xml` | 43.713 Lemmata mit Bedeutungen | `<div>/<entry>` |
 | `variants.xml` | 256.970 Wortformen (42.459 Lemma-Gruppen) | `<div>/<entry>/<form>` |
 | `persons.xml` | 211 Personen (Autoren, Herausgeber) | `<listPerson>/<person>` |
 | `works.xml` | 585 Werke mit bibliographischen Daten | `<listBibl>/<bibl>` |

@@ -86,17 +86,17 @@ Full-text immersive reader with multi-lemma highlighting and rich metadata.
 - **Context navigation:** Prev/next buttons to jump between occurrences
 - **Jump to a verse (#655, wish of Linda Beutel-Thurow):** a field „Zu Vers" in the reading header. Where the numeric `<l @n>` of a text are unique, a plain number jumps (ROL 5579). Where they repeat, the input is section and verse, `339.26`, keyed by the `@n` of the nearest `<div>`, or failing that the nearest `<div>` or `<lg>`; every numeric verse must then have such a section. Where neither key is unique, and in texts without numeric verse numbers, the field stays hidden: no guessing between several candidates (decided by chsteiner on 2026-11-04). Measured on 2026-11-04 over the 667 texts: 378 plain, 9 by `<div>`, 71 by `<div>` or `<lg>`, 209 without the field. The counting runs on the rendered text in `assets/js/lib/verse-jump.js`; the jump reuses the highlight pulse of the deep links
 - **Back to the start of the text (#138):** a round jump button at the bottom right, as soon as the panel header has scrolled out of the viewport; it jumps back to title and metadata, not to the top of the page
-- **Verse numbering per counting range (#138):** the visible margin numbering restarts at 1 in every `<div>` that begins its own **continuous** count at `n="1"`. Two conditions make the criterion: the first numeric `<l>` carries `n="1"`, and the 1 occurs exactly once inside the `<div>`. Lines of an embedded parallel witness (`div[@type="parallel"]` inside another `<div>`) do not count towards this: every witness is measured on its own lines only (#250, see below). Of 7,256 `<div>`s in the corpus 3,128 meet the first condition, of which **1,959 in 138 texts** qualify (1,364 `chapter`, 252 `song`, 159 without `@type`, 156 `section`, 21 `parallel`, 7 `number`). This makes **1,818 additional margin numbers in 50 texts** visible. The largest case is PZ (Parzival) with +826, followed by WH (+466, which entered this statistic only with the Willehalm rebuild in #358), FR3 (+136), CHH (+53), TKR (+40) and HUG (+39, Julia's original case). Measured 2026-09-08. The basis is `python scripts/audit/count-verse-numbering-resets.py`, which rebuilds the render order and compares „with reset" against „without reset"; since #302 it carries the witness separation, so every number in this paragraph is reproducible.
+- **Verse numbering per counting range (#138):** the visible margin numbering restarts at 1 in every `<div>` that begins its own **continuous** count at `n="1"`. Two conditions make the criterion: the first numeric `<l>` carries `n="1"`, and the 1 occurs exactly once inside the `<div>`. Lines of an embedded parallel witness (`div[@type="parallel"]` inside another `<div>`) do not count towards this: every witness is measured on its own lines only (#250, see below). Of 7,516 `<div>`s in the corpus 3,388 meet the first condition, of which **2,196 in 159 texts** qualify (1,364 `chapter`, 252 `song`, 160 without `@type`, 392 `section`, 21 `parallel`, 7 `number`). This makes **2,033 additional margin numbers in 70 texts** visible. The largest case is PZ (Parzival) with +826, followed by WH (+466, which entered this statistic only with the Willehalm rebuild in #358), FR3 (+136), CHH (+53), TKR (+40) and HUG (+39, Julia's original case). Measured 2026-09-08. The basis is `python scripts/audit/count-verse-numbering-resets.py`, which rebuilds the render order and compares „with reset" against „without reset"; since #302 it carries the witness separation, so every number in this paragraph is reproducible.
 
   **Witness separation (#250, as of 2026-07-31):** since the Frauenlob rebuild (#236) FR3 carries a `div[@type="parallel"]` inside the `div[@type="section"]` of the base witness. Both witnesses start at `n="1"`, so the subtree of the `section` contained two ones, the `section` failed the second condition, and the visible 1 wandered from the base witness to the parallel one. **19 of the 127** FR3 `section`s were affected. Since the witness separation the base witness gets its 1 back and the parallel witness keeps its own. Measuring across all 667 texts shows the effect in FR3 only: 19 `section`s qualify in addition, not a single one loses its qualification, and the 21 qualifying `parallel` divs stay unchanged. DES2 and PKP also have nested `parallel` divs and do not change.
 
-  The second condition is the actual protection: texts with **stanza-local** counting inside a `<div>` deliberately get no anchor. It discards 1,169 `<div>`s in 84 texts corpus-wide and thereby prevents 1,007 unmotivated margin ones. NLA (Nibelungenlied ms. A) is the textbook case: 38 untyped `<div>`s in which every stanza starts at 1 again and which render no heading at all for lack of `@type`/`@n`; without the condition the text would get exactly 38 additional margin ones, that is the #127 regression through `<div>` instead of through `<lg>`. NBB is structurally untouched by the change, because the text contains no `<div>` elements
+  The second condition is the actual protection: texts with **stanza-local** counting inside a `<div>` deliberately get no anchor. It discards 1,192 `<div>`s in 104 texts corpus-wide and thereby prevents 1,007 unmotivated margin ones. NLA (Nibelungenlied ms. A) is the textbook case: 38 untyped `<div>`s in which every stanza starts at 1 again and which render no heading at all for lack of `@type`/`@n`; without the condition the text would get exactly 38 additional margin ones, that is the #127 regression through `<div>` instead of through `<lg>`. NBB is structurally untouched by the change, because the text contains no `<div>` elements
 - **URL parameters:** `?textId=ABG&lemmaIds=879,7532&position=310`
 - **URL state of the corpus search (#434):** what the search page itself writes into the address is the search term and the open text, nothing else: `?search=minne` after a search, `?search=minne&textId=ABG` once a text is open, with `&position=310` when it was opened from a KWIC hit. A search replaces the current history entry; opening a text adds one, so the browser's back button closes the reading panel and leaves the hit list as it was, and forward reopens the text. Reload, bookmark and a copied address restore search and text (search first, then the text, highlighted from the hits). Text selection, filters, page and sort order are not in the address. An incoming deep link (`?textId=ABG&lemmaIds=879,7532&position=310`) keeps its address as handed over, including `lemmaIds`, `verse` and `verseId`, until the next search rewrites it. A text opened from a sigle link inside the reading panel is not a history step yet
 - **Excerpt context (#134):** texts with `biblScope unit="verse"` in the header (excerpts of a larger work, e.g. AK from the Steirische Reimchronik) show a visible banner above the text plus an „Ausschnitt" metadata section (excerpt, whole work, verse range, context); see TEI-MODEL.md §2.1
 - **Editorial interventions (#250):** an expandable metadata section with the statements from the `<editorialDecl>` of the text, in document order. It carries the note that where the MHDBDB intervened in the text, the printed edition is authoritative for quotation. The clearest case is FR3: there the two appendices of the edition are swapped (appendix I counted as XV) and an error in the editors' verse numbering is corrected. Not shown is the repository boilerplate about resolving local file references, which 666 headers carry word for word in German and English; after that filter every text keeps at least one paragraph (1 to 43, as of 2026-10-08). A text without any would show no section; CEFB, GWTK and KVO were such texts until #493 added the statement on semantic disambiguation to their headers. Numbers reproducible via `python scripts/audit/count-editorial-notes-and-div-heads.py`
 - **Thirty-verse sections and books (#358):** a `<div type="chapter" subtype="dreissiger">` (PZ, WH) is labelled „Strophe N" instead of „Kapitel N" (KZW, 2026-09-11, after Alan's check against Leitzmann); `type` stays `chapter`, so the numbering restart and the `verseId` deep links are untouched, and `div type="chapter"` without that subtype keeps „Kapitel N". `<milestone unit="book" n="II"/>` renders as a heading „Buch II" at its position (Books II, III and IV of the Parzival begin inside a thirty-verse section, which is why they are milestones and not enclosing divs). A book that begins at the start of a section is shown above that section's „Strophe N" label, not below it
-- **Section label above an own heading (#250):** if a typed `<div>` carries a `<head>` of its own, the synthetic label („Lied 5", „Rezept 1") becomes the superordinate line of that heading instead of a second heading of equal rank next to it. This affects 1,097 of the 5,143 typed `<div>`s in 35 texts (403 `song`, 320 `chapter`, 301 `recipe`, 72 `number`, 1 `section`), led by NEI and NEIC (124 each), WZB (97) and KBL4/SUB1 (66 each). Measured 2026-09-08; the denominator stood at 4,676 until then, which was the state before #358 gave the Willehalm its 467 typed `<div>`s. The numerator is untouched by that, because WH carries no `<head>` at all. The label stays visible because in none of these cases does the `<head>` carry the number from `@n` (AC1: `n="1"` and „das i capitel", ABS: `n="1"` and „basteten .") and 932 of the divs have an `@n`; suppressing it would remove the only visible count of the section
+- **Section label above an own heading (#250):** if a typed `<div>` carries a `<head>` of its own, the synthetic label („Lied 5", „Rezept 1") becomes the superordinate line of that heading instead of a second heading of equal rank next to it. This affects 1,268 of the 5,379 typed `<div>`s in 51 texts (403 `song`, 320 `chapter`, 301 `recipe`, 72 `number`, 172 `section`), led by NEI and NEIC (124 each), WZB (97) and KBL4/SUB1 (66 each). Measured 2026-09-08; the denominator stood at 4,676 until then, which was the state before #358 gave the Willehalm its 467 typed `<div>`s. The numerator is untouched by that, because WH carries no `<head>` at all. The label stays visible because in none of these cases does the `<head>` carry the number from `@n` (AC1: `n="1"` and „das i capitel", ABS: `n="1"` and „basteten .") and 1103 of the divs have an `@n`; suppressing it would remove the only visible count of the section
 
 **TEI elements rendered:**
 - Text structure: `<head>`, `<p>`, `<div>`, `<lg>` (stanzas), `<l>` (verse lines)
@@ -114,7 +114,7 @@ Full-text immersive reader with multi-lemma highlighting and rich metadata.
 
 ### Dictionary, the A–Z register (#117)
 
-A conventional dictionary entry page (`woerterbuch.html`) for all 43,712 lemma pages.
+A conventional dictionary entry page (`woerterbuch.html`) for all 43,713 lemma pages.
 
 **How it works:**
 - An A–Z index bar (plus `#` for numeric lemmata) with the entry count per letter as a tooltip
@@ -236,7 +236,7 @@ Until 2026-09 only the multi-lemma search read the selection at all; the other t
 **Multi-lemma search „Im selben Vers" (#106 point 8):**
 - Co-occurrence restricted to a shared `<l>` (syntactically tighter than the word window of the proximity search)
 - Data basis: `lineStarts[]`/`lineEnds[]` from corpus index v4.1.0+, no new build step
-- Verse texts only (600 of 667); prose is skipped automatically
+- Verse texts only (621 of 688); prose is skipped automatically
 - Hits name the verse number; expand and reader deep link as in the proximity search
 - URL routing: `#multi-lemma&lemmata=…&mode=verse`
 
@@ -245,7 +245,7 @@ Until 2026-09 only the multi-lemma search read the selection at all; the other t
 - Finds lemmata sitting exactly at the first or last `<w>` of an `<l>`
 - Use case: rhyme analysis, stylistics of verse endings („how often does Wolfram rhyme on `minne`?")
 - Hit list with the share per text („54 % of all `minne` occurrences in Tristan sit at the verse end"). Numerator and denominator both come from `text.lemmata`, so the ratio holds up even for tokens with multiple lemma references, unlike the rhyme pressure of the verse-ending profile: [CONTRACTS §H.5](CONTRACTS.md#h5-normalized-figures-in-the-remaining-tools)
-- Verse texts only (600 of 667, about 90 % of the corpus); prose is skipped automatically
+- Verse texts only (621 of 688, about 90 % of the corpus); prose is skipped automatically
 - Clicking a hit opens the reading view with highlighting
 
 **Word frequency analysis (#88):**
@@ -288,7 +288,7 @@ Until 2026-09 only the multi-lemma search read the selection at all; the other t
 - Below the intro and in the „Kein Begriff gefunden" box, a link to the Begriffshilfe (#498)
 
 **Text comparison (#108):**
-- Choose two texts through dropdown menus (all 667 sigles with title and author)
+- Choose two texts through dropdown menus (all 688 sigles with title and author)
 - Three lemma sets are computed: only in A, in both, only in B
 - Per lemma: frequency in A, frequency in B, absolute difference |A−B|
 - Sorting by frequency, difference or alphabetically, plus a substring filter on the lemma name
@@ -416,7 +416,7 @@ Under the title block, a lemma page shows „Als Wortbestandteil erfasst; kein e
 Concept-based similarity section on each lemma page.
 
 **How it works:**
-- Scans all 43,712 lemmata for shared concept references (pre-built `sense.conceptIds` in the authority index, extracted at build time from `<sense>`/`<ptr target="concepts.xml#...">`)
+- Scans all 43,713 lemmata for shared concept references (pre-built `sense.conceptIds` in the authority index, extracted at build time from `<sense>`/`<ptr target="concepts.xml#...">`)
 - Ranks by concept overlap with the current lemma
 - Displays top 50 as clickable chip links
 - Performance: client-side full scan over all lemmata (sub-100 ms in practice)
@@ -432,7 +432,7 @@ Static JSON API under `/api/`, served directly by GitHub Pages – stable, citab
 **What it offers:**
 - Root manifest at [`api/index.json`](https://dhcraft.org/mhdbdb-tei-only/api/index.json) listing all collections with counts
 - Individual records (`api/persons/person_445.json`, `api/works/work_WZB.json`, ...) plus a summary `index.json` per collection (persons, works, concepts, genres, names, texts)
-- Lemmata as a single bundle (`api/lemmata/index.json`, 43,712 full records) instead of 43k individual files
+- Lemmata as a single bundle (`api/lemmata/index.json`, 43,713 full records) instead of 43k individual files
 - Every file carries its license (`CC BY-NC-SA 4.0`)
 
 **Documentation:** human-readable docs page at [`api/index.html`](https://dhcraft.org/mhdbdb-tei-only/api/index.html) (German), linked from `hilfe-daten.html`.

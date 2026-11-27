@@ -16,10 +16,10 @@ Counterpart to `docs/TEI-MODEL.md` (corpus files).
 
 | File | Content | Entries | Size (2026-10-20, `ls -l`, decimal units) |
 |-------|--------|-----------|---------|
-| `lexicon.xml` | Lemmata with senses, POS, etymology | 43,712 lemmata | 34 MB |
+| `lexicon.xml` | Lemmata with senses, POS, etymology | 43,713 lemmata | 34 MB |
 | `variants.xml` | Orthographic variants per lemma | 42,459 variant entries, 256,970 forms | 18 MB |
 | `persons.xml` | Authors/persons with authority data | 211 | 57 KB |
-| `works.xml` | Works with bibliography and genre | 585 | 1.2 MB |
+| `works.xml` | Works with bibliography and genre | 606 | 1.2 MB |
 | `contributors.xml` | MHDBDB contributors (founders, coordination, editors) | 52 persons + 2 orgs | 9 KB |
 | `concepts.xml` | Semantic concept ontology | 568 categories | 217 KB |
 | `genres.xml` | Genre taxonomy | 615 categories | 424 KB |
@@ -519,7 +519,7 @@ works.xml ──author @ref──> persons.xml
 
 **No back references:** persons.xml does NOT point at works.xml. The build script derives the reverse direction.
 
-**Corpus → authority** (not shown): the 667 TEI files point via `@lemmaRef` at lexicon.xml, `@ana` at lexicon.xml (senses), `@corresp` at variants.xml, `@ref` at persons.xml and works.xml. These references are documented in the corpus model (`docs/TEI-MODEL.md`).
+**Corpus → authority** (not shown): the 688 TEI files point via `@lemmaRef` at lexicon.xml, `@ana` at lexicon.xml (senses), `@corresp` at variants.xml, `@ref` at persons.xml and works.xml. These references are documented in the corpus model (`docs/TEI-MODEL.md`).
 
 ### 4.2 Reference types
 
