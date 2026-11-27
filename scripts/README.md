@@ -113,7 +113,8 @@ scripts/
 │   ├── enhance_works_with_zotero.py  # Zotero API → works.xml
 │   ├── extract-variants.py      # Korpus → variants.xml regenerieren (#44/#115)
 │   ├── find-mentions.py         # Erwähnende Publikationen suchen → Zotero „Zu prüfen"
-│   └── sync_tei_headers.py      # Authority Files → TEI-Header
+│   ├── sync_tei_headers.py      # Authority Files → TEI-Header
+│   └── test_enhance_zotero_reihenfolge.py  # Test: Item-Reihenfolge schlägt nicht auf works.xml durch (#649)
 │
 ├── review/                      # Kuratorische Prüfseiten (eine HTML-Datei zum Verschicken, #443) und Prüflisten als TSV
 │                                # Dateien siehe review/README.md
