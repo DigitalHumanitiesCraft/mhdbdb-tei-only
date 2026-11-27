@@ -893,6 +893,7 @@ When a `<w>` carries a `@lemmaRef` / `@ana` / `@corresp` that does not exist in 
 - **Default:** the corpus annotation wins. The authority must gain the missing entry (lemma stub from form + `@pos`; variant via `extract-variants.py`).
 - **Exception:** an obvious corpus typo (reference to a never-existing ID, single occurrence, a neighboring ID exists with the right form) is fixed in the corpus instead.
 - `lexicon.xml` is never the master for the question "does this lemma exist?" – the corpus is.
+- **`sense/@ana` follows the corpus the same way (#753):** every type that a `<w>` pointing at the sense via `@ana` carries in `@corresp` is in that sense's list, and `extract-variants.py --apply` keeps it so. The reverse does not hold: a type in the list that no token attests stays, because it may be wanted for later ingests.
 
 ### F.2 Sense Meanings Are Curatorial
 

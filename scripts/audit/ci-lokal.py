@@ -911,7 +911,7 @@ KLASSEN.extend([
       'lokal', 'Pruefschritt, laeuft in Git Bash'),
     E('data-integrity.yml', 'freshness', 'Index-Budget (#111)', '11c637f15950',
       'lokal', 'Pruefschritt, laeuft in Git Bash'),
-    E('data-integrity.yml', 'freshness', 'Freshness variants.xml (#125)', 'd916ceaa3361',
+    E('data-integrity.yml', 'freshness', 'Freshness variants.xml (#125)', '84533f99effc',
       'lokal', 'Pruefschritt, laeuft in Git Bash'),
     E('data-integrity.yml', 'freshness', 'Freshness API (#45)', '7ade901abe98',
       'lokal', 'Pruefschritt, laeuft in Git Bash'),

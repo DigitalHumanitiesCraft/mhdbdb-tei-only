@@ -114,7 +114,8 @@ scripts/
 │   ├── extract-variants.py      # Korpus → variants.xml regenerieren (#44/#115)
 │   ├── find-mentions.py         # Erwähnende Publikationen suchen → Zotero „Zu prüfen"
 │   ├── sync_tei_headers.py      # Authority Files → TEI-Header
-│   └── test_enhance_zotero_reihenfolge.py  # Test: Item-Reihenfolge schlägt nicht auf works.xml durch (#649)
+│   ├── test_enhance_zotero_reihenfolge.py  # Test: Item-Reihenfolge schlägt nicht auf works.xml durch (#649)
+│   └── test_extract_variants.py # Test: sense/@ana ergänzen und bereinigen (#753)
 │
 ├── review/                      # Kuratorische Prüfseiten (eine HTML-Datei zum Verschicken, #443) und Prüflisten als TSV
 │                                # Dateien siehe review/README.md
@@ -215,7 +216,7 @@ Scripts für die Integration externer Datenquellen.
 Holt bibliographische Metadaten (v.a. Editor:innen) von der Zotero API und aktualisiert `authority-files/works.xml`. Unterstützt `--dry-run`, `--cache`, `--offline`.
 
 ### `extract-variants.py`
-Regeneriert `authority-files/variants.xml` aus dem aktuellen Korpus (#44/#115). `variants.xml` ist **korpus-abgeleitet**: pro `<w @lemmaRef @corresp>` wird (Lemma, type-id, Form) gesammelt; xml:id-Eindeutigkeit via Mehrheitsentscheid. Ersetzt den veralteten, nur auf `initial-data-wrangling` liegenden Generator (las das Pre-#32-`@wordRef`). Dry-Run-Default, `--apply` überschreibt. **Nach `--apply`: Authority-Index neu bauen + Version bumpen.**
+Regeneriert `authority-files/variants.xml` aus dem aktuellen Korpus (#44/#115). `variants.xml` ist **korpus-abgeleitet**: pro `<w @lemmaRef @corresp>` wird (Lemma, type-id, Form) gesammelt; xml:id-Eindeutigkeit via Mehrheitsentscheid. Ersetzt den veralteten, nur auf `initial-data-wrangling` liegenden Generator (las das Pre-#32-`@wordRef`). Dry-Run-Default, `--apply` überschreibt. Seit #753 gleicht `--apply` auch `sense/@ana` in `lexicon.xml` mit dem Korpus ab (verwaiste Typen raus, belegte dazu), `--check` misst das ohne zu schreiben (Exit 1, solange belegte Typen fehlen). **Nach `--apply`: Authority-Index neu bauen, Version bumpen nur bei Inhaltsdiff im Index.**
 
 ### `find-mentions.py`
 Sucht Publikationen, die die MHDBDB erwähnen, und legt die noch unbekannten in der Zotero-Gruppe 5043625 an, Sammlung „Zu prüfen (automatisch gefunden)" (`NHIA2I6N`) unter „Erwähnende Publikationen". Quellen: Zenodo, OpenAlex, OpenAIRE, Crossref, Semantic Scholar. **Fasst weder `tei/` noch `authority-files/` an und löst keinen Index-Rebuild aus**; einziges Schreibziel ist Zotero, und dort nur die Neuanlage. Dry-Run-Default, `--write` legt an, `MAX_NEU` deckelt auf 30 pro Lauf. Zugangsdaten über `ZOTERO_API_KEY` und `OPENALEX_API_KEY`, nie im Repo. Braucht `requests` (steht bewusst nicht in `requirements.txt`, die pinnt nur die Build-Kette, #125).
