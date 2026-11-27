@@ -113,6 +113,29 @@ test.describe('Hilfe-Unterseite Demnächst im Korpus', () => {
         expect(anfragen.filter((u) => /api\.github\.com/.test(u))).toEqual([]);
     });
 
+    test('im selben Quartal gilt die Reihenfolge der Freigabeliste, nicht das Alphabet (#537)', async ({ page }) => {
+        await page.goto('/hilfe-demnaechst.html');
+        const titelAufSeite = await page.locator('.pub-liste .pub-titel').allTextContents();
+        // Reihenfolge aus dem Rohtext: Object.keys sortiert ganzzahlige Schluessel aufsteigend,
+        // Python (json.loads im Generator) behaelt die Reihenfolge der Datei
+        const roh = readFileSync(join(DATEN, 'demnaechst-zeitplan.json'), 'utf8');
+        const block = roh.slice(roh.indexOf('"freigegeben"'), roh.indexOf('"nicht_freigegeben"'));
+        const reihe = [...block.matchAll(/"(\d+)"\s*:/g)].map((m) => m[1]);
+        expect([...reihe].sort(), 'Schluessel im Rohtext').toEqual(Object.keys(plan.freigegeben).sort());
+        const gruppen = {};
+        for (const i of sichtbar) {
+            const n = String(i.nummer);
+            const q = plan.freigegeben[n].quartal || 'offen';
+            const titel = plan.freigegeben[n].titel || i.titel.replace(/^(Ingest-Kandidat(en)?( \(Sammel\))?|Ingest):\s*/, '');
+            (gruppen[q] = gruppen[q] || []).push({ rang: reihe.indexOf(n), titel });
+        }
+        for (const [q, eintraege] of Object.entries(gruppen)) {
+            const erwartet = [...eintraege].sort((a, b) => a.rang - b.rang).map((e) => e.titel);
+            const gezeigt = titelAufSeite.filter((t) => erwartet.includes(t));
+            expect(gezeigt, q).toEqual(erwartet);
+        }
+    });
+
     test('Zeitpunkt offen steht hinten, die Quartale davor aufsteigend, und die Schaetzung ist gesagt', async ({ page }) => {
         await page.goto('/hilfe-demnaechst.html');
         const zeiten = await page.locator('.pub-liste .pub-meta').allTextContents();
