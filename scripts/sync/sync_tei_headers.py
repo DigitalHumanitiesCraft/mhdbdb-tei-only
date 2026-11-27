@@ -1260,7 +1260,7 @@ Examples:
                             'geaendert, Korpus 1.432,5 -> 1.430,6 MB). Er '
                             'LOESCHT dabei die 19 mwb-sigle und aendert bei '
                             'AK, FR3, HZ, LUU und WZB die Bibliographie '
-                            'inhaltlich. Nur bewusst benutzen.')
+                            'inhaltlich (Stand 07.09.2026). Nur bewusst benutzen.')
     parser.add_argument('--check', action='store_true',
                        help='Gate (#399, #486): Header gegen works.xml pruefen, nichts '
                             'schreiben, Exit 1 bei Abweichung. Identifier im '
