@@ -561,7 +561,7 @@ try:
 except conv.bc.HarterFehler as e:
     g2 = f"Fehler: {e}"
 xn = lambda p: tei_n.xpath(p, namespaces=ns)  # noqa: E731
-pruefe("Normdaten: Header setzt alle sieben Felder", len(g1) == 7, str(g1))
+pruefe("Normdaten: Header setzt alle acht Felder (mit der Sprachstufe)", len(g1) == 8 and "Sprache" in g1, str(g1))
 pruefe("Normdaten: Header idempotent, zweiter Lauf ändert kein Byte",
        g2 == [] and conv.etree.tostring(tei_n) == nach1 and nach1 != vorher, str(g2))
 pruefe("Normdaten: msName behält seinen Wert, nur der title bekommt den Werktitel",
@@ -577,10 +577,19 @@ pruefe("Normdaten: Autoren in titleStmt und particDesc",
        xn("//t:titleStmt/t:author/@ref") == ["#person_907", "#person_anonym"]
        and xn("//t:particDesc//t:person/@xml:id") == ["person_907", "person_anonym"]
        and xn("//t:person[@xml:id='person_907']/t:idno/@type") == ["GND", "wikidata"])
-pruefe("Normdaten: eine Änderungszeile, Sprachstufe unberührt",
+pruefe("Normdaten: eine Änderungszeile, Sprachstufe TBD wird gmh",
        len([c for c in xn("//t:revisionDesc/t:change/text()") if c.startswith(norm.MARKE)]) == 1
        and xn("//t:revisionDesc/t:change[last()]/@when") == ["2026-11-25"]
-       and xn("//t:language/@ident") == ["TBD"])
+       and xn("//t:language/@ident") == ["gmh"]
+       and xn("//t:language/text()") == [norm.SPRACHE_TEXT])
+tei_s = conv.etree.fromstring(conv.etree.tostring(tei_n))
+tei_s.xpath("//t:language", namespaces=ns)[0].set("ident", "la")
+try:
+    norm.setze_header(tei_s, "BRE_TEST", WT, ["person_907", "person_anonym"], PERS, GEN, "2026-12-31")
+    sprache_fehler = False
+except conv.bc.HarterFehler:
+    sprache_fehler = True
+pruefe("Normdaten: eine unerwartete Sprachangabe ist ein harter Fehler", sprache_fehler)
 _, _, tei_r, _, _ = baue(SEITE, ROWS, "B")
 norm.setze_header(tei_r, "BRE_TEST", WT, ["person_907"], PERS, GEN, "2026-11-25")
 pruefe("Normdaten: Zeuge nur mit Rosenplüt hat im particDesc kein person_anonym",

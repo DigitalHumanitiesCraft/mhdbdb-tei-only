@@ -512,7 +512,7 @@
    Abstand nach oben zu behalten (sonst klafft die Einheit auseinander).
 
    Der Nachbarselektor greift nur, wenn der <head> als erstes Kind gerendert
-   wird. Das trifft auf 1.061 der 1.097 Fälle zu; bei den übrigen 36 steht ein
+   wird. Das trifft auf 1.190 der 1.268 Fälle zu; bei den übrigen 78 steht ein
    anderes Element davor (etwa ein <pb/>), dort bleibt der reguläre Abstand.
    Gemessen mit scripts/audit/count-editorial-notes-and-div-heads.py, Teil C. */
 .reading-body .tei-div-header-above-head + .section-head {
