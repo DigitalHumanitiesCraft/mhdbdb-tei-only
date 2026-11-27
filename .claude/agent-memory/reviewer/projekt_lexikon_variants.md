@@ -35,6 +35,7 @@ metadata:
 - Nebenwirkungen stehen woanders: Authority-Index lemmaweise gegen die Basis diffen (#602 klappte das `pos` eines anderen Lemmas). `comment-attribution.spec.js` zieht eine Stichprobe nach Index-Position aus der Kommentarliste: ein neuer Kommentar verschiebt sie, vorher/nachher nachrechnen.
 
 **lemma.pos / posAll (#462):** `data/lemma-pos.json.gz` aus `scripts/build-lemma-pos.py` (Regex über tei/, kein Textleer-Filter wie im Korpus-Index). `apply_corpus_pos` fasst nur `len(posAll) > 1` an, Sortkey `(-count, lexikonindex)`. Nachrechnen gegen `git show <base>:data/authority-index.json.gz` je Lemma. Altbestand: leeres `posAll` mit `pos == ''` (`posAll[0]` wirft).
+- Der Authority-Index und `api/lemmata` tragen je Lemma keine Korpuszählung: eine neue Lexikon-Wortart (#560 jâchant, 27.11.2026) ändert dort nur `posAll`. Versionsnotizen mit „Zählungen ändern sich" per Objektdiff gegen die Basis nachmessen. Umhängen von Tokens ohne `@corresp` berührt weder variants.xml noch die Corresp-Baseline (zählt je Sigle).
 
 **WZB-Paare ohne @corresp (#370 Punkt 2)**
 - ANLEGEN heißt „neuen Typ prägen" und setzt voraus, dass keiner existiert. Vorhandener Typ über (NFC-lower-Form, Lemma) ergibt VERKNÜPFEN (nur `@corresp`), dieselbe Form unter einem anderen Lemma bleibt ANLEGEN (Homographe).
