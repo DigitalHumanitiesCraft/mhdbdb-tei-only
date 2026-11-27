@@ -1435,3 +1435,13 @@ Auto-Mode-Classifier abgelehnt, und die Blockade ging an Christian.
 **Was es getragen hat:** fast etwas. Abgefangen hat es mein `git status` vor dem Commit der Reviewer-Memory: die Notizen lagen im falschen Worktree und wären sonst mit dem Branch von #417 statt direkt auf `main` gelandet. Verschoben in den Main Worktree (`faed3a3a0`), die Datei im Worktree per `git restore` zurückgesetzt, ab da nur absolute Pfade.
 
 **Mechanismuswechsel, dritte Zeile (100, 130, 164):** #56 hat am 16.09.2026 gegen eine Sperre für Klasse 3 entschieden, weil im Protokoll außer dem Messbefehl kein Fall lag. Dieser Fall ist einer mit Wirkung, der zweite nach dem Nachtrag zu Fehler 76. Vorgeschlagen als `chsteiner/claude-code-setup#132`: die Sperre auf ein `cd` in ein Unterverzeichnis des Arbeitsverzeichnisses ausdehnen, verkettet und alleinstehend.
+
+### Fehler 165 (rot), 27.11.2026: KZWs Screenshot in #461 nicht geladen und „nicht gesehen“ berichtet (27.11.2026, #461).
+
+**Rot.** Die Kommentare von #461 habe ich über `gh issue view --json comments` gelesen. KZWs Antwort vom 26.11. bestand aus einem Satz und einem Screenshot (`user-attachments`). Ich habe das Bild nicht geladen, Christian „Ihren Screenshot habe ich nicht gesehen“ geschrieben und vorgeschlagen, KZW neu zu fragen. Das Bild zeigte die Bedeutungsliste der Lemma-Seite (Bedeutung 2 = Mensch ohne Tod) und war damit die Antwort. Der Download mit `curl` und dem `gh`-Token kostete eine Sekunde.
+
+**Welche Lehre nicht gegriffen hat:** **Die Lehre steht in `eigene-quellen.md`: ist der Griff billiger als der Satz, wird er getan; dazu `entscheidungsfragen.md`: ein Issue ist Body und Kommentare.** Die letzte Zeile zu dieser Lehre ist Eintrag 138.
+
+**Was es getragen hat:** eine vorgeschlagene überflüssige Rückfrage an KZW. Abgewendet hat es Christian („du sollst auch screenshots anschaun“), bevor sie gestellt war, nicht ein Mechanismus; deshalb gezählt.
+
+**Kein neuer Mechanismus von mir:** die begründete Aussetzung in `eigene-quellen.md` (#64) gilt. Auf Christians Wort ist der Vorschlag, Bilder und Anhänge in `entscheidungsfragen.md` ausdrücklich zu nennen, an die Session `ccsetup` gegangen (27.11.2026).
