@@ -545,11 +545,14 @@ jobs:
             echo "::error file=authority-files/variants.xml::variants.xml ist nicht mit dem Korpus synchron. Lokal 'python scripts/sync/extract-variants.py --apply' ausfuehren und mitcommitten (DATA-MODEL.md -> Data-Change-Lifecycle). Vorher git status -- tei/ authority-files/ pruefen: was nicht im Commit ist, nicht mitbauen."
             exit 1
           fi
-          # --apply bereinigt auch verwaiste #type_N in lexicon.xml sense/@ana.
-          # Ohne diesen Diff saehe das Cross-Ref-Gate weiter unten nur noch den
-          # hier bereinigten Stand und bliebe auf einem verwaisten Commit gruen.
+          # --apply bereinigt auch verwaiste #type_N in lexicon.xml sense/@ana
+          # und ergaenzt die im Korpus belegten (#753, K ohne L). Ohne diesen
+          # Diff saehe das Cross-Ref-Gate weiter unten nur noch den hier
+          # bereinigten Stand und bliebe auf einem verwaisten Commit gruen.
+          # Dieser Diff ist zugleich das Gate fuer K ohne L: ein eigener
+          # --check-Schritt wuerde dieselben 667 Dateien ein zweites Mal lesen.
           if ! git diff --exit-code -- authority-files/lexicon.xml; then
-            echo "::error file=authority-files/lexicon.xml::lexicon.xml fuehrt in sense/@ana Typ-Tokens, die variants.xml nicht kennt. Lokal 'python scripts/sync/extract-variants.py --apply' ausfuehren und lexicon.xml mitcommitten (DATA-MODEL.md -> Data-Change-Lifecycle). Vorher git status -- tei/ authority-files/ pruefen: was nicht im Commit ist, nicht mitbauen."
+            echo "::error file=authority-files/lexicon.xml::lexicon.xml fuehrt in sense/@ana Typ-Tokens, die variants.xml nicht kennt, oder es fehlen belegte Typen (K ohne L, #753). Lokal 'python scripts/sync/extract-variants.py --apply' ausfuehren und lexicon.xml mitcommitten (DATA-MODEL.md -> Data-Change-Lifecycle). Vorher git status -- tei/ authority-files/ pruefen: was nicht im Commit ist, nicht mitbauen."
             exit 1
           fi
 
