@@ -60,6 +60,7 @@ import logging
 import argparse
 import requests
 import time
+import html
 import json
 import re
 from pathlib import Path
@@ -340,6 +341,17 @@ def convert_to_title_case(text: str) -> str:
 KAPUTTE_TILDE = '\u0020\u0303'  # Leerzeichen + kombinierende Tilde, bewusst als Escape
 
 
+def html_note_to_text(text: str) -> str:
+    """Zotero speichert Notizen als HTML (#649): Tags weg, Block-Grenzen als
+    Leerzeichen, Entities aufgeloest, Leerraum zusammengezogen."""
+    if not text:
+        return text
+    text = re.sub(r'(?i)<br\s*/?>|</(?:p|div|li|h[1-6]|blockquote)\s*>', ' ', text)
+    text = re.sub(r'<[^>]*>', '', text)
+    text = html.unescape(text)
+    return re.sub(r'\s+', ' ', text).strip()
+
+
 def repair_broken_tilde(text: str) -> str:
     """Leerzeichen + kombinierende Tilde zu ASCII-Tilde (#235)."""
     if not text:
@@ -524,7 +536,7 @@ def api_item_to_biblstruct(item_data: dict, sigle: str, notes: List[str] = None)
     # Note section (from Zotero notes)
     if notes:
         # Concatenate all notes for this item
-        note_text = repair_broken_tilde(' '.join(notes).strip())
+        note_text = repair_broken_tilde(' '.join(html_note_to_text(n) for n in notes).strip())
         if note_text:
             note = etree.SubElement(biblstruct, f"{{{TEI_NS_URI}}}note")
             note.text = note_text
