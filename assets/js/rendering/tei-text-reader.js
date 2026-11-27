@@ -755,6 +755,12 @@ class TEITextReader {
                         // alle Highlights dahinter verschieben.
                         return `<span class="note-badge note-${this.escapeHtml(noteType)}" title="${noteType === 'date' ? 'Datum' : 'Jahr'}">${this.escapeHtml(noteN)}</span>${children()}`;
                     }
+                    // Editorische Beschreibungen der Transkription (Bildbeschreibungen,
+                    // Hinweise auf moderne Eintragungen, Druckvergleiche; nur in den
+                    // Weingrüßen BRE_*, 62 Stellen, #147) gehören nicht in den
+                    // Lesetext. Sie bleiben im TEI und tragen kein <w>, die
+                    // Wortzählung ändert sich also nicht.
+                    if (noteType === 'transcription' || noteType === 'editorial') return '';
                     return children();
                 }
                 case 'pb': {
