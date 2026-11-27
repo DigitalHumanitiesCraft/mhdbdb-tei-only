@@ -48,9 +48,9 @@ Eine eindeutig erkennbare sexuelle Referenz beseitigt die kulinarische oder ande
 
 Die Spalte `Einstufung` (stark, mittel, schwach) hängt an diesen alten Kriterien. Sie bleibt an den 26 Zeilen vom 17.11.2026 stehen, die neuen Zeilen haben `nicht vergeben`.
 
-**Wortannotation und Bildlichkeit bleiben getrennt.** Eine Zeile verankert ein Token, die Doppeldeutigkeit kann aber auf Vers-, Strophen- oder Szenenebene liegen (Birnenquotient, Wurzelessen, Buhlschaft auf dem Baume). Eine mitgeführte Bildwelt heißt nicht, dass jedes beteiligte Wort zwei lexikalische Bedeutungen bekommt. Bei *priet* in NEIR 31 etwa behauptet weder die Diss. noch die Zeile eine zweite Wortbedeutung von *brâten*.
+**Wortannotation und Bildlichkeit bleiben getrennt.** Eine Zeile verankert ein Token, die Doppeldeutigkeit kann aber auf Vers-, Strophen- oder Szenenebene liegen (Birnenquotient, Wurzelessen, Buhlschaft auf dem Baume). Eine mitgeführte Bildwelt heißt nicht, dass jedes beteiligte Wort zwei lexikalische Bedeutungen bekommt. Bei *priet* in NEIR 31 etwa nennt KZWs Kommentar keine eigene zweite Wortbedeutung von *brâten*, und die Zeile setzt auch keine an.
 
-**Keine feste Gleichung „Birne = X".** Nach dem Aufsatz (S. 85) bezeichnet die Birne in den erhobenen Belegen meist die Brüste, seltener den ganzen Frauenkörper und nur vereinzelt vielleicht die Vulva, gegen die ältere Zuordnung zu Vulva oder Gesäß. Der STANDARD-Beitrag nennt bei Keller Nr. 9 auch eine Zuordnung zum männlichen Geschlecht. Dasselbe gilt für Nuss, Apfel, Rübe und Wurzel: entschieden wird an der Stelle, nicht am Wort.
+**Keine feste Gleichung „Birne = X".** Nach dem Aufsatz (S. 85) bezeichnet die Birne in den erhobenen Belegen meist die Brüste, seltener den ganzen Frauenkörper und nur vereinzelt vielleicht die Vulva, gegen die ältere Zuordnung zu Vulva oder Gesäß. Der STANDARD-Beitrag nennt bei Keller Nr. 9 auch eine mögliche Zuordnung zum männlichen Geschlecht. Dasselbe gilt für Nuss, Apfel, Rübe und Wurzel: entschieden wird an der Stelle, nicht am Wort.
 
 ### Wie die Werte gesetzt sind
 
@@ -58,7 +58,7 @@ Alle Werte der vier Felder sind Vorschläge dieser Zusammenstellung, keine Entsc
 
 - **`sexuelle_bedeutung_evidenz`** folgt dem, was KZW oder die von ihr genannte Quelle zur Stelle sagt: `gesichert`, wo sie das Geschehen deutlich oder eindeutig nennt oder schon entschieden hat (naschen, roter Vogel, Wengling, hârîn vingerlîn, Wurzelessen). `gut begründet`, wo sie die Lesart gut begründbar oder besonders klar nennt oder einen Forschungsbeleg dafür anführt. `möglich`, wo sie die Lesart als Möglichkeit, als Kandidaten oder ohne Gewichtung referiert. `offen`, wo die Quelle offenlässt oder nur eine Agentenlesung vorliegt. Deshalb tragen die Zeilen vom 17.11.2026 mit „ungeprüft" in `Quelle` hier `offen`, auch wenn ihre alte Einstufung `stark` lautet.
 - **`status_woertliche_ebene`** folgt bei den neuen Zeilen KZWs Beschreibung, bei den alten der vorhandenen `Begründung` (Bildhäufung über das Lied: `durchgeführtes Bild`, Spiel oder Tausch als Handlung: `zugleich erzählte Handlung`, „eher Metapher": `punktuelle Metapher`). Sagt keins von beiden etwas, steht `offen`.
-- **`sprachliches_verfahren`** ist eine kurze freie Benennung des Mittels. Bei den Hauptbeispielen A bis F folgt sie KZWs Abschnitt 6 (Zahlrelation, körperliches Angebot, Zahlenspiel und Tausch, durchgeführte Bildlichkeit, grammatischer Kippeffekt), sonst ist sie ein Vorschlag dieser Zusammenstellung.
+- **`sprachliches_verfahren`** ist eine kurze freie Benennung des Mittels. Bei den Hauptbeispielen A, B, C, E und F steht wörtlich KZWs Begriff aus Abschnitt 6 (A „erzählte Mahlzeit mit zusätzlicher Bedeutung", B „körperliches Angebot", C „Zahlenspiel", E „durchgeführte Metaphorik", F „grammatisch begründeter Kippeffekt"). Was dahinter in Klammern als „Agentenpräzisierung" steht, ist von dieser Zusammenstellung. Bei allen anderen Zeilen ist die Benennung ein Vorschlag dieser Zusammenstellung.
 - **`annotation_offen_entschieden`**: `entschieden` nur beim Ausgangsfall naschen (KZW, 10.11.2026), sonst `offen`.
 
 ## Felder in `kandidaten.tsv`
@@ -90,32 +90,34 @@ rg -n 'type="song" n="(25|101)"' tei/OVW.tei.xml
 Am 27.11.2026:
 
 5. **KZWs TEI-Anker** (12 Tokens zu den Hauptbeispielen A, B, C, E, F) einzeln im TEI aufgeschlagen. Alle 12 stehen dort mit der Form, die KZW nennt, und im Vers, den sie zitiert.
-6. **Stellen ohne Anker** (Abschnitt 3 des Kommentars von 08:54, Aufsatz-Nachtrag, STANDARD) über den Wortlaut gesucht: Zeilentext aus `<w>` und `<pc>` je `<l>` oder `<p>`, regulärer Ausdruck, erst im genannten Werk, dann über alle 667 Dateien. Ob ein Werk im Korpus liegt, ist an `authority-files/works.xml` (Titel, Sigle) und an `tei/<Sigle>.tei.xml` geprüft. Die Suche nach den Keller-Versen und den Nüssen lief mit einem Control (`teigen pirn` musste NEIM 25 treffen und traf).
+6. **Stellen ohne Anker** (Abschnitt 3 des Kommentars von 08:54, Aufsatz-Nachtrag, STANDARD) über den Wortlaut gesucht: Zeilentext aus `<w>` und `<pc>` je `<l>` oder `<p>`, regulärer Ausdruck, erst im genannten Werk, dann über alle 667 Dateien. Ob ein Werk im Korpus liegt, ist an `authority-files/works.xml` (Titel, Sigle) und an `tei/<Sigle>.tei.xml` geprüft. Die Suche nach den Keller-Versen und den Nüssen lief mit einem Control (`teigen pirn` musste NEIM 25 treffen und traf). Der zweite Treffer derselben Suche, Ackermann aus Böhmen (AC2), war in der ersten Fassung übersehen, weil die Ausgabe die Prosazeile nach 300 Zeichen abschnitt. Review-Runde 1 hat ihn gefunden.
 7. **Vergleichsstellen** für `vergleich.tsv` ebenso über den Wortlaut gesucht. Alle 28 dort genannten Stellen sind im TEI gefunden.
 
 Die Hilfsskripte lagen in `.claude/tmp/` (gitignoriert) und sind nicht Teil des Repositorys.
 
 ## Ergebnis
 
-`kandidaten.tsv`, 57 Zeilen, eine je Token.
+`kandidaten.tsv`, 58 Zeilen, eine je Token.
 
 | Bereich | Zeilen |
 |---|--:|
 | bestehend (17.11.2026) | 26 |
 | Hauptbeispiele A, B, C, E, F (D liegt nicht im Korpus) | 12 (3+3+1+4+1) |
+| Parallele zu Hauptbeispiel B (Agentenfund, nicht von KZW genannt) | 1 |
 | weitere: Diss.-Sammlung Abschnitt 3 | 14 |
 | weitere: Aufsatz-Nachtrag | 3 |
 | weitere: STANDARD | 2 |
-| Summe | 57 |
+| Summe | 58 |
 
 Die 26 alten Zeilen nach ihrer Einstufung: stark 9, mittel 13, schwach 4. Nach Text: OVW 6, WVV 6, NEIR 4, NEIC 5, NEI 1, SPW 2, HSL 2. Der Ausgangsfall `OVW_1025010230_4` steht als erste Zeile mit KZWs Entscheidung dabei.
 
-Die 31 neuen Zeilen nach KZWs Bezeichnung:
+Die 32 neuen Zeilen nach KZWs Bezeichnung:
 
 | KZW | Stelle im TEI | Zeilen |
 |---|---|---|
 | A, Birnenquotient, NEIR 31,4 | NEIR Lied 31, Str. 4, V. 2 und 4 | `NEIR_3104020_2`, `NEIR_3104040_1`, `NEIR_3104040_2` |
 | B, „miner teigen pirn", NEIM 25,5 | NEIM Lied 25, Str. 5, V. 1 und 10 | `NEIM_2505010_1`, `NEIM_2505100_6`, `NEIM_2505100_7` |
+| Parallele zu B, „als die teigen pirn" (nicht von KZW) | Ackermann aus Böhmen, Kap. 17 | `AC2_26020_8` |
 | C, zwei Haselnüsse gegen eine, NEIM 18,1,6 | NEIM Lied 18, Str. 1, V. 6 | `NEIM_1801060_1` |
 | E, Wurzeln essen, WRW 2117–2168 | WRW V. 2141, 2146, 2151, 2165 | `WRW_2141000_4`, `WRW_2146000_1`, `WRW_2151000_5`, `WRW_2165000_3` |
 | F, Rüben herausziehen, Kl. 48,1,1–2 | OVW Lied 48, Str. 1, V. 1 | `OVW_1048010010_11` |
@@ -131,7 +133,7 @@ Die 31 neuen Zeilen nach KZWs Bezeichnung:
 | Der Welsche Gast, WGA 4275–4276 | WGA V. 4275 | `WGA_427500_2` |
 | „Frauenessen" (STANDARD) | ABS Rezept 40, KBL4 Rezept 56 | `ABS_400010_3`, `KBL4_561142010_3` |
 
-Verteilung der neuen Felder über alle 57 Zeilen: Evidenz gesichert 11, gut begründet 11, möglich 17, offen 18. Wörtliche Ebene: zugleich erzählte Handlung 17, durchgeführtes Bild 11, punktuelle Metapher 4, offen 25.
+Verteilung der neuen Felder über alle 58 Zeilen: Evidenz gesichert 11, gut begründet 11, möglich 17, offen 19. Wörtliche Ebene: zugleich erzählte Handlung 17, durchgeführtes Bild 11, punktuelle Metapher 4, expliziter Vergleich 1, offen 25.
 
 ## Nicht im Korpus oder nicht lokalisiert
 
@@ -141,7 +143,7 @@ Verteilung der neuen Felder über alle 57 Zeilen: Evidenz gesichert 11, gut begr
 - **Keller Nr. 45**, S. 345 (Katzenstrigel), **Nr. 59**, S. 521, V. 1–6, **Nr. 9**, S. 93, V. 29–31 (Birnen unter dem Hemd, auch im Aufsatz S. 84, Anm. 18, und im STANDARD-Beitrag), **Nr. 29**, S. 241, V. 27–28 (*nachthunger*). Dazu Keller Nr. 7 mit den Glockenschwengeln aus Abschnitt 4.
 - **Der Ritter mit den Nüssen**, V. 84–85 und 96. Kein Werktitel mit „Nüsse" oder „Ritter … Nuss". Die Suche nach „nüzze b…" trifft nur AXU 20421 („mit einer nüzze boesen"), nicht diese Stelle.
 - **nachthunger** überhaupt: kein Token im Korpus (Suche `nacht ?hung`, 0 Treffer). *Des Teufels Netz*, V. 6971, hat keinen Werkeintrag (die Titel mit „Teufel" sind andere Mären).
-- **Heidelberger Hs. Pal. 343, Lied 128 bei Kopp 1905, S. 140** (*taygen pirn*). Kein Werkeintrag mit „Pal. 343" oder „cpg 343", die Suche nach *taig*/*teig* vor *pirn*/*birn* trifft nur NEIM 25. KZW verlangt ohnehin, Korpuszugehörigkeit und Datierung vor einer Aufnahme zu prüfen.
+- **Heidelberger Hs. Pal. 343, Lied 128 bei Kopp 1905, S. 140** (*taygen pirn*). Kein Werkeintrag mit „Pal. 343" oder „cpg 343", die Suche nach *taig*/*teig* vor *pirn*/*birn* trifft NEIM 25 und den Ackermann aus Böhmen (`AC2_26020_8`, „als die teigen pirn"), nicht die Heidelberger Handschrift. Die AC2-Stelle steht als Parallele zu Hauptbeispiel B in `kandidaten.tsv`. KZW verlangt ohnehin, Korpuszugehörigkeit und Datierung vor einer Aufnahme zu prüfen.
 
 **Nicht lokalisiert.**
 
@@ -173,9 +175,9 @@ Bei einigen Stellen steht das gesuchte Wort nicht in der ersten Zeile von KZWs V
 Nur notiert, nichts geändert.
 
 - **Das Lexikon kennt die zweite Bedeutung oft schon.** Eine Erotik-Bedeutung neben der wörtlichen haben *naschen*, *vingerlîn*, *wurz*, *hâke*, *vogel*, *gümpel*, *klobe*, *kolbe*, dazu aus den neuen Zeilen *bir* (`lemma_712_sense_94314`), *apfel* (`lemma_261_sense_94302`), *haselnuʒ* (`lemma_27117_sense_95002` und `_95003`) und *vruht* (`lemma_7273_sense_11788`, nur mit Geschlechtsmerkmale/Zeugung/Geburt). Keine haben *küssen* stM. (Kissen), *jëten*, *gras*, *brechen*, *rôse*, *spiegel*, *riutelstap*, *hase*, *ruobe*, *krieche*, *rîben*. Bei *wengling* (`lemma_24841`) tragen beide Bedeutungen das Erotik-Konzept `concept_21112000`, die zweite dazu Spielzeug: das Lexikon trennt dort nicht zwischen Spiel und Erotik.
-- **Die Tokens stehen meist auf einer Seite.** Manche nur auf der wörtlichen (Walthers *küssen*, Oswalds *voglen*, alle *pirn*, *haselnussen*, *rüben* der neuen Zeilen), manche nur auf der erotischen (Neidhart c 51 *kloben* und *vogel*, c 117 *kolbe*, *leckerheit* in RF 198 und WGA 4275 auf `lemma_3667_sense_5787`), manche ohne `@ana` (Oswalds *häcklin*, *jät*, *gümpels*, NEIM 25 *teigen*, BAB *apfel* und *gabeln*, WRW *smakes*).
+- **Die Tokens stehen meist auf einer Seite.** Manche nur auf der wörtlichen (Walthers *küssen*, Oswalds *voglen*, alle *pirn*, *haselnussen*, *rüben* der neuen Zeilen), manche nur auf der erotischen (Neidhart c 51 *kloben* und *vogel*, c 117 *kolbe*, *leckerheit* in RF 198 und WGA 4275 auf `lemma_3667_sense_5787`), manche ohne `@ana` (Oswalds *häcklin*, *jät*, *gümpels*, *teigen* in NEIM 25 und AC2, BAB *apfel* und *gabeln*, WRW *smakes*).
 - **Überlieferungen sind verschieden annotiert.** Dieselbe Strophe vom hârîn vingerlîn trägt in NEIR die Erotik-Bedeutung (`sense_83232`, 2 Tokens), in NEIC und NEI die Schmuck-Bedeutung (`sense_11475`).
-- **Lemmatisierung:** *voglen* in OVW Kl. 83 steht auf dem Substantiv *vogel*, *kloben* in derselben Strophe (`OVW_1083030080_2`) hat kein `@lemmaRef`. Die drei *wurtzen* im Ring (WRW 2141, 2146, 2151) haben kein `@lemmaRef`. *teigen* in NEIM 25,5,10 steht auf dem Substantiv *teic* (`lemma_6040`). Das Frauenessen ist in ABS ein Kompositum (`lemma_26812` *vrouwenezzen*), in KBL4 zwei Tokens (*vrouwe* und *ëʒʒen*).
+- **Lemmatisierung:** *voglen* in OVW Kl. 83 steht auf dem Substantiv *vogel*, *kloben* in derselben Strophe (`OVW_1083030080_2`) hat kein `@lemmaRef`. Die drei *wurtzen* im Ring (WRW 2141, 2146, 2151) haben kein `@lemmaRef`. *teigen* steht in NEIM 25,5,10 (`NEIM_2505100_6`) und im Ackermann aus Böhmen (`AC2_26020_8`) auf dem Substantiv *teic* (`lemma_6040`). Das Frauenessen ist in ABS ein Kompositum (`lemma_26812` *vrouwenezzen*), in KBL4 zwei Tokens (*vrouwe* und *ëʒʒen*).
 - **Zählungen weichen ab, die Stellen stimmen.** Parzival 79,27–80,2 (KZW): die Birne steht in 80,1. Der Taler 4,3 (KZW): im TEI `lg n="20"`, fortlaufend gezählt, die `xml:id` kodiert 4/03. R 42,1,7–10 und c 79,1,7–10: die Rübe steht je in V. 9.
 - **Parallele, nicht von KZW genannt:** die Wendung aus R 34,5,10 („witen garten tuet si rueben lære") steht auch in NEIC Lied 119, Str. 2, V. 10 (`NEIC_11902100_0`). Sie ist nicht als eigene Zeile aufgenommen.
 - **Liednummer des Ausgangsfalls:** der Body von #702 nennt „Kl. 101", ebenso KZWs Paraphrase von Marold in #602 (10.11.2026). Im TEI steht `OVW_1025010230_4` in `div type="song" n="25"` (Incipit „ain burger und ain hofman"), Lied 101 beginnt mit „wach auff , mein hort". Dass die `div`-Nummer der Zählung nach Klein folgt, ist aus dem Titel der Quellenangabe in `tei/OVW.tei.xml` („Die Lieder Oswalds von Wolkenstein") geschlossen und nicht an der Edition geprüft.
