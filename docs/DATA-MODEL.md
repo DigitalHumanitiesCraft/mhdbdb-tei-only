@@ -214,7 +214,7 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
     sigle: "ABG",
     sigles: ["ABG"],
     author: "Meister Eckhart",
-    authorRef: "persons.xml#person_445",  // with file prefix throughout, all 585 works.
+    authorRef: "persons.xml#person_445",  // with file prefix throughout, all 606 works.
                                           // The corpus index writes the same reference
                                           // as "#person_445", see the texts record below.
                                           // = the first author that counts (not an adapter,
