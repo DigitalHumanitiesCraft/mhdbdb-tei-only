@@ -113,7 +113,7 @@
         <p xml:lang="de">Die Verse tragen nur @n. Die Vers-ID der Vorlage ist daraus ableitbar (n="1" entspricht id="Apk-00001", Muster Apk- und n fünfstellig mit führenden Nullen). Der Konverter prüft das für jeden Vers und bricht bei einer Abweichung ab.</p>
         <normalization>
           <p>Groß- und Kleinschreibung, Interpunktion und Verszählung folgen der Ausgabe in der Fassung des MHGTA.</p>
-          <p>Maschinell annotiert (#262, Stand 2026-11-19): Lemma (@lemmaRef) 110.241, Wortart (@pos) 94.676, Bedeutung (@ana) 100.585, Variantentyp (@corresp) 59.056 von 115.566 Wörtern im Text ohne die Rubrik (95,4 %, 81,9 %, 87,0 %, 51,1 %). Eindeutige Fälle aus dem Lexikon, mehrdeutige durch ein Sprachmodell entschieden (Entscheidungstabellen in ingest/apk/phase1 bis phase3), nicht von Hand geprüft.</p>
+          <p>Maschinell annotiert (#262, Stand 2026-11-27): Lemma (@lemmaRef) 110.241, Wortart (@pos) 94.676, Bedeutung (@ana) 100.585, Variantentyp (@corresp) 59.056 von 115.566 Wörtern im Text ohne die Rubrik (95,4 %, 81,9 %, 87,0 %, 51,1 %). Eindeutige Fälle aus dem Lexikon, mehrdeutige durch ein Sprachmodell entschieden (Entscheidungstabellen in ingest/apk/phase1 bis phase3), die maschinellen Zuweisungen nicht von Hand geprüft. Von Hand gesetzt nach dem MWB-Abgleich vom 27.11.2026: Lemma, Wortart und Bedeutung von APK_3541_3 und APK_7857_1 (siehe revisionDesc).</p>
         </normalization>
       </editorialDecl>
       <classDecl>
@@ -140,7 +140,7 @@
     <revisionDesc>
       <change when="2026-11-19" who="#mhdbdb-team">#262: Initiale Konversion aus apk_free.xml (TEI.2, Electronic Text Center 2002) via scripts/ingest/apk/01-convert-apk-to-mhdbdb.py.</change>
       <change when="2026-11-19" who="#mhdbdb-team">#262, Phasen 1 bis 3: Lemma, Wortart, Bedeutung und Variantentyp maschinell gesetzt via scripts/ingest/apk/10 bis 18; keine neuen Lemmata oder Bedeutungen.</change>
-      <change when="2026-11-27" who="#mhdbdb-team">#262: 27 übergeschriebene Vokale und ein Lesefehler nach dem MWB-Textarchiv (Trier) korrigiert, Abgleich vom 27.11.2026; Form der Vorlage je als Kommentar hinter dem Wort; bei zwei Wörtern (APK_3541_3, APK_7857_1) das Lemma von ir bzw. ûr auf viur (lemma_7108) gesetzt und @corresp mit 18-corresp.py neu bestimmt (APK_7857_1: vüre, APK_3541_3: kein eindeutiger Typ).</change>
+      <change when="2026-11-27" who="#mhdbdb-team">#262: 27 übergeschriebene Vokale und ein Lesefehler nach dem MWB-Textarchiv (Trier) korrigiert, Abgleich vom 27.11.2026; Form der Vorlage je als Kommentar hinter dem Wort; bei zwei Wörtern (APK_3541_3, APK_7857_1) das Lemma von ir bzw. ûr auf viur (lemma_7108) gesetzt und @corresp mit 18-corresp.py neu bestimmt (APK_7857_1: vüre, APK_3541_3: kein Typ in variants.xml).</change>
     </revisionDesc>
   </teiHeader>
   <text>

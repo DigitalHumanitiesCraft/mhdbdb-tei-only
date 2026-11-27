@@ -23,7 +23,7 @@ Ob der Text aufgenommen werden darf, ist offen: Ute Recker-Hamm (MWB Trier) soll
 | `18-corresp.py` | Phase 3: `@corresp` auf den Variantentyp, nur bei genau einem Treffer | TEI, `phase3/corresp-mehrdeutig.tsv` |
 | `20-pruefpaket.py` | Prüfpaket: alle low-Zeilen, dazu eine Stichprobe der medium-Zeilen je Phase | `ingest/apk/pruefung/*.tsv` |
 | `21-abdeckung.py` | Abdeckung je Attribut mit Nenner, prüft Referenzen, Tagset, `@ana` passend zu `@lemmaRef`, `<head>` unannotiert, Schema | |
-| `22-header-stand.py` | Schreibt die gemessene Abdeckung in `normalization` und eine `change`-Zeile in den Header. Ein zweiter Lauf auf demselben Stand mit demselben `--datum` ändert nichts | TEI |
+| `22-header-stand.py` | Schreibt die gemessene Abdeckung in `normalization` und eine `change`-Zeile in den Header. `--stand JJJJ-MM-TT` setzt nur das Datum im Absatz (Vorgabe `--datum`), `--handkorrektur "<Satz>"` hängt einen Satz über von Hand gesetzte Wörter an den Absatz. Ein zweiter Lauf auf demselben Stand mit denselben Argumenten ändert nichts | TEI |
 | `apk_common.py`, `apk_annot.py` | Pfade, Rohdatei-Prüfung, Helfer der Phasen (übertragen aus `scripts/ingest/bre/`) | |
 | `test_apk.py` | Tests für Stufe 0 an einer erfundenen Mini-Fixture, dazu die Versbilanz an der echten Datei, wenn sie da ist (sonst SKIP) | |
 | `anleitungen/ANLEITUNG-*.md` | Anleitungen für die LLM-Batches je Phase | |

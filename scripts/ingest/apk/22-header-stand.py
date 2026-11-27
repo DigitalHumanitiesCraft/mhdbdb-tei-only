@@ -10,7 +10,9 @@ Misst die Abdeckung von @lemmaRef, @pos, @ana und @corresp an den <w> im <body> 
 Idempotent: ein zweiter Lauf auf demselben Stand mit demselben --datum aendert nichts (die Vorgabe
 fuer --datum ist heute, ein Lauf an einem anderen Tag ersetzt Datum und change-Zeile). Validiert danach gegen das Schema.
 
-Aufruf: python -P -E scripts/ingest/apk/22-header-stand.py [--datum JJJJ-MM-TT]
+--stand setzt nur das Datum im Absatz (Vorgabe --datum), --handkorrektur haengt einen Satz an den Absatz.
+
+Aufruf: python -P -E scripts/ingest/apk/22-header-stand.py [--datum JJJJ-MM-TT] [--stand JJJJ-MM-TT] [--handkorrektur "Satz"]
 """
 import argparse
 import datetime
@@ -40,7 +42,10 @@ def main():
     ac.ausgabe_utf8()
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--datum", default=datetime.date.today().isoformat())
+    ap.add_argument("--stand", help="Datum im Absatz (Vorgabe: --datum), die change-Zeile behaelt --datum")
+    ap.add_argument("--handkorrektur", help="Satz, der an den Absatz angehaengt wird (von Hand gesetzte Woerter)")
     a = ap.parse_args()
+    a.stand = a.stand or a.datum
     text = ac.AUSGABE.read_text(encoding="utf-8")
     baum = etree.fromstring(text.encode("utf-8"))
     body = baum.find(f"{TEI}text/{TEI}body")
@@ -49,13 +54,17 @@ def main():
     z = {att: sum(1 for w in ws if w.get(att)) for att in ("lemmaRef", "pos", "ana", "corresp")}
     if not n or not z["lemmaRef"]:
         raise ac.HarterFehler("keine annotierten <w>: erst die Phasen fahren")
-    absatz = (f"Maschinell annotiert (#262, Stand {a.datum}): Lemma (@lemmaRef) {de(z['lemmaRef'])}, "
+    absatz = (f"Maschinell annotiert (#262, Stand {a.stand}): Lemma (@lemmaRef) {de(z['lemmaRef'])}, "
               f"Wortart (@pos) {de(z['pos'])}, Bedeutung (@ana) {de(z['ana'])}, Variantentyp (@corresp) "
               f"{de(z['corresp'])} von {de(n)} Wörtern im Text ohne die Rubrik "
               f"({prozent(z['lemmaRef'], n)}, {prozent(z['pos'], n)}, {prozent(z['ana'], n)}, "
               f"{prozent(z['corresp'], n)}). Eindeutige Fälle aus dem Lexikon, mehrdeutige durch ein "
               f"Sprachmodell entschieden (Entscheidungstabellen in ingest/apk/phase1 bis phase3), "
-              f"nicht von Hand geprüft.")
+              f"die maschinellen Zuweisungen nicht von Hand geprüft.")
+    if a.handkorrektur:
+        if "<" in a.handkorrektur or "&" in a.handkorrektur:
+            raise ac.HarterFehler("--handkorrektur darf kein < und & enthalten")
+        absatz += " " + a.handkorrektur.strip()
     change = (f"#262, {KENNWORT}: Lemma, Wortart, Bedeutung und Variantentyp maschinell gesetzt via "
               f"scripts/ingest/apk/10 bis 18; keine neuen Lemmata oder Bedeutungen.")
 
