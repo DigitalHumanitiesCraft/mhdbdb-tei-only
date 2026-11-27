@@ -52,4 +52,9 @@ metadata:
 - Agentenerzeugter Text trägt Arbeitsnotizen (`von Claude …`, `Wie B23`, `ev_clean/…`): in `Bedeutung` und `Hinweis` danach greppen, bevor eine README „geprüfte Fassung" stehen bleibt.
 - Wörterbuchstellen über `api.woerterbuchnetz.de/open-api/dictionaries/<SIGLE>/`: `lemmata/<lemma>` liefert `bookref` (Band,Spalte,Zeile), `fulltext/<form>` die textids, `kwic/<textid>` den Kontext. Einen `wbnetzid`-Endpunkt gibt es nicht (400).
 
+**Hesler-Apokalypse APK (#262, `scripts/ingest/apk/`)**
+- Rohdatei nur im Main Worktree (`sources/hesler-apokalypse/apk_free.xml`, hat `<l \nn=`-Umbrüche und `<hi \nrend=`: Regex mit `\s+`, sonst falsche Zählung). Lecktest einer „erfundenen“ Fixture nicht nur über 4- bis 5-Wortfolgen: Attributwerte (`sic="…"`) und kurze Elementinhalte einzeln gegen die Rohdatei suchen. Runde 1 (19.11.2026) fand so `<corr … sic="vorbilde">vor bilde</corr>` (V. 9619) wörtlich in `test_apk.py`. Runde 2: die Behauptung nach dem Fix hieß dann „kein Attributwert“, geprüft waren nur `sic`/`reg`; Struktur-Werte (`rend="superscript"`, `resp="editor"`) stehen zwangsläufig in der Quelle. Prüfmenge gegen Satzmenge halten.
+- Lemma-Zahlen in `ingest/apk/pruefung/README.md`: `lemma-pending.tsv` hat keine Batch-Spalte (`lemma-patch.tsv` `quelle` ist für SPLIT-Tokens durchweg `split`); eine Aussage über Arbeitspakete ist aus dem Repo nicht prüfbar. Eine Zählung `norm=='ir'` zählt Personal- und Possessivgebrauch zusammen (Runde 2).
+- Schreibende Skripte in-process proben: `20-pruefpaket.py` mit `pp.ZIEL` auf Scratch (Bytevergleich gegen `ingest/apk/pruefung/`), `22-header-stand.py` mit `apk_common.AUSGABE` auf eine Scratch-Kopie und festem `--datum`.
+
 **Textreihen (#93, `textreihen/`):** Treue gegen marketext.at per `curl` und Skriptvergleich messen, nicht per WebFetch (fasst zusammen). Den Verzeichnisbaum in `CLAUDE.md` liest kein Skript, sein Spiegel ist der Baum in `docs/DEVELOPMENT.md`.

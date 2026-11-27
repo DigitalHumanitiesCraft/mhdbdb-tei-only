@@ -35,6 +35,7 @@ metadata:
 - JS `Math.round` = `math.floor(x + 0.5)`, nicht `round()`. Tokens (w+pc) sind nicht Wörter.
 - JSON mit Issue-Nummern als Schlüssel: JS `Object.keys` sortiert ganzzahlige Schlüssel aufsteigend, Python `json.loads` behält die Dateireihenfolge. Eine Spec, die eine Reihenfolge aus solchem JSON erwartet, muss den Rohtext lesen (`hilfe-unterseiten.spec.js`, #537, 27.11.2026).
 - Restsuche nach Katalogzahlen über die Zahlwörter mit `\b`, nicht über das Nomen. CSVs oft `;` plus BOM (`utf-8-sig`). Leere Suche: Control (`type="sigle"` trifft jede Korpusdatei).
+- Entfernte Zeilen eines Diffs nie mit `grep '^-[^-]'` zählen: eine Markdown-Listenzeile wird zu `-- **…` und fällt still heraus (19.11.2026: 7 statt 12 Semikola). `grep '^-' | grep -v '^--- a/'`, dazu je Zeile die Zahl ausgeben und gegen den Diff halten.
 - Treffer über Lemmata verlieren die unannotierten Formen (rund ein Fünftel der `<w>` ohne `@lemmaRef`, Stand Oktober 2026), „hintereinander" über annotierte Tokens springt Wörter. Gegenprobe über alle `<w>`.
 
 **JS ohne Browser**
