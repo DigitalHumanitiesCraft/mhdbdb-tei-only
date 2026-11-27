@@ -39,9 +39,9 @@ TOKENS = ['ADP_4117900_4', 'ADP_4122600_12', 'HTR_78950_6', 'HTR_207990_5',
           'JEW_393000000_5', 'JEW_1002900000_8', 'JEW_1270500000_4',
           'OVW_1021020260_2', 'RSP_1926_5', 'SLG_8770_5', 'TRY_11371_4',
           'WL_227_3']
-ENTSCHEIDUNG = (f'{SENSE} (lebender menschlicher Koerper); vorher {VORHER}, '
-                f'verliert damit concept_21030000 und concept_21104000')
-QUELLE = 'KZW und chsteiner 2026-11-27, Kommentare in #461'
+ENTSCHEIDUNG = (f'{SENSE} (lebender menschlicher Körper); vorher {VORHER}, '
+                f'verliert damit concept_21104000')
+QUELLE = 'KZW 2026-11-26, Kommentar in #461; Entscheidung chsteiner 2026-11-27'
 ANKER = re.compile(
     r'([ \t]*)(<change when="[^"]*" who="#editor">(?:(?!</change>).)*</change>)(\s*)</revisionDesc>',
     re.S)
@@ -93,7 +93,7 @@ def main():
         if not m:
             sys.exit(f'ABBRUCH: kein revisionDesc-Anker in {sigle}')
         enl = '\r\n' if '\r\n' in m.group(3) else '\n'
-        eintrag = (f'<change when="{DATUM}" who="#editor">#461 gebeine: {len(ids)} Tokens '
+        eintrag = (f'<change when="{DATUM}" who="#editor">#461 gebeine: {len(ids)} {"Token" if len(ids) == 1 else "Tokens"} '
                    f'(lebender menschlicher Körper) von {VORHER} auf {SENSE} umgehängt.</change>')
         text = text[:m.end(2)] + enl + m.group(1) + eintrag + text[m.end(2):]
         neu[pfad] = text
