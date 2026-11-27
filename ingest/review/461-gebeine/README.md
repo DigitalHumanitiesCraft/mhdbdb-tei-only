@@ -58,3 +58,13 @@ Umsetzung: `scripts/ingest/pos-disambig/apply-461-ochsen.py`. Entscheidung @chst
 - `scripts/review/messen-461-sense3004.py` erwartet die 55 Belege vom 18.10. und bricht seit dem Umhängen ab („53 Belege im Korpus, 55 eingestuft“). Das ist so gewollt: das Skript dokumentiert den Stand vom 18.10., die Liste für die offene Frage an KZW steht in `sense3004-lebend.tsv`.
 
 Stand danach, gemessen am 2026-11-08 (207 Tokens, `@ana` je Token): `sense_3004` 53, `sense_49690` 10, `sense_119196` 23, `sense_119198` 1, `sense_119199` 1, `sense_119200` 4, ohne `@ana` 115; Summe 207.
+
+## Nachtrag 2026-11-27: die 12 lebenden Gebeine umgehängt
+
+Umsetzung: `scripts/ingest/pos-disambig/apply-461-lebend.py`. Entscheidung @chsteiner am 27.11.2026 nach KZWs Antwort in #461: die 12 Belege mit Einstufung "lebend" in `sense3004-lebend.tsv` (lebender menschlicher Körper) wechseln von `lemma_1958_sense_3004` (Mensch + Tod) auf `lemma_1958_sense_49690` (nur Mensch, `concept_21030000`) und verlieren damit `concept_21104000`.
+
+- **Tokens:** `ADP_4117900_4`, `ADP_4122600_12`, `HTR_78950_6`, `HTR_207990_5`, `JEW_393000000_5`, `JEW_1002900000_8`, `JEW_1270500000_4`, `OVW_1021020260_2`, `RSP_1926_5`, `SLG_8770_5`, `TRY_11371_4`, `WL_227_3` (8 Dateien, je ein `<change when="2026-11-27">`). Nur `@ana` ändert sich. Die Spalten `Entscheidung` und `Quelle` in `belege.tsv` tragen das.
+- **Unverändert:** die 3 "lebend?" (`HTR_214570_5`, `JEW_2330900000_1`, `ROL_3841_3`) bleiben auf `sense_3004`.
+- **Folge im Derived Layer:** kein Index-Rebuild, kein Version-Bump. `build-begriffshilfe.py` läuft, seine Ausgabe bleibt byteidentisch (die Begriffstabelle führt nur Bedeutungs- und Lemmazahlen und je Begriff die fünf häufigsten Lemmata, `gebeine` steht in keiner dieser Listen für `concept_21030000` oder `concept_21104000`).
+
+Stand danach, gemessen am 2026-11-27 (207 Tokens, `@ana` je Token): `sense_3004` 41, `sense_49690` 22, `sense_119196` 23, `sense_119198` 1, `sense_119199` 1, `sense_119200` 4, ohne `@ana` 115; Summe 207.

@@ -1,5 +1,5 @@
 {
- "abgerufen": "2026-11-03",
+ "abgerufen": "2026-11-27",
  "issues": [
   {
    "nummer": 92,
@@ -30,7 +30,7 @@
     "auto:blocked",
     "effort:large",
     "ingest",
-    "wait:extern"
+    "wait:kzw"
    ]
   },
   {
@@ -73,6 +73,7 @@
     "auto:blocked",
     "effort:large",
     "ingest",
+    "wait:julia",
     "wait:kzw"
    ]
   },
@@ -92,7 +93,7 @@
    "titel": "Ingest-Kandidaten (Sammel): Lyrik und Spruchdichtung aus dem Legacy-Archiv",
    "labels": [
     "area:data",
-    "auto:checkin",
+    "auto:pair",
     "effort:large",
     "ingest"
    ]
@@ -113,7 +114,7 @@
    "titel": "Ingest-Kandidaten (Sammel): Prosa, Chroniken und Fachtexte aus dem Legacy-Archiv, plus FnhdC-Lizenzsperre",
    "labels": [
     "area:data",
-    "auto:checkin",
+    "auto:pair",
     "effort:large",
     "ingest"
    ]
@@ -151,19 +152,29 @@
    ]
   },
   {
-   "nummer": 495,
-   "titel": "Gattung aus dem Textkopf eines Ingests landet nirgends: Abbildung aufs Werk festschreiben und prüfen",
+   "nummer": 651,
+   "titel": "Ingest-Kandidat: Greisenklage (Marco Heiles), 18 Transkriptionen",
    "labels": [
-    "area:pipeline",
+    "area:data",
     "auto:blocked",
-    "effort:small",
+    "effort:large",
     "ingest",
-    "wait:kzw"
+    "wait:extern"
    ]
   },
   {
-   "nummer": 651,
-   "titel": "Ingest-Kandidat: Greisenklage (Marco Heiles), 18 Transkriptionen",
+   "nummer": 710,
+   "titel": "Ingest-Desiderata aus dem Mantis-Projekt MHDBDB_TEXTE (2015 bis 2017): 38 Texte ohne Korpus-Zuordnung",
+   "labels": [
+    "area:data",
+    "auto:pair",
+    "effort:large",
+    "ingest"
+   ]
+  },
+  {
+   "nummer": 730,
+   "titel": "Ingest-Kandidat: Rontzier, Kunstbuch von mancherley Essen (Wolfenbüttel 1598), Transkription Ralf Vitasek",
    "labels": [
     "area:data",
     "auto:blocked",

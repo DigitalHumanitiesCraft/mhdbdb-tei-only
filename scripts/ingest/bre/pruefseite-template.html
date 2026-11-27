@@ -78,7 +78,7 @@ footer{max-width:1436px;margin:20px auto 50px;padding:0 24px}
 <li>Am Ende <strong>JSON exportieren</strong> (für das Einspielen) und bei Bedarf den HTML-Bericht (zum Lesen). Zum Fortsetzen diese Seite öffnen und die JSON-Datei importieren.</li>
 </ol>
 <p>Der Arbeitsstand wird in diesem Browser für diesen Dateipfad gespeichert. Vor dem Verschieben der Datei oder dem Wechsel des Browsers bitte JSON exportieren.</p>
-<p>Der Text der Verse stammt aus den Transkriptionen im Brevitas-Wiki (Silvan Wagner, CC BY-NC-SA 4.0), wie sie in <code>ingest/bre/BRE_*.tei.xml</code> stehen. Lemmata, Wortarten und Bedeutungen kommen aus dem MHDBDB-Lexikon. Die Druckausgabe wurde weder für die Zuweisungen noch für diese Seite verwendet.</p>
+<p>Der Text der Verse stammt aus den Transkriptionen im Brevitas-Wiki (Silvan Wagner, CC BY-NC-SA 4.0), wie sie in <code>ingest/bre/BRE_*.tei.xml</code> stehen. Lemmata, Wortarten und Bedeutungen kommen aus dem MHDBDB-Lexikon. Die Druckausgabe wurde für die maschinellen Zuweisungen nicht verwendet. Die Vorschläge der Session im Lemma-Verdacht stützen sich, wo sich der Vers sicher zuordnen ließ, auch auf die Übersetzung der Druckausgabe (lokal gelesen, ohne Wortlaut auf dieser Seite).</p>
 <p id="dataset"></p>
 </details>
 </header>
@@ -133,8 +133,17 @@ function lemmaLink(id){const m=/^lemma_(\d+)/.exec(id);return m?', <a target="_b
 function valueLabel(c,v){return c.phase==='pos'?posLabel(v):v;}
 function korrekturOptions(c){return [...c.alternativen.map(a=>({id:a.id,label:c.phase==='pos'?posLabel(a.id):a.label})),...(c.phase==='lemma'?[{id:'kein Lemma',label:'kein Lemma (kein Wort des Lexikons passt)'}]:[]),{id:'frei',label:'andere Angabe (Freitext)'}];}
 
+const URTEIL={ja:'Lemma stimmt','nein':'Lemma falsch','?':'nicht zu entscheiden'};
+function vorschlagHTML(c){
+ const v=c.vorschlag;if(!v)return '';
+ return '<div class="suggestion vorschlag"><strong>Vorschlag der Session nach Durchsicht '+(v.grundlage==='Druck'?'mit der Druckausgabe (Vers der Übersetzung zugeordnet)':'des Kontexts (keine sichere Zuordnung zur Druckausgabe)')+', nicht bestätigt: '+esc(URTEIL[v.urteil])+'</strong>'+(v.korrektur?'<p>Passendes Lemma: '+esc(v.korrektur)+lemmaLink(v.korrektur)+'</p>':'')+(v.notiz?'<p><small>'+esc(v.notiz)+'</small></p>':'')+'</div>';
+}
 function groupIntro(g){
  const datei='<code>'+esc(g.datei)+'</code>';
+ if(g.vorgesichtet){
+  const s=g.schichten;
+  return g.anzahl+' von '+g.gesamt+' Zeilen aus '+datei+'. Bei diesen Wörtern passte <strong>keine</strong> Bedeutung des zugewiesenen Lemmas: Verdacht auf ein falsches Lemma. Die Session hat alle '+g.gesamt+' Zeilen schon durchgesehen (Kontext, Lexikon und, wo sich der Vers sicher der Übersetzung der Druckausgabe zuordnen ließ, diese Übersetzung) und zu jeder ein Urteil vorgeschlagen. <strong>Gezeigt werden alle '+s['?'].gezogen+' Zeilen, bei denen die Session nicht entscheiden konnte</strong>, dazu zur Kontrolle der Urteile '+s['nein'].gezogen+' von '+s['nein'].gesamt+' „Lemma falsch“ und '+s['ja'].gezogen+' von '+s['ja'].gesamt+' „Lemma stimmt“ (feste Stichprobe, Zufallswert '+DATA.seed+'). Die Urteile sind Vorschläge, nichts ist vorausgewählt. Wenn sich in den Kontrollzeilen Fehler finden, sind auch die übrigen Urteile mit Vorsicht zu lesen. Bitte prüfen, ob das <strong>Lemma</strong> stimmt.';
+ }
  if(!g.stichprobe){
   const auto=g.ids.filter(id=>byId[id].sicherheit==='Lemma: auto-single').length;
   return 'Alle '+g.anzahl+' Zeilen aus '+datei+'. Bei diesen Wörtern passte <strong>keine</strong> Bedeutung des zugewiesenen Lemmas: Verdacht auf ein falsches Lemma. '+auto+' davon haben ihr Lemma ohne Blick auf den Satz bekommen, weil das Lexikon die Schreibung nur unter diesem einen Lemma kennt („dorffen“ steht unter <em>durfen</em>, meint aber Dörfer). Bitte prüfen, ob das <strong>Lemma</strong> stimmt; wenn nicht, das richtige Lemma eintragen oder „kein Lemma“ wählen. Die Begründung stammt aus der Bedeutungsphase.';
@@ -147,8 +156,9 @@ function contextHTML(st){
 }
 function meta(c){return '<h3>'+esc(GROUP_TITLE[c.kurz])+' Nr. '+c.nr+', „'+esc(c.wort)+'“ <span class="badge">'+esc(c.zeuge)+'</span></h3><p class="muted">'+esc(c.text)+', <code>'+esc(c.datei)+'</code>, Zeile '+c.nr+'</p>';}
 function suggestionHTML(c){
- const alt=c.alternativen.length?'<details><summary>Andere Möglichkeiten laut Lexikon ('+c.alternativen.length+')</summary><ul class="alts">'+c.alternativen.map(a=>'<li>'+esc(c.phase==='pos'?posLabel(a.id):a.label)+'</li>').join('')+'</ul></details>':'<p class="muted">Das Lexikon bietet keine andere Möglichkeit an.</p>';
- return '<div class="suggestion"><strong>Maschineller Vorschlag, nicht bestätigt</strong><p>'+esc(valueLabel(c,c.zuweisung.label))+lemmaLink(c.zuweisung.id)+'</p><p><small>Sicherheit: '+esc(SICHERHEIT[c.sicherheit]||c.sicherheit)+'</small></p>'+(c.begruendung?'<p><small>'+(c.kurz==='verdacht'?'Begründung des Modells in der Bedeutungsphase':'Begründung des Modells')+':</small> '+esc(c.begruendung)+'</p>':'')+alt+'</div>';
+ const lex=c.alternativen.filter(a=>!a.label.startsWith('Vorschlag der Session'));
+ const alt=lex.length?'<details><summary>Andere Möglichkeiten laut Lexikon ('+lex.length+')</summary><ul class="alts">'+lex.map(a=>'<li>'+esc(c.phase==='pos'?posLabel(a.id):a.label)+'</li>').join('')+'</ul></details>':'<p class="muted">Das Lexikon bietet keine andere Möglichkeit an.</p>';
+ return '<div class="suggestion"><strong>Maschineller Vorschlag, nicht bestätigt</strong><p>'+esc(valueLabel(c,c.zuweisung.label))+lemmaLink(c.zuweisung.id)+'</p><p><small>Sicherheit: '+esc(SICHERHEIT[c.sicherheit]||c.sicherheit)+'</small></p>'+(c.begruendung?'<p><small>'+(c.kurz==='verdacht'?'Begründung des Modells in der Bedeutungsphase':'Begründung des Modells')+':</small> '+esc(c.begruendung)+'</p>':'')+alt+'</div>'+vorschlagHTML(c);
 }
 function belegeHTML(c){return c.belege>1?'<p class="notice">Die Entscheidung gilt für <strong>alle '+c.belege+' Belege</strong> ('+esc(c.art)+'); gezeigt werden '+c.stellen.length+' Beispiele.</p>':'';}
 
@@ -192,7 +202,7 @@ function filtered(g){const f=$('filter').value,s=$('sicherheit').value,q=$('such
 function card(c){
  const a=answer(c.id),st=shown(a),opts=korrekturOptions(c);
  return '<article class="card" data-case="'+c.id+'" data-status="'+st+'"><span class="badge status">'+STATUS[st]+'</span>'+meta(c)+belegeHTML(c)+c.stellen.map(contextHTML).join('')+'<p class="question">'+FRAGE[c.phase]+'</p>'+suggestionHTML(c)
- +'<fieldset><legend>Passt der Vorschlag?</legend>'+['ja','nein'].map(v=>'<label class="option"><input type="radio" name="wahl-'+c.id+'" value="'+v+'"'+(a.wahl===v?' checked':'')+'>'+v+'</label>').join('')+'</fieldset>'
+ +'<fieldset><legend>Stimmt der maschinelle Vorschlag?</legend>'+['ja','nein'].map(v=>'<label class="option"><input type="radio" name="wahl-'+c.id+'" value="'+v+'"'+(a.wahl===v?' checked':'')+'>'+v+'</label>').join('')+'</fieldset>'
  +'<div class="korrektur"><label class="field-label" for="korr-'+c.id+'">Korrektur (nur bei „nein“)</label><select id="korr-'+c.id+'" data-field="korrekturWahl"><option value="">keine Korrektur</option>'+opts.map(o=>'<option value="'+esc(o.id)+'"'+(a.korrekturWahl===o.id?' selected':'')+'>'+esc(o.label)+'</option>').join('')+'</select><input data-field="korrekturFrei" aria-label="Eigene Angabe" placeholder="'+(c.phase==='lemma'?'richtiges Lemma: Kennung (lemma_…) oder Grundform':c.phase==='pos'?'Wortart, z. B. ADV':'Bedeutung: Kennung oder Beschreibung')+'" value="'+esc(a.korrekturFrei)+'"'+(a.korrekturWahl==='frei'?'':' hidden')+'></div>'
  +'<label class="field-label" for="anm-'+c.id+'">Anmerkung (immer möglich)</label><textarea id="anm-'+c.id+'" data-field="anmerkung" rows="3" placeholder="Begründung, Rückfrage, fehlendes Wort im Lexikon">'+esc(a.anmerkung)+'</textarea>'
  +'<div class="actions"><button class="primary" data-action="decided">Entscheidung festhalten</button><button data-action="open">? Nicht zu entscheiden</button><button data-action="unreviewed">Zurück auf Entwurf</button></div><p class="notice feedback" role="status"></p></article>';
@@ -223,7 +233,7 @@ $('report').addEventListener('click',()=>download('weingruesse-147-ergebnisberic
 $('importButton').addEventListener('click',()=>$('importFile').click());
 $('importFile').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{const next=validate(JSON.parse(await f.text()));if(Object.keys(state.answers).length&&!confirm('Der Import ersetzt den derzeitigen Arbeitsstand. Vorher bei Bedarf JSON exportieren. Import fortsetzen?'))return;state=next;$('reviewer').value=state.reviewer;save();render();$('save').textContent='Import vollständig geprüft und übernommen.';}catch(err){$('save').textContent='Import abgelehnt: '+err.message;}finally{e.target.value='';}});
 (function intro(){const g=DATA.groups;$('umfang').innerHTML='Diese Seite zeigt <strong>'+DATA.cases.length+' Zeilen</strong>: '+g.map(x=>x.stichprobe?'eine Stichprobe von '+x.anzahl+' der '+x.gesamt+' Zeilen aus <code>'+esc(x.datei)+'</code>':'alle '+x.anzahl+' Zeilen aus <code>'+esc(x.datei)+'</code>').join(', ')+'. Die Wortformen stammen aus den Weingrüße-Zeugen in <code>ingest/bre/</code>; Lemma, Wortart und Bedeutung hat die Maschine zugewiesen, wo das Lexikon mehrere Möglichkeiten kennt, mit einem Sprachmodell (Claude Sonnet).';})();
-$('dataset').textContent='Gebaut am '+DATA.date+' aus Commit '+DATA.commit.slice(0,12)+', Prüfpaket '+DATA.fingerprint+', Zufallswert der Stichprobe '+DATA.seed+'. Die SHA-256-Prüfsummen der vier TSV-Dateien und der benutzten TEI-Dateien stehen im JSON-Export.';
+$('dataset').textContent='Gebaut am '+DATA.date+' aus Commit '+DATA.commit.slice(0,12)+', Prüfpaket '+DATA.fingerprint+', Zufallswert der Stichprobe '+DATA.seed+'. Die SHA-256-Prüfsummen der fünf TSV-Dateien und der benutzten TEI-Dateien stehen im JSON-Export.';
 $('date').textContent=DATA.date;render();
 </script>
 </body>

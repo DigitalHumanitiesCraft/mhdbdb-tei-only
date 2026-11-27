@@ -12,7 +12,9 @@ Zwei Dateien, zwei Zustaendigkeiten:
                                 das die Seite nennen darf, ein Quartal ("2026-Q4")
                                 oder ein Zeitraum ("2026-Q4/2027-Q1") und/oder ein
                                 Titel; ohne Quartal erscheint es mit
-                                "Zeitpunkt offen". Unter "nicht_freigegeben" stehen
+                                "Zeitpunkt offen". Sortiert wird nach Quartal, bei
+                                gleichem Quartal in der Reihenfolge der Eintraege
+                                (#537). Unter "nicht_freigegeben" stehen
                                 Issues mit Grund (und optional "vorgeschlagen")
 
 Die Seite zeigt nur, was unter "freigegeben" steht. Ein Issue ohne Eintrag
@@ -175,6 +177,9 @@ def zeilen(stand, zeitplan, melden=True):
         if n in nicht:
             sys.exit(f"Zeitplan: #{n} steht unter freigegeben und unter nicht_freigegeben")
     ergebnis = []
+    # Bei gleichem Quartal gilt die Reihenfolge der Eintraege unter "freigegeben" (KZW, #537,
+    # 21.10.2026: CoReMA, Weingruesse, Greisenklage, Borte), nicht das Alphabet der Titel
+    rang = {n: k for k, n in enumerate(frei)}
     for i in stand.get("issues", []):
         n = str(i["nummer"])
         if AUSSCHLUSS_LABEL in i["labels"] and n in frei:
@@ -188,7 +193,7 @@ def zeilen(stand, zeitplan, melden=True):
         eintrag = frei[n]
         q = eintrag.get("quartal")
         titel = eintrag.get("titel") or bereinigt(i["titel"])
-        ergebnis.append(((q or "9999-Q9", titel.casefold()), titel,
+        ergebnis.append(((q or "9999-Q9", rang[n]), titel,
                          quartal_text(q) if q else "Zeitpunkt offen"))
     return sorted(ergebnis)
 
@@ -249,6 +254,12 @@ def selftest():
     reihe = zeilen(drei, {"freigegeben": {"5": {"quartal": "2027-Q1"}, "6": {"quartal": "2026-Q4/2027-Q1"},
                                           "7": {"quartal": "2026-Q4"}}}, melden=False)
     assert [t for _, t, _ in reihe] == ["T7", "T6", "T5"], reihe
+    # Gleiches Quartal: Reihenfolge der Freigabeliste, nicht das Alphabet (Z vor A)
+    gleich = {"issues": [{"nummer": n, "titel": f"Ingest: {t}", "labels": ["ingest"]}
+                         for n, t in ((8, "A-Text"), (9, "Z-Text"))]}
+    reihe = zeilen(gleich, {"freigegeben": {"9": {"quartal": "2027-Q1"}, "8": {"quartal": "2027-Q1"}}},
+                   melden=False)
+    assert [t for _, t, _ in reihe] == ["Z-Text", "A-Text"], reihe
     for falsch in ("2027-Q1/2026-Q4", "2026-Q4/2026-Q4", "2026-Q5", "2026-Q4-2027-Q1"):
         try:
             quartal_text(falsch)
