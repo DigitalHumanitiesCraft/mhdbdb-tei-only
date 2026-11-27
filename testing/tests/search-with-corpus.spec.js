@@ -245,11 +245,11 @@ test.describe('Search Functions with Pre-Built Corpus', () => {
 
     // ==================== DATA INTEGRITY TEST ====================
 
-    test('Data integrity: All 667 texts accessible', async ({ page }) => {
+    test('Data integrity: All 688 texts accessible', async ({ page }) => {
         // Check the included count display
         const includedCount = await page.locator('#includedCount').textContent();
-        expect(parseInt(includedCount)).toBe(667);
-        console.log(`📊 Texts loaded: ${includedCount}/667`);
+        expect(parseInt(includedCount)).toBe(688);
+        console.log(`📊 Texts loaded: ${includedCount}/688`);
     });
 
     test('Data integrity: TEI queries section is visible', async ({ page }) => {

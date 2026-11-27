@@ -1169,7 +1169,7 @@ def main():
     ap.add_argument("--trocken", action="store_true", help="nichts schreiben")
     ap.add_argument("--ueberschreiben", action="store_true",
                     help="eine vorhandene Zieldatei ersetzen (verwirft Annotation und Normdaten)")
-    ap.add_argument("--ausgabe-dir", type=Path, default=bc.INGEST_DIR)
+    ap.add_argument("--ausgabe-dir", type=Path, default=bc.TEI_DIR)
     ap.add_argument("--datum", default=datetime.date.today().isoformat(),
                     help="Datum fuer revisionDesc, JJJJ-MM-TT (Vorgabe: heute)")
     a = ap.parse_args()

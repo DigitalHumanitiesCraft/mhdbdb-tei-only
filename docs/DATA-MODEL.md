@@ -60,7 +60,7 @@ Eight authority files – seven content-bearing controlled vocabularies (in the 
 
 All files use namespace `xmlns="http://www.tei-c.org/ns/1.0"`.
 
-#### lexicon.xml (~34 MB, 43,712 entries)
+#### lexicon.xml (~34 MB, 43,713 entries)
 
 ```xml
 <TEI><text><body><div type="lexicon">
@@ -291,7 +291,7 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
   variants: {
     "brot": "lemma_879",   // normalized form → lemma ID
     "brott": "lemma_879",
-    // ... 234,264 mappings (2026-10-02). Where several lemmata claim a form
+    // ... 234,265 mappings (2026-10-02). Where several lemmata claim a form
     // the value is the first candidate by Vorschrift B (v1.9.18, ADR-021, #378)
   },
 
@@ -328,7 +328,7 @@ The project uses pre-built JSON indexes to avoid runtime XML parsing.
 ```javascript
 {
   version: "4.x.x",
-  totalTexts: 667,
+  totalTexts: 688,
   totalLemmata: 42630,
 
   texts: [{
@@ -520,7 +520,7 @@ Three core build scripts:
 Third derived layer beside the two indexes. Reads **only** the two pre-built indexes (`data/authority-index.json.gz` + `data/corpus-index.json.gz`), never the XML sources, and emits a static JSON API into `api/` (one file per record except the lemmata; record counts in `api/index.json`), served as plain files by GitHub Pages:
 
 - `api/index.json` – root manifest (collection counts, source index versions)
-- `api/lemmata/index.json` – full lemma records as one bundle (43,712 records, no individual files)
+- `api/lemmata/index.json` – full lemma records as one bundle (43,713 records, no individual files)
 - `api/<coll>/{id}.json` + `api/<coll>/index.json` (summary list) for persons, works, concepts, genres, names, texts (texts stripped of the heavy `words`/`lemmata`/`lineStarts`/`lineEnds` arrays)
 - every emitted file carries `"license": "CC BY-NC-SA 4.0"`; `persons.works` is normalized from comma-string to array
 

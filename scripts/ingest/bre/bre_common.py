@@ -17,6 +17,7 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parents[3]
 CACHE_DIR = REPO / "temp" / "bre-wiki"
 INGEST_DIR = REPO / "ingest" / "bre"
+TEI_DIR = REPO / "tei"  # die 21 Zeugen BRE_*.tei.xml (seit der Registrierung, #147)
 MANIFEST = INGEST_DIR / "revisionen.tsv"
 SEGMENTIERUNG = INGEST_DIR / "segmentierung.tsv"
 

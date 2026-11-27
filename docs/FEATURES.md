@@ -114,7 +114,7 @@ Full-text immersive reader with multi-lemma highlighting and rich metadata.
 
 ### Dictionary, the A–Z register (#117)
 
-A conventional dictionary entry page (`woerterbuch.html`) for all 43,712 lemma pages.
+A conventional dictionary entry page (`woerterbuch.html`) for all 43,713 lemma pages.
 
 **How it works:**
 - An A–Z index bar (plus `#` for numeric lemmata) with the entry count per letter as a tooltip
@@ -236,7 +236,7 @@ Until 2026-09 only the multi-lemma search read the selection at all; the other t
 **Multi-lemma search „Im selben Vers" (#106 point 8):**
 - Co-occurrence restricted to a shared `<l>` (syntactically tighter than the word window of the proximity search)
 - Data basis: `lineStarts[]`/`lineEnds[]` from corpus index v4.1.0+, no new build step
-- Verse texts only (600 of 667); prose is skipped automatically
+- Verse texts only (621 of 688); prose is skipped automatically
 - Hits name the verse number; expand and reader deep link as in the proximity search
 - URL routing: `#multi-lemma&lemmata=…&mode=verse`
 
@@ -245,7 +245,7 @@ Until 2026-09 only the multi-lemma search read the selection at all; the other t
 - Finds lemmata sitting exactly at the first or last `<w>` of an `<l>`
 - Use case: rhyme analysis, stylistics of verse endings („how often does Wolfram rhyme on `minne`?")
 - Hit list with the share per text („54 % of all `minne` occurrences in Tristan sit at the verse end"). Numerator and denominator both come from `text.lemmata`, so the ratio holds up even for tokens with multiple lemma references, unlike the rhyme pressure of the verse-ending profile: [CONTRACTS §H.5](CONTRACTS.md#h5-normalized-figures-in-the-remaining-tools)
-- Verse texts only (600 of 667, about 90 % of the corpus); prose is skipped automatically
+- Verse texts only (621 of 688, about 90 % of the corpus); prose is skipped automatically
 - Clicking a hit opens the reading view with highlighting
 
 **Word frequency analysis (#88):**
@@ -288,7 +288,7 @@ Until 2026-09 only the multi-lemma search read the selection at all; the other t
 - Below the intro and in the „Kein Begriff gefunden" box, a link to the Begriffshilfe (#498)
 
 **Text comparison (#108):**
-- Choose two texts through dropdown menus (all 667 sigles with title and author)
+- Choose two texts through dropdown menus (all 688 sigles with title and author)
 - Three lemma sets are computed: only in A, in both, only in B
 - Per lemma: frequency in A, frequency in B, absolute difference |A−B|
 - Sorting by frequency, difference or alphabetically, plus a substring filter on the lemma name
@@ -416,7 +416,7 @@ Under the title block, a lemma page shows „Als Wortbestandteil erfasst; kein e
 Concept-based similarity section on each lemma page.
 
 **How it works:**
-- Scans all 43,712 lemmata for shared concept references (pre-built `sense.conceptIds` in the authority index, extracted at build time from `<sense>`/`<ptr target="concepts.xml#...">`)
+- Scans all 43,713 lemmata for shared concept references (pre-built `sense.conceptIds` in the authority index, extracted at build time from `<sense>`/`<ptr target="concepts.xml#...">`)
 - Ranks by concept overlap with the current lemma
 - Displays top 50 as clickable chip links
 - Performance: client-side full scan over all lemmata (sub-100 ms in practice)
@@ -432,7 +432,7 @@ Static JSON API under `/api/`, served directly by GitHub Pages – stable, citab
 **What it offers:**
 - Root manifest at [`api/index.json`](https://dhcraft.org/mhdbdb-tei-only/api/index.json) listing all collections with counts
 - Individual records (`api/persons/person_445.json`, `api/works/work_WZB.json`, ...) plus a summary `index.json` per collection (persons, works, concepts, genres, names, texts)
-- Lemmata as a single bundle (`api/lemmata/index.json`, 43,712 full records) instead of 43k individual files
+- Lemmata as a single bundle (`api/lemmata/index.json`, 43,713 full records) instead of 43k individual files
 - Every file carries its license (`CC BY-NC-SA 4.0`)
 
 **Documentation:** human-readable docs page at [`api/index.html`](https://dhcraft.org/mhdbdb-tei-only/api/index.html) (German), linked from `hilfe-daten.html`.

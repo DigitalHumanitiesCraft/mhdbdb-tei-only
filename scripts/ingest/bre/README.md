@@ -2,7 +2,7 @@
 
 Ingest der Weingrüße aus der Hybridedition von Silvan Wagner (Issue [#147](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/147)): 21 Überlieferungszeugen, 15 Handschriften und 6 Drucke, transkribiert im [Brevitas-Wiki](https://wiki.brevitas.org/wiki/Dokumentation_Edition_Weingr%C3%BC%C3%9Fe). Aufgenommen wird die Überlieferung je Zeuge, nicht der Editionstext (Silvan, Mail vom 23.10.2026).
 
-> **Stand 2026-11-27: Stufe 0 und Phase 1 bis 3 für alle 21 Zeugen**, nach dem Muster in [`docs/DATA-MODEL.md` → Ingest procedure](../../../docs/DATA-MODEL.md#ingest-procedure-taking-in-new-texts). Geschrieben sind die Zeugen in `ingest/bre/BRE_*.tei.xml`. B2, d4 und d6 sind seit Silvans Antwort vom 26.11.2026 geschrieben (Stufe 0) und seit dem 27.11.2026 annotiert und mit Normdaten im Header (`23`). Die maschinellen Zuweisungen sind nicht geprüft, das Prüfpaket liegt in [`ingest/bre/pruefung/`](../../../ingest/bre/pruefung/README.md) und ist für die ersten 18 Zeugen gebaut; für B2, d4 und d6 gibt es noch kein Prüfpaket. Nichts davon ist in `tei/`, und `lexicon.xml` ist nicht verändert.
+> **Stand 2026-11-27: Stufe 0 und Phase 1 bis 3 für alle 21 Zeugen**, nach dem Muster in [`docs/DATA-MODEL.md` → Ingest procedure](../../../docs/DATA-MODEL.md#ingest-procedure-taking-in-new-texts). Seit der Registrierung am 27.11.2026 stehen die Zeugen in `tei/BRE_*.tei.xml`, die Werkeinträge in `authority-files/works.xml`, die Skripte lesen und schreiben dort (`bre_common.TEI_DIR`). B2, d4 und d6 sind seit Silvans Antwort vom 26.11.2026 geschrieben (Stufe 0) und seit dem 27.11.2026 annotiert und mit Normdaten im Header (`23`). Die maschinellen Zuweisungen sind nicht geprüft, das Prüfpaket liegt in [`ingest/bre/pruefung/`](../../../ingest/bre/pruefung/README.md) und ist für die ersten 18 Zeugen gebaut; für B2, d4 und d6 gibt es noch kein Prüfpaket. Live sind die Texte mit den maschinellen und den freigegebenen Zuweisungen; was offen blieb, geht auf das abschließende Blatt für Silvan. `lexicon.xml` hat ein neues Lemma (`lemma_79831` gesprinc, drei Bedeutungen, Entscheidung KZW 26.11.2026).
 
 ## Quelle und Rechte
 
@@ -128,7 +128,7 @@ Gemessen am 27.11.2026 mit `python -P -E scripts/ingest/bre/21-abdeckung.py --ma
 |---|---|--:|--:|--:|--:|--:|
 | M1 | BRE_CGM216 | 93 | 84 (90.3 %) | 80 (86.0 %) | 81 (87.1 %) | 50 (53.8 %) |
 | B | BRE_CGM713 | 1028 | 972 (94.6 %) | 946 (92.0 %) | 967 (94.1 %) | 535 (52.0 %) |
-| S | BRE_COD13711 | 1504 | 1399 (93.0 %) | 1359 (90.4 %) | 1388 (92.3 %) | 751 (49.9 %) |
+| S | BRE_COD13711 | 1504 | 1399 (93.0 %) | 1359 (90.4 %) | 1389 (92.4 %) | 751 (49.9 %) |
 | H1 | BRE_CPG98 | 268 | 254 (94.8 %) | 248 (92.5 %) | 254 (94.8 %) | 152 (56.7 %) |
 | d1 | BRE_D1 | 2742 | 2587 (94.3 %) | 2510 (91.5 %) | 2572 (93.8 %) | 1406 (51.3 %) |
 | d2 | BRE_D2 | 2674 | 2505 (93.7 %) | 2462 (92.1 %) | 2497 (93.4 %) | 1396 (52.2 %) |
@@ -138,16 +138,16 @@ Gemessen am 27.11.2026 mit `python -P -E scripts/ingest/bre/21-abdeckung.py --ma
 | d6 | BRE_D6 | 1746 | 1620 (92.8 %) | 1562 (89.5 %) | 1603 (91.8 %) | 956 (54.8 %) |
 | U | BRE_GEORG1508 | 1702 | 1563 (91.8 %) | 1526 (89.7 %) | 1556 (91.4 %) | 931 (54.7 %) |
 | R | BRE_GUELF296 | 475 | 447 (94.1 %) | 435 (91.6 %) | 445 (93.7 %) | 282 (59.4 %) |
-| F | BRE_HS5339A | 3045 | 2833 (93.0 %) | 2789 (91.6 %) | 2821 (92.6 %) | 1560 (51.2 %) |
-| N2 | BRE_MERKEL966 | 961 | 862 (89.7 %) | 798 (83.0 %) | 841 (87.5 %) | 508 (52.9 %) |
-| B1 | BRE_MGQ2370 | 2443 | 2269 (92.9 %) | 2189 (89.6 %) | 2255 (92.3 %) | 1264 (51.7 %) |
+| F | BRE_HS5339A | 3045 | 2833 (93.0 %) | 2789 (91.6 %) | 2822 (92.7 %) | 1560 (51.2 %) |
+| N2 | BRE_MERKEL966 | 961 | 862 (89.7 %) | 798 (83.0 %) | 842 (87.6 %) | 508 (52.9 %) |
+| B1 | BRE_MGQ2370 | 2443 | 2269 (92.9 %) | 2189 (89.6 %) | 2256 (92.3 %) | 1264 (51.7 %) |
 | B2 | BRE_MGQ495 | 2498 | 2186 (87.5 %) | 2093 (83.8 %) | 2164 (86.6 %) | 1181 (47.3 %) |
 | L | BRE_MS1590 | 648 | 605 (93.4 %) | 578 (89.2 %) | 601 (92.7 %) | 345 (53.2 %) |
-| D | BRE_MSCRM50 | 1801 | 1691 (93.9 %) | 1651 (91.7 %) | 1676 (93.1 %) | 961 (53.4 %) |
+| D | BRE_MSCRM50 | 1801 | 1691 (93.9 %) | 1651 (91.7 %) | 1677 (93.1 %) | 961 (53.4 %) |
 | C | BRE_MSGER74 | 693 | 639 (92.2 %) | 607 (87.6 %) | 639 (92.2 %) | 367 (53.0 %) |
-| W1 | BRE_OCT145 | 3085 | 2897 (93.9 %) | 2791 (90.5 %) | 2862 (92.8 %) | 1562 (50.6 %) |
-| W | BRE_QUART564 | 1008 | 939 (93.2 %) | 919 (91.2 %) | 935 (92.8 %) | 536 (53.2 %) |
-| gesamt |  | 35132 | 32706 (93.1 %) | 31737 (90.3 %) | 32479 (92.4 %) | 18393 (52.4 %) |
+| W1 | BRE_OCT145 | 3085 | 2897 (93.9 %) | 2791 (90.5 %) | 2864 (92.8 %) | 1562 (50.6 %) |
+| W | BRE_QUART564 | 1008 | 939 (93.2 %) | 919 (91.2 %) | 936 (92.9 %) | 536 (53.2 %) |
+| gesamt |  | 35132 | 32706 (93.1 %) | 31737 (90.3 %) | 32487 (92.5 %) | 18393 (52.4 %) |
 
 ### Phase 1: Lemma
 
@@ -163,17 +163,17 @@ Die mehrdeutigen hat Claude Sonnet am Kontext entschieden (Abschnitt „LLM-Ents
 
 Die Kandidaten kommen aus dem Lemma, abgebildet auf das 19er-Set (`docs/POS-TAGSET.md`): `ART` wird `DET`, `GRA` fällt weg (§3: Graduierung ist kein eigenes Tag, `wzb-pos-assign.py` bildet es auf `ADV` ab, das widerspricht §3). Ein Lemma, das nur `GRA` trägt, bekommt `ADJ`. Steht `CNJ` unter den Kandidaten, sind auch `CCNJ` und `SCNJ` erlaubt.
 
-`14-pos-assign.py` gibt 13928 Wörter mit genau einer Wortart aus, `15-apply.py --phase pos` von 18777 mehrdeutigen 17809 entschieden (bulk-llm 14828, instance-llm 2981), 397 abstain, 571 Hapaxe (17809 + 397 + 571 = 18777). Zusammen 31737 `@pos`. Stand mit B2, d4 und d6; ohne sie waren es 12081, 16163 mehrdeutig, 351 abstain und 27405.
+`14-pos-assign.py` gibt 13936 Wörter mit genau einer Wortart aus, `15-apply.py --phase pos` von 18769 mehrdeutigen 17800 entschieden (bulk-llm 14819, instance-llm 2981), 397 abstain, 572 Hapaxe (17800 + 397 + 572 = 18769). Zusammen 31737 `@pos` (Zählung von `21-abdeckung.py`). Stand mit B2, d4 und d6; ohne sie waren es 12081, 16163 mehrdeutig, 351 abstain und 27405.
 
 Ein gültiger Tag, der nicht unter den Kandidaten des Lemmas steht, wird nicht geschrieben, sondern abstain mit dem Präfix „[verworfen: X ist kein Kandidat]“ in der Begründung (`12-entscheidungen.py`). **Befund:** 150 der 399 abstain betreffen *zuo* (`lemma_7770`), das im Lexikon nur `CNJ` und `PRP` hat. Als Gradwort („zu vil“) oder Verbpartikel wäre es `ADV`. Das ist eine Lücke im Lemma, kein Fehler der Zuweisung (Zählung: `decision_type` abstain in `phase2/pos-pending.tsv`, nach `lemma_id`).
 
 ### Phase 3: Bedeutung und Variantentyp
 
-`16-sense-assign.py` und `15-apply.py --phase sense` geben aus: 23433 Wörter mit genau einem Sense direkt, von 9273 mehrdeutigen 9046 entschieden (bulk-llm 7206, instance-llm 1840), 97 abstain, 130 Hapaxe (9046 + 97 + 130 = 9273). Zusammen 32479 `@ana`. Stand mit B2, d4 und d6; ohne sie waren es 20272, 7973 mehrdeutig, 76 abstain und 28049. Kein Lemma ohne Sense. `@ana` steht nie ohne `@lemmaRef`, und der Sense gehört immer zum Lemma (`21-abdeckung.py`).
+`16-sense-assign.py` und `15-apply.py --phase sense` geben aus: 23433 Wörter mit genau einem Sense direkt, von 9273 mehrdeutigen 9054 entschieden (bulk-llm 7214, instance-llm 1840), 88 abstain, 131 Hapaxe (9054 + 88 + 131 = 9273). Zusammen 32487 `@ana`. Stand mit B2, d4 und d6; ohne sie waren es 20272, 7973 mehrdeutig, 76 abstain und 28049. Kein Lemma ohne Sense. `@ana` steht nie ohne `@lemmaRef`, und der Sense gehört immer zum Lemma (`21-abdeckung.py`).
 
 **Befund: Die Sense-abstains finden falsche Lemmata aus Phase 1.** Passt keine Bedeutung des Lemmas, ist meist das Lemma falsch. 190 der 233 abstain haben ihr Lemma aus dem Auto-Match: die Form steht in `variants.xml` nur unter einem Lemma und hat es ohne Kontextprüfung bekommen, ist hier aber ein anderes Wort, etwa „dorffen“ (Dörfer) unter *durfen* oder „imm“ (ihm) unter *ime*. Die übrigen 43 haben ihr Lemma aus der LLM-Entscheidung (39 bulk, 4 instance). Alle 233 stehen in `ingest/bre/pruefung/lemma-verdacht.tsv` (Ausgabe von `20-pruefpaket.py`). Die Wortart dieser Wörter ist mit dem Lemma vererbt und damit ebenso verdächtig. Am 26.11.2026 sind 160 davon korrigiert worden (`pruefung/lemma-korrekturen.tsv`, `24-lemma-korrektur.py`); Phase 2 und 3 sind für diese Tokens danach neu gelaufen, 12 Tokens der Verdachtsliste bleiben offen.
 
-**`@corresp` nur bei genau einem Treffer** (Algorithmus wie `wzb-sense-apply.py`): Typen aus `variants.xml`, deren Form normalisiert gleich der Wortform ist, die zum Lemma gehören und im `@ana` des Senses stehen. `18-corresp.py` gibt aus: 18393 von 32479 Wörtern mit `@ana` gesetzt, 4533 ohne Typ, 9534 mit mehreren Typen (`phase3/corresp-mehrdeutig.tsv`), 19 mit `<supplied>` ausgenommen (18393 + 4533 + 9534 + 19 = 32479).
+**`@corresp` nur bei genau einem Treffer** (Algorithmus wie `wzb-sense-apply.py`): Typen aus `variants.xml`, deren Form normalisiert gleich der Wortform ist, die zum Lemma gehören und im `@ana` des Senses stehen. `18-corresp.py` gibt aus: 18393 von 32487 Wörtern mit `@ana` gesetzt, 4541 ohne Typ, 9534 mit mehreren Typen (`phase3/corresp-mehrdeutig.tsv`), 19 mit `<supplied>` ausgenommen (18393 + 4541 + 9534 + 19 = 32487).
 
 - **Welche Form zählt bei `<expan>`: die aufgelöste.** Die Abkürzungsgraphie ist nicht überliefert: das Wiki schreibt nur die Auflösung in Klammern, und Stufe 0 macht daraus `<expan>` ohne `<abbr>`. Eine andere Form als die aufgelöste gibt es im TEI nicht, und Index und Suche lesen ebenfalls itertext. 1211 der gesetzten `@corresp` stehen auf einem Wort mit `<expan>`.
 - **Wörter mit `<supplied>` bekommen keinen Typ:** die ergänzten Buchstaben stehen nicht in der Handschrift, die Form wäre eine des Herausgebers.
@@ -202,9 +202,9 @@ Bis zur ersten Review-Runde las der Test nur die Steckbriefe und hielt sie für 
 - **Segmentierung (Punkt 5 in #147).** Silvans Antwort (12.11.2026) benennt die Hauptseite als Grundlage für die Werkzuordnung, die Synopsen sind ergänzend (Abschnitt „Werkzuordnung“ oben). Die Abweichungen zwischen beiden stehen in `ingest/bre/hauptseite-abgleich.tsv`, Die drei offenen Fälle sind seit Silvans Antwort vom 26.11.2026 entschieden: B2 (Fehlansatz) bleibt ein eigener kurzer Abschnitt mit Notiz `ANSATZ_NOTIZ`, bei d4 war die Liste der Hauptseite falsch und ist korrigiert (Revision 31248, keine Abweichung mehr), und die drei in Klammern gesetzten Texte von d6 (Allerliebster Trunck, Allerliebster Trost, Ein Kron) sind in den Weinsegen Edles Abkülen eingearbeitet (`EINGEARBEITET`: kein eigener Abschnitt, Anfang je durch eine `<note type="editorial">` markiert). Markiert sind nur die drei Texte, deren Anfang eine Synopse der Einzeltextseiten als ersten Vers führt; die übrigen drei Klammertexte der Hauptseite für d6 (Lieber Rebenknecht, Libe Rebenprü, Süsser Geschmack) haben dort keine Zeile für d6, ihre Ausschnitte stehen unmarkiert im Text. Das Wort „ENDE“ und der vierversige Schlussreim von d6 gehören laut Hauptseite zu keinem Text: eine Notiz davor (`SCHLUSS`) grenzt sie ab, die Zeilen bleiben im letzten Abschnitt (wie „S R F“ in d3 und d5, dafür gibt es noch keinen eigenen Mechanismus).
 - **Epoche: entschieden.** Der zweite Teil der Weingrüße in D (Bl. 217r–221v) stammt laut Druckfahnen (Kapitel IV) aus dem 17. Jahrhundert und liegt außerhalb des Korpusumfangs (Texte vor 1600, #263). `02` schneidet ihn ab (`TEIL_AUSGESCHLOSSEN` in `bre_common.py`), nachdem die Segmentierung den ganzen Zeugen gesehen hat. Der Grund steht im Header von `BRE_MSCRM50.tei.xml` und als Kommentar an der Schnittstelle. Tests in `test_bre.py`: ein Text bleibt, einer entfällt, die Zeilenbilanz geht auf, der Grund steht im Header.
 
-## Warum `ingest/bre/` und nicht `tei/`
+## Registrierung in `tei/` (27.11.2026, #147)
 
-Solange die Header Platzhalter tragen, würde `build-corpus-index.py` sie aus `tei/` mitsamt den Platzhaltern indizieren, und die Cross-Ref-Prüfung liefe ins Leere. Dieselbe Begründung wie bei ARI, siehe [`ingest/ari/README.md`](../../../ingest/ari/README.md).
+Die 21 Zeugen sind mit `git mv` von `ingest/bre/` nach `tei/` gezogen worden, ihre Werkeinträge aus `ingest/bre/works-eintraege.xml` nach `authority-files/works.xml` (Block „Weingrüße“ vor „Weltchronik“, nach Titel sortiert), die Sprachstufe im Header steht wie im ganzen Korpus auf `gmh` (`23-normdaten.py`; die Unterscheidung nach Sprachstufen ist #118). Danach lief die Kette der Data-Change-Lifecycle: `extract-variants.py --apply` (keine neuen Formen, 14 geänderte Formtexte, 1922 geänderte Belegzahlen, 16 umgeklappte Zuordnungen, quittiert in `scripts/audit/variants-flips-ack.json`), `build-lemma-pos.py`, die beiden Indexe (Corpus 4.3.0, Authority 1.10.0), `build-api.py`, `build-begriffshilfe.py`. Das Skript `build-api.py` lässt jetzt Siglen mit Unterstrich zu (`BRE_CGM216`, `work_BRE_CGM216`). Die #370-Ratsche (lemmatisierte Tokens ohne `@corresp`) steht für die 21 Sigel auf ihrem heutigen Wert, zusammen 14.313 Tokens (32.706 lemmatisierte minus 18.393 mit `@corresp`): 9534 mit mehreren Typen, 4541 ohne Typ im Variantenverzeichnis, 19 mit `<supplied>`, 219 ohne `@ana`; die Ratsche zählt 14.976 in 23 Sigeln einschließlich EKL und WZB. Der Befund zu den 8166 auflösbaren Zirkumflex-Paaren steht oben bei Phase 3.
 
 ## Für die Erratum-Liste an Silvan
 

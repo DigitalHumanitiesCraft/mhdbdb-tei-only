@@ -139,7 +139,7 @@ def zuteilung(groessen, n):
 def lade_tei():
     """xml_id -> (Element, Datei) fuer alle <w> der BRE-Zeugen."""
     woerter = {}
-    dateien = sorted(bc.INGEST_DIR.glob("BRE_*.tei.xml"))
+    dateien = sorted(bc.TEI_DIR.glob("BRE_*.tei.xml"))
     if not dateien:
         fehler("keine TEI-Datei unter ingest/bre/")
     for pfad in dateien:
@@ -303,7 +303,7 @@ def main():
     quellen[f"ingest/bre/pruefung/{VORSCHLAEGE.name}"] = sha256(VORSCHLAEGE)
     benutzt = sorted({s["sigle"] for f in faelle for s in f["stellen"]})
     for sig in benutzt:
-        p = bc.INGEST_DIR / f"{sig}.tei.xml"
+        p = bc.TEI_DIR / f"{sig}.tei.xml"
         quellen[f"ingest/bre/{p.name}"] = sha256(p)
     fp = hashlib.sha256(json.dumps({"faelle": faelle, "gruppen": gruppen}, ensure_ascii=False,
                                    sort_keys=True).encode("utf-8")).hexdigest()[:16]

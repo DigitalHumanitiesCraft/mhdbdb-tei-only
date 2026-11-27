@@ -22,13 +22,13 @@ test.describe('Playground Corpus Loading', () => {
         await expect(fileBrowser).toBeVisible({ timeout: 60000 });
     });
 
-    test('corpus loads successfully with 667 texts', async ({ page }) => {
+    test('corpus loads successfully with 688 texts', async ({ page }) => {
         // Wait for auto-load to complete
         await page.waitForSelector('#fileBrowserSection', { state: 'visible', timeout: 60000 });
 
-        // Check included count shows 667
+        // Check included count shows 688
         const includedCount = await page.locator('#includedCount').textContent();
-        expect(parseInt(includedCount)).toBe(667);
+        expect(parseInt(includedCount)).toBe(688);
     });
 
     test('file list populated after corpus load', async ({ page }) => {
@@ -252,7 +252,7 @@ test.describe('Playground: Korpusauswahl wirkt (#204)', () => {
         await page.locator('#fileFilter').fill('mori');
         await expect(hinweis).toBeVisible();
         await expect(hinweis).toContainText('nur die Anzeige dieser Liste');
-        await expect(hinweis).toContainText('667 Texte');
+        await expect(hinweis).toContainText('688 Texte');
 
         // One-Click-Korrektur: Auswahl folgt dem Filter, Hinweis erledigt sich
         await page.locator('#mismatchUseFiltered').click();
@@ -346,7 +346,7 @@ test.describe('Playground: Korpusauswahl wirkt (#204)', () => {
      * darin vorkam. Alle drei am 15.09. im laufenden Playground gemessen.
      */
     test('Reim-Woerterbuch verwirft das Ergebnis, das ohne die Sigle gerechnet wurde', async ({ page }) => {
-        // Ohne Verwerfen entsteht die Kopfzeile "Filter „CR" → 667 Texte":
+        // Ohne Verwerfen entsteht die Kopfzeile "Filter „CR" → 688 Texte":
         // die Filterangabe kommt aus dem neuen State, die Zahl aus dem alten
         // Ergebnis. Eine Aussage, die sich selbst widerspricht.
         await page.locator('#showRhymeDictionaryBtn').click();
@@ -361,7 +361,7 @@ test.describe('Playground: Korpusauswahl wirkt (#204)', () => {
 
         await expect(page.locator('#rdTextFilter')).toHaveValue('CR');
         expect(await page.evaluate(() => window.playground.ui.rhymeDictionary.state.result)).toBeNull();
-        await expect(page.locator('#resultsContainer')).not.toContainText('667 Texte');
+        await expect(page.locator('#resultsContainer')).not.toContainText('688 Texte');
     });
 
     test('Reim-Woerterbuch: die Filterzeile sagt bei einem Text „1 Text"', async ({ page }) => {

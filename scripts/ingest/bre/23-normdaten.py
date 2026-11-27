@@ -11,7 +11,7 @@ Was das Skript tut, an Ort und Stelle in ingest/bre/BRE_*.tei.xml, NUR im Header
 nicht neu laufen, das verlaere die Annotation der Phasen 1 bis 3):
   msIdentifier/@corresp, titleStmt/title (= Werktitel; msName bleibt), das @corresp des
   digitalIntermediary, die category der Gattung, die Autoren in titleStmt und particDesc,
-  eine <change>-Zeile. Die Sprachstufe (language ident="TBD", #118) bleibt unberuehrt.
+  eine <change>-Zeile. Die Sprachstufe (language ident="TBD") wird auf gmh gesetzt wie im ganzen Korpus (#118 differenziert sie spaeter).
 
 Woher die Autorschaft kommt: aus den Texten, die in der jeweiligen TEI-Datei stehen. Jeder
 Text traegt einen Kommentar "Text N: <text_titel> (<Signatur>, <Blatt>)" (von 02 geschrieben);
@@ -50,6 +50,7 @@ XML_ID = "{http://www.w3.org/XML/1998/namespace}id"
 XML_LANG = "{http://www.w3.org/XML/1998/namespace}lang"
 
 ZEUGEN_TSV = bc.INGEST_DIR / "zeugen.tsv"
+SPRACHE_TEXT = "Mittelhochdeutsch (pauschale Angabe des Korpus; die Texte sind frühneuhochdeutsch, Sprachstufe offen, #118)"
 FRAGMENT = bc.INGEST_DIR / "works-eintraege.xml"
 WORKS = bc.REPO / "authority-files" / "works.xml"
 PERSONS = bc.REPO / "authority-files" / "persons.xml"
@@ -320,6 +321,16 @@ def setze_header(root, sigle, werktitel, pids, personen, genre, heute):
         ersetze_folge(cat.getparent(), [cat], [neu], einzug(cat))
         geaendert.append("Gattung")
 
+    # Sprachstufe: wie bei allen anderen Texten des Korpus pauschal gmh (Registrierung in tei/, #147);
+    # die Differenzierung der Sprachstufen ist #118 und betrifft das ganze Korpus
+    sprache = genau_eins(".//t:langUsage/t:language", "language")
+    if sprache.get("ident") == "TBD":
+        sprache.set("ident", "gmh")
+        sprache.text = SPRACHE_TEXT
+        geaendert.append("Sprache")
+    elif sprache.get("ident") != "gmh" or sprache.text != SPRACHE_TEXT:
+        raise bc.HarterFehler(f"{sigle}: unerwartete Sprachangabe {sprache.get('ident')!r}")
+
     # Personen im particDesc
     lp = genau_eins(".//t:particDesc/t:listPerson", "particDesc/listPerson")
     alte_p = lp.findall(q("person"))
@@ -379,7 +390,7 @@ def fragment_bauen(eintraege):
     wurzel = E("listBibl")
     wurzel.append(etree.Comment(
         " Werkeintraege der BRE-Zeugen (#147), erzeugt von scripts/ingest/bre/23-normdaten.py. "
-        "Noch nicht in authority-files/works.xml: die Zeugen stehen noch nicht in tei/. "))
+        "Uebernommen in authority-files/works.xml (Registrierung, #147); die Zeugen stehen in tei/. "))
     for e in eintraege:
         wurzel.append(e)
     einruecken(wurzel, "")

@@ -85,7 +85,7 @@ def erlaubt():
         inhalt = json.loads(j.read_text(encoding="utf-8"))["inhalt"]
         texte += [inhalt, wiki_klartext(inhalt)]
     from lxml import etree
-    for tei in sorted(bc.INGEST_DIR.glob("BRE_*.tei.xml")):
+    for tei in sorted(bc.TEI_DIR.glob("BRE_*.tei.xml")):
         ws = etree.parse(str(tei)).getroot().iter("{http://www.tei-c.org/ns/1.0}w")
         texte.append(" ".join("".join(w.itertext()) for w in ws))
     return texte

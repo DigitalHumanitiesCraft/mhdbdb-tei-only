@@ -496,7 +496,7 @@ Two kinds are mixed here, and the difference is the important one: **gates** hav
 
 | Script | Purpose |
 |--------|-------|
-| `validate-corpus.py` | Two-stage RelaxNG validation of all 667 corpus and 8 authority files (called by data-integrity.yml) |
+| `validate-corpus.py` | Two-stage RelaxNG validation of all 688 corpus and 8 authority files (called by data-integrity.yml) |
 | `check-index-versions.py` | Version consistency between build scripts and loader, called by `data-integrity.yml` (details above) |
 | `check-index-version-bump.py` | Version bump gate (#154): index content changed against `--base` ⇒ the `version` string has to change with it. Called by `data-integrity.yml` (details above) |
 | `check-variants-flips.py` | Flip gate (#378, ADR-021): a form whose `variants` entry points at another lemma than against `--base` turns the run red unless `variants-flips-ack.json` names exactly this version pair and count; also checks `variants[form] == variantCandidates[form][0]`. Called by `data-integrity.yml` before the index rebuild |
