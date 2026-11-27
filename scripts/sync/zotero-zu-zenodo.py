@@ -30,10 +30,13 @@ Was als "schon vorhanden" gilt
 ------------------------------
 Ein Zotero-Eintrag hat schon einen Record, wenn (1) irgendein Record im Konto
 seinen Zotero-Schluessel im Feld "Notes" traegt ("Zotero-Schluessel: ABCD1234",
-das schreibt dieses Skript selbst), oder (2) seine DOI in einem Record als
-verwandte Kennung steht, oder (3) ein VEROEFFENTLICHTER Record der Community
-denselben Titel hat. Unveroeffentlichte Entwuerfe ohne Schluessel zaehlen nie:
-sonst verdeckt jeder Altentwurf, dass etwas fehlt.
+das schreibt dieses Skript selbst), oder (2) seine DOI oder URL in einem Record
+als "isAlternateIdentifier" steht (nur diese Relation: ein Kapitel-Stub traegt
+"isPartOf <Band-DOI>", und die darf nicht fuer jedes weitere Kapitel des Bandes
+gelten), oder (3) die eigene DOI eines Records zusammen mit dem Titel passt,
+oder (4) ein VEROEFFENTLICHTER Record des Kontos in der Community denselben
+Titel hat. Ein Entwurf ohne Schluessel zaehlt also nur ueber (2) oder (3),
+nie ueber den Titel allein: sonst verdeckt jeder Altentwurf, dass etwas fehlt.
 
 Was nicht angelegt wird (und im Bericht steht)
 ----------------------------------------------
@@ -63,6 +66,7 @@ import os
 import re
 import sys
 import time
+import unicodedata
 from pathlib import Path
 
 import requests
@@ -156,7 +160,11 @@ def zotero_eigene():
                 erwartet = None
         if not daten:
             break
-        eintraege += [d["data"] for d in daten]
+        for d in daten:
+            e = d["data"]
+            # Freitextdaten ("Mai 2024") liest nur Zotero selbst: meta.parsedDate
+            e["_pd"] = (d.get("meta") or {}).get("parsedDate", "")
+            eintraege.append(e)
         start += 100
     if erwartet is None:
         PROBLEME.append("Zotero: Gesamtzahl der Sammlung nicht abrufbar, die "
@@ -186,15 +194,18 @@ def zenodo_konto(token):
             m = d.get("metadata", {})
             notiz = re.sub(r"<[^>]+>", " ", m.get("notes") or "")
             s = SCHLUESSEL.search(notiz)
-            dois = {kennung(r.get("identifier", ""))
-                    for r in (m.get("related_identifiers") or [])}
-            if d.get("doi"):
-                dois.add(FM.clean_doi(d["doi"]))
+            # Nur "ist dieselbe Ressource" zaehlt als Kennung des Eintrags. Ein
+            # Kapitel-Stub traegt isPartOf <Band-DOI>: wuerde die mitzaehlen, gaelte
+            # jedes weitere Kapitel desselben Bandes als schon vorhanden.
+            alt = {kennung(r.get("identifier", ""))
+                   for r in (m.get("related_identifiers") or [])
+                   if r.get("relation") in ("isAlternateIdentifier", "isIdenticalTo")}
             comm = {c.get("identifier") for c in (m.get("communities") or [])}
             ergebnis.append({
                 "id": d["id"], "veroeffentlicht": bool(d.get("submitted")),
                 "titel": norm(m.get("title", "")), "schluessel": s.group(1) if s else "",
-                "dois": dois, "community": COMMUNITY in comm})
+                "alt": alt, "eigen": FM.clean_doi(d.get("doi") or ""),
+                "community": COMMUNITY in comm})
         seite += 1
         if seite > 50:
             PROBLEME.append("Zenodo: Blaetter-Obergrenze erreicht, Rest ungelesen.")
@@ -208,12 +219,18 @@ def schon_da(item, konto):
     for k in konto:
         if k["schluessel"] == item["key"]:
             return f"Schluessel in Record {k['id']}"
+    t = norm(item.get("title", ""))
     for kenn in (doi, kennung(item.get("url", ""))):
         if kenn:
             for k in konto:
-                if kenn in k["dois"]:
+                if kenn in k["alt"]:
                     return f"Kennung in Record {k['id']}"
-    t = norm(item.get("title", ""))
+    # Die eigene DOI eines Records zaehlt nur bei gleichem Titel: sonst waere das
+    # erste Kapitel eines Bandes, dessen Record im Konto liegt, schon "vorhanden".
+    if doi:
+        for k in konto:
+            if k["eigen"] == doi and k["titel"] == t:
+                return f"eigene DOI und Titel in Record {k['id']}"
     for k in konto:
         if k["veroeffentlicht"] and k["community"] and k["titel"] == t:
             return f"gleicher Titel, veroeffentlicht, Record {k['id']}"
@@ -367,28 +384,57 @@ def doi_register(doi):
             time.sleep(5 * (versuch + 1))
 
 
+TRENNER = re.compile(r"\s*(?:,|;|\bund\b|\band\b|&)\s*", re.I)
+
+
+def register_namen(reg):
+    """Die Verfasser:innen des Registers als flache Namensliste. Hypotheses
+    liefert teils die ganze Verfasserzeile als EINEN Namen ("A, B und C"), teils
+    mit Komma am Ende; deshalb wird an Komma, Semikolon und "und" getrennt."""
+    roh = []
+    for a in reg.get("author", []):
+        roh.append(f"{a.get('given', '')} {a['family']}" if "family" in a else a.get("literal", ""))
+    return [n.strip() for r in roh for n in TRENNER.split(r) if n.strip()]
+
+
+def schluessel_name(n):
+    """Nachname in Normalform (letztes Wort), damit 'Alan Lena van Beek' und
+    'Alan van Beek' dasselbe sind. 'Zeppezauer-Wachauer' -> 'wachauer'."""
+    # Nicht norm() aus find-mentions.py: das entfernt die Leerzeichen, und damit
+    # gaebe es kein "letztes Wort" mehr.
+    s = unicodedata.normalize("NFKD", (n or "").lower())
+    w = re.findall(r"[a-z0-9]+", "".join(c for c in s if not unicodedata.combining(c)))
+    return w[-1] if w else ""
+
+
+def datumsteile(s):
+    m = re.match(r"^\[?(\d{4})(?:-(\d{1,2})(?:-(\d{1,2}))?)?", (s or "").strip())
+    return tuple(int(x) for x in m.groups() if x) if m else ()
+
+
 def abweichung(item, reg):
-    """Liste von Widerspruechen zwischen Zotero und dem DOI-Register."""
-    fehler = []
-    teile = (reg.get("issued") or {}).get("date-parts") or [[]]
-    if teile[0] and ganzer_datumsteil(item.get("date")):
-        zot = iso_datum(item["date"])
-        regd = "-".join(f"{int(x):02d}" if i else str(x) for i, x in enumerate(teile[0]))
-        if len(teile[0]) == 3 and zot != regd:
-            fehler.append(f"Datum: Zotero {zot}, DOI-Register {regd}")
-    blob = norm(" ".join(
-        (a.get("given", "") + " " + a.get("family", "")) if "family" in a else a.get("literal", "")
-        for a in reg.get("author", [])))
-    if blob:
-        for c in personen(item, ("author", "presenter")):
-            nach = norm(c.get("lastName") or c.get("name", ""))
-            if nach and nach not in blob:
-                fehler.append(f"Autor:in {anzeige(c)}: nicht im DOI-Register ({blob[:80]})")
-        zahl = len(personen(item, ("author", "presenter")))
-        # Hat das Register viele einzelne Personen, muss Zotero nicht weniger haben.
-        if len(reg.get("author", [])) > 1 and "family" in reg["author"][0] and zahl < len(reg["author"]):
-            fehler.append(f"Autor:innen: Zotero {zahl}, DOI-Register {len(reg['author'])}")
-    return fehler
+    """(Widersprueche zwischen Zotero und dem DOI-Register, vollstaendiges Datum
+    aus dem Register oder ''). Das Datum wird immer verglichen, auch wenn Zotero
+    nur Jahr oder Jahr-Monat hat; ist Zotero ungenauer als das Register, gilt
+    das Registerdatum statt eines erfundenen 1. Januar."""
+    fehler, regdatum = [], ""
+    teile = tuple(int(x) for x in ((reg.get("issued") or {}).get("date-parts") or [[]])[0])
+    zot = datumsteile(item.get("date"))
+    if teile and zot:
+        n = min(len(teile), len(zot))
+        if teile[:n] != zot[:n]:
+            fehler.append(f"Datum: Zotero {item['date']}, DOI-Register "
+                          f"{'-'.join(f'{x:02d}' if i else str(x) for i, x in enumerate(teile))}")
+        elif len(teile) == 3 and len(zot) < 3:
+            regdatum = f"{teile[0]}-{teile[1]:02d}-{teile[2]:02d}"
+    reg_n = [schluessel_name(n) for n in register_namen(reg)]
+    if reg_n:
+        zot_n = [schluessel_name(anzeige(c)) for c in personen(item, ("author", "presenter"))]
+        # Als Vielfachmenge: findet fehlende UND zusaetzliche Personen. Eine reine
+        # Teilzeichenketten-Probe liess "Steiner" im Register "Hintersteiner" durch.
+        if sorted(reg_n) != sorted(zot_n):
+            fehler.append(f"Autor:innen: Zotero {sorted(zot_n)}, DOI-Register {sorted(reg_n)}")
+    return fehler, regdatum
 
 
 def zenodo_titel(zid):
@@ -446,8 +492,22 @@ def main():
         if it.get("itemType") in ("attachment", "note") or not it.get("title"):
             continue
         titel = it["title"][:70]
-        if not ist_team(it) or (iso_datum(it.get("date")) or "0") < args.seit:
-            uebersprungen.setdefault(f"ausserhalb Team oder vor {args.seit}", []).append(titel)
+        if not ist_team(it):
+            uebersprungen.setdefault("ausserhalb Team", []).append(titel)
+            continue
+        # Ein Datum, das die Jahreszahl nicht am Anfang hat ("Mai 2024"), liest
+        # Zotero selbst (meta.parsedDate). Bleibt es unlesbar, faellt der Eintrag
+        # NICHT still unter "zu alt", sondern wird zurueckgehalten und gemeldet.
+        if not iso_datum(it.get("date")) and it.get("_pd"):
+            it["date"] = it["_pd"]
+        if not iso_datum(it.get("date")):
+            ABWEICHUNGEN.append((it["key"], titel, [f"Datum nicht lesbar oder leer: '{it.get('date', '')}'"]))
+            continue
+        if iso_datum(it["date"]) < args.seit:
+            uebersprungen.setdefault(f"vor {args.seit}", []).append(titel)
+            continue
+        if any(t.get("tag") == "kein-zenodo" for t in it.get("tags", [])):
+            uebersprungen.setdefault("Zotero-Tag 'kein-zenodo'", []).append(titel)
             continue
         grund = schon_da(it, konto)
         if grund:
@@ -477,15 +537,14 @@ def main():
             if reg is None:
                 PROBLEME.append(f"DOI-Register nicht erreichbar: {doi} ({titel})")
                 continue
-            fehler = abweichung(it, reg) if reg else [f"DOI {doi} im Register nicht gefunden"]
+            fehler, regdatum = abweichung(it, reg) if reg else ([f"DOI {doi} im Register nicht gefunden"], "")
             if fehler:
                 ABWEICHUNGEN.append((it["key"], titel, fehler))
                 continue
+            if regdatum:
+                it["date"] = regdatum   # Zotero war ungenauer als das Register
         if not personen(it, ("author", "presenter")):
             ABWEICHUNGEN.append((it["key"], titel, ["keine Autor:innen in Zotero"]))
-            continue
-        if not iso_datum(it.get("date")):
-            ABWEICHUNGEN.append((it["key"], titel, ["kein Datum in Zotero"]))
             continue
         url = f"https://doi.org/{doi}" if doi else it.get("url", "")
         if not url:
