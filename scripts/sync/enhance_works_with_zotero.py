@@ -558,6 +558,14 @@ def extract_zotero_data(items: List[dict]) -> Dict[str, List[etree._Element]]:
     """
     zotero_data = defaultdict(list)
 
+    # Stabile Reihenfolge (#649): Die API liefert ohne `sort` in einer Reihenfolge,
+    # die zwischen zwei Laeufen kippen kann (und die Web-API v3 kennt kein
+    # Sortieren nach Key). Die Reihenfolge der biblStruct je Werk und die
+    # xml:id-Suffixe (HZ_HZ_HZ) folgen aber der Reihenfolge hier. Der Item-Key
+    # ist eindeutig und aendert sich nie, anders als dateModified oder title.
+    # Gilt fuer API und --offline gleichermassen, weil beide hier durchlaufen.
+    items = sorted(items, key=lambda it: it.get('key', ''))
+
     logger.info(f"Processing {len(items)} items from Zotero")
 
     # First pass: build parent → notes mapping

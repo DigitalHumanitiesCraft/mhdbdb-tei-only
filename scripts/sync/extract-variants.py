@@ -34,9 +34,21 @@ die Zahl. CI (data-integrity.yml, Freshness variants.xml) verlangt danach auch
 fuer lexicon.xml einen leeren Diff, und check-authority-cross-refs.py --check
 verlangt 0 verwaiste Tokens.
 
+Fehlende Typ-Tokens im Lexikon (#753): die Gegenrichtung. Die Ingest-Skripte
+loesen in Phase 3 das @corresp eines Tokens ueber sense/@ana auf (nur ein Typ
+in der Liste des zugewiesenen Sense setzt es), und kein Build liest das Feld.
+Wechseln Belege den Sense, laeuft die Liste auseinander. --apply ergaenzt
+deshalb im selben Lauf jeden Typ, den ein Token mit @ana auf den Sense traegt
+(K), in sense/@ana (L); K ohne L wird so leer. Ein Sense ohne @ana bekommt
+das Attribut. Die Liste bleibt in der Zeichenkettenordnung der vorhandenen
+Listen. Entfernt wird dabei nichts, was variants.xml fuehrt: ein Typ in L ohne
+Token (L ohne K) kann fuer kuenftige Ingests gewollt sein. --check misst nur
+und endet mit Exit 1, solange K ohne L nicht leer ist.
+
 Usage:
     python scripts/sync/extract-variants.py            # dry-run -> authority-files/variants.regen.xml
-    python scripts/sync/extract-variants.py --apply    # overwrite variants.xml, prune lexicon sense/@ana
+    python scripts/sync/extract-variants.py --apply    # overwrite variants.xml, sync lexicon sense/@ana (prune orphans, add attested)
+    python scripts/sync/extract-variants.py --check    # write nothing, exit 1 while attested types are missing in sense/@ana
     python scripts/sync/extract-variants.py --jobs 1   # sequentiell parsen (Default: bis 8 Prozesse)
 """
 
@@ -94,10 +106,19 @@ def collect_one(fp):
     """
     type_form = defaultdict(Counter)
     type_lemma = defaultdict(Counter)
+    sense_types = defaultdict(set)
     tree = etree.parse(str(fp))
     for w in tree.iter(f'{TEI}w'):
         lemma_ref = w.get('lemmaRef')
         corresp = w.get('corresp')
+        # K (#753): die Typen der Tokens, deren @ana einen Sense nennt. Anders als
+        # die Formen braucht K kein @lemmaRef: gezaehlt wird, was am Token haengt.
+        ana = w.get('ana')
+        if ana and corresp:
+            for tok in corresp.split():
+                if tok.startswith('variants.xml#') and TYPE_POS_RE.match(tok.split('#', 1)[1]):
+                    for sense_ref in ana.split():
+                        sense_types[sense_ref.split('#')[-1]].add(tok.split('#', 1)[1])
         if not lemma_ref or not corresp:
             continue
         lemma_id = fragment(lemma_ref)
@@ -115,11 +136,12 @@ def collect_one(fp):
             type_form[type_id][form] += 1
             type_lemma[type_id][lemma_id] += 1
     return ({t: dict(c) for t, c in type_form.items()},
-            {t: dict(c) for t, c in type_lemma.items()})
+            {t: dict(c) for t, c in type_lemma.items()},
+            dict(sense_types))
 
 
 def collect(base_files, jobs=1):
-    """type_id -> Counter(form), type_id -> Counter(lemma_id).
+    """type_id -> Counter(form), type_id -> Counter(lemma_id), sense_id -> set(type_id).
 
     Parallelisiert wird nur das Parsen (#284); summiert wird im Elternprozess.
 
@@ -133,6 +155,7 @@ def collect(base_files, jobs=1):
     """
     type_form = defaultdict(Counter)
     type_lemma = defaultdict(Counter)
+    sense_types = defaultdict(set)
     if jobs <= 1:
         results = map(collect_one, base_files)
         pool = None
@@ -140,20 +163,22 @@ def collect(base_files, jobs=1):
         pool = concurrent.futures.ProcessPoolExecutor(max_workers=jobs)
         results = pool.map(collect_one, base_files, chunksize=1)
     try:
-        for i, (file_form, file_lemma) in enumerate(results):
+        for i, (file_form, file_lemma, file_sense) in enumerate(results):
             if (i + 1) % 100 == 0:
                 print(f'  {i + 1}/{len(base_files)}...', flush=True)
             for type_id, forms in file_form.items():
                 type_form[type_id].update(forms)
             for type_id, lemmas in file_lemma.items():
                 type_lemma[type_id].update(lemmas)
+            for sense_id, types in file_sense.items():
+                sense_types[sense_id] |= types
     finally:
         if pool is not None:
             # cancel_futures: map() reicht alle 667 Tasks sofort ein. Ohne das
             # wartet ein Abbruch (z. B. XMLSyntaxError in Datei 3) erst die
             # restlichen Dateien ab, bevor der Traceback erscheint.
             pool.shutdown(cancel_futures=True)
-    return type_form, type_lemma
+    return type_form, type_lemma, sense_types
 
 
 def resolve(type_form, type_lemma):
@@ -289,34 +314,99 @@ def orphan_ana_tokens(lexicon_root, type_ids):
     return out
 
 
-def prepare_lexicon_prune(type_ids):
-    """Bereinigten Text von lexicon.xml vorbereiten, ohne etwas zu schreiben.
+SENSE_ANCHOR_RE = re.compile(r'<sense xml:id="([^"]*)"(?: ana="([^"]*)")?')
+
+
+def missing_ana_tokens(lexicon_root, sense_types, type_ids):
+    """sense-xml:id -> (@ana-Tokens, fehlende Tokens) fuer jede Sense, bei der
+    K ohne L nicht leer ist (#753).
+
+    K sind die Typen der Tokens, deren @ana die Sense nennt (sense_types, aus
+    collect), L die #type_N in sense/@ana. Nur Typen, die variants.xml nach
+    dieser Regeneration fuehrt, zaehlen: alles andere waere sofort wieder
+    verwaist. Senses, die lexicon.xml nicht kennt (Token-@ana ins Leere),
+    kommen nicht vor. Die Liste der fehlenden Tokens ist aufsteigend
+    sortiert (Zeichenkette, wie die vorhandenen Listen).
+    """
+    out = {}
+    for sense in lexicon_root.iter(f'{TEI}sense'):
+        sid = sense.get(f'{XML}id')
+        toks = (sense.get('ana') or '').split()
+        fehlt = sorted(f'#{t}' for t in sense_types.get(sid, ()) if t in type_ids)
+        fehlt = [t for t in fehlt if t not in toks]
+        if fehlt:
+            out[sid] = (toks, fehlt)
+    return out
+
+
+def neue_ana_liste(toks, orphans, fehlt):
+    """Neue @ana-Liste: verwaiste Tokens raus, fehlende dazu, sonst nichts.
+
+    Ist die vorhandene Liste aufsteigend sortiert (Zeichenkettenordnung,
+    nicht numerisch; im Bestand bei allen Listen der Fall, gemessen
+    27.11.2026), bleibt das Ergebnis sortiert. Sonst haengen die neuen Tokens
+    hinten an, die vorhandene Reihenfolge bleibt.
+    """
+    rest = [t for t in toks if t not in orphans]
+    if rest == sorted(rest):
+        return sorted(set(rest) | set(fehlt))
+    return rest + [t for t in fehlt if t not in rest]
+
+
+def prepare_lexicon_sync(type_ids, sense_types):
+    """Neuen Text von lexicon.xml vorbereiten, ohne etwas zu schreiben.
+
+    Zwei Richtungen an sense/@ana: verwaiste Typen (nicht mehr in variants.xml)
+    raus (#228), belegte Typen (K ohne L, #753) dazu. Nie wird ein Typ entfernt,
+    der in variants.xml steht, auch wenn kein Token ihn mehr belegt: er kann
+    fuer kuenftige Ingests gewollt sein (Entscheidung 27.11.2026).
 
     Textersetzung statt lxml-Serialisierung, damit der Diff genau die
-    betroffenen Attribute zeigt und nicht die ganze Datei. Jeder Anker muss
-    genau einmal treffen, und das Ergebnis muss parsen. Laeuft in main() VOR
-    dem Schreiben von variants.xml: bricht es ab, ist keine der beiden
-    Dateien angefasst (Review Runde 1; vorher stand variants.xml dann schon
-    neu im Baum).
-    Rueckgabe: (neuer Text oder None, Tokens, Senses).
+    betroffenen Attribute zeigt und nicht die ganze Datei. Ein einziger Durchlauf
+    ueber die Datei: jeder betroffene Anker muss genau einmal treffen, und das
+    Ergebnis muss parsen. Laeuft in main() VOR dem Schreiben von variants.xml:
+    bricht es ab, ist keine der beiden Dateien angefasst (Review Runde 1;
+    vorher stand variants.xml dann schon neu im Baum).
+    Rueckgabe: (neuer Text oder None, Statistik-dict).
     """
-    orphans = orphan_ana_tokens(etree.parse(str(LEXICON)).getroot(), type_ids)
-    n_tokens = sum(len(o) for _, o in orphans.values())
-    if not orphans:
-        return None, 0, 0
+    root = etree.parse(str(LEXICON)).getroot()
+    orphans = orphan_ana_tokens(root, type_ids)
+    fehlend = missing_ana_tokens(root, sense_types, type_ids)
+    stats = {
+        'orphan_tokens': sum(len(o) for _, o in orphans.values()),
+        'orphan_senses': len(orphans),
+        'missing_tokens': sum(len(f) for _, f in fehlend.values()),
+        'missing_senses': len(fehlend),
+        'missing_senses_without_ana': sum(1 for toks, _ in fehlend.values() if not toks),
+    }
+    neu = {}
+    for sid in set(orphans) | set(fehlend):
+        toks = orphans[sid][0] if sid in orphans else fehlend[sid][0]
+        raus = orphans[sid][1] if sid in orphans else []
+        dazu = fehlend[sid][1] if sid in fehlend else []
+        neu[sid] = neue_ana_liste(toks, raus, dazu)
+    if not neu:
+        return None, stats
     with open(LEXICON, encoding='utf-8', newline='') as f:
         text = f.read()
-    for sid, (toks, raus) in sorted(orphans.items()):
-        old = f'<sense xml:id="{sid}" ana="{" ".join(toks)}"'
-        rest = [t for t in toks if t not in raus]
-        new = f'<sense xml:id="{sid}"' + (f' ana="{" ".join(rest)}"' if rest else '')
-        if text.count(old) != 1:
+    treffer = Counter()
+
+    def ersetze(m):
+        sid = m.group(1)
+        if sid not in neu:
+            return m.group(0)
+        treffer[sid] += 1
+        liste = neu[sid]
+        return f'<sense xml:id="{sid}"' + (f' ana="{" ".join(liste)}"' if liste else '')
+
+    text = SENSE_ANCHOR_RE.sub(ersetze, text)
+    for sid in sorted(neu):
+        if treffer[sid] != 1:
             sys.exit(f'FEHLER: Anker fuer {sid} in lexicon.xml nicht genau einmal '
-                     f'gefunden ({text.count(old)}); weder variants.xml noch '
+                     f'gefunden ({treffer[sid]}); weder variants.xml noch '
                      f'lexicon.xml geschrieben.')
-        text = text.replace(old, new)
     etree.fromstring(text.encode('utf-8'))
-    return text, n_tokens, len(orphans)
+    return text, stats
 
 
 def parse_jobs(argv):
@@ -348,10 +438,13 @@ def parse_jobs(argv):
 
 def main():
     apply = '--apply' in sys.argv
+    check = '--check' in sys.argv
+    if apply and check:
+        sys.exit('--apply und --check schliessen sich aus')
     jobs = parse_jobs(sys.argv)
     base_files = corpus_files()
     print(f'Scanning {len(base_files)} corpus files for <w @lemmaRef @corresp>... ({jobs} Prozesse)')
-    type_form, type_lemma = collect(base_files, jobs=jobs)
+    type_form, type_lemma, sense_types = collect(base_files, jobs=jobs)
     lemma_to_types, type_to_form, type_to_lemma, type_to_n, multi_form, multi_lemma = resolve(type_form, type_lemma)
 
     n_types = len(type_to_form)
@@ -380,7 +473,22 @@ def main():
                or tree.findtext(HEADER_NAME) != old_name)
     if changed and old_date is not None:
         tree.find(HEADER_DATE).text = today
-    lexicon_text, ana_tokens, ana_senses = prepare_lexicon_prune(new_ids)
+    lexicon_text, ana = prepare_lexicon_sync(new_ids, sense_types)
+    if check:
+        # Nur messen, nichts schreiben (auch kein variants.regen.xml). Rot ist
+        # K ohne L (#753): belegte Typen, die sense/@ana nicht fuehrt.
+        print(f'sense/@ana, K ohne L (belegte Typen, die fehlen): '
+              f'{ana["missing_tokens"]:,} Typen in {ana["missing_senses"]:,} Senses '
+              f'(davon {ana["missing_senses_without_ana"]:,} Senses ohne @ana)')
+        print(f'sense/@ana, verwaiste Typen (nur Info, --apply entfernt sie): '
+              f'{ana["orphan_tokens"]:,} in {ana["orphan_senses"]:,} Senses')
+        if ana['missing_tokens']:
+            print('FEHLER: lexicon.xml sense/@ana ist nicht mit dem Korpus synchron. '
+                  "Lokal 'python scripts/sync/extract-variants.py --apply' ausfuehren "
+                  'und lexicon.xml mitcommitten.')
+            return 1
+        print('OK: K ohne L ist leer.')
+        return 0
     out = VARIANTS if apply else DRY_OUT
     tree.write(str(out), xml_declaration=True, encoding='UTF-8', pretty_print=True)
     if apply and lexicon_text is not None:
@@ -407,7 +515,11 @@ def main():
     print()
     verb = 'pruned' if apply else 'to prune with --apply'
     print(f'lexicon.xml sense/@ana, orphaned type tokens {verb}: '
-          f'{ana_tokens:,} in {ana_senses:,} senses')
+          f'{ana["orphan_tokens"]:,} in {ana["orphan_senses"]:,} senses')
+    verb = 'added' if apply else 'to add with --apply'
+    print(f'lexicon.xml sense/@ana, attested type tokens missing ({verb}): '
+          f'{ana["missing_tokens"]:,} in {ana["missing_senses"]:,} senses '
+          f'({ana["missing_senses_without_ana"]:,} without @ana)')
     if not apply:
         print(f'\nDry-run only. Inspect {out}, then re-run with --apply.')
     return 0
