@@ -13,6 +13,13 @@ Batches zu BATCH Zeilen. Der Seed macht die Stichprobe reproduzierbar.
 Aufruf:
   python -P -E scripts/ingest/bre/11-batches.py --phase lemma --stufe bulk
   python -P -E scripts/ingest/bre/11-batches.py --phase lemma --stufe instance [--nur-norm a,b]
+
+--offen: nur was die Pending-TSV noch ohne Entscheidung fuehrt (nach dem Apply-Skript sind die
+entschiedenen Zeilen dort eingetragen). Fuer neu hinzugekommene Zeugen, wenn die Entscheidungen
+der uebrigen schon stehen. Bei bulk nur Gruppen, in denen keine Zeile entschieden ist; bei
+instance die Tokens der Stufe instance; bei --stufe split die Tokens ohne Entscheidung in
+SPLIT-Gruppen (Ausgabe lemma-split-NN.tsv, Format wie instance). Danach 12-entscheidungen.py
+--ergaenzen.
 """
 import argparse
 import collections
@@ -44,13 +51,33 @@ def main():
     bc.ausgabe_utf8()
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--phase", choices=list(PHASEN), required=True)
-    ap.add_argument("--stufe", choices=["bulk", "instance"], required=True)
+    ap.add_argument("--stufe", choices=["bulk", "instance", "split"], required=True)
+    ap.add_argument("--offen", action="store_true", help="nur Zeilen ohne Entscheidung (siehe oben)")
     ap.add_argument("--nur", default="", help="nur diese Gruppenschluessel (kommagetrennt), "
                     "bei instance: alle Tokens dieser Gruppen unabhaengig von ihrer Stufe")
     ap.add_argument("--praefix", default="", help="Namenspraefix der Batchdateien")
     a = ap.parse_args()
     pfad, schluessel, kandspalte = PHASEN[a.phase]
     zeilen = ba.lies_tsv(pfad)
+    if a.stufe == "split" and not a.offen:
+        raise bc.HarterFehler("--stufe split nur mit --offen")
+    ergebnis = {"lemma": "resolved_lemma", "pos": "resolved_pos", "sense": "resolved_sense"}[a.phase]
+    if a.offen:
+        entschieden = {z["xml_id"] for z in zeilen if z[ergebnis] or z["decision_type"]}
+        if a.stufe == "bulk":
+            teils = {z[schluessel] for z in zeilen if z["xml_id"] in entschieden}
+            zeilen = [z for z in zeilen if z[schluessel] not in teils]
+        elif a.stufe == "split":
+            bulkpfad = pfad.parent / f"{a.phase}-bulk.tsv"
+            split = {b["schluessel"] for b in ba.lies_tsv(bulkpfad)
+                     if b["decision_type"] == "abstain" and b["begruendung"].startswith("SPLIT")}
+            patchpfad = pfad.parent / f"{a.phase}-patch.tsv"
+            mit_patch = {p["xml_id"] for p in ba.lies_tsv(patchpfad)}
+            # die Apply-Skripte tragen bei SPLIT ohne Token-Entscheidung abstain in die Pending-TSV ein
+            zeilen = [z for z in zeilen if z["xml_id"] not in mit_patch and z["stufe"] == "bulk"
+                      and z[schluessel] in split]
+        else:
+            zeilen = [z for z in zeilen if z["xml_id"] not in entschieden]
     nur = {x for x in a.nur.split(",") if x}
     rng = random.Random(SEED)
     out = []
@@ -70,7 +97,7 @@ def main():
         felder = ["schluessel", "form", "lemma", "anzahl", "kandidaten", "belege"]
     else:
         for z in zeilen:
-            if (z[schluessel] in nur) if nur else z["stufe"] == "instance":
+            if (z[schluessel] in nur) if nur else (a.stufe == "split" or z["stufe"] == "instance"):
                 out.append({"xml_id": z["xml_id"], "form": z["form"], "lemma": z.get("lemma", ""),
                             "zeuge": z["zeuge"], "text": z["text"], "kontext": z["kontext"],
                             "kandidaten": z[kandspalte]})

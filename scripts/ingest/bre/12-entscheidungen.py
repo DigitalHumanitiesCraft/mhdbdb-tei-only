@@ -14,6 +14,13 @@ jede Entscheidung ist ein Kandidat der Zeile oder abstain, confidence aus high/m
 Verworfene Batches (--verwerfen) zaehlen als nicht entschieden.
 
 Aufruf: python -P -E scripts/ingest/bre/12-entscheidungen.py --phase lemma --reviewer llm:claude-sonnet-5-5
+
+--ergaenzen: die schon versionierten Tabellen der Phase bleiben und werden um die Antworten in
+temp/bre-entscheidungen/ erweitert (neu hinzugekommene Zeugen, wenn der Rest entschieden ist). Ohne
+die Option werden die Tabellen aus den Antworten allein neu geschrieben. Bei --ergaenzen wird
+`anzahl` der bestehenden Bulk-Zeilen auf die heutige Gruppengroesse gesetzt, eine doppelte
+Entscheidung ist ein harter Fehler. Bulk-Zeilen, deren Gruppe es nicht mehr gibt oder die keine
+Bulk-Gruppe mehr ist (nach Lemma-Korrekturen, siehe 24-lemma-korrektur.py), werden entfernt und gemeldet.
 """
 import argparse
 import re
@@ -77,6 +84,8 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--phase", choices=list(PHASEN), required=True)
     ap.add_argument("--reviewer", required=True, help="llm:<modell>")
+    ap.add_argument("--ergaenzen", action="store_true",
+                    help="bestehende Tabellen der Phase behalten und ergaenzen")
     ap.add_argument("--verwerfen", default="", help="Batchdateien, die verworfen werden (kommagetrennt)")
     a = ap.parse_args()
     if not ba.RE_REVIEWER.match(a.reviewer):
@@ -93,6 +102,24 @@ def main():
         token[z["xml_id"]] = z
 
     bulk, patch, split = {}, {}, set()
+    if a.ergaenzen:
+        verwaist = 0
+        for r in ba.lies_tsv(ziel / f"{a.phase}-bulk.tsv", BULK_FELDER):
+            if r["schluessel"] in gruppen and gruppen[r["schluessel"]][0]["stufe"] == "bulk":
+                r["anzahl"] = len(gruppen[r["schluessel"]])
+            else:
+                # die Gruppe gibt es nicht mehr oder sie ist keine Bulk-Gruppe mehr (Lemma-Korrekturen
+                # haben ihre Tokens verschoben): eine solche Bulk-Zeile bricht 20-pruefpaket.py ab
+                # oder steht dort mit 0 Belegen und wird nicht uebernommen
+                verwaist += 1
+                continue
+            bulk[r["schluessel"]] = r
+            if r["decision_type"] == "abstain" and r["begruendung"].startswith("SPLIT"):
+                split.add(r["schluessel"])
+        for r in ba.lies_tsv(ziel / f"{a.phase}-patch.tsv", PATCH_FELDER):
+            patch[r["xml_id"]] = r
+        print(f"--ergaenzen: {len(bulk)} Bulk-Zeilen und {len(patch)} Patch-Zeilen uebernommen, "
+              f"{verwaist} verwaiste Bulk-Zeilen entfernt")
     for p in sorted(QUELLE.glob(f"{a.phase}-bulk-*.tsv")):
         if p.name in verworfen:
             print(f"verworfen: {p.name}")

@@ -8,7 +8,7 @@ Artefakte des Ingests der Weingrüße aus dem Brevitas-Wiki (Issue [#147](https:
 | `revisionen.tsv` | Die gepinnten Wiki-Revisionen mit sha256 | `00-fetch-wiki.py` |
 | `segmentierung.tsv` | Je Einzeltext und Zeuge Blattangabe, erster Vers und Überschrift aus den Synopsen | `01-segmentierung.py` |
 | `hauptseite-abgleich.tsv` | Abweichungen zwischen Transkription und Überlieferungsliste der Hauptseite | `03-hauptseite-abgleich.py` |
-| `BRE_*.tei.xml` | 21 Zeugen. 18 davon mit `@lemmaRef`, `@pos`, `@ana` und `@corresp`, soweit maschinell zugewiesen; B2, d4 und d6 (`BRE_MGQ495`, `BRE_D4`, `BRE_D6`) sind seit dem 26.11.2026 geschrieben, aber noch unannotiert. Von D (`BRE_MSCRM50`) nur Teil A | `02`, dann `10` bis `18` |
+| `BRE_*.tei.xml` | 21 Zeugen mit `@lemmaRef`, `@pos`, `@ana` und `@corresp`, soweit maschinell zugewiesen; B2, d4 und d6 (`BRE_MGQ495`, `BRE_D4`, `BRE_D6`) sind seit dem 26.11.2026 geschrieben und seit dem 27.11.2026 annotiert. Von D (`BRE_MSCRM50`) nur Teil A | `02`, dann `10` bis `18` |
 | `works-eintraege.xml` | Die 18 Werkeinträge (`work_BRE_*`) als Fragment, noch nicht in `authority-files/works.xml`. Die Header der Zeugen verweisen schon darauf | `23-normdaten.py` |
 | `phase1/` | Lemma: mehrdeutige Wörter mit Entscheidung (`lemma-pending.tsv`), Bulk- und Patch-Entscheidungen, Wörter ohne Lemma nach Häufigkeit (`lemma-unmatched.tsv`) | `10`, `12`, `13` |
 | `phase2/` | Wortart: dasselbe für `@pos` | `14`, `12`, `15` |

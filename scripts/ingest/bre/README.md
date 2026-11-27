@@ -2,7 +2,7 @@
 
 Ingest der Weingrüße aus der Hybridedition von Silvan Wagner (Issue [#147](https://github.com/DigitalHumanitiesCraft/mhdbdb-tei-only/issues/147)): 21 Überlieferungszeugen, 15 Handschriften und 6 Drucke, transkribiert im [Brevitas-Wiki](https://wiki.brevitas.org/wiki/Dokumentation_Edition_Weingr%C3%BC%C3%9Fe). Aufgenommen wird die Überlieferung je Zeuge, nicht der Editionstext (Silvan, Mail vom 23.10.2026).
 
-> **Stand 2026-11-26: Stufe 0 für alle 21 Zeugen, Phase 1 bis 3 für 18 von 21**, nach dem Muster in [`docs/DATA-MODEL.md` → Ingest procedure](../../../docs/DATA-MODEL.md#ingest-procedure-taking-in-new-texts). Geschrieben sind die Zeugen in `ingest/bre/BRE_*.tei.xml`. B2, d4 und d6 sind seit Silvans Antwort vom 26.11.2026 geschrieben (Stufe 0), aber noch ohne Annotation und ohne Normdaten im Header: Phase 1 bis 3 und `23` stehen für sie aus. Die maschinellen Zuweisungen sind nicht geprüft, das Prüfpaket liegt in [`ingest/bre/pruefung/`](../../../ingest/bre/pruefung/README.md). Nichts davon ist in `tei/`, und `lexicon.xml` ist nicht verändert.
+> **Stand 2026-11-27: Stufe 0 und Phase 1 bis 3 für alle 21 Zeugen**, nach dem Muster in [`docs/DATA-MODEL.md` → Ingest procedure](../../../docs/DATA-MODEL.md#ingest-procedure-taking-in-new-texts). Geschrieben sind die Zeugen in `ingest/bre/BRE_*.tei.xml`. B2, d4 und d6 sind seit Silvans Antwort vom 26.11.2026 geschrieben (Stufe 0) und seit dem 27.11.2026 annotiert und mit Normdaten im Header (`23`). Die maschinellen Zuweisungen sind nicht geprüft, das Prüfpaket liegt in [`ingest/bre/pruefung/`](../../../ingest/bre/pruefung/README.md) und ist für die ersten 18 Zeugen gebaut; für B2, d4 und d6 gibt es noch kein Prüfpaket. Nichts davon ist in `tei/`, und `lexicon.xml` ist nicht verändert.
 
 ## Quelle und Rechte
 
@@ -20,8 +20,8 @@ Ingest der Weingrüße aus der Hybridedition von Silvan Wagner (Issue [#147](htt
 | `02-convert-wiki-to-mhdbdb.py` | Konvertiert einen Zeugen nach MHDBDB-TEI und validiert gegen `schema/mhdbdb.rng`. `--zeuge alle` schreibt alle 21 Zeugen (ein Zeuge in `SEGMENTIERUNG_OFFEN` würde übersprungen, seit dem 26.11.2026 ist keiner offen), `--zeuge alle --trocken` fährt alle 21 ohne Ausgabedatei. Eine vorhandene Zieldatei ersetzt es nur mit `--ueberschreiben` (Sperre, Abschnitt unter der Befehlsfolge) | `ingest/bre/<SIGLE>.tei.xml` |
 | `03-hauptseite-abgleich.py` | Gleicht die Werkzuordnung je Zeuge mit der Überlieferungsbeschreibung der Hauptseite ab (Abschnitt „Werkzuordnung“ unten). Exit 2, wenn eine Abweichung nicht in `ABWEICHUNG_ERKLAERT` steht | `ingest/bre/hauptseite-abgleich.tsv` |
 | `10-lemma-assign.py` | Phase 1: Auto-Match der Wortformen gegen `variants.xml`, setzt `@lemmaRef` bei genau einem Kandidaten, sortiert die mehrdeutigen nach Stufen | `ingest/bre/phase1/lemma-pending.tsv`, `lemma-unmatched.tsv` |
-| `11-batches.py` | Schneidet die Pending-TSV einer Phase in LLM-Batches zu etwa 50 Zeilen (`temp/bre-batches/`, gitignoriert) | |
-| `12-entscheidungen.py` | Sammelt die LLM-Antworten einer Phase (`temp/bre-entscheidungen/`), prüft sie gegen die Kandidaten und schreibt Bulk- und Patch-Tabelle mit `decision_type`, `confidence`, `reviewer` | `ingest/bre/phaseN/<phase>-bulk.tsv`, `-patch.tsv` |
+| `11-batches.py` | Schneidet die Pending-TSV einer Phase in LLM-Batches zu etwa 50 Zeilen (`temp/bre-batches/`, gitignoriert). `--offen`: nur Zeilen ohne Entscheidung, für neu hinzugekommene Zeugen; `--stufe split --offen` für die Tokens in SPLIT-Gruppen ohne Token-Entscheidung | |
+| `12-entscheidungen.py` | Sammelt die LLM-Antworten einer Phase (`temp/bre-entscheidungen/`), prüft sie gegen die Kandidaten und schreibt Bulk- und Patch-Tabelle mit `decision_type`, `confidence`, `reviewer`. `--ergaenzen`: behält die vorhandenen Tabellen und hängt die neuen Antworten an (B2, d4, d6 am 27.11.2026); schon eingelesene Antwortdateien gibt man dann mit `--verwerfen` an | `ingest/bre/phaseN/<phase>-bulk.tsv`, `-patch.tsv` |
 | `13-lemma-apply.py` | Phase 1: setzt `@lemmaRef` aus Bulk und Patch | TEI |
 | `14-pos-assign.py` | Phase 2: Wortart vom Lemma, bei genau einem Kandidaten direkt | TEI, `ingest/bre/phase2/pos-pending.tsv` |
 | `15-apply.py` | Phase 2 und 3: setzt `@pos` oder `@ana` aus Bulk und Patch (`--phase pos\|sense`) | TEI |
@@ -31,7 +31,7 @@ Ingest der Weingrüße aus der Hybridedition von Silvan Wagner (Issue [#147](htt
 | `21-abdeckung.py` | Abdeckung je Zeuge und Attribut, prüft Referenzen, 19er-Tagset, `@ana` passend zu `@lemmaRef`, `<head>` unannotiert und das Schema; Exit 1 bei Fehlern | |
 | `22-pruefseite.py` | HTML-Prüfseite zum Prüfpaket (aus `lemma-verdacht.tsv` die vorgesichteten Zeilen laut `vorschlaege-verdacht.tsv`, aus den drei anderen TSV je eine geschichtete Stichprobe, Seed 147), aus `pruefseite-template.html`; Exportformat im Docstring | `ingest/bre/pruefung/pruefseite.html` |
 | `23-normdaten.py` | Setzt im Header der Zeugen in `ingest/bre/` an Ort und Stelle (alle 21 Dateien, auch die am 26.11.2026 geschriebenen B2, d4 und d6, sobald `23` läuft) Werk, Gattung und Autor (Entscheidung KZW, 24.11.2026), idempotent, `--trocken`. Rosenplüt steht, wo der `text_titel` der Segmentierung ihn nennt. Die Texte je Zeuge kommen aus den Kommentaren im Body. Schreibt außerdem die Werkeinträge als Fragment, validiert gegen das Authority-Schema | TEI (nur Header), `ingest/bre/works-eintraege.xml` |
-| `24-lemma-korrektur.py` | Ersetzt `@lemmaRef` je `xml_id` nach `ingest/bre/pruefung/lemma-korrekturen.tsv` (Spalten `alt`, `neu`); überschreibt bewusst, aber nur wenn der Ist-Wert dem `alt` entspricht und `neu` in `lexicon.xml` steht. Entfernt `@pos`, `@ana`, `@corresp` des Tokens und dessen Zeilen in `phase2/pos-patch.tsv` und `phase3/sense-patch.tsv` (beide nur nach `xml_id` geschlüsselt, `15` würde sie sonst auf das neue Lemma anwenden). Danach müssen diese Tokens durch `14`, `15 --phase pos`, `16`, `15 --phase sense` und `18` neu laufen. `--trocken`, `--patches-behalten`, `--tabelle` (andere Tabelle, einmalige Nachkorrektur) | TEI (nur `<w>`), `phase2/pos-patch.tsv`, `phase3/sense-patch.tsv` |
+| `24-lemma-korrektur.py` | Ersetzt `@lemmaRef` je `xml_id` nach `ingest/bre/pruefung/lemma-korrekturen.tsv` (Spalten `alt`, `neu`); überschreibt bewusst, aber nur wenn der Ist-Wert dem `alt` entspricht und `neu` in `lexicon.xml` steht. Entfernt `@pos`, `@ana`, `@corresp` des Tokens und dessen Zeilen in `phase2/pos-patch.tsv` und `phase3/sense-patch.tsv` (beide nur nach `xml_id` geschlüsselt, `15` würde sie sonst auf das neue Lemma anwenden). Danach müssen diese Tokens durch `14`, `15 --phase pos`, `16`, `15 --phase sense` und `18` neu laufen, und `12-entscheidungen.py --phase <phase> --ergaenzen` (mit allen schon eingelesenen Antwortdateien als `--verwerfen`) entfernt die Bulk-Zeilen von Gruppen, die dabei leer oder zu Hapax-Gruppen wurden; sonst bricht `20-pruefpaket.py` ab oder schreibt eine Gruppe mit 0 Belegen. `--trocken`, `--patches-behalten`, `--tabelle` (andere Tabelle, einmalige Nachkorrektur) | TEI (nur `<w>`), `phase2/pos-patch.tsv`, `phase3/sense-patch.tsv` |
 | `bre_annot.py` | Gemeinsame Helfer der Phasen: Wortform, Normalisierung, Lexikon, Varianten, TSV | |
 | `bre_common.py` | Zeugentabelle (Editionssigle, Wiki-Seite, MHDBDB-Sigle), Vorspann-Tabelle, Faltungstabelle, geprüfte Abweichungen zur Hauptseite, eingearbeitete Texte, Ansatz- und Schluss-Notizen, offene Segmentierung, ausgeschlossene Teile, API und Cache | |
 | `bre_hauptseite.py` | Liest Liste und Übersichtstabelle der Hauptseite und vergleicht sie mit der Segmentierung | |
@@ -122,57 +122,60 @@ Ein Weingruß ist ein `<div type="section">`. Die xml:id folgt dem WZB-Muster `{
 
 ### Abdeckung
 
-Gemessen am 17.11.2026 mit `python -P -E scripts/ingest/bre/21-abdeckung.py --markdown`, Nenner ist je Zeile die Zahl der lexikalischen `<w>` (ohne die in `<head>`):
+Gemessen am 27.11.2026 mit `python -P -E scripts/ingest/bre/21-abdeckung.py --markdown`, Nenner ist je Zeile die Zahl der lexikalischen `<w>` (ohne die in `<head>`):
 
 | Zeuge | Datei | lexikalische `<w>` | `@lemmaRef` | `@pos` | `@ana` | `@corresp` |
 |---|---|--:|--:|--:|--:|--:|
-| M1 | BRE_CGM216 | 93 | 84 (90.3 %) | 80 (86.0 %) | 80 (86.0 %) | 50 (53.8 %) |
-| B | BRE_CGM713 | 1028 | 972 (94.6 %) | 944 (91.8 %) | 963 (93.7 %) | 535 (52.0 %) |
-| S | BRE_COD13711 | 1504 | 1399 (93.0 %) | 1359 (90.4 %) | 1384 (92.0 %) | 751 (49.9 %) |
-| H1 | BRE_CPG98 | 268 | 254 (94.8 %) | 248 (92.5 %) | 253 (94.4 %) | 152 (56.7 %) |
-| d1 | BRE_D1 | 2742 | 2585 (94.3 %) | 2505 (91.4 %) | 2552 (93.1 %) | 1404 (51.2 %) |
-| d2 | BRE_D2 | 2674 | 2505 (93.7 %) | 2460 (92.0 %) | 2489 (93.1 %) | 1397 (52.2 %) |
-| d3 | BRE_D3 | 3115 | 2956 (94.9 %) | 2838 (91.1 %) | 2912 (93.5 %) | 1636 (52.5 %) |
-| d5 | BRE_D5 | 2931 | 2755 (94.0 %) | 2698 (92.1 %) | 2736 (93.3 %) | 1634 (55.7 %) |
-| U | BRE_GEORG1508 | 1702 | 1560 (91.7 %) | 1520 (89.3 %) | 1542 (90.6 %) | 929 (54.6 %) |
-| R | BRE_GUELF296 | 475 | 447 (94.1 %) | 435 (91.6 %) | 443 (93.3 %) | 282 (59.4 %) |
-| F | BRE_HS5339A | 3045 | 2833 (93.0 %) | 2786 (91.5 %) | 2803 (92.1 %) | 1560 (51.2 %) |
-| N2 | BRE_MERKEL966 | 961 | 862 (89.7 %) | 793 (82.5 %) | 835 (86.9 %) | 506 (52.7 %) |
-| B1 | BRE_MGQ2370 | 2443 | 2265 (92.7 %) | 2168 (88.7 %) | 2228 (91.2 %) | 1262 (51.7 %) |
-| L | BRE_MS1590 | 648 | 605 (93.4 %) | 577 (89.0 %) | 596 (92.0 %) | 344 (53.1 %) |
-| D | BRE_MSCRM50 | 1801 | 1691 (93.9 %) | 1649 (91.6 %) | 1669 (92.7 %) | 960 (53.3 %) |
-| C | BRE_MSGER74 | 693 | 639 (92.2 %) | 605 (87.3 %) | 635 (91.6 %) | 367 (53.0 %) |
-| W1 | BRE_OCT145 | 3085 | 2894 (93.8 %) | 2782 (90.2 %) | 2842 (92.1 %) | 1560 (50.6 %) |
-| W | BRE_QUART564 | 1008 | 939 (93.2 %) | 917 (91.0 %) | 934 (92.7 %) | 536 (53.2 %) |
-| gesamt |  | 30216 | 28245 (93.5 %) | 27364 (90.6 %) | 27896 (92.3 %) | 15865 (52.5 %) |
+| M1 | BRE_CGM216 | 93 | 84 (90.3 %) | 80 (86.0 %) | 81 (87.1 %) | 50 (53.8 %) |
+| B | BRE_CGM713 | 1028 | 972 (94.6 %) | 946 (92.0 %) | 967 (94.1 %) | 535 (52.0 %) |
+| S | BRE_COD13711 | 1504 | 1399 (93.0 %) | 1359 (90.4 %) | 1388 (92.3 %) | 751 (49.9 %) |
+| H1 | BRE_CPG98 | 268 | 254 (94.8 %) | 248 (92.5 %) | 254 (94.8 %) | 152 (56.7 %) |
+| d1 | BRE_D1 | 2742 | 2587 (94.3 %) | 2510 (91.5 %) | 2572 (93.8 %) | 1406 (51.3 %) |
+| d2 | BRE_D2 | 2674 | 2505 (93.7 %) | 2462 (92.1 %) | 2497 (93.4 %) | 1396 (52.2 %) |
+| d3 | BRE_D3 | 3115 | 2957 (94.9 %) | 2859 (91.8 %) | 2937 (94.3 %) | 1639 (52.6 %) |
+| d4 | BRE_D4 | 672 | 641 (95.4 %) | 626 (93.2 %) | 639 (95.1 %) | 376 (56.0 %) |
+| d5 | BRE_D5 | 2931 | 2756 (94.0 %) | 2709 (92.4 %) | 2746 (93.7 %) | 1635 (55.8 %) |
+| d6 | BRE_D6 | 1746 | 1620 (92.8 %) | 1562 (89.5 %) | 1603 (91.8 %) | 956 (54.8 %) |
+| U | BRE_GEORG1508 | 1702 | 1563 (91.8 %) | 1526 (89.7 %) | 1556 (91.4 %) | 931 (54.7 %) |
+| R | BRE_GUELF296 | 475 | 447 (94.1 %) | 435 (91.6 %) | 445 (93.7 %) | 282 (59.4 %) |
+| F | BRE_HS5339A | 3045 | 2833 (93.0 %) | 2789 (91.6 %) | 2821 (92.6 %) | 1560 (51.2 %) |
+| N2 | BRE_MERKEL966 | 961 | 862 (89.7 %) | 798 (83.0 %) | 841 (87.5 %) | 508 (52.9 %) |
+| B1 | BRE_MGQ2370 | 2443 | 2269 (92.9 %) | 2189 (89.6 %) | 2255 (92.3 %) | 1264 (51.7 %) |
+| B2 | BRE_MGQ495 | 2498 | 2186 (87.5 %) | 2093 (83.8 %) | 2164 (86.6 %) | 1181 (47.3 %) |
+| L | BRE_MS1590 | 648 | 605 (93.4 %) | 578 (89.2 %) | 601 (92.7 %) | 345 (53.2 %) |
+| D | BRE_MSCRM50 | 1801 | 1691 (93.9 %) | 1651 (91.7 %) | 1676 (93.1 %) | 961 (53.4 %) |
+| C | BRE_MSGER74 | 693 | 639 (92.2 %) | 607 (87.6 %) | 639 (92.2 %) | 367 (53.0 %) |
+| W1 | BRE_OCT145 | 3085 | 2897 (93.9 %) | 2791 (90.5 %) | 2862 (92.8 %) | 1562 (50.6 %) |
+| W | BRE_QUART564 | 1008 | 939 (93.2 %) | 919 (91.2 %) | 935 (92.8 %) | 536 (53.2 %) |
+| gesamt |  | 35132 | 32706 (93.1 %) | 31737 (90.3 %) | 32479 (92.4 %) | 18393 (52.4 %) |
 
 ### Phase 1: Lemma
 
 `python -P -E scripts/ingest/bre/10-lemma-assign.py --trocken` gibt aus:
 
-- eindeutig: 17525 von 30216 (58,0 %), davon 450 nur dank der Faltung
-- mehrdeutig: 10893 von 30216 (36,1 %) in 547 Formen, nach Stufen: bulk 10569 Wörter in 313 Formen (ab 3 Belegen), instance 180 in 90 Formen (2 Belege), hapax 144 in 144 Formen (zurückgestellt)
-- ohne Treffer: 1798 von 30216 (6,0 %) in 1198 Formen, nach Häufigkeit in `ingest/bre/phase1/lemma-unmatched.tsv`
+- eindeutig: 20268 von 35132 (57,7 %), davon 530 nur dank der Faltung
+- mehrdeutig: 12627 von 35132 (35,9 %) in 577 Formen, nach Stufen: bulk 12329 Wörter in 350 Formen (ab 3 Belegen), instance 142 in 71 Formen (2 Belege), hapax 156 in 156 Formen (zurückgestellt)
+- ohne Treffer: 2237 von 35132 (6,4 %) in 1488 Formen, nach Häufigkeit in `ingest/bre/phase1/lemma-unmatched.tsv`
 
-Die mehrdeutigen hat Claude Sonnet am Kontext entschieden (Abschnitt „LLM-Entscheidungen“ unten). Gesetzt sind 28245 `@lemmaRef` = 17525 eindeutig + 10720 entschieden (Ausgabe von `13-lemma-apply.py`). Von den 10893 mehrdeutigen bleiben 173 offen: 144 Hapaxe und 29 abstain. Ein Lemma außerhalb der Kandidaten wird angenommen, wenn es im Lexikon steht, aber auf `low` gesetzt und mit „[außerhalb der Kandidaten]“ markiert, damit es im Prüfpaket landet. **Keine neuen Lemmata, keine Änderung an `lexicon.xml`.**
+Die mehrdeutigen hat Claude Sonnet am Kontext entschieden (Abschnitt „LLM-Entscheidungen“ unten). Gesetzt sind 32706 `@lemmaRef` = 20268 eindeutig + 12438 entschieden (bulk-llm 10902, instance-llm 1536; Ausgabe von `13-lemma-apply.py`). Von den 12627 mehrdeutigen bleiben 189 offen: 156 Hapaxe und 33 abstain. Stand mit B2, d4 und d6 und nach den Lemma-Korrekturen vom 26.11.2026. Ein Lemma außerhalb der Kandidaten wird angenommen, wenn es im Lexikon steht, aber auf `low` gesetzt und mit „[außerhalb der Kandidaten]“ markiert, damit es im Prüfpaket landet. **Keine neuen Lemmata, keine Änderung an `lexicon.xml`.**
 
 ### Phase 2: Wortart
 
 Die Kandidaten kommen aus dem Lemma, abgebildet auf das 19er-Set (`docs/POS-TAGSET.md`): `ART` wird `DET`, `GRA` fällt weg (§3: Graduierung ist kein eigenes Tag, `wzb-pos-assign.py` bildet es auf `ADV` ab, das widerspricht §3). Ein Lemma, das nur `GRA` trägt, bekommt `ADJ`. Steht `CNJ` unter den Kandidaten, sind auch `CCNJ` und `SCNJ` erlaubt.
 
-`14-pos-assign.py` gibt 12081 Wörter mit genau einer Wortart aus, `15-apply.py --phase pos` von 16163 mehrdeutigen 15324 entschieden (bulk-llm 12766, instance-llm 2558), 351 abstain, 488 Hapaxe (15324 + 351 + 488 = 16163). Zusammen 27405 `@pos`. Stand nach den Lemma-Korrekturen vom 26.11.2026; davor waren es 12044, 16200 mehrdeutig, 387 abstain und 27364.
+`14-pos-assign.py` gibt 13928 Wörter mit genau einer Wortart aus, `15-apply.py --phase pos` von 18777 mehrdeutigen 17809 entschieden (bulk-llm 14828, instance-llm 2981), 397 abstain, 571 Hapaxe (17809 + 397 + 571 = 18777). Zusammen 31737 `@pos`. Stand mit B2, d4 und d6; ohne sie waren es 12081, 16163 mehrdeutig, 351 abstain und 27405.
 
-Ein gültiger Tag, der nicht unter den Kandidaten des Lemmas steht, wird nicht geschrieben, sondern abstain mit dem Präfix „[verworfen: X ist kein Kandidat]“ in der Begründung (`12-entscheidungen.py`). **Befund:** 132 der 351 abstain betreffen *zuo* (`lemma_7770`), das im Lexikon nur `CNJ` und `PRP` hat. Als Gradwort („zu vil“) oder Verbpartikel wäre es `ADV`. Das ist eine Lücke im Lemma, kein Fehler der Zuweisung (Zählung: `decision_type` abstain in `phase2/pos-pending.tsv`, nach `lemma_id`).
+Ein gültiger Tag, der nicht unter den Kandidaten des Lemmas steht, wird nicht geschrieben, sondern abstain mit dem Präfix „[verworfen: X ist kein Kandidat]“ in der Begründung (`12-entscheidungen.py`). **Befund:** 150 der 399 abstain betreffen *zuo* (`lemma_7770`), das im Lexikon nur `CNJ` und `PRP` hat. Als Gradwort („zu vil“) oder Verbpartikel wäre es `ADV`. Das ist eine Lücke im Lemma, kein Fehler der Zuweisung (Zählung: `decision_type` abstain in `phase2/pos-pending.tsv`, nach `lemma_id`).
 
 ### Phase 3: Bedeutung und Variantentyp
 
-`16-sense-assign.py` und `15-apply.py --phase sense` geben aus: 20272 Wörter mit genau einem Sense direkt, von 7973 mehrdeutigen 7777 entschieden (bulk-llm 6185, instance-llm 1592), 76 abstain, 120 Hapaxe (7777 + 76 + 120 = 7973). Zusammen 28049 `@ana`. Stand nach den Lemma-Korrekturen vom 26.11.2026; davor waren es 20190, 8055 mehrdeutig, 233 abstain und 27896. Kein Lemma ohne Sense. `@ana` steht nie ohne `@lemmaRef`, und der Sense gehört immer zum Lemma (`21-abdeckung.py`).
+`16-sense-assign.py` und `15-apply.py --phase sense` geben aus: 23433 Wörter mit genau einem Sense direkt, von 9273 mehrdeutigen 9046 entschieden (bulk-llm 7206, instance-llm 1840), 97 abstain, 130 Hapaxe (9046 + 97 + 130 = 9273). Zusammen 32479 `@ana`. Stand mit B2, d4 und d6; ohne sie waren es 20272, 7973 mehrdeutig, 76 abstain und 28049. Kein Lemma ohne Sense. `@ana` steht nie ohne `@lemmaRef`, und der Sense gehört immer zum Lemma (`21-abdeckung.py`).
 
 **Befund: Die Sense-abstains finden falsche Lemmata aus Phase 1.** Passt keine Bedeutung des Lemmas, ist meist das Lemma falsch. 190 der 233 abstain haben ihr Lemma aus dem Auto-Match: die Form steht in `variants.xml` nur unter einem Lemma und hat es ohne Kontextprüfung bekommen, ist hier aber ein anderes Wort, etwa „dorffen“ (Dörfer) unter *durfen* oder „imm“ (ihm) unter *ime*. Die übrigen 43 haben ihr Lemma aus der LLM-Entscheidung (39 bulk, 4 instance). Alle 233 stehen in `ingest/bre/pruefung/lemma-verdacht.tsv` (Ausgabe von `20-pruefpaket.py`). Die Wortart dieser Wörter ist mit dem Lemma vererbt und damit ebenso verdächtig. Am 26.11.2026 sind 160 davon korrigiert worden (`pruefung/lemma-korrekturen.tsv`, `24-lemma-korrektur.py`); Phase 2 und 3 sind für diese Tokens danach neu gelaufen, 12 Tokens der Verdachtsliste bleiben offen.
 
-**`@corresp` nur bei genau einem Treffer** (Algorithmus wie `wzb-sense-apply.py`): Typen aus `variants.xml`, deren Form normalisiert gleich der Wortform ist, die zum Lemma gehören und im `@ana` des Senses stehen. `18-corresp.py` gibt aus: 15863 von 28049 Wörtern mit `@ana` gesetzt, 3951 ohne Typ, 8217 mit mehreren Typen (`phase3/corresp-mehrdeutig.tsv`), 18 mit `<supplied>` ausgenommen (15863 + 3951 + 8217 + 18 = 28049).
+**`@corresp` nur bei genau einem Treffer** (Algorithmus wie `wzb-sense-apply.py`): Typen aus `variants.xml`, deren Form normalisiert gleich der Wortform ist, die zum Lemma gehören und im `@ana` des Senses stehen. `18-corresp.py` gibt aus: 18393 von 32479 Wörtern mit `@ana` gesetzt, 4533 ohne Typ, 9534 mit mehreren Typen (`phase3/corresp-mehrdeutig.tsv`), 19 mit `<supplied>` ausgenommen (18393 + 4533 + 9534 + 19 = 32479).
 
-- **Welche Form zählt bei `<expan>`: die aufgelöste.** Die Abkürzungsgraphie ist nicht überliefert: das Wiki schreibt nur die Auflösung in Klammern, und Stufe 0 macht daraus `<expan>` ohne `<abbr>`. Eine andere Form als die aufgelöste gibt es im TEI nicht, und Index und Suche lesen ebenfalls itertext. 1023 der gesetzten `@corresp` stehen auf einem Wort mit `<expan>`.
+- **Welche Form zählt bei `<expan>`: die aufgelöste.** Die Abkürzungsgraphie ist nicht überliefert: das Wiki schreibt nur die Auflösung in Klammern, und Stufe 0 macht daraus `<expan>` ohne `<abbr>`. Eine andere Form als die aufgelöste gibt es im TEI nicht, und Index und Suche lesen ebenfalls itertext. 1211 der gesetzten `@corresp` stehen auf einem Wort mit `<expan>`.
 - **Wörter mit `<supplied>` bekommen keinen Typ:** die ergänzten Buchstaben stehen nicht in der Handschrift, die Form wäre eine des Herausgebers.
 - **Befund: Die 8211 mehrdeutigen sind fast alle Zirkumflex-Paare.** „Nu“ trifft normalisiert *nu* und *nû*, „du“ trifft *du* und *dû*. Ein exakter Vergleich der Form (klein geschrieben, gefaltet) vor dem normalisierten würde, gemessen vor den Korrekturen vom 26.11.2026 (damals 8211 mehrdeutige), 8166 der 8211 auflösen, 45 blieben (gemessen mit einem Skript im Scratchpad, nicht im Repo). Das ist eine Änderung am Algorithmus, die auch WZB beträfe, und ist deshalb nicht umgesetzt.
 
@@ -181,6 +184,7 @@ Ein gültiger Tag, der nicht unter den Kandidaten des Lemmas steht, wird nicht g
 - **Modell:** Claude Sonnet 5.5 als Subagent, Batches zu etwa 50 Zeilen. Jede Zeile trägt `decision_type` (`bulk-llm`, `instance-llm`, `abstain`), `confidence` (`high`, `medium`, `low`) und `reviewer` (`llm:claude-sonnet-5-5`). `abstain` ist gültig und wird nicht geschrieben.
 - **Stufen:** Gruppen ab 3 Belegen werden als Ganzes entschieden (bulk) mit Ausnahmen je Beleg. Meldet das Modell `SPLIT`, weil die Belege zu verschiedenen Werten gehören, wird jedes Wort der Gruppe einzeln entschieden. Gruppen mit 2 Belegen werden je Wort entschieden, Hapaxe zurückgestellt. Gruppe ist in Phase 1 die normalisierte Form, in Phase 2 Lemma und Form, in Phase 3 das Lemma.
 - **Kontext:** ±5 Wörter in der Eingabe. Die Synopse der Einzeltextseite im Wiki-Cache durfte das Modell bei Unsicherheit nachlesen, nach den eigenen Berichten hat es das selten getan. **Die Druckfahnen sind nicht benutzt worden**, weder als Kontext noch für Begründungen.
+- **B2, d4, d6 (27.11.2026):** die Zeugen laufen durch dieselbe Folge wie die ersten 18, die Entscheidungen der 18 bleiben. Dazu wurden alle Attribute entfernt und `10`, `13`, `24 --patches-behalten`, `14`, `15 --phase pos`, `16`, `15 --phase sense`, `18` neu gefahren; die offenen Gruppen und Tokens haben Sonnet-Subagenten nacheinander nach den Anleitungen entschieden (`11-batches.py --offen`, `12-entscheidungen.py --ergaenzen`), Kleinstmengen die Session selbst. Bei den ersten 18 Zeugen sind dadurch 62 Tokens mit Attributen hinzugekommen (gemessen per Token-Vergleich gegen den Stand davor, `ae572ee21`: `@lemmaRef` 14, `@pos` 51, `@ana` 24, `@corresp` 17), alle neu gesetzt, kein vorhandener Wert hat sich geändert; Ursache sind Gruppen, die durch die neuen Texte größer wurden (Hapax-Gruppen, die jetzt entschieden werden) und neue Lemmata. Die Abstains der Bedeutungsphase in B2, d4 und d6 und die Durchsicht der Review zeigten falsche Lemmata; 16 Tokens (15 in B2, d4 und d6, eines in `BRE_OCT145`) sind nach schon getroffenen Entscheidungen in anderen Zeugen korrigiert (`pruefung/lemma-korrekturen.tsv`, Quelle „Session, Parallelstelle“), eines (`BRE_MGQ495_8v_2_3`) nach eigenem Urteil der Session; der Rest (zum Beispiel `gerenn` für gern, `armenn`, `sanden`) bleibt für die abschließende Prüfung. Ein neues Prüfpaket für B2, d4 und d6 gibt es noch nicht: `20-pruefpaket.py` würde das eingefrorene Paket der ersten 18 Zeugen überschreiben, auf dessen `nr` `lemma-korrekturen.tsv` verweist.
 - **Kontrolle:** der Orchestrator (Claude Opus) hat aus Batches aller drei Phasen Stichproben am Kontext nachgesehen, verworfen werden musste keine Batch. Nachgebessert wurde einmal die Anweisung (Phase 1: „im“ = in dem), die zwei betroffenen Batches sind neu gerechnet. Werte außerhalb der Kandidaten fängt `12-entscheidungen.py` mechanisch ab (oben).
 - **Die Anweisungen an das Modell** stehen in [`anleitungen/`](anleitungen/). Die Rohantworten liegen in `temp/` und sind nicht im Repository, die daraus gesammelten Entscheidungen in `ingest/bre/phaseN/*-bulk.tsv` und `*-patch.tsv` schon.
 
