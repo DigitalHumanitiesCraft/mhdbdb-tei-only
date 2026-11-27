@@ -19,7 +19,8 @@ Aufruf: python -P -E scripts/ingest/bre/12-entscheidungen.py --phase lemma --rev
 temp/bre-entscheidungen/ erweitert (neu hinzugekommene Zeugen, wenn der Rest entschieden ist). Ohne
 die Option werden die Tabellen aus den Antworten allein neu geschrieben. Bei --ergaenzen wird
 `anzahl` der bestehenden Bulk-Zeilen auf die heutige Gruppengroesse gesetzt, eine doppelte
-Entscheidung ist ein harter Fehler.
+Entscheidung ist ein harter Fehler. Bulk-Zeilen, deren Gruppe es nicht mehr gibt oder die keine
+Bulk-Gruppe mehr ist (nach Lemma-Korrekturen, siehe 24-lemma-korrektur.py), werden entfernt und gemeldet.
 """
 import argparse
 import re
@@ -104,11 +105,12 @@ def main():
     if a.ergaenzen:
         verwaist = 0
         for r in ba.lies_tsv(ziel / f"{a.phase}-bulk.tsv", BULK_FELDER):
-            if r["schluessel"] in gruppen:
+            if r["schluessel"] in gruppen and gruppen[r["schluessel"]][0]["stufe"] == "bulk":
                 r["anzahl"] = len(gruppen[r["schluessel"]])
             else:
-                # die Gruppe gibt es nicht mehr (Lemma-Korrekturen haben ihre Tokens verschoben):
-                # eine Bulk-Zeile ohne Gruppe bricht 20-pruefpaket.py ab und wird nicht uebernommen
+                # die Gruppe gibt es nicht mehr oder sie ist keine Bulk-Gruppe mehr (Lemma-Korrekturen
+                # haben ihre Tokens verschoben): eine solche Bulk-Zeile bricht 20-pruefpaket.py ab
+                # oder steht dort mit 0 Belegen und wird nicht uebernommen
                 verwaist += 1
                 continue
             bulk[r["schluessel"]] = r
