@@ -42,6 +42,9 @@ python -P -E scripts/ingest/apk/11-batches.py --phase lemma --stufe instance --p
 python -P -E scripts/ingest/apk/12-entscheidungen.py --phase lemma --reviewer llm:claude-sonnet-5-5
 python -P -E scripts/ingest/apk/13-lemma-apply.py
 #   Phase 2 und 3 entsprechend: 14 bzw. 16, 11, 12, 15 --phase pos|sense; danach 18, 21, 22, 20
+#   22 seit dem MWB-Abgleich (27.11.2026) nur mit den Argumenten des letzten Laufs, sonst faellt
+#   der Satz zur Handkorrektur weg:
+python -P -E scripts/ingest/apk/22-header-stand.py --datum 2026-11-19 --stand 2026-11-27 --handkorrektur "Von Hand gesetzt nach dem MWB-Abgleich vom 27.11.2026: Lemma, Wortart und Bedeutung von APK_3541_3 und APK_7857_1 (siehe revisionDesc)."
 ```
 
 ## Lauf vom 19.11.2026

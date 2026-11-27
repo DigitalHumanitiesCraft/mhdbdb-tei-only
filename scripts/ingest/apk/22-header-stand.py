@@ -7,7 +7,9 @@ Misst die Abdeckung von @lemmaRef, @pos, @ana und @corresp an den <w> im <body> 
   - in encodingDesc/editorialDecl/normalization (ersetzt den Absatz aus Stufe 0) und
   - als <change> in revisionDesc (eine Zeile mit dem Kennwort "Phasen 1 bis 3", wird ersetzt).
 
-Idempotent: ein zweiter Lauf auf demselben Stand mit demselben --datum aendert nichts (die Vorgabe
+Idempotent: ein zweiter Lauf auf demselben Stand mit denselben Argumenten (--datum, --stand,
+--handkorrektur) aendert nichts. Ohne --stand und --handkorrektur faellt der Satz zur Handkorrektur
+still weg; der Aufruf des letzten Laufs steht in scripts/ingest/apk/README.md (die Vorgabe
 fuer --datum ist heute, ein Lauf an einem anderen Tag ersetzt Datum und change-Zeile). Validiert danach gegen das Schema.
 
 --stand setzt nur das Datum im Absatz (Vorgabe --datum), --handkorrektur haengt einen Satz an den Absatz.
