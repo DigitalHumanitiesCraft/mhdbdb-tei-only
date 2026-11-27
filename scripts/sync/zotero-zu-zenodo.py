@@ -31,15 +31,18 @@ Was als "schon vorhanden" gilt
 Ein Zotero-Eintrag hat schon einen Record, wenn (1) irgendein Record im Konto
 seinen Zotero-Schluessel im Feld "Notes" traegt ("Zotero-Schluessel: ABCD1234",
 das schreibt dieses Skript selbst), oder (2) seine DOI oder URL in einem Record
-als "isAlternateIdentifier" steht (nur diese Relation: ein Kapitel-Stub traegt
-"isPartOf <Band-DOI>", und die darf nicht fuer jedes weitere Kapitel des Bandes
-gelten), oder (3) die eigene DOI eines Records zusammen mit dem Titel passt,
+als "isAlternateIdentifier" oder "isIdenticalTo" steht (nur diese beiden
+Relationen: ein Kapitel-Stub traegt "isPartOf <Band-DOI>", und die darf nicht
+fuer jedes weitere Kapitel des Bandes gelten), oder (3) die eigene DOI eines Records zusammen mit dem Titel passt,
 oder (4) ein VEROEFFENTLICHTER Record des Kontos in der Community denselben
 Titel hat. Ein Entwurf ohne Schluessel zaehlt also nur ueber (2) oder (3),
 nie ueber den Titel allein: sonst verdeckt jeder Altentwurf, dass etwas fehlt.
 
 Was nicht angelegt wird (und im Bericht steht)
 ----------------------------------------------
+- Eintraege mit dem Zotero-Tag "kein-zenodo": die dauerhafte Ausnahme. Der Tag
+  gilt vor allen anderen Pruefungen; ohne ihn legt der Lauf einen geloeschten
+  Entwurf wieder an.
 - Eintraege mit dem Vermerk "Automatisch gefunden" im Feld Extra: sie kommen
   aus find-mentions.py und sind nicht gegen die Quelle geprueft. Der Vermerk
   muss in Zotero erst entfernt werden.
@@ -53,7 +56,9 @@ Was nicht angelegt wird (und im Bericht steht)
 Exit-Status
 -----------
 0 nur, wenn nichts offen blieb. Steht etwas in PROBLEME, wurde etwas
-zurueckgehalten (Abweichung zum DOI-Register) oder hat MAX_NEU Eintraege
+zurueckgehalten (Abweichung zum DOI-Register, unlesbares oder leeres Datum,
+Personenfeld mit mehreren Personen, fehlende Autor:innen oder URL) oder hat
+MAX_NEU Eintraege
 abgeschnitten, endet der Lauf mit 1: die unbeaufsichtigte Routine sieht nur den
 Status. Eine leere Ergebnisliste heisst nur dann "nichts Neues", wenn PROBLEME
 leer ist. Gleiches Prinzip wie in find-mentions.py: eine Abfrage, die nicht
@@ -415,15 +420,18 @@ def datumsteile(s):
 def abweichung(item, reg):
     """(Widersprueche zwischen Zotero und dem DOI-Register, vollstaendiges Datum
     aus dem Register oder ''). Das Datum wird immer verglichen, auch wenn Zotero
-    nur Jahr oder Jahr-Monat hat; ist Zotero ungenauer als das Register, gilt
-    das Registerdatum statt eines erfundenen 1. Januar."""
+    nur Jahr oder Jahr-Monat hat; ist Zotero ungenauer UND hat das Register einen
+    vollen Tag, gilt das Registerdatum statt eines erfundenen 1. Januar. Hat auch
+    das Register nur Jahr oder Jahr-Monat, bleibt es beim Zotero-Datum, und der
+    Stub setzt fuer den fehlenden Rest den ersten Tag (Zenodo verlangt ein volles
+    Datum). Dasselbe gilt fuer Eintraege ohne DOI, wo es kein Register gibt."""
     fehler, regdatum = [], ""
     teile = tuple(int(x) for x in ((reg.get("issued") or {}).get("date-parts") or [[]])[0])
     zot = datumsteile(item.get("date"))
     if teile and zot:
         n = min(len(teile), len(zot))
         if teile[:n] != zot[:n]:
-            fehler.append(f"Datum: Zotero {item['date']}, DOI-Register "
+            fehler.append(f"Datum: Zotero {item.get('_roh') or item['date']}, DOI-Register "
                           f"{'-'.join(f'{x:02d}' if i else str(x) for i, x in enumerate(teile))}")
         elif len(teile) == 3 and len(zot) < 3:
             regdatum = f"{teile[0]}-{teile[1]:02d}-{teile[2]:02d}"
@@ -495,19 +503,22 @@ def main():
         if not ist_team(it):
             uebersprungen.setdefault("ausserhalb Team", []).append(titel)
             continue
+        # Der Tag steht VOR der Datumssperre: wer einen Eintrag ausnimmt, soll
+        # nicht an dessen Datum haengenbleiben.
+        if any(t.get("tag") == "kein-zenodo" for t in it.get("tags", [])):
+            uebersprungen.setdefault("Zotero-Tag 'kein-zenodo'", []).append(titel)
+            continue
         # Ein Datum, das die Jahreszahl nicht am Anfang hat ("Mai 2024"), liest
         # Zotero selbst (meta.parsedDate). Bleibt es unlesbar, faellt der Eintrag
         # NICHT still unter "zu alt", sondern wird zurueckgehalten und gemeldet.
+        it["_roh"] = it.get("date", "")           # fuer Meldungen: so steht es in Zotero
         if not iso_datum(it.get("date")) and it.get("_pd"):
             it["date"] = it["_pd"]
         if not iso_datum(it.get("date")):
-            ABWEICHUNGEN.append((it["key"], titel, [f"Datum nicht lesbar oder leer: '{it.get('date', '')}'"]))
+            ABWEICHUNGEN.append((it["key"], titel, [f"Datum nicht lesbar oder leer: '{it['_roh']}'"]))
             continue
         if iso_datum(it["date"]) < args.seit:
             uebersprungen.setdefault(f"vor {args.seit}", []).append(titel)
-            continue
-        if any(t.get("tag") == "kein-zenodo" for t in it.get("tags", [])):
-            uebersprungen.setdefault("Zotero-Tag 'kein-zenodo'", []).append(titel)
             continue
         grund = schon_da(it, konto)
         if grund:
