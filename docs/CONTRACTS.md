@@ -933,7 +933,7 @@ The older route through `etree.parse(remove_blank_text=True)` plus `tree.write(p
 
 **Two rules in the comparison, and both are exceptions to byte equality:**
 
-- `@xml:id` is never compared and never written. `works.xml` assigns it uniquely across the whole file and appends a suffix on collision (`HZ_HZ_HZ`); a header assigns it per file. In HZ and LUU the suffixes of the two blocks are swapped relative to `works.xml`, with no difference in content.
+- `@xml:id` is never compared and never written. `works.xml` assigns it uniquely across the whole file and appends a suffix on collision (`HZ_HZ_HZ`); a header assigns it per file. Where a sigle has two blocks, their suffixes can be swapped relative to `works.xml`, with no difference in content, because the order follows the Zotero API.
 - A local pointer `#x` in `works.xml` corresponds to `works.xml#x` in the header, because from inside `tei/` a bare `#x` would dangle. This rule hangs on a single case today: the `<ref>` in the FR3 `biblStruct` (the supplement pointing at FR1), the only `<ref>` in `works.xml`.
 
 A `biblStruct` without `@corresp` has no Zotero item and is outside the chain. That is WZB: `works.xml` and the header each carry a hand-written `biblStruct`, and they differ in content. Neither side is checked or written. A header block **with** a Zotero `@corresp` that `works.xml` does not carry for the work is red: that is an edition removed from `works.xml`.

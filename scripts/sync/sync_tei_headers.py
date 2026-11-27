@@ -743,8 +743,9 @@ def pruefe_werk_identifier() -> int:
 # 678 Header-Bloecken stehen in anderer Reihenfolge als in works.xml, ohne
 # dass sich etwas aendert, gemessen 14.10.2026). Zwei Regeln:
 #   - @xml:id wird nie verglichen und nie geschrieben: works.xml vergibt sie
-#     dateiuebergreifend eindeutig (HZ_HZ_HZ), der Header je Datei (bei HZ
-#     und LUU sind die Suffixe zwischen den zwei Bloecken vertauscht).
+#     dateiuebergreifend eindeutig (HZ_HZ_HZ), der Header je Datei (bei zwei
+#     Bloecken einer Sigle koennen die Suffixe vertauscht sein, die Reihenfolge
+#     folgt der Zotero-API).
 #   - ein lokaler Verweis "#x" in works.xml entspricht "works.xml#x" im
 #     Header, weil "#x" dort ins Leere zeigte. Die Regel haengt heute an einem
 #     einzigen Fall: dem <ref> in FR3 (works.xml, Supplement-Verweis auf FR1).
