@@ -1,7 +1,7 @@
 /**
  * Editorische Notizen der Weingruß-Transkriptionen (#147) stehen im TEI, aber nicht im Lesetext:
- * <note type="transcription"> und <note type="editorial"> beschreiben Bilder, moderne
- * Bleistifteintragungen und Druckvergleiche in nhd. Prosa. BRE_D3 trägt Notizen im Verstext
+ * <note type="transcription"> und <note type="editorial"> sind Anmerkungen in nhd. Prosa (Bilder,
+ * moderne Bleistifteintragungen, Druckvergleiche, Textkritisches); KZW will sie nicht im Lesetext. BRE_D3 trägt Notizen im Verstext
  * ("Links daneben: Bild einer Deutehand.", "Ein Holzschnitt teilt den Ausdruck ...").
  */
 import { test, expect } from '@playwright/test';
